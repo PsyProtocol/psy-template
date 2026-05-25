@@ -1,5 +1,5 @@
 import type { ContractCallArgs } from '@psy-protocol/psy-sdk'
-import type { PsyAccount, PsyProvider } from '../psy'
+import type { PsyAccount, PsyAccountsResult, PsyProvider } from '../psy'
 
 export class PsyWalletNotInstalledError extends Error {
   constructor() {
@@ -47,7 +47,8 @@ export function waitForPsy(timeoutMs = 3000): Promise<PsyProvider> {
 
 export async function connect(): Promise<PsyAccount[]> {
   const psy = await waitForPsy()
-  return psy.requestAccounts()
+  const result: PsyAccountsResult = await psy.requestAccounts()
+  return Array.isArray(result) ? result : result.accounts
 }
 
 export async function sendCall(

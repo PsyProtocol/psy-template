@@ -3,10 +3,11 @@ import type { PsyStatus } from '../hooks/usePsy'
 interface Props {
   status: PsyStatus
   account: string | null
+  connecting: boolean
   onConnect: () => void
 }
 
-export function ConnectBar({ status, account, onConnect }: Props) {
+export function ConnectBar({ status, account, connecting, onConnect }: Props) {
   return (
     <header className="connect-bar">
       <div className="brand">
@@ -28,8 +29,8 @@ export function ConnectBar({ status, account, onConnect }: Props) {
           </span>
         )}
         {status === 'available' && !account && (
-          <button type="button" onClick={onConnect}>
-            Connect wallet
+          <button type="button" onClick={onConnect} disabled={connecting}>
+            {connecting ? 'Connecting...' : 'Connect wallet'}
           </button>
         )}
         {account && (

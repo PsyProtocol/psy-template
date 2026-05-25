@@ -5,14 +5,14 @@ import { TokenPanel } from './components/TokenPanel'
 import { TxLog, type LogEntry } from './components/TxLog'
 
 export default function App() {
-  const { status, account, error, connect } = usePsy()
+  const { status, account, error, connecting, connect } = usePsy()
   const [log, setLog] = useState<LogEntry[]>([])
 
   const appendLog = (entry: LogEntry) => setLog((prev) => [entry, ...prev].slice(0, 50))
 
   return (
     <div className="app">
-      <ConnectBar status={status} account={account} onConnect={connect} />
+      <ConnectBar status={status} account={account} connecting={connecting} onConnect={connect} />
 
       {error && <div className="warn">⚠️ {error}</div>}
 
