@@ -36,7 +36,7 @@ impl PsyTokenContractRef {
 
     #[contract_method]
     pub fn transfer(recipient: Felt, amount: Felt) {
-        let transfer_info_event = new TransferEvent {
+        let transfer_info_event = TransferEvent {
             to: recipient,
             amount,
         };
@@ -49,7 +49,7 @@ impl PsyTokenContractRef {
         let recipient_info = c.other_user_info[recipient].get();
         assert(recipient_info.amount_sent + amount > recipient_info.amount_sent, "amount sent overflow");
 
-        c.other_user_info[recipient] = new OtherUserInfo {
+        c.other_user_info[recipient] = OtherUserInfo {
             amount_sent: recipient_info.amount_sent + amount,
             amount_claimed: recipient_info.amount_claimed
         };
@@ -71,7 +71,7 @@ impl PsyTokenContractRef {
         assert(sender_info.amount_claimed < sender_total_sent, "no tokens to claim from this sender");
         let claimed = sender_total_sent - sender_info.amount_claimed;
 
-        c.other_user_info[sender] = new OtherUserInfo {
+        c.other_user_info[sender] = OtherUserInfo {
             amount_sent: sender_info.amount_sent,
             amount_claimed: sender_total_sent
         };
@@ -100,7 +100,7 @@ impl PsyTokenContractRef {
                 let recipient_info = c.other_user_info[recipient].get();
                 assert(recipient_info.amount_sent + amount > recipient_info.amount_sent, "amount sent overflow");
 
-                c.other_user_info[recipient] = new OtherUserInfo {
+                c.other_user_info[recipient] = OtherUserInfo {
                     amount_sent: recipient_info.amount_sent + amount,
                     amount_claimed: recipient_info.amount_claimed
                 };
@@ -131,7 +131,7 @@ impl PsyTokenContractRef {
                 let recipient_info = c.other_user_info[recipient].get();
                 assert(recipient_info.amount_sent + amount > recipient_info.amount_sent, "amount sent overflow");
 
-                c.other_user_info[recipient] = new OtherUserInfo {
+                c.other_user_info[recipient] = OtherUserInfo {
                     amount_sent: recipient_info.amount_sent + amount,
                     amount_claimed: recipient_info.amount_claimed
                 };
