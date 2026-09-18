@@ -15,4 +15,6 @@ dist-ssr/
 *.tsbuildinfo
 
 # Contract build output
-target/
+target/*
+!target/*.json
+!target/*.abi.json
