@@ -1,0 +1,202 @@
+use std::prelude::*;
+
+#[derive(Storage)]
+pub struct OtherUserInfo {
+    pub amount_sent: Felt,
+    pub amount_claimed: Felt,
+}
+
+#[derive(Storage)]
+pub struct DelegationChannel {
+    pub spender: Felt,
+    pub allocated_amount: Felt,
+    pub spent_amount: Felt,
+}
+
+#[derive(Event)]
+pub struct MintEvent {
+    pub to: Felt,
+    pub amount: Felt,
+}
+
+#[derive(Event)]
+pub struct BurnEvent {
+    pub amount: Felt,
+}
+
+#[derive(Event)]
+pub struct TransferEvent {
+    pub to: Felt,
+    pub amount: Felt,
+}
+
+#[derive(Event)]
+pub struct ClaimEvent {
+    pub from: Felt,
+    pub amount: Felt,
+}
+
+#[derive(Event)]
+pub struct AuthorityChangeEvent {
+    pub new_authority: Felt,
+}
+
+#[derive(Event)]
+pub struct DelegationEvent {
+    pub channel_idx: Felt,
+    pub spender: Felt,
+    pub amount: Felt,
+}
+
+#[derive(Event)]
+pub struct RevokeDelegationEvent {
+    pub channel_idx: Felt,
+    pub refunded_amount: Felt,
+}
+
+#[contract]
+#[derive(Storage)]
+pub struct PsyTokenContract {
+    pub balance: Felt,
+    pub mint_authority: Felt,
+    pub is_mint_renounced: Felt,
+    pub other_user_info: [OtherUserInfo; 16777216],
+    pub delegations: [DelegationChannel; 16],
+}
+
+impl PsyTokenContractRef {
+    #[contract_method]
+    pub fn mint(amount: Felt) {
+        let caller = get_user_id();
+        let c = PsyTokenContractRef::new(ContractMetadata::current());
+        assert(c.is_mint_renounced.get() == 0, "minting has been renounced");
+        let auth = c.mint_authority.get();
+        if auth == 0 {
+            c.mint_authority = caller;
+        } else {
+            assert(caller == auth, "only mint authority can mint");
+        };
+        c.balance += amount;
+        let ev = new MintEvent {
+            to: caller,
+            amount: amount,
+        };
+        ev.emit();
+    }
+
+    #[contract_method]
+    pub fn burn(amount: Felt) {
+        let c = PsyTokenContractRef::new(ContractMetadata::current());
+        assert(c.balance.get() >= amount, "insufficient balance to burn");
+        c.balance -= amount;
+        let ev = new BurnEvent {
+            amount: amount,
+        };
+        ev.emit();
+    }
+
+    #[contract_method]
+    pub fn set_mint_authority(new_authority: Felt) {
+        let caller = get_user_id();
+        let c = PsyTokenContractRef::new(ContractMetadata::current());
+        assert(c.is_mint_renounced.get() == 0, "minting has been renounced");
+        let auth = c.mint_authority.get();
+        assert(auth != 0, "mint authority not initialized");
+        assert(caller == auth, "only mint authority can transfer authority");
+        assert(new_authority != 0, "use renounce_mint_authority to revoke");
+        c.mint_authority = new_authority;
+        let ev = new AuthorityChangeEvent {
+            new_authority: new_authority,
+        };
+        ev.emit();
+    }
+
+    #[contract_method]
+    pub fn renounce_mint_authority() {
+        let caller = get_user_id();
+        let c = PsyTokenContractRef::new(ContractMetadata::current());
+        let auth = c.mint_authority.get();
+        assert(auth != 0, "mint authority not initialized");
+        assert(caller == auth, "only mint authority can renounce");
+        c.is_mint_renounced = 1;
+        c.mint_authority = 0;
+        let ev = new AuthorityChangeEvent {
+            new_authority: 0,
+        };
+        ev.emit();
+    }
+
+    #[contract_method]
+    pub fn open_delegation_channel(channel_idx: Felt, spender: Felt, amount: Felt) {
+        assert(channel_idx < 16, "channel index out of range");
+        assert(amount > 0, "delegation amount must be positive");
+        let caller = get_user_id();
+        assert(spender != caller, "cannot delegate to self");
+        let c = PsyTokenContractRef::new(ContractMetadata::current());
+        assert(c.balance.get() >= amount, "insufficient balance for delegation");
+        c.balance -= amount;
+        c.delegations[channel_idx] = new DelegationChannel {
+            spender: spender,
+            allocated_amount: amount,
+            spent_amount: 0,
+        };
+        let ev = new DelegationEvent {
+            channel_idx: channel_idx,
+            spender: spender,
+            amount: amount,
+        };
+        ev.emit();
+    }
+
+    #[contract_method]
+    pub fn revoke_delegation_channel(channel_idx: Felt) {
+        assert(channel_idx < 16, "channel index out of range");
+        let c = PsyTokenContractRef::new(ContractMetadata::current());
+        let channel = c.delegations[channel_idx].get();
+        assert(channel.spender != 0, "channel is not active");
+        let unspent = channel.allocated_amount - channel.spent_amount;
+        c.balance += unspent;
+        c.delegations[channel_idx] = new DelegationChannel {
+            spender: 0,
+            allocated_amount: 0,
+            spent_amount: 0,
+        };
+        let ev = new RevokeDelegationEvent {
+            channel_idx: channel_idx,
+            refunded_amount: unspent,
+        };
+        ev.emit();
+    }
+}
+
+#[test]
+fn test_token_mint_burn_delegation_lifecycle() {
+    let c = PsyTokenContractRef::new(ContractMetadata::current());
+    let initial_balance = c.balance.get();
+    
+    // 1. Mint 1000 tokens
+    PsyTokenContractRef::mint(1000);
+    assert_eq(c.balance.get(), initial_balance + 1000, "balance should increment by 1000");
+    
+    // 2. Burn 200 tokens
+    PsyTokenContractRef::burn(200);
+    assert_eq(c.balance.get(), initial_balance + 800, "balance after burning 200 should be initial + 800");
+    
+    // 3. Open delegation channel
+    PsyTokenContractRef::open_delegation_channel(0, 888, 300);
+    assert_eq(c.balance.get(), initial_balance + 500, "balance after locking 300 in channel should be initial + 500");
+    let ch = c.delegations[0].get();
+    assert_eq(ch.spender, 888, "channel spender should be 888");
+    assert_eq(ch.allocated_amount, 300, "allocated amount should be 300");
+    
+    // 4. Revoke delegation channel
+    PsyTokenContractRef::revoke_delegation_channel(0);
+    assert_eq(c.balance.get(), initial_balance + 800, "balance after revoking channel should be initial + 800");
+    let ch_after = c.delegations[0].get();
+    assert_eq(ch_after.spender, 0, "channel spender should be reset to 0");
+    
+    // 5. Renounce mint authority
+    PsyTokenContractRef::renounce_mint_authority();
+    assert_eq(c.is_mint_renounced.get(), 1, "is_mint_renounced should be 1");
+    assert_eq(c.mint_authority.get(), 0, "mint_authority should be reset to 0");
+}

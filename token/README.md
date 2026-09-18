@@ -6,7 +6,7 @@ Production-ready PSY-20 fungible token smart contract for Psy Protocol.
 
 This contract implements the **PSY-20** standard tailored for Psy's ZK-native, user-partitioned state architecture:
 
-1. **Authority Model (Solana-inspired)**:
+1. **Authority Model**:
    - `mint`: Mints tokens to the authorized authority.
    - `set_mint_authority`: Transfers minting authority to a new user.
    - `renounce_mint_authority`: Permanently locks supply and disables further minting (fixed-supply / meme / governance tokens).
@@ -15,10 +15,10 @@ This contract implements the **PSY-20** standard tailored for Psy's ZK-native, u
    - `claim`: Pulls pending inbound tokens into caller balance.
    - `batch_transfer_2` / `batch_transfer_5`: High-performance batched transfers.
    - `burn`: Burns caller tokens.
-3. **Sui-Inspired Allowance Channels (No Infinite Approvals)**:
+3. **Sandboxed Delegation Channels**:
    - `open_delegation_channel`: Allocates a sandboxed spending budget to an AI Agent or automated spender.
    - `revoke_delegation_channel`: Reclaims unspent funds back to caller balance at any time.
-   - 100% immune to EVM-style infinite approval drainer exploits.
+   - Strictly isolates balance reservation into dedicated channel slots.
 
 ## Build & Deploy
 

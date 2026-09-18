@@ -1,0 +1,14 @@
+{
+  "name": "psy-template",
+  "version": "1.0.0",
+  "description": "Official Psy Protocol contract and dApp templates with comprehensive unit and E2E test suites",
+  "type": "module",
+  "scripts": {
+    "test": "node tests/run_all_tests.mjs",
+    "test:unit": "node tests/run_unit_tests.mjs",
+    "test:e2e": "node tests/run_e2e_tests.mjs",
+    "build": "(cd token && psyup build) && (cd nft && psyup build) && (cd dapp/contract && psyup build)"
+  },
+  "author": "Psy Protocol",
+  "license": "MIT"
+}

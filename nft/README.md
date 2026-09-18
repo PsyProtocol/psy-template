@@ -9,7 +9,7 @@ This contract implements the **PSY-721** standard tailored for Psy's ZK-native, 
 1. **Unique Token Ownership**:
    - Each user maintains an indexed array of owned token slots (`owned_tokens: [NFTSlot; 128]`).
    - Every slot stores the `token_id` and active presence.
-2. **Authority Control (Solana-inspired)**:
+2. **Authority Control**:
    - `mint(slot_idx, token_id)`: Mints a unique token to an available user slot.
    - `set_mint_authority`: Transfers minting authority.
    - `renounce_mint_authority`: Permanently locks collection supply.

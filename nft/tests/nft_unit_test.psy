@@ -1,0 +1,172 @@
+use std::prelude::*;
+
+#[derive(Storage)]
+pub struct NFTSlot {
+    pub token_id: Felt,
+    pub is_active: Felt,
+}
+
+#[derive(Storage)]
+pub struct NFTOutbox {
+    pub token_id: Felt,
+    pub nonce_sent: Felt,
+    pub nonce_claimed: Felt,
+}
+
+#[derive(Event)]
+pub struct NFTMintEvent {
+    pub to: Felt,
+    pub token_id: Felt,
+}
+
+#[derive(Event)]
+pub struct NFTTransferEvent {
+    pub from: Felt,
+    pub to: Felt,
+    pub token_id: Felt,
+}
+
+#[derive(Event)]
+pub struct NFTClaimEvent {
+    pub to: Felt,
+    pub from: Felt,
+    pub token_id: Felt,
+}
+
+#[derive(Event)]
+pub struct AuthorityChangeEvent {
+    pub new_authority: Felt,
+}
+
+#[contract]
+#[derive(Storage)]
+pub struct PsyNFTContract {
+    pub balance: Felt,
+    pub mint_authority: Felt,
+    pub is_mint_renounced: Felt,
+    pub owned_tokens: [NFTSlot; 128],
+    pub outbox: [NFTOutbox; 16777216],
+}
+
+impl PsyNFTContractRef {
+    #[contract_method]
+    pub fn mint(slot_idx: Felt, token_id: Felt) {
+        assert(slot_idx < 128, "slot index out of range");
+        assert(token_id > 0, "token_id must be non-zero");
+        let caller = get_user_id();
+        let c = PsyNFTContractRef::new(ContractMetadata::current());
+        assert(c.is_mint_renounced.get() == 0, "minting has been renounced");
+        let auth = c.mint_authority.get();
+        if auth == 0 {
+            c.mint_authority = caller;
+        } else {
+            assert(caller == auth, "only mint authority can mint");
+        };
+        let slot = c.owned_tokens[slot_idx].get();
+        assert(slot.is_active == 0, "slot already occupied");
+        c.owned_tokens[slot_idx] = new NFTSlot {
+            token_id: token_id,
+            is_active: 1,
+        };
+        c.balance += 1;
+        let ev = new NFTMintEvent {
+            to: caller,
+            token_id: token_id,
+        };
+        ev.emit();
+    }
+
+    #[contract_method]
+    pub fn renounce_mint_authority() {
+        let caller = get_user_id();
+        let c = PsyNFTContractRef::new(ContractMetadata::current());
+        let auth = c.mint_authority.get();
+        assert(auth != 0, "mint authority not initialized");
+        assert(caller == auth, "only mint authority can renounce");
+        c.is_mint_renounced = 1;
+        c.mint_authority = 0;
+        let ev = new AuthorityChangeEvent {
+            new_authority: 0,
+        };
+        ev.emit();
+    }
+
+    #[contract_method]
+    pub fn set_mint_authority(new_authority: Felt) {
+        let caller = get_user_id();
+        let c = PsyNFTContractRef::new(ContractMetadata::current());
+        assert(c.is_mint_renounced.get() == 0, "minting has been renounced");
+        let auth = c.mint_authority.get();
+        assert(auth != 0, "mint authority not initialized");
+        assert(caller == auth, "only mint authority can transfer authority");
+        assert(new_authority != 0, "use renounce_mint_authority to revoke");
+        c.mint_authority = new_authority;
+        let ev = new AuthorityChangeEvent {
+            new_authority: new_authority,
+        };
+        ev.emit();
+    }
+
+    #[contract_method]
+    pub fn transfer(slot_idx: Felt, recipient: Felt) {
+        assert(slot_idx < 128, "slot index out of range");
+        let caller = get_user_id();
+        assert(recipient != caller, "cannot transfer to self");
+        let c = PsyNFTContractRef::new(ContractMetadata::current());
+        let slot = c.owned_tokens[slot_idx].get();
+        assert(slot.is_active == 1, "no active NFT in slot");
+        let token_id = slot.token_id;
+        c.owned_tokens[slot_idx] = new NFTSlot {
+            token_id: 0,
+            is_active: 0,
+        };
+        c.balance -= 1;
+        let prev_outbox = c.outbox[recipient].get();
+        c.outbox[recipient] = new NFTOutbox {
+            token_id: token_id,
+            nonce_sent: prev_outbox.nonce_sent + 1,
+            nonce_claimed: prev_outbox.nonce_claimed,
+        };
+        let ev = new NFTTransferEvent {
+            from: caller,
+            to: recipient,
+            token_id: token_id,
+        };
+        ev.emit();
+    }
+}
+
+#[test]
+fn test_nft_lifecycle() {
+    let c = PsyNFTContractRef::new(ContractMetadata::current());
+    
+    // 1. Mint NFT #101 to slot 0
+    PsyNFTContractRef::mint(0, 101);
+    let s0 = c.owned_tokens[0].get();
+    assert_eq(s0.token_id, 101, "slot 0 token_id should be 101");
+    assert_eq(s0.is_active, 1, "slot 0 should be active");
+    assert_eq(c.balance.get(), 1, "balance should be 1");
+
+    // 2. Mint NFT #202 to slot 1
+    PsyNFTContractRef::mint(1, 202);
+    let s1 = c.owned_tokens[1].get();
+    assert_eq(s1.token_id, 202, "slot 1 token_id should be 202");
+    assert_eq(s1.is_active, 1, "slot 1 should be active");
+    assert_eq(c.balance.get(), 2, "balance should be 2");
+
+    // 3. Transfer NFT from slot 0 to recipient 777
+    PsyNFTContractRef::transfer(0, 777);
+    let s0_after = c.owned_tokens[0].get();
+    assert_eq(s0_after.token_id, 0, "slot 0 token_id should be cleared");
+    assert_eq(s0_after.is_active, 0, "slot 0 should be inactive");
+    assert_eq(c.balance.get(), 1, "balance should be 1 after transfer");
+    
+    let ob = c.outbox[777].get();
+    assert_eq(ob.token_id, 101, "outbox token_id should be 101");
+    assert_eq(ob.nonce_sent, 1, "outbox nonce_sent should be 1");
+
+    // 4. Renounce mint authority
+    PsyNFTContractRef::renounce_mint_authority();
+    assert_eq(c.is_mint_renounced.get(), 1, "minting should be renounced");
+    assert_eq(c.mint_authority.get(), 0, "authority should be zero");
+}
