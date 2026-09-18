@@ -72,7 +72,8 @@ psyup deploy
 Each template includes a comprehensive, step-by-step operational guide:
 
 - **[PSY-20 Token Guide](token/README.md)**:
-  - **Minting & Supply Management**: Initial issuance and supply renunciation (`renounce_mint_authority`).
+  - **Metadata & Supply Management**: Initial configuration (`set_metadata`), issuance, cumulative `total_minted` tracking, and supply renunciation (`renounce_mint_authority`).
+  - **Edge RPC Slot Reading**: Zero-gas, direct storage slot queries (`getUserContractStateTreeLeafHash`) for liquid balances, total supply, and metadata.
   - **Outbox Transfer & Claim**: High-concurrency pull payments eliminating global state race conditions.
   - **Sandboxed Delegation Channels**: Scoped spending budgets for AI Agents and bots (`open_delegation_channel` $\to$ `spend_delegation` $\to$ `revoke_delegation_channel`).
   - **Shielded Private Transfer**: Zero-knowledge note commitments on a 20-level Incremental Merkle Tree (`private_transfer`).
@@ -90,7 +91,8 @@ Each template includes a comprehensive, step-by-step operational guide:
 ## Standards Overview
 
 ### PSY-20 (Fungible Token)
-- **Authority Model**: Features `mint_authority` with support for `renounce_mint_authority` to create permanently capped / fixed-supply tokens.
+- **Authority & Metadata Model**: Features `mint_authority` with `set_metadata` (symbol, decimals) and `renounce_mint_authority` to create permanently capped / fixed-supply tokens.
+- **Direct RPC Storage Querying**: Clean physical slot mapping (Slot 0 `balance`, Slot 1 `mint_authority`, Slot 2 `is_mint_renounced`, Slot 3 `total_minted`, Slot 4 `decimals`, Slot 5 `symbol`) enables instant zero-proof state queries.
 - **Outbox/Claim Pattern**: High-concurrency, asynchronous pull transfers natively compatible with Psy's Plonky2 partitioned state tree.
 - **Delegation Channels**: Safe, sandboxed escrow channels (`open_delegation_channel` / `spend_delegation` / `revoke_delegation_channel`) enabling scoped third-party spending with isolated balance reservation and deterministic refunds.
 - **Shielded Private Transfer**: Zero-knowledge note commitments (`private_transfer`) folded into a 20-level Incremental Merkle Tree (IMT), providing on-chain privacy for token transfers.

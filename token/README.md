@@ -6,8 +6,9 @@ Production-ready PSY-20 fungible token smart contract for Psy Protocol.
 
 This contract implements the **PSY-20** standard tailored for Psy's ZK-native, user-partitioned state architecture:
 
-1. **Authority Model**:
-   - `mint(amount)`: Mints tokens to the authorized authority.
+1. **Authority & Metadata Model**:
+   - `set_metadata(symbol, decimals)`: Sets the token symbol (up to 7 ASCII characters packed into a Felt) and decimal precision (e.g. 9 or 18).
+   - `mint(amount)`: Mints tokens to the authorized authority and automatically updates `total_minted` in the authority's partition.
    - `set_mint_authority(new_authority)`: Transfers minting authority to a new user.
    - `renounce_mint_authority()`: Permanently locks supply and disables further minting (fixed-supply / meme / governance tokens).
 2. **Outbox / Claim Transfer Pattern**:
@@ -46,12 +47,15 @@ Generated build outputs:
 
 ### 2. Standard Operations Walkthrough
 
-#### Scenario A: Minting & Fixed-Supply Renunciation
+#### Scenario A: Initialize Metadata & Minting
 ```ts
-// 1. Initial Mint (Authority User)
+// 1. Configure token symbol and precision (Authority User)
+await window.psy.sendTransaction(account, token.setMetadata("PSY", 9n));
+
+// 2. Mint initial tokens (updates balance and total_minted)
 await window.psy.sendTransaction(account, token.mint(1_000_000n));
 
-// 2. (Optional) Renounce Mint Authority to fix maximum supply forever
+// 3. (Optional) Renounce Mint Authority to fix maximum supply forever
 await window.psy.sendTransaction(account, token.renounceMintAuthority());
 ```
 
@@ -96,6 +100,40 @@ await window.psy.sendTransaction(
   account,
   token.privateTransfer(receiverHash, 250n, noteSecretHash)
 );
+```
+
+#### Scenario E: Reading Token Metadata & Total Supply via RPC
+In Psy Protocol's state-partitioned architecture, reading contract state is performed directly via **Edge RPC Storage Slot queries** without executing virtual machines or incurring gas:
+
+| Field | Slot Index | Description |
+| :--- | :---: | :--- |
+| `balance` | `0` | Caller / user liquid balance |
+| `mint_authority` | `1` | Authority User ID authorized to mint |
+| `is_mint_renounced` | `2` | Flag indicating whether minting is permanently disabled (`1`) or active (`0`) |
+| `total_minted` | `3` | Cumulative tokens minted by the authority |
+| `decimals` | `4` | Token decimal precision (e.g. `9`) |
+| `symbol` | `5` | Short ASCII symbol packed into Felt (decode with `decodeSymbol`) |
+
+```ts
+import { decodeSymbol, readSlotValue, TOKEN_STORAGE_SLOTS } from './lib/token';
+
+// 1. Read cumulative total minted supply (Slot 3 of the mint authority):
+const totalMintedHex = await realmRpcProvider
+  .getRpcProviderByUserId(authorityUserId)
+  .getUserContractStateTreeLeafHash(checkpointId, authorityUserId, contractId, TOKEN_STORAGE_SLOTS.TOTAL_MINTED);
+const totalMinted = readSlotValue(totalMintedHex);
+
+// 2. Read token decimal precision (Slot 4):
+const decimalsHex = await realmRpcProvider
+  .getRpcProviderByUserId(authorityUserId)
+  .getUserContractStateTreeLeafHash(checkpointId, authorityUserId, contractId, TOKEN_STORAGE_SLOTS.DECIMALS);
+const decimals = Number(readSlotValue(decimalsHex));
+
+// 3. Read token symbol (Slot 5):
+const symbolHex = await realmRpcProvider
+  .getRpcProviderByUserId(authorityUserId)
+  .getUserContractStateTreeLeafHash(checkpointId, authorityUserId, contractId, TOKEN_STORAGE_SLOTS.SYMBOL);
+const symbol = decodeSymbol(readSlotValue(symbolHex)); // e.g. "PSY"
 ```
 
 ---

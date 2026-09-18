@@ -16,6 +16,9 @@ class Psy20VirtualEnvironment {
         balance: 0n,
         mint_authority: 0n,
         is_mint_renounced: 0n,
+        total_minted: 0n,
+        decimals: 0n,
+        symbol: 0n,
         other_user_info: new Map(), // otherUserId -> { sent: 0n, claimed: 0n }
         delegations: Array.from({ length: 16 }, () => ({ spender: 0n, allocated_amount: 0n, spent_amount: 0n })),
         note_count: 0n,
@@ -34,6 +37,19 @@ class Psy20VirtualEnvironment {
     return user.other_user_info.get(otherId);
   }
 
+  setMetadata(callerId, symbol, decimals) {
+    const user = this.getOrCreateUser(callerId);
+    assert.equal(user.is_mint_renounced, 0n, 'token administration has been renounced');
+    if (user.mint_authority === 0n) {
+      user.mint_authority = callerId;
+    } else {
+      assert.equal(callerId, user.mint_authority, 'only authority can set metadata');
+    }
+    assert(decimals <= 18n, 'decimals exceed max precision');
+    user.symbol = symbol;
+    user.decimals = decimals;
+  }
+
   mint(callerId, amount) {
     assert(amount > 0n, 'amount must be positive');
     const user = this.getOrCreateUser(callerId);
@@ -46,6 +62,7 @@ class Psy20VirtualEnvironment {
     }
 
     user.balance += amount;
+    user.total_minted += amount;
     this.totalMinted += amount;
     this.verifyInvariants();
   }
@@ -293,5 +310,22 @@ test('PSY-20 Lifecycle & Formal Invariants E2E', async (t) => {
     // Any attempt to mint now must strictly fail
     assert.throws(() => env.mint(BOB, 100n), /minting has been renounced/);
     assert.throws(() => env.mint(ALICE, 100n), /only mint authority can mint/);
+  });
+
+  await t.test('8. Token metadata and cumulative total_minted tracking', () => {
+    const CHARLIE = 300n;
+    env.setMetadata(CHARLIE, 5264217n, 9n);
+    const charlie = env.getOrCreateUser(CHARLIE);
+    assert.equal(charlie.symbol, 5264217n);
+    assert.equal(charlie.decimals, 9n);
+
+    env.mint(CHARLIE, 10_000n);
+    assert.equal(charlie.total_minted, 10_000n);
+    env.mint(CHARLIE, 5_000n);
+    assert.equal(charlie.total_minted, 15_000n);
+    env.burn(CHARLIE, 2_000n);
+    assert.equal(charlie.balance, 13_000n);
+    // Cumulative minted remains 15_000n regardless of burns
+    assert.equal(charlie.total_minted, 15_000n);
   });
 });

@@ -21,6 +21,9 @@ test('Compilation & ABI Verification E2E', async (t) => {
       'balance',
       'mint_authority',
       'is_mint_renounced',
+      'total_minted',
+      'decimals',
+      'symbol',
       'other_user_info',
       'delegations',
       'note_count',
@@ -28,7 +31,7 @@ test('Compilation & ABI Verification E2E', async (t) => {
       'last_path'
     ]);
 
-    // Verify 12 standard methods (including private_transfer and spend_delegation)
+    // Verify 13 standard methods (including set_metadata, private_transfer and spend_delegation)
     const methodNames = abi.contract.methods.map(m => m.name).sort();
     assert.deepEqual(methodNames, [
       'batch_transfer_2',
@@ -40,10 +43,16 @@ test('Compilation & ABI Verification E2E', async (t) => {
       'private_transfer',
       'renounce_mint_authority',
       'revoke_delegation_channel',
+      'set_metadata',
       'set_mint_authority',
       'spend_delegation',
       'transfer'
     ]);
+
+    // Verify set_metadata method inputs
+    const setMetadataMethod = abi.contract.methods.find(m => m.name === 'set_metadata');
+    assert.equal(setMetadataMethod.inputs.length, 2);
+    assert.deepEqual(setMetadataMethod.inputs.map(i => i.name), ['symbol', 'decimals']);
 
     // Verify private_transfer method inputs
     const privateTransferMethod = abi.contract.methods.find(m => m.name === 'private_transfer');
@@ -64,7 +73,7 @@ test('Compilation & ABI Verification E2E', async (t) => {
 
     assert.equal(abi.schema_version, '2.0.0');
     assert.equal(abi.contract.name, 'PsyTokenContract');
-    assert.equal(abi.contract.methods.length, 12);
+    assert.equal(abi.contract.methods.length, 13);
   });
 
   // 3. PSY-721 NFT ABI Verification

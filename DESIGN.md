@@ -59,6 +59,9 @@ pub struct PsyTokenContract {
     pub balance: Felt,
     pub mint_authority: Felt,
     pub is_mint_renounced: Felt,
+    pub total_minted: Felt,
+    pub decimals: Felt,
+    pub symbol: Felt,
     pub other_user_info: [OtherUserInfo; 16777216],
     pub delegations: [DelegationChannel; 16],
     pub note_count: Felt,
@@ -68,13 +71,16 @@ pub struct PsyTokenContract {
 ```
 
 - **`balance`** (Slot 0): The caller's liquid token balance within their partition.
-- **`mint_authority`** (Slot 1): The account authorized to mint new supply.
-- **`is_mint_renounced`** (Slot 2): A binary flag (`0` or `1`) indicating whether the mint authority has been permanently and irreversibly destroyed.
-- **`other_user_info`** (Slot 3..): The Outbox mapping storing pending and historical outgoing transfers to other accounts.
-- **`delegations`** (Slot 33554435..): Dedicated, isolated spending channels allocated for delegated third-party callers.
-- **`note_count`** (Slot 33554483): Monotonically increasing count of shielded note commitments inserted into the partition's Merkle tree.
-- **`note_root`** (Slot 33554484..33554487): The current Merkle root of the partition's 20-level Incremental Merkle Tree (IMT).
-- **`last_path`** (Slot 33554488..33554567): Cached rightmost frontier branch of the 20-level IMT for $O(1)$ amortized note insertion.
+- **`mint_authority`** (Slot 1): The account authorized to mint new supply and administer token metadata.
+- **`is_mint_renounced`** (Slot 2): A binary flag (`0` or `1`) indicating whether the mint authority and token administration have been permanently and irreversibly destroyed.
+- **`total_minted`** (Slot 3): Cumulative count of tokens minted into existence by the mint authority, enabling $O(1)$ zero-proof RPC inspection of supply.
+- **`decimals`** (Slot 4): Token precision exponent (e.g. `9` or `18`).
+- **`symbol`** (Slot 5): Short ASCII symbol packed into Felt (e.g. `0x505359` for `"PSY"`).
+- **`other_user_info`** (Slot 6..): The Outbox mapping storing pending and historical outgoing transfers to other accounts.
+- **`delegations`** (Slot 33554438..): Dedicated, isolated spending channels allocated for delegated third-party callers.
+- **`note_count`** (Slot 33554486): Monotonically increasing count of shielded note commitments inserted into the partition's Merkle tree.
+- **`note_root`** (Slot 33554487..33554490): The current Merkle root of the partition's 20-level Incremental Merkle Tree (IMT).
+- **`last_path`** (Slot 33554491..33554570): Cached rightmost frontier branch of the 20-level IMT for $O(1)$ amortized note insertion.
 
 ---
 
@@ -85,15 +91,15 @@ Tokens in Psy follow a strictly defined authority lifecycle:
 ```mermaid
 stateDiagram-v2
     [*] --> Uninitialized: Contract Deployment
-    Uninitialized --> ActiveAuthority: First mint() by Deployer
+    Uninitialized --> ActiveAuthority: First mint() or set_metadata() by Deployer
     ActiveAuthority --> TransferredAuthority: set_mint_authority(new_auth)
     TransferredAuthority --> ActiveAuthority: set_mint_authority(another_auth)
     ActiveAuthority --> Renounced: renounce_mint_authority()
     TransferredAuthority --> Renounced: renounce_mint_authority()
-    Renounced --> [*]: Minting Irrevocably Disabled (Fixed Hard Cap)
+    Renounced --> [*]: Minting & Admin Irrevocably Disabled (Fixed Hard Cap)
 ```
 
-1. **Self-Initialization**: The first caller to execute `mint()` establishes themselves as `mint_authority` if `mint_authority == 0`.
+1. **Self-Initialization**: The first caller to execute `mint()` or `set_metadata()` establishes themselves as `mint_authority` if `mint_authority == 0`.
 2. **Authority Transfer**: The existing `mint_authority` may transfer the role to a new account using `set_mint_authority(new_authority)`.
 3. **Irrevocable Renunciation**: The `mint_authority` may call `renounce_mint_authority()`, which sets `is_mint_renounced = 1` and `mint_authority = 0`. Once renounced, further minting is mathematically impossible, establishing a provably fixed maximum supply.
 
@@ -101,12 +107,23 @@ stateDiagram-v2
 
 ### 2.3 Core Methods & State Transitions
 
+#### `set_metadata(symbol: Felt, decimals: Felt)`
+- **Pre-conditions**:
+  - `is_mint_renounced == 0`
+  - `caller == mint_authority` (or `mint_authority == 0` for initial setup)
+  - `decimals <= 18`
+- **State Mutation**:
+  - `c.symbol = symbol`
+  - `c.decimals = decimals`
+- **Events**: Emits `SetMetadataEvent { symbol: symbol, decimals: decimals }`
+
 #### `mint(amount: Felt)`
 - **Pre-conditions**:
   - `is_mint_renounced == 0`
   - `caller == mint_authority` (or `mint_authority == 0` for initialization)
 - **State Mutation**:
   - `c.balance += amount`
+  - `c.total_minted += amount`
 - **Events**: Emits `MintEvent { to: caller, amount: amount }`
 
 #### `burn(amount: Felt)`

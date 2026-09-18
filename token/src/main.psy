@@ -61,6 +61,12 @@ pub struct AuthorityChangeEvent {
 }
 
 #[derive(Event)]
+pub struct SetMetadataEvent {
+    pub symbol: Felt,
+    pub decimals: Felt,
+}
+
+#[derive(Event)]
 pub struct PrivateTransferEvent {
     pub commitment: Hash,
     pub note_index: Felt,
@@ -72,6 +78,9 @@ pub struct PsyTokenContract {
     pub balance: Felt,
     pub mint_authority: Felt,
     pub is_mint_renounced: Felt,
+    pub total_minted: Felt,
+    pub decimals: Felt,
+    pub symbol: Felt,
     pub other_user_info: [OtherUserInfo; 16777216],
     pub delegations: [DelegationChannel; 16],
     pub note_count: Felt,
@@ -80,6 +89,26 @@ pub struct PsyTokenContract {
 }
 
 impl PsyTokenContractRef {
+    #[contract_method]
+    pub fn set_metadata(symbol: Felt, decimals: Felt) {
+        let caller = get_user_id();
+        let c = PsyTokenContractRef::new(ContractMetadata::current());
+        assert(c.is_mint_renounced.get() == 0, "token administration has been renounced");
+        let auth = c.mint_authority.get();
+        if auth == 0 {
+            c.mint_authority = caller;
+        } else {
+            assert(caller == auth, "caller is not authorized to set metadata");
+        };
+        assert(decimals <= 18, "decimals exceed maximum supported precision");
+        c.symbol = symbol;
+        c.decimals = decimals;
+        let ev = new SetMetadataEvent {
+            symbol: symbol,
+            decimals: decimals,
+        };
+        ev.emit();
+    }
     #[contract_method]
     pub fn mint(amount: Felt) {
         let caller = get_user_id();
@@ -94,6 +123,7 @@ impl PsyTokenContractRef {
         };
         assert(amount > 0, "mint amount must be positive");
         c.balance += amount;
+        c.total_minted += amount;
         let ev = new MintEvent {
             to: caller,
             amount: amount,

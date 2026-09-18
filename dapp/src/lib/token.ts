@@ -94,6 +94,15 @@ export const token = {
     }
   },
 
+  setMetadata(symbol: string | bigint | number, decimals: bigint | number): ContractCallArgs {
+    const symbolFelt = typeof symbol === 'string' ? encodeSymbol(symbol) : felt(symbol);
+    return {
+      contract_id: requireContractId(),
+      method_name: 'set_metadata',
+      inputs: [symbolFelt, felt(decimals)],
+    }
+  },
+
   setMintAuthority(newAuthority: bigint | number | string): ContractCallArgs {
     return {
       contract_id: requireContractId(),
@@ -124,4 +133,62 @@ export const token = {
       inputs: [...receiver.map(felt), felt(value), ...noteSecretHash.map(felt)],
     }
   },
+}
+
+/**
+ * Storage slot index offsets corresponding to PsyTokenContract struct fields.
+ */
+export const TOKEN_STORAGE_SLOTS = {
+  BALANCE: 0,
+  MINT_AUTHORITY: 1,
+  IS_MINT_RENOUNCED: 2,
+  TOTAL_MINTED: 3,
+  DECIMALS: 4,
+  SYMBOL: 5,
+} as const;
+
+/**
+ * Encodes an ASCII symbol string (up to 7 characters) into a Felt.
+ */
+export function encodeSymbol(symbol: string): bigint {
+  let val = 0n;
+  const trimmed = symbol.trim().slice(0, 7);
+  for (let i = 0; i < trimmed.length; i++) {
+    val = (val << 8n) | BigInt(trimmed.charCodeAt(i));
+  }
+  return val;
+}
+
+/**
+ * Decodes a Felt back into an ASCII symbol string.
+ */
+export function decodeSymbol(feltVal: bigint | number | string): string {
+  let v = BigInt(feltVal);
+  let chars = '';
+  while (v > 0n) {
+    const byte = Number(v & 0xffn);
+    chars = String.fromCharCode(byte) + chars;
+    v >>= 8n;
+  }
+  return chars;
+}
+
+/**
+ * Unpacks a 64-bit Felt value from a 64-character hexadecimal leaf hash string.
+ */
+export function readSlotValue(leafHashHex: string | undefined, subSlotIndex = 0): bigint {
+  if (!leafHashHex || leafHashHex.length !== 64) {
+    return 0n;
+  }
+  const start = subSlotIndex * 16;
+  const hexChunk = leafHashHex.substring(start, start + 16);
+  return BigInt('0x' + hexChunk);
+}
+
+export interface TokenMetadata {
+  authority: bigint;
+  isMintRenounced: boolean;
+  totalMinted: bigint;
+  decimals: number;
+  symbol: string;
 }

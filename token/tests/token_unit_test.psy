@@ -61,6 +61,12 @@ pub struct SpendDelegationEvent {
 }
 
 #[derive(Event)]
+pub struct SetMetadataEvent {
+    pub symbol: Felt,
+    pub decimals: Felt,
+}
+
+#[derive(Event)]
 pub struct PrivateTransferEvent {
     pub commitment: Hash,
     pub note_index: Felt,
@@ -72,6 +78,9 @@ pub struct PsyTokenContract {
     pub balance: Felt,
     pub mint_authority: Felt,
     pub is_mint_renounced: Felt,
+    pub total_minted: Felt,
+    pub decimals: Felt,
+    pub symbol: Felt,
     pub other_user_info: [OtherUserInfo; 16777216],
     pub delegations: [DelegationChannel; 16],
     pub note_count: Felt,
@@ -80,6 +89,26 @@ pub struct PsyTokenContract {
 }
 
 impl PsyTokenContractRef {
+    #[contract_method]
+    pub fn set_metadata(symbol: Felt, decimals: Felt) {
+        let caller = get_user_id();
+        let c = PsyTokenContractRef::new(ContractMetadata::current());
+        assert(c.is_mint_renounced.get() == 0, "token administration has been renounced");
+        let auth = c.mint_authority.get();
+        if auth == 0 {
+            c.mint_authority = caller;
+        } else {
+            assert(caller == auth, "caller is not authorized to set metadata");
+        };
+        assert(decimals <= 18, "decimals exceed maximum supported precision");
+        c.symbol = symbol;
+        c.decimals = decimals;
+        let ev = new SetMetadataEvent {
+            symbol: symbol,
+            decimals: decimals,
+        };
+        ev.emit();
+    }
     #[contract_method]
     pub fn mint(amount: Felt) {
         let caller = get_user_id();
@@ -93,6 +122,7 @@ impl PsyTokenContractRef {
             assert(caller == auth, "only mint authority can mint");
         };
         c.balance += amount;
+        c.total_minted += amount;
         let ev = new MintEvent {
             to: caller,
             amount: amount,
@@ -248,8 +278,12 @@ impl PsyTokenContractRef {
 fn test_token_mint_burn_delegation_lifecycle() {
     let c = PsyTokenContractRef::new(ContractMetadata::current());
     let initial_balance = c.balance.get();
+    PsyTokenContractRef::set_metadata(5264217, 9);
+    assert_eq(c.symbol.get(), 5264217, "symbol should be set to 5264217 (PSY)");
+    assert_eq(c.decimals.get(), 9, "decimals should be set to 9");
     PsyTokenContractRef::mint(1000);
     assert_eq(c.balance.get(), initial_balance + 1000, "balance should increment by 1000");
+    assert_eq(c.total_minted.get(), 1000, "total_minted should be 1000");
     PsyTokenContractRef::burn(200);
     assert_eq(c.balance.get(), initial_balance + 800, "balance after burning 200 should be initial + 800");
     PsyTokenContractRef::open_delegation_channel(0, 888, 300);
