@@ -22,10 +22,13 @@ test('Compilation & ABI Verification E2E', async (t) => {
       'mint_authority',
       'is_mint_renounced',
       'other_user_info',
-      'delegations'
+      'delegations',
+      'note_count',
+      'note_root',
+      'last_path'
     ]);
 
-    // Verify 10 standard methods
+    // Verify 11 standard methods (including private_transfer)
     const methodNames = abi.contract.methods.map(m => m.name).sort();
     assert.deepEqual(methodNames, [
       'batch_transfer_2',
@@ -34,11 +37,17 @@ test('Compilation & ABI Verification E2E', async (t) => {
       'claim',
       'mint',
       'open_delegation_channel',
+      'private_transfer',
       'renounce_mint_authority',
       'revoke_delegation_channel',
       'set_mint_authority',
       'transfer'
     ]);
+
+    // Verify private_transfer method inputs
+    const privateTransferMethod = abi.contract.methods.find(m => m.name === 'private_transfer');
+    assert.equal(privateTransferMethod.inputs.length, 3);
+    assert.deepEqual(privateTransferMethod.inputs.map(i => i.name), ['receiver', 'value', 'note_secret_hash']);
   });
 
   // 2. DApp Contract ABI Verification
@@ -49,7 +58,7 @@ test('Compilation & ABI Verification E2E', async (t) => {
 
     assert.equal(abi.schema_version, '2.0.0');
     assert.equal(abi.contract.name, 'PsyTokenContract');
-    assert.equal(abi.contract.methods.length, 10);
+    assert.equal(abi.contract.methods.length, 11);
   });
 
   // 3. PSY-721 NFT ABI Verification

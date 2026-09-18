@@ -97,4 +97,19 @@ export const token = {
       inputs: [],
     }
   },
+
+  privateTransfer(
+    receiver: Array<bigint | number | string>,
+    value: bigint | number,
+    noteSecretHash: Array<bigint | number | string>,
+  ): ContractCallArgs {
+    if (receiver.length !== 4 || noteSecretHash.length !== 4) {
+      throw new Error('receiver and noteSecretHash must be 4-element Felt arrays (Hash)');
+    }
+    return {
+      contract_id: requireContractId(),
+      method_name: 'private_transfer',
+      inputs: [...receiver.map(felt), felt(value), ...noteSecretHash.map(felt)],
+    }
+  },
 }

@@ -12,6 +12,17 @@ pub struct DelegationChannel {
 }
 
 #[derive(Event)]
+pub struct MintEvent {
+    pub to: Felt,
+    pub amount: Felt,
+}
+
+#[derive(Event)]
+pub struct BurnEvent {
+    pub amount: Felt,
+}
+
+#[derive(Event)]
 pub struct TransferEvent {
     pub to: Felt,
     pub amount: Felt,
@@ -20,17 +31,6 @@ pub struct TransferEvent {
 #[derive(Event)]
 pub struct ClaimEvent {
     pub from: Felt,
-    pub amount: Felt,
-}
-
-#[derive(Event)]
-pub struct MintEvent {
-    pub to: Felt,
-    pub amount: Felt,
-}
-
-#[derive(Event)]
-pub struct BurnEvent {
     pub amount: Felt,
 }
 
@@ -52,6 +52,12 @@ pub struct AuthorityChangeEvent {
     pub new_authority: Felt,
 }
 
+#[derive(Event)]
+pub struct PrivateTransferEvent {
+    pub commitment: Hash,
+    pub note_index: Felt,
+}
+
 #[contract]
 #[derive(Storage)]
 pub struct PsyTokenContract {
@@ -60,6 +66,9 @@ pub struct PsyTokenContract {
     pub is_mint_renounced: Felt,
     pub other_user_info: [OtherUserInfo; 16777216],
     pub delegations: [DelegationChannel; 16],
+    pub note_count: Felt,
+    pub note_root: Hash,
+    pub last_path: [Hash; 20],
 }
 
 impl PsyTokenContractRef {
@@ -84,20 +93,6 @@ impl PsyTokenContractRef {
         ev.emit();
     }
     #[contract_method]
-    pub fn renounce_mint_authority() {
-        let caller = get_user_id();
-        let c = PsyTokenContractRef::new(ContractMetadata::current());
-        let auth = c.mint_authority.get();
-        assert(auth != 0, "mint authority not initialized");
-        assert(caller == auth, "only mint authority can renounce");
-        c.is_mint_renounced = 1;
-        c.mint_authority = 0;
-        let ev = new AuthorityChangeEvent {
-            new_authority: 0,
-        };
-        ev.emit();
-    }
-    #[contract_method]
     pub fn set_mint_authority(new_authority: Felt) {
         let caller = get_user_id();
         let c = PsyTokenContractRef::new(ContractMetadata::current());
@@ -109,6 +104,20 @@ impl PsyTokenContractRef {
         c.mint_authority = new_authority;
         let ev = new AuthorityChangeEvent {
             new_authority: new_authority,
+        };
+        ev.emit();
+    }
+    #[contract_method]
+    pub fn renounce_mint_authority() {
+        let caller = get_user_id();
+        let c = PsyTokenContractRef::new(ContractMetadata::current());
+        let auth = c.mint_authority.get();
+        assert(auth != 0, "mint authority not initialized");
+        assert(caller == auth, "only mint authority can renounce");
+        c.is_mint_renounced = 1;
+        c.mint_authority = 0;
+        let ev = new AuthorityChangeEvent {
+            new_authority: 0,
         };
         ev.emit();
     }
@@ -255,6 +264,42 @@ impl PsyTokenContractRef {
         let ev = new RevokeDelegationEvent {
             channel_idx: channel_idx,
             refunded_amount: unspent,
+        };
+        ev.emit();
+    }
+    #[contract_method]
+    pub fn private_transfer(receiver: Hash, value: Felt, note_secret_hash: Hash) {
+        let c = PsyTokenContractRef::new(ContractMetadata::current());
+        let current_balance = c.balance.get();
+        assert(value > 0, "value must be positive");
+        assert(current_balance >= value, "insufficient balance");
+        c.balance = current_balance - value;
+        let value_hash: Hash = [value, 0, 0, 0];
+        let commitment: Hash = hash_two_to_one(hash_two_to_one(receiver, value_hash), note_secret_hash);
+        let idx = c.note_count.get();
+        assert(idx < 1048576, "note tree is full");
+        let mut current: Hash = commitment;
+        let mut zero: Hash = [0, 0, 0, 0];
+        let mut path_index: Felt = idx;
+        for level in 0u32..20u32 {
+            let level_index = level as Felt;
+            let is_right: Felt = path_index & 1;
+            if is_right == 0 {
+                c.last_path[level_index] = current;
+                current = hash_two_to_one(current, zero);
+            }            
+            else {
+                let left = c.last_path[level_index].get();
+                current = hash_two_to_one(left, current);
+            };
+            zero = hash_two_to_one(zero, zero);
+            path_index = path_index >> 1;
+        }
+        c.note_root = current;
+        c.note_count = idx + 1;
+        let ev = new PrivateTransferEvent {
+            commitment: commitment,
+            note_index: idx,
         };
         ev.emit();
     }

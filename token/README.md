@@ -19,6 +19,9 @@ This contract implements the **PSY-20** standard tailored for Psy's ZK-native, u
    - `open_delegation_channel`: Allocates a sandboxed spending budget to an AI Agent or automated spender.
    - `revoke_delegation_channel`: Reclaims unspent funds back to caller balance at any time.
    - Strictly isolates balance reservation into dedicated channel slots.
+4. **Shielded Private Transfer**:
+   - `private_transfer`: Shields transparent tokens into a Poseidon note commitment and inserts it into a 20-level Incremental Merkle Tree (IMT).
+   - Enables confidential payments claimable via zero-knowledge membership proofs and nullifiers without exposing on-chain transfer graphs.
 
 ## Build & Deploy
 

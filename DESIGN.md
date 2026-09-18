@@ -61,6 +61,9 @@ pub struct PsyTokenContract {
     pub is_mint_renounced: Felt,
     pub other_user_info: [OtherUserInfo; 16777216],
     pub delegations: [DelegationChannel; 16],
+    pub note_count: Felt,
+    pub note_root: Hash,
+    pub last_path: [Hash; 20],
 }
 ```
 
@@ -69,6 +72,9 @@ pub struct PsyTokenContract {
 - **`is_mint_renounced`** (Slot 2): A binary flag (`0` or `1`) indicating whether the mint authority has been permanently and irreversibly destroyed.
 - **`other_user_info`** (Slot 3..): The Outbox mapping storing pending and historical outgoing transfers to other accounts.
 - **`delegations`** (Slot 33554435..): Dedicated, isolated spending channels allocated for delegated third-party callers.
+- **`note_count`** (Slot 33554483): Monotonically increasing count of shielded note commitments inserted into the partition's Merkle tree.
+- **`note_root`** (Slot 33554484..33554487): The current Merkle root of the partition's 20-level Incremental Merkle Tree (IMT).
+- **`last_path`** (Slot 33554488..33554567): Cached rightmost frontier branch of the 20-level IMT for $O(1)$ amortized note insertion.
 
 ---
 
@@ -130,6 +136,20 @@ stateDiagram-v2
   - `c.other_user_info[sender].amount_claimed = sender_info.amount_sent`
 - **Events**: Emits `ClaimEvent { from: sender, amount: claimable }`
 
+#### `private_transfer(receiver: Hash, value: Felt, note_secret_hash: Hash)`
+- **Pre-conditions**:
+  - `value > 0`
+  - `c.balance >= value`
+  - `c.note_count < 1048576` (tree capacity $2^{20}$)
+- **Poseidon Note Commitment**:
+  $$\text{leaf}_0 = \text{hash\_two\_to\_one}(\text{receiver}, [\text{value}, 0, 0, 0])$$
+  $$\text{commitment} = \text{hash\_two\_to\_one}(\text{leaf}_0, \text{note\_secret\_hash})$$
+- **State Mutation**:
+  - `c.balance -= value`
+  - Appends `commitment` into the 20-level Incremental Merkle Tree (`c.last_path`, `c.note_root`)
+  - `c.note_count += 1`
+- **Events**: Emits `PrivateTransferEvent { commitment: commitment, note_index: c.note_count }`
+
 #### `batch_transfer_2` / `batch_transfer_5`
 - Executes parallel Outbox updates across multiple recipients in a single atomic ZK transaction circuit, deducting the aggregated sum from `c.balance`.
 
@@ -157,6 +177,43 @@ sequenceDiagram
 1. **Strict Balance Segregation**: When a channel is opened, `amount` is debited from `c.balance` and locked into `delegations[idx]`. The owner's remaining balance is physically unreachable by the spender.
 2. **Channel Isolation**: Channel indices are independent ($0 \le \text{idx} < 16$), allowing simultaneous delegations to distinct spenders without cross-contamination.
 3. **Immediate Revocation & Refund**: The owner may revoke a channel at any time. Any unspent balance ($\text{allocated\_amount} - \text{spent\_amount}$) is credited back to `c.balance` atomically.
+
+---
+
+### 2.5 Shielded Private Transfers (Zero-Knowledge Note Commitments)
+
+In addition to transparent Outbox transfers, PSY-20 natively supports shielded private note generation via `private_transfer`. This protocol shields transparent balances into cryptographic note commitments within a local 20-level Incremental Merkle Tree (IMT):
+
+```mermaid
+sequenceDiagram
+    participant Sender as Alice (Sender Partition)
+    participant IMT as 20-Level Note Tree
+    participant OOB as Encrypted Channel / Nostr (NIP-44)
+    participant Recipient as Bob (Recipient)
+    participant Verifier as Psy State Verifier
+
+    Sender->>IMT: private_transfer(receiver_pubkey, value, note_secret_hash)
+    Note over Sender,IMT: Balance debited by value.<br/>Leaf commitment computed via Poseidon.<br/>Incremental Merkle Tree root updated.
+    Sender-->>OOB: Delivers Note Preimage (receiver, value, secret)
+    OOB-->>Recipient: Bob decrypts note preimage
+    Recipient->>Verifier: Generates ZK Inclusion Proof + Nullifier
+    Note over Recipient,Verifier: Plonky2 recursive proof verifies inclusion<br/>against note_root without revealing sender or recipient.
+```
+
+#### Note Commitment Construction
+Each private note is represented as a 2-to-1 Poseidon hash commitment over the Goldilocks field $\mathbb{F}_p$:
+$$\text{leaf}_0 = \text{Poseidon}(\text{receiver}, [\text{value}, 0, 0, 0])$$
+$$\text{commitment} = \text{Poseidon}(\text{leaf}_0, \text{note\_secret\_hash})$$
+
+Where:
+- `receiver`: The recipient's 256-bit public key hash (`[Felt; 4]`).
+- `value`: The token denomination.
+- `note_secret_hash`: The blinding factor / entropy hash ensuring note unlinkability (`[Felt; 4]`).
+
+#### 20-Level Incremental Merkle Tree (IMT)
+- **Capacity**: $2^{20} = 1,048,576$ shielded notes per user partition.
+- **Deterministic frontier insertion**: uses `last_path` to track the right-edge active branch, updating the `note_root` in $O(\log N)$ arithmetic constraints within the execution circuit.
+- **Double-Spend Prevention**: Claiming a note publishes a deterministic nullifier $\text{Poseidon}(\text{note\_secret}, \text{note\_index})$. Once recorded, re-spending the note is mathematically prevented.
 
 ---
 
@@ -244,11 +301,12 @@ All Psy asset implementations must satisfy the following formal properties:
 
 | Invariant | Formal Definition | Verification Mechanism |
 | :--- | :--- | :--- |
-| **Conservation of Supply** | $\sum_i \text{balance}_i + \sum_{i,j} \text{unclaimed}_{i \to j} = \text{Minted} - \text{Burned}$ | Enforced by balanced addition/subtraction in state transitions |
+| **Conservation of Supply** | $\sum_i \text{balance}_i + \sum_{i,j} \text{unclaimed}_{i \to j} + \sum_i \text{notes}_i + \sum_{i, k} \text{escrow}_{i,k} = \text{Minted} - \text{Burned}$ | Enforced by balanced addition/subtraction in state transitions |
 | **Nonce Monotonicity** | $\text{nonce}_{sent}^{(t+1)} > \text{nonce}_{sent}^{(t)}$ and $\text{nonce}_{claimed} \le \text{nonce}_{sent}$ | Enforced by strict counter increments in Outbox logic |
 | **Slot Exclusivity** | $\forall i, \text{slot}[i].is\_active \in \{0, 1\}$ | Guarded by `assert(slot.is_active == 0)` on write |
 | **Channel Non-Negative Balance** | $\text{spent\_amount} \le \text{allocated\_amount}$ | Guarded on channel mutation and refund computation |
 | **Authority Immutability** | If `is_mint_renounced == 1`, then `mint_authority == 0` permanently | Guarded by `assert(is_mint_renounced == 0)` on every mint/set call |
+| **Merkle Tree Frontier Integrity** | $0 \le \text{note\_count} \le 2^{20}$, $\text{note\_root}^{(t+1)} = \text{IMT}(\text{note\_root}^{(t)}, \text{commitment})$ | Enforced by deterministic Poseidon 2-to-1 folding across `last_path` frontier |
 
 ---
 

@@ -7,6 +7,7 @@ class Psy20VirtualEnvironment {
     this.users = new Map(); // userId -> UserState
     this.totalMinted = 0n;
     this.totalBurned = 0n;
+    this.totalShieldedNotes = 0n;
   }
 
   getOrCreateUser(userId) {
@@ -16,7 +17,10 @@ class Psy20VirtualEnvironment {
         mint_authority: 0n,
         is_mint_renounced: 0n,
         other_user_info: new Map(), // otherUserId -> { sent: 0n, claimed: 0n }
-        delegations: Array.from({ length: 16 }, () => ({ spender: 0n, allocated_amount: 0n, spent_amount: 0n }))
+        delegations: Array.from({ length: 16 }, () => ({ spender: 0n, allocated_amount: 0n, spent_amount: 0n })),
+        note_count: 0n,
+        note_root: [0n, 0n, 0n, 0n],
+        last_path: Array.from({ length: 20 }, () => [0n, 0n, 0n, 0n])
       });
     }
     return this.users.get(userId);
@@ -164,6 +168,19 @@ class Psy20VirtualEnvironment {
     this.verifyInvariants();
   }
 
+  privateTransfer(callerId, receiver, value, noteSecretHash) {
+    assert(value > 0n, 'value must be positive');
+    const user = this.getOrCreateUser(callerId);
+    assert.ok(user.balance >= value, 'insufficient balance for private transfer');
+
+    user.balance -= value;
+    user.note_count += 1n;
+    this.totalShieldedNotes += value;
+
+    this.verifyInvariants();
+    return { noteIndex: user.note_count - 1n, value };
+  }
+
   verifyInvariants() {
     let totalBalances = 0n;
     let totalEscrowInChannels = 0n;
@@ -190,7 +207,7 @@ class Psy20VirtualEnvironment {
     }
 
     const expectedTotal = this.totalMinted - this.totalBurned;
-    const actualTotal = totalBalances + totalEscrowInChannels + totalUnclaimed;
+    const actualTotal = totalBalances + totalEscrowInChannels + totalUnclaimed + this.totalShieldedNotes;
     assert.equal(actualTotal, expectedTotal, `Total supply invariant violated: expected ${expectedTotal}, got ${actualTotal}`);
   }
 }
@@ -245,12 +262,21 @@ test('PSY-20 Lifecycle & Formal Invariants E2E', async (t) => {
     assert.equal(env.getOrCreateUser(ALICE).balance, 570_000n);
   });
 
-  await t.test('5. Burn tokens', () => {
-    env.burn(ALICE, 70_000n);
+  await t.test('5. Shielded Private Transfer into Note Commitment Tree', () => {
+    const receiverShielded = [1n, 2n, 3n, 4n];
+    const secret = [5n, 6n, 7n, 8n];
+    const note = env.privateTransfer(ALICE, receiverShielded, 70_000n, secret);
+    assert.equal(note.noteIndex, 0n);
     assert.equal(env.getOrCreateUser(ALICE).balance, 500_000n);
+    assert.equal(env.getOrCreateUser(ALICE).note_count, 1n);
   });
 
-  await t.test('6. Authority transfer, subsequent mint, and irrevocable renunciation', () => {
+  await t.test('6. Burn tokens', () => {
+    env.burn(ALICE, 50_000n);
+    assert.equal(env.getOrCreateUser(ALICE).balance, 450_000n);
+  });
+
+  await t.test('7. Authority transfer, subsequent mint, and irrevocable renunciation', () => {
     // Alice transfers mint authority to Bob
     env.setMintAuthority(ALICE, BOB);
     assert.equal(env.getOrCreateUser(ALICE).mint_authority, BOB);

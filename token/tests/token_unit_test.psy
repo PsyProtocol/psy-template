@@ -52,6 +52,12 @@ pub struct RevokeDelegationEvent {
     pub refunded_amount: Felt,
 }
 
+#[derive(Event)]
+pub struct PrivateTransferEvent {
+    pub commitment: Hash,
+    pub note_index: Felt,
+}
+
 #[contract]
 #[derive(Storage)]
 pub struct PsyTokenContract {
@@ -60,6 +66,9 @@ pub struct PsyTokenContract {
     pub is_mint_renounced: Felt,
     pub other_user_info: [OtherUserInfo; 16777216],
     pub delegations: [DelegationChannel; 16],
+    pub note_count: Felt,
+    pub note_root: Hash,
+    pub last_path: [Hash; 20],
 }
 
 impl PsyTokenContractRef {
@@ -161,6 +170,42 @@ impl PsyTokenContractRef {
         };
         ev.emit();
     }
+    #[contract_method]
+    pub fn private_transfer(receiver: Hash, value: Felt, note_secret_hash: Hash) {
+        let c = PsyTokenContractRef::new(ContractMetadata::current());
+        let current_balance = c.balance.get();
+        assert(value > 0, "value must be positive");
+        assert(current_balance >= value, "insufficient balance");
+        c.balance = current_balance - value;
+        let value_hash: Hash = [value, 0, 0, 0];
+        let commitment: Hash = hash_two_to_one(hash_two_to_one(receiver, value_hash), note_secret_hash);
+        let idx = c.note_count.get();
+        assert(idx < 1048576, "note tree is full");
+        let mut current: Hash = commitment;
+        let mut zero: Hash = [0, 0, 0, 0];
+        let mut path_index: Felt = idx;
+        for level in 0u32..20u32 {
+            let level_index = level as Felt;
+            let is_right: Felt = path_index & 1;
+            if is_right == 0 {
+                c.last_path[level_index] = current;
+                current = hash_two_to_one(current, zero);
+            }            
+            else {
+                let left = c.last_path[level_index].get();
+                current = hash_two_to_one(left, current);
+            };
+            zero = hash_two_to_one(zero, zero);
+            path_index = path_index >> 1;
+        }
+        c.note_root = current;
+        c.note_count = idx + 1;
+        let ev = new PrivateTransferEvent {
+            commitment: commitment,
+            note_index: idx,
+        };
+        ev.emit();
+    }
 }
 
 #[test]
@@ -180,6 +225,12 @@ fn test_token_mint_burn_delegation_lifecycle() {
     assert_eq(c.balance.get(), initial_balance + 800, "balance after revoking channel should be initial + 800");
     let ch_after = c.delegations[0].get();
     assert_eq(ch_after.spender, 0, "channel spender should be reset to 0");
+    // 5. Shielded Private Transfer
+    let receiver: Hash = [11, 22, 33, 44];
+    let secret: Hash = [55, 66, 77, 88];
+    PsyTokenContractRef::private_transfer(receiver, 250, secret);
+    assert_eq(c.balance.get(), initial_balance + 550, "balance after private transfer of 250 should be initial + 550");
+    assert_eq(c.note_count.get(), 1, "note_count should increment to 1");
     PsyTokenContractRef::renounce_mint_authority();
     assert_eq(c.is_mint_renounced.get(), 1, "is_mint_renounced should be 1");
     assert_eq(c.mint_authority.get(), 0, "mint_authority should be reset to 0");

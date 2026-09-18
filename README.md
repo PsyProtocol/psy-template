@@ -13,7 +13,7 @@ For a full breakdown of the ZK-native partitioned state model, Plonky2 Goldilock
 | Template | Path | Description | Command |
 | :--- | :--- | :--- | :--- |
 | **dapp** (default) | `dapp/` | Full-stack React + Vite frontend with a PSY token contract in `contract/` | `psyup new my-app` |
-| **token** | `token/` | Pure PSY-20 Fungible Token contract (Mint Authority, Outbox Transfer/Claim, Sandboxed Delegation Channels) | `psyup new my-token --template token` |
+| **token** | `token/` | Pure PSY-20 Fungible Token contract (Mint Authority, Outbox Transfer/Claim, Sandboxed Delegation Channels, Shielded Private Transfer) | `psyup new my-token --template token` |
 | **nft** | `nft/` | Pure PSY-721 NFT contract (Unique Token IDs, Mint Authority, Outbox Transfer/Claim) | `psyup new my-nft --template nft` |
 
 ---
@@ -59,6 +59,7 @@ psyup deploy
 - **Authority Model**: Features `mint_authority` with support for `renounce_mint_authority` to create permanently capped / fixed-supply tokens.
 - **Outbox/Claim Pattern**: High-concurrency, asynchronous pull transfers natively compatible with Psy's Plonky2 partitioned state tree.
 - **Delegation Channels**: Safe, sandboxed escrow channels (`open_delegation_channel` / `revoke_delegation_channel`) enabling scoped third-party spending with isolated balance reservation and deterministic refunds.
+- **Shielded Private Transfer**: Zero-knowledge note commitments (`private_transfer`) folded into a 20-level Incremental Merkle Tree (IMT), providing on-chain privacy for token transfers.
 
 ### PSY-721 (Non-Fungible Token)
 - **Token Slot Indexing**: Per-user array of owned NFT slots.
