@@ -1,5 +1,3 @@
-use std::prelude::*;
-
 #[derive(Storage)]
 pub struct OtherUserInfo {
     pub amount_sent: Felt,
@@ -73,7 +71,8 @@ impl PsyTokenContractRef {
         let auth = c.mint_authority.get();
         if auth == 0 {
             c.mint_authority = caller;
-        } else {
+        }        
+        else {
             assert(caller == auth, "only mint authority can mint");
         };
         c.balance += amount;
@@ -83,7 +82,6 @@ impl PsyTokenContractRef {
         };
         ev.emit();
     }
-
     #[contract_method]
     pub fn burn(amount: Felt) {
         let c = PsyTokenContractRef::new(ContractMetadata::current());
@@ -94,7 +92,6 @@ impl PsyTokenContractRef {
         };
         ev.emit();
     }
-
     #[contract_method]
     pub fn set_mint_authority(new_authority: Felt) {
         let caller = get_user_id();
@@ -110,7 +107,6 @@ impl PsyTokenContractRef {
         };
         ev.emit();
     }
-
     #[contract_method]
     pub fn renounce_mint_authority() {
         let caller = get_user_id();
@@ -125,7 +121,6 @@ impl PsyTokenContractRef {
         };
         ev.emit();
     }
-
     #[contract_method]
     pub fn open_delegation_channel(channel_idx: Felt, spender: Felt, amount: Felt) {
         assert(channel_idx < 16, "channel index out of range");
@@ -147,7 +142,6 @@ impl PsyTokenContractRef {
         };
         ev.emit();
     }
-
     #[contract_method]
     pub fn revoke_delegation_channel(channel_idx: Felt) {
         assert(channel_idx < 16, "channel index out of range");
@@ -173,29 +167,19 @@ impl PsyTokenContractRef {
 fn test_token_mint_burn_delegation_lifecycle() {
     let c = PsyTokenContractRef::new(ContractMetadata::current());
     let initial_balance = c.balance.get();
-    
-    // 1. Mint 1000 tokens
     PsyTokenContractRef::mint(1000);
     assert_eq(c.balance.get(), initial_balance + 1000, "balance should increment by 1000");
-    
-    // 2. Burn 200 tokens
     PsyTokenContractRef::burn(200);
     assert_eq(c.balance.get(), initial_balance + 800, "balance after burning 200 should be initial + 800");
-    
-    // 3. Open delegation channel
     PsyTokenContractRef::open_delegation_channel(0, 888, 300);
     assert_eq(c.balance.get(), initial_balance + 500, "balance after locking 300 in channel should be initial + 500");
     let ch = c.delegations[0].get();
     assert_eq(ch.spender, 888, "channel spender should be 888");
     assert_eq(ch.allocated_amount, 300, "allocated amount should be 300");
-    
-    // 4. Revoke delegation channel
     PsyTokenContractRef::revoke_delegation_channel(0);
     assert_eq(c.balance.get(), initial_balance + 800, "balance after revoking channel should be initial + 800");
     let ch_after = c.delegations[0].get();
     assert_eq(ch_after.spender, 0, "channel spender should be reset to 0");
-    
-    // 5. Renounce mint authority
     PsyTokenContractRef::renounce_mint_authority();
     assert_eq(c.is_mint_renounced.get(), 1, "is_mint_renounced should be 1");
     assert_eq(c.mint_authority.get(), 0, "mint_authority should be reset to 0");

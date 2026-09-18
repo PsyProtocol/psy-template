@@ -1,5 +1,3 @@
-use std::prelude::*;
-
 #[derive(Storage)]
 pub struct NFTSlot {
     pub token_id: Felt,
@@ -53,34 +51,29 @@ impl PsyNFTContractRef {
     pub fn mint(slot_idx: Felt, token_id: Felt) {
         assert(slot_idx < 128, "slot index out of range");
         assert(token_id > 0, "token_id must be non-zero");
-
         let caller = get_user_id();
         let c = PsyNFTContractRef::new(ContractMetadata::current());
         assert(c.is_mint_renounced.get() == 0, "minting has been renounced");
-
         let auth = c.mint_authority.get();
         if auth == 0 {
             c.mint_authority = caller;
-        } else {
+        }        
+        else {
             assert(caller == auth, "only mint authority can mint");
         };
-
         let slot = c.owned_tokens[slot_idx].get();
         assert(slot.is_active == 0, "slot already occupied");
-
         c.owned_tokens[slot_idx] = new NFTSlot {
             token_id: token_id,
             is_active: 1,
         };
         c.balance += 1;
-
         let ev = new NFTMintEvent {
             to: caller,
             token_id: token_id,
         };
         ev.emit();
     }
-
     #[contract_method]
     pub fn renounce_mint_authority() {
         let caller = get_user_id();
@@ -88,16 +81,13 @@ impl PsyNFTContractRef {
         let auth = c.mint_authority.get();
         assert(auth != 0, "mint authority not initialized");
         assert(caller == auth, "only mint authority can renounce");
-
         c.is_mint_renounced = 1;
         c.mint_authority = 0;
-
         let ev = new AuthorityChangeEvent {
             new_authority: 0,
         };
         ev.emit();
     }
-
     #[contract_method]
     pub fn set_mint_authority(new_authority: Felt) {
         let caller = get_user_id();
@@ -107,33 +97,27 @@ impl PsyNFTContractRef {
         assert(auth != 0, "mint authority not initialized");
         assert(caller == auth, "only mint authority can transfer authority");
         assert(new_authority != 0, "use renounce_mint_authority to revoke");
-
         c.mint_authority = new_authority;
-
         let ev = new AuthorityChangeEvent {
             new_authority: new_authority,
         };
         ev.emit();
     }
-
     #[contract_method]
     pub fn transfer(slot_idx: Felt, recipient: Felt) {
         assert(slot_idx < 128, "slot index out of range");
         let caller = get_user_id();
         assert(recipient != caller, "cannot transfer to self");
-
         let c = PsyNFTContractRef::new(ContractMetadata::current());
         let slot = c.owned_tokens[slot_idx].get();
         assert(slot.is_active == 1, "no active NFT in slot");
         let token_id = slot.token_id;
-
         // Clear local slot
         c.owned_tokens[slot_idx] = new NFTSlot {
             token_id: 0,
             is_active: 0,
         };
         c.balance -= 1;
-
         // Put in outbox for recipient
         let prev_outbox = c.outbox[recipient].get();
         c.outbox[recipient] = new NFTOutbox {
@@ -141,7 +125,6 @@ impl PsyNFTContractRef {
             nonce_sent: prev_outbox.nonce_sent + 1,
             nonce_claimed: prev_outbox.nonce_claimed,
         };
-
         let ev = new NFTTransferEvent {
             from: caller,
             to: recipient,
@@ -149,37 +132,29 @@ impl PsyNFTContractRef {
         };
         ev.emit();
     }
-
     #[contract_method]
     pub fn claim(slot_idx: Felt, sender: Felt) {
         assert(slot_idx < 128, "slot index out of range");
         let caller = get_user_id();
         assert(sender != caller, "cannot claim from self");
-
         let c = PsyNFTContractRef::new(ContractMetadata::current());
         let slot = c.owned_tokens[slot_idx].get();
         assert(slot.is_active == 0, "destination slot already occupied");
-
         let sender_contract = PsyNFTContractRef::new(ContractMetadata::new(get_contract_id(), sender));
         let sender_outbox = sender_contract.outbox[caller].get();
-
         let my_outbox = c.outbox[sender].get();
         assert(sender_outbox.nonce_sent > my_outbox.nonce_claimed, "no NFT to claim from sender");
-
         let token_id = sender_outbox.token_id;
-
         c.owned_tokens[slot_idx] = new NFTSlot {
             token_id: token_id,
             is_active: 1,
         };
         c.balance += 1;
-
         c.outbox[sender] = new NFTOutbox {
             token_id: sender_outbox.token_id,
             nonce_sent: my_outbox.nonce_sent,
             nonce_claimed: sender_outbox.nonce_sent,
         };
-
         let ev = new NFTClaimEvent {
             to: caller,
             from: sender,

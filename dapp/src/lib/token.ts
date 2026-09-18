@@ -1,4 +1,4 @@
-// Thin wrapper around the PsyTokenContract defined in contract/src/main.psy.
+// Production wrapper around the PsyTokenContract defined in contract/src/main.psy.
 // Each method here produces a ContractCallArgs ready for window.psy.sendTransaction.
 
 import type { ContractCallArgs } from '@psy-protocol/psy-sdk'
@@ -59,6 +59,42 @@ export const token = {
       contract_id: requireContractId(),
       method_name: `batch_transfer_${recipients.length}`,
       inputs: [...recipients.map(felt), ...amounts.map(felt)],
+    }
+  },
+
+  openDelegationChannel(
+    channelIdx: number | bigint,
+    spender: bigint | number | string,
+    amount: bigint | number,
+  ): ContractCallArgs {
+    return {
+      contract_id: requireContractId(),
+      method_name: 'open_delegation_channel',
+      inputs: [felt(channelIdx), felt(spender), felt(amount)],
+    }
+  },
+
+  revokeDelegationChannel(channelIdx: number | bigint): ContractCallArgs {
+    return {
+      contract_id: requireContractId(),
+      method_name: 'revoke_delegation_channel',
+      inputs: [felt(channelIdx)],
+    }
+  },
+
+  setMintAuthority(newAuthority: bigint | number | string): ContractCallArgs {
+    return {
+      contract_id: requireContractId(),
+      method_name: 'set_mint_authority',
+      inputs: [felt(newAuthority)],
+    }
+  },
+
+  renounceMintAuthority(): ContractCallArgs {
+    return {
+      contract_id: requireContractId(),
+      method_name: 'renounce_mint_authority',
+      inputs: [],
     }
   },
 }

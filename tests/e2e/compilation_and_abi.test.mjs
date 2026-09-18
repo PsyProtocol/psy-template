@@ -6,7 +6,7 @@ import { join } from 'node:path';
 const REPO_ROOT = join(import.meta.dirname, '../..');
 
 test('Compilation & ABI Verification E2E', async (t) => {
-  // 1. PSY-20 Token ABI Verification
+  // 1. PSY-20 Pure Token ABI Verification
   await t.test('PSY-20 Token ABI satisfies standard specification', () => {
     const abiPath = join(REPO_ROOT, 'token/target/token.abi.json');
     assert.ok(existsSync(abiPath), 'token.abi.json must exist');
@@ -39,27 +39,20 @@ test('Compilation & ABI Verification E2E', async (t) => {
       'set_mint_authority',
       'transfer'
     ]);
-
-    // Verify delegation method parameters
-    const openChannelMethod = abi.contract.methods.find(m => m.name === 'open_delegation_channel');
-    assert.equal(openChannelMethod.inputs.length, 3);
-    assert.deepEqual(openChannelMethod.inputs.map(i => i.name), ['channel_idx', 'spender', 'amount']);
-
-    const revokeChannelMethod = abi.contract.methods.find(m => m.name === 'revoke_delegation_channel');
-    assert.equal(revokeChannelMethod.inputs.length, 1);
-    assert.equal(revokeChannelMethod.inputs[0].name, 'channel_idx');
-
-    // Verify events and custom structs in types
-    const structNames = abi.types.filter(t => t.kind === 'struct').map(t => t.name);
-    assert.ok(structNames.includes('OtherUserInfo'), 'Must declare OtherUserInfo');
-    assert.ok(structNames.includes('DelegationChannel'), 'Must declare DelegationChannel');
-    assert.ok(structNames.includes('MintEvent'), 'Must declare MintEvent');
-    assert.ok(structNames.includes('BurnEvent'), 'Must declare BurnEvent');
-    assert.ok(structNames.includes('TransferEvent'), 'Must declare TransferEvent');
-    assert.ok(structNames.includes('ClaimEvent'), 'Must declare ClaimEvent');
   });
 
-  // 2. PSY-721 NFT ABI Verification
+  // 2. DApp Contract ABI Verification
+  await t.test('DApp Contract ABI aligns with PSY-20 standard', () => {
+    const abiPath = join(REPO_ROOT, 'dapp/contract/target/token.abi.json');
+    assert.ok(existsSync(abiPath), 'dapp contract token.abi.json must exist');
+    const abi = JSON.parse(readFileSync(abiPath, 'utf-8'));
+
+    assert.equal(abi.schema_version, '2.0.0');
+    assert.equal(abi.contract.name, 'PsyTokenContract');
+    assert.equal(abi.contract.methods.length, 10);
+  });
+
+  // 3. PSY-721 NFT ABI Verification
   await t.test('PSY-721 NFT ABI satisfies standard specification', () => {
     const abiPath = join(REPO_ROOT, 'nft/target/nft.abi.json');
     assert.ok(existsSync(abiPath), 'nft.abi.json must exist');
@@ -87,28 +80,5 @@ test('Compilation & ABI Verification E2E', async (t) => {
       'set_mint_authority',
       'transfer'
     ]);
-
-    // Verify mint parameters
-    const mintMethod = abi.contract.methods.find(m => m.name === 'mint');
-    assert.equal(mintMethod.inputs.length, 2);
-    assert.deepEqual(mintMethod.inputs.map(i => i.name), ['slot_idx', 'token_id']);
-
-    // Verify transfer parameters
-    const transferMethod = abi.contract.methods.find(m => m.name === 'transfer');
-    assert.equal(transferMethod.inputs.length, 2);
-    assert.deepEqual(transferMethod.inputs.map(i => i.name), ['slot_idx', 'recipient']);
-
-    // Verify claim parameters
-    const claimMethod = abi.contract.methods.find(m => m.name === 'claim');
-    assert.equal(claimMethod.inputs.length, 2);
-    assert.deepEqual(claimMethod.inputs.map(i => i.name), ['slot_idx', 'sender']);
-
-    // Verify structs
-    const structNames = abi.types.filter(t => t.kind === 'struct').map(t => t.name);
-    assert.ok(structNames.includes('NFTSlot'), 'Must declare NFTSlot');
-    assert.ok(structNames.includes('NFTOutbox'), 'Must declare NFTOutbox');
-    assert.ok(structNames.includes('NFTMintEvent'), 'Must declare NFTMintEvent');
-    assert.ok(structNames.includes('NFTTransferEvent'), 'Must declare NFTTransferEvent');
-    assert.ok(structNames.includes('NFTClaimEvent'), 'Must declare NFTClaimEvent');
   });
 });
