@@ -258,11 +258,13 @@ The PSY-721 standard defines the protocol for unique, non-fungible digital asset
 pub struct NFTSlot {
     pub token_id: Felt,
     pub is_active: Felt,
+    pub metadata_hash: Hash,
 }
 
 #[derive(Storage)]
 pub struct NFTOutbox {
     pub token_id: Felt,
+    pub metadata_hash: Hash,
     pub nonce_sent: Felt,
     pub nonce_claimed: Felt,
 }
@@ -273,20 +275,37 @@ pub struct PsyNFTContract {
     pub balance: Felt,
     pub mint_authority: Felt,
     pub is_mint_renounced: Felt,
+    pub total_minted: Felt,
+    pub symbol: Felt,
+    pub base_uri_hash: Hash,
     pub owned_tokens: [NFTSlot; 128],
     pub outbox: [NFTOutbox; 16777216],
 }
 ```
 
-- **`owned_tokens: [NFTSlot; 128]`**: A fixed-size array of active NFT holding slots within the user's partition.
-- **`outbox: [NFTOutbox; 16777216]`**: An asynchronous transit queue storing pending outgoing token transfers mapped by recipient identifier.
-- **`balance`**: The count of currently active NFTs owned by this user partition.
+- **`balance`** (Slot 0): The count of currently active NFTs owned by this user partition.
+- **`mint_authority`** (Slot 1): The account authorized to mint new NFTs and manage collection metadata.
+- **`is_mint_renounced`** (Slot 2): Binary flag (`0` or `1`) indicating whether the collection has been permanently closed to further minting.
+- **`total_minted`** (Slot 3): Cumulative count of NFTs minted across the collection.
+- **`symbol`** (Slot 4): Collection symbol packed into a 64-bit Felt.
+- **`base_uri_hash`** (Slot 5..8): 32-byte content hash (e.g. IPFS root folder CID) pointing to the collection's decentralized metadata repository.
+- **`owned_tokens: [NFTSlot; 128]`** (Slot 9..): An indexed array of active NFT holding slots within the user's partition, each carrying `token_id` and a dedicated 32-byte `metadata_hash`.
+- **`outbox: [NFTOutbox; 16777216]`**: An asynchronous transit queue storing pending outgoing token transfers (with `token_id` and `metadata_hash`) mapped by recipient identifier.
 
 ---
 
 ### 3.2 Core Methods & State Transitions
 
-#### `mint(slot_idx: Felt, token_id: Felt)`
+#### `set_collection_metadata(symbol: Felt, base_uri_hash: Hash)`
+- **Pre-conditions**:
+  - `is_mint_renounced == 0`
+  - `caller == mint_authority` (or self-initialization)
+- **State Mutation**:
+  - `c.symbol = symbol`
+  - `c.base_uri_hash = base_uri_hash`
+- **Events**: Emits `SetCollectionMetadataEvent { symbol: symbol, base_uri_hash: base_uri_hash }`
+
+#### `mint(slot_idx: Felt, token_id: Felt, metadata_hash: Hash)`
 - **Pre-conditions**:
   - `slot_idx < 128`
   - `token_id > 0`
@@ -294,9 +313,10 @@ pub struct PsyNFTContract {
   - `caller == mint_authority` (or self-initialization)
   - `c.owned_tokens[slot_idx].is_active == 0`
 - **State Mutation**:
-  - `c.owned_tokens[slot_idx] = NFTSlot { token_id: token_id, is_active: 1 }`
+  - `c.owned_tokens[slot_idx] = NFTSlot { token_id: token_id, is_active: 1, metadata_hash: metadata_hash }`
   - `c.balance += 1`
-- **Events**: Emits `NFTMintEvent { to: caller, token_id: token_id }`
+  - `c.total_minted += 1`
+- **Events**: Emits `NFTMintEvent { to: caller, token_id: token_id, metadata_hash: metadata_hash }`
 
 #### `transfer(slot_idx: Felt, recipient: Felt)`
 - **Pre-conditions**:
@@ -305,10 +325,11 @@ pub struct PsyNFTContract {
   - `c.owned_tokens[slot_idx].is_active == 1`
 - **State Mutation**:
   - `token_id = c.owned_tokens[slot_idx].token_id`
-  - `c.owned_tokens[slot_idx] = NFTSlot { token_id: 0, is_active: 0 }`
+  - `metadata_hash = c.owned_tokens[slot_idx].metadata_hash`
+  - `c.owned_tokens[slot_idx] = NFTSlot { token_id: 0, is_active: 0, metadata_hash: [0, 0, 0, 0] }`
   - `c.balance -= 1`
-  - `c.outbox[recipient] = NFTOutbox { token_id: token_id, nonce_sent: prev.nonce_sent + 1, nonce_claimed: prev.nonce_claimed }`
-- **Events**: Emits `NFTTransferEvent { from: caller, to: recipient, token_id: token_id }`
+  - `c.outbox[recipient] = NFTOutbox { token_id: token_id, metadata_hash: metadata_hash, nonce_sent: prev.nonce_sent + 1, nonce_claimed: prev.nonce_claimed }`
+- **Events**: Emits `NFTTransferEvent { from: caller, to: recipient, token_id: token_id, metadata_hash: metadata_hash }`
 
 #### `claim(slot_idx: Felt, sender: Felt)`
 - **Pre-conditions**:
@@ -318,10 +339,11 @@ pub struct PsyNFTContract {
   - `sender_contract.outbox[caller].nonce_sent > c.outbox[sender].nonce_claimed`
 - **State Mutation**:
   - `token_id = sender_contract.outbox[caller].token_id`
-  - `c.owned_tokens[slot_idx] = NFTSlot { token_id: token_id, is_active: 1 }`
+  - `metadata_hash = sender_contract.outbox[caller].metadata_hash`
+  - `c.owned_tokens[slot_idx] = NFTSlot { token_id: token_id, is_active: 1, metadata_hash: metadata_hash }`
   - `c.balance += 1`
-  - `c.outbox[sender].nonce_claimed = sender_contract.outbox[caller].nonce_sent`
-- **Events**: Emits `NFTClaimEvent { to: caller, from: sender, token_id: token_id }`
+  - `c.outbox[sender] = NFTOutbox { token_id: token_id, metadata_hash: metadata_hash, nonce_sent: prev.nonce_sent, nonce_claimed: sender_contract.outbox[caller].nonce_sent }`
+- **Events**: Emits `NFTClaimEvent { to: caller, from: sender, token_id: token_id, metadata_hash: metadata_hash }`
 
 ---
 

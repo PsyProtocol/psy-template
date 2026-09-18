@@ -2,11 +2,13 @@
 pub struct NFTSlot {
     pub token_id: Felt,
     pub is_active: Felt,
+    pub metadata_hash: Hash,
 }
 
 #[derive(Storage)]
 pub struct NFTOutbox {
     pub token_id: Felt,
+    pub metadata_hash: Hash,
     pub nonce_sent: Felt,
     pub nonce_claimed: Felt,
 }
@@ -15,6 +17,7 @@ pub struct NFTOutbox {
 pub struct NFTMintEvent {
     pub to: Felt,
     pub token_id: Felt,
+    pub metadata_hash: Hash,
 }
 
 #[derive(Event)]
@@ -22,6 +25,7 @@ pub struct NFTTransferEvent {
     pub from: Felt,
     pub to: Felt,
     pub token_id: Felt,
+    pub metadata_hash: Hash,
 }
 
 #[derive(Event)]
@@ -29,6 +33,13 @@ pub struct NFTClaimEvent {
     pub to: Felt,
     pub from: Felt,
     pub token_id: Felt,
+    pub metadata_hash: Hash,
+}
+
+#[derive(Event)]
+pub struct SetCollectionMetadataEvent {
+    pub symbol: Felt,
+    pub base_uri_hash: Hash,
 }
 
 #[derive(Event)]
@@ -42,13 +53,35 @@ pub struct PsyNFTContract {
     pub balance: Felt,
     pub mint_authority: Felt,
     pub is_mint_renounced: Felt,
+    pub total_minted: Felt,
+    pub symbol: Felt,
+    pub base_uri_hash: Hash,
     pub owned_tokens: [NFTSlot; 128],
     pub outbox: [NFTOutbox; 16777216],
 }
 
 impl PsyNFTContractRef {
     #[contract_method]
-    pub fn mint(slot_idx: Felt, token_id: Felt) {
+    pub fn set_collection_metadata(symbol: Felt, base_uri_hash: Hash) {
+        let caller = get_user_id();
+        let c = PsyNFTContractRef::new(ContractMetadata::current());
+        assert(c.is_mint_renounced.get() == 0, "contract administration has been renounced");
+        let auth = c.mint_authority.get();
+        if auth == 0 {
+            c.mint_authority = caller;
+        } else {
+            assert(caller == auth, "only mint authority can set collection metadata");
+        };
+        c.symbol = symbol;
+        c.base_uri_hash = base_uri_hash;
+        let ev = new SetCollectionMetadataEvent {
+            symbol: symbol,
+            base_uri_hash: base_uri_hash,
+        };
+        ev.emit();
+    }
+    #[contract_method]
+    pub fn mint(slot_idx: Felt, token_id: Felt, metadata_hash: Hash) {
         assert(slot_idx < 128, "slot index out of range");
         assert(token_id > 0, "token_id must be non-zero");
         let caller = get_user_id();
@@ -66,11 +99,14 @@ impl PsyNFTContractRef {
         c.owned_tokens[slot_idx] = new NFTSlot {
             token_id: token_id,
             is_active: 1,
+            metadata_hash: metadata_hash,
         };
         c.balance += 1;
+        c.total_minted += 1;
         let ev = new NFTMintEvent {
             to: caller,
             token_id: token_id,
+            metadata_hash: metadata_hash,
         };
         ev.emit();
     }
@@ -112,16 +148,20 @@ impl PsyNFTContractRef {
         let slot = c.owned_tokens[slot_idx].get();
         assert(slot.is_active == 1, "no active NFT in slot");
         let token_id = slot.token_id;
+        let metadata_hash = slot.metadata_hash;
         // Clear local slot
+        let zero_hash: Hash = [0, 0, 0, 0];
         c.owned_tokens[slot_idx] = new NFTSlot {
             token_id: 0,
             is_active: 0,
+            metadata_hash: zero_hash,
         };
         c.balance -= 1;
         // Put in outbox for recipient
         let prev_outbox = c.outbox[recipient].get();
         c.outbox[recipient] = new NFTOutbox {
             token_id: token_id,
+            metadata_hash: metadata_hash,
             nonce_sent: prev_outbox.nonce_sent + 1,
             nonce_claimed: prev_outbox.nonce_claimed,
         };
@@ -129,6 +169,7 @@ impl PsyNFTContractRef {
             from: caller,
             to: recipient,
             token_id: token_id,
+            metadata_hash: metadata_hash,
         };
         ev.emit();
     }
@@ -145,13 +186,16 @@ impl PsyNFTContractRef {
         let my_outbox = c.outbox[sender].get();
         assert(sender_outbox.nonce_sent > my_outbox.nonce_claimed, "no NFT to claim from sender");
         let token_id = sender_outbox.token_id;
+        let metadata_hash = sender_outbox.metadata_hash;
         c.owned_tokens[slot_idx] = new NFTSlot {
             token_id: token_id,
             is_active: 1,
+            metadata_hash: metadata_hash,
         };
         c.balance += 1;
         c.outbox[sender] = new NFTOutbox {
             token_id: sender_outbox.token_id,
+            metadata_hash: metadata_hash,
             nonce_sent: my_outbox.nonce_sent,
             nonce_claimed: sender_outbox.nonce_sent,
         };
@@ -159,6 +203,7 @@ impl PsyNFTContractRef {
             to: caller,
             from: sender,
             token_id: token_id,
+            metadata_hash: metadata_hash,
         };
         ev.emit();
     }

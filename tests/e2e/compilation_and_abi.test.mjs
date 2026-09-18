@@ -91,18 +91,32 @@ test('Compilation & ABI Verification E2E', async (t) => {
       'balance',
       'mint_authority',
       'is_mint_renounced',
+      'total_minted',
+      'symbol',
+      'base_uri_hash',
       'owned_tokens',
       'outbox'
     ]);
 
-    // Verify 5 standard methods
+    // Verify 6 standard methods (including set_collection_metadata)
     const methodNames = abi.contract.methods.map(m => m.name).sort();
     assert.deepEqual(methodNames, [
       'claim',
       'mint',
       'renounce_mint_authority',
+      'set_collection_metadata',
       'set_mint_authority',
       'transfer'
     ]);
+
+    // Verify mint inputs (slot_idx, token_id, metadata_hash)
+    const mintMethod = abi.contract.methods.find(m => m.name === 'mint');
+    assert.equal(mintMethod.inputs.length, 3);
+    assert.deepEqual(mintMethod.inputs.map(i => i.name), ['slot_idx', 'token_id', 'metadata_hash']);
+
+    // Verify set_collection_metadata inputs (symbol, base_uri_hash)
+    const setCollectionMetadataMethod = abi.contract.methods.find(m => m.name === 'set_collection_metadata');
+    assert.equal(setCollectionMetadataMethod.inputs.length, 2);
+    assert.deepEqual(setCollectionMetadataMethod.inputs.map(i => i.name), ['symbol', 'base_uri_hash']);
   });
 });

@@ -12,8 +12,11 @@ class Psy721VirtualEnvironment {
         balance: 0n,
         mint_authority: 0n,
         is_mint_renounced: 0n,
-        owned_tokens: Array.from({ length: 128 }, () => ({ token_id: 0n, is_active: 0n })),
-        outbox: new Map() // recipientId -> { token_id: 0n, nonce_sent: 0n, nonce_claimed: 0n }
+        total_minted: 0n,
+        symbol: 0n,
+        base_uri_hash: [0n, 0n, 0n, 0n],
+        owned_tokens: Array.from({ length: 128 }, () => ({ token_id: 0n, is_active: 0n, metadata_hash: [0n, 0n, 0n, 0n] })),
+        outbox: new Map() // recipientId -> { token_id: 0n, metadata_hash: [0n, 0n, 0n, 0n], nonce_sent: 0n, nonce_claimed: 0n }
       });
     }
     return this.users.get(userId);
@@ -22,12 +25,24 @@ class Psy721VirtualEnvironment {
   getOutbox(senderId, recipientId) {
     const sender = this.getOrCreateUser(senderId);
     if (!sender.outbox.has(recipientId)) {
-      sender.outbox.set(recipientId, { token_id: 0n, nonce_sent: 0n, nonce_claimed: 0n });
+      sender.outbox.set(recipientId, { token_id: 0n, metadata_hash: [0n, 0n, 0n, 0n], nonce_sent: 0n, nonce_claimed: 0n });
     }
     return sender.outbox.get(recipientId);
   }
 
-  mint(callerId, slotIdx, tokenId) {
+  setCollectionMetadata(callerId, symbol, baseUriHash) {
+    const user = this.getOrCreateUser(callerId);
+    assert.equal(user.is_mint_renounced, 0n, 'contract administration has been renounced');
+    if (user.mint_authority === 0n) {
+      user.mint_authority = callerId;
+    } else {
+      assert.equal(callerId, user.mint_authority, 'only mint authority can set collection metadata');
+    }
+    user.symbol = symbol;
+    user.base_uri_hash = baseUriHash;
+  }
+
+  mint(callerId, slotIdx, tokenId, metadataHash = [0n, 0n, 0n, 0n]) {
     assert(slotIdx >= 0 && slotIdx < 128, 'slot index out of range');
     assert(tokenId > 0n, 'token_id must be non-zero');
 
@@ -43,8 +58,9 @@ class Psy721VirtualEnvironment {
     const slot = user.owned_tokens[slotIdx];
     assert.equal(slot.is_active, 0n, 'slot already occupied');
 
-    user.owned_tokens[slotIdx] = { token_id: tokenId, is_active: 1n };
+    user.owned_tokens[slotIdx] = { token_id: tokenId, is_active: 1n, metadata_hash: metadataHash };
     user.balance += 1n;
+    user.total_minted += 1n;
 
     this.verifyInvariants();
   }
@@ -79,11 +95,13 @@ class Psy721VirtualEnvironment {
     assert.equal(slot.is_active, 1n, 'no active NFT in slot');
 
     const tokenId = slot.token_id;
-    user.owned_tokens[slotIdx] = { token_id: 0n, is_active: 0n };
+    const metadataHash = slot.metadata_hash;
+    user.owned_tokens[slotIdx] = { token_id: 0n, is_active: 0n, metadata_hash: [0n, 0n, 0n, 0n] };
     user.balance -= 1n;
 
     const outbox = this.getOutbox(callerId, recipientId);
     outbox.token_id = tokenId;
+    outbox.metadata_hash = metadataHash;
     outbox.nonce_sent += 1n;
 
     this.verifyInvariants();
@@ -104,11 +122,13 @@ class Psy721VirtualEnvironment {
     assert.ok(senderOutbox.nonce_sent > myOutbox.nonce_claimed, 'no NFT to claim from sender');
 
     const tokenId = senderOutbox.token_id;
-    caller.owned_tokens[slotIdx] = { token_id: tokenId, is_active: 1n };
+    const metadataHash = senderOutbox.metadata_hash;
+    caller.owned_tokens[slotIdx] = { token_id: tokenId, is_active: 1n, metadata_hash: metadataHash };
     caller.balance += 1n;
 
     myOutbox.nonce_claimed = senderOutbox.nonce_sent;
     myOutbox.token_id = tokenId;
+    myOutbox.metadata_hash = metadataHash;
 
     this.verifyInvariants();
     return tokenId;
@@ -197,5 +217,30 @@ test('PSY-721 NFT Lifecycle & Invariants E2E', async (t) => {
 
     // Attempt to mint new NFT by Alice should fail
     assert.throws(() => env.mint(ALICE, 5, 8888n), /minting has been renounced/);
+  });
+
+  await t.test('6. Collection metadata and per-token metadata_hash retention across transfer and claim', () => {
+    const DAVE = 404n;
+    const ERIN = 505n;
+    const baseUriHash = [100n, 200n, 300n, 400n];
+    env.setCollectionMetadata(DAVE, 5264217n, baseUriHash);
+    const daveState = env.getOrCreateUser(DAVE);
+    assert.equal(daveState.symbol, 5264217n);
+    assert.deepEqual(daveState.base_uri_hash, baseUriHash);
+
+    const tokenHash = [11n, 22n, 33n, 44n];
+    env.mint(DAVE, 0, 7777n, tokenHash);
+    assert.equal(daveState.total_minted, 1n);
+    assert.deepEqual(daveState.owned_tokens[0].metadata_hash, tokenHash);
+
+    // Transfer from Dave to Erin
+    env.transfer(DAVE, 0, ERIN);
+    assert.deepEqual(daveState.owned_tokens[0].metadata_hash, [0n, 0n, 0n, 0n]);
+    assert.deepEqual(env.getOutbox(DAVE, ERIN).metadata_hash, tokenHash);
+
+    // Erin claims NFT
+    env.claim(ERIN, 0, DAVE);
+    const erinState = env.getOrCreateUser(ERIN);
+    assert.deepEqual(erinState.owned_tokens[0].metadata_hash, tokenHash);
   });
 });
