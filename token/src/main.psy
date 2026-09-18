@@ -48,6 +48,14 @@ pub struct RevokeDelegationEvent {
 }
 
 #[derive(Event)]
+pub struct SpendDelegationEvent {
+    pub channel_idx: Felt,
+    pub spender: Felt,
+    pub recipient: Felt,
+    pub amount: Felt,
+}
+
+#[derive(Event)]
 pub struct AuthorityChangeEvent {
     pub new_authority: Felt,
 }
@@ -244,6 +252,34 @@ impl PsyTokenContractRef {
         let ev = new DelegationEvent {
             channel_idx: channel_idx,
             spender: spender,
+            amount: amount,
+        };
+        ev.emit();
+    }
+    #[contract_method]
+    pub fn spend_delegation(channel_idx: Felt, amount: Felt, recipient: Felt) {
+        assert(channel_idx < 16, "channel index out of bounds");
+        assert(amount > 0, "amount must be positive");
+        let c = PsyTokenContractRef::new(ContractMetadata::current());
+        let ch = c.delegations[channel_idx].get();
+        assert(ch.spender != 0, "channel is not active");
+        let remaining = ch.allocated_amount - ch.spent_amount;
+        assert(remaining >= amount, "insufficient delegation channel allowance");
+        c.delegations[channel_idx] = new DelegationChannel {
+            spender: ch.spender,
+            allocated_amount: ch.allocated_amount,
+            spent_amount: ch.spent_amount + amount,
+        };
+        let recipient_info = c.other_user_info[recipient].get();
+        assert(recipient_info.amount_sent + amount > recipient_info.amount_sent, "amount sent overflow");
+        c.other_user_info[recipient] = new OtherUserInfo {
+            amount_sent: recipient_info.amount_sent + amount,
+            amount_claimed: recipient_info.amount_claimed,
+        };
+        let ev = new SpendDelegationEvent {
+            channel_idx: channel_idx,
+            spender: ch.spender,
+            recipient: recipient,
             amount: amount,
         };
         ev.emit();

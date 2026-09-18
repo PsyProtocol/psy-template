@@ -17,6 +17,7 @@ This contract implements the **PSY-20** standard tailored for Psy's ZK-native, u
    - `burn`: Burns caller tokens.
 3. **Sandboxed Delegation Channels**:
    - `open_delegation_channel`: Allocates a sandboxed spending budget to an AI Agent or automated spender.
+   - `spend_delegation`: Allows the authorized spender to spend from the allocated budget to a recipient without accessing the owner's primary balance.
    - `revoke_delegation_channel`: Reclaims unspent funds back to caller balance at any time.
    - Strictly isolates balance reservation into dedicated channel slots.
 4. **Shielded Private Transfer**:

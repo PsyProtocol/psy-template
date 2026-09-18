@@ -53,6 +53,14 @@ pub struct RevokeDelegationEvent {
 }
 
 #[derive(Event)]
+pub struct SpendDelegationEvent {
+    pub channel_idx: Felt,
+    pub spender: Felt,
+    pub recipient: Felt,
+    pub amount: Felt,
+}
+
+#[derive(Event)]
 pub struct PrivateTransferEvent {
     pub commitment: Hash,
     pub note_index: Felt,
@@ -152,6 +160,34 @@ impl PsyTokenContractRef {
         ev.emit();
     }
     #[contract_method]
+    pub fn spend_delegation(channel_idx: Felt, amount: Felt, recipient: Felt) {
+        assert(channel_idx < 16, "channel index out of bounds");
+        assert(amount > 0, "amount must be positive");
+        let c = PsyTokenContractRef::new(ContractMetadata::current());
+        let ch = c.delegations[channel_idx].get();
+        assert(ch.spender != 0, "channel is not active");
+        let remaining = ch.allocated_amount - ch.spent_amount;
+        assert(remaining >= amount, "insufficient delegation channel allowance");
+        c.delegations[channel_idx] = new DelegationChannel {
+            spender: ch.spender,
+            allocated_amount: ch.allocated_amount,
+            spent_amount: ch.spent_amount + amount,
+        };
+        let recipient_info = c.other_user_info[recipient].get();
+        assert(recipient_info.amount_sent + amount > recipient_info.amount_sent, "amount sent overflow");
+        c.other_user_info[recipient] = new OtherUserInfo {
+            amount_sent: recipient_info.amount_sent + amount,
+            amount_claimed: recipient_info.amount_claimed,
+        };
+        let ev = new SpendDelegationEvent {
+            channel_idx: channel_idx,
+            spender: ch.spender,
+            recipient: recipient,
+            amount: amount,
+        };
+        ev.emit();
+    }
+    #[contract_method]
     pub fn revoke_delegation_channel(channel_idx: Felt) {
         assert(channel_idx < 16, "channel index out of range");
         let c = PsyTokenContractRef::new(ContractMetadata::current());
@@ -221,15 +257,24 @@ fn test_token_mint_burn_delegation_lifecycle() {
     let ch = c.delegations[0].get();
     assert_eq(ch.spender, 888, "channel spender should be 888");
     assert_eq(ch.allocated_amount, 300, "allocated amount should be 300");
+    assert_eq(ch.spent_amount, 0, "initial spent amount should be 0");
+    PsyTokenContractRef::spend_delegation(0, 100, 999);
+    assert_eq(c.balance.get(), initial_balance + 500, "main balance should remain untouched at initial + 500");
+    let ch_spent = c.delegations[0].get();
+    assert_eq(ch_spent.spent_amount, 100, "channel spent amount should increment to 100");
+    let ob_999 = c.other_user_info[999].get();
+    assert_eq(ob_999.amount_sent, 100, "recipient 999 should have 100 sent in outbox");
     PsyTokenContractRef::revoke_delegation_channel(0);
-    assert_eq(c.balance.get(), initial_balance + 800, "balance after revoking channel should be initial + 800");
+    assert_eq(c.balance.get(), initial_balance + 700, "balance after revoking channel should be initial + 700 (refunded 200)");
     let ch_after = c.delegations[0].get();
     assert_eq(ch_after.spender, 0, "channel spender should be reset to 0");
-    // 5. Shielded Private Transfer
+    assert_eq(ch_after.allocated_amount, 0, "channel allocated amount should be reset to 0");
+    assert_eq(ch_after.spent_amount, 0, "channel spent amount should be reset to 0");
+    // 6. Shielded Private Transfer
     let receiver: Hash = [11, 22, 33, 44];
     let secret: Hash = [55, 66, 77, 88];
     PsyTokenContractRef::private_transfer(receiver, 250, secret);
-    assert_eq(c.balance.get(), initial_balance + 550, "balance after private transfer of 250 should be initial + 550");
+    assert_eq(c.balance.get(), initial_balance + 450, "balance after private transfer of 250 should be initial + 450");
     assert_eq(c.note_count.get(), 1, "note_count should increment to 1");
     PsyTokenContractRef::renounce_mint_authority();
     assert_eq(c.is_mint_renounced.get(), 1, "is_mint_renounced should be 1");

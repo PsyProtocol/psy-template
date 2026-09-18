@@ -163,15 +163,28 @@ Rather than allowing arbitrary third parties unconstrained access to inspect and
 sequenceDiagram
     participant Owner as Token Owner
     participant Channel as DelegationChannel[idx]
-    participant Spender as Spender / Escrow / Contract
+    participant Spender as Spender (Agent / Contract)
+    participant Recipient as Recipient User
     
     Owner->>Channel: open_delegation_channel(idx, spender, amount)
-    Note over Owner,Channel: balance is immediately deducted by amount;<br/>escrowed into channel slot.
-    Spender->>Channel: Spends within allocated_amount
-    Note over Channel: spent_amount increments up to allocated_amount.
+    Note over Owner,Channel: balance is immediately debited by amount;<br/>escrowed into channel slot.
+    Spender->>Channel: spend_delegation(idx, spend_amount, recipient)
+    Note over Channel,Recipient: spent_amount increments by spend_amount;<br/>recipient outbox credited via atomic Outbox entry.
     Owner->>Channel: revoke_delegation_channel(idx)
     Note over Owner,Channel: unspent = allocated - spent;<br/>unspent refunded to Owner balance.<br/>Channel cleared to 0.
 ```
+
+#### Core Delegation Methods:
+- **`open_delegation_channel(channel_idx: Felt, spender: Felt, amount: Felt)`**:
+  - Debits `amount` from `c.balance` and initializes `delegations[channel_idx] = { spender, allocated_amount: amount, spent_amount: 0 }`.
+- **`spend_delegation(channel_idx: Felt, amount: Felt, recipient: Felt)`**:
+  - Pre-conditions: `ch.spender != 0`, `ch.allocated_amount - ch.spent_amount >= amount`.
+  - Mutates `ch.spent_amount += amount` and credits `c.other_user_info[recipient].amount_sent += amount` without touching owner's primary liquid balance.
+  - Emits `SpendDelegationEvent { channel_idx, spender, recipient, amount }`.
+- **`revoke_delegation_channel(channel_idx: Felt)`**:
+  - Pre-conditions: `ch.spender != 0`.
+  - Refunds unspent allowance (`ch.allocated_amount - ch.spent_amount`) back to `c.balance` and resets the channel to 0.
+  - Emits `RevokeDelegationEvent { channel_idx, refunded_amount: unspent }`.
 
 #### Invariants of Delegation Channels:
 1. **Strict Balance Segregation**: When a channel is opened, `amount` is debited from `c.balance` and locked into `delegations[idx]`. The owner's remaining balance is physically unreachable by the spender.

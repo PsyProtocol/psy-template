@@ -74,6 +74,18 @@ export const token = {
     }
   },
 
+  spendDelegation(
+    channelIdx: number | bigint,
+    amount: bigint | number,
+    recipient: bigint | number | string,
+  ): ContractCallArgs {
+    return {
+      contract_id: requireContractId(),
+      method_name: 'spend_delegation',
+      inputs: [felt(channelIdx), felt(amount), felt(recipient)],
+    }
+  },
+
   revokeDelegationChannel(channelIdx: number | bigint): ContractCallArgs {
     return {
       contract_id: requireContractId(),
