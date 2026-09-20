@@ -8,3 +8,6 @@ dist-ssr
 .env.local
 .DS_Store
 *.log
+
+# Configuration state markers (must never be committed or distributed with templates)
+.issuer_configured

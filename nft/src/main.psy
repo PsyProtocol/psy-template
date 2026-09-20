@@ -7,8 +7,14 @@ pub struct NFTSlot {
 
 #[derive(Storage)]
 pub struct NFTOutbox {
-    pub token_id: Felt,
-    pub metadata_hash: Hash,
+    pub token_id_0: Felt,
+    pub metadata_hash_0: Hash,
+    pub token_id_1: Felt,
+    pub metadata_hash_1: Hash,
+    pub token_id_2: Felt,
+    pub metadata_hash_2: Hash,
+    pub token_id_3: Felt,
+    pub metadata_hash_3: Hash,
     pub nonce_sent: Felt,
     pub nonce_claimed: Felt,
 }
@@ -47,6 +53,21 @@ pub struct AuthorityChangeEvent {
     pub new_authority: Felt,
 }
 
+pub const ISSUER_USER_ID: Felt = 5;
+
+fn assert_caller_is_deployer() {
+    let contract_id = get_contract_id();
+    let deployer = get_contract_deployer(contract_id);
+    let user_pk = get_user_public_key_hash();
+    assert(
+        user_pk[0] == deployer[0]
+        && user_pk[1] == deployer[1]
+        && user_pk[2] == deployer[2]
+        && user_pk[3] == deployer[3],
+        "only contract deployer is authorized"
+    );
+}
+
 #[contract]
 #[derive(Storage)]
 pub struct PsyNFTContract {
@@ -63,6 +84,8 @@ pub struct PsyNFTContract {
 impl PsyNFTContractRef {
     #[contract_method]
     pub fn set_collection_metadata(symbol: Felt, base_uri_hash: Hash) {
+        assert(get_user_id() == ISSUER_USER_ID, "caller is not in canonical ISSUER_USER_ID partition");
+        assert_caller_is_deployer();
         let caller = get_user_id();
         let c = PsyNFTContractRef::new(ContractMetadata::current());
         assert(c.is_mint_renounced.get() == 0, "contract administration has been renounced");
@@ -80,29 +103,47 @@ impl PsyNFTContractRef {
         };
         ev.emit();
     }
+
     #[contract_method]
-    pub fn mint(slot_idx: Felt, token_id: Felt, metadata_hash: Hash) {
+    pub fn mint(slot_idx: Felt, local_id: Felt, metadata_hash: Hash) {
         assert(slot_idx < 128, "slot index out of range");
-        assert(token_id > 0, "token_id must be non-zero");
+        assert(local_id > 0, "local_id must be non-zero");
+        assert(get_user_id() == ISSUER_USER_ID, "only designated ISSUER_USER_ID partition can mint");
+        assert_caller_is_deployer();
         let caller = get_user_id();
         let c = PsyNFTContractRef::new(ContractMetadata::current());
         assert(c.is_mint_renounced.get() == 0, "minting has been renounced");
         let auth = c.mint_authority.get();
-        if auth == 0 {
-            c.mint_authority = caller;
-        }        
-        else {
-            assert(caller == auth, "only mint authority can mint");
-        };
+        assert(auth != 0, "mint authority not initialized");
+        assert(caller == auth, "only authorized mint authority can mint in deployer partition");
+
+        // Enforce strictly sequential local_id to guarantee unique inputs (creator, local_id) per creator.
+        // Note: token_id truncates 256-bit Poseidon hash to 64-bit Felt (global_id_hash[0]),
+        // providing computational collision resistance (approx. 2^32 birthday bound) under Goldilocks field,
+        // rather than absolute mathematical global uniqueness.
+        let current_total = c.total_minted.get();
+        assert(local_id == current_total + 1, "local_id must match next sequential mint index");
+        assert(current_total < 18446744069414584320, "total minted overflow");
+        c.total_minted = current_total + 1;
+
         let slot = c.owned_tokens[slot_idx].get();
         assert(slot.is_active == 0, "slot already occupied");
+
+        // Derive token_id via Poseidon hash: Poseidon(creator, local_id)[0]
+        let creator_hash: Hash = [caller, 0, 0, 0];
+        let local_hash: Hash = [local_id, 0, 0, 0];
+        let global_id_hash: Hash = hash_two_to_one(creator_hash, local_hash);
+        let token_id: Felt = global_id_hash[0];
+        assert(token_id > 0, "derived token_id must be non-zero");
+
+        assert(c.balance.get() < 18446744069414584320, "balance overflow");
         c.owned_tokens[slot_idx] = new NFTSlot {
             token_id: token_id,
             is_active: 1,
             metadata_hash: metadata_hash,
         };
         c.balance += 1;
-        c.total_minted += 1;
+
         let ev = new NFTMintEvent {
             to: caller,
             token_id: token_id,
@@ -110,13 +151,14 @@ impl PsyNFTContractRef {
         };
         ev.emit();
     }
+
     #[contract_method]
     pub fn renounce_mint_authority() {
-        let caller = get_user_id();
+        assert(get_user_id() == ISSUER_USER_ID, "only designated ISSUER_USER_ID partition can renounce mint authority");
+        assert_caller_is_deployer();
         let c = PsyNFTContractRef::new(ContractMetadata::current());
         let auth = c.mint_authority.get();
         assert(auth != 0, "mint authority not initialized");
-        assert(caller == auth, "only mint authority can renounce");
         c.is_mint_renounced = 1;
         c.mint_authority = 0;
         let ev = new AuthorityChangeEvent {
@@ -124,32 +166,49 @@ impl PsyNFTContractRef {
         };
         ev.emit();
     }
+
     #[contract_method]
     pub fn set_mint_authority(new_authority: Felt) {
+        assert(get_user_id() == ISSUER_USER_ID, "only designated ISSUER_USER_ID partition can set mint authority");
+        assert_caller_is_deployer();
         let caller = get_user_id();
         let c = PsyNFTContractRef::new(ContractMetadata::current());
         assert(c.is_mint_renounced.get() == 0, "minting has been renounced");
-        let auth = c.mint_authority.get();
-        assert(auth != 0, "mint authority not initialized");
-        assert(caller == auth, "only mint authority can transfer authority");
         assert(new_authority != 0, "use renounce_mint_authority to revoke");
+        assert(new_authority == caller, "cannot transfer authority outside deployer partition in single-source model");
         c.mint_authority = new_authority;
         let ev = new AuthorityChangeEvent {
             new_authority: new_authority,
         };
         ev.emit();
     }
+
     #[contract_method]
     pub fn transfer(slot_idx: Felt, recipient: Felt) {
         assert(slot_idx < 128, "slot index out of range");
         let caller = get_user_id();
+        assert(recipient != 0, "recipient cannot be zero address");
         assert(recipient != caller, "cannot transfer to self");
         let c = PsyNFTContractRef::new(ContractMetadata::current());
         let slot = c.owned_tokens[slot_idx].get();
         assert(slot.is_active == 1, "no active NFT in slot");
         let token_id = slot.token_id;
         let metadata_hash = slot.metadata_hash;
-        // Clear local slot
+
+        // Check FIFO sliding window capacity (max 4 in-flight transfers)
+        let prev_outbox = c.outbox[recipient].get();
+        let mut acknowledged_claimed = prev_outbox.nonce_claimed;
+        let local_in_flight = prev_outbox.nonce_sent - prev_outbox.nonce_claimed;
+        if local_in_flight >= 4 {
+            let recipient_contract = PsyNFTContractRef::new(ContractMetadata::new(get_contract_id(), recipient));
+            let recipient_outbox = recipient_contract.outbox[caller].get();
+            acknowledged_claimed = recipient_outbox.nonce_claimed;
+        };
+        let in_flight = prev_outbox.nonce_sent - acknowledged_claimed;
+        assert(in_flight < 4, "FIFO outbox queue full: recipient has 4 uncollected transfers");
+
+        // Clear local slot with underflow check
+        assert(c.balance.get() >= 1, "balance underflow");
         let zero_hash: Hash = [0, 0, 0, 0];
         c.owned_tokens[slot_idx] = new NFTSlot {
             token_id: 0,
@@ -157,14 +216,46 @@ impl PsyNFTContractRef {
             metadata_hash: zero_hash,
         };
         c.balance -= 1;
-        // Put in outbox for recipient
-        let prev_outbox = c.outbox[recipient].get();
-        c.outbox[recipient] = new NFTOutbox {
-            token_id: token_id,
-            metadata_hash: metadata_hash,
-            nonce_sent: prev_outbox.nonce_sent + 1,
-            nonce_claimed: prev_outbox.nonce_claimed,
+
+        // Put in FIFO circular buffer slot (nonce_sent & 3)
+        let queue_slot: Felt = prev_outbox.nonce_sent & 3;
+        let mut t0 = prev_outbox.token_id_0;
+        let mut m0 = prev_outbox.metadata_hash_0;
+        let mut t1 = prev_outbox.token_id_1;
+        let mut m1 = prev_outbox.metadata_hash_1;
+        let mut t2 = prev_outbox.token_id_2;
+        let mut m2 = prev_outbox.metadata_hash_2;
+        let mut t3 = prev_outbox.token_id_3;
+        let mut m3 = prev_outbox.metadata_hash_3;
+
+        if queue_slot == 0 {
+            t0 = token_id;
+            m0 = metadata_hash;
+        } else if queue_slot == 1 {
+            t1 = token_id;
+            m1 = metadata_hash;
+        } else if queue_slot == 2 {
+            t2 = token_id;
+            m2 = metadata_hash;
+        } else {
+            t3 = token_id;
+            m3 = metadata_hash;
         };
+
+        assert(prev_outbox.nonce_sent < 18446744069414584320, "nonce_sent overflow");
+        c.outbox[recipient] = new NFTOutbox {
+            token_id_0: t0,
+            metadata_hash_0: m0,
+            token_id_1: t1,
+            metadata_hash_1: m1,
+            token_id_2: t2,
+            metadata_hash_2: m2,
+            token_id_3: t3,
+            metadata_hash_3: m3,
+            nonce_sent: prev_outbox.nonce_sent + 1,
+            nonce_claimed: acknowledged_claimed,
+        };
+
         let ev = new NFTTransferEvent {
             from: caller,
             to: recipient,
@@ -173,37 +264,68 @@ impl PsyNFTContractRef {
         };
         ev.emit();
     }
+
     #[contract_method]
     pub fn claim(slot_idx: Felt, sender: Felt) {
         assert(slot_idx < 128, "slot index out of range");
         let caller = get_user_id();
+        assert(sender != 0, "sender cannot be zero address");
         assert(sender != caller, "cannot claim from self");
         let c = PsyNFTContractRef::new(ContractMetadata::current());
         let slot = c.owned_tokens[slot_idx].get();
         assert(slot.is_active == 0, "destination slot already occupied");
+
         let sender_contract = PsyNFTContractRef::new(ContractMetadata::new(get_contract_id(), sender));
         let sender_outbox = sender_contract.outbox[caller].get();
         let my_outbox = c.outbox[sender].get();
         assert(sender_outbox.nonce_sent > my_outbox.nonce_claimed, "no NFT to claim from sender");
-        let token_id = sender_outbox.token_id;
-        let metadata_hash = sender_outbox.metadata_hash;
+
+        // Next item in FIFO order is at my_outbox.nonce_claimed & 3
+        let queue_slot: Felt = my_outbox.nonce_claimed & 3;
+        let mut claim_token_id: Felt = 0;
+        let mut claim_metadata_hash: Hash = [0, 0, 0, 0];
+
+        if queue_slot == 0 {
+            claim_token_id = sender_outbox.token_id_0;
+            claim_metadata_hash = sender_outbox.metadata_hash_0;
+        } else if queue_slot == 1 {
+            claim_token_id = sender_outbox.token_id_1;
+            claim_metadata_hash = sender_outbox.metadata_hash_1;
+        } else if queue_slot == 2 {
+            claim_token_id = sender_outbox.token_id_2;
+            claim_metadata_hash = sender_outbox.metadata_hash_2;
+        } else {
+            claim_token_id = sender_outbox.token_id_3;
+            claim_metadata_hash = sender_outbox.metadata_hash_3;
+        };
+
+        assert(c.balance.get() < 18446744069414584320, "balance overflow");
         c.owned_tokens[slot_idx] = new NFTSlot {
-            token_id: token_id,
+            token_id: claim_token_id,
             is_active: 1,
-            metadata_hash: metadata_hash,
+            metadata_hash: claim_metadata_hash,
         };
         c.balance += 1;
+
+        assert(my_outbox.nonce_claimed < 18446744069414584320, "nonce_claimed overflow");
         c.outbox[sender] = new NFTOutbox {
-            token_id: sender_outbox.token_id,
-            metadata_hash: metadata_hash,
+            token_id_0: my_outbox.token_id_0,
+            metadata_hash_0: my_outbox.metadata_hash_0,
+            token_id_1: my_outbox.token_id_1,
+            metadata_hash_1: my_outbox.metadata_hash_1,
+            token_id_2: my_outbox.token_id_2,
+            metadata_hash_2: my_outbox.metadata_hash_2,
+            token_id_3: my_outbox.token_id_3,
+            metadata_hash_3: my_outbox.metadata_hash_3,
             nonce_sent: my_outbox.nonce_sent,
-            nonce_claimed: sender_outbox.nonce_sent,
+            nonce_claimed: my_outbox.nonce_claimed + 1,
         };
+
         let ev = new NFTClaimEvent {
             to: caller,
             from: sender,
-            token_id: token_id,
-            metadata_hash: metadata_hash,
+            token_id: claim_token_id,
+            metadata_hash: claim_metadata_hash,
         };
         ev.emit();
     }

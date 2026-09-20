@@ -1,0 +1,16 @@
+{
+  "name": "psy-token",
+  "version": "1.0.0",
+  "description": "PSY-20 Fungible Token Smart Contract Template",
+  "type": "module",
+  "scripts": {
+    "configure": "node scripts/configure_issuer.mjs",
+    "check:config": "node scripts/configure_issuer.mjs --check",
+    "check:preflight": "node scripts/configure_issuer.mjs --check --strict",
+    "build": "psyup build",
+    "build:deploy": "npm run check:preflight && psyup build",
+    "test": "dargo test --file tests/token_unit_test.psy"
+  },
+  "author": "Psy Protocol",
+  "license": "MIT"
+}

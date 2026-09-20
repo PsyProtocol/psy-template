@@ -3,8 +3,10 @@ import assert from 'node:assert/strict';
 import { readFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { execSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
 
-const REPO_ROOT = join(import.meta.dirname, '../..');
+const __dirname = fileURLToPath(new URL('.', import.meta.url));
+const REPO_ROOT = join(__dirname, '../..');
 
 test('DApp Template Fullstack Integration E2E', async (t) => {
   const dappDir = join(REPO_ROOT, 'dapp');

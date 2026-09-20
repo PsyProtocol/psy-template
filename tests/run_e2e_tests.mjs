@@ -1,15 +1,18 @@
 #!/usr/bin/env node
 import { execSync } from 'node:child_process';
 import { join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-const REPO_ROOT = join(import.meta.dirname, '..');
+const __dirname = fileURLToPath(new URL('.', import.meta.url));
+const REPO_ROOT = join(__dirname, '..');
 
 const E2E_TEST_FILES = [
   'tests/e2e/scaffold.test.mjs',
   'tests/e2e/compilation_and_abi.test.mjs',
   'tests/e2e/psy20_lifecycle.test.mjs',
   'tests/e2e/psy721_lifecycle.test.mjs',
-  'tests/e2e/dapp_fullstack.test.mjs'
+  'tests/e2e/dapp_fullstack.test.mjs',
+  'tests/e2e/delegation_adversarial.test.mjs'
 ];
 
 console.log('════════════════════════════════════════════════════════════════════');

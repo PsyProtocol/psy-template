@@ -2,6 +2,8 @@
 
 Official PSY project templates for [Psy Protocol](https://github.com/PsyProtocol).
 
+> **Maturity 定调**: `psy-template` 目前处于从**原理验证向高确定性安全子集收敛**阶段，尚未达到主网生产就绪（Not Mainnet Production Ready）。
+
 Designed for use with `psyup new`.
 
 For a full breakdown of the ZK-native partitioned state model, Plonky2 Goldilocks arithmetic, Outbox/Claim protocols, and formal security invariants, see the [Design Specification](DESIGN.md).
@@ -13,8 +15,8 @@ For a full breakdown of the ZK-native partitioned state model, Plonky2 Goldilock
 | Template | Path | Description | Command |
 | :--- | :--- | :--- | :--- |
 | **dapp** (default) | `dapp/` | Full-stack React + Vite frontend with a PSY token contract in `contract/` | `psyup new my-app` |
-| **token** | `token/` | Pure PSY-20 Fungible Token contract (Mint Authority, Outbox Transfer/Claim, Sandboxed Delegation Channels, Shielded Private Transfer) | `psyup new my-token --template token` |
-| **nft** | `nft/` | Pure PSY-721 NFT contract (Unique Token IDs, Mint Authority, Outbox Transfer/Claim) | `psyup new my-nft --template nft` |
+| **token** | `token/` | Pure PSY-20 Fungible Token contract (Phase 1 Safe Subset: liquid balance, Outbox Transfer/Claim, Batched Transfers, strict Goldilocks arithmetic) | `psyup new my-token --template token` |
+| **nft** | `nft/` | Pure PSY-721 NFT contract (Computational Namespace Uniqueness, Slot Storage, Sliding Window Outbox with ACK Visibility) | `psyup new my-nft --template nft` |
 
 ---
 
@@ -47,11 +49,33 @@ psyup new my-token --template token
 psyup new my-nft --template nft
 ```
 
-### 2. Build Contracts
+### 2. Configure Issuer Partition (Mandatory Preflight)
+
+In Psy Protocol, asset issuance and administration are strictly locked to a single, compile-time designated partition (`ISSUER_USER_ID`) and the cryptographic deployer public key.
+
+> [!WARNING]
+> You **MUST** configure `ISSUER_USER_ID` to match your actual on-chain account's `user_id` before building and deploying. If deployed with a mismatched ID, the contract will permanently reject initialization and minting from your account, bricking the deployment.
+
+```sh
+# Set canonical ISSUER_USER_ID to your registered on-chain user ID:
+npm run configure -- --issuer <YOUR_USER_ID>
+
+# Strict deployment preflight check (verifies explicit configuration record via .issuer_configured):
+npm run check:preflight
+```
+
+> [!NOTE]
+> **Toolchain Boundary**: `npm run check:preflight` and `npm run build:deploy` provide application-layer preflight verification. Running `psyup build` or `psyup deploy` directly in your terminal bypasses these npm scripts. Mandatory deployment verification is not yet closed under the current toolchain.
+
+### 3. Build Contracts
 
 Inside any contract directory (or project root for pure contract templates):
 
 ```sh
+# Build with deployment preflight check (blocks compilation if unconfigured):
+npm run build:deploy
+
+# Or standard build:
 psyup build
 ```
 
@@ -59,7 +83,7 @@ This invokes `dargo compile` and generates:
 - `target/<name>.json` — Compiled ZK circuit artifact
 - `target/<name>.abi.json` — Contract Application Binary Interface (ABI)
 
-### 3. Deploy
+### 4. Deploy
 
 ```sh
 psyup deploy
@@ -72,43 +96,28 @@ psyup deploy
 Each template includes a comprehensive, step-by-step operational guide:
 
 - **[PSY-20 Token Guide](token/README.md)**:
-  - **Metadata & Supply Management**: Initial configuration (`set_metadata`), issuance, cumulative `total_minted` tracking, and supply renunciation (`renounce_mint_authority`).
-  - **Edge RPC Slot Reading**: Zero-gas, direct storage slot queries (`getUserContractStateTreeLeafHash`) for liquid balances, total supply, and metadata.
-  - **Outbox Transfer & Claim**: High-concurrency pull payments eliminating global state race conditions.
-  - **Sandboxed Delegation Channels**: Scoped spending budgets for AI Agents and bots (`open_delegation_channel` $\to$ `spend_delegation` $\to$ `revoke_delegation_channel`).
-  - **Shielded Private Transfer**: Zero-knowledge note commitments on a 20-level Incremental Merkle Tree (`private_transfer`).
+  - **High-Determinism Safe Subset**: Liquid balance management, `mint`, `burn`, `transfer`, `claim`, `batch_transfer_2`, `batch_transfer_5`.
+  - **Edge RPC Slot Reading**: Zero-gas, direct storage slot queries (`getUserContractStateTreeLeafHash`) for balances and Outbox state.
+  - **Monotonic Outbox/Claim**: High-concurrency pull payments immune to stale-read double-spending.
+  - **Goldilocks Prime Field Arithmetic**: Strict $p - 1$ bounds preventing modular wrap-around.
 - **[PSY-721 NFT Guide](nft/README.md)**:
+  - **Computational Namespace Uniqueness**: `Poseidon(creator, local_id)` providing collision-resistant token identity.
   - **Slot-Based Ownership**: Unique token slot management up to 128 slots.
-  - **Outbox Transfer & Claim**: Conflict-free cross-user NFT routing.
+  - **Sliding Window Outbox & ACK Visibility**: Conflict-free cross-user NFT routing preventing overwrite losses and deadlocks.
 - **[Full-Stack dApp Guide](dapp/README.md)**:
   - **Vite + React Integration**: Browser extension connection via `window.psy`.
   - **SDK Builders**: Strongly-typed transaction construction via `@psy-protocol/psy-sdk`.
 - **[Design Specification](DESIGN.md)**:
-  - Formal mathematical invariants, Plonky2 Goldilocks arithmetic, and state partitioning axioms.
-
----
-
-## Standards Overview
-
-### PSY-20 (Fungible Token)
-- **Authority & Metadata Model**: Features `mint_authority` with `set_metadata` (symbol, decimals) and `renounce_mint_authority` to create permanently capped / fixed-supply tokens.
-- **Direct RPC Storage Querying**: Clean physical slot mapping (Slot 0 `balance`, Slot 1 `mint_authority`, Slot 2 `is_mint_renounced`, Slot 3 `total_minted`, Slot 4 `decimals`, Slot 5 `symbol`) enables instant zero-proof state queries.
-- **Outbox/Claim Pattern**: High-concurrency, asynchronous pull transfers natively compatible with Psy's Plonky2 partitioned state tree.
-- **Delegation Channels**: Safe, sandboxed escrow channels (`open_delegation_channel` / `spend_delegation` / `revoke_delegation_channel`) enabling scoped third-party spending with isolated balance reservation and deterministic refunds.
-- **Shielded Private Transfer**: Zero-knowledge note commitments (`private_transfer`) folded into a 20-level Incremental Merkle Tree (IMT), providing on-chain privacy for token transfers.
-
-### PSY-721 (Non-Fungible Token)
-- **Token Slot Indexing**: Per-user array of owned NFT slots.
-- **Ownership Verification**: Atomic outbox transfer and recipient claim without global state contention.
+  - Formal mathematical invariants, Plonky2 Goldilocks arithmetic, state partitioning axioms, and Delegation Cutoff settlement model.
 
 ---
 
 ## Testing & Verification
 
-The repository includes both native ZK contract unit tests and end-to-end integration suites:
+The repository includes native ZK contract unit tests, end-to-end integration suites, and adversarial verification:
 
 ```sh
-# Run the complete test matrix (Unit + E2E)
+# Run the complete test matrix (Unit + E2E + Adversarial)
 npm test
 
 # Run native Plonky2 ZK contract unit tests via dargo test

@@ -8,7 +8,23 @@ pub struct OtherUserInfo {
 pub struct DelegationChannel {
     pub spender: Felt,
     pub allocated_amount: Felt,
-    pub spent_amount: Felt,
+    pub channel_version: Felt,
+    pub status: Felt, // 0 = INACTIVE, 1 = ACTIVE, 2 = REVOKE_PENDING, 3 = CLOSED
+    pub cutoff_checkpoint: Felt,
+}
+
+pub struct PrivateClaimProof {
+    pub siblings: [Hash; 16],
+    pub index: Felt,
+}
+
+pub struct ProofPublicInputsPreimage {
+    pub receiver: Hash,
+    pub amount: Felt,
+    pub user_tree_root: Hash,
+    pub checkpoint_id: Felt,
+    pub note_root_slot: Felt,
+    pub nullifier_hash: Hash,
 }
 
 #[derive(Event)]
@@ -42,8 +58,15 @@ pub struct DelegationEvent {
 }
 
 #[derive(Event)]
-pub struct RevokeDelegationEvent {
+pub struct RequestRevokeDelegationEvent {
     pub channel_idx: Felt,
+    pub cutoff_checkpoint: Felt,
+}
+
+#[derive(Event)]
+pub struct FinalizeRevokeDelegationEvent {
+    pub channel_idx: Felt,
+    pub spender: Felt,
     pub refunded_amount: Felt,
 }
 
@@ -72,25 +95,53 @@ pub struct PrivateTransferEvent {
     pub note_index: Felt,
 }
 
+#[derive(Event)]
+pub struct PrivateClaimEvent {
+    pub nullifier_hash: Hash,
+    pub receiver: Hash,
+    pub amount: Felt,
+}
+
+pub const ISSUER_USER_ID: Felt = 5;
+pub const DELEGATION_GATED: bool = true;
+
+fn assert_caller_is_deployer() {
+    let contract_id = get_contract_id();
+    let deployer = get_contract_deployer(contract_id);
+    let user_pk = get_user_public_key_hash();
+    assert(
+        user_pk[0] == deployer[0]
+        && user_pk[1] == deployer[1]
+        && user_pk[2] == deployer[2]
+        && user_pk[3] == deployer[3],
+        "only contract deployer is authorized"
+    );
+}
+
 #[contract]
 #[derive(Storage)]
 pub struct PsyTokenContract {
     pub balance: Felt,
+    pub last_claimed_pow_rewards_checkpoint_id: Felt,
+    pub claimed_rewards: Felt,
+    pub other_user_info: [OtherUserInfo; 16777216],
+    pub note_count: Felt,
+    pub note_root: Hash,
+    pub last_path: [Hash; 20],
     pub mint_authority: Felt,
     pub is_mint_renounced: Felt,
     pub total_minted: Felt,
     pub decimals: Felt,
     pub symbol: Felt,
-    pub other_user_info: [OtherUserInfo; 16777216],
     pub delegations: [DelegationChannel; 16],
-    pub note_count: Felt,
-    pub note_root: Hash,
-    pub last_path: [Hash; 20],
+    pub state_map: Map<Hash, Hash, 1048576u32>,
 }
 
 impl PsyTokenContractRef {
     #[contract_method]
     pub fn set_metadata(symbol: Felt, decimals: Felt) {
+        assert(get_user_id() == ISSUER_USER_ID, "caller is not in canonical ISSUER_USER_ID partition");
+        assert_caller_is_deployer();
         let caller = get_user_id();
         let c = PsyTokenContractRef::new(ContractMetadata::current());
         assert(c.is_mint_renounced.get() == 0, "token administration has been renounced");
@@ -109,61 +160,38 @@ impl PsyTokenContractRef {
         };
         ev.emit();
     }
+
     #[contract_method]
     pub fn mint(amount: Felt) {
+        assert(amount > 0, "mint amount must be positive");
+        assert(get_user_id() == ISSUER_USER_ID, "only designated ISSUER_USER_ID partition can mint");
+        assert_caller_is_deployer();
         let caller = get_user_id();
         let c = PsyTokenContractRef::new(ContractMetadata::current());
         assert(c.is_mint_renounced.get() == 0, "minting has been permanently renounced");
         let auth = c.mint_authority.get();
-        if auth == 0 {
-            c.mint_authority = caller;
-        }        
-        else {
-            assert(caller == auth, "caller is not authorized to mint");
-        };
-        assert(amount > 0, "mint amount must be positive");
-        c.balance += amount;
-        c.total_minted += amount;
+        assert(auth != 0, "mint authority not initialized");
+        assert(caller == auth, "only authorized mint authority can mint in deployer partition");
+        let current_balance = c.balance.get();
+        assert(amount <= 18446744069414584320 - current_balance, "balance overflow");
+        let current_total = c.total_minted.get();
+        assert(amount <= 18446744069414584320 - current_total, "total minted overflow");
+
+        c.total_minted = current_total + amount;
+        c.balance = current_balance + amount;
+
         let ev = new MintEvent {
             to: caller,
             amount: amount,
         };
         ev.emit();
     }
-    #[contract_method]
-    pub fn set_mint_authority(new_authority: Felt) {
-        let caller = get_user_id();
-        let c = PsyTokenContractRef::new(ContractMetadata::current());
-        assert(c.is_mint_renounced.get() == 0, "minting has been renounced");
-        let auth = c.mint_authority.get();
-        assert(auth != 0, "mint authority not initialized");
-        assert(caller == auth, "only mint authority can transfer authority");
-        assert(new_authority != 0, "use renounce_mint_authority to revoke");
-        c.mint_authority = new_authority;
-        let ev = new AuthorityChangeEvent {
-            new_authority: new_authority,
-        };
-        ev.emit();
-    }
-    #[contract_method]
-    pub fn renounce_mint_authority() {
-        let caller = get_user_id();
-        let c = PsyTokenContractRef::new(ContractMetadata::current());
-        let auth = c.mint_authority.get();
-        assert(auth != 0, "mint authority not initialized");
-        assert(caller == auth, "only mint authority can renounce");
-        c.is_mint_renounced = 1;
-        c.mint_authority = 0;
-        let ev = new AuthorityChangeEvent {
-            new_authority: 0,
-        };
-        ev.emit();
-    }
+
     #[contract_method]
     pub fn burn(amount: Felt) {
+        assert(amount > 0, "burn amount must be positive");
         let c = PsyTokenContractRef::new(ContractMetadata::current());
         let current_balance = c.balance.get();
-        assert(amount > 0, "burn amount must be positive");
         assert(current_balance >= amount, "insufficient balance to burn");
         c.balance = current_balance - amount;
         let ev = new BurnEvent {
@@ -171,16 +199,50 @@ impl PsyTokenContractRef {
         };
         ev.emit();
     }
+
+    #[contract_method]
+    pub fn set_mint_authority(new_authority: Felt) {
+        assert(get_user_id() == ISSUER_USER_ID, "only designated ISSUER_USER_ID partition can set mint authority");
+        assert_caller_is_deployer();
+        let caller = get_user_id();
+        let c = PsyTokenContractRef::new(ContractMetadata::current());
+        assert(c.is_mint_renounced.get() == 0, "minting has been renounced");
+        assert(new_authority != 0, "use renounce_mint_authority to revoke");
+        assert(new_authority == caller, "cannot transfer authority outside deployer partition in single-source model");
+        c.mint_authority = new_authority;
+        let ev = new AuthorityChangeEvent {
+            new_authority: new_authority,
+        };
+        ev.emit();
+    }
+
+    #[contract_method]
+    pub fn renounce_mint_authority() {
+        assert(get_user_id() == ISSUER_USER_ID, "only designated ISSUER_USER_ID partition can renounce mint authority");
+        assert_caller_is_deployer();
+        let c = PsyTokenContractRef::new(ContractMetadata::current());
+        let auth = c.mint_authority.get();
+        assert(auth != 0, "mint authority not initialized");
+        c.is_mint_renounced = 1;
+        c.mint_authority = 0;
+        let ev = new AuthorityChangeEvent {
+            new_authority: 0,
+        };
+        ev.emit();
+    }
+
     #[contract_method]
     pub fn transfer(recipient: Felt, amount: Felt) {
         let caller = get_user_id();
+        assert(recipient != 0, "recipient cannot be zero address");
         assert(recipient != caller, "cannot transfer to self");
         assert(amount > 0, "transfer amount must be positive");
+        assert(amount <= 18446744069414584320, "amount exceeds field safe range");
         let c = PsyTokenContractRef::new(ContractMetadata::current());
         let current_balance = c.balance.get();
         assert(current_balance >= amount, "insufficient balance");
         let recipient_info = c.other_user_info[recipient].get();
-        assert(recipient_info.amount_sent + amount > recipient_info.amount_sent, "amount sent overflow");
+        assert(recipient_info.amount_sent <= 18446744069414584320 - amount, "amount sent overflow");
         c.other_user_info[recipient] = new OtherUserInfo {
             amount_sent: recipient_info.amount_sent + amount,
             amount_claimed: recipient_info.amount_claimed,
@@ -192,9 +254,11 @@ impl PsyTokenContractRef {
         };
         ev.emit();
     }
+
     #[contract_method]
     pub fn claim(sender: Felt) {
         let self_user_id = get_user_id();
+        assert(sender != 0, "sender cannot be zero address");
         assert(sender != self_user_id, "cannot claim from self");
         let c = PsyTokenContractRef::new(ContractMetadata::current());
         let sender_contract = PsyTokenContractRef::new(ContractMetadata::new(get_contract_id(), sender));
@@ -202,82 +266,108 @@ impl PsyTokenContractRef {
         let sender_info = c.other_user_info[sender].get();
         assert(sender_total_sent > sender_info.amount_claimed, "no tokens to claim from this sender");
         let claimable = sender_total_sent - sender_info.amount_claimed;
+        let current_balance = c.balance.get();
+        assert(claimable <= 18446744069414584320 - current_balance, "balance overflow");
         c.other_user_info[sender] = new OtherUserInfo {
             amount_sent: sender_info.amount_sent,
             amount_claimed: sender_total_sent,
         };
-        c.balance += claimable;
+        c.balance = current_balance + claimable;
         let ev = new ClaimEvent {
             from: sender,
             amount: claimable,
         };
         ev.emit();
     }
+
     #[contract_method]
     pub fn batch_transfer_2(recipients: [Felt; 2], amounts: [Felt; 2]) {
+        let caller = get_user_id();
         let c = PsyTokenContractRef::new(ContractMetadata::current());
         let current_balance = c.balance.get();
         let mut total_amount = 0;
         for i in 0u32..2u32 {
-            total_amount = total_amount + amounts[i as Felt];
-            assert(total_amount >= amounts[i as Felt], "total amount overflow");
+            let amt = amounts[i as Felt];
+            assert(amt <= 18446744069414584320 - total_amount, "total amount overflow");
+            total_amount = total_amount + amt;
         }
         assert(current_balance >= total_amount, "insufficient balance for batch transfer");
         for i in 0u32..2u32 {
             let recipient = recipients[i as Felt];
             let amount = amounts[i as Felt];
             if amount > 0 {
+                assert(recipient != 0, "recipient cannot be zero address");
+                assert(recipient != caller, "cannot transfer to self");
                 let recipient_info = c.other_user_info[recipient].get();
-                assert(recipient_info.amount_sent + amount > recipient_info.amount_sent, "amount sent overflow");
+                assert(recipient_info.amount_sent <= 18446744069414584320 - amount, "amount sent overflow");
                 c.other_user_info[recipient] = new OtherUserInfo {
                     amount_sent: recipient_info.amount_sent + amount,
                     amount_claimed: recipient_info.amount_claimed,
                 };
-            }            
-
+                let ev = new TransferEvent {
+                    to: recipient,
+                    amount: amount,
+                };
+                ev.emit();
+            }
         }
         c.balance = current_balance - total_amount;
     }
+
     #[contract_method]
     pub fn batch_transfer_5(recipients: [Felt; 5], amounts: [Felt; 5]) {
+        let caller = get_user_id();
         let c = PsyTokenContractRef::new(ContractMetadata::current());
         let current_balance = c.balance.get();
         let mut total_amount = 0;
         for i in 0u32..5u32 {
-            total_amount = total_amount + amounts[i as Felt];
-            assert(total_amount >= amounts[i as Felt], "total amount overflow");
+            let amt = amounts[i as Felt];
+            assert(amt <= 18446744069414584320 - total_amount, "total amount overflow");
+            total_amount = total_amount + amt;
         }
         assert(current_balance >= total_amount, "insufficient balance for batch transfer");
         for i in 0u32..5u32 {
             let recipient = recipients[i as Felt];
             let amount = amounts[i as Felt];
             if amount > 0 {
+                assert(recipient != 0, "recipient cannot be zero address");
+                assert(recipient != caller, "cannot transfer to self");
                 let recipient_info = c.other_user_info[recipient].get();
-                assert(recipient_info.amount_sent + amount > recipient_info.amount_sent, "amount sent overflow");
+                assert(recipient_info.amount_sent <= 18446744069414584320 - amount, "amount sent overflow");
                 c.other_user_info[recipient] = new OtherUserInfo {
                     amount_sent: recipient_info.amount_sent + amount,
                     amount_claimed: recipient_info.amount_claimed,
                 };
-            }            
-
+                let ev = new TransferEvent {
+                    to: recipient,
+                    amount: amount,
+                };
+                ev.emit();
+            }
         }
         c.balance = current_balance - total_amount;
     }
+
     #[contract_method]
     pub fn open_delegation_channel(channel_idx: Felt, spender: Felt, amount: Felt) {
+        assert(!DELEGATION_GATED, "delegation channel creation is gated pending protocol-level linearizability");
         assert(channel_idx < 16, "channel index out of bounds");
         assert(amount > 0, "amount must be positive");
+        assert(spender != 0, "spender cannot be zero address");
+        let caller = get_user_id();
+        assert(spender != caller, "cannot delegate to self");
         let c = PsyTokenContractRef::new(ContractMetadata::current());
         let current_balance = c.balance.get();
         assert(current_balance >= amount, "insufficient balance to allocate");
         let existing = c.delegations[channel_idx].get();
-        let unspent = existing.allocated_amount - existing.spent_amount;
-        assert(unspent == 0, "channel currently active; revoke or wait until spent");
+        assert(existing.status == 0 || existing.status == 3, "channel currently active; revoke or close first");
         c.balance = current_balance - amount;
         c.delegations[channel_idx] = new DelegationChannel {
             spender: spender,
             allocated_amount: amount,
-            spent_amount: 0,
+            channel_version: existing.channel_version + 1,
+            status: 1,
+            cutoff_checkpoint: 0,
         };
         let ev = new DelegationEvent {
             channel_idx: channel_idx,
@@ -286,53 +376,131 @@ impl PsyTokenContractRef {
         };
         ev.emit();
     }
+
+    // [EXPERIMENTAL / PROTOCOL BOUNDARY WARNING]
+    // In current psy-node, cross-partition reading verifies inclusion in historical checkpoints.
+    // A spender could present a historical OPEN proof even after revocation was initiated,
+    // or read stale records. This method does NOT guarantee linearizable settlement.
+    // Safe settlement/drainage remains pending protocol design and real-node verification.
     #[contract_method]
-    pub fn spend_delegation(channel_idx: Felt, amount: Felt, recipient: Felt) {
+    pub fn spend_delegation(owner: Felt, channel_idx: Felt, amount: Felt, recipient: Felt) {
         assert(channel_idx < 16, "channel index out of bounds");
         assert(amount > 0, "amount must be positive");
-        let c = PsyTokenContractRef::new(ContractMetadata::current());
-        let ch = c.delegations[channel_idx].get();
-        assert(ch.spender != 0, "channel is not active");
-        let remaining = ch.allocated_amount - ch.spent_amount;
-        assert(remaining >= amount, "insufficient delegation channel allowance");
-        c.delegations[channel_idx] = new DelegationChannel {
-            spender: ch.spender,
-            allocated_amount: ch.allocated_amount,
-            spent_amount: ch.spent_amount + amount,
+        assert(recipient != 0, "recipient cannot be zero address");
+        assert(owner != 0, "owner cannot be zero address");
+        let caller = get_user_id();
+        assert(recipient != caller, "cannot transfer to self");
+
+        // 1. Read Owner partition
+        let owner_contract = PsyTokenContractRef::new(ContractMetadata::new(get_contract_id(), owner));
+        let ch = owner_contract.delegations[channel_idx].get();
+        assert(caller == ch.spender, "caller is not authorized channel spender");
+        assert(ch.status == 1 || ch.status == 2, "channel is not active");
+
+        // Cutoff protection during pending revoke window
+        if ch.status == 2 {
+            let current_cp = get_checkpoint_id();
+            assert(current_cp <= ch.cutoff_checkpoint, "cutoff checkpoint passed; spend blocked");
         };
+
+        // 2. Read and update Spender local spent ledger keyed by (owner, channel_idx, channel_version) in state_map namespace 2
+        let c = PsyTokenContractRef::new(ContractMetadata::current());
+        let rec_key: Hash = hash([owner, channel_idx, ch.channel_version, 0]);
+        let mut local_spent: Felt = 0;
+        if c.state_map.contains_ns(2, rec_key) {
+            let val: Hash = c.state_map.get_ns(2, rec_key);
+            local_spent = val[0];
+        };
+        assert(local_spent <= ch.allocated_amount, "local spent exceeds allocated amount");
+        let remaining = ch.allocated_amount - local_spent;
+        assert(amount <= remaining, "insufficient delegation channel allowance");
+        assert(local_spent <= 18446744069414584320 - amount, "delegation spent overflow");
+        c.state_map.insert_ns(2, rec_key, [local_spent + amount, 0, 0, 0]);
+
+        // 3. Outbox spend to recipient
         let recipient_info = c.other_user_info[recipient].get();
-        assert(recipient_info.amount_sent + amount > recipient_info.amount_sent, "amount sent overflow");
+        assert(recipient_info.amount_sent <= 18446744069414584320 - amount, "amount sent overflow");
         c.other_user_info[recipient] = new OtherUserInfo {
             amount_sent: recipient_info.amount_sent + amount,
             amount_claimed: recipient_info.amount_claimed,
         };
+
         let ev = new SpendDelegationEvent {
             channel_idx: channel_idx,
-            spender: ch.spender,
+            spender: caller,
             recipient: recipient,
             amount: amount,
         };
         ev.emit();
     }
+
     #[contract_method]
-    pub fn revoke_delegation_channel(channel_idx: Felt) {
+    pub fn request_revoke_delegation(channel_idx: Felt) {
         assert(channel_idx < 16, "channel index out of bounds");
         let c = PsyTokenContractRef::new(ContractMetadata::current());
         let ch = c.delegations[channel_idx].get();
-        let unspent = ch.allocated_amount - ch.spent_amount;
-        assert(unspent > 0, "no unspent funds in channel");
-        c.balance += unspent;
+        assert(ch.status == 1, "channel is not in active status");
+        let cutoff = get_checkpoint_id() + 60;
+        c.delegations[channel_idx] = new DelegationChannel {
+            spender: ch.spender,
+            allocated_amount: ch.allocated_amount,
+            channel_version: ch.channel_version,
+            status: 2,
+            cutoff_checkpoint: cutoff,
+        };
+        let ev = new RequestRevokeDelegationEvent {
+            channel_idx: channel_idx,
+            cutoff_checkpoint: cutoff,
+        };
+        ev.emit();
+    }
+
+    // [EXPERIMENTAL / PROTOCOL BOUNDARY WARNING]
+    // Reading Spender's spent ledger across partitions is subject to historical/stale reads
+    // in psy-node. This refund logic cannot guarantee safe drainage until node-level linearizability
+    // and freshness validation are implemented.
+    #[contract_method]
+    pub fn finalize_revoke_delegation(channel_idx: Felt, spender: Felt) {
+        assert(channel_idx < 16, "channel index out of bounds");
+        let caller = get_user_id();
+        let c = PsyTokenContractRef::new(ContractMetadata::current());
+        let ch = c.delegations[channel_idx].get();
+        assert(ch.status == 2, "revoke has not been requested for this channel");
+        assert(spender == ch.spender, "spender does not match channel spender");
+        let current_cp = get_checkpoint_id();
+        assert(current_cp > ch.cutoff_checkpoint, "settlement window has not expired");
+
+        // Read confirmed spent from Spender partition matching (owner, channel_idx, channel_version) in state_map namespace 2
+        let spender_contract = PsyTokenContractRef::new(ContractMetadata::new(get_contract_id(), spender));
+        let rec_key: Hash = hash([caller, channel_idx, ch.channel_version, 0]);
+        let mut confirmed_spent: Felt = 0;
+        if spender_contract.state_map.contains_ns_other(2, rec_key) {
+            let val: Hash = spender_contract.state_map.get_ns_other(2, rec_key);
+            confirmed_spent = val[0];
+        };
+        assert(confirmed_spent <= ch.allocated_amount, "confirmed spent exceeds allocated amount");
+
+        let unspent = ch.allocated_amount - confirmed_spent;
+        let current_balance = c.balance.get();
+        assert(unspent <= 18446744069414584320 - current_balance, "balance overflow");
+        c.balance = current_balance + unspent;
+
         c.delegations[channel_idx] = new DelegationChannel {
             spender: 0,
             allocated_amount: 0,
-            spent_amount: 0,
+            channel_version: ch.channel_version,
+            status: 3,
+            cutoff_checkpoint: 0,
         };
-        let ev = new RevokeDelegationEvent {
+
+        let ev = new FinalizeRevokeDelegationEvent {
             channel_idx: channel_idx,
+            spender: spender,
             refunded_amount: unspent,
         };
         ev.emit();
     }
+
     #[contract_method]
     pub fn private_transfer(receiver: Hash, value: Felt, note_secret_hash: Hash) {
         let c = PsyTokenContractRef::new(ContractMetadata::current());
@@ -353,8 +521,7 @@ impl PsyTokenContractRef {
             if is_right == 0 {
                 c.last_path[level_index] = current;
                 current = hash_two_to_one(current, zero);
-            }            
-            else {
+            } else {
                 let left = c.last_path[level_index].get();
                 current = hash_two_to_one(left, current);
             };
@@ -366,6 +533,74 @@ impl PsyTokenContractRef {
         let ev = new PrivateTransferEvent {
             commitment: commitment,
             note_index: idx,
+        };
+        ev.emit();
+    }
+
+    #[contract_method]
+    pub fn private_claim(
+        nullifier_hash: Hash,
+        receiver: Hash,
+        amount: Felt,
+        user_tree_root: Hash,
+        checkpoint_id: Felt,
+        note_root_slot: Felt,
+        random0: Felt,
+        random1: Felt,
+        proof: PrivateClaimProof
+    ) {
+        let c = PsyTokenContractRef::new(ContractMetadata::current());
+        let preimage = new ProofPublicInputsPreimage {
+            receiver: receiver,
+            amount: amount,
+            user_tree_root: user_tree_root,
+            checkpoint_id: checkpoint_id,
+            note_root_slot: note_root_slot,
+            nullifier_hash: nullifier_hash
+        };
+        let public_inputs_hash: Hash = hash([
+            preimage.receiver[0], preimage.receiver[1], preimage.receiver[2], preimage.receiver[3],
+            preimage.amount,
+            preimage.user_tree_root[0], preimage.user_tree_root[1], preimage.user_tree_root[2], preimage.user_tree_root[3],
+            preimage.checkpoint_id,
+            preimage.note_root_slot,
+            preimage.nullifier_hash[0], preimage.nullifier_hash[1], preimage.nullifier_hash[2], preimage.nullifier_hash[3]
+        ]);
+        let private_note_inclusion_fingerprint: Hash = [
+            1866130053021784426,
+            4684972721646198880,
+            8939938924988830351,
+            15880983663605084668
+        ];
+        let leaf: Hash = hash_two_to_one(private_note_inclusion_fingerprint, public_inputs_hash);
+        let mut current: Hash = leaf;
+        for i in 0u32..16u32 {
+            let level_index = i as Felt;
+            let sibling: Hash = proof.siblings[level_index];
+            let index_bit: Felt = (proof.index >> level_index) & 1;
+            if index_bit == 0 {
+                current = hash_two_to_one(current, sibling);
+            } else {
+                current = hash_two_to_one(sibling, current);
+            };
+        }
+        let expected_root: Hash = get_session_proof_tree_root();
+        assert(current == expected_root, "proof tree root mismatch");
+        let expected_user_tree_root: Hash = get_checkpoint_user_tree_root(preimage.checkpoint_id);
+        assert(preimage.user_tree_root == expected_user_tree_root, "user tree root does not match checkpoint state");
+        assert(preimage.note_root_slot == 8388609, "invalid note root slot id");
+        let expected_receiver: Hash = hash([get_user_id(), 1337, random0, random1]);
+        assert(preimage.receiver == expected_receiver, "receiver does not match claiming user");
+        let nullifier_key: Hash = preimage.nullifier_hash;
+        assert(c.state_map.contains_ns(1, nullifier_key) == false, "nullifier already claimed");
+        c.state_map.insert_ns(1, nullifier_key, [1, 0, 0, 0]);
+        let cur_bal = c.balance.get();
+        assert(amount <= 18446744069414584320 - cur_bal, "balance overflow");
+        c.balance = cur_bal + amount;
+        let ev = new PrivateClaimEvent {
+            nullifier_hash: nullifier_hash,
+            receiver: receiver,
+            amount: amount,
         };
         ev.emit();
     }

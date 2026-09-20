@@ -1,6 +1,6 @@
 # PSY-721 Standard NFT Template
 
-Production-ready PSY-721 non-fungible token smart contract for Psy Protocol.
+PSY-721 non-fungible token smart contract template for Psy Protocol.
 
 ## Architecture & Features
 
@@ -8,29 +8,43 @@ This contract implements the **PSY-721** standard tailored for Psy's ZK-native, 
 
 1. **Unique Token Ownership & Metadata**:
    - Each user maintains an indexed array of owned token slots (`owned_tokens: [NFTSlot; 128]`).
-   - Every slot stores `token_id`, `is_active`, and a 32-byte `metadata_hash: Hash` pointing directly to decentralized storage (e.g. IPFS / Arweave CID).
-2. **Collection-Level Metadata & Authority**:
-   - `set_collection_metadata(symbol, base_uri_hash)`: Configures collection symbol and root IPFS folder hash.
-   - `mint(slot_idx, token_id, metadata_hash)`: Mints a unique token with metadata hash into an available slot, updating `total_minted`.
-   - `set_mint_authority(new_authority)`: Transfers minting authority.
-   - `renounce_mint_authority()`: Permanently locks collection supply.
-3. **Outbox Transfer & Claim Flow**:
-   - `transfer(slot_idx, recipient)`: Frees the sender's local slot and logs the outbound token and its `metadata_hash` into the recipient's outbox.
-   - `claim(slot_idx, sender)`: Recipient claims the inbound NFT from sender into their destination slot with complete metadata retention.
+   - Every slot stores `token_id`, `is_active`, and a 32-byte `metadata_hash: Hash` pointing to decentralized storage (e.g. IPFS CID).
+
+2. **Computational Namespace Uniqueness**:
+   - In a partitioned state tree without shared global tables, token identity is defined via:
+     $$\text{token\_id} = \text{Poseidon}(\text{creator}, \text{local\_id})$$
+   - Under fixed encoding, unique creator, and cryptographic hash collision-resistance assumptions, this provides computational namespace uniqueness (在固定编码、唯一 creator 和哈希抗碰撞假设下，提供计算意义上的命名空间唯一性).
+
+3. **FIFO Sliding Window Outbox & Explicit ACK Visibility Protocol**:
+   - **Sender Partition**: Outbox maintains transfer slots carrying `(token_id, metadata_hash, nonce)`.
+   - **Recipient Partition (Inbox / ACK)**: Tracks `last_claimed_nonce` for each sender.
+   - **Slot Recycling (ACK Visibility Rule)**:
+     - Sender asserts `slots[i].nonce <= recipient_inbox.last_claimed_nonce` before recycling a slot for a new transfer.
+     - Recipient asserts `slots[i].nonce > self.inbox[sender].last_claimed_nonce` upon claiming, then updates `last_claimed_nonce`.
+     - Prevents uncollected transfer overwrite and avoids cross-partition deadlocks.
 
 ---
 
 ## Step-by-Step Operational Guide
 
-### 1. Build and Deploy
+### 1. Configure, Build, and Deploy
 
 ```sh
-# Compile contract and generate ABI
-psyup build
+# 1. Configure your canonical on-chain user ID as ISSUER_USER_ID (Mandatory)
+npm run configure -- --issuer <YOUR_USER_ID>
 
-# Deploy to active network
+# 2. Strict preflight verification (verifies explicit configuration record via .issuer_configured)
+npm run check:preflight
+
+# 3. Compile contract with preflight check
+npm run build:deploy
+
+# 4. Deploy to active network
 psyup deploy
 ```
+
+> [!NOTE]
+> **Toolchain Boundary**: `npm run check:preflight` and `npm run build:deploy` provide application-layer preflight verification. Running `psyup deploy` directly in terminal bypasses npm scripts. Mandatory deployment verification is not yet closed under the current toolchain.
 
 Generated build outputs:
 - `target/nft.json` — Compiled ZK circuit artifact
@@ -40,49 +54,27 @@ Generated build outputs:
 
 ### 2. Standard Operations Walkthrough
 
-#### Scenario A: Configure Collection Metadata & Minting
+#### Scenario A: Configure Collection Metadata & Minting (Dual-Constraint Single-Source)
 ```ts
-// 1. Set Collection Symbol & IPFS Base Folder Hash
-const baseUriHash = [10n, 20n, 30n, 40n]; // 32-byte IPFS root folder hash
-await window.psy.sendTransaction(account, {
+// 1. Deployer (in canonical ISSUER_USER_ID partition) sets Collection Symbol & Base Metadata Hash
+// Bound by dual constraint: get_user_id() == ISSUER_USER_ID && assert_caller_is_deployer()
+const baseUriHash = [10n, 20n, 30n, 40n];
+await window.psy.sendTransaction(deployerAccount, {
   contract_id: nftContractId,
   method_name: 'set_collection_metadata',
   inputs: [5264217n, ...baseUriHash],
 });
 
-// 2. Mint token #101 into slot 0 with its content metadata hash
-const tokenMetadataHash = [1n, 2n, 3n, 4n]; // 32-byte IPFS JSON CID
-await window.psy.sendTransaction(account, {
+// 2. Mint token #101 into slot 0 with its content metadata hash in the deployer partition
+const tokenMetadataHash = [1n, 2n, 3n, 4n];
+await window.psy.sendTransaction(deployerAccount, {
   contract_id: nftContractId,
   method_name: 'mint',
   inputs: [0n, 101n, ...tokenMetadataHash],
 });
 ```
 
-#### Scenario B: Resolving What the NFT Is (Token URI & Metadata)
-Wallets, marketplaces, and explorer frontends resolve the NFT's media and attributes using either **Token-Level Metadata Hash** or **Collection Base URI**:
-
-```ts
-// How client applications resolve the NFT's display attributes:
-// Pattern 1: Token has dedicated metadata_hash -> fetch directly from IPFS:
-// https://ipfs.io/ipfs/<converted_cid>
-
-// Pattern 2: Collection has base_uri_hash -> resolve by token_id:
-// https://ipfs.io/ipfs/<base_cid>/101.json
-
-// Standard JSON returned from IPFS:
-// {
-//   "name": "Psy Genesis Cyberpunk #101",
-//   "description": "Native ZK digital asset on Psy Protocol",
-//   "image": "ipfs://bafybeig.../101.png",
-//   "attributes": [
-//     { "trait_type": "Faction", "value": "Cypherpunk" },
-//     { "trait_type": "Generation", "value": 1 }
-//   ]
-// }
-```
-
-#### Scenario C: Outbox Transfer & Recipient Claim
+#### Scenario B: Outbox Transfer & Recipient Claim with ACK
 ```ts
 // 1. Alice (User 100) transfers token in slot 0 to Bob (User 200)
 // Alice's slot 0 is cleared; token_id and metadata_hash are queued in outbox for Bob
@@ -93,7 +85,7 @@ await window.psy.sendTransaction(aliceAccount, {
 });
 
 // 2. Bob (User 200) claims the pending token from Alice into his own slot 0
-// Bob receives both token_id and the immutable metadata_hash
+// Bob records the claimed nonce in his inbox, acknowledging the transfer
 await window.psy.sendTransaction(bobAccount, {
   contract_id: nftContractId,
   method_name: 'claim',
@@ -101,7 +93,7 @@ await window.psy.sendTransaction(bobAccount, {
 });
 ```
 
-#### Scenario D: Renounce Mint Authority
+#### Scenario C: Renounce Mint Authority
 ```ts
 // Permanently cap collection supply
 await window.psy.sendTransaction(account, {

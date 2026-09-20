@@ -1,8 +1,10 @@
 #!/usr/bin/env node
 import { execSync } from 'node:child_process';
 import { join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-const REPO_ROOT = join(import.meta.dirname, '..');
+const __dirname = fileURLToPath(new URL('.', import.meta.url));
+const REPO_ROOT = join(__dirname, '..');
 
 console.log('╔════════════════════════════════════════════════════════════════════╗');
 console.log('║        PSY PROTOCOL SMART CONTRACT TEST SUITE (FULL MATRIX)        ║');

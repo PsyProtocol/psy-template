@@ -23,13 +23,24 @@ dapp/
 - The [psy-wallet](https://app-stg.psy-protocol.xyz/wallet) browser extension
   installed and unlocked (it injects `window.psy` on page load)
 
-## 1. Build & deploy the contract
+## 1. Configure, Build & Deploy the contract
 
 ```sh
-cd contract
-psyup build            # or: dargo build
-psyup deploy           # or: psy-cli deploy ./target/token.json --rpc <RPC>
+# 1. From dapp/, configure your canonical on-chain user ID as ISSUER_USER_ID (Mandatory)
+npm run configure -- --issuer <YOUR_USER_ID>
+
+# 2. Strict preflight verification (verifies explicit configuration record via .issuer_configured)
+npm run check:preflight
+
+# 3. Build contract with preflight check
+npm run build:contract:deploy
+
+# 4. Deploy to active network
+cd contract && psyup deploy
 ```
+
+> [!NOTE]
+> **Toolchain Boundary**: `npm run check:preflight` and `npm run build:contract:deploy` provide application-layer preflight verification. Running `psyup deploy` directly in terminal bypasses npm scripts. Mandatory deployment verification is not yet closed under the current toolchain.
 
 Note the printed `contract_id` — the frontend needs it.
 

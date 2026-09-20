@@ -1,8 +1,10 @@
 #!/usr/bin/env node
 import { readdirSync, statSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-const REPO_ROOT = join(import.meta.dirname, '..');
+const __dirname = fileURLToPath(new URL('.', import.meta.url));
+const REPO_ROOT = join(__dirname, '..');
 const FORBIDDEN = [
   'E' + 'VM',
   'E' + 'thereum',

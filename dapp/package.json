@@ -5,6 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "configure": "node scripts/configure_issuer.mjs",
+    "check:config": "node scripts/configure_issuer.mjs --check",
+    "check:preflight": "node scripts/configure_issuer.mjs --check --strict",
+    "build:contract": "cd contract && psyup build",
+    "build:contract:deploy": "npm run check:preflight && cd contract && psyup build",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
     "typecheck": "tsc -b"

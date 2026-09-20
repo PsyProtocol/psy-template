@@ -75,6 +75,7 @@ export const token = {
   },
 
   spendDelegation(
+    owner: bigint | number | string,
     channelIdx: number | bigint,
     amount: bigint | number,
     recipient: bigint | number | string,
@@ -82,15 +83,26 @@ export const token = {
     return {
       contract_id: requireContractId(),
       method_name: 'spend_delegation',
-      inputs: [felt(channelIdx), felt(amount), felt(recipient)],
+      inputs: [felt(owner), felt(channelIdx), felt(amount), felt(recipient)],
     }
   },
 
-  revokeDelegationChannel(channelIdx: number | bigint): ContractCallArgs {
+  requestRevokeDelegation(channelIdx: number | bigint): ContractCallArgs {
     return {
       contract_id: requireContractId(),
-      method_name: 'revoke_delegation_channel',
+      method_name: 'request_revoke_delegation',
       inputs: [felt(channelIdx)],
+    }
+  },
+
+  finalizeRevokeDelegation(
+    channelIdx: number | bigint,
+    spender: bigint | number | string,
+  ): ContractCallArgs {
+    return {
+      contract_id: requireContractId(),
+      method_name: 'finalize_revoke_delegation',
+      inputs: [felt(channelIdx), felt(spender)],
     }
   },
 
@@ -131,6 +143,37 @@ export const token = {
       contract_id: requireContractId(),
       method_name: 'private_transfer',
       inputs: [...receiver.map(felt), felt(value), ...noteSecretHash.map(felt)],
+    }
+  },
+
+  privateClaim(
+    nullifierHash: Array<bigint | number | string>,
+    receiver: Array<bigint | number | string>,
+    amount: bigint | number,
+    userTreeRoot: Array<bigint | number | string>,
+    checkpointId: bigint | number,
+    noteRootSlot: bigint | number,
+    random0: bigint | number,
+    random1: bigint | number,
+    proofSiblings: Array<Array<bigint | number | string>>,
+    proofIndex: bigint | number,
+  ): ContractCallArgs {
+    const flattenedSiblings = proofSiblings.flat().map(felt);
+    return {
+      contract_id: requireContractId(),
+      method_name: 'private_claim',
+      inputs: [
+        ...nullifierHash.map(felt),
+        ...receiver.map(felt),
+        felt(amount),
+        ...userTreeRoot.map(felt),
+        felt(checkpointId),
+        felt(noteRootSlot),
+        felt(random0),
+        felt(random1),
+        ...flattenedSiblings,
+        felt(proofIndex),
+      ],
     }
   },
 }
