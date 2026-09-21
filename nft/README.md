@@ -13,7 +13,7 @@ This contract implements the **PSY-721** standard tailored for Psy's ZK-native, 
 2. **Computational Namespace Uniqueness**:
    - In a partitioned state tree without shared global tables, token identity is defined via:
      $$\text{token\_id} = \text{Poseidon}(\text{creator}, \text{local\_id})$$
-   - Under fixed encoding, unique creator, and cryptographic hash collision-resistance assumptions, this provides computational namespace uniqueness (在固定编码、唯一 creator 和哈希抗碰撞假设下，提供计算意义上的命名空间唯一性).
+   - Under fixed encoding, unique creator, and cryptographic hash collision-resistance assumptions, this provides computational namespace uniqueness.
 
 3. **FIFO Sliding Window Outbox & Explicit ACK Visibility Protocol**:
    - **Sender Partition**: Outbox maintains transfer slots carrying `(token_id, metadata_hash, nonce)`.

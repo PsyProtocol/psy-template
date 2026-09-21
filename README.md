@@ -1,8 +1,8 @@
 # psy-template
 
-Official PSY project templates for [Psy Protocol](https://github.com/PsyProtocol).
+Official Psy project templates for [Psy Protocol](https://github.com/PsyProtocol).
 
-> **Maturity 定调**: `psy-template` 目前处于从**原理验证向高确定性安全子集收敛**阶段，尚未达到主网生产就绪（Not Mainnet Production Ready）。
+> **Maturity Status**: `psy-template` is currently in the convergence stage from proof-of-concept toward a high-determinism safe subset, and is **NOT mainnet production ready**.
 
 Designed for use with `psyup new`.
 
@@ -14,7 +14,7 @@ For a full breakdown of the ZK-native partitioned state model, Plonky2 Goldilock
 
 | Template | Path | Description | Command |
 | :--- | :--- | :--- | :--- |
-| **dapp** (default) | `dapp/` | Full-stack React + Vite frontend with a PSY token contract in `contract/` | `psyup new my-app` |
+| **dapp** (default) | `dapp/` | Full-stack React + Vite frontend with a Psy token contract in `contract/` | `psyup new my-app` |
 | **token** | `token/` | Pure PSY-20 Fungible Token contract (Phase 1 Safe Subset: liquid balance, Outbox Transfer/Claim, Batched Transfers, strict Goldilocks arithmetic) | `psyup new my-token --template token` |
 | **nft** | `nft/` | Pure PSY-721 NFT contract (Computational Namespace Uniqueness, Slot Storage, Sliding Window Outbox with ACK Visibility) | `psyup new my-nft --template nft` |
 

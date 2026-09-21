@@ -1,11 +1,11 @@
 # psy-dapp-template
 
-PSY token contract + React/Vite/TS frontend, wired to the psy-wallet browser
+Psy token contract + React/Vite/TS frontend, wired to the psy-wallet browser
 extension via `window.psy`.
 
 ```
 dapp/
-├── contract/                 # PSY smart contract
+├── contract/                 # Psy smart contract
 │   ├── Dargo.toml
 │   └── src/main.psy          # PsyTokenContract: mint / burn / transfer / claim / batch_transfer_{2,5}
 └── src/                      # React frontend
@@ -18,7 +18,7 @@ dapp/
 
 ## Prerequisites
 
-- The PSY toolchain (`psyc` / `psy-cli`), installed via `psyup install`
+- The Psy toolchain (`psyc` / `psy-cli`), installed via `psyup install`
 - Node 18+ and pnpm
 - The [psy-wallet](https://app-stg.psy-protocol.xyz/wallet) browser extension
   installed and unlocked (it injects `window.psy` on page load)
