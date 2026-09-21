@@ -200,6 +200,12 @@ impl PsyTokenContractRef {
         ev.emit();
     }
 
+    // In Psy Protocol's partitioned state model, minting capability is strictly bound to the
+    // canonical ISSUER_USER_ID partition (get_user_id() == ISSUER_USER_ID && assert_caller_is_deployer()).
+    // Delegating authority to another partition (new_authority != caller) would create an un-mintable
+    // deadlock because non-issuer partitions cannot satisfy the partition constraint in mint().
+    // Therefore, set_mint_authority only allows re-affirming or initializing the caller within the
+    // deployer partition. Authority revocation is handled exclusively via renounce_mint_authority().
     #[contract_method]
     pub fn set_mint_authority(new_authority: Felt) {
         assert(get_user_id() == ISSUER_USER_ID, "only designated ISSUER_USER_ID partition can set mint authority");
@@ -236,6 +242,8 @@ impl PsyTokenContractRef {
         let caller = get_user_id();
         assert(recipient != 0, "recipient cannot be zero address");
         assert(recipient != caller, "cannot transfer to self");
+        assert(recipient < 16777216, "recipient user_id exceeds outbox bounds");
+        assert(caller < 16777216, "caller user_id exceeds outbox bounds");
         assert(amount > 0, "transfer amount must be positive");
         assert(amount <= 18446744069414584320, "amount exceeds field safe range");
         let c = PsyTokenContractRef::new(ContractMetadata::current());
@@ -260,6 +268,8 @@ impl PsyTokenContractRef {
         let self_user_id = get_user_id();
         assert(sender != 0, "sender cannot be zero address");
         assert(sender != self_user_id, "cannot claim from self");
+        assert(sender < 16777216, "sender user_id exceeds inbox bounds");
+        assert(self_user_id < 16777216, "caller user_id exceeds inbox bounds");
         let c = PsyTokenContractRef::new(ContractMetadata::current());
         let sender_contract = PsyTokenContractRef::new(ContractMetadata::new(get_contract_id(), sender));
         let sender_total_sent = sender_contract.other_user_info[self_user_id].get().amount_sent;
@@ -298,6 +308,7 @@ impl PsyTokenContractRef {
             if amount > 0 {
                 assert(recipient != 0, "recipient cannot be zero address");
                 assert(recipient != caller, "cannot transfer to self");
+                assert(recipient < 16777216, "recipient user_id exceeds outbox bounds");
                 let recipient_info = c.other_user_info[recipient].get();
                 assert(recipient_info.amount_sent <= 18446744069414584320 - amount, "amount sent overflow");
                 c.other_user_info[recipient] = new OtherUserInfo {
@@ -332,6 +343,7 @@ impl PsyTokenContractRef {
             if amount > 0 {
                 assert(recipient != 0, "recipient cannot be zero address");
                 assert(recipient != caller, "cannot transfer to self");
+                assert(recipient < 16777216, "recipient user_id exceeds outbox bounds");
                 let recipient_info = c.other_user_info[recipient].get();
                 assert(recipient_info.amount_sent <= 18446744069414584320 - amount, "amount sent overflow");
                 c.other_user_info[recipient] = new OtherUserInfo {
@@ -388,7 +400,10 @@ impl PsyTokenContractRef {
         assert(amount > 0, "amount must be positive");
         assert(recipient != 0, "recipient cannot be zero address");
         assert(owner != 0, "owner cannot be zero address");
+        assert(recipient < 16777216, "recipient user_id exceeds outbox bounds");
+        assert(owner < 16777216, "owner user_id exceeds channel bounds");
         let caller = get_user_id();
+        assert(caller < 16777216, "caller user_id exceeds outbox bounds");
         assert(recipient != caller, "cannot transfer to self");
 
         // 1. Read Owner partition

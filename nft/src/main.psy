@@ -167,6 +167,12 @@ impl PsyNFTContractRef {
         ev.emit();
     }
 
+    // In Psy Protocol's partitioned state model, minting capability is strictly bound to the
+    // canonical ISSUER_USER_ID partition (get_user_id() == ISSUER_USER_ID && assert_caller_is_deployer()).
+    // Delegating authority to another partition (new_authority != caller) would create an un-mintable
+    // deadlock because non-issuer partitions cannot satisfy the partition constraint in mint().
+    // Therefore, set_mint_authority only allows re-affirming or initializing the caller within the
+    // deployer partition. Authority revocation is handled exclusively via renounce_mint_authority().
     #[contract_method]
     pub fn set_mint_authority(new_authority: Felt) {
         assert(get_user_id() == ISSUER_USER_ID, "only designated ISSUER_USER_ID partition can set mint authority");
@@ -189,6 +195,8 @@ impl PsyNFTContractRef {
         let caller = get_user_id();
         assert(recipient != 0, "recipient cannot be zero address");
         assert(recipient != caller, "cannot transfer to self");
+        assert(recipient < 16777216, "recipient user_id exceeds outbox bounds");
+        assert(caller < 16777216, "caller user_id exceeds outbox bounds");
         let c = PsyNFTContractRef::new(ContractMetadata::current());
         let slot = c.owned_tokens[slot_idx].get();
         assert(slot.is_active == 1, "no active NFT in slot");
@@ -271,6 +279,8 @@ impl PsyNFTContractRef {
         let caller = get_user_id();
         assert(sender != 0, "sender cannot be zero address");
         assert(sender != caller, "cannot claim from self");
+        assert(sender < 16777216, "sender user_id exceeds inbox bounds");
+        assert(caller < 16777216, "caller user_id exceeds inbox bounds");
         let c = PsyNFTContractRef::new(ContractMetadata::current());
         let slot = c.owned_tokens[slot_idx].get();
         assert(slot.is_active == 0, "destination slot already occupied");

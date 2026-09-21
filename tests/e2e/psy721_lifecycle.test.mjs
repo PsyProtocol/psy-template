@@ -109,7 +109,10 @@ class Psy721VirtualEnvironment {
 
   transfer(callerId, slotIdx, recipientId) {
     assert(slotIdx >= 0 && slotIdx < 128, 'slot index out of range');
+    assert(recipientId > 0n, 'recipient cannot be zero address');
     assert.notEqual(callerId, recipientId, 'cannot transfer to self');
+    assert(recipientId < 16777216n, 'recipient user_id exceeds outbox bounds');
+    assert(callerId < 16777216n, 'caller user_id exceeds outbox bounds');
 
     const user = this.getOrCreateUser(callerId);
     const slot = user.owned_tokens[slotIdx];
@@ -123,7 +126,7 @@ class Psy721VirtualEnvironment {
       acknowledgedClaimed = recipientOutbox.nonce_claimed;
     }
     const inFlight = outbox.nonce_sent - acknowledgedClaimed;
-    assert.ok(inFlight < 4n, 'FIFO outbox queue full: 4 uncollected transfers in-flight');
+    assert.ok(inFlight < 4n, 'FIFO outbox queue full: recipient has 4 uncollected transfers');
 
     const tokenId = slot.token_id;
     const metadataHash = slot.metadata_hash;
@@ -142,7 +145,10 @@ class Psy721VirtualEnvironment {
 
   claim(callerId, slotIdx, senderId) {
     assert(slotIdx >= 0 && slotIdx < 128, 'slot index out of range');
+    assert(senderId > 0n, 'sender cannot be zero address');
     assert.notEqual(callerId, senderId, 'cannot claim from self');
+    assert(senderId < 16777216n, 'sender user_id exceeds inbox bounds');
+    assert(callerId < 16777216n, 'caller user_id exceeds inbox bounds');
 
     const caller = this.getOrCreateUser(callerId);
     const slot = caller.owned_tokens[slotIdx];
@@ -238,6 +244,12 @@ test('PSY-721 NFT Lifecycle & Invariants E2E', async (t) => {
 
     // Attempt to mint to out-of-range slot 128
     assert.throws(() => env.mint(ISSUER, 128, 3n), /slot index out of range/);
+
+    // Attempt to transfer to user_id >= 16777216
+    assert.throws(() => env.transfer(ISSUER, 0, 16777216n), /recipient user_id exceeds outbox bounds/);
+
+    // Attempt to claim from user_id >= 16777216
+    assert.throws(() => env.claim(ALICE, 0, 16777216n), /sender user_id exceeds inbox bounds/);
   });
 
   await t.test('3. Outbox transfer and recipient claim flow', () => {
@@ -280,7 +292,7 @@ test('PSY-721 NFT Lifecycle & Invariants E2E', async (t) => {
 
     // 4 uncollected transfers in-flight: attempt to send a 5th NFT must fail due to FIFO queue capacity limit
     const id7 = env.mint(ISSUER, 6, 7n);
-    assert.throws(() => env.transfer(ISSUER, 6, BOB), /FIFO outbox queue full: 4 uncollected transfers in-flight/);
+    assert.throws(() => env.transfer(ISSUER, 6, BOB), /FIFO outbox queue full: recipient has 4 uncollected transfers/);
 
     // Bob claims the first NFT -> must receive id3 (strict FIFO order)
     const claimedFirst = env.claim(BOB, 2, ISSUER);

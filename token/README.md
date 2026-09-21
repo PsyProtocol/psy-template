@@ -88,6 +88,10 @@ await window.psy.sendTransaction(deployerAccount, token.transfer(aliceAccount.us
 await window.psy.sendTransaction(aliceAccount, token.claim(deployerAccount.userId));
 ```
 
+> [!NOTE]
+> **Single-Source Authority Restriction**:
+> `set_mint_authority(new_authority)` enforces `assert(new_authority == caller)`. In Psy Protocol's partitioned state model, minting is structurally tied to the canonical `ISSUER_USER_ID` partition. Delegating authority to another partition would create an un-mintable deadlock because non-issuer partitions cannot satisfy the partition constraint in `mint()`. Authority revocation is handled exclusively via `renounce_mint_authority()`.
+
 #### Scenario B: Outbox Transfer & Recipient Claim
 ```ts
 // 1. Alice transfers 500 tokens to Bob (User 200)

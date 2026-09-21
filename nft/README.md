@@ -15,13 +15,17 @@ This contract implements the **PSY-721** standard tailored for Psy's ZK-native, 
      $$\text{token\_id} = \text{Poseidon}(\text{creator}, \text{local\_id})$$
    - Under fixed encoding, unique creator, and cryptographic hash collision-resistance assumptions, this provides computational namespace uniqueness.
 
-3. **FIFO Sliding Window Outbox & Explicit ACK Visibility Protocol**:
-   - **Sender Partition**: Outbox maintains transfer slots carrying `(token_id, metadata_hash, nonce)`.
-   - **Recipient Partition (Inbox / ACK)**: Tracks `last_claimed_nonce` for each sender.
-   - **Slot Recycling (ACK Visibility Rule)**:
-     - Sender asserts `slots[i].nonce <= recipient_inbox.last_claimed_nonce` before recycling a slot for a new transfer.
-     - Recipient asserts `slots[i].nonce > self.inbox[sender].last_claimed_nonce` upon claiming, then updates `last_claimed_nonce`.
-     - Prevents uncollected transfer overwrite and avoids cross-partition deadlocks.
+3. **FIFO 4-Slot Ring Buffer Outbox & Explicit ACK Protocol**:
+   - **Sender Partition**: Outbox maintains a 4-slot circular buffer (`[NFTOutbox; 16777216]`) carrying `token_id_0..3`, `metadata_hash_0..3`, `nonce_sent`, and `nonce_claimed`.
+   - **Circular Placement**: Transfers map to slot `nonce_sent & 3`.
+   - **Capacity & ACK Protection**:
+     - Enforces max 4 in-flight transfers: `in_flight = (nonce_sent - acknowledged_claimed) < 4`.
+     - If local in-flight reaches 4, contract reads recipient's partition (`recipient_outbox.nonce_claimed`) to acknowledge claimed tokens.
+     - Attempting a 5th uncollected transfer triggers immediate assertion failure (`FIFO outbox queue full: recipient has 4 uncollected transfers`).
+   - **Recipient Partition (Claim & ACK)**:
+     - Recipient asserts `sender_outbox.nonce_sent > my_outbox.nonce_claimed` upon claiming.
+     - Claims in strict FIFO sequence at `my_outbox.nonce_claimed & 3` and increments `nonce_claimed`, serving as an on-chain acknowledgement.
+   - **Array Bounds Checks**: All transfers and claims strictly assert `recipient < 16777216` and `sender < 16777216`.
 
 ---
 
@@ -58,6 +62,7 @@ Generated build outputs:
 ```ts
 // 1. Deployer (in canonical ISSUER_USER_ID partition) sets Collection Symbol & Base Metadata Hash
 // Bound by dual constraint: get_user_id() == ISSUER_USER_ID && assert_caller_is_deployer()
+// Automatically initializes mint_authority to caller if uninitialized.
 const baseUriHash = [10n, 20n, 30n, 40n];
 await window.psy.sendTransaction(deployerAccount, {
   contract_id: nftContractId,
@@ -65,14 +70,19 @@ await window.psy.sendTransaction(deployerAccount, {
   inputs: [5264217n, ...baseUriHash],
 });
 
-// 2. Mint token #101 into slot 0 with its content metadata hash in the deployer partition
+// 2. Mint first token (local_id = 1n) into slot 0 with its content metadata hash in the deployer partition
+// Strictly sequential: local_id must equal total_minted + 1 (1n for first mint, 2n for second, etc.)
 const tokenMetadataHash = [1n, 2n, 3n, 4n];
 await window.psy.sendTransaction(deployerAccount, {
   contract_id: nftContractId,
   method_name: 'mint',
-  inputs: [0n, 101n, ...tokenMetadataHash],
+  inputs: [0n, 1n, ...tokenMetadataHash],
 });
 ```
+
+> [!NOTE]
+> **Single-Source Authority Restriction**:
+> `set_mint_authority(new_authority)` enforces `assert(new_authority == caller)`. In Psy Protocol's partitioned state model, minting is structurally tied to the canonical `ISSUER_USER_ID` partition. Delegating authority to another partition would create an un-mintable deadlock because non-issuer partitions cannot satisfy the partition constraint in `mint()`. Authority revocation is handled exclusively via `renounce_mint_authority()`.
 
 #### Scenario B: Outbox Transfer & Recipient Claim with ACK
 ```ts
