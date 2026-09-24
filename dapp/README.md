@@ -7,7 +7,7 @@ extension via `window.psy`.
 dapp/
 ├── contract/                 # Psy smart contract
 │   ├── Dargo.toml
-│   └── src/main.psy          # PsyTokenContract: mint / burn / transfer / claim / batch_transfer_{2,5}
+│   └── src/main.psy          # Complete PsyTokenContract source, including private notes and supply accounting
 └── src/                      # React frontend
     ├── App.tsx               # connect → call contract
     ├── lib/psy.ts            # window.psy helpers (waitForPsy, connect, sendCall)
@@ -53,9 +53,11 @@ echo 'VITE_PSY_CONTRACT_ID=<id>' > .env.local
 pnpm dev                                     # http://localhost:5173
 ```
 
-Open the page, click **Connect wallet**, then mint / burn / transfer / claim.
+Open the page, click **Connect wallet**, then use the visible mint / transfer / claim actions.
 Each action calls `window.psy.sendTransaction(account, callArgs)` and the
 wallet popup asks you to approve it.
+
+`src/lib/token.ts` also builds calls for `mintTo`, `burn`, `settleBurn`, `setExtendedMetadata`, `setMaxSupply`, cooperative delegation, and the private note methods. The metadata helper accepts raw Felt arrays or short UTF-8 strings (14 bytes for name, 35 for URI). These builders require a deployment whose ABI includes the corresponding methods; the staging public-only PSY-20 artifact omits private methods. The full dApp contract artifact is not yet verified deployable with the current staging compiler/CLI pair.
 
 ## How the frontend talks to the chain
 

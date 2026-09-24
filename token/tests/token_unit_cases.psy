@@ -5,6 +5,11 @@ fn test_token_mint_burn_lifecycle() {
     PsyTokenContractRef::set_metadata(5264217, 9);
     assert_eq(c.symbol.get(), 5264217, "symbol should be set to 5264217 (PSY)");
     assert_eq(c.decimals.get(), 9, "decimals should be set to 9");
+    PsyTokenContractRef::set_extended_metadata([123, 456], [1, 2, 3, 4, 5]);
+    assert_eq(c.name.get(), [123, 456], "name should be stored");
+    assert_eq(c.token_uri.get(), [1, 2, 3, 4, 5], "token URI should be stored");
+    PsyTokenContractRef::set_max_supply(1100);
+    assert_eq(c.max_supply.get(), 1100, "max supply should be immutable once set");
 
     let caller = get_user_id();
     assert_eq(c.mint_authority.get(), caller, "metadata setup initializes mint authority");
@@ -14,9 +19,12 @@ fn test_token_mint_burn_lifecycle() {
     PsyTokenContractRef::mint(1000);
     assert_eq(c.balance.get(), initial_balance + 1000, "balance should increment by 1000");
     assert_eq(c.total_minted.get(), 1000, "total_minted should be 1000");
+    assert_eq(c.total_supply.get(), 1000, "total_supply should reflect minting");
 
     PsyTokenContractRef::burn(200);
     assert_eq(c.balance.get(), initial_balance + 800, "balance after burning 200 should be initial + 800");
+    assert_eq(c.burn_requested.get(), 200, "burn request should be cumulative");
+    assert_eq(c.total_supply.get(), 1000, "supply remains until burn settlement");
 
     PsyTokenContractRef::transfer(6, 10);
     PsyTokenContractRef::batch_transfer_2([6, 7], [15, 20]);
@@ -43,6 +51,11 @@ fn test_token_mint_burn_lifecycle() {
     assert_eq(c.delegations[0].get().status, 2, "revocation request marks channel pending");
 
     // Remote spender close and owner settlement require distinct user partitions.
+
+    PsyTokenContractRef::mint_to(9, 75);
+    assert_eq(c.total_minted.get(), 1075, "recipient mint increases lifetime issuance");
+    assert_eq(c.total_supply.get(), 1075, "recipient mint increases supply before burn settlement");
+    assert_eq(c.other_user_info[9].get().amount_sent, 75, "recipient may claim minted amount");
 
     // Renounce authority
     PsyTokenContractRef::renounce_mint_authority();

@@ -46,6 +46,17 @@ pub struct BurnEvent {
 }
 
 #[derive(Event)]
+pub struct BurnSettledEvent {
+    pub sender: Felt,
+    pub amount: Felt,
+}
+
+#[derive(Event)]
+pub struct MaxSupplySetEvent {
+    pub cap: Felt,
+}
+
+#[derive(Event)]
 pub struct TransferEvent {
     pub to: Felt,
     pub amount: Felt,
@@ -104,6 +115,12 @@ pub struct SetMetadataEvent {
 }
 
 #[derive(Event)]
+pub struct SetExtendedMetadataEvent {
+    pub name: [Felt; 2],
+    pub token_uri: [Felt; 5],
+}
+
+#[derive(Event)]
 pub struct PrivateTransferEvent {
     pub commitment: Hash,
     pub note_index: Felt,
@@ -144,8 +161,14 @@ pub struct PsyTokenContract {
     pub mint_authority: Felt,
     pub is_mint_renounced: Felt,
     pub total_minted: Felt,
+    pub total_supply: Felt,
+    pub max_supply: Felt,
+    pub burn_requested: Felt,
+    pub burn_settled: [Felt; 16777216],
     pub decimals: Felt,
     pub symbol: Felt,
+    pub name: [Felt; 2],
+    pub token_uri: [Felt; 5],
     pub delegations: [DelegationChannel; 16],
     pub delegation_spends: [DelegationSpend; 268435456],
     pub state_map: Map<Hash, Hash, 1048576u32>,
@@ -176,6 +199,36 @@ impl PsyTokenContractRef {
     }
 
     #[contract_method]
+    pub fn set_extended_metadata(name: [Felt; 2], token_uri: [Felt; 5]) {
+        assert(get_user_id() == ISSUER_USER_ID, "only issuer can set extended metadata");
+        assert_caller_is_deployer();
+        let c = PsyTokenContractRef::new(ContractMetadata::current());
+        assert(c.is_mint_renounced.get() == 0, "token administration has been renounced");
+        assert(c.mint_authority.get() == get_user_id(), "mint authority not initialized");
+        c.name = name;
+        c.token_uri = token_uri;
+        let ev = new SetExtendedMetadataEvent {
+            name: name,
+            token_uri: token_uri,
+        };
+        ev.emit();
+    }
+
+    #[contract_method]
+    pub fn set_max_supply(cap: Felt) {
+        assert(get_user_id() == ISSUER_USER_ID, "only issuer can set max supply");
+        assert_caller_is_deployer();
+        let c = PsyTokenContractRef::new(ContractMetadata::current());
+        assert(c.is_mint_renounced.get() == 0, "minting has been renounced");
+        assert(c.mint_authority.get() == get_user_id(), "mint authority not initialized");
+        assert(c.total_minted.get() == 0 && c.max_supply.get() == 0, "max supply can only be set once before minting");
+        assert(cap > 0, "max supply must be positive");
+        c.max_supply = cap;
+        let ev = new MaxSupplySetEvent { cap: cap };
+        ev.emit();
+    }
+
+    #[contract_method]
     pub fn mint(amount: Felt) {
         assert(amount > 0, "mint amount must be positive");
         assert(get_user_id() == ISSUER_USER_ID, "only designated ISSUER_USER_ID partition can mint");
@@ -190,8 +243,13 @@ impl PsyTokenContractRef {
         assert(amount <= 18446744069414584320 - current_balance, "balance overflow");
         let current_total = c.total_minted.get();
         assert(amount <= 18446744069414584320 - current_total, "total minted overflow");
+        let cap = c.max_supply.get();
+        assert(cap == 0 || amount <= cap - current_total, "max supply exceeded");
+        let current_supply = c.total_supply.get();
+        assert(amount <= 18446744069414584320 - current_supply, "total supply overflow");
 
         c.total_minted = current_total + amount;
+        c.total_supply = current_supply + amount;
         c.balance = current_balance + amount;
 
         let ev = new MintEvent {
@@ -202,15 +260,65 @@ impl PsyTokenContractRef {
     }
 
     #[contract_method]
+    pub fn mint_to(recipient: Felt, amount: Felt) {
+        assert(get_user_id() == ISSUER_USER_ID, "only issuer can mint to recipient");
+        assert_caller_is_deployer();
+        assert(recipient != 0 && recipient < 16777216 && recipient != get_user_id(), "invalid mint recipient");
+        assert(amount > 0, "mint amount must be positive");
+        let c = PsyTokenContractRef::new(ContractMetadata::current());
+        assert(c.is_mint_renounced.get() == 0, "minting has been permanently renounced");
+        assert(c.mint_authority.get() == get_user_id(), "caller is not mint authority");
+        let minted = c.total_minted.get();
+        let supply = c.total_supply.get();
+        assert(amount <= 18446744069414584320 - minted, "total minted overflow");
+        let cap = c.max_supply.get();
+        assert(cap == 0 || amount <= cap - minted, "max supply exceeded");
+        assert(amount <= 18446744069414584320 - supply, "total supply overflow");
+        let info = c.other_user_info[recipient].get();
+        assert(amount <= 18446744069414584320 - info.amount_sent, "amount sent overflow");
+        c.other_user_info[recipient] = new OtherUserInfo {
+            amount_sent: info.amount_sent + amount,
+            amount_claimed: info.amount_claimed,
+        };
+        c.total_minted = minted + amount;
+        c.total_supply = supply + amount;
+        let ev = new MintEvent { to: recipient, amount: amount };
+        ev.emit();
+    }
+
+    #[contract_method]
     pub fn burn(amount: Felt) {
         assert(amount > 0, "burn amount must be positive");
+        assert(get_user_id() < 16777216, "burning user_id exceeds settlement bounds");
         let c = PsyTokenContractRef::new(ContractMetadata::current());
         let current_balance = c.balance.get();
         assert(current_balance >= amount, "insufficient balance to burn");
+        let requested = c.burn_requested.get();
+        assert(amount <= 18446744069414584320 - requested, "burn request overflow");
         c.balance = current_balance - amount;
+        c.burn_requested = requested + amount;
         let ev = new BurnEvent {
             amount: amount,
         };
+        ev.emit();
+    }
+
+    #[contract_method]
+    pub fn settle_burn(sender: Felt) {
+        assert(get_user_id() == ISSUER_USER_ID, "only issuer can settle burns");
+        assert_caller_is_deployer();
+        assert(sender != 0 && sender < 16777216, "burn sender out of bounds");
+        let c = PsyTokenContractRef::new(ContractMetadata::current());
+        let remote = PsyTokenContractRef::new(ContractMetadata::new(get_contract_id(), sender));
+        let requested = remote.burn_requested.get();
+        let settled = c.burn_settled[sender].get();
+        assert(requested > settled, "no pending burn to settle");
+        let amount = requested - settled;
+        let supply = c.total_supply.get();
+        assert(supply >= amount, "burn exceeds total supply");
+        c.burn_settled[sender] = requested;
+        c.total_supply = supply - amount;
+        let ev = new BurnSettledEvent { sender: sender, amount: amount };
         ev.emit();
     }
 

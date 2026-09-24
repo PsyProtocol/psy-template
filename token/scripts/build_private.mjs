@@ -22,7 +22,7 @@ const abi = JSON.parse(readFileSync(abiPath, 'utf8'));
 const artifact = JSON.parse(readFileSync(artifactPath, 'utf8'));
 if (!Array.isArray(artifact)) throw new Error('Complete PSY-20 artifact is not a method list');
 const names = new Set(abi.contract?.methods?.map((method) => method.name));
-for (const method of ['private_transfer', 'private_claim']) {
+for (const method of ['private_transfer', 'private_claim', 'set_extended_metadata', 'set_max_supply', 'mint_to', 'settle_burn']) {
   if (!names.has(method)) throw new Error(`Complete PSY-20 build is missing ${method}`);
   if (!artifact.some((definition) => definition.name === method)) {
     throw new Error(`Complete PSY-20 artifact is missing ${method}`);

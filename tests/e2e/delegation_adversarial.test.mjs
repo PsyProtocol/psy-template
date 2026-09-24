@@ -332,7 +332,7 @@ test('Delegation 5-Case Adversarial Verification Suite', async (t) => {
     // Verify that the compiled artifact has a terminal spender ledger and
     // retains the separate map used by private-claim nullifiers.
     const stateNames = tokenAbi.contract.state.map(s => s.name);
-    assert.equal(tokenAbi.contract.state.length, 15, 'Contract state must have exactly 15 fields');
+    assert.equal(tokenAbi.contract.state.length, 21, 'Contract state must have exactly 21 fields');
     assert.ok(stateNames.includes('delegations'), 'Storage must include delegations');
     assert.ok(stateNames.includes('delegation_spends'), 'Storage must include spender-side close and spent ledger');
     assert.ok(stateNames.includes('state_map'), 'Storage must include state_map for private-claim nullifiers');

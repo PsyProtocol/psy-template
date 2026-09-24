@@ -1,0 +1,132 @@
+{
+  "network": "sepolia staging",
+  "users": [
+    901120,
+    1949696
+  ],
+  "source": "token/src/main.psy.rs",
+  "transactions": [
+    {
+      "method": "set_metadata",
+      "user_id": 901120,
+      "inputs": [
+        5264217,
+        9
+      ],
+      "transaction_hash": "41af2cb65b46d257968faa27b8617bce30ae671a45b2bafeeb820cda84412d17",
+      "checkpoint": 42926
+    },
+    {
+      "method": "set_extended_metadata",
+      "user_id": 901120,
+      "inputs": [
+        5788067941491632997,
+        110,
+        7526768903561293615,
+        7311701117701481774,
+        7303783,
+        0,
+        0
+      ],
+      "transaction_hash": "09bab50e03c1ea02d7bea55d15a91cef100731da548b819faf06708715788e63",
+      "checkpoint": 42932
+    },
+    {
+      "method": "set_max_supply",
+      "user_id": 901120,
+      "inputs": [
+        1000
+      ],
+      "transaction_hash": "37bf59a3abd80c78c27aa0c11b8206465b52876d84e1b117528e2934be2af1e5",
+      "checkpoint": 42943
+    },
+    {
+      "method": "mint_to",
+      "user_id": 901120,
+      "inputs": [
+        1949696,
+        600
+      ],
+      "transaction_hash": "a89be453a70b749dad303b5ab7c4ca68657abef4bae007cae7a610505d2b6869",
+      "checkpoint": 42949
+    },
+    {
+      "method": "claim",
+      "user_id": 1949696,
+      "inputs": [
+        901120
+      ],
+      "transaction_hash": "57075cc7de1bbef070379790b42f474aaf207e9b28ff2e29de34c0d4e7931c72",
+      "checkpoint": 42956
+    },
+    {
+      "method": "burn",
+      "user_id": 1949696,
+      "inputs": [
+        200
+      ],
+      "transaction_hash": "8495ad927e401f50f5be80a2db03f474cc44d25d93b1b480fa548ebba15fbed8",
+      "checkpoint": 42964
+    },
+    {
+      "method": "settle_burn",
+      "user_id": 901120,
+      "inputs": [
+        1949696
+      ],
+      "transaction_hash": "6746218bf054fcf981e4c741a3c998c0b140df7fb8269e257c63bb34f37f6963",
+      "checkpoint": 42970
+    }
+  ],
+  "contract_id": 49,
+  "deployment_tx_hash": "ec254ff9deb9cb47e4e6b1f85ea069896216d5ab4cb1a57daa17df04af4e6496",
+  "checkpoint": 43014,
+  "state": {
+    "total_minted": 600,
+    "total_supply": 400,
+    "max_supply": 1000,
+    "recipient_burn_requested": 200,
+    "recipient_burn_settled": 200
+  },
+  "duplicate_settlement_rejected": true,
+  "cap_excess_rejected": true,
+  "state_proofs": {
+    "total_minted": {
+      "felt": 600,
+      "root": "323b2651a7fd40ee17181b49466b1a810e6526758145a95a4f51839f4a27be57",
+      "value": "0000000000000258000000000000000000000000000dc0000000000000000000",
+      "leaf_id": 0,
+      "offset": 3
+    },
+    "total_supply": {
+      "felt": 400,
+      "root": "323b2651a7fd40ee17181b49466b1a810e6526758145a95a4f51839f4a27be57",
+      "value": "0000000000000000000000000000000000000000000003e80000000000000190",
+      "leaf_id": 1,
+      "offset": 4
+    },
+    "max_supply": {
+      "felt": 1000,
+      "root": "323b2651a7fd40ee17181b49466b1a810e6526758145a95a4f51839f4a27be57",
+      "value": "0000000000000000000000000000000000000000000003e80000000000000190",
+      "leaf_id": 1,
+      "offset": 5
+    },
+    "recipient_burn_requested": {
+      "felt": 200,
+      "root": "841d9118727258dec672fe0d0ae4bdf25d8d00e42c7bfa7102fce84950f7e25d",
+      "value": "000000000000000000000000000000c800000000000000000000000000000000",
+      "leaf_id": 1,
+      "offset": 6
+    },
+    "recipient_burn_settled": {
+      "felt": 200,
+      "root": "323b2651a7fd40ee17181b49466b1a810e6526758145a95a4f51839f4a27be57",
+      "value": "00000000000000c8000000000000000000000000000000000000000000000000",
+      "leaf_id": 487425,
+      "offset": 1949703
+    }
+  },
+  "normalized_source_sha256": "e0c5145e64e647287653b6072253865c0283f5c665ac7ca2ab1e914ca52dcf5c",
+  "deployment_profile": "public-only staging v3"
+}

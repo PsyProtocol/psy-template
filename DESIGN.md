@@ -72,9 +72,16 @@ pub struct PsyTokenContract {
     pub mint_authority: Felt,
     pub is_mint_renounced: Felt,
     pub total_minted: Felt,
+    pub total_supply: Felt,
+    pub max_supply: Felt,
+    pub burn_requested: Felt,
+    pub burn_settled: [Felt; 16777216],
     pub decimals: Felt,
     pub symbol: Felt,
+    pub name: [Felt; 2],
+    pub token_uri: [Felt; 5],
     pub delegations: [DelegationChannel; 16],
+    pub delegation_spends: [DelegationSpend; 268435456],
     pub state_map: Map<Hash, Hash, 1048576u32>,
 }
 ```
@@ -88,23 +95,32 @@ pub struct PsyTokenContract {
 - **`last_path`** (Offset 33554440..33554519): Frontier path for incremental Merkle tree updates (Leaves 8388610..8388629).
 - **`mint_authority`** (Offset 33554520): Canonical mint authority address configured and managed by the contract deployer (verified via `assert_caller_is_deployer()`, using `get_contract_deployer(get_contract_id())` and `get_user_public_key_hash()`). Separated from 0 (`ADDRESS_ZERO` / uninitialized / renounced sentinel).
 - **`is_mint_renounced`** (Offset 33554521): Irrevocable mint renunciation flag (1 if permanently renounced).
-- **`total_minted`** (Offset 33554522): Cumulative tokens minted through the contract in the deployer partition.
-- **`decimals`** (Offset 33554523): Token precision (max 18).
-- **`symbol`** (Offset 33554524): Compact field element token symbol.
-- **`delegations`** (Offset 33554525..33554604): Owner-side delegation channel allocations and status (`[DelegationChannel; 16]`).
-- **`state_map`** (Offset 33554608..): Indexed Sparse Merkle Tree supporting namespaced multi-key storage:
-  - **Namespace 1**: Private Claim Nullifiers (`nullifier_hash -> [1, 0, 0, 0]`) to prevent double-claiming.
-  - **Namespace 2**: Spender Delegation Spent Ledgers (`hash([owner, channel_idx, version, 0]) -> [spent_amount, 0, 0, 0]`) guaranteeing complete cryptographic isolation per `(owner, channel_idx, version)` tuple with zero storage collisions across owners or versions.
+- **`total_minted`** (Offset 33554522): Lifetime issuance in the issuer partition.
+- **`total_supply`** (Offset 33554523): Issuance less settled burns; pending burn requests still count.
+- **`max_supply`** (Offset 33554524): Optional immutable lifetime issuance cap (zero means unset).
+- **`burn_requested`** (Offset 33554525): Per-user monotonic burn counter.
+- **`burn_settled`** (Offset 33554526..50331741): Issuer's last settled counter for each user.
+- **`decimals`** (Offset 50331742): Token precision (max 18).
+- **`symbol`** (Offset 50331743): Compact field element token symbol.
+- **`name`** (Offset 50331744..50331745): Name encoded as two Felts.
+- **`token_uri`** (Offset 50331746..50331750): URI encoded as five Felts.
+- **`delegations`** (Offset 50331751..50331814): Owner-side allocation and status.
+- **`delegation_spends`** (Offset 50331815..855638182): Spender-local cumulative spend, close bit, and channel version.
+- **`state_map`** (Offset 855638184..): Indexed sparse Merkle tree for private-claim nullifiers (Namespace 1).
 
-### 2.2 Standard Methods (15 Methods)
+### 2.2 Contract Methods (20 Methods)
 
 1. **Token Administration**:
    - `set_metadata(symbol: Felt, decimals: Felt)`: Restricted to contract deployer (`assert_caller_is_deployer()`).
+   - `set_extended_metadata(name: [Felt; 2], token_uri: [Felt; 5])`: Sets name and URI in the issuer partition.
+   - `set_max_supply(cap: Felt)`: Sets the lifetime issuance cap once, before the first mint.
    - `set_mint_authority(new_authority: Felt)`: Restricted to contract deployer (`assert_caller_is_deployer()`).
    - `renounce_mint_authority()`: Irrevocably renounces minting rights by contract deployer.
 2. **Supply Lifecycle & Single-Source Issuance**:
    - `mint(amount: Felt)`: Restricted strictly to contract deployer partition (`assert_caller_is_deployer()` and `caller == auth`). Increments liquid balance and updates global `total_minted`. Non-deployer callers cannot mint in their own partitions (preventing uncapped local inflation).
-   - `burn(amount: Felt)`: Burns tokens directly from caller's partition.
+   - `mint_to(recipient: Felt, amount: Felt)`: Adds newly issued tokens to the issuer's Outbox for recipient claim.
+   - `burn(amount: Felt)`: Removes liquid balance and increments the caller's burn counter.
+   - `settle_burn(sender: Felt)`: Issuer settles a holder's cumulative burn counter, reducing `total_supply` once per increment.
 3. **Push-Pull Outbox Transfer & Claim**:
    - `transfer(recipient: Felt, amount: Felt)`: Deducts caller balance and credits recipient's Outbox.
    - `claim(sender: Felt)`: Cross-partition reads sender's Outbox, pulls pending tokens into caller balance.

@@ -38,8 +38,14 @@ test('Compilation & ABI Verification E2E', async (t) => {
       'mint_authority',
       'is_mint_renounced',
       'total_minted',
+      'total_supply',
+      'max_supply',
+      'burn_requested',
+      'burn_settled',
       'decimals',
       'symbol',
+      'name',
+      'token_uri',
       'delegations',
       'delegation_spends',
       'state_map'
@@ -50,7 +56,7 @@ test('Compilation & ABI Verification E2E', async (t) => {
     assert.equal(noteRootField.offset, 33554436);
     assert.equal(noteRootField.offset / 4, 8388609);
 
-    // Verify all 16 complete-source methods, including cooperative close and private_claim.
+    // Verify complete-source methods, including private claims and burn settlement.
     const methodNames = abi.contract.methods.map(m => m.name).sort();
     assert.deepEqual(methodNames, [
       'batch_transfer_2',
@@ -60,13 +66,17 @@ test('Compilation & ABI Verification E2E', async (t) => {
       'close_delegation_channel',
       'finalize_revoke_delegation',
       'mint',
+      'mint_to',
       'open_delegation_channel',
       'private_claim',
       'private_transfer',
       'renounce_mint_authority',
       'request_revoke_delegation',
+      'set_extended_metadata',
+      'set_max_supply',
       'set_metadata',
       'set_mint_authority',
+      'settle_burn',
       'spend_delegation',
       'transfer'
     ]);
@@ -111,7 +121,7 @@ test('Compilation & ABI Verification E2E', async (t) => {
 
     assert.equal(abi.schema_version, '2.0.0');
     assert.equal(abi.contract.name, 'PsyTokenContract');
-    assert.equal(abi.contract.methods.length, 16);
+    assert.equal(abi.contract.methods.length, 20);
   });
 
   // 3. PSY-721 NFT ABI Verification

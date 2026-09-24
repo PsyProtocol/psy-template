@@ -21,11 +21,27 @@ export const token = {
     }
   },
 
+  mintTo(recipient: bigint | number | string, amount: bigint | number): ContractCallArgs {
+    return {
+      contract_id: requireContractId(),
+      method_name: 'mint_to',
+      inputs: [felt(recipient), felt(amount)],
+    }
+  },
+
   burn(amount: bigint | number): ContractCallArgs {
     return {
       contract_id: requireContractId(),
       method_name: 'burn',
       inputs: [felt(amount)],
+    }
+  },
+
+  settleBurn(sender: bigint | number | string): ContractCallArgs {
+    return {
+      contract_id: requireContractId(),
+      method_name: 'settle_burn',
+      inputs: [felt(sender)],
     }
   },
 
@@ -115,6 +131,30 @@ export const token = {
     }
   },
 
+  setExtendedMetadata(
+    name: string | Array<bigint | number | string>,
+    tokenUri: string | Array<bigint | number | string>,
+  ): ContractCallArgs {
+    const encodedName = typeof name === 'string' ? encodeMetadataText(name, 2) : name.map(felt);
+    const encodedUri = typeof tokenUri === 'string' ? encodeMetadataText(tokenUri, 5) : tokenUri.map(felt);
+    if (encodedName.length !== 2 || encodedUri.length !== 5) {
+      throw new Error('name must have 2 Felts and tokenUri must have 5 Felts');
+    }
+    return {
+      contract_id: requireContractId(),
+      method_name: 'set_extended_metadata',
+      inputs: [...encodedName, ...encodedUri],
+    }
+  },
+
+  setMaxSupply(cap: bigint | number | string): ContractCallArgs {
+    return {
+      contract_id: requireContractId(),
+      method_name: 'set_max_supply',
+      inputs: [felt(cap)],
+    }
+  },
+
   setMintAuthority(newAuthority: bigint | number | string): ContractCallArgs {
     return {
       contract_id: requireContractId(),
@@ -178,17 +218,54 @@ export const token = {
   },
 }
 
-/**
- * Storage slot index offsets corresponding to PsyTokenContract struct fields.
- */
+/** Felt offsets for the complete .psy artifact used by this dApp contract. */
 export const TOKEN_STORAGE_SLOTS = {
+  BALANCE: 0,
+  MINT_AUTHORITY: 33554520,
+  IS_MINT_RENOUNCED: 33554521,
+  TOTAL_MINTED: 33554522,
+  TOTAL_SUPPLY: 33554523,
+  MAX_SUPPLY: 33554524,
+  BURN_REQUESTED: 33554525,
+  BURN_SETTLED: 33554526,
+  DECIMALS: 50331742,
+  SYMBOL: 50331743,
+  NAME: 50331744,
+  TOKEN_URI: 50331746,
+} as const;
+
+/** Felt offsets for the separate public-only staging v3 artifact. */
+export const TOKEN_STAGING_V3_STORAGE_SLOTS = {
   BALANCE: 0,
   MINT_AUTHORITY: 1,
   IS_MINT_RENOUNCED: 2,
   TOTAL_MINTED: 3,
-  DECIMALS: 4,
-  SYMBOL: 5,
+  TOTAL_SUPPLY: 4,
+  MAX_SUPPLY: 5,
+  BURN_REQUESTED: 6,
+  BURN_SETTLED: 7,
+  SYMBOL: 16777223,
+  DECIMALS: 16777224,
+  NAME: 16777225,
+  TOKEN_URI: 16777227,
 } as const;
+
+/** UTF-8 metadata encoding; seven bytes per Felt avoids field overflow. */
+export function encodeMetadataText(value: string, feltCount: number): bigint[] {
+  const bytes = new TextEncoder().encode(value);
+  if (bytes.length > feltCount * 7) {
+    throw new Error(`metadata text exceeds ${feltCount * 7} UTF-8 bytes`);
+  }
+  const encoded: bigint[] = [];
+  for (let i = 0; i < feltCount; i++) {
+    let chunk = 0n;
+    for (const byte of bytes.slice(i * 7, (i + 1) * 7)) {
+      chunk = (chunk << 8n) | BigInt(byte);
+    }
+    encoded.push(chunk);
+  }
+  return encoded;
+}
 
 /**
  * Encodes an ASCII symbol string (up to 7 characters) into a Felt.

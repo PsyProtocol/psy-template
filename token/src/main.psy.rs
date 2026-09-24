@@ -31,8 +31,14 @@ pub struct PsyTokenContract {
     pub mint_authority: Felt,
     pub is_mint_renounced: Felt,
     pub total_minted: Felt,
+    pub total_supply: Felt,
+    pub max_supply: Felt,
+    pub burn_requested: Felt,
+    pub burn_settled: ContractStateArray<16777216, Felt>,
     pub symbol: Felt,
     pub decimals: Felt,
+    pub name: [Felt; 2],
+    pub token_uri: [Felt; 5],
     pub other_user_info: ContractStateArray<16777216, OtherUserInfo>,
     pub delegations: ContractStateArray<16, DelegationChannel>,
     pub delegation_spends: ContractStateArray<268435456, DelegationSpend>,
@@ -56,6 +62,27 @@ impl PsyTokenContract {
     }
 
     #[contract_method]
+    pub fn set_extended_metadata(&mut self, ctx: &mut ChainContext, name: [Felt; 2], token_uri: [Felt; 5]) {
+        require(ctx.user_id == ISSUER_USER_ID, "only issuer can set extended metadata");
+        require(self.is_mint_renounced == 0, "token administration has been renounced");
+        require(self.mint_authority == ctx.user_id, "mint authority not initialized");
+        self.name = name;
+        self.token_uri = token_uri;
+        psystd::emit_event(12, name, token_uri);
+    }
+
+    #[contract_method]
+    pub fn set_max_supply(&mut self, ctx: &mut ChainContext, cap: Felt) {
+        require(ctx.user_id == ISSUER_USER_ID, "only issuer can set max supply");
+        require(self.is_mint_renounced == 0, "minting has been renounced");
+        require(self.mint_authority == ctx.user_id, "mint authority not initialized");
+        require(self.total_minted == 0 && self.max_supply == 0, "max supply can only be set once before minting");
+        require(cap > 0, "max supply must be positive");
+        self.max_supply = cap;
+        psystd::emit_event(14, cap);
+    }
+
+    #[contract_method]
     pub fn mint(&mut self, ctx: &mut ChainContext, amount: Felt) {
         require(amount > 0, "mint amount must be positive");
         require(ctx.user_id == ISSUER_USER_ID, "only designated issuer partition can mint");
@@ -63,17 +90,55 @@ impl PsyTokenContract {
         require(self.mint_authority == ctx.user_id, "caller is not mint authority");
         require(amount <= 18446744069414584320 - self.balance, "balance overflow");
         require(amount <= 18446744069414584320 - self.total_minted, "total minted overflow");
+        require(self.max_supply == 0 || amount <= self.max_supply - self.total_minted, "max supply exceeded");
+        require(amount <= 18446744069414584320 - self.total_supply, "total supply overflow");
         self.balance += amount;
         self.total_minted += amount;
+        self.total_supply += amount;
         psystd::emit_event(2, ctx.user_id, amount);
+    }
+
+    #[contract_method]
+    pub fn mint_to(&mut self, ctx: &mut ChainContext, recipient: Felt, amount: Felt) {
+        require(ctx.user_id == ISSUER_USER_ID, "only issuer can mint to recipient");
+        require(recipient != 0 && recipient < 16777216 && recipient != ctx.user_id, "invalid mint recipient");
+        require(amount > 0, "mint amount must be positive");
+        require(self.is_mint_renounced == 0, "minting has been permanently renounced");
+        require(self.mint_authority == ctx.user_id, "caller is not mint authority");
+        require(amount <= 18446744069414584320 - self.total_minted, "total minted overflow");
+        require(self.max_supply == 0 || amount <= self.max_supply - self.total_minted, "max supply exceeded");
+        require(amount <= 18446744069414584320 - self.total_supply, "total supply overflow");
+        let sent = self.other_user_info[recipient].amount_sent;
+        require(amount <= 18446744069414584320 - sent, "amount sent overflow");
+        self.other_user_info[recipient].amount_sent = sent + amount;
+        self.total_minted += amount;
+        self.total_supply += amount;
+        psystd::emit_event(2, recipient, amount);
     }
 
     #[contract_method]
     pub fn burn(&mut self, ctx: &mut ChainContext, amount: Felt) {
         require(amount > 0, "burn amount must be positive");
+        require(ctx.user_id < 16777216, "burning user_id exceeds settlement bounds");
         require(self.balance >= amount, "insufficient balance to burn");
+        require(amount <= 18446744069414584320 - self.burn_requested, "burn request overflow");
         self.balance -= amount;
+        self.burn_requested += amount;
         psystd::emit_event(3, ctx.user_id, amount);
+    }
+
+    #[contract_method]
+    pub fn settle_burn(&mut self, ctx: &mut ChainContext, sender: Felt) {
+        require(ctx.user_id == ISSUER_USER_ID, "only issuer can settle burns");
+        require(sender != 0 && sender < 16777216, "burn sender out of bounds");
+        let requested = ctx.users[sender].contract_state::<Self::ABI>(ctx.contract_id).burn_requested;
+        let settled = self.burn_settled[sender];
+        require(requested > settled, "no pending burn to settle");
+        let amount = requested - settled;
+        require(self.total_supply >= amount, "burn exceeds total supply");
+        self.burn_settled[sender] = requested;
+        self.total_supply -= amount;
+        psystd::emit_event(13, sender, amount);
     }
 
     #[contract_method]
