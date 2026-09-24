@@ -11,6 +11,21 @@ PSY-20 is a partitioned fungible-token reference contract. It uses an Outbox/cla
 
 The v3 source does **not** implement private note methods. Its issuer check binds the configured `ISSUER_USER_ID` partition; the legacy source additionally checks the deployer public key. Storage layouts and ABIs differ, so an existing deployment cannot be upgraded by replacing the artifact.
 
+## Current feature status
+
+| Feature | Staging-compatible v3 status |
+| --- | --- |
+| Metadata | `symbol` and `decimals` are stored in the issuer partition. There is no token name, metadata URI, or standard metadata getter. `set_metadata` can change the two fields until administration is renounced. |
+| Owner / mint authority | Only the configured `ISSUER_USER_ID` partition can initialize metadata, mint, or renounce. `set_mint_authority` only reaffirms that same partition; it cannot transfer ownership to another user. This is a fixed issuer partition, not a general owner role. |
+| Supply | `total_minted` counts lifetime issuance in the issuer partition. `burn` reduces a user's liquid balance but does not reduce `total_minted`. There is no on-chain circulating `total_supply` or max-supply cap. Balances are per-user state. |
+| Public transfer | Sender debits balance into a per-recipient cumulative Outbox; recipient calls `claim`. Batch sizes 2 and 5 are supported. |
+| Delegated spending | Sixteen escrow slots per owner support parallel spenders and cooperative close/refund. Revocation is **not** a safe unilateral `approve(..., 0)` because historical remote-state proofs can confirm after a request. |
+| Private transfer | The legacy source contains `private_transfer` and `private_claim`, but the deployable v3 source has neither. Private payments are unavailable in this template on staging. |
+
+The legacy `private_claim` verifies a note-inclusion fingerprint against the session proof tree root and binds its checkpoint user tree root before crediting a balance and recording a nullifier. The v3 compiler used here exposes neither `get_session_proof_tree_root` nor `get_checkpoint_user_tree_root`; its supported `psystd` calls do not provide equivalent roots. A compile probe against the installed 0.1.1 CLI rejects `get_session_proof_tree_root()` with `Unknown function`. Adding only a `private_transfer` deposit would debit users without a supported, secure claim path. To enable this feature, the v3 toolchain must expose and verify equivalent proof roots, then the contract, wallet proof generation, nullifier behavior, and two-user staging redemption must be tested together. This requires a new contract deployment and a migration plan for existing balances.
+
+Delegation and `transfer`/`claim` serve different purposes. In a transfer, the owner fixes both amount and recipient. In a delegation, the owner locks a budget and the spender later chooses payment amount, timing, and recipient. If applications do not need that discretion, the public transfer flow is simpler; the current delegation methods should not be advertised as standard `approve` / `transferFrom`.
+
 ## Transfers
 
 `transfer(recipient, amount)` debits the sender and increases that sender's cumulative Outbox total for the recipient. The recipient calls `claim(sender)` to credit the newly available amount. `batch_transfer_2` and `batch_transfer_5` follow the same accounting. User IDs must be in `1..16777215` where an Outbox index is required.
