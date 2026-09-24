@@ -1,0 +1,109 @@
+{
+  "network": "sepolia staging",
+  "users": [
+    901120,
+    1949696
+  ],
+  "transactions": [
+    {
+      "method": "set_collection_metadata",
+      "user_id": 901120,
+      "inputs": [
+        5264217,
+        11,
+        22,
+        33,
+        44
+      ],
+      "transaction_hash": "62a0249816cbfbd82173248296a1cd8db2b6d62384804ec2301bb246c41a2b1b",
+      "checkpoint": 33168
+    },
+    {
+      "method": "mint",
+      "user_id": 901120,
+      "inputs": [
+        0,
+        1,
+        101,
+        102,
+        103,
+        104
+      ],
+      "transaction_hash": "9145e769190e3f7eca6a83d9fd910917950f644958d39a8578028284dac56218",
+      "checkpoint": 33174
+    },
+    {
+      "method": "transfer",
+      "user_id": 901120,
+      "inputs": [
+        0,
+        1949696
+      ],
+      "transaction_hash": "e8ae96a9c8d3b350387d05a09a027f3ecf937041ee3bd1d1a70daec3bc7acc13",
+      "checkpoint": 33180
+    },
+    {
+      "method": "claim",
+      "user_id": 1949696,
+      "inputs": [
+        0,
+        901120
+      ],
+      "transaction_hash": "063e3632ee72ded4588dcdc01bae2998cc9d403053fc74fb6df9549f3742e005",
+      "checkpoint": 33186
+    },
+    {
+      "method": "transfer",
+      "user_id": 1949696,
+      "inputs": [
+        0,
+        901120
+      ],
+      "transaction_hash": "70f6969b37b9a40d100f737b14a4f7edc8034a07a32d79345eedf57c3d88abd1",
+      "checkpoint": 33195
+    },
+    {
+      "method": "claim",
+      "user_id": 901120,
+      "inputs": [
+        0,
+        1949696
+      ],
+      "transaction_hash": "a4bc2775fd77dd563e56ec4076d3723285a73e131d7a4c8e4ed91e136166ffab",
+      "checkpoint": 33202
+    },
+    {
+      "method": "acknowledge",
+      "user_id": 901120,
+      "inputs": [
+        1949696
+      ],
+      "transaction_hash": "1dedb706d8879260af695f3a737b333ab114251216c85753c5cdd4b71ffa1383",
+      "checkpoint": 33216
+    },
+    {
+      "method": "transfer",
+      "user_id": 901120,
+      "inputs": [
+        0,
+        1949696
+      ],
+      "transaction_hash": "f52fb5732fd9fc26865e6e2f9879aa88bd882c6fdfc309c6b257ec0246ffffba",
+      "checkpoint": 33226
+    },
+    {
+      "method": "claim",
+      "user_id": 1949696,
+      "inputs": [
+        0,
+        901120
+      ],
+      "transaction_hash": "9b97948c2a61a20e424eeb1eb257cef8c63c5a1827c10a0221af642d2ccaecf0",
+      "checkpoint": 33233
+    }
+  ],
+  "contract_id": 44,
+  "deployment_tx_hash": "0e3775d440a27271a17fd139f3f531a3cb5aed6f6ab08cfd83ee5bf6360f48c6",
+  "deployed_source_sha256": "31ce83df459f04dc7eb3054fb1215d4edbac9f3a6f4b5bd9fa3b43175f5f8aa1",
+  "note": "Deployed source differs from nft/src/main.psy.rs only in ISSUER_USER_ID (901120 vs template default 5)."
+}

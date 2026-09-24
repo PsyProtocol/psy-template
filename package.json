@@ -7,7 +7,7 @@
     "test": "node tests/run_all_tests.mjs",
     "test:unit": "node tests/run_unit_tests.mjs",
     "test:e2e": "node tests/run_e2e_tests.mjs",
-    "build": "(cd token && psyup build) && (cd nft && psyup build) && (cd dapp/contract && psyup build)",
+    "build": "(cd token && npm run build) && (cd nft && npm run build) && (cd dapp/contract && psyup build)",
     "build:deploy": "npm run check:preflight && npm run build",
     "configure": "node scripts/configure_issuer.mjs",
     "check:config": "node scripts/configure_issuer.mjs --check",

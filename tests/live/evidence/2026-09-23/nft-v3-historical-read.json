@@ -1,0 +1,70 @@
+{
+  "network": "sepolia staging",
+  "contract_id": 44,
+  "users": [
+    901120,
+    1949696
+  ],
+  "mint_first": {
+    "transaction_hash": "1b6acacaf978f88fcc1a4d335a3316d2649a2f2441afe02690bfc03bcfbaa3fb",
+    "user_id": 901120,
+    "status": "confirmed",
+    "confirmed_checkpoint": 33508,
+    "network": "sepolia"
+  },
+  "transfer_first": {
+    "transaction_hash": "c9784bd6c5bea5fcebf7b25c4b484f29b2acb2511e5dc1d849a89890f61b3d00",
+    "user_id": 901120,
+    "status": "confirmed",
+    "confirmed_checkpoint": 33529,
+    "network": "sepolia"
+  },
+  "trace": {
+    "start_checkpoint": 33530,
+    "tx_hash": "fcc14e7d7a3931b3cf0a0d5b51d3ab57e0dc38111f59cdb355e29a2b57ae5001",
+    "sha256": "948b7fbb5ee64f5b4eb4ae272d30df7d01669f928cf4daa19f3d1882ae14642f"
+  },
+  "mint_second": {
+    "transaction_hash": "5a2ed9b70359128a28212166fb2182a88a81ac339e62a3cd3ac498206c9c4a0e",
+    "user_id": 901120,
+    "status": "confirmed",
+    "confirmed_checkpoint": 33564,
+    "network": "sepolia"
+  },
+  "transfer_second": {
+    "transaction_hash": "9a497cb92e68c5630aa9c93a1bc186c1dd4f6cd8271ead848bc857d0670c2169",
+    "user_id": 901120,
+    "status": "confirmed",
+    "confirmed_checkpoint": 33598,
+    "network": "sepolia"
+  },
+  "old_trace_result": {
+    "transaction_hash": "fcc14e7d7a3931b3cf0a0d5b51d3ab57e0dc38111f59cdb355e29a2b57ae5001",
+    "user_id": 1949696,
+    "status": "confirmed",
+    "confirmed_checkpoint": 33619,
+    "network": "sepolia"
+  },
+  "fresh_claim": {
+    "transaction_hash": "8a05375304b338f7b1e67debad9911ab60211c2887b266780532d61d46f345d7",
+    "user_id": 1949696,
+    "status": "confirmed",
+    "confirmed_checkpoint": 33629,
+    "network": "sepolia"
+  },
+  "final_ack": {
+    "transaction_hash": "6ce766c2c41857c4477b2b101f6d819c715ad4c91c60f69921598114a9609a6c",
+    "user_id": 901120,
+    "status": "confirmed",
+    "confirmed_checkpoint": 33637,
+    "network": "sepolia"
+  },
+  "duplicate_attempt": {
+    "start_checkpoint": 33541,
+    "tx_hash": "806bf2671ffa08cdb228ff3179e8c6b5607c631a53acb2938b56715dd728d982",
+    "sha256": "d3fb5a90f2e6a096d7cd083e65a802429558b0cfcb1df1a81b22f95aab2f5b55",
+    "exit_code": 1,
+    "submitted": false,
+    "error": "stale trace anchor: user 1949696 start_user_leaf_hash changed while proving"
+  }
+}

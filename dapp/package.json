@@ -8,6 +8,8 @@
     "configure": "node scripts/configure_issuer.mjs",
     "check:config": "node scripts/configure_issuer.mjs --check",
     "check:preflight": "node scripts/configure_issuer.mjs --check --strict",
+    "check:deployer": "node scripts/deploy_checked.mjs --preflight-only",
+    "deploy:checked": "node scripts/deploy_checked.mjs",
     "build:contract": "cd contract && psyup build",
     "build:contract:deploy": "npm run check:preflight && cd contract && psyup build",
     "build": "tsc -b && vite build",

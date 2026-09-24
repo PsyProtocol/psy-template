@@ -1,19 +1,19 @@
 #[derive(Storage)]
 pub struct NFTSlot {
-    pub token_id: Felt,
+    pub token_id: Hash,
     pub is_active: Felt,
     pub metadata_hash: Hash,
 }
 
 #[derive(Storage)]
 pub struct NFTOutbox {
-    pub token_id_0: Felt,
+    pub token_id_0: Hash,
     pub metadata_hash_0: Hash,
-    pub token_id_1: Felt,
+    pub token_id_1: Hash,
     pub metadata_hash_1: Hash,
-    pub token_id_2: Felt,
+    pub token_id_2: Hash,
     pub metadata_hash_2: Hash,
-    pub token_id_3: Felt,
+    pub token_id_3: Hash,
     pub metadata_hash_3: Hash,
     pub nonce_sent: Felt,
     pub nonce_claimed: Felt,
@@ -22,7 +22,7 @@ pub struct NFTOutbox {
 #[derive(Event)]
 pub struct NFTMintEvent {
     pub to: Felt,
-    pub token_id: Felt,
+    pub token_id: Hash,
     pub metadata_hash: Hash,
 }
 
@@ -30,7 +30,7 @@ pub struct NFTMintEvent {
 pub struct NFTTransferEvent {
     pub from: Felt,
     pub to: Felt,
-    pub token_id: Felt,
+    pub token_id: Hash,
     pub metadata_hash: Hash,
 }
 
@@ -38,7 +38,7 @@ pub struct NFTTransferEvent {
 pub struct NFTClaimEvent {
     pub to: Felt,
     pub from: Felt,
-    pub token_id: Felt,
+    pub token_id: Hash,
     pub metadata_hash: Hash,
 }
 
@@ -118,9 +118,7 @@ impl PsyNFTContractRef {
         assert(caller == auth, "only authorized mint authority can mint in deployer partition");
 
         // Enforce strictly sequential local_id to guarantee unique inputs (creator, local_id) per creator.
-        // Note: token_id truncates 256-bit Poseidon hash to 64-bit Felt (global_id_hash[0]),
-        // providing computational collision resistance (approx. 2^32 birthday bound) under Goldilocks field,
-        // rather than absolute mathematical global uniqueness.
+        // Preserve all four Poseidon output limbs as the NFT identifier.
         let current_total = c.total_minted.get();
         assert(local_id == current_total + 1, "local_id must match next sequential mint index");
         assert(current_total < 18446744069414584320, "total minted overflow");
@@ -129,12 +127,12 @@ impl PsyNFTContractRef {
         let slot = c.owned_tokens[slot_idx].get();
         assert(slot.is_active == 0, "slot already occupied");
 
-        // Derive token_id via Poseidon hash: Poseidon(creator, local_id)[0]
+        // Derive token_id via Poseidon hash: Poseidon(creator, local_id)
         let creator_hash: Hash = [caller, 0, 0, 0];
         let local_hash: Hash = [local_id, 0, 0, 0];
-        let global_id_hash: Hash = hash_two_to_one(creator_hash, local_hash);
-        let token_id: Felt = global_id_hash[0];
-        assert(token_id > 0, "derived token_id must be non-zero");
+        let token_id: Hash = hash_two_to_one(creator_hash, local_hash);
+        assert(token_id[0] != 0 || token_id[1] != 0 || token_id[2] != 0 || token_id[3] != 0,
+            "derived token_id must be non-zero");
 
         assert(c.balance.get() < 18446744069414584320, "balance overflow");
         c.owned_tokens[slot_idx] = new NFTSlot {
@@ -163,28 +161,6 @@ impl PsyNFTContractRef {
         c.mint_authority = 0;
         let ev = new AuthorityChangeEvent {
             new_authority: 0,
-        };
-        ev.emit();
-    }
-
-    // In Psy Protocol's partitioned state model, minting capability is strictly bound to the
-    // canonical ISSUER_USER_ID partition (get_user_id() == ISSUER_USER_ID && assert_caller_is_deployer()).
-    // Delegating authority to another partition (new_authority != caller) would create an un-mintable
-    // deadlock because non-issuer partitions cannot satisfy the partition constraint in mint().
-    // Therefore, set_mint_authority only allows re-affirming or initializing the caller within the
-    // deployer partition. Authority revocation is handled exclusively via renounce_mint_authority().
-    #[contract_method]
-    pub fn set_mint_authority(new_authority: Felt) {
-        assert(get_user_id() == ISSUER_USER_ID, "only designated ISSUER_USER_ID partition can set mint authority");
-        assert_caller_is_deployer();
-        let caller = get_user_id();
-        let c = PsyNFTContractRef::new(ContractMetadata::current());
-        assert(c.is_mint_renounced.get() == 0, "minting has been renounced");
-        assert(new_authority != 0, "use renounce_mint_authority to revoke");
-        assert(new_authority == caller, "cannot transfer authority outside deployer partition in single-source model");
-        c.mint_authority = new_authority;
-        let ev = new AuthorityChangeEvent {
-            new_authority: new_authority,
         };
         ev.emit();
     }
@@ -219,7 +195,7 @@ impl PsyNFTContractRef {
         assert(c.balance.get() >= 1, "balance underflow");
         let zero_hash: Hash = [0, 0, 0, 0];
         c.owned_tokens[slot_idx] = new NFTSlot {
-            token_id: 0,
+            token_id: zero_hash,
             is_active: 0,
             metadata_hash: zero_hash,
         };
@@ -292,7 +268,7 @@ impl PsyNFTContractRef {
 
         // Next item in FIFO order is at my_outbox.nonce_claimed & 3
         let queue_slot: Felt = my_outbox.nonce_claimed & 3;
-        let mut claim_token_id: Felt = 0;
+        let mut claim_token_id: Hash = [0, 0, 0, 0];
         let mut claim_metadata_hash: Hash = [0, 0, 0, 0];
 
         if queue_slot == 0 {
@@ -308,6 +284,9 @@ impl PsyNFTContractRef {
             claim_token_id = sender_outbox.token_id_3;
             claim_metadata_hash = sender_outbox.metadata_hash_3;
         };
+
+        assert(claim_token_id[0] != 0 || claim_token_id[1] != 0 || claim_token_id[2] != 0 || claim_token_id[3] != 0,
+            "claimed token_id cannot be zero");
 
         assert(c.balance.get() < 18446744069414584320, "balance overflow");
         c.owned_tokens[slot_idx] = new NFTSlot {

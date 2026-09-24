@@ -8,6 +8,7 @@ const REPO_ROOT = join(__dirname, '..');
 
 const E2E_TEST_FILES = [
   'tests/e2e/scaffold.test.mjs',
+  'tests/e2e/deploy_preflight.test.mjs',
   'tests/e2e/compilation_and_abi.test.mjs',
   'tests/e2e/psy20_lifecycle.test.mjs',
   'tests/e2e/psy721_lifecycle.test.mjs',

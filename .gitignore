@@ -21,3 +21,7 @@ target/*
 
 # Configuration state markers (must never be committed or distributed with templates)
 .issuer_configured
+
+# Local live-test Python bytecode
+__pycache__/
+*.pyc

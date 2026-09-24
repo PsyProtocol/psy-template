@@ -9,8 +9,15 @@ pub struct DelegationChannel {
     pub spender: Felt,
     pub allocated_amount: Felt,
     pub channel_version: Felt,
-    pub status: Felt, // 0 = INACTIVE, 1 = ACTIVE, 2 = REVOKE_PENDING, 3 = CLOSED
-    pub cutoff_checkpoint: Felt,
+    // 0 = INACTIVE, 1 = ACTIVE, 2 = REVOKE_PENDING, 3 = CLOSED
+    pub status: Felt
+}
+
+#[derive(Storage)]
+pub struct DelegationSpend {
+    pub spent: Felt,
+    pub closed: Felt,
+    pub channel_version: Felt,
 }
 
 pub struct PrivateClaimProof {
@@ -59,8 +66,15 @@ pub struct DelegationEvent {
 
 #[derive(Event)]
 pub struct RequestRevokeDelegationEvent {
+    pub channel_idx: Felt
+}
+
+#[derive(Event)]
+pub struct CloseDelegationEvent {
+    pub owner: Felt,
     pub channel_idx: Felt,
-    pub cutoff_checkpoint: Felt,
+    pub channel_version: Felt,
+    pub spent_amount: Felt,
 }
 
 #[derive(Event)]
@@ -103,7 +117,6 @@ pub struct PrivateClaimEvent {
 }
 
 pub const ISSUER_USER_ID: Felt = 5;
-pub const DELEGATION_GATED: bool = true;
 
 fn assert_caller_is_deployer() {
     let contract_id = get_contract_id();
@@ -134,6 +147,7 @@ pub struct PsyTokenContract {
     pub decimals: Felt,
     pub symbol: Felt,
     pub delegations: [DelegationChannel; 16],
+    pub delegation_spends: [DelegationSpend; 268435456],
     pub state_map: Map<Hash, Hash, 1048576u32>,
 }
 
@@ -293,6 +307,7 @@ impl PsyTokenContractRef {
     #[contract_method]
     pub fn batch_transfer_2(recipients: [Felt; 2], amounts: [Felt; 2]) {
         let caller = get_user_id();
+        assert(caller < 16777216, "caller user_id exceeds outbox bounds");
         let c = PsyTokenContractRef::new(ContractMetadata::current());
         let current_balance = c.balance.get();
         let mut total_amount = 0;
@@ -328,6 +343,7 @@ impl PsyTokenContractRef {
     #[contract_method]
     pub fn batch_transfer_5(recipients: [Felt; 5], amounts: [Felt; 5]) {
         let caller = get_user_id();
+        assert(caller < 16777216, "caller user_id exceeds outbox bounds");
         let c = PsyTokenContractRef::new(ContractMetadata::current());
         let current_balance = c.balance.get();
         let mut total_amount = 0;
@@ -362,24 +378,25 @@ impl PsyTokenContractRef {
 
     #[contract_method]
     pub fn open_delegation_channel(channel_idx: Felt, spender: Felt, amount: Felt) {
-        assert(!DELEGATION_GATED, "delegation channel creation is gated pending protocol-level linearizability");
         assert(channel_idx < 16, "channel index out of bounds");
         assert(amount > 0, "amount must be positive");
         assert(spender != 0, "spender cannot be zero address");
         let caller = get_user_id();
+        assert(caller < 16777216, "owner user_id exceeds channel bounds");
+        assert(spender < 16777216, "spender user_id exceeds channel bounds");
         assert(spender != caller, "cannot delegate to self");
         let c = PsyTokenContractRef::new(ContractMetadata::current());
         let current_balance = c.balance.get();
         assert(current_balance >= amount, "insufficient balance to allocate");
         let existing = c.delegations[channel_idx].get();
         assert(existing.status == 0 || existing.status == 3, "channel currently active; revoke or close first");
+        assert(existing.channel_version < 18446744069414584320, "channel version overflow");
         c.balance = current_balance - amount;
         c.delegations[channel_idx] = new DelegationChannel {
             spender: spender,
             allocated_amount: amount,
             channel_version: existing.channel_version + 1,
-            status: 1,
-            cutoff_checkpoint: 0,
+            status: 1
         };
         let ev = new DelegationEvent {
             channel_idx: channel_idx,
@@ -389,11 +406,9 @@ impl PsyTokenContractRef {
         ev.emit();
     }
 
-    // [EXPERIMENTAL / PROTOCOL BOUNDARY WARNING]
-    // In current psy-node, cross-partition reading verifies inclusion in historical checkpoints.
-    // A spender could present a historical OPEN proof even after revocation was initiated,
-    // or read stale records. This method does NOT guarantee linearizable settlement.
-    // Safe settlement/drainage remains pending protocol design and real-node verification.
+    // Remote owner state may be historical. The spender's local versioned ledger
+    // bounds total spending; a fresh REVOKE_PENDING read rejects spending, but an
+    // earlier ACTIVE proof may still be accepted until the spender closes.
     #[contract_method]
     pub fn spend_delegation(owner: Felt, channel_idx: Felt, amount: Felt, recipient: Felt) {
         assert(channel_idx < 16, "channel index out of bounds");
@@ -410,27 +425,29 @@ impl PsyTokenContractRef {
         let owner_contract = PsyTokenContractRef::new(ContractMetadata::new(get_contract_id(), owner));
         let ch = owner_contract.delegations[channel_idx].get();
         assert(caller == ch.spender, "caller is not authorized channel spender");
-        assert(ch.status == 1 || ch.status == 2, "channel is not active");
+        assert(ch.status == 1, "channel is not active");
 
-        // Cutoff protection during pending revoke window
-        if ch.status == 2 {
-            let current_cp = get_checkpoint_id();
-            assert(current_cp <= ch.cutoff_checkpoint, "cutoff checkpoint passed; spend blocked");
-        };
-
-        // 2. Read and update Spender local spent ledger keyed by (owner, channel_idx, channel_version) in state_map namespace 2
+        // 2. Read and update the Spender's local, versioned ledger.
         let c = PsyTokenContractRef::new(ContractMetadata::current());
-        let rec_key: Hash = hash([owner, channel_idx, ch.channel_version, 0]);
+        let ledger_idx = owner * 16 + channel_idx;
+        let ledger = c.delegation_spends[ledger_idx].get();
+        assert(ledger.channel_version <= ch.channel_version, "historical delegation version cannot be reused");
         let mut local_spent: Felt = 0;
-        if c.state_map.contains_ns(2, rec_key) {
-            let val: Hash = c.state_map.get_ns(2, rec_key);
-            local_spent = val[0];
+        if ledger.channel_version == ch.channel_version {
+            assert(ledger.closed == 0, "delegation channel was closed by spender");
+            local_spent = ledger.spent;
+        } else {
+            assert(ledger.channel_version == 0 || ledger.closed == 1, "prior delegation version remains open");
         };
         assert(local_spent <= ch.allocated_amount, "local spent exceeds allocated amount");
         let remaining = ch.allocated_amount - local_spent;
         assert(amount <= remaining, "insufficient delegation channel allowance");
         assert(local_spent <= 18446744069414584320 - amount, "delegation spent overflow");
-        c.state_map.insert_ns(2, rec_key, [local_spent + amount, 0, 0, 0]);
+        c.delegation_spends[ledger_idx] = new DelegationSpend {
+            spent: local_spent + amount,
+            closed: 0,
+            channel_version: ch.channel_version,
+        };
 
         // 3. Outbox spend to recipient
         let recipient_info = c.other_user_info[recipient].get();
@@ -455,44 +472,80 @@ impl PsyTokenContractRef {
         let c = PsyTokenContractRef::new(ContractMetadata::current());
         let ch = c.delegations[channel_idx].get();
         assert(ch.status == 1, "channel is not in active status");
-        let cutoff = get_checkpoint_id() + 60;
         c.delegations[channel_idx] = new DelegationChannel {
             spender: ch.spender,
             allocated_amount: ch.allocated_amount,
             channel_version: ch.channel_version,
-            status: 2,
-            cutoff_checkpoint: cutoff,
+            status: 2
         };
         let ev = new RequestRevokeDelegationEvent {
-            channel_idx: channel_idx,
-            cutoff_checkpoint: cutoff,
+            channel_idx: channel_idx
         };
         ev.emit();
     }
 
-    // [EXPERIMENTAL / PROTOCOL BOUNDARY WARNING]
-    // Reading Spender's spent ledger across partitions is subject to historical/stale reads
-    // in psy-node. This refund logic cannot guarantee safe drainage until node-level linearizability
-    // and freshness validation are implemented.
+    // Closing is a terminal write in the spender's own partition. A historical
+    // proof of this closed record remains safe to use for the owner's refund:
+    // the spender can no longer increase spent for this channel version.
+    // Revocation is cooperative; a missing spender close leaves funds locked.
+    #[contract_method]
+    pub fn close_delegation_channel(owner: Felt, channel_idx: Felt, channel_version: Felt) {
+        assert(owner != 0 && owner < 16777216, "owner user_id exceeds channel bounds");
+        assert(channel_idx < 16, "channel index out of bounds");
+        assert(channel_version > 0, "channel version must be positive");
+        let caller = get_user_id();
+        assert(caller < 16777216, "caller user_id exceeds channel bounds");
+        assert(owner != caller, "cannot close a delegation to self");
+        let owner_contract = PsyTokenContractRef::new(ContractMetadata::new(get_contract_id(), owner));
+        let authorization = owner_contract.delegations[channel_idx].get();
+        assert(authorization.spender == caller, "caller is not channel spender");
+        assert(authorization.channel_version == channel_version, "channel version does not match owner authorization");
+        assert(authorization.status == 1 || authorization.status == 2, "owner channel is not active");
+        let c = PsyTokenContractRef::new(ContractMetadata::current());
+        let ledger_idx = owner * 16 + channel_idx;
+        let ledger = c.delegation_spends[ledger_idx].get();
+        assert(ledger.channel_version <= channel_version, "historical delegation version cannot be closed again");
+        let mut spent: Felt = 0;
+        if ledger.channel_version == channel_version {
+            assert(ledger.closed == 0, "delegation channel already closed by spender");
+            spent = ledger.spent;
+        } else {
+            assert(ledger.channel_version == 0 || ledger.closed == 1, "prior delegation version remains open");
+        };
+        c.delegation_spends[ledger_idx] = new DelegationSpend {
+            spent: spent,
+            closed: 1,
+            channel_version: channel_version,
+        };
+        let ev = new CloseDelegationEvent {
+            owner: owner,
+            channel_idx: channel_idx,
+            channel_version: channel_version,
+            spent_amount: spent,
+        };
+        ev.emit();
+    }
+
+    // Remote spender state may be historical. CLOSED is terminal in the
+    // spender's current local ledger, so a proof of CLOSED with the exact
+    // version and spent total is sufficient for a cooperative refund.
     #[contract_method]
     pub fn finalize_revoke_delegation(channel_idx: Felt, spender: Felt) {
         assert(channel_idx < 16, "channel index out of bounds");
+        assert(spender < 16777216, "spender user_id exceeds channel bounds");
         let caller = get_user_id();
         let c = PsyTokenContractRef::new(ContractMetadata::current());
         let ch = c.delegations[channel_idx].get();
         assert(ch.status == 2, "revoke has not been requested for this channel");
         assert(spender == ch.spender, "spender does not match channel spender");
-        let current_cp = get_checkpoint_id();
-        assert(current_cp > ch.cutoff_checkpoint, "settlement window has not expired");
-
-        // Read confirmed spent from Spender partition matching (owner, channel_idx, channel_version) in state_map namespace 2
+        // A historical CLOSED proof is safe: the Spender's own current ledger
+        // forbids any later spending for this channel version.
         let spender_contract = PsyTokenContractRef::new(ContractMetadata::new(get_contract_id(), spender));
-        let rec_key: Hash = hash([caller, channel_idx, ch.channel_version, 0]);
-        let mut confirmed_spent: Felt = 0;
-        if spender_contract.state_map.contains_ns_other(2, rec_key) {
-            let val: Hash = spender_contract.state_map.get_ns_other(2, rec_key);
-            confirmed_spent = val[0];
-        };
+        let ledger_idx = caller * 16 + channel_idx;
+        let settlement = spender_contract.delegation_spends[ledger_idx].get();
+        assert(settlement.channel_version == ch.channel_version, "spender ledger version mismatch");
+        assert(settlement.closed == 1, "spender has not closed delegation channel");
+        let confirmed_spent: Felt = settlement.spent;
         assert(confirmed_spent <= ch.allocated_amount, "confirmed spent exceeds allocated amount");
 
         let unspent = ch.allocated_amount - confirmed_spent;
@@ -504,8 +557,7 @@ impl PsyTokenContractRef {
             spender: 0,
             allocated_amount: 0,
             channel_version: ch.channel_version,
-            status: 3,
-            cutoff_checkpoint: 0,
+            status: 3
         };
 
         let ev = new FinalizeRevokeDelegationEvent {
@@ -565,6 +617,7 @@ impl PsyTokenContractRef {
         proof: PrivateClaimProof
     ) {
         let c = PsyTokenContractRef::new(ContractMetadata::current());
+        assert(proof.index < 65536, "proof index out of bounds");
         let preimage = new ProofPublicInputsPreimage {
             receiver: receiver,
             amount: amount,

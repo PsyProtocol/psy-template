@@ -9,11 +9,12 @@ const __dirname = fileURLToPath(new URL('.', import.meta.url));
 const REPO_ROOT = join(__dirname, '../..');
 
 test('Compilation & ABI Verification E2E', async (t) => {
-  // 0. Trigger deterministic native compilation via psyup build
-  await t.test('All contracts compile cleanly via psyup build', () => {
+  // 0. Compile both token versions, the legacy dApp, and staging-compatible NFT v3.
+  await t.test('All contracts compile cleanly', () => {
+    execSync('npm run build', { cwd: join(REPO_ROOT, 'token'), stdio: 'pipe' });
     execSync('psyup build', { cwd: join(REPO_ROOT, 'token'), stdio: 'pipe' });
     execSync('psyup build', { cwd: join(REPO_ROOT, 'dapp/contract'), stdio: 'pipe' });
-    execSync('psyup build', { cwd: join(REPO_ROOT, 'nft'), stdio: 'pipe' });
+    execSync('npm run build', { cwd: join(REPO_ROOT, 'nft'), stdio: 'pipe' });
   });
 
   // 1. PSY-20 Pure Token ABI Verification
@@ -25,7 +26,7 @@ test('Compilation & ABI Verification E2E', async (t) => {
     assert.equal(abi.schema_version, '2.0.0', 'Schema version must be 2.0.0');
     assert.equal(abi.contract.name, 'PsyTokenContract');
 
-    // Verify canonical Psy storage fields (14 fields)
+    // Verify legacy storage fields, including the terminal spender ledger.
     const stateFieldNames = abi.contract.state.map(s => s.name);
     assert.deepEqual(stateFieldNames, [
       'balance',
@@ -41,6 +42,7 @@ test('Compilation & ABI Verification E2E', async (t) => {
       'decimals',
       'symbol',
       'delegations',
+      'delegation_spends',
       'state_map'
     ]);
 
@@ -49,13 +51,14 @@ test('Compilation & ABI Verification E2E', async (t) => {
     assert.equal(noteRootField.offset, 33554436);
     assert.equal(noteRootField.offset / 4, 8388609);
 
-    // Verify 15 standard methods (including dual-ledger spend_delegation, two-phase revoke, private_claim)
+    // Verify 16 legacy methods, including cooperative close and private_claim.
     const methodNames = abi.contract.methods.map(m => m.name).sort();
     assert.deepEqual(methodNames, [
       'batch_transfer_2',
       'batch_transfer_5',
       'burn',
       'claim',
+      'close_delegation_channel',
       'finalize_revoke_delegation',
       'mint',
       'open_delegation_channel',
@@ -91,7 +94,7 @@ test('Compilation & ABI Verification E2E', async (t) => {
     assert.equal(spendDelegationMethod.inputs.length, 4);
     assert.deepEqual(spendDelegationMethod.inputs.map(i => i.name), ['owner', 'channel_idx', 'amount', 'recipient']);
 
-    // Verify two-phase revoke delegation inputs
+    // Verify cooperative revocation inputs.
     const requestRevokeMethod = abi.contract.methods.find(m => m.name === 'request_revoke_delegation');
     assert.equal(requestRevokeMethod.inputs.length, 1);
     assert.deepEqual(requestRevokeMethod.inputs.map(i => i.name), ['channel_idx']);
@@ -109,13 +112,13 @@ test('Compilation & ABI Verification E2E', async (t) => {
 
     assert.equal(abi.schema_version, '2.0.0');
     assert.equal(abi.contract.name, 'PsyTokenContract');
-    assert.equal(abi.contract.methods.length, 15);
+    assert.equal(abi.contract.methods.length, 16);
   });
 
   // 3. PSY-721 NFT ABI Verification
   await t.test('PSY-721 NFT ABI satisfies standard specification', () => {
-    const abiPath = join(REPO_ROOT, 'nft/target/nft.abi.json');
-    assert.ok(existsSync(abiPath), 'nft.abi.json must exist');
+    const abiPath = join(REPO_ROOT, 'nft/target/v3/abi.json');
+    assert.ok(existsSync(abiPath), 'NFT v3 ABI must exist');
     const abi = JSON.parse(readFileSync(abiPath, 'utf-8'));
 
     assert.equal(abi.schema_version, '2.0.0', 'Schema version must be 2.0.0');
@@ -133,15 +136,22 @@ test('Compilation & ABI Verification E2E', async (t) => {
       'owned_tokens',
       'outbox'
     ]);
+    const slotType = abi.types.find(t => t.name === 'NFTSlot');
+    const outboxType = abi.types.find(t => t.name === 'NFTOutbox');
+    assert.equal(slotType.fields.find(f => f.name === 'token_id').type.name, 'Hash');
+    assert.equal(outboxType.fields.find(f => f.name === 'token_id_0').type.name, 'Hash');
+    assert.equal(abi.contract.state.find(s => s.name === 'owned_tokens').type.item_felt_size, 9);
+    assert.equal(abi.contract.state.find(s => s.name === 'outbox').type.item_felt_size, 35);
+    assert.equal(outboxType.fields.find(f => f.name === 'nonce_acked').type.name, 'Felt');
 
-    // Verify 6 standard methods (including set_collection_metadata)
+    // Verify six staging v3 NFT methods; authority is initialized by set_collection_metadata.
     const methodNames = abi.contract.methods.map(m => m.name).sort();
     assert.deepEqual(methodNames, [
+      'acknowledge',
       'claim',
       'mint',
       'renounce_mint_authority',
       'set_collection_metadata',
-      'set_mint_authority',
       'transfer'
     ]);
 

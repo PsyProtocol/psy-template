@@ -1,0 +1,97 @@
+fn assert_hash_eq(actual: Hash, expected: Hash) {
+    assert_eq(actual[0], expected[0], "hash limb 0 mismatch");
+    assert_eq(actual[1], expected[1], "hash limb 1 mismatch");
+    assert_eq(actual[2], expected[2], "hash limb 2 mismatch");
+    assert_eq(actual[3], expected[3], "hash limb 3 mismatch");
+}
+
+#[test]
+fn test_nft_lifecycle() {
+    let c = PsyNFTContractRef::new(ContractMetadata::current());
+
+    // 1. Initialize Collection Metadata (auto-initializes mint_authority to caller: 5)
+    let base_uri_hash: Hash = [10, 20, 30, 40];
+    PsyNFTContractRef::set_collection_metadata(5264217, base_uri_hash);
+    assert_eq(c.symbol.get(), 5264217, "collection symbol should be set");
+    assert_eq(c.mint_authority.get(), 5, "mint authority should auto-initialize to caller 5");
+
+    // 2. Sequential minting with local_id = 1, 2, 3, 4 into slots 0, 1, 2, 3
+    let token_hash_0: Hash = [1, 2, 3, 4];
+    PsyNFTContractRef::mint(0, 1, token_hash_0);
+    let expected_id_0 = hash_two_to_one([5, 0, 0, 0], [1, 0, 0, 0]);
+    let s0 = c.owned_tokens[0].get();
+    assert_hash_eq(s0.token_id, expected_id_0);
+    assert_eq(s0.is_active, 1, "slot 0 should be active");
+    assert_eq(s0.metadata_hash[0], 1, "slot 0 metadata_hash[0] should be 1");
+    assert_eq(c.balance.get(), 1, "balance should be 1");
+    assert_eq(c.total_minted.get(), 1, "total_minted should be 1");
+
+    let token_hash_1: Hash = [5, 6, 7, 8];
+    PsyNFTContractRef::mint(1, 2, token_hash_1);
+    let expected_id_1 = hash_two_to_one([5, 0, 0, 0], [2, 0, 0, 0]);
+    let s1 = c.owned_tokens[1].get();
+    assert_hash_eq(s1.token_id, expected_id_1);
+    assert_eq(s1.is_active, 1, "slot 1 should be active");
+    assert_eq(c.balance.get(), 2, "balance should be 2");
+    assert_eq(c.total_minted.get(), 2, "total_minted should be 2");
+
+    let token_hash_2: Hash = [9, 10, 11, 12];
+    PsyNFTContractRef::mint(2, 3, token_hash_2);
+    let expected_id_2 = hash_two_to_one([5, 0, 0, 0], [3, 0, 0, 0]);
+    let s2 = c.owned_tokens[2].get();
+    assert_hash_eq(s2.token_id, expected_id_2);
+    assert_eq(s2.is_active, 1, "slot 2 should be active");
+    assert_eq(c.balance.get(), 3, "balance should be 3");
+    assert_eq(c.total_minted.get(), 3, "total_minted should be 3");
+
+    let token_hash_3: Hash = [13, 14, 15, 16];
+    PsyNFTContractRef::mint(3, 4, token_hash_3);
+    let expected_id_3 = hash_two_to_one([5, 0, 0, 0], [4, 0, 0, 0]);
+    let s3 = c.owned_tokens[3].get();
+    assert_hash_eq(s3.token_id, expected_id_3);
+    assert_eq(s3.is_active, 1, "slot 3 should be active");
+    assert_eq(c.balance.get(), 4, "balance should be 4");
+    assert_eq(c.total_minted.get(), 4, "total_minted should be 4");
+
+    // 3. FIFO Outbox Transfers 1..4: Saturated transfer filling all 4 slots of recipient 777 ring buffer
+    // Transfer 1 (slot 0 -> circular buffer slot 0)
+    PsyNFTContractRef::transfer(0, 777);
+    let ob1 = c.outbox[777].get();
+    assert_hash_eq(ob1.token_id_0, expected_id_0);
+    assert_eq(ob1.nonce_sent, 1, "nonce_sent should be 1");
+    assert_eq(c.balance.get(), 3, "balance should be 3");
+
+    // Transfer 2 (slot 1 -> circular buffer slot 1)
+    PsyNFTContractRef::transfer(1, 777);
+    let ob2 = c.outbox[777].get();
+    assert_hash_eq(ob2.token_id_1, expected_id_1);
+    assert_eq(ob2.nonce_sent, 2, "nonce_sent should be 2");
+    assert_eq(c.balance.get(), 2, "balance should be 2");
+
+    // Transfer 3 (slot 2 -> circular buffer slot 2)
+    PsyNFTContractRef::transfer(2, 777);
+    let ob3 = c.outbox[777].get();
+    assert_hash_eq(ob3.token_id_2, expected_id_2);
+    assert_eq(ob3.nonce_sent, 3, "nonce_sent should be 3");
+    assert_eq(c.balance.get(), 1, "balance should be 1");
+
+    // Transfer 4 (slot 3 -> circular buffer slot 3)
+    // Sinking 4 transfers completely fills the 4 in-flight ring buffer capacity
+    PsyNFTContractRef::transfer(3, 777);
+    let ob4 = c.outbox[777].get();
+    assert_hash_eq(ob4.token_id_3, expected_id_3);
+    assert_eq(ob4.nonce_sent, 4, "nonce_sent should be 4 (queue saturated)");
+    assert_eq(ob4.nonce_claimed, 0, "nonce_claimed should remain 0");
+    assert_eq(c.balance.get(), 0, "balance should be 0 after all 4 transfers");
+
+    // Verify all 4 items remain preserved in the circular buffer
+    assert_hash_eq(ob4.token_id_0, expected_id_0);
+    assert_hash_eq(ob4.token_id_1, expected_id_1);
+    assert_hash_eq(ob4.token_id_2, expected_id_2);
+    assert_hash_eq(ob4.token_id_3, expected_id_3);
+
+    // 4. Renounce mint authority and verify state
+    PsyNFTContractRef::renounce_mint_authority();
+    assert_eq(c.is_mint_renounced.get(), 1, "minting should be renounced");
+    assert_eq(c.mint_authority.get(), 0, "authority should be zero");
+}

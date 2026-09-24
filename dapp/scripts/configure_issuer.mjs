@@ -24,7 +24,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const BASE_DIR = path.resolve(__dirname, '..');
 
-const MAX_FELT = 18446744069414584320n;
+const MAX_USER_ID = 16777215n; // outbox arrays are indexed by 24-bit user IDs
 const ISSUER_CONST_REGEX = /pub\s+const\s+ISSUER_USER_ID\s*:\s*Felt\s*=\s*(\d+)\s*;/;
 const STATE_FILENAME = '.issuer_configured';
 
@@ -116,6 +116,11 @@ function checkConfig({ strict = false } = {}) {
     process.exit(1);
   }
 
+  if (BigInt(firstId) < 1n || BigInt(firstId) > MAX_USER_ID) {
+    console.error(`✖ ISSUER_USER_ID must be in 1..${MAX_USER_ID}; larger IDs cannot use the 24-bit outbox.`);
+    process.exit(1);
+  }
+
   console.log(`\n✔ Configuration is uniform: Canonical ISSUER_USER_ID = ${firstId}`);
 
   const stateRecord = loadConfigurationState();
@@ -170,8 +175,8 @@ function setIssuer(rawId) {
     process.exit(1);
   }
 
-  if (idBigInt <= 0n || idBigInt > MAX_FELT) {
-    console.error(`✖ Error: User ID must be in range 1..${MAX_FELT}.`);
+  if (idBigInt <= 0n || idBigInt > MAX_USER_ID) {
+    console.error(`✖ Error: User ID must be in range 1..${MAX_USER_ID}.`);
     process.exit(1);
   }
 

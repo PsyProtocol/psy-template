@@ -6,7 +6,9 @@ Official Psy project templates for [Psy Protocol](https://github.com/PsyProtocol
 
 Designed for use with `psyup new`.
 
-For a full breakdown of the ZK-native partitioned state model, Plonky2 Goldilocks arithmetic, Outbox/Claim protocols, and formal security invariants, see the [Design Specification](DESIGN.md).
+For a full breakdown of the ZK-native partitioned state model, Plonky2 Goldilocks arithmetic, Outbox/Claim protocols, and stated security invariants, see the [Design Specification](DESIGN.md).
+
+For release blockers and acceptance criteria, see [Production Readiness Gates](PRODUCTION_READINESS.md).
 
 ---
 
@@ -16,7 +18,7 @@ For a full breakdown of the ZK-native partitioned state model, Plonky2 Goldilock
 | :--- | :--- | :--- | :--- |
 | **dapp** (default) | `dapp/` | Full-stack React + Vite frontend with a Psy token contract in `contract/` | `psyup new my-app` |
 | **token** | `token/` | Pure PSY-20 Fungible Token contract (Phase 1 Safe Subset: liquid balance, Outbox Transfer/Claim, Batched Transfers, strict Goldilocks arithmetic) | `psyup new my-token --template token` |
-| **nft** | `nft/` | Pure PSY-721 NFT contract (Computational Namespace Uniqueness, Slot Storage, Sliding Window Outbox with ACK Visibility) | `psyup new my-nft --template nft` |
+| **nft** | `nft/` | PSY-721 v3 NFT contract (computational namespace uniqueness, slot storage, four-slot Outbox with explicit ACK) | `psyup new my-nft --template nft` |
 
 ---
 
@@ -51,7 +53,9 @@ psyup new my-nft --template nft
 
 ### 2. Configure Issuer Partition (Mandatory Preflight)
 
-In Psy Protocol, asset issuance and administration are strictly locked to a single, compile-time designated partition (`ISSUER_USER_ID`) and the cryptographic deployer public key.
+Asset issuance is locked to a compile-time designated partition (`ISSUER_USER_ID`). The legacy token and NFT sources also check the deployer public key. The staging-compatible NFT v3 compiler does not expose that intrinsic; its NFT contract checks the canonical user ID on chain and its deployment script verifies the selected wallet against the registered ID.
+
+The issuer user ID must be in `1..16777215`. Outbox arrays have 24-bit indices; a larger issuer ID could mint assets but could not transfer them.
 
 > [!WARNING]
 > You **MUST** configure `ISSUER_USER_ID` to match your actual on-chain account's `user_id` before building and deploying. If deployed with a mismatched ID, the contract will permanently reject initialization and minting from your account, bricking the deployment.
@@ -65,7 +69,7 @@ npm run check:preflight
 ```
 
 > [!NOTE]
-> **Toolchain Boundary**: `npm run check:preflight` and `npm run build:deploy` provide application-layer preflight verification. Running `psyup build` or `psyup deploy` directly in your terminal bypasses these npm scripts. Mandatory deployment verification is not yet closed under the current toolchain.
+> **Deployment boundary**: Root `check:preflight` verifies the configured source and local marker. Each standalone template also provides `check:deployer` and `deploy:checked`, which query the selected wallet's first registered user ID on the configured network. Direct `psyup deploy` bypasses these checks.
 
 ### 3. Build Contracts
 
@@ -76,18 +80,21 @@ Inside any contract directory (or project root for pure contract templates):
 npm run build:deploy
 
 # Or standard build:
-psyup build
+npm run build
 ```
 
-This invokes `dargo compile` and generates:
-- `target/<name>.json` — Compiled ZK circuit artifact
-- `target/<name>.abi.json` — Contract Application Binary Interface (ABI)
+Token and dApp currently use `dargo`; NFT uses the staging-compatible `psy_user_cli compile` on `nft/src/main.psy.rs` and writes `nft/target/v3/compilation_artifact.json` plus `abi.json`. Set `PSY_USER_CLI` to a compatible binary. See the [NFT guide](nft/README.md) for the verified toolchain and staging deployment path.
 
 ### 4. Deploy
 
+From the `token/`, `nft/`, or `dapp/` template directory, set exactly one of `PRIVATE_KEY` or `KEYSTORE_PATH` (plus `WALLET_PASSWORD` for a keystore) and set `RPC_CONFIG` for the intended network. Then run:
+
 ```sh
-psyup deploy
+npm run check:deployer
+npm run deploy:checked
 ```
+
+`deploy:checked` rebuilds before submitting and rejects an issuer ID that does not match the selected wallet's first registered ID. For standalone token and NFT templates it submits the v3 artifact with a compatible CLI and records the included contract ID when the staging API returns it. Direct `psyup deploy` still targets legacy artifacts.
 
 ---
 
@@ -100,21 +107,22 @@ Each template includes a comprehensive, step-by-step operational guide:
   - **Edge RPC Slot Reading**: Zero-gas, direct storage slot queries (`getUserContractStateTreeLeafHash`) for balances and Outbox state.
   - **Monotonic Outbox/Claim**: High-concurrency pull payments immune to stale-read double-spending.
   - **Goldilocks Prime Field Arithmetic**: Strict $p - 1$ bounds preventing modular wrap-around.
+  - **Cooperative Delegation**: 16 independent escrow slots; spender-local terminal close before owner refund. Owner-only instant revocation is unavailable on the current protocol.
 - **[PSY-721 NFT Guide](nft/README.md)**:
   - **Computational Namespace Uniqueness**: `Poseidon(creator, local_id)` providing collision-resistant token identity.
   - **Slot-Based Ownership**: Unique token slot management up to 128 slots.
-  - **Sliding Window Outbox & ACK Visibility**: Conflict-free cross-user NFT routing preventing overwrite losses and deadlocks.
+  - **Sliding Window Outbox & Explicit ACK**: Separate inbound and outbound counters support two-way transfers; the sender acknowledges claims before reusing full queue capacity.
 - **[Full-Stack dApp Guide](dapp/README.md)**:
   - **Vite + React Integration**: Browser extension connection via `window.psy`.
   - **SDK Builders**: Strongly-typed transaction construction via `@psy-protocol/psy-sdk`.
 - **[Design Specification](DESIGN.md)**:
-  - Formal mathematical invariants, Plonky2 Goldilocks arithmetic, state partitioning axioms, and Delegation Cutoff settlement model.
+  - Formal mathematical invariants, Plonky2 Goldilocks arithmetic, state partitioning axioms, and cooperative delegation settlement limits.
 
 ---
 
 ## Testing & Verification
 
-The repository includes native ZK contract unit tests, end-to-end integration suites, and adversarial verification:
+The repository includes legacy native ZK contract unit tests, staging v3 compilation and ABI checks, and JavaScript multi-user state simulations. A separate [staging report](tests/live/STAGING_REPORT_2026-09-23.md) records real multi-user cross-realm NFT transactions. The legacy `dargo` NFT unit harness does not execute the v3 source:
 
 ```sh
 # Run the complete test matrix (Unit + E2E + Adversarial)
@@ -123,18 +131,18 @@ npm test
 # Run native Plonky2 ZK contract unit tests via dargo test
 npm run test:unit
 
-# Run full end-to-end multi-user state & invariant simulation suites
+# Run multi-user state and invariant simulations plus compilation checks
 npm run test:e2e
 ```
 
-### Direct CLI Unit Testing
+### Native Unit Testing
 
-You can also run individual contract unit tests directly using the `dargo` compiler toolchain:
+Run each template's native tests through its script. The script composes the current `src/main.psy` with test cases and applies only the substitutions required by `dargo`'s single-user mock runtime:
 
 ```sh
-# PSY-20 Token Unit Tests (ZK Witness Generation + Proving Assertions)
-dargo test --file token/tests/token_unit_test.psy
+# PSY-20 Token Unit Tests
+(cd token && npm test)
 
 # PSY-721 NFT Unit Tests
-dargo test --file nft/tests/nft_unit_test.psy
+(cd nft && npm test)
 ```

@@ -1,0 +1,38 @@
+{
+  "contract_id": 48,
+  "users": [
+    901120,
+    1949696
+  ],
+  "slot": 2,
+  "scenario": "new spend trace generated after owner request is rejected by active-only guard",
+  "open": {
+    "transaction_hash": "3d1417ed7eabe6ef946eafcc8b685f0b16a30453bf47d20575feb291db47a09d",
+    "user_id": 901120,
+    "status": "confirmed",
+    "confirmed_checkpoint": 34743,
+    "network": "sepolia"
+  },
+  "request": {
+    "transaction_hash": "83e86f925326c5b6611c19907c82f27f8cb0beea96214abbb79a010308fbfabf",
+    "user_id": 901120,
+    "status": "confirmed",
+    "confirmed_checkpoint": 34749,
+    "network": "sepolia"
+  },
+  "fresh_spend_rejection": "channel is not active",
+  "close": {
+    "transaction_hash": "1239700c1fa5383b1b6bd4a4793f4191ba06dff7a91dd05cb99d1e6e3c19a1db",
+    "user_id": 1949696,
+    "status": "confirmed",
+    "confirmed_checkpoint": 34758,
+    "network": "sepolia"
+  },
+  "finalize": {
+    "transaction_hash": "653a4ba60716b42cf57ec2f7b80acbf880acfd4430d7c0460939360e8ca176f5",
+    "user_id": 901120,
+    "status": "confirmed",
+    "confirmed_checkpoint": 34770,
+    "network": "sepolia"
+  }
+}

@@ -56,7 +56,6 @@ pub struct DelegationChannel {
     pub allocated_amount: Felt,
     pub channel_version: Felt,
     pub status: Felt, // 1: ACTIVE, 2: REVOKE_PENDING, 3: CLOSED
-    pub cutoff_checkpoint: Felt,
 }
 
 ```rust
@@ -110,66 +109,47 @@ pub struct PsyTokenContract {
    - `transfer(recipient: Felt, amount: Felt)`: Deducts caller balance and credits recipient's Outbox.
    - `claim(sender: Felt)`: Cross-partition reads sender's Outbox, pulls pending tokens into caller balance.
    - `batch_transfer_2(recipients, amounts)` / `batch_transfer_5(recipients, amounts)`: Atomic multi-transfer execution.
-4. **Dual-Ledger Delegation [EXPERIMENTAL - GATED BY PROTOCOL STALE-READ REJECTION]**:
+4. **Dual-Ledger Delegation [EXPERIMENTAL, COOPERATIVE REVOCATION]**:
    - `open_delegation_channel(channel_idx: Felt, spender: Felt, amount: Felt)`: Owner locks tokens into channel with `status = 1` (ACTIVE).
-   - `spend_delegation(owner: Felt, channel_idx: Felt, amount: Felt, recipient: Felt)`: Spender verifies Owner channel, asserts `local_spent <= allocated_amount` (Goldilocks underflow prevention), updates Spender local ledger in `state_map` Namespace 2 keyed by `hash([owner, channel_idx, version, 0])`, and routes tokens to recipient Outbox.
-   - `request_revoke_delegation(channel_idx: Felt)`: Owner initiates revocation, setting `status = 2` (REVOKE_PENDING) and `cutoff_checkpoint = current_cp + 60`.
-   - `finalize_revoke_delegation(channel_idx: Felt, spender: Felt)`: After cutoff (`current_cp > cutoff`), Owner reads Spender's `state_map` Namespace 2, refunds unspent tokens, and closes channel (`status = 3`).
+   - `spend_delegation(owner: Felt, channel_idx: Felt, amount: Felt, recipient: Felt)`: Spender verifies Owner channel, updates a spender-local versioned `delegation_spends` ledger, and routes tokens to recipient Outbox.
+   - `request_revoke_delegation(channel_idx: Felt)`: Owner marks the slot REVOKE_PENDING. This is a request, not an enforced spending cutoff.
+   - `close_delegation_channel(owner: Felt, channel_idx: Felt, version: Felt)`: Spender commits a terminal close in its own ledger.
+   - `finalize_revoke_delegation(channel_idx: Felt, spender: Felt)`: Owner reads the exact closed ledger, refunds unspent tokens, and closes the slot.
 5. **Shielded Note Commitment & Canonical Private Claim**:
    - `private_transfer(receiver: Hash, value: Felt, note_secret_hash: Hash)`: Inserts note commitment into 20-level Merkle tree.
    - `private_claim(...)`: Precompile-compatible ZK proof verification of Merkle note inclusion (validating `preimage.note_root_slot == 8388609`, exact leaf index) with nullifier double-spend check via `state_map` Namespace 1.
 
 ---
 
-## 3. Delegation Channels: Dual-Ledger Architecture & Cutoff Settlement [EXPERIMENTAL - GATED]
+## 3. Delegation Channels: Cooperative Settlement [EXPERIMENTAL]
 
-### 3.1 The Underlying Physical Constraint
-Code tracing of `psy-node` (`realm/edge/handler.rs:350-450`) confirms:
-- The node verifier only validates that the **caller's** start leaf hash is current at `current_checkpoint_id`.
-- For target partition states (e.g. Owner $A$'s channel state), the node only validates Merkle inclusion in the historical Checkpoint tree at `end_cap_checkpoint_id <= current_checkpoint_id`.
-- **Physical Reality**: Target partition mutations do **NOT** retroactively invalidate existing ZK proofs generated against historical Checkpoints.
+Each owner has 16 escrow slots. `open_delegation_channel` locks liquid balance and records a spender, allocation, and increasing slot version. `spend_delegation` reads that authorization and increments a versioned, owner-and-slot-indexed spent ledger in the spender's own partition. The ledger bounds total spend to the allocation, even when the remote authorization proof is historical.
 
-### 3.2 Safe Delegation Invariant & Protocol Requirements
-To safely support revocable delegation without double-spending or over-refunding:
-> **Delegation 底层前提**: stale-read rejection、执行期当前状态校验，或等价的协议级线性化/Cutoff 机制，三者至少具备其一。
->
-> **重要物理边界**: 在 `psy-node`（`realm/edge/handler.rs:188`）的跨分区读验证中，目标分区读取仅需证明在*某个历史 checkpoint* 下有效。若攻击者以 `status == 1 (OPEN)` 的历史状态树根生成读证明，进入目标分区后根本不会执行 `status == 2` 的截断检查分支。因此，**应用层 `cutoff_checkpoint` 无法单独拦截基于历史快照的陈旧读 Spend**；其有效性严格依赖于协议层/共识层拒绝陈旧读或强制状态线性化。在协议层落实旧读拒绝前，不可用于主网真实资金的撤销委托。
+`request_revoke_delegation` records the owner's request. The latest local source requires ACTIVE status to spend, so a fresh read of REVOKE_PENDING is rejected, but the request is not an effective spending cutoff: the spender can still present a historical ACTIVE proof. A separate `close_delegation_channel` writes an irreversible `closed` bit to the spender's **local** ledger; `finalize_revoke_delegation` requires a proof of that exact version and closed ledger, then refunds `allocated - spent`. A historical proof of CLOSED remains sufficient only because the same spender cannot increase `spent` after closure when its current local leaf is enforced. There is no 60-checkpoint timer in the current source.
 
-`psy-template` 实现了基于 `state_map` 复合键的两阶段截断双账本范式：
-1. `request_revoke_delegation`: 设置 `cutoff_checkpoint = current_checkpoint + 60` 并标记 `status = 2` (REVOKE_PENDING)。
-2. 在受信任/具有线性化保障的运行环境中，截断点之前生成的 Spend 允许结算，截断点之后提交的 Spend 坚决拒绝。
-3. `finalize_revoke_delegation`: 强制 `current_checkpoint > cutoff_checkpoint`。通过 `contains_ns_other(2, rec_key)` 和 `get_ns_other(2, rec_key)` 精确读取 Spender 端该 `(owner, channel_idx, version)` 的实际支出，退还 `allocated - confirmed_spent` 给 Owner，并关闭通道 (`status = 3`)。
+This design provides **cooperative** settlement. If the spender refuses to close, the remaining escrow stays locked. A unilateral `approve(spender, 0)` plus immediate refund needs protocol-level validation that the spender reads the owner's latest state at commit, or an equivalent atomic cross-partition transition. A nullifier or zero allowance in the owner's partition alone cannot stop a remote spender from proving an earlier owner state. Staging contract 47, an earlier revision that accepted REVOKE_PENDING spends, completed the ordinary close, post-close rejection, immediate refund, and historical-spend path. Current contract 48 completed the ordinary close/refund path and rejected a newly initiated spend after the request, but accepted an earlier ACTIVE proof submitted after the request. This directly disproves unilateral revocation on the current artifact.
 
-### 3.3 5-Case Adversarial Verification Matrix
-
-| Case | Scenario | Expected Assertion |
-| :--- | :--- | :--- |
-| **Case 1** | B generates Spend at $k$, A revokes at $k+1$, B submits after cutoff | **Transaction MUST FAIL** |
-| **Case 2** | B Spend finalized first, A revokes after | Refund is strictly `allocated - confirmed_spent` (never full allocation) |
-| **Case 3** | A Revoke finalized first, B spends after | **Transaction MUST FAIL** |
-| **Case 4** | B Spend produces Outbox, Channel CLOSED, C claims | **Claim MUST SUCCEED** (monotone Outbox independence) |
-| **Case 5** | B proof at $k$, A revokes at $k+1$, current $k+2$ (within `MAX_LAG`) | **Transaction MUST STILL FAIL** with zero state pollution across B, Outbox, C, and A |
-| **Case 6** | Real Compiled `.psy` Artifact Verification | Verified against `token.abi.json` (methods, storage layout, signatures) |
+The older five-case linearizable-cutoff model in `tests/e2e/delegation_adversarial.test.mjs` is a protocol target, not evidence that staging implements fresh remote reads. The separate cooperative model documents the contract's narrower invariant.
 
 ---
 
-## 4. PSY-721: Non-Fungible Token Standard Specification (V-Final)
+## 4. PSY-721: Non-Fungible Token Reference Specification
 
 ### 4.1 Global Identity & Namespace Uniqueness
 In a partitioned state tree, global token uniqueness cannot rely on a single global table.
 - Global token identity is computed on-chain via native ZK Poseidon circuit:
-  $$\text{token\_id} = \text{hash\_two\_to\_one}([\text{creator}, 0, 0, 0], [\text{local\_id}, 0, 0, 0])[0]$$
+  $$\text{token\_id} = \text{Poseidon}([\text{creator}, 0, 0, 0], [\text{local\_id}, 0, 0, 0]) \in \mathbb{F}^{4}$$
 - **Security Guarantee**:
   > 在固定编码、唯一 creator 和哈希抗碰撞假设下，提供计算意义上的命名空间唯一性。
 
 ### 4.2 Storage Layout & FIFO 4-Slot Sliding Window Outbox
-- **`owned_tokens: [NFTSlot; 128]`**: Indexed token slots storing `(token_id, is_active, metadata_hash)`.
-- **`outbox: [NFTOutbox; 16777216]`**: Circular buffer carrying up to 4 concurrent in-flight transfers:
-  `token_id_0..3`, `metadata_hash_0..3`, `nonce_sent`, `nonce_claimed`.
+- **`owned_tokens: ContractStateArray<128, NFTSlot>`**: Indexed token slots storing `(token_id, is_active, metadata_hash)`.
+- **`outbox: ContractStateArray<16777216, NFTOutbox>`**: Circular buffer carrying up to 4 concurrent in-flight transfers:
+  `token_id_0..3`, `metadata_hash_0..3`, `nonce_sent`, `nonce_claimed`, and `nonce_acked`.
 - **FIFO Claim & ACK Recycling Protocol**:
   - Sender queues transfer at slot `nonce_sent & 3`.
   - Recipient claims at slot `nonce_claimed & 3` in strict FIFO order.
-  - Sender recycled capacity is refreshed as recipient claims advance (`nonce_sent - acknowledged_claimed < 4`).
+  - The sender calls `acknowledge(recipient)` after a claim. It reads the recipient's inbound `nonce_claimed` and advances the sender's separate `nonce_acked`. Capacity requires `nonce_sent - nonce_acked < 4`.
 
 ---
 
@@ -180,7 +160,7 @@ In a partitioned state tree, global token uniqueness cannot rely on a single glo
 | **Conservation of Supply** | $\sum_i \text{balance}_i + \sum \text{escrow} + \sum \text{unclaimed} + \text{shielded} = \text{Minted} - \text{Burned}$ | Enforced across local partitions |
 | **Goldilocks Field Safety** | $\forall x, 0 \le x \le \text{MAX\_FELT}$ | Guarded by `assert(amount <= MAX_FELT - balance)` |
 | **Outbox Monotonicity** | $\text{nonce}_{sent}^{(t+1)} > \text{nonce}_{sent}^{(t)}$ and $\text{nonce}_{claimed} \le \text{nonce}_{sent}$ | Enforced by monotonic counters |
-| **Delegation Cutoff Safety** | $\text{spend\_valid} \iff \text{submission\_cp} \le \text{cutoff\_cp}$ | Verified by cutoff checkpoint assertion |
+| **Cooperative Delegation Settlement** | Refund requires spender `closed = 1` for the exact channel version; `spent` is then terminal | Versioned spender-local ledger and remote CLOSED proof |
 | **Namespace Uniqueness** | $\text{token\_id} = \text{Poseidon}(\text{creator}, \text{local\_id})$ | On-chain circuit derivation |
 | **Nullifier Non-Replay** | $\text{state\_map.contains}(\text{nullifier}) == \text{false}$ | Verified by state map lookup and insertion |
 
@@ -188,7 +168,7 @@ In a partitioned state tree, global token uniqueness cannot rely on a single glo
 
 ## 6. Toolchain & Testing Workflow
 
-1. **Compilation**: `(cd token && psyup build) && (cd nft && psyup build) && (cd dapp/contract && psyup build)`
+1. **Compilation**: `npm run build` uses legacy `dargo` for token/dApp and the 0.1.1 `psy_user_cli compile` for NFT v3.
 2. **Native Unit Tests**: `node tests/run_unit_tests.mjs` (invokes `dargo test`)
 3. **E2E & Adversarial Tests**: `node tests/run_e2e_tests.mjs` (invokes `node --test`)
 4. **Full Test Matrix**: `npm test` (`node tests/run_all_tests.mjs`)
@@ -200,58 +180,47 @@ In a partitioned state tree, global token uniqueness cannot rely on a single glo
 
 `psy-template` serves as an advanced reference implementation demonstrating secure smart contract patterns on Psy Protocol's user-partitioned architecture. However, several fundamental protocol boundaries remain:
 
-### 7.1 Dual-Constraint Single-Source Issuance (`ISSUER_USER_ID` + Deployer Public Key) & Toolchain Boundary
+### 7.1 Single-Source Issuance and Toolchain Boundary
 - In Psy Protocol, state is partitioned strictly by `State(contract_id, user_id)` with zero shared global state, and the node's user registration (`register_user_gatherer.rs:342`) assigns sequentially incremented `user_id`s without deduplicating public keys (meaning a single public key can correspond to $N$ valid `user_id`s).
 - Checking only deployer public key equality (`get_user_public_key_hash() == get_contract_deployer()`) is insufficient to prevent multi-partition issuance, because the deployer keyholder could register multiple `user_id`s and mint in each separate partition, fragmenting supply.
 - To guarantee single-source issuance deterministically:
   1. A dedicated `ISSUER_USER_ID` (e.g. `5`) is established as a deployment configuration compiled into the contract.
-  2. Administrative methods (`set_metadata`, `mint`, `set_mint_authority`, `renounce_mint_authority`) enforce a **dual constraint**:
+  2. Legacy token and NFT administrative methods enforce a **dual constraint**:
      ```rust
      assert_caller_is_deployer();
      assert(get_user_id() == ISSUER_USER_ID, "caller is not in canonical ISSUER_USER_ID partition");
      ```
-  3. This dual lock ensures that only the cryptographic deployer can mint, and only from within the single canonical partition `ISSUER_USER_ID`.
-- In the native `dargo test` unit test runner, the local harness generates contracts with a mock/random keypair while test methods execute as caller user 5; test fixtures accommodate this mock environment via `(user_pk == deployer) || (get_user_id() == ISSUER_USER_ID)`.
+  3. The staging-compatible NFT v3 compiler does not expose `get_contract_deployer()`. Its NFT methods enforce `ctx.user_id == ISSUER_USER_ID` on chain. The checked deploy script verifies that the selected wallet owns that registered ID before submission.
+- The native `dargo test` runner uses caller user 5 and a mock deployer key for the legacy source. It does not execute the NFT v3 source.
 - **Toolchain Boundary & Deployment Verification Status (工具链边界与部署闭环现状)**:
   - **psyup CLI Independence**: The `psyup` CLI tool is an external Rust binary independent of Node.js/npm. When developers invoke `psyup build` or `psyup deploy` directly in their terminal, npm preflight scripts (`npm run check:preflight` / `npm run build:deploy`) are completely bypassed.
   - **Circuit-Level Introspection Limit**: Within ZK circuits, contracts cannot inspect the caller's or deployer's on-chain `user_id` mapping. The host syscall `get_contract_deployer()` returns a 4-Felt array representing the deployer's public key hash, not their `user_id`. Furthermore, the Psy state model maintains zero global state and no consensus-level public-key-to-user-id reverse lookup.
   - **Definitive Boundary Verdict**: **Mandatory deployment verification is not yet closed under the current toolchain (强制部署校验在当前工具链下尚未闭环)**. True end-to-end deployment closure requires either:
     1. Node-level protocol syscall support for deployer `user_id` introspection, or
     2. Built-in preflight checks directly inside the `psyup deploy` binary before transaction submission.
-  - The npm scripts and `.issuer_configured` state tracking provide essential application-layer developer guardrails, but cannot enforce mandatory verification against direct CLI invocations.
+  - The standalone templates' `deploy:checked` command now requires an explicit `RPC_CONFIG`, checks the selected wallet's first registered user ID against the configured issuer on that network, then builds and deploys with the same configuration. The `.issuer_configured` marker alone proves only local source configuration. Direct `psyup deploy` still bypasses the checked wrapper, so mandatory verification remains a toolchain-level gap.
 
-### 7.2 The Fundamental Stale-Read Revocation Limit & On-Chain Delegation Gating
-- The Two-Phase Cutoff protocol provides application-layer settlement bounds under the assumption of protocol-level linearizability or freshness validation.
-- However, as proven in code tracing of `psy-node` (`realm/edge/handler.rs:188`), cross-partition read verification only validates Merkle inclusion in the historical Checkpoint tree at `end_cap_checkpoint_id <= current_checkpoint_id`.
-- If an attacker provides a read proof generated against a historical checkpoint where `status == 1 (OPEN)`, the smart contract never enters the `status == 2` branch; execution-time current checkpoint checks do not restrict the historical state root.
-- Therefore, without protocol-level linearizability, runtime verification of checkpoint age, or consensus-level stale-read rejection, application-layer delegation cannot prevent historical state replays across arbitrary timeframes.
-- **On-Chain Delegation Entrance Gating (`DELEGATION_GATED`)**:
-  - In default asset-issuing builds, `open_delegation_channel` includes an explicit on-chain gate:
-    ```rust
-    pub const DELEGATION_GATED: bool = true;
-    // in open_delegation_channel:
-    assert(!DELEGATION_GATED, "delegation channel creation is gated pending protocol-level linearizability");
-    ```
-  - **Boundary Clarification (阻止新增风险，非安全清退方案)**:
-    - This entrance gate strictly serves to **stop new risk exposure** by preventing new capital from being locked into vulnerable channels on live networks.
-    - **Leaving `spend_delegation` and `finalize_revoke_delegation` un-gated does NOT constitute a safe drainage/settlement solution**. Existing channels remain exposed to historical `OPEN` proof replays and stale reads of Spender's spent ledger.
-    - Safe drainage and settlement of existing channels is strictly classified as **待设计和实机验证 (Pending Protocol Design and Real-Node Verification)**.
+### 7.2 Historical Remote Reads and Delegation
+- Staging accepted a cross-partition transaction anchored to a historical sender state after the sender had changed that state. The remote read is proven against a historical checkpoint root, not the latest state at submission.
+- The current token contract therefore treats an owner revocation request as a signal. Spender spending remains possible until the spender writes a terminal close in its own partition.
+- The owner refunds only against a CLOSED ledger with the exact channel version. This avoids reusing an old `spent` total after a later spender-local spend, assuming current caller leaves are enforced at settlement. It does not give the owner unilateral cancellation.
+- To support unilateral cancellation, the protocol must disclose and validate the remote read set at inclusion against current user leaves, or provide an atomic cross-partition transaction. A bounded historical window or a 60-checkpoint timer alone does not provide this guarantee.
+- In the node source, `client_prover/psy_circuit/psy_dpn_circuit/src/vm/gadgets/state_readers.rs` binds a remote user leaf to the transaction's checkpoint `user_tree_root`; `psy_node_common/src/guta_planner/coordinator_guta_planner.rs` checks the writer's input leaf against current global state. A protocol fix must also validate each authorization-sensitive remote read against current state at the serialized commit point, with the read-set committed by the proof. Reject on any remote-leaf change and force reproving; commit the caller update and these checks atomically. The acceptance test is: Bob's proof anchored before Alice's revoke must fail when submitted after her revoke confirms, while a spend committed before the revoke remains accounted for in Alice's refund.
 
-### 7.3 64-bit Felt Identifier Entropy Bounds
-- Deriving `token_id` as `global_id_hash[0]` truncates a 256-bit Poseidon hash to a single 64-bit Goldilocks field element.
-- While strictly sequential `local_id` eliminates duplicate mints by the same creator, cross-creator birthday collision probability reaches $50\%$ after $\approx 2^{32}$ total tokens.
-- Production NFT implementations should represent `token_id` as a full 4-Felt array (`Hash`).
+### 7.3 Full-Hash NFT Identifiers
+- NFT v3 stores the full four-Felt Poseidon output as `token_id: Hash` in slots and Outbox records. This removes the version 1 single-Felt truncation and separates inbound claims from outbound ACKs.
+- Uniqueness remains computational under Poseidon collision resistance and fixed `(creator, local_id)` encoding; it is not a mathematical proof of collision impossibility.
+- The change is storage and event ABI incompatible with version 1. Existing deployments require a separately designed migration rather than an in-place ABI swap.
 
 ### 7.4 Testing Scope Clarifications
-- Case 6 verifies ABI signatures, methods, storage offsets, and parameter encodings against compiled `.psy` artifacts; it does not execute live cross-node ZK transactions.
+- The ABI check compiles the NFT `.psy.rs` artifact and verifies methods, storage layout, and parameter encodings. The staging report separately records live cross-realm ZK transactions.
 - Native unit tests run within a mock runtime partition and do not simulate concurrent multi-node settlement.
-- The `dargo test` harness bypasses the deployer public key check due to mock environment limitations; native tests do NOT prove the dual constraint at the circuit level.
+- The legacy `dargo test` harness bypasses the deployer public key check and cannot register a second user for NFT ACK reads. Its assertions do not validate the NFT v3 circuit. The staging test covers ordinary cross-partition claims and ACK, while adversarial historical-proof cases remain open.
 
 ### 7.5 Status Calibration & Mainnet Production Readiness
 - **Core Functional Modules (Reference Implementation)**:
   - **PSY-20**: Dual-Constraint Single-Source Issuance (`mint`), `burn`, Push-Pull Outbox Transfer (`transfer`), Recipient Claim (`claim`), Batch Transfers (`batch_transfer_2/5`), Token Metadata, Permanent Renunciation.
-  - **PSY-721**: Dual-Constraint Collection Minting (`mint`), 4-Slot FIFO Outbox Transfer (`transfer`), FIFO Claim (`claim`), Collection Metadata, Computational Namespace Uniqueness via Poseidon.
-  - **Shielded Note Transfers**: 20-level Merkle note commitment (`private_transfer`) and Leaf Index 8388609 Nullifier verification (`private_claim`) with replay protection via `state_map` Namespace 1.
-- **Protocol-Gated Features**:
-  - **Revocable Delegation**: The dual-ledger Outbox delegation model is architecturally complete and implemented with 256-bit Poseidon composite keys in `state_map` Namespace 2 (eliminating all storage overwrite vulnerabilities). However, due to `psy-node` historical stale-read boundaries, `open_delegation_channel` is **gated on-chain** via `assert(!DELEGATION_GATED, ...)` to block new capital lock-in. Existing channel drainage is **NOT safe** against historical state replays, and safe drainage/settlement remains **待设计和实机验证**. Delegation is strictly classified as **Experimental** and must not be used for live value transfers until protocol/consensus-level stale-read rejection is deployed.
+  - **PSY-721 v3**: Canonical issuer collection minting (`mint`), 4-Slot FIFO Outbox Transfer (`transfer`), FIFO Claim (`claim`), explicit `acknowledge`, Collection Metadata, Computational Namespace Uniqueness via Poseidon.
+  - **Legacy-only Shielded Note Transfers**: The `.psy` source has 20-level Merkle note commitment (`private_transfer`) and Leaf Index 8388609 nullifier verification (`private_claim`) via `state_map` Namespace 1. These methods are absent from the deployable v3 `.psy.rs` source.
+- **Experimental Delegation**: The source permits escrowed, cooperative spending through 16 owner slots and spender-local versioned ledgers. A spender must close before the owner can refund. Staging contract 47 verified the ordinary close/refund path, rejected a fresh post-close spend, and accepted a pre-request proof submitted after the request. Its earlier code also accepted a new spend after the request. Contract 48 uses the current active-only guard and rejected a new spend after the request, but accepted an old ACTIVE proof submitted after the request. It then closed and refunded correctly in both cases. Concurrency and mainnet security remain unverified. The v3 artifact omits legacy private note methods.
 - **Definitive Verdict**: `psy-template` establishes sound reference patterns and formal invariants, but is **NOT yet mainnet production ready** and **cannot be used for mainnet asset issuance**.

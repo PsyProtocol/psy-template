@@ -32,15 +32,15 @@ npm run configure -- --issuer <YOUR_USER_ID>
 # 2. Strict preflight verification (verifies explicit configuration record via .issuer_configured)
 npm run check:preflight
 
-# 3. Build contract with preflight check
-npm run build:contract:deploy
+# 3. Verify the selected wallet's issuer user ID on this network
+npm run check:deployer
 
-# 4. Deploy to active network
-cd contract && psyup deploy
+# 4. Build and deploy with the same wallet and network configuration
+npm run deploy:checked
 ```
 
 > [!NOTE]
-> **Toolchain Boundary**: `npm run check:preflight` and `npm run build:contract:deploy` provide application-layer preflight verification. Running `psyup deploy` directly in terminal bypasses npm scripts. Mandatory deployment verification is not yet closed under the current toolchain.
+> **Deployment credentials**: Set exactly one of `PRIVATE_KEY` or `KEYSTORE_PATH` (plus `WALLET_PASSWORD` for a keystore), and point `RPC_CONFIG` at the intended network. The checked command queries the first registered user ID for that wallet's public key, rejects a mismatch, builds, then deploys. Direct `psyup deploy` bypasses this wrapper.
 
 Note the printed `contract_id` — the frontend needs it.
 

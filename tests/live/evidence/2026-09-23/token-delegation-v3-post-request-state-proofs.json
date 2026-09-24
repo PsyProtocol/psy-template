@@ -1,0 +1,97 @@
+{
+  "contract_id": 47,
+  "checkpoint": 34647,
+  "slot": 2,
+  "values": {
+    "owner_balance": 10000,
+    "total_minted": 10000,
+    "channel_spender": 0,
+    "channel_allocated": 0,
+    "channel_version": 1,
+    "channel_status": 3,
+    "spent": 40,
+    "closed": 1,
+    "spent_version": 1,
+    "spender_outbox_to_owner": 380,
+    "owner_claimed_from_spender": 380
+  },
+  "proofs": {
+    "owner_balance": {
+      "user_id": 901120,
+      "offset": 0,
+      "leaf_id": 0,
+      "felt": 10000,
+      "root": "fa5186157c6bfac475b83e385dcbf5b025b6e133a6d3a172e0eaa84ddfbd6541"
+    },
+    "total_minted": {
+      "user_id": 901120,
+      "offset": 3,
+      "leaf_id": 0,
+      "felt": 10000,
+      "root": "fa5186157c6bfac475b83e385dcbf5b025b6e133a6d3a172e0eaa84ddfbd6541"
+    },
+    "channel_spender": {
+      "user_id": 901120,
+      "offset": 33554446,
+      "leaf_id": 8388611,
+      "felt": 0,
+      "root": "fa5186157c6bfac475b83e385dcbf5b025b6e133a6d3a172e0eaa84ddfbd6541"
+    },
+    "channel_allocated": {
+      "user_id": 901120,
+      "offset": 33554447,
+      "leaf_id": 8388611,
+      "felt": 0,
+      "root": "fa5186157c6bfac475b83e385dcbf5b025b6e133a6d3a172e0eaa84ddfbd6541"
+    },
+    "channel_version": {
+      "user_id": 901120,
+      "offset": 33554448,
+      "leaf_id": 8388612,
+      "felt": 1,
+      "root": "fa5186157c6bfac475b83e385dcbf5b025b6e133a6d3a172e0eaa84ddfbd6541"
+    },
+    "channel_status": {
+      "user_id": 901120,
+      "offset": 33554449,
+      "leaf_id": 8388612,
+      "felt": 3,
+      "root": "fa5186157c6bfac475b83e385dcbf5b025b6e133a6d3a172e0eaa84ddfbd6541"
+    },
+    "spent": {
+      "user_id": 1949696,
+      "offset": 76808268,
+      "leaf_id": 19202067,
+      "felt": 40,
+      "root": "39180e429fc7819004fc72be3967c9e1ff9321b0e0ccb4b0457ea9b17c4caa1b"
+    },
+    "closed": {
+      "user_id": 1949696,
+      "offset": 76808269,
+      "leaf_id": 19202067,
+      "felt": 1,
+      "root": "39180e429fc7819004fc72be3967c9e1ff9321b0e0ccb4b0457ea9b17c4caa1b"
+    },
+    "spent_version": {
+      "user_id": 1949696,
+      "offset": 76808270,
+      "leaf_id": 19202067,
+      "felt": 1,
+      "root": "39180e429fc7819004fc72be3967c9e1ff9321b0e0ccb4b0457ea9b17c4caa1b"
+    },
+    "spender_outbox_to_owner": {
+      "user_id": 1949696,
+      "offset": 1802246,
+      "leaf_id": 450561,
+      "felt": 380,
+      "root": "39180e429fc7819004fc72be3967c9e1ff9321b0e0ccb4b0457ea9b17c4caa1b"
+    },
+    "owner_claimed_from_spender": {
+      "user_id": 901120,
+      "offset": 3899399,
+      "leaf_id": 974849,
+      "felt": 380,
+      "root": "fa5186157c6bfac475b83e385dcbf5b025b6e133a6d3a172e0eaa84ddfbd6541"
+    }
+  }
+}

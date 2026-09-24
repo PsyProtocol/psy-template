@@ -7,8 +7,8 @@ const __dirname = fileURLToPath(new URL('.', import.meta.url));
 const REPO_ROOT = join(__dirname, '..');
 
 const UNIT_TEST_FILES = [
-  'token/tests/token_unit_test.psy',
-  'nft/tests/nft_unit_test.psy'
+  'token/scripts/run_unit_test.mjs',
+  'nft/scripts/run_unit_test.mjs'
 ];
 
 console.log('════════════════════════════════════════════════════════════════════');
@@ -24,7 +24,7 @@ for (const relPath of UNIT_TEST_FILES) {
   process.stdout.write(`  ⏳ Running ${relPath} ... `);
   const t0 = Date.now();
   try {
-    execSync(`dargo test --file "${fullPath}"`, {
+    execSync(`node "${fullPath}"`, {
       cwd: REPO_ROOT,
       stdio: ['ignore', 'pipe', 'pipe'],
       encoding: 'utf-8'

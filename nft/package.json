@@ -1,15 +1,19 @@
 {
   "name": "psy-nft",
-  "version": "1.0.0",
+  "version": "3.0.0",
   "description": "PSY-721 Non-Fungible Token Smart Contract Template",
   "type": "module",
   "scripts": {
     "configure": "node scripts/configure_issuer.mjs",
     "check:config": "node scripts/configure_issuer.mjs --check",
     "check:preflight": "node scripts/configure_issuer.mjs --check --strict",
-    "build": "psyup build",
-    "build:deploy": "npm run check:preflight && psyup build",
-    "test": "dargo test --file tests/nft_unit_test.psy"
+    "check:deployer": "node scripts/deploy_checked.mjs --preflight-only",
+    "deploy:checked": "node scripts/deploy_checked.mjs",
+    "build": "node scripts/build_v3.mjs",
+    "build:legacy": "psyup build",
+    "build:deploy": "npm run check:preflight && npm run build",
+    "deploy:v3": "node scripts/deploy_v3_checked.mjs",
+    "test": "node scripts/run_unit_test.mjs"
   },
   "author": "Psy Protocol",
   "license": "MIT"

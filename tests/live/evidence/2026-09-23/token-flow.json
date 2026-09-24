@@ -1,0 +1,150 @@
+{
+  "network": "sepolia staging",
+  "contract_id": 0,
+  "users": [
+    901120,
+    1949696
+  ],
+  "faucet_operator": 262144,
+  "transactions": [
+    {
+      "method": "simple_claim",
+      "inputs": [
+        262144
+      ],
+      "user_id": 901120,
+      "transaction_hash": "fddedf403e5a96eccb16c6b578acbdc9e45dba4c6a37634e6058d03bab717ee4",
+      "checkpoint": 32288
+    },
+    {
+      "method": "simple_transfer",
+      "inputs": [
+        1949696,
+        100000000000
+      ],
+      "user_id": 901120,
+      "transaction_hash": "7b9e4193465b6b188a820bc783b63cd12e116086fb8c9eda127370a8adf608cb",
+      "checkpoint": 32295
+    },
+    {
+      "method": "simple_claim",
+      "inputs": [
+        901120
+      ],
+      "user_id": 1949696,
+      "transaction_hash": "8817d9dc6eca2729cb6f1eecc624574c4df033d78a9c0b04434c49898fa29174",
+      "checkpoint": 32303
+    },
+    {
+      "method": "simple_transfer",
+      "inputs": [
+        901120,
+        10000000000
+      ],
+      "user_id": 1949696,
+      "transaction_hash": "3020368dda85bc55b692ddf97f984d480fe0a1a11134ec19e8008e7887e6683f",
+      "checkpoint": 32310
+    },
+    {
+      "method": "simple_claim",
+      "inputs": [
+        1949696
+      ],
+      "user_id": 901120,
+      "transaction_hash": "11a6172997b4d1af68be9bc5780ae6840b21312c8ac323b1528d6bd1617d8599",
+      "checkpoint": 32319
+    }
+  ],
+  "snapshots": [
+    {
+      "checkpoint": 32282,
+      "balances": {
+        "901120": {
+          "slot_hex": "0000000000000000000000000000000000000000000000000000000000000000",
+          "state_root": "d65af5933a094e8329332a714327ba72b1e4dac93c0cde8ee479b9bb36c3fc43",
+          "balance_felt": 0
+        },
+        "1949696": {
+          "slot_hex": "0000000000000000000000000000000000000000000000000000000000000000",
+          "state_root": "d65af5933a094e8329332a714327ba72b1e4dac93c0cde8ee479b9bb36c3fc43",
+          "balance_felt": 0
+        }
+      }
+    },
+    {
+      "checkpoint": 32288,
+      "balances": {
+        "901120": {
+          "slot_hex": "000000000000000000000000000000000000000000000000000000e8990a3e30",
+          "state_root": "3b3dec14efc96ebc35583cd396cca882e12f53df98e63d6d20e182d26f3c805a",
+          "balance_felt": 998999998000
+        },
+        "1949696": {
+          "slot_hex": "0000000000000000000000000000000000000000000000000000000000000000",
+          "state_root": "d65af5933a094e8329332a714327ba72b1e4dac93c0cde8ee479b9bb36c3fc43",
+          "balance_felt": 0
+        }
+      }
+    },
+    {
+      "checkpoint": 32295,
+      "balances": {
+        "901120": {
+          "slot_hex": "000000000000000000000000000000000000000000000000000000d114f88460",
+          "state_root": "fb67cd4a0ba086ea68e1ceb7365d538709e3866c7549ba138ea93004cb40a65e",
+          "balance_felt": 897999996000
+        },
+        "1949696": {
+          "slot_hex": "0000000000000000000000000000000000000000000000000000000000000000",
+          "state_root": "d65af5933a094e8329332a714327ba72b1e4dac93c0cde8ee479b9bb36c3fc43",
+          "balance_felt": 0
+        }
+      }
+    },
+    {
+      "checkpoint": 32303,
+      "balances": {
+        "901120": {
+          "slot_hex": "000000000000000000000000000000000000000000000000000000d114f88460",
+          "state_root": "fb67cd4a0ba086ea68e1ceb7365d538709e3866c7549ba138ea93004cb40a65e",
+          "balance_felt": 897999996000
+        },
+        "1949696": {
+          "slot_hex": "000000000000000000000000000000000000000000000000000000170cdc1630",
+          "state_root": "bfa5c340106c3a5b42c0087aff0feeeb371df6dce1beb126f2b5aab5525d8b90",
+          "balance_felt": 98999998000
+        }
+      }
+    },
+    {
+      "checkpoint": 32310,
+      "balances": {
+        "901120": {
+          "slot_hex": "000000000000000000000000000000000000000000000000000000d114f88460",
+          "state_root": "fb67cd4a0ba086ea68e1ceb7365d538709e3866c7549ba138ea93004cb40a65e",
+          "balance_felt": 897999996000
+        },
+        "1949696": {
+          "slot_hex": "000000000000000000000000000000000000000000000000000000147d356060",
+          "state_root": "65ccbbe46e59172575aea25b927688515e555bc5f3fd9956fd32394565e3c7b7",
+          "balance_felt": 87999996000
+        }
+      }
+    },
+    {
+      "checkpoint": 32319,
+      "balances": {
+        "901120": {
+          "slot_hex": "000000000000000000000000000000000000000000000000000000d32d699690",
+          "state_root": "907f931aab1cc77d1b3ce2344bfe01c2a315392ff2d4598306342bc2d7e96993",
+          "balance_felt": 906999994000
+        },
+        "1949696": {
+          "slot_hex": "000000000000000000000000000000000000000000000000000000147d356060",
+          "state_root": "65ccbbe46e59172575aea25b927688515e555bc5f3fd9956fd32394565e3c7b7",
+          "balance_felt": 87999996000
+        }
+      }
+    }
+  ]
+}

@@ -24,8 +24,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const BASE_DIR = path.resolve(__dirname, '..');
 
-const MAX_FELT = 18446744069414584320n;
+const MAX_USER_ID = 16777215n; // outbox arrays are indexed by 24-bit user IDs
 const ISSUER_CONST_REGEX = /pub\s+const\s+ISSUER_USER_ID\s*:\s*Felt\s*=\s*(\d+)\s*;/;
+const V3_ISSUER_CONST_REGEX = /const\s+ISSUER_USER_ID\s*:\s*usize\s*=\s*(\d+)\s*;/;
 const STATE_FILENAME = '.issuer_configured';
 
 function findTargetFiles() {
@@ -36,13 +37,16 @@ function findTargetFiles() {
     path.join(BASE_DIR, 'nft', 'src', 'main.psy'),
   ];
   if (rootTargets.every(f => fs.existsSync(f))) {
-    return rootTargets;
+    const tokenV3 = path.join(BASE_DIR, 'token', 'src', 'main.psy.rs');
+    const nftV3 = path.join(BASE_DIR, 'nft', 'src', 'main.psy.rs');
+    return [...rootTargets, ...[tokenV3, nftV3].filter(f => fs.existsSync(f))];
   }
 
   // Case 2: Standalone Token or NFT project (src/main.psy)
   const singleContract = path.join(BASE_DIR, 'src', 'main.psy');
   if (fs.existsSync(singleContract)) {
-    return [singleContract];
+    const v3 = path.join(BASE_DIR, 'src', 'main.psy.rs');
+    return fs.existsSync(v3) ? [singleContract, v3] : [singleContract];
   }
 
   // Case 3: Standalone dApp project (contract/src/main.psy)
@@ -80,7 +84,7 @@ function readCurrentIssuer(filePath) {
     throw new Error(`Target file not found: ${filePath}`);
   }
   const content = fs.readFileSync(filePath, 'utf-8');
-  const match = content.match(ISSUER_CONST_REGEX);
+  const match = content.match(filePath.endsWith('.psy.rs') ? V3_ISSUER_CONST_REGEX : ISSUER_CONST_REGEX);
   if (!match) {
     throw new Error(`Could not find ISSUER_USER_ID definition in ${filePath}`);
   }
@@ -113,6 +117,11 @@ function checkConfig({ strict = false } = {}) {
   const isUniform = ids.every(item => item.currentId === firstId);
   if (!isUniform) {
     console.error('\n✖ Configuration Mismatch: Target contract templates do not share the same ISSUER_USER_ID.');
+    process.exit(1);
+  }
+
+  if (BigInt(firstId) < 1n || BigInt(firstId) > MAX_USER_ID) {
+    console.error(`✖ ISSUER_USER_ID must be in 1..${MAX_USER_ID}; larger IDs cannot use the 24-bit outbox.`);
     process.exit(1);
   }
 
@@ -170,8 +179,8 @@ function setIssuer(rawId) {
     process.exit(1);
   }
 
-  if (idBigInt <= 0n || idBigInt > MAX_FELT) {
-    console.error(`✖ Error: User ID must be in range 1..${MAX_FELT}.`);
+  if (idBigInt <= 0n || idBigInt > MAX_USER_ID) {
+    console.error(`✖ Error: User ID must be in range 1..${MAX_USER_ID}.`);
     process.exit(1);
   }
 
@@ -186,12 +195,15 @@ function setIssuer(rawId) {
   for (const file of targetFiles) {
     const relPath = path.relative(BASE_DIR, file);
     const content = fs.readFileSync(file, 'utf-8');
-    if (!ISSUER_CONST_REGEX.test(content)) {
+    const regex = file.endsWith('.psy.rs') ? V3_ISSUER_CONST_REGEX : ISSUER_CONST_REGEX;
+    if (!regex.test(content)) {
       console.error(`✖ Error: Could not find ISSUER_USER_ID in ${relPath}. Aborting without changes.`);
       process.exit(1);
     }
     backups.set(file, content);
-    const updated = content.replace(ISSUER_CONST_REGEX, `pub const ISSUER_USER_ID: Felt = ${newIdStr};`);
+    const updated = content.replace(regex, file.endsWith('.psy.rs')
+      ? `const ISSUER_USER_ID: usize = ${newIdStr};`
+      : `pub const ISSUER_USER_ID: Felt = ${newIdStr};`);
     updates.set(file, updated);
   }
 

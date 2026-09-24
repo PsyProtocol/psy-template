@@ -2,20 +2,16 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 
 // Canonical Issuer Partition index in Psy Protocol
-const ISSUER_PARTITION = 1n;
+const ISSUER_PARTITION = 5n;
 
-// Simulated Poseidon hash function over Goldilocks field elements
-// In fixed encoding, unique creator and collision resistance assumption,
-// guarantees computational namespace uniqueness.
+// Four-limb deterministic test model. This is not the circuit Poseidon implementation.
 function simulatePoseidon(creator, localId) {
   const p = 18446744069414584321n; // Goldilocks prime
-  let state0 = (creator + 0x12345678n) % p;
-  let state1 = (localId + 0x87654321n) % p;
+  let lanes = [creator + 0x12345678n, localId + 0x87654321n, creator + localId + 0xdeadbeefn, creator * 3n + localId + 0xcafebaben].map(x => x % p);
   for (let r = 0; r < 8; r++) {
-    state0 = (state0 * state0 * state0 * state0 * state0 + state1 + 0xdeadbeefn) % p;
-    state1 = (state1 * state1 * state1 * state1 * state1 + state0 + 0xcafebaben) % p;
+    lanes = lanes.map((lane, i) => (lane ** 5n + lanes[(i + 1) & 3] + BigInt(r + i + 1)) % p);
   }
-  return (state0 ^ state1) % p;
+  return lanes.reduce((id, lane, i) => id | (lane << (64n * BigInt(i))), 0n);
 }
 
 class Psy721VirtualEnvironment {
@@ -33,7 +29,7 @@ class Psy721VirtualEnvironment {
         symbol: 0n,
         base_uri_hash: [0n, 0n, 0n, 0n],
         owned_tokens: Array.from({ length: 128 }, () => ({ token_id: 0n, is_active: 0n, metadata_hash: [0n, 0n, 0n, 0n] })),
-        outbox: new Map() // recipientId -> { token_id_0..3, metadata_hash_0..3, nonce_sent, nonce_claimed }
+        outbox: new Map() // peerId -> { token_id_0..3, metadata_hash_0..3, nonce_sent, nonce_claimed, nonce_acked }
       });
     }
     return this.users.get(userId);
@@ -48,7 +44,8 @@ class Psy721VirtualEnvironment {
         token_id_2: 0n, metadata_hash_2: [0n, 0n, 0n, 0n],
         token_id_3: 0n, metadata_hash_3: [0n, 0n, 0n, 0n],
         nonce_sent: 0n,
-        nonce_claimed: 0n
+        nonce_claimed: 0n,
+        nonce_acked: 0n
       });
     }
     return sender.outbox.get(recipientId);
@@ -58,16 +55,10 @@ class Psy721VirtualEnvironment {
     assert.equal(callerId, ISSUER_PARTITION, 'only issuer partition can set collection metadata');
     const issuer = this.getOrCreateUser(ISSUER_PARTITION);
     assert.equal(issuer.is_mint_renounced, 0n, 'contract administration has been renounced');
+    if (issuer.mint_authority === 0n) issuer.mint_authority = callerId;
+    assert.equal(issuer.mint_authority, callerId, 'only mint authority can set collection metadata');
     issuer.symbol = symbol;
     issuer.base_uri_hash = baseUriHash;
-  }
-
-  setMintAuthority(callerId, newAuthority) {
-    assert.equal(callerId, ISSUER_PARTITION, 'only issuer partition can set mint authority');
-    const issuer = this.getOrCreateUser(ISSUER_PARTITION);
-    assert.equal(issuer.is_mint_renounced, 0n, 'minting has been renounced');
-    assert.notEqual(newAuthority, 0n, 'use renounce_mint_authority to revoke');
-    issuer.mint_authority = newAuthority;
   }
 
   renounceMintAuthority(callerId) {
@@ -95,7 +86,7 @@ class Psy721VirtualEnvironment {
     const slot = issuer.owned_tokens[slotIdx];
     assert.equal(slot.is_active, 0n, 'slot already occupied');
 
-    // Derive globally unique token_id via Poseidon hash: Poseidon(creator, local_id)
+    // Model the full four-Felt token_id; production derives it with Poseidon.
     const tokenId = simulatePoseidon(callerId, localId);
     assert.ok(tokenId > 0n, 'derived token_id must be non-zero');
 
@@ -119,13 +110,8 @@ class Psy721VirtualEnvironment {
     assert.equal(slot.is_active, 1n, 'no active NFT in slot');
 
     const outbox = this.getOutbox(callerId, recipientId);
-    let acknowledgedClaimed = outbox.nonce_claimed;
-    const localInFlight = outbox.nonce_sent - outbox.nonce_claimed;
-    if (localInFlight >= 4n) {
-      const recipientOutbox = this.getOutbox(recipientId, callerId);
-      acknowledgedClaimed = recipientOutbox.nonce_claimed;
-    }
-    const inFlight = outbox.nonce_sent - acknowledgedClaimed;
+    assert.ok(outbox.nonce_acked <= outbox.nonce_sent, 'acknowledged nonce exceeds sent nonce');
+    const inFlight = outbox.nonce_sent - outbox.nonce_acked;
     assert.ok(inFlight < 4n, 'FIFO outbox queue full: recipient has 4 uncollected transfers');
 
     const tokenId = slot.token_id;
@@ -137,10 +123,20 @@ class Psy721VirtualEnvironment {
     outbox[`token_id_${queueSlot}`] = tokenId;
     outbox[`metadata_hash_${queueSlot}`] = metadataHash;
     outbox.nonce_sent += 1n;
-    outbox.nonce_claimed = acknowledgedClaimed;
 
     this.verifyInvariants();
     return tokenId;
+  }
+
+  acknowledge(callerId, recipientId) {
+    assert(recipientId > 0n && recipientId !== callerId, 'invalid recipient');
+    assert(recipientId < 16777216n && callerId < 16777216n, 'user_id exceeds outbox bounds');
+    const outbox = this.getOutbox(callerId, recipientId);
+    const claimed = this.getOutbox(recipientId, callerId).nonce_claimed;
+    assert.ok(claimed >= outbox.nonce_acked, 'remote claim nonce older than acknowledged nonce');
+    assert.ok(claimed <= outbox.nonce_sent, 'remote claim nonce exceeds sent nonce');
+    outbox.nonce_acked = claimed;
+    this.verifyInvariants();
   }
 
   claim(callerId, slotIdx, senderId) {
@@ -193,6 +189,7 @@ class Psy721VirtualEnvironment {
       for (const [otherId, ob] of state.outbox.entries()) {
         assert.ok(ob.nonce_sent >= 0n, 'nonce_sent must be non-negative');
         assert.ok(ob.nonce_claimed >= 0n, 'nonce_claimed must be non-negative');
+        assert.ok(ob.nonce_acked >= 0n && ob.nonce_acked <= ob.nonce_sent, 'acknowledged nonce must be within sent range');
       }
     }
   }
@@ -200,7 +197,7 @@ class Psy721VirtualEnvironment {
 
 test('PSY-721 NFT Lifecycle & Invariants E2E', async (t) => {
   const env = new Psy721VirtualEnvironment();
-  const ISSUER = 1n;
+  const ISSUER = ISSUER_PARTITION;
   const ALICE = 101n;
   const BOB = 202n;
   const CHARLIE = 303n;
@@ -212,9 +209,9 @@ test('PSY-721 NFT Lifecycle & Invariants E2E', async (t) => {
     // Non-issuer attempting to mint fails
     assert.throws(() => env.mint(ALICE, 0, 1n), /only issuer partition/);
 
-    // Issuer (partition 0) initializes metadata and sets ISSUER as mint authority
+    // Metadata initialization also initializes issuer authority.
     env.setCollectionMetadata(ISSUER, 5264217n, [10n, 20n, 30n, 40n]);
-    env.setMintAuthority(ISSUER, ISSUER);
+    assert.equal(env.getOrCreateUser(ISSUER).mint_authority, ISSUER);
 
     // Issuer mints with strictly sequential local_id 1n and 2n; token_id is derived on-chain via Poseidon(ISSUER, local_id)
     const expectedId0 = simulatePoseidon(ISSUER, 1n);
@@ -273,6 +270,13 @@ test('PSY-721 NFT Lifecycle & Invariants E2E', async (t) => {
     assert.equal(env.getOrCreateUser(BOB).balance, 1n);
     assert.equal(env.getOrCreateUser(BOB).owned_tokens[0].token_id, expectedId0);
 
+    // Reverse direction must use independent outbound ACK and inbound claim counters.
+    env.transfer(BOB, 0, ALICE);
+    env.claim(ALICE, 0, BOB);
+    env.transfer(ALICE, 0, BOB);
+    env.claim(BOB, 0, ALICE);
+    assert.equal(env.getOrCreateUser(BOB).owned_tokens[0].token_id, expectedId0);
+
     // Second claim without new transfer should fail
     assert.throws(() => env.claim(BOB, 1, ALICE), /no NFT to claim from sender/);
   });
@@ -298,7 +302,11 @@ test('PSY-721 NFT Lifecycle & Invariants E2E', async (t) => {
     const claimedFirst = env.claim(BOB, 2, ISSUER);
     assert.equal(claimedFirst, id3);
 
-    // Now that Bob claimed 1 NFT, Issuer's 5th transfer succeeds because slot was freed by Bob's claim
+    // A claim alone does not update the sender's local capacity.
+    assert.throws(() => env.transfer(ISSUER, 6, BOB), /FIFO outbox queue full/);
+    env.acknowledge(ISSUER, BOB);
+
+    // Explicit ACK frees one sender-side queue position.
     env.transfer(ISSUER, 6, BOB);
 
     // Bob claims remaining NFTs in exact FIFO order: id4, id5, id6, and then the 5th (id7)
@@ -333,6 +341,7 @@ test('PSY-721 NFT Lifecycle & Invariants E2E', async (t) => {
 
     // Attempt to mint new NFT should now fail
     assert.throws(() => env.mint(ISSUER, 7, 8n), /minting has been renounced/);
+    assert.throws(() => env.setCollectionMetadata(ISSUER, 2n, [0n, 0n, 0n, 0n]), /contract administration has been renounced/);
   });
 
   await t.test('6. Collection metadata and per-token metadata_hash retention across transfer and claim', () => {
@@ -342,7 +351,6 @@ test('PSY-721 NFT Lifecycle & Invariants E2E', async (t) => {
     // In a new fresh environment
     const env2 = new Psy721VirtualEnvironment();
     env2.setCollectionMetadata(ISSUER, 5264217n, [100n, 200n, 300n, 400n]);
-    env2.setMintAuthority(ISSUER, ISSUER);
 
     const mintedTokenId = env2.mint(ISSUER, 0, 1n, tokenHash);
     const issuerState = env2.getOrCreateUser(ISSUER);
@@ -371,7 +379,7 @@ test('PSY-721 NFT Lifecycle & Invariants E2E', async (t) => {
     const globalIdB = simulatePoseidon(CREATOR_B, LOCAL_ID);
 
     assert.notEqual(globalIdA, globalIdB, 'Distinct creators with identical local_id must yield distinct global token_ids');
-    assert.ok(globalIdA > 0n && globalIdA < 18446744069414584321n, 'globalIdA must be within field bounds');
-    assert.ok(globalIdB > 0n && globalIdB < 18446744069414584321n, 'globalIdB must be within field bounds');
+    assert.ok(globalIdA > 0n && globalIdA < (1n << 256n), 'globalIdA must fit four Felt limbs');
+    assert.ok(globalIdB > 0n && globalIdB < (1n << 256n), 'globalIdB must fit four Felt limbs');
   });
 });

@@ -1,0 +1,95 @@
+{
+  "network": "sepolia staging",
+  "users": [
+    901120,
+    1949696
+  ],
+  "transactions": [
+    {
+      "method": "set_metadata",
+      "user_id": 901120,
+      "inputs": [
+        5264217,
+        9
+      ],
+      "transaction_hash": "87fb1ac38fc6627c786ed0d9341baf51e3e156672f086aa0bf798bf812a39171",
+      "checkpoint": 34682
+    },
+    {
+      "method": "mint",
+      "user_id": 901120,
+      "inputs": [
+        10000
+      ],
+      "transaction_hash": "dbd221e6f7030f4cab54caa8b7667d9fe9132c9f4740a1cfb0b7c69678ecd9c7",
+      "checkpoint": 34687
+    },
+    {
+      "method": "open_delegation_channel",
+      "user_id": 901120,
+      "inputs": [
+        0,
+        1949696,
+        1000
+      ],
+      "transaction_hash": "14954305c9de9fb344f88174f67dae0578d61b36d61a9a65be9464974a78956f",
+      "checkpoint": 34694
+    },
+    {
+      "method": "spend_delegation",
+      "user_id": 1949696,
+      "inputs": [
+        901120,
+        0,
+        300,
+        901120
+      ],
+      "transaction_hash": "2ba9dfa4e7919c1ff20ea53f32db146fcfeb898065819efb0fa857811fc6f4d2",
+      "checkpoint": 34700
+    },
+    {
+      "method": "claim",
+      "user_id": 901120,
+      "inputs": [
+        1949696
+      ],
+      "transaction_hash": "78865a1933609b4c0c7bb0e83b677a2a24d308b89896f5124f5fe3a861d809a6",
+      "checkpoint": 34706
+    },
+    {
+      "method": "request_revoke_delegation",
+      "user_id": 901120,
+      "inputs": [
+        0
+      ],
+      "transaction_hash": "e859a12115e5719460e8c44f04ba6348691571899d7de4bea8d8800ce98719ec",
+      "checkpoint": 34713
+    },
+    {
+      "method": "close_delegation_channel",
+      "user_id": 1949696,
+      "inputs": [
+        901120,
+        0,
+        1
+      ],
+      "transaction_hash": "2536d899708dd2e70be8f15079cad76565499cdf748502f2ec1605cc7b1bdb66",
+      "checkpoint": 34720
+    },
+    {
+      "method": "finalize_revoke_delegation",
+      "user_id": 901120,
+      "inputs": [
+        0,
+        1949696
+      ],
+      "transaction_hash": "124f552cabd46d9e25d92a86b8fc8780962b09eeb7e69f2eaf0997f6cb647eb8",
+      "checkpoint": 34735
+    }
+  ],
+  "source": "token/src/main.psy.rs",
+  "revocation_rule": "spender close required before refund",
+  "contract_id": 48,
+  "deployment_tx_hash": "25bc09f6d9096915b1961eabe63fa0368ade840b0b6a5c67690e0a2ae3bb99a4",
+  "post_close_spend_rejection": "owner channel is not active assertion"
+}

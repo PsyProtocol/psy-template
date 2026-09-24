@@ -15,7 +15,8 @@ class Psy20VirtualEnvironment {
     this.totalShieldedNotes = 0n;
     this.currentCheckpoint = 100n;
     this.stateMap = new Map(); // nullifier_key -> boolean
-    this.delegation_spends = new Map(); // "spender:owner,channel_idx,version" -> spent_amount (Namespace 2)
+    this.delegation_spends = new Map(); // "spender:owner,channel_idx,version" -> spent_amount
+    this.delegation_closed = new Set(); // terminal spender-side channel versions
     this.delegationGated = delegationGated;
 
     // Register canonical issuer with deployer pk
@@ -53,7 +54,6 @@ class Psy20VirtualEnvironment {
           allocated_amount: 0n,
           channel_version: 0n,
           status: 0n, // 0: UNINITIALIZED, 1: ACTIVE, 2: REVOKE_PENDING, 3: CLOSED
-          cutoff_checkpoint: 0n
         })),
         note_count: 0n,
         note_root: [0n, 0n, 0n, 0n],
@@ -193,8 +193,7 @@ class Psy20VirtualEnvironment {
       spender: spenderId,
       allocated_amount: amount,
       channel_version: user.delegations[channelIdx].channel_version + 1n,
-      status: 1n, // ACTIVE
-      cutoff_checkpoint: 0n
+      status: 1n // ACTIVE
     };
 
     this.verifyInvariants();
@@ -206,12 +205,10 @@ class Psy20VirtualEnvironment {
     const owner = this.getOrCreateUser(ownerId);
     const ch = owner.delegations[channelIdx];
     assert.equal(ch.spender, callerId, 'caller is not channel spender');
-    assert.ok(
-      ch.status === 1n || (ch.status === 2n && this.currentCheckpoint <= ch.cutoff_checkpoint),
-      'channel is not active for spending'
-    );
-
     const recKey = `${callerId}:${ownerId},${channelIdx},${ch.channel_version}`;
+    assert.ok(!this.delegation_closed.has(recKey), 'spender has closed delegation channel');
+    assert.equal(ch.status, 1n, 'channel is not active for spending');
+
     const localSpent = this.delegation_spends.get(recKey) || 0n;
     assert.ok(localSpent <= ch.allocated_amount, 'local spent exceeds allocated amount');
     const remaining = ch.allocated_amount - localSpent;
@@ -233,7 +230,16 @@ class Psy20VirtualEnvironment {
     assert.equal(ch.status, 1n, 'channel must be active to initiate revocation');
 
     ch.status = 2n; // REVOKE_PENDING
-    ch.cutoff_checkpoint = this.currentCheckpoint + 60n;
+  }
+
+  closeDelegationChannel(spenderId, ownerId, channelIdx, channelVersion) {
+    const ch = this.getOrCreateUser(ownerId).delegations[channelIdx];
+    assert.equal(ch.spender, spenderId, 'caller is not channel spender');
+    assert.equal(ch.channel_version, channelVersion, 'channel version does not match owner authorization');
+    assert.ok(ch.status === 1n || ch.status === 2n, 'owner channel is not active');
+    const recKey = `${spenderId}:${ownerId},${channelIdx},${channelVersion}`;
+    assert.ok(!this.delegation_closed.has(recKey), 'delegation channel already closed by spender');
+    this.delegation_closed.add(recKey);
   }
 
   finalizeRevokeDelegation(callerId, channelIdx, spenderId) {
@@ -242,9 +248,9 @@ class Psy20VirtualEnvironment {
     const ch = user.delegations[channelIdx];
     assert.equal(ch.status, 2n, 'channel must be in REVOKE_PENDING state');
     assert.equal(ch.spender, spenderId, 'spender mismatch');
-    assert.ok(this.currentCheckpoint > ch.cutoff_checkpoint, 'cutoff checkpoint has not been reached');
 
     const recKey = `${spenderId}:${callerId},${channelIdx},${ch.channel_version}`;
+    assert.ok(this.delegation_closed.has(recKey), 'spender has not closed delegation channel');
     const confirmedSpent = this.delegation_spends.get(recKey) || 0n;
     assert.ok(confirmedSpent <= ch.allocated_amount, 'confirmed spent exceeds allocated');
 
@@ -255,7 +261,6 @@ class Psy20VirtualEnvironment {
     ch.status = 3n; // CLOSED
     ch.allocated_amount = 0n;
     ch.spender = 0n;
-    ch.cutoff_checkpoint = 0n;
 
     this.verifyInvariants();
   }
@@ -321,7 +326,7 @@ class Psy20VirtualEnvironment {
   }
 }
 
-test('PSY-20 Lifecycle & Formal Invariants E2E', async (t) => {
+test('PSY-20 JavaScript state model (not chain execution)', async (t) => {
   const env = new Psy20VirtualEnvironment();
   const ISSUER = 5n;
   const ISSUER_ALT = 99n;
@@ -338,7 +343,7 @@ test('PSY-20 Lifecycle & Formal Invariants E2E', async (t) => {
   env.registerUserKey(CHARLIE, [123n, 456n, 789n, 101n]);
   env.registerUserKey(SPENDER, [111n, 111n, 111n, 111n]);
 
-  // NOTE: This test runs within the JS formal state-machine model to verify partition transitions
+  // NOTE: This test runs within a JavaScript state-machine model to verify partition transitions
   // and multi-ID rejection logic. It is not a native ZK circuit proof test, as dargo test harness
   // lacks multi-identity simulation capabilities.
   await t.test('1. Minting and authority establishment via Dual-Constraint Single-Source Issuance (JS Simulation)', () => {
@@ -386,7 +391,7 @@ test('PSY-20 Lifecycle & Formal Invariants E2E', async (t) => {
     assert.equal(env.getOrCreateUser(BOB).balance, 250_000n);
   });
 
-  await t.test('3. Batch transfers (2-way and 5-way)', () => {
+  await t.test('3. Modeled two-recipient batch transfer', () => {
     env.batchTransfer2(ALICE, [BOB, CHARLIE], [50_000n, 100_000n]);
     assert.equal(env.getOrCreateUser(ALICE).balance, 600_000n);
 
@@ -396,44 +401,30 @@ test('PSY-20 Lifecycle & Formal Invariants E2E', async (t) => {
     assert.equal(env.getOrCreateUser(CHARLIE).balance, 100_000n);
   });
 
-  await t.test('4a. Delegation on-chain entrance gating & drainability', () => {
-    // Default build has DELEGATION_GATED = true
-    const gatedEnv = new Psy20VirtualEnvironment(true);
-    gatedEnv.registerUserKey(ISSUER, DEPLOYER_PK);
-    gatedEnv.registerUserKey(ALICE, [999n, 888n, 777n, 666n]);
-    gatedEnv.registerUserKey(SPENDER, [111n, 111n, 111n, 111n]);
-    gatedEnv.registerUserKey(BOB, [555n, 444n, 333n, 222n]);
+  await t.test('4a. Spender close is required before a refund', () => {
+    const cooperativeEnv = new Psy20VirtualEnvironment();
+    cooperativeEnv.registerUserKey(ISSUER, DEPLOYER_PK);
+    cooperativeEnv.registerUserKey(ALICE, [999n, 888n, 777n, 666n]);
+    cooperativeEnv.registerUserKey(SPENDER, [111n, 111n, 111n, 111n]);
+    cooperativeEnv.registerUserKey(BOB, [555n, 444n, 333n, 222n]);
 
-    gatedEnv.setMetadata(ISSUER, 5264217n, 9n);
-    gatedEnv.setMintAuthority(ISSUER, ISSUER);
-    gatedEnv.mint(ISSUER, 100_000n);
-    gatedEnv.transfer(ISSUER, ALICE, 100_000n);
-    gatedEnv.claim(ALICE, ISSUER);
-
-    // Attempting to open delegation channel fails on-chain gate
-    assert.throws(
-      () => gatedEnv.openDelegationChannel(ALICE, 0, SPENDER, 10_000n),
-      /delegation channel creation is gated pending protocol-level linearizability/
-    );
-
-    // Existing channels (e.g. established prior to gating) can still execute spend and revocation to drain funds cleanly
-    gatedEnv.delegationGated = false; // temporarily un-gate to create channel
-    gatedEnv.openDelegationChannel(ALICE, 0, SPENDER, 10_000n);
-    gatedEnv.delegationGated = true; // gate active again
-
-    // Spender can spend from pre-existing channel even when gated
-    gatedEnv.spendDelegation(SPENDER, ALICE, 0, 4_000n, BOB);
-    assert.equal(gatedEnv.delegation_spends.get(`${SPENDER}:${ALICE},0,1`), 4_000n);
-
-    // Alice can request and finalize revoke even when gated
-    gatedEnv.requestRevokeDelegation(ALICE, 0);
-    gatedEnv.currentCheckpoint += 65n;
-    gatedEnv.finalizeRevokeDelegation(ALICE, 0, SPENDER);
-    // Alice receives 6,000 unspent refund
-    assert.equal(gatedEnv.getOrCreateUser(ALICE).balance, 96_000n);
+    cooperativeEnv.setMetadata(ISSUER, 5264217n, 9n);
+    cooperativeEnv.mint(ISSUER, 100_000n);
+    cooperativeEnv.transfer(ISSUER, ALICE, 100_000n);
+    cooperativeEnv.claim(ALICE, ISSUER);
+    cooperativeEnv.openDelegationChannel(ALICE, 0, SPENDER, 10_000n);
+    cooperativeEnv.spendDelegation(SPENDER, ALICE, 0, 4_000n, BOB);
+    cooperativeEnv.requestRevokeDelegation(ALICE, 0);
+    assert.throws(() => cooperativeEnv.finalizeRevokeDelegation(ALICE, 0, SPENDER),
+      /spender has not closed delegation channel/);
+    cooperativeEnv.closeDelegationChannel(SPENDER, ALICE, 0, 1n);
+    assert.throws(() => cooperativeEnv.spendDelegation(SPENDER, ALICE, 0, 1n, BOB),
+      /spender has closed delegation channel/);
+    cooperativeEnv.finalizeRevokeDelegation(ALICE, 0, SPENDER);
+    assert.equal(cooperativeEnv.getOrCreateUser(ALICE).balance, 96_000n);
   });
 
-  await t.test('4b. True dual-ledger delegation channel lifecycle, multi-key isolation, & two-phase revocation', () => {
+  await t.test('4b. Modeled dual-ledger delegation lifecycle and cooperative revocation', () => {
     // Alice opens delegation channel 0 to Spender with 80,000 tokens
     env.openDelegationChannel(ALICE, 0, SPENDER, 80_000n);
     assert.equal(env.getOrCreateUser(ALICE).balance, 520_000n);
@@ -462,18 +453,15 @@ test('PSY-20 Lifecycle & Formal Invariants E2E', async (t) => {
     // Crucial check: Charlie's spend (20,000) did NOT overwrite Alice's spend (30,000)
     assert.equal(env.delegation_spends.get(`${SPENDER}:${ALICE},0,1`), 30_000n);
 
-    // Alice initiates two-phase revocation: sets status to REVOKE_PENDING with cutoff
+    // A fresh read after Alice requests revocation rejects a new spend.
+    // Historical ACTIVE proofs still require protocol-level freshness handling.
     env.requestRevokeDelegation(ALICE, 0);
     const ch = env.getOrCreateUser(ALICE).delegations[0];
     assert.equal(ch.status, 2n);
-    assert.equal(ch.cutoff_checkpoint, env.currentCheckpoint + 60n);
+    assert.throws(() => env.spendDelegation(SPENDER, ALICE, 0, 1n, CHARLIE), /channel is not active for spending/);
+    assert.throws(() => env.finalizeRevokeDelegation(ALICE, 0, SPENDER), /spender has not closed delegation channel/);
 
-    // Finalize before cutoff fails
-    assert.throws(() => env.finalizeRevokeDelegation(ALICE, 0, SPENDER), /cutoff checkpoint has not been reached/);
-
-    // Advance past cutoff
-    env.currentCheckpoint += 65n;
-
+    env.closeDelegationChannel(SPENDER, ALICE, 0, 1n);
     // Alice finalizes revocation: Alice receives 80,000 - 30,000 = 50,000 refund!
     // (If overwrite occurred, Alice would have received 80,000 - 0 = 80,000 or 80,000 - 20,000 = 60,000)
     env.finalizeRevokeDelegation(ALICE, 0, SPENDER);
@@ -484,7 +472,7 @@ test('PSY-20 Lifecycle & Formal Invariants E2E', async (t) => {
     assert.equal(env.getOrCreateUser(CHARLIE).delegations[0].status, 1n); // ACTIVE
     // Charlie revokes channel 0:
     env.requestRevokeDelegation(CHARLIE, 0);
-    env.currentCheckpoint += 65n;
+    env.closeDelegationChannel(SPENDER, CHARLIE, 0, 1n);
     env.finalizeRevokeDelegation(CHARLIE, 0, SPENDER);
     // Charlie receives 50,000 - 20,000 = 30,000 refund
     assert.equal(env.getOrCreateUser(CHARLIE).balance, 110_000n); // 80,000 + 30,000
@@ -503,13 +491,31 @@ test('PSY-20 Lifecycle & Formal Invariants E2E', async (t) => {
 
     // Close channel 0
     env.requestRevokeDelegation(ALICE, 0);
-    env.currentCheckpoint += 65n;
+    env.closeDelegationChannel(SPENDER, ALICE, 0, 2n);
     env.finalizeRevokeDelegation(ALICE, 0, SPENDER);
     assert.equal(env.getOrCreateUser(ALICE).delegations[0].status, 3n);
     assert.equal(env.getOrCreateUser(ALICE).balance, 560_000n); // 0 refund since all 10k was spent
   });
 
-  await t.test('5. Shielded Private Transfer & Canonical Private Claim with Nullifier double-spend prevention', () => {
+  await t.test('4c. One owner can use two independent slots for concurrent allowances', () => {
+    const parallel = new Psy20VirtualEnvironment();
+    parallel.registerUserKey(ISSUER, DEPLOYER_PK);
+    parallel.setMetadata(ISSUER, 5264217n, 9n);
+    parallel.mint(ISSUER, 1_000n);
+    parallel.openDelegationChannel(ISSUER, 0, SPENDER, 400n);
+    parallel.openDelegationChannel(ISSUER, 1, SPENDER, 200n);
+    parallel.spendDelegation(SPENDER, ISSUER, 0, 100n, BOB);
+    parallel.spendDelegation(SPENDER, ISSUER, 1, 50n, BOB);
+    parallel.requestRevokeDelegation(ISSUER, 0);
+    parallel.closeDelegationChannel(SPENDER, ISSUER, 0, 1n);
+    parallel.finalizeRevokeDelegation(ISSUER, 0, SPENDER);
+    assert.equal(parallel.getOrCreateUser(ISSUER).balance, 700n);
+    assert.equal(parallel.getOrCreateUser(ISSUER).delegations[1].status, 1n);
+    parallel.spendDelegation(SPENDER, ISSUER, 1, 150n, BOB);
+    assert.equal(parallel.delegation_spends.get(`${SPENDER}:${ISSUER},1,1`), 200n);
+  });
+
+  await t.test('5. Modeled private balance and nullifier accounting (no ZK proof verification)', () => {
     const receiverShielded = [1n, 2n, 3n, 4n];
     const secret = [5n, 6n, 7n, 8n];
     const note = env.privateTransfer(ALICE, receiverShielded, 70_000n, secret);

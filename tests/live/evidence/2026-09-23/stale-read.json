@@ -1,0 +1,87 @@
+{
+  "network": "sepolia staging",
+  "contract_id": 0,
+  "users": [
+    901120,
+    1949696
+  ],
+  "source": "generate-tx-trace then prove-tx-trace with the sender updated between them",
+  "before": {
+    "checkpoint": 32352,
+    "balances": {
+      "901120": {
+        "slot_hex": "000000000000000000000000000000000000000000000000000000d32d699690",
+        "balance_felt": 906999994000,
+        "state_root": "907f931aab1cc77d1b3ce2344bfe01c2a315392ff2d4598306342bc2d7e96993"
+      },
+      "1949696": {
+        "slot_hex": "000000000000000000000000000000000000000000000000000000147d356060",
+        "balance_felt": 87999996000,
+        "state_root": "65ccbbe46e59172575aea25b927688515e555bc5f3fd9956fd32394565e3c7b7"
+      }
+    }
+  },
+  "first_transfer": {
+    "transaction_hash": "fb11e83c49c67e6e84a3652597617b19519bf68d1187197d00edff6459a23afe",
+    "user_id": 901120,
+    "status": "confirmed",
+    "confirmed_checkpoint": 32361,
+    "network": "sepolia"
+  },
+  "trace": {
+    "start_checkpoint": 32362,
+    "tx_hash": "16fbe08f65258481ca33d6fcec193b89f5fc55585dadbf0bf7de5320688702b8",
+    "sha256": "2d0cca1ded2f6be898b7c6a1c5c03c9e0f6f392b2a4eec285c2229ca91409a6f"
+  },
+  "second_transfer": {
+    "transaction_hash": "ae6ae5629bfd1d07a443cd26798622f72f7138989e45c865c780d01f129b1f85",
+    "user_id": 901120,
+    "status": "confirmed",
+    "confirmed_checkpoint": 32382,
+    "network": "sepolia"
+  },
+  "old_trace_result": {
+    "transaction_hash": "16fbe08f65258481ca33d6fcec193b89f5fc55585dadbf0bf7de5320688702b8",
+    "user_id": 1949696,
+    "status": "confirmed",
+    "confirmed_checkpoint": 32388,
+    "network": "sepolia"
+  },
+  "after_old_trace": {
+    "checkpoint": 32388,
+    "balances": {
+      "901120": {
+        "slot_hex": "000000000000000000000000000000000000000000000000000000c711f87ef0",
+        "balance_felt": 854999990000,
+        "state_root": "c4ebe259a94e01534594d6311bb5f1ca59c4eb453f0a2049c1b1d30d1cdcc76b"
+      },
+      "1949696": {
+        "slot_hex": "00000000000000000000000000000000000000000000000000000018e9b25690",
+        "balance_felt": 106999994000,
+        "state_root": "7518a8f04cf127bfb01d4b78ab2ca8c301a21ea094e70c42b31ae2bdf3c55853"
+      }
+    }
+  },
+  "fresh_claim": {
+    "transaction_hash": "f0fa23e7edff246e2373a204c7da8e2d5fbcc9af6de58a7d5faadf5a5a544a60",
+    "user_id": 1949696,
+    "status": "confirmed",
+    "confirmed_checkpoint": 32400,
+    "network": "sepolia"
+  },
+  "after_fresh_claim": {
+    "checkpoint": 32400,
+    "balances": {
+      "901120": {
+        "slot_hex": "000000000000000000000000000000000000000000000000000000c711f87ef0",
+        "balance_felt": 854999990000,
+        "state_root": "c4ebe259a94e01534594d6311bb5f1ca59c4eb453f0a2049c1b1d30d1cdcc76b"
+      },
+      "1949696": {
+        "slot_hex": "0000000000000000000000000000000000000000000000000000001faa3b30c0",
+        "balance_felt": 135999992000,
+        "state_root": "e78da4964d34935de621a383c291682c73ccbec661175c4fc59860bc7ae9572e"
+      }
+    }
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "contract_id": 48,
+  "users": [
+    901120,
+    1949696
+  ],
+  "slot": 1,
+  "scenario": "spender trace anchored to ACTIVE owner slot, submitted after owner REVOKE_PENDING update",
+  "open": {
+    "transaction_hash": "b88470a1f67e4e6a15898cb0e0c8e6cc95513afa9bc9fcd84f0378a21088a3df",
+    "user_id": 901120,
+    "status": "confirmed",
+    "confirmed_checkpoint": 34797,
+    "network": "sepolia"
+  },
+  "trace": {
+    "start_checkpoint": 34798,
+    "tx_hash": "8ca4076ef216497bdf4dfcf29a2fc62199dca3c8ce8b16bb3c75b5be9d0142d9",
+    "sha256": "6c6320ea843dc3d253864007c62dc19f956ab4bf0243f66ae294fca682035bdb"
+  },
+  "request": {
+    "transaction_hash": "febd2b8cf9a1e1e9ea3ec1ef0339fbafb6643c5e5f48ac608c0fb50226157a94",
+    "user_id": 901120,
+    "status": "confirmed",
+    "confirmed_checkpoint": 34807,
+    "network": "sepolia"
+  },
+  "historical_spend": {
+    "transaction_hash": "8ca4076ef216497bdf4dfcf29a2fc62199dca3c8ce8b16bb3c75b5be9d0142d9",
+    "user_id": 1949696,
+    "status": "confirmed",
+    "confirmed_checkpoint": 34815,
+    "network": "sepolia"
+  },
+  "claim": {
+    "transaction_hash": "2ca95fecc343c32ae16849a1d8f2f6c0f87b512a084568f669d189b6a82c9f6a",
+    "user_id": 901120,
+    "status": "confirmed",
+    "confirmed_checkpoint": 34823,
+    "network": "sepolia"
+  },
+  "close": {
+    "transaction_hash": "2225403351f0e80935986eee101f47a911aa755e991ac795f2b64d6c6977fc11",
+    "user_id": 1949696,
+    "status": "confirmed",
+    "confirmed_checkpoint": 34830,
+    "network": "sepolia"
+  },
+  "finalize": {
+    "transaction_hash": "0648514b8e53f3d133d480a4f3d12b2675a0e11e94eb8b66e63f6219c0c7d1ec",
+    "user_id": 901120,
+    "status": "confirmed",
+    "confirmed_checkpoint": 34837,
+    "network": "sepolia"
+  }
+}

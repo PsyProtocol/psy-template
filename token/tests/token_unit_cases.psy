@@ -1,0 +1,51 @@
+#[test]
+fn test_token_mint_burn_lifecycle() {
+    let c = PsyTokenContractRef::new(ContractMetadata::current());
+    let initial_balance = c.balance.get();
+    PsyTokenContractRef::set_metadata(5264217, 9);
+    assert_eq(c.symbol.get(), 5264217, "symbol should be set to 5264217 (PSY)");
+    assert_eq(c.decimals.get(), 9, "decimals should be set to 9");
+
+    let caller = get_user_id();
+    assert_eq(c.mint_authority.get(), caller, "metadata setup initializes mint authority");
+    PsyTokenContractRef::set_mint_authority(caller);
+    assert_eq(c.mint_authority.get(), caller, "self-affirmed authority stays in issuer partition");
+
+    PsyTokenContractRef::mint(1000);
+    assert_eq(c.balance.get(), initial_balance + 1000, "balance should increment by 1000");
+    assert_eq(c.total_minted.get(), 1000, "total_minted should be 1000");
+
+    PsyTokenContractRef::burn(200);
+    assert_eq(c.balance.get(), initial_balance + 800, "balance after burning 200 should be initial + 800");
+
+    PsyTokenContractRef::transfer(6, 10);
+    PsyTokenContractRef::batch_transfer_2([6, 7], [15, 20]);
+    PsyTokenContractRef::batch_transfer_5([6, 7, 6, 8, 6], [1, 2, 3, 4, 5]);
+    assert_eq(c.balance.get(), initial_balance + 740, "transfers debit exactly the sum sent");
+    assert_eq(c.other_user_info[6].get().amount_sent, 34, "duplicate recipient entries accumulate");
+    assert_eq(c.other_user_info[7].get().amount_sent, 22, "second recipient receives both batch entries");
+    assert_eq(c.other_user_info[8].get().amount_sent, 4, "third recipient receives its batch entry");
+
+    PsyTokenContractRef::private_transfer([1, 2, 3, 4], 3, [5, 6, 7, 8]);
+    assert_eq(c.balance.get(), initial_balance + 737, "private transfer debits liquid balance");
+    assert_eq(c.note_count.get(), 1, "first private note is appended");
+    let first_root = c.note_root.get();
+    PsyTokenContractRef::private_transfer([1, 2, 3, 4], 2, [8, 7, 6, 5]);
+    assert_eq(c.balance.get(), initial_balance + 735, "second private transfer debits liquid balance");
+    assert_eq(c.note_count.get(), 2, "second private note is appended");
+    assert(c.note_root.get() != first_root, "private note root must change after append");
+
+    PsyTokenContractRef::open_delegation_channel(0, 6, 10);
+    assert_eq(c.balance.get(), initial_balance + 725, "opening a channel escrows its allocation");
+    assert_eq(c.delegations[0].get().spender, 6, "delegation binds the designated spender");
+    assert_eq(c.delegations[0].get().allocated_amount, 10, "delegation records the allocation");
+    PsyTokenContractRef::request_revoke_delegation(0);
+    assert_eq(c.delegations[0].get().status, 2, "revocation request marks channel pending");
+
+    // Remote spender close and owner settlement require distinct user partitions.
+
+    // Renounce authority
+    PsyTokenContractRef::renounce_mint_authority();
+    assert_eq(c.is_mint_renounced.get(), 1, "is_mint_renounced should be 1");
+    assert_eq(c.mint_authority.get(), 0, "mint_authority should be reset to 0");
+}

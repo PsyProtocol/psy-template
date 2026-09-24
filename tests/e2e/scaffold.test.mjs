@@ -176,6 +176,9 @@ test('Scaffolding E2E: Scaffolds, verifies templates, and enforces unconfigured 
       }
       assert.ok(preflightFailed, 'Initial preflight on newly scaffolded token project MUST fail');
 
+      assert.throws(() => execSync('node scripts/configure_issuer.mjs --issuer 16777216', { cwd: targetDir, stdio: 'pipe' }),
+        'Token issuer IDs outside the 24-bit outbox must be rejected');
+
       // Explicit configuration allows preflight to pass
       execSync('node scripts/configure_issuer.mjs --issuer 42', { cwd: targetDir, stdio: 'pipe' });
       assert.ok(existsSync(join(targetDir, '.issuer_configured')), '.issuer_configured should exist after configure');
@@ -223,6 +226,9 @@ test('Scaffolding E2E: Scaffolds, verifies templates, and enforces unconfigured 
       }
       assert.ok(preflightFailed, 'Initial preflight on newly scaffolded nft project MUST fail');
 
+      assert.throws(() => execSync('node scripts/configure_issuer.mjs --issuer 16777216', { cwd: targetDir, stdio: 'pipe' }),
+        'NFT issuer IDs outside the 24-bit outbox must be rejected');
+
       // Explicit configuration allows preflight to pass
       execSync('node scripts/configure_issuer.mjs --issuer 42', { cwd: targetDir, stdio: 'pipe' });
       assert.ok(existsSync(join(targetDir, '.issuer_configured')), '.issuer_configured should exist after configure');
@@ -259,6 +265,9 @@ test('Scaffolding E2E: Scaffolds, verifies templates, and enforces unconfigured 
         preflightFailed = true;
       }
       assert.ok(preflightFailed, 'Initial preflight on newly scaffolded dapp project MUST fail');
+
+      assert.throws(() => execSync('node scripts/configure_issuer.mjs --issuer 16777216', { cwd: targetDir, stdio: 'pipe' }),
+        'dApp issuer IDs outside the 24-bit outbox must be rejected');
 
       // Explicit configuration allows preflight to pass
       execSync('node scripts/configure_issuer.mjs --issuer 42', { cwd: targetDir, stdio: 'pipe' });
