@@ -10,6 +10,8 @@ For a full breakdown of the ZK-native partitioned state model, Plonky2 Goldilock
 
 For release blockers and acceptance criteria, see [Production Readiness Gates](PRODUCTION_READINESS.md).
 
+For the current engineering handoff, see [PSY-20 / PSY-721 handoff (2026-09-24)](HANDOFF_2026-09-24.md).
+
 ---
 
 ## Available Templates
@@ -83,7 +85,7 @@ npm run build:deploy
 npm run build
 ```
 
-Token and dApp currently use `dargo`; NFT uses the staging-compatible `psy_user_cli compile` on `nft/src/main.psy.rs` and writes `nft/target/v3/compilation_artifact.json` plus `abi.json`. Set `PSY_USER_CLI` to a compatible binary. See the [NFT guide](nft/README.md) for the verified toolchain and staging deployment path.
+Token and NFT staging builds use `psy_user_cli compile` on their `.psy.rs` sources and write `target/v3/compilation_artifact.json` plus `abi.json`. The dApp contract remains on the legacy `psyup build` path. Set `PSY_USER_CLI` to a compatible binary. See the [token guide](token/README.md) and [NFT guide](nft/README.md) for their verified toolchains and staging deployment paths.
 
 ### 4. Deploy
 
