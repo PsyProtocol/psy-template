@@ -9,10 +9,9 @@ const __dirname = fileURLToPath(new URL('.', import.meta.url));
 const REPO_ROOT = join(__dirname, '../..');
 
 test('Compilation & ABI Verification E2E', async (t) => {
-  // 0. Compile both token versions, the legacy dApp, and staging-compatible NFT v3.
+  // 0. Compile both token artifacts, the dApp contract, and staging-compatible NFT v3.
   await t.test('All contracts compile cleanly', () => {
     execSync('npm run build', { cwd: join(REPO_ROOT, 'token'), stdio: 'pipe' });
-    execSync('psyup build', { cwd: join(REPO_ROOT, 'token'), stdio: 'pipe' });
     execSync('psyup build', { cwd: join(REPO_ROOT, 'dapp/contract'), stdio: 'pipe' });
     execSync('npm run build', { cwd: join(REPO_ROOT, 'nft'), stdio: 'pipe' });
   });
@@ -26,7 +25,7 @@ test('Compilation & ABI Verification E2E', async (t) => {
     assert.equal(abi.schema_version, '2.0.0', 'Schema version must be 2.0.0');
     assert.equal(abi.contract.name, 'PsyTokenContract');
 
-    // Verify legacy storage fields, including the terminal spender ledger.
+    // Verify complete-source storage fields, including the terminal spender ledger.
     const stateFieldNames = abi.contract.state.map(s => s.name);
     assert.deepEqual(stateFieldNames, [
       'balance',
@@ -51,7 +50,7 @@ test('Compilation & ABI Verification E2E', async (t) => {
     assert.equal(noteRootField.offset, 33554436);
     assert.equal(noteRootField.offset / 4, 8388609);
 
-    // Verify 16 legacy methods, including cooperative close and private_claim.
+    // Verify all 16 complete-source methods, including cooperative close and private_claim.
     const methodNames = abi.contract.methods.map(m => m.name).sort();
     assert.deepEqual(methodNames, [
       'batch_transfer_2',

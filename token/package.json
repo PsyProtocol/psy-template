@@ -9,8 +9,11 @@
     "check:preflight": "node scripts/configure_issuer.mjs --check --strict",
     "check:deployer": "node scripts/deploy_checked.mjs --preflight-only",
     "deploy:checked": "node scripts/deploy_checked.mjs",
-    "build": "node scripts/build_v3.mjs",
-    "build:legacy": "psyup build",
+    "deploy:staging-public": "PSY20_PUBLIC_ONLY=1 node scripts/deploy_checked.mjs",
+    "build": "npm run build:private && npm run build:staging",
+    "build:private": "node scripts/build_private.mjs",
+    "build:staging": "node scripts/build_v3.mjs",
+    "build:legacy": "npm run build:private",
     "build:deploy": "npm run check:preflight && npm run build",
     "deploy:v3": "node scripts/deploy_v3_checked.mjs",
     "test": "node scripts/run_unit_test.mjs"

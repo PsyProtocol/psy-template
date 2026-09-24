@@ -84,6 +84,15 @@ appendFileSync(process.env.MOCK_PSYUP_LOG, process.argv[2] + '\\n');
       assert.equal(deploy.status, 0, `${kind}: ${deploy.stderr}`);
       assert.equal(readFileSync(log, 'utf8'), 'build\ndeploy\n');
       assert.doesNotMatch(deploy.stdout + deploy.stderr, /MOCK_SECRET_MUST_NOT_LEAK/);
+
+      if (kind === 'token') {
+        copyFileSync(join(root, 'token/src/main.psy.rs'), join(sourceDir, 'main.psy.rs'));
+        const publicOnlyByAccident = run([]);
+        assert.notEqual(publicOnlyByAccident.status, 0);
+        assert.match(publicOnlyByAccident.stderr, /omits private_transfer\/private_claim/);
+        assert.equal(readFileSync(log, 'utf8'), 'build\ndeploy\n',
+          'an implicit public-only token deployment must not submit');
+      }
     }
   } finally {
     rmSync(temporary, { recursive: true, force: true });

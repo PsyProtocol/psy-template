@@ -85,7 +85,7 @@ npm run build:deploy
 npm run build
 ```
 
-Token and NFT staging builds use `psy_user_cli compile` on their `.psy.rs` sources and write `target/v3/compilation_artifact.json` plus `abi.json`. The dApp contract remains on the legacy `psyup build` path. Set `PSY_USER_CLI` to a compatible binary. See the [token guide](token/README.md) and [NFT guide](nft/README.md) for their verified toolchains and staging deployment paths.
+The token build now produces two artifacts: the complete `.psy` contract with `private_transfer` / `private_claim` via `psyup build`, and the public-only staging v3 `.psy.rs` artifact via `psy_user_cli compile`. The NFT staging build uses `psy_user_cli compile`; the dApp contract remains on the `psyup build` path. Set `PSY_USER_CLI` to a compatible binary. See the [token guide](token/README.md) and [NFT guide](nft/README.md) for the deployment limits.
 
 ### 4. Deploy
 
@@ -93,10 +93,12 @@ From the `token/`, `nft/`, or `dapp/` template directory, set exactly one of `PR
 
 ```sh
 npm run check:deployer
-npm run deploy:checked
+npm run deploy:checked  # NFT and dApp
+# From token/, for a public-only staging token:
+npm run deploy:staging-public
 ```
 
-`deploy:checked` rebuilds before submitting and rejects an issuer ID that does not match the selected wallet's first registered ID. For standalone token and NFT templates it submits the v3 artifact with a compatible CLI and records the included contract ID when the staging API returns it. Direct `psyup deploy` still targets legacy artifacts.
+`deploy:checked` checks the selected wallet's registered issuer ID. For the token template it now stops because the deployable v3 artifact omits private methods. Run `npm run deploy:staging-public` from `token/` only for an explicit public-only deployment; the complete private-enabled artifact currently has no compatible staging deploy path. For NFT, `deploy:checked` submits the v3 artifact. Direct `psyup deploy` bypasses the issuer wallet checks.
 
 ---
 

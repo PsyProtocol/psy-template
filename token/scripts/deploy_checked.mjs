@@ -88,6 +88,10 @@ function checkDeployer() {
 }
 
 try {
+  if (!preflightOnly && existsSync(join(contractDir, 'src/main.psy.rs'))
+    && process.env.PSY20_PUBLIC_ONLY !== '1') {
+    throw new Error('The staging v3 deployment omits private_transfer/private_claim. Use npm run deploy:staging-public only if a public-only token is intended; the complete private-enabled artifact currently has no compatible staging deploy path.');
+  }
   const env = checkDeployer();
   if (!preflightOnly) {
     if (existsSync(join(contractDir, 'src/main.psy.rs'))) {
