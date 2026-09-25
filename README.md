@@ -85,7 +85,7 @@ npm run build:deploy
 npm run build
 ```
 
-The token build now produces two artifacts: the complete `.psy` contract with `private_transfer` / `private_claim` via `psyup build`, and the public-only staging v3 `.psy.rs` artifact via `psy_user_cli compile`. Both token sources include name/URI metadata, an optional immutable lifetime cap, `mint_to`, and issuer settlement of holder burns into `total_supply`. A burn remains counted until settlement. The NFT staging build uses `psy_user_cli compile`; the dApp contract remains on the `psyup build` path. Set `PSY_USER_CLI` to a compatible binary. See the [token guide](token/README.md) and [NFT guide](nft/README.md) for the deployment limits.
+The token template has a complete legacy `.psy` source, a public-only v3 source, and a private-enabled v3 source. The private v3 profile requires an isolated compiler build and completed a two-user staging round trip on contract 53. Both v3 profiles include name/URI metadata, an optional immutable lifetime cap, `mint_to`, and issuer settlement of holder burns into `total_supply`. A burn remains counted until settlement. The NFT staging build uses `psy_user_cli compile`; the dApp contract remains on the `psyup build` path. See the [token guide](token/README.md) and [NFT guide](nft/README.md) for commands and limits.
 
 ### 4. Deploy
 
@@ -96,9 +96,11 @@ npm run check:deployer
 npm run deploy:checked  # NFT and dApp
 # From token/, for a public-only staging token:
 npm run deploy:staging-public
+# From token/, for the private-enabled v3 profile with its matching compiler:
+PSY_PRIVATE_CLI=/path/to/psy_user_cli npm run deploy:private-v3
 ```
 
-`deploy:checked` checks the selected wallet's registered issuer ID. For the token template it now stops because the deployable v3 artifact omits private methods. Run `npm run deploy:staging-public` from `token/` only for an explicit public-only deployment; the complete private-enabled artifact currently has no compatible staging deploy path. For NFT, `deploy:checked` submits the v3 artifact. Direct `psyup deploy` bypasses the issuer wallet checks.
+`deploy:checked` checks the selected wallet's registered issuer ID. For the token template it stops because the default v3 artifact omits private methods. Use `deploy:staging-public` only for an explicit public-only token, or `deploy:private-v3` with the matching isolated compiler. For NFT, `deploy:checked` submits the v3 artifact. Direct `psyup deploy` bypasses the issuer wallet checks.
 
 ---
 

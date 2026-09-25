@@ -38,15 +38,17 @@ function findTargetFiles() {
   ];
   if (rootTargets.every(f => fs.existsSync(f))) {
     const tokenV3 = path.join(BASE_DIR, 'token', 'src', 'main.psy.rs');
+    const tokenPrivateV3 = path.join(BASE_DIR, 'token', 'src', 'main.private.psy.rs');
     const nftV3 = path.join(BASE_DIR, 'nft', 'src', 'main.psy.rs');
-    return [...rootTargets, ...[tokenV3, nftV3].filter(f => fs.existsSync(f))];
+    return [...rootTargets, ...[tokenV3, tokenPrivateV3, nftV3].filter(f => fs.existsSync(f))];
   }
 
   // Case 2: Standalone Token or NFT project (src/main.psy)
   const singleContract = path.join(BASE_DIR, 'src', 'main.psy');
   if (fs.existsSync(singleContract)) {
     const v3 = path.join(BASE_DIR, 'src', 'main.psy.rs');
-    return fs.existsSync(v3) ? [singleContract, v3] : [singleContract];
+    const privateV3 = path.join(BASE_DIR, 'src', 'main.private.psy.rs');
+    return [singleContract, ...[v3, privateV3].filter(f => fs.existsSync(f))];
   }
 
   // Case 3: Standalone dApp project (contract/src/main.psy)

@@ -1,0 +1,99 @@
+{
+  "network": "sepolia staging",
+  "users": [
+    901120,
+    1949696
+  ],
+  "source": "token/src/main.private.psy.rs",
+  "transactions": [
+    {
+      "method": "set_metadata",
+      "user_id": 901120,
+      "transaction_hash": "2f2192da58a8faa0a206ffa23870622d41e9be14a71ddae52fcf7bd824be0707",
+      "checkpoint": 48697
+    },
+    {
+      "method": "mint",
+      "user_id": 901120,
+      "transaction_hash": "8176eb73bdcff754d3a096a0aaf334908d758866ba4f7076b652a30313c0d019",
+      "checkpoint": 48703
+    },
+    {
+      "method": "private_transfer",
+      "user_id": 901120,
+      "transaction_hash": "5fd455161e29eb9f1ecc8536e6aa9a27199bbb50faf974975d5f5e01945b080a",
+      "checkpoint": 48711
+    },
+    {
+      "method": "private_claim",
+      "user_id": 1949696,
+      "transaction_hash": "3f588ca9559adf4de8ce624937ed5d5217b9be846c8c2bc26de7804e7a74095b",
+      "checkpoint": 48722
+    }
+  ],
+  "contract_id": 53,
+  "deployment_tx_hash": "32725911b793c4656e22a8d39467d1e3b9a874d1badcc68b1eea7ba335315cd6",
+  "state_tree_height": 32,
+  "note_root_leaf": 8388609,
+  "checkpoint": 48722,
+  "state": {
+    "issuer_balance": 900,
+    "recipient_balance": 100,
+    "issuer_note_count": 1,
+    "total_supply": 1000
+  },
+  "state_proofs": {
+    "issuer_balance": {
+      "felt": 900,
+      "root": "a934b59981fbbe98205da25854f8b2806840a63f6e8085712a2c932b92644584",
+      "value": "0000000000000000000000000000000000000000000000000000000000000384",
+      "leaf_id": 0,
+      "offset": 0
+    },
+    "recipient_balance": {
+      "felt": 100,
+      "root": "855de7b7373c27f9c9be77e9af8b19750b1a7450aac6dd28c23d11ec162cdcec",
+      "value": "0000000000000000000000000000000000000000000000000000000000000064",
+      "leaf_id": 0,
+      "offset": 0
+    },
+    "issuer_note_count": {
+      "felt": 1,
+      "root": "a934b59981fbbe98205da25854f8b2806840a63f6e8085712a2c932b92644584",
+      "value": "0000000000000001000000000000000000000000000000000000000000000000",
+      "leaf_id": 8388608,
+      "offset": 33554435
+    },
+    "total_supply": {
+      "felt": 1000,
+      "root": "a934b59981fbbe98205da25854f8b2806840a63f6e8085712a2c932b92644584",
+      "value": "00000000000003e800000000000003e8000000000000000000000000000dc000",
+      "leaf_id": 8388630,
+      "offset": 33554523
+    }
+  },
+  "normalized_source_sha256": "c36013cf9d8fcfb7c0edfb902f97f2e78ba304b9cad173f394eb5a7ba562cc72",
+  "compiler_patch_sha256": "3f0d31d0b2f1e8c9de9c1f39fcf772d11c256334eb19a08076615c350549d031",
+  "note_proof_fingerprint": "29e3631197dcf3b7273d78d91f23934253aad402f1cc1080227361794fa95d86",
+  "scope": "Disposable staging wallets in separate realms; secret note proof and private keys excluded.",
+  "second_note": {
+    "transfer": {
+      "status": "confirmed",
+      "tx_hash": "c8b79a402f4e3ea270e705ebef251fae1028bbc8999786088b7e29c5ae4fe4c3",
+      "checkpoint": 48793
+    },
+    "claim": {
+      "status": "confirmed",
+      "tx_hash": "241924595435cdb5bce0eac74ef416b5cf4bed6f4af2238f3dd8e538e560ceb8",
+      "checkpoint": 48802
+    },
+    "checkpoint": 48805,
+    "state": {
+      "issuer_balance": 850,
+      "recipient_balance": 150,
+      "issuer_note_count": 2,
+      "total_supply": 1000
+    }
+  },
+  "replay_rejection": "Replaying the first note failed locally before submission: assertion failed: nullifier already claimed"
+}

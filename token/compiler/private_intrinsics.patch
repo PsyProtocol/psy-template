@@ -1,0 +1,20 @@
+--- a/client_prover/psy_compiler/src/lower/context.rs
++++ b/client_prover/psy_compiler/src/lower/context.rs
+@@ -1274,6 +1274,17 @@
+                 self.exec.assert_true(cond.as_felt(), msg_static);
+                 Ok(SymValue::Void)
+             }
++            // Expose existing VM context operations to v3 private-claim contracts.
++            "psystd::session_proof_tree_root" => {
++                if !args.is_empty() { bail!("psystd::session_proof_tree_root() expects no arguments"); }
++                Ok(SymValue::Hash(self.exec.get_session_proof_tree_root()))
++            }
++            "psystd::checkpoint_user_tree_root" => {
++                if args.len() != 1 { bail!("psystd::checkpoint_user_tree_root() expects a checkpoint id"); }
++                let checkpoint_id = self.compile_expr(&args[0])?.as_felt();
++                Ok(SymValue::Hash(self.exec.get_checkpoint_user_tree_root(checkpoint_id)))
++            }
++
+             "psystd::poseidon_hash" => {
+                 let mut felt_refs = Vec::new();
+                 for arg in args {
