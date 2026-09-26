@@ -293,10 +293,10 @@ impl PsyTokenContract {
         let ledger_idx = owner * 16 + channel_idx;
         let ledger = self.delegation_spends[ledger_idx];
         require(ledger.channel_version <= version, "historical delegation version cannot be reused");
-        let spent: Felt = 0;
+        let same_version = ledger.channel_version == version;
+        let spent: Felt = ledger.spent * same_version.to_felt();
         if ledger.channel_version == version {
             require(ledger.closed == 0, "delegation channel was closed by spender");
-            spent = ledger.spent;
         } else {
             require(ledger.channel_version == 0 || ledger.closed == 1, "prior delegation version remains open");
         }
@@ -345,10 +345,10 @@ impl PsyTokenContract {
         let ledger_idx = owner * 16 + channel_idx;
         let ledger = self.delegation_spends[ledger_idx];
         require(ledger.channel_version <= channel_version, "historical delegation version cannot be closed again");
-        let spent: Felt = 0;
+        let same_version = ledger.channel_version == channel_version;
+        let spent: Felt = ledger.spent * same_version.to_felt();
         if ledger.channel_version == channel_version {
             require(ledger.closed == 0, "delegation channel already closed by spender");
-            spent = ledger.spent;
         } else {
             require(ledger.channel_version == 0 || ledger.closed == 1, "prior delegation version remains open");
         }

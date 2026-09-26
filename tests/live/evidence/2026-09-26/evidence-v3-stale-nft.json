@@ -1,0 +1,62 @@
+{
+  "network": "sepolia staging",
+  "contract_id": 54,
+  "users": [
+    135168,
+    1183744
+  ],
+  "mint_first": {
+    "transaction_hash": "e5445aaf53029d84418b95edd0badd907ae89bfd327043a34f3c711d08c8520d",
+    "user_id": 135168,
+    "status": "confirmed",
+    "confirmed_checkpoint": 59393,
+    "network": "sepolia"
+  },
+  "transfer_first": {
+    "transaction_hash": "70675821e5dc6a571f029e14f4fdf7bd9a9e82737834d982aa1f4cb2e60a7e79",
+    "user_id": 135168,
+    "status": "confirmed",
+    "confirmed_checkpoint": 59399,
+    "network": "sepolia"
+  },
+  "trace": {
+    "start_checkpoint": 59400,
+    "tx_hash": "54b1c6d063b9c4c07cc2e0e878a6ca6caa533495df12535443f00048d7264dba",
+    "sha256": "f6634b568e9daf2b58e4e4f8952a444b5e0c31ed53bb02ad0af7d182331dc921"
+  },
+  "mint_second": {
+    "transaction_hash": "7fa4dcaf204571972d7a92040b66f27d7af3ea4aa95a74983ce2ded8e116b813",
+    "user_id": 135168,
+    "status": "confirmed",
+    "confirmed_checkpoint": 59407,
+    "network": "sepolia"
+  },
+  "transfer_second": {
+    "transaction_hash": "84817e1ec58462cb5aa3d97708aebd3cf5d93e6fb3caa08a217e08489ff8d8d1",
+    "user_id": 135168,
+    "status": "confirmed",
+    "confirmed_checkpoint": 59415,
+    "network": "sepolia"
+  },
+  "old_trace_result": {
+    "transaction_hash": "54b1c6d063b9c4c07cc2e0e878a6ca6caa533495df12535443f00048d7264dba",
+    "user_id": 1183744,
+    "status": "confirmed",
+    "confirmed_checkpoint": 59420,
+    "network": "sepolia"
+  },
+  "fresh_claim": {
+    "transaction_hash": "8fb233690bd9e9adc35b7222cb1151822d5a9bb80aa4f3cb92b729032e7c603e",
+    "user_id": 1183744,
+    "status": "confirmed",
+    "confirmed_checkpoint": 59427,
+    "network": "sepolia"
+  },
+  "final_ack": {
+    "transaction_hash": "df5b7e17bfac41b3c53bb99925378a128278a4690f85e96fcc196762d0b3596a",
+    "user_id": 135168,
+    "status": "confirmed",
+    "confirmed_checkpoint": 59433,
+    "network": "sepolia"
+  }
+}

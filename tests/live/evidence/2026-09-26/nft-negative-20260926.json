@@ -1,0 +1,131 @@
+{
+  "network": "sepolia staging",
+  "contract_id": 54,
+  "users": [
+    135168,
+    1183744
+  ],
+  "steps": [
+    {
+      "method": "mint",
+      "inputs": [
+        0,
+        10,
+        1,
+        2,
+        3,
+        4
+      ],
+      "user_id": 135168,
+      "result": "rejected before submission: local_id must match next sequential mint index"
+    },
+    {
+      "method": "mint",
+      "inputs": [
+        0,
+        9,
+        1,
+        2,
+        3,
+        4
+      ],
+      "user_id": 1183744,
+      "result": "rejected before submission: only designated ISSUER_USER_ID partition can mint"
+    },
+    {
+      "method": "set_collection_metadata",
+      "inputs": [
+        1,
+        1,
+        2,
+        3,
+        4
+      ],
+      "user_id": 1183744,
+      "result": "rejected before submission: caller is not in canonical ISSUER_USER_ID partition"
+    },
+    {
+      "method": "transfer",
+      "inputs": [
+        0,
+        1183744
+      ],
+      "user_id": 1183744,
+      "result": "rejected before submission: cannot transfer to self"
+    },
+    {
+      "method": "transfer",
+      "inputs": [
+        0,
+        16777216
+      ],
+      "user_id": 1183744,
+      "result": "rejected before submission: recipient user_id exceeds outbox bounds"
+    },
+    {
+      "method": "transfer",
+      "inputs": [
+        0,
+        1183744
+      ],
+      "user_id": 135168,
+      "result": "rejected before submission: no active NFT in slot"
+    },
+    {
+      "method": "claim",
+      "inputs": [
+        8,
+        16777216
+      ],
+      "user_id": 1183744,
+      "result": "rejected before submission: CLI realm lookup rejected user_id 16777216 before contract execution"
+    },
+    {
+      "method": "claim",
+      "inputs": [
+        8,
+        135168
+      ],
+      "user_id": 1183744,
+      "result": "rejected before submission: no NFT to claim from sender"
+    },
+    {
+      "method": "renounce_mint_authority",
+      "inputs": [],
+      "user_id": 1183744,
+      "result": "rejected before submission: only designated ISSUER_USER_ID partition can renounce mint authority"
+    },
+    {
+      "method": "renounce_mint_authority",
+      "inputs": [],
+      "user_id": 135168,
+      "transaction_hash": "412c5a302152911d601c90282d16b090af4ff7e069e1fb869a6c1e83ca3c8ced",
+      "checkpoint": 59468
+    },
+    {
+      "method": "mint",
+      "inputs": [
+        0,
+        9,
+        1,
+        2,
+        3,
+        4
+      ],
+      "user_id": 135168,
+      "result": "rejected before submission: minting has been renounced"
+    },
+    {
+      "method": "set_collection_metadata",
+      "inputs": [
+        1,
+        1,
+        2,
+        3,
+        4
+      ],
+      "user_id": 135168,
+      "result": "rejected before submission: contract administration has been renounced"
+    }
+  ]
+}

@@ -1,0 +1,78 @@
+{
+  "network": "sepolia staging",
+  "users": [
+    135168,
+    1183744
+  ],
+  "transactions": [
+    {
+      "method": "set_collection_metadata",
+      "user_id": 135168,
+      "inputs": [
+        5264217,
+        11,
+        22,
+        33,
+        44
+      ],
+      "transaction_hash": "a8ace11c5c0ed2c9775488919186d6e46504ab0356245be2d3fef6384b76745a",
+      "checkpoint": 59061
+    },
+    {
+      "method": "mint",
+      "user_id": 135168,
+      "inputs": [
+        0,
+        1,
+        101,
+        102,
+        103,
+        104
+      ],
+      "transaction_hash": "e4b9354ea0c57d4887cf0eec6549916c01d13962e78ce0c19d418ccfde2d76c5",
+      "checkpoint": 59069
+    },
+    {
+      "method": "transfer",
+      "user_id": 135168,
+      "inputs": [
+        0,
+        1183744
+      ],
+      "transaction_hash": "a2637d32d5230cd939c0b08c904d3ac3f01132083169da75adabdcffab65c65b",
+      "checkpoint": 59076
+    },
+    {
+      "method": "claim",
+      "user_id": 1183744,
+      "inputs": [
+        0,
+        135168
+      ],
+      "transaction_hash": "bb2d0bdd004f51b8f146b797e69f2ac98ec0032f462af04d32f7dfb42c4c4ac7",
+      "checkpoint": 59082
+    },
+    {
+      "method": "transfer",
+      "user_id": 1183744,
+      "inputs": [
+        0,
+        135168
+      ],
+      "transaction_hash": "b5ad89471f8bc3b0d7a6c149f4e16fdfe6cf5d91c69b342a1f924be837933a55",
+      "checkpoint": 59090
+    },
+    {
+      "method": "claim",
+      "user_id": 135168,
+      "inputs": [
+        0,
+        1183744
+      ],
+      "transaction_hash": "36279cca5b902e9a924e753f4747eec990ac438a73e47bcbc67dd34f98ed0449",
+      "checkpoint": 59096
+    }
+  ],
+  "contract_id": 54,
+  "deployment_tx_hash": "f227dc9a58e5cd68885868784874c9c979a98c127078a4bb5507eeb229ef327c"
+}

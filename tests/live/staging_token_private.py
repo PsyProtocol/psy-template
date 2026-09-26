@@ -36,6 +36,8 @@ def main():
     parser.add_argument("--rpc-config", required=True, type=Path)
     parser.add_argument("--phase", choices=("deploy", "flow"), required=True)
     parser.add_argument("--run-name", default="token-private-v3")
+    parser.add_argument("--max-supply", type=int)
+    parser.add_argument("--check-replay", action="store_true")
     args = parser.parse_args()
     directory = args.state_dir.resolve(strict=True)
     rpc_config = args.rpc_config.resolve(strict=True)
@@ -92,7 +94,17 @@ def main():
     contract_id = evidence.get("contract_id")
     if not isinstance(contract_id, int):
         raise SystemExit("Run --phase deploy first")
-    public_flow = [("set_metadata", [0x505359, 9]), ("mint", [1000])]
+    public_flow = [("set_metadata", [0x505359, 9])]
+    if args.max_supply is not None:
+        if args.max_supply < 1000:
+            raise SystemExit("--max-supply must cover the 1000 token test mint")
+        public_flow.extend([
+            ("set_extended_metadata", [0x50535920546F6B65, 0x6E,
+                                        0x68747470733A2F2F, 0x6578616D706C652E,
+                                        0x6F7267, 0, 0]),
+            ("set_max_supply", [args.max_supply]),
+        ])
+    public_flow.append(("mint", [1000]))
     for index in range(min(len(evidence["transactions"]), len(public_flow)), len(public_flow)):
         method, inputs = public_flow[index]
         result = cli_call(method, inputs, contract_id, wallets[0], rpc_config, directory)
@@ -101,6 +113,18 @@ def main():
         evidence["transactions"].append({"method": method, "user_id": issuer,
             "transaction_hash": result["transaction_hash"], "checkpoint": result["confirmed_checkpoint"]})
         save(evidence_path, evidence)
+
+    if args.max_supply is not None and not evidence.get("cap_excess_rejected"):
+        try:
+            cli_call("mint", [args.max_supply - 999], contract_id,
+                     wallets[0], rpc_config, directory)
+        except RuntimeError as error:
+            if "max supply exceeded" not in str(error):
+                raise
+            evidence["cap_excess_rejected"] = True
+            save(evidence_path, evidence)
+        else:
+            raise AssertionError("mint above max supply unexpectedly confirmed")
 
     proof_file = directory / f"{args.run_name}-note-proof.json"
     if not any(tx["method"] == "private_transfer" for tx in evidence["transactions"]):
@@ -141,6 +165,22 @@ def main():
             "transaction_hash": result["transaction_hash"], "checkpoint": result["confirmed_checkpoint"]})
         save(evidence_path, evidence)
 
+    if args.check_replay and not evidence.get("replay_rejection"):
+        replay_result = directory / "private-replay-result.json"
+        command = [cli, "private-claim", "--rpc-config", str(rpc_config),
+                   "--private-key", wallets[1]["private_key"], "--contract-id", str(contract_id),
+                   "--note-proof", str(proof_file), "--result-file", str(replay_result)]
+        result = subprocess.run(command, cwd=directory,
+                                env=wallet_env(wallets[1], rpc_config),
+                                capture_output=True, text=True, timeout=1200)
+        replay_result.unlink(missing_ok=True)
+        detail = (result.stdout + "\n" + result.stderr).replace(
+            wallets[1]["private_key"], "[redacted]")
+        if result.returncode == 0 or "nullifier already claimed" not in detail:
+            raise AssertionError(f"private note replay did not fail as expected: {detail[-500:]}")
+        evidence["replay_rejection"] = "nullifier already claimed before submission"
+        save(evidence_path, evidence)
+
     abi = json.loads((project / "target/v3/abi.json").read_text())["contract"]
     fields = {field["name"]: field["offset"] for field in abi["state"]}
     checkpoint = public_cli(["get-latest-block-state"], rpc_config, directory)["block_state"]["checkpoint_id"]
@@ -150,9 +190,15 @@ def main():
         "issuer_note_count": state_felt(rpc_config, directory, checkpoint, issuer, contract_id, 32, fields["note_count"]),
         "total_supply": state_felt(rpc_config, directory, checkpoint, issuer, contract_id, 32, fields["total_supply"]),
     }
+    if args.max_supply is not None:
+        proofs["max_supply"] = state_felt(rpc_config, directory, checkpoint, issuer,
+                                           contract_id, 32, fields["max_supply"])
     values = {name: proof["felt"] for name, proof in proofs.items()}
-    assert values == {"issuer_balance": 900, "recipient_balance": 100,
-                      "issuer_note_count": 1, "total_supply": 1000}, values
+    expected = {"issuer_balance": 900, "recipient_balance": 100,
+                "issuer_note_count": 1, "total_supply": 1000}
+    if args.max_supply is not None:
+        expected["max_supply"] = args.max_supply
+    assert values == expected, values
     evidence["checkpoint"] = checkpoint
     evidence["state"] = values
     evidence["state_proofs"] = proofs

@@ -1,0 +1,32 @@
+{
+  "contract_id": 55,
+  "steps": [
+    {
+      "method": "open_delegation_channel",
+      "inputs": [
+        0,
+        1183744,
+        100
+      ],
+      "user_id": 135168,
+      "transaction_hash": "0d921ec13a753a7f777de01b863876bce5131f40e005483eeded8687e59e121f",
+      "checkpoint": 59252
+    },
+    {
+      "method": "spend_delegation",
+      "inputs": [
+        135168,
+        0,
+        25,
+        135168
+      ],
+      "user_id": 1183744,
+      "transaction_hash": "fab82d5aebc06deca680dd414f74ed420096dedb97a2b73721d29565943824a2",
+      "checkpoint": 59258
+    }
+  ],
+  "spent": 100,
+  "closed": 0,
+  "version": 2,
+  "checkpoint": 59258
+}

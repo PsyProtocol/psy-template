@@ -33,7 +33,7 @@ def main():
             evidence[key] = cli_call(method, inputs, args.contract_id, wallet, args.rpc_config, directory)
             save(evidence_path, evidence)
 
-    # Contract 44 test state: issuer total_minted=6, slots 0 and 1 free;
+    # After the capacity flow, issuer total_minted=6 with slots 0 and 1 free;
     # recipient owns slots 0..5 and has claimed nonce 7 from issuer.
     call("mint_first", "mint", [0, 7, 107, 207, 307, 407], sender)
     call("transfer_first", "transfer", [0, recipient["user_id"]], sender)

@@ -23,6 +23,16 @@ if [[ ! -f "$build_dir/.psy-template-private-patched" ]]; then
   touch "$build_dir/.psy-template-private-patched"
 fi
 
+# This generated genesis artifact is intentionally absent from git archive, but
+# psy_config/build.rs needs it to derive the wallet's contract tree heights.
+if [[ ! -f "$node_source/psy-genesis/genesis_contracts.json" ]]; then
+  echo 'psy-node must have psy-genesis/genesis_contracts.json generated before this build' >&2
+  exit 1
+fi
+cp "$node_source/psy-genesis/genesis_contracts.json" \
+  "$build_dir/psy-genesis/genesis_contracts.json"
+
+mkdir -p "$build_dir/client_prover/psy_cli/psy_user_cli/src/bin"
 cp "$project_dir/compiler/psy_private_note_fingerprint.rs" \
   "$build_dir/client_prover/psy_cli/psy_user_cli/src/bin/psy_private_note_fingerprint.rs"
 

@@ -1,0 +1,75 @@
+{
+  "network": "sepolia staging",
+  "users": [
+    135168,
+    1183744
+  ],
+  "source": "token/src/main.private.psy.rs",
+  "transactions": [
+    {
+      "method": "set_metadata",
+      "user_id": 135168,
+      "transaction_hash": "61a385379d8edad5b4a7c54b9a78f8001ee936c49006d4138d09fbdc47637175",
+      "checkpoint": 59117
+    },
+    {
+      "method": "mint",
+      "user_id": 135168,
+      "transaction_hash": "6d0ab30ef467b17f4af869a10d3a2f8df642a0346f5d8a573d379138cbf9ab95",
+      "checkpoint": 59122
+    },
+    {
+      "method": "private_transfer",
+      "user_id": 135168,
+      "transaction_hash": "80b0a4b53fabee763ff817aa1f55bb90835849e7675d47a893e78f43c0966f33",
+      "checkpoint": 59129
+    },
+    {
+      "method": "private_claim",
+      "user_id": 1183744,
+      "transaction_hash": "57aac4ae2141c854798854d6c00cdc2669a40570369a80b262752ee0d292afeb",
+      "checkpoint": 59138
+    }
+  ],
+  "contract_id": 55,
+  "deployment_tx_hash": "2690b29808696c8718d2040f4fbe86476d3e091a7991cd79fdf13560321de0dd",
+  "state_tree_height": 32,
+  "note_root_leaf": 8388609,
+  "checkpoint": 59138,
+  "state": {
+    "issuer_balance": 900,
+    "recipient_balance": 100,
+    "issuer_note_count": 1,
+    "total_supply": 1000
+  },
+  "state_proofs": {
+    "issuer_balance": {
+      "felt": 900,
+      "root": "6199ba96626fb776e0ecf11e20e1677572529d20929d61e1a08049eb31c40108",
+      "value": "0000000000000000000000000000000000000000000000000000000000000384",
+      "leaf_id": 0,
+      "offset": 0
+    },
+    "recipient_balance": {
+      "felt": 100,
+      "root": "db1d2baa4bb915e391ace964e7c87386e20ae43fdf7ca74d13ceeeae5b65dfaf",
+      "value": "0000000000000000000000000000000000000000000000000000000000000064",
+      "leaf_id": 0,
+      "offset": 0
+    },
+    "issuer_note_count": {
+      "felt": 1,
+      "root": "6199ba96626fb776e0ecf11e20e1677572529d20929d61e1a08049eb31c40108",
+      "value": "0000000000000001000000000000000000000000000000000000000000000000",
+      "leaf_id": 8388608,
+      "offset": 33554435
+    },
+    "total_supply": {
+      "felt": 1000,
+      "root": "6199ba96626fb776e0ecf11e20e1677572529d20929d61e1a08049eb31c40108",
+      "value": "00000000000003e800000000000003e800000000000000000000000000021000",
+      "leaf_id": 8388630,
+      "offset": 33554523
+    }
+  }
+}

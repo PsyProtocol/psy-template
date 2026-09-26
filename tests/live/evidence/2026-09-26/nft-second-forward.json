@@ -1,0 +1,24 @@
+{
+  "transactions": [
+    {
+      "method": "transfer",
+      "inputs": [
+        0,
+        1183744
+      ],
+      "user_id": 135168,
+      "tx_hash": "b1266e3587c65fd53c0661a5f72c6d924af4125add6ef21168cb33a5b9aea891",
+      "checkpoint": 59103
+    },
+    {
+      "method": "claim",
+      "inputs": [
+        0,
+        135168
+      ],
+      "user_id": 1183744,
+      "tx_hash": "becb2d82f7cb31b60dec52ffc97c7080cc866b7bc8efbc6440d2be3ecf2beb3c",
+      "checkpoint": 59110
+    }
+  ]
+}

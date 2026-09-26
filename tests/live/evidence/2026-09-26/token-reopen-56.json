@@ -1,0 +1,219 @@
+{
+  "network": "sepolia staging",
+  "contract_id": 56,
+  "users": [
+    135168,
+    1183744
+  ],
+  "steps": [
+    {
+      "method": "open_delegation_channel",
+      "inputs": [
+        0,
+        1183744,
+        200
+      ],
+      "user_id": 135168,
+      "transaction_hash": "bbb5e446887f24d87f29de99285fc43dda2908cd42c9174534f83b41b1611bc6",
+      "checkpoint": 59538
+    },
+    {
+      "method": "spend_delegation",
+      "inputs": [
+        135168,
+        0,
+        75,
+        135168
+      ],
+      "user_id": 1183744,
+      "transaction_hash": "3be601c1bc84eb7f452688cb41cad1454ad8fa8dd63d3d3afcb70f1189f4fc6e",
+      "checkpoint": 59545
+    },
+    {
+      "method": "claim",
+      "inputs": [
+        1183744
+      ],
+      "user_id": 135168,
+      "transaction_hash": "749bd29d60bc04070cd02de4560d0a5b1e89e9cfda8115b49851d3c79d40f98b",
+      "checkpoint": 59551
+    },
+    {
+      "method": "request_revoke_delegation",
+      "inputs": [
+        0
+      ],
+      "user_id": 135168,
+      "transaction_hash": "8e4e87969a0cc4353cdd81ea314b3915c355265c278fe574b58d1f96d4cf917d",
+      "checkpoint": 59558
+    },
+    {
+      "method": "close_delegation_channel",
+      "inputs": [
+        135168,
+        0,
+        1
+      ],
+      "user_id": 1183744,
+      "transaction_hash": "b510d02a9a4c5d6530a26589d62afde8eaf73d89398e2b888e55db971cd23db6",
+      "checkpoint": 59564
+    },
+    {
+      "method": "finalize_revoke_delegation",
+      "inputs": [
+        0,
+        1183744
+      ],
+      "user_id": 135168,
+      "transaction_hash": "94d1ff87a6b01d484bf34bf98c98f2ebd1bc91ad8bf451786592d6c6f211222b",
+      "checkpoint": 59571
+    },
+    {
+      "method": "open_delegation_channel",
+      "inputs": [
+        0,
+        1183744,
+        100
+      ],
+      "user_id": 135168,
+      "transaction_hash": "607bea46742bfdb1d6f5400d6b12f9383dd4076bcbb0da67d464b26f2d0cfa30",
+      "checkpoint": 59579
+    },
+    {
+      "method": "spend_delegation",
+      "inputs": [
+        135168,
+        0,
+        25,
+        135168
+      ],
+      "user_id": 1183744,
+      "transaction_hash": "d0075daac95f72808d3a62588e9e4d701c4969e0c899cdbc8f62f9ae0fb5f41d",
+      "checkpoint": 59586
+    },
+    {
+      "method": "claim",
+      "inputs": [
+        1183744
+      ],
+      "user_id": 135168,
+      "transaction_hash": "883352c7fc45901d0b67aa95fe633042f1476255ad2fe3d06ac4876f478d83c8",
+      "checkpoint": 59592
+    },
+    {
+      "method": "request_revoke_delegation",
+      "inputs": [
+        0
+      ],
+      "user_id": 135168,
+      "transaction_hash": "b957255f9156604aeb2372d4ec48faf477a1f72055e99674688a08539771040c",
+      "checkpoint": 59598
+    },
+    {
+      "method": "close_delegation_channel",
+      "inputs": [
+        135168,
+        0,
+        2
+      ],
+      "user_id": 1183744,
+      "transaction_hash": "a2775ce2afe4a6d7d8e473e1767d89e53c5a038289938dba0e10f08ef93b7977",
+      "checkpoint": 59604
+    },
+    {
+      "method": "finalize_revoke_delegation",
+      "inputs": [
+        0,
+        1183744
+      ],
+      "user_id": 135168,
+      "transaction_hash": "d9abc1ce5d658290605d87372a1046f05e490311fa81b332d57f01280e5af5d4",
+      "checkpoint": 59611
+    }
+  ],
+  "second_version_spent_checkpoint": 59586,
+  "second_version_spent_proof": {
+    "felt": 25,
+    "root": "7a850981a51ac835a3a6558c26a51e19cc172a2ec9fb36be963c11ed41819f82",
+    "value": "0000000000000019000000000000000000000000000000000000000000000000",
+    "leaf_id": 14204969,
+    "offset": 56819879
+  },
+  "checkpoint": 59611,
+  "state": {
+    "owner_balance": 900,
+    "recipient_balance": 100,
+    "total_supply": 1000,
+    "channel_status": 3,
+    "channel_allocation": 0,
+    "channel_version": 2,
+    "spender_spent": 25,
+    "spender_closed": 1,
+    "spender_version": 2
+  },
+  "state_proofs": {
+    "owner_balance": {
+      "felt": 900,
+      "root": "ded322791879740342d7b7ae5883f833bc868f7b6f476f4352a044b3d29e543f",
+      "value": "0000000000000000000000000000000000000000000000000000000000000384",
+      "leaf_id": 0,
+      "offset": 0
+    },
+    "recipient_balance": {
+      "felt": 100,
+      "root": "41a5975f88e4cac62b94b11e5d40e10afe37aa1fc8941862c5e657bf06aa8b30",
+      "value": "0000000000000000000000000000000000000000000000000000000000000064",
+      "leaf_id": 0,
+      "offset": 0
+    },
+    "total_supply": {
+      "felt": 1000,
+      "root": "ded322791879740342d7b7ae5883f833bc868f7b6f476f4352a044b3d29e543f",
+      "value": "00000000000003e800000000000003e800000000000000000000000000021000",
+      "leaf_id": 8388630,
+      "offset": 33554523
+    },
+    "channel_status": {
+      "felt": 3,
+      "root": "ded322791879740342d7b7ae5883f833bc868f7b6f476f4352a044b3d29e543f",
+      "value": "0000000000000000000000000000000300000000000000020000000000000000",
+      "leaf_id": 12582938,
+      "offset": 50331754
+    },
+    "channel_allocation": {
+      "felt": 0,
+      "root": "ded322791879740342d7b7ae5883f833bc868f7b6f476f4352a044b3d29e543f",
+      "value": "0000000000000000000000000000000300000000000000020000000000000000",
+      "leaf_id": 12582938,
+      "offset": 50331752
+    },
+    "channel_version": {
+      "felt": 2,
+      "root": "ded322791879740342d7b7ae5883f833bc868f7b6f476f4352a044b3d29e543f",
+      "value": "0000000000000000000000000000000300000000000000020000000000000000",
+      "leaf_id": 12582938,
+      "offset": 50331753
+    },
+    "spender_spent": {
+      "felt": 25,
+      "root": "41a5975f88e4cac62b94b11e5d40e10afe37aa1fc8941862c5e657bf06aa8b30",
+      "value": "0000000000000019000000000000000000000000000000000000000000000000",
+      "leaf_id": 14204969,
+      "offset": 56819879
+    },
+    "spender_closed": {
+      "felt": 1,
+      "root": "41a5975f88e4cac62b94b11e5d40e10afe37aa1fc8941862c5e657bf06aa8b30",
+      "value": "0000000000000000000000000000000000000000000000020000000000000001",
+      "leaf_id": 14204970,
+      "offset": 56819880
+    },
+    "spender_version": {
+      "felt": 2,
+      "root": "41a5975f88e4cac62b94b11e5d40e10afe37aa1fc8941862c5e657bf06aa8b30",
+      "value": "0000000000000000000000000000000000000000000000020000000000000001",
+      "leaf_id": 14204970,
+      "offset": 56819881
+    }
+  }
+}

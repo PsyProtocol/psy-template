@@ -1,0 +1,97 @@
+{
+  "network": "sepolia staging",
+  "users": [
+    135168,
+    1183744
+  ],
+  "source": "token/src/main.private.psy.rs",
+  "transactions": [
+    {
+      "method": "set_metadata",
+      "user_id": 135168,
+      "transaction_hash": "acf9ef3a8051c2741c0973a6dd8e1073ead9f4a7bb09e49640bbc30e60df39fa",
+      "checkpoint": 59491
+    },
+    {
+      "method": "set_extended_metadata",
+      "user_id": 135168,
+      "transaction_hash": "b92b629721881d7e2ae2dcb11794d90ee8a14d922b2e1ad30256d60a853538d3",
+      "checkpoint": 59497
+    },
+    {
+      "method": "set_max_supply",
+      "user_id": 135168,
+      "transaction_hash": "3a8a633416296cd0502440832ca639a724b87ce4c6e836ea6c22d41fc1ad84b8",
+      "checkpoint": 59502
+    },
+    {
+      "method": "mint",
+      "user_id": 135168,
+      "transaction_hash": "5f31076fac3c368427995fad59eb54fa3fdb116c600036a59bfb38056d5b39f8",
+      "checkpoint": 59508
+    },
+    {
+      "method": "private_transfer",
+      "user_id": 135168,
+      "transaction_hash": "ff31710db411986c72f62205c1e609f8b478e798ca62322fed312001cd943697",
+      "checkpoint": 59516
+    },
+    {
+      "method": "private_claim",
+      "user_id": 1183744,
+      "transaction_hash": "29888fd6e4b6251f762c52fbf1d38636d80723c199a251e608211ac1fe172868",
+      "checkpoint": 59525
+    }
+  ],
+  "contract_id": 56,
+  "deployment_tx_hash": "4a5395aade9758c8ec00f7eef30afdb4a477c42ec4329f7852e257692ee5c49f",
+  "state_tree_height": 32,
+  "note_root_leaf": 8388609,
+  "cap_excess_rejected": true,
+  "checkpoint": 59529,
+  "state": {
+    "issuer_balance": 900,
+    "recipient_balance": 100,
+    "issuer_note_count": 1,
+    "total_supply": 1000,
+    "max_supply": 1000
+  },
+  "state_proofs": {
+    "issuer_balance": {
+      "felt": 900,
+      "root": "0a96ec5dcba8d37fbdf8c651d4bacb84c0e7c8db75e58a5f616c7c15a92c7f66",
+      "value": "0000000000000000000000000000000000000000000000000000000000000384",
+      "leaf_id": 0,
+      "offset": 0
+    },
+    "recipient_balance": {
+      "felt": 100,
+      "root": "c29845ec605dc733c12b6e5194b3cfbf9a862e95f7cb8d91777902d11de04464",
+      "value": "0000000000000000000000000000000000000000000000000000000000000064",
+      "leaf_id": 0,
+      "offset": 0
+    },
+    "issuer_note_count": {
+      "felt": 1,
+      "root": "0a96ec5dcba8d37fbdf8c651d4bacb84c0e7c8db75e58a5f616c7c15a92c7f66",
+      "value": "0000000000000001000000000000000000000000000000000000000000000000",
+      "leaf_id": 8388608,
+      "offset": 33554435
+    },
+    "total_supply": {
+      "felt": 1000,
+      "root": "0a96ec5dcba8d37fbdf8c651d4bacb84c0e7c8db75e58a5f616c7c15a92c7f66",
+      "value": "00000000000003e800000000000003e800000000000000000000000000021000",
+      "leaf_id": 8388630,
+      "offset": 33554523
+    },
+    "max_supply": {
+      "felt": 1000,
+      "root": "0a96ec5dcba8d37fbdf8c651d4bacb84c0e7c8db75e58a5f616c7c15a92c7f66",
+      "value": "00000000000000000000000000000000000000000000000000000000000003e8",
+      "leaf_id": 8388631,
+      "offset": 33554524
+    }
+  },
+  "replay_rejection": "nullifier already claimed before submission"
+}

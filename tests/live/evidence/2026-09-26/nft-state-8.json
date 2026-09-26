@@ -1,0 +1,125 @@
+{
+  "network": "sepolia staging",
+  "contract_id": 54,
+  "users": [
+    135168,
+    1183744
+  ],
+  "checkpoint": 59434,
+  "state": {
+    "issuer_balance": 0,
+    "recipient_balance": 8,
+    "total_minted": 8,
+    "nonce_sent": 9,
+    "nonce_acked": 9,
+    "nonce_claimed": 9,
+    "recipient_slot_0_active": 1,
+    "recipient_slot_1_active": 1,
+    "recipient_slot_2_active": 1,
+    "recipient_slot_3_active": 1,
+    "recipient_slot_4_active": 1,
+    "recipient_slot_5_active": 1,
+    "recipient_slot_6_active": 1,
+    "recipient_slot_7_active": 1
+  },
+  "state_proofs": {
+    "issuer_balance": {
+      "felt": 0,
+      "root": "613c59c188492af5d398ca1535afe72bbe01d2ce8abbb50b5ccbf7a602cebada",
+      "value": "0000000000000008000000000000000000000000000210000000000000000000",
+      "leaf_id": 0,
+      "offset": 0
+    },
+    "recipient_balance": {
+      "felt": 8,
+      "root": "3cd528b116360ea78e68949ffe2a4745980502ce9f7fd7b5f5e944220bafbdab",
+      "value": "0000000000000000000000000000000000000000000000000000000000000008",
+      "leaf_id": 0,
+      "offset": 0
+    },
+    "total_minted": {
+      "felt": 8,
+      "root": "613c59c188492af5d398ca1535afe72bbe01d2ce8abbb50b5ccbf7a602cebada",
+      "value": "0000000000000008000000000000000000000000000210000000000000000000",
+      "leaf_id": 0,
+      "offset": 3
+    },
+    "nonce_sent": {
+      "felt": 9,
+      "root": "613c59c188492af5d398ca1535afe72bbe01d2ce8abbb50b5ccbf7a602cebada",
+      "value": "0000000000000009000000000000000100000000000000090000000000000197",
+      "leaf_id": 10358058,
+      "offset": 41432233
+    },
+    "nonce_acked": {
+      "felt": 9,
+      "root": "613c59c188492af5d398ca1535afe72bbe01d2ce8abbb50b5ccbf7a602cebada",
+      "value": "0000000000000009000000000000000100000000000000090000000000000197",
+      "leaf_id": 10358058,
+      "offset": 41432235
+    },
+    "nonce_claimed": {
+      "felt": 9,
+      "root": "3cd528b116360ea78e68949ffe2a4745980502ce9f7fd7b5f5e944220bafbdab",
+      "value": "0000000000000000000000000000000900000000000000010000000000000000",
+      "leaf_id": 1183018,
+      "offset": 4732074
+    },
+    "recipient_slot_0_active": {
+      "felt": 1,
+      "root": "3cd528b116360ea78e68949ffe2a4745980502ce9f7fd7b5f5e944220bafbdab",
+      "value": "000000000000006600000000000000650000000000000001f43263c2b703be10",
+      "leaf_id": 3,
+      "offset": 13
+    },
+    "recipient_slot_1_active": {
+      "felt": 1,
+      "root": "3cd528b116360ea78e68949ffe2a4745980502ce9f7fd7b5f5e944220bafbdab",
+      "value": "0000000000000066000000000000000163b61338f3641a1b80b99a77f74d5706",
+      "leaf_id": 5,
+      "offset": 22
+    },
+    "recipient_slot_2_active": {
+      "felt": 1,
+      "root": "3cd528b116360ea78e68949ffe2a4745980502ce9f7fd7b5f5e944220bafbdab",
+      "value": "000000000000000162d1a916e5d17c1ff0633bec894d338e9f9eddcc86037e10",
+      "leaf_id": 7,
+      "offset": 31
+    },
+    "recipient_slot_3_active": {
+      "felt": 1,
+      "root": "3cd528b116360ea78e68949ffe2a4745980502ce9f7fd7b5f5e944220bafbdab",
+      "value": "000000000000013000000000000000cc00000000000000680000000000000001",
+      "leaf_id": 10,
+      "offset": 40
+    },
+    "recipient_slot_4_active": {
+      "felt": 1,
+      "root": "3cd528b116360ea78e68949ffe2a4745980502ce9f7fd7b5f5e944220bafbdab",
+      "value": "00000000000000cd00000000000000690000000000000001e609601d3134460b",
+      "leaf_id": 12,
+      "offset": 49
+    },
+    "recipient_slot_5_active": {
+      "felt": 1,
+      "root": "3cd528b116360ea78e68949ffe2a4745980502ce9f7fd7b5f5e944220bafbdab",
+      "value": "000000000000006a0000000000000001b4b2e3c0f2598cd399ed40925e3d1f2c",
+      "leaf_id": 14,
+      "offset": 58
+    },
+    "recipient_slot_6_active": {
+      "felt": 1,
+      "root": "3cd528b116360ea78e68949ffe2a4745980502ce9f7fd7b5f5e944220bafbdab",
+      "value": "000000000000000100a56cbbd6de677cd83c5a2575386ce44f88a2ffa73f20f4",
+      "leaf_id": 16,
+      "offset": 67
+    },
+    "recipient_slot_7_active": {
+      "felt": 1,
+      "root": "3cd528b116360ea78e68949ffe2a4745980502ce9f7fd7b5f5e944220bafbdab",
+      "value": "000000000000013400000000000000d0000000000000006c0000000000000001",
+      "leaf_id": 19,
+      "offset": 76
+    }
+  }
+}

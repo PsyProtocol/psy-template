@@ -1,0 +1,34 @@
+{
+  "network": "sepolia staging",
+  "contract_id": 54,
+  "checkpoint": 59499,
+  "user_id": 135168,
+  "state": {
+    "mint_authority": 0,
+    "is_mint_renounced": 1,
+    "total_minted": 8
+  },
+  "state_proofs": {
+    "mint_authority": {
+      "felt": 0,
+      "root": "7c9072b39fd9f1c97f586c8515713538c740655b93c675081a890b39eda279ea",
+      "value": "0000000000000008000000000000000100000000000000000000000000000000",
+      "leaf_id": 0,
+      "offset": 1
+    },
+    "is_mint_renounced": {
+      "felt": 1,
+      "root": "7c9072b39fd9f1c97f586c8515713538c740655b93c675081a890b39eda279ea",
+      "value": "0000000000000008000000000000000100000000000000000000000000000000",
+      "leaf_id": 0,
+      "offset": 2
+    },
+    "total_minted": {
+      "felt": 8,
+      "root": "7c9072b39fd9f1c97f586c8515713538c740655b93c675081a890b39eda279ea",
+      "value": "0000000000000008000000000000000100000000000000000000000000000000",
+      "leaf_id": 0,
+      "offset": 3
+    }
+  }
+}
