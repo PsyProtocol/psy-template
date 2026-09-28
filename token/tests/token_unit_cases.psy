@@ -62,3 +62,18 @@ fn test_token_mint_burn_lifecycle() {
     assert_eq(c.is_mint_renounced.get(), 1, "is_mint_renounced should be 1");
     assert_eq(c.mint_authority.get(), 0, "mint_authority should be reset to 0");
 }
+
+#[test]
+fn test_refund_claimed_payment_returns_only_to_original_sender() {
+    let c = PsyTokenContractRef::new(ContractMetadata::current());
+    let unrelated_before = c.other_user_info[7].get().amount_sent;
+    c.balance = 100;
+    c.other_user_info[6] = new OtherUserInfo { amount_sent: 0, amount_claimed: 100 };
+    PsyTokenContractRef::refund_claimed_payment(6, 40);
+    assert_eq(c.balance.get(), 60, "first refund debits local balance");
+    assert_eq(c.other_user_info[6].get().amount_sent, 40, "refund outbox belongs to payer");
+    PsyTokenContractRef::refund_claimed_payment(6, 60);
+    assert_eq(c.balance.get(), 0, "second refund consumes remaining escrow");
+    assert_eq(c.other_user_info[6].get().amount_sent, 100, "total refunds cannot exceed claims");
+    assert_eq(c.other_user_info[7].get().amount_sent, unrelated_before, "unrelated user receives nothing");
+}

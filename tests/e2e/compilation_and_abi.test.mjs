@@ -70,6 +70,7 @@ test('Compilation & ABI Verification E2E', async (t) => {
       'open_delegation_channel',
       'private_claim',
       'private_transfer',
+      'refund_claimed_payment',
       'renounce_mint_authority',
       'request_revoke_delegation',
       'set_extended_metadata',
@@ -121,7 +122,7 @@ test('Compilation & ABI Verification E2E', async (t) => {
 
     assert.equal(abi.schema_version, '2.0.0');
     assert.equal(abi.contract.name, 'PsyTokenContract');
-    assert.equal(abi.contract.methods.length, 20);
+    assert.equal(abi.contract.methods.length, 21);
   });
 
   // 3. PSY-721 NFT ABI Verification

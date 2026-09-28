@@ -32,7 +32,7 @@ if (result.error || result.status !== 0) process.exit(result.status || 1);
 const artifact = JSON.parse(readFileSync(join(output, 'compilation_artifact.json'), 'utf8'));
 const contract = artifact.abi.contract;
 const methodNames = new Set(contract.methods.map(method => method.name));
-for (const name of ['private_transfer', 'private_claim', 'mint_to', 'settle_burn']) {
+for (const name of ['private_transfer', 'private_claim', 'mint_to', 'settle_burn', 'refund_claimed_payment']) {
   if (!methodNames.has(name)) throw new Error(`Private v3 ABI is missing ${name}`);
 }
 const noteRoot = contract.state.find(field => field.name === 'note_root');

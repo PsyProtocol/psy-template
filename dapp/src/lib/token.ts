@@ -61,6 +61,14 @@ export const token = {
     }
   },
 
+  refundClaimedPayment(sender: bigint | number | string, amount: bigint | number): ContractCallArgs {
+    return {
+      contract_id: requireContractId(),
+      method_name: 'refund_claimed_payment',
+      inputs: [felt(sender), felt(amount)],
+    }
+  },
+
   batchTransfer(
     recipients: Array<bigint | number | string>,
     amounts: Array<bigint | number>,

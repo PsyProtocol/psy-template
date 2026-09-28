@@ -189,6 +189,22 @@ impl PsyTokenContract {
         psystd::emit_event(6, ctx.user_id, sender, claimable);
     }
 
+    // The local claimed/sent counters bind each refund to its payer. A
+    // public-key SDK account also needs a position-constrained key policy.
+    #[contract_method]
+    pub fn refund_claimed_payment(&mut self, ctx: &mut ChainContext, sender: Felt, amount: Felt) {
+        require(ctx.user_id < 16777216, "caller user_id exceeds outbox bounds");
+        require(sender != 0 && sender < 16777216 && sender != ctx.user_id, "invalid refund sender");
+        require(amount > 0, "refund amount must be positive");
+        let info = self.other_user_info[sender];
+        require(info.amount_claimed >= info.amount_sent, "claimed payment already spent");
+        require(amount <= info.amount_claimed - info.amount_sent, "refund exceeds claimed payment");
+        require(self.balance >= amount, "insufficient balance for refund");
+        self.other_user_info[sender].amount_sent = info.amount_sent + amount;
+        self.balance -= amount;
+        psystd::emit_event(17, ctx.user_id, sender, amount);
+    }
+
     #[contract_method]
     pub fn batch_transfer_2(&mut self, ctx: &mut ChainContext, recipients: [Felt; 2], amounts: [Felt; 2]) {
         require(ctx.user_id < 16777216, "caller user_id exceeds outbox bounds");

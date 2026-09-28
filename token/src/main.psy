@@ -412,6 +412,29 @@ impl PsyTokenContractRef {
         ev.emit();
     }
 
+    // A public-key SDK account requires an ordered SD-key policy so the
+    // mandatory fee burn cannot be used as an arbitrary first call.
+    #[contract_method]
+    pub fn refund_claimed_payment(sender: Felt, amount: Felt) {
+        let caller = get_user_id();
+        assert(caller < 16777216, "caller user_id exceeds outbox bounds");
+        assert(sender != 0 && sender < 16777216 && sender != caller, "invalid refund sender");
+        assert(amount > 0, "refund amount must be positive");
+        let c = PsyTokenContractRef::new(ContractMetadata::current());
+        let info = c.other_user_info[sender].get();
+        assert(info.amount_claimed >= info.amount_sent, "claimed payment already spent");
+        assert(amount <= info.amount_claimed - info.amount_sent, "refund exceeds claimed payment");
+        let balance = c.balance.get();
+        assert(balance >= amount, "insufficient balance for refund");
+        c.other_user_info[sender] = new OtherUserInfo {
+            amount_sent: info.amount_sent + amount,
+            amount_claimed: info.amount_claimed,
+        };
+        c.balance = balance - amount;
+        let ev = new TransferEvent { to: sender, amount: amount };
+        ev.emit();
+    }
+
     #[contract_method]
     pub fn batch_transfer_2(recipients: [Felt; 2], amounts: [Felt; 2]) {
         let caller = get_user_id();
