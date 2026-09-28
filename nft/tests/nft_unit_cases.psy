@@ -14,6 +14,13 @@ fn test_nft_lifecycle() {
     PsyNFTContractRef::set_collection_metadata(5264217, base_uri_hash);
     assert_eq(c.symbol.get(), 5264217, "collection symbol should be set");
     assert_eq(c.mint_authority.get(), 5, "mint authority should auto-initialize to caller 5");
+    let collection_name: [Felt; 2] = [22609640396047956, 0];
+    let collection_uri: [Felt; 16] = [29678457876786991, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    PsyNFTContractRef::set_collection_details(collection_name, collection_uri);
+    assert_eq(c.name[0].get(), collection_name[0], "collection name should be stored");
+    assert_eq(c.base_uri[0].get(), collection_uri[0], "collection base URI should be stored");
+    PsyNFTContractRef::set_max_supply(5);
+    assert_eq(c.max_supply.get(), 5, "lifetime cap should be set before minting");
 
     // 2. Sequential minting with local_id = 1, 2, 3, 4 into slots 0, 1, 2, 3
     let token_hash_0: Hash = [1, 2, 3, 4];
@@ -52,6 +59,14 @@ fn test_nft_lifecycle() {
     assert_eq(s3.is_active, 1, "slot 3 should be active");
     assert_eq(c.balance.get(), 4, "balance should be 4");
     assert_eq(c.total_minted.get(), 4, "total_minted should be 4");
+
+    // Burning removes ownership immediately; issuer supply is settled separately.
+    PsyNFTContractRef::mint(4, 5, [17, 18, 19, 20]);
+    PsyNFTContractRef::burn(4);
+    assert_eq(c.owned_tokens[4].get().is_active, 0, "burned slot should be empty");
+    assert_eq(c.burn_requested.get(), 1, "burn request should be monotonic");
+    assert_eq(c.total_minted.get(), 5, "burn does not reopen lifetime mint cap");
+    assert_eq(c.total_supply.get(), 5, "supply includes a burn until issuer settlement");
 
     // 3. FIFO Outbox Transfers 1..4: Saturated transfer filling all 4 slots of recipient 777 ring buffer
     // Transfer 1 (slot 0 -> circular buffer slot 0)

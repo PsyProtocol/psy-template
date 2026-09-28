@@ -1,0 +1,47 @@
+{
+  "network": "sepolia staging",
+  "users": [
+    135168,
+    1183744
+  ],
+  "source": "nft/src/main.psy.rs",
+  "transactions": [
+    {
+      "method": "set_collection_metadata",
+      "user_id": 135168,
+      "transaction_hash": "ac8cfe8513331d9a8de5a49a86557d96cdabd75a18a4d5b50c5499c608a5aa32",
+      "checkpoint": 71194
+    },
+    {
+      "method": "set_collection_details",
+      "user_id": 135168,
+      "transaction_hash": "5fc42891aa7b7648abcfaebb9841086c288cc58bd5bfa3e9885ff270ca68ef6f",
+      "checkpoint": 71200
+    }
+  ],
+  "contract_id": 58,
+  "deployment_tx_hash": "48e654308156ed8e998f10674147a65b4d0aba21f7f24a789e42453dba6aa1fd",
+  "source_sha256": "9fd6cf0ecebfe74c53d044177b12d29ea44c80fb6976359dca3e04b8da82bb0d",
+  "checkpoint": 71203,
+  "state": {
+    "name_0": 22609640396047956,
+    "base_uri_0": 29678457876786991
+  },
+  "state_proofs": {
+    "name_0": {
+      "felt": 22609640396047956,
+      "root": "ac588177758c38491b82862c791444c6db59f14bb269e3befe57796e2af38fe4",
+      "value": "000000000000000000697066733a2f2f000000000000000000505359204e4654",
+      "leaf_id": 3,
+      "offset": 12
+    },
+    "base_uri_0": {
+      "felt": 29678457876786991,
+      "root": "ac588177758c38491b82862c791444c6db59f14bb269e3befe57796e2af38fe4",
+      "value": "000000000000000000697066733a2f2f000000000000000000505359204e4654",
+      "leaf_id": 3,
+      "offset": 14
+    }
+  },
+  "nonissuer_details_rejected": true
+}

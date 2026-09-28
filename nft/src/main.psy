@@ -53,6 +53,22 @@ pub struct AuthorityChangeEvent {
     pub new_authority: Felt,
 }
 
+#[derive(Event)]
+pub struct NFTMaxSupplyEvent {
+    pub cap: Felt,
+}
+
+#[derive(Event)]
+pub struct NFTBurnEvent {
+    pub token_id: Hash,
+}
+
+#[derive(Event)]
+pub struct NFTBurnSettledEvent {
+    pub sender: Felt,
+    pub amount: Felt,
+}
+
 pub const ISSUER_USER_ID: Felt = 5;
 
 fn assert_caller_is_deployer() {
@@ -75,10 +91,16 @@ pub struct PsyNFTContract {
     pub mint_authority: Felt,
     pub is_mint_renounced: Felt,
     pub total_minted: Felt,
+    pub total_supply: Felt,
+    pub max_supply: Felt,
+    pub burn_requested: Felt,
     pub symbol: Felt,
     pub base_uri_hash: Hash,
+    pub name: [Felt; 2],
+    pub base_uri: [Felt; 16],
     pub owned_tokens: [NFTSlot; 128],
     pub outbox: [NFTOutbox; 16777216],
+    pub burn_settled: [Felt; 16777216],
 }
 
 impl PsyNFTContractRef {
@@ -105,6 +127,32 @@ impl PsyNFTContractRef {
     }
 
     #[contract_method]
+    pub fn set_collection_details(name: [Felt; 2], base_uri: [Felt; 16]) {
+        assert(get_user_id() == ISSUER_USER_ID, "only issuer can set collection details");
+        assert_caller_is_deployer();
+        let c = PsyNFTContractRef::new(ContractMetadata::current());
+        assert(c.is_mint_renounced.get() == 0, "contract administration has been renounced");
+        assert(c.mint_authority.get() == get_user_id(), "mint authority not initialized");
+        c.name = name;
+        c.base_uri = base_uri;
+    }
+
+    #[contract_method]
+    pub fn set_max_supply(cap: Felt) {
+        assert(get_user_id() == ISSUER_USER_ID, "only issuer can set max supply");
+        assert_caller_is_deployer();
+        let c = PsyNFTContractRef::new(ContractMetadata::current());
+        assert(c.is_mint_renounced.get() == 0, "minting has been renounced");
+        assert(c.mint_authority.get() == get_user_id(), "mint authority not initialized");
+        assert(c.total_minted.get() == 0 && c.max_supply.get() == 0,
+            "max supply can only be set once before minting");
+        assert(cap > 0 && cap <= 18446744069414584320, "invalid max supply");
+        c.max_supply = cap;
+        let ev = new NFTMaxSupplyEvent { cap: cap };
+        ev.emit();
+    }
+
+    #[contract_method]
     pub fn mint(slot_idx: Felt, local_id: Felt, metadata_hash: Hash) {
         assert(slot_idx < 128, "slot index out of range");
         assert(local_id > 0, "local_id must be non-zero");
@@ -122,7 +170,12 @@ impl PsyNFTContractRef {
         let current_total = c.total_minted.get();
         assert(local_id == current_total + 1, "local_id must match next sequential mint index");
         assert(current_total < 18446744069414584320, "total minted overflow");
+        let cap = c.max_supply.get();
+        assert(cap == 0 || current_total < cap, "max supply exceeded");
+        let supply = c.total_supply.get();
+        assert(supply < 18446744069414584320, "total supply overflow");
         c.total_minted = current_total + 1;
+        c.total_supply = supply + 1;
 
         let slot = c.owned_tokens[slot_idx].get();
         assert(slot.is_active == 0, "slot already occupied");
@@ -147,6 +200,48 @@ impl PsyNFTContractRef {
             token_id: token_id,
             metadata_hash: metadata_hash,
         };
+        ev.emit();
+    }
+
+    #[contract_method]
+    pub fn burn(slot_idx: Felt) {
+        assert(slot_idx < 128, "slot index out of range");
+        assert(get_user_id() < 16777216, "burning user_id exceeds settlement bounds");
+        let c = PsyNFTContractRef::new(ContractMetadata::current());
+        let slot = c.owned_tokens[slot_idx].get();
+        assert(slot.is_active == 1, "no active NFT in slot");
+        let balance = c.balance.get();
+        assert(balance > 0, "balance underflow");
+        let requested = c.burn_requested.get();
+        assert(requested < 18446744069414584320, "burn request overflow");
+        let zero_hash: Hash = [0, 0, 0, 0];
+        c.owned_tokens[slot_idx] = new NFTSlot {
+            token_id: zero_hash,
+            is_active: 0,
+            metadata_hash: zero_hash,
+        };
+        c.balance = balance - 1;
+        c.burn_requested = requested + 1;
+        let ev = new NFTBurnEvent { token_id: slot.token_id };
+        ev.emit();
+    }
+
+    #[contract_method]
+    pub fn settle_burn(sender: Felt) {
+        assert(get_user_id() == ISSUER_USER_ID, "only issuer can settle burns");
+        assert_caller_is_deployer();
+        assert(sender != 0 && sender < 16777216, "burn sender out of bounds");
+        let c = PsyNFTContractRef::new(ContractMetadata::current());
+        let remote = PsyNFTContractRef::new(ContractMetadata::new(get_contract_id(), sender));
+        let requested = remote.burn_requested.get();
+        let settled = c.burn_settled[sender].get();
+        assert(requested > settled, "no pending burn to settle");
+        let amount = requested - settled;
+        let supply = c.total_supply.get();
+        assert(supply >= amount, "burn exceeds total supply");
+        c.burn_settled[sender] = requested;
+        c.total_supply = supply - amount;
+        let ev = new NFTBurnSettledEvent { sender: sender, amount: amount };
         ev.emit();
     }
 

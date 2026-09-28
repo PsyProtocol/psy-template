@@ -28,10 +28,16 @@ pub struct PsyNFTContract {
     pub mint_authority: Felt,
     pub is_mint_renounced: Felt,
     pub total_minted: Felt,
+    pub total_supply: Felt,
+    pub max_supply: Felt,
+    pub burn_requested: Felt,
     pub symbol: Felt,
     pub base_uri_hash: Hash,
+    pub name: [Felt; 2],
+    pub base_uri: [Felt; 16],
     pub owned_tokens: ContractStateArray<128, NFTSlot>,
     pub outbox: ContractStateArray<16777216, NFTOutbox>,
+    pub burn_settled: ContractStateArray<16777216, Felt>,
 }
 
 #[contract_implementation]
@@ -54,6 +60,27 @@ impl PsyNFTContract {
     }
 
     #[contract_method]
+    pub fn set_collection_details(&mut self, ctx: &mut ChainContext, name: [Felt; 2], base_uri: [Felt; 16]) {
+        require(ctx.user_id == ISSUER_USER_ID, "only issuer can set collection details");
+        require(self.is_mint_renounced == 0, "contract administration has been renounced");
+        require(self.mint_authority == ctx.user_id, "mint authority not initialized");
+        self.name = name;
+        self.base_uri = base_uri;
+        psystd::emit_event(10, name, base_uri);
+    }
+
+    #[contract_method]
+    pub fn set_max_supply(&mut self, ctx: &mut ChainContext, cap: Felt) {
+        require(ctx.user_id == ISSUER_USER_ID, "only issuer can set max supply");
+        require(self.is_mint_renounced == 0, "minting has been renounced");
+        require(self.mint_authority == ctx.user_id, "mint authority not initialized");
+        require(self.total_minted == 0 && self.max_supply == 0, "max supply can only be set once before minting");
+        require(cap > 0 && cap <= 18446744069414584320, "invalid max supply");
+        self.max_supply = cap;
+        psystd::emit_event(7, cap);
+    }
+
+    #[contract_method]
     pub fn mint(&mut self, ctx: &mut ChainContext, slot_idx: Felt, local_id: Felt, metadata_hash: Hash) {
         require(slot_idx < 128, "slot index out of range");
         require(local_id > 0, "local_id must be non-zero");
@@ -70,7 +97,10 @@ impl PsyNFTContract {
         let current_total = self.total_minted;
         require(local_id == current_total + 1, "local_id must match next sequential mint index");
         require(current_total < 18446744069414584320, "total minted overflow");
+        require(self.max_supply == 0 || current_total < self.max_supply, "max supply exceeded");
+        require(self.total_supply < 18446744069414584320, "total supply overflow");
         self.total_minted = current_total + 1;
+        self.total_supply += 1;
 
         let slot = self.owned_tokens[slot_idx];
         require(slot.is_active == 0, "slot already occupied");
@@ -91,6 +121,39 @@ impl PsyNFTContract {
         self.balance += 1;
 
         psystd::emit_event(1, caller, token_id, metadata_hash);
+    }
+
+    #[contract_method]
+    pub fn burn(&mut self, ctx: &mut ChainContext, slot_idx: Felt) {
+        require(slot_idx < 128, "slot index out of range");
+        require(ctx.user_id < 16777216, "burning user_id exceeds settlement bounds");
+        let slot = self.owned_tokens[slot_idx];
+        require(slot.is_active == 1, "no active NFT in slot");
+        require(self.balance > 0, "balance underflow");
+        require(self.burn_requested < 18446744069414584320, "burn request overflow");
+        let zero_hash: Hash = [0, 0, 0, 0];
+        self.owned_tokens[slot_idx] = NFTSlot {
+            token_id: zero_hash,
+            is_active: 0,
+            metadata_hash: zero_hash,
+        };
+        self.balance -= 1;
+        self.burn_requested += 1;
+        psystd::emit_event(8, ctx.user_id, slot.token_id);
+    }
+
+    #[contract_method]
+    pub fn settle_burn(&mut self, ctx: &mut ChainContext, sender: Felt) {
+        require(ctx.user_id == ISSUER_USER_ID, "only issuer can settle burns");
+        require(sender != 0 && sender < 16777216, "burn sender out of bounds");
+        let requested = ctx.users[sender].contract_state::<Self::ABI>(ctx.contract_id).burn_requested;
+        let settled = self.burn_settled[sender];
+        require(requested > settled, "no pending burn to settle");
+        let amount = requested - settled;
+        require(self.total_supply >= amount, "burn exceeds total supply");
+        self.burn_settled[sender] = requested;
+        self.total_supply -= amount;
+        psystd::emit_event(9, sender, amount);
     }
 
     #[contract_method]

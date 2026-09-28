@@ -85,7 +85,7 @@ npm run build:deploy
 npm run build
 ```
 
-The token template has a complete legacy `.psy` source, a public-only v3 source, and a private-enabled v3 source. The private v3 profile requires an isolated compiler build and completed a two-user staging round trip on contract 53. Both v3 profiles include name/URI metadata, an optional immutable lifetime cap, `mint_to`, and issuer settlement of holder burns into `total_supply`. A burn remains counted until settlement. The NFT staging build uses `psy_user_cli compile`; the dApp contract remains on the `psyup build` path. See the [token guide](token/README.md) and [NFT guide](nft/README.md) for commands and limits.
+The token template has a complete legacy `.psy` source, a public-only v3 source, and a private-enabled v3 source. The private v3 profile requires an isolated compiler build and completed a two-user staging round trip on contract 53. Both v3 profiles include name/URI metadata, an optional immutable lifetime cap, `mint_to`, and issuer settlement of holder burns into `total_supply`. A burn remains counted until settlement. The NFT v3 source now also includes collection name/base URI metadata, an optional lifetime cap, local burn, and issuer supply settlement. The NFT staging build uses `psy_user_cli compile`; the dApp contract remains on the `psyup build` path. See the [token guide](token/README.md) and [NFT guide](nft/README.md) for commands and limits.
 
 ### 4. Deploy
 
@@ -118,6 +118,8 @@ Each template includes a comprehensive, step-by-step operational guide:
   - **Computational Namespace Uniqueness**: `Poseidon(creator, local_id)` providing collision-resistant token identity.
   - **Slot-Based Ownership**: Unique token slot management up to 128 slots.
   - **Sliding Window Outbox & Explicit ACK**: Separate inbound and outbound counters support two-way transfers; the sender acknowledges claims before reusing full queue capacity.
+  - **Collection and supply controls**: Issuer-managed name, base URI and hash, immutable lifetime mint cap, holder burn, and issuer settlement into `total_supply`.
+  - **State queries**: [`tests/live/asset_queries.py`](tests/live/asset_queries.py) reads balances, supply, metadata, and NFT slots from a deployed ABI at one checkpoint. Global owner lookup requires an index of owner candidates.
 - **[Full-Stack dApp Guide](dapp/README.md)**:
   - **Vite + React Integration**: Browser extension connection via `window.psy`.
   - **SDK Builders**: Strongly-typed transaction construction via `@psy-protocol/psy-sdk`.

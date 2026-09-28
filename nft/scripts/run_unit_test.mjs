@@ -53,6 +53,21 @@ try {
       body: 'PsyNFTContractRef::set_collection_metadata(1, [0, 0, 0, 0]); PsyNFTContractRef::mint(0, 2, [0, 0, 0, 0]);',
     },
     {
+      name: 'reject mint beyond immutable collection cap',
+      expected: 'max supply exceeded',
+      body: 'PsyNFTContractRef::set_collection_metadata(1, [0, 0, 0, 0]); PsyNFTContractRef::set_max_supply(1); PsyNFTContractRef::mint(0, 1, [0, 0, 0, 0]); PsyNFTContractRef::mint(1, 2, [0, 0, 0, 0]);',
+    },
+    {
+      name: 'reject setting lifetime cap after mint',
+      expected: 'max supply can only be set once before minting',
+      body: 'PsyNFTContractRef::set_collection_metadata(1, [0, 0, 0, 0]); PsyNFTContractRef::mint(0, 1, [0, 0, 0, 0]); PsyNFTContractRef::set_max_supply(2);',
+    },
+    {
+      name: 'reject repeated burn of the same slot',
+      expected: 'no active NFT in slot',
+      body: 'PsyNFTContractRef::set_collection_metadata(1, [0, 0, 0, 0]); PsyNFTContractRef::mint(0, 1, [0, 0, 0, 0]); PsyNFTContractRef::burn(0); PsyNFTContractRef::burn(0);',
+    },
+    {
       name: 'reject fifth unclaimed transfer',
       expected: 'FIFO outbox queue full',
       body: `PsyNFTContractRef::set_collection_metadata(1, [0, 0, 0, 0]);
@@ -72,6 +87,11 @@ try {
       name: 'reject metadata after renounce',
       expected: 'contract administration has been renounced',
       body: 'PsyNFTContractRef::set_collection_metadata(1, [0, 0, 0, 0]); PsyNFTContractRef::renounce_mint_authority(); PsyNFTContractRef::set_collection_metadata(2, [0, 0, 0, 0]);',
+    },
+    {
+      name: 'reject collection details after renounce',
+      expected: 'contract administration has been renounced',
+      body: 'PsyNFTContractRef::set_collection_metadata(1, [0, 0, 0, 0]); PsyNFTContractRef::renounce_mint_authority(); PsyNFTContractRef::set_collection_details([0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);',
     },
     {
       name: 'reject out-of-range recipient',

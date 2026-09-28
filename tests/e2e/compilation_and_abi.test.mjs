@@ -140,10 +140,16 @@ test('Compilation & ABI Verification E2E', async (t) => {
       'mint_authority',
       'is_mint_renounced',
       'total_minted',
+      'total_supply',
+      'max_supply',
+      'burn_requested',
       'symbol',
       'base_uri_hash',
+      'name',
+      'base_uri',
       'owned_tokens',
-      'outbox'
+      'outbox',
+      'burn_settled'
     ]);
     const slotType = abi.types.find(t => t.name === 'NFTSlot');
     const outboxType = abi.types.find(t => t.name === 'NFTOutbox');
@@ -151,16 +157,23 @@ test('Compilation & ABI Verification E2E', async (t) => {
     assert.equal(outboxType.fields.find(f => f.name === 'token_id_0').type.name, 'Hash');
     assert.equal(abi.contract.state.find(s => s.name === 'owned_tokens').type.item_felt_size, 9);
     assert.equal(abi.contract.state.find(s => s.name === 'outbox').type.item_felt_size, 35);
+    assert.equal(abi.contract.state.find(s => s.name === 'name').felt_size, 2);
+    assert.equal(abi.contract.state.find(s => s.name === 'base_uri').felt_size, 16);
+    assert.equal(abi.contract.state.find(s => s.name === 'burn_settled').type.length, 16777216);
     assert.equal(outboxType.fields.find(f => f.name === 'nonce_acked').type.name, 'Felt');
 
-    // Verify six staging v3 NFT methods; authority is initialized by set_collection_metadata.
+    // Verify staging v3 NFT methods; authority is initialized by set_collection_metadata.
     const methodNames = abi.contract.methods.map(m => m.name).sort();
     assert.deepEqual(methodNames, [
       'acknowledge',
+      'burn',
       'claim',
       'mint',
       'renounce_mint_authority',
+      'set_collection_details',
       'set_collection_metadata',
+      'set_max_supply',
+      'settle_burn',
       'transfer'
     ]);
 
@@ -173,5 +186,7 @@ test('Compilation & ABI Verification E2E', async (t) => {
     const setCollectionMetadataMethod = abi.contract.methods.find(m => m.name === 'set_collection_metadata');
     assert.equal(setCollectionMetadataMethod.inputs.length, 2);
     assert.deepEqual(setCollectionMetadataMethod.inputs.map(i => i.name), ['symbol', 'base_uri_hash']);
+    const detailsMethod = abi.contract.methods.find(m => m.name === 'set_collection_details');
+    assert.deepEqual(detailsMethod.inputs.map(i => i.name), ['name', 'base_uri']);
   });
 });

@@ -297,11 +297,12 @@ export function decodeSymbol(feltVal: bigint | number | string): string {
  * Unpacks a 64-bit Felt value from a 64-character hexadecimal leaf hash string.
  */
 export function readSlotValue(leafHashHex: string | undefined, subSlotIndex = 0): bigint {
-  if (!leafHashHex || leafHashHex.length !== 64) {
+  const hex = leafHashHex?.replace(/^0x/, '');
+  if (!hex || hex.length !== 64 || !Number.isInteger(subSlotIndex) || subSlotIndex < 0 || subSlotIndex > 3) {
     return 0n;
   }
-  const start = subSlotIndex * 16;
-  const hexChunk = leafHashHex.substring(start, start + 16);
+  const start = (3 - subSlotIndex) * 16;
+  const hexChunk = hex.substring(start, start + 16);
   return BigInt('0x' + hexChunk);
 }
 

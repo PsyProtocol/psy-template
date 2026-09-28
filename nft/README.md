@@ -9,6 +9,7 @@ This contract implements the **PSY-721** standard tailored for Psy's ZK-native, 
 1. **Unique Token Ownership & Metadata**:
    - Each user maintains an indexed array of owned token slots (`owned_tokens: [NFTSlot; 128]`).
    - Every slot stores a four-Felt `token_id: Hash`, `is_active`, and a four-Felt `metadata_hash: Hash` pointing to decentralized storage (e.g. IPFS CID).
+   - The issuer can set a 14-byte collection name and 112-byte base URI with `set_collection_details(name, base_uri)`. Each text field is encoded as seven UTF-8 bytes per Felt. `base_uri_hash` and each token's `metadata_hash` are separately supplied digests; applications must check any expected relationship between a URI and its digest.
 
 2. **Computational Namespace Uniqueness**:
    - In a partitioned state tree without shared global tables, token identity is defined via:
@@ -27,7 +28,12 @@ This contract implements the **PSY-721** standard tailored for Psy's ZK-native, 
      - Claims in strict FIFO sequence at `my_outbox.nonce_claimed & 3` and increment the inbound `nonce_claimed`. Separate inbound and outbound counters allow two users to transfer NFTs in both directions.
    - **Array Bounds Checks**: All transfers and claims strictly assert `recipient < 16777216` and `sender < 16777216`.
 
-**ABI migration:** The staging v3 source is `src/main.psy.rs`. Its storage layout and method ABI differ from the legacy `src/main.psy`; an existing deployment cannot be upgraded in place. Wallets and indexers must read all four limbs of each token ID. The legacy source remains solely for the older `dargo test` harness and is not the staging deployment target.
+4. **Issuance cap, circulating supply, and burn**:
+   - `set_max_supply(cap)` sets an optional lifetime issuance cap once, before the first mint. A zero `max_supply` means uncapped. Burning does not free cap room.
+   - The owner calls `burn(slot_idx)` to remove an active NFT and increment a monotonic local `burn_requested` counter. The issuer calls `settle_burn(owner)` to reduce `total_supply` by the newly observed burns. Until settlement, `total_supply` still includes those burned tokens; `total_minted` always records lifetime issuance.
+   - Only the user holding the active slot can burn it. A second burn of the same slot fails.
+
+**ABI migration:** The staging v3 source is `src/main.psy.rs`. Its storage layout and method ABI differ from the legacy `src/main.psy`; the cap, burn, name, and URI fields also change the layout relative to earlier v3 deployments. Existing deployments cannot be upgraded in place without migration. Wallets and indexers must read all four limbs of each token ID. The legacy source remains solely for the older `dargo test` harness and is not the staging deployment target.
 
 ---
 
@@ -79,6 +85,13 @@ await window.psy.sendTransaction(deployerAccount, {
   inputs: [5264217n, ...baseUriHash],
 });
 
+// Optional: set the lifetime issuance cap before the first mint.
+await window.psy.sendTransaction(deployerAccount, {
+  contract_id: nftContractId,
+  method_name: 'set_max_supply',
+  inputs: [10000n],
+});
+
 // 2. Mint first token (local_id = 1n) into slot 0 with its content metadata hash in the deployer partition
 // Strictly sequential: local_id must equal total_minted + 1 (1n for first mint, 2n for second, etc.)
 const tokenMetadataHash = [1n, 2n, 3n, 4n];
@@ -88,6 +101,8 @@ await window.psy.sendTransaction(deployerAccount, {
   inputs: [0n, 1n, ...tokenMetadataHash],
 });
 ```
+
+`set_collection_details` accepts two name Felts and sixteen base-URI Felts. Encode UTF-8 in seven-byte chunks, padding unused Felts with zero. For example, `PSY NFT` begins with `0x505359204e4654n` and `ipfs://` with `0x697066733a2f2fn`.
 
 > [!NOTE]
 > **Single-Source Authority Restriction**:
@@ -129,6 +144,41 @@ await window.psy.sendTransaction(account, {
 });
 ```
 
+#### Scenario D: Burn and settle supply
+
+```ts
+// The current owner removes the token from their own slot.
+await window.psy.sendTransaction(ownerAccount, {
+  contract_id: nftContractId,
+  method_name: 'burn',
+  inputs: [0n],
+});
+
+// The fixed issuer settles that owner's cumulative burn counter.
+await window.psy.sendTransaction(deployerAccount, {
+  contract_id: nftContractId,
+  method_name: 'settle_burn',
+  inputs: [ownerUserId],
+});
+```
+
+### State queries
+
+The v3 compiler currently exposes void transaction methods, so reads use the deployed ABI and checkpoint state RPC. From the repository root:
+
+```sh
+python3 tests/live/asset_queries.py \
+  --rpc-config "$RPC_CONFIG" \
+  --abi nft/target/v3/abi.json \
+  --contract-id "$NFT_CONTRACT_ID" \
+  --issuer-id "$ISSUER_USER_ID" \
+  --user-id "$OWNER_USER_ID" --slot 0
+```
+
+This returns `balance`, `total_supply`, `max_supply`, `total_minted`, metadata fields, and the selected slot's four-Felt `token_id` and `metadata_hash`. Pass `--checkpoint` to pin all reads to the same state. The ABI must be the one used to deploy that contract. To verify an indexed owner candidate, use `AssetReader.owner_candidate(token_id, user_id, slot_idx)`; omit `slot_idx` to scan that user's 128 slots. A global `ownerOf(token_id)` requires a separately maintained owner index because ownership is stored in each user's partition. A metadata hash is a digest, so `tokenURI` requires resolving the underlying URI or CID from a trusted content index. RPC proof paths are returned by the node; a trustless consumer must validate them against a trusted checkpoint root.
+
+**Private NFT transfers:** The existing private-note wallet workflow publicly exposes the note amount. Encoding a unique NFT ID there would reveal and link the transfer and claim. This template therefore does not label that workflow as a private NFT transfer; a shielded NFT note circuit and matching wallet flow are still needed.
+
 ---
 
 ## Testing & Verification
@@ -140,3 +190,5 @@ The native test runner compiles `src/main.psy.rs`, then composes legacy `src/mai
 npm test
 npm run build
 ```
+
+The two-user staging cap/burn flow on contract 57 confirmed mint, transfer, claim, holder burn, and issuer settlement. State reads at checkpoint 71169 show `total_minted = 1`, `total_supply = 0`, `max_supply = 2`, and matching requested/settled counters; duplicate settlement was rejected. [Supply evidence](../tests/live/evidence/2026-09-28/nft-supply-v3.json) includes the deployed source hash. The final name/base-URI revision deployed as contract 58: both fields were written and read at checkpoint 71203, the ABI query decoded `PSY NFT` and `ipfs://`, and a second user's metadata update was rejected. [Metadata evidence](../tests/live/evidence/2026-09-28/nft-metadata-v3.json) records that source hash and state.
