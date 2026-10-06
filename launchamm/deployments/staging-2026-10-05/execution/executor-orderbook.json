@@ -1,0 +1,19 @@
+{
+  "kind": "orderbook",
+  "network": "sepolia",
+  "contractId": 64,
+  "vaultId": 591872,
+  "fingerprint": "46e467428361d649f9113914fc5faa989af97d3c3a3de9e8bbd50b7e05d85dcf",
+  "publicKeyHash": "714cbdad1f620ec06c5fe45d943edce6d046458d63f71f65c02e1f25e76c5ad9",
+  "codeRoot": "df01d777a26090b5de37249d84981ce8df978dee6b67ba0c386a778aa0e3bbf2",
+  "layoutRoot": "bbef9ad2b2c993db2102e7d6bf239d6a1b0483cc47be2911224bb53497189fd3",
+  "rpcConfig": "/private/tmp/psy-launchamm-staging-20261005/l2-local-prover-config.json",
+  "cli": "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-node/target/release/psy_user_cli",
+  "wallet": "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-node/target/release/orderbook_wallet",
+  "abi": "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-template/orderbook/contract/target/abi.json",
+  "users": [
+    861696
+  ],
+  "runtimeDirectory": "/private/tmp/psy-launchamm-staging-20261005/executor-runtime",
+  "intervalMs": 10000
+}

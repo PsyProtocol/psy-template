@@ -1,0 +1,374 @@
+TAP version 13
+# Subtest: AMM candidate preserves the pinned live layout and original methods
+ok 1 - AMM candidate preserves the pinned live layout and original methods
+  ---
+  duration_ms: 0.814375
+  ...
+# Subtest: AMM update gate rejects stale chain layout and changed old method IDs
+ok 2 - AMM update gate rejects stale chain layout and changed old method IDs
+  ---
+  duration_ms: 0.66025
+  ...
+# Subtest: AMM update gate binds both proof endpoints to the live 22-field layout
+ok 3 - AMM update gate binds both proof endpoints to the live 22-field layout
+  ---
+  duration_ms: 1.321958
+  ...
+# Subtest: 50 rounds of four simultaneous payers settle or refund without mixing balances
+ok 2 - 50 rounds of four simultaneous payers settle or refund without mixing balances
+  ---
+  duration_ms: 10.969417
+  ...
+# Subtest: 20 LP add/remove cycles preserve locked shares and pool accounting
+ok 3 - 20 LP add/remove cycles preserve locked shares and pool accounting
+  ---
+  duration_ms: 1.282708
+  ...
+# Subtest: PSY and pUSDT swaps construct payer-bound calls in the required order
+ok 3 - PSY and pUSDT swaps construct payer-bound calls in the required order
+  ---
+  duration_ms: 1.214625
+  ...
+# Subtest: refunds transfer only to the original payer and handle one or both LP legs
+ok 4 - refunds transfer only to the original payer and handle one or both LP legs
+  ---
+  duration_ms: 0.317208
+  ...
+# Subtest: LP add/remove calls include fee payment, guard, and exact token calls
+ok 5 - LP add/remove calls include fee payment, guard, and exact token calls
+  ---
+  duration_ms: 0.179583
+  ...
+# Subtest: call builder rejects invalid asset, unrelated recipient, and values outside the circuit bound
+ok 6 - call builder rejects invalid asset, unrelated recipient, and values outside the circuit bound
+  ---
+  duration_ms: 0.262458
+  ...
+# Subtest: payer closes each order path with its matching compiled method
+ok 7 - payer closes each order path with its matching compiled method
+  ---
+  duration_ms: 0.201375
+  ...
+# Subtest: pool submission includes the seven circuit inputs bound to the refund calls
+ok 8 - pool submission includes the seven circuit inputs bound to the refund calls
+  ---
+  duration_ms: 0.299791
+  ...
+# Subtest: funding, both swap directions, LP add/remove, and vault conservation
+ok 4 - funding, both swap directions, LP add/remove, and vault conservation
+  ---
+  duration_ms: 1.997458
+  ...
+# Subtest: expired or out-of-range swaps can refund exactly once without touching reserves
+ok 5 - expired or out-of-range swaps can refund exactly once without touching reserves
+  ---
+  duration_ms: 0.178416
+  ...
+# Subtest: unclaimed refund claims only Alice's exact outbox delta and returns it to Alice
+ok 6 - unclaimed refund claims only Alice's exact outbox delta and returns it to Alice
+  ---
+  duration_ms: 0.738208
+  ...
+# Subtest: cumulative claims reject stale reads, mixed payments, duplicate funding and competing orders
+ok 7 - cumulative claims reject stale reads, mixed payments, duplicate funding and competing orders
+  ---
+  duration_ms: 0.234791
+  ...
+# Subtest: a deferred payout is a locked liability until its exact token outbox delta is confirmed
+ok 8 - a deferred payout is a locked liability until its exact token outbox delta is confirmed
+  ---
+  duration_ms: 0.337917
+  ...
+# Subtest: PSY to USDT quote uses exact integer arithmetic and keeps k nondecreasing
+ok 5 - PSY to USDT quote uses exact integer arithmetic and keeps k nondecreasing
+  ---
+  duration_ms: 0.574333
+  ...
+# Subtest: exact output rounds input up and honors max input
+ok 6 - exact output rounds input up and honors max input
+  ---
+  duration_ms: 0.328
+  ...
+# Subtest: slippage, dust, and field overflow fail instead of wrapping
+ok 7 - slippage, dust, and field overflow fail instead of wrapping
+  ---
+  duration_ms: 0.084417
+  ...
+# Subtest: initial LP liquidity locks minimum shares; proportional add and remove conserve reserves
+ok 8 - initial LP liquidity locks minimum shares; proportional add and remove conserve reserves
+  ---
+  duration_ms: 0.180875
+  ...
+# Subtest: reference policy accepts exact swap and partial LP refund stacks
+ok 6 - reference policy accepts exact swap and partial LP refund stacks
+  ---
+  duration_ms: 0.97875
+  ...
+# Subtest: reference policy rejects Bob, amount changes, call insertion, order changes, and fee abuse
+ok 7 - reference policy rejects Bob, amount changes, call insertion, order changes, and fee abuse
+  ---
+  duration_ms: 0.382083
+  ...
+# Subtest: all nine pool branches bind every transfer to the payer across repeated inputs
+ok 8 - all nine pool branches bind every transfer to the payer across repeated inputs
+  ---
+  duration_ms: 4.479375
+  ...
+# Subtest: new deployment matches independently derived 26-field ABI root
+ok 7 - new deployment matches independently derived 26-field ABI root
+  ---
+  duration_ms: 1.117709
+  ...
+# Subtest: update-style or mismatched old layout proof cannot pass deployment gate
+ok 8 - update-style or mismatched old layout proof cannot pass deployment gate
+  ---
+  duration_ms: 0.8225
+  ...
+# Subtest: buy and reverse sell use one cumulative reserve invariant
+ok 8 - buy and reverse sell use one cumulative reserve invariant
+  ---
+  duration_ms: 1.853583
+  ...
+# Subtest: cap, bounded products, and graduation reserve are exact
+ok 9 - cap, bounded products, and graduation reserve are exact
+  ---
+  duration_ms: 0.613291
+  ...
+# Subtest: JSON launch configuration uses exact integer quotes
+ok 10 - JSON launch configuration uses exact integer quotes
+  ---
+  duration_ms: 1.057417
+  ...
+# Subtest: issuer funding and initialization bind inventory and both asset claims
+ok 9 - issuer funding and initialization bind inventory and both asset claims
+  ---
+  duration_ms: 1.1885
+  ...
+# Subtest: buy and sell stacks match exact quoted payment and original user
+ok 10 - buy and sell stacks match exact quoted payment and original user
+  ---
+  duration_ms: 0.532041
+  ...
+# Subtest: refunds and graduation preserve original recipients and exact amounts
+ok 11 - refunds and graduation preserve original recipients and exact amounts
+  ---
+  duration_ms: 0.338667
+  ...
+# Subtest: a lost broadcast response can still be confirmed on chain
+ok 10 - a lost broadcast response can still be confirmed on chain
+  ---
+  duration_ms: 0.763125
+  ...
+# Subtest: a submitted response without an indexed receipt remains unresolved
+ok 11 - a submitted response without an indexed receipt remains unresolved
+  ---
+  duration_ms: 0.328459
+  ...
+# Subtest: the historical leaf must match the expected state transition
+ok 12 - the historical leaf must match the expected state transition
+  ---
+  duration_ms: 0.064459
+  ...
+# Subtest: another user or an inconsistent receipt cannot confirm this submission
+ok 13 - another user or an inconsistent receipt cannot confirm this submission
+  ---
+  duration_ms: 0.085125
+  ...
+# Subtest: a read failure never becomes permission to retry a payment
+ok 14 - a read failure never becomes permission to retry a payment
+  ---
+  duration_ms: 0.240292
+  ...
+# Subtest: two operators serialize the same vault
+ok 11 - two operators serialize the same vault
+  ---
+  duration_ms: 13.964208
+  ...
+# Subtest: included receipt prevents replay; a broadcast error can still be included
+ok 12 - included receipt prevents replay; a broadcast error can still be included
+  ---
+  duration_ms: 44.240583
+  ...
+# Subtest: unknown broadcast blocks all following mutations until exact receipt recovery
+ok 13 - unknown broadcast blocks all following mutations until exact receipt recovery
+  ---
+  duration_ms: 50.041958
+  ...
+# Subtest: stale task after proving never reaches a broadcast intent
+ok 14 - stale task after proving never reaches a broadcast intent
+  ---
+  duration_ms: 17.760916
+  ...
+# Subtest: restart after a failed pre-submit read reuses preflight and broadcasts once
+ok 15 - restart after a failed pre-submit read reuses preflight and broadcasts once
+  ---
+  duration_ms: 42.405666
+  ...
+# Subtest: transport read failure retries within a finite bound
+ok 12 - transport read failure retries within a finite bound
+  ---
+  duration_ms: 3.053459
+  ...
+# Subtest: logical read errors are not retried; transport exhaustion is classified
+ok 13 - logical read errors are not retried; transport exhaustion is classified
+  ---
+  duration_ms: 2.853125
+  ...
+# Subtest: a retained new-deployment proof has an empty old endpoint
+ok 13 - a retained new-deployment proof has an empty old endpoint
+  ---
+  duration_ms: 2.731083
+  ...
+# Subtest: layout, code, deployer and proof endpoint mismatches stop submission
+ok 14 - layout, code, deployer and proof endpoint mismatches stop submission
+  ---
+  duration_ms: 27.271
+  ...
+# Subtest: graduation seed fixes source and exact units, fee claims and LP owner
+ok 14 - graduation seed fixes source and exact units, fee claims and LP owner
+  ---
+  duration_ms: 1.518458
+  ...
+# Subtest: signed payments use native base units; public outputs scale once
+ok 15 - signed payments use native base units; public outputs scale once
+  ---
+  duration_ms: 0.358375
+  ...
+# Subtest: LP refunds return both raw legs to original payer
+ok 16 - LP refunds return both raw legs to original payer
+  ---
+  duration_ms: 0.170917
+  ...
+# Subtest: LP remove uses the launch token minimum in its signed intent
+ok 17 - LP remove uses the launch token minimum in its signed intent
+  ---
+  duration_ms: 0.568583
+  ...
+# Subtest: invalid assets, IDs, units and amounts fail before a payment is built
+ok 18 - invalid assets, IDs, units and amounts fail before a payment is built
+  ---
+  duration_ms: 0.199084
+  ...
+# Subtest: compiled AMM preserves every curve-prefix offset and token Outbox ABI
+ok 19 - compiled AMM preserves every curve-prefix offset and token Outbox ABI
+  ---
+  duration_ms: 1.7365
+  ...
+# Subtest: planner requires exact funding and fresh nonce; slippage waits until expiry
+ok 15 - planner requires exact funding and fresh nonce; slippage waits until expiry
+  ---
+  duration_ms: 1.215541
+  ...
+# Subtest: expired partial LP funding returns only the funded leg to its payer
+ok 16 - expired partial LP funding returns only the funded leg to its payer
+  ---
+  duration_ms: 0.38525
+  ...
+# Subtest: expired remove uses fee-only cancellation and leaves shares intact
+ok 17 - expired remove uses fee-only cancellation and leaves shares intact
+  ---
+  duration_ms: 0.20025
+  ...
+# Subtest: readonly CLI retries connection failures and returns the recovered checkpoint
+ok 16 - readonly CLI retries connection failures and returns the recovered checkpoint
+  ---
+  duration_ms: 5.424458
+  ...
+# Subtest: readonly CLI retries are bounded and semantic errors are returned immediately
+ok 17 - readonly CLI retries are bounded and semantic errors are returned immediately
+  ---
+  duration_ms: 4.265375
+  ...
+# Subtest: accepts the contract 62 append-only 14 to 17 proof
+ok 17 - accepts the contract 62 append-only 14 to 17 proof
+  ---
+  duration_ms: 1.712
+  ...
+# Subtest: rejects the 17 to 17 identity proof that could block the coordinator
+ok 18 - rejects the 17 to 17 identity proof that could block the coordinator
+  ---
+  duration_ms: 0.449292
+  ...
+# Subtest: rejects a changed chain layout before another submission
+ok 19 - rejects a changed chain layout before another submission
+  ---
+  duration_ms: 0.158208
+  ...
+# Subtest: rejects mutation of any existing ABI field
+ok 20 - rejects mutation of any existing ABI field
+  ---
+  duration_ms: 0.35975
+  ...
+# Subtest: rejects a change to the appended ABI fields
+ok 21 - rejects a change to the appended ABI fields
+  ---
+  duration_ms: 0.69175
+  ...
+# Subtest: rejects a request whose new endpoint differs from the compiled ABI
+ok 22 - rejects a request whose new endpoint differs from the compiled ABI
+  ---
+  duration_ms: 0.323542
+  ...
+# Subtest: decode packed Merkle leaf slots in reverse limb order
+ok 18 - decode packed Merkle leaf slots in reverse limb order
+  ---
+  duration_ms: 0.994958
+  ...
+# Subtest: compatible fully funded orders produce one exact SD-key match stack
+ok 19 - compatible fully funded orders produce one exact SD-key match stack
+  ---
+  duration_ms: 0.332208
+  ...
+# Subtest: price mismatch, absent payment, wrong escrow, consumed nonce and expiry cannot match
+ok 20 - price mismatch, absent payment, wrong escrow, consumed nonce and expiry cannot match
+  ---
+  duration_ms: 0.406125
+  ...
+# Subtest: expired refund still binds the original seller and exact unpaid amount
+ok 21 - expired refund still binds the original seller and exact unpaid amount
+  ---
+  duration_ms: 0.202541
+  ...
+# Subtest: runner is read-only by default and supports historical replay
+ok 19 - runner is read-only by default and supports historical replay
+  ---
+  duration_ms: 0.884167
+  ...
+# Subtest: one-seller expired refund execution cannot use a historical checkpoint or match mode
+ok 20 - one-seller expired refund execution cannot use a historical checkpoint or match mode
+  ---
+  duration_ms: 0.326667
+  ...
+# Subtest: compiled ABI exposes the orderbook and preserves token Outbox prefix
+ok 20 - compiled ABI exposes the orderbook and preserves token Outbox prefix
+  ---
+  duration_ms: 1.606042
+  ...
+# Subtest: PSY cancellation and closing never read the seller pUSDT partition
+ok 21 - PSY cancellation and closing never read the seller pUSDT partition
+  ---
+  duration_ms: 1.181041
+  ...
+# Subtest: payer opening stacks include one exact asset deposit and one fee escrow
+ok 22 - payer opening stacks include one exact asset deposit and one fee escrow
+  ---
+  duration_ms: 0.791042
+  ...
+# Subtest: all three SD-key branches bind claim, payout and recipient amounts
+ok 23 - all three SD-key branches bind claim, payout and recipient amounts
+  ---
+  duration_ms: 0.842292
+  ...
+# Subtest: claim order, fee, and token-contract tampering fail authorization
+ok 24 - claim order, fee, and token-contract tampering fail authorization
+  ---
+  duration_ms: 0.150042
+  ...
+1..73
+# tests 73
+# pass 73
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1259.726583

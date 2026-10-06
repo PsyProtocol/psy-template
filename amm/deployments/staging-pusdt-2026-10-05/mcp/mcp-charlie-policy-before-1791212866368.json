@@ -1,0 +1,40 @@
+{
+  "id": "charlie-policy-before",
+  "user": "861696",
+  "isError": false,
+  "data": {
+    "auditNote": "Every authorized spend is recorded — call get_spend_log to see what this agent has actually done.",
+    "policy": {
+      "active": true,
+      "activeSessions": 0,
+      "agentId": "bondingcurve-test-charlie",
+      "allowedMethods": [
+        "simple_transfer",
+        "private_transfer",
+        "simple_claim",
+        "private_claim",
+        "withdraw",
+        "deposit",
+        "claim_deposit",
+        "x402_fetch",
+        "call_contract"
+      ],
+      "allowedRecipientCount": 1,
+      "perDay": 50000000000,
+      "perMonth": null,
+      "perTransaction": 10000000000,
+      "policyId": "13e22a773a1016ad",
+      "remainingDay": 33000000000,
+      "remainingMonth": null,
+      "remainingTotal": 80000000000,
+      "sessionExpiresInSeconds": null,
+      "spentThisMonth": 20000000000,
+      "spentToday": 17000000000,
+      "spentTotal": 20000000000,
+      "summary": "This agent may spend up to 10 PSY per payment, 50 PSY per day, 100 PSY in total for the lifetime of this policy, to 1 approved recipient, via methods simple_transfer, private_transfer, simple_claim, private_claim, withdraw, deposit, claim_deposit, x402_fetch, call_contract. No live session — the agent cannot spend until the owner calls issue_session. Owner can pause_policy at any time.",
+      "totalBudget": 100000000000
+    },
+    "status": "ok",
+    "summary": "This agent may spend up to 10 PSY per payment, 50 PSY per day, 100 PSY in total for the lifetime of this policy, to 1 approved recipient, via methods simple_transfer, private_transfer, simple_claim, private_claim, withdraw, deposit, claim_deposit, x402_fetch, call_contract. No live session — the agent cannot spend until the owner calls issue_session. Owner can pause_policy at any time."
+  }
+}

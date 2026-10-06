@@ -1,0 +1,17 @@
+{
+  "id": "charlie-ob-usdt-refund-open",
+  "user": 861696,
+  "tool": "call_contract",
+  "args": {
+    "contract_id": 64,
+    "method_name": "open_sell",
+    "inputs": [
+      591872,
+      4,
+      200000,
+      10000000,
+      160971,
+      2
+    ]
+  }
+}

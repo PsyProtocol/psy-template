@@ -1,0 +1,68 @@
+
+> psy-template@1.0.0 test:bondingcurve
+> node --test bondingcurve/*.test.mjs bondingcurve/contract/*.test.mjs
+
+TAP version 13
+# Subtest: new deployment matches independently derived 26-field ABI root
+ok 1 - new deployment matches independently derived 26-field ABI root
+  ---
+  duration_ms: 1.074416
+  ...
+# Subtest: update-style or mismatched old layout proof cannot pass deployment gate
+ok 2 - update-style or mismatched old layout proof cannot pass deployment gate
+  ---
+  duration_ms: 1.121792
+  ...
+# Subtest: curve ABI preserves PSY and companion-token Outbox prefix and all methods
+ok 2 - curve ABI preserves PSY and companion-token Outbox prefix and all methods
+  ---
+  duration_ms: 1.040625
+  ...
+# Subtest: companion launch token has the exact claim/transfer ABI and Outbox offsets
+ok 3 - companion launch token has the exact claim/transfer ABI and Outbox offsets
+  ---
+  duration_ms: 0.079208
+  ...
+# Subtest: PSY-only buy close and refund never read a token partition
+ok 4 - PSY-only buy close and refund never read a token partition
+  ---
+  duration_ms: 0.090417
+  ...
+# Subtest: buy and reverse sell use one cumulative reserve invariant
+ok 3 - buy and reverse sell use one cumulative reserve invariant
+  ---
+  duration_ms: 1.935542
+  ...
+# Subtest: cap, bounded products, and graduation reserve are exact
+ok 4 - cap, bounded products, and graduation reserve are exact
+  ---
+  duration_ms: 0.641
+  ...
+# Subtest: JSON launch configuration uses exact integer quotes
+ok 5 - JSON launch configuration uses exact integer quotes
+  ---
+  duration_ms: 1.056375
+  ...
+# Subtest: issuer funding and initialization bind inventory and both asset claims
+ok 4 - issuer funding and initialization bind inventory and both asset claims
+  ---
+  duration_ms: 1.083417
+  ...
+# Subtest: buy and sell stacks match exact quoted payment and original user
+ok 5 - buy and sell stacks match exact quoted payment and original user
+  ---
+  duration_ms: 0.654459
+  ...
+# Subtest: refunds and graduation preserve original recipients and exact amounts
+ok 6 - refunds and graduation preserve original recipients and exact amounts
+  ---
+  duration_ms: 0.385833
+  ...
+1..11
+# tests 11
+# pass 11
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 224.911417

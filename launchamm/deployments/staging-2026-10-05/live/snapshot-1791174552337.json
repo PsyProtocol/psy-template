@@ -1,0 +1,153 @@
+{
+  "checkpoint": 157493,
+  "registration": {
+    "counter": 3705,
+    "curveFingerprint": "32f8aa396b594ca786d5102119a1af5858f82b8f23a13bda9efd45bcedf0d3c5",
+    "curvePublicKeyHash": "4d03ba32108da51c56bbd5f6d91eeee2db17b12dfc0a1b2470cf4a34935ee658",
+    "curveUserId": 1297920,
+    "fundingAuthorized": true,
+    "poolFingerprint": "07de53fc40b456d84d182dd4edcd99051dac849b378a2d80bfd3a30045757783",
+    "poolPublicKeyHash": "d00db0d5fac9916c91110d8b0b5797219dabfc4fcb8fcc7705873cbc0b63f12e",
+    "poolUserId": 773632
+  },
+  "bindings": [
+    {
+      "id": 66,
+      "leaf": {
+        "deployer": "dc99845e40abd523a573883147959f7754803cedd72a223eec27366e7235fffa",
+        "function_tree_root": "38ab556075f2c5438c837613c5253da2f3447612e9539ec2168829ee3a008d6b",
+        "code_root": "6cd2f5e219cfd8c1880f1673027690297c62cd92a43deee7dc3d816fd38a9d24",
+        "state_tree_height": 32,
+        "state_layout_root": "25f75784df8420fe918ac28cc845880f4c4c1e3891976b2a06577b177df51888",
+        "state_layout_field_count": 26,
+        "state_layout_slot_count": 2197815318
+      }
+    },
+    {
+      "id": 1494,
+      "leaf": {
+        "deployer": "dc99845e40abd523a573883147959f7754803cedd72a223eec27366e7235fffa",
+        "function_tree_root": "3435183f97f9fa82b40dd8bef1e783d59a94127dc90e5f56966fc703af288427",
+        "code_root": "4d374b90b1381293183f52e62aa5b7f6dfe8d4cc2683bd2b6ae3ba3b4b8c5005",
+        "state_tree_height": 32,
+        "state_layout_root": "37b9a3c271e229caafc399538416c01f79ab00cccd8c157a595090cac549a2d9",
+        "state_layout_field_count": 5,
+        "state_layout_slot_count": 2147483652
+      }
+    },
+    {
+      "id": 1503,
+      "leaf": {
+        "deployer": "dc99845e40abd523a573883147959f7754803cedd72a223eec27366e7235fffa",
+        "function_tree_root": "c123351dc21e1c10b35c79e9500ffca132e6661ad54aa881de5be68b46d1ce0d",
+        "code_root": "7454c52728393fdbadb1b343a3d6b236834387c02d8cbd160cc66a000a65a3e5",
+        "state_tree_height": 32,
+        "state_layout_root": "bd2b7b63fea8aadd1ea8377c28941bf52dc47511e2c7faf8fd1659ab714379e1",
+        "state_layout_field_count": 41,
+        "state_layout_slot_count": 2214592548
+      }
+    }
+  ],
+  "users": {
+    "773632": {
+      "psy": "400179000",
+      "token": "4000000000",
+      "pusdt": "0",
+      "curve": {
+        "phase": "0",
+        "sold_lots": "0",
+        "psy_reserve": "0",
+        "order_kind": "0",
+        "order_nonce": "0"
+      },
+      "pool": {
+        "total_shares": "40000",
+        "reserve_psy": "400004",
+        "reserve_token": "4000",
+        "phase": "1",
+        "order_nonce": "0",
+        "order_kind": "0"
+      }
+    },
+    "861696": {
+      "psy": "979998963000",
+      "token": "0",
+      "pusdt": "0",
+      "curve": {
+        "phase": "0",
+        "sold_lots": "0",
+        "psy_reserve": "0",
+        "order_kind": "0",
+        "order_nonce": "1"
+      },
+      "pool": {
+        "phase": "0",
+        "reserve_psy": "0",
+        "reserve_token": "0",
+        "total_shares": "0",
+        "order_nonce": "1",
+        "order_kind": "3"
+      }
+    },
+    "1283072": {
+      "psy": "981099654000",
+      "token": "1000000000",
+      "pusdt": "0",
+      "curve": {
+        "phase": "0",
+        "sold_lots": "0",
+        "psy_reserve": "0",
+        "order_kind": "0",
+        "order_nonce": "3"
+      },
+      "pool": {
+        "phase": "0",
+        "total_shares": "0",
+        "reserve_psy": "0",
+        "reserve_token": "0",
+        "order_nonce": "1",
+        "order_kind": "1"
+      }
+    },
+    "1297920": {
+      "psy": "368000",
+      "token": "0",
+      "pusdt": "0",
+      "curve": {
+        "phase": "2",
+        "order_kind": "0",
+        "sold_lots": "3",
+        "psy_reserve": "0",
+        "order_nonce": "0"
+      },
+      "pool": {
+        "total_shares": "0",
+        "phase": "0",
+        "reserve_psy": "0",
+        "reserve_token": "0",
+        "order_nonce": "0",
+        "order_kind": "0"
+      }
+    },
+    "1882112": {
+      "psy": "961499114000",
+      "token": "1000000000",
+      "pusdt": "0",
+      "curve": {
+        "phase": "0",
+        "sold_lots": "0",
+        "psy_reserve": "0",
+        "order_kind": "0",
+        "order_nonce": "5"
+      },
+      "pool": {
+        "reserve_psy": "0",
+        "reserve_token": "0",
+        "total_shares": "0",
+        "phase": "0",
+        "order_nonce": "1",
+        "order_kind": "2"
+      }
+    }
+  }
+}

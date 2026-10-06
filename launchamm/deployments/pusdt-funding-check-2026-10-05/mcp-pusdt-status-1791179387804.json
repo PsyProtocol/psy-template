@@ -1,0 +1,29 @@
+{
+  "id": "pusdt-status",
+  "isError": false,
+  "data": {
+    "activeWallet": {
+      "pkHash": "08bd17c4220d8ae3fa3da68b418b14ea40eb309d25feb17e15b21564ebd81b57",
+      "psyId": "Psy-01283072",
+      "softwareDefined": false,
+      "userId": 1283072
+    },
+    "defaultNetwork": "sepolia",
+    "endpoints": {
+      "apiServices": [
+        "https://services-stg.psy-protocol.xyz"
+      ],
+      "coordinator": [
+        "https://coordinator-stg.psy-protocol.xyz"
+      ],
+      "proveProxy": [],
+      "realm": [
+        "https://realm0-stg.psy-protocol.xyz",
+        "https://realm1-stg.psy-protocol.xyz"
+      ]
+    },
+    "network": "sepolia",
+    "status": "ok",
+    "walletCount": 3
+  }
+}

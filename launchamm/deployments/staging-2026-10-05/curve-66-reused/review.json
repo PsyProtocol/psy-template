@@ -1,0 +1,1054 @@
+{
+  "codeRoot": "6cd2f5e219cfd8c1880f1673027690297c62cd92a43deee7dc3d816fd38a9d24",
+  "layoutRoot": "25f75784df8420fe918ac28cc845880f4c4c1e3891976b2a06577b177df51888",
+  "manifest": {
+    "field_type_dags": [
+      {
+        "nodes": [
+          {
+            "kind": "primitive",
+            "type_tag": "Felt"
+          }
+        ],
+        "root": 0
+      },
+      {
+        "nodes": [
+          {
+            "kind": "primitive",
+            "type_tag": "Felt"
+          }
+        ],
+        "root": 0
+      },
+      {
+        "nodes": [
+          {
+            "kind": "primitive",
+            "type_tag": "Felt"
+          }
+        ],
+        "root": 0
+      },
+      {
+        "nodes": [
+          {
+            "kind": "primitive",
+            "type_tag": "Felt"
+          },
+          {
+            "kind": "primitive",
+            "type_tag": "Felt"
+          },
+          {
+            "kind": "struct",
+            "members": [
+              0,
+              1
+            ],
+            "members_tree_height": 5
+          },
+          {
+            "element": 2,
+            "kind": "fixed_array",
+            "length": 1073741824
+          }
+        ],
+        "root": 3
+      },
+      {
+        "nodes": [
+          {
+            "kind": "primitive",
+            "type_tag": "Felt"
+          }
+        ],
+        "root": 0
+      },
+      {
+        "nodes": [
+          {
+            "kind": "primitive",
+            "type_tag": "Felt"
+          }
+        ],
+        "root": 0
+      },
+      {
+        "nodes": [
+          {
+            "kind": "primitive",
+            "type_tag": "Felt"
+          }
+        ],
+        "root": 0
+      },
+      {
+        "nodes": [
+          {
+            "kind": "primitive",
+            "type_tag": "Felt"
+          }
+        ],
+        "root": 0
+      },
+      {
+        "nodes": [
+          {
+            "kind": "primitive",
+            "type_tag": "Felt"
+          }
+        ],
+        "root": 0
+      },
+      {
+        "nodes": [
+          {
+            "kind": "primitive",
+            "type_tag": "Felt"
+          }
+        ],
+        "root": 0
+      },
+      {
+        "nodes": [
+          {
+            "kind": "primitive",
+            "type_tag": "Felt"
+          }
+        ],
+        "root": 0
+      },
+      {
+        "nodes": [
+          {
+            "kind": "primitive",
+            "type_tag": "Felt"
+          }
+        ],
+        "root": 0
+      },
+      {
+        "nodes": [
+          {
+            "kind": "primitive",
+            "type_tag": "Felt"
+          }
+        ],
+        "root": 0
+      },
+      {
+        "nodes": [
+          {
+            "kind": "primitive",
+            "type_tag": "Felt"
+          }
+        ],
+        "root": 0
+      },
+      {
+        "nodes": [
+          {
+            "kind": "primitive",
+            "type_tag": "Felt"
+          }
+        ],
+        "root": 0
+      },
+      {
+        "nodes": [
+          {
+            "kind": "primitive",
+            "type_tag": "Felt"
+          }
+        ],
+        "root": 0
+      },
+      {
+        "nodes": [
+          {
+            "kind": "primitive",
+            "type_tag": "Felt"
+          },
+          {
+            "element": 0,
+            "kind": "fixed_array",
+            "length": 16777216
+          }
+        ],
+        "root": 1
+      },
+      {
+        "nodes": [
+          {
+            "kind": "primitive",
+            "type_tag": "Felt"
+          },
+          {
+            "element": 0,
+            "kind": "fixed_array",
+            "length": 16777216
+          }
+        ],
+        "root": 1
+      },
+      {
+        "nodes": [
+          {
+            "kind": "primitive",
+            "type_tag": "Felt"
+          },
+          {
+            "element": 0,
+            "kind": "fixed_array",
+            "length": 16777216
+          }
+        ],
+        "root": 1
+      },
+      {
+        "nodes": [
+          {
+            "kind": "primitive",
+            "type_tag": "Felt"
+          }
+        ],
+        "root": 0
+      },
+      {
+        "nodes": [
+          {
+            "kind": "primitive",
+            "type_tag": "Felt"
+          }
+        ],
+        "root": 0
+      },
+      {
+        "nodes": [
+          {
+            "kind": "primitive",
+            "type_tag": "Felt"
+          }
+        ],
+        "root": 0
+      },
+      {
+        "nodes": [
+          {
+            "kind": "primitive",
+            "type_tag": "Felt"
+          }
+        ],
+        "root": 0
+      },
+      {
+        "nodes": [
+          {
+            "kind": "primitive",
+            "type_tag": "Felt"
+          }
+        ],
+        "root": 0
+      },
+      {
+        "nodes": [
+          {
+            "kind": "primitive",
+            "type_tag": "Felt"
+          }
+        ],
+        "root": 0
+      },
+      {
+        "nodes": [
+          {
+            "kind": "primitive",
+            "type_tag": "Felt"
+          }
+        ],
+        "root": 0
+      }
+    ],
+    "layout": {
+      "contract_layout": {
+        "fields": [
+          {
+            "encoding_version": 1,
+            "field_id": 1,
+            "payload_offset": 0,
+            "slot_count": 1,
+            "start_slot": 0,
+            "type_layout_hash": "710cb66428a74066d8c1ac442d14538460c72bfcc0c7ba833089a7bb427da2b0"
+          },
+          {
+            "encoding_version": 1,
+            "field_id": 2,
+            "payload_offset": 0,
+            "slot_count": 1,
+            "start_slot": 1,
+            "type_layout_hash": "710cb66428a74066d8c1ac442d14538460c72bfcc0c7ba833089a7bb427da2b0"
+          },
+          {
+            "encoding_version": 1,
+            "field_id": 3,
+            "payload_offset": 0,
+            "slot_count": 1,
+            "start_slot": 2,
+            "type_layout_hash": "710cb66428a74066d8c1ac442d14538460c72bfcc0c7ba833089a7bb427da2b0"
+          },
+          {
+            "encoding_version": 1,
+            "field_id": 4,
+            "payload_offset": 0,
+            "slot_count": 2147483648,
+            "start_slot": 3,
+            "type_layout_hash": "ca2e09869704f299417497c8f738bee04ebe892e5a5d6bbc4e739edf1c87792c"
+          },
+          {
+            "encoding_version": 1,
+            "field_id": 5,
+            "payload_offset": 0,
+            "slot_count": 1,
+            "start_slot": 2147483651,
+            "type_layout_hash": "710cb66428a74066d8c1ac442d14538460c72bfcc0c7ba833089a7bb427da2b0"
+          },
+          {
+            "encoding_version": 1,
+            "field_id": 6,
+            "payload_offset": 0,
+            "slot_count": 1,
+            "start_slot": 2147483652,
+            "type_layout_hash": "710cb66428a74066d8c1ac442d14538460c72bfcc0c7ba833089a7bb427da2b0"
+          },
+          {
+            "encoding_version": 1,
+            "field_id": 7,
+            "payload_offset": 0,
+            "slot_count": 1,
+            "start_slot": 2147483653,
+            "type_layout_hash": "710cb66428a74066d8c1ac442d14538460c72bfcc0c7ba833089a7bb427da2b0"
+          },
+          {
+            "encoding_version": 1,
+            "field_id": 8,
+            "payload_offset": 0,
+            "slot_count": 1,
+            "start_slot": 2147483654,
+            "type_layout_hash": "710cb66428a74066d8c1ac442d14538460c72bfcc0c7ba833089a7bb427da2b0"
+          },
+          {
+            "encoding_version": 1,
+            "field_id": 9,
+            "payload_offset": 0,
+            "slot_count": 1,
+            "start_slot": 2147483655,
+            "type_layout_hash": "710cb66428a74066d8c1ac442d14538460c72bfcc0c7ba833089a7bb427da2b0"
+          },
+          {
+            "encoding_version": 1,
+            "field_id": 10,
+            "payload_offset": 0,
+            "slot_count": 1,
+            "start_slot": 2147483656,
+            "type_layout_hash": "710cb66428a74066d8c1ac442d14538460c72bfcc0c7ba833089a7bb427da2b0"
+          },
+          {
+            "encoding_version": 1,
+            "field_id": 11,
+            "payload_offset": 0,
+            "slot_count": 1,
+            "start_slot": 2147483657,
+            "type_layout_hash": "710cb66428a74066d8c1ac442d14538460c72bfcc0c7ba833089a7bb427da2b0"
+          },
+          {
+            "encoding_version": 1,
+            "field_id": 12,
+            "payload_offset": 0,
+            "slot_count": 1,
+            "start_slot": 2147483658,
+            "type_layout_hash": "710cb66428a74066d8c1ac442d14538460c72bfcc0c7ba833089a7bb427da2b0"
+          },
+          {
+            "encoding_version": 1,
+            "field_id": 13,
+            "payload_offset": 0,
+            "slot_count": 1,
+            "start_slot": 2147483659,
+            "type_layout_hash": "710cb66428a74066d8c1ac442d14538460c72bfcc0c7ba833089a7bb427da2b0"
+          },
+          {
+            "encoding_version": 1,
+            "field_id": 14,
+            "payload_offset": 0,
+            "slot_count": 1,
+            "start_slot": 2147483660,
+            "type_layout_hash": "710cb66428a74066d8c1ac442d14538460c72bfcc0c7ba833089a7bb427da2b0"
+          },
+          {
+            "encoding_version": 1,
+            "field_id": 15,
+            "payload_offset": 0,
+            "slot_count": 1,
+            "start_slot": 2147483661,
+            "type_layout_hash": "710cb66428a74066d8c1ac442d14538460c72bfcc0c7ba833089a7bb427da2b0"
+          },
+          {
+            "encoding_version": 1,
+            "field_id": 16,
+            "payload_offset": 0,
+            "slot_count": 1,
+            "start_slot": 2147483662,
+            "type_layout_hash": "710cb66428a74066d8c1ac442d14538460c72bfcc0c7ba833089a7bb427da2b0"
+          },
+          {
+            "encoding_version": 1,
+            "field_id": 17,
+            "payload_offset": 0,
+            "slot_count": 16777216,
+            "start_slot": 2147483663,
+            "type_layout_hash": "b140e7db57244bc3578075a6f2ee6d04b47af59688d28e5766056f08608a87d9"
+          },
+          {
+            "encoding_version": 1,
+            "field_id": 18,
+            "payload_offset": 0,
+            "slot_count": 16777216,
+            "start_slot": 2164260879,
+            "type_layout_hash": "b140e7db57244bc3578075a6f2ee6d04b47af59688d28e5766056f08608a87d9"
+          },
+          {
+            "encoding_version": 1,
+            "field_id": 19,
+            "payload_offset": 0,
+            "slot_count": 16777216,
+            "start_slot": 2181038095,
+            "type_layout_hash": "b140e7db57244bc3578075a6f2ee6d04b47af59688d28e5766056f08608a87d9"
+          },
+          {
+            "encoding_version": 1,
+            "field_id": 20,
+            "payload_offset": 0,
+            "slot_count": 1,
+            "start_slot": 2197815311,
+            "type_layout_hash": "710cb66428a74066d8c1ac442d14538460c72bfcc0c7ba833089a7bb427da2b0"
+          },
+          {
+            "encoding_version": 1,
+            "field_id": 21,
+            "payload_offset": 0,
+            "slot_count": 1,
+            "start_slot": 2197815312,
+            "type_layout_hash": "710cb66428a74066d8c1ac442d14538460c72bfcc0c7ba833089a7bb427da2b0"
+          },
+          {
+            "encoding_version": 1,
+            "field_id": 22,
+            "payload_offset": 0,
+            "slot_count": 1,
+            "start_slot": 2197815313,
+            "type_layout_hash": "710cb66428a74066d8c1ac442d14538460c72bfcc0c7ba833089a7bb427da2b0"
+          },
+          {
+            "encoding_version": 1,
+            "field_id": 23,
+            "payload_offset": 0,
+            "slot_count": 1,
+            "start_slot": 2197815314,
+            "type_layout_hash": "710cb66428a74066d8c1ac442d14538460c72bfcc0c7ba833089a7bb427da2b0"
+          },
+          {
+            "encoding_version": 1,
+            "field_id": 24,
+            "payload_offset": 0,
+            "slot_count": 1,
+            "start_slot": 2197815315,
+            "type_layout_hash": "710cb66428a74066d8c1ac442d14538460c72bfcc0c7ba833089a7bb427da2b0"
+          },
+          {
+            "encoding_version": 1,
+            "field_id": 25,
+            "payload_offset": 0,
+            "slot_count": 1,
+            "start_slot": 2197815316,
+            "type_layout_hash": "710cb66428a74066d8c1ac442d14538460c72bfcc0c7ba833089a7bb427da2b0"
+          },
+          {
+            "encoding_version": 1,
+            "field_id": 26,
+            "payload_offset": 0,
+            "slot_count": 1,
+            "start_slot": 2197815317,
+            "type_layout_hash": "710cb66428a74066d8c1ac442d14538460c72bfcc0c7ba833089a7bb427da2b0"
+          }
+        ],
+        "state_layout_field_count": 26,
+        "state_layout_root": "25f75784df8420fe918ac28cc845880f4c4c1e3891976b2a06577b177df51888",
+        "state_layout_slot_count": 2197815318
+      },
+      "field_type_layouts": [
+        {
+          "kind": "primitive",
+          "type_tag": "Felt"
+        },
+        {
+          "kind": "primitive",
+          "type_tag": "Felt"
+        },
+        {
+          "kind": "primitive",
+          "type_tag": "Felt"
+        },
+        {
+          "array_length": 1073741824,
+          "element_slot_count": 2,
+          "element_type_hash": "fa4ef7029e34ca332492ee227e9dde15295fcfc53e5c0e0358690600574b4849",
+          "kind": "fixed_array"
+        },
+        {
+          "kind": "primitive",
+          "type_tag": "Felt"
+        },
+        {
+          "kind": "primitive",
+          "type_tag": "Felt"
+        },
+        {
+          "kind": "primitive",
+          "type_tag": "Felt"
+        },
+        {
+          "kind": "primitive",
+          "type_tag": "Felt"
+        },
+        {
+          "kind": "primitive",
+          "type_tag": "Felt"
+        },
+        {
+          "kind": "primitive",
+          "type_tag": "Felt"
+        },
+        {
+          "kind": "primitive",
+          "type_tag": "Felt"
+        },
+        {
+          "kind": "primitive",
+          "type_tag": "Felt"
+        },
+        {
+          "kind": "primitive",
+          "type_tag": "Felt"
+        },
+        {
+          "kind": "primitive",
+          "type_tag": "Felt"
+        },
+        {
+          "kind": "primitive",
+          "type_tag": "Felt"
+        },
+        {
+          "kind": "primitive",
+          "type_tag": "Felt"
+        },
+        {
+          "array_length": 16777216,
+          "element_slot_count": 1,
+          "element_type_hash": "710cb66428a74066d8c1ac442d14538460c72bfcc0c7ba833089a7bb427da2b0",
+          "kind": "fixed_array"
+        },
+        {
+          "array_length": 16777216,
+          "element_slot_count": 1,
+          "element_type_hash": "710cb66428a74066d8c1ac442d14538460c72bfcc0c7ba833089a7bb427da2b0",
+          "kind": "fixed_array"
+        },
+        {
+          "array_length": 16777216,
+          "element_slot_count": 1,
+          "element_type_hash": "710cb66428a74066d8c1ac442d14538460c72bfcc0c7ba833089a7bb427da2b0",
+          "kind": "fixed_array"
+        },
+        {
+          "kind": "primitive",
+          "type_tag": "Felt"
+        },
+        {
+          "kind": "primitive",
+          "type_tag": "Felt"
+        },
+        {
+          "kind": "primitive",
+          "type_tag": "Felt"
+        },
+        {
+          "kind": "primitive",
+          "type_tag": "Felt"
+        },
+        {
+          "kind": "primitive",
+          "type_tag": "Felt"
+        },
+        {
+          "kind": "primitive",
+          "type_tag": "Felt"
+        },
+        {
+          "kind": "primitive",
+          "type_tag": "Felt"
+        }
+      ],
+      "struct_layouts": {
+        "OtherUserInfo": {
+          "members": [
+            {
+              "encoding_version": 1,
+              "member_id": 1,
+              "member_type_hash": "710cb66428a74066d8c1ac442d14538460c72bfcc0c7ba833089a7bb427da2b0",
+              "slot_count": 1,
+              "slot_offset": 0
+            },
+            {
+              "encoding_version": 1,
+              "member_id": 2,
+              "member_type_hash": "710cb66428a74066d8c1ac442d14538460c72bfcc0c7ba833089a7bb427da2b0",
+              "slot_count": 1,
+              "slot_offset": 1
+            }
+          ],
+          "members_root": "64f55eddffb7825fdb5a31a79da4f026d749499906f3f044d88617b99683fc8b",
+          "summary": {
+            "total_slot_count": 2,
+            "type_layout_hash": "fa4ef7029e34ca332492ee227e9dde15295fcfc53e5c0e0358690600574b4849"
+          }
+        }
+      }
+    },
+    "layout_version": 1,
+    "state_tree_height": 32
+  },
+  "methods": [
+    {
+      "input_felt_count": 0,
+      "inputs": [],
+      "method_id": 2951605435,
+      "name": "noop",
+      "output_felt_count": 0,
+      "outputs": [],
+      "state_mutability": "view"
+    },
+    {
+      "input_felt_count": 9,
+      "inputs": [
+        {
+          "felt_size": 1,
+          "name": "token_id",
+          "type": {
+            "kind": "primitive",
+            "name": "Felt"
+          }
+        },
+        {
+          "felt_size": 1,
+          "name": "issuer",
+          "type": {
+            "kind": "primitive",
+            "name": "Felt"
+          }
+        },
+        {
+          "felt_size": 1,
+          "name": "target",
+          "type": {
+            "kind": "primitive",
+            "name": "Felt"
+          }
+        },
+        {
+          "felt_size": 1,
+          "name": "sale_cap",
+          "type": {
+            "kind": "primitive",
+            "name": "Felt"
+          }
+        },
+        {
+          "felt_size": 1,
+          "name": "liquidity",
+          "type": {
+            "kind": "primitive",
+            "name": "Felt"
+          }
+        },
+        {
+          "felt_size": 1,
+          "name": "unit",
+          "type": {
+            "kind": "primitive",
+            "name": "Felt"
+          }
+        },
+        {
+          "felt_size": 1,
+          "name": "base",
+          "type": {
+            "kind": "primitive",
+            "name": "Felt"
+          }
+        },
+        {
+          "felt_size": 1,
+          "name": "step",
+          "type": {
+            "kind": "primitive",
+            "name": "Felt"
+          }
+        },
+        {
+          "felt_size": 1,
+          "name": "threshold",
+          "type": {
+            "kind": "primitive",
+            "name": "Felt"
+          }
+        }
+      ],
+      "method_id": 1996267418,
+      "name": "initialize",
+      "output_felt_count": 0,
+      "outputs": [],
+      "state_mutability": "external"
+    },
+    {
+      "input_felt_count": 6,
+      "inputs": [
+        {
+          "felt_size": 1,
+          "name": "vault",
+          "type": {
+            "kind": "primitive",
+            "name": "Felt"
+          }
+        },
+        {
+          "felt_size": 1,
+          "name": "lots",
+          "type": {
+            "kind": "primitive",
+            "name": "Felt"
+          }
+        },
+        {
+          "felt_size": 1,
+          "name": "expected_sold",
+          "type": {
+            "kind": "primitive",
+            "name": "Felt"
+          }
+        },
+        {
+          "felt_size": 1,
+          "name": "cost",
+          "type": {
+            "kind": "primitive",
+            "name": "Felt"
+          }
+        },
+        {
+          "felt_size": 1,
+          "name": "deadline",
+          "type": {
+            "kind": "primitive",
+            "name": "Felt"
+          }
+        },
+        {
+          "felt_size": 1,
+          "name": "nonce",
+          "type": {
+            "kind": "primitive",
+            "name": "Felt"
+          }
+        }
+      ],
+      "method_id": 3073373912,
+      "name": "open_buy",
+      "output_felt_count": 0,
+      "outputs": [],
+      "state_mutability": "external"
+    },
+    {
+      "input_felt_count": 6,
+      "inputs": [
+        {
+          "felt_size": 1,
+          "name": "vault",
+          "type": {
+            "kind": "primitive",
+            "name": "Felt"
+          }
+        },
+        {
+          "felt_size": 1,
+          "name": "lots",
+          "type": {
+            "kind": "primitive",
+            "name": "Felt"
+          }
+        },
+        {
+          "felt_size": 1,
+          "name": "expected_sold",
+          "type": {
+            "kind": "primitive",
+            "name": "Felt"
+          }
+        },
+        {
+          "felt_size": 1,
+          "name": "payout",
+          "type": {
+            "kind": "primitive",
+            "name": "Felt"
+          }
+        },
+        {
+          "felt_size": 1,
+          "name": "deadline",
+          "type": {
+            "kind": "primitive",
+            "name": "Felt"
+          }
+        },
+        {
+          "felt_size": 1,
+          "name": "nonce",
+          "type": {
+            "kind": "primitive",
+            "name": "Felt"
+          }
+        }
+      ],
+      "method_id": 2178451802,
+      "name": "open_sell",
+      "output_felt_count": 0,
+      "outputs": [],
+      "state_mutability": "external"
+    },
+    {
+      "input_felt_count": 0,
+      "inputs": [],
+      "method_id": 731879852,
+      "name": "close_buy",
+      "output_felt_count": 0,
+      "outputs": [],
+      "state_mutability": "external"
+    },
+    {
+      "input_felt_count": 0,
+      "inputs": [],
+      "method_id": 3460592170,
+      "name": "close_sell",
+      "output_felt_count": 0,
+      "outputs": [],
+      "state_mutability": "external"
+    },
+    {
+      "input_felt_count": 4,
+      "inputs": [
+        {
+          "felt_size": 1,
+          "name": "buyer",
+          "type": {
+            "kind": "primitive",
+            "name": "Felt"
+          }
+        },
+        {
+          "felt_size": 1,
+          "name": "lots",
+          "type": {
+            "kind": "primitive",
+            "name": "Felt"
+          }
+        },
+        {
+          "felt_size": 1,
+          "name": "cost",
+          "type": {
+            "kind": "primitive",
+            "name": "Felt"
+          }
+        },
+        {
+          "felt_size": 1,
+          "name": "nonce",
+          "type": {
+            "kind": "primitive",
+            "name": "Felt"
+          }
+        }
+      ],
+      "method_id": 3583663012,
+      "name": "settle_buy",
+      "output_felt_count": 0,
+      "outputs": [],
+      "state_mutability": "external"
+    },
+    {
+      "input_felt_count": 4,
+      "inputs": [
+        {
+          "felt_size": 1,
+          "name": "seller",
+          "type": {
+            "kind": "primitive",
+            "name": "Felt"
+          }
+        },
+        {
+          "felt_size": 1,
+          "name": "lots",
+          "type": {
+            "kind": "primitive",
+            "name": "Felt"
+          }
+        },
+        {
+          "felt_size": 1,
+          "name": "payout",
+          "type": {
+            "kind": "primitive",
+            "name": "Felt"
+          }
+        },
+        {
+          "felt_size": 1,
+          "name": "nonce",
+          "type": {
+            "kind": "primitive",
+            "name": "Felt"
+          }
+        }
+      ],
+      "method_id": 2429520966,
+      "name": "settle_sell",
+      "output_felt_count": 0,
+      "outputs": [],
+      "state_mutability": "external"
+    },
+    {
+      "input_felt_count": 4,
+      "inputs": [
+        {
+          "felt_size": 1,
+          "name": "buyer",
+          "type": {
+            "kind": "primitive",
+            "name": "Felt"
+          }
+        },
+        {
+          "felt_size": 1,
+          "name": "lots",
+          "type": {
+            "kind": "primitive",
+            "name": "Felt"
+          }
+        },
+        {
+          "felt_size": 1,
+          "name": "cost",
+          "type": {
+            "kind": "primitive",
+            "name": "Felt"
+          }
+        },
+        {
+          "felt_size": 1,
+          "name": "nonce",
+          "type": {
+            "kind": "primitive",
+            "name": "Felt"
+          }
+        }
+      ],
+      "method_id": 2197256516,
+      "name": "refund_buy",
+      "output_felt_count": 0,
+      "outputs": [],
+      "state_mutability": "external"
+    },
+    {
+      "input_felt_count": 3,
+      "inputs": [
+        {
+          "felt_size": 1,
+          "name": "seller",
+          "type": {
+            "kind": "primitive",
+            "name": "Felt"
+          }
+        },
+        {
+          "felt_size": 1,
+          "name": "lots",
+          "type": {
+            "kind": "primitive",
+            "name": "Felt"
+          }
+        },
+        {
+          "felt_size": 1,
+          "name": "nonce",
+          "type": {
+            "kind": "primitive",
+            "name": "Felt"
+          }
+        }
+      ],
+      "method_id": 2075928923,
+      "name": "refund_sell",
+      "output_felt_count": 0,
+      "outputs": [],
+      "state_mutability": "external"
+    },
+    {
+      "input_felt_count": 3,
+      "inputs": [
+        {
+          "felt_size": 1,
+          "name": "target",
+          "type": {
+            "kind": "primitive",
+            "name": "Felt"
+          }
+        },
+        {
+          "felt_size": 1,
+          "name": "psy_amount",
+          "type": {
+            "kind": "primitive",
+            "name": "Felt"
+          }
+        },
+        {
+          "felt_size": 1,
+          "name": "token_amount",
+          "type": {
+            "kind": "primitive",
+            "name": "Felt"
+          }
+        }
+      ],
+      "method_id": 2694209370,
+      "name": "graduate",
+      "output_felt_count": 0,
+      "outputs": [],
+      "state_mutability": "external"
+    }
+  ],
+  "stateTreeHeight": 32
+}

@@ -1,0 +1,247 @@
+{
+  "schema_version": "2.0.0",
+  "contract": {
+    "name": "PsyLaunchToken",
+    "state_tree_height": 32,
+    "state": [
+      {
+        "name": "balance",
+        "type": {
+          "kind": "primitive",
+          "name": "Felt"
+        },
+        "offset": 0,
+        "felt_size": 1
+      },
+      {
+        "name": "reserved_1",
+        "type": {
+          "kind": "primitive",
+          "name": "Felt"
+        },
+        "offset": 1,
+        "felt_size": 1
+      },
+      {
+        "name": "reserved_2",
+        "type": {
+          "kind": "primitive",
+          "name": "Felt"
+        },
+        "offset": 2,
+        "felt_size": 1
+      },
+      {
+        "name": "other_user_info",
+        "type": {
+          "kind": "array",
+          "item": {
+            "kind": "struct",
+            "name": "OtherUserInfo"
+          },
+          "length": 1073741824,
+          "item_felt_size": 2
+        },
+        "offset": 3,
+        "felt_size": 2147483648
+      },
+      {
+        "name": "minted",
+        "type": {
+          "kind": "primitive",
+          "name": "Felt"
+        },
+        "offset": 2147483651,
+        "felt_size": 1
+      }
+    ],
+    "state_layout": {
+      "layout_version": 1,
+      "encoding_version": 1,
+      "field_count": 5,
+      "slot_count": 2147483652,
+      "fields": [
+        {
+          "field_id": 1,
+          "name": "balance",
+          "type": {
+            "kind": "primitive",
+            "name": "Felt"
+          },
+          "start_slot": 0,
+          "payload_offset": 0,
+          "slot_count": 1
+        },
+        {
+          "field_id": 2,
+          "name": "reserved_1",
+          "type": {
+            "kind": "primitive",
+            "name": "Felt"
+          },
+          "start_slot": 1,
+          "payload_offset": 0,
+          "slot_count": 1
+        },
+        {
+          "field_id": 3,
+          "name": "reserved_2",
+          "type": {
+            "kind": "primitive",
+            "name": "Felt"
+          },
+          "start_slot": 2,
+          "payload_offset": 0,
+          "slot_count": 1
+        },
+        {
+          "field_id": 4,
+          "name": "other_user_info",
+          "type": {
+            "kind": "array",
+            "item": {
+              "kind": "struct",
+              "name": "OtherUserInfo"
+            },
+            "length": 1073741824,
+            "item_felt_size": 2
+          },
+          "start_slot": 3,
+          "payload_offset": 0,
+          "slot_count": 2147483648
+        },
+        {
+          "field_id": 5,
+          "name": "minted",
+          "type": {
+            "kind": "primitive",
+            "name": "Felt"
+          },
+          "start_slot": 2147483651,
+          "payload_offset": 0,
+          "slot_count": 1
+        }
+      ],
+      "type_proof_plan": {
+        "protocol_version": 1,
+        "nodes": [
+          {
+            "node_id": 0,
+            "type_key": "primitive:Felt",
+            "circuit_kind": "primitive",
+            "dependencies": [],
+            "cache_key_material": "state-layout:v1:Primitive:primitive:Felt"
+          },
+          {
+            "node_id": 1,
+            "type_key": "struct:OtherUserInfo:[primitive:Felt,primitive:Felt]",
+            "circuit_kind": "struct",
+            "dependencies": [
+              0,
+              0
+            ],
+            "cache_key_material": "state-layout:v1:Struct:struct:OtherUserInfo:[primitive:Felt,primitive:Felt]"
+          },
+          {
+            "node_id": 2,
+            "type_key": "array:1073741824:struct:OtherUserInfo:[primitive:Felt,primitive:Felt]",
+            "circuit_kind": "fixed_array",
+            "dependencies": [
+              1
+            ],
+            "cache_key_material": "state-layout:v1:FixedArray:array:1073741824:struct:OtherUserInfo:[primitive:Felt,primitive:Felt]"
+          }
+        ],
+        "field_nodes": [
+          0,
+          0,
+          0,
+          2,
+          0
+        ]
+      }
+    },
+    "methods": [
+      {
+        "name": "mint_once",
+        "method_id": 2324751738,
+        "state_mutability": "external",
+        "inputs": [],
+        "outputs": [],
+        "input_felt_count": 0,
+        "output_felt_count": 0
+      },
+      {
+        "name": "transfer",
+        "method_id": 194520553,
+        "state_mutability": "external",
+        "inputs": [
+          {
+            "name": "recipient",
+            "type": {
+              "kind": "primitive",
+              "name": "Felt"
+            },
+            "felt_size": 1
+          },
+          {
+            "name": "amount",
+            "type": {
+              "kind": "primitive",
+              "name": "Felt"
+            },
+            "felt_size": 1
+          }
+        ],
+        "outputs": [],
+        "input_felt_count": 2,
+        "output_felt_count": 0
+      },
+      {
+        "name": "claim",
+        "method_id": 2394033944,
+        "state_mutability": "external",
+        "inputs": [
+          {
+            "name": "sender",
+            "type": {
+              "kind": "primitive",
+              "name": "Felt"
+            },
+            "felt_size": 1
+          }
+        ],
+        "outputs": [],
+        "input_felt_count": 1,
+        "output_felt_count": 0
+      }
+    ]
+  },
+  "types": [
+    {
+      "kind": "struct",
+      "name": "OtherUserInfo",
+      "felt_size": 2,
+      "fields": [
+        {
+          "name": "amount_sent",
+          "type": {
+            "kind": "primitive",
+            "name": "Felt"
+          },
+          "offset_within_parent": 0,
+          "felt_size": 1
+        },
+        {
+          "name": "amount_claimed",
+          "type": {
+            "kind": "primitive",
+            "name": "Felt"
+          },
+          "offset_within_parent": 1,
+          "felt_size": 1
+        }
+      ]
+    }
+  ]
+}

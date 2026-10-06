@@ -18,9 +18,15 @@ dist-ssr/
 target/*
 !target/*.json
 !target/*.abi.json
+/amm/sdkey-circuit/target/
+/orderbook/sdkey-circuit/target/
+/orderbook/amm/sdkey-circuit/target/
+/bondingcurve/sdkey-circuit/target/
+/bondingcurve/contract/target-next/
 
 # Configuration state markers (must never be committed or distributed with templates)
 .issuer_configured
+.secrets/
 
 # Local live-test Python bytecode
 __pycache__/

@@ -1,0 +1,21 @@
+node:internal/errors:867
+  const err = new Error(message);
+              ^
+
+Error: Command failed: /Users/geir/Downloads/QED资料/litepaper/psy-node/target/release/psy_user_cli get-latest-block-state --rpc-config /private/tmp/psy-launchamm-staging-20261005/l2-local-prover-config.json --result-file /var/folders/kt/dvhj5jn956v07l0gklc5znyc0000gn/T/psy-orderbook-read-Cufw6x/result.json
+Error: Connection error to https://realm0-stg.psy-protocol.xyz: error sending request for url (https://realm0-stg.psy-protocol.xyz/)
+
+    at ChildProcess.exithandler (node:child_process:419:12)
+    at ChildProcess.emit (node:events:513:28)
+    at maybeClose (node:internal/child_process:1091:16)
+    at ChildProcess._handle.onexit (node:internal/child_process:302:5) {
+  code: 1,
+  killed: false,
+  signal: null,
+  cmd: '/Users/geir/Downloads/QED资料/litepaper/psy-node/target/release/psy_user_cli get-latest-block-state --rpc-config /private/tmp/psy-launchamm-staging-20261005/l2-local-prover-config.json --result-file /var/folders/kt/dvhj5jn956v07l0gklc5znyc0000gn/T/psy-orderbook-read-Cufw6x/result.json',
+  stdout: '2026-10-05T04:23:11.139966Z ERROR client_prover/psy_provider/src/provider.rs:589: Connection error to https://realm0-stg.psy-protocol.xyz: error sending request for url (https://realm0-stg.psy-protocol.xyz/)\n' +
+    '2026-10-05T04:23:11.140289Z ERROR client_prover/psy_provider/src/provider.rs:589: Request error details: is_connect=true, is_timeout=true, is_request=true, is_decode=false\n',
+  stderr: 'Error: Connection error to https://realm0-stg.psy-protocol.xyz: error sending request for url (https://realm0-stg.psy-protocol.xyz/)\n'
+}
+
+Node.js v18.16.0

@@ -1,0 +1,56 @@
+{
+  "contract_calls": [
+    {
+      "contract_id": 66,
+      "method_name": "graduate",
+      "inputs": [
+        773632,
+        300003000,
+        3000000000
+      ]
+    },
+    {
+      "contract_id": 0,
+      "method_name": "simple_claim",
+      "inputs": [
+        861696
+      ]
+    },
+    {
+      "contract_id": 0,
+      "method_name": "simple_transfer",
+      "inputs": [
+        773632,
+        300003000
+      ]
+    },
+    {
+      "contract_id": 1494,
+      "method_name": "transfer",
+      "inputs": [
+        773632,
+        3000000000
+      ]
+    },
+    {
+      "contract_id": 66,
+      "method_name": "noop",
+      "inputs": []
+    },
+    {
+      "contract_id": 66,
+      "method_name": "noop",
+      "inputs": []
+    }
+  ],
+  "software_defined_call": {
+    "inputs": [
+      6,
+      0,
+      3000000000,
+      300003000,
+      0,
+      0
+    ]
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "at": "2026-10-05T05:11:05.133Z",
+  "auditFile": "audit-1791176865488.json",
+  "receiptCount": 54,
+  "unmatched": 0,
+  "concurrentOrders": {
+    "passed": true,
+    "feeIncludedDuringPreflight": true,
+    "staleWasNotBroadcast": true,
+    "refundJournalCounts": {
+      "planned": 2,
+      "proved": 1,
+      "broadcast-intent": 1,
+      "broadcast-result": 1,
+      "included": 1
+    },
+    "refundCheckpoint": 157832
+  },
+  "template": {
+    "branch": "main",
+    "baseCommit": "377f4703aec2f945e3e650ade4810572ccb93f6a"
+  },
+  "sdk": {
+    "branch": "multi_chain",
+    "baseCommit": "5b7f4e1e11adf4607a958bc39e863a2a80b5a7a6"
+  },
+  "tests": {
+    "javascript": 75,
+    "rustPolicy": 1,
+    "rustCompiledVm": 3
+  }
+}

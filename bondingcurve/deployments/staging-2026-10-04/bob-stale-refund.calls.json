@@ -1,0 +1,54 @@
+{
+  "contract_calls": [
+    {
+      "contract_id": 66,
+      "method_name": "refund_buy",
+      "inputs": [
+        1283072,
+        1,
+        100000000,
+        1
+      ]
+    },
+    {
+      "contract_id": 0,
+      "method_name": "simple_claim",
+      "inputs": [
+        1283072
+      ]
+    },
+    {
+      "contract_id": 0,
+      "method_name": "simple_transfer",
+      "inputs": [
+        1283072,
+        100000000
+      ]
+    },
+    {
+      "contract_id": 66,
+      "method_name": "noop",
+      "inputs": []
+    },
+    {
+      "contract_id": 66,
+      "method_name": "noop",
+      "inputs": []
+    },
+    {
+      "contract_id": 66,
+      "method_name": "noop",
+      "inputs": []
+    }
+  ],
+  "software_defined_call": {
+    "inputs": [
+      4,
+      1283072,
+      1,
+      100000000,
+      1,
+      0
+    ]
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "status": "planned",
+  "taskId": "f3c6edea4197a5310ac5a2e87fa97934b85fd07241f9876f522230cc378d7c85",
+  "task": {
+    "kind": "add",
+    "payerId": 1882112,
+    "submission": {
+      "contract_calls": [
+        {
+          "contract_id": 1503,
+          "method_name": "add_liquidity",
+          "inputs": [
+            1882112,
+            100001,
+            1000,
+            10000,
+            1
+          ]
+        },
+        {
+          "contract_id": 0,
+          "method_name": "simple_claim",
+          "inputs": [
+            1882112
+          ]
+        },
+        {
+          "contract_id": 1494,
+          "method_name": "claim",
+          "inputs": [
+            1882112
+          ]
+        },
+        {
+          "contract_id": 1503,
+          "method_name": "noop",
+          "inputs": []
+        },
+        {
+          "contract_id": 1503,
+          "method_name": "noop",
+          "inputs": []
+        }
+      ],
+      "software_defined_call": {
+        "inputs": [
+          5,
+          1882112,
+          100001,
+          1000,
+          10000,
+          1,
+          0
+        ]
+      }
+    }
+  },
+  "scope": {
+    "network": "sepolia",
+    "vaultId": 773632,
+    "fingerprint": "07de53fc40b456d84d182dd4edcd99051dac849b378a2d80bfd3a30045757783"
+  },
+  "at": "2026-10-05T04:23:11.719Z"
+}

@@ -1,0 +1,98 @@
+
+> psy-template@1.0.0 test:orderbook
+> node --test orderbook/*.test.mjs
+
+TAP version 13
+# Subtest: accepts the contract 62 append-only 14 to 17 proof
+ok 1 - accepts the contract 62 append-only 14 to 17 proof
+  ---
+  duration_ms: 2.254625
+  ...
+# Subtest: rejects the 17 to 17 identity proof that could block the coordinator
+ok 2 - rejects the 17 to 17 identity proof that could block the coordinator
+  ---
+  duration_ms: 0.695
+  ...
+# Subtest: rejects a changed chain layout before another submission
+ok 3 - rejects a changed chain layout before another submission
+  ---
+  duration_ms: 0.212875
+  ...
+# Subtest: rejects mutation of any existing ABI field
+ok 4 - rejects mutation of any existing ABI field
+  ---
+  duration_ms: 1.488084
+  ...
+# Subtest: rejects a change to the appended ABI fields
+ok 5 - rejects a change to the appended ABI fields
+  ---
+  duration_ms: 0.973833
+  ...
+# Subtest: rejects a request whose new endpoint differs from the compiled ABI
+ok 6 - rejects a request whose new endpoint differs from the compiled ABI
+  ---
+  duration_ms: 0.351917
+  ...
+# Subtest: decode packed Merkle leaf slots in reverse limb order
+ok 2 - decode packed Merkle leaf slots in reverse limb order
+  ---
+  duration_ms: 1.340334
+  ...
+# Subtest: compatible fully funded orders produce one exact SD-key match stack
+ok 3 - compatible fully funded orders produce one exact SD-key match stack
+  ---
+  duration_ms: 0.414959
+  ...
+# Subtest: price mismatch, absent payment, wrong escrow, consumed nonce and expiry cannot match
+ok 4 - price mismatch, absent payment, wrong escrow, consumed nonce and expiry cannot match
+  ---
+  duration_ms: 0.309458
+  ...
+# Subtest: expired refund still binds the original seller and exact unpaid amount
+ok 5 - expired refund still binds the original seller and exact unpaid amount
+  ---
+  duration_ms: 0.175875
+  ...
+# Subtest: runner is read-only by default and supports historical replay
+ok 3 - runner is read-only by default and supports historical replay
+  ---
+  duration_ms: 1.148167
+  ...
+# Subtest: one-seller expired refund execution cannot use a historical checkpoint or match mode
+ok 4 - one-seller expired refund execution cannot use a historical checkpoint or match mode
+  ---
+  duration_ms: 0.251583
+  ...
+# Subtest: compiled ABI exposes the orderbook and preserves token Outbox prefix
+ok 4 - compiled ABI exposes the orderbook and preserves token Outbox prefix
+  ---
+  duration_ms: 1.905084
+  ...
+# Subtest: PSY cancellation and closing never read the seller pUSDT partition
+ok 5 - PSY cancellation and closing never read the seller pUSDT partition
+  ---
+  duration_ms: 1.288542
+  ...
+# Subtest: payer opening stacks include one exact asset deposit and one fee escrow
+ok 6 - payer opening stacks include one exact asset deposit and one fee escrow
+  ---
+  duration_ms: 0.730459
+  ...
+# Subtest: all three SD-key branches bind claim, payout and recipient amounts
+ok 7 - all three SD-key branches bind claim, payout and recipient amounts
+  ---
+  duration_ms: 3.151125
+  ...
+# Subtest: claim order, fee, and token-contract tampering fail authorization
+ok 8 - claim order, fee, and token-contract tampering fail authorization
+  ---
+  duration_ms: 0.200708
+  ...
+1..17
+# tests 17
+# pass 17
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 366.429375

@@ -1,0 +1,50 @@
+{
+  "status": "included",
+  "userId": 1283072,
+  "endUserLeafHash": "c3ac29ed3b6fcf7fbf1e01aab80e9c9463e6d1db980acc4ed3632781a2ac7f55",
+  "checkpoint": 160896,
+  "contentHash": "c687a6a7ce6c082e92bb5e512411c7e22883c9d861f916c91a99aad1c3e277b7",
+  "receipt": {
+    "success": true,
+    "data": {
+      "tx_id": "c8fa7c09-fef9-4753-9971-4ebebe769bad",
+      "content_hash": "c687a6a7ce6c082e92bb5e512411c7e22883c9d861f916c91a99aad1c3e277b7",
+      "tx_type": "UserEndcap",
+      "status": "included",
+      "role_type": "Realm",
+      "role_id": 1,
+      "pending_checkpoint_id": null,
+      "included_checkpoint_id": 160896,
+      "result": {
+        "fees_collected": 1000002000,
+        "slots_modified": 2,
+        "total_transactions": 2,
+        "user_id": 1283072,
+        "user_ops_processed": 1
+      },
+      "received_at": "2026-10-05T14:40:12Z",
+      "included_at": "2026-10-05T14:40:12Z",
+      "latency_ms": 0,
+      "owner_user_id": 1283072,
+      "created_at": "2026-10-05T14:40:12+00:00",
+      "slot_updates": [
+        {
+          "contract_id": 0,
+          "slot_index": 0,
+          "old_value": "964099207000",
+          "new_value": "964099805000",
+          "field_name": null
+        },
+        {
+          "contract_id": 0,
+          "slot_index": 1183748,
+          "old_value": "0",
+          "new_value": "1000600000",
+          "field_name": null
+        }
+      ],
+      "kind": "execute_contract"
+    },
+    "timestamp": "2026-10-05T14:41:01.918117345Z"
+  }
+}

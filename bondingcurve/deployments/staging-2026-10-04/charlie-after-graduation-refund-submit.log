@@ -1,0 +1,36 @@
+[96mnew zk sign circuit[0m - [94mbuild inner circuit[0m: [38;5;230m[48;5;34m 0ms [0m
+[96mnew zk sign circuit[0m - [94mbuild inner circuit done[0m: [38;5;230m[48;5;34m 3ms [0m
+[96mnew zk sign circuit[0m - [94mbuild minifier circuit[0m: [38;5;230m[48;5;34m 0ms [0m
+[96mnew zk sign circuit[0m - [94mbuild minifier circuit done[0m: [48;5;24m 654ms [0m
+adding user {
+  "fingerprint": "3eda54589294415dda512d0d054146acf13ed9176094b89b1a1f3b858e43349e",
+  "public_key_param": "5745d53a56e5b0f63e579ddbfc2d25f0ce7b1f995b702b26e5067cd6d91bb433"
+}
+public_key: 65a6480a24934affad32db5f591962b6e889917cd20f19dc0a39f5c44d165aff
+[96mprove_ups_start[0m - [94mstart[0m: [38;5;230m[48;5;34m 0ms [0m
+[96mprove_ups_start[0m - [94mgen_witness[0m: [38;5;230m[48;5;34m 404ms [0m
+[96mprove_ups_start[0m - [94mcircuit_mgr.ups_start.prove_base[0m: [38;5;230m[48;5;34m 322ms [0m
+[96mprove_ups_start[0m - [94mprove_ups_start[0m: [38;5;230m[48;5;34m 0ms [0m
+[96mprove_ups_start[0m - [94minjest_single_leaf_proof[0m: [38;5;230m[48;5;34m 0ms [0m
+curve stage=proving_calls explicit_calls=6
+[96mcompress[0m - [94mproved compress[0m: [38;5;230m[48;5;34m 264ms [0m
+[96mcompress[0m - [94mproved compress[0m: [38;5;230m[48;5;34m 253ms [0m
+[96mcompress[0m - [94mproved compress[0m: [38;5;230m[48;5;34m 332ms [0m
+[96mcompress[0m - [94mproved compress[0m: [38;5;230m[48;5;34m 290ms [0m
+[96mcompress[0m - [94mproved compress[0m: [38;5;230m[48;5;34m 275ms [0m
+[96mcompress[0m - [94mproved compress[0m: [38;5;230m[48;5;34m 265ms [0m
+[96mcompress[0m - [94mproved compress[0m: [38;5;230m[48;5;34m 305ms [0m
+[96mcompress[0m - [94mproved compress[0m: [38;5;230m[48;5;34m 388ms [0m
+[96mcompress[0m - [94mproved compress[0m: [38;5;230m[48;5;34m 259ms [0m
+[96mcompress[0m - [94mproved compress[0m: [38;5;230m[48;5;34m 326ms [0m
+[96mcompress[0m - [94mproved compress[0m: [38;5;230m[48;5;34m 257ms [0m
+[96mcompress[0m - [94mproved compress[0m: [38;5;230m[48;5;34m 269ms [0m
+[96mcompress[0m - [94mproved compress[0m: [38;5;230m[48;5;34m 260ms [0m
+[96mcompress[0m - [94mproved compress[0m: [38;5;230m[48;5;34m 246ms [0m
+curve stage=calls_proved
+curve stage=sign_and_submit fee_burn=1000005000
+[96mcompress[0m - [94mproved compress[0m: [38;5;230m[48;5;34m 296ms [0m
+[96mcompress[0m - [94mproved compress[0m: [38;5;230m[48;5;34m 329ms [0m
+[96mcompress[0m - [94mproved compress[0m: [38;5;230m[48;5;34m 479ms [0m
+[96mcompress[0m - [94mproved compress[0m: [38;5;230m[48;5;34m 304ms [0m
+submitted curve vault transaction 64e16dc535bc0d2d9e9392721298ea9c2975dea92e0a3418ddf894b78293a673

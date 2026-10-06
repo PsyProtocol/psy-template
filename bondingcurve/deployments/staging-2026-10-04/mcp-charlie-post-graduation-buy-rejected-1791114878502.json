@@ -1,0 +1,9 @@
+{
+  "id": "charlie-post-graduation-buy-rejected",
+  "isError": true,
+  "data": {
+    "error": "call failed: prove contract call failed at call_index=0 total_contract_calls=1 contract_id=66 method=open_buy input_count=6: assertion failed: vault not trading (left: 0, right: 1)",
+    "gate": "execute",
+    "status": "error"
+  }
+}

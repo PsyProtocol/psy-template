@@ -1,0 +1,85 @@
+{
+  "status": "included",
+  "userId": 861696,
+  "endUserLeafHash": "0b72957db137d17d4e673c86913eafb9046020a79edf2e6fced8259acdc6a86a",
+  "checkpoint": 160963,
+  "contentHash": "ab191c30cec63f82516455350336919c8d50f87844346568d0ac711d9b6aed21",
+  "receipt": {
+    "success": true,
+    "data": {
+      "tx_id": "25833edc-81ea-41e1-8482-d1c22ec3938b",
+      "content_hash": "ab191c30cec63f82516455350336919c8d50f87844346568d0ac711d9b6aed21",
+      "tx_type": "UserEndcap",
+      "status": "included",
+      "role_type": "Realm",
+      "role_id": 0,
+      "pending_checkpoint_id": null,
+      "included_checkpoint_id": 160963,
+      "result": {
+        "fees_collected": 1000004000,
+        "slots_modified": 4,
+        "total_transactions": 2,
+        "user_id": 861696,
+        "user_ops_processed": 1
+      },
+      "received_at": "2026-10-05T15:04:54Z",
+      "included_at": "2026-10-05T15:04:54Z",
+      "latency_ms": 0,
+      "owner_user_id": 861696,
+      "created_at": "2026-10-05T15:04:54+00:00",
+      "slot_updates": [
+        {
+          "contract_id": 0,
+          "slot_index": 0,
+          "old_value": "970999243000",
+          "new_value": "969999239000",
+          "field_name": null
+        },
+        {
+          "contract_id": 64,
+          "slot_index": 2197815299,
+          "old_value": "0",
+          "new_value": "1",
+          "field_name": null
+        },
+        {
+          "contract_id": 64,
+          "slot_index": 2197815301,
+          "old_value": "0",
+          "new_value": "4",
+          "field_name": null
+        },
+        {
+          "contract_id": 64,
+          "slot_index": 2197815302,
+          "old_value": "400000",
+          "new_value": "200000",
+          "field_name": null
+        },
+        {
+          "contract_id": 64,
+          "slot_index": 2197815303,
+          "old_value": "200000",
+          "new_value": "10000000",
+          "field_name": null
+        },
+        {
+          "contract_id": 64,
+          "slot_index": 2197815304,
+          "old_value": "157550",
+          "new_value": "160971",
+          "field_name": null
+        },
+        {
+          "contract_id": 64,
+          "slot_index": 2197815305,
+          "old_value": "1",
+          "new_value": "2",
+          "field_name": null
+        }
+      ],
+      "kind": "execute_contract"
+    },
+    "timestamp": "2026-10-05T15:05:35.299379610Z"
+  }
+}

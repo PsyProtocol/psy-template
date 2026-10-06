@@ -1,0 +1,25 @@
+{
+  "quote": 100000000,
+  "contract_calls": [
+    {
+      "contract_id": 66,
+      "method_name": "open_buy",
+      "inputs": [
+        758784,
+        1,
+        0,
+        100000000,
+        150000,
+        1
+      ]
+    },
+    {
+      "contract_id": 0,
+      "method_name": "simple_transfer",
+      "inputs": [
+        758784,
+        1100100000
+      ]
+    }
+  ]
+}

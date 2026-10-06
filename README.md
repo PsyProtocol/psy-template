@@ -12,6 +12,10 @@ For release blockers and acceptance criteria, see [Production Readiness Gates](P
 
 For the current engineering handoff, see [PSY-20 / PSY-721 handoff (2026-09-24)](HANDOFF_2026-09-24.md).
 
+For the PSY/pUSDT exchange prototypes, see [AMM implementation status](AMM_IMPLEMENTATION.md) and the [orderbook guide](orderbook/README.md). The current 14-method AMM is deployed separately as contract `1758`, with public SD-key vault `499200`; historical contract `59` was not updated. Orderbook contract `64` is reused after code/layout verification. See [the current pUSDT test report](amm/STAGING_PUSDT_TEST_2026-10-05.md) for live test progress. The [SD-key execution network roadmap](SDKEY_EXECUTION_NETWORK_ROADMAP.md) covers the next infrastructure milestone.
+
+The [bonding curve module](bondingcurve/README.md) adds a token sale contract, public SD-key vault policy, exact quote helpers, refund path and graduation handoff. Curve contract `66` is deployed on staging. A real graduation handoff into Launch AMM contract `1503`, multiuser settlements and refunds are recorded in [the Oct 5 launch-market report](launchamm/STAGING_TEST_2026-10-05.md).
+
 ---
 
 ## Available Templates

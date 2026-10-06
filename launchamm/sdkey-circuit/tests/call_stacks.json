@@ -1,0 +1,642 @@
+[
+  {
+    "contract_calls": [
+      {
+        "contract_id": 67,
+        "method_name": "swap",
+        "inputs": [
+          222,
+          0,
+          1000,
+          20,
+          1
+        ]
+      },
+      {
+        "contract_id": 0,
+        "method_name": "simple_claim",
+        "inputs": [
+          222
+        ]
+      },
+      {
+        "contract_id": 65,
+        "method_name": "transfer",
+        "inputs": [
+          222,
+          20000000
+        ]
+      },
+      {
+        "contract_id": 67,
+        "method_name": "noop",
+        "inputs": []
+      },
+      {
+        "contract_id": 67,
+        "method_name": "noop",
+        "inputs": []
+      },
+      {
+        "contract_id": 0,
+        "method_name": "simple_burn",
+        "inputs": [
+          1000010000
+        ]
+      }
+    ],
+    "software_defined_call": {
+      "inputs": [
+        1,
+        222,
+        1000,
+        20,
+        0,
+        1,
+        1000010000
+      ]
+    }
+  },
+  {
+    "contract_calls": [
+      {
+        "contract_id": 67,
+        "method_name": "swap",
+        "inputs": [
+          222,
+          65,
+          1000,
+          20,
+          1
+        ]
+      },
+      {
+        "contract_id": 0,
+        "method_name": "simple_claim",
+        "inputs": [
+          222
+        ]
+      },
+      {
+        "contract_id": 65,
+        "method_name": "claim",
+        "inputs": [
+          222
+        ]
+      },
+      {
+        "contract_id": 0,
+        "method_name": "simple_transfer",
+        "inputs": [
+          222,
+          20000
+        ]
+      },
+      {
+        "contract_id": 67,
+        "method_name": "noop",
+        "inputs": []
+      },
+      {
+        "contract_id": 0,
+        "method_name": "simple_burn",
+        "inputs": [
+          1000010000
+        ]
+      }
+    ],
+    "software_defined_call": {
+      "inputs": [
+        2,
+        222,
+        1000,
+        20,
+        0,
+        1,
+        1000010000
+      ]
+    }
+  },
+  {
+    "contract_calls": [
+      {
+        "contract_id": 67,
+        "method_name": "refund_unclaimed",
+        "inputs": [
+          222,
+          0,
+          1000
+        ]
+      },
+      {
+        "contract_id": 0,
+        "method_name": "simple_claim",
+        "inputs": [
+          222
+        ]
+      },
+      {
+        "contract_id": 0,
+        "method_name": "simple_transfer",
+        "inputs": [
+          222,
+          1000000
+        ]
+      },
+      {
+        "contract_id": 67,
+        "method_name": "noop",
+        "inputs": []
+      },
+      {
+        "contract_id": 67,
+        "method_name": "noop",
+        "inputs": []
+      },
+      {
+        "contract_id": 0,
+        "method_name": "simple_burn",
+        "inputs": [
+          1000010000
+        ]
+      }
+    ],
+    "software_defined_call": {
+      "inputs": [
+        3,
+        222,
+        1000,
+        0,
+        0,
+        0,
+        1000010000
+      ]
+    }
+  },
+  {
+    "contract_calls": [
+      {
+        "contract_id": 67,
+        "method_name": "refund_unclaimed",
+        "inputs": [
+          222,
+          65,
+          1000
+        ]
+      },
+      {
+        "contract_id": 0,
+        "method_name": "simple_claim",
+        "inputs": [
+          222
+        ]
+      },
+      {
+        "contract_id": 65,
+        "method_name": "claim",
+        "inputs": [
+          222
+        ]
+      },
+      {
+        "contract_id": 65,
+        "method_name": "transfer",
+        "inputs": [
+          222,
+          1000000000
+        ]
+      },
+      {
+        "contract_id": 67,
+        "method_name": "noop",
+        "inputs": []
+      },
+      {
+        "contract_id": 0,
+        "method_name": "simple_burn",
+        "inputs": [
+          1000010000
+        ]
+      }
+    ],
+    "software_defined_call": {
+      "inputs": [
+        4,
+        222,
+        1000,
+        0,
+        0,
+        0,
+        1000010000
+      ]
+    }
+  },
+  {
+    "contract_calls": [
+      {
+        "contract_id": 67,
+        "method_name": "add_liquidity",
+        "inputs": [
+          222,
+          1000,
+          2000,
+          1000,
+          1
+        ]
+      },
+      {
+        "contract_id": 0,
+        "method_name": "simple_claim",
+        "inputs": [
+          222
+        ]
+      },
+      {
+        "contract_id": 65,
+        "method_name": "claim",
+        "inputs": [
+          222
+        ]
+      },
+      {
+        "contract_id": 67,
+        "method_name": "noop",
+        "inputs": []
+      },
+      {
+        "contract_id": 67,
+        "method_name": "noop",
+        "inputs": []
+      },
+      {
+        "contract_id": 0,
+        "method_name": "simple_burn",
+        "inputs": [
+          1000010000
+        ]
+      }
+    ],
+    "software_defined_call": {
+      "inputs": [
+        5,
+        222,
+        1000,
+        2000,
+        1000,
+        1,
+        1000010000
+      ]
+    }
+  },
+  {
+    "contract_calls": [
+      {
+        "contract_id": 67,
+        "method_name": "remove_liquidity",
+        "inputs": [
+          222,
+          1000,
+          1000,
+          2000,
+          1
+        ]
+      },
+      {
+        "contract_id": 0,
+        "method_name": "simple_claim",
+        "inputs": [
+          222
+        ]
+      },
+      {
+        "contract_id": 0,
+        "method_name": "simple_transfer",
+        "inputs": [
+          222,
+          1000000
+        ]
+      },
+      {
+        "contract_id": 65,
+        "method_name": "transfer",
+        "inputs": [
+          222,
+          2000000000
+        ]
+      },
+      {
+        "contract_id": 67,
+        "method_name": "noop",
+        "inputs": []
+      },
+      {
+        "contract_id": 0,
+        "method_name": "simple_burn",
+        "inputs": [
+          1000010000
+        ]
+      }
+    ],
+    "software_defined_call": {
+      "inputs": [
+        6,
+        222,
+        1000,
+        1000,
+        2000,
+        1,
+        1000010000
+      ]
+    }
+  },
+  {
+    "contract_calls": [
+      {
+        "contract_id": 67,
+        "method_name": "refund_add_unclaimed",
+        "inputs": [
+          222,
+          1000,
+          0
+        ]
+      },
+      {
+        "contract_id": 0,
+        "method_name": "simple_claim",
+        "inputs": [
+          222
+        ]
+      },
+      {
+        "contract_id": 0,
+        "method_name": "simple_transfer",
+        "inputs": [
+          222,
+          1000000
+        ]
+      },
+      {
+        "contract_id": 67,
+        "method_name": "noop",
+        "inputs": []
+      },
+      {
+        "contract_id": 67,
+        "method_name": "noop",
+        "inputs": []
+      },
+      {
+        "contract_id": 0,
+        "method_name": "simple_burn",
+        "inputs": [
+          1000010000
+        ]
+      }
+    ],
+    "software_defined_call": {
+      "inputs": [
+        7,
+        222,
+        1000,
+        0,
+        0,
+        0,
+        1000010000
+      ]
+    }
+  },
+  {
+    "contract_calls": [
+      {
+        "contract_id": 67,
+        "method_name": "refund_add_unclaimed",
+        "inputs": [
+          222,
+          0,
+          2000
+        ]
+      },
+      {
+        "contract_id": 0,
+        "method_name": "simple_claim",
+        "inputs": [
+          222
+        ]
+      },
+      {
+        "contract_id": 65,
+        "method_name": "claim",
+        "inputs": [
+          222
+        ]
+      },
+      {
+        "contract_id": 65,
+        "method_name": "transfer",
+        "inputs": [
+          222,
+          2000000000
+        ]
+      },
+      {
+        "contract_id": 67,
+        "method_name": "noop",
+        "inputs": []
+      },
+      {
+        "contract_id": 0,
+        "method_name": "simple_burn",
+        "inputs": [
+          1000010000
+        ]
+      }
+    ],
+    "software_defined_call": {
+      "inputs": [
+        8,
+        222,
+        0,
+        2000,
+        0,
+        0,
+        1000010000
+      ]
+    }
+  },
+  {
+    "contract_calls": [
+      {
+        "contract_id": 67,
+        "method_name": "refund_add_unclaimed",
+        "inputs": [
+          222,
+          1000,
+          2000
+        ]
+      },
+      {
+        "contract_id": 0,
+        "method_name": "simple_claim",
+        "inputs": [
+          222
+        ]
+      },
+      {
+        "contract_id": 65,
+        "method_name": "claim",
+        "inputs": [
+          222
+        ]
+      },
+      {
+        "contract_id": 0,
+        "method_name": "simple_transfer",
+        "inputs": [
+          222,
+          1000000
+        ]
+      },
+      {
+        "contract_id": 65,
+        "method_name": "transfer",
+        "inputs": [
+          222,
+          2000000000
+        ]
+      },
+      {
+        "contract_id": 0,
+        "method_name": "simple_burn",
+        "inputs": [
+          1000010000
+        ]
+      }
+    ],
+    "software_defined_call": {
+      "inputs": [
+        9,
+        222,
+        1000,
+        2000,
+        0,
+        0,
+        1000010000
+      ]
+    }
+  },
+  {
+    "contract_calls": [
+      {
+        "contract_id": 67,
+        "method_name": "seed_from_curve",
+        "inputs": [
+          66,
+          758784,
+          65,
+          1882112,
+          1000,
+          1000000,
+          300003,
+          3000,
+          29000
+        ]
+      },
+      {
+        "contract_id": 0,
+        "method_name": "simple_claim",
+        "inputs": [
+          758784
+        ]
+      },
+      {
+        "contract_id": 65,
+        "method_name": "claim",
+        "inputs": [
+          758784
+        ]
+      },
+      {
+        "contract_id": 0,
+        "method_name": "simple_claim",
+        "inputs": [
+          1882112
+        ]
+      },
+      {
+        "contract_id": 67,
+        "method_name": "noop",
+        "inputs": []
+      },
+      {
+        "contract_id": 0,
+        "method_name": "simple_burn",
+        "inputs": [
+          1000010000
+        ]
+      }
+    ],
+    "software_defined_call": {
+      "inputs": [
+        10,
+        1882112,
+        300003,
+        3000,
+        29000,
+        0,
+        1000010000
+      ]
+    }
+  },
+  {
+    "contract_calls": [
+      {
+        "contract_id": 67,
+        "method_name": "cancel_remove",
+        "inputs": [
+          222,
+          2
+        ]
+      },
+      {
+        "contract_id": 0,
+        "method_name": "simple_claim",
+        "inputs": [
+          222
+        ]
+      },
+      {
+        "contract_id": 67,
+        "method_name": "noop",
+        "inputs": []
+      },
+      {
+        "contract_id": 67,
+        "method_name": "noop",
+        "inputs": []
+      },
+      {
+        "contract_id": 67,
+        "method_name": "noop",
+        "inputs": []
+      },
+      {
+        "contract_id": 0,
+        "method_name": "simple_burn",
+        "inputs": [
+          1000010000
+        ]
+      }
+    ],
+    "software_defined_call": {
+      "inputs": [
+        11,
+        222,
+        0,
+        0,
+        0,
+        2,
+        1000010000
+      ]
+    }
+  }
+]

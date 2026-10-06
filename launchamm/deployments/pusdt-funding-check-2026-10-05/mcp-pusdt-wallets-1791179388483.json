@@ -1,0 +1,35 @@
+{
+  "id": "pusdt-wallets",
+  "isError": false,
+  "data": {
+    "count": 3,
+    "network": "sepolia",
+    "status": "ok",
+    "wallets": [
+      {
+        "active": false,
+        "name": "Bonding Curve Test Charlie 2026-10-04",
+        "pkHash": "0fcfaa6fb5422d8f8b391f1d1a956c66bf4fbd8cbde8ee3f1d7daca7ffa22a0f",
+        "psyId": "Psy-00861696",
+        "softwareDefined": false,
+        "userId": 861696
+      },
+      {
+        "active": true,
+        "name": "Bonding Curve Staging Handoff 2026-09-30",
+        "pkHash": "08bd17c4220d8ae3fa3da68b418b14ea40eb309d25feb17e15b21564ebd81b57",
+        "psyId": "Psy-01283072",
+        "softwareDefined": false,
+        "userId": 1283072
+      },
+      {
+        "active": false,
+        "name": "Bonding Curve Staging Issuer 2026-09-30",
+        "pkHash": "dc99845e40abd523a573883147959f7754803cedd72a223eec27366e7235fffa",
+        "psyId": "Psy-01882112",
+        "softwareDefined": false,
+        "userId": 1882112
+      }
+    ]
+  }
+}

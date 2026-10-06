@@ -1,0 +1,12 @@
+{"name":"faucet_public_config","data":{"jsonrpc":"2.0","id":1,"result":{"enabled":true,"faucet_contract_id":5,"faucet_method_name":"faucet","amount":"1000000000000","window_checkpoints":120,"operator_user_ids":[262144,1310720,786432,1835008,131072,1179648,655360,1703936,393216,1441792],"turnstile_required":false}}}
+{"name":"get_claimable","sender_user_id":262144,"isError":false,"content":[{"type":"text","text":"{\"claimable\":0,\"network\":\"sepolia\",\"senderUserId\":262144,\"status\":\"ok\"}"}]}
+{"name":"get_claimable","sender_user_id":1310720,"isError":false,"content":[{"type":"text","text":"{\"claimable\":0,\"network\":\"sepolia\",\"senderUserId\":1310720,\"status\":\"ok\"}"}]}
+{"name":"get_claimable","sender_user_id":786432,"isError":false,"content":[{"type":"text","text":"{\"claimable\":0,\"network\":\"sepolia\",\"senderUserId\":786432,\"status\":\"ok\"}"}]}
+{"name":"get_claimable","sender_user_id":1835008,"isError":false,"content":[{"type":"text","text":"{\"claimable\":0,\"network\":\"sepolia\",\"senderUserId\":1835008,\"status\":\"ok\"}"}]}
+{"name":"get_claimable","sender_user_id":131072,"isError":false,"content":[{"type":"text","text":"{\"claimable\":0,\"network\":\"sepolia\",\"senderUserId\":131072,\"status\":\"ok\"}"}]}
+{"name":"get_claimable","sender_user_id":1179648,"isError":false,"content":[{"type":"text","text":"{\"claimable\":0,\"network\":\"sepolia\",\"senderUserId\":1179648,\"status\":\"ok\"}"}]}
+{"name":"get_claimable","sender_user_id":655360,"isError":false,"content":[{"type":"text","text":"{\"claimable\":0,\"network\":\"sepolia\",\"senderUserId\":655360,\"status\":\"ok\"}"}]}
+{"name":"get_claimable","sender_user_id":1703936,"isError":false,"content":[{"type":"text","text":"{\"claimable\":0,\"network\":\"sepolia\",\"senderUserId\":1703936,\"status\":\"ok\"}"}]}
+{"name":"get_claimable","sender_user_id":393216,"isError":false,"content":[{"type":"text","text":"{\"claimable\":0,\"network\":\"sepolia\",\"senderUserId\":393216,\"status\":\"ok\"}"}]}
+{"name":"get_claimable","sender_user_id":1441792,"isError":false,"content":[{"type":"text","text":"{\"claimable\":0,\"network\":\"sepolia\",\"senderUserId\":1441792,\"status\":\"ok\"}"}]}
+{"name":"get_activity","isError":false,"content":[{"type":"text","text":"{\"count\":0,\"items\":[],\"nextCursor\":null,\"note\":\"No activity recorded yet. Settled transactions appear once the indexer has ingested their checkpoint.\",\"psyId\":\"Psy-01882112\",\"status\":\"ok\",\"userId\":1882112}"}]}

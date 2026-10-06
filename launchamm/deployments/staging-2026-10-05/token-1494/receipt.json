@@ -1,0 +1,23 @@
+{
+  "success": true,
+  "data": {
+    "tx_id": "ed8302fc-1f8c-49b7-a6ec-96e4109afebb",
+    "content_hash": "3632c2e3b259c71fb638bb78f877f5d60410d7426c48f599a20d1a10063fa6ec",
+    "tx_type": "DeployContract",
+    "status": "included",
+    "role_type": "Coordinator",
+    "role_id": 0,
+    "pending_checkpoint_id": null,
+    "included_checkpoint_id": 156943,
+    "result": {
+      "contract_id": 1494
+    },
+    "received_at": "2026-10-05T03:32:48Z",
+    "included_at": "2026-10-05T03:32:48Z",
+    "latency_ms": 0,
+    "owner_user_id": 1882112,
+    "created_at": "2026-10-05T03:32:48+00:00",
+    "kind": "deploy_contract"
+  },
+  "timestamp": "2026-10-05T03:32:57.997910827Z"
+}

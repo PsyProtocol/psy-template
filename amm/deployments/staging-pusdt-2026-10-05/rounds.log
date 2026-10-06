@@ -1,0 +1,31 @@
+{"stage":"waiting for previous MCP queue to finish","at":"2026-10-05T14:44:26.181Z"}
+{"ready":true}
+{"stage":"existing Orderbook second round and AMM initialization","at":"2026-10-05T14:55:13.082Z"}
+{"stage":"wait ob-r2","at":"2026-10-05T14:55:13.082Z"}
+{"stage":"settled ob-r2","at":"2026-10-05T14:55:22.476Z"}
+{"id":"bob-ob-r2-claim","user":"1283072","isError":false,"data":{"claimedFrom":[591872],"endUserLeafHash":"107a31ec5f7ec3ac903fdbea89357bc765c908786bdb1cefb842f3c9c1cc05f5","note":"One UPS proof, one fee.","status":"ok","submitted":true,"token":"USDT"},"saved":"/private/tmp/psy-pusdt-tests-20261005/mcp-bob-ob-r2-claim-1791212153301.json"}
+{"id":"bob-ob-r2-claim","status":"included","checkpoint":160939,"contentHash":"e2545b0031117718c6578a9a8875ad43df28b5dfbc3485b911ec64b0ef4f4b83","saved":"/private/tmp/psy-pusdt-tests-20261005/receipt-bob-ob-r2-claim-1791212176474.json"}
+{"id":"bob-ob-r2-close","user":"1283072","isError":false,"data":{"contractId":64,"endUserLeafHash":"3fb9c1b86d60f0f13134459415b139e59868b0e6f81bc6c61763837e83a85312","inputs":[],"method":"close_psy_order","note":"Call submitted with a real proof — watch the tx on the explorer.","status":"ok","submitted":true},"saved":"/private/tmp/psy-pusdt-tests-20261005/mcp-bob-ob-r2-close-1791212202765.json"}
+{"id":"bob-ob-r2-close","status":"included","checkpoint":160946,"contentHash":"bc4b823f65954dce9cb971ee9260ab3a3bec91c4269160fa392c491aee011447","saved":"/private/tmp/psy-pusdt-tests-20261005/receipt-bob-ob-r2-close-1791212246755.json"}
+{"id":"alice-ob-r2-claim","user":"1882112","isError":false,"data":{"claimedFrom":[591872],"endUserLeafHash":"ddb6a65ebc96b6e20efaef95b5aaeb224ca47ad9bcd159cbb0b2e44e775f0439","note":"One UPS proof, one fee.","status":"ok","submitted":true,"token":"PSY"},"saved":"/private/tmp/psy-pusdt-tests-20261005/mcp-alice-ob-r2-claim-1791212272172.json"}
+{"id":"alice-ob-r2-claim","status":"included","checkpoint":160951,"contentHash":"2cfd3c36ad8cedce5b6f77e1683882485616d970f3d606d7df84e060f4bda57d","saved":"/private/tmp/psy-pusdt-tests-20261005/receipt-alice-ob-r2-claim-1791212344847.json"}
+{"id":"alice-ob-r2-close","user":"1882112","isError":false,"data":{"contractId":64,"endUserLeafHash":"cc426f13560ad692fdff5cedc042fc1d08457005d0efca443fa1280909a61f1d","inputs":[],"method":"close_usdt_order","note":"Call submitted with a real proof — watch the tx on the explorer.","status":"ok","submitted":true},"saved":"/private/tmp/psy-pusdt-tests-20261005/mcp-alice-ob-r2-close-1791212372418.json"}
+{"id":"alice-ob-r2-close","status":"included","checkpoint":160955,"contentHash":"22525d2b524c6134663d550a60d5c5e2c7d1aa09e7744290fbcc30fca2d61ff5","saved":"/private/tmp/psy-pusdt-tests-20261005/receipt-alice-ob-r2-close-1791212515337.json"}
+{"stage":"wait amm-init","at":"2026-10-05T15:01:55.344Z"}
+{"stage":"settled amm-init","at":"2026-10-05T15:02:08.665Z"}
+{"id":"bob-amm-init-close","user":"1283072","isError":false,"data":{"contractId":1758,"endUserLeafHash":"72a9b9d29096412e5ee29c350447af40bd8a56f18eb42e07e70b047837b9b2ca","inputs":[],"method":"close_add","note":"Call submitted with a real proof — watch the tx on the explorer.","status":"ok","submitted":true},"saved":"/private/tmp/psy-pusdt-tests-20261005/mcp-bob-amm-init-close-1791212558101.json"}
+{"id":"bob-amm-init-close","status":"included","checkpoint":160959,"contentHash":"d202439d49a6e8339b660085beb0569d0259b253e9f28b4847c063e05b4000f0","saved":"/private/tmp/psy-pusdt-tests-20261005/receipt-bob-amm-init-close-1791212624239.json"}
+{"id":"charlie-ob-usdt-refund-open","user":"861696","isError":false,"data":{"contractId":64,"endUserLeafHash":"0b72957db137d17d4e673c86913eafb9046020a79edf2e6fced8259acdc6a86a","inputs":[591872,4,200000,10000000,160971,2],"method":"open_sell","note":"Call submitted with a real proof — watch the tx on the explorer.","status":"ok","submitted":true},"saved":"/private/tmp/psy-pusdt-tests-20261005/mcp-charlie-ob-usdt-refund-open-1791212657586.json"}
+{"id":"charlie-ob-usdt-refund-open","status":"included","checkpoint":160963,"contentHash":"ab191c30cec63f82516455350336919c8d50f87844346568d0ac711d9b6aed21","saved":"/private/tmp/psy-pusdt-tests-20261005/receipt-charlie-ob-usdt-refund-open-1791212735388.json"}
+{"id":"charlie-ob-usdt-refund-pay","user":"861696","isError":true,"data":{"error":"policy denied a transfer leg: recipient `591872` is not on this policy's allowlist (1 approved recipient(s)); ask the owner to add it","gate":"policy","method":"simple_transfer","status":"error"},"saved":"/private/tmp/psy-pusdt-tests-20261005/mcp-charlie-ob-usdt-refund-pay-1791212735390.json"}
+Error: MCP failure {"id":"charlie-ob-usdt-refund-pay","user":"861696","isError":true,"data":{"error":"policy denied a transfer leg: recipient `591872` is not on this policy's allowlist (1 approved recipient(s)); ask the owner to add it","gate":"policy","method":"simple_transfer","status":"error"},"saved":"/private/tmp/psy-pusdt-tests-20261005/mcp-charlie-ob-usdt-refund-pay-1791212735390.json"}
+    at Interface.<anonymous> (file:///private/tmp/psy-pusdt-tests-20261005/run-rounds.mjs:21:65)
+    at Interface.emit (node:events:518:28)
+    at [_onLine] [as _onLine] (node:internal/readline/interface:423:12)
+    at [_normalWrite] [as _normalWrite] (node:internal/readline/interface:617:22)
+    at Socket.ondata (node:internal/readline/interface:250:23)
+    at Socket.emit (node:events:518:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at Pipe.onStreamRead (node:internal/stream_base_commons:189:23)

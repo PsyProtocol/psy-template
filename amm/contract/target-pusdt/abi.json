@@ -1,0 +1,724 @@
+{
+  "schema_version": "2.0.0",
+  "contract": {
+    "name": "PsyUsdtAmm",
+    "state_tree_height": 32,
+    "state": [
+      {
+        "name": "token_balance_view",
+        "type": {
+          "kind": "primitive",
+          "name": "Felt"
+        },
+        "offset": 0,
+        "felt_size": 1
+      },
+      {
+        "name": "token_reserved_1_view",
+        "type": {
+          "kind": "primitive",
+          "name": "Felt"
+        },
+        "offset": 1,
+        "felt_size": 1
+      },
+      {
+        "name": "token_reserved_2_view",
+        "type": {
+          "kind": "primitive",
+          "name": "Felt"
+        },
+        "offset": 2,
+        "felt_size": 1
+      },
+      {
+        "name": "other_user_info",
+        "type": {
+          "kind": "array",
+          "item": {
+            "kind": "struct",
+            "name": "OtherUserInfo"
+          },
+          "length": 1073741824,
+          "item_felt_size": 2
+        },
+        "offset": 3,
+        "felt_size": 2147483648
+      },
+      {
+        "name": "reserve_psy",
+        "type": {
+          "kind": "primitive",
+          "name": "Felt"
+        },
+        "offset": 2147483651,
+        "felt_size": 1
+      },
+      {
+        "name": "reserve_usdt",
+        "type": {
+          "kind": "primitive",
+          "name": "Felt"
+        },
+        "offset": 2147483652,
+        "felt_size": 1
+      },
+      {
+        "name": "total_shares",
+        "type": {
+          "kind": "primitive",
+          "name": "Felt"
+        },
+        "offset": 2147483653,
+        "felt_size": 1
+      },
+      {
+        "name": "shares",
+        "type": {
+          "kind": "array",
+          "item": {
+            "kind": "primitive",
+            "name": "Felt"
+          },
+          "length": 16777216,
+          "item_felt_size": 1
+        },
+        "offset": 2147483654,
+        "felt_size": 16777216
+      },
+      {
+        "name": "consumed_nonce",
+        "type": {
+          "kind": "array",
+          "item": {
+            "kind": "primitive",
+            "name": "Felt"
+          },
+          "length": 16777216,
+          "item_felt_size": 1
+        },
+        "offset": 2164260870,
+        "felt_size": 16777216
+      },
+      {
+        "name": "order_kind",
+        "type": {
+          "kind": "primitive",
+          "name": "Felt"
+        },
+        "offset": 2181038086,
+        "felt_size": 1
+      },
+      {
+        "name": "order_pool_user",
+        "type": {
+          "kind": "primitive",
+          "name": "Felt"
+        },
+        "offset": 2181038087,
+        "felt_size": 1
+      },
+      {
+        "name": "order_asset",
+        "type": {
+          "kind": "primitive",
+          "name": "Felt"
+        },
+        "offset": 2181038088,
+        "felt_size": 1
+      },
+      {
+        "name": "order_amount_psy",
+        "type": {
+          "kind": "primitive",
+          "name": "Felt"
+        },
+        "offset": 2181038089,
+        "felt_size": 1
+      },
+      {
+        "name": "order_amount_usdt",
+        "type": {
+          "kind": "primitive",
+          "name": "Felt"
+        },
+        "offset": 2181038090,
+        "felt_size": 1
+      },
+      {
+        "name": "order_min_out",
+        "type": {
+          "kind": "primitive",
+          "name": "Felt"
+        },
+        "offset": 2181038091,
+        "felt_size": 1
+      },
+      {
+        "name": "order_deadline",
+        "type": {
+          "kind": "primitive",
+          "name": "Felt"
+        },
+        "offset": 2181038092,
+        "felt_size": 1
+      },
+      {
+        "name": "order_nonce",
+        "type": {
+          "kind": "primitive",
+          "name": "Felt"
+        },
+        "offset": 2181038093,
+        "felt_size": 1
+      },
+      {
+        "name": "order_shares",
+        "type": {
+          "kind": "primitive",
+          "name": "Felt"
+        },
+        "offset": 2181038094,
+        "felt_size": 1
+      },
+      {
+        "name": "order_min_psy",
+        "type": {
+          "kind": "primitive",
+          "name": "Felt"
+        },
+        "offset": 2181038095,
+        "felt_size": 1
+      },
+      {
+        "name": "order_min_usdt",
+        "type": {
+          "kind": "primitive",
+          "name": "Felt"
+        },
+        "offset": 2181038096,
+        "felt_size": 1
+      },
+      {
+        "name": "settled_psy_sent",
+        "type": {
+          "kind": "array",
+          "item": {
+            "kind": "primitive",
+            "name": "Felt"
+          },
+          "length": 16777216,
+          "item_felt_size": 1
+        },
+        "offset": 2181038097,
+        "felt_size": 16777216
+      },
+      {
+        "name": "settled_usdt_sent",
+        "type": {
+          "kind": "array",
+          "item": {
+            "kind": "primitive",
+            "name": "Felt"
+          },
+          "length": 16777216,
+          "item_felt_size": 1
+        },
+        "offset": 2197815313,
+        "felt_size": 16777216
+      }
+    ],
+    "methods": [
+      {
+        "name": "noop",
+        "method_id": 4004276495,
+        "state_mutability": "external",
+        "inputs": [],
+        "outputs": [],
+        "input_felt_count": 0,
+        "output_felt_count": 0
+      },
+      {
+        "name": "open_swap",
+        "method_id": 2146292346,
+        "state_mutability": "external",
+        "inputs": [
+          {
+            "name": "pool",
+            "type": {
+              "kind": "primitive",
+              "name": "Felt"
+            },
+            "felt_size": 1
+          },
+          {
+            "name": "asset",
+            "type": {
+              "kind": "primitive",
+              "name": "Felt"
+            },
+            "felt_size": 1
+          },
+          {
+            "name": "amount_in",
+            "type": {
+              "kind": "primitive",
+              "name": "Felt"
+            },
+            "felt_size": 1
+          },
+          {
+            "name": "min_out",
+            "type": {
+              "kind": "primitive",
+              "name": "Felt"
+            },
+            "felt_size": 1
+          },
+          {
+            "name": "deadline",
+            "type": {
+              "kind": "primitive",
+              "name": "Felt"
+            },
+            "felt_size": 1
+          },
+          {
+            "name": "nonce",
+            "type": {
+              "kind": "primitive",
+              "name": "Felt"
+            },
+            "felt_size": 1
+          }
+        ],
+        "outputs": [],
+        "input_felt_count": 6,
+        "output_felt_count": 0
+      },
+      {
+        "name": "open_add",
+        "method_id": 3129215156,
+        "state_mutability": "external",
+        "inputs": [
+          {
+            "name": "pool",
+            "type": {
+              "kind": "primitive",
+              "name": "Felt"
+            },
+            "felt_size": 1
+          },
+          {
+            "name": "amount_psy",
+            "type": {
+              "kind": "primitive",
+              "name": "Felt"
+            },
+            "felt_size": 1
+          },
+          {
+            "name": "amount_usdt",
+            "type": {
+              "kind": "primitive",
+              "name": "Felt"
+            },
+            "felt_size": 1
+          },
+          {
+            "name": "min_shares",
+            "type": {
+              "kind": "primitive",
+              "name": "Felt"
+            },
+            "felt_size": 1
+          },
+          {
+            "name": "deadline",
+            "type": {
+              "kind": "primitive",
+              "name": "Felt"
+            },
+            "felt_size": 1
+          },
+          {
+            "name": "nonce",
+            "type": {
+              "kind": "primitive",
+              "name": "Felt"
+            },
+            "felt_size": 1
+          }
+        ],
+        "outputs": [],
+        "input_felt_count": 6,
+        "output_felt_count": 0
+      },
+      {
+        "name": "open_remove",
+        "method_id": 2473541406,
+        "state_mutability": "external",
+        "inputs": [
+          {
+            "name": "pool",
+            "type": {
+              "kind": "primitive",
+              "name": "Felt"
+            },
+            "felt_size": 1
+          },
+          {
+            "name": "shares",
+            "type": {
+              "kind": "primitive",
+              "name": "Felt"
+            },
+            "felt_size": 1
+          },
+          {
+            "name": "min_psy",
+            "type": {
+              "kind": "primitive",
+              "name": "Felt"
+            },
+            "felt_size": 1
+          },
+          {
+            "name": "min_usdt",
+            "type": {
+              "kind": "primitive",
+              "name": "Felt"
+            },
+            "felt_size": 1
+          },
+          {
+            "name": "deadline",
+            "type": {
+              "kind": "primitive",
+              "name": "Felt"
+            },
+            "felt_size": 1
+          },
+          {
+            "name": "nonce",
+            "type": {
+              "kind": "primitive",
+              "name": "Felt"
+            },
+            "felt_size": 1
+          }
+        ],
+        "outputs": [],
+        "input_felt_count": 6,
+        "output_felt_count": 0
+      },
+      {
+        "name": "close_psy_swap",
+        "method_id": 3978026056,
+        "state_mutability": "external",
+        "inputs": [],
+        "outputs": [],
+        "input_felt_count": 0,
+        "output_felt_count": 0
+      },
+      {
+        "name": "close_usdt_swap",
+        "method_id": 2528648039,
+        "state_mutability": "external",
+        "inputs": [],
+        "outputs": [],
+        "input_felt_count": 0,
+        "output_felt_count": 0
+      },
+      {
+        "name": "close_add",
+        "method_id": 785967364,
+        "state_mutability": "external",
+        "inputs": [],
+        "outputs": [],
+        "input_felt_count": 0,
+        "output_felt_count": 0
+      },
+      {
+        "name": "close_remove",
+        "method_id": 2638789428,
+        "state_mutability": "external",
+        "inputs": [],
+        "outputs": [],
+        "input_felt_count": 0,
+        "output_felt_count": 0
+      },
+      {
+        "name": "cancel_remove",
+        "method_id": 3910193554,
+        "state_mutability": "external",
+        "inputs": [
+          {
+            "name": "provider",
+            "type": {
+              "kind": "primitive",
+              "name": "Felt"
+            },
+            "felt_size": 1
+          },
+          {
+            "name": "nonce",
+            "type": {
+              "kind": "primitive",
+              "name": "Felt"
+            },
+            "felt_size": 1
+          }
+        ],
+        "outputs": [],
+        "input_felt_count": 2,
+        "output_felt_count": 0
+      },
+      {
+        "name": "refund_unclaimed",
+        "method_id": 3616818099,
+        "state_mutability": "external",
+        "inputs": [
+          {
+            "name": "sender",
+            "type": {
+              "kind": "primitive",
+              "name": "Felt"
+            },
+            "felt_size": 1
+          },
+          {
+            "name": "asset",
+            "type": {
+              "kind": "primitive",
+              "name": "Felt"
+            },
+            "felt_size": 1
+          },
+          {
+            "name": "amount",
+            "type": {
+              "kind": "primitive",
+              "name": "Felt"
+            },
+            "felt_size": 1
+          }
+        ],
+        "outputs": [],
+        "input_felt_count": 3,
+        "output_felt_count": 0
+      },
+      {
+        "name": "refund_add_unclaimed",
+        "method_id": 1328436134,
+        "state_mutability": "external",
+        "inputs": [
+          {
+            "name": "provider",
+            "type": {
+              "kind": "primitive",
+              "name": "Felt"
+            },
+            "felt_size": 1
+          },
+          {
+            "name": "amount_psy",
+            "type": {
+              "kind": "primitive",
+              "name": "Felt"
+            },
+            "felt_size": 1
+          },
+          {
+            "name": "amount_usdt",
+            "type": {
+              "kind": "primitive",
+              "name": "Felt"
+            },
+            "felt_size": 1
+          }
+        ],
+        "outputs": [],
+        "input_felt_count": 3,
+        "output_felt_count": 0
+      },
+      {
+        "name": "swap",
+        "method_id": 1634808186,
+        "state_mutability": "external",
+        "inputs": [
+          {
+            "name": "sender",
+            "type": {
+              "kind": "primitive",
+              "name": "Felt"
+            },
+            "felt_size": 1
+          },
+          {
+            "name": "asset",
+            "type": {
+              "kind": "primitive",
+              "name": "Felt"
+            },
+            "felt_size": 1
+          },
+          {
+            "name": "amount_in",
+            "type": {
+              "kind": "primitive",
+              "name": "Felt"
+            },
+            "felt_size": 1
+          },
+          {
+            "name": "amount_out",
+            "type": {
+              "kind": "primitive",
+              "name": "Felt"
+            },
+            "felt_size": 1
+          },
+          {
+            "name": "nonce",
+            "type": {
+              "kind": "primitive",
+              "name": "Felt"
+            },
+            "felt_size": 1
+          }
+        ],
+        "outputs": [],
+        "input_felt_count": 5,
+        "output_felt_count": 0
+      },
+      {
+        "name": "add_liquidity",
+        "method_id": 2000651428,
+        "state_mutability": "external",
+        "inputs": [
+          {
+            "name": "provider",
+            "type": {
+              "kind": "primitive",
+              "name": "Felt"
+            },
+            "felt_size": 1
+          },
+          {
+            "name": "amount_psy",
+            "type": {
+              "kind": "primitive",
+              "name": "Felt"
+            },
+            "felt_size": 1
+          },
+          {
+            "name": "amount_usdt",
+            "type": {
+              "kind": "primitive",
+              "name": "Felt"
+            },
+            "felt_size": 1
+          },
+          {
+            "name": "minted",
+            "type": {
+              "kind": "primitive",
+              "name": "Felt"
+            },
+            "felt_size": 1
+          },
+          {
+            "name": "nonce",
+            "type": {
+              "kind": "primitive",
+              "name": "Felt"
+            },
+            "felt_size": 1
+          }
+        ],
+        "outputs": [],
+        "input_felt_count": 5,
+        "output_felt_count": 0
+      },
+      {
+        "name": "remove_liquidity",
+        "method_id": 998060542,
+        "state_mutability": "external",
+        "inputs": [
+          {
+            "name": "provider",
+            "type": {
+              "kind": "primitive",
+              "name": "Felt"
+            },
+            "felt_size": 1
+          },
+          {
+            "name": "burned",
+            "type": {
+              "kind": "primitive",
+              "name": "Felt"
+            },
+            "felt_size": 1
+          },
+          {
+            "name": "amount_psy",
+            "type": {
+              "kind": "primitive",
+              "name": "Felt"
+            },
+            "felt_size": 1
+          },
+          {
+            "name": "amount_usdt",
+            "type": {
+              "kind": "primitive",
+              "name": "Felt"
+            },
+            "felt_size": 1
+          },
+          {
+            "name": "nonce",
+            "type": {
+              "kind": "primitive",
+              "name": "Felt"
+            },
+            "felt_size": 1
+          }
+        ],
+        "outputs": [],
+        "input_felt_count": 5,
+        "output_felt_count": 0
+      }
+    ]
+  },
+  "types": [
+    {
+      "kind": "struct",
+      "name": "OtherUserInfo",
+      "felt_size": 2,
+      "fields": [
+        {
+          "name": "amount_sent",
+          "type": {
+            "kind": "primitive",
+            "name": "Felt"
+          },
+          "offset_within_parent": 0,
+          "felt_size": 1
+        },
+        {
+          "name": "amount_claimed",
+          "type": {
+            "kind": "primitive",
+            "name": "Felt"
+          },
+          "offset_within_parent": 1,
+          "felt_size": 1
+        }
+      ]
+    }
+  ]
+}

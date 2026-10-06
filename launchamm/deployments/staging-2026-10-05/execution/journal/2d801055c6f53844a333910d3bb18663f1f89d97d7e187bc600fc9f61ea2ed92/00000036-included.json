@@ -1,0 +1,74 @@
+{
+  "status": "included",
+  "taskId": "2dd5260d917805d79ee661575e98aadef4b3aa391c97dd312e0d33a79257ab4c",
+  "result": {
+    "status": "included",
+    "userId": 773632,
+    "endUserLeafHash": "0ce0c053b3024c8cc34d39a123fbc015fe9f4878708934b056a922461b68bcbd",
+    "checkpoint": 157832,
+    "contentHash": "ab2e3ad8fd3b3f9cf6a8a7b0c646a894cd81a59d71c77e81441976fc409a6334",
+    "receipt": {
+      "success": true,
+      "data": {
+        "tx_id": "bb5a20db-1893-4af1-84a5-6d8371765db8",
+        "content_hash": "ab2e3ad8fd3b3f9cf6a8a7b0c646a894cd81a59d71c77e81441976fc409a6334",
+        "tx_type": "UserEndcap",
+        "status": "included",
+        "role_type": "Realm",
+        "role_id": 0,
+        "pending_checkpoint_id": null,
+        "included_checkpoint_id": 157832,
+        "result": {
+          "fees_collected": 1000004000,
+          "slots_modified": 4,
+          "total_transactions": 6,
+          "user_id": 773632,
+          "user_ops_processed": 1
+        },
+        "received_at": "2026-10-05T05:01:48Z",
+        "included_at": "2026-10-05T05:01:48Z",
+        "latency_ms": 0,
+        "owner_user_id": 773632,
+        "created_at": "2026-10-05T05:01:48+00:00",
+        "slot_updates": [
+          {
+            "contract_id": 0,
+            "slot_index": 0,
+            "old_value": "300657000",
+            "new_value": "300753000",
+            "field_name": null
+          },
+          {
+            "contract_id": 0,
+            "slot_index": 1723395,
+            "old_value": "0",
+            "new_value": "100000",
+            "field_name": null
+          },
+          {
+            "contract_id": 0,
+            "slot_index": 1723396,
+            "old_value": "2000200000",
+            "new_value": "3000400000",
+            "field_name": null
+          },
+          {
+            "contract_id": 1503,
+            "slot_index": 2165122575,
+            "old_value": "2000200000",
+            "new_value": "3000400000",
+            "field_name": null
+          }
+        ],
+        "kind": "execute_contract"
+      },
+      "timestamp": "2026-10-05T05:01:56.237197171Z"
+    }
+  },
+  "scope": {
+    "network": "sepolia",
+    "vaultId": 773632,
+    "fingerprint": "07de53fc40b456d84d182dd4edcd99051dac849b378a2d80bfd3a30045757783"
+  },
+  "at": "2026-10-05T05:01:56.409Z"
+}

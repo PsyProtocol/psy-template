@@ -1,0 +1,9 @@
+{
+  "id": "issuer-repeat-mint-rejected",
+  "isError": true,
+  "data": {
+    "error": "call failed: prove contract call failed at call_index=0 total_contract_calls=1 contract_id=65 method=mint_once input_count=0: assertion failed: fixed supply already minted (left: 0, right: 1)",
+    "gate": "execute",
+    "status": "error"
+  }
+}

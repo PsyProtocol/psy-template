@@ -1,0 +1,231 @@
+{
+  "at": "2026-10-05T05:07:45.485Z",
+  "before": {
+    "checkpoint": 157059,
+    "balances": [
+      {
+        "userId": 1882112,
+        "asset": 0,
+        "balance": "970799338000"
+      },
+      {
+        "userId": 1882112,
+        "asset": 1494,
+        "balance": "0"
+      },
+      {
+        "userId": 1283072,
+        "asset": 0,
+        "balance": "987199773000"
+      },
+      {
+        "userId": 1283072,
+        "asset": 1494,
+        "balance": "0"
+      },
+      {
+        "userId": 861696,
+        "asset": 0,
+        "balance": "992999885000"
+      },
+      {
+        "userId": 861696,
+        "asset": 1494,
+        "balance": "6000000000"
+      },
+      {
+        "userId": 1297920,
+        "asset": 0,
+        "balance": "0"
+      },
+      {
+        "userId": 1297920,
+        "asset": 1494,
+        "balance": "0"
+      },
+      {
+        "userId": 773632,
+        "asset": 0,
+        "balance": "0"
+      },
+      {
+        "userId": 773632,
+        "asset": 1494,
+        "balance": "0"
+      },
+      {
+        "userId": 591872,
+        "asset": 0,
+        "balance": "364000"
+      },
+      {
+        "userId": 591872,
+        "asset": 1494,
+        "balance": "0"
+      }
+    ],
+    "pending": [],
+    "totals": {
+      "0": "2950999360000",
+      "1494": "6000000000"
+    }
+  },
+  "after": {
+    "checkpoint": 157884,
+    "balances": [
+      {
+        "userId": 1882112,
+        "asset": 0,
+        "balance": "954599000000"
+      },
+      {
+        "userId": 1882112,
+        "asset": 1494,
+        "balance": "2000000000"
+      },
+      {
+        "userId": 1283072,
+        "asset": 0,
+        "balance": "971099325000"
+      },
+      {
+        "userId": 1283072,
+        "asset": 1494,
+        "balance": "1000000000"
+      },
+      {
+        "userId": 861696,
+        "asset": 0,
+        "balance": "971999246000"
+      },
+      {
+        "userId": 861696,
+        "asset": 1494,
+        "balance": "0"
+      },
+      {
+        "userId": 1297920,
+        "asset": 0,
+        "balance": "368000"
+      },
+      {
+        "userId": 1297920,
+        "asset": 1494,
+        "balance": "0"
+      },
+      {
+        "userId": 773632,
+        "asset": 0,
+        "balance": "300753000"
+      },
+      {
+        "userId": 773632,
+        "asset": 1494,
+        "balance": "3000000000"
+      },
+      {
+        "userId": 591872,
+        "asset": 0,
+        "balance": "459000"
+      },
+      {
+        "userId": 591872,
+        "asset": 1494,
+        "balance": "0"
+      }
+    ],
+    "pending": [],
+    "totals": {
+      "0": "2897999151000",
+      "1494": "6000000000"
+    }
+  },
+  "receiptFile": "receipts-1791176760431.json",
+  "relevantReceiptCount": 53,
+  "fees": "53000209000",
+  "pool": {
+    "phase": "1",
+    "reserve_psy": "300112",
+    "reserve_token": "3000",
+    "total_shares": "30000",
+    "source_vault": "1297920",
+    "psy_unit": "1000",
+    "token_unit": "1000000",
+    "source_curve": "66"
+  },
+  "shares": [
+    {
+      "userId": 1882112,
+      "shares": "0"
+    },
+    {
+      "userId": 1283072,
+      "shares": "0"
+    },
+    {
+      "userId": 861696,
+      "shares": "29000"
+    },
+    {
+      "userId": 1297920,
+      "shares": "0"
+    },
+    {
+      "userId": 773632,
+      "shares": "0"
+    },
+    {
+      "userId": 591872,
+      "shares": "0"
+    }
+  ],
+  "orders": [
+    {
+      "userId": 1882112,
+      "pool": {
+        "order_nonce": "2",
+        "order_kind": "0"
+      },
+      "curve": {
+        "order_kind": "0",
+        "order_nonce": "5"
+      }
+    },
+    {
+      "userId": 1283072,
+      "pool": {
+        "order_kind": "0",
+        "order_nonce": "2"
+      },
+      "curve": {
+        "order_nonce": "3",
+        "order_kind": "0"
+      }
+    },
+    {
+      "userId": 861696,
+      "pool": {
+        "order_nonce": "2",
+        "order_kind": "0"
+      },
+      "curve": {
+        "order_nonce": "1",
+        "order_kind": "0"
+      }
+    }
+  ],
+  "obOrder": {
+    "order_nonce": "1",
+    "order_kind": "0"
+  },
+  "checks": {
+    "nativeConservation": true,
+    "launchTokenConservation": true,
+    "noPendingTransfers": true,
+    "lpSharesConservation": true,
+    "allPoolOrdersClosed": true,
+    "allCurveOrdersClosed": true,
+    "orderbookOrderClosed": true,
+    "allRecordedSubmissionsIncluded": true
+  }
+}

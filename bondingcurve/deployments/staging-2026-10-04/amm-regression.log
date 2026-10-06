@@ -1,0 +1,148 @@
+
+> psy-template@1.0.0 test:amm
+> node --test amm/*.test.mjs amm/contract/*.test.mjs
+
+TAP version 13
+# Subtest: AMM candidate preserves the pinned live layout and original methods
+ok 1 - AMM candidate preserves the pinned live layout and original methods
+  ---
+  duration_ms: 0.875916
+  ...
+# Subtest: AMM update gate rejects stale chain layout and changed old method IDs
+ok 2 - AMM update gate rejects stale chain layout and changed old method IDs
+  ---
+  duration_ms: 0.683708
+  ...
+# Subtest: AMM update gate binds both proof endpoints to the live 22-field layout
+ok 3 - AMM update gate binds both proof endpoints to the live 22-field layout
+  ---
+  duration_ms: 1.188959
+  ...
+# Subtest: compiled pool ABI preserves the live token Outbox slot prefix
+ok 2 - compiled pool ABI preserves the live token Outbox slot prefix
+  ---
+  duration_ms: 1.424875
+  ...
+# Subtest: compiled pool ABI exposes all payer and pool actions
+ok 3 - compiled pool ABI exposes all payer and pool actions
+  ---
+  duration_ms: 0.1505
+  ...
+# Subtest: PSY-only close methods do not read a pUSDT partition
+ok 4 - PSY-only close methods do not read a pUSDT partition
+  ---
+  duration_ms: 1.468042
+  ...
+# Subtest: close methods use pool settlement cursors rather than token claimed slots
+ok 5 - close methods use pool settlement cursors rather than token claimed slots
+  ---
+  duration_ms: 3.682334
+  ...
+# Subtest: 50 rounds of four simultaneous payers settle or refund without mixing balances
+ok 3 - 50 rounds of four simultaneous payers settle or refund without mixing balances
+  ---
+  duration_ms: 23.666708
+  ...
+# Subtest: 20 LP add/remove cycles preserve locked shares and pool accounting
+ok 4 - 20 LP add/remove cycles preserve locked shares and pool accounting
+  ---
+  duration_ms: 1.56475
+  ...
+# Subtest: PSY and pUSDT swaps construct payer-bound calls in the required order
+ok 4 - PSY and pUSDT swaps construct payer-bound calls in the required order
+  ---
+  duration_ms: 1.234167
+  ...
+# Subtest: refunds transfer only to the original payer and handle one or both LP legs
+ok 5 - refunds transfer only to the original payer and handle one or both LP legs
+  ---
+  duration_ms: 0.304041
+  ...
+# Subtest: LP add/remove calls include fee payment, guard, and exact token calls
+ok 6 - LP add/remove calls include fee payment, guard, and exact token calls
+  ---
+  duration_ms: 0.184542
+  ...
+# Subtest: call builder rejects invalid asset, unrelated recipient, and values outside the circuit bound
+ok 7 - call builder rejects invalid asset, unrelated recipient, and values outside the circuit bound
+  ---
+  duration_ms: 0.245209
+  ...
+# Subtest: payer closes each order path with its matching compiled method
+ok 8 - payer closes each order path with its matching compiled method
+  ---
+  duration_ms: 1.028084
+  ...
+# Subtest: pool submission includes the seven circuit inputs bound to the refund calls
+ok 9 - pool submission includes the seven circuit inputs bound to the refund calls
+  ---
+  duration_ms: 1.946458
+  ...
+# Subtest: funding, both swap directions, LP add/remove, and vault conservation
+ok 5 - funding, both swap directions, LP add/remove, and vault conservation
+  ---
+  duration_ms: 3.446
+  ...
+# Subtest: expired or out-of-range swaps can refund exactly once without touching reserves
+ok 6 - expired or out-of-range swaps can refund exactly once without touching reserves
+  ---
+  duration_ms: 0.305833
+  ...
+# Subtest: unclaimed refund claims only Alice's exact outbox delta and returns it to Alice
+ok 7 - unclaimed refund claims only Alice's exact outbox delta and returns it to Alice
+  ---
+  duration_ms: 0.907208
+  ...
+# Subtest: cumulative claims reject stale reads, mixed payments, duplicate funding and competing orders
+ok 8 - cumulative claims reject stale reads, mixed payments, duplicate funding and competing orders
+  ---
+  duration_ms: 0.219792
+  ...
+# Subtest: a deferred payout is a locked liability until its exact token outbox delta is confirmed
+ok 9 - a deferred payout is a locked liability until its exact token outbox delta is confirmed
+  ---
+  duration_ms: 0.330083
+  ...
+# Subtest: PSY to USDT quote uses exact integer arithmetic and keeps k nondecreasing
+ok 6 - PSY to USDT quote uses exact integer arithmetic and keeps k nondecreasing
+  ---
+  duration_ms: 0.932459
+  ...
+# Subtest: exact output rounds input up and honors max input
+ok 7 - exact output rounds input up and honors max input
+  ---
+  duration_ms: 0.711792
+  ...
+# Subtest: slippage, dust, and field overflow fail instead of wrapping
+ok 8 - slippage, dust, and field overflow fail instead of wrapping
+  ---
+  duration_ms: 0.137334
+  ...
+# Subtest: initial LP liquidity locks minimum shares; proportional add and remove conserve reserves
+ok 9 - initial LP liquidity locks minimum shares; proportional add and remove conserve reserves
+  ---
+  duration_ms: 0.253666
+  ...
+# Subtest: reference policy accepts exact swap and partial LP refund stacks
+ok 7 - reference policy accepts exact swap and partial LP refund stacks
+  ---
+  duration_ms: 0.984958
+  ...
+# Subtest: reference policy rejects Bob, amount changes, call insertion, order changes, and fee abuse
+ok 8 - reference policy rejects Bob, amount changes, call insertion, order changes, and fee abuse
+  ---
+  duration_ms: 0.404833
+  ...
+# Subtest: all nine pool branches bind every transfer to the payer across repeated inputs
+ok 9 - all nine pool branches bind every transfer to the payer across repeated inputs
+  ---
+  duration_ms: 6.537834
+  ...
+1..27
+# tests 27
+# pass 27
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 711.187125

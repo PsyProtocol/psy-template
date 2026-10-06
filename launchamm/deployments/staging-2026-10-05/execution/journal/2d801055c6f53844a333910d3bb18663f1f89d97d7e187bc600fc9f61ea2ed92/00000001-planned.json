@@ -1,0 +1,69 @@
+{
+  "status": "planned",
+  "taskId": "d35f66e16570505e5a6e68832cb4a354ac5115995bb0f98f963e96403a7648c8",
+  "task": {
+    "kind": "seed",
+    "submission": {
+      "contract_calls": [
+        {
+          "contract_id": 1503,
+          "method_name": "seed_from_curve",
+          "inputs": [
+            66,
+            1297920,
+            1494,
+            861696,
+            1000,
+            1000000,
+            300003,
+            3000,
+            29000
+          ]
+        },
+        {
+          "contract_id": 0,
+          "method_name": "simple_claim",
+          "inputs": [
+            1297920
+          ]
+        },
+        {
+          "contract_id": 1494,
+          "method_name": "claim",
+          "inputs": [
+            1297920
+          ]
+        },
+        {
+          "contract_id": 0,
+          "method_name": "simple_claim",
+          "inputs": [
+            861696
+          ]
+        },
+        {
+          "contract_id": 1503,
+          "method_name": "noop",
+          "inputs": []
+        }
+      ],
+      "software_defined_call": {
+        "inputs": [
+          10,
+          861696,
+          300003,
+          3000,
+          29000,
+          0,
+          0
+        ]
+      }
+    }
+  },
+  "scope": {
+    "network": "sepolia",
+    "vaultId": 773632,
+    "fingerprint": "07de53fc40b456d84d182dd4edcd99051dac849b378a2d80bfd3a30045757783"
+  },
+  "at": "2026-10-05T04:10:59.478Z"
+}

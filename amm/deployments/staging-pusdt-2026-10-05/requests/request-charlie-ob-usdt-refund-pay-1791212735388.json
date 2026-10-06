@@ -1,0 +1,19 @@
+{
+  "id": "charlie-ob-usdt-refund-pay",
+  "user": 861696,
+  "tool": "claim_batch",
+  "args": {
+    "transfers": [
+      {
+        "to_user_id": 591872,
+        "amount": 1000100000,
+        "token": "PSY"
+      },
+      {
+        "to_user_id": 591872,
+        "amount": 200000,
+        "token": "USDT"
+      }
+    ]
+  }
+}

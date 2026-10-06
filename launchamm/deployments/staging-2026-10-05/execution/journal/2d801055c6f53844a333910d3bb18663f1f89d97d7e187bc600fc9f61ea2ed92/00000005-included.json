@@ -1,0 +1,179 @@
+{
+  "status": "included",
+  "taskId": "d35f66e16570505e5a6e68832cb4a354ac5115995bb0f98f963e96403a7648c8",
+  "result": {
+    "status": "included",
+    "userId": 773632,
+    "endUserLeafHash": "309991a52753830831ce2d00c9cee4a5d5fd56d78b3ce513c4db6ac670aa8c34",
+    "checkpoint": 157354,
+    "contentHash": "563f8034e556cee0a63f92c433b9167fea0aac87dcf0787a58c2e906d27f1eb1",
+    "receipt": {
+      "success": true,
+      "data": {
+        "tx_id": "641100f9-8e7e-4799-9a24-7c0dd6d9b5a0",
+        "content_hash": "563f8034e556cee0a63f92c433b9167fea0aac87dcf0787a58c2e906d27f1eb1",
+        "tx_type": "UserEndcap",
+        "status": "included",
+        "role_type": "Realm",
+        "role_id": 0,
+        "pending_checkpoint_id": null,
+        "included_checkpoint_id": 157354,
+        "result": {
+          "fees_collected": 1000015000,
+          "slots_modified": 15,
+          "total_transactions": 6,
+          "user_id": 773632,
+          "user_ops_processed": 1
+        },
+        "received_at": "2026-10-05T04:13:54Z",
+        "included_at": "2026-10-05T04:13:54Z",
+        "latency_ms": 0,
+        "owner_user_id": 773632,
+        "created_at": "2026-10-05T04:13:54+00:00",
+        "slot_updates": [
+          {
+            "contract_id": 0,
+            "slot_index": 0,
+            "old_value": "0",
+            "new_value": "300088000",
+            "field_name": null
+          },
+          {
+            "contract_id": 0,
+            "slot_index": 1723396,
+            "old_value": "0",
+            "new_value": "1000100000",
+            "field_name": null
+          },
+          {
+            "contract_id": 0,
+            "slot_index": 2595844,
+            "old_value": "0",
+            "new_value": "300003000",
+            "field_name": null
+          },
+          {
+            "contract_id": 1494,
+            "slot_index": 0,
+            "old_value": "0",
+            "new_value": "3000000000",
+            "field_name": null
+          },
+          {
+            "contract_id": 1494,
+            "slot_index": 2595844,
+            "old_value": "0",
+            "new_value": "3000000000",
+            "field_name": null
+          },
+          {
+            "contract_id": 1503,
+            "slot_index": 2147483651,
+            "old_value": "0",
+            "new_value": "1",
+            "field_name": null
+          },
+          {
+            "contract_id": 1503,
+            "slot_index": 2147483652,
+            "old_value": "0",
+            "new_value": "1494",
+            "field_name": null
+          },
+          {
+            "contract_id": 1503,
+            "slot_index": 2147483653,
+            "old_value": "0",
+            "new_value": "861696",
+            "field_name": null
+          },
+          {
+            "contract_id": 1503,
+            "slot_index": 2165122575,
+            "old_value": "0",
+            "new_value": "1000100000",
+            "field_name": null
+          },
+          {
+            "contract_id": 1503,
+            "slot_index": 2165558799,
+            "old_value": "0",
+            "new_value": "300003000",
+            "field_name": null
+          },
+          {
+            "contract_id": 1503,
+            "slot_index": 2182336015,
+            "old_value": "0",
+            "new_value": "3000000000",
+            "field_name": null
+          },
+          {
+            "contract_id": 1503,
+            "slot_index": 2197815318,
+            "old_value": "0",
+            "new_value": "300003",
+            "field_name": null
+          },
+          {
+            "contract_id": 1503,
+            "slot_index": 2197815319,
+            "old_value": "0",
+            "new_value": "3000",
+            "field_name": null
+          },
+          {
+            "contract_id": 1503,
+            "slot_index": 2197815320,
+            "old_value": "0",
+            "new_value": "30000",
+            "field_name": null
+          },
+          {
+            "contract_id": 1503,
+            "slot_index": 2198677017,
+            "old_value": "0",
+            "new_value": "29000",
+            "field_name": null
+          },
+          {
+            "contract_id": 1503,
+            "slot_index": 2214592537,
+            "old_value": "0",
+            "new_value": "1000",
+            "field_name": null
+          },
+          {
+            "contract_id": 1503,
+            "slot_index": 2214592538,
+            "old_value": "0",
+            "new_value": "1000000",
+            "field_name": null
+          },
+          {
+            "contract_id": 1503,
+            "slot_index": 2214592539,
+            "old_value": "0",
+            "new_value": "66",
+            "field_name": null
+          },
+          {
+            "contract_id": 1503,
+            "slot_index": 2214592540,
+            "old_value": "0",
+            "new_value": "1297920",
+            "field_name": null
+          }
+        ],
+        "kind": "execute_contract"
+      },
+      "timestamp": "2026-10-05T04:14:06.996058028Z"
+    }
+  },
+  "scope": {
+    "network": "sepolia",
+    "vaultId": 773632,
+    "fingerprint": "07de53fc40b456d84d182dd4edcd99051dac849b378a2d80bfd3a30045757783"
+  },
+  "at": "2026-10-05T04:14:07.216Z"
+}

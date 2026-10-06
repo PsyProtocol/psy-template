@@ -1,0 +1,25 @@
+{
+  "scope": "Local verification; not live-chain rounds",
+  "results": {
+    "amm_javascript": 27,
+    "orderbook_javascript": 17,
+    "bondingcurve_javascript": 16,
+    "sdkey_rust": 3,
+    "compiled_bytecode_vm": 4
+  },
+  "total": 67,
+  "compiled_vm_buy_sell_cycles": 100,
+  "production_sdkey_fingerprint": "3eda54589294415dda512d0d054146acf13ed9176094b89b1a1f3b858e43349e",
+  "base_commit": "377f4703aec2f945e3e650ade4810572ccb93f6a",
+  "log_files": [
+    "amm-regression.log",
+    "orderbook-regression.log",
+    "javascript-with-receipts-tests.log",
+    "sdkey-security.log",
+    "compiled-lifecycle.log"
+  ],
+  "limitations": [
+    "VM failure rollback is modeled locally.",
+    "AMM and orderbook were regression-tested locally this turn; no live pUSDT trades."
+  ]
+}

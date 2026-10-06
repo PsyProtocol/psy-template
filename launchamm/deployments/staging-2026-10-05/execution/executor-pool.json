@@ -1,0 +1,42 @@
+{
+  "kind": "launchamm",
+  "network": "sepolia",
+  "contractId": 1503,
+  "vaultId": 773632,
+  "fingerprint": "07de53fc40b456d84d182dd4edcd99051dac849b378a2d80bfd3a30045757783",
+  "publicKeyHash": "d00db0d5fac9916c91110d8b0b5797219dabfc4fcb8fcc7705873cbc0b63f12e",
+  "codeRoot": "7454c52728393fdbadb1b343a3d6b236834387c02d8cbd160cc66a000a65a3e5",
+  "layoutRoot": "bd2b7b63fea8aadd1ea8377c28941bf52dc47511e2c7faf8fd1659ab714379e1",
+  "rpcConfig": "/private/tmp/psy-launchamm-staging-20261005/l2-local-prover-config.json",
+  "wallet": "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-node/target/release/launch_pool_wallet",
+  "driverConfig": "/private/tmp/psy-launchamm-staging-20261005/pair-attempt-1/pool.config.json",
+  "pool": {
+    "curveContractId": 66,
+    "curveVaultId": 1297920,
+    "issuerId": 861696,
+    "poolContractId": 1503,
+    "poolUserId": 773632,
+    "psyUnit": 1000,
+    "tokenId": 1494,
+    "tokenUnit": 1000000
+  },
+  "launch": {
+    "basePrice": 100000000,
+    "issuerId": 861696,
+    "liquidityLots": 2,
+    "lotSize": 1000000000,
+    "maxLots": 4,
+    "stepPrice": 1000,
+    "targetId": 773632,
+    "thresholdLots": 3,
+    "tokenId": 1494
+  },
+  "abi": "/private/tmp/psy-launchamm-staging-20261005/pool-v2-candidate/abi.json",
+  "users": [
+    1882112,
+    1283072,
+    861696
+  ],
+  "runtimeDirectory": "/private/tmp/psy-launchamm-staging-20261005/executor-runtime",
+  "intervalMs": 10000
+}

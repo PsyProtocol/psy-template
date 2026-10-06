@@ -1,0 +1,59 @@
+{
+  "status": "planned",
+  "taskId": "db17fbd3fe00925c31c9c907e81ed9ae871858c84bc82aa24f52184f65061f62",
+  "task": {
+    "kind": "cancel-remove",
+    "payerId": 861696,
+    "submission": {
+      "contract_calls": [
+        {
+          "contract_id": 1503,
+          "method_name": "cancel_remove",
+          "inputs": [
+            861696,
+            1
+          ]
+        },
+        {
+          "contract_id": 0,
+          "method_name": "simple_claim",
+          "inputs": [
+            861696
+          ]
+        },
+        {
+          "contract_id": 1503,
+          "method_name": "noop",
+          "inputs": []
+        },
+        {
+          "contract_id": 1503,
+          "method_name": "noop",
+          "inputs": []
+        },
+        {
+          "contract_id": 1503,
+          "method_name": "noop",
+          "inputs": []
+        }
+      ],
+      "software_defined_call": {
+        "inputs": [
+          11,
+          861696,
+          0,
+          0,
+          0,
+          1,
+          0
+        ]
+      }
+    }
+  },
+  "scope": {
+    "network": "sepolia",
+    "vaultId": 773632,
+    "fingerprint": "07de53fc40b456d84d182dd4edcd99051dac849b378a2d80bfd3a30045757783"
+  },
+  "at": "2026-10-05T04:44:12.079Z"
+}

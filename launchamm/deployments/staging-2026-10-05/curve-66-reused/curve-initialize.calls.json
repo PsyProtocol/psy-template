@@ -1,0 +1,58 @@
+{
+  "contract_calls": [
+    {
+      "contract_id": 66,
+      "method_name": "initialize",
+      "inputs": [
+        1494,
+        861696,
+        773632,
+        4,
+        2,
+        1000000000,
+        100000000,
+        1000,
+        3
+      ]
+    },
+    {
+      "contract_id": 1494,
+      "method_name": "claim",
+      "inputs": [
+        861696
+      ]
+    },
+    {
+      "contract_id": 0,
+      "method_name": "simple_claim",
+      "inputs": [
+        861696
+      ]
+    },
+    {
+      "contract_id": 66,
+      "method_name": "noop",
+      "inputs": []
+    },
+    {
+      "contract_id": 66,
+      "method_name": "noop",
+      "inputs": []
+    },
+    {
+      "contract_id": 66,
+      "method_name": "noop",
+      "inputs": []
+    }
+  ],
+  "software_defined_call": {
+    "inputs": [
+      1,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  }
+}

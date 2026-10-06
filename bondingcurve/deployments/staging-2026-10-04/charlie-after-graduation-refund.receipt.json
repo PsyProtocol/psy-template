@@ -1,0 +1,74 @@
+{
+  "source": "charlie-after-graduation-refund-submit.log",
+  "user": 758784,
+  "endUserLeafHash": "64e16dc535bc0d2d9e9392721298ea9c2975dea92e0a3418ddf894b78293a673",
+  "status": "included",
+  "userId": 758784,
+  "checkpoint": 147542,
+  "contentHash": "60823b187098d16882c14ac70c9eba8a83c9aee644a926ca47be63868e441dc4",
+  "receipt": {
+    "success": true,
+    "data": {
+      "tx_id": "44aa3546-9d68-4b62-9bc9-b34aaeadd9fb",
+      "content_hash": "60823b187098d16882c14ac70c9eba8a83c9aee644a926ca47be63868e441dc4",
+      "tx_type": "UserEndcap",
+      "status": "included",
+      "role_type": "Realm",
+      "role_id": 0,
+      "pending_checkpoint_id": null,
+      "included_checkpoint_id": 147542,
+      "result": {
+        "fees_collected": 1000005000,
+        "slots_modified": 5,
+        "total_transactions": 7,
+        "user_id": 758784,
+        "user_ops_processed": 1
+      },
+      "received_at": "2026-10-04T11:50:54Z",
+      "included_at": "2026-10-04T11:50:54Z",
+      "latency_ms": 0,
+      "owner_user_id": 758784,
+      "created_at": "2026-10-04T11:50:54+00:00",
+      "slot_updates": [
+        {
+          "contract_id": 0,
+          "slot_index": 0,
+          "old_value": "740000",
+          "new_value": "835000",
+          "field_name": null
+        },
+        {
+          "contract_id": 0,
+          "slot_index": 1723395,
+          "old_value": "0",
+          "new_value": "100002000",
+          "field_name": null
+        },
+        {
+          "contract_id": 0,
+          "slot_index": 1723396,
+          "old_value": "0",
+          "new_value": "1100102000",
+          "field_name": null
+        },
+        {
+          "contract_id": 66,
+          "slot_index": 2148345359,
+          "old_value": "0",
+          "new_value": "1",
+          "field_name": null
+        },
+        {
+          "contract_id": 66,
+          "slot_index": 2165122575,
+          "old_value": "0",
+          "new_value": "1100102000",
+          "field_name": null
+        }
+      ],
+      "kind": "execute_contract"
+    },
+    "timestamp": "2026-10-04T11:51:58.677484759Z"
+  },
+  "createdAt": "2026-10-04T11:50:54Z"
+}

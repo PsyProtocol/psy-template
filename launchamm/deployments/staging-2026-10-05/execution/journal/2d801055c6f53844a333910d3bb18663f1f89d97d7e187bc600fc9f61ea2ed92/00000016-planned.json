@@ -1,0 +1,65 @@
+{
+  "status": "planned",
+  "taskId": "951191d5cf63583963ef990a4c3dd72ec80d76f4814bd6149333debb304a4b37",
+  "task": {
+    "kind": "swap",
+    "payerId": 1283072,
+    "submission": {
+      "contract_calls": [
+        {
+          "contract_id": 1503,
+          "method_name": "swap",
+          "inputs": [
+            1283072,
+            0,
+            10000,
+            96,
+            1
+          ]
+        },
+        {
+          "contract_id": 0,
+          "method_name": "simple_claim",
+          "inputs": [
+            1283072
+          ]
+        },
+        {
+          "contract_id": 1494,
+          "method_name": "transfer",
+          "inputs": [
+            1283072,
+            96000000
+          ]
+        },
+        {
+          "contract_id": 1503,
+          "method_name": "noop",
+          "inputs": []
+        },
+        {
+          "contract_id": 1503,
+          "method_name": "noop",
+          "inputs": []
+        }
+      ],
+      "software_defined_call": {
+        "inputs": [
+          1,
+          1283072,
+          10000,
+          96,
+          0,
+          1,
+          0
+        ]
+      }
+    }
+  },
+  "scope": {
+    "network": "sepolia",
+    "vaultId": 773632,
+    "fingerprint": "07de53fc40b456d84d182dd4edcd99051dac849b378a2d80bfd3a30045757783"
+  },
+  "at": "2026-10-05T04:37:29.631Z"
+}

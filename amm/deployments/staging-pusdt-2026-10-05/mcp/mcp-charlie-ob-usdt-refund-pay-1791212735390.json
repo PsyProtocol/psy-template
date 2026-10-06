@@ -1,0 +1,11 @@
+{
+  "id": "charlie-ob-usdt-refund-pay",
+  "user": "861696",
+  "isError": true,
+  "data": {
+    "error": "policy denied a transfer leg: recipient `591872` is not on this policy's allowlist (1 approved recipient(s)); ask the owner to add it",
+    "gate": "policy",
+    "method": "simple_transfer",
+    "status": "error"
+  }
+}

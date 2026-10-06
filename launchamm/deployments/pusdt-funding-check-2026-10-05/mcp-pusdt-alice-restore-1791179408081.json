@@ -1,0 +1,29 @@
+{
+  "id": "pusdt-alice-restore",
+  "isError": false,
+  "data": {
+    "activeWallet": {
+      "pkHash": "dc99845e40abd523a573883147959f7754803cedd72a223eec27366e7235fffa",
+      "psyId": "Psy-01882112",
+      "softwareDefined": false,
+      "userId": 1882112
+    },
+    "defaultNetwork": "sepolia",
+    "endpoints": {
+      "apiServices": [
+        "https://services-stg.psy-protocol.xyz"
+      ],
+      "coordinator": [
+        "https://coordinator-stg.psy-protocol.xyz"
+      ],
+      "proveProxy": [],
+      "realm": [
+        "https://realm0-stg.psy-protocol.xyz",
+        "https://realm1-stg.psy-protocol.xyz"
+      ]
+    },
+    "network": "sepolia",
+    "status": "ok",
+    "walletCount": 3
+  }
+}

@@ -1,0 +1,25 @@
+[package]
+name = "psy-template-orderbook-sdkey"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[dependencies]
+anyhow = "1"
+serde_json = "1"
+serde_cbor = "0.11"
+base64 = "0.22"
+hex = "0.4"
+plonky2 = { git = "https://github.com/PsyProtocol/plonky2-hwa", rev = "1dfe6112c3eca3668c15820755371a8a3e75f934", features = ["ts-rs"] }
+psy_ups_circuit = { path = "../../../psy-node/client_prover/psy_circuit/psy_ups_circuit" }
+psy_dpn_circuit = { path = "../../../psy-node/client_prover/psy_circuit/psy_dpn_circuit" }
+psy_common_circuit = { path = "../../../psy-node/client_prover/psy_circuit/psy_common_circuit" }
+psy_client_data = { path = "../../../psy-node/client_prover/psy_core/psy_data" }
+psy_client_common = { path = "../../../psy-node/client_prover/psy_core/psy_common" }
+psy_config = { path = "../../../psy-node/client_prover/psy_core/psy_config" }
+psy_crypto = { path = "../../../psy-node/client_prover/psy_core/psy_crypto" }
+psy_prover = { path = "../../../psy-node/client_prover/psy_prover" }
+psy_provider = { path = "../../../psy-node/client_prover/psy_provider" }
+psy_vm = { path = "../../../psy-node/client_prover/psy_vm" }
+reqwest = { version = "0.12", default-features = false, features = ["native-tls"] }
+tokio = { version = "1", features = ["macros", "rt-multi-thread"] }

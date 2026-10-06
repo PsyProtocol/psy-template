@@ -1,0 +1,9 @@
+{
+  "id": "alice-pusdt-funding-claim",
+  "isError": true,
+  "data": {
+    "error": "claim_all failed: prove claim batch failed at item_index=0 total_items=1 contract_id=4 method=simple_claim input_count=1: assertion failed: no tokens to claim from this sender (left: 0, right: 1)",
+    "gate": "execute",
+    "status": "error"
+  }
+}

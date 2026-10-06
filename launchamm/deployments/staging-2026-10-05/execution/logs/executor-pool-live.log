@@ -1,0 +1,25 @@
+node:internal/deps/undici/undici:11457
+    Error.captureStackTrace(err, this);
+          ^
+
+TypeError: fetch failed
+    at Object.fetch (node:internal/deps/undici/undici:11457:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async rpc (file:///Users/geir/Downloads/QED%E8%B5%84%E6%96%99/litepaper/psy-template/executor/publicState.mjs:5:54)
+    at async Promise.all (index 1)
+    at async publicState (file:///Users/geir/Downloads/QED%E8%B5%84%E6%96%99/litepaper/psy-template/executor/publicState.mjs:7:14)
+    at async bindingCurrent (file:///Users/geir/Downloads/QED%E8%B5%84%E6%96%99/litepaper/psy-template/executor/publicWalletAdapter.mjs:33:42)
+    at async isCurrent (file:///Users/geir/Downloads/QED%E8%B5%84%E6%96%99/litepaper/psy-template/executor/publicWalletAdapter.mjs:35:26)
+    at async file:///Users/geir/Downloads/QED%E8%B5%84%E6%96%99/litepaper/psy-template/executor/journal.mjs:31:8
+    at async ExecutionJournal.locked (file:///Users/geir/Downloads/QED%E8%B5%84%E6%96%99/litepaper/psy-template/executor/journal.mjs:16:133)
+    at async file:///Users/geir/Downloads/QED%E8%B5%84%E6%96%99/litepaper/psy-template/executor/run.mjs:17:29 {
+  cause: ConnectTimeoutError: Connect Timeout Error
+      at onConnectTimeout (node:internal/deps/undici/undici:8422:28)
+      at node:internal/deps/undici/undici:8380:50
+      at Immediate._onImmediate (node:internal/deps/undici/undici:8411:13)
+      at process.processImmediate (node:internal/timers:476:21) {
+    code: 'UND_ERR_CONNECT_TIMEOUT'
+  }
+}
+
+Node.js v18.16.0
