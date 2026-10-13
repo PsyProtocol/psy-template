@@ -1,0 +1,116 @@
+{
+  "passed": true,
+  "checkpoint": 262325,
+  "assets": {
+    "a": {
+      "contractId": 2431,
+      "decimals": 18
+    },
+    "b": {
+      "contractId": 2432,
+      "decimals": 18
+    },
+    "fee": {
+      "contractId": 0,
+      "decimals": 9
+    }
+  },
+  "markets": {
+    "amm": 2434,
+    "orderbook": 2435,
+    "bondingcurve": 2436
+  },
+  "chainTransactions": 64,
+  "independentlyVerifiedMarketSettlements": 12,
+  "ordinaryWalletTransactions": 52,
+  "negativeTests": [
+    {
+      "name": "10-amm-replay-rejected",
+      "reason": "assertion failed: order consumed (left: 0, right: 1)",
+      "submitted": false
+    },
+    {
+      "name": "17-book-replay-rejected",
+      "reason": "assertion failed: order consumed (left: 0, right: 1)",
+      "submitted": false
+    },
+    {
+      "name": "30-curve-stale-rejected",
+      "reason": "assertion failed: stale quote (left: 0, right: 1)",
+      "submitted": false
+    },
+    {
+      "name": "53a-amm-slippage-rejected",
+      "reason": "assertion failed: slippage (left: 0, right: 1)",
+      "submitted": false
+    },
+    {
+      "name": "53b-amm-wrong-payer-rejected",
+      "reason": "assertion failed: wrong order (left: 0, right: 1)",
+      "submitted": false
+    }
+  ],
+  "balances": {
+    "a": {
+      "a": "924000000000000000000",
+      "b": "168337502084375521094"
+    },
+    "b": {
+      "a": "228000000000000000000",
+      "b": "998312489578122394530"
+    },
+    "amm": {
+      "a": "48000000000000000000",
+      "b": "33350008337502084376"
+    },
+    "orderbook": {
+      "a": "0",
+      "b": "0"
+    },
+    "bondingcurve": {
+      "a": "0",
+      "b": "0"
+    }
+  },
+  "tokenSupplyEach": "1200000000000000000000",
+  "lp": {
+    "total": "40000000000000000000",
+    "owned": "39999999999999999000",
+    "locked": "1000",
+    "rawLeaf": "00000000000000082b1c8c12279ffc1800000000000000000000000000000000"
+  },
+  "roots": {
+    "amm": {
+      "deployer": "040586a172469b7fb377a594a7f294bf61be73ddbb42405b76ec86bba9f4609e",
+      "function_tree_root": "2dceebb5318d7b47878c46f88a1a90c6ff65f552585dfb192577cc4cf8b2ba57",
+      "code_root": "fc9a963b4cf094c302d04abce2b2bd996116086c2ca1403f12f1f81e7b59f941",
+      "state_tree_height": 31,
+      "state_layout_root": "d6cdabe394fb060dcd01cf06381c75f8ef28d2edf2908ef9e35e001b0feff25e",
+      "state_layout_field_count": 19,
+      "state_layout_slot_count": 1308622966
+    },
+    "orderbook": {
+      "deployer": "040586a172469b7fb377a594a7f294bf61be73ddbb42405b76ec86bba9f4609e",
+      "function_tree_root": "6bb71f5f30c41d12ed1e5e9be12cee2b2af4cab305e71f80387a0f8da9f91ab8",
+      "code_root": "3d6ea07471f4f45dac9d7bb8df91804ed6c8e5004c0e08a90cf27ff285739f91",
+      "state_tree_height": 31,
+      "state_layout_root": "f6c1f8c6641983b914f5c25d315f52f9990df779bd3a641547e7f2bd7f513a2a",
+      "state_layout_field_count": 15,
+      "state_layout_slot_count": 1275068528
+    },
+    "bondingcurve": {
+      "deployer": "040586a172469b7fb377a594a7f294bf61be73ddbb42405b76ec86bba9f4609e",
+      "function_tree_root": "7cffa189fc3e06ff2a823a43c0a85b865cca99037cc51aa9569b6b2b8881d331",
+      "code_root": "ac8e59ba71bb842d36342a74a425efd3ce621f05a730ff68119d75d51334c099",
+      "state_tree_height": 31,
+      "state_layout_root": "6530c8a8dd6d94b6cda1a542380919c2687c864318e2bc0a84741944247e5f80",
+      "state_layout_field_count": 20,
+      "state_layout_slot_count": 1275068534
+    }
+  },
+  "limitations": [
+    "Two actors across two realms; high-concurrency load and external security audit not performed.",
+    "Close compatibility reads Token cursors at UPS-start; close is executed as a separate UPS.",
+    "Graduation transfers 39 B and 10 A to configured test recipient B; no AMM liquidity initialization in graduation."
+  ]
+}

@@ -59,3 +59,13 @@ node bondingcurve/launch-token/check_deploy_layout.mjs /path/to/token-deploy-com
 ```
 
 The Rust policy tests prove all six authorized branches and reject extra/missing/reordered calls, wrong tokens, changed nonces, redirected/inflated outputs and excessive fees. The compiled VM tests cover a multiuser lifecycle and 100 buy/sell cycles using the preserved deployment artifacts and local state. These local tests do not establish production UPS rollback or live transaction inclusion. The layout root is independently recomputed from the reviewed ABI (`25f75784df8420fe918ac28cc845880f4c4c1e3891976b2a06577b177df51888`); the deployment gate compares the prepared request and proof public inputs with this root and the empty old layout. The coordinator must still verify the proof itself. Before a chain action, inspect the prepared request and current chain state, verify the token contract code and vault fingerprint, and preserve all artifacts for review. Do not update contract 62 to deploy this product.
+
+## Additional local boundary verification (2026-10-12)
+
+`invariants.test.mjs` checks 1000 deterministic segments against an independently
+summed per-lot price oracle, reserve reversibility and graduation inventory.
+The shared local harness at `../amm/wide/vm-tests/tests/compiled_markets.rs` executes
+the existing compiled curve guard at maximum parameters, rejects stale competing
+quotes, checks exact graduation amounts and verifies stale funded buy refunds after
+graduation. These are local VM/state-fixture tests, not new live transactions or full
+state/UPS proofs. Curve 66 and its already-graduated vault remain unchanged.

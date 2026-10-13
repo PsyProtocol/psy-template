@@ -65,3 +65,9 @@ test('all nine pool branches bind every transfer to the payer across repeated in
     }
   }
 });
+
+test('reference fee burn rejects increments absent from the registered Rust policy', () => {
+  const calls=tx(settleSwapCalls({...ids,asset:0,amountIn:1000,amountOut:50,nonce:1}));
+  calls[5].inputs[0]=1_000_000_001;
+  assert.throws(()=>check(calls),/fee burn/);
+});

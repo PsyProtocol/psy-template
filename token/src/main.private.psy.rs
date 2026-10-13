@@ -203,6 +203,23 @@ impl PsyTokenContract {
         psystd::emit_event(6, ctx.user_id, sender, claimable);
     }
 
+    // Consume only this sender's unclaimed Outbox delta and return it to that
+    // same sender. The SDK balance is unchanged by the cancellation.
+    #[contract_method]
+    pub fn cancel_unclaimed_payment(&mut self, ctx: &mut ChainContext, sender: Felt) {
+        require(ctx.user_id < 16777216, "caller user_id exceeds inbox bounds");
+        require(sender != 0 && sender < 16777216 && sender != ctx.user_id, "invalid payment sender");
+        let sender_total = ctx.users[sender].contract_state::<Self::ABI>(ctx.contract_id)
+            .other_user_info[ctx.user_id].amount_sent;
+        let info = self.other_user_info[sender];
+        require(sender_total > info.amount_claimed, "no unclaimed payment from sender");
+        let amount = sender_total - info.amount_claimed;
+        require(amount <= 18446744069414584320 - info.amount_sent, "refund outbox overflow");
+        self.other_user_info[sender].amount_claimed = sender_total;
+        self.other_user_info[sender].amount_sent = info.amount_sent + amount;
+        psystd::emit_event(18, ctx.user_id, sender, amount);
+    }
+
     // A public-key SDK account also needs a position-constrained key policy;
     // the current generic allow-method circuit is insufficient.
     #[contract_method]

@@ -23,8 +23,8 @@ MCP `deposit` 可以执行桥接，但它使用由钱包所有者配置的 L1 �
 | 对象 | 当前边界 | 下一步 |
 | --- | --- | --- |
 | Launch AMM 合约 1503，金库 773632 | fingerprint 固定代币 1494、曲线 66 及来源金库；代币调用为 `claim` 和 `transfer` | 保留原市场；不能将 token ID 改为 4 后直接使用 |
-| 历史 PSY/pUSDT AMM 合约 59，金库 1347584 | 九方法旧部署；较新的本地候选增加订单关闭及防覆盖检查，尚未证明已部署 | 新测试前重新核对链上 code/layout；优先完成并验证候选，再以新合约和新 SD-key 金库隔离测试 |
-| 新 PSY/pUSDT AMM 合约 1758，金库 499200 | 22 字段、14 方法；增加订单关闭、防覆盖检查和到期 LP 撤出取消 | 已完成独立编译、证明验证、新部署入块、链上根值核对及 SD-key 注册；真实付款联测等待指定金库白名单授权 |
+| 历史 PSY/pUSDT AMM 合约 59，金库 1347584 | 九方法旧部署；较新的本地候选增加订单关闭及防覆盖检查，尚未证明已部署 | 保留历史市场；本轮使用已验证的新合约 1758 和金库 499200 |
+| 新 PSY/pUSDT AMM 合约 1758，金库 499200 | 22 字段、14 方法；增加订单关闭、防覆盖检查和到期 LP 撤出取消 | 已完成独立编译、证明验证、新部署入块、链上根值核对及 SD-key 注册；指定两金库授权已应用；多用户兑换、LP 与退款测试及最终守恒核对已完成 |
 | Orderbook 合约 64，金库 591872 | 已验证的 PSY/pUSDT 整单撮合与撤销部署 | 重新核对 code/layout/fingerprint 后复用，以新订单和新 nonce 测试 |
 
 pUSDT 合约 4 使用 `simple_claim` 和 `simple_transfer`，与发行代币 1494 的方法不同。新 AMM 必须同时核对资产 ABI、精度、完整调用栈及 fingerprint，不能只替换配置中的 token ID。旧 AMM 的本地候选源码也不能视为链上现状。
@@ -33,7 +33,7 @@ pUSDT 合约 4 使用 `simple_claim` 和 `simple_transfer`，与发行代币 149
 
 ## 到账后的测试顺序
 
-以下是完整验收清单；资产领取、基准、新 AMM 部署注册、两轮 Orderbook 撮合及 AMM 初始化已完成，其余付款联测等待明确的钱包收款白名单授权，见 [阶段报告](amm/STAGING_PUSDT_TEST_2026-10-05.md)。
+以下为本轮采用的验收顺序。10 月 5 日完成资产领取、部署、两轮 Orderbook 撮合和 AMM 初始化；10 月 9 日经用户明确授权，仅新增两个金库收款人后，完成剩余退款、兑换及 LP 场景，见 [最终补充报告](amm/STAGING_PUSDT_TEST_2026-10-09.md)。跨机器竞争等执行网络项目仍需后续验证。
 
 1. 通过 MCP 领取到账资产，保存 included 回执及 PSY/pUSDT 可用余额；读取相关账户与待领取金额，以到账后的同一 checkpoint 建立新基准。
 2. 先在 Orderbook 64 做一对完整成交：Alice 卖 PSY、Bob 卖 pUSDT；领取两边输出并关闭订单，再换方向做第二轮。随后分别测试 PSY 和 pUSDT 到期撤销，资金只退原付款人。
@@ -52,4 +52,4 @@ pUSDT 合约 4 使用 `simple_claim` 和 `simple_transfer`，与发行代币 149
 - 历史 AMM 部署与限制：[部署报告](amm/DEPLOYMENT_READINESS_2026-09-28.md)、[订单生命周期候选报告](amm/STAGING_LIFECYCLE_CANDIDATE_2026-09-30.md)。
 - Orderbook 金额、费用及调用栈：[operationCalls.mjs](orderbook/operationCalls.mjs)。
 
-前次零余额核查目录保留为历史记录。新增资产来源为用户转账；没有调用 pUSDT 铸币方法，也没有读取普通钱包私钥或恢复文件。最终联测报告需要以 included 回执、订单状态和资金守恒核对为准。
+前次零余额核查目录保留为历史记录。新增资产来源为用户转账；没有调用 pUSDT 铸币方法，也没有读取普通钱包私钥或恢复文件。本轮补充测试 58 笔 UserEndcap 全部匹配 included 回执，订单、待领取资产和未确认广播均清零；pUSDT 守恒、PSY 加实际网络手续费守恒。MCP 通用代币入口和客户端确认接口已完成；默认回归通过，但额外复现 5 项历史策略问题，服务仍未切换，见 [接口修复记录](MCP_PAYMENT_POLICY_REVIEW_2026-10-09.md)。

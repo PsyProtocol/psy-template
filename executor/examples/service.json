@@ -1,0 +1,10 @@
+{
+  "vaults": [
+    "amm.json",
+    "orderbook.json",
+    "bondingcurve.json"
+  ],
+  "maxConcurrentExecutions": 1,
+  "maxBackoffMs": 300000,
+  "statusFile": "../runtime/status.json"
+}

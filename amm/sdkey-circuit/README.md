@@ -52,3 +52,16 @@ Real circuit tests reject altered refunds, wrong nonces, inserted cancellation
 payouts and excessive fee burns. Compiled VM tests check cancellation state,
 expiry, exact funding and replay protection. Current live test status is in
 [the pUSDT test record](../../PUSDT_TEST_FUNDING.md).
+
+## Complete proof-only preflight (2026-10-12)
+
+The source driver's `AMM_PROVE_ONLY=1` now fills the automatic burn witness,
+proves the SD-key signature and full UPS end-cap, and verifies that end-cap with
+an independently constructed local verifier. It does not broadcast. Optional
+`AMM_PREFLIGHT_OUTPUT` writes a new public result file, refusing overwrites.
+This source revision is not installed into the frozen staging service.
+
+`tests/signed_stack_binding.rs` proves a 50 PSY refund-shaped stack and rejects
+using that allowed introspection stack to sign a redirected actual payload,
+wrong transaction count, wrong nonce or changed end state. Its fixed sessions
+are synthetic; this does not substitute for a live funded-state UPS test.

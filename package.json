@@ -8,6 +8,12 @@
     "test:unit": "node tests/run_unit_tests.mjs",
     "test:e2e": "node tests/run_e2e_tests.mjs",
     "test:amm": "node --test amm/*.test.mjs amm/contract/*.test.mjs",
+    "test:amm-wide": "node --test amm/wide/*.test.mjs",
+    "test:amm-wide:vm": "cargo +nightly-2025-09-20 test --offline --locked --release --manifest-path amm/wide/vm-tests/Cargo.toml --tests",
+    "test:token-wide": "node --test token/wide/*.test.mjs",
+    "test:token-wide:vm": "cargo +nightly-2025-09-20 test --offline --locked --release --manifest-path token/wide/vm-tests/Cargo.toml --tests",
+    "build:token-wide": "node token/wide/build.mjs",
+    "build:amm-wide": "node amm/wide/build.mjs",
     "test:orderbook-layout": "node --test orderbook/check_update_layout.test.mjs",
     "test:orderbook": "node --test orderbook/*.test.mjs",
     "test:bondingcurve": "node --test bondingcurve/*.test.mjs bondingcurve/contract/*.test.mjs",
@@ -26,7 +32,13 @@
     "clean:config": "node scripts/configure_issuer.mjs --reset",
     "scaffold": "node scripts/scaffold.mjs",
     "fmt": "find . -name '*.psy' -exec dargo fmt {} \\;",
-    "audit": "node scripts/audit_clean.mjs"
+    "audit": "node scripts/audit_clean.mjs",
+    "test:exchanges": "node --test amm/*.test.mjs amm/contract/*.test.mjs amm/wide/*.test.mjs orderbook/*.test.mjs bondingcurve/*.test.mjs bondingcurve/contract/*.test.mjs launchamm/*.test.mjs executor/*.test.mjs tests/security/*.test.mjs",
+    "executor:service": "node executor/service.mjs",
+    "test:executor": "node --test executor/*.test.mjs bondingcurve/chainReader.test.mjs",
+    "test:markets-u124": "node --test amm/u124/*.test.mjs",
+    "test:markets-u124:vm": "cargo +nightly-2025-09-20 test --offline --locked --release --manifest-path amm/u124/vm-tests/Cargo.toml --tests",
+    "build:markets-u124": "node amm/u124/build.mjs"
   },
   "author": "Psy Protocol",
   "license": "MIT"

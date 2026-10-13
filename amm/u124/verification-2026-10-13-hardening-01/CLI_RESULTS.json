@@ -1,0 +1,146 @@
+[
+  {
+    "driver": "market_wallet",
+    "market": "amm",
+    "fingerprint": "aafa2192745b6fa3d9cefc27edcc61e2d4f709c6b7f4c5476f44051fd8e8c236",
+    "matched": true
+  },
+  {
+    "driver": "market_wallet",
+    "market": "orderbook",
+    "fingerprint": "083440ce17ad83e4d4ba78c6829d1b91e27594927e6e29f08ed013c5f259d731",
+    "matched": true
+  },
+  {
+    "driver": "market_wallet",
+    "market": "bondingcurve",
+    "fingerprint": "29dc032e1831388da5483b7c7c1ff3034f7b0186e564c6b437ad3147929d621a",
+    "matched": true
+  },
+  {
+    "driver": "market_wallet",
+    "kind": "noncanonical",
+    "exitCode": 1,
+    "report": {
+      "broadcastAttempted": false,
+      "endUserLeafHash": null,
+      "error": "request_failed",
+      "nonce": null,
+      "ok": false,
+      "reason": "noncanonical U124 amount limb",
+      "retryAllowed": false,
+      "status": "rejected_before_submission",
+      "submitted": false,
+      "userId": null
+    },
+    "offline": true
+  },
+  {
+    "driver": "market_wallet",
+    "kind": "stack-count",
+    "exitCode": 1,
+    "report": {
+      "broadcastAttempted": false,
+      "endUserLeafHash": null,
+      "error": "request_failed",
+      "nonce": null,
+      "ok": false,
+      "reason": "eight explicit calls and thirteen witness fields required",
+      "retryAllowed": false,
+      "status": "rejected_before_submission",
+      "submitted": false,
+      "userId": null
+    },
+    "offline": true
+  },
+  {
+    "driver": "market_wallet",
+    "kind": "wrong-market",
+    "exitCode": 1,
+    "report": {
+      "broadcastAttempted": false,
+      "endUserLeafHash": null,
+      "error": "request_failed",
+      "nonce": null,
+      "ok": false,
+      "reason": "first call must be the bound market guard",
+      "retryAllowed": false,
+      "status": "rejected_before_submission",
+      "submitted": false,
+      "userId": null
+    },
+    "offline": true
+  },
+  {
+    "driver": "market_wallet_verified",
+    "market": "amm",
+    "fingerprint": "aafa2192745b6fa3d9cefc27edcc61e2d4f709c6b7f4c5476f44051fd8e8c236",
+    "matched": true
+  },
+  {
+    "driver": "market_wallet_verified",
+    "market": "orderbook",
+    "fingerprint": "083440ce17ad83e4d4ba78c6829d1b91e27594927e6e29f08ed013c5f259d731",
+    "matched": true
+  },
+  {
+    "driver": "market_wallet_verified",
+    "market": "bondingcurve",
+    "fingerprint": "29dc032e1831388da5483b7c7c1ff3034f7b0186e564c6b437ad3147929d621a",
+    "matched": true
+  },
+  {
+    "driver": "market_wallet_verified",
+    "kind": "noncanonical",
+    "exitCode": 1,
+    "report": {
+      "broadcastAttempted": false,
+      "endUserLeafHash": null,
+      "error": "request_failed",
+      "nonce": null,
+      "ok": false,
+      "reason": "noncanonical U124 amount limb",
+      "retryAllowed": false,
+      "status": "rejected_before_submission",
+      "submitted": false,
+      "userId": null
+    },
+    "offline": true
+  },
+  {
+    "driver": "market_wallet_verified",
+    "kind": "stack-count",
+    "exitCode": 1,
+    "report": {
+      "broadcastAttempted": false,
+      "endUserLeafHash": null,
+      "error": "request_failed",
+      "nonce": null,
+      "ok": false,
+      "reason": "eight explicit calls and thirteen witness fields required",
+      "retryAllowed": false,
+      "status": "rejected_before_submission",
+      "submitted": false,
+      "userId": null
+    },
+    "offline": true
+  },
+  {
+    "driver": "market_wallet_verified",
+    "kind": "wrong-market",
+    "exitCode": 1,
+    "report": {
+      "broadcastAttempted": false,
+      "endUserLeafHash": null,
+      "error": "request_failed",
+      "nonce": null,
+      "ok": false,
+      "reason": "first call must be the bound market guard",
+      "retryAllowed": false,
+      "status": "rejected_before_submission",
+      "submitted": false,
+      "userId": null
+    },
+    "offline": true
+  }
+]

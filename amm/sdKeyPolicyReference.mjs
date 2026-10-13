@@ -63,7 +63,8 @@ export function authorizePoolTransaction({ contractCalls, poolContractId, poolUs
   if (burn?.contract_id !== 0 || burn.method_name !== 'simple_burn' ||
       !Array.isArray(burn.inputs) || burn.inputs.length !== 1 ||
       !Number.isSafeInteger(burn.inputs[0]) ||
-      burn.inputs[0] < MIN_NETWORK_BURN || burn.inputs[0] > POOL_FEE_ESCROW) {
+      burn.inputs[0] < MIN_NETWORK_BURN || burn.inputs[0] > POOL_FEE_ESCROW ||
+      (burn.inputs[0] - MIN_NETWORK_BURN) % 1_000 !== 0) {
     throw new Error('invalid final PSY fee burn');
   }
   return { action: first.method_name, payerId, feeBurn: burn.inputs[0] };

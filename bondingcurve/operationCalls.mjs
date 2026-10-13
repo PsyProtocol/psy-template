@@ -1,4 +1,4 @@
-import { FEE_ESCROW, graduationAmounts, quoteBuy, quoteSell, validateCurve } from './curveMath.mjs';
+import { FEE_ESCROW, MAX_LOTS, graduationAmounts, quoteBuy, quoteSell, validateCurve } from './curveMath.mjs';
 
 export const PSY = 0;
 const USER_MAX = 16_777_215;
@@ -127,7 +127,8 @@ export function settleSellCalls(args) {
 export function refundBuyCalls(args) {
   const { contractId } = ids(args);
   const payerId = payer(args);
-  const { lots, nonce } = order(args);
+  const lots = BigInt(integer(args.lots, 'lots', 1, Number(MAX_LOTS)));
+  const nonce = integer(args.nonce, 'nonce', 1);
   const cost = integer(args.quotedPsy, 'quotedPsy', 1, 6_000_000_000_000_000);
   return padded(contractId, [
     call(contractId, 'refund_buy', payerId, asNumber(lots, 'lots'), cost, nonce),
@@ -138,8 +139,12 @@ export function refundBuyCalls(args) {
 export function refundSellCalls(args) {
   const { contractId, tokenId } = ids(args);
   const payerId = payer(args);
-  const { c, sold, lots, nonce } = order(args);
-  const { tokenAmount } = quoteSell(c, sold, lots);
+  const c = validateCurve(args);
+  const lots = BigInt(integer(args.lots, 'lots', 1, Number(MAX_LOTS)));
+  const nonce = integer(args.nonce, 'nonce', 1);
+  // The signed order and exact Outbox payment authorize the refund. A stale
+  // or invalid price does not restrict returning the original token quantity.
+  const tokenAmount = lots * c.lotSize;
   return padded(contractId, [
     call(contractId, 'refund_sell', payerId, asNumber(lots, 'lots'), nonce),
     claim(tokenId, payerId), claim(PSY, payerId), transfer(tokenId, payerId, asNumber(tokenAmount, 'refund')),

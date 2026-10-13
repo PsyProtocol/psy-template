@@ -8,8 +8,7 @@ independent code/layout reconstruction and empty → new canonical proof
 verification. Contract 59 was not updated. The new policy has ten branches,
 including expired funded LP removal cancellation; that branch consumes only
 the fee escrow and leaves reserves and shares unchanged. Ordinary wallet
-operations use MCP. Real PSY/pUSDT tests and their remaining acceptance checks
-are in [the Oct 5 pUSDT report](amm/STAGING_PUSDT_TEST_2026-10-05.md).
+operations use MCP. The remaining real PSY/pUSDT acceptance tests completed on Oct 9: second-provider LP add/remove, both swap directions, swap refunds, single-asset LP refunds, funded removal cancellation and final withdrawal. All 58 additional UserEndcaps matched included receipts; balances and LP shares conserved. See [the Oct 9 completion report](amm/STAGING_PUSDT_TEST_2026-10-09.md). The [Oct 5 report](amm/STAGING_PUSDT_TEST_2026-10-05.md) retains the deployment and first matching rounds.
 
 The verified deployment artifact is `amm/contract/target-pusdt-verified/`.
 `npm run build:amm` writes to a fresh `target-candidate` directory by default
@@ -89,3 +88,18 @@ The Alice (`135168`) and Bob (`1183744`) wallets came from the existing `/privat
 The secure refund, both swap directions, LP addition, and LP removal have been proved, submitted, and verified on staging with real test PSY and pUSDT. Alice claimed both assets returned by LP removal. The pool retains only the permanently locked minimum shares and their residual reserves. Full transaction IDs, checkpoints, and decoded state leaves are in [the staging verification log](amm/DEPLOYMENT_READINESS_2026-09-28.md). The current 27 JavaScript tests and two Rust circuit tests pass; the Rust tests cover redirected recipients, altered amounts, extra calls, and fee abuse. Live adversarial submissions have not yet been performed. The current arithmetic cap and deployer-controlled upgrade authority still need redesign before production liquidity.
 
 `invoke_sync` remains a separate feature request: it should execute a called contract method before the next statement, expose its return value, and specify transaction rollback, state visibility, nesting, and fee semantics. This AMM design uses an atomic multicall if the chain validates that behavior end to end; it does not assume `invoke_sync` exists.
+
+## Wide arithmetic testing (2026-10-12)
+
+A separate [wide candidate](amm/wide/README.md) lifts the reserve/input/share cap
+from 10000000 to 1000000000000 base units using bounded limb multiplication and
+lexicographic integer comparison. The PSY reserve cap becomes 1000 PSY at nine
+decimals. It preserves the reviewed 22-field layout and 14-method ABI; the
+existing staging contract, vault, frozen executor and old artifacts are unchanged.
+v1 was freshly deployed as contract 2425 with vault 317504 after independent
+initial-layout proof verification. Its real-state refund preflight failed before
+broadcast because an inactive pUSDT branch read an uninitialized payer partition.
+The local v2 repair passed that refund's full-state CFC proof, four VM tests and
+independent initial-layout proof verification. Full UPS and live-asset acceptance
+remain pending; see the [current report](amm/wide/deployments/staging-2026-10-12/REPORT.md).
+The fee escrow and deployer-controlled upgrade authority remain unchanged.

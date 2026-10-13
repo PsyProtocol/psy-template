@@ -19,6 +19,7 @@ target/*
 !target/*.json
 !target/*.abi.json
 /amm/sdkey-circuit/target/
+/amm/wide/vm-tests/target/
 /orderbook/sdkey-circuit/target/
 /orderbook/amm/sdkey-circuit/target/
 /bondingcurve/sdkey-circuit/target/
@@ -31,3 +32,8 @@ target/*
 # Local live-test Python bytecode
 __pycache__/
 *.pyc
+
+# Frozen local SDK build inputs and cache are described by deployment provenance.
+/amm/wide/deployments/*/build/
+/amm/wide/deployments/*/bin/
+**/vm-tests/target/

@@ -62,6 +62,7 @@ test('Compilation & ABI Verification E2E', async (t) => {
       'batch_transfer_2',
       'batch_transfer_5',
       'burn',
+      'cancel_unclaimed_payment',
       'claim',
       'close_delegation_channel',
       'finalize_revoke_delegation',
@@ -112,6 +113,12 @@ test('Compilation & ABI Verification E2E', async (t) => {
     const finalizeRevokeMethod = abi.contract.methods.find(m => m.name === 'finalize_revoke_delegation');
     assert.equal(finalizeRevokeMethod.inputs.length, 2);
     assert.deepEqual(finalizeRevokeMethod.inputs.map(i => i.name), ['channel_idx', 'spender']);
+
+    const cancelMethod = abi.contract.methods.find(m => m.name === 'cancel_unclaimed_payment');
+    assert.deepEqual(cancelMethod.inputs.map(i => i.name), ['sender']);
+    const v3Abi = JSON.parse(readFileSync(join(REPO_ROOT, 'token/target/v3/abi.json'), 'utf-8'));
+    const v3CancelMethod = v3Abi.contract.methods.find(m => m.name === 'cancel_unclaimed_payment');
+    assert.deepEqual(v3CancelMethod.inputs.map(i => i.name), ['sender']);
   });
 
   // 2. DApp Contract ABI Verification
@@ -122,7 +129,7 @@ test('Compilation & ABI Verification E2E', async (t) => {
 
     assert.equal(abi.schema_version, '2.0.0');
     assert.equal(abi.contract.name, 'PsyTokenContract');
-    assert.equal(abi.contract.methods.length, 21);
+    assert.equal(abi.contract.methods.length, 22);
   });
 
   // 3. PSY-721 NFT ABI Verification

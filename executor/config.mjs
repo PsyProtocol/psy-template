@@ -1,0 +1,48 @@
+import {readFile} from 'node:fs/promises';
+import {dirname,resolve} from 'node:path';
+
+const kinds=['amm','orderbook','bondingcurve','launchamm'];
+const paths=['rpcConfig','wallet','abi','driverConfig','runtimeDirectory','usersFile'];
+const allowed=new Set(['kind','name','network','contractId','vaultId','publicKeyHash','fingerprint','codeRoot','layoutRoot',
+  ...paths,'users','intervalMs','receiptMaxPages','cli','pool','launch','automaticInitialize','automaticGraduation']);
+export function validateUsers(users,vaultId){
+  if(!Array.isArray(users)||users.length>10000||users.some(x=>!Number.isSafeInteger(x)||x<1||x>=16777216||x===vaultId))throw Error('users must contain at most 10000 valid payer IDs');
+  return [...new Set(users)].sort((a,b)=>a-b);
+}
+export function validateOptions(input,base=process.cwd()){
+  if(!input||typeof input!=='object'||Array.isArray(input))throw Error('executor config must be an object');
+  for(const key of Object.keys(input))if(!allowed.has(key))throw Error(`unknown executor config field: ${key}`);
+  const o={...input};
+  if(!kinds.includes(o.kind))throw Error('unsupported executor kind');
+  if(typeof o.network!=='string'||!/^[a-zA-Z0-9_-]+$/.test(o.network))throw Error('explicit network required');
+  if(!Number.isSafeInteger(o.contractId)||o.contractId<5)throw Error('invalid contract ID');
+  if(!Number.isSafeInteger(o.vaultId)||o.vaultId<1||o.vaultId>=16777216)throw Error('invalid vault ID');
+  for(const key of ['publicKeyHash','fingerprint','codeRoot','layoutRoot'])if(!/^[0-9a-f]{64}$/.test(o[key]??''))throw Error(`explicit lowercase ${key} required`);
+  for(const key of ['rpcConfig','wallet','abi','runtimeDirectory',...(['bondingcurve','launchamm'].includes(o.kind)?['driverConfig']:[])])
+    if(typeof o[key]!=='string'||!o[key])throw Error(`path required: ${key}`);
+  for(const key of paths)if(o[key]!==undefined){if(typeof o[key]!=='string'||!o[key])throw Error(`invalid path: ${key}`);o[key]=resolve(base,o[key]);}
+  o.users=validateUsers(o.users??[],o.vaultId);
+  o.intervalMs=o.intervalMs??10000;
+  if(!Number.isSafeInteger(o.intervalMs)||o.intervalMs<1000||o.intervalMs>3600000)throw Error('intervalMs must be 1000..3600000');
+  o.receiptMaxPages=o.receiptMaxPages??20;
+  if(!Number.isSafeInteger(o.receiptMaxPages)||o.receiptMaxPages<1||o.receiptMaxPages>100)throw Error('receiptMaxPages must be 1..100');
+  for(const key of ['automaticInitialize','automaticGraduation'])if(o[key]!==undefined&&typeof o[key]!=='boolean')throw Error(`boolean required: ${key}`);
+  if(o.kind==='launchamm'&&(!o.pool||o.pool.poolUserId!==o.vaultId||o.pool.poolContractId!==o.contractId))throw Error('launch pool must match vault and contract');
+  if(o.name!==undefined&&(typeof o.name!=='string'||!(/^[a-zA-Z0-9_-]{1,80}$/).test(o.name)))throw Error('invalid executor name');
+  return o;
+}
+export async function loadOptions(file){return validateOptions(JSON.parse(await readFile(file,'utf8')),dirname(resolve(file)));}
+export async function currentUsers(options){return options.usersFile?validateUsers(JSON.parse(await readFile(options.usersFile,'utf8')),options.vaultId):options.users;}
+export async function loadService(file){
+  const raw=JSON.parse(await readFile(file,'utf8')),base=dirname(resolve(file));
+  for(const key of Object.keys(raw))if(!['vaults','maxConcurrentExecutions','statusFile','maxBackoffMs'].includes(key))throw Error(`unknown service config field: ${key}`);
+  if(!Array.isArray(raw.vaults)||!raw.vaults.length||raw.vaults.some(x=>typeof x!=='string'))throw Error('vaults must list executor config paths');
+  const vaults=await Promise.all(raw.vaults.map(x=>loadOptions(resolve(base,x))));
+  const identities=vaults.map(x=>`${x.network}:${x.vaultId}`);
+  if(new Set(identities).size!==vaults.length)throw Error('duplicate network/vault in service config');
+  const maxConcurrentExecutions=raw.maxConcurrentExecutions??1,maxBackoffMs=raw.maxBackoffMs??300000;
+  if(!Number.isSafeInteger(maxConcurrentExecutions)||maxConcurrentExecutions<1||maxConcurrentExecutions>vaults.length)throw Error('invalid execution concurrency');
+  if(!Number.isSafeInteger(maxBackoffMs)||maxBackoffMs<1000||maxBackoffMs>3600000)throw Error('invalid maxBackoffMs');
+  if(raw.statusFile!==undefined&&(typeof raw.statusFile!=='string'||!raw.statusFile))throw Error('invalid statusFile');
+  return {vaults,maxConcurrentExecutions,maxBackoffMs,statusFile:raw.statusFile?resolve(base,raw.statusFile):null};
+}

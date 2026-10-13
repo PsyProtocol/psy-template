@@ -109,6 +109,11 @@ try {
       body: 'let c = PsyTokenContractRef::new(ContractMetadata::current()); c.balance = 100; c.other_user_info[6] = new OtherUserInfo { amount_sent: 0, amount_claimed: 100 }; PsyTokenContractRef::refund_claimed_payment(7, 1);',
     },
     {
+      name: 'reject cancellation without a sender payment',
+      expected: 'no unclaimed payment from sender',
+      body: 'PsyTokenContractRef::cancel_unclaimed_payment(6);',
+    },
+    {
       name: 'reject refund larger than remaining claimed payment',
       expected: 'refund exceeds claimed payment',
       body: 'let c = PsyTokenContractRef::new(ContractMetadata::current()); c.balance = 100; c.other_user_info[6] = new OtherUserInfo { amount_sent: 40, amount_claimed: 100 }; PsyTokenContractRef::refund_claimed_payment(6, 61);',

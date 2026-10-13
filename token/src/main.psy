@@ -412,6 +412,30 @@ impl PsyTokenContractRef {
         ev.emit();
     }
 
+    // Return the entire unclaimed Outbox delta to its original sender. The
+    // SDK account never receives a spendable balance from this cancellation.
+    #[contract_method]
+    pub fn cancel_unclaimed_payment(sender: Felt) {
+        let self_user_id = get_user_id();
+        assert(self_user_id < 16777216, "caller user_id exceeds inbox bounds");
+        assert(sender != 0 && sender < 16777216 && sender != self_user_id, "invalid payment sender");
+        let c = PsyTokenContractRef::new(ContractMetadata::current());
+        let sender_contract = PsyTokenContractRef::new(ContractMetadata::new(get_contract_id(), sender));
+        let sender_total_sent = sender_contract.other_user_info[self_user_id].get().amount_sent;
+        let info = c.other_user_info[sender].get();
+        assert(sender_total_sent > info.amount_claimed, "no unclaimed payment from sender");
+        let amount = sender_total_sent - info.amount_claimed;
+        assert(amount <= 18446744069414584320 - info.amount_sent, "refund outbox overflow");
+        c.other_user_info[sender] = new OtherUserInfo {
+            amount_sent: info.amount_sent + amount,
+            amount_claimed: sender_total_sent,
+        };
+        let claimed = new ClaimEvent { from: sender, amount: amount };
+        claimed.emit();
+        let returned = new TransferEvent { to: sender, amount: amount };
+        returned.emit();
+    }
+
     // A public-key SDK account requires an ordered SD-key policy so the
     // mandatory fee burn cannot be used as an arbitrary first call.
     #[contract_method]

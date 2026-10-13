@@ -52,3 +52,26 @@ test('expired refund still binds the original seller and exact unpaid amount', (
   assert.deepEqual(refund.submission.contract_calls[3].inputs, [1640448, 200000]);
   assert.deepEqual(proposeExpiredRefunds([{ ...expired, sentUsdt: 0n }], opts), []);
 });
+
+test('limit-price priority is exact and independent of snapshot enumeration', () => {
+  const ask=(sellerId,sellAmount,minBuy)=>({...psy,sellerId,sellAmount,minBuy,sentPsy:sellAmount+BigInt(FEE_ESCROW)});
+  const bid=(sellerId,sellAmount,minBuy)=>({...usdt,sellerId,sellAmount,minBuy,sentUsdt:sellAmount});
+  const orders=[ask(111,400000n,200000n),ask(222,400000n,160000n),bid(333,220000n,400000n),bid(444,240000n,400000n)];
+  const expected=proposeMatch(orders,opts);
+  assert.equal(expected.args.psySeller,222);
+  assert.equal(expected.args.usdtSeller,444);
+  for (const permutation of [orders.toReversed?.()??[...orders].reverse(),[orders[2],orders[0],orders[3],orders[1]]]) {
+    assert.deepEqual(proposeMatch(permutation,opts),expected);
+  }
+  assert.deepEqual(orders.map(o=>o.sellerId),[111,222,333,444]);
+});
+
+test('equal prices use deterministic seller IDs and skip incompatible full-fill sizes', () => {
+  const ask={...psy,sellerId:222};
+  const equalAsk={...psy,sellerId:111};
+  const tooLarge={...usdt,sellerId:333,minBuy:800000n,sellAmount:1000000n,sentUsdt:1000000n};
+  const bid={...usdt,sellerId:444};
+  const result=proposeMatch([ask,tooLarge,bid,equalAsk],opts);
+  assert.equal(result.args.psySeller,111);
+  assert.equal(result.args.usdtSeller,444);
+});
