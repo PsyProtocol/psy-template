@@ -42,11 +42,20 @@ function callNumber(value, label) {
   return number;
 }
 
+// Exact rational limit-price priority. The snapshot has no authenticated
+// creation time, so equal prices use seller ID rather than claiming FIFO.
+function comparePrice(a, b, side) {
+  const delta = side === PSY
+    ? a.minBuy * b.sellAmount - b.minBuy * a.sellAmount
+    : b.sellAmount * a.minBuy - a.sellAmount * b.minBuy;
+  return delta < 0n ? -1 : delta > 0n ? 1 : a.sellerId - b.sellerId;
+}
+
 export function proposeMatch(orders, { checkpoint, contractId, escrowId }) {
   if (!Array.isArray(orders) || !Number.isSafeInteger(checkpoint)) throw new TypeError('invalid order snapshot');
   const eligible = orders.filter(order => checkOrder(order, checkpoint, escrowId).length === 0);
-  const psy = eligible.filter(order => order.asset === BigInt(PSY));
-  const usdt = eligible.filter(order => order.asset === BigInt(PUSDT));
+  const psy = eligible.filter(order => order.asset === BigInt(PSY)).sort((a, b) => comparePrice(a, b, PSY));
+  const usdt = eligible.filter(order => order.asset === BigInt(PUSDT)).sort((a, b) => comparePrice(a, b, PUSDT));
   for (const p of psy) {
     for (const u of usdt) {
       if (p.sellerId === u.sellerId || u.sellAmount < p.minBuy || p.sellAmount < u.minBuy) continue;

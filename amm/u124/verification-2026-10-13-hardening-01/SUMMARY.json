@@ -1,0 +1,71 @@
+{
+  "javascriptPassed": 21,
+  "rustPassed": 14,
+  "cliFingerprintChecks": 6,
+  "cliPreRpcRejections": 6,
+  "liveNegativeExitCode": 1,
+  "liveNegativeResult": {
+    "broadcastAttempted": false,
+    "endUserLeafHash": null,
+    "error": "invalid_amount_range",
+    "nonce": null,
+    "ok": false,
+    "reason": "SDK execution aborted; discard session and correct/rebuild the request",
+    "retryAllowed": false,
+    "status": "rejected_before_submission",
+    "submitted": false,
+    "userId": null
+  },
+  "readOnlyRpcRequests": 99,
+  "mutationRpcRequests": 0,
+  "chainRoots": {
+    "2434": {
+      "codeRoot": "fc9a963b4cf094c302d04abce2b2bd996116086c2ca1403f12f1f81e7b59f941",
+      "matched": true,
+      "layoutRoot": "d6cdabe394fb060dcd01cf06381c75f8ef28d2edf2908ef9e35e001b0feff25e",
+      "layoutMatched": true
+    },
+    "2435": {
+      "codeRoot": "3d6ea07471f4f45dac9d7bb8df91804ed6c8e5004c0e08a90cf27ff285739f91",
+      "matched": true,
+      "layoutRoot": "f6c1f8c6641983b914f5c25d315f52f9990df779bd3a641547e7f2bd7f513a2a",
+      "layoutMatched": true
+    },
+    "2436": {
+      "codeRoot": "ac8e59ba71bb842d36342a74a425efd3ce621f05a730ff68119d75d51334c099",
+      "matched": true,
+      "layoutRoot": "6530c8a8dd6d94b6cda1a542380919c2687c864318e2bc0a84741944247e5f80",
+      "layoutMatched": true
+    },
+    "2431": {
+      "codeRoot": "69f2b52935c556b8db49daa13f6b8f43d876bb4ad4d9f9e2eb5d8723bd110862",
+      "layoutRoot": "62224d708fde9cd6df9a304c2fc5eab0a376a30c13766a39407fcd8587a56724",
+      "matched": true,
+      "layoutMatched": true
+    },
+    "2432": {
+      "codeRoot": "ecfbdf75b3357abd141afc1efa060a8fcd7cf5a564d28ad2058bfd494de01a16",
+      "layoutRoot": "62224d708fde9cd6df9a304c2fc5eab0a376a30c13766a39407fcd8587a56724",
+      "matched": true,
+      "layoutMatched": true
+    }
+  },
+  "journalContention": {
+    "operatorsPerVault": 64,
+    "vaults": 3,
+    "rounds": 8,
+    "attempts": 1536,
+    "broadcasts": 24,
+    "duplicateBroadcasts": 0,
+    "model": true
+  },
+  "bytecodeContention": {
+    "candidates": 96,
+    "commits": 12,
+    "staleDiscards": 84,
+    "model": true
+  },
+  "newSettlements": 0,
+  "chainLoadTestCompleted": false,
+  "independentAuditCompleted": false
+}

@@ -57,3 +57,14 @@ Historical contract `62` had 14 fields before its update. A 17 → 17 proof was 
 node psy-template/orderbook/check_deploy_layout.mjs \
   /private/tmp/psy-orderbook-deploy64-prepared.json
 ```
+
+## Local matching priority update (2026-10-12)
+
+The source matcher now ranks PSY orders by ascending `minBuy / sellAmount` and
+pUSDT orders by descending `sellAmount / minBuy`, using exact BigInt cross-products.
+Equal limit prices use seller ID as a deterministic tie-breaker. This selection is
+independent of snapshot enumeration and does not mutate the snapshot. Incompatible
+full-fill sizes are skipped; on-chain price and payment guards remain authoritative.
+There is no authenticated order creation timestamp in the current snapshot, so this
+is **not price-time/FIFO fairness**. It remains one active order per user and full
+fills only. The frozen staging executor has not been switched to this source revision.

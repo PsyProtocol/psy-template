@@ -1,0 +1,49 @@
+{
+  "time": "2026-10-09T10:16:42.034515+00:00",
+  "status": "passed",
+  "tests": 110,
+  "failed": 0,
+  "chainMode": "scan (read-only)",
+  "chainCheckpoints": {
+    "amm": 210073,
+    "orderbook": 210073,
+    "bondingcurve": 210073
+  },
+  "submissions": 0,
+  "sourceHashes": {
+    "bondingcurve/chainReader.mjs": "5af893d2e604c0e240e1360c5ce45b92b630fbe9cbd753b5ca3f4a0856f6d9f0",
+    "bondingcurve/chainReader.test.mjs": "fbfc0ad5d626e3a8a33d8abefe3d15aa956ab21c26cf6ad8aeb46ba84fa9f594",
+    "bondingcurve/operationCalls.mjs": "1d9955a05e695c08366877aa2bd10cc718d2261030209bf37c83e6d4275c1831",
+    "executor/README.md": "15b4a69a9879ced26b9399ad4cd083c10b5931dbe2bf550c4b4867f74304f20a",
+    "executor/chainReceipts.mjs": "ff441b4f48730e4295e985083a18c2e8539879cee86f06eec08ff303dc49aa7c",
+    "executor/config.mjs": "e11a61864b5b5a1096c0309ce61dffc7974096a6f3a29fa74ad65b30213de992",
+    "executor/config.test.mjs": "9667640214494b6e9dfcc9148a69e07d3b4b9e046a543c058aec529ffbecb439",
+    "executor/driverProcess.mjs": "fa2fcf376f21e790f68e3d1a9afe69689f428a1084131d632dc584ef07df0140",
+    "executor/driverProcess.test.mjs": "5e53838214e1aae24d63cc4bdc913bab1d03b5165f89ec5eb8fd231886f9f5af",
+    "executor/examples/amm.json": "cfb710a855a58cf1a2677a034cb96cb82d5aa0c0fd7f32f2a753a315eb787039",
+    "executor/examples/bondingcurve.json": "a2a36e8d1d9c0d06dd1b0c872e0db00786c9713745b55d81b47b4f5f54ff2942",
+    "executor/examples/orderbook.json": "81f4956cb0b460300b5dfe92f3841480676ceeb6f3488ac1116c42abd31b570e",
+    "executor/examples/service.json": "266a2ba2d6ee887e28d8a0b3dbac548f08dd5c60be38eca7320fce41517e6d87",
+    "executor/journal.mjs": "af4e076e22fde48524b11c176a1cd661644aae56af8de2674cecf1ca9888651f",
+    "executor/journal.test.mjs": "220cca9f9b221b34d482a9e56250c8bb517ff1d50bd60bf658e1c58b8033d12e",
+    "executor/preflight.mjs": "0205e1e27450742753068a52b9e5e11e569ec6383f006d843acf42a8776fbd56",
+    "executor/preflight.test.mjs": "cac505d445345baf1dabbe0d4e4790838e28e83b1472b396ef7d009d2d0b8093",
+    "executor/publicState.mjs": "c46e279f458e3ef8cbdcf75c4fc8e18ea540bb0e1d7d2ef7085a24ff3d32a961",
+    "executor/publicWalletAdapter.mjs": "e163b397e9826001087a3622d3cc1de6fa6a781858d5c078dbd98deaf3886618",
+    "executor/publicWalletAdapter.test.mjs": "7f0ebd6a1974a7048cd98ccd01f6ff99584956a286b48207031972a6c5c512c1",
+    "executor/readRetry.mjs": "ca1aa5c98496a240acc2fafdb9eca401f28420b526fcf9840fcf57b293a4d346",
+    "executor/readRetry.test.mjs": "49da4c71af2addb6d684b6af1f06a445ab948459b4770b7ca6fc6abf858d2b9c",
+    "executor/run.mjs": "07c38d36b21bdb09682296a2d92f8b186369449fb8a5eb96dbc004036f59cc3d",
+    "executor/service.mjs": "b25bb4086b7188dff0729c2b09ef7e39d7ce927141d7d4f62f1d42160fd53de5",
+    "executor/worker.mjs": "cb99a9dea513835da64d614192a64e5741f5f6b2e7289c4cfd1ca2416694d67e",
+    "executor/worker.test.mjs": "315748d7b3fa1ade0232ab2665822229d6df18ce17f19ca06ec826d05add275b",
+    "package.json": "b200e6d82cb31745fce3ad00ec108814974a51981d789e4fcf23a17cb1321356"
+  },
+  "unchangedNodeCoreHashes": {
+    "client_prover/psy_circuit/psy_ups_circuit/src/signature/sd_key.rs": "a40c87da242146cbbd6ecc4a76f55688c1f503ba3bcfd58fc0dc72b7a45d87dd",
+    "client_prover/psy_prover/src/session/session.rs": "a98d2989d8d11b3348fd1f2ad4411d4f8534e32459ece17e3a65f508c7566ff7",
+    "client_prover/psy_vm/src/ups/sd_key.rs": "633732bfdcd1a9650685e605236c447e75a2ed75360cad10b74d96c3da5e0edb"
+  },
+  "priorEvidenceVerifiedFiles": 280,
+  "templateBase": "aaaaad2762ab589c3259f0f538e2424780a68334"
+}

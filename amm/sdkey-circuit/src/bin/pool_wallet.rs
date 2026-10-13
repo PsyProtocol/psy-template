@@ -20,6 +20,10 @@ use psy_prover::session::session::WalletSession;
 use psy_provider::provider::ProveProxyRpcProvider;
 use psy_template_amm_sdkey::build_amm_sd_key_circuit;
 use psy_vm::dpn::vm::def::DPNFunctionCircuitDefinition;
+use psy_common_circuit::circuits::traits::qstandard::QStandardCircuit;
+use psy_ups_circuit::circuit_manager::core::PsyUPSStepCircuitManager;
+use psy_config::PSY_NETWORK_MAGIC;
+use std::io::Write;
 
 fn usage() -> &'static str {
     "usage: pool_wallet <fingerprint|probe|register|add|witness|submit> <pool-contract-id> [calls-and-sign-inputs.json] [rpc-config.json]"
@@ -172,10 +176,6 @@ async fn main() -> Result<()> {
             session
                 .prove_contract_call(key, data.contract_calls)
                 .await?;
-            if env::var("AMM_PROVE_ONLY").as_deref() == Ok("1") {
-                println!("AMM contract calls proved without signing or submitting");
-                return Ok(());
-            }
             let actual_fee = {
                 let mgr = session
                     .user_session_mgrs
@@ -204,6 +204,20 @@ async fn main() -> Result<()> {
             );
             data.software_defined_call.inputs[6] = actual_fee;
             println!("automatic PSY fee burn: {actual_fee}");
+            if env::var("AMM_PROVE_ONLY").as_deref() == Ok("1") {
+                let (endcap, proof) = session.sign(key, data.software_defined_call).await?;
+                let verifier = PsyUPSStepCircuitManager::<C, D>::new_with_config(PSY_NETWORK_MAGIC);
+                anyhow::ensure!(verifier.ups_end_cap.get_fingerprint() == session.wallet.random_circuit_manager().ups_end_cap_circuit_fingerprint().await?, "endcap verifier fingerprint differs");
+                verifier.ups_end_cap.verify_proof(proof.clone())?;
+                if let Ok(path) = env::var("AMM_PREFLIGHT_OUTPUT") {
+                    let result = serde_json::json!({"fullUpsVerified":true,"submitted":false,"contractId":contract_id,"fingerprint":fingerprint.to_string(),"fee":actual_fee,"endUserLeafHash":endcap.core.state_transition.end_user_leaf_hash.to_string(),"proofPublicInputs":proof.public_inputs.iter().map(|v|v.to_canonical_u64().to_string()).collect::<Vec<_>>()});
+                    let mut file=fs::OpenOptions::new().write(true).create_new(true).open(path)?;
+                    file.write_all(serde_json::to_vec_pretty(&result)?.as_slice())?;
+                    file.sync_all()?;
+                }
+                println!("AMM contract calls, SD-key signature and full UPS endcap proved and independently verified; no submission");
+                return Ok(());
+            }
             let tx = session
                 .sign_and_submit(key, data.software_defined_call)
                 .await?;

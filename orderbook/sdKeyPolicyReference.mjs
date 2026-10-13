@@ -11,6 +11,7 @@ export function authorizeEscrowTransaction({ contractCalls, contractId, escrowId
   const burn = contractCalls[6];
   const fee = burn?.inputs?.[0];
   if (burn?.contract_id !== PSY || burn.method_name !== 'simple_burn' ||
+      !Array.isArray(burn.inputs) || burn.inputs.length !== 1 ||
       !Number.isSafeInteger(fee) || fee < 1_000_000_000 || fee > FEE_ESCROW ||
       (fee - 1_000_000_000) % 1_000) {
     throw new Error('invalid fee burn');

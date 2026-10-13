@@ -1,0 +1,29 @@
+{
+  "completedAt": "2026-10-11T23:21:37.206136+00:00",
+  "templateHead": "aaaaad2762ab589c3259f0f538e2424780a68334",
+  "javascriptTests": 149,
+  "rustCandidateAndBoundaryTests": 10,
+  "rustExistingSdkeyTests": 2,
+  "randomCompiledSwapCases": 128,
+  "randomCurveOracleCases": 1000,
+  "sourceSnapshotFiles": 32,
+  "historicalChecks": [
+    {
+      "directory": "executor/verification/2026-10-11-scan",
+      "verifiedFiles": 38
+    },
+    {
+      "directory": "executor/verification/2026-10-11-live",
+      "verifiedFiles": 135
+    }
+  ],
+  "transactionsSubmitted": 0,
+  "contractsDeployed": 0,
+  "nodeModifiedByThisWork": false,
+  "candidateDeploymentReady": false,
+  "candidateReserveInputShareCap": "1000000000000",
+  "psyDecimals": 9,
+  "psyReserveCap": "1000",
+  "candidateSourceSha256": "520e0341e510fd8063b97146015bd60ec6087734207b88070dd4f33523516400",
+  "activeReleaseFilesVerified": 51
+}

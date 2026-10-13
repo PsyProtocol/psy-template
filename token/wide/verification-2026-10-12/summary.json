@@ -1,0 +1,23 @@
+{
+  "sealedAt": "2026-10-12T07:43:12.491Z",
+  "artifact": "compiled-reviewed/compilation_artifact.json",
+  "amountEncoding": "low + high * 2^62",
+  "amountBits": 124,
+  "publicMethods": 20,
+  "issuerFixture": 5,
+  "jsTests": 5,
+  "vmTests": 6,
+  "arithmeticProofTests": 1,
+  "fullStateCfcVerified": false,
+  "fullUpsVerified": false,
+  "submitted": false,
+  "rejectedArtifacts": [
+    "compiled",
+    "compiled-final"
+  ],
+  "artifactReview": {
+    "codeRoot": "bae832ba36e9ce25f22b2604eaee9a08a89600924443b727d71e5afcd31d1f75",
+    "layoutRoot": "62224d708fde9cd6df9a304c2fc5eab0a376a30c13766a39407fcd8587a56724",
+    "stateTreeHeight": 31
+  }
+}

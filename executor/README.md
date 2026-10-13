@@ -1,58 +1,204 @@
-# Public SD-key executor prototype
+# Psy Executor
+
+A chain observer and public SD-key execution service inside `psy-template`.
+It discovers eligible requests for configured users, constructs an authorized
+UPS, runs a proof-only preflight, revalidates chain state, submits once, and
+reconciles the deterministic leaf against an included receipt.
+
+## Run
+
+Configure [examples/service.json](examples/service.json) and its three vault
+configs. The examples pin the existing staging deployments: AMM 1758 / vault
+499200, Orderbook 64 / vault 591872, and Curve 66 / vault 1297920 / token 1494.
+The curve is already graduated. Replace `/opt/psy-executor/rpc-config.json`
+and the public driver binary paths with your installed paths. Contract IDs,
+roots, public-key hash and fingerprint must describe the intended deployment.
 
 ```sh
-node executor/run.mjs /absolute/path/to/config.json scan
-node executor/run.mjs /absolute/path/to/config.json once
-node executor/run.mjs /absolute/path/to/config.json watch
-node executor/run.mjs /absolute/path/to/config.json reconcile
+npm run test:executor
+npm run executor:service -- executor/examples/service.json scan
+npm run executor:service -- executor/examples/service.json watch
+npm run executor:service -- executor/examples/service.json status
 ```
 
-`scan` is read-only. `once` executes one eligible task. `watch` continuously
-scans explicitly configured users, serializes each vault and reconciles prior
-broadcasts before making another submission. SIGINT/SIGTERM stop between tasks.
-The service uses only the intentionally public SD-key wallet drivers.
+The default mode is `scan`, which is read-only and never opens a transaction
+journal or calls the submit driver. `once` reconciles and processes at most one
+eligible task per vault. `watch` runs continuously. SIGINT/SIGTERM stop queued
+work immediately without waiting for an active proof to release its slot,
+interrupt polling waits, and allow already executing UPS tasks to finish.
+The public driver timeout is 15 minutes; process managers should allow enough
+shutdown time for that task to finish.
 
-Config includes `kind` (`amm`, `launchamm` or `orderbook`), `network`, `contractId`,
-`vaultId`, `publicKeyHash`, `fingerprint`, `codeRoot`, `layoutRoot`, `rpcConfig`,
-`wallet`, `abi`, `users`, and `runtimeDirectory`. Orderbook reads orders and
-cursors through public RPC at one checkpoint; its legacy CLI reader is retained
-for standalone diagnostics.
-Launch AMM also needs `pool` (the fixed pool config), `driverConfig`, and may
-include `launch` to automatically seed after graduation and issuer fee funding.
-Do not put ordinary wallet keys or recovery paths into this configuration.
+Single-vault commands remain available:
 
-The adapter checks deployed roots, registration and the locally rebuilt policy
-fingerprint. A task is checked before and after proving. Durable journal files
-record the task and broadcast intent before submission. A returned leaf is
-matched to a historical user leaf and an included content-hash receipt. A
-timeout or absent indexer record leaves the task unresolved and blocks the
-vault. The next run reconciles recorded outcomes; it never assumes that a lost
-response means the transaction failed.
-When reconciliation confirms a previously unresolved broadcast, the runner
-prints its included checkpoint and content hash once, as well as saving the
-durable journal record.
+```sh
+node executor/run.mjs /absolute/path/to/vault.json scan
+node executor/run.mjs /absolute/path/to/vault.json once
+node executor/run.mjs /absolute/path/to/vault.json watch
+node executor/run.mjs /absolute/path/to/vault.json reconcile
+```
 
-Public RPC and Orderbook CLI reads retry explicit transport failures at most
-three times. Proof-only driver preflights also retry explicit network read
-failures before any signing. The watch loop waits and rescans after exhausted retries;
-submission never uses this retry helper. State fields are fetched in groups
-of at most four reads at the same checkpoint.
-When revalidation selects a different task or finds the original task stale,
-watch mode skips its broadcast and scans again instead of exiting.
+## Markets
 
-The `proved` journal record retains the proof-only preflight's call file and
-driver arguments. Restarting can reuse that preflight after revalidation.
-The submission driver still builds its proof against current chain state;
-this record is not a serialized submission proof.
+| Kind | Automated public actions |
+| --- | --- |
+| `amm` | PSY/pUSDT swaps, LP add/remove, swap refunds, partial LP-funding refunds, funded withdrawal cancellation |
+| `orderbook` | Exact full-order matching, expired PSY/pUSDT refunds |
+| `bondingcurve` | Buy/sell settlement; stale, invalid, expired or post-graduation request refunds; optional initialization and graduation |
+| `launchamm` | Launch-token swaps, LP operations and refunds; graduation seeding when configured |
 
-One shared runtime directory coordinates processes on one machine. Separate
-machines rely on chain guards, nonces and claim cursors. Distributed leases,
-user discovery and incentive economics remain later network stages. A crash
-can leave `executor.lock`; an operator must verify that its PID is no longer
-running before removing it, then run `reconcile`. If the process died before
-recording the deterministic leaf, operator reconciliation is required. The
-service deliberately stops rather than guessing whether it can rebroadcast.
+User wallets sign the intent and payment. The service does not claim outputs
+or close intents on behalf of ordinary wallets; users finish those steps with
+the existing wallet/SDK methods. Quote-invalid curve refunds preserve the
+original funded amount rather than attempting to recalculate an executable
+price. Initialization and graduation each require an explicit configuration
+switch; the driver configuration fixes the issuer, inventory and successor.
 
-The old orderbook runner's ledger is separate. Do not switch to this runner
-while that ledger has an unresolved attempt. The current orderbook supports
-full matching; partial fills are not implemented.
+## Configuration
+
+Service fields:
+
+- `vaults`: paths to vault configs, relative to the service config file.
+- `maxConcurrentExecutions`: simultaneous proof/submission jobs across vaults;
+  default 1. Scans run independently. Each vault remains serial.
+- `maxBackoffMs`: transport/busy retry limit; default 300000.
+- `statusFile`: optional JSON status snapshot, relative to the service config.
+
+Vault fields include `kind`, `network`, `contractId`, `vaultId`, `publicKeyHash`,
+`fingerprint`, `codeRoot`, `layoutRoot`, `rpcConfig`, `wallet`, `abi`, `users`,
+`runtimeDirectory`, optional `name`, and `intervalMs` (1000..3600000).
+File paths resolve relative to the vault config. Config validation rejects
+unknown fields and ordinary wallet credential fields.
+
+`receiptMaxPages` bounds historical receipt lookup (default 20, range 1..100).
+Each page contains at most 100 events. The reader follows the services API's
+`offset` pagination, stops at the final page, and deduplicates overlapping rows
+and historical leaf reads. Reaching the bound or a non-advancing page keeps the
+broadcast unresolved. Increase the bound or reconcile manually when necessary;
+the absence of an indexed receipt is never evidence that a broadcast failed.
+
+`bondingcurve` also requires `driverConfig`, the same camelCase launch JSON
+used by `curve_wallet`. `automaticInitialize` and `automaticGraduation` are
+false by default. The reader compares initialized chain parameters with that
+configuration at one checkpoint.
+
+`launchamm` additionally requires `pool` (matching the vault and contract),
+`driverConfig`, and optionally `launch` for automatic seeding after graduation
+and issuer fee funding. Preserve the existing launch pool configuration format.
+
+`usersFile` optionally supplies a JSON array of user IDs, reloaded each cycle.
+It overrides `users`, is bounded to 10000 entries and is sorted/deduplicated.
+Update it by replacing a complete JSON file atomically. These IDs are scan
+hints; all intents and payments are read from chain state and checked by the
+contract and fingerprint. Global chain indexing is a later network stage.
+
+State scans use four user readers at a time and a process-wide limit of four
+in-flight state RPCs, shared across snapshots and vaults. Multi-field and
+cursor reads run concurrently behind that limit. Leaf promises are coalesced
+only within one snapshot, keyed by user/contract/leaf at its fixed checkpoint;
+each new scan and execution revalidation reads a fresh snapshot. User results
+retain their configured order, preserving planner priority. A failed scan
+drains in-flight reads, schedules no more users and produces no partial plan.
+
+Run `node executor/benchmarks/scan.mjs .` from this checkout for the controlled
+100-user comparison fixture. The benchmark uses the existing local staging
+ABI/config files and simulated RPC latency; it never contacts the chain.
+
+## Recovery and concurrency
+
+All executors for a vault on one machine must share `runtimeDirectory`.
+Exclusive locks cover receipt reconciliation and the entire proof/submission
+job. Lock records identify host and PID. A new executor recovers a lock only
+when its same-host owner is conclusively dead; PID reuse, foreign hosts,
+legacy records and unreadable records remain blocked for operator inspection.
+The short `executor.acquire` gate prevents concurrent recoverers from deleting
+a newly acquired lock. An interrupted gate also requires operator inspection.
+Do not remove locks while any executor for that vault is running.
+
+A durable journal records the task and broadcast intent before submission.
+Historical reads share a limit of 32 open journal reads across all vaults in
+the service and load records in batches. Each execution or reconciliation
+reads one fresh snapshot under the vault lock; it does not keep a stale cache
+across operators or restarts. Numbered events must be contiguous and unique.
+A missing or duplicated sequence stops execution for inspection. Do not prune
+or rename journal events; supported history compaction is not implemented.
+Public call files live under `runtimeDirectory/calls/` and are checked against
+the task before reuse and submission. A missing preflight file is regenerated
+before another broadcast intent. The driver rebuilds its submission proof
+against current chain state; the cached file is not a serialized proof.
+
+Journal events and public call files are written and synced in a unique
+temporary file, then published without replacing an existing destination.
+The parent directory is synced after publication. An interrupted write leaves
+an unreferenced `*.tmp`, which readers ignore; it cannot block creation of the
+complete call file on restart. Inspect and remove orphan temporary files only
+while the corresponding executors are stopped. Existing malformed final files
+remain blocked for inspection rather than being silently overwritten.
+
+Submission stdout/stderr is written directly into an exclusive
+`*.submission.log`. The child retains those file descriptors if its parent
+exits. On restart, the adapter can recover a leaf from that log even if the
+parent never wrote `broadcast-result`. It still requires the historical user
+leaf and matching included content-hash receipt before clearing the task.
+
+An unknown broadcast pauses that vault. Timeout, a missing indexer receipt,
+or a missing leaf never authorizes rebroadcast. Other vaults continue. If no
+leaf was ever persisted, operator reconciliation is required. Completed tasks
+return `already-included`; proof and submit callbacks are not invoked.
+
+Transport reads and proof-only preflights have bounded retries. Watch mode
+backs off after exhausted read retries or lock contention. Stale tasks are
+rescanned. Identity, ABI/config or deterministic proof failures halt that
+worker and remain visible in status while other workers continue.
+
+## Operations
+
+Structured JSON events identify the network/vault and execution phase.
+`statusFile` records each worker's phase, completed count, last outcome and
+last error. `checkpoint` and `lastIncluded` describe its most recent confirmed
+inclusion; `observedCheckpoint` records the latest scan without overwriting
+that inclusion. Recovery confirmations are recorded before the next scan, so
+a later read failure does not hide an already confirmed receipt. The included
+count deduplicates task IDs within this service run; it is not a lifetime total.
+Its top-level `updatedAt` refreshes every 10 seconds in
+watch mode; per-worker `updatedAt` is the most recent phase transition. A
+`stopped` worker retains its last outcome, including unresolved broadcasts.
+The status command reads the file; it does not contact the chain or submit.
+
+Use approved public SD-key drivers whose locally computed fingerprint matches
+the registered vault. RPC and registration identities are checked at startup
+and immediately before/after proving. Ordinary wallet keys and recovery paths
+are not configuration inputs. The runtime directory contains public call
+stacks, transaction logs and receipt journals and should persist across restarts.
+
+Distributed leases, global discovery, cross-machine competition and operator
+incentives remain network milestones. The legacy orderbook matcher has a
+separate ledger; reconcile any outstanding attempts before switching runners.
+Orderbook partial fills require a separate contract and fee design.
+
+## Installed staging instance
+
+The current Mac has a persistent login service. See
+[operations/staging-2026-10-11/OPERATIONS.md](operations/staging-2026-10-11/OPERATIONS.md)
+for its frozen configuration, launchd commands, availability and recovery
+instructions. Keep its runtime journal when restarting or moving the service.
+
+`acceptance/live.mjs` is the authorized, one-time PSY/pUSDT acceptance conductor
+for this instance. It uses the installed MCP wallet for Alice, Bob and Charlie,
+and observes public settlements performed by the service. It includes a
+controlled service crash. Evidence files are exclusive; do not rerun it over
+existing evidence or an unresolved transaction. It does not deploy contracts
+or change wallet policies. `acceptance/verify.mjs` checks completed evidence,
+release hashes, receipt identities, asset conservation and historical evidence
+before producing a separate verification snapshot.
+
+The [2026-10-11 live acceptance report](verification/2026-10-11-live/REPORT.md)
+records 38 included transactions, AMM/Orderbook settlements and refunds,
+recovery after a controlled service crash, and per-user asset reconciliation.
+It also documents the HTTP 500 read-recovery fix and the graduated Curve
+instance's scan-only coverage.
+
+The [scan optimization report](verification/2026-10-11-scan/REPORT.md) records
+the revision 3 upgrade, 100-user measurements, historical-state parity checks
+and 136 passing regression tests. The active service uses bounded concurrent
+state reads while retaining the previous submission journal and bindings.

@@ -91,3 +91,9 @@ test('claim order, fee, and token-contract tampering fail authorization', () => 
   badContract[3].contract_id = PSY;
   assert.throws(() => check(badContract), /differs/);
 });
+
+test('reference fee burn rejects extra inputs outside the registered fingerprint shape', () => {
+  const calls=tx(matchCalls({...ids,psySeller:123,usdtSeller:456,amountPsy:1000,amountUsdt:1200,psyNonce:1,usdtNonce:2}));
+  calls[6].inputs.push(123);
+  assert.throws(()=>check(calls),/fee burn/);
+});

@@ -12,9 +12,13 @@ For release blockers and acceptance criteria, see [Production Readiness Gates](P
 
 For the current engineering handoff, see [PSY-20 / PSY-721 handoff (2026-09-24)](HANDOFF_2026-09-24.md).
 
-For the PSY/pUSDT exchange prototypes, see [AMM implementation status](AMM_IMPLEMENTATION.md) and the [orderbook guide](orderbook/README.md). The current 14-method AMM is deployed separately as contract `1758`, with public SD-key vault `499200`; historical contract `59` was not updated. Orderbook contract `64` is reused after code/layout verification. See [the current pUSDT test report](amm/STAGING_PUSDT_TEST_2026-10-05.md) for live test progress. The [SD-key execution network roadmap](SDKEY_EXECUTION_NETWORK_ROADMAP.md) covers the next infrastructure milestone.
+For the PSY/pUSDT exchange prototypes, see [AMM implementation status](AMM_IMPLEMENTATION.md) and the [orderbook guide](orderbook/README.md). The current 14-method AMM is deployed separately as contract `1758`, with public SD-key vault `499200`; historical contract `59` was not updated. Orderbook contract `64` is reused after code/layout verification. See [the current pUSDT test report](amm/STAGING_PUSDT_TEST_2026-10-09.md) for completed multiuser settlements, refunds and the final conservation audit. The [SD-key execution network roadmap](SDKEY_EXECUTION_NETWORK_ROADMAP.md) covers the next infrastructure milestone.
 
 The [bonding curve module](bondingcurve/README.md) adds a token sale contract, public SD-key vault policy, exact quote helpers, refund path and graduation handoff. Curve contract `66` is deployed on staging. A real graduation handoff into Launch AMM contract `1503`, multiuser settlements and refunds are recorded in [the Oct 5 launch-market report](launchamm/STAGING_TEST_2026-10-05.md).
+
+[Psy Executor](executor/README.md) runs the markets as one service inside this repository: configured-user discovery, guarded UPS settlement/refunds, bounded proof concurrency, durable broadcast recovery and per-vault status. Start with `npm run executor:service -- executor/examples/service.json scan` after configuring the public driver and RPC paths.
+
+The [U124 Token](token/wide/README.md) represents balances as two Felt limbs: `low + high * 2^62`, up to `2^124 - 1` raw units, with 0–18 decimals. The three [U124 exchange profiles](amm/u124/README.md) use the same encoding for orders, reserves and settlements. New staging assets 2431/2432 and market contracts 2434/2435/2436 have completed real settlement tests; the original PSY/pUSDT assets retain their existing interfaces. Independent security review and chain load testing remain pending.
 
 ---
 
@@ -113,7 +117,7 @@ PSY_PRIVATE_CLI=/path/to/psy_user_cli npm run deploy:private-v3
 Each template includes a comprehensive, step-by-step operational guide:
 
 - **[PSY-20 Token Guide](token/README.md)**:
-  - **High-Determinism Safe Subset**: Liquid balance management, `mint`, `burn`, `transfer`, `claim`, `batch_transfer_2`, `batch_transfer_5`.
+  - **High-Determinism Safe Subset**: Liquid balance management, `mint`, `burn`, `transfer`, `claim`, `batch_transfer_2`, `batch_transfer_5`, `cancel_unclaimed_payment`, `refund_claimed_payment`.
   - **Edge RPC Slot Reading**: Zero-gas, direct storage slot queries (`getUserContractStateTreeLeafHash`) for balances and Outbox state.
   - **Monotonic Outbox/Claim**: High-concurrency pull payments immune to stale-read double-spending.
   - **Goldilocks Prime Field Arithmetic**: Strict $p - 1$ bounds preventing modular wrap-around.
@@ -137,7 +141,7 @@ Each template includes a comprehensive, step-by-step operational guide:
 The repository includes legacy native ZK contract unit tests, staging v3 compilation and ABI checks, and JavaScript multi-user state simulations. A separate [staging report](tests/live/STAGING_REPORT_2026-09-23.md) records real multi-user cross-realm NFT transactions. The legacy `dargo` NFT unit harness does not execute the v3 source:
 
 ```sh
-# Run the complete test matrix (Unit + E2E + Adversarial)
+# Run native tests, E2E compilation/ABI checks, exchanges and executor regressions
 npm test
 
 # Run native Plonky2 ZK contract unit tests via dargo test
@@ -145,7 +149,25 @@ npm run test:unit
 
 # Run multi-user state and invariant simulations plus compilation checks
 npm run test:e2e
+
+# Run exchange, executor, layout and MCP client regressions
+npm run test:exchanges
 ```
+
+Compiled token refund regressions are available in [token/vm-tests](token/vm-tests/README.md). They require the adjacent SDK and built legacy, public v3 and private v3 artifacts; the private profile uses its matching isolated compiler. The separate [SD-key transaction digest regression](tests/security/sd_key_sighash_repro/README.md) checks the locally compiled SDK circuit.
+
+### MCP transaction confirmation
+
+The current MCP server exposes transactions as `prepare_*` / `execute_*` pairs.
+[mcp_confirmed_client.mjs](scripts/mcp_confirmed_client.mjs) adapts an existing
+MCP SDK client with two separate calls: `prepareMcpTransaction(client, tool, args)`
+returns the server's review summary and ticket; after owner review,
+`executeMcpTransaction(client, {tool, confirmationToken, ownerToken})` executes
+that ticket. Keep credentials out of logs. Execution cannot change transaction
+parameters, and preparation never executes or falls back to a raw transaction.
+The client also refuses direct generic PSY/pUSDT calls. See the
+[MCP fix and verification report](MCP_PAYMENT_POLICY_REVIEW_2026-10-09.md)
+for the installed service's migration status and outstanding policy findings.
 
 ### Native Unit Testing
 
@@ -158,3 +180,16 @@ Run each template's native tests through its script. The script composes the cur
 # PSY-721 NFT Unit Tests
 (cd nft && npm test)
 ```
+
+### Wide AMM candidate and market boundary tests
+
+The [wide AMM candidate](amm/wide/README.md) raises the local PSY reserve cap to
+1000 PSY using wide integer comparisons, while preserving the existing state layout
+and method ABI. v1 is deployed on staging as contract 2425 / vault 317504;
+its real-state refund preflight exposed an uninitialized pUSDT partition read.
+The local v2 repair has passed the refund CFC proof and initial layout proof;
+full UPS and real swap acceptance remain pending. See the [current report](amm/wide/deployments/staging-2026-10-12/REPORT.md).
+Use `npm run test:amm-wide` and
+`npm run test:amm-wide:vm`; `npm run build:amm-wide -- <fresh-output-directory>`
+compiles it without overwriting prior artifacts. `npm run test:exchanges` now also
+checks the candidate's ABI and arithmetic reference tests.

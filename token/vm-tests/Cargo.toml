@@ -1,0 +1,11 @@
+[package]
+name = "psy-template-token-vm-tests"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[dependencies]
+anyhow = "1"
+serde_json = "1"
+psy_config = { path = "../../../psy-node/client_prover/psy_core/psy_config" }
+psy_vm = { path = "../../../psy-node/client_prover/psy_vm" }

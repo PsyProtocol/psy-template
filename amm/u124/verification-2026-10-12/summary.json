@@ -1,0 +1,62 @@
+{
+  "profile": "U124 markets",
+  "scope": [
+    "AMM",
+    "Orderbook",
+    "Bonding Curve"
+  ],
+  "authoritativeBuild": "build-close-reviewed",
+  "authoritativeCompiled": "compiled-close-reviewed",
+  "markets": {
+    "amm": {
+      "methods": 16,
+      "fields": 19,
+      "codeRoot": "ef4e412a0af3444f0edc0a04e478e836cf2bd1914ccb393071ea9458cac9a0b2",
+      "layoutRoot": "d6cdabe394fb060dcd01cf06381c75f8ef28d2edf2908ef9e35e001b0feff25e",
+      "stateTreeHeight": 31,
+      "sourceSha256": "a6f0816a9f1650c537aa1a4ebc4fbc949e413392b7d8e36257c8374265a0ea4c",
+      "artifactSha256": "b9f8ea9a05dc6e6f61375cd86dd1602134cf5c256704577f5ad2647ecbd52b43",
+      "fingerprint": "c7d4c56f676492c362a740396aef2cf9313df389930fbe7957d20613919cb7b9"
+    },
+    "orderbook": {
+      "methods": 7,
+      "fields": 15,
+      "codeRoot": "52280a88a6b8b45a5b4ced65b43c3ed0240ed8c5064774943bdae23832a35d14",
+      "layoutRoot": "f6c1f8c6641983b914f5c25d315f52f9990df779bd3a641547e7f2bd7f513a2a",
+      "stateTreeHeight": 31,
+      "sourceSha256": "8b3b2f3e3f87d72006a5c84477e592788eee216860f63e8ac988fed67bb3432c",
+      "artifactSha256": "f3696baf1eca04bb3ddb1ba42e820f6edd771208805033736dde127692ff1f3d",
+      "fingerprint": "180d5606cdc4442384b6a2e52c50fef51e23fa51376d9a60b43cc015dab57c4b"
+    },
+    "bondingcurve": {
+      "methods": 11,
+      "fields": 20,
+      "codeRoot": "90c930bc782cd290864c944c35c817795847df30c40dceeba27f1f3291e0c41a",
+      "layoutRoot": "6530c8a8dd6d94b6cda1a542380919c2687c864318e2bc0a84741944247e5f80",
+      "stateTreeHeight": 31,
+      "sourceSha256": "928c6cb1fef383eeee446595a7870d2fcfc38e0da4dd5149905989737b37fd49",
+      "artifactSha256": "a1900514ba8f990ebc9c179e9e155d97a38f6e86fdbce26e84fa233711fa3775",
+      "fingerprint": "d4d380dea632840b3940c17ab2ce78077bfab2c0db47f2446c544c1cff13be90"
+    }
+  },
+  "validation": {
+    "jsTests": 5,
+    "vmLifecycleTests": 6,
+    "arithmeticProofSamples": 13,
+    "sdkeyValidBranches": 17,
+    "sdkeyAdversarialProofs": 30,
+    "fullCfcsBuilt": 34,
+    "allPassed": true
+  },
+  "fullStateCfcProof": false,
+  "fullUpsProof": false,
+  "registered": false,
+  "broadcast": false,
+  "deploymentReady": false,
+  "nativePsyVmIsAccountingOracle": true,
+  "fixtureOnly": true,
+  "tokenIds": [
+    42,
+    43
+  ]
+}

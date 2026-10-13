@@ -1,0 +1,20 @@
+{
+  "kind": "amm",
+  "network": "sepolia",
+  "contractId": 1758,
+  "vaultId": 499200,
+  "fingerprint": "53db0578675fa610ba84ce3ec98755f897be70e1ac92ce36f8c0bb2ba10823ac",
+  "publicKeyHash": "ac244b2992d566b88b696b541ef901c81423560d43f6cde3dacc38bc1f18d936",
+  "codeRoot": "bd52f9c47c3cb087c82e33f16182f434483f04934e4ee429344b12d0319c5529",
+  "layoutRoot": "5ff1d11b3ceac86c3b1e7eb587964371e98b3cab316e774bd0e724775c961f81",
+  "rpcConfig": "/opt/psy-executor/rpc-config.json",
+  "wallet": "/opt/psy-executor/bin/pool_wallet",
+  "abi": "../../amm/deployments/staging-pusdt-2026-10-05/compiled/abi.json",
+  "users": [
+    1882112,
+    1283072,
+    861696
+  ],
+  "runtimeDirectory": "../runtime",
+  "intervalMs": 10000
+}

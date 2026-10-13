@@ -61,6 +61,14 @@ export const token = {
     }
   },
 
+  cancelUnclaimedPayment(sender: bigint | number | string): ContractCallArgs {
+    return {
+      contract_id: requireContractId(),
+      method_name: 'cancel_unclaimed_payment',
+      inputs: [felt(sender)],
+    }
+  },
+
   refundClaimedPayment(sender: bigint | number | string, amount: bigint | number): ContractCallArgs {
     return {
       contract_id: requireContractId(),

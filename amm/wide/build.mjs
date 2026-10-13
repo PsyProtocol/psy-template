@@ -1,0 +1,25 @@
+// Local compiler API wrapper; never prepares or broadcasts a transaction.
+import { existsSync, readFileSync, writeFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+import { spawnSync,execFileSync } from 'node:child_process';
+import { resolve,dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { checkWideArtifact } from './artifactGate.mjs';
+const here=dirname(fileURLToPath(import.meta.url)),repo=resolve(here,'../..');
+if (process.argv.length!==3) throw new Error('usage: node amm/wide/build.mjs <new-output-directory>');
+const output=resolve(process.argv[2]);
+if (existsSync(output)) throw new Error(`Refusing to overwrite ${output}`);
+const source=resolve(here,'contract/src/main.psy.rs');
+const hash=bytes=>createHash('sha256').update(bytes).digest('hex');
+const compilerRoot=resolve(repo,'../psy-node');
+const before=hash(readFileSync(source));
+const result=spawnSync('cargo',['+nightly-2025-09-20','run','--offline','--locked','--release','--manifest-path',resolve(here,'vm-tests/Cargo.toml'),'--bin','compile','--',source,output],{stdio:'inherit',cwd:repo});
+if(result.error)throw result.error;
+if(result.status!==0)process.exit(result.status??1);
+if(hash(readFileSync(source))!==before)throw new Error('Source changed during compilation');
+const artifact=JSON.parse(readFileSync(resolve(output,'compilation_artifact.json')));
+const review=checkWideArtifact(artifact,JSON.parse(readFileSync(resolve(repo,'amm/contract/target-pusdt-verified/abi.json'))));
+const files=Object.fromEntries(['compilation_artifact.json','abi.json','circuit_defs.json','contract_code.bin'].map(file=>[file,hash(readFileSync(resolve(output,file)))]));
+const provenance={...review,sourceSha256:before,files,compilerRepositoryHead:execFileSync('git',['-C',compilerRoot,'rev-parse','HEAD'],{encoding:'utf8'}).trim(),compilerWorktreeStatus:execFileSync('git',['-C',compilerRoot,'status','--porcelain','--','client_prover/psy_compiler','client_prover/psy_vm','client_prover/psy_circuit/psy_dpn_circuit'],{encoding:'utf8'}).trim(),compilerLockSha256:hash(readFileSync(resolve(here,'vm-tests/Cargo.lock'))),createdAt:new Date().toISOString()};
+writeFileSync(resolve(output,'review.json'),JSON.stringify(provenance,null,2)+'\n',{flag:'wx'});
+console.log(`Candidate checked; full state/UPS preflight and deployment remain pending.\nAMM_WIDE_ARTIFACT=${resolve(output,'compilation_artifact.json')}`);

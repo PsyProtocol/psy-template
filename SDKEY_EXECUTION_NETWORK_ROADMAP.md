@@ -1,9 +1,12 @@
 # SD-key automated execution network roadmap
 
-Status: the first executor prototype is implemented under `executor/`.
-It scans configured ordinary AMM, launch-AMM and orderbook users, builds guarded UPS tasks,
-serializes one vault, and reconciles broadcasts through historical leaves and
-included receipts. Distributed operation and user discovery are still planned.
+Status: Psy Executor is implemented under `executor/`, with a multi-vault
+service entry point, AMM/orderbook/bonding-curve/launch-AMM adapters, bounded
+proof concurrency and persistent status. It watches configured users or a
+reloadable user-hint file, serializes each vault and reconciles broadcasts
+through historical leaves and included receipts. Same-host dead-process locks
+and persisted submission logs support restart recovery; ambiguous broadcasts
+remain blocked. Global indexing and distributed operation are still planned.
 See [executor/README.md](executor/README.md) and
 [the 2026-10-05 staging report](launchamm/STAGING_TEST_2026-10-05.md).
 Graduation, seeding, LP add/remove, bidirectional launch-token swaps, refunds
@@ -40,17 +43,7 @@ Use `(network, contract_id, contract_code_root, policy_fingerprint, action, user
 
 ## Immediate next work
 
-1. Complete real PSY/pUSDT exchange and full-order matching tests through MCP
-   wallets. Test funding is now received: Bob claimed 1,000 pUSDT and distributed
-   1 pUSDT each to Alice and Charlie. New ordinary AMM contract 1758 and public
-   vault 499200 are deployed and verified with initial LP; Orderbook 64 has completed
-   two opposite-direction matches. Further ordinary-wallet payments await explicit
-   authorization to add those vaults to the existing recipient policies. The separate launch market uses token 1494. Keep the immutable
-   deployment proof gate and do not update contract 62.
-   See [pUSDT funding and test requirements](PUSDT_TEST_FUNDING.md) for the
-   receiving wallet, MCP limitations, separate AMM deployment requirements,
-   and the acceptance checklist. See [the current pUSDT test report](amm/STAGING_PUSDT_TEST_2026-10-05.md)
-   for included results and outstanding checks.
+1. Real PSY/pUSDT multiuser tests completed on Oct 9. AMM 1758 / vault 499200 and Orderbook 64 / vault 591872 passed the outstanding swap, LP and refund scenarios after explicit authorization for those two recipients. All 58 additional UserEndcaps matched included receipts; funds and LP shares conserved. No deployment or update was submitted on Oct 9. See [the completion report](amm/STAGING_PUSDT_TEST_2026-10-09.md) and [funding requirements](PUSDT_TEST_FUNDING.md). The separate launch market uses token 1494. The MCP token guard and client confirmation adapter are implemented; the default crate regression now passes (1,136 passed, 11 ignored). A separate diagnostic reproduced five ignored historical policy findings, so service replacement is paused pending scope clarification. See [the verification report](MCP_PAYMENT_POLICY_REVIEW_2026-10-09.md).
 2. Test two machines racing the same task, abrupt process failure, unresolved
    broadcast recovery and operator costs. The Oct 5 tests cover same-machine
    exclusion and live task selection changes, not a cross-machine chain race.
