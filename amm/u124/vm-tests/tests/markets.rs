@@ -104,3 +104,37 @@ fn parallel_candidates_commit_once_and_original_payer_recovers_every_market()->R
  }
  Ok(())
 }
+
+#[test]
+#[ignore = "requires explicit U124_BOOTSTRAP_FIXTURES"]
+fn curve_bootstrap_advances_donor_cursor_and_allows_post_graduation_refund()->Result<()> {
+ let root=std::env::var("U124_BOOTSTRAP_FIXTURES")?;
+ let config:Value=serde_json::from_slice(&fs::read(format!("{root}/market-bootstrap-config.json"))?)?;
+ let artifact:Value=serde_json::from_slice(&fs::read(format!("{root}/bondingcurve-v2/compiled/compilation_artifact.json"))?)?;
+ let issuer=config["issuer"].as_u64().unwrap();let donor=config["bootstrap"]["funderId"].as_u64().unwrap();
+ let target=config["target"].as_u64().unwrap();let asset=config["assetB"].as_u64().unwrap();
+ let defs:Vec<DPNFunctionCircuitDefinition>=serde_json::from_value(artifact["circuit_definitions"].clone())?;
+ let methods=defs.into_iter().map(|d|((M,d.name.clone()),d)).collect();
+ let fields=artifact["abi"]["contract"]["state"].as_array().unwrap().iter().map(|f|(f["name"].as_str().unwrap().into(),f["offset"].as_u64().unwrap())).collect();
+ let mut w=World{state:InMemoryStateBackend::new(),methods,fields,checkpoint:100};
+ let unit=10u128.pow(18);let quote=21*unit/10;
+ w.state.set_slot(VAULT,M,w.fields["phase"],1);w.state.set_slot(VAULT,M,w.fields["sold_lots"],2);
+ for (i,limb) in limbs(quote).iter().enumerate(){w.state.set_slot(VAULT,M,w.fields["quote_reserve"]+i as u64,*limb);w.state.set_slot(VAULT,M,w.fields["settled_b"]+2*donor+i as u64,*limb);}
+ for user in [issuer,donor]{w.state.set_slot(user,0,3+2*VAULT,2*F);w.state.set_slot(VAULT,M,w.fields["settled_fee"]+user,F);}
+ w.state.set_slot(VAULT,M,w.fields["consumed"]+donor,1);w.state.set_slot(donor,M,w.fields["nonce"],1);
+ let input=args(&[target],&[quote,unit],&[]);
+ let mut underfunded=w.clone();underfunded.state.set_slot(donor,0,3+2*VAULT,F);
+ assert!(underfunded.run(VAULT,M,"graduate",&input).is_err());assert_eq!(underfunded.val(VAULT,"phase",0),1);
+ assert_eq!(underfunded.val(VAULT,"settled_fee",issuer),F,"failed guard must not commit issuer cursor");
+ w.run(VAULT,M,"graduate",&input)?;
+ assert_eq!(w.val(VAULT,"phase",0),2);assert_eq!(w.val(VAULT,"settled_fee",issuer),2*F);assert_eq!(w.val(VAULT,"settled_fee",donor),2*F);
+ // The donor was also a buyer before graduation. Its next fee and payment
+ // must fund a new refund rather than reusing the already claimed donation.
+ w.run(donor,M,"open_buy",&args(&[VAULT,1,2],&[unit],&[200,2]))?;
+ w.state.set_slot(donor,0,3+2*VAULT,3*F);
+ for (i,limb) in limbs(quote+unit).iter().enumerate(){w.state.set_slot(donor,asset,33554453+4*VAULT+i as u64,*limb);}
+ w.run(VAULT,M,"refund_buy",&args(&[donor,1],&[unit],&[2]))?;
+ assert_eq!(w.val(VAULT,"settled_fee",donor),3*F);assert_eq!(w.val(VAULT,"consumed",donor),2);
+ assert_eq!(w.pair(VAULT,"settled_b",2*donor),quote+unit);
+ Ok(())
+}

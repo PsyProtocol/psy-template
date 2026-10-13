@@ -153,6 +153,35 @@ worker and remain visible in status while other workers continue.
 
 ## Operations
 
+### U124 markets
+
+Set `profile: "u124"` for the AMM, Orderbook and Bonding Curve profiles that
+trade two non-genesis U124 Token contracts. Bind each asset with `contractId`,
+`codeRoot`, `layoutRoot` and its `abi` path, and provide the market's `policy`
+and `driverConfig` paths. State and call amounts remain BigInts and use
+`low + high * 2^62`; submission files contain lossless JSON integer literals.
+Native PSY remains the existing gas asset.
+
+The U124 adapter independently verifies a proof-only preflight, checks that
+the action and chain bindings are still current, then uses `verified-submit`
+to verify the exact submitted UPS. Every attempt gets its own durable driver
+log; its path is stored in the submission intent. A lost response is recovered
+by the deterministic leaf hash. Only an explicit driver rejection that occurred
+before a broadcast can release an attempt for a later rescan.
+
+Curve configurations can bind a predeployed AMM and a distinct fee donor with
+`bootstrap`. Graduation transfers the remaining inventory and quote reserve,
+sends one fee escrow, and opens a fixed AMM seed order in the same UPS. Include
+the Curve vault in the AMM worker's `users` list so it discovers that order.
+The AMM contract/vault must already exist. The seed LP belongs to the Curve
+vault and is permanently locked by its current fingerprint, which exposes no
+LP withdrawal operation. Both graduation fee cursors advance with the claims.
+
+The 2026-10-13 staging evidence under `verification/2026-10-13-u124-01` and
+`verification/2026-10-13-bootstrap-01` separates live results from offline
+checks. Deployment and acceptance scripts use exclusive evidence files;
+reconcile an existing intent before attempting another mutation.
+
 Structured JSON events identify the network/vault and execution phase.
 `statusFile` records each worker's phase, completed count, last outcome and
 last error. `checkpoint` and `lastIncluded` describe its most recent confirmed

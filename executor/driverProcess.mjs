@@ -15,5 +15,12 @@ export async function runDurableSubmission(binary,args,{env,timeout=900000,logFi
   return {stdout:output,stderr:''};
  }finally{await log.close();}
 }
-export const submissionLeaf=output=>output?.match(/submitted (?:launch pool vault|orderbook escrow|curve vault|pool) transaction ([0-9a-f]{64})/)?.[1]
- ??output?.match(/deterministic leaf ([0-9a-f]{64})/)?.[1];
+export function driverRecords(output=''){
+ return output.split('\n').flatMap(line=>{try{const v=JSON.parse(line);return v&&typeof v==='object'&&!Array.isArray(v)?[v]:[];}catch{return [];}});
+}
+export function submissionLeaf(output=''){
+ const records=driverRecords(output),hashes=records.filter(v=>v.status==='broadcast_intent'||v.status==='submission_unknown').map(v=>v.endUserLeafHash).filter(x=>/^[0-9a-f]{64}$/.test(x??''));
+ const text=output.match(/submitted (?:market|launch pool vault|orderbook escrow|curve vault|pool) transaction ([0-9a-f]{64})/)?.[1]??output.match(/deterministic leaf ([0-9a-f]{64})/)?.[1];
+ if(text)hashes.push(text);if(new Set(hashes).size>1)throw Error('conflicting submission leaf identities');
+ return hashes[0];
+}

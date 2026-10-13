@@ -1,6 +1,7 @@
 pub mod policy;
 pub mod runtime;
 pub mod wallet_driver;
+mod ranges;
 // The application build resolves foreign token ABIs without changing Node/compiler.
 use anyhow::{bail,ensure,Result};
 use psy_compiler::output::serialize::ContractOutput;
@@ -34,24 +35,18 @@ pub fn compile_market(source:&str,a:u64,b:u64)->Result<ContractOutput>{
  let mut out=psy_compiler::compile(source)?;
  ensure!(out.state_tree_height()==31,"market layout height must be 31");
  for def in &mut out.circuit_definitions {
+  ranges::lower_close_ranges(def)?;
   prepend_native_height(def)?;
   let mut constants=std::collections::HashMap::new();
   let mut current=None;
   for node in &def.definitions {let v=serde_json::to_value(node)?;if v["data_type"]==0 && v["op_type"]==1 {constants.insert(v["index"].as_u64().unwrap(),v["inputs"][0].as_u64().unwrap());}if v["data_type"]==0&&v["op_type"]==47{current=v["index"].as_u64();}}
-  // The frozen SDK swaps length/epoch in its self-external range witness key.
-  // Close calls are separate UPS operations. Bind their Token cursor reads to
-  // the UPS-start snapshot via the constrained current-user context target.
-  for (i,cmd) in def.state_commands.iter_mut().enumerate() {
-   if let DPNStateCmd::GetSelfUserExternalContractStateSlotRange(c)=cmd {
-    ensure!(def.name.starts_with("close_"),"self range compatibility is limited to close methods");
-    let user=def.definitions.iter().enumerate().find(|(pos,n)|*pos<def.state_command_resolution_indices[i] && n.data_type==DPNBuiltInDataType::Target && n.op_type==DPNOpType::GetUserId).map(|(_,n)|n.index as u64).ok_or_else(||anyhow::anyhow!("current-user target unavailable before external range in {}",def.name))?;
-    *cmd=DPNStateCmd::get_other_user_contract_state_slot_range(user,c.contract_id,c.contract_state_tree_height,c.sub_slot_index,c.length);
-   }
-  }
+  // Two-limb self reads are lowered to transaction-local single readers. This
+  // avoids the frozen SDK's range cache key mismatch without changing Node or
+  // replacing current-session reads with an UPS-start foreign-user snapshot.
   let native_height=0;
   for (_i,cmd) in def.state_commands.iter_mut().enumerate(){let foreign=match cmd { DPNStateCmd::GetOtherUserContractStateSlotRange(c)=>Some((c.contract_id, &mut c.contract_state_tree_height,c.length)), DPNStateCmd::GetOtherUserContractStateSlotSingle(c)=>Some((c.contract_id, &mut c.contract_state_tree_height,1)), DPNStateCmd::GetSelfUserExternalContractStateSlotRange(c)=>Some((c.contract_id, &mut c.contract_state_tree_height,c.length)), DPNStateCmd::GetSelfUserExternalContractStateSlotSingle(c)=>Some((c.contract_id, &mut c.contract_state_tree_height,1)),_=>None}; if let Some((contract_id,height,length))=foreign {
    ensure!(constants.get(height)==Some(&31),"unexpected unresolved read height");
-   match constants.get(&contract_id).copied(){Some(0)=>{*height=native_height;ensure!(length==1,"PSY read must be one Felt");},Some(id) if id==a||id==b=>ensure!(length==2,"U124 read must contain both limbs"),_ if Some(contract_id)==current=>{},_=>bail!("unrecognized foreign contract in {}",def.name)}
+   match constants.get(&contract_id).copied(){Some(0)=>{*height=native_height;ensure!(length==1,"PSY read must be one Felt");},Some(id) if id==a||id==b=>ensure!(length==2||(length==1&&def.name.starts_with("close_")),"U124 read must contain both limbs"),_ if Some(contract_id)==current=>{},_=>bail!("unrecognized foreign contract in {}",def.name)}
   }else {let v:Value=serde_json::to_value(&*cmd)?;ensure!(!v["type"].as_str().unwrap().starts_with("GetOtherUserContract") && !v["type"].as_str().unwrap().starts_with("GetSelfUserExternalContract"),"unsupported foreign read shape");}}
  }
  out.contract_code.functions=out.circuit_definitions.iter().map(dapen_fc_to_cfc_code_definition).collect();
