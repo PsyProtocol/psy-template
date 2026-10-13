@@ -22,7 +22,7 @@ async function readRecord(path){
  try{return JSON.parse(await readFile(path,'utf8'));}
  finally{const next=waitingReaders.shift();if(next)next();else readers--;}
 }
-function pendingFrom(records){const attempts=new Map();for(const r of records){if(r.status==='broadcast-intent')attempts.set(r.taskId,r);if(r.status==='included')attempts.delete(r.taskId);}return [...attempts.values()];}
+function pendingFrom(records){const attempts=new Map();for(const r of records){if(r.status==='broadcast-intent')attempts.set(r.taskId,r);if(r.status==='included'||r.status==='not-submitted')attempts.delete(r.taskId);}return [...attempts.values()];}
 export class ExecutionJournal {
  constructor({directory,network,vaultId,fingerprint}){
   if(!directory||!network||!Number.isInteger(vaultId)||vaultId<1||!(/^[0-9a-f]{64}$/i.test(fingerprint)))throw Error('explicit network, vault and fingerprint required');
@@ -60,8 +60,8 @@ export class ExecutionJournal {
   return records;}
  async append(event){const names=await entries(this.directory);const n=names.length;await durable(join(this.directory,String(n).padStart(8,'0')+'-'+event.status+'.json'),{...event,scope:this.scope,at:new Date().toISOString()});}
  async unresolved(){return pendingFrom(await this.records());}
- async reconcile(readReceipt){return this.locked(async()=>{const records=await this.records(),pending=pendingFrom(records),out=[];for(const attempt of pending){const outcome=records.findLast(x=>x.taskId===attempt.taskId&&x.status==='broadcast-result')?.outcome;const result=await readReceipt({...attempt,outcome});if(result?.status==='included'){if(result.userId!==this.scope.vaultId||!result.contentHash||!result.checkpoint)throw Error('receipt identity missing');await this.append({status:'included',taskId:attempt.taskId,result});}out.push({taskId:attempt.taskId,result});}return out;});}
- async execute({task,prove,validateProof,isCurrent,submit,reconcile}){
+ async reconcile(readReceipt){return this.locked(async()=>{const records=await this.records(),pending=pendingFrom(records),out=[];for(const attempt of pending){const outcome=records.slice(records.indexOf(attempt)+1).findLast(x=>x.taskId===attempt.taskId&&x.status==='broadcast-result')?.outcome;if(outcome?.submissionStatus==='not-submitted'){await this.append({status:'not-submitted',taskId:attempt.taskId,reason:outcome.reason});out.push({taskId:attempt.taskId,result:{status:'not-submitted'}});continue;}const result=await readReceipt({...attempt,outcome});if(result?.status==='included'){if(result.userId!==this.scope.vaultId||!result.contentHash||!result.checkpoint)throw Error('receipt identity missing');await this.append({status:'included',taskId:attempt.taskId,result});}out.push({taskId:attempt.taskId,result});}return out;});}
+ async execute({task,prove,validateProof,isCurrent,prepareSubmission,submit,reconcile}){
   return this.locked(async()=>{
    const records=await this.records(),pending=pendingFrom(records);if(pending.length)throw new UnresolvedBroadcast(pending.map(x=>x.taskId));
    const taskId=sha({scope:this.scope,task});
@@ -73,9 +73,14 @@ export class ExecutionJournal {
    const proof=cached?.proof??await prove(task);
    if(!cached)await this.append({status:'proved',taskId,proof});
    if(!await isCurrent(task))throw new StaleTask('task state changed during proof');
-   await this.append({status:'broadcast-intent',taskId,task});
-   let outcome;try{outcome=await submit(task,proof);}catch(e){outcome={error:e.message};}
+   const prepared=prepareSubmission?await prepareSubmission(task,proof):proof;
+   await this.append({status:'broadcast-intent',taskId,task,proof:prepared});
+   let outcome;try{outcome=await submit(task,prepared);}catch(e){outcome={error:e.message};}
    await this.append({status:'broadcast-result',taskId,outcome});
+   if(outcome?.submissionStatus==='not-submitted'){
+    await this.append({status:'not-submitted',taskId,reason:outcome.reason});
+    return {status:'not-submitted',taskId,reason:outcome.reason};
+   }
    const result=await reconcile({taskId,task,outcome,scope:this.scope});
    if(result?.status==='included'){
     if(result.userId!==this.scope.vaultId||!result.contentHash||!result.checkpoint)throw Error('receipt identity missing');

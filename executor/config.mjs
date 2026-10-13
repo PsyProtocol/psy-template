@@ -2,9 +2,9 @@ import {readFile} from 'node:fs/promises';
 import {dirname,resolve} from 'node:path';
 
 const kinds=['amm','orderbook','bondingcurve','launchamm'];
-const paths=['rpcConfig','wallet','abi','driverConfig','runtimeDirectory','usersFile'];
+const paths=['rpcConfig','wallet','abi','driverConfig','runtimeDirectory','usersFile','policy'];
 const allowed=new Set(['kind','name','network','contractId','vaultId','publicKeyHash','fingerprint','codeRoot','layoutRoot',
-  ...paths,'users','intervalMs','receiptMaxPages','cli','pool','launch','automaticInitialize','automaticGraduation']);
+  ...paths,'users','intervalMs','receiptMaxPages','cli','pool','launch','automaticInitialize','automaticGraduation','profile','assetA','assetB']);
 export function validateUsers(users,vaultId){
   if(!Array.isArray(users)||users.length>10000||users.some(x=>!Number.isSafeInteger(x)||x<1||x>=16777216||x===vaultId))throw Error('users must contain at most 10000 valid payer IDs');
   return [...new Set(users)].sort((a,b)=>a-b);
@@ -14,6 +14,20 @@ export function validateOptions(input,base=process.cwd()){
   for(const key of Object.keys(input))if(!allowed.has(key))throw Error(`unknown executor config field: ${key}`);
   const o={...input};
   if(!kinds.includes(o.kind))throw Error('unsupported executor kind');
+  if(o.profile!==undefined&&!['legacy','u124'].includes(o.profile))throw Error('unsupported amount profile');
+  if(o.profile==='u124'){
+    if(!['amm','orderbook','bondingcurve'].includes(o.kind))throw Error('unsupported U124 market');
+    for(const key of ['policy','driverConfig'])if(typeof o[key]!=='string'||!o[key])throw Error(`path required: ${key}`);
+    for(const key of ['assetA','assetB']){
+      const asset=o[key];
+      if(!asset||Object.keys(asset).some(k=>!['contractId','codeRoot','layoutRoot','abi'].includes(k)))throw Error(`invalid ${key} binding`);
+      if(!Number.isSafeInteger(asset.contractId)||asset.contractId<5||asset.contractId>=16777216)throw Error(`invalid ${key} contract`);
+      for(const hash of ['codeRoot','layoutRoot'])if(!/^[0-9a-f]{64}$/.test(asset[hash]??''))throw Error(`explicit ${key} ${hash} required`);
+      if(typeof asset.abi!=='string'||!asset.abi)throw Error(`${key} ABI required`);
+      o[key]={...asset,abi:resolve(base,asset.abi)};
+    }
+    if(o.assetA.contractId===o.assetB.contractId)throw Error('distinct U124 assets required');
+  }else if(o.policy||o.assetA||o.assetB)throw Error('U124 binding requires profile u124');
   if(typeof o.network!=='string'||!/^[a-zA-Z0-9_-]+$/.test(o.network))throw Error('explicit network required');
   if(!Number.isSafeInteger(o.contractId)||o.contractId<5)throw Error('invalid contract ID');
   if(!Number.isSafeInteger(o.vaultId)||o.vaultId<1||o.vaultId>=16777216)throw Error('invalid vault ID');

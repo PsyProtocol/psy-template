@@ -57,7 +57,7 @@ fn production_executor_runs_dense_noops_and_open_add()->Result<()> {
      DPNStateCmd::SetContractStateSlotSingle(c)=>{if c.condition!=0{writes.insert(c.sub_slot_index,c.value);}},
      DPNStateCmd::SetContractStateSlotRange(c)=>{if c.condition!=0{for(k,v)in c.value.iter().enumerate(){writes.insert(c.sub_slot_index+k as u64,*v);}}},
      _=>anyhow::bail!("unexpected production command")}}
-    if n.op_type==DPNOpType::GetStateCommandResultSingle {exec.push_external_target(n.index,reads[&n.inputs[0]]);}else if n.op_type==DPNOpType::GetStateCommandResultArray {exec.push_external_target_array(n.index,arrays[&n.inputs[0]].clone());}else{exec.process_var_def(n);}
+    if n.op_type==DPNOpType::GetStateCommandResultSingle {exec.push_external_target(n.index,reads[&n.inputs[0]]);}else if n.op_type==DPNOpType::GetStateCommandResultArray {let result=arrays.get(&n.inputs[0]).cloned().unwrap_or_else(||vec![reads[&n.inputs[0]]]);exec.push_external_target_array(n.index,result);}else{exec.process_var_def(n);}
    }
    for a in &d.assertions{assert_eq!(exec.resolve_target(a.left),exec.resolve_target(a.right),"{market}:{name}: {}",a.message);}
    if name=="open_add"{let offset=a.abi.contract.state.iter().find(|f|f.name=="kind").unwrap().offset as u64;assert_eq!(writes[&offset],2);}
@@ -89,7 +89,7 @@ fn production_executor_closes_every_settled_order_with_native_32_and_token_31()-
      DPNStateCmd::GetOtherUserContractStateSlotRange(c)=>{if c.contract_id==cid{assert_eq!(c.user_id,pool);}else{assert!([2431,2432].contains(&c.contract_id));assert_eq!(c.user_id,506944);assert_eq!(c.sub_slot_index,33554453+4*pool);}assert_eq!(c.contract_state_tree_height,31);assert_eq!(c.length,2);arrays.insert(j as u64,amount.clone());},
      DPNStateCmd::SetContractStateSlotSingle(c)=>{if c.condition!=0{writes.insert(c.sub_slot_index,c.value);}},
      _=>anyhow::bail!("unexpected close command")}}
-    if n.op_type==DPNOpType::GetStateCommandResultSingle {exec.push_external_target(n.index,reads[&n.inputs[0]]);}else if n.op_type==DPNOpType::GetStateCommandResultArray {exec.push_external_target_array(n.index,arrays[&n.inputs[0]].clone());}else{exec.process_var_def(n);}
+    if n.op_type==DPNOpType::GetStateCommandResultSingle {exec.push_external_target(n.index,reads[&n.inputs[0]]);}else if n.op_type==DPNOpType::GetStateCommandResultArray {let result=arrays.get(&n.inputs[0]).cloned().unwrap_or_else(||vec![reads[&n.inputs[0]]]);exec.push_external_target_array(n.index,result);}else{exec.process_var_def(n);}
    }
    for a in &d.assertions{assert_eq!(exec.resolve_target(a.left),exec.resolve_target(a.right),"{market}:{name}: {}",a.message);}
    assert_eq!(writes[&offset("kind")],0);

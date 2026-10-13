@@ -113,3 +113,38 @@ fn all_three_sdkeys_bind_every_branch_payer_high_limb_assets_and_fee()->Result<(
   for mutation in 0..4{let mut bad=sample.clone();match mutation{0=>bad["calls"][transfer]["inputs"][0]=999.into(),1=>{let high=bad["calls"][transfer]["inputs"][2].as_u64().unwrap();bad["calls"][transfer]["inputs"][2]=(high+1).into();},2=>bad["calls"][transfer]["contract_id"]=0.into(),_=>bad["calls"].as_array_mut().unwrap().swap(1,transfer)}assert!(prove_operation(&gadget,&infos(&bad),fields).is_err(),"{market} accepted malicious mutation {mutation}");}
   let mut bad=sample.clone();let mut inputs=fields;inputs[12]=1_000_101_000;bad["calls"][8]["inputs"][0]=inputs[12].into();assert!(prove_operation(&gadget,&infos(&bad),inputs).is_err());inputs=fields;inputs[0]=99;assert!(prove_operation(&gadget,&infos(sample),inputs).is_err());for attack in 1..=4 {assert!(prove_digest(&gadget,&infos(sample),fields,attack).is_err(),"{market} accepted forged digest {attack}");}println!("{market}: {} valid branches and ten adversarial proofs checked",samples.as_array().unwrap().len());
  }Ok(())}
+
+#[test]
+#[ignore = "requires explicit U124_BOOTSTRAP_PROOF fixture"]
+fn curve_bootstrap_binds_seed_recipient_method_minimum_deadline_nonce_and_fee_donor()->Result<()> {
+ let root=std::env::var("U124_BOOTSTRAP_PROOF")?;
+ let spec:Value=serde_json::from_slice(&fs::read(format!("{root}/policy.json"))?)?;
+ let sample:Value=serde_json::from_slice(&fs::read(format!("{root}/sample.json"))?)?;
+ let fields:[u64;13]=sample["fields"].as_array().unwrap().iter().map(|v|v.as_u64().unwrap()).collect::<Vec<_>>().try_into().unwrap();
+ let gadget=build_policy(&spec)?;
+ prove_operation(&gadget,&infos(&sample),fields)?;
+ // Each attack changes exactly one call in the same authorized branch.
+ for (slot,input) in [(2,0),(3,0),(4,0),(5,0),(5,1),(6,0),(6,5),(6,7),(6,8)] {
+  let mut bad=sample.clone();let old=bad["calls"][slot]["inputs"][input].as_u64().unwrap();
+  bad["calls"][slot]["inputs"][input]=(old+1).into();
+  assert!(prove_operation(&gadget,&infos(&bad),fields).is_err(),"bootstrap accepted modified call {slot} input {input}");
+ }
+ let mut bad=sample.clone();bad["calls"][6]["method_id"]=0.into();
+ assert!(prove_operation(&gadget,&infos(&bad),fields).is_err(),"bootstrap accepted alternate AMM method");
+ println!("bootstrap: full SD-key proof verified; ten recipient/method/fee/minimum/deadline/nonce mutations rejected");
+ Ok(())
+}
+
+#[test]
+#[ignore = "requires explicit U124_SANDBOX_PROOF"]
+fn public_acceptance_payer_only_funds_fixed_markets_and_returns_to_fixed_funders()->Result<()> {
+ let root=std::env::var("U124_SANDBOX_PROOF")?;
+ let spec:Value=serde_json::from_slice(&fs::read(format!("{root}/policy.json"))?)?;
+ let samples:Value=serde_json::from_slice(&fs::read(format!("{root}/policy-samples.json"))?)?;
+ let gadget=build_policy(&spec)?;
+ for sample in samples.as_array().unwrap(){let fields:[u64;13]=sample["fields"].as_array().unwrap().iter().map(|v|v.as_u64().unwrap()).collect::<Vec<_>>().try_into().unwrap();prove_operation(&gadget,&infos(sample),fields)?;}
+ let sample=samples.as_array().unwrap().last().unwrap();
+ let fields:[u64;13]=sample["fields"].as_array().unwrap().iter().map(|v|v.as_u64().unwrap()).collect::<Vec<_>>().try_into().unwrap();
+ for slot in [1,2,3]{let mut bad=sample.clone();bad["calls"][slot]["inputs"][0]=999.into();assert!(prove_operation(&gadget,&infos(&bad),fields).is_err(),"sandbox accepted redirected return {slot}");}
+ Ok(())
+}

@@ -31,10 +31,17 @@ export function makePolicy(market,marketId,config,abi,tokenAbi){
   add('settle_sell',[guard('settle_sell',[p,lots,...x,...y,nonce]),fee(p),claim(a,p),transfer(b,p,x)]);
   add('refund_buy',[guard('refund_buy',[p,lots,...x,nonce]),fee(p),claim(b,p),transfer(b,p,x)]);
   add('refund_sell',[guard('refund_sell',[p,lots,...y,nonce]),fee(p),claim(a,p),transfer(a,p,y)]);
-  add('graduate',[guard('graduate',[target,...x,...y]),fee(issuer),transfer(b,target,x),transfer(a,target,y)]);
+  if(config.bootstrap){
+   const boot=config.bootstrap;
+   if(boot.ammVaultId!==config.target||boot.funderId===config.issuer)throw Error('bootstrap roles');
+   // The curve vault becomes the fixed payer of one AMM seed order. LP stays
+   // in this public account; its fingerprint exposes no LP withdrawal branch.
+   const open=invoke(boot.ammContractId,{name:'open_add',method_id:boot.openAddMethodId},[target,...y,...x,k(1),k(0),k(4294967295),k(1)]);
+   add('graduate',[guard('graduate',[target,...x,...y]),fee(issuer),fee(k(boot.funderId)),transfer(b,target,x),transfer(a,target,y),native('simple_transfer',[target,k(FEE_ESCROW)]),open]);
+  }else add('graduate',[guard('graduate',[target,...x,...y]),fee(issuer),transfer(b,target,x),transfer(a,target,y)]);
  }else throw Error('unknown market');
  for(const branch of branches)for(const c of branch.calls)if(c.contract_id===marketId && c.inputs.length!==id(c.method_name).input_felt_count)throw Error('market policy arity');
- return {version:1,market,market_id:marketId,asset_a:a,asset_b:b,witness_length:13,tx_count:9,fee_min:'1000000000',fee_max:String(FEE_ESCROW),branches};
+ return {version:1,market,market_id:marketId,asset_a:a,asset_b:b,witness_length:13,tx_count:9,fee_min:'1000000000',fee_max:String(FEE_ESCROW),branches,...(market==='bondingcurve'&&config.bootstrap?{bootstrap:config.bootstrap}:{})};
 }
 export function operationCalls(policy,fields){if(!Array.isArray(fields)||fields.length!==13)throw Error('13 witness fields required');fields.forEach(x=>integer(x,(1n<<62n)-1n));user(fields[1]);const branch=policy.branches.find(b=>BigInt(b.branch)===fields[0]);if(!branch)throw Error('unknown branch');if(fields[12]<1000000000n||fields[12]>FEE_ESCROW||fields[12]%1000n)throw Error('invalid burn fee');return branch.calls.map(c=>({contract_id:BigInt(c.contract_id),method_id:BigInt(c.method_id),method_name:c.method_name,inputs:c.inputs.map(v=>v.witness===undefined?BigInt(v.constant):fields[v.witness])}));}
 export function signingRequest(policy,fields){const supplied=[...fields];if(supplied[12]===0n)supplied[12]=1000000000n;const calls=operationCalls(policy,supplied);return {contract_calls:calls.slice(0,8).map(({contract_id,method_name,inputs})=>({contract_id,method_name,inputs})),software_defined_call:{inputs:[...fields]}};}

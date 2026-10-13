@@ -12,9 +12,11 @@ import {scanAmm as scanWideAmm, WIDE_AMM_CODE_ROOTS} from '../amm/wide/chainRead
 import {scanCurve} from '../bondingcurve/chainReader.mjs';
 import {runDurableSubmission,submissionLeaf} from './driverProcess.mjs';
 import {publishFile} from './durableFile.mjs';
+import {createU124WalletAdapter} from './u124Adapter.mjs';
 const execFile=promisify(execFileCallback);
 const padded=x=>x.toLowerCase().padStart(64,'0');
 export async function createPublicWalletAdapter(options,{readState=publicState,readReceipts=receiptReader,runDriver=execFile,submitDriver=runDurableSubmission}={}){
+ if(options.profile==='u124')return createU124WalletAdapter(options,{readState,readReceipts,runDriver,submitDriver});
  assert.ok(['launchamm','orderbook','amm','bondingcurve'].includes(options.kind),'unsupported public wallet kind');
  const state=await readState(options.rpcConfig),leaf=await state.contractLeaf(options.contractId);
  assert.equal(leaf.code_root,options.codeRoot,'deployed code root');assert.equal(leaf.state_layout_root,options.layoutRoot,'deployed layout root');

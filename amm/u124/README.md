@@ -26,7 +26,7 @@ AMM 仍收取 30 bps，初始锁定 1000 个最小 LP 单位，追加流动性�
 
 新 Token 的 Outbox 为 offset **33554453**、stride **4**，`amount_sent` 为两个 Felt；状态树高度 **31**。原生 PSY Outbox 为 offset **3**、stride **2**、单 Felt，读取高度为 **32**。
 
-当前 DSL 编译器的 typed foreign read 会沿用市场自身高度。应用构建工具 `vm-tests/src/lib.rs::compile_market` 只为原生 PSY 的读取注入常量高度 32，保留市场/新 Token 的高度 31，并重新生成字节码。此过程不修改 Node 或编译器仓库。构建 pass 保证 Felt targets 密集编号；将 close 的 Token 游标绑定为当前用户在 UPS 起始快照中的外部读取，避开冻结 SDK 的 self-external range 缓存键错误。**close 需作为独立 UPS 执行**。`artifactGate.mjs` 检查高度、密集引用、当前用户绑定、金额宽度、布局、方法及入参数量。**不得部署原始 DSL 编译器输出；应使用下面的构建入口。**
+当前 DSL 编译器的 typed foreign read 会沿用市场自身高度。应用构建工具 `vm-tests/src/lib.rs::compile_market` 为原生 PSY 的读取注入常量高度 32，保留市场/新 Token 的高度 31，并重新生成字节码。此过程不修改 Node 或编译器仓库。构建 pass 保证 Felt targets 密集编号。新的 `ranges.rs` 把 close 的双 Felt self-external range 读取降为两个交易内的 single 读取，避开冻结 SDK 的 range 缓存键错误，并保留同一 UPS 内前序调用的状态变化。`artifactGate.mjs` 检查两个读取的位置、高度、密集引用、金额宽度、布局、方法及入参数量。**旧 v6 实例仍采用 UPS 起始快照读取，close 需独立执行；新构建的同笔领取关闭须以对应真实 UPS 验证为准。不得部署原始 DSL 编译器输出，应使用下面的构建入口。**
 
 ## 构建
 
