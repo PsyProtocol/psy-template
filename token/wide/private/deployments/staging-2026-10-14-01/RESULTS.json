@@ -1,0 +1,205 @@
+{
+  "network": "sepolia-staging",
+  "contractId": 2457,
+  "deployed": true,
+  "deploymentCheckpoint": 280390,
+  "deploymentContentHash": "809eef868a160816ab34d93d5f873d5bc600d6ccc9135f22061887e4cfd87f0a",
+  "codeRoot": "fc19619943370196243a67e0947342d05cd430a6fb076b4cb3ca8c7a827b284f",
+  "layoutRoot": "35e546bb64ad8405e725377eae4cedd54032ca6980cda5520cc3cb18d81c0a03",
+  "initialCanonicalLayoutVerified": true,
+  "oldFieldCount": 0,
+  "newFieldCount": 24,
+  "stateTreeHeight": 32,
+  "newLayoutSlotCount": 2178599700,
+  "initialLayoutMutationsRejected": 7,
+  "sourceSha256": "ceb21464b53d3b3146844a4b3ad74a9270ccbd4cc4f94667217f990cb7326510",
+  "artifactSha256": "22f3da84e02b770a1605b7fe1ffecc3f14af0c4a3323921a6b709201db2f13e0",
+  "decimals": 18,
+  "symbolNumeric": 1346983508,
+  "mintedRaw": "90000000000000000000",
+  "capRaw": "99999946999999987712",
+  "capFixtureEncodingMistake": "An intended 100-token cap was manually encoded as [3154540613024841728,21], yielding 99.999946999999987712; no reset or extra deployment was made. The 90-token mint is below the actual cap.",
+  "tests": {
+    "privateClient": {
+      "passed": 6,
+      "skipped": 0
+    },
+    "privateVmAndNativeProofs": 5,
+    "publicVmAgainstPrivateArtifact": 6,
+    "sdKeyPolicy": 2
+  },
+  "realNativeInclusionProofsVerified": 4,
+  "fullAuthenticatedPrivateCfcVerified": true,
+  "fullPrivateUpsVerified": true,
+  "confirmedSdkSteps": [
+    {
+      "label": "sdk-a-gas-claim",
+      "userId": 1473088,
+      "checkpoint": 281178,
+      "endUserLeafHash": "e2cfddbdb7d2a0e78ad6e1d0518db610d7ff17168e9b825787595841f2910c98",
+      "contentHash": "98a1c2b469ce0e3f103f739e13a824a65f15b9fb776799f51369d7b6158a9008",
+      "fee": "1000002000",
+      "fullUpsVerified": true
+    },
+    {
+      "label": "sdk-b-gas-claim",
+      "userId": 1145408,
+      "checkpoint": 281206,
+      "endUserLeafHash": "e675146c8cde81ca3ddf842093495edb244ea0151291541b30ab94b81992f914",
+      "contentHash": "187838cf34964684f62fd7fff7d5036a927748ba054a7eb79533bdbe692ab509",
+      "fee": "1000002000",
+      "fullUpsVerified": true
+    },
+    {
+      "label": "sdk-a-ft-claim",
+      "userId": 1473088,
+      "checkpoint": 281244,
+      "endUserLeafHash": "4ce7ee82e2a97720d43a44604be111713a0f3d1032a06ce099fa2bc81726fb6d",
+      "contentHash": "26ddc9543d55a888feccb4d2428777c5267b5d7f7c57e217ff9151d830d4f531",
+      "fee": "1000004000",
+      "fullUpsVerified": true
+    },
+    {
+      "label": "sdk-a-private-transfer",
+      "userId": 1473088,
+      "checkpoint": 281270,
+      "endUserLeafHash": "87c4c0393f7849559a93d8451496d8b9c762a581829b009e2e506370187f5953",
+      "contentHash": "b26644b336fc1ab567d59a32fe951d45a05f2fc834551622b51e75513ebbb4fe",
+      "fee": "1000045000",
+      "fullUpsVerified": true
+    },
+    {
+      "label": "sdk-b-private-claim",
+      "userId": 1145408,
+      "checkpoint": 281319,
+      "endUserLeafHash": "2491b118117477c0ecd7e72f2ec32a798b82644da1a050e8777a5e216b809ecd",
+      "contentHash": "3913ce12ef77d19c4b2c145c58a0b64f6544df8d67d10a276bc33529c3315abb",
+      "fee": "1000005000",
+      "fullUpsVerified": true
+    },
+    {
+      "label": "sdk-b-private-return",
+      "userId": 1145408,
+      "checkpoint": 281489,
+      "endUserLeafHash": "62ab160fbc027ee6964a64b9b132f18528dc0a8fd7e629718c2bc2e0ab2a1274",
+      "contentHash": "601c9edba5b5210d3afa5f7afc2a275faa03ef7b3e40bdad2cd3e02ebda33bf2",
+      "fee": "1000045000",
+      "fullUpsVerified": true
+    },
+    {
+      "label": "sdk-a-private-return-claim-v2",
+      "userId": 1473088,
+      "checkpoint": 281690,
+      "endUserLeafHash": "a9a1134ffe9ab2717d7481f0046bd2282db646adba52cd02f2a48c1d165b3e45",
+      "contentHash": "3a37fa3e2338c3d8c873804da3853bffb6b2fd7b314e26193f35de09c30ad6b6",
+      "fee": "1000005000",
+      "fullUpsVerified": true
+    }
+  ],
+  "replays": [
+    {
+      "label": "sdk-b-replay",
+      "reason": "nullifier already claimed",
+      "rejectedBeforeBroadcast": true,
+      "unchangedNonceAndBalances": true,
+      "beforeCheckpoint": 281396,
+      "afterCheckpoint": 281404
+    },
+    {
+      "label": "sdk-a-replay",
+      "reason": "nullifier already claimed",
+      "rejectedBeforeBroadcast": true,
+      "unchangedNonceAndBalances": true,
+      "beforeCheckpoint": 281743,
+      "afterCheckpoint": 281752
+    }
+  ],
+  "privateTransfersRaw": [
+    "20000000000000000017",
+    "5000000000000000003"
+  ],
+  "firstAmountExceedsGoldilocksModulus": true,
+  "finalCheckpoint": 281743,
+  "finalBalances": {
+    "issuer": {
+      "userId": 1460800,
+      "native": "960999583000",
+      "ft": "60000000000000000000",
+      "lowNoteCount": "0",
+      "highNoteCount": "0"
+    },
+    "sender": {
+      "userId": 1473088,
+      "native": "499944000",
+      "ft": "14999999999999999986",
+      "lowNoteCount": "1",
+      "highNoteCount": "1"
+    },
+    "receiver": {
+      "userId": 1145408,
+      "native": "1499948000",
+      "ft": "15000000000000000014",
+      "lowNoteCount": "1",
+      "highNoteCount": "1"
+    },
+    "payer": {
+      "userId": 1538624,
+      "native": "988999995000"
+    }
+  },
+  "supplyConserved": true,
+  "pendingTestPrivateNotes": 0,
+  "crossRealmTested": false,
+  "testSigningAccountsArePublicSdKeys": true,
+  "ordinaryMcpWalletPrivateBundleIntegrationTested": false,
+  "productionReady": false,
+  "ordinaryPrivateKeysReadOrExported": false,
+  "existingContractsUpdated": false,
+  "nodeModified": false,
+  "mcpServerModified": false,
+  "activeWalletRestored": 936512,
+  "gasSource": {
+    "faucetRecipient": 1538624,
+    "faucetAmountNano": "1000000000000",
+    "sdkFundingNanoPerAccount": "4500000000"
+  },
+  "localFailures": [
+    {
+      "label": "private-ft-deploy",
+      "broadcast": false,
+      "reason": "old CLI compilation artifact format mismatch; corrected isolated CLI verified request before new submission"
+    },
+    {
+      "label": "sdk-a-private-return-claim",
+      "broadcast": false,
+      "reason": "empty read RPC JSON response; preserved log and verified unchanged nonce=3 and balances before fresh session"
+    }
+  ],
+  "evidenceSha256": {
+    "deploy-confirmed.json": "2d4caf10bf5bbe6e4d9d1fd6afd585417eb21d37e7cb51ae31b9ee0f0d5b27b5",
+    "deploy-candidate.json": "c20ac3414460303bc9bf4dfcc7ab193239a469f1b58d867414e63aa8dd2739cb",
+    "initial-request.json": "31dfa7e600851133b99fc942f78b52f3c39d093ead1cdcef23af3777f8010f91",
+    "initial-audit-report.json": "ab1a2bf3c0401447ee022589fe6a95100accda8004cb44457e40f5b213634eaf",
+    "compiled/source.psy.rs": "ceb21464b53d3b3146844a4b3ad74a9270ccbd4cc4f94667217f990cb7326510",
+    "compiled/compilation_artifact.json": "22f3da84e02b770a1605b7fe1ffecc3f14af0c4a3323921a6b709201db2f13e0",
+    "compiled/abi.json": "9d8461146699a381b52982e6cd569941280018daa6037e1d9eb180249eabb4c6",
+    "compiled/circuit_defs.json": "fd2976d0d6d9aad058107002264c2a65fb5d574cae79398f6d8db5326563c9c9",
+    "compiled/contract_code.bin": "acc8a3d93afe11300ed497b1a992ff5ce34c0fb6760ea4eac996dd86f053d05c",
+    "final-snapshot.json": "35ed7bd724f90f11a8ec17141bdb9eecca78b12dad14e0e9bae761ea94d559e0",
+    "regression-final.log": "049be3ed8e8d67a117cf641dbd1fc04579d1fd3e16ed2d58c0b6e3821aa34401",
+    "client-final-test.log": "180c1409f744957b9ddae0c9d92495a9e8d81f26e50a227c26786d94c279da8a",
+    "wallet-cleanup.json": "ae31775b71c686f6258f1d3f3a9cfa663ca5e7b69ce3146b09dfad96a978f329",
+    "return-claim-retry-authority.json": "62e5c560772c1bf2ba1fa1975664e99e34d0e91c3e0543dd7fd169de20fc8714",
+    "sdk-a-private-return-claim.log": "19a2f6d5d703c80e8eca8a9094a31071451bc2196b2bf21b5313738834846ea1",
+    "sdk-b-replay.log": "e37551cc8031572491f530888ba992bbe4051514c02b28cac45d4eca57e423ab",
+    "sdk-a-replay.log": "068b65661f05e5a0d8c916e5598f55b35b7a5be3c2e0a668bc6222265dcdb5c3",
+    "sdk-a-gas-claim-confirmed.json": "22d9cf2dbd75369e6b3e86f9b78b000710e548f3e8f741bbe9d75910cf70fa04",
+    "sdk-b-gas-claim-confirmed.json": "252a6cbc5ba2a7b8fcfa96095d208bfcdb5902406ef3e97d183b6d04ab80c897",
+    "sdk-a-ft-claim-confirmed.json": "ed29576099921cc9d0dd20fefd9e0979fcd757067ef342e23c6a18a9a8d38012",
+    "sdk-a-private-transfer-confirmed.json": "fc766e56d82c597fc5791f6cde960bfaa79fe8b2515cc13e504df81fc3c93443",
+    "sdk-b-private-claim-confirmed.json": "9811e38fc506f635bbce34cf10509f5561bec8a9eed5ec6f89922e733afa413c",
+    "sdk-b-private-return-confirmed.json": "fccf65dcf00f7c98f42c21fa82e06cfa9551d0f0ff58c1f5f80ea93194f5a235",
+    "sdk-a-private-return-claim-v2-confirmed.json": "066136b965702fba00acd187ffe38c0741e9cbd80ff14650e62b7f663af2069a"
+  },
+  "generatedAt": "2026-10-14T13:13:32.991623+00:00"
+}

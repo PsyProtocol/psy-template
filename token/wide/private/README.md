@@ -116,7 +116,50 @@ TOKEN_WIDE_ARTIFACT=/path/to/compilation_artifact.json \
 AMM、Orderbook、Bonding Curve、NFT Market 目前继续使用它们已有的公开资产；
 隐私转账功能不会自动使市场交易成为隐私交易。
 
-本轮通过实际编译、真实原生票据证明、DPN VM/断言电路和公开功能回归。
-验证使用合成检查点与本地状态适配器，不等于完整认证状态 CFC/UPS或测试网验收。
-尚未部署，也未标记生产就绪。nullifier map 每个领取者最多 2^20 项；
+本地验证通过实际编译、真实原生票据证明、DPN VM/断言电路和公开功能回归。
+这些离线验证使用合成检查点与本地状态适配器；测试网结果单独记录在
+`deployments/staging-2026-10-14-01/`，不能把离线结果当作链上验收。
+尚未标记生产就绪。nullifier map 每个领取者最多 2^20 项；
 无票据秘密恢复、隐私余额迁移和已发布隐私票据的单方面撤销功能。
+
+## 新实例部署预检
+
+`vm-tests` 的 `preflight_private_initial` 只生成和验证新实例请求，没有更新或广播路径：
+
+```sh
+preflight_private_initial prepare ARTIFACT PUBLIC_DEPLOYER NEW_REQUEST
+preflight_private_initial audit ARTIFACT PUBLIC_DEPLOYER REQUEST NEW_REPORT
+```
+
+它从 ABI 重建 canonical layout，验证原生 layout 证明、空旧根、旧字段/槽数为零，
+并绑定新根、字段/槽数、发行者、公钥身份、代码与方法白名单。`audit` 还检查七种
+错误请求被拒绝，包含把旧字段数改成 14 的情形。正式提交前必须核对实际钱包生成的
+请求与该产物一致；提交后用唯一交易标识确认入块，再对比链上合约叶子。
+不能用这个工具为已有合约生成升级证明。
+
+## 公开 SD-key 测试驱动
+
+`vm-tests` 的 `private_test_wallet` 用公开种子 `[1,1,1,1]` 注册受限 SD-key，
+不读取普通钱包的私钥或恢复文件。策略只允许领取 Native PSY、执行指定 FT 方法，
+以及固定上限内的自动手续费销毁；公开 FT 回款的接收人固定为发行者。
+这是可由任何人执行的测试账户，不能用于保管用户资产。
+
+```sh
+private_test_wallet identity POLICY_JSON
+private_test_wallet register POLICY_JSON RPC_CONFIG
+private_test_wallet prepare-note PUBLIC_NOTE_SPEC NEW_SECRET_FILE
+private_test_wallet verified-submit POLICY_JSON TRANSFER_CALL RPC_CONFIG
+# 等待确切入块回执后，用同一个已确认检查点生成两个 limb 的原生证明：
+private_test_wallet prove-notes SECRET_FILE SENDER_ID CHECKPOINT RPC_CONFIG NEW_PACKET
+private_test_wallet claim-verified-submit POLICY_JSON PACKET RPC_CONFIG
+```
+
+票据规格的金额是十进制字符串。secret 与 packet 文件以 `0600` 权限独占创建，
+不能提交到 Git 或输出到公共日志。驱动读取同检查点的真实票据、状态、合约和用户树
+路径；加入全部外部证明后才读取会话路径，生成 CFC/UPS 并独立验证 endcap。
+`*-preflight` 不广播，`*-verified-submit` 在广播前输出唯一 leaf hash。
+失败后应核对这个标识是否入块；不能盲目重试或覆盖原始记录。
+
+测试网新实例 **2457** 已部署。实际双向隐私转账、领取及完整认证 CFC/UPS 的
+结果见 [测试网验收报告](deployments/staging-2026-10-14-01/REPORT.md)。
+测试使用公开 SD-key 账户；普通 MCP 钱包的双 limb 私有 bundle 入口仍未提供。
