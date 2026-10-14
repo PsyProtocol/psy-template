@@ -77,3 +77,8 @@ market_wallet preflight policy.json calls.json rpc-config.json
 2026-10-12 离线初版结果见 [REPORT.md](verification-2026-10-12/REPORT.md)：JS 校验、实际市场+Token 字节码生命周期、大整数 op-gadget 证明、SD-key 正反例证明及全部 CFC 构建。原生 PSY 在 VM 生命周期中使用记账 oracle；该离线初版当时未进行部署、注册、充值或广播。后续真实验证已完成 64 笔链上用户交易、12 笔经独立完整 UPS 验证的 SD-key 结算与 5 项未提交的拒绝测试，见上面的真实结算报告。
 
 该布局与现有测试网单 Felt 市场不兼容。发布时应使用**新市场合约与新 SD-key 金库**，逐个确认新 Token 的代码/布局根及高度、独立验证初始布局证明、注册对应 fingerprint，再执行真实状态 UPS 预检与小额交易。不得将本版本作为旧合约的就地 layout 更新。原来的测试网资产、订单和资金不能通过直接改布局自动迁移。
+
+The [2026-10-14 live report](../../executor/verification/2026-10-14-resume-01/REPORT.md)
+confirms all three same-UPS claim/close paths on fresh contracts 2443/2444/2446,
+Curve graduation seeding a predeployed AMM, and two real executors recovering
+a proof-owner crash without duplicate broadcast or asset movement.

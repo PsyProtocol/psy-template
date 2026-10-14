@@ -1,0 +1,236 @@
+{
+  "completedAt": "2026-10-14T00:00:31.670Z",
+  "displayDate": "2026-10-14",
+  "displayTimezone": "Asia/Taipei",
+  "network": "sepolia",
+  "sourceCommit": "a8c5a72f79539052225a99667d7d47d5a12c4f94",
+  "markets": {
+    "amm": {
+      "contractId": 2443,
+      "vaultId": 401984,
+      "codeRoot": "7f7478dc611e4a402f3d5b1803bf93fa99071fa6c53bbe314e4e1bfd70591288",
+      "layoutRoot": "d6cdabe394fb060dcd01cf06381c75f8ef28d2edf2908ef9e35e001b0feff25e",
+      "fingerprint": "82b9cb4ec8869be4f079b1f8af78ef98e801fd3b1e3e900d5562cd6fc199747f",
+      "stateTreeHeight": 31
+    },
+    "orderbook": {
+      "contractId": 2444,
+      "vaultId": 1450560,
+      "codeRoot": "4166cddd0efc6627fc2034c371597c117fd714f5a4f02a76d6bb0723a4b38cd3",
+      "layoutRoot": "f6c1f8c6641983b914f5c25d315f52f9990df779bd3a641547e7f2bd7f513a2a",
+      "fingerprint": "c38a1fa6bd64dd82da675a0b1c09261753d21cb729a5f8b7838055c1ad3992ca",
+      "stateTreeHeight": 31
+    },
+    "bondingcurve": {
+      "contractId": 2446,
+      "vaultId": 205376,
+      "codeRoot": "29821ef83ecb61dd34b73177862646efb09be7aacec2825873c8e1495dc94d4a",
+      "layoutRoot": "6530c8a8dd6d94b6cda1a542380919c2687c864318e2bc0a84741944247e5f80",
+      "fingerprint": "83bb95decc58212d12e8f484162600ad062652f01d73b9619fb8ca538fd90833",
+      "stateTreeHeight": 31
+    }
+  },
+  "assets": {
+    "A": {
+      "contractId": 2441,
+      "decimals": 18,
+      "totalSupplyRaw": "100000000000000000000"
+    },
+    "B": {
+      "contractId": 2442,
+      "decimals": 18,
+      "totalSupplyRaw": "100000000000000000000"
+    },
+    "nativeGas": {
+      "contractId": 0,
+      "symbol": "PSY",
+      "decimals": 9
+    }
+  },
+  "amountEncoding": {
+    "limbBits": 62,
+    "limbs": 2,
+    "totalBits": 124,
+    "base": "4611686018427387904"
+  },
+  "checks": {
+    "jsRegression": {
+      "pass": 65,
+      "fail": 0,
+      "skipped": 0
+    },
+    "productionCloseCircuitsBuilt": 8,
+    "automaticSettlementThreeMarkets": true,
+    "curveToAmmBootstrap": true,
+    "postGraduationDonorRefund": true,
+    "compound": {
+      "sameUpsClaimAndClose": [
+        "amm",
+        "orderbook",
+        "bondingcurve"
+      ],
+      "unsettledExtraPaymentRejected": true,
+      "payerUserId": 1253952
+    },
+    "negativeExtraPayment": {
+      "broadcastAttempted": false,
+      "endUserLeafHash": null,
+      "error": "request_failed",
+      "nonce": null,
+      "ok": false,
+      "reason": "prove contract call failed at call_index=2 total_contract_calls=8 contract_id=2443 method=close_swap_0 input_count=0: assertion failed: unsettled asset (left: 0, right: 1)",
+      "retryAllowed": false,
+      "status": "rejected_before_submission",
+      "submitted": false,
+      "userId": null
+    },
+    "race": {
+      "liveConcurrentExecutors": 2,
+      "proofOwnerCrashRecovered": true,
+      "duplicateBroadcasts": 0,
+      "duplicateAssetMovements": 0,
+      "scope": "one machine with shared durable journal; no cross-machine lease or TPS claim"
+    }
+  },
+  "receipts": {
+    "ammClaimAndClose": {
+      "userId": 1253952,
+      "endUserLeafHash": "24d91c717284cc13b487e2e925a70ed045d7df76d166dce4bc2059c47a5c746e",
+      "checkpoint": 267843,
+      "contentHash": "3a0741240430502a971a8ae1babdb4a92ae877fb8209eb108f8d0dce63bd62d5"
+    },
+    "bookClaimAndClose": {
+      "userId": 1253952,
+      "endUserLeafHash": "eab5d84c7932c7362ec2cd06c0bd9faf2473bb253916544dbe57f1ad0ae2810d",
+      "checkpoint": 267990,
+      "contentHash": "fc2cc1cf7a535ab83fed13a5e874a69967650ebca7666c4c8571cba9815732cd"
+    },
+    "curveRefund": {
+      "userId": 205376,
+      "endUserLeafHash": "9edd1a3469c61c3d0f5f6042880000cf3cd07c96f27d069511df3edf866c48c3",
+      "checkpoint": 273659,
+      "contentHash": "4f320544d4d79a13a640a29d8a3410c17323698a6a6d8d0ade875ada1a85eccc"
+    },
+    "curveClaimAndClose": {
+      "userId": 1253952,
+      "endUserLeafHash": "b2c4487c06fe6755fe95364c713bf33b56eeef7d156be789391ff2392dc71438",
+      "checkpoint": 273685,
+      "contentHash": "559e2d5312ed604c2bd49cc77bd750fa4f4d7d564a17cb7cc921a55e3f69425a"
+    },
+    "maintenanceClaimResolved": {
+      "userId": 1057344,
+      "endUserLeafHash": "21b7f7a4feffb5f33a674fd0391c644011b88936bfa34f7b376a596db5326a1c",
+      "checkpoint": 273512,
+      "contentHash": "82b43c97f216889e7b7d7c917f55bfa3bff8390ceac24d276c44f19a8ac94ae4"
+    },
+    "concurrentSettlement": {
+      "userId": 401984,
+      "endUserLeafHash": "5156a5a9c68943edc1f71832ab5b56f9fc2c4028f880f69c711f4b1db1cf9128",
+      "checkpoint": 273803,
+      "contentHash": "b2bccd1c21fbc9fbff9d47e6faf5fc31de8ab79145dce8344a1ba43c020abe01"
+    },
+    "recoveredSwapClaimAndClose": {
+      "userId": 1253952,
+      "endUserLeafHash": "df718c877f44a33b8d938acd36d53500361bf8b2061c6ef4e2617a7f04767696",
+      "checkpoint": 273825,
+      "contentHash": "02795012fdff494cc01141a1ddbb4acca57bbc46fcb435dd215dc08fcaa0c0fb"
+    },
+    "returnUnusedAssets": {
+      "userId": 1253952,
+      "endUserLeafHash": "7426d7bbd04b34b31f1910af5fa2943656ec7d0aae68214f5b05b1867e641e56",
+      "checkpoint": 273845,
+      "contentHash": "db3d3e1538379ac5211cd4d82463c79b536b6de451321ada17a9e7e0284f60e7"
+    },
+    "claimReturnedA": {
+      "userId": 8768,
+      "endUserLeafHash": "b93ed0cd1c3a598b6dd92c54d8953a82846e52469426442a7642b1bd96e8afab",
+      "checkpoint": 273853,
+      "contentHash": "ebed13813ca4c83c546536f9e46f7d3863cb633e84de4c765635c70beae120fe"
+    },
+    "claimReturnedB": {
+      "userId": 8768,
+      "endUserLeafHash": "82c87150b0262314c5a6f9e2036d65774aa30437e759e26aac1322bfb2873758",
+      "checkpoint": 273861,
+      "contentHash": "58bb2ca91e14e61e1909f939424c928afe45e5b4e028794d381ec4821ab32c17"
+    },
+    "claimReturnedNative": {
+      "userId": 1057344,
+      "endUserLeafHash": "3b84276b0e599c65b10f6d381ca772ebe1d24ae958a125f12483b2099d00cabc",
+      "checkpoint": 273869,
+      "contentHash": "d5e845b249f6b1198bf86a90819e577927caff6c5c75770c7cb7bcb4afcd92f0"
+    }
+  },
+  "cleanup": {
+    "twoTokenBalancesZero": true,
+    "eachSupplyConserved": "100000000000000000000",
+    "nativeGasDust": "94000",
+    "claimableNativeFeeRefundsMayRemain": true,
+    "balances": {
+      "8768": {
+        "2441": "94000000000000000000",
+        "2442": "2398246669303254180",
+        "native": "987999772000"
+      },
+      "205376": {
+        "2441": "0",
+        "2442": "0",
+        "native": "455000"
+      },
+      "401984": {
+        "2441": "3000000000000000000",
+        "2442": "701753330696745820",
+        "native": "267000"
+      },
+      "1057344": {
+        "2441": "3000000000000000000",
+        "2442": "96900000000000000000",
+        "native": "958999086000"
+      },
+      "1253952": {
+        "2441": "0",
+        "2442": "0",
+        "native": "94000"
+      },
+      "1450560": {
+        "2441": "0",
+        "2442": "0",
+        "native": "86000"
+      }
+    },
+    "checkpoint": 273871
+  },
+  "persistentService": {
+    "label": "xyz.psy.executor.u124.staging",
+    "pidAtVerification": 28489,
+    "officialHttps": true,
+    "journalCopiedNotMoved": true,
+    "vaults": [
+      {
+        "kind": "amm",
+        "contractId": 2443,
+        "vaultId": 401984
+      },
+      {
+        "kind": "orderbook",
+        "contractId": 2444,
+        "vaultId": 1450560
+      },
+      {
+        "kind": "bondingcurve",
+        "contractId": 2446,
+        "vaultId": 205376
+      }
+    ],
+    "originalExecutorPid": 77189,
+    "originalExecutorUntouched": true
+  },
+  "limits": {
+    "externalAuditCompleted": false,
+    "crossMachineLeaseTested": false,
+    "tpsBenchmarkRun": false,
+    "globalUserDiscoveryImplemented": false,
+    "seedLp": "permanently locked by current Curve fingerprint; no LP withdrawal branch",
+    "gasDustPsy": "0.000094"
+  },
+  "nodeModifiedByThisWork": false
+}
