@@ -1,0 +1,64 @@
+{
+  "scope": "U124 private token local implementation verification",
+  "methods": 22,
+  "amountBits": 124,
+  "limbBits": 62,
+  "stateTreeHeight": 32,
+  "noteRootSlots": [
+    293601306,
+    293601307
+  ],
+  "newDeploymentRequired": true,
+  "compilerFingerprintVerified": true,
+  "tests": {
+    "privateClientWithCompiledArtifact": {
+      "passed": 6,
+      "failed": 0,
+      "skipped": 0
+    },
+    "privateVmAndProofs": {
+      "passed": 5,
+      "failed": 0,
+      "skipped": 0
+    },
+    "publicVmAgainstPrivateArtifact": {
+      "passed": 6,
+      "failed": 0,
+      "skipped": 0
+    },
+    "originalPublicJsRegressions": {
+      "passed": 5,
+      "failed": 0,
+      "skipped": 0
+    },
+    "offlineNativeProofHelper": {
+      "verified": true,
+      "opaqueJsonEncodingVerified": true
+    }
+  },
+  "realNativeInclusionProofsVerified": 2,
+  "exactClaimAssertionGadgetProofVerified": true,
+  "privateCfcCircuitsBuilt": true,
+  "fullAuthenticatedStateCfcVerified": false,
+  "fullUpsVerified": false,
+  "canonicalInitialLayoutProofVerified": false,
+  "submitted": false,
+  "productionReady": false,
+  "fixtureIssuer": 5,
+  "sourceSha256": "4dbf010a0c78809b47a6ae9e966cc625cb2d701636ae44d8bf32c34cb68c541a",
+  "artifactSha256": "6755b655e5d858361bb221c73669dd81b8247b6327a53fc08301d34fb72a7110",
+  "privateFingerprint": [
+    "2482434993266711942",
+    "6028864160300535936",
+    "2827549014984201026",
+    "3018365102481798071"
+  ],
+  "sharedNodeModified": false,
+  "mcpServiceModified": false,
+  "existingContractUpdated": false,
+  "remaining": [
+    "new-instance initial canonical layout preflight",
+    "wallet session integration and testnet full CFC/UPS acceptance",
+    "independent security review and production release gates"
+  ]
+}

@@ -6,7 +6,7 @@
 
 | 模块 | 工程证据 | 上线前仍需验收 |
 | --- | --- | --- |
-| U124 FT | 两个 62 位 limb；18 位精度；实际字节码和三市场交易 | 独立审计、发行及升级权限治理 |
+| U124 FT | 两个 62 位 limb；18 位精度；公开版实际字节码和三市场交易；[新增私有版本地验证](token/wide/private/README.md) | 私有版新部署及完整 CFC/UPS验收；独立审计、发行及升级权限治理 |
 | NFT | 实际 mint、transfer、claim；身份、metadata、FIFO 和持有槽检查 | 独立审计、发行及升级权限治理 |
 | AMM / Orderbook / Curve | [真实结算、退款、领取关闭、Curve 建池和同机崩溃恢复](executor/verification/2026-10-14-resume-01/REPORT.md) | 独立审计、链上容量和故障验收 |
 | NFT Market | 独立初始 layout 验证；一次性启用；完整 UPS；成交与取消退款 | 三用户竞争验收结果及发布验收见本次报告；仍须独立审计 |

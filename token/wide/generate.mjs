@@ -1,11 +1,12 @@
 // Generate the complete public Token profile; no contract helper return/invoke_sync.
 import {readFileSync,writeFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
+import {fileURLToPath} from 'node:url';
 export const RADIX='4611686018427387904';
 const at=(a,i)=>`${a}[${i}]`;
 let serial=0;const comparisons=new Map();
 const tag=label=>`u124_${label}_${++serial}`;
-function range(value,bits,label='range'){
+export function range(value,bits,label='range'){
  const id=tag(label);
  // Explicit weighted recomposition also works in the local VM oracle, whose
  // SumBits evaluator currently sums bits without their positional weights.
@@ -24,13 +25,15 @@ export const le=(a,b)=>compare(a,b,false);
 export const lt=(a,b)=>compare(a,b,true);
 export function add(out,a,b){const low=range(out+'_low_sum',63,'low_sum');return `${canonical(a)}\n${canonical(b)}\nlet ${out}_low_sum = ${at(a,0)} + ${at(b,0)};\n${low.code}\nlet ${out}_carry = ${low.id}[62].to_felt();\nlet ${out}_high = ${at(a,1)} + ${at(b,1)} + ${out}_carry;\nlet ${out}: [Felt; 2] = [${out}_low_sum - ${out}_carry * ${RADIX}, ${out}_high];\n${canonical(out)}`;}
 export function sub(out,a,b){return `${canonical(a)}\n${canonical(b)}\nrequire(${le(b,a)}, "amount subtraction underflow");\n${limbLess(out+'_needs_borrow',at(a,0),at(b,0))}\nlet ${out}_borrow = ${out}_needs_borrow.to_felt();\nlet ${out}: [Felt; 2] = [${at(a,0)} + ${out}_borrow * ${RADIX} - ${at(b,0)}, ${at(a,1)} - ${at(b,1)} - ${out}_borrow];\n${canonical(out)}`;}
-function expand(body){
+export function expand(body){
  let result='',cursor=0,match;const re=/require\(/g;
  while((match=re.exec(body))){let end=re.lastIndex,depth=1;while(depth){const c=body[end++];if(c==='(')depth++;if(c===')')depth--;if(end>body.length)throw Error('Unbalanced require');}
   const call=body.slice(match.index,end);let code='';for(const[id,fragment]of comparisons)if(new RegExp(`\\b${id}\\b`).test(call))code+=fragment+'\n';
   result+=body.slice(cursor,match.index)+code+call;cursor=end;re.lastIndex=end;
  }return result+body.slice(cursor);
 }
+export function generatePublic(){
+serial=0;comparisons.clear();
 let source=readFileSync(new URL('../src/main.psy.rs',import.meta.url),'utf8');
 const base='fd0669238a091266dd9d0f51ed159e1b6677d25189c32877be1788ef6683d078';
 if(createHash('sha256').update(source).digest('hex')!==base)throw Error('Reviewed public token base changed');
@@ -146,3 +149,5 @@ const probe=expand(`#[contract]\npub struct AmountProbe { pub unused: Felt, }\n#
 const probePath=new URL('./src/arithmetic-probe.psy.rs',import.meta.url);
 if(process.argv.includes('--check')){if(readFileSync(probePath,'utf8')!==probe)throw Error('Generated probe differs');}else writeFileSync(probePath,probe);
 console.log(`Generated ${count} public methods using U124 amounts.`);
+}
+if(process.argv[1]===fileURLToPath(import.meta.url))generatePublic();
