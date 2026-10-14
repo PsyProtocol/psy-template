@@ -38,7 +38,11 @@
     "test:executor": "node --test executor/*.test.mjs bondingcurve/chainReader.test.mjs",
     "test:markets-u124": "node --test amm/u124/*.test.mjs",
     "test:markets-u124:vm": "cargo +nightly-2025-09-20 test --offline --locked --release --manifest-path amm/u124/vm-tests/Cargo.toml --tests",
-    "build:markets-u124": "node amm/u124/build.mjs"
+    "build:markets-u124": "node amm/u124/build.mjs",
+    "test:nft-marketplace": "node --test nft-marketplace/*.test.mjs",
+    "test:nft-marketplace:vm": "cargo +nightly-2025-09-20 test --offline --locked --release --manifest-path amm/u124/vm-tests/Cargo.toml --test nft_market --test nft_sdkey -- --test-threads=1",
+    "test:nft-marketplace:integration": "node --test nft-marketplace/tests/integration.test.mjs",
+    "build:nft-marketplace": "node nft-marketplace/build.mjs"
   },
   "author": "Psy Protocol",
   "license": "MIT"

@@ -1,6 +1,7 @@
 pub mod policy;
 pub mod runtime;
 pub mod wallet_driver;
+pub mod nft_market;
 mod ranges;
 // The application build resolves foreign token ABIs without changing Node/compiler.
 use anyhow::{bail,ensure,Result};
@@ -11,13 +12,13 @@ use serde_json::Value;
 // must have index zero; rebase symbolic Felt references without changing any
 // literal input positions, split widths, constants or state-command IDs.
 fn felt_ref(id:u64)->u64{if id>>32==0{id+1}else{id}}
-fn prepend_native_height(def:&mut DPNFunctionCircuitDefinition)->Result<()> {
+fn prepend_height(def:&mut DPNFunctionCircuitDefinition,height:u64)->Result<()> {
  for n in &mut def.definitions {
   if n.data_type==DPNBuiltInDataType::Target{n.index+=1;}
   match n.op_type as u16 {
    0|1|2|3|46|47|48|54|55=>{},
    18=>{for id in &mut n.inputs[1..]{*id=felt_ref(*id);}},
-   4|5|6|7|8|9|10|13|14|15|20|23=>{for id in &mut n.inputs{*id=felt_ref(*id);}},
+   4|5|6|7|8|9|10|13|14|15|16|17|20|23=>{for id in &mut n.inputs{*id=felt_ref(*id);}},
    _=>bail!("unsupported rebase opcode {:?} in {}",n.op_type,def.name),
   }
  }
@@ -26,10 +27,11 @@ fn prepend_native_height(def:&mut DPNFunctionCircuitDefinition)->Result<()> {
  for cmd in &mut def.state_commands{let refs:Vec<_>=cmd.get_inputs().into_iter().map(felt_ref).collect();*cmd=cmd.convert_to_u64(&refs);}
  ensure!(def.events.is_empty(),"market event rebase not implemented");
  for index in &mut def.state_command_resolution_indices{*index+=1;}
- def.definitions.insert(0,DPNIndexedVarDef{data_type:DPNBuiltInDataType::Target,index:0,op_type:DPNOpType::Constant,inputs:vec![32]});
+ def.definitions.insert(0,DPNIndexedVarDef{data_type:DPNBuiltInDataType::Target,index:0,op_type:DPNOpType::Constant,inputs:vec![height]});
  let mut next=0;for n in &def.definitions{if n.data_type==DPNBuiltInDataType::Target{ensure!(n.index==next,"non-dense Felt definition in {}",def.name);next+=1;}}
  Ok(())
 }
+fn prepend_native_height(def:&mut DPNFunctionCircuitDefinition)->Result<()> { prepend_height(def,32) }
 pub fn compile_market(source:&str,a:u64,b:u64)->Result<ContractOutput>{
  ensure!(a>=5 && b>=5 && a!=b,"two distinct U124 asset IDs required");
  let mut out=psy_compiler::compile(source)?;

@@ -1,0 +1,65 @@
+{
+  "date": "2026-10-14",
+  "timezone": "Asia/Taipei",
+  "module": "NFT Marketplace v1",
+  "implementationComplete": true,
+  "localVerificationPassed": true,
+  "javascript": {
+    "passed": 85,
+    "failed": 0,
+    "skipped": 0
+  },
+  "rust": {
+    "passed": 11,
+    "failed": 0,
+    "ignored": 0,
+    "bytecodeScenarios": 9,
+    "cfcMethodsBuilt": 13,
+    "signatureBranchesVerified": 6,
+    "maliciousSignaturesRejected": 18
+  },
+  "localFixtureIds": {
+    "market": 1000,
+    "nft": 41,
+    "paymentToken": 42,
+    "vault": 100,
+    "issuer": 5
+  },
+  "sourceSha256": "1ed7f51e4dd04b41293444a215b4a2f84d0d76470d3dac68db43b6e24497bd81",
+  "artifactSha256": "967c6e66fd019a497b205517ce30e8870e2c0bb6c70a57b68162f2d64c3892d8",
+  "policySha256": "0f9209a28d2dd6f95799cb7d05057eb6826fc24cfe51d4bb1053f51e440ceff3",
+  "fingerprint": "64a99c76460a63daefaa4951d1f9b6fdc198cb12c1a14cc34c26262beec3041b",
+  "binaries": {
+    "market_wallet_verified": "3a7d74af50aaff5d6e550573608b2c0258f415f03bb7258952bb6556f7cf7089",
+    "compile_nft_market": "f32c2916aae3425691a678517318825df570b33b7bc5d5ac830509b99619a770"
+  },
+  "legacyMarkets": {
+    "amm": {
+      "contractId": 2443,
+      "fingerprint": "82b9cb4ec8869be4f079b1f8af78ef98e801fd3b1e3e900d5562cd6fc199747f",
+      "unchanged": true
+    },
+    "orderbook": {
+      "contractId": 2444,
+      "fingerprint": "c38a1fa6bd64dd82da675a0b1c09261753d21cb729a5f8b7838055c1ad3992ca",
+      "unchanged": true
+    },
+    "bondingcurve": {
+      "contractId": 2446,
+      "fingerprint": "83bb95decc58212d12e8f484162600ad062652f01d73b9619fb8ca538fd90833",
+      "unchanged": true
+    }
+  },
+  "deploymentReady": false,
+  "fullUpsVerified": false,
+  "deployed": false,
+  "broadcast": false,
+  "externalAudit": false,
+  "readinessBoundaries": [
+    "No full authenticated-state UPS proof or live NFT settlement",
+    "Native fee VM oracle and executor RPC/driver doubles",
+    "No unreferenced NFT / post-settlement extra deposit recovery guarantee",
+    "No distributed lease or high-TPS validation",
+    "One active order per user; one NFT collection and U124 payment token"
+  ]
+}

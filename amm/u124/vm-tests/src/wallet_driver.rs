@@ -1,4 +1,4 @@
-//! Public SD-key driver for the three U124 markets. No private wallet import.
+//! Public SD-key driver for U124 markets and NFT Marketplace. No private wallet import.
 //! `verified-submit` verifies the exact UPS proof, checks anchor/nonce, then submits once.
 use crate::{
     policy::build_policy,
@@ -69,8 +69,8 @@ async fn run(progress: &mut Progress) -> Result<()> {
     } else {
         let data: ContractCallData = serde_json::from_slice(&fs::read(&args[3])?)?;
         ensure!(
-            data.contract_calls.len() == 8 && data.software_defined_call.inputs.len() == 13,
-            "eight explicit calls and thirteen witness fields required"
+            data.contract_calls.len() + 1 == spec["tx_count"].as_u64().context("transaction count")? as usize && data.software_defined_call.inputs.len() == 13,
+            "policy explicit call count and thirteen witness fields required"
         );
         ensure!(
             data.contract_calls[0].contract_id

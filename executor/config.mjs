@@ -1,10 +1,10 @@
 import {readFile} from 'node:fs/promises';
 import {dirname,resolve} from 'node:path';
 
-const kinds=['amm','orderbook','bondingcurve','launchamm'];
+const kinds=['amm','orderbook','bondingcurve','launchamm','nftmarket'];
 const paths=['rpcConfig','wallet','abi','driverConfig','runtimeDirectory','usersFile','policy'];
 const allowed=new Set(['kind','name','network','contractId','vaultId','publicKeyHash','fingerprint','codeRoot','layoutRoot',
-  ...paths,'users','intervalMs','receiptMaxPages','cli','pool','launch','automaticInitialize','automaticGraduation','profile','assetA','assetB']);
+  ...paths,'users','intervalMs','receiptMaxPages','cli','pool','launch','automaticInitialize','automaticGraduation','profile','assetA','assetB','collection','paymentToken']);
 export function validateUsers(users,vaultId){
   if(!Array.isArray(users)||users.length>10000||users.some(x=>!Number.isSafeInteger(x)||x<1||x>=16777216||x===vaultId))throw Error('users must contain at most 10000 valid payer IDs');
   return [...new Set(users)].sort((a,b)=>a-b);
@@ -14,7 +14,19 @@ export function validateOptions(input,base=process.cwd()){
   for(const key of Object.keys(input))if(!allowed.has(key))throw Error(`unknown executor config field: ${key}`);
   const o={...input};
   if(!kinds.includes(o.kind))throw Error('unsupported executor kind');
-  if(o.profile!==undefined&&!['legacy','u124'].includes(o.profile))throw Error('unsupported amount profile');
+  if(o.profile!==undefined&&!['legacy','u124','nft-v3-u124'].includes(o.profile))throw Error('unsupported amount profile');
+  if(o.kind==='nftmarket'){
+    if(o.profile!=='nft-v3-u124'||o.assetA||o.assetB)throw Error('NFT marketplace requires nft-v3-u124 profile');
+    for(const key of ['policy','driverConfig'])if(typeof o[key]!=='string'||!o[key])throw Error(`path required: ${key}`);
+    for(const key of ['collection','paymentToken']){
+      const a=o[key];if(!a||Object.keys(a).some(k=>!['contractId','codeRoot','layoutRoot','abi'].includes(k)))throw Error(`invalid ${key} binding`);
+      if(!Number.isSafeInteger(a.contractId)||a.contractId<5||a.contractId>=16777216||a.contractId===o.contractId)throw Error(`invalid ${key} contract`);
+      for(const hash of ['codeRoot','layoutRoot'])if(!/^[0-9a-f]{64}$/.test(a[hash]??''))throw Error(`explicit ${key} ${hash} required`);
+      if(typeof a.abi!=='string'||!a.abi)throw Error(`${key} ABI required`);o[key]={...a,abi:resolve(base,a.abi)};
+    }
+    if(o.collection.contractId===o.paymentToken.contractId)throw Error('distinct NFT and FT required');
+    if(!Number.isSafeInteger(o.contractId)||o.contractId<5||o.contractId>=16777216)throw Error('invalid NFT market contract ID');
+  }else if(o.profile==='nft-v3-u124'||o.collection||o.paymentToken)throw Error('NFT bindings require nftmarket');
   if(o.profile==='u124'){
     if(!['amm','orderbook','bondingcurve'].includes(o.kind))throw Error('unsupported U124 market');
     for(const key of ['policy','driverConfig'])if(typeof o[key]!=='string'||!o[key])throw Error(`path required: ${key}`);
@@ -27,7 +39,7 @@ export function validateOptions(input,base=process.cwd()){
       o[key]={...asset,abi:resolve(base,asset.abi)};
     }
     if(o.assetA.contractId===o.assetB.contractId)throw Error('distinct U124 assets required');
-  }else if(o.policy||o.assetA||o.assetB)throw Error('U124 binding requires profile u124');
+  }else if(o.kind!=='nftmarket'&&(o.policy||o.assetA||o.assetB))throw Error('U124 binding requires profile u124');
   if(typeof o.network!=='string'||!/^[a-zA-Z0-9_-]+$/.test(o.network))throw Error('explicit network required');
   if(!Number.isSafeInteger(o.contractId)||o.contractId<5)throw Error('invalid contract ID');
   if(!Number.isSafeInteger(o.vaultId)||o.vaultId<1||o.vaultId>=16777216)throw Error('invalid vault ID');
