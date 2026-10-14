@@ -77,13 +77,13 @@ test('scanner decodes pairs/strides at one snapshot and does not derive balances
 test('adapter uses explicit preflight and verified-submit, records lost response and recovers exact log after restart',()=>fixture('amm',async({options,state,order,funding,scalar,directory})=>{
  order(200,{kind:2n,x:U,y:U,z:1n});funding(200,U,U);let submits=0,reads=[];const leaf='e'.repeat(64);
  const dependencies={readState:async()=>state,readReceipts:async()=>async query=>{reads.push(query);return query.endUserLeafHash===leaf?{status:'included',userId:100,checkpoint:101,contentHash:'f'.repeat(64),endUserLeafHash:leaf}:{status:'unresolved'};},
-  runDriver:async(_,args)=>args[0]==='fingerprint'?{stdout:options.fingerprint}:{stdout:JSON.stringify({fullUpsVerified:true,submitted:false,marketId:1000,fingerprint:options.fingerprint})},
-  submitDriver:async(_,args,{logFile})=>{assert.equal(args[0],'verified-submit');submits++;const output=JSON.stringify({status:'broadcast_intent',userId:100,nonce:1,endUserLeafHash:leaf});await writeFile(logFile,output);scalar(100,'consumed',1n,200);const error=Error('response lost');error.stdout=output;throw error;}};
- const adapter=await createPublicWalletAdapter(options,dependencies);const journal=new ExecutionJournal({directory,network:'test',vaultId:100,fingerprint:options.fingerprint});
+  runDriver:async(_,args)=>args[0]==='fingerprint'?{stdout:options.fingerprint}:{stdout:JSON.stringify({fullUpsVerified:true,submitted:false,marketId:1000,fingerprint:options.fingerprint,fee:1000000000})},
+  submitDriver:async(_,args,{logFile})=>{assert.equal(args[0],'verified-submit');submits++;const output=JSON.stringify({fullUpsVerified:true,submitted:false,marketId:1000,fingerprint:options.fingerprint,fee:1000000000,endUserLeafHash:leaf})+'\n'+JSON.stringify({status:'broadcast_intent',userId:100,nonce:1,endUserLeafHash:leaf});await writeFile(logFile,output);scalar(100,'consumed',1n,200);const error=Error('response lost');error.stdout=output;throw error;}};
+ const adapter=await createPublicWalletAdapter(options,dependencies);const journal=new ExecutionJournal({directory,network:'test',vaultId:100,fingerprint:options.fingerprint,fee:1000000000});
  assert.equal((await executeCycle({adapter,journal})).status,'included');assert.equal(submits,1);assert.equal((await executeCycle({adapter,journal})).status,'idle');assert.equal(submits,1);
  scalar(100,'consumed',0n,200);const task=(await adapter.scan()).action,proof=await adapter.prepareSubmission(task,await adapter.prove(task));
- const recovered=new ExecutionJournal({directory:join(directory,'crash'),network:'test',vaultId:100,fingerprint:options.fingerprint});
- await recovered.locked(async()=>{await recovered.append({status:'broadcast-intent',taskId:'crashed',task,proof});await writeFile(proof.submissionLog,JSON.stringify({status:'broadcast_intent',userId:100,nonce:2,endUserLeafHash:leaf}));});
+ const recovered=new ExecutionJournal({directory:join(directory,'crash'),network:'test',vaultId:100,fingerprint:options.fingerprint,fee:1000000000});
+ await recovered.locked(async()=>{await recovered.append({status:'broadcast-intent',taskId:'crashed',task,proof});await writeFile(proof.submissionLog,JSON.stringify({fullUpsVerified:true,submitted:false,marketId:1000,fingerprint:options.fingerprint,fee:1000000000,endUserLeafHash:leaf})+'\n'+JSON.stringify({status:'broadcast_intent',userId:100,nonce:2,endUserLeafHash:leaf}));});
  const restarted=await createPublicWalletAdapter(options,dependencies);assert.equal((await recovered.reconcile(restarted.reconcile))[0].result.status,'included');assert.equal(submits,1);
  assert.equal(reads.at(-1).endUserLeafHash,leaf);
 }));
@@ -129,4 +129,19 @@ test('Curve graduation fixes AMM seed payer, targets, fee, minimum, deadline and
  context.issuer.bootstrapFee=FEE_ESCROW+1n;assert.equal(proposeU124Action(context),null);
  context.issuer.bootstrapFee=FEE_ESCROW;context.issuer.bootstrapFeeCursor=0n;assert.equal(proposeU124Action(context),null);context.issuer.bootstrapFeeCursor=FEE_ESCROW;assert.equal(proposeU124Action(context).kind,'graduate');
  context.pool.phase=2n;context.pool.quote_reserve=0n;assert.equal(proposeU124Action(context),null);
+}));
+test('an interrupted parent can release an explicit child rejection, but cannot release an incomplete proof log',()=>fixture('amm',async({options,state,order,funding,directory})=>{
+ order(200,{kind:2n,x:U,y:U,z:1n});funding(200,U,U);
+ const adapter=await createPublicWalletAdapter(options,{readState:async()=>state,readReceipts:async()=>async()=>assert.fail('no receipt lookup without a broadcast'),runDriver:async(_,args)=>args[0]==='fingerprint'?{stdout:options.fingerprint}:{stdout:JSON.stringify({fullUpsVerified:true,submitted:false,marketId:1000,fingerprint:options.fingerprint,fee:1000000000})}});
+ const task=(await adapter.scan()).action,proof=await adapter.prepareSubmission(task,await adapter.prove(task)),journal=new ExecutionJournal({directory:join(directory,'restart'),network:'test',vaultId:100,fingerprint:options.fingerprint});
+ await journal.locked(()=>journal.append({status:'broadcast-intent',taskId:'interrupted',task,proof}));
+ const redirected=proof.submissionLog.replace('.submission-', '.submission-../other.submission-');await assert.rejects(adapter.reconcile({task,proof:{...proof,submissionLog:redirected}}),/log binding/);
+ await writeFile(proof.submissionLog,'compression still running\n');
+ assert.equal((await journal.reconcile(adapter.reconcile))[0].result.status,'unresolved');assert.equal((await journal.unresolved()).length,1);
+ await writeFile(proof.submissionLog,JSON.stringify({ok:false,status:'rejected_before_submission',submitted:false,broadcastAttempted:false,userId:null,error:'request_failed',reason:'stale submit anchor'})+'\n');
+ const resolved=await journal.reconcile(adapter.reconcile);assert.equal(resolved[0].result.status,'not-submitted');assert.equal(resolved[0].result.reason,'stale submit anchor');assert.equal((await journal.unresolved()).length,0);
+}));
+test('Token ABI errors stop initialization before metadata reads or driver execution',()=>fixture('amm',async({options})=>{
+ const abi=JSON.parse(await readFile(options.assetA.abi,'utf8'));abi.contract.state.find(f=>f.name==='other_user_info').offset++;await writeFile(options.assetA.abi,JSON.stringify(abi));
+ await assert.rejects(createPublicWalletAdapter(options,{readState:async()=>assert.fail('ABI first'),runDriver:async()=>assert.fail('ABI first')}),/outbox offset/);
 }));

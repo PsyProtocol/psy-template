@@ -10,10 +10,12 @@ import {retryProofOnlyPreflight} from './preflight.mjs';
 import {scanU124,loadU124Files} from './u124Reader.mjs';
 import {makePolicy} from '../amm/u124/policy.mjs';
 import {parseLosslessJson} from '../amm/u124/client.mjs';
+import {validateU124TokenAbi} from './u124Abi.mjs';
+import {inspectU124Submission} from './u124Submission.mjs';
 export async function createU124WalletAdapter(options,{readState=publicState,readReceipts=receiptReader,runDriver,submitDriver=runDurableSubmission}={}){
  const files=await loadU124Files(options),{abi,config,policy}=files;
  const tokens=await Promise.all([options.assetA,options.assetB].map(async asset=>JSON.parse(await readFile(asset.abi,'utf8'))));
- for(const token of tokens){assert.equal(token.contract.state.find(f=>f.name==='balance')?.felt_size,2,'U124 balance ABI');assert.equal(token.contract.state.find(f=>f.name==='other_user_info')?.type.item_felt_size,4,'U124 outbox ABI');}
+ for(const token of tokens)validateU124TokenAbi(token);
  assert.equal(config.assetA,options.assetA.contractId);assert.equal(config.assetB,options.assetB.contractId);
  for(const method of ['claim','transfer'])assert.equal(tokens[0].contract.methods.find(m=>m.name===method).method_id,tokens[1].contract.methods.find(m=>m.name===method).method_id,'Token method IDs differ');
  assert.deepEqual(policy,makePolicy(options.kind,options.contractId,config,abi,tokens[0]),'policy differs from bound ABI/config');
@@ -32,7 +34,7 @@ export async function createU124WalletAdapter(options,{readState=publicState,rea
  const serialized=task=>{assert.equal(typeof task.submission,'string','lossless serialized submission required');parseLosslessJson(task.submission);return task.submission;};
  const callPath=task=>join(options.runtimeDirectory,'calls',options.network,String(options.vaultId),createHash('sha256').update(serialized(task)).digest('hex')+'.json');
  const logPath=task=>callPath(task)+'.submission.log';
- const validLog=(task,file)=>{assert.ok(file?.startsWith(callPath(task)+'.submission-')&&/\.submission-[0-9a-f-]{36}\.log$/.test(file),'submission log binding');return file;};
+ const validLog=(task,file)=>{const prefix=callPath(task)+'.submission-';assert.ok(typeof file==='string'&&file.startsWith(prefix)&&/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\.log$/.test(file.slice(prefix.length)),'submission log binding');return file;};
  const args=(action,file)=>[action,options.policy,file,options.rpcConfig];
  const scan=()=>scanU124(options,readState,files);
  return {scan,
@@ -52,14 +54,17 @@ export async function createU124WalletAdapter(options,{readState=publicState,rea
    assert.equal(proof.file,callPath(task));assert.equal(await readFile(proof.file,'utf8'),serialized(task),'submission calls changed');
    const logFile=validLog(task,proof.submissionLog);
    let output='',error;try{const r=await submitDriver(options.wallet,args('verified-submit',proof.file),{env,timeout:900000,logFile});output=r.stdout+'\n'+r.stderr;}catch(e){output=(e.stdout??'')+'\n'+(e.stderr??'');error=e.message;}
-   const records=driverRecords(output),last=records.at(-1),hash=submissionLeaf(output);
-   for(const record of records.filter(r=>r.status==='broadcast_intent'||r.status==='submission_unknown'))assert.equal(record.userId,options.vaultId,'broadcast user binding');
-   const rejected=Boolean(error)&&!hash&&last?.ok===false&&last.status==='rejected_before_submission'&&last.submitted===false&&last.broadcastAttempted===false&&!records.some(r=>r.status==='broadcast_intent');
-   return {endUserLeafHash:hash,error,output,submissionLog:logFile,...(rejected?{submissionStatus:'not-submitted',reason:last.error}:{})};
+   const inspected=inspectU124Submission(output,options);
+   return {endUserLeafHash:inspected.endUserLeafHash,error,output,submissionLog:logFile,...(error&&inspected.rejected?{submissionStatus:'not-submitted',reason:inspected.reason}:{})};
   },
   reconcile:async attempt=>{
-   let hash=attempt.outcome?.endUserLeafHash;
-   if(!hash&&attempt.task)try{hash=submissionLeaf(await readFile(attempt.proof?.submissionLog?validLog(attempt.task,attempt.proof.submissionLog):logPath(attempt.task),'utf8'));}catch(e){if(e.code!=='ENOENT')throw e;}
+   let output=attempt.outcome?.output??'',file;
+   if(attempt.task){file=attempt.proof?.submissionLog?validLog(attempt.task,attempt.proof.submissionLog):logPath(attempt.task);try{output=await readFile(file,'utf8');}catch(e){if(e.code!=='ENOENT')throw e;}}
+   const inspected=inspectU124Submission(output,options),recorded=attempt.outcome?.endUserLeafHash;
+   if(recorded&&inspected.endUserLeafHash)assert.equal(recorded,inspected.endUserLeafHash,'journal/log leaf binding');
+   if(inspected.rejected){assert.ok(!recorded,'rejected log conflicts with recorded broadcast');return {status:'not-submitted',reason:inspected.reason,source:'explicit-driver-rejection',submissionLog:file};}
+   const hash=inspected.endUserLeafHash??recorded;
+   if(!hash)return {status:'unresolved',reason:'No broadcast identity persisted; the proof driver may still be running or interrupted. Inspect the durable log; never infer permission to retry.',phase:inspected.phase,submissionLog:file};
    return reader({userId:options.vaultId,endUserLeafHash:hash});
   }
  };
