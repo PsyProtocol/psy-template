@@ -231,3 +231,13 @@ The [scan optimization report](verification/2026-10-11-scan/REPORT.md) records
 the revision 3 upgrade, 100-user measurements, historical-state parity checks
 and 136 passing regression tests. The active service uses bounded concurrent
 state reads while retaining the previous submission journal and bindings.
+
+### Installed U124 staging instance
+
+The separate `xyz.psy.executor.u124.staging` login service handles contracts
+2443, 2444 and 2446 using custom 18-decimal Token assets 2441/2442 and Native
+PSY gas. See [its operations guide](operations/staging-u124-2026-10-13/OPERATIONS.md)
+and the [2026-10-14 live report](verification/2026-10-14-resume-01/REPORT.md).
+All three compound claim/close paths and a two-process proof-owner crash
+recovery passed on chain. The concurrency scope is one machine with a shared
+journal; independent external audit and distributed leases remain open.
