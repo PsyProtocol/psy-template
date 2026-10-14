@@ -45,7 +45,11 @@
     "verify:nft-marketplace": "node nft-marketplace/acceptance.mjs",
     "build:nft-marketplace": "node nft-marketplace/build.mjs",
     "preflight:nft-marketplace": "node nft-marketplace/preflight.mjs",
-    "status:nft-marketplace": "node nft-marketplace/status-cli.mjs"
+    "status:nft-marketplace": "node nft-marketplace/status-cli.mjs",
+    "build:token-wide-private:toolchain": "node token/wide/private/prepare-toolchain.mjs",
+    "build:token-wide-private": "node token/wide/private/build.mjs",
+    "test:token-wide-private": "node --test token/wide/private/*.test.mjs",
+    "test:token-wide-private:vm": "cargo +nightly-2025-09-20 test --offline --locked --release --manifest-path token/wide/private/vm-tests/Cargo.toml --test privacy --test public_token -- --test-threads=1"
   },
   "author": "Psy Protocol",
   "license": "MIT"

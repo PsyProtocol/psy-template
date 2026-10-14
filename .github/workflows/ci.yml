@@ -18,11 +18,15 @@ jobs:
         with:
           node-version: 22
       - name: Verify generated NFT marketplace source
-        run: node nft-marketplace/generate.mjs --check
+        run: |
+          node nft-marketplace/generate.mjs --check
+          node token/wide/generate.mjs --check
+          node token/wide/private/generate.mjs --check
       - name: Run application and token unit regressions
         run: |
           npm run test:exchanges
           npm run test:token-wide
+          npm run test:token-wide-private
           npm run test:nft-marketplace
     # Authenticated UPS, compiled VM/ABI and live acceptance use explicit frozen
     # toolchain/artifact inputs. This job is not their production certification.
