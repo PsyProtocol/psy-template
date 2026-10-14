@@ -20,6 +20,8 @@ The [bonding curve module](bondingcurve/README.md) adds a token sale contract, p
 
 The [U124 Token](token/wide/README.md) represents balances as two Felt limbs: `low + high * 2^62`, up to `2^124 - 1` raw units, with 0–18 decimals. The three [U124 exchange profiles](amm/u124/README.md) use the same encoding for orders, reserves and settlements. New staging assets 2431/2432 and market contracts 2434/2435/2436 have completed real settlement tests; the original PSY/pUSDT assets retain their existing interfaces. Independent security review and chain load testing remain pending.
 
+The [NFT Marketplace](nft-marketplace/README.md) adds fixed-price NFT v3 sales paid with U124 FT, signed cancellation, expired/stale-order refunds and an exact ten-call public SD-key policy. It reuses Psy Executor's durable submission and receipt recovery. This new module has local bytecode, policy-proof and circuit-build verification; it has not been deployed or accepted on chain.
+
 ---
 
 ## Available Templates

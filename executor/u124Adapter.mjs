@@ -12,17 +12,26 @@ import {makePolicy} from '../amm/u124/policy.mjs';
 import {parseLosslessJson} from '../amm/u124/client.mjs';
 import {validateU124TokenAbi} from './u124Abi.mjs';
 import {inspectU124Submission} from './u124Submission.mjs';
+import {loadFiles as loadNftFiles,scan as scanNftMarket} from '../nft-marketplace/reader.mjs';
+import {makePolicy as makeNftPolicy} from '../nft-marketplace/policy.mjs';
+import {validateNftAbi} from '../nft-marketplace/abi.mjs';
 export async function createU124WalletAdapter(options,{readState=publicState,readReceipts=receiptReader,runDriver,submitDriver=runDurableSubmission}={}){
- const files=await loadU124Files(options),{abi,config,policy}=files;
- const tokens=await Promise.all([options.assetA,options.assetB].map(async asset=>JSON.parse(await readFile(asset.abi,'utf8'))));
- for(const token of tokens)validateU124TokenAbi(token);
- assert.equal(config.assetA,options.assetA.contractId);assert.equal(config.assetB,options.assetB.contractId);
- for(const method of ['claim','transfer'])assert.equal(tokens[0].contract.methods.find(m=>m.name===method).method_id,tokens[1].contract.methods.find(m=>m.name===method).method_id,'Token method IDs differ');
- assert.deepEqual(policy,makePolicy(options.kind,options.contractId,config,abi,tokens[0]),'policy differs from bound ABI/config');
+ const nft=options.kind==='nftmarket',files=await (nft?loadNftFiles:loadU124Files)(options),{abi,config,policy}=files;
+ const assets=nft?[options.paymentToken,options.collection]:[options.assetA,options.assetB];
+ const tokens=await Promise.all(assets.map(async asset=>JSON.parse(await readFile(asset.abi,'utf8'))));
+ validateU124TokenAbi(tokens[0]);
+ if(nft){
+  validateNftAbi(tokens[1]);assert.equal(config.nftId,options.collection.contractId);assert.equal(config.tokenId,options.paymentToken.contractId);
+  assert.deepEqual(policy,makeNftPolicy(options.contractId,config,abi,tokens[1],tokens[0]),'NFT policy differs from bound ABI/config');
+ }else{
+  validateU124TokenAbi(tokens[1]);assert.equal(config.assetA,options.assetA.contractId);assert.equal(config.assetB,options.assetB.contractId);
+  for(const method of ['claim','transfer'])assert.equal(tokens[0].contract.methods.find(m=>m.name===method).method_id,tokens[1].contract.methods.find(m=>m.name===method).method_id,'Token method IDs differ');
+  assert.deepEqual(policy,makePolicy(options.kind,options.contractId,config,abi,tokens[0]),'policy differs from bound ABI/config');
+ }
  async function bindingCurrent(){
   const s=await readState(options.rpcConfig);assert.equal(s.networkName,options.network,'network binding');
-  for(const [id,codeRoot,layoutRoot]of [[options.contractId,options.codeRoot,options.layoutRoot],...[options.assetA,options.assetB].map(a=>[a.contractId,a.codeRoot,a.layoutRoot])]){
-   const leaf=await s.contractLeaf(id);assert.equal(leaf.code_root,codeRoot,'code binding');assert.equal(leaf.state_layout_root,layoutRoot,'layout binding');assert.equal(leaf.state_tree_height,31,'U124 state height');
+  for(const [id,codeRoot,layoutRoot,height]of [[options.contractId,options.codeRoot,options.layoutRoot,31],...assets.map(a=>[a.contractId,a.codeRoot,a.layoutRoot,nft&&a===options.collection?30:31])]){
+   const leaf=await s.contractLeaf(id);assert.equal(leaf.code_root,codeRoot,'code binding');assert.equal(leaf.state_layout_root,layoutRoot,'layout binding');assert.equal(leaf.state_tree_height,height,'asset state height');
   }
   if(options.kind==='bondingcurve'&&config.bootstrap){const b=config.bootstrap,l=await s.contractLeaf(b.ammContractId);assert.equal(l.code_root,b.codeRoot,'bootstrap AMM code');assert.equal(l.state_layout_root,b.layoutRoot,'bootstrap AMM layout');assert.equal(l.state_tree_height,31,'bootstrap AMM height');}
   assert.deepEqual(await s.userIds(options.publicKeyHash),[options.vaultId],'public vault registration');
@@ -36,7 +45,7 @@ export async function createU124WalletAdapter(options,{readState=publicState,rea
  const logPath=task=>callPath(task)+'.submission.log';
  const validLog=(task,file)=>{const prefix=callPath(task)+'.submission-';assert.ok(typeof file==='string'&&file.startsWith(prefix)&&/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\.log$/.test(file.slice(prefix.length)),'submission log binding');return file;};
  const args=(action,file)=>[action,options.policy,file,options.rpcConfig];
- const scan=()=>scanU124(options,readState,files);
+ const scan=()=>nft?scanNftMarket(options,readState,files):scanU124(options,readState,files);
  return {scan,
   isCurrent:async task=>{await bindingCurrent();return JSON.stringify((await scan()).action)===JSON.stringify(task);},
   validateProof:async(task,proof)=>{try{return proof.file===callPath(task)&&await readFile(proof.file,'utf8')===serialized(task);}catch(e){if(e.code==='ENOENT')return false;throw e;}},

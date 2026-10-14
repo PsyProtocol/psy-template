@@ -2,6 +2,8 @@
 
 PSY-721 non-fungible token smart contract template for Psy Protocol.
 
+Fixed-price trading is a separate [NFT Marketplace module](../nft-marketplace/README.md), with U124 FT payments, SD-key settlement and Executor integration. The NFT asset ABI is unchanged. The marketplace has local verification and awaits full UPS/live acceptance.
+
 ## Architecture & Features
 
 This contract implements the **PSY-721** standard tailored for Psy's ZK-native, user-partitioned state architecture:
