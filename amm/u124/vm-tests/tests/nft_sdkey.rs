@@ -120,5 +120,6 @@ fn nft_policy_proves_all_branches_and_rejects_redirected_or_forged_calls()->Resu
  let mut bad=sample.clone();let mut fee=fields;fee[12]=1_000_101_000;bad["calls"][9]["inputs"][0]=fee[12].into();assert!(prove_operation(&g,&infos(&bad),fee).is_err());
  // The NFT refund and FT refund branches must never redirect to a third party.
  for (sample_index,slot,input) in [(1,4,1),(3,3,0)]{let sample=&samples[sample_index];let fields:[u64;13]=sample["fields"].as_array().unwrap().iter().map(|v|v.as_u64().unwrap()).collect::<Vec<_>>().try_into().unwrap();let mut bad=sample.clone();bad["calls"][slot]["inputs"][input]=999.into();assert!(prove_operation(&g,&infos(&bad),fields).is_err());}
- println!("NFT SD-key: six branches verified, eighteen malicious proofs rejected");Ok(())
+ let sample=samples.as_array().unwrap().last().unwrap();let fields:[u64;13]=sample["fields"].as_array().unwrap().iter().map(|v|v.as_u64().unwrap()).collect::<Vec<_>>().try_into().unwrap();for(slot,input)in[(4,0),(4,1),(4,2)]{let mut bad=sample.clone();bad["calls"][slot]["inputs"][input]=999.into();assert!(prove_operation(&g,&infos(&bad),fields).is_err());}
+ println!("NFT SD-key: seven branches verified, twenty-one malicious proofs rejected");Ok(())
 }

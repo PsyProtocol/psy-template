@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import {validateResultsAbi} from './status.mjs';
 import {validateU124TokenAbi} from '../executor/u124Abi.mjs';
 export {validateU124TokenAbi};
-export const METHODS={noop:0,open_listing:6,open_buy:7,request_cancel:0,close_listing:0,close_buy:0,abandon_unfunded:0,settle_sale:6,refund_listing:2,refund_listing_fee:2,refund_buy:4,refund_buy_fee:2,ack_delivery:1};
+export const METHODS={noop:0,activate:1,open_listing:6,open_buy:7,request_cancel:0,close_listing:0,close_buy:0,abandon_unfunded:0,settle_sale:6,refund_listing:2,refund_listing_fee:2,refund_buy:4,refund_buy_fee:2,ack_delivery:1};
 const unique=(rows,key)=>assert.equal(new Set(rows.map(x=>x[key])).size,rows.length,`duplicate ABI ${key}`);
 export function validateNftAbi(abi,height=30){
  assert.equal(height,30,'NFT height');unique(abi.contract.state,'name');unique(abi.contract.methods,'name');unique(abi.contract.methods,'method_id');unique(abi.types,'name');

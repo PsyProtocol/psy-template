@@ -23,9 +23,11 @@ use psy_provider::{
     provider::QUserRpcProvider, request::QSubmitEndCapRPCRequest, session::TxStatus,
 };
 use psy_ups_circuit::circuit_manager::core::PsyUPSStepCircuitManager;
+use psy_ups_circuit::signature::sd_key::get_sd_key_public_key_param;
+use psy_crypto::signature::zk::data::ZKPublicKeyInfo;
 use std::io::Write;
 use std::{env, fs};
-const USAGE:&str="usage: market_wallet fingerprint <policy.json> | register <policy.json> <rpc-config.json> | preflight/submit/verified-submit <policy.json> <calls.json> <rpc-config.json>";
+const USAGE:&str="usage: market_wallet fingerprint/identity <policy.json> | register <policy.json> <rpc-config.json> | preflight/submit/verified-submit <policy.json> <calls.json> <rpc-config.json>";
 /// All CLI errors are structured; panic payloads are not printed by the hook.
 /// A contained panic drops the entire session; no proof or broadcast follows it.
 pub async fn main_entry() -> std::process::ExitCode {
@@ -46,6 +48,7 @@ async fn run(progress: &mut Progress) -> Result<()> {
     ensure!(
         [
             "fingerprint",
+            "identity",
             "register",
             "preflight",
             "submit",
@@ -57,9 +60,13 @@ async fn run(progress: &mut Progress) -> Result<()> {
     let spec: serde_json::Value = serde_json::from_slice(&fs::read(&args[2])?)?;
     let circuit = build_policy(&spec)?;
     let fingerprint = circuit.get_fingerprint();
-    if action == "fingerprint" {
+    if action == "fingerprint" || action == "identity" {
         ensure!(args.len() == 3, USAGE);
-        println!("{fingerprint}");
+        if action == "identity" {
+            let public_key_param=get_sd_key_public_key_param(&QHashOut(HashOut{elements:[F::ONE;4]}));
+            let public=ZKPublicKeyInfo{public_key_param,fingerprint};
+            println!("{}",serde_json::json!({"fingerprint":fingerprint.to_string(),"publicKeyHash":public.qfhash::<PsyHasher>().to_string()}));
+        }else{println!("{fingerprint}");}
         return Ok(());
     }
     let config_index = if action == "register" { 3 } else { 4 };
@@ -72,11 +79,7 @@ async fn run(progress: &mut Progress) -> Result<()> {
             data.contract_calls.len() + 1 == spec["tx_count"].as_u64().context("transaction count")? as usize && data.software_defined_call.inputs.len() == 13,
             "policy explicit call count and thirteen witness fields required"
         );
-        ensure!(
-            data.contract_calls[0].contract_id
-                == spec["market_id"].as_u64().context("market ID")?,
-            "first call must be the bound market guard"
-        );
+        validate_guard_order(&spec, &data)?;
         ensure!(
             data.software_defined_call.inputs[3..9]
                 .iter()
@@ -186,4 +189,46 @@ async fn run(progress: &mut Progress) -> Result<()> {
         _ => bail!(USAGE),
     }
     Ok(())
+}
+
+// Activation alone has three claims/initializers before its guard. Its entire
+// explicit prefix must match the registered policy; other branches retain the
+// existing guard-first requirement. The full UPS remains atomic.
+fn validate_guard_order(spec:&serde_json::Value,data:&ContractCallData)->Result<()> {
+ let branch=spec["branches"].as_array().context("branches")?.iter()
+  .find(|b|b["branch"].as_u64()==data.software_defined_call.inputs.first().copied()).context("selected policy branch")?;
+ if spec["market"]=="nftmarket" && branch["name"]=="activate" {
+  let calls=branch["calls"].as_array().context("activation calls")?;
+  ensure!(data.contract_calls.len()==9 && calls.len()==10,"activation call count");
+  for(actual,expected)in data.contract_calls.iter().zip(calls){
+   ensure!(Some(actual.contract_id)==expected["contract_id"].as_u64() && Some(actual.method_name.as_str())==expected["method_name"].as_str(),"activation call binding");
+   let inputs=expected["inputs"].as_array().context("activation inputs")?.iter().map(|v|{
+    if let Some(i)=v["witness"].as_u64(){data.software_defined_call.inputs.get(i as usize).copied().context("activation witness")}
+    else{Ok(v["constant"].as_str().context("activation constant")?.parse::<u64>()?)}
+   }).collect::<Result<Vec<_>>>()?;
+   ensure!(actual.inputs==inputs,"activation input binding");
+  }
+ }else{
+  ensure!(data.contract_calls.first().context("first call")?.contract_id==spec["market_id"].as_u64().context("market ID")?,"first call must be the bound market guard");
+ }
+ Ok(())
+}
+
+#[cfg(test)]
+mod activation_tests {
+ use super::*;
+ #[test]
+ fn activation_prefix_is_exact_before_any_rpc()->Result<()> {
+  let root=std::env::var("NFT_MARKET_BUILD")?;
+  let spec:serde_json::Value=serde_json::from_slice(&fs::read(format!("{root}/market/policy.json"))?)?;
+  let samples:serde_json::Value=serde_json::from_slice(&fs::read(format!("{root}/market/policy-samples.json"))?)?;
+  let sample=samples.as_array().context("samples")?.last().context("activation sample")?;
+  let data:ContractCallData=serde_json::from_value(serde_json::json!({"contract_calls":&sample["calls"].as_array().context("calls")?[..9],"software_defined_call":{"inputs":sample["fields"]}}))?;
+  validate_guard_order(&spec,&data)?;
+  for slot in [0,1,2,3,4]{let mut bad=data.clone();bad.contract_calls[slot].inputs[0]+=1;assert!(validate_guard_order(&spec,&bad).is_err());}
+  let mut bad=data.clone();bad.contract_calls[4].inputs[1]=2;assert!(validate_guard_order(&spec,&bad).is_err());
+  let mut bad=data.clone();bad.contract_calls.swap(0,3);assert!(validate_guard_order(&spec,&bad).is_err());
+  let mut bad=data.clone();bad.software_defined_call.inputs[0]=1;assert!(validate_guard_order(&spec,&bad).is_err());
+  Ok(())
+ }
 }

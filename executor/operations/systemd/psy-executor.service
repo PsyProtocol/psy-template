@@ -1,0 +1,31 @@
+[Unit]
+Description=Psy public SD-key executor
+Wants=network-online.target
+After=network-online.target
+StartLimitIntervalSec=300
+StartLimitBurst=5
+
+[Service]
+Type=simple
+User=psy-executor
+Group=psy-executor
+WorkingDirectory=/var/lib/psy-executor
+ExecStart=/usr/bin/node /opt/psy-executor/app/executor/service.mjs /etc/psy-executor/service.json watch
+Environment=NODE_ENV=production
+UMask=0077
+StateDirectory=psy-executor
+Restart=on-failure
+RestartSec=15
+KillSignal=SIGTERM
+KillMode=control-group
+TimeoutStopSec=1200
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectHome=yes
+ProtectSystem=strict
+ReadWritePaths=/var/lib/psy-executor
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
