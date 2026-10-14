@@ -1,0 +1,17 @@
+// Offline initial-deployment proof generation + independent verification.
+import {readFileSync,writeFileSync,mkdirSync,existsSync} from 'node:fs';import {resolve} from 'node:path';import {createHash} from 'node:crypto';import {spawnSync} from 'node:child_process';import {fileURLToPath} from 'node:url';import assert from 'node:assert/strict';
+import {generate,validateConfig} from './generate.mjs';import {marketGate} from './abi.mjs';
+export function preflight({bundle,deployer,verifier,out}){
+ assert.match(deployer,/^[0-9a-f]{64}$/,'public deployer hash required');if(existsSync(out))throw Error('output exists; preserve original proofs');
+ const dir=resolve(bundle),read=n=>JSON.parse(readFileSync(resolve(dir,n),'utf8')),hash=p=>createHash('sha256').update(readFileSync(p)).digest('hex');
+ const config=validateConfig(read('config.json')),provenance=read('provenance.json'),artifactPath=resolve(dir,'compiled/compilation_artifact.json'),source=resolve(dir,'main.psy.rs');
+ assert.equal(readFileSync(source,'utf8'),generate(config),'reviewed source/config mismatch');assert.equal(hash(source),provenance.sourceSha256);assert.equal(hash(artifactPath),provenance.artifactSha256);assert.deepEqual(config,provenance.config);
+ const artifact=read('compiled/compilation_artifact.json');marketGate(artifact,config);assert.deepEqual(read('compiled/abi.json'),artifact.abi,'ABI file differs');
+ const output=resolve(out);mkdirSync(output,{recursive:true});const request=resolve(output,'initial-request.json'),reportPath=resolve(output,'initial-report.json'),binarySha=hash(verifier);
+ const run=(args,name)=>{const result=spawnSync(resolve(verifier),args,{encoding:'utf8',maxBuffer:16e6,timeout:900000});writeFileSync(resolve(output,name+'.log'),(result.stdout??'')+(result.stderr??''),{flag:'wx'});if(result.error||result.status!==0)throw Error(`initial ${name} rejected: ${result.error?.message??result.stderr?.slice(-1500)}`);};
+ run(['prepare',artifactPath,deployer,request],'prepare');run(['verify',artifactPath,deployer,request,reportPath],'verify');assert.equal(hash(verifier),binarySha,'verifier changed');assert.equal(hash(artifactPath),provenance.artifactSha256,'artifact changed');assert.equal(hash(source),provenance.sourceSha256,'source changed');
+ const report=JSON.parse(readFileSync(reportPath,'utf8'));assert.equal(report.initialLayoutVerified,true);assert.equal(report.publicEndpointsBound,true);assert.equal(report.expectedDeployer,deployer);assert.equal(report.oldFieldCount,0);assert.equal(report.oldSlotCount,0);assert.equal(report.stateTreeHeight,31);
+ const candidate={version:1,deploymentType:'initial',updateAllowed:false,config,expectedMarketId:provenance.expectedMarketId,publicDeployer:deployer,artifactSha256:hash(artifactPath),sourceSha256:hash(source),requestSha256:hash(request),reportSha256:hash(reportPath),verifierSha256:binarySha,...report,deploymentReady:false,fullUpsVerified:false,broadcast:false};
+ writeFileSync(resolve(output,'candidate.json'),JSON.stringify(candidate,null,2)+'\n',{flag:'wx'});return candidate;
+}
+if(process.argv[1]===fileURLToPath(import.meta.url)){const a={};for(let i=2;i<process.argv.length;i+=2){const k=process.argv[i];if(!k.startsWith('--')||!process.argv[i+1]||a[k])throw Error('unique flag/value pairs');a[k]=process.argv[i+1];}for(const k of ['bundle','deployer','verifier','out'])if(!a['--'+k])throw Error(`--${k} required`);console.log(JSON.stringify(preflight({bundle:a['--bundle'],deployer:a['--deployer'],verifier:a['--verifier'],out:a['--out']}),null,2));}

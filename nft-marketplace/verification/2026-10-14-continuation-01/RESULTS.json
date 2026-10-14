@@ -1,0 +1,143 @@
+{
+  "date": "2026-10-14",
+  "baselineCommit": "c17f166f9bd88406b462070ff0d07e0062a9ac3b",
+  "repo": "https://github.com/PsyProtocol/psy-template",
+  "branch": "main",
+  "network": "sepolia (staging endpoints)",
+  "deploymentType": "initial",
+  "existingContractUpdatesSubmitted": false,
+  "tests": {
+    "javascriptPassed": 90,
+    "rustPassed": 14,
+    "vmAndModelScenarios": 11,
+    "cfcMethodsBuilt": 13,
+    "sdkeyBranchesVerified": 6,
+    "maliciousSignaturesRejected": 18,
+    "canonicalLayoutProofsVerifiedInTest": 2,
+    "layoutMutationsRejected": 14
+  },
+  "contracts": {
+    "nft": {
+      "contractId": 2447,
+      "deployer": "0f5f31dbab6454bff5702c83caae97fbbd140f2d35a0c31c08f43b0033da0f42",
+      "function_tree_root": "cce7506b76cbb5eaa9a05f02aa6f216fff71b99ffe6c653c467b6ae50efb639f",
+      "code_root": "39b159809e745c3fe391002c7b1881bf33ea038bb16c63aeb0727de08bed68f0",
+      "state_tree_height": 30,
+      "state_layout_root": "8dcc2193a5cba13f5e9e5dfe05089d659206bf009f14bfec1c73f1c0bd9dd3f2",
+      "state_layout_field_count": 14,
+      "state_layout_slot_count": 603980958
+    },
+    "ft": {
+      "contractId": 2448,
+      "deployer": "0f5f31dbab6454bff5702c83caae97fbbd140f2d35a0c31c08f43b0033da0f42",
+      "function_tree_root": "85389b2c3d90634ee23ddba24e4d0cd9e2a352e22d6b2a78cba7725f37faa309",
+      "code_root": "c28a1c7577279760dd95a4bcb3048ee922e7e68e9b499ac8829d1637614a4245",
+      "state_tree_height": 31,
+      "state_layout_root": "62224d708fde9cd6df9a304c2fc5eab0a376a30c13766a39407fcd8587a56724",
+      "state_layout_field_count": 15,
+      "state_layout_slot_count": 1174405221
+    },
+    "market": {
+      "contractId": 2451,
+      "deployer": "0f5f31dbab6454bff5702c83caae97fbbd140f2d35a0c31c08f43b0033da0f42",
+      "function_tree_root": "30ba72cdde1ab3cef7eb3fcdd7583e3fd4f2f494f301c2ba70d6f825c9f090d8",
+      "code_root": "f6fe69b81150acdf3966c70328a9e6dd0ebe4e1dda1340b4ab92765ada34dcb8",
+      "state_tree_height": 31,
+      "state_layout_root": "a3470f5cf084974460c0afcac986a6f66ed128b246a382f18a2e1723de56de43",
+      "state_layout_field_count": 22,
+      "state_layout_slot_count": 1426063378
+    }
+  },
+  "vault": {
+    "userId": 1755712,
+    "publicKeyHash": "1010bf5e441c6d880e7ef85af558f3497ce2722febb8e571ec1dbf836371aa7e",
+    "fingerprint": "0c58faa780a74f48cf4084b08585d1008003f18a68ce5ef3142ade320107e6d7",
+    "contractId": 2451,
+    "confirmedAtCheckpoint": 275825
+  },
+  "initialPreflight": {
+    "version": 1,
+    "deploymentType": "initial",
+    "updateAllowed": false,
+    "config": {
+      "nftId": 2447,
+      "tokenId": 2448
+    },
+    "expectedMarketId": 2451,
+    "publicDeployer": "0f5f31dbab6454bff5702c83caae97fbbd140f2d35a0c31c08f43b0033da0f42",
+    "artifactSha256": "73466a9f57e28ffc7d8a6cf4b8a3f492af2c3df59f617d0424878560961509ac",
+    "sourceSha256": "1d9dad83bfb135a01f540d1e2ad7487c3be3b3af4beb8d9e53f490ed935cc430",
+    "requestSha256": "9d65db76a92fc7c0cad058f3f0595fd047c719b37f0dafa0ea92ddce84370a2e",
+    "reportSha256": "a6177bb82c86a276fa158eeba39b2d06a942d36a1483db510d885b06b62bab28",
+    "verifierSha256": "2e357bfd914fd3f8ac709dfc9504e9f6c3a31327009fc96e5f9004608ca56a07",
+    "codeRoot": "f6fe69b81150acdf3966c70328a9e6dd0ebe4e1dda1340b4ab92765ada34dcb8",
+    "expectedDeployer": "0f5f31dbab6454bff5702c83caae97fbbd140f2d35a0c31c08f43b0033da0f42",
+    "fullUpsVerified": false,
+    "initialLayoutVerified": true,
+    "layoutRoot": "a3470f5cf084974460c0afcac986a6f66ed128b246a382f18a2e1723de56de43",
+    "newFieldCount": 22,
+    "newSlotCount": 1426063378,
+    "oldFieldCount": 0,
+    "oldSlotCount": 0,
+    "proofBytes": 136080,
+    "publicEndpointsBound": true,
+    "stateTreeHeight": 31,
+    "submitted": false,
+    "verifierFingerprint": "f2be754869220ac3bd68cfba16bbfdf50159cd667c3b445efb0adf807d175e9f",
+    "deploymentReady": false,
+    "broadcast": false
+  },
+  "noopIncluded": true,
+  "liveAcceptance": {
+    "fullUpsVerified": false,
+    "saleIncluded": false,
+    "refundIncluded": false,
+    "deploymentReady": false,
+    "failureMethod": "open_listing",
+    "broadcastAttemptedForFailedListings": false,
+    "failure": "Partition containing Wire(Wire { row: 269, column: 12 }) was set twice with different values: 0 != 15152617885907939637",
+    "reproducedAfterNoop": true
+  },
+  "finalState": {
+    "checkpoint": 275973,
+    "balances": {
+      "issuer": {
+        "ft": "80000000000000000000",
+        "nft": "1",
+        "marketKind": "0",
+        "psy": "991999977000"
+      },
+      "buyer": {
+        "ft": "20000000000000000000",
+        "nft": "0",
+        "marketKind": "0",
+        "psy": "997999994000"
+      },
+      "vault": {
+        "ft": "0",
+        "nft": "0",
+        "marketKind": "0",
+        "psy": "0"
+      }
+    }
+  },
+  "cleanup": {
+    "temporaryTransportPidsStopped": [
+      52390,
+      57723
+    ],
+    "existingServices": [
+      {
+        "pid": 77189,
+        "running": true
+      },
+      {
+        "pid": 32291,
+        "running": true
+      }
+    ]
+  },
+  "machine": "gewenbo.local",
+  "localEvidenceDirectory": "/Users/geir/Downloads/QED资料/litepaper/psy-template/nft-marketplace/verification/2026-10-14-continuation-01",
+  "sourceSha256": "2c8cd4b01706f7ed95650daeb06daf5f75a8e8e151c424246d0720e683b3206b"
+}

@@ -2,6 +2,7 @@ pub mod policy;
 pub mod runtime;
 pub mod wallet_driver;
 pub mod nft_market;
+pub mod layout_preflight;
 mod ranges;
 // The application build resolves foreign token ABIs without changing Node/compiler.
 use anyhow::{bail,ensure,Result};
