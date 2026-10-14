@@ -1,0 +1,188 @@
+{
+  "date": "2026-10-14",
+  "network": "sepolia",
+  "engineeringAcceptanceVerified": true,
+  "productionReady": false,
+  "remainingGates": [
+    "independent-security-audit",
+    "upgrade-authority-and-on-chain-root-binding-review",
+    "sustained-availability-and-chain-capacity-acceptance"
+  ],
+  "contracts": {
+    "market": {
+      "id": 2452,
+      "codeRoot": "5c81150893547bfaaebeed9288a76c650dcd1198cc1e744d001ca040cbbfc94b",
+      "layoutRoot": "a3470f5cf084974460c0afcac986a6f66ed128b246a382f18a2e1723de56de43",
+      "methods": 14,
+      "fields": 22
+    },
+    "nft": {
+      "id": 2447,
+      "codeRoot": "39b159809e745c3fe391002c7b1881bf33ea038bb16c63aeb0727de08bed68f0",
+      "layoutRoot": "8dcc2193a5cba13f5e9e5dfe05089d659206bf009f14bfec1c73f1c0bd9dd3f2"
+    },
+    "ft": {
+      "id": 2448,
+      "decimals": 18,
+      "encoding": "low + high * 2^62",
+      "codeRoot": "c28a1c7577279760dd95a4bcb3048ee922e7e68e9b499ac8829d1637614a4245",
+      "layoutRoot": "62224d708fde9cd6df9a304c2fc5eab0a376a30c13766a39407fcd8587a56724",
+      "genesisPUSDT": false
+    }
+  },
+  "vault": {
+    "userId": 1256000,
+    "publicKeyHash": "7dcd66143367c9f478d09df85d89ac0212e5bc3dd5cd35a369b7e47de4f20991",
+    "fingerprint": "618e309229edf1aa10a848f5a0edc41d80c9e225ce8cdaea887050a9961aeb9c",
+    "contractId": 2452
+  },
+  "coverage": {
+    "activate": 1,
+    "settle_sale": 2,
+    "refund_listing": 1,
+    "refund_buy": 2
+  },
+  "includedReceiptsRechecked": 57,
+  "independentVerificationCheckpoint": 278448,
+  "sale": {
+    "priceRaw": "5000000000000000000",
+    "allClaimsConfirmed": true
+  },
+  "cancelRefund": {
+    "paymentRaw": "5000000000000000000",
+    "allClaimsConfirmed": true
+  },
+  "competition": {
+    "seller": 936512,
+    "winner": 1448512,
+    "loser": 1460800,
+    "price": "1000000000000000000",
+    "priority": "ascending enrolled user IDs",
+    "allClaimsConfirmed": true,
+    "balances": [
+      {
+        "userId": 1460800,
+        "ft": "85000000000000000000",
+        "nft": "1"
+      },
+      {
+        "userId": 936512,
+        "ft": "11000000000000000000",
+        "nft": "0"
+      },
+      {
+        "userId": 1448512,
+        "ft": "4000000000000000000",
+        "nft": "1"
+      }
+    ],
+    "ftSupplyRaw": "100000000000000000000",
+    "nftSupply": "2",
+    "distinctIdentitiesAndMetadataVerified": true
+  },
+  "sdkReceipts": [
+    {
+      "kind": "activate",
+      "checkpoint": 276696,
+      "endUserLeafHash": "6205e459f1c54823591329477a7519e7086b8617687a66ceb1ad595634e936ec",
+      "contentHash": "f392b9c0de2107e6a923a2139b8b96c8983527bb1092886e3fd9605bbc543df8"
+    },
+    {
+      "kind": "settle_sale",
+      "checkpoint": 277629,
+      "endUserLeafHash": "234427745c6637ef2d0c26cac43db49ee3dd7084742073262abf1063881b6db3",
+      "contentHash": "56e14718a4d425e22976235d1df5a080d2e87610e4c7736caecd387bb777878d"
+    },
+    {
+      "kind": "refund_listing",
+      "checkpoint": 277866,
+      "endUserLeafHash": "7c53fab2d779b4a3564bdcdb558375a0b63ceb7ae01dd18c62cfcb72fed43cb7",
+      "contentHash": "b68300f637a41b7b821e58c3aa5e6799be015e0c81145e291d1a48e336677b13"
+    },
+    {
+      "kind": "refund_buy",
+      "checkpoint": 277928,
+      "endUserLeafHash": "d9ee3dd2da2d1ef17a9081e2fcf41be2d68cecd1b76bfa130507a60343150e66",
+      "contentHash": "d5e385ad27e213a308522a65dad4b60bcdbe7dbb4721adb85466cfb634c41735"
+    },
+    {
+      "kind": "settle_sale",
+      "checkpoint": 278249,
+      "endUserLeafHash": "f6e9de2806e4f5a8163a7bca9505cfb8c5b55ac13142828b81848517bda15c5c",
+      "contentHash": "1044f1d7e9031d567c40d02e9e0c303a5bd73fe7e5e402c30710a5e7f9439c57"
+    },
+    {
+      "kind": "refund_buy",
+      "checkpoint": 278300,
+      "endUserLeafHash": "8d1aa1e13fc603e69e4b35342ccfadc0bbc3f87a5b8dca40449c2f47998745d8",
+      "contentHash": "84d46687fa29f52d3714d480178503fae0019249952ab16a4bff9ff40c5c3b49"
+    }
+  ],
+  "sameHostContender": {
+    "at": "2026-10-14T07:12:52.447Z",
+    "status": "busy",
+    "ownerPid": 22269,
+    "contenderPid": 25855,
+    "vaultId": 1256000,
+    "sharedJournal": "/Users/geir/Downloads/QED资料/litepaper/psy-template/nft-marketplace/verification/2026-10-14-production-01/runtime/e5cc9e8f26a9d872fb9160ce4a68ead63bd515d60c19d89ee8d8e311aff87aa0",
+    "secondProofStarted": false,
+    "secondBroadcastAttempted": false
+  },
+  "services": {
+    "u124": {
+      "pid": 22124,
+      "startedAt": "2026-10-14T06:55:47.669Z",
+      "updatedAt": "2026-10-14T07:40:59.938Z",
+      "vaults": [
+        {
+          "contractId": 2443,
+          "vaultId": 401984,
+          "status": "idle",
+          "checkpoint": 278496
+        },
+        {
+          "contractId": 2444,
+          "vaultId": 1450560,
+          "status": "idle",
+          "checkpoint": 278499
+        },
+        {
+          "contractId": 2446,
+          "vaultId": 205376,
+          "status": "idle",
+          "checkpoint": 278496
+        }
+      ]
+    },
+    "nft": {
+      "pid": 28681,
+      "startedAt": "2026-10-14T07:32:45.951Z",
+      "updatedAt": "2026-10-14T07:41:06.156Z",
+      "vaults": [
+        {
+          "contractId": 2452,
+          "vaultId": 1256000,
+          "status": "idle",
+          "checkpoint": 278498
+        }
+      ]
+    }
+  },
+  "tests": {
+    "javascriptCore": 102,
+    "exchanges": 170,
+    "token": 5,
+    "rustLifecycleDriverPolicy": 15,
+    "rustInitialLayoutAdversarial": 1,
+    "maliciousPolicyProofsRejected": 21,
+    "layoutMutationsRejected": 14
+  },
+  "changesExcluded": [
+    "psy-node",
+    "MCP service",
+    "existing FT/NFT asset sources",
+    "existing market layouts",
+    "ordinary wallet key export"
+  ],
+  "secretsIncluded": false
+}

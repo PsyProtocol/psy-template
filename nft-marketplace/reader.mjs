@@ -33,6 +33,18 @@ export async function scan(o,readState=publicState,files){files??=await loadFile
  const pair=async(u,name,index=0)=>decodeAmount(await readTogether([own(u,name,index),s.slot(u,o.contractId,fields.get(name).offset+index*(fields.get(name).type.item_felt_size??1)+1)]));
  const counters=async(u,peer)=>{const base=NFT.outbox+NFT.stride*peer;const [sent,claimed,acked]=await readTogether([s.slot(u,config.nftId,base+32),s.slot(u,config.nftId,base+33),s.slot(u,config.nftId,base+34)]);return {sent,claimed,acked};};
  const tokenPair=async(u,offset)=>decodeAmount(await readTogether([s.slot(u,config.tokenId,offset),s.slot(u,config.tokenId,offset+1)]));
+ const marker=await own(vault,'pool');
+ if(marker!==BigInt(vault)){
+  assert.equal(marker,0n,'invalid vault activation marker');
+  for(const payer of o.users){
+   const [fee,seed,nfts]=await readTogether([s.slot(payer,0,3+2*vault),tokenPair(payer,33554453+4*vault),s.slot(payer,config.nftId,0)]);
+   if(fee===FEE_ESCROW&&seed===1n&&nfts>0n){
+    const branch=policy.branches.find(b=>b.name==='activate');assert.ok(branch,'activation policy required');
+    return {checkpoint:s.checkpoint,orders:[],activationRequired:true,action:{kind:'activate',submission:losslessJson(signingRequest(policy,[BigInt(branch.branch),BigInt(payer),0n,0n,0n,0n,0n,0n,0n,0n,0n,0n,0n]))}};
+   }
+  }
+  return {checkpoint:s.checkpoint,orders:[],activationRequired:true,action:null};
+ }
  const row=async userId=>{
   const names=['kind','pool','nonce','deadline','cancelled','seller','listing_nonce','nft_sequence'];const raw=Object.fromEntries(await readTogether(names.map(async n=>[n,await own(userId,n)])));
   const [price,consumed,feeSent,feeClaimed,feeCursor,paymentSent,paymentClaimed,paymentCursor,out,inbound,delivery]=await readTogether([pair(userId,'price'),own(vault,'consumed',userId),s.slot(userId,0,3+2*vault),s.slot(vault,0,4+2*userId),own(vault,'settled_fee',userId),tokenPair(userId,33554453+4*vault),tokenPair(vault,33554455+4*userId),pair(vault,'settled_payment',userId),counters(userId,vault),counters(vault,userId),counters(userId,vault)]);

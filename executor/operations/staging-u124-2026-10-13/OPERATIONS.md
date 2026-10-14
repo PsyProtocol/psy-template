@@ -22,17 +22,19 @@ Release root on this Mac:
 
 `/Users/geir/Downloads/QED资料/litepaper/psy-template/executor/operations/staging-u124-2026-10-13`
 
-- `app-v2/`: active frozen application runtime sources with ABI and recovery
-  validation. The original `app/` remains available for rollback.
-- `bin/market_wallet_verified`: tested public driver.
-- `service.json`, the three vault configs, `abi/`, `policies/`, `configs/`:
+- `app-v3/`: active frozen runtime with derived public SD-key identity checks.
+  `app/` and `app-v2/` remain available for rollback.
+- `bin-https/market_wallet_verified`: current driver with verified HTTPS support.
+  The earlier binary is preserved in `bin/`.
+- `service-https.json`, the three `*-https.json` vault configs, `abi/`, `policies/`, `configs/`:
   frozen chain identities and bindings.
 - `rpc-config.json`: official HTTPS RPC/services endpoints.
 - `SOURCE_MANIFEST.json`: original freeze hashes (38 source dependencies and
   the binary). Its original `installed: false` describes the preparation step;
   the later installation record is in the acceptance directory.
-- `SOURCE_MANIFEST_V2.json`: active release hashes (40 source dependencies and
-  the same tested binary). Activation preserved the original runtime/configs.
+- `SOURCE_MANIFEST_V2.json`: historical release hashes.
+- `SOURCE_MANIFEST_V3.json`: active hashes (46 source dependencies and the HTTPS
+  driver). Contract IDs, roots, fingerprints and the runtime directory were retained.
 - `runtime/`: durable journals copied from successful acceptance, public calls,
   submission logs, service stdout/stderr. Original test journals were retained.
 - `service-status.json`: mutable status/heartbeat.
@@ -45,8 +47,8 @@ This login service does not provide a server availability guarantee.
 Run from this checkout:
 
 ```sh
-node executor/operations/staging-u124-2026-10-13/app-v2/executor/service.mjs \
-  executor/operations/staging-u124-2026-10-13/service.json status
+node executor/operations/staging-u124-2026-10-13/app-v3/executor/service.mjs \
+  executor/operations/staging-u124-2026-10-13/service-https.json status
 launchctl print "gui/$(id -u)/xyz.psy.executor.u124.staging"
 ```
 
@@ -90,3 +92,8 @@ source deliverables. This document identifies the verified local installation.
 The [hardening report](../../verification/2026-10-14-hardening-02/REPORT.md)
 records the v2 activation and compatibility checks. Its pre-activation launchd
 plist backup preserves the original startup configuration.
+
+The v3 rollout and unchanged fingerprint checks are included in the
+[NFT/driver verification report](../../../nft-marketplace/verification/2026-10-14-production-01/REPORT.md).
+The first launchd bootstrap returned exit 5 while teardown was completing;
+the later bootstrap succeeded. The original installed plist was retained.

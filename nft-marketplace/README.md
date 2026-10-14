@@ -1,8 +1,21 @@
-# NFT Marketplace v2
+# NFT Marketplace v3
 
 一口价 NFT 市场，由 Marketplace 合约、公开 SD-key 和现有 Executor 组成。
 绑定一个 NFT v3 合约和一个 U124 FT 支付合约，金额使用 `[low62, high62]`。
 原生 PSY 仅用于手续费。没有修改 NFT 资产合约、已有三个市场或 psy-node。
+
+## 首次启用与钱包准备
+
+新的 SD-key 注册后尚无用户状态，NFT/FT 合约树也可能不存在。仅注册账户不能保证外部状态读取可证明。
+
+1. 使用已持有 NFT、且有支付 FT 的发起钱包，给新金库转入精确的 `1.0001 PSY` 和 **1 个 FT 最小单位**。`activationFundingCalls` 编码这两笔入金。
+2. Executor 在 `pool == 0` 的金库分区发现这份精确入金后提出 `activate`。其固定 UPS 先 claim 原生手续费、NFT ACK 发起钱包、claim FT，再验证一次性启用条件、将 1 个 FT 最小单位返还同一钱包，填充 noop，最后支付 burn。完整证明及入链是原子的，失败不会只执行前几个调用。
+3. 启用只写入现有的金库 `pool = ctx.user_id` 标记以及两项入金游标，不增加布局字段。标记不能重复设置，超额 seed、错误手续费、已使用的金库会拒绝。初始化者需要自行 FT claim 返还的最小单位。
+4. 启用确认后再挂单。买家 `purchaseCalls` 先执行 `NFT.acknowledge(seller)`，建立自己的 NFT 状态树，再开买单和付款。
+
+请使用 Node 客户端的 `verifiedListingCalls` / `verifiedPurchaseCalls`：它们校验市场和资产代码/布局、注册账户、精确策略 fingerprint，以及公开 SD-key 值所派生的公钥哈希，并拒绝未启用金库。调用者提供的订单参数不能覆盖验证后的资产或金库地址。低层 `listingCalls` / `purchaseCalls` 只编码调用，不进行网络信任校验。
+
+Executor 的 NFT profile 要求新驱动的 `identity <policy.json>` 命令，同时绑定 fingerprint 和公钥哈希；普通私钥钱包不能仅靠伪造启用标记冒充被验证的 SD-key 金库。原有三类市场的驱动接口保持兼容。
 
 ## 交易与退款
 
@@ -29,7 +42,7 @@
 
 | 文件 | 用途 |
 | --- | --- |
-| `generate.mjs` / `contract/src/main.psy.rs` | 13 个方法的市场合约；源文件中的 41/42 仅为本地测试 ID |
+| `generate.mjs` / `contract/src/main.psy.rs` | 14 个方法的市场合约；源文件中的 41/42 仅为本地测试 ID |
 | `policy.mjs` | 六个严格绑定的 SD-key 分支、十个调用、固定临时 NFT 槽位 |
 | `client.mjs` | 用户下单/入金组合、BigInt 金额 |
 | `reader.mjs` | 单 checkpoint 扫描、成交/退款/ACK 规划 |
@@ -62,11 +75,11 @@ node nft-marketplace/samples.mjs \
 
 npm run test:nft-marketplace
 NFT_MARKET_BUILD=/tmp/nft-market-fresh TOKEN_WIDE_ARTIFACT=/path/to/token/compilation_artifact.json \
-  node --test nft-marketplace/tests/integration.test.mjs
+  node --test nft-marketplace/tests/*.test.mjs
 NFT_MARKET_BUILD=/tmp/nft-market-fresh TOKEN_WIDE_ARTIFACT=/path/to/token/compilation_artifact.json \
   cargo +nightly-2025-09-20 test --offline --locked --release \
   --manifest-path amm/u124/vm-tests/Cargo.toml \
-  --test nft_market --test nft_sdkey --test nft_layout -- --test-threads=1
+  --lib --test nft_market --test nft_sdkey --test nft_layout -- --test-threads=1
 ```
 
 Rust 测试使用本地 ID NFT 41、FT 42、Market 1000、issuer 5。`NFT_MARKET_BUILD/nft/compilation_artifact.json` 必须是对应 NFT v3 的编译产物；测试会通过真实 mint/transfer/claim 初始化资产。签名样例只测试策略，不表示对应订单已经入金。
@@ -145,8 +158,22 @@ v2 构建将市场状态写入安排在校验之后，保证自账户外部资�
 
 初次部署去重标识可能由函数电路白名单产生：字节码改写但电路指纹相同，可能返回已有部署。部署后必须核对真实 code root / layout root；标记文件中的合约 ID 本身不是新版本确认。此问题只做匹配检查，不覆盖原部署或旧证明。
 
-## 2026-10-14 实际验收
+## 2026-10-14 历史 v2 验收
 
 独立测试 NFT 2447、18 位 U124 FT 2448、Marketplace 2451 和 SD-key 金库 1755712 已确认部署/注册。初次布局证明为 0 → 22，代码根、布局根和收据均匹配。普通 `noop` 已确认上链。
 
 **真实成交未通过。** `open_listing` 在 MCP 本地 CFC 证明阶段失败，没有广播挂单，也没有向金库转入 NFT、FT 或手续费。读写顺序调整和一次 `noop` 后仍复现；完整成交/退款 UPS 验收标记保持 false。详见 [验收记录](verification/2026-10-14-continuation-01/REPORT.md)。已注册的测试金库不能作为已验收产品金库使用。
+
+## v3 根因与验证
+
+只读 `nft_cfc_probe` 从公开状态构造 CFC witness，无签名或广播。对未启用的旧金库 1755712，其远端用户树叶为零，而 SDK 默认用户结构的哈希包含 `15152617885907939637`，准确复现原错误。首次启用后，新实例 2452 / 1256000 的同一真实挂单 CFC 已独立验证成功。
+
+诊断工具还提供 `analyze <witness.json> <fresh-report>`，计算远端用户叶哈希并核对上下层状态根。原始失败记录与历史 v2 验收文件保留。当前 v3 成交、取消退款和竞争买家验证见 [本次报告](verification/2026-10-14-production-01/REPORT.md)。
+
+## 发布验收工具与 HTTPS
+
+`npm run verify:nft-marketplace -- --config ... --evidence ... --out ...` 只读重查回执，核对发布哈希、公钥身份、实际领取、资产守恒、NFT 身份和 metadata；输出文件必须尚不存在。它要求三名实际参与者、两笔成交、一笔 NFT 撤回和两笔 FT 退款，并绑定独立验证后的广播日志。格式与失败样例见 `tests/acceptance.test.mjs`，这些测试替身本身不是链上验收。
+
+应用驱动显式启用 reqwest HTTPS 支持，保留证书与域名验证。当前驱动需支持 `identity <policy.json>`；仅返回 fingerprint 的旧二进制不满足新执行器的身份检查。此修复位于应用构建配置，未修改 Node 或 MCP。
+
+工程验收通过仍不会自动设置 `productionReady: true`。独立审计、更新权限、链上代码根约束及可用性/容量边界见 [生产验收清单](../PRODUCTION_READINESS.md)。

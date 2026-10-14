@@ -16,6 +16,8 @@ export function makePolicy(marketId,c,abi,nftAbi,tokenAbi){
  add('refund_buy',[guard('refund_buy',[buyer,...amount,buy]),native('simple_claim',[buyer]),ft('claim',[buyer]),ft('transfer',[buyer,...amount])]);
  add('refund_buy_fee',[guard('refund_buy_fee',[buyer,buy]),native('simple_claim',[buyer])]);
  add('ack_delivery',[guard('ack_delivery',[seller]),native('simple_claim',[seller]),nft('acknowledge',[seller])]);
+ // Materialize the fresh user and both asset trees before market foreign reads.
+ add('activate',[native('simple_claim',[seller]),nft('acknowledge',[seller]),ft('claim',[seller]),guard('activate',[seller]),ft('transfer',[seller,k(1),zero])]);
  return {version:1,market:'nftmarket',market_id:marketId,nft_id:c.nftId,token_id:c.tokenId,witness_length:13,tx_count:10,fee_min:'1000000000',fee_max:String(FEE_ESCROW),branches};
 }
 export function operationCalls(policy,fields){

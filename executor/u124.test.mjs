@@ -12,7 +12,7 @@ import {submissionLeaf} from './driverProcess.mjs';
 import {makePolicy} from '../amm/u124/policy.mjs';
 import {encodeAmount,parseLosslessJson,FEE_ESCROW,initialShares,curveQuote} from '../amm/u124/client.mjs';
 const U=10n**18n, config={assetA:42,assetB:43,issuer:5,target:400,cap:20,liquidity:10,threshold:20,unit:String(U),base:String(U),step:String(U/10n)};
-const token=(await import('../token/wide/verification-2026-10-12/compiled-reviewed/compilation_artifact.json',{assert:{type:'json'}})).default.abi;
+const token=JSON.parse(await readFile(new URL('../token/wide/verification-2026-10-12/compiled-reviewed/compilation_artifact.json',import.meta.url),'utf8')).abi;
 async function fixture(kind,fn){
  const directory=await mkdtemp(join(tmpdir(),'psy-u124-adapter-'));
  try{
@@ -77,7 +77,7 @@ test('scanner decodes pairs/strides at one snapshot and does not derive balances
 test('adapter uses explicit preflight and verified-submit, records lost response and recovers exact log after restart',()=>fixture('amm',async({options,state,order,funding,scalar,directory})=>{
  order(200,{kind:2n,x:U,y:U,z:1n});funding(200,U,U);let submits=0,reads=[];const leaf='e'.repeat(64);
  const dependencies={readState:async()=>state,readReceipts:async()=>async query=>{reads.push(query);return query.endUserLeafHash===leaf?{status:'included',userId:100,checkpoint:101,contentHash:'f'.repeat(64),endUserLeafHash:leaf}:{status:'unresolved'};},
-  runDriver:async(_,args)=>args[0]==='fingerprint'?{stdout:options.fingerprint}:{stdout:JSON.stringify({fullUpsVerified:true,submitted:false,marketId:1000,fingerprint:options.fingerprint,fee:1000000000})},
+  runDriver:async(_,args)=>args[0]==='identity'?{stdout:JSON.stringify({fingerprint:options.fingerprint,publicKeyHash:options.publicKeyHash})}:{stdout:JSON.stringify({fullUpsVerified:true,submitted:false,marketId:1000,fingerprint:options.fingerprint,fee:1000000000})},
   submitDriver:async(_,args,{logFile})=>{assert.equal(args[0],'verified-submit');submits++;const output=JSON.stringify({fullUpsVerified:true,submitted:false,marketId:1000,fingerprint:options.fingerprint,fee:1000000000,endUserLeafHash:leaf})+'\n'+JSON.stringify({status:'broadcast_intent',userId:100,nonce:1,endUserLeafHash:leaf});await writeFile(logFile,output);scalar(100,'consumed',1n,200);const error=Error('response lost');error.stdout=output;throw error;}};
  const adapter=await createPublicWalletAdapter(options,dependencies);const journal=new ExecutionJournal({directory,network:'test',vaultId:100,fingerprint:options.fingerprint,fee:1000000000});
  assert.equal((await executeCycle({adapter,journal})).status,'included');assert.equal(submits,1);assert.equal((await executeCycle({adapter,journal})).status,'idle');assert.equal(submits,1);
@@ -132,7 +132,7 @@ test('Curve graduation fixes AMM seed payer, targets, fee, minimum, deadline and
 }));
 test('an interrupted parent can release an explicit child rejection, but cannot release an incomplete proof log',()=>fixture('amm',async({options,state,order,funding,directory})=>{
  order(200,{kind:2n,x:U,y:U,z:1n});funding(200,U,U);
- const adapter=await createPublicWalletAdapter(options,{readState:async()=>state,readReceipts:async()=>async()=>assert.fail('no receipt lookup without a broadcast'),runDriver:async(_,args)=>args[0]==='fingerprint'?{stdout:options.fingerprint}:{stdout:JSON.stringify({fullUpsVerified:true,submitted:false,marketId:1000,fingerprint:options.fingerprint,fee:1000000000})}});
+ const adapter=await createPublicWalletAdapter(options,{readState:async()=>state,readReceipts:async()=>async()=>assert.fail('no receipt lookup without a broadcast'),runDriver:async(_,args)=>args[0]==='identity'?{stdout:JSON.stringify({fingerprint:options.fingerprint,publicKeyHash:options.publicKeyHash})}:{stdout:JSON.stringify({fullUpsVerified:true,submitted:false,marketId:1000,fingerprint:options.fingerprint,fee:1000000000})}});
  const task=(await adapter.scan()).action,proof=await adapter.prepareSubmission(task,await adapter.prove(task)),journal=new ExecutionJournal({directory:join(directory,'restart'),network:'test',vaultId:100,fingerprint:options.fingerprint});
  await journal.locked(()=>journal.append({status:'broadcast-intent',taskId:'interrupted',task,proof}));
  const redirected=proof.submissionLog.replace('.submission-', '.submission-../other.submission-');await assert.rejects(adapter.reconcile({task,proof:{...proof,submissionLog:redirected}}),/log binding/);
@@ -145,3 +145,9 @@ test('Token ABI errors stop initialization before metadata reads or driver execu
  const abi=JSON.parse(await readFile(options.assetA.abi,'utf8'));abi.contract.state.find(f=>f.name==='other_user_info').offset++;await writeFile(options.assetA.abi,JSON.stringify(abi));
  await assert.rejects(createPublicWalletAdapter(options,{readState:async()=>assert.fail('ABI first'),runDriver:async()=>assert.fail('ABI first')}),/outbox offset/);
 }));
+test('all U124 markets reject a registered account that does not derive from the public SD-key',async()=>{
+ for(const kind of ['amm','orderbook','bondingcurve'])await fixture(kind,async({options,state})=>{
+  await assert.rejects(()=>createPublicWalletAdapter(options,{readState:async()=>state,
+   runDriver:async(_binary,args)=>{assert.equal(args[0],'identity');return {stdout:JSON.stringify({fingerprint:options.fingerprint,publicKeyHash:'f'.repeat(64)})};}}),/U124 public identity/);
+ });
+});

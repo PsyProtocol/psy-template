@@ -7,6 +7,26 @@ on:
     branches: [ main ]
 
 jobs:
+  applications:
+    name: Exchange, NFT market and executor regressions
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Set up Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Verify generated NFT marketplace source
+        run: node nft-marketplace/generate.mjs --check
+      - name: Run application and token unit regressions
+        run: |
+          npm run test:exchanges
+          npm run test:token-wide
+          npm run test:nft-marketplace
+    # Authenticated UPS, compiled VM/ABI and live acceptance use explicit frozen
+    # toolchain/artifact inputs. This job is not their production certification.
+
   verify:
     name: Verify Standards, Compliance & E2E Matrix
     runs-on: ubuntu-latest

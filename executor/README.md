@@ -8,10 +8,9 @@ reconciles the deterministic leaf against an included receipt.
 The new [NFT Marketplace](../nft-marketplace/README.md) uses `kind: "nftmarket"`
 and `profile: "nft-v3-u124"`, separate NFT/FT code and layout bindings, and
 the same persistent submission and receipt recovery. Its public driver binds
-ten calls rather than the existing markets' nine. No NFT market has been added
-to the installed staging service. Test Marketplace 2451 / vault 1755712 are
-deployed/registered; authenticated listing proof failures leave live acceptance
-incomplete. See the [test report](../nft-marketplace/verification/2026-10-14-continuation-01/REPORT.md).
+ten calls rather than the existing markets' nine. Marketplace 2452 / vault
+1256000 uses one-time activation before funding. Its live acceptance and the
+earlier failed deployment history are documented in the [current report](../nft-marketplace/verification/2026-10-14-production-01/REPORT.md).
 
 ## Run
 
@@ -261,6 +260,13 @@ recovery passed on chain. The concurrency scope is one machine with a shared
 journal; independent external audit and distributed leases remain open.
 
 The [2026-10-14 hardening report](verification/2026-10-14-hardening-02/REPORT.md)
-records 73 passing checks, historical log compatibility and the active frozen
-`app-v2` release. The driver, chain contracts, fingerprints and persistent
-journal directory are unchanged by that release.
+records 73 passing checks and the earlier frozen `app-v2` release. The current
+`app-v3` release enables HTTPS in the application driver and checks its derived
+public key hash as well as fingerprint for every U124/NFT profile. Contract IDs,
+fingerprints and the persistent U124 journal directory are retained. Older
+binaries lacking `identity` must be upgraded before using this source version.
+
+[Server service templates](operations/systemd/README.md) describe a dedicated
+Linux runtime; they have not been installed or certified on a production host.
+The [production checklist](../PRODUCTION_READINESS.md) records the remaining
+security, upgrade-authority and operational gates.

@@ -39,7 +39,10 @@ export async function createU124WalletAdapter(options,{readState=publicState,rea
  }
  await bindingCurrent();
  const env={...process.env};for(const key of Object.keys(env))if(key.endsWith('_WITNESS_WALLET')||key.endsWith('_LOCAL_DEFS'))delete env[key];
- const identity=await runDriver(options.wallet,['fingerprint',options.policy],{env,timeout:120000,maxBuffer:2000000});assert.equal(identity.stdout.trim(),options.fingerprint,'U124 fingerprint');
+ const identity=await runDriver(options.wallet,['identity',options.policy],{env,timeout:120000,maxBuffer:2000000});
+ const derived=driverRecords(identity.stdout).find(v=>v.fingerprint&&v.publicKeyHash);assert.ok(derived,'public SD-key identity missing');
+ assert.equal(derived.fingerprint,options.fingerprint,nft?'NFT fingerprint':'U124 fingerprint');
+ assert.equal(derived.publicKeyHash,options.publicKeyHash,nft?'NFT public identity':'U124 public identity');
  const reader=await readReceipts(options.rpcConfig,{maxPages:options.receiptMaxPages??20});
  const serialized=task=>{assert.equal(typeof task.submission,'string','lossless serialized submission required');parseLosslessJson(task.submission);return task.submission;};
  const callPath=task=>join(options.runtimeDirectory,'calls',options.network,String(options.vaultId),createHash('sha256').update(serialized(task)).digest('hex')+'.json');

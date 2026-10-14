@@ -1,3 +1,56 @@
+# 生产验收边界
+
+本仓库当前仍不声明 mainnet production ready。部署、回归和测试网结算是工程证据；它们不代替独立审计、生产运行验收或权限治理。
+
+## 按模块检查
+
+| 模块 | 工程证据 | 上线前仍需验收 |
+| --- | --- | --- |
+| U124 FT | 两个 62 位 limb；18 位精度；实际字节码和三市场交易 | 独立审计、发行及升级权限治理 |
+| NFT | 实际 mint、transfer、claim；身份、metadata、FIFO 和持有槽检查 | 独立审计、发行及升级权限治理 |
+| AMM / Orderbook / Curve | [真实结算、退款、领取关闭、Curve 建池和同机崩溃恢复](executor/verification/2026-10-14-resume-01/REPORT.md) | 独立审计、链上容量和故障验收 |
+| NFT Market | 独立初始 layout 验证；一次性启用；完整 UPS；成交与取消退款 | 三用户竞争验收结果及发布验收见本次报告；仍须独立审计 |
+| Executor | 持久广播意图、精确回执恢复、同机共享日志锁、根与公钥身份检查 | 服务可用性、告警响应和专用生产环境验收 |
+
+## 发布需要满足的条件
+
+1. 冻结源码、ABI、policy、驱动和 code/layout roots，记录哈希；不得覆盖原编译或证明产物。
+2. 初次部署使用经过独立验证的空旧布局证明。更新既有合约必须另行核对链上旧布局和证明端点，不能复用初次部署证明。
+3. 使用与 fingerprint 对应的公开 SD-key 公钥哈希；普通私钥账号即使注册、持有类似状态，也不能冒充公开金库。
+4. 真实 UPS 证明验证后只广播一次；响应丢失时按持久叶哈希对账。缺少回执不能作为重发依据。
+5. 验证实际领取、FT 总量、NFT 数量、NFT 身份和 metadata，不能只检查订单状态或余额计数。
+6. 独立团队审计合约、SD-key、应用编译适配及更新权限；修复发现项，再重跑受影响的验证。
+7. 在专用环境验收可用性、链上容量、故障恢复、备份恢复和告警响应，并记录实际测量结果。
+
+## 升级权限必须审查
+
+当前 policy 校验的是合约 ID、method ID、参数和完整调用栈；`can_read_state` 保持关闭。执行器另行检查 code/layout roots。**这些应用检查不等于 fingerprint 在链上冻结了合约代码。**
+
+若部署者能够更新相同 method ID 的实现，其权限属于资金安全边界。生产发布必须明确升级权限的持有人、控制及恢复方式，审查是否需要不可升级部署或在 SD-key 证明中认证代码根。不能把客户端拒绝执行新代码当作对任意公开执行者的链上约束。本轮没有修改 Node、绕开未认证状态读取限制或对既有合约提交布局更新。
+
+## 并发与运行范围
+
+当前支持一个执行主机上的多个进程共享同一 runtime 目录。链上 nonce/锚点用于判定竞争证明，持久日志负责提交与恢复。同机锁测试不代表跨机器租约或链上 TPS 已通过。
+
+macOS 登录服务依赖机器保持唤醒、网络和用户会话。它适合测试网运行，不构成生产可用性承诺。部署到服务器前需要验证该环境的编译驱动、证书信任、资源容量和运维流程。
+
+## NFT Market 的只读验收
+
+`nft-marketplace/acceptance.mjs` 重新查询交易回执，核对冻结文件、SD-key 身份、实际领取及 FT/NFT 守恒。需要三名真实参与者和启用、成交、取消退款、竞争买家退款的证据。它不签名、不转账、不重试提交。
+
+```sh
+npm run verify:nft-marketplace -- \
+  --config /absolute/path/to/executor.json \
+  --evidence /absolute/path/to/acceptance-evidence.json \
+  --out /absolute/path/to/fresh-verification.json
+```
+
+通过时输出 `engineeringAcceptanceVerified: true`；`productionReady` 仍为 `false`，并列出外部审计、权限治理与运行验收门槛。验收数据格式由 [测试样例](nft-marketplace/tests/acceptance.test.mjs) 展示；样例中的 RPC 和驱动是明确的测试替身，不能作为真实链上证据。
+
+---
+
+# 既有 FT/NFT 证据与门槛（原记录保留）
+
 # Production readiness gates
 
 This repository is a reference implementation. Passing `npm test` proves local compilation, native single-user test cases, ABI shape, and JavaScript state-model behavior. It does not prove live multi-user settlement or mainnet safety.
