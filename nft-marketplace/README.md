@@ -1,4 +1,4 @@
-# NFT Marketplace v1
+# NFT Marketplace v2
 
 一口价 NFT 市场，由 Marketplace 合约、公开 SD-key 和现有 Executor 组成。
 绑定一个 NFT v3 合约和一个 U124 FT 支付合约，金额使用 `[low62, high62]`。
@@ -66,7 +66,7 @@ NFT_MARKET_BUILD=/tmp/nft-market-fresh TOKEN_WIDE_ARTIFACT=/path/to/token/compil
 NFT_MARKET_BUILD=/tmp/nft-market-fresh TOKEN_WIDE_ARTIFACT=/path/to/token/compilation_artifact.json \
   cargo +nightly-2025-09-20 test --offline --locked --release \
   --manifest-path amm/u124/vm-tests/Cargo.toml \
-  --test nft_market --test nft_sdkey -- --test-threads=1
+  --test nft_market --test nft_sdkey --test nft_layout -- --test-threads=1
 ```
 
 Rust 测试使用本地 ID NFT 41、FT 42、Market 1000、issuer 5。`NFT_MARKET_BUILD/nft/compilation_artifact.json` 必须是对应 NFT v3 的编译产物；测试会通过真实 mint/transfer/claim 初始化资产。签名样例只测试策略，不表示对应订单已经入金。
@@ -109,7 +109,44 @@ Rust 测试使用本地 ID NFT 41、FT 42、Market 1000、issuer 5。`NFT_MARKET
 
 ## 验收边界
 
-这是第一版实现。未实现拍卖、报价单、版税、平台抽成、多合集路由或私密 NFT 交易。
+当前实现支持一口价成交及撤回。未实现拍卖、报价单、版税、平台抽成、多合集路由或私密 NFT 交易。
 不承诺处理没有市场订单的任意直接 NFT 入金；额外 NFT 会违反严格序号要求，应使用组合调用避免。额外手续费也必须核对，当前要求精确手续费增量。结算后追加的入金可能阻止关闭，应完成订单再开下一单。
 
 新 NFT Marketplace 应使用**新的合约 ID 和新的 SD-key**。不要拿原始编译器输出直接部署，不要更新既有合约布局。离线 ABI/VM/策略证明及 CFC 构建通过，不等于完整认证状态 UPS 证明、真实链上验收或独立审计。部署就绪标记保持 false，直到对应部署的完整预检和实际回执完成。
+
+## v2 结算结果与部署预检
+
+金库分区的 `results[user]` 保存该用户最近一次成交/退款的订单 nonce、结果、交易对方、报价、完整 NFT ID / metadata，以及 FT/NFT/PSY 的输出游标。
+`status.mjs::readOrderStatus` 在同一个 checkpoint 区分 `sold`、`purchased`、`nft-refunded`、`payment-refunded` 和手续费单独退款，并分别报告资产是否已领取。新订单不能把自己的取消标记套到旧订单的结果上。较旧结果被下一次结算覆盖后，查询会返回 `historical-result`，不会编造细节；持久历史需要索引服务。
+
+**取消的确定性边界：**链允许历史远端状态证明。`request_cancel` 确认只表示提出取消，先前已准备的成交证明仍可能赢得竞争。金库的退款 UPS 确认后，其调用者状态和 `consumed` 游标已经改变，才完成撤销；成交先确认则显示取消竞争失败。期限也是证明 checkpoint 的条件，不能把客户端观察到过期等同于所有旧证明立即失效。自动执行器会读取当前状态并优先处理取消/到期退款。
+
+结果里的四 Felt ID 和 metadata 各用一个 `Hash` 保存；全部 17 Felt 记录不变，类型 DAG 降到当前 16 节点上限内。应用编译器现在先检查 canonical 类型布局，超出上限的源文件在产物写出前拒绝。此前部署的合约不做布局更新。
+
+```sh
+# Build the application-owned offline verifier.
+cargo +nightly-2025-09-20 build --offline --locked --release \
+  --manifest-path amm/u124/vm-tests/Cargo.toml --bin preflight_nft_initial
+
+# Generate and independently verify a new market's INITIAL deployment proof.
+node nft-marketplace/preflight.mjs --bundle /path/to/fresh-market \
+  --deployer <public-deployer-hash> --verifier /path/to/preflight_nft_initial \
+  --out /path/to/new-initial-review
+
+# Read settlement and claim status after a verified deployment is configured.
+node nft-marketplace/status-cli.mjs /path/to/executor-config.json <user-id> [nonce]
+```
+
+预检绑定源码、资产配置、编译产物、ABI、验证器哈希和公开部署者，验证旧布局为空且字段/槽位数为 0、新布局和代码完全对应产物。接口没有更新部署模式，也不会提交交易。NFT 高度 30、FT/市场高度 31 的初次部署验证共用同一个验证库。SDK 测试包括七种 root/count/code/owner/height/proof 篡改拒绝。
+
+### 同函数读取根与写入顺序
+
+v2 构建将市场状态写入安排在校验之后，保证自账户外部资产读取先于本地市场写入。CFC 的这些读取绑定调用入口的用户合约根。读写交错因此需要额外验证；调整顺序后真实挂单仍出现目标值冲突，不能把这一改动认定为根因修复。VM 执行正确与 CFC 可构建均不能替代带认证状态的证明。Artifact gate 会拒绝本地写入之后出现自账户外部读取的产物。标量数组索引也被规范化为标量运算。
+
+初次部署去重标识可能由函数电路白名单产生：字节码改写但电路指纹相同，可能返回已有部署。部署后必须核对真实 code root / layout root；标记文件中的合约 ID 本身不是新版本确认。此问题只做匹配检查，不覆盖原部署或旧证明。
+
+## 2026-10-14 实际验收
+
+独立测试 NFT 2447、18 位 U124 FT 2448、Marketplace 2451 和 SD-key 金库 1755712 已确认部署/注册。初次布局证明为 0 → 22，代码根、布局根和收据均匹配。普通 `noop` 已确认上链。
+
+**真实成交未通过。** `open_listing` 在 MCP 本地 CFC 证明阶段失败，没有广播挂单，也没有向金库转入 NFT、FT 或手续费。读写顺序调整和一次 `noop` 后仍复现；完整成交/退款 UPS 验收标记保持 false。详见 [验收记录](verification/2026-10-14-continuation-01/REPORT.md)。已注册的测试金库不能作为已验收产品金库使用。

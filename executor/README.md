@@ -9,7 +9,9 @@ The new [NFT Marketplace](../nft-marketplace/README.md) uses `kind: "nftmarket"`
 and `profile: "nft-v3-u124"`, separate NFT/FT code and layout bindings, and
 the same persistent submission and receipt recovery. Its public driver binds
 ten calls rather than the existing markets' nine. No NFT market has been added
-to the installed staging service; deployment and live acceptance remain open.
+to the installed staging service. Test Marketplace 2451 / vault 1755712 are
+deployed/registered; authenticated listing proof failures leave live acceptance
+incomplete. See the [test report](../nft-marketplace/verification/2026-10-14-continuation-01/REPORT.md).
 
 ## Run
 

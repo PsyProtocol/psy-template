@@ -15,13 +15,14 @@ import {inspectU124Submission} from './u124Submission.mjs';
 import {loadFiles as loadNftFiles,scan as scanNftMarket} from '../nft-marketplace/reader.mjs';
 import {makePolicy as makeNftPolicy} from '../nft-marketplace/policy.mjs';
 import {validateNftAbi} from '../nft-marketplace/abi.mjs';
+import {validateResultsAbi} from '../nft-marketplace/status.mjs';
 export async function createU124WalletAdapter(options,{readState=publicState,readReceipts=receiptReader,runDriver,submitDriver=runDurableSubmission}={}){
  const nft=options.kind==='nftmarket',files=await (nft?loadNftFiles:loadU124Files)(options),{abi,config,policy}=files;
  const assets=nft?[options.paymentToken,options.collection]:[options.assetA,options.assetB];
  const tokens=await Promise.all(assets.map(async asset=>JSON.parse(await readFile(asset.abi,'utf8'))));
  validateU124TokenAbi(tokens[0]);
  if(nft){
-  validateNftAbi(tokens[1]);assert.equal(config.nftId,options.collection.contractId);assert.equal(config.tokenId,options.paymentToken.contractId);
+  validateNftAbi(tokens[1]);validateResultsAbi(abi);assert.equal(config.nftId,options.collection.contractId);assert.equal(config.tokenId,options.paymentToken.contractId);
   assert.deepEqual(policy,makeNftPolicy(options.contractId,config,abi,tokens[1],tokens[0]),'NFT policy differs from bound ABI/config');
  }else{
   validateU124TokenAbi(tokens[1]);assert.equal(config.assetA,options.assetA.contractId);assert.equal(config.assetB,options.assetB.contractId);
