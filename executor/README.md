@@ -167,7 +167,17 @@ the action and chain bindings are still current, then uses `verified-submit`
 to verify the exact submitted UPS. Every attempt gets its own durable driver
 log; its path is stored in the submission intent. A lost response is recovered
 by the deterministic leaf hash. Only an explicit driver rejection that occurred
-before a broadcast can release an attempt for a later rescan.
+before a broadcast can release an attempt for a later rescan, including a
+terminal rejection preserved by a child after its parent exits. Partial logs
+and missing identities stay unresolved. Recovery checks the market, vault,
+fingerprint, bounded fee and equality of verified/broadcast leaf hashes;
+submission log paths must match the exact task and attempt UUID. Detailed
+driver rejection reasons are preserved in the journal.
+
+Token ABIs must match the actual two-limb balance, sent/claimed offsets,
+outbox stride and claim/transfer wire signatures before any chain read or
+proof driver starts. Each realm head and all public state identifiers/slot
+offsets are validated before use.
 
 Curve configurations can bind a predeployed AMM and a distinct fee donor with
 `bootstrap`. Graduation transfers the remaining inventory and quote reserve,
@@ -241,3 +251,8 @@ and the [2026-10-14 live report](verification/2026-10-14-resume-01/REPORT.md).
 All three compound claim/close paths and a two-process proof-owner crash
 recovery passed on chain. The concurrency scope is one machine with a shared
 journal; independent external audit and distributed leases remain open.
+
+The [2026-10-14 hardening report](verification/2026-10-14-hardening-02/REPORT.md)
+records 73 passing checks, historical log compatibility and the active frozen
+`app-v2` release. The driver, chain contracts, fingerprints and persistent
+journal directory are unchanged by that release.

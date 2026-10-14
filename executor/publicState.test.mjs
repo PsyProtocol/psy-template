@@ -56,3 +56,17 @@ test('a field read failure drains sibling RPCs before the scan can be retried',(
  const s=await publicState(config),abi={contract:{state:[0,4,8,12].map((offset,i)=>({name:'f'+i,offset}))}};
  await assert.rejects(s.fields(10,64,abi,['f0','f1','f2','f3']),/bad leaf/);assert.equal(active,0);assert.equal(finished,4);
 }));
+test('malformed realm heads are rejected even if another valid head would hide them in the minimum',()=>fixture(async config=>{
+ for(const bad of [100.5,Number.MAX_SAFE_INTEGER+1,0,null]){
+  globalThis.fetch=async url=>({ok:true,json:async()=>({result:{checkpoint_id:url.includes('r0')?90:bad}})});
+  await assert.rejects(publicState(config),/realm checkpoint/);
+ }
+}));
+test('invalid identifiers, slot indices and key hashes fail before issuing additional RPCs',()=>fixture(async config=>{
+ let calls=0;globalThis.fetch=async()=>{calls++;return {ok:true,json:async()=>({result:{checkpoint_id:100}})};};
+ const s=await publicState(config),before=calls;
+ for(const [u,c,o]of [[0,64,0],[-1,64,0],[10,-1,0],[10,64,-1],[10,64,0.5],[10,64,4294967296],[10,Number.MAX_SAFE_INTEGER+1,0]])await assert.rejects(s.slot(u,c,o),/invalid/);
+ await assert.rejects(s.contractLeaf(-1),/contract ID/);await assert.rejects(s.userIds('not-a-key'),/public key hash/);
+ await assert.rejects(s.fields(10,64,{contract:{state:[{name:'same',offset:0},{name:'same',offset:4}]}},['same']),/duplicate ABI/);
+ assert.equal(calls,before);
+}));
