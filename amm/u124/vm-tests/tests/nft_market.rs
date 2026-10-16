@@ -61,3 +61,38 @@ impl World{
  for amount in [0,2]{let mut x=World::new()?;x.state.set_slot(V,M,x.fields["pool"],0);x.state.set_slot(V,0,0,F);x.state.set_slot(I,0,3+2*V,F);x.state.set_slot(V,0,4+2*I,F);x.state.set_slot(V,FT,0,amount);assert!(x.run(V,M,"activate",&[I]).is_err());assert_eq!(x.val(V,"pool",0),0);}
  Ok(())
 }
+
+
+#[test]
+fn standalone_nft_occupied_recipient_and_burn_settlement_preserve_identity_and_supply()->Result<()> {
+ let mut w=World::new()?;let offered=w.nft_id(A,0);w.give_nft(B,0,3)?;let occupied=w.nft_id(B,0);
+ w.run(A,NFT,"transfer",&[0,B])?;
+ let received=1182+35*A+33;let cursor=w.state.get_contract_slot(B,NFT,received)?;
+ assert!(w.run(B,NFT,"claim",&[0,A]).is_err());assert_eq!(w.nft_id(B,0),occupied);assert_eq!(w.state.get_contract_slot(B,NFT,received)?,cursor);
+ let supply=w.state.get_contract_slot(I,NFT,4)?;
+ w.run(B,NFT,"burn",&[0])?;assert!(w.run(B,NFT,"burn",&[0]).is_err());
+ w.run(B,NFT,"claim",&[0,A])?;assert_eq!(w.nft_id(B,0),offered);assert!(w.run(B,NFT,"claim",&[1,A]).is_err());
+ w.run(I,NFT,"settle_burn",&[B])?;assert_eq!(w.state.get_contract_slot(I,NFT,4)?,supply-1);assert!(w.run(I,NFT,"settle_burn",&[B]).is_err());
+ Ok(())
+}
+#[test]
+fn standalone_nft_unauthorized_and_out_of_range_writes_are_atomic()->Result<()> {
+ let mut w=World::new()?;let supply=w.state.get_contract_slot(I,NFT,4)?;let occupied=w.nft_id(I,1);
+ for (u,input) in [(A,vec![0,3,0,0,0,0]),(I,vec![128,3,0,0,0,0]),(I,vec![1,3,0,0,0,0])] {
+  assert!(w.run(u,NFT,"mint",&input).is_err());assert_eq!(w.state.get_contract_slot(I,NFT,4)?,supply);assert_eq!(w.nft_id(I,1),occupied);
+ }
+ assert!(w.run(A,NFT,"transfer",&[0,16777216]).is_err());assert!(w.run(B,NFT,"settle_burn",&[A]).is_err());
+ Ok(())
+}
+
+#[test]
+fn standalone_nft_full_recipient_capacity_preserves_pending_identity_until_slot_reopens()->Result<()> {
+ let mut w=World::new()?;
+ for slot in 0..128 {w.give_nft(B,slot,slot+3)?;}
+ let offered=w.nft_id(A,0);w.run(A,NFT,"transfer",&[0,B])?;
+ let received=1182+35*A+33;let cursor=w.state.get_contract_slot(B,NFT,received)?;
+ for slot in [0,127,128] {assert!(w.run(B,NFT,"claim",&[slot,A]).is_err());assert_eq!(w.state.get_contract_slot(B,NFT,received)?,cursor);}
+ w.run(B,NFT,"burn",&[127])?;w.run(B,NFT,"claim",&[127,A])?;
+ assert_eq!(w.nft_id(B,127),offered);assert_eq!(w.state.get_contract_slot(B,NFT,0)?,128);
+ assert!(w.run(B,NFT,"claim",&[127,A]).is_err());Ok(())
+}
