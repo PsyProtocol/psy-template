@@ -111,6 +111,10 @@ fn all_three_sdkeys_bind_every_branch_payer_high_limb_assets_and_fee()->Result<(
   let sample=samples.as_array().unwrap().iter().find(|s|s["calls"].as_array().unwrap().iter().any(|c|c["inputs"].as_array().unwrap().len()==3)).unwrap();let fields:[u64;13]=sample["fields"].as_array().unwrap().iter().map(|v|v.as_u64().unwrap()).collect::<Vec<_>>().try_into().unwrap();
   let transfer=sample["calls"].as_array().unwrap().iter().position(|c|c["inputs"].as_array().unwrap().len()==3).unwrap();
   for mutation in 0..4{let mut bad=sample.clone();match mutation{0=>bad["calls"][transfer]["inputs"][0]=999.into(),1=>{let high=bad["calls"][transfer]["inputs"][2].as_u64().unwrap();bad["calls"][transfer]["inputs"][2]=(high+1).into();},2=>bad["calls"][transfer]["contract_id"]=0.into(),_=>bad["calls"].as_array_mut().unwrap().swap(1,transfer)}assert!(prove_operation(&gadget,&infos(&bad),fields).is_err(),"{market} accepted malicious mutation {mutation}");}
+  for slot in 0..9 {let mut bad=sample.clone();let method=bad["calls"][slot]["method_id"].as_u64().unwrap();bad["calls"][slot]["method_id"]=(method^1).into();assert!(prove_operation(&gadget,&infos(&bad),fields).is_err(),"{market} accepted method replacement at {slot}");}
+  let mut caller=infos(sample);caller[0].caller_contract_id=F::from_canonical_u64(0);assert!(prove_operation(&gadget,&caller,fields).is_err());
+  let mut extra=infos(sample);extra.push(extra[0]);assert!(prove_operation(&gadget,&extra,fields).is_err());
+  let mut payer=fields;payer[1]+=1;assert!(prove_operation(&gadget,&infos(sample),payer).is_err());
   let mut bad=sample.clone();let mut inputs=fields;inputs[12]=1_000_101_000;bad["calls"][8]["inputs"][0]=inputs[12].into();assert!(prove_operation(&gadget,&infos(&bad),inputs).is_err());inputs=fields;inputs[0]=99;assert!(prove_operation(&gadget,&infos(sample),inputs).is_err());for attack in 1..=4 {assert!(prove_digest(&gadget,&infos(sample),fields,attack).is_err(),"{market} accepted forged digest {attack}");}println!("{market}: {} valid branches and ten adversarial proofs checked",samples.as_array().unwrap().len());
  }Ok(())}
 
