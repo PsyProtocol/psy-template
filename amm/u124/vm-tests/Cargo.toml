@@ -36,3 +36,5 @@ futures-util = "0.3"
 # The SDK disables reqwest default features. Enable HTTPS in the application
 # binary; certificate and hostname verification remain enabled. No Node patch.
 reqwest = { version = "=0.12.28", default-features = false, features = ["native-tls"] }
+
+sha2 = "=0.10.9"

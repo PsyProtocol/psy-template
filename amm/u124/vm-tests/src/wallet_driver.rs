@@ -2,6 +2,7 @@
 //! `verified-submit` verifies the exact UPS proof, checks anchor/nonce, then submits once.
 use crate::{
     policy::build_policy,
+    proof_binding::validate_endcap_binding,
     submission_guard::SubmissionGuard,
     runtime::{contain, Progress},
 };
@@ -27,6 +28,7 @@ use psy_ups_circuit::circuit_manager::core::PsyUPSStepCircuitManager;
 use psy_ups_circuit::signature::sd_key::get_sd_key_public_key_param;
 use psy_crypto::signature::zk::data::ZKPublicKeyInfo;
 use std::io::Write;
+use sha2::{Digest, Sha256};
 use std::{env, fs};
 const USAGE:&str="usage: market_wallet fingerprint/identity <policy.json> | register <policy.json> <rpc-config.json> | preflight/submit/verified-submit <policy.json> <calls.json> <rpc-config.json> | guarded-preflight/guarded-submit <policy.json> <calls.json> <rpc-config.json> <guard.json>";
 /// All CLI errors are structured; panic payloads are not printed by the hook.
@@ -75,17 +77,20 @@ async fn run(progress: &mut Progress) -> Result<()> {
     let config_index = if action == "register" { 3 } else { 4 };
     let guarded = matches!(action, "guarded-preflight" | "guarded-submit");
     ensure!(args.len() == config_index + 1 + usize::from(guarded), USAGE);
+    let mut calls_sha256 = None;
     let calls = if action == "register" {
         None
     } else {
-        let data: ContractCallData = serde_json::from_slice(&fs::read(&args[3])?)?;
+        let bytes = fs::read(&args[3])?;
+        calls_sha256 = Some(format!("{:x}", Sha256::digest(&bytes)));
+        let data: ContractCallData = serde_json::from_slice(&bytes)?;
         ensure!(
             data.contract_calls.len() + 1 == spec["tx_count"].as_u64().context("transaction count")? as usize && data.software_defined_call.inputs.len() == 13,
             "policy explicit call count and thirteen witness fields required"
         );
         validate_guard_order(&spec, &data)?;
         ensure!(
-            data.software_defined_call.inputs[3..9]
+            data.software_defined_call.inputs[..]
                 .iter()
                 .all(|n| *n < (1u64 << 62)),
             "noncanonical U124 amount limb"
@@ -93,8 +98,11 @@ async fn run(progress: &mut Progress) -> Result<()> {
         Some(data)
     };
     let config = PsyConfigGoldilocks::from_file(&args[config_index])?;
+    let mut guard_sha256 = None;
     let guard: Option<SubmissionGuard> = if guarded {
-        let g: SubmissionGuard = serde_json::from_slice(&fs::read(&args[5])?)?;
+        let bytes = fs::read(&args[5])?;
+        guard_sha256 = Some(format!("{:x}", Sha256::digest(&bytes)));
+        let g: SubmissionGuard = serde_json::from_slice(&bytes)?;
         let public_key_param=get_sd_key_public_key_param(&QHashOut(HashOut{elements:[F::ONE;4]}));
         let public=ZKPublicKeyInfo{public_key_param,fingerprint};
         g.validate(&spec, config.current_network_name(), &fingerprint.to_string(), &public.qfhash::<PsyHasher>().to_string())?;
@@ -155,13 +163,14 @@ async fn run(progress: &mut Progress) -> Result<()> {
                 "endcap verifier mismatch"
             );
             verifier.ups_end_cap.verify_proof(proof.clone())?;
+            validate_endcap_binding(&endcap.core,&proof.public_inputs)?;
             if let Some(g) = &guard {
                 ensure!(endcap.core.new_user_leaf.user_id.to_canonical_u64() == g.vault_id, "guard proven vault binding");
                 g.check_current(&session.st_provider).await?;
             }
             println!(
                 "{}",
-                serde_json::json!({"fullUpsVerified":true,"submissionGuardVerified":guard.is_some(),"submitted":false,"marketId":spec["market_id"],"fingerprint":fingerprint.to_string(),"fee":fee,"endUserLeafHash":endcap.core.state_transition.end_user_leaf_hash.to_string()})
+                serde_json::json!({"fullUpsVerified":true,"submissionGuardVerified":guard.is_some(),"callsSha256":calls_sha256,"guardSha256":guard_sha256,"submitted":false,"marketId":spec["market_id"],"fingerprint":fingerprint.to_string(),"fee":fee,"endUserLeafHash":endcap.core.state_transition.end_user_leaf_hash.to_string()})
             );
             if matches!(action, "verified-submit" | "submit" | "guarded-submit") {
                 let user_id = endcap.core.new_user_leaf.user_id.to_canonical_u64();
@@ -210,25 +219,21 @@ async fn run(progress: &mut Progress) -> Result<()> {
     Ok(())
 }
 
-// Activation alone has three claims/initializers before its guard. Its entire
-// explicit prefix must match the registered policy; other branches retain the
-// existing guard-first requirement. The full UPS remains atomic.
+// All explicit calls, including activation's pre-guard prefix, must match the
+// selected registered template before any RPC. UPS verification remains final.
 fn validate_guard_order(spec:&serde_json::Value,data:&ContractCallData)->Result<()> {
+ ensure!(data.software_defined_call.inputs.len()==13,"thirteen witness fields required");
  let branch=spec["branches"].as_array().context("branches")?.iter()
   .find(|b|b["branch"].as_u64()==data.software_defined_call.inputs.first().copied()).context("selected policy branch")?;
- if spec["market"]=="nftmarket" && branch["name"]=="activate" {
-  let calls=branch["calls"].as_array().context("activation calls")?;
-  ensure!(data.contract_calls.len()==9 && calls.len()==10,"activation call count");
-  for(actual,expected)in data.contract_calls.iter().zip(calls){
-   ensure!(Some(actual.contract_id)==expected["contract_id"].as_u64() && Some(actual.method_name.as_str())==expected["method_name"].as_str(),"activation call binding");
-   let inputs=expected["inputs"].as_array().context("activation inputs")?.iter().map(|v|{
-    if let Some(i)=v["witness"].as_u64(){data.software_defined_call.inputs.get(i as usize).copied().context("activation witness")}
-    else{Ok(v["constant"].as_str().context("activation constant")?.parse::<u64>()?)}
-   }).collect::<Result<Vec<_>>>()?;
-   ensure!(actual.inputs==inputs,"activation input binding");
-  }
- }else{
-  ensure!(data.contract_calls.first().context("first call")?.contract_id==spec["market_id"].as_u64().context("market ID")?,"first call must be the bound market guard");
+ let calls=branch["calls"].as_array().context("policy calls")?;
+ ensure!(data.contract_calls.len()+1==calls.len(),"exact explicit policy call count");
+ for(actual,expected)in data.contract_calls.iter().zip(calls){
+  ensure!(Some(actual.contract_id)==expected["contract_id"].as_u64() && Some(actual.method_name.as_str())==expected["method_name"].as_str(),"policy call binding");
+  let inputs=expected["inputs"].as_array().context("policy inputs")?.iter().map(|v|{
+   if let Some(i)=v["witness"].as_u64(){data.software_defined_call.inputs.get(i as usize).copied().context("policy witness")}
+   else{Ok(v["constant"].as_str().context("policy constant")?.parse::<u64>()?)}
+  }).collect::<Result<Vec<_>>>()?;
+  ensure!(actual.inputs==inputs,"policy input binding");
  }
  Ok(())
 }
@@ -250,4 +255,29 @@ mod activation_tests {
   let mut bad=data.clone();bad.software_defined_call.inputs[0]=1;assert!(validate_guard_order(&spec,&bad).is_err());
   Ok(())
  }
+ #[test]
+ fn every_market_and_nft_branch_checks_every_explicit_call_before_rpc()->Result<()> {
+  let root=std::env::var("U124_BUILD")?;
+  let nft=std::env::var("NFT_MARKET_BUILD")?;
+  let mut paths=vec![(format!("{nft}/market/policy.json"),format!("{nft}/market/policy-samples.json"))];
+  for kind in ["amm","orderbook","bondingcurve"]{paths.push((format!("{root}/{kind}/policy.json"),format!("{root}/{kind}/policy-samples.json")));}
+  for(spec_path,samples_path)in paths {
+   let spec:serde_json::Value=serde_json::from_slice(&fs::read(spec_path)?)?;
+   let samples:serde_json::Value=serde_json::from_slice(&fs::read(samples_path)?)?;
+   for sample in samples.as_array().context("samples")? {
+    let count=spec["tx_count"].as_u64().context("call count")? as usize-1;
+    let data:ContractCallData=serde_json::from_value(serde_json::json!({"contract_calls":&sample["calls"].as_array().context("calls")?[..count],"software_defined_call":{"inputs":sample["fields"]}}))?;
+    validate_guard_order(&spec,&data)?;
+    for slot in 0..count {
+     let mut bad=data.clone();bad.contract_calls[slot].contract_id+=1;assert!(validate_guard_order(&spec,&bad).is_err());
+     let mut bad=data.clone();bad.contract_calls[slot].method_name.push_str("_changed");assert!(validate_guard_order(&spec,&bad).is_err());
+     if !data.contract_calls[slot].inputs.is_empty(){let mut bad=data.clone();bad.contract_calls[slot].inputs[0]+=1;assert!(validate_guard_order(&spec,&bad).is_err());}
+    }
+    let mut bad=data.clone();bad.contract_calls.pop();assert!(validate_guard_order(&spec,&bad).is_err());
+   }
+  }
+  assert_eq!(format!("{:x}",Sha256::digest(b"abc")),"ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad");
+  Ok(())
+ }
+
 }

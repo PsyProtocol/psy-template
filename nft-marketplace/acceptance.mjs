@@ -12,7 +12,9 @@ import {receiptReader} from '../executor/chainReceipts.mjs';
 import {publishFile} from '../executor/durableFile.mjs';
 import {inspectU124Submission} from '../executor/u124Submission.mjs';
 import {MAX} from '../amm/u124/math.mjs';
-import {decodeAmount,parseLosslessJson} from '../amm/u124/client.mjs';
+import {decodeAmount} from '../amm/u124/client.mjs';
+import {bindRequest} from '../executor/requestBinding.mjs';
+import {makePolicy} from './policy.mjs';
 import {readOrderStatus} from './status.mjs';
 import {NFT} from './generate.mjs';
 import {MAX_FELT} from './client.mjs';
@@ -50,7 +52,7 @@ export async function verifyAcceptance(options, evidence, {
  createAdapter = createPublicWalletAdapter, driverDependencies,
  read = path => readFile(path), onProgress = () => {},
 } = {}) {
- assert.equal(options.kind, 'nftmarket');assert.equal(evidence.version, 1);
+ assert.equal(options.kind, 'nftmarket');assert.equal(evidence.version, 2, 'request-bound acceptance evidence version 2 required');
  const participants = evidence.users;
  assert.ok(Array.isArray(participants) && participants.length >= 3, 'three real participants required');
  const ids = participants.map(u => u.userId);
@@ -66,12 +68,17 @@ export async function verifyAcceptance(options, evidence, {
  const release = evidence.release;
  assert.ok(Array.isArray(release) && release.length, 'frozen release hashes required');
  assert.equal(new Set(release.map(f => resolve(f.path))).size, release.length, 'duplicate release file');
- for (const file of [options.wallet, options.policy, options.abi, options.driverConfig, options.collection.abi, options.paymentToken.abi])
+ for (const file of [options.wallet, options.rpcConfig, options.policy, options.abi, options.driverConfig, options.collection.abi, options.paymentToken.abi])
   assert.ok(release.some(f => resolve(f.path) === resolve(file)), 'missing release binding: ' + file);
  async function verifyRelease() {
   for (const file of release) {assert.match(file.sha256, /^[0-9a-f]{64}$/);assert.equal(hash(await read(file.path)), file.sha256, 'release changed: ' + file.path);}
  }
  await verifyRelease();
+ assert.match(options.walletSha256??'',/^[0-9a-f]{64}$/,'reviewed driver digest required');
+ assert.equal(hash(await read(options.wallet)),options.walletSha256,'unreviewed acceptance driver');
+ const boundPolicy=JSON.parse(await read(options.policy));
+ const boundConfig=JSON.parse(await read(options.driverConfig));
+ assert.deepEqual(boundPolicy,makePolicy(options.contractId,boundConfig,JSON.parse(await read(options.abi)),JSON.parse(await read(options.collection.abi)),JSON.parse(await read(options.paymentToken.abi))),'acceptance policy differs from bound ABIs');
  // This verifies roots, ABI/policy shape, registered fingerprint and the
  // public key derived from the deliberately public SD-key.
  await createAdapter(options, driverDependencies);
@@ -94,14 +101,22 @@ export async function verifyAcceptance(options, evidence, {
  const coverage = {}, operationLeaves = new Set();
  for (const operation of operations) {
   assert.ok(['activate', 'settle_sale', 'refund_listing', 'refund_buy'].includes(operation.kind), 'acceptance operation');
-  const callsText = String(await read(operation.callsFile)), calls = parseLosslessJson(callsText).contract_calls;
-  assert.equal(calls.length, 9, 'nine explicit calls plus automatic burn');
-  const guard = calls[operation.kind === 'activate' ? 3 : 0];
-  assert.equal(guard.method_name, operation.kind);assert.equal(BigInt(guard.contract_id), BigInt(options.contractId));
-  assert.ok(operation.callsFile.endsWith('/' + hash(Buffer.from(callsText)) + '.json'), 'content-addressed calls');
+  const callsText = String(await read(operation.callsFile));
+  const bound=bindRequest(callsText,boundPolicy,operation.kind);
+  assert.ok(operation.callsFile.endsWith('/' + bound.callsSha256 + '.json'), 'content-addressed calls');
   assert.ok(operation.submissionLog.startsWith(operation.callsFile + '.submission-'), 'calls/log binding');
-  for (const path of [operation.callsFile, operation.submissionLog]) assert.ok(release.some(f => resolve(f.path) === resolve(path)), 'unsealed operation evidence');
-  const inspected = inspectU124Submission(String(await read(operation.submissionLog)), options);
+  assert.equal(typeof operation.guardFile,'string','submission guard evidence required');
+  for (const path of [operation.callsFile, operation.submissionLog, operation.guardFile]) assert.ok(release.some(f => resolve(f.path) === resolve(path)), 'unsealed operation evidence');
+  const guardBytes=await read(operation.guardFile),guardDocument=JSON.parse(guardBytes);
+  assert.equal(guardDocument.version,1);assert.equal(guardDocument.network,options.network);assert.equal(guardDocument.marketId,options.contractId);
+  assert.equal(guardDocument.vaultId,options.vaultId);assert.equal(guardDocument.fingerprint,options.fingerprint);assert.equal(guardDocument.publicKeyHash,options.publicKeyHash);
+  assert.ok(Array.isArray(guardDocument.contracts),'guard contracts required');
+  const required=[...new Set(boundPolicy.branches.flatMap(b=>b.calls.map(c=>c.contract_id)))].sort((a,b)=>a-b);
+  assert.deepEqual(guardDocument.contracts.map(c=>c.contractId).sort((a,b)=>a-b),required,'acceptance guard dependency coverage');
+  for(const [id,codeRoot,layoutRoot,height] of [[options.contractId,options.codeRoot,options.layoutRoot,31],[options.collection.contractId,options.collection.codeRoot,options.collection.layoutRoot,30],[options.paymentToken.contractId,options.paymentToken.codeRoot,options.paymentToken.layoutRoot,31]]){
+   const c=guardDocument.contracts.find(c=>c.contractId===id);assert.equal(c.codeRoot,codeRoot);assert.equal(c.layoutRoot,layoutRoot);assert.equal(c.stateTreeHeight,height);
+  }
+  const inspected = inspectU124Submission(String(await read(operation.submissionLog)), {...options,requireGuard:true,callsSha256:bound.callsSha256,guardSha256:hash(guardBytes)});
   assert.ok(inspected.endUserLeafHash && !inspected.rejected, 'verified broadcast required');
   assert.ok(!operationLeaves.has(inspected.endUserLeafHash), 'duplicate SDK broadcast');operationLeaves.add(inspected.endUserLeafHash);
   assert.ok(receipts.some(r => r.userId === options.vaultId && r.endUserLeafHash === inspected.endUserLeafHash), 'SDK receipt/log binding');
@@ -148,7 +163,7 @@ export async function verifyAcceptance(options, evidence, {
  assert.equal(decodeAmount(await Promise.all([state.slot(evidence.issuerId, config.tokenId, supply), state.slot(evidence.issuerId, config.tokenId, supply + 1)])), totalFT, 'minted FT supply');
  assert.equal(await state.slot(evidence.issuerId, config.nftId, 4), totalNFT, 'minted NFT supply');
  await verifyRelease();
- return {version: 1, verifiedAt: new Date().toISOString(), network: options.network, contractId: options.contractId, vaultId: options.vaultId,
+ return {version: 2, verifiedAt: new Date().toISOString(), network: options.network, contractId: options.contractId, vaultId: options.vaultId,
   checkpoint: state.checkpoint, engineeringAcceptanceVerified: true, productionReady: false,
   remainingGates: ['independent-security-audit', 'upgrade-authority-and-on-chain-root-binding-review', 'sustained-availability-and-chain-capacity-acceptance'],
   coverage, receipts, balances, statuses, release};

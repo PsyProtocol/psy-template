@@ -9,7 +9,8 @@ import {runDurableSubmission,submissionLeaf,driverRecords} from './driverProcess
 import {retryProofOnlyPreflight} from './preflight.mjs';
 import {scanU124,loadU124Files} from './u124Reader.mjs';
 import {makePolicy} from '../amm/u124/policy.mjs';
-import {parseLosslessJson} from '../amm/u124/client.mjs';
+import {bindRequest,sha256} from './requestBinding.mjs';
+import {sealDriver} from './sealedDriver.mjs';
 import {validateU124TokenAbi} from './u124Abi.mjs';
 import {inspectU124Submission} from './u124Submission.mjs';
 import {captureInputs,publishSubmissionGuard} from './submissionGuard.mjs';
@@ -33,6 +34,7 @@ export async function createU124WalletAdapter(options,{readState=publicState,rea
   for(const method of ['claim','transfer'])assert.equal(tokens[0].contract.methods.find(m=>m.name===method).method_id,tokens[1].contract.methods.find(m=>m.name===method).method_id,'Token method IDs differ');
   assert.deepEqual(policy,makePolicy(options.kind,options.contractId,config,abi,tokens[0]),'policy differs from bound ABI/config');
  }
+ const driver=await sealDriver(options);
  const contracts=[{contractId:options.contractId,codeRoot:options.codeRoot,layoutRoot:options.layoutRoot,stateTreeHeight:31},...assets.map(a=>({contractId:a.contractId,codeRoot:a.codeRoot,layoutRoot:a.layoutRoot,stateTreeHeight:nft&&a===options.collection?30:31}))];
  if(options.kind==='bondingcurve'&&config.bootstrap){const b=config.bootstrap;contracts.push({contractId:b.ammContractId,codeRoot:b.codeRoot,layoutRoot:b.layoutRoot,stateTreeHeight:31});}
  const first=await readState(options.rpcConfig);assert.equal(first.networkName,options.network,'network binding');
@@ -49,15 +51,17 @@ export async function createU124WalletAdapter(options,{readState=publicState,rea
  }
  await bindingCurrent();
  const env={...process.env};for(const key of Object.keys(env))if(key.endsWith('_WITNESS_WALLET')||key.endsWith('_LOCAL_DEFS'))delete env[key];
- const identity=await runDriver(options.wallet,['identity',options.policy],{env,timeout:120000,maxBuffer:2000000});
+ const identity=await runDriver(driver.file,['identity',options.policy],{env,timeout:120000,maxBuffer:2000000});
  const derived=driverRecords(identity.stdout).find(v=>v.fingerprint&&v.publicKeyHash);assert.ok(derived,'public SD-key identity missing');
  assert.equal(derived.fingerprint,options.fingerprint,nft?'NFT fingerprint':'U124 fingerprint');
  assert.equal(derived.publicKeyHash,options.publicKeyHash,nft?'NFT public identity':'U124 public identity');
  await bindingCurrent();
  const binding=await publishSubmissionGuard(options,policy,contracts);
  const guardCurrent=await captureInputs([binding.file]);
+ const guardSha256=sha256(await readFile(binding.file));
  const reader=await readReceipts(options.rpcConfig,{maxPages:options.receiptMaxPages??20});
- const serialized=task=>{assert.equal(typeof task.submission,'string','lossless serialized submission required');parseLosslessJson(task.submission);return task.submission;};
+ const serialized=task=>{bindRequest(task.submission,policy,task.kind);return task.submission;};
+ const requestBinding=task=>({callsSha256:sha256(serialized(task)),guardSha256});
  const callPath=task=>join(options.runtimeDirectory,'calls',options.network,String(options.vaultId),createHash('sha256').update(serialized(task)).digest('hex')+'.json');
  const logPath=task=>callPath(task)+'.submission.log';
  const validLog=(task,file)=>{const prefix=callPath(task)+'.submission-';assert.ok(typeof file==='string'&&file.startsWith(prefix)&&/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\.log$/.test(file.slice(prefix.length)),'submission log binding');return file;};
@@ -65,32 +69,32 @@ export async function createU124WalletAdapter(options,{readState=publicState,rea
  const scan=()=>nft?scanNftMarket(options,readState,files):scanU124(options,readState,files);
  return {scan,
   isCurrent:async task=>{await bindingCurrent();return JSON.stringify((await scan()).action)===JSON.stringify(task);},
-  validateProof:async(task,proof)=>{try{return proof.submissionGuardVersion===1&&proof.guardFile===binding.file&&proof.file===callPath(task)&&await readFile(proof.file,'utf8')===serialized(task);}catch(e){if(e.code==='ENOENT')return false;throw e;}},
+  validateProof:async(task,proof)=>{try{return proof.requestBindingVersion===1&&proof.driverSha256===driver.sha256&&proof.callsSha256===sha256(serialized(task))&&proof.guardSha256===guardSha256&&proof.submissionGuardVersion===1&&proof.guardFile===binding.file&&proof.file===callPath(task)&&await readFile(proof.file,'utf8')===serialized(task);}catch(e){if(e.code==='ENOENT')return false;throw e;}},
   prepareSubmission:async(task,proof)=>({...proof,submissionLog:callPath(task)+'.submission-'+randomUUID()+'.log'}),
   prove:async task=>{
-   await bindingCurrent();await guardCurrent();
+   await bindingCurrent();await guardCurrent();await driver.check();
    const file=callPath(task);await mkdir(dirname(file),{recursive:true,mode:0o700});
    try{await publishFile(file,serialized(task));}catch(e){if(e.code!=='EEXIST')throw e;assert.equal(await readFile(file,'utf8'),serialized(task));}
-   const result=await retryProofOnlyPreflight(()=>runDriver(options.wallet,args('guarded-preflight',file),{env,timeout:900000,maxBuffer:2000000}));
-   await inputsCurrent();await guardCurrent();
-   inspectU124Submission(result.stdout,{...options,requireGuard:true});
+   const result=await retryProofOnlyPreflight(()=>runDriver(driver.file,args('guarded-preflight',file),{env,timeout:900000,maxBuffer:2000000}));
+   await inputsCurrent();await guardCurrent();await driver.check();
+   inspectU124Submission(result.stdout,{...options,requireGuard:true,...requestBinding(task)});
    const verified=driverRecords(result.stdout).find(v=>v.fullUpsVerified===true&&v.submitted===false);
    assert.ok(verified,'independent UPS preflight missing');assert.equal(verified.submissionGuardVerified,true,'driver submission guard missing');assert.equal(verified.marketId,options.contractId);assert.equal(verified.fingerprint,options.fingerprint);
    assert.ok(!submissionLeaf(result.stdout),'preflight attempted submission');
-   return {file,submissionLog:logPath(task),submissionGuardVersion:1,guardFile:binding.file};
+   return {file,submissionLog:logPath(task),submissionGuardVersion:1,guardFile:binding.file,requestBindingVersion:1,driverSha256:driver.sha256,...requestBinding(task)};
   },
   submit:async(task,proof)=>{
-   await bindingCurrent();await guardCurrent();
+   await bindingCurrent();await guardCurrent();await driver.check();
    assert.equal(proof.file,callPath(task));assert.equal(await readFile(proof.file,'utf8'),serialized(task),'submission calls changed');
    const logFile=validLog(task,proof.submissionLog);
-   let output='',error;try{const r=await submitDriver(options.wallet,args('guarded-submit',proof.file),{env,timeout:900000,logFile});output=r.stdout+'\n'+r.stderr;}catch(e){output=(e.stdout??'')+'\n'+(e.stderr??'');error=e.message;}
-   const inspected=inspectU124Submission(output,{...options,requireGuard:true});
+   let output='',error;try{const r=await submitDriver(driver.file,args('guarded-submit',proof.file),{env,timeout:900000,logFile});output=r.stdout+'\n'+r.stderr;}catch(e){output=(e.stdout??'')+'\n'+(e.stderr??'');error=e.message;}
+   const inspected=inspectU124Submission(output,{...options,requireGuard:true,...requestBinding(task)});
    return {endUserLeafHash:inspected.endUserLeafHash,error,output,submissionLog:logFile,...(error&&inspected.rejected?{submissionStatus:'not-submitted',reason:inspected.reason}:{})};
   },
   reconcile:async attempt=>{
    let output=attempt.outcome?.output??'',file;
    if(attempt.task){file=attempt.proof?.submissionLog?validLog(attempt.task,attempt.proof.submissionLog):logPath(attempt.task);try{output=await readFile(file,'utf8');}catch(e){if(e.code!=='ENOENT')throw e;}}
-   const inspected=inspectU124Submission(output,{...options,requireGuard:attempt.proof?.submissionGuardVersion===1}),recorded=attempt.outcome?.endUserLeafHash;
+   const inspected=inspectU124Submission(output,{...options,requireGuard:attempt.proof?.submissionGuardVersion===1,...(attempt.proof?.requestBindingVersion===1?requestBinding(attempt.task):{})}),recorded=attempt.outcome?.endUserLeafHash;
    if(recorded&&inspected.endUserLeafHash)assert.equal(recorded,inspected.endUserLeafHash,'journal/log leaf binding');
    if(inspected.rejected){assert.ok(!recorded,'rejected log conflicts with recorded broadcast');return {status:'not-submitted',reason:inspected.reason,source:'explicit-driver-rejection',submissionLog:file};}
    const hash=inspected.endUserLeafHash??recorded;

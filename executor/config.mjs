@@ -3,7 +3,7 @@ import {dirname,resolve} from 'node:path';
 
 const kinds=['amm','orderbook','bondingcurve','launchamm','nftmarket'];
 const paths=['rpcConfig','wallet','abi','driverConfig','runtimeDirectory','usersFile','policy'];
-const allowed=new Set(['kind','name','network','contractId','vaultId','publicKeyHash','fingerprint','codeRoot','layoutRoot',
+const allowed=new Set(['kind','name','network','contractId','vaultId','publicKeyHash','fingerprint','codeRoot','layoutRoot','walletSha256',
   ...paths,'users','intervalMs','receiptMaxPages','cli','pool','launch','automaticInitialize','automaticGraduation','profile','assetA','assetB','collection','paymentToken']);
 export function validateUsers(users,vaultId){
   if(!Array.isArray(users)||users.length>10000||users.some(x=>!Number.isSafeInteger(x)||x<1||x>=16777216||x===vaultId))throw Error('users must contain at most 10000 valid payer IDs');
@@ -41,6 +41,7 @@ export function validateOptions(input,base=process.cwd()){
     if(o.assetA.contractId===o.assetB.contractId)throw Error('distinct U124 assets required');
     if([o.assetA.contractId,o.assetB.contractId].includes(o.contractId))throw Error('market and asset contract IDs must be distinct');
   }else if(o.kind!=='nftmarket'&&(o.policy||o.assetA||o.assetB))throw Error('U124 binding requires profile u124');
+  if(o.profile==='u124'||o.kind==='nftmarket')if(typeof o.walletSha256!=='string'||!/^[0-9a-f]{64}$/.test(o.walletSha256))throw Error('explicit reviewed walletSha256 required');
   if(typeof o.network!=='string'||!/^[a-zA-Z0-9_-]+$/.test(o.network))throw Error('explicit network required');
   if(!Number.isSafeInteger(o.contractId)||o.contractId<5||o.contractId>=16777216)throw Error('invalid contract ID');
   if(!Number.isSafeInteger(o.vaultId)||o.vaultId<1||o.vaultId>=16777216)throw Error('invalid vault ID');
