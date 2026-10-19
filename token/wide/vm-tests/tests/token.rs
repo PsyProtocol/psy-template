@@ -109,3 +109,54 @@ fn random_transfers_claims_match_independent_u128_and_conserve_assets()->Result<
   for j in 0..3{assert_eq!(w.balance(ids[j]),balances[j]);}assert_eq!(balances.iter().sum::<u128>(),initial);
  }Ok(())
 }
+
+#[test]
+fn historical_sender_credit_cannot_replay_or_erase_recipient_claim_cursor()->Result<()> {
+ // Execute real bytecode with an explicitly historical remote sent counter.
+ // This local model does not establish node-side freshness/admission rules.
+ let mut w=World::new()?;let first=B+17;let second=B+31;
+ w.set_pair(ALICE,"balance",0,first+second);
+ w.transfer(ALICE,BOB,first)?;w.exec(BOB,"claim",&[ALICE])?;
+ w.transfer(ALICE,BOB,second)?;
+ // A historical sender snapshot exposes only the already-claimed first send.
+ w.set_pair(ALICE,"other_user_info",4*BOB,first);
+ assert!(w.exec(BOB,"claim",&[ALICE]).is_err());
+ assert_eq!(w.balance(BOB),first);assert_eq!(w.claimed(BOB,ALICE),first);
+ // A still older snapshot cannot underflow the cumulative credit either.
+ w.set_pair(ALICE,"other_user_info",4*BOB,first-1);
+ assert!(w.exec(BOB,"claim",&[ALICE]).is_err());
+ assert_eq!(w.balance(BOB),first);assert_eq!(w.claimed(BOB,ALICE),first);
+ w.set_pair(ALICE,"other_user_info",4*BOB,first+second);
+ w.exec(BOB,"claim",&[ALICE])?;assert_eq!(w.balance(BOB),first+second);
+ assert_eq!(w.claimed(BOB,ALICE),first+second);
+ assert!(w.exec(BOB,"claim",&[ALICE]).is_err());Ok(())
+}
+
+#[test]
+fn spender_terminal_close_rejects_historical_active_owner_and_preserves_refund()->Result<()> {
+ // Restore only the remote owner's ACTIVE channel fields. The spender's own
+ // terminal ledger remains current, so even that historical view must fail.
+ let mut w=World::new()?;let allocation=B+101;let spent=B+17;
+ w.set_pair(ALICE,"balance",0,allocation);
+ w.amount(ALICE,"open_delegation_channel",&[0,BOB],allocation)?;
+ let base=w.fields["delegations"];
+ let active=(0..5).map(|i|w.state.get_contract_slot(ALICE,TOKEN,base+i)).collect::<Result<Vec<_>>>()?;
+ let mut call=vec![ALICE,0];call.extend(limbs(spent));call.push(SDK);w.exec(BOB,"spend_delegation",&call)?;
+ w.exec(ALICE,"request_revoke_delegation",&[0])?;
+ let requested=(0..5).map(|i|w.state.get_contract_slot(ALICE,TOKEN,base+i)).collect::<Result<Vec<_>>>()?;
+ w.exec(BOB,"close_delegation_channel",&[ALICE,0,1])?;
+ for(i,n)in active.iter().enumerate(){w.state.set_slot(ALICE,TOKEN,base+i as u64,*n);}
+ let mut extra=vec![ALICE,0];extra.extend(limbs(1));extra.push(SDK);
+ assert!(w.exec(BOB,"spend_delegation",&extra).is_err());
+ assert_eq!(w.sent(BOB,SDK),spent);
+ for(i,n)in requested.iter().enumerate(){w.state.set_slot(ALICE,TOKEN,base+i as u64,*n);}
+ w.exec(ALICE,"finalize_revoke_delegation",&[0,BOB])?;
+ assert_eq!(w.balance(ALICE),allocation-spent);
+ let refunded=(0..5).map(|i|w.state.get_contract_slot(ALICE,TOKEN,base+i)).collect::<Result<Vec<_>>>()?;
+ for(i,n)in active.iter().enumerate(){w.state.set_slot(ALICE,TOKEN,base+i as u64,*n);}
+ assert!(w.exec(BOB,"spend_delegation",&extra).is_err());assert_eq!(w.sent(BOB,SDK),spent);
+ for(i,n)in refunded.iter().enumerate(){w.state.set_slot(ALICE,TOKEN,base+i as u64,*n);}
+ assert!(w.exec(ALICE,"finalize_revoke_delegation",&[0,BOB]).is_err());
+ w.exec(SDK,"claim",&[BOB])?;
+ assert_eq!(w.balance(ALICE)+w.balance(SDK),allocation);Ok(())
+}

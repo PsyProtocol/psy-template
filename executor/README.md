@@ -12,6 +12,44 @@ ten calls rather than the existing markets' nine. Marketplace 2452 / vault
 1256000 uses one-time activation before funding. Its live acceptance and the
 earlier failed deployment history are documented in the [current report](../nft-marketplace/verification/2026-10-14-production-01/REPORT.md).
 
+## U124 / NFT market submission guards
+
+The U124 and NFT market adapters require a driver built from this release's
+`amm/u124/vm-tests` sources. They invoke `guarded-preflight` and
+`guarded-submit` with a persisted `guard.json`-format file. An older driver
+that cannot run those actions fails before broadcasting; there is no fallback
+to unguarded submission.
+
+The guard covers the exact union of contracts called by every registered
+policy branch: the market, both assets (or NFT collection and FT payment),
+native PSY for fees, and the bootstrap AMM where configured. It binds the
+network name, market and vault IDs, derived fingerprint and public-key hash,
+and each dependency's code/layout roots and state height. The Rust driver
+checks current RPC leaves and registration before proving, after verifying
+the UPS, and again after the caller-anchor/nonce checks immediately before
+writing a broadcast intent. It also checks the proven end user's ID.
+
+Configured market/asset roots remain the release's explicit pins. Native PSY
+roots are captured from the trusted RPC on first use and persisted under
+`runtimeDirectory/bindings/<network>/<vault>/<fingerprint>.json`. A restart
+with different roots fails closed. Do not delete that file to silence a root
+mismatch: review the changed contract and release bindings first. A separate
+runtime represents a new operator-approved baseline, not an upgrade lock.
+
+The adapter detects changes to its ABI, policy, market config, RPC config and
+asset ABI files during operation. Stop and review a new release instead of
+replacing files under a running worker. These checks assume a trusted host
+and RPC; they do not protect against a host administrator modifying files
+between the check and use. Receipt recovery reads the exact per-attempt log
+immediately as well as after restart. Old unguarded attempts may be reconciled
+read-only; new proofs and broadcasts require guard verification.
+
+These checks constrain this executor. They do not change the SD-key circuit,
+authenticate RPC leaves independently, prevent an upgrade after the last
+check, or constrain another executor using the public SD-key. Production
+funds still require an independently verified immutable deployment or an
+explicitly accepted upgrade authority, plus independent security audit.
+
 ## Run
 
 Configure [examples/service.json](examples/service.json) and its three vault
@@ -170,7 +208,7 @@ and `driverConfig` paths. State and call amounts remain BigInts and use
 Native PSY remains the existing gas asset.
 
 The U124 adapter independently verifies a proof-only preflight, checks that
-the action and chain bindings are still current, then uses `verified-submit`
+the action and chain bindings are still current, then uses `guarded-submit`
 to verify the exact submitted UPS. Every attempt gets its own durable driver
 log; its path is stored in the submission intent. A lost response is recovered
 by the deterministic leaf hash. Only an explicit driver rejection that occurred

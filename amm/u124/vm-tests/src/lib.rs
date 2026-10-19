@@ -1,3 +1,4 @@
+pub mod submission_guard;
 pub mod policy;
 pub mod runtime;
 pub mod wallet_driver;

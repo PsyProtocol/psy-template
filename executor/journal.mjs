@@ -97,7 +97,7 @@ export class ExecutionJournal {
     await this.append({status:'not-submitted',taskId,reason:outcome.reason});
     return {status:'not-submitted',taskId,reason:outcome.reason};
    }
-   const result=await reconcile({taskId,task,outcome,scope:this.scope});
+   const result=await reconcile({taskId,task,proof:prepared,outcome,scope:this.scope});
    if(result?.status==='included'){
     if(result.userId!==this.scope.vaultId||!result.contentHash||!result.checkpoint)throw Error('receipt identity missing');
     await this.append({status:'included',taskId,result});

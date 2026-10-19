@@ -96,3 +96,22 @@ fn standalone_nft_full_recipient_capacity_preserves_pending_identity_until_slot_
  assert_eq!(w.nft_id(B,127),offered);assert_eq!(w.state.get_contract_slot(B,NFT,0)?,128);
  assert!(w.run(B,NFT,"claim",&[127,A]).is_err());Ok(())
 }
+
+#[test]
+fn standalone_nft_historical_sender_queue_cannot_replay_a_claim()->Result<()> {
+ // Explicit mixed snapshot model, not proof of coordinator admission rules.
+ let mut w=World::new()?;let first=w.nft_id(A,0);w.give_nft(A,1,3)?;let second=w.nft_id(A,1);
+ let base=1182+35*B;
+ w.run(A,NFT,"transfer",&[0,B])?;
+ let old=(0..35).map(|i|w.state.get_contract_slot(A,NFT,base+i)).collect::<Result<Vec<_>>>()?;
+ w.run(B,NFT,"claim",&[0,A])?;w.run(A,NFT,"acknowledge",&[B])?;
+ w.run(A,NFT,"transfer",&[1,B])?;
+ let fresh=(0..35).map(|i|w.state.get_contract_slot(A,NFT,base+i)).collect::<Result<Vec<_>>>()?;
+ for(i,n)in old.iter().enumerate(){w.state.set_slot(A,NFT,base+i as u64,*n);}
+ assert!(w.run(B,NFT,"claim",&[1,A]).is_err());
+ assert_eq!(w.nft_id(B,0),first);assert_eq!(w.state.get_contract_slot(B,NFT,0)?,1);
+ for(i,n)in fresh.iter().enumerate(){w.state.set_slot(A,NFT,base+i as u64,*n);}
+ w.run(B,NFT,"claim",&[1,A])?;assert_eq!(w.nft_id(B,0),first);assert_eq!(w.nft_id(B,1),second);
+ assert_eq!(w.state.get_contract_slot(B,NFT,0)?,2);
+ assert!(w.run(B,NFT,"claim",&[2,A]).is_err());Ok(())
+}

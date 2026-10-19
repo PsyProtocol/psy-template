@@ -66,6 +66,8 @@ market_wallet preflight policy.json calls.json rpc-config.json
 
 `preflight` 完成本地证明并独立验证 UPS endcap，不提交。驱动还实现 `register` 和 `submit` 两个显式入口。`market_wallet` 与 `market_wallet_verified` 共用驱动；两者的 `submit` / `verified-submit` 都独立验证将提交的同一份完整 UPS 证明，检查最新用户锚点及 nonce 后提交一次。
 
+生产候选 Executor 使用 `guarded-preflight policy.json calls.json rpc-config.json guard.json` 和 `guarded-submit`。绑定文件覆盖 policy 中的全部合约（含 PSY 费用及 bootstrap AMM）；Rust 驱动在证明前、验证后和广播前重读合约根、状态树高度及金库注册。缺少新能力的旧驱动不会降级提交。原有显式入口保留用于兼容，不能提供这一新增保护。详见 [Executor 绑定说明](../../executor/README.md#u124--nft-market-submission-guards)。这些 RPC 检查不等于 SD-key 电路认证代码根，也不冻结链上升级。
+
 调用数量、绑定市场和金额 limb 的检查在 RPC 初始化前完成。SDK 的金额范围 panic 会丢弃整个证明会话，返回 JSON 错误 `invalid_amount_range` 和退出码 1；不会继续签名或广播。其他未知 panic 返回 `sdk_runtime_panic`，不输出 panic 原始内容。该处理位于应用驱动，冻结 SDK 内部仍可能产生 unwind。
 
 驱动发送前输出并 flush `broadcast_intent`（`userId`、`nonce`、`endUserLeafHash`）。发送开始后遇到错误会返回 `submission_unknown`、`submitted:null`，必须按该叶哈希查询回执。此输出本身不是持久日志；运行时应通过 `executor/journal.mjs` 在广播前持久记录意图，并阻止未对账金库继续执行。单机金库锁和链上 nonce/锚点分别负责执行者协调和竞争证明判定。
