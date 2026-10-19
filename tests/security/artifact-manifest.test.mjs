@@ -5,7 +5,7 @@ import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {createHash} from 'node:crypto';
 import {spawnSync} from 'node:child_process';
-const required=['token/compilation_artifact.json','private-token/compilation_artifact.json','nft/compilation_artifact.json','market/compiled/compilation_artifact.json','vm-markets/amm/compilation_artifact.json','vm-markets/orderbook/compilation_artifact.json','vm-markets/bondingcurve/compilation_artifact.json'];
+const required=['token/compilation_artifact.json','private-token/compilation_artifact.json','nft/compilation_artifact.json','market/compiled/compilation_artifact.json','vm-markets/amm/compilation_artifact.json','vm-markets/orderbook/compilation_artifact.json','vm-markets/bondingcurve/compilation_artifact.json','bootstrap/market-bootstrap-config.json','bootstrap/bondingcurve-v2/compiled/compilation_artifact.json','bootstrap/proof/policy.json','bootstrap/proof/sample.json','acceptance-payer/policy.json','acceptance-payer/policy-samples.json'];
 const hash=s=>createHash('sha256').update(s).digest('hex');
 for(const mutation of ['source','product'])test(`offline suite refuses ${mutation} mismatch before running tests`,()=>{
  const dir=mkdtempSync(join(tmpdir(),'psy-manifest-'));

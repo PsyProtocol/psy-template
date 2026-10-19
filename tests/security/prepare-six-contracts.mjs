@@ -35,6 +35,35 @@ for(const market of['amm','orderbook','bondingcurve']){
  const samples=policy.branches.map(b=>{const fields=[BigInt(b.branch),200n,201n,n%radix,n/radix,0n,0n,0n,0n,0n,1n,1n,1000100000n];return{fields,calls:operationCalls(policy,fields)};});
  writeFileSync(dir+'/policy-samples.json',losslessJson(samples)+'\n',{flag:'wx'});
 }
+// Complete the previously optional Curve bootstrap VM/proof fixtures.
+const read=path=>JSON.parse(readFileSync(path,'utf8'));
+const ammAbi=read(out+'/markets/amm/compiled/compilation_artifact.json').abi;
+const bootstrapConfig={...config,cap:2,liquidity:1,threshold:2,step:'100000000000000000',bootstrap:{
+ ammContractId:1000,ammVaultId:config.target,funderId:6,
+ openAddMethodId:ammAbi.contract.methods.find(m=>m.name==='open_add').method_id,
+ // These two metadata placeholders are NOT authenticated by this SD-key
+ // interface. No deployment/root-binding claim is made by these offline tests.
+ codeRoot:'0'.repeat(64),layoutRoot:'0'.repeat(64)}};
+build({config:bootstrapConfig,out:out+'/bootstrap-markets',compiler:bin+'/compile_market',tokenA:out+'/token/compilation_artifact.json',tokenB:out+'/token/compilation_artifact.json',marketIds:{amm:1000,orderbook:1001,bondingcurve:1002}});
+mkdirSync(out+'/bootstrap/bondingcurve-v2/compiled',{recursive:true});
+copyFileSync(out+'/bootstrap-markets/bondingcurve/compiled/compilation_artifact.json',out+'/bootstrap/bondingcurve-v2/compiled/compilation_artifact.json');
+writeFileSync(out+'/bootstrap/market-bootstrap-config.json',JSON.stringify(bootstrapConfig,null,2)+'\n',{flag:'wx'});
+mkdirSync(out+'/bootstrap/proof');
+const bootstrapPolicy=read(out+'/bootstrap-markets/bondingcurve/policy.json');
+const graduate=bootstrapPolicy.branches.find(b=>b.name==='graduate');
+const radix=1n<<62n,quote=21n*10n**17n,unit=10n**18n;
+const fields=[BigInt(graduate.branch),5n,0n,quote%radix,quote/radix,unit%radix,unit/radix,0n,0n,0n,1n,1n,1000100000n];
+writeFileSync(out+'/bootstrap/proof/policy.json',JSON.stringify(bootstrapPolicy,null,2)+'\n',{flag:'wx'});
+writeFileSync(out+'/bootstrap/proof/sample.json',losslessJson({fields,calls:operationCalls(bootstrapPolicy,fields)})+'\n',{flag:'wx'});
+// Preserve the original sandbox's distinct policy marker and all nine exact
+// branches. Never relabel it as an AMM policy merely to pass validation.
+const {acceptancePayerPolicy}=await import(pathToFileURL(repo+'/tests/security/acceptance-payer-fixture.mjs'));
+const markets=Object.fromEntries(['amm','orderbook','bondingcurve'].map((kind,i)=>[kind,{contractId:1000+i,vaultId:100+i,abi:read(out+'/markets/'+kind+'/compiled/compilation_artifact.json').abi}]));
+const payer=acceptancePayerPolicy({config,markets,tokenAbi:read(out+'/token/compilation_artifact.json').abi});
+mkdirSync(out+'/acceptance-payer');
+writeFileSync(out+'/acceptance-payer/policy.json',JSON.stringify(payer,null,2)+'\n',{flag:'wx'});
+const payerSamples=payer.branches.map(b=>{const fields=[BigInt(b.branch),5n,0n,17n,3n,9n,5n,100000n,0n,0n,1n,1n,1000100000n];return {fields,calls:operationCalls(payer,fields)};});
+writeFileSync(out+'/acceptance-payer/policy-samples.json',losslessJson(payerSamples)+'\n',{flag:'wx'});
 console.log(JSON.stringify({artifacts:out,sourceRepo:repo}));
 const hash=path=>createHash('sha256').update(readFileSync(path)).digest('hex');
 // Bind all tracked executable sources and dependency locks, including market

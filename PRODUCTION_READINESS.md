@@ -1,3 +1,21 @@
+# 2026-10-19：关闭三项 fixture 测试缺口
+
+原先被标记为 ignored 的三项测试现已接入同一离线验收入口：
+
+- `curve_bootstrap_advances_donor_cursor_and_allows_post_graduation_refund`：实际 Curve 字节码验证毕业费不足时回滚、两个捐款人的累计游标推进、毕业后旧买家新订单退款。
+- `curve_bootstrap_binds_seed_recipient_method_minimum_deadline_nonce_and_fee_donor`：实际 SD-key 证明验证毕业分支，并拒绝收款人、方法、最低流动性、deadline、nonce 和手续费捐款人篡改。
+- `public_acceptance_payer_only_funds_fixed_markets_and_returns_to_fixed_funders`：实际 SD-key 证明验证原测试付款人的九个固定分支，拒绝把剩余资金退给其他账户。
+
+准备脚本从当前源码重新编译 bootstrap Curve，生成配置、policy 和样本，同时生成固定测试付款人的 policy；所有输入与产物仍由 manifest 冻结。三项测试不再带 `ignore`，缺少 fixture 会直接失败。统一入口还拒绝包含 ignored Rust 测试的结果，不能把跳过当作验收成功。
+
+补测发现并修复了 policy 预校验器漏接原有 `bounded_test_payer` 类型的问题。仅显式恢复该已存在类型，调用数量、字段范围和 witness 校验继续生效，合法 policy 的电路约束未放宽。
+
+本轮离线验证结果：221 项 JavaScript、44 项实际 VM/CFC/layout/SD-key/FT 测试通过，0 项合约测试跳过。bootstrap 配置里的 code/layout root 为显式测试占位值；这些测试不验证代码根认证，也没有向链上提交更新。
+
+这关闭了先前列出的三项测试缺口。独立安全审计与合约升级权限边界仍需落实，不能据此把整套代码直接标为生产级。
+
+---
+
 # 2026-10-16 代码安全验收
 
 本轮评估代码与证明约束。没有修改 Node，没有部署或更新链上合约。不能仅凭本轮回归把六个合约统一标为生产级。
@@ -20,7 +38,7 @@ node tests/security/prepare-six-contracts.mjs --compiler-bin /absolute/frozen/bi
 CARGO_TARGET_DIR=/absolute/isolated/rust-target node tests/security/run-six-contracts.mjs --artifacts /absolute/new/artifacts --out /absolute/new/results
 ```
 
-要求支持项目依赖的 Node.js、Rust 工具链和本地 Cargo 依赖缓存。脚本记录输入源码、编译器和产物 SHA256，执行 JavaScript 回归、真实 VM、CFC/layout 与 SD-key 证明测试；失败退出非零。仅生成离线证据，不广播。可选 Curve bootstrap 和沙箱付款人专用 fixture 测试会明确列为 ignored，不能计为通过；真实网络 UPS 和跨机器可用性也不属于这套离线验证。
+要求支持项目依赖的 Node.js、Rust 工具链和本地 Cargo 依赖缓存。脚本记录输入源码、编译器和产物 SHA256，执行 JavaScript 回归、真实 VM、CFC/layout 与 SD-key 证明测试；失败退出非零。仅生成离线证据，不广播。Curve bootstrap 和测试付款人专用 fixture 已包含在准备及验收脚本中，三项测试默认执行，任何 ignored Rust 测试都会使验收失败。真实网络 UPS 和跨机器可用性不属于这套离线验证。
 
 ## 仍须明确的资金安全边界
 
