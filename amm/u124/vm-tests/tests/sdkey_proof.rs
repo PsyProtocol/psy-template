@@ -119,7 +119,6 @@ fn all_three_sdkeys_bind_every_branch_payer_high_limb_assets_and_fee()->Result<(
  }Ok(())}
 
 #[test]
-#[ignore = "requires explicit U124_BOOTSTRAP_PROOF fixture"]
 fn curve_bootstrap_binds_seed_recipient_method_minimum_deadline_nonce_and_fee_donor()->Result<()> {
  let root=std::env::var("U124_BOOTSTRAP_PROOF")?;
  let spec:Value=serde_json::from_slice(&fs::read(format!("{root}/policy.json"))?)?;
@@ -140,7 +139,6 @@ fn curve_bootstrap_binds_seed_recipient_method_minimum_deadline_nonce_and_fee_do
 }
 
 #[test]
-#[ignore = "requires explicit U124_SANDBOX_PROOF"]
 fn public_acceptance_payer_only_funds_fixed_markets_and_returns_to_fixed_funders()->Result<()> {
  let root=std::env::var("U124_SANDBOX_PROOF")?;
  let spec:Value=serde_json::from_slice(&fs::read(format!("{root}/policy.json"))?)?;

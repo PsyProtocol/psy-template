@@ -13,7 +13,7 @@ pub fn validate_policy_spec(spec: &Value) -> Result<()> {
  let count=spec["tx_count"].as_u64().unwrap_or(0);
  let market=spec["market"].as_str().unwrap_or("");
  ensure!(spec["version"]==1 && spec["witness_length"]==13,"unsupported policy version or witness length");
- ensure!((count==9 && ["amm","orderbook","bondingcurve"].contains(&market)) || (count==10 && market=="nftmarket"),"unsupported policy market or call count");
+ ensure!((count==9 && ["amm","orderbook","bondingcurve","bounded_test_payer"].contains(&market)) || (count==10 && market=="nftmarket"),"unsupported policy market or call count");
  let branches=spec["branches"].as_array().ok_or_else(||anyhow::anyhow!("branches must be an array"))?;
  ensure!(!branches.is_empty() && branches.len()<=64,"invalid branch count");
  for (index,branch) in branches.iter().enumerate() {

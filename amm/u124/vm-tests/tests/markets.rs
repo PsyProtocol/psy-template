@@ -106,7 +106,6 @@ fn parallel_candidates_commit_once_and_original_payer_recovers_every_market()->R
 }
 
 #[test]
-#[ignore = "requires explicit U124_BOOTSTRAP_FIXTURES"]
 fn curve_bootstrap_advances_donor_cursor_and_allows_post_graduation_refund()->Result<()> {
  let root=std::env::var("U124_BOOTSTRAP_FIXTURES")?;
  let config:Value=serde_json::from_slice(&fs::read(format!("{root}/market-bootstrap-config.json"))?)?;
