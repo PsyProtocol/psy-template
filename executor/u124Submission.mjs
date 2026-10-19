@@ -1,10 +1,11 @@
 import assert from 'node:assert/strict';
 import {driverRecords,submissionLeaf} from './driverProcess.mjs';
 import {FEE_ESCROW} from '../amm/u124/client.mjs';
-export function inspectU124Submission(output,{vaultId,contractId,fingerprint}){
+export function inspectU124Submission(output,{vaultId,contractId,fingerprint,requireGuard=false}){
  const records=driverRecords(output),hash=submissionLeaf(output);
  const verified=records.filter(r=>Object.hasOwn(r,'fullUpsVerified'));
  for(const r of verified){
+  if(requireGuard)assert.equal(r.submissionGuardVerified,true,'submission guard verification missing');
   assert.equal(r.fullUpsVerified,true,'submission UPS verification');assert.equal(r.submitted,false,'verification must precede broadcast');assert.equal(r.marketId,contractId,'submission market binding');assert.equal(r.fingerprint,fingerprint,'submission fingerprint binding');
   assert.ok(Number.isSafeInteger(r.fee)&&r.fee>=1000000000&&BigInt(r.fee)<=FEE_ESCROW&&r.fee%1000===0,'submission fee binding');
  }

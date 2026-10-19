@@ -137,3 +137,29 @@ fn curve_bootstrap_advances_donor_cursor_and_allows_post_graduation_refund()->Re
  assert_eq!(w.pair(VAULT,"settled_b",2*donor),quote+unit);
  Ok(())
 }
+
+#[test]
+fn historical_open_orders_cannot_repeat_a_committed_refund_in_any_market()->Result<()> {
+ // Remote payer slots are restored to an old OPEN snapshot, while the vault's
+ // current consumed nonce and cumulative accounting remain authoritative.
+ for market in ["amm","orderbook","bondingcurve"] {
+  let mut w=World::new(market)?;let n=10u128.pow(18);
+  if market=="bondingcurve"{w.fee(ISSUER)?;w.pay(ISSUER,A,2_000_000*n)?;w.settle("initialize",vec![],ISSUER,&[A],&[])?;}
+  let (asset,method)=if market=="bondingcurve"{(B,"refund_buy")}else if market=="amm"{(A,"refund_swap_0")}else{(A,"cancel_0")};
+  let before=w.balance(BOB,asset);
+  if market=="bondingcurve"{w.run(BOB,M,"open_buy",&args(&[VAULT,1,0],&[n],&[200,1]))?;}
+  else{w.run(BOB,M,if market=="amm"{"open_swap"}else{"open_sell"},&args(&[VAULT,0],&[n,n],&[200,1]))?;}
+  w.fee(BOB)?;w.pay(BOB,asset,n)?;
+  let snapshot=w.clone();w.checkpoint=201;
+  let inputs=if market=="bondingcurve"{args(&[BOB,1],&[n],&[1])}else{args(&[BOB],&[n],&[1])};
+  w.settle(method,inputs.clone(),BOB,&[asset],&[(asset,BOB,n)])?;
+  w.run(BOB,asset,"claim",&[VAULT])?;w.run(BOB,M,"close_order",&[])?;
+  for name in ["kind","pool","side","nonce","deadline","lots","expected_sold"]{
+   if let Some(offset)=w.fields.get(name){w.state.set_slot(BOB,M,*offset,snapshot.state.get_contract_slot(BOB,M,*offset)?);}
+  }
+  for name in ["x","y","z"]{let offset=w.fields[name];for i in 0..2{w.state.set_slot(BOB,M,offset+i,snapshot.state.get_contract_slot(BOB,M,offset+i)?);}}
+  assert!(w.settle(method,inputs,BOB,&[asset],&[(asset,BOB,n)]).is_err());
+  assert_eq!(w.val(VAULT,"consumed",BOB),1);assert_eq!(w.balance(BOB,asset),before);assert_eq!(w.balance(VAULT,asset),0);
+ }
+ Ok(())
+}

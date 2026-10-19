@@ -39,9 +39,10 @@ export function validateOptions(input,base=process.cwd()){
       o[key]={...asset,abi:resolve(base,asset.abi)};
     }
     if(o.assetA.contractId===o.assetB.contractId)throw Error('distinct U124 assets required');
+    if([o.assetA.contractId,o.assetB.contractId].includes(o.contractId))throw Error('market and asset contract IDs must be distinct');
   }else if(o.kind!=='nftmarket'&&(o.policy||o.assetA||o.assetB))throw Error('U124 binding requires profile u124');
   if(typeof o.network!=='string'||!/^[a-zA-Z0-9_-]+$/.test(o.network))throw Error('explicit network required');
-  if(!Number.isSafeInteger(o.contractId)||o.contractId<5)throw Error('invalid contract ID');
+  if(!Number.isSafeInteger(o.contractId)||o.contractId<5||o.contractId>=16777216)throw Error('invalid contract ID');
   if(!Number.isSafeInteger(o.vaultId)||o.vaultId<1||o.vaultId>=16777216)throw Error('invalid vault ID');
   for(const key of ['publicKeyHash','fingerprint','codeRoot','layoutRoot'])if(!/^[0-9a-f]{64}$/.test(o[key]??''))throw Error(`explicit lowercase ${key} required`);
   for(const key of ['rpcConfig','wallet','abi','runtimeDirectory',...(['bondingcurve','launchamm'].includes(o.kind)?['driverConfig']:[])])

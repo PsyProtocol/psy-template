@@ -17,7 +17,7 @@ for(const [path,digest] of Object.entries(inputs.sources))if(hash(resolve(repo,p
 if(!inputs.products || Object.keys(inputs.products).length===0)throw Error('Missing frozen product manifest');
 for(const [path,digest] of Object.entries(inputs.products))if(hash(resolve(artifacts,path))!==digest)throw Error(`Prepared product changed: ${path}`);
 mkdirSync(out,{recursive:true});
-const env={...process.env,U124_BOOTSTRAP_FIXTURES:resolve(artifacts,'bootstrap'),U124_BOOTSTRAP_PROOF:resolve(artifacts,'bootstrap/proof'),U124_SANDBOX_PROOF:resolve(artifacts,'acceptance-payer'),U124_BUILD:resolve(artifacts,'vm-markets'),NFT_MARKET_BUILD:artifacts,TOKEN_WIDE_ARTIFACT:resolve(artifacts,'token/compilation_artifact.json'),TOKEN_WIDE_PRIVATE_ARTIFACT:resolve(artifacts,'private-token/compilation_artifact.json')};
+const env={...process.env,U124_BOOTSTRAP_FIXTURES:resolve(artifacts,'bootstrap'),U124_BOOTSTRAP_PROOF:resolve(artifacts,'bootstrap/proof'),U124_SANDBOX_PROOF:resolve(artifacts,'acceptance-payer'),U124_BUILD:resolve(artifacts,'vm-markets'),U124_FULL_CFC_FIXTURES:resolve(artifacts,'markets'),NFT_MARKET_BUILD:artifacts,TOKEN_WIDE_ARTIFACT:resolve(artifacts,'token/compilation_artifact.json'),TOKEN_WIDE_PRIVATE_ARTIFACT:resolve(artifacts,'private-token/compilation_artifact.json')};
 const result={node:process.version,compilerInputs:inputs,artifacts:Object.fromEntries(required.map(p=>[p,hash(resolve(artifacts,p))])),suites:[],broadcast:false,productionReady:false};
 function run(name,command,argv,extra={}){
  console.log(`Running ${name}`);const fd=openSync(resolve(out,name+'.log'),'wx');
@@ -33,6 +33,7 @@ const dirs=['amm','amm/contract','amm/wide','amm/u124','orderbook','bondingcurve
 const js=dirs.flatMap(dir=>readdirSync(resolve(repo,dir)).filter(n=>n.endsWith('.test.mjs')).sort().map(n=>`${dir}/${n}`));
 run('javascript',process.execPath,['--test',...js]);
 const cargo=['+nightly-2025-09-20','test','--offline','--locked','--release'];
-run('six-contracts-sdkey','cargo',[...cargo,'--manifest-path','amm/u124/vm-tests/Cargo.toml','--lib','--test','markets','--test','nft_market','--test','nft_sdkey','--test','nft_layout','--test','sdkey_proof','--','--test-threads=1']);
+run('six-contracts-sdkey','cargo',[...cargo,'--manifest-path','amm/u124/vm-tests/Cargo.toml','--lib','--test','markets','--test','full_close_circuits','--test','nft_market','--test','nft_sdkey','--test','nft_layout','--test','sdkey_proof','--','--test-threads=1']);
 run('private-and-public-ft','cargo',[...cargo,'--manifest-path','token/wide/private/vm-tests/Cargo.toml','--test','privacy','--test','public_token','--test','test_policy','--','--test-threads=1'],{TOKEN_WIDE_ARTIFACT:env.TOKEN_WIDE_PRIVATE_ARTIFACT});
+run('standalone-public-ft','cargo',[...cargo,'--manifest-path','token/wide/private/vm-tests/Cargo.toml','--test','public_token','--','--test-threads=1']);
 console.log(`Completed offline suites: ${out}. Curve bootstrap and bounded payer fixtures are included; no ignored contract tests are accepted.`);

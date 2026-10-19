@@ -2,6 +2,7 @@
 //! `verified-submit` verifies the exact UPS proof, checks anchor/nonce, then submits once.
 use crate::{
     policy::build_policy,
+    submission_guard::SubmissionGuard,
     runtime::{contain, Progress},
 };
 use anyhow::{bail, ensure, Context, Result};
@@ -27,7 +28,7 @@ use psy_ups_circuit::signature::sd_key::get_sd_key_public_key_param;
 use psy_crypto::signature::zk::data::ZKPublicKeyInfo;
 use std::io::Write;
 use std::{env, fs};
-const USAGE:&str="usage: market_wallet fingerprint/identity <policy.json> | register <policy.json> <rpc-config.json> | preflight/submit/verified-submit <policy.json> <calls.json> <rpc-config.json>";
+const USAGE:&str="usage: market_wallet fingerprint/identity <policy.json> | register <policy.json> <rpc-config.json> | preflight/submit/verified-submit <policy.json> <calls.json> <rpc-config.json> | guarded-preflight/guarded-submit <policy.json> <calls.json> <rpc-config.json> <guard.json>";
 /// All CLI errors are structured; panic payloads are not printed by the hook.
 /// A contained panic drops the entire session; no proof or broadcast follows it.
 pub async fn main_entry() -> std::process::ExitCode {
@@ -52,7 +53,9 @@ async fn run(progress: &mut Progress) -> Result<()> {
             "register",
             "preflight",
             "submit",
-            "verified-submit"
+            "verified-submit",
+            "guarded-preflight",
+            "guarded-submit"
         ]
         .contains(&action),
         USAGE
@@ -70,7 +73,8 @@ async fn run(progress: &mut Progress) -> Result<()> {
         return Ok(());
     }
     let config_index = if action == "register" { 3 } else { 4 };
-    ensure!(args.len() == config_index + 1, USAGE);
+    let guarded = matches!(action, "guarded-preflight" | "guarded-submit");
+    ensure!(args.len() == config_index + 1 + usize::from(guarded), USAGE);
     let calls = if action == "register" {
         None
     } else {
@@ -89,9 +93,17 @@ async fn run(progress: &mut Progress) -> Result<()> {
         Some(data)
     };
     let config = PsyConfigGoldilocks::from_file(&args[config_index])?;
+    let guard: Option<SubmissionGuard> = if guarded {
+        let g: SubmissionGuard = serde_json::from_slice(&fs::read(&args[5])?)?;
+        let public_key_param=get_sd_key_public_key_param(&QHashOut(HashOut{elements:[F::ONE;4]}));
+        let public=ZKPublicKeyInfo{public_key_param,fingerprint};
+        g.validate(&spec, config.current_network_name(), &fingerprint.to_string(), &public.qfhash::<PsyHasher>().to_string())?;
+        Some(g)
+    } else { None };
     let mut network = config.get_current_network()?.clone();
     network.prove_proxy_url.clear();
     let mut session = WalletSession::new(&network).await?;
+    if let Some(g) = &guard { g.check_current(&session.st_provider).await?; }
     session.wallet.insert_sd_key_circuit(fingerprint, circuit);
     let public_key = QHashOut(HashOut {
         elements: [F::ONE; 4],
@@ -130,7 +142,7 @@ async fn run(progress: &mut Progress) -> Result<()> {
     );
     data.software_defined_call.inputs[12] = fee;
     match action {
-        "preflight" | "verified-submit" | "submit" => {
+        "preflight" | "verified-submit" | "submit" | "guarded-preflight" | "guarded-submit" => {
             let (endcap, proof) = session.sign(key, data.software_defined_call).await?;
             let verifier = PsyUPSStepCircuitManager::<C, D>::new_with_config(PSY_NETWORK_MAGIC);
             ensure!(
@@ -143,11 +155,15 @@ async fn run(progress: &mut Progress) -> Result<()> {
                 "endcap verifier mismatch"
             );
             verifier.ups_end_cap.verify_proof(proof.clone())?;
+            if let Some(g) = &guard {
+                ensure!(endcap.core.new_user_leaf.user_id.to_canonical_u64() == g.vault_id, "guard proven vault binding");
+                g.check_current(&session.st_provider).await?;
+            }
             println!(
                 "{}",
-                serde_json::json!({"fullUpsVerified":true,"submitted":false,"marketId":spec["market_id"],"fingerprint":fingerprint.to_string(),"fee":fee,"endUserLeafHash":endcap.core.state_transition.end_user_leaf_hash.to_string()})
+                serde_json::json!({"fullUpsVerified":true,"submissionGuardVerified":guard.is_some(),"submitted":false,"marketId":spec["market_id"],"fingerprint":fingerprint.to_string(),"fee":fee,"endUserLeafHash":endcap.core.state_transition.end_user_leaf_hash.to_string()})
             );
-            if action == "verified-submit" || action == "submit" {
+            if matches!(action, "verified-submit" | "submit" | "guarded-submit") {
                 let user_id = endcap.core.new_user_leaf.user_id.to_canonical_u64();
                 let nonce = endcap.core.new_user_leaf.nonce.to_canonical_u64();
                 let provider = session.st_provider.with_user_id_owned(user_id);
@@ -166,6 +182,9 @@ async fn run(progress: &mut Progress) -> Result<()> {
                     ),
                     "nonce not submittable: do not submit"
                 );
+                // Re-read after the expensive proof and nonce checks. These
+                // application checks do not lock upgrades on chain.
+                if let Some(g) = &guard { g.check_current(&provider).await?; }
                 let hash = endcap.core.state_transition.end_user_leaf_hash;
                 let request = QSubmitEndCapRPCRequest {
                     user_ec_input: endcap,
