@@ -50,6 +50,42 @@ check, or constrain another executor using the public SD-key. Production
 funds still require an independently verified immutable deployment or an
 explicitly accepted upgrade authority, plus independent security audit.
 
+## Reviewed driver and request evidence
+
+U124 and NFT market configs now require `walletSha256`, the lowercase SHA256
+of the reviewed standalone driver binary. Record this digest during release
+review; do not automatically adopt a changed installed file. The adapter
+checks the supplied digest, publishes a private, content-addressed executable
+copy under `runtimeDirectory/drivers/<sha256>/market-wallet`, and executes
+that copy. Replacing an install/current path cannot replace a running
+worker's driver. A modified copy or changed executable permissions halts
+proof/submission. The host, OS libraries, and runtime administrator remain
+trusted. Scan still performs no chain mutation; initialization may publish
+these local driver/binding files.
+
+Both JavaScript and Rust check every explicit call against the selected
+policy branch, including all input values and activation's pre-guard calls.
+Unknown/duplicate JSON fields and a task kind inconsistent with its witness
+are rejected by the JavaScript request gate. The Rust driver also explicitly
+binds the UPS proof's four public inputs to the broadcast end-cap state
+transition and stats, and checks its leaf hash, user ID and checkpoint.
+
+The verification record contains `callsSha256` and `guardSha256`, calculated
+from the exact bytes the driver read. These digests are recorded in the
+preflight journal and checked during submission/recovery. They identify the
+original request, including an optional zero fee placeholder; the driver
+reports the actual fee separately after applying policy limits. Whitespace
+changes also change the byte digest. Old cached proofs must be regenerated;
+old pending broadcasts retain read-only reconciliation support.
+
+These are evidence from a pinned, trusted application driver. JSON digest
+reports do not independently prove an arbitrary operator's log is authentic,
+add new public inputs to the protocol circuit, or certify an audit. Current
+NFT acceptance requires evidence version 2, full registered-call equality,
+request/guard-bound broadcast records, the reviewed driver digest, and sealed
+RPC/configuration/guard files. A valid log from another operation is not
+interchangeable merely because its market and fingerprint match.
+
 ## Run
 
 Configure [examples/service.json](examples/service.json) and its three vault

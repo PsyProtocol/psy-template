@@ -1,3 +1,19 @@
+# 2026-10-19：驱动冻结、请求证据与 UPS 元数据绑定
+
+本轮继续只修改应用仓库，不修改 Node、协议电路、六个合约源码或已注册的 SD-key policy；没有部署或广播。既有合约 code/layout roots 和 fingerprint 不因本次驱动修改而改变。
+
+- U124 与 NFT Market 的 Executor 配置要求显式 `walletSha256`，只执行匹配审核摘要的独立私有副本；安装目录中的二进制替换不会改变运行中的驱动。副本被修改或权限改变时停止证明/提交。
+- JS 和 Rust 在 RPC 前核对 policy 选中分支的全部显式调用，包括所有收款人、资产、方法与参数，补齐此前普通分支只检查首个市场调用的应用预检。链上原有整栈 SD-key 约束继续保留。
+- 完整 UPS 证明验证后，驱动显式绑定四个证明公开输入与即将广播的 end-cap state transition/stats，并检查新用户叶哈希、用户 ID、checkpoint 的内部一致性。
+- 驱动对实际读取的原始 calls/guard 文件输出 SHA256；Executor 的 preflight、提交与恢复校验同一组摘要。旧缓存 proof 不能冒充新版 proof，既有 pending 广播仍可只读对账。
+- NFT 工程验收升级为 evidence version 2，核对完整调用组、审核过的驱动摘要、guard 身份与全部依赖、RPC 配置封存及请求摘要；交换两份合法成交日志不能伪造另一笔操作的覆盖率。
+
+完整离线回归：237 项 JavaScript、62 次 Rust VM/CFC/layout/SD-key/FT 测试执行通过，0 失败、0 跳过；驱动 release 构建通过。实际执行冻结后的新驱动，与上一版驱动比较四组 policy 的 fingerprint / publicKeyHash 均一致；七份编译产物（公开/隐私 FT、NFT、三市场、NFT Market）逐字节一致。
+
+摘要报告依然来自受信驱动；它不是协议新增的公开输入，也不是独立签名的安全审计。Node 升级授权路径、SD-key 中的代码根认证、独立安全审计等边界仍在，不能仅通过填写摘要将这些事项认定为已完成。
+
+---
+
 # 2026-10-19：广播前绑定与历史状态回归
 
 本轮只修改 psy-template 的应用驱动、执行器及测试；Node 运行时、VM 和协议电路源码未修改，没有部署或广播交易。

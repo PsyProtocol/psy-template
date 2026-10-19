@@ -9,8 +9,10 @@ import {scanU124,proposeU124Action} from './u124Reader.mjs';
 import {ExecutionJournal} from './journal.mjs';
 import {executeCycle} from './worker.mjs';
 import {submissionLeaf} from './driverProcess.mjs';
+import {sha256} from './requestBinding.mjs';
 import {makePolicy} from '../amm/u124/policy.mjs';
 import {encodeAmount,parseLosslessJson,FEE_ESCROW,initialShares,curveQuote} from '../amm/u124/client.mjs';
+const requestDigests=async args=>({callsSha256:sha256(await readFile(args[2])),guardSha256:sha256(await readFile(args[4]))});
 const U=10n**18n, config={assetA:42,assetB:43,issuer:5,target:400,cap:20,liquidity:10,threshold:20,unit:String(U),base:String(U),step:String(U/10n)};
 const token=JSON.parse(await readFile(new URL('../token/wide/verification-2026-10-12/compiled-reviewed/compilation_artifact.json',import.meta.url),'utf8')).abi;
 async function fixture(kind,fn){
@@ -20,8 +22,9 @@ async function fixture(kind,fn){
   const policy=makePolicy(kind,1000,config,abi,token);
   const paths={abi:join(directory,'market.json'),policy:join(directory,'policy.json'),driverConfig:join(directory,'config.json'),tokenAbi:join(directory,'token.json')};
   for(const[key,data]of [['abi',abi],['policy',policy],['driverConfig',config],['tokenAbi',token]])await writeFile(paths[key],JSON.stringify(data));
+  const driver=Buffer.from('explicit driver double');await writeFile(join(directory,'driver'),driver);
   const asset=id=>({contractId:id,codeRoot:'a'.repeat(64),layoutRoot:'d'.repeat(64),abi:paths.tokenAbi});
-  const options=validateOptions({kind,profile:'u124',network:'test',contractId:1000,vaultId:100,codeRoot:'c'.repeat(64),layoutRoot:'d'.repeat(64),publicKeyHash:'a'.repeat(64),fingerprint:'b'.repeat(64),wallet:'driver',rpcConfig:'rpc.json',runtimeDirectory:directory,assetA:asset(42),assetB:asset(43),abi:paths.abi,policy:paths.policy,driverConfig:paths.driverConfig,users:[200,201]},directory);
+  const options=validateOptions({kind,profile:'u124',network:'test',contractId:1000,vaultId:100,codeRoot:'c'.repeat(64),layoutRoot:'d'.repeat(64),publicKeyHash:'a'.repeat(64),fingerprint:'b'.repeat(64),wallet:'driver',walletSha256:sha256(driver),rpcConfig:'rpc.json',runtimeDirectory:directory,assetA:asset(42),assetB:asset(43),abi:paths.abi,policy:paths.policy,driverConfig:paths.driverConfig,users:[200,201]},directory);
   await writeFile(options.rpcConfig,'{}');
   const slots=new Map(),field=name=>abi.contract.state.find(f=>f.name===name);
   const set=(u,c,o,n)=>slots.set(`${u}:${c}:${o}`,n);
@@ -40,9 +43,9 @@ async function fixture(kind,fn){
 }
 const paidOrder=(change={})=>({payerId:200,kind:1n,pool:100n,side:0n,x:U,y:1n,z:0n,nonce:1n,consumed:0n,deadline:200n,feeDelta:FEE_ESCROW,aDelta:U,bDelta:0n,...change});
 test('U124 config requires two pinned asset roots, ABIs, policy and exact driver config',()=>{
- const base={kind:'amm',profile:'u124',network:'test',contractId:1000,vaultId:100,codeRoot:'c'.repeat(64),layoutRoot:'d'.repeat(64),publicKeyHash:'a'.repeat(64),fingerprint:'b'.repeat(64),rpcConfig:'rpc.json',wallet:'driver',abi:'abi.json',runtimeDirectory:'runtime',policy:'policy.json',driverConfig:'config.json',assetA:{contractId:42,codeRoot:'a'.repeat(64),layoutRoot:'b'.repeat(64),abi:'a.json'},assetB:{contractId:43,codeRoot:'a'.repeat(64),layoutRoot:'b'.repeat(64),abi:'b.json'}};
+ const base={kind:'amm',profile:'u124',network:'test',contractId:1000,vaultId:100,codeRoot:'c'.repeat(64),layoutRoot:'d'.repeat(64),publicKeyHash:'a'.repeat(64),fingerprint:'b'.repeat(64),rpcConfig:'rpc.json',wallet:'driver',walletSha256:'a'.repeat(64),abi:'abi.json',runtimeDirectory:'runtime',policy:'policy.json',driverConfig:'config.json',assetA:{contractId:42,codeRoot:'a'.repeat(64),layoutRoot:'b'.repeat(64),abi:'a.json'},assetB:{contractId:43,codeRoot:'a'.repeat(64),layoutRoot:'b'.repeat(64),abi:'b.json'}};
  assert.equal(validateOptions(base,'/tmp').assetA.abi,'/tmp/a.json');
- for(const bad of [{profile:'other'},{policy:undefined},{assetA:{...base.assetA,contractId:0}},{assetB:base.assetA},{contractId:42},{contractId:16777216},{assetA:{...base.assetA,privateKey:'secret'}},{kind:'launchamm'}])assert.throws(()=>validateOptions({...base,...bad}));
+ for(const bad of [{profile:'other'},{walletSha256:undefined},{walletSha256:'A'.repeat(64)},{policy:undefined},{assetA:{...base.assetA,contractId:0}},{assetB:base.assetA},{contractId:42},{contractId:16777216},{assetA:{...base.assetA,privateKey:'secret'}},{kind:'launchamm'}])assert.throws(()=>validateOptions({...base,...bad}));
 });
 test('AMM plans preserve high limbs and choose executable settlement, exact payer refund and withdrawal cancellation',()=>fixture('amm',async({context})=>{
  const n=10n**28n;context.pool={reserve_a:0n,reserve_b:0n,total_shares:0n};context.orders=[paidOrder({kind:2n,x:n,y:n,z:1n,aDelta:n,bDelta:n})];
@@ -78,13 +81,13 @@ test('scanner decodes pairs/strides at one snapshot and does not derive balances
 test('adapter uses explicit preflight and verified-submit, records lost response and recovers exact log after restart',()=>fixture('amm',async({options,state,order,funding,scalar,directory})=>{
  order(200,{kind:2n,x:U,y:U,z:1n});funding(200,U,U);let submits=0,reads=[];const leaf='e'.repeat(64);
  const dependencies={readState:async()=>state,readReceipts:async()=>async query=>{reads.push(query);return query.endUserLeafHash===leaf?{status:'included',userId:100,checkpoint:101,contentHash:'f'.repeat(64),endUserLeafHash:leaf}:{status:'unresolved'};},
-  runDriver:async(_,args)=>args[0]==='identity'?{stdout:JSON.stringify({fingerprint:options.fingerprint,publicKeyHash:options.publicKeyHash})}:{stdout:JSON.stringify({fullUpsVerified:true,submissionGuardVerified:true,submitted:false,marketId:1000,fingerprint:options.fingerprint,fee:1000000000})},
-  submitDriver:async(_,args,{logFile})=>{assert.equal(args[0],'guarded-submit');submits++;const output=JSON.stringify({fullUpsVerified:true,submissionGuardVerified:true,submitted:false,marketId:1000,fingerprint:options.fingerprint,fee:1000000000,endUserLeafHash:leaf})+'\n'+JSON.stringify({status:'broadcast_intent',userId:100,nonce:1,endUserLeafHash:leaf});await writeFile(logFile,output);scalar(100,'consumed',1n,200);const error=Error('response lost');error.stdout=output;throw error;}};
+  runDriver:async(_,args)=>args[0]==='identity'?{stdout:JSON.stringify({fingerprint:options.fingerprint,publicKeyHash:options.publicKeyHash})}:{stdout:JSON.stringify({...await requestDigests(args),fullUpsVerified:true,submissionGuardVerified:true,submitted:false,marketId:1000,fingerprint:options.fingerprint,fee:1000000000})},
+  submitDriver:async(_,args,{logFile})=>{assert.equal(args[0],'guarded-submit');submits++;const output=JSON.stringify({...await requestDigests(args),fullUpsVerified:true,submissionGuardVerified:true,submitted:false,marketId:1000,fingerprint:options.fingerprint,fee:1000000000,endUserLeafHash:leaf})+'\n'+JSON.stringify({status:'broadcast_intent',userId:100,nonce:1,endUserLeafHash:leaf});await writeFile(logFile,output);scalar(100,'consumed',1n,200);const error=Error('response lost');error.stdout=output;throw error;}};
  const adapter=await createPublicWalletAdapter(options,dependencies);const journal=new ExecutionJournal({directory,network:'test',vaultId:100,fingerprint:options.fingerprint,fee:1000000000});
  assert.equal((await executeCycle({adapter,journal})).status,'included');assert.equal(submits,1);assert.equal((await executeCycle({adapter,journal})).status,'idle');assert.equal(submits,1);
  scalar(100,'consumed',0n,200);const task=(await adapter.scan()).action,proof=await adapter.prepareSubmission(task,await adapter.prove(task));
  const recovered=new ExecutionJournal({directory:join(directory,'crash'),network:'test',vaultId:100,fingerprint:options.fingerprint,fee:1000000000});
- await recovered.locked(async()=>{await recovered.append({status:'broadcast-intent',taskId:'crashed',task,proof});await writeFile(proof.submissionLog,JSON.stringify({fullUpsVerified:true,submissionGuardVerified:true,submitted:false,marketId:1000,fingerprint:options.fingerprint,fee:1000000000,endUserLeafHash:leaf})+'\n'+JSON.stringify({status:'broadcast_intent',userId:100,nonce:2,endUserLeafHash:leaf}));});
+ await recovered.locked(async()=>{await recovered.append({status:'broadcast-intent',taskId:'crashed',task,proof});await writeFile(proof.submissionLog,JSON.stringify({callsSha256:proof.callsSha256,guardSha256:proof.guardSha256,fullUpsVerified:true,submissionGuardVerified:true,submitted:false,marketId:1000,fingerprint:options.fingerprint,fee:1000000000,endUserLeafHash:leaf})+'\n'+JSON.stringify({status:'broadcast_intent',userId:100,nonce:2,endUserLeafHash:leaf}));});
  const restarted=await createPublicWalletAdapter(options,dependencies);assert.equal((await recovered.reconcile(restarted.reconcile))[0].result.status,'included');assert.equal(submits,1);
  assert.equal(reads.at(-1).endUserLeafHash,leaf);
 }));
@@ -133,7 +136,7 @@ test('Curve graduation fixes AMM seed payer, targets, fee, minimum, deadline and
 }));
 test('an interrupted parent can release an explicit child rejection, but cannot release an incomplete proof log',()=>fixture('amm',async({options,state,order,funding,directory})=>{
  order(200,{kind:2n,x:U,y:U,z:1n});funding(200,U,U);
- const adapter=await createPublicWalletAdapter(options,{readState:async()=>state,readReceipts:async()=>async()=>assert.fail('no receipt lookup without a broadcast'),runDriver:async(_,args)=>args[0]==='identity'?{stdout:JSON.stringify({fingerprint:options.fingerprint,publicKeyHash:options.publicKeyHash})}:{stdout:JSON.stringify({fullUpsVerified:true,submissionGuardVerified:true,submitted:false,marketId:1000,fingerprint:options.fingerprint,fee:1000000000})}});
+ const adapter=await createPublicWalletAdapter(options,{readState:async()=>state,readReceipts:async()=>async()=>assert.fail('no receipt lookup without a broadcast'),runDriver:async(_,args)=>args[0]==='identity'?{stdout:JSON.stringify({fingerprint:options.fingerprint,publicKeyHash:options.publicKeyHash})}:{stdout:JSON.stringify({...await requestDigests(args),fullUpsVerified:true,submissionGuardVerified:true,submitted:false,marketId:1000,fingerprint:options.fingerprint,fee:1000000000})}});
  const task=(await adapter.scan()).action,proof=await adapter.prepareSubmission(task,await adapter.prove(task)),journal=new ExecutionJournal({directory:join(directory,'restart'),network:'test',vaultId:100,fingerprint:options.fingerprint});
  await journal.locked(()=>journal.append({status:'broadcast-intent',taskId:'interrupted',task,proof}));
  const redirected=proof.submissionLog.replace('.submission-', '.submission-../other.submission-');await assert.rejects(adapter.reconcile({task,proof:{...proof,submissionLog:redirected}}),/log binding/);
@@ -158,7 +161,7 @@ test('market, each token and PSY root changes stop a direct submission before th
  const original=state.contractLeaf;let changedId=-1,changedField='code_root',submits=0;
  state.contractLeaf=async id=>({...await original(id),...(id===changedId?{[changedField]:changedField==='state_tree_height'?30:'f'.repeat(64)}:{})});
  const adapter=await createPublicWalletAdapter(options,{readState:async()=>state,readReceipts:async()=>async()=>({status:'unresolved'}),
-  runDriver:async(_,args)=>args[0]==='identity'?{stdout:JSON.stringify({fingerprint:options.fingerprint,publicKeyHash:options.publicKeyHash})}:{stdout:JSON.stringify({fullUpsVerified:true,submissionGuardVerified:true,submitted:false,marketId:1000,fingerprint:options.fingerprint,fee:1000000000})},
+  runDriver:async(_,args)=>args[0]==='identity'?{stdout:JSON.stringify({fingerprint:options.fingerprint,publicKeyHash:options.publicKeyHash})}:{stdout:JSON.stringify({...await requestDigests(args),fullUpsVerified:true,submissionGuardVerified:true,submitted:false,marketId:1000,fingerprint:options.fingerprint,fee:1000000000})},
   submitDriver:async()=>{submits++;assert.fail('changed root must not reach submission');}});
  const task=(await adapter.scan()).action,proof=await adapter.prepareSubmission(task,await adapter.prove(task));
  for(const id of [0,42,43,1000])for(const field of ['code_root','state_layout_root','state_tree_height']){
@@ -173,7 +176,7 @@ test('input replacement during the preflight prevents caching a proof and future
   assert.equal(args[0],'guarded-preflight');const guard=JSON.parse(await readFile(args[4],'utf8'));
   assert.deepEqual(guard.contracts.map(c=>c.contractId),[0,42,43,1000]);
   await writeFile(options.policy,(await readFile(options.policy,'utf8'))+'\n');calls++;
-  return {stdout:JSON.stringify({fullUpsVerified:true,submissionGuardVerified:true,submitted:false,marketId:1000,fingerprint:options.fingerprint,fee:1000000000})};
+  return {stdout:JSON.stringify({...await requestDigests(args),fullUpsVerified:true,submissionGuardVerified:true,submitted:false,marketId:1000,fingerprint:options.fingerprint,fee:1000000000})};
  }});
  const task=(await adapter.scan()).action;await assert.rejects(adapter.prove(task),/executor input changed/);assert.equal(calls,1);
  await assert.rejects(adapter.isCurrent(task),/executor input changed/);
@@ -181,12 +184,22 @@ test('input replacement during the preflight prevents caching a proof and future
 test('immediate recovery uses this attempt log when a child persisted a broadcast but returned no output',()=>fixture('amm',async({options,state,order,funding,directory})=>{
  order(200,{kind:2n,x:U,y:U,z:1n});funding(200,U,U);const leaf='e'.repeat(64);let submits=0;
  const adapter=await createPublicWalletAdapter(options,{readState:async()=>state,readReceipts:async()=>async query=>query.endUserLeafHash===leaf?{status:'included',userId:100,checkpoint:101,contentHash:'f'.repeat(64)}:{status:'unresolved'},
-  runDriver:async(_,args)=>args[0]==='identity'?{stdout:JSON.stringify({fingerprint:options.fingerprint,publicKeyHash:options.publicKeyHash})}:{stdout:JSON.stringify({fullUpsVerified:true,submissionGuardVerified:true,submitted:false,marketId:1000,fingerprint:options.fingerprint,fee:1000000000})},
+  runDriver:async(_,args)=>args[0]==='identity'?{stdout:JSON.stringify({fingerprint:options.fingerprint,publicKeyHash:options.publicKeyHash})}:{stdout:JSON.stringify({...await requestDigests(args),fullUpsVerified:true,submissionGuardVerified:true,submitted:false,marketId:1000,fingerprint:options.fingerprint,fee:1000000000})},
   submitDriver:async(_binary,args,{logFile})=>{
    assert.equal(args[0],'guarded-submit');submits++;
-   await writeFile(logFile,[{fullUpsVerified:true,submissionGuardVerified:true,submitted:false,marketId:1000,fingerprint:options.fingerprint,fee:1000000000,endUserLeafHash:leaf},{status:'broadcast_intent',userId:100,nonce:1,endUserLeafHash:leaf}].map(r=>JSON.stringify(r)).join('\n'));
+   await writeFile(logFile,[{...await requestDigests(args),fullUpsVerified:true,submissionGuardVerified:true,submitted:false,marketId:1000,fingerprint:options.fingerprint,fee:1000000000,endUserLeafHash:leaf},{status:'broadcast_intent',userId:100,nonce:1,endUserLeafHash:leaf}].map(r=>JSON.stringify(r)).join('\n'));
    throw Error('parent observed no stdout');
   }});
  const journal=new ExecutionJournal({directory,network:'test',vaultId:100,fingerprint:options.fingerprint});
  assert.equal((await executeCycle({adapter,journal})).status,'included');assert.equal(submits,1);assert.deepEqual(await journal.unresolved(),[]);
+}));
+test('a changed sealed driver cannot broadcast and a proof without request bindings is not reusable',()=>fixture('amm',async({options,state,order,funding})=>{
+ const {chmod}=await import('node:fs/promises');order(200,{kind:2n,x:U,y:U,z:1n});funding(200,U,U);let submits=0,executed;
+ const adapter=await createPublicWalletAdapter(options,{readState:async()=>state,readReceipts:async()=>async()=>({status:'unresolved'}),
+  runDriver:async(binary,args)=>{executed=binary;assert.notEqual(binary,options.wallet);return args[0]==='identity'?{stdout:JSON.stringify({fingerprint:options.fingerprint,publicKeyHash:options.publicKeyHash})}:{stdout:JSON.stringify({...await requestDigests(args),fullUpsVerified:true,submissionGuardVerified:true,submitted:false,marketId:1000,fingerprint:options.fingerprint,fee:1000000000})};},
+  submitDriver:async()=>{submits++;assert.fail('modified driver must not execute');}});
+ const task=(await adapter.scan()).action,proof=await adapter.prepareSubmission(task,await adapter.prove(task));
+ assert.equal(await adapter.validateProof(task,{...proof,requestBindingVersion:undefined}),false);
+ await chmod(executed,0o700);await writeFile(executed,'modified driver');await chmod(executed,0o500);
+ await assert.rejects(adapter.submit(task,proof),/sealed driver changed/);assert.equal(submits,0);
 }));

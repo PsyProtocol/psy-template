@@ -1,3 +1,4 @@
+pub mod proof_binding;
 pub mod submission_guard;
 pub mod policy;
 pub mod runtime;

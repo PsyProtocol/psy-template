@@ -174,6 +174,8 @@ v2 构建将市场状态写入安排在校验之后，保证自账户外部资�
 
 `npm run verify:nft-marketplace -- --config ... --evidence ... --out ...` 只读重查回执，核对发布哈希、公钥身份、实际领取、资产守恒、NFT 身份和 metadata；输出文件必须尚不存在。它要求三名实际参与者、两笔成交、一笔 NFT 撤回和两笔 FT 退款，并绑定独立验证后的广播日志。格式与失败样例见 `tests/acceptance.test.mjs`，这些测试替身本身不是链上验收。
 
+新验收要求 `version: 2`。Executor 配置必须填写已审核驱动的 `walletSha256`；每项 `sdkOperations` 增加 `guardFile`。release 列表覆盖 RPC 配置及每个 guard 文件。调用文件必须完整匹配其 policy branch，广播报告必须带与该文件和 guard 字节完全一致的 `callsSha256` / `guardSha256`。旧日志缺少这些绑定时不能补填摘要后声称新验收通过，需要匹配版本驱动重新生成证据；既有历史报告原样保留。JSON 日志仍是受信驱动的输出，不是独立签名的审计证明。
+
 应用驱动显式启用 reqwest HTTPS 支持，保留证书与域名验证。当前驱动需支持 `identity <policy.json>`；仅返回 fingerprint 的旧二进制不满足新执行器的身份检查。此修复位于应用构建配置，未修改 Node 或 MCP。
 
 工程验收通过仍不会自动设置 `productionReady: true`。独立审计、更新权限、链上代码根约束及可用性/容量边界见 [生产验收清单](../PRODUCTION_READINESS.md)。

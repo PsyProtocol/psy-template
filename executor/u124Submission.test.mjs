@@ -25,3 +25,11 @@ test('partial logs and verified proofs without a broadcast remain ambiguous',()=
   const inspected=inspectU124Submission(output,binding);assert.equal(inspected.rejected,false);assert.equal(inspected.endUserLeafHash,undefined);
  }
 });
+test('exact call and guard digests prevent evidence from another valid operation being reused',()=>{
+ const callsSha256='1'.repeat(64),guardSha256='2'.repeat(64),options={...binding,requireGuard:true,callsSha256,guardSha256};
+ const bound={...verified,submissionGuardVerified:true,callsSha256,guardSha256};
+ assert.equal(inspectU124Submission(log(bound,broadcast),options).endUserLeafHash,leaf);
+ for(const key of ['callsSha256','guardSha256'])for(const value of [undefined,'3'.repeat(64)])assert.throws(()=>inspectU124Submission(log({...bound,[key]:value},broadcast),options),new RegExp(`${key} binding`));
+ // A terminal failure before any verified proof/broadcast remains releasable.
+ assert.equal(inspectU124Submission(log(rejected),options).rejected,true);
+});

@@ -15,16 +15,24 @@ const root = process.env.NFT_MARKET_BUILD;
 if (!root || !process.env.TOKEN_WIDE_ARTIFACT) throw Error('explicit compiled fixtures required');
 const json = path => JSON.parse(readFileSync(path, 'utf8'));
 const market = json(root + '/market/compiled/abi.json'), token = json(process.env.TOKEN_WIDE_ARTIFACT).abi;
+const nft=json(root+'/nft/compilation_artifact.json').abi;
 const policy = json(root + '/market/policy.json'), config = json(root + '/market/config.json');
 const digest = value => createHash('sha256').update(value).digest('hex');
 
 function fixture() {
  const paths = {wallet: '/release/wallet', policy: '/release/policy', abi: '/release/market', driverConfig: '/release/config'};
- const options = {...paths, kind: 'nftmarket', network: 'test', contractId: 1000, vaultId: 100, fingerprint: 'a'.repeat(64), rpcConfig: 'unused',
-  users: [200, 201, 202], collection: {abi: '/release/nft'}, paymentToken: {abi: '/release/ft'}};
+ const options = {...paths, kind: 'nftmarket', network: 'test', contractId: 1000, vaultId: 100, fingerprint: 'a'.repeat(64),publicKeyHash:'b'.repeat(64),codeRoot:'c'.repeat(64),layoutRoot:'d'.repeat(64),walletSha256:digest('driver-fixture'), rpcConfig: 'unused',
+  users: [200, 201, 202], collection: {abi: '/release/nft',contractId:41,codeRoot:'e'.repeat(64),layoutRoot:'f'.repeat(64)}, paymentToken: {abi: '/release/ft',contractId:42,codeRoot:'1'.repeat(64),layoutRoot:'2'.repeat(64)}};
  const files = new Map(Object.values(paths).map(path => [path, Buffer.from('driver-fixture')]));
+ files.set(paths.policy,Buffer.from(JSON.stringify(policy)));files.set(options.rpcConfig,Buffer.from('{}'));
  files.set(paths.abi, Buffer.from(JSON.stringify(market)));files.set(paths.driverConfig, Buffer.from(JSON.stringify(config)));
- files.set(options.collection.abi, Buffer.from('{}'));files.set(options.paymentToken.abi, Buffer.from(JSON.stringify(token)));
+ files.set(options.collection.abi, Buffer.from(JSON.stringify(nft)));files.set(options.paymentToken.abi, Buffer.from(JSON.stringify(token)));
+ const guardFile='/release/guard.json';
+ const guard={version:1,network:options.network,marketId:1000,vaultId:100,fingerprint:options.fingerprint,publicKeyHash:options.publicKeyHash,contracts:[
+ {contractId:0,codeRoot:'3'.repeat(64),layoutRoot:'4'.repeat(64),stateTreeHeight:32},
+ {contractId:1000,codeRoot:options.codeRoot,layoutRoot:options.layoutRoot,stateTreeHeight:31},
+ ...[options.collection,options.paymentToken].map(a=>({contractId:a.contractId,codeRoot:a.codeRoot,layoutRoot:a.layoutRoot,stateTreeHeight:a===options.collection?30:31}))]};
+ files.set(guardFile,Buffer.from(JSON.stringify(guard)));
  const receipts = [], operations = [];
  for (const [index, kind] of ['activate', 'settle_sale', 'refund_listing', 'refund_buy', 'settle_sale', 'refund_buy'].entries()) {
   const branch = policy.branches.find(b => b.name === kind);
@@ -33,12 +41,12 @@ function fixture() {
   const submissionLog = callsFile + '.submission-00000000-0000-0000-0000-000000000000.log', leaf = digest(String(index));
   files.set(callsFile, Buffer.from(callsText));
   files.set(submissionLog, Buffer.from([
-   {fullUpsVerified: true, submitted: false, marketId: 1000, fingerprint: options.fingerprint, fee: 1000000000, endUserLeafHash: leaf},
+   {fullUpsVerified: true,submissionGuardVerified:true,callsSha256:digest(callsText),guardSha256:digest(files.get(guardFile)), submitted: false, marketId: 1000, fingerprint: options.fingerprint, fee: 1000000000, endUserLeafHash: leaf},
    {status: 'broadcast_intent', userId: 100, endUserLeafHash: leaf},
   ].map(v => JSON.stringify(v)).join('\n')));
-  operations.push({kind, callsFile, submissionLog});receipts.push({userId: 100, endUserLeafHash: leaf, contentHash: digest('content' + index), checkpoint: 90 + index});
+  operations.push({kind, callsFile, submissionLog,guardFile});receipts.push({userId: 100, endUserLeafHash: leaf, contentHash: digest('content' + index), checkpoint: 90 + index});
  }
- const evidence = {version: 1, issuerId: 200, totalFT: '100', totalNFT: '2',
+ const evidence = {version: 2, issuerId: 200, totalFT: '100', totalNFT: '2',
   users: [{userId: 200, ft: '84', nft: '2', status: 'purchased', nonce: '3', owned: [
    {slot: 0, tokenId: ['9', '10', '11', '12'], metadataHash: ['13', '14', '15', '16']},
    {slot: 1, tokenId: ['1', '2', '3', '4'], metadataHash: ['5', '6', '7', '8']} ]},
@@ -122,4 +130,25 @@ test('receipt snapshot reuses historical leaves but rechecks a pending receipt',
   assert.equal((await read({userId:123,endUserLeafHash:leaf(102)})).status,'included');
   assert.equal(calls.get('list'),1);assert.equal(calls.get('leaf101'),1);assert.equal(calls.get('leaf102'),1);assert.equal(calls.get('receipt101'),2);
  } finally {await rm(directory,{recursive:true,force:true});}
+});
+function reseal(f){f.evidence.release=[...f.files].map(([path,bytes])=>({path,sha256:digest(bytes)}));}
+test('swapping two valid same-branch broadcast logs cannot fabricate operation coverage',async()=>{
+ const f=fixture(),first=f.evidence.sdkOperations[1],second=f.evidence.sdkOperations[4];
+ const bytes=f.files.get(first.submissionLog);f.files.set(first.submissionLog,f.files.get(second.submissionLog));f.files.set(second.submissionLog,bytes);reseal(f);
+ await assert.rejects(verifyAcceptance(f.options,f.evidence,f.dependencies),/callsSha256 binding/);
+});
+test('non-guard calls, witnesses and extra call fields must all match the full policy',async()=>{
+ const {parseLosslessJson}=await import('../../amm/u124/client.mjs');
+ for(const mutate of [r=>{r.contract_calls[7].inputs[0]=999n;},r=>{r.software_defined_call.inputs[2]=999n;},r=>{r.contract_calls[8].ignorePolicy=true;}]){
+  const f=fixture(),operation=f.evidence.sdkOperations[1],r=parseLosslessJson(String(f.files.get(operation.callsFile)));mutate(r);
+  const text=losslessJson(r),callsFile='/calls/'+digest(text)+'.json',submissionLog=callsFile+'.submission-00000000-0000-0000-0000-000000000000.log';
+  f.files.set(callsFile,Buffer.from(text));f.files.set(submissionLog,f.files.get(operation.submissionLog));Object.assign(operation,{callsFile,submissionLog});reseal(f);
+  await assert.rejects(verifyAcceptance(f.options,f.evidence,f.dependencies),/full registered policy/);
+ }
+});
+test('legacy evidence, unreviewed drivers and substituted guard roots cannot pass the new gate',async()=>{
+ let f=fixture();f.evidence.version=1;await assert.rejects(verifyAcceptance(f.options,f.evidence,f.dependencies),/version 2/);
+ f=fixture();f.options.walletSha256='0'.repeat(64);await assert.rejects(verifyAcceptance(f.options,f.evidence,f.dependencies),/unreviewed acceptance driver/);
+ f=fixture();const guardFile=f.evidence.sdkOperations[0].guardFile,guard=JSON.parse(f.files.get(guardFile));guard.contracts.find(c=>c.contractId===1000).codeRoot='0'.repeat(64);f.files.set(guardFile,Buffer.from(JSON.stringify(guard)));reseal(f);
+ await assert.rejects(verifyAcceptance(f.options,f.evidence,f.dependencies));
 });
