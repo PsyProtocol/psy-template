@@ -36,6 +36,11 @@ Failure of settlement leaves the committed batch available for retry. After its
 expiry, an expire UPS permits a new snapshot; unclaimed user funds remain intact.
 Historical checkpoint proofs mean a late cancellation cannot revoke an already
 frozen order or guarantee that cancellation wins the vault-state race.
+In V2, an order `deadline` is its eligibility cutoff for admission into a batch.
+An order admitted before that deadline stays bound until the batch expiry;
+passing the order deadline after commitment does not undo its acceptance.
+`batch_expiry` bounds the settlement proof checkpoint. Neither bound promises
+an absolute wall-clock inclusion deadline under historical checkpoint proofs.
 
 ## Build (offline, fresh directories)
 

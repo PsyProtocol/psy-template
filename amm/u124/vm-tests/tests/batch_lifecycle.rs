@@ -27,7 +27,8 @@ impl World{
   Ok(w)
  }
  fn set(&mut self,u:u64,c:u64,o:u64,n:u64){self.state.set_slot(u,c,o,n);self.slots.insert((u,c,o),n);}
- fn run(&mut self,u:u64,c:u64,name:&str,input:&[u64])->Result<()>{let mut vm=VmExecutor::new(self.state.clone());let d=self.methods.get(&(c,name.into())).ok_or_else(||anyhow::anyhow!("missing {name}"))?;let r=vm.execute(d,&ExecutionContext{user_id:u,contract_id:c,caller_contract_id:DEFAULT_CALLER_CONTRACT_ID_U64,checkpoint_id:self.checkpoint,nonce:self.revision+1,user_public_key_hash:[0;4]},input)?;if !r.success{bail!("{name}: {}",r.failure.unwrap().message);}let writes=vm.write_overlay();self.state.apply_overlay(writes);self.slots.extend(writes.iter().map(|(k,v)|(*k,*v)));self.state.apply_imt_overlay(vm.imt_write_overlay());Ok(())}
+ fn run(&mut self,u:u64,c:u64,name:&str,input:&[u64])->Result<()>{self.run_traced(u,c,name,input).map(|_|())}
+ fn run_traced(&mut self,u:u64,c:u64,name:&str,input:&[u64])->Result<Vec<(u64,u64,u64)>>{let mut vm=VmExecutor::new(self.state.clone());let d=self.methods.get(&(c,name.into())).ok_or_else(||anyhow::anyhow!("missing {name}"))?;let r=vm.execute(d,&ExecutionContext{user_id:u,contract_id:c,caller_contract_id:DEFAULT_CALLER_CONTRACT_ID_U64,checkpoint_id:self.checkpoint,nonce:self.revision+1,user_public_key_hash:[0;4]},input)?;if !r.success{bail!("{name}: {}",r.failure.unwrap().message);}let writes=vm.write_overlay();self.state.apply_overlay(writes);self.slots.extend(writes.iter().map(|(k,v)|(*k,*v)));self.state.apply_imt_overlay(vm.imt_write_overlay());Ok(writes.keys().copied().collect())}
  fn val(&self,u:u64,f:&str,i:u64)->u64{self.state.get_contract_slot(u,M,self.fields[f]+i).unwrap()}
  fn wide(&self,u:u64,f:&str)->u128{self.val(u,f,0)as u128+R*self.val(u,f,1)as u128}
  fn balance(&self,u:u64,c:u64)->u128{self.state.get_contract_slot(u,c,0).unwrap()as u128+R*self.state.get_contract_slot(u,c,1).unwrap()as u128}
@@ -183,4 +184,15 @@ fn independent_vaults_settle_concurrently_without_losing_either_partition()->Res
   ensure!(current.val(vault,"batch_phase",0)==1&&current.val(vault,"batch_id",0)==batch&&(0..4).map(|i|current.val(vault,"batch_root",i)).collect::<Vec<_>>()==root,"vault anchor changed");
   for ((u,c,o),value) in candidate.slots{if u==vault{current.set(u,c,o,value);}}current.revision+=1;Ok(())
  }));}for job in jobs{job.join().unwrap()?;}let w=shared.lock().unwrap();for vault in [V,other]{assert_eq!(w.val(vault,"batch_phase",0),3);assert_eq!(w.val(vault,"reserve_a",0),pair(n+input)[0]);}Ok(())
+}
+
+#[test]
+fn sparse_maximum_user_ids_fit_the_refund_fee_budget()->Result<()>{
+ use std::collections::BTreeSet;let mut w=World::new("nftmarket")?;let users=[1_000_001,8_388_607,12_345_679,16_777_214];let seed=10u128.pow(24);let mut ops=vec![];
+ for (i,u) in users.into_iter().enumerate(){w.set(u,0,0,1000*F);w.run(I,A,"transfer",&args(&[u],&[seed],&[]))?;w.run(u,A,"claim",&[I])?;w.give_nft(u,0,4+i as u64)?;
+  w.run(u,NFT,"acknowledge",&[V])?;w.run(u,M,"open_listing",&args(&[V,0],&[seed],&[200,1]))?;w.fee(u)?;w.pay(u,A,17)?;w.run(u,NFT,"transfer",&[0,V])?;
+  ops.push(w.fields("refund_funding_13",u,0,17,0,0,F,1,0));
+ }w.commit(&users)?;let mut touched=BTreeSet::new();for call in expected_calls(&w.policy,&w.request(2,ops,[0;4]))?{let input=call["inputs"].as_array().unwrap().iter().map(|v|v.as_u64().unwrap()).collect::<Vec<_>>();for (u,c,o) in w.run_traced(V,call["contract_id"].as_u64().unwrap(),call["method_name"].as_str().unwrap(),&input)?{if u==V{touched.insert((c,o/4));}}}
+ assert_eq!(w.val(V,"batch_phase",0),3);ensure!(touched.len()<=100,"sparse recipients exceed burn policy budget: {}",touched.len());println!("SPARSE_REFUND positional_leaves={} policy_max=100",touched.len());
+ for u in users{w.run(u,A,"claim",&[V])?;w.run(u,NFT,"claim",&[0,V])?;w.run(u,0,"simple_claim",&[V])?;assert_eq!(w.balance(u,A),seed);assert_eq!(w.state.get_contract_slot(u,0,0)?,1000*F);assert_eq!(w.val(V,"consumed",u),1);}Ok(())
 }
