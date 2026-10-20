@@ -1,0 +1,27 @@
+
+running 23 tests
+test admission::admitted_cancellation_and_empty_epoch_recovery ... ignored, requires distinct admission fixtures
+test admission::authenticated_admission_four_markets_omission_forgery_root_and_recovery ... ignored, requires distinct admission fixtures
+test amm_two_orders_recompute_shared_reserves_and_reject_reordering_omission_replay ... ok
+test book_priority_is_enforced_by_bytecode_not_matcher_input_order ... ok
+test cancelled_book_fee_returns_to_sender_and_active_order_cannot_use_recovery ... ok
+test canonical_commitment_bounds_and_forged_root_are_rejected ... ok
+test closed_listing_reference_allows_late_buyer_refund ... ok
+test commit_sponsorship_cannot_be_spent_as_maintenance ... ok
+test committed_cancellation_boundary_and_expiry_recovery_are_explicit ... ok
+test curve_limit_batch_uses_progressive_price_and_refunds_change ... ok
+test eight_workers_settlement_and_cancellation_have_one_vault_winner ... ok
+test first_and_middle_call_failures_discard_candidate_overlay ... ok
+test four_member_amm_and_curve_require_all_ordered_results ... ok
+test four_sparse_dual_asset_refunds_fit_commit_and_settlement_budgets ... ok
+test independent_vaults_settle_concurrently_without_losing_either_partition ... ok
+test late_funding_cannot_change_frozen_eligibility ... ok
+test nft_competing_buyers_have_one_winner_and_loser_refund ... ok
+test nft_partial_fee_listing_refund_returns_the_same_nft ... ok
+test partial_excess_and_wrong_asset_funding_return_only_to_original_payer ... ok
+test settlement_tail_failure_restores_all_four_markets_without_refreezing ... ok
+test sparse_maximum_user_ids_fit_the_refund_fee_budget ... ok
+test unsolicited_funding_recovery_and_sponsor_consent_are_enforced ... ok
+test wrong_and_excess_nft_deposits_return_actual_fifo_assets ... ok
+
+test result: ok. 21 passed; 0 failed; 2 ignored; 0 measured; 5 filtered out; finished in 30.15s

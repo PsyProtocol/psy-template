@@ -15,7 +15,7 @@ use psy_dpn_circuit::circuits::cfc::DapenContractFunctionCircuit;
 use psy_ups_circuit::{circuit_manager::core::PsyUPSStepCircuitManager,session::UserProvingSessionManager,signature::sd_key::get_sd_key_public_key_param};
 use psy_vm::{ups::{circuit_manager::UPSCircuitManager,sd_key::{SDKeyCircuitWitnessInput,SDKeySessionContext}},dpn::{contract::{dapen_fc_to_cfc_code_definition,hash_dpn_function},vm::def::DPNFunctionCircuitDefinition}};
 use psy_config::{PSY_NETWORK_MAGIC,DA_FEE,network_constants::GUTA_FEE};
-use psy_template_u124_markets::{batch_policy,proof_binding::validate_endcap_binding};
+use psy_template_u124_markets::{batch_compact,batch_policy,proof_binding::validate_endcap_binding};
 use serde_json::{Value,json};
 use psy_client_data::{config::store_config::{ContractFunctionTreeStore,UserRegistrationTreeStore},models::kvq_merkle::model::{KVQSemiFixedConfigMerkleTreeModelReaderCore,KVQFixedConfigMerkleTreeModelCore},qstore::imm::{cache::PsyCmdStoreWithCache,cmd::{QSRMerkleCmd,QSRMerkleCmdGetContractFunctionTreeMerkleProof}}};
 use psy_client_data::qblock::cmds::deploy_contract::get_code_root_by_code_hashes;
@@ -36,9 +36,9 @@ db.set_contract_leaf_data(cp,cid,&leaf)?;db.set_contract_tree_leaf_hash(cp,cid,l
  let roots=db.get_checkpoint_global_state_roots(cp).await?;let leaf=PsyCheckpointLeaf{global_chain_root:roots.qfhash::<PoseidonHash>(),stats:PsyCheckpointLeafStats::new_empty()};db.set_checkpoint_leaf_data(cp,&leaf)?;db.set_checkpoint_tree_leaf_hash(cp,leaf.qfhash::<PoseidonHash>())?;
  let lps=PsyLocalProvingSessionStore::new_at(db,f(cp),f(V),f(w.revision+1),GF::ZERO,16);let cm=PsyUPSStepCircuitManager::<C,2>::new_with_config(PSY_NETWORK_MAGIC);let mut info=SessionCircuitInfoStore::new();cm.register_info(&mut info).await;let mut session=Manager::new(lps,info,cm.ups_circuit_whitelist_root).await?;session.prove_ups_start(&cm).await?;let def=&w.methods[&(M,"commit_batch".into())];let mut values=vec![0;12];values[0..participants.len()].copy_from_slice(&participants);for(i,u)in participants.iter().enumerate(){values[4+i]=w.val(*u,"nonce",0);}values[8]=participants.len()as u64;values[9]=w.val(V,"batch_id",0)+1;values[10]=cp+20;values[11]=S;let input=values.into_iter().map(f).collect();let witness=session.exec_contract_call(f(M),def,input).await?;if let Ok(dir)=std::env::var("BATCH_CFC_DIAGNOSTICS"){fs::create_dir_all(&dir)?;fs::write(format!("{dir}/input.json"),serde_json::to_vec_pretty(&witness)?)?;}let circuit=DapenContractFunctionCircuit::<C,2>::new(def,31,16,false);let proof=circuit.prove_base(&witness)?;circuit.minifier_chain.verify(proof)?;Ok(())
 }
-struct Chain {cm:PsyUPSStepCircuitManager<C,2>,key:psy_ups_circuit::signature::sd_key::SDKeyCircuitGadget,code:BTreeMap<u64,ContractCodeDefinition>,leaves:BTreeMap<u64,PsyContractLeaf<GF>>,whitelists:BTreeMap<u64,Vec<QHashOut<GF>>>,last_leaf:Option<PsyUserLeaf<GF>>,measurements:Vec<Value>}
+struct Chain {compact:bool,cm:PsyUPSStepCircuitManager<C,2>,key:psy_ups_circuit::signature::sd_key::SDKeyCircuitGadget,code:BTreeMap<u64,ContractCodeDefinition>,leaves:BTreeMap<u64,PsyContractLeaf<GF>>,whitelists:BTreeMap<u64,Vec<QHashOut<GF>>>,last_leaf:Option<PsyUserLeaf<GF>>,measurements:Vec<Value>}
 impl Chain{
- fn new(w:&World,needed:&[Value])->Result<Self>{let started=Instant::now();let cm=PsyUPSStepCircuitManager::<C,2>::new_with_config(PSY_NETWORK_MAGIC);let key=batch_policy::build(&w.policy)?;let root=std::env::var("BATCH_BUILD")?;let mut code=BTreeMap::new();let mut leaves=BTreeMap::new();let mut whitelists=BTreeMap::new();
+ fn new(w:&World,needed:&[Value])->Result<Self>{let started=Instant::now();let cm=PsyUPSStepCircuitManager::<C,2>::new_with_config(PSY_NETWORK_MAGIC);let profile=std::env::var("BATCH_PROOF_PROFILE").unwrap_or_else(|_|"fixed40".into());ensure!(["fixed40","compact-v1"].contains(&profile.as_str()),"known proof profile");let compact=profile=="compact-v1";let key=if compact{batch_compact::build(&w.policy)?}else{batch_policy::build(&w.policy)?};let root=std::env::var("BATCH_BUILD")?;let mut code=BTreeMap::new();let mut leaves=BTreeMap::new();let mut whitelists=BTreeMap::new();
   // Identical FT artifacts share verifier construction. Every function is
   // represented in the code root and whitelist, including unused functions.
   let needed_names=needed.iter().map(|c|c["method_name"].as_str().unwrap().to_owned()).collect::<BTreeSet<_>>();
@@ -59,7 +59,7 @@ impl Chain{
    code.insert(cid,ContractCodeDefinition{state_tree_height:height as u16,functions:defs.iter().map(dapen_fc_to_cfc_code_definition).collect()});leaves.insert(cid,leaf);whitelists.insert(cid,wl.clone());
   }
   let measured=json!({"phase":"cold-circuit-build","elapsedMs":started.elapsed().as_secs_f64()*1000.});println!("FULL_UPS {} {measured}",w.kind);
-  Ok(Self{cm,key,code,leaves,whitelists,last_leaf:None,measurements:vec![measured]})
+  Ok(Self{compact,cm,key,code,leaves,whitelists,last_leaf:None,measurements:vec![measured]})
  }
  async fn seed(&self,w:&World)->Result<Store>{let db=Store::new();let cp=w.checkpoint;
   for(cid,code)in &self.code{db.set_contract_code_definition(cp,*cid,code)?;let mut leaf=self.leaves[cid];leaf.function_tree_root=db.set_contract_function_whitelist(cp,*cid,&self.whitelists[cid])?;db.set_contract_leaf_data(cp,*cid,&leaf)?;db.set_contract_tree_leaf_hash(cp,*cid,leaf.qfhash::<PoseidonHash>())?;}
@@ -83,13 +83,20 @@ impl Chain{
   cache.cache.merkle_cmd_cache.insert(QSRMerkleCmd::GetContractFunctionTreeMerkleProof(QSRMerkleCmdGetContractFunctionTreeMerkleProof{checkpoint_id:w.checkpoint,contract_id:*cid as u32,function_id:index}),proof);}}
   let mut lps=PsyLocalProvingSessionStore::new_at_with_cmd_store(cache,f(w.checkpoint),f(V),nonce,start_leaf.event_index,16);lps.set_is_new_user(fresh);let mut info=SessionCircuitInfoStore::new();self.cm.register_info(&mut info).await;
   let mut session=Manager::new(lps,info,self.cm.ups_circuit_whitelist_root).await?;session.prove_ups_start(&self.cm).await?;
-  let start_ms=stage.elapsed().as_secs_f64()*1000.;let calls=batch_policy::expected_calls(&w.policy,&fields)?;let mut steps=vec![];
-  for (i,c)in calls.iter().take(39).enumerate(){let t=Instant::now();let cid=c["contract_id"].as_u64().unwrap();let name=c["method_name"].as_str().unwrap();let code=&self.code[&cid];let(index,def)=self.cm.resolve_contract_function_by_method_name(cid,code,name.into()).await?;let inputs=c["inputs"].as_array().unwrap().iter().map(|v|f(v.as_u64().unwrap())).collect();session.prove_standard_call(&self.cm,f(cid),index as u32,&def,inputs).await.with_context(||format!("UPS call {i}: {cid}/{name}"))?;println!("UPS_STEP {} mode {} call {} {}: {:.1}ms",w.kind,mode,i,name,t.elapsed().as_secs_f64()*1000.);steps.push(json!({"index":i,"contract":cid,"method":name,"ms":t.elapsed().as_secs_f64()*1000.}));}
+  let start_ms=stage.elapsed().as_secs_f64()*1000.;let calls=if self.compact{batch_compact::calls(&w.policy,&fields)?}else{batch_policy::expected_calls(&w.policy,&fields)?};let count=calls.len();let mut steps=vec![];
+  for (i,c)in calls.iter().take(count-1).enumerate(){let t=Instant::now();let cid=c["contract_id"].as_u64().unwrap();let name=c["method_name"].as_str().unwrap();let code=&self.code[&cid];let(index,def)=self.cm.resolve_contract_function_by_method_name(cid,code,name.into()).await?;let inputs=c["inputs"].as_array().unwrap().iter().map(|v|f(v.as_u64().unwrap())).collect();session.prove_standard_call(&self.cm,f(cid),index as u32,&def,inputs).await.with_context(||format!("UPS call {i}: {cid}/{name}"))?;println!("UPS_STEP {} mode {} call {} {}: {:.1}ms",w.kind,mode,i,name,t.elapsed().as_secs_f64()*1000.);steps.push(json!({"index":i,"contract":cid,"method":name,"ms":t.elapsed().as_secs_f64()*1000.}));}
   let stage=Instant::now();session.prove_burn_fee(&self.cm).await?;let burn=session.require_lps()?.last_transaction_record().call_data.call_data.inputs[0].to_canonical_u64();ensure!((1_000_000_000..=ESCROW).contains(&burn),"batch exceeds sponsor policy budget");fields[73]=burn;let burn_ms=stage.elapsed().as_secs_f64()*1000.;let stage=Instant::now();
-  let h=*session.get_current_ups_header();ensure!(h.current_state.tx_count==f(40),"whole-stack count");let input=SDKeyCircuitWitnessInput{session_context:SDKeySessionContext{start_user_leaf_hash:h.session_start_context.start_session_user_leaf.qfhash::<PoseidonHash>(),checkpoint_leaf_hash:h.session_start_context.checkpoint_leaf_hash,checkpoint_tree_root:h.session_start_context.checkpoint_tree_root,current_user_leaf:h.current_state.user_leaf,nonce},circuit_inputs:fields.iter().copied().map(f).collect(),transaction_infos:session.sd_key_transaction_infos(),tx_stack_hash:h.current_state.tx_hash_stack,tx_count:f(40),state_reader_results:None,secp256k1_slots:vec![],checkpoint_id:f(w.checkpoint),user_id:f(V)};
+  let h=*session.get_current_ups_header();ensure!(h.current_state.tx_count==f(count as u64),"whole-stack count");
+  let actual_infos=session.sd_key_transaction_infos();
+  let infos=if self.compact{
+   let logical=batch_policy::expected_calls(&w.policy,&fields)?;
+   let expanded=logical.iter().map(|c|{let cid=c["contract_id"].as_u64().unwrap();let name=c["method_name"].as_str().unwrap();let def=&w.methods[&(cid,name.into())];let inputs=c["inputs"].as_array().unwrap().iter().map(|v|f(v.as_u64().unwrap())).collect::<Vec<_>>();psy_client_data::dpn::proving_session::DPNProvingSessionCompactMethodCall::new_from_inputs::<PoseidonHash>(f(psy_config::network_constants::DEFAULT_CALLER_CONTRACT_ID_U64),f(cid),f(def.method_id as u64),&inputs).into()}).collect::<Vec<psy_client_data::dpn::sd_key::SDKeyTransactionInfo<GF>>>();
+   let selected=expanded.iter().filter(|c|c.contract_id!=f(w.policy["noop"]["contract_id"].as_u64().unwrap())||c.method_id!=f(w.policy["noop"]["method_id"].as_u64().unwrap())).copied().collect::<Vec<_>>();
+   ensure!(selected.len()==actual_infos.len()&&psy_ups_circuit::signature::sd_key::compute_tx_stack_hash(&selected)==psy_ups_circuit::signature::sd_key::compute_tx_stack_hash(&actual_infos),"compact actual call sequence");expanded
+  }else{actual_infos};let input=SDKeyCircuitWitnessInput{session_context:SDKeySessionContext{start_user_leaf_hash:h.session_start_context.start_session_user_leaf.qfhash::<PoseidonHash>(),checkpoint_leaf_hash:h.session_start_context.checkpoint_leaf_hash,checkpoint_tree_root:h.session_start_context.checkpoint_tree_root,current_user_leaf:h.current_state.user_leaf,nonce},circuit_inputs:fields.iter().copied().map(f).collect(),transaction_infos:infos,tx_stack_hash:h.current_state.tx_hash_stack,tx_count:f(count as u64),state_reader_results:None,secp256k1_slots:vec![],checkpoint_id:f(w.checkpoint),user_id:f(V)};
   let sig=self.key.prove(QHashOut(HashOut{elements:[GF::ONE;4]}),&input,session.get_sighash(PSY_NETWORK_MAGIC,nonce)).await?;let sign_ms=stage.elapsed().as_secs_f64()*1000.;let stage=Instant::now();let slots=session.require_lps()?.get_total_slots_modified();let param=get_sd_key_public_key_param(&QHashOut(HashOut{elements:[GF::ONE;4]}));let proof=session.prove_end_cap(&self.cm,PSY_NETWORK_MAGIC,nonce,slots,self.key.get_fingerprint(),param,sig,self.key.minifier_chain.as_ref().unwrap().get_verifier_data().clone()).await?;
   self.cm.ups_end_cap.verify_proof(proof.clone())?;let end=session.get_current_ups_header().current_state.user_leaf;
-  let core=SubmitUserEndCapNonProofCoreInput{checkpoint_id:f(w.checkpoint),stats:GUTAStats{guta_fees_collected:f(GUTA_FEE),da_fees_collected:f(DA_FEE)*slots,user_ops_processed:GF::ONE,total_transactions:f(40),slots_modified:slots},state_transition:UPSEndCapResultCompact{start_user_leaf_hash:if fresh{QHashOut::ZERO}else{start_leaf.qfhash::<PoseidonHash>()},end_user_leaf_hash:end.qfhash::<PoseidonHash>(),checkpoint_tree_root_hash:h.session_start_context.checkpoint_tree_root,user_id:f(V)},new_user_leaf:end};validate_endcap_binding(&core,&proof.public_inputs)?;
+  let core=SubmitUserEndCapNonProofCoreInput{checkpoint_id:f(w.checkpoint),stats:GUTAStats{guta_fees_collected:f(GUTA_FEE),da_fees_collected:f(DA_FEE)*slots,user_ops_processed:GF::ONE,total_transactions:f(count as u64),slots_modified:slots},state_transition:UPSEndCapResultCompact{start_user_leaf_hash:if fresh{QHashOut::ZERO}else{start_leaf.qfhash::<PoseidonHash>()},end_user_leaf_hash:end.qfhash::<PoseidonHash>(),checkpoint_tree_root_hash:h.session_start_context.checkpoint_tree_root,user_id:f(V)},new_user_leaf:end};validate_endcap_binding(&core,&proof.public_inputs)?;
   let mut altered=core;altered.new_user_leaf.nonce+=GF::ONE;ensure!(validate_endcap_binding(&altered,&proof.public_inputs).is_err(),"metadata substitution accepted");let endcap_ms=stage.elapsed().as_secs_f64()*1000.;let stage=Instant::now();
   // Compare all actual writes to an independently executed VM reference, then
   // carry the proven leaf and values forward to the next synthetic checkpoint.
@@ -97,7 +104,7 @@ impl Chain{
   let (updates,charged_slots)=session.require_lps_mut()?.get_all_state_updates().await?;ensure!(charged_slots as u64==slots.to_canonical_u64(),"export fee slot count");let mut exported_root=start_leaf.user_state_tree_root;
   for update in &updates{ensure!(update.user_contract_tree_update_proof.verify::<PoseidonHash>(),"export user contract Merkle path");ensure!(update.user_contract_tree_update_proof.old_root==exported_root,"export starts at proven root");exported_root=update.user_contract_tree_update_proof.new_root;for change in &update.contract_state_tree_updates{match change{psy_client_data::guta::api::ContractStateUpdate::Positional{delta_proof}=>ensure!(delta_proof.verify::<PoseidonHash>(),"export slot Merkle path"),_=>anyhow::bail!("unexpected IMT in positional markets")}}}
   ensure!(exported_root==end.user_state_tree_root,"export ends at proven root");
-  let delta_ms=stage.elapsed().as_secs_f64()*1000.;let elapsed=started.elapsed().as_secs_f64()*1000.;let row=json!({"phase":if mode==1{"commit"}else if mode==2{"settle"}else if mode==3{"expire"}else{"maintenance"},"elapsedMs":elapsed,"proofBytes":bincode::serialize(&proof)?.len(),"slotsModified":slots.to_canonical_u64(),"burn":burn,"startLeaf":if fresh{QHashOut::<GF>::ZERO.to_string()}else{start_leaf.qfhash::<PoseidonHash>().to_string()},"firstUpsRegistration":fresh,"endLeaf":end.qfhash::<PoseidonHash>().to_string(),"fullUpsVerified":true,"publicEndpointsBound":true,"exportedDeltasVerified":true,"calls":40,"steps":steps,"overheadStagesMs":{"seedState":seed_ms,"sessionStart":start_ms,"burn":burn_ms,"sdKeySign":sign_ms,"endcapProveAndVerify":endcap_ms,"stateDeltaChecks":delta_ms},"broadcast":false});println!("FULL_UPS {} {}ms",w.kind,elapsed);self.measurements.push(row);self.last_leaf=Some(end);expected.checkpoint+=1;*w=expected;Ok(())
+  let delta_ms=stage.elapsed().as_secs_f64()*1000.;let elapsed=started.elapsed().as_secs_f64()*1000.;let row=json!({"phase":if mode==1{"commit"}else if mode==2{"settle"}else if mode==3{"expire"}else{"maintenance"},"elapsedMs":elapsed,"proofBytes":bincode::serialize(&proof)?.len(),"slotsModified":slots.to_canonical_u64(),"burn":burn,"startLeaf":if fresh{QHashOut::<GF>::ZERO.to_string()}else{start_leaf.qfhash::<PoseidonHash>().to_string()},"firstUpsRegistration":fresh,"endLeaf":end.qfhash::<PoseidonHash>().to_string(),"fullUpsVerified":true,"publicEndpointsBound":true,"exportedDeltasVerified":true,"profile":if self.compact{"compact-v1"}else{"fixed40"},"endStateRoot":end.user_state_tree_root.to_string(),"logicalSlots":40,"calls":count,"steps":steps,"overheadStagesMs":{"seedState":seed_ms,"sessionStart":start_ms,"burn":burn_ms,"sdKeySign":sign_ms,"endcapProveAndVerify":endcap_ms,"stateDeltaChecks":delta_ms},"broadcast":false});println!("FULL_UPS {} {}ms",w.kind,elapsed);self.measurements.push(row);self.last_leaf=Some(end);expected.checkpoint+=1;*w=expected;Ok(())
  }
 }
 
@@ -123,6 +130,7 @@ async fn full_ups_four_market_commit_and_settle_proofs()->Result<()>{let out=std
   let size=std::env::var("BATCH_FULL_UPS_SIZE").unwrap_or_else(|_|"2".into()).parse::<usize>()?;
   let (mut w,mut users,mut ops,rank)=trading_setup_size(kind,size)?;
   if size==1{ops.truncate(1);users=match kind{"orderbook"=>vec![200,202],"nftmarket"=>vec![200,201],_=>users};}
+  if std::env::var("BATCH_ADMISSION_TEST").as_deref()==Ok("1"){super::admission::enroll(&mut w,&users)?;}
   w.run(S,M,"authorize_sponsor",&[V,2*ESCROW,w.val(S,"sponsor_nonce",0)+1,1])?;w.run(S,0,"simple_transfer",&[V,2*ESCROW])?;let mut f=vec![0;74];f[0]=1;f[1]=w.val(V,"batch_id",0)+1;f[2]=users.len()as u64;f[3]=w.checkpoint+20;f[4]=S;f[73]=ESCROW;for(i,u)in users.iter().enumerate(){f[5+i]=*u;f[9+i]=w.val(*u,"nonce",0);}
   let mut needed=batch_policy::expected_calls(&w.policy,&f)?;needed.extend(batch_policy::expected_calls(&w.policy,&w.request(2,ops.clone(),rank))?);let mut chain=Chain::new(&w,&needed)?;chain.prove(&mut w,f).await?;let settle=w.request(2,ops,rank);chain.prove(&mut w,settle).await?;ensure!(w.val(V,"batch_phase",0)==3,"batch terminal phase");fs::write(format!("{out}/{kind}.json"),serde_json::to_vec_pretty(&json!({"market":kind,"scope":"authenticated synthetic checkpoints, full UPS; no coordinator","measurements":chain.measurements,"broadcast":false,"fills":size,"members":users.len(),"chainTps":null}))?)?;
  }Ok(())}
@@ -154,6 +162,7 @@ async fn full_ups_expire_refreeze_and_refund_four_markets()->Result<()>{
   let size=if ["amm","bondingcurve"].contains(&kind){4}else{2};
   let(mut w,users,ops,rank)=trading_setup_size(kind,size)?;
   let commit_fields=|w:&mut World|->Result<Vec<u64>>{
+   if std::env::var("BATCH_ADMISSION_TEST").as_deref()==Ok("1")&&w.val(V,"queue_phase",0)!=2{super::admission::enroll(w,&users)?;}
    w.run(S,M,"authorize_sponsor",&[V,2*ESCROW,w.val(S,"sponsor_nonce",0)+1,1])?;w.run(S,0,"simple_transfer",&[V,2*ESCROW])?;
    let mut f=vec![0;74];f[0]=1;f[1]=w.val(V,"batch_id",0)+1;f[2]=users.len()as u64;f[3]=w.checkpoint+20;f[4]=S;f[73]=ESCROW;
    for(i,u)in users.iter().enumerate(){f[5+i]=*u;f[9+i]=w.val(*u,"nonce",0);}Ok(f)
@@ -189,6 +198,35 @@ async fn full_ups_expire_refreeze_and_refund_four_markets()->Result<()>{
   let terminal=w.slots.clone();ensure!(w.execute(&w.request(2,vec![],rank)).is_err()&&w.slots==terminal,"terminal replay accepted");
   check_refund_claims(&mut w,&users,&expected)?;
   fs::write(format!("{out}/{kind}-recovery.json"),serde_json::to_vec_pretty(&json!({"market":kind,"members":users.len(),"scope":"linked synthetic commit, expire, recommit, refund UPS proofs; ordinary cancel and recipient claim VM only","measurements":chain.measurements,"prematureExpiryRejected":true,"failedSettlementPreservedCommit":true,"failedSettlementScope":"VM rejected wrong root; no invalid proof broadcast","terminalReplayRejected":true,"allAssetsReturnedToPayers":true,"broadcast":false,"chainTps":null}))?)?;
+ }
+ Ok(())
+}
+
+// Vault admission steps are now complete UPSs, not unproven method stubs.
+// Ordinary user consent/sponsor authorization still execute VM-only in this
+// synthetic checkpoint fixture; real wallet/network acceptance is separate.
+#[tokio::test]
+async fn full_ups_authenticated_queue_admission_and_settlement()->Result<()>{
+ ensure!(std::env::var("BATCH_ADMISSION_TEST").as_deref()==Ok("1"),"distinct admission build required");
+ ensure!(std::env::var("BATCH_PROOF_PROFILE").as_deref()==Ok("compact-v1"),"explicit new compact key required");
+ let out=std::env::var("BATCH_FULL_UPS_OUT")?;fs::create_dir(&out)?;
+ for kind in std::env::var("BATCH_FULL_UPS_MARKETS").unwrap_or_else(|_|"amm,orderbook,bondingcurve,nftmarket".into()).split(','){
+  let(mut w,users,ops,rank)=trading_setup_size(kind,2)?;let epoch=w.val(V,"queue_epoch",0)+1;let cutoff=w.checkpoint+users.len()as u64+1;
+  let request=|w:&World,name:&str,a:u64,b:u64|{let op=w.policy["operations"].as_array().unwrap().iter().find(|o|o["name"]==name).unwrap();let mut f=vec![0;13];f[0]=op["branch"].as_u64().unwrap();f[1]=S;f[2]=a;let uses_b=op["calls"].as_array().unwrap().iter().flat_map(|c|c["inputs"].as_array().unwrap()).any(|v|v["witness"].as_u64()==Some(3));if uses_b{f[3]=b;}w.request(4,vec![f],[0;4])};
+  let mut needed=vec![];for(name,a,b)in [("start_epoch",epoch,cutoff),("admit_entry",users[0],w.val(users[0],"nonce",0)),("seal_epoch",epoch,0)]{needed.extend(batch_policy::expected_calls(&w.policy,&request(&w,name,a,b))?);}
+  let mut placeholder=vec![0;74];placeholder[0]=1;placeholder[1]=w.val(V,"batch_id",0)+1;placeholder[2]=users.len()as u64;placeholder[3]=cutoff+20;placeholder[4]=S;placeholder[73]=ESCROW;for(i,u)in users.iter().enumerate(){placeholder[5+i]=*u;placeholder[9+i]=w.val(*u,"nonce",0);}needed.extend(batch_policy::expected_calls(&w.policy,&placeholder)?);needed.extend(batch_policy::expected_calls(&w.policy,&w.request(2,ops.clone(),rank))?);
+  let mut chain=Chain::new(&w,&needed)?;
+  let mut plan=vec![("start_epoch",epoch,cutoff)];for u in &users{plan.push(("admit_entry",*u,w.val(*u,"nonce",0)));}plan.push(("seal_epoch",epoch,0));
+  for(name,a,b)in plan{
+   if name=="admit_entry"{w.run(a,M,"request_admission",&[epoch,cutoff])?;}
+   if name=="seal_epoch"{w.checkpoint=cutoff+1;}
+   w.run(S,M,"authorize_sponsor",&[V,ESCROW,w.val(S,"sponsor_nonce",0)+1,2])?;w.run(S,0,"simple_transfer",&[V,ESCROW])?;
+   let req=request(&w,name,a,b);chain.prove(&mut w,req).await?;
+  }
+  ensure!(w.val(V,"queue_phase",0)==2&&w.val(V,"queue_count",0)==users.len()as u64,"sealed accepted universe");
+  w.run(S,M,"authorize_sponsor",&[V,2*ESCROW,w.val(S,"sponsor_nonce",0)+1,1])?;w.run(S,0,"simple_transfer",&[V,2*ESCROW])?;placeholder[3]=w.checkpoint+20;chain.prove(&mut w,placeholder).await?;let settle=w.request(2,ops,rank);chain.prove(&mut w,settle).await?;
+  ensure!(w.val(V,"queue_phase",0)==3,"complete accepted scope");for i in 0..users.len(){ensure!(w.val(V,"queue_outcome",i as u64)==1,"accepted trade disposition");}
+  fs::write(format!("{out}/{kind}-admission.json"),serde_json::to_vec_pretty(&json!({"market":kind,"members":users.len(),"fills":2,"scope":"synthetic authenticated checkpoint; all vault start/admit/seal/commit/settle steps complete UPSs; ordinary consent and sponsor authorization VM-only","measurements":chain.measurements,"completeAcceptedQueue":true,"globalMarketCompleteness":false,"broadcast":false,"chainTps":null}))?)?;
  }
  Ok(())
 }

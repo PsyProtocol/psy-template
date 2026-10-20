@@ -1,0 +1,63 @@
+{
+  "scope": "Existing fixed40 key identity reproduced by isolated SDK release build. Compact-key proofs tested separately. Registry/git compilation cache reused; consumed SDK sources reconstructed from frozen Git objects and delta.",
+  "rows": [
+    {
+      "market": "amm",
+      "identities": [
+        {
+          "fingerprint": "873411ba9edf988f075e9674651550f5951b2ec89f79a041c708727a4a98f64c",
+          "publicKeyHash": "ab530a4403a0b9525a045e3b301d576de284c78b116961f66bdc06ce77578d2e"
+        },
+        {
+          "fingerprint": "873411ba9edf988f075e9674651550f5951b2ec89f79a041c708727a4a98f64c",
+          "publicKeyHash": "ab530a4403a0b9525a045e3b301d576de284c78b116961f66bdc06ce77578d2e"
+        }
+      ],
+      "samePublicIdentity": true
+    },
+    {
+      "market": "orderbook",
+      "identities": [
+        {
+          "fingerprint": "d010158b74e4981c30d31dfb9a7aa266b7c5824a99dab839f3e20c6343f76c39",
+          "publicKeyHash": "7d9d1b1ec152a0a0feaf55449ba4514533daa9e5f23bac944738af65b81109a4"
+        },
+        {
+          "fingerprint": "d010158b74e4981c30d31dfb9a7aa266b7c5824a99dab839f3e20c6343f76c39",
+          "publicKeyHash": "7d9d1b1ec152a0a0feaf55449ba4514533daa9e5f23bac944738af65b81109a4"
+        }
+      ],
+      "samePublicIdentity": true
+    },
+    {
+      "market": "bondingcurve",
+      "identities": [
+        {
+          "fingerprint": "74e906399ba3144d80dc57e130ad08eea4b046d67f3a89e2901c6fbb1b29ef0d",
+          "publicKeyHash": "ba87c16f350193304a784df76c7f8b9d1d23b7edc11682cb7f5071f2613f851d"
+        },
+        {
+          "fingerprint": "74e906399ba3144d80dc57e130ad08eea4b046d67f3a89e2901c6fbb1b29ef0d",
+          "publicKeyHash": "ba87c16f350193304a784df76c7f8b9d1d23b7edc11682cb7f5071f2613f851d"
+        }
+      ],
+      "samePublicIdentity": true
+    },
+    {
+      "market": "nftmarket",
+      "identities": [
+        {
+          "fingerprint": "be3876e498f0fe6951b6734d4e8ec68bbbd40094bc0bb6b7ffe5c0dc55d57863",
+          "publicKeyHash": "018a2d3926e11396bc83d7564ed6881efd1c3df9f44827f41211ab53a6039f14"
+        },
+        {
+          "fingerprint": "be3876e498f0fe6951b6734d4e8ec68bbbd40094bc0bb6b7ffe5c0dc55d57863",
+          "publicKeyHash": "018a2d3926e11396bc83d7564ed6881efd1c3df9f44827f41211ab53a6039f14"
+        }
+      ],
+      "samePublicIdentity": true
+    }
+  ],
+  "releaseBinarySha256": "78ea3cc86ee12a367f21bfacd64c06392b9bfdcacd2611040eb6b405fcd0837d",
+  "broadcast": false
+}

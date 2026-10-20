@@ -41,3 +41,5 @@ sha2 = "=0.10.9"
 kvq = { path = "../../../../psy-node/client_prover/psy_core/kvq" }
 num-bigint = "=0.4.8"
 num-traits = "=0.2.19"
+
+psy_network_circuit = { path = "../../../../psy-node/client_prover/psy_circuit/psy_network_circuit" }

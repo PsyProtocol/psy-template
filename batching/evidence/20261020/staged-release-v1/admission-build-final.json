@@ -1,0 +1,33 @@
+{
+  "schema": 1,
+  "scope": "four-member opt-in authenticated admission candidate, not all market orders",
+  "compilerSha256": "b2adb0a474d3d2b9bd9bb4c5e17e4e9e166930aa27dcbe11a77c3046ac6f141c",
+  "records": [
+    {
+      "market": "amm",
+      "sourceSha256": "1c3e33828c25308d622d0d314085e14460ffb3acf076d2b859e409436b4bbb99",
+      "artifactSha256": "15f1867fcc3bb50a8ca1ac0e644c02b0366ced549c05f13ae1660b9adaaf27b6",
+      "policySha256": "19c620efc6afb6f9934e356123e59de9d0224f77b417cd985207396f262e02fa"
+    },
+    {
+      "market": "orderbook",
+      "sourceSha256": "52a4b022d0826fc2c718a52535e4b2d37184b493b8a3f85191436ce32b3d1cb2",
+      "artifactSha256": "5040aa9913ebae125db5aae67bdf0957d4bf3c255dcbb0203d10766557f96267",
+      "policySha256": "b9c1485813cf5d8f1e10e13cfd617562a578bb4aed0072951b815fc565f9d44e"
+    },
+    {
+      "market": "bondingcurve",
+      "sourceSha256": "d9f9c979e4808aa8b869e63601801197892fb90a4786a41ba97d28962b0d2204",
+      "artifactSha256": "65f1770550b06778058f6c858afe8e07520a6f08ded05f9013eb393b989c1eb0",
+      "policySha256": "3ad9b6763bb7b9b2af43e516383f5043f3b675409414da33e91937d4d28e9f25"
+    },
+    {
+      "market": "nftmarket",
+      "sourceSha256": "0d8da0a2061dbca4fb8212b260ebff073b1003c5314d797ca574fb45cd1a5ff2",
+      "artifactSha256": "1794eae5820f5895d8cc5ed6c8cf45942be855f29fc9f8dc6922d1701a65a3cc",
+      "policySha256": "4721e6f7f30f230979dc7c61ce76484c428572770a2ce53489dd56eb6fc5c3d1"
+    }
+  ],
+  "broadcast": false,
+  "fullUpsVerified": false
+}

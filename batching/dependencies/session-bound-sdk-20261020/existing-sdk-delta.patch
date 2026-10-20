@@ -1,0 +1,241 @@
+diff --git a/client_prover/psy_circuit/psy_ups_circuit/src/signature/sd_key.rs b/client_prover/psy_circuit/psy_ups_circuit/src/signature/sd_key.rs
+index 8ee7ef88..c33c8446 100644
+--- a/client_prover/psy_circuit/psy_ups_circuit/src/signature/sd_key.rs
++++ b/client_prover/psy_circuit/psy_ups_circuit/src/signature/sd_key.rs
+@@ -28,8 +28,12 @@ use psy_common_circuit::{
+     proof_minifier::pm_chain::PsyProofMinifierChain,
+     u32::gates::comparison::ComparisonGate,
+ };
+-use psy_config::network_constants::DEFERRED_CALL_MAGIC;
++use psy_config::{network_constants::DEFERRED_CALL_MAGIC, PSY_NETWORK_MAGIC};
+ use psy_crypto::signature::zk::wallet::PRIVATE_KEY_CONSTANTS;
++use psy_network_circuit::{
++    gadgets::qdata::user_contract_state::SignContextGadget,
++    ups::gadgets::ups_signature_data::PsyUserProvingSessionSignatureDataCompactGadget,
++};
+ use psy_vm::ups::sd_key::SDKeyCircuitWitnessInput;
+ 
+ use crate::signature::state_reader::StateReaderGadget;
+@@ -115,6 +119,8 @@ pub struct SDKeyCircuitGadget {
+ 
+     /// The sig_hash target (what is being signed).
+     pub sig_hash: HashOutTarget,
++    /// Inputs used to reconstruct the UPS end-cap digest inside this circuit.
++    pub session_context: SDKeySessionContextTargets,
+ 
+     /// Checkpoint ID target.
+     pub checkpoint_id: Target,
+@@ -129,6 +135,14 @@ pub struct SDKeyCircuitGadget {
+     pub minifier_chain: Option<PsyProofMinifierChain<D, GF, C>>,
+ }
+ 
++#[derive(Debug)]
++pub struct SDKeySessionContextTargets {
++    pub start_user_leaf_hash: HashOutTarget,
++    pub checkpoint_leaf_hash: HashOutTarget,
++    pub sign_context: SignContextGadget,
++    pub nonce: Target,
++}
++
+ impl SDKeyCircuitGadget {
+     /// Create a new SD key circuit gadget and add all virtual targets to the
+     /// builder.
+@@ -136,6 +150,14 @@ impl SDKeyCircuitGadget {
+     /// The `input_len` is the number of user-provided circuit inputs
+     /// (parameters to the authorization function, excluding self/ctx).
+     pub fn add_virtual_to(builder: &mut CircuitBuilder<GF, D>, config: &SDKeyConfig, input_len: usize) -> Self {
++        // State-reader roots and secp256k1 result flags are not yet tied to
++        // authenticated session data. Do not register a key that depends on
++        // those features until their proof gadgets enforce that binding.
++        assert!(!config.can_read_state, "SD-key state reads are not authenticated");
++        assert!(
++            !config.requires_secp256k1 && config.num_secp256k1_slots == 0,
++            "SD-key secp256k1 verification is not enforced"
++        );
+         let private_key = builder.add_virtual_hash();
+         let sig_hash = builder.add_virtual_hash();
+         let checkpoint_id = builder.add_virtual_target();
+@@ -145,6 +167,34 @@ impl SDKeyCircuitGadget {
+         // Transaction introspection
+         let tx_introspection = Self::build_tx_introspection(builder, config);
+ 
++        let session_context = SDKeySessionContextTargets {
++            start_user_leaf_hash: builder.add_virtual_hash(),
++            checkpoint_leaf_hash: builder.add_virtual_hash(),
++            sign_context: SignContextGadget::add_virtual_to(builder),
++            nonce: builder.add_virtual_target(),
++        };
++        let mut end_user_leaf = session_context.sign_context.user_leaf;
++        end_user_leaf.nonce = session_context.nonce;
++        let signature_data = PsyUserProvingSessionSignatureDataCompactGadget::new_from_known(
++            session_context.start_user_leaf_hash,
++            end_user_leaf.to_hash::<PoseidonHash, GF, D>(builder),
++            session_context.checkpoint_leaf_hash,
++            tx_introspection.tx_stack_hash,
++            tx_introspection.tx_count,
++        );
++        let expected_sig_hash = signature_data
++            .get_sig_action_with_user_info::<PoseidonHash, GF, D>(
++                builder,
++                PSY_NETWORK_MAGIC,
++                user_id,
++                session_context.nonce,
++                &session_context.sign_context,
++            )
++            .sig_action_hash;
++        builder.connect_hashes(sig_hash, expected_sig_hash);
++        builder.connect(user_id, session_context.sign_context.user_leaf.user_id);
++        builder.connect(checkpoint_id, session_context.sign_context.user_leaf.last_checkpoint_id);
++
+         // State reader (optional)
+         let state_reader = if config.can_read_state {
+             Some(StateReaderGadget::new(builder, config.contract_state_tree_height))
+@@ -170,6 +220,7 @@ impl SDKeyCircuitGadget {
+         Self {
+             config: config.clone(),
+             tx_introspection,
++            session_context,
+             state_reader,
+             secp256k1,
+             circuit_inputs,
+@@ -239,9 +290,9 @@ impl SDKeyCircuitGadget {
+         }
+ 
+         // Constrain that our computed chain matches the provided tx_stack_hash
+-        if n > 0 {
+-            builder.connect_hashes(running_hash, tx_stack_hash);
+-        }
++        builder.connect_hashes(running_hash, tx_stack_hash);
++        let expected_count = builder.constant(GF::from_canonical_u64(n as u64));
++        builder.connect(tx_count, expected_count);
+ 
+         SDKeyTransactionIntrospectionGadget {
+             tx_info_slots,
+@@ -347,6 +398,13 @@ impl SDKeyCircuitGadget {
+         pw.set_hash_target(self.private_key, private_key.0)?;
+         pw.set_hash_target(self.sig_hash, sig_hash.0)?;
+ 
++        let session = &witness_input.session_context;
++        pw.set_hash_target(self.session_context.start_user_leaf_hash, session.start_user_leaf_hash.0)?;
++        pw.set_hash_target(self.session_context.checkpoint_leaf_hash, session.checkpoint_leaf_hash.0)?;
++        pw.set_hash_target(self.session_context.sign_context.checkpoint_tree_root, session.checkpoint_tree_root.0)?;
++        self.session_context.sign_context.user_leaf.set_witness(&mut pw, &session.current_user_leaf)?;
++        pw.set_target(self.session_context.nonce, session.nonce)?;
++
+         // Set checkpoint_id and user_id
+         pw.set_target(self.checkpoint_id, witness_input.checkpoint_id)?;
+         pw.set_target(self.user_id, witness_input.user_id)?;
+diff --git a/client_prover/psy_prover/src/session/session.rs b/client_prover/psy_prover/src/session/session.rs
+index 6b2dcfcf..c9cd7e92 100644
+--- a/client_prover/psy_prover/src/session/session.rs
++++ b/client_prover/psy_prover/src/session/session.rs
+@@ -79,7 +79,7 @@ use psy_vm::{
+         vm::def::{derive_state_tree_height, DPNFunctionCircuitDefinition},
+     },
+     ups::{
+-        circuit_manager::UPSCircuitManager, sd_key::SDKeyCircuitWitnessInput, signature::Plonky2SoftwareDefinedSignatureInput,
++        circuit_manager::UPSCircuitManager, sd_key::{SDKeyCircuitWitnessInput, SDKeySessionContext}, signature::Plonky2SoftwareDefinedSignatureInput,
+         state_reader::StateReader,
+     },
+ };
+@@ -2496,6 +2496,13 @@ impl WalletSession {
+         let checkpoint_tree_root = current_header.session_start_context.checkpoint_tree_root;
+ 
+         let signature_input = SDKeyCircuitWitnessInput {
++            session_context: SDKeySessionContext {
++                start_user_leaf_hash: current_header.session_start_context.start_session_user_leaf.qfhash::<PsyHasher>(),
++                checkpoint_leaf_hash: current_header.session_start_context.checkpoint_leaf_hash,
++                checkpoint_tree_root,
++                current_user_leaf: current_header.current_state.user_leaf,
++                nonce: user_session_mgr.require_lps()?.get_nonce(),
++            },
+             circuit_inputs,
+             transaction_infos,
+             tx_stack_hash,
+@@ -2524,9 +2531,10 @@ impl WalletSession {
+         user_session_mgr: &UserProvingSessionManager<F, PoseidonHash, RpcProvider, C, D>,
+         trace_steps: &[crate::trace::TraceStep],
+         current_header: &UserProvingSessionHeader<F>,
++        nonce: F,
+     ) -> anyhow::Result<SignContext> {
+         let _ = user_session_mgr;
+-        self.build_sd_key_context_from_trace(call_data, fingerprint, trace_steps, current_header)
++        self.build_sd_key_context_from_trace(call_data, fingerprint, trace_steps, current_header, nonce)
+             .await
+     }
+ 
+@@ -2536,6 +2544,7 @@ impl WalletSession {
+         fingerprint: QHashOut<F>,
+         trace_steps: &[crate::trace::TraceStep],
+         current_header: &UserProvingSessionHeader<F>,
++        nonce: F,
+     ) -> anyhow::Result<SignContext> {
+         let sd_key = self
+             .wallet
+@@ -2565,6 +2574,13 @@ impl WalletSession {
+         let circuit_inputs = call_data.inputs.iter().map(|x| F::from_noncanonical_u64(*x)).collect::<Vec<_>>();
+         let checkpoint_tree_root = current_header.session_start_context.checkpoint_tree_root;
+         let signature_input = SDKeyCircuitWitnessInput {
++            session_context: SDKeySessionContext {
++                start_user_leaf_hash: current_header.session_start_context.start_session_user_leaf.qfhash::<PsyHasher>(),
++                checkpoint_leaf_hash: current_header.session_start_context.checkpoint_leaf_hash,
++                checkpoint_tree_root,
++                current_user_leaf: current_header.current_state.user_leaf,
++                nonce,
++            },
+             circuit_inputs,
+             transaction_infos,
+             tx_stack_hash: current_header.current_state.tx_hash_stack,
+@@ -4472,6 +4488,7 @@ impl WalletSession {
+                         pk_info.fingerprint,
+                         &trace.steps,
+                         current_header,
++                        trace.finalization.nonce,
+                     )
+                     .await?
+                 }
+@@ -4803,6 +4820,7 @@ impl WalletSession {
+                             &user_session_mgr,
+                             &trace.steps,
+                             &prev_header,
++                            trace.finalization.nonce,
+                         )
+                         .await?;
+                 }
+diff --git a/client_prover/psy_vm/src/ups/sd_key.rs b/client_prover/psy_vm/src/ups/sd_key.rs
+index d8752cda..2e722ccb 100644
+--- a/client_prover/psy_vm/src/ups/sd_key.rs
++++ b/client_prover/psy_vm/src/ups/sd_key.rs
+@@ -1,6 +1,7 @@
+ use plonky2::field::goldilocks_field::GoldilocksField;
+ use psy_client_common::data::qhashout::QHashOut;
+ use psy_client_data::dpn::sd_key::{SDKeySecp256k1WitnessSlot, SDKeyTransactionInfo};
++use psy_client_data::qdata::user::PsyUserLeaf;
+ use serde::{Deserialize, Serialize};
+ use ts_rs::TS;
+ 
+@@ -8,12 +9,24 @@ use crate::ups::state_reader::StateReaderResults;
+ 
+ type GF = GoldilocksField;
+ 
++/// The end-cap data required to recompute the exact digest signed by an SD key.
++#[derive(Debug, Clone, Serialize, Deserialize)]
++pub struct SDKeySessionContext {
++    pub start_user_leaf_hash: QHashOut<GF>,
++    pub checkpoint_leaf_hash: QHashOut<GF>,
++    pub checkpoint_tree_root: QHashOut<GF>,
++    pub current_user_leaf: PsyUserLeaf<GF>,
++    pub nonce: GF,
++}
++
+ /// Complete input for an SD key circuit prover.
+ ///
+ /// Contains all witness data needed to generate a proof that the key
+ /// authorization logic is satisfied for a given set of transactions.
+ #[derive(Debug, Clone, Serialize, Deserialize)]
+ pub struct SDKeyCircuitWitnessInput {
++    /// Session data committed by the UPS end-cap signature digest.
++    pub session_context: SDKeySessionContext,
+     /// User-provided circuit inputs (from the key authorization function
+     /// parameters).
+     pub circuit_inputs: Vec<GF>,

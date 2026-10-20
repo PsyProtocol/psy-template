@@ -1,0 +1,12 @@
+
+running 4 tests
+test admission::admission_eight_workers_one_anchor_winner_then_capacity_bound ... ok
+test admission::admitted_book_and_nft_legal_carry_are_explicit ... ok
+test admission::admitted_cancellation_and_empty_epoch_recovery ... ok
+test admission::authenticated_admission_four_markets_omission_forgery_root_and_recovery ... ADMISSION amm: consent, sorted complete scope, omission/forgery/root rejection, expiry/refreeze and terminal results verified
+ADMISSION orderbook: consent, sorted complete scope, omission/forgery/root rejection, expiry/refreeze and terminal results verified
+ADMISSION bondingcurve: consent, sorted complete scope, omission/forgery/root rejection, expiry/refreeze and terminal results verified
+ADMISSION nftmarket: consent, sorted complete scope, omission/forgery/root rejection, expiry/refreeze and terminal results verified
+ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 27 filtered out; finished in 6.44s

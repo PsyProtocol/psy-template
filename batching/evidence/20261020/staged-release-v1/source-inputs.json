@@ -1,0 +1,25 @@
+{
+  "baseCommit": "456d2861f819d8e854d2a04de7e9877f831be844",
+  "sourceHashes": {
+    "amm/u124/vm-tests/src/batch_policy.rs": "62d14df24d415d0d0d9bb72bb04b8d9c209549d982f7b71d4523861c0dec0a09",
+    "amm/u124/vm-tests/src/batch_compile.rs": "4b9f1e23fb485d431cf25734e53b8da9a0326b011e251b9c03f63b4c27e35590",
+    "amm/u124/vm-tests/src/batch_compact.rs": "a65db9fd92ca843cac2bdbd8a19aa308427e2bfc2c088499e83c7426496f6b30",
+    "amm/u124/vm-tests/src/lib.rs": "91c66b6d785cdc6c6f55b876407bf7a8de31349113c81ba0e136afc267619771",
+    "amm/u124/vm-tests/Cargo.toml": "b587de4606204df87c8f455d6f65a759508e750648aecb426abc4068a7e8f5d1",
+    "amm/u124/vm-tests/Cargo.lock": "4e895a309801d56e785f17eee5af04e50aee7785a3488e4aea1ae36fb2adb10c",
+    "amm/u124/vm-tests/tests/batch_lifecycle.rs": "91313dc35617a3c54e3b6330efdcb0db0c9887847a7da2b2e730c44b587a0747",
+    "amm/u124/vm-tests/tests/batch_compact.rs": "5cc3c3b61850d2fa21eda65066888e1bfa7902e281f4d1acb61b1c6dd6c5b689",
+    "amm/u124/vm-tests/tests/support/batch_full_ups.rs": "ffde063fa818564ac83e177cb4a69d7416901b829c9324321bcffdfd56528ebd",
+    "amm/u124/vm-tests/tests/support/batch_admission.rs": "90d38568105be351598f2c60372050ab22a52df1d12150548df232dbc71b9ceb",
+    "batching/admission/admission.test.mjs": "aaff7b63e39cfc9640e42e4cfdabdaabeff737d57b317afc9d499e6421ee934a",
+    "batching/admission/generate.mjs": "0b7cdc2245f8e63159f56dbd2c9d45dab5826fd7fc0bdb3cbe9dfaa776585726",
+    "batching/admission/prepare.mjs": "36e11a7af72559bb24b3c57a500c00a89e3b1466123b38d997db44e8336f974b",
+    "batching/v2/compare-full-ups.py": "68d6009e46624f45facb041cd3117008ff1f31e19f00dfc0c9ed435f94953b1d"
+  },
+  "proofBinary": "/tmp/psy-market-staged-proof-v4-20261020.bin",
+  "proofBinarySha256": "8b0bc04ddc3647a31fbafb0f3a1cf5af5e74159bcd922c6050d764503477e5ee",
+  "compilerSha256": "b2adb0a474d3d2b9bd9bb4c5e17e4e9e166930aa27dcbe11a77c3046ac6f141c",
+  "sdkSnapshotManifestSha256": "0afb4c65116cddcaca450b406a06503d65b63d38a004d8e773c6e5fa363bd425",
+  "sourceScope": "v4 full UPS / admission tests; generation guard changes only reject unsupported randomness and leave deterministic emitted code unchanged",
+  "broadcast": false
+}
