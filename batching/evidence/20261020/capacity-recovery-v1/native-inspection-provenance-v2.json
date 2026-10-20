@@ -1,0 +1,40 @@
+{
+  "scope": "offline code identity tooling and rejection checks; no admission/proof claim",
+  "toolSha256": "da2f3fffc34c8939853b332a30bd52f67dfa5f9a0306c81f466b27846c9aaf11",
+  "sourceSha256": "51727c43e7c53737126674eab33a0fd1740280d0326c4a79101a6f1b48cd8c4e",
+  "rawRpcCodePath": "/tmp/psy-staging-native-code-def-20261020.json",
+  "rawRpcCodeSha256": "356fc115e1f7eb856618d75c22b0dff50c87e4e77e7db44b5b7ecc772b7a3765",
+  "rejections": [
+    {
+      "case": "wrong-input-arity",
+      "rejected": true,
+      "exitCode": 1,
+      "error": "Error: code envelope differs from encoded function"
+    },
+    {
+      "case": "wrong-method-envelope",
+      "rejected": true,
+      "exitCode": 1,
+      "error": "Error: code envelope differs from encoded function"
+    },
+    {
+      "case": "unknown-vm-type",
+      "rejected": true,
+      "exitCode": 1,
+      "error": "Error: unsupported VM type"
+    },
+    {
+      "case": "duplicate-method",
+      "rejected": true,
+      "exitCode": 1,
+      "error": "Error: duplicate method ID"
+    }
+  ],
+  "liveBatchAcceptance": false,
+  "broadcast": false,
+  "supersedes": {
+    "path": "batching/evidence/20261020/capacity-recovery-v1/native-inspection-provenance.json",
+    "sha256": "43eafd725ac5a58f386b56964b7f21e965d4626009fccf2e08361b09f7089025",
+    "reason": "earlier method mutation used JS signed bitwise output; this uses a valid u32 to exercise the envelope guard"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "scope": "one-second stack sample of owned offline AMM recovery process; not whole-run cost attribution",
+  "pid": 97946,
+  "sampleSeconds": 1,
+  "command": "sample 97946 1 1",
+  "rawPath": "/tmp/psy-batch-recovery-lane-a-sample-20261020.txt",
+  "rawSha256": "1d9e4c66fb3cf1ebeee51482455ec94a55ab2ab31d4352928776c3645158ce11",
+  "observedFrames": [
+    {
+      "pattern": "UserProvingSessionManager",
+      "frame": "+                         688 psy_ups_circuit::session::UserProvingSessionManager$LT$plonky2_field..goldilocks_field..GoldilocksField$C$H$C$R$C$C$C$2_usize$GT$::prove_end_cap::_$u7b$$u7b$closure$u7d$$u7d$::h612d0a2de3cda390"
+    },
+    {
+      "pattern": "QRecursionStandardTwoAggCircuit",
+      "frame": "+                               686 psy_common_circuit::treeprover::qrecursion::standard::circuits::prove_2_agg::QRecursionStandardTwoAggCircuit$LT$C$C$_$GT$::prove_base::h573c9e33f202caeb"
+    },
+    {
+      "pattern": "coset_fft_with_options",
+      "frame": "+             ! :   |   +     !     :         16 plonky2_field::polynomial::PolynomialCoeffs$LT$F$GT$::coset_fft_with_options::hb7506c4c8c34989c"
+    },
+    {
+      "pattern": "fft_classic",
+      "frame": "+             ! :   |   +     !     :           6 plonky2_field::fft::fft_classic::h949e43d0e5b4184d"
+    }
+  ],
+  "wholeRunPercentageClaim": null,
+  "broadcast": false
+}

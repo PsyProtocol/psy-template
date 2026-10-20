@@ -1,0 +1,18 @@
+{
+  "scope": "two-point staging checkpoint cadence observation, not a protocol timing guarantee",
+  "sampleOneRequestedAt": "2026-10-20T06:18:40.080Z",
+  "sampleOneCheckpoint": 355583,
+  "sampleTwoRequestedAt": "2026-10-20T06:24:37.815Z",
+  "broadcast": false,
+  "liveBatchAcceptance": false,
+  "sampleTwoCompletedAt": "2026-10-20T06:24:38.961Z",
+  "sampleTwoCheckpoint": 355594,
+  "realmCheckpoints": [
+    355594,
+    355594
+  ],
+  "intervalSeconds": 357.735,
+  "checkpointDelta": 11,
+  "approxSecondsPerCheckpoint": 32.52136363636364,
+  "readRpcSucceeded": true
+}

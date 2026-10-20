@@ -1,0 +1,324 @@
+{
+  "scope": "read-only staging native code comparison; original offline fixture preserved",
+  "local": {
+    "artifactSha256": "bf756535620ecd6b360cf58fce90e66f1e7fecc5ed28c4445c23d745d7510606",
+    "broadcast": false,
+    "codeRoot": "bf3ea0b08815e52d2a86e52c1d6856c1f30d7b717708a08a7668b1e32d735f3e",
+    "codeTreeHeight": 15,
+    "format": "compilation-artifact",
+    "fullUpsVerified": false,
+    "functionCount": 11,
+    "functions": [
+      {
+        "codeHash": "5321d055505b72ce1a8093f619d447b5408f1d623ac2848d29eab129847b789d",
+        "inputCount": 33,
+        "methodId": 3055054724,
+        "name": "withdraw",
+        "outputCount": 0
+      },
+      {
+        "codeHash": "80aebe8ce02109cec8a75024de408ca80271f5a0d9ca1699df8c738c07e3bc27",
+        "inputCount": 105,
+        "methodId": 1577908089,
+        "name": "claim_deposit",
+        "outputCount": 0
+      },
+      {
+        "codeHash": "28a24e445e74a27677e30f87c09f5957cde1f2d6ebe9c2f68a10f9936106841b",
+        "inputCount": 1,
+        "methodId": 1450059340,
+        "name": "simple_mint",
+        "outputCount": 0
+      },
+      {
+        "codeHash": "e1ad53a82863c014d93aede26dcbebb9d245d9107d8a2c86368a74763669d83d",
+        "inputCount": 2,
+        "methodId": 354447671,
+        "name": "simple_transfer",
+        "outputCount": 0
+      },
+      {
+        "codeHash": "bf8f698844168a90acbd097693a9e8ad7b230fb43e2a2abebc0d79d4333de25e",
+        "inputCount": 1,
+        "methodId": 2293029357,
+        "name": "simple_claim",
+        "outputCount": 0
+      },
+      {
+        "codeHash": "64651c284ab7ec360af78e5dcb441a27913edbf5fc98d95a4864797fe6af22a6",
+        "inputCount": 4,
+        "methodId": 2184671991,
+        "name": "batch_simple_transfer_2",
+        "outputCount": 0
+      },
+      {
+        "codeHash": "582acb1825e543d1d5342660490aebc5ca10a82cb15ba7dbf1163329a48f0ae8",
+        "inputCount": 10,
+        "methodId": 2000856578,
+        "name": "batch_simple_transfer_5",
+        "outputCount": 0
+      },
+      {
+        "codeHash": "0f797884677c4444c15f5055b80059170fd9792c191aaf40b9031940ddb4c97f",
+        "inputCount": 1,
+        "methodId": 2923993647,
+        "name": "simple_burn",
+        "outputCount": 0
+      },
+      {
+        "codeHash": "d2ea534a7128cea38b359559f94e9af9e92f61a094e0b22c63d68fdb258ca5db",
+        "inputCount": 1,
+        "methodId": 421974506,
+        "name": "simple_claim_pow_rewards",
+        "outputCount": 0
+      },
+      {
+        "codeHash": "453e3678ae6f291eedf41e7068e87dd727fd75c009d6f0d9b5ad58e1c8494330",
+        "inputCount": 9,
+        "methodId": 1325380837,
+        "name": "private_transfer",
+        "outputCount": 0
+      },
+      {
+        "codeHash": "a6b02ff32eee4470e94cf9bba1af09b51c168fd024b19d548491ebfd09b7c891",
+        "inputCount": 82,
+        "methodId": 635905178,
+        "name": "private_claim",
+        "outputCount": 0
+      }
+    ],
+    "scope": "offline code identity only; whitelist and UPS not verified",
+    "stateTreeHeight": 32
+  },
+  "rpc": {
+    "artifactSha256": "356fc115e1f7eb856618d75c22b0dff50c87e4e77e7db44b5b7ecc772b7a3765",
+    "broadcast": false,
+    "codeRoot": "53735dc64de34c4a84281e22a3d1606d983ad6d617ab717480421883fc88d4ba",
+    "codeTreeHeight": 15,
+    "format": "contract-code-definition",
+    "fullUpsVerified": false,
+    "functionCount": 11,
+    "functions": [
+      {
+        "codeHash": "6f75e8410992c2163631a18edf52f37b61bbace07c5ebe81af312399193353b0",
+        "inputCount": 33,
+        "methodId": 3055054724,
+        "name": "withdraw",
+        "outputCount": 0
+      },
+      {
+        "codeHash": "a9a9a59542da72206c95a5c9c943c12f08ba1c613339a897973108714e5868a1",
+        "inputCount": 105,
+        "methodId": 1577908089,
+        "name": "claim_deposit",
+        "outputCount": 0
+      },
+      {
+        "codeHash": "28a24e445e74a27677e30f87c09f5957cde1f2d6ebe9c2f68a10f9936106841b",
+        "inputCount": 1,
+        "methodId": 1450059340,
+        "name": "simple_mint",
+        "outputCount": 0
+      },
+      {
+        "codeHash": "e1ad53a82863c014d93aede26dcbebb9d245d9107d8a2c86368a74763669d83d",
+        "inputCount": 2,
+        "methodId": 354447671,
+        "name": "simple_transfer",
+        "outputCount": 0
+      },
+      {
+        "codeHash": "bf8f698844168a90acbd097693a9e8ad7b230fb43e2a2abebc0d79d4333de25e",
+        "inputCount": 1,
+        "methodId": 2293029357,
+        "name": "simple_claim",
+        "outputCount": 0
+      },
+      {
+        "codeHash": "20e442d82bfd30ee7da44ece7743983c732df2cf4c52a00c42e2497c82e0191b",
+        "inputCount": 4,
+        "methodId": 2184671991,
+        "name": "batch_simple_transfer_2",
+        "outputCount": 0
+      },
+      {
+        "codeHash": "f8b9b393a7ca18f6e12343ed0da3d9f78e5eaa37ff4105049c31d7715a0d403a",
+        "inputCount": 10,
+        "methodId": 2000856578,
+        "name": "batch_simple_transfer_5",
+        "outputCount": 0
+      },
+      {
+        "codeHash": "0f797884677c4444c15f5055b80059170fd9792c191aaf40b9031940ddb4c97f",
+        "inputCount": 1,
+        "methodId": 2923993647,
+        "name": "simple_burn",
+        "outputCount": 0
+      },
+      {
+        "codeHash": "9d2e81ce7d2e8c4fea8e251bfb267724837a6c5f5cc408fb9bc8a89125f73dfb",
+        "inputCount": 1,
+        "methodId": 421974506,
+        "name": "simple_claim_pow_rewards",
+        "outputCount": 0
+      },
+      {
+        "codeHash": "10d316908a3d5611317d57899f5266fd05d0f905c209aa0e0435958a3f29cefb",
+        "inputCount": 9,
+        "methodId": 1325380837,
+        "name": "private_transfer",
+        "outputCount": 0
+      },
+      {
+        "codeHash": "a6b02ff32eee4470e94cf9bba1af09b51c168fd024b19d548491ebfd09b7c891",
+        "inputCount": 82,
+        "methodId": 635905178,
+        "name": "private_claim",
+        "outputCount": 0
+      }
+    ],
+    "scope": "offline code identity only; whitelist and UPS not verified",
+    "stateTreeHeight": 32
+  },
+  "advertisedCodeRoot": "53735dc64de34c4a84281e22a3d1606d983ad6d617ab717480421883fc88d4ba",
+  "rpcDefinitionMatchesAdvertisedRoot": true,
+  "wholeArtifactMatches": false,
+  "methods": [
+    {
+      "name": "withdraw",
+      "methodId": 3055054724,
+      "localIndex": 0,
+      "rpcIndex": 0,
+      "exists": true,
+      "codeHashMatches": false,
+      "inputsMatch": true,
+      "outputsMatch": true,
+      "localCodeHash": "5321d055505b72ce1a8093f619d447b5408f1d623ac2848d29eab129847b789d",
+      "rpcCodeHash": "6f75e8410992c2163631a18edf52f37b61bbace07c5ebe81af312399193353b0"
+    },
+    {
+      "name": "claim_deposit",
+      "methodId": 1577908089,
+      "localIndex": 1,
+      "rpcIndex": 1,
+      "exists": true,
+      "codeHashMatches": false,
+      "inputsMatch": true,
+      "outputsMatch": true,
+      "localCodeHash": "80aebe8ce02109cec8a75024de408ca80271f5a0d9ca1699df8c738c07e3bc27",
+      "rpcCodeHash": "a9a9a59542da72206c95a5c9c943c12f08ba1c613339a897973108714e5868a1"
+    },
+    {
+      "name": "simple_mint",
+      "methodId": 1450059340,
+      "localIndex": 2,
+      "rpcIndex": 2,
+      "exists": true,
+      "codeHashMatches": true,
+      "inputsMatch": true,
+      "outputsMatch": true,
+      "localCodeHash": "28a24e445e74a27677e30f87c09f5957cde1f2d6ebe9c2f68a10f9936106841b",
+      "rpcCodeHash": "28a24e445e74a27677e30f87c09f5957cde1f2d6ebe9c2f68a10f9936106841b"
+    },
+    {
+      "name": "simple_transfer",
+      "methodId": 354447671,
+      "localIndex": 3,
+      "rpcIndex": 3,
+      "exists": true,
+      "codeHashMatches": true,
+      "inputsMatch": true,
+      "outputsMatch": true,
+      "localCodeHash": "e1ad53a82863c014d93aede26dcbebb9d245d9107d8a2c86368a74763669d83d",
+      "rpcCodeHash": "e1ad53a82863c014d93aede26dcbebb9d245d9107d8a2c86368a74763669d83d"
+    },
+    {
+      "name": "simple_claim",
+      "methodId": 2293029357,
+      "localIndex": 4,
+      "rpcIndex": 4,
+      "exists": true,
+      "codeHashMatches": true,
+      "inputsMatch": true,
+      "outputsMatch": true,
+      "localCodeHash": "bf8f698844168a90acbd097693a9e8ad7b230fb43e2a2abebc0d79d4333de25e",
+      "rpcCodeHash": "bf8f698844168a90acbd097693a9e8ad7b230fb43e2a2abebc0d79d4333de25e"
+    },
+    {
+      "name": "batch_simple_transfer_2",
+      "methodId": 2184671991,
+      "localIndex": 5,
+      "rpcIndex": 5,
+      "exists": true,
+      "codeHashMatches": false,
+      "inputsMatch": true,
+      "outputsMatch": true,
+      "localCodeHash": "64651c284ab7ec360af78e5dcb441a27913edbf5fc98d95a4864797fe6af22a6",
+      "rpcCodeHash": "20e442d82bfd30ee7da44ece7743983c732df2cf4c52a00c42e2497c82e0191b"
+    },
+    {
+      "name": "batch_simple_transfer_5",
+      "methodId": 2000856578,
+      "localIndex": 6,
+      "rpcIndex": 6,
+      "exists": true,
+      "codeHashMatches": false,
+      "inputsMatch": true,
+      "outputsMatch": true,
+      "localCodeHash": "582acb1825e543d1d5342660490aebc5ca10a82cb15ba7dbf1163329a48f0ae8",
+      "rpcCodeHash": "f8b9b393a7ca18f6e12343ed0da3d9f78e5eaa37ff4105049c31d7715a0d403a"
+    },
+    {
+      "name": "simple_burn",
+      "methodId": 2923993647,
+      "localIndex": 7,
+      "rpcIndex": 7,
+      "exists": true,
+      "codeHashMatches": true,
+      "inputsMatch": true,
+      "outputsMatch": true,
+      "localCodeHash": "0f797884677c4444c15f5055b80059170fd9792c191aaf40b9031940ddb4c97f",
+      "rpcCodeHash": "0f797884677c4444c15f5055b80059170fd9792c191aaf40b9031940ddb4c97f"
+    },
+    {
+      "name": "simple_claim_pow_rewards",
+      "methodId": 421974506,
+      "localIndex": 8,
+      "rpcIndex": 8,
+      "exists": true,
+      "codeHashMatches": false,
+      "inputsMatch": true,
+      "outputsMatch": true,
+      "localCodeHash": "d2ea534a7128cea38b359559f94e9af9e92f61a094e0b22c63d68fdb258ca5db",
+      "rpcCodeHash": "9d2e81ce7d2e8c4fea8e251bfb267724837a6c5f5cc408fb9bc8a89125f73dfb"
+    },
+    {
+      "name": "private_transfer",
+      "methodId": 1325380837,
+      "localIndex": 9,
+      "rpcIndex": 9,
+      "exists": true,
+      "codeHashMatches": false,
+      "inputsMatch": true,
+      "outputsMatch": true,
+      "localCodeHash": "453e3678ae6f291eedf41e7068e87dd727fd75c009d6f0d9b5ad58e1c8494330",
+      "rpcCodeHash": "10d316908a3d5611317d57899f5266fd05d0f905c209aa0e0435958a3f29cefb"
+    },
+    {
+      "name": "private_claim",
+      "methodId": 635905178,
+      "localIndex": 10,
+      "rpcIndex": 10,
+      "exists": true,
+      "codeHashMatches": true,
+      "inputsMatch": true,
+      "outputsMatch": true,
+      "localCodeHash": "a6b02ff32eee4470e94cf9bba1af09b51c168fd024b19d548491ebfd09b7c891",
+      "rpcCodeHash": "a6b02ff32eee4470e94cf9bba1af09b51c168fd024b19d548491ebfd09b7c891"
+    }
+  ],
+  "batchNativeMethodsMatch": true,
+  "whitelistVerified": false,
+  "liveBatchAcceptance": false,
+  "broadcast": false
+}
