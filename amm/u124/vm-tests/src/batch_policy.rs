@@ -35,7 +35,12 @@ pub fn validate(spec:&Value)->Result<()>{
 }
 pub fn build(spec:&Value)->Result<SDKeyCircuitGadget>{validate(spec)?;
  let mut b=CircuitBuilder::<F,2>::new(CircuitConfig::standard_recursion_config());let cfg=SDKeyConfig{num_introspectable_transactions:COUNT as u32,can_read_state:false,contract_state_tree_height:MAX_CONTRACT_STATE_TREE_HEIGHT,requires_secp256k1:false,num_secp256k1_slots:0};
- let mut g=SDKeyCircuitGadget::add_virtual_to(&mut b,&cfg,WIDTH);let f=g.circuit_inputs.clone();let slots=&g.tx_introspection.tx_info_slots;
+ let mut g=SDKeyCircuitGadget::add_virtual_to(&mut b,&cfg,WIDTH);
+ // Fail to compile against older SDKs whose generic key does not expose the
+ // authenticated UPS session context. API presence alone is not a security
+ // proof: the frozen-source checks and negative-context proofs remain required.
+ let _ = &g.session_context;
+ let f=g.circuit_inputs.clone();let slots=&g.tx_introspection.tx_info_slots;
  for(i,t)in f.iter().enumerate(){if !(13..17).contains(&i){b.range_check(*t,62);}}
  let mode:Vec<_>=(1..=4).map(|n|chosen(&mut b,f[0],n)).collect();let mut valid=b._false();for s in&mode{valid=b.or(valid,*s);}b.assert_one(valid.target);
  for(m,gate)in mode.iter().enumerate(){
