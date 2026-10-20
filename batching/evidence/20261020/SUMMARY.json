@@ -1,0 +1,74 @@
+{
+  "date": "2026-10-20",
+  "timezone": "Asia/Taipei",
+  "applicationBaseCommit": "459a1fef4c91100161677ffd57043f461c4f7638",
+  "machine": {
+    "cpu": "Apple M1 Max",
+    "logicalCpu": 10,
+    "memoryBytes": 34359738368,
+    "macos": "15.7.3",
+    "rust": "nightly-2025-09-20",
+    "build": "release",
+    "samplesPerLength": 3,
+    "proofConcurrency": 1
+  },
+  "sourceSha256": {
+    "amm/u124/vm-tests/tests/batch_preflight.rs": "b7340a7bf6af409445177411c1dd0d11358cc85c1fc8985992f9eec211476867",
+    "amm/u124/vm-tests/Cargo.lock": "dc91ebb085aa78bde200a5424297deef77f011a10ff5798ad9c571c01f7ac1b1",
+    "batching/preflight.mjs": "9130d11781f4cb78a63df5bd5cd0378d3344758ff82334cb55da41c6a4596517",
+    "batching/preflight.test.mjs": "0922b7ddf5a98eeb5de227cd2c8242361af8291b353636b9d3ca395c9eea8bc8"
+  },
+  "evidenceSha256": {
+    "sdkey-dynamic-cost.json": "2dcbb40099cd1795c9476d4e4458133169f9b87f10da7c26f7a6cb5420fcd617",
+    "preflight-dynamic.json": "fe73d95c06fbc3b6125794b8a62d6bf3c47dec677fc6f806c68588aa62bca0b2"
+  },
+  "summary": [
+    {
+      "calls": 9,
+      "buildMs": 584.41,
+      "basePlusMinifyMedianMs": 755.21,
+      "verifyMedianMs": 3.53,
+      "minifiedProofBytes": 130568,
+      "degreeBits": 12
+    },
+    {
+      "calls": 10,
+      "buildMs": 573.93,
+      "basePlusMinifyMedianMs": 764.45,
+      "verifyMedianMs": 3.46,
+      "minifiedProofBytes": 130568,
+      "degreeBits": 12
+    },
+    {
+      "calls": 16,
+      "buildMs": 620.61,
+      "basePlusMinifyMedianMs": 757.83,
+      "verifyMedianMs": 3.53,
+      "minifiedProofBytes": 130568,
+      "degreeBits": 12
+    },
+    {
+      "calls": 17,
+      "buildMs": 566.1,
+      "basePlusMinifyMedianMs": 762.97,
+      "verifyMedianMs": 3.47,
+      "minifiedProofBytes": 130568,
+      "degreeBits": 12
+    },
+    {
+      "calls": 32,
+      "buildMs": 607.24,
+      "basePlusMinifyMedianMs": 756.79,
+      "verifyMedianMs": 3.59,
+      "minifiedProofBytes": 130568,
+      "degreeBits": 12
+    }
+  ],
+  "validMinifiedProofs": 15,
+  "rejectedMutations": 25,
+  "fullBatchUpsVerified": false,
+  "randomOrderingEnabled": false,
+  "batchThroughput": null,
+  "chainTps": null,
+  "broadcast": false
+}

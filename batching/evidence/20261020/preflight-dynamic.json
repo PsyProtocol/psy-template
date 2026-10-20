@@ -1,0 +1,557 @@
+{
+  "schema": 1,
+  "dependency": {
+    "commit": "5b7f4e1e11adf4607a958bc39e863a2a80b5a7a6",
+    "trackedDiffSha256": "002e35e0b13cb6c422fe3abf500ce6aa5241229264d85a3314f22b5e14b59a64",
+    "sourceHashes": {
+      "client_prover/psy_core/psy_config/src/network_constants.rs": "7029856703a949430d91c804e5349a3faa31a65680493e726aff23bccb3c8a5b",
+      "client_prover/psy_circuit/psy_ups_circuit/src/signature/sd_key.rs": "a40c87da242146cbbd6ecc4a76f55688c1f503ba3bcfd58fc0dc72b7a45d87dd",
+      "client_prover/psy_vm/src/ups/sd_key.rs": "633732bfdcd1a9650685e605236c447e75a2ed75360cad10b74d96c3da5e0edb",
+      "client_prover/psy_prover/src/session/session.rs": "a98d2989d8d11b3348fd1f2ad4411d4f8534e32459ece17e3a65f508c7566ff7",
+      "client_prover/psy_circuit/psy_dpn_circuit/src/vm/gadgets/state_readers.rs": "475615174d7f7d55515f7ac1eaae80c92a665e34925c5a694bd22b136ecd57ba",
+      "client_prover/psy_vm/src/dpn/ops/exec_context.rs": "f3698d4bc83b768f483fc1fef50bcc269c99c1f486ed61ae87e2c7458c5ccc16",
+      "client_prover/psy_core/psy_data/src/qdata/checkpoint.rs": "59fdea9e0bbb9f5a4ff45d2e4924a533ec9d0321dd08cf686520bbda559d8385",
+      "client_prover/psy_circuit/psy_network_circuit/src/ups/gadgets/ups_end_cap.rs": "a743d93f0a3f4e0ad2286641b1b274eabe70c0bf460d7c02ed57dd0b130ef284",
+      "client_prover/psy_circuit/psy_network_circuit/src/ups/gadgets/ups_end_cap_tree.rs": "55233d6f55c9122b57010cf9a54c3d3c1e540f8a7faec96cc5ff9665a4b22780",
+      "psy_node_common/src/coordinator/processor/gatherers/coordinator_guta_update_gatherer.rs": "6187688c3f2db4d769c2f70594867e692ea4dbbde71210ba5160a7b0fcc49df2",
+      "psy_node_common/src/backup/output/coordinator_output_builder.rs": "a0747f8c203b53de4560c0aa5244b18e496fba715d70531604e7dec6fd73b6fd"
+    }
+  },
+  "policySha256": {
+    "amm": "4fd39806b256599e6187d22acc3ff93b6959c1cdfa721c6b66c52fe7868f62e9",
+    "orderbook": "795a0413e66abf89d0677802d2498a99bcc6f37eed9dc2aa1237388849bdce48",
+    "bondingcurve": "ed87e2a7760617d8356531d3b883d77b42a82d9c5070fd88db9802ee64db49ec",
+    "nftmarket": "e85bfe08e15b889aca8ad33bab75177a748cebcef2cd0eba85e30caf67ca61d6"
+  },
+  "callBudgets": [
+    {
+      "market": "amm",
+      "existingExactCount": 9,
+      "proposedBudget": 16,
+      "envelopeCalls": 2,
+      "burnCalls": 1,
+      "branches": [
+        {
+          "name": "swap_0",
+          "operationCalls": 4,
+          "maxUnitsByCalls": 3,
+          "twoUnitsCalls": 11
+        },
+        {
+          "name": "swap_1",
+          "operationCalls": 4,
+          "maxUnitsByCalls": 3,
+          "twoUnitsCalls": 11
+        },
+        {
+          "name": "refund_swap_0",
+          "operationCalls": 4,
+          "maxUnitsByCalls": 3,
+          "twoUnitsCalls": 11
+        },
+        {
+          "name": "refund_swap_1",
+          "operationCalls": 4,
+          "maxUnitsByCalls": 3,
+          "twoUnitsCalls": 11
+        },
+        {
+          "name": "add_liquidity",
+          "operationCalls": 4,
+          "maxUnitsByCalls": 3,
+          "twoUnitsCalls": 11
+        },
+        {
+          "name": "remove_liquidity",
+          "operationCalls": 4,
+          "maxUnitsByCalls": 3,
+          "twoUnitsCalls": 11
+        },
+        {
+          "name": "refund_add",
+          "operationCalls": 6,
+          "maxUnitsByCalls": 2,
+          "twoUnitsCalls": 15
+        },
+        {
+          "name": "cancel_remove",
+          "operationCalls": 2,
+          "maxUnitsByCalls": 6,
+          "twoUnitsCalls": 7
+        }
+      ],
+      "authorizationReusable": false,
+      "admissionVerified": false
+    },
+    {
+      "market": "orderbook",
+      "existingExactCount": 9,
+      "proposedBudget": 16,
+      "envelopeCalls": 2,
+      "burnCalls": 1,
+      "branches": [
+        {
+          "name": "match_orders",
+          "operationCalls": 8,
+          "maxUnitsByCalls": 1,
+          "twoUnitsCalls": 19
+        },
+        {
+          "name": "cancel_0",
+          "operationCalls": 4,
+          "maxUnitsByCalls": 3,
+          "twoUnitsCalls": 11
+        },
+        {
+          "name": "cancel_1",
+          "operationCalls": 4,
+          "maxUnitsByCalls": 3,
+          "twoUnitsCalls": 11
+        }
+      ],
+      "authorizationReusable": false,
+      "admissionVerified": false
+    },
+    {
+      "market": "bondingcurve",
+      "existingExactCount": 9,
+      "proposedBudget": 16,
+      "envelopeCalls": 2,
+      "burnCalls": 1,
+      "branches": [
+        {
+          "name": "initialize",
+          "operationCalls": 3,
+          "maxUnitsByCalls": 4,
+          "twoUnitsCalls": 9
+        },
+        {
+          "name": "settle_buy",
+          "operationCalls": 4,
+          "maxUnitsByCalls": 3,
+          "twoUnitsCalls": 11
+        },
+        {
+          "name": "settle_sell",
+          "operationCalls": 4,
+          "maxUnitsByCalls": 3,
+          "twoUnitsCalls": 11
+        },
+        {
+          "name": "refund_buy",
+          "operationCalls": 4,
+          "maxUnitsByCalls": 3,
+          "twoUnitsCalls": 11
+        },
+        {
+          "name": "refund_sell",
+          "operationCalls": 4,
+          "maxUnitsByCalls": 3,
+          "twoUnitsCalls": 11
+        },
+        {
+          "name": "graduate",
+          "operationCalls": 4,
+          "maxUnitsByCalls": 3,
+          "twoUnitsCalls": 11
+        }
+      ],
+      "authorizationReusable": false,
+      "admissionVerified": false
+    },
+    {
+      "market": "nftmarket",
+      "existingExactCount": 10,
+      "proposedBudget": 16,
+      "envelopeCalls": 2,
+      "burnCalls": 1,
+      "branches": [
+        {
+          "name": "settle_sale",
+          "operationCalls": 9,
+          "maxUnitsByCalls": 1,
+          "twoUnitsCalls": 21
+        },
+        {
+          "name": "refund_listing",
+          "operationCalls": 5,
+          "maxUnitsByCalls": 2,
+          "twoUnitsCalls": 13
+        },
+        {
+          "name": "refund_listing_fee",
+          "operationCalls": 2,
+          "maxUnitsByCalls": 6,
+          "twoUnitsCalls": 7
+        },
+        {
+          "name": "refund_buy",
+          "operationCalls": 4,
+          "maxUnitsByCalls": 3,
+          "twoUnitsCalls": 11
+        },
+        {
+          "name": "refund_buy_fee",
+          "operationCalls": 2,
+          "maxUnitsByCalls": 6,
+          "twoUnitsCalls": 7
+        },
+        {
+          "name": "ack_delivery",
+          "operationCalls": 3,
+          "maxUnitsByCalls": 4,
+          "twoUnitsCalls": 9
+        },
+        {
+          "name": "activate",
+          "operationCalls": 5,
+          "maxUnitsByCalls": 2,
+          "twoUnitsCalls": 13
+        }
+      ],
+      "authorizationReusable": false,
+      "admissionVerified": false
+    },
+    {
+      "market": "amm",
+      "existingExactCount": 9,
+      "proposedBudget": 32,
+      "envelopeCalls": 2,
+      "burnCalls": 1,
+      "branches": [
+        {
+          "name": "swap_0",
+          "operationCalls": 4,
+          "maxUnitsByCalls": 7,
+          "twoUnitsCalls": 11
+        },
+        {
+          "name": "swap_1",
+          "operationCalls": 4,
+          "maxUnitsByCalls": 7,
+          "twoUnitsCalls": 11
+        },
+        {
+          "name": "refund_swap_0",
+          "operationCalls": 4,
+          "maxUnitsByCalls": 7,
+          "twoUnitsCalls": 11
+        },
+        {
+          "name": "refund_swap_1",
+          "operationCalls": 4,
+          "maxUnitsByCalls": 7,
+          "twoUnitsCalls": 11
+        },
+        {
+          "name": "add_liquidity",
+          "operationCalls": 4,
+          "maxUnitsByCalls": 7,
+          "twoUnitsCalls": 11
+        },
+        {
+          "name": "remove_liquidity",
+          "operationCalls": 4,
+          "maxUnitsByCalls": 7,
+          "twoUnitsCalls": 11
+        },
+        {
+          "name": "refund_add",
+          "operationCalls": 6,
+          "maxUnitsByCalls": 4,
+          "twoUnitsCalls": 15
+        },
+        {
+          "name": "cancel_remove",
+          "operationCalls": 2,
+          "maxUnitsByCalls": 14,
+          "twoUnitsCalls": 7
+        }
+      ],
+      "authorizationReusable": false,
+      "admissionVerified": false
+    },
+    {
+      "market": "orderbook",
+      "existingExactCount": 9,
+      "proposedBudget": 32,
+      "envelopeCalls": 2,
+      "burnCalls": 1,
+      "branches": [
+        {
+          "name": "match_orders",
+          "operationCalls": 8,
+          "maxUnitsByCalls": 3,
+          "twoUnitsCalls": 19
+        },
+        {
+          "name": "cancel_0",
+          "operationCalls": 4,
+          "maxUnitsByCalls": 7,
+          "twoUnitsCalls": 11
+        },
+        {
+          "name": "cancel_1",
+          "operationCalls": 4,
+          "maxUnitsByCalls": 7,
+          "twoUnitsCalls": 11
+        }
+      ],
+      "authorizationReusable": false,
+      "admissionVerified": false
+    },
+    {
+      "market": "bondingcurve",
+      "existingExactCount": 9,
+      "proposedBudget": 32,
+      "envelopeCalls": 2,
+      "burnCalls": 1,
+      "branches": [
+        {
+          "name": "initialize",
+          "operationCalls": 3,
+          "maxUnitsByCalls": 9,
+          "twoUnitsCalls": 9
+        },
+        {
+          "name": "settle_buy",
+          "operationCalls": 4,
+          "maxUnitsByCalls": 7,
+          "twoUnitsCalls": 11
+        },
+        {
+          "name": "settle_sell",
+          "operationCalls": 4,
+          "maxUnitsByCalls": 7,
+          "twoUnitsCalls": 11
+        },
+        {
+          "name": "refund_buy",
+          "operationCalls": 4,
+          "maxUnitsByCalls": 7,
+          "twoUnitsCalls": 11
+        },
+        {
+          "name": "refund_sell",
+          "operationCalls": 4,
+          "maxUnitsByCalls": 7,
+          "twoUnitsCalls": 11
+        },
+        {
+          "name": "graduate",
+          "operationCalls": 4,
+          "maxUnitsByCalls": 7,
+          "twoUnitsCalls": 11
+        }
+      ],
+      "authorizationReusable": false,
+      "admissionVerified": false
+    },
+    {
+      "market": "nftmarket",
+      "existingExactCount": 10,
+      "proposedBudget": 32,
+      "envelopeCalls": 2,
+      "burnCalls": 1,
+      "branches": [
+        {
+          "name": "settle_sale",
+          "operationCalls": 9,
+          "maxUnitsByCalls": 3,
+          "twoUnitsCalls": 21
+        },
+        {
+          "name": "refund_listing",
+          "operationCalls": 5,
+          "maxUnitsByCalls": 5,
+          "twoUnitsCalls": 13
+        },
+        {
+          "name": "refund_listing_fee",
+          "operationCalls": 2,
+          "maxUnitsByCalls": 14,
+          "twoUnitsCalls": 7
+        },
+        {
+          "name": "refund_buy",
+          "operationCalls": 4,
+          "maxUnitsByCalls": 7,
+          "twoUnitsCalls": 11
+        },
+        {
+          "name": "refund_buy_fee",
+          "operationCalls": 2,
+          "maxUnitsByCalls": 14,
+          "twoUnitsCalls": 7
+        },
+        {
+          "name": "ack_delivery",
+          "operationCalls": 3,
+          "maxUnitsByCalls": 9,
+          "twoUnitsCalls": 9
+        },
+        {
+          "name": "activate",
+          "operationCalls": 5,
+          "maxUnitsByCalls": 5,
+          "twoUnitsCalls": 13
+        }
+      ],
+      "authorizationReusable": false,
+      "admissionVerified": false
+    }
+  ],
+  "proofCost": {
+    "broadcast": false,
+    "chainTps": null,
+    "configuredIntrospectionConstant": 16,
+    "fullUpsVerified": false,
+    "marketBatchImplemented": false,
+    "measurements": [
+      {
+        "buildMs": 584.409542,
+        "calls": 9,
+        "degreeBits": 12,
+        "dynamicInputFelts": 18,
+        "minifiedProofBytes": 130568,
+        "mutationsRejected": 5,
+        "samples": [
+          {
+            "baseProveMs": 240.828958,
+            "minifyMs": 535.788042,
+            "verifyMs": 3.699667
+          },
+          {
+            "baseProveMs": 223.558166,
+            "minifyMs": 531.6526670000001,
+            "verifyMs": 3.527542
+          },
+          {
+            "baseProveMs": 220.0705,
+            "minifyMs": 485.93837499999995,
+            "verifyMs": 3.459542
+          }
+        ]
+      },
+      {
+        "buildMs": 573.932584,
+        "calls": 10,
+        "degreeBits": 12,
+        "dynamicInputFelts": 20,
+        "minifiedProofBytes": 130568,
+        "mutationsRejected": 5,
+        "samples": [
+          {
+            "baseProveMs": 259.893292,
+            "minifyMs": 532.734041,
+            "verifyMs": 3.458708
+          },
+          {
+            "baseProveMs": 259.843,
+            "minifyMs": 504.60400000000004,
+            "verifyMs": 3.430208
+          },
+          {
+            "baseProveMs": 199.197167,
+            "minifyMs": 524.891708,
+            "verifyMs": 3.46175
+          }
+        ]
+      },
+      {
+        "buildMs": 620.608292,
+        "calls": 16,
+        "degreeBits": 12,
+        "dynamicInputFelts": 32,
+        "minifiedProofBytes": 130568,
+        "mutationsRejected": 5,
+        "samples": [
+          {
+            "baseProveMs": 249.349667,
+            "minifyMs": 513.815209,
+            "verifyMs": 3.562125
+          },
+          {
+            "baseProveMs": 222.3765,
+            "minifyMs": 501.180917,
+            "verifyMs": 3.486875
+          },
+          {
+            "baseProveMs": 233.77100000000002,
+            "minifyMs": 524.0611250000001,
+            "verifyMs": 3.528
+          }
+        ]
+      },
+      {
+        "buildMs": 566.1,
+        "calls": 17,
+        "degreeBits": 12,
+        "dynamicInputFelts": 34,
+        "minifiedProofBytes": 130568,
+        "mutationsRejected": 5,
+        "samples": [
+          {
+            "baseProveMs": 207.80325,
+            "minifyMs": 555.165,
+            "verifyMs": 3.469666
+          },
+          {
+            "baseProveMs": 225.50475,
+            "minifyMs": 491.116125,
+            "verifyMs": 3.462958
+          },
+          {
+            "baseProveMs": 254.044125,
+            "minifyMs": 513.053292,
+            "verifyMs": 3.497834
+          }
+        ]
+      },
+      {
+        "buildMs": 607.238916,
+        "calls": 32,
+        "degreeBits": 12,
+        "dynamicInputFelts": 64,
+        "minifiedProofBytes": 130568,
+        "mutationsRejected": 5,
+        "samples": [
+          {
+            "baseProveMs": 207.493208,
+            "minifyMs": 495.018791,
+            "verifyMs": 3.587875
+          },
+          {
+            "baseProveMs": 226.23537499999998,
+            "minifyMs": 530.5510409999999,
+            "verifyMs": 3.495667
+          },
+          {
+            "baseProveMs": 256.392792,
+            "minifyMs": 583.083209,
+            "verifyMs": 3.802708
+          }
+        ]
+      }
+    ],
+    "nodeAdmissionTested": false,
+    "schema": 1,
+    "scope": "synthetic exact-stack SD-key with two dynamic 62-bit inputs per call plus two recursive minifiers"
+  },
+  "randomOrderingEnabled": false,
+  "randomness": {
+    "checkpointSeedAuthentication": "historical checkpoint Merkle proof exists in DPN",
+    "applicationSeedReader": "not exposed by current market generators / SD-key policy",
+    "inspectedCoordinatorSeed": "thread_rng; no verified unbiased beacon or VRF guarantee",
+    "commitBeforeFutureSeedImplemented": false
+  },
+  "batchImplemented": false,
+  "fullBatchUpsVerified": false,
+  "liveAdmissionVerified": false,
+  "throughput": {
+    "vm": null,
+    "fullProof": null,
+    "confirmedChain": null
+  },
+  "broadcast": false
+}
