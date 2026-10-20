@@ -1,0 +1,103 @@
+{
+  "schema": 1,
+  "chains": [
+    {
+      "market": "amm",
+      "linkedUps": 4,
+      "members": 4,
+      "phases": [
+        "commit",
+        "expire",
+        "recommit",
+        "refund"
+      ],
+      "totalWarmProofMs": 1152705.496001,
+      "coldCircuitBuildMs": 110724.2435,
+      "maxWrittenLeaves": 23,
+      "leafChainVerified": true,
+      "fullUpsVerified": true,
+      "ordinaryCancelAndClaims": "VM only",
+      "broadcast": false,
+      "chainTps": null
+    },
+    {
+      "market": "orderbook",
+      "linkedUps": 4,
+      "members": 4,
+      "phases": [
+        "commit",
+        "expire",
+        "recommit",
+        "refund"
+      ],
+      "totalWarmProofMs": 1200302.272125,
+      "coldCircuitBuildMs": 75909.969292,
+      "maxWrittenLeaves": 29,
+      "leafChainVerified": true,
+      "fullUpsVerified": true,
+      "ordinaryCancelAndClaims": "VM only",
+      "broadcast": false,
+      "chainTps": null
+    },
+    {
+      "market": "bondingcurve",
+      "linkedUps": 4,
+      "members": 4,
+      "phases": [
+        "commit",
+        "expire",
+        "recommit",
+        "refund"
+      ],
+      "totalWarmProofMs": 1155701.9237910002,
+      "coldCircuitBuildMs": 102364.102959,
+      "maxWrittenLeaves": 30,
+      "leafChainVerified": true,
+      "fullUpsVerified": true,
+      "ordinaryCancelAndClaims": "VM only",
+      "broadcast": false,
+      "chainTps": null
+    },
+    {
+      "market": "nftmarket",
+      "linkedUps": 4,
+      "members": 4,
+      "phases": [
+        "commit",
+        "expire",
+        "recommit",
+        "refund"
+      ],
+      "totalWarmProofMs": 1201645.7719999999,
+      "coldCircuitBuildMs": 95383.663709,
+      "maxWrittenLeaves": 38,
+      "leafChainVerified": true,
+      "fullUpsVerified": true,
+      "ordinaryCancelAndClaims": "VM only",
+      "broadcast": false,
+      "chainTps": null
+    }
+  ],
+  "completeRecoveryUpsProofs": 16,
+  "completeNewCapacityUpsProofs": 4,
+  "totalNewFullUpsProofs": 20,
+  "sourceArtifactsUnchanged": true,
+  "evidenceStructureChecks": "All phase flags, leaf links, 40 calls / 39 traced explicit calls, burn formula, <=100 modified leaves and frozen artifact hashes checked; cryptographic proving and verification occurred in Rust test processes.",
+  "applicationJsTestsPassed": 39,
+  "sharedConfigTestsPassed": 2,
+  "vmGroupsPassed": 21,
+  "vmBenchmarkSamplesPerCell": 12,
+  "vmBenchmarkCells": 10,
+  "proofWorkers": 2,
+  "rayonThreadsPerRecoveryWorker": 4,
+  "overlappedApplicationBuildAndTests": true,
+  "performanceScope": "diagnostic offline measurements, not controlled speedup, single-worker peak throughput or production P95",
+  "stableBranch": "release/testnet-stable",
+  "observedBranchCommit": "6eb535003bdab1fcdb27386dbcb93e8aa9727998",
+  "runtimeCommitIndependentlyAttested": false,
+  "liveAcceptance": false,
+  "randomOrderingEnabled": false,
+  "globalOrderCompletenessProved": false,
+  "broadcast": false,
+  "chainTps": null
+}

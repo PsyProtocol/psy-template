@@ -1,0 +1,1060 @@
+
+running 1 test
+test full_ups::full_ups_expire_refreeze_and_refund_four_markets ... FULL_UPS bondingcurve {"elapsedMs":102364.102959,"phase":"cold-circuit-build"}
+prove_ups_start - start:  0ms
+prove_ups_start - gen_witness:  0ms
+prove_ups_start - circuit_mgr.ups_start.prove_base:  917ms
+prove_ups_start - prove_ups_start:  0ms
+prove_ups_start - injest_single_leaf_proof:  0ms
+compress - proved compress:  1181ms
+compress - proved compress:  926ms
+UPS_STEP bondingcurve mode 1 call 0 commit_batch: 9302.9ms
+compress - proved compress:  1160ms
+compress - proved compress:  848ms
+UPS_STEP bondingcurve mode 1 call 1 simple_claim: 3856.7ms
+compress - proved compress:  1108ms
+compress - proved compress:  1159ms
+UPS_STEP bondingcurve mode 1 call 2 noop: 3756.8ms
+compress - proved compress:  658ms
+compress - proved compress:  725ms
+UPS_STEP bondingcurve mode 1 call 3 noop: 2725.7ms
+compress - proved compress:  931ms
+compress - proved compress:  638ms
+UPS_STEP bondingcurve mode 1 call 4 noop: 3191.9ms
+compress - proved compress:  967ms
+compress - proved compress:  791ms
+UPS_STEP bondingcurve mode 1 call 5 noop: 3330.2ms
+compress - proved compress:  723ms
+compress - proved compress:  813ms
+UPS_STEP bondingcurve mode 1 call 6 noop: 3057.2ms
+compress - proved compress:  778ms
+compress - proved compress:  879ms
+UPS_STEP bondingcurve mode 1 call 7 noop: 3224.8ms
+compress - proved compress:  665ms
+compress - proved compress:  668ms
+UPS_STEP bondingcurve mode 1 call 8 noop: 2546.0ms
+compress - proved compress:  985ms
+compress - proved compress:  871ms
+UPS_STEP bondingcurve mode 1 call 9 noop: 3190.8ms
+compress - proved compress:  960ms
+compress - proved compress:  1071ms
+UPS_STEP bondingcurve mode 1 call 10 noop: 3590.5ms
+compress - proved compress:  909ms
+compress - proved compress:  793ms
+UPS_STEP bondingcurve mode 1 call 11 noop: 3586.6ms
+compress - proved compress:  876ms
+compress - proved compress:  1094ms
+UPS_STEP bondingcurve mode 1 call 12 noop: 3501.6ms
+compress - proved compress:  868ms
+compress - proved compress:  1297ms
+UPS_STEP bondingcurve mode 1 call 13 noop: 4086.9ms
+compress - proved compress:  873ms
+compress - proved compress:  838ms
+UPS_STEP bondingcurve mode 1 call 14 noop: 3190.6ms
+compress - proved compress:  900ms
+compress - proved compress:  783ms
+UPS_STEP bondingcurve mode 1 call 15 noop: 3360.4ms
+compress - proved compress:  706ms
+compress - proved compress:  734ms
+UPS_STEP bondingcurve mode 1 call 16 noop: 2783.8ms
+compress - proved compress:  689ms
+compress - proved compress:  855ms
+UPS_STEP bondingcurve mode 1 call 17 noop: 3006.7ms
+compress - proved compress:  927ms
+compress - proved compress:  881ms
+UPS_STEP bondingcurve mode 1 call 18 noop: 3316.6ms
+compress - proved compress:  719ms
+compress - proved compress:  1062ms
+UPS_STEP bondingcurve mode 1 call 19 noop: 3498.6ms
+compress - proved compress:  959ms
+compress - proved compress:  947ms
+UPS_STEP bondingcurve mode 1 call 20 noop: 3411.2ms
+compress - proved compress:  858ms
+compress - proved compress:  917ms
+UPS_STEP bondingcurve mode 1 call 21 noop: 3625.1ms
+compress - proved compress:  1006ms
+compress - proved compress:  842ms
+UPS_STEP bondingcurve mode 1 call 22 noop: 4159.9ms
+compress - proved compress:  1329ms
+compress - proved compress:  1088ms
+UPS_STEP bondingcurve mode 1 call 23 noop: 4438.3ms
+compress - proved compress:  1013ms
+compress - proved compress:  778ms
+UPS_STEP bondingcurve mode 1 call 24 noop: 3633.9ms
+compress - proved compress:  702ms
+compress - proved compress:  670ms
+UPS_STEP bondingcurve mode 1 call 25 noop: 2864.5ms
+compress - proved compress:  752ms
+compress - proved compress:  919ms
+UPS_STEP bondingcurve mode 1 call 26 noop: 3226.9ms
+compress - proved compress:  753ms
+compress - proved compress:  738ms
+UPS_STEP bondingcurve mode 1 call 27 noop: 3039.9ms
+compress - proved compress:  760ms
+compress - proved compress:  759ms
+UPS_STEP bondingcurve mode 1 call 28 noop: 3011.1ms
+compress - proved compress:  863ms
+compress - proved compress:  767ms
+UPS_STEP bondingcurve mode 1 call 29 noop: 3256.8ms
+compress - proved compress:  874ms
+compress - proved compress:  893ms
+UPS_STEP bondingcurve mode 1 call 30 noop: 3712.1ms
+compress - proved compress:  836ms
+compress - proved compress:  778ms
+UPS_STEP bondingcurve mode 1 call 31 noop: 3284.9ms
+compress - proved compress:  1000ms
+compress - proved compress:  816ms
+UPS_STEP bondingcurve mode 1 call 32 noop: 3529.1ms
+compress - proved compress:  695ms
+compress - proved compress:  811ms
+UPS_STEP bondingcurve mode 1 call 33 noop: 3255.3ms
+compress - proved compress:  659ms
+compress - proved compress:  823ms
+UPS_STEP bondingcurve mode 1 call 34 noop: 2912.3ms
+compress - proved compress:  895ms
+compress - proved compress:  801ms
+UPS_STEP bondingcurve mode 1 call 35 noop: 3395.8ms
+compress - proved compress:  1135ms
+compress - proved compress:  838ms
+UPS_STEP bondingcurve mode 1 call 36 noop: 3344.8ms
+compress - proved compress:  763ms
+compress - proved compress:  838ms
+UPS_STEP bondingcurve mode 1 call 37 noop: 3274.5ms
+compress - proved compress:  970ms
+compress - proved compress:  907ms
+UPS_STEP bondingcurve mode 1 call 38 noop: 3275.3ms
+compress - proved compress:  788ms
+compress - proved compress:  879ms
+compress - proved compress:  1000ms
+compress - proved compress:  1111ms
+compress - proved compress:  847ms
+compress - proved compress:  943ms
+FULL_UPS bondingcurve 283026.253167ms
+prove_ups_start - start:  0ms
+prove_ups_start - gen_witness:  0ms
+prove_ups_start - circuit_mgr.ups_start.prove_base:  925ms
+prove_ups_start - prove_ups_start:  0ms
+prove_ups_start - injest_single_leaf_proof:  0ms
+compress - proved compress:  919ms
+compress - proved compress:  684ms
+UPS_STEP bondingcurve mode 3 call 0 expire_batch: 3280.8ms
+compress - proved compress:  1006ms
+compress - proved compress:  950ms
+UPS_STEP bondingcurve mode 3 call 1 noop: 3699.4ms
+compress - proved compress:  811ms
+compress - proved compress:  1058ms
+UPS_STEP bondingcurve mode 3 call 2 noop: 3357.9ms
+compress - proved compress:  730ms
+compress - proved compress:  887ms
+UPS_STEP bondingcurve mode 3 call 3 noop: 3198.9ms
+compress - proved compress:  1177ms
+compress - proved compress:  1488ms
+UPS_STEP bondingcurve mode 3 call 4 noop: 4339.2ms
+compress - proved compress:  1195ms
+compress - proved compress:  910ms
+UPS_STEP bondingcurve mode 3 call 5 noop: 3790.8ms
+compress - proved compress:  935ms
+compress - proved compress:  1089ms
+UPS_STEP bondingcurve mode 3 call 6 noop: 3436.3ms
+compress - proved compress:  912ms
+compress - proved compress:  982ms
+UPS_STEP bondingcurve mode 3 call 7 noop: 3579.1ms
+compress - proved compress:  1215ms
+compress - proved compress:  859ms
+UPS_STEP bondingcurve mode 3 call 8 noop: 3822.1ms
+compress - proved compress:  1024ms
+compress - proved compress:  692ms
+UPS_STEP bondingcurve mode 3 call 9 noop: 3412.5ms
+compress - proved compress:  786ms
+compress - proved compress:  985ms
+UPS_STEP bondingcurve mode 3 call 10 noop: 3164.5ms
+compress - proved compress:  962ms
+compress - proved compress:  879ms
+UPS_STEP bondingcurve mode 3 call 11 noop: 3631.1ms
+compress - proved compress:  803ms
+compress - proved compress:  767ms
+UPS_STEP bondingcurve mode 3 call 12 noop: 3375.3ms
+compress - proved compress:  930ms
+compress - proved compress:  994ms
+UPS_STEP bondingcurve mode 3 call 13 noop: 3547.8ms
+compress - proved compress:  901ms
+compress - proved compress:  733ms
+UPS_STEP bondingcurve mode 3 call 14 noop: 3227.5ms
+compress - proved compress:  818ms
+compress - proved compress:  769ms
+UPS_STEP bondingcurve mode 3 call 15 noop: 3129.0ms
+compress - proved compress:  887ms
+compress - proved compress:  1611ms
+UPS_STEP bondingcurve mode 3 call 16 noop: 3827.7ms
+compress - proved compress:  823ms
+compress - proved compress:  741ms
+UPS_STEP bondingcurve mode 3 call 17 noop: 3032.2ms
+compress - proved compress:  684ms
+compress - proved compress:  1120ms
+UPS_STEP bondingcurve mode 3 call 18 noop: 3234.2ms
+compress - proved compress:  959ms
+compress - proved compress:  1013ms
+UPS_STEP bondingcurve mode 3 call 19 noop: 3599.8ms
+compress - proved compress:  856ms
+compress - proved compress:  773ms
+UPS_STEP bondingcurve mode 3 call 20 noop: 3583.6ms
+compress - proved compress:  632ms
+compress - proved compress:  822ms
+UPS_STEP bondingcurve mode 3 call 21 noop: 3204.6ms
+compress - proved compress:  863ms
+compress - proved compress:  698ms
+UPS_STEP bondingcurve mode 3 call 22 noop: 2977.1ms
+compress - proved compress:  650ms
+compress - proved compress:  710ms
+UPS_STEP bondingcurve mode 3 call 23 noop: 2842.3ms
+compress - proved compress:  772ms
+compress - proved compress:  746ms
+UPS_STEP bondingcurve mode 3 call 24 noop: 3426.7ms
+compress - proved compress:  702ms
+compress - proved compress:  845ms
+UPS_STEP bondingcurve mode 3 call 25 noop: 3301.4ms
+compress - proved compress:  618ms
+compress - proved compress:  611ms
+UPS_STEP bondingcurve mode 3 call 26 noop: 2621.8ms
+compress - proved compress:  1119ms
+compress - proved compress:  926ms
+UPS_STEP bondingcurve mode 3 call 27 noop: 3805.4ms
+compress - proved compress:  901ms
+compress - proved compress:  736ms
+UPS_STEP bondingcurve mode 3 call 28 noop: 3549.5ms
+compress - proved compress:  808ms
+compress - proved compress:  826ms
+UPS_STEP bondingcurve mode 3 call 29 noop: 3321.6ms
+compress - proved compress:  933ms
+compress - proved compress:  834ms
+UPS_STEP bondingcurve mode 3 call 30 noop: 3515.8ms
+compress - proved compress:  861ms
+compress - proved compress:  803ms
+UPS_STEP bondingcurve mode 3 call 31 noop: 3342.1ms
+compress - proved compress:  851ms
+compress - proved compress:  853ms
+UPS_STEP bondingcurve mode 3 call 32 noop: 3225.6ms
+compress - proved compress:  962ms
+compress - proved compress:  838ms
+UPS_STEP bondingcurve mode 3 call 33 noop: 3538.1ms
+compress - proved compress:  793ms
+compress - proved compress:  739ms
+UPS_STEP bondingcurve mode 3 call 34 noop: 3154.1ms
+compress - proved compress:  809ms
+compress - proved compress:  824ms
+UPS_STEP bondingcurve mode 3 call 35 noop: 3442.1ms
+compress - proved compress:  1980ms
+compress - proved compress:  1105ms
+UPS_STEP bondingcurve mode 3 call 36 noop: 5736.8ms
+compress - proved compress:  912ms
+compress - proved compress:  731ms
+UPS_STEP bondingcurve mode 3 call 37 noop: 3559.6ms
+compress - proved compress:  1329ms
+compress - proved compress:  937ms
+UPS_STEP bondingcurve mode 3 call 38 noop: 4463.8ms
+compress - proved compress:  1026ms
+compress - proved compress:  1171ms
+compress - proved compress:  1193ms
+compress - proved compress:  1332ms
+compress - proved compress:  756ms
+compress - proved compress:  689ms
+FULL_UPS bondingcurve 291583.09554099996ms
+prove_ups_start - start:  0ms
+prove_ups_start - gen_witness:  0ms
+prove_ups_start - circuit_mgr.ups_start.prove_base:  755ms
+prove_ups_start - prove_ups_start:  0ms
+prove_ups_start - injest_single_leaf_proof:  0ms
+compress - proved compress:  1863ms
+compress - proved compress:  1132ms
+UPS_STEP bondingcurve mode 1 call 0 commit_batch: 12808.6ms
+compress - proved compress:  1120ms
+compress - proved compress:  794ms
+UPS_STEP bondingcurve mode 1 call 1 simple_claim: 3773.5ms
+compress - proved compress:  1086ms
+compress - proved compress:  1032ms
+UPS_STEP bondingcurve mode 1 call 2 noop: 3961.6ms
+compress - proved compress:  910ms
+compress - proved compress:  965ms
+UPS_STEP bondingcurve mode 1 call 3 noop: 4142.1ms
+compress - proved compress:  769ms
+compress - proved compress:  813ms
+UPS_STEP bondingcurve mode 1 call 4 noop: 3340.1ms
+compress - proved compress:  751ms
+compress - proved compress:  763ms
+UPS_STEP bondingcurve mode 1 call 5 noop: 3075.0ms
+compress - proved compress:  721ms
+compress - proved compress:  776ms
+UPS_STEP bondingcurve mode 1 call 6 noop: 3174.1ms
+compress - proved compress:  1175ms
+compress - proved compress:  699ms
+UPS_STEP bondingcurve mode 1 call 7 noop: 3348.6ms
+compress - proved compress:  799ms
+compress - proved compress:  1190ms
+UPS_STEP bondingcurve mode 1 call 8 noop: 3586.9ms
+compress - proved compress:  886ms
+compress - proved compress:  851ms
+UPS_STEP bondingcurve mode 1 call 9 noop: 3427.7ms
+compress - proved compress:  851ms
+compress - proved compress:  881ms
+UPS_STEP bondingcurve mode 1 call 10 noop: 3323.6ms
+compress - proved compress:  785ms
+compress - proved compress:  790ms
+UPS_STEP bondingcurve mode 1 call 11 noop: 3243.6ms
+compress - proved compress:  757ms
+compress - proved compress:  890ms
+UPS_STEP bondingcurve mode 1 call 12 noop: 3280.9ms
+compress - proved compress:  847ms
+compress - proved compress:  1162ms
+UPS_STEP bondingcurve mode 1 call 13 noop: 3892.4ms
+compress - proved compress:  675ms
+compress - proved compress:  631ms
+UPS_STEP bondingcurve mode 1 call 14 noop: 2523.4ms
+compress - proved compress:  910ms
+compress - proved compress:  748ms
+UPS_STEP bondingcurve mode 1 call 15 noop: 3330.4ms
+compress - proved compress:  1072ms
+compress - proved compress:  835ms
+UPS_STEP bondingcurve mode 1 call 16 noop: 3625.6ms
+compress - proved compress:  760ms
+compress - proved compress:  890ms
+UPS_STEP bondingcurve mode 1 call 17 noop: 3535.9ms
+compress - proved compress:  1924ms
+compress - proved compress:  980ms
+UPS_STEP bondingcurve mode 1 call 18 noop: 4553.6ms
+compress - proved compress:  989ms
+compress - proved compress:  871ms
+UPS_STEP bondingcurve mode 1 call 19 noop: 3439.1ms
+compress - proved compress:  865ms
+compress - proved compress:  1131ms
+UPS_STEP bondingcurve mode 1 call 20 noop: 3830.9ms
+compress - proved compress:  805ms
+compress - proved compress:  836ms
+UPS_STEP bondingcurve mode 1 call 21 noop: 3742.1ms
+compress - proved compress:  781ms
+compress - proved compress:  785ms
+UPS_STEP bondingcurve mode 1 call 22 noop: 3017.5ms
+compress - proved compress:  1230ms
+compress - proved compress:  1134ms
+UPS_STEP bondingcurve mode 1 call 23 noop: 3890.2ms
+compress - proved compress:  782ms
+compress - proved compress:  1012ms
+UPS_STEP bondingcurve mode 1 call 24 noop: 3253.9ms
+compress - proved compress:  818ms
+compress - proved compress:  740ms
+UPS_STEP bondingcurve mode 1 call 25 noop: 2979.8ms
+compress - proved compress:  886ms
+compress - proved compress:  659ms
+UPS_STEP bondingcurve mode 1 call 26 noop: 2910.4ms
+compress - proved compress:  824ms
+compress - proved compress:  945ms
+UPS_STEP bondingcurve mode 1 call 27 noop: 3285.0ms
+compress - proved compress:  1067ms
+compress - proved compress:  932ms
+UPS_STEP bondingcurve mode 1 call 28 noop: 3762.6ms
+compress - proved compress:  976ms
+compress - proved compress:  887ms
+UPS_STEP bondingcurve mode 1 call 29 noop: 3802.9ms
+compress - proved compress:  930ms
+compress - proved compress:  812ms
+UPS_STEP bondingcurve mode 1 call 30 noop: 3423.0ms
+compress - proved compress:  673ms
+compress - proved compress:  704ms
+UPS_STEP bondingcurve mode 1 call 31 noop: 2754.0ms
+compress - proved compress:  709ms
+compress - proved compress:  840ms
+UPS_STEP bondingcurve mode 1 call 32 noop: 3222.3ms
+compress - proved compress:  829ms
+compress - proved compress:  708ms
+UPS_STEP bondingcurve mode 1 call 33 noop: 3082.6ms
+compress - proved compress:  592ms
+compress - proved compress:  780ms
+UPS_STEP bondingcurve mode 1 call 34 noop: 3483.0ms
+compress - proved compress:  642ms
+compress - proved compress:  853ms
+UPS_STEP bondingcurve mode 1 call 35 noop: 2961.7ms
+compress - proved compress:  953ms
+compress - proved compress:  1006ms
+UPS_STEP bondingcurve mode 1 call 36 noop: 4180.4ms
+compress - proved compress:  769ms
+compress - proved compress:  676ms
+UPS_STEP bondingcurve mode 1 call 37 noop: 3078.7ms
+compress - proved compress:  690ms
+compress - proved compress:  740ms
+UPS_STEP bondingcurve mode 1 call 38 noop: 2700.4ms
+compress - proved compress:  862ms
+compress - proved compress:  896ms
+compress - proved compress:  1152ms
+compress - proved compress:  1003ms
+compress - proved compress:  1020ms
+compress - proved compress:  844ms
+FULL_UPS bondingcurve 286305.55279100005ms
+prove_ups_start - start:  0ms
+prove_ups_start - gen_witness:  0ms
+prove_ups_start - circuit_mgr.ups_start.prove_base:  864ms
+prove_ups_start - prove_ups_start:  0ms
+prove_ups_start - injest_single_leaf_proof:  0ms
+compress - proved compress:  794ms
+compress - proved compress:  866ms
+UPS_STEP bondingcurve mode 2 call 0 begin_batch: 4006.9ms
+compress - proved compress:  841ms
+compress - proved compress:  1029ms
+UPS_STEP bondingcurve mode 2 call 1 refund_funding: 3872.4ms
+compress - proved compress:  789ms
+compress - proved compress:  1060ms
+UPS_STEP bondingcurve mode 2 call 2 simple_claim: 3528.7ms
+compress - proved compress:  920ms
+compress - proved compress:  771ms
+UPS_STEP bondingcurve mode 2 call 3 claim: 3455.9ms
+compress - proved compress:  952ms
+compress - proved compress:  820ms
+UPS_STEP bondingcurve mode 2 call 4 transfer: 3585.8ms
+compress - proved compress:  954ms
+compress - proved compress:  857ms
+UPS_STEP bondingcurve mode 2 call 5 simple_transfer: 3458.5ms
+compress - proved compress:  907ms
+compress - proved compress:  821ms
+UPS_STEP bondingcurve mode 2 call 6 noop: 3604.7ms
+compress - proved compress:  961ms
+compress - proved compress:  722ms
+UPS_STEP bondingcurve mode 2 call 7 noop: 3536.7ms
+compress - proved compress:  900ms
+compress - proved compress:  953ms
+UPS_STEP bondingcurve mode 2 call 8 noop: 3311.8ms
+compress - proved compress:  801ms
+compress - proved compress:  758ms
+UPS_STEP bondingcurve mode 2 call 9 noop: 2997.8ms
+compress - proved compress:  917ms
+compress - proved compress:  1009ms
+UPS_STEP bondingcurve mode 2 call 10 refund_funding: 3707.4ms
+compress - proved compress:  848ms
+compress - proved compress:  1050ms
+UPS_STEP bondingcurve mode 2 call 11 simple_claim: 3413.2ms
+compress - proved compress:  884ms
+compress - proved compress:  1033ms
+UPS_STEP bondingcurve mode 2 call 12 claim: 3468.3ms
+compress - proved compress:  890ms
+compress - proved compress:  1174ms
+UPS_STEP bondingcurve mode 2 call 13 transfer: 3731.4ms
+compress - proved compress:  800ms
+compress - proved compress:  1001ms
+UPS_STEP bondingcurve mode 2 call 14 simple_transfer: 4260.0ms
+compress - proved compress:  858ms
+compress - proved compress:  896ms
+UPS_STEP bondingcurve mode 2 call 15 noop: 3377.8ms
+compress - proved compress:  821ms
+compress - proved compress:  931ms
+UPS_STEP bondingcurve mode 2 call 16 noop: 3336.9ms
+compress - proved compress:  874ms
+compress - proved compress:  880ms
+UPS_STEP bondingcurve mode 2 call 17 noop: 3355.4ms
+compress - proved compress:  908ms
+compress - proved compress:  985ms
+UPS_STEP bondingcurve mode 2 call 18 noop: 3646.0ms
+compress - proved compress:  887ms
+compress - proved compress:  766ms
+UPS_STEP bondingcurve mode 2 call 19 refund_funding: 3419.0ms
+compress - proved compress:  725ms
+compress - proved compress:  777ms
+UPS_STEP bondingcurve mode 2 call 20 simple_claim: 3331.5ms
+compress - proved compress:  866ms
+compress - proved compress:  934ms
+UPS_STEP bondingcurve mode 2 call 21 claim: 3634.3ms
+compress - proved compress:  833ms
+compress - proved compress:  818ms
+UPS_STEP bondingcurve mode 2 call 22 transfer: 3365.9ms
+compress - proved compress:  1040ms
+compress - proved compress:  887ms
+UPS_STEP bondingcurve mode 2 call 23 simple_transfer: 3751.2ms
+compress - proved compress:  1066ms
+compress - proved compress:  1280ms
+UPS_STEP bondingcurve mode 2 call 24 noop: 3919.2ms
+compress - proved compress:  948ms
+compress - proved compress:  763ms
+UPS_STEP bondingcurve mode 2 call 25 noop: 3128.4ms
+compress - proved compress:  704ms
+compress - proved compress:  703ms
+UPS_STEP bondingcurve mode 2 call 26 noop: 2865.2ms
+compress - proved compress:  765ms
+compress - proved compress:  787ms
+UPS_STEP bondingcurve mode 2 call 27 noop: 3013.1ms
+compress - proved compress:  932ms
+compress - proved compress:  919ms
+UPS_STEP bondingcurve mode 2 call 28 refund_funding: 3990.4ms
+compress - proved compress:  876ms
+compress - proved compress:  775ms
+UPS_STEP bondingcurve mode 2 call 29 simple_claim: 3861.8ms
+compress - proved compress:  848ms
+compress - proved compress:  1164ms
+UPS_STEP bondingcurve mode 2 call 30 claim: 4000.0ms
+compress - proved compress:  1027ms
+compress - proved compress:  807ms
+UPS_STEP bondingcurve mode 2 call 31 transfer: 3440.8ms
+compress - proved compress:  1034ms
+compress - proved compress:  1046ms
+UPS_STEP bondingcurve mode 2 call 32 simple_transfer: 5174.1ms
+compress - proved compress:  743ms
+compress - proved compress:  1026ms
+UPS_STEP bondingcurve mode 2 call 33 noop: 3613.6ms
+compress - proved compress:  879ms
+compress - proved compress:  940ms
+UPS_STEP bondingcurve mode 2 call 34 noop: 3459.5ms
+compress - proved compress:  831ms
+compress - proved compress:  887ms
+UPS_STEP bondingcurve mode 2 call 35 noop: 3163.2ms
+compress - proved compress:  819ms
+compress - proved compress:  870ms
+UPS_STEP bondingcurve mode 2 call 36 noop: 3269.3ms
+compress - proved compress:  748ms
+compress - proved compress:  918ms
+UPS_STEP bondingcurve mode 2 call 37 finish_batch: 3095.9ms
+compress - proved compress:  952ms
+compress - proved compress:  809ms
+UPS_STEP bondingcurve mode 2 call 38 noop: 3307.3ms
+compress - proved compress:  972ms
+compress - proved compress:  890ms
+compress - proved compress:  1026ms
+compress - proved compress:  1148ms
+compress - proved compress:  992ms
+compress - proved compress:  888ms
+FULL_UPS bondingcurve 294787.022292ms
+FULL_UPS nftmarket {"elapsedMs":95383.663709,"phase":"cold-circuit-build"}
+prove_ups_start - start:  0ms
+prove_ups_start - gen_witness:  0ms
+prove_ups_start - circuit_mgr.ups_start.prove_base:  633ms
+prove_ups_start - prove_ups_start:  0ms
+prove_ups_start - injest_single_leaf_proof:  0ms
+compress - proved compress:  1617ms
+compress - proved compress:  668ms
+UPS_STEP nftmarket mode 1 call 0 commit_batch: 11269.8ms
+compress - proved compress:  775ms
+compress - proved compress:  1053ms
+UPS_STEP nftmarket mode 1 call 1 simple_claim: 3993.2ms
+compress - proved compress:  883ms
+compress - proved compress:  816ms
+UPS_STEP nftmarket mode 1 call 2 noop: 3378.1ms
+compress - proved compress:  903ms
+compress - proved compress:  823ms
+UPS_STEP nftmarket mode 1 call 3 noop: 3330.2ms
+compress - proved compress:  750ms
+compress - proved compress:  743ms
+UPS_STEP nftmarket mode 1 call 4 noop: 2886.5ms
+compress - proved compress:  701ms
+compress - proved compress:  750ms
+UPS_STEP nftmarket mode 1 call 5 noop: 3308.2ms
+compress - proved compress:  771ms
+compress - proved compress:  704ms
+UPS_STEP nftmarket mode 1 call 6 noop: 3119.6ms
+compress - proved compress:  811ms
+compress - proved compress:  698ms
+UPS_STEP nftmarket mode 1 call 7 noop: 2944.9ms
+compress - proved compress:  726ms
+compress - proved compress:  853ms
+UPS_STEP nftmarket mode 1 call 8 noop: 3313.7ms
+compress - proved compress:  646ms
+compress - proved compress:  731ms
+UPS_STEP nftmarket mode 1 call 9 noop: 2636.4ms
+compress - proved compress:  697ms
+compress - proved compress:  941ms
+UPS_STEP nftmarket mode 1 call 10 noop: 3294.0ms
+compress - proved compress:  962ms
+compress - proved compress:  598ms
+UPS_STEP nftmarket mode 1 call 11 noop: 3274.0ms
+compress - proved compress:  718ms
+compress - proved compress:  802ms
+UPS_STEP nftmarket mode 1 call 12 noop: 3065.1ms
+compress - proved compress:  810ms
+compress - proved compress:  802ms
+UPS_STEP nftmarket mode 1 call 13 noop: 3054.9ms
+compress - proved compress:  930ms
+compress - proved compress:  860ms
+UPS_STEP nftmarket mode 1 call 14 noop: 3636.7ms
+compress - proved compress:  734ms
+compress - proved compress:  830ms
+UPS_STEP nftmarket mode 1 call 15 noop: 3241.9ms
+compress - proved compress:  787ms
+compress - proved compress:  848ms
+UPS_STEP nftmarket mode 1 call 16 noop: 3299.8ms
+compress - proved compress:  766ms
+compress - proved compress:  904ms
+UPS_STEP nftmarket mode 1 call 17 noop: 3439.9ms
+compress - proved compress:  680ms
+compress - proved compress:  770ms
+UPS_STEP nftmarket mode 1 call 18 noop: 2948.4ms
+compress - proved compress:  738ms
+compress - proved compress:  1004ms
+UPS_STEP nftmarket mode 1 call 19 noop: 3241.6ms
+compress - proved compress:  1265ms
+compress - proved compress:  649ms
+UPS_STEP nftmarket mode 1 call 20 noop: 3266.4ms
+compress - proved compress:  900ms
+compress - proved compress:  798ms
+UPS_STEP nftmarket mode 1 call 21 noop: 3204.3ms
+compress - proved compress:  1196ms
+compress - proved compress:  897ms
+UPS_STEP nftmarket mode 1 call 22 noop: 3449.8ms
+compress - proved compress:  867ms
+compress - proved compress:  750ms
+UPS_STEP nftmarket mode 1 call 23 noop: 3212.0ms
+compress - proved compress:  957ms
+compress - proved compress:  671ms
+UPS_STEP nftmarket mode 1 call 24 noop: 3034.4ms
+compress - proved compress:  883ms
+compress - proved compress:  807ms
+UPS_STEP nftmarket mode 1 call 25 noop: 3127.4ms
+compress - proved compress:  680ms
+compress - proved compress:  758ms
+UPS_STEP nftmarket mode 1 call 26 noop: 2800.0ms
+compress - proved compress:  805ms
+compress - proved compress:  699ms
+UPS_STEP nftmarket mode 1 call 27 noop: 2988.2ms
+compress - proved compress:  821ms
+compress - proved compress:  691ms
+UPS_STEP nftmarket mode 1 call 28 noop: 2954.1ms
+compress - proved compress:  950ms
+compress - proved compress:  664ms
+UPS_STEP nftmarket mode 1 call 29 noop: 3019.0ms
+compress - proved compress:  878ms
+compress - proved compress:  647ms
+UPS_STEP nftmarket mode 1 call 30 noop: 3129.2ms
+compress - proved compress:  667ms
+compress - proved compress:  806ms
+UPS_STEP nftmarket mode 1 call 31 noop: 2862.1ms
+compress - proved compress:  951ms
+compress - proved compress:  863ms
+UPS_STEP nftmarket mode 1 call 32 noop: 3169.9ms
+compress - proved compress:  729ms
+compress - proved compress:  698ms
+UPS_STEP nftmarket mode 1 call 33 noop: 2960.6ms
+compress - proved compress:  1169ms
+compress - proved compress:  728ms
+UPS_STEP nftmarket mode 1 call 34 noop: 3561.8ms
+compress - proved compress:  849ms
+compress - proved compress:  815ms
+UPS_STEP nftmarket mode 1 call 35 noop: 3378.9ms
+compress - proved compress:  873ms
+compress - proved compress:  952ms
+UPS_STEP nftmarket mode 1 call 36 noop: 3538.0ms
+compress - proved compress:  765ms
+compress - proved compress:  828ms
+UPS_STEP nftmarket mode 1 call 37 noop: 3020.8ms
+compress - proved compress:  786ms
+compress - proved compress:  954ms
+UPS_STEP nftmarket mode 1 call 38 noop: 3527.7ms
+compress - proved compress:  812ms
+compress - proved compress:  916ms
+compress - proved compress:  821ms
+compress - proved compress:  847ms
+compress - proved compress:  1010ms
+compress - proved compress:  1591ms
+FULL_UPS nftmarket 295229.998958ms
+prove_ups_start - start:  0ms
+prove_ups_start - gen_witness:  0ms
+prove_ups_start - circuit_mgr.ups_start.prove_base:  883ms
+prove_ups_start - prove_ups_start:  0ms
+prove_ups_start - injest_single_leaf_proof:  0ms
+compress - proved compress:  1092ms
+compress - proved compress:  1047ms
+UPS_STEP nftmarket mode 3 call 0 expire_batch: 3633.4ms
+compress - proved compress:  1081ms
+compress - proved compress:  738ms
+UPS_STEP nftmarket mode 3 call 1 noop: 3172.4ms
+compress - proved compress:  868ms
+compress - proved compress:  848ms
+UPS_STEP nftmarket mode 3 call 2 noop: 3258.1ms
+compress - proved compress:  825ms
+compress - proved compress:  710ms
+UPS_STEP nftmarket mode 3 call 3 noop: 2972.7ms
+compress - proved compress:  724ms
+compress - proved compress:  735ms
+UPS_STEP nftmarket mode 3 call 4 noop: 2903.6ms
+compress - proved compress:  634ms
+compress - proved compress:  789ms
+UPS_STEP nftmarket mode 3 call 5 noop: 2829.8ms
+compress - proved compress:  636ms
+compress - proved compress:  786ms
+UPS_STEP nftmarket mode 3 call 6 noop: 2700.3ms
+compress - proved compress:  973ms
+compress - proved compress:  754ms
+UPS_STEP nftmarket mode 3 call 7 noop: 3027.7ms
+compress - proved compress:  791ms
+compress - proved compress:  745ms
+UPS_STEP nftmarket mode 3 call 8 noop: 3029.9ms
+compress - proved compress:  773ms
+compress - proved compress:  942ms
+UPS_STEP nftmarket mode 3 call 9 noop: 3237.9ms
+compress - proved compress:  599ms
+compress - proved compress:  1051ms
+UPS_STEP nftmarket mode 3 call 10 noop: 3552.1ms
+compress - proved compress:  680ms
+compress - proved compress:  856ms
+UPS_STEP nftmarket mode 3 call 11 noop: 3061.9ms
+compress - proved compress:  748ms
+compress - proved compress:  739ms
+UPS_STEP nftmarket mode 3 call 12 noop: 2931.6ms
+compress - proved compress:  874ms
+compress - proved compress:  768ms
+UPS_STEP nftmarket mode 3 call 13 noop: 3135.9ms
+compress - proved compress:  743ms
+compress - proved compress:  716ms
+UPS_STEP nftmarket mode 3 call 14 noop: 2975.0ms
+compress - proved compress:  675ms
+compress - proved compress:  861ms
+UPS_STEP nftmarket mode 3 call 15 noop: 2933.0ms
+compress - proved compress:  696ms
+compress - proved compress:  1402ms
+UPS_STEP nftmarket mode 3 call 16 noop: 3854.6ms
+compress - proved compress:  950ms
+compress - proved compress:  807ms
+UPS_STEP nftmarket mode 3 call 17 noop: 3288.4ms
+compress - proved compress:  1045ms
+compress - proved compress:  751ms
+UPS_STEP nftmarket mode 3 call 18 noop: 3375.5ms
+compress - proved compress:  1069ms
+compress - proved compress:  897ms
+UPS_STEP nftmarket mode 3 call 19 noop: 3403.3ms
+compress - proved compress:  789ms
+compress - proved compress:  736ms
+UPS_STEP nftmarket mode 3 call 20 noop: 3361.0ms
+compress - proved compress:  672ms
+compress - proved compress:  735ms
+UPS_STEP nftmarket mode 3 call 21 noop: 2986.4ms
+compress - proved compress:  761ms
+compress - proved compress:  866ms
+UPS_STEP nftmarket mode 3 call 22 noop: 3094.0ms
+compress - proved compress:  886ms
+compress - proved compress:  659ms
+UPS_STEP nftmarket mode 3 call 23 noop: 3015.9ms
+compress - proved compress:  698ms
+compress - proved compress:  790ms
+UPS_STEP nftmarket mode 3 call 24 noop: 3062.6ms
+compress - proved compress:  785ms
+compress - proved compress:  768ms
+UPS_STEP nftmarket mode 3 call 25 noop: 3533.5ms
+compress - proved compress:  757ms
+compress - proved compress:  739ms
+UPS_STEP nftmarket mode 3 call 26 noop: 3407.4ms
+compress - proved compress:  2265ms
+compress - proved compress:  1858ms
+UPS_STEP nftmarket mode 3 call 27 noop: 6233.6ms
+compress - proved compress:  2717ms
+compress - proved compress:  1194ms
+UPS_STEP nftmarket mode 3 call 28 noop: 8722.1ms
+compress - proved compress:  1429ms
+compress - proved compress:  1087ms
+UPS_STEP nftmarket mode 3 call 29 noop: 5985.9ms
+compress - proved compress:  1246ms
+compress - proved compress:  990ms
+UPS_STEP nftmarket mode 3 call 30 noop: 4573.6ms
+compress - proved compress:  938ms
+compress - proved compress:  957ms
+UPS_STEP nftmarket mode 3 call 31 noop: 5045.5ms
+compress - proved compress:  958ms
+compress - proved compress:  2571ms
+UPS_STEP nftmarket mode 3 call 32 noop: 7307.9ms
+compress - proved compress:  1222ms
+compress - proved compress:  1110ms
+UPS_STEP nftmarket mode 3 call 33 noop: 5151.9ms
+compress - proved compress:  1363ms
+compress - proved compress:  766ms
+UPS_STEP nftmarket mode 3 call 34 noop: 3699.3ms
+compress - proved compress:  2153ms
+compress - proved compress:  1918ms
+UPS_STEP nftmarket mode 3 call 35 noop: 6279.9ms
+compress - proved compress:  701ms
+compress - proved compress:  876ms
+UPS_STEP nftmarket mode 3 call 36 noop: 3583.8ms
+compress - proved compress:  933ms
+compress - proved compress:  818ms
+UPS_STEP nftmarket mode 3 call 37 noop: 3477.9ms
+compress - proved compress:  2111ms
+compress - proved compress:  961ms
+UPS_STEP nftmarket mode 3 call 38 noop: 5083.1ms
+compress - proved compress:  1044ms
+compress - proved compress:  1696ms
+compress - proved compress:  1110ms
+compress - proved compress:  1386ms
+compress - proved compress:  894ms
+compress - proved compress:  770ms
+FULL_UPS nftmarket 358325.09029200004ms
+prove_ups_start - start:  0ms
+prove_ups_start - gen_witness:  0ms
+prove_ups_start - circuit_mgr.ups_start.prove_base:  1257ms
+prove_ups_start - prove_ups_start:  0ms
+prove_ups_start - injest_single_leaf_proof:  0ms
+compress - proved compress:  2046ms
+compress - proved compress:  812ms
+UPS_STEP nftmarket mode 1 call 0 commit_batch: 13026.6ms
+compress - proved compress:  817ms
+compress - proved compress:  2059ms
+UPS_STEP nftmarket mode 1 call 1 simple_claim: 4165.0ms
+compress - proved compress:  722ms
+compress - proved compress:  619ms
+UPS_STEP nftmarket mode 1 call 2 noop: 2612.3ms
+compress - proved compress:  569ms
+compress - proved compress:  571ms
+UPS_STEP nftmarket mode 1 call 3 noop: 2198.1ms
+compress - proved compress:  525ms
+compress - proved compress:  683ms
+UPS_STEP nftmarket mode 1 call 4 noop: 2361.3ms
+compress - proved compress:  680ms
+compress - proved compress:  691ms
+UPS_STEP nftmarket mode 1 call 5 noop: 2585.4ms
+compress - proved compress:  774ms
+compress - proved compress:  570ms
+UPS_STEP nftmarket mode 1 call 6 noop: 2629.2ms
+compress - proved compress:  652ms
+compress - proved compress:  639ms
+UPS_STEP nftmarket mode 1 call 7 noop: 2497.2ms
+compress - proved compress:  618ms
+compress - proved compress:  611ms
+UPS_STEP nftmarket mode 1 call 8 noop: 2714.8ms
+compress - proved compress:  564ms
+compress - proved compress:  571ms
+UPS_STEP nftmarket mode 1 call 9 noop: 2357.3ms
+compress - proved compress:  704ms
+compress - proved compress:  638ms
+UPS_STEP nftmarket mode 1 call 10 noop: 2725.7ms
+compress - proved compress:  621ms
+compress - proved compress:  625ms
+UPS_STEP nftmarket mode 1 call 11 noop: 2307.7ms
+compress - proved compress:  532ms
+compress - proved compress:  575ms
+UPS_STEP nftmarket mode 1 call 12 noop: 2289.2ms
+compress - proved compress:  620ms
+compress - proved compress:  616ms
+UPS_STEP nftmarket mode 1 call 13 noop: 2403.2ms
+compress - proved compress:  638ms
+compress - proved compress:  585ms
+UPS_STEP nftmarket mode 1 call 14 noop: 2352.9ms
+compress - proved compress:  586ms
+compress - proved compress:  600ms
+UPS_STEP nftmarket mode 1 call 15 noop: 2299.6ms
+compress - proved compress:  610ms
+compress - proved compress:  624ms
+UPS_STEP nftmarket mode 1 call 16 noop: 2475.1ms
+compress - proved compress:  566ms
+compress - proved compress:  689ms
+UPS_STEP nftmarket mode 1 call 17 noop: 2316.5ms
+compress - proved compress:  574ms
+compress - proved compress:  578ms
+UPS_STEP nftmarket mode 1 call 18 noop: 2325.9ms
+compress - proved compress:  756ms
+compress - proved compress:  728ms
+UPS_STEP nftmarket mode 1 call 19 noop: 2797.5ms
+compress - proved compress:  691ms
+compress - proved compress:  593ms
+UPS_STEP nftmarket mode 1 call 20 noop: 2521.9ms
+compress - proved compress:  619ms
+compress - proved compress:  641ms
+UPS_STEP nftmarket mode 1 call 21 noop: 2495.4ms
+compress - proved compress:  567ms
+compress - proved compress:  683ms
+UPS_STEP nftmarket mode 1 call 22 noop: 2632.9ms
+compress - proved compress:  591ms
+compress - proved compress:  609ms
+UPS_STEP nftmarket mode 1 call 23 noop: 2341.3ms
+compress - proved compress:  613ms
+compress - proved compress:  598ms
+UPS_STEP nftmarket mode 1 call 24 noop: 2357.5ms
+compress - proved compress:  567ms
+compress - proved compress:  634ms
+UPS_STEP nftmarket mode 1 call 25 noop: 2458.1ms
+compress - proved compress:  601ms
+compress - proved compress:  734ms
+UPS_STEP nftmarket mode 1 call 26 noop: 2536.2ms
+compress - proved compress:  615ms
+compress - proved compress:  707ms
+UPS_STEP nftmarket mode 1 call 27 noop: 2558.2ms
+compress - proved compress:  520ms
+compress - proved compress:  529ms
+UPS_STEP nftmarket mode 1 call 28 noop: 2140.1ms
+compress - proved compress:  649ms
+compress - proved compress:  665ms
+UPS_STEP nftmarket mode 1 call 29 noop: 2501.2ms
+compress - proved compress:  596ms
+compress - proved compress:  899ms
+UPS_STEP nftmarket mode 1 call 30 noop: 2781.3ms
+compress - proved compress:  572ms
+compress - proved compress:  861ms
+UPS_STEP nftmarket mode 1 call 31 noop: 2566.7ms
+compress - proved compress:  547ms
+compress - proved compress:  617ms
+UPS_STEP nftmarket mode 1 call 32 noop: 2318.0ms
+compress - proved compress:  831ms
+compress - proved compress:  618ms
+UPS_STEP nftmarket mode 1 call 33 noop: 2658.5ms
+compress - proved compress:  630ms
+compress - proved compress:  663ms
+UPS_STEP nftmarket mode 1 call 34 noop: 2668.9ms
+compress - proved compress:  630ms
+compress - proved compress:  607ms
+UPS_STEP nftmarket mode 1 call 35 noop: 2463.8ms
+compress - proved compress:  624ms
+compress - proved compress:  631ms
+UPS_STEP nftmarket mode 1 call 36 noop: 2451.5ms
+compress - proved compress:  599ms
+compress - proved compress:  753ms
+UPS_STEP nftmarket mode 1 call 37 noop: 2784.7ms
+compress - proved compress:  1054ms
+compress - proved compress:  1652ms
+UPS_STEP nftmarket mode 1 call 38 noop: 9640.9ms
+compress - proved compress:  1053ms
+compress - proved compress:  1168ms
+compress - proved compress:  1157ms
+compress - proved compress:  833ms
+compress - proved compress:  780ms
+compress - proved compress:  611ms
+FULL_UPS nftmarket 269898.51787499996ms
+prove_ups_start - start:  0ms
+prove_ups_start - gen_witness:  0ms
+prove_ups_start - circuit_mgr.ups_start.prove_base:  585ms
+prove_ups_start - prove_ups_start:  0ms
+prove_ups_start - injest_single_leaf_proof:  0ms
+compress - proved compress:  796ms
+compress - proved compress:  936ms
+UPS_STEP nftmarket mode 2 call 0 begin_batch: 3366.0ms
+compress - proved compress:  1530ms
+compress - proved compress:  637ms
+UPS_STEP nftmarket mode 2 call 1 refund_funding: 4328.9ms
+compress - proved compress:  592ms
+compress - proved compress:  963ms
+UPS_STEP nftmarket mode 2 call 2 simple_claim: 4337.1ms
+compress - proved compress:  1098ms
+compress - proved compress:  1265ms
+UPS_STEP nftmarket mode 2 call 3 claim: 4687.1ms
+compress - proved compress:  826ms
+compress - proved compress:  812ms
+UPS_STEP nftmarket mode 2 call 4 acknowledge: 3167.3ms
+compress - proved compress:  785ms
+compress - proved compress:  896ms
+UPS_STEP nftmarket mode 2 call 5 transfer: 3330.2ms
+compress - proved compress:  610ms
+compress - proved compress:  772ms
+UPS_STEP nftmarket mode 2 call 6 simple_transfer: 2778.7ms
+compress - proved compress:  597ms
+compress - proved compress:  775ms
+UPS_STEP nftmarket mode 2 call 7 noop: 3112.7ms
+compress - proved compress:  647ms
+compress - proved compress:  581ms
+UPS_STEP nftmarket mode 2 call 8 noop: 2393.5ms
+compress - proved compress:  573ms
+compress - proved compress:  595ms
+UPS_STEP nftmarket mode 2 call 9 noop: 2230.7ms
+compress - proved compress:  1313ms
+compress - proved compress:  1852ms
+UPS_STEP nftmarket mode 2 call 10 refund_funding: 6387.4ms
+compress - proved compress:  673ms
+compress - proved compress:  698ms
+UPS_STEP nftmarket mode 2 call 11 simple_claim: 3676.8ms
+compress - proved compress:  757ms
+compress - proved compress:  903ms
+UPS_STEP nftmarket mode 2 call 12 claim: 3170.4ms
+compress - proved compress:  1188ms
+compress - proved compress:  764ms
+UPS_STEP nftmarket mode 2 call 13 transfer: 3743.1ms
+compress - proved compress:  736ms
+compress - proved compress:  657ms
+UPS_STEP nftmarket mode 2 call 14 simple_transfer: 2626.6ms
+compress - proved compress:  968ms
+compress - proved compress:  1214ms
+UPS_STEP nftmarket mode 2 call 15 noop: 3585.7ms
+compress - proved compress:  619ms
+compress - proved compress:  671ms
+UPS_STEP nftmarket mode 2 call 16 noop: 2579.8ms
+compress - proved compress:  697ms
+compress - proved compress:  670ms
+UPS_STEP nftmarket mode 2 call 17 noop: 2897.7ms
+compress - proved compress:  974ms
+compress - proved compress:  1086ms
+UPS_STEP nftmarket mode 2 call 18 noop: 3542.4ms
+compress - proved compress:  1753ms
+compress - proved compress:  887ms
+UPS_STEP nftmarket mode 2 call 19 refund_funding: 5449.8ms
+compress - proved compress:  835ms
+compress - proved compress:  696ms
+UPS_STEP nftmarket mode 2 call 20 simple_claim: 2844.7ms
+compress - proved compress:  926ms
+compress - proved compress:  1688ms
+UPS_STEP nftmarket mode 2 call 21 claim: 4546.2ms
+compress - proved compress:  847ms
+compress - proved compress:  631ms
+UPS_STEP nftmarket mode 2 call 22 acknowledge: 3032.5ms
+compress - proved compress:  762ms
+compress - proved compress:  757ms
+UPS_STEP nftmarket mode 2 call 23 transfer: 2902.2ms
+compress - proved compress:  577ms
+compress - proved compress:  661ms
+UPS_STEP nftmarket mode 2 call 24 simple_transfer: 2509.6ms
+compress - proved compress:  727ms
+compress - proved compress:  832ms
+UPS_STEP nftmarket mode 2 call 25 noop: 3775.3ms
+compress - proved compress:  620ms
+compress - proved compress:  636ms
+UPS_STEP nftmarket mode 2 call 26 noop: 2644.1ms
+compress - proved compress:  603ms
+compress - proved compress:  556ms
+UPS_STEP nftmarket mode 2 call 27 noop: 2427.3ms
+compress - proved compress:  1297ms
+compress - proved compress:  749ms
+UPS_STEP nftmarket mode 2 call 28 refund_funding: 4300.2ms
+compress - proved compress:  866ms
+compress - proved compress:  863ms
+UPS_STEP nftmarket mode 2 call 29 simple_claim: 3422.2ms
+compress - proved compress:  800ms
+compress - proved compress:  828ms
+UPS_STEP nftmarket mode 2 call 30 claim: 3478.8ms
+compress - proved compress:  742ms
+compress - proved compress:  764ms
+UPS_STEP nftmarket mode 2 call 31 transfer: 2959.0ms
+compress - proved compress:  811ms
+compress - proved compress:  845ms
+UPS_STEP nftmarket mode 2 call 32 simple_transfer: 3457.6ms
+compress - proved compress:  810ms
+compress - proved compress:  840ms
+UPS_STEP nftmarket mode 2 call 33 noop: 3313.0ms
+compress - proved compress:  831ms
+compress - proved compress:  747ms
+UPS_STEP nftmarket mode 2 call 34 noop: 2963.8ms
+compress - proved compress:  699ms
+compress - proved compress:  860ms
+UPS_STEP nftmarket mode 2 call 35 noop: 2943.2ms
+compress - proved compress:  784ms
+compress - proved compress:  1143ms
+UPS_STEP nftmarket mode 2 call 36 noop: 3527.5ms
+compress - proved compress:  801ms
+compress - proved compress:  1151ms
+UPS_STEP nftmarket mode 2 call 37 finish_batch: 3698.5ms
+compress - proved compress:  803ms
+compress - proved compress:  770ms
+UPS_STEP nftmarket mode 2 call 38 noop: 3197.8ms
+compress - proved compress:  844ms
+compress - proved compress:  847ms
+compress - proved compress:  879ms
+compress - proved compress:  804ms
+compress - proved compress:  446ms
+compress - proved compress:  436ms
+FULL_UPS nftmarket 278192.164875ms
+ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 25 filtered out; finished in 2561.93s
+
+real 2561.92
+user 4592.25
+sys 173.15
+          1777778688  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+             5703932  page reclaims
+                 171  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+                6552  voluntary context switches
+            27834518  involuntary context switches
+      57857893464146  instructions retired
+      14006508636437  cycles elapsed
+          3976537984  peak memory footprint

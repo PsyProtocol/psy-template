@@ -1,0 +1,1060 @@
+
+running 1 test
+test full_ups::full_ups_expire_refreeze_and_refund_four_markets ... FULL_UPS amm {"elapsedMs":110724.2435,"phase":"cold-circuit-build"}
+prove_ups_start - start:  0ms
+prove_ups_start - gen_witness:  0ms
+prove_ups_start - circuit_mgr.ups_start.prove_base:  893ms
+prove_ups_start - prove_ups_start:  0ms
+prove_ups_start - injest_single_leaf_proof:  0ms
+compress - proved compress:  1400ms
+compress - proved compress:  735ms
+UPS_STEP amm mode 1 call 0 commit_batch: 10830.8ms
+compress - proved compress:  955ms
+compress - proved compress:  670ms
+UPS_STEP amm mode 1 call 1 simple_claim: 3233.4ms
+compress - proved compress:  955ms
+compress - proved compress:  838ms
+UPS_STEP amm mode 1 call 2 noop: 3434.4ms
+compress - proved compress:  764ms
+compress - proved compress:  766ms
+UPS_STEP amm mode 1 call 3 noop: 3086.3ms
+compress - proved compress:  743ms
+compress - proved compress:  904ms
+UPS_STEP amm mode 1 call 4 noop: 3154.8ms
+compress - proved compress:  651ms
+compress - proved compress:  697ms
+UPS_STEP amm mode 1 call 5 noop: 2674.5ms
+compress - proved compress:  912ms
+compress - proved compress:  849ms
+UPS_STEP amm mode 1 call 6 noop: 3177.2ms
+compress - proved compress:  983ms
+compress - proved compress:  1163ms
+UPS_STEP amm mode 1 call 7 noop: 3685.1ms
+compress - proved compress:  818ms
+compress - proved compress:  909ms
+UPS_STEP amm mode 1 call 8 noop: 3646.8ms
+compress - proved compress:  922ms
+compress - proved compress:  953ms
+UPS_STEP amm mode 1 call 9 noop: 3506.5ms
+compress - proved compress:  854ms
+compress - proved compress:  1245ms
+UPS_STEP amm mode 1 call 10 noop: 3836.6ms
+compress - proved compress:  928ms
+compress - proved compress:  749ms
+UPS_STEP amm mode 1 call 11 noop: 3423.9ms
+compress - proved compress:  993ms
+compress - proved compress:  764ms
+UPS_STEP amm mode 1 call 12 noop: 3249.2ms
+compress - proved compress:  724ms
+compress - proved compress:  728ms
+UPS_STEP amm mode 1 call 13 noop: 2854.4ms
+compress - proved compress:  781ms
+compress - proved compress:  780ms
+UPS_STEP amm mode 1 call 14 noop: 2961.9ms
+compress - proved compress:  815ms
+compress - proved compress:  794ms
+UPS_STEP amm mode 1 call 15 noop: 3411.1ms
+compress - proved compress:  770ms
+compress - proved compress:  1084ms
+UPS_STEP amm mode 1 call 16 noop: 3390.2ms
+compress - proved compress:  934ms
+compress - proved compress:  868ms
+UPS_STEP amm mode 1 call 17 noop: 3658.8ms
+compress - proved compress:  1028ms
+compress - proved compress:  771ms
+UPS_STEP amm mode 1 call 18 noop: 4224.2ms
+compress - proved compress:  922ms
+compress - proved compress:  931ms
+UPS_STEP amm mode 1 call 19 noop: 3500.0ms
+compress - proved compress:  1066ms
+compress - proved compress:  1056ms
+UPS_STEP amm mode 1 call 20 noop: 4126.7ms
+compress - proved compress:  912ms
+compress - proved compress:  830ms
+UPS_STEP amm mode 1 call 21 noop: 3827.9ms
+compress - proved compress:  704ms
+compress - proved compress:  650ms
+UPS_STEP amm mode 1 call 22 noop: 2707.1ms
+compress - proved compress:  867ms
+compress - proved compress:  899ms
+UPS_STEP amm mode 1 call 23 noop: 3339.7ms
+compress - proved compress:  696ms
+compress - proved compress:  922ms
+UPS_STEP amm mode 1 call 24 noop: 3219.8ms
+compress - proved compress:  759ms
+compress - proved compress:  764ms
+UPS_STEP amm mode 1 call 25 noop: 2991.9ms
+compress - proved compress:  732ms
+compress - proved compress:  843ms
+UPS_STEP amm mode 1 call 26 noop: 3311.7ms
+compress - proved compress:  768ms
+compress - proved compress:  1063ms
+UPS_STEP amm mode 1 call 27 noop: 3619.1ms
+compress - proved compress:  814ms
+compress - proved compress:  792ms
+UPS_STEP amm mode 1 call 28 noop: 3260.5ms
+compress - proved compress:  836ms
+compress - proved compress:  1059ms
+UPS_STEP amm mode 1 call 29 noop: 3857.2ms
+compress - proved compress:  731ms
+compress - proved compress:  1067ms
+UPS_STEP amm mode 1 call 30 noop: 3295.4ms
+compress - proved compress:  799ms
+compress - proved compress:  626ms
+UPS_STEP amm mode 1 call 31 noop: 2664.7ms
+compress - proved compress:  860ms
+compress - proved compress:  938ms
+UPS_STEP amm mode 1 call 32 noop: 3548.3ms
+compress - proved compress:  828ms
+compress - proved compress:  723ms
+UPS_STEP amm mode 1 call 33 noop: 3499.3ms
+compress - proved compress:  854ms
+compress - proved compress:  850ms
+UPS_STEP amm mode 1 call 34 noop: 3119.1ms
+compress - proved compress:  952ms
+compress - proved compress:  726ms
+UPS_STEP amm mode 1 call 35 noop: 3351.8ms
+compress - proved compress:  814ms
+compress - proved compress:  831ms
+UPS_STEP amm mode 1 call 36 noop: 3229.2ms
+compress - proved compress:  1077ms
+compress - proved compress:  672ms
+UPS_STEP amm mode 1 call 37 noop: 3387.4ms
+compress - proved compress:  1057ms
+compress - proved compress:  817ms
+UPS_STEP amm mode 1 call 38 noop: 3991.1ms
+compress - proved compress:  818ms
+compress - proved compress:  752ms
+compress - proved compress:  985ms
+compress - proved compress:  676ms
+compress - proved compress:  885ms
+compress - proved compress:  847ms
+FULL_UPS amm 282622.667959ms
+prove_ups_start - start:  0ms
+prove_ups_start - gen_witness:  0ms
+prove_ups_start - circuit_mgr.ups_start.prove_base:  941ms
+prove_ups_start - prove_ups_start:  0ms
+prove_ups_start - injest_single_leaf_proof:  0ms
+compress - proved compress:  801ms
+compress - proved compress:  720ms
+UPS_STEP amm mode 3 call 0 expire_batch: 3355.1ms
+compress - proved compress:  885ms
+compress - proved compress:  1044ms
+UPS_STEP amm mode 3 call 1 noop: 3951.7ms
+compress - proved compress:  799ms
+compress - proved compress:  921ms
+UPS_STEP amm mode 3 call 2 noop: 4276.2ms
+compress - proved compress:  808ms
+compress - proved compress:  746ms
+UPS_STEP amm mode 3 call 3 noop: 3265.2ms
+compress - proved compress:  767ms
+compress - proved compress:  957ms
+UPS_STEP amm mode 3 call 4 noop: 3543.4ms
+compress - proved compress:  899ms
+compress - proved compress:  903ms
+UPS_STEP amm mode 3 call 5 noop: 3696.4ms
+compress - proved compress:  952ms
+compress - proved compress:  1116ms
+UPS_STEP amm mode 3 call 6 noop: 3765.9ms
+compress - proved compress:  662ms
+compress - proved compress:  649ms
+UPS_STEP amm mode 3 call 7 noop: 2737.1ms
+compress - proved compress:  846ms
+compress - proved compress:  908ms
+UPS_STEP amm mode 3 call 8 noop: 3531.1ms
+compress - proved compress:  783ms
+compress - proved compress:  1197ms
+UPS_STEP amm mode 3 call 9 noop: 3607.1ms
+compress - proved compress:  783ms
+compress - proved compress:  833ms
+UPS_STEP amm mode 3 call 10 noop: 3240.7ms
+compress - proved compress:  1097ms
+compress - proved compress:  852ms
+UPS_STEP amm mode 3 call 11 noop: 3600.6ms
+compress - proved compress:  720ms
+compress - proved compress:  820ms
+UPS_STEP amm mode 3 call 12 noop: 3010.2ms
+compress - proved compress:  722ms
+compress - proved compress:  736ms
+UPS_STEP amm mode 3 call 13 noop: 2884.7ms
+compress - proved compress:  1588ms
+compress - proved compress:  622ms
+UPS_STEP amm mode 3 call 14 noop: 3626.8ms
+compress - proved compress:  731ms
+compress - proved compress:  794ms
+UPS_STEP amm mode 3 call 15 noop: 2935.5ms
+compress - proved compress:  1093ms
+compress - proved compress:  729ms
+UPS_STEP amm mode 3 call 16 noop: 3356.8ms
+compress - proved compress:  1013ms
+compress - proved compress:  857ms
+UPS_STEP amm mode 3 call 17 noop: 3713.1ms
+compress - proved compress:  807ms
+compress - proved compress:  902ms
+UPS_STEP amm mode 3 call 18 noop: 3508.4ms
+compress - proved compress:  821ms
+compress - proved compress:  916ms
+UPS_STEP amm mode 3 call 19 noop: 2981.2ms
+compress - proved compress:  715ms
+compress - proved compress:  678ms
+UPS_STEP amm mode 3 call 20 noop: 2949.4ms
+compress - proved compress:  702ms
+compress - proved compress:  752ms
+UPS_STEP amm mode 3 call 21 noop: 3091.4ms
+compress - proved compress:  660ms
+compress - proved compress:  724ms
+UPS_STEP amm mode 3 call 22 noop: 3239.1ms
+compress - proved compress:  822ms
+compress - proved compress:  844ms
+UPS_STEP amm mode 3 call 23 noop: 3230.6ms
+compress - proved compress:  734ms
+compress - proved compress:  732ms
+UPS_STEP amm mode 3 call 24 noop: 2850.7ms
+compress - proved compress:  904ms
+compress - proved compress:  929ms
+UPS_STEP amm mode 3 call 25 noop: 3617.0ms
+compress - proved compress:  730ms
+compress - proved compress:  1126ms
+UPS_STEP amm mode 3 call 26 noop: 3646.5ms
+compress - proved compress:  786ms
+compress - proved compress:  766ms
+UPS_STEP amm mode 3 call 27 noop: 3359.6ms
+compress - proved compress:  835ms
+compress - proved compress:  797ms
+UPS_STEP amm mode 3 call 28 noop: 3232.1ms
+compress - proved compress:  926ms
+compress - proved compress:  971ms
+UPS_STEP amm mode 3 call 29 noop: 3461.1ms
+compress - proved compress:  817ms
+compress - proved compress:  836ms
+UPS_STEP amm mode 3 call 30 noop: 3316.4ms
+compress - proved compress:  938ms
+compress - proved compress:  855ms
+UPS_STEP amm mode 3 call 31 noop: 3568.7ms
+compress - proved compress:  824ms
+compress - proved compress:  737ms
+UPS_STEP amm mode 3 call 32 noop: 3183.1ms
+compress - proved compress:  810ms
+compress - proved compress:  828ms
+UPS_STEP amm mode 3 call 33 noop: 3791.7ms
+compress - proved compress:  1089ms
+compress - proved compress:  1130ms
+UPS_STEP amm mode 3 call 34 noop: 5078.7ms
+compress - proved compress:  897ms
+compress - proved compress:  736ms
+UPS_STEP amm mode 3 call 35 noop: 3791.4ms
+compress - proved compress:  1238ms
+compress - proved compress:  1269ms
+UPS_STEP amm mode 3 call 36 noop: 4626.1ms
+compress - proved compress:  1125ms
+compress - proved compress:  1051ms
+UPS_STEP amm mode 3 call 37 noop: 4511.2ms
+compress - proved compress:  1105ms
+compress - proved compress:  1409ms
+UPS_STEP amm mode 3 call 38 noop: 4697.8ms
+compress - proved compress:  1267ms
+compress - proved compress:  1004ms
+compress - proved compress:  749ms
+compress - proved compress:  786ms
+compress - proved compress:  1049ms
+compress - proved compress:  1242ms
+FULL_UPS amm 290322.08962499996ms
+prove_ups_start - start:  0ms
+prove_ups_start - gen_witness:  0ms
+prove_ups_start - circuit_mgr.ups_start.prove_base:  1063ms
+prove_ups_start - prove_ups_start:  0ms
+prove_ups_start - injest_single_leaf_proof:  0ms
+compress - proved compress:  1691ms
+compress - proved compress:  1085ms
+UPS_STEP amm mode 1 call 0 commit_batch: 12137.7ms
+compress - proved compress:  1437ms
+compress - proved compress:  1026ms
+UPS_STEP amm mode 1 call 1 simple_claim: 4514.0ms
+compress - proved compress:  900ms
+compress - proved compress:  789ms
+UPS_STEP amm mode 1 call 2 noop: 3563.1ms
+compress - proved compress:  813ms
+compress - proved compress:  666ms
+UPS_STEP amm mode 1 call 3 noop: 3145.1ms
+compress - proved compress:  831ms
+compress - proved compress:  772ms
+UPS_STEP amm mode 1 call 4 noop: 3167.8ms
+compress - proved compress:  1172ms
+compress - proved compress:  759ms
+UPS_STEP amm mode 1 call 5 noop: 3479.8ms
+compress - proved compress:  766ms
+compress - proved compress:  962ms
+UPS_STEP amm mode 1 call 6 noop: 3665.3ms
+compress - proved compress:  926ms
+compress - proved compress:  870ms
+UPS_STEP amm mode 1 call 7 noop: 3439.2ms
+compress - proved compress:  838ms
+compress - proved compress:  887ms
+UPS_STEP amm mode 1 call 8 noop: 3297.8ms
+compress - proved compress:  763ms
+compress - proved compress:  835ms
+UPS_STEP amm mode 1 call 9 noop: 3359.0ms
+compress - proved compress:  731ms
+compress - proved compress:  888ms
+UPS_STEP amm mode 1 call 10 noop: 3309.8ms
+compress - proved compress:  865ms
+compress - proved compress:  1179ms
+UPS_STEP amm mode 1 call 11 noop: 3744.9ms
+compress - proved compress:  701ms
+compress - proved compress:  656ms
+UPS_STEP amm mode 1 call 12 noop: 2684.8ms
+compress - proved compress:  804ms
+compress - proved compress:  845ms
+UPS_STEP amm mode 1 call 13 noop: 3466.2ms
+compress - proved compress:  1072ms
+compress - proved compress:  790ms
+UPS_STEP amm mode 1 call 14 noop: 3404.3ms
+compress - proved compress:  813ms
+compress - proved compress:  1004ms
+UPS_STEP amm mode 1 call 15 noop: 3533.5ms
+compress - proved compress:  1883ms
+compress - proved compress:  994ms
+UPS_STEP amm mode 1 call 16 noop: 4545.0ms
+compress - proved compress:  976ms
+compress - proved compress:  813ms
+UPS_STEP amm mode 1 call 17 noop: 3388.4ms
+compress - proved compress:  765ms
+compress - proved compress:  918ms
+UPS_STEP amm mode 1 call 18 noop: 3437.6ms
+compress - proved compress:  782ms
+compress - proved compress:  778ms
+UPS_STEP amm mode 1 call 19 noop: 3054.7ms
+compress - proved compress:  711ms
+compress - proved compress:  799ms
+UPS_STEP amm mode 1 call 20 noop: 3616.3ms
+compress - proved compress:  1017ms
+compress - proved compress:  1122ms
+UPS_STEP amm mode 1 call 21 noop: 3756.2ms
+compress - proved compress:  768ms
+compress - proved compress:  845ms
+UPS_STEP amm mode 1 call 22 noop: 3334.8ms
+compress - proved compress:  704ms
+compress - proved compress:  753ms
+UPS_STEP amm mode 1 call 23 noop: 2897.3ms
+compress - proved compress:  793ms
+compress - proved compress:  845ms
+UPS_STEP amm mode 1 call 24 noop: 3151.7ms
+compress - proved compress:  821ms
+compress - proved compress:  1050ms
+UPS_STEP amm mode 1 call 25 noop: 3359.1ms
+compress - proved compress:  1118ms
+compress - proved compress:  996ms
+UPS_STEP amm mode 1 call 26 noop: 3878.7ms
+compress - proved compress:  919ms
+compress - proved compress:  874ms
+UPS_STEP amm mode 1 call 27 noop: 3506.7ms
+compress - proved compress:  791ms
+compress - proved compress:  843ms
+UPS_STEP amm mode 1 call 28 noop: 3216.3ms
+compress - proved compress:  732ms
+compress - proved compress:  652ms
+UPS_STEP amm mode 1 call 29 noop: 2900.4ms
+compress - proved compress:  785ms
+compress - proved compress:  655ms
+UPS_STEP amm mode 1 call 30 noop: 3148.8ms
+compress - proved compress:  747ms
+compress - proved compress:  877ms
+UPS_STEP amm mode 1 call 31 noop: 3175.0ms
+compress - proved compress:  685ms
+compress - proved compress:  680ms
+UPS_STEP amm mode 1 call 32 noop: 3084.6ms
+compress - proved compress:  678ms
+compress - proved compress:  809ms
+UPS_STEP amm mode 1 call 33 noop: 3601.9ms
+compress - proved compress:  923ms
+compress - proved compress:  1008ms
+UPS_STEP amm mode 1 call 34 noop: 3878.8ms
+compress - proved compress:  705ms
+compress - proved compress:  789ms
+UPS_STEP amm mode 1 call 35 noop: 3341.8ms
+compress - proved compress:  694ms
+compress - proved compress:  739ms
+UPS_STEP amm mode 1 call 36 noop: 2737.4ms
+compress - proved compress:  782ms
+compress - proved compress:  844ms
+UPS_STEP amm mode 1 call 37 noop: 3085.9ms
+compress - proved compress:  813ms
+compress - proved compress:  1048ms
+UPS_STEP amm mode 1 call 38 noop: 3428.3ms
+compress - proved compress:  783ms
+compress - proved compress:  853ms
+compress - proved compress:  894ms
+compress - proved compress:  841ms
+compress - proved compress:  919ms
+compress - proved compress:  922ms
+FULL_UPS amm 285829.569667ms
+prove_ups_start - start:  0ms
+prove_ups_start - gen_witness:  0ms
+prove_ups_start - circuit_mgr.ups_start.prove_base:  979ms
+prove_ups_start - prove_ups_start:  0ms
+prove_ups_start - injest_single_leaf_proof:  0ms
+compress - proved compress:  818ms
+compress - proved compress:  758ms
+UPS_STEP amm mode 2 call 0 begin_batch: 3565.6ms
+compress - proved compress:  955ms
+compress - proved compress:  850ms
+UPS_STEP amm mode 2 call 1 refund_funding: 3696.7ms
+compress - proved compress:  1050ms
+compress - proved compress:  885ms
+UPS_STEP amm mode 2 call 2 simple_claim: 3546.1ms
+compress - proved compress:  913ms
+compress - proved compress:  922ms
+UPS_STEP amm mode 2 call 3 claim: 3557.9ms
+compress - proved compress:  861ms
+compress - proved compress:  1013ms
+UPS_STEP amm mode 2 call 4 transfer: 3463.1ms
+compress - proved compress:  863ms
+compress - proved compress:  886ms
+UPS_STEP amm mode 2 call 5 simple_transfer: 3376.6ms
+compress - proved compress:  833ms
+compress - proved compress:  1010ms
+UPS_STEP amm mode 2 call 6 noop: 3926.1ms
+compress - proved compress:  775ms
+compress - proved compress:  821ms
+UPS_STEP amm mode 2 call 7 noop: 3130.0ms
+compress - proved compress:  820ms
+compress - proved compress:  874ms
+UPS_STEP amm mode 2 call 8 noop: 3358.6ms
+compress - proved compress:  775ms
+compress - proved compress:  896ms
+UPS_STEP amm mode 2 call 9 noop: 3344.4ms
+compress - proved compress:  902ms
+compress - proved compress:  1139ms
+UPS_STEP amm mode 2 call 10 refund_funding: 3807.8ms
+compress - proved compress:  1001ms
+compress - proved compress:  1252ms
+UPS_STEP amm mode 2 call 11 simple_claim: 3714.4ms
+compress - proved compress:  790ms
+compress - proved compress:  947ms
+UPS_STEP amm mode 2 call 12 claim: 4018.1ms
+compress - proved compress:  982ms
+compress - proved compress:  750ms
+UPS_STEP amm mode 2 call 13 transfer: 3562.1ms
+compress - proved compress:  898ms
+compress - proved compress:  901ms
+UPS_STEP amm mode 2 call 14 simple_transfer: 3311.4ms
+compress - proved compress:  863ms
+compress - proved compress:  842ms
+UPS_STEP amm mode 2 call 15 noop: 3247.6ms
+compress - proved compress:  902ms
+compress - proved compress:  1041ms
+UPS_STEP amm mode 2 call 16 noop: 3581.6ms
+compress - proved compress:  828ms
+compress - proved compress:  787ms
+UPS_STEP amm mode 2 call 17 noop: 3036.9ms
+compress - proved compress:  846ms
+compress - proved compress:  669ms
+UPS_STEP amm mode 2 call 18 noop: 3208.9ms
+compress - proved compress:  863ms
+compress - proved compress:  823ms
+UPS_STEP amm mode 2 call 19 refund_funding: 3641.3ms
+compress - proved compress:  972ms
+compress - proved compress:  800ms
+UPS_STEP amm mode 2 call 20 simple_claim: 3374.1ms
+compress - proved compress:  926ms
+compress - proved compress:  996ms
+UPS_STEP amm mode 2 call 21 claim: 3708.3ms
+compress - proved compress:  839ms
+compress - proved compress:  986ms
+UPS_STEP amm mode 2 call 22 transfer: 3999.2ms
+compress - proved compress:  739ms
+compress - proved compress:  944ms
+UPS_STEP amm mode 2 call 23 simple_transfer: 3346.8ms
+compress - proved compress:  821ms
+compress - proved compress:  754ms
+UPS_STEP amm mode 2 call 24 noop: 2991.9ms
+compress - proved compress:  758ms
+compress - proved compress:  677ms
+UPS_STEP amm mode 2 call 25 noop: 2827.5ms
+compress - proved compress:  916ms
+compress - proved compress:  893ms
+UPS_STEP amm mode 2 call 26 noop: 3445.8ms
+compress - proved compress:  1334ms
+compress - proved compress:  863ms
+UPS_STEP amm mode 2 call 27 noop: 3859.3ms
+compress - proved compress:  916ms
+compress - proved compress:  928ms
+UPS_STEP amm mode 2 call 28 refund_funding: 4270.8ms
+compress - proved compress:  894ms
+compress - proved compress:  997ms
+UPS_STEP amm mode 2 call 29 simple_claim: 3843.7ms
+compress - proved compress:  901ms
+compress - proved compress:  995ms
+UPS_STEP amm mode 2 call 30 claim: 3688.8ms
+compress - proved compress:  895ms
+compress - proved compress:  753ms
+UPS_STEP amm mode 2 call 31 transfer: 5017.3ms
+compress - proved compress:  833ms
+compress - proved compress:  1061ms
+UPS_STEP amm mode 2 call 32 simple_transfer: 3806.6ms
+compress - proved compress:  786ms
+compress - proved compress:  942ms
+UPS_STEP amm mode 2 call 33 noop: 3429.3ms
+compress - proved compress:  841ms
+compress - proved compress:  863ms
+UPS_STEP amm mode 2 call 34 noop: 3173.6ms
+compress - proved compress:  717ms
+compress - proved compress:  694ms
+UPS_STEP amm mode 2 call 35 noop: 2931.1ms
+compress - proved compress:  757ms
+compress - proved compress:  908ms
+UPS_STEP amm mode 2 call 36 noop: 3155.6ms
+compress - proved compress:  1622ms
+compress - proved compress:  733ms
+UPS_STEP amm mode 2 call 37 finish_batch: 4335.9ms
+compress - proved compress:  1001ms
+compress - proved compress:  915ms
+UPS_STEP amm mode 2 call 38 noop: 4164.1ms
+compress - proved compress:  906ms
+compress - proved compress:  917ms
+compress - proved compress:  921ms
+compress - proved compress:  1015ms
+compress - proved compress:  691ms
+compress - proved compress:  648ms
+FULL_UPS amm 293931.16875ms
+FULL_UPS orderbook {"elapsedMs":75909.969292,"phase":"cold-circuit-build"}
+prove_ups_start - start:  0ms
+prove_ups_start - gen_witness:  0ms
+prove_ups_start - circuit_mgr.ups_start.prove_base:  626ms
+prove_ups_start - prove_ups_start:  0ms
+prove_ups_start - injest_single_leaf_proof:  0ms
+compress - proved compress:  1286ms
+compress - proved compress:  1426ms
+UPS_STEP orderbook mode 1 call 0 commit_batch: 9216.4ms
+compress - proved compress:  748ms
+compress - proved compress:  972ms
+UPS_STEP orderbook mode 1 call 1 simple_claim: 3299.3ms
+compress - proved compress:  693ms
+compress - proved compress:  717ms
+UPS_STEP orderbook mode 1 call 2 noop: 3766.1ms
+compress - proved compress:  1032ms
+compress - proved compress:  821ms
+UPS_STEP orderbook mode 1 call 3 noop: 3405.0ms
+compress - proved compress:  1023ms
+compress - proved compress:  856ms
+UPS_STEP orderbook mode 1 call 4 noop: 3531.7ms
+compress - proved compress:  710ms
+compress - proved compress:  756ms
+UPS_STEP orderbook mode 1 call 5 noop: 3593.9ms
+compress - proved compress:  1061ms
+compress - proved compress:  793ms
+UPS_STEP orderbook mode 1 call 6 noop: 3691.3ms
+compress - proved compress:  730ms
+compress - proved compress:  862ms
+UPS_STEP orderbook mode 1 call 7 noop: 3295.8ms
+compress - proved compress:  777ms
+compress - proved compress:  952ms
+UPS_STEP orderbook mode 1 call 8 noop: 3381.4ms
+compress - proved compress:  766ms
+compress - proved compress:  898ms
+UPS_STEP orderbook mode 1 call 9 noop: 3106.1ms
+compress - proved compress:  849ms
+compress - proved compress:  1016ms
+UPS_STEP orderbook mode 1 call 10 noop: 3476.1ms
+compress - proved compress:  757ms
+compress - proved compress:  781ms
+UPS_STEP orderbook mode 1 call 11 noop: 3042.0ms
+compress - proved compress:  818ms
+compress - proved compress:  967ms
+UPS_STEP orderbook mode 1 call 12 noop: 3252.1ms
+compress - proved compress:  975ms
+compress - proved compress:  714ms
+UPS_STEP orderbook mode 1 call 13 noop: 2983.1ms
+compress - proved compress:  706ms
+compress - proved compress:  728ms
+UPS_STEP orderbook mode 1 call 14 noop: 2744.5ms
+compress - proved compress:  871ms
+compress - proved compress:  900ms
+UPS_STEP orderbook mode 1 call 15 noop: 3637.6ms
+compress - proved compress:  934ms
+compress - proved compress:  793ms
+UPS_STEP orderbook mode 1 call 16 noop: 2953.3ms
+compress - proved compress:  838ms
+compress - proved compress:  728ms
+UPS_STEP orderbook mode 1 call 17 noop: 3055.9ms
+compress - proved compress:  859ms
+compress - proved compress:  930ms
+UPS_STEP orderbook mode 1 call 18 noop: 3351.8ms
+compress - proved compress:  971ms
+compress - proved compress:  935ms
+UPS_STEP orderbook mode 1 call 19 noop: 3380.3ms
+compress - proved compress:  955ms
+compress - proved compress:  804ms
+UPS_STEP orderbook mode 1 call 20 noop: 3320.6ms
+compress - proved compress:  766ms
+compress - proved compress:  817ms
+UPS_STEP orderbook mode 1 call 21 noop: 3430.8ms
+compress - proved compress:  743ms
+compress - proved compress:  729ms
+UPS_STEP orderbook mode 1 call 22 noop: 3023.9ms
+compress - proved compress:  725ms
+compress - proved compress:  851ms
+UPS_STEP orderbook mode 1 call 23 noop: 3020.9ms
+compress - proved compress:  930ms
+compress - proved compress:  711ms
+UPS_STEP orderbook mode 1 call 24 noop: 3210.4ms
+compress - proved compress:  632ms
+compress - proved compress:  752ms
+UPS_STEP orderbook mode 1 call 25 noop: 3380.4ms
+compress - proved compress:  773ms
+compress - proved compress:  787ms
+UPS_STEP orderbook mode 1 call 26 noop: 3538.5ms
+compress - proved compress:  707ms
+compress - proved compress:  700ms
+UPS_STEP orderbook mode 1 call 27 noop: 3139.6ms
+compress - proved compress:  838ms
+compress - proved compress:  755ms
+UPS_STEP orderbook mode 1 call 28 noop: 3349.2ms
+compress - proved compress:  783ms
+compress - proved compress:  708ms
+UPS_STEP orderbook mode 1 call 29 noop: 3074.6ms
+compress - proved compress:  820ms
+compress - proved compress:  714ms
+UPS_STEP orderbook mode 1 call 30 noop: 3053.4ms
+compress - proved compress:  715ms
+compress - proved compress:  718ms
+UPS_STEP orderbook mode 1 call 31 noop: 2896.2ms
+compress - proved compress:  846ms
+compress - proved compress:  717ms
+UPS_STEP orderbook mode 1 call 32 noop: 3030.9ms
+compress - proved compress:  728ms
+compress - proved compress:  821ms
+UPS_STEP orderbook mode 1 call 33 noop: 3098.2ms
+compress - proved compress:  747ms
+compress - proved compress:  846ms
+UPS_STEP orderbook mode 1 call 34 noop: 2941.5ms
+compress - proved compress:  807ms
+compress - proved compress:  655ms
+UPS_STEP orderbook mode 1 call 35 noop: 2680.3ms
+compress - proved compress:  803ms
+compress - proved compress:  761ms
+UPS_STEP orderbook mode 1 call 36 noop: 3322.5ms
+compress - proved compress:  672ms
+compress - proved compress:  1064ms
+UPS_STEP orderbook mode 1 call 37 noop: 3179.0ms
+compress - proved compress:  603ms
+compress - proved compress:  878ms
+UPS_STEP orderbook mode 1 call 38 noop: 3248.9ms
+compress - proved compress:  857ms
+compress - proved compress:  949ms
+compress - proved compress:  943ms
+compress - proved compress:  849ms
+compress - proved compress:  951ms
+compress - proved compress:  985ms
+FULL_UPS orderbook 293196.039042ms
+prove_ups_start - start:  0ms
+prove_ups_start - gen_witness:  0ms
+prove_ups_start - circuit_mgr.ups_start.prove_base:  780ms
+prove_ups_start - prove_ups_start:  0ms
+prove_ups_start - injest_single_leaf_proof:  0ms
+compress - proved compress:  673ms
+compress - proved compress:  757ms
+UPS_STEP orderbook mode 3 call 0 expire_batch: 3217.3ms
+compress - proved compress:  852ms
+compress - proved compress:  1088ms
+UPS_STEP orderbook mode 3 call 1 noop: 3624.7ms
+compress - proved compress:  1052ms
+compress - proved compress:  784ms
+UPS_STEP orderbook mode 3 call 2 noop: 3264.7ms
+compress - proved compress:  1160ms
+compress - proved compress:  882ms
+UPS_STEP orderbook mode 3 call 3 noop: 3754.0ms
+compress - proved compress:  920ms
+compress - proved compress:  793ms
+UPS_STEP orderbook mode 3 call 4 noop: 4079.2ms
+compress - proved compress:  691ms
+compress - proved compress:  659ms
+UPS_STEP orderbook mode 3 call 5 noop: 3349.9ms
+compress - proved compress:  773ms
+compress - proved compress:  847ms
+UPS_STEP orderbook mode 3 call 6 noop: 3470.2ms
+compress - proved compress:  659ms
+compress - proved compress:  759ms
+UPS_STEP orderbook mode 3 call 7 noop: 2658.1ms
+compress - proved compress:  674ms
+compress - proved compress:  741ms
+UPS_STEP orderbook mode 3 call 8 noop: 2854.0ms
+compress - proved compress:  735ms
+compress - proved compress:  738ms
+UPS_STEP orderbook mode 3 call 9 noop: 2937.7ms
+compress - proved compress:  816ms
+compress - proved compress:  699ms
+UPS_STEP orderbook mode 3 call 10 noop: 2798.9ms
+compress - proved compress:  725ms
+compress - proved compress:  703ms
+UPS_STEP orderbook mode 3 call 11 noop: 2730.3ms
+compress - proved compress:  647ms
+compress - proved compress:  748ms
+UPS_STEP orderbook mode 3 call 12 noop: 3138.4ms
+compress - proved compress:  729ms
+compress - proved compress:  764ms
+UPS_STEP orderbook mode 3 call 13 noop: 3157.8ms
+compress - proved compress:  870ms
+compress - proved compress:  722ms
+UPS_STEP orderbook mode 3 call 14 noop: 3298.5ms
+compress - proved compress:  1250ms
+compress - proved compress:  737ms
+UPS_STEP orderbook mode 3 call 15 noop: 3123.7ms
+compress - proved compress:  803ms
+compress - proved compress:  959ms
+UPS_STEP orderbook mode 3 call 16 noop: 3241.5ms
+compress - proved compress:  761ms
+compress - proved compress:  683ms
+UPS_STEP orderbook mode 3 call 17 noop: 2938.8ms
+compress - proved compress:  889ms
+compress - proved compress:  784ms
+UPS_STEP orderbook mode 3 call 18 noop: 3276.9ms
+compress - proved compress:  726ms
+compress - proved compress:  701ms
+UPS_STEP orderbook mode 3 call 19 noop: 2786.9ms
+compress - proved compress:  812ms
+compress - proved compress:  857ms
+UPS_STEP orderbook mode 3 call 20 noop: 3001.3ms
+compress - proved compress:  1232ms
+compress - proved compress:  1111ms
+UPS_STEP orderbook mode 3 call 21 noop: 3972.3ms
+compress - proved compress:  868ms
+compress - proved compress:  736ms
+UPS_STEP orderbook mode 3 call 22 noop: 3601.2ms
+compress - proved compress:  772ms
+compress - proved compress:  678ms
+UPS_STEP orderbook mode 3 call 23 noop: 3057.5ms
+compress - proved compress:  882ms
+compress - proved compress:  755ms
+UPS_STEP orderbook mode 3 call 24 noop: 3202.3ms
+compress - proved compress:  720ms
+compress - proved compress:  968ms
+UPS_STEP orderbook mode 3 call 25 noop: 3185.7ms
+compress - proved compress:  729ms
+compress - proved compress:  670ms
+UPS_STEP orderbook mode 3 call 26 noop: 3101.1ms
+compress - proved compress:  762ms
+compress - proved compress:  650ms
+UPS_STEP orderbook mode 3 call 27 noop: 2806.1ms
+compress - proved compress:  731ms
+compress - proved compress:  716ms
+UPS_STEP orderbook mode 3 call 28 noop: 3171.8ms
+compress - proved compress:  748ms
+compress - proved compress:  766ms
+UPS_STEP orderbook mode 3 call 29 noop: 3039.2ms
+compress - proved compress:  730ms
+compress - proved compress:  835ms
+UPS_STEP orderbook mode 3 call 30 noop: 3164.1ms
+compress - proved compress:  734ms
+compress - proved compress:  782ms
+UPS_STEP orderbook mode 3 call 31 noop: 3260.1ms
+compress - proved compress:  2197ms
+compress - proved compress:  1840ms
+UPS_STEP orderbook mode 3 call 32 noop: 6311.4ms
+compress - proved compress:  2814ms
+compress - proved compress:  1000ms
+UPS_STEP orderbook mode 3 call 33 noop: 9456.8ms
+compress - proved compress:  1261ms
+compress - proved compress:  1005ms
+UPS_STEP orderbook mode 3 call 34 noop: 5248.8ms
+compress - proved compress:  925ms
+compress - proved compress:  897ms
+UPS_STEP orderbook mode 3 call 35 noop: 4500.7ms
+compress - proved compress:  970ms
+compress - proved compress:  950ms
+UPS_STEP orderbook mode 3 call 36 noop: 4992.4ms
+compress - proved compress:  948ms
+compress - proved compress:  2582ms
+UPS_STEP orderbook mode 3 call 37 noop: 7309.4ms
+compress - proved compress:  1443ms
+compress - proved compress:  904ms
+UPS_STEP orderbook mode 3 call 38 noop: 5170.2ms
+compress - proved compress:  1359ms
+compress - proved compress:  712ms
+compress - proved compress:  769ms
+compress - proved compress:  3144ms
+compress - proved compress:  1132ms
+compress - proved compress:  1041ms
+FULL_UPS orderbook 349135.787333ms
+prove_ups_start - start:  0ms
+prove_ups_start - gen_witness:  0ms
+prove_ups_start - circuit_mgr.ups_start.prove_base:  767ms
+prove_ups_start - prove_ups_start:  0ms
+prove_ups_start - injest_single_leaf_proof:  1ms
+compress - proved compress:  1403ms
+compress - proved compress:  907ms
+UPS_STEP orderbook mode 1 call 0 commit_batch: 19704.0ms
+compress - proved compress:  837ms
+compress - proved compress:  816ms
+UPS_STEP orderbook mode 1 call 1 simple_claim: 3174.6ms
+compress - proved compress:  759ms
+compress - proved compress:  1200ms
+UPS_STEP orderbook mode 1 call 2 noop: 3579.6ms
+compress - proved compress:  1330ms
+compress - proved compress:  930ms
+UPS_STEP orderbook mode 1 call 3 noop: 4465.8ms
+compress - proved compress:  754ms
+compress - proved compress:  1042ms
+UPS_STEP orderbook mode 1 call 4 noop: 3241.6ms
+compress - proved compress:  837ms
+compress - proved compress:  1243ms
+UPS_STEP orderbook mode 1 call 5 noop: 3989.8ms
+compress - proved compress:  787ms
+compress - proved compress:  782ms
+UPS_STEP orderbook mode 1 call 6 noop: 4487.1ms
+compress - proved compress:  691ms
+compress - proved compress:  683ms
+UPS_STEP orderbook mode 1 call 7 noop: 2417.5ms
+compress - proved compress:  668ms
+compress - proved compress:  609ms
+UPS_STEP orderbook mode 1 call 8 noop: 2382.2ms
+compress - proved compress:  551ms
+compress - proved compress:  532ms
+UPS_STEP orderbook mode 1 call 9 noop: 2264.5ms
+compress - proved compress:  586ms
+compress - proved compress:  704ms
+UPS_STEP orderbook mode 1 call 10 noop: 2589.9ms
+compress - proved compress:  716ms
+compress - proved compress:  754ms
+UPS_STEP orderbook mode 1 call 11 noop: 2655.1ms
+compress - proved compress:  680ms
+compress - proved compress:  646ms
+UPS_STEP orderbook mode 1 call 12 noop: 2517.1ms
+compress - proved compress:  786ms
+compress - proved compress:  670ms
+UPS_STEP orderbook mode 1 call 13 noop: 2670.2ms
+compress - proved compress:  609ms
+compress - proved compress:  561ms
+UPS_STEP orderbook mode 1 call 14 noop: 2329.9ms
+compress - proved compress:  667ms
+compress - proved compress:  642ms
+UPS_STEP orderbook mode 1 call 15 noop: 2548.9ms
+compress - proved compress:  512ms
+compress - proved compress:  625ms
+UPS_STEP orderbook mode 1 call 16 noop: 2458.0ms
+compress - proved compress:  648ms
+compress - proved compress:  560ms
+UPS_STEP orderbook mode 1 call 17 noop: 2360.5ms
+compress - proved compress:  608ms
+compress - proved compress:  657ms
+UPS_STEP orderbook mode 1 call 18 noop: 2461.9ms
+compress - proved compress:  532ms
+compress - proved compress:  602ms
+UPS_STEP orderbook mode 1 call 19 noop: 2261.2ms
+compress - proved compress:  575ms
+compress - proved compress:  600ms
+UPS_STEP orderbook mode 1 call 20 noop: 2361.7ms
+compress - proved compress:  571ms
+compress - proved compress:  561ms
+UPS_STEP orderbook mode 1 call 21 noop: 2229.8ms
+compress - proved compress:  600ms
+compress - proved compress:  520ms
+UPS_STEP orderbook mode 1 call 22 noop: 2481.8ms
+compress - proved compress:  705ms
+compress - proved compress:  571ms
+UPS_STEP orderbook mode 1 call 23 noop: 2354.1ms
+compress - proved compress:  791ms
+compress - proved compress:  731ms
+UPS_STEP orderbook mode 1 call 24 noop: 2770.0ms
+compress - proved compress:  599ms
+compress - proved compress:  589ms
+UPS_STEP orderbook mode 1 call 25 noop: 2526.9ms
+compress - proved compress:  606ms
+compress - proved compress:  736ms
+UPS_STEP orderbook mode 1 call 26 noop: 2531.9ms
+compress - proved compress:  736ms
+compress - proved compress:  544ms
+UPS_STEP orderbook mode 1 call 27 noop: 2580.2ms
+compress - proved compress:  587ms
+compress - proved compress:  578ms
+UPS_STEP orderbook mode 1 call 28 noop: 2375.2ms
+compress - proved compress:  618ms
+compress - proved compress:  598ms
+UPS_STEP orderbook mode 1 call 29 noop: 2438.5ms
+compress - proved compress:  688ms
+compress - proved compress:  631ms
+UPS_STEP orderbook mode 1 call 30 noop: 2518.7ms
+compress - proved compress:  626ms
+compress - proved compress:  596ms
+UPS_STEP orderbook mode 1 call 31 noop: 2516.6ms
+compress - proved compress:  630ms
+compress - proved compress:  632ms
+UPS_STEP orderbook mode 1 call 32 noop: 2489.0ms
+compress - proved compress:  573ms
+compress - proved compress:  585ms
+UPS_STEP orderbook mode 1 call 33 noop: 2437.0ms
+compress - proved compress:  496ms
+compress - proved compress:  597ms
+UPS_STEP orderbook mode 1 call 34 noop: 2257.9ms
+compress - proved compress:  600ms
+compress - proved compress:  691ms
+UPS_STEP orderbook mode 1 call 35 noop: 2658.1ms
+compress - proved compress:  551ms
+compress - proved compress:  813ms
+UPS_STEP orderbook mode 1 call 36 noop: 2917.4ms
+compress - proved compress:  642ms
+compress - proved compress:  680ms
+UPS_STEP orderbook mode 1 call 37 noop: 2589.3ms
+compress - proved compress:  755ms
+compress - proved compress:  619ms
+UPS_STEP orderbook mode 1 call 38 noop: 2552.5ms
+compress - proved compress:  811ms
+compress - proved compress:  753ms
+compress - proved compress:  672ms
+compress - proved compress:  760ms
+compress - proved compress:  977ms
+compress - proved compress:  1451ms
+FULL_UPS orderbook 280483.690083ms
+prove_ups_start - start:  0ms
+prove_ups_start - gen_witness:  0ms
+prove_ups_start - circuit_mgr.ups_start.prove_base:  865ms
+prove_ups_start - prove_ups_start:  0ms
+prove_ups_start - injest_single_leaf_proof:  0ms
+compress - proved compress:  895ms
+compress - proved compress:  893ms
+UPS_STEP orderbook mode 2 call 0 begin_batch: 3873.3ms
+compress - proved compress:  825ms
+compress - proved compress:  845ms
+UPS_STEP orderbook mode 2 call 1 refund_funding: 3507.4ms
+compress - proved compress:  704ms
+compress - proved compress:  551ms
+UPS_STEP orderbook mode 2 call 2 simple_claim: 2844.9ms
+compress - proved compress:  662ms
+compress - proved compress:  704ms
+UPS_STEP orderbook mode 2 call 3 claim: 2498.8ms
+compress - proved compress:  614ms
+compress - proved compress:  753ms
+UPS_STEP orderbook mode 2 call 4 transfer: 2815.5ms
+compress - proved compress:  845ms
+compress - proved compress:  725ms
+UPS_STEP orderbook mode 2 call 5 simple_transfer: 3041.5ms
+compress - proved compress:  819ms
+compress - proved compress:  654ms
+UPS_STEP orderbook mode 2 call 6 noop: 2641.6ms
+compress - proved compress:  1794ms
+compress - proved compress:  614ms
+UPS_STEP orderbook mode 2 call 7 noop: 3912.4ms
+compress - proved compress:  1346ms
+compress - proved compress:  1165ms
+UPS_STEP orderbook mode 2 call 8 noop: 4813.5ms
+compress - proved compress:  700ms
+compress - proved compress:  780ms
+UPS_STEP orderbook mode 2 call 9 noop: 3152.2ms
+compress - proved compress:  775ms
+compress - proved compress:  900ms
+UPS_STEP orderbook mode 2 call 10 refund_funding: 3393.7ms
+compress - proved compress:  717ms
+compress - proved compress:  773ms
+UPS_STEP orderbook mode 2 call 11 simple_claim: 2716.9ms
+compress - proved compress:  635ms
+compress - proved compress:  1089ms
+UPS_STEP orderbook mode 2 call 12 claim: 2982.1ms
+compress - proved compress:  713ms
+compress - proved compress:  604ms
+UPS_STEP orderbook mode 2 call 13 transfer: 2645.1ms
+compress - proved compress:  666ms
+compress - proved compress:  582ms
+UPS_STEP orderbook mode 2 call 14 simple_transfer: 2354.6ms
+compress - proved compress:  566ms
+compress - proved compress:  1093ms
+UPS_STEP orderbook mode 2 call 15 noop: 2996.3ms
+compress - proved compress:  653ms
+compress - proved compress:  1768ms
+UPS_STEP orderbook mode 2 call 16 noop: 4873.5ms
+compress - proved compress:  648ms
+compress - proved compress:  692ms
+UPS_STEP orderbook mode 2 call 17 noop: 3293.1ms
+compress - proved compress:  721ms
+compress - proved compress:  772ms
+UPS_STEP orderbook mode 2 call 18 noop: 2868.3ms
+compress - proved compress:  1183ms
+compress - proved compress:  770ms
+UPS_STEP orderbook mode 2 call 19 refund_funding: 3631.7ms
+compress - proved compress:  600ms
+compress - proved compress:  735ms
+UPS_STEP orderbook mode 2 call 20 simple_claim: 2754.5ms
+compress - proved compress:  872ms
+compress - proved compress:  1116ms
+UPS_STEP orderbook mode 2 call 21 claim: 3411.5ms
+compress - proved compress:  671ms
+compress - proved compress:  622ms
+UPS_STEP orderbook mode 2 call 22 transfer: 2621.8ms
+compress - proved compress:  724ms
+compress - proved compress:  709ms
+UPS_STEP orderbook mode 2 call 23 simple_transfer: 3014.8ms
+compress - proved compress:  1033ms
+compress - proved compress:  1124ms
+UPS_STEP orderbook mode 2 call 24 noop: 3653.0ms
+compress - proved compress:  810ms
+compress - proved compress:  873ms
+UPS_STEP orderbook mode 2 call 25 noop: 3645.1ms
+compress - proved compress:  647ms
+compress - proved compress:  819ms
+UPS_STEP orderbook mode 2 call 26 noop: 2945.2ms
+compress - proved compress:  727ms
+compress - proved compress:  874ms
+UPS_STEP orderbook mode 2 call 27 noop: 3024.9ms
+compress - proved compress:  1602ms
+compress - proved compress:  839ms
+UPS_STEP orderbook mode 2 call 28 refund_funding: 4367.4ms
+compress - proved compress:  684ms
+compress - proved compress:  632ms
+UPS_STEP orderbook mode 2 call 29 simple_claim: 2880.3ms
+compress - proved compress:  800ms
+compress - proved compress:  660ms
+UPS_STEP orderbook mode 2 call 30 claim: 2773.3ms
+compress - proved compress:  670ms
+compress - proved compress:  755ms
+UPS_STEP orderbook mode 2 call 31 transfer: 3265.8ms
+compress - proved compress:  731ms
+compress - proved compress:  1102ms
+UPS_STEP orderbook mode 2 call 32 simple_transfer: 3066.4ms
+compress - proved compress:  597ms
+compress - proved compress:  727ms
+UPS_STEP orderbook mode 2 call 33 noop: 2724.8ms
+compress - proved compress:  543ms
+compress - proved compress:  654ms
+UPS_STEP orderbook mode 2 call 34 noop: 2558.3ms
+compress - proved compress:  737ms
+compress - proved compress:  606ms
+UPS_STEP orderbook mode 2 call 35 noop: 2722.3ms
+compress - proved compress:  961ms
+compress - proved compress:  970ms
+UPS_STEP orderbook mode 2 call 36 noop: 3484.9ms
+compress - proved compress:  835ms
+compress - proved compress:  789ms
+UPS_STEP orderbook mode 2 call 37 finish_batch: 3374.7ms
+compress - proved compress:  666ms
+compress - proved compress:  726ms
+UPS_STEP orderbook mode 2 call 38 noop: 3046.8ms
+compress - proved compress:  741ms
+compress - proved compress:  818ms
+compress - proved compress:  842ms
+compress - proved compress:  754ms
+compress - proved compress:  922ms
+compress - proved compress:  783ms
+FULL_UPS orderbook 277486.755667ms
+ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 25 filtered out; finished in 2546.98s
+
+real 2546.98
+user 4544.55
+sys 171.10
+          1816838144  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+             5895880  page reclaims
+                  31  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+                7131  voluntary context switches
+            27673239  involuntary context switches
+      57236297546910  instructions retired
+      13856395558103  cycles elapsed
+          3642876352  peak memory footprint

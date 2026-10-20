@@ -1,0 +1,855 @@
+{
+  "schema": 1,
+  "scope": "measured full-UPS call attribution; untraced includes setup, automatic burn, signing, endcap and verification",
+  "rows": [
+    {
+      "input": "/Users/geir/Downloads/QED资料/litepaper/psy-template-security-20261016/batching/evidence/20261020/capacity-recovery-v1/recovery/amm.json",
+      "inputSha256": "8fb69f0fe6877e724df98f47aee12d2d82455ad96e5656c8916f74164b3b5089",
+      "market": "amm",
+      "phase": "commit",
+      "members": 4,
+      "fills": null,
+      "calls": 40,
+      "elapsedMs": 282622.667959,
+      "noopCalls": 37,
+      "noopMs": 125225.83008499998,
+      "workCallMs": 14064.522416,
+      "untracedMs": 143332.31545800003,
+      "overheadStagesMs": {
+        "burn": 3633.0386670000003,
+        "endcapProveAndVerify": 136107.748542,
+        "sdKeySign": 2579.425667,
+        "seedState": 80.432459,
+        "sessionStart": 895.799125,
+        "stateDeltaChecks": 26.355208
+      },
+      "noopFraction": 0.44308487705298455,
+      "byMethod": [
+        {
+          "contract": 1000,
+          "method": "commit_batch",
+          "calls": 1,
+          "ms": 10830.897541
+        },
+        {
+          "contract": 0,
+          "method": "simple_claim",
+          "calls": 1,
+          "ms": 3233.624875
+        },
+        {
+          "contract": 1000,
+          "method": "noop",
+          "calls": 37,
+          "ms": 125225.83008499998
+        }
+      ],
+      "chainTps": null,
+      "broadcast": false
+    },
+    {
+      "input": "/Users/geir/Downloads/QED资料/litepaper/psy-template-security-20261016/batching/evidence/20261020/capacity-recovery-v1/recovery/amm.json",
+      "inputSha256": "8fb69f0fe6877e724df98f47aee12d2d82455ad96e5656c8916f74164b3b5089",
+      "market": "amm",
+      "phase": "expire",
+      "members": 4,
+      "fills": null,
+      "calls": 40,
+      "elapsedMs": 290322.08962499996,
+      "noopCalls": 38,
+      "noopMs": 134481.675082,
+      "workCallMs": 3355.10275,
+      "untracedMs": 152485.31179299997,
+      "overheadStagesMs": {
+        "burn": 4122.304083,
+        "endcapProveAndVerify": 144867.341334,
+        "sdKeySign": 2460.3532499999997,
+        "seedState": 57.459208,
+        "sessionStart": 943.597625,
+        "stateDeltaChecks": 30.076958
+      },
+      "noopFraction": 0.46321544204819487,
+      "byMethod": [
+        {
+          "contract": 1000,
+          "method": "expire_batch",
+          "calls": 1,
+          "ms": 3355.10275
+        },
+        {
+          "contract": 1000,
+          "method": "noop",
+          "calls": 38,
+          "ms": 134481.675082
+        }
+      ],
+      "chainTps": null,
+      "broadcast": false
+    },
+    {
+      "input": "/Users/geir/Downloads/QED资料/litepaper/psy-template-security-20261016/batching/evidence/20261020/capacity-recovery-v1/recovery/amm.json",
+      "inputSha256": "8fb69f0fe6877e724df98f47aee12d2d82455ad96e5656c8916f74164b3b5089",
+      "market": "amm",
+      "phase": "commit",
+      "members": 4,
+      "fills": null,
+      "calls": 40,
+      "elapsedMs": 285829.569667,
+      "noopCalls": 37,
+      "noopMs": 124789.67270899999,
+      "workCallMs": 16653.126708,
+      "untracedMs": 144386.77024999997,
+      "overheadStagesMs": {
+        "burn": 3223.8460830000004,
+        "endcapProveAndVerify": 137293.953583,
+        "sdKeySign": 2637.4779999999996,
+        "seedState": 102.041125,
+        "sessionStart": 1070.736041,
+        "stateDeltaChecks": 39.922582999999996
+      },
+      "noopFraction": 0.4365876940387368,
+      "byMethod": [
+        {
+          "contract": 1000,
+          "method": "commit_batch",
+          "calls": 1,
+          "ms": 12138.940458000001
+        },
+        {
+          "contract": 0,
+          "method": "simple_claim",
+          "calls": 1,
+          "ms": 4514.18625
+        },
+        {
+          "contract": 1000,
+          "method": "noop",
+          "calls": 37,
+          "ms": 124789.67270899999
+        }
+      ],
+      "chainTps": null,
+      "broadcast": false
+    },
+    {
+      "input": "/Users/geir/Downloads/QED资料/litepaper/psy-template-security-20261016/batching/evidence/20261020/capacity-recovery-v1/recovery/amm.json",
+      "inputSha256": "8fb69f0fe6877e724df98f47aee12d2d82455ad96e5656c8916f74164b3b5089",
+      "market": "amm",
+      "phase": "settle",
+      "members": 4,
+      "fills": null,
+      "calls": 40,
+      "elapsedMs": 293931.16875,
+      "noopCalls": 17,
+      "noopMs": 56822.8315,
+      "workCallMs": 82654.794708,
+      "untracedMs": 154453.542542,
+      "overheadStagesMs": {
+        "burn": 4064.6757500000003,
+        "endcapProveAndVerify": 146356.31304200002,
+        "sdKeySign": 2892.0450410000003,
+        "seedState": 117.73845800000001,
+        "sessionStart": 983.446917,
+        "stateDeltaChecks": 26.424041
+      },
+      "noopFraction": 0.19332019717966709,
+      "byMethod": [
+        {
+          "contract": 1000,
+          "method": "begin_batch",
+          "calls": 1,
+          "ms": 3566.0927500000003
+        },
+        {
+          "contract": 1000,
+          "method": "refund_funding",
+          "calls": 4,
+          "ms": 15416.669583000003
+        },
+        {
+          "contract": 0,
+          "method": "simple_claim",
+          "calls": 4,
+          "ms": 14478.668792
+        },
+        {
+          "contract": 42,
+          "method": "claim",
+          "calls": 4,
+          "ms": 14973.854583
+        },
+        {
+          "contract": 42,
+          "method": "transfer",
+          "calls": 4,
+          "ms": 16041.967584
+        },
+        {
+          "contract": 0,
+          "method": "simple_transfer",
+          "calls": 4,
+          "ms": 13841.615249999999
+        },
+        {
+          "contract": 1000,
+          "method": "noop",
+          "calls": 17,
+          "ms": 56822.8315
+        },
+        {
+          "contract": 1000,
+          "method": "finish_batch",
+          "calls": 1,
+          "ms": 4335.926166
+        }
+      ],
+      "chainTps": null,
+      "broadcast": false
+    },
+    {
+      "input": "/Users/geir/Downloads/QED资料/litepaper/psy-template-security-20261016/batching/evidence/20261020/capacity-recovery-v1/recovery/orderbook.json",
+      "inputSha256": "2016793e91aa3ae20929af8c18e6f81035d403f154f50c4cd475027e1c4d37b5",
+      "market": "orderbook",
+      "phase": "commit",
+      "members": 4,
+      "fills": null,
+      "calls": 40,
+      "elapsedMs": 293196.039042,
+      "noopCalls": 37,
+      "noopMs": 119590.16316799998,
+      "workCallMs": 12515.794417,
+      "untracedMs": 161090.08145700002,
+      "overheadStagesMs": {
+        "burn": 3274.3448329999997,
+        "endcapProveAndVerify": 154376.94725,
+        "sdKeySign": 2734.32525,
+        "seedState": 30.0945,
+        "sessionStart": 628.657166,
+        "stateDeltaChecks": 27.582333000000002
+      },
+      "noopFraction": 0.40788464796029805,
+      "byMethod": [
+        {
+          "contract": 1000,
+          "method": "commit_batch",
+          "calls": 1,
+          "ms": 9216.441834
+        },
+        {
+          "contract": 0,
+          "method": "simple_claim",
+          "calls": 1,
+          "ms": 3299.3525830000003
+        },
+        {
+          "contract": 1000,
+          "method": "noop",
+          "calls": 37,
+          "ms": 119590.16316799998
+        }
+      ],
+      "chainTps": null,
+      "broadcast": false
+    },
+    {
+      "input": "/Users/geir/Downloads/QED资料/litepaper/psy-template-security-20261016/batching/evidence/20261020/capacity-recovery-v1/recovery/orderbook.json",
+      "inputSha256": "2016793e91aa3ae20929af8c18e6f81035d403f154f50c4cd475027e1c4d37b5",
+      "market": "orderbook",
+      "phase": "expire",
+      "members": 4,
+      "fills": null,
+      "calls": 40,
+      "elapsedMs": 349135.787333,
+      "noopCalls": 38,
+      "noopMs": 142042.79108300002,
+      "workCallMs": 3217.3585,
+      "untracedMs": 203875.63774999997,
+      "overheadStagesMs": {
+        "burn": 3580.007459,
+        "endcapProveAndVerify": 194117.60129199998,
+        "sdKeySign": 5301.832916,
+        "seedState": 42.978916,
+        "sessionStart": 788.875,
+        "stateDeltaChecks": 40.022833
+      },
+      "noopFraction": 0.4068411094950915,
+      "byMethod": [
+        {
+          "contract": 1000,
+          "method": "expire_batch",
+          "calls": 1,
+          "ms": 3217.3585
+        },
+        {
+          "contract": 1000,
+          "method": "noop",
+          "calls": 38,
+          "ms": 142042.79108300002
+        }
+      ],
+      "chainTps": null,
+      "broadcast": false
+    },
+    {
+      "input": "/Users/geir/Downloads/QED资料/litepaper/psy-template-security-20261016/batching/evidence/20261020/capacity-recovery-v1/recovery/orderbook.json",
+      "inputSha256": "2016793e91aa3ae20929af8c18e6f81035d403f154f50c4cd475027e1c4d37b5",
+      "market": "orderbook",
+      "phase": "commit",
+      "members": 4,
+      "fills": null,
+      "calls": 40,
+      "elapsedMs": 280483.690083,
+      "noopCalls": 37,
+      "noopMs": 99274.54934000001,
+      "workCallMs": 22878.764458,
+      "untracedMs": 158330.37628499998,
+      "overheadStagesMs": {
+        "burn": 2870.344625,
+        "endcapProveAndVerify": 152514.3785,
+        "sdKeySign": 2067.356792,
+        "seedState": 47.448958,
+        "sessionStart": 772.975334,
+        "stateDeltaChecks": 34.700375
+      },
+      "noopFraction": 0.35394054217777493,
+      "byMethod": [
+        {
+          "contract": 1000,
+          "method": "commit_batch",
+          "calls": 1,
+          "ms": 19704.074958
+        },
+        {
+          "contract": 0,
+          "method": "simple_claim",
+          "calls": 1,
+          "ms": 3174.6895
+        },
+        {
+          "contract": 1000,
+          "method": "noop",
+          "calls": 37,
+          "ms": 99274.54934000001
+        }
+      ],
+      "chainTps": null,
+      "broadcast": false
+    },
+    {
+      "input": "/Users/geir/Downloads/QED资料/litepaper/psy-template-security-20261016/batching/evidence/20261020/capacity-recovery-v1/recovery/orderbook.json",
+      "inputSha256": "2016793e91aa3ae20929af8c18e6f81035d403f154f50c4cd475027e1c4d37b5",
+      "market": "orderbook",
+      "phase": "settle",
+      "members": 4,
+      "fills": null,
+      "calls": 40,
+      "elapsedMs": 277486.755667,
+      "noopCalls": 17,
+      "noopMs": 56381.273958000005,
+      "workCallMs": 67839.86008200001,
+      "untracedMs": 153265.621627,
+      "overheadStagesMs": {
+        "burn": 3123.204917,
+        "endcapProveAndVerify": 146331.84625,
+        "sdKeySign": 2717.717125,
+        "seedState": 103.07275,
+        "sessionStart": 911.966166,
+        "stateDeltaChecks": 48.7255
+      },
+      "noopFraction": 0.2031854595095009,
+      "byMethod": [
+        {
+          "contract": 1000,
+          "method": "begin_batch",
+          "calls": 1,
+          "ms": 3873.338709
+        },
+        {
+          "contract": 1000,
+          "method": "refund_funding",
+          "calls": 4,
+          "ms": 14900.348373
+        },
+        {
+          "contract": 0,
+          "method": "simple_claim",
+          "calls": 4,
+          "ms": 11196.739125
+        },
+        {
+          "contract": 42,
+          "method": "claim",
+          "calls": 2,
+          "ms": 5481.010333
+        },
+        {
+          "contract": 42,
+          "method": "transfer",
+          "calls": 2,
+          "ms": 5460.727167
+        },
+        {
+          "contract": 0,
+          "method": "simple_transfer",
+          "calls": 4,
+          "ms": 11480.329751
+        },
+        {
+          "contract": 1000,
+          "method": "noop",
+          "calls": 17,
+          "ms": 56381.273958000005
+        },
+        {
+          "contract": 43,
+          "method": "claim",
+          "calls": 2,
+          "ms": 6184.899583
+        },
+        {
+          "contract": 43,
+          "method": "transfer",
+          "calls": 2,
+          "ms": 5887.6966250000005
+        },
+        {
+          "contract": 1000,
+          "method": "finish_batch",
+          "calls": 1,
+          "ms": 3374.770416
+        }
+      ],
+      "chainTps": null,
+      "broadcast": false
+    },
+    {
+      "input": "/Users/geir/Downloads/QED资料/litepaper/psy-template-security-20261016/batching/evidence/20261020/capacity-recovery-v1/recovery/bondingcurve.json",
+      "inputSha256": "e586f9b96bf933ff0305a8480bc17802e1ba42f0813e9ffb4fed63b810a2212e",
+      "market": "bondingcurve",
+      "phase": "commit",
+      "members": 4,
+      "fills": null,
+      "calls": 40,
+      "elapsedMs": 283026.253167,
+      "noopCalls": 37,
+      "noopMs": 123600.74921000002,
+      "workCallMs": 13160.047208000002,
+      "untracedMs": 146265.45674899998,
+      "overheadStagesMs": {
+        "burn": 3182.7414169999997,
+        "endcapProveAndVerify": 139116.938917,
+        "sdKeySign": 2965.8415840000002,
+        "seedState": 42.938875,
+        "sessionStart": 921.788834,
+        "stateDeltaChecks": 25.725542
+      },
+      "noopFraction": 0.4367112514366971,
+      "byMethod": [
+        {
+          "contract": 1000,
+          "method": "commit_batch",
+          "calls": 1,
+          "ms": 9302.995125000001
+        },
+        {
+          "contract": 0,
+          "method": "simple_claim",
+          "calls": 1,
+          "ms": 3857.052083
+        },
+        {
+          "contract": 1000,
+          "method": "noop",
+          "calls": 37,
+          "ms": 123600.74921000002
+        }
+      ],
+      "chainTps": null,
+      "broadcast": false
+    },
+    {
+      "input": "/Users/geir/Downloads/QED资料/litepaper/psy-template-security-20261016/batching/evidence/20261020/capacity-recovery-v1/recovery/bondingcurve.json",
+      "inputSha256": "e586f9b96bf933ff0305a8480bc17802e1ba42f0813e9ffb4fed63b810a2212e",
+      "market": "bondingcurve",
+      "phase": "expire",
+      "members": 4,
+      "fills": null,
+      "calls": 40,
+      "elapsedMs": 291583.09554099996,
+      "noopCalls": 38,
+      "noopMs": 133022.43399999998,
+      "workCallMs": 3280.851667,
+      "untracedMs": 155279.80987399997,
+      "overheadStagesMs": {
+        "burn": 4862.906542,
+        "endcapProveAndVerify": 145496.478167,
+        "sdKeySign": 3798.4072499999997,
+        "seedState": 79.966666,
+        "sessionStart": 936.262708,
+        "stateDeltaChecks": 96.17658399999999
+      },
+      "noopFraction": 0.4562076335501949,
+      "byMethod": [
+        {
+          "contract": 1000,
+          "method": "expire_batch",
+          "calls": 1,
+          "ms": 3280.851667
+        },
+        {
+          "contract": 1000,
+          "method": "noop",
+          "calls": 38,
+          "ms": 133022.43399999998
+        }
+      ],
+      "chainTps": null,
+      "broadcast": false
+    },
+    {
+      "input": "/Users/geir/Downloads/QED资料/litepaper/psy-template-security-20261016/batching/evidence/20261020/capacity-recovery-v1/recovery/bondingcurve.json",
+      "inputSha256": "e586f9b96bf933ff0305a8480bc17802e1ba42f0813e9ffb4fed63b810a2212e",
+      "market": "bondingcurve",
+      "phase": "commit",
+      "members": 4,
+      "fills": null,
+      "calls": 40,
+      "elapsedMs": 286305.55279100005,
+      "noopCalls": 37,
+      "noopMs": 126175.75287599998,
+      "workCallMs": 16582.288833,
+      "untracedMs": 143547.51108200007,
+      "overheadStagesMs": {
+        "burn": 3391.473625,
+        "endcapProveAndVerify": 136348.684042,
+        "sdKeySign": 2956.979917,
+        "seedState": 38.937833,
+        "sessionStart": 758.438458,
+        "stateDeltaChecks": 40.042333
+      },
+      "noopFraction": 0.4407031286889043,
+      "byMethod": [
+        {
+          "contract": 1000,
+          "method": "commit_batch",
+          "calls": 1,
+          "ms": 12808.703125
+        },
+        {
+          "contract": 0,
+          "method": "simple_claim",
+          "calls": 1,
+          "ms": 3773.585708
+        },
+        {
+          "contract": 1000,
+          "method": "noop",
+          "calls": 37,
+          "ms": 126175.75287599998
+        }
+      ],
+      "chainTps": null,
+      "broadcast": false
+    },
+    {
+      "input": "/Users/geir/Downloads/QED资料/litepaper/psy-template-security-20261016/batching/evidence/20261020/capacity-recovery-v1/recovery/bondingcurve.json",
+      "inputSha256": "e586f9b96bf933ff0305a8480bc17802e1ba42f0813e9ffb4fed63b810a2212e",
+      "market": "bondingcurve",
+      "phase": "settle",
+      "members": 4,
+      "fills": null,
+      "calls": 40,
+      "elapsedMs": 294787.022292,
+      "noopCalls": 17,
+      "noopMs": 56908.448875999995,
+      "workCallMs": 81555.12737500001,
+      "untracedMs": 156323.446041,
+      "overheadStagesMs": {
+        "burn": 4109.0205,
+        "endcapProveAndVerify": 147895.770625,
+        "sdKeySign": 3374.653084,
+        "seedState": 35.1845,
+        "sessionStart": 868.478917,
+        "stateDeltaChecks": 29.820834
+      },
+      "noopFraction": 0.1930493697908776,
+      "byMethod": [
+        {
+          "contract": 1000,
+          "method": "begin_batch",
+          "calls": 1,
+          "ms": 4006.978042
+        },
+        {
+          "contract": 1000,
+          "method": "refund_funding",
+          "calls": 4,
+          "ms": 14989.445833000002
+        },
+        {
+          "contract": 0,
+          "method": "simple_claim",
+          "calls": 4,
+          "ms": 14135.820751
+        },
+        {
+          "contract": 43,
+          "method": "claim",
+          "calls": 4,
+          "ms": 14558.799041999999
+        },
+        {
+          "contract": 43,
+          "method": "transfer",
+          "calls": 4,
+          "ms": 14123.982915999999
+        },
+        {
+          "contract": 0,
+          "method": "simple_transfer",
+          "calls": 4,
+          "ms": 16644.154708
+        },
+        {
+          "contract": 1000,
+          "method": "noop",
+          "calls": 17,
+          "ms": 56908.448875999995
+        },
+        {
+          "contract": 1000,
+          "method": "finish_batch",
+          "calls": 1,
+          "ms": 3095.946083
+        }
+      ],
+      "chainTps": null,
+      "broadcast": false
+    },
+    {
+      "input": "/Users/geir/Downloads/QED资料/litepaper/psy-template-security-20261016/batching/evidence/20261020/capacity-recovery-v1/recovery/nftmarket.json",
+      "inputSha256": "f6d1cf66fbfbb53326a6e720d11c8315cbd76222530f198a07c7a816c8f3b7e6",
+      "market": "nftmarket",
+      "phase": "commit",
+      "members": 4,
+      "fills": null,
+      "calls": 40,
+      "elapsedMs": 295229.998958,
+      "noopCalls": 37,
+      "noopMs": 117621.029874,
+      "workCallMs": 15263.141166000001,
+      "untracedMs": 162345.827918,
+      "overheadStagesMs": {
+        "burn": 3354.615291,
+        "endcapProveAndVerify": 155846.829875,
+        "sdKeySign": 2437.736583,
+        "seedState": 25.27675,
+        "sessionStart": 635.3905,
+        "stateDeltaChecks": 39.997666
+      },
+      "noopFraction": 0.39840473627049333,
+      "byMethod": [
+        {
+          "contract": 1000,
+          "method": "commit_batch",
+          "calls": 1,
+          "ms": 11269.865458
+        },
+        {
+          "contract": 0,
+          "method": "simple_claim",
+          "calls": 1,
+          "ms": 3993.275708
+        },
+        {
+          "contract": 1000,
+          "method": "noop",
+          "calls": 37,
+          "ms": 117621.029874
+        }
+      ],
+      "chainTps": null,
+      "broadcast": false
+    },
+    {
+      "input": "/Users/geir/Downloads/QED资料/litepaper/psy-template-security-20261016/batching/evidence/20261020/capacity-recovery-v1/recovery/nftmarket.json",
+      "inputSha256": "f6d1cf66fbfbb53326a6e720d11c8315cbd76222530f198a07c7a816c8f3b7e6",
+      "market": "nftmarket",
+      "phase": "expire",
+      "members": 4,
+      "fills": null,
+      "calls": 40,
+      "elapsedMs": 358325.09029200004,
+      "noopCalls": 38,
+      "noopMs": 147252.24387399998,
+      "workCallMs": 3633.468292,
+      "untracedMs": 207439.37812600005,
+      "overheadStagesMs": {
+        "burn": 5749.932916,
+        "endcapProveAndVerify": 196557.98820800002,
+        "sdKeySign": 4167.135333,
+        "seedState": 32.380792,
+        "sessionStart": 912.144209,
+        "stateDeltaChecks": 16.347416
+      },
+      "noopFraction": 0.4109459478653972,
+      "byMethod": [
+        {
+          "contract": 1000,
+          "method": "expire_batch",
+          "calls": 1,
+          "ms": 3633.468292
+        },
+        {
+          "contract": 1000,
+          "method": "noop",
+          "calls": 38,
+          "ms": 147252.24387399998
+        }
+      ],
+      "chainTps": null,
+      "broadcast": false
+    },
+    {
+      "input": "/Users/geir/Downloads/QED资料/litepaper/psy-template-security-20261016/batching/evidence/20261020/capacity-recovery-v1/recovery/nftmarket.json",
+      "inputSha256": "f6d1cf66fbfbb53326a6e720d11c8315cbd76222530f198a07c7a816c8f3b7e6",
+      "market": "nftmarket",
+      "phase": "commit",
+      "members": 4,
+      "fills": null,
+      "calls": 40,
+      "elapsedMs": 269898.51787499996,
+      "noopCalls": 37,
+      "noopMs": 99128.15128800001,
+      "workCallMs": 17191.624042,
+      "untracedMs": 153578.74254499996,
+      "overheadStagesMs": {
+        "burn": 4313.695625,
+        "endcapProveAndVerify": 144881.313,
+        "sdKeySign": 3064.033959,
+        "seedState": 25.548583,
+        "sessionStart": 1260.0743750000001,
+        "stateDeltaChecks": 27.096709
+      },
+      "noopFraction": 0.36727934657985023,
+      "byMethod": [
+        {
+          "contract": 1000,
+          "method": "commit_batch",
+          "calls": 1,
+          "ms": 13026.61
+        },
+        {
+          "contract": 0,
+          "method": "simple_claim",
+          "calls": 1,
+          "ms": 4165.014042
+        },
+        {
+          "contract": 1000,
+          "method": "noop",
+          "calls": 37,
+          "ms": 99128.15128800001
+        }
+      ],
+      "chainTps": null,
+      "broadcast": false
+    },
+    {
+      "input": "/Users/geir/Downloads/QED资料/litepaper/psy-template-security-20261016/batching/evidence/20261020/capacity-recovery-v1/recovery/nftmarket.json",
+      "inputSha256": "f6d1cf66fbfbb53326a6e720d11c8315cbd76222530f198a07c7a816c8f3b7e6",
+      "market": "nftmarket",
+      "phase": "settle",
+      "members": 4,
+      "fills": null,
+      "calls": 40,
+      "elapsedMs": 278192.164875,
+      "noopCalls": 15,
+      "noopMs": 45135.14266899999,
+      "workCallMs": 88203.49929,
+      "untracedMs": 144853.52291600002,
+      "overheadStagesMs": {
+        "burn": 3558.812167,
+        "endcapProveAndVerify": 138031.270417,
+        "sdKeySign": 2619.674083,
+        "seedState": 19.005916000000003,
+        "sessionStart": 587.1839170000001,
+        "stateDeltaChecks": 28.292082999999998
+      },
+      "noopFraction": 0.16224447834208613,
+      "byMethod": [
+        {
+          "contract": 1000,
+          "method": "begin_batch",
+          "calls": 1,
+          "ms": 3366.0640000000003
+        },
+        {
+          "contract": 1000,
+          "method": "refund_funding",
+          "calls": 4,
+          "ms": 20466.487251
+        },
+        {
+          "contract": 0,
+          "method": "simple_claim",
+          "calls": 4,
+          "ms": 14280.978166
+        },
+        {
+          "contract": 41,
+          "method": "claim",
+          "calls": 2,
+          "ms": 9233.383292
+        },
+        {
+          "contract": 41,
+          "method": "acknowledge",
+          "calls": 2,
+          "ms": 6199.913583
+        },
+        {
+          "contract": 41,
+          "method": "transfer",
+          "calls": 2,
+          "ms": 6233.679958
+        },
+        {
+          "contract": 0,
+          "method": "simple_transfer",
+          "calls": 4,
+          "ms": 11372.728790999998
+        },
+        {
+          "contract": 1000,
+          "method": "noop",
+          "calls": 15,
+          "ms": 45135.14266899999
+        },
+        {
+          "contract": 42,
+          "method": "claim",
+          "calls": 2,
+          "ms": 6649.362916
+        },
+        {
+          "contract": 42,
+          "method": "transfer",
+          "calls": 2,
+          "ms": 6702.321333
+        },
+        {
+          "contract": 1000,
+          "method": "finish_batch",
+          "calls": 1,
+          "ms": 3698.58
+        }
+      ],
+      "chainTps": null,
+      "broadcast": false
+    }
+  ],
+  "speedupClaim": null,
+  "chainTps": null,
+  "broadcast": false
+}

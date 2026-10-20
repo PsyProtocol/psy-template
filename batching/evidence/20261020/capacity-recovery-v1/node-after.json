@@ -1,0 +1,22 @@
+{
+  "commit": "5b7f4e1e11adf4607a958bc39e863a2a80b5a7a6",
+  "trackedDiffSha256": "002e35e0b13cb6c422fe3abf500ce6aa5241229264d85a3314f22b5e14b59a64",
+  "sameTrackedDiff": true,
+  "sameSourceHashes": true,
+  "sourceHashes": {
+    "client_prover/psy_core/psy_config/src/network_constants.rs": "7029856703a949430d91c804e5349a3faa31a65680493e726aff23bccb3c8a5b",
+    "client_prover/psy_circuit/psy_ups_circuit/src/signature/sd_key.rs": "a40c87da242146cbbd6ecc4a76f55688c1f503ba3bcfd58fc0dc72b7a45d87dd",
+    "client_prover/psy_vm/src/ups/sd_key.rs": "633732bfdcd1a9650685e605236c447e75a2ed75360cad10b74d96c3da5e0edb",
+    "client_prover/psy_prover/src/session/session.rs": "a98d2989d8d11b3348fd1f2ad4411d4f8534e32459ece17e3a65f508c7566ff7",
+    "client_prover/psy_circuit/psy_dpn_circuit/src/vm/gadgets/state_readers.rs": "475615174d7f7d55515f7ac1eaae80c92a665e34925c5a694bd22b136ecd57ba",
+    "client_prover/psy_vm/src/dpn/ops/exec_context.rs": "f3698d4bc83b768f483fc1fef50bcc269c99c1f486ed61ae87e2c7458c5ccc16",
+    "client_prover/psy_core/psy_data/src/qdata/checkpoint.rs": "59fdea9e0bbb9f5a4ff45d2e4924a533ec9d0321dd08cf686520bbda559d8385",
+    "client_prover/psy_circuit/psy_network_circuit/src/ups/gadgets/ups_end_cap.rs": "a743d93f0a3f4e0ad2286641b1b274eabe70c0bf460d7c02ed57dd0b130ef284",
+    "client_prover/psy_circuit/psy_network_circuit/src/ups/gadgets/ups_end_cap_tree.rs": "55233d6f55c9122b57010cf9a54c3d3c1e540f8a7faec96cc5ff9665a4b22780",
+    "psy_node_common/src/coordinator/processor/gatherers/coordinator_guta_update_gatherer.rs": "6187688c3f2db4d769c2f70594867e692ea4dbbde71210ba5160a7b0fcc49df2",
+    "psy_node_common/src/backup/output/coordinator_output_builder.rs": "a0747f8c203b53de4560c0aa5244b18e496fba715d70531604e7dec6fd73b6fd"
+  },
+  "verifiedAtEnd": true,
+  "checkpoint": "after all four recovery chains",
+  "checkedAtUtc": "2026-10-20T07:00:23.378889+00:00"
+}
