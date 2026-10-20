@@ -152,3 +152,17 @@ It requires terminal results and ordinary claims; it never treats an RPC `ok` or
 an unverified trace as successful settlement. `archiveEvidence.py` writes a fresh,
 public-only gzip archive with exact source and compressed SHA256 values. Wallet
 files remain outside its explicit allowlist.
+
+## Reproduce application regressions
+
+Use a fresh admission fixture and the same frozen compiler, rather than an old
+compiled NFT candidate. These commands do not broadcast:
+
+```sh
+node batching/admission/prepare.mjs --compiler /absolute/frozen/compile_batch --assets /absolute/frozen-v2-assets --out /absolute/fresh-admission
+ADMISSION_BUILD=/absolute/fresh-admission ADMISSION_COMPILER=/absolute/frozen/compile_batch node --test batching/admission/build.test.mjs batching/admission/reader.test.mjs batching/admission/liveAssets.test.mjs executor/chainReceipts.test.mjs
+```
+
+The final recorded invocation used the distinct v3 fixture and passed all 17
+application tests. Complete UPS, VM and live acceptance evidence are separate
+sections of the release review; this command does not reproduce those proofs.

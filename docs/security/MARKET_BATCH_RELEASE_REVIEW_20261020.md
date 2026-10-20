@@ -12,7 +12,7 @@ No Node worktree changes or old-contract upgrades. New isolated test deployments
 | 2 Complete proof cost | Sequential ABBA: all 32 full UPS proofs passed, equal state roots/fees, two samples/profile/market; compact reduces measured warm commit+settle cost by 65.6–78.8% | Offline synthetic checkpoints; cold costs separate; not chain TPS, production P95 or an online Executor latency claim |
 | 3 Admission completeness | Four-market bounded consent/omission/disposition VM checks passed; 32 complete vault admission UPSs and 16 expiry/refreeze/refund UPSs passed | Synthetic ordinary authorization remains VM-only; real ordinary consent, admission and settlement confirmed in both paired fixture rounds; accepted scope excludes unaccepted market intents |
 | 4 Future random order | Deterministic mode retained | Unbiased authenticated future source, actual inclusion-before-seed evidence and anti-abort protocol unavailable |
-| 5 Isolated network | Four new markets/keys activated; two real paired fixture rounds, 82 UPSs, ordinary claims, refunds, timeout/refreeze, four admission races and lost-ack recovery confirmed across both realms | Replacement NFT 2472 missing-seller refund and subsequent unique-sale acceptance in progress; production provenance/upgrade authority remain unverified |
+| 5 Isolated network | Four new markets/keys activated; two real paired fixture rounds, 82 UPSs, ordinary claims, refunds, timeout/refreeze, four admission races and lost-ack recovery confirmed across both realms; replacement 2472 refund, unique sale, exact payment and conservation confirmed | Production provenance/upgrade authority, existing daemon routing and production liveness remain unverified |
 
 ## 1. SDK source contract
 
@@ -180,7 +180,7 @@ Required future interfaces/acceptance (protocol/randomness owners):
 
 ## Stage 5: actual testnet compatibility and new isolated deployment
 
-### Continuing isolated acceptance (2026-10-21 Asia/Taipei, evidence in progress)
+### Completed isolated acceptance (2026-10-21 Asia/Taipei)
 
 The same `markets-batch-capacity-recovery-20261020` branch is used. Original Node
 files and prior artifacts are preserved. No existing contract is updated.
@@ -284,7 +284,7 @@ remains a protocol evidence requirement. No Node change or update probe was made
   即使旧发现上限为 1 也包含全部 4 名成员。队列全流程 32 个 UPS、超时／重新固定／退款 16 个 UPS 已验证；普通钱包原生 PSY 领取已确认。市场两轮真实批量结算和普通钱包领取已验收；既有 Executor daemon 新路由仍未验收。
 - 随机排序关闭。封口队列范围不等于所有市场请求；认证源 checkpoint 不等于实际包含时间。
 - 按用户补充授权，测试网改为自行预检后逐项新部署。版本字符串不作为形式门槛。
-  普通钱包与短调用入口将保存请求／意图／回执，核验代码、布局、函数白名单、费用、
+  普通钱包与短调用入口已保存请求／意图／回执，核验代码、布局、函数白名单、费用、
   nonce 和状态端点；现有钱包与旧执行器入口不改动。实现源文件存在不等于已验收。
 - 升级授权与新部署测试分开记录；小额测试通过也不构成不可升级或生产安全证明。
 
@@ -304,8 +304,8 @@ registration, faucet or deployment. Offline fixtures/ABBA use localhost magic
 `0x1337CF514544CF69` (`1384803358401154921`); the actual configured staging
 sepolia domain is `0x1337CF514544C169` (`1384803358401151337`). They differ.
 A branch name or common RPC method identity cannot substitute for this check.
-Original offline binaries/evidence remain unchanged. The same frozen SDK sources
-and public multi-network config are being rebuilt with `PSY_NETWORK=sepolia`
+Original offline binaries/evidence remain unchanged. At this initial preflight, the same frozen SDK sources
+and public multi-network config were rebuilt with `PSY_NETWORK=sepolia`
 in a distinct target/output directory. Policy magic, fingerprints and full
 stack/session tests must use that new domain; local proof results are not
 represented as staging proof acceptance. The client additionally pins the known
@@ -365,7 +365,8 @@ Actual immutable evidence: `staged-release-v1/live-initial/`:
 - Realm1 profile acceptance, four live admission races, sealed-set commitments,
   expiry/refreeze and both paired fixture rounds are confirmed. Ordinary claims,
   refund/sell paths, exact economic state and full cohort conservation passed.
-  Replacement NFT recovery/unique-sale tests are being completed.
+  Replacement NFT 2472 buyer-only refund, subsequent unique sale and ordinary
+  claims are also confirmed; exact payment, inventory and fees reconcile.
   Initial test assets with Alice issuer remain preserved; the actual cohort uses
   separate Bob-issued QA assets.
 
@@ -387,8 +388,40 @@ seller from aliasing row zero. Actual VM regressions and four complete synthetic
 commit/refund UPSs are in
 [`nft-admission-recovery-v3/manifest.json`](../../batching/evidence/20261020/staged-release-v1/nft-admission-recovery-v3/manifest.json).
 New NFT contract 2472 and independent key/vault 1695936 are confirmed; its live
-refund/unique-sale checks are pending. Original 2469 artifacts and the paired
+refund/unique-sale checks, ordinary claims and full cohort reconciliation passed
+at 2026-10-20 17:31:02 UTC. Original 2469 artifacts and the paired
 fixture remain available. No Node or existing-contract update was made.
 
 Live progress, exact acceptance scope and remaining production evidence are in
 [the live acceptance review](MARKET_BATCH_LIVE_ACCEPTANCE_20261020.md).
+
+## Final isolated acceptance result
+
+The two paired four-market rounds and the replacement NFT refund/sale matrix
+are complete. Current isolated market IDs are AMM **2468**, Orderbook **2470**,
+Curve **2471**, NFT Market **2472**. NFT **2469** is retained as the retired paired
+fixture; its missing-seller admission defect makes it unsuitable for general use.
+
+The paired epoch intervals contain 82 included UPSs and 82.001070 test PSY of
+fees. Replacement epochs contain another 27 UPSs and 27.000256 test PSY. Exact
+FT supplies, AMM/Curve fixture economic state, NFT IDs/metadata/unique ownership,
+ordinary recipient claims and native fee conservation pass. New NFT sale proceeds
+are exactly 5 FT-A. The combined public ledgers verify 124 included UPS identities
+including preparation. Complete receipts, roots and measured intervals are in
+[the final report](../../batching/evidence/20261020/staged-release-v1/live-final-acceptance-v1.json)
+and [live review](MARKET_BATCH_LIVE_ACCEPTANCE_20261020.md).
+
+Both public archives have verified compressed and decompressed SHA256 manifests:
+1,683 primary files and 488 replacement files. Node’s tracked diff remained
+`002e35e0b13cb6c422fe3abf500ce6aa5241229264d85a3314f22b5e14b59a64`;
+all 1,466 consumed SDK source files and both frozen client binaries matched.
+Original artifacts and failures remain preserved; wallet material is excluded.
+
+This closes the stated bounded isolated fixture, not production release. Random
+ordering remains off; all-market inclusion/censorship resistance, authenticated
+future inclusion/seed and anti-abort guarantees, actual runtime provenance,
+chain-domain uniqueness, effective upgrade authorization, independent review,
+production retention/liveness, existing Executor daemon routing and Curve
+graduation remain external or unverified scopes. The new NFT live run does not
+repeat the original instance’s admission races/timeouts; see the exact matrix.
+No test count substitutes for those evidence requirements.
