@@ -72,7 +72,7 @@ export async function scanBatch(options,readState=publicState,files){
   if(options.automaticInitialize){const f=await funding(config.issuer);if(f.fee_delta===FEE_ESCROW&&f.paid_a===BigInt(config.unit)*BigInt(config.cap+config.liquidity)&&f.paid_b===0n)return {checkpoint:s.checkpoint,phase,batch,action:maintenance('initialize',{},f.maintenanceCursor)};}
   return {checkpoint:s.checkpoint,phase,batch,action:null,reason:'curve-inventory-required'};
  }
- const limit=['amm','bondingcurve'].includes(market)?2:4,selected=new Map();
+ const limit=4,selected=new Map();
  if(market==='orderbook'){
   // Avoid selecting four asks while compatible bids are waiting. Prioritize
   // refunds, then earliest whole-order compatible pairs within discovered data.

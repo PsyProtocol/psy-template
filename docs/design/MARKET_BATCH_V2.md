@@ -137,7 +137,7 @@ AMM / Book / Curve 新增明确的用户撤单请求及 checkpoint 标记；NFT 
 
 ## 9. 实现补充（2026-10-20）
 
-- 上限：AMM / Curve 每批 2 个成员；Book / NFT 每批 4 个成员。Book 的一对交易需要两个成员；NFT 卖方引用也占成员。最多 4 个操作块，每块 9 调用，总计 40 调用含自动 burn。
+- 上限：四个市场每批最多 4 个成员；AMM / Curve 最多 4 单，Book / NFT 最多 2 对成交。Book 的一对交易需要两个成员；NFT 卖方引用也占成员。最多 4 个操作块，每块 9 调用，总计 40 调用含自动 burn。
 - `commit_batch` 只冻结订单和资金，不领取用户订单资产；显式赞助账户预付 2F。F = 1,000,100,000 原生最小单位，预留 commit 和 settle 各一次烧费上界。赞助 `purpose=1` 仅用于 commit，`purpose=2` 仅用于维护补费；授权池、金额和递增 nonce 都进电路。
 - Executor 的 `batchExpiryCheckpoints` 默认 256，允许 1..1024；合约上界 1024。依据实测完整 UPS 成本扩大窗口。部署者必须按实际 checkpoint 频率和证明/重证/等待成本配置，不能把这一数字当作固定秒数。期限是证明上下文语义，未提供可信当前墙钟的全局撤销能力。
 - 新金库先执行显式 activation，真实 materialize 所需市场和资产子树。FT 市场需赞助 F 和每资产 1 最小单位（种子退回）；NFT activation 付款方需为 collection issuer，FT 种子退回。不能直接对未初始化的空外部合约树造读取证明。
