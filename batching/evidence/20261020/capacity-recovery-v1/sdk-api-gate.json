@@ -1,0 +1,11 @@
+{
+  "scope": "compile-time API compatibility guard; not independent proof that constraints are correct",
+  "compiledAgainstFrozenLocalSnapshot": true,
+  "cleanStableSdkCompilationRun": false,
+  "stableSdkSourceLacksRequiredApi": true,
+  "addsCircuitConstraints": false,
+  "policyShapeChanged": false,
+  "recoveryOverlappedApplicationCompilation": true,
+  "requiresSourceAuditAndNegativeContextProofs": true,
+  "broadcast": false
+}

@@ -1,0 +1,204 @@
+TAP version 13
+# Subtest: amm: frozen ABI, regenerated policy, every whole-stack request binding
+ok 1 - amm: frozen ABI, regenerated policy, every whole-stack request binding
+  ---
+  duration_ms: 190.209083
+  ...
+# Subtest: amm: commit and expiry bind canonical modes and padding
+ok 2 - amm: commit and expiry bind canonical modes and padding
+  ---
+  duration_ms: 2.899625
+  ...
+# Subtest: AMM planner uses the second progressive reserve and refunds partial funding
+ok 3 - AMM planner uses the second progressive reserve and refunds partial funding
+  ---
+  duration_ms: 0.82525
+  ...
+# Subtest: orderbook: frozen ABI, regenerated policy, every whole-stack request binding
+ok 4 - orderbook: frozen ABI, regenerated policy, every whole-stack request binding
+  ---
+  duration_ms: 82.041959
+  ...
+# Subtest: orderbook: commit and expiry bind canonical modes and padding
+ok 5 - orderbook: commit and expiry bind canonical modes and padding
+  ---
+  duration_ms: 4.144583
+  ...
+# Subtest: Book planner ranks integer prices and carries unmatched orders
+ok 6 - Book planner ranks integer prices and carries unmatched orders
+  ---
+  duration_ms: 0.369833
+  ...
+# Subtest: bondingcurve: frozen ABI, regenerated policy, every whole-stack request binding
+ok 7 - bondingcurve: frozen ABI, regenerated policy, every whole-stack request binding
+  ---
+  duration_ms: 123.227625
+  ...
+# Subtest: bondingcurve: commit and expiry bind canonical modes and padding
+ok 8 - bondingcurve: commit and expiry bind canonical modes and padding
+  ---
+  duration_ms: 1.447042
+  ...
+# Subtest: Curve limit orders use successive sold lots and quote change
+ok 9 - Curve limit orders use successive sold lots and quote change
+  ---
+  duration_ms: 0.473042
+  ...
+# Subtest: nftmarket: frozen ABI, regenerated policy, every whole-stack request binding
+ok 10 - nftmarket: frozen ABI, regenerated policy, every whole-stack request binding
+  ---
+  duration_ms: 78.852209
+  ...
+# Subtest: nftmarket: commit and expiry bind canonical modes and padding
+ok 11 - nftmarket: commit and expiry bind canonical modes and padding
+  ---
+  duration_ms: 2.8745
+  ...
+# Subtest: NFT planner selects one buyer and refunds the loser
+ok 12 - NFT planner selects one buyer and refunds the loser
+  ---
+  duration_ms: 0.8855
+  ...
+# Subtest: amm: four-member planner uses every ordered operation slot
+ok 13 - amm: four-member planner uses every ordered operation slot
+  ---
+  duration_ms: 2.510959
+  ...
+# Subtest: bondingcurve: four-member planner uses every ordered operation slot
+ok 14 - bondingcurve: four-member planner uses every ordered operation slot
+  ---
+  duration_ms: 1.095583
+  ...
+# Subtest: NFT ordinary-wallet order materializes NFT account before reading it
+ok 2 - NFT ordinary-wallet order materializes NFT account before reading it
+  ---
+  duration_ms: 1.59375
+  ...
+# Subtest: commit and maintenance sponsorship carry separate explicit purposes
+ok 3 - commit and maintenance sponsorship carry separate explicit purposes
+  ---
+  duration_ms: 0.304542
+  ...
+# Subtest: activation seeds and recovery enrollment target the original vault
+ok 4 - activation seeds and recovery enrollment target the original vault
+  ---
+  duration_ms: 0.1255
+  ...
+# Subtest: ordinary Curve limit calls fund the bound for buys and token lots for sells with both limbs
+ok 5 - ordinary Curve limit calls fund the bound for buys and token lots for sells with both limbs
+  ---
+  duration_ms: 125.296417
+  ...
+# Subtest: proof attribution reports measured padding separately without inventing throughput
+ok 3 - proof attribution reports measured padding separately without inventing throughput
+  ---
+  duration_ms: 1.233583
+  ...
+# Subtest: incomplete or unverified traces cannot be reported as full UPS measurements
+ok 4 - incomplete or unverified traces cannot be reported as full UPS measurements
+  ---
+  duration_ms: 2.057875
+  ...
+# Subtest: amm: restart reads committed members without rediscovery and expires the same batch
+ok 4 - amm: restart reads committed members without rediscovery and expires the same batch
+  ---
+  duration_ms: 11.420458
+  ...
+# Subtest: amm: new profile pins sponsor and retains distinct asset bindings
+ok 5 - amm: new profile pins sponsor and retains distinct asset bindings
+  ---
+  duration_ms: 2.627875
+  ...
+# Subtest: orderbook: restart reads committed members without rediscovery and expires the same batch
+ok 6 - orderbook: restart reads committed members without rediscovery and expires the same batch
+  ---
+  duration_ms: 9.179542
+  ...
+# Subtest: orderbook: new profile pins sponsor and retains distinct asset bindings
+ok 7 - orderbook: new profile pins sponsor and retains distinct asset bindings
+  ---
+  duration_ms: 0.574791
+  ...
+# Subtest: bondingcurve: restart reads committed members without rediscovery and expires the same batch
+ok 8 - bondingcurve: restart reads committed members without rediscovery and expires the same batch
+  ---
+  duration_ms: 4.646375
+  ...
+# Subtest: bondingcurve: new profile pins sponsor and retains distinct asset bindings
+ok 9 - bondingcurve: new profile pins sponsor and retains distinct asset bindings
+  ---
+  duration_ms: 0.777167
+  ...
+# Subtest: nftmarket: restart reads committed members without rediscovery and expires the same batch
+ok 10 - nftmarket: restart reads committed members without rediscovery and expires the same batch
+  ---
+  duration_ms: 7.66275
+  ...
+# Subtest: nftmarket: new profile pins sponsor and retains distinct asset bindings
+ok 11 - nftmarket: new profile pins sponsor and retains distinct asset bindings
+  ---
+  duration_ms: 0.861042
+  ...
+# Subtest: lost commit receipt blocks settlement; restart reconciles identity then uses frozen settlement
+ok 12 - lost commit receipt blocks settlement; restart reconciles identity then uses frozen settlement
+  ---
+  duration_ms: 432.255208
+  ...
+# Subtest: crash after commitment proof reuses exactly that immutable request before intent
+ok 13 - crash after commitment proof reuses exactly that immutable request before intent
+  ---
+  duration_ms: 151.8515
+  ...
+# Subtest: Book discovery includes a compatible bid even with ten earlier asks
+ok 14 - Book discovery includes a compatible bid even with ten earlier asks
+  ---
+  duration_ms: 104.086042
+  ...
+# Subtest: NFT discovery groups buyers with listings and does not fill a batch with unmatched listings
+ok 15 - NFT discovery groups buyers with listings and does not fill a batch with unmatched listings
+  ---
+  duration_ms: 75.838583
+  ...
+# Subtest: NFT stale seller that has become a buyer is a zero-nonce reference, not a second outcome
+ok 16 - NFT stale seller that has become a buyer is a zero-nonce reference, not a second outcome
+  ---
+  duration_ms: 82.27425
+  ...
+# Subtest: NFT frozen payout queue waits for claims, then expires without dropping its members
+ok 17 - NFT frozen payout queue waits for claims, then expires without dropping its members
+  ---
+  duration_ms: 152.504959
+  ...
+# Subtest: uninitialized selected FT accounts are surfaced before freezing a batch
+ok 18 - uninitialized selected FT accounts are surfaced before freezing a batch
+  ---
+  duration_ms: 218.185917
+  ...
+# Subtest: amm: scanner freezes four canonical users and leaves the fifth for a later batch
+ok 19 - amm: scanner freezes four canonical users and leaves the fifth for a later batch
+  ---
+  duration_ms: 247.835542
+  ...
+# Subtest: bondingcurve: scanner freezes four canonical users and leaves the fifth for a later batch
+ok 20 - bondingcurve: scanner freezes four canonical users and leaves the fifth for a later batch
+  ---
+  duration_ms: 198.084333
+  ...
+# Subtest: amm: lowering discovery limit never truncates a frozen four-member set
+ok 21 - amm: lowering discovery limit never truncates a frozen four-member set
+  ---
+  duration_ms: 312.151458
+  ...
+# Subtest: bondingcurve: lowering discovery limit never truncates a frozen four-member set
+ok 22 - bondingcurve: lowering discovery limit never truncates a frozen four-member set
+  ---
+  duration_ms: 132.287208
+  ...
+1..39
+# tests 39
+# pass 39
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 4673.72175

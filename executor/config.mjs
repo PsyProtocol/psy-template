@@ -4,7 +4,7 @@ import {dirname,resolve} from 'node:path';
 const kinds=['amm','orderbook','bondingcurve','launchamm','nftmarket'];
 const paths=['rpcConfig','wallet','abi','driverConfig','runtimeDirectory','usersFile','policy'];
 const allowed=new Set(['kind','name','network','contractId','vaultId','publicKeyHash','fingerprint','codeRoot','layoutRoot','walletSha256',
-  ...paths,'users','intervalMs','receiptMaxPages','cli','pool','launch','automaticInitialize','automaticGraduation','profile','assetA','assetB','collection','paymentToken','batchSponsorId','batchExpiryCheckpoints','activationPayerId']);
+  ...paths,'users','intervalMs','receiptMaxPages','cli','pool','launch','automaticInitialize','automaticGraduation','profile','assetA','assetB','collection','paymentToken','batchSponsorId','batchExpiryCheckpoints','activationPayerId','batchMemberLimit']);
 export function validateUsers(users,vaultId){
   if(!Array.isArray(users)||users.length>10000||users.some(x=>!Number.isSafeInteger(x)||x<1||x>=16777216||x===vaultId))throw Error('users must contain at most 10000 valid payer IDs');
   return [...new Set(users)].sort((a,b)=>a-b);
@@ -47,7 +47,8 @@ export function validateOptions(input,base=process.cwd()){
     if(!Number.isSafeInteger(o.batchSponsorId)||o.batchSponsorId<1||o.batchSponsorId>=16777216||o.batchSponsorId===o.vaultId)throw Error('distinct batchSponsorId required');
     if(o.activationPayerId!==undefined&&(!Number.isSafeInteger(o.activationPayerId)||o.activationPayerId<1||o.activationPayerId>=16777216||o.activationPayerId===o.vaultId))throw Error('invalid activationPayerId');
     o.batchExpiryCheckpoints??=256;if(!Number.isSafeInteger(o.batchExpiryCheckpoints)||o.batchExpiryCheckpoints<1||o.batchExpiryCheckpoints>1024)throw Error('batchExpiryCheckpoints must be 1..1024');
-  }else if(o.batchSponsorId!==undefined||o.batchExpiryCheckpoints!==undefined||o.activationPayerId!==undefined)throw Error('batch fields require batch-v2');
+    const paired=['orderbook','nftmarket'].includes(o.kind);o.batchMemberLimit??=paired?4:2;if(!Number.isSafeInteger(o.batchMemberLimit)||o.batchMemberLimit<(paired?2:1)||o.batchMemberLimit>4)throw Error('invalid batchMemberLimit for market');
+  }else if(o.batchSponsorId!==undefined||o.batchExpiryCheckpoints!==undefined||o.activationPayerId!==undefined||o.batchMemberLimit!==undefined)throw Error('batch fields require batch-v2');
   if(typeof o.network!=='string'||!/^[a-zA-Z0-9_-]+$/.test(o.network))throw Error('explicit network required');
   if(!Number.isSafeInteger(o.contractId)||o.contractId<5||o.contractId>=16777216)throw Error('invalid contract ID');
   if(!Number.isSafeInteger(o.vaultId)||o.vaultId<1||o.vaultId>=16777216)throw Error('invalid vault ID');

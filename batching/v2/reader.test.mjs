@@ -16,7 +16,7 @@ for(const market of['amm','orderbook','bondingcurve','nftmarket']){
   values.set('200:42:33554853',18n);const drift=await scanBatch(options,state,{abi,config,policy});assert.equal(drift.action,null);assert.equal(drift.reason,'frozen-funding-drift-awaiting-expiry');
   cp=121;const e=await scanBatch(options,state,{abi,config,policy});assert.equal(e.action.kind,'batch_expire');assert.equal(e.action.batchId,'7');
  });
- test(`${market}: new profile pins sponsor and retains distinct asset bindings`,()=>{const asset=id=>({contractId:id,codeRoot:'a'.repeat(64),layoutRoot:'b'.repeat(64),abi:'asset.json'});const input={kind:market,profile:'batch-v2',network:'testnet',contractId:1000,vaultId:100,batchSponsorId:300,publicKeyHash:'c'.repeat(64),fingerprint:'d'.repeat(64),codeRoot:'e'.repeat(64),layoutRoot:'f'.repeat(64),walletSha256:'a'.repeat(64),wallet:'driver',abi:'abi.json',policy:'policy.json',driverConfig:'config.json',rpcConfig:'rpc.json',runtimeDirectory:'runtime',...(market==='nftmarket'?{collection:asset(41),paymentToken:asset(42)}:{assetA:asset(42),assetB:asset(43)})};assert.equal(validateOptions(input).batchExpiryCheckpoints,256);assert.throws(()=>validateOptions({...input,batchSponsorId:100}),/Sponsor/);assert.throws(()=>validateOptions({...input,batchExpiryCheckpoints:1025}),/1..1024/);});
+ test(`${market}: new profile pins sponsor and retains distinct asset bindings`,()=>{const asset=id=>({contractId:id,codeRoot:'a'.repeat(64),layoutRoot:'b'.repeat(64),abi:'asset.json'});const input={kind:market,profile:'batch-v2',network:'testnet',contractId:1000,vaultId:100,batchSponsorId:300,publicKeyHash:'c'.repeat(64),fingerprint:'d'.repeat(64),codeRoot:'e'.repeat(64),layoutRoot:'f'.repeat(64),walletSha256:'a'.repeat(64),wallet:'driver',abi:'abi.json',policy:'policy.json',driverConfig:'config.json',rpcConfig:'rpc.json',runtimeDirectory:'runtime',...(market==='nftmarket'?{collection:asset(41),paymentToken:asset(42)}:{assetA:asset(42),assetB:asset(43)})};assert.equal(validateOptions(input).batchExpiryCheckpoints,256);assert.equal(validateOptions(input).batchMemberLimit,['amm','bondingcurve'].includes(market)?2:4);assert.equal(validateOptions({...input,batchMemberLimit:4}).batchMemberLimit,4);assert.throws(()=>validateOptions({...input,batchMemberLimit:5}),/batchMemberLimit/);if(market==='amm')assert.throws(()=>validateOptions({...input,profile:'u124',batchSponsorId:undefined,batchMemberLimit:4}),/batch fields require/);assert.throws(()=>validateOptions({...input,batchSponsorId:100}),/Sponsor/);assert.throws(()=>validateOptions({...input,batchExpiryCheckpoints:1025}),/1..1024/);});
 }
 const policy=await read('amm/policy.json');const task=mode=>({kind:mode===1?'batch_commit':'batch_settle',batchId:'7',submission:losslessJson(signingRequest(policy,witness({mode,batch:7n,...(mode===1?{users:[200n],nonces:[1n],expiry:120n,sponsor:300n}:{root:[1n,2n,3n,4n]}),burn:0n})))});
 const receipt={status:'included',userId:100,contentHash:'a'.repeat(64),checkpoint:101};
@@ -49,6 +49,15 @@ test('uninitialized selected FT accounts are surfaced before freezing a batch',a
 
 for(const market of ['amm','bondingcurve'])test(`${market}: scanner freezes four canonical users and leaves the fifth for a later batch`,async()=>{
  const f=await idleFixture(market);if(market==='bondingcurve')f.field(100,'phase',1);for(const u of[204,203,202,201,200])f.order(u,0,market==='bondingcurve'?{lots:1,limit_mode:1}:{});f.options.users=[204,203,202,201,200];
- const result=await scanBatch(f.options,f.state,f.files),v=parseLosslessJson(result.action.submission).software_defined_call.inputs;
+ const legacy=await scanBatch(f.options,f.state,f.files),before=parseLosslessJson(legacy.action.submission).software_defined_call.inputs;assert.equal(before[2],2n);assert.deepEqual(before.slice(5,9),[200n,201n,0n,0n]);
+ f.options.batchMemberLimit=4;const result=await scanBatch(f.options,f.state,f.files),v=parseLosslessJson(result.action.submission).software_defined_call.inputs;
  assert.equal(result.action.kind,'batch_commit');assert.equal(v[2],4n);assert.deepEqual(v.slice(5,9),[200n,201n,202n,203n]);
+});
+
+for(const market of ['amm','bondingcurve'])test(`${market}: lowering discovery limit never truncates a frozen four-member set`,async()=>{
+ const f=await idleFixture(market);f.options.batchMemberLimit=1;f.options.users=[];
+ for(const[n,v]of Object.entries({batch_phase:1,batch_id:7,batch_cutoff:100,batch_expiry:120,batch_root:[1,2,3,4],frozen_owner:[200,201,202,203],frozen_kind:[1,1,1,1],frozen_pool:[100,100,100,100],frozen_nonce:[1,1,1,1],frozen_deadline:[99,99,99,99],frozen_paid_a_lo:[17,17,17,17]}))f.field(100,n,v);
+ for(const u of[200,201,202,203])f.put(u,42,33554853,17);
+ const result=await scanBatch(f.options,f.state,f.files);assert.equal(result.action.kind,'batch_settle');const v=parseLosslessJson(result.action.submission).software_defined_call.inputs;
+ assert.deepEqual([0,1,2,3].map(i=>v[22+13*i]),[200n,201n,202n,203n]);
 });

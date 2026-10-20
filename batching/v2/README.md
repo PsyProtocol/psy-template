@@ -138,7 +138,7 @@ Use `profile:"batch-v2"` and the existing Executor configuration, explicit code 
 layout / asset bindings, reviewed `walletSha256`, plus:
 
 ```json
-{"batchSponsorId":300,"batchExpiryCheckpoints":256,"automaticInitialize":true,"activationPayerId":5}
+{"batchSponsorId":300,"batchExpiryCheckpoints":256,"batchMemberLimit":4,"automaticInitialize":true,"activationPayerId":5}
 ```
 
 These are illustrative IDs only. `activationPayerId` is optional; NFT activation
@@ -225,3 +225,10 @@ its output does not verify a function whitelist or UPS admission. Compare the
 computed RPC-code root with the advertised contract leaf, then compare each
 actually called method. Preserve both original inputs. A whole-code mismatch
 caused by unused methods is not evidence that the selected methods changed.
+
+The Executor's `batchMemberLimit` defaults to 2 for AMM/Curve and 4 for Book/NFT
+to preserve the original V2 candidate's discovery behavior. Set it explicitly
+to 4 only with the reviewed four-member AMM/Curve code root. Contract bounds
+and the complete UPS remain authoritative; changing this option cannot upgrade
+a deployed contract or its spending policy. It is 1..4 for AMM/Curve and 2..4
+for Book/NFT.
