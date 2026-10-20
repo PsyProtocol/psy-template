@@ -1,0 +1,215 @@
+{
+  "schema": 1,
+  "scope": "measured full-UPS call attribution; untraced includes setup, automatic burn, signing, endcap and verification",
+  "rows": [
+    {
+      "input": "/tmp/psy-batch-capacity4-full-ups-v1-20261020/amm.json",
+      "inputSha256": "84bd7adce15afed800a0f843f906057c08149e6b1e059cb3856c6d651d4d85c8",
+      "market": "amm",
+      "phase": "commit",
+      "members": 4,
+      "fills": 4,
+      "calls": 40,
+      "elapsedMs": 174681.800666,
+      "noopCalls": 37,
+      "noopMs": 88316.41354400001,
+      "workCallMs": 5764.612082999999,
+      "untracedMs": 80600.77503899999,
+      "overheadStagesMs": null,
+      "noopFraction": 0.5055845154290872,
+      "byMethod": [
+        {
+          "contract": 1000,
+          "method": "commit_batch",
+          "calls": 1,
+          "ms": 4533.7709159999995
+        },
+        {
+          "contract": 0,
+          "method": "simple_claim",
+          "calls": 1,
+          "ms": 1230.8411669999998
+        },
+        {
+          "contract": 1000,
+          "method": "noop",
+          "calls": 37,
+          "ms": 88316.41354400001
+        }
+      ],
+      "chainTps": null,
+      "broadcast": false
+    },
+    {
+      "input": "/tmp/psy-batch-capacity4-full-ups-v1-20261020/amm.json",
+      "inputSha256": "84bd7adce15afed800a0f843f906057c08149e6b1e059cb3856c6d651d4d85c8",
+      "market": "amm",
+      "phase": "settle",
+      "members": 4,
+      "fills": 4,
+      "calls": 40,
+      "elapsedMs": 168475.085709,
+      "noopCalls": 21,
+      "noopMs": 37633.89462300001,
+      "workCallMs": 35116.782168,
+      "untracedMs": 95724.408918,
+      "overheadStagesMs": null,
+      "noopFraction": 0.2233795843737006,
+      "byMethod": [
+        {
+          "contract": 1000,
+          "method": "begin_batch",
+          "calls": 1,
+          "ms": 1742.719417
+        },
+        {
+          "contract": 1000,
+          "method": "swap_0",
+          "calls": 4,
+          "ms": 10597.650624999998
+        },
+        {
+          "contract": 0,
+          "method": "simple_claim",
+          "calls": 4,
+          "ms": 6306.882541
+        },
+        {
+          "contract": 42,
+          "method": "claim",
+          "calls": 4,
+          "ms": 7301.324959
+        },
+        {
+          "contract": 43,
+          "method": "transfer",
+          "calls": 4,
+          "ms": 7346.2330010000005
+        },
+        {
+          "contract": 1000,
+          "method": "noop",
+          "calls": 21,
+          "ms": 37633.89462300001
+        },
+        {
+          "contract": 1000,
+          "method": "finish_batch",
+          "calls": 1,
+          "ms": 1821.971625
+        }
+      ],
+      "chainTps": null,
+      "broadcast": false
+    },
+    {
+      "input": "/tmp/psy-batch-capacity4-full-ups-v1-20261020/bondingcurve.json",
+      "inputSha256": "e9d196491b1b1133d5db0153089c3dfde81d9c4746746f20debe2968ee64ae80",
+      "market": "bondingcurve",
+      "phase": "commit",
+      "members": 4,
+      "fills": 4,
+      "calls": 40,
+      "elapsedMs": 171895.75187500002,
+      "noopCalls": 37,
+      "noopMs": 73879.918378,
+      "workCallMs": 7183.304709,
+      "untracedMs": 90832.52878800001,
+      "overheadStagesMs": null,
+      "noopFraction": 0.42979490518023017,
+      "byMethod": [
+        {
+          "contract": 1000,
+          "method": "commit_batch",
+          "calls": 1,
+          "ms": 5496.3935
+        },
+        {
+          "contract": 0,
+          "method": "simple_claim",
+          "calls": 1,
+          "ms": 1686.911209
+        },
+        {
+          "contract": 1000,
+          "method": "noop",
+          "calls": 37,
+          "ms": 73879.918378
+        }
+      ],
+      "chainTps": null,
+      "broadcast": false
+    },
+    {
+      "input": "/tmp/psy-batch-capacity4-full-ups-v1-20261020/bondingcurve.json",
+      "inputSha256": "e9d196491b1b1133d5db0153089c3dfde81d9c4746746f20debe2968ee64ae80",
+      "market": "bondingcurve",
+      "phase": "settle",
+      "members": 4,
+      "fills": 4,
+      "calls": 40,
+      "elapsedMs": 141454.460458,
+      "noopCalls": 17,
+      "noopMs": 27571.155332,
+      "workCallMs": 40220.555584999995,
+      "untracedMs": 73662.749541,
+      "overheadStagesMs": null,
+      "noopFraction": 0.19491188360360187,
+      "byMethod": [
+        {
+          "contract": 1000,
+          "method": "begin_batch",
+          "calls": 1,
+          "ms": 1908.9413749999999
+        },
+        {
+          "contract": 1000,
+          "method": "settle_limit_buy",
+          "calls": 4,
+          "ms": 9727.218332999999
+        },
+        {
+          "contract": 0,
+          "method": "simple_claim",
+          "calls": 4,
+          "ms": 6445.287791999999
+        },
+        {
+          "contract": 43,
+          "method": "claim",
+          "calls": 4,
+          "ms": 7066.8350009999995
+        },
+        {
+          "contract": 42,
+          "method": "transfer",
+          "calls": 4,
+          "ms": 6767.273998999999
+        },
+        {
+          "contract": 43,
+          "method": "transfer",
+          "calls": 4,
+          "ms": 6563.153835000001
+        },
+        {
+          "contract": 1000,
+          "method": "noop",
+          "calls": 17,
+          "ms": 27571.155332
+        },
+        {
+          "contract": 1000,
+          "method": "finish_batch",
+          "calls": 1,
+          "ms": 1741.8452499999999
+        }
+      ],
+      "chainTps": null,
+      "broadcast": false
+    }
+  ],
+  "speedupClaim": null,
+  "chainTps": null,
+  "broadcast": false
+}

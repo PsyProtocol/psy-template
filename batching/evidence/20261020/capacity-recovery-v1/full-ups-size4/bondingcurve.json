@@ -1,0 +1,516 @@
+{
+  "broadcast": false,
+  "chainTps": null,
+  "fills": 4,
+  "market": "bondingcurve",
+  "measurements": [
+    {
+      "elapsedMs": 87506.364167,
+      "phase": "cold-circuit-build"
+    },
+    {
+      "broadcast": false,
+      "burn": 1000030000,
+      "calls": 40,
+      "elapsedMs": 171895.75187500002,
+      "endLeaf": "ae6170aa3c046d945a7d50a8be77df8c8ee3723e589a59ecf246ad3325605068",
+      "exportedDeltasVerified": true,
+      "firstUpsRegistration": false,
+      "fullUpsVerified": true,
+      "phase": "commit",
+      "proofBytes": 130328,
+      "publicEndpointsBound": true,
+      "slotsModified": 30,
+      "startLeaf": "f7d8322f10dcec53a8d94f545740fa7cec5d20c0b1d390a3c891d7315e89bfd1",
+      "steps": [
+        {
+          "contract": 1000,
+          "index": 0,
+          "method": "commit_batch",
+          "ms": 5496.3935
+        },
+        {
+          "contract": 0,
+          "index": 1,
+          "method": "simple_claim",
+          "ms": 1686.911209
+        },
+        {
+          "contract": 1000,
+          "index": 2,
+          "method": "noop",
+          "ms": 1673.6133340000001
+        },
+        {
+          "contract": 1000,
+          "index": 3,
+          "method": "noop",
+          "ms": 1862.722375
+        },
+        {
+          "contract": 1000,
+          "index": 4,
+          "method": "noop",
+          "ms": 1683.8471670000001
+        },
+        {
+          "contract": 1000,
+          "index": 5,
+          "method": "noop",
+          "ms": 1650.5807080000002
+        },
+        {
+          "contract": 1000,
+          "index": 6,
+          "method": "noop",
+          "ms": 1882.290209
+        },
+        {
+          "contract": 1000,
+          "index": 7,
+          "method": "noop",
+          "ms": 2143.473458
+        },
+        {
+          "contract": 1000,
+          "index": 8,
+          "method": "noop",
+          "ms": 1728.1042909999999
+        },
+        {
+          "contract": 1000,
+          "index": 9,
+          "method": "noop",
+          "ms": 1662.5287090000002
+        },
+        {
+          "contract": 1000,
+          "index": 10,
+          "method": "noop",
+          "ms": 1652.7916249999998
+        },
+        {
+          "contract": 1000,
+          "index": 11,
+          "method": "noop",
+          "ms": 1625.7751250000001
+        },
+        {
+          "contract": 1000,
+          "index": 12,
+          "method": "noop",
+          "ms": 1404.247917
+        },
+        {
+          "contract": 1000,
+          "index": 13,
+          "method": "noop",
+          "ms": 1429.431834
+        },
+        {
+          "contract": 1000,
+          "index": 14,
+          "method": "noop",
+          "ms": 1498.644125
+        },
+        {
+          "contract": 1000,
+          "index": 15,
+          "method": "noop",
+          "ms": 1445.650791
+        },
+        {
+          "contract": 1000,
+          "index": 16,
+          "method": "noop",
+          "ms": 1862.63425
+        },
+        {
+          "contract": 1000,
+          "index": 17,
+          "method": "noop",
+          "ms": 1843.158458
+        },
+        {
+          "contract": 1000,
+          "index": 18,
+          "method": "noop",
+          "ms": 1740.268958
+        },
+        {
+          "contract": 1000,
+          "index": 19,
+          "method": "noop",
+          "ms": 2075.924916
+        },
+        {
+          "contract": 1000,
+          "index": 20,
+          "method": "noop",
+          "ms": 1655.844458
+        },
+        {
+          "contract": 1000,
+          "index": 21,
+          "method": "noop",
+          "ms": 2060.305334
+        },
+        {
+          "contract": 1000,
+          "index": 22,
+          "method": "noop",
+          "ms": 2094.715875
+        },
+        {
+          "contract": 1000,
+          "index": 23,
+          "method": "noop",
+          "ms": 2313.9195419999996
+        },
+        {
+          "contract": 1000,
+          "index": 24,
+          "method": "noop",
+          "ms": 2130.180667
+        },
+        {
+          "contract": 1000,
+          "index": 25,
+          "method": "noop",
+          "ms": 1927.174084
+        },
+        {
+          "contract": 1000,
+          "index": 26,
+          "method": "noop",
+          "ms": 2396.542792
+        },
+        {
+          "contract": 1000,
+          "index": 27,
+          "method": "noop",
+          "ms": 2177.620166
+        },
+        {
+          "contract": 1000,
+          "index": 28,
+          "method": "noop",
+          "ms": 1908.1256250000001
+        },
+        {
+          "contract": 1000,
+          "index": 29,
+          "method": "noop",
+          "ms": 1957.1336669999998
+        },
+        {
+          "contract": 1000,
+          "index": 30,
+          "method": "noop",
+          "ms": 2032.5755829999998
+        },
+        {
+          "contract": 1000,
+          "index": 31,
+          "method": "noop",
+          "ms": 2791.5094169999998
+        },
+        {
+          "contract": 1000,
+          "index": 32,
+          "method": "noop",
+          "ms": 2140.124375
+        },
+        {
+          "contract": 1000,
+          "index": 33,
+          "method": "noop",
+          "ms": 2277.845334
+        },
+        {
+          "contract": 1000,
+          "index": 34,
+          "method": "noop",
+          "ms": 2652.209875
+        },
+        {
+          "contract": 1000,
+          "index": 35,
+          "method": "noop",
+          "ms": 1828.9089999999999
+        },
+        {
+          "contract": 1000,
+          "index": 36,
+          "method": "noop",
+          "ms": 1924.946834
+        },
+        {
+          "contract": 1000,
+          "index": 37,
+          "method": "noop",
+          "ms": 2453.5393750000003
+        },
+        {
+          "contract": 1000,
+          "index": 38,
+          "method": "noop",
+          "ms": 4291.008125
+        }
+      ]
+    },
+    {
+      "broadcast": false,
+      "burn": 1000024000,
+      "calls": 40,
+      "elapsedMs": 141454.460458,
+      "endLeaf": "685f392ea19570e6916f500b3661a775f8adb1e7516be217ac9e444126c11aef",
+      "exportedDeltasVerified": true,
+      "firstUpsRegistration": false,
+      "fullUpsVerified": true,
+      "phase": "settle",
+      "proofBytes": 130328,
+      "publicEndpointsBound": true,
+      "slotsModified": 24,
+      "startLeaf": "ae6170aa3c046d945a7d50a8be77df8c8ee3723e589a59ecf246ad3325605068",
+      "steps": [
+        {
+          "contract": 1000,
+          "index": 0,
+          "method": "begin_batch",
+          "ms": 1908.9413749999999
+        },
+        {
+          "contract": 1000,
+          "index": 1,
+          "method": "settle_limit_buy",
+          "ms": 2649.598542
+        },
+        {
+          "contract": 0,
+          "index": 2,
+          "method": "simple_claim",
+          "ms": 1808.910542
+        },
+        {
+          "contract": 43,
+          "index": 3,
+          "method": "claim",
+          "ms": 1764.5335
+        },
+        {
+          "contract": 42,
+          "index": 4,
+          "method": "transfer",
+          "ms": 1593.57225
+        },
+        {
+          "contract": 43,
+          "index": 5,
+          "method": "transfer",
+          "ms": 1862.814875
+        },
+        {
+          "contract": 1000,
+          "index": 6,
+          "method": "noop",
+          "ms": 1800.9095
+        },
+        {
+          "contract": 1000,
+          "index": 7,
+          "method": "noop",
+          "ms": 1501.662875
+        },
+        {
+          "contract": 1000,
+          "index": 8,
+          "method": "noop",
+          "ms": 1387.978417
+        },
+        {
+          "contract": 1000,
+          "index": 9,
+          "method": "noop",
+          "ms": 1537.675666
+        },
+        {
+          "contract": 1000,
+          "index": 10,
+          "method": "settle_limit_buy",
+          "ms": 2188.9551659999997
+        },
+        {
+          "contract": 0,
+          "index": 11,
+          "method": "simple_claim",
+          "ms": 1430.1496249999998
+        },
+        {
+          "contract": 43,
+          "index": 12,
+          "method": "claim",
+          "ms": 1546.7213749999999
+        },
+        {
+          "contract": 42,
+          "index": 13,
+          "method": "transfer",
+          "ms": 1747.8794579999999
+        },
+        {
+          "contract": 43,
+          "index": 14,
+          "method": "transfer",
+          "ms": 1627.5504170000002
+        },
+        {
+          "contract": 1000,
+          "index": 15,
+          "method": "noop",
+          "ms": 1637.34275
+        },
+        {
+          "contract": 1000,
+          "index": 16,
+          "method": "noop",
+          "ms": 1975.9955
+        },
+        {
+          "contract": 1000,
+          "index": 17,
+          "method": "noop",
+          "ms": 1490.985917
+        },
+        {
+          "contract": 1000,
+          "index": 18,
+          "method": "noop",
+          "ms": 1538.5782909999998
+        },
+        {
+          "contract": 1000,
+          "index": 19,
+          "method": "settle_limit_buy",
+          "ms": 2372.3525
+        },
+        {
+          "contract": 0,
+          "index": 20,
+          "method": "simple_claim",
+          "ms": 1583.4182079999998
+        },
+        {
+          "contract": 43,
+          "index": 21,
+          "method": "claim",
+          "ms": 1901.645667
+        },
+        {
+          "contract": 42,
+          "index": 22,
+          "method": "transfer",
+          "ms": 1815.137666
+        },
+        {
+          "contract": 43,
+          "index": 23,
+          "method": "transfer",
+          "ms": 1455.770209
+        },
+        {
+          "contract": 1000,
+          "index": 24,
+          "method": "noop",
+          "ms": 1843.126167
+        },
+        {
+          "contract": 1000,
+          "index": 25,
+          "method": "noop",
+          "ms": 1546.648333
+        },
+        {
+          "contract": 1000,
+          "index": 26,
+          "method": "noop",
+          "ms": 1579.8010410000002
+        },
+        {
+          "contract": 1000,
+          "index": 27,
+          "method": "noop",
+          "ms": 1638.579625
+        },
+        {
+          "contract": 1000,
+          "index": 28,
+          "method": "settle_limit_buy",
+          "ms": 2516.312125
+        },
+        {
+          "contract": 0,
+          "index": 29,
+          "method": "simple_claim",
+          "ms": 1622.809417
+        },
+        {
+          "contract": 43,
+          "index": 30,
+          "method": "claim",
+          "ms": 1853.934459
+        },
+        {
+          "contract": 42,
+          "index": 31,
+          "method": "transfer",
+          "ms": 1610.6846249999999
+        },
+        {
+          "contract": 43,
+          "index": 32,
+          "method": "transfer",
+          "ms": 1617.0183339999999
+        },
+        {
+          "contract": 1000,
+          "index": 33,
+          "method": "noop",
+          "ms": 1526.009834
+        },
+        {
+          "contract": 1000,
+          "index": 34,
+          "method": "noop",
+          "ms": 1607.358125
+        },
+        {
+          "contract": 1000,
+          "index": 35,
+          "method": "noop",
+          "ms": 1735.425125
+        },
+        {
+          "contract": 1000,
+          "index": 36,
+          "method": "noop",
+          "ms": 1491.8879160000001
+        },
+        {
+          "contract": 1000,
+          "index": 37,
+          "method": "finish_batch",
+          "ms": 1741.8452499999999
+        },
+        {
+          "contract": 1000,
+          "index": 38,
+          "method": "noop",
+          "ms": 1731.19025
+        }
+      ]
+    }
+  ],
+  "members": 4,
+  "scope": "authenticated synthetic checkpoints, full UPS; no coordinator"
+}

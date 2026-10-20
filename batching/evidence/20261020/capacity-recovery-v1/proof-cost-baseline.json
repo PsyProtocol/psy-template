@@ -1,0 +1,449 @@
+{
+  "schema": 1,
+  "scope": "measured full-UPS call attribution; untraced includes setup, automatic burn, signing, endcap and verification",
+  "rows": [
+    {
+      "input": "/Users/geir/Downloads/QED资料/litepaper/psy-template-security-20261016/batching/evidence/20261020/implementation-v2/full-ups-size1/amm.json",
+      "inputSha256": "8926c37f0bf57543667ae8d1894443f59408f9c9b8a99a02e3513cc6473e4a3f",
+      "market": "amm",
+      "phase": "commit",
+      "members": 1,
+      "fills": 1,
+      "calls": 40,
+      "elapsedMs": 113364.211958,
+      "noopCalls": 37,
+      "noopMs": 47173.492082000004,
+      "workCallMs": 5353.5299159999995,
+      "untracedMs": 60837.18995999999,
+      "noopFraction": 0.41612331852557827,
+      "byMethod": [
+        {
+          "contract": 1000,
+          "method": "commit_batch",
+          "calls": 1,
+          "ms": 3869.6595829999997
+        },
+        {
+          "contract": 0,
+          "method": "simple_claim",
+          "calls": 1,
+          "ms": 1483.870333
+        },
+        {
+          "contract": 1000,
+          "method": "noop",
+          "calls": 37,
+          "ms": 47173.492082000004
+        }
+      ],
+      "chainTps": null,
+      "broadcast": false
+    },
+    {
+      "input": "/Users/geir/Downloads/QED资料/litepaper/psy-template-security-20261016/batching/evidence/20261020/implementation-v2/full-ups-size1/amm.json",
+      "inputSha256": "8926c37f0bf57543667ae8d1894443f59408f9c9b8a99a02e3513cc6473e4a3f",
+      "market": "amm",
+      "phase": "settle",
+      "members": 1,
+      "fills": 1,
+      "calls": 40,
+      "elapsedMs": 104688.09141699999,
+      "noopCalls": 33,
+      "noopMs": 40720.649295,
+      "workCallMs": 8346.315169,
+      "untracedMs": 55621.126952999984,
+      "noopFraction": 0.3889711689632303,
+      "byMethod": [
+        {
+          "contract": 1000,
+          "method": "begin_batch",
+          "calls": 1,
+          "ms": 1232.171875
+        },
+        {
+          "contract": 1000,
+          "method": "swap_0",
+          "calls": 1,
+          "ms": 2203.109125
+        },
+        {
+          "contract": 0,
+          "method": "simple_claim",
+          "calls": 1,
+          "ms": 1146.865834
+        },
+        {
+          "contract": 42,
+          "method": "claim",
+          "calls": 1,
+          "ms": 1248.828959
+        },
+        {
+          "contract": 43,
+          "method": "transfer",
+          "calls": 1,
+          "ms": 1191.943084
+        },
+        {
+          "contract": 1000,
+          "method": "noop",
+          "calls": 33,
+          "ms": 40720.649295
+        },
+        {
+          "contract": 1000,
+          "method": "finish_batch",
+          "calls": 1,
+          "ms": 1323.396292
+        }
+      ],
+      "chainTps": null,
+      "broadcast": false
+    },
+    {
+      "input": "/Users/geir/Downloads/QED资料/litepaper/psy-template-security-20261016/batching/evidence/20261020/implementation-v2/full-ups-size1/orderbook.json",
+      "inputSha256": "8ee0079af2f93d2d92c490c67741d5e9bac17572e4f2b208b4eb37bc42b98db4",
+      "market": "orderbook",
+      "phase": "commit",
+      "members": 2,
+      "fills": 1,
+      "calls": 40,
+      "elapsedMs": 114289.384666,
+      "noopCalls": 37,
+      "noopMs": 54987.75170900002,
+      "workCallMs": 5085.864709,
+      "untracedMs": 54215.76824799998,
+      "noopFraction": 0.4811273756499483,
+      "byMethod": [
+        {
+          "contract": 1000,
+          "method": "commit_batch",
+          "calls": 1,
+          "ms": 4036.359334
+        },
+        {
+          "contract": 0,
+          "method": "simple_claim",
+          "calls": 1,
+          "ms": 1049.5053750000002
+        },
+        {
+          "contract": 1000,
+          "method": "noop",
+          "calls": 37,
+          "ms": 54987.75170900002
+        }
+      ],
+      "chainTps": null,
+      "broadcast": false
+    },
+    {
+      "input": "/Users/geir/Downloads/QED资料/litepaper/psy-template-security-20261016/batching/evidence/20261020/implementation-v2/full-ups-size1/orderbook.json",
+      "inputSha256": "8ee0079af2f93d2d92c490c67741d5e9bac17572e4f2b208b4eb37bc42b98db4",
+      "market": "orderbook",
+      "phase": "settle",
+      "members": 2,
+      "fills": 1,
+      "calls": 40,
+      "elapsedMs": 120380.21675,
+      "noopCalls": 29,
+      "noopMs": 47120.36116499999,
+      "workCallMs": 13663.119955999997,
+      "untracedMs": 59596.73562900002,
+      "noopFraction": 0.39142944278674413,
+      "byMethod": [
+        {
+          "contract": 1000,
+          "method": "begin_batch",
+          "calls": 1,
+          "ms": 1289.533041
+        },
+        {
+          "contract": 1000,
+          "method": "match_orders",
+          "calls": 1,
+          "ms": 2596.912542
+        },
+        {
+          "contract": 0,
+          "method": "simple_claim",
+          "calls": 2,
+          "ms": 2430.1429989999997
+        },
+        {
+          "contract": 42,
+          "method": "claim",
+          "calls": 1,
+          "ms": 1196.067875
+        },
+        {
+          "contract": 43,
+          "method": "claim",
+          "calls": 1,
+          "ms": 1231.575125
+        },
+        {
+          "contract": 42,
+          "method": "transfer",
+          "calls": 1,
+          "ms": 1143.153708
+        },
+        {
+          "contract": 43,
+          "method": "transfer",
+          "calls": 1,
+          "ms": 1308.6031249999999
+        },
+        {
+          "contract": 0,
+          "method": "simple_transfer",
+          "calls": 1,
+          "ms": 1174.780791
+        },
+        {
+          "contract": 1000,
+          "method": "noop",
+          "calls": 29,
+          "ms": 47120.36116499999
+        },
+        {
+          "contract": 1000,
+          "method": "finish_batch",
+          "calls": 1,
+          "ms": 1292.35075
+        }
+      ],
+      "chainTps": null,
+      "broadcast": false
+    },
+    {
+      "input": "/Users/geir/Downloads/QED资料/litepaper/psy-template-security-20261016/batching/evidence/20261020/implementation-v2/full-ups-size1/bondingcurve.json",
+      "inputSha256": "98b612730beb0644a0197fc278609019c6114f6d021bfeb62495cc84c4f862f5",
+      "market": "bondingcurve",
+      "phase": "commit",
+      "members": 1,
+      "fills": 1,
+      "calls": 40,
+      "elapsedMs": 104628.766625,
+      "noopCalls": 37,
+      "noopMs": 44421.070708000014,
+      "workCallMs": 4799.837875,
+      "untracedMs": 55407.85804199999,
+      "noopFraction": 0.42455886789920394,
+      "byMethod": [
+        {
+          "contract": 1000,
+          "method": "commit_batch",
+          "calls": 1,
+          "ms": 3639.495125
+        },
+        {
+          "contract": 0,
+          "method": "simple_claim",
+          "calls": 1,
+          "ms": 1160.34275
+        },
+        {
+          "contract": 1000,
+          "method": "noop",
+          "calls": 37,
+          "ms": 44421.070708000014
+        }
+      ],
+      "chainTps": null,
+      "broadcast": false
+    },
+    {
+      "input": "/Users/geir/Downloads/QED资料/litepaper/psy-template-security-20261016/batching/evidence/20261020/implementation-v2/full-ups-size1/bondingcurve.json",
+      "inputSha256": "98b612730beb0644a0197fc278609019c6114f6d021bfeb62495cc84c4f862f5",
+      "market": "bondingcurve",
+      "phase": "settle",
+      "members": 1,
+      "fills": 1,
+      "calls": 40,
+      "elapsedMs": 103959.72941700001,
+      "noopCalls": 32,
+      "noopMs": 39631.077916999995,
+      "workCallMs": 9142.298375999999,
+      "untracedMs": 55186.353124000016,
+      "noopFraction": 0.3812156701373573,
+      "byMethod": [
+        {
+          "contract": 1000,
+          "method": "begin_batch",
+          "calls": 1,
+          "ms": 1240.380667
+        },
+        {
+          "contract": 1000,
+          "method": "settle_limit_buy",
+          "calls": 1,
+          "ms": 1766.7959170000001
+        },
+        {
+          "contract": 0,
+          "method": "simple_claim",
+          "calls": 1,
+          "ms": 1262.9718329999998
+        },
+        {
+          "contract": 43,
+          "method": "claim",
+          "calls": 1,
+          "ms": 1156.2091249999999
+        },
+        {
+          "contract": 42,
+          "method": "transfer",
+          "calls": 1,
+          "ms": 1236.512083
+        },
+        {
+          "contract": 43,
+          "method": "transfer",
+          "calls": 1,
+          "ms": 1249.514209
+        },
+        {
+          "contract": 1000,
+          "method": "noop",
+          "calls": 32,
+          "ms": 39631.077916999995
+        },
+        {
+          "contract": 1000,
+          "method": "finish_batch",
+          "calls": 1,
+          "ms": 1229.914542
+        }
+      ],
+      "chainTps": null,
+      "broadcast": false
+    },
+    {
+      "input": "/Users/geir/Downloads/QED资料/litepaper/psy-template-security-20261016/batching/evidence/20261020/implementation-v2/full-ups-size1/nftmarket.json",
+      "inputSha256": "13b95143c1cd3654a28f169bade404e2fba30e1e6045861cb27f81a82480750d",
+      "market": "nftmarket",
+      "phase": "commit",
+      "members": 2,
+      "fills": 1,
+      "calls": 40,
+      "elapsedMs": 107153.84950000001,
+      "noopCalls": 37,
+      "noopMs": 46749.746628,
+      "workCallMs": 4914.679251,
+      "untracedMs": 55489.42362100001,
+      "noopFraction": 0.4362862075991026,
+      "byMethod": [
+        {
+          "contract": 1000,
+          "method": "commit_batch",
+          "calls": 1,
+          "ms": 3745.528792
+        },
+        {
+          "contract": 0,
+          "method": "simple_claim",
+          "calls": 1,
+          "ms": 1169.150459
+        },
+        {
+          "contract": 1000,
+          "method": "noop",
+          "calls": 37,
+          "ms": 46749.746628
+        }
+      ],
+      "chainTps": null,
+      "broadcast": false
+    },
+    {
+      "input": "/Users/geir/Downloads/QED资料/litepaper/psy-template-security-20261016/batching/evidence/20261020/implementation-v2/full-ups-size1/nftmarket.json",
+      "inputSha256": "13b95143c1cd3654a28f169bade404e2fba30e1e6045861cb27f81a82480750d",
+      "market": "nftmarket",
+      "phase": "settle",
+      "members": 2,
+      "fills": 1,
+      "calls": 40,
+      "elapsedMs": 104348.54054199999,
+      "noopCalls": 28,
+      "noopMs": 34349.70854300001,
+      "workCallMs": 15569.921623,
+      "untracedMs": 54428.910375999985,
+      "noopFraction": 0.3291824530039723,
+      "byMethod": [
+        {
+          "contract": 1000,
+          "method": "begin_batch",
+          "calls": 1,
+          "ms": 1248.713334
+        },
+        {
+          "contract": 1000,
+          "method": "settle_sale",
+          "calls": 1,
+          "ms": 2720.2574999999997
+        },
+        {
+          "contract": 0,
+          "method": "simple_claim",
+          "calls": 2,
+          "ms": 2641.475916
+        },
+        {
+          "contract": 42,
+          "method": "claim",
+          "calls": 1,
+          "ms": 1156.14875
+        },
+        {
+          "contract": 41,
+          "method": "claim",
+          "calls": 1,
+          "ms": 1297.915041
+        },
+        {
+          "contract": 41,
+          "method": "acknowledge",
+          "calls": 1,
+          "ms": 1264.5078330000001
+        },
+        {
+          "contract": 41,
+          "method": "transfer",
+          "calls": 1,
+          "ms": 1225.9918750000002
+        },
+        {
+          "contract": 42,
+          "method": "transfer",
+          "calls": 1,
+          "ms": 1666.348416
+        },
+        {
+          "contract": 0,
+          "method": "simple_transfer",
+          "calls": 1,
+          "ms": 1125.885875
+        },
+        {
+          "contract": 1000,
+          "method": "noop",
+          "calls": 28,
+          "ms": 34349.70854300001
+        },
+        {
+          "contract": 1000,
+          "method": "finish_batch",
+          "calls": 1,
+          "ms": 1222.677083
+        }
+      ],
+      "chainTps": null,
+      "broadcast": false
+    }
+  ],
+  "speedupClaim": null,
+  "chainTps": null,
+  "broadcast": false
+}

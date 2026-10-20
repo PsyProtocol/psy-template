@@ -1,0 +1,27 @@
+{
+  "scope": "read-only probe of repository staging config dated 2026-10-05; runtime deployment commit not attested",
+  "config": "amm/deployments/staging-pusdt-2026-10-05/mcp/mcp-sepolia-config.json",
+  "checkedAt": "2026-10-20T06:18:40.080Z",
+  "broadcast": false,
+  "liveBatchAcceptance": false,
+  "network": "sepolia",
+  "checkpoint": 355583,
+  "heads": [
+    {
+      "checkpoint_id": 355583
+    },
+    {
+      "checkpoint_id": 355583
+    }
+  ],
+  "nativeContract": {
+    "deployer": "f83aa03c3e21321421696202b90f4dab0a9f87237c231bbba58b8f93c799126e",
+    "function_tree_root": "0edd80f59d1f57f729df03a8612d44be1b4b12fae3565d517c78ea5bf6deb09d",
+    "code_root": "53735dc64de34c4a84281e22a3d1606d983ad6d617ab717480421883fc88d4ba",
+    "state_tree_height": 32,
+    "state_layout_root": "0000000000000000000000000000000000000000000000000000000000000000",
+    "state_layout_field_count": 0,
+    "state_layout_slot_count": 0
+  },
+  "readRpcSucceeded": true
+}

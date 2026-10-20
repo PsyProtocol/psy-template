@@ -1,0 +1,18 @@
+{
+  "architecture": "arm64",
+  "os": "15.7.3",
+  "cpu": "Apple M1 Max",
+  "logicalCpus": 10,
+  "memoryBytes": 34359738368,
+  "node": "v18.16.0",
+  "compilerSha256": "6ad8184abe4a888486c99f3a2181a0b20ed528dfdcd2ea85167f87ed922095c9",
+  "capacityBinarySha256": "3063d7e2e3a5069b493d7ac6ffa8aac60feeae09e29bdfa79863928db614385c",
+  "recoveryBinarySha256": "5b98b2815a705c25a170f1239319bf2435ef13c4c61538f3d815f664ae722ef1",
+  "capacityProofWorkers": 1,
+  "capacityOverlappedCompilation": true,
+  "recoveryProofWorkers": 2,
+  "recoveryRayonThreadsPerWorker": 4,
+  "recoveryStartedAtUtc": "2026-10-20T06:15:45Z",
+  "broadcast": false,
+  "chainTps": null
+}
