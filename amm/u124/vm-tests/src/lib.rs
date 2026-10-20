@@ -59,3 +59,5 @@ pub fn compile_market(source:&str,a:u64,b:u64)->Result<ContractOutput>{
  out.contract_code.functions=out.circuit_definitions.iter().map(dapen_fc_to_cfc_code_definition).collect();
  Ok(out)
 }
+
+pub mod batch_compact;

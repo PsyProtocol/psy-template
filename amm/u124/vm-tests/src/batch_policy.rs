@@ -33,9 +33,10 @@ pub fn validate(spec:&Value)->Result<()>{
   for a in args{let obj=a.as_object().context("argument descriptor")?;ensure!(obj.len()==1,"ambiguous binding");if let Some(i)=a.get("witness"){ensure!(i.as_u64().is_some_and(|x|(x as usize)<bound),"witness index");}else{let s=a["constant"].as_str().context("constant")?;ensure!(!s.is_empty()&&s.bytes().all(|c|c.is_ascii_digit())&&(s=="0"||!s.starts_with('0')),"constant encoding");ensure!(s.parse::<u64>()?<18446744069414584321,"constant field range");}}
  }Ok(())
 }
-pub fn build(spec:&Value)->Result<SDKeyCircuitGadget>{validate(spec)?;
+pub fn build(spec:&Value)->Result<SDKeyCircuitGadget>{build_with_profile(spec,false)}
+pub(crate) fn build_with_profile(spec:&Value,compact:bool)->Result<SDKeyCircuitGadget>{validate(spec)?;
  let mut b=CircuitBuilder::<F,2>::new(CircuitConfig::standard_recursion_config());let cfg=SDKeyConfig{num_introspectable_transactions:COUNT as u32,can_read_state:false,contract_state_tree_height:MAX_CONTRACT_STATE_TREE_HEIGHT,requires_secp256k1:false,num_secp256k1_slots:0};
- let mut g=SDKeyCircuitGadget::add_virtual_to(&mut b,&cfg,WIDTH);
+ let mut g=if compact {crate::batch_compact::add_virtual_to(&mut b,&cfg,spec)?}else{SDKeyCircuitGadget::add_virtual_to(&mut b,&cfg,WIDTH)};
  // Fail to compile against older SDKs whose generic key does not expose the
  // authenticated UPS session context. API presence alone is not a security
  // proof: the frozen-source checks and negative-context proofs remain required.

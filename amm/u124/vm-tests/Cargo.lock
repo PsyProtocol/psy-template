@@ -5324,12 +5324,12 @@ dependencies = [
 name = "psy-template-u124-markets"
 version = "0.1.0"
 dependencies = [
- "kvq",
- "num-bigint 0.4.8",
- "num-traits",
  "anyhow",
  "bincode",
  "futures-util",
+ "kvq",
+ "num-bigint 0.4.8",
+ "num-traits",
  "parth_common",
  "parth_core",
  "plonky2",
@@ -5342,6 +5342,7 @@ dependencies = [
  "psy_crypto",
  "psy_data",
  "psy_dpn_circuit",
+ "psy_network_circuit",
  "psy_plonky2_circuits",
  "psy_prover",
  "psy_provider",
