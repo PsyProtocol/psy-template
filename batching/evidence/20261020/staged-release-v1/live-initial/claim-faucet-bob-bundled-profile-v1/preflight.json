@@ -1,0 +1,41 @@
+{
+  "broadcast": false,
+  "core": {
+    "checkpoint_id": 356121,
+    "new_user_leaf": {
+      "balance": 0,
+      "event_index": 1,
+      "last_checkpoint_id": 356121,
+      "nonce": 1,
+      "public_key": "dba9803e86aebd0664cb74a6c997918632fa87bb881b2865eed214e13ce459cd",
+      "user_id": 860352,
+      "user_state_tree_root": "3f513ab205becc707190308f42c9d0002bb188ecfa90005d708ac54d7152580c"
+    },
+    "state_transition": {
+      "checkpoint_tree_root_hash": "0276bf7079b9df945e9158758384ea760a92b8bfa2a3566f46987dab40dbcd08",
+      "end_user_leaf_hash": "1f85d11574b094d691bcc6d4f651cbe3eea9ca050729b9b635f198328bc08f47",
+      "start_user_leaf_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "user_id": 860352
+    },
+    "stats": {
+      "da_fees_collected": 2000,
+      "guta_fees_collected": 1000000000,
+      "slots_modified": 2,
+      "total_transactions": 2,
+      "user_ops_processed": 1
+    }
+  },
+  "endUserLeafHash": "1f85d11574b094d691bcc6d4f651cbe3eea9ca050729b9b635f198328bc08f47",
+  "fullUpsVerified": true,
+  "inputSha256": "86f0d59f0bb660bc3ae8d94ae2753be2f33fc058d3df1fe3dee1359db5bc4c40",
+  "nonce": 1,
+  "proofProfile": {
+    "bundledNodeVerifierFingerprint": "d8c6bb2df3bde570c618b9ebb297cf5743e1b017481e0d73ca558209538cb5f7",
+    "commonDataMatches": true,
+    "networkMagic": "1384803358401154921",
+    "profile": "staging-bundled-regtest-20261020-v1",
+    "runtimeImageAttested": false,
+    "verifierOnlyMatches": true
+  },
+  "userId": 860352
+}

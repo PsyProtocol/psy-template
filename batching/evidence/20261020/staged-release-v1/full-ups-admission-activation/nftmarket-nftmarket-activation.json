@@ -1,0 +1,70 @@
+{
+  "broadcast": false,
+  "fullUpsVerified": true,
+  "market": "nftmarket",
+  "measurements": [
+    {
+      "elapsedMs": 122505.804,
+      "phase": "cold-circuit-build"
+    },
+    {
+      "broadcast": false,
+      "burn": 1000007000,
+      "calls": 6,
+      "elapsedMs": 65615.790792,
+      "endLeaf": "89608f8b0622cae9b03a533a9f02c3a283a99c5cba4159625d04b88a60c95204",
+      "endStateRoot": "f75ab609d69a49e4232044a260ba0b5be326dd1e5838a3444401618ecac1545a",
+      "exportedDeltasVerified": true,
+      "firstUpsRegistration": true,
+      "fullUpsVerified": true,
+      "logicalSlots": 40,
+      "overheadStagesMs": {
+        "burn": 4308.8414999999995,
+        "endcapProveAndVerify": 32409.655458000005,
+        "sdKeySign": 4020.532333,
+        "seedState": 19.327834,
+        "sessionStart": 1116.4433330000002,
+        "stateDeltaChecks": 8.781583000000001
+      },
+      "phase": "maintenance",
+      "profile": "compact-v1",
+      "proofBytes": 130328,
+      "publicEndpointsBound": true,
+      "slotsModified": 7,
+      "startLeaf": "0000000000000000000000000000000000000000000000000000000000000000",
+      "steps": [
+        {
+          "contract": 0,
+          "index": 0,
+          "method": "simple_claim",
+          "ms": 4476.578042
+        },
+        {
+          "contract": 41,
+          "index": 1,
+          "method": "acknowledge",
+          "ms": 4225.3785419999995
+        },
+        {
+          "contract": 42,
+          "index": 2,
+          "method": "claim",
+          "ms": 5320.956666
+        },
+        {
+          "contract": 1000,
+          "index": 3,
+          "method": "activate",
+          "ms": 5164.976834
+        },
+        {
+          "contract": 42,
+          "index": 4,
+          "method": "transfer",
+          "ms": 4542.916583
+        }
+      ]
+    }
+  ],
+  "scope": "fresh synthetic user, complete 40-call activation UPS and exported deltas"
+}

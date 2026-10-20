@@ -1,0 +1,29 @@
+{
+  "recordedAt": "2026-10-20T09:16:25.165289+00:00",
+  "network": "sepolia",
+  "networkMagic": "1384803358401151337",
+  "sdkManifestSha256": "0afb4c65116cddcaca450b406a06503d65b63d38a004d8e773c6e5fa363bd425",
+  "publicBuildConfigSha256": "6c054465b28329820100e0e1958f86f6eb55a37f3ea4a734269340286930017b",
+  "toolchain": "nightly-2025-09-20",
+  "buildFlags": [
+    "--offline",
+    "--locked",
+    "--release"
+  ],
+  "PSY_NETWORK": "sepolia",
+  "targetDirectory": "/tmp/psy-market-staging-build-v6-20261020",
+  "binaries": {
+    "compile_batch": "9b0f71ebbb2a4a2e0e63fc4294255f807a1dd0da90559083c64468ddb3a8ec1d",
+    "isolated_wallet": "3116b44e9c4d6764bd59ddc314d45ab1c6be508a62a76cd6ccde44cd18dcff53",
+    "compact_market_wallet": "ad18bde52baae29a0ec2f97113ae8876953920ecf0f956917d15b8500eef598f"
+  },
+  "sourceHashes": {
+    "amm/u124/vm-tests/src/bin/isolated_wallet.rs": "d04299c8495fd182a40498976af9e57d60d2184848f6803f494c92c9a50594fb",
+    "amm/u124/vm-tests/src/bin/compact_market_wallet.rs": "1995791e961a54f24d69732e8c6058864447fc0e257f9ce48f6f71821a4b5f02",
+    "amm/u124/vm-tests/src/live_guard.rs": "a9479fca57559d162ea18356a4ced077062d889e74c11e7f258fedfd100f4d23",
+    "amm/u124/vm-tests/src/batch_compact.rs": "13e55040ad2c1f047f144b41e04ab7ace10147e1697105434d8e268b5d781f16",
+    "amm/u124/vm-tests/Cargo.lock": "4e895a309801d56e785f17eee5af04e50aee7785a3488e4aea1ae36fb2adb10c"
+  },
+  "completeUpsAcceptedByStaging": false,
+  "nodeModified": false
+}

@@ -1,0 +1,44 @@
+{
+  "broadcast": false,
+  "rows": [
+    {
+      "bundledNodeFingerprint": "d8c6bb2df3bde570c618b9ebb297cf5743e1b017481e0d73ca558209538cb5f7",
+      "commonDataSha256Note": "SDK common data used, not independently attested Node runtime common data",
+      "networkMagic": "1384803358401154921",
+      "proofs": [
+        {
+          "bundledNodeKeyWithSdkCommonVerified": false,
+          "publicRequest": "/tmp/psy-market-isolated-live-20261020-v1/attempts/claim-faucet-alice-v2/request.json",
+          "sdkVerified": false
+        },
+        {
+          "bundledNodeKeyWithSdkCommonVerified": false,
+          "publicRequest": "/tmp/psy-market-isolated-live-20261020-v1/attempts/claim-faucet-bob-v1/request.json",
+          "sdkVerified": false
+        }
+      ],
+      "sdkFingerprint": "d8c6bb2df3bde570c618b9ebb297cf5743e1b017481e0d73ca558209538cb5f7",
+      "verifierOnlyExactlyMatchesBundledNode": true
+    },
+    {
+      "bundledNodeFingerprint": "d8c6bb2df3bde570c618b9ebb297cf5743e1b017481e0d73ca558209538cb5f7",
+      "commonDataSha256Note": "SDK common data used, not independently attested Node runtime common data",
+      "networkMagic": "1384803358401151337",
+      "proofs": [
+        {
+          "bundledNodeKeyWithSdkCommonVerified": false,
+          "publicRequest": "/tmp/psy-market-isolated-live-20261020-v1/attempts/claim-faucet-alice-v2/request.json",
+          "sdkVerified": true
+        },
+        {
+          "bundledNodeKeyWithSdkCommonVerified": false,
+          "publicRequest": "/tmp/psy-market-isolated-live-20261020-v1/attempts/claim-faucet-bob-v1/request.json",
+          "sdkVerified": true
+        }
+      ],
+      "sdkFingerprint": "6437629814a1875b3ed5288b1e70e0de9cd8106084dfb933bb56fee86499d166",
+      "verifierOnlyExactlyMatchesBundledNode": false
+    }
+  ],
+  "sourceBundleIsRuntimeAttestation": false
+}

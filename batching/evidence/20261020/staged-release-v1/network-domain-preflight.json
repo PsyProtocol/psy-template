@@ -1,0 +1,34 @@
+{
+  "recordedAt": "2026-10-20T09:12:41.455420+00:00",
+  "offline": {
+    "name": "localhost",
+    "magicHex": "0x1337CF514544CF69",
+    "magicDecimal": "1384803358401154921",
+    "binary": "/tmp/psy-market-live-binaries-20261020-v1/isolated_wallet"
+  },
+  "staging": {
+    "name": "sepolia",
+    "magicHex": "0x1337CF514544C169",
+    "magicDecimal": "1384803358401151337"
+  },
+  "outcome": "local guard rejected offline-domain binary before any registration, faucet or deployment; retain offline artifacts and rebuild staging domain separately",
+  "broadcast": false,
+  "nodeModified": false,
+  "initialTestInvocation": {
+    "log": "/tmp/psy-market-admission-full-ups-20261020-v1.log",
+    "matchedTests": 0,
+    "countedAsEvidence": false,
+    "correction": "rerun selected test without --ignored into fresh v2 outputs"
+  },
+  "sameDomainSdkRuntimeCompatibilityVerified": false,
+  "logs": {
+    "offline-domain-guard-rejection.log": {
+      "rawPath": "/tmp/psy-market-live-guard-20261020-v1.log",
+      "sha256": "4aefd7161b4b62252b5f06950eb56983a91b725d96827e0cc348b9b683d691cf"
+    },
+    "application-v5-build.log": {
+      "rawPath": "/tmp/psy-market-staged-build-v5-20261020-repair1.log",
+      "sha256": "d30ca9a29ff00c2dcc2761c0e502cb21faa29e0df56cffe0f1a387d50a6c44c6"
+    }
+  }
+}

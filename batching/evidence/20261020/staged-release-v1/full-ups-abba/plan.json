@@ -1,0 +1,39 @@
+{
+  "schema": 1,
+  "order": [
+    "fixed40",
+    "compact-v1",
+    "compact-v1",
+    "fixed40"
+  ],
+  "rayonThreads": 4,
+  "workers": 1,
+  "host": "macOS-15.7.3-arm64-arm-64bit",
+  "machine": "arm64",
+  "logicalCpus": 10,
+  "fillsPerMarket": 2,
+  "scope": "offline full UPS, synthetic authenticated checkpoints; two samples/profile/market; no production P95",
+  "inputs": {
+    "binarySha256": "8b0bc04ddc3647a31fbafb0f3a1cf5af5e74159bcd922c6050d764503477e5ee",
+    "preparedSha256": "921d2d649629000ffc8d69b248786fae76770987af8fd9cf79d96ef74f539e38",
+    "artifacts": {
+      "amm": "de867f7ee577c939b0c746040282a9de418bcc308cf85de605592ea707065b61",
+      "orderbook": "dd4df9f2edfb3da56a52cd6fc1e337b2f43122a5760d9f146a873d36b9de880f",
+      "bondingcurve": "77129a495f9cf676a5ae1a858f67dc78a41453ab4d50a96ba7562177b7e0e65a",
+      "nftmarket": "b6234521ec9051a2dbf708ac5a132ca3d9ae76a25605d068aa985c4389db0bf7"
+    },
+    "policies": {
+      "amm": "ee93c520c252e216676dfe4f10f05e03424abccc4a62e472123e807a466dbe19",
+      "orderbook": "0e119185830c024767f29807383a8480e58bdfa1a93f9647064a4bf07abb81fc",
+      "bondingcurve": "f41b359e93bc917e1726e39ea2ccc20b4729c4ff33e8ebd36c37be2f2d1de2c7",
+      "nftmarket": "a755524916a770d329cb041a265f97f48892653305561e86d7386e79e2ecc7dc"
+    },
+    "assets": {
+      "native.json": "bf756535620ecd6b360cf58fce90e66f1e7fecc5ed28c4445c23d745d7510606",
+      "token/compilation_artifact.json": "476bc76fcd4b512f585cb1093de41611455cd58df323b8ea4bcc4f71a4163b0f",
+      "nft/compilation_artifact.json": "f2e07bdfc72503485c3c681a51b5a9722891b0cb6acae6922b88b08f9800541d"
+    }
+  },
+  "broadcast": false,
+  "chainTps": null
+}

@@ -1,0 +1,14 @@
+{
+  "branch": "release/testnet-stable",
+  "commit": "6eb535003bdab1fcdb27386dbcb93e8aa9727998",
+  "path": "psy_node_common/src/realm/edge/handler.rs",
+  "sha256": "6f290bc4c5b699c1519dc1594b20936640b670ed893fbe7eac48d9a5570ab887",
+  "reviewedLines": {
+    "start": 383,
+    "end": 423
+  },
+  "excerpt": "        let current_checkpoint_id = self.get_latest_checkpoint_id().await?;\n        let global_user_tree_proof = self.db_reader.global_user_tree_get_merkle_proof(current_checkpoint_id, user_id).await?;\n\n        timer.lap_micros(\"get_latest_checkpoint_id\");\n        let old_user_leaf = self.get_user_leaf_data_internal(current_checkpoint_id, user_id).await?;\n        timer.lap_micros(\"get_user_leaf_data_internal\");\n        let user_last_checkpoint_id = old_user_leaf.last_checkpoint_id.to_u64_value();\n\n        if user_last_checkpoint_id!= 0 && user_last_checkpoint_id > secondary_end_cap_checkpoint_id {\n            anyhow::bail!(\n                \"Submitted end cap for checkpoint {}, but user's last checkpoint is {}\",\n                end_cap_checkpoint_id,\n                user_last_checkpoint_id\n            );\n        }\n\n        if end_cap_checkpoint_id > current_checkpoint_id {\n            anyhow::bail!(\n                \"Submitted end cap for checkpoint {}, but current checkpoint is {}\",\n                end_cap_checkpoint_id,\n                current_checkpoint_id\n            );\n        }\n\n        let old_leaf_hash = if \n            global_user_tree_proof.value == N::QHash::get_zero_value()\n        {\n            N::QHash::get_zero_value()\n        }else{\n            old_user_leaf.qfhash::<N::HasherBase>()\n        };\n        \n        if user_end_cap_input.core.state_transition.start_user_leaf_hash != old_leaf_hash {\n            tracing::error!(\n                \"Invalid start_user_leaf_hash, left: {:?}, right: {:?}\",\n                user_end_cap_input.core.state_transition.start_user_leaf_hash,\n                old_leaf_hash\n            );\n            anyhow::bail!(\n                \"Invalid start_user_leaf_hash, left: {:?}, right: {:?}\",\n                user_end_cap_input.core.state_transition.start_user_leaf_hash,",
+  "finding": "Reviewed edge block checks current own start leaf, future checkpoint rejection and user last-checkpoint ordering. A hard actual-inclusion cutoff or uniform maximum source lag has not been established from this block; this is not an assertion that no other check exists.",
+  "runtimeVersionAttested": false,
+  "broadcast": false
+}

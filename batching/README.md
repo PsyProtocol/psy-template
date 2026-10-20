@@ -1,7 +1,21 @@
 # Market batch preflight
 
-This directory currently contains **offline preflight tooling only**. No batch
-market contract, batch SD-key, or automatic broadcast adapter is implemented.
+This directory contains the historical preflight tooling, four-market V2
+contracts and their fixed40 SD-key policy, and a bounded admission/compact-key
+candidate. Capabilities and evidence are tracked separately; source files alone
+do not establish real-network acceptance or production readiness.
+
+- [Current staged release review](../docs/security/MARKET_BATCH_RELEASE_REVIEW_20261020.md)
+- [V2 contracts and execution policy](v2/README.md)
+- [Bounded authenticated admission candidate](admission/README.md)
+- [Frozen application SDK dependency](dependencies/README.md)
+
+The admission candidate has distinct layouts, code roots and a new key. Its
+explicit application signing client preserves the generic SDK fixed-count
+checks. It is not enabled by changing the existing Executor's profile label.
+Random ordering remains disabled; the accepted queue is not all market orders.
+
+## Historical preflight
 
 - [Preflight findings, Chinese](../docs/security/MARKET_BATCH_PREFLIGHT_20261020.md)
 - [Concrete V2 implementation plan, Chinese](../docs/design/MARKET_BATCH_V2.md)

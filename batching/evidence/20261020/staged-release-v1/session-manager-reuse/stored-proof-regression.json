@@ -1,0 +1,160 @@
+{
+  "broadcast": false,
+  "cases": [
+    {
+      "calls": 2,
+      "endUserLeafHash": "1f85d11574b094d691bcc6d4f651cbe3eea9ca050729b9b635f198328bc08f47",
+      "endpointsAndFeesBound": true,
+      "fullProofVerified": true,
+      "metadataCountTamperRejected": true,
+      "name": "claim-faucet-bob-bundled-profile-v1",
+      "profile": {
+        "bundledNodeVerifierFingerprint": "d8c6bb2df3bde570c618b9ebb297cf5743e1b017481e0d73ca558209538cb5f7",
+        "fullProofVerifiedWithPinnedCommonData": true,
+        "networkMagic": "1384803358401154921",
+        "profile": "staging-bundled-regtest-20261020-v1",
+        "runtimeImageAttested": false,
+        "sdkCommonDataObjectEqualityCompared": false,
+        "sessionManagerReused": true,
+        "verifierOnlyMatches": true
+      },
+      "tamperedPiRejected": true
+    },
+    {
+      "calls": 4,
+      "endUserLeafHash": "a0a5283a842b0bc5128143925398c9b8b42950c2fe26e4b3918017077589b052",
+      "endpointsAndFeesBound": true,
+      "fullProofVerified": true,
+      "metadataCountTamperRejected": true,
+      "name": "trader-claim-native-ft-v1",
+      "profile": {
+        "bundledNodeVerifierFingerprint": "d8c6bb2df3bde570c618b9ebb297cf5743e1b017481e0d73ca558209538cb5f7",
+        "fullProofVerifiedWithPinnedCommonData": true,
+        "networkMagic": "1384803358401154921",
+        "profile": "staging-bundled-regtest-20261020-v1",
+        "runtimeImageAttested": false,
+        "sdkCommonDataObjectEqualityCompared": false,
+        "sessionManagerReused": true,
+        "verifierOnlyMatches": true
+      },
+      "tamperedPiRejected": true
+    },
+    {
+      "calls": 4,
+      "endUserLeafHash": "58e091d44638e5d14ebb5c58cbd1e1362dad5e708afe851ea1f36348ea291d91",
+      "endpointsAndFeesBound": true,
+      "fullProofVerified": true,
+      "metadataCountTamperRejected": true,
+      "name": "bob-initialize-nft-v1",
+      "profile": {
+        "bundledNodeVerifierFingerprint": "d8c6bb2df3bde570c618b9ebb297cf5743e1b017481e0d73ca558209538cb5f7",
+        "fullProofVerifiedWithPinnedCommonData": true,
+        "networkMagic": "1384803358401154921",
+        "profile": "staging-bundled-regtest-20261020-v1",
+        "runtimeImageAttested": false,
+        "sdkCommonDataObjectEqualityCompared": false,
+        "sessionManagerReused": true,
+        "verifierOnlyMatches": true
+      },
+      "tamperedPiRejected": true
+    },
+    {
+      "calls": 12,
+      "endUserLeafHash": "97c3427b331b34e8b8d00a6d6e1f340b7155b62dd66ab1fa4b3756de4875c5a9",
+      "endpointsAndFeesBound": true,
+      "fullProofVerified": true,
+      "metadataCountTamperRejected": true,
+      "name": "bob-fund-four-vault-activation-v1",
+      "profile": {
+        "bundledNodeVerifierFingerprint": "d8c6bb2df3bde570c618b9ebb297cf5743e1b017481e0d73ca558209538cb5f7",
+        "fullProofVerifiedWithPinnedCommonData": true,
+        "networkMagic": "1384803358401154921",
+        "profile": "staging-bundled-regtest-20261020-v1",
+        "runtimeImageAttested": false,
+        "sdkCommonDataObjectEqualityCompared": false,
+        "sessionManagerReused": true,
+        "verifierOnlyMatches": true
+      },
+      "tamperedPiRejected": true
+    },
+    {
+      "calls": 7,
+      "endUserLeafHash": "0d38335809194997e4f0c5fcccfd549fe9efba1d631c24e9e2a2a5ce3ee5091c",
+      "endpointsAndFeesBound": true,
+      "fullProofVerified": true,
+      "metadataCountTamperRejected": true,
+      "name": "amm-activate-v1",
+      "profile": {
+        "bundledNodeVerifierFingerprint": "d8c6bb2df3bde570c618b9ebb297cf5743e1b017481e0d73ca558209538cb5f7",
+        "fullProofVerifiedWithPinnedCommonData": true,
+        "networkMagic": "1384803358401154921",
+        "profile": "staging-bundled-regtest-20261020-v1",
+        "runtimeImageAttested": false,
+        "sdkCommonDataObjectEqualityCompared": false,
+        "sessionManagerReused": true,
+        "verifierOnlyMatches": true
+      },
+      "tamperedPiRejected": true
+    },
+    {
+      "calls": 7,
+      "endUserLeafHash": "b3c3f2c031b19a53462b075b8ea4fa88862da6f3e9e4b5533b7ad0074deea8a9",
+      "endpointsAndFeesBound": true,
+      "fullProofVerified": true,
+      "metadataCountTamperRejected": true,
+      "name": "orderbook-activate-v1",
+      "profile": {
+        "bundledNodeVerifierFingerprint": "d8c6bb2df3bde570c618b9ebb297cf5743e1b017481e0d73ca558209538cb5f7",
+        "fullProofVerifiedWithPinnedCommonData": true,
+        "networkMagic": "1384803358401154921",
+        "profile": "staging-bundled-regtest-20261020-v1",
+        "runtimeImageAttested": false,
+        "sdkCommonDataObjectEqualityCompared": false,
+        "sessionManagerReused": true,
+        "verifierOnlyMatches": true
+      },
+      "tamperedPiRejected": true
+    },
+    {
+      "calls": 7,
+      "endUserLeafHash": "1ec9c7c033e3220e24e60d49b18c05a0c7937bbb9d870915ce32ce8293f6d45e",
+      "endpointsAndFeesBound": true,
+      "fullProofVerified": true,
+      "metadataCountTamperRejected": true,
+      "name": "bondingcurve-activate-v1",
+      "profile": {
+        "bundledNodeVerifierFingerprint": "d8c6bb2df3bde570c618b9ebb297cf5743e1b017481e0d73ca558209538cb5f7",
+        "fullProofVerifiedWithPinnedCommonData": true,
+        "networkMagic": "1384803358401154921",
+        "profile": "staging-bundled-regtest-20261020-v1",
+        "runtimeImageAttested": false,
+        "sdkCommonDataObjectEqualityCompared": false,
+        "sessionManagerReused": true,
+        "verifierOnlyMatches": true
+      },
+      "tamperedPiRejected": true
+    },
+    {
+      "calls": 6,
+      "endUserLeafHash": "8ee8ac954c23dba5c63a8a3d3985cae34064251069aa567412bcc5e467229fdd",
+      "endpointsAndFeesBound": true,
+      "fullProofVerified": true,
+      "metadataCountTamperRejected": true,
+      "name": "nftmarket-activate-v1",
+      "profile": {
+        "bundledNodeVerifierFingerprint": "d8c6bb2df3bde570c618b9ebb297cf5743e1b017481e0d73ca558209538cb5f7",
+        "fullProofVerifiedWithPinnedCommonData": true,
+        "networkMagic": "1384803358401154921",
+        "profile": "staging-bundled-regtest-20261020-v1",
+        "runtimeImageAttested": false,
+        "sdkCommonDataObjectEqualityCompared": false,
+        "sessionManagerReused": true,
+        "verifierOnlyMatches": true
+      },
+      "tamperedPiRejected": true
+    }
+  ],
+  "scope": "offline re-verification of preserved full real UPS requests; not a performance measurement or broadcast",
+  "wrongDomainProofRejected": true,
+  "wrongManagerKeyRejected": true
+}

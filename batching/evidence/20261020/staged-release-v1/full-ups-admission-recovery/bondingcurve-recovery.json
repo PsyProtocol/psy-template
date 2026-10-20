@@ -1,0 +1,292 @@
+{
+  "allAssetsReturnedToPayers": true,
+  "broadcast": false,
+  "chainTps": null,
+  "failedSettlementPreservedCommit": true,
+  "failedSettlementScope": "VM rejected wrong root; no invalid proof broadcast",
+  "market": "bondingcurve",
+  "measurements": [
+    {
+      "elapsedMs": 63660.686292,
+      "phase": "cold-circuit-build"
+    },
+    {
+      "broadcast": false,
+      "burn": 1000030000,
+      "calls": 3,
+      "elapsedMs": 17333.434417,
+      "endLeaf": "55a2e25d1d880b900822fdd73769132193818eae99f595fd03f2b457e3231d81",
+      "endStateRoot": "7071b23f120f444a46706d9f4220d52fd393199d0fd4ada34be4ef0d25d354c1",
+      "exportedDeltasVerified": true,
+      "firstUpsRegistration": false,
+      "fullUpsVerified": true,
+      "logicalSlots": 40,
+      "overheadStagesMs": {
+        "burn": 1639.695375,
+        "endcapProveAndVerify": 7336.564625,
+        "sdKeySign": 1239.154958,
+        "seedState": 16.230999999999998,
+        "sessionStart": 391.24570800000004,
+        "stateDeltaChecks": 17.074375
+      },
+      "phase": "commit",
+      "profile": "compact-v1",
+      "proofBytes": 130328,
+      "publicEndpointsBound": true,
+      "slotsModified": 30,
+      "startLeaf": "ec00b7e856531eb6c0ed244b889be3a484ab8854976a07f5f52af56826204c2d",
+      "steps": [
+        {
+          "contract": 1000,
+          "index": 0,
+          "method": "commit_batch",
+          "ms": 5103.201792
+        },
+        {
+          "contract": 0,
+          "index": 1,
+          "method": "simple_claim",
+          "ms": 1589.218375
+        }
+      ]
+    },
+    {
+      "broadcast": false,
+      "burn": 1000002000,
+      "calls": 2,
+      "elapsedMs": 10573.085958,
+      "endLeaf": "5a44ef011dfbc60ba939f1d05a026f3ebfb676471f0832894e1d719f4779b95c",
+      "endStateRoot": "bd2a5987a1557725def98f3456ecfa2fb4f2752fa49cdbb9d662b4ff6887115a",
+      "exportedDeltasVerified": true,
+      "firstUpsRegistration": false,
+      "fullUpsVerified": true,
+      "logicalSlots": 40,
+      "overheadStagesMs": {
+        "burn": 1592.0483330000002,
+        "endcapProveAndVerify": 5765.2429999999995,
+        "sdKeySign": 1182.509,
+        "seedState": 17.103292,
+        "sessionStart": 409.851666,
+        "stateDeltaChecks": 6.164791999999999
+      },
+      "phase": "expire",
+      "profile": "compact-v1",
+      "proofBytes": 130328,
+      "publicEndpointsBound": true,
+      "slotsModified": 2,
+      "startLeaf": "55a2e25d1d880b900822fdd73769132193818eae99f595fd03f2b457e3231d81",
+      "steps": [
+        {
+          "contract": 1000,
+          "index": 0,
+          "method": "expire_batch",
+          "ms": 1600.0289169999999
+        }
+      ]
+    },
+    {
+      "broadcast": false,
+      "burn": 1000009000,
+      "calls": 3,
+      "elapsedMs": 17456.841459,
+      "endLeaf": "a23a9c580f9513cdcfd91dcfac1c228344fe07811a552e9cfcc4063175fabc82",
+      "endStateRoot": "1d7a044b1ddc5b6ac261e95ca77eb6a45d85131fdf3608b38195b44af26756f3",
+      "exportedDeltasVerified": true,
+      "firstUpsRegistration": false,
+      "fullUpsVerified": true,
+      "logicalSlots": 40,
+      "overheadStagesMs": {
+        "burn": 1598.795417,
+        "endcapProveAndVerify": 7389.0256660000005,
+        "sdKeySign": 1271.800792,
+        "seedState": 17.795709,
+        "sessionStart": 393.904459,
+        "stateDeltaChecks": 15.975375
+      },
+      "phase": "commit",
+      "profile": "compact-v1",
+      "proofBytes": 130328,
+      "publicEndpointsBound": true,
+      "slotsModified": 9,
+      "startLeaf": "5a44ef011dfbc60ba939f1d05a026f3ebfb676471f0832894e1d719f4779b95c",
+      "steps": [
+        {
+          "contract": 1000,
+          "index": 0,
+          "method": "commit_batch",
+          "ms": 5091.987208
+        },
+        {
+          "contract": 0,
+          "index": 1,
+          "method": "simple_claim",
+          "ms": 1676.297833
+        }
+      ]
+    },
+    {
+      "broadcast": false,
+      "burn": 1000020000,
+      "calls": 23,
+      "elapsedMs": 82174.016708,
+      "endLeaf": "289784f06337a99d374a7f0cf90f89c16be3735df9ae7698671012393eaf738f",
+      "endStateRoot": "12d05916c2b402dd89ee6b59b06edded27689079b754942f15e3ff1b84950e72",
+      "exportedDeltasVerified": true,
+      "firstUpsRegistration": false,
+      "fullUpsVerified": true,
+      "logicalSlots": 40,
+      "overheadStagesMs": {
+        "burn": 1639.4173749999998,
+        "endcapProveAndVerify": 42599.822,
+        "sdKeySign": 1296.2663750000002,
+        "seedState": 18.931916,
+        "sessionStart": 392.214833,
+        "stateDeltaChecks": 29.214541
+      },
+      "phase": "settle",
+      "profile": "compact-v1",
+      "proofBytes": 130328,
+      "publicEndpointsBound": true,
+      "slotsModified": 20,
+      "startLeaf": "a23a9c580f9513cdcfd91dcfac1c228344fe07811a552e9cfcc4063175fabc82",
+      "steps": [
+        {
+          "contract": 1000,
+          "index": 0,
+          "method": "begin_batch",
+          "ms": 1693.665583
+        },
+        {
+          "contract": 1000,
+          "index": 1,
+          "method": "refund_funding",
+          "ms": 1702.249125
+        },
+        {
+          "contract": 0,
+          "index": 2,
+          "method": "simple_claim",
+          "ms": 1612.3497919999998
+        },
+        {
+          "contract": 43,
+          "index": 3,
+          "method": "claim",
+          "ms": 1581.708167
+        },
+        {
+          "contract": 43,
+          "index": 4,
+          "method": "transfer",
+          "ms": 1679.0182499999999
+        },
+        {
+          "contract": 0,
+          "index": 5,
+          "method": "simple_transfer",
+          "ms": 1601.351291
+        },
+        {
+          "contract": 1000,
+          "index": 6,
+          "method": "refund_funding",
+          "ms": 1748.412042
+        },
+        {
+          "contract": 0,
+          "index": 7,
+          "method": "simple_claim",
+          "ms": 1640.4855839999998
+        },
+        {
+          "contract": 43,
+          "index": 8,
+          "method": "claim",
+          "ms": 1650.7272090000001
+        },
+        {
+          "contract": 43,
+          "index": 9,
+          "method": "transfer",
+          "ms": 1631.602666
+        },
+        {
+          "contract": 0,
+          "index": 10,
+          "method": "simple_transfer",
+          "ms": 1599.284959
+        },
+        {
+          "contract": 1000,
+          "index": 11,
+          "method": "refund_funding",
+          "ms": 1658.3541670000002
+        },
+        {
+          "contract": 0,
+          "index": 12,
+          "method": "simple_claim",
+          "ms": 1619.0367919999999
+        },
+        {
+          "contract": 43,
+          "index": 13,
+          "method": "claim",
+          "ms": 1631.8293339999998
+        },
+        {
+          "contract": 43,
+          "index": 14,
+          "method": "transfer",
+          "ms": 1604.503125
+        },
+        {
+          "contract": 0,
+          "index": 15,
+          "method": "simple_transfer",
+          "ms": 1653.70175
+        },
+        {
+          "contract": 1000,
+          "index": 16,
+          "method": "refund_funding",
+          "ms": 1745.448333
+        },
+        {
+          "contract": 0,
+          "index": 17,
+          "method": "simple_claim",
+          "ms": 1612.2966669999998
+        },
+        {
+          "contract": 43,
+          "index": 18,
+          "method": "claim",
+          "ms": 1617.227083
+        },
+        {
+          "contract": 43,
+          "index": 19,
+          "method": "transfer",
+          "ms": 1587.370917
+        },
+        {
+          "contract": 0,
+          "index": 20,
+          "method": "simple_transfer",
+          "ms": 1627.605709
+        },
+        {
+          "contract": 1000,
+          "index": 21,
+          "method": "finish_batch",
+          "ms": 1697.050542
+        }
+      ]
+    }
+  ],
+  "members": 4,
+  "prematureExpiryRejected": true,
+  "scope": "linked synthetic commit, expire, recommit, refund UPS proofs; ordinary cancel and recipient claim VM only",
+  "terminalReplayRejected": true
+}

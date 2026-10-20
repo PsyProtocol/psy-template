@@ -1,0 +1,131 @@
+//! Preserve the exact public wire acknowledgement, including RPC errors.
+//! Some realms acknowledge with "ok", not a transaction hash. Neither is inclusion.
+use anyhow::{ensure, Result};
+use plonky2::{field::goldilocks_field::GoldilocksField as F, field::types::PrimeField64};
+use psy_provider::request::QSubmitEndCapRPCRequest;
+use serde_json::{json, Value};
+use std::{fs, io::Write, path::Path, time::Duration};
+
+fn save(path: &Path, bytes: &[u8]) -> Result<()> {
+    let mut file = fs::OpenOptions::new()
+        .write(true)
+        .create_new(true)
+        .open(path)?;
+    file.write_all(bytes)?;
+    file.sync_all()?;
+    fs::File::open(
+        path.parent()
+            .filter(|p| !p.as_os_str().is_empty())
+            .unwrap_or(Path::new(".")),
+    )?
+    .sync_all()?;
+    Ok(())
+}
+fn acknowledgement(status: u16, bytes: &[u8]) -> Result<Value> {
+    ensure!(
+        (200..300).contains(&status),
+        "HTTP acknowledgement unknown; inspect preserved response"
+    );
+    let v: Value = serde_json::from_slice(bytes)?;
+    ensure!(
+        v["jsonrpc"] == "2.0" && v["id"] == 1,
+        "unexpected RPC envelope; outcome unknown"
+    );
+    ensure!(
+        v.get("error").is_none(),
+        "RPC returned error; inspect preserved response and reconcile"
+    );
+    let result = v["result"]
+        .as_str()
+        .ok_or_else(|| anyhow::anyhow!("unknown RPC acknowledgement"))?;
+    ensure!(
+        result == "ok" || (result.len() == 64 && result.bytes().all(|c| c.is_ascii_hexdigit())),
+        "unrecognized RPC acknowledgement"
+    );
+    Ok(json!({"submitted":true,"included":false,"rpcResult":result,"reconciliationRequired":true}))
+}
+pub async fn submit(
+    net: &psy_config::NetworkConfigGoldilocks,
+    request: QSubmitEndCapRPCRequest<F>,
+    out: &Path,
+) -> Result<Value> {
+    crate::live_guard::require_staging(net)?;
+    let user = request
+        .user_ec_input
+        .core
+        .new_user_leaf
+        .user_id
+        .to_canonical_u64();
+    ensure!(user > 0 && user < 16777216, "submission user range");
+    let realm = net
+        .realm_configs
+        .iter()
+        .find(|r| r.id == user / net.users_per_realm)
+        .ok_or_else(|| anyhow::anyhow!("submission realm missing"))?;
+    let url = &realm.rpc_url[0];
+    let body = serde_json::to_vec(
+        &json!({"jsonrpc":"2.0","id":1,"method":"psy_submit_user_end_cap","params":request}),
+    )?;
+    save(&out.join("rpc-request.json"), &body)?;
+    let client = reqwest::Client::builder()
+        .redirect(reqwest::redirect::Policy::none())
+        .timeout(Duration::from_secs(30))
+        .build()?;
+    let mut response = client
+        .post(url)
+        .header("content-type", "application/json")
+        .body(body)
+        .send()
+        .await?;
+    let status = response.status().as_u16();
+    let mut bytes = Vec::new();
+    let mut truncated = false;
+    while let Some(chunk) = response.chunk().await? {
+        let remaining = 65536usize.saturating_sub(bytes.len());
+        if chunk.len() > remaining {
+            bytes.extend_from_slice(&chunk[..remaining]);
+            truncated = true;
+            break;
+        }
+        bytes.extend_from_slice(&chunk);
+    }
+    save(&out.join("rpc-response.body"), &bytes)?;
+    save(
+        &out.join("rpc-response-meta.json"),
+        &serde_json::to_vec_pretty(
+            &json!({"url":url,"httpStatus":status,"truncated":truncated,"automaticRetry":false}),
+        )?,
+    )?;
+    ensure!(
+        !truncated,
+        "oversized RPC response preserved partially; outcome unknown"
+    );
+    acknowledgement(status, &bytes)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    #[test]
+    fn ack_is_not_inclusion_and_ambiguous_responses_do_not_authorize_retry() {
+        for result in ["ok".to_string(), "a".repeat(64)] {
+            let value = acknowledgement(
+                200,
+                &serde_json::to_vec(&json!({"jsonrpc":"2.0","id":1,"result":result})).unwrap(),
+            )
+            .unwrap();
+            assert_eq!(value["included"], false);
+            assert_eq!(value["reconciliationRequired"], true);
+        }
+        for body in [
+            json!({"jsonrpc":"2.0","id":2,"result":"ok"}),
+            json!({"jsonrpc":"2.0","id":1,"error":{"code":-32000,"message":"already submitted"}}),
+            json!({"jsonrpc":"2.0","id":1,"result":"unknown"}),
+            json!({"jsonrpc":"2.0","id":1,"result":true}),
+        ] {
+            assert!(acknowledgement(200, &serde_json::to_vec(&body).unwrap()).is_err());
+        }
+        assert!(acknowledgement(502, b"proxy error").is_err());
+        assert!(acknowledgement(200, b"broken JSON").is_err());
+    }
+}

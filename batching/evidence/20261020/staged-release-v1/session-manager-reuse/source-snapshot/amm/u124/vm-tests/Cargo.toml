@@ -1,0 +1,45 @@
+[package]
+name = "psy-template-u124-markets"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[dependencies]
+anyhow = "1"
+serde_json = "1"
+psy_config = { path = "../../../../psy-node/client_prover/psy_core/psy_config" }
+psy_vm = { path = "../../../../psy-node/client_prover/psy_vm" }
+psy_compiler = { path = "../../../../psy-node/client_prover/psy_compiler" }
+plonky2 = { git = "https://github.com/PsyProtocol/plonky2-hwa", rev = "1dfe6112c3eca3668c15820755371a8a3e75f934", features = ["ts-rs"] }
+psy_dpn_circuit = { path = "../../../../psy-node/client_prover/psy_circuit/psy_dpn_circuit" }
+psy_prover = { path = "../../../../psy-node/client_prover/psy_prover" }
+psy_client_common = { path = "../../../../psy-node/client_prover/psy_core/psy_common" }
+psy_client_data = { path = "../../../../psy-node/client_prover/psy_core/psy_data" }
+
+psy_ups_circuit = { path = "../../../../psy-node/client_prover/psy_circuit/psy_ups_circuit" }
+psy_common_circuit = { path = "../../../../psy-node/client_prover/psy_circuit/psy_common_circuit" }
+psy_crypto = { path = "../../../../psy-node/client_prover/psy_core/psy_crypto" }
+
+psy_provider = { path = "../../../../psy-node/client_prover/psy_provider" }
+tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
+
+serde = { version = "1", features = ["derive"] }
+psy_core = { path = "../../../../psy-node/psy_core" }
+psy_data = { path = "../../../../psy-node/psy_data" }
+parth_core = { path = "../../../../psy-node/parth_core" }
+parth_common = { path = "../../../../psy-node/parth_common" }
+psy_plonky2_circuits = { path = "../../../../psy-node/psy_plonky2_circuits", default-features = false, features = ["std", "serialize_speedy", "serialize_rkyv", "serialize_postcard"] }
+
+bincode = "1"
+futures-util = "0.3"
+
+# The SDK disables reqwest default features. Enable HTTPS in the application
+# binary; certificate and hostname verification remain enabled. No Node patch.
+reqwest = { version = "=0.12.28", default-features = false, features = ["native-tls"] }
+
+sha2 = "=0.10.9"
+kvq = { path = "../../../../psy-node/client_prover/psy_core/kvq" }
+num-bigint = "=0.4.8"
+num-traits = "=0.2.19"
+
+psy_network_circuit = { path = "../../../../psy-node/client_prover/psy_circuit/psy_network_circuit" }

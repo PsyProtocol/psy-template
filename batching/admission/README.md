@@ -1,10 +1,27 @@
 # Authenticated bounded admission candidate
 
-Distinct new market layouts/code roots. Not deployed; not compatible with an
-existing V2 vault or the ordinary Executor/wallet fixed-count signing route.
+Distinct new market layouts/code roots. Isolated staging deployments and paired
+fixture receipts are recorded in the live acceptance review. These are not
+compatible with an existing V2 vault or the ordinary Executor/wallet fixed-count signing route.
 The compact key and full-UPS fixture use an explicit application signing path.
 Do not enable this profile in a live wallet until that adapter is implemented
 and audited. The Node SDK exact-count route is not disabled or bypassed.
+
+The application now contains `isolated_wallet` (fresh ordinary test identities,
+initial deploys and ordinary calls) and `compact_market_wallet` (explicit compact
+policy signing). Compile/live results are tracked in the release review rather
+than inferred from source presence. The existing Executor route is unchanged.
+`reader.mjs` reconstructs a proposal from all sealed queue entries, ignoring
+discovery hints and member limits; `proofVerified:false` remains until the full
+contract/SD-key UPS is proved. `queueMaintenance` includes the sponsored gas
+prefix. `makeAdmissionPolicy` accepts the actual newly deployed contract ID;
+do not register the offline fixture's hard-coded ID 1000 as a live policy.
+
+Both clients require the staging domain/endpoints and fresh output directories.
+They persist requests, broadcast intent and returned RPC receipts separately.
+An RPC acknowledgement is not inclusion. Ambiguous outcomes must be reconciled
+against the exact public identity/end leaf before any subsequent mutation.
+Private ordinary-wallet files stay outside tracked evidence; never export them.
 
 ## Scope and lifecycle
 
@@ -66,8 +83,72 @@ The VM suite covers explicit consent, omission, duplicate/forged owner, swapped
 batch root, legal carry, cancellation/refund, expired empty queue, timeout and
 recommit, and eight workers racing one vault anchor. Full vault admission UPS
 proofs run separately; ordinary user/sponsor calls in those synthetic fixtures
-are VM-only. None of these is live network acceptance.
+are VM-only. Separate real ordinary consent, admission, settlement and payout
+claims are recorded in `MARKET_BATCH_LIVE_ACCEPTANCE_20261020.md`; do not
+interpret the synthetic proof count as network acceptance.
 
 Randomness is disabled, including rejection of seed/source configuration. A
 future mode needs authenticated pre-seed inclusion, unbiased future source,
 full permutation checks, tie rules and anti-abort recovery before activation.
+
+## Real deployment build path
+
+`liveSupport.mjs` and `liveMarket.mjs` provide explicit isolated acceptance
+helpers for the new ordinary-wallet and compact signing clients. Callers supply
+reviewed dependency roots, new deployment receipts, binary paths and owned test
+wallet paths. Wallet secrets are never copied into the public output directory.
+They do not change the existing Executor daemon's routing or Node.
+
+Every mutation has a fresh directory and durable request/intent. An RPC `ok`
+means submitted. UPS completion requires a matching historical user leaf and
+indexed content-hash receipt; deployment completion requires the initial-layout
+proof's exact code, whitelist, layout, height and counts to match the assigned
+contract leaf. Registration acknowledgement is reconciled against the public
+identity mapping and indexed registration receipt. Failed or unknown mutations
+are never automatically retried. A restart reconciles the saved attempt first.
+
+Timing metadata uses integer milliseconds. Payload serialization rejects unsafe
+numeric values rather than silently rounding a two-limb amount. Real acceptance
+logs may overlap proving jobs; they are not a controlled throughput comparison.
+
+`build.mjs compile` builds one fresh candidate before its ID is assigned. It
+validates the domain, asset ABIs/heights and native used-method identities, and
+freezes source/config/assets/artifact hashes. `build.mjs bind` requires the actual
+assigned market ID and rejects changed inputs or asset aliases. Its output is
+not a deployment receipt or verified live dependency set. The runtime guards
+still verify actual registered identity and code/layout/function roots.
+
+```sh
+node batching/admission/build.mjs compile --market amm \
+  --compiler /absolute/frozen/compile_batch --native /absolute/native.json \
+  --token-a /absolute/token-a.json --token-b /absolute/token-b.json \
+  --nft /absolute/nft.json --config /absolute/config.json --out /absolute/fresh-build
+node batching/admission/build.mjs bind --build /absolute/fresh-build \
+  --market-id ACTUAL_ID_FROM_CONFIRMED_DEPLOYMENT --out /absolute/fresh-policy
+```
+
+The explicit isolated profile in
+`batching/dependencies/staging-bundled-regtest-20261020-v1/` matches the stable
+source Node verifier and Type-E common data. It is selected explicitly, never
+by trying domains until a request succeeds. Domain checks, full key/session/stack
+checks, fee/end-point and live root checks remain. The default sepolia-config
+profile does not match that bundled verifier and must not be broadcast by the
+new clients. Regtest-domain reuse and runtime image/upgrade trust remain release
+gaps; the profile is not production approval.
+
+`liveAcceptance.mjs` is the dated, owned-wallet four-market fixture, with explicit
+order, queue and sealed-set recovery entry points. A restart confirms existing
+preflight identities first; it does not overwrite calls or regenerate unresolved
+mutations. `liveNftRecovery.mjs` separately deploys/tests the missing-seller refund
+correction using a new NFT contract/key/vault after complete offline proofs. Its
+live epochs exercise buyer-only refund, ordinary claim, and a subsequent unique
+sale of the same held listing. It requires the original two rounds to finish so
+the ordinary actors cannot race their own unrelated nonces.
+
+`summarizeLive.py` verifies saved exact historical-leaf receipts against full UPS
+metadata and emits both full-fixture and settlement-wave measurements. Native
+fees use charged physical leaves, not the number of logical slot-update rows.
+It requires terminal results and ordinary claims; it never treats an RPC `ok` or
+an unverified trace as successful settlement. `archiveEvidence.py` writes a fresh,
+public-only gzip archive with exact source and compressed SHA256 values. Wallet
+files remain outside its explicit allowlist.

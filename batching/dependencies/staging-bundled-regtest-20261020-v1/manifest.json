@@ -1,0 +1,25 @@
+{
+  "sourceCommit": "6eb535003bdab1fcdb27386dbcb93e8aa9727998",
+  "sourceVerifierFile": "psy_plonky2_circuits/src/circuit_library/end_cap_verifier_data.rs",
+  "sourceVerifierFileSha256": "fab6e1f6bb62211863e238e81edaa225b832a43a48090faecf0a976cf004b1c7",
+  "environment": {
+    "PSY_NETWORK": "localhost",
+    "PSY_MARKET_TESTNET_PROFILE": "staging-bundled-regtest-20261020-v1"
+  },
+  "networkMagic": "1384803358401154921",
+  "expectedBundledEndCapFingerprint": "d8c6bb2df3bde570c618b9ebb297cf5743e1b017481e0d73ca558209538cb5f7",
+  "frozenSdkManifestSha256": "0afb4c65116cddcaca450b406a06503d65b63d38a004d8e773c6e5fa363bd425",
+  "binaries": {
+    "isolated_wallet": "b7c7b23b2ccf19e03a4e0921a8085666fe2c6e604ca2fbe2c110ac0b06a379d6",
+    "compact_market_wallet": "ef25e3e1aa760dd3d45a9db405d36e71a4721ad40b4949de66c3e80a4b31b475"
+  },
+  "files": {
+    "public-rpc-config.json": "93f0c6a80f0c34b596b4b1a862d0c2d51ee248ac8ddd5e88caf8157a59a398bc",
+    "profile.json": "a2d5333a0f14d4aaeadf14b19a3b62ea302284bfac698468fd9612d4f0127220"
+  },
+  "nodeWorktreeModified": false,
+  "runtimeAttested": false,
+  "productionApproved": false,
+  "networkDomainWarning": "explicit isolated compatibility test; regtest domain is reused, unique production chain domain is not established",
+  "automaticFallback": false
+}

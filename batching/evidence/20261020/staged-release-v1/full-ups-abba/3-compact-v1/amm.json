@@ -1,0 +1,142 @@
+{
+  "broadcast": false,
+  "chainTps": null,
+  "fills": 2,
+  "market": "amm",
+  "measurements": [
+    {
+      "elapsedMs": 65757.652292,
+      "phase": "cold-circuit-build"
+    },
+    {
+      "broadcast": false,
+      "burn": 1000023000,
+      "calls": 3,
+      "elapsedMs": 18990.984125,
+      "endLeaf": "5c70190d98d2f81d44f0ca12a639142893009199f33151cac9ce38e2fe924093",
+      "endStateRoot": "b21649bd7224837d85cceef5c5bf28996e435e79245fcf6ecc49889a53090332",
+      "exportedDeltasVerified": true,
+      "firstUpsRegistration": false,
+      "fullUpsVerified": true,
+      "logicalSlots": 40,
+      "overheadStagesMs": {
+        "burn": 1791.845458,
+        "endcapProveAndVerify": 8003.426707999999,
+        "sdKeySign": 1345.673916,
+        "seedState": 33.705666,
+        "sessionStart": 424.147333,
+        "stateDeltaChecks": 16.772292
+      },
+      "phase": "commit",
+      "profile": "compact-v1",
+      "proofBytes": 130328,
+      "publicEndpointsBound": true,
+      "slotsModified": 23,
+      "startLeaf": "8fc1aebaca0c0e5a12c85113a10802bc08c6671719172099726bae2b8b6c9221",
+      "steps": [
+        {
+          "contract": 1000,
+          "index": 0,
+          "method": "commit_batch",
+          "ms": 5664.216458
+        },
+        {
+          "contract": 0,
+          "index": 1,
+          "method": "simple_claim",
+          "ms": 1709.903084
+        }
+      ]
+    },
+    {
+      "broadcast": false,
+      "burn": 1000016000,
+      "calls": 11,
+      "elapsedMs": 45093.30525,
+      "endLeaf": "229a38b1b1bd52d8b0f0b1cd7aae7e7ad1c622f7838e770422e7a5aa388e8ef1",
+      "endStateRoot": "6835f705800dc380bb20fc35ef7dd62544dd1b291325d174d15cd0b4e6db786e",
+      "exportedDeltasVerified": true,
+      "firstUpsRegistration": false,
+      "fullUpsVerified": true,
+      "logicalSlots": 40,
+      "overheadStagesMs": {
+        "burn": 1693.424167,
+        "endcapProveAndVerify": 22334.795542,
+        "sdKeySign": 1364.496333,
+        "seedState": 24.524541,
+        "sessionStart": 387.922875,
+        "stateDeltaChecks": 22.885958000000002
+      },
+      "phase": "settle",
+      "profile": "compact-v1",
+      "proofBytes": 130328,
+      "publicEndpointsBound": true,
+      "slotsModified": 16,
+      "startLeaf": "5c70190d98d2f81d44f0ca12a639142893009199f33151cac9ce38e2fe924093",
+      "steps": [
+        {
+          "contract": 1000,
+          "index": 0,
+          "method": "begin_batch",
+          "ms": 1826.533542
+        },
+        {
+          "contract": 1000,
+          "index": 1,
+          "method": "swap_0",
+          "ms": 2679.337917
+        },
+        {
+          "contract": 0,
+          "index": 2,
+          "method": "simple_claim",
+          "ms": 1689.162333
+        },
+        {
+          "contract": 42,
+          "index": 3,
+          "method": "claim",
+          "ms": 1713.8861250000002
+        },
+        {
+          "contract": 43,
+          "index": 4,
+          "method": "transfer",
+          "ms": 1703.619666
+        },
+        {
+          "contract": 1000,
+          "index": 5,
+          "method": "swap_0",
+          "ms": 2657.266667
+        },
+        {
+          "contract": 0,
+          "index": 6,
+          "method": "simple_claim",
+          "ms": 1688.664917
+        },
+        {
+          "contract": 42,
+          "index": 7,
+          "method": "claim",
+          "ms": 1780.952125
+        },
+        {
+          "contract": 43,
+          "index": 8,
+          "method": "transfer",
+          "ms": 1713.4322499999998
+        },
+        {
+          "contract": 1000,
+          "index": 9,
+          "method": "finish_batch",
+          "ms": 1808.4527500000002
+        }
+      ]
+    }
+  ],
+  "members": 2,
+  "scope": "authenticated synthetic checkpoints, full UPS; no coordinator"
+}

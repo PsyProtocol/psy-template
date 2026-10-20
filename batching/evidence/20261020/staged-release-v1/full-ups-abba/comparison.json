@@ -1,0 +1,176 @@
+{
+  "schema": 1,
+  "order": [
+    "fixed40",
+    "compact-v1",
+    "compact-v1",
+    "fixed40"
+  ],
+  "rayonThreads": 4,
+  "workers": 1,
+  "host": "macOS-15.7.3-arm64-arm-64bit",
+  "machine": "arm64",
+  "logicalCpus": 10,
+  "fillsPerMarket": 2,
+  "scope": "offline full UPS, synthetic authenticated checkpoints; two samples/profile/market; no production P95",
+  "inputs": {
+    "binarySha256": "8b0bc04ddc3647a31fbafb0f3a1cf5af5e74159bcd922c6050d764503477e5ee",
+    "preparedSha256": "921d2d649629000ffc8d69b248786fae76770987af8fd9cf79d96ef74f539e38",
+    "artifacts": {
+      "amm": "de867f7ee577c939b0c746040282a9de418bcc308cf85de605592ea707065b61",
+      "orderbook": "dd4df9f2edfb3da56a52cd6fc1e337b2f43122a5760d9f146a873d36b9de880f",
+      "bondingcurve": "77129a495f9cf676a5ae1a858f67dc78a41453ab4d50a96ba7562177b7e0e65a",
+      "nftmarket": "b6234521ec9051a2dbf708ac5a132ca3d9ae76a25605d068aa985c4389db0bf7"
+    },
+    "policies": {
+      "amm": "ee93c520c252e216676dfe4f10f05e03424abccc4a62e472123e807a466dbe19",
+      "orderbook": "0e119185830c024767f29807383a8480e58bdfa1a93f9647064a4bf07abb81fc",
+      "bondingcurve": "f41b359e93bc917e1726e39ea2ccc20b4729c4ff33e8ebd36c37be2f2d1de2c7",
+      "nftmarket": "a755524916a770d329cb041a265f97f48892653305561e86d7386e79e2ecc7dc"
+    },
+    "assets": {
+      "native.json": "bf756535620ecd6b360cf58fce90e66f1e7fecc5ed28c4445c23d745d7510606",
+      "token/compilation_artifact.json": "476bc76fcd4b512f585cb1093de41611455cd58df323b8ea4bcc4f71a4163b0f",
+      "nft/compilation_artifact.json": "f2e07bdfc72503485c3c681a51b5a9722891b0cb6acae6922b88b08f9800541d"
+    }
+  },
+  "broadcast": false,
+  "chainTps": null,
+  "runs": [
+    {
+      "index": 1,
+      "profile": "fixed40",
+      "startedAtUnix": 1792483096.477725,
+      "wallSeconds": 1456.2311840057373,
+      "loadAverageAtStart": [
+        19.59375,
+        37.4423828125,
+        37.771484375
+      ],
+      "logSha256": "9583bc1f792b7172a22d2bc9b52e3ffa1c56a6a66cf52258e8abe5fec51b79a2"
+    },
+    {
+      "index": 2,
+      "profile": "compact-v1",
+      "startedAtUnix": 1792484552.712231,
+      "wallSeconds": 587.2152192592621,
+      "loadAverageAtStart": [
+        12.3759765625,
+        12.6875,
+        17.4560546875
+      ],
+      "logSha256": "84b6562387c679931dab938008be429510a45d58b37eccb197dfbd94e692492e"
+    },
+    {
+      "index": 3,
+      "profile": "compact-v1",
+      "startedAtUnix": 1792485139.9294322,
+      "wallSeconds": 579.756199836731,
+      "loadAverageAtStart": [
+        17.109375,
+        15.7958984375,
+        16.51318359375
+      ],
+      "logSha256": "10b921ef7271ca2b61136e6ec892949aa61783271609091025878ba82204618c"
+    },
+    {
+      "index": 4,
+      "profile": "fixed40",
+      "startedAtUnix": 1792485719.6871629,
+      "wallSeconds": 1436.8857400417328,
+      "loadAverageAtStart": [
+        10.97265625,
+        12.2099609375,
+        14.14013671875
+      ],
+      "logSha256": "2419021d20467ca6d3208bc8b4e15076058ab91bf321a07a229f1d1868378688"
+    }
+  ],
+  "rows": [
+    {
+      "market": "amm",
+      "samplesMs": {
+        "compact-v1": [
+          64718.063626,
+          64084.28937499999
+        ],
+        "fixed40": [
+          310640.41212500003,
+          295772.209333
+        ]
+      },
+      "fixedMedianMs": 303206.310729,
+      "compactMedianMs": 64401.1765005,
+      "reductionFraction": 0.7875994851635508,
+      "offlineProofFillsPerSecond": {
+        "fixed40": 0.006596168777593688,
+        "compact-v1": 0.03105533328237369
+      },
+      "sameEndStateRootsAndFees": true
+    },
+    {
+      "market": "orderbook",
+      "samplesMs": {
+        "compact-v1": [
+          95056.955,
+          93993.52683300001
+        ],
+        "fixed40": [
+          299885.107542,
+          294711.99274899997
+        ]
+      },
+      "fixedMedianMs": 297298.5501455,
+      "compactMedianMs": 94525.24091650001,
+      "reductionFraction": 0.6820528022412531,
+      "offlineProofFillsPerSecond": {
+        "fixed40": 0.006727244377818816,
+        "compact-v1": 0.021158369770955924
+      },
+      "sameEndStateRootsAndFees": true
+    },
+    {
+      "market": "bondingcurve",
+      "samplesMs": {
+        "compact-v1": [
+          72109.807959,
+          70540.62841599999
+        ],
+        "fixed40": [
+          294996.399874,
+          293523.569792
+        ]
+      },
+      "fixedMedianMs": 294259.984833,
+      "compactMedianMs": 71325.2181875,
+      "reductionFraction": 0.7576115616672146,
+      "offlineProofFillsPerSecond": {
+        "fixed40": 0.006796710742492054,
+        "compact-v1": 0.028040573177671783
+      },
+      "sameEndStateRootsAndFees": true
+    },
+    {
+      "market": "nftmarket",
+      "samplesMs": {
+        "compact-v1": [
+          102681.487792,
+          101969.912542
+        ],
+        "fixed40": [
+          296739.19845799997,
+          297467.383916
+        ]
+      },
+      "fixedMedianMs": 297103.291187,
+      "compactMedianMs": 102325.700167,
+      "reductionFraction": 0.6555888029439731,
+      "offlineProofFillsPerSecond": {
+        "fixed40": 0.006731665583405397,
+        "compact-v1": 0.01954543185862313
+      },
+      "sameEndStateRootsAndFees": true
+    }
+  ],
+  "productionReady": false
+}

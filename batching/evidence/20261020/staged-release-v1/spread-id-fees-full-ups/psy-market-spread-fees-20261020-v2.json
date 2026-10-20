@@ -1,0 +1,118 @@
+{
+  "broadcast": false,
+  "rows": [
+    {
+      "cancelled": false,
+      "commitLeaves": 30,
+      "feeBudgetLeaves": 100,
+      "fullUpsVerified": false,
+      "market": "amm",
+      "settleLeaves": 39,
+      "users": [
+        65536,
+        861696,
+        1283072,
+        1882112
+      ]
+    },
+    {
+      "cancelled": true,
+      "commitLeaves": 30,
+      "feeBudgetLeaves": 100,
+      "fullUpsVerified": false,
+      "market": "amm",
+      "settleLeaves": 41,
+      "users": [
+        65536,
+        861696,
+        1283072,
+        1882112
+      ]
+    },
+    {
+      "cancelled": false,
+      "commitLeaves": 31,
+      "feeBudgetLeaves": 100,
+      "fullUpsVerified": false,
+      "market": "orderbook",
+      "settleLeaves": 42,
+      "users": [
+        65536,
+        861696,
+        1283072,
+        1882112
+      ]
+    },
+    {
+      "cancelled": true,
+      "commitLeaves": 31,
+      "feeBudgetLeaves": 100,
+      "fullUpsVerified": false,
+      "market": "orderbook",
+      "settleLeaves": 44,
+      "users": [
+        65536,
+        861696,
+        1283072,
+        1882112
+      ]
+    },
+    {
+      "cancelled": false,
+      "commitLeaves": 35,
+      "feeBudgetLeaves": 100,
+      "fullUpsVerified": false,
+      "market": "bondingcurve",
+      "settleLeaves": 39,
+      "users": [
+        65536,
+        861696,
+        1283072,
+        1882112
+      ]
+    },
+    {
+      "cancelled": true,
+      "commitLeaves": 35,
+      "feeBudgetLeaves": 100,
+      "fullUpsVerified": false,
+      "market": "bondingcurve",
+      "settleLeaves": 40,
+      "users": [
+        65536,
+        861696,
+        1283072,
+        1882112
+      ]
+    },
+    {
+      "cancelled": false,
+      "commitLeaves": 40,
+      "feeBudgetLeaves": 100,
+      "fullUpsVerified": false,
+      "market": "nftmarket",
+      "settleLeaves": 68,
+      "users": [
+        65536,
+        861696,
+        1283072,
+        1882112
+      ]
+    },
+    {
+      "cancelled": true,
+      "commitLeaves": 40,
+      "feeBudgetLeaves": 100,
+      "fullUpsVerified": false,
+      "market": "nftmarket",
+      "settleLeaves": 68,
+      "users": [
+        65536,
+        861696,
+        1283072,
+        1882112
+      ]
+    }
+  ],
+  "scope": "actual VM bytecode write-leaf count with spread IDs; not a proof or network test"
+}

@@ -34,6 +34,17 @@ export function generateAdmission(market,c){if(c.ordering!==undefined&&c.orderin
  // so a signed cancellation after admission remains eligible for a refund.
  const check=method('unused','',b=>{for(let i=0;i<4;i++){const u=b.name('member');b.emit(`let ${u} = (count > ${i}).to_felt() * users[${i}] + (count <= ${i}).to_felt() * users[0];`);const h=terms(b,u,market),q=read(b,`self.queue_hash[${i}]`);for(let j=0;j<4;j++)b.emit(`require(count <= ${i} || ${h}[${j}] == ${q}[${j}], "admitted order terms changed");`);}});guards+=methodSpans(check)[0].body;
  const assignment=/self\.batch_root = (\w+);/.exec(body);if(!assignment)throw Error('batch root binding target');const h=assignment[1];
+ // Admission cannot inject a non-consenting seller as a reference member.
+ // A buyer whose seller was not accepted must still reach a terminal refund.
+ // Bind the computed membership flags, never an executor-supplied assertion.
+ // Settlement still requires both exact frozen owners; the refund guard must
+ // distinguish a missing member from memberIndex's default row-zero value.
+ if(market==='nftmarket'){
+  const checks=[...body.matchAll(/require\(count <= ([0-3]) \|\| nonces\[\1\] == 0 \|\| (\w+) != 2 \|\| \(([^;]+)\), "purchase seller outside batch"\);/g)];
+  if(checks.length!==4)throw Error('NFT admission seller scope guard shape');
+  for(const [check,i,,present]of checks)body=body.replace(check,`let admission_seller_scope_${i} = (${present}).to_felt();`);
+  body=body.replace(assignment[0],`${h} = psystd::poseidon_two_to_one(${h}, [admission_seller_scope_0,admission_seller_scope_1,admission_seller_scope_2,admission_seller_scope_3]); ${assignment[0]}`);
+ }
  body=body.replace(assignment[0],`${h} = psystd::poseidon_two_to_one(${h}, admission_scope_root); ${h} = psystd::poseidon_two_to_one(${h}, [admission_scope_epoch,admission_scope_cutoff,count,3]); ${assignment[0]}`);
  return guards+'\n'+body;});
  const settlementNames=new Set(['swap_0','swap_1','add_liquidity','remove_liquidity','match_orders','settle_buy','settle_sell','settle_limit_buy','settle_limit_sell','settle_sale']);

@@ -1,0 +1,21 @@
+{
+  "recordedAt": "2026-10-20T08:51:37.015742+00:00",
+  "items": [
+    {
+      "remote": "git@github.com:PsyProtocol/psy-node.git",
+      "commit": "5b7f4e1e11adf4607a958bc39e863a2a80b5a7a6",
+      "objectType": "commit",
+      "fetchHeadSha256": "ac2bdecffabc21bb1f8ccb1dee414475b270005d9a6026c71fcbb371d3a2f8cf",
+      "verification": "fresh bare repository, depth=1 explicit immutable revision fetch"
+    },
+    {
+      "remote": "git@github.com:PsyProtocol/psy-genesis.git",
+      "commit": "9ea96ca13f60247c22b2108f086fb9cd1287ba94",
+      "objectType": "commit",
+      "fetchHeadSha256": "72d5fe83fdc8d4616a1dc9aa7aaf51c634e4dcca4479eea1bb9b4451739483f9",
+      "verification": "fresh bare repository, depth=1 explicit immutable revision fetch"
+    }
+  ],
+  "nodeWorktreeModified": false,
+  "upstreamSdkReleaseApproved": false
+}

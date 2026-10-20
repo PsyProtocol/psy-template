@@ -37,6 +37,27 @@ db.set_contract_leaf_data(cp,cid,&leaf)?;db.set_contract_tree_leaf_hash(cp,cid,l
  let lps=PsyLocalProvingSessionStore::new_at(db,f(cp),f(V),f(w.revision+1),GF::ZERO,16);let cm=PsyUPSStepCircuitManager::<C,2>::new_with_config(PSY_NETWORK_MAGIC);let mut info=SessionCircuitInfoStore::new();cm.register_info(&mut info).await;let mut session=Manager::new(lps,info,cm.ups_circuit_whitelist_root).await?;session.prove_ups_start(&cm).await?;let def=&w.methods[&(M,"commit_batch".into())];let mut values=vec![0;12];values[0..participants.len()].copy_from_slice(&participants);for(i,u)in participants.iter().enumerate(){values[4+i]=w.val(*u,"nonce",0);}values[8]=participants.len()as u64;values[9]=w.val(V,"batch_id",0)+1;values[10]=cp+20;values[11]=S;let input=values.into_iter().map(f).collect();let witness=session.exec_contract_call(f(M),def,input).await?;if let Ok(dir)=std::env::var("BATCH_CFC_DIAGNOSTICS"){fs::create_dir_all(&dir)?;fs::write(format!("{dir}/input.json"),serde_json::to_vec_pretty(&witness)?)?;}let circuit=DapenContractFunctionCircuit::<C,2>::new(def,31,16,false);let proof=circuit.prove_base(&witness)?;circuit.minifier_chain.verify(proof)?;Ok(())
 }
 struct Chain {compact:bool,cm:PsyUPSStepCircuitManager<C,2>,key:psy_ups_circuit::signature::sd_key::SDKeyCircuitGadget,code:BTreeMap<u64,ContractCodeDefinition>,leaves:BTreeMap<u64,PsyContractLeaf<GF>>,whitelists:BTreeMap<u64,Vec<QHashOut<GF>>>,last_leaf:Option<PsyUserLeaf<GF>>,measurements:Vec<Value>}
+#[tokio::test]
+#[ignore="requires fresh admission NFT recovery fixtures and output"]
+async fn full_ups_admitted_nft_missing_seller_refund()->Result<()>{
+ ensure!(std::env::var("BATCH_ADMISSION_TEST").as_deref()==Ok("1"),"admission fixtures required");
+ let out=std::env::var("BATCH_FULL_UPS_OUT")?;fs::create_dir(&out)?;
+ for unrelated in [false,true]{
+  let(mut w,_,_,_)=trading_setup_size("nftmarket",2)?;
+  let users=if unrelated{vec![200,203]}else{vec![203]};super::admission::enroll(&mut w,&users)?;
+  w.run(S,M,"authorize_sponsor",&[V,2*ESCROW,w.val(S,"sponsor_nonce",0)+1,1])?;w.run(S,0,"simple_transfer",&[V,2*ESCROW])?;
+  let mut commit=vec![0;74];commit[0]=1;commit[1]=1;commit[2]=users.len()as u64;commit[3]=w.checkpoint+20;commit[4]=S;commit[73]=ESCROW;
+  for(i,u)in users.iter().enumerate(){commit[5+i]=*u;commit[9+i]=1;}
+  let refund=w.fields("refund_funding_5",203,0,w.wide(203,"price"),0,0,ESCROW,1,0);
+  let mut needed=batch_policy::expected_calls(&w.policy,&commit)?;needed.extend(batch_policy::expected_calls(&w.policy,&w.request(2,vec![refund.clone()],[0;4]))?);
+  let mut chain=Chain::new(&w,&needed)?;chain.prove(&mut w,commit).await?;
+  let settle=w.request(2,vec![refund],[0;4]);chain.prove(&mut w,settle).await?;
+  ensure!(w.val(V,"queue_phase",0)==3&&w.val(V,"consumed",203)==1,"buyer refund terminal");
+  ensure!(w.val(V,"queue_outcome",(users.len()-1)as u64)==2,"refund disposition");
+  fs::write(format!("{out}/missing-seller-unrelated-{unrelated}.json"),serde_json::to_vec_pretty(&json!({"market":"nftmarket","members":users,"unrelatedListingAtRowZero":unrelated,"fullUpsVerified":true,"measurements":chain.measurements,"scope":"synthetic authenticated source checkpoints; ordinary consent and admission VM-only; complete commit and refund UPSs","broadcast":false,"chainTps":null}))?)?;
+ }
+ Ok(())
+}
 impl Chain{
  fn new(w:&World,needed:&[Value])->Result<Self>{let started=Instant::now();let cm=PsyUPSStepCircuitManager::<C,2>::new_with_config(PSY_NETWORK_MAGIC);let profile=std::env::var("BATCH_PROOF_PROFILE").unwrap_or_else(|_|"fixed40".into());ensure!(["fixed40","compact-v1"].contains(&profile.as_str()),"known proof profile");let compact=profile=="compact-v1";let key=if compact{batch_compact::build(&w.policy)?}else{batch_policy::build(&w.policy)?};let root=std::env::var("BATCH_BUILD")?;let mut code=BTreeMap::new();let mut leaves=BTreeMap::new();let mut whitelists=BTreeMap::new();
   // Identical FT artifacts share verifier construction. Every function is
@@ -112,13 +133,20 @@ pub(super) fn trading_setup(kind:&str)->Result<(World,Vec<u64>,Vec<Vec<u64>>,[u6
  trading_setup_size(kind,2)
 }
 pub(super) fn trading_setup_size(kind:&str,size:usize)->Result<(World,Vec<u64>,Vec<Vec<u64>>,[u64;4])>{
+ let ids=if std::env::var("BATCH_UPS_SPREAD_IDS").as_deref()==Ok("1"){[65536,861696,1283072,1882112]}else{[200,201,202,203]};trading_setup_with_ids(kind,size,ids)
+}
+fn trading_setup_with_ids(kind:&str,size:usize,ids:[u64;4])->Result<(World,Vec<u64>,Vec<Vec<u64>>,[u64;4])>{
  ensure!((1..=4).contains(&size)&&(["amm","bondingcurve"].contains(&kind)||size<=2),"market batch capacity");
-  let mut w=World::new(kind)?;let n=10u128.pow(24);let users;let mut ops=vec![];let mut rank=[0;4];
+  let mut w=World::new(kind)?;
+ ensure!(ids.windows(2).all(|x|x[0]<x[1])&&ids.iter().all(|u|*u>0&&*u<16777216&&![V,I,S].contains(u)),"unique ascending fixture users");
+ if ids!=[200,201,202,203]{for u in ids{w.set(u,0,0,1000*ESCROW);for asset in[A,B]{w.run(I,asset,"transfer",&args(&[u],&[super::MAX/32],&[]))?;w.run(u,asset,"claim",&[I])?;}}
+ if kind=="nftmarket"{w.give_nft(ids[0],0,4)?;w.give_nft(ids[2],0,5)?;for u in ids{w.run(u,NFT,"acknowledge",&[V])?;}}}
+ let n=10u128.pow(24);let users;let mut ops=vec![];let mut rank=[0;4];
   match kind{
-   "amm"=>{w.pool(n)?;let input=10u128.pow(20);users=(200..200+size as u64).collect::<Vec<_>>();let(mut ri,mut ro)=(n,n);for u in &users{let nonce=if *u==200{2}else{1};w.run(*u,M,"open_swap",&args(&[V,0],&[input,1],&[200,nonce]))?;w.fee(*u)?;w.pay(*u,A,input)?;let out=quote(input,ri,ro);ops.push(w.fields("swap_0",*u,0,input,out,0,0,nonce,0));ri+=input;ro-=out;}},
-   "bondingcurve"=>{let unit=10u128.pow(18);w.fee(I)?;w.pay(I,A,2_000_000*unit)?;w.operation_maintenance("initialize",0,0,0,0,0,0)?;users=(200..200+size as u64).collect::<Vec<_>>();for(i,u)in users.iter().enumerate(){w.run(*u,M,"open_limit_buy",&args(&[V,1,0],&[2*unit],&[200,1]))?;w.fee(*u)?;w.pay(*u,B,2*unit)?;let price=unit+i as u128*100_000_000_000_000;ops.push(w.fields("settle_limit_buy_change",*u,0,price,unit,2*unit-price,1,1,0));}},
-   "orderbook"=>{for(u,side)in[(200,0),(201,0),(202,1),(203,1)]{w.run(u,M,"open_sell",&args(&[V,side],&[n,n],&[200,1]))?;w.fee(u)?;w.pay(u,if side==0{A}else{B},n)?;}users=vec![200,201,202,203];rank=[0,1,2,3];ops.push(w.fields("match_orders",200,202,n,n,0,0,1,1));ops.push(w.fields("match_orders",201,203,n,n,0,0,1,1));},
-   _=>{for(s,b)in[(200,201),(202,203)]{w.run(s,NFT,"acknowledge",&[V])?;w.run(s,M,"open_listing",&args(&[V,0],&[n],&[200,1]))?;w.fee(s)?;w.run(s,NFT,"transfer",&[0,V])?;w.run(b,M,"open_buy",&args(&[V,s,1],&[n],&[200,1]))?;w.fee(b)?;w.pay(b,A,n)?;ops.push(w.fields("settle_sale",s,b,n,0,0,0,1,1));}users=vec![200,201,202,203];}
+   "amm"=>{w.pool(n)?;let input=10u128.pow(20);users=ids[..size].to_vec();let(mut ri,mut ro)=(n,n);for u in &users{let nonce=if *u==200{2}else{1};w.run(*u,M,"open_swap",&args(&[V,0],&[input,1],&[200,nonce]))?;w.fee(*u)?;w.pay(*u,A,input)?;let out=quote(input,ri,ro);ops.push(w.fields("swap_0",*u,0,input,out,0,0,nonce,0));ri+=input;ro-=out;}},
+   "bondingcurve"=>{let unit=10u128.pow(18);w.fee(I)?;w.pay(I,A,2_000_000*unit)?;w.operation_maintenance("initialize",0,0,0,0,0,0)?;users=ids[..size].to_vec();for(i,u)in users.iter().enumerate(){w.run(*u,M,"open_limit_buy",&args(&[V,1,0],&[2*unit],&[200,1]))?;w.fee(*u)?;w.pay(*u,B,2*unit)?;let price=unit+i as u128*100_000_000_000_000;ops.push(w.fields("settle_limit_buy_change",*u,0,price,unit,2*unit-price,1,1,0));}},
+   "orderbook"=>{for(u,side)in[(ids[0],0),(ids[1],0),(ids[2],1),(ids[3],1)]{w.run(u,M,"open_sell",&args(&[V,side],&[n,n],&[200,1]))?;w.fee(u)?;w.pay(u,if side==0{A}else{B},n)?;}users=ids.to_vec();rank=[0,1,2,3];ops.push(w.fields("match_orders",ids[0],ids[2],n,n,0,0,1,1));ops.push(w.fields("match_orders",ids[1],ids[3],n,n,0,0,1,1));},
+   _=>{for(s,b)in[(ids[0],ids[1]),(ids[2],ids[3])]{w.run(s,NFT,"acknowledge",&[V])?;w.run(s,M,"open_listing",&args(&[V,0],&[n],&[200,1]))?;w.fee(s)?;w.run(s,NFT,"transfer",&[0,V])?;w.run(b,M,"open_buy",&args(&[V,s,1],&[n],&[200,1]))?;w.fee(b)?;w.pay(b,A,n)?;ops.push(w.fields("settle_sale",s,b,n,0,0,0,1,1));}users=ids.to_vec();}
   }
  Ok((w,users,ops,rank))
 }
@@ -129,7 +157,7 @@ async fn full_ups_four_market_commit_and_settle_proofs()->Result<()>{let out=std
  for kind in selected{
   let size=std::env::var("BATCH_FULL_UPS_SIZE").unwrap_or_else(|_|"2".into()).parse::<usize>()?;
   let (mut w,mut users,mut ops,rank)=trading_setup_size(kind,size)?;
-  if size==1{ops.truncate(1);users=match kind{"orderbook"=>vec![200,202],"nftmarket"=>vec![200,201],_=>users};}
+  if size==1{ops.truncate(1);users=match kind{"orderbook"=>vec![users[0],users[2]],"nftmarket"=>vec![users[0],users[1]],_=>users};}
   if std::env::var("BATCH_ADMISSION_TEST").as_deref()==Ok("1"){super::admission::enroll(&mut w,&users)?;}
   w.run(S,M,"authorize_sponsor",&[V,2*ESCROW,w.val(S,"sponsor_nonce",0)+1,1])?;w.run(S,0,"simple_transfer",&[V,2*ESCROW])?;let mut f=vec![0;74];f[0]=1;f[1]=w.val(V,"batch_id",0)+1;f[2]=users.len()as u64;f[3]=w.checkpoint+20;f[4]=S;f[73]=ESCROW;for(i,u)in users.iter().enumerate(){f[5+i]=*u;f[9+i]=w.val(*u,"nonce",0);}
   let mut needed=batch_policy::expected_calls(&w.policy,&f)?;needed.extend(batch_policy::expected_calls(&w.policy,&w.request(2,ops.clone(),rank))?);let mut chain=Chain::new(&w,&needed)?;chain.prove(&mut w,f).await?;let settle=w.request(2,ops,rank);chain.prove(&mut w,settle).await?;ensure!(w.val(V,"batch_phase",0)==3,"batch terminal phase");fs::write(format!("{out}/{kind}.json"),serde_json::to_vec_pretty(&json!({"market":kind,"scope":"authenticated synthetic checkpoints, full UPS; no coordinator","measurements":chain.measurements,"broadcast":false,"fills":size,"members":users.len(),"chainTps":null}))?)?;
@@ -211,7 +239,7 @@ async fn full_ups_authenticated_queue_admission_and_settlement()->Result<()>{
  ensure!(std::env::var("BATCH_PROOF_PROFILE").as_deref()==Ok("compact-v1"),"explicit new compact key required");
  let out=std::env::var("BATCH_FULL_UPS_OUT")?;fs::create_dir(&out)?;
  for kind in std::env::var("BATCH_FULL_UPS_MARKETS").unwrap_or_else(|_|"amm,orderbook,bondingcurve,nftmarket".into()).split(','){
-  let(mut w,users,ops,rank)=trading_setup_size(kind,2)?;let epoch=w.val(V,"queue_epoch",0)+1;let cutoff=w.checkpoint+users.len()as u64+1;
+  let(mut w,users,ops,rank)=trading_setup_size(kind,if ["amm","bondingcurve"].contains(&kind){4}else{2})?;let epoch=w.val(V,"queue_epoch",0)+1;let cutoff=w.checkpoint+users.len()as u64+1;
   let request=|w:&World,name:&str,a:u64,b:u64|{let op=w.policy["operations"].as_array().unwrap().iter().find(|o|o["name"]==name).unwrap();let mut f=vec![0;13];f[0]=op["branch"].as_u64().unwrap();f[1]=S;f[2]=a;let uses_b=op["calls"].as_array().unwrap().iter().flat_map(|c|c["inputs"].as_array().unwrap()).any(|v|v["witness"].as_u64()==Some(3));if uses_b{f[3]=b;}w.request(4,vec![f],[0;4])};
   let mut needed=vec![];for(name,a,b)in [("start_epoch",epoch,cutoff),("admit_entry",users[0],w.val(users[0],"nonce",0)),("seal_epoch",epoch,0)]{needed.extend(batch_policy::expected_calls(&w.policy,&request(&w,name,a,b))?);}
   let mut placeholder=vec![0;74];placeholder[0]=1;placeholder[1]=w.val(V,"batch_id",0)+1;placeholder[2]=users.len()as u64;placeholder[3]=cutoff+20;placeholder[4]=S;placeholder[73]=ESCROW;for(i,u)in users.iter().enumerate(){placeholder[5+i]=*u;placeholder[9+i]=w.val(*u,"nonce",0);}needed.extend(batch_policy::expected_calls(&w.policy,&placeholder)?);needed.extend(batch_policy::expected_calls(&w.policy,&w.request(2,ops.clone(),rank))?);
@@ -226,7 +254,29 @@ async fn full_ups_authenticated_queue_admission_and_settlement()->Result<()>{
   ensure!(w.val(V,"queue_phase",0)==2&&w.val(V,"queue_count",0)==users.len()as u64,"sealed accepted universe");
   w.run(S,M,"authorize_sponsor",&[V,2*ESCROW,w.val(S,"sponsor_nonce",0)+1,1])?;w.run(S,0,"simple_transfer",&[V,2*ESCROW])?;placeholder[3]=w.checkpoint+20;chain.prove(&mut w,placeholder).await?;let settle=w.request(2,ops,rank);chain.prove(&mut w,settle).await?;
   ensure!(w.val(V,"queue_phase",0)==3,"complete accepted scope");for i in 0..users.len(){ensure!(w.val(V,"queue_outcome",i as u64)==1,"accepted trade disposition");}
-  fs::write(format!("{out}/{kind}-admission.json"),serde_json::to_vec_pretty(&json!({"market":kind,"members":users.len(),"fills":2,"scope":"synthetic authenticated checkpoint; all vault start/admit/seal/commit/settle steps complete UPSs; ordinary consent and sponsor authorization VM-only","measurements":chain.measurements,"completeAcceptedQueue":true,"globalMarketCompleteness":false,"broadcast":false,"chainTps":null}))?)?;
+  fs::write(format!("{out}/{kind}-admission.json"),serde_json::to_vec_pretty(&json!({"market":kind,"members":users.len(),"fills":if ["amm","bondingcurve"].contains(&kind){4}else{2},"scope":"synthetic authenticated checkpoint; all vault start/admit/seal/commit/settle steps complete UPSs; ordinary consent and sponsor authorization VM-only","measurements":chain.measurements,"completeAcceptedQueue":true,"globalMarketCompleteness":false,"broadcast":false,"chainTps":null}))?)?;
  }
  Ok(())
+}
+
+// Dense adjacent fixture IDs can under-count physical fee leaves. Exercise
+// protocol-style aligned, distant IDs and a refund path before accepting cap=4.
+#[test]
+#[ignore = "requires distinct admission build and fresh fee report"]
+fn vm_spread_member_fee_leaf_budget()->Result<()>{
+ ensure!(std::env::var("BATCH_ADMISSION_TEST").as_deref()==Ok("1"),"admission build required");
+ let mut rows=vec![];
+ fn execute_trace(w:&mut World,fields:&[u64])->Result<usize>{
+  let mut leaves=BTreeSet::new();for c in batch_compact::calls(&w.policy,fields)?{let input=c["inputs"].as_array().unwrap().iter().map(|n|n.as_u64().unwrap()).collect::<Vec<_>>();for(u,c,o)in w.run_traced(V,c["contract_id"].as_u64().unwrap(),c["method_name"].as_str().unwrap(),&input)?{ensure!(u==V,"single-user UPS wrote foreign state");leaves.insert((c,o/4));}}w.revision+=1;Ok(leaves.len())
+ }
+ for kind in ["amm","orderbook","bondingcurve","nftmarket"]{for cancelled in [false,true]{
+  let(mut w,users,mut ops,rank)=trading_setup_with_ids(kind,if ["amm","bondingcurve"].contains(&kind){4}else{2},[65536,861696,1283072,1882112])?;
+  if cancelled{for u in &users{w.run(*u,M,"request_cancel",&[])?;}}
+  super::admission::enroll(&mut w,&users)?;w.run(S,M,"authorize_sponsor",&[V,2*ESCROW,w.val(S,"sponsor_nonce",0)+1,1])?;w.run(S,0,"simple_transfer",&[V,2*ESCROW])?;
+  let mut fields=vec![0;74];fields[0]=1;fields[1]=w.val(V,"batch_id",0)+1;fields[2]=4;fields[3]=w.checkpoint+20;fields[4]=S;fields[73]=ESCROW;for(i,u)in users.iter().enumerate(){fields[5+i]=*u;fields[9+i]=w.val(*u,"nonce",0);}
+  let commit_leaves=execute_trace(&mut w,&fields)?;
+  if cancelled{ops.clear();for(i,u)in users.iter().enumerate(){let amount=|n:&str|w.val(V,&format!("frozen_{n}_lo"),i as u64)as u128+super::R*w.val(V,&format!("frozen_{n}_hi"),i as u64)as u128;let a=amount("paid_a");let b=amount("paid_b");let fee=w.val(V,"frozen_fee_delta",i as u64);let nft=kind=="nftmarket"&&w.val(V,"frozen_nft_sent",i as u64)>w.val(V,"frozen_nft_claimed",i as u64);let mask=u64::from(a>0)+2*u64::from(b>0)+4*u64::from(fee>0)+8*u64::from(nft);ops.push(w.fields(&format!("refund_funding_{mask}"),*u,0,a,b,0,fee,w.val(*u,"nonce",0),0));}}
+  let settle=w.request(2,ops,rank);let settle_leaves=execute_trace(&mut w,&settle)?;ensure!(commit_leaves<=100&&settle_leaves<=100,"spread IDs exceed 100-leaf fee budget");ensure!(w.val(V,"batch_phase",0)==3,"spread batch did not terminate");rows.push(json!({"market":kind,"cancelled":cancelled,"users":users,"commitLeaves":commit_leaves,"settleLeaves":settle_leaves,"feeBudgetLeaves":100,"fullUpsVerified":false}));
+ }}
+ let path=std::env::var("BATCH_SPREAD_FEES_OUT")?;use std::io::Write;let mut out=fs::OpenOptions::new().create_new(true).write(true).open(path)?;out.write_all(&serde_json::to_vec_pretty(&json!({"scope":"actual VM bytecode write-leaf count with spread IDs; not a proof or network test","rows":rows,"broadcast":false}))?)?;Ok(())
 }

@@ -1,0 +1,154 @@
+{
+  "broadcast": false,
+  "chainTps": null,
+  "fills": 2,
+  "market": "bondingcurve",
+  "measurements": [
+    {
+      "elapsedMs": 60420.159708,
+      "phase": "cold-circuit-build"
+    },
+    {
+      "broadcast": false,
+      "burn": 1000029000,
+      "calls": 3,
+      "elapsedMs": 19274.243958,
+      "endLeaf": "0ce3696145d67c18b9674738afb9132e98779c4d9ab61d533619f692c72c5aba",
+      "endStateRoot": "0c396735302d8418b01e0f943df7c22b18834df51680072074083e3e093804bf",
+      "exportedDeltasVerified": true,
+      "firstUpsRegistration": false,
+      "fullUpsVerified": true,
+      "logicalSlots": 40,
+      "overheadStagesMs": {
+        "burn": 1827.548,
+        "endcapProveAndVerify": 8002.776166000001,
+        "sdKeySign": 1357.46975,
+        "seedState": 16.22225,
+        "sessionStart": 457.546334,
+        "stateDeltaChecks": 17.990292
+      },
+      "phase": "commit",
+      "profile": "compact-v1",
+      "proofBytes": 130328,
+      "publicEndpointsBound": true,
+      "slotsModified": 29,
+      "startLeaf": "ba78320df42a2ed54d84d5869d2626db5d244fcc6d0a90fb440d0da647f12b62",
+      "steps": [
+        {
+          "contract": 1000,
+          "index": 0,
+          "method": "commit_batch",
+          "ms": 5821.082417
+        },
+        {
+          "contract": 0,
+          "index": 1,
+          "method": "simple_claim",
+          "ms": 1769.686875
+        }
+      ]
+    },
+    {
+      "broadcast": false,
+      "burn": 1000015000,
+      "calls": 13,
+      "elapsedMs": 51266.384458,
+      "endLeaf": "5db32ec985ed5e54df05d59dd333050b71e18473710161527322bdbb6c0d906b",
+      "endStateRoot": "da8d95875eac7fe2aa959dbfc1bdfc6c9a06621620ca3da7def2c038fd6c7a03",
+      "exportedDeltasVerified": true,
+      "firstUpsRegistration": false,
+      "fullUpsVerified": true,
+      "logicalSlots": 40,
+      "overheadStagesMs": {
+        "burn": 1698.6008749999999,
+        "endcapProveAndVerify": 25288.064459,
+        "sdKeySign": 1349.484708,
+        "seedState": 20.444208,
+        "sessionStart": 433.7625,
+        "stateDeltaChecks": 21.391292
+      },
+      "phase": "settle",
+      "profile": "compact-v1",
+      "proofBytes": 130328,
+      "publicEndpointsBound": true,
+      "slotsModified": 15,
+      "startLeaf": "0ce3696145d67c18b9674738afb9132e98779c4d9ab61d533619f692c72c5aba",
+      "steps": [
+        {
+          "contract": 1000,
+          "index": 0,
+          "method": "begin_batch",
+          "ms": 1658.307417
+        },
+        {
+          "contract": 1000,
+          "index": 1,
+          "method": "settle_limit_buy",
+          "ms": 2701.272375
+        },
+        {
+          "contract": 0,
+          "index": 2,
+          "method": "simple_claim",
+          "ms": 1724.8357919999999
+        },
+        {
+          "contract": 43,
+          "index": 3,
+          "method": "claim",
+          "ms": 1768.675
+        },
+        {
+          "contract": 42,
+          "index": 4,
+          "method": "transfer",
+          "ms": 1707.069
+        },
+        {
+          "contract": 43,
+          "index": 5,
+          "method": "transfer",
+          "ms": 1705.048334
+        },
+        {
+          "contract": 1000,
+          "index": 6,
+          "method": "settle_limit_buy",
+          "ms": 2506.6775
+        },
+        {
+          "contract": 0,
+          "index": 7,
+          "method": "simple_claim",
+          "ms": 1815.744958
+        },
+        {
+          "contract": 43,
+          "index": 8,
+          "method": "claim",
+          "ms": 1738.944292
+        },
+        {
+          "contract": 42,
+          "index": 9,
+          "method": "transfer",
+          "ms": 1767.011292
+        },
+        {
+          "contract": 43,
+          "index": 10,
+          "method": "transfer",
+          "ms": 1671.316333
+        },
+        {
+          "contract": 1000,
+          "index": 11,
+          "method": "finish_batch",
+          "ms": 1686.9537500000001
+        }
+      ]
+    }
+  ],
+  "members": 2,
+  "scope": "authenticated synthetic checkpoints, full UPS; no coordinator"
+}

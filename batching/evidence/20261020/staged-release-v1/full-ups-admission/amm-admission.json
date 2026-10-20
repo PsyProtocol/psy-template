@@ -1,0 +1,468 @@
+{
+  "broadcast": false,
+  "chainTps": null,
+  "completeAcceptedQueue": true,
+  "fills": 4,
+  "globalMarketCompleteness": false,
+  "market": "amm",
+  "measurements": [
+    {
+      "elapsedMs": 73072.62525,
+      "phase": "cold-circuit-build"
+    },
+    {
+      "broadcast": false,
+      "burn": 1000012000,
+      "calls": 4,
+      "elapsedMs": 20122.087,
+      "endLeaf": "ad9b26f9b5799154ba140a5303762187af81bc8579c11a00d2048fa28996eadc",
+      "endStateRoot": "a6f0096ed6f89ba36a208bab80ddef99fd8053301979ed323d1b35870778e2a3",
+      "exportedDeltasVerified": true,
+      "firstUpsRegistration": false,
+      "fullUpsVerified": true,
+      "logicalSlots": 40,
+      "overheadStagesMs": {
+        "burn": 2028.800083,
+        "endcapProveAndVerify": 10738.40125,
+        "sdKeySign": 1333.639959,
+        "seedState": 28.985208,
+        "sessionStart": 412.35812500000003,
+        "stateDeltaChecks": 13.226292
+      },
+      "phase": "maintenance",
+      "profile": "compact-v1",
+      "proofBytes": 130328,
+      "publicEndpointsBound": true,
+      "slotsModified": 12,
+      "startLeaf": "d5015e7f135cbc37cf9565e50ca25ea457c8ed7b805003c7492d32e46280ce4a",
+      "steps": [
+        {
+          "contract": 1000,
+          "index": 0,
+          "method": "fund_gas",
+          "ms": 1749.455666
+        },
+        {
+          "contract": 0,
+          "index": 1,
+          "method": "simple_claim",
+          "ms": 1794.8577910000001
+        },
+        {
+          "contract": 1000,
+          "index": 2,
+          "method": "start_epoch",
+          "ms": 2022.1252500000003
+        }
+      ]
+    },
+    {
+      "broadcast": false,
+      "burn": 1000009000,
+      "calls": 4,
+      "elapsedMs": 26161.875583,
+      "endLeaf": "0a223347498e8903cf3514b8e4c374b986fb71abde691d4a606a740481be795f",
+      "endStateRoot": "7307ca3cb014dcfe87e5fe2d75cbf2920721d564669f2af399da977ce547d5bd",
+      "exportedDeltasVerified": true,
+      "firstUpsRegistration": false,
+      "fullUpsVerified": true,
+      "logicalSlots": 40,
+      "overheadStagesMs": {
+        "burn": 1995.116042,
+        "endcapProveAndVerify": 12981.8155,
+        "sdKeySign": 1396.338458,
+        "seedState": 28.286583,
+        "sessionStart": 760.0159170000001,
+        "stateDeltaChecks": 13.930583
+      },
+      "phase": "maintenance",
+      "profile": "compact-v1",
+      "proofBytes": 130328,
+      "publicEndpointsBound": true,
+      "slotsModified": 9,
+      "startLeaf": "ad9b26f9b5799154ba140a5303762187af81bc8579c11a00d2048fa28996eadc",
+      "steps": [
+        {
+          "contract": 1000,
+          "index": 0,
+          "method": "fund_gas",
+          "ms": 3313.745541
+        },
+        {
+          "contract": 0,
+          "index": 1,
+          "method": "simple_claim",
+          "ms": 2510.7167500000005
+        },
+        {
+          "contract": 1000,
+          "index": 2,
+          "method": "admit_entry",
+          "ms": 3161.599917
+        }
+      ]
+    },
+    {
+      "broadcast": false,
+      "burn": 1000009000,
+      "calls": 4,
+      "elapsedMs": 26166.949125,
+      "endLeaf": "a6d771b1121d499cf39915802b954dd9a9cf872d70b7a5c1cd09ef7cd871abc7",
+      "endStateRoot": "6e6554f0cd65d5022948e9b4b77ea36ce3581a8d49707145e2155baa53772639",
+      "exportedDeltasVerified": true,
+      "firstUpsRegistration": false,
+      "fullUpsVerified": true,
+      "logicalSlots": 40,
+      "overheadStagesMs": {
+        "burn": 2565.745916,
+        "endcapProveAndVerify": 10364.457790999999,
+        "sdKeySign": 3244.2727919999998,
+        "seedState": 33.141666,
+        "sessionStart": 450.146042,
+        "stateDeltaChecks": 14.931333
+      },
+      "phase": "maintenance",
+      "profile": "compact-v1",
+      "proofBytes": 130328,
+      "publicEndpointsBound": true,
+      "slotsModified": 9,
+      "startLeaf": "0a223347498e8903cf3514b8e4c374b986fb71abde691d4a606a740481be795f",
+      "steps": [
+        {
+          "contract": 1000,
+          "index": 0,
+          "method": "fund_gas",
+          "ms": 3171.097333
+        },
+        {
+          "contract": 0,
+          "index": 1,
+          "method": "simple_claim",
+          "ms": 3031.574625
+        },
+        {
+          "contract": 1000,
+          "index": 2,
+          "method": "admit_entry",
+          "ms": 3291.2765830000003
+        }
+      ]
+    },
+    {
+      "broadcast": false,
+      "burn": 1000009000,
+      "calls": 4,
+      "elapsedMs": 38206.817917,
+      "endLeaf": "b723d1240413588f7910f61ff24712a1ab118f45993823524b4e8168dd57a46d",
+      "endStateRoot": "b1ea269a305313c2452e1e2478bdd8f50cb05cd347fa99f12a1616682f1091d4",
+      "exportedDeltasVerified": true,
+      "firstUpsRegistration": false,
+      "fullUpsVerified": true,
+      "logicalSlots": 40,
+      "overheadStagesMs": {
+        "burn": 4260.549540999999,
+        "endcapProveAndVerify": 18876.8055,
+        "sdKeySign": 2496.84525,
+        "seedState": 29.4875,
+        "sessionStart": 463.65779200000003,
+        "stateDeltaChecks": 12.423958
+      },
+      "phase": "maintenance",
+      "profile": "compact-v1",
+      "proofBytes": 130328,
+      "publicEndpointsBound": true,
+      "slotsModified": 9,
+      "startLeaf": "a6d771b1121d499cf39915802b954dd9a9cf872d70b7a5c1cd09ef7cd871abc7",
+      "steps": [
+        {
+          "contract": 1000,
+          "index": 0,
+          "method": "fund_gas",
+          "ms": 2806.537792
+        },
+        {
+          "contract": 0,
+          "index": 1,
+          "method": "simple_claim",
+          "ms": 3772.528875
+        },
+        {
+          "contract": 1000,
+          "index": 2,
+          "method": "admit_entry",
+          "ms": 5486.802292
+        }
+      ]
+    },
+    {
+      "broadcast": false,
+      "burn": 1000009000,
+      "calls": 4,
+      "elapsedMs": 31389.797458,
+      "endLeaf": "0eba1205fedcfb52ac5f40ee41c065bca6a408637da75c1b51dfec257f11f7a9",
+      "endStateRoot": "7055728202972740bcde93adbb4b875e6b7b88defc78226d19ca152c0251a8d1",
+      "exportedDeltasVerified": true,
+      "firstUpsRegistration": false,
+      "fullUpsVerified": true,
+      "logicalSlots": 40,
+      "overheadStagesMs": {
+        "burn": 3486.9885,
+        "endcapProveAndVerify": 17308.863041999997,
+        "sdKeySign": 2750.395708,
+        "seedState": 30.176291000000003,
+        "sessionStart": 736.381917,
+        "stateDeltaChecks": 12.632792
+      },
+      "phase": "maintenance",
+      "profile": "compact-v1",
+      "proofBytes": 130328,
+      "publicEndpointsBound": true,
+      "slotsModified": 9,
+      "startLeaf": "b723d1240413588f7910f61ff24712a1ab118f45993823524b4e8168dd57a46d",
+      "steps": [
+        {
+          "contract": 1000,
+          "index": 0,
+          "method": "fund_gas",
+          "ms": 2274.6175000000003
+        },
+        {
+          "contract": 0,
+          "index": 1,
+          "method": "simple_claim",
+          "ms": 1760.137667
+        },
+        {
+          "contract": 1000,
+          "index": 2,
+          "method": "admit_entry",
+          "ms": 3029.1181659999997
+        }
+      ]
+    },
+    {
+      "broadcast": false,
+      "burn": 1000006000,
+      "calls": 4,
+      "elapsedMs": 20616.686334,
+      "endLeaf": "76b916d74d8f9377365253dc09ee1f4629578a198420dc14b1aca24bb93f170e",
+      "endStateRoot": "c3f851a769652de3be84d4afdd3e05df2e8de3f24851617936419c05e0a24459",
+      "exportedDeltasVerified": true,
+      "firstUpsRegistration": false,
+      "fullUpsVerified": true,
+      "logicalSlots": 40,
+      "overheadStagesMs": {
+        "burn": 1647.073125,
+        "endcapProveAndVerify": 9681.317083,
+        "sdKeySign": 1345.2861249999999,
+        "seedState": 31.244792,
+        "sessionStart": 820.189417,
+        "stateDeltaChecks": 7.85025
+      },
+      "phase": "maintenance",
+      "profile": "compact-v1",
+      "proofBytes": 130328,
+      "publicEndpointsBound": true,
+      "slotsModified": 6,
+      "startLeaf": "0eba1205fedcfb52ac5f40ee41c065bca6a408637da75c1b51dfec257f11f7a9",
+      "steps": [
+        {
+          "contract": 1000,
+          "index": 0,
+          "method": "fund_gas",
+          "ms": 3366.5776250000004
+        },
+        {
+          "contract": 0,
+          "index": 1,
+          "method": "simple_claim",
+          "ms": 1927.674042
+        },
+        {
+          "contract": 1000,
+          "index": 2,
+          "method": "seal_epoch",
+          "ms": 1788.936375
+        }
+      ]
+    },
+    {
+      "broadcast": false,
+      "burn": 1000024000,
+      "calls": 3,
+      "elapsedMs": 24903.880791,
+      "endLeaf": "72b86dade457f5bd619bf95d236db64ce61193940ff5c7b51b2b151f76ebadd5",
+      "endStateRoot": "1eef0935d6ea3dff785519503ba305a71be008ddc6316d4470d09416a426b571",
+      "exportedDeltasVerified": true,
+      "firstUpsRegistration": false,
+      "fullUpsVerified": true,
+      "logicalSlots": 40,
+      "overheadStagesMs": {
+        "burn": 2046.367417,
+        "endcapProveAndVerify": 12975.618375,
+        "sdKeySign": 1506.973208,
+        "seedState": 23.060750000000002,
+        "sessionStart": 461.449459,
+        "stateDeltaChecks": 64.208167
+      },
+      "phase": "commit",
+      "profile": "compact-v1",
+      "proofBytes": 130328,
+      "publicEndpointsBound": true,
+      "slotsModified": 24,
+      "startLeaf": "76b916d74d8f9377365253dc09ee1f4629578a198420dc14b1aca24bb93f170e",
+      "steps": [
+        {
+          "contract": 1000,
+          "index": 0,
+          "method": "commit_batch",
+          "ms": 5858.726666
+        },
+        {
+          "contract": 0,
+          "index": 1,
+          "method": "simple_claim",
+          "ms": 1965.919625
+        }
+      ]
+    },
+    {
+      "broadcast": false,
+      "burn": 1000029000,
+      "calls": 19,
+      "elapsedMs": 85782.418542,
+      "endLeaf": "664395dc1e0221cf16489906e5b9bafafe351f1d7e2c2b9cf5ddd0e0579a465c",
+      "endStateRoot": "5b32df067c62da1f87c0317be94e9c156edb2e8102599ce709334a11a935d69d",
+      "exportedDeltasVerified": true,
+      "firstUpsRegistration": false,
+      "fullUpsVerified": true,
+      "logicalSlots": 40,
+      "overheadStagesMs": {
+        "burn": 1674.3229159999999,
+        "endcapProveAndVerify": 40763.088542,
+        "sdKeySign": 1298.2947080000001,
+        "seedState": 35.511041999999996,
+        "sessionStart": 797.317875,
+        "stateDeltaChecks": 44.143667
+      },
+      "phase": "settle",
+      "profile": "compact-v1",
+      "proofBytes": 130328,
+      "publicEndpointsBound": true,
+      "slotsModified": 29,
+      "startLeaf": "72b86dade457f5bd619bf95d236db64ce61193940ff5c7b51b2b151f76ebadd5",
+      "steps": [
+        {
+          "contract": 1000,
+          "index": 0,
+          "method": "begin_batch",
+          "ms": 2670.308791
+        },
+        {
+          "contract": 1000,
+          "index": 1,
+          "method": "swap_0",
+          "ms": 3341.797208
+        },
+        {
+          "contract": 0,
+          "index": 2,
+          "method": "simple_claim",
+          "ms": 1918.167916
+        },
+        {
+          "contract": 42,
+          "index": 3,
+          "method": "claim",
+          "ms": 1940.2382910000001
+        },
+        {
+          "contract": 43,
+          "index": 4,
+          "method": "transfer",
+          "ms": 2991.4897499999997
+        },
+        {
+          "contract": 1000,
+          "index": 5,
+          "method": "swap_0",
+          "ms": 2998.511291
+        },
+        {
+          "contract": 0,
+          "index": 6,
+          "method": "simple_claim",
+          "ms": 2526.093333
+        },
+        {
+          "contract": 42,
+          "index": 7,
+          "method": "claim",
+          "ms": 2450.98175
+        },
+        {
+          "contract": 43,
+          "index": 8,
+          "method": "transfer",
+          "ms": 2448.9129580000003
+        },
+        {
+          "contract": 1000,
+          "index": 9,
+          "method": "swap_0",
+          "ms": 2953.690417
+        },
+        {
+          "contract": 0,
+          "index": 10,
+          "method": "simple_claim",
+          "ms": 1770.113959
+        },
+        {
+          "contract": 42,
+          "index": 11,
+          "method": "claim",
+          "ms": 1766.7313330000002
+        },
+        {
+          "contract": 43,
+          "index": 12,
+          "method": "transfer",
+          "ms": 1692.339625
+        },
+        {
+          "contract": 1000,
+          "index": 13,
+          "method": "swap_0",
+          "ms": 2667.244875
+        },
+        {
+          "contract": 0,
+          "index": 14,
+          "method": "simple_claim",
+          "ms": 1696.069208
+        },
+        {
+          "contract": 42,
+          "index": 15,
+          "method": "claim",
+          "ms": 1727.5708330000002
+        },
+        {
+          "contract": 43,
+          "index": 16,
+          "method": "transfer",
+          "ms": 1732.3051249999999
+        },
+        {
+          "contract": 1000,
+          "index": 17,
+          "method": "finish_batch",
+          "ms": 1865.333
+        }
+      ]
+    }
+  ],
+  "members": 4,
+  "scope": "synthetic authenticated checkpoint; all vault start/admit/seal/commit/settle steps complete UPSs; ordinary consent and sponsor authorization VM-only"
+}

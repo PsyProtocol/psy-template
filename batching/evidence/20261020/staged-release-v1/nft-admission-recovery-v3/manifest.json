@@ -1,0 +1,98 @@
+{
+  "scope": "old failing VM regression and replacement actual bytecode/full commit-refund UPSs; synthetic checkpoint; not network acceptance",
+  "records": [
+    {
+      "source": "/tmp/psy-market-nft-missing-seller-baseline-20261020-v1.log",
+      "file": "baseline-old-artifact-failed.log.gz",
+      "sha256": "58476e44c6d9375c4de4898f1747f7a1b24a233fd75f39fe4a7b7f4a2e4d2fb8"
+    },
+    {
+      "source": "/tmp/psy-market-nft-missing-seller-fixed-20261020-v1.log",
+      "file": "fixed-vm.log.gz",
+      "sha256": "5907f9cab3771f992942a79a272bf1c3cce6070ebff4f7226853793a2035f693"
+    },
+    {
+      "source": "/tmp/psy-market-admission-v3-all-vm-20261020-v1.log",
+      "file": "admission-vm.log.gz",
+      "sha256": "760a5f63ce1c19ac7a9098d48a564fde2c9b0f4fac8e80f09e7b410a717c65ea"
+    },
+    {
+      "source": "/tmp/psy-market-nft-v3-vm-20261020-v1.log",
+      "file": "nft-vm.log.gz",
+      "sha256": "d2bb9c71698bcc2274802125f05c9837c2d45aa6f0e7bc992b0eaef69401e8ce"
+    },
+    {
+      "source": "/tmp/psy-market-admission-app-regression-20261020-v3.log",
+      "file": "app-regression.log.gz",
+      "sha256": "caa85f66a584a0e3aafa1567df21570c4e8aa1d630fff80558d02a27e2ccf4ee"
+    },
+    {
+      "source": "/tmp/psy-market-nft-missing-seller-full-ups-20261020-v1.log",
+      "file": "full-ups.log.gz",
+      "sha256": "a463086af4306ae2c64bc54919a4da5c69d5fc4dd72b7592a7111d6eec20fb60"
+    },
+    {
+      "source": "/tmp/psy-market-admission-prepare-20261020-v3.log",
+      "file": "prepare-v3.log.gz",
+      "sha256": "d32c61f0b57c65e916fbef4d5370c32f0b56bf201f05c785eae91fdb5d621ed5"
+    },
+    {
+      "source": "/tmp/psy-market-admission-20261020-v3/PREPARED.json",
+      "file": "PREPARED.json.gz",
+      "sha256": "4937cc4ae5cdfb4a7f6b474d06200eb551b5ff0521d2635bb54056b2eebd70f0"
+    },
+    {
+      "source": "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-template-security-20261016/batching/admission/generate.mjs",
+      "file": "generator.mjs.gz",
+      "sha256": "1c1c9f6c3724ed4cc86d96d3bd531b8e308f8fccc19df9629c966abf0befa5bf"
+    },
+    {
+      "source": "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-template-security-20261016/batching/v2/guards.mjs",
+      "file": "guards.mjs.gz",
+      "sha256": "f81bcd174540644e3f67bfc3e501582aa92e9f81824dc67314c36d8d05c753aa"
+    },
+    {
+      "source": "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-template-security-20261016/amm/u124/vm-tests/tests/support/batch_admission.rs",
+      "file": "admission-tests.rs.gz",
+      "sha256": "3cbeb758ebbd4392da37d39535ea2582d07672de77429a007af9dca7d70f5be6"
+    },
+    {
+      "source": "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-template-security-20261016/amm/u124/vm-tests/tests/support/batch_full_ups.rs",
+      "file": "full-ups-tests.rs.gz",
+      "sha256": "e58d4caf60dee61f3f34b21caadfda801f47f96e89e7c8053667db79b4644052"
+    },
+    {
+      "source": "/tmp/psy-market-nft-missing-seller-full-ups-20261020-v1/missing-seller-unrelated-true.json",
+      "file": "missing-seller-unrelated-true.json.gz",
+      "sha256": "c4b9adebb240fbd0d41c81da0923db170c0e4c4e25d26f7946df056866447aba"
+    },
+    {
+      "source": "/tmp/psy-market-nft-missing-seller-full-ups-20261020-v1/missing-seller-unrelated-false.json",
+      "file": "missing-seller-unrelated-false.json.gz",
+      "sha256": "ccc1b037ed0438f7cde6c887d1a4552f6e167393a5dd9aa361f6e396c64bc6a0"
+    },
+    {
+      "source": "/tmp/psy-market-admission-20261020-v3/nftmarket/main.psy.rs",
+      "file": "fixture/main.psy.rs.gz",
+      "sha256": "be02933d4c99f7c80fbeab36c0e3756f2e3e26a72cebc5e19bf6ed17def6f220"
+    },
+    {
+      "source": "/tmp/psy-market-admission-20261020-v3/nftmarket/config.json",
+      "file": "fixture/config.json.gz",
+      "sha256": "3df320e9e70e666fec9d06e9d8bd4c170a6beaf72ece0adfaec68304b13f96d9"
+    },
+    {
+      "source": "/tmp/psy-market-admission-20261020-v3/nftmarket/policy.json",
+      "file": "fixture/policy.json.gz",
+      "sha256": "4721e6f7f30f230979dc7c61ce76484c428572770a2ce53489dd56eb6fc5c3d1"
+    },
+    {
+      "source": "/tmp/psy-market-admission-20261020-v3/nftmarket/compiled/compilation_artifact.json",
+      "file": "fixture/compiled/compilation_artifact.json.gz",
+      "sha256": "407921e4fe18730837aab83327e109ccf0c6fd6bf29c4d87750c4956d7704128"
+    }
+  ],
+  "fullUps": 4,
+  "sourceBuild": "admission-v3",
+  "nodeModified": false
+}

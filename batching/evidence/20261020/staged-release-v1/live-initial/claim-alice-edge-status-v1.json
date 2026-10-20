@@ -1,0 +1,22 @@
+{
+  "at": "2026-10-20T09:28:46.268Z",
+  "checkpoint": 356059,
+  "request": {
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "psy_get_tx_status",
+    "params": {
+      "user_id": 1974464,
+      "nonce": 1
+    }
+  },
+  "response": {
+    "jsonrpc": "2.0",
+    "id": 1,
+    "error": {
+      "code": -32601,
+      "message": "Method not found"
+    }
+  },
+  "userLeafHash": "0000000000000000000000000000000000000000000000000000000000000000"
+}

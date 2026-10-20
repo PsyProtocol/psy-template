@@ -2,17 +2,17 @@
 
 Branch: `markets-batch-capacity-recovery-20261020`. Historical outputs in
 `batching/evidence/20261020/` remain immutable. New experiments use fresh paths.
-No Node worktree changes, online upgrades or live asset transactions.
+No Node worktree changes or old-contract upgrades. New isolated test deployments are authorized after actual compatibility checks; live results are recorded only when obtained.
 
 ## Stage status
 
 | Stage | Completed | External dependency / unverified |
 | --- | --- | --- |
-| 1 SDK and upgrade authority | Stable SHA/source diff frozen; 30 consumed path crates and existing session-bound SDK delta made reconstructible in a fresh directory | Isolated offline/locked check and release build passed; four fixed40 public key identities reproduced; still not an upstream published SDK; runtime binary/image identity and actual authorization path not attested |
-| 2 Complete proof cost | Prior baseline preserves per-call and end-cap timings | Compact key templates and 13 stack/session attack classes per market passed; sequential ABBA full UPS comparison running, no improvement claim yet |
-| 3 Admission completeness | Selected batch root/order binding remains enforced | New bounded opt-in queue contracts compiled; explicit consent, scope/disposition and recovery VM tests passed; full vault admission UPS chain pending; scanner hints remain outside accepted scope |
+| 1 SDK and upgrade authority | Stable SHA/source diff frozen; 30 path crates reconstructed; offline/locked check and release build passed; four fixed40 public identities reproduced | Not an upstream published SDK; runtime binary/image identity and effective authorization path not attested |
+| 2 Complete proof cost | Sequential ABBA: all 32 full UPS proofs passed, equal state roots/fees, two samples/profile/market; compact reduces measured warm commit+settle cost by 65.6–78.8% | Offline synthetic checkpoints; cold costs separate; not chain TPS, production P95 or an online Executor latency claim |
+| 3 Admission completeness | Four-market bounded consent/omission/disposition VM checks passed; 32 complete vault admission UPSs and 16 expiry/refreeze/refund UPSs passed | Synthetic ordinary authorization remains VM-only; real ordinary consent, admission and settlement confirmed in both paired fixture rounds; accepted scope excludes unaccepted market intents |
 | 4 Future random order | Deterministic mode retained | Unbiased authenticated future source, actual inclusion-before-seed evidence and anti-abort protocol unavailable |
-| 5 Isolated network | Native called-method identities checked read-only | Held until dependency and upgrade-authority gates close; no registration/settlement/ordinary-wallet live receipt yet |
+| 5 Isolated network | Four new markets/keys activated; two real paired fixture rounds, 82 UPSs, ordinary claims, refunds, timeout/refreeze, four admission races and lost-ack recovery confirmed across both realms | Replacement NFT 2472 missing-seller refund and subsequent unique-sale acceptance in progress; production provenance/upgrade authority remain unverified |
 
 ## 1. SDK source contract
 
@@ -65,7 +65,7 @@ version method. Branch confirmation alone does not close runtime identity.
 Source observations remain in `UPGRADE_AUTHORITY_REVIEW_20261019.md`; layout
 validity/deployer equality do not establish authorization. Pinning roots in one
 Executor cannot protect every public SD-key executor or close the final-read
-upgrade race. Gate 5 remains closed without the above evidence.
+upgrade race. These remain production release evidence requirements. Isolated new test deployments may proceed after our actual compatibility preflight, as clarified by the user; the runtime version string is not a mandatory proxy.
 
 ## Stage 2: compact actual-call key experiment
 
@@ -85,12 +85,42 @@ not be enabled in the existing Executor by changing a profile label.
 All four markets' operation templates and 13 actual-stack/session/padding attack
 classes per market passed, both for V2 policies and extended admission policies.
 An isolated rebuild also reproduced the four existing fixed40 public identities.
-Full proof/cost acceptance remains separate. `compare-full-ups.py` freezes the
+The controlled full proof comparison has now completed. `compare-full-ups.py` freezes the
 binary/artifacts/assets, runs fixed40 → compact → compact → fixed40 sequentially
 at Rayon=4 with two fills/market, checks complete verified linked UPS endpoints,
 identical contract state roots/fees, actual call counts and absence of compact
 noops. It reports cold construction separately and never supplies chain TPS.
-No other proving/compilation is run concurrently during that comparison.
+No other proving/compilation was run concurrently during that comparison. Light
+source/document reads, small JS reader tests and Git fetches continued; this is
+not a dedicated host/CPU-governor measurement or a production percentile study.
+
+### Complete UPS measurements (2026-10-20)
+
+Full evidence: `batching/evidence/20261020/staged-release-v1/full-ups-abba/`.
+One worker, Rayon=4, fixed40 → compact → compact → fixed40, identical two-fill
+market inputs. Each row is the median sum of commit and settlement full proofs
+(two samples per profile), including recursive proof and end-cap verification.
+
+| Market | Fixed40 seconds | Compact seconds | Reduction | Actual calls commit/settle | Offline fills/second (compact) |
+| --- | ---: | ---: | ---: | --- | ---: |
+| AMM | 303.206 | 64.401 | 78.8% | 3 / 11 | 0.0311 |
+| Orderbook | 297.299 | 94.525 | 68.2% | 3 / 19 | 0.0212 |
+| Bonding Curve | 294.260 | 71.325 | 75.8% | 3 / 13 | 0.0280 |
+| NFT Market | 297.103 | 102.326 | 65.6% | 3 / 21 | 0.0195 |
+
+The fixed40 key executes 40 calls in each UPS. All 32 full proofs verified their
+end-cap metadata and exported state deltas. Both profiles/replicas have identical
+final contract roots, modified leaf counts and actual native burns, and each
+commit end leaf equals its settlement start leaf. New key fingerprints and
+intermediate user leaves differ as expected. Compact steps contain no noops.
+
+Cold per-market circuit construction is measured separately in each raw report
+(about 53–68 seconds here) and is not hidden inside warm proof throughput. New
+queue admission operations and ordinary-wallet sponsorship/claims are outside
+this two-fill comparison. The existing Executor may re-prove on submission;
+these figures do not include RPC, confirmation, restart, or repeated process
+initialization. The source is still fixed at 40 constrained logical slots;
+recursive/end-cap cost remains, and no unmeasured speedup is claimed for it.
 
 ## Stage 3: bounded authenticated admission candidate
 
@@ -114,11 +144,14 @@ Four VM groups passed: consent/omission/duplicate/forgery/root rejection plus
 expiry/refreeze/results across all markets; AMM/Curve cancellation refunds and
 empty recovery; Book/NFT legal carry; eight contenders for one anchor then
 capacity enforcement. These are actual bytecode with a local compare-and-commit
-model, not a coordinator scheduling or ordinary-wallet proof. Full vault
-start/admit/seal/commit/settle UPS chains run separately after the controlled
-comparison. Ordinary consent and sponsor authorizations in those synthetic
-fixtures remain VM-only. Executor/ordinary-wallet compact signing integration
-and live admission receipts are unverified; do not claim production readiness.
+model, not a coordinator scheduling or ordinary-wallet proof. The full vault start/admit/seal/commit/settle chains have completed: eight
+linked UPSs per market, four accepted members each (AMM/Curve four fills;
+Book/NFT two fills). Sixteen additional linked UPSs cover commit, expiry,
+refreeze and refunds. All verify complete metadata/endpoints/exported deltas.
+Their observed costs overlap builds and wallet initialization and are not the
+controlled ABBA comparison. Ordinary consent and sponsor authorizations in
+these synthetic fixtures remain VM-only. New compact signing clients exist,
+and real market admission/settlement receipts are now confirmed in the isolated paired fixture. The existing Executor router integration remains unverified; do not claim production readiness.
 
 ## Stage 4: randomness remains disabled
 
@@ -145,13 +178,70 @@ Required future interfaces/acceptance (protocol/randomness owners):
   redraw the same admitted scope. Define selective withholding/slashing or fallback
   liveness and its trust/economic assumptions; an unreviewed retry is not acceptable.
 
-## Stage 5: live isolation gate (closed)
+## Stage 5: actual testnet compatibility and new isolated deployment
 
-Runtime identity, SDK release review and effective upgrade authorization evidence
-are still missing. Do not probe upgrades on the real network. Once those close,
-reserve new contract IDs, key/fingerprint and vaults; verify dependencies/code/
-layout/function whitelist and configured proof-length acceptance first. Capture
-network/realm/checkpoint and immutable identities for every request.
+### Continuing isolated acceptance (2026-10-21 Asia/Taipei, evidence in progress)
+
+The same `markets-batch-capacity-recovery-20261020` branch is used. Original Node
+files and prior artifacts are preserved. No existing contract is updated.
+
+- Both realm 0 and realm 1 ordinary native claims have confirmed receipts.
+- New QA U124 FT-A = 2464, FT-B = 2466, NFT = 2467. These are newly issued test
+  assets; they are not the existing pUSDT. Gas is actual faucet test PSY.
+- Bob 860352 is the issuer of both FTs and the NFT. FT-B has the separate owned
+  Sponsor deployer: deploying identical code again with the same deployer
+  returned FT-A's existing content hash, so that duplicate was not counted as
+  a distinct asset. Requests and duplicate response remain preserved.
+- Bob minted 1,000 tokens of each FT at 18 decimals and sent 50 of each to the
+  new ordinary wallet 876736. The receiver claimed both plus 25 test PSY from
+  Sponsor 1384640 across realms in one complete UPS, included at checkpoint
+  356284. Its final FT balances are 50,000,000,000,000,000,000 base units each;
+  native balance is 23,999,992,000 after the UPS fee. Both amount limbs matter.
+- The NFT metadata and first two sequential NFTs were also minted by a real
+  ordinary UPS, included at checkpoint 356284.
+- The acceptance wrapper initially failed while serializing fractional timing
+  metadata **after** three ordinary broadcasts. No mutation was repeated.
+  Existing durable intents were reconciled against their exact historical
+  leaves and indexed receipts. Timing now uses integer milliseconds. This is
+  evidence of ordinary-driver restart reconciliation; it is not yet a market
+  Executor transport-fault test.
+- Spread, 64-aligned IDs in multiple realm ranges pass the VM leaf-budget
+  check for all four markets and trade/refund paths. Observed commit maxima:
+  40 leaves; settlement maximum: 68, below the policy's 100-leaf fee budget.
+  This VM result is not represented as a proof or network throughput result.
+
+Follow-up: all four new market deployments, compact registrations and activation
+UPSs are confirmed. Curve stock initialization is also confirmed. The live IDs,
+root/receipt checks, real lost-ack recovery and remaining admission/settlement
+matrix are tracked in [the isolated acceptance report](MARKET_BATCH_LIVE_ACCEPTANCE_20261020.md).
+New SDK-only clients reuse the existing session manager and verify the whole
+proof against the pinned Node key/common, retaining call/session/fee/endpoint
+guards. Eight stored real UPSs plus PI/count and wrong-key negatives pass this
+re-verification; it is not a proof-generation speed measurement. See
+`batching/evidence/20261020/staged-release-v1/session-manager-reuse/`.
+Successful deployment and activation alone do not complete stage 5.
+
+User clarified that testnet validation should proceed directly after our own
+compatibility checks. An independently attested runtime version string is useful
+provenance, **not a mandatory proxy for capability testing**. The SDK session
+binding difference is client-side; it does not prove the service rejects a new
+self-verifying signature circuit. The application snapshot has been reconstructed
+and release-built; public fixed40 identities reproduced. The new key still needs
+its complete UPS evidence before funds are used.
+
+Proceed with new contract IDs, new keys and vaults, small faucet-funded test
+amounts and reviewed initial 0 → N layout proofs. Verify real RPC behavior,
+code/layout/function-whitelist roots, endpoint/count/fee consistency and new
+proof acceptance. Do not modify Node or send old-contract updates. Record runtime
+identity as unknown if it cannot be attested. Effective upgrade authorization
+and its last-read race remain production security gaps; a successful isolated
+new deployment does not establish immutable contracts or upgrade authorization.
+Capture network/realm/checkpoint and immutable identities for every request.
+
+The ordinary isolated-wallet and compact signing adapters compile in this
+application, preserving the old SDK's checks and the existing Executor route.
+Two profile/transport guard groups pass. Real native ordinary-wallet evidence
+is recorded below; full compact admission, commit and settlement signing has been accepted by both staging realms in the isolated paired fixture.
 
 The acceptance matrix must include registration, admission, commit/settle,
 ordinary wallet recipient claims, cancelled/expired/partial funding refunds,
@@ -165,3 +255,140 @@ NFT identity. Never store private keys, mnemonics or wallet recovery files.
 A passing test count is not a release decision: accepted-scope limits, runtime
 upgrade trust, ordinary-wallet coverage, independent security review, retention
 and liveness remain separate evidence gates.
+
+## Authenticated cutoff semantics: do not overstate wall-clock guarantees
+
+Contract checks use the UPS **authenticated source checkpoint**. The sealed
+queue state/root provides the immutable membership cutoff: no entry can be
+added to that state once seal wins the same-vault nonce/root race. The numeric
+checkpoint cutoff controls source-context eligibility. It has not been proved
+that every admitted entry was actually included before that numeric checkpoint,
+or that every cancellation confirmed before the later broadcast is honored.
+Current ordinary-wallet and Executor code uses current RPC state; that local
+choice cannot constrain every other public SD-key prover.
+
+The reviewed stable edge block checks the current own start leaf, rejects future
+source checkpoints and enforces ordering relative to the user's previous
+checkpoint. A network-wide actual-inclusion freshness bound has not been
+established. Freeze/root/time tests must distinguish source context, seal
+receipt/inclusion and real submission/confirmation. Do not label the queue a
+hard wall-clock admission deadline or use source checkpoint as proof of
+commit-before-random-revelation. Future source freshness/inclusion capability
+remains a protocol evidence requirement. No Node change or update probe was made.
+
+## 当前团队速览（2026-10-21，Asia/Taipei）
+
+- 已完成应用依赖快照、隔离 release 构建、旧 key 公共身份复现。没有修改 Node。
+- 固定 40 调用与新短调用 key 的同条件 ABBA 对照完成，32 份完整 UPS 均通过。双笔批次承诺＋结算证明中位耗时分别为 AMM 303→64 秒、Orderbook 297→95 秒、Curve 294→71 秒、NFT Market 297→102 秒。冷构建另计；不是链上 TPS／生产 P95。
+- 认证队列候选已通过四市场字节码安全／恢复验证；新 reader 只取封口队列，忽略扫描提示，
+  即使旧发现上限为 1 也包含全部 4 名成员。队列全流程 32 个 UPS、超时／重新固定／退款 16 个 UPS 已验证；普通钱包原生 PSY 领取已确认。市场两轮真实批量结算和普通钱包领取已验收；既有 Executor daemon 新路由仍未验收。
+- 随机排序关闭。封口队列范围不等于所有市场请求；认证源 checkpoint 不等于实际包含时间。
+- 按用户补充授权，测试网改为自行预检后逐项新部署。版本字符串不作为形式门槛。
+  普通钱包与短调用入口将保存请求／意图／回执，核验代码、布局、函数白名单、费用、
+  nonce 和状态端点；现有钱包与旧执行器入口不改动。实现源文件存在不等于已验收。
+- 升级授权与新部署测试分开记录；小额测试通过也不构成不可升级或生产安全证明。
+
+`isolated_wallet` only reads its own generated `isolated-market-wallet-v1`
+secret schema and writes new secret files mode 0600. No old wallet import is
+implemented. Both new clients pin staging endpoints/domain and code/layout/
+function-whitelist/count metadata, verify the full UPS locally, recheck current
+anchor/nonce and a specified broadcast checkpoint window, and persist exact
+request plus intent before one transmission. Unknown responses require exact
+end-leaf reconciliation, not a fresh blind retry. These are application guards,
+not an on-chain upgrade lock or a hard actual-inclusion time guarantee.
+
+## Actual deployment preflight: network domain separation
+
+The first isolated-client guard correctly refused the offline build before any
+registration, faucet or deployment. Offline fixtures/ABBA use localhost magic
+`0x1337CF514544CF69` (`1384803358401154921`); the actual configured staging
+sepolia domain is `0x1337CF514544C169` (`1384803358401151337`). They differ.
+A branch name or common RPC method identity cannot substitute for this check.
+Original offline binaries/evidence remain unchanged. The same frozen SDK sources
+and public multi-network config are being rebuilt with `PSY_NETWORK=sepolia`
+in a distinct target/output directory. Policy magic, fingerprints and full
+stack/session tests must use that new domain; local proof results are not
+represented as staging proof acceptance. The client additionally pins the known
+staging domain so changing a config label/magic cannot authorize an offline
+binary against staging endpoints. No security check was removed.
+
+## Explicit verifier compatibility and first real receipts
+
+Read-only `probe_endcap_profile` compared the immutable SDK manager to the Node
+source bundle. `release/testnet-stable` and the consumed SDK base have identical
+`end_cap_verifier_data.rs` SHA256
+`fab6e1f6bb62211863e238e81edaa225b832a43a48090faecf0a976cf004b1c7`.
+SDK magic `1384803358401154921` produces fingerprint
+`d8c6bb2df3bde570c618b9ebb297cf5743e1b017481e0d73ca558209538cb5f7`,
+exactly equal to that bundle. Configured sepolia magic `1384803358401151337`
+produces `6437629814a1875b3ed5288b1e70e0de9cd8106084dfb933bb56fee86499d166`.
+Two locally valid sepolia-domain native proofs fail with the bundled key; Bob's
+actual RPC returned `-32001`, `vanishing_polys_zeta` verification failure.
+This is evidence of an actual parameter incompatibility, not a guessed version.
+
+The corrected isolated profile is frozen under
+`batching/dependencies/staging-bundled-regtest-20261020-v1/`. It requires an
+explicit `PSY_MARKET_TESTNET_PROFILE=staging-bundled-regtest-20261020-v1` and a
+separate config with the matching domain. It checks config/compiled domain,
+staging endpoints, exact SDK verifier-only data **and** Node Type-E common data,
+then verifies the full UPS and metadata as before. No automatic fallback,
+old-file overwrite, Node edit or security-check removal is used. Both legacy
+`"ok"` and hash acknowledgements are preserved as **submitted, not included**;
+RPC error/raw-body/HTTP status are saved and require reconciliation.
+
+This is a test compatibility profile. Its magic is shared with regtest, so
+unique production chain-domain separation is **not** established. Source-bundle
+identity is not a runtime image attestation. A native proof's acceptance does
+not establish upgrade authorization, all realm hosts' configuration, or full
+market production safety. A future domain migration must account for existing
+SD-key fingerprints; do not change Node/network flags as an ad hoc hotfix.
+
+Actual immutable evidence: `staged-release-v1/live-initial/`:
+
+- Alice 1974464, Bob 860352, Sponsor 1384640 are newly created test identities.
+  Only public identities/requests are included; private key files stay outside Git.
+- Isolated NFT dependency 2463: initial layout **0 → 14** fields, height 30,
+  confirmed at checkpoint **356049**; all code/layout/function roots, deployer
+  and field/slot counts match the preflight at 356054. This is a dependency
+  deployment, not a claim that all four markets have been deployed.
+- Bob native claim: nonce **1**, source checkpoint 356119, end leaf
+  `1f85d11574b094d691bcc6d4f651cbe3eea9ca050729b9b635f198328bc08f47`,
+  included at **356126**, receipt content hash
+  `27ecdf0fdc91c2a5fbcf3b377de0a5b37a3900948ef19622132a8c80dafb63bd`.
+  Claimed 1,000 faucet PSY; fee **1.000002 PSY** (2 modified leaves, 2 calls
+  including burn); confirmed native balance **998.999998 PSY** and claim cursor
+  1,000 PSY match the request. Both verifier-only and common-data checks passed.
+- Alice's earlier wrong-domain attempt lacks a captured original response and
+  remains quarantined/unresolved; it was not blindly resubmitted. Bob's explicit
+  wrong-domain rejection, unchanged zero anchor and fresh verified profile
+  preceded the corrected proof. All original requests/binaries/configs survive.
+- Realm1 profile acceptance, four live admission races, sealed-set commitments,
+  expiry/refreeze and both paired fixture rounds are confirmed. Ordinary claims,
+  refund/sell paths, exact economic state and full cohort conservation passed.
+  Replacement NFT recovery/unique-sale tests are being completed.
+  Initial test assets with Alice issuer remain preserved; the actual cohort uses
+  separate Bob-issued QA assets.
+
+Native funding is from the official testnet faucet, with full request and receipt
+records. Newly issued QA FT/NFT assets must not be described as existing pUSDT.
+
+### Live settlement checkpoint update
+
+The first paired fixture has included full settlement UPSs: AMM 2468 at 356721
+(14 actual calls), Book 2470 at 356721 (11), Curve 2471 at 356728 (13), and NFT
+Market 2469 at 356720 (12). Each has two accepted members and terminal queue
+state. These counts include burn and exclude the canonical virtual noops.
+Ordinary recipient claims and full-fixture conservation subsequently passed in both rounds (45 + 37 included UPSs; exact fees 82.001070 test PSY).
+
+Acceptance found an NFT admitted-set recovery defect: a buyer admitted without
+its seller could not commit or reach a terminal refund. The replacement binds
+computed seller membership and verifies exact owner identity to prevent a missing
+seller from aliasing row zero. Actual VM regressions and four complete synthetic
+commit/refund UPSs are in
+[`nft-admission-recovery-v3/manifest.json`](../../batching/evidence/20261020/staged-release-v1/nft-admission-recovery-v3/manifest.json).
+New NFT contract 2472 and independent key/vault 1695936 are confirmed; its live
+refund/unique-sale checks are pending. Original 2469 artifacts and the paired
+fixture remain available. No Node or existing-contract update was made.
+
+Live progress, exact acceptance scope and remaining production evidence are in
+[the live acceptance review](MARKET_BATCH_LIVE_ACCEPTANCE_20261020.md).

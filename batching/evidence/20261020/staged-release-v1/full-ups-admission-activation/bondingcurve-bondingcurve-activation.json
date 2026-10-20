@@ -1,0 +1,76 @@
+{
+  "broadcast": false,
+  "fullUpsVerified": true,
+  "market": "bondingcurve",
+  "measurements": [
+    {
+      "elapsedMs": 120154.903833,
+      "phase": "cold-circuit-build"
+    },
+    {
+      "broadcast": false,
+      "burn": 1000008000,
+      "calls": 7,
+      "elapsedMs": 73524.449792,
+      "endLeaf": "38c3a1bccd1be947484a3df3c2aad803fe975a2388c533a86a23c2197ba85012",
+      "endStateRoot": "596f26880a1612d04d6b72bfa64b5d2dd4a8210c951e8e1951fb5be06f93ca81",
+      "exportedDeltasVerified": true,
+      "firstUpsRegistration": true,
+      "fullUpsVerified": true,
+      "logicalSlots": 40,
+      "overheadStagesMs": {
+        "burn": 5064.4830409999995,
+        "endcapProveAndVerify": 35483.121083,
+        "sdKeySign": 4104.220458000001,
+        "seedState": 18.69225,
+        "sessionStart": 1084.615333,
+        "stateDeltaChecks": 13.733375
+      },
+      "phase": "maintenance",
+      "profile": "compact-v1",
+      "proofBytes": 130328,
+      "publicEndpointsBound": true,
+      "slotsModified": 8,
+      "startLeaf": "0000000000000000000000000000000000000000000000000000000000000000",
+      "steps": [
+        {
+          "contract": 0,
+          "index": 0,
+          "method": "simple_claim",
+          "ms": 4268.3315410000005
+        },
+        {
+          "contract": 42,
+          "index": 1,
+          "method": "claim",
+          "ms": 4464.356708
+        },
+        {
+          "contract": 43,
+          "index": 2,
+          "method": "claim",
+          "ms": 4934.039375
+        },
+        {
+          "contract": 1000,
+          "index": 3,
+          "method": "activate_batch_vault",
+          "ms": 5192.457667000001
+        },
+        {
+          "contract": 42,
+          "index": 4,
+          "method": "transfer",
+          "ms": 4512.686792
+        },
+        {
+          "contract": 43,
+          "index": 5,
+          "method": "transfer",
+          "ms": 4382.753292
+        }
+      ]
+    }
+  ],
+  "scope": "fresh synthetic user, complete 40-call activation UPS and exported deltas"
+}

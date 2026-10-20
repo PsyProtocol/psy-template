@@ -61,3 +61,6 @@ pub fn compile_market(source:&str,a:u64,b:u64)->Result<ContractOutput>{
 }
 
 pub mod batch_compact;
+
+pub mod live_guard;
+pub mod live_rpc;
