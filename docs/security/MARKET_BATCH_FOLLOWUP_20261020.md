@@ -153,3 +153,24 @@ coordinator 随机 seed 生成文件的哈希与本地快照相同；这只缩�
 完整原始样本、源文件 / 二进制哈希、日志及 SDK 分支差异在
 `batching/evidence/20261020/capacity-recovery-v1/`。这些证据不改变本页开头五项缺口的
 状态；特别是 VM 吞吐远大于实际证明吞吐，不能写成链上 TPS。
+
+## 只读网络预检补充
+
+通过仓库已有的 staging 配置，两个 realm 在首次读取时均为 checkpoint 355583；
+原生合约 0 的树高为 32。第二次读取为 355594，两个请求起点相隔 357.735 秒，
+这一段观察约为 32.52 秒 / checkpoint，**不代表协议保证或未来出块间隔**。
+不能从本地 runner 的 6 秒配置推导线上超时分钟数，也不能把 checkpoint 速度换成
+市场确认 TPS。本轮没有据此自动改动 expiry；它仍是显式 checkpoint 语义。
+
+新增离线 `artifact_roots` 工具，使用 SDK 的规范代码哈希 / 树高常量，读取编译
+产物或保存的 RPC code definition，不构建交易。取得的 RPC native code definition
+重算根与其公布的合约叶一致：`53735dc6…c88d4ba`。原离线 native artifact 的完整
+代码根不同，仍原样保存；逐方法比较显示批次实际调用的 `simple_claim`、
+`simple_transfer`、`simple_burn` 的 ID、输入 / 输出数及代码哈希全部一致。
+差异位于未被批次策略调用的其他方法，不能把整体 artifact 标成与线上完全相同。
+工具拒绝了错误 arity、错误 method envelope、未知 VM 类型和重复 method ID。
+
+以上仅关闭了已用 native 方法的代码身份差异疑问；没有验证线上函数白名单指纹、
+新金库注册、40 调用 UPS 接纳或真实资产结算，不作为 live acceptance 通过凭证。
+所有请求均为 `psy_get_*`。原始 RPC code 保存在独立临时文件，摘要与方法比较进入
+证据目录；未改动 Node、本轮原始 native fixture 或旧部署产物。

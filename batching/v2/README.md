@@ -214,3 +214,14 @@ calls are VM checks, not ordinary-wallet UPS proofs or network confirmations.
 measured full-UPS timings to work calls, noops and untraced overhead. It does not
 predict speedup or chain throughput. Follow-up evidence and unresolved release
 gates: `docs/security/MARKET_BATCH_FOLLOWUP_20261020.md`.
+
+### Read-only native code comparison
+
+`artifact_roots` (in `amm/u124/vm-tests/src/bin/`) computes the protocol code
+root from a compilation artifact or a saved RPC `ContractCodeDefinition`.
+It validates the encoded function's method/arity envelope and rejects unknown
+VM types and duplicate method IDs. This tool does no RPC, proving or broadcast;
+its output does not verify a function whitelist or UPS admission. Compare the
+computed RPC-code root with the advertised contract leaf, then compare each
+actually called method. Preserve both original inputs. A whole-code mismatch
+caused by unused methods is not evidence that the selected methods changed.
