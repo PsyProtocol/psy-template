@@ -1,5 +1,8 @@
 # 四市场确定性批处理：实现与验证（2026-10-20）
 
+本文记录最初 2 单 AMM / Curve 候选的冻结结果；后续 4 单容量、完整超时恢复
+和五项未完成条件见 [后续验证](MARKET_BATCH_FOLLOWUP_20261020.md)。原始测量不覆盖。
+
 分支：`markets-deterministic-batches-20261020`。范围为 psy-template 的独立
 `batch-v2` 市场、SD-key、应用编译桥和 Executor。共享金库保留；随机排序关闭。
 本次没有修改 Node，也没有注册、部署、更新旧合约或提交网络交易。

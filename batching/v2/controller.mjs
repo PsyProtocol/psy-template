@@ -43,7 +43,7 @@ export function controller(market,c){const out=[];const fields=members(market),n
  out.push(method('commit_batch','users: [Felt;4], nonces: [Felt;4], count: Felt, batch: Felt, expiry: Felt, sponsor: Felt',d=>{
   d.batchMarket=market;
   id(d,'sponsor');d.range('batch',62);d.range('count',3);d.range('expiry',32);
-  d.emit(`require(self.batch_ready == 1 && (self.batch_phase == 0 || self.batch_phase == 3 || self.batch_phase == 4), "batch unavailable or not activated"); require(batch == self.batch_id + 1 && count > 0 && count <= ${['amm','bondingcurve'].includes(market)?2:4}, "batch bounds"); require(expiry > ctx.checkpoint_id && expiry <= ctx.checkpoint_id + 1024, "batch expiry");`);
+  d.emit(`require(self.batch_ready == 1 && (self.batch_phase == 0 || self.batch_phase == 3 || self.batch_phase == 4), "batch unavailable or not activated"); require(batch == self.batch_id + 1 && count > 0 && count <= 4, "batch bounds"); require(expiry > ctx.checkpoint_id && expiry <= ctx.checkpoint_id + 1024, "batch expiry");`);
   const sponsorPurpose=remote(d,'sponsor','sponsor_purpose'),sponsorPool=remote(d,'sponsor','sponsor_pool'),sponsorAmount=remote(d,'sponsor','sponsor_amount'),sponsorNonce=remote(d,'sponsor','sponsor_nonce'),usedSponsor=own(d,'used_sponsorship[sponsor]');d.range(sponsorNonce,62);d.range(usedSponsor,62);d.emit(`require(${sponsorPurpose} == 1 && ${sponsorPool} == ctx.user_id && ${sponsorAmount} == ${2n*F} && ${d.lessLimb(usedSponsor,sponsorNonce)}, "explicit batch sponsorship required");`);
   const fee=slot(d,'sponsor',0,'3+2*ctx.user_id'),old=own(d,`${nativeCursor}[sponsor]`),claimed=slot(d,'ctx.user_id',0,'4+2*sponsor');
   for(const x of[fee,old,claimed])d.range(x,62);

@@ -23,7 +23,8 @@ U124 FT. It does not accept private-note funding or promise private order flow.
 Each user has one active order in a market partition; the batch set has unique
 user IDs.
 
-AMM and Curve admit at most 2 members; Book and NFT admit at most 4. A Book match
+All four markets admit at most 4 members. AMM and Curve can settle 4 orders;
+Book and NFT can settle at most 2 pairs/sales. A Book match
 uses 2 members; an NFT sale uses seller and buyer, and a closed-listing reference
 also occupies a member slot. Book matches whole orders only. Priority is verified
 **inside the committed set**: the RPC discovery list is not an authenticated
@@ -173,10 +174,11 @@ BATCH_BUILD=/absolute/path/to/fixtures \
 ```
 
 UPS options: `BATCH_FULL_UPS_MARKETS=amm,orderbook,bondingcurve,nftmarket`,
-`BATCH_FULL_UPS_SIZE=1` or `2`. The activation test is selected explicitly with
+`BATCH_FULL_UPS_SIZE=1` or `2`; `4` is supported for AMM and Curve. The activation test is selected explicitly with
 `cargo ... --test batch_lifecycle full_ups_fresh_vault_activation`,
 `BATCH_BOOTSTRAP_MARKET=...` and a fresh `BATCH_FULL_UPS_OUT`.
-VM benchmarks run 12 repetitions for each market and batch size. Complete UPS
+VM benchmarks run 12 repetitions for each market and batch size (1/2/4 for
+AMM and Curve, 1/2 for Book and NFT). Complete UPS
 benchmarks prove and verify CFC/recursion/SD-key/end-cap, validate public endpoint
 metadata, compare VM writes and verify exported Merkle deltas, linking the
 commit end root to settlement start root. They construct authenticated synthetic
@@ -191,3 +193,24 @@ test. Fresh empty asset trees require the activation/ACK steps described above.
 See `docs/security/MARKET_BATCH_V2_RESULTS_20261020.md` and its compact evidence
 manifest for completed runs, limits and the distinction between VM speed,
 cryptographic proof throughput and unmeasured chain-confirmed TPS.
+
+## Capacity and recovery follow-up
+
+The current four-member AMM/Curve sources have different code roots from the
+original two-member candidate. They require fresh artifact/root verification;
+no existing registered contract is updated by this change. The layout and the
+40-call/74-field policy schema remain fixed. Larger Book/NFT batches still need
+a new profile and measured call/write/proof budgets.
+
+For linked timeout recovery proofs, select
+`full_ups_expire_refreeze_and_refund_four_markets` in the Rust integration test,
+with `BATCH_BUILD`, a fresh `BATCH_FULL_UPS_OUT`, and optionally
+`BATCH_FULL_UPS_MARKETS`. Each market proves commit → expire → recommit → refund.
+The test also checks premature expiry, rejected settlement, nonce reuse and
+actual bytecode recipient claims. The ordinary user cancellation and claim
+calls are VM checks, not ordinary-wallet UPS proofs or network confirmations.
+
+`node batching/v2/proof-cost.mjs --out FRESH_JSON PROOF_REPORT...` attributes
+measured full-UPS timings to work calls, noops and untraced overhead. It does not
+predict speedup or chain throughput. Follow-up evidence and unresolved release
+gates: `docs/security/MARKET_BATCH_FOLLOWUP_20261020.md`.

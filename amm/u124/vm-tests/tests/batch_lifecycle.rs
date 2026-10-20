@@ -78,7 +78,7 @@ impl World{
 #[test]fn partial_excess_and_wrong_asset_funding_return_only_to_original_payer()->Result<()>{for native_fee in [0,F]{let mut w=World::new("amm")?;let n=10u128.pow(24);w.pool(n)?;let a=w.balance(201,A);let b=w.balance(201,B);w.run(201,M,"open_swap",&args(&[V,0],&[n,1],&[200,1]))?;if native_fee>0{w.fee(201)?;}w.pay(201,A,n+17)?;w.pay(201,B,23)?;w.commit(&[201])?;let mask=if native_fee==0{3}else{7};let refund=w.fields(&format!("refund_funding_{mask}"),201,0,n+17,23,0,native_fee,1,0);let mut bad=refund.clone();bad[1]=202;let before=w.slots.clone();assert!(w.settle(vec![bad],[0;4]).is_err());assert_eq!(w.slots,before);w.settle(vec![refund],[0;4])?;w.run(201,A,"claim",&[V])?;w.run(201,B,"claim",&[V])?;assert_eq!(w.balance(201,A),a);assert_eq!(w.balance(201,B),b);assert_eq!(w.val(V,"consumed",201),1);}Ok(())}
 
 #[test]fn eight_workers_settlement_and_cancellation_have_one_vault_winner()->Result<()>{use std::sync::{Mutex,Barrier};
- for kind in["amm","orderbook","bondingcurve","nftmarket"]{let(mut w,users,ops,rank)=full_ups::trading_setup(kind)?;w.commit(&users)?;let shared=Arc::new(Mutex::new(w));let barrier=Arc::new(Barrier::new(9));let mut jobs=vec![];
+ for kind in["amm","orderbook","bondingcurve","nftmarket"]{let(mut w,users,ops,rank)=full_ups::trading_setup_size(kind,if ["amm","bondingcurve"].contains(&kind){4}else{2})?;w.commit(&users)?;let shared=Arc::new(Mutex::new(w));let barrier=Arc::new(Barrier::new(9));let mut jobs=vec![];
   for _ in 0..8{let shared=shared.clone();let barrier=barrier.clone();let ops=ops.clone();jobs.push(std::thread::spawn(move||->Result<bool>{let(anchor,mut candidate)={let w=shared.lock().unwrap();(w.revision,w.clone())};candidate.settle(ops,rank)?;barrier.wait();let mut current=shared.lock().unwrap();if current.revision!=anchor{return Ok(false);}
    // Apply caller-only writes. Never replace other users' concurrent state.
    for((u,c,o),n)in candidate.slots{if u==V{current.set(u,c,o,n);}}current.revision=candidate.revision;Ok(true)}));}
@@ -105,7 +105,7 @@ impl World{
 #[test]
 #[ignore = "explicit benchmark: set BATCH_BUILD and fresh BATCH_BENCH_OUT"]
 fn bytecode_batch_throughput_benchmark()->Result<()>{use std::time::Instant;let out=std::env::var("BATCH_BENCH_OUT")?;let mut results=vec![];
- for market in["amm","orderbook","bondingcurve","nftmarket"]{for size in[1usize,2]{let(base,mut users,mut ops,rank)=full_ups::trading_setup(market)?;if size==1{ops.truncate(1);users=match market{"orderbook"=>vec![200,202],"nftmarket"=>vec![200,201],_=>vec![200]};}let mut commits=vec![];let mut settles=vec![];
+ for market in["amm","orderbook","bondingcurve","nftmarket"]{for size in if ["amm","bondingcurve"].contains(&market){vec![1usize,2,4]}else{vec![1usize,2]}{let(base,mut users,mut ops,rank)=full_ups::trading_setup_size(market,size)?;if size==1{ops.truncate(1);users=match market{"orderbook"=>vec![200,202],"nftmarket"=>vec![200,201],_=>vec![200]};}let mut commits=vec![];let mut settles=vec![];
   for _ in 0..12{let mut w=base.clone();let t=Instant::now();w.commit(&users)?;commits.push(t.elapsed().as_secs_f64()*1000.);let f=w.request(2,ops.clone(),rank);let t=Instant::now();w.execute(&f)?;settles.push(t.elapsed().as_secs_f64()*1000.);ensure!(w.val(V,"batch_phase",0)==3,"benchmark must count terminal success");}
   commits.sort_by(|a,b|a.total_cmp(b));settles.sort_by(|a,b|a.total_cmp(b));let commit=(commits[5]+commits[6])/2.;let settle=(settles[5]+settles[6])/2.;results.push(json!({"market":market,"scope":"real bytecode in-memory; no proof generation or coordinator","iterations":12,"commitSamplesMs":commits,"settleSamplesMs":settles,"quantiles":"p50 midpoint median, p95 nearest rank","members":users.len(),"fills":size,"explicitAndBurnCallsPerUps":40,"commitIncludesSponsorFunding":true,"commitP50Ms":commit,"settleP50Ms":settle,"settleP95Ms":settles[11],"settleVmFillsPerSecond":1000.*size as f64/settle,"twoPhaseVmFillsPerSecond":1000.*size as f64/(commit+settle),"chainTps":null}));
  }}
@@ -195,4 +195,29 @@ fn sparse_maximum_user_ids_fit_the_refund_fee_budget()->Result<()>{
  }w.commit(&users)?;let mut touched=BTreeSet::new();for call in expected_calls(&w.policy,&w.request(2,ops,[0;4]))?{let input=call["inputs"].as_array().unwrap().iter().map(|v|v.as_u64().unwrap()).collect::<Vec<_>>();for (u,c,o) in w.run_traced(V,call["contract_id"].as_u64().unwrap(),call["method_name"].as_str().unwrap(),&input)?{if u==V{touched.insert((c,o/4));}}}
  assert_eq!(w.val(V,"batch_phase",0),3);ensure!(touched.len()<=100,"sparse recipients exceed burn policy budget: {}",touched.len());println!("SPARSE_REFUND positional_leaves={} policy_max=100",touched.len());
  for u in users{w.run(u,A,"claim",&[V])?;w.run(u,NFT,"claim",&[0,V])?;w.run(u,0,"simple_claim",&[V])?;assert_eq!(w.balance(u,A),seed);assert_eq!(w.state.get_contract_slot(u,0,0)?,1000*F);assert_eq!(w.val(V,"consumed",u),1);}Ok(())
+}
+
+#[test]
+fn four_member_amm_and_curve_require_all_ordered_results()->Result<()>{
+ for kind in ["amm","bondingcurve"]{let(mut w,users,ops,rank)=full_ups::trading_setup_size(kind,4)?;w.commit(&users)?;
+  for position in [0,1,2,3]{let mut missing=ops.clone();missing.remove(position);let before=w.slots.clone();assert!(w.settle(missing,rank).is_err());assert_eq!(w.slots,before);
+   if position<3{let mut reordered=ops.clone();reordered.swap(position,position+1);assert!(w.settle(reordered,rank).is_err());assert_eq!(w.slots,before);}}
+  w.settle(ops,rank)?;assert_eq!(w.val(V,"batch_phase",0),3);
+  for u in users{assert_eq!(w.val(V,"consumed",u),w.val(u,"nonce",0));}
+  if kind=="bondingcurve"{assert_eq!(w.val(V,"sold_lots",0),4);}else{assert_eq!(w.wide(V,"reserve_a"),10u128.pow(24)+4*10u128.pow(20));}
+ }Ok(())
+}
+
+#[test]
+fn four_sparse_dual_asset_refunds_fit_commit_and_settlement_budgets()->Result<()>{
+ use std::collections::BTreeSet;
+ for kind in ["amm","bondingcurve","orderbook"]{let mut w=World::new(kind)?;let users=[1_000_001,8_388_607,12_345_679,16_777_214];let seed=10u128.pow(24);let mut ops=vec![];
+  for u in users{w.set(u,0,0,1000*F);for c in[A,B]{w.run(I,c,"transfer",&args(&[u],&[seed],&[]))?;w.run(u,c,"claim",&[I])?;}
+   if kind=="amm"{w.run(u,M,"open_swap",&args(&[V,0],&[17,1],&[200,1]))?;}else if kind=="bondingcurve"{w.run(u,M,"open_limit_buy",&args(&[V,1,0],&[23],&[200,1]))?;}else{w.run(u,M,"open_sell",&args(&[V,0],&[17,1],&[200,1]))?;}
+   w.fee(u)?;w.pay(u,A,17)?;w.pay(u,B,23)?;w.run(u,M,"request_cancel",&[])?;ops.push(w.fields("refund_funding_7",u,0,17,23,0,F,1,0));
+  }
+  w.commit(&users)?;let rank=if kind=="orderbook"{[0,1,2,3]}else{[0;4]};let mut touched=BTreeSet::new();for c in expected_calls(&w.policy,&w.request(2,ops,rank))?{let inputs=c["inputs"].as_array().unwrap().iter().map(|v|v.as_u64().unwrap()).collect::<Vec<_>>();for(u,c,o)in w.run_traced(V,c["contract_id"].as_u64().unwrap(),c["method_name"].as_str().unwrap(),&inputs)?{if u==V{touched.insert((c,o/4));}}}
+  ensure!(w.val(V,"batch_phase",0)==3&&touched.len()<=100,"four-refund fee budget");println!("FOUR_SPARSE_REFUND {kind} positional_leaves={} policy_max=100",touched.len());
+  for u in users{for c in[A,B]{w.run(u,c,"claim",&[V])?;assert_eq!(w.balance(u,c),seed);}w.run(u,0,"simple_claim",&[V])?;assert_eq!(w.balance(u,0),1000*F as u128);}
+ }Ok(())
 }

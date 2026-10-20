@@ -28,3 +28,12 @@ for(const market of['amm','orderbook','bondingcurve','nftmarket']){
  if(market==='bondingcurve')test('Curve limit orders use successive sold lots and quote change',()=>{const unit=BigInt(config.unit),max=2n*unit;const rows=[row(200,{lots:1n,x:max,paid_a:0n,paid_b:max,limit_mode:1n}),row(201,{lots:1n,x:max,paid_a:0n,paid_b:max,limit_mode:1n})],p=planSettlement({market,config,policy,rows,pool:{phase:1n,sold_lots:0n,quote_reserve:0n},cutoff:100n});assert.equal(p.state.sold_lots,2n);assert.ok(p.operations[0][3]<p.operations[1][3]);assert.ok(p.operations[0][7]>p.operations[1][7]);});
  if(market==='nftmarket')test('NFT planner selects one buyer and refunds the loser',()=>{const rows=[row(200,{kind:1n,price:1000000n,paid_a:0n,nft_sent:1n,nft_claimed:0n,nft_matches:1n}),row(201,{kind:2n,price:1000000n,seller:200n,listing_nonce:1n,nft_sent:0n,nft_claimed:0n}),row(203,{kind:2n,price:1000000n,seller:200n,listing_nonce:1n,nft_sent:0n,nft_claimed:0n})],p=planSettlement({market,config,policy,rows,pool:{},cutoff:100n});assert.equal(p.operations.length,2);assert.equal(p.operations[0][2],201n);assert.equal(p.operations[1][1],203n);});
 }
+
+for(const market of ['amm','bondingcurve'])test(`${market}: four-member planner uses every ordered operation slot`,async()=>{
+ const config=await read(`${market}/config.json`),policy=await read(`${market}/policy.json`),unit=BigInt(config.unit??1);
+ const rows=[203,201,202,200].map(u=>row(u,market==='bondingcurve'?{lots:1n,x:2n*unit,paid_a:0n,paid_b:2n*unit,limit_mode:1n}:{}));
+ const pool=market==='amm'?{reserve_a:1000000000n,reserve_b:1000000000n,total_shares:1000000000n}:{phase:1n,sold_lots:0n,quote_reserve:0n};
+ const p=planSettlement({market,config,policy,rows,pool,cutoff:100n});assert.equal(p.operations.length,4);assert.deepEqual(p.operations.map(o=>o[1]),[200n,201n,202n,203n]);
+ assert.equal(operationCalls(policy,witness({mode:2,batch:1n,root:[1n,2n,3n,4n],operations:p.operations})).length,40);
+ assert.equal(market==='amm'?p.state.reserve_a-pool.reserve_a:p.state.sold_lots,market==='amm'?4000000n:4n);
+});

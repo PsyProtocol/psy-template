@@ -1,0 +1,89 @@
+{
+  "branch": "release/testnet-stable",
+  "commit": "6eb535003bdab1fcdb27386dbcb93e8aa9727998",
+  "deploymentBranchConfirmedByUser": true,
+  "runtimeCommitVerified": false,
+  "localNodeUnchanged": true,
+  "comparison": [
+    {
+      "path": "client_prover/psy_core/psy_config/src/network_constants.rs",
+      "sha256": "7029856703a949430d91c804e5349a3faa31a65680493e726aff23bccb3c8a5b",
+      "sameAsOfflineSnapshot": true
+    },
+    {
+      "path": "client_prover/psy_circuit/psy_ups_circuit/src/signature/sd_key.rs",
+      "sha256": "ffc348ea335f30f520a7fde258bd70e7e8fd8eb428f0869f679a7970c82621c0",
+      "sameAsOfflineSnapshot": false
+    },
+    {
+      "path": "client_prover/psy_vm/src/ups/sd_key.rs",
+      "sha256": "e121de8e5a123dfff881efeff128ebe761237e59401a8f7a5a75ad52e567950e",
+      "sameAsOfflineSnapshot": false
+    },
+    {
+      "path": "client_prover/psy_prover/src/session/session.rs",
+      "sha256": "1314a9805a9343022b9c78bcf222db206254bbe20db04ba9f9781815b04b0e8d",
+      "sameAsOfflineSnapshot": false
+    },
+    {
+      "path": "client_prover/psy_circuit/psy_dpn_circuit/src/vm/gadgets/state_readers.rs",
+      "sha256": "475615174d7f7d55515f7ac1eaae80c92a665e34925c5a694bd22b136ecd57ba",
+      "sameAsOfflineSnapshot": true
+    },
+    {
+      "path": "client_prover/psy_vm/src/dpn/ops/exec_context.rs",
+      "sha256": "f3698d4bc83b768f483fc1fef50bcc269c99c1f486ed61ae87e2c7458c5ccc16",
+      "sameAsOfflineSnapshot": true
+    },
+    {
+      "path": "client_prover/psy_core/psy_data/src/qdata/checkpoint.rs",
+      "sha256": "59fdea9e0bbb9f5a4ff45d2e4924a533ec9d0321dd08cf686520bbda559d8385",
+      "sameAsOfflineSnapshot": true
+    },
+    {
+      "path": "client_prover/psy_circuit/psy_network_circuit/src/ups/gadgets/ups_end_cap.rs",
+      "sha256": "a743d93f0a3f4e0ad2286641b1b274eabe70c0bf460d7c02ed57dd0b130ef284",
+      "sameAsOfflineSnapshot": true
+    },
+    {
+      "path": "client_prover/psy_circuit/psy_network_circuit/src/ups/gadgets/ups_end_cap_tree.rs",
+      "sha256": "55233d6f55c9122b57010cf9a54c3d3c1e540f8a7faec96cc5ff9665a4b22780",
+      "sameAsOfflineSnapshot": true
+    },
+    {
+      "path": "psy_node_common/src/coordinator/processor/gatherers/coordinator_guta_update_gatherer.rs",
+      "sha256": "6187688c3f2db4d769c2f70594867e692ea4dbbde71210ba5160a7b0fcc49df2",
+      "sameAsOfflineSnapshot": true
+    },
+    {
+      "path": "psy_node_common/src/backup/output/coordinator_output_builder.rs",
+      "sha256": "a0747f8c203b53de4560c0aa5244b18e496fba715d70531604e7dec6fd73b6fd",
+      "sameAsOfflineSnapshot": true
+    },
+    {
+      "path": "psy_node_common/src/coordinator/edge/api.rs",
+      "sha256": "c7155b41e067acf6ce27f5838af75640b07b4589246525708cdee640c692e7fa",
+      "sameAsOfflineSnapshot": null
+    },
+    {
+      "path": "psy_node_common/src/coordinator/edge/handler.rs",
+      "sha256": "a7a753b93340f776af49843c27a0b89726d8aa56ce922f74ac245aaf00cf75e9",
+      "sameAsOfflineSnapshot": null
+    },
+    {
+      "path": "psy_node_common/src/coordinator/edge/server.rs",
+      "sha256": "7a0ff28ab8bfdf28a1cf279f1082fdee79bfb48e05515477fe578d55ceda91d8",
+      "sameAsOfflineSnapshot": null
+    },
+    {
+      "path": "client_prover/psy_core/psy_data/src/qblock/cmds/deploy_contract.rs",
+      "sha256": "f6259f60e708fe2bcf5f1099be025ea26a088be4add31d59a8802ad032952623",
+      "sameAsOfflineSnapshot": null
+    }
+  ],
+  "sdkSessionDigestBindingMatches": false,
+  "upgradeAuthorizationEvidenceComplete": false,
+  "randomnessUnbiasedEvidenceComplete": false,
+  "liveAdmissionVerified": false,
+  "broadcast": false
+}

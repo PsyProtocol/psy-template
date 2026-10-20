@@ -46,3 +46,9 @@ test('NFT frozen payout queue waits for claims, then expires without dropping it
 });
 
 test('uninitialized selected FT accounts are surfaced before freezing a batch',async()=>{const f=await idleFixture('orderbook');f.order(200);f.order(201,1);f.options.users=[200,201];const result=await scanBatch(f.options,async()=>({...await f.state(),contractStateRoot:async(u,c)=>u===200&&c===43?'0'.repeat(64):'1'.repeat(64)}),f.files);assert.equal(result.action,null);assert.equal(result.reason,'asset-account-initialization-required');assert.deepEqual(result.missing,[{userId:200,contractId:43}]);});
+
+for(const market of ['amm','bondingcurve'])test(`${market}: scanner freezes four canonical users and leaves the fifth for a later batch`,async()=>{
+ const f=await idleFixture(market);if(market==='bondingcurve')f.field(100,'phase',1);for(const u of[204,203,202,201,200])f.order(u,0,market==='bondingcurve'?{lots:1,limit_mode:1}:{});f.options.users=[204,203,202,201,200];
+ const result=await scanBatch(f.options,f.state,f.files),v=parseLosslessJson(result.action.submission).software_defined_call.inputs;
+ assert.equal(result.action.kind,'batch_commit');assert.equal(v[2],4n);assert.deepEqual(v.slice(5,9),[200n,201n,202n,203n]);
+});

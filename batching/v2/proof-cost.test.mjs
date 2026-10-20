@@ -1,0 +1,6 @@
+import test from 'node:test';import assert from 'node:assert/strict';
+import {summarizeProofCosts} from './proof-cost.mjs';
+const trace=()=>({market:'amm',members:4,fills:4,broadcast:false,measurements:[{phase:'cold-circuit-build',elapsedMs:30},{phase:'settle',fullUpsVerified:true,broadcast:false,calls:3,elapsedMs:10,steps:[{index:0,contract:1000,method:'swap_0',ms:4},{index:1,contract:1000,method:'noop',ms:2}]}]});
+const run=d=>summarizeProofCosts([{path:'fixture',bytes:JSON.stringify(d)}]);
+test('proof attribution reports measured padding separately without inventing throughput',()=>{const r=run(trace());assert.equal(r.rows[0].noopMs,2);assert.equal(r.rows[0].workCallMs,4);assert.equal(r.rows[0].untracedMs,4);assert.equal(r.rows[0].noopFraction,.2);assert.equal(r.chainTps,null);assert.equal(r.speedupClaim,null);});
+test('incomplete or unverified traces cannot be reported as full UPS measurements',()=>{for(const alter of[d=>d.measurements[1].steps.pop(),d=>d.measurements[1].fullUpsVerified=false,d=>d.measurements[1].elapsedMs=1,d=>d.measurements[1].steps[0].ms=-1,d=>d.measurements[1].steps[0].index=2,d=>d.measurements[1].phase='unknown',d=>d.broadcast=true]){const d=trace();alter(d);assert.throws(()=>run(d));}});

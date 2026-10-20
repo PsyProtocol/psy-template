@@ -1,6 +1,7 @@
 //! Full authenticated-state UPSs on explicit synthetic checkpoints. No RPC,
 //! deployment, coordinator admission, or chain TPS is implied by these tests.
 use super::{World,M,A,B,NFT,V,I,S,F as ESCROW,args,quote};
+use psy_vm::dpn::eval::executor::StateBackend;
 use anyhow::{ensure,Context,Result};
 use std::{collections::{BTreeMap,BTreeSet,HashMap},sync::Arc,time::Instant,fs};
 use plonky2::{field::{goldilocks_field::GoldilocksField as GF,types::{Field,PrimeField64}},hash::{hash_types::HashOut,poseidon::PoseidonHash},plonk::config::PoseidonGoldilocksConfig as C};
@@ -73,7 +74,7 @@ impl Chain{
   let roots=db.get_checkpoint_global_state_roots(cp).await?;let checkpoint=PsyCheckpointLeaf{global_chain_root:roots.qfhash::<PoseidonHash>(),stats:PsyCheckpointLeafStats::new_empty()};db.set_checkpoint_leaf_data(cp,&checkpoint)?;db.set_checkpoint_tree_leaf_hash(cp,checkpoint.qfhash::<PoseidonHash>())?;let mut block=PsyBlockState::get_genesis_value();block.checkpoint_id=cp;block.next_user_id=1000;block.next_contract_id=1001;db.set_block_state(&block)?;Ok(db)
  }
  async fn prove(&mut self,w:&mut World,mut fields:Vec<u64>)->Result<()> {
-  let started=Instant::now();let mode=fields[0];let fresh=self.last_leaf.is_none()&&w.revision==0&&!w.slots.keys().any(|(u,_,_)|*u==V);let db=self.seed(w).await?;let start_leaf=db.get_user_leaf_data(w.checkpoint,V).await?;let nonce=f(w.revision+1);
+  let started=Instant::now();let mode=fields[0];let fresh=self.last_leaf.is_none()&&w.revision==0&&!w.slots.keys().any(|(u,_,_)|*u==V);let db=self.seed(w).await?;let start_leaf=db.get_user_leaf_data(w.checkpoint,V).await?;let seed_ms=started.elapsed().as_secs_f64()*1000.;let stage=Instant::now();let nonce=f(w.revision+1);
   // The in-memory trait getter retains a legacy *4 conversion. The edge RPC
   // returns raw leaf indices. Seed the public command cache with actual raw
   // Merkle paths, checked against the same authenticated whitelist root.
@@ -82,29 +83,33 @@ impl Chain{
   cache.cache.merkle_cmd_cache.insert(QSRMerkleCmd::GetContractFunctionTreeMerkleProof(QSRMerkleCmdGetContractFunctionTreeMerkleProof{checkpoint_id:w.checkpoint,contract_id:*cid as u32,function_id:index}),proof);}}
   let mut lps=PsyLocalProvingSessionStore::new_at_with_cmd_store(cache,f(w.checkpoint),f(V),nonce,start_leaf.event_index,16);lps.set_is_new_user(fresh);let mut info=SessionCircuitInfoStore::new();self.cm.register_info(&mut info).await;
   let mut session=Manager::new(lps,info,self.cm.ups_circuit_whitelist_root).await?;session.prove_ups_start(&self.cm).await?;
-  let calls=batch_policy::expected_calls(&w.policy,&fields)?;let mut steps=vec![];
+  let start_ms=stage.elapsed().as_secs_f64()*1000.;let calls=batch_policy::expected_calls(&w.policy,&fields)?;let mut steps=vec![];
   for (i,c)in calls.iter().take(39).enumerate(){let t=Instant::now();let cid=c["contract_id"].as_u64().unwrap();let name=c["method_name"].as_str().unwrap();let code=&self.code[&cid];let(index,def)=self.cm.resolve_contract_function_by_method_name(cid,code,name.into()).await?;let inputs=c["inputs"].as_array().unwrap().iter().map(|v|f(v.as_u64().unwrap())).collect();session.prove_standard_call(&self.cm,f(cid),index as u32,&def,inputs).await.with_context(||format!("UPS call {i}: {cid}/{name}"))?;println!("UPS_STEP {} mode {} call {} {}: {:.1}ms",w.kind,mode,i,name,t.elapsed().as_secs_f64()*1000.);steps.push(json!({"index":i,"contract":cid,"method":name,"ms":t.elapsed().as_secs_f64()*1000.}));}
-  session.prove_burn_fee(&self.cm).await?;let burn=session.require_lps()?.last_transaction_record().call_data.call_data.inputs[0].to_canonical_u64();ensure!((1_000_000_000..=ESCROW).contains(&burn),"batch exceeds sponsor policy budget");fields[73]=burn;
+  let stage=Instant::now();session.prove_burn_fee(&self.cm).await?;let burn=session.require_lps()?.last_transaction_record().call_data.call_data.inputs[0].to_canonical_u64();ensure!((1_000_000_000..=ESCROW).contains(&burn),"batch exceeds sponsor policy budget");fields[73]=burn;let burn_ms=stage.elapsed().as_secs_f64()*1000.;let stage=Instant::now();
   let h=*session.get_current_ups_header();ensure!(h.current_state.tx_count==f(40),"whole-stack count");let input=SDKeyCircuitWitnessInput{session_context:SDKeySessionContext{start_user_leaf_hash:h.session_start_context.start_session_user_leaf.qfhash::<PoseidonHash>(),checkpoint_leaf_hash:h.session_start_context.checkpoint_leaf_hash,checkpoint_tree_root:h.session_start_context.checkpoint_tree_root,current_user_leaf:h.current_state.user_leaf,nonce},circuit_inputs:fields.iter().copied().map(f).collect(),transaction_infos:session.sd_key_transaction_infos(),tx_stack_hash:h.current_state.tx_hash_stack,tx_count:f(40),state_reader_results:None,secp256k1_slots:vec![],checkpoint_id:f(w.checkpoint),user_id:f(V)};
-  let sig=self.key.prove(QHashOut(HashOut{elements:[GF::ONE;4]}),&input,session.get_sighash(PSY_NETWORK_MAGIC,nonce)).await?;let slots=session.require_lps()?.get_total_slots_modified();let param=get_sd_key_public_key_param(&QHashOut(HashOut{elements:[GF::ONE;4]}));let proof=session.prove_end_cap(&self.cm,PSY_NETWORK_MAGIC,nonce,slots,self.key.get_fingerprint(),param,sig,self.key.minifier_chain.as_ref().unwrap().get_verifier_data().clone()).await?;
+  let sig=self.key.prove(QHashOut(HashOut{elements:[GF::ONE;4]}),&input,session.get_sighash(PSY_NETWORK_MAGIC,nonce)).await?;let sign_ms=stage.elapsed().as_secs_f64()*1000.;let stage=Instant::now();let slots=session.require_lps()?.get_total_slots_modified();let param=get_sd_key_public_key_param(&QHashOut(HashOut{elements:[GF::ONE;4]}));let proof=session.prove_end_cap(&self.cm,PSY_NETWORK_MAGIC,nonce,slots,self.key.get_fingerprint(),param,sig,self.key.minifier_chain.as_ref().unwrap().get_verifier_data().clone()).await?;
   self.cm.ups_end_cap.verify_proof(proof.clone())?;let end=session.get_current_ups_header().current_state.user_leaf;
   let core=SubmitUserEndCapNonProofCoreInput{checkpoint_id:f(w.checkpoint),stats:GUTAStats{guta_fees_collected:f(GUTA_FEE),da_fees_collected:f(DA_FEE)*slots,user_ops_processed:GF::ONE,total_transactions:f(40),slots_modified:slots},state_transition:UPSEndCapResultCompact{start_user_leaf_hash:if fresh{QHashOut::ZERO}else{start_leaf.qfhash::<PoseidonHash>()},end_user_leaf_hash:end.qfhash::<PoseidonHash>(),checkpoint_tree_root_hash:h.session_start_context.checkpoint_tree_root,user_id:f(V)},new_user_leaf:end};validate_endcap_binding(&core,&proof.public_inputs)?;
-  let mut altered=core;altered.new_user_leaf.nonce+=GF::ONE;ensure!(validate_endcap_binding(&altered,&proof.public_inputs).is_err(),"metadata substitution accepted");
+  let mut altered=core;altered.new_user_leaf.nonce+=GF::ONE;ensure!(validate_endcap_binding(&altered,&proof.public_inputs).is_err(),"metadata substitution accepted");let endcap_ms=stage.elapsed().as_secs_f64()*1000.;let stage=Instant::now();
   // Compare all actual writes to an independently executed VM reference, then
   // carry the proven leaf and values forward to the next synthetic checkpoint.
   let mut expected=w.clone();expected.execute(&fields)?;let mut leaves=HashMap::new();for((u,c,o),want)in &expected.slots{if *u!=V{continue;}let key=(*c,*o/4);if !leaves.contains_key(&key){let p=session.require_lps_mut()?.get_contract_state_slot(f(*c),f(*o/4)).await?;leaves.insert(key,p.value);}let actual=leaves[&key].0.elements[(*o%4)as usize].to_canonical_u64();ensure!(actual==*want,"VM / UPS state mismatch {c}:{o}: {actual} != {want}");}
   let (updates,charged_slots)=session.require_lps_mut()?.get_all_state_updates().await?;ensure!(charged_slots as u64==slots.to_canonical_u64(),"export fee slot count");let mut exported_root=start_leaf.user_state_tree_root;
   for update in &updates{ensure!(update.user_contract_tree_update_proof.verify::<PoseidonHash>(),"export user contract Merkle path");ensure!(update.user_contract_tree_update_proof.old_root==exported_root,"export starts at proven root");exported_root=update.user_contract_tree_update_proof.new_root;for change in &update.contract_state_tree_updates{match change{psy_client_data::guta::api::ContractStateUpdate::Positional{delta_proof}=>ensure!(delta_proof.verify::<PoseidonHash>(),"export slot Merkle path"),_=>anyhow::bail!("unexpected IMT in positional markets")}}}
   ensure!(exported_root==end.user_state_tree_root,"export ends at proven root");
-  let elapsed=started.elapsed().as_secs_f64()*1000.;let row=json!({"phase":if mode==1{"commit"}else if mode==2{"settle"}else if mode==3{"expire"}else{"maintenance"},"elapsedMs":elapsed,"proofBytes":bincode::serialize(&proof)?.len(),"slotsModified":slots.to_canonical_u64(),"burn":burn,"startLeaf":if fresh{QHashOut::<GF>::ZERO.to_string()}else{start_leaf.qfhash::<PoseidonHash>().to_string()},"firstUpsRegistration":fresh,"endLeaf":end.qfhash::<PoseidonHash>().to_string(),"fullUpsVerified":true,"publicEndpointsBound":true,"exportedDeltasVerified":true,"calls":40,"steps":steps,"broadcast":false});println!("FULL_UPS {} {}ms",w.kind,elapsed);self.measurements.push(row);self.last_leaf=Some(end);expected.checkpoint+=1;*w=expected;Ok(())
+  let delta_ms=stage.elapsed().as_secs_f64()*1000.;let elapsed=started.elapsed().as_secs_f64()*1000.;let row=json!({"phase":if mode==1{"commit"}else if mode==2{"settle"}else if mode==3{"expire"}else{"maintenance"},"elapsedMs":elapsed,"proofBytes":bincode::serialize(&proof)?.len(),"slotsModified":slots.to_canonical_u64(),"burn":burn,"startLeaf":if fresh{QHashOut::<GF>::ZERO.to_string()}else{start_leaf.qfhash::<PoseidonHash>().to_string()},"firstUpsRegistration":fresh,"endLeaf":end.qfhash::<PoseidonHash>().to_string(),"fullUpsVerified":true,"publicEndpointsBound":true,"exportedDeltasVerified":true,"calls":40,"steps":steps,"overheadStagesMs":{"seedState":seed_ms,"sessionStart":start_ms,"burn":burn_ms,"sdKeySign":sign_ms,"endcapProveAndVerify":endcap_ms,"stateDeltaChecks":delta_ms},"broadcast":false});println!("FULL_UPS {} {}ms",w.kind,elapsed);self.measurements.push(row);self.last_leaf=Some(end);expected.checkpoint+=1;*w=expected;Ok(())
  }
 }
 
 pub(super) fn trading_setup(kind:&str)->Result<(World,Vec<u64>,Vec<Vec<u64>>,[u64;4])>{
+ trading_setup_size(kind,2)
+}
+pub(super) fn trading_setup_size(kind:&str,size:usize)->Result<(World,Vec<u64>,Vec<Vec<u64>>,[u64;4])>{
+ ensure!((1..=4).contains(&size)&&(["amm","bondingcurve"].contains(&kind)||size<=2),"market batch capacity");
   let mut w=World::new(kind)?;let n=10u128.pow(24);let users;let mut ops=vec![];let mut rank=[0;4];
   match kind{
-   "amm"=>{w.pool(n)?;let input=10u128.pow(20);for(u,nonce)in[(200,2),(201,1)]{w.run(u,M,"open_swap",&args(&[V,0],&[input,1],&[200,nonce]))?;w.fee(u)?;w.pay(u,A,input)?;}let o=quote(input,n,n);ops.push(w.fields("swap_0",200,0,input,o,0,0,2,0));ops.push(w.fields("swap_0",201,0,input,quote(input,n+input,n-o),0,0,1,0));users=vec![200,201];},
-   "bondingcurve"=>{let unit=10u128.pow(18);w.fee(I)?;w.pay(I,A,2_000_000*unit)?;w.operation_maintenance("initialize",0,0,0,0,0,0)?;for u in[200,201]{w.run(u,M,"open_limit_buy",&args(&[V,1,0],&[2*unit],&[200,1]))?;w.fee(u)?;w.pay(u,B,2*unit)?;}for(i,u)in[200,201].iter().enumerate(){let price=unit+i as u128*100_000_000_000_000;ops.push(w.fields("settle_limit_buy_change",*u,0,price,unit,2*unit-price,1,1,0));}users=vec![200,201];},
+   "amm"=>{w.pool(n)?;let input=10u128.pow(20);users=(200..200+size as u64).collect::<Vec<_>>();let(mut ri,mut ro)=(n,n);for u in &users{let nonce=if *u==200{2}else{1};w.run(*u,M,"open_swap",&args(&[V,0],&[input,1],&[200,nonce]))?;w.fee(*u)?;w.pay(*u,A,input)?;let out=quote(input,ri,ro);ops.push(w.fields("swap_0",*u,0,input,out,0,0,nonce,0));ri+=input;ro-=out;}},
+   "bondingcurve"=>{let unit=10u128.pow(18);w.fee(I)?;w.pay(I,A,2_000_000*unit)?;w.operation_maintenance("initialize",0,0,0,0,0,0)?;users=(200..200+size as u64).collect::<Vec<_>>();for(i,u)in users.iter().enumerate(){w.run(*u,M,"open_limit_buy",&args(&[V,1,0],&[2*unit],&[200,1]))?;w.fee(*u)?;w.pay(*u,B,2*unit)?;let price=unit+i as u128*100_000_000_000_000;ops.push(w.fields("settle_limit_buy_change",*u,0,price,unit,2*unit-price,1,1,0));}},
    "orderbook"=>{for(u,side)in[(200,0),(201,0),(202,1),(203,1)]{w.run(u,M,"open_sell",&args(&[V,side],&[n,n],&[200,1]))?;w.fee(u)?;w.pay(u,if side==0{A}else{B},n)?;}users=vec![200,201,202,203];rank=[0,1,2,3];ops.push(w.fields("match_orders",200,202,n,n,0,0,1,1));ops.push(w.fields("match_orders",201,203,n,n,0,0,1,1));},
    _=>{for(s,b)in[(200,201),(202,203)]{w.run(s,NFT,"acknowledge",&[V])?;w.run(s,M,"open_listing",&args(&[V,0],&[n],&[200,1]))?;w.fee(s)?;w.run(s,NFT,"transfer",&[0,V])?;w.run(b,M,"open_buy",&args(&[V,s,1],&[n],&[200,1]))?;w.fee(b)?;w.pay(b,A,n)?;ops.push(w.fields("settle_sale",s,b,n,0,0,0,1,1));}users=vec![200,201,202,203];}
   }
@@ -115,8 +120,9 @@ pub(super) fn trading_setup(kind:&str)->Result<(World,Vec<u64>,Vec<Vec<u64>>,[u6
 async fn full_ups_four_market_commit_and_settle_proofs()->Result<()>{let out=std::env::var("BATCH_FULL_UPS_OUT").context("fresh BATCH_FULL_UPS_OUT directory required")?;fs::create_dir(&out)?;
  let kinds=std::env::var("BATCH_FULL_UPS_MARKETS").unwrap_or_else(|_|"amm,orderbook,bondingcurve,nftmarket".into());let selected=kinds.split(',').collect::<Vec<_>>();ensure!(!selected.is_empty()&&selected.iter().all(|k|["amm","orderbook","bondingcurve","nftmarket"].contains(k)),"benchmark markets");
  for kind in selected{
-  let (mut w,mut users,mut ops,rank)=trading_setup(kind)?;
-  let size=std::env::var("BATCH_FULL_UPS_SIZE").unwrap_or_else(|_|"2".into()).parse::<usize>()?;ensure!(size==1||size==2,"batch benchmark size");if size==1{ops.truncate(1);users=match kind{"orderbook"=>vec![200,202],"nftmarket"=>vec![200,201],_=>vec![200]};}
+  let size=std::env::var("BATCH_FULL_UPS_SIZE").unwrap_or_else(|_|"2".into()).parse::<usize>()?;
+  let (mut w,mut users,mut ops,rank)=trading_setup_size(kind,size)?;
+  if size==1{ops.truncate(1);users=match kind{"orderbook"=>vec![200,202],"nftmarket"=>vec![200,201],_=>users};}
   w.run(S,M,"authorize_sponsor",&[V,2*ESCROW,w.val(S,"sponsor_nonce",0)+1,1])?;w.run(S,0,"simple_transfer",&[V,2*ESCROW])?;let mut f=vec![0;74];f[0]=1;f[1]=w.val(V,"batch_id",0)+1;f[2]=users.len()as u64;f[3]=w.checkpoint+20;f[4]=S;f[73]=ESCROW;for(i,u)in users.iter().enumerate(){f[5+i]=*u;f[9+i]=w.val(*u,"nonce",0);}
   let mut needed=batch_policy::expected_calls(&w.policy,&f)?;needed.extend(batch_policy::expected_calls(&w.policy,&w.request(2,ops.clone(),rank))?);let mut chain=Chain::new(&w,&needed)?;chain.prove(&mut w,f).await?;let settle=w.request(2,ops,rank);chain.prove(&mut w,settle).await?;ensure!(w.val(V,"batch_phase",0)==3,"batch terminal phase");fs::write(format!("{out}/{kind}.json"),serde_json::to_vec_pretty(&json!({"market":kind,"scope":"authenticated synthetic checkpoints, full UPS; no coordinator","measurements":chain.measurements,"broadcast":false,"fills":size,"members":users.len(),"chainTps":null}))?)?;
  }Ok(())}
@@ -125,3 +131,64 @@ async fn full_ups_four_market_commit_and_settle_proofs()->Result<()>{let out=std
 #[tokio::test]
 async fn full_ups_fresh_vault_activation()->Result<()>{let kind=std::env::var("BATCH_BOOTSTRAP_MARKET")?;ensure!(["amm","orderbook","bondingcurve","nftmarket"].contains(&kind.as_str()),"bootstrap market");let out=std::env::var("BATCH_FULL_UPS_OUT")?;fs::create_dir(&out)?;let mut w=World::new_with_bootstrap(&kind,false)?;w.fee(I)?;w.pay(I,A,1)?;if kind!="nftmarket"{w.pay(I,B,1)?;}
  let name=if kind=="nftmarket"{"activate"}else{"activate_batch_vault"};let op=w.fields(name,I,0,0,0,0,0,0,0);let fields=w.request(4,vec![op],[0;4]);let needed=batch_policy::expected_calls(&w.policy,&fields)?;let mut chain=Chain::new(&w,&needed)?;chain.prove(&mut w,fields).await?;ensure!(w.val(V,"batch_ready",0)==1,"fresh activation marker");fs::write(format!("{out}/{kind}-activation.json"),serde_json::to_vec_pretty(&json!({"market":kind,"fullUpsVerified":true,"scope":"fresh synthetic user, complete 40-call activation UPS and exported deltas","measurements":chain.measurements,"broadcast":false}))?)?;Ok(())}
+
+fn check_refund_claims(w:&mut World,users:&[u64],expected:&[(u64,u128,u128,u64,bool)])->Result<()>{
+ for &(u,a,b,fee,nft)in expected{let before_a=w.balance(u,A);let before_b=w.balance(u,B);let before_fee=w.balance(u,0);
+   if a>0{w.run(u,A,"claim",&[V])?;ensure!(w.balance(u,A)==before_a+a,"asset A refund");}
+   if b>0{w.run(u,B,"claim",&[V])?;ensure!(w.balance(u,B)==before_b+b,"asset B refund");}
+   if fee>0{w.run(u,0,"simple_claim",&[V])?;ensure!(w.balance(u,0)==before_fee+fee as u128,"native refund");}
+   if nft{w.run(u,NFT,"claim",&[0,V])?;let index=users.iter().position(|x|*x==u).unwrap()as u64;for j in 0..8{let name=if j<4{format!("frozen_token_id_{j}")}else{format!("frozen_metadata_hash_{}",j-4)};ensure!(w.state.get_contract_slot(u,NFT,if j<4{30+j}else{31+j})?==w.val(V,&name,index),"returned NFT identity");}}
+   ensure!(w.val(V,"consumed",u)==w.val(u,"nonce",0),"refunded order nonce");
+ }
+ Ok(())
+}
+
+// Exact proven end leaves link all four transitions. Ordinary cancellation and
+// final recipient claims execute real bytecode, not ordinary-wallet UPS proofs.
+#[tokio::test]
+async fn full_ups_expire_refreeze_and_refund_four_markets()->Result<()>{
+ let out=std::env::var("BATCH_FULL_UPS_OUT").context("fresh BATCH_FULL_UPS_OUT directory required")?;fs::create_dir(&out)?;
+ let kinds=std::env::var("BATCH_FULL_UPS_MARKETS").unwrap_or_else(|_|"amm,orderbook,bondingcurve,nftmarket".into());
+ for kind in kinds.split(','){
+  ensure!(["amm","orderbook","bondingcurve","nftmarket"].contains(&kind),"recovery market");
+  let size=if ["amm","bondingcurve"].contains(&kind){4}else{2};
+  let(mut w,users,ops,rank)=trading_setup_size(kind,size)?;
+  let commit_fields=|w:&mut World|->Result<Vec<u64>>{
+   w.run(S,M,"authorize_sponsor",&[V,2*ESCROW,w.val(S,"sponsor_nonce",0)+1,1])?;w.run(S,0,"simple_transfer",&[V,2*ESCROW])?;
+   let mut f=vec![0;74];f[0]=1;f[1]=w.val(V,"batch_id",0)+1;f[2]=users.len()as u64;f[3]=w.checkpoint+20;f[4]=S;f[73]=ESCROW;
+   for(i,u)in users.iter().enumerate(){f[5+i]=*u;f[9+i]=w.val(*u,"nonce",0);}Ok(f)
+  };
+  let first=commit_fields(&mut w)?;
+  // Discover the required CFC cache without retaining every compiled circuit.
+  let mut preview=w.clone();preview.execute(&first)?;for u in &users{preview.run(*u,M,"request_cancel",&[])?;}
+  preview.checkpoint+=21;preview.execute(&preview.request(3,vec![],[0;4]))?;
+  let second_preview=commit_fields(&mut preview)?;preview.execute(&second_preview)?;
+  let mut refunds=vec![];let mut expected=vec![];
+  for(i,u)in users.iter().enumerate(){let i=i as u64;let amount=|n:&str|preview.val(V,&format!("frozen_{n}_lo"),i)as u128+super::R*preview.val(V,&format!("frozen_{n}_hi"),i)as u128;
+   let a=amount("paid_a");let b=amount("paid_b");let fee=preview.val(V,"frozen_fee_delta",i);
+   let has_nft=kind=="nftmarket"&&preview.val(V,"frozen_nft_sent",i)>preview.val(V,"frozen_nft_claimed",i);
+   let mask=u64::from(a>0)+2*u64::from(b>0)+4*u64::from(fee>0)+8*u64::from(has_nft);
+   refunds.push(preview.fields(&format!("refund_funding_{mask}"),*u,0,a,b,0,fee,preview.val(*u,"nonce",0),0));
+   expected.push((*u,a,b,fee,has_nft));
+  }
+  let mut reference=preview.clone();reference.settle(refunds.clone(),rank)?;ensure!(reference.val(V,"batch_phase",0)==3,"recovery reference must finish");check_refund_claims(&mut reference,&users,&expected)?;
+  let mut needed=batch_policy::expected_calls(&w.policy,&first)?;
+  needed.extend(batch_policy::expected_calls(&preview.policy,&preview.request(3,vec![],[0;4]))?);
+  needed.extend(batch_policy::expected_calls(&preview.policy,&preview.request(2,refunds.clone(),rank))?);
+  let mut chain=Chain::new(&w,&needed)?;chain.prove(&mut w,first).await?;
+  let committed=w.slots.clone();let mut invalid=w.request(2,ops,rank);invalid[13]=(invalid[13]+1)%18446744069414584321;
+  ensure!(w.execute(&invalid).is_err()&&w.slots==committed,"rejected settlement changed committed state");
+  let mut premature=w.clone();ensure!(premature.execute(&premature.request(3,vec![],[0;4])).is_err(),"premature expiry accepted");
+  for u in &users{w.run(*u,M,"request_cancel",&[])?;}
+  w.checkpoint=w.val(V,"batch_expiry",0)+1;let expire=w.request(3,vec![],[0;4]);chain.prove(&mut w,expire).await?;
+  ensure!(w.val(V,"batch_phase",0)==4,"expiry phase");
+  for u in &users{ensure!(w.val(V,"consumed",*u)<w.val(*u,"nonce",0),"expiry consumed an order");}
+  let second=commit_fields(&mut w)?;chain.prove(&mut w,second).await?;
+  let settlement=w.request(2,refunds,rank);chain.prove(&mut w,settlement).await?;
+  ensure!(w.val(V,"batch_phase",0)==3,"refund terminal phase");
+  let terminal=w.slots.clone();ensure!(w.execute(&w.request(2,vec![],rank)).is_err()&&w.slots==terminal,"terminal replay accepted");
+  check_refund_claims(&mut w,&users,&expected)?;
+  fs::write(format!("{out}/{kind}-recovery.json"),serde_json::to_vec_pretty(&json!({"market":kind,"members":users.len(),"scope":"linked synthetic commit, expire, recommit, refund UPS proofs; ordinary cancel and recipient claim VM only","measurements":chain.measurements,"prematureExpiryRejected":true,"failedSettlementPreservedCommit":true,"failedSettlementScope":"VM rejected wrong root; no invalid proof broadcast","terminalReplayRejected":true,"allAssetsReturnedToPayers":true,"broadcast":false,"chainTps":null}))?)?;
+ }
+ Ok(())
+}

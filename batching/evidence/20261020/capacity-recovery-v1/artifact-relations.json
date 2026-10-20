@@ -1,0 +1,30 @@
+{
+  "base": "5a9a7e7c631729f19a52f173ab6d7d4aa27d5666",
+  "records": [
+    {
+      "market": "amm",
+      "artifactSame": false,
+      "abiSame": true,
+      "policySame": true
+    },
+    {
+      "market": "orderbook",
+      "artifactSame": true,
+      "abiSame": true,
+      "policySame": true
+    },
+    {
+      "market": "bondingcurve",
+      "artifactSame": false,
+      "abiSame": true,
+      "policySame": true
+    },
+    {
+      "market": "nftmarket",
+      "artifactSame": true,
+      "abiSame": true,
+      "policySame": true
+    }
+  ],
+  "broadcast": false
+}
