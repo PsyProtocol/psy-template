@@ -1,3 +1,6 @@
+import {parseLosslessJson} from '../amm/u124/client.mjs';
+import {loadBatchFiles,scanBatch} from '../batching/v2/reader.mjs';
+import {makeBatchPolicy} from '../batching/v2/policy.mjs';
 import {readFile,mkdir} from 'node:fs/promises';
 import {join,dirname} from 'node:path';
 import {createHash,randomUUID} from 'node:crypto';
@@ -19,20 +22,20 @@ import {makePolicy as makeNftPolicy} from '../nft-marketplace/policy.mjs';
 import {validateNftAbi} from '../nft-marketplace/abi.mjs';
 import {validateResultsAbi} from '../nft-marketplace/status.mjs';
 export async function createU124WalletAdapter(options,{readState=publicState,readReceipts=receiptReader,runDriver,submitDriver=runDurableSubmission}={}){
- const nft=options.kind==='nftmarket';
+ const nft=options.kind==='nftmarket',batch=options.profile==='batch-v2';
  const assets=nft?[options.paymentToken,options.collection]:[options.assetA,options.assetB];
  const inputsCurrent=await captureInputs([options.abi,options.driverConfig,options.policy,options.rpcConfig,...assets.map(a=>a.abi)]);
- const files=await (nft?loadNftFiles:loadU124Files)(options),{abi,config,policy}=files;
+ const files=await (batch?loadBatchFiles:nft?loadNftFiles:loadU124Files)(options),{abi,config,policy}=files;
  await inputsCurrent();
  const tokens=await Promise.all(assets.map(async asset=>JSON.parse(await readFile(asset.abi,'utf8'))));
  validateU124TokenAbi(tokens[0]);
  if(nft){
   validateNftAbi(tokens[1]);validateResultsAbi(abi);assert.equal(config.nftId,options.collection.contractId);assert.equal(config.tokenId,options.paymentToken.contractId);
-  assert.deepEqual(policy,makeNftPolicy(options.contractId,config,abi,tokens[1],tokens[0]),'NFT policy differs from bound ABI/config');
+  assert.deepEqual(policy,batch?makeBatchPolicy(options.kind,options.contractId,config,abi,tokens[0],tokens[1]):makeNftPolicy(options.contractId,config,abi,tokens[1],tokens[0]),'NFT policy differs from bound ABI/config');
  }else{
   validateU124TokenAbi(tokens[1]);assert.equal(config.assetA,options.assetA.contractId);assert.equal(config.assetB,options.assetB.contractId);
   for(const method of ['claim','transfer'])assert.equal(tokens[0].contract.methods.find(m=>m.name===method).method_id,tokens[1].contract.methods.find(m=>m.name===method).method_id,'Token method IDs differ');
-  assert.deepEqual(policy,makePolicy(options.kind,options.contractId,config,abi,tokens[0]),'policy differs from bound ABI/config');
+  assert.deepEqual(policy,batch?makeBatchPolicy(options.kind,options.contractId,config,abi,tokens[0]):makePolicy(options.kind,options.contractId,config,abi,tokens[0]),'policy differs from bound ABI/config');
  }
  const driver=await sealDriver(options);
  const contracts=[{contractId:options.contractId,codeRoot:options.codeRoot,layoutRoot:options.layoutRoot,stateTreeHeight:31},...assets.map(a=>({contractId:a.contractId,codeRoot:a.codeRoot,layoutRoot:a.layoutRoot,stateTreeHeight:nft&&a===options.collection?30:31}))];
@@ -66,9 +69,15 @@ export async function createU124WalletAdapter(options,{readState=publicState,rea
  const logPath=task=>callPath(task)+'.submission.log';
  const validLog=(task,file)=>{const prefix=callPath(task)+'.submission-';assert.ok(typeof file==='string'&&file.startsWith(prefix)&&/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\.log$/.test(file.slice(prefix.length)),'submission log binding');return file;};
  const args=(action,file)=>[action,options.policy,file,options.rpcConfig,binding.file];
- const scan=()=>nft?scanNftMarket(options,readState,files):scanU124(options,readState,files);
+ const scan=()=>batch?scanBatch(options,readState,files):nft?scanNftMarket(options,readState,files):scanU124(options,readState,files);
  return {scan,
-  isCurrent:async task=>{await bindingCurrent();return JSON.stringify((await scan()).action)===JSON.stringify(task);},
+  isCurrent:async task=>{await bindingCurrent();
+   if(batch&&task.kind==='batch_commit'){
+    const f=parseLosslessJson(task.submission).software_defined_call.inputs,s=await readState(options.rpcConfig),offset=n=>abi.contract.state.find(x=>x.name===n).offset;
+    const [phase,id]=await Promise.all([s.slot(options.vaultId,options.contractId,offset('batch_phase')),s.slot(options.vaultId,options.contractId,offset('batch_id'))]);
+    return [0n,3n,4n].includes(phase)&&id+1n===f[1]&&BigInt(s.checkpoint)<f[3]&&f[3]<=BigInt(s.checkpoint)+1024n;
+   }
+   return JSON.stringify((await scan()).action)===JSON.stringify(task);},
   validateProof:async(task,proof)=>{try{return proof.requestBindingVersion===1&&proof.driverSha256===driver.sha256&&proof.callsSha256===sha256(serialized(task))&&proof.guardSha256===guardSha256&&proof.submissionGuardVersion===1&&proof.guardFile===binding.file&&proof.file===callPath(task)&&await readFile(proof.file,'utf8')===serialized(task);}catch(e){if(e.code==='ENOENT')return false;throw e;}},
   prepareSubmission:async(task,proof)=>({...proof,submissionLog:callPath(task)+'.submission-'+randomUUID()+'.log'}),
   prove:async task=>{

@@ -1,0 +1,153 @@
+
+running 1 test
+test full_ups::full_ups_fresh_vault_activation ... FULL_UPS bondingcurve {"elapsedMs":54777.113667000005,"phase":"cold-circuit-build"}
+prove_ups_start - start:  0ms
+prove_ups_start - gen_witness:  0ms
+prove_ups_start - prove_ups_start:  312ms
+prove_ups_start - injest_single_leaf_proof:  0ms
+compress - proved compress:  298ms
+compress - proved compress:  271ms
+UPS_STEP bondingcurve mode 4 call 0 noop: 1113.0ms
+compress - proved compress:  347ms
+compress - proved compress:  335ms
+UPS_STEP bondingcurve mode 4 call 1 simple_claim: 1253.7ms
+compress - proved compress:  314ms
+compress - proved compress:  355ms
+UPS_STEP bondingcurve mode 4 call 2 claim: 1273.0ms
+compress - proved compress:  359ms
+compress - proved compress:  288ms
+UPS_STEP bondingcurve mode 4 call 3 claim: 1253.6ms
+compress - proved compress:  280ms
+compress - proved compress:  314ms
+UPS_STEP bondingcurve mode 4 call 4 activate_batch_vault: 1198.1ms
+compress - proved compress:  305ms
+compress - proved compress:  295ms
+UPS_STEP bondingcurve mode 4 call 5 transfer: 1179.4ms
+compress - proved compress:  338ms
+compress - proved compress:  493ms
+UPS_STEP bondingcurve mode 4 call 6 transfer: 1452.0ms
+compress - proved compress:  325ms
+compress - proved compress:  318ms
+UPS_STEP bondingcurve mode 4 call 7 noop: 1286.1ms
+compress - proved compress:  377ms
+compress - proved compress:  331ms
+UPS_STEP bondingcurve mode 4 call 8 noop: 1272.5ms
+compress - proved compress:  324ms
+compress - proved compress:  362ms
+UPS_STEP bondingcurve mode 4 call 9 noop: 1278.0ms
+compress - proved compress:  308ms
+compress - proved compress:  352ms
+UPS_STEP bondingcurve mode 4 call 10 noop: 1218.0ms
+compress - proved compress:  305ms
+compress - proved compress:  297ms
+UPS_STEP bondingcurve mode 4 call 11 noop: 1191.9ms
+compress - proved compress:  351ms
+compress - proved compress:  331ms
+UPS_STEP bondingcurve mode 4 call 12 noop: 1252.8ms
+compress - proved compress:  282ms
+compress - proved compress:  321ms
+UPS_STEP bondingcurve mode 4 call 13 noop: 1196.1ms
+compress - proved compress:  304ms
+compress - proved compress:  292ms
+UPS_STEP bondingcurve mode 4 call 14 noop: 1118.9ms
+compress - proved compress:  311ms
+compress - proved compress:  384ms
+UPS_STEP bondingcurve mode 4 call 15 noop: 1342.1ms
+compress - proved compress:  269ms
+compress - proved compress:  308ms
+UPS_STEP bondingcurve mode 4 call 16 noop: 1091.3ms
+compress - proved compress:  334ms
+compress - proved compress:  318ms
+UPS_STEP bondingcurve mode 4 call 17 noop: 1253.3ms
+compress - proved compress:  358ms
+compress - proved compress:  317ms
+UPS_STEP bondingcurve mode 4 call 18 noop: 1326.3ms
+compress - proved compress:  279ms
+compress - proved compress:  273ms
+UPS_STEP bondingcurve mode 4 call 19 noop: 1093.2ms
+compress - proved compress:  275ms
+compress - proved compress:  273ms
+UPS_STEP bondingcurve mode 4 call 20 noop: 1104.0ms
+compress - proved compress:  274ms
+compress - proved compress:  295ms
+UPS_STEP bondingcurve mode 4 call 21 noop: 1132.6ms
+compress - proved compress:  339ms
+compress - proved compress:  334ms
+UPS_STEP bondingcurve mode 4 call 22 noop: 1229.0ms
+compress - proved compress:  316ms
+compress - proved compress:  356ms
+UPS_STEP bondingcurve mode 4 call 23 noop: 1203.6ms
+compress - proved compress:  335ms
+compress - proved compress:  322ms
+UPS_STEP bondingcurve mode 4 call 24 noop: 1210.1ms
+compress - proved compress:  347ms
+compress - proved compress:  321ms
+UPS_STEP bondingcurve mode 4 call 25 noop: 1256.7ms
+compress - proved compress:  325ms
+compress - proved compress:  343ms
+UPS_STEP bondingcurve mode 4 call 26 noop: 1335.5ms
+compress - proved compress:  318ms
+compress - proved compress:  332ms
+UPS_STEP bondingcurve mode 4 call 27 noop: 1208.7ms
+compress - proved compress:  306ms
+compress - proved compress:  322ms
+UPS_STEP bondingcurve mode 4 call 28 noop: 1130.1ms
+compress - proved compress:  352ms
+compress - proved compress:  341ms
+UPS_STEP bondingcurve mode 4 call 29 noop: 1420.7ms
+compress - proved compress:  307ms
+compress - proved compress:  282ms
+UPS_STEP bondingcurve mode 4 call 30 noop: 1216.6ms
+compress - proved compress:  317ms
+compress - proved compress:  304ms
+UPS_STEP bondingcurve mode 4 call 31 noop: 1215.6ms
+compress - proved compress:  350ms
+compress - proved compress:  287ms
+UPS_STEP bondingcurve mode 4 call 32 noop: 1187.1ms
+compress - proved compress:  338ms
+compress - proved compress:  289ms
+UPS_STEP bondingcurve mode 4 call 33 noop: 1206.1ms
+compress - proved compress:  326ms
+compress - proved compress:  324ms
+UPS_STEP bondingcurve mode 4 call 34 noop: 1298.7ms
+compress - proved compress:  324ms
+compress - proved compress:  300ms
+UPS_STEP bondingcurve mode 4 call 35 noop: 1247.7ms
+compress - proved compress:  340ms
+compress - proved compress:  330ms
+UPS_STEP bondingcurve mode 4 call 36 noop: 1206.8ms
+compress - proved compress:  341ms
+compress - proved compress:  291ms
+UPS_STEP bondingcurve mode 4 call 37 noop: 1244.1ms
+compress - proved compress:  364ms
+compress - proved compress:  368ms
+UPS_STEP bondingcurve mode 4 call 38 noop: 1362.7ms
+compress - proved compress:  359ms
+compress - proved compress:  337ms
+compress - proved compress:  293ms
+compress - proved compress:  278ms
+compress - proved compress:  369ms
+compress - proved compress:  336ms
+FULL_UPS bondingcurve 103184.062167ms
+ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 21 filtered out; finished in 159.26s
+
+      159.28 real       694.39 user        25.16 sys
+          2585526272  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+              280879  page reclaims
+                   1  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+                  15  voluntary context switches
+             3215981  involuntary context switches
+       8414598766862  instructions retired
+       2085152602306  cycles elapsed
+          1622595328  peak memory footprint

@@ -42,6 +42,7 @@ pub fn validate_policy_spec(spec: &Value) -> Result<()> {
 }
 
 pub fn build_policy(spec:&Value)->Result<SDKeyCircuitGadget>{
+ if spec["version"]==2{return crate::batch_policy::build(spec);}
  validate_policy_spec(spec)?;
  let count=spec["tx_count"].as_u64().unwrap_or(0);
  ensure!(spec["version"]==1 && (count==9||(count==10&&spec["market"]=="nftmarket")) && spec["witness_length"]==13,"unsupported policy");

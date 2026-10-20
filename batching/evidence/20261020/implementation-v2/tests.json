@@ -1,0 +1,50 @@
+{
+  "newJs": {
+    "passed": 31,
+    "failed": 0,
+    "log": "/tmp/psy-deterministic-batches-20261020/batch-js-final-v2.log"
+  },
+  "existingModuleJs": {
+    "passed": 126,
+    "failed": 0,
+    "log": "/tmp/psy-deterministic-batches-20261020/legacy-js-final.log"
+  },
+  "realBytecode": {
+    "passedGroups": 18,
+    "failed": 0,
+    "log": "/tmp/psy-deterministic-batches-20261020/lifecycle-final.log"
+  },
+  "sdkey": {
+    "passedRustTests": 1,
+    "positiveStacks": 58,
+    "stackAttacksRejected": true,
+    "log": "/tmp/psy-deterministic-batches-20261020/sdkey-v3.log"
+  },
+  "driverBeforeRpcBinding": {
+    "passedRustTests": 1,
+    "log": "/tmp/psy-deterministic-batches-20261020/driver-binding-final.log"
+  },
+  "completeUpsSize2": {
+    "markets": 4,
+    "proofs": 8,
+    "linkedEndpoints": true,
+    "exportedDeltasVerified": true
+  },
+  "freshVaultRegistrationAndActivation": {
+    "markets": 4,
+    "proofs": 4,
+    "zeroStart": true,
+    "exportedDeltasVerified": true
+  },
+  "vmBenchmark": {
+    "markets": 4,
+    "sizes": [
+      1,
+      2
+    ],
+    "samplesPerCell": 12
+  },
+  "completeUpsSize1": "measurement in progress; not counted as passed",
+  "broadcast": false,
+  "chainTps": null
+}

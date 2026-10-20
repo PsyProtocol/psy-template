@@ -1,0 +1,153 @@
+
+running 1 test
+test full_ups::full_ups_fresh_vault_activation ... FULL_UPS amm {"elapsedMs":63756.390792,"phase":"cold-circuit-build"}
+prove_ups_start - start:  0ms
+prove_ups_start - gen_witness:  0ms
+prove_ups_start - prove_ups_start:  315ms
+prove_ups_start - injest_single_leaf_proof:  0ms
+compress - proved compress:  332ms
+compress - proved compress:  384ms
+UPS_STEP amm mode 4 call 0 noop: 1416.5ms
+compress - proved compress:  363ms
+compress - proved compress:  281ms
+UPS_STEP amm mode 4 call 1 simple_claim: 1208.4ms
+compress - proved compress:  315ms
+compress - proved compress:  274ms
+UPS_STEP amm mode 4 call 2 claim: 1099.7ms
+compress - proved compress:  395ms
+compress - proved compress:  354ms
+UPS_STEP amm mode 4 call 3 claim: 1352.9ms
+compress - proved compress:  337ms
+compress - proved compress:  330ms
+UPS_STEP amm mode 4 call 4 activate_batch_vault: 1336.9ms
+compress - proved compress:  316ms
+compress - proved compress:  283ms
+UPS_STEP amm mode 4 call 5 transfer: 1206.4ms
+compress - proved compress:  304ms
+compress - proved compress:  293ms
+UPS_STEP amm mode 4 call 6 transfer: 1194.5ms
+compress - proved compress:  298ms
+compress - proved compress:  319ms
+UPS_STEP amm mode 4 call 7 noop: 1164.4ms
+compress - proved compress:  361ms
+compress - proved compress:  356ms
+UPS_STEP amm mode 4 call 8 noop: 1279.7ms
+compress - proved compress:  341ms
+compress - proved compress:  321ms
+UPS_STEP amm mode 4 call 9 noop: 1268.4ms
+compress - proved compress:  284ms
+compress - proved compress:  310ms
+UPS_STEP amm mode 4 call 10 noop: 1200.9ms
+compress - proved compress:  325ms
+compress - proved compress:  284ms
+UPS_STEP amm mode 4 call 11 noop: 1232.3ms
+compress - proved compress:  297ms
+compress - proved compress:  285ms
+UPS_STEP amm mode 4 call 12 noop: 1175.3ms
+compress - proved compress:  280ms
+compress - proved compress:  346ms
+UPS_STEP amm mode 4 call 13 noop: 1243.0ms
+compress - proved compress:  352ms
+compress - proved compress:  304ms
+UPS_STEP amm mode 4 call 14 noop: 1223.3ms
+compress - proved compress:  337ms
+compress - proved compress:  307ms
+UPS_STEP amm mode 4 call 15 noop: 1210.6ms
+compress - proved compress:  296ms
+compress - proved compress:  339ms
+UPS_STEP amm mode 4 call 16 noop: 1246.8ms
+compress - proved compress:  286ms
+compress - proved compress:  291ms
+UPS_STEP amm mode 4 call 17 noop: 1108.6ms
+compress - proved compress:  279ms
+compress - proved compress:  279ms
+UPS_STEP amm mode 4 call 18 noop: 1126.6ms
+compress - proved compress:  300ms
+compress - proved compress:  331ms
+UPS_STEP amm mode 4 call 19 noop: 1207.2ms
+compress - proved compress:  314ms
+compress - proved compress:  314ms
+UPS_STEP amm mode 4 call 20 noop: 1230.7ms
+compress - proved compress:  322ms
+compress - proved compress:  322ms
+UPS_STEP amm mode 4 call 21 noop: 1196.7ms
+compress - proved compress:  309ms
+compress - proved compress:  294ms
+UPS_STEP amm mode 4 call 22 noop: 1162.5ms
+compress - proved compress:  291ms
+compress - proved compress:  305ms
+UPS_STEP amm mode 4 call 23 noop: 1205.3ms
+compress - proved compress:  321ms
+compress - proved compress:  295ms
+UPS_STEP amm mode 4 call 24 noop: 1281.5ms
+compress - proved compress:  285ms
+compress - proved compress:  318ms
+UPS_STEP amm mode 4 call 25 noop: 1187.6ms
+compress - proved compress:  265ms
+compress - proved compress:  332ms
+UPS_STEP amm mode 4 call 26 noop: 1157.4ms
+compress - proved compress:  290ms
+compress - proved compress:  281ms
+UPS_STEP amm mode 4 call 27 noop: 1121.3ms
+compress - proved compress:  285ms
+compress - proved compress:  301ms
+UPS_STEP amm mode 4 call 28 noop: 1134.1ms
+compress - proved compress:  280ms
+compress - proved compress:  305ms
+UPS_STEP amm mode 4 call 29 noop: 1191.3ms
+compress - proved compress:  284ms
+compress - proved compress:  295ms
+UPS_STEP amm mode 4 call 30 noop: 1114.0ms
+compress - proved compress:  286ms
+compress - proved compress:  327ms
+UPS_STEP amm mode 4 call 31 noop: 1147.6ms
+compress - proved compress:  326ms
+compress - proved compress:  424ms
+UPS_STEP amm mode 4 call 32 noop: 1536.8ms
+compress - proved compress:  332ms
+compress - proved compress:  312ms
+UPS_STEP amm mode 4 call 33 noop: 1220.8ms
+compress - proved compress:  271ms
+compress - proved compress:  295ms
+UPS_STEP amm mode 4 call 34 noop: 1168.0ms
+compress - proved compress:  303ms
+compress - proved compress:  320ms
+UPS_STEP amm mode 4 call 35 noop: 1168.4ms
+compress - proved compress:  347ms
+compress - proved compress:  418ms
+UPS_STEP amm mode 4 call 36 noop: 1321.7ms
+compress - proved compress:  286ms
+compress - proved compress:  269ms
+UPS_STEP amm mode 4 call 37 noop: 1061.5ms
+compress - proved compress:  317ms
+compress - proved compress:  301ms
+UPS_STEP amm mode 4 call 38 noop: 1140.9ms
+compress - proved compress:  397ms
+compress - proved compress:  356ms
+compress - proved compress:  299ms
+compress - proved compress:  336ms
+compress - proved compress:  357ms
+compress - proved compress:  377ms
+FULL_UPS amm 100254.544166ms
+ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 21 filtered out; finished in 165.77s
+
+      165.80 real       701.43 user        23.72 sys
+          2592915456  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+              310966  page reclaims
+                   0  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+                   2  voluntary context switches
+             3236228  involuntary context switches
+       8501162037211  instructions retired
+       2102389486246  cycles elapsed
+          1689900544  peak memory footprint

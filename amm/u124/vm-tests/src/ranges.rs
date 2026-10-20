@@ -5,7 +5,7 @@ use anyhow::{bail, ensure, Context, Result};
 use std::collections::HashMap;
 use psy_vm::dpn::{
     ops::{op_types::{DPNBuiltInDataType as Type,DPNIndexedVarDef as Node,DPNOpType as Op},
-        state_cmd::{data::{DPNStateCmd as Cmd,DPNStateCmdGetSelfUserExternalContractStateSlotSingle as Single},types::DPNStateCmdCore}},
+        state_cmd::{data::{DPNStateCmd as Cmd,DPNStateCmdGetSelfUserExternalContractStateSlotSingle as Single,DPNStateCmdGetSelfUserCurrentContractStateSlotSingle as CurrentSingle,DPNStateCmdGetOtherUserContractStateSlotSingle as OtherSingle},types::DPNStateCmdCore}},
     vm::def::DPNFunctionCircuitDefinition as Def,
 };
 fn reference(id:u64,map:&HashMap<u64,u64>)->Result<u64>{
@@ -15,13 +15,20 @@ fn push(out:&mut Vec<Node>,next:&mut usize,op:Op,inputs:Vec<u64>)->u64{
     let id=*next as u64;out.push(Node{data_type:Type::Target,index:*next,op_type:op,inputs});*next+=1;id
 }
 pub(crate) fn lower_close_ranges(def:&mut Def)->Result<()> {
-    let ranges=def.state_commands.iter().filter(|c|matches!(c,Cmd::GetSelfUserExternalContractStateSlotRange(_))).count();
+    lower_ranges(def,false)
+}
+pub(crate) fn lower_batch_ranges(def:&mut Def)->Result<()> {
+    lower_ranges(def,true)
+}
+fn lower_ranges(def:&mut Def,batch:bool)->Result<()> {
+    let is_pair=|c:&Cmd<u64>|match c{Cmd::GetSelfUserExternalContractStateSlotRange(c)=>{!batch||c.length==2},Cmd::GetSelfUserCurrentContractStateSlotRange(c)if batch=>c.length==2,Cmd::GetOtherUserContractStateSlotRange(c)if batch=>c.length==2,_=>false};
+    let ranges=def.state_commands.iter().filter(|c|is_pair(c)).count();
     if ranges==0{return Ok(());}
-    ensure!(def.name.starts_with("close_"),"self Token range lowering is limited to close methods");
+    ensure!(batch||def.name.starts_with("close_"),"self Token range lowering is limited to close methods");
     ensure!(def.state_commands.len()==def.state_command_resolution_indices.len(),"resolution index count");
     let mut command_map=Vec::new();let mut count=0usize;
     for c in &def.state_commands {
-        let high=if let Cmd::GetSelfUserExternalContractStateSlotRange(c)=c{ensure!(c.length==2,"only two-limb self reads supported");Some(count+1)}else{None};
+        let high=if is_pair(c){if let Cmd::GetSelfUserExternalContractStateSlotRange(c)=c{ensure!(c.length==2,"only two-limb self reads supported");}Some(count+1)}else{None};
         command_map.push((count,high));count+=if high.is_some(){2}else{1};
     }
     let constants:HashMap<u64,u64>=def.definitions.iter().filter(|n|n.data_type==Type::Target&&n.op_type==Op::Constant).map(|n|(n.index as u64,n.inputs[0])).collect();
@@ -32,11 +39,17 @@ pub(crate) fn lower_close_ranges(def:&mut Def)->Result<()> {
         let reads:Vec<_>=def.state_command_resolution_indices.iter().enumerate().filter_map(|(j,pos)|(*pos==i).then_some(j)).collect();
         for &j in &reads {
             let (low,high)=command_map[j];let original=&def.state_commands[j];
-            if let Cmd::GetSelfUserExternalContractStateSlotRange(c)=original{
-                let cid=reference(c.contract_id,&targets)?;let height=reference(c.contract_state_tree_height,&targets)?;let base=reference(c.sub_slot_index,&targets)?;
+            if high.is_some(){
+                let base=reference(match original{Cmd::GetSelfUserExternalContractStateSlotRange(c)=>c.sub_slot_index,Cmd::GetSelfUserCurrentContractStateSlotRange(c)=>c.sub_slot_index,Cmd::GetOtherUserContractStateSlotRange(c)=>c.sub_slot_index,_=>unreachable!()},&targets)?;
                 let one=push(&mut out,&mut next,Op::Constant,vec![1]);let upper=push(&mut out,&mut next,Op::Add,vec![base,one]);
-                commands[low]=Some(Cmd::GetSelfUserExternalContractStateSlotSingle(Single::new(cid,height,base)));
-                commands[high.unwrap()]=Some(Cmd::GetSelfUserExternalContractStateSlotSingle(Single::new(cid,height,upper)));
+                for(index,offset)in[(low,base),(high.unwrap(),upper)]{
+                    commands[index]=Some(match original{
+                        Cmd::GetSelfUserExternalContractStateSlotRange(c)=>Cmd::GetSelfUserExternalContractStateSlotSingle(Single::new(reference(c.contract_id,&targets)?,reference(c.contract_state_tree_height,&targets)?,offset)),
+                        Cmd::GetSelfUserCurrentContractStateSlotRange(_)=>Cmd::GetSelfUserCurrentContractStateSlotSingle(CurrentSingle::new(offset)),
+                        Cmd::GetOtherUserContractStateSlotRange(c)=>Cmd::GetOtherUserContractStateSlotSingle(OtherSingle::new(reference(c.user_id,&targets)?,reference(c.contract_id,&targets)?,reference(c.contract_state_tree_height,&targets)?,offset)),
+                        _=>unreachable!(),
+                    });
+                }
             }else{
                 let refs=original.get_inputs().into_iter().map(|id|reference(id,&targets)).collect::<Result<Vec<_>>>()?;
                 commands[low]=Some(original.convert_to_u64(&refs));
@@ -52,7 +65,7 @@ pub(crate) fn lower_close_ranges(def:&mut Def)->Result<()> {
                 high_arrays.insert(((node.data_type as u64)<<32)|node.index as u64,high_target);
             }
             node.inputs[0]=low as u64;
-        }else if node.op_type==Op::GetStateCommandResultSingle{
+        }else if node.op_type==Op::GetStateCommandResultSingle||(batch&&node.op_type==Op::GetStateCommandResultHash){
             node.inputs[0]=command_map.get(node.inputs[0] as usize).context("state command ID")?.0 as u64;
         }else if node.op_type==Op::TargetAt&&high_arrays.contains_key(&node.inputs[0]){
             let index=*constants.get(&node.inputs[1]).context("self amount array index must be constant")?;
@@ -64,6 +77,7 @@ pub(crate) fn lower_close_ranges(def:&mut Def)->Result<()> {
                 0|1|2|3|46|47|48=>{},
                 18=>{for id in &mut node.inputs[1..]{ensure!(!high_arrays.contains_key(id),"unsupported whole self array use");*id=reference(*id,&targets)?;}},
                 4|5|6|7|8|9|10|13|14|15|20|23=>{for id in &mut node.inputs{ensure!(!high_arrays.contains_key(id),"unsupported whole self array use");*id=reference(*id,&targets)?;}},
+                16|17|21|22|78 if batch=>{for id in &mut node.inputs{ensure!(!high_arrays.contains_key(id),"unsupported whole self array use");*id=reference(*id,&targets)?;}},
                 _=>bail!("unsupported range lowering opcode {:?}",node.op_type),
             }
         }

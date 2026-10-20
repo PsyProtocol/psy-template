@@ -1,0 +1,153 @@
+
+running 1 test
+test full_ups::full_ups_fresh_vault_activation ... FULL_UPS nftmarket {"elapsedMs":55198.146542,"phase":"cold-circuit-build"}
+prove_ups_start - start:  0ms
+prove_ups_start - gen_witness:  0ms
+prove_ups_start - prove_ups_start:  257ms
+prove_ups_start - injest_single_leaf_proof:  0ms
+compress - proved compress:  325ms
+compress - proved compress:  285ms
+UPS_STEP nftmarket mode 4 call 0 noop: 1137.1ms
+compress - proved compress:  282ms
+compress - proved compress:  280ms
+UPS_STEP nftmarket mode 4 call 1 simple_claim: 1150.9ms
+compress - proved compress:  305ms
+compress - proved compress:  283ms
+UPS_STEP nftmarket mode 4 call 2 acknowledge: 1101.9ms
+compress - proved compress:  326ms
+compress - proved compress:  406ms
+UPS_STEP nftmarket mode 4 call 3 claim: 1327.7ms
+compress - proved compress:  310ms
+compress - proved compress:  341ms
+UPS_STEP nftmarket mode 4 call 4 activate: 1324.2ms
+compress - proved compress:  312ms
+compress - proved compress:  311ms
+UPS_STEP nftmarket mode 4 call 5 transfer: 1278.2ms
+compress - proved compress:  303ms
+compress - proved compress:  321ms
+UPS_STEP nftmarket mode 4 call 6 noop: 1291.1ms
+compress - proved compress:  341ms
+compress - proved compress:  349ms
+UPS_STEP nftmarket mode 4 call 7 noop: 1308.1ms
+compress - proved compress:  361ms
+compress - proved compress:  284ms
+UPS_STEP nftmarket mode 4 call 8 noop: 1221.5ms
+compress - proved compress:  321ms
+compress - proved compress:  330ms
+UPS_STEP nftmarket mode 4 call 9 noop: 1245.5ms
+compress - proved compress:  309ms
+compress - proved compress:  332ms
+UPS_STEP nftmarket mode 4 call 10 noop: 1240.0ms
+compress - proved compress:  280ms
+compress - proved compress:  265ms
+UPS_STEP nftmarket mode 4 call 11 noop: 1138.3ms
+compress - proved compress:  291ms
+compress - proved compress:  337ms
+UPS_STEP nftmarket mode 4 call 12 noop: 1175.7ms
+compress - proved compress:  294ms
+compress - proved compress:  306ms
+UPS_STEP nftmarket mode 4 call 13 noop: 1164.1ms
+compress - proved compress:  381ms
+compress - proved compress:  349ms
+UPS_STEP nftmarket mode 4 call 14 noop: 1378.7ms
+compress - proved compress:  333ms
+compress - proved compress:  275ms
+UPS_STEP nftmarket mode 4 call 15 noop: 1297.5ms
+compress - proved compress:  315ms
+compress - proved compress:  346ms
+UPS_STEP nftmarket mode 4 call 16 noop: 1269.6ms
+compress - proved compress:  287ms
+compress - proved compress:  340ms
+UPS_STEP nftmarket mode 4 call 17 noop: 1249.7ms
+compress - proved compress:  344ms
+compress - proved compress:  365ms
+UPS_STEP nftmarket mode 4 call 18 noop: 1329.7ms
+compress - proved compress:  359ms
+compress - proved compress:  376ms
+UPS_STEP nftmarket mode 4 call 19 noop: 1325.2ms
+compress - proved compress:  356ms
+compress - proved compress:  351ms
+UPS_STEP nftmarket mode 4 call 20 noop: 1282.0ms
+compress - proved compress:  288ms
+compress - proved compress:  320ms
+UPS_STEP nftmarket mode 4 call 21 noop: 1254.0ms
+compress - proved compress:  363ms
+compress - proved compress:  333ms
+UPS_STEP nftmarket mode 4 call 22 noop: 1356.2ms
+compress - proved compress:  341ms
+compress - proved compress:  309ms
+UPS_STEP nftmarket mode 4 call 23 noop: 1203.0ms
+compress - proved compress:  288ms
+compress - proved compress:  277ms
+UPS_STEP nftmarket mode 4 call 24 noop: 1095.2ms
+compress - proved compress:  295ms
+compress - proved compress:  416ms
+UPS_STEP nftmarket mode 4 call 25 noop: 1289.1ms
+compress - proved compress:  289ms
+compress - proved compress:  296ms
+UPS_STEP nftmarket mode 4 call 26 noop: 1087.0ms
+compress - proved compress:  312ms
+compress - proved compress:  308ms
+UPS_STEP nftmarket mode 4 call 27 noop: 1191.1ms
+compress - proved compress:  299ms
+compress - proved compress:  512ms
+UPS_STEP nftmarket mode 4 call 28 noop: 1439.4ms
+compress - proved compress:  304ms
+compress - proved compress:  291ms
+UPS_STEP nftmarket mode 4 call 29 noop: 1157.4ms
+compress - proved compress:  293ms
+compress - proved compress:  358ms
+UPS_STEP nftmarket mode 4 call 30 noop: 1233.0ms
+compress - proved compress:  292ms
+compress - proved compress:  271ms
+UPS_STEP nftmarket mode 4 call 31 noop: 1112.7ms
+compress - proved compress:  352ms
+compress - proved compress:  294ms
+UPS_STEP nftmarket mode 4 call 32 noop: 1200.3ms
+compress - proved compress:  277ms
+compress - proved compress:  328ms
+UPS_STEP nftmarket mode 4 call 33 noop: 1230.3ms
+compress - proved compress:  319ms
+compress - proved compress:  288ms
+UPS_STEP nftmarket mode 4 call 34 noop: 1178.1ms
+compress - proved compress:  349ms
+compress - proved compress:  366ms
+UPS_STEP nftmarket mode 4 call 35 noop: 1307.5ms
+compress - proved compress:  304ms
+compress - proved compress:  328ms
+UPS_STEP nftmarket mode 4 call 36 noop: 1188.2ms
+compress - proved compress:  295ms
+compress - proved compress:  298ms
+UPS_STEP nftmarket mode 4 call 37 noop: 1145.5ms
+compress - proved compress:  312ms
+compress - proved compress:  302ms
+UPS_STEP nftmarket mode 4 call 38 noop: 1275.4ms
+compress - proved compress:  303ms
+compress - proved compress:  322ms
+compress - proved compress:  348ms
+compress - proved compress:  315ms
+compress - proved compress:  281ms
+compress - proved compress:  268ms
+FULL_UPS nftmarket 102108.82525ms
+ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 21 filtered out; finished in 158.36s
+
+      158.38 real       699.09 user        24.86 sys
+          2957049856  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+              277525  page reclaims
+                   0  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+                  12  voluntary context switches
+             3212134  involuntary context switches
+       8490067844848  instructions retired
+       2098380201422  cycles elapsed
+          1880021184  peak memory footprint

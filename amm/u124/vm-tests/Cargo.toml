@@ -38,3 +38,6 @@ futures-util = "0.3"
 reqwest = { version = "=0.12.28", default-features = false, features = ["native-tls"] }
 
 sha2 = "=0.10.9"
+kvq = { path = "../../../../psy-node/client_prover/psy_core/kvq" }
+num-bigint = "=0.4.8"
+num-traits = "=0.2.19"

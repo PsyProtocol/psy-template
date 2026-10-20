@@ -1,12 +1,12 @@
 # 共享金库市场批次 V2：具体改造设计
 
-这是预检后的实施设计，**不是已实现的 ABI 或部署指南**。限制：只改 psy-template 的四个市场、SD-key、应用编译桥和 Executor；保留共享金库；不改 Node、FT 或 NFT；随机排序关闭。
+本设计已进入实现：`batching/v2/` 是独立 `batch-v2` profile，测试与证据范围见 `batching/v2/README.md` 和 `docs/security/MARKET_BATCH_V2_RESULTS_20261020.md`。本文保留预检时的约束及验收目标；未实测的网络指标仍不算完成。限制：只改 psy-template 的四个市场、SD-key、应用编译桥和 Executor；保留共享金库；不改 Node、FT 或 NFT；随机排序关闭。
 
 ## 1. 状态与提交阶段
 
 用户在自己的分区并行下单和付款。Executor 读取同一个 checkpoint 的订单、资金游标和金库状态，生成有边界的候选集合。不同用户分区可以并行证明；同一金库的状态递推仍有前后依赖。
 
-拟新增入口（名字需与最终 ABI 对齐）：
+已生成的主要入口：
 
 - `commit_batch`：只有上一批完成 / 安全超时后才可承诺下一批；保存 batch ID、版本、截止 checkpoint、集合承诺、排序模式、数量、失效时间。
 - `begin_batch`：验证已确认承诺及完整有界候选集合；基于认证订单状态确定顺序、成交和退款结果。
@@ -86,7 +86,7 @@ AMM / Book / Curve 新增明确的用户撤单请求及 checkpoint 标记；NFT 
 
 新增独立版本的 batch policy builder 和 Rust 电路入口；不能给旧 13-Felt witness 塞入未绑定的额外数组。新指纹重新注册是必要步骤，不能沿用旧金库身份授权更宽调用栈。
 
-初版候选：精确 32 个 introspection slots，未用槽只能为绑定本市场的 noop，最终一个自动 burn。固定分支集合及每个动态 slot 的 contract / method / caller / input hash / 输入长度都必须匹配；序号和 batch commitments 必须绑定对应 guard。
+实现：精确 40 个 introspection slots（74-Felt witness；最坏 4 个退款各占 9 槽，加 begin / finish、padding 和 burn），未用槽只能为绑定本市场的 noop，最终一个自动 burn。固定分支集合及每个动态 slot 的 contract / method / caller / input hash / 输入长度都必须匹配；序号和 batch commitments 必须绑定对应 guard。
 
 新 key 是否支持“原金库账户原地换指纹”尚未证明。**保留共享金库架构不等于擅自更换旧账户密钥。** 默认先使用新批次 key 对应的独立共享金库进行离线和隔离验证，旧金库和旧资产可继续领取；任何真实迁移另行提供可审核路径。
 
@@ -94,7 +94,7 @@ AMM / Book / Curve 新增明确的用户撤单请求及 checkpoint 标记；NFT 
 
 ## 6. Executor 与故障恢复
 
-journal 新增批次状态：`discovered → commitment-proved → commitment-intent → commitment-confirmed → settlement-proved → settlement-intent → settlement-confirmed`，另有 `expired / unresolved`。
+复用已有 durable journal，每个 `batch_commit / batch_settle / batch_expire / batch_maintenance` 独立经历 prove、broadcast-intent 和精确回执确认；commit 与 settle 分别记录。未确认 intent 保持 unresolved 并阻止后续 mutation。
 
 候选集合、排序输入、完整请求、batch commitments、驱动 hash 和 guard hash 落盘后保持不变。任何一次广播结果未知，阻止该金库的下一个 mutation；先按精确 end-leaf 回执核对。进程重启不得重选集合，不得把一次 pending 当作可以重发。
 
@@ -133,3 +133,17 @@ journal 新增批次状态：`discovered → commitment-proved → commitment-in
 3. 链上确认的成交 / 秒、用户订单 / 秒及退款 / 秒（含两阶段提交、等待及领取的独立统计）。
 
 相同机器、初始池状态、订单分布和总操作数，对比当前单单与新批次。记录随机种子仅用于**测试数据复现**，绝不能作为市场排序的随机源。用户并行下单与同池有序执行分别测量；递归聚合数量不计为独立成交吞吐。
+
+
+## 9. 实现补充（2026-10-20）
+
+- 上限：AMM / Curve 每批 2 个成员；Book / NFT 每批 4 个成员。Book 的一对交易需要两个成员；NFT 卖方引用也占成员。最多 4 个操作块，每块 9 调用，总计 40 调用含自动 burn。
+- `commit_batch` 只冻结订单和资金，不领取用户订单资产；显式赞助账户预付 2F。F = 1,000,100,000 原生最小单位，预留 commit 和 settle 各一次烧费上界。赞助 `purpose=1` 仅用于 commit，`purpose=2` 仅用于维护补费；授权池、金额和递增 nonce 都进电路。
+- Executor 的 `batchExpiryCheckpoints` 默认 256，允许 1..1024；合约上界 1024。依据实测完整 UPS 成本扩大窗口。部署者必须按实际 checkpoint 频率和证明/重证/等待成本配置，不能把这一数字当作固定秒数。期限是证明上下文语义，未提供可信当前墙钟的全局撤销能力。
+- 新金库先执行显式 activation，真实 materialize 所需市场和资产子树。FT 市场需赞助 F 和每资产 1 最小单位（种子退回）；NFT activation 付款方需为 collection issuer，FT 种子退回。不能直接对未初始化的空外部合约树造读取证明。
+- NFT 买方先 `NFT.acknowledge(vault)`，再 `open_buy`，可放在同一普通用户 UPS；`client.mjs` 已提供入口。
+- 取消/过期/无效资金订单使用统一 `refund_funding_*`，原路退回实际资金和预付原生费；NFT 落选买家同样退款。有效但报价不满足的 AMM / Curve 报价退款仍收取原有处理费，合约验证报价条件。不能以任意退款分支绕过可执行交易。
+- 孤立转入需要原发送者 `request_recovery(pool)`；有尚未终局订单者不能通过恢复入口绕开排序。维护操作仅在无进行中 batch 时执行。
+- NFT 队列满或 commit 后有额外转入会使当前候选不可执行。Scanner 等待接收者领取或期限后 expire，再按新游标重建；不忽略新资金继续领取。Expire 无资产转出，原资金仍有新批次/原路恢复路径。
+- 随机排序未启用。没有认证且不可偏置的 seed 与 commit-before-seed 协议，本实现不使用 Executor 随机数。
+- 分别验证真实 VM、CFC、40-call SD-key、完整 UPS end-cap 及导出 Merkle 状态增量；本地竞争模型不代表真实 coordinator 接纳测试。详细结果单独保存。

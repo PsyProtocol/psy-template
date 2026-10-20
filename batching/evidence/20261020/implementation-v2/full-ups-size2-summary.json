@@ -1,0 +1,110 @@
+[
+  {
+    "market": "amm",
+    "fills": 2,
+    "members": 2,
+    "coldMs": 56190.291625,
+    "commitMs": 108007.810208,
+    "settleMs": 209633.612333,
+    "warmProofFillsPerSecond": 0.006296408018830879,
+    "coldProofFillsPerSecond": 0.0053500008806419775,
+    "proofBytesPerUps": [
+      130328,
+      130328
+    ],
+    "slotsModified": [
+      23,
+      16
+    ],
+    "burn": [
+      1000023000,
+      1000016000
+    ],
+    "samples": 1,
+    "underValidationLoad": true,
+    "chainTps": null,
+    "fullUpsVerified": true,
+    "broadcast": false
+  },
+  {
+    "market": "orderbook",
+    "fills": 2,
+    "members": 4,
+    "coldMs": 52678.272333,
+    "commitMs": 139792.532625,
+    "settleMs": 118175.555208,
+    "warmProofFillsPerSecond": 0.007752896944736567,
+    "coldProofFillsPerSecond": 0.0064381890678881955,
+    "proofBytesPerUps": [
+      130328,
+      130328
+    ],
+    "slotsModified": [
+      29,
+      23
+    ],
+    "burn": [
+      1000029000,
+      1000023000
+    ],
+    "samples": 1,
+    "underValidationLoad": true,
+    "chainTps": null,
+    "fullUpsVerified": true,
+    "broadcast": false
+  },
+  {
+    "market": "bondingcurve",
+    "fills": 2,
+    "members": 2,
+    "coldMs": 52241.5455,
+    "commitMs": 104685.121083,
+    "settleMs": 103086.984292,
+    "warmProofFillsPerSecond": 0.009625931240337946,
+    "coldProofFillsPerSecond": 0.007691903841469801,
+    "proofBytesPerUps": [
+      130328,
+      130328
+    ],
+    "slotsModified": [
+      29,
+      15
+    ],
+    "burn": [
+      1000029000,
+      1000015000
+    ],
+    "samples": 1,
+    "underValidationLoad": true,
+    "chainTps": null,
+    "fullUpsVerified": true,
+    "broadcast": false
+  },
+  {
+    "market": "nftmarket",
+    "fills": 2,
+    "members": 4,
+    "coldMs": 69097.586083,
+    "commitMs": 211586.299333,
+    "settleMs": 150682.220041,
+    "warmProofFillsPerSecond": 0.005520766760125887,
+    "coldProofFillsPerSecond": 0.004636432892383026,
+    "proofBytesPerUps": [
+      130328,
+      130328
+    ],
+    "slotsModified": [
+      38,
+      43
+    ],
+    "burn": [
+      1000038000,
+      1000043000
+    ],
+    "samples": 1,
+    "underValidationLoad": true,
+    "chainTps": null,
+    "fullUpsVerified": true,
+    "broadcast": false
+  }
+]

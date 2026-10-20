@@ -1,0 +1,263 @@
+{
+  "broadcast": false,
+  "fullUpsVerified": true,
+  "market": "orderbook",
+  "measurements": [
+    {
+      "elapsedMs": 46271.23925,
+      "phase": "cold-circuit-build"
+    },
+    {
+      "broadcast": false,
+      "burn": 1000008000,
+      "calls": 40,
+      "elapsedMs": 100934.33525,
+      "endLeaf": "242649772cb059456571e8bc050a8a29cef28bdc9229ff3e50082f82e350a85d",
+      "exportedDeltasVerified": true,
+      "firstUpsRegistration": true,
+      "fullUpsVerified": true,
+      "phase": "maintenance",
+      "proofBytes": 130328,
+      "publicEndpointsBound": true,
+      "slotsModified": 8,
+      "startLeaf": "0000000000000000000000000000000000000000000000000000000000000000",
+      "steps": [
+        {
+          "contract": 1000,
+          "index": 0,
+          "method": "noop",
+          "ms": 1152.824417
+        },
+        {
+          "contract": 0,
+          "index": 1,
+          "method": "simple_claim",
+          "ms": 1184.4418329999999
+        },
+        {
+          "contract": 42,
+          "index": 2,
+          "method": "claim",
+          "ms": 1154.633625
+        },
+        {
+          "contract": 43,
+          "index": 3,
+          "method": "claim",
+          "ms": 1179.868875
+        },
+        {
+          "contract": 1000,
+          "index": 4,
+          "method": "activate_batch_vault",
+          "ms": 1290.4927500000001
+        },
+        {
+          "contract": 42,
+          "index": 5,
+          "method": "transfer",
+          "ms": 1176.861333
+        },
+        {
+          "contract": 43,
+          "index": 6,
+          "method": "transfer",
+          "ms": 1225.4085
+        },
+        {
+          "contract": 1000,
+          "index": 7,
+          "method": "noop",
+          "ms": 1334.3002079999999
+        },
+        {
+          "contract": 1000,
+          "index": 8,
+          "method": "noop",
+          "ms": 1168.532833
+        },
+        {
+          "contract": 1000,
+          "index": 9,
+          "method": "noop",
+          "ms": 1230.6779999999999
+        },
+        {
+          "contract": 1000,
+          "index": 10,
+          "method": "noop",
+          "ms": 1189.720959
+        },
+        {
+          "contract": 1000,
+          "index": 11,
+          "method": "noop",
+          "ms": 1196.211875
+        },
+        {
+          "contract": 1000,
+          "index": 12,
+          "method": "noop",
+          "ms": 1268.204375
+        },
+        {
+          "contract": 1000,
+          "index": 13,
+          "method": "noop",
+          "ms": 1156.0786249999999
+        },
+        {
+          "contract": 1000,
+          "index": 14,
+          "method": "noop",
+          "ms": 1197.051791
+        },
+        {
+          "contract": 1000,
+          "index": 15,
+          "method": "noop",
+          "ms": 1143.262
+        },
+        {
+          "contract": 1000,
+          "index": 16,
+          "method": "noop",
+          "ms": 1107.577333
+        },
+        {
+          "contract": 1000,
+          "index": 17,
+          "method": "noop",
+          "ms": 1184.454625
+        },
+        {
+          "contract": 1000,
+          "index": 18,
+          "method": "noop",
+          "ms": 1199.031792
+        },
+        {
+          "contract": 1000,
+          "index": 19,
+          "method": "noop",
+          "ms": 1216.3719580000002
+        },
+        {
+          "contract": 1000,
+          "index": 20,
+          "method": "noop",
+          "ms": 1139.182916
+        },
+        {
+          "contract": 1000,
+          "index": 21,
+          "method": "noop",
+          "ms": 1127.9392500000001
+        },
+        {
+          "contract": 1000,
+          "index": 22,
+          "method": "noop",
+          "ms": 1120.92025
+        },
+        {
+          "contract": 1000,
+          "index": 23,
+          "method": "noop",
+          "ms": 1329.1680000000001
+        },
+        {
+          "contract": 1000,
+          "index": 24,
+          "method": "noop",
+          "ms": 1294.243125
+        },
+        {
+          "contract": 1000,
+          "index": 25,
+          "method": "noop",
+          "ms": 1272.727666
+        },
+        {
+          "contract": 1000,
+          "index": 26,
+          "method": "noop",
+          "ms": 1185.060583
+        },
+        {
+          "contract": 1000,
+          "index": 27,
+          "method": "noop",
+          "ms": 1245.792833
+        },
+        {
+          "contract": 1000,
+          "index": 28,
+          "method": "noop",
+          "ms": 1244.094708
+        },
+        {
+          "contract": 1000,
+          "index": 29,
+          "method": "noop",
+          "ms": 1332.569334
+        },
+        {
+          "contract": 1000,
+          "index": 30,
+          "method": "noop",
+          "ms": 1275.068542
+        },
+        {
+          "contract": 1000,
+          "index": 31,
+          "method": "noop",
+          "ms": 1661.722666
+        },
+        {
+          "contract": 1000,
+          "index": 32,
+          "method": "noop",
+          "ms": 1302.0488750000002
+        },
+        {
+          "contract": 1000,
+          "index": 33,
+          "method": "noop",
+          "ms": 1144.8930420000002
+        },
+        {
+          "contract": 1000,
+          "index": 34,
+          "method": "noop",
+          "ms": 1110.533625
+        },
+        {
+          "contract": 1000,
+          "index": 35,
+          "method": "noop",
+          "ms": 1115.277208
+        },
+        {
+          "contract": 1000,
+          "index": 36,
+          "method": "noop",
+          "ms": 1248.27775
+        },
+        {
+          "contract": 1000,
+          "index": 37,
+          "method": "noop",
+          "ms": 1259.7226249999999
+        },
+        {
+          "contract": 1000,
+          "index": 38,
+          "method": "noop",
+          "ms": 1142.732
+        }
+      ]
+    }
+  ],
+  "scope": "fresh synthetic user, complete 40-call activation UPS and exported deltas"
+}

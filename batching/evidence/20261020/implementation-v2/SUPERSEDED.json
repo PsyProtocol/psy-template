@@ -1,0 +1,8 @@
+{
+  "files": [
+    "vm-benchmark-upper-median-superseded.json",
+    "vm-benchmark-runtime-superseded.log"
+  ],
+  "reason": "first summary used upper middle sample for even n=12; final benchmark uses midpoint median and records all raw samples",
+  "useForAcceptance": false
+}

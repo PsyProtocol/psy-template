@@ -1,0 +1,11 @@
+{
+  "sha256": "511b210b22c0854c3c7c5adb77632e743156b2e6d610685f4f4b638386f4fc54",
+  "runs": [
+    "vm-benchmark-v2-final",
+    "activation-v22-orderbook",
+    "activation-v22-bondingcurve",
+    "activation-v22-nftmarket",
+    "full-ups-v22-size1"
+  ],
+  "scope": "final cache and registration-aware synthetic UPS proof harness; size2 proof artifacts match fixtures but used the earlier cache-retaining harness"
+}

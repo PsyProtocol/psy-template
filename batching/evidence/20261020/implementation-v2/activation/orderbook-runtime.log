@@ -1,0 +1,153 @@
+
+running 1 test
+test full_ups::full_ups_fresh_vault_activation ... FULL_UPS orderbook {"elapsedMs":46271.23925,"phase":"cold-circuit-build"}
+prove_ups_start - start:  0ms
+prove_ups_start - gen_witness:  0ms
+prove_ups_start - prove_ups_start:  296ms
+prove_ups_start - injest_single_leaf_proof:  0ms
+compress - proved compress:  298ms
+compress - proved compress:  285ms
+UPS_STEP orderbook mode 4 call 0 noop: 1152.8ms
+compress - proved compress:  280ms
+compress - proved compress:  305ms
+UPS_STEP orderbook mode 4 call 1 simple_claim: 1184.4ms
+compress - proved compress:  284ms
+compress - proved compress:  310ms
+UPS_STEP orderbook mode 4 call 2 claim: 1154.6ms
+compress - proved compress:  290ms
+compress - proved compress:  294ms
+UPS_STEP orderbook mode 4 call 3 claim: 1179.8ms
+compress - proved compress:  354ms
+compress - proved compress:  334ms
+UPS_STEP orderbook mode 4 call 4 activate_batch_vault: 1290.4ms
+compress - proved compress:  287ms
+compress - proved compress:  309ms
+UPS_STEP orderbook mode 4 call 5 transfer: 1176.8ms
+compress - proved compress:  296ms
+compress - proved compress:  271ms
+UPS_STEP orderbook mode 4 call 6 transfer: 1225.3ms
+compress - proved compress:  400ms
+compress - proved compress:  335ms
+UPS_STEP orderbook mode 4 call 7 noop: 1334.3ms
+compress - proved compress:  287ms
+compress - proved compress:  271ms
+UPS_STEP orderbook mode 4 call 8 noop: 1168.5ms
+compress - proved compress:  364ms
+compress - proved compress:  301ms
+UPS_STEP orderbook mode 4 call 9 noop: 1230.6ms
+compress - proved compress:  303ms
+compress - proved compress:  346ms
+UPS_STEP orderbook mode 4 call 10 noop: 1189.7ms
+compress - proved compress:  334ms
+compress - proved compress:  299ms
+UPS_STEP orderbook mode 4 call 11 noop: 1196.2ms
+compress - proved compress:  311ms
+compress - proved compress:  352ms
+UPS_STEP orderbook mode 4 call 12 noop: 1268.2ms
+compress - proved compress:  313ms
+compress - proved compress:  302ms
+UPS_STEP orderbook mode 4 call 13 noop: 1156.0ms
+compress - proved compress:  316ms
+compress - proved compress:  326ms
+UPS_STEP orderbook mode 4 call 14 noop: 1197.0ms
+compress - proved compress:  277ms
+compress - proved compress:  306ms
+UPS_STEP orderbook mode 4 call 15 noop: 1143.2ms
+compress - proved compress:  309ms
+compress - proved compress:  290ms
+UPS_STEP orderbook mode 4 call 16 noop: 1107.5ms
+compress - proved compress:  301ms
+compress - proved compress:  313ms
+UPS_STEP orderbook mode 4 call 17 noop: 1184.4ms
+compress - proved compress:  339ms
+compress - proved compress:  307ms
+UPS_STEP orderbook mode 4 call 18 noop: 1199.0ms
+compress - proved compress:  294ms
+compress - proved compress:  388ms
+UPS_STEP orderbook mode 4 call 19 noop: 1216.3ms
+compress - proved compress:  279ms
+compress - proved compress:  284ms
+UPS_STEP orderbook mode 4 call 20 noop: 1139.1ms
+compress - proved compress:  282ms
+compress - proved compress:  283ms
+UPS_STEP orderbook mode 4 call 21 noop: 1127.9ms
+compress - proved compress:  310ms
+compress - proved compress:  286ms
+UPS_STEP orderbook mode 4 call 22 noop: 1120.9ms
+compress - proved compress:  314ms
+compress - proved compress:  348ms
+UPS_STEP orderbook mode 4 call 23 noop: 1329.1ms
+compress - proved compress:  326ms
+compress - proved compress:  371ms
+UPS_STEP orderbook mode 4 call 24 noop: 1294.2ms
+compress - proved compress:  327ms
+compress - proved compress:  328ms
+UPS_STEP orderbook mode 4 call 25 noop: 1271.9ms
+compress - proved compress:  294ms
+compress - proved compress:  279ms
+UPS_STEP orderbook mode 4 call 26 noop: 1185.0ms
+compress - proved compress:  306ms
+compress - proved compress:  352ms
+UPS_STEP orderbook mode 4 call 27 noop: 1245.8ms
+compress - proved compress:  297ms
+compress - proved compress:  314ms
+UPS_STEP orderbook mode 4 call 28 noop: 1244.1ms
+compress - proved compress:  298ms
+compress - proved compress:  400ms
+UPS_STEP orderbook mode 4 call 29 noop: 1332.5ms
+compress - proved compress:  318ms
+compress - proved compress:  334ms
+UPS_STEP orderbook mode 4 call 30 noop: 1275.0ms
+compress - proved compress:  553ms
+compress - proved compress:  375ms
+UPS_STEP orderbook mode 4 call 31 noop: 1661.7ms
+compress - proved compress:  389ms
+compress - proved compress:  320ms
+UPS_STEP orderbook mode 4 call 32 noop: 1302.0ms
+compress - proved compress:  330ms
+compress - proved compress:  284ms
+UPS_STEP orderbook mode 4 call 33 noop: 1144.9ms
+compress - proved compress:  266ms
+compress - proved compress:  291ms
+UPS_STEP orderbook mode 4 call 34 noop: 1110.5ms
+compress - proved compress:  300ms
+compress - proved compress:  314ms
+UPS_STEP orderbook mode 4 call 35 noop: 1115.2ms
+compress - proved compress:  298ms
+compress - proved compress:  334ms
+UPS_STEP orderbook mode 4 call 36 noop: 1248.2ms
+compress - proved compress:  339ms
+compress - proved compress:  335ms
+UPS_STEP orderbook mode 4 call 37 noop: 1259.7ms
+compress - proved compress:  309ms
+compress - proved compress:  299ms
+UPS_STEP orderbook mode 4 call 38 noop: 1142.7ms
+compress - proved compress:  374ms
+compress - proved compress:  279ms
+compress - proved compress:  285ms
+compress - proved compress:  318ms
+compress - proved compress:  386ms
+compress - proved compress:  294ms
+FULL_UPS orderbook 100934.33525ms
+ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 21 filtered out; finished in 148.37s
+
+      148.40 real       668.39 user        23.34 sys
+          2636300288  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+              253065  page reclaims
+                   0  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+                   1  voluntary context switches
+             3018885  involuntary context switches
+       8155797638608  instructions retired
+       2006741961843  cycles elapsed
+          1550997120  peak memory footprint

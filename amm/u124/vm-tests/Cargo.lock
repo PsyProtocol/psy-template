@@ -5324,6 +5324,9 @@ dependencies = [
 name = "psy-template-u124-markets"
 version = "0.1.0"
 dependencies = [
+ "kvq",
+ "num-bigint 0.4.8",
+ "num-traits",
  "anyhow",
  "bincode",
  "futures-util",

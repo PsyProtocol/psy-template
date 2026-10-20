@@ -50,7 +50,13 @@
     "build:token-wide-private:toolchain": "node token/wide/private/prepare-toolchain.mjs",
     "build:token-wide-private": "node token/wide/private/build.mjs",
     "test:token-wide-private": "node --test token/wide/private/*.test.mjs",
-    "test:token-wide-private:vm": "cargo +nightly-2025-09-20 test --offline --locked --release --manifest-path token/wide/private/vm-tests/Cargo.toml --test privacy --test public_token --test test_policy -- --test-threads=1"
+    "test:token-wide-private:vm": "cargo +nightly-2025-09-20 test --offline --locked --release --manifest-path token/wide/private/vm-tests/Cargo.toml --test privacy --test public_token --test test_policy -- --test-threads=1",
+    "build:markets-batch": "node batching/v2/build.mjs",
+    "test:markets-batch": "node --test batching/v2/*.test.mjs",
+    "test:markets-batch:vm": "cargo +nightly-2025-09-20 test --offline --locked --release --manifest-path amm/u124/vm-tests/Cargo.toml --test batch_lifecycle -- --skip full_ups --skip authenticated_commit --test-threads=1",
+    "test:markets-batch:sdkey": "cargo +nightly-2025-09-20 test --offline --locked --release --manifest-path amm/u124/vm-tests/Cargo.toml --test batch_sdkey -- --test-threads=1",
+    "test:markets-batch:ups": "cargo +nightly-2025-09-20 test --offline --locked --release --manifest-path amm/u124/vm-tests/Cargo.toml --test batch_lifecycle full_ups_four_market -- --test-threads=1",
+    "bench:markets-batch:vm": "cargo +nightly-2025-09-20 test --offline --locked --release --manifest-path amm/u124/vm-tests/Cargo.toml --test batch_lifecycle bytecode_batch_throughput_benchmark -- --ignored --test-threads=1"
   },
   "author": "Psy Protocol",
   "license": "MIT"

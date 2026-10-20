@@ -1,0 +1,24 @@
+
+running 1 test
+test bytecode_batch_throughput_benchmark ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 21 filtered out; finished in 5.61s
+
+        5.96 real         4.42 user         0.89 sys
+          1195294720  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+              304080  page reclaims
+                   0  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+                  31  voluntary context switches
+               15883  involuntary context switches
+         68915575952  instructions retired
+         16496711658  cycles elapsed
+          1151339648  peak memory footprint

@@ -1,0 +1,263 @@
+{
+  "broadcast": false,
+  "fullUpsVerified": true,
+  "market": "nftmarket",
+  "measurements": [
+    {
+      "elapsedMs": 55198.146542,
+      "phase": "cold-circuit-build"
+    },
+    {
+      "broadcast": false,
+      "burn": 1000007000,
+      "calls": 40,
+      "elapsedMs": 102108.82525,
+      "endLeaf": "8383f74e24ae3dc4ca978cc6d3daffec6958db3206235a0f7e3ac2f10484baab",
+      "exportedDeltasVerified": true,
+      "firstUpsRegistration": true,
+      "fullUpsVerified": true,
+      "phase": "maintenance",
+      "proofBytes": 130328,
+      "publicEndpointsBound": true,
+      "slotsModified": 7,
+      "startLeaf": "0000000000000000000000000000000000000000000000000000000000000000",
+      "steps": [
+        {
+          "contract": 1000,
+          "index": 0,
+          "method": "noop",
+          "ms": 1137.128833
+        },
+        {
+          "contract": 0,
+          "index": 1,
+          "method": "simple_claim",
+          "ms": 1150.998125
+        },
+        {
+          "contract": 41,
+          "index": 2,
+          "method": "acknowledge",
+          "ms": 1101.972709
+        },
+        {
+          "contract": 42,
+          "index": 3,
+          "method": "claim",
+          "ms": 1327.723542
+        },
+        {
+          "contract": 1000,
+          "index": 4,
+          "method": "activate",
+          "ms": 1324.213875
+        },
+        {
+          "contract": 42,
+          "index": 5,
+          "method": "transfer",
+          "ms": 1278.24725
+        },
+        {
+          "contract": 1000,
+          "index": 6,
+          "method": "noop",
+          "ms": 1291.149583
+        },
+        {
+          "contract": 1000,
+          "index": 7,
+          "method": "noop",
+          "ms": 1308.118125
+        },
+        {
+          "contract": 1000,
+          "index": 8,
+          "method": "noop",
+          "ms": 1221.509334
+        },
+        {
+          "contract": 1000,
+          "index": 9,
+          "method": "noop",
+          "ms": 1245.561917
+        },
+        {
+          "contract": 1000,
+          "index": 10,
+          "method": "noop",
+          "ms": 1240.0374590000001
+        },
+        {
+          "contract": 1000,
+          "index": 11,
+          "method": "noop",
+          "ms": 1138.340541
+        },
+        {
+          "contract": 1000,
+          "index": 12,
+          "method": "noop",
+          "ms": 1175.698417
+        },
+        {
+          "contract": 1000,
+          "index": 13,
+          "method": "noop",
+          "ms": 1164.1585
+        },
+        {
+          "contract": 1000,
+          "index": 14,
+          "method": "noop",
+          "ms": 1378.838333
+        },
+        {
+          "contract": 1000,
+          "index": 15,
+          "method": "noop",
+          "ms": 1297.5870839999998
+        },
+        {
+          "contract": 1000,
+          "index": 16,
+          "method": "noop",
+          "ms": 1269.618917
+        },
+        {
+          "contract": 1000,
+          "index": 17,
+          "method": "noop",
+          "ms": 1249.7442919999999
+        },
+        {
+          "contract": 1000,
+          "index": 18,
+          "method": "noop",
+          "ms": 1329.699
+        },
+        {
+          "contract": 1000,
+          "index": 19,
+          "method": "noop",
+          "ms": 1325.23075
+        },
+        {
+          "contract": 1000,
+          "index": 20,
+          "method": "noop",
+          "ms": 1282.09425
+        },
+        {
+          "contract": 1000,
+          "index": 21,
+          "method": "noop",
+          "ms": 1254.063208
+        },
+        {
+          "contract": 1000,
+          "index": 22,
+          "method": "noop",
+          "ms": 1356.212875
+        },
+        {
+          "contract": 1000,
+          "index": 23,
+          "method": "noop",
+          "ms": 1203.061834
+        },
+        {
+          "contract": 1000,
+          "index": 24,
+          "method": "noop",
+          "ms": 1095.266291
+        },
+        {
+          "contract": 1000,
+          "index": 25,
+          "method": "noop",
+          "ms": 1289.118708
+        },
+        {
+          "contract": 1000,
+          "index": 26,
+          "method": "noop",
+          "ms": 1087.045833
+        },
+        {
+          "contract": 1000,
+          "index": 27,
+          "method": "noop",
+          "ms": 1191.133959
+        },
+        {
+          "contract": 1000,
+          "index": 28,
+          "method": "noop",
+          "ms": 1439.454709
+        },
+        {
+          "contract": 1000,
+          "index": 29,
+          "method": "noop",
+          "ms": 1157.386
+        },
+        {
+          "contract": 1000,
+          "index": 30,
+          "method": "noop",
+          "ms": 1233.0570409999998
+        },
+        {
+          "contract": 1000,
+          "index": 31,
+          "method": "noop",
+          "ms": 1112.7100409999998
+        },
+        {
+          "contract": 1000,
+          "index": 32,
+          "method": "noop",
+          "ms": 1200.335583
+        },
+        {
+          "contract": 1000,
+          "index": 33,
+          "method": "noop",
+          "ms": 1230.369917
+        },
+        {
+          "contract": 1000,
+          "index": 34,
+          "method": "noop",
+          "ms": 1178.177333
+        },
+        {
+          "contract": 1000,
+          "index": 35,
+          "method": "noop",
+          "ms": 1307.527292
+        },
+        {
+          "contract": 1000,
+          "index": 36,
+          "method": "noop",
+          "ms": 1188.2300830000001
+        },
+        {
+          "contract": 1000,
+          "index": 37,
+          "method": "noop",
+          "ms": 1145.593917
+        },
+        {
+          "contract": 1000,
+          "index": 38,
+          "method": "noop",
+          "ms": 1275.446792
+        }
+      ]
+    }
+  ],
+  "scope": "fresh synthetic user, complete 40-call activation UPS and exported deltas"
+}
