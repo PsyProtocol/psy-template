@@ -18,6 +18,7 @@ for i,profile in enumerate(profiles):
  directory=args.out/f'{i+1}-{profile}';log=args.out/f'{i+1}-{profile}.log'
  env={**os.environ,'RAYON_NUM_THREADS':'4','BATCH_BUILD':str(args.fixtures),'BATCH_FULL_UPS_MARKETS':','.join(markets),'BATCH_FULL_UPS_SIZE':'2','BATCH_FULL_UPS_OUT':str(directory),'BATCH_PROOF_PROFILE':profile}
  env.pop('BATCH_ADMISSION_TEST',None)
+ env.pop('BATCH_UPS_SPREAD_IDS',None)
  start=time.time();load=os.getloadavg()
  with log.open('xb') as stream:
   r=subprocess.run([str(args.binary),'full_ups_four_market_commit_and_settle_proofs','--nocapture','--test-threads=1'],env=env,stdout=stream,stderr=subprocess.STDOUT)

@@ -1,5 +1,30 @@
 //! Accepted queue scope; not all submitted intents. Actual VM bytecode.
 use super::*;
+#[test]
+#[ignore="requires distinct admission fixtures"]
+fn admitted_nft_missing_seller_can_only_refund_without_aliasing_row_zero()->Result<()>{
+ ensure!(std::env::var("BATCH_ADMISSION_TEST").as_deref()==Ok("1"),"distinct admission fixtures required");
+ // A buyer may be the only accepted member. Its intended seller is outside
+ // the sealed scope: the executor must neither inject that seller nor lock it.
+ for unrelated_listing in [false,true]{
+  let(mut w,_,_,_)=super::full_ups::trading_setup_size("nftmarket",2)?;
+  let price=w.wide(203,"price");let before=w.balance(203,A)+price;
+  let users=if unrelated_listing{vec![200,203]}else{vec![203]};
+  w.commit(&users)?;let frozen=w.slots.clone();
+  let forged=w.fields("settle_sale",if unrelated_listing{200}else{202},203,price,0,0,0,1,1);
+  assert!(w.settle(vec![forged],[0;4]).is_err());assert_eq!(w.slots,frozen);
+  let refund=w.fields("refund_funding_5",203,0,price,0,0,F,1,0);
+  let mut redirect=refund.clone();redirect[1]=201;
+  assert!(w.settle(vec![redirect],[0;4]).is_err());assert_eq!(w.slots,frozen);
+  w.settle(vec![refund.clone()],[0;4])?;
+  assert_eq!(w.val(V,"queue_phase",0),3);assert_eq!(w.val(V,"consumed",203),1);
+  assert_eq!(w.val(V,"queue_outcome",(users.len()-1)as u64),2);
+  if unrelated_listing{assert_eq!(w.val(V,"queue_outcome",0),3);assert_eq!(w.val(V,"consumed",200),0);}
+  w.run(203,A,"claim",&[V])?;assert_eq!(w.balance(203,A),before);
+  assert!(w.settle(vec![refund],[0;4]).is_err());
+ }
+ Ok(())
+}
 pub(super) fn enroll(w:&mut World,users:&[u64])->Result<()>{
  let epoch=w.val(V,"queue_epoch",0)+1;let cutoff=w.checkpoint+2;w.run(V,M,"start_epoch",&[epoch,cutoff])?;
  for u in users.iter().rev(){w.run(*u,M,"request_admission",&[epoch,cutoff])?;w.run(V,M,"admit_entry",&[*u,w.val(*u,"nonce",0)])?;}

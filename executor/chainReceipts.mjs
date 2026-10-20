@@ -9,9 +9,10 @@ export async function receiptReader(rpcConfig,{fetchImpl=fetch,maxPages=20}={}) 
  const network=c.networks[c.defaultNetwork];
  if(!network?.api_services_url?.[0])throw Error('services URL missing');
  const get=(url,body)=>retryRead(async()=>{const r=await fetchImpl(url,body?{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(body),signal:AbortSignal.timeout(15000)}:{signal:AbortSignal.timeout(15000)});if(!r.ok){const error=Error(`HTTP ${r.status}`);error.status=r.status;throw error;}const v=await r.json();if(v.error)throw Error(JSON.stringify(v.error));return v;});
- return async({userId,endUserLeafHash})=>{
+ return async({userId,endUserLeafHash,minCheckpoint=0})=>{
   if(!endUserLeafHash)return {status:'unresolved',reason:'no deterministic leaf recorded; operator reconciliation required'};
   if(!Number.isSafeInteger(userId)||userId<1||userId>=16777216||!(/^[0-9a-f]{64}$/i).test(endUserLeafHash))throw Error('invalid receipt identity');
+  if(!Number.isSafeInteger(minCheckpoint)||minCheckpoint<0)throw Error('invalid receipt source checkpoint bound');
   const services=network.api_services_url[0].replace(/\/$/,'');
   const realm=network.realm_configs.find(x=>x.id===Math.floor(userId/network.users_per_realm));
   if(!realm?.rpc_url?.[0])throw Error('user realm missing');
@@ -26,6 +27,10 @@ export async function receiptReader(rpcConfig,{fetchImpl=fetch,maxPages=20}={}) 
    pages.add(signature);
    const events=data.items.filter(event=>{
     if(!event||typeof event!=='object')return false;
+    // A verified UPS source is a lower bound for its inclusion checkpoint.
+    // Skip only impossible older candidates; retain full pagination, exact
+    // historical leaf matching and content-hash receipt validation.
+    if(minCheckpoint>0&&(!Number.isSafeInteger(event.included_checkpoint_id)||event.included_checkpoint_id<minCheckpoint))return false;
     const key=JSON.stringify([event.tx_type,event.owner_user_id,event.included_checkpoint_id,event.content_hash]);
     if(seen.has(key))return false;seen.add(key);return true;
    });

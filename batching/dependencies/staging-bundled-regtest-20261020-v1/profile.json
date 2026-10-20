@@ -1,0 +1,13 @@
+{
+  "schema": "explicit-isolated-test-profile-v1",
+  "name": "staging-bundled-regtest-20261020-v1",
+  "expectedNetworkMagic": "1384803358401154921",
+  "expectedNodeBundleFingerprint": "d8c6bb2df3bde570c618b9ebb297cf5743e1b017481e0d73ca558209538cb5f7",
+  "runtimeImageAttested": false,
+  "automaticFallback": false,
+  "sourceCommit": "6eb535003bdab1fcdb27386dbcb93e8aa9727998",
+  "oldRequestDisposition": "Bob received explicit -32001 cryptographic rejection; no successful receipt, native claim cursor and user leaf remain zero",
+  "sameNewTestPublicIdentity": "dba9803e86aebd0664cb74a6c997918632fa87bb881b2865eed214e13ce459cd",
+  "originalArtifactsPreserved": true,
+  "nativeDomainStillRequiresRuntimeAcceptance": true
+}

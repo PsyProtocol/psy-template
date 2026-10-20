@@ -33,6 +33,13 @@ test('receipt older than the latest 100 events is recovered with exact historica
  const read=await receiptReader(config,io),result=await read({userId,endUserLeafHash:leaf});
  assert.equal(result.status,'included');assert.equal(result.checkpoint,101);assert.deepEqual(io.offsets,[0,100]);
 }));
+test('verified source bound skips older leaf RPCs without dropping pages or receipt validation',()=>fixture(async config=>{
+ const pages=offset=>offset===0?{items:Array.from({length:100},(_,i)=>event(i+1)),has_next:true}:{items:[event(101)],has_next:false};
+ const io=fetcher({pages});const result=await(await receiptReader(config,io))({userId,endUserLeafHash:leaf,minCheckpoint:101});
+ assert.equal(result.status,'included');assert.deepEqual(io.offsets,[0,100]);assert.deepEqual(io.reads,[101]);
+ const bad=fetcher({pages,receiptPatch:{owner_user_id:124}});assert.equal((await(await receiptReader(config,bad))({userId,endUserLeafHash:leaf,minCheckpoint:101})).status,'unresolved');
+ const reader=await receiptReader(config,{fetchImpl:async()=>assert.fail('invalid bound cannot issue RPC')});await assert.rejects(reader({userId,endUserLeafHash:leaf,minCheckpoint:-1}),/source checkpoint/);
+}));
 test('pagination stops at advertised final page and does not confuse a matching leaf with a mismatched receipt',()=>fixture(async config=>{
  const io=fetcher({pages:()=>({items:[event(101)],has_next:false}),receiptPatch:{owner_user_id:124}});
  const result=await (await receiptReader(config,io))({userId,endUserLeafHash:leaf});
