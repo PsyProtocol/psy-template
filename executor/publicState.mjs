@@ -20,6 +20,7 @@ export async function publicState(rpcConfig) {
   for(const name of names)if(!map.has(name))throw Error(`ABI field missing: ${name}`);
   return Object.fromEntries(await readTogether(names.map(async name=>[name,await slot(userId,contractId,map.get(name))])));}
  return {networkName:config.defaultNetwork,network,checkpoint,heads,rpc,coordinator,slot,fields,
+  contractStateRoot:async(userId,contractId)=>{bounded(userId,'user ID',1);bounded(contractId,'contract ID');const url=realm(userId);if(!url)throw Error('unsupported user realm');const key=`root:${userId}:${contractId}`;if(!cache.has(key))cache.set(key,rpc(url,'psy_get_user_contract_tree_leaf_hash',{checkpoint_id:checkpoint,user_id:userId,contract_id:contractId}));const root=await cache.get(key);if(typeof root!=='string'||!/^[0-9a-fA-F]{64}$/.test(root))throw Error('invalid user contract root');return root.toLowerCase();},
   contractLeaf:async id=>rpc(coordinator,'psy_get_contract_leaf_data',{contract_id:bounded(id,'contract ID')}),
   userIds:async hash=>{if(typeof hash!=='string'||!(/^[0-9a-f]{64}$/i).test(hash))throw Error('invalid public key hash');return rpc(coordinator,'psy_get_user_ids_for_public_key',[hash,0,64]);}};
 }

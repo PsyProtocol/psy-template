@@ -1,0 +1,3 @@
+use anyhow::{ensure,Result};
+use std::{env,fs,path::PathBuf};
+fn main()->Result<()>{let a:Vec<_>=env::args().collect();if a.len()==2&&a[1]=="network-magic"{println!("{}",psy_config::PSY_NETWORK_MAGIC);return Ok(());}ensure!(a.len()==6,"compile_batch source fresh-dir asset-a asset-b nft:0|1");ensure!(a[5]=="0"||a[5]=="1","profile flag");let out=psy_template_u124_markets::batch_compile::compile(&fs::read_to_string(&a[1])?,a[3].parse()?,a[4].parse()?,a[5]=="1")?;let p=PathBuf::from(&a[2]);fs::create_dir(&p)?;fs::write(p.join("compilation_artifact.json"),out.to_compilation_artifact_json()?)?;println!("Compiled {} batch methods",out.method_count());Ok(())}

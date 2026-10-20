@@ -1,4 +1,6 @@
 pub mod proof_binding;
+pub mod batch_compile;
+pub mod batch_policy;
 pub mod submission_guard;
 pub mod policy;
 pub mod runtime;
@@ -19,9 +21,9 @@ fn prepend_height(def:&mut DPNFunctionCircuitDefinition,height:u64)->Result<()> 
  for n in &mut def.definitions {
   if n.data_type==DPNBuiltInDataType::Target{n.index+=1;}
   match n.op_type as u16 {
-   0|1|2|3|46|47|48|54|55=>{},
+   0|1|2|3|46|47|48|53|54|55=>{},
    18=>{for id in &mut n.inputs[1..]{*id=felt_ref(*id);}},
-   4|5|6|7|8|9|10|13|14|15|16|17|20|23=>{for id in &mut n.inputs{*id=felt_ref(*id);}},
+   4|5|6|7|8|9|10|13|14|15|16|17|20|21|22|23|78=>{for id in &mut n.inputs{*id=felt_ref(*id);}},
    _=>bail!("unsupported rebase opcode {:?} in {}",n.op_type,def.name),
   }
  }

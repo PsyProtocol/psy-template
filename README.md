@@ -22,6 +22,8 @@ The [U124 Token](token/wide/README.md) represents balances as two Felt limbs: `l
 
 The [NFT Marketplace](nft-marketplace/README.md) adds fixed-price NFT v3 sales paid with U124 FT, signed cancellation, expired/stale-order refunds and an exact ten-call public SD-key policy. Version 3 initializes the public vault atomically before order funding, preserving the 22-field layout. Marketplace 2452 / vault 1256000 has verified live settlement and cancellation/refund paths; see the [current acceptance report](nft-marketplace/verification/2026-10-14-production-01/REPORT.md). Earlier failed deployments and proofs are retained as historical evidence.
 
+The [deterministic market batch profile](batching/v2/README.md) adds authenticated order-set commitments, sequential shared-vault settlement, exact 40-call SD-key policies and durable Executor recovery for AMM, Orderbook, Bonding Curve and NFT Market. It is a separate offline-verified candidate; random ordering is disabled and chain-confirmed batch TPS is not measured. See the [implementation and verification report](docs/security/MARKET_BATCH_V2_RESULTS_20261020.md).
+
 The [production acceptance checklist](PRODUCTION_READINESS.md) distinguishes engineering verification from independent security, upgrade-authority and availability/capacity acceptance. Application root checks do not by themselves freeze contract code on chain.
 
 ---

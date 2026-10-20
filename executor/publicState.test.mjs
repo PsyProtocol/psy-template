@@ -70,3 +70,10 @@ test('invalid identifiers, slot indices and key hashes fail before issuing addit
  await assert.rejects(s.fields(10,64,{contract:{state:[{name:'same',offset:0},{name:'same',offset:4}]}},['same']),/duplicate ABI/);
  assert.equal(calls,before);
 }));
+
+test('asset initialization reads coalesce authenticated-root candidates at the fixed checkpoint and reject malformed hashes',()=>fixture(async config=>{
+ const reads=[];globalThis.fetch=async(url,options)=>{const q=JSON.parse(options.body);reads.push({url,...q});return {ok:true,json:async()=>({result:q.method==='psy_get_latest_l2_block_state'?{checkpoint_id:100}:q.params.contract_id===43?'invalid':'AB'.repeat(32)})};};
+ const s=await publicState(config);const values=await Promise.all([s.contractStateRoot(1010,42),s.contractStateRoot(1010,42)]);assert.deepEqual(values,['ab'.repeat(32),'ab'.repeat(32)]);
+ const rootReads=reads.filter(q=>q.method==='psy_get_user_contract_tree_leaf_hash');assert.equal(rootReads.length,1);assert.equal(rootReads[0].url,'https://r1.test');assert.deepEqual(rootReads[0].params,{checkpoint_id:100,user_id:1010,contract_id:42});
+ await assert.rejects(s.contractStateRoot(1010,43),/invalid user contract root/);const before=reads.length;await assert.rejects(s.contractStateRoot(0,42),/user ID/);assert.equal(reads.length,before);
+}));

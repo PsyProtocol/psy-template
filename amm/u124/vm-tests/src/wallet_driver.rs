@@ -85,19 +85,20 @@ async fn run(progress: &mut Progress) -> Result<()> {
         calls_sha256 = Some(format!("{:x}", Sha256::digest(&bytes)));
         let data: ContractCallData = serde_json::from_slice(&bytes)?;
         ensure!(
-            data.contract_calls.len() + 1 == spec["tx_count"].as_u64().context("transaction count")? as usize && data.software_defined_call.inputs.len() == 13,
-            "policy explicit call count and thirteen witness fields required"
+            data.contract_calls.len() + 1 == spec["tx_count"].as_u64().context("transaction count")? as usize && Some(data.software_defined_call.inputs.len() as u64) == spec["witness_length"].as_u64(),
+            "policy explicit call count and witness length required"
         );
         validate_guard_order(&spec, &data)?;
         ensure!(
             data.software_defined_call.inputs[..]
                 .iter()
-                .all(|n| *n < (1u64 << 62)),
+                .enumerate().all(|(i,n)| *n < if spec["version"]==2&&(13..17).contains(&i){18446744069414584321}else{1u64 << 62}),
             "noncanonical U124 amount limb"
         );
         Some(data)
     };
     let config = PsyConfigGoldilocks::from_file(&args[config_index])?;
+    if spec["version"]==2{ensure!(spec["config"]["networkMagic"].as_str().context("batch network magic")?.parse::<u64>()?==psy_config::PSY_NETWORK_MAGIC,"batch network domain mismatch");}
     let mut guard_sha256 = None;
     let guard: Option<SubmissionGuard> = if guarded {
         let bytes = fs::read(&args[5])?;
@@ -145,10 +146,10 @@ async fn run(progress: &mut Progress) -> Result<()> {
         "automatic fee exceeds escrow/policy"
     );
     ensure!(
-        data.software_defined_call.inputs[12] == 0 || data.software_defined_call.inputs[12] == fee,
+        data.software_defined_call.inputs.last()==Some(&0) || data.software_defined_call.inputs.last()==Some(&fee),
         "supplied fee differs from actual fee"
     );
-    data.software_defined_call.inputs[12] = fee;
+    *data.software_defined_call.inputs.last_mut().context("burn witness")? = fee;
     match action {
         "preflight" | "verified-submit" | "submit" | "guarded-preflight" | "guarded-submit" => {
             let (endcap, proof) = session.sign(key, data.software_defined_call).await?;
@@ -222,6 +223,13 @@ async fn run(progress: &mut Progress) -> Result<()> {
 // All explicit calls, including activation's pre-guard prefix, must match the
 // selected registered template before any RPC. UPS verification remains final.
 fn validate_guard_order(spec:&serde_json::Value,data:&ContractCallData)->Result<()> {
+ if spec["version"]==2{
+  let mut fields=data.software_defined_call.inputs.clone();if fields.last()==Some(&0){*fields.last_mut().unwrap()=1_000_000_000;}
+  let expected=crate::batch_policy::expected_calls(spec,&fields)?;
+  ensure!(data.contract_calls.len()+1==expected.len(),"batch explicit call count");
+  for(actual,expected)in data.contract_calls.iter().zip(expected){ensure!(Some(actual.contract_id)==expected["contract_id"].as_u64()&&Some(actual.method_name.as_str())==expected["method_name"].as_str(),"batch call binding");let inputs:Vec<u64>=serde_json::from_value(expected["inputs"].clone())?;ensure!(inputs==actual.inputs,"batch input binding");}
+  return Ok(());
+ }
  ensure!(data.software_defined_call.inputs.len()==13,"thirteen witness fields required");
  let branch=spec["branches"].as_array().context("branches")?.iter()
   .find(|b|b["branch"].as_u64()==data.software_defined_call.inputs.first().copied()).context("selected policy branch")?;
@@ -279,5 +287,13 @@ mod activation_tests {
   assert_eq!(format!("{:x}",Sha256::digest(b"abc")),"ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad");
   Ok(())
  }
+
+ #[test]
+ fn batch_placeholder_and_all_calls_are_checked_before_rpc()->Result<()>{let root=std::env::var("BATCH_BUILD")?;for market in["amm","orderbook","bondingcurve","nftmarket"]{
+  let spec:serde_json::Value=serde_json::from_slice(&fs::read(format!("{root}/{market}/policy.json"))?)?;let mut fields=vec![0;74];fields[0]=2;fields[1]=1;fields[13]=1u64<<63;fields[73]=1_000_000_000;
+  let calls=crate::batch_policy::expected_calls(&spec,&fields)?;fields[73]=0;let data:ContractCallData=serde_json::from_value(serde_json::json!({"contract_calls":&calls[..39],"software_defined_call":{"inputs":fields}}))?;validate_guard_order(&spec,&data)?;
+  for slot in 0..39{let mut bad=data.clone();bad.contract_calls[slot].contract_id+=1;assert!(validate_guard_order(&spec,&bad).is_err());}
+  let mut bad=data.clone();bad.software_defined_call.inputs[2]=1;assert!(validate_guard_order(&spec,&bad).is_err());let mut bad=data.clone();bad.software_defined_call.inputs[22]=1;assert!(validate_guard_order(&spec,&bad).is_err());
+ }Ok(())}
 
 }
