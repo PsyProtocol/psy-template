@@ -1,7 +1,7 @@
 # Four-market isolated live acceptance — 2026-10-20
 
-Branch: `markets-batch-capacity-recovery-20261020`. Work in progress; this page
-will be updated with final receipts. No Node changes or old-contract updates.
+Branch: `markets-batch-capacity-recovery-20261020`. Isolated acceptance completed
+on 2026-10-21 Asia/Taipei (2026-10-20 UTC). No Node changes or old-contract updates.
 Original artifacts remain under `/tmp/psy-market-isolated-live-20261020-v1` on
 the test machine. Wallet files are excluded from review evidence.
 
@@ -34,8 +34,8 @@ realm-0 transfer/claim and the two FT claims are confirmed at checkpoint 356284.
 | AMM | 2468 | 581824 | Initial roots, registration and full activation UPS included |
 | Orderbook | 2470 | 319680 | Initial roots, registration and full activation UPS included |
 | Bonding Curve | 2471 | 843968 | Initial roots, registration, activation and stock initialization included; target AMM vault 581824 |
-| NFT Market | 2469 | 1368256 | Initial roots, registration and full activation UPS included in realm 1 |
-| NFT Market recovery replacement | 2472 | 1695936 | New initial deployment/roots and independent key registration confirmed at checkpoint 356667; activation and live recovery/sale pending |
+| NFT Market original paired fixture — retired | 2469 | 1368256 | Initial roots, registration and full activation UPS included in realm 1 |
+| NFT Market recovery replacement — active isolated candidate | 2472 | 1695936 | New initial deployment/roots and independent key registration confirmed at checkpoint 356667; activation, buyer-only refund/ordinary claim, subsequent unique sale and both ordinary recipient claims confirmed |
 
 Each initial proof starts from zero fields/slots and binds exact code,
 whitelist, layout, height and counts. The spending policy is late-bound only
@@ -125,7 +125,54 @@ preserved. Neither original attempt had a broadcast intent. Distinct explicit
 recovery attempts were reconciled before proceeding. The first claim recovery
 driver also rejected a metadata Number/BigInt representation mismatch before
 starting a client; the guard remained intact and the raw original artifacts
-were retained. The replacement NFT contract's independent tests remain in progress.
+were retained. The replacement NFT contract’s independent acceptance is completed below.
+
+## Replacement NFT acceptance completed
+
+Contract 2472 / vault 1695936 completed its independent matrix at
+2026-10-20 17:31:02 UTC. Epoch 1 admitted only the buyer: its sole outcome was
+refund, and its ordinary wallet claimed the refund. The unaccepted seller’s
+listing was not consumed. Epoch 2 accepted both owners and uniquely sold that
+same held listing: outcomes `[1,1]`, consumed nonces `[1,2]`. Bob claimed the
+price and Trader claimed NFT #2 into slot 1. Both minted NFTs now belong to
+Trader, with the original IDs and metadata unchanged.
+
+Independent before/after entitlement checks verify exactly +5 FT-A for Bob and
+−5 FT-A for Trader; all ordinary user payout outboxes are claimed. Each FT’s
+cohort supply remains 1,000 tokens. The 27 epoch UPSs charged 27.000256 test PSY,
+exactly equal to the cohort native balance plus escrow reduction. The replacement
+ledger contains 31 unique included UPSs including activation/gas preparation;
+deployment and registration receipts are separate.
+
+| Replacement epoch | Terminal members / economic trades | Commit through settlement inclusion | Full interval through ordinary claims | Actual calls commit / settle |
+| --- | --- | ---: | ---: | --- |
+| Buyer-only refund | 1 / 0 | 418.837 s | 2,895.125 s | 3 / 8 |
+| Subsequent sale | 2 / 1 | 643.521 s | 3,492.323 s | 3 / 12 |
+
+These are actual isolated QA intervals, including cold clients, RPC and inclusion;
+the full interval also includes intake, cutoff and ordinary claims. Sale throughput
+during commit through settlement was 0.001554 trades/s in this one-vault run.
+It is neither chain capacity nor a controlled comparison against the old key.
+
+The four admission races and timeout/refreeze tests were run on the original
+paired four-market fixture, including NFT 2469. They were not repeated as live
+races/timeouts on replacement 2472. Its missing-seller correction has separate VM,
+complete synthetic UPS and the real two-epoch refund/sale evidence above.
+Do not expand this acceptance into untested concurrency claims.
+
+## Final evidence index
+
+- [Combined verified report, receipt ledgers, roots and timings](../../batching/evidence/20261020/staged-release-v1/live-final-acceptance-v1.json).
+- [Four-market public archive manifest](../../batching/evidence/20261020/staged-release-v1/live-four-market-closed-loops-v1/manifest.json): 1,683 files; source and gzip SHA256 values verified.
+- [Replacement NFT public archive manifest](../../batching/evidence/20261020/staged-release-v1/live-nft-replacement-closed-loop-v1/manifest.json): 488 files; source and gzip SHA256 values verified.
+- [Replacement archive verification](../../batching/evidence/20261020/staged-release-v1/live-nft-replacement-archive-verified-v1.json).
+
+The original public files remain on the test machine in the two directories
+recorded by those manifests. Archives retain failed/earlier observations as well
+as final receipts. No wallet private keys, mnemonics or recovery files are included.
+The final report independently verifies 93 primary and 31 replacement included
+UPS identities; setup is included in those ledgers, unlike the 82 + 27 epoch UPS
+fee-conservation intervals. The 109 epoch UPSs charged 109.001326 test PSY in total.
 
 ## Scope and remaining production evidence
 
@@ -136,9 +183,9 @@ without its seller, then reject the entire sealed batch at `commit_batch` with
 `purchase seller outside batch`. A nonempty queue cannot be aborted, so that
 accepted scope had no terminal path. This was reproduced using the actual old
 VM artifact; the failing baseline and original deployment remain preserved.
-The active live epoch includes both members and is being drained normally.
-Do not use this original NFT instance for general admission. The explicit paired
-two-member acceptance fixture can complete its settlement/refund checks.
+Both paired live epochs included both members and completed their settlement/refund checks.
+Do not use this original NFT instance for general admission. Only its explicit
+paired two-member settlement/refund fixture was accepted.
 
 The replacement candidate permits that accepted buyer to reach refund only.
 Computed seller membership flags are included in the batch commitment; sale
@@ -150,8 +197,13 @@ the accepted queue. Legacy discovery-mode seller-reference constraints remain.
 Actual VM regression covers buyer-only scope, an unrelated listing in row zero,
 forged sale, redirected refund, terminal refund, legal seller carry and replay
 rejection. The replacement build is distinct; complete UPS verification and a
-new contract/key/vault live acceptance are required before marking it accepted.
-The replacement suite also exercises a subsequent sale of the same held listing
+new contract/key/vault live acceptance have now completed for the bounded fixture.
+The buyer-only accepted scope reached outcome 2 (refund) and its ordinary claim
+completed at 2026-10-20 16:32:09 UTC. Bob’s unaccepted listing was not consumed.
+One transient connection error in `start-compact-session` occurred before any
+preflight or broadcast intent; the original failure was preserved and a distinct
+explicit recovery rechecked the same sealed scope and existing sponsorship.
+The replacement suite completed a subsequent sale of the same held listing
 after the first buyer-only refund. This is a recovery correction, not a claim
 of global order inclusion or fairness.
 

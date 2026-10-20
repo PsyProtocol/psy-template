@@ -114,6 +114,46 @@ def main():
     replacement = read(a.nft_replacement / 'public/nft-v2-complete.json')
     assert replacement['missingSellerRefundAndOrdinaryClaim']
     assert replacement['sameListingSubsequentUniqueSale']
+    before = read(a.nft_replacement / 'public/nft-v2-assets-before.json')
+    after = read(a.nft_replacement / 'public/nft-v2-assets-after.json')
+    entitlement = lambda state, user, asset: state['accounts'][str(user)]['ft'][str(asset)] + sum(row['ft'][str(asset)] for row in state['pending'] if row['recipient'] == user)
+    price = 5 * 10**18
+    assert entitlement(after, 860352, 2464) - entitlement(before, 860352, 2464) == price, 'seller proceeds'
+    assert entitlement(before, 876736, 2464) - entitlement(after, 876736, 2464) == price, 'buyer payment'
+    inventory = lambda state: sorted((tuple(n['tokenId']), tuple(n['metadataHash'])) for n in state['nfts'])
+    assert inventory(before) == inventory(after), 'NFT ID/metadata changed'
+    for row in after['pending']:
+        if row['sender'] == replacement['vaultId'] and row['recipient'] in [860352, 876736]:
+            assert row['native'] == 0 and all(amount == 0 for amount in row['ft'].values()), 'unclaimed user payout'
+    replacement_epochs = []
+    for epoch in [1, 2]:
+        prefix = f'nft-v2-epoch-{epoch}'
+        done = read(a.nft_replacement / f'public/{prefix}-complete.json')
+        commit_name = prefix + '-commit' + ('-recovery-v1' if epoch == 1 else '')
+        commit_dir = a.nft_replacement / 'attempts' / commit_name
+        settle_dir = a.nft_replacement / 'attempts' / (prefix + '-settle')
+        commit_timing = read(commit_dir / 'timing.json')
+        settle_timing = read(settle_dir / 'timing.json')
+        commit = read(commit_dir / 'included.json'); settle = read(settle_dir / 'included.json')
+        state = read(a.nft_replacement / f'public/{prefix}-settled.state.json')
+        assert state['fields']['queue_outcome'][:epoch] == ([2] if epoch == 1 else [1, 1])
+        assert state['fields']['consumed'] == ([0, 1] if epoch == 1 else [1, 2])
+        seconds = stamp(settle['receipt']['data']['included_at']) - stamp(commit_timing['startedAt'])
+        full_seconds = stamp(done['completedAt']) - stamp(done['startedAt'])
+        assert seconds > 0 and full_seconds > 0
+        replacement_epochs.append({'epoch': epoch, 'acceptedMembers': epoch,
+            'economicTrades': epoch - 1, 'outcomes': done['outcomes'],
+            'fullIntervalSeconds': full_seconds, 'commitThroughSettlementSeconds': seconds,
+            'observedTradesPerSecondDuringCommitSettlement': (epoch - 1) / seconds,
+            'observedTerminalMembersPerSecondFullInterval': epoch / full_seconds,
+            'commitClientWallMilliseconds': commit_timing['wallMilliseconds'],
+            'settlementClientWallMilliseconds': settle_timing['wallMilliseconds'],
+            'commitActualCalls': commit['preflight']['core']['stats']['total_transactions'],
+            'settlementActualCalls': settle['preflight']['core']['stats']['total_transactions'],
+            'settledStateRoots': state['roots'], 'scope': 'actual isolated single-vault QA interval; cold clients, RPC, proof work and inclusion; full interval also includes intake, cutoff and ordinary claims; not chain capacity or controlled prover comparison'})
+    replacement = {**replacement, 'sellerProceedsBaseUnits': price,
+                   'buyerPaymentBaseUnits': price, 'exactPaymentAndMetadataVerified': True,
+                   'allOrdinaryUserPayoutsClaimed': True, 'measuredEpochs': replacement_epochs}
     ledgers = {'pairedFourMarketFixture': ledger(a.base), 'nftReplacement': ledger(a.nft_replacement)}
     races = []
     for kind in ['amm', 'orderbook', 'bondingcurve', 'nftmarket']:
