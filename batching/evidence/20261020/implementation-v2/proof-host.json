@@ -7,5 +7,14 @@
     "activation-v22-nftmarket",
     "full-ups-v22-size1"
   ],
-  "scope": "final cache and registration-aware synthetic UPS proof harness; size2 proof artifacts match fixtures but used the earlier cache-retaining harness"
+  "scope": "final cache and registration-aware synthetic UPS proof harness; size2 proof artifacts match fixtures but used the earlier cache-retaining harness",
+  "sourceCommit": "5d04ec4f91c0cf1e2c93210ca2cef43fe40b0a7f",
+  "laterVmWriteTraceHost": {
+    "sha256": "c793f3f38dd6ea961fb528a7abe0820d7b1b93783b8f538e65606258f2192596",
+    "runs": [
+      "vm-benchmark-v3-final",
+      "VM lifecycle 19 groups including sparse-address budget"
+    ],
+    "effect": "test-only write tracing; market artifacts unchanged"
+  }
 }

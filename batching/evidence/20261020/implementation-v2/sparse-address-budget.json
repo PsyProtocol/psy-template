@@ -1,0 +1,24 @@
+{
+  "market": "nftmarket",
+  "userIds": [
+    1000001,
+    8388607,
+    12345679,
+    16777214
+  ],
+  "members": 4,
+  "operation": "refund_funding_13",
+  "assets": [
+    "NFT",
+    "FT",
+    "native fee"
+  ],
+  "positionalLeavesFromVmWrites": 71,
+  "burnPolicyLeafBudget": 100,
+  "originalRecipientsAndAmountsVerified": true,
+  "scope": "actual bytecode writes; sparse-address case not independently end-capped",
+  "correctedFixture": "NFT local mint IDs must be sequential; use 4..7 after bootstrap IDs 1..3",
+  "firstAttemptRawLog": "/tmp/psy-deterministic-batches-20261020/sparse-budget-first-attempt.log",
+  "firstAttemptRawSha256": "4f9a51c18b1a6cd5e3267557b3756dc26b11d0263e0f553c497de6a2bd691526",
+  "broadcast": false
+}

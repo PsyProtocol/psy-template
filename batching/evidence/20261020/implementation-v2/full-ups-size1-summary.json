@@ -1,0 +1,102 @@
+[
+  {
+    "market": "amm",
+    "fills": 1,
+    "members": 1,
+    "coldMs": 58034.366916000006,
+    "commitMs": 113364.211958,
+    "settleMs": 104688.09141699999,
+    "warmProofFillsPerSecond": 0.0045860556596837646,
+    "proofBytesPerUps": [
+      130328,
+      130328
+    ],
+    "slotsModified": [
+      19,
+      13
+    ],
+    "burn": [
+      1000019000,
+      1000013000
+    ],
+    "proofWorkers": 1,
+    "samples": 1,
+    "chainTps": null,
+    "broadcast": false
+  },
+  {
+    "market": "orderbook",
+    "fills": 1,
+    "members": 2,
+    "coldMs": 44849.563042,
+    "commitMs": 114289.384666,
+    "settleMs": 120380.21675,
+    "warmProofFillsPerSecond": 0.004261310344271199,
+    "proofBytesPerUps": [
+      130328,
+      130328
+    ],
+    "slotsModified": [
+      29,
+      15
+    ],
+    "burn": [
+      1000029000,
+      1000015000
+    ],
+    "proofWorkers": 1,
+    "samples": 1,
+    "chainTps": null,
+    "broadcast": false
+  },
+  {
+    "market": "bondingcurve",
+    "fills": 1,
+    "members": 1,
+    "coldMs": 54956.520500000006,
+    "commitMs": 104628.766625,
+    "settleMs": 103959.72941700001,
+    "warmProofFillsPerSecond": 0.004794128242808973,
+    "proofBytesPerUps": [
+      130328,
+      130328
+    ],
+    "slotsModified": [
+      29,
+      13
+    ],
+    "burn": [
+      1000029000,
+      1000013000
+    ],
+    "proofWorkers": 1,
+    "samples": 1,
+    "chainTps": null,
+    "broadcast": false
+  },
+  {
+    "market": "nftmarket",
+    "fills": 1,
+    "members": 2,
+    "coldMs": 56120.524458,
+    "commitMs": 107153.84950000001,
+    "settleMs": 104348.54054199999,
+    "warmProofFillsPerSecond": 0.004728078958357969,
+    "proofBytesPerUps": [
+      130328,
+      130328
+    ],
+    "slotsModified": [
+      39,
+      26
+    ],
+    "burn": [
+      1000039000,
+      1000026000
+    ],
+    "proofWorkers": 1,
+    "samples": 1,
+    "chainTps": null,
+    "broadcast": false
+  }
+]

@@ -2,23 +2,23 @@
 running 1 test
 test bytecode_batch_throughput_benchmark ... ok
 
-test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 21 filtered out; finished in 5.64s
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 22 filtered out; finished in 6.16s
 
-        5.98 real         4.43 user         0.86 sys
-          1193951232  maximum resident set size
+        6.17 real         4.56 user         1.04 sys
+          1198145536  maximum resident set size
                    0  average shared memory size
                    0  average unshared data size
                    0  average unshared stack size
-              301551  page reclaims
-                   0  page faults
+              299929  page reclaims
+                 142  page faults
                    0  swaps
                    0  block input operations
                    0  block output operations
                    0  messages sent
                    0  messages received
                    0  signals received
-                   0  voluntary context switches
-               18910  involuntary context switches
-         68819319029  instructions retired
-         16368459683  cycles elapsed
-          1156500736  peak memory footprint
+                  41  voluntary context switches
+               24663  involuntary context switches
+         69238179236  instructions retired
+         17239390427  cycles elapsed
+          1155616000  peak memory footprint
