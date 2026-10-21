@@ -4,6 +4,21 @@ Branch: `markets-batch-capacity-recovery-20261020`; accepted starting commit
 `e45d689e6806d362c03f15697c90aba44f8704e7`. No Node edits, old-contract update
 probes, new branches or replacement of original artifacts are authorized here.
 
+## Bulk family setup complete; LP acceptance started
+
+At **13:16:46 UTC** all four fresh markets finished setup. The existing issuer's
+**110 QA FT-A** Curve inventory transfer is included at **360967**; formal
+Curve initialization is included at **360981**. Exact sender/amount, unchanged
+frozen SDK/binaries, complete UPS/session/endpoints and no-reproof submission
+were retained. `bulk-curve-inventory-setup-v1/` adds **43** hash-verified public
+files (944,575 gzip bytes) and the completed setup marker. The earlier activation
+archive has **188** files (4,516,006 gzip bytes), all original bytes compared.
+
+The fresh AMM **20 / 20 QA FT** LP run is now active. Maximum economic fills,
+ordinary payout claims, individual pricing/asset checks, omitted-order recovery,
+NFT timeout/refreeze/competition and real cost reports remain pending. No
+production readiness or chain TPS follows from this setup milestone.
+
 ## Four bulk-key activations included; shared-journal contender rejected
 
 All four fresh `all-four-v1` vault activations passed complete UPS/stack/session,
