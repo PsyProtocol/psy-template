@@ -103,7 +103,7 @@ try {
   for (const attempt of readdirSync(join(base, 'attempts')).filter(x => x.startsWith('nft-competition-' + name + '-'))) {const q = join(base, 'attempts', attempt, 'included.json'); if (existsSync(q)) userFees += BigInt(read(q).receipt.data.result.fees_collected);}
   const deltaA = name === 'bob' ? 5n * unit : name === p.expectedWinner ? -5n * unit : 0n;
   assert.equal(after.accounts[id].ft[2464] - before.accounts[id].ft[2464], deltaA); assert.equal(after.accounts[id].ft[2466], before.accounts[id].ft[2466]);
-  assert.equal(after.accounts[id].native - before.accounts[id].native, -(name === 'bob' ? F : 0n) - userFees); perUser.push({name, userId: id, deltaA, userFees});
+  assert.equal(after.accounts[id].native - before.accounts[id].native, -(name === p.expectedWinner ? F : 0n) - userFees); perUser.push({name, userId: id, deltaA, userFees});
  }
  for (const attempt of readdirSync(join(base, 'attempts')).filter(x => x.startsWith('nft-competition-'))) {const q = join(base, 'attempts', attempt, 'included.json'); if (existsSync(q)) fees += BigInt(read(q).receipt.data.result.fees_collected);}
  // f and g share one journal; count exact transaction identities once.

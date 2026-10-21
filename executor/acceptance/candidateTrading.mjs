@@ -4,6 +4,10 @@ import assert from'node:assert/strict';import{existsSync,readFileSync,readdirSyn
 import{cohort,formal,pause}from'./candidateHarness.mjs';import{read,save}from'../../batching/admission/liveSupport.mjs';import{publicState}from'../publicState.mjs';import{call,encodeAmount,FEE_ESCROW as F,parseLosslessJson}from'../../amm/u124/client.mjs';import{sponsorCalls,nftBuyCalls,curveLimitCalls}from'../../batching/v2/client.mjs';import{cohortAssets,payoutClaims}from'../../batching/admission/liveAssets.mjs';
 const[base,original,stage]=process.argv.slice(2);assert.ok(['liquidity','maximum'].includes(stage));const h=cohort(base,original),unit=10n**18n;
 const parallelPairs=async items=>{for(let i=0;i<items.length;i+=2){const r=await Promise.allSettled(items.slice(i,i+2).map(fn=>fn()));const failure=r.find(x=>x.status==='rejected');if(failure)throw failure.reason;}};
+// Distinct vaults/users have independent anchors. The four queue workers use
+// two prover threads each on this 10-CPU/32-GiB acceptance host. Economic paired
+// measurements below remain strictly one market/process pair at a time.
+const independent=async items=>{const r=await Promise.allSettled(items.map(fn=>fn()));const failure=r.find(x=>x.status==='rejected');if(failure)throw failure.reason;};
 const services=[];
 async function fund(ms,label,purpose){const s=await publicState(h.config);const calls=[];for(const m of ms){const f=m.abi.contract.state.find(f=>f.name==='sponsor_nonce');calls.push(...sponsorCalls({marketId:BigInt(m.id),abi:m.abi,vaultId:BigInt(m.vault),nonce:await s.slot(h.actors.sponsor.id,m.id,f.offset)+1n,purpose:BigInt(purpose),amount:purpose===1?2n*F:F}));}await h.user('sponsor',label,calls);}
 async function waitCutoff(cutoff){for(let i=0;i<240;i++){if((await publicState(h.config)).checkpoint>cutoff)return;await pause(10000);}throw Error('cutoff unresolved');}
@@ -33,7 +37,9 @@ if(stage==='liquidity'){
  const cohortSpec={users:[...Object.values(h.actors).map(a=>a.id),...h.markets.map(m=>m.vault),...['amm','orderbook','bondingcurve','nftmarket'].map(k=>read(join(original,'markets-v1',k,'live-registration.json')).vaultId),1695936],assets:[2464,2466],nftId:2467};assert.equal(new Set(cohortSpec.users).size,cohortSpec.users.length);
  const preOrdersFile=join(base,'public/maximum-assets-pre-orders.json');if(!existsSync(preOrdersFile))save(preOrdersFile,await cohortAssets(await publicState(h.config),cohortSpec));
  const deadline=BigInt((await publicState(h.config)).checkpoint)+2048n;
- await parallelPairs(names.map(name=>async()=>{
+ // NFT open_buy authenticates an existing listing. Publish the two sellers
+ // first, then the two buyers; the three fungible markets share these UPSs.
+ await parallelPairs(['trader','charlie','bob','dave'].map(name=>async()=>{
   const u=h.actors[name],a=h.by.amm,b=h.by.orderbook,c=h.by.bondingcurve,n=h.by.nftmarket,ask=['bob','charlie'].includes(name),seller=['trader','charlie'].includes(name);const calls=[];
   if(name==='bob')calls.push(a.order('close_add',[]));
   calls.push(a.order('open_swap',[BigInt(a.vault),0n,encodeAmount(unit),encodeAmount(1n),deadline,name==='bob'?2n:1n]),{contract_id:0n,method_name:'simple_transfer',inputs:[BigInt(a.vault),F]},call(2464n,h.token,'transfer',[BigInt(a.vault),encodeAmount(unit)]));
@@ -48,10 +54,10 @@ if(stage==='liquidity'){
  // Orders already funded; the baseline includes every pending incoming delta.
  const beforeFile=join(base,'public/maximum-assets-before.json');if(!existsSync(beforeFile))save(beforeFile,await cohortAssets(await publicState(h.config),cohortSpec));
  for(const m of h.markets){const plan={version:1,epoch:p.epochs[m.kind],cutoff:p.cutoff,members:p.members.map(owner=>({owner,nonce:m.kind==='amm'&&owner===h.actors.bob.id?'2':'1'}))};const f=await formal(h,m,'maximum',plan,{benchmark:true,...(m.kind==='nftmarket'?{contendOnMaintenance:'admit_entry'}:{})});services.push(f);}
- const execute=async(label,expected)=>parallelPairs(services.map((f,i)=>()=>f.step('maximum-'+h.markets[i].kind+'-'+label,expected)));
+ const execute=async(label,expected)=>independent(services.map((f,i)=>()=>f.step('maximum-'+h.markets[i].kind+'-'+label,expected)));
  const missingGasPath=join(base,'public/maximum-missing-gas-scans.json');if(!existsSync(missingGasPath)){const scans=await Promise.all(services.map(f=>f.adapter.scan()));for(const scan of scans){assert.equal(scan.action,null);assert.equal(scan.reason,'admission-gas-sponsorship-required');assert.equal(scan.fundingRequest.amount,F.toString());}save(missingGasPath,{checkedAt:new Date().toISOString(),scans,proofOrBroadcastAttempted:false});}
  await fund(h.markets,'maximum-start-fund',2);await execute('start',taskNamed('start_epoch'));
- await parallelPairs(names.map(name=>()=>h.user(name,'maximum-'+name+'-consent',h.markets.map(m=>m.order('request_admission',[BigInt(p.epochs[m.kind]),BigInt(p.cutoff)])))));
+ await independent(names.map(name=>()=>h.user(name,'maximum-'+name+'-consent',h.markets.map(m=>m.order('request_admission',[BigInt(p.epochs[m.kind]),BigInt(p.cutoff)])))));
  for(let i=0;i<4;i++){await fund(h.markets,'maximum-admit-'+i+'-fund',2);await execute('admit-'+i,taskNamed('admit_entry'));}
  await fund(h.markets,'maximum-seal-fund',2);await waitCutoff(p.cutoff);await execute('seal',taskNamed('seal_epoch'));
  await fund(h.markets,'maximum-commit-fund',1);
@@ -71,7 +77,7 @@ if(stage==='liquidity'){
  const perUser=[];
  for(const name of names){const id=h.actors[name].id,ask=['bob','charlie'].includes(name),seller=['trader','charlie'].includes(name),deltaA=-unit+(ask?-unit:unit)+unit+(seller?5n*unit:-5n*unit),deltaB=expectedOut.get(id)+(ask?unit:-unit)-expectedPrice.get(id);assert.equal(after.accounts[id].ft[2464]-initial.accounts[id].ft[2464],deltaA,'individual FT-A '+name);assert.equal(after.accounts[id].ft[2466]-initial.accounts[id].ft[2466],deltaB,'individual FT-B '+name);
   let userFees=0n;for(const suffix of ['orders','consent','claim']){const r=read(join(base,'attempts','maximum-'+name+'-'+suffix,'included.json'));assert.equal(r.receipt.data.owner_user_id,id);userFees+=BigInt(r.receipt.data.result.fees_collected);}
-  const nativeRefunds=(ask?0n:F)+(seller?0n:F);assert.equal(after.accounts[id].native-initial.accounts[id].native,-4n*F+nativeRefunds-userFees,'individual native '+name);perUser.push({name,userId:id,deltaA,deltaB,swapOutput:expectedOut.get(id),curvePrice:expectedPrice.get(id),nativeRefunds,userFees});
+  const nativeRefunds=(ask?0n:F)+(seller?F:0n);assert.equal(after.accounts[id].native-initial.accounts[id].native,-4n*F+nativeRefunds-userFees,'individual native '+name);perUser.push({name,userId:id,deltaA,deltaB,swapOutput:expectedOut.get(id),curvePrice:expectedPrice.get(id),nativeRefunds,userFees});
  }
  for(const [buyer,seller]of [['bob','trader'],['dave','charlie']]){const src=initial.nfts.find(n=>n.user===h.actors[seller].id),dst=after.nfts.find(n=>n.user===h.actors[buyer].id);assert.ok(src&&dst);assert.deepEqual(dst.tokenId,src.tokenId);assert.deepEqual(dst.metadataHash,src.metadataHash);}
  save(join(base,'public/maximum-individual-conservation.json'),{scope:'independent pricing formula and each user FT/native delta, plus exact NFT identity',perUser,finalAmmReserveA:reserveIn,finalAmmReserveB:reserveOut,curveSoldLots:4});
