@@ -84,6 +84,15 @@ before proof and broadcast. It cannot atomically prevent a dependency upgrade
 after those reads; protocol enforcement/version locking is a remaining trust
 boundary. Do not describe application root checks as on-chain immutability.
 
+`upgrade-boundary-source-audit-v1.json` records the local request, RPC forwarding
+and handler code. In that inspected request there is no owner signature or
+authorization nonce; the handler compares the existing deployer hash with the
+supplied deployer field. That comparison alone proves no caller possession.
+Effective gateway/transport authentication may exist and is not attested here.
+Operations/security must identify its exact endpoint coverage (including
+internal bypass paths), source/config and isolated rejection/replay evidence.
+No update request, including an unauthorized probe, was sent by this audit.
+
 ## Liveness / fairness: application and operator boundary
 
 A user can cancel and release an order before signing admission consent. After
