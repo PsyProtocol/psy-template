@@ -468,3 +468,11 @@ exact submission bytes with the reviewed task **before** proving/transmission.
 Only a non-regressing local send window may differ. The file cannot supply an
 action, bypass state/session/fee checks, or turn an idle scan into execution.
 An interrupted/unknown attempt still requires journal reconciliation.
+
+Explicit saved-proof recovery: `node executor/run.mjs executor.json resume
+--task previously-planned-task.json`. The task must exactly match a durable
+planned task with a saved proof in this vault's journal. Receipt reconciliation
+runs first; an unknown transmission blocks it. It rechecks normal live state,
+identity, dependencies, proof digest, full stack/session, fees and original
+window. It never generates a replacement proof or advances that window.
+An already included task returns idempotently without another transmission.

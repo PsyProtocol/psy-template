@@ -299,11 +299,30 @@ passed, including serialization of start/admit/seal/empty-abort proposals.
 The original failed log/plan are retained; same-plan explicit continuation is
 pending, without changing cutoff or resending order assets.
 
+Source overlay **v8** binds the serialization fix and five CLI regression checks
+at source `0777cf6`, SHA256
+`a079d4030c2885c0d3cb7ae6d2059fa0a009b6c31bed10d75418d5919c8418df`.
+`renewed-intake-entry-v1/` preserves confirmed new sponsorship and the original
+pre-proof serialization failure. The same immutable plan is now executing its
+four independent vault starts; no market start inclusion is claimed yet.
+
+### Explicit production recovery command
+
+`executor/run.mjs ... resume --task saved-task.json` accepts only an exact
+previously planned task with a durable saved proof. It reconciles receipts,
+blocks every unknown transmission, and uses the ordinary journal/live proof
+validation path. Its prover callback always rejects: invalid/missing/expired
+saved proof cannot cause silent re-proving or a new window. Already included
+work is idempotent. Eight targeted checks and the combined **119** application
+suite passed (overlapping earlier suites); a real CLI idempotency check remains
+pending until current start jobs release their journal locks. These application
+checks are not network throughput or additional market trades.
+
 ## Ordered gates
 
 | Gate | Current work | Not yet established |
 | --- | --- | --- |
-| 1 Formal Executor | Explicit `batch-admission-compact-v1` route; journal/locks and saved-proof broadcast; four fresh activations, LP, exact sender return/ordinary claim and same-proof no-send recovery confirmed; 115 combined application checks plus targeted gates | Maximum economic entrance and replacement NFT competition/timeout acceptance remain in progress; application checks are not network trades |
+| 1 Formal Executor | Explicit `batch-admission-compact-v1` route; journal/locks and saved-proof broadcast; four fresh activations, LP, exact sender return/ordinary claim and same-proof no-send recovery confirmed; 119 combined application checks plus targeted gates | Maximum economic entrance and replacement NFT competition/timeout acceptance remain in progress; application checks are not network trades |
 | 2 End-to-end cost | Saved proof is not re-proved for broadcast; phase metrics; immutable circuit reuse with fresh sessions; strict same-checkpoint calibration implemented | Positive paired full-proof samples and maximum live cost report pending; no speedup or chain TPS claim |
 | 3 Before-admission fairness | Own-consent lock, immutable finite plans, explicit gas requests, terminal exit and sender-bound recovery; one actual unused-funding return closed | Pre-admission selection/refusal is not global censorship resistance; omitted consented orders still need their new live terminal-exit matrix |
 | 4 Random order | Deterministic mode retained | Authenticated future source, actual pre-revelation inclusion and anti-abort requirements remain external unless verified |
