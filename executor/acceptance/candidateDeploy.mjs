@@ -1,10 +1,17 @@
 // Fresh deployment only. Existing deployments are reconciled, never updated.
 import assert from 'node:assert/strict';
-import{existsSync}from'node:fs';import{join}from'node:path';
+import{existsSync,readFileSync}from'node:fs';import{createHash}from'node:crypto';
+import{closedParent}from'./parentRecoveryGate.mjs';import{join}from'node:path';
 import{read,run,save,confirmDeploy}from'../../batching/admission/liveSupport.mjs';
 import{registerMarket,reconcileRegisteredMarket}from'../../batching/admission/liveMarket.mjs';
 import{compileAdmission}from'../../batching/admission/build.mjs';
 const[base,original,ordinaryBinary,compactBinary,admissionMode='single-v1']=process.argv.slice(2);assert.ok(['single-v1','all-four-v1'].includes(admissionMode));assert.ok(compactBinary,'BASE ORIGINAL ORDINARY_BINARY COMPACT_BINARY');
+if(admissionMode==='all-four-v1'){
+ const sha=p=>createHash('sha256').update(readFileSync(p)).digest('hex'),prepare=read(join(base,'public/PREPARED-BULK-v1.json')),gate=closedParent(prepare),file=join(base,'public/parent-recovery-gate-v1.json');
+ if(existsSync(file))assert.deepEqual(read(file),gate,'parent closure evidence changed');else save(file,gate);
+ for(const [path,digest]of [[prepare.proofGate,prepare.proofGateSha256],[prepare.signatureGate,prepare.signatureGateSha256],['batching/dependencies/session-bound-sdk-20261020/manifest.json',prepare.sdkManifestSha256],[join(base,'public/candidate-toolchain-v4.json'),prepare.toolchainSha256]])assert.equal(sha(path),digest,'frozen bulk release input changed');
+ const tools=read(join(base,'public/candidate-toolchain-v4.json'));assert.equal(sha(ordinaryBinary),tools.ordinaryBinarySha256);assert.equal(sha(compactBinary),tools.compactBinarySha256);
+}
 const config=join(base,'public/rpc.json'),env={PSY_MARKET_TESTNET_PROFILE:'staging-bundled-regtest-20261020-v1',RAYON_NUM_THREADS:'2'},secret=join(original,'.secrets/bob-bundled-profile-v1.json');
 const owner=read(join(original,'attempts/deploy-amm-v1/included.json')).leaf.deployer;
 const oldDependencies=read(join(original,'markets-v1/amm/live-registration.json')).contracts.filter(b=>b.contract.contractId!==2468);
@@ -24,4 +31,5 @@ for(const market of ['amm','orderbook','bondingcurve','nftmarket']){
  }
  console.log(new Date().toISOString(),'fresh deployment and registration',market,deployment.contractId,read(join(build,'live-registration.json')).vaultId);
 }
-save(join(base,'public/deployments-complete-v1.json'),{completedAt:new Date().toISOString(),oldContractUpdates:false,markets:['amm','orderbook','bondingcurve','nftmarket'].map(k=>read(join(base,'markets-v1',k,'live-registration.json')))});
+const completed=join(base,'public/deployments-complete-v1.json'),markets=['amm','orderbook','bondingcurve','nftmarket'].map(k=>read(join(base,'markets-v1',k,'live-registration.json')));
+if(existsSync(completed)){const old=read(completed);assert.equal(old.oldContractUpdates,false);assert.deepEqual(old.markets,markets,'completed deployment identities changed');}else save(completed,{completedAt:new Date().toISOString(),oldContractUpdates:false,markets});
