@@ -1,0 +1,259 @@
+{
+  "schema": 1,
+  "sourceDirectory": "/private/tmp/psy-market-profile-comparison-20261021-v1",
+  "machine": "gewenbo.local",
+  "host": "macOS-15.7.3-arm64-arm-64bit",
+  "scope": "public formal Executor run including failures; success requires exact included receipt",
+  "walletFilesIncluded": false,
+  "sealedBinariesIncluded": false,
+  "records": [
+    {
+      "source": "COMPARISON.json",
+      "file": "files/COMPARISON.json.gz",
+      "bytes": 1927,
+      "sha256": "2af93fb915561496a76def37f7b04226d6b52776f9d7901df8110c04875605f3",
+      "gzipBytes": 718,
+      "gzipSha256": "ebbec6857c36200b0380c91c6bf51c43200f07b4c06072771642f7acf471feb3"
+    },
+    {
+      "source": "COST-ANALYSIS.json",
+      "file": "files/COST-ANALYSIS.json.gz",
+      "bytes": 6682,
+      "sha256": "e5ee5526bdaf6f9e22737aaece0bc474a77e4c18bb45e6918604ecdc7f2319d7",
+      "gzipBytes": 2142,
+      "gzipSha256": "721790372b89e445980d6784d88d735d465d2bf6049f17e741673ade623add7a"
+    },
+    {
+      "source": "HOST-ACTIVITY.json",
+      "file": "files/HOST-ACTIVITY.json.gz",
+      "bytes": 546,
+      "sha256": "41b07fb3eea3e58bf7c02069686236c26fe9ba4513f8f64cda3a04df2212fd91",
+      "gzipBytes": 357,
+      "gzipSha256": "3fc6009699d7a9e1b77ef7fae582b98baaa77b5e9550e7398be56ed294cbac38"
+    },
+    {
+      "source": "INPUTS.json",
+      "file": "files/INPUTS.json.gz",
+      "bytes": 935,
+      "sha256": "0f385ba61aa52c72fe3cc585ad7b9d038a7a667c714ce329de7190257816ce6c",
+      "gzipBytes": 587,
+      "gzipSha256": "82882e122d3332b0fd0ce9a9eab0e43fd51e5ebc80614c7f155303172ec7be23"
+    },
+    {
+      "source": "SOURCE.json",
+      "file": "files/SOURCE.json.gz",
+      "bytes": 34104,
+      "sha256": "2763f3787fb220e3371df43ef782d0d5f7e73cd43f46e19282c3cff9886c0289",
+      "gzipBytes": 14509,
+      "gzipSha256": "f00f4f92344060864e6e7215a968bafc05f24e53fd7d3126e357c00f22b5088c"
+    },
+    {
+      "source": "amm-compact-v1/OBSERVATION.json",
+      "file": "files/amm-compact-v1/OBSERVATION.json.gz",
+      "bytes": 3077,
+      "sha256": "4a096483ed255aa94072017db9b6be05882806ebab3679f1a04d2b1686064e43",
+      "gzipBytes": 1178,
+      "gzipSha256": "08ed1f74a0357333a1aa523702e11e9e9afe7ce0fe91e4ec60b99fa3943c3dd2"
+    },
+    {
+      "source": "amm-compact-v1/amm.json",
+      "file": "files/amm-compact-v1/amm.json.gz",
+      "bytes": 4797,
+      "sha256": "8922176ee9cbeb643f62392d1d1c4e5c6a849674770f4c10166c58258fe20e63",
+      "gzipBytes": 1202,
+      "gzipSha256": "99c2137fcaf5514a47bf51a80992b2e1fca15307764b73625d1ab08e2a0abd14"
+    },
+    {
+      "source": "amm-compact-v1.log",
+      "file": "files/amm-compact-v1.log.gz",
+      "bytes": 5644,
+      "sha256": "a906637589398d3d0837cadc6612f6234bbe239f775e6888c12cdc33a39c82a8",
+      "gzipBytes": 788,
+      "gzipSha256": "419af20e5d7c82fcdc9276d88425b67991f3a219ca88db479d0d48f237fab217"
+    },
+    {
+      "source": "amm-fixed40/OBSERVATION.json",
+      "file": "files/amm-fixed40/OBSERVATION.json.gz",
+      "bytes": 6698,
+      "sha256": "3121e7c2d66e679eb59e28944db5a476e133de65a7c33d6f51138f1a8bb4bfff",
+      "gzipBytes": 1770,
+      "gzipSha256": "6a0cbcc7ab3821af7e2c7ea3cbf21ca51488878444eb39a40975a7ff46bd2dc3"
+    },
+    {
+      "source": "amm-fixed40/amm.json",
+      "file": "files/amm-fixed40/amm.json.gz",
+      "bytes": 12253,
+      "sha256": "361c8522629e3eaa0a3ea0db46262b4b7542d9e6ba1a8670e77f34497e5f5260",
+      "gzipBytes": 1823,
+      "gzipSha256": "c40f4dfe3cbf7f73b1c2d69397aa251a01ffc30ae41fe8535dad100ef23008a4"
+    },
+    {
+      "source": "amm-fixed40.log",
+      "file": "files/amm-fixed40.log.gz",
+      "bytes": 16014,
+      "sha256": "de351ce2004ab031e2eea59b017633cfa9311a51e93fbf61d7057ecfa69bf6bf",
+      "gzipBytes": 1527,
+      "gzipSha256": "cec1ddb1fe8ff8439d635281a0620631271304b4163d13bc5beeb33f8b9db2e3"
+    },
+    {
+      "source": "bondingcurve-compact-v1/OBSERVATION.json",
+      "file": "files/bondingcurve-compact-v1/OBSERVATION.json.gz",
+      "bytes": 3421,
+      "sha256": "fd79ac4a9cf31647fba529bd8f928973d0e7f52b6d3ff567341d1c5aa056a8fb",
+      "gzipBytes": 1233,
+      "gzipSha256": "42ee25834b8b6f69d342c0813dbff2d7af12648f87aa31d842ef06d7c9c695cf"
+    },
+    {
+      "source": "bondingcurve-compact-v1/bondingcurve.json",
+      "file": "files/bondingcurve-compact-v1/bondingcurve.json.gz",
+      "bytes": 5392,
+      "sha256": "30ea884085e304dce72202b1de093bbe90671a9bb4699e1e8e258414551a6046",
+      "gzipBytes": 1258,
+      "gzipSha256": "3284681139eea625a3091b72f826cfce7bed4155354d3806ba3b9c52b313d358"
+    },
+    {
+      "source": "bondingcurve-compact-v1.log",
+      "file": "files/bondingcurve-compact-v1.log.gz",
+      "bytes": 6663,
+      "sha256": "ea9aeb803835fef7b579ffd972d07e10cd77e2f200ac4a22e9b1bb2ad4c42c64",
+      "gzipBytes": 863,
+      "gzipSha256": "668d8556697e8a70060cb7cfea054cc9cf96c175ecc521f9a3a7560511e0776c"
+    },
+    {
+      "source": "bondingcurve-fixed40/OBSERVATION.json",
+      "file": "files/bondingcurve-fixed40/OBSERVATION.json.gz",
+      "bytes": 6764,
+      "sha256": "96f1812289e94ccaa5c3887b7fe33f7e2c89bab8d6dfc8013c0d543c524b7baf",
+      "gzipBytes": 1778,
+      "gzipSha256": "1b55c910b77df11ec0f3b002902a35348208ccd433f3e35f5a8c88835a302070"
+    },
+    {
+      "source": "bondingcurve-fixed40/bondingcurve.json",
+      "file": "files/bondingcurve-fixed40/bondingcurve.json.gz",
+      "bytes": 12300,
+      "sha256": "cf16c55019b01ffb045788ab9228c62e5fd09aadcec3ae04e806d2fa853c5ae1",
+      "gzipBytes": 1829,
+      "gzipSha256": "446f1e2e82a5d9a15d0d237e60059359efcaff4f8deb0a19655950f24e4c2f2a"
+    },
+    {
+      "source": "bondingcurve-fixed40.log",
+      "file": "files/bondingcurve-fixed40.log.gz",
+      "bytes": 16796,
+      "sha256": "0ddb63a542ca48146174c21dfd22d890201ac4d12359290991b265073dd82ba1",
+      "gzipBytes": 1557,
+      "gzipSha256": "3fb4255db1d13ae86c316f527fcd91346873ac8820f1668a995fc30b1129c3c9"
+    },
+    {
+      "source": "compact-v1-GROUP.json",
+      "file": "files/compact-v1-GROUP.json.gz",
+      "bytes": 427,
+      "sha256": "47178bb0e5c32d1b8ffd1e84f9263f7a539421fc86bae0697e00cfa2f9b5e059",
+      "gzipBytes": 319,
+      "gzipSha256": "cc5c5918ccfa9ae21dbe7733b24da9f089281374972cef571dc360052f29425e"
+    },
+    {
+      "source": "fixed40-GROUP.json",
+      "file": "files/fixed40-GROUP.json.gz",
+      "bytes": 431,
+      "sha256": "5cfd57efce67788e780b781baed9d3b6cbf2f8ce2a55acd8b04f91e63af85280",
+      "gzipBytes": 321,
+      "gzipSha256": "ce3914834cd09cb77bbb72f7387e2e6c143b28b646d21610d883aabded389f79"
+    },
+    {
+      "source": "nftmarket-compact-v1/OBSERVATION.json",
+      "file": "files/nftmarket-compact-v1/OBSERVATION.json.gz",
+      "bytes": 3240,
+      "sha256": "f9cc2ed7bec91637c5d870fa86dcaeb75f2fb2e6c9d43e68f9284437b8db57ef",
+      "gzipBytes": 1203,
+      "gzipSha256": "6efcebe95229a9de95c0c9886d430a04873d842ef44a3c9b883cb8ea13a07fc5"
+    },
+    {
+      "source": "nftmarket-compact-v1/nftmarket.json",
+      "file": "files/nftmarket-compact-v1/nftmarket.json.gz",
+      "bytes": 5080,
+      "sha256": "0a43998a5d3e4abbdb3e81b580d5b578850090dea098649bfc441a7458f34792",
+      "gzipBytes": 1226,
+      "gzipSha256": "1e5798ced8972e1a3f9134577d23491ee1d2cb48bfd28e268affd75ec9a87369"
+    },
+    {
+      "source": "nftmarket-compact-v1.log",
+      "file": "files/nftmarket-compact-v1.log.gz",
+      "bytes": 6192,
+      "sha256": "82896938227f5a566792ca1f0863f75baecf04d05ea297e11027518587a95391",
+      "gzipBytes": 835,
+      "gzipSha256": "5b712b3f01c51e3d4a060ff3aa89b1c5c21c6b368f14c95f173a08a18ecd8587"
+    },
+    {
+      "source": "nftmarket-fixed40/OBSERVATION.json",
+      "file": "files/nftmarket-fixed40/OBSERVATION.json.gz",
+      "bytes": 6768,
+      "sha256": "1c07d284952c5d66b33487458bba63a92f7e4d395b4ae7690083bcc2bac6c46a",
+      "gzipBytes": 1782,
+      "gzipSha256": "4ebeee98214dfb09af0da0b3cfbb1854057f815f798fa54aaf514d3762df2f9a"
+    },
+    {
+      "source": "nftmarket-fixed40/nftmarket.json",
+      "file": "files/nftmarket-fixed40/nftmarket.json.gz",
+      "bytes": 12310,
+      "sha256": "d5af830c7f520b50800521c0229fe900aafaef0bbc5111012a2e58132d82982c",
+      "gzipBytes": 1841,
+      "gzipSha256": "d81ebb745b9ddb4e2aee432bb58098bbcf1bda6ef95d3b5e56af6b9ca4826cf8"
+    },
+    {
+      "source": "nftmarket-fixed40.log",
+      "file": "files/nftmarket-fixed40.log.gz",
+      "bytes": 16540,
+      "sha256": "f6c82b49ecb7532b402b485087f729ce0ace676dead58167836074e3efdc5f1d",
+      "gzipBytes": 1541,
+      "gzipSha256": "570357392c8ae7ff8999a0291b2d87b9be0bf2e375772c62bd841c1a30ecedab"
+    },
+    {
+      "source": "orderbook-compact-v1/OBSERVATION.json",
+      "file": "files/orderbook-compact-v1/OBSERVATION.json.gz",
+      "bytes": 3119,
+      "sha256": "cff0003124b087ec6d5678b8ef8f9cae284903a37f012eccf10c40ba8e8b9e90",
+      "gzipBytes": 1179,
+      "gzipSha256": "8dc6e194e1daf0c5f1df35cb8c87d5a55d2e2b98a2222153482694553e1ec27c"
+    },
+    {
+      "source": "orderbook-compact-v1/orderbook.json",
+      "file": "files/orderbook-compact-v1/orderbook.json.gz",
+      "bytes": 4832,
+      "sha256": "3766bec3b3eaa9246490843a9ead688d67c00f08dcd4b50f6a695fa811af253f",
+      "gzipBytes": 1205,
+      "gzipSha256": "c24044126e191941b35a47504f526056064f1148a6be8a27c3ae87d933cb1dab"
+    },
+    {
+      "source": "orderbook-compact-v1.log",
+      "file": "files/orderbook-compact-v1.log.gz",
+      "bytes": 5809,
+      "sha256": "f9eaebb225149ca4e46678530f1da471e4f22e78e64521b3af20709db2e0aad0",
+      "gzipBytes": 805,
+      "gzipSha256": "3c6cc00daee5ad86ad2d75c0105611dfb924c8cbd8a6ea1b1ad754a3e7da20f7"
+    },
+    {
+      "source": "orderbook-fixed40/OBSERVATION.json",
+      "file": "files/orderbook-fixed40/OBSERVATION.json.gz",
+      "bytes": 6800,
+      "sha256": "9cf8c63313b69de0457bd55d295ccf254bb5ac7639add45bfe97f5b8c6993e0e",
+      "gzipBytes": 1786,
+      "gzipSha256": "85d8ca2053b63e2cfc47a340ab67ea84ae7eadaba7733bc2bb7c0f091fcbc92e"
+    },
+    {
+      "source": "orderbook-fixed40/orderbook.json",
+      "file": "files/orderbook-fixed40/orderbook.json.gz",
+      "bytes": 12342,
+      "sha256": "0371b0716dc1695f31e1db8127520a139db546c31cde341d53e7d5d745bec99f",
+      "gzipBytes": 1842,
+      "gzipSha256": "9051aa80ea2c35f62d78e7d2e535d67c8ea34285c46b57fc7401904c93d63884"
+    },
+    {
+      "source": "orderbook-fixed40.log",
+      "file": "files/orderbook-fixed40.log.gz",
+      "bytes": 16527,
+      "sha256": "30c46f1f4c47dc027acf0ad329d35d7644236430d50036113348ce8023f56270",
+      "gzipBytes": 1554,
+      "gzipSha256": "df72dfc43e4add351220f4c7bac3e6e910082efcb75e7771991e6b9139b7ccff"
+    }
+  ]
+}

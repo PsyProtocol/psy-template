@@ -4,6 +4,44 @@ Branch: `markets-batch-capacity-recovery-20261020`; accepted starting commit
 `e45d689e6806d362c03f15697c90aba44f8704e7`. No Node edits, old-contract update
 probes, new branches or replacement of original artifacts are authorized here.
 
+## Matched complete-UPS comparison finished; fresh bulk deployment started
+
+At **11:01:15 UTC** all four markets completed both profiles. Same frozen test
+binary, host, configuration, four members per market and **12 fills per profile**;
+entire call stacks, sessions, fees, public endpoints and exported deltas verify.
+Every paired commitment/settlement agrees on final contract state, modified
+slots and fees. All original reports match their saved SHA256s.
+
+| Market | Fixed-40 warm commit + settle | Compact warm commit + settle | Observed ratio |
+| --- | ---: | ---: | ---: |
+| AMM | 539.210 s | 169.258 s | 3.19× |
+| Orderbook | 541.426 s | 172.365 s | 3.14× |
+| Curve | 538.995 s | 196.328 s | 2.75× |
+| NFT Market | 537.620 s | 185.170 s | 2.90× |
+
+Old noop call-step intervals total **174–188 s per market**; compact has no noop
+steps. End-cap proving/verification totals change from about **259–260 s** to
+**78–91 s**. Call steps also contain recursive compression, which is not separately
+isolated. Cold circuit resources are still **77–97 s** for compact versus
+**81–102 s** for fixed-40; this does not establish a cold-build improvement.
+Profile group wall time, two independent processes/two Rayon threads each,
+is **1,276.777 → 560.584 s**, including fresh resources.
+
+These are complete **synthetic offline proof** observations, not VM timings,
+actual confirmation, ordinary claims, full economic lifecycle, service
+throughput or chain TPS. One sample, old profile first, caches/host load not
+controlled; the known first-group gzip archival overlap is recorded. Ratios
+are observations, not a statistical or causal attribution. New keys/profiles
+differ while contract/token/NFT fixtures and final economic state are matched.
+`matched-profile-comparison-v1/` has **31 original/compressed-hash-verified files**,
+including the cost analysis, group load observations and complete raw logs.
+
+The queued fresh-only deployment began at **11:01:19 UTC**, after the final
+comparison marker. Parent principal/claims, frozen compiler/binary/SDK and
+generated-build pins are rechecked. Fresh registrations, bootstrap, maximum
+economic execution, ordinary claims and remaining live matrix are **pending**.
+No Node edit, existing contract update or simultaneous shared-network RPC race.
+
 ## Fixed-40 four-market comparison baseline completed
 
 The four old-profile synthetic samples passed complete commitment and
