@@ -13,6 +13,7 @@ if(stage==='liquidity'){
  const m=h.by.amm,pf=join(base,'public/liquidity-plan-v1.json');if(!existsSync(pf)){const s=await publicState(h.config);save(pf,{version:1,epoch:1,cutoff:s.checkpoint+64,members:[{owner:h.actors.bob.id,nonce:'1'}]});}const p=read(pf),v=BigInt(m.vault),deadline=BigInt(p.cutoff)+1024n;
  await h.user('bob','liquidity-bob-order',[m.order('open_add',[v,encodeAmount(20n*unit),encodeAmount(20n*unit),encodeAmount(20n*unit-1000n),deadline,1n]),{contract_id:0n,method_name:'simple_transfer',inputs:[v,F]},...['assetA','assetB'].map(k=>call(BigInt(m.driverConfig[k]),h.token,'transfer',[v,encodeAmount(20n*unit)]))]);
  const f=await formal(h,m,'liquidity',p);services.push(f);
+ const missingGasPath=join(base,'public/liquidity-missing-gas-scan.json');if(!existsSync(missingGasPath)){const scan=await f.adapter.scan();assert.equal(scan.action,null);assert.equal(scan.reason,'admission-gas-sponsorship-required');assert.equal(scan.fundingRequest.amount,F.toString());save(missingGasPath,{checkedAt:new Date().toISOString(),scan,proofOrBroadcastAttempted:false});}
  await fund([m],'liquidity-start-fund',2);await f.step('liquidity-start',taskNamed('start_epoch'));
  await h.user('bob','liquidity-bob-consent',[m.order('request_admission',[1n,BigInt(p.cutoff)])]);
  await fund([m],'liquidity-admit-fund',2);await f.step('liquidity-admit',taskNamed('admit_entry'));
@@ -37,12 +38,13 @@ if(stage==='liquidity'){
   else calls.push(...nftBuyCalls({marketId:BigInt(n.id),marketAbi:n.abi,config:n.driverConfig,nftAbi:h.nft,tokenAbi:h.token,vaultId:BigInt(n.vault),seller:BigInt(h.actors[name==='bob'?'trader':'charlie'].id),listingNonce:1n,price:5n*unit,deadline,nonce:1n}));
   assert.ok(calls.length<=16);await h.user(name,'maximum-'+name+'-orders',calls);
  }));
- if(!existsSync(pf)){const s=await publicState(h.config);save(pf,{createdAt:new Date().toISOString(),sourceCheckpoint:s.checkpoint,cutoff:s.checkpoint+128,epochs:{amm:2,orderbook:1,bondingcurve:1,nftmarket:1},members:names.map(n=>h.actors[n].id).sort((a,b)=>a-b)});}const p=read(pf);
+ if(!existsSync(pf)){const s=await publicState(h.config),pricingOrders={};for(const kind of ['amm','bondingcurve']){const m=h.by[kind],offset=m.abi.contract.state.find(x=>x.name==='order_checkpoint').offset;const orders=await Promise.all(names.map(async name=>({owner:h.actors[name].id,orderCheckpoint:String(await s.slot(h.actors[name].id,m.id,offset))})));orders.sort((a,b)=>Number(BigInt(a.orderCheckpoint)-BigInt(b.orderCheckpoint))||a.owner-b.owner);pricingOrders[kind]=orders;}save(pf,{createdAt:new Date().toISOString(),sourceCheckpoint:s.checkpoint,cutoff:s.checkpoint+128,epochs:{amm:2,orderbook:1,bondingcurve:1,nftmarket:1},members:names.map(n=>h.actors[n].id).sort((a,b)=>a-b),pricingOrders});}const p=read(pf);
 
  // Orders already funded; the baseline includes every pending incoming delta.
  const beforeFile=join(base,'public/maximum-assets-before.json');if(!existsSync(beforeFile))save(beforeFile,await cohortAssets(await publicState(h.config),cohortSpec));
  for(const m of h.markets){const plan={version:1,epoch:p.epochs[m.kind],cutoff:p.cutoff,members:p.members.map(owner=>({owner,nonce:m.kind==='amm'&&owner===h.actors.bob.id?'2':'1'}))};const f=await formal(h,m,'maximum',plan,{benchmark:true,...(m.kind==='nftmarket'?{contendOnMaintenance:'admit_entry'}:{})});services.push(f);}
  const execute=async(label,expected)=>parallelPairs(services.map((f,i)=>()=>f.step('maximum-'+h.markets[i].kind+'-'+label,expected)));
+ const missingGasPath=join(base,'public/maximum-missing-gas-scans.json');if(!existsSync(missingGasPath)){const scans=await Promise.all(services.map(f=>f.adapter.scan()));for(const scan of scans){assert.equal(scan.action,null);assert.equal(scan.reason,'admission-gas-sponsorship-required');assert.equal(scan.fundingRequest.amount,F.toString());}save(missingGasPath,{checkedAt:new Date().toISOString(),scans,proofOrBroadcastAttempted:false});}
  await fund(h.markets,'maximum-start-fund',2);await execute('start',taskNamed('start_epoch'));
  await parallelPairs(names.map(name=>()=>h.user(name,'maximum-'+name+'-consent',h.markets.map(m=>m.order('request_admission',[BigInt(p.epochs[m.kind]),BigInt(p.cutoff)])))));
  for(let i=0;i<4;i++){await fund(h.markets,'maximum-admit-'+i+'-fund',2);await execute('admit-'+i,taskNamed('admit_entry'));}
@@ -59,7 +61,8 @@ if(stage==='liquidity'){
  let fees=0n;for(const name of readdirSync(join(base,'attempts')).filter(n=>n.startsWith('maximum-')&&!n.endsWith('-orders'))){const f=join(base,'attempts',name,'included.json');if(existsSync(f))fees+=BigInt(read(f).receipt.data.result.fees_collected);}
  for(const f of services){const records=await f.journal.records();for(const r of records.filter(r=>r.status==='included')){const task=records.find(x=>x.taskId===r.taskId&&x.status==='planned')?.task;if(task){const cp=Number(r.result.checkpoint);if(cp>Number(before.checkpoint))fees+=BigInt(r.result.receipt.data.result.fees_collected);}}}
  const initial=parseLosslessJson(readFileSync(preOrdersFile,'utf8')),expectedOut=new Map(),expectedPrice=new Map();let reserveIn=20n*unit,reserveOut=20n*unit;
- for(const [i,owner]of p.members.entries()){const amount=unit*9970n*reserveOut/(reserveIn*10000n+unit*9970n);expectedOut.set(owner,amount);expectedPrice.set(owner,unit+BigInt(i)*10n**16n);reserveIn+=unit;reserveOut-=amount;}
+ for(const {owner}of p.pricingOrders.amm){const amount=unit*9970n*reserveOut/(reserveIn*10000n+unit*9970n);expectedOut.set(owner,amount);reserveIn+=unit;reserveOut-=amount;}
+ for(const [i,{owner}]of p.pricingOrders.bondingcurve.entries())expectedPrice.set(owner,unit+BigInt(i)*10n**16n);
  const perUser=[];
  for(const name of names){const id=h.actors[name].id,ask=['bob','charlie'].includes(name),seller=['trader','charlie'].includes(name),deltaA=-unit+(ask?-unit:unit)+unit+(seller?5n*unit:-5n*unit),deltaB=expectedOut.get(id)+(ask?unit:-unit)-expectedPrice.get(id);assert.equal(after.accounts[id].ft[2464]-initial.accounts[id].ft[2464],deltaA,'individual FT-A '+name);assert.equal(after.accounts[id].ft[2466]-initial.accounts[id].ft[2466],deltaB,'individual FT-B '+name);
   let userFees=0n;for(const suffix of ['orders','consent','claim']){const r=read(join(base,'attempts','maximum-'+name+'-'+suffix,'included.json'));assert.equal(r.receipt.data.owner_user_id,id);userFees+=BigInt(r.receipt.data.result.fees_collected);}

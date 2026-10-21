@@ -33,6 +33,19 @@ NFT Market still requires one unique outcome per listing. An authenticated
 source does not itself make selection/withholding incentives safe. Until all
 requirements pass, the generator rejects random modes and supplied seeds.
 
+### Concrete local source finding (not remote runtime attestation)
+
+`random-source-audit-v1.json` records file hashes and line excerpts at observed
+local Node commit `5b7f4e1e11adf4607a958bc39e863a2a80b5a7a6`. A checkpoint
+`random_seed` exists, and the DPN historical checkpoint-stat reader binds its
+value to a checkpoint Merkle proof. However the inspected coordinator GUTA
+gatherer obtains the contribution using `rand::thread_rng().fill_bytes`, and
+the transition gadget takes a virtual contribution witness directly as the new
+seed. In that path no VRF/threshold entropy verification or anti-grinding rule
+was found. A Merkle-authenticated coordinator-chosen value is insufficient for
+the requested unpredictable, difficult-to-bias future randomness. This does not
+prove which source is running remotely. No Node source was changed.
+
 ## SDK release: client SDK / release team
 
 The reproducible application snapshot is frozen in
