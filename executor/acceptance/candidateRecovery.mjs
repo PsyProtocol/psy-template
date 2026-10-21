@@ -1,0 +1,82 @@
+// A deliberately omitted, consented sender exits only after the epoch closes.
+// The admission plan is empty: this is bounded no-service recovery, not fairness.
+import assert from 'node:assert/strict';
+import {existsSync, readdirSync, readFileSync} from 'node:fs';
+import {join} from 'node:path';
+import {cohort, formal, pause} from './candidateHarness.mjs';
+import {read, save, run, binding} from '../../batching/admission/liveSupport.mjs';
+import {publicState} from '../publicState.mjs';
+import {call, encodeAmount, FEE_ESCROW as F, parseLosslessJson} from '../../amm/u124/client.mjs';
+import {sponsorCalls, curveLimitCalls} from '../../batching/v2/client.mjs';
+import {cohortAssets, payoutClaims} from '../../batching/admission/liveAssets.mjs';
+
+const [base, original] = process.argv.slice(2), h = cohort(base, original), unit = 10n ** 18n;
+assert.ok(existsSync(join(base, 'public/maximum-complete-v1.json')));
+const actor = h.actors.bob, services = [], a = h.by.amm, b = h.by.orderbook,
+ c = h.by.bondingcurve, n = h.by.nftmarket;
+const spec = {users: [...Object.values(h.actors).map(x => x.id), ...h.markets.map(x => x.vault),
+ ...h.markets.map(x => read(join(original, 'markets-v1', x.kind, 'live-registration.json')).vaultId), 1695936], assets: [2464, 2466], nftId: 2467};
+const beforePath = join(base, 'public/omitted-assets-before.json');
+if (!existsSync(beforePath)) save(beforePath, await cohortAssets(await publicState(h.config), spec));
+const deadline = BigInt((await publicState(h.config)).checkpoint) + 2048n;
+await h.user('bob', 'omitted-bob-ft-orders', [
+ a.order('close_swap_0', []), a.order('open_swap', [BigInt(a.vault), 0n, encodeAmount(unit), encodeAmount(1n), deadline, 3n]),
+ {contract_id: 0n, method_name: 'simple_transfer', inputs: [BigInt(a.vault), F]}, call(2464n, h.token, 'transfer', [BigInt(a.vault), encodeAmount(unit)]),
+ b.order('close_0', []), b.order('open_sell', [BigInt(b.vault), 0n, encodeAmount(unit), encodeAmount(unit), deadline, 2n]),
+ {contract_id: 0n, method_name: 'simple_transfer', inputs: [BigInt(b.vault), F]}, call(2464n, h.token, 'transfer', [BigInt(b.vault), encodeAmount(unit)]),
+ c.order('close_buy', []), ...curveLimitCalls({marketId: BigInt(c.id), marketAbi: c.abi, tokenAbi: h.token, config: c.driverConfig, vaultId: BigInt(c.vault), buy: true, lots: 1n, quoteLimit: 2n * unit, deadline, nonce: 2n})
+]);
+await h.user('bob', 'omitted-bob-nft-order', [n.order('close_buy', []), call(2467n, h.nft, 'acknowledge', [BigInt(n.vault)]),
+ n.order('open_listing', [BigInt(n.vault), 0n, encodeAmount(5n * unit), deadline, 2n]),
+ {contract_id: 0n, method_name: 'simple_transfer', inputs: [BigInt(n.vault), F]}, call(2467n, h.nft, 'transfer', [0n, BigInt(n.vault)])]);
+const planPath = join(base, 'public/omitted-plan-v1.json');
+if (!existsSync(planPath)) { const s = await publicState(h.config); save(planPath, {cutoff: s.checkpoint + 64, epochs: {amm: 3, orderbook: 2, bondingcurve: 2, nftmarket: 2}, members: []}); }
+const plan = read(planPath);
+async function fund(label) {
+ const s = await publicState(h.config), calls = [];
+ for (const m of h.markets) { const f = m.abi.contract.state.find(x => x.name === 'sponsor_nonce');
+  calls.push(...sponsorCalls({marketId: BigInt(m.id), abi: m.abi, vaultId: BigInt(m.vault), nonce: await s.slot(h.actors.sponsor.id, m.id, f.offset) + 1n, purpose: 2n, amount: F})); }
+ await h.user('sponsor', label, calls);
+}
+const operation = method => t => t.kind === 'batch_maintenance' && parseLosslessJson(t.submission).contract_calls.some(x => x.method_name === method);
+try {
+ for (const m of h.markets) services.push(await formal(h, m, 'omitted', {version: 1, epoch: plan.epochs[m.kind], cutoff: plan.cutoff, members: []}));
+ await fund('omitted-start-fund');
+ for (let i = 0; i < services.length; i++) await services[i].step('omitted-' + h.markets[i].kind + '-start', operation('start_epoch'));
+ await h.user('bob', 'omitted-bob-consent-cancel', h.markets.flatMap(m => [m.order('request_admission', [BigInt(plan.epochs[m.kind]), BigInt(plan.cutoff)]), m.order('request_cancel', [])]));
+ // Prove-only negative gate. A failure cannot transmit, and own state must not move.
+ const negative = join(base, 'public/omitted-early-release-negative.json');
+ if (!existsSync(negative)) {
+  const s = await publicState(h.config), calls = h.markets.map(m => m.order('release_unaccepted', []));
+  const ids = [...new Set([0, ...calls.map(x => Number(x.contract_id))])];
+  const contracts = await Promise.all(ids.map(async id => {const expected = h.bindings.get(id); assert.deepEqual(await binding(s, id), expected); return expected;}));
+  const input = join(base, 'public/omitted-early-release-input.json'), out = join(base, 'attempts/omitted-early-release-negative');
+  save(input, {calls: {contract_calls: calls, software_defined_call: {inputs: []}}, contracts, validUntilCheckpoint: s.checkpoint + 64});
+  let rejected = false;
+  try {await run(h.ordinaryBinary, ['preflight', h.config, actor.secret, input, out], join(base, 'omitted-early-release-negative.log'), h.env);} catch {rejected = true;}
+  assert.ok(rejected, 'consented terms must remain locked while omitted epoch is open');
+  assert.ok(!existsSync(join(out, 'intent.json')) && !existsSync(join(out, 'request.json')), 'negative proof must not reach transmission');
+  assert.match(readFileSync(join(base, 'omitted-early-release-negative.log'), 'utf8'), /admission consent locks terms until epoch closure/);
+  save(negative, {checkedAt: new Date().toISOString(), rejected, marketIds: h.markets.map(m => m.id), scope: 'first AMM assertion rejects the combined call stack; all four negative CFCs are separately archived', broadcastAttempted: false});
+ }
+ await fund('omitted-abort-fund');
+ while ((await publicState(h.config)).checkpoint <= plan.cutoff) await pause(10000);
+ for (let i = 0; i < services.length; i++) await services[i].step('omitted-' + h.markets[i].kind + '-abort', operation('abort_empty_epoch'));
+ await h.user('bob', 'omitted-bob-release-enroll', h.markets.flatMap(m => [m.order('release_unaccepted', []), m.order('request_recovery', [BigInt(m.vault)])]));
+ for (let i = 0; i < services.length; i++) {
+  const mask = h.markets[i].kind === 'bondingcurve' ? 6n : h.markets[i].kind === 'nftmarket' ? 4n : 5n;
+  await services[i].step('omitted-' + h.markets[i].kind + '-funding-return', t => operation('recover_funding')(t) && parseLosslessJson(t.submission).contract_calls.some(c => c.method_name === 'recover_funding' && c.inputs.at(-1) === mask));
+ }
+ await services[3].step('omitted-nftmarket-nft-return', operation('recover_nft'));
+ await h.user('bob', 'omitted-bob-claim', await payoutClaims(await publicState(h.config), {userId: actor.id, markets: h.markets, tokenAbi: h.token, nftAbi: h.nft, nftSlot: 0}));
+ const before = parseLosslessJson(readFileSync(beforePath, 'utf8')), after = await cohortAssets(await publicState(h.config), spec);
+ for (const asset of spec.assets) {assert.equal(after.totals[asset], 1000n * unit); assert.equal(after.accounts[actor.id].ft[asset], before.accounts[actor.id].ft[asset]);}
+ assert.deepEqual(after.nfts, before.nfts);
+ let userFees = 0n, totalFees = 0n;
+ for (const name of readdirSync(join(base, 'attempts')).filter(x => x.startsWith('omitted-'))) {const p = join(base, 'attempts', name, 'included.json'); if (!existsSync(p)) continue; const r = read(p); const fee = BigInt(r.receipt.data.result.fees_collected); totalFees += fee; if (r.receipt.data.owner_user_id === actor.id) userFees += fee;}
+ for (const f of services) for (const r of (await f.journal.records()).filter(x => x.status === 'included' && Number(x.result.checkpoint) > Number(before.checkpoint))) totalFees += BigInt(r.result.receipt.data.result.fees_collected);
+ assert.equal(before.accounts[actor.id].native - after.accounts[actor.id].native, userFees, 'all sender principal and all four fee escrows returned');
+ assert.equal(before.nativeTotal - after.nativeTotal, totalFees, 'global native delta equals actual included fees');
+ save(join(base, 'public/omitted-assets-after.json'), after);
+ save(join(base, 'public/omitted-complete-v1.json'), {completedAt: new Date().toISOString(), marketIds: h.markets.map(m => m.id), deliberatelyOmitted: actor.id, acceptedMembers: 0, terminalEpochRequired: true, ordinaryClaimsIncluded: true, originalSenderFtNftAndNativePrincipalReturned: true, userFees, totalFees, globalFairnessClaim: false});
+} finally {for (const f of services) await f.close();}
