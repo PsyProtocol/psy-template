@@ -1,0 +1,35 @@
+{
+  "schema": 1,
+  "sourceDirectory": "/private/tmp/psy-market-registration-durability-evidence-20261021-v1",
+  "machine": "gewenbo.local",
+  "host": "macOS-15.7.3-arm64-arm-64bit",
+  "scope": "public formal Executor run including failures; success requires exact included receipt",
+  "walletFilesIncluded": false,
+  "sealedBinariesIncluded": false,
+  "records": [
+    {
+      "source": "RESULT.json",
+      "file": "files/RESULT.json.gz",
+      "bytes": 167,
+      "sha256": "edb05a2421e9a1c198178e0e3529f6ce6539f5c81b4d1111b8e70520d83b5197",
+      "gzipBytes": 148,
+      "gzipSha256": "77e0596d206b940d366a57454efef9e61a1be1ad0ad49f3a47bf55dcf1a627a5"
+    },
+    {
+      "source": "atomic-registration-targeted.log",
+      "file": "files/atomic-registration-targeted.log.gz",
+      "bytes": 843,
+      "sha256": "60d0061c409ef6a143b54c7330b790051454dc9abcca4a7b9812d42d0f9d39c5",
+      "gzipBytes": 343,
+      "gzipSha256": "295000fa54c5760c2384a619db7a37935aa1aa784c7ac944fa2e37b848347e6f"
+    },
+    {
+      "source": "regression-162.log",
+      "file": "files/regression-162.log.gz",
+      "bytes": 36193,
+      "sha256": "fc049c43c971d5c266bcc9d5172399b9bf37c6616677804abcfd402bf4781bf9",
+      "gzipBytes": 7905,
+      "gzipSha256": "34c239b7639da58788525daed86fa4bbcf11124cd56ab935f2a4a490ab277313"
+    }
+  ]
+}

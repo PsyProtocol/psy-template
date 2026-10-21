@@ -4,6 +4,33 @@ Branch: `markets-batch-capacity-recovery-20261020`; accepted starting commit
 `e45d689e6806d362c03f15697c90aba44f8704e7`. No Node edits, old-contract update
 probes, new branches or replacement of original artifacts are authorized here.
 
+## NFT deployed; acknowledged registration stopped on public-read outage
+
+NFT Market **2481** deployed at **360844**, with a verified **0→82-field**
+initial layout. Its key-registration request and acknowledgement are saved;
+subsequent public-state reads failed with connect timeouts. An explicit restart
+took the existing-receipt read-only reconciliation branch, without another
+deployment, registration or proof. No replacement-market funding has occurred.
+At **12:48:39 UTC**, realm1/coordinator/Services TLS responses had returned in a
+bounded diagnostic, while realm0 still timed out. This is availability observed
+from this machine, not evidence of stopped block production. Normal HTTPS,
+the existing local proxy, and public-DNS-IP/SNI diagnostics were saved; no global
+proxy, endpoint, certificate or Node setting was changed. NFT mapping, complete
+deployment marker, funding, settlement and ordinary claims remain pending.
+
+Registration publication now uses durable, complete, no-overwrite atomic files.
+If interrupted after the included record and before the live registration,
+read-only recovery verifies immutable identity, indexed occurrence and all
+dependency bindings, then publishes the same canonical bytes to the missing
+path. Later observation checkpoints do not rewrite the original record.
+Concurrent publishers agree on one canonical record; conflicting roots, indexed
+identity or destination bytes stop and remain preserved. Registration also
+compares **all** market metadata with its deployed leaf: code/layout/function
+roots, height, field and slot counts. The earlier two-field comparison is gone.
+Three targeted durability cases and **162/162** relevant application regressions
+passed; logs/hashes are in `registration-publication-recovery-v1/`. This is not
+confirmation of the pending live registration or a production certificate.
+
 ## Replacement Curve genuinely deployed and registered
 
 Curve **2480** is included at **360814**, new bulk vault **653504** (realm 0),

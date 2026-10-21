@@ -4,7 +4,8 @@ import assert from 'node:assert/strict';
 import {join} from 'node:path';
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
-import {read,save,run,binding,ordinary,confirmUps,confirmRegistration} from './liveSupport.mjs';
+import {read,save,run,binding,contractBinding,ordinary,confirmUps,confirmRegistration} from './liveSupport.mjs';
+import {publishRegistration} from './registrationPublication.mjs';
 import {bindAdmission} from './build.mjs';
 import {scanAdmission,queueMaintenance} from './reader.mjs';
 import {publicState} from '../../executor/publicState.mjs';
@@ -41,8 +42,8 @@ export async function reconcileRegisteredMarket({base,config,build,deployment,de
  const id=deployment.contractId,policy=read(join(build,'bound/policy.json')),out=join(base,'attempts','register-'+policy.market+'-vault-v1');assert.equal(policy.market_id,id);
  const receipt=read(join(out,'receipt.json')),request=read(join(out,'request.json'));let vaultId;
  for(let i=0;i<120;i++){const s=await publicState(config),ids=await s.userIds(receipt.publicKeyHash);assert.ok(ids.length<=1,'ambiguous vault registration');if(ids.length){vaultId=ids[0];break;}await new Promise(r=>setTimeout(r,10000));}assert.ok(vaultId,'vault registration unresolved');
- const s=await publicState(config),marketBinding=await binding(s,id),l=deployment.leaf;assert.equal(marketBinding.contract.codeRoot,l.code_root);assert.equal(marketBinding.contract.layoutRoot,l.state_layout_root);
+ const s=await publicState(config),marketBinding=await binding(s,id),l=deployment.leaf;assert.deepEqual(marketBinding,contractBinding(id,l),'deployed market metadata changed');
  const required=[...new Set(policy.branches.flatMap(b=>b.calls.map(c=>c.contract_id)))].sort((a,b)=>a-b),map=new Map([...dependencies,marketBinding].map(b=>[b.contract.contractId,b]));const contracts=required.map(id=>{const b=map.get(id);assert.ok(b,'reviewed dependency absent '+id);return b;});for(const b of contracts)assert.deepEqual(await binding(s,b.contract.contractId),b);
  const evidence=await confirmRegistration(config,vaultId,receipt.publicKeyHash);
- const mode=read(join(build,'bound/BOUND.json')).admissionMode;const registration={checkpoint:s.checkpoint,marketId:id,vaultId,...(mode?{admissionMode:mode}:{}),publicKeyHash:receipt.publicKeyHash,fingerprint:request.public_key.fingerprint,publicKeyParam:request.public_key.public_key_param,contracts,coordinatorMappingVerified:true,indexedReceiptVerified:true,...evidence};save(join(out,'included.json'),registration);save(join(build,'live-registration.json'),registration);return {policy,registration,contracts};
+ const mode=read(join(build,'bound/BOUND.json')).admissionMode;const registration=await publishRegistration({includedPath:join(out,'included.json'),livePath:join(build,'live-registration.json'),registration:{checkpoint:s.checkpoint,marketId:id,vaultId,...(mode?{admissionMode:mode}:{}),publicKeyHash:receipt.publicKeyHash,fingerprint:request.public_key.fingerprint,publicKeyParam:request.public_key.public_key_param,contracts,coordinatorMappingVerified:true,indexedReceiptVerified:true,...evidence}});return {policy,registration,contracts};
 }
