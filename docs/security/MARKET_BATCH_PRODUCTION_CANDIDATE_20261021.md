@@ -4,6 +4,15 @@ Branch: `markets-batch-capacity-recovery-20261020`; accepted starting commit
 `e45d689e6806d362c03f15697c90aba44f8704e7`. No Node edits, old-contract update
 probes, new branches or replacement of original artifacts are authorized here.
 
+The ordered local QA commands, completion gates, evidence scope and recovery
+rules are in [the acceptance runbook](MARKET_BATCH_ACCEPTANCE_RUNBOOK_20261021.md).
+Fresh LP acceptance now captures a pre-plan, after-seed-claim asset baseline
+and a complete post-settlement interval: exact included fees, FT supply and
+issuer deposits, NFT identities, issuer shares and the 1,000 locked shares.
+It refuses to reconstruct that baseline after a plan already exists. The older
+case-specific mid-LP tail reporter is not a command for the new case. These new
+interval assertions await the fresh family's actual LP execution.
+
 ## Controlled full-UPS comparison scheduled after recovery closure
 
 `executor/acceptance/compareProofProfiles.mjs` now pins one frozen test binary,
