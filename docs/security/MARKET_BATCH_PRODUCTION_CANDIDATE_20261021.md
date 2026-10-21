@@ -165,6 +165,23 @@ Future-stage overlay **v5** freezes that one changed script at
 `8f12cf625154215dd4dc04931775939ac55f9b5ca226ec111c21717c7f0ceeb2`,
 and links v4 unchanged. Maximum-stage loaded module files remain as in v4.
 
+Maximum start encountered a preserved **pre-send** coordinator connection error
+for AMM. The driver recorded `broadcastMayHaveBeenAttempted:false`; its fresh
+send directory has neither child intent nor request. The other three starts
+included (Book/NFT 359588, Curve 359590), and all parallel jobs drained before
+the stage stopped. No transaction with an unknown outcome is being retried.
+
+Review found the acceptance poller searched every historical rejection for a
+task ID. It now reads terminal events only after that task's latest durable
+broadcast intent: an old no-send result cannot hide a later unknown attempt or
+exact inclusion. Fourteen targeted application checks passed, including one
+proof reused across explicit no-send recovery, later unknown blocking and an
+already-included duplicate. This does not weaken the production journal.
+The preserved AMM proof is eligible for a deliberate restart only if its exact
+manifest, own anchor/nonce, dependency identities, fee and original send window
+(359643) still validate. Real resumption is pending; the original failure and
+all earlier task/request/proof files remain unchanged.
+
 ## Ordered gates
 
 | Gate | Current work | Not yet established |
