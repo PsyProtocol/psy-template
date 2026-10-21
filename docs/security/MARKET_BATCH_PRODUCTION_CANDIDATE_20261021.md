@@ -68,6 +68,18 @@ was sent, and normal send-window checks remain. See the external handoff for
 strict inclusion deadlines and commit-before-reveal requirements. Node's
 pre-existing tracked diff was rehashed unchanged during this inspection.
 
+The real standalone `executor/run.mjs ... scan` loaded the frozen LP route in
+a new process and observed the open queue. This exposed an inaccurate status
+label: it said "sealed queue" before sealing. The reader now includes the
+reported queue phase, an explicit sealed flag and `proofVerified:false`, and
+labels the source as an RPC snapshot requiring authenticated execution. Queue
+selection, policy/call bytes and every proof/send check are unchanged. Nineteen
+targeted application checks passed (overlapping prior suites); the new group
+covers open, sealed, completed and empty-aborted reporting for all markets.
+Original CLI output is retained. This scan is not a positive daemon execution
+or a cryptographic inclusion certificate. A new source overlay is required
+for subsequent workers; the earlier immutable overlay remains historical.
+
 ## Ordered gates
 
 | Gate | Current work | Not yet established |

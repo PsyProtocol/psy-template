@@ -15,7 +15,7 @@ export async function scanAdmission(options,readState=publicState,files){
  const wrap=result=>{if(!result.action)return result;const f=parseLosslessJson(result.action.submission).software_defined_call.inputs.map(BigInt);return {...result,action:{...result.action,profile:'compact-v1',validUntilCheckpoint:(f[0]===1n?f[3]:f[0]===2n?expiry:BigInt(s.checkpoint)+64n).toString(),submission:losslessJson(compactRequest(policy,f)),proofVerified:false}};};
  // Bootstrap/Curve inventory are distinct maintenance. No user hint discovery.
  if(ready===0n||(options.kind==='bondingcurve'&&await at(V,'phase')===0n))return wrap(await scanBatch({...options,users:[]},async()=>s,files));
- const root=await Promise.all([0,1,2,3].map(i=>at(V,'queue_root',i)));const scope={epoch,sourceCutoff:cutoff,count,root,source:'sealed queue; proposal requires authenticated contract proof'};
+ const root=await Promise.all([0,1,2,3].map(i=>at(V,'queue_root',i)));const scope={epoch,sourceCutoff:cutoff,count,root,queuePhase,sealed:queuePhase===2n||(queuePhase===3n&&count>0n),proofVerified:false,source:'queue RPC snapshot; execution requires authenticated contract proof'};
  if(batchPhase===1n){assert.equal(queuePhase,2n,'pending batch retains sealed queue');const result=await scanBatch({...options,users:[]},async()=>s,files);return {...wrap(result),scope};}
  if(queuePhase!==2n)return {checkpoint:s.checkpoint,phase:batchPhase,scope,action:null,reason:queuePhase===1n?'awaiting-consented-admissions-and-seal':queuePhase===3n?'epoch-complete':'epoch-not-started'};
  assert.ok(count>0n&&root.some(n=>n!==0n),'nonempty sealed queue');
