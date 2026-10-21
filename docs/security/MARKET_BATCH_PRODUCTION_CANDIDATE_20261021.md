@@ -246,3 +246,21 @@ or activation broadcast existed. The harness now extracts each frozen asset's
 Original failed options/logs remain in `bootstrap-config-rejection-v1/`; the
 height/layout checks were retained and accepted the corrected configuration.
 Actual activation UPSs were still in progress at this checkpoint.
+
+AMM activation subsequently included at checkpoint 359154, and Orderbook at
+359171, through the formal journal route. Their first-user broadcasts verified
+the empty own leaf plus authenticated registration, nonce 0→1, full saved UPS,
+exact stack/session and actual fee endpoints; neither was re-proved for sending.
+The first AMM job's full preflight was 123,974 ms (initial resident key/session
+construction excluded); this seven-call maintenance sample is not a trading
+benchmark. A longer Orderbook confirmation wait was independently observed as
+nonce 1 / exact expected end leaf and then the original indexed receipt; no
+replacement or fallback submission was made. Other activations still pending.
+
+Before the trading baseline the issuer claims the one-unit FT activation seed
+returns. Later payout sweeps must not count those earlier returns as trade
+proceeds. The cost reporter also publishes the actual test envelope and its
+economic fills/s, explicitly including admission, sponsorship, extra cold
+comparisons and claims. It leaves network TPS unclaimed. Six read-only HTTPS
+samples (first round about 0.9 s, subsequent rounds about 0.34 s) are separately
+labelled as read observations, not submission/confirmation performance or an SLO.
