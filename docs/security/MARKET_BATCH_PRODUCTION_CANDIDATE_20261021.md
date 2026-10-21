@@ -39,7 +39,11 @@ registry/git caches were pre-existing. One Cargo job and two Rayon threads,
 concurrent financial acceptance on the same host: this is a cold-build
 observation, not a controlled latency comparison, bit-identical-binary promise,
 upstream-reviewed SDK publication, running-service attestation or chain TPS.
-Identity comparison and archived build provenance are being finalized.
+Four market compact key identities/public-key hashes match the frozen driver.
+Rebuilt binary SHA256s differ from the runtime binaries; the difference has
+not been attributed, so bit-level reproducibility is unverified. Runtime bytes
+were not replaced. `clean-sdk-build-v1/` contains 12 hash-verified build/input/
+identity log files; no SDK checkout, wallet secrets or executable is published.
 
 ## Recovery and concurrent-admission evidence update
 
