@@ -13,16 +13,33 @@ consumed SDK files match the frozen dependency snapshot. Node’s pre-existing
 tracked diff remains `002e35e0b13cb6c422fe3abf500ce6aa5241229264d85a3314f22b5e14b59a64`.
 NFT 2469 remains retired; NFT 2472 is the corrected live baseline.
 
+## Current acceptance ledger (supersedes historical progress paragraphs)
+
+Last completed milestone: exact sender return and ordinary claim, archived in
+`bootstrap-orphan-return-v1/`. All four fresh deployments and activations are
+confirmed; Curve inventory initialization is confirmed at checkpoint **359318**.
+The LP order is confirmed and the formal LP admission worker is running. The
+maximum four-member economic batches, controlled warm/cold full-proof pairs,
+omitted-order exits and replacement NFT expiry/competition stages have **not yet
+completed**. Their scripts and waiting workers are not acceptance evidence.
+
+The formal LP scanner rejected missing sponsorship without proving or sending;
+its actual funding request is retained as
+`public/liquidity-missing-gas-scan.json` in the original run. Funding remains an
+explicit ordinary-wallet action. The immutable LP plan uses the existing
+128-checkpoint bound, selected before admission; its cutoff is not moved when
+proving or confirmation is slow.
+
 ## Ordered gates
 
 | Gate | Current work | Not yet established |
 | --- | --- | --- |
-| 1 Formal Executor | Explicit `batch-admission-compact-v1` route, authenticated queue maintenance and compact settlement; existing journal/locks; prepared-proof hashes and fresh broadcast checks | New entrance real network acceptance, full fault matrix and release review remain in progress |
-| 2 End-to-end cost | Prepared proof can be broadcast without invoking the prover again; phase measurements added | No measured speedup claimed until same-host full-proof and live timing comparison completes; persistent circuit/session reuse still under evaluation |
-| 3 Before-admission fairness | Public immutable admission plans are hints; every admission requires chain-authenticated user consent; missing sponsorship yields a concrete funding request | Opt-in/finite queue is not global inclusion or censorship resistance; exit/recovery review in progress |
+| 1 Formal Executor | Explicit `batch-admission-compact-v1` route; journal/locks and saved-proof broadcast; four fresh real activations and exact sender return/ordinary claim confirmed; 104 application regressions | Maximum economic entrance and replacement NFT competition/timeout acceptance remain in progress; application checks are not network trades |
+| 2 End-to-end cost | Saved proof is not re-proved for broadcast; phase metrics; immutable circuit reuse with fresh sessions; strict same-checkpoint calibration implemented | Positive paired full-proof samples and maximum live cost report pending; no speedup or chain TPS claim |
+| 3 Before-admission fairness | Own-consent lock, immutable finite plans, explicit gas requests, terminal exit and sender-bound recovery; one actual unused-funding return closed | Pre-admission selection/refusal is not global censorship resistance; omitted consented orders still need their new live terminal-exit matrix |
 | 4 Random order | Deterministic mode retained | Authenticated future source, actual pre-revelation inclusion and anti-abort requirements remain external unless verified |
 | 5 Release trust | Existing reproducible SDK snapshot and Node unchanged checks retained | Runtime image attestation, unique production domain and effective upgrade authorization remain unverified |
-| 6 Current-version live matrix | Preserve earlier results; target NFT 2472 and full four-member capacity | New route and replacement-version races, nonempty timeout/refreeze/recovery and maximum live batches remain pending |
+| 6 Current-version live matrix | Fresh 2473/2474/2475/2476 deployed, registered and activated; 2476 incorporates corrected 2472 semantics; 2469 retired | Maximum four-member batches, nonempty timeout/refreeze, contention and full ordinary economic claims remain pending |
 
 ## New Executor trust boundary
 
