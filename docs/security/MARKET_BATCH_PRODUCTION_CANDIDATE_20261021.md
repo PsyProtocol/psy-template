@@ -306,3 +306,22 @@ hashes, calls, nonce and fee before the normal warm proof may be sent. Cold
 source-setup overhead is separately recorded; no state equality check is
 removed to make a comparison pass. The driver build manifest is a build-time
 source snapshot; subsequent JS runtime commits are separately reviewable.
+
+## Four fresh activations confirmed
+
+All four first-account activations are now included: AMM 359154, Orderbook
+359171, Curve 359182 and NFT Market 359242. Each saved proof's new nonce is 1;
+all four fresh registration witnesses, entire UPS/stack/session, fee endpoints,
+indexed identities and common-realm visibility were checked. Sending did not
+re-prove. `four-fresh-activations-v1/manifest.json` contains 138 completed public
+files (about 4.2 MB gzip), including requests, actual proof bytes, preflight,
+guards, registration witnesses, raw responses and receipts. Every compressed
+and decompressed hash was checked against the unchanged original files.
+This selected archive is activation-only, not the full eventual run.
+
+NFT activation's scenario tag `holder-v3` is a scenario revision, using frozen
+driver **v2**. Later maximum/exit/competition stages select driver **v3** for
+controlled-source cost comparison; registered identities are unchanged. Bob's
+original unused NFT activation deposit is being returned separately, with a
+closed three-account native/FT interval and ordinary-wallet claim. No economic
+batch or production-readiness result follows from activation alone.

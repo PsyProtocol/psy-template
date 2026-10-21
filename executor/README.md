@@ -354,6 +354,10 @@ other routes. `scan` only proposes; `once`/`watch` may prove and submit. A publi
 with at most four ascending distinct owners. It is an operator discovery hint.
 Every actual admission requires the owner's on-chain signed consent. The sealed
 queue, including every accepted member, defines settlement scope thereafter.
+The plan is fixed for one epoch. After it is terminal, start a worker with a
+distinct immutable next-epoch plan/config, preserving the same vault journal;
+overwriting a live plan is rejected. Automatic next-plan generation is not
+provided by this profile.
 
 Required pins: ABI, driver config, policy, all dependency roots/counts/whitelist,
 registered public key/fingerprint, reviewed binary SHA256, explicit testnet
@@ -410,3 +414,12 @@ This path needs a working prover, RPC access, gas and chain progress. It offers
 neither free nor unconditional service, and no proof that an operator admitted
 all requests. The immutable selected plan does not prove fairness before entry.
 Source-checkpoint ordering is not authenticated wall-clock arrival ordering.
+
+The current NFT activation additionally requires an activation payer who holds
+an NFT in the configured collection; acknowledgement alone gives no ownership.
+Use an existing holder's authorized seed funding. Unused deposits from another
+sender remain that sender's recoverable money. When a vault is short of gas,
+standalone `fund_gas` and the following recovery are two UPSs: the scanner
+requires two fee budgets and reports existing pending funds plus the additional
+amount separately. Inspect partial/overfunding rather than sending the total
+again. Single-UPS admission maintenance still requires one budget.
