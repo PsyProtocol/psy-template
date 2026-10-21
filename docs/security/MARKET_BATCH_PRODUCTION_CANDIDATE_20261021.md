@@ -26,7 +26,9 @@ first maximum intake reached its unchanged cutoff **359673** without admitting
 any members after preserved client/read failures. All four empty epochs are
 now terminal (359725/359736); exact native fees total **5.000029000 test PSY**,
 QA FT/NFT inventory is conserved, and deposits/order nonces are retained for a
-fresh, separately consented epoch. The maximum four-member economic batches, controlled warm/cold full-proof pairs,
+fresh, separately consented epoch. The renewed four-market starts are now confirmed: Book/NFT **359774**, Curve
+**359791**, AMM **359793**, at fixed renewed cutoff **359887**. Fresh ordinary
+user consent is in progress. The maximum four-member economic batches, controlled warm/cold full-proof pairs,
 omitted-order exits and replacement NFT expiry/competition stages have **not yet
 completed**. Their scripts and waiting workers are not acceptance evidence.
 
@@ -370,6 +372,34 @@ Overlay **v10** binds source `4deefda`, 282 JS sources, SHA256
 `aecf168361f8cd23178dcfd3d3c417081a635a7fbdaf727175a62574fa2d0198`.
 The isolated Curve restart loaded that version; the no-send status correction
 requires a later overlay. No binary, SDK, market or Node source changed.
+
+### Four renewed starts and actual production CLI recovery — confirmed
+
+`renewed-four-starts-cli-recovery-v1/` archives all four exact start UPSs,
+failures, source/config/task bindings and indexed/common inclusion. Book/NFT
+confirm at **359774**, Curve at **359791**, AMM at **359793**. The original Curve
+failure had no full proof; its explicitly restarted first full UPS is included.
+AMM has **one** saved full proof, **three** parent send attempts, **one** actual
+child transmission and **one** included receipt; saved/transmitted bytes match.
+The real production CLI handled the last send and a separate later invocation
+returned `already-included` with zero new proof or transmission. Its earlier
+nonzero `unresolved` exit was correctly treated as incomplete, then reconciled
+read-only to the exact receipt. First-version incorrectly zero exit remains
+archived as a fixed defect, not successful acceptance.
+
+The 43.8-second second CLI process is saved-proof checks/RPC/send/acknowledgement,
+not proving or confirmation. The later included-parent report observes already
+included work and excludes earlier attempts. Future reports now label execution
+status and local observation scope; the cost report conservatively labels old
+reports and includes all earlier work in the complete order-to-claim envelope.
+No short recovery return is used as a full-proof speedup. Paired economic proof
+measurements and ordinary trade claims remain pending.
+
+Source overlay **v11** binds pushed source `f03761e`, SHA256
+`b918c9ea6ecf7e97448a214da819f572acc4d39d13fcecc9929a306275a9534c`.
+The continuing maximum worker loaded that revision. Later timing labels do not
+change request/circuit/session behavior. A fresh local Node tracked-diff hash
+still matches the untouched baseline; this is not remote runtime attestation.
 
 ## Ordered gates
 
