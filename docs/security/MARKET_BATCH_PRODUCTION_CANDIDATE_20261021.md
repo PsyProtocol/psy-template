@@ -160,6 +160,10 @@ Each group drains all jobs before surfacing failure. Its future plan selects
 the existing 128-checkpoint maximum; no existing plan is changed. Syntax checks
 passed; live acceptance is pending. This change affects the future competition
 script only, not the already running maximum stage or frozen driver/keys.
+Future-stage overlay **v5** freezes that one changed script at
+`b6a9959646e90e0b018ba61683cafa32e4a37d07`, SHA256
+`8f12cf625154215dd4dc04931775939ac55f9b5ca226ec111c21717c7f0ceeb2`,
+and links v4 unchanged. Maximum-stage loaded module files remain as in v4.
 
 ## Ordered gates
 
