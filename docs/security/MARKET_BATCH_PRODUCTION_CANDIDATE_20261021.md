@@ -4,6 +4,17 @@ Branch: `markets-batch-capacity-recovery-20261020`; accepted starting commit
 `e45d689e6806d362c03f15697c90aba44f8704e7`. No Node edits, old-contract update
 probes, new branches or replacement of original artifacts are authorized here.
 
+## Replacement Curve genuinely deployed and registered
+
+Curve **2480** is included at **360814**, new bulk vault **653504** (realm 0),
+targeting the fresh AMM vault **1013952**. Its distinct deployer, fresh receipt,
+compiled target and **0→76-field** initial layout, deployed metadata and indexed
+registration all passed. `replacement-curve-registered-v1/` contains **26**
+original/compressed-hash-verified files. NFT's separate **82-field** initial
+layout proof is now running; no shared field-count assumption is used. All
+three registered replacement vaults are still unactivated/unfunded; maximum
+four-member execution and ordinary claims remain pending.
+
 ## Replacement Book genuinely deployed and registered
 
 Orderbook **2479** is included at **360790**, with new bulk vault **1767616**

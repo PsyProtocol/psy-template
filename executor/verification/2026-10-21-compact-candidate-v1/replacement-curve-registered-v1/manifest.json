@@ -1,0 +1,219 @@
+{
+  "schema": 1,
+  "sourceDirectory": "/private/tmp/psy-market-candidate-bulk-live-20261021-v2",
+  "machine": "gewenbo.local",
+  "host": "macOS-15.7.3-arm64-arm-64bit",
+  "scope": "public formal Executor run including failures; success requires exact included receipt",
+  "walletFilesIncluded": false,
+  "sealedBinariesIncluded": false,
+  "records": [
+    {
+      "source": "attempts/deploy-bondingcurve-v1/before.json",
+      "file": "files/attempts/deploy-bondingcurve-v1/before.json.gz",
+      "bytes": 230,
+      "sha256": "4e6284d1f08d2f9f33ded11e150716ae04d1b582ca54d71b759957af71eb9cc7",
+      "gzipBytes": 148,
+      "gzipSha256": "94879953cbe528d2a6ee3c8ec593cc9703ef84795217096c56845b0d1599eae1"
+    },
+    {
+      "source": "attempts/deploy-bondingcurve-v1/included.json",
+      "file": "files/attempts/deploy-bondingcurve-v1/included.json.gz",
+      "bytes": 1745,
+      "sha256": "c371b0a526d40cc53f6cc0fa24af2f2f7472f1beadee192210ff99b9ac9ddf63",
+      "gzipBytes": 815,
+      "gzipSha256": "09fa5392bb698af2fd874deec8a7df5f9bfbe03964ce3576b21a7eeb3b148296"
+    },
+    {
+      "source": "attempts/deploy-bondingcurve-v1/intent.json",
+      "file": "files/attempts/deploy-bondingcurve-v1/intent.json.gz",
+      "bytes": 208,
+      "sha256": "d3c932bdb1be04a88fb2e75af12da5ad310d86cc669817eb13916c8e1a03027f",
+      "gzipBytes": 173,
+      "gzipSha256": "54c09bb6ac3b916246756cc3372dad72c0ace2a4ad98c42d0ac3e14788739688"
+    },
+    {
+      "source": "attempts/deploy-bondingcurve-v1/preflight.json",
+      "file": "files/attempts/deploy-bondingcurve-v1/preflight.json.gz",
+      "bytes": 702,
+      "sha256": "0b5cf1c0a1dd6d8ad7006f174fc000ce36bd1fe0dbf0153bea4b0c0c90422bab",
+      "gzipBytes": 438,
+      "gzipSha256": "46a19ab232bd8bc484996db3bb091b5be06d870cda465a0a1be681a679efd3da"
+    },
+    {
+      "source": "attempts/deploy-bondingcurve-v1/receipt.json",
+      "file": "files/attempts/deploy-bondingcurve-v1/receipt.json.gz",
+      "bytes": 84,
+      "sha256": "5085f4bb5bd8cf9af9f8a7621654e635edb3919c9dba7828a32ed0e25a46fe11",
+      "gzipBytes": 94,
+      "gzipSha256": "c68dae78a8e77ff9d6f5130c2ead473402ea1881f737c67ab3193db08c18ebe5"
+    },
+    {
+      "source": "attempts/deploy-bondingcurve-v1/request.json",
+      "file": "files/attempts/deploy-bondingcurve-v1/request.json.gz",
+      "bytes": 182989230,
+      "sha256": "0cd00ef5fd28f1e0eda527e20bb6084a446d1b4fa84a1534f8e0ca506b70a5e0",
+      "gzipBytes": 2739542,
+      "gzipSha256": "6bf11adc17beb4ac2866e6991955238eb77398a4f76298acdea6480aed39d1ce"
+    },
+    {
+      "source": "attempts/deploy-bondingcurve-v1/timing.json",
+      "file": "files/attempts/deploy-bondingcurve-v1/timing.json.gz",
+      "bytes": 107,
+      "sha256": "e8558e53c48f37477d646886d0902eb8a222ab17fbaccae2af278c480834bda5",
+      "gzipBytes": 106,
+      "gzipSha256": "40c5f6e488e4d84961da7bc45c0907bd0696b4a8b0ef0b53ee94aebb472fedca"
+    },
+    {
+      "source": "attempts/register-bondingcurve-vault-v1/included.json",
+      "file": "files/attempts/register-bondingcurve-vault-v1/included.json.gz",
+      "bytes": 3007,
+      "sha256": "02e9d6af477b6c0e71e2ba42f59e3a78ab1ac87136d4007747e2002a2ce6be03",
+      "gzipBytes": 1085,
+      "gzipSha256": "8c56eac2332b1c2fabe9e9a77c1d1fc8d41146a6a7f9a7f7f2fdc1ac40a9b835"
+    },
+    {
+      "source": "attempts/register-bondingcurve-vault-v1/intent.json",
+      "file": "files/attempts/register-bondingcurve-vault-v1/intent.json.gz",
+      "bytes": 317,
+      "sha256": "c6f586c1c7095277f60807c23ebe152235fda983a56402bf9fc9b6656abe535b",
+      "gzipBytes": 239,
+      "gzipSha256": "4807ccd1eb02b6b690d4f237047e213317197e2254a017637088730a3493ebea"
+    },
+    {
+      "source": "attempts/register-bondingcurve-vault-v1/receipt.json",
+      "file": "files/attempts/register-bondingcurve-vault-v1/receipt.json.gz",
+      "bytes": 151,
+      "sha256": "c3ee47f6a891946070b527103c8b0c757a3020e1cb167010e44cc8b077888712",
+      "gzipBytes": 142,
+      "gzipSha256": "4202d39d2bba18968318720a01ab602e180f80d1e615cb3ebdc2887ec2663a1e"
+    },
+    {
+      "source": "attempts/register-bondingcurve-vault-v1/request.json",
+      "file": "files/attempts/register-bondingcurve-vault-v1/request.json.gz",
+      "bytes": 204,
+      "sha256": "06144118ade941684b86fd40e34f04f3330c4ec24b303fc9c827b31249306f39",
+      "gzipBytes": 172,
+      "gzipSha256": "2c465b29303944a5ec7aff6c1e5d3351ff1e3518ac3d499af5e16f2cf141e92e"
+    },
+    {
+      "source": "deploy-bondingcurve-v1.log",
+      "file": "files/deploy-bondingcurve-v1.log.gz",
+      "bytes": 9018,
+      "sha256": "a7928b4f63e8219dbe9d55eb6d9740ef97c46bc0670d36612fa53cf5a09e688d",
+      "gzipBytes": 1584,
+      "gzipSha256": "4059ea10d2a4d2c76ac5d26cd185a51a3587cbc7906ad9813b06907cf2442561"
+    },
+    {
+      "source": "markets-v1/bondingcurve/BUILD.json",
+      "file": "files/markets-v1/bondingcurve/BUILD.json.gz",
+      "bytes": 1011,
+      "sha256": "a3687ec50a5bb2470be254b21e5c6a0470b123854bf7715c673ee39eff11bcb1",
+      "gzipBytes": 570,
+      "gzipSha256": "09866a83e6f8faa3a85a534374e64d7c4e52d0729ea7aea6bbbc99be7c8b8fe1"
+    },
+    {
+      "source": "markets-v1/bondingcurve/bound/BOUND.json",
+      "file": "files/markets-v1/bondingcurve/bound/BOUND.json.gz",
+      "bytes": 367,
+      "sha256": "d61f8c6daa4f5ee3e2896bd0896e417918e589bba6dbccb2edf078e5758c8186",
+      "gzipBytes": 259,
+      "gzipSha256": "7ec1471319548707fc588f5da1366c7ff620a9d18701d0a84c3aaa267cb6e7bc"
+    },
+    {
+      "source": "markets-v1/bondingcurve/bound/policy.json",
+      "file": "files/markets-v1/bondingcurve/bound/policy.json.gz",
+      "bytes": 132167,
+      "sha256": "443ce1442afc889cf0f2f6f26ea44bb003b8d7aa67494e1293ee90f0c40df8eb",
+      "gzipBytes": 2985,
+      "gzipSha256": "c4fbbbe002131ff8e857b197412e493da07dd18f462da71b96e9bcd2bfa12caf"
+    },
+    {
+      "source": "markets-v1/bondingcurve/compile.log",
+      "file": "files/markets-v1/bondingcurve/compile.log.gz",
+      "bytes": 26,
+      "sha256": "d9fa0db25712af671f7feae8d5e087ac550fd521e93a94bf18eec24c3b0627c4",
+      "gzipBytes": 46,
+      "gzipSha256": "de7609fd22f4b81adb030971e88928f3b33cceaaa4c91b69cbe68db154ac556d"
+    },
+    {
+      "source": "markets-v1/bondingcurve/compiled/compilation_artifact.json",
+      "file": "files/markets-v1/bondingcurve/compiled/compilation_artifact.json.gz",
+      "bytes": 13686007,
+      "sha256": "e2faeaa14d18a65db0fded229f5f80566c7b85de0957dc020c138d5ae4710b62",
+      "gzipBytes": 1506666,
+      "gzipSha256": "0db7a66bb1f83e23654cf6a30cb235fffab66fc54790642d3346b65fde6a6cab"
+    },
+    {
+      "source": "markets-v1/bondingcurve/config.json",
+      "file": "files/markets-v1/bondingcurve/config.json.gz",
+      "bytes": 270,
+      "sha256": "51788c9e32daca1737958d924b9108cb33019239ab491fd2ef852ea972ebe3ff",
+      "gzipBytes": 165,
+      "gzipSha256": "76217cdaabd9ac44f641656e8db6f80e69b3d33ad198e0c48f17d6475a9f047f"
+    },
+    {
+      "source": "markets-v1/bondingcurve/live-registration.json",
+      "file": "files/markets-v1/bondingcurve/live-registration.json.gz",
+      "bytes": 3007,
+      "sha256": "02e9d6af477b6c0e71e2ba42f59e3a78ab1ac87136d4007747e2002a2ce6be03",
+      "gzipBytes": 1085,
+      "gzipSha256": "8c56eac2332b1c2fabe9e9a77c1d1fc8d41146a6a7f9a7f7f2fdc1ac40a9b835"
+    },
+    {
+      "source": "markets-v1/bondingcurve/main.psy.rs",
+      "file": "files/markets-v1/bondingcurve/main.psy.rs.gz",
+      "bytes": 3483501,
+      "sha256": "0bd2fb16c759922f1f81a250377e5af05252828a2f528964a98e3ba0c1d8ab0f",
+      "gzipBytes": 298737,
+      "gzipSha256": "4687c10164a2ba0c24325f423bb2a6e941bafc7ed8d1abc416c448fd401dcce4"
+    },
+    {
+      "source": "markets-v1/bondingcurve/native.json",
+      "file": "files/markets-v1/bondingcurve/native.json.gz",
+      "bytes": 184399,
+      "sha256": "bf756535620ecd6b360cf58fce90e66f1e7fecc5ed28c4445c23d745d7510606",
+      "gzipBytes": 21259,
+      "gzipSha256": "6d46dba5c8f00f000422d93709244579fb188d94c4e8f795763612ceae26380c"
+    },
+    {
+      "source": "markets-v1/bondingcurve/nft.json",
+      "file": "files/markets-v1/bondingcurve/nft.json.gz",
+      "bytes": 61243,
+      "sha256": "bbbde8620431788e8ce68067a2db425713e2195eaf1eb480e22328822d0d103c",
+      "gzipBytes": 6878,
+      "gzipSha256": "28eb3d9685962d140dc8e925209e031da42ac60c7ecfc3fe8b141d82c07e41be"
+    },
+    {
+      "source": "markets-v1/bondingcurve/token-a.json",
+      "file": "files/markets-v1/bondingcurve/token-a.json.gz",
+      "bytes": 4066238,
+      "sha256": "e259c0b8dbe1588bfe624be14e2b32dede69648b5532fce5f472434c689fdba9",
+      "gzipBytes": 458317,
+      "gzipSha256": "41a96109bd8d16c309b72aaffb554f47e206428837ed73e747f9cde4b4473ca9"
+    },
+    {
+      "source": "markets-v1/bondingcurve/token-b.json",
+      "file": "files/markets-v1/bondingcurve/token-b.json.gz",
+      "bytes": 4066238,
+      "sha256": "e259c0b8dbe1588bfe624be14e2b32dede69648b5532fce5f472434c689fdba9",
+      "gzipBytes": 458317,
+      "gzipSha256": "41a96109bd8d16c309b72aaffb554f47e206428837ed73e747f9cde4b4473ca9"
+    },
+    {
+      "source": "public/deploy-bondingcurve-build-pin-v1.json",
+      "file": "files/public/deploy-bondingcurve-build-pin-v1.json.gz",
+      "bytes": 798,
+      "sha256": "66d83ba1f85ecc9012d26ed785165ebae20d0e1afce1b49604f6826f82bd2ea3",
+      "gzipBytes": 470,
+      "gzipSha256": "19e7b8dd40e0f8b6e554e086b39a77dd9db0ce5bbda9e5ce8a8374e6216b8e79"
+    },
+    {
+      "source": "register-bondingcurve-vault-v1.log",
+      "file": "files/register-bondingcurve-vault-v1.log.gz",
+      "bytes": 485,
+      "sha256": "e0a730caad956be187b2795ff0a9b8514e13cda9043dc63f6f20a87a846bb8c9",
+      "gzipBytes": 213,
+      "gzipSha256": "8e863506f3a74395818f2ec075c484d4755eadebd561579f4ec1d747c0042dac"
+    }
+  ]
+}
