@@ -1,0 +1,34 @@
+TAP version 13
+# Subtest: production CLI action binds exact semantic task and its fresh window
+ok 1 - production CLI action binds exact semantic task and its fresh window
+  ---
+  duration_ms: 1.001625
+  ...
+# Subtest: CLI cannot substitute calls or weaken the window
+ok 2 - CLI cannot substitute calls or weaken the window
+  ---
+  duration_ms: 0.561
+  ...
+# Subtest: CLI incomplete or multiple planning fails closed
+ok 3 - CLI incomplete or multiple planning fails closed
+  ---
+  duration_ms: 0.125875
+  ...
+# Subtest: intent pin rejects idle, changed epochs and absent windows before proving
+ok 4 - intent pin rejects idle, changed epochs and absent windows before proving
+  ---
+  duration_ms: 0.634958
+  ...
+# Subtest: CLI rejects null intent and wrong mode before loading any RPC config
+ok 5 - CLI rejects null intent and wrong mode before loading any RPC config
+  ---
+  duration_ms: 153.438459
+  ...
+1..5
+# tests 5
+# pass 5
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 224.536875
