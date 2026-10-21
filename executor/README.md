@@ -423,3 +423,23 @@ standalone `fund_gas` and the following recovery are two UPSs: the scanner
 requires two fee budgets and reports existing pending funds plus the additional
 amount separately. Inspect partial/overfunding rather than sending the total
 again. Single-UPS admission maintenance still requires one budget.
+
+#### Controlled-source proof calibration
+
+The acceptance driver v3 supports `PSY_MARKET_BENCH_SOURCE_CHECKPOINT` only
+for standalone **preflight**, to reproduce the normal warm proof's authenticated
+source checkpoint before either proof is sent. `commit_batch` writes that
+checkpoint, so equal arguments alone do not imply equal resulting state.
+Calibration requires a materialized account, unchanged current own anchor,
+matching key/nonce, valid checkpoint/registration, a fresh UPS-start and all
+normal whole-proof, stack/session, fee and endpoint validation. The paired
+acceptance compares the complete new user leaf and start/end hashes as well.
+
+Normal workers strip this selector. The reviewed broadcast command rejects
+artifacts marked `benchmarkSourceCheckpoint`; acceptance sends only the normal
+prepared proof. This is an application guard, not a separate protocol/key
+domain: fingerprints are unchanged and a trusted operator must preserve the
+read-only separation. Source-setup time is reported, and one ordered warm/cold
+pair is neither a latency SLO nor evidence of network TPS. See the review's
+frozen manifests for the binary used by each stage; retain prior binaries and
+never overwrite original preflights to add a calibration marker.
