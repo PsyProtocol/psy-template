@@ -34,7 +34,9 @@ use psy_vm::ups::sd_key::{SDKeyCircuitWitnessInput, SDKeySessionContext};
 use serde::Deserialize;
 use serde_json::{json, Value};
 use sha2::{Digest, Sha256};
-use std::{env, fs, io::Write, path::Path};
+use std::{env, fs, io::{Write,BufRead}, path::Path};
+#[path = "../compact_prepared.rs"]
+mod compact_prepared;
 #[derive(Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 struct Guard {
@@ -86,11 +88,13 @@ async fn check(guard: &Guard, s: &WalletSession) -> Result<()> {
     unreachable!("bounded read guard retry returns on its last attempt")
 }
 async fn run(phase: &mut &'static str) -> Result<()> {
+    let started = std::time::Instant::now();
     *phase = "build-compact-key";
     let a = env::args().collect::<Vec<_>>();
     ensure!(a.len()>=3,"identity POLICY | register POLICY CONFIG FRESH_OUT | preflight/submit POLICY CONFIG CALLS GUARD FRESH_OUT");
     let spec: Value = serde_json::from_slice(&fs::read(&a[2])?)?;
     let circuit = batch_compact::build(&spec)?;
+    let key_ms = started.elapsed().as_millis();
     let fp = circuit.get_fingerprint();
     let private = QHashOut(HashOut {
         elements: [F::ONE; 4],
@@ -125,8 +129,13 @@ async fn run(phase: &mut &'static str) -> Result<()> {
         "policy domain differs"
     );
     net.prove_proxy_url.clear();
+    if ["broadcast-prepared", "verify-prepared"].contains(&a[1].as_str()) {
+        return compact_prepared::broadcast(&a, &spec, fp, hash, &net, phase).await;
+    }
     *phase = "initialize-staging-session";
+    let session_started = std::time::Instant::now();
     let mut session = WalletSession::new(&net).await?;
+    let session_ms = session_started.elapsed().as_millis();
     session.wallet.insert_sd_key_circuit(fp, circuit);
     if a[1] == "register" {
         ensure!(a.len() == 5, "register POLICY CONFIG FRESH_OUT");
@@ -160,6 +169,31 @@ async fn run(phase: &mut &'static str) -> Result<()> {
         println!("submitted compact public market registration {hash}");
         return Ok(());
     }
+    if a[1] == "serve-preflight" {
+        ensure!(a.len()==4,"serve-preflight POLICY CONFIG");
+        println!("PSY_COMPACT_SERVER {}",json!({"ready":true,"keyConstructionMs":key_ms,"sessionConstructionMs":session_ms}));std::io::stdout().flush()?;
+        // One immutable network/policy per process; never carries user session
+        // state across requests. Only circuit resources remain warm.
+        for line in std::io::stdin().lock().lines(){
+            let job:ResidentJob=serde_json::from_str(&line?)?;
+            let args=vec![a[0].clone(),"preflight".into(),a[2].clone(),a[3].clone(),job.calls,job.guard,job.out.clone()];
+            let mut job_phase="resident-preflight-start";
+            let result=psy_template_u124_markets::runtime::contain(process_action(&args,&spec,fp,hash,param,private,&net,&mut session,0,0,std::time::Instant::now(),&mut job_phase)).await;
+            session.user_session_mgrs.remove(&hash);
+            let error=match result {Ok(())=>None,Err(psy_template_u124_markets::runtime::Failure::Rejected(e))=>Some(format!("{e:#}")),Err(psy_template_u124_markets::runtime::Failure::Panic(code))=>Some(code.to_owned())};
+            if let Some(reason)=&error{let dir=Path::new(&job.out);if dir.is_dir(){save(&dir.join("failure.json"),&json!({"ok":false,"phase":job_phase,"reason":reason,"broadcastMayHaveBeenAttempted":false,"automaticRetry":false}))?;}}
+            println!("PSY_COMPACT_SERVER {}",json!({"id":job.id,"ok":error.is_none(),"error":error,"phase":job_phase}));std::io::stdout().flush()?;
+            ensure!(error.is_none(),"resident proof rejected; explicit restart required");
+        }
+        return Ok(());
+    }
+    process_action(&a,&spec,fp,hash,param,private,&net,&mut session,key_ms,session_ms,started,phase).await
+}
+#[derive(Deserialize)]
+#[serde(deny_unknown_fields)]
+struct ResidentJob {id:String,calls:String,guard:String,out:String}
+#[allow(clippy::too_many_arguments)]
+async fn process_action(a:&[String],spec:&Value,fp:QHashOut<F>,hash:QHashOut<F>,param:QHashOut<F>,private:QHashOut<F>,net:&psy_config::NetworkConfigGoldilocks,session:&mut WalletSession,key_ms:u128,session_ms:u128,started:std::time::Instant,phase:&mut &'static str)->Result<()> {
     ensure!(
         a.len() == 7 && ["preflight", "submit"].contains(&a[1].as_str()),
         "explicit compact action args"
@@ -203,7 +237,7 @@ async fn run(phase: &mut &'static str) -> Result<()> {
     }
     guard.identity.validate(
         &spec,
-        config.current_network_name(),
+        "sepolia",
         &fp.to_string(),
         &hash.to_string(),
     )?;
@@ -229,9 +263,11 @@ async fn run(phase: &mut &'static str) -> Result<()> {
     ensure!(key == hash, "compact public identity");
     session.start_session(key).await?;
     *phase = "prove-compact-calls";
+    let calls_started = std::time::Instant::now();
     session
         .prove_contract_call(key, data.contract_calls)
         .await?;
+    let calls_ms = calls_started.elapsed().as_millis();
     let mut manager = session
         .user_session_mgrs
         .get_mut(&key)
@@ -329,6 +365,7 @@ async fn run(phase: &mut &'static str) -> Result<()> {
         .get_sd_key_circuit(&fp)
         .context("compact circuit")?;
     *phase = "prove-compact-session-signature";
+    let signature_started = std::time::Instant::now();
     let signature = key_circuit
         .prove(
             private,
@@ -336,10 +373,14 @@ async fn run(phase: &mut &'static str) -> Result<()> {
             manager.get_sighash(PSY_NETWORK_MAGIC, nonce),
         )
         .await?;
+    let signature_ms = signature_started.elapsed().as_millis();
+    let finalize_started = std::time::Instant::now();
     let cm = session.wallet.random_circuit_manager();
     manager.proof_tree_state.finalize_tree(cm.as_ref()).await?;
+    let finalize_ms = finalize_started.elapsed().as_millis();
     let slots = manager.require_lps()?.get_total_slots_modified();
     *phase = "prove-compact-endcap";
+    let endcap_started = std::time::Instant::now();
     let proof = manager
         .prove_end_cap(
             cm.as_ref(),
@@ -357,9 +398,12 @@ async fn run(phase: &mut &'static str) -> Result<()> {
                 .clone(),
         )
         .await?;
+    let endcap_ms = endcap_started.elapsed().as_millis();
+    let verify_started = std::time::Instant::now();
     let proof_profile = psy_template_u124_markets::live_guard::verify_ups_with_session_manager(
         cm.as_ref(), &proof,
     ).await?;
+    let verify_ms = verify_started.elapsed().as_millis();
     let endcap = manager.get_api_input().await?;
     validate_endcap_binding(&endcap.core, &proof.public_inputs)?;
     ensure!(
@@ -393,15 +437,15 @@ async fn run(phase: &mut &'static str) -> Result<()> {
         "compact nonce not submittable"
     );
     check(&guard, &session).await?;
-    save(
-        &out.join("preflight.json"),
-        &json!({"fullUpsVerified":true,"proofProfile":proof_profile,"profile":"compact-v1","actualCalls":actual.len(),"logicalSlots":40,"fee":burn,"core":endcap.core,"callsSha256":format!("{:x}",Sha256::digest(&bytes)),"guardSha256":format!("{:x}",Sha256::digest(&guard_bytes)),"broadcast":false}),
-    )?;
+    let preflight = json!({"fullUpsVerified":true,"timingsMilliseconds":{"keyConstruction":key_ms,"sessionConstruction":session_ms,"callProving":calls_ms,"signatureProving":signature_ms,"recursiveFinalize":finalize_ms,"endCapProving":endcap_ms,"fullProofVerify":verify_ms,"preflightTotal":started.elapsed().as_millis()},"exactStackAndSessionVerified":true,"proofProfile":proof_profile,"profile":"compact-v1","actualCalls":actual.len(),"logicalSlots":40,"fee":burn,"core":endcap.core,"callsSha256":format!("{:x}",Sha256::digest(&bytes)),"guardSha256":format!("{:x}",Sha256::digest(&guard_bytes)),"broadcast":false});
     let request = QSubmitEndCapRPCRequest {
         user_ec_input: endcap,
         proof: bincode::serialize(&proof)?,
     };
+    save(&out.join("preflight.json"), &preflight)?;
     save(&out.join("request.json"), &request)?;
+    let prepared = compact_prepared::manifest(&a[2], &bytes, &guard_bytes, out)?;
+    save(&out.join("prepared.json"), &prepared)?;
     if a[1] == "preflight" {
         println!("verified compact UPS {end}; not submitted");
         return Ok(());
@@ -430,7 +474,7 @@ async fn main() -> std::process::ExitCode {
             // RPC/guard diagnostics, without logging any ordinary wallet file.
             let reason=match failure{psy_template_u124_markets::runtime::Failure::Rejected(e)=>format!("{e:#}"),psy_template_u124_markets::runtime::Failure::Panic(code)=>code.to_owned()};
             let report=json!({"ok":false,"phase":phase,"reason":reason,"broadcastMayHaveBeenAttempted":phase=="broadcast-compact-ups","automaticRetry":false});
-            let a=env::args().collect::<Vec<_>>();let index=if a.get(1).map(String::as_str)==Some("register"){4}else{6};
+            let a=env::args().collect::<Vec<_>>();let index=if a.get(1).map(String::as_str)==Some("register"){4}else if matches!(a.get(1).map(String::as_str),Some("broadcast-prepared")|Some("verify-prepared")){8}else{6};
             if let Some(out)=a.get(index){let dir=Path::new(out);if dir.is_dir(){let _=save(&dir.join("failure.json"),&report);}}
             eprintln!("{report}");
             std::process::ExitCode::FAILURE

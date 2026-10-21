@@ -65,9 +65,9 @@ export async function watchWorker({options,createAdapter,createJournal,limiter,s
    const status=classifyError(error);failures++;
    delay=Math.min(maxBackoffMs,delay*2**Math.min(failures,10));
    await onStatus({status,message:error.message,tasks:error.tasks,failures,retryInMs:status==='halted'?null:delay});
-   if(status==='halted')return;
+   if(status==='halted'){await adapter?.close?.();return;}
   }
   await wait(delay,signal);
  }
- await onStatus({status:'stopped'});
+ await adapter?.close?.();await onStatus({status:'stopped'});
 }

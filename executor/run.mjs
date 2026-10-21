@@ -14,7 +14,7 @@ if(mode==='watch'){
   users:()=>currentUsers(options),onStatus:result=>{if(!['scanning','reconciling','idle','queued','executing'].includes(result.status))show(result);if(result.status==='halted')process.exitCode=1;}});
 }else{
  options.users=await currentUsers(options);const adapter=await createPublicWalletAdapter(options);
- if(mode==='scan')show(await adapter.scan());
+ try{if(mode==='scan')show(await adapter.scan());
  else if(mode==='reconcile')show(await makeJournal(options).reconcile(adapter.reconcile));
- else show(await executeCycle({adapter,journal:makeJournal(options),signal:stop.signal}));
+ else show(await executeCycle({adapter,journal:makeJournal(options),signal:stop.signal}));}finally{await adapter.close?.();}
 }
