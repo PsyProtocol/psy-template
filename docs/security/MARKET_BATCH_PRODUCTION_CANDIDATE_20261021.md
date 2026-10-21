@@ -4,6 +4,43 @@ Branch: `markets-batch-capacity-recovery-20261020`; accepted starting commit
 `e45d689e6806d362c03f15697c90aba44f8704e7`. No Node edits, old-contract update
 probes, new branches or replacement of original artifacts are authorized here.
 
+## Recovery replay correction and observed outage handling
+
+A real restart exposed an acceptance-orchestrator defect: empty work in an
+already completed historical round was mistaken for terminal recovery. The
+script made four legitimate partial ordinary claims, then its final audit
+rejected **two still-pending NFTs**. No closure/success marker was written.
+`runRecoveryRounds` now skips historical rounds without declaring completion;
+all explicit market exhaustion markers are required, and unknown executions
+still stop immediately. Original claim receipts and failed audit logs remain.
+A new final-claim label preserves those partial claims; explicit read-only
+already-claimed observations avoid an empty or duplicate financial transaction.
+
+The original NFT return failed before proof/session creation and has only a
+planned journal record. A new explicit recovery label uses a fresh legitimate
+window, preserving the old unsigned task instead of altering an old signed
+proof. SDK-wrapped registration/transport errors now qualify only for the bound
+public key, fixed RPC endpoint and failure-only pre-session directory. After
+bounded read retries, the watch service backs off as read-unavailable; genuine
+registration errors, post-call failures and unknown sends still halt. Mock watch
+recovery proves once/sends once after the outage; an actual preserved failure
+directory passes the narrow classifier. New route real acceptance is pending.
+
+**143** relevant Executor/acceptance/asset-accounting regressions passed. The
+new bulk maximum run will execute the four seven-call admissions through the
+real production CLI `once --expected-task`; paired commit/settlement observations
+remain on the measured resident adapter. No binary/key/contract/Node change is
+introduced by these orchestration fixes.
+
+A fresh application source checkout and SDK reconstructed from Git objects,
+frozen three-file delta, Genesis and Cargo.lock built both release wallet
+binaries successfully offline in **22m17s**. The Cargo target started empty;
+registry/git caches were pre-existing. One Cargo job and two Rayon threads,
+concurrent financial acceptance on the same host: this is a cold-build
+observation, not a controlled latency comparison, bit-identical-binary promise,
+upstream-reviewed SDK publication, running-service attestation or chain TPS.
+Identity comparison and archived build provenance are being finalized.
+
 ## Recovery and concurrent-admission evidence update
 
 Completed requests, full proofs, receipts, ordinary releases and the explicit
@@ -113,6 +150,9 @@ excluded from Git and public evidence.
 - Historical AMM cancelled-partial commitment: resident preflight **116.359 s**,
   cold preflight **175.343 s**, identical 3-call stack, authenticated source
   checkpoint 359982, fee 1.000026000 test PSY, nonce and state endpoints. The
+  cold preflight also includes **6.880 s** of read-only historical-source
+  calibration, which the warm run does not need. The entire difference cannot
+  be attributed to circuit caching or treated as a normal cold-start benchmark. The
   original driver reported complete proof verification; the recovery script
   independently checks saved digests and metadata, not cryptographic replay.
   The old proof is expired and will not be sent. Outer cold-process timing and
