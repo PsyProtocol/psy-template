@@ -37,6 +37,14 @@ error. This reduces avoidable scheduling delay without weakening any cutoff,
 retrying an unknown submission or claiming same-pool parallel execution. The
 script passes syntax validation; its live gate remains pending.
 
+Team artifact integrity is reproducible using
+`executor/acceptance/verifyCompactArchive.py` (read-only, optional exact original
+comparison). Both completed milestone archives passed: 138 activation files and
+75 sender-return files. Six negative/positive groups cover changed compressed
+bytes, changed decompressed hashes, traversal, duplicate/unlisted files, changed
+originals and symlinks. `artifact-integrity-v1.json` contains the transcript and
+totals. This verifies archived bytes, not UPS validity or release authorization.
+
 ## Ordered gates
 
 | Gate | Current work | Not yet established |

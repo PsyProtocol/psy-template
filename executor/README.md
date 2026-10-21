@@ -443,3 +443,19 @@ read-only separation. Source-setup time is reported, and one ordered warm/cold
 pair is neither a latency SLO nor evidence of network TPS. See the review's
 frozen manifests for the binary used by each stage; retain prior binaries and
 never overwrite original preflights to add a calibration marker.
+
+### Verify archived acceptance files
+
+From the repository root, without a wallet or RPC connection:
+
+```sh
+python3 executor/acceptance/verifyCompactArchive.py executor/verification/2026-10-21-compact-candidate-v1/four-fresh-activations-v1
+python3 executor/acceptance/test_verifyCompactArchive.py
+```
+
+If the original run is locally available, add
+`--original-base /tmp/psy-market-candidate-live-20261021-v3` to compare each
+decompressed file with its original bytes. The verifier is read-only and
+rejects changed compressed/raw bytes, missing/unlisted/duplicate files, unsafe
+paths and symlinks. It checks artifact integrity only; the separate pinned
+full-UPS verifier, receipt checks and external release gates remain necessary.
