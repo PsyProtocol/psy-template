@@ -1,0 +1,363 @@
+{
+  "schema": 1,
+  "sourceDirectory": "/private/tmp/psy-market-candidate-bulk-live-20261021-v2",
+  "machine": "gewenbo.local",
+  "host": "macOS-15.7.3-arm64-arm-64bit",
+  "scope": "public formal Executor run including failures; success requires exact included receipt",
+  "walletFilesIncluded": false,
+  "sealedBinariesIncluded": false,
+  "records": [
+    {
+      "source": "attempts/deploy-amm-v1/before.json",
+      "file": "files/attempts/deploy-amm-v1/before.json.gz",
+      "bytes": 230,
+      "sha256": "87590d2334ed5a03d59f697dc7ea7cec95d63070ef8c3122be3ccecabe7794ea",
+      "gzipBytes": 148,
+      "gzipSha256": "c9036593c2b79cfd7fc520d6f3966afaa76386166536cf767d02d9916f8d6cc5"
+    },
+    {
+      "source": "attempts/deploy-amm-v1/included.json",
+      "file": "files/attempts/deploy-amm-v1/included.json.gz",
+      "bytes": 1745,
+      "sha256": "640aa28c4265845d7d7d94007af4c8885d767fdd1eec89c71d0943cac9ae8eac",
+      "gzipBytes": 812,
+      "gzipSha256": "5fcd3b2ec81b893d20ddf9cb2a3a8e88eeaf7c3772f47e51f55a6c109c357dad"
+    },
+    {
+      "source": "attempts/deploy-amm-v1/intent.json",
+      "file": "files/attempts/deploy-amm-v1/intent.json.gz",
+      "bytes": 208,
+      "sha256": "ea3ae2b7e38ff53a17564301c7125d1b4000e8372a1add91e7f982ef276d363f",
+      "gzipBytes": 176,
+      "gzipSha256": "55c1fdea1347d95e232923acc1ce7d4af2f0aaf3dad3db9dfcf33797082a7857"
+    },
+    {
+      "source": "attempts/deploy-amm-v1/preflight.json",
+      "file": "files/attempts/deploy-amm-v1/preflight.json.gz",
+      "bytes": 702,
+      "sha256": "502db6864d1f8d1e6072d527c87daf3ddb30d134e3a4f3ffa526c164d3664c5d",
+      "gzipBytes": 436,
+      "gzipSha256": "4093f55c46dd9bbda333ecc7a93c1945ac2699cc3c68538ad1f74cc2d2738406"
+    },
+    {
+      "source": "attempts/deploy-amm-v1/receipt.json",
+      "file": "files/attempts/deploy-amm-v1/receipt.json.gz",
+      "bytes": 84,
+      "sha256": "cc3e1bf7d5ca4166eb294bf5654c596118cc8566db91157291348fe6180cc132",
+      "gzipBytes": 95,
+      "gzipSha256": "c37a646fd9b8465583c90b9178960d0fa9112b0a75b494d7aeca74d25ad780f9"
+    },
+    {
+      "source": "attempts/deploy-amm-v1/request.json",
+      "file": "files/attempts/deploy-amm-v1/request.json.gz",
+      "bytes": 357983145,
+      "sha256": "01dfd72faa80bfcf1aec38640663c0a722ee4d5a0a21a2b23d365a7ccb7601cb",
+      "gzipBytes": 5158062,
+      "gzipSha256": "d92ee2e839b8d08e9caf0979db3e5d8740d8c0ed4f5d07ab53fa50b9df6c4b75"
+    },
+    {
+      "source": "attempts/deploy-amm-v1/timing.json",
+      "file": "files/attempts/deploy-amm-v1/timing.json.gz",
+      "bytes": 107,
+      "sha256": "e98fd851404dcf5c42c97e07df726db2626d8149e602929b5bf3c65ceb0f5f5d",
+      "gzipBytes": 106,
+      "gzipSha256": "53440411aa36e458a47b668e9f7bb412a17b88ed904daee91a5077c61bc5db73"
+    },
+    {
+      "source": "attempts/register-amm-vault-v1/included.json",
+      "file": "files/attempts/register-amm-vault-v1/included.json.gz",
+      "bytes": 3012,
+      "sha256": "014a60555998db25d096e21d1c393d513372d27aa589ed92c137ea28a6f5fc68",
+      "gzipBytes": 1082,
+      "gzipSha256": "58ad04eee6cdffeb609e2ebfcdd4e8ace58283ca5dcd1d81168f94776a4f1ce0"
+    },
+    {
+      "source": "attempts/register-amm-vault-v1/intent.json",
+      "file": "files/attempts/register-amm-vault-v1/intent.json.gz",
+      "bytes": 317,
+      "sha256": "6e73980606f0bca8d150181eec9993455b94245cf188502a4688417d3fca2059",
+      "gzipBytes": 241,
+      "gzipSha256": "724b6a1cff9c29191020925e03d5ba5cd9e0eefd7dc04ffa29dc9992ea296934"
+    },
+    {
+      "source": "attempts/register-amm-vault-v1/receipt.json",
+      "file": "files/attempts/register-amm-vault-v1/receipt.json.gz",
+      "bytes": 151,
+      "sha256": "0350a079ea496811e369cbfe127392cfe3816d53b5e76aaba0cb9ecf77600072",
+      "gzipBytes": 144,
+      "gzipSha256": "5eb1fb15d353eb00d7e9d5c97a7e4f6d1b89708b29f81ff30b5e2889d23347a5"
+    },
+    {
+      "source": "attempts/register-amm-vault-v1/request.json",
+      "file": "files/attempts/register-amm-vault-v1/request.json.gz",
+      "bytes": 204,
+      "sha256": "c82275438b69775b5f59ec02103e3530572912a6b7c8c53fc54c0b83e5d8136a",
+      "gzipBytes": 172,
+      "gzipSha256": "f7909365e26f878525aa7dff604ca331ee8cc332131af6050f2c7f0ec104a74f"
+    },
+    {
+      "source": "create-deploy-amm-v1.log",
+      "file": "files/create-deploy-amm-v1.log.gz",
+      "bytes": 719,
+      "sha256": "7481af38183d3ed8d520deb0469f319c8f82cc66d598f5b59d59e96cfd8e508d",
+      "gzipBytes": 362,
+      "gzipSha256": "9506f5c6819e89ff73e5dc682c71349203827880a969f08167fb52efa4a84041"
+    },
+    {
+      "source": "create-deploy-bondingcurve-v1.log",
+      "file": "files/create-deploy-bondingcurve-v1.log.gz",
+      "bytes": 720,
+      "sha256": "5c9a5c58290cc6044a115c989ebdd151312a38f5aecf830a5d409d5e15ac0be9",
+      "gzipBytes": 363,
+      "gzipSha256": "22e9d5c8e9d9bf8af6042edccc213186395511b54e8022a048b7d5883abbff12"
+    },
+    {
+      "source": "create-deploy-nftmarket-v1.log",
+      "file": "files/create-deploy-nftmarket-v1.log.gz",
+      "bytes": 720,
+      "sha256": "b0bef0876fd96315c4bacea92a482f1974009be8aa5a12bd95410cf7be95c355",
+      "gzipBytes": 362,
+      "gzipSha256": "186504110f36dca802933b1463a4efaf464b18eb4875719a0c60c7849379749b"
+    },
+    {
+      "source": "create-deploy-orderbook-v1.log",
+      "file": "files/create-deploy-orderbook-v1.log.gz",
+      "bytes": 719,
+      "sha256": "2af36613b786b9c5676d7905dacb5f6e9304055cbf387434025132c6b7ffc024",
+      "gzipBytes": 364,
+      "gzipSha256": "2df01c1b9a7988c20c386a00b05ce61ae5a51387dec0ebb018470281c627781b"
+    },
+    {
+      "source": "deploy-amm-v1.log",
+      "file": "files/deploy-amm-v1.log.gz",
+      "bytes": 8633,
+      "sha256": "876afebba3206a13244e3cde7e0577137f92330af40b95e421cbfe043c7b5acc",
+      "gzipBytes": 1523,
+      "gzipSha256": "56dde6f0ccdbe8c66b9a9c7ab3a2102f37354d4d47d6a68aa72552b8246fd40f"
+    },
+    {
+      "source": "markets-v1/amm/BUILD.json",
+      "file": "files/markets-v1/amm/BUILD.json.gz",
+      "bytes": 1002,
+      "sha256": "e4d931ddb814cb944261a781884ca4c64bd928d186a610a1a433f67850f84746",
+      "gzipBytes": 563,
+      "gzipSha256": "e3854db048e5aa5257d291b997c43244ac556b343db0535e039c9173b5204cc7"
+    },
+    {
+      "source": "markets-v1/amm/bound/BOUND.json",
+      "file": "files/markets-v1/amm/bound/BOUND.json.gz",
+      "bytes": 358,
+      "sha256": "5c7bd79e89dcb0e3e1ae71e552727e1ffe05fa23055d23d88aaf0af44423a2d3",
+      "gzipBytes": 256,
+      "gzipSha256": "0381543ccdb1bc247e4cc686b885dbbbd86a6e8469d688f10f29421f2244c128"
+    },
+    {
+      "source": "markets-v1/amm/bound/policy.json",
+      "file": "files/markets-v1/amm/bound/policy.json.gz",
+      "bytes": 127947,
+      "sha256": "01e57fffd7c382e884216415337a61e6f7247500654bf3d8b2bf0f260dcbf855",
+      "gzipBytes": 2793,
+      "gzipSha256": "426edb83028e951d30b7f2e47870db0458bf6b16b0c0fb45b7b2c11a1381620f"
+    },
+    {
+      "source": "markets-v1/amm/compile.log",
+      "file": "files/markets-v1/amm/compile.log.gz",
+      "bytes": 26,
+      "sha256": "3901f8e4044668d8035c5d62671fcedee683e5bbb73659937ee77d6419f285cf",
+      "gzipBytes": 46,
+      "gzipSha256": "7f4173c6f365eab01170c9c405a2eab7747e57531879eeb73d560efd0bbf33e2"
+    },
+    {
+      "source": "markets-v1/amm/compiled/compilation_artifact.json",
+      "file": "files/markets-v1/amm/compiled/compilation_artifact.json.gz",
+      "bytes": 27056214,
+      "sha256": "d15d8263309b07d5904bb7519772a3516dbe7b399fcf5e0a80b17d61441d9080",
+      "gzipBytes": 2961647,
+      "gzipSha256": "8ff26ae36bb675922a50c485ac10743f9fcb8a78d1046fb194cb8e62dba209ff"
+    },
+    {
+      "source": "markets-v1/amm/config.json",
+      "file": "files/markets-v1/amm/config.json.gz",
+      "bytes": 264,
+      "sha256": "1d4f77e9502ba824d911aac0846648ff64e6f2f98daca8b49b1554f9d0231f3b",
+      "gzipBytes": 163,
+      "gzipSha256": "cd87e47fafa0ac5ed226e48b57c42917cca4ec52930114543566b9e37ee7b9f3"
+    },
+    {
+      "source": "markets-v1/amm/live-registration.json",
+      "file": "files/markets-v1/amm/live-registration.json.gz",
+      "bytes": 3012,
+      "sha256": "014a60555998db25d096e21d1c393d513372d27aa589ed92c137ea28a6f5fc68",
+      "gzipBytes": 1082,
+      "gzipSha256": "58ad04eee6cdffeb609e2ebfcdd4e8ace58283ca5dcd1d81168f94776a4f1ce0"
+    },
+    {
+      "source": "markets-v1/amm/main.psy.rs",
+      "file": "files/markets-v1/amm/main.psy.rs.gz",
+      "bytes": 6399993,
+      "sha256": "3093be84d82e384cd399786899a530d5e0def6851b2d52bf5da69e73ba3b4011",
+      "gzipBytes": 539577,
+      "gzipSha256": "d6b0885a346fce56165a3c7ac5bf04801ef24cf9f9dbe106cf5bbbf27d433572"
+    },
+    {
+      "source": "markets-v1/amm/native.json",
+      "file": "files/markets-v1/amm/native.json.gz",
+      "bytes": 184399,
+      "sha256": "bf756535620ecd6b360cf58fce90e66f1e7fecc5ed28c4445c23d745d7510606",
+      "gzipBytes": 21259,
+      "gzipSha256": "6d46dba5c8f00f000422d93709244579fb188d94c4e8f795763612ceae26380c"
+    },
+    {
+      "source": "markets-v1/amm/nft.json",
+      "file": "files/markets-v1/amm/nft.json.gz",
+      "bytes": 61243,
+      "sha256": "bbbde8620431788e8ce68067a2db425713e2195eaf1eb480e22328822d0d103c",
+      "gzipBytes": 6878,
+      "gzipSha256": "28eb3d9685962d140dc8e925209e031da42ac60c7ecfc3fe8b141d82c07e41be"
+    },
+    {
+      "source": "markets-v1/amm/token-a.json",
+      "file": "files/markets-v1/amm/token-a.json.gz",
+      "bytes": 4066238,
+      "sha256": "e259c0b8dbe1588bfe624be14e2b32dede69648b5532fce5f472434c689fdba9",
+      "gzipBytes": 458317,
+      "gzipSha256": "41a96109bd8d16c309b72aaffb554f47e206428837ed73e747f9cde4b4473ca9"
+    },
+    {
+      "source": "markets-v1/amm/token-b.json",
+      "file": "files/markets-v1/amm/token-b.json.gz",
+      "bytes": 4066238,
+      "sha256": "e259c0b8dbe1588bfe624be14e2b32dede69648b5532fce5f472434c689fdba9",
+      "gzipBytes": 458317,
+      "gzipSha256": "41a96109bd8d16c309b72aaffb554f47e206428837ed73e747f9cde4b4473ca9"
+    },
+    {
+      "source": "public/PREPARED-BULK-v1.json",
+      "file": "files/public/PREPARED-BULK-v1.json.gz",
+      "bytes": 853,
+      "sha256": "0bac3f3cd036d311466666a67303758fda412b8c8ec519e3d2f5b92a16cc62f3",
+      "gzipBytes": 536,
+      "gzipSha256": "0f3d4145a933775286eb5ed053b6af3fda27a8fc22af96a8bc2c12904482dfeb"
+    },
+    {
+      "source": "public/additional-cohort-users-v1.json",
+      "file": "files/public/additional-cohort-users-v1.json.gz",
+      "bytes": 62,
+      "sha256": "29555cbc65d44751c423885ca401fb41c5b3e2a52b9b4e0b25c1d8a8828efeb8",
+      "gzipBytes": 79,
+      "gzipSha256": "80f99d869872e9a2cf4c853594481831201f680d1f2f6c0f05bd2a87711ecfb4"
+    },
+    {
+      "source": "public/candidate-release-v4.json",
+      "file": "files/public/candidate-release-v4.json.gz",
+      "bytes": 285,
+      "sha256": "7e211f1bcdeac044bd656231dfc5bcaf7cc567304f24f7f902e98a6e610d8934",
+      "gzipBytes": 221,
+      "gzipSha256": "e453a64cab263d24a3b40dd7213e0c1d8479cf3836324a33d7340135451efc0b"
+    },
+    {
+      "source": "public/candidate-toolchain-v4.json",
+      "file": "files/public/candidate-toolchain-v4.json.gz",
+      "bytes": 761,
+      "sha256": "d924f46a00dd06a300061a47cb116a352a224ee2a462f759eec825a91ae8e2c4",
+      "gzipBytes": 442,
+      "gzipSha256": "d93522c99bc2e4f096ac621b45d8c415e416effe72d4ca09625908c4f32ada0a"
+    },
+    {
+      "source": "public/deploy-amm-build-pin-v1.json",
+      "file": "files/public/deploy-amm-build-pin-v1.json.gz",
+      "bytes": 789,
+      "sha256": "fc88cb9e4f5c580d022764e521b6afd1edaac7e45d84df095d052465e9d70b07",
+      "gzipBytes": 462,
+      "gzipSha256": "eb9eed85bd9c705ef1125ad21ebc7dda6068e4f267a192f5d10dd1f1a0f4344d"
+    },
+    {
+      "source": "public/deploy-amm-identity.json",
+      "file": "files/public/deploy-amm-identity.json.gz",
+      "bytes": 369,
+      "sha256": "e822ebcf0c37427c06676a767616c3b759eb686219107b26e19d6a7295e5d5f3",
+      "gzipBytes": 267,
+      "gzipSha256": "63730d138ae9a7b4a5faabaaa990ea28f384d4efce0a10144dbe24a9b7fa5dc5"
+    },
+    {
+      "source": "public/deploy-bondingcurve-identity.json",
+      "file": "files/public/deploy-bondingcurve-identity.json.gz",
+      "bytes": 369,
+      "sha256": "8f014c8a8a6001ae7fc620b5daf0668b35aa2815bbf943382c18770c717bc26a",
+      "gzipBytes": 270,
+      "gzipSha256": "1932776f3561acbdf40fda70d4981c21adf4949b58070a490f05a7c7a0aa3039"
+    },
+    {
+      "source": "public/deploy-nftmarket-identity.json",
+      "file": "files/public/deploy-nftmarket-identity.json.gz",
+      "bytes": 369,
+      "sha256": "47cce9a94aac5d2d70719e914717eb4ef0cdbdd6be214997cfa87455e81feccd",
+      "gzipBytes": 269,
+      "gzipSha256": "1ca746f7e0c3d2ecc112ef52be04d8b38307e23f3e07a51a15cc19d9887a9f74"
+    },
+    {
+      "source": "public/deploy-orderbook-identity.json",
+      "file": "files/public/deploy-orderbook-identity.json.gz",
+      "bytes": 369,
+      "sha256": "062190521e6da34f8ed9bbf5633ada96942914ec9e80a254a86add2306aa83fc",
+      "gzipBytes": 271,
+      "gzipSha256": "6326e386638d4da0b423b50dbc7fcfb9120773caed61c923f36207fd128797b4"
+    },
+    {
+      "source": "public/deployment-identities-v1.json",
+      "file": "files/public/deployment-identities-v1.json.gz",
+      "bytes": 1711,
+      "sha256": "113215f2f6a01ae7809aaa8483fea512dd03173ea485f8f3e05646aa092078ea",
+      "gzipBytes": 661,
+      "gzipSha256": "26a0aa87bd3ce4fd422cd1ccd9d308bbc363a81a90fd4c4c73187f27aef6446c"
+    },
+    {
+      "source": "public/deployment-identity-release-v1.json",
+      "file": "files/public/deployment-identity-release-v1.json.gz",
+      "bytes": 264,
+      "sha256": "3e9259d9e61159f29f1d875a525716294bd8caa0ef0656c70e08a98c3f08ccea",
+      "gzipBytes": 215,
+      "gzipSha256": "409396b96c443706470c27bae9f456bbb5db16cdc540a29123100b0582a3ca39"
+    },
+    {
+      "source": "public/parent-recovery-gate-v1.json",
+      "file": "files/public/parent-recovery-gate-v1.json.gz",
+      "bytes": 326,
+      "sha256": "66be7476b0c52c0ec4c3cfa0179c750b5c515497379a1c41de5eb6a17f48ef2f",
+      "gzipBytes": 260,
+      "gzipSha256": "4cfd5d5836b25dd21f45572bb56a34fa0afaaed0dc5ccea80cfe88d189440e3f"
+    },
+    {
+      "source": "public/qa-actors-source.json",
+      "file": "files/public/qa-actors-source.json.gz",
+      "bytes": 85,
+      "sha256": "34d08b794b1488276581599a0840e4248c2a9f61a1e46dc3fce6655f6e4704b2",
+      "gzipBytes": 101,
+      "gzipSha256": "b4272eaed9bfde0fda207221594e976845dcf88a18d54558be7e06b2268d5dcb"
+    },
+    {
+      "source": "public/rpc.json",
+      "file": "files/public/rpc.json.gz",
+      "bytes": 1738,
+      "sha256": "93f0c6a80f0c34b596b4b1a862d0c2d51ee248ac8ddd5e88caf8157a59a398bc",
+      "gzipBytes": 577,
+      "gzipSha256": "ace57b52c39bfbc5d517ac55f07edd9063a43d627710e15cdef203cfc629c33a"
+    },
+    {
+      "source": "public/runtime-source-overlay-v19.json",
+      "file": "files/public/runtime-source-overlay-v19.json.gz",
+      "bytes": 36031,
+      "sha256": "9480c2211b0178f2bd54dccd9bdd6af73343acc90383735006aa3b2b689fb625",
+      "gzipBytes": 15359,
+      "gzipSha256": "a4e631593d9e97f001d4395e295ae0a68d7602927936a5ce83c483d68dfc33c4"
+    },
+    {
+      "source": "register-amm-vault-v1.log",
+      "file": "files/register-amm-vault-v1.log.gz",
+      "bytes": 485,
+      "sha256": "24070253fdde4e2a452ced9e8886815eeed6e4f4a2bbceabc6bdec0a3c3ce9ed",
+      "gzipBytes": 214,
+      "gzipSha256": "735770e1cae5c5329cbe15c2dc170594b706fc4043242187e34ed838a14ea47a"
+    }
+  ]
+}

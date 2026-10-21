@@ -4,6 +4,23 @@ Branch: `markets-batch-capacity-recovery-20261020`; accepted starting commit
 `e45d689e6806d362c03f15697c90aba44f8704e7`. No Node edits, old-contract update
 probes, new branches or replacement of original artifacts are authorized here.
 
+## Replacement AMM genuinely deployed and registered
+
+Replacement v2 AMM is **2478**, included at **360768**, new bulk vault
+**1013952** (realm 0). The saved before state is **360765 / next ID 2478**;
+receipt hash **0ee68834f6a34a584bc0f677a4b9192db8331b39441af0f7c31f02be6449c556**
+differs from the aliased old hash. Fresh occurrence, dedicated owner, full
+initial-layout endpoints, exact deployed code/layout and indexed key mapping
+passed. Its registered mode is `all-four-v1`; activation/funding/trading have
+not started. Book/Curve/NFT deployment and the real economic matrix remain
+pending. Source overlay **v19** pins application commit `c862357` and the
+unchanged Rust toolchain, public deployment profiles and SDK manifest.
+
+`replacement-amm-registered-v1/` preserves **44 files**, including complete
+requests, initial proof, actual new receipt, registration and public identity
+provenance. Private deployment wallets are excluded. This is a deployment and
+registration milestone, not a four-market settlement or production certificate.
+
 ## Deployment receipt alias found and blocked; replacement case prepared
 
 The first bulk attempt **did allocate fresh AMM 2477**, but its content-hash
