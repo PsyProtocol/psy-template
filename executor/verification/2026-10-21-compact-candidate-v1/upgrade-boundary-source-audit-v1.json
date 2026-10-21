@@ -1,0 +1,52 @@
+{
+  "checkedAt": "2026-10-21T01:56:14.921609+00:00",
+  "observedLocalCommit": "5b7f4e1e11adf4607a958bc39e863a2a80b5a7a6",
+  "sourceOnly": true,
+  "runningServiceIdentityAttested": false,
+  "rpcUpdateProbePerformed": false,
+  "sources": [
+    {
+      "path": "psy_api_core/src/coordinator/standard_edge_rpc.rs",
+      "sha256": "343a62b69daead21bef5a08048aa1693c63a4cdf5252e872caa8db9f44679de7",
+      "matchesHead": true,
+      "startLine": 33,
+      "endLine": 38,
+      "excerpt": "    #[method(name = \"deploy_contract\")]\n    async fn deploy_contract(&self, deploy_contract: PQBCDeployContractV2<Hash>) -> RpcResult<String>;\n\n    #[method(name = \"update_contract\")]\n    async fn update_contract(&self, update_contract: PQBCUpdateContract<Hash>) -> RpcResult<String>;\n"
+    },
+    {
+      "path": "psy_node_common/src/coordinator/edge/api.rs",
+      "sha256": "c7155b41e067acf6ce27f5838af75640b07b4589246525708cdee640c692e7fa",
+      "matchesHead": true,
+      "startLine": 69,
+      "endLine": 74,
+      "excerpt": "    async fn deploy_contract(&self, deploy_contract: PQBCDeployContractV2<N::QHash>) -> QRpcResult<String> {\n        res(self.deploy_contract_internal(deploy_contract).await)\n    }\n    async fn update_contract(&self, update_contract: PQBCUpdateContract<N::QHash>) -> QRpcResult<String> {\n        res(self.update_contract_internal(update_contract).await)\n    }"
+    },
+    {
+      "path": "psy_node_common/src/coordinator/edge/handler.rs",
+      "sha256": "164445db280a26ed288d1a758590406c4b087c36df31676f26f63d02e0d41c51",
+      "matchesHead": true,
+      "startLine": 516,
+      "endLine": 561,
+      "excerpt": "    pub async fn update_contract_internal(&self, update_contract: PQBCUpdateContract<N::QHash>) -> anyhow::Result<String> {\n        update_contract.validate_shape()?;\n        if update_contract.code_definition.functions.len() == 0 {\n            anyhow::bail!(\"contracts with no functions are not supported\");\n        } else if update_contract.code_definition.functions.len() > (1usize << N::CONTRACT_FUNCTION_TREE_HEIGHT) {\n            anyhow::bail!(\"contract has too many functions defined\");\n        }\n\n        if update_contract.contract_id == 0 {\n            anyhow::bail!(\"contract id 0 is reserved and cannot be updated\");\n        }\n\n        // Auth check: the contract must already exist on chain and the caller must\n        // be the original deployer. NOTE: db_reader reflects the last committed\n        // checkpoint state; updates gathered in the current pending block are not\n        // visible here, so the gatherer must re-validate against its in-memory\n        // global contract tree (TODO in the update contract gatherer phase).\n        let latest_checkpoint_id =\n            self.get_latest_checkpoint_id_internal().await?;\n        let existing_leaf = self\n            .db_reader\n            .get_contract_leaf(\n                latest_checkpoint_id,\n                update_contract.contract_id,\n            )\n            .await\n            .map_err(|_| anyhow::anyhow!(\"contract with id {} does not exist\", update_contract.contract_id))?;\n\n        if existing_leaf.deployer != update_contract.deployer {\n            anyhow::bail!(\n                \"only the original deployer can update contract {}\",\n                update_contract.contract_id\n            );\n        }\n        anyhow::ensure!(\n            existing_leaf.state_tree_height.to_u64_value()\n                == update_contract.code_definition.state_tree_height as u64,\n            \"contract state tree height is immutable\"\n        );\n\n        self.validate_canonical_layout_proof(\n            update_contract.canonical_layout_verifier_fingerprint,\n            &update_contract.canonical_layout_proof,\n        )\n        .await?;\n"
+    },
+    {
+      "path": "psy_data/src/v1/qdata/contract/aux.rs",
+      "sha256": "de011637556d872f25ef9d5820c09c017c2886d08e3cb8db354db04422d7a85d",
+      "matchesHead": true,
+      "startLine": 450,
+      "endLine": 496,
+      "excerpt": "#[pderive::serialize_clone_hash_ts]\n#[ts(export, concrete(Hash = parth_core::PHash), rename = \"QBCUpdateContract\")]\npub struct PQBCUpdateContract<Hash> {\n    pub contract_id: u64,\n    pub deployer: Hash,\n    pub code_definition: ContractCodeDefinition,\n    pub function_whitelist: Vec<Hash>,\n    pub code_root: Hash,\n    pub layout_protocol_version: u16,\n    pub state_layout_root: Hash,\n    pub state_layout_field_count: u64,\n    pub state_layout_slot_count: u64,\n    pub canonical_layout_verifier_fingerprint: Hash,\n    pub canonical_layout_proof: Vec<u8>,\n}\n\nimpl<Hash: QHashBase> PQBCUpdateContract<Hash> {\n    pub fn validate_shape(&self) -> anyhow::Result<()> {\n        anyhow::ensure!(\n            self.contract_id != 0,\n            \"update contract id must be non-zero\"\n        );\n        anyhow::ensure!(\n            self.layout_protocol_version != 0,\n            \"layout protocol version must be non-zero\"\n        );\n        anyhow::ensure!(\n            !self.canonical_layout_proof.is_empty(),\n            \"canonical layout proof is empty\"\n        );\n        anyhow::ensure!(\n            self.canonical_layout_proof.len()\n                <= psy_core::constants::protocol::\n                    STATE_LAYOUT_MAX_PROOF_BYTES,\n            \"canonical layout proof exceeds maximum size\"\n        );\n        anyhow::ensure!(\n            self.state_layout_field_count <= self.state_layout_slot_count,\n            \"layout field count exceeds slot count\"\n        );\n        anyhow::ensure!(\n            self.code_definition.state_tree_height < 64\n                && self.state_layout_slot_count\n                    <= (1u64 << self.code_definition.state_tree_height) * 4,\n            \"layout slot count exceeds contract state capacity\"\n        );\n        Ok(())"
+    }
+  ],
+  "findings": [
+    "Observed update RPC forwards the request to the internal handler. The payload contains deployer hash, code/layout data and layout proof; no owner signature or authorization nonce appears in that payload.",
+    "The observed handler compares existing deployer with the supplied deployer field, and checks shape, immutable height and layout proof. Hash equality does not by itself demonstrate caller possession or replay protection.",
+    "An authenticated transport/gateway layer may impose additional effective restrictions; its runtime source, endpoint coverage, config and rejection evidence have not been supplied. No assertion that remote deployment is exploitable is made.",
+    "Applications pin reviewed roots before proving/broadcast but lack atomic protocol version locking across a dependency upgrade."
+  ],
+  "requiredExternalAcceptance": [
+    "Operations/security: identify effective middleware or gateway enforcement for psy_update_contract and any internal bypass endpoint. Supply source commit, digest and sanitized identity/role/endpoint config.",
+    "Protocol/security: demonstrate authorized owner-bound request plus unauthorized, substituted-owner, replay, wrong-domain and stale-old-layout rejection in a fresh isolated deployment; provide exact request and receipt hashes, no secrets.",
+    "Provide a protocol version-binding or governed upgrade guarantee covering the interval after application root checks; re-run full signature/session/fee/endpoints on new versions."
+  ]
+}
