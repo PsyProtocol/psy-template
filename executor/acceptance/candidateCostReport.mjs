@@ -28,12 +28,12 @@ const otherOrdinaryUps=readdirSync(join(base,'attempts')).filter(n=>n.startsWith
 const formal = readdirSync(join(base, 'public')).filter(n => /^maximum-.*-formal-result\.json$/.test(n)).map(n => {
  const r = read(join(base, 'public', n));
  const submit = r.submitMetricsFile ? read(r.submitMetricsFile) : null;
- return {task: n, kind: r.task.kind, contentHash: r.result.contentHash, checkpoint: r.result.checkpoint, taskWallMs: r.wallMilliseconds,
+ return {task: n, kind: r.task.kind, contentHash: r.result.contentHash, checkpoint: r.result.checkpoint, taskWallMs: r.wallMilliseconds, executionStatus:r.executionStatus??null, parentObservationScope:r.wallMillisecondsScope??'successful local parent observation only; historical report may exclude prior proof/send/recovery attempts; inspect full journal and test envelope',
   savedProofVerifyFreshChecksAndAckMs: submit?.processWallMilliseconds ?? null,
   acknowledgementToCommonIndexedObservationMs: submit ? Date.parse(r.checkedAt) - Date.parse(submit.finishedAt) : null,
   fee: String(r.result.receipt.data.result.fees_collected), serviceReceivedAt: r.result.receipt.data.received_at,
   serviceIncludedAt: r.result.receipt.data.included_at, serviceReportedLatencyMs: r.result.receipt.data.latency_ms,
-  scope: 'task wall includes preflight, optional deliberately repeated cold comparison, saved-proof verification, broadcast, polling and indexed/common visibility; not optimized production latency'};
+  scope: 'successful parent interval only; may include preflight, deliberately repeated cold comparison, saved-proof verification, broadcast and indexed/common observation, or only observe an already included task. Earlier attempts are preserved separately and in the full test envelope; not optimized production latency'};
 });
 const residentColdResourceConstruction = ['amm', 'orderbook', 'bondingcurve', 'nftmarket'].map(kind => {
  const samples=residentStartupRecords(base,kind);assert.ok(samples.length>=1,'resident construction evidence missing');
