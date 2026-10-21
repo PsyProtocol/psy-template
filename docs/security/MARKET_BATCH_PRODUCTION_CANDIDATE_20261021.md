@@ -4,6 +4,33 @@ Branch: `markets-batch-capacity-recovery-20261020`; accepted starting commit
 `e45d689e6806d362c03f15697c90aba44f8704e7`. No Node edits, old-contract update
 probes, new branches or replacement of original artifacts are authorized here.
 
+## Fixed-40 four-market comparison baseline completed
+
+The four old-profile synthetic samples passed complete commitment and
+settlement UPS verification, session/public endpoints and exported state-delta
+checks. Four members per market, **12 economic fills across the profile**;
+ordinary consent/funding/admission/claims are VM fixture setup and excluded.
+
+| Market | Warm full commit + settle | Separate cold circuit resources |
+| --- | ---: | ---: |
+| AMM | 539.210 s | 102.374 s |
+| Orderbook | 541.426 s | 80.779 s |
+| Curve | 538.995 s | 91.786 s |
+| NFT Market | 537.620 s | 93.115 s |
+
+One frozen binary, two independent processes at a time, two Rayon threads each.
+The old-profile group wall time is **1,276.777 s**, including cold construction;
+this is **offline proving**, not confirmation, ordinary claims, full economic
+lifecycle or chain TPS. First cold construction overlapped the parent evidence
+gzip archive; source-v17 inputs, host load and that activity are preserved.
+Single sample, fixed-40 first, uncontrolled unrelated host load: no statistical
+or causal speedup claim. The compact-profile group is still running; equality
+of final state/slots/fees and the completed comparison remain pending.
+
+`fixed40-four-comparison-baseline-v1/` contains **16 files**, with original and
+compressed hashes verified. The postprocessing gate's targeted regression log
+is `cost-reporting-gates-v1.log`; it does not certify live settlement.
+
 ## Latest real milestone: preceding principal and ordinary claims closed
 
 At **2026-10-21 10:30:33 UTC**, the failed maximum-intake interval passed its
