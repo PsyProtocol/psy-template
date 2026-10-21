@@ -9,6 +9,7 @@ import {publicState} from '../publicState.mjs';
 import {call, encodeAmount, FEE_ESCROW as F, parseLosslessJson} from '../../amm/u124/client.mjs';
 import {sponsorCalls, curveLimitCalls} from '../../batching/v2/client.mjs';
 import {cohortAssets, payoutClaims, canonicalHeldNfts} from '../../batching/admission/liveAssets.mjs';
+import {enrolledRecovery} from './enrolledRecovery.mjs';
 
 const [base, original] = process.argv.slice(2), h = cohort(base, original), unit = 10n ** 18n;
 assert.ok(existsSync(join(base, 'public/maximum-complete-v1.json')));
@@ -75,11 +76,10 @@ try {
  while ((await publicState(h.config)).checkpoint <= plan.cutoff) await pause(10000);
  await independent(services.map((service, i) => () => service.step('omitted-' + h.markets[i].kind + '-abort', operation('abort_empty_epoch'))));
  await h.user('bob', 'omitted-bob-release-enroll', h.markets.flatMap(m => [m.order('release_unaccepted', []), m.order('request_recovery', [BigInt(m.vault)])]));
- for (let i = 0; i < services.length; i++) {
-  const mask = h.markets[i].kind === 'bondingcurve' ? 6n : h.markets[i].kind === 'nftmarket' ? 4n : 5n;
-  await services[i].step('omitted-' + h.markets[i].kind + '-funding-return', t => operation('recover_funding')(t) && parseLosslessJson(t.submission).contract_calls.some(c => c.method_name === 'recover_funding' && c.inputs.at(-1) === mask));
- }
- await services[3].step('omitted-nftmarket-nft-return', operation('recover_nft'));
+ // Abort consumed its gas grant. A fresh bounded two-fee authorization is
+ // needed for fund-gas + return; NFT delivery can require a second grant.
+ // Never assume previous economic settlement left sufficient vault gas.
+ await enrolledRecovery(h,services,{prefix:'omitted-recovery',owners:[actor.id],maxGrantsPerMarket:2,maxRounds:12});
  await h.user('bob', 'omitted-bob-claim', await payoutClaims(await publicState(h.config), {userId: actor.id, markets: h.markets, tokenAbi: h.token, nftAbi: h.nft, nftSlot: 0}));
  const before = parseLosslessJson(readFileSync(beforePath, 'utf8')), after = await cohortAssets(await publicState(h.config), spec);
  for (const asset of spec.assets) {assert.equal(after.totals[asset], 1000n * unit); assert.equal(after.accounts[actor.id].ft[asset], before.accounts[actor.id].ft[asset]);}
