@@ -1,0 +1,315 @@
+{
+  "schema": 1,
+  "sourceDirectory": "/private/tmp/psy-market-candidate-bulk-live-20261021-v2",
+  "machine": "gewenbo.local",
+  "host": "macOS-15.7.3-arm64-arm-64bit",
+  "scope": "public formal Executor run including failures; success requires exact included receipt",
+  "walletFilesIncluded": false,
+  "sealedBinariesIncluded": false,
+  "records": [
+    {
+      "source": "attempts/deploy-nftmarket-v1/before.json",
+      "file": "files/attempts/deploy-nftmarket-v1/before.json.gz",
+      "bytes": 230,
+      "sha256": "994f9dea0ff3742c0b43f1cfcbaf28d1c45b7715a8ae1a1ef4d8dcb450e5af76",
+      "gzipBytes": 149,
+      "gzipSha256": "012b717da07a74e5bba19c2a57d044cbf395e85f6a9f7c1dbb5c5227c2997283"
+    },
+    {
+      "source": "attempts/deploy-nftmarket-v1/included.json",
+      "file": "files/attempts/deploy-nftmarket-v1/included.json.gz",
+      "bytes": 1745,
+      "sha256": "e3ac45ba00c45dc0c3e5df6ac7983affbad83fdcec17632a50816722e90bd9ed",
+      "gzipBytes": 814,
+      "gzipSha256": "46ddbc551c20fbe586fdfcde5be0a3dcecd31c8dc2c57f9c2aab611715e77eef"
+    },
+    {
+      "source": "attempts/deploy-nftmarket-v1/intent.json",
+      "file": "files/attempts/deploy-nftmarket-v1/intent.json.gz",
+      "bytes": 208,
+      "sha256": "e96df30b1a56abfa9fd38acd700ac979ebb4343620a6b29202be0b48fa4dd957",
+      "gzipBytes": 174,
+      "gzipSha256": "008e8bb8d3797d5b9d8a89c9a20cddb61801695d8ccb03e1cbab3b8ec4ae89ee"
+    },
+    {
+      "source": "attempts/deploy-nftmarket-v1/preflight.json",
+      "file": "files/attempts/deploy-nftmarket-v1/preflight.json.gz",
+      "bytes": 702,
+      "sha256": "72b1dbc33dcc1cec3563f3adfea126d6c8a68af73ff8a16a0b0597f7d47d5986",
+      "gzipBytes": 433,
+      "gzipSha256": "aad7028301cccb07fd0d170711c35c2b6eceba95a21db67450b31254c74cb562"
+    },
+    {
+      "source": "attempts/deploy-nftmarket-v1/receipt.json",
+      "file": "files/attempts/deploy-nftmarket-v1/receipt.json.gz",
+      "bytes": 84,
+      "sha256": "fa4bc0f47981c3b2eead60d4e93d36fba0db42846943120b30d75199e1fda4a6",
+      "gzipBytes": 94,
+      "gzipSha256": "1d4019f94591a3a691462c61d0e6b349093d169ea5ab8ac2f69829ff64998119"
+    },
+    {
+      "source": "attempts/deploy-nftmarket-v1/request.json",
+      "file": "files/attempts/deploy-nftmarket-v1/request.json.gz",
+      "bytes": 69426997,
+      "sha256": "c5254e6fb85bfd7561fab3aad8801baf803e61a0d42afba617cdb4fb1674b426",
+      "gzipBytes": 1163777,
+      "gzipSha256": "95455ec20ec8612ad057536b54a23519ccc8d55754d99e8d4eeb420ce5ce2e90"
+    },
+    {
+      "source": "attempts/deploy-nftmarket-v1/timing.json",
+      "file": "files/attempts/deploy-nftmarket-v1/timing.json.gz",
+      "bytes": 107,
+      "sha256": "d0a8db298a750619599525ced0e1ce60d447b728b6a9dbe65a74d38389350285",
+      "gzipBytes": 103,
+      "gzipSha256": "9eb9385826669a0d0b9bb1e668ff72f100a3724808fb12c08015698f227507d3"
+    },
+    {
+      "source": "attempts/register-nftmarket-vault-v1/included.json",
+      "file": "files/attempts/register-nftmarket-vault-v1/included.json.gz",
+      "bytes": 3006,
+      "sha256": "30dbb33c16df85901f63000e7c7d15e97b3fe4b681ab95a86e527016e49d1656",
+      "gzipBytes": 1215,
+      "gzipSha256": "5abff075af22154b24d0004b8749b1f2984195cc21163595cc408754a78906ba"
+    },
+    {
+      "source": "attempts/register-nftmarket-vault-v1/intent.json",
+      "file": "files/attempts/register-nftmarket-vault-v1/intent.json.gz",
+      "bytes": 317,
+      "sha256": "74ec545d5cc1c02a709c9c5a31b86e99ae872e3239ddac9a87f4c3fd5e3746f2",
+      "gzipBytes": 238,
+      "gzipSha256": "2a3fb071441aaa20c9654c07ee69e6742b32f29d40f955201237107836dd2f0a"
+    },
+    {
+      "source": "attempts/register-nftmarket-vault-v1/receipt.json",
+      "file": "files/attempts/register-nftmarket-vault-v1/receipt.json.gz",
+      "bytes": 151,
+      "sha256": "8ba2c35e6fbe0282d1b2ceefdbb284f45278c54049afcfc1cc10248ff0e8d75f",
+      "gzipBytes": 142,
+      "gzipSha256": "9695f77eb5b6d5d1edc185688d0c4f3c7494c8150f9750535fa71e2d31ee90c1"
+    },
+    {
+      "source": "attempts/register-nftmarket-vault-v1/request.json",
+      "file": "files/attempts/register-nftmarket-vault-v1/request.json.gz",
+      "bytes": 204,
+      "sha256": "5be2e156d3146443cdc25750c68a75a38008be3a776c980f7f695a57b9a81c42",
+      "gzipBytes": 172,
+      "gzipSha256": "1af49152ccb9c1e563fc29846d67c97a2f46cb541712dbb937e85bd2c5c56ddf"
+    },
+    {
+      "source": "deploy-nftmarket-v1.log",
+      "file": "files/deploy-nftmarket-v1.log.gz",
+      "bytes": 9599,
+      "sha256": "86e14460cb1594b710b530776b7f73c07f87b042d32c8affa94185fbdc378866",
+      "gzipBytes": 1651,
+      "gzipSha256": "753e2c61bd963d00e47f0a6242f6af0c0e9f25a2d06f332812d845ead2d1605d"
+    },
+    {
+      "source": "deployments-v1.log",
+      "file": "files/deployments-v1.log.gz",
+      "bytes": 2688,
+      "sha256": "1e8c66155db3184cc04f25ee33922daa9e2c642a36441ccc863c44eaf633f326",
+      "gzipBytes": 797,
+      "gzipSha256": "358406e4b60da9c5df27388f176199e6c6a5a65008e42c5efedc5cb97d3cab15"
+    },
+    {
+      "source": "deployments-v2.log",
+      "file": "files/deployments-v2.log.gz",
+      "bytes": 3021,
+      "sha256": "fab201a5d259619a77641767f7cb40985f5804e28144944124f2ed17623c8490",
+      "gzipBytes": 792,
+      "gzipSha256": "48fa566fd7d6f8e7afc99be4e9fc48c187b4eb1ef6011711448f213f6a997a6a"
+    },
+    {
+      "source": "deployments-v3.log",
+      "file": "files/deployments-v3.log.gz",
+      "bytes": 323,
+      "sha256": "4465de482df3353f354020c14ac0e27cc886b24e835e8a027b4e610e8b6b4d44",
+      "gzipBytes": 165,
+      "gzipSha256": "5b6a5668a99c7431dcb4909d880a51d74439acdfbbaace3156c705275e48a4d5"
+    },
+    {
+      "source": "markets-v1/nftmarket/BUILD.json",
+      "file": "files/markets-v1/nftmarket/BUILD.json.gz",
+      "bytes": 1008,
+      "sha256": "d1b29880d0fd6affdab7a3f9a737d190427884934a19fd9fd7b5952288e3019d",
+      "gzipBytes": 562,
+      "gzipSha256": "5f63e69726e47b20aefdc71c90f7dd23a80d059b01f02fac114435acbf4e34f0"
+    },
+    {
+      "source": "markets-v1/nftmarket/bound/BOUND.json",
+      "file": "files/markets-v1/nftmarket/bound/BOUND.json.gz",
+      "bytes": 364,
+      "sha256": "26e507bcf32fa41d7907dee0b8b06f045f7a1bf6a5d018526015cee7ffa66c14",
+      "gzipBytes": 255,
+      "gzipSha256": "d3cdcfb0214329b741291b5ea62279bef5025a767e2f543fa476c3b0bfba3fa9"
+    },
+    {
+      "source": "markets-v1/nftmarket/bound/policy.json",
+      "file": "files/markets-v1/nftmarket/bound/policy.json.gz",
+      "bytes": 88622,
+      "sha256": "ad7d801f9fa90fab9ba0a3fc13f26f98167dba2dfde4efa60b7d14de036f4d00",
+      "gzipBytes": 2231,
+      "gzipSha256": "7ef548589acb0b93c7f86ed9278d6c52f3ed6571ab4a74145fc20109230a9ef4"
+    },
+    {
+      "source": "markets-v1/nftmarket/compile.log",
+      "file": "files/markets-v1/nftmarket/compile.log.gz",
+      "bytes": 26,
+      "sha256": "b8c34675233d5e4555ceeef573189b15b683eb81832df80956ecf97afbbe465a",
+      "gzipBytes": 46,
+      "gzipSha256": "8dfcc3233b52c9d40775bc94f048578ddbc76a808f6fca25624cb549c86d5009"
+    },
+    {
+      "source": "markets-v1/nftmarket/compiled/compilation_artifact.json",
+      "file": "files/markets-v1/nftmarket/compiled/compilation_artifact.json.gz",
+      "bytes": 5086550,
+      "sha256": "2d3f76254a4e27e99131d5d4ccd40354c115e86958cedcdc9f7ce41410864b74",
+      "gzipBytes": 565324,
+      "gzipSha256": "509db1db78e42ce9c529b0fe3f90408840d22a2112af9c4fac8cb0a383f65136"
+    },
+    {
+      "source": "markets-v1/nftmarket/config.json",
+      "file": "files/markets-v1/nftmarket/config.json.gz",
+      "bytes": 80,
+      "sha256": "22aeed5fb83457060699e201e34bb92427a1447fc20bbfaa144b20c6ef2c30f4",
+      "gzipBytes": 87,
+      "gzipSha256": "9227db37c8d17fff42a2023d51a67d637afe0a77f22d610e0f7cc0d18736ae5f"
+    },
+    {
+      "source": "markets-v1/nftmarket/live-registration.json",
+      "file": "files/markets-v1/nftmarket/live-registration.json.gz",
+      "bytes": 3006,
+      "sha256": "30dbb33c16df85901f63000e7c7d15e97b3fe4b681ab95a86e527016e49d1656",
+      "gzipBytes": 1215,
+      "gzipSha256": "5abff075af22154b24d0004b8749b1f2984195cc21163595cc408754a78906ba"
+    },
+    {
+      "source": "markets-v1/nftmarket/main.psy.rs",
+      "file": "files/markets-v1/nftmarket/main.psy.rs.gz",
+      "bytes": 1170657,
+      "sha256": "71c778ee241aa6ab722da8c0d66c8270628003c817028de1998586691ea51f5d",
+      "gzipBytes": 104227,
+      "gzipSha256": "3562d5ab9706a882d6d32c61b6086e2c285a6ca776d43aae9fe0dbe46b6ea58b"
+    },
+    {
+      "source": "markets-v1/nftmarket/native.json",
+      "file": "files/markets-v1/nftmarket/native.json.gz",
+      "bytes": 184399,
+      "sha256": "bf756535620ecd6b360cf58fce90e66f1e7fecc5ed28c4445c23d745d7510606",
+      "gzipBytes": 21259,
+      "gzipSha256": "6d46dba5c8f00f000422d93709244579fb188d94c4e8f795763612ceae26380c"
+    },
+    {
+      "source": "markets-v1/nftmarket/nft.json",
+      "file": "files/markets-v1/nftmarket/nft.json.gz",
+      "bytes": 61243,
+      "sha256": "bbbde8620431788e8ce68067a2db425713e2195eaf1eb480e22328822d0d103c",
+      "gzipBytes": 6878,
+      "gzipSha256": "28eb3d9685962d140dc8e925209e031da42ac60c7ecfc3fe8b141d82c07e41be"
+    },
+    {
+      "source": "markets-v1/nftmarket/token-a.json",
+      "file": "files/markets-v1/nftmarket/token-a.json.gz",
+      "bytes": 4066238,
+      "sha256": "e259c0b8dbe1588bfe624be14e2b32dede69648b5532fce5f472434c689fdba9",
+      "gzipBytes": 458317,
+      "gzipSha256": "41a96109bd8d16c309b72aaffb554f47e206428837ed73e747f9cde4b4473ca9"
+    },
+    {
+      "source": "markets-v1/nftmarket/token-b.json",
+      "file": "files/markets-v1/nftmarket/token-b.json.gz",
+      "bytes": 4066238,
+      "sha256": "e259c0b8dbe1588bfe624be14e2b32dede69648b5532fce5f472434c689fdba9",
+      "gzipBytes": 458317,
+      "gzipSha256": "41a96109bd8d16c309b72aaffb554f47e206428837ed73e747f9cde4b4473ca9"
+    },
+    {
+      "source": "public/deploy-nftmarket-build-pin-v1.json",
+      "file": "files/public/deploy-nftmarket-build-pin-v1.json.gz",
+      "bytes": 795,
+      "sha256": "7eb3e4c1ad97ec263efc170ef5f8548c933e207c562c06965619de57da25035f",
+      "gzipBytes": 463,
+      "gzipSha256": "2997c8e2eea1e97c23bc68c0d4e2faa621e222c1374300010a8b1f35be0bcfdd"
+    },
+    {
+      "source": "public/deployments-complete-v1.json",
+      "file": "files/public/deployments-complete-v1.json.gz",
+      "bytes": 12119,
+      "sha256": "d96eb0cd863acb398dfd76ef735148e824b94491a978bbbfcb6091c9441a2540",
+      "gzipBytes": 2476,
+      "gzipSha256": "62dc56b8768a565bfd8e471a71ee34688e3bca3b1e50d0f8b3c7d7ed31b501aa"
+    },
+    {
+      "source": "public/nft-registration-read-only-resume-v1.json",
+      "file": "files/public/nft-registration-read-only-resume-v1.json.gz",
+      "bytes": 753,
+      "sha256": "59238eb32b5c39679927fccc3a25bcebce2cfc20bd2ab3961feb681e37018e79",
+      "gzipBytes": 479,
+      "gzipSha256": "a98d17aae690be68aebc1c77d47618a3f75d77e32b9db93337cc535749e09fc2"
+    },
+    {
+      "source": "public/nft-registration-services-read-v1.json",
+      "file": "files/public/nft-registration-services-read-v1.json.gz",
+      "bytes": 370,
+      "sha256": "a735d55840d3d7fee98affa131c04556b9832c82ed50aed5381e67e86e28558f",
+      "gzipBytes": 282,
+      "gzipSha256": "fa53e088aaebb424bebd8d4e101dc8f2e23ea35c8fed2db6a1d4023292b7c3f2"
+    },
+    {
+      "source": "public/registration-connectivity-recheck-v2.json",
+      "file": "files/public/registration-connectivity-recheck-v2.json.gz",
+      "bytes": 634,
+      "sha256": "4685def0b1963bda91c34880156b44926d35818b011e6fbe50d89bd0f2024491",
+      "gzipBytes": 334,
+      "gzipSha256": "fecec3e5dcb0fd3aa5cf38e370cbe605538139e9bf1beacffac0f0c8db991fed"
+    },
+    {
+      "source": "public/registration-existing-proxy-connectivity-v1.json",
+      "file": "files/public/registration-existing-proxy-connectivity-v1.json.gz",
+      "bytes": 631,
+      "sha256": "1156ba0095078660f3ea3f1cf18d22329a78696d3d2187d7daf4933e382121b1",
+      "gzipBytes": 310,
+      "gzipSha256": "2e3156af9f6b4bdc7dff0cd5498a85dbdff676158439a02681cf2828e4b05f69"
+    },
+    {
+      "source": "public/registration-public-dns-observation-v1.json",
+      "file": "files/public/registration-public-dns-observation-v1.json.gz",
+      "bytes": 1549,
+      "sha256": "62136ab98ab95af06cf105b42a3382f9be705753eee09340d5e332123a465ae0",
+      "gzipBytes": 453,
+      "gzipSha256": "efd80921c2821da71fbae49b3f93a8c486b38dbd0dc7ca40a2b22794d142ddca"
+    },
+    {
+      "source": "public/registration-read-connectivity-v1.json",
+      "file": "files/public/registration-read-connectivity-v1.json.gz",
+      "bytes": 738,
+      "sha256": "3470f1d71feaf510fe7e6c80ff181950ab5870c7b9f667c44011f10991824b63",
+      "gzipBytes": 311,
+      "gzipSha256": "effd84ef8b08ac3510b3b6431f0df9355880cc94a09cd77f88b0dbb95d68e511"
+    },
+    {
+      "source": "public/registration-sni-connectivity-v1.json",
+      "file": "files/public/registration-sni-connectivity-v1.json.gz",
+      "bytes": 569,
+      "sha256": "eccd81b099da4fdfc387cd39922ef8c86a7ce3eb0ec377213aa1b09fef5e4f72",
+      "gzipBytes": 325,
+      "gzipSha256": "7f9026a45c1551a0884840b7e452a55f004ee2d19bab18c0c8435f5ab6962545"
+    },
+    {
+      "source": "public/runtime-source-overlay-v20.json",
+      "file": "files/public/runtime-source-overlay-v20.json.gz",
+      "bytes": 35778,
+      "sha256": "aa74149381ae4e5c755a5d90b7a6303da72aeed2422b44b594a01479866a7c87",
+      "gzipBytes": 15175,
+      "gzipSha256": "567c162ff2fc0f9da6c8a0aa362a4040077d2d60ed450cacd252f80a43ffd7a0"
+    },
+    {
+      "source": "register-nftmarket-vault-v1.log",
+      "file": "files/register-nftmarket-vault-v1.log.gz",
+      "bytes": 485,
+      "sha256": "fe7e4919b36057e1a96b0d3d99171d45a84389f1fefa8e3a9e2322dcd4ba13aa",
+      "gzipBytes": 212,
+      "gzipSha256": "27364ae43ccdf480766b4b6b726ba53479aeab4acf0329bfc854fa719df28e5d"
+    }
+  ]
+}
