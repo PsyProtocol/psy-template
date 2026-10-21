@@ -259,6 +259,45 @@ async fn full_ups_authenticated_queue_admission_and_settlement()->Result<()>{
  Ok(())
 }
 
+// New-key opt-in: all four authenticated admissions in one complete seven-call
+// UPS. User consent and Sponsor authorization are VM-only in this fixture.
+#[tokio::test]
+#[ignore="requires fresh bulk fixtures and fresh output directory"]
+async fn full_ups_bulk_four_authenticated_admission()->Result<()>{
+ ensure!(std::env::var("BATCH_ADMISSION_TEST").as_deref()==Ok("1"),"distinct admission build required");
+ ensure!(std::env::var("BATCH_PROOF_PROFILE").as_deref()==Ok("compact-v1"),"new compact key required");
+ let out=std::env::var("BATCH_FULL_UPS_OUT")?;fs::create_dir(&out)?;
+ for kind in std::env::var("BATCH_FULL_UPS_MARKETS").unwrap_or_else(|_|"amm,orderbook,bondingcurve,nftmarket".into()).split(','){
+  let(mut w,users,_,_)=trading_setup_size(kind,if ["amm","bondingcurve"].contains(&kind){4}else{2})?;ensure!(users.len()==4,"all four distinct owners");
+  let epoch=w.val(V,"queue_epoch",0)+1;let cutoff=w.checkpoint+20;
+  w.run(V,M,"start_epoch",&[epoch,cutoff])?;
+  for u in &users{w.run(*u,M,"request_admission",&[epoch,cutoff])?;}
+  w.run(S,M,"authorize_sponsor",&[V,ESCROW,w.val(S,"sponsor_nonce",0)+1,2])?;
+  w.run(S,0,"simple_transfer",&[V,ESCROW])?;
+  let branch=w.policy["operations"].as_array().unwrap().iter().find(|op|op["name"]=="admit_entries_4").context("explicit bulk fixture required")?["branch"].as_u64().unwrap();
+  let mut row=vec![0;13];row[0]=branch;row[1]=S;
+  for(i,u)in users.iter().enumerate(){row[2+2*i]=*u;row[3+2*i]=w.val(*u,"nonce",0);}
+  let fields=w.request(4,vec![row],[0;4]);let calls=batch_compact::calls(&w.policy,&fields)?;
+  ensure!(calls.len()==7,"entire stack includes funding, claim, four admits and burn");
+  for label in ["missing-consent","duplicate-owner","wrong-nonce","expired"]{
+   let mut bad=w.clone();let mut altered=fields.clone();
+   match label{
+    "missing-consent"=>bad.set(users[3],M,bad.fields["admission_nonce"],0),
+    "duplicate-owner"=>{altered[29]=altered[27];altered[30]=altered[28];},
+    "wrong-nonce"=>altered[24]+=1,
+    "expired"=>bad.checkpoint=cutoff+1,
+    _=>unreachable!(),
+   }
+   let before=bad.slots.clone();ensure!(bad.execute(&altered).is_err(),"invalid bulk request {label}");ensure!(bad.slots==before,"failed bulk request committed a prefix");
+  }
+  let mut chain=Chain::new(&w,&calls)?;chain.prove(&mut w,fields).await?;
+  ensure!(w.val(V,"queue_count",0)==4&&w.val(V,"queue_phase",0)==1,"exact full open queue");
+  for(i,u)in users.iter().enumerate(){ensure!(w.val(V,"queue_owner",i as u64)==*u&&w.val(V,"queue_nonce",i as u64)==w.val(*u,"nonce",0),"complete canonical authenticated members");}
+  fs::write(format!("{out}/{kind}-bulk-admission.json"),serde_json::to_vec_pretty(&json!({"market":kind,"members":users,"actualCalls":7,"measurements":chain.measurements,"fullUpsVerified":true,"wholeStackSessionFeeAndEndpointsVerified":true,"invalidVmCases":["missing-consent","duplicate-owner","wrong-nonce","expired"],"scope":"synthetic authenticated checkpoint; complete seven-call vault UPS, ordinary consent and Sponsor VM-only; negative cases VM atomic model, not Node rejection","broadcast":false,"liveAcceptance":false,"chainTps":null}))?)?;
+ }
+ Ok(())
+}
+
 // Dense adjacent fixture IDs can under-count physical fee leaves. Exercise
 // protocol-style aligned, distant IDs and a refund path before accepting cap=4.
 #[test]

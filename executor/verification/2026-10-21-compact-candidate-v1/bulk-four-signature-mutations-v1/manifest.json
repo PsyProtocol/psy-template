@@ -1,0 +1,35 @@
+{
+  "schema": 1,
+  "sourceDirectory": "/private/tmp/psy-market-bulk-signature-evidence-20261021-v1",
+  "machine": "gewenbo.local",
+  "host": "macOS-15.7.3-arm64-arm-64bit",
+  "scope": "public formal Executor run including failures; success requires exact included receipt",
+  "walletFilesIncluded": false,
+  "sealedBinariesIncluded": false,
+  "records": [
+    {
+      "source": "public/RESULT.json",
+      "file": "files/public/RESULT.json.gz",
+      "bytes": 6810,
+      "sha256": "78ca562ce315e8a2d86efedf99265b9d87012b02904706138124560cd94d6baa",
+      "gzipBytes": 3098,
+      "gzipSha256": "3fa523d31de0e9482076bf7cdb21ac8fae25f643f150ee5569f2785e39d72368"
+    },
+    {
+      "source": "public/psy-market-bulk-signature-mutations-20261021-v1.log",
+      "file": "files/public/psy-market-bulk-signature-mutations-20261021-v1.log.gz",
+      "bytes": 23092,
+      "sha256": "a5829ce7b72835bf6aece3859564dd84d6baa6a666dcc6a760e06ea1c74d7f74",
+      "gzipBytes": 4924,
+      "gzipSha256": "25284f50aed09017b11fab611c40da920c9ff9624a8aee4b73fc33dc5b07636e"
+    },
+    {
+      "source": "source/amm/u124/vm-tests/tests/batch_sdkey.rs",
+      "file": "files/source/amm/u124/vm-tests/tests/batch_sdkey.rs.gz",
+      "bytes": 11254,
+      "sha256": "d347287d557bff1c73ab2663cf44dff274f69c095c7aeab4a4dc84adfe47db9a",
+      "gzipBytes": 3363,
+      "gzipSha256": "55d0b2e472e4f13be16009cfd76c29941c6136f0ef800ba037f293b40934bd0d"
+    }
+  ]
+}

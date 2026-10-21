@@ -8,6 +8,7 @@ import{latestBroadcastOutcome}from'./attemptOutcome.mjs';
 import{ordinaryEvidenceDirectory}from'./ordinaryEvidence.mjs';
 import{selectedCliTask}from'./cliExecution.mjs';
 import{saveObservation}from'../observations.mjs';
+import{assetCohort}from'./cohortScope.mjs';
 import{parseLosslessJson}from'../../amm/u124/client.mjs';
 export const pause=ms=>new Promise(r=>setTimeout(r,ms));
 export function cohort(base,original){
@@ -20,9 +21,10 @@ export function cohort(base,original){
  const actorHome=existsSync(join(base,'public/qa-actors-source.json'))?read(join(base,'public/qa-actors-source.json')).directory:base;
  const actors={bob:{id:860352,secret:join(original,'.secrets/bob-bundled-profile-v1.json')},trader:{id:876736,secret:join(original,'.secrets/trader.json')},sponsor:{id:1384640,secret:join(original,'.secrets/sponsor-bundled-profile-v1.json')},...Object.fromEntries(['charlie','dave'].map(n=>[n,{id:read(join(actorHome,'public',n+'-registration-v1.json')).userId,secret:join(actorHome,'.secrets',n+'.json')}]))};
  const markets=['amm','orderbook','bondingcurve','nftmarket'].map(kind=>{const build=join(base,'markets-v1',kind),registration=read(join(build,'live-registration.json'));return new LiveMarket({base,config,build,registration,policy:read(join(build,'bound/policy.json')),contracts:registration.contracts,ordinaryBinary,compactBinary:binary,env,actors});});
+ const extraFile=join(base,'public/additional-cohort-users-v1.json'),extra=existsSync(extraFile)?read(extraFile):{version:1,users:[]};assert.deepEqual(Object.keys(extra).sort(),['users','version']);assert.equal(extra.version,1);const assetSpec=assetCohort({actors:Object.values(actors).map(a=>a.id),marketVaults:markets.map(m=>m.vault),legacyVaults:markets.map(m=>read(join(original,'markets-v1',m.kind,'live-registration.json')).vaultId),extraUsers:extra.users});
  const by=Object.fromEntries(markets.map(m=>[m.kind,m])),bindings=new Map(markets.flatMap(m=>m.contracts).map(b=>[b.contract.contractId,b]));
  const user=async(actor,name,calls)=>{const out=ordinaryEvidenceDirectory(base,name,actors[actor].id);if(out!==join(base,'attempts',name))return out;if(existsSync(join(out,'preflight.json'))){if(!existsSync(join(out,'included.json')))await confirmUps(config,out);return out;}assert.ok(!existsSync(join(base,'public',name+'.json')),'partial unsigned input requires inspected new attempt');return ordinary({base,config,binary:ordinaryBinary,secret:actors[actor].secret,name,calls,bindings,env});};
- return{base,original,releaseFile,binary,binarySha256:tools.compactBinarySha256,ordinaryBinary,config,env,actors,markets,by,bindings,user,token:read(join(by.amm.build,'token-a.json')).abi,nft:read(join(by.nftmarket.build,'nft.json')).abi};
+ return{base,original,releaseFile,assetSpec,binary,binarySha256:tools.compactBinarySha256,ordinaryBinary,config,env,actors,markets,by,bindings,user,token:read(join(by.amm.build,'token-a.json')).abi,nft:read(join(by.nftmarket.build,'nft.json')).abi};
 }
 export async function formal(h,m,tag,plan,{benchmark=false,expiry=96,mode='resident',runtimeSuffix='',contendOnMaintenance=null}={}){
  const dir=join(h.base,'public',tag+'-'+m.kind+'-executor');if(!existsSync(dir)){mkdirSync(dir);for(const[n,v]of Object.entries({abi:m.abi,config:m.driverConfig,policy:m.policy,dependencies:m.contracts,plan}))save(join(dir,n+'.json'),v);}

@@ -484,3 +484,22 @@ is rejected. Replenishment requires a new explicit Sponsor UPS after exhausting
 the existing grant. Per-UPS fee caps and complete proof checks are unchanged.
 This is not a gas-free or unconditional liveness guarantee.
 
+
+## Opt-in four-member compact admission candidate
+
+`admissionMode: "all-four-v1"` requires a freshly bound bulk policy and a newly
+registered key/vault; existing single-admission policies are rejected in this
+mode. Late binding:
+
+    node batching/admission/build.mjs bind --build FROZEN_BUILD --market-id NEW_ID --admission-mode all-four-v1 --out FRESH_BOUND
+
+The formal route waits for all four matching consents in its explicit plan,
+then proposes one seven-call UPS. Every contract admission still checks its
+owner, nonce, signed epoch/cutoff and terms. A partial queue uses the existing
+single-entry operation. This mode does not promise global inclusion or hide
+executor refusal; fixed-set timeout/recovery paths remain required.
+
+All four synthetic complete UPSs and compact signature mutation gates passed.
+Fresh live registration, maximum economic execution, ordinary claims and the
+remaining network matrix are not yet accepted. See the latest production
+candidate ledger and `bulk-four-full-ups-v1` / `bulk-four-signature-mutations-v1`.

@@ -4,7 +4,43 @@ Branch: `markets-batch-capacity-recovery-20261020`; accepted starting commit
 `e45d689e6806d362c03f15697c90aba44f8704e7`. No Node edits, old-contract update
 probes, new branches or replacement of original artifacts are authorized here.
 
-## Latest evidence checkpoint — 2026-10-21 07:40 UTC
+## Latest completed source and cryptographic gates
+
+- `all-four-v1`: all four markets passed the **complete seven-call vault UPS**
+  on synthetic authenticated checkpoints. The stack contains fund-gas, native
+  claim, four admissions and fee burn. Exact stack/session, fees, exported state
+  deltas and public endpoints are verified. One frozen test binary SHA256:
+  `87b8147a76494d1aec354949d07b4cb9a731b579cf949bac644c4a993648d533`.
+- New compact signature-circuit positive and mutation tests passed for all four
+  keys: omitted/reordered/duplicate/extra calls, active and skipped slot
+  substitutions, caller, signed stack/hash/count, user/nonce/checkpoints,
+  start/end state, unused padding and excessive fees. These are circuit tests;
+  VM invalid-admission cases remain separately labelled. Neither is Node-side
+  rejection or live registration evidence.
+- Evidence: `bulk-four-full-ups-v1/` (**84 files**, compressed/original hashes
+  verified) and `bulk-four-signature-mutations-v1/` (**3 files**). Full proof
+  fixtures, 50 Rust/Cargo source files, SDK/config/fixture/test-binary hashes and
+  complete logs, including failed preliminary runs, are preserved.
+- Regression: **128** Executor/acceptance checks, **41** base batch checks and
+  **19** admission checks passed in separate suites. The admission suite includes
+  **4** builder tests; these counts overlap and must not be added as a security
+  score. Original missing-environment/obsolete-fixture failures are retained.
+- Accounting supports an explicit additional prior-vault cohort when deploying
+  another fresh family. It rejects duplicate/rounded/out-of-range IDs and never
+  calls this finite scope a global asset inventory. Old runs retain 14 accounts;
+  a new family can explicitly include the four preceding vaults (18 total).
+- The maximum script now audits assets and prepares start sponsorship before
+  fixing its consent window. Distinct ordinary consent wallets and Sponsor
+  admission funding can then progress together, draining all results before
+  admission. This scheduling change does not extend signed cutoffs or bypass
+  sponsorship checks. Real acceptance of this revised path is **pending**.
+- Current real failed-intake recovery: AMM refund confirmed **360139**,
+  Orderbook refund confirmed **360164**. Curve/NFT, unaccepted sender returns,
+  ordinary claims and exact final accounting remain in progress. This is not
+  maximum-capacity economic acceptance. Existing keys/vaults remain unchanged;
+  the new bulk key still needs fresh registration and live acceptance.
+
+## Earlier evidence checkpoint — 2026-10-21 07:40 UTC
 
 - Existing branch source checkpoint: `3f9af21`; all four fresh vaults retain
   their registered single-admission keys. Recovery grants remain capped at 2F.
@@ -855,5 +891,5 @@ historical evidence, not current acceptance or throughput evidence.
 The opt-in `all-four-v1` policy adds four authenticated admissions in one seven-
 call UPS. Defaults and registered policies remain unchanged. It requires a new
 key/vault and canonical matching consents from all four owners. Routing mock
-regressions and offline key construction passed; complete cryptographic and
-live acceptance **remain unverified**, so it is not enabled on existing vaults.
+regressions and offline key construction passed; complete cryptographic verification has since passed (see latest ledger);
+live acceptance **remains unverified**, so it is not enabled on existing vaults.

@@ -22,9 +22,10 @@ use std::fs;
         .into()
     }
 
-    fn prove_digest(
+    fn prove_stacks(
         gadget: &SDKeyCircuitGadget,
-        calls: &[SDKeyTransactionInfo<F>],
+        logical: &[SDKeyTransactionInfo<F>],
+        actual: &[SDKeyTransactionInfo<F>],
         inputs: Vec<u64>,
         attack: usize,
     ) -> Result<()> {
@@ -35,13 +36,13 @@ use std::fs;
         let mut end_user_leaf = user_leaf;
         end_user_leaf.nonce = F::from_canonical_u64(if attack==2{2}else{1});
         if attack==4 {end_user_leaf.user_state_tree_root=QHashOut(HashOut{elements:[F::from_canonical_u64(7);4]});}
-        let mut signed=calls.to_vec();if attack==1 {signed[0]=info(999,1,&[888]);}
+        let mut signed=actual.to_vec();if attack==1 {signed[0]=info(999,1,&[888]);}
         let sig_data = PsyUserProvingSessionSignatureDataCompact {
             start_user_leaf_hash: user_leaf.qfhash::<PoseidonHash>(),
             end_user_leaf_hash: end_user_leaf.qfhash::<PoseidonHash>(),
             checkpoint_leaf_hash: QHashOut(HashOut::ZERO),
             tx_stack_hash: compute_tx_stack_hash(&signed),
-            tx_count: F::from_canonical_u64(if attack==3{calls.len() as u64-1}else{calls.len() as u64}),
+            tx_count: F::from_canonical_u64(if attack==3{actual.len() as u64-1}else{actual.len() as u64}),
         };
         let sig_hash = sig_data
             .get_sig_action_for_user::<PoseidonHash>(
@@ -61,9 +62,9 @@ use std::fs;
         witness.set_hash_target(gadget.sig_hash, sig_hash.0)?;
         witness.set_hash_target(
             gadget.session_context.start_user_leaf_hash,
-            user_leaf.qfhash::<PoseidonHash>().0,
+            if attack==7 {HashOut{elements:[F::from_canonical_u64(7);4]}}else{user_leaf.qfhash::<PoseidonHash>().0},
         )?;
-        witness.set_hash_target(gadget.session_context.checkpoint_leaf_hash, HashOut::ZERO)?;
+        witness.set_hash_target(gadget.session_context.checkpoint_leaf_hash, if attack==8 {HashOut{elements:[F::from_canonical_u64(7);4]}}else{HashOut::ZERO})?;
         witness.set_hash_target(
             gadget.session_context.sign_context.checkpoint_tree_root,
             HashOut::ZERO,
@@ -74,19 +75,19 @@ use std::fs;
             .user_leaf
             .set_witness(&mut witness, &user_leaf)?;
         witness.set_target(gadget.session_context.nonce, F::ONE)?;
-        witness.set_target(gadget.checkpoint_id, F::ZERO)?;
-        witness.set_target(gadget.user_id, F::from_canonical_u64(123))?;
+        witness.set_target(gadget.checkpoint_id, if attack==5 {F::ONE}else{F::ZERO})?;
+        witness.set_target(gadget.user_id, F::from_canonical_u64(if attack==6 {124}else{123}))?;
         witness.set_target_arr(&gadget.circuit_inputs, &inputs.iter().copied().map(F::from_canonical_u64).collect::<Vec<_>>())?;
         witness.set_hash_target(
             gadget.tx_introspection.tx_stack_hash,
-            compute_tx_stack_hash(calls).0,
+            compute_tx_stack_hash(actual).0,
         )?;
-        witness.set_target(gadget.tx_introspection.tx_count, F::from_canonical_u64(calls.len() as u64))?;
+        witness.set_target(gadget.tx_introspection.tx_count, F::from_canonical_u64(actual.len() as u64))?;
         for (slot, actual) in gadget
             .tx_introspection
             .tx_info_slots
             .iter()
-            .zip(calls.iter())
+            .zip(logical.iter())
         {
             witness.set_target(slot.contract_id, actual.contract_id)?;
             witness.set_target(slot.method_id, actual.method_id)?;
@@ -101,6 +102,8 @@ use std::fs;
     }
 
 
+
+fn prove_digest(gadget:&SDKeyCircuitGadget,calls:&[SDKeyTransactionInfo<F>],inputs:Vec<u64>,attack:usize)->Result<()>{prove_stacks(gadget,calls,calls,inputs,attack)}
 
 fn canonical_operation(op:&Value)->Vec<u64>{let mut v=vec![0;13];v[0]=op["branch"].as_u64().unwrap();for c in op["calls"].as_array().unwrap(){for a in c["inputs"].as_array().unwrap(){if let Some(i)=a["witness"].as_u64(){v[i as usize]=100+i;}}}v}
 fn calls(spec:&Value,f:&[u64])->Result<Vec<SDKeyTransactionInfo<F>>>{let all=spec["branches"].as_array().unwrap().iter().flat_map(|b|b["calls"].as_array().unwrap()).chain(std::iter::once(&spec["noop"])).chain(std::iter::once(&spec["expire"])).collect::<Vec<_>>();expected_calls(spec,f)?.iter().map(|c|{let d=all.iter().find(|d|d["contract_id"]==c["contract_id"]&&d["method_name"]==c["method_name"]).unwrap();Ok(info(c["contract_id"].as_u64().unwrap(),d["method_id"].as_u64().unwrap()as u32,&c["inputs"].as_array().unwrap().iter().map(|x|x.as_u64().unwrap()).collect::<Vec<_>>()))}).collect()}
@@ -122,3 +125,29 @@ fn four_batch_keys_prove_every_operation_and_reject_stack_substitution()->Result
   let mut fee=v.clone();fee[73]=1_000_101_000;assert!(expected_calls(&spec,&fee).is_err());assert!(prove_digest(&g,&normal,fee,0).is_err());
   println!("BATCH_KEY {market}: {} positive stacks; stack, caller, hash, length, header, and fee attacks rejected",samples.len());
  }Ok(())}
+
+// New-key operation: positive compact seven-call binding plus cryptographic
+// constraint failures. No coordinator or network admission is implied.
+#[test]
+fn compact_bulk_four_binds_stack_and_session_and_rejects_mutations()->Result<()>{
+ let root=std::env::var("BATCH_BUILD")?;
+ for market in ["amm","orderbook","bondingcurve","nftmarket"]{
+  let spec:Value=serde_json::from_slice(&fs::read(format!("{root}/{market}/policy.json"))?)?;
+  let g=psy_template_u124_markets::batch_compact::build(&spec)?;
+  let op=spec["operations"].as_array().unwrap().iter().find(|op|op["name"]=="admit_entries_4").ok_or_else(||anyhow::anyhow!("explicit bulk policy required"))?;
+  let mut v=vec![0;74];v[0]=4;v[21]=op["branch"].as_u64().unwrap();v[22]=300;v[73]=1_000_000_000;
+  for i in 0..4 {v[23+2*i]=200+i as u64;v[24+2*i]=1;}
+  let logical=calls(&spec,&v)?;let noop_cid=F::from_canonical_u64(spec["noop"]["contract_id"].as_u64().unwrap());let noop_mid=F::from_canonical_u64(spec["noop"]["method_id"].as_u64().unwrap());
+  let actual=logical.iter().filter(|c|c.contract_id!=noop_cid||c.method_id!=noop_mid).copied().collect::<Vec<_>>();assert_eq!(actual.len(),7);prove_stacks(&g,&logical,&actual,v.clone(),0)?;
+  for attack in 1..=8{assert!(prove_stacks(&g,&logical,&actual,v.clone(),attack).is_err(),"session/hash mutation {market}/{attack}");}
+  for slot in [0,1,2,3,6,7,19,37,38,39]{let mut bad=logical.clone();bad[slot]=info(999,1,&[888]);assert!(prove_stacks(&g,&bad,&actual,v.clone(),0).is_err(),"logical slot {market}/{slot}");}
+  let mut skipped=logical.clone();let slot=skipped.iter().position(|c|c.contract_id==noop_cid&&c.method_id==noop_mid).unwrap();skipped[slot].caller_contract_id=F::from_canonical_u64(999);assert!(prove_stacks(&g,&skipped,&actual,v.clone(),0).is_err(),"noncanonical skipped caller");
+  let mut missing=actual.clone();missing.remove(3);assert!(prove_stacks(&g,&logical,&missing,v.clone(),0).is_err());
+  let mut reordered=actual.clone();reordered.swap(2,3);assert!(prove_stacks(&g,&logical,&reordered,v.clone(),0).is_err());
+  let mut duplicate=actual.clone();duplicate[3]=duplicate[2];assert!(prove_stacks(&g,&logical,&duplicate,v.clone(),0).is_err());
+  let mut extra=actual.clone();extra.push(info(spec["noop"]["contract_id"].as_u64().unwrap(),spec["noop"]["method_id"].as_u64().unwrap()as u32,&[]));assert!(prove_stacks(&g,&logical,&extra,v.clone(),0).is_err());
+  let mut padding=v.clone();padding[31]=1;assert!(prove_stacks(&g,&logical,&actual,padding,0).is_err());
+  let mut fee=v.clone();fee[73]=1_000_101_000;assert!(prove_stacks(&g,&logical,&actual,fee,0).is_err());
+  println!("COMPACT_BULK_KEY {market}: 7-call positive; signed stack/hash/count, nonce/user/checkpoints/end-state, every active/skipped slot, noncanonical caller, omission/reorder/duplicate/extra, padding and fee mutations rejected");
+ }Ok(())
+}
