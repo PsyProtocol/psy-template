@@ -18,7 +18,8 @@ NFT 2469 remains retired; NFT 2472 is the corrected live baseline.
 Last completed milestone: exact sender return and ordinary claim, archived in
 `bootstrap-orphan-return-v1/`. All four fresh deployments and activations are
 confirmed; Curve inventory initialization is confirmed at checkpoint **359318**.
-The LP order is confirmed and the formal LP admission worker is running. The
+The LP order and authenticated admission are confirmed (admission checkpoint
+**359427**); the worker is waiting for its fixed sealing cutoff **359455**. The
 maximum four-member economic batches, controlled warm/cold full-proof pairs,
 omitted-order exits and replacement NFT expiry/competition stages have **not yet
 completed**. Their scripts and waiting workers are not acceptance evidence.
@@ -44,6 +45,17 @@ comparison). Both completed milestone archives passed: 138 activation files and
 bytes, changed decompressed hashes, traversal, duplicate/unlisted files, changed
 originals and symlinks. `artifact-integrity-v1.json` contains the transcript and
 totals. This verifies archived bytes, not UPS validity or release authorization.
+
+`runtime-source-overlay-v1.json` freezes 268 tracked JS source/regression files
+at clean, pushed commit `a8fe653e56709c3c20a684a509605aba246d6b8e`, plus the Node
+version, SDK snapshot manifest hash, driver-v3 build-manifest hash and immutable
+release-file hash. Its SHA256 is
+`9a8ccddafea6f1fe710102196d5bf5cda80875e26a6232c669145a84fa09fd33`.
+This repository overlay supplements the earlier binary build-time snapshots;
+it does not rename those snapshots or imply that later JS fixes existed when
+the binary was built. Rust sources, Cargo dependencies, compiler and ordinary
+signer remain covered by their separate frozen manifests. The overlay is not
+a running-server identity or an audited upstream SDK release.
 
 ## Ordered gates
 
