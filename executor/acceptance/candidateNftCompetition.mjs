@@ -59,12 +59,20 @@ try {
   // If a prover fails, break the barrier and surface its exact failure.
   const barrier = Promise.all(ready);
   await Promise.race([barrier, a.then(() => {throw Error('winner escaped proof barrier');}), b.then(() => {throw Error('contender escaped proof barrier');})]);
+  const preparedA = (await f.journal.records()).findLast(x => x.status === 'proved').proof;
+  const preparedB = (await contender.journal.records()).findLast(x => x.status === 'proved').proof;
+  const proofA = parseLosslessJson(readFileSync(join(preparedA.preparedDirectory, 'preflight.json'), 'utf8'));
+  const proofB = parseLosslessJson(readFileSync(join(preparedB.preparedDirectory, 'preflight.json'), 'utf8'));
+  for (const proof of [proofA, proofB]) {assert.equal(proof.fullUpsVerified, true); assert.equal(proof.exactStackAndSessionVerified, true);}
+  assert.equal(proofA.core.new_user_leaf.nonce, proofB.core.new_user_leaf.nonce);
+  assert.equal(proofA.core.state_transition.start_user_leaf_hash, proofB.core.state_transition.start_user_leaf_hash);
+  assert.notEqual(proofA.core.new_user_leaf.user_state_tree_root, proofB.core.new_user_leaf.user_state_tree_root);
   releaseA(); const winner = await a; releaseB(); const loser = await b;
   assert.equal(loser.status, 'not-submitted');
   const records = await contender.journal.records(), rejected = records.findLast(x => x.status === 'not-submitted'); assert.ok(rejected);
   const winnerRecords = await f.journal.records(); assert.ok(winnerRecords.some(x => x.status === 'broadcast-result' && x.outcome?.error?.includes('discards parent submit result')));
-  const duplicate = await f.journal.execute({task: first.action, ...f.adapter}); assert.equal(duplicate.status, 'already-included');
-  save(raceFile, {checkedAt: new Date().toISOString(), scope: 'independent durable journals; both full UPSs prepared from the same own nonce before winner broadcast; loser released after exact winning inclusion', simultaneousRpcRace: false, winner, loser, rejected, parentResultDiscarded: true, exactReceiptRecovered: true, duplicateStatus: duplicate.status});
+  const duplicate = await f.journal.execute({task: read(join(base, 'public/nft-competition-admit-0-formal-task.json')), ...f.adapter}); assert.equal(duplicate.status, 'already-included');
+  save(raceFile, {checkedAt: new Date().toISOString(), scope: 'independent durable journals; both full UPSs prepared from the same own nonce before winner broadcast; loser released after exact winning inclusion', simultaneousRpcRace: false, sameOwnNonce: proofA.core.new_user_leaf.nonce, sameStartLeaf: proofA.core.state_transition.start_user_leaf_hash, differentEndStateRootsVerified: true, preparedA, preparedB, winner, loser, rejected, parentResultDiscarded: true, exactReceiptRecovered: true, duplicateStatus: duplicate.status});
   f.adapter.submit = submitA;
  }
  for (let i = 1; i < 4; i++) {await fund('nft-competition-admit-' + i + '-fund'); await f.step('nft-competition-admit-' + i, operation('admit_entry'));}

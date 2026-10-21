@@ -76,6 +76,11 @@ reuse acceptance is still required before recommending `resident`.
 
 ### Confirmed security defect and fresh candidate fix
 
+Historical interim notes in this subsection are superseded by **Follow-up
+security gates** below. In particular, the final candidate locks own signed
+consent, including omitted orders, until terminal epoch evidence. Do not
+implement an immediate exit based only on historical queue absence.
+
 Against the unchanged previous compiled fixtures, actual VM execution reproduced
 an admitted unfunded AMM order closing before commitment. Its immutable terms
 then no longer match the sealed queue, so the whole accepted scope cannot

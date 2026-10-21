@@ -371,3 +371,42 @@ blocked proposal, not permission to take another user's fees. Old routes and
 old deployments are not silently migrated. See the
 [production candidate review](../docs/security/MARKET_BATCH_PRODUCTION_CANDIDATE_20261021.md)
 for tested versions, evidence, and remaining gates.
+
+#### User exit and operator recovery for admission candidates
+
+Use the reviewed ABI/policy and exact current contract/vault IDs. These steps
+apply to the fresh consent-lock candidate, not silently to older deployments.
+
+1. Before signing `request_admission`, an owner may sign `request_cancel`,
+   `release_unaccepted`, and `request_recovery(vault)`. Release changes that
+   owner's order only; it does not move money from the shared vault. The public
+   SD-key recovery subsequently claims the owner's exact pending deposit and
+   sends it back to the same owner. An unfunded order authorizes no withdrawal.
+2. After admission consent, historical nonmembership or a missing index entry
+   is insufficient to release. The matching epoch must be terminal (or a later
+   monotonic epoch authenticated). An omitted owner can run a reviewed public
+   Executor to abort an empty expired epoch, or finish the already accepted
+   scope. At most four accepted members define that scope, not every user who
+   wanted service. No further owner signature is needed to execute a valid
+   public SD-key action; exact authorized gas sponsorship is still required.
+3. An already frozen batch must settle its frozen terms or expire and refreeze
+   the same accepted set. Cancellation after freezing is considered by the
+   refreeze; it cannot rewrite the pending commitment. Use `scan` to inspect the
+   proposed operation and its checkpoint bounds before `once` can send it.
+4. After terminal epoch evidence, the omitted owner signs release and recovery
+   enrollment. Put only that owner's ID in the explicit `users` recovery hints.
+   `scan` either proposes exact sender-bound `recover_funding` / `recover_nft`,
+   or reports missing authorization/gas/backpressure. It cannot charge arbitrary
+   unrelated users. The owner finally claims FT/native outboxes and NFT FIFO
+   delivery using an ordinary wallet. An NFT delivery queue must be drained by
+   its recipient; increasing or bypassing its limit is not a recovery procedure.
+5. On restart, run `node executor/run.mjs CONFIG reconcile` before new work.
+   An unknown transmission blocks the vault until exact historical receipt
+   reconciliation. A timeout, absent log or newer scan is not permission to
+   delete journal events or resend a replacement. Preserve the prepared UPS,
+   child intent, raw response, expected end leaf and indexed receipt.
+
+This path needs a working prover, RPC access, gas and chain progress. It offers
+neither free nor unconditional service, and no proof that an operator admitted
+all requests. The immutable selected plan does not prove fairness before entry.
+Source-checkpoint ordering is not authenticated wall-clock arrival ordering.

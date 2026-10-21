@@ -19,6 +19,18 @@ const spec = {users: [...Object.values(h.actors).map(x => x.id), ...h.markets.ma
 const beforePath = join(base, 'public/omitted-assets-before.json');
 if (!existsSync(beforePath)) save(beforePath, await cohortAssets(await publicState(h.config), spec));
 const deadline = BigInt((await publicState(h.config)).checkpoint) + 2048n;
+// Before consent, a sender can release immediately without service. This QA
+// order is deliberately unfunded; it cannot withdraw any other sender's funds.
+const sponsorOrderNonceOffset = a.abi.contract.state.find(x => x.name === 'nonce').offset;
+const sponsorOrderNonce = await (await publicState(h.config)).slot(h.actors.sponsor.id, a.id, sponsorOrderNonceOffset) + 1n;
+await h.user('sponsor', 'omitted-sponsor-before-consent-exit', [
+ a.order('open_swap', [BigInt(a.vault), 0n, encodeAmount(unit), encodeAmount(1n), deadline, sponsorOrderNonce]),
+ a.order('request_cancel', []), a.order('release_unaccepted', []), a.order('request_recovery', [BigInt(a.vault)])
+]);
+const immediatePath = join(base, 'public/omitted-before-consent-immediate-exit.json');
+if (!existsSync(immediatePath)) {const s = await publicState(h.config), kind = a.abi.contract.state.find(x => x.name === 'kind').offset;
+ assert.equal(await s.slot(h.actors.sponsor.id, a.id, kind), 0n);
+ save(immediatePath, {checkedAt: new Date().toISOString(), market: a.id, userId: h.actors.sponsor.id, funded: false, admissionConsentSigned: false, releasedInSameOrdinaryUps: true, otherSenderFundsWithdrawn: false});}
 await h.user('bob', 'omitted-bob-ft-orders', [
  a.order('close_swap_0', []), a.order('open_swap', [BigInt(a.vault), 0n, encodeAmount(unit), encodeAmount(1n), deadline, 3n]),
  {contract_id: 0n, method_name: 'simple_transfer', inputs: [BigInt(a.vault), F]}, call(2464n, h.token, 'transfer', [BigInt(a.vault), encodeAmount(unit)]),

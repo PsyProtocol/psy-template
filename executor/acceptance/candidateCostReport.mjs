@@ -21,7 +21,10 @@ const ordinary = readdirSync(join(base, 'attempts')).filter(n => /^maximum-.*-(o
 });
 const formal = readdirSync(join(base, 'public')).filter(n => /^maximum-.*-formal-result\.json$/.test(n)).map(n => {
  const r = read(join(base, 'public', n));
+ const submit = r.submitMetricsFile ? read(r.submitMetricsFile) : null;
  return {task: n, kind: r.task.kind, contentHash: r.result.contentHash, checkpoint: r.result.checkpoint, taskWallMs: r.wallMilliseconds,
+  savedProofVerifyFreshChecksAndAckMs: submit?.processWallMilliseconds ?? null,
+  acknowledgementToCommonIndexedObservationMs: submit ? Date.parse(r.checkedAt) - Date.parse(submit.finishedAt) : null,
   fee: String(r.result.receipt.data.result.fees_collected), serviceReceivedAt: r.result.receipt.data.received_at,
   serviceIncludedAt: r.result.receipt.data.included_at, serviceReportedLatencyMs: r.result.receipt.data.latency_ms,
   scope: 'task wall includes preflight, optional deliberately repeated cold comparison, saved-proof verification, broadcast, polling and indexed/common visibility; not optimized production latency'};
@@ -37,4 +40,4 @@ save(output, {schema: 1, generatedAt: new Date().toISOString(), pairs, sums, ord
   pairOrder: ['warm', 'cold'], warmOnlyBroadcast: true, samplesPerMarketAndOperation: 1,
   originalFortyCallControlledComparisonCompleted: false, cargoColdBuildMeasuredInThesePairs: false,
   offlineProvingIsChainTps: false, chainTps: null,
-  limitations: ['Sequential warm-then-cold single pairs are susceptible to cache and order bias; no confidence interval.', 'No second proof job is intentionally run during each pair; host load is recorded, not globally controlled.', 'Resident retains pinned circuit resources but creates a fresh user/checkpoint/nonce/state session for every request.', 'Ordinary wallet claim process and confirmation observations are measured separately; server latency 0 is not end-to-end finality.', 'The deliberate cold comparison is additional acceptance overhead; task wall must not be called normal optimized latency.']}});
+  limitations: ['Sequential warm-then-cold single pairs are susceptible to cache and order bias; no confidence interval.', 'No second proof job is intentionally run during each pair; host load is recorded, not globally controlled.', 'Resident retains pinned circuit resources but creates a fresh user/checkpoint/nonce/state session for every request.', 'Ordinary wallet claim process and confirmation observations are measured separately; server latency 0 is not end-to-end finality.', 'Broadcast-process time combines full saved-proof verification, fresh RPC checks and HTTP acknowledgement; pure transport time is not isolated.', 'The deliberate cold comparison is additional acceptance overhead; task wall must not be called normal optimized latency.']}});

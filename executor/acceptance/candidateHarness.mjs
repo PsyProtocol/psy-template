@@ -1,5 +1,5 @@
 // Explicit isolated QA stages. No unknown mutation is ever automatically retried.
-import assert from'node:assert/strict';import{createHash}from'node:crypto';import{existsSync,mkdirSync,readFileSync}from'node:fs';import{join,dirname}from'node:path';
+import assert from'node:assert/strict';import{createHash}from'node:crypto';import{existsSync,mkdirSync,readFileSync}from'node:fs';import{join,dirname,basename}from'node:path';
 import{read,save,ordinary,confirmUps,run}from'../../batching/admission/liveSupport.mjs';import{LiveMarket}from'../../batching/admission/liveMarket.mjs';
 import{publicState}from'../publicState.mjs';import{loadOptions}from'../config.mjs';import{createPublicWalletAdapter}from'../publicWalletAdapter.mjs';import{ExecutionJournal}from'../journal.mjs';import{execFile}from'node:child_process';import{promisify}from'node:util';
 import{hostname,platform,arch,cpus,loadavg}from'node:os';
@@ -25,6 +25,8 @@ export async function formal(h,m,tag,plan,{benchmark=false,expiry=96,mode='resid
  const options={kind:m.kind,profile:'batch-admission-compact-v1',network:'sepolia',testnetProfile:h.env.PSY_MARKET_TESTNET_PROFILE,contractId:m.id,vaultId:m.vault,fingerprint:reg.fingerprint,publicKeyHash:reg.publicKeyHash,codeRoot:reg.contracts.find(b=>b.contract.contractId===m.id).contract.codeRoot,layoutRoot:reg.contracts.find(b=>b.contract.contractId===m.id).contract.layoutRoot,wallet:h.binary,walletSha256:h.binarySha256,rpcConfig:h.config,abi:join(dir,'abi.json'),driverConfig:join(dir,'config.json'),policy:join(dir,'policy.json'),dependencyBindings:join(dir,'dependencies.json'),admissionPlan:join(dir,'plan.json'),runtimeDirectory:join(h.base,'runtime'+runtimeSuffix),batchSponsorId:h.actors.sponsor.id,activationPayerId:h.actors.bob.id,automaticInitialize:true,batchExpiryCheckpoints:expiry,batchMemberLimit:4,proverThreads:2,proverMode:mode,users:Object.values(h.actors).filter(a=>a.id!==h.actors.sponsor.id).map(a=>a.id).sort((a,b)=>a-b),...(m.kind==='nftmarket'?{paymentToken:asset(m.driverConfig.tokenId),collection:asset(m.driverConfig.nftId)}:{assetA:asset(m.driverConfig.assetA),assetB:asset(m.driverConfig.assetB)})};
  const path=join(dir,'executor.json');if(!existsSync(path))save(path,options);else assert.deepEqual(read(path),options,'frozen stage options changed');
  const o=await loadOptions(path),adapter=await createPublicWalletAdapter(o,{runDriver:promisify(execFile)}),journal=new ExecutionJournal({directory:o.runtimeDirectory,network:o.network,vaultId:o.vaultId,fingerprint:o.fingerprint});
+ const metricsPath=(task,proof)=>proof?.submissionDirectory?join(h.base,'public',tag+'-'+m.kind+'-submit-metrics-'+createHash('sha256').update(JSON.stringify(task)).digest('hex')+'-'+basename(proof.submissionDirectory)+'.json'):null;
+ const submit=adapter.submit;adapter.submit=async(task,proof)=>{const startedAt=new Date().toISOString(),before=performance.now();const result=await submit(task,proof);save(metricsPath(task,proof),{startedAt,finishedAt:new Date().toISOString(),processWallMilliseconds:Math.round(performance.now()-before),scope:'saved-proof verification, fresh state/dependency RPC checks, and HTTP acknowledgement; excludes signing/proving and confirmation; not a pure transport latency',reproved:result.reproved,submissionDirectory:result.submissionDirectory,error:result.error??null});return result;};
  const prove=adapter.prove;
  if(contendOnMaintenance)adapter.prove=async task=>{
   if(task.maintenanceOperation===contendOnMaintenance){
@@ -51,7 +53,7 @@ export async function formal(h,m,tag,plan,{benchmark=false,expiry=96,mode='resid
   const before=performance.now(),result=await journal.execute({task,...adapter});
   for(let i=0;i<120;i++){
    await journal.reconcile(adapter.reconcile);const records=await journal.records();const rejected=records.find(r=>r.taskId===result.taskId&&r.status==='not-submitted');if(rejected)throw Error('explicit pre-broadcast rejection: '+rejected.reason+'; inspect saved proof, use a deliberate fresh recovery label');const included=records.find(r=>r.taskId===result.taskId&&r.status==='included');
-   if(included){const report={checkedAt:new Date().toISOString(),taskId:result.taskId,task,result:included.result,wallMilliseconds:Math.round(performance.now()-before)};save(output,report);console.log(report.checkedAt,m.kind,label,'included',included.result.checkpoint);return report;}
+   if(included){const mp=metricsPath(task,records.findLast(r=>r.taskId===result.taskId&&r.status==='broadcast-intent')?.proof);const report={checkedAt:new Date().toISOString(),taskId:result.taskId,task,result:included.result,wallMilliseconds:Math.round(performance.now()-before),submitMetricsFile:mp&&existsSync(mp)?mp:null};save(output,report);console.log(report.checkedAt,m.kind,label,'included',included.result.checkpoint);return report;}
    await pause(10000);
   }
   throw Error('formal broadcast remains unresolved; preserve intent and stop');
