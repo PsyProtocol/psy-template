@@ -16,27 +16,31 @@ const spec = {users: [...Object.values(h.actors).map(x => x.id), ...h.markets.ma
 const beforePath = join(base, 'public/nft-competition-assets-before.json');
 if (!existsSync(beforePath)) save(beforePath, await cohortAssets(await publicState(h.config), spec));
 const names = ['bob', 'trader', 'charlie', 'dave'], services = [];
+// Drain all independent wallet jobs before reporting a failure. Sellers must
+// confirm before buyers can authenticate their listings; one wallet's own
+// nonce is never used by concurrent jobs.
+const independent=async jobs=>{const results=await Promise.allSettled(jobs.map(job=>job()));const failed=results.find(r=>r.status==='rejected');if(failed)throw failed.reason;};
 const operation = method => t => t.kind === 'batch_maintenance' && parseLosslessJson(t.submission).contract_calls.some(c => c.method_name === method);
 async function fund(label, purpose = 2) { const s = await publicState(h.config), off = m.abi.contract.state.find(f => f.name === 'sponsor_nonce').offset;
  await h.user('sponsor', label, sponsorCalls({marketId: BigInt(m.id), abi: m.abi, vaultId: BigInt(m.vault), nonce: await s.slot(h.actors.sponsor.id, m.id, off) + 1n, purpose: BigInt(purpose), amount: purpose === 1 ? 2n * F : F})); }
 async function waitPast(checkpoint) {while ((await publicState(h.config)).checkpoint <= checkpoint) await pause(10000);}
 const deadline = BigInt((await publicState(h.config)).checkpoint) + 2048n;
-for (const name of ['bob', 'dave']) await h.user(name, 'nft-competition-' + name + '-listing', [
+await independent(['bob','dave'].map(name=>()=>h.user(name, 'nft-competition-' + name + '-listing', [
  ...(name === 'dave' ? [m.order('close_buy', [])] : []),
  call(2467n, h.nft, 'acknowledge', [BigInt(m.vault)]), m.order('open_listing', [BigInt(m.vault), 0n, encodeAmount(5n * unit), deadline, name === 'bob' ? 3n : 2n]),
- {contract_id: 0n, method_name: 'simple_transfer', inputs: [BigInt(m.vault), F]}, call(2467n, h.nft, 'transfer', [0n, BigInt(m.vault)])]);
-for (const name of ['trader', 'charlie']) await h.user(name, 'nft-competition-' + name + '-buy', [m.order('close_listing', []),
- ...nftBuyCalls({marketId: BigInt(m.id), marketAbi: m.abi, config: m.driverConfig, nftAbi: h.nft, tokenAbi: h.token, vaultId: BigInt(m.vault), seller: BigInt(h.actors.bob.id), listingNonce: 3n, price: 5n * unit, deadline, nonce: 2n})]);
+ {contract_id: 0n, method_name: 'simple_transfer', inputs: [BigInt(m.vault), F]}, call(2467n, h.nft, 'transfer', [0n, BigInt(m.vault)])])));
+await independent(['trader','charlie'].map(name=>()=>h.user(name, 'nft-competition-' + name + '-buy', [m.order('close_listing', []),
+ ...nftBuyCalls({marketId: BigInt(m.id), marketAbi: m.abi, config: m.driverConfig, nftAbi: h.nft, tokenAbi: h.token, vaultId: BigInt(m.vault), seller: BigInt(h.actors.bob.id), listingNonce: 3n, price: 5n * unit, deadline, nonce: 2n})])));
 const planPath = join(base, 'public/nft-competition-plan-v1.json');
 if (!existsSync(planPath)) {const s = await publicState(h.config), off = m.abi.contract.state.find(x => x.name === 'order_checkpoint').offset;
  const buyers = await Promise.all(['trader', 'charlie'].map(async name => ({name, owner: h.actors[name].id, orderCheckpoint: String(await s.slot(h.actors[name].id, m.id, off))})));
  buyers.sort((a, b) => Number(BigInt(a.orderCheckpoint) - BigInt(b.orderCheckpoint)) || a.owner - b.owner);
- save(planPath, {version: 1, epoch: 3, cutoff: s.checkpoint + 96, members: names.map(name => ({owner: h.actors[name].id, nonce: name === 'bob' ? '3' : '2'})).sort((a, b) => a.owner - b.owner), buyers, expectedWinner: buyers[0].name});}
+ save(planPath, {version: 1, epoch: 3, cutoff: s.checkpoint + 128, members: names.map(name => ({owner: h.actors[name].id, nonce: name === 'bob' ? '3' : '2'})).sort((a, b) => a.owner - b.owner), buyers, expectedWinner: buyers[0].name});}
 const p = read(planPath), plan = {version: 1, epoch: p.epoch, cutoff: p.cutoff, members: p.members};
 try {
  const f = await formal(h, m, 'nft-competition', plan, {expiry: 24}); services.push(f);
  await fund('nft-competition-start-fund'); await f.step('nft-competition-start', operation('start_epoch'));
- for (const name of names) await h.user(name, 'nft-competition-' + name + '-consent', [m.order('request_admission', [3n, BigInt(p.cutoff)])]);
+ await independent(names.map(name=>()=>h.user(name, 'nft-competition-' + name + '-consent', [m.order('request_admission', [3n, BigInt(p.cutoff)])])));
  await fund('nft-competition-admit-0-fund');
  const raceFile = join(base, 'public/nft-competition-independent-journals.json');
  if (!existsSync(raceFile)) {

@@ -146,6 +146,21 @@ It links v3's hash and lists its six changed files. This is a JS overlay revisio
 not driver v4: LP used driver **v2**; maximum/exit/competition use frozen driver
 **v3**. The earlier source/build manifests and original binaries remain.
 
+All four maximum funding orders are included: Trader/Charlie at 359522,
+Dave at 359543, Bob at 359545. The immutable **candidate** admission plan uses
+source checkpoint 359545 and cutoff **359673**; it is not yet a sealed queue.
+Recorded AMM/Curve priorities include real same-source-checkpoint ties and use
+checkpoint then owner ID, not receipt arrival order. Maximum gas discovery
+returned explicit funding requests before proving, and sponsorship is underway.
+
+Measured ordinary order proof costs also informed the not-yet-started NFT
+competition harness: independent seller jobs run together, then independent
+buyers only after seller inclusion, and four consent wallets run together.
+Each group drains all jobs before surfacing failure. Its future plan selects
+the existing 128-checkpoint maximum; no existing plan is changed. Syntax checks
+passed; live acceptance is pending. This change affects the future competition
+script only, not the already running maximum stage or frozen driver/keys.
+
 ## Ordered gates
 
 | Gate | Current work | Not yet established |
