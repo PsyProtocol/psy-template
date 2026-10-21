@@ -4,6 +4,7 @@ import{read,save,ordinary,confirmUps,run}from'../../batching/admission/liveSuppo
 import{publicState}from'../publicState.mjs';import{loadOptions}from'../config.mjs';import{createPublicWalletAdapter}from'../publicWalletAdapter.mjs';import{ExecutionJournal}from'../journal.mjs';import{execFile}from'node:child_process';import{promisify}from'node:util';
 import{hostname,platform,arch,cpus,loadavg}from'node:os';
 import{fileURLToPath}from'node:url';
+import{latestBroadcastOutcome}from'./attemptOutcome.mjs';
 import{parseLosslessJson}from'../../amm/u124/client.mjs';
 export const pause=ms=>new Promise(r=>setTimeout(r,ms));
 export function cohort(base,original){
@@ -54,7 +55,7 @@ export async function formal(h,m,tag,plan,{benchmark=false,expiry=96,mode='resid
   const taskPath=join(h.base,'public',label+'-formal-task.json');let task;if(existsSync(taskPath))task=read(taskPath);else{const scan=await adapter.scan();assert.ok(scan.action,'no formal action: '+JSON.stringify(scan,(_k,v)=>typeof v==='bigint'?v.toString():v));task=scan.action;assert.ok(expected(task),'unexpected stage action');save(taskPath,task);}
   const before=performance.now(),result=await journal.execute({task,...adapter});
   for(let i=0;i<120;i++){
-   await journal.reconcile(adapter.reconcile);const records=await journal.records();const rejected=records.find(r=>r.taskId===result.taskId&&r.status==='not-submitted');if(rejected)throw Error('explicit pre-broadcast rejection: '+rejected.reason+'; inspect saved proof, use a deliberate fresh recovery label');const included=records.find(r=>r.taskId===result.taskId&&r.status==='included');
+   await journal.reconcile(adapter.reconcile);const records=await journal.records(),outcome=latestBroadcastOutcome(records,result.taskId);if(outcome?.status==='not-submitted')throw Error('explicit pre-broadcast rejection: '+outcome.reason+'; inspect evidence before explicitly resuming; reuse requires unchanged proof, anchor and send window');const included=outcome?.status==='included'?outcome:null;
    if(included){const mp=metricsPath(task,records.findLast(r=>r.taskId===result.taskId&&r.status==='broadcast-intent')?.proof);const report={checkedAt:new Date().toISOString(),taskId:result.taskId,task,result:included.result,wallMilliseconds:Math.round(performance.now()-before),submitMetricsFile:mp&&existsSync(mp)?mp:null};save(output,report);console.log(report.checkedAt,m.kind,label,'included',included.result.checkpoint);return report;}
    await pause(10000);
   }

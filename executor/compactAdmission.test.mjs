@@ -4,6 +4,7 @@ import{validateOptions}from'./config.mjs';import{createPublicWalletAdapter}from'
 import{scanExecutorAdmission,validateAdmissionPlan}from'./admissionReader.mjs';import{sha256}from'./requestBinding.mjs';import{ExecutionJournal,UnresolvedBroadcast,VaultBusy}from'./journal.mjs';import{executeCycle}from'./worker.mjs';
 import{losslessJson,parseLosslessJson,FEE_ESCROW as F}from'../amm/u124/client.mjs';
 import{makeAdmissionPolicy}from'../batching/admission/prepare.mjs';import{gunzipSync}from'node:zlib';
+import{latestBroadcastOutcome}from'./acceptance/attemptOutcome.mjs';
 let root=process.env.ADMISSION_BUILD;
 const j=async p=>JSON.parse(await readFile(p,'utf8')),put=(p,x)=>writeFile(p,losslessJson(x)+'\n',{flag:'wx'});
 if(!root){
@@ -71,4 +72,20 @@ test('recovery hints process only enrolled inactive senders without selecting ot
 test('prepared nonce metadata stays exact beyond JavaScript safe integer range',()=>fixture('amm',async x=>{
  const n=9007199254740993n;x.nonce(n);const a=await x.create(),t=(await a.scan()).action,p=await a.prove(t);assert.equal(await a.validateProof(t,p),true);
  x.nonce(n+1n);assert.equal(await a.validateProof(t,p),false);x.nonce(Number(n));await assert.rejects(()=>a.validateProof(t,p),/unsafe integer metadata/);
+}));
+
+test('explicit no-send recovery reuses one proof and never masks a later pending attempt',()=>fixture('amm',async x=>{
+ let attempts=0;
+ const adapter=await x.create({submitDriver:async(binary,args,options)=>{
+  if(++attempts===1){await mkdir(args[7]);await put(join(args[7],'failure.json'),{ok:false,broadcastMayHaveBeenAttempted:false,reason:'guard read unavailable before transmission'});throw Error('explicit pre-send read failure');}
+  return x.submit(binary,args,options);
+ }}),journal=x.journal();
+ await executeCycle({adapter,journal});await journal.reconcile(adapter.reconcile);
+ let records=await journal.records();const task=records.find(r=>r.status==='planned').task,taskId=records.find(r=>r.status==='planned').taskId;
+ assert.equal(latestBroadcastOutcome(records,taskId).status,'not-submitted');assert.equal((await journal.unresolved()).length,0);
+ assert.equal((await journal.execute({task,...adapter})).status,'unresolved');
+ assert.equal(latestBroadcastOutcome(await journal.records(),taskId),null,'old rejection cannot hide the later unknown transmission');
+ assert.equal((await journal.unresolved()).length,1);assert.equal(x.proofs,1);assert.equal(x.sends,1);
+ x.confirm();await journal.reconcile(adapter.reconcile);records=await journal.records();assert.equal(latestBroadcastOutcome(records,taskId).status,'included');
+ assert.equal((await journal.execute({task,...adapter})).status,'already-included');assert.equal(x.proofs,1);assert.equal(x.sends,1);
 }));
