@@ -80,6 +80,25 @@ Original CLI output is retained. This scan is not a positive daemon execution
 or a cryptographic inclusion certificate. A new source overlay is required
 for subsequent workers; the earlier immutable overlay remains historical.
 
+The corrected standalone CLI output and a v2 source overlay are archived in
+`queue-snapshot-release-v2/` (five files; original and decompressed hashes
+verified). Overlay v2 binds pushed source `ffe7a05`; only the reader and its
+test changed since v1. Later FIFO-accounting changes require a further overlay.
+
+NFT asset accounting now includes each directed cohort pair's **unclaimed**
+FIFO entries, using the recipient's claim cursor and wrapped ring indices,
+alongside held NFTs. It rejects inverted/over-capacity cursors, zero unclaimable
+identities and duplicate held/pending IDs. Existing native/FT and claim guards
+remain covered; six accounting checks passed (three existing, three new).
+A real read-only snapshot at checkpoint **359460**, across 14 explicit accounts,
+found two held QA NFTs and zero unclaimed deliveries. This is not a closed trade
+interval or global inventory proof: owned slots 0/1 and cohort outboxes are the
+explicit scope. Subsequent acceptance asserts two held-plus-pending QA NFTs
+before settlement and two held/zero pending after ordinary claims. Snapshots
+also record their RPC/limiter/retry/local-accounting wall time separately from
+proving and confirmation; that prospective timing was not retrofitted into the
+earlier read-only sample. Maximum and recovery live gates are still pending.
+
 ## Ordered gates
 
 | Gate | Current work | Not yet established |

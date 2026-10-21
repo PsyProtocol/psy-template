@@ -1,0 +1,7 @@
+{
+  "checkedAt": "2026-10-21T04:05:20.544366+00:00",
+  "command": "node --test batching/admission/liveAssets.test.mjs",
+  "scope": "6 application accounting checks; not chain UPS counts",
+  "exitCode": 0,
+  "transcript": "TAP version 13\n# Subtest: NFT accounting follows wrapped unclaimed FIFO entries and ignores retained old entries\nok 1 - NFT accounting follows wrapped unclaimed FIFO entries and ignores retained old entries\n  ---\n  duration_ms: 2.713\n  ...\n# Subtest: held plus unclaimed duplicate identities cannot pass NFT conservation\nok 2 - held plus unclaimed duplicate identities cannot pass NFT conservation\n  ---\n  duration_ms: 0.730458\n  ...\n# Subtest: invalid NFT cursors and zero unclaimable entries fail the snapshot\nok 3 - invalid NFT cursors and zero unclaimable entries fail the snapshot\n  ---\n  duration_ms: 1.415791\n  ...\n# Subtest: conservation includes unclaimed outboxes and rejects cursor inversion\nok 4 - conservation includes unclaimed outboxes and rejects cursor inversion\n  ---\n  duration_ms: 1.083166\n  ...\n# Subtest: NFT duplicate ownership is rejected across separate wallets\nok 5 - NFT duplicate ownership is rejected across separate wallets\n  ---\n  duration_ms: 0.306167\n  ...\n# Subtest: a missing or duplicate NFT delivery cannot be reported as a claim\nok 6 - a missing or duplicate NFT delivery cannot be reported as a claim\n  ---\n  duration_ms: 0.181667\n  ...\n1..6\n# tests 6\n# pass 6\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 81.84025\n"
+}

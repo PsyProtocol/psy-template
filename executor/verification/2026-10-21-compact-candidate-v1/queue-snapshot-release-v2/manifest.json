@@ -1,0 +1,51 @@
+{
+  "schema": 1,
+  "sourceDirectory": "/private/tmp/psy-market-candidate-live-20261021-v3",
+  "machine": "gewenbo.local",
+  "host": "macOS-15.7.3-arm64-arm-64bit",
+  "scope": "public formal Executor run including failures; success requires exact included receipt",
+  "walletFilesIncluded": false,
+  "sealedBinariesIncluded": false,
+  "records": [
+    {
+      "source": "liquidity-real-cli-scan-v1.log",
+      "file": "files/liquidity-real-cli-scan-v1.log.gz",
+      "bytes": 316,
+      "sha256": "07542a81732c6c862b543209a3c260b0deb3e1486ea59f007176220876077e46",
+      "gzipBytes": 237,
+      "gzipSha256": "729dd87c458844b34b139c925825d318b1dff01d82179471fbbd8965a5d38254"
+    },
+    {
+      "source": "liquidity-real-cli-scan-v2.log",
+      "file": "files/liquidity-real-cli-scan-v2.log.gz",
+      "bytes": 377,
+      "sha256": "139987cd65eb4e7eb135dcc53b3dd03be21465edcab97880e117937a0ca16cf4",
+      "gzipBytes": 267,
+      "gzipSha256": "a5c8071cac2480ebf848f3c61849b2f70c0feac37fc399e1b21c37925617decf"
+    },
+    {
+      "source": "public/liquidity-real-cli-scan-v1.json",
+      "file": "files/public/liquidity-real-cli-scan-v1.json.gz",
+      "bytes": 684,
+      "sha256": "16dba317d388e8bbf67994475fe7265426f930efdc7e9e4d11d04a59604eff70",
+      "gzipBytes": 436,
+      "gzipSha256": "7db4372f8640a27aecab585a7a73b7546ce80b4f00983664c394f71e78a5bf72"
+    },
+    {
+      "source": "public/liquidity-real-cli-scan-v2.json",
+      "file": "files/public/liquidity-real-cli-scan-v2.json.gz",
+      "bytes": 741,
+      "sha256": "f9029377ac0981577c4a9cf22b24c6ff63d2b8b438b162289dbded271049e789",
+      "gzipBytes": 455,
+      "gzipSha256": "51eee17cea117a33eb2aca156ed22868aa01fde797174801690c3dbcac37e764"
+    },
+    {
+      "source": "public/runtime-source-overlay-v2.json",
+      "file": "files/public/runtime-source-overlay-v2.json.gz",
+      "bytes": 30345,
+      "sha256": "7d30028244c63fad758a75f38ca374ec9bdfc507b358d9a5c49595f0bbb32f02",
+      "gzipBytes": 12895,
+      "gzipSha256": "3db8db773ba556866e22fb1a3e28472c1c1fd4c1313d53e706cc59b4b118de84"
+    }
+  ]
+}

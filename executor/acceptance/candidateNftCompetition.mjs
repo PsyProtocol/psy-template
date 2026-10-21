@@ -97,6 +97,7 @@ try {
  const before = parseLosslessJson(readFileSync(beforePath, 'utf8')), after = await cohortAssets(await publicState(h.config), spec);
  for (const asset of spec.assets) assert.equal(after.totals[asset], 1000n * unit);
  assert.equal(after.nfts.length, 2); assert.equal(after.nfts.filter(x => x.user === winnerId).length, 1); assert.equal(after.nfts.filter(x => x.user === h.actors.dave.id).length, 1);
+ assert.equal(before.nftTotal,2);assert.equal(after.nftTotal,2);assert.equal(after.nftPending.length,0);
  for (const [src, dst] of [[h.actors.bob.id, winnerId], [h.actors.dave.id, h.actors.dave.id]]) {const old = before.nfts.find(x => x.user === src), now = after.nfts.find(x => x.user === dst); assert.deepEqual(now.tokenId, old.tokenId); assert.deepEqual(now.metadataHash, old.metadataHash);}
  let fees = 0n; const perUser = [];
  for (const name of names) {const id = h.actors[name].id; let userFees = 0n;

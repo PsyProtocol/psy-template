@@ -53,6 +53,7 @@ if(stage==='liquidity'){
 
  // Orders already funded; the baseline includes every pending incoming delta.
  const beforeFile=join(base,'public/maximum-assets-before.json');if(!existsSync(beforeFile))save(beforeFile,await cohortAssets(await publicState(h.config),cohortSpec));
+ {const before=parseLosslessJson(readFileSync(beforeFile,'utf8'));assert.equal(before.nftTotal,2,'held plus unclaimed QA NFTs before settlement');}
  for(const m of h.markets){const plan={version:1,epoch:p.epochs[m.kind],cutoff:p.cutoff,members:p.members.map(owner=>({owner,nonce:m.kind==='amm'&&owner===h.actors.bob.id?'2':'1'}))};const f=await formal(h,m,'maximum',plan,{benchmark:true,...(m.kind==='nftmarket'?{contendOnMaintenance:'admit_entry'}:{})});services.push(f);}
  const execute=async(label,expected)=>independent(services.map((f,i)=>()=>f.step('maximum-'+h.markets[i].kind+'-'+label,expected)));
  const missingGasPath=join(base,'public/maximum-missing-gas-scans.json');if(!existsSync(missingGasPath)){const scans=await Promise.all(services.map(f=>f.adapter.scan()));for(const scan of scans){assert.equal(scan.action,null);assert.equal(scan.reason,'admission-gas-sponsorship-required');assert.equal(scan.fundingRequest.amount,F.toString());}save(missingGasPath,{checkedAt:new Date().toISOString(),scans,proofOrBroadcastAttempted:false});}
@@ -66,7 +67,7 @@ if(stage==='liquidity'){
  for(let i=0;i<services.length;i++){await services[i].step('maximum-'+h.markets[i].kind+'-commit',t=>t.kind==='batch_commit');await services[i].step('maximum-'+h.markets[i].kind+'-settle',t=>t.kind==='batch_settle');}
  for(const m of h.markets){const state=await m.snapshot('maximum-'+m.kind+'-settled');assert.equal(state.fields.queue_count[0],4n);assert.equal(state.fields.queue_phase[0],3n);assert.deepEqual(state.fields.queue_outcome,[1n,1n,1n,1n]);}
  await parallelPairs(names.map(name=>async()=>{const calls=await payoutClaims(await publicState(h.config),{userId:h.actors[name].id,markets:h.markets,tokenAbi:h.token,nftAbi:h.nft,nftSlot:['bob','dave'].includes(name)?0:undefined});await h.user(name,'maximum-'+name+'-claim',calls);}));
- const after=await cohortAssets(await publicState(h.config),cohortSpec),before=parseLosslessJson(readFileSync(beforeFile,'utf8'));for(const total of Object.values(after.totals))assert.equal(total,1000n*unit);assert.equal(after.nfts.length,2);assert.deepEqual(new Set(after.nfts.map(x=>x.user)),new Set([h.actors.bob.id,h.actors.dave.id]));
+ const after=await cohortAssets(await publicState(h.config),cohortSpec),before=parseLosslessJson(readFileSync(beforeFile,'utf8'));for(const total of Object.values(after.totals))assert.equal(total,1000n*unit);assert.equal(after.nftTotal,2);assert.equal(after.nftPending.length,0);assert.equal(after.nfts.length,2);assert.deepEqual(new Set(after.nfts.map(x=>x.user)),new Set([h.actors.bob.id,h.actors.dave.id]));
  // Baseline is after orders: only consent, sponsor, formal and claims are in
  // this conservation interval. Order UPS fees are reported separately.
  let fees=0n;for(const name of readdirSync(join(base,'attempts')).filter(n=>n.startsWith('maximum-')&&!n.endsWith('-orders'))){const f=join(base,'attempts',name,'included.json');if(existsSync(f))fees+=BigInt(read(f).receipt.data.result.fees_collected);}

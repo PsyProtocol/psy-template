@@ -1,0 +1,19 @@
+{
+  "schema": 1,
+  "sourceDirectory": "/private/tmp/psy-market-candidate-live-20261021-v3",
+  "machine": "gewenbo.local",
+  "host": "macOS-15.7.3-arm64-arm-64bit",
+  "scope": "public formal Executor run including failures; success requires exact included receipt",
+  "walletFilesIncluded": false,
+  "sealedBinariesIncluded": false,
+  "records": [
+    {
+      "source": "public/nft-inventory-audit-before-maximum-v1.json",
+      "file": "files/public/nft-inventory-audit-before-maximum-v1.json.gz",
+      "bytes": 24190,
+      "sha256": "a078a42d50b906a854bd894ab4cdb2f7d7d6f89ab72d8adb107dd22bdad35557",
+      "gzipBytes": 2413,
+      "gzipSha256": "80e728f12d13909442d7c46b8b27008adb48076d08ae47400e0b425ece122ec5"
+    }
+  ]
+}
