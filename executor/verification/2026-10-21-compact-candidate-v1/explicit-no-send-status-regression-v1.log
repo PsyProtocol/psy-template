@@ -1,0 +1,159 @@
+TAP version 13
+# Subtest: two operators serialize the same vault
+ok 1 - two operators serialize the same vault
+  ---
+  duration_ms: 76.338584
+  ...
+# Subtest: included receipt prevents replay; a broadcast error can still be included
+ok 2 - included receipt prevents replay; a broadcast error can still be included
+  ---
+  duration_ms: 100.520208
+  ...
+# Subtest: unknown broadcast blocks all following mutations until exact receipt recovery
+ok 3 - unknown broadcast blocks all following mutations until exact receipt recovery
+  ---
+  duration_ms: 119.245583
+  ...
+# Subtest: stale task after proving never reaches a broadcast intent
+ok 4 - stale task after proving never reaches a broadcast intent
+  ---
+  duration_ms: 32.871875
+  ...
+# Subtest: restart after a failed pre-submit read reuses preflight and broadcasts once
+ok 5 - restart after a failed pre-submit read reuses preflight and broadcasts once
+  ---
+  duration_ms: 89.671166
+  ...
+# Subtest: a real process exit inside the vault lock is recovered by the next executor
+ok 6 - a real process exit inside the vault lock is recovered by the next executor
+  ---
+  duration_ms: 87.901917
+  ...
+# Subtest: changed policy cannot consume another fingerprint journal or bypass an unresolved broadcast
+ok 7 - changed policy cannot consume another fingerprint journal or bypass an unresolved broadcast
+  ---
+  duration_ms: 72.14675
+  ...
+# Subtest: missing cached preflight is regenerated before broadcast intent
+ok 8 - missing cached preflight is regenerated before broadcast intent
+  ---
+  duration_ms: 97.582083
+  ...
+# Subtest: concurrent journal readers never observe a partially written event
+ok 9 - concurrent journal readers never observe a partially written event
+  ---
+  duration_ms: 47.146333
+  ...
+# Subtest: three vault histories with 3000 records recover under a real 64-descriptor process limit
+ok 10 - three vault histories with 3000 records recover under a real 64-descriptor process limit
+  ---
+  duration_ms: 748.735125
+  ...
+# Subtest: a missing or duplicated journal sequence blocks proving and append instead of reusing an event number
+ok 11 - a missing or duplicated journal sequence blocks proving and append instead of reusing an event number
+  ---
+  duration_ms: 66.990292
+  ...
+# Subtest: explicit driver no-send found during immediate reconciliation is durably terminal
+ok 12 - explicit driver no-send found during immediate reconciliation is durably terminal
+  ---
+  duration_ms: 63.834125
+  ...
+# Subtest: explicit resume selects only exact durable task and proof
+ok 2 - explicit resume selects only exact durable task and proof
+  ---
+  duration_ms: 1.274125
+  ...
+# Subtest: resume cannot create new task or advance its send window
+ok 3 - resume cannot create new task or advance its send window
+  ---
+  duration_ms: 0.399459
+  ...
+# Subtest: proof absence and unknown transmission block resume
+ok 4 - proof absence and unknown transmission block resume
+  ---
+  duration_ms: 0.165667
+  ...
+# Subtest: unresolved broadcasts block scanning, proof and submission
+ok 3 - unresolved broadcasts block scanning, proof and submission
+  ---
+  duration_ms: 1.173042
+  ...
+# Subtest: different vaults share bounded execution slots and stopped queued tasks never execute
+ok 4 - different vaults share bounded execution slots and stopped queued tasks never execute
+  ---
+  duration_ms: 2.087959
+  ...
+# Subtest: queued cancellation completes before an active proof, preserves FIFO slots, and does not cancel active work
+ok 5 - queued cancellation completes before an active proof, preserves FIFO slots, and does not cancel active work
+  ---
+  duration_ms: 0.900583
+  ...
+# Subtest: a stop during reconciliation prevents a new scan while preserving recovered receipts
+ok 6 - a stop during reconciliation prevents a new scan while preserving recovered receipts
+  ---
+  duration_ms: 0.152833
+  ...
+# Subtest: transient startup reads retry with bounded backoff and stop interrupts waiting
+ok 7 - transient startup reads retry with bounded backoff and stop interrupts waiting
+  ---
+  duration_ms: 0.691042
+  ...
+# Subtest: updated user hints are reloaded without replacing the public policy adapter
+ok 8 - updated user hints are reloaded without replacing the public policy adapter
+  ---
+  duration_ms: 0.1915
+  ...
+# Subtest: fatal identity failure halts one vault while another keeps scanning
+ok 9 - fatal identity failure halts one vault while another keeps scanning
+  ---
+  duration_ms: 0.73625
+  ...
+# Subtest: service scan mode never opens journal or invokes mutation callbacks
+ok 10 - service scan mode never opens journal or invokes mutation callbacks
+  ---
+  duration_ms: 0.156542
+  ...
+# Subtest: service preserves market identity and actual included checkpoint separately from scan checkpoint
+ok 11 - service preserves market identity and actual included checkpoint separately from scan checkpoint
+  ---
+  duration_ms: 0.8195
+  ...
+# Subtest: later idle scans and shutdown preserve the last inclusion while reporting the new observed checkpoint
+ok 12 - later idle scans and shutdown preserve the last inclusion while reporting the new observed checkpoint
+  ---
+  duration_ms: 0.503667
+  ...
+# Subtest: shutdown preserves unresolved evidence and recovered inclusion metadata without counting it twice
+ok 13 - shutdown preserves unresolved evidence and recovered inclusion metadata without counting it twice
+  ---
+  duration_ms: 0.393792
+  ...
+# Subtest: a scan failure after receipt recovery keeps the confirmed count and checkpoint visible
+ok 14 - a scan failure after receipt recovery keeps the confirmed count and checkpoint visible
+  ---
+  duration_ms: 0.334875
+  ...
+# Subtest: missing fee sponsorship remains visible and never invokes financial execution
+ok 15 - missing fee sponsorship remains visible and never invokes financial execution
+  ---
+  duration_ms: 0.088583
+  ...
+# Subtest: service closes proof-only resources in scan, once and failed once modes
+ok 16 - service closes proof-only resources in scan, once and failed once modes
+  ---
+  duration_ms: 1.234
+  ...
+# Subtest: known no-send stops watcher without another financial cycle and failures exit nonzero
+ok 17 - known no-send stops watcher without another financial cycle and failures exit nonzero
+  ---
+  duration_ms: 0.258917
+  ...
+1..30
+# tests 30
+# pass 30
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1992.76225

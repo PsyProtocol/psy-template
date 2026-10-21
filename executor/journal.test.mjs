@@ -67,3 +67,5 @@ test('a missing or duplicated journal sequence blocks proving and append instead
  await writeFile(join(j.directory,'00000000-included.json'),JSON.stringify({scope:j.scope,status:'included'}));
  await assert.rejects(j.records(),/sequence/);
 }));
+
+test('explicit driver no-send found during immediate reconciliation is durably terminal',()=>fixture(async make=>{let proofs=0,sends=0;const args={task:{nonce:1},prove:async()=>{proofs++;return{}},isCurrent:async()=>true,submit:async()=>{sends++;return{}},reconcile:async()=>({status:'not-submitted',source:'explicit-driver-rejection',reason:'pre-send read'})};const r=await make().execute(args);assert.equal(r.status,'not-submitted');assert.equal(r.operatorReviewRequired,true);assert.equal((await make().unresolved()).length,0);assert.equal((await make().records()).at(-1).status,'not-submitted');assert.equal(proofs,1);assert.equal(sends,1);}));

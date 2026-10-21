@@ -1,5 +1,5 @@
 import test from 'node:test';import assert from 'node:assert/strict';
-import {ExecutionLimiter,ExecutionStopped,executeCycle,watchWorker,pause} from './worker.mjs';
+import {ExecutionLimiter,ExecutionStopped,executeCycle,watchWorker,pause,executionExitCode} from './worker.mjs';
 import {ReadUnavailable} from './readRetry.mjs';
 import {runService} from './service.mjs';
 const emptyJournal={reconcile:async()=>[],unresolved:async()=>[],execute:async()=>({status:'included'})};
@@ -106,3 +106,5 @@ test('service closes proof-only resources in scan, once and failed once modes',a
   assert.equal(closed,1);assert.equal(result.vaults[0].status,mode==='failed-once'?'halted':mode==='scan'?'scan':'idle');
  }
 });
+
+test('known no-send stops watcher without another financial cycle and failures exit nonzero',async()=>{let executes=0,closed=0;const statuses=[];await watchWorker({options:{users:[],intervalMs:1000},createAdapter:async()=>({scan:async()=>({action:{kind:'x'}}),close:async()=>closed++}),createJournal:()=>({...emptyJournal,execute:async()=>{executes++;return{status:'not-submitted',reason:'explicit driver no-send'}}}),onStatus:r=>statuses.push(r.status),wait:async()=>assert.fail('must not retry')});assert.equal(executes,1);assert.equal(closed,1);assert.equal(statuses.at(-1),'not-submitted');for(const status of ['not-submitted','unresolved','halted','busy','stale'])assert.equal(executionExitCode({status}),1);for(const status of ['included','already-included','idle'])assert.equal(executionExitCode({status}),0);});
