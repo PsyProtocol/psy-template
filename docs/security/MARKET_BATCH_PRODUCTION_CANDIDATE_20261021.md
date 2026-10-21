@@ -344,11 +344,38 @@ The running maximum process loaded v8 before the CLI-only addition; the earlier
 snapshots remain historical. The pre-session recovery change requires a later
 source overlay before a new worker consumes it.
 
+### Observed production CLI no-send status correction
+
+Book/NFT renewed starts are confirmed at **359774**. The first real production
+AMM `resume` used the existing full proof but stopped before transmission at a
+coordinator connection error. Its historical output incorrectly labelled the
+explicit rejection `unresolved` and exited zero; the original log remains.
+The journal now immediately persists an explicit no-send result obtained from
+its reconciliation callback and returns `not-submitted`. Missing evidence
+still remains unresolved. `once`/`resume` and the service return nonzero for
+uncompleted results; the active watch process stops on known no-send rather
+than starting another financial cycle. Automatic process-manager restarts are
+outside this in-process guarantee and require deployment policy review.
+
+The CLI acceptance supervisor preserves a nonzero child exit and accepts no
+success from it: it must still find exactly one reviewed planned task and its
+durable intent, then reconcile the exact included receipt/common checkpoint.
+Pre-intent failures and explicit no-send stop; unknown transmissions block.
+The combined suite passed **126** checks. The earlier 125/126 run is retained:
+its sole failure expected the obsolete unresolved label for explicit rejection;
+the revised regression now demands immediate durable terminal no-send while
+keeping the missing-evidence case unresolved.
+
+Overlay **v10** binds source `4deefda`, 282 JS sources, SHA256
+`aecf168361f8cd23178dcfd3d3c417081a635a7fbdaf727175a62574fa2d0198`.
+The isolated Curve restart loaded that version; the no-send status correction
+requires a later overlay. No binary, SDK, market or Node source changed.
+
 ## Ordered gates
 
 | Gate | Current work | Not yet established |
 | --- | --- | --- |
-| 1 Formal Executor | Explicit `batch-admission-compact-v1` route; journal/locks and saved-proof broadcast; four fresh activations, LP, exact sender return/ordinary claim and same-proof no-send recovery confirmed; 119 combined application checks plus targeted gates | Maximum economic entrance and replacement NFT competition/timeout acceptance remain in progress; application checks are not network trades |
+| 1 Formal Executor | Explicit `batch-admission-compact-v1` route; journal/locks and saved-proof broadcast; four fresh activations, LP, exact sender return/ordinary claim and same-proof no-send recovery confirmed; 126 combined application checks plus targeted gates | Maximum economic entrance and replacement NFT competition/timeout acceptance remain in progress; application checks are not network trades |
 | 2 End-to-end cost | Saved proof is not re-proved for broadcast; phase metrics; immutable circuit reuse with fresh sessions; strict same-checkpoint calibration implemented | Positive paired full-proof samples and maximum live cost report pending; no speedup or chain TPS claim |
 | 3 Before-admission fairness | Own-consent lock, immutable finite plans, explicit gas requests, terminal exit and sender-bound recovery; one actual unused-funding return closed | Pre-admission selection/refusal is not global censorship resistance; omitted consented orders still need their new live terminal-exit matrix |
 | 4 Random order | Deterministic mode retained | Authenticated future source, actual pre-revelation inclusion and anti-abort requirements remain external unless verified |

@@ -58,7 +58,7 @@ test('included receipt waits for common realm visibility before releasing vault'
 test('only explicit pre-broadcast driver rejection permits not-submitted; missing evidence remains unknown',async()=>{
  for(const explicit of [false,true])await fixture('amm',async x=>{
   const a=await x.create({submitDriver:async(_binary,args)=>{const out=args[7];if(explicit){await mkdir(out);await put(join(out,'failure.json'),{ok:false,broadcastMayHaveBeenAttempted:false,reason:'stale prepared anchor'});}throw Error('child ended');}});
-  const result=await executeCycle({adapter:a,journal:x.journal()});assert.equal(result.status,'unresolved');const reconciliation=await x.journal().reconcile(a.reconcile);assert.equal(reconciliation[0].result.status,explicit?'not-submitted':'unresolved');assert.equal((await x.journal().unresolved()).length,explicit?0:1);
+  const result=await executeCycle({adapter:a,journal:x.journal()});assert.equal(result.status,explicit?'not-submitted':'unresolved');const reconciliation=await x.journal().reconcile(a.reconcile);if(explicit){assert.equal(reconciliation.length,0);assert.equal((await x.journal().records()).at(-1).status,'not-submitted');}else assert.equal(reconciliation[0].result.status,'unresolved');assert.equal((await x.journal().unresolved()).length,explicit?0:1);
  });
 });
 test('recovery hints process only enrolled inactive senders without selecting other market orders',()=>fixture('amm',async x=>{

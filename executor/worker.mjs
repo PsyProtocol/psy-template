@@ -36,6 +36,7 @@ export async function executeCycle({adapter,journal,limiter=new ExecutionLimiter
     return {...await journal.execute({task:state.action,...adapter}),observedCheckpoint:state.checkpoint,recovered};
   },{signal});}catch(error){if(error instanceof ExecutionStopped)return {status:'stopped',recovered};throw error;}
 }
+export function executionExitCode(result){return ['included','already-included','idle','stopped','scan'].includes(result?.status)?0:1;}
 export function classifyError(error){
  if(error instanceof ReadUnavailable)return 'read-unavailable';
  if(error instanceof StaleTask)return 'stale';
@@ -61,6 +62,7 @@ export async function watchWorker({options,createAdapter,createJournal,limiter,s
    if(!adapter){adapter=await createAdapter(options);journal=createJournal(options);}
    const result=await executeCycle({adapter,journal,limiter,signal,onPhase:onStatus});
    failures=0;await onStatus(result);
+   if(result.status==='not-submitted'){await adapter?.close?.();return;}
   }catch(error){
    const status=classifyError(error);failures++;
    delay=Math.min(maxBackoffMs,delay*2**Math.min(failures,10));

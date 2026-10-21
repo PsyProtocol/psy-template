@@ -62,9 +62,12 @@ export async function formal(h,m,tag,plan,{benchmark=false,expiry=96,mode='resid
    assert.equal(benchmark,false,'paired cost calibration must use its measured adapter');
    const prior=await journal.records(),log=join(h.base,label+'-production-cli-once.log');
    assert.ok(!existsSync(log),'preserve prior CLI attempt and reconcile before explicit restart');
-   const timing=await run(process.execPath,[fileURLToPath(new URL('../run.mjs',import.meta.url)),path,'once','--expected-task',taskPath],log,h.env);
+   const cliStartedAt=new Date().toISOString(),cliStart=performance.now();let timing,cliProcessError=null;
+   try{timing=await run(process.execPath,[fileURLToPath(new URL('../run.mjs',import.meta.url)),path,'once','--expected-task',taskPath],log,h.env);}
+   catch(error){cliProcessError=error.message;timing={startedAt:cliStartedAt,finishedAt:new Date().toISOString(),wallMilliseconds:Math.round(performance.now()-cliStart),scope:'nonzero CLI child exit; durable task/intent must still pass identity checks and exact receipt reconciliation; not success'};}
+
    const selected=selectedCliTask((await journal.records()).slice(prior.length),task);
-   save(cliEvidence,{checkedAt:new Date().toISOString(),entrypoint:'executor/run.mjs once',config:path,log,timing,reviewedTask:task,actualTask:selected.task,taskId:selected.taskId,scope:'real production CLI process; fresh scan may advance local send window, complete calls and all other task fields must match'});
+   save(cliEvidence,{checkedAt:new Date().toISOString(),entrypoint:'executor/run.mjs once',config:path,log,timing,cliProcessError,reviewedTask:task,actualTask:selected.task,taskId:selected.taskId,scope:'real production CLI process; fresh scan may advance local send window, complete calls and all other task fields must match'});
    task=selected.task;result={taskId:selected.taskId};
   }else result=await journal.execute({task,...adapter});
   for(let i=0;i<120;i++){

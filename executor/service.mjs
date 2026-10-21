@@ -5,7 +5,7 @@ import {fileURLToPath} from 'node:url';
 import {loadService,currentUsers} from './config.mjs';
 import {createPublicWalletAdapter} from './publicWalletAdapter.mjs';
 import {ExecutionJournal} from './journal.mjs';
-import {ExecutionLimiter,executeCycle,watchWorker,classifyError} from './worker.mjs';
+import {ExecutionLimiter,executeCycle,watchWorker,classifyError,executionExitCode} from './worker.mjs';
 
 const stringify=x=>JSON.stringify(x,(_k,v)=>typeof v==='bigint'?v.toString():v);
 const makeJournal=options=>new ExecutionJournal({directory:options.runtimeDirectory,network:options.network,vaultId:options.vaultId,fingerprint:options.fingerprint});
@@ -90,6 +90,6 @@ if(process.argv[1]&&resolve(process.argv[1])===fileURLToPath(import.meta.url)){
  }else{
   const stop=new AbortController();process.once('SIGINT',()=>stop.abort());process.once('SIGTERM',()=>stop.abort());
   const result=await runService(config,{mode,signal:stop.signal});
-  if(result.vaults.some(x=>['halted','unresolved','read-unavailable','busy','stale'].includes(x.status)))process.exitCode=1;
+  if(result.vaults.some(x=>executionExitCode(x)!==0))process.exitCode=1;
  }
 }
