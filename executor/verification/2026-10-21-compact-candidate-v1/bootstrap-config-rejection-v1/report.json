@@ -1,0 +1,10 @@
+{
+  "checkedAt": "2026-10-21T02:05:48.396188+00:00",
+  "failureLog": "setup-runner-v1.log",
+  "error": "U124 Token ABI height: undefined != 31",
+  "stage": "factory configuration before activation proof or journal intent",
+  "originalOptions": "public/bootstrap-amm-executor/executor.json",
+  "fix": "extract each frozen asset artifact.abi into a new raw ABI file and use fresh bootstrap-abi-v2 label",
+  "checksRemoved": false,
+  "existingFundingIntentRebroadcast": false
+}

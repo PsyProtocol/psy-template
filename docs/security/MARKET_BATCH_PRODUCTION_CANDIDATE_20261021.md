@@ -235,3 +235,14 @@ speedup claim or a comparison with the original 40-call route. The reporter
 separates ordinary process time, acknowledgement-to-indexed/common observation,
 server timestamps and task wall (which includes deliberate extra cold proofs).
 Cargo cold build is outside those pairs. Offline proof rate is never chain TPS.
+
+### Preserved configuration rejection before activation
+
+After the ordinary seed transfers were included, the fresh formal factory
+rejected the acceptance harness's compiled-artifact wrapper where a raw asset
+ABI was required (`U124 Token ABI height: undefined != 31`). No activation proof
+or activation broadcast existed. The harness now extracts each frozen asset's
+`.abi` into a distinct raw ABI file and uses fresh `bootstrap-abi-v2` options.
+Original failed options/logs remain in `bootstrap-config-rejection-v1/`; the
+height/layout checks were retained and accepted the corrected configuration.
+Actual activation UPSs were still in progress at this checkpoint.

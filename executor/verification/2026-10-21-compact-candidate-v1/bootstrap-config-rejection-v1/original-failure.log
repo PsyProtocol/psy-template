@@ -1,0 +1,17 @@
+node:internal/process/esm_loader:97
+    internalBinding('errors').triggerUncaughtException(
+                              ^
+
+AssertionError [ERR_ASSERTION]: U124 Token ABI height
+    at validateU124TokenAbi (file:///Users/geir/Downloads/QED%E8%B5%84%E6%96%99/litepaper/psy-template-security-20261016/executor/u124Abi.mjs:6:31)
+    at createCompactAdmissionAdapter (file:///Users/geir/Downloads/QED%E8%B5%84%E6%96%99/litepaper/psy-template-security-20261016/executor/compactAdmissionAdapter.mjs:37:68)
+    at async formal (file:///Users/geir/Downloads/QED%E8%B5%84%E6%96%99/litepaper/psy-template-security-20261016/executor/acceptance/candidateHarness.mjs:26:42)
+    at async file:///Users/geir/Downloads/QED%E8%B5%84%E6%96%99/litepaper/psy-template-security-20261016/executor/acceptance/candidateSetup.mjs:11:41 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: undefined,
+  expected: 31,
+  operator: 'strictEqual'
+}
+
+Node.js v18.16.0
