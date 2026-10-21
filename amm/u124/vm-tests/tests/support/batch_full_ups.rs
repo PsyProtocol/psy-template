@@ -280,3 +280,48 @@ fn vm_spread_member_fee_leaf_budget()->Result<()>{
  }}
  let path=std::env::var("BATCH_SPREAD_FEES_OUT")?;use std::io::Write;let mut out=fs::OpenOptions::new().create_new(true).write(true).open(path)?;out.write_all(&serde_json::to_vec_pretty(&json!({"scope":"actual VM bytecode write-leaf count with spread IDs; not a proof or network test","rows":rows,"broadcast":false}))?)?;Ok(())
 }
+
+#[tokio::test]
+async fn admitted_ordinary_open_and_exit_cfc_constraints()->Result<()>{
+ ensure!(std::env::var("BATCH_ADMISSION_TEST").as_deref()==Ok("1"),"fresh admission fixtures");
+ ensure!(std::env::var_os("BATCH_CFC_METADATA").is_some(),"actual layout metadata required");
+ let out=std::env::var("BATCH_ORDINARY_CFC_OUT")?;fs::create_dir(&out)?;
+ for kind in ["amm","orderbook","bondingcurve","nftmarket"]{
+  let mut w=World::new(kind)?;
+  let(name,values)=match kind{
+   "amm"=>("open_swap",args(&[V,0],&[1,1],&[200,1])),
+   "orderbook"=>("open_sell",args(&[V,0],&[1,1],&[200,1])),
+   "bondingcurve"=>("open_buy",args(&[V,1,0],&[1],&[200,1])),
+   _=>("open_listing",args(&[V,0],&[1],&[200,1])),
+  };
+  prove_ordinary_cfc(&w,kind,name,&values).await?;
+  w.run(200,M,name,&values)?;
+  let cutoff=w.checkpoint+2;w.run(V,M,"start_epoch",&[1,cutoff])?;w.run(200,M,"request_admission",&[1,cutoff])?;w.run(200,M,"request_cancel",&[])?;
+  let close=match kind{"amm"=>"close_swap_0","orderbook"=>"close_0","bondingcurve"=>"close_buy",_=>"abandon_unfunded"};
+  ensure!(prove_ordinary_cfc(&w,kind,close,&[]).await.is_err(),"historical nonmembership close proof must be rejected");
+  w.checkpoint=cutoff+1;w.run(V,M,"abort_empty_epoch",&[1])?;
+  prove_ordinary_cfc(&w,kind,close,&[]).await?;
+  prove_ordinary_cfc(&w,kind,"release_unaccepted",&[]).await?;
+  w.run(200,M,"release_unaccepted",&[])?;
+  fs::write(format!("{out}/{kind}.json"),serde_json::to_vec_pretty(&json!({"market":kind,"caller":200,"methods":[name,close,"release_unaccepted"],"historicalNonmembershipCloseRejected":true,"terminalEpochUnlockProven":true,"functionCircuitProofsVerified":true,"actualCodeAndLayout":true,"scope":"synthetic authenticated CFC function proofs, not complete ordinary signature/end-cap or real network","broadcast":false}))?)?;
+ }
+ Ok(())
+}
+async fn prove_ordinary_cfc(w:&World,kind:&str,name:&str,values:&[u64])->Result<()>{
+let db=Store::new();let cp=w.checkpoint;
+ for(cid,height)in[(0,32),(M,31),(A,31),(B,31),(NFT,30)]{let mut leaf=PsyContractLeaf{state_tree_height:f(height),..Default::default()};
+ if std::env::var_os("BATCH_CFC_METADATA").is_some(){let root=std::env::var("BATCH_BUILD")?;let path=match cid{0=>"native.json".to_string(),M=>format!("{kind}/compiled/compilation_artifact.json"),NFT=>"nft/compilation_artifact.json".to_string(),_=>"token/compilation_artifact.json".to_string()};let a:Value=serde_json::from_slice(&fs::read(format!("{root}/{path}"))?)?;let defs:Vec<DPNFunctionCircuitDefinition>=serde_json::from_value(a["circuit_definitions"].clone())?;leaf.code_root=get_code_root_by_code_hashes::<GF,PoseidonHash>(&defs.iter().map(hash_dpn_function::<GF>).collect::<Vec<_>>(),15);
+ if cid!=0{let m=psy_data::v1::qdata::contract::canonical_layout_manifest_from_compiler_abi_json::<parth_core::pgoldilocks::PoseidonHasher,GF,parth_core::pgoldilocks::QHashOut<GF>>(&serde_json::to_string(&a["abi"])?,psy_core::constants::protocol::STATE_LAYOUT_TREE_HEIGHT,psy_data::v1::qdata::contract::CANONICAL_TYPE_LAYOUT_STRUCT_TREE_HEIGHT)?;let l=m.layout.contract_layout;leaf.state_layout_root=QHashOut(HashOut{elements:l.state_layout_root.0.elements});leaf.state_layout_field_count=f(l.state_layout_field_count);leaf.state_layout_slot_count=f(l.state_layout_slot_count);}}
+db.set_contract_leaf_data(cp,cid,&leaf)?;db.set_contract_tree_leaf_hash(cp,cid,leaf.qfhash::<PoseidonHash>())?;}
+ let mut groups:BTreeMap<(u64,u64,u64),[GF;4]>=BTreeMap::new();let mut users=BTreeSet::new();for((u,c,o),n)in&w.slots{users.insert(*u);groups.entry((*u,*c,*o/4)).or_insert([GF::ZERO;4])[(*o%4)as usize]=f(*n);}
+ let mut roots=BTreeMap::new();for((u,c,o),v)in groups{let p=db.set_user_state_tree_leaf_hash(cp,u,c as u32,if c==0{32}else if c==NFT{30}else{31},o,QHashOut(HashOut{elements:v}))?;roots.insert((u,c),p.new_root);}for((u,c),r)in roots{db.set_user_contract_tree_leaf_hash(cp,u,c as u32,r)?;}
+ users.insert(V);for u in users{let leaf=PsyUserLeaf{public_key:QHashOut(HashOut{elements:[GF::ONE;4]}),user_id:f(u),user_state_tree_root:db.get_user_contract_tree_root(cp,u).await?,balance:GF::ZERO,nonce:f(if u==V{w.revision}else{0}),..Default::default()};db.set_user_leaf_data(cp,&leaf)?;db.set_user_tree_leaf_hash(cp,u,leaf.qfhash::<PoseidonHash>())?;}
+ let roots=db.get_checkpoint_global_state_roots(cp).await?;let leaf=PsyCheckpointLeaf{global_chain_root:roots.qfhash::<PoseidonHash>(),stats:PsyCheckpointLeafStats::new_empty()};db.set_checkpoint_leaf_data(cp,&leaf)?;db.set_checkpoint_tree_leaf_hash(cp,leaf.qfhash::<PoseidonHash>())?;
+
+ let lps=PsyLocalProvingSessionStore::new_at(db,f(cp),f(200),f(1),GF::ZERO,16);
+ let cm=PsyUPSStepCircuitManager::<C,2>::new_with_config(PSY_NETWORK_MAGIC);let mut info=SessionCircuitInfoStore::new();cm.register_info(&mut info).await;
+ let mut session=Manager::new(lps,info,cm.ups_circuit_whitelist_root).await?;session.prove_ups_start(&cm).await?;
+ let def=&w.methods[&(M,name.into())];let witness=session.exec_contract_call(f(M),def,values.iter().copied().map(f).collect()).await.with_context(||format!("ordinary caller 200 {kind}/{name}"))?;
+ let circuit=DapenContractFunctionCircuit::<C,2>::new(def,31,16,false);let proof=circuit.prove_base(&witness)?;circuit.minifier_chain.verify(proof)?;
+ println!("ORDINARY_CFC {kind} {name} verified");Ok(())
+}

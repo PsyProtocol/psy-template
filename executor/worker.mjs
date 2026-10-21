@@ -28,7 +28,7 @@ export async function executeCycle({adapter,journal,limiter=new ExecutionLimiter
   await onPhase({status:'scanning'});
   const state=await adapter.scan();
   if(signal?.aborted)return {status:'stopped',recovered};
-  if(!state.action)return {status:'idle',checkpoint:state.checkpoint,recovered};
+  if(!state.action)return {status:'idle',checkpoint:state.checkpoint,recovered,...(state.reason?{reason:state.reason}:{}),...(state.fundingRequest?{fundingRequest:state.fundingRequest}:{})};
   await onPhase({status:'queued',observedCheckpoint:state.checkpoint,taskKind:state.action.kind});
   try{return await limiter.run(async()=>{
     if(signal?.aborted)return {status:'stopped',recovered};
