@@ -8,7 +8,7 @@ for(const n of names)await h.user(n,'candidate-'+n+'-gas-ft-claim',[{contract_id
 await h.user('trader','candidate-second-listing-nft-send',[call(oldNft,h.nft,'transfer',[0n,BigInt(h.actors.charlie.id)])]);
 await h.user('charlie','candidate-second-listing-nft-claim',[call(oldNft,h.nft,'claim',[0n,BigInt(h.actors.trader.id)])]);
 await h.user('bob','candidate-all-activation-seeds',h.markets.flatMap(m=>activationFunding({market:m.kind,config:m.driverConfig,tokenAbi:h.token,vaultId:BigInt(m.vault)})));
-for(const m of h.markets){const service=await formal(h,m,'bootstrap',{version:1,epoch:1,cutoff:1,members:[]});try{await service.step('candidate-'+m.kind+'-activate',t=>t.kind==='batch_maintenance');}finally{await service.close();}}
+for(const m of h.markets){const service=await formal(h,m,'bootstrap-abi-v2',{version:1,epoch:1,cutoff:1,members:[]});try{await service.step('candidate-'+m.kind+'-activate',t=>t.kind==='batch_maintenance');}finally{await service.close();}}
 // Inventory belongs to the issuer; new Curve points to the new AMM vault.
 const c=h.by.bondingcurve;await h.user('bob','candidate-curve-inventory',[{contract_id:0n,method_name:'simple_transfer',inputs:[BigInt(c.vault),F]},call(A,h.token,'transfer',[BigInt(c.vault),encodeAmount(110n*10n**18n)])]);
 const service=await formal(h,c,'inventory',{version:1,epoch:1,cutoff:1,members:[]});try{await service.step('candidate-curve-initialize',t=>t.kind==='batch_maintenance');}finally{await service.close();}
