@@ -1,0 +1,80 @@
+{
+  "checkedAt": "2026-10-21T01:54:26.272195+00:00",
+  "repository": "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-node",
+  "observedLocalCommit": "5b7f4e1e11adf4607a958bc39e863a2a80b5a7a6",
+  "unchangedTrackedDiffSha256": "002e35e0b13cb6c422fe3abf500ce6aa5241229264d85a3314f22b5e14b59a64",
+  "runningServiceIdentityAttested": false,
+  "randomModeEnabled": false,
+  "conclusions": [
+    "Authenticated checkpoint membership can bind a seed value; this does not prove entropy, unpredictability, unbiased generation or non-withholding.",
+    "Observed coordinator gatherer locally samples rand::thread_rng; transition circuit uses an unconstrained virtual contribution as the new seed, later included in the authenticated leaf. No VRF/threshold entropy verification was found in that observed path.",
+    "This is evidence for the inspected local source path, not attestation that the remote services run it.",
+    "Actual pre-revelation order-set inclusion, fixed future target, anti-redraw and selective-abort rules remain release blockers for random mode."
+  ],
+  "sources": [
+    {
+      "path": "psy_node_common/src/coordinator/processor/gatherers/coordinator_guta_update_gatherer.rs",
+      "sourceSha256": "6187688c3f2db4d769c2f70594867e692ea4dbbde71210ba5160a7b0fcc49df2",
+      "matchesHeadFile": true,
+      "startLine": 39,
+      "endLine": 44,
+      "excerpt": "fn get_temp_guta_rand_seed<Hash: Q256BitHash>() -> Hash {\n    let mut bytes = [0u8; 32];\n    rand::thread_rng().fill_bytes(&mut bytes);\n    Hash::from_owned_32bytes(bytes)\n}\npub fn get_new_coordinator_guta_update_gatherer_backup_file_path("
+    },
+    {
+      "path": "psy_node_common/src/coordinator/processor/gatherers/coordinator_guta_update_gatherer.rs",
+      "sourceSha256": "6187688c3f2db4d769c2f70594867e692ea4dbbde71210ba5160a7b0fcc49df2",
+      "matchesHeadFile": true,
+      "startLine": 476,
+      "endLine": 483,
+      "excerpt": "        let random_seed_guta = get_temp_guta_rand_seed::<N::QHash>();\n\n        // Write trailing metadata to backup file so reader can verify length.\n        // Format: magic(4) + start_root(32) + [items...] + random_seed(32)\n        self.new_coordinator_guta_file\n            .write_all(&random_seed_guta.into_owned_32bytes())\n            .await?;\n        self.config"
+    },
+    {
+      "path": "psy_node_common/src/backup/output/coordinator_output_builder.rs",
+      "sourceSha256": "a0747f8c203b53de4560c0aa5244b18e496fba715d70531604e7dec6fd73b6fd",
+      "matchesHeadFile": true,
+      "startLine": 371,
+      "endLine": 379,
+      "excerpt": "                    deploy_contracts_completed: N::F::from_u64_value(self.total_deploy_contract_jobs as u64),\n                    register_users_completed: N::F::from_u64_value(self.total_register_user_jobs as u64),\n                    gutas_completed: N::F::from_u64_value(self.total_guta_jobs as u64),\n                },\n                part_1_header: self.get_part_1_header(last_committed, circuit_fingerprint_config),\n                old_stats: last_committed.checkpoint_leaf_stats.clone(),\n                block_time: N::F::from_u64_value(block_time),\n                final_random_seed_contribution: self.guta_gatherer_result.random_seed_guta,\n            },"
+    },
+    {
+      "path": "psy_plonky2_circuits/src/coordinator/gadgets/checkpoint_state_transition_proofs.rs",
+      "sourceSha256": "44addbc74a228c35b575acc05f9c55588b47cd0d8d5d7d9869f96beac589b15c",
+      "matchesHeadFile": true,
+      "startLine": 76,
+      "endLine": 96,
+      "excerpt": "        let old_stats = QEDCheckpointLeafStatsGadget::create_virtual(builder);\n        let block_time = builder.add_virtual_target();\n        let final_random_seed_contribution = builder.add_virtual_hash();\n\n        let old_state_roots_hash = old_state_roots.to_hash::<H, F, D>(builder);\n        let new_state_roots_hash = new_state_roots.to_hash::<H, F, D>(builder);\n\n        let zero = builder.zero();\n\n        let rewards_tree_tag_tree_root = hash_tag_tree_node_single_circuit::<H, F, D>(builder, part_1_worker_reward_tree_value, worker_rewards_tree_tag);\n\n        let new_stats = QEDCheckpointLeafStatsGadget {\n            guta_fees_collected: part_1_header.global_user_tree_delta.stats.guta_fees_collected,\n            da_fees_collected: part_1_header.global_user_tree_delta.stats.da_fees_collected,\n            user_ops_processed: part_1_header.global_user_tree_delta.stats.user_ops_processed,\n            total_transactions: part_1_header.global_user_tree_delta.stats.total_transactions,\n            slots_modified: part_1_header.global_user_tree_delta.stats.slots_modified,\n            pm_jobs_completed: part_1_header.combined_pm_jobs_completed,\n            block_time,\n            random_seed: final_random_seed_contribution,//builder.hash_two_to_one::<H>(old_stats.random_seed, final_random_seed_contribution),\n            pm_rewards_commitment: PMRewardCommitmentGadget {"
+    },
+    {
+      "path": "psy_plonky2_circuits/src/coordinator/gadgets/checkpoint_state_transition_proofs.rs",
+      "sourceSha256": "44addbc74a228c35b575acc05f9c55588b47cd0d8d5d7d9869f96beac589b15c",
+      "matchesHeadFile": true,
+      "startLine": 140,
+      "endLine": 147,
+      "excerpt": "    ) -> anyhow::Result<()> {\n        self.part_1_header\n            .set_witness_params(witness, user_registration_tree_delta, global_contract_tree_delta, global_user_tree_delta, deploy_contracts_completed, register_users_completed)?;\n        self.old_stats.set_witness(witness, old_stats)?;\n        witness.set_target(self.block_time, block_time)?;\n        witness.set_hash_target(self.final_random_seed_contribution, final_random_seed_contribution.0)?;\n        Ok(())\n    }"
+    },
+    {
+      "path": "client_prover/psy_vm/src/dpn/ops/exec_context.rs",
+      "sourceSha256": "f3698d4bc83b768f483fc1fef50bcc269c99c1f486ed61ae87e2c7458c5ccc16",
+      "matchesHeadFile": true,
+      "startLine": 875,
+      "endLine": 884,
+      "excerpt": "    fn get_checkpoint_stats(&mut self, checkpoint_id: SymFeltRef) -> Vec<SymFeltRef> {\n        let cmd = DPNStateCmd::GetCheckpointLeafStats(DPNStateCmdGetCheckpointLeafStats { checkpoint_id });\n        let b = self.resolve_state_cmd_base(cmd);\n        let mut result = Vec::new();\n        let stats_size = PsyCheckpointLeafStats::<GoldilocksField>::q_felt_size();\n        for i in 0..stats_size {\n            result.push(self.op_target_at(b, i as u64));\n        }\n        result\n    }"
+    },
+    {
+      "path": "client_prover/psy_circuit/psy_dpn_circuit/src/vm/gadgets/state_readers.rs",
+      "sourceSha256": "475615174d7f7d55515f7ac1eaae80c92a665e34925c5a694bd22b136ecd57ba",
+      "matchesHeadFile": true,
+      "startLine": 1593,
+      "endLine": 1630,
+      "excerpt": "\n                    let requested_checkpoint_stats = PsyCheckpointLeafStatsGadget::create_virtual(builder);\n\n                    let historical_proof =\n                        HistoricalRootMerkleProofGadget::add_virtual_to_zero_gt::<H, F, D>(builder, CHECKPOINT_TREE_HEIGHT as usize);\n\n                    builder.connect(historical_proof.index, requested_checkpoint_id);\n\n                    builder.connect_hashes(historical_proof.current_root, self.checkpoint_tree_root);\n\n                    let checkpoint_stats_hash = requested_checkpoint_stats.to_hash::<H, F, D>(builder);\n\n                    let requested_checkpoint_state_roots = PsyCheckpointGlobalStateRootsGadget::create_virtual(builder);\n                    let state_roots_hash = requested_checkpoint_state_roots.to_hash::<H, F, D>(builder);\n\n                    let checkpoint_leaf_hash = builder.hash_two_to_one::<H>(state_roots_hash, checkpoint_stats_hash);\n\n                    builder.connect_hashes(historical_proof.current_value, checkpoint_leaf_hash);\n\n                    self.insert_checkpoint_stats_gadget(\n                        ck.clone(),\n                        requested_checkpoint_stats.clone(),\n                        requested_checkpoint_state_roots,\n                        historical_proof,\n                    );\n\n                    let mut result = Vec::new();\n\n                    result.push(requested_checkpoint_stats.guta_fees_collected);\n                    result.push(requested_checkpoint_stats.da_fees_collected);\n                    result.push(requested_checkpoint_stats.user_ops_processed);\n                    result.push(requested_checkpoint_stats.total_transactions);\n                    result.push(requested_checkpoint_stats.slots_modified);\n                    result.extend_from_slice(&requested_checkpoint_stats.pm_jobs_completed.to_targets());\n                    result.push(requested_checkpoint_stats.block_time);\n\n                    result.extend_from_slice(&requested_checkpoint_stats.random_seed.elements);\n"
+    },
+    {
+      "path": "client_prover/psy_core/psy_data/src/qdata/checkpoint.rs",
+      "sourceSha256": "59fdea9e0bbb9f5a4ff45d2e4924a533ec9d0321dd08cf686520bbda559d8385",
+      "matchesHeadFile": true,
+      "startLine": 21,
+      "endLine": 35,
+      "excerpt": "pub struct PsyCheckpointLeafStats<F: RichField> {\n    pub guta_fees_collected: F,\n    pub da_fees_collected: F,\n\n    pub user_ops_processed: F,\n    pub total_transactions: F,\n\n    pub slots_modified: F,\n    pub pm_jobs_completed: PMJobsCompletedStats<F>,\n\n    pub block_time: F,\n\n    pub random_seed: QHashOut<F>,\n    pub pm_rewards_commitment: PMRewardCommitment<F>,\n"
+    }
+  ]
+}
