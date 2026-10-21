@@ -4,6 +4,24 @@ Branch: `markets-batch-capacity-recovery-20261020`; accepted starting commit
 `e45d689e6806d362c03f15697c90aba44f8704e7`. No Node edits, old-contract update
 probes, new branches or replacement of original artifacts are authorized here.
 
+## Controlled full-UPS comparison scheduled after recovery closure
+
+`executor/acceptance/compareProofProfiles.mjs` now pins one frozen test binary,
+identical contract/token/NFT fixtures, two Rayon threads per process and at most
+two independent market processes. It refuses a reused output directory and waits
+for the exact preceding principal/ordinary-claim/fee closure gate before running.
+Both fixed-40 and compact profiles must verify entire commit and settlement UPSs,
+session/public endpoints and exported deltas, and agree on final contract state,
+modified slots and fees. Each profile has four members per market and 12 fills
+across the four markets. Reports preserve stage timings and raw process logs.
+
+This scheduled experiment is **not yet a result**. It excludes ordinary funding,
+consent, admission, network confirmation and wallet claims; it cannot establish
+full-lifecycle speedup or chain TPS. It uses one sample, fixed-40 first, on a host
+whose unrelated load is not controlled. Fresh-process circuit construction and
+cache-order bias are explicitly reported. No new financial proofs will be
+intentionally started while this comparison is running.
+
 ## Recovery replay correction and observed outage handling
 
 A real restart exposed an acceptance-orchestrator defect: empty work in an
