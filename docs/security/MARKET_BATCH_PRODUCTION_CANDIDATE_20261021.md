@@ -4,6 +4,34 @@ Branch: `markets-batch-capacity-recovery-20261020`; accepted starting commit
 `e45d689e6806d362c03f15697c90aba44f8704e7`. No Node edits, old-contract update
 probes, new branches or replacement of original artifacts are authorized here.
 
+## All four replacement deployments and registrations confirmed
+
+At **12:51:05 UTC**, the existing acknowledged NFT registration completed
+read-only reconciliation. Original request/intent/acknowledgement were reused;
+no registration or deployment was resent. Full deployed metadata and indexed
+mapping passed, and atomic registration publication completed on source v20.
+
+| Market | Fresh contract | Bulk vault | Realm | Initial layout fields |
+| --- | ---: | ---: | ---: | ---: |
+| AMM | 2478 | 1013952 | 0 | 71 |
+| Orderbook | 2479 | 1767616 | 1 | 67 |
+| Curve | 2480 | 653504 | 0 | 76 |
+| NFT Market | 2481 | 522432 | 0 | 82 |
+
+All are `all-four-v1`, with four distinct deployment identities and zero old
+contract updates. Curve targets AMM vault 1013952. NFT includes corrected 2472
+semantics and consent-lock safety; 2469 remains retired. The unused earlier
+2477/1169600 case stays retired and unactivated. `replacement-nft-registration-
+read-recovery-v1/` holds **38** original/compressed-hash-verified files: complete
+initial proof/request, actual new receipt, registration, original failed read
+logs, connectivity observations and successful read-only resume.
+
+Bootstrap has now started using the existing owned five QA actors, QA FT-A 2464,
+FT-B 2466, NFT 2467 and faucet test PSY. No new asset issuance or existing pUSDT
+use. Its 19-account audit includes prior vaults and unused 1169600. Funding,
+activation, maximum settlement, ordinary claims and later recovery/competition
+are still **pending**; complete registration does not certify those outcomes.
+
 ## NFT deployed; acknowledged registration stopped on public-read outage
 
 NFT Market **2481** deployed at **360844**, with a verified **0→82-field**
