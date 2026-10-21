@@ -80,7 +80,7 @@ try {
   save(raceFile, {checkedAt: new Date().toISOString(), scope: 'independent durable journals; both full UPSs prepared from the same own nonce before winner broadcast; loser released after exact winning inclusion', simultaneousRpcRace: false, sameOwnNonce: proofA.core.new_user_leaf.nonce, sameStartLeaf: proofA.core.state_transition.start_user_leaf_hash, differentEndStateRootsVerified: true, preparedA, preparedB, winner, loser, rejected, parentResultDiscarded: true, exactReceiptRecovered: true, duplicateStatus: duplicate.status});
   f.adapter.submit = submitA;
  }
- for (let i = 1; i < 4; i++) {await fund('nft-competition-admit-' + i + '-fund'); await f.step('nft-competition-admit-' + i, operation('admit_entry'));}
+ for (let i = 1; i < (f.options.admissionMode==='all-four-v1'?1:4); i++) {await fund('nft-competition-admit-' + i + '-fund'); await f.step('nft-competition-admit-' + i, operation('admit_entry'));}
  await fund('nft-competition-seal-fund'); await waitPast(p.cutoff); await f.step('nft-competition-seal', operation('seal_epoch'));
  await fund('nft-competition-commit-fund', 1); await f.step('nft-competition-commit', t => t.kind === 'batch_commit');
  const frozenPath = join(base, 'public/nft-competition-original-frozen.json');

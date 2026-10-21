@@ -801,3 +801,31 @@ recovery without redirecting principal or borrowing another sender's funds.
 Full public requests/receipts/proofs and before/after accounting are archived
 under `bootstrap-orphan-return-v1/`; original files remain untouched. Curve
 inventory, LP and maximum economic batches were still progressing afterward.
+
+
+## 2026-10-21 recovery correction and opt-in admission prototype
+
+The renewed live intake exceeded its fixed deadline: AMM, Orderbook and NFT
+accepted two members each, Curve one. This is **not** a maximum-capacity pass.
+All four users cancelled before commitment; all four actual queues were sealed
+at checkpoints 359968–359969. Principal return and ordinary claims remain open.
+
+A client-only recovery option mistakenly allowed an 8F sponsorship although
+existing contract authorization caps it at 2F. No 8F grant was signed or sent.
+The option is removed; configuration rejects it. Recovery uses explicit 2F
+rounds, with exact pending-grant checks and independent vault execution. No
+contract, existing key or Node change is required. Original failed configs are
+preserved and cannot be loaded as valid current configuration.
+
+A same-source AMM warm/cold full UPS comparison completed proof generation and
+metadata checks, then report writing failed because fractional load averages
+were passed to the transaction serializer. Observation reports now use a
+separate exclusive-write serializer; transaction/proof JSON stays integer-only.
+The old proof window has expired; it will not be broadcast. Raw proofs remain
+historical evidence, not current acceptance or throughput evidence.
+
+The opt-in `all-four-v1` policy adds four authenticated admissions in one seven-
+call UPS. Defaults and registered policies remain unchanged. It requires a new
+key/vault and canonical matching consents from all four owners. Routing mock
+regressions and offline key construction passed; complete cryptographic and
+live acceptance **remain unverified**, so it is not enabled on existing vaults.
