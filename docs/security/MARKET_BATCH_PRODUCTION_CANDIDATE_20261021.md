@@ -6,6 +6,12 @@ probes, new branches or replacement of original artifacts are authorized here.
 
 ## Recovery and concurrent-admission evidence update
 
+Completed requests, full proofs, receipts, ordinary releases and the explicit
+Sponsor replacement are archived in `partial-four-refunds-and-sponsor-recovery-v1/`
+(**233 files**; original/compressed hashes verified). Active subsequent recovery
+jobs are excluded. Runtime source overlay v15 pins source `24454a4` and the
+unchanged frozen driver release.
+
 All four actual cancelled scopes are now settled: AMM **360139**, Book
 **360164**, Curve **360196**, NFT **360230**. Unaccepted sender returns and final
 ordinary claims remain open; no maximum-capacity acceptance marker is written.
