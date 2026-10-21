@@ -3,6 +3,7 @@ import {readFile,mkdir} from 'node:fs/promises';
 import {join,dirname} from 'node:path';
 import {randomUUID} from 'node:crypto';
 import {residentProver} from './residentProver.mjs';
+import{preSessionTransportFailure}from'./preSessionRetry.mjs';
 import {publicState} from './publicState.mjs';
 import {receiptReader} from './chainReceipts.mjs';
 import {sealDriver} from './sealedDriver.mjs';
@@ -45,9 +46,9 @@ export async function createCompactAdmissionAdapter(o,{readState=publicState,rea
  const bindingCurrent=async()=>{await inputsCurrent();const s=await readState(o.rpcConfig);assert.equal(s.networkName,o.network);assert.equal(BigInt(s.network.magic),BigInt(files.config.networkMagic));
   for(const b of dependencies){const l=await s.contractLeaf(b.contract.contractId);assert.deepEqual({contract:{contractId:b.contract.contractId,codeRoot:l.code_root,layoutRoot:l.state_layout_root,stateTreeHeight:l.state_tree_height},functionTreeRoot:l.function_tree_root,layoutFieldCount:l.state_layout_field_count,layoutSlotCount:l.state_layout_slot_count},b,'live compact dependency changed');}
   assert.deepEqual(await s.userIds(o.publicKeyHash),[o.vaultId],'compact registered identity');await inputsCurrent();return s;};
- await bindingCurrent();const pinCurrent=await captureInputs([pin]),driver=await sealDriver(o);
+ const initialState=await bindingCurrent(),retryUrls=[...initialState.network.realm_configs,...(initialState.network.coordinator_configs??[])].flatMap(r=>r.rpc_url);const pinCurrent=await captureInputs([pin]),driver=await sealDriver(o);
  const env={...process.env,PSY_MARKET_TESTNET_PROFILE:o.testnetProfile,RAYON_NUM_THREADS:String(o.proverThreads??2)};for(const k of Object.keys(env))if(k.endsWith('_WITNESS_WALLET')||k.endsWith('_LOCAL_DEFS')||k==='PSY_MARKET_BENCH_SOURCE_CHECKPOINT')delete env[k];
- const resident=o.proverMode==='resident'?residentProver(driver.file,o.policy,o.rpcConfig,{env}):null;
+ const makeResident=()=>o.proverMode==='resident'?residentProver(driver.file,o.policy,o.rpcConfig,{env}):null;let resident=makeResident();
  const id=driverRecords((await runDriver(driver.file,['identity',o.policy],{env,timeout:120000,maxBuffer:2000000})).stdout).find(r=>r.profile==='compact-v1');assert.equal(id?.fingerprint,o.fingerprint);assert.equal(id?.publicKeyHash,o.publicKeyHash);
  const reader=await readReceipts(o.rpcConfig,{maxPages:o.receiptMaxPages??20});
  const root=task=>join(o.runtimeDirectory,'compact',o.network,String(o.vaultId),sha256(task.submission+'\n'+task.validUntilCheckpoint));
@@ -64,12 +65,25 @@ export async function createCompactAdmissionAdapter(o,{readState=publicState,rea
   const {manifest:m,pre}=await proofFiles(attempt.task,p),verified=await json(join(out,'verification.json'));
   assert.equal(verified.fullUpsVerified,true);assert.equal(verified.reproved,false);assert.equal(verified.preparedManifestSha256,p.manifestSha256);assert.equal(verified.requestSha256,m.requestSha256);assert.equal(intent.requestSha256,m.requestSha256);assert.equal(intent.endUserLeafHash,pre.core.state_transition.end_user_leaf_hash);assert.equal(intent.userId,BigInt(o.vaultId));assert.equal(intent.nonce,pre.core.new_user_leaf.nonce);
   const receipt=await reader({userId:o.vaultId,endUserLeafHash:intent.endUserLeafHash,minCheckpoint:Number(pre.core.checkpoint_id)});if(receipt.status==='included'){const common=await readState(o.rpcConfig);if(common.checkpoint<receipt.checkpoint)return {status:'unresolved',reason:'included-awaiting-common-state',includedReceipt:receipt,commonCheckpoint:common.checkpoint};return {...receipt,commonCheckpoint:common.checkpoint};}return receipt;};
+ const isCurrent=async task=>{bindCompactRequest(task,files.policy);await pinCurrent();await driver.check();const s=await bindingCurrent();if(BigInt(s.checkpoint)>BigInt(task.validUntilCheckpoint))return false;const next=(await scanExecutorAdmission(o,async()=>s,files)).action;if(!next)return false;
+   const x=structuredClone(next),a=bindCompactRequest(task,files.policy),b=bindCompactRequest(next,files.policy);if(a.software_defined_call.inputs[0]===1n){const f=b.software_defined_call.inputs;f[3]=a.software_defined_call.inputs[3];if(f[3]<=BigInt(s.checkpoint)||f[3]>BigInt(s.checkpoint)+1024n)return false;x.submission=losslessJson(compactRequest(files.policy,f));}x.validUntilCheckpoint=task.validUntilCheckpoint;return JSON.stringify(x)===JSON.stringify(task);};
  return {scan,reconcile,close:async()=>resident?.close(),
-  isCurrent:async task=>{bindCompactRequest(task,files.policy);await pinCurrent();await driver.check();const s=await bindingCurrent();if(BigInt(s.checkpoint)>BigInt(task.validUntilCheckpoint))return false;const next=(await scanExecutorAdmission(o,async()=>s,files)).action;if(!next)return false;
-   const x=structuredClone(next),a=bindCompactRequest(task,files.policy),b=bindCompactRequest(next,files.policy);if(a.software_defined_call.inputs[0]===1n){const f=b.software_defined_call.inputs;f[3]=a.software_defined_call.inputs[3];if(f[3]<=BigInt(s.checkpoint)||f[3]>BigInt(s.checkpoint)+1024n)return false;x.submission=losslessJson(compactRequest(files.policy,f));}x.validUntilCheckpoint=task.validUntilCheckpoint;return JSON.stringify(x)===JSON.stringify(task);},
+  isCurrent,
   validateProof:async(task,p)=>{try{const {pre}=await proofFiles(task,p),s=await bindingCurrent();if(s.checkpoint>Number(task.validUntilCheckpoint))return false;const url=s.network.realm_configs.find(r=>r.id===Math.floor(o.vaultId/s.network.users_per_realm)).rpc_url[0],args={checkpoint_id:s.checkpoint,user_id:o.vaultId};const leaf=await s.rpc(url,'psy_get_user_leaf_data',args,{exactIntegers:true}),hash=await s.rpc(url,'psy_get_user_tree_leaf_hash',args);return integer(leaf.nonce)+1n===pre.core.new_user_leaf.nonce&&(hash===pre.core.state_transition.start_user_leaf_hash||(integer(leaf.nonce)===0n&&pre.core.state_transition.start_user_leaf_hash==='0'.repeat(64)));}catch(e){if(e.code==='ENOENT')return false;throw e;}},
-  prove:async task=>{bindCompactRequest(task,files.policy);await bindingCurrent();await pinCurrent();await driver.check();const q=paths(task);await publish(q.calls,task.submission);await publish(q.guard,{identity,dependencies,validUntilCheckpoint:Number(task.validUntilCheckpoint)});const out=join(root(task),'proof-'+randomUUID());
-   let result;try{const args=['preflight',o.policy,o.rpcConfig,q.calls,q.guard,out];result=resident?await resident.prove(args):await runDriver(driver.file,args,{env,timeout:900000,maxBuffer:2000000});}catch(error){await publish(out+'.preflight-failure.log',(error.stdout??'')+'\n'+(error.stderr??''));throw error;}await publish(out+'.preflight.log',(result.stdout??'')+'\n'+(result.stderr??''));await inputsCurrent();await pinCurrent();await driver.check();const p={version:1,driverSha256:driver.sha256,preparedDirectory:out,manifestSha256:sha256(await readFile(join(out,'prepared.json')))};await proofFiles(task,p);return p;},
+  prove:async task=>{bindCompactRequest(task,files.policy);await bindingCurrent();await pinCurrent();await driver.check();const q=paths(task);await publish(q.calls,task.submission);await publish(q.guard,{identity,dependencies,validUntilCheckpoint:Number(task.validUntilCheckpoint)});let out,result;
+   for(let attempt=0;attempt<2;attempt++){
+    out=join(root(task),'proof-'+randomUUID());
+    try{const args=['preflight',o.policy,o.rpcConfig,q.calls,q.guard,out];result=resident?await resident.prove(args):await runDriver(driver.file,args,{env,timeout:900000,maxBuffer:2000000});}
+    catch(error){
+     await publish(out+'.preflight-failure.log',(error.stdout??'')+'\n'+(error.stderr??''));
+     if(attempt!==0||!await preSessionTransportFailure(out,retryUrls))throw error;
+     if(!await isCurrent(task))throw Error('pre-session transport failure: original task no longer current; no retry');
+     await publish(out+'.read-retry.json',{version:1,attempt:1,reason:'verified pre-call transport failure',failedDirectory:out,financialBroadcastRetry:false,newSession:true,originalWindowUnchanged:true,scope:'one bounded read-only preflight restart; no request/preflight/prepared/intent exists in failed directory'});
+     await resident?.close();resident=makeResident();continue;
+    }
+    await publish(out+'.preflight.log',(result.stdout??'')+'\n'+(result.stderr??''));break;
+   }
+   await inputsCurrent();await pinCurrent();await driver.check();const p={version:1,driverSha256:driver.sha256,preparedDirectory:out,manifestSha256:sha256(await readFile(join(out,'prepared.json')))};await proofFiles(task,p);return p;},
   prepareSubmission:async(task,p)=>({...p,submissionDirectory:join(root(task),'send-'+randomUUID())}),
   submit:async(task,p)=>{await bindingCurrent();await pinCurrent();await driver.check();await proofFiles(task,p);const out=safePath(task,'send',p.submissionDirectory),q=paths(task);let error;try{await submitDriver(driver.file,['broadcast-prepared',o.policy,o.rpcConfig,q.calls,q.guard,p.preparedDirectory,p.manifestSha256,out],{env,timeout:900000,logFile:out+'.log'});}catch(e){error=e.message;}return {error,preparedManifestSha256:p.manifestSha256,submissionDirectory:out,reproved:false};}
  };

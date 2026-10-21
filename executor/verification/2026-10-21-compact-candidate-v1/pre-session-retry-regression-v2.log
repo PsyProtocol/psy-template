@@ -1,0 +1,104 @@
+TAP version 13
+# Subtest: formal route binds and processes every sealed member in four markets
+ok 1 - formal route binds and processes every sealed member in four markets
+  ---
+  duration_ms: 728.056792
+  ...
+# Subtest: lost receipt, restart and duplicate task reconcile without re-proving or re-sending
+ok 2 - lost receipt, restart and duplicate task reconcile without re-proving or re-sending
+  ---
+  duration_ms: 246.206041
+  ...
+# Subtest: proof digest substitution and config replacement halt before transmission
+ok 3 - proof digest substitution and config replacement halt before transmission
+  ---
+  duration_ms: 77.010083
+  ...
+# Subtest: cached proof loses validity when anchor nonce or broadcast window changes
+ok 4 - cached proof loses validity when anchor nonce or broadcast window changes
+  ---
+  duration_ms: 77.838
+  ...
+# Subtest: double local executors share journal lock and create only one unresolved broadcast
+ok 5 - double local executors share journal lock and create only one unresolved broadcast
+  ---
+  duration_ms: 165.339667
+  ...
+# Subtest: unsealed lifecycle honors consent, cutoff, capacity and explicit sponsorship
+ok 6 - unsealed lifecycle honors consent, cutoff, capacity and explicit sponsorship
+  ---
+  duration_ms: 7.146083
+  ...
+# Subtest: profile and public admission plan reject ambiguous bindings and fake configuration
+ok 7 - profile and public admission plan reject ambiguous bindings and fake configuration
+  ---
+  duration_ms: 8.398791
+  ...
+# Subtest: normal Executor children never inherit the read-only benchmark source selector
+ok 8 - normal Executor children never inherit the read-only benchmark source selector
+  ---
+  duration_ms: 77.497625
+  ...
+# Subtest: recovery funding requests distinguish the two-UPS budget from an existing partial deposit
+ok 9 - recovery funding requests distinguish the two-UPS budget from an existing partial deposit
+  ---
+  duration_ms: 40.379458
+  ...
+# Subtest: included receipt waits for common realm visibility before releasing vault
+ok 10 - included receipt waits for common realm visibility before releasing vault
+  ---
+  duration_ms: 194.967917
+  ...
+# Subtest: only explicit pre-broadcast driver rejection permits not-submitted; missing evidence remains unknown
+ok 11 - only explicit pre-broadcast driver rejection permits not-submitted; missing evidence remains unknown
+  ---
+  duration_ms: 344.035541
+  ...
+# Subtest: recovery hints process only enrolled inactive senders without selecting other market orders
+ok 12 - recovery hints process only enrolled inactive senders without selecting other market orders
+  ---
+  duration_ms: 7.59575
+  ...
+# Subtest: prepared nonce metadata stays exact beyond JavaScript safe integer range
+ok 13 - prepared nonce metadata stays exact beyond JavaScript safe integer range
+  ---
+  duration_ms: 79.516875
+  ...
+# Subtest: explicit no-send recovery reuses one proof and never masks a later pending attempt
+ok 14 - explicit no-send recovery reuses one proof and never masks a later pending attempt
+  ---
+  duration_ms: 273.055208
+  ...
+# Subtest: pre-session transport restart preserves failed attempt and sends only verified replacement session
+ok 15 - pre-session transport restart preserves failed attempt and sends only verified replacement session
+  ---
+  duration_ms: 198.216625
+  ...
+# Subtest: pre-session transport restart is bounded and never sends on exhaustion
+ok 16 - pre-session transport restart is bounded and never sends on exhaustion
+  ---
+  duration_ms: 180.097916
+  ...
+# Subtest: pre-session restart refuses an expired original task window
+ok 17 - pre-session restart refuses an expired original task window
+  ---
+  duration_ms: 93.5005
+  ...
+# Subtest: only exact pre-session transport failure without any UPS material qualifies
+ok 2 - only exact pre-session transport failure without any UPS material qualifies
+  ---
+  duration_ms: 7.698667
+  ...
+# Subtest: post-call, unknown send, arbitrary errors and foreign endpoints never qualify
+ok 3 - post-call, unknown send, arbitrary errors and foreign endpoints never qualify
+  ---
+  duration_ms: 5.318042
+  ...
+1..19
+# tests 19
+# pass 19
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 3549.003

@@ -318,6 +318,32 @@ suite passed (overlapping earlier suites); a real CLI idempotency check remains
 pending until current start jobs release their journal locks. These application
 checks are not network throughput or additional market trades.
 
+### Narrow pre-session transport recovery — application only
+
+The renewed Curve start stopped at `start-compact-session` after a realm1
+connection error, before call proving or transmission. AMM saved a valid UPS
+but its first send stopped at `check-prepared-live-state`, explicitly no-send;
+Book/NFT transmissions await indexed/common inclusion. No whole-stage retry is
+started while sibling outcomes remain unknown.
+
+The adapter now permits **one** additional read-only preflight attempt only for
+an exact configured-endpoint connection error at `start-compact-session`, with
+`broadcastMayHaveBeenAttempted:false` and a directory containing **only**
+`failure.json`. It revalidates current immutable inputs/dependencies/identity,
+original task semantics and original window, discards the failed session
+process and creates a fresh one in a new directory. Existing failure logs stay.
+Post-call failure, saved UPS material, assertions, foreign endpoints, unknown
+send or a stale window cannot take this path. There is no automatic financial
+broadcast retry and no SDK/Node/binary edit. The complete combined application
+suite passed **124** checks; 19 targeted checks overlap it. Live qualification
+of this new pre-session retry path remains pending.
+
+CLI-source overlay **v9** binds source `1d262b9`, 280 JS files, SHA256
+`396702fc2c43324fd0bc075925fd4ad2ce64d6ac410d7564b7550e85459aed00`.
+The running maximum process loaded v8 before the CLI-only addition; the earlier
+snapshots remain historical. The pre-session recovery change requires a later
+source overlay before a new worker consumes it.
+
 ## Ordered gates
 
 | Gate | Current work | Not yet established |
