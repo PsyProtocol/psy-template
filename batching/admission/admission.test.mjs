@@ -8,6 +8,6 @@ test('unavailable authenticated randomness fails closed',()=>{
 test('all four candidates explicitly bind accepted scope and terminal dispositions',()=>{
  for(const market of ['amm','orderbook','bondingcurve','nftmarket']){
   const c=market==='nftmarket'?{nftId:41,tokenId:42,networkMagic:'1'}:{...fixture,networkMagic:'1'};const s=generateAdmission(market,c);
-  for(const text of ['authenticated admission consent','admission omission or substitution','admitted order terms changed','admission_scope_root','admission_scope_epoch','missing admitted disposition','only expired empty queue may abort','accepted order terms locked until terminal outcome','accepted order requires terminal outcome','frozen order requires batch outcome','cancel before releasing unaccepted order'])assert.ok(s.includes(text),market+': '+text);
+  for(const text of ['authenticated admission consent','admission omission or substitution','admitted order terms changed','admission_scope_root','admission_scope_epoch','missing admitted disposition','only expired empty queue may abort','admission consent locks terms until epoch closure','consent requires already open matching epoch','cancel before releasing unaccepted order'])assert.ok(s.includes(text),market+': '+text);
  }
 });

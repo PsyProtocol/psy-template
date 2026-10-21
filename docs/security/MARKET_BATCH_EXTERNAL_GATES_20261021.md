@@ -73,12 +73,16 @@ boundary. Do not describe application root checks as on-chain immutability.
 
 ## Liveness / fairness: application and operator boundary
 
-A user may decline consent, cancel before freezing, or (new candidate only)
-release a cancelled, unaccepted order and enroll `request_recovery`. Acceptance
-and exit race atomically against the sender's live order: admission first locks
-terms; exit first clears kind/consent and subsequent admission fails. Accepted
-unfunded orders use zero-funding terminal refund, then can close. A frozen
-cancel is applied only after timeout/refreeze; it cannot rewrite the commitment.
+A user can cancel and release an order before signing admission consent. After
+consent, its own order terms stay locked until authenticated **terminal epoch**
+evidence (same epoch phase 3, or a later monotonic epoch). Requesting consent
+requires an already open matching vault epoch and cutoff. An omitted user can
+run the public SD-key with gas to close an empty timed-out epoch, or finish the
+accepted scope before releasing the omitted order. A proof of historical
+nonmembership alone cannot authorize release: foreign reads are snapshots,
+while separate users have separate UPS nonce/anchor checks. The caller's own
+nonce serializes consent versus release. A frozen cancellation applies after
+timeout/refreeze and cannot rewrite the existing commitment.
 
 Anyone able to run the public SD-key can finish or expire a batch under its
 rules, or sponsor exact sender-bound recovery. The formal Executor consumes

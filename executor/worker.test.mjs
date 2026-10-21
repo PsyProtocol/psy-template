@@ -95,3 +95,14 @@ test('a scan failure after receipt recovery keeps the confirmed count and checkp
  const status=result.vaults[0];assert.equal(status.status,'read-unavailable');assert.equal(status.included,1);
  assert.equal(status.checkpoint,300);assert.equal(status.lastIncluded.taskId,'confirmed');assert.equal(status.lastOutcome.message,'scan unavailable');
 });
+test('missing fee sponsorship remains visible and never invokes financial execution',async()=>{
+ const fundingRequest={payer:300,vault:100,purpose:2,amount:'1000100000'};
+ const result=await executeCycle({journal:{...emptyJournal,execute:async()=>assert.fail('must not fund automatically')},adapter:{scan:async()=>({checkpoint:120,action:null,reason:'admission-gas-sponsorship-required',fundingRequest})}});
+ assert.equal(result.status,'idle');assert.equal(result.reason,'admission-gas-sponsorship-required');assert.deepEqual(result.fundingRequest,fundingRequest);
+});
+test('service closes proof-only resources in scan, once and failed once modes',async()=>{
+ for(const mode of ['scan','once','failed-once']){let closed=0;
+  const result=await runService({vaults:[{kind:'amm',network:'test',vaultId:1,users:[]}],maxConcurrentExecutions:1},{mode:mode==='scan'?'scan':'once',emit:()=>{},statusSink:async()=>{},journalFactory:()=>emptyJournal,adapterFactory:async()=>({scan:async()=>{if(mode==='failed-once')throw Error('probe failure');return{checkpoint:1,action:null};},close:async()=>closed++})});
+  assert.equal(closed,1);assert.equal(result.vaults[0].status,mode==='failed-once'?'halted':mode==='scan'?'scan':'idle');
+ }
+});

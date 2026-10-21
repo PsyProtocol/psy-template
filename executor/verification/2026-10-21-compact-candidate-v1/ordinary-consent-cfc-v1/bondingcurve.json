@@ -1,0 +1,15 @@
+{
+  "actualCodeAndLayout": true,
+  "broadcast": false,
+  "caller": 200,
+  "functionCircuitProofsVerified": true,
+  "historicalNonmembershipCloseRejected": true,
+  "market": "bondingcurve",
+  "methods": [
+    "open_buy",
+    "close_buy",
+    "release_unaccepted"
+  ],
+  "scope": "synthetic authenticated CFC function proofs, not complete ordinary signature/end-cap or real network",
+  "terminalEpochUnlockProven": true
+}

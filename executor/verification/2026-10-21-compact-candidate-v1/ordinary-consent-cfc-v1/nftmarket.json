@@ -1,0 +1,15 @@
+{
+  "actualCodeAndLayout": true,
+  "broadcast": false,
+  "caller": 200,
+  "functionCircuitProofsVerified": true,
+  "historicalNonmembershipCloseRejected": true,
+  "market": "nftmarket",
+  "methods": [
+    "open_listing",
+    "abandon_unfunded",
+    "release_unaccepted"
+  ],
+  "scope": "synthetic authenticated CFC function proofs, not complete ordinary signature/end-cap or real network",
+  "terminalEpochUnlockProven": true
+}

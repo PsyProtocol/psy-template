@@ -3,14 +3,16 @@
 Distinct new market layouts/code roots. Isolated staging deployments and paired
 fixture receipts are recorded in the live acceptance review. These are not
 compatible with an existing V2 vault or the ordinary Executor/wallet fixed-count signing route.
-The compact key and full-UPS fixture use an explicit application signing path.
-Do not enable this profile in a live wallet until that adapter is implemented
-and audited. The Node SDK exact-count route is not disabled or bypassed.
+The explicit formal Executor profile is now `batch-admission-compact-v1`.
+See `executor/README.md` and the 2026-10-21 production candidate review for the
+new entry, journal and proof-cache boundaries. It requires reviewed roots and
+new keys/vaults; source presence is not production acceptance. The generic
+SDK exact-count route is not disabled or bypassed.
 
 The application now contains `isolated_wallet` (fresh ordinary test identities,
 initial deploys and ordinary calls) and `compact_market_wallet` (explicit compact
 policy signing). Compile/live results are tracked in the release review rather
-than inferred from source presence. The existing Executor route is unchanged.
+than inferred from source presence. Other Executor profiles are unchanged.
 `reader.mjs` reconstructs a proposal from all sealed queue entries, ignoring
 discovery hints and member limits; `proofVerified:false` remains until the full
 contract/SD-key UPS is proved. `queueMaintenance` includes the sponsored gas
@@ -31,7 +33,10 @@ Private ordinary-wallet files stay outside tracked evidence; never export them.
   every market order was included or that admission itself is globally fair.
 - `start_epoch` fixes a monotonically increasing epoch and checkpoint cutoff
   (at most 128 checkpoints ahead). User `request_admission(epoch, cutoff)` binds
-  consent to the current signed order nonce. Opening an order alone is not
+  consent to the current signed order nonce and requires that epoch already open.
+  Consent immediately locks immutable terms until proven epoch closure, including
+  a sender omitted from the accepted queue. Historical nonmembership is not an
+  exit authorization. Opening an order alone is not
   sufficient queue consent. An ordinary wallet must prove that consent call.
 - `admit_entry` reads authenticated foreign user order/consent state, requires
   the correct vault, unconsumed nonce, explicit epoch/cutoff consent, no duplicate
@@ -166,3 +171,23 @@ ADMISSION_BUILD=/absolute/fresh-admission ADMISSION_COMPILER=/absolute/frozen/co
 The final recorded invocation used the distinct v3 fixture and passed all 17
 application tests. Complete UPS, VM and live acceptance evidence are separate
 sections of the release review; this command does not reproduce those proofs.
+
+
+## Exit and no-service boundary (new consent-lock candidates only)
+
+Before signing consent, a cancelled sender can call `release_unaccepted` then
+`request_recovery(vault)`. After consent, first finish or timeout-close that
+epoch using the public SD-key and gas. A terminal same-epoch phase or later
+monotonic epoch is required even if that sender was omitted. A proof from an
+older nonmembership snapshot cannot unlock the order. Accepted members must
+have trade/refund/legal-carry dispositions; zero-funded members can terminalize
+through `refund_funding_0`. This rule is required because different users' UPSs
+have different own anchors and foreign reads authenticate source snapshots.
+
+An alternative operator can use the pinned public policy/identity/dependencies
+and `executor/run.mjs CONFIG scan|reconcile|once`. Explicit inactive, enrolled
+`users` are recovery hints. Positive FT/native returns and NFT FIFO deliveries
+must be claimed by the original ordinary wallet. Gas, a prover, available RPCs
+and chain progress are prerequisites; finite queues do not guarantee service,
+global inclusion or censorship resistance. Do not call new ordinary methods on
+older deployments, including the prior NFT 2472 comparison baseline.

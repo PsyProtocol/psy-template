@@ -54,6 +54,7 @@ export async function runService(config,{mode='watch',signal,adapterFactory=crea
     current.lastIncluded={taskId:receipt.taskId,checkpoint:receipt.checkpoint,contentHash:receipt.contentHash,endUserLeafHash:receipt.endUserLeafHash};
    }
    if(event.message)current.lastError=event.message;
+   if(['queued','executing','included','already-included','idle'].includes(event.status)){if(!event.fundingRequest)delete current.fundingRequest;if(!event.reason)delete current.reason;}
    if(['idle','included','already-included'].includes(event.status)){delete current.tasks;delete current.message;delete current.retryInMs;delete current.failures;}
    if(!['reconciling','scanning','queued','executing','stopped'].includes(event.status))current.lastOutcome=event;
    statuses.set(id,current);
@@ -67,8 +68,8 @@ export async function runService(config,{mode='watch',signal,adapterFactory=crea
   else{
    try{
     options.users=await currentUsers(options);const adapter=await adapterFactory(options);
-    if(mode==='scan')await update({status:'scan',state:await adapter.scan()});
-    else await update(await executeCycle({adapter,journal:journalFactory(options),limiter,signal:controller.signal,onPhase:update}));
+    try{if(mode==='scan')await update({status:'scan',state:await adapter.scan()});
+    else await update(await executeCycle({adapter,journal:journalFactory(options),limiter,signal:controller.signal,onPhase:update}));}finally{await adapter.close?.();}
    }catch(error){await update({status:classifyError(error),message:error.message});}
   }
  });

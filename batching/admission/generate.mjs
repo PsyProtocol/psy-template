@@ -14,29 +14,34 @@ pub queue_owner: ContractStateArray<4,Felt>, pub queue_nonce: ContractStateArray
 pub queue_hash: ContractStateArray<4,Hash>, pub queue_outcome: ContractStateArray<4,Felt>,
 `;
 export function generateAdmission(market,c){if(c.ordering!==undefined&&c.ordering!=='deterministic')throw Error('authenticated future randomness is unavailable; deterministic only');for(const key of ['seed','randomSeed','randomSource'])if(Object.hasOwn(c,key))throw Error('randomness dependency not attested');let source=generateBatch(market,c);const marker='}\n#[contract_implementation]';if(source.split(marker).length!==2)throw Error('admission struct envelope');source=source.replace(marker,fields+marker);
- // Accepted immutable terms cannot disappear before their terminal disposition.
- // Consent/cancellation stay writable; a consumed member can close normally.
+ // Foreign reads authenticate historical checkpoints, not the latest absence
+ // of queue membership. Lock the user's own signed consent immediately; only
+ // monotonically terminal epoch evidence can authorize a later mutation.
+ const lock=pool=>methodSpans(method('unused','',d=>{
+  const epoch=remote(d,pool,'queue_epoch'),phase=remote(d,pool,'queue_phase');
+  const newer=d.lessLimb('self.admission_epoch',epoch,62);
+  d.emit(`require(self.admission_nonce != self.nonce || self.admission_epoch == 0 || ${newer} || (${epoch} == self.admission_epoch && ${phase} == 3), "admission consent locks terms until epoch closure");`);
+ }))[0].body.replace(/\bw_/g,'admission_lock_w_');
  for(const span of [...methodSpans(source)].reverse()){
   if(!span.name.startsWith('open_')&&!span.name.startsWith('close_')&&span.name!=='abandon_unfunded')continue;
-  let guard='\nif (self.kind != 0 && self.pool != 0) {\n';
-  guard+='let admission_lock_phase = ctx.users[self.pool].contract_state::<Self::ABI>(ctx.contract_id).queue_phase;\n';
-  guard+='let admission_lock_consumed = ctx.users[self.pool].contract_state::<Self::ABI>(ctx.contract_id).consumed[ctx.user_id];\n';
-  for(let i=0;i<4;i++)guard+=`let admission_lock_owner_${i} = ctx.users[self.pool].contract_state::<Self::ABI>(ctx.contract_id).queue_owner[${i}]; let admission_lock_nonce_${i} = ctx.users[self.pool].contract_state::<Self::ABI>(ctx.contract_id).queue_nonce[${i}];\nrequire(!((admission_lock_phase == 1 || admission_lock_phase == 2) && admission_lock_owner_${i} == ctx.user_id && admission_lock_nonce_${i} == self.nonce && admission_lock_consumed != self.nonce), "accepted order terms locked until terminal outcome");\n`;
-  guard+='}\n';source=source.slice(0,span.open+1)+guard+source.slice(span.open+1);
+  const opening=span.name.startsWith('open_'),lookup=opening?'admission_lock_vault':'self.pool';
+  const select=opening?'let admission_lock_vault = (self.pool != 0).to_felt()*self.pool + (self.pool == 0).to_felt()*pool;\n':'';
+  source=source.slice(0,span.open+1)+'\n'+select+lock(lookup)+source.slice(span.open+1);
  }
  const methods=[];
- // A signed opt-out before acceptance releases only the caller's order.
- // Existing recover_* methods still prove sender-bound deltas; gas is required.
  methods.push(method('release_unaccepted','',d=>{
   d.emit('require(self.kind != 0 && self.pool != 0 && self.cancelled == 1, "cancel before releasing unaccepted order");');
-  const phase=remote(d,'self.pool','queue_phase'),batch=remote(d,'self.pool','batch_phase'),used=remote(d,'self.pool','consumed[ctx.user_id]');
-  for(let i=0;i<4;i++){
-   const owner=remote(d,'self.pool',`queue_owner[${i}]`),nonce=remote(d,'self.pool',`queue_nonce[${i}]`),frozen=remote(d,'self.pool',`frozen_owner[${i}]`),fn=remote(d,'self.pool',`frozen_nonce[${i}]`);
-   d.emit(`require(!((${phase} == 1 || ${phase} == 2) && ${owner} == ctx.user_id && ${nonce} == self.nonce && ${used} != self.nonce), "accepted order requires terminal outcome"); require(!((${batch} == 1 || ${batch} == 2) && ${frozen} == ctx.user_id && ${fn} == self.nonce), "frozen order requires batch outcome");`);
-  }
+  // Closing an epoch invalidates every older vault anchor. Historical proofs
+  // of "not yet accepted" are deliberately not an escape hatch.
+  d.emit(lock('self.pool'));
   d.emit('self.kind = 0; self.admission_epoch = 0; self.admission_cutoff = 0; self.admission_nonce = 0;');
  }));
- methods.push(method('request_admission','epoch: Felt, cutoff: Felt',d=>{d.range('epoch',62);d.range('cutoff',32);d.emit('require(self.kind != 0 && self.pool != 0 && epoch > 0 && cutoff >= ctx.checkpoint_id, "admission consent bounds"); self.admission_epoch = epoch; self.admission_cutoff = cutoff; self.admission_nonce = self.nonce;');}));
+ methods.push(method('request_admission','epoch: Felt, cutoff: Felt',d=>{
+  d.range('epoch',62);d.range('cutoff',32);
+  d.emit('require(self.kind != 0 && self.pool != 0 && epoch > 0 && cutoff >= ctx.checkpoint_id, "admission consent bounds");');
+  const phase=remote(d,'self.pool','queue_phase'),current=remote(d,'self.pool','queue_epoch'),end=remote(d,'self.pool','queue_cutoff');
+  d.emit(`require(${phase} == 1 && ${current} == epoch && ${end} == cutoff, "consent requires already open matching epoch"); self.admission_epoch = epoch; self.admission_cutoff = cutoff; self.admission_nonce = self.nonce;`);
+ }));
  methods.push(method('start_epoch','epoch: Felt, cutoff: Felt',d=>{d.range('epoch',62);d.range('cutoff',32);d.emit('require(self.batch_ready == 1 && (self.batch_phase == 0 || self.batch_phase == 3 || self.batch_phase == 4), "admission vault unavailable"); require((self.queue_phase == 0 || self.queue_phase == 3) && epoch == self.queue_epoch + 1 && cutoff > ctx.checkpoint_id && cutoff <= ctx.checkpoint_id + 128, "epoch start bounds");');for(let i=0;i<4;i++)d.emit(`self.queue_owner[${i}] = 0; self.queue_nonce[${i}] = 0; self.queue_hash[${i}] = [0,0,0,0]; self.queue_outcome[${i}] = 0;`);d.emit('self.queue_epoch = epoch; self.queue_cutoff = cutoff; self.queue_count = 0; self.queue_phase = 1; self.queue_root = [0,0,0,0];');}));
  methods.push(method('admit_entry','owner: Felt, nonce: Felt',d=>{d.range('owner',24);d.range('nonce',62);d.emit('require(owner != 0 && owner != ctx.user_id && self.queue_phase == 1 && ctx.checkpoint_id <= self.queue_cutoff && self.queue_count < 4, "admission bounds");');
  const epoch=remote(d,'owner','admission_epoch'),cutoff=remote(d,'owner','admission_cutoff'),n=remote(d,'owner','admission_nonce'),kind=remote(d,'owner','kind'),pool=remote(d,'owner','pool'),order=remote(d,'owner','nonce');

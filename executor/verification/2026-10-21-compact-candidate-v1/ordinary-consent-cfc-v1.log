@@ -1,0 +1,532 @@
+warning: failed to parse serde attribute
+  | 
+  | #[serde(skip_serializing_if = "Option::is_none")]
+  | 
+  = note: ts-rs failed to parse this attribute. It will be ignored.
+warning: unused import: `super::*`
+   --> /Users/geir/Downloads/QED资料/litepaper/psy-node/psy_data/src/v1/qdata/contract/abi.rs:357:9
+    |
+357 |     use super::*;
+    |         ^^^^^^^^
+    |
+    = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused import: `ToU64Value`
+ --> /Users/geir/Downloads/QED资料/litepaper/psy-node/psy_data/src/v1/qdata/contract/imt_proof.rs:3:21
+  |
+3 |     felt::{QFelt64, ToU64Value},
+  |                     ^^^^^^^^^^
+
+warning: unused variable: `self_bits`
+   --> /Users/geir/Downloads/QED资料/litepaper/psy-node/psy_data/src/v1/qdata/bloom_filter/bloom.rs:130:13
+    |
+130 |         let self_bits: &[u8] = &self_bytes;
+    |             ^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_self_bits`
+    |
+    = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused variable: `type_name`
+   --> /Users/geir/Downloads/QED资料/litepaper/psy-node/psy_data/src/v1/qdata/contract/abi.rs:317:17
+    |
+317 |                 type_name,
+    |                 ^^^^^^^^^ help: try ignoring the field: `type_name: _`
+
+warning: unused variable: `length`
+   --> /Users/geir/Downloads/QED资料/litepaper/psy-node/psy_data/src/v1/qdata/contract/abi.rs:319:17
+    |
+319 |                 length,
+    |                 ^^^^^^ help: try ignoring the field: `length: _`
+
+warning: unused variable: `contract_tree_height`
+   --> /Users/geir/Downloads/QED资料/litepaper/psy-node/psy_data/src/proof_input/guta/end_cap_input.rs:286:9
+    |
+286 |         contract_tree_height: usize,
+    |         ^^^^^^^^^^^^^^^^^^^^
+    |
+help: if this is intentional, prefix it with an underscore
+    |
+286 |         _contract_tree_height: usize,
+    |         +
+help: you might have meant to pattern match on the similarly named constant `PSY_OBJECT_FFS_SIZE_REALM_REWARDS_NODE_KEY`
+    |
+286 -         contract_tree_height: usize,
+286 +         rewards_tree::realm_node_key::PSY_OBJECT_FFS_SIZE_REALM_REWARDS_NODE_KEY: usize,
+    |
+
+warning: `psy_data` (lib) generated 6 warnings (run `cargo fix --lib -p psy_data` to apply 2 suggestions)
+warning: failed to parse serde attribute
+  | 
+  | #[serde(rename = "updates", serialize_with =
+"serialize_contract_state_updates", deserialize_with =
+"deserialize_contract_state_updates")]
+  | 
+  = note: ts-rs failed to parse this attribute. It will be ignored.
+warning: unused imports: `QSRHashCmdGetContractTreeRoot`, `QSRHashCmdGetUserRegistrationTreeRoot`, `QSRHashCmdGetUserTreeRoot`, `QSRHashCmdGetWithdrawalTreeRoot`, and `ups_standard_cfc_input::UPSCFCStandardStateDeltaInput`
+  --> /Users/geir/Downloads/QED资料/litepaper/psy-node/client_prover/psy_core/psy_data/src/qstore/controllers/proving_session.rs:59:62
+   |
+59 |                 QSRHashCmd, QSRHashCmdGetCheckpointTreeRoot, QSRHashCmdGetContractTreeRoot, QSRHashCmdGetUserRegistrationTreeRoot,
+   |                                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+60 |                 QSRHashCmdGetUserTreeRoot, QSRHashCmdGetWithdrawalTreeRoot, QSRMerkleCmd, QSRMerkleCmdGetContractFunctionTreeMerkleProof,
+   |                 ^^^^^^^^^^^^^^^^^^^^^^^^^  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+...
+71 |     ups::{ups_context_input::UserProvingSessionStartContext, ups_standard_cfc_input::UPSCFCStandardStateDeltaInput},
+   |                                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused import: `imt_proof::IMTContractStateUpdateHistory`
+  --> /Users/geir/Downloads/QED资料/litepaper/psy-node/client_prover/psy_core/psy_data/src/qstore/controllers/state_tracker.rs:15:9
+   |
+15 |         imt_proof::IMTContractStateUpdateHistory,
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: unused import: `crate::qdata::checkpoint::PsyCheckpointGlobalStateRoots`
+ --> /Users/geir/Downloads/QED资料/litepaper/psy-node/client_prover/psy_core/psy_data/src/traits/qdatastore/qtreedata.rs:9:5
+  |
+9 | use crate::qdata::checkpoint::PsyCheckpointGlobalStateRoots;
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: `psy_client_data` (lib) generated 3 warnings (run `cargo fix --lib -p psy_client_data` to apply 3 suggestions)
+warning: unused import: `serde_cbor::Value`
+ --> /Users/geir/Downloads/QED资料/litepaper/psy-node/client_prover/psy_vm/src/dpn/contract.rs:6:5
+  |
+6 | use serde_cbor::Value;
+  |     ^^^^^^^^^^^^^^^^^
+  |
+  = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused import: `PsyHasher`
+ --> /Users/geir/Downloads/QED资料/litepaper/psy-node/client_prover/psy_vm/src/vm/exec.rs:7:37
+  |
+7 |     config::store_config::{PsyFelt, PsyHasher},
+  |                                     ^^^^^^^^^
+
+warning: unused variable: `predecessor_old_leaf_hash`
+    --> /Users/geir/Downloads/QED资料/litepaper/psy-node/client_prover/psy_vm/src/vm/exec.rs:1466:21
+     |
+1466 |                 let predecessor_old_leaf_hash = predecessor_old_leaf.qfhash::<H>();
+     |                     ^^^^^^^^^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_predecessor_old_leaf_hash`
+     |
+     = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused variable: `predecessor_new_leaf_hash`
+    --> /Users/geir/Downloads/QED资料/litepaper/psy-node/client_prover/psy_vm/src/vm/exec.rs:1467:21
+     |
+1467 |                 let predecessor_new_leaf_hash = predecessor_new_leaf.qfhash::<H>();
+     |                     ^^^^^^^^^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_predecessor_new_leaf_hash`
+
+warning: unused variable: `new_preimage_hash`
+    --> /Users/geir/Downloads/QED资料/litepaper/psy-node/client_prover/psy_vm/src/vm/exec.rs:1468:21
+     |
+1468 |                 let new_preimage_hash = new_preimage.qfhash::<H>();
+     |                     ^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_new_preimage_hash`
+
+warning: method `resolve_state_cmd_side_effect` is never used
+  --> /Users/geir/Downloads/QED资料/litepaper/psy-node/client_prover/psy_vm/src/dpn/ops/exec_context.rs:96:8
+   |
+57 | impl QExecContext {
+   | ----------------- method in this implementation
+...
+96 |     fn resolve_state_cmd_side_effect(&mut self, cmd: DPNStateCmd<SymFeltRef>) {
+   |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: method `set_hash160_at` is never used
+  --> /Users/geir/Downloads/QED资料/litepaper/psy-node/client_prover/psy_vm/src/dpn/vm/exec.rs:97:8
+   |
+29 | impl<F: RichField> SimpleDPNExecutor<F> {
+   | --------------------------------------- method in this implementation
+...
+97 |     fn set_hash160_at(&mut self, index: usize, value: [u32; 5], source: &str) {
+   |        ^^^^^^^^^^^^^^
+
+warning: function `validate_imt_slot_index` is never used
+   --> /Users/geir/Downloads/QED资料/litepaper/psy-node/client_prover/psy_vm/src/vm/exec.rs:139:4
+    |
+139 | fn validate_imt_slot_index(slot_index: u64, state_slot_base: u64, capacity: u64) -> anyhow::Result<u64> {
+    |    ^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: `psy_vm` (lib) generated 8 warnings (run `cargo fix --lib -p psy_vm` to apply 2 suggestions)
+warning: struct `SplitToU32Generator` is never constructed
+   --> /Users/geir/Downloads/QED资料/litepaper/psy-node/psy_plonky2_basic_helpers/src/u32/gadgets/arithmetic_u32.rs:302:8
+    |
+302 | struct SplitToU32Generator<F: RichField + Extendable<D>, const D: usize> {
+    |        ^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: `psy_plonky2_basic_helpers` (lib) generated 1 warning
+warning: unused import: `CircuitBuilderU32`
+  --> /Users/geir/Downloads/QED资料/litepaper/psy-node/psy_plonky2_common_circuits/src/bridge/deposit_batch_append_circuit.rs:18:36
+   |
+18 |     u32::gadgets::arithmetic_u32::{CircuitBuilderU32, U32Target},
+   |                                    ^^^^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused import: `hash::poseidon::PoseidonHash`
+ --> /Users/geir/Downloads/QED资料/litepaper/psy-node/psy_plonky2_common_circuits/src/hash/merkle/gadgets/frontier_append.rs:9:5
+  |
+9 |     hash::poseidon::PoseidonHash,
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: unused import: `Hasher`
+  --> /Users/geir/Downloads/QED资料/litepaper/psy-node/psy_plonky2_common_circuits/src/hash/merkle/gadgets/frontier_append.rs:12:72
+   |
+12 |     plonk::{circuit_builder::CircuitBuilder, config::{AlgebraicHasher, Hasher}},
+   |                                                                        ^^^^^^
+
+warning: unused variable: `zero`
+   --> /Users/geir/Downloads/QED资料/litepaper/psy-node/psy_plonky2_common_circuits/src/bridge/deposit_batch_append_circuit.rs:277:13
+    |
+277 |         let zero = builder.zero();
+    |             ^^^^ help: if this is intentional, prefix it with an underscore: `_zero`
+    |
+    = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused variable: `zero`
+  --> /Users/geir/Downloads/QED资料/litepaper/psy-node/psy_plonky2_common_circuits/src/bridge/withdrawal_batch_claim_circuit.rs:88:13
+   |
+88 |         let zero = builder.zero();
+   |             ^^^^ help: if this is intentional, prefix it with an underscore: `_zero`
+
+warning: type alias `KeccakState` is never used
+  --> /Users/geir/Downloads/QED资料/litepaper/psy-node/psy_plonky2_common_circuits/src/hash/keccak/mod.rs:47:6
+   |
+47 | type KeccakState<'a> = &'a mut [[U32Target; 2]; 25];
+   |      ^^^^^^^^^^^
+   |
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: `psy_plonky2_common_circuits` (lib) generated 6 warnings (run `cargo fix --lib -p psy_plonky2_common_circuits` to apply 2 suggestions)
+warning: struct `SplitToU32Generator` is never constructed
+   --> /Users/geir/Downloads/QED资料/litepaper/psy-node/client_prover/psy_circuit/psy_common_circuit/src/u32/gadgets/arithmetic_u32.rs:273:8
+    |
+273 | struct SplitToU32Generator<F: RichField + Extendable<D>, const D: usize> {
+    |        ^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: `psy_common_circuit` (lib) generated 1 warning
+warning: unused imports: `COORDINATOR_USER_TREE_HEIGHT` and `REALM_USER_TREE_HEIGHT`
+  --> /Users/geir/Downloads/QED资料/litepaper/psy-node/client_prover/psy_provider/src/provider.rs:31:37
+   |
+31 | use psy_config::network_constants::{COORDINATOR_USER_TREE_HEIGHT, REALM_USER_TREE_HEIGHT};
+   |                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^  ^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused import: `GLOBAL_DEPOSIT_TREE_HEIGHT`
+  --> /Users/geir/Downloads/QED资料/litepaper/psy-node/client_prover/psy_provider/src/lps.rs:18:67
+   |
+18 | use psy_config::network_constants::{COORDINATOR_USER_TREE_HEIGHT, GLOBAL_DEPOSIT_TREE_HEIGHT, GLOBAL_USER_TREE_HEIGHT, REALM_USER_TREE_HE...
+   |                                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: unused import: `traits::hasher::MerkleZeroHasher`
+  --> /Users/geir/Downloads/QED资料/litepaper/psy-node/client_prover/psy_provider/src/lps.rs:19:55
+   |
+19 | use psy_crypto::hash::{merkle::core::MerkleProofCore, traits::hasher::MerkleZeroHasher};
+   |                                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: `psy_provider` (lib) generated 3 warnings (run `cargo fix --lib -p psy_provider` to apply 3 suggestions)
+warning: unused variable: `height`
+   --> /Users/geir/Downloads/QED资料/litepaper/psy-node/psy_dummy_prover/src/api/data_fetcher.rs:212:9
+    |
+212 |         height: u8,
+    |         ^^^^^^ help: if this is intentional, prefix it with an underscore: `_height`
+    |
+    = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+
+warning: `psy_dummy_prover` (lib) generated 1 warning
+warning: unused import: `traits::CreatableTarget`
+  --> /Users/geir/Downloads/QED资料/litepaper/psy-node/client_prover/psy_circuit/psy_dpn_circuit/src/circuits/privacy/private_note_inclusion.rs:28:5
+   |
+28 |     traits::CreatableTarget,
+   |     ^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused import: `psy_plonky2_common_circuits::hash::keccak::keccak256_u32_words_be_abi`
+ --> /Users/geir/Downloads/QED资料/litepaper/psy-node/client_prover/psy_circuit/psy_dpn_circuit/src/vm/keccak/mod.rs:1:5
+  |
+1 | use psy_plonky2_common_circuits::hash::keccak::keccak256_u32_words_be_abi;
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: unused variable: `sentinel_ordering_ok`
+    --> /Users/geir/Downloads/QED资料/litepaper/psy-node/client_prover/psy_circuit/psy_dpn_circuit/src/vm/gadgets/state_readers.rs:1886:21
+     |
+1886 |                 let sentinel_ordering_ok = builder.or(sentinel_next_zero, new_lt_sentinel_next);
+     |                     ^^^^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_sentinel_ordering_ok`
+     |
+     = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused variable: `non_member`
+    --> /Users/geir/Downloads/QED资料/litepaper/psy-node/client_prover/psy_circuit/psy_dpn_circuit/src/vm/gadgets/state_readers.rs:2148:25
+     |
+2148 |                     let non_member = builder.and(pred_lt_query, next_ok);
+     |                         ^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_non_member`
+
+warning: `psy_dpn_circuit` (lib) generated 4 warnings (run `cargo fix --lib -p psy_dpn_circuit` to apply 2 suggestions)
+warning: unused variable: `new_step_deferred_tx_debt_tree_root`
+   --> /Users/geir/Downloads/QED资料/litepaper/psy-node/client_prover/psy_circuit/psy_ups_circuit/src/session.rs:914:13
+    |
+914 |         let new_step_deferred_tx_debt_tree_root = deferred_tx_debt_pivot_proof.root;
+    |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_new_step_deferred_tx_debt_tree_root`
+    |
+    = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused variable: `new_step_inline_tx_debt_tree_root`
+   --> /Users/geir/Downloads/QED资料/litepaper/psy-node/client_prover/psy_circuit/psy_ups_circuit/src/session.rs:915:13
+    |
+915 |         let new_step_inline_tx_debt_tree_root = inline_tx_debt_pivot_proof.root;
+    |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_new_step_inline_tx_debt_tree_root`
+
+warning: unused imports: `CheckpointStateHashTransition` and `CheckpointStateTransitionPublicInputs`
+  --> /Users/geir/Downloads/QED资料/litepaper/psy-node/psy_plonky2_circuits/src/coordinator/circuits/checkpoint_state_transition.rs:13:81
+   |
+13 | ...l::{checkpoint_transition_hash::{CheckpointStateHashTransition, CheckpointStateTransitionPublicInputs}, circuit_inputs::checkpoint_tra...
+   |                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused import: `url_rotation::PsyAPIURLRotationStrategy`
+  --> /Users/geir/Downloads/QED资料/litepaper/psy-node/psy_plonky2_circuits/src/circuit_library/worker.rs:13:48
+   |
+13 |     constants::{chain_id::PsyChainNetworkType, url_rotation::PsyAPIURLRotationStrategy},
+   |                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: unused import: `HashOutTarget`
+ --> /Users/geir/Downloads/QED资料/litepaper/psy-node/psy_plonky2_circuits/src/bridge/gadgets/bridge_agg_delta_merkle_chain.rs:7:33
+  |
+7 |     hash::hash_types::{HashOut, HashOutTarget, RichField},
+  |                                 ^^^^^^^^^^^^^
+
+warning: unused import: `GOLDILOCKS_MODULUS`
+  --> /Users/geir/Downloads/QED资料/litepaper/psy-node/psy_plonky2_circuits/src/bridge/circuits/bridge_agg_final.rs:42:66
+   |
+42 |             BRIDGE_AGG_CHAIN_MAX_SLOTS, BRIDGE_AGG_CHAIN_PI_LEN, GOLDILOCKS_MODULUS,
+   |                                                                  ^^^^^^^^^^^^^^^^^^
+
+warning: variable does not need to be mutable
+   --> /Users/geir/Downloads/QED资料/litepaper/psy-node/psy_plonky2_circuits/src/coordinator/circuits/checkpoint_state_transition.rs:187:13
+    |
+187 |         let mut witness = input.clone();
+    |             ----^^^^^^^
+    |             |
+    |             help: remove this `mut`
+    |
+    = note: `#[warn(unused_mut)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused variable: `started_at`
+   --> /Users/geir/Downloads/QED资料/litepaper/psy-node/psy_plonky2_circuits/src/coordinator/coordinator_helper.rs:195:13
+    |
+195 |         let started_at = Instant::now();
+    |             ^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_started_at`
+    |
+    = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+
+warning: constant `DUMMY_END_CAP_ALT_VERIFIER_DATA_SERIALIZED` is never used
+ --> /Users/geir/Downloads/QED资料/litepaper/psy-node/psy_plonky2_circuits/src/circuit_library/end_cap_verifier_data.rs:5:7
+  |
+5 | const DUMMY_END_CAP_ALT_VERIFIER_DATA_SERIALIZED: &'static str = r#" {
+  |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |
+  = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: static `PRIVATE_KEY_CONSTANTS` is never used
+  --> /Users/geir/Downloads/QED资料/litepaper/psy-node/psy_plonky2_circuits/src/node/config/networks/local_devnet.rs:91:12
+   |
+91 | pub static PRIVATE_KEY_CONSTANTS: [u64; 20] = [
+   |            ^^^^^^^^^^^^^^^^^^^^^
+
+warning: constant `ZK_FINGERPRINT_U64` is never used
+   --> /Users/geir/Downloads/QED资料/litepaper/psy-node/psy_plonky2_circuits/src/node/config/networks/local_devnet.rs:114:11
+    |
+114 | pub const ZK_FINGERPRINT_U64: [u64; 4] = [10809942084296272720, 6801881445144280090, 13901098532226573745, 7340892251884443121];
+    |           ^^^^^^^^^^^^^^^^^^
+
+warning: function `get_public_key_param` is never used
+   --> /Users/geir/Downloads/QED资料/litepaper/psy-node/psy_plonky2_circuits/src/node/config/networks/local_devnet.rs:116:8
+    |
+116 | pub fn get_public_key_param<F: RichField, H: AlgebraicHasher<F>>(private_key: QHashOut<F>) -> QHashOut<F> {
+    |        ^^^^^^^^^^^^^^^^^^^^
+
+warning: constant `BITS_PER_FELT` is never used
+  --> /Users/geir/Downloads/QED资料/litepaper/psy-node/psy_plonky2_circuits/src/simple_wrapper/dynamic.rs:15:7
+   |
+15 | const BITS_PER_FELT: usize = 64;
+   |       ^^^^^^^^^^^^^
+
+warning: `psy_ups_circuit` (lib) generated 2 warnings
+warning: `psy_plonky2_circuits` (lib) generated 11 warnings (run `cargo fix --lib -p psy_plonky2_circuits` to apply 5 suggestions)
+warning: unused import: `proof_minifier::pm_core::get_circuit_fingerprint_generic`
+  --> /Users/geir/Downloads/QED资料/litepaper/psy-node/client_prover/psy_prover/src/wallet/memory_wallet.rs:29:5
+   |
+29 |     proof_minifier::pm_core::get_circuit_fingerprint_generic,
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: method `insert` is never used
+    --> /Users/geir/Downloads/QED资料/litepaper/psy-node/client_prover/psy_prover/src/session/session.rs:4937:8
+     |
+4936 | impl TraceCfcJobArtifacts {
+     | ------------------------- method in this implementation
+4937 |     fn insert(&mut self, step_index: usize, proof_bytes: TraceCfcProofBytes, meta: ProofTreeMeta, baton: LastStepProofInfo) -> anyhow::Re...
+     |        ^^^^^^
+     |
+     = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: calls to `std::mem::drop` with a reference instead of an owned value does nothing
+   --> /Users/geir/Downloads/QED资料/litepaper/psy-node/client_prover/psy_prover/src/session/session.rs:883:9
+    |
+883 |         drop(user_session_mgr);
+    |         ^^^^^----------------^
+    |              |
+    |              argument has type `&mut UserProvingSessionManager<GoldilocksField, ..., ..., ..., 2>`
+    |
+    = note: `#[warn(dropping_references)]` on by default
+    = note: the full name for the type has been written to '/tmp/psy-market-staged-build-v5-20261020/release/deps/psy_prover-fad9a1366b48a9c1.long-type-9131693974945161576.txt'
+    = note: consider using `--verbose` to print the full type name to the console
+help: use `let _ = ...` to ignore the expression or result
+    |
+883 -         drop(user_session_mgr);
+883 +         let _ = user_session_mgr;
+    |
+
+warning: `psy_prover` (lib) generated 3 warnings (run `cargo fix --lib -p psy_prover` to apply 1 suggestion)
+warning: unused imports: `C` and `D`
+ --> src/bin/isolated_wallet.rs:7:39
+  |
+7 |     config::store_config::{PsyHasher, C, D},
+  |                                       ^  ^
+  |
+  = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: `psy-template-u124-markets` (bin "isolated_wallet") generated 1 warning (run `cargo fix --bin "isolated_wallet"` to apply 1 suggestion)
+   Compiling psy-template-u124-markets v0.1.0 (/Users/geir/Downloads/QED资料/litepaper/psy-template-security-20261016/amm/u124/vm-tests)
+    Finished `release` profile [optimized] target(s) in 32.30s
+     Running tests/batch_lifecycle.rs (/tmp/psy-market-session-reuse-build-v11-20261020/release/deps/batch_lifecycle-1397fef68846c8d9)
+
+running 1 test
+test full_ups::admitted_ordinary_open_and_exit_cfc_constraints ... [96mprove_ups_start[0m - [94mstart[0m: [38;5;230m[48;5;34m 0ms [0m
+[96mprove_ups_start[0m - [94mgen_witness[0m: [38;5;230m[48;5;34m 0ms [0m
+[96mprove_ups_start[0m - [94mcircuit_mgr.ups_start.prove_base[0m: [48;5;24m 728ms [0m
+[96mprove_ups_start[0m - [94mprove_ups_start[0m: [38;5;230m[48;5;34m 0ms [0m
+[96mprove_ups_start[0m - [94minjest_single_leaf_proof[0m: [38;5;230m[48;5;34m 0ms [0m
+[96mcompress[0m - [94mproved compress[0m: [48;5;24m 908ms [0m
+[96mcompress[0m - [94mproved compress[0m: [48;5;24m 745ms [0m
+ORDINARY_CFC amm open_swap verified
+[96mprove_ups_start[0m - [94mstart[0m: [38;5;230m[48;5;34m 0ms [0m
+[96mprove_ups_start[0m - [94mgen_witness[0m: [38;5;230m[48;5;34m 0ms [0m
+[96mprove_ups_start[0m - [94mcircuit_mgr.ups_start.prove_base[0m: [48;5;24m 874ms [0m
+[96mprove_ups_start[0m - [94mprove_ups_start[0m: [38;5;230m[48;5;34m 0ms [0m
+[96mprove_ups_start[0m - [94minjest_single_leaf_proof[0m: [38;5;230m[48;5;34m 0ms [0m
+[96mprove_ups_start[0m - [94mstart[0m: [38;5;230m[48;5;34m 0ms [0m
+[96mprove_ups_start[0m - [94mgen_witness[0m: [38;5;230m[48;5;34m 0ms [0m
+[96mprove_ups_start[0m - [94mcircuit_mgr.ups_start.prove_base[0m: [48;5;24m 823ms [0m
+[96mprove_ups_start[0m - [94mprove_ups_start[0m: [38;5;230m[48;5;34m 0ms [0m
+[96mprove_ups_start[0m - [94minjest_single_leaf_proof[0m: [38;5;230m[48;5;34m 0ms [0m
+[96mcompress[0m - [94mproved compress[0m: [48;5;24m 804ms [0m
+[96mcompress[0m - [94mproved compress[0m: [48;5;24m 825ms [0m
+ORDINARY_CFC amm close_swap_0 verified
+[96mprove_ups_start[0m - [94mstart[0m: [38;5;230m[48;5;34m 0ms [0m
+[96mprove_ups_start[0m - [94mgen_witness[0m: [38;5;230m[48;5;34m 0ms [0m
+[96mprove_ups_start[0m - [94mcircuit_mgr.ups_start.prove_base[0m: [48;5;24m 763ms [0m
+[96mprove_ups_start[0m - [94mprove_ups_start[0m: [38;5;230m[48;5;34m 0ms [0m
+[96mprove_ups_start[0m - [94minjest_single_leaf_proof[0m: [38;5;230m[48;5;34m 0ms [0m
+[96mcompress[0m - [94mproved compress[0m: [48;5;24m 739ms [0m
+[96mcompress[0m - [94mproved compress[0m: [48;5;24m 760ms [0m
+ORDINARY_CFC amm release_unaccepted verified
+[96mprove_ups_start[0m - [94mstart[0m: [38;5;230m[48;5;34m 0ms [0m
+[96mprove_ups_start[0m - [94mgen_witness[0m: [38;5;230m[48;5;34m 0ms [0m
+[96mprove_ups_start[0m - [94mcircuit_mgr.ups_start.prove_base[0m: [48;5;24m 757ms [0m
+[96mprove_ups_start[0m - [94mprove_ups_start[0m: [38;5;230m[48;5;34m 0ms [0m
+[96mprove_ups_start[0m - [94minjest_single_leaf_proof[0m: [38;5;230m[48;5;34m 0ms [0m
+[96mcompress[0m - [94mproved compress[0m: [48;5;24m 725ms [0m
+[96mcompress[0m - [94mproved compress[0m: [48;5;24m 758ms [0m
+ORDINARY_CFC orderbook open_sell verified
+[96mprove_ups_start[0m - [94mstart[0m: [38;5;230m[48;5;34m 0ms [0m
+[96mprove_ups_start[0m - [94mgen_witness[0m: [38;5;230m[48;5;34m 0ms [0m
+[96mprove_ups_start[0m - [94mcircuit_mgr.ups_start.prove_base[0m: [48;5;24m 755ms [0m
+[96mprove_ups_start[0m - [94mprove_ups_start[0m: [38;5;230m[48;5;34m 0ms [0m
+[96mprove_ups_start[0m - [94minjest_single_leaf_proof[0m: [38;5;230m[48;5;34m 0ms [0m
+[96mprove_ups_start[0m - [94mstart[0m: [38;5;230m[48;5;34m 0ms [0m
+[96mprove_ups_start[0m - [94mgen_witness[0m: [38;5;230m[48;5;34m 0ms [0m
+[96mprove_ups_start[0m - [94mcircuit_mgr.ups_start.prove_base[0m: [48;5;24m 709ms [0m
+[96mprove_ups_start[0m - [94mprove_ups_start[0m: [38;5;230m[48;5;34m 0ms [0m
+[96mprove_ups_start[0m - [94minjest_single_leaf_proof[0m: [38;5;230m[48;5;34m 0ms [0m
+[96mcompress[0m - [94mproved compress[0m: [48;5;24m 763ms [0m
+[96mcompress[0m - [94mproved compress[0m: [48;5;24m 797ms [0m
+ORDINARY_CFC orderbook close_0 verified
+[96mprove_ups_start[0m - [94mstart[0m: [38;5;230m[48;5;34m 0ms [0m
+[96mprove_ups_start[0m - [94mgen_witness[0m: [38;5;230m[48;5;34m 0ms [0m
+[96mprove_ups_start[0m - [94mcircuit_mgr.ups_start.prove_base[0m: [48;5;24m 794ms [0m
+[96mprove_ups_start[0m - [94mprove_ups_start[0m: [38;5;230m[48;5;34m 0ms [0m
+[96mprove_ups_start[0m - [94minjest_single_leaf_proof[0m: [38;5;230m[48;5;34m 0ms [0m
+[96mcompress[0m - [94mproved compress[0m: [48;5;24m 812ms [0m
+[96mcompress[0m - [94mproved compress[0m: [48;5;24m 904ms [0m
+ORDINARY_CFC orderbook release_unaccepted verified
+[96mprove_ups_start[0m - [94mstart[0m: [38;5;230m[48;5;34m 0ms [0m
+[96mprove_ups_start[0m - [94mgen_witness[0m: [38;5;230m[48;5;34m 0ms [0m
+[96mprove_ups_start[0m - [94mcircuit_mgr.ups_start.prove_base[0m: [48;5;24m 752ms [0m
+[96mprove_ups_start[0m - [94mprove_ups_start[0m: [38;5;230m[48;5;34m 0ms [0m
+[96mprove_ups_start[0m - [94minjest_single_leaf_proof[0m: [38;5;230m[48;5;34m 0ms [0m
+[96mcompress[0m - [94mproved compress[0m: [48;5;24m 809ms [0m
+[96mcompress[0m - [94mproved compress[0m: [48;5;24m 812ms [0m
+ORDINARY_CFC bondingcurve open_buy verified
+[96mprove_ups_start[0m - [94mstart[0m: [38;5;230m[48;5;34m 0ms [0m
+[96mprove_ups_start[0m - [94mgen_witness[0m: [38;5;230m[48;5;34m 0ms [0m
+[96mprove_ups_start[0m - [94mcircuit_mgr.ups_start.prove_base[0m: [48;5;24m 748ms [0m
+[96mprove_ups_start[0m - [94mprove_ups_start[0m: [38;5;230m[48;5;34m 0ms [0m
+[96mprove_ups_start[0m - [94minjest_single_leaf_proof[0m: [38;5;230m[48;5;34m 0ms [0m
+[96mprove_ups_start[0m - [94mstart[0m: [38;5;230m[48;5;34m 0ms [0m
+[96mprove_ups_start[0m - [94mgen_witness[0m: [38;5;230m[48;5;34m 0ms [0m
+[96mprove_ups_start[0m - [94mcircuit_mgr.ups_start.prove_base[0m: [48;5;24m 814ms [0m
+[96mprove_ups_start[0m - [94mprove_ups_start[0m: [38;5;230m[48;5;34m 0ms [0m
+[96mprove_ups_start[0m - [94minjest_single_leaf_proof[0m: [38;5;230m[48;5;34m 0ms [0m
+[96mcompress[0m - [94mproved compress[0m: [48;5;24m 737ms [0m
+[96mcompress[0m - [94mproved compress[0m: [48;5;24m 765ms [0m
+ORDINARY_CFC bondingcurve close_buy verified
+[96mprove_ups_start[0m - [94mstart[0m: [38;5;230m[48;5;34m 0ms [0m
+[96mprove_ups_start[0m - [94mgen_witness[0m: [38;5;230m[48;5;34m 0ms [0m
+[96mprove_ups_start[0m - [94mcircuit_mgr.ups_start.prove_base[0m: [48;5;24m 769ms [0m
+[96mprove_ups_start[0m - [94mprove_ups_start[0m: [38;5;230m[48;5;34m 0ms [0m
+[96mprove_ups_start[0m - [94minjest_single_leaf_proof[0m: [38;5;230m[48;5;34m 0ms [0m
+[96mcompress[0m - [94mproved compress[0m: [48;5;24m 763ms [0m
+[96mcompress[0m - [94mproved compress[0m: [48;5;24m 806ms [0m
+ORDINARY_CFC bondingcurve release_unaccepted verified
+[96mprove_ups_start[0m - [94mstart[0m: [38;5;230m[48;5;34m 0ms [0m
+[96mprove_ups_start[0m - [94mgen_witness[0m: [38;5;230m[48;5;34m 0ms [0m
+[96mprove_ups_start[0m - [94mcircuit_mgr.ups_start.prove_base[0m: [48;5;24m 771ms [0m
+[96mprove_ups_start[0m - [94mprove_ups_start[0m: [38;5;230m[48;5;34m 0ms [0m
+[96mprove_ups_start[0m - [94minjest_single_leaf_proof[0m: [38;5;230m[48;5;34m 0ms [0m
+[96mcompress[0m - [94mproved compress[0m: [48;5;24m 752ms [0m
+[96mcompress[0m - [94mproved compress[0m: [48;5;24m 747ms [0m
+ORDINARY_CFC nftmarket open_listing verified
+[96mprove_ups_start[0m - [94mstart[0m: [38;5;230m[48;5;34m 0ms [0m
+[96mprove_ups_start[0m - [94mgen_witness[0m: [38;5;230m[48;5;34m 0ms [0m
+[96mprove_ups_start[0m - [94mcircuit_mgr.ups_start.prove_base[0m: [48;5;24m 717ms [0m
+[96mprove_ups_start[0m - [94mprove_ups_start[0m: [38;5;230m[48;5;34m 0ms [0m
+[96mprove_ups_start[0m - [94minjest_single_leaf_proof[0m: [38;5;230m[48;5;34m 0ms [0m
+[96mprove_ups_start[0m - [94mstart[0m: [38;5;230m[48;5;34m 0ms [0m
+[96mprove_ups_start[0m - [94mgen_witness[0m: [38;5;230m[48;5;34m 0ms [0m
+[96mprove_ups_start[0m - [94mcircuit_mgr.ups_start.prove_base[0m: [48;5;24m 725ms [0m
+[96mprove_ups_start[0m - [94mprove_ups_start[0m: [38;5;230m[48;5;34m 0ms [0m
+[96mprove_ups_start[0m - [94minjest_single_leaf_proof[0m: [38;5;230m[48;5;34m 0ms [0m
+[96mcompress[0m - [94mproved compress[0m: [48;5;24m 837ms [0m
+[96mcompress[0m - [94mproved compress[0m: [48;5;24m 958ms [0m
+ORDINARY_CFC nftmarket abandon_unfunded verified
+[96mprove_ups_start[0m - [94mstart[0m: [38;5;230m[48;5;34m 0ms [0m
+[96mprove_ups_start[0m - [94mgen_witness[0m: [38;5;230m[48;5;34m 0ms [0m
+[96mprove_ups_start[0m - [94mcircuit_mgr.ups_start.prove_base[0m: [48;5;24m 712ms [0m
+[96mprove_ups_start[0m - [94mprove_ups_start[0m: [38;5;230m[48;5;34m 0ms [0m
+[96mprove_ups_start[0m - [94minjest_single_leaf_proof[0m: [38;5;230m[48;5;34m 0ms [0m
+[96mcompress[0m - [94mproved compress[0m: [48;5;24m 805ms [0m
+[96mcompress[0m - [94mproved compress[0m: [48;5;24m 834ms [0m
+ORDINARY_CFC nftmarket release_unaccepted verified
+ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 36 filtered out; finished in 187.02s
+

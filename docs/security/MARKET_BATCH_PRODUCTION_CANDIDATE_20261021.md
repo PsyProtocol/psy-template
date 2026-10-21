@@ -118,3 +118,36 @@ keys/vaults; NFT 2472 remains the corrected prior comparison baseline and 2469
 remains retired. No legacy contract is updated or update-probed. Maximum-batch
 trading, ordinary exits/claims and replacement-version races/recovery still need
 their own included receipts and exact conservation checks.
+
+
+## Follow-up security gates: supersedes the provisional exit description above
+
+Two further gates were added before spending into the fresh candidates:
+
+1. Actual authenticated CFC proof generation found a fresh opening could read
+   the zero old pool inside an inactive branch. The initial layout prover was
+   stopped before any request/intent/receipt existed. Selecting a valid old or
+   new pool address outside the conditional resolved the opening proof failure.
+   The first successful normalized fixture still did not close gate 2 below.
+2. Read-only review of `realm/edge/handler.rs` shows source checkpoint history
+   authentication and current **own** user-leaf checks, not a latest foreign-read
+   CAS. Accordingly a user's proof of historical queue nonmembership must not
+   authorize release after a vault admission. The new generator locks the user's
+   own consent immediately. It accepts consent only for an already open matching
+   epoch, and permits immutable-term changes only after that epoch is terminal
+   (or the vault has monotonically advanced). Before consent a cancelled sender
+   may release immediately. After consent an omitted sender needs epoch closure
+   plus exact sender-bound recovery. No Node change or latest-read assumption
+   is needed. Root/nonce rules prevent an old vault admission applying after
+   its terminal transition; the caller's own anchor prevents stale pre-consent
+   releases applying after consent.
+
+Fresh-state VM races alone were insufficient evidence for that cross-UPS case.
+The new VM regression rejects release using an authenticated pre-admission
+snapshot even if the sender was not accepted; it permits release after the
+empty epoch's terminal timeout. Ordinary CFC gates also require the corresponding
+negative close, positive terminal close and positive recovery release for all
+four markets. Two candidate layout jobs were stopped before broadcast and their
+artifacts are preserved; neither candidate contract was updated. Final candidate
+outputs use another fresh directory. Full ordinary-wallet end-caps and real
+acceptance of these revised methods remain a separate pending gate.

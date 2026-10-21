@@ -15,6 +15,7 @@ export function validateAdmissionPlan(p){
 }
 export async function scanExecutorAdmission(o,readState=publicState,files){
  const s=await readState(o.rpcConfig),base=await scanAdmission(o,async()=>s,files);
+ if(!base.action&&base.reason==='sponsor-funding-required')return {...base,fundingRequest:{payer:o.batchSponsorId,vault:o.vaultId,purpose:1,amount:(2n*F).toString(),operation:'commit_batch',manualReviewIfPendingDeltaDiffers:true}};
  if(base.action||!['epoch-not-started','epoch-complete','awaiting-consented-admissions-and-seal'].includes(base.reason))return base;
  const plan=validateAdmissionPlan(files.admissionPlan),V=o.vaultId,C=o.contractId;
  const offsets=new Map(files.abi.contract.state.map(f=>[f.name,f.offset]));

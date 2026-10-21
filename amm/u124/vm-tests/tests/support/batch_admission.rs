@@ -117,15 +117,21 @@ fn refused_admission_sender_can_opt_out_and_enroll_exact_recovery()->Result<()>{
   w.run(V,M,"start_epoch",&[epoch,cutoff])?;w.run(u,M,"request_admission",&[epoch,cutoff])?;
   let before=w.slots.clone();assert!(w.run(u,M,"release_unaccepted",&[]).is_err());assert_eq!(before,w.slots);
   w.run(u,M,"request_cancel",&[])?;
-  // A winning admission prevents the concurrent exit, without changing state.
+  // Even an authenticated *historical* nonmembership snapshot cannot release
+  // this consent. Different users' UPSs do not share a latest-read CAS.
+  let stale_absence=w.clone();let mut release_candidate=stale_absence.clone();
+  assert!(release_candidate.run(u,M,"release_unaccepted",&[]).is_err());
   let mut admitted=w.clone();admitted.run(V,M,"admit_entry",&[u,admitted.val(u,"nonce",0)])?;
   let saved=admitted.slots.clone();assert!(admitted.run(u,M,"release_unaccepted",&[]).is_err());assert_eq!(saved,admitted.slots);
-  // A winning exit revokes consent and prevents subsequent admission.
+  // An omitted member can force the empty epoch's terminal timeout using the
+  // public SD-key + gas. A terminal vault anchor cannot later accept old proofs.
+  w.checkpoint=cutoff+1;w.run(V,M,"abort_empty_epoch",&[epoch])?;
   w.run(u,M,"release_unaccepted",&[])?;w.run(u,M,"request_recovery",&[V])?;
   assert_eq!(w.val(u,"kind",0),0);assert_eq!(w.val(u,"admission_nonce",0),0);assert_eq!(w.val(u,"recovery_pool",0),V);
   let saved=w.slots.clone();assert!(w.run(V,M,"admit_entry",&[u,w.val(u,"nonce",0)]).is_err());assert_eq!(saved,w.slots);
-  // FT/NFT/native balances and outboxes were untouched by release; recovery
-  // itself remains an explicit sponsor-funded SD-key operation, not a claim.
+  // A cancelled sender who never signed consent may release immediately.
+  let(mut fresh,users,_,_)=super::full_ups::trading_setup_size(kind,2)?;let user=users[0];fresh.run(user,M,"request_cancel",&[])?;fresh.run(user,M,"release_unaccepted",&[])?;fresh.run(user,M,"request_recovery",&[V])?;
+
  }
  Ok(())
 }

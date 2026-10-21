@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "binarySha256": "c8693c26998aa9d52a5a314026e5c50363e7c07275e82da581ea7a69a734437d",
+  "fixtureDirectory": "/tmp/psy-market-admission-consent-lock-20261021-v1",
+  "fixtureManifestSha256": "76681ce143adbd1efc2235f7f400cfb0f8a91e99d5eefcbbebab7ed01acdc169",
+  "artifacts": {
+    "amm": "73e2daa1171995809b27dd87e3695301c9fd15e900cff1be51d65a2e179f014f",
+    "orderbook": "1642201ab45180dca5f5d3e20b5c65c6815ac9299acfd516e3aef44f1f07e7b7",
+    "bondingcurve": "5739429c19ef0ca8fa59213470a9776144f937a46cc64299a8ca09d4701f78e2",
+    "nftmarket": "cb35cee23ba5cae6b2d35c3f7ac76c4116e78d070614f0584e7ed765a2333313"
+  },
+  "compilerSha256": "b2adb0a474d3d2b9bd9bb4c5e17e4e9e166930aa27dcbe11a77c3046ac6f141c",
+  "sdkSnapshot": "batching/dependencies/session-bound-sdk-20261020",
+  "env": {
+    "BATCH_BUILD": "/tmp/psy-market-admission-consent-lock-20261021-v1",
+    "BATCH_ADMISSION_TEST": "1",
+    "BATCH_CFC_METADATA": "1",
+    "RAYON_NUM_THREADS": "2"
+  },
+  "test": "admitted_ordinary_open_and_exit_cfc_constraints",
+  "positiveFunctionProofs": 12,
+  "negativeHistoricalNonmembershipCases": 4,
+  "scope": "synthetic authenticated CFC proofs; not ordinary signature/end-cap/network acceptance",
+  "broadcast": false
+}

@@ -1,0 +1,15 @@
+
+running 1 test
+test admission::refused_admission_sender_can_opt_out_and_enroll_exact_recovery ... 
+thread 'admission::refused_admission_sender_can_opt_out_and_enroll_exact_recovery' (20344259) panicked at tests/support/batch_admission.rs:123:3:
+assertion failed: release_candidate.run(u, M, "release_unaccepted", &[]).is_err()
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+FAILED
+
+failures:
+
+failures:
+    admission::refused_admission_sender_can_opt_out_and_enroll_exact_recovery
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 36 filtered out; finished in 1.17s
+
