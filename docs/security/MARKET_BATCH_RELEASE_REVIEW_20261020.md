@@ -425,3 +425,13 @@ production retention/liveness, existing Executor daemon routing and Curve
 graduation remain external or unverified scopes. The new NFT live run does not
 repeat the original instance’s admission races/timeouts; see the exact matrix.
 No test count substitutes for those evidence requirements.
+
+## 2026-10-21 continuation
+
+The current work is tracked in [the production candidate review](MARKET_BATCH_PRODUCTION_CANDIDATE_20261021.md)
+and [external deliverables](MARKET_BATCH_EXTERNAL_GATES_20261021.md). Original
+archives above remain unchanged. A formal compact Executor route and fresh
+accepted-order locking / unaccepted sender exit candidates have been added.
+The new VM regression found an admitted unfunded order could otherwise close
+and change sealed terms; prior live success is not evidence this issue was safe.
+New candidates require fresh deployments and a separate acceptance matrix.

@@ -81,3 +81,51 @@ fn admission_eight_workers_one_anchor_winner_then_capacity_bound()->Result<()>{
  let wins=jobs.into_iter().map(|j|j.join().unwrap()).collect::<Result<Vec<_>>>()?.into_iter().filter(|x|*x).count();assert_eq!(wins,1);
  let mut w=shared.lock().unwrap();for u in &users{let _=w.run(V,M,"admit_entry",&[*u,1]);}assert_eq!(w.val(V,"queue_count",0),4);let set=(0..4).map(|i|w.val(V,"queue_owner",i)).collect::<std::collections::BTreeSet<_>>();assert_eq!(set.len(),4);assert!(!set.contains(&0));w.checkpoint=cutoff+1;w.run(V,M,"seal_epoch",&[epoch])?;Ok(())
 }
+
+#[test]
+#[ignore="requires distinct admission fixtures"]
+fn admitted_unfunded_order_cannot_change_terms_before_terminal_outcome()->Result<()>{
+ ensure!(std::env::var("BATCH_ADMISSION_TEST").as_deref()==Ok("1"),"distinct admission fixtures required");
+ for kind in ["amm","orderbook","bondingcurve","nftmarket"]{
+  let mut w=World::new(kind)?;
+  match kind{
+   "amm"=>w.run(200,M,"open_swap",&args(&[V,0],&[1,1],&[200,1]))?,
+   "orderbook"=>w.run(200,M,"open_sell",&args(&[V,0],&[1,1],&[200,1]))?,
+   "bondingcurve"=>w.run(200,M,"open_buy",&args(&[V,1,0],&[1],&[200,1]))?,
+   _=>w.run(200,M,"open_listing",&args(&[V,0],&[1],&[200,1]))?,
+  }
+  enroll(&mut w,&[200])?;
+  let close=match kind{"amm"=>"close_swap_0","orderbook"=>"close_0","bondingcurve"=>"close_buy",_=>"abandon_unfunded"};
+  let before=w.slots.clone();
+  assert!(w.run(200,M,close,&[]).is_err(),"accepted unfunded {kind} order can change the sealed terms and strand the whole queue");
+  assert_eq!(before,w.slots);
+  // Zero-funded accepted members still have a terminal path paid by sponsor.
+  w.commit(&[200])?;let refund=w.fields("refund_funding_0",200,0,0,0,0,0,1,0);
+  w.settle(vec![refund],if kind=="orderbook"{[0,1,2,3]}else{[0;4]})?;
+  assert_eq!(w.val(V,"queue_phase",0),3);assert_eq!(w.val(V,"consumed",200),1);
+  w.run(200,M,close,&[])?;
+ }
+ Ok(())
+}
+
+#[test]
+#[ignore="requires distinct admission fixtures"]
+fn refused_admission_sender_can_opt_out_and_enroll_exact_recovery()->Result<()>{
+ for kind in ["amm","orderbook","bondingcurve","nftmarket"]{
+  let(mut w,users,_,_)=super::full_ups::trading_setup_size(kind,2)?;let u=users[0];
+  let epoch=w.val(V,"queue_epoch",0)+1;let cutoff=w.checkpoint+2;
+  w.run(V,M,"start_epoch",&[epoch,cutoff])?;w.run(u,M,"request_admission",&[epoch,cutoff])?;
+  let before=w.slots.clone();assert!(w.run(u,M,"release_unaccepted",&[]).is_err());assert_eq!(before,w.slots);
+  w.run(u,M,"request_cancel",&[])?;
+  // A winning admission prevents the concurrent exit, without changing state.
+  let mut admitted=w.clone();admitted.run(V,M,"admit_entry",&[u,admitted.val(u,"nonce",0)])?;
+  let saved=admitted.slots.clone();assert!(admitted.run(u,M,"release_unaccepted",&[]).is_err());assert_eq!(saved,admitted.slots);
+  // A winning exit revokes consent and prevents subsequent admission.
+  w.run(u,M,"release_unaccepted",&[])?;w.run(u,M,"request_recovery",&[V])?;
+  assert_eq!(w.val(u,"kind",0),0);assert_eq!(w.val(u,"admission_nonce",0),0);assert_eq!(w.val(u,"recovery_pool",0),V);
+  let saved=w.slots.clone();assert!(w.run(V,M,"admit_entry",&[u,w.val(u,"nonce",0)]).is_err());assert_eq!(saved,w.slots);
+  // FT/NFT/native balances and outboxes were untouched by release; recovery
+  // itself remains an explicit sponsor-funded SD-key operation, not a claim.
+ }
+ Ok(())
+}

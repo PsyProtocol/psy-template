@@ -344,3 +344,30 @@ binaries lacking `identity` must be upgraded before using this source version.
 Linux runtime; they have not been installed or certified on a production host.
 The [production checklist](../PRODUCTION_READINESS.md) records the remaining
 security, upgrade-authority and operational gates.
+
+### Authenticated admission and compact UPS route
+
+Select `profile: "batch-admission-compact-v1"` explicitly. It uses the same
+`executor/run.mjs CONFIG scan|once|reconcile|watch` and persistent journal as the
+other routes. `scan` only proposes; `once`/`watch` may prove and submit. A public
+`admissionPlan` has `{version:1, epoch, cutoff, members:[{owner, nonce:"1"}]}`,
+with at most four ascending distinct owners. It is an operator discovery hint.
+Every actual admission requires the owner's on-chain signed consent. The sealed
+queue, including every accepted member, defines settlement scope thereafter.
+
+Required pins: ABI, driver config, policy, all dependency roots/counts/whitelist,
+registered public key/fingerprint, reviewed binary SHA256, explicit testnet
+profile and immutable RPC config. `proverThreads` defaults to two. The reviewed
+compact driver must support `preflight` and `broadcast-prepared`; its manifest
+is journal-bound. Broadcasting verifies the saved whole proof and fresh state
+without proving a replacement. Unknown broadcasts block the vault until exact
+historical receipt reconciliation. Share one runtime directory for workers on
+the same host; this is not a distributed lease for independent hosts.
+
+The finite queue is not global market inclusion. Explicit `users` hints can
+also discover enrolled, inactive sender recovery; active orders outside the
+accepted set are never selected for settlement. Missing gas sponsorship is a
+blocked proposal, not permission to take another user's fees. Old routes and
+old deployments are not silently migrated. See the
+[production candidate review](../docs/security/MARKET_BATCH_PRODUCTION_CANDIDATE_20261021.md)
+for tested versions, evidence, and remaining gates.
