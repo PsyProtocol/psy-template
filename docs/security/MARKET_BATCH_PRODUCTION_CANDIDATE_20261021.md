@@ -4,6 +4,38 @@ Branch: `markets-batch-capacity-recovery-20261020`; accepted starting commit
 `e45d689e6806d362c03f15697c90aba44f8704e7`. No Node edits, old-contract update
 probes, new branches or replacement of original artifacts are authorized here.
 
+## Fresh live-route preparation (not yet deployed)
+
+The next directory is `/tmp/psy-market-candidate-bulk-live-20261021-v1` on
+`gewenbo.local`. `candidatePrepareBulk.mjs` compiled AMM/Book/NFT into fresh
+outputs and froze the release/toolchain, four-market proof and signature gates,
+SDK manifest and explicit preceding-vault cohort. Curve compilation waits for
+the new AMM vault address. Preparation sent no financial RPC.
+
+`candidateDeploy.mjs ... all-four-v1` now refuses to deploy this new family
+until the preceding case's exact principal return, ordinary claims and native
+fee conservation marker is present. It pins that completed marker by SHA256
+and rechecks the frozen proof/signature/SDK/binary inputs. Missing or unknown
+parent results are not permission to retry or open a mixed accounting interval.
+Completed deployment identity markers can be replayed without rewriting them.
+
+`candidateBootstrap.mjs` reuses the existing owned QA holders and restored NFT
+slots. It does not repeat actor registration or asset issuance. Explicit native
+funding plans count already pending Sponsor transfers before bounded test-PSY
+top-ups. It funds the actual NFT holder and avoids repeating the known wrong-
+payer bootstrap failure. This new bootstrap route is syntax checked but still
+requires real acceptance. Its completed marker is idempotent without replaying
+financial work. No pUSDT or existing MCP wallet policy is touched.
+
+Executor/acceptance regression is now **129/129**. Parent interval gates include
+missing/unclaimed principal, inconsistent/negative fees, and unquoted integers
+beyond JavaScript's safe range. Recovery observations: AMM 360139, Book 360164,
+Curve 360196 confirmed; NFT, unaccepted returns, ordinary claims and final
+accounting remain pending. Counts are supporting regressions, not a readiness
+conclusion. Offline reproducibility uses public frozen fixtures; real reruns
+require the owned QA wallets at local private paths, which are intentionally
+excluded from Git and public evidence.
+
 ## Latest completed source and cryptographic gates
 
 - `all-four-v1`: all four markets passed the **complete seven-call vault UPS**
