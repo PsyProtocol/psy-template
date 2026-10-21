@@ -27,6 +27,28 @@ Required deliverables before enabling another ordering mode:
    missing permutation members, post-revelation additions, and selective abort.
    Timeout must preserve root + target or use a predefined terminal exit rule.
 
+### Source checkpoint is not an actual inclusion deadline
+
+`source-checkpoint-deadline-audit-v1.json` records four hashed local source
+excerpts, including the current admission generator. Its guards compare
+`ctx.checkpoint_id` with the cutoff. The inspected edge path verifies historical
+checkpoint membership, source not later than current, monotonic account
+checkpoint and the current own start leaf. The inspected edge/planner excerpts
+do not establish a maximum proof age or enforcement of the application's
+`validUntilCheckpoint`. An effective gateway freshness rule may exist but has
+not been attested. No late-submission experiment was made.
+
+Normal Executor broadcasts keep their current-checkpoint window checks. Those
+application checks cannot constrain a public SD-key holder using another
+client. A confirmed seal/terminal transition invalidates earlier own-anchor
+admission proofs, but the cutoff number alone does not prove actual sealing or
+prevent a previously prepared proof arriving before that transition. State
+this as authenticated source-checkpoint ordering, not a strict network inclusion
+deadline. Protocol/RPC owners must supply exact freshness/inclusion enforcement
+code/configuration and isolated rejection evidence before stronger claims.
+Random commit-before-reveal still requires the actual finalized sealed-set
+inclusion witness and one future target; a source checkpoint is insufficient.
+
 AMM/Curve update shared pricing state in the verified order. Orderbook retains
 price/matching priority; random priority must never override better prices.
 NFT Market still requires one unique outcome per listing. An authenticated
