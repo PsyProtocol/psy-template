@@ -55,7 +55,7 @@ const operation = method => t => t.kind === 'batch_maintenance' && parseLossless
 try {
  for (const m of h.markets) services.push(await formal(h, m, 'omitted', {version: 1, epoch: plan.epochs[m.kind], cutoff: plan.cutoff, members: []}));
  await fund('omitted-start-fund');
- await independent(services.map((service, i) => () => service.step('omitted-' + h.markets[i].kind + '-start', operation('start_epoch'))));
+ await independent(services.map((service, i) => () => service.step('omitted-' + h.markets[i].kind + '-start', operation('start_epoch'),{cliOnce:true})));
  await h.user('bob', 'omitted-bob-consent-cancel', h.markets.flatMap(m => [m.order('request_admission', [BigInt(plan.epochs[m.kind]), BigInt(plan.cutoff)]), m.order('request_cancel', [])]));
  // Prove-only negative gate. A failure cannot transmit, and own state must not move.
  const negative = join(base, 'public/omitted-early-release-negative.json');

@@ -1,9 +1,14 @@
 #!/usr/bin/env node
+import{readFile}from'node:fs/promises';
+import{assertSameAction}from'./taskIntent.mjs';
 import {ExecutionJournal} from './journal.mjs';
 import {createPublicWalletAdapter} from './publicWalletAdapter.mjs';
 import {loadOptions,currentUsers} from './config.mjs';
 import {executeCycle,watchWorker} from './worker.mjs';
-const [path,mode='scan']=process.argv.slice(2);
+const [path,mode='scan',flag,expectedPath]=process.argv.slice(2);
+if(flag!==undefined&&(mode!=='once'||flag!=='--expected-task'||!expectedPath||process.argv.length!==6))throw Error('expected intent requires once --expected-task file.json');
+const expected=expectedPath?JSON.parse(await readFile(expectedPath,'utf8')):null;
+if(expectedPath&&(!expected||typeof expected!=='object'||Array.isArray(expected)))throw Error('expected task must be an object');
 if(!path||!['scan','once','watch','reconcile'].includes(mode))throw Error('usage: node executor/run.mjs config.json [scan|once|watch|reconcile]');
 const options=await loadOptions(path),stop=new AbortController();
 const makeJournal=o=>new ExecutionJournal({directory:o.runtimeDirectory,network:o.network,vaultId:o.vaultId,fingerprint:o.fingerprint});
@@ -14,6 +19,7 @@ if(mode==='watch'){
   users:()=>currentUsers(options),onStatus:result=>{if(!['scanning','reconciling','idle','queued','executing'].includes(result.status))show(result);if(result.status==='halted')process.exitCode=1;}});
 }else{
  options.users=await currentUsers(options);const adapter=await createPublicWalletAdapter(options);
+ if(expected){const scan=adapter.scan;adapter.scan=async()=>{const state=await scan();assertSameAction(state.action,expected);return state;};}
  try{if(mode==='scan')show(await adapter.scan());
  else if(mode==='reconcile')show(await makeJournal(options).reconcile(adapter.reconcile));
  else show(await executeCycle({adapter,journal:makeJournal(options),signal:stop.signal}));}finally{await adapter.close?.();}

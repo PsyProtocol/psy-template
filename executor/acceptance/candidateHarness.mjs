@@ -6,6 +6,7 @@ import{hostname,platform,arch,cpus,loadavg}from'node:os';
 import{fileURLToPath}from'node:url';
 import{latestBroadcastOutcome}from'./attemptOutcome.mjs';
 import{ordinaryEvidenceDirectory}from'./ordinaryEvidence.mjs';
+import{selectedCliTask}from'./cliExecution.mjs';
 import{parseLosslessJson}from'../../amm/u124/client.mjs';
 export const pause=ms=>new Promise(r=>setTimeout(r,ms));
 export function cohort(base,original){
@@ -50,11 +51,22 @@ export async function formal(h,m,tag,plan,{benchmark=false,expiry=96,mode='resid
   for(const x of [warm,cold]){assert.equal(x.fullUpsVerified,true);assert.equal(x.exactStackAndSessionVerified,true);}assert.equal(warm.core.state_transition.start_user_leaf_hash,cold.core.state_transition.start_user_leaf_hash);assert.equal(warm.core.new_user_leaf.user_state_tree_root,cold.core.new_user_leaf.user_state_tree_root);assert.deepEqual(warm.core.new_user_leaf,cold.core.new_user_leaf);assert.equal(warm.core.state_transition.end_user_leaf_hash,cold.core.state_transition.end_user_leaf_hash);assert.equal(warm.core.new_user_leaf.nonce,cold.core.new_user_leaf.nonce);assert.equal(warm.fee,cold.fee);assert.equal(warm.actualCalls,cold.actualCalls);assert.equal(warm.callsSha256,cold.callsSha256);
   save(out+'/comparison.json',{scope:'single same-host sequential warm then cold full UPS pair; same request, authenticated source checkpoint, own anchor, nonce, fee and end state; cold source-calibration proof is read-only and never submitted',order:['warm','cold'],host:hostname(),platform:platform(),arch:arch(),logicalCpus:cpus().length,loadAverageAfterPair:loadavg(),rayonThreads:2,binarySha256:o.walletSha256,market:m.kind,task:task.kind,warmDirectory:p.preparedDirectory,coldDirectory:out,coldProcessTiming:t,warmTimingsMs:warm.timingsMilliseconds,coldTimingsMs:cold.timingsMilliseconds,calls:warm.actualCalls,fee:warm.fee,startLeaf:warm.core.state_transition.start_user_leaf_hash,endStateRoot:warm.core.new_user_leaf.user_state_tree_root,warmCheckpoint:warm.core.checkpoint_id,coldCheckpoint:cold.core.checkpoint_id,chainTps:null});return p;
  };
- const step=async(label,expected)=>{
+ const step=async(label,expected,{cliOnce=false}={})=>{
   const output=join(h.base,'public',label+'-formal-result.json');if(existsSync(output))return read(output);
   await journal.reconcile(adapter.reconcile);assert.equal((await journal.unresolved()).length,0,'unknown prior broadcast; stop');
   const taskPath=join(h.base,'public',label+'-formal-task.json');let task;if(existsSync(taskPath))task=read(taskPath);else{const scan=await adapter.scan();assert.ok(scan.action,'no formal action: '+JSON.stringify(scan,(_k,v)=>typeof v==='bigint'?v.toString():v));task=scan.action;assert.ok(expected(task),'unexpected stage action');save(taskPath,task);}
-  const before=performance.now(),result=await journal.execute({task,...adapter});
+  const cliEvidence=join(h.base,'public',label+'-production-cli-execution.json');
+  if(existsSync(cliEvidence)){const prior=read(cliEvidence);assert.deepEqual(prior.reviewedTask,task,'reviewed CLI task changed');task=prior.actualTask;assert.ok(expected(task));cliOnce=false;}
+  const before=performance.now();let result;
+  if(cliOnce){
+   assert.equal(benchmark,false,'paired cost calibration must use its measured adapter');
+   const prior=await journal.records(),log=join(h.base,label+'-production-cli-once.log');
+   assert.ok(!existsSync(log),'preserve prior CLI attempt and reconcile before explicit restart');
+   const timing=await run(process.execPath,[fileURLToPath(new URL('../run.mjs',import.meta.url)),path,'once','--expected-task',taskPath],log,h.env);
+   const selected=selectedCliTask((await journal.records()).slice(prior.length),task);
+   save(cliEvidence,{checkedAt:new Date().toISOString(),entrypoint:'executor/run.mjs once',config:path,log,timing,reviewedTask:task,actualTask:selected.task,taskId:selected.taskId,scope:'real production CLI process; fresh scan may advance local send window, complete calls and all other task fields must match'});
+   task=selected.task;result={taskId:selected.taskId};
+  }else result=await journal.execute({task,...adapter});
   for(let i=0;i<120;i++){
    await journal.reconcile(adapter.reconcile);const records=await journal.records(),outcome=latestBroadcastOutcome(records,result.taskId);if(outcome?.status==='not-submitted')throw Error('explicit pre-broadcast rejection: '+outcome.reason+'; inspect evidence before explicitly resuming; reuse requires unchanged proof, anchor and send window');const included=outcome?.status==='included'?outcome:null;
    if(included){const mp=metricsPath(task,records.findLast(r=>r.taskId===result.taskId&&r.status==='broadcast-intent')?.proof);const report={checkedAt:new Date().toISOString(),taskId:result.taskId,task,result:included.result,wallMilliseconds:Math.round(performance.now()-before),submitMetricsFile:mp&&existsSync(mp)?mp:null};save(output,report);console.log(report.checkedAt,m.kind,label,'included',included.result.checkpoint);return report;}

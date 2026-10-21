@@ -257,6 +257,20 @@ registration, dependency, own-anchor, nonce, fee and window checks. Inclusion
 and complete four-market timeout accounting are still pending. No cutoff was
 extended, no original proof replaced, and no automatic financial retry added.
 
+### Production CLI positive gate — scheduled, not yet accepted
+
+Omitted-order recovery now launches `executor/run.mjs ... once` in a separate
+process for each market's epoch start. Its optional `--expected-task` restricts
+the fresh scanner before proving: all action fields and exact call/submission
+bytes match the reviewed action, with only a non-regressing local send window.
+The file cannot supply a task or bypass normal checks. The acceptance reader
+also requires exactly one planned task and its durable broadcast intent, binds
+the actual task ID, and waits for exact indexed/common inclusion. Original CLI
+logs are exclusive-created; interrupted attempts require explicit inspection.
+Four targeted intent/receipt-selection checks passed; the combined Executor/
+Curve reader suite passed **115** checks (overlapping earlier suites). The live positive gate
+has not run yet and must not be reported as daemon/watch restart acceptance.
+
 ## Ordered gates
 
 | Gate | Current work | Not yet established |
