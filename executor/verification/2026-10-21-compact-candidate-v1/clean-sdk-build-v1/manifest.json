@@ -1,0 +1,107 @@
+{
+  "schema": 1,
+  "sourceDirectory": "/private/tmp/psy-market-clean-rebuild-20261021-v1",
+  "machine": "gewenbo.local",
+  "host": "macOS-15.7.3-arm64-arm-64bit",
+  "scope": "public formal Executor run including failures; success requires exact included receipt",
+  "walletFilesIncluded": false,
+  "sealedBinariesIncluded": false,
+  "records": [
+    {
+      "source": "BUILD-INPUTS.json",
+      "file": "files/BUILD-INPUTS.json.gz",
+      "bytes": 658,
+      "sha256": "1761e4c271033cda513c9b3208db419b4955544bb0d661d6908c12bc5c2150af",
+      "gzipBytes": 448,
+      "gzipSha256": "7c4283cadb48a896020ea4abf099b861c00362d0b6cb194718c6c8552bafa4b0"
+    },
+    {
+      "source": "BUILD-RESULT.json",
+      "file": "files/BUILD-RESULT.json.gz",
+      "bytes": 2738,
+      "sha256": "68825ae09c4d29671b788bc65abd8eada298cb6b7f27f2822a5795c26dcc3576",
+      "gzipBytes": 1177,
+      "gzipSha256": "bcec8449e421aab1c867aca957dd2df8f0ea4ed8bdc7d0f8b743683735891d6c"
+    },
+    {
+      "source": "amm-frozen-identity.log",
+      "file": "files/amm-frozen-identity.log.gz",
+      "bytes": 274,
+      "sha256": "f1028a9db5f236110755e8e3afe4beca17f5acf9182b269493fcb01da074a6f3",
+      "gzipBytes": 216,
+      "gzipSha256": "81cfb44a0b3659d12b2125fa576c970696395ee2429272ba132b5bb7ffde6ba3"
+    },
+    {
+      "source": "amm-rebuilt-identity.log",
+      "file": "files/amm-rebuilt-identity.log.gz",
+      "bytes": 274,
+      "sha256": "f1028a9db5f236110755e8e3afe4beca17f5acf9182b269493fcb01da074a6f3",
+      "gzipBytes": 216,
+      "gzipSha256": "81cfb44a0b3659d12b2125fa576c970696395ee2429272ba132b5bb7ffde6ba3"
+    },
+    {
+      "source": "bondingcurve-frozen-identity.log",
+      "file": "files/bondingcurve-frozen-identity.log.gz",
+      "bytes": 274,
+      "sha256": "e86b2ed2ddacd793bb77d3c1df656e9c5ee515b8cf7932f52080fa074d9f0506",
+      "gzipBytes": 215,
+      "gzipSha256": "739c073897f16847528884f94ff507221bf5e35793ee18cb29d48240424ed99d"
+    },
+    {
+      "source": "bondingcurve-rebuilt-identity.log",
+      "file": "files/bondingcurve-rebuilt-identity.log.gz",
+      "bytes": 274,
+      "sha256": "e86b2ed2ddacd793bb77d3c1df656e9c5ee515b8cf7932f52080fa074d9f0506",
+      "gzipBytes": 215,
+      "gzipSha256": "739c073897f16847528884f94ff507221bf5e35793ee18cb29d48240424ed99d"
+    },
+    {
+      "source": "build.log",
+      "file": "files/build.log.gz",
+      "bytes": 44166,
+      "sha256": "72ece6dafde181272369b915e87794af0a63cbdcc3494bdd05702cce7075ecb2",
+      "gzipBytes": 9926,
+      "gzipSha256": "3f0a2dc7e4214be981857af11d4c5754446c3777bf474ab0ab3010d44da7f5ba"
+    },
+    {
+      "source": "materialize.log",
+      "file": "files/materialize.log.gz",
+      "bytes": 319,
+      "sha256": "d5dcfdd37d31d2474ea6248df869ef4f633136f3500e645981bf1a0cb4448c09",
+      "gzipBytes": 221,
+      "gzipSha256": "13400a60cd09522f130364741de18e7122cf326badb134d2977343768d2fd0ab"
+    },
+    {
+      "source": "nftmarket-frozen-identity.log",
+      "file": "files/nftmarket-frozen-identity.log.gz",
+      "bytes": 274,
+      "sha256": "6b3d8ced8dd96100b5581ce4abe72bc003bcbdef03b073bee576ad52b540405e",
+      "gzipBytes": 215,
+      "gzipSha256": "78efda5eb469cd6f61cd613525abbc47a08e39e855dbf356f1518204187dfabd"
+    },
+    {
+      "source": "nftmarket-rebuilt-identity.log",
+      "file": "files/nftmarket-rebuilt-identity.log.gz",
+      "bytes": 274,
+      "sha256": "6b3d8ced8dd96100b5581ce4abe72bc003bcbdef03b073bee576ad52b540405e",
+      "gzipBytes": 215,
+      "gzipSha256": "78efda5eb469cd6f61cd613525abbc47a08e39e855dbf356f1518204187dfabd"
+    },
+    {
+      "source": "orderbook-frozen-identity.log",
+      "file": "files/orderbook-frozen-identity.log.gz",
+      "bytes": 274,
+      "sha256": "0b0e46b4fb260cbd2c0c456c5c900df002732456ae5932aa3a5a6d4c4303fd79",
+      "gzipBytes": 216,
+      "gzipSha256": "1a9bfab99d2a3109676efb249fe8763453c51df4584358d8aaf0ebc79a6ad96b"
+    },
+    {
+      "source": "orderbook-rebuilt-identity.log",
+      "file": "files/orderbook-rebuilt-identity.log.gz",
+      "bytes": 274,
+      "sha256": "0b0e46b4fb260cbd2c0c456c5c900df002732456ae5932aa3a5a6d4c4303fd79",
+      "gzipBytes": 216,
+      "gzipSha256": "1a9bfab99d2a3109676efb249fe8763453c51df4584358d8aaf0ebc79a6ad96b"
+    }
+  ]
+}
