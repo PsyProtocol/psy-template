@@ -136,3 +136,27 @@ ordinary wallet. Costs/available prover/RPC/chain progress are prerequisites;
 there is no gas-free or unconditional service guarantee. A user omitted before
 admission has no proof of market-wide inclusion. Capacity four, operator plan
 selection, unequal access, refusal and no-service remain explicit boundaries.
+
+
+## Concurrent admission: edge / storage / runtime owners
+
+`edge-concurrent-submit-source-audit-v1.json` freezes local source excerpts and
+hashes. The observed edge uses separate status reads and ordinary status writes,
+then shared proof/update storage and queue publication. Those read/set/read
+checks do not themselves establish an atomic claim or a fenced proof/update
+bundle. A constructive application-side interleaving model shows a shared proof
+slot can change after A's last status check but before A publishes A's data.
+This is **not** execution of Node/Redis, proof of remote vulnerability, or a
+claim that the whole planner lacks other defenses. Current remote runtime
+identity and behavior remain unattested.
+
+Required deliverables: atomic submission ownership scoped to realm, pending
+batch, user, nonce/start leaf and request hash; idempotent same-request versus
+explicit conflicting-request responses; immutable versioned or fenced
+proof+updates+queue publication; safe crash/rotation/lost-ack recovery. Provide
+source/config plus an isolated controlled two-writer barrier test showing one
+consistent canonical outcome and one fee debit without mixed proof/data.
+Shared journal locks constrain cooperating application workers only. The existing
+scheduled independent-journal test is not simultaneous RPC submission. Do not
+mark a shared-network simultaneous collision accepted until these requirements
+are verified; continue serialized fresh QA acceptance without modifying Node.

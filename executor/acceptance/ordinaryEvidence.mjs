@@ -6,15 +6,25 @@ import {join}from'node:path';import{createHash}from'node:crypto';
 import{parseLosslessJson}from'../../amm/u124/client.mjs';
 const exact=path=>parseLosslessJson(readFileSync(path,'utf8'));
 const sha=path=>createHash('sha256').update(readFileSync(path)).digest('hex');
+// Reviewed diagnostic format: this binary writes this phase before any proof
+// or broadcast. A claimed no-send field from an arbitrary binary is not enough.
+export const PRESESSION_DIAGNOSTIC_DRIVER_SHA256='65d16ecf29db6d7d8c0a8204df9219a52976b488efaafa0511a8100d68e2f22a';
 export function ordinaryEvidenceDirectory(base,label,expectedUserId){
  assert.match(label,/^[a-z0-9]+(?:-[a-z0-9]+)*$/);
  const original=join(base,'attempts',label),file=join(base,'public/ordinary-recoveries',label+'.json');
  if(!existsSync(file))return original;
- const r=JSON.parse(readFileSync(file,'utf8'));assert.equal(r.version,1);assert.equal(r.originalLabel,label);
+ const r=JSON.parse(readFileSync(file,'utf8'));assert.ok([1,2].includes(r.version));assert.equal(r.originalLabel,label);
  assert.match(r.replacementLabel,/^[a-z0-9]+(?:-[a-z0-9]+)*$/);assert.notEqual(r.replacementLabel,label);
  assert.ok(Number.isSafeInteger(r.userId)&&r.userId>0&&r.userId<16777216);
  if(expectedUserId!==undefined)assert.equal(r.userId,expectedUserId,'recovery belongs to another actor');
- assert.equal(readdirSync(original).length,0,'original has proof/intent evidence; manual reconciliation required');
+ if(r.version===1)assert.equal(readdirSync(original).length,0,'original has proof/intent evidence; manual reconciliation required');
+ else{
+  assert.deepEqual(readdirSync(original),['failure.json'],'original has proof/intent evidence; manual reconciliation required');
+  assert.equal(r.originalDriverSha256,PRESESSION_DIAGNOSTIC_DRIVER_SHA256,'unreviewed diagnostic driver');
+  assert.equal(sha(join(original,'failure.json')),r.originalFailureSha256,'original failure evidence changed');
+  const f=exact(join(original,'failure.json'));assert.deepEqual(Object.keys(f).sort(),['automaticRetry','broadcastMayHaveBeenAttempted','ok','phase','privateDataSuppressed','reasonCode','suppressedErrorSha256'].sort());
+  assert.equal(f.automaticRetry,false);assert.equal(f.ok,false);assert.equal(f.broadcastMayHaveBeenAttempted,false,'ambiguous original transmission');assert.equal(f.privateDataSuppressed,true);assert.equal(f.phase,'start-ordinary-session','original progressed beyond reviewed pre-proof phase');assert.equal(f.reasonCode,'RPC_CONNECTION');assert.match(f.suppressedErrorSha256,/^[0-9a-f]{64}$/);
+ }
  const replacement=join(base,'attempts',r.replacementLabel),oldInput=join(base,'public',label+'.json'),newInput=join(base,'public',r.replacementLabel+'.json'),receipt=join(replacement,'included.json');
  for(const [path,digest]of [[oldInput,r.originalInputSha256],[newInput,r.replacementInputSha256],[receipt,r.receiptSha256],[join(replacement,'request.json'),r.requestSha256]])assert.equal(sha(path),digest,'recovery evidence changed');
  const a=exact(oldInput),b=exact(newInput);assert.deepEqual(b.calls,a.calls,'recovery business calls differ');assert.deepEqual(b.contracts,a.contracts,'recovery dependencies differ');

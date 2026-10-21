@@ -4,6 +4,26 @@ Branch: `markets-batch-capacity-recovery-20261020`; accepted starting commit
 `e45d689e6806d362c03f15697c90aba44f8704e7`. No Node edits, old-contract update
 probes, new branches or replacement of original artifacts are authorized here.
 
+## Recovery and concurrent-admission evidence update
+
+All four actual cancelled scopes are now settled: AMM **360139**, Book
+**360164**, Curve **360196**, NFT **360230**. Unaccepted sender returns and final
+ordinary claims remain open; no maximum-capacity acceptance marker is written.
+A Sponsor session-start RPC connection failure produced only a diagnostic file,
+explicitly no proof or broadcast. Its original directory is preserved. Version
+2 explicit recovery evidence admits only the reviewed diagnostic binary SHA,
+exact pre-session phase and failure-only directory, unchanged business calls/
+dependencies and a fully verified replacement receipt. Proof/intent evidence,
+unknown transmission or arbitrary diagnostic formats still block replacement.
+The real replacement was included after checking all three destination pending
+balances were zero and sponsorship nonces unchanged. No automatic retry added.
+
+Regression **131/131** includes the new diagnostic gate and a source-only edge
+interleaving model. The model is a finding that read/set/read alone is
+insufficient, not a passing Node concurrency certification. See the external
+concurrent-admission requirements; simultaneous shared-network collision remains
+unverified. Existing Node tracked changes are unchanged.
+
 ## Fresh live-route preparation (not yet deployed)
 
 The next directory is `/tmp/psy-market-candidate-bulk-live-20261021-v1` on

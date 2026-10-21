@@ -1,0 +1,74 @@
+{
+  "schema": 1,
+  "checkedAt": "2026-10-21T08:38:10.122569+00:00",
+  "observedLocalCommit": "5b7f4e1e11adf4607a958bc39e863a2a80b5a7a6",
+  "nodeTrackedDiffSha256": "002e35e0b13cb6c422fe3abf500ce6aa5241229264d85a3314f22b5e14b59a64",
+  "scope": "read-only local source inspection and constructive interleaving model; not execution of Node/Redis, not remote version attestation or a demonstrated live exploit",
+  "nodeChanged": false,
+  "liveRaceSubmitted": false,
+  "sources": [
+    {
+      "path": "psy_node_common/src/realm/edge/handler.rs",
+      "sha256": "2fa54a99ed9668bb14c128ab8a9d1f3a26a9433f6bc069b9ac9bdafbdc709442",
+      "firstLine": 188,
+      "lastLine": 204,
+      "excerpt": "188:     pub async fn ensure_user_has_not_submitted(&self, user_id: u64, unique_pending_id: u64) -> anyhow::Result<()> {\n189:         //tracing::info!(\"here\");\n190:         let submitted_status = self\n191:             .temp_db\n192:             .get_submitted_status_for_pending(&self.realm_identifier, unique_pending_id, user_id)\n193:             .await?;\n194:         //tracing::info!(\"submitted_status: {}\", submitted_status);\n195:         if submitted_status != 0 {\n196:             anyhow::bail!(\n197:                 \"end cap for user_id {} at unique_pending_id {} has already been submitted\",\n198:                 user_id,\n199:                 unique_pending_id\n200:             );\n201:         }\n202: \n203:         Ok(())\n204:     }"
+    },
+    {
+      "path": "psy_node_common/src/realm/edge/handler.rs",
+      "sha256": "2fa54a99ed9668bb14c128ab8a9d1f3a26a9433f6bc069b9ac9bdafbdc709442",
+      "firstLine": 430,
+      "lastLine": 431,
+      "excerpt": "430:             QProvingJobDataID::try_get_realm_edge_proof_store_output_proof_id_for_end_cap(user_id, N::GLOBAL_USER_TREE_HEIGHT, unique_pending_id)?;\n431:         //println!(\"checkpoint_tree_proof: {:#?}\", checkpoint_tree_proof);"
+    },
+    {
+      "path": "psy_node_common/src/realm/edge/handler.rs",
+      "sha256": "2fa54a99ed9668bb14c128ab8a9d1f3a26a9433f6bc069b9ac9bdafbdc709442",
+      "firstLine": 503,
+      "lastLine": 569,
+      "excerpt": "503:         self.ensure_user_has_not_submitted(user_id, unique_pending_id).await?;\n504:         timer.lap_micros(\"ensure_user_has_not_submitted (3)\");\n505:         self.temp_db\n506:             .set_submitted_status_for_pending(&self.realm_identifier, unique_pending_id, user_id, rand_status)\n507:             .await?;\n508:         timer.lap_micros(\"set_submitted_status_for_pending\");\n509: \n510:         if self\n511:             .temp_db\n512:             .get_submitted_status_for_pending(&self.realm_identifier, unique_pending_id, user_id)\n513:             .await?\n514:             != rand_status\n515:         {\n516:             // check for race condition\n517:             anyhow::bail!(\n518:                 \"end cap for user_id {} at unique_pending_id {} has already been submitted (race)\",\n519:                 user_id,\n520:                 unique_pending_id\n521:             );\n522:         }\n523: \n524:         timer.lap_micros(\"get_submitted_status_for_pending (final)\");\n525:         self.proof_store\n526:             .put_proof_bytes_for_job_id(job_id, unique_pending_id, &proof_bytes)\n527:             .await?;\n528:         timer.lap_micros(\"put_proof_bytes_for_job_id\");\n529:         if self\n530:             .temp_db\n531:             .get_submitted_status_for_pending(&self.realm_identifier, unique_pending_id, user_id)\n532:             .await?\n533:             != rand_status\n534:         {\n535:             // check for race condition\n536:             anyhow::bail!(\n537:                 \"end cap for user_id {} at unique_pending_id {} has already been submitted (race)\",\n538:                 user_id,\n539:                 unique_pending_id\n540:             );\n541:         }\n542:         timer.lap_micros(\"get_submitted_status_for_pending (final 2)\");\n543: \n544:         let slot_updates_payload = match self.build_user_end_cap_slot_updates(\n545:             unique_pending_id,\n546:             user_id,\n547:             &user_end_cap_input,\n548:         ) {\n549:             Ok(payload) => Some(payload),\n550:             Err(err) => {\n551:                 tracing::warn!(\n552:                     user_id,\n553:                     unique_pending_id,\n554:                     error = ?err,\n555:                     \"Failed to extract user end-cap slot updates\"\n556:                 );\n557:                 None\n558:             }\n559:         };\n560: \n561:         self.temp_db\n562:             .set_contract_updates_for_user(&self.realm_identifier, unique_pending_id, user_id, contract_update_data_for_user)\n563:             .await?;\n564:         timer.lap_micros(\"set_contract_updates_for_user\");\n565: \n566:         if let Some(slot_updates_payload) = slot_updates_payload {\n567:             if !slot_updates_payload.contracts.is_empty() {\n568:                 match bincode::serialize(&slot_updates_payload) {\n569:                     Ok(bytes) => {"
+    },
+    {
+      "path": "psy_node_common/src/realm/edge/handler.rs",
+      "sha256": "2fa54a99ed9668bb14c128ab8a9d1f3a26a9433f6bc069b9ac9bdafbdc709442",
+      "firstLine": 615,
+      "lastLine": 657,
+      "excerpt": "615:         let new_user_leaf = user_end_cap_input.core.new_user_leaf.clone();\n616:         let new_user_leaf_hash = new_user_leaf.qfhash::<N::HasherBase>();\n617:         // Keep original job_id (proof stored under it). Only refresh queue key.\n618: \n619:         let queue_item = PsyRealmUserUpdateQueueItem {\n620:             job_id: job_id,\n621:             expected_fake_checkpoint_id: fake_checkpoint_id,\n622:             old_user_leaf_hash: old_leaf_hash,\n623:             new_user_leaf_hash,\n624:             new_user_leaf,\n625:             stats: user_end_cap_input.core.stats,\n626:             events: user_end_cap_input.events,\n627:         };\n628: \n629:         // Ensure the consumer for live_proc_id exists BEFORE publishing. If\n630:         // the processor has already drained and deleted the consumer for this\n631:         // generation, publishing to an ephemeral queue with no consumer silently\n632:         // drops the message. By ensuring the consumer here, we guarantee the\n633:         // message will be buffered and picked up by the gatherer on its next\n634:         // drain cycle \u2014 even if the processor has already rotated past this ID.\n635:         // The consumer we create is idempotent: if it already exists this is a\n636:         // no-op; if it was deleted, it is recreated with DeliverPolicy::All so\n637:         // all pending messages are replayed.\n638:         if let Err(e) = self.user_update_queue.ensure_consumer(\n639:             &queue_key,\n640:             self.realm_id_u64,\n641:             self.realm_sub_id_u64,\n642:             live_proc_id,\n643:             0,\n644:         ).await {\n645:             tracing::warn!(\n646:                 \"Failed to ensure consumer for live_proc_id {} before publish (continuing): {}\",\n647:                 live_proc_id, e\n648:             );\n649:         }\n650: \n651:         self.user_update_queue\n652:             .publish_ephemeral_queue_item_owned(&queue_key, self.realm_id_u64, self.realm_sub_id_u64, live_proc_id, 0, queue_item)\n653:             .await?;\n654:         timer.lap_micros(\"publish_ephemeral_queue_item_owned\");\n655:         timer.lap_group(\"handle_user_end_cap_proof_submission total\");\n656: \n657:         Ok(())"
+    },
+    {
+      "path": "psy_node_core/src/psy_temp_db/v3_implementation/core.rs",
+      "sha256": "62b328ba86f11f5326af00a7045b79118479802b3539cf3de7f0dddffb95f713",
+      "firstLine": 440,
+      "lastLine": 454,
+      "excerpt": "440: #[async_trait]\n441: impl<T: QTempDatabaseRawKVWriterBase + Sync> QTempDBSubmitStatusWriter for T {\n442:     async fn set_submitted_status_for_pending(\n443:         &self,\n444:         rid: &QRealmIdentifier,\n445:         unique_pending_id: u64,\n446:         user_or_realm_id: u64,\n447:         status: u64,\n448:     ) -> anyhow::Result<()> {\n449:         let key = tt_get_submit_status_key(rid.realm_id, rid.realm_sub_id, unique_pending_id, user_or_realm_id);\n450:         let value = status.to_le_bytes();\n451:         self.qtdb_raw_kv_put_value(&key, &value).await\n452:     }\n453: }\n454: "
+    },
+    {
+      "path": "psy_node_redis/src/store/core_bb8.rs",
+      "sha256": "5ef4b2c53a1fa1ce19b5cb856bd90cee7941395c1ee6a424c28b861721c38f4c",
+      "firstLine": 109,
+      "lastLine": 116,
+      "excerpt": "109:     }\n110: \n111:     pub async fn set_bytes_generic_internal(&self, ns_key: &str, key: &[u8], value: &[u8]) -> anyhow::Result<()> {\n112:         let mut con = self.pool.get().await?;\n113:         let _: () = con.hset(ns_key, key, value).await?;\n114:         Ok(())\n115:     }\n116:     pub async fn set_many_bytes_generic_internal(&self, ns_key: &str, items: Vec<QPDPair<Vec<u8>, Vec<u8>>>) -> anyhow::Result<()> {"
+    },
+    {
+      "path": "psy_node_redis/src/store/core_bb8.rs",
+      "sha256": "5ef4b2c53a1fa1ce19b5cb856bd90cee7941395c1ee6a424c28b861721c38f4c",
+      "firstLine": 720,
+      "lastLine": 729,
+      "excerpt": "720: #[async_trait]\n721: impl QParthProofStoreWriter for StandardRedisStore {\n722:     async fn put_proof_bytes_for_job_id<J: Into<QJobIdSerialized> + Copy + Send + Sync>(&self, job_id: J, unique_pending_id: u64, proof_bytes: &[u8]) -> anyhow::Result<()> {\n723:         let job_id_bytes = job_id.into().to_vec();\n724:         let bucket = get_tmp_proof_store_bucket_ns_key(&self.root_prefix, self.realm_id, self.realm_sub_id, unique_pending_id);\n725:         self.set_bytes_generic_internal(&bucket, &job_id_bytes, proof_bytes)\n726:             .await\n727:     }\n728:     async fn put_proof_for_job_id<J: Into<QJobIdSerialized> + Copy + Send + Sync, P: QPDSerializable + Send + Sync>(\n729:         &self,"
+    },
+    {
+      "path": "psy_node_common/src/guta_planner/realm_guta_planner.rs",
+      "sha256": "5b3c0cff3cd8dac9d5308afc2758c26c839651c2bf939f9b5965e6124fa4b134",
+      "firstLine": 324,
+      "lastLine": 374,
+      "excerpt": "324:         }\n325:         tracing::info!(\"Populating end-cap job for user ID {} at checkpoint ID {}.\", user_id, user_last_checkpoint_id);\n326:         let data = data.unwrap();\n327:         file.write_all(&queue_item_bytes).await?;\n328:         file.write_all(&data).await?;\n329:         self.total_end_caps_processed += 1;\n330: \n331:         tracing::debug!(\"End-cap job populated data len {}.\", data.len());\n332: \n333:         let (single_header, single_payload, double_full) =\n334:             QBlobSingleMerkleNodeBatchDataView::validate_single_tree_nodes_batch_header_for_realm_context_get_clipped_ref_no_exact_size_any_unique_pending_id(\n335:                 &data,\n336:                 self.chain_id,\n337:                 self.realm_id_u64,\n338:                 self.realm_sub_id_u64,\n339:                 QBlobMerkleNodeTreeType::UserContractTree,\n340:             )?;\n341: \n342:         tracing::debug!(\"Single header: {}\", serde_json::to_string_pretty(&single_header)?);\n343:         let (double_header, double_payload, imt_full) =\n344:             QBlobDoubleMerkleNodeBatchDataView::validate_cst_nodes_batch_header_for_realm_context_get_clipped_ref_any_unique_pending_id_with_remaining(\n345:                 &double_full,\n346:                 self.chain_id,\n347:                 self.realm_id_u64,\n348:                 self.realm_sub_id_u64,\n349:             )?;\n350:         tracing::debug!(\"Double header: {}\", serde_json::to_string_pretty(&double_header)?);\n351:         \n352:         if !imt_full.is_empty() {\n353:             let (imt_header, imt_payload) = QBlobMerkleTreeNodeBatchHeaderV1::clip_header_get_payload_for_blob_type_and_tree_ref(\n354:                 imt_full,\n355:                 QBlobDataType::GenericIMTLeafBatch,\n356:                 QBlobMerkleNodeTreeType::IMTContractStateLeaf,\n357:                 true,\n358:             )?;\n359:             tracing::debug!(\"IMT header: {}\", serde_json::to_string_pretty(&imt_header)?);\n360:             // Store IMT leaf preimage data for FFS database\n361:             self.contract_state_imt_leaves_ffs.extend_from_slice(imt_payload);\n362:         }\n363: \n364:         if single_header.checkpoint_id != queue_item.expected_fake_checkpoint_id {\n365:             tracing::info!(\"Skipping end-cap job population due to fake checkpoint ID mismatch: expected {}, found {}. Likely got overwritten due to a race condition. Gracefully skipping.\",\n366:                 queue_item.expected_fake_checkpoint_id,\n367:                 single_header.checkpoint_id\n368:             );\n369:             return Ok(0);\n370:         }\n371: \n372:         self.user_contract_tree_updates_ffs.extend_from_slice(&single_payload);\n373:         self.contract_state_tree_updates_ffs.extend_from_slice(&double_payload);\n374:         self.user_leaf_updates_ffs"
+    }
+  ],
+  "finding": "Status read/ordinary HSET/read is not an atomic claim. A passed final status read can be followed by another writer overwriting the shared proof slot before the first writes/publishes its own updates. The regular planner data-header fence alone does not bind that shared proof slot to the selected update version in this model. Whole planner/runtime behavior remains unverified.",
+  "requiredOwnerDeliverables": [
+    "Protocol/edge owner: atomic claim keyed by realm/pending/user/nonce/start leaf, idempotent same-request hash and explicit conflicting-request result",
+    "Storage/queue owner: fenced or request-versioned proof+updates+queue publication; crash recovery cannot expose mixed versions",
+    "Isolated runtime owner: frozen source/image/config and controlled two-writer barrier tests, exact one consistent canonical end-state and fee debit, duplicate/lost-ack/crash/rotation recovery evidence"
+  ],
+  "applicationBoundary": "shared journal serializes cooperating executors only; a public SD-key holder can bypass that application lock; deterministic ordering and full UPS verification do not certify edge admission atomicity"
+}
