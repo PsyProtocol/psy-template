@@ -1,0 +1,219 @@
+{
+  "schema": 1,
+  "sourceDirectory": "/private/tmp/psy-market-candidate-bulk-live-20261021-v2",
+  "machine": "gewenbo.local",
+  "host": "macOS-15.7.3-arm64-arm-64bit",
+  "scope": "public formal Executor run including failures; success requires exact included receipt",
+  "walletFilesIncluded": false,
+  "sealedBinariesIncluded": false,
+  "records": [
+    {
+      "source": "attempts/deploy-orderbook-v1/before.json",
+      "file": "files/attempts/deploy-orderbook-v1/before.json.gz",
+      "bytes": 230,
+      "sha256": "4156c185eab6a108b8d55ef37ffb75684301b02d8254ea87a31055b5eb27fc63",
+      "gzipBytes": 149,
+      "gzipSha256": "d8d6406e4058f3dd9394dd639d0d6146efdbe099ffef616a52c62f6f3ad1f438"
+    },
+    {
+      "source": "attempts/deploy-orderbook-v1/included.json",
+      "file": "files/attempts/deploy-orderbook-v1/included.json.gz",
+      "bytes": 1745,
+      "sha256": "d0d81b8aff0c020497bd6a6bbdaa5e614709cf2793c9379099cd8dbf3f65063e",
+      "gzipBytes": 809,
+      "gzipSha256": "d010aa4debaf349e44ab69c04e04b8810fa2e45b99b0906a2fd442e6ab56f46c"
+    },
+    {
+      "source": "attempts/deploy-orderbook-v1/intent.json",
+      "file": "files/attempts/deploy-orderbook-v1/intent.json.gz",
+      "bytes": 208,
+      "sha256": "ab64cd2f8e8f4fc3b60f7ac732aa273b55ab2a2c175d0ce7621ea2555c33bc4b",
+      "gzipBytes": 174,
+      "gzipSha256": "9d5dc6a4aba613039a3c77dc36cc2d33836e6f70de0557640373fa2c7e073991"
+    },
+    {
+      "source": "attempts/deploy-orderbook-v1/preflight.json",
+      "file": "files/attempts/deploy-orderbook-v1/preflight.json.gz",
+      "bytes": 702,
+      "sha256": "1f94127f83a3f3c1e87b9c7dbc6a299b4189c3334be93785a59ddcfec947c7da",
+      "gzipBytes": 436,
+      "gzipSha256": "9c97f96541c36d43c6988dd5222f8de12e023ffc51812a9896f1b8987e0949d0"
+    },
+    {
+      "source": "attempts/deploy-orderbook-v1/receipt.json",
+      "file": "files/attempts/deploy-orderbook-v1/receipt.json.gz",
+      "bytes": 84,
+      "sha256": "341140a2671dd275e5db1828774c8cc46d13726702cc1876e1ed258b41bc2c7d",
+      "gzipBytes": 94,
+      "gzipSha256": "c89ebe5bd826e926c1586c06648681a757b597a6fe768e4f6af689f976d756d3"
+    },
+    {
+      "source": "attempts/deploy-orderbook-v1/request.json",
+      "file": "files/attempts/deploy-orderbook-v1/request.json.gz",
+      "bytes": 137268910,
+      "sha256": "0de668824ab8a705ec76be00d3da8bca99cd1e0100eb59bb2a83dc252068cd50",
+      "gzipBytes": 2066336,
+      "gzipSha256": "bd94f1c182e4b922320f8dbe5d3f230a59b459d672a5bec4fbbb820b99206db3"
+    },
+    {
+      "source": "attempts/deploy-orderbook-v1/timing.json",
+      "file": "files/attempts/deploy-orderbook-v1/timing.json.gz",
+      "bytes": 107,
+      "sha256": "17f611f5f6a820909c01e9248572a556d7a80821567a45f987fa958c57574510",
+      "gzipBytes": 105,
+      "gzipSha256": "491f814ff12908864d3a829dcd19c3e979ed65dee706895c660dd24c04d2c601"
+    },
+    {
+      "source": "attempts/register-orderbook-vault-v1/included.json",
+      "file": "files/attempts/register-orderbook-vault-v1/included.json.gz",
+      "bytes": 3012,
+      "sha256": "eda0039e0608a6b07126ade3719e76793728641258a513671beba4c9854f8d77",
+      "gzipBytes": 1084,
+      "gzipSha256": "fbe1641be4e7d4221d261ad6feaa5b7e8a0d7c5eb1fb4977cc521f42178c32c8"
+    },
+    {
+      "source": "attempts/register-orderbook-vault-v1/intent.json",
+      "file": "files/attempts/register-orderbook-vault-v1/intent.json.gz",
+      "bytes": 317,
+      "sha256": "53cf4d96bb4e6bc956e4c32179d4850a3db4d583d20a0c163e573393db7aff1d",
+      "gzipBytes": 240,
+      "gzipSha256": "c1da3dacefb11dce6b9e030a3e79d5b68c90b94eeee70840e6fdf21bc708382d"
+    },
+    {
+      "source": "attempts/register-orderbook-vault-v1/receipt.json",
+      "file": "files/attempts/register-orderbook-vault-v1/receipt.json.gz",
+      "bytes": 151,
+      "sha256": "47074b96820d19f6c2560169c11faf538de44ae98d73164c8081d7b0bc4b628f",
+      "gzipBytes": 142,
+      "gzipSha256": "b9fffe4af6956e41fde516f289c4f3cc70837a35628541d09001751724301e5d"
+    },
+    {
+      "source": "attempts/register-orderbook-vault-v1/request.json",
+      "file": "files/attempts/register-orderbook-vault-v1/request.json.gz",
+      "bytes": 204,
+      "sha256": "16ed7d435b2cebf39df0736bf3f1e635caf5226bd91a3bafbd551a7482adb808",
+      "gzipBytes": 171,
+      "gzipSha256": "a42cc5122ebbab5e0dd97e78b2035499c50f015fab7020bf756769e886aee28d"
+    },
+    {
+      "source": "deploy-orderbook-v1.log",
+      "file": "files/deploy-orderbook-v1.log.gz",
+      "bytes": 8332,
+      "sha256": "59bdfe99e1abc802dc2d3e71359d119c691fd77c785f31383b0f95b6c84f1a0d",
+      "gzipBytes": 1483,
+      "gzipSha256": "46ffa7734177c38daaa951bfb74c6d128ae89b78dd2ea15b2e0dad39775fc546"
+    },
+    {
+      "source": "markets-v1/orderbook/BUILD.json",
+      "file": "files/markets-v1/orderbook/BUILD.json.gz",
+      "bytes": 1008,
+      "sha256": "15187810b8bb88b12a5a8ce30d1deebf8304e334af73d0ebecf2c161728345d5",
+      "gzipBytes": 566,
+      "gzipSha256": "bdf120bfc6133c0ed6487828dda2b300da0d4c10fb9d7c2e30ee5a41c0d1f18f"
+    },
+    {
+      "source": "markets-v1/orderbook/bound/BOUND.json",
+      "file": "files/markets-v1/orderbook/bound/BOUND.json.gz",
+      "bytes": 364,
+      "sha256": "30b23f5010bb40e144c84c0ba503a319e18c2011eb569db0f1085952d6100ccc",
+      "gzipBytes": 258,
+      "gzipSha256": "09e945201d616b0097cb41d6b9b28a58239cb05ae6527e9ebbf6af26fa32125c"
+    },
+    {
+      "source": "markets-v1/orderbook/bound/policy.json",
+      "file": "files/markets-v1/orderbook/bound/policy.json.gz",
+      "bytes": 100275,
+      "sha256": "13bef0397985074fdac8630d71152052406afe81c78c56c9438aa0a10b8300f6",
+      "gzipBytes": 2382,
+      "gzipSha256": "2f626d2f327609742cacb35d37a463f49e90d9f2bf54ea1010b654f87b75fb94"
+    },
+    {
+      "source": "markets-v1/orderbook/compile.log",
+      "file": "files/markets-v1/orderbook/compile.log.gz",
+      "bytes": 26,
+      "sha256": "5045f57d9f65ed8ff41adc1ecee1337fe11584555bb70ddeaac1b922c0394719",
+      "gzipBytes": 46,
+      "gzipSha256": "96606e523394b8787b0bd6a55f4adf010c8f87a75db43c53e913ba80ba848ad4"
+    },
+    {
+      "source": "markets-v1/orderbook/compiled/compilation_artifact.json",
+      "file": "files/markets-v1/orderbook/compiled/compilation_artifact.json.gz",
+      "bytes": 10229424,
+      "sha256": "8d0459eff96e7cbcae035529b51180ec6fd98abbdb9784f7f0e7fb8addc3dd0e",
+      "gzipBytes": 1128143,
+      "gzipSha256": "2da1111d49bed319d0a87fd392ca146d7b146dee1278c564aa70d610625b89e2"
+    },
+    {
+      "source": "markets-v1/orderbook/config.json",
+      "file": "files/markets-v1/orderbook/config.json.gz",
+      "bytes": 264,
+      "sha256": "1d4f77e9502ba824d911aac0846648ff64e6f2f98daca8b49b1554f9d0231f3b",
+      "gzipBytes": 163,
+      "gzipSha256": "cd87e47fafa0ac5ed226e48b57c42917cca4ec52930114543566b9e37ee7b9f3"
+    },
+    {
+      "source": "markets-v1/orderbook/live-registration.json",
+      "file": "files/markets-v1/orderbook/live-registration.json.gz",
+      "bytes": 3012,
+      "sha256": "eda0039e0608a6b07126ade3719e76793728641258a513671beba4c9854f8d77",
+      "gzipBytes": 1084,
+      "gzipSha256": "fbe1641be4e7d4221d261ad6feaa5b7e8a0d7c5eb1fb4977cc521f42178c32c8"
+    },
+    {
+      "source": "markets-v1/orderbook/main.psy.rs",
+      "file": "files/markets-v1/orderbook/main.psy.rs.gz",
+      "bytes": 2409534,
+      "sha256": "3c8babcdac37ebec707bf8b056a4ecfb60cbc4b0d3297b7eda1080e15ca9d6b5",
+      "gzipBytes": 202885,
+      "gzipSha256": "d34938a222da1f62cec0b10d3b63e15dd528f4f201aa3f061a612b9c9a24ac95"
+    },
+    {
+      "source": "markets-v1/orderbook/native.json",
+      "file": "files/markets-v1/orderbook/native.json.gz",
+      "bytes": 184399,
+      "sha256": "bf756535620ecd6b360cf58fce90e66f1e7fecc5ed28c4445c23d745d7510606",
+      "gzipBytes": 21259,
+      "gzipSha256": "6d46dba5c8f00f000422d93709244579fb188d94c4e8f795763612ceae26380c"
+    },
+    {
+      "source": "markets-v1/orderbook/nft.json",
+      "file": "files/markets-v1/orderbook/nft.json.gz",
+      "bytes": 61243,
+      "sha256": "bbbde8620431788e8ce68067a2db425713e2195eaf1eb480e22328822d0d103c",
+      "gzipBytes": 6878,
+      "gzipSha256": "28eb3d9685962d140dc8e925209e031da42ac60c7ecfc3fe8b141d82c07e41be"
+    },
+    {
+      "source": "markets-v1/orderbook/token-a.json",
+      "file": "files/markets-v1/orderbook/token-a.json.gz",
+      "bytes": 4066238,
+      "sha256": "e259c0b8dbe1588bfe624be14e2b32dede69648b5532fce5f472434c689fdba9",
+      "gzipBytes": 458317,
+      "gzipSha256": "41a96109bd8d16c309b72aaffb554f47e206428837ed73e747f9cde4b4473ca9"
+    },
+    {
+      "source": "markets-v1/orderbook/token-b.json",
+      "file": "files/markets-v1/orderbook/token-b.json.gz",
+      "bytes": 4066238,
+      "sha256": "e259c0b8dbe1588bfe624be14e2b32dede69648b5532fce5f472434c689fdba9",
+      "gzipBytes": 458317,
+      "gzipSha256": "41a96109bd8d16c309b72aaffb554f47e206428837ed73e747f9cde4b4473ca9"
+    },
+    {
+      "source": "public/deploy-orderbook-build-pin-v1.json",
+      "file": "files/public/deploy-orderbook-build-pin-v1.json.gz",
+      "bytes": 795,
+      "sha256": "57246814100f1f290207523c7b8aef19b605864f9a2c6aa438eefdcefb120cdd",
+      "gzipBytes": 468,
+      "gzipSha256": "aa20cc444433ddf5f954b5f1d7d101c1f928502dfb1d4a63d6b9080d295efcbd"
+    },
+    {
+      "source": "register-orderbook-vault-v1.log",
+      "file": "files/register-orderbook-vault-v1.log.gz",
+      "bytes": 485,
+      "sha256": "0a7e8a901285ddf107b6d006a521267d6bfec3a0b50b941d82e63964a9f8fa61",
+      "gzipBytes": 214,
+      "gzipSha256": "a871ece747bd1d61526a4c3ff265c297c86783fdb95f9b0462f13961d908985a"
+    }
+  ]
+}
