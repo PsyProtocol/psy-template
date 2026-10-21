@@ -239,6 +239,24 @@ assets, derives next epochs from chain and obtains fresh consent. Historical
 user fees remain in individual/native conservation. Later recovery/NFT scenarios
 derive their next epochs too. Live closure/renewed-intake acceptance is pending.
 
+### Runtime source overlay and second real no-send recovery
+
+Overlay **v6** freezes the 275 tracked JS sources at pushed commit `dd58bcf`,
+SHA256 `c894755db1ebab49918cb5679ebe70969fa08c438edbe2395b2b7770ff7bf06b`.
+It links the earlier v5 overlay and the v4 release selector (compact v3,
+ordinary diagnostic v14). The source snapshot does not attest running servers
+or retroactively change binaries or earlier process memory.
+
+At checkpoint **359725**, AMM, Curve and NFT empty-intake aborts were confirmed.
+Orderbook's first abort stopped at `check-prepared-live-state` with an explicit
+coordinator connection error and `broadcastMayHaveBeenAttempted:false`; its
+child submission directory contains only `failure.json`. Inspection at **359727**
+found no unresolved transmission, and its unchanged task window ends at
+**359775**. The same task was explicitly resumed under all existing saved-proof,
+registration, dependency, own-anchor, nonce, fee and window checks. Inclusion
+and complete four-market timeout accounting are still pending. No cutoff was
+extended, no original proof replaced, and no automatic financial retry added.
+
 ## Ordered gates
 
 | Gate | Current work | Not yet established |
