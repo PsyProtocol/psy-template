@@ -12,7 +12,7 @@ import {sponsorCalls, nftBuyCalls} from '../../batching/v2/client.mjs';
 import {cohortAssets, payoutClaims, canonicalHeldNfts} from '../../batching/admission/liveAssets.mjs';
 const [base, original] = process.argv.slice(2), h = cohort(base, original), m = h.by.nftmarket, unit = 10n ** 18n;
 assert.ok(existsSync(join(base, 'public/omitted-complete-v1.json')));
-const spec = {users: [...Object.values(h.actors).map(x => x.id), ...h.markets.map(x => x.vault), ...h.markets.map(x => read(join(original, 'markets-v1', x.kind, 'live-registration.json')).vaultId), 1695936], assets: [2464, 2466], nftId: 2467};
+const spec = h.assetSpec;
 const beforePath = join(base, 'public/nft-competition-assets-before.json');
 if (!existsSync(beforePath)) save(beforePath, await cohortAssets(await publicState(h.config), spec));
 const names = ['bob', 'trader', 'charlie', 'dave'], services = [];

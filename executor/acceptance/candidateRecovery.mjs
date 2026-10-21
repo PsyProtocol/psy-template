@@ -17,8 +17,7 @@ const actor = h.actors.bob, services = [], a = h.by.amm, b = h.by.orderbook,
 // Independent vault anchors may progress together. Settle all results before
 // surfacing an error, so no sibling financial job continues behind a retry.
 const independent = async jobs => {const results = await Promise.allSettled(jobs.map(job => job())); const failed = results.find(r => r.status === 'rejected'); if (failed) throw failed.reason;};
-const spec = {users: [...Object.values(h.actors).map(x => x.id), ...h.markets.map(x => x.vault),
- ...h.markets.map(x => read(join(original, 'markets-v1', x.kind, 'live-registration.json')).vaultId), 1695936], assets: [2464, 2466], nftId: 2467};
+const spec = h.assetSpec;
 const beforePath = join(base, 'public/omitted-assets-before.json');
 if (!existsSync(beforePath)) save(beforePath, await cohortAssets(await publicState(h.config), spec));
 const deadline = BigInt((await publicState(h.config)).checkpoint) + 2048n;

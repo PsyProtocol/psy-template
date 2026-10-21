@@ -34,7 +34,7 @@ if(stage==='liquidity'){
  assert.ok(existsSync(join(base,'public/liquidity-complete-v1.json')));if(retry)assert.ok(existsSync(join(base,'public/maximum-retry-ready-v1.json')),'empty intake must close before renewed consent');const names=['bob','trader','charlie','dave'],pf=join(base,'public',retry?attempt+'-plan.json':'maximum-plan-v1.json');
  // Fund and open before selecting the public consent window, avoiding a slow
  // ordinary-wallet cold start silently consuming the admission window.
- const cohortSpec={users:[...Object.values(h.actors).map(a=>a.id),...h.markets.map(m=>m.vault),...['amm','orderbook','bondingcurve','nftmarket'].map(k=>read(join(original,'markets-v1',k,'live-registration.json')).vaultId),1695936],assets:[2464,2466],nftId:2467};assert.equal(new Set(cohortSpec.users).size,cohortSpec.users.length);
+ const cohortSpec=h.assetSpec;
  const preOrdersFile=join(base,'public/maximum-assets-pre-orders.json');if(!existsSync(preOrdersFile))save(preOrdersFile,await cohortAssets(await publicState(h.config),cohortSpec));
  const deadline=BigInt((await publicState(h.config)).checkpoint)+2048n;
  // NFT open_buy authenticates an existing listing. Publish the two sellers
@@ -50,18 +50,24 @@ if(stage==='liquidity'){
   assert.ok(calls.length<=16);await h.user(name,'maximum-'+name+'-orders',calls);
  }));
  if(retry)for(const name of names)assert.ok(existsSync(join(base,'attempts','maximum-'+name+'-orders','included.json')),'original funding order must remain included');
- if(!existsSync(pf)){const s=await publicState(h.config),pricingOrders={},epochs={};for(const m of h.markets){const value=await s.slot(m.vault,m.id,m.abi.contract.state.find(x=>x.name==='queue_epoch').offset);assert.ok(value>=0n&&value<4294967295n);epochs[m.kind]=Number(value)+1;}for(const kind of ['amm','bondingcurve']){const m=h.by[kind],offset=m.abi.contract.state.find(x=>x.name==='order_checkpoint').offset;const orders=await Promise.all(names.map(async name=>({owner:h.actors[name].id,orderCheckpoint:String(await s.slot(h.actors[name].id,m.id,offset))})));orders.sort((a,b)=>Number(BigInt(a.orderCheckpoint)-BigInt(b.orderCheckpoint))||a.owner-b.owner);pricingOrders[kind]=orders;}save(pf,{createdAt:new Date().toISOString(),sourceCheckpoint:s.checkpoint,cutoff:s.checkpoint+128,epochs,members:names.map(n=>h.actors[n].id).sort((a,b)=>a-b),pricingOrders,ordersResubmitted:false});}const p=read(pf);
-
- // Orders already funded; the baseline includes every pending incoming delta.
+ // Keep the expensive explicit-cohort audit outside the immutable consent
+ // window. Include every start/admission sponsorship fee in this interval.
  const beforeFile=join(base,'public/maximum-assets-before.json');if(!existsSync(beforeFile))save(beforeFile,await cohortAssets(await publicState(h.config),cohortSpec));
  {const before=parseLosslessJson(readFileSync(beforeFile,'utf8'));assert.equal(before.nftTotal,2n,'held plus unclaimed QA NFTs before settlement');}
+ const admissionModes=new Set(h.markets.map(m=>m.registration.admissionMode??'single-v1'));assert.equal(admissionModes.size,1,'maximum acceptance does not mix admission strategies');const bulk=admissionModes.has('all-four-v1'),admissionRounds=bulk?1:4;
+ if(bulk)await fund(h.markets,attempt+'-start-fund',2);
+ if(!existsSync(pf)){const s=await publicState(h.config),pricingOrders={},epochs={};for(const m of h.markets){const value=await s.slot(m.vault,m.id,m.abi.contract.state.find(x=>x.name==='queue_epoch').offset);assert.ok(value>=0n&&value<4294967295n);epochs[m.kind]=Number(value)+1;}for(const kind of ['amm','bondingcurve']){const m=h.by[kind],offset=m.abi.contract.state.find(x=>x.name==='order_checkpoint').offset;const orders=await Promise.all(names.map(async name=>({owner:h.actors[name].id,orderCheckpoint:String(await s.slot(h.actors[name].id,m.id,offset))})));orders.sort((a,b)=>Number(BigInt(a.orderCheckpoint)-BigInt(b.orderCheckpoint))||a.owner-b.owner);pricingOrders[kind]=orders;}save(pf,{createdAt:new Date().toISOString(),sourceCheckpoint:s.checkpoint,cutoff:s.checkpoint+128,epochs,members:names.map(n=>h.actors[n].id).sort((a,b)=>a-b),pricingOrders,ordersResubmitted:false});}const p=read(pf);
+
  for(const m of h.markets){const plan={version:1,epoch:p.epochs[m.kind],cutoff:p.cutoff,members:p.members.map(owner=>({owner,nonce:m.kind==='amm'&&owner===h.actors.bob.id?'2':'1'}))};const f=await formal(h,m,attempt,plan,{benchmark:true,...(m.kind==='nftmarket'?{contendOnMaintenance:'admit_entry'}:{})});services.push(f);}
  const execute=async(label,expected)=>independent(services.map((f,i)=>()=>f.step(stepLabel(h.markets[i].kind,label),expected)));
- const missingGasPath=join(base,'public',attempt+'-missing-gas-scans.json');if(!existsSync(missingGasPath)){const scans=await Promise.all(services.map(f=>f.adapter.scan()));for(const scan of scans){if(retry){assert.ok(scan.action&&taskNamed('start_epoch')(scan.action),'confirmed pre-funding must authorize only the expected epoch start');}else{assert.equal(scan.action,null);assert.equal(scan.reason,'admission-gas-sponsorship-required');assert.equal(scan.fundingRequest.amount,F.toString());}}save(missingGasPath,{checkedAt:new Date().toISOString(),scans,preFundedBeforePlan:retry,proofOrBroadcastAttempted:false});}
+ const missingGasPath=join(base,'public',attempt+'-missing-gas-scans.json');if(!existsSync(missingGasPath)){const scans=await Promise.all(services.map(f=>f.adapter.scan()));for(const scan of scans){if(retry||bulk){assert.ok(scan.action&&taskNamed('start_epoch')(scan.action),'confirmed pre-funding must authorize only the expected epoch start');}else{assert.equal(scan.action,null);assert.equal(scan.reason,'admission-gas-sponsorship-required');assert.equal(scan.fundingRequest.amount,F.toString());}}save(missingGasPath,{checkedAt:new Date().toISOString(),scans,preFundedBeforePlan:retry||bulk,proofOrBroadcastAttempted:false});}
  await fund(h.markets,attempt+'-start-fund',2);await execute('start',taskNamed('start_epoch'));
- await independent(names.map(name=>()=>h.user(name,attempt+'-'+name+'-consent',h.markets.map(m=>m.order('request_admission',[BigInt(p.epochs[m.kind]),BigInt(p.cutoff)])))));
- const admissionModes=new Set(services.map(f=>f.options.admissionMode??'single-v1'));assert.equal(admissionModes.size,1,'maximum acceptance does not mix admission strategies');const admissionRounds=admissionModes.has('all-four-v1')?1:4;
- for(let i=0;i<admissionRounds;i++){await fund(h.markets,attempt+'-admit-'+i+'-fund',2);await execute('admit-'+i,taskNamed('admit_entry'));}
+ // Distinct ordinary wallet nonces: Sponsor funding may run alongside the
+ // four consents, after start confirmation. Await every sibling before admit.
+ const consentJobs=names.map(name=>()=>h.user(name,attempt+'-'+name+'-consent',h.markets.map(m=>m.order('request_admission',[BigInt(p.epochs[m.kind]),BigInt(p.cutoff)]))));
+ if(bulk)consentJobs.push(()=>fund(h.markets,attempt+'-admit-0-fund',2));
+ await independent(consentJobs);
+ for(let i=0;i<admissionRounds;i++){if(!bulk||i!==0)await fund(h.markets,attempt+'-admit-'+i+'-fund',2);await execute('admit-'+i,taskNamed('admit_entry'));}
  await fund(h.markets,attempt+'-seal-fund',2);await waitCutoff(p.cutoff);await execute('seal',taskNamed('seal_epoch'));
  await fund(h.markets,attempt+'-commit-fund',1);
  // No other proof process runs during a paired benchmark. Each market has the
