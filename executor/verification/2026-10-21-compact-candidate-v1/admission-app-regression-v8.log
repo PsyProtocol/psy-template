@@ -1,0 +1,119 @@
+TAP version 13
+# Subtest: unavailable authenticated randomness fails closed
+ok 1 - unavailable authenticated randomness fails closed
+  ---
+  duration_ms: 0.980292
+  ...
+# Subtest: all four candidates explicitly bind accepted scope and terminal dispositions
+ok 2 - all four candidates explicitly bind accepted scope and terminal dispositions
+  ---
+  duration_ms: 737.370916
+  ...
+# Subtest: single-market candidates preserve all frozen source/artifact/policy bytes
+ok 2 - single-market candidates preserve all frozen source/artifact/policy bytes
+  ---
+  duration_ms: 6031.1665
+  ...
+# Subtest: domain, asset layout and native ABI substitution fail before output creation
+ok 3 - domain, asset layout and native ABI substitution fail before output creation
+  ---
+  duration_ms: 164.275417
+  ...
+# Subtest: late policy binding rejects asset aliases and altered candidate artifacts
+ok 4 - late policy binding rejects asset aliases and altered candidate artifacts
+  ---
+  duration_ms: 1625.478542
+  ...
+# Subtest: conservation includes unclaimed outboxes and rejects cursor inversion
+ok 3 - conservation includes unclaimed outboxes and rejects cursor inversion
+  ---
+  duration_ms: 2.743708
+  ...
+# Subtest: NFT duplicate ownership is rejected across separate wallets
+ok 4 - NFT duplicate ownership is rejected across separate wallets
+  ---
+  duration_ms: 0.547667
+  ...
+# Subtest: a missing or duplicate NFT delivery cannot be reported as a claim
+ok 5 - a missing or duplicate NFT delivery cannot be reported as a claim
+  ---
+  duration_ms: 0.321167
+  ...
+# Subtest: four markets commit every sealed member despite omitted discovery hints
+ok 4 - four markets commit every sealed member despite omitted discovery hints
+  ---
+  duration_ms: 335.939334
+  ...
+# Subtest: malformed/duplicated sealed scope fails instead of being silently repaired
+ok 5 - malformed/duplicated sealed scope fails instead of being silently repaired
+  ---
+  duration_ms: 486.699167
+  ...
+# Subtest: unsealed or terminal queue is never replaced with hint selection
+ok 6 - unsealed or terminal queue is never replaced with hint selection
+  ---
+  duration_ms: 156.12675
+  ...
+# Subtest: queue maintenance carries full sponsored prefix without padding calls
+ok 7 - queue maintenance carries full sponsored prefix without padding calls
+  ---
+  duration_ms: 212.478333
+  ...
+# Subtest: shared policy builder preserves frozen fixtures and binds new deployment ID
+ok 8 - shared policy builder preserves frozen fixtures and binds new deployment ID
+  ---
+  duration_ms: 343.785917
+  ...
+# Subtest: formal route binds and processes every sealed member in four markets
+ok 5 - formal route binds and processes every sealed member in four markets
+  ---
+  duration_ms: 1105.503208
+  ...
+# Subtest: lost receipt, restart and duplicate task reconcile without re-proving or re-sending
+ok 6 - lost receipt, restart and duplicate task reconcile without re-proving or re-sending
+  ---
+  duration_ms: 394.814083
+  ...
+# Subtest: proof digest substitution and config replacement halt before transmission
+ok 7 - proof digest substitution and config replacement halt before transmission
+  ---
+  duration_ms: 264.6155
+  ...
+# Subtest: cached proof loses validity when anchor nonce or broadcast window changes
+ok 8 - cached proof loses validity when anchor nonce or broadcast window changes
+  ---
+  duration_ms: 246.668083
+  ...
+# Subtest: double local executors share journal lock and create only one unresolved broadcast
+ok 9 - double local executors share journal lock and create only one unresolved broadcast
+  ---
+  duration_ms: 331.463208
+  ...
+# Subtest: unsealed lifecycle honors consent, cutoff, capacity and explicit sponsorship
+ok 10 - unsealed lifecycle honors consent, cutoff, capacity and explicit sponsorship
+  ---
+  duration_ms: 67.586791
+  ...
+# Subtest: profile and public admission plan reject ambiguous bindings and fake configuration
+ok 11 - profile and public admission plan reject ambiguous bindings and fake configuration
+  ---
+  duration_ms: 243.177333
+  ...
+# Subtest: included receipt waits for common realm visibility before releasing vault
+ok 12 - included receipt waits for common realm visibility before releasing vault
+  ---
+  duration_ms: 230.201875
+  ...
+# Subtest: only explicit pre-broadcast driver rejection permits not-submitted; missing evidence remains unknown
+ok 13 - only explicit pre-broadcast driver rejection permits not-submitted; missing evidence remains unknown
+  ---
+  duration_ms: 651.022042
+  ...
+1..22
+# tests 22
+# pass 22
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 13983.47
