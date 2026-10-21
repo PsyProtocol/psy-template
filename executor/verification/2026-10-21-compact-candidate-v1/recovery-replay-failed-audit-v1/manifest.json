@@ -1,0 +1,475 @@
+{
+  "schema": 1,
+  "sourceDirectory": "/private/tmp/psy-market-candidate-live-20261021-v3",
+  "machine": "gewenbo.local",
+  "host": "macOS-15.7.3-arm64-arm-64bit",
+  "scope": "public formal Executor run including failures; success requires exact included receipt",
+  "walletFilesIncluded": false,
+  "sealedBinariesIncluded": false,
+  "records": [
+    {
+      "source": "attempts/maximum-partial-bob-claim/included.json",
+      "file": "files/attempts/maximum-partial-bob-claim/included.json.gz",
+      "bytes": 3702,
+      "sha256": "2866c91e17b63babd09cc9cc2c9b88429739197725df2f0cfc6f7022ac31407c",
+      "gzipBytes": 1339,
+      "gzipSha256": "c94e3c5330db25b5d23f26e96ff62eb787bc32632e83d6f360c1168334a2e9ef"
+    },
+    {
+      "source": "attempts/maximum-partial-bob-claim/intent.json",
+      "file": "files/attempts/maximum-partial-bob-claim/intent.json.gz",
+      "bytes": 184,
+      "sha256": "0fdf3d386d090b69d0a76b40068781c064190730cc8a36fad3afd7ab832e7686",
+      "gzipBytes": 167,
+      "gzipSha256": "dac4e07e9ff0feb01d473a5dc3bc3cbc4d4d50048977a031dc522452785ab656"
+    },
+    {
+      "source": "attempts/maximum-partial-bob-claim/preflight.json",
+      "file": "files/attempts/maximum-partial-bob-claim/preflight.json.gz",
+      "bytes": 1617,
+      "sha256": "8bd487336208a95ef9cdaaf52cf99a1ce419ece7cbfdabdb1f94088f63853ecb",
+      "gzipBytes": 819,
+      "gzipSha256": "e0ec0ade625561a9021c2081b8af3332818f7d68711ab7a50b9f244157cfa4a4"
+    },
+    {
+      "source": "attempts/maximum-partial-bob-claim/receipt.json",
+      "file": "files/attempts/maximum-partial-bob-claim/receipt.json.gz",
+      "bytes": 258,
+      "sha256": "aa197f80761c1540af915cc29e2ea07bd53b9e7b0670c1afd3c069d8927afce0",
+      "gzipBytes": 184,
+      "gzipSha256": "ff2fcf6ebe19a92dcdd6b6650880cac53b2055ed14190ee79766701627f9c8e0"
+    },
+    {
+      "source": "attempts/maximum-partial-bob-claim/request.json",
+      "file": "files/attempts/maximum-partial-bob-claim/request.json.gz",
+      "bytes": 1178351,
+      "sha256": "f6eb3ed8ef234ceda5d72d7f65d38c8d935339e01901296cd0f70645d23820b2",
+      "gzipBytes": 195958,
+      "gzipSha256": "f8c00e56a60329d79d2b5b80b072ef8401b56e4a2aab007a8315d1ea76d07a90"
+    },
+    {
+      "source": "attempts/maximum-partial-bob-claim/rpc-request.json",
+      "file": "files/attempts/maximum-partial-bob-claim/rpc-request.json.gz",
+      "bytes": 510568,
+      "sha256": "38c8b5b66a91ba8f95933351bb51f49c8bcb1dbd24ff35d3d435412b3ff020df",
+      "gzipBytes": 171805,
+      "gzipSha256": "1219b18bb64a7a5c4e96d529e82675b8186496fc74b2a1123406a928f7fd7c06"
+    },
+    {
+      "source": "attempts/maximum-partial-bob-claim/rpc-response-meta.json",
+      "file": "files/attempts/maximum-partial-bob-claim/rpc-response-meta.json.gz",
+      "bytes": 120,
+      "sha256": "dac63eed566a54e025d7dfcbb1f2b7991d23c59fba11f5b21763a42249d36770",
+      "gzipBytes": 117,
+      "gzipSha256": "500a998fac6f6906368f41f425dc75270b3e9c2226a48c6ee3eb5ccc73bc2346"
+    },
+    {
+      "source": "attempts/maximum-partial-bob-claim/rpc-response.body",
+      "file": "files/attempts/maximum-partial-bob-claim/rpc-response.body.gz",
+      "bytes": 38,
+      "sha256": "0d838a349418eb2e4db232f5454ddf684afea2d53c155da1fca3952dd564bab5",
+      "gzipBytes": 57,
+      "gzipSha256": "dcd098dc4a0e86eaf34f9806fa594225f4131d05ad260f60b72acf16432af8bf"
+    },
+    {
+      "source": "attempts/maximum-partial-bob-claim/timing.json",
+      "file": "files/attempts/maximum-partial-bob-claim/timing.json.gz",
+      "bytes": 107,
+      "sha256": "2034c670451b2cc7b7eba405ea1bdfa76bf31644eb137558a6044354a60add18",
+      "gzipBytes": 105,
+      "gzipSha256": "b9b2582ef4eeeddfdb0b1233fa3c22301b8e89e2c053ffeb573a24c1d73550fb"
+    },
+    {
+      "source": "attempts/maximum-partial-charlie-claim/included.json",
+      "file": "files/attempts/maximum-partial-charlie-claim/included.json.gz",
+      "bytes": 2970,
+      "sha256": "0c958ce6f192cdb6b480379bee2fc36eb5aa0532bd4c762ac5279613367c5f97",
+      "gzipBytes": 1229,
+      "gzipSha256": "b9575c2ee5a491669b0aa6ccfa603f56af3e73e4667152599e8f936e4f8235a3"
+    },
+    {
+      "source": "attempts/maximum-partial-charlie-claim/intent.json",
+      "file": "files/attempts/maximum-partial-charlie-claim/intent.json.gz",
+      "bytes": 184,
+      "sha256": "7e413c4c4cc9b40144df6a0fe7e2c815cc14d43aec3bc2e39fbbc663f5e77ab8",
+      "gzipBytes": 166,
+      "gzipSha256": "e8645f49e21f2445aa4f96db3320c816449401f803856185b0b303f861ab49ca"
+    },
+    {
+      "source": "attempts/maximum-partial-charlie-claim/preflight.json",
+      "file": "files/attempts/maximum-partial-charlie-claim/preflight.json.gz",
+      "bytes": 1615,
+      "sha256": "7365e6c158299ab4517d799f34e7c70328a0e93964aea29c28e33b780cd6bf8f",
+      "gzipBytes": 820,
+      "gzipSha256": "2ff95c4f4ff561bbcbb0b6d44b8625c2642fe3e0e2037df466c463d19f5894ae"
+    },
+    {
+      "source": "attempts/maximum-partial-charlie-claim/receipt.json",
+      "file": "files/attempts/maximum-partial-charlie-claim/receipt.json.gz",
+      "bytes": 258,
+      "sha256": "f4daa0db249a26ab3dec30ff1feadb58f7673c4fa0329b8922bf7d678776c083",
+      "gzipBytes": 183,
+      "gzipSha256": "20d571a790e8a5dfcff6dc1fa0bce0fc990c7fad6b53e0c9191f8ba38e3016ab"
+    },
+    {
+      "source": "attempts/maximum-partial-charlie-claim/request.json",
+      "file": "files/attempts/maximum-partial-charlie-claim/request.json.gz",
+      "bytes": 1148911,
+      "sha256": "c030c52f928f6f4a6944599aed348cf98fde18dc01412a531a0915dbe4c5d526",
+      "gzipBytes": 193529,
+      "gzipSha256": "1be2d6d5b2e9719778e5f5af756e94e48f119429ad7d38e5843bac3766cf30b8"
+    },
+    {
+      "source": "attempts/maximum-partial-charlie-claim/rpc-request.json",
+      "file": "files/attempts/maximum-partial-charlie-claim/rpc-request.json.gz",
+      "bytes": 488473,
+      "sha256": "64077049c2581984475d04bc30841d54a7c48543fcb6db135beea0b61ff1bb32",
+      "gzipBytes": 169482,
+      "gzipSha256": "650b075e4660c2bd93215a0dc45e604a2c418fc13f6e5278702d1419e6b93f3a"
+    },
+    {
+      "source": "attempts/maximum-partial-charlie-claim/rpc-response-meta.json",
+      "file": "files/attempts/maximum-partial-charlie-claim/rpc-response-meta.json.gz",
+      "bytes": 120,
+      "sha256": "eae25f2bfcaa6f20707ae957d3a4c79897b62f68f10ffca3a7a40358eb2dccc6",
+      "gzipBytes": 118,
+      "gzipSha256": "c34bcfdf82407e005e84054a0b1d526e7d5f8c18d463464ad94d05c0109a189b"
+    },
+    {
+      "source": "attempts/maximum-partial-charlie-claim/rpc-response.body",
+      "file": "files/attempts/maximum-partial-charlie-claim/rpc-response.body.gz",
+      "bytes": 38,
+      "sha256": "0d838a349418eb2e4db232f5454ddf684afea2d53c155da1fca3952dd564bab5",
+      "gzipBytes": 57,
+      "gzipSha256": "dcd098dc4a0e86eaf34f9806fa594225f4131d05ad260f60b72acf16432af8bf"
+    },
+    {
+      "source": "attempts/maximum-partial-charlie-claim/timing.json",
+      "file": "files/attempts/maximum-partial-charlie-claim/timing.json.gz",
+      "bytes": 107,
+      "sha256": "19bc58a961234c10e2bd4038469deeca266d56c3437989e22ff9b08541db2b5c",
+      "gzipBytes": 105,
+      "gzipSha256": "d4d3e9190c1e008a2555039ca2143b2699e0fb714c9fba5c9ac79e516d60b03e"
+    },
+    {
+      "source": "attempts/maximum-partial-dave-claim/included.json",
+      "file": "files/attempts/maximum-partial-dave-claim/included.json.gz",
+      "bytes": 3685,
+      "sha256": "b813efc965893bc96e9fc9db912f522e4ca6f307d98ec9db5111e532a349f910",
+      "gzipBytes": 1305,
+      "gzipSha256": "918a314808ff914d1da10da5cbb213191eb2600659862efd46c32c63d9960f4f"
+    },
+    {
+      "source": "attempts/maximum-partial-dave-claim/intent.json",
+      "file": "files/attempts/maximum-partial-dave-claim/intent.json.gz",
+      "bytes": 183,
+      "sha256": "ddbca4e510280cdd3fb30d229a8dfd7cf3fb784064d1ab5e96a7197a7d09345b",
+      "gzipBytes": 167,
+      "gzipSha256": "38d77bb0be4af9d4601fd1d9ddcbeac67d9a429491ecebd561312277ee18cefb"
+    },
+    {
+      "source": "attempts/maximum-partial-dave-claim/preflight.json",
+      "file": "files/attempts/maximum-partial-dave-claim/preflight.json.gz",
+      "bytes": 1614,
+      "sha256": "c5318194019883bcc5ed62bce2382387e9a6bdfa745364b194e2fa4a6a6132ed",
+      "gzipBytes": 817,
+      "gzipSha256": "c7186ace2c22975fb38a9c520a76688f4d9e6b01856eab1c011bab6ab297d582"
+    },
+    {
+      "source": "attempts/maximum-partial-dave-claim/receipt.json",
+      "file": "files/attempts/maximum-partial-dave-claim/receipt.json.gz",
+      "bytes": 258,
+      "sha256": "101b7af65802e21cf6234baf299381b0a7928ac5415385e4af7a3cb65f5be347",
+      "gzipBytes": 184,
+      "gzipSha256": "a3f5a689ff70c39dee94e98f31e6a590b78137be55d34bfba3bd9b7f2d090d56"
+    },
+    {
+      "source": "attempts/maximum-partial-dave-claim/request.json",
+      "file": "files/attempts/maximum-partial-dave-claim/request.json.gz",
+      "bytes": 1178128,
+      "sha256": "7805f344a0db58afed91c3cf0ac166d9dff7bdd45e918838f9bc1f586fc28e4c",
+      "gzipBytes": 195088,
+      "gzipSha256": "e3c3a8a1a26fbf23db1ddc8095e0d39aa48c1e7af00d2486edc5f40fef515312"
+    },
+    {
+      "source": "attempts/maximum-partial-dave-claim/rpc-request.json",
+      "file": "files/attempts/maximum-partial-dave-claim/rpc-request.json.gz",
+      "bytes": 510345,
+      "sha256": "372afa37ce5d9704b65622d59c2349fadc1574182282503072da80f500a2cc6f",
+      "gzipBytes": 170222,
+      "gzipSha256": "aa58012aab1ebd3b18a65c525004064f8c25a3be319f060cdb3e1b3e01170644"
+    },
+    {
+      "source": "attempts/maximum-partial-dave-claim/rpc-response-meta.json",
+      "file": "files/attempts/maximum-partial-dave-claim/rpc-response-meta.json.gz",
+      "bytes": 120,
+      "sha256": "dac63eed566a54e025d7dfcbb1f2b7991d23c59fba11f5b21763a42249d36770",
+      "gzipBytes": 117,
+      "gzipSha256": "500a998fac6f6906368f41f425dc75270b3e9c2226a48c6ee3eb5ccc73bc2346"
+    },
+    {
+      "source": "attempts/maximum-partial-dave-claim/rpc-response.body",
+      "file": "files/attempts/maximum-partial-dave-claim/rpc-response.body.gz",
+      "bytes": 38,
+      "sha256": "0d838a349418eb2e4db232f5454ddf684afea2d53c155da1fca3952dd564bab5",
+      "gzipBytes": 57,
+      "gzipSha256": "dcd098dc4a0e86eaf34f9806fa594225f4131d05ad260f60b72acf16432af8bf"
+    },
+    {
+      "source": "attempts/maximum-partial-dave-claim/timing.json",
+      "file": "files/attempts/maximum-partial-dave-claim/timing.json.gz",
+      "bytes": 107,
+      "sha256": "6a52c37fa101806f5f2efc1b6378dd7a9053204fbb141e702f20c356412c130c",
+      "gzipBytes": 105,
+      "gzipSha256": "1b68da33e0a2f92c8686785f4ef1e5407137e6fd3bb42a02dd21211a70de63a0"
+    },
+    {
+      "source": "attempts/maximum-partial-trader-claim/included.json",
+      "file": "files/attempts/maximum-partial-trader-claim/included.json.gz",
+      "bytes": 3396,
+      "sha256": "5fb0dd12d469bfd6b9dc1ba64d38c794ceea45f9c1d49440306dd4320c944530",
+      "gzipBytes": 1273,
+      "gzipSha256": "36c1c43f8574d9f374d23dd98f1a48daace7a1da81f8aa349a9e8498fd7d700f"
+    },
+    {
+      "source": "attempts/maximum-partial-trader-claim/intent.json",
+      "file": "files/attempts/maximum-partial-trader-claim/intent.json.gz",
+      "bytes": 184,
+      "sha256": "66cc504ef14b55ca79c4171f264788620fcd1cd0157271cffceb69748f5be690",
+      "gzipBytes": 168,
+      "gzipSha256": "a961f4e158ea0039e11cd239d2c3027b09780a6677b7e365cc0384fe5787bb38"
+    },
+    {
+      "source": "attempts/maximum-partial-trader-claim/preflight.json",
+      "file": "files/attempts/maximum-partial-trader-claim/preflight.json.gz",
+      "bytes": 1616,
+      "sha256": "a737931c0d92c096c9f3bf2c1fa16ca302cc941ebc12627ab94d78507ecb4105",
+      "gzipBytes": 816,
+      "gzipSha256": "8cbfa65e65abf618d075a8a7d656f25d1523146dd83cc428614cc1df7af555e5"
+    },
+    {
+      "source": "attempts/maximum-partial-trader-claim/receipt.json",
+      "file": "files/attempts/maximum-partial-trader-claim/receipt.json.gz",
+      "bytes": 258,
+      "sha256": "cfbad39809ebb28b1eeb8193ceca1e7e47677b65715aa2170ed9dd0645cfd829",
+      "gzipBytes": 184,
+      "gzipSha256": "57f23a34aac792e9d6ca3763a9000d84cedcb6ef028d20cefacba312b54b5fda"
+    },
+    {
+      "source": "attempts/maximum-partial-trader-claim/request.json",
+      "file": "files/attempts/maximum-partial-trader-claim/request.json.gz",
+      "bytes": 1171816,
+      "sha256": "7bab40ddb38c8aaf4b965820ae7d0f185602d6b1a2c62644fb912598a3f4e62a",
+      "gzipBytes": 195249,
+      "gzipSha256": "7286f7e281be28820c604585e3b1bc9b2e6ddc126371d0757bd971cee1a25fd0"
+    },
+    {
+      "source": "attempts/maximum-partial-trader-claim/rpc-request.json",
+      "file": "files/attempts/maximum-partial-trader-claim/rpc-request.json.gz",
+      "bytes": 505759,
+      "sha256": "70a4e8aa5d250f98409c65ceea8a31c9102b32c45dd9d93e3652c65af28b4f31",
+      "gzipBytes": 169303,
+      "gzipSha256": "dbed2bf64b4bf4c5fd3f6334bc5127b4aa02b303a4bc0a96d097f6230ccfe6a6"
+    },
+    {
+      "source": "attempts/maximum-partial-trader-claim/rpc-response-meta.json",
+      "file": "files/attempts/maximum-partial-trader-claim/rpc-response-meta.json.gz",
+      "bytes": 120,
+      "sha256": "dac63eed566a54e025d7dfcbb1f2b7991d23c59fba11f5b21763a42249d36770",
+      "gzipBytes": 117,
+      "gzipSha256": "500a998fac6f6906368f41f425dc75270b3e9c2226a48c6ee3eb5ccc73bc2346"
+    },
+    {
+      "source": "attempts/maximum-partial-trader-claim/rpc-response.body",
+      "file": "files/attempts/maximum-partial-trader-claim/rpc-response.body.gz",
+      "bytes": 38,
+      "sha256": "0d838a349418eb2e4db232f5454ddf684afea2d53c155da1fca3952dd564bab5",
+      "gzipBytes": 57,
+      "gzipSha256": "dcd098dc4a0e86eaf34f9806fa594225f4131d05ad260f60b72acf16432af8bf"
+    },
+    {
+      "source": "attempts/maximum-partial-trader-claim/timing.json",
+      "file": "files/attempts/maximum-partial-trader-claim/timing.json.gz",
+      "bytes": 107,
+      "sha256": "5aee338c0bcf424cde8f76b2fdf1a46f8eaecd80b5b065b5f07be426702eab0a",
+      "gzipBytes": 105,
+      "gzipSha256": "bd9060309df7e5705db7ebf4fd497d3d558e8cbcb334bca9609a658a981d0dd9"
+    },
+    {
+      "source": "maximum-partial-bob-claim.log",
+      "file": "files/maximum-partial-bob-claim.log.gz",
+      "bytes": 2666,
+      "sha256": "a9144015fc6353f5ef831e77ab196b97446155158c79c5e9ceba4c5e37a3d087",
+      "gzipBytes": 563,
+      "gzipSha256": "992265a877306d70b5701d46566b9861c3c06b64a1219e6fd4f066d8501ed917"
+    },
+    {
+      "source": "maximum-partial-charlie-claim.log",
+      "file": "files/maximum-partial-charlie-claim.log.gz",
+      "bytes": 2129,
+      "sha256": "e8c8a15296483ad35cd4d886e24dc9a1a68aacb511e81b5fa6715bcd7a5a3460",
+      "gzipBytes": 537,
+      "gzipSha256": "9d988989332dc89a52d82a95a21be3f5cde299bc5f73ac2f4a71c6013e966974"
+    },
+    {
+      "source": "maximum-partial-dave-claim.log",
+      "file": "files/maximum-partial-dave-claim.log.gz",
+      "bytes": 2679,
+      "sha256": "f2c437be979a93eb02e251cc8fbdeadda6ccc012e28853ef5a321d14450616e1",
+      "gzipBytes": 562,
+      "gzipSha256": "0df0d8b852d6fd9458a9027c4148b829e6dfba1a25fce72dddbdd155b682c9e3"
+    },
+    {
+      "source": "maximum-partial-finish-runner-v3.log",
+      "file": "files/maximum-partial-finish-runner-v3.log.gz",
+      "bytes": 3093,
+      "sha256": "5d7315bc530ba4a4960d61b6c40d8dd0dc98b2dbb2edf1775d124658170c6aea",
+      "gzipBytes": 1040,
+      "gzipSha256": "b313e81e6f03462bc181eabddb59784f21bc26dac299c1cfbeec1941494c0d19"
+    },
+    {
+      "source": "maximum-partial-finish-runner-v4.log",
+      "file": "files/maximum-partial-finish-runner-v4.log.gz",
+      "bytes": 484,
+      "sha256": "c9c49fcba1db1f724e0a89c46025ba1207ccb3940ccea1999c23a92c26a08948",
+      "gzipBytes": 357,
+      "gzipSha256": "70e3f9bd6524f566476ac7675037f83c4aa68e2a1883919afd6609342836819f"
+    },
+    {
+      "source": "maximum-partial-trader-claim.log",
+      "file": "files/maximum-partial-trader-claim.log.gz",
+      "bytes": 2540,
+      "sha256": "3eef67885881c6037b743e915b93d52b793b6467450639f6ccf503811e5797b5",
+      "gzipBytes": 555,
+      "gzipSha256": "2fd261c8b01e9c52a58464a13cc86cd3225cd3d8d0568e85ca500a7caa95b77d"
+    },
+    {
+      "source": "public/maximum-partial-bob-claim.json",
+      "file": "files/public/maximum-partial-bob-claim.json.gz",
+      "bytes": 1747,
+      "sha256": "48a821d7515774b05fe6210075e1dc4a8d114c119d49bb45939337544c42a0fa",
+      "gzipBytes": 526,
+      "gzipSha256": "7a48ec027fd47905765f15f0810fe420693425c83b16670765200e23878a7781"
+    },
+    {
+      "source": "public/maximum-partial-charlie-claim.json",
+      "file": "files/public/maximum-partial-charlie-claim.json.gz",
+      "bytes": 1098,
+      "sha256": "ff803c6ff7e08fa9f1d0de4aec47635b8b2cfaab5d3aa54328a194367b8b09a7",
+      "gzipBytes": 491,
+      "gzipSha256": "105ae8a6d5034f16e67a0ca3528d38444f443bc85cea84204351750f3955710a"
+    },
+    {
+      "source": "public/maximum-partial-dave-claim.json",
+      "file": "files/public/maximum-partial-dave-claim.json.gz",
+      "bytes": 1747,
+      "sha256": "0e2a6355cf31c896ec996d1c42499285954aa77ae6f187d5bfc0a38c753380f4",
+      "gzipBytes": 526,
+      "gzipSha256": "e4165c9e2011e16a8042b124ac90a8eee67d6c8bb5000c4d5163a5ff897aad5d"
+    },
+    {
+      "source": "public/maximum-partial-nft-recovery-3-preproof-restart-check-v1.json",
+      "file": "files/public/maximum-partial-nft-recovery-3-preproof-restart-check-v1.json.gz",
+      "bytes": 487,
+      "sha256": "ddb49fd5131a4d9d444ca9f48f51ad7c921aa9c5fa55015755af337c88f67ec1",
+      "gzipBytes": 357,
+      "gzipSha256": "0bff1bb6af0f56307470062faf94d5fe144253dab61c17c81c715cd40f243cd1"
+    },
+    {
+      "source": "public/maximum-partial-nft-wrapped-rpc-classification-v1.json",
+      "file": "files/public/maximum-partial-nft-wrapped-rpc-classification-v1.json.gz",
+      "bytes": 596,
+      "sha256": "fc85139bc7f6606a3bc70b62030cf9c7d7743235d9d6fd9fc2cbdb210a334ecb",
+      "gzipBytes": 449,
+      "gzipSha256": "455c872e6ad4ad8a1f462277f239fb1c12fd7b18bba474320b9bfbaa5bd7570f"
+    },
+    {
+      "source": "public/maximum-partial-nftmarket-recovery-3-formal-task.json",
+      "file": "files/public/maximum-partial-nftmarket-recovery-3-formal-task.json.gz",
+      "bytes": 654,
+      "sha256": "55f260736f895ee3bba86929f7550970adb1ab4819153c7e8044abcf6c60146a",
+      "gzipBytes": 270,
+      "gzipSha256": "bab61efb0f5e4f9aff56b0775cd03f79199ad358a5bf72c781e7e377d15cd8e8"
+    },
+    {
+      "source": "public/maximum-partial-recovery-resume-plan-v2.json",
+      "file": "files/public/maximum-partial-recovery-resume-plan-v2.json.gz",
+      "bytes": 639,
+      "sha256": "794fdf782be32c1d02d78fd807b189f88924f072e5fed86b1defd7a92852f58f",
+      "gzipBytes": 453,
+      "gzipSha256": "acb88924262a6b01998f8e41cbcea87f35416e44743f56ebfd8ab85bc03960d5"
+    },
+    {
+      "source": "public/maximum-partial-trader-claim.json",
+      "file": "files/public/maximum-partial-trader-claim.json.gz",
+      "bytes": 1663,
+      "sha256": "db5b489b1b1ac85376ceb4a6f697b73185905c655bdc7456d47cfc5c7c8889bc",
+      "gzipBytes": 521,
+      "gzipSha256": "58ccdb826ee77f161a40455f85b7f1c3eeb79f37c70dc801f31f3bd308109e87"
+    },
+    {
+      "source": "public/psy-executor-recovery-full-regression-20261021-v26.log",
+      "file": "files/public/psy-executor-recovery-full-regression-20261021-v26.log.gz",
+      "bytes": 31621,
+      "sha256": "f58e1e8d560ef088c6d7a0e2bb353e3f6e77b3c439a6863d969bb18f4a4783af",
+      "gzipBytes": 6999,
+      "gzipSha256": "84de50ceeba9d784f0530874d8d064271492320336786c493c6352e2faac7e46"
+    },
+    {
+      "source": "public/psy-partial-resume-claims-regression-20261021-v1.log",
+      "file": "files/public/psy-partial-resume-claims-regression-20261021-v1.log.gz",
+      "bytes": 2199,
+      "sha256": "d48033fad8602deb66bdc196a68e70bdc409aeeeefbb08c44c504544a805dc61",
+      "gzipBytes": 683,
+      "gzipSha256": "dd079381ed501233e20984fe05f6becd6e67c41b24857cb43509f0ff55291f46"
+    },
+    {
+      "source": "public/psy-verified-read-outage-regression-20261021-v1.log",
+      "file": "files/public/psy-verified-read-outage-regression-20261021-v1.log.gz",
+      "bytes": 5605,
+      "sha256": "d52f4258d03570d079f3ff8ade3c576275c12d3fd35054ab99f3f9da0fb5a0e0",
+      "gzipBytes": 1586,
+      "gzipSha256": "ab862b2037a636758df451872ee550f8002237174180f1757b24b6c482e0276f"
+    },
+    {
+      "source": "public/runtime-source-overlay-v16.json",
+      "file": "files/public/runtime-source-overlay-v16.json.gz",
+      "bytes": 34841,
+      "sha256": "86c8a4fc0dc3dcc577f8298eb7d88587b4499c0f94472b606956b6574c503dbe",
+      "gzipBytes": 14825,
+      "gzipSha256": "aab71b083f76059f75457297d1de3073e34d20eb74aead67dcb9b4bd27073462"
+    },
+    {
+      "source": "runtime/compact/sepolia/667840/2df80725b15b5b0173adf95245049f6dab2999e7a66ba1eaabc336d2dceccacb/calls.json",
+      "file": "files/runtime/compact/sepolia/667840/2df80725b15b5b0173adf95245049f6dab2999e7a66ba1eaabc336d2dceccacb/calls.json.gz",
+      "bytes": 476,
+      "sha256": "58d1a96723eb922e37b1f1e3db020bac5e2d1dc0fdc0930cf86f86f0ee9bd2f2",
+      "gzipBytes": 174,
+      "gzipSha256": "16f8f488676f517f2721707eef9bc81e770e2d87b7ffe81d0d5c22a4e77177fb"
+    },
+    {
+      "source": "runtime/compact/sepolia/667840/2df80725b15b5b0173adf95245049f6dab2999e7a66ba1eaabc336d2dceccacb/guard.json",
+      "file": "files/runtime/compact/sepolia/667840/2df80725b15b5b0173adf95245049f6dab2999e7a66ba1eaabc336d2dceccacb/guard.json.gz",
+      "bytes": 3118,
+      "sha256": "e2fa917132c288a9ae8a8d47b4e6da85c203289a3fe6b78785ee4252dcc9dbeb",
+      "gzipBytes": 906,
+      "gzipSha256": "e4913294cbc9f69f2be610186be35b9268c113dccb088c6a89b267023fdbd2d5"
+    },
+    {
+      "source": "runtime/compact/sepolia/667840/2df80725b15b5b0173adf95245049f6dab2999e7a66ba1eaabc336d2dceccacb/proof-bfa4e325-1c40-4030-83ea-d4fc64ab004f/failure.json",
+      "file": "files/runtime/compact/sepolia/667840/2df80725b15b5b0173adf95245049f6dab2999e7a66ba1eaabc336d2dceccacb/proof-bfa4e325-1c40-4030-83ea-d4fc64ab004f/failure.json.gz",
+      "bytes": 373,
+      "sha256": "c22e8c4c11ba63f39645a3754d1e34dca915f3aeceba00a5e07e49979e3ee9b8",
+      "gzipBytes": 265,
+      "gzipSha256": "8f5fe737c8fc5966264767d925889bd1a354e426d9d0287cbb4c43d7f96ef0cf"
+    },
+    {
+      "source": "runtime/compact/sepolia/667840/2df80725b15b5b0173adf95245049f6dab2999e7a66ba1eaabc336d2dceccacb/proof-bfa4e325-1c40-4030-83ea-d4fc64ab004f.preflight-failure.log",
+      "file": "files/runtime/compact/sepolia/667840/2df80725b15b5b0173adf95245049f6dab2999e7a66ba1eaabc336d2dceccacb/proof-bfa4e325-1c40-4030-83ea-d4fc64ab004f.preflight-failure.log.gz",
+      "bytes": 621,
+      "sha256": "7a4914d8a86f83a2370423d3a192b9da00381b6bc8c475ab19b2b6bd6f210a64",
+      "gzipBytes": 408,
+      "gzipSha256": "79eeaa4cf04f5b7a7e515ca0282c22a01833879a2c14c1e8c435fc035385989b"
+    }
+  ]
+}
