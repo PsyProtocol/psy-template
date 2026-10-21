@@ -4,6 +4,32 @@ Branch: `markets-batch-capacity-recovery-20261020`; accepted starting commit
 `e45d689e6806d362c03f15697c90aba44f8704e7`. No Node edits, old-contract update
 probes, new branches or replacement of original artifacts are authorized here.
 
+## Latest real milestone: preceding principal and ordinary claims closed
+
+At **2026-10-21 10:30:33 UTC**, the failed maximum-intake interval passed its
+final audit. All original sender FT/native principal and the same two QA NFTs
+were restored. All accepted cancelled orders refunded; unaccepted deposits
+returned to their original senders. Trader's final ordinary claim is included
+at **360546**, Charlie's at **360551**. Bob/Dave had already caught up; explicit
+observations avoided additional empty claims. The final NFT return was **360540**.
+
+The complete 14-account/pairwise-pending native interval is
+**1,836.998318000 → 1,746.997458000 test PSY**: the decrease is exactly
+**90.000860000 test PSY** in actual included fees. FT-A and FT-B each remain
+1,000 QA tokens; NFT identities, metadata and original holder slots match.
+This includes failed intake, timeout/retry, cancellation, refunds, gas recovery
+and ordinary claims. It has **zero economic fills**, is **not** a maximum batch
+pass, normal service cost or production-readiness result. Existing pUSDT unused.
+
+The original immutable plan and failed audit are retained. The completed parent
+case is archived in `parent-principal-closure-v1/`; original and compressed
+hashes passed verification for **2,677 files** (1,141,790,498 original bytes;
+81,765,018 gzip bytes). This includes preserved failures and is not 2,677
+successful transactions. The frozen source-v17 comparison has
+now started its fixed-40 group; its results and the new bulk-family real
+deployment/settlement remain pending. No competing financial proof process is
+intentionally started during the comparison.
+
 The ordered local QA commands, completion gates, evidence scope and recovery
 rules are in [the acceptance runbook](MARKET_BATCH_ACCEPTANCE_RUNBOOK_20261021.md).
 Fresh LP acceptance now captures a pre-plan, after-seed-claim asset baseline
