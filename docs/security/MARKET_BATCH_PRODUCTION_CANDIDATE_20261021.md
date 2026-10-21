@@ -30,6 +30,13 @@ explicit ordinary-wallet action. The immutable LP plan uses the existing
 128-checkpoint bound, selected before admission; its cutoff is not moved when
 proving or confirmation is slow.
 
+The not-yet-created omitted-order recovery plan also selects the existing
+128-checkpoint maximum. Its four independent vault starts and later aborts run
+concurrently; `Promise.allSettled` waits for every sibling before surfacing an
+error. This reduces avoidable scheduling delay without weakening any cutoff,
+retrying an unknown submission or claiming same-pool parallel execution. The
+script passes syntax validation; its live gate remains pending.
+
 ## Ordered gates
 
 | Gate | Current work | Not yet established |
