@@ -18,8 +18,8 @@ NFT 2469 remains retired; NFT 2472 is the corrected live baseline.
 Last completed milestone: exact sender return and ordinary claim, archived in
 `bootstrap-orphan-return-v1/`. All four fresh deployments and activations are
 confirmed; Curve inventory initialization is confirmed at checkpoint **359318**.
-The LP order and authenticated admission are confirmed (admission checkpoint
-**359427**); the worker is waiting for its fixed sealing cutoff **359455**. The
+The LP order, authenticated admission (**359427**) and sealing (**359465**,
+after fixed source cutoff **359455**) are confirmed; commitment is proving. The
 maximum four-member economic batches, controlled warm/cold full-proof pairs,
 omitted-order exits and replacement NFT expiry/competition stages have **not yet
 completed**. Their scripts and waiting workers are not acceptance evidence.
@@ -98,6 +98,13 @@ before settlement and two held/zero pending after ordinary claims. Snapshots
 also record their RPC/limiter/retry/local-accounting wall time separately from
 proving and confirmation; that prospective timing was not retrofitted into the
 earlier read-only sample. Maximum and recovery live gates are still pending.
+
+Subsequent workers use runtime source overlay **v3**, at pushed source
+`d7fefc5d70f42db54ebd7b0ffc67adefdea69c1b`, SHA256
+`3ceabfe635b352eef1782a53d71a9ec0acee9796af87b22314624719c09c7867`.
+It links v2's exact hash and lists the six changed accounting/acceptance JS
+files. The registered keys, compiled market/asset artifacts, Rust driver and
+SDK dependency snapshot did not change for these reporting/accounting fixes.
 
 ## Ordered gates
 
