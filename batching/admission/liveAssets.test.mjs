@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {cohortAssets,payoutClaims} from './liveAssets.mjs';
+import {cohortAssets,payoutClaims,canonicalHeldNfts} from './liveAssets.mjs';
+import {losslessJson,parseLosslessJson} from '../../amm/u124/client.mjs';
 
 function fixture() {
  const values=new Map(),set=(user,slot,value)=>values.set(`${user}:${slot}`,BigInt(value));
@@ -26,6 +27,12 @@ test('held plus unclaimed duplicate identities cannot pass NFT conservation',asy
 test('invalid NFT cursors and zero unclaimable entries fail the snapshot',async()=>{
  for(const [sent,claimed]of [[0,1],[5,0]]){const x=fixture();x.cursor(1,2,sent,claimed);await assert.rejects(x.snapshot,/NFT FIFO cursor/);}
  const x=fixture();x.cursor(1,2,1,0);await assert.rejects(x.snapshot,/zero pending NFT identity/);
+});
+test('persisted exact snapshots compare with live NFT metadata without rounding or prototype mismatch',async()=>{
+ const x=fixture();x.set(2,30,11);x.set(2,34,1);x.set(2,35,111);
+ const live=await x.snapshot(),saved=parseLosslessJson(losslessJson(live));
+ assert.equal(saved.nftTotal,1n);assert.deepEqual(canonicalHeldNfts(live.nfts),canonicalHeldNfts(saved.nfts));
+ const bad=structuredClone(live.nfts);bad[0].tokenId[0]=9007199254740993;assert.throws(()=>canonicalHeldNfts(bad),/unsafe NFT snapshot integer/);
 });
 
 const setup=()=>{const values=new Map(),set=(u,c,o,n)=>values.set(`${u}:${c}:${o}`,BigInt(n)),s={checkpoint:9,slot:async(u,c,o)=>values.get(`${u}:${c}:${o}`)??0n,contractStateRoot:async()=> '0'.repeat(64)};return {s,set};};

@@ -18,8 +18,9 @@ NFT 2469 remains retired; NFT 2472 is the corrected live baseline.
 Last completed milestone: exact sender return and ordinary claim, archived in
 `bootstrap-orphan-return-v1/`. All four fresh deployments and activations are
 confirmed; Curve inventory initialization is confirmed at checkpoint **359318**.
-The LP order, authenticated admission (**359427**) and sealing (**359465**,
-after fixed source cutoff **359455**) are confirmed; commitment is proving. The
+The LP order, authenticated admission (**359427**), sealing (**359465**,
+after fixed source cutoff **359455**), commitment (**359484**) and settlement
+(**359502**) are confirmed. Both QA FT reserves equal 20 tokens. The
 maximum four-member economic batches, controlled warm/cold full-proof pairs,
 omitted-order exits and replacement NFT expiry/competition stages have **not yet
 completed**. Their scripts and waiting workers are not acceptance evidence.
@@ -105,6 +106,23 @@ Subsequent workers use runtime source overlay **v3**, at pushed source
 It links v2's exact hash and lists the six changed accounting/acceptance JS
 files. The registered keys, compiled market/asset artifacts, Rust driver and
 SDK dependency snapshot did not change for these reporting/accounting fixes.
+
+Before the maximum stage, review found an acceptance-only integer/prototype
+comparison defect: persisted exact JSON has BigInt IDs/counts and null-prototype
+objects; live snapshots have bounded Number IDs/counts. NFT sender lookups and
+identity comparisons now use bounded canonical integer/hash rows, and persisted
+counts are compared as BigInt. Amounts and hashes are never rounded. Seven
+accounting regressions (overlapping the earlier six) and a read-only round-trip
+of the two actual checkpoint-359460 NFT entries passed. Original snapshots are
+unchanged. This fixes false acceptance failures; it does not change a market,
+key, asset ABI or Node. A later source overlay must supplement v3.
+
+The maximum stage has started its pre-order accounting snapshot. A separate
+read-only `candidateLiquidityAccounting.mjs` is ready to close the LP **tail**
+interval from checkpoint 359460 to that pre-order snapshot, using exact included
+fees. It deliberately excludes earlier order/start/admit costs and must not be
+reported as total LP cost. Its real interval check is still pending until both
+completed snapshot files exist.
 
 ## Ordered gates
 

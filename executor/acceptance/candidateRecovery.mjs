@@ -8,7 +8,7 @@ import {read, save, run, binding} from '../../batching/admission/liveSupport.mjs
 import {publicState} from '../publicState.mjs';
 import {call, encodeAmount, FEE_ESCROW as F, parseLosslessJson} from '../../amm/u124/client.mjs';
 import {sponsorCalls, curveLimitCalls} from '../../batching/v2/client.mjs';
-import {cohortAssets, payoutClaims} from '../../batching/admission/liveAssets.mjs';
+import {cohortAssets, payoutClaims, canonicalHeldNfts} from '../../batching/admission/liveAssets.mjs';
 
 const [base, original] = process.argv.slice(2), h = cohort(base, original), unit = 10n ** 18n;
 assert.ok(existsSync(join(base, 'public/maximum-complete-v1.json')));
@@ -84,8 +84,8 @@ try {
  await h.user('bob', 'omitted-bob-claim', await payoutClaims(await publicState(h.config), {userId: actor.id, markets: h.markets, tokenAbi: h.token, nftAbi: h.nft, nftSlot: 0}));
  const before = parseLosslessJson(readFileSync(beforePath, 'utf8')), after = await cohortAssets(await publicState(h.config), spec);
  for (const asset of spec.assets) {assert.equal(after.totals[asset], 1000n * unit); assert.equal(after.accounts[actor.id].ft[asset], before.accounts[actor.id].ft[asset]);}
- assert.deepEqual(after.nfts, before.nfts);
- assert.equal(before.nftTotal,2);assert.equal(after.nftTotal,2);assert.equal(after.nftPending.length,0);
+ assert.deepEqual(canonicalHeldNfts(after.nfts), canonicalHeldNfts(before.nfts));
+ assert.equal(before.nftTotal,2n);assert.equal(after.nftTotal,2);assert.equal(after.nftPending.length,0);
  let userFees = 0n, totalFees = 0n;
  for (const name of readdirSync(join(base, 'attempts')).filter(x => x.startsWith('omitted-'))) {const p = join(base, 'attempts', name, 'included.json'); if (!existsSync(p)) continue; const r = read(p); const fee = BigInt(r.receipt.data.result.fees_collected); totalFees += fee; if (r.receipt.data.owner_user_id === actor.id) userFees += fee;}
  for (const f of services) for (const r of (await f.journal.records()).filter(x => x.status === 'included' && Number(x.result.checkpoint) > Number(before.checkpoint))) totalFees += BigInt(r.result.receipt.data.result.fees_collected);
