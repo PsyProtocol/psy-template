@@ -17,7 +17,8 @@ export async function run(binary,args,log,env={}){
  finally {closeSync(fd);}
  return {startedAt,finishedAt:new Date().toISOString(),wallMilliseconds:Math.round(performance.now()-start)};
 }
-export async function binding(state,id){const l=await state.contractLeaf(id);return {contract:{contractId:id,codeRoot:l.code_root,layoutRoot:l.state_layout_root,stateTreeHeight:l.state_tree_height},functionTreeRoot:l.function_tree_root,layoutFieldCount:l.state_layout_field_count,layoutSlotCount:l.state_layout_slot_count};}
+export function contractBinding(id,l){return {contract:{contractId:id,codeRoot:l.code_root,layoutRoot:l.state_layout_root,stateTreeHeight:l.state_tree_height},functionTreeRoot:l.function_tree_root,layoutFieldCount:l.state_layout_field_count,layoutSlotCount:l.state_layout_slot_count};}
+export async function binding(state,id){return contractBinding(id,await state.contractLeaf(id));}
 export async function confirmUps(config,attempt,{polls=120,intervalMs=10000}={}){
  const p=read(join(attempt,'preflight.json'));assert.equal(p.fullUpsVerified,true);
  const userId=p.userId??p.core?.new_user_leaf?.user_id,endUserLeafHash=p.endUserLeafHash??p.core?.state_transition?.end_user_leaf_hash;
