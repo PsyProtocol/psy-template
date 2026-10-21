@@ -4,6 +4,16 @@ Branch: `markets-batch-capacity-recovery-20261020`; accepted starting commit
 `e45d689e6806d362c03f15697c90aba44f8704e7`. No Node edits, old-contract update
 probes, new branches or replacement of original artifacts are authorized here.
 
+## Replacement Book genuinely deployed and registered
+
+Orderbook **2479** is included at **360790**, with new bulk vault **1767616**
+(realm 1); indexed identity and fresh occurrence/owner/code/layout gates passed.
+`replacement-book-registered-v1/` contains **26** original/compressed-hash-checked
+files. Initial layout is **0→67 fields**, independently verified for this market;
+AMM's 71-field count is not a generic count for every market. Curve is compiling/
+proving against the new AMM vault 1013952; NFT is pending. No replacement-market
+funding, activation, economic execution or ordinary claim is yet accepted.
+
 ## Replacement AMM genuinely deployed and registered
 
 Replacement v2 AMM is **2478**, included at **360768**, new bulk vault
