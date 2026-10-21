@@ -271,7 +271,8 @@ The file cannot supply a task or bypass normal checks. The acceptance reader
 also requires exactly one planned task and its durable broadcast intent, binds
 the actual task ID, and waits for exact indexed/common inclusion. Original CLI
 logs are exclusive-created; interrupted attempts require explicit inspection.
-Four targeted intent/receipt-selection checks passed; the combined Executor/
+Five targeted intent/receipt-selection checks passed (including real subprocess
+rejection of null intent and wrong mode before any RPC config can load); the combined Executor/
 Curve reader suite passed **115** checks (overlapping earlier suites). The live positive gate
 has not run yet and must not be reported as daemon/watch restart acceptance.
 
