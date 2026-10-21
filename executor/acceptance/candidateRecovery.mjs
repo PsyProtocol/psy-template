@@ -14,6 +14,9 @@ const [base, original] = process.argv.slice(2), h = cohort(base, original), unit
 assert.ok(existsSync(join(base, 'public/maximum-complete-v1.json')));
 const actor = h.actors.bob, services = [], a = h.by.amm, b = h.by.orderbook,
  c = h.by.bondingcurve, n = h.by.nftmarket;
+// Independent vault anchors may progress together. Settle all results before
+// surfacing an error, so no sibling financial job continues behind a retry.
+const independent = async jobs => {const results = await Promise.allSettled(jobs.map(job => job())); const failed = results.find(r => r.status === 'rejected'); if (failed) throw failed.reason;};
 const spec = {users: [...Object.values(h.actors).map(x => x.id), ...h.markets.map(x => x.vault),
  ...h.markets.map(x => read(join(original, 'markets-v1', x.kind, 'live-registration.json')).vaultId), 1695936], assets: [2464, 2466], nftId: 2467};
 const beforePath = join(base, 'public/omitted-assets-before.json');
@@ -40,7 +43,7 @@ await h.user('bob', 'omitted-bob-nft-order', [n.order('close_buy', []), call(246
  n.order('open_listing', [BigInt(n.vault), 0n, encodeAmount(5n * unit), deadline, 2n]),
  {contract_id: 0n, method_name: 'simple_transfer', inputs: [BigInt(n.vault), F]}, call(2467n, h.nft, 'transfer', [0n, BigInt(n.vault)])]);
 const planPath = join(base, 'public/omitted-plan-v1.json');
-if (!existsSync(planPath)) { const s = await publicState(h.config); save(planPath, {cutoff: s.checkpoint + 64, epochs: {amm: 3, orderbook: 2, bondingcurve: 2, nftmarket: 2}, members: []}); }
+if (!existsSync(planPath)) { const s = await publicState(h.config); save(planPath, {cutoff: s.checkpoint + 128, epochs: {amm: 3, orderbook: 2, bondingcurve: 2, nftmarket: 2}, members: []}); }
 const plan = read(planPath);
 async function fund(label) {
  const s = await publicState(h.config), calls = [];
@@ -52,7 +55,7 @@ const operation = method => t => t.kind === 'batch_maintenance' && parseLossless
 try {
  for (const m of h.markets) services.push(await formal(h, m, 'omitted', {version: 1, epoch: plan.epochs[m.kind], cutoff: plan.cutoff, members: []}));
  await fund('omitted-start-fund');
- for (let i = 0; i < services.length; i++) await services[i].step('omitted-' + h.markets[i].kind + '-start', operation('start_epoch'));
+ await independent(services.map((service, i) => () => service.step('omitted-' + h.markets[i].kind + '-start', operation('start_epoch'))));
  await h.user('bob', 'omitted-bob-consent-cancel', h.markets.flatMap(m => [m.order('request_admission', [BigInt(plan.epochs[m.kind]), BigInt(plan.cutoff)]), m.order('request_cancel', [])]));
  // Prove-only negative gate. A failure cannot transmit, and own state must not move.
  const negative = join(base, 'public/omitted-early-release-negative.json');
@@ -71,7 +74,7 @@ try {
  }
  await fund('omitted-abort-fund');
  while ((await publicState(h.config)).checkpoint <= plan.cutoff) await pause(10000);
- for (let i = 0; i < services.length; i++) await services[i].step('omitted-' + h.markets[i].kind + '-abort', operation('abort_empty_epoch'));
+ await independent(services.map((service, i) => () => service.step('omitted-' + h.markets[i].kind + '-abort', operation('abort_empty_epoch'))));
  await h.user('bob', 'omitted-bob-release-enroll', h.markets.flatMap(m => [m.order('release_unaccepted', []), m.order('request_recovery', [BigInt(m.vault)])]));
  for (let i = 0; i < services.length; i++) {
   const mask = h.markets[i].kind === 'bondingcurve' ? 6n : h.markets[i].kind === 'nftmarket' ? 4n : 5n;
