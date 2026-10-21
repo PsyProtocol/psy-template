@@ -5,6 +5,7 @@ import{publicState}from'../publicState.mjs';import{loadOptions}from'../config.mj
 import{hostname,platform,arch,cpus,loadavg}from'node:os';
 import{fileURLToPath}from'node:url';
 import{latestBroadcastOutcome}from'./attemptOutcome.mjs';
+import{ordinaryEvidenceDirectory}from'./ordinaryEvidence.mjs';
 import{parseLosslessJson}from'../../amm/u124/client.mjs';
 export const pause=ms=>new Promise(r=>setTimeout(r,ms));
 export function cohort(base,original){
@@ -18,7 +19,7 @@ export function cohort(base,original){
  const actors={bob:{id:860352,secret:join(original,'.secrets/bob-bundled-profile-v1.json')},trader:{id:876736,secret:join(original,'.secrets/trader.json')},sponsor:{id:1384640,secret:join(original,'.secrets/sponsor-bundled-profile-v1.json')},...Object.fromEntries(['charlie','dave'].map(n=>[n,{id:read(join(actorHome,'public',n+'-registration-v1.json')).userId,secret:join(actorHome,'.secrets',n+'.json')}]))};
  const markets=['amm','orderbook','bondingcurve','nftmarket'].map(kind=>{const build=join(base,'markets-v1',kind),registration=read(join(build,'live-registration.json'));return new LiveMarket({base,config,build,registration,policy:read(join(build,'bound/policy.json')),contracts:registration.contracts,ordinaryBinary,compactBinary:binary,env,actors});});
  const by=Object.fromEntries(markets.map(m=>[m.kind,m])),bindings=new Map(markets.flatMap(m=>m.contracts).map(b=>[b.contract.contractId,b]));
- const user=async(actor,name,calls)=>{const out=join(base,'attempts',name);if(existsSync(join(out,'preflight.json'))){if(!existsSync(join(out,'included.json')))await confirmUps(config,out);return out;}assert.ok(!existsSync(join(base,'public',name+'.json')),'partial unsigned input requires inspected new attempt');return ordinary({base,config,binary:ordinaryBinary,secret:actors[actor].secret,name,calls,bindings,env});};
+ const user=async(actor,name,calls)=>{const out=ordinaryEvidenceDirectory(base,name,actors[actor].id);if(out!==join(base,'attempts',name))return out;if(existsSync(join(out,'preflight.json'))){if(!existsSync(join(out,'included.json')))await confirmUps(config,out);return out;}assert.ok(!existsSync(join(base,'public',name+'.json')),'partial unsigned input requires inspected new attempt');return ordinary({base,config,binary:ordinaryBinary,secret:actors[actor].secret,name,calls,bindings,env});};
  return{base,original,releaseFile,binary,binarySha256:tools.compactBinarySha256,ordinaryBinary,config,env,actors,markets,by,bindings,user,token:read(join(by.amm.build,'token-a.json')).abi,nft:read(join(by.nftmarket.build,'nft.json')).abi};
 }
 export async function formal(h,m,tag,plan,{benchmark=false,expiry=96,mode='resident',runtimeSuffix='',contendOnMaintenance=null}={}){

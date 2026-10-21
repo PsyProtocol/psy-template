@@ -15,13 +15,17 @@ NFT 2469 remains retired; NFT 2472 is the corrected live baseline.
 
 ## Current acceptance ledger (supersedes historical progress paragraphs)
 
-Last completed milestone: exact sender return and ordinary claim, archived in
+Last completed milestones include the LP lifecycle and real pre-send recovery
+(below); exact sender return and ordinary claim remain archived in
 `bootstrap-orphan-return-v1/`. All four fresh deployments and activations are
 confirmed; Curve inventory initialization is confirmed at checkpoint **359318**.
 The LP order, authenticated admission (**359427**), sealing (**359465**,
 after fixed source cutoff **359455**), commitment (**359484**) and settlement
 (**359502**) are confirmed. Both QA FT reserves equal 20 tokens. The
-maximum four-member economic batches, controlled warm/cold full-proof pairs,
+first maximum intake reached its unchanged cutoff **359673** without admitting
+any members after preserved client/read failures. Empty-epoch closure is in
+progress; deposits/order nonces are retained for a fresh, separately consented
+epoch. The maximum four-member economic batches, controlled warm/cold full-proof pairs,
 omitted-order exits and replacement NFT expiry/competition stages have **not yet
 completed**. Their scripts and waiting workers are not acceptance evidence.
 
@@ -179,14 +183,67 @@ proof reused across explicit no-send recovery, later unknown blocking and an
 already-included duplicate. This does not weaken the production journal.
 The preserved AMM proof is eligible for a deliberate restart only if its exact
 manifest, own anchor/nonce, dependency identities, fee and original send window
-(359643) still validate. Real resumption is pending; the original failure and
-all earlier task/request/proof files remain unchanged.
+(359643) still validate. Real resumption included at **359603**: one proof
+record, two outer attempts, one actual child transmission and byte-identical
+saved request. The manifest stayed unchanged; no replacement proof was
+generated. The first failure and all earlier artifacts remain unchanged.
+
+### Ordinary-wallet failures and immutable replacement evidence
+
+Dave's first consent preparation and an inspected fresh-label attempt stopped
+before any proof/request/intent. The old phase label spans more than its name
+suggests; exact suppressed causes were not saved and are **not established**.
+Registration/current own-leaf reads matched the existing public identity.
+Diagnostic-only ordinary signer **v14**, SHA256
+`65d16ecf29db6d7d8c0a8204df9219a52976b488efaafa0511a8100d68e2f22a`,
+adds static error codes, a suppressed-error hash and precise read/preparation
+phases. Signing/session/proof, fee/nonce, network and broadcast checks are
+unchanged; it adds no automatic retry. It completed the same business consent
+at **359650**. This success does not establish the earlier errors' root causes.
+Ordinary v13 and every failed directory/log remain.
+
+`ordinaryEvidenceDirectory` accepts an explicit pre-proof replacement only
+when the original directory is empty, original/replacement calls and bindings
+match, checksums match, and request/core/nonce/user/end leaf, intent and exact
+indexed/common receipt agree. It never signs or retries; an original proof or
+request blocks this shortcut. A real Dave replacement passed, plus four
+actor/path/substitution checks. `live-read-recovery-v1/` contains 91 completed
+public files with original and decompressed hashes verified.
+
+The full Executor application suite passed **111** checks, overlapping prior
+suites; the Rust private-safe diagnostic group passed one. Restart accounting
+now includes **all** resident startups, including later/failed jobs. Summed
+construction work is not parallel elapsed wall. Recovery transactions and
+extra consent fees are reported separately; the actual test envelope includes
+failure/manual recovery and is not normal optimized throughput.
+
+`ordinary-diagnostics-source-v14-complete/` is the authoritative source bundle:
+34 declared Rust/Cargo hashes plus its manifest, all 35 files checked against
+originals. The earlier 33-file bundle is retained unchanged; an archive extension
+filter omitted Cargo.toml/Cargo.lock. Both are now included, and seven integrity
+checks cover source-freeze closure. `artifact-integrity-v2.json` verifies every
+declared source hash is present. This is not a second-host binary reproduction
+certificate. New `candidate-release-v4.json` selects ordinary v14 and unchanged
+compact v3; no earlier release/toolchain or binary was replaced.
+
+### Empty intake timeout and renewed consent — live gate in progress
+
+The first maximum window was not extended. `candidateIntakeRetry.mjs` requires
+four empty queues, original epochs/cutoff, no frozen/economic batch, and actual
+cutoff passage before abort. It drains all jobs and checks terminal epochs,
+unconsumed original nonces/pools, FT/NFT conservation and exact fees. Deposits
+are retained; this is **not a sender refund**. Next-epoch sponsorship confirms
+before choosing a new immutable plan. `candidateTrading.mjs ... maximum
+maximum-retry-v1` requires that gate, reuses funded orders without resending
+assets, derives next epochs from chain and obtains fresh consent. Historical
+user fees remain in individual/native conservation. Later recovery/NFT scenarios
+derive their next epochs too. Live closure/renewed-intake acceptance is pending.
 
 ## Ordered gates
 
 | Gate | Current work | Not yet established |
 | --- | --- | --- |
-| 1 Formal Executor | Explicit `batch-admission-compact-v1` route; journal/locks and saved-proof broadcast; four fresh real activations, LP lifecycle and exact sender return/ordinary claim confirmed; 104 application regressions | Maximum economic entrance and replacement NFT competition/timeout acceptance remain in progress; application checks are not network trades |
+| 1 Formal Executor | Explicit `batch-admission-compact-v1` route; journal/locks and saved-proof broadcast; four fresh activations, LP, exact sender return/ordinary claim and same-proof no-send recovery confirmed; 111 application checks | Maximum economic entrance and replacement NFT competition/timeout acceptance remain in progress; application checks are not network trades |
 | 2 End-to-end cost | Saved proof is not re-proved for broadcast; phase metrics; immutable circuit reuse with fresh sessions; strict same-checkpoint calibration implemented | Positive paired full-proof samples and maximum live cost report pending; no speedup or chain TPS claim |
 | 3 Before-admission fairness | Own-consent lock, immutable finite plans, explicit gas requests, terminal exit and sender-bound recovery; one actual unused-funding return closed | Pre-admission selection/refusal is not global censorship resistance; omitted consented orders still need their new live terminal-exit matrix |
 | 4 Random order | Deterministic mode retained | Authenticated future source, actual pre-revelation inclusion and anti-abort requirements remain external unless verified |

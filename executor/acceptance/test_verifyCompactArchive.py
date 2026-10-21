@@ -5,6 +5,8 @@ import json
 import pathlib
 import tempfile
 import unittest
+import subprocess
+import sys
 
 from verifyCompactArchive import verify
 
@@ -75,6 +77,19 @@ class ArchiveIntegrity(unittest.TestCase):
         original.symlink_to(self.file)
         with self.assertRaisesRegex(ValueError, "escapes root|symlink"):
             verify(self.archive, self.original)
+
+    def test_source_freeze_keeps_cargo_manifest_and_lockfile(self):
+        source = self.original / "source"
+        source.mkdir()
+        (source / "Cargo.toml").write_text('[package]\nname="fixture"\n')
+        (source / "Cargo.lock").write_text('version = 3\n')
+        output = self.root / "source-archive"
+        subprocess.run([sys.executable, str(pathlib.Path(__file__).with_name("archiveCompact.py")),
+                        "--base", str(self.original), "--out", str(output), "--select", "source"],
+                       check=True, capture_output=True, text=True)
+        records = json.loads((output / "manifest.json").read_bytes())["records"]
+        self.assertEqual({r["source"] for r in records}, {"source/Cargo.toml", "source/Cargo.lock"})
+        self.assertEqual(verify(output, self.original)["files"], 2)
 
 
 if __name__ == "__main__":

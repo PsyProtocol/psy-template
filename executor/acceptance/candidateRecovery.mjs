@@ -43,7 +43,7 @@ await h.user('bob', 'omitted-bob-nft-order', [n.order('close_buy', []), call(246
  n.order('open_listing', [BigInt(n.vault), 0n, encodeAmount(5n * unit), deadline, 2n]),
  {contract_id: 0n, method_name: 'simple_transfer', inputs: [BigInt(n.vault), F]}, call(2467n, h.nft, 'transfer', [0n, BigInt(n.vault)])]);
 const planPath = join(base, 'public/omitted-plan-v1.json');
-if (!existsSync(planPath)) { const s = await publicState(h.config); save(planPath, {cutoff: s.checkpoint + 128, epochs: {amm: 3, orderbook: 2, bondingcurve: 2, nftmarket: 2}, members: []}); }
+if (!existsSync(planPath)) { const s = await publicState(h.config),epochs={};for(const m of h.markets){const n=await s.slot(m.vault,m.id,m.abi.contract.state.find(f=>f.name==='queue_epoch').offset);assert.ok(n>=0n&&n<4294967295n);epochs[m.kind]=Number(n)+1;}save(planPath, {cutoff: s.checkpoint + 128, epochs, members: []}); }
 const plan = read(planPath);
 async function fund(label) {
  const s = await publicState(h.config), calls = [];

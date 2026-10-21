@@ -42,6 +42,17 @@ fn save(path: &Path, value: &impl serde::Serialize) -> Result<()> {
 fn hash(bytes: &[u8]) -> String {
     format!("{:x}", Sha256::digest(bytes))
 }
+// Return only reviewed static codes. Never print an arbitrary SDK error chain:
+// witness/key values can appear in lower-level diagnostics.
+fn error_code(reason: &str) -> &'static str {
+    if reason.contains("Connection error to https://") && reason.contains("error sending request") {"RPC_CONNECTION"}
+    else if reason.contains("ahead of coordinator checkpoint") {"REALM_AHEAD_COORDINATOR"}
+    else if reason.contains("Invalid checkpoint:") {"NON_MONOTONIC_SOURCE_CHECKPOINT"}
+    else if reason.contains("not registered") {"REGISTRATION_LOOKUP_FAILED"}
+    else if reason.contains("stale ordinary anchor") {"STALE_OWN_ANCHOR"}
+    else if reason.contains("nonce not submittable") {"NONCE_NOT_SUBMITTABLE"}
+    else {"REJECTED_REVIEW_REQUIRED"}
+}
 async fn run(phase: &mut &'static str) -> Result<()> {
     *phase = "load-testnet-config";
     let a = env::args().collect::<Vec<_>>();
@@ -170,6 +181,7 @@ async fn run(phase: &mut &'static str) -> Result<()> {
         ["call", "preflight"].contains(&a[1].as_str()),
         "known isolated wallet action"
     );
+    *phase = "verify-ordinary-input-and-dependencies";
     let bytes = fs::read(&a[4])?;
     let input: Value = serde_json::from_slice(&bytes)?;
     let valid_until = input["validUntilCheckpoint"]
@@ -220,6 +232,7 @@ async fn run(phase: &mut &'static str) -> Result<()> {
     let user = endcap.core.new_user_leaf.user_id.to_canonical_u64();
     let nonce = endcap.core.new_user_leaf.nonce.to_canonical_u64();
     let end = endcap.core.state_transition.end_user_leaf_hash;
+    *phase = "verify-current-ordinary-state";
     let provider = session.st_provider.with_user_id_owned(user);
     let cp = provider.get_latest_block_state().await?.checkpoint_id;
     ensure!(
@@ -274,9 +287,36 @@ async fn main() -> std::process::ExitCode {
     let mut phase = "start";
     match psy_template_u124_markets::runtime::contain(run(&mut phase)).await {
         Ok(()) => std::process::ExitCode::SUCCESS,
-        Err(_) => {
+        Err(failure) => {
+            let (code,digest)=match failure {
+                psy_template_u124_markets::runtime::Failure::Rejected(error)=>{let reason=format!("{error:#}");(error_code(&reason),hash(reason.as_bytes()))},
+                psy_template_u124_markets::runtime::Failure::Panic(_)=>("PANIC_REVIEW_REQUIRED",hash(b"suppressed panic")),
+            };
+            let args=env::args().collect::<Vec<_>>();
+            if args.len()==6 && ["preflight","call","deploy"].contains(&args[1].as_str()) {
+                let out=Path::new(&args[5]);
+                if out.is_dir() {
+                    let _=save(&out.join("failure.json"),&json!({"ok":false,"phase":phase,"reasonCode":code,"suppressedErrorSha256":digest,"privateDataSuppressed":true,"broadcastMayHaveBeenAttempted":phase=="broadcast-ordinary-ups"||phase=="broadcast-new-contract","automaticRetry":false}));
+                }
+            }
+            eprintln!("{}",json!({"ok":false,"phase":phase,"reasonCode":code,"privateDataSuppressed":true,"automaticRetry":false}));
             eprintln!("isolated wallet stopped during {phase}; inspect saved intent and reconcile before retry; private data suppressed");
             std::process::ExitCode::FAILURE
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    #[test]
+    fn diagnostics_are_static_codes_without_private_error_text() {
+        for (reason,code) in [
+            ("Connection error to https://test.invalid: error sending request privateKey=do-not-print", "RPC_CONNECTION"),
+            ("realm latest checkpoint 20 is ahead of coordinator checkpoint 19", "REALM_AHEAD_COORDINATOR"),
+            ("Invalid checkpoint: new checkpoint 1 must be > last user_leaf checkpoint 1", "NON_MONOTONIC_SOURCE_CHECKPOINT"),
+            ("User confidential-witness not registered", "REGISTRATION_LOOKUP_FAILED"),
+            ("unknown confidential-witness privateKey=do-not-print", "REJECTED_REVIEW_REQUIRED"),
+        ] {assert_eq!(error_code(reason),code);assert!(!error_code(reason).contains("privateKey"));}
     }
 }
