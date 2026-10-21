@@ -1,0 +1,611 @@
+{
+  "schema": 1,
+  "sourceDirectory": "/private/tmp/psy-market-candidate-live-20261021-v3",
+  "machine": "gewenbo.local",
+  "host": "macOS-15.7.3-arm64-arm-64bit",
+  "scope": "public formal Executor run including failures; success requires exact included receipt",
+  "walletFilesIncluded": false,
+  "sealedBinariesIncluded": false,
+  "records": [
+    {
+      "source": "attempts/candidate-nft-orphan-claim/included.json",
+      "file": "files/attempts/candidate-nft-orphan-claim/included.json.gz",
+      "bytes": 2743,
+      "sha256": "1c009206d79b84c9223b00e3ff6dfe05a4b22690794b1a1e520c1da0ccb1a324",
+      "gzipBytes": 1211,
+      "gzipSha256": "5f902732b4dd4b8d7a2c7ce286902a0cde1c1e0d3404165f0e7b84e96d8a43ec"
+    },
+    {
+      "source": "attempts/candidate-nft-orphan-claim/intent.json",
+      "file": "files/attempts/candidate-nft-orphan-claim/intent.json.gz",
+      "bytes": 184,
+      "sha256": "41683492e439bfaec47930fae79bcc29d4d282e883ee82bd248be54e8b1c32ad",
+      "gzipBytes": 167,
+      "gzipSha256": "632e816046335530116908b7da81cd23f356c0eebf3c010653dde60ae5c4e850"
+    },
+    {
+      "source": "attempts/candidate-nft-orphan-claim/preflight.json",
+      "file": "files/attempts/candidate-nft-orphan-claim/preflight.json.gz",
+      "bytes": 1615,
+      "sha256": "3f0e61ef20e813636110a2b8ee359318f286d3f93bf6b49d977aecdeb94eb414",
+      "gzipBytes": 818,
+      "gzipSha256": "2cccc58135de8cf65555246340b5982cdff93a9ac551320495c9066673357e63"
+    },
+    {
+      "source": "attempts/candidate-nft-orphan-claim/receipt.json",
+      "file": "files/attempts/candidate-nft-orphan-claim/receipt.json.gz",
+      "bytes": 258,
+      "sha256": "78f38a760a9f54b8cc976d38fc2ef3007fa4ab551ec94e515d6d672dee22d88e",
+      "gzipBytes": 183,
+      "gzipSha256": "47d6b70f1ccc8b4b4d89136be7680fe6224204663b5acdbda01df62d17dcea6f"
+    },
+    {
+      "source": "attempts/candidate-nft-orphan-claim/request.json",
+      "file": "files/attempts/candidate-nft-orphan-claim/request.json.gz",
+      "bytes": 1138202,
+      "sha256": "c17e09a28814a9628ef9327d166063a6d3f072fb1aa6913508a56409492566c8",
+      "gzipBytes": 193306,
+      "gzipSha256": "d871e9ae910cff11f39394166c3d5df233f3e4f305c5acb9b12ab3c5bf46c8c5"
+    },
+    {
+      "source": "attempts/candidate-nft-orphan-claim/rpc-request.json",
+      "file": "files/attempts/candidate-nft-orphan-claim/rpc-request.json.gz",
+      "bytes": 480419,
+      "sha256": "4e75e897a67204174f99eb97adba16cf803ba92ad42eff7345c1683dda0490b1",
+      "gzipBytes": 168743,
+      "gzipSha256": "afdd451355cb240dc45a4c30cf984a4b82e84b61fa3403f6ba2eb6c2e9bbe0ac"
+    },
+    {
+      "source": "attempts/candidate-nft-orphan-claim/rpc-response-meta.json",
+      "file": "files/attempts/candidate-nft-orphan-claim/rpc-response-meta.json.gz",
+      "bytes": 120,
+      "sha256": "dac63eed566a54e025d7dfcbb1f2b7991d23c59fba11f5b21763a42249d36770",
+      "gzipBytes": 117,
+      "gzipSha256": "500a998fac6f6906368f41f425dc75270b3e9c2226a48c6ee3eb5ccc73bc2346"
+    },
+    {
+      "source": "attempts/candidate-nft-orphan-claim/rpc-response.body",
+      "file": "files/attempts/candidate-nft-orphan-claim/rpc-response.body.gz",
+      "bytes": 38,
+      "sha256": "0d838a349418eb2e4db232f5454ddf684afea2d53c155da1fca3952dd564bab5",
+      "gzipBytes": 57,
+      "gzipSha256": "dcd098dc4a0e86eaf34f9806fa594225f4131d05ad260f60b72acf16432af8bf"
+    },
+    {
+      "source": "attempts/candidate-nft-orphan-claim/timing.json",
+      "file": "files/attempts/candidate-nft-orphan-claim/timing.json.gz",
+      "bytes": 107,
+      "sha256": "86b915644cfe9cf6c129240c77aeb9099db1d69516e7e692aeca1a45d8d6be64",
+      "gzipBytes": 105,
+      "gzipSha256": "a73826976268de38cf1e89d1f5c73761df56ec86ae044b8c605a61b0c37b7d66"
+    },
+    {
+      "source": "attempts/candidate-nft-orphan-enroll/included.json",
+      "file": "files/attempts/candidate-nft-orphan-enroll/included.json.gz",
+      "bytes": 2530,
+      "sha256": "6f25999386e7f1beb4502877223507a75316651b4d95cdda01d08bcbf0af5c23",
+      "gzipBytes": 1175,
+      "gzipSha256": "2e243a19b9bee20839fe89074d367837cf257ae4f60349424bc49ac94b335b5e"
+    },
+    {
+      "source": "attempts/candidate-nft-orphan-enroll/intent.json",
+      "file": "files/attempts/candidate-nft-orphan-enroll/intent.json.gz",
+      "bytes": 184,
+      "sha256": "c851ec6561662211723ccf673e080b82f1230aaa9878d382710f20702f981e56",
+      "gzipBytes": 167,
+      "gzipSha256": "71921c2f687ad38a47941851930f3aa3de3fe76c3e71cd9ce37e06180ff8d03b"
+    },
+    {
+      "source": "attempts/candidate-nft-orphan-enroll/preflight.json",
+      "file": "files/attempts/candidate-nft-orphan-enroll/preflight.json.gz",
+      "bytes": 1615,
+      "sha256": "308f843785404c683f531db313c72f6d42ea04752fb39f5b2ae8d3942d7333c1",
+      "gzipBytes": 816,
+      "gzipSha256": "99b2653cd80ef760af432d7c68e11ca8596aad570b6ec831e119caf42d0b9213"
+    },
+    {
+      "source": "attempts/candidate-nft-orphan-enroll/receipt.json",
+      "file": "files/attempts/candidate-nft-orphan-enroll/receipt.json.gz",
+      "bytes": 258,
+      "sha256": "8118164b6346b33f06feafbbf1f26116df0452bc0178957929df35e730abe325",
+      "gzipBytes": 183,
+      "gzipSha256": "052b806e3ab864b0b028455e3726a4cd32af81036382714dc087ff7212ff3842"
+    },
+    {
+      "source": "attempts/candidate-nft-orphan-enroll/request.json",
+      "file": "files/attempts/candidate-nft-orphan-enroll/request.json.gz",
+      "bytes": 1128203,
+      "sha256": "4c4180e739785ba0f47a8bea75313083e149eadd5343966712fd12fd180c295b",
+      "gzipBytes": 192146,
+      "gzipSha256": "2a12e6da3fc8c19dcb60fde3205f23557dc77b89f9f41dc0d4821c8dc8e8fb09"
+    },
+    {
+      "source": "attempts/candidate-nft-orphan-enroll/rpc-request.json",
+      "file": "files/attempts/candidate-nft-orphan-enroll/rpc-request.json.gz",
+      "bytes": 473080,
+      "sha256": "de900960b5bd150c4a93ad53d1b250f35aa7a6a8c9633a5c22f9ec5b47c5f59a",
+      "gzipBytes": 168574,
+      "gzipSha256": "decf9a9723e4e4b5c58ab84a8c63f36a72506202bb676ac6a23b44baef0b331a"
+    },
+    {
+      "source": "attempts/candidate-nft-orphan-enroll/rpc-response-meta.json",
+      "file": "files/attempts/candidate-nft-orphan-enroll/rpc-response-meta.json.gz",
+      "bytes": 120,
+      "sha256": "dac63eed566a54e025d7dfcbb1f2b7991d23c59fba11f5b21763a42249d36770",
+      "gzipBytes": 117,
+      "gzipSha256": "500a998fac6f6906368f41f425dc75270b3e9c2226a48c6ee3eb5ccc73bc2346"
+    },
+    {
+      "source": "attempts/candidate-nft-orphan-enroll/rpc-response.body",
+      "file": "files/attempts/candidate-nft-orphan-enroll/rpc-response.body.gz",
+      "bytes": 38,
+      "sha256": "0d838a349418eb2e4db232f5454ddf684afea2d53c155da1fca3952dd564bab5",
+      "gzipBytes": 57,
+      "gzipSha256": "dcd098dc4a0e86eaf34f9806fa594225f4131d05ad260f60b72acf16432af8bf"
+    },
+    {
+      "source": "attempts/candidate-nft-orphan-enroll/timing.json",
+      "file": "files/attempts/candidate-nft-orphan-enroll/timing.json.gz",
+      "bytes": 107,
+      "sha256": "8a2d5e1b3d976faccb2064f128760fdf7f8993b0ceefc4bfadd8726d91a57ed8",
+      "gzipBytes": 105,
+      "gzipSha256": "f96b0144166287b8e626f7a511fed2afd2d635d5cabcfd88c56b56133caa5285"
+    },
+    {
+      "source": "attempts/candidate-nft-orphan-gas/included.json",
+      "file": "files/attempts/candidate-nft-orphan-gas/included.json.gz",
+      "bytes": 2928,
+      "sha256": "99ff4438c1815d6b50057102e10149224d3e723922c5bafeda8cc88bacdd332a",
+      "gzipBytes": 1210,
+      "gzipSha256": "a089b3765577b69ea0e64d29c9f2a334ff1cc4d0203d81ccbd08b6e0296af35b"
+    },
+    {
+      "source": "attempts/candidate-nft-orphan-gas/intent.json",
+      "file": "files/attempts/candidate-nft-orphan-gas/intent.json.gz",
+      "bytes": 185,
+      "sha256": "035795467646d1e17609af9abd8740b6e568e19d3a50191c4f8c9f956ad55ab3",
+      "gzipBytes": 168,
+      "gzipSha256": "6d984f6c10436bd3805aa82acdb72d3b792227dd957de17aa129dd8e3dbf2398"
+    },
+    {
+      "source": "attempts/candidate-nft-orphan-gas/preflight.json",
+      "file": "files/attempts/candidate-nft-orphan-gas/preflight.json.gz",
+      "bytes": 1618,
+      "sha256": "b0cbb7504a6ea5d35538b4fc4546c5eea08e8330c02f9aee995ada819005e1a5",
+      "gzipBytes": 818,
+      "gzipSha256": "1a51e39ce76b4b9a93e6f792a5862d3c175a37325fb5a4d25dd2b496f4aca87b"
+    },
+    {
+      "source": "attempts/candidate-nft-orphan-gas/receipt.json",
+      "file": "files/attempts/candidate-nft-orphan-gas/receipt.json.gz",
+      "bytes": 258,
+      "sha256": "c998f4145ccc7221b7c9372c10728a3e3241ec4c578ee599787688a7ed3b3cf9",
+      "gzipBytes": 184,
+      "gzipSha256": "9fed90036252d8d3b92604cd1c7d06fe9065d5251cc6d1797fc3d04c35e7af89"
+    },
+    {
+      "source": "attempts/candidate-nft-orphan-gas/request.json",
+      "file": "files/attempts/candidate-nft-orphan-gas/request.json.gz",
+      "bytes": 1138466,
+      "sha256": "ae00ce35fe08cbdf5962d39ab5a0021486e69a71e37505335af2d017c8d9ac1b",
+      "gzipBytes": 192609,
+      "gzipSha256": "17aaafb195ea046e8d497685f06f2ef67cba4cee8cfcb2b4a5134a3701536feb"
+    },
+    {
+      "source": "attempts/candidate-nft-orphan-gas/rpc-request.json",
+      "file": "files/attempts/candidate-nft-orphan-gas/rpc-request.json.gz",
+      "bytes": 480625,
+      "sha256": "cabb5b96824835f66cb0764aa31d0fb9ff1606553de32a86a62a9e0f1d52ec36",
+      "gzipBytes": 166905,
+      "gzipSha256": "2071c430196a0d96f47a3cf7fa67c8017d471ceca23681cc10f9c4900a3bde96"
+    },
+    {
+      "source": "attempts/candidate-nft-orphan-gas/rpc-response-meta.json",
+      "file": "files/attempts/candidate-nft-orphan-gas/rpc-response-meta.json.gz",
+      "bytes": 120,
+      "sha256": "eae25f2bfcaa6f20707ae957d3a4c79897b62f68f10ffca3a7a40358eb2dccc6",
+      "gzipBytes": 118,
+      "gzipSha256": "c34bcfdf82407e005e84054a0b1d526e7d5f8c18d463464ad94d05c0109a189b"
+    },
+    {
+      "source": "attempts/candidate-nft-orphan-gas/rpc-response.body",
+      "file": "files/attempts/candidate-nft-orphan-gas/rpc-response.body.gz",
+      "bytes": 38,
+      "sha256": "0d838a349418eb2e4db232f5454ddf684afea2d53c155da1fca3952dd564bab5",
+      "gzipBytes": 57,
+      "gzipSha256": "dcd098dc4a0e86eaf34f9806fa594225f4131d05ad260f60b72acf16432af8bf"
+    },
+    {
+      "source": "attempts/candidate-nft-orphan-gas/timing.json",
+      "file": "files/attempts/candidate-nft-orphan-gas/timing.json.gz",
+      "bytes": 107,
+      "sha256": "d446d680308dd3e713c06259d0328b667db25c0a0d9814b759f648aa32d729dc",
+      "gzipBytes": 105,
+      "gzipSha256": "f1fdf555aa30b2ea716c830d28c1930fd0f823eff547be4dd0777272986684c9"
+    },
+    {
+      "source": "candidate-nft-orphan-claim.log",
+      "file": "files/candidate-nft-orphan-claim.log.gz",
+      "bytes": 1845,
+      "sha256": "cf9703bef21943e7fc9c14dff4c8111e510d08b503031b948a47a01f5d54e3de",
+      "gzipBytes": 509,
+      "gzipSha256": "98229bdbd222ee7ca08f5cbdfb11413de6688955427c18dc1fdd38d12225b898"
+    },
+    {
+      "source": "candidate-nft-orphan-enroll.log",
+      "file": "files/candidate-nft-orphan-enroll.log.gz",
+      "bytes": 1709,
+      "sha256": "e116ca51ce58ca63f823a91af0623ec013dcb1f88c8910e8ed1e7780f994e86e",
+      "gzipBytes": 507,
+      "gzipSha256": "089ddee489274a71a70ea35667407a9ad6dd749d21d70952b625a040aaceb1e0"
+    },
+    {
+      "source": "candidate-nft-orphan-gas.log",
+      "file": "files/candidate-nft-orphan-gas.log.gz",
+      "bytes": 1844,
+      "sha256": "e04aeb57b470e1863302720f033ba6c8368234b139b50682ef3185caa5edbb8e",
+      "gzipBytes": 505,
+      "gzipSha256": "f8f291c72cd55eb7fa501ce0c663aec21e1aa6eca5f0a1081ebc4bf533364d25"
+    },
+    {
+      "source": "public/bootstrap-orphan-assets-after.json",
+      "file": "files/public/bootstrap-orphan-assets-after.json.gz",
+      "bytes": 927,
+      "sha256": "166b06f750fba06238155647b1e1cc7c9504562e29b2164273f0d872845fbea6",
+      "gzipBytes": 327,
+      "gzipSha256": "a28dce394e6cf95e729907c49baf3912b4d08efe285772cc3637ab2628d5630e"
+    },
+    {
+      "source": "public/bootstrap-orphan-assets-before.json",
+      "file": "files/public/bootstrap-orphan-assets-before.json.gz",
+      "bytes": 935,
+      "sha256": "86a6f4a9b28b35f0b4752f1af98b8cf5cd2957aec5f01df965a3474b737cbf56",
+      "gzipBytes": 339,
+      "gzipSha256": "ccebe3c8b2fbd0400308a3ed26a85f0dea97c1d727e34685f0aed5c5aefa4196"
+    },
+    {
+      "source": "public/bootstrap-orphan-funding-request-v1.json",
+      "file": "files/public/bootstrap-orphan-funding-request-v1.json.gz",
+      "bytes": 464,
+      "sha256": "dba2a649ac947db369994abe76a7724f330f4b400152dfdc20ac05b8181dffce",
+      "gzipBytes": 309,
+      "gzipSha256": "7aef9f105f2872fbc39118ffd2ea7eca480e204d827df496e3c335a70d193834"
+    },
+    {
+      "source": "public/bootstrap-orphan-nftmarket-executor/abi.json",
+      "file": "files/public/bootstrap-orphan-nftmarket-executor/abi.json.gz",
+      "bytes": 37052,
+      "sha256": "f604e9c260c334a8df3fc87502ef7b0eb6471d81349387996afe428f2f8bc73d",
+      "gzipBytes": 3206,
+      "gzipSha256": "0bdde52b310b7e9b38a577042f55a64aae57039bebe588b5a05c9fec0ed6c1db"
+    },
+    {
+      "source": "public/bootstrap-orphan-nftmarket-executor/asset-2464-abi.json",
+      "file": "files/public/bootstrap-orphan-nftmarket-executor/asset-2464-abi.json.gz",
+      "bytes": 15256,
+      "sha256": "cab169705adb258839e12e04da12ba84f16e66b52a50ed20180acbfd5dbc6aa1",
+      "gzipBytes": 1726,
+      "gzipSha256": "b7e59e5f68722c8711598fada5ef4df79de1660476781895313311d34c99859b"
+    },
+    {
+      "source": "public/bootstrap-orphan-nftmarket-executor/asset-2467-abi.json",
+      "file": "files/public/bootstrap-orphan-nftmarket-executor/asset-2467-abi.json.gz",
+      "bytes": 10658,
+      "sha256": "05d82b3508dd4b582c07ee1a26901b43d5e5995699202cd6003932c6707fcf1f",
+      "gzipBytes": 1424,
+      "gzipSha256": "04028ede29733fa475bff44f5d3b80308fd8cc438e0dd0c724e57502837edc6b"
+    },
+    {
+      "source": "public/bootstrap-orphan-nftmarket-executor/config.json",
+      "file": "files/public/bootstrap-orphan-nftmarket-executor/config.json.gz",
+      "bytes": 67,
+      "sha256": "430edafca8cff63500f27572d1d5bba27d158b02f1718b0d45e357dd045c9c8a",
+      "gzipBytes": 81,
+      "gzipSha256": "48f9c16ec15d5440370950016d4bc9385f981515acd553d3ead0a6e0f999edef"
+    },
+    {
+      "source": "public/bootstrap-orphan-nftmarket-executor/dependencies.json",
+      "file": "files/public/bootstrap-orphan-nftmarket-executor/dependencies.json.gz",
+      "bytes": 1384,
+      "sha256": "439c39574acbde48aa791288d7a1d46f3158cecc8a00cc85ffcf32e6f0303ae9",
+      "gzipBytes": 626,
+      "gzipSha256": "41ef3c9737e46c38da73f4df1be2818651e870772513bb89cbb4935b9b9e8060"
+    },
+    {
+      "source": "public/bootstrap-orphan-nftmarket-executor/executor.json",
+      "file": "files/public/bootstrap-orphan-nftmarket-executor/executor.json.gz",
+      "bytes": 2189,
+      "sha256": "25ced0dfabbec866622bd080bb0ba3d2884e7e48fc44f0da3e0601cf5bc3c480",
+      "gzipBytes": 936,
+      "gzipSha256": "48894dd2c2483f65647888ad8d0c81c72d4f9d1b76c530d16ed6e309d4593a9f"
+    },
+    {
+      "source": "public/bootstrap-orphan-nftmarket-executor/plan.json",
+      "file": "files/public/bootstrap-orphan-nftmarket-executor/plan.json.gz",
+      "bytes": 48,
+      "sha256": "01321990c655b8b8a79f795529f8cde9068f4d1cd8d61f23df449669c7e0c522",
+      "gzipBytes": 60,
+      "gzipSha256": "439d348210dffa298ee91e4409449affe5486ee440de1e2af0a263503b09f4c2"
+    },
+    {
+      "source": "public/bootstrap-orphan-nftmarket-executor/policy.json",
+      "file": "files/public/bootstrap-orphan-nftmarket-executor/policy.json.gz",
+      "bytes": 37971,
+      "sha256": "ed63a5799858b233016ccf972617dc85b9cb8ed754eea76e4e8156ddaed09ece",
+      "gzipBytes": 1372,
+      "gzipSha256": "6250d27be8899874817991b1afe2854e57ca3c9e3bbb31f0d0046b63bc7c4e45"
+    },
+    {
+      "source": "public/bootstrap-orphan-recovery-complete-v1.json",
+      "file": "files/public/bootstrap-orphan-recovery-complete-v1.json.gz",
+      "bytes": 392,
+      "sha256": "b4d230ec1ffbef17e6d9db2a0aa1cde29902a034ed6c769a61ae5b8467dc369c",
+      "gzipBytes": 290,
+      "gzipSha256": "1db8291f92f1c85c81c436a49b663696f214991b35a638e411d93960fbe45ffe"
+    },
+    {
+      "source": "public/candidate-nft-orphan-claim.json",
+      "file": "files/public/candidate-nft-orphan-claim.json.gz",
+      "bytes": 947,
+      "sha256": "869976224672952a00ad8766a8bcd16c7128fa51bb0a8509d9d87b89362d00ac",
+      "gzipBytes": 479,
+      "gzipSha256": "32d459c5671323c69ec692290a192e131eccfa8eae2c9c87122047d1b85826ad"
+    },
+    {
+      "source": "public/candidate-nft-orphan-enroll.json",
+      "file": "files/public/candidate-nft-orphan-enroll.json.gz",
+      "bytes": 893,
+      "sha256": "1aa0005be57dff4734430c02bfb8a7226c5f9ceabb9b16afd39fa20a2aa5af1f",
+      "gzipBytes": 474,
+      "gzipSha256": "a4b326c9ce6de9ab9d8eaa4a49feaedcb6214ecfc7ab6086013064f7093c2b30"
+    },
+    {
+      "source": "public/candidate-nft-orphan-fund-gas-formal-result.json",
+      "file": "files/public/candidate-nft-orphan-fund-gas-formal-result.json.gz",
+      "bytes": 2231,
+      "sha256": "8107478a598f484677efbac8f766238aadf390b4afe67872a545a82e9d711eb0",
+      "gzipBytes": 1010,
+      "gzipSha256": "0d67bb289281c6e1bd27074e81830e8aead81d21d8deef624fbefced44260f9e"
+    },
+    {
+      "source": "public/candidate-nft-orphan-gas.json",
+      "file": "files/public/candidate-nft-orphan-gas.json.gz",
+      "bytes": 987,
+      "sha256": "7c7eb6752cf7738923d27972bb887560d5ac8cd4c826a4409ea68647eebe390d",
+      "gzipBytes": 505,
+      "gzipSha256": "a0f250b7c613b204ce14d40abb7e1d7bfa5eeebd0d13cef7fb7680274b456741"
+    },
+    {
+      "source": "public/candidate-nft-orphan-return-formal-result.json",
+      "file": "files/public/candidate-nft-orphan-return-formal-result.json.gz",
+      "bytes": 2760,
+      "sha256": "a5b6a72787733317969ffed7a8611873e2eef87af536be9a7ec39fde38e95402",
+      "gzipBytes": 1070,
+      "gzipSha256": "3236dff9add11fad1e15fe023cbd6fbd271a5948b25993f9eca8687a4b1b9ba4"
+    },
+    {
+      "source": "runtime/compact/sepolia/667840/59fcbce385a508f029197e4b16343bb45fc99be726b034f9c3af789b67c4c616/calls.json",
+      "file": "files/runtime/compact/sepolia/667840/59fcbce385a508f029197e4b16343bb45fc99be726b034f9c3af789b67c4c616/calls.json.gz",
+      "bytes": 585,
+      "sha256": "74f2863af2c9abadf59b6e6b755fe2606ba4dc24b7a1b18183e8837ceb0d7d83",
+      "gzipBytes": 197,
+      "gzipSha256": "da7f51b02ead88b394b68511700f8442342315455999d749b3b9ca3f707e0478"
+    },
+    {
+      "source": "runtime/compact/sepolia/667840/59fcbce385a508f029197e4b16343bb45fc99be726b034f9c3af789b67c4c616/guard.json",
+      "file": "files/runtime/compact/sepolia/667840/59fcbce385a508f029197e4b16343bb45fc99be726b034f9c3af789b67c4c616/guard.json.gz",
+      "bytes": 3118,
+      "sha256": "fa251b8b83cf51194d1e1aeedcca3cf6c93223ddea1d0c2abc5a95767a85f21e",
+      "gzipBytes": 906,
+      "gzipSha256": "8fcb349a9287f2c8f2960515d900542c16a588da1f16b8e389bd837264055227"
+    },
+    {
+      "source": "runtime/compact/sepolia/667840/59fcbce385a508f029197e4b16343bb45fc99be726b034f9c3af789b67c4c616/proof-ec27bb32-d5d3-4c69-aaff-b41c829ef8fd/preflight.json",
+      "file": "files/runtime/compact/sepolia/667840/59fcbce385a508f029197e4b16343bb45fc99be726b034f9c3af789b67c4c616/proof-ec27bb32-d5d3-4c69-aaff-b41c829ef8fd/preflight.json.gz",
+      "bytes": 1965,
+      "sha256": "58c8af57f40fd79e865fa7056a7daf132e17c1d67f8f841778e843a88c7e8e51",
+      "gzipBytes": 1003,
+      "gzipSha256": "97fba685cb2a862c5164d5d4d73da478810362a0e467587b9c05617da16af239"
+    },
+    {
+      "source": "runtime/compact/sepolia/667840/59fcbce385a508f029197e4b16343bb45fc99be726b034f9c3af789b67c4c616/proof-ec27bb32-d5d3-4c69-aaff-b41c829ef8fd/prepared.json",
+      "file": "files/runtime/compact/sepolia/667840/59fcbce385a508f029197e4b16343bb45fc99be726b034f9c3af789b67c4c616/proof-ec27bb32-d5d3-4c69-aaff-b41c829ef8fd/prepared.json.gz",
+      "bytes": 451,
+      "sha256": "fb860c580c8d86727c05ef07b0e7f3ebd6072f0771b067501942bf20f3f06d9f",
+      "gzipBytes": 297,
+      "gzipSha256": "ebf5caefc48cc12c901017f390acfb8d6b7f71736dc496211ffc1a9f82de5a0c"
+    },
+    {
+      "source": "runtime/compact/sepolia/667840/59fcbce385a508f029197e4b16343bb45fc99be726b034f9c3af789b67c4c616/proof-ec27bb32-d5d3-4c69-aaff-b41c829ef8fd/request.json",
+      "file": "files/runtime/compact/sepolia/667840/59fcbce385a508f029197e4b16343bb45fc99be726b034f9c3af789b67c4c616/proof-ec27bb32-d5d3-4c69-aaff-b41c829ef8fd/request.json.gz",
+      "bytes": 1154331,
+      "sha256": "a85a191e1599c2018181dc8fec6e28ec1fa7fb8484981a7ecc2219abbafd94d7",
+      "gzipBytes": 193791,
+      "gzipSha256": "54458bf576d2caad4c874794628b98d1f4a1d18c86c5cb5d12ab50ef220dc819"
+    },
+    {
+      "source": "runtime/compact/sepolia/667840/59fcbce385a508f029197e4b16343bb45fc99be726b034f9c3af789b67c4c616/proof-ec27bb32-d5d3-4c69-aaff-b41c829ef8fd.preflight.log",
+      "file": "files/runtime/compact/sepolia/667840/59fcbce385a508f029197e4b16343bb45fc99be726b034f9c3af789b67c4c616/proof-ec27bb32-d5d3-4c69-aaff-b41c829ef8fd.preflight.log.gz",
+      "bytes": 2008,
+      "sha256": "a699c96e89c9d016b4c5270ec0643a8238024b6f7291829facfa0a6e87b4f2e2",
+      "gzipBytes": 578,
+      "gzipSha256": "9495f44c1f847acb2d32399dc50475b9bbf125e3fcc538924552c7a5fb7c32eb"
+    },
+    {
+      "source": "runtime/compact/sepolia/667840/59fcbce385a508f029197e4b16343bb45fc99be726b034f9c3af789b67c4c616/send-c445b899-1e7a-4b90-a0a6-8d217e1d1576/intent.json",
+      "file": "files/runtime/compact/sepolia/667840/59fcbce385a508f029197e4b16343bb45fc99be726b034f9c3af789b67c4c616/send-c445b899-1e7a-4b90-a0a6-8d217e1d1576/intent.json.gz",
+      "bytes": 270,
+      "sha256": "1672668f0e0e9c5a04f6f0cb9317a3795824480f23ac731ed5e59a7850d2c7aa",
+      "gzipBytes": 219,
+      "gzipSha256": "6bc4bc253b7867ece6e963c8b0527aa898c2c67ddb76383b93c798f4aaab72ba"
+    },
+    {
+      "source": "runtime/compact/sepolia/667840/59fcbce385a508f029197e4b16343bb45fc99be726b034f9c3af789b67c4c616/send-c445b899-1e7a-4b90-a0a6-8d217e1d1576/receipt.json",
+      "file": "files/runtime/compact/sepolia/667840/59fcbce385a508f029197e4b16343bb45fc99be726b034f9c3af789b67c4c616/send-c445b899-1e7a-4b90-a0a6-8d217e1d1576/receipt.json.gz",
+      "bytes": 258,
+      "sha256": "a06de6ae80f6a3310d2f7f275c1a33ddd1c443a32b03d14a0f283389b887e97f",
+      "gzipBytes": 183,
+      "gzipSha256": "be49b01b7ad0b7e15cb416132ecbf9fd97b3db7c6f5e1f5fa3b11e25a2c6d255"
+    },
+    {
+      "source": "runtime/compact/sepolia/667840/59fcbce385a508f029197e4b16343bb45fc99be726b034f9c3af789b67c4c616/send-c445b899-1e7a-4b90-a0a6-8d217e1d1576/request.json",
+      "file": "files/runtime/compact/sepolia/667840/59fcbce385a508f029197e4b16343bb45fc99be726b034f9c3af789b67c4c616/send-c445b899-1e7a-4b90-a0a6-8d217e1d1576/request.json.gz",
+      "bytes": 1154331,
+      "sha256": "a85a191e1599c2018181dc8fec6e28ec1fa7fb8484981a7ecc2219abbafd94d7",
+      "gzipBytes": 193791,
+      "gzipSha256": "54458bf576d2caad4c874794628b98d1f4a1d18c86c5cb5d12ab50ef220dc819"
+    },
+    {
+      "source": "runtime/compact/sepolia/667840/59fcbce385a508f029197e4b16343bb45fc99be726b034f9c3af789b67c4c616/send-c445b899-1e7a-4b90-a0a6-8d217e1d1576/rpc-request.json",
+      "file": "files/runtime/compact/sepolia/667840/59fcbce385a508f029197e4b16343bb45fc99be726b034f9c3af789b67c4c616/send-c445b899-1e7a-4b90-a0a6-8d217e1d1576/rpc-request.json.gz",
+      "bytes": 492475,
+      "sha256": "b8473b213df1b1aac9e18cf1b35f2942c69b33e563990424c32fed4cf1ba196b",
+      "gzipBytes": 170216,
+      "gzipSha256": "3b155dc4d9599f0ca49a2030e2008dd694c33c3d98f69224be0b0c9035838491"
+    },
+    {
+      "source": "runtime/compact/sepolia/667840/59fcbce385a508f029197e4b16343bb45fc99be726b034f9c3af789b67c4c616/send-c445b899-1e7a-4b90-a0a6-8d217e1d1576/rpc-response-meta.json",
+      "file": "files/runtime/compact/sepolia/667840/59fcbce385a508f029197e4b16343bb45fc99be726b034f9c3af789b67c4c616/send-c445b899-1e7a-4b90-a0a6-8d217e1d1576/rpc-response-meta.json.gz",
+      "bytes": 120,
+      "sha256": "dac63eed566a54e025d7dfcbb1f2b7991d23c59fba11f5b21763a42249d36770",
+      "gzipBytes": 117,
+      "gzipSha256": "500a998fac6f6906368f41f425dc75270b3e9c2226a48c6ee3eb5ccc73bc2346"
+    },
+    {
+      "source": "runtime/compact/sepolia/667840/59fcbce385a508f029197e4b16343bb45fc99be726b034f9c3af789b67c4c616/send-c445b899-1e7a-4b90-a0a6-8d217e1d1576/rpc-response.body",
+      "file": "files/runtime/compact/sepolia/667840/59fcbce385a508f029197e4b16343bb45fc99be726b034f9c3af789b67c4c616/send-c445b899-1e7a-4b90-a0a6-8d217e1d1576/rpc-response.body.gz",
+      "bytes": 38,
+      "sha256": "0d838a349418eb2e4db232f5454ddf684afea2d53c155da1fca3952dd564bab5",
+      "gzipBytes": 57,
+      "gzipSha256": "dcd098dc4a0e86eaf34f9806fa594225f4131d05ad260f60b72acf16432af8bf"
+    },
+    {
+      "source": "runtime/compact/sepolia/667840/59fcbce385a508f029197e4b16343bb45fc99be726b034f9c3af789b67c4c616/send-c445b899-1e7a-4b90-a0a6-8d217e1d1576/verification.json",
+      "file": "files/runtime/compact/sepolia/667840/59fcbce385a508f029197e4b16343bb45fc99be726b034f9c3af789b67c4c616/send-c445b899-1e7a-4b90-a0a6-8d217e1d1576/verification.json.gz",
+      "bytes": 689,
+      "sha256": "880fa2210dccb7007935f24e7c51302caffff1951c676472846075de12c31536",
+      "gzipBytes": 441,
+      "gzipSha256": "be3a05d0e8abd07c4f5bf96fd2f7d039989efad074f9738bc7d1913dff0b34b5"
+    },
+    {
+      "source": "runtime/compact/sepolia/667840/59fcbce385a508f029197e4b16343bb45fc99be726b034f9c3af789b67c4c616/send-c445b899-1e7a-4b90-a0a6-8d217e1d1576.log",
+      "file": "files/runtime/compact/sepolia/667840/59fcbce385a508f029197e4b16343bb45fc99be726b034f9c3af789b67c4c616/send-c445b899-1e7a-4b90-a0a6-8d217e1d1576.log.gz",
+      "bytes": 214,
+      "sha256": "56ab386cff88d2cbdab45e7bc88fad3190c40758a55cf1880140547a168e7bdb",
+      "gzipBytes": 184,
+      "gzipSha256": "329cf0cbb3311081165dd2881018d352151272f1dc922a10aa28c965c0218fed"
+    },
+    {
+      "source": "runtime/compact/sepolia/667840/9f2c348b699e8dc7526e54867e078963ae0ec0874b2132f0962b3a3930c63a3a/calls.json",
+      "file": "files/runtime/compact/sepolia/667840/9f2c348b699e8dc7526e54867e078963ae0ec0874b2132f0962b3a3930c63a3a/calls.json.gz",
+      "bytes": 363,
+      "sha256": "bdc346b983a525c04d20493a380db04cffcd113ec216e9eaef8111a7c5a4a631",
+      "gzipBytes": 160,
+      "gzipSha256": "6442c8996f2dde2bb860b24b7c6888cd6ff6b64bbe888c3b505b8d56f75d8a05"
+    },
+    {
+      "source": "runtime/compact/sepolia/667840/9f2c348b699e8dc7526e54867e078963ae0ec0874b2132f0962b3a3930c63a3a/guard.json",
+      "file": "files/runtime/compact/sepolia/667840/9f2c348b699e8dc7526e54867e078963ae0ec0874b2132f0962b3a3930c63a3a/guard.json.gz",
+      "bytes": 3118,
+      "sha256": "a2041e7356894baada167851a23249139bff5e222020ef8ef12a5799861af577",
+      "gzipBytes": 906,
+      "gzipSha256": "d9c82f8e0817ae9f32c24b30673d474fafbb29a78590bc974428dd10a071fa2d"
+    },
+    {
+      "source": "runtime/compact/sepolia/667840/9f2c348b699e8dc7526e54867e078963ae0ec0874b2132f0962b3a3930c63a3a/proof-3b9edb65-dc8d-409d-90a9-b56f2f9f5623/preflight.json",
+      "file": "files/runtime/compact/sepolia/667840/9f2c348b699e8dc7526e54867e078963ae0ec0874b2132f0962b3a3930c63a3a/proof-3b9edb65-dc8d-409d-90a9-b56f2f9f5623/preflight.json.gz",
+      "bytes": 1963,
+      "sha256": "d1928d632476e23a4784beab650652d88326bb46bc7fbde8b63c68eee204c111",
+      "gzipBytes": 1003,
+      "gzipSha256": "01e9ede8e3768fbeffac159fa7b560b1e5482a0024b5d9e9eed0c10a3ed8e1db"
+    },
+    {
+      "source": "runtime/compact/sepolia/667840/9f2c348b699e8dc7526e54867e078963ae0ec0874b2132f0962b3a3930c63a3a/proof-3b9edb65-dc8d-409d-90a9-b56f2f9f5623/prepared.json",
+      "file": "files/runtime/compact/sepolia/667840/9f2c348b699e8dc7526e54867e078963ae0ec0874b2132f0962b3a3930c63a3a/proof-3b9edb65-dc8d-409d-90a9-b56f2f9f5623/prepared.json.gz",
+      "bytes": 451,
+      "sha256": "dd700f3206896fcadffc30ab8df7aeaa9dff25ecefd411fc1be5cd392e59686c",
+      "gzipBytes": 298,
+      "gzipSha256": "3aab51f516a659560059fa6de4a948a477145634cb76ae5781f5372ffba76a19"
+    },
+    {
+      "source": "runtime/compact/sepolia/667840/9f2c348b699e8dc7526e54867e078963ae0ec0874b2132f0962b3a3930c63a3a/proof-3b9edb65-dc8d-409d-90a9-b56f2f9f5623/request.json",
+      "file": "files/runtime/compact/sepolia/667840/9f2c348b699e8dc7526e54867e078963ae0ec0874b2132f0962b3a3930c63a3a/proof-3b9edb65-dc8d-409d-90a9-b56f2f9f5623/request.json.gz",
+      "bytes": 1131381,
+      "sha256": "ae17ce2ac6fe12b7af4470832af6f5490c379189583414e59d535d26a6a3d8ff",
+      "gzipBytes": 192767,
+      "gzipSha256": "7fe4d056f842ec031b3b1f035a3f5586b0d15bd95a82de51bfe0350bb2bac154"
+    },
+    {
+      "source": "runtime/compact/sepolia/667840/9f2c348b699e8dc7526e54867e078963ae0ec0874b2132f0962b3a3930c63a3a/proof-3b9edb65-dc8d-409d-90a9-b56f2f9f5623.preflight.log",
+      "file": "files/runtime/compact/sepolia/667840/9f2c348b699e8dc7526e54867e078963ae0ec0874b2132f0962b3a3930c63a3a/proof-3b9edb65-dc8d-409d-90a9-b56f2f9f5623.preflight.log.gz",
+      "bytes": 2057,
+      "sha256": "5afce9106a4a9cc4166a0033991782e21cb6e2088da9e163140067c6dbf6802d",
+      "gzipBytes": 646,
+      "gzipSha256": "a8fb605a08565c493c8c2c0f2bac7ba93dc1d8730f681d70c15e012b9f0322ea"
+    },
+    {
+      "source": "runtime/compact/sepolia/667840/9f2c348b699e8dc7526e54867e078963ae0ec0874b2132f0962b3a3930c63a3a/send-cac805ca-f30c-45e8-bc4d-18fdd11a6c9e/intent.json",
+      "file": "files/runtime/compact/sepolia/667840/9f2c348b699e8dc7526e54867e078963ae0ec0874b2132f0962b3a3930c63a3a/send-cac805ca-f30c-45e8-bc4d-18fdd11a6c9e/intent.json.gz",
+      "bytes": 270,
+      "sha256": "0b6522fa501a997d6bb2e6b75214915777424c2b64e2e0efa6e6a0d393268a30",
+      "gzipBytes": 220,
+      "gzipSha256": "59cf24e969faddd4891599f01e09768257d7c53c32ab81bd6802906b375e37a8"
+    },
+    {
+      "source": "runtime/compact/sepolia/667840/9f2c348b699e8dc7526e54867e078963ae0ec0874b2132f0962b3a3930c63a3a/send-cac805ca-f30c-45e8-bc4d-18fdd11a6c9e/receipt.json",
+      "file": "files/runtime/compact/sepolia/667840/9f2c348b699e8dc7526e54867e078963ae0ec0874b2132f0962b3a3930c63a3a/send-cac805ca-f30c-45e8-bc4d-18fdd11a6c9e/receipt.json.gz",
+      "bytes": 258,
+      "sha256": "6da86c50ec3de676649eda41812a40f3247523983e384c7a0622d67903f425d1",
+      "gzipBytes": 182,
+      "gzipSha256": "0521bc4d6eb89dc8e39347ddeedcdff2cee7b045c0e8e24417531027014cad98"
+    },
+    {
+      "source": "runtime/compact/sepolia/667840/9f2c348b699e8dc7526e54867e078963ae0ec0874b2132f0962b3a3930c63a3a/send-cac805ca-f30c-45e8-bc4d-18fdd11a6c9e/request.json",
+      "file": "files/runtime/compact/sepolia/667840/9f2c348b699e8dc7526e54867e078963ae0ec0874b2132f0962b3a3930c63a3a/send-cac805ca-f30c-45e8-bc4d-18fdd11a6c9e/request.json.gz",
+      "bytes": 1131381,
+      "sha256": "ae17ce2ac6fe12b7af4470832af6f5490c379189583414e59d535d26a6a3d8ff",
+      "gzipBytes": 192767,
+      "gzipSha256": "7fe4d056f842ec031b3b1f035a3f5586b0d15bd95a82de51bfe0350bb2bac154"
+    },
+    {
+      "source": "runtime/compact/sepolia/667840/9f2c348b699e8dc7526e54867e078963ae0ec0874b2132f0962b3a3930c63a3a/send-cac805ca-f30c-45e8-bc4d-18fdd11a6c9e/rpc-request.json",
+      "file": "files/runtime/compact/sepolia/667840/9f2c348b699e8dc7526e54867e078963ae0ec0874b2132f0962b3a3930c63a3a/send-cac805ca-f30c-45e8-bc4d-18fdd11a6c9e/rpc-request.json.gz",
+      "bytes": 475324,
+      "sha256": "8519f4a43257ac373c10d1b1c1f6e1e32efb6e7749dec91ef89f5a9ae01ceae2",
+      "gzipBytes": 168279,
+      "gzipSha256": "1c1b9df79322fcf53d7a75607223e40ba6d4d90129936aab318afce9c62b6596"
+    },
+    {
+      "source": "runtime/compact/sepolia/667840/9f2c348b699e8dc7526e54867e078963ae0ec0874b2132f0962b3a3930c63a3a/send-cac805ca-f30c-45e8-bc4d-18fdd11a6c9e/rpc-response-meta.json",
+      "file": "files/runtime/compact/sepolia/667840/9f2c348b699e8dc7526e54867e078963ae0ec0874b2132f0962b3a3930c63a3a/send-cac805ca-f30c-45e8-bc4d-18fdd11a6c9e/rpc-response-meta.json.gz",
+      "bytes": 120,
+      "sha256": "dac63eed566a54e025d7dfcbb1f2b7991d23c59fba11f5b21763a42249d36770",
+      "gzipBytes": 117,
+      "gzipSha256": "500a998fac6f6906368f41f425dc75270b3e9c2226a48c6ee3eb5ccc73bc2346"
+    },
+    {
+      "source": "runtime/compact/sepolia/667840/9f2c348b699e8dc7526e54867e078963ae0ec0874b2132f0962b3a3930c63a3a/send-cac805ca-f30c-45e8-bc4d-18fdd11a6c9e/rpc-response.body",
+      "file": "files/runtime/compact/sepolia/667840/9f2c348b699e8dc7526e54867e078963ae0ec0874b2132f0962b3a3930c63a3a/send-cac805ca-f30c-45e8-bc4d-18fdd11a6c9e/rpc-response.body.gz",
+      "bytes": 38,
+      "sha256": "0d838a349418eb2e4db232f5454ddf684afea2d53c155da1fca3952dd564bab5",
+      "gzipBytes": 57,
+      "gzipSha256": "dcd098dc4a0e86eaf34f9806fa594225f4131d05ad260f60b72acf16432af8bf"
+    },
+    {
+      "source": "runtime/compact/sepolia/667840/9f2c348b699e8dc7526e54867e078963ae0ec0874b2132f0962b3a3930c63a3a/send-cac805ca-f30c-45e8-bc4d-18fdd11a6c9e/verification.json",
+      "file": "files/runtime/compact/sepolia/667840/9f2c348b699e8dc7526e54867e078963ae0ec0874b2132f0962b3a3930c63a3a/send-cac805ca-f30c-45e8-bc4d-18fdd11a6c9e/verification.json.gz",
+      "bytes": 689,
+      "sha256": "704538caa85e39e9e06b6abbb66d95818a259daadafb030e39eb7633749b525d",
+      "gzipBytes": 441,
+      "gzipSha256": "ad85ce4d8df093e4755c21e8f7c0a036eae7dbe32124bf9dcc44c9a3df5d6fee"
+    },
+    {
+      "source": "runtime/compact/sepolia/667840/9f2c348b699e8dc7526e54867e078963ae0ec0874b2132f0962b3a3930c63a3a/send-cac805ca-f30c-45e8-bc4d-18fdd11a6c9e.log",
+      "file": "files/runtime/compact/sepolia/667840/9f2c348b699e8dc7526e54867e078963ae0ec0874b2132f0962b3a3930c63a3a/send-cac805ca-f30c-45e8-bc4d-18fdd11a6c9e.log.gz",
+      "bytes": 214,
+      "sha256": "4e90e64d995f8c724b5f60bf5a74ff2086240ee365a47154b14768396f5b65ab",
+      "gzipBytes": 185,
+      "gzipSha256": "b2bf51c4c9f80148f1bddaf71bc9dad9c7be2eb6b751dcfbb30917bb7e204333"
+    }
+  ]
+}
