@@ -1,0 +1,387 @@
+{
+  "schema": 1,
+  "sourceDirectory": "/private/tmp/psy-market-candidate-live-20261021-v3",
+  "machine": "gewenbo.local",
+  "host": "macOS-15.7.3-arm64-arm-64bit",
+  "scope": "public formal Executor run including failures; success requires exact included receipt",
+  "walletFilesIncluded": false,
+  "sealedBinariesIncluded": false,
+  "records": [
+    {
+      "source": "attempts/maximum-retry-v1-bob-consent/included.json",
+      "file": "files/attempts/maximum-retry-v1-bob-consent/included.json.gz",
+      "bytes": 3230,
+      "sha256": "0e98260204e9fffdefacc1094de8247b3794104437ec10ac6feb65be47304af4",
+      "gzipBytes": 1253,
+      "gzipSha256": "51ac936a26caf9aefdaa74fbe2544b742053805fd40508c892e42d684a6df2bd"
+    },
+    {
+      "source": "attempts/maximum-retry-v1-bob-consent/intent.json",
+      "file": "files/attempts/maximum-retry-v1-bob-consent/intent.json.gz",
+      "bytes": 184,
+      "sha256": "239200a7742aab5e859bfaa77255a3ab93e11de76117f21d3c4b2133e274a1ba",
+      "gzipBytes": 168,
+      "gzipSha256": "67332d492b6d089e99f86f7076074032acc13cb9d04f251bc73546f246c6ee91"
+    },
+    {
+      "source": "attempts/maximum-retry-v1-bob-consent/preflight.json",
+      "file": "files/attempts/maximum-retry-v1-bob-consent/preflight.json.gz",
+      "bytes": 1615,
+      "sha256": "d8ead024905e6f4319884b055c66581c288193220bf3552b1eec3c14a7201a44",
+      "gzipBytes": 819,
+      "gzipSha256": "bfbed2eecfea0457b088c6c3a1ccbe51e056aa45ac679a8ad93639b4cff39d5b"
+    },
+    {
+      "source": "attempts/maximum-retry-v1-bob-consent/receipt.json",
+      "file": "files/attempts/maximum-retry-v1-bob-consent/receipt.json.gz",
+      "bytes": 258,
+      "sha256": "280d5534a8c0a617bdcaa1885bb8a6a33894c46f191d7b775637c0e8a8f3e389",
+      "gzipBytes": 184,
+      "gzipSha256": "9c2111e561cf421f0a1cf389df8495b34cf204953836730a36936eaa731d626c"
+    },
+    {
+      "source": "attempts/maximum-retry-v1-bob-consent/request.json",
+      "file": "files/attempts/maximum-retry-v1-bob-consent/request.json.gz",
+      "bytes": 1148085,
+      "sha256": "88ecb83aee0bbfe6e93231b0207a0e9a80cc278f7814e2556aa7ee461191f55d",
+      "gzipBytes": 193755,
+      "gzipSha256": "4feda0b6dfff538ebadbceb363149b224d5146afbdf4d93accdb2da1bae90170"
+    },
+    {
+      "source": "attempts/maximum-retry-v1-bob-consent/rpc-request.json",
+      "file": "files/attempts/maximum-retry-v1-bob-consent/rpc-request.json.gz",
+      "bytes": 488445,
+      "sha256": "b8991e45044cf451da027c19cab6bd9fe12bdf0bfc4f0e2aa6fe48542ca86139",
+      "gzipBytes": 170105,
+      "gzipSha256": "4d58ad85916869c987efe0e0c5f707f04e25679996ed853e2e0554f7e2f352e0"
+    },
+    {
+      "source": "attempts/maximum-retry-v1-bob-consent/rpc-response-meta.json",
+      "file": "files/attempts/maximum-retry-v1-bob-consent/rpc-response-meta.json.gz",
+      "bytes": 120,
+      "sha256": "dac63eed566a54e025d7dfcbb1f2b7991d23c59fba11f5b21763a42249d36770",
+      "gzipBytes": 117,
+      "gzipSha256": "500a998fac6f6906368f41f425dc75270b3e9c2226a48c6ee3eb5ccc73bc2346"
+    },
+    {
+      "source": "attempts/maximum-retry-v1-bob-consent/rpc-response.body",
+      "file": "files/attempts/maximum-retry-v1-bob-consent/rpc-response.body.gz",
+      "bytes": 38,
+      "sha256": "0d838a349418eb2e4db232f5454ddf684afea2d53c155da1fca3952dd564bab5",
+      "gzipBytes": 57,
+      "gzipSha256": "dcd098dc4a0e86eaf34f9806fa594225f4131d05ad260f60b72acf16432af8bf"
+    },
+    {
+      "source": "attempts/maximum-retry-v1-bob-consent/timing.json",
+      "file": "files/attempts/maximum-retry-v1-bob-consent/timing.json.gz",
+      "bytes": 107,
+      "sha256": "47418c146ae11465522c97153ddfdb95566e1397b81c12160f659b645a9179e2",
+      "gzipBytes": 106,
+      "gzipSha256": "fac956a6dbb5d27c55c6a9bf37b8316c70350e2a78d583726bc1e0ce9e6bcdc5"
+    },
+    {
+      "source": "attempts/maximum-retry-v1-charlie-consent/included.json",
+      "file": "files/attempts/maximum-retry-v1-charlie-consent/included.json.gz",
+      "bytes": 3231,
+      "sha256": "154fa8ff87000dadf268d4b0b9cb1b6a56e95ff78ad1bb23fc6dc269a8ac691a",
+      "gzipBytes": 1248,
+      "gzipSha256": "97367a02ce2d2aa55e5780a03f77dc088571d0557548a6c4f7757ca0c9a1d48b"
+    },
+    {
+      "source": "attempts/maximum-retry-v1-charlie-consent/intent.json",
+      "file": "files/attempts/maximum-retry-v1-charlie-consent/intent.json.gz",
+      "bytes": 184,
+      "sha256": "ccbbd654b1cd763e02d4f496cffed4bf653ba5e0af929a4cc2de7894a5fa7dd8",
+      "gzipBytes": 167,
+      "gzipSha256": "420ed79c9a2d7878e7e455f9b2c628d33fc9892df3d043a2a51f7869100fda40"
+    },
+    {
+      "source": "attempts/maximum-retry-v1-charlie-consent/preflight.json",
+      "file": "files/attempts/maximum-retry-v1-charlie-consent/preflight.json.gz",
+      "bytes": 1615,
+      "sha256": "d6040ad0bd36d1af184460b06819abc413e82b4187e9a104d67ceee08cd18a47",
+      "gzipBytes": 817,
+      "gzipSha256": "1ed4807df58fdcdc920c2d11c12890bf6dad6dddd4b82a727669cd7a99fec1b6"
+    },
+    {
+      "source": "attempts/maximum-retry-v1-charlie-consent/receipt.json",
+      "file": "files/attempts/maximum-retry-v1-charlie-consent/receipt.json.gz",
+      "bytes": 258,
+      "sha256": "8f83824b432786eb6028d4ba47726926e52e153763510d74db00153c06ee313b",
+      "gzipBytes": 183,
+      "gzipSha256": "72b2aa4ade3bc2bbf042890addb3c2e0b1fb96b1a27ff5035de3bde8faef6520"
+    },
+    {
+      "source": "attempts/maximum-retry-v1-charlie-consent/request.json",
+      "file": "files/attempts/maximum-retry-v1-charlie-consent/request.json.gz",
+      "bytes": 1148243,
+      "sha256": "17095892c199f5fd434230ec60c00a8b519282525651e5a22a494eaa49551e1e",
+      "gzipBytes": 193727,
+      "gzipSha256": "4fc428993ec6ca95a73c794e30e323276377c28295dc158d9532f7a5c14b42f1"
+    },
+    {
+      "source": "attempts/maximum-retry-v1-charlie-consent/rpc-request.json",
+      "file": "files/attempts/maximum-retry-v1-charlie-consent/rpc-request.json.gz",
+      "bytes": 488603,
+      "sha256": "b5d359d96ce926657d5cc50bc631e9a4d7368aed5b114920a8b77748cc3910af",
+      "gzipBytes": 169198,
+      "gzipSha256": "2bd30ab3906f582128c2a11fafa5767df5c3929bd9ea68d8bf6e45939250cb51"
+    },
+    {
+      "source": "attempts/maximum-retry-v1-charlie-consent/rpc-response-meta.json",
+      "file": "files/attempts/maximum-retry-v1-charlie-consent/rpc-response-meta.json.gz",
+      "bytes": 120,
+      "sha256": "eae25f2bfcaa6f20707ae957d3a4c79897b62f68f10ffca3a7a40358eb2dccc6",
+      "gzipBytes": 118,
+      "gzipSha256": "c34bcfdf82407e005e84054a0b1d526e7d5f8c18d463464ad94d05c0109a189b"
+    },
+    {
+      "source": "attempts/maximum-retry-v1-charlie-consent/rpc-response.body",
+      "file": "files/attempts/maximum-retry-v1-charlie-consent/rpc-response.body.gz",
+      "bytes": 38,
+      "sha256": "0d838a349418eb2e4db232f5454ddf684afea2d53c155da1fca3952dd564bab5",
+      "gzipBytes": 57,
+      "gzipSha256": "dcd098dc4a0e86eaf34f9806fa594225f4131d05ad260f60b72acf16432af8bf"
+    },
+    {
+      "source": "attempts/maximum-retry-v1-charlie-consent/timing.json",
+      "file": "files/attempts/maximum-retry-v1-charlie-consent/timing.json.gz",
+      "bytes": 107,
+      "sha256": "76fd2873f7b38a28d2639ee3c0e8a5dc77f75a8158ae759904ae09eaf25d2496",
+      "gzipBytes": 106,
+      "gzipSha256": "48dda811d8a4af63ac69d449f6d33e540bce7f5412738da544c89bdff8d1c47f"
+    },
+    {
+      "source": "attempts/maximum-retry-v1-dave-consent/included.json",
+      "file": "files/attempts/maximum-retry-v1-dave-consent/included.json.gz",
+      "bytes": 3225,
+      "sha256": "50059f17abf701822fb979b8e528ffae6ec30e78f36af1605490e7c6391176f8",
+      "gzipBytes": 1246,
+      "gzipSha256": "c73d7b771128e4756414678f576faa91ffbb21e35535d3916001d4910e821afd"
+    },
+    {
+      "source": "attempts/maximum-retry-v1-dave-consent/intent.json",
+      "file": "files/attempts/maximum-retry-v1-dave-consent/intent.json.gz",
+      "bytes": 183,
+      "sha256": "28058df8d4e6d5807b1fce032b710439291fd1ee8e1059492b940b4f5b141faf",
+      "gzipBytes": 166,
+      "gzipSha256": "0640d04495e9e8241e5fc2ee4e92992e7a4eaa60318d7fe81f68d664f572777c"
+    },
+    {
+      "source": "attempts/maximum-retry-v1-dave-consent/preflight.json",
+      "file": "files/attempts/maximum-retry-v1-dave-consent/preflight.json.gz",
+      "bytes": 1612,
+      "sha256": "4bb9d6b969e84691c99c5218144144809c7f1055d9707362e675499402905b28",
+      "gzipBytes": 819,
+      "gzipSha256": "e12a73a7f19561e53203d9a66f5041daf5b670262753dcf1078c5512eed7c630"
+    },
+    {
+      "source": "attempts/maximum-retry-v1-dave-consent/receipt.json",
+      "file": "files/attempts/maximum-retry-v1-dave-consent/receipt.json.gz",
+      "bytes": 258,
+      "sha256": "df0fde630512e4254409621cbe8cea915c81b9a92d0503cbd160bd76ea45f5d2",
+      "gzipBytes": 182,
+      "gzipSha256": "268f10f23018ff35fdc9efbc8a6b27f7f5ef74af6c7029ed643a7fbd44aad914"
+    },
+    {
+      "source": "attempts/maximum-retry-v1-dave-consent/request.json",
+      "file": "files/attempts/maximum-retry-v1-dave-consent/request.json.gz",
+      "bytes": 1147839,
+      "sha256": "2d213645b27425b35c2bb9508a9e0d2204e8a145c1fe388c92b9eab949ba7840",
+      "gzipBytes": 193682,
+      "gzipSha256": "fca3e7c4a308e595f1f878dae6aa932bef8abe2fa49dfe6900f4fd12344ac60e"
+    },
+    {
+      "source": "attempts/maximum-retry-v1-dave-consent/rpc-request.json",
+      "file": "files/attempts/maximum-retry-v1-dave-consent/rpc-request.json.gz",
+      "bytes": 488199,
+      "sha256": "c66e6f281519d288a32f4285a8a22a865cc08b11c19eef9a131d1f8ff56f1780",
+      "gzipBytes": 169161,
+      "gzipSha256": "a0747520d0f832e5b68e8ded3b716fe9fdbce523952b72c72cdc70dd8a8bbda2"
+    },
+    {
+      "source": "attempts/maximum-retry-v1-dave-consent/rpc-response-meta.json",
+      "file": "files/attempts/maximum-retry-v1-dave-consent/rpc-response-meta.json.gz",
+      "bytes": 120,
+      "sha256": "dac63eed566a54e025d7dfcbb1f2b7991d23c59fba11f5b21763a42249d36770",
+      "gzipBytes": 117,
+      "gzipSha256": "500a998fac6f6906368f41f425dc75270b3e9c2226a48c6ee3eb5ccc73bc2346"
+    },
+    {
+      "source": "attempts/maximum-retry-v1-dave-consent/rpc-response.body",
+      "file": "files/attempts/maximum-retry-v1-dave-consent/rpc-response.body.gz",
+      "bytes": 38,
+      "sha256": "0d838a349418eb2e4db232f5454ddf684afea2d53c155da1fca3952dd564bab5",
+      "gzipBytes": 57,
+      "gzipSha256": "dcd098dc4a0e86eaf34f9806fa594225f4131d05ad260f60b72acf16432af8bf"
+    },
+    {
+      "source": "attempts/maximum-retry-v1-dave-consent/timing.json",
+      "file": "files/attempts/maximum-retry-v1-dave-consent/timing.json.gz",
+      "bytes": 107,
+      "sha256": "890228df81b5529e3b8c7ba0ecda4e74d91f1821fe0af0027b62237ad231d0db",
+      "gzipBytes": 105,
+      "gzipSha256": "380f9b25b969614ac9a472942e60237b038161be7b6bf5b54778fbc7f4818957"
+    },
+    {
+      "source": "attempts/maximum-retry-v1-trader-consent/included.json",
+      "file": "files/attempts/maximum-retry-v1-trader-consent/included.json.gz",
+      "bytes": 3227,
+      "sha256": "95960d2419d1135882b8e3df834779e4072596401e7cb55d2e7c152d81ec52c0",
+      "gzipBytes": 1249,
+      "gzipSha256": "543b40fdadbc037e050b09e348809e13620ffc6a2729c20fc3da825816bbcd09"
+    },
+    {
+      "source": "attempts/maximum-retry-v1-trader-consent/intent.json",
+      "file": "files/attempts/maximum-retry-v1-trader-consent/intent.json.gz",
+      "bytes": 184,
+      "sha256": "aa8f215c95f90ed5179013a427ee8bc47bf22df86ff418f9f91151834194a47e",
+      "gzipBytes": 168,
+      "gzipSha256": "9976020fdbad8a2a7dc6bf9c76a42dfc8b363d3d0be4d0bab4c5ed4e1182cdaa"
+    },
+    {
+      "source": "attempts/maximum-retry-v1-trader-consent/preflight.json",
+      "file": "files/attempts/maximum-retry-v1-trader-consent/preflight.json.gz",
+      "bytes": 1614,
+      "sha256": "0cc4213b831c34dce63820e32e53dcf2ef940b7dfcb4b6c56eb7a645d7ffc08b",
+      "gzipBytes": 819,
+      "gzipSha256": "0c24b55ce39a206a9d8ec9b4a6d76b3ff5dd708a385103af2b022449d7081afb"
+    },
+    {
+      "source": "attempts/maximum-retry-v1-trader-consent/receipt.json",
+      "file": "files/attempts/maximum-retry-v1-trader-consent/receipt.json.gz",
+      "bytes": 258,
+      "sha256": "a0eef7a1e4c1a711b1c508834d7300543affc442b40232f8ca24c3be495de269",
+      "gzipBytes": 183,
+      "gzipSha256": "cc1d77fe18b29c8b5e10101ec258afe34506ee72db2e9fc12e27802c5ffa15c2"
+    },
+    {
+      "source": "attempts/maximum-retry-v1-trader-consent/request.json",
+      "file": "files/attempts/maximum-retry-v1-trader-consent/request.json.gz",
+      "bytes": 1148176,
+      "sha256": "b46454b16d97c6766eb2827a51680f93b4b280c5bfb071368eb1c838f0cc2061",
+      "gzipBytes": 193682,
+      "gzipSha256": "d604cd1f1f4811e3c9f2beacc793d74119079c7cbd73082ee01bbce5ef0dd164"
+    },
+    {
+      "source": "attempts/maximum-retry-v1-trader-consent/rpc-request.json",
+      "file": "files/attempts/maximum-retry-v1-trader-consent/rpc-request.json.gz",
+      "bytes": 488536,
+      "sha256": "0aaf80b8586d4adfdc74b9fe82e1f726b65b0d3bcdf84608ccf49bc32806b660",
+      "gzipBytes": 168624,
+      "gzipSha256": "cb8938e575256b6d86d3f0b3659603fb3a5afed76e7095618898969991668975"
+    },
+    {
+      "source": "attempts/maximum-retry-v1-trader-consent/rpc-response-meta.json",
+      "file": "files/attempts/maximum-retry-v1-trader-consent/rpc-response-meta.json.gz",
+      "bytes": 120,
+      "sha256": "dac63eed566a54e025d7dfcbb1f2b7991d23c59fba11f5b21763a42249d36770",
+      "gzipBytes": 117,
+      "gzipSha256": "500a998fac6f6906368f41f425dc75270b3e9c2226a48c6ee3eb5ccc73bc2346"
+    },
+    {
+      "source": "attempts/maximum-retry-v1-trader-consent/rpc-response.body",
+      "file": "files/attempts/maximum-retry-v1-trader-consent/rpc-response.body.gz",
+      "bytes": 38,
+      "sha256": "0d838a349418eb2e4db232f5454ddf684afea2d53c155da1fca3952dd564bab5",
+      "gzipBytes": 57,
+      "gzipSha256": "dcd098dc4a0e86eaf34f9806fa594225f4131d05ad260f60b72acf16432af8bf"
+    },
+    {
+      "source": "attempts/maximum-retry-v1-trader-consent/timing.json",
+      "file": "files/attempts/maximum-retry-v1-trader-consent/timing.json.gz",
+      "bytes": 107,
+      "sha256": "a03469080363364705e58650186b543ddec5170b59aab37293c23b81a8010263",
+      "gzipBytes": 106,
+      "gzipSha256": "2ced072defe3dc7f1af08ad5d851dd45afd87e7ee0b11d9749829ceed3d20fa2"
+    },
+    {
+      "source": "maximum-retry-v1-bob-consent.log",
+      "file": "files/maximum-retry-v1-bob-consent.log.gz",
+      "bytes": 2126,
+      "sha256": "627b2babbb77e3a8e3979300bacb382be9f2befef433be6930b4805508a7c4c6",
+      "gzipBytes": 531,
+      "gzipSha256": "04a0acc8889a1b843dbe6d981f69317800572142a1ed48e339a3d50142bbfaa1"
+    },
+    {
+      "source": "maximum-retry-v1-charlie-consent.log",
+      "file": "files/maximum-retry-v1-charlie-consent.log.gz",
+      "bytes": 2128,
+      "sha256": "339ed6e607db342195897ba2d88e78930b16ed62493acf9d47eb538b6391e94b",
+      "gzipBytes": 535,
+      "gzipSha256": "18e9e0ea58207d481e20fe905ac8d534c90bcbcc1a8eade650632c893cdfdd99"
+    },
+    {
+      "source": "maximum-retry-v1-dave-consent.log",
+      "file": "files/maximum-retry-v1-dave-consent.log.gz",
+      "bytes": 2124,
+      "sha256": "542da36ab12ab54c994f065cfa0a2978ea3a5c17773f89d57b98d9eb06422972",
+      "gzipBytes": 534,
+      "gzipSha256": "f58009d514f7b3baabba8b3aa754e98157291156eeef9e8dbbba19cf7a9a29c4"
+    },
+    {
+      "source": "maximum-retry-v1-trader-consent.log",
+      "file": "files/maximum-retry-v1-trader-consent.log.gz",
+      "bytes": 2128,
+      "sha256": "c45c93efe6d686faf8cff79315938dea497f8167d0fc594c77ac1d32b7f1b160",
+      "gzipBytes": 536,
+      "gzipSha256": "56198f0cf10624443cd37792fed90f8962f4559dcabb238b9a056711a9fe4935"
+    },
+    {
+      "source": "public/maximum-retry-v1-bob-consent.json",
+      "file": "files/public/maximum-retry-v1-bob-consent.json.gz",
+      "bytes": 2236,
+      "sha256": "6bb46c93d79448cd65423eea40d9d6af988ef411107f3d83de8c60d165a9343c",
+      "gzipBytes": 921,
+      "gzipSha256": "e34bd883884c43bd7baa51d7ed6a0f67536e8717c574f97f54a1db2263014d06"
+    },
+    {
+      "source": "public/maximum-retry-v1-charlie-consent.json",
+      "file": "files/public/maximum-retry-v1-charlie-consent.json.gz",
+      "bytes": 2236,
+      "sha256": "6bb46c93d79448cd65423eea40d9d6af988ef411107f3d83de8c60d165a9343c",
+      "gzipBytes": 921,
+      "gzipSha256": "e34bd883884c43bd7baa51d7ed6a0f67536e8717c574f97f54a1db2263014d06"
+    },
+    {
+      "source": "public/maximum-retry-v1-dave-consent.json",
+      "file": "files/public/maximum-retry-v1-dave-consent.json.gz",
+      "bytes": 2236,
+      "sha256": "6bb46c93d79448cd65423eea40d9d6af988ef411107f3d83de8c60d165a9343c",
+      "gzipBytes": 921,
+      "gzipSha256": "e34bd883884c43bd7baa51d7ed6a0f67536e8717c574f97f54a1db2263014d06"
+    },
+    {
+      "source": "public/maximum-retry-v1-plan.json",
+      "file": "files/public/maximum-retry-v1-plan.json.gz",
+      "bytes": 611,
+      "sha256": "5517c3deb8473f8ff42b1922bcdb0c9a460514650761cfc5fd9effaf5f8f209f",
+      "gzipBytes": 257,
+      "gzipSha256": "486fc24bfd6549cbb2ffae971b4f441b74a9afd48a0e18b8522d57ed595e6779"
+    },
+    {
+      "source": "public/maximum-retry-v1-trader-consent.json",
+      "file": "files/public/maximum-retry-v1-trader-consent.json.gz",
+      "bytes": 2236,
+      "sha256": "6bb46c93d79448cd65423eea40d9d6af988ef411107f3d83de8c60d165a9343c",
+      "gzipBytes": 921,
+      "gzipSha256": "e34bd883884c43bd7baa51d7ed6a0f67536e8717c574f97f54a1db2263014d06"
+    },
+    {
+      "source": "public/runtime-source-overlay-v11.json",
+      "file": "files/public/runtime-source-overlay-v11.json.gz",
+      "bytes": 32511,
+      "sha256": "b918c9ea6ecf7e97448a214da819f572acc4d39d13fcecc9929a306275a9534c",
+      "gzipBytes": 13904,
+      "gzipSha256": "0d138698d553d5468806ab830a1bc2e436cbfc2c7ed325a2f43f1d7c628da435"
+    },
+    {
+      "source": "public/runtime-source-overlay-v12.json",
+      "file": "files/public/runtime-source-overlay-v12.json.gz",
+      "bytes": 32395,
+      "sha256": "bef851e7c00ffbaec68801a35fdd3afd06d5e4da54df1a947891ef8d642460e5",
+      "gzipBytes": 13908,
+      "gzipSha256": "f5110303288ef45bcf741bb376abfc940288941f481fd9837def3e040d071197"
+    }
+  ]
+}
