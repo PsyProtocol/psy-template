@@ -7,6 +7,7 @@ import{withBulkAdmission}from'../batching/admission/bulk.mjs';
 import{preSessionTransportFailure}from'./preSessionRetry.mjs';
 import{ReadUnavailable}from'./readRetry.mjs';
 import {publicState} from './publicState.mjs';
+import {readTogether} from './readConcurrency.mjs';
 import {receiptReader} from './chainReceipts.mjs';
 import {sealDriver} from './sealedDriver.mjs';
 import {captureInputs} from './submissionGuard.mjs';
@@ -47,7 +48,8 @@ export async function createCompactAdmissionAdapter(o,{readState=publicState,rea
  const identity={version:1,network:o.network,marketId:o.contractId,vaultId:o.vaultId,fingerprint:o.fingerprint,publicKeyHash:o.publicKeyHash,contracts:dependencies.map(b=>b.contract)};
  const pin=join(o.runtimeDirectory,'bindings',o.network,String(o.vaultId),o.fingerprint+'-compact.json');await publish(pin,{identity,dependencies,testnetProfile:o.testnetProfile});
  const bindingCurrent=async()=>{await inputsCurrent();const s=await readState(o.rpcConfig);assert.equal(s.networkName,o.network);assert.equal(BigInt(s.network.magic),BigInt(files.config.networkMagic));
-  for(const b of dependencies){const l=await s.contractLeaf(b.contract.contractId);assert.deepEqual({contract:{contractId:b.contract.contractId,codeRoot:l.code_root,layoutRoot:l.state_layout_root,stateTreeHeight:l.state_tree_height},functionTreeRoot:l.function_tree_root,layoutFieldCount:l.state_layout_field_count,layoutSlotCount:l.state_layout_slot_count},b,'live compact dependency changed');}
+  const leaves=await readTogether(dependencies.map(b=>s.contractLeaf(b.contract.contractId)));
+  for(const [i,b]of dependencies.entries()){const l=leaves[i];assert.deepEqual({contract:{contractId:b.contract.contractId,codeRoot:l.code_root,layoutRoot:l.state_layout_root,stateTreeHeight:l.state_tree_height},functionTreeRoot:l.function_tree_root,layoutFieldCount:l.state_layout_field_count,layoutSlotCount:l.state_layout_slot_count},b,'live compact dependency changed');}
   assert.deepEqual(await s.userIds(o.publicKeyHash),[o.vaultId],'compact registered identity');await inputsCurrent();return s;};
  const initialState=await bindingCurrent(),retryUrls=[...initialState.network.realm_configs,...(initialState.network.coordinator_configs??[])].flatMap(r=>r.rpc_url);const pinCurrent=await captureInputs([pin]),driver=await sealDriver(o);
  const env={...process.env,PSY_MARKET_TESTNET_PROFILE:o.testnetProfile,RAYON_NUM_THREADS:String(o.proverThreads??2)};for(const k of Object.keys(env))if(k.endsWith('_WITNESS_WALLET')||k.endsWith('_LOCAL_DEFS')||k==='PSY_MARKET_BENCH_SOURCE_CHECKPOINT')delete env[k];
@@ -57,7 +59,8 @@ export async function createCompactAdmissionAdapter(o,{readState=publicState,rea
  const root=task=>join(o.runtimeDirectory,'compact',o.network,String(o.vaultId),sha256(task.submission+'\n'+task.validUntilCheckpoint));
  const paths=task=>({calls:join(root(task),'calls.json'),guard:join(root(task),'guard.json')});
  const safePath=(task,prefix,p)=>{assert.ok(typeof p==='string'&&p.startsWith(join(root(task),prefix)+'-')&&/^[0-9a-f-]{36}$/.test(p.slice((join(root(task),prefix)+'-').length)),'compact attempt path binding');return p;};
- const scan=async()=>{await bindingCurrent();return scanExecutorAdmission(o,readState,files);};
+ // Reuse this call's fixed-checkpoint leaf cache, never a prior check/session.
+ const scan=async()=>{const s=await bindingCurrent();return scanExecutorAdmission(o,async()=>s,files);};
  const proofFiles=async(task,p)=>{assert.equal(p.version,1);assert.equal(p.driverSha256,driver.sha256);safePath(task,'proof',p.preparedDirectory);const m=await readFile(join(p.preparedDirectory,'prepared.json'));assert.equal(sha256(m),p.manifestSha256);const v=JSON.parse(m);
   const q=paths(task);for(const[file,hash]of [[o.policy,v.policySha256],[q.calls,v.callsSha256],[q.guard,v.guardSha256],[join(p.preparedDirectory,'preflight.json'),v.preflightSha256],[join(p.preparedDirectory,'request.json'),v.requestSha256]])assert.equal(sha256(await readFile(file)),hash,'prepared artifact changed');
   assert.equal(await readFile(q.calls,'utf8'),task.submission);const pre=await exactJson(join(p.preparedDirectory,'preflight.json'));assert.equal(pre.fullUpsVerified,true);assert.equal(pre.exactStackAndSessionVerified,true);assert.equal(pre.broadcast,false);assert.equal(pre.callsSha256,v.callsSha256);assert.equal(pre.guardSha256,v.guardSha256);assert.equal(pre.core.new_user_leaf.user_id,BigInt(o.vaultId));assert.equal(pre.core.new_user_leaf.public_key,o.publicKeyHash);return {manifest:v,pre};};

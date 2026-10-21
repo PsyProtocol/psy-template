@@ -68,6 +68,26 @@ was found. A Merkle-authenticated coordinator-chosen value is insufficient for
 the requested unpredictable, difficult-to-bias future randomness. This does not
 prove which source is running remotely. No Node source was changed.
 
+## Deployment occurrence identity: indexer / RPC owners
+
+The bulk attempt allocated contract **2477**, while `/transaction/hash/...`
+returned the same hash's prior **2473 / checkpoint 358969** occurrence. Its
+before state was **360650 / next_contract_id 2477**. The inspected local hash
+formula covers deployer, function-tree root and height, without an occurrence
+nonce or code/layout roots. Queue publication can create another allocation;
+one semantic content hash is not a unique deployment occurrence. This observed
+behavior does not attest the exact remote binary revision.
+
+Deliver a unique occurrence/request identity returned by submission, an exact
+occurrence lookup binding content hash, actual contract ID, inclusion checkpoint,
+deployer and code/layout endpoints, plus explicit same-request idempotency versus
+new-deployment behavior. Include repeated identical-program deployments, changed
+code/layout with matching function roots, lost acknowledgement and cross-domain
+rejection/attribution evidence. Do not silently overwrite or alias older events.
+Application confirmation now rejects historical IDs/checkpoints and the QA
+replacement uses distinct owned deployer identities. That mitigates this run;
+it does not repair the global API/indexer identity boundary.
+
 ## SDK release: client SDK / release team
 
 The reproducible application snapshot is frozen in
