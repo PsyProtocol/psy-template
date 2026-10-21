@@ -4,6 +4,28 @@ Branch: `markets-batch-capacity-recovery-20261020`; accepted starting commit
 `e45d689e6806d362c03f15697c90aba44f8704e7`. No Node edits, old-contract update
 probes, new branches or replacement of original artifacts are authorized here.
 
+## Four bulk-key activations included; shared-journal contender rejected
+
+All four fresh `all-four-v1` vault activations passed complete UPS/stack/session,
+fee, dependency and indexed/common-checkpoint checks: Orderbook **360962**,
+AMM, Curve and NFT Market **360963**. The ordinary Sponsor top-up and three
+ordinary native claims are included; QA FT/NFT activation seeds came from the
+existing owned holders. No issuance or existing pUSDT was used.
+
+While NFT activation held its actual durable journal, an independent OS process
+called the same formal adapter/journal route. It received `VaultBusy`, with
+**zero proofs and zero transmissions**. This is a real shared-runtime process
+contention check, not independent-host simultaneous RPC admission evidence.
+`bulk-four-fresh-activations-v1/` preserves the completed public requests,
+proofs, guards, actual receipts, runtime records and contender output, excluding
+wallet secrets and binaries. Original source files remain unchanged. Curve
+inventory initialization, LP, maximum economic fills, claims and later recovery
+are still pending; activation alone is not economic or production acceptance.
+
+The sections below form an append-only chronological record in reverse order.
+Their former pending statements describe those milestones; the newest section
+is authoritative for current status.
+
 ## All four replacement deployments and registrations confirmed
 
 At **12:51:05 UTC**, the existing acknowledged NFT registration completed
