@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import {decodeAmount,call} from '../../amm/u124/client.mjs';
 export async function cohortAssets(s,{users,assets,nftId}){
+ const observationStartedAt=new Date().toISOString(),observationStart=performance.now();
  assert.equal(new Set(users).size,users.length);const totals=Object.fromEntries(assets.map(a=>[a,0n]));let nativeTotal=0n;const accounts={},pending=[],nfts=[];
  // publicState bounds concurrent RPC reads globally. Resolve independent
  // leaves together, then fold in input order for reproducible evidence.
@@ -11,11 +12,15 @@ export async function cohortAssets(s,{users,assets,nftId}){
  for(const {user,native,ft,slots}of accountRows){const account={native,ft:{},roots:{}};nativeTotal+=native;for(const {asset,balance,root}of ft){account.ft[asset]=balance;account.roots[asset]=root;totals[asset]+=balance;}for(const [slot,values]of slots.entries()){assert.ok([0n,1n].includes(values[4]));if(values[4]===1n)nfts.push({user,slot,tokenId:values.slice(0,4),metadataHash:values.slice(5)});}accounts[user]=account;}
  const pairs=users.flatMap(sender=>users.filter(u=>u!==sender).map(recipient=>({sender,recipient})));
  pending.push(...await Promise.all(pairs.map(async({sender,recipient})=>{
-  const [sent,claimed,ft]=await Promise.all([s.slot(sender,0,3+2*recipient),s.slot(recipient,0,4+2*sender),Promise.all(assets.map(async asset=>{const [sent,claimed]=await Promise.all([Promise.all([s.slot(sender,asset,33554453+4*recipient),s.slot(sender,asset,33554454+4*recipient)]).then(decodeAmount),Promise.all([s.slot(recipient,asset,33554455+4*sender),s.slot(recipient,asset,33554456+4*sender)]).then(decodeAmount)]);assert.ok(sent>=claimed,'FT cursor');return [asset,sent-claimed];}))]);assert.ok(sent>=claimed,'native cursor');return {sender,recipient,native:sent-claimed,ft:Object.fromEntries(ft)};
+  const [sent,claimed,ft,nftSent,nftClaimed]=await Promise.all([s.slot(sender,0,3+2*recipient),s.slot(recipient,0,4+2*sender),Promise.all(assets.map(async asset=>{const [sent,claimed]=await Promise.all([Promise.all([s.slot(sender,asset,33554453+4*recipient),s.slot(sender,asset,33554454+4*recipient)]).then(decodeAmount),Promise.all([s.slot(recipient,asset,33554455+4*sender),s.slot(recipient,asset,33554456+4*sender)]).then(decodeAmount)]);assert.ok(sent>=claimed,'FT cursor');return [asset,sent-claimed];})),s.slot(sender,nftId,1182+35*recipient+32),s.slot(recipient,nftId,1182+35*sender+33)]);
+  assert.ok(sent>=claimed,'native cursor');assert.ok(nftSent>=nftClaimed&&nftSent-nftClaimed<=4n,'NFT FIFO cursor');
+  const nft=[];for(let nonce=nftClaimed;nonce<nftSent;nonce++){const ringSlot=Number(nonce%4n),values=await Promise.all(Array.from({length:8},(_,i)=>s.slot(sender,nftId,1182+35*recipient+8*ringSlot+i)));assert.ok(values.slice(0,4).some(v=>v!==0n),'zero pending NFT identity');nft.push({sender,recipient,deliveryNonce:nonce+1n,tokenId:values.slice(0,4),metadataHash:values.slice(4)});}
+  return {sender,recipient,native:sent-claimed,ft:Object.fromEntries(ft),nftSent,nftClaimed,nft};
  })));
  for(const row of pending){nativeTotal+=row.native;for(const asset of assets)totals[asset]+=row.ft[asset];}
- assert.equal(new Set(nfts.map(n=>n.tokenId.map(String).join(':'))).size,nfts.length,'duplicate NFT ownership');
- return {checkpoint:s.checkpoint,accounts,pending,nfts,totals,nativeTotal};
+ const nftPending=pending.flatMap(row=>row.nft),nftInventory=[...nfts,...nftPending];
+ assert.equal(new Set(nftInventory.map(n=>n.tokenId.map(String).join(':'))).size,nftInventory.length,'duplicate NFT ownership or pending delivery');
+ return {checkpoint:s.checkpoint,observation:{startedAt:observationStartedAt,finishedAt:new Date().toISOString(),wallMilliseconds:Math.round(performance.now()-observationStart),scope:'fixed-checkpoint cohort RPC reads, limiter/retry waits and local accounting; excludes initial realm-head reads, not pure transport latency or proving'},accounts,pending,nfts,nftPending,nftTotal:nftInventory.length,nftScope:{users,ownedSlots:[0,1],outboxes:'all directed pairs within the explicit cohort; unclaimed FIFO entries only',globalInventoryProof:false},totals,nativeTotal};
 }
 export async function payoutClaims(s,{userId,markets,tokenAbi,nftAbi,nftSlot}){
  const calls=[];

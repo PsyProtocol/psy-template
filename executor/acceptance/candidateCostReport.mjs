@@ -61,6 +61,7 @@ const testEnvelope = {startedAt: new Date(started).toISOString(), finishedAt: ne
  scope: 'actual isolated acceptance envelope: four ordinary order UPSs through final ordinary claim observations; includes admission, sponsorship, deliberately repeated cold proofs, indexing and common-checkpoint polling; not normal optimized service throughput or chain TPS'};
 save(output, {schema: 1, generatedAt: new Date().toISOString(), pairs, sums, ordinary, formal, residentColdResourceConstruction,
  testEnvelope,
+ accountingSnapshots:['maximum-assets-pre-orders.json','maximum-assets-before.json','maximum-assets-after.json'].map(file=>{const value=read(join(base,'public',file));return{source:'public/'+file,checkpoint:value.checkpoint,observation:value.observation??null,scope:'explicit cohort asset accounting, separately measured from UPS proving and confirmation; final after-claim audit is outside the reported order-to-last-claim envelope'};}),
  readOnlyRpcProbe: existsSync(join(base, 'public/rpc-read-latency-probe-v1.json')) ? read(join(base, 'public/rpc-read-latency-probe-v1.json')) : null,
  methodology: {sameMachine: true, sameBinaryAndRayonThreads: true, sameCompleteCallStackFeeNonceStartAndEndState: true,
   pairOrder: ['warm', 'cold'], warmOnlyBroadcast: true, samplesPerMarketAndOperation: 1,
