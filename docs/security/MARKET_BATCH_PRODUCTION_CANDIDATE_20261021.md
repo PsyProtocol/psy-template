@@ -23,9 +23,10 @@ The LP order, authenticated admission (**359427**), sealing (**359465**,
 after fixed source cutoff **359455**), commitment (**359484**) and settlement
 (**359502**) are confirmed. Both QA FT reserves equal 20 tokens. The
 first maximum intake reached its unchanged cutoff **359673** without admitting
-any members after preserved client/read failures. Empty-epoch closure is in
-progress; deposits/order nonces are retained for a fresh, separately consented
-epoch. The maximum four-member economic batches, controlled warm/cold full-proof pairs,
+any members after preserved client/read failures. All four empty epochs are
+now terminal (359725/359736); exact native fees total **5.000029000 test PSY**,
+QA FT/NFT inventory is conserved, and deposits/order nonces are retained for a
+fresh, separately consented epoch. The maximum four-member economic batches, controlled warm/cold full-proof pairs,
 omitted-order exits and replacement NFT expiry/competition stages have **not yet
 completed**. Their scripts and waiting workers are not acceptance evidence.
 
@@ -253,8 +254,11 @@ coordinator connection error and `broadcastMayHaveBeenAttempted:false`; its
 child submission directory contains only `failure.json`. Inspection at **359727**
 found no unresolved transmission, and its unchanged task window ends at
 **359775**. The same task was explicitly resumed under all existing saved-proof,
-registration, dependency, own-anchor, nonce, fee and window checks. Inclusion
-and complete four-market timeout accounting are still pending. No cutoff was
+registration, dependency, own-anchor, nonce, fee and window checks. Inclusion was confirmed at **359736**: one proof, two parent attempts, exactly
+one child transmission, with byte-identical saved and transmitted requests.
+The complete four-market timeout interval conserved both QA FT supplies and
+the same two pending NFTs; native decrease equals five included UPS fees,
+**5.000029000 test PSY**. No cutoff was
 extended, no original proof replaced, and no automatic financial retry added.
 
 ### Production CLI positive gate — scheduled, not yet accepted
@@ -270,6 +274,16 @@ logs are exclusive-created; interrupted attempts require explicit inspection.
 Four targeted intent/receipt-selection checks passed; the combined Executor/
 Curve reader suite passed **115** checks (overlapping earlier suites). The live positive gate
 has not run yet and must not be reported as daemon/watch restart acceptance.
+
+`empty-intake-timeout-v1/` preserves the completed terminal interval, raw proofs,
+request/receipt pairs, source snapshots and failed first Orderbook attempt.
+No old-epoch refund or economic settlement is implied. Next-epoch gas funding
+is in progress; the new cutoff has not been selected prematurely.
+
+Source overlay **v7** binds 278 JS files at pushed source `0c6db91`, SHA256
+`26bbcdde0b3069bac18c2b7e746142218fbe37384728ad142b97398af146b97c`.
+It links v6 and lists only the CLI intent/acceptance changes. Frozen binaries,
+registered keys, compiled assets/markets and SDK remain unchanged.
 
 ## Ordered gates
 
