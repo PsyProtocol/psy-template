@@ -53,6 +53,20 @@ fixture/missing-manifest failure, and prepared-build hashes. The gate is an
 application integrity check, not independent compiler correctness or remote
 runtime attestation. Fresh deployment with this gate remains pending.
 
+## Complete-proof cost attribution gate
+
+`analyzeProofCosts.mjs` requires the completed four-market/two-profile comparison
+and SHA-matching original reports. Missing/VM-only proofs, endpoint failures,
+changed fees, incomplete pairs and invalid measured durations cannot be
+published as a complete comparison. It reports cold resources separately from
+warm commitment/settlement, noop steps, signature and end-cap prove/verify.
+Call-step times include function proving plus recursive compression; those
+components are **not** separately isolated. Two targeted reporting-gate tests
+passed. No network TPS, causal attribution or full-lifecycle speedup is inferred.
+The full comparison is still running; this is implemented reporting, not its
+completed result. Network-case signing and the running comparison source are
+unchanged by this postprocessing tool.
+
 ## Controlled full-UPS comparison scheduled after recovery closure
 
 `executor/acceptance/compareProofProfiles.mjs` now pins one frozen test binary,

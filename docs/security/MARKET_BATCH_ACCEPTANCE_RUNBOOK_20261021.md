@@ -37,6 +37,12 @@ all their pairwise pending transfers; it is not a global inventory proof.
    comparison in `/tmp/psy-market-profile-comparison-20261021-v1`. Inspect its
    `COMPARISON.json` and every raw log/report. Never run another financial
    proof concurrently with these measurements. A missing report is not a pass.
+   Once it is complete, run `node executor/acceptance/analyzeProofCosts.mjs
+   /tmp/psy-market-profile-comparison-20261021-v1
+   /tmp/psy-market-profile-comparison-20261021-v1/COST-ANALYSIS.json` to separate
+   cold resources, warm full proofs, noop steps and end-cap intervals. Its input
+   report hashes, all four complete profile pairs, fee equality and full-UPS
+   endpoints must pass; VM-only or incomplete evidence is rejected.
 3. Confirm no other process is using the owned wallets or vaults. Preserve and
    reconcile unknown sends before starting another step. These checks do not
    certify Node's atomic submission behavior.
