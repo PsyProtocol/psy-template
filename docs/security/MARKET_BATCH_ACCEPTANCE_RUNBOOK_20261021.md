@@ -9,7 +9,9 @@ receipt reconciliation before an explicitly reviewed continuation.
 ## Inputs and scope
 
 - Parent case: `/tmp/psy-market-candidate-live-20261021-v3`.
-- Fresh bulk case: `/tmp/psy-market-candidate-bulk-live-20261021-v1`.
+- Fresh bulk replacement case: `/tmp/psy-market-candidate-bulk-live-20261021-v2`.
+  The v1 attempt is retired: a content-hash lookup aliased an old occurrence;
+  vault 1169600 remains unactivated and is included in the replacement audit.
 - Original asset/actor case: `/tmp/psy-market-isolated-live-20261020-v1`.
 - Frozen signing release: `candidate-release-v4.json`; do not use the default
   release or substitute the newly rebuilt diagnostic binaries.
@@ -24,7 +26,7 @@ receipt reconciliation before an explicitly reviewed continuation.
 The prepared case freezes compiler, wallet bytes, SDK source/lock/toolchain,
 four complete seven-call UPS gates, signature mutation gates and the additional
 preceding-vault cohort. `PREPARED-BULK-v1.json` is offline preparation, not a
-successful deployment marker. The new asset audit has 18 explicit accounts and
+successful deployment marker. The replacement asset audit has 19 explicit accounts and
 all their pairwise pending transfers; it is not a global inventory proof.
 
 ## Gates before another financial interval
@@ -55,9 +57,10 @@ after an interrupted attempt.
 
 ```sh
 export PSY_CANDIDATE_RELEASE_FILE=candidate-release-v4.json
-export QA_BULK_CASE=/tmp/psy-market-candidate-bulk-live-20261021-v1
+export QA_BULK_CASE=/tmp/psy-market-candidate-bulk-live-20261021-v2
 export QA_ORIGINAL_CASE=/tmp/psy-market-isolated-live-20261020-v1
 
+node executor/acceptance/candidateDeploymentIdentities.mjs "$QA_BULK_CASE"
 node executor/acceptance/candidateDeploy.mjs "$QA_BULK_CASE" "$QA_ORIGINAL_CASE" /tmp/psy-ordinary-diagnostics-binaries-20261021-v14/isolated_wallet /tmp/psy-executor-resident-binaries-20261021-v3/compact_market_wallet all-four-v1
 node executor/acceptance/candidateBootstrap.mjs "$QA_BULK_CASE" "$QA_ORIGINAL_CASE"
 node executor/acceptance/candidateTrading.mjs "$QA_BULK_CASE" "$QA_ORIGINAL_CASE" liquidity
@@ -68,6 +71,10 @@ node executor/acceptance/candidateNftCompetition.mjs "$QA_BULK_CASE" "$QA_ORIGIN
 ```
 
 Deployment accepts only fresh initial layouts and registers new keys/vaults.
+Create the deployment-identity release only once; if it exists, verify and skip
+its creation rather than regenerate. These four owned keys are unregistered and
+unfunded, with private files excluded from Git. The deployment command verifies
+the public profiles/release and rejects historical IDs or inclusion checkpoints.
 Bootstrap reuses owned asset holders, accounts existing pending native funding,
 funds the actual NFT holder and initializes Curve inventory against the new AMM
 vault. It does not issue another QA asset supply or change MCP wallet policies.

@@ -1,0 +1,611 @@
+{
+  "schema": 1,
+  "sourceDirectory": "/private/tmp/psy-market-candidate-bulk-live-20261021-v1",
+  "machine": "gewenbo.local",
+  "host": "macOS-15.7.3-arm64-arm-64bit",
+  "scope": "public formal Executor run including failures; success requires exact included receipt",
+  "walletFilesIncluded": false,
+  "sealedBinariesIncluded": false,
+  "records": [
+    {
+      "source": "attempts/deploy-amm-v1/before.json",
+      "file": "files/attempts/deploy-amm-v1/before.json.gz",
+      "bytes": 230,
+      "sha256": "4b6da5fa1a32e2b3db8262cd0462b35a39c07e0e06e997476f51a243a6a78422",
+      "gzipBytes": 148,
+      "gzipSha256": "28d282a893f808e345c6d4843995e380dba67b3ca0bf5f96316abfc6acc214a8"
+    },
+    {
+      "source": "attempts/deploy-amm-v1/included.json",
+      "file": "files/attempts/deploy-amm-v1/included.json.gz",
+      "bytes": 1747,
+      "sha256": "4d826222e7fcc8ca3995398c64a2645c28eaaa2dacab3dc115c2beb190ecaa15",
+      "gzipBytes": 822,
+      "gzipSha256": "4cc6b7fa44f073c33ca6a7c1f7e8e3963badca55768f4e91216cc5c86e1cdc66"
+    },
+    {
+      "source": "attempts/deploy-amm-v1/intent.json",
+      "file": "files/attempts/deploy-amm-v1/intent.json.gz",
+      "bytes": 208,
+      "sha256": "203e40866ab4ea58cff68008d100aaf5def803deb2feabd0aea258bfd7fb57d1",
+      "gzipBytes": 175,
+      "gzipSha256": "459d23436a3614492fb82ade84cb008d482191c294ca33fbd6919dc647b33b51"
+    },
+    {
+      "source": "attempts/deploy-amm-v1/preflight.json",
+      "file": "files/attempts/deploy-amm-v1/preflight.json.gz",
+      "bytes": 702,
+      "sha256": "6d37e122bcbf97478f39207b3b3c06633987ed76245f230d8ad636f2033da31b",
+      "gzipBytes": 434,
+      "gzipSha256": "3a2a81a24508f5b7c21b06f2264bc1dc29aedee94965c9e55802388fb3b70223"
+    },
+    {
+      "source": "attempts/deploy-amm-v1/receipt.json",
+      "file": "files/attempts/deploy-amm-v1/receipt.json.gz",
+      "bytes": 84,
+      "sha256": "0f9938e8047b013e502739785bb5297f5991d308f8198745913b3f8c57e00de5",
+      "gzipBytes": 95,
+      "gzipSha256": "dd4018185eab3fd67c480d051962d79af6a9dc177c949bbcbcf5d361462fff8b"
+    },
+    {
+      "source": "attempts/deploy-amm-v1/request.json",
+      "file": "files/attempts/deploy-amm-v1/request.json.gz",
+      "bytes": 357983355,
+      "sha256": "ef3dcbe2c96a668c9c9a203990431079adcadeeaf68495e937cbb1702405da6f",
+      "gzipBytes": 5157927,
+      "gzipSha256": "a2e133a0424cdfe30ba0f5de705573d5d0ebaeca95ab68983a9f60854def5f17"
+    },
+    {
+      "source": "attempts/deploy-amm-v1/timing.json",
+      "file": "files/attempts/deploy-amm-v1/timing.json.gz",
+      "bytes": 107,
+      "sha256": "047f572a76e58cb14f353459a341bfa6aca22586e87455e94c3e602841b0f378",
+      "gzipBytes": 105,
+      "gzipSha256": "0a38a9feb7d8ddd671f2dbf6b288d1565f7e93827d503729fe4d681767fe7b39"
+    },
+    {
+      "source": "attempts/register-amm-vault-v1/included.json",
+      "file": "files/attempts/register-amm-vault-v1/included.json.gz",
+      "bytes": 3012,
+      "sha256": "8462fcb12732f675d630e03a5267e00857a1d95de7df5d1114c86825b0a7d963",
+      "gzipBytes": 1083,
+      "gzipSha256": "4fd925e9d1e43cce9b3fdf675d388b913914a8b01b22386196fe02237f6b23dc"
+    },
+    {
+      "source": "attempts/register-amm-vault-v1/intent.json",
+      "file": "files/attempts/register-amm-vault-v1/intent.json.gz",
+      "bytes": 317,
+      "sha256": "c2d81fe28abd3a4808b7e4addb30cdd685c9f437ad69295af536771ff52755c5",
+      "gzipBytes": 240,
+      "gzipSha256": "c54b13e0d12f35497ffbb0ae55a0e640d5073be8f9a26c7fca8afec4b722b1f6"
+    },
+    {
+      "source": "attempts/register-amm-vault-v1/receipt.json",
+      "file": "files/attempts/register-amm-vault-v1/receipt.json.gz",
+      "bytes": 151,
+      "sha256": "272bcf2a5852b72030fe9fe96758c7f69264de9c859117d3de2cf4ccf4006d5b",
+      "gzipBytes": 143,
+      "gzipSha256": "3353626d9c82943031075e5be1dbc86a2a29b0e44eadcbea27887df530aa7289"
+    },
+    {
+      "source": "attempts/register-amm-vault-v1/request.json",
+      "file": "files/attempts/register-amm-vault-v1/request.json.gz",
+      "bytes": 204,
+      "sha256": "ca68084e3ff855faacf4d49ce8853199396ba833f07b801f6ce7a95294e13a53",
+      "gzipBytes": 170,
+      "gzipSha256": "7f8fe08e03e695bc9d3fe88224a64252560e34d8d96abdcf750df06bc8214595"
+    },
+    {
+      "source": "deploy-after-comparison-v1.log",
+      "file": "files/deploy-after-comparison-v1.log.gz",
+      "bytes": 1203,
+      "sha256": "8ca40a4b5222e4401f20e735f877bc606150967d75adc4983b4448bccc655d9a",
+      "gzipBytes": 583,
+      "gzipSha256": "cbffa2e1a618415a92701867f702bddc6441b52e927b80fa70fb583944440916"
+    },
+    {
+      "source": "deploy-amm-v1.log",
+      "file": "files/deploy-amm-v1.log.gz",
+      "bytes": 8642,
+      "sha256": "7aaf3aee927a83fda38506061baec78c95ff1e7e7a12f8c2f832c6972a676813",
+      "gzipBytes": 1530,
+      "gzipSha256": "16d5f0d39b3c3f57679556f592bf07315b42b3f4d440afdaf3a74f0630d0d9e0"
+    },
+    {
+      "source": "deploy-orderbook-v1.log",
+      "file": "files/deploy-orderbook-v1.log.gz",
+      "bytes": 2777,
+      "sha256": "3aa132f6a5508e23fe4f0146c9ffc5c320579c184609140159242c96f5381764",
+      "gzipBytes": 643,
+      "gzipSha256": "028ee5ddb30bc3742fddaa9a602c399f091c3d5eb8a711f0b6f4cc787e43bd7d"
+    },
+    {
+      "source": "deployments-v1.log",
+      "file": "files/deployments-v1.log.gz",
+      "bytes": 1116,
+      "sha256": "312d0b243fcb1697328309f6b61a8ae7f5476fbcd2a353cf96ebde8bc3f9c058",
+      "gzipBytes": 538,
+      "gzipSha256": "2652d1137e4dbf751e4fbefe1f090e1bf5909dcfb61ef4290cbb1ead5fa2cc58"
+    },
+    {
+      "source": "markets-v1/amm/BUILD.json",
+      "file": "files/markets-v1/amm/BUILD.json.gz",
+      "bytes": 1002,
+      "sha256": "e4d931ddb814cb944261a781884ca4c64bd928d186a610a1a433f67850f84746",
+      "gzipBytes": 563,
+      "gzipSha256": "e3854db048e5aa5257d291b997c43244ac556b343db0535e039c9173b5204cc7"
+    },
+    {
+      "source": "markets-v1/amm/bound/BOUND.json",
+      "file": "files/markets-v1/amm/bound/BOUND.json.gz",
+      "bytes": 358,
+      "sha256": "a554e9923a074dafcadd05e4f2e0716439e3b3ce82e5a76c0805ea7fbbdc4047",
+      "gzipBytes": 254,
+      "gzipSha256": "532fd9221008f36c7d68cb541d5eed8b1e28931652642c20a1803c181d7a4105"
+    },
+    {
+      "source": "markets-v1/amm/bound/policy.json",
+      "file": "files/markets-v1/amm/bound/policy.json.gz",
+      "bytes": 127947,
+      "sha256": "5de936c1647c6c681c5159a26c79d14655691a83883402ecac6dc1b94eedae61",
+      "gzipBytes": 2795,
+      "gzipSha256": "2da2a1e9b0f36d1d39c53038cd5c8f93f487531ae2859753299df6dc2562f1a9"
+    },
+    {
+      "source": "markets-v1/amm/compile.log",
+      "file": "files/markets-v1/amm/compile.log.gz",
+      "bytes": 26,
+      "sha256": "3901f8e4044668d8035c5d62671fcedee683e5bbb73659937ee77d6419f285cf",
+      "gzipBytes": 46,
+      "gzipSha256": "7f4173c6f365eab01170c9c405a2eab7747e57531879eeb73d560efd0bbf33e2"
+    },
+    {
+      "source": "markets-v1/amm/compiled/compilation_artifact.json",
+      "file": "files/markets-v1/amm/compiled/compilation_artifact.json.gz",
+      "bytes": 27056214,
+      "sha256": "d15d8263309b07d5904bb7519772a3516dbe7b399fcf5e0a80b17d61441d9080",
+      "gzipBytes": 2961647,
+      "gzipSha256": "8ff26ae36bb675922a50c485ac10743f9fcb8a78d1046fb194cb8e62dba209ff"
+    },
+    {
+      "source": "markets-v1/amm/config.json",
+      "file": "files/markets-v1/amm/config.json.gz",
+      "bytes": 264,
+      "sha256": "1d4f77e9502ba824d911aac0846648ff64e6f2f98daca8b49b1554f9d0231f3b",
+      "gzipBytes": 163,
+      "gzipSha256": "cd87e47fafa0ac5ed226e48b57c42917cca4ec52930114543566b9e37ee7b9f3"
+    },
+    {
+      "source": "markets-v1/amm/live-registration.json",
+      "file": "files/markets-v1/amm/live-registration.json.gz",
+      "bytes": 3012,
+      "sha256": "8462fcb12732f675d630e03a5267e00857a1d95de7df5d1114c86825b0a7d963",
+      "gzipBytes": 1083,
+      "gzipSha256": "4fd925e9d1e43cce9b3fdf675d388b913914a8b01b22386196fe02237f6b23dc"
+    },
+    {
+      "source": "markets-v1/amm/main.psy.rs",
+      "file": "files/markets-v1/amm/main.psy.rs.gz",
+      "bytes": 6399993,
+      "sha256": "3093be84d82e384cd399786899a530d5e0def6851b2d52bf5da69e73ba3b4011",
+      "gzipBytes": 539577,
+      "gzipSha256": "d6b0885a346fce56165a3c7ac5bf04801ef24cf9f9dbe106cf5bbbf27d433572"
+    },
+    {
+      "source": "markets-v1/amm/native.json",
+      "file": "files/markets-v1/amm/native.json.gz",
+      "bytes": 184399,
+      "sha256": "bf756535620ecd6b360cf58fce90e66f1e7fecc5ed28c4445c23d745d7510606",
+      "gzipBytes": 21259,
+      "gzipSha256": "6d46dba5c8f00f000422d93709244579fb188d94c4e8f795763612ceae26380c"
+    },
+    {
+      "source": "markets-v1/amm/nft.json",
+      "file": "files/markets-v1/amm/nft.json.gz",
+      "bytes": 61243,
+      "sha256": "bbbde8620431788e8ce68067a2db425713e2195eaf1eb480e22328822d0d103c",
+      "gzipBytes": 6878,
+      "gzipSha256": "28eb3d9685962d140dc8e925209e031da42ac60c7ecfc3fe8b141d82c07e41be"
+    },
+    {
+      "source": "markets-v1/amm/token-a.json",
+      "file": "files/markets-v1/amm/token-a.json.gz",
+      "bytes": 4066238,
+      "sha256": "e259c0b8dbe1588bfe624be14e2b32dede69648b5532fce5f472434c689fdba9",
+      "gzipBytes": 458317,
+      "gzipSha256": "41a96109bd8d16c309b72aaffb554f47e206428837ed73e747f9cde4b4473ca9"
+    },
+    {
+      "source": "markets-v1/amm/token-b.json",
+      "file": "files/markets-v1/amm/token-b.json.gz",
+      "bytes": 4066238,
+      "sha256": "e259c0b8dbe1588bfe624be14e2b32dede69648b5532fce5f472434c689fdba9",
+      "gzipBytes": 458317,
+      "gzipSha256": "41a96109bd8d16c309b72aaffb554f47e206428837ed73e747f9cde4b4473ca9"
+    },
+    {
+      "source": "markets-v1/nftmarket/BUILD.json",
+      "file": "files/markets-v1/nftmarket/BUILD.json.gz",
+      "bytes": 1008,
+      "sha256": "d1b29880d0fd6affdab7a3f9a737d190427884934a19fd9fd7b5952288e3019d",
+      "gzipBytes": 562,
+      "gzipSha256": "5f63e69726e47b20aefdc71c90f7dd23a80d059b01f02fac114435acbf4e34f0"
+    },
+    {
+      "source": "markets-v1/nftmarket/compile.log",
+      "file": "files/markets-v1/nftmarket/compile.log.gz",
+      "bytes": 26,
+      "sha256": "b8c34675233d5e4555ceeef573189b15b683eb81832df80956ecf97afbbe465a",
+      "gzipBytes": 46,
+      "gzipSha256": "8dfcc3233b52c9d40775bc94f048578ddbc76a808f6fca25624cb549c86d5009"
+    },
+    {
+      "source": "markets-v1/nftmarket/compiled/compilation_artifact.json",
+      "file": "files/markets-v1/nftmarket/compiled/compilation_artifact.json.gz",
+      "bytes": 5086550,
+      "sha256": "2d3f76254a4e27e99131d5d4ccd40354c115e86958cedcdc9f7ce41410864b74",
+      "gzipBytes": 565324,
+      "gzipSha256": "509db1db78e42ce9c529b0fe3f90408840d22a2112af9c4fac8cb0a383f65136"
+    },
+    {
+      "source": "markets-v1/nftmarket/config.json",
+      "file": "files/markets-v1/nftmarket/config.json.gz",
+      "bytes": 80,
+      "sha256": "22aeed5fb83457060699e201e34bb92427a1447fc20bbfaa144b20c6ef2c30f4",
+      "gzipBytes": 87,
+      "gzipSha256": "9227db37c8d17fff42a2023d51a67d637afe0a77f22d610e0f7cc0d18736ae5f"
+    },
+    {
+      "source": "markets-v1/nftmarket/main.psy.rs",
+      "file": "files/markets-v1/nftmarket/main.psy.rs.gz",
+      "bytes": 1170657,
+      "sha256": "71c778ee241aa6ab722da8c0d66c8270628003c817028de1998586691ea51f5d",
+      "gzipBytes": 104227,
+      "gzipSha256": "3562d5ab9706a882d6d32c61b6086e2c285a6ca776d43aae9fe0dbe46b6ea58b"
+    },
+    {
+      "source": "markets-v1/nftmarket/native.json",
+      "file": "files/markets-v1/nftmarket/native.json.gz",
+      "bytes": 184399,
+      "sha256": "bf756535620ecd6b360cf58fce90e66f1e7fecc5ed28c4445c23d745d7510606",
+      "gzipBytes": 21259,
+      "gzipSha256": "6d46dba5c8f00f000422d93709244579fb188d94c4e8f795763612ceae26380c"
+    },
+    {
+      "source": "markets-v1/nftmarket/nft.json",
+      "file": "files/markets-v1/nftmarket/nft.json.gz",
+      "bytes": 61243,
+      "sha256": "bbbde8620431788e8ce68067a2db425713e2195eaf1eb480e22328822d0d103c",
+      "gzipBytes": 6878,
+      "gzipSha256": "28eb3d9685962d140dc8e925209e031da42ac60c7ecfc3fe8b141d82c07e41be"
+    },
+    {
+      "source": "markets-v1/nftmarket/token-a.json",
+      "file": "files/markets-v1/nftmarket/token-a.json.gz",
+      "bytes": 4066238,
+      "sha256": "e259c0b8dbe1588bfe624be14e2b32dede69648b5532fce5f472434c689fdba9",
+      "gzipBytes": 458317,
+      "gzipSha256": "41a96109bd8d16c309b72aaffb554f47e206428837ed73e747f9cde4b4473ca9"
+    },
+    {
+      "source": "markets-v1/nftmarket/token-b.json",
+      "file": "files/markets-v1/nftmarket/token-b.json.gz",
+      "bytes": 4066238,
+      "sha256": "e259c0b8dbe1588bfe624be14e2b32dede69648b5532fce5f472434c689fdba9",
+      "gzipBytes": 458317,
+      "gzipSha256": "41a96109bd8d16c309b72aaffb554f47e206428837ed73e747f9cde4b4473ca9"
+    },
+    {
+      "source": "markets-v1/orderbook/BUILD.json",
+      "file": "files/markets-v1/orderbook/BUILD.json.gz",
+      "bytes": 1008,
+      "sha256": "15187810b8bb88b12a5a8ce30d1deebf8304e334af73d0ebecf2c161728345d5",
+      "gzipBytes": 566,
+      "gzipSha256": "bdf120bfc6133c0ed6487828dda2b300da0d4c10fb9d7c2e30ee5a41c0d1f18f"
+    },
+    {
+      "source": "markets-v1/orderbook/compile.log",
+      "file": "files/markets-v1/orderbook/compile.log.gz",
+      "bytes": 26,
+      "sha256": "5045f57d9f65ed8ff41adc1ecee1337fe11584555bb70ddeaac1b922c0394719",
+      "gzipBytes": 46,
+      "gzipSha256": "96606e523394b8787b0bd6a55f4adf010c8f87a75db43c53e913ba80ba848ad4"
+    },
+    {
+      "source": "markets-v1/orderbook/compiled/compilation_artifact.json",
+      "file": "files/markets-v1/orderbook/compiled/compilation_artifact.json.gz",
+      "bytes": 10229424,
+      "sha256": "8d0459eff96e7cbcae035529b51180ec6fd98abbdb9784f7f0e7fb8addc3dd0e",
+      "gzipBytes": 1128143,
+      "gzipSha256": "2da1111d49bed319d0a87fd392ca146d7b146dee1278c564aa70d610625b89e2"
+    },
+    {
+      "source": "markets-v1/orderbook/config.json",
+      "file": "files/markets-v1/orderbook/config.json.gz",
+      "bytes": 264,
+      "sha256": "1d4f77e9502ba824d911aac0846648ff64e6f2f98daca8b49b1554f9d0231f3b",
+      "gzipBytes": 163,
+      "gzipSha256": "cd87e47fafa0ac5ed226e48b57c42917cca4ec52930114543566b9e37ee7b9f3"
+    },
+    {
+      "source": "markets-v1/orderbook/main.psy.rs",
+      "file": "files/markets-v1/orderbook/main.psy.rs.gz",
+      "bytes": 2409534,
+      "sha256": "3c8babcdac37ebec707bf8b056a4ecfb60cbc4b0d3297b7eda1080e15ca9d6b5",
+      "gzipBytes": 202885,
+      "gzipSha256": "d34938a222da1f62cec0b10d3b63e15dd528f4f201aa3f061a612b9c9a24ac95"
+    },
+    {
+      "source": "markets-v1/orderbook/native.json",
+      "file": "files/markets-v1/orderbook/native.json.gz",
+      "bytes": 184399,
+      "sha256": "bf756535620ecd6b360cf58fce90e66f1e7fecc5ed28c4445c23d745d7510606",
+      "gzipBytes": 21259,
+      "gzipSha256": "6d46dba5c8f00f000422d93709244579fb188d94c4e8f795763612ceae26380c"
+    },
+    {
+      "source": "markets-v1/orderbook/nft.json",
+      "file": "files/markets-v1/orderbook/nft.json.gz",
+      "bytes": 61243,
+      "sha256": "bbbde8620431788e8ce68067a2db425713e2195eaf1eb480e22328822d0d103c",
+      "gzipBytes": 6878,
+      "gzipSha256": "28eb3d9685962d140dc8e925209e031da42ac60c7ecfc3fe8b141d82c07e41be"
+    },
+    {
+      "source": "markets-v1/orderbook/token-a.json",
+      "file": "files/markets-v1/orderbook/token-a.json.gz",
+      "bytes": 4066238,
+      "sha256": "e259c0b8dbe1588bfe624be14e2b32dede69648b5532fce5f472434c689fdba9",
+      "gzipBytes": 458317,
+      "gzipSha256": "41a96109bd8d16c309b72aaffb554f47e206428837ed73e747f9cde4b4473ca9"
+    },
+    {
+      "source": "markets-v1/orderbook/token-b.json",
+      "file": "files/markets-v1/orderbook/token-b.json.gz",
+      "bytes": 4066238,
+      "sha256": "e259c0b8dbe1588bfe624be14e2b32dede69648b5532fce5f472434c689fdba9",
+      "gzipBytes": 458317,
+      "gzipSha256": "41a96109bd8d16c309b72aaffb554f47e206428837ed73e747f9cde4b4473ca9"
+    },
+    {
+      "source": "public/ABANDONED-DEPLOYMENT-v1.json",
+      "file": "files/public/ABANDONED-DEPLOYMENT-v1.json.gz",
+      "bytes": 497,
+      "sha256": "204304748da410f2b285223825030889b3dca9e806c1820bd190aa6bfada530a",
+      "gzipBytes": 343,
+      "gzipSha256": "ad658cffc33adc4dce16f43d1ae5739afbfad2b0062b33740d9244768b5457d0"
+    },
+    {
+      "source": "public/PREPARED-BULK-v1.json",
+      "file": "files/public/PREPARED-BULK-v1.json.gz",
+      "bytes": 853,
+      "sha256": "fd8c04b721a4799413a78b5e0d9e1c787305bb2fbca9e244f93de7c0ad48b364",
+      "gzipBytes": 536,
+      "gzipSha256": "ea466cf448c397d7fcd4152908552ee12e5faf4e5d936cc73a50b38bc55b4372"
+    },
+    {
+      "source": "public/additional-cohort-users-v1.json",
+      "file": "files/public/additional-cohort-users-v1.json.gz",
+      "bytes": 54,
+      "sha256": "c84071dc25c24ee8e10157b0c2ff2796e9901d3902eeb1fd844fed4b59ba6c87",
+      "gzipBytes": 72,
+      "gzipSha256": "af6e6d0e615e46bc68b8926528bc39b811a793e2cb2bab02c3e37ca35ef8c550"
+    },
+    {
+      "source": "public/candidate-release-v4.json",
+      "file": "files/public/candidate-release-v4.json.gz",
+      "bytes": 285,
+      "sha256": "7e211f1bcdeac044bd656231dfc5bcaf7cc567304f24f7f902e98a6e610d8934",
+      "gzipBytes": 221,
+      "gzipSha256": "e453a64cab263d24a3b40dd7213e0c1d8479cf3836324a33d7340135451efc0b"
+    },
+    {
+      "source": "public/candidate-toolchain-v4.json",
+      "file": "files/public/candidate-toolchain-v4.json.gz",
+      "bytes": 761,
+      "sha256": "d924f46a00dd06a300061a47cb116a352a224ee2a462f759eec825a91ae8e2c4",
+      "gzipBytes": 442,
+      "gzipSha256": "d93522c99bc2e4f096ac621b45d8c415e416effe72d4ca09625908c4f32ada0a"
+    },
+    {
+      "source": "public/deploy-after-comparison-v1.mjs",
+      "file": "files/public/deploy-after-comparison-v1.mjs.gz",
+      "bytes": 1662,
+      "sha256": "128a6f439352b45c7c1e530285ab6d31e88974461924b98dd088047c2988a788",
+      "gzipBytes": 888,
+      "gzipSha256": "e9a52dd27dab212c7b56f9f5e91850d974b68aa66b73b2a16d38d873ce97f227"
+    },
+    {
+      "source": "public/deploy-amm-build-pin-v1.json",
+      "file": "files/public/deploy-amm-build-pin-v1.json.gz",
+      "bytes": 789,
+      "sha256": "fc88cb9e4f5c580d022764e521b6afd1edaac7e45d84df095d052465e9d70b07",
+      "gzipBytes": 462,
+      "gzipSha256": "eb9eed85bd9c705ef1125ad21ebc7dda6068e4f267a192f5d10dd1f1a0f4344d"
+    },
+    {
+      "source": "public/deploy-orderbook-build-pin-v1.json",
+      "file": "files/public/deploy-orderbook-build-pin-v1.json.gz",
+      "bytes": 795,
+      "sha256": "57246814100f1f290207523c7b8aef19b605864f9a2c6aa438eefdcefb120cdd",
+      "gzipBytes": 468,
+      "gzipSha256": "aa20cc444433ddf5f954b5f1d7d101c1f928502dfb1d4a63d6b9080d295efcbd"
+    },
+    {
+      "source": "public/deployment-duplicate-current-leaves-v1.json",
+      "file": "files/public/deployment-duplicate-current-leaves-v1.json.gz",
+      "bytes": 1312,
+      "sha256": "af08e3869d8a7fa0d58fea832c7b7bef58cd6c6d6b91eb69b4b4bbba7e73a46a",
+      "gzipBytes": 552,
+      "gzipSha256": "044dadb5bb6beab18ad38583f442ad2fb336f9a969b5513a882466780226ccfb"
+    },
+    {
+      "source": "public/deployment-duplicate-inspection-v1.json",
+      "file": "files/public/deployment-duplicate-inspection-v1.json.gz",
+      "bytes": 1221,
+      "sha256": "0cbc609248ae8e65a4b513c4fac4c28208d300a44a1fa128f1f8ce7b6734e8ed",
+      "gzipBytes": 636,
+      "gzipSha256": "672f402a9813a9134300d32862ae09fece38ed2addfccb7bd83b7eda06448a2b"
+    },
+    {
+      "source": "public/deployment-occurrence-source-audit-v1.json",
+      "file": "files/public/deployment-occurrence-source-audit-v1.json.gz",
+      "bytes": 912,
+      "sha256": "d3676d6a5a0a36945fc0a850beb89d00986fbc0ca81f88091df5674a923f2cb7",
+      "gzipBytes": 511,
+      "gzipSha256": "e964f5d6abbef2cc71617083010d3d6a055ad9c8de04508f5bc43fbfc54ff8fc"
+    },
+    {
+      "source": "public/duplicate-deployment-authenticated-checkpoint-v1/observation.json",
+      "file": "files/public/duplicate-deployment-authenticated-checkpoint-v1/observation.json.gz",
+      "bytes": 11987,
+      "sha256": "ea9d81592bd3606cfdf21f30c9f063a33bd3f0e9aee96a1a6c41b16ffe6cf0c2",
+      "gzipBytes": 3377,
+      "gzipSha256": "dfbab81ebf27812dd7cb60e799d471c29f27df542b5c8bc0cc00868251138e5d"
+    },
+    {
+      "source": "public/duplicate-deployment-authenticated-checkpoint-v1/provenance.json",
+      "file": "files/public/duplicate-deployment-authenticated-checkpoint-v1/provenance.json.gz",
+      "bytes": 2612,
+      "sha256": "8fdf536d8b979918d08a265db416b04782ce5b75712225de09fbe696b026670a",
+      "gzipBytes": 483,
+      "gzipSha256": "215e2f25403184cae0b1a6554492cd5a63fee06a5ab99f21d978d9c64ab6ace8"
+    },
+    {
+      "source": "public/duplicate-deployment-authenticated-checkpoint-v1/verified.json",
+      "file": "files/public/duplicate-deployment-authenticated-checkpoint-v1/verified.json.gz",
+      "bytes": 1840,
+      "sha256": "dbb480e8f6716fc4e7cdc1c1216097fb3c329bd168d2dccf6c1dd37a3ed55911",
+      "gzipBytes": 851,
+      "gzipSha256": "45689b8c04ff45801491bc3885ba98fc5c0498201219fea02923865507ea8a2f"
+    },
+    {
+      "source": "public/duplicate-deployment-authenticated-checkpoint-v1/verify.log",
+      "file": "files/public/duplicate-deployment-authenticated-checkpoint-v1/verify.log.gz",
+      "bytes": 624,
+      "sha256": "1863c47c2d9d91e50ce2772c83e4e2ead92f5d5a0c42910a0f9f1997f4263739",
+      "gzipBytes": 285,
+      "gzipSha256": "5ec5b51be1949b55d8463eb2d106a64bd041eaec8fdf7104bfe041340702d62f"
+    },
+    {
+      "source": "public/parent-recovery-gate-v1.json",
+      "file": "files/public/parent-recovery-gate-v1.json.gz",
+      "bytes": 326,
+      "sha256": "66be7476b0c52c0ec4c3cfa0179c750b5c515497379a1c41de5eb6a17f48ef2f",
+      "gzipBytes": 260,
+      "gzipSha256": "4cfd5d5836b25dd21f45572bb56a34fa0afaaed0dc5ccea80cfe88d189440e3f"
+    },
+    {
+      "source": "public/predeploy-common-checkpoint-observation-v1.json",
+      "file": "files/public/predeploy-common-checkpoint-observation-v1.json.gz",
+      "bytes": 564,
+      "sha256": "ce372f95f13509490f77390490b33c458ab4d4f3f8265ac98c835cc207b3035b",
+      "gzipBytes": 253,
+      "gzipSha256": "9f25a2770a3c1b26edf47d55d01a496d7914445b4b505244c70ae3daac57f94a"
+    },
+    {
+      "source": "public/predeployment-build-check-v1.json",
+      "file": "files/public/predeployment-build-check-v1.json.gz",
+      "bytes": 2509,
+      "sha256": "0b7ab33a047c3f3685771fcd780cdf2e2f6a852327a23f837f453fb276643c7c",
+      "gzipBytes": 879,
+      "gzipSha256": "b89540108b993f69cbd33c96e7dbde95a7b2c4cf2d13f8a723a0a85f69783764"
+    },
+    {
+      "source": "public/qa-actors-source.json",
+      "file": "files/public/qa-actors-source.json.gz",
+      "bytes": 85,
+      "sha256": "34d08b794b1488276581599a0840e4248c2a9f61a1e46dc3fce6655f6e4704b2",
+      "gzipBytes": 101,
+      "gzipSha256": "b4272eaed9bfde0fda207221594e976845dcf88a18d54558be7e06b2268d5dcb"
+    },
+    {
+      "source": "public/replacement-extra-cohort-v1.json",
+      "file": "files/public/replacement-extra-cohort-v1.json.gz",
+      "bytes": 32,
+      "sha256": "384ea9dd034cf0ac96b20cde2d0ee72af5c43951b4f8d9280de94b2564559753",
+      "gzipBytes": 50,
+      "gzipSha256": "158e7e4d6ca23c170b30c31ab2cb25a198f28ea7cb3b828d44e0463d2abf79e4"
+    },
+    {
+      "source": "public/rpc-metadata-scheduling-probe-v1.json",
+      "file": "files/public/rpc-metadata-scheduling-probe-v1.json.gz",
+      "bytes": 952,
+      "sha256": "8d133ef9e976fd17bc6439fa00a7116bac234e5c8cf2fed6190627c2a5d18789",
+      "gzipBytes": 478,
+      "gzipSha256": "e0f7ad75a4752a8f85d1eba6213219ecea37d39a405dbc21e699eaf03c7258e0"
+    },
+    {
+      "source": "public/rpc-metadata-scheduling-probe-v1.mjs",
+      "file": "files/public/rpc-metadata-scheduling-probe-v1.mjs.gz",
+      "bytes": 1406,
+      "sha256": "f5577a80e7518e030f499ec253d03e9fccc43f27e0d4e8420083077815b3751a",
+      "gzipBytes": 708,
+      "gzipSha256": "5001e9a15af9c19bfe0fc6945072ac30b36bfb1d25f526b5707a2c0bca05016a"
+    },
+    {
+      "source": "public/rpc-read-latency-probe-v1.json",
+      "file": "files/public/rpc-read-latency-probe-v1.json.gz",
+      "bytes": 12815,
+      "sha256": "8ce351335e3f9a2d57abc59c4538dd27dcd0f0ead1af18d739f7fc4e6d8c3e36",
+      "gzipBytes": 1765,
+      "gzipSha256": "8f78f7e17a622d393c1f722bb82b0ca5365c1d12daecc2a60fea656169fc2127"
+    },
+    {
+      "source": "public/rpc-read-latency-summary-v1.json",
+      "file": "files/public/rpc-read-latency-summary-v1.json.gz",
+      "bytes": 1241,
+      "sha256": "99bb630a2ea55f2f3db5f194415fed6b1647112fd6319d1e084c9be08763f031",
+      "gzipBytes": 746,
+      "gzipSha256": "da8e4560e0594c6b6a913bc964e3827141a6674bf425bafbaf42acdc4f6b1aa1"
+    },
+    {
+      "source": "public/rpc.json",
+      "file": "files/public/rpc.json.gz",
+      "bytes": 1738,
+      "sha256": "93f0c6a80f0c34b596b4b1a862d0c2d51ee248ac8ddd5e88caf8157a59a398bc",
+      "gzipBytes": 577,
+      "gzipSha256": "ace57b52c39bfbc5d517ac55f07edd9063a43d627710e15cdef203cfc629c33a"
+    },
+    {
+      "source": "public/runtime-source-overlay-v17.json",
+      "file": "files/public/runtime-source-overlay-v17.json.gz",
+      "bytes": 34104,
+      "sha256": "2763f3787fb220e3371df43ef782d0d5f7e73cd43f46e19282c3cff9886c0289",
+      "gzipBytes": 14509,
+      "gzipSha256": "f00f4f92344060864e6e7215a968bafc05f24e53fd7d3126e357c00f22b5088c"
+    },
+    {
+      "source": "public/runtime-source-overlay-v18.json",
+      "file": "files/public/runtime-source-overlay-v18.json.gz",
+      "bytes": 34344,
+      "sha256": "ac832d9268dec04fe79fba6894dfeb1b12eccb66dff072d854811c3cfdccb940",
+      "gzipBytes": 14621,
+      "gzipSha256": "699968b24fd7348ea7153f0e192e54161cff0eb060629930fc1f2e3c7b57aa9a"
+    },
+    {
+      "source": "public/unused-vault-zero-owned-state-v1.json",
+      "file": "files/public/unused-vault-zero-owned-state-v1.json.gz",
+      "bytes": 605,
+      "sha256": "12cecc75ebb9fdee7afb16b71604f48b01ab00bba40999922935aa7009207d77",
+      "gzipBytes": 371,
+      "gzipSha256": "4a65a06b9f40c6a1dccaf711a30a98a6770c16f43ad54d251d2236205c3e5483"
+    },
+    {
+      "source": "rpc-metadata-scheduling-probe-v1.log",
+      "file": "files/rpc-metadata-scheduling-probe-v1.log.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "rpc-read-latency-probe-v1.log",
+      "file": "files/rpc-read-latency-probe-v1.log.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    }
+  ]
+}

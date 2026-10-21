@@ -12,6 +12,7 @@ import{assetCohort}from'./cohortScope.mjs';
 import{parseLosslessJson}from'../../amm/u124/client.mjs';
 export const pause=ms=>new Promise(r=>setTimeout(r,ms));
 export function cohort(base,original){
+ assert.ok(!existsSync(join(base,'public/ABANDONED-DEPLOYMENT-v1.json')),'retired QA case cannot run financial acceptance');
  const releaseFile=process.env.PSY_CANDIDATE_RELEASE_FILE??'candidate-release.json';assert.match(releaseFile,/^candidate-release(?:-v[1-9][0-9]*)?\.json$/);
  const releasePath=join(base,'public',releaseFile),release=existsSync(releasePath)?read(releasePath):null;if(process.env.PSY_CANDIDATE_RELEASE_FILE)assert.ok(release,'explicit frozen release manifest missing');
  if(release){assert.equal(release.version,1);assert.match(release.toolchainFile,/^candidate-toolchain-v[1-9][0-9]*\.json$/);assert.equal(createHash('sha256').update(readFileSync(join(base,'public',release.toolchainFile))).digest('hex'),release.toolchainSha256,'frozen toolchain manifest changed');}

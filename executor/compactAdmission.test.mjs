@@ -111,3 +111,15 @@ test('watch backs off after bounded verified pre-session outage and later submit
  x.confirm();await watchWorker({options:{...x.o,intervalMs:10},createAdapter:async()=>a,createJournal:()=>x.journal(),signal:stop.signal,wait:async ms=>delays.push(ms),onStatus:event=>{events.push(event.status);assert.notEqual(event.status,'halted');if(event.status==='included')stop.abort();}});
  assert.ok(events.includes('read-unavailable'));assert.equal(attempts,3);assert.equal(x.proofs,1);assert.equal(x.sends,1);assert.ok(delays.some(ms=>ms>10));
 }));
+
+test('scan uses one fresh snapshot but refreshes dependency and registry bindings on its next scan',()=>fixture('amm',async x=>{
+ let snapshots=0,metadata=0,registry=0;const leaf=x.state.contractLeaf,ids=x.state.userIds;x.state.contractLeaf=async id=>{metadata++;return leaf(id);};x.state.userIds=async key=>{registry++;return ids(key);};
+ const a=await x.create({readState:async()=>{snapshots++;return x.state;}}),before={snapshots,metadata,registry},count=new Set(x.files.policy.branches.flatMap(b=>b.calls.map(c=>c.contract_id))).size;
+ assert.ok((await a.scan()).action);assert.equal(snapshots-before.snapshots,1);assert.equal(metadata-before.metadata,count);assert.equal(registry-before.registry,1);
+ x.state.contractLeaf=async id=>({...await leaf(id),state_layout_root:'0'.repeat(64)});await assert.rejects(()=>a.scan(),/live compact dependency changed/);assert.equal(snapshots-before.snapshots,2);assert.equal(x.proofs,0);assert.equal(x.sends,0);
+}));
+test('parallel metadata failures drain sibling reads and cannot start queue planning',()=>fixture('amm',async x=>{
+ const a=await x.create(),leaf=x.state.contractLeaf;let active=0,finished=0,planned=0;const slot=x.state.slot;x.state.slot=async(...args)=>{planned++;return slot(...args);};
+ x.state.contractLeaf=async id=>{active++;try{await new Promise(r=>setTimeout(r,id===0?1:15));if(id===0)throw Error('metadata read outage');return leaf(id);}finally{active--;finished++;}};
+ await assert.rejects(()=>a.scan(),/metadata read outage/);assert.equal(active,0);assert.ok(finished>1);assert.equal(planned,0);assert.equal(x.sends,0);
+}));

@@ -8,6 +8,7 @@ import {publicState} from '../../executor/publicState.mjs';
 import {receiptReader} from '../../executor/chainReceipts.mjs';
 import {retryRead} from '../../executor/readRetry.mjs';
 import {losslessJson} from '../../amm/u124/client.mjs';
+import {freshDeploymentReceipt} from './freshDeployment.mjs';
 export const read=p=>JSON.parse(readFileSync(p,'utf8'));
 export const save=(p,v)=>writeFileSync(p,losslessJson(v)+'\n',{flag:'wx'});
 export async function run(binary,args,log,env={}){
@@ -44,7 +45,7 @@ export async function confirmDeploy(config,attempt,expectedDeployer){
   const receipt=await (await fetch(url.replace(/\/$/,'')+'/api/v1/transaction/hash/'+hash,{signal:AbortSignal.timeout(20000)})).json();
   if(receipt.data?.status==='included'){
    assert.equal(receipt.success,true);assert.equal(receipt.data.content_hash,hash);assert.equal(receipt.data.tx_type,'DeployContract');
-   const id=receipt.data.result.contract_id,s=await publicState(config),leaf=await s.contractLeaf(id),preflight=read(join(attempt,'preflight.json'));
+   const id=freshDeploymentReceipt(read(join(attempt,'before.json')),receipt.data),s=await publicState(config),leaf=await s.contractLeaf(id),preflight=read(join(attempt,'preflight.json'));
    assert.equal(leaf.deployer,expectedDeployer);assert.equal(preflight.initialLayoutVerified,true);assert.equal(preflight.publicEndpointsBound,true);assert.equal(preflight.oldFieldCount,0);assert.equal(preflight.oldSlotCount,0);
    for(const [actual,expected] of [['code_root','codeRoot'],['function_tree_root','functionTreeRoot'],['state_layout_root','layoutRoot'],['state_tree_height','stateTreeHeight'],['state_layout_field_count','newFieldCount'],['state_layout_slot_count','newSlotCount']])assert.equal(leaf[actual],preflight[expected],'deployed endpoint '+actual);
    const report={checkedAt:new Date().toISOString(),checkpoint:s.checkpoint,receipt,contractId:id,leaf,preflight,requestSaved:true};

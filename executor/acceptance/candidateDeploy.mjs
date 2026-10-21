@@ -6,7 +6,10 @@ import{read,run,save,confirmDeploy}from'../../batching/admission/liveSupport.mjs
 import{registerMarket,reconcileRegisteredMarket}from'../../batching/admission/liveMarket.mjs';
 import{compileAdmission}from'../../batching/admission/build.mjs';
 import{verifyCandidateBuild}from'./candidateBuildGate.mjs';
+import{deploymentProfiles as validateDeploymentProfiles}from'./deploymentProfiles.mjs';
+import{freshDeploymentReceipt}from'../../batching/admission/freshDeployment.mjs';
 const[base,original,ordinaryBinary,compactBinary,admissionMode='single-v1']=process.argv.slice(2);assert.ok(['single-v1','all-four-v1'].includes(admissionMode));assert.ok(compactBinary,'BASE ORIGINAL ORDINARY_BINARY COMPACT_BINARY');
+assert.ok(!existsSync(join(base,'public/ABANDONED-DEPLOYMENT-v1.json')),'retired QA case cannot deploy');
 const sha=p=>createHash('sha256').update(readFileSync(p)).digest('hex');let compiler='/tmp/psy-market-staged-compiler-v3-20261020.bin',compilerSha256;
 if(admissionMode==='all-four-v1'){
  const prepare=read(join(base,'public/PREPARED-BULK-v1.json')),gate=closedParent(prepare),file=join(base,'public/parent-recovery-gate-v1.json');
@@ -15,10 +18,16 @@ if(admissionMode==='all-four-v1'){
  const tools=read(join(base,'public/candidate-toolchain-v4.json'));assert.equal(sha(ordinaryBinary),tools.ordinaryBinarySha256);assert.equal(sha(compactBinary),tools.compactBinarySha256);
  compiler=tools.compiler;compilerSha256=tools.compilerSha256;assert.equal(sha(compiler),compilerSha256,'frozen compiler changed after preparation');
 }
-const config=join(base,'public/rpc.json'),env={PSY_MARKET_TESTNET_PROFILE:'staging-bundled-regtest-20261020-v1',RAYON_NUM_THREADS:'2'},secret=join(original,'.secrets/bob-bundled-profile-v1.json');
-const owner=read(join(original,'attempts/deploy-amm-v1/included.json')).leaf.deployer;
+const config=join(base,'public/rpc.json'),env={PSY_MARKET_TESTNET_PROFILE:'staging-bundled-regtest-20261020-v1',RAYON_NUM_THREADS:'2'};
+let deploymentProfiles;
+if(admissionMode==='all-four-v1'){
+ const release=read(join(base,'public/deployment-identity-release-v1.json')),file=join(base,'public/deployment-identities-v1.json');assert.equal(release.version,1);assert.equal(release.profilesSha256,sha(file));assert.equal(release.ordinaryBinarySha256,sha(ordinaryBinary));
+ const profiles=read(file);deploymentProfiles=validateDeploymentProfiles(profiles,base);
+ for(const p of profiles.profiles){assert.equal(p.walletPath,join(base,'.secrets','deploy-'+p.market+'.json'));assert.equal(p.publicIdentity,join(base,'public','deploy-'+p.market+'-identity.json'));assert.equal(sha(p.publicIdentity),p.publicIdentitySha256);const identity=read(p.publicIdentity);assert.equal(identity.publicKeyHash,p.publicKeyHash);assert.deepEqual(read(p.walletPath).public,identity,'deployment wallet public identity changed');}
+}
 const oldDependencies=read(join(original,'markets-v1/amm/live-registration.json')).contracts.filter(b=>b.contract.contractId!==2468);
 for(const market of ['amm','orderbook','bondingcurve','nftmarket']){
+ const profile=deploymentProfiles?.get(market),secret=profile?.walletPath??join(original,'.secrets/bob-bundled-profile-v1.json'),owner=profile?.publicKeyHash??read(join(original,'attempts/deploy-amm-v1/included.json')).leaf.deployer;
  const build=join(base,'markets-v1',market);
  if(market==='bondingcurve'&&!existsSync(build)){
   const source=join(original,'markets-v1/amm'),cfg=read(join(original,'markets-v1/bondingcurve/config.json'));cfg.target=read(join(base,'markets-v1/amm/live-registration.json')).vaultId;
@@ -32,6 +41,7 @@ for(const market of ['amm','orderbook','bondingcurve','nftmarket']){
  const out=join(base,'attempts','deploy-'+market+'-v1');
  if(!existsSync(join(out,'receipt.json'))){assert.ok(!existsSync(out),'partial deployment requires inspection');const t=await run(ordinaryBinary,['deploy',config,secret,join(build,'compiled/compilation_artifact.json'),out],join(base,'deploy-'+market+'-v1.log'),env);save(join(out,'timing.json'),t);}
  const deployment=existsSync(join(out,'included.json'))?read(join(out,'included.json')):await confirmDeploy(config,out,owner);
+ assert.equal(freshDeploymentReceipt(read(join(out,'before.json')),deployment.receipt.data),deployment.contractId,'saved deployment occurrence changed');assert.equal(deployment.leaf.deployer,owner,'saved deployment owner differs');
  if(!existsSync(join(build,'live-registration.json'))){
   const dependencies=market==='nftmarket'?read('/tmp/psy-market-nft-recovery-live-20261020-v2/markets-v1/nftmarket/live-registration.json').contracts.filter(b=>b.contract.contractId!==2472):oldDependencies;
   if(existsSync(join(base,'attempts/register-'+market+'-vault-v1/receipt.json')))await reconcileRegisteredMarket({base,config,build,deployment,dependencies});

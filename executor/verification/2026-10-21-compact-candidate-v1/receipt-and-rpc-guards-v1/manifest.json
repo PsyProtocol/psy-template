@@ -1,0 +1,51 @@
+{
+  "schema": 1,
+  "sourceDirectory": "/private/tmp/psy-market-receipt-rpc-guards-20261021-v1",
+  "machine": "gewenbo.local",
+  "host": "macOS-15.7.3-arm64-arm-64bit",
+  "scope": "public formal Executor run including failures; success requires exact included receipt",
+  "walletFilesIncluded": false,
+  "sealedBinariesIncluded": false,
+  "records": [
+    {
+      "source": "RESULT.json",
+      "file": "files/RESULT.json.gz",
+      "bytes": 216,
+      "sha256": "469f787f7c45d1a4edf3f3c34b3595c55258f62688def3f12badba4e3a3aeb80",
+      "gzipBytes": 172,
+      "gzipSha256": "6327d177a99173186c2ae34b4df19701dbe2f01713714b25621b2e8b5202c06a"
+    },
+    {
+      "source": "deployment-identity-gates-4.log",
+      "file": "files/deployment-identity-gates-4.log.gz",
+      "bytes": 1039,
+      "sha256": "5482c683da7884b2070237e3a58b4be308f5c6f90a9be9580f37dc620095b0ed",
+      "gzipBytes": 399,
+      "gzipSha256": "f11178f80aa4ecff114d6a734489bf804aacc9195b9b5ab6b50167870600ebbf"
+    },
+    {
+      "source": "premature-test-registration-failure.log",
+      "file": "files/premature-test-registration-failure.log.gz",
+      "bytes": 5878,
+      "sha256": "f71ca95107be5dd215253f47118a77c81f7cad0609e3f76a032b679f12daf85c",
+      "gzipBytes": 1717,
+      "gzipSha256": "da63a1eec0f9fd62df35ba4451501f69f578b76c4c6b16b7c0b09789da4cf0c8"
+    },
+    {
+      "source": "regression-157.log",
+      "file": "files/regression-157.log.gz",
+      "bytes": 35055,
+      "sha256": "4e195888ff1626945d86c578340366fa7635e40486c535eca8ae8ce34cf701c0",
+      "gzipBytes": 7693,
+      "gzipSha256": "654356bb7f3fd782a545eac04a1c96ac4d0fe4f0fe75c2bbf71599f9343726e1"
+    },
+    {
+      "source": "snapshot-guards-24.log",
+      "file": "files/snapshot-guards-24.log.gz",
+      "bytes": 5405,
+      "sha256": "644d18d7b45bc297079e5ccf5bfa5b78589559dfdbce6b04de5480ef6fc30d22",
+      "gzipBytes": 1541,
+      "gzipSha256": "2bcd40cd063e8b88566f3556bfadc641409e3c600d2d2ee74d6a4b422a76e12b"
+    }
+  ]
+}

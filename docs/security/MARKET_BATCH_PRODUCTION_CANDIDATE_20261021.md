@@ -4,6 +4,56 @@ Branch: `markets-batch-capacity-recovery-20261020`; accepted starting commit
 `e45d689e6806d362c03f15697c90aba44f8704e7`. No Node edits, old-contract update
 probes, new branches or replacement of original artifacts are authorized here.
 
+## Deployment receipt alias found and blocked; replacement case prepared
+
+The first bulk attempt **did allocate fresh AMM 2477**, but its content-hash
+lookup returned the old deployment occurrence **2473 at 358969**. The new
+attempt's saved before state is **360650 / next_contract_id 2477**. The
+confirmation helper checked matching owner/code/layout metadata but did not
+require a fresh allocation/checkpoint; it incorrectly registered the new empty
+bulk key at **vault 1169600 against old contract 2473**. No bootstrap, user
+funding or trading followed. Its owned nonce/native/FT/NFT state is zero.
+The following Book child was stopped during local layout proving with an empty
+attempt directory, before any proof/request/intent/receipt or broadcast. Both
+original outputs and the controlled stop are preserved; no old contract update.
+Read-only recovery verified the original request, full initial-layout proof,
+absent→present contract Merkle paths and checkpoint-chain membership for
+**2477 at 360654**, anchored at **360707**. The hash index still names the older
+occurrence; `servicesIndexedReceiptVerified` remains **false**. This certificate
+is not silently substituted for an indexed receipt or used to activate v1.
+
+`freshDeploymentReceipt` now rejects an ID below the saved allocation floor
+or a receipt not later than the before checkpoint, even when hash/metadata
+match. Dedicated regression reproduces the exact historical occurrence.
+Replacement preparation is `/tmp/psy-market-candidate-bulk-live-20261021-v2`;
+**v1 must not bootstrap**. The replacement includes the unused account 1169600
+in its explicit **19-account** conservation scope. Four distinct owned deployer
+identities prevent this case from reusing a previous owner/function-root/height
+hash. They are unregistered, receive no funds, and are used only for deployment
+ownership. Private files stay local in `.secrets`; public identities and the
+frozen signing binary are hash-pinned. Contract business rules, SDK and Node
+are unchanged. Replacement live deployment is still pending.
+
+The observed local deploy-content-hash formula includes deployer, function-tree
+root and height, without an occurrence nonce. An identical semantic hash need
+not identify a unique allocation. This is not simply deduplication: current
+coordinator metadata shows both old 2473 and new 2477. Indexer/RPC occurrence
+identity is an external gate; the application refuses to call the old hash
+record a fresh receipt. Saved inclusion records are revalidated on restart;
+retired cases are rejected before wallet/config loading or RPC. See the external
+deliverables. Relevant application regression is **159/159**, supporting evidence
+rather than readiness scoring. `aliased-deployment-stopped-v1/` preserves **75**
+original/compressed-hash-verified files, including the stopped attempt, erroneous
+historical attribution, actual checkpoint certificate and zero-owned-state audit.
+
+RPC scheduling also retains complete root/registry checks while reading
+independent metadata concurrently under the existing limiter. One scan reuses
+only its own fixed-checkpoint snapshot, never a prior scan/session. Wrong roots
+are refreshed/rejected; parallel failures drain before queue planning. Five
+read-only sequential/parallel metadata pairs returned identical complete
+responses (raw timing observations preserved). This does not claim atomic
+code-version locking, an attested runtime, or causal whole-service speedup.
+
 ## Matched complete-UPS comparison finished; fresh bulk deployment started
 
 At **11:01:15 UTC** all four markets completed both profiles. Same frozen test
