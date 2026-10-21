@@ -1,0 +1,35 @@
+{
+  "schema": 1,
+  "sourceDirectory": "/private/tmp/psy-market-bounded-exit-evidence-20261021-v1",
+  "machine": "gewenbo.local",
+  "host": "macOS-15.7.3-arm64-arm-64bit",
+  "scope": "public formal Executor run including failures; success requires exact included receipt",
+  "walletFilesIncluded": false,
+  "sealedBinariesIncluded": false,
+  "records": [
+    {
+      "source": "RESULT.json",
+      "file": "files/RESULT.json.gz",
+      "bytes": 335,
+      "sha256": "95ce59d4cbcf18f50225c7b099151abe7b116d831dc5131c5f3929d54081f4a7",
+      "gzipBytes": 241,
+      "gzipSha256": "bd80e464a68b439bd34ea721cfcdfe5927537a6da8843b4c70ada1a5da23e18c"
+    },
+    {
+      "source": "regression.log",
+      "file": "files/regression.log.gz",
+      "bytes": 32626,
+      "sha256": "80f73816611fc5f646807e7c9055a7b84e2b25e0942de98250f9efc3bc140662",
+      "gzipBytes": 7225,
+      "gzipSha256": "d4307c1061c599a6306a509c6ff12d547a8977f744319057f1914e53bfdc3964"
+    },
+    {
+      "source": "targeted.log",
+      "file": "files/targeted.log.gz",
+      "bytes": 1519,
+      "sha256": "cfca4e97244af8793bc77b7879b3909b1fc01459dd6082d4bd038752b320232d",
+      "gzipBytes": 526,
+      "gzipSha256": "9c7511daca9c848c0b51c3387a3acf347a7544edb176565ed24b5d247009deef"
+    }
+  ]
+}

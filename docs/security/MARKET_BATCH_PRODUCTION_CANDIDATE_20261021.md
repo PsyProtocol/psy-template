@@ -22,6 +22,26 @@ whose unrelated load is not controlled. Fresh-process circuit construction and
 cache-order bias are explicitly reported. No new financial proofs will be
 intentionally started while this comparison is running.
 
+## Omitted-user acceptance recovery now budgets exhausted vault gas
+
+The pending fresh-family omitted-user scenario assumed it could return funds
+immediately after the empty-epoch abort consumed its grant. It now uses bounded
+scanned recovery rounds: exact two-fee Sponsor authorization, fund-gas, sender-
+bound funding return and (when needed) NFT return. A second NFT grant is bounded
+explicitly; no grant exceeds the existing contract's 2F limit. Zero pending
+permits a new exact grant; partial, excessive, wrong-vault, spent authorization
+or claim-cursor mismatch stops for inspection. Unknown journal transmissions
+block sponsorship before any ordinary-wallet UPS. All independent work drains
+before an error propagates; completed historical rounds cannot imply completion.
+
+Six targeted model/authorization regressions passed, including a completely
+empty vault, funding plus NFT recovery, idempotent restart, unknown sends and
+malformed grants. The full relevant application suite passed **147/147**;
+logs and hashes are in `bounded-exit-recovery-v1/` (overlapping counts, not a
+security score). This revised scenario has **not yet** passed real-network
+acceptance. The earlier active recovery process remains on its frozen source
+overlay and unchanged signing binaries.
+
 ## Recovery replay correction and observed outage handling
 
 A real restart exposed an acceptance-orchestrator defect: empty work in an
