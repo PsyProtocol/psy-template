@@ -100,7 +100,7 @@ also record their RPC/limiter/retry/local-accounting wall time separately from
 proving and confirmation; that prospective timing was not retrofitted into the
 earlier read-only sample. Maximum and recovery live gates are still pending.
 
-Subsequent workers use runtime source overlay **v3**, at pushed source
+Earlier runtime source overlay **v3** froze pushed source
 `d7fefc5d70f42db54ebd7b0ffc67adefdea69c1b`, SHA256
 `3ceabfe635b352eef1782a53d71a9ec0acee9796af87b22314624719c09c7867`.
 It links v2's exact hash and lists the six changed accounting/acceptance JS
@@ -115,20 +115,42 @@ counts are compared as BigInt. Amounts and hashes are never rounded. Seven
 accounting regressions (overlapping the earlier six) and a read-only round-trip
 of the two actual checkpoint-359460 NFT entries passed. Original snapshots are
 unchanged. This fixes false acceptance failures; it does not change a market,
-key, asset ABI or Node. A later source overlay must supplement v3.
+key, asset ABI or Node. Overlay v4 below supplements v3.
 
-The maximum stage has started its pre-order accounting snapshot. A separate
-read-only `candidateLiquidityAccounting.mjs` is ready to close the LP **tail**
-interval from checkpoint 359460 to that pre-order snapshot, using exact included
-fees. It deliberately excludes earlier order/start/admit costs and must not be
-reported as total LP cost. Its real interval check is still pending until both
-completed snapshot files exist.
+The maximum stage's pre-order snapshot completed at fixed checkpoint **359505**:
+14-account asset/RPC accounting took **125,716 ms**, excluding initial head
+reads and any proving. Two sellers' ordinary order UPSs are now in progress;
+maximum settlement/claims have not completed.
+
+The read-only `candidateLiquidityAccounting.mjs` closed the LP **tail** interval
+**359460→359505**. Both QA FT totals remain 1,000 tokens; the same two QA NFTs
+remain held, with no pending NFT deliveries. Native decrease equals exactly
+**4.000057000 test PSY**, the fees of the four included UPSs in that interval
+(seal, commit sponsorship, commitment and settlement). Earlier order/start/admit
+costs are excluded; this is not total LP cost. `lp-tail-conservation-v1/` holds
+both original snapshots and the fee/identity report, with verified hashes.
+
+`lp-formal-closed-loop-v1/` contains 219 completed public files (about 5.8 MB
+gzip): five formal market UPSs and eight ordinary UPSs, including two earlier
+seed-return claims. All exact indexed identities/common visibility and archive
+hashes passed. This is one LP initialization, not 13 trades. A separate
+read-only ledger snapshot at **359515** confirms reserves and total shares of
+`20 * 10^18`, provider 860352 shares `20 * 10^18 - 1000`, locked minimum 1,000,
+and consumed order nonce 1. RPC readback supplements, not replaces, the saved
+whole-UPS proof and inclusion evidence.
+
+Current JS source overlay **v4** freezes 269 files at pushed source
+`41c028561969cd07857ef3ccb5f80424fab3cb51`, SHA256
+`04b8402d518e7e35be66b7c97aa1bcac751ac599d18363381ad097bdd8ff5cb9`.
+It links v3's hash and lists its six changed files. This is a JS overlay revision,
+not driver v4: LP used driver **v2**; maximum/exit/competition use frozen driver
+**v3**. The earlier source/build manifests and original binaries remain.
 
 ## Ordered gates
 
 | Gate | Current work | Not yet established |
 | --- | --- | --- |
-| 1 Formal Executor | Explicit `batch-admission-compact-v1` route; journal/locks and saved-proof broadcast; four fresh real activations and exact sender return/ordinary claim confirmed; 104 application regressions | Maximum economic entrance and replacement NFT competition/timeout acceptance remain in progress; application checks are not network trades |
+| 1 Formal Executor | Explicit `batch-admission-compact-v1` route; journal/locks and saved-proof broadcast; four fresh real activations, LP lifecycle and exact sender return/ordinary claim confirmed; 104 application regressions | Maximum economic entrance and replacement NFT competition/timeout acceptance remain in progress; application checks are not network trades |
 | 2 End-to-end cost | Saved proof is not re-proved for broadcast; phase metrics; immutable circuit reuse with fresh sessions; strict same-checkpoint calibration implemented | Positive paired full-proof samples and maximum live cost report pending; no speedup or chain TPS claim |
 | 3 Before-admission fairness | Own-consent lock, immutable finite plans, explicit gas requests, terminal exit and sender-bound recovery; one actual unused-funding return closed | Pre-admission selection/refusal is not global censorship resistance; omitted consented orders still need their new live terminal-exit matrix |
 | 4 Random order | Deterministic mode retained | Authenticated future source, actual pre-revelation inclusion and anti-abort requirements remain external unless verified |
