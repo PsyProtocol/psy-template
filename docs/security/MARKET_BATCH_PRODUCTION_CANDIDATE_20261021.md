@@ -57,6 +57,17 @@ the binary was built. Rust sources, Cargo dependencies, compiler and ordinary
 signer remain covered by their separate frozen manifests. The overlay is not
 a running-server identity or an audited upstream SDK release.
 
+Read-only deadline review records an additional boundary in
+`source-checkpoint-deadline-audit-v1.json`: contract cutoffs use the authenticated
+proving source checkpoint. The inspected local edge/planner paths bind historical
+membership and current own anchors but do not establish a maximum source age
+or protocol enforcement of the application's send window. A confirmed seal
+invalidates earlier vault anchors; the cutoff alone is not proof that all
+admissions were actually included before that time. No late-submission probe
+was sent, and normal send-window checks remain. See the external handoff for
+strict inclusion deadlines and commit-before-reveal requirements. Node's
+pre-existing tracked diff was rehashed unchanged during this inspection.
+
 ## Ordered gates
 
 | Gate | Current work | Not yet established |
