@@ -1,0 +1,164 @@
+TAP version 13
+# Subtest: formal route binds and processes every sealed member in four markets
+ok 1 - formal route binds and processes every sealed member in four markets
+  ---
+  duration_ms: 2376.382041
+  ...
+# Subtest: lost receipt, restart and duplicate task reconcile without re-proving or re-sending
+ok 2 - lost receipt, restart and duplicate task reconcile without re-proving or re-sending
+  ---
+  duration_ms: 3423.7945
+  ...
+# Subtest: proof digest substitution and config replacement halt before transmission
+ok 3 - proof digest substitution and config replacement halt before transmission
+  ---
+  duration_ms: 257.295541
+  ...
+# Subtest: cached proof loses validity when anchor nonce or broadcast window changes
+ok 4 - cached proof loses validity when anchor nonce or broadcast window changes
+  ---
+  duration_ms: 347.02125
+  ...
+# Subtest: double local executors share journal lock and create only one unresolved broadcast
+ok 5 - double local executors share journal lock and create only one unresolved broadcast
+  ---
+  duration_ms: 987.672667
+  ...
+# Subtest: unsealed lifecycle honors consent, cutoff, capacity and explicit sponsorship
+ok 6 - unsealed lifecycle honors consent, cutoff, capacity and explicit sponsorship
+  ---
+  duration_ms: 56.258042
+  ...
+# Subtest: profile and public admission plan reject ambiguous bindings and fake configuration
+ok 7 - profile and public admission plan reject ambiguous bindings and fake configuration
+  ---
+  duration_ms: 35.060166
+  ...
+# Subtest: normal Executor children never inherit the read-only benchmark source selector
+ok 8 - normal Executor children never inherit the read-only benchmark source selector
+  ---
+  duration_ms: 383.350792
+  ...
+# Subtest: recovery funding requests distinguish the two-UPS budget from an existing partial deposit
+ok 9 - recovery funding requests distinguish the two-UPS budget from an existing partial deposit
+  ---
+  duration_ms: 159.872833
+  ...
+# Subtest: included receipt waits for common realm visibility before releasing vault
+ok 10 - included receipt waits for common realm visibility before releasing vault
+  ---
+  duration_ms: 1387.938917
+  ...
+# Subtest: only explicit pre-broadcast driver rejection permits not-submitted; missing evidence remains unknown
+ok 11 - only explicit pre-broadcast driver rejection permits not-submitted; missing evidence remains unknown
+  ---
+  duration_ms: 1260.9615
+  ...
+# Subtest: recovery hints process only enrolled inactive senders without selecting other market orders
+ok 12 - recovery hints process only enrolled inactive senders without selecting other market orders
+  ---
+  duration_ms: 15.629625
+  ...
+# Subtest: prepared nonce metadata stays exact beyond JavaScript safe integer range
+ok 13 - prepared nonce metadata stays exact beyond JavaScript safe integer range
+  ---
+  duration_ms: 96.207084
+  ...
+# Subtest: explicit no-send recovery reuses one proof and never masks a later pending attempt
+ok 14 - explicit no-send recovery reuses one proof and never masks a later pending attempt
+  ---
+  duration_ms: 378.840875
+  ...
+# Subtest: pre-session transport restart preserves failed attempt and sends only verified replacement session
+ok 15 - pre-session transport restart preserves failed attempt and sends only verified replacement session
+  ---
+  duration_ms: 244.281708
+  ...
+# Subtest: pre-session transport restart is bounded and never sends on exhaustion
+ok 16 - pre-session transport restart is bounded and never sends on exhaustion
+  ---
+  duration_ms: 169.648
+  ...
+# Subtest: pre-session restart refuses an expired original task window
+ok 17 - pre-session restart refuses an expired original task window
+  ---
+  duration_ms: 125.405334
+  ...
+# Subtest: explicit recovery gas budget remains exact, bounded, and separate from per-UPS fee cap
+ok 18 - explicit recovery gas budget remains exact, bounded, and separate from per-UPS fee cap
+  ---
+  duration_ms: 10.410167
+  ...
+# Subtest: two operators serialize the same vault
+ok 2 - two operators serialize the same vault
+  ---
+  duration_ms: 42.396583
+  ...
+# Subtest: included receipt prevents replay; a broadcast error can still be included
+ok 3 - included receipt prevents replay; a broadcast error can still be included
+  ---
+  duration_ms: 109.4275
+  ...
+# Subtest: unknown broadcast blocks all following mutations until exact receipt recovery
+ok 4 - unknown broadcast blocks all following mutations until exact receipt recovery
+  ---
+  duration_ms: 160.473792
+  ...
+# Subtest: stale task after proving never reaches a broadcast intent
+ok 5 - stale task after proving never reaches a broadcast intent
+  ---
+  duration_ms: 70.207458
+  ...
+# Subtest: restart after a failed pre-submit read reuses preflight and broadcasts once
+ok 6 - restart after a failed pre-submit read reuses preflight and broadcasts once
+  ---
+  duration_ms: 150.597125
+  ...
+# Subtest: a real process exit inside the vault lock is recovered by the next executor
+ok 7 - a real process exit inside the vault lock is recovered by the next executor
+  ---
+  duration_ms: 134.724458
+  ...
+# Subtest: changed policy cannot consume another fingerprint journal or bypass an unresolved broadcast
+ok 8 - changed policy cannot consume another fingerprint journal or bypass an unresolved broadcast
+  ---
+  duration_ms: 115.085709
+  ...
+# Subtest: missing cached preflight is regenerated before broadcast intent
+ok 9 - missing cached preflight is regenerated before broadcast intent
+  ---
+  duration_ms: 171.613875
+  ...
+# Subtest: concurrent journal readers never observe a partially written event
+ok 10 - concurrent journal readers never observe a partially written event
+  ---
+  duration_ms: 63.847041
+  ...
+# Subtest: three vault histories with 3000 records recover under a real 64-descriptor process limit
+ok 11 - three vault histories with 3000 records recover under a real 64-descriptor process limit
+  ---
+  duration_ms: 902.442042
+  ...
+# Subtest: a missing or duplicated journal sequence blocks proving and append instead of reusing an event number
+ok 12 - a missing or duplicated journal sequence blocks proving and append instead of reusing an event number
+  ---
+  duration_ms: 104.502541
+  ...
+# Subtest: explicit driver no-send found during immediate reconciliation is durably terminal
+ok 13 - explicit driver no-send found during immediate reconciliation is durably terminal
+  ---
+  duration_ms: 85.070208
+  ...
+# Subtest: failed read-only preparation keeps the durable full proof for explicit resume
+ok 14 - failed read-only preparation keeps the durable full proof for explicit resume
+  ---
+  duration_ms: 149.056916
+  ...
+1..31
+# tests 31
+# pass 31
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 15805.68975

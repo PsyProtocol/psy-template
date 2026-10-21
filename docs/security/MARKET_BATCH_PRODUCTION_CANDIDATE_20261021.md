@@ -26,12 +26,15 @@ first maximum intake reached its unchanged cutoff **359673** without admitting
 any members after preserved client/read failures. All four empty epochs are
 now terminal (359725/359736); exact native fees total **5.000029000 test PSY**,
 QA FT/NFT inventory is conserved, and deposits/order nonces are retained for a
-fresh, separately consented epoch. The renewed four-market starts are now confirmed: Book/NFT **359774**, Curve
-**359791**, AMM **359793**, at fixed renewed cutoff **359887**. Fresh ordinary
-user consent is confirmed: Charlie **359812**, Bob/Trader/Dave **359813**.
-First-round admission sponsorship/proving is in progress. The maximum four-member economic batches, controlled warm/cold full-proof pairs,
-omitted-order exits and replacement NFT expiry/competition stages have **not yet
-completed**. Their scripts and waiting workers are not acceptance evidence.
+fresh, separately consented epoch. The renewed four-market starts and ordinary consents are confirmed, but that
+maximum intake **failed**: fixed cutoff **359887** elapsed with authenticated
+counts AMM/Book/NFT **2**, Curve **1** after actual transport/confirmation delay.
+The unused Curve admission proof is expired and locally rejected without a new
+intent/proof or late submission. All four users' cancellations are confirmed
+at **359935**. Actual-scope cancelled refunds, unaccepted sender returns and
+ordinary claims are in progress. Four-member economic capacity, full cost pairs
+and later replacement NFT competition/timeout remain **unaccepted**. No
+`maximum-complete-v1.json` marker has been fabricated.
 
 The formal LP scanner rejected missing sponsorship without proving or sending;
 its actual funding request is retained as
@@ -430,11 +433,50 @@ checks separately completed. The summary's fee sum covers those five receipts
 only and is not a closed asset-conservation interval. Three intended admission
 rounds, sealing, economic settlement, claims and cost pairs remain pending.
 
+### Fixed-window failure and bounded principal recovery
+
+The second admission round confirmed AMM at **359876**, Book/NFT at **359883**;
+Curve explicitly rejected before send. At **359899**, actual counts are 2/2/1/2,
+not the planned 4/4/4/4. The original cutoff/plan stays unchanged. The production
+CLI's expired-task check returned nonzero without adding a journal intent or
+proof. All actors then confirmed cancellation at **359935**, before any new
+batch commitment. `candidatePartialRecovery.mjs` and
+`candidatePartialFinish.mjs` keep this recovery separate from maximum acceptance:
+seal actual authenticated scopes, refund every accepted cancellation, release
+and recover the remaining senders, ordinary-claim payouts, then compare the
+original pre-order cohort balances and exact actual fees. Completion is pending.
+
+Recovery can explicitly request **2..8** fee-escrow units from its named Sponsor;
+default remains 2. Each funded amount still requires the Sponsor's exact
+purpose/nonce/amount and native pending cursor; mismatched partial deposits stop
+for inspection. The per-UPS burn cap, complete stack/session verification and
+state/root/receipt checks are unchanged. This is a bounded shared gas pot, not
+a transfer of user principal or a promise of permissionless liveness. The
+partial runner allows at most one 8-unit replenishment per market, then stops
+if exhausted. No existing MCP wallet policy or Node code was changed.
+
+Read-only cold calibration now runs after the journal has durably recorded the
+successful warm proof. A failed calibration leaves that proof reusable under
+normal explicit-resume guards instead of silently paying its proving cost again.
+Thirteen then 31 targeted checks overlap the full **128** application checks.
+A positive actual same-source economic/refund calibration is still pending.
+
+`bulkAdmissionPrecheck.mjs` produced a deterministic, offline **unregistered**
+proposal: one gas claim plus four authenticated admissions fits **7** calls
+including burn, versus 16 calls across four existing admission UPSs; each
+market's selector remains within 32 operations. This is call-template feasibility
+only, not an atomicity, fingerprint, fee, full-UPS or throughput certificate.
+Current production policy comparison rejects the prototypes. Activation requires
+an explicit opt-in route, new key/vault, complete seven-call session/sighash,
+fee/endpoints and malicious-input proofs, then new isolated live acceptance.
+Existing registered keys, old contracts, original artifacts and the failed
+signed plan are not replaced. Random ordering remains disabled.
+
 ## Ordered gates
 
 | Gate | Current work | Not yet established |
 | --- | --- | --- |
-| 1 Formal Executor | Explicit `batch-admission-compact-v1` route; journal/locks and saved-proof broadcast; four fresh activations, LP, exact sender return/ordinary claim and same-proof no-send recovery confirmed; 126 combined application checks plus targeted gates | Maximum economic entrance and replacement NFT competition/timeout acceptance remain in progress; application checks are not network trades |
+| 1 Formal Executor | Explicit `batch-admission-compact-v1` route; journal/locks and saved-proof broadcast; four fresh activations, LP, exact sender return/ordinary claim and same-proof no-send recovery confirmed; 126 combined application checks plus targeted gates | Renewed maximum intake failed its fixed window and is being refunded; full-capacity/new-key and replacement NFT competition/timeout gates remain open |
 | 2 End-to-end cost | Saved proof is not re-proved for broadcast; phase metrics; immutable circuit reuse with fresh sessions; strict same-checkpoint calibration implemented | Positive paired full-proof samples and maximum live cost report pending; no speedup or chain TPS claim |
 | 3 Before-admission fairness | Own-consent lock, immutable finite plans, explicit gas requests, terminal exit and sender-bound recovery; one actual unused-funding return closed | Pre-admission selection/refusal is not global censorship resistance; omitted consented orders still need their new live terminal-exit matrix |
 | 4 Random order | Deterministic mode retained | Authenticated future source, actual pre-revelation inclusion and anti-abort requirements remain external unless verified |

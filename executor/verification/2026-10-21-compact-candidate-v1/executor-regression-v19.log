@@ -1,0 +1,649 @@
+TAP version 13
+# Subtest: fresh buy and sell select exact guarded UPS; deadline equality is valid
+ok 1 - fresh buy and sell select exact guarded UPS; deadline equality is valid
+  ---
+  duration_ms: 1.626
+  ...
+# Subtest: stale, expired and graduated orders refund only their original payment and payer
+ok 2 - stale, expired and graduated orders refund only their original payment and payer
+  ---
+  duration_ms: 0.989084
+  ...
+# Subtest: underfunded, overfunded, consumed and wrong-vault orders cannot trigger execution
+ok 3 - underfunded, overfunded, consumed and wrong-vault orders cannot trigger execution
+  ---
+  duration_ms: 0.175583
+  ...
+# Subtest: initialization and graduation require explicit switches and exact issuer fee
+ok 4 - initialization and graduation require explicit switches and exact issuer fee
+  ---
+  duration_ms: 0.884875
+  ...
+# Subtest: parameter or reserve mismatch halts planning rather than changing policy
+ok 5 - parameter or reserve mismatch halts planning rather than changing policy
+  ---
+  duration_ms: 0.647791
+  ...
+# Subtest: signed funded orders with impossible sell quotes or lots above the sale cap remain refundable
+ok 6 - signed funded orders with impossible sell quotes or lots above the sale cap remain refundable
+  ---
+  duration_ms: 0.170833
+  ...
+# Subtest: cost report counts a restart on a later/failed job and deduplicates task roots
+ok 2 - cost report counts a restart on a later/failed job and deduplicates task roots
+  ---
+  duration_ms: 25.555375
+  ...
+# Subtest: invalid resident timing cannot silently become a cost measurement
+ok 3 - invalid resident timing cannot silently become a cost measurement
+  ---
+  duration_ms: 4.136459
+  ...
+# Subtest: receipt older than the latest 100 events is recovered with exact historical leaf and receipt
+ok 3 - receipt older than the latest 100 events is recovered with exact historical leaf and receipt
+  ---
+  duration_ms: 15.009958
+  ...
+# Subtest: verified source bound skips older leaf RPCs without dropping pages or receipt validation
+ok 4 - verified source bound skips older leaf RPCs without dropping pages or receipt validation
+  ---
+  duration_ms: 3.287208
+  ...
+# Subtest: pagination stops at advertised final page and does not confuse a matching leaf with a mismatched receipt
+ok 5 - pagination stops at advertised final page and does not confuse a matching leaf with a mismatched receipt
+  ---
+  duration_ms: 1.627125
+  ...
+# Subtest: an exhausted history window stays unresolved and never requests an unbounded next page
+ok 6 - an exhausted history window stays unresolved and never requests an unbounded next page
+  ---
+  duration_ms: 6.941291
+  ...
+# Subtest: overlapping pages deduplicate events and historical reads; a stuck pagination response stays unresolved
+ok 7 - overlapping pages deduplicate events and historical reads; a stuck pagination response stays unresolved
+  ---
+  duration_ms: 5.424667
+  ...
+# Subtest: missing leaves make no requests; invalid identities or malformed listings cannot clear a broadcast
+ok 8 - missing leaves make no requests; invalid identities or malformed listings cannot clear a broadcast
+  ---
+  duration_ms: 1.63325
+  ...
+# Subtest: production CLI action binds exact semantic task and its fresh window
+ok 4 - production CLI action binds exact semantic task and its fresh window
+  ---
+  duration_ms: 0.885333
+  ...
+# Subtest: CLI cannot substitute calls or weaken the window
+ok 5 - CLI cannot substitute calls or weaken the window
+  ---
+  duration_ms: 0.499041
+  ...
+# Subtest: CLI incomplete or multiple planning fails closed
+ok 6 - CLI incomplete or multiple planning fails closed
+  ---
+  duration_ms: 0.112041
+  ...
+# Subtest: intent pin rejects idle, changed epochs and absent windows before proving
+ok 7 - intent pin rejects idle, changed epochs and absent windows before proving
+  ---
+  duration_ms: 0.598292
+  ...
+# Subtest: CLI rejects null intent and wrong mode before loading any RPC config
+ok 8 - CLI rejects null intent and wrong mode before loading any RPC config
+  ---
+  duration_ms: 136.748625
+  ...
+# Subtest: formal route binds and processes every sealed member in four markets
+ok 5 - formal route binds and processes every sealed member in four markets
+  ---
+  duration_ms: 797.529167
+  ...
+# Subtest: lost receipt, restart and duplicate task reconcile without re-proving or re-sending
+ok 6 - lost receipt, restart and duplicate task reconcile without re-proving or re-sending
+  ---
+  duration_ms: 274.841291
+  ...
+# Subtest: proof digest substitution and config replacement halt before transmission
+ok 7 - proof digest substitution and config replacement halt before transmission
+  ---
+  duration_ms: 82.048792
+  ...
+# Subtest: cached proof loses validity when anchor nonce or broadcast window changes
+ok 8 - cached proof loses validity when anchor nonce or broadcast window changes
+  ---
+  duration_ms: 83.606417
+  ...
+# Subtest: double local executors share journal lock and create only one unresolved broadcast
+ok 9 - double local executors share journal lock and create only one unresolved broadcast
+  ---
+  duration_ms: 170.449292
+  ...
+# Subtest: unsealed lifecycle honors consent, cutoff, capacity and explicit sponsorship
+ok 10 - unsealed lifecycle honors consent, cutoff, capacity and explicit sponsorship
+  ---
+  duration_ms: 8.253084
+  ...
+# Subtest: profile and public admission plan reject ambiguous bindings and fake configuration
+ok 11 - profile and public admission plan reject ambiguous bindings and fake configuration
+  ---
+  duration_ms: 7.659292
+  ...
+# Subtest: normal Executor children never inherit the read-only benchmark source selector
+ok 12 - normal Executor children never inherit the read-only benchmark source selector
+  ---
+  duration_ms: 74.82475
+  ...
+# Subtest: recovery funding requests distinguish the two-UPS budget from an existing partial deposit
+ok 13 - recovery funding requests distinguish the two-UPS budget from an existing partial deposit
+  ---
+  duration_ms: 36.805833
+  ...
+# Subtest: included receipt waits for common realm visibility before releasing vault
+ok 14 - included receipt waits for common realm visibility before releasing vault
+  ---
+  duration_ms: 182.621333
+  ...
+# Subtest: only explicit pre-broadcast driver rejection permits not-submitted; missing evidence remains unknown
+ok 15 - only explicit pre-broadcast driver rejection permits not-submitted; missing evidence remains unknown
+  ---
+  duration_ms: 358.5975
+  ...
+# Subtest: recovery hints process only enrolled inactive senders without selecting other market orders
+ok 16 - recovery hints process only enrolled inactive senders without selecting other market orders
+  ---
+  duration_ms: 7.705916
+  ...
+# Subtest: prepared nonce metadata stays exact beyond JavaScript safe integer range
+ok 17 - prepared nonce metadata stays exact beyond JavaScript safe integer range
+  ---
+  duration_ms: 82.187334
+  ...
+# Subtest: explicit no-send recovery reuses one proof and never masks a later pending attempt
+ok 18 - explicit no-send recovery reuses one proof and never masks a later pending attempt
+  ---
+  duration_ms: 253.113958
+  ...
+# Subtest: pre-session transport restart preserves failed attempt and sends only verified replacement session
+ok 19 - pre-session transport restart preserves failed attempt and sends only verified replacement session
+  ---
+  duration_ms: 186.342833
+  ...
+# Subtest: pre-session transport restart is bounded and never sends on exhaustion
+ok 20 - pre-session transport restart is bounded and never sends on exhaustion
+  ---
+  duration_ms: 94.042625
+  ...
+# Subtest: pre-session restart refuses an expired original task window
+ok 21 - pre-session restart refuses an expired original task window
+  ---
+  duration_ms: 77.360666
+  ...
+# Subtest: explicit recovery gas budget remains exact, bounded, and separate from per-UPS fee cap
+ok 22 - explicit recovery gas budget remains exact, bounded, and separate from per-UPS fee cap
+  ---
+  duration_ms: 17.636375
+  ...
+# Subtest: configuration pins identity, rejects wallet credential fields, and normalizes paths and user hints
+ok 6 - configuration pins identity, rejects wallet credential fields, and normalizes paths and user hints
+  ---
+  duration_ms: 1.545917
+  ...
+# Subtest: duplicate vaults fail before adapter startup; user hint files are validated each read
+ok 7 - duplicate vaults fail before adapter startup; user hint files are validated each read
+  ---
+  duration_ms: 5.250875
+  ...
+# Subtest: driver failure preserves deterministic leaf and prevents overwrite of a prior submission log
+ok 7 - driver failure preserves deterministic leaf and prevents overwrite of a prior submission log
+  ---
+  duration_ms: 46.285125
+  ...
+# Subtest: child transaction output remains durable after the executor process exits abruptly
+ok 8 - child transaction output remains durable after the executor process exits abruptly
+  ---
+  duration_ms: 185.533708
+  ...
+# Subtest: concurrent publishers expose one complete immutable file and clean their own temporary files
+ok 8 - concurrent publishers expose one complete immutable file and clean their own temporary files
+  ---
+  duration_ms: 41.596292
+  ...
+# Subtest: a real writer exit with a partial temporary file leaves the destination available for a complete retry
+ok 9 - a real writer exit with a partial temporary file leaves the destination available for a complete retry
+  ---
+  duration_ms: 52.743917
+  ...
+# Subtest: two operators serialize the same vault
+ok 9 - two operators serialize the same vault
+  ---
+  duration_ms: 23.739334
+  ...
+# Subtest: included receipt prevents replay; a broadcast error can still be included
+ok 10 - included receipt prevents replay; a broadcast error can still be included
+  ---
+  duration_ms: 83.06175
+  ...
+# Subtest: unknown broadcast blocks all following mutations until exact receipt recovery
+ok 11 - unknown broadcast blocks all following mutations until exact receipt recovery
+  ---
+  duration_ms: 96.980084
+  ...
+# Subtest: stale task after proving never reaches a broadcast intent
+ok 12 - stale task after proving never reaches a broadcast intent
+  ---
+  duration_ms: 34.067458
+  ...
+# Subtest: restart after a failed pre-submit read reuses preflight and broadcasts once
+ok 13 - restart after a failed pre-submit read reuses preflight and broadcasts once
+  ---
+  duration_ms: 84.558083
+  ...
+# Subtest: a real process exit inside the vault lock is recovered by the next executor
+ok 14 - a real process exit inside the vault lock is recovered by the next executor
+  ---
+  duration_ms: 79.46925
+  ...
+# Subtest: changed policy cannot consume another fingerprint journal or bypass an unresolved broadcast
+ok 15 - changed policy cannot consume another fingerprint journal or bypass an unresolved broadcast
+  ---
+  duration_ms: 63.294083
+  ...
+# Subtest: missing cached preflight is regenerated before broadcast intent
+ok 16 - missing cached preflight is regenerated before broadcast intent
+  ---
+  duration_ms: 94.175625
+  ...
+# Subtest: concurrent journal readers never observe a partially written event
+ok 17 - concurrent journal readers never observe a partially written event
+  ---
+  duration_ms: 38.639917
+  ...
+# Subtest: three vault histories with 3000 records recover under a real 64-descriptor process limit
+ok 18 - three vault histories with 3000 records recover under a real 64-descriptor process limit
+  ---
+  duration_ms: 640.367709
+  ...
+# Subtest: a missing or duplicated journal sequence blocks proving and append instead of reusing an event number
+ok 19 - a missing or duplicated journal sequence blocks proving and append instead of reusing an event number
+  ---
+  duration_ms: 67.566625
+  ...
+# Subtest: explicit driver no-send found during immediate reconciliation is durably terminal
+ok 20 - explicit driver no-send found during immediate reconciliation is durably terminal
+  ---
+  duration_ms: 61.208458
+  ...
+# Subtest: failed read-only preparation keeps the durable full proof for explicit resume
+ok 21 - failed read-only preparation keeps the durable full proof for explicit resume
+  ---
+  duration_ms: 85.413625
+  ...
+# Subtest: explicit replacement retains original empty attempt and requires exact included identity
+ok 10 - explicit replacement retains original empty attempt and requires exact included identity
+  ---
+  duration_ms: 7.92225
+  ...
+# Subtest: an original proof or request cannot be silently superseded by a replacement
+ok 11 - an original proof or request cannot be silently superseded by a replacement
+  ---
+  duration_ms: 3.227042
+  ...
+# Subtest: replacement cannot change business calls even if its input checksum is updated
+ok 12 - replacement cannot change business calls even if its input checksum is updated
+  ---
+  duration_ms: 3.294667
+  ...
+# Subtest: receipt substitution and path escape fail before a caller skips its task
+ok 13 - receipt substitution and path escape fail before a caller skips its task
+  ---
+  duration_ms: 3.793666
+  ...
+# Subtest: only exact pre-session transport failure without any UPS material qualifies
+ok 11 - only exact pre-session transport failure without any UPS material qualifies
+  ---
+  duration_ms: 7.597166
+  ...
+# Subtest: post-call, unknown send, arbitrary errors and foreign endpoints never qualify
+ok 12 - post-call, unknown send, arbitrary errors and foreign endpoints never qualify
+  ---
+  duration_ms: 5.891708
+  ...
+# Subtest: proof-only driver recovers explicit transport failures
+ok 12 - proof-only driver recovers explicit transport failures
+  ---
+  duration_ms: 3.947708
+  ...
+# Subtest: proof-only transport retry is bounded; contract assertion is not retried
+ok 13 - proof-only transport retry is bounded; contract assertion is not retried
+  ---
+  duration_ms: 2.757791
+  ...
+# Subtest: concurrent vault snapshots share one RPC bound; coalesced leaves decode all four slots at their checkpoint
+ok 13 - concurrent vault snapshots share one RPC bound; coalesced leaves decode all four slots at their checkpoint
+  ---
+  duration_ms: 52.64975
+  ...
+# Subtest: leaf cache isolates contract, user and fresh snapshots; failed reads release capacity and do not leak partial fields
+ok 14 - leaf cache isolates contract, user and fresh snapshots; failed reads release capacity and do not leak partial fields
+  ---
+  duration_ms: 2.360791
+  ...
+# Subtest: a field read failure drains sibling RPCs before the scan can be retried
+ok 15 - a field read failure drains sibling RPCs before the scan can be retried
+  ---
+  duration_ms: 14.382042
+  ...
+# Subtest: malformed realm heads are rejected even if another valid head would hide them in the minimum
+ok 16 - malformed realm heads are rejected even if another valid head would hide them in the minimum
+  ---
+  duration_ms: 2.165791
+  ...
+# Subtest: invalid identifiers, slot indices and key hashes fail before issuing additional RPCs
+ok 17 - invalid identifiers, slot indices and key hashes fail before issuing additional RPCs
+  ---
+  duration_ms: 1.542959
+  ...
+# Subtest: asset initialization reads coalesce authenticated-root candidates at the fixed checkpoint and reject malformed hashes
+ok 18 - asset initialization reads coalesce authenticated-root candidates at the fixed checkpoint and reject malformed hashes
+  ---
+  duration_ms: 1.450958
+  ...
+# Subtest: explicit exact-integer RPC mode preserves a large nonce without changing legacy control reads
+ok 19 - explicit exact-integer RPC mode preserves a large nonce without changing legacy control reads
+  ---
+  duration_ms: 1.2935
+  ...
+# Subtest: executor chooses the wide amount range only for the verified deployed wide code root
+ok 14 - executor chooses the wide amount range only for the verified deployed wide code root
+  ---
+  duration_ms: 5.898875
+  ...
+# Subtest: curve driver uses proof-only preflight, durable exact calls and records a lost-response leaf without retrying submission
+ok 15 - curve driver uses proof-only preflight, durable exact calls and records a lost-response leaf without retrying submission
+  ---
+  duration_ms: 18.0085
+  ...
+# Subtest: user reads stay bounded and preserve planner priority despite out-of-order completion
+ok 15 - user reads stay bounded and preserve planner priority despite out-of-order completion
+  ---
+  duration_ms: 79.374167
+  ...
+# Subtest: failed scans drain active readers and never continue scheduling the remaining users
+ok 16 - failed scans drain active readers and never continue scheduling the remaining users
+  ---
+  duration_ms: 13.158708
+  ...
+# Subtest: transport read failure retries within a finite bound
+ok 16 - transport read failure retries within a finite bound
+  ---
+  duration_ms: 2.39125
+  ...
+# Subtest: logical read errors are not retried; transport exhaustion is classified
+ok 17 - logical read errors are not retried; transport exhaustion is classified
+  ---
+  duration_ms: 4.735208
+  ...
+# Subtest: HTTP 500 reads recover or enter bounded backoff; authorization failures remain fatal
+ok 18 - HTTP 500 reads recover or enter bounded backoff; authorization failures remain fatal
+  ---
+  duration_ms: 5.935125
+  ...
+# Subtest: amm binds every branch, every explicit call and lossless byte digest
+ok 17 - amm binds every branch, every explicit call and lossless byte digest
+  ---
+  duration_ms: 48.222583
+  ...
+# Subtest: orderbook binds every branch, every explicit call and lossless byte digest
+ok 18 - orderbook binds every branch, every explicit call and lossless byte digest
+  ---
+  duration_ms: 16.439667
+  ...
+# Subtest: bondingcurve binds every branch, every explicit call and lossless byte digest
+ok 19 - bondingcurve binds every branch, every explicit call and lossless byte digest
+  ---
+  duration_ms: 17.417
+  ...
+# Subtest: one pinned proof child serves sequential requests and reports warm circuit startup
+ok 18 - one pinned proof child serves sequential requests and reports warm circuit startup
+  ---
+  duration_ms: 2.143208
+  ...
+# Subtest: resident never accepts submit, changed policy, changed config or overlapping requests
+ok 19 - resident never accepts submit, changed policy, changed config or overlapping requests
+  ---
+  duration_ms: 0.456583
+  ...
+# Subtest: unmatched response or child exit fails without automatic restart
+ok 20 - unmatched response or child exit fails without automatic restart
+  ---
+  duration_ms: 1.323917
+  ...
+# Subtest: explicit resume selects only exact durable task and proof
+ok 19 - explicit resume selects only exact durable task and proof
+  ---
+  duration_ms: 1.237208
+  ...
+# Subtest: resume cannot create new task or advance its send window
+ok 20 - resume cannot create new task or advance its send window
+  ---
+  duration_ms: 0.383416
+  ...
+# Subtest: proof absence and unknown transmission block resume
+ok 21 - proof absence and unknown transmission block resume
+  ---
+  duration_ms: 0.164709
+  ...
+# Subtest: running driver stays on the reviewed bytes after the installation path is replaced
+ok 20 - running driver stays on the reviewed bytes after the installation path is replaced
+  ---
+  duration_ms: 339.136583
+  ...
+# Subtest: missing digest, wrong digest, modified private driver and permission changes fail closed
+ok 21 - missing digest, wrong digest, modified private driver and permission changes fail closed
+  ---
+  duration_ms: 24.989458
+  ...
+# Subtest: every policy dependency including native PSY is pinned and restart cannot rebaseline it
+ok 21 - every policy dependency including native PSY is pinned and restart cannot rebaseline it
+  ---
+  duration_ms: 45.175666
+  ...
+# Subtest: ABI, policy and RPC replacements are detected without printing file contents
+ok 22 - ABI, policy and RPC replacements are detected without printing file contents
+  ---
+  duration_ms: 2.827792
+  ...
+# Subtest: a new guarded broadcast cannot be accepted from an old unguarded driver
+ok 23 - a new guarded broadcast cannot be accepted from an old unguarded driver
+  ---
+  duration_ms: 0.781542
+  ...
+# Subtest: U124 config requires two pinned asset roots, ABIs, policy and exact driver config
+ok 22 - U124 config requires two pinned asset roots, ABIs, policy and exact driver config
+  ---
+  duration_ms: 1.303167
+  ...
+# Subtest: AMM plans preserve high limbs and choose executable settlement, exact payer refund and withdrawal cancellation
+ok 23 - AMM plans preserve high limbs and choose executable settlement, exact payer refund and withdrawal cancellation
+  ---
+  duration_ms: 7.784667
+  ...
+# Subtest: Orderbook exact funded orders match with peer nonce; expired or underfunded orders cannot fill
+ok 24 - Orderbook exact funded orders match with peer nonce; expired or underfunded orders cannot fill
+  ---
+  duration_ms: 3.461667
+  ...
+# Subtest: Curve initialization, stale refunds, exact buy/sell and graduation use signed amounts
+ok 25 - Curve initialization, stale refunds, exact buy/sell and graduation use signed amounts
+  ---
+  duration_ms: 4.153083
+  ...
+# Subtest: scanner decodes pairs/strides at one snapshot and does not derive balances with Number
+ok 26 - scanner decodes pairs/strides at one snapshot and does not derive balances with Number
+  ---
+  duration_ms: 5.6285
+  ...
+# Subtest: adapter uses explicit preflight and verified-submit, records lost response and recovers exact log after restart
+ok 27 - adapter uses explicit preflight and verified-submit, records lost response and recovers exact log after restart
+  ---
+  duration_ms: 222.775792
+  ...
+# Subtest: proof rejection is not broadcast recovery; an older no-submit result cannot clear a newer ambiguous attempt
+ok 28 - proof rejection is not broadcast recovery; an older no-submit result cannot clear a newer ambiguous attempt
+  ---
+  duration_ms: 98.125291
+  ...
+# Subtest: U124 leaf parser keeps intent hashes after response loss and rejects contradictory identities
+ok 29 - U124 leaf parser keeps intent hashes after response loss and rejects contradictory identities
+  ---
+  duration_ms: 0.209042
+  ...
+# Subtest: Curve graduation fixes AMM seed payer, targets, fee, minimum, deadline and nonce, and waits for both fee donors
+ok 30 - Curve graduation fixes AMM seed payer, targets, fee, minimum, deadline and nonce, and waits for both fee donors
+  ---
+  duration_ms: 5.123625
+  ...
+# Subtest: an interrupted parent can release an explicit child rejection, but cannot release an incomplete proof log
+ok 31 - an interrupted parent can release an explicit child rejection, but cannot release an incomplete proof log
+  ---
+  duration_ms: 116.536917
+  ...
+# Subtest: Token ABI errors stop initialization before metadata reads or driver execution
+ok 32 - Token ABI errors stop initialization before metadata reads or driver execution
+  ---
+  duration_ms: 5.937083
+  ...
+# Subtest: all U124 markets reject a registered account that does not derive from the public SD-key
+ok 33 - all U124 markets reject a registered account that does not derive from the public SD-key
+  ---
+  duration_ms: 51.590209
+  ...
+# Subtest: market, each token and PSY root changes stop a direct submission before the driver runs
+ok 34 - market, each token and PSY root changes stop a direct submission before the driver runs
+  ---
+  duration_ms: 57.892958
+  ...
+# Subtest: input replacement during the preflight prevents caching a proof and future submission
+ok 35 - input replacement during the preflight prevents caching a proof and future submission
+  ---
+  duration_ms: 42.85475
+  ...
+# Subtest: immediate recovery uses this attempt log when a child persisted a broadcast but returned no output
+ok 36 - immediate recovery uses this attempt log when a child persisted a broadcast but returned no output
+  ---
+  duration_ms: 130.070084
+  ...
+# Subtest: a changed sealed driver cannot broadcast and a proof without request bindings is not reusable
+ok 37 - a changed sealed driver cannot broadcast and a proof without request bindings is not reusable
+  ---
+  duration_ms: 43.135667
+  ...
+# Subtest: U124 ABI rejects misplaced limbs, incompatible outbox layouts and wrong wire method shapes
+ok 23 - U124 ABI rejects misplaced limbs, incompatible outbox layouts and wrong wire method shapes
+  ---
+  duration_ms: 4.679917
+  ...
+# Subtest: recovery validates the exact UPS identity and vault even when the parent wrote no outcome
+ok 24 - recovery validates the exact UPS identity and vault even when the parent wrote no outcome
+  ---
+  duration_ms: 2.051041
+  ...
+# Subtest: only a terminal, explicit prebroadcast rejection releases a task and retains its actual reason
+ok 25 - only a terminal, explicit prebroadcast rejection releases a task and retains its actual reason
+  ---
+  duration_ms: 0.300458
+  ...
+# Subtest: partial logs and verified proofs without a broadcast remain ambiguous
+ok 26 - partial logs and verified proofs without a broadcast remain ambiguous
+  ---
+  duration_ms: 0.338
+  ...
+# Subtest: exact call and guard digests prevent evidence from another valid operation being reused
+ok 27 - exact call and guard digests prevent evidence from another valid operation being reused
+  ---
+  duration_ms: 0.386583
+  ...
+# Subtest: unresolved broadcasts block scanning, proof and submission
+ok 25 - unresolved broadcasts block scanning, proof and submission
+  ---
+  duration_ms: 1.089708
+  ...
+# Subtest: different vaults share bounded execution slots and stopped queued tasks never execute
+ok 26 - different vaults share bounded execution slots and stopped queued tasks never execute
+  ---
+  duration_ms: 2.028916
+  ...
+# Subtest: queued cancellation completes before an active proof, preserves FIFO slots, and does not cancel active work
+ok 27 - queued cancellation completes before an active proof, preserves FIFO slots, and does not cancel active work
+  ---
+  duration_ms: 0.774584
+  ...
+# Subtest: a stop during reconciliation prevents a new scan while preserving recovered receipts
+ok 28 - a stop during reconciliation prevents a new scan while preserving recovered receipts
+  ---
+  duration_ms: 0.171666
+  ...
+# Subtest: transient startup reads retry with bounded backoff and stop interrupts waiting
+ok 29 - transient startup reads retry with bounded backoff and stop interrupts waiting
+  ---
+  duration_ms: 0.757375
+  ...
+# Subtest: updated user hints are reloaded without replacing the public policy adapter
+ok 30 - updated user hints are reloaded without replacing the public policy adapter
+  ---
+  duration_ms: 0.198708
+  ...
+# Subtest: fatal identity failure halts one vault while another keeps scanning
+ok 31 - fatal identity failure halts one vault while another keeps scanning
+  ---
+  duration_ms: 0.709834
+  ...
+# Subtest: service scan mode never opens journal or invokes mutation callbacks
+ok 32 - service scan mode never opens journal or invokes mutation callbacks
+  ---
+  duration_ms: 0.153375
+  ...
+# Subtest: service preserves market identity and actual included checkpoint separately from scan checkpoint
+ok 33 - service preserves market identity and actual included checkpoint separately from scan checkpoint
+  ---
+  duration_ms: 0.753542
+  ...
+# Subtest: later idle scans and shutdown preserve the last inclusion while reporting the new observed checkpoint
+ok 34 - later idle scans and shutdown preserve the last inclusion while reporting the new observed checkpoint
+  ---
+  duration_ms: 0.437208
+  ...
+# Subtest: shutdown preserves unresolved evidence and recovered inclusion metadata without counting it twice
+ok 35 - shutdown preserves unresolved evidence and recovered inclusion metadata without counting it twice
+  ---
+  duration_ms: 0.379917
+  ...
+# Subtest: a scan failure after receipt recovery keeps the confirmed count and checkpoint visible
+ok 36 - a scan failure after receipt recovery keeps the confirmed count and checkpoint visible
+  ---
+  duration_ms: 0.984667
+  ...
+# Subtest: missing fee sponsorship remains visible and never invokes financial execution
+ok 37 - missing fee sponsorship remains visible and never invokes financial execution
+  ---
+  duration_ms: 0.12525
+  ...
+# Subtest: service closes proof-only resources in scan, once and failed once modes
+ok 38 - service closes proof-only resources in scan, once and failed once modes
+  ---
+  duration_ms: 0.546417
+  ...
+# Subtest: known no-send stops watcher without another financial cycle and failures exit nonzero
+ok 39 - known no-send stops watcher without another financial cycle and failures exit nonzero
+  ---
+  duration_ms: 0.244667
+  ...
+1..128
+# tests 128
+# pass 128
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 8249.919

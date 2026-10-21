@@ -1,0 +1,51 @@
+{
+  "schema": 1,
+  "sourceDirectory": "/private/tmp/psy-market-bulk4-feasibility-20261021-v1",
+  "machine": "gewenbo.local",
+  "host": "macOS-15.7.3-arm64-arm-64bit",
+  "scope": "public formal Executor run including failures; success requires exact included receipt",
+  "walletFilesIncluded": false,
+  "sealedBinariesIncluded": false,
+  "records": [
+    {
+      "source": "PRECHECK.json",
+      "file": "files/PRECHECK.json.gz",
+      "bytes": 2327,
+      "sha256": "3314c6a7ba3d56d5b1034418b53dc22813256e0cbb2de78a6c4138d19bea9ab4",
+      "gzipBytes": 961,
+      "gzipSha256": "b3e919abf1fa11eafc5d840b4dc56fc2024c140221b14db72f63e245bf4dca63"
+    },
+    {
+      "source": "amm-UNREGISTERED.json",
+      "file": "files/amm-UNREGISTERED.json.gz",
+      "bytes": 57617,
+      "sha256": "84679d0d100247f3ebfecf412d472f828fd619d3f5ea08e98255a06e982f1102",
+      "gzipBytes": 1941,
+      "gzipSha256": "9779b7cf97200e276b7c5d41cebd24e822cb5e09d389560a3a9281c8fe1abb23"
+    },
+    {
+      "source": "bondingcurve-UNREGISTERED.json",
+      "file": "files/bondingcurve-UNREGISTERED.json.gz",
+      "bytes": 59585,
+      "sha256": "370f3e8af33e1cc7f07b9fb0c66ca30a21b775cfda29c4e3398512f7739b4af0",
+      "gzipBytes": 2047,
+      "gzipSha256": "99b4fe8f47e89134bd0ea0fcb43c5a7d0fe8ea7bfd5a36b8a2a73a8bea229b11"
+    },
+    {
+      "source": "nftmarket-UNREGISTERED.json",
+      "file": "files/nftmarket-UNREGISTERED.json.gz",
+      "bytes": 40672,
+      "sha256": "cc4e9981407f7e4ce7ff29f65e4585dcfc68e93145acaa37ba9ce41a56970fd5",
+      "gzipBytes": 1665,
+      "gzipSha256": "91ccd75461df4df3d3ebc80485fa5197ae9481ab432a9492cfbf35d89ee173a0"
+    },
+    {
+      "source": "orderbook-UNREGISTERED.json",
+      "file": "files/orderbook-UNREGISTERED.json.gz",
+      "bytes": 45259,
+      "sha256": "29c546b47cdfa12573d4854984106ab6ccb805694f48e52eb9e25be87d86d186",
+      "gzipBytes": 1720,
+      "gzipSha256": "afe5570eceadfdd84de6346a5e9e8db2d7e4d41a670217a2390ec9b371a5a2a7"
+    }
+  ]
+}

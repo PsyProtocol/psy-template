@@ -476,3 +476,10 @@ runs first; an unknown transmission blocks it. It rechecks normal live state,
 identity, dependencies, proof digest, full stack/session, fees and original
 window. It never generates a replacement proof or advances that window.
 An already included task returns idempotently without another transmission.
+
+Recovery gas can be explicitly configured with `recoveryGasUnits: 2..8` on a
+batch profile (default 2). One unit is the native FEE_ESCROW, not the actual
+per-UPS burn fee. The Sponsor must separately sign the exact amount/purpose/
+nonce; mismatched pending grants require inspection. The setting requests a
+bounded shared gas pot and does not increase the per-UPS fee cap or guarantee
+permissionless liveness. No ordinary wallet policy is changed by this setting.
