@@ -417,6 +417,19 @@ It changes two reporting sources only; the continuing maximum worker loaded
 v11 and retains that provenance. Its eventual cost report will explicitly
 separate saved-proof recovery observations from full proving and confirmation.
 
+### First authenticated admission round — confirmed
+
+`renewed-first-admission-v1/` preserves the ordinary sponsor UPS and four
+admission UPSs. Dave (798912) is the first accepted member in each market;
+AMM/Curve confirm at **359851**, Book/NFT at **359852**. This is one member per
+queue, not four trades or maximum capacity. The read-only observation at
+**359852** found each exact expected end leaf and corresponding service event;
+the earlier **359846** zero-count snapshot remains valid at its older source.
+No retry was authorized by either RPC snapshot. Actual formal receipt/common
+checks separately completed. The summary's fee sum covers those five receipts
+only and is not a closed asset-conservation interval. Three intended admission
+rounds, sealing, economic settlement, claims and cost pairs remain pending.
+
 ## Ordered gates
 
 | Gate | Current work | Not yet established |
