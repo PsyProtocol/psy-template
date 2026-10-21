@@ -4,12 +4,13 @@ import {readFileSync, readdirSync, existsSync} from 'node:fs';
 import {join, relative} from 'node:path';
 import {residentStartupRecords} from './residentCost.mjs';
 import {ordinaryEvidenceDirectory} from './ordinaryEvidence.mjs';
-import {save, read} from '../../batching/admission/liveSupport.mjs';
+import {read} from '../../batching/admission/liveSupport.mjs';
+import {saveObservation} from '../observations.mjs';
 const [base, output] = process.argv.slice(2);
 assert.ok(existsSync(join(base, 'public/maximum-complete-v1.json')), 'economic acceptance must finish before publishing its cost report');
 const pairs = readdirSync(join(base, 'attempts')).filter(n => n.startsWith('maximum-') && n.endsWith('-cold-comparison')).map(n => {
  const p = join(base, 'attempts', n, 'comparison.json'), r = read(p);
- return {...r, source: relative(base, p), coldProcessOverheadMs: r.coldProcessTiming.wallMilliseconds - Number(r.coldTimingsMs.preflightTotal), preflightRatioColdOverWarm: Number(r.coldTimingsMs.preflightTotal) / Number(r.warmTimingsMs.preflightTotal)};
+ return {...r, source: relative(base, p), coldProcessOverheadMs: r.coldProcessTiming ? r.coldProcessTiming.wallMilliseconds - Number(r.coldTimingsMs.preflightTotal) : null, preflightRatioColdOverWarm: Number(r.coldTimingsMs.preflightTotal) / Number(r.warmTimingsMs.preflightTotal)};
 });
 assert.equal(pairs.length, 8, 'commit and settlement for each of four markets');
 const completion=read(join(base,'public/maximum-complete-v1.json'));
@@ -56,7 +57,7 @@ const started = Math.min(...starts), finished = Math.max(...ends), fills = sums.
 const testEnvelope = {startedAt: new Date(started).toISOString(), finishedAt: new Date(finished).toISOString(), wallMilliseconds: finished - started,
  economicFills: fills, observedTestFillsPerSecond: fills * 1000 / (finished - started),
  scope: 'actual isolated acceptance envelope: four ordinary order UPSs through final ordinary claim observations; includes admission, sponsorship, deliberately repeated cold proofs, preserved pre-send read failure and operator resume, indexing and common-checkpoint polling; not normal optimized service throughput or chain TPS'};
-save(output, {schema: 1, generatedAt: new Date().toISOString(), pairs, sums, ordinary, otherOrdinaryUps, formal, residentColdResourceConstruction,
+saveObservation(output, {schema: 1, generatedAt: new Date().toISOString(), pairs, sums, ordinary, otherOrdinaryUps, formal, residentColdResourceConstruction,
  testEnvelope,
  emptyIntakeTimeout:existsSync(join(base,'public/maximum-empty-intake-timeout-v1.json'))?read(join(base,'public/maximum-empty-intake-timeout-v1.json')):null,
  accountingSnapshots:['maximum-assets-pre-orders.json','maximum-assets-before.json','maximum-assets-after.json'].map(file=>{const value=read(join(base,'public',file));return{source:'public/'+file,checkpoint:value.checkpoint,observation:value.observation??null,scope:'explicit cohort asset accounting, separately measured from UPS proving and confirmation; final after-claim audit is outside the reported order-to-last-claim envelope'};}),

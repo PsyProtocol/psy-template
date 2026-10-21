@@ -10,6 +10,7 @@ import {validateConfig} from '../../amm/u124/build.mjs';
 import {validateU124TokenAbi} from '../../executor/u124Abi.mjs';
 import {validateNftAbi} from '../../nft-marketplace/abi.mjs';
 import {generateAdmission} from './generate.mjs';
+import{withBulkAdmission}from'./bulk.mjs';
 import {makeAdmissionPolicy} from './prepare.mjs';
 const kinds=['amm','orderbook','bondingcurve','nftmarket'];
 const json=p=>JSON.parse(readFileSync(p,'utf8'));
@@ -35,19 +36,19 @@ export function compileAdmission({market,compiler,native,tokenA,tokenB,nft,confi
  const report={schema:1,market,networkMagic:config.networkMagic,compilerSha256:sha(compiler),files:Object.fromEntries(files.map(p=>[p,sha(resolve(out,p))])),marketId:null,sourceUsesRuntimeContractId:true,initialLayoutProofVerified:false,fullUpsVerified:false,runtimeDependenciesVerified:false,broadcast:false};
  save(resolve(out,'BUILD.json'),report);return report;
 }
-export function bindAdmission({build,marketId,out}){
- build=resolve(build);out=resolve(out);assert.ok(!existsSync(out),'fresh policy output required');const report=json(resolve(build,'BUILD.json'));
+export function bindAdmission({build,marketId,out,admissionMode='single-v1'}){
+ assert.ok(['single-v1','all-four-v1'].includes(admissionMode),'admission mode');build=resolve(build);out=resolve(out);assert.ok(!existsSync(out),'fresh policy output required');const report=json(resolve(build,'BUILD.json'));
  assert.equal(report.schema,1);assert.ok(kinds.includes(report.market));for(const[p,h]of Object.entries(report.files))assert.equal(sha(resolve(build,p)),h,'changed build input '+p);
  const config=json(resolve(build,'config.json')),assetIds=report.market==='nftmarket'?[config.nftId,config.tokenId]:[config.assetA,config.assetB];
  assert.ok(Number.isSafeInteger(marketId)&&marketId>=5&&marketId<16777216&&!assetIds.includes(marketId),'distinct actual market ID');
  const a=json(resolve(build,'compiled/compilation_artifact.json')),token=json(resolve(build,'token-a.json')),nft=json(resolve(build,'nft.json'));
  assert.equal(readFileSync(resolve(build,'main.psy.rs'),'utf8'),generateAdmission(report.market,config),'source/config binding');
- const policy=makeAdmissionPolicy(report.market,marketId,config,a.abi,token.abi,nft.abi);mkdirSync(out,{recursive:true});save(resolve(out,'policy.json'),policy);
- save(resolve(out,'BOUND.json'),{schema:1,market:report.market,marketId,buildManifestSha256:sha(resolve(build,'BUILD.json')),policySha256:sha(resolve(out,'policy.json')),registrationVerified:false,onChainRootsVerified:false,broadcast:false});return policy;
+ const basePolicy=makeAdmissionPolicy(report.market,marketId,config,a.abi,token.abi,nft.abi),policy=admissionMode==='all-four-v1'?withBulkAdmission(basePolicy):basePolicy;mkdirSync(out,{recursive:true});save(resolve(out,'policy.json'),policy);
+ save(resolve(out,'BOUND.json'),{schema:1,market:report.market,marketId,...(admissionMode==='single-v1'?{}:{admissionMode}),buildManifestSha256:sha(resolve(build,'BUILD.json')),policySha256:sha(resolve(out,'policy.json')),registrationVerified:false,onChainRootsVerified:false,broadcast:false});return policy;
 }
 if(process.argv[1]===fileURLToPath(import.meta.url)){
  const [mode,...args]=process.argv.slice(2),o={};assert.equal(args.length%2,0,'flag/value pairs');for(let i=0;i<args.length;i+=2){assert.ok(args[i].startsWith('--'));assert.ok(!Object.hasOwn(o,args[i].slice(2)),'duplicate option');o[args[i].slice(2)]=args[i+1];}
  if(mode==='compile')console.log(JSON.stringify(compileAdmission({market:o.market,compiler:o.compiler,native:o.native,tokenA:o['token-a'],tokenB:o['token-b'],nft:o.nft,config:json(o.config),out:o.out})));
- else if(mode==='bind')console.log(JSON.stringify(bindAdmission({build:o.build,marketId:Number(o['market-id']),out:o.out}).market_id));
+ else if(mode==='bind')console.log(JSON.stringify(bindAdmission({build:o.build,marketId:Number(o['market-id']),out:o.out,admissionMode:o['admission-mode']??'single-v1'}).market_id));
  else throw Error('compile --market KIND --compiler BIN --native JSON --token-a JSON --token-b JSON --nft JSON --config JSON --out FRESH | bind --build DIR --market-id ID --out FRESH');
 }

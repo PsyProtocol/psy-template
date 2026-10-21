@@ -31,8 +31,8 @@ export class LiveMarket {
   const roots=Object.fromEntries(await Promise.all([...this.bindings.keys()].map(async id=>[id,await s.contractStateRoot(this.vault,id)])));const result={checkpoint:s.checkpoint,vault:this.vault,market:this.id,fields,roots};save(join(this.base,'public',name+'.state.json'),result);return result;
  }
 }
-export async function registerMarket({base,config,build,deployment,dependencies,compactBinary,env}){
- assert.equal(deployment.preflight.initialLayoutVerified,true);const id=deployment.contractId;bindAdmission({build,marketId:id,out:join(build,'bound')});const policy=read(join(build,'bound/policy.json'));
+export async function registerMarket({base,config,build,deployment,dependencies,compactBinary,env,admissionMode='single-v1'}){
+ assert.equal(deployment.preflight.initialLayoutVerified,true);const id=deployment.contractId;bindAdmission({build,marketId:id,out:join(build,'bound'),admissionMode});const policy=read(join(build,'bound/policy.json'));
  const name='register-'+policy.market+'-vault-v1',out=join(base,'attempts',name);await run(compactBinary,['register',join(build,'bound/policy.json'),config,out],join(base,name+'.log'),env);
  return reconcileRegisteredMarket({base,config,build,deployment,dependencies});
 }
@@ -44,5 +44,5 @@ export async function reconcileRegisteredMarket({base,config,build,deployment,de
  const s=await publicState(config),marketBinding=await binding(s,id),l=deployment.leaf;assert.equal(marketBinding.contract.codeRoot,l.code_root);assert.equal(marketBinding.contract.layoutRoot,l.state_layout_root);
  const required=[...new Set(policy.branches.flatMap(b=>b.calls.map(c=>c.contract_id)))].sort((a,b)=>a-b),map=new Map([...dependencies,marketBinding].map(b=>[b.contract.contractId,b]));const contracts=required.map(id=>{const b=map.get(id);assert.ok(b,'reviewed dependency absent '+id);return b;});for(const b of contracts)assert.deepEqual(await binding(s,b.contract.contractId),b);
  const evidence=await confirmRegistration(config,vaultId,receipt.publicKeyHash);
- const registration={checkpoint:s.checkpoint,marketId:id,vaultId,publicKeyHash:receipt.publicKeyHash,fingerprint:request.public_key.fingerprint,publicKeyParam:request.public_key.public_key_param,contracts,coordinatorMappingVerified:true,indexedReceiptVerified:true,...evidence};save(join(out,'included.json'),registration);save(join(build,'live-registration.json'),registration);return {policy,registration,contracts};
+ const mode=read(join(build,'bound/BOUND.json')).admissionMode;const registration={checkpoint:s.checkpoint,marketId:id,vaultId,...(mode?{admissionMode:mode}:{}),publicKeyHash:receipt.publicKeyHash,fingerprint:request.public_key.fingerprint,publicKeyParam:request.public_key.public_key_param,contracts,coordinatorMappingVerified:true,indexedReceiptVerified:true,...evidence};save(join(out,'included.json'),registration);save(join(build,'live-registration.json'),registration);return {policy,registration,contracts};
 }

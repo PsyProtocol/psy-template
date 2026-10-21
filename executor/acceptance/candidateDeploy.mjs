@@ -4,7 +4,7 @@ import{existsSync}from'node:fs';import{join}from'node:path';
 import{read,run,save,confirmDeploy}from'../../batching/admission/liveSupport.mjs';
 import{registerMarket,reconcileRegisteredMarket}from'../../batching/admission/liveMarket.mjs';
 import{compileAdmission}from'../../batching/admission/build.mjs';
-const[base,original,ordinaryBinary,compactBinary]=process.argv.slice(2);assert.ok(compactBinary,'BASE ORIGINAL ORDINARY_BINARY COMPACT_BINARY');
+const[base,original,ordinaryBinary,compactBinary,admissionMode='single-v1']=process.argv.slice(2);assert.ok(['single-v1','all-four-v1'].includes(admissionMode));assert.ok(compactBinary,'BASE ORIGINAL ORDINARY_BINARY COMPACT_BINARY');
 const config=join(base,'public/rpc.json'),env={PSY_MARKET_TESTNET_PROFILE:'staging-bundled-regtest-20261020-v1',RAYON_NUM_THREADS:'2'},secret=join(original,'.secrets/bob-bundled-profile-v1.json');
 const owner=read(join(original,'attempts/deploy-amm-v1/included.json')).leaf.deployer;
 const oldDependencies=read(join(original,'markets-v1/amm/live-registration.json')).contracts.filter(b=>b.contract.contractId!==2468);
@@ -20,7 +20,7 @@ for(const market of ['amm','orderbook','bondingcurve','nftmarket']){
  if(!existsSync(join(build,'live-registration.json'))){
   const dependencies=market==='nftmarket'?read('/tmp/psy-market-nft-recovery-live-20261020-v2/markets-v1/nftmarket/live-registration.json').contracts.filter(b=>b.contract.contractId!==2472):oldDependencies;
   if(existsSync(join(base,'attempts/register-'+market+'-vault-v1/receipt.json')))await reconcileRegisteredMarket({base,config,build,deployment,dependencies});
-  else {assert.ok(!existsSync(join(base,'attempts/register-'+market+'-vault-v1')),'partial registration requires inspection');await registerMarket({base,config,build,deployment,dependencies,compactBinary,env});}
+  else {assert.ok(!existsSync(join(base,'attempts/register-'+market+'-vault-v1')),'partial registration requires inspection');await registerMarket({base,config,build,deployment,dependencies,compactBinary,env,admissionMode});}
  }
  console.log(new Date().toISOString(),'fresh deployment and registration',market,deployment.contractId,read(join(build,'live-registration.json')).vaultId);
 }

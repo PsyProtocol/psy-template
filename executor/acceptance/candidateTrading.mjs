@@ -60,7 +60,8 @@ if(stage==='liquidity'){
  const missingGasPath=join(base,'public',attempt+'-missing-gas-scans.json');if(!existsSync(missingGasPath)){const scans=await Promise.all(services.map(f=>f.adapter.scan()));for(const scan of scans){if(retry){assert.ok(scan.action&&taskNamed('start_epoch')(scan.action),'confirmed pre-funding must authorize only the expected epoch start');}else{assert.equal(scan.action,null);assert.equal(scan.reason,'admission-gas-sponsorship-required');assert.equal(scan.fundingRequest.amount,F.toString());}}save(missingGasPath,{checkedAt:new Date().toISOString(),scans,preFundedBeforePlan:retry,proofOrBroadcastAttempted:false});}
  await fund(h.markets,attempt+'-start-fund',2);await execute('start',taskNamed('start_epoch'));
  await independent(names.map(name=>()=>h.user(name,attempt+'-'+name+'-consent',h.markets.map(m=>m.order('request_admission',[BigInt(p.epochs[m.kind]),BigInt(p.cutoff)])))));
- for(let i=0;i<4;i++){await fund(h.markets,attempt+'-admit-'+i+'-fund',2);await execute('admit-'+i,taskNamed('admit_entry'));}
+ const admissionModes=new Set(services.map(f=>f.options.admissionMode??'single-v1'));assert.equal(admissionModes.size,1,'maximum acceptance does not mix admission strategies');const admissionRounds=admissionModes.has('all-four-v1')?1:4;
+ for(let i=0;i<admissionRounds;i++){await fund(h.markets,attempt+'-admit-'+i+'-fund',2);await execute('admit-'+i,taskNamed('admit_entry'));}
  await fund(h.markets,attempt+'-seal-fund',2);await waitCutoff(p.cutoff);await execute('seal',taskNamed('seal_epoch'));
  await fund(h.markets,attempt+'-commit-fund',1);
  // No other proof process runs during a paired benchmark. Each market has the

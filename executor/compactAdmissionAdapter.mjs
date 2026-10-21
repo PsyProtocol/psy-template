@@ -3,6 +3,7 @@ import {readFile,mkdir} from 'node:fs/promises';
 import {join,dirname} from 'node:path';
 import {randomUUID} from 'node:crypto';
 import {residentProver} from './residentProver.mjs';
+import{withBulkAdmission}from'../batching/admission/bulk.mjs';
 import{preSessionTransportFailure}from'./preSessionRetry.mjs';
 import {publicState} from './publicState.mjs';
 import {receiptReader} from './chainReceipts.mjs';
@@ -36,7 +37,8 @@ export async function createCompactAdmissionAdapter(o,{readState=publicState,rea
  const files=await loadBatchFiles(o);files.admissionPlan=validateAdmissionPlan(await json(o.admissionPlan));
  assert.ok(files.admissionPlan.members.every(m=>m.owner!==o.vaultId&&m.owner!==o.batchSponsorId),'plan members must differ from vault and batch sponsor');
  const [token,other]=await Promise.all(assets.map(a=>json(a.abi)));validateU124TokenAbi(token);if(o.kind==='nftmarket')validateNftAbi(other);else validateU124TokenAbi(other);
- assert.deepEqual(files.policy,makeAdmissionPolicy(o.kind,o.contractId,files.config,files.abi,token,o.kind==='nftmarket'?other:undefined),'admission policy differs from ABI/config');
+ const canonical=makeAdmissionPolicy(o.kind,o.contractId,files.config,files.abi,token,o.kind==='nftmarket'?other:undefined);
+ assert.deepEqual(files.policy,o.admissionMode==='all-four-v1'?withBulkAdmission(canonical):canonical,'admission policy differs from ABI/config/mode');
  for(const [a,id]of assets.map((a,i)=>[a,o.kind==='nftmarket'?(i===0?files.config.tokenId:files.config.nftId):(i===0?files.config.assetA:files.config.assetB)]))assert.equal(a.contractId,id);
  const dependencies=await json(o.dependencyBindings),required=[...new Set(files.policy.branches.flatMap(b=>b.calls.map(c=>c.contract_id)))].sort((a,b)=>a-b);
  assert.ok(Array.isArray(dependencies));assert.deepEqual(dependencies.map(b=>b.contract.contractId).sort((a,b)=>a-b),required,'complete dependency whitelist');
