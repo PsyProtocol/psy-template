@@ -1,0 +1,35 @@
+{
+  "schema": 1,
+  "sourceDirectory": "/private/tmp/psy-market-candidate-live-20261021-v3",
+  "machine": "gewenbo.local",
+  "host": "macOS-15.7.3-arm64-arm-64bit",
+  "scope": "public formal Executor run including failures; success requires exact included receipt",
+  "walletFilesIncluded": false,
+  "sealedBinariesIncluded": false,
+  "records": [
+    {
+      "source": "public/liquidity-tail-conservation-v1.json",
+      "file": "files/public/liquidity-tail-conservation-v1.json.gz",
+      "bytes": 1186,
+      "sha256": "bff4a5edc142d81bc50bbe84a97610b5871185ada21a0f646e1577cde8e0c724",
+      "gzipBytes": 683,
+      "gzipSha256": "d5d7dcb2c48c41cfa6d2a791cfaf5e9d75165c26031cae8caf47da03b358bbb2"
+    },
+    {
+      "source": "public/maximum-assets-pre-orders.json",
+      "file": "files/public/maximum-assets-pre-orders.json.gz",
+      "bytes": 24293,
+      "sha256": "50aff35b27bc867326c84834b4a79acb83857bb8973212044cca3198f0acde42",
+      "gzipBytes": 2526,
+      "gzipSha256": "517114226589a841b5ea3c5d9278a51af74494b208065610d3640491ca45a64e"
+    },
+    {
+      "source": "public/nft-inventory-audit-before-maximum-v1.json",
+      "file": "files/public/nft-inventory-audit-before-maximum-v1.json.gz",
+      "bytes": 24190,
+      "sha256": "a078a42d50b906a854bd894ab4cdb2f7d7d6f89ab72d8adb107dd22bdad35557",
+      "gzipBytes": 2413,
+      "gzipSha256": "80e728f12d13909442d7c46b8b27008adb48076d08ae47400e0b425ece122ec5"
+    }
+  ]
+}
