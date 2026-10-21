@@ -1,0 +1,108 @@
+{
+  "scope": "read-only independent deployment membership audit; original indexed deployment workflow unchanged",
+  "sourceDirectory": "/tmp/psy-market-candidate-live-20261021-v3",
+  "records": [
+    {
+      "source": "public/amm-checkpoint-receipt-v1/observation.json",
+      "file": "files/public/amm-checkpoint-receipt-v1/observation.json.gz",
+      "sha256": "806c27891944d94b33d44db8ae6ee2ffd920ff1dfd52a9a08f6f3ecee2b344e7",
+      "gzipSha256": "e24fa016e2a19033bf8f5b72711604108d76d2bef5b6f1a0d1e4e8dbea55fe3e"
+    },
+    {
+      "source": "public/amm-checkpoint-receipt-v1/provenance.json",
+      "file": "files/public/amm-checkpoint-receipt-v1/provenance.json.gz",
+      "sha256": "d29de335ab5f8c6a303b2ef3072f51623e874ea8ec9fbeca50d9b88b75aef7a6",
+      "gzipSha256": "efef58d76e3ed63b7bbd5ccc79d66688acb962a12f6221f1c88a3ea236818a43"
+    },
+    {
+      "source": "public/amm-checkpoint-receipt-v1/verified.json",
+      "file": "files/public/amm-checkpoint-receipt-v1/verified.json.gz",
+      "sha256": "b9f299ae61a5cc879b64ad551854e1e8b6db61ad67865b76f7833627c8b05a05",
+      "gzipSha256": "846484aa9957beae2347f99016eeac42583c2a2f363e22c3a501ae1f3da357fa"
+    },
+    {
+      "source": "public/amm-checkpoint-receipt-v1/verify.log",
+      "file": "files/public/amm-checkpoint-receipt-v1/verify.log.gz",
+      "sha256": "6b14670f648c5f66cf1c6b95015a51867daf3cf178f479fca1d8af80f488ae40",
+      "gzipSha256": "81dfe1a226f1a36040ce7eb94830ff8f83812fc4456c9da590d61c0e956c8a74"
+    },
+    {
+      "source": "public/amm-checkpoint-negative-v1/allocation-counter.json",
+      "file": "files/public/amm-checkpoint-negative-v1/allocation-counter.json.gz",
+      "sha256": "22685bb0f457c3c7115464aed16a954482fe3c0a2b35c9447a2bc275e0754bca",
+      "gzipSha256": "52cc2affb5fe2258a331398801456995059b1f0d66742bd4942695cc57bc4caf"
+    },
+    {
+      "source": "public/amm-checkpoint-negative-v1/allocation-counter.log",
+      "file": "files/public/amm-checkpoint-negative-v1/allocation-counter.log.gz",
+      "sha256": "6ad33354472b5481b982b2fee6aeecbe74d60e8d1de9b7d58816e0e749a3306f",
+      "gzipSha256": "8083558fb62db087027c2cee70b054e62f9e4f0390c6907a37375fe3e755bf2a"
+    },
+    {
+      "source": "public/amm-checkpoint-negative-v1/anchor-root.json",
+      "file": "files/public/amm-checkpoint-negative-v1/anchor-root.json.gz",
+      "sha256": "3ee2f3de118e677a1e92380f773a02ab1f01a2bc818f7e08f34e5f72e57681f3",
+      "gzipSha256": "e046b6d30b8e5dbc1def8e11b9edfc022f1ee0656e687efe886894e2d23cdbb8"
+    },
+    {
+      "source": "public/amm-checkpoint-negative-v1/anchor-root.log",
+      "file": "files/public/amm-checkpoint-negative-v1/anchor-root.log.gz",
+      "sha256": "ab48a8f52cf1738ff8bcd7ced972e43fc79049a6fce744f2e85a843a4cbdd07b",
+      "gzipSha256": "04b6434fc0707fa8c64cf63bf18da814562d8094f58bb5ae07964839d6f13810"
+    },
+    {
+      "source": "public/amm-checkpoint-negative-v1/checkpoint-value.json",
+      "file": "files/public/amm-checkpoint-negative-v1/checkpoint-value.json.gz",
+      "sha256": "6b64c9251d0e99bce584142934deed028bc9b44780cb74ce35dda08eaf240395",
+      "gzipSha256": "ee88d9b148d24a90af49e4113ab384a3f12ac14943596072ee2e837818ca17f9"
+    },
+    {
+      "source": "public/amm-checkpoint-negative-v1/checkpoint-value.log",
+      "file": "files/public/amm-checkpoint-negative-v1/checkpoint-value.log.gz",
+      "sha256": "9b852a8801caa391c08cf4cfa9978a672e576f8d4871b3d0c2c68ea3e435b9c1",
+      "gzipSha256": "54dfdd63f422d634e2131e37154013c46d98b2c4916a34de798d28e5ec358d88"
+    },
+    {
+      "source": "public/amm-checkpoint-negative-v1/contract-index.json",
+      "file": "files/public/amm-checkpoint-negative-v1/contract-index.json.gz",
+      "sha256": "ad136c489f83f992b0e399306ad80ff85d37d70d701fbe25a5d850b785d28847",
+      "gzipSha256": "063c1af8788ce381bbbbc69ca7dd7eef0c756bdc7b668dfaa750b8329232e9ad"
+    },
+    {
+      "source": "public/amm-checkpoint-negative-v1/contract-index.log",
+      "file": "files/public/amm-checkpoint-negative-v1/contract-index.log.gz",
+      "sha256": "9b852a8801caa391c08cf4cfa9978a672e576f8d4871b3d0c2c68ea3e435b9c1",
+      "gzipSha256": "54dfdd63f422d634e2131e37154013c46d98b2c4916a34de798d28e5ec358d88"
+    },
+    {
+      "source": "public/amm-checkpoint-negative-v1/layout-count.json",
+      "file": "files/public/amm-checkpoint-negative-v1/layout-count.json.gz",
+      "sha256": "13a47b0404d1d617dcc844593e3782da1f78d6f58993a63631d5d08e27eb0d59",
+      "gzipSha256": "57445db6cb5c656a73544005ca2c0502d9ecd0477b883f4abcff0c638bd44815"
+    },
+    {
+      "source": "public/amm-checkpoint-negative-v1/layout-count.log",
+      "file": "files/public/amm-checkpoint-negative-v1/layout-count.log.gz",
+      "sha256": "90bcdb813efe5866df091a999c8ee9bdeffd96aa873b22cf999648c5ecc84fab",
+      "gzipSha256": "5afd2aea89d33d838a708d285f5fbc5015bde7ede7acd5a1994dcb7a16793566"
+    },
+    {
+      "source": "public/amm-checkpoint-negative-v1/receipt-hash.json",
+      "file": "files/public/amm-checkpoint-negative-v1/receipt-hash.json.gz",
+      "sha256": "6dedb0c1cfdf7261496da04b31aa0c42fef8153c1c8a8b780b88559d520a15d0",
+      "gzipSha256": "1fee2fe8ae616addd3b9c12bba4a5166cec4e6e9d4e6088527d3e00cbc784535"
+    },
+    {
+      "source": "public/amm-checkpoint-negative-v1/receipt-hash.log",
+      "file": "files/public/amm-checkpoint-negative-v1/receipt-hash.log.gz",
+      "sha256": "3610cbcc180fd080f89307df8cb4d67ffb4053c89176860350eea0c687ab2436",
+      "gzipSha256": "b5d3ea7bd28d65c3f8bd4589900c6e5686e23e18e25dc6c86dc172a9940893fa"
+    },
+    {
+      "source": "public/amm-checkpoint-negative-v1/results.json",
+      "file": "files/public/amm-checkpoint-negative-v1/results.json.gz",
+      "sha256": "4b6587dad11673896f25688cb74b5d41f9253d4dbf591ed7e6d9c365de181141",
+      "gzipSha256": "1def7453ea2face47332eefc2251e35cdc80f2cee50e7a72f99a46f547a61f0f"
+    }
+  ]
+}

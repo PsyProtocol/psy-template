@@ -4,7 +4,7 @@ use super::{f, save, Guard};
 use anyhow::{ensure, Context, Result};
 use plonky2::{field::{goldilocks_field::GoldilocksField as F,types::PrimeField64},plonk::{circuit_data::VerifierCircuitData,proof::ProofWithPublicInputs}};
 use psy_client_common::{args::ContractCallData,data::qhashout::QHashOut};
-use psy_client_data::{config::store_config::{C,D,PsyHasher},traits::qdatastore::qmetadata::QMetaDataStoreReaderSync};
+use psy_client_data::{config::store_config::{C,D,PsyHasher},traits::qdatastore::{qmetadata::QMetaDataStoreReaderSync,qtreedata::QTreeDataStoreReaderSync}};
 use psy_core::{constants::chain_id::PsyChainNetworkType,job::job_id::ProvingJobCircuitType};
 use psy_crypto::hash::traits::qhashable::QFieldHashable;
 use psy_plonky2_circuits::{circuit_library::end_cap_verifier_data::get_end_cap_alt_verifier_data_for_network,generated::cached_common_data::get_cached_common_data_library};
@@ -20,6 +20,10 @@ pub fn sha(bytes: &[u8])->String {format!("{:x}",Sha256::digest(bytes))}
 pub struct Manifest {version:u8,policy_sha256:String,calls_sha256:String,guard_sha256:String,preflight_sha256:String,request_sha256:String}
 pub fn manifest(policy:&str,calls:&[u8],guard:&[u8],out:&Path)->Result<Manifest>{
  Ok(Manifest{version:1,policy_sha256:sha(&fs::read(policy)?),calls_sha256:sha(calls),guard_sha256:sha(guard),preflight_sha256:sha(&fs::read(out.join("preflight.json"))?),request_sha256:sha(&fs::read(out.join("request.json"))?)})
+}
+fn validate_anchor(actual:QHashOut<F>,old_key:QHashOut<F>,old_nonce:u64,start:QHashOut<F>,next_nonce:u64,key:QHashOut<F>,registered_fresh:bool)->Result<()>{
+ if start==QHashOut::ZERO{ensure!(actual==QHashOut::ZERO&&old_nonce==0&&next_nonce==1&&(old_key==QHashOut::ZERO||old_key==key)&&registered_fresh,"fresh prepared account requires absent tree and authenticated registration");}
+ else{ensure!(actual==start&&old_key==key&&old_nonce.checked_add(1)==Some(next_nonce),"prepared existing account anchor/nonce/key mismatch");}Ok(())
 }
 pub async fn broadcast(a:&[String],spec:&Value,fp:QHashOut<F>,key:QHashOut<F>,net:&psy_config::NetworkConfigGoldilocks,phase:&mut &'static str)->Result<()> {
  ensure!(a.len()==9,"broadcast-prepared POLICY CONFIG CALLS GUARD PREPARED EXPECTED_MANIFEST_SHA FRESH_OUT");
@@ -50,16 +54,32 @@ pub async fn broadcast(a:&[String],spec:&Value,fp:QHashOut<F>,key:QHashOut<F>,ne
  let provider=provider.with_user_id_owned(user);let cp=provider.get_latest_block_state().await?.checkpoint_id;
  ensure!(source_cp<=cp&&cp<=g.valid_until_checkpoint,"prepared broadcast window expired");
  let leaf=provider.get_user_leaf_data(cp,user).await?;
- ensure!(leaf.public_key==key&&leaf.nonce.to_canonical_u64()+1==nonce,"prepared nonce/registration changed");
- ensure!(leaf.qfhash::<PsyHasher>()==core.state_transition.start_user_leaf_hash||(core.state_transition.start_user_leaf_hash==QHashOut::ZERO&&leaf.nonce.to_canonical_u64()==0&&nonce==1),"prepared own anchor changed");
+ let actual=provider.get_user_tree_leaf_hash(cp,user).await?;
+ let fresh=core.state_transition.start_user_leaf_hash==QHashOut::ZERO;
+ let registration=if fresh{
+  let index=psy_crypto::common::user_id::get_registration_id_from_user_id(user);
+  let proof=provider.get_user_registration_tree_merkle_proof(cp,index).await?;
+  let roots=provider.get_checkpoint_global_state_roots(cp).await?;
+  let checkpoint=provider.get_checkpoint_leaf_data(cp).await?;
+  ensure!(proof.index==index&&proof.value==key&&proof.root==roots.user_registration_tree_root&&proof.verify::<PsyHasher>()&&roots.qfhash::<PsyHasher>()==checkpoint.global_chain_root,"fresh account registration Merkle/context binding");
+  Some(json!({"checkpoint":cp,"registrationIndex":index,"proof":proof,"roots":roots,"checkpointLeaf":checkpoint,"verified":true}))
+ }else{ensure!(leaf.qfhash::<PsyHasher>()==actual,"prepared current leaf metadata mismatch");None};
+ validate_anchor(actual,leaf.public_key,leaf.nonce.to_canonical_u64(),core.state_transition.start_user_leaf_hash,nonce,key,registration.is_some())?;
  ensure!(matches!(provider.get_tx_status(user,nonce).await?,TxStatus::Submittable),"prepared nonce not submittable");
  g.identity.check_current(&provider).await?;for b in &g.dependencies{b.check(&provider).await?;}
  let end=core.state_transition.end_user_leaf_hash;
- save(&out.join("verification.json"),&json!({"fullUpsVerified":true,"exactStackAndSessionVerified":true,"preparedManifestSha256":a[7],"requestSha256":m.request_sha256,"callsSha256":m.calls_sha256,"guardSha256":m.guard_sha256,"endUserLeafHash":end.to_string(),"userId":user,"nonce":nonce,"sourceCheckpoint":source_cp,"actualCalls":expected.len(),"fee":fee,"reproved":false,"broadcast":false}))?;
+ save(&out.join("verification.json"),&json!({"fullUpsVerified":true,"exactStackAndSessionVerified":true,"preparedManifestSha256":a[7],"requestSha256":m.request_sha256,"callsSha256":m.calls_sha256,"guardSha256":m.guard_sha256,"endUserLeafHash":end.to_string(),"userId":user,"nonce":nonce,"sourceCheckpoint":source_cp,"actualCalls":expected.len(),"freshRegistration":registration,"fee":fee,"reproved":false,"broadcast":false}))?;
  if a[1] == "verify-prepared" {println!("{}",json!({"preparedVerified":true,"submitted":false,"broadcast":false}));return Ok(());}
  // No signing, new nonce or new business operation. One transmission only.
  let mut original=fs::OpenOptions::new().write(true).create_new(true).open(out.join("request.json"))?;original.write_all(&rb)?;original.sync_all()?;fs::File::open(out)?.sync_all()?;save(&out.join("intent.json"),&json!({"status":"broadcast_intent","userId":user,"nonce":nonce,"endUserLeafHash":end.to_string(),"requestSha256":m.request_sha256,"retryAllowed":false}))?;
  *phase="broadcast-compact-ups";let receipt=psy_template_u124_markets::live_rpc::submit(net,request,out).await?;
  save(&out.join("receipt.json"),&json!({"submitted":true,"included":false,"receipt":receipt,"endUserLeafHash":end.to_string()}))?;
  println!("{}",json!({"status":"broadcast_intent","userId":user,"endUserLeafHash":end.to_string(),"requestSha256":m.request_sha256}));Ok(())
+}
+
+#[cfg(test)]mod tests{
+ use super::*;
+ fn h(n:u64)->QHashOut<F>{serde_json::from_str(&format!("\"{:016x}{:016x}{:016x}{:016x}\"",n,n,n,n)).unwrap()}
+ #[test]fn fresh_zero_leaf_requires_verified_registration_and_first_nonce(){let key=h(1);assert!(validate_anchor(QHashOut::ZERO,QHashOut::ZERO,0,QHashOut::ZERO,1,key,true).is_ok());for(actual,old,n,next,cert)in[(h(2),QHashOut::ZERO,0,1,true),(QHashOut::ZERO,h(3),0,1,true),(QHashOut::ZERO,QHashOut::ZERO,1,1,true),(QHashOut::ZERO,QHashOut::ZERO,0,2,true),(QHashOut::ZERO,QHashOut::ZERO,0,1,false)]{assert!(validate_anchor(actual,old,n,QHashOut::ZERO,next,key,cert).is_err());}}
+ #[test]fn existing_anchor_and_key_checks_are_not_relaxed(){let key=h(1);let root=h(2);assert!(validate_anchor(root,key,9,root,10,key,false).is_ok());assert!(validate_anchor(root,h(3),9,root,10,key,true).is_err());assert!(validate_anchor(h(3),key,9,root,10,key,true).is_err());assert!(validate_anchor(root,key,10,root,10,key,true).is_err());}
 }

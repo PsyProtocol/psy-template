@@ -6,7 +6,9 @@ import{hostname,platform,arch,cpus,loadavg}from'node:os';
 import{parseLosslessJson}from'../../amm/u124/client.mjs';
 export const pause=ms=>new Promise(r=>setTimeout(r,ms));
 export function cohort(base,original){
- const tools=read(join(base,'public/candidate-toolchain.json'));
+ const releasePath=join(base,'public/candidate-release.json'),release=existsSync(releasePath)?read(releasePath):null;
+ if(release){assert.equal(release.version,1);assert.match(release.toolchainFile,/^candidate-toolchain-v[1-9][0-9]*\.json$/);assert.equal(createHash('sha256').update(readFileSync(join(base,'public',release.toolchainFile))).digest('hex'),release.toolchainSha256,'frozen toolchain manifest changed');}
+ const tools=read(join(base,'public',release?release.toolchainFile:'candidate-toolchain.json'));
  for(const [path,digest]of [[tools.compactBinary,tools.compactBinarySha256],[tools.ordinaryBinary,tools.ordinaryBinarySha256],[tools.compiler,tools.compilerSha256]])assert.equal(createHash('sha256').update(readFileSync(path)).digest('hex'),digest,'reviewed test binary changed');
  const binary=tools.compactBinary,ordinaryBinary=tools.ordinaryBinary,config=join(base,'public/rpc.json'),env={PSY_MARKET_TESTNET_PROFILE:'staging-bundled-regtest-20261020-v1',RAYON_NUM_THREADS:'2'};
  const actorHome=existsSync(join(base,'public/qa-actors-source.json'))?read(join(base,'public/qa-actors-source.json')).directory:base;
@@ -36,7 +38,7 @@ export async function formal(h,m,tag,plan,{benchmark=false,expiry=96,mode='resid
   const taskPath=join(h.base,'public',label+'-formal-task.json');let task;if(existsSync(taskPath))task=read(taskPath);else{const scan=await adapter.scan();assert.ok(scan.action,'no formal action: '+JSON.stringify(scan,(_k,v)=>typeof v==='bigint'?v.toString():v));task=scan.action;assert.ok(expected(task),'unexpected stage action');save(taskPath,task);}
   const before=performance.now(),result=await journal.execute({task,...adapter});
   for(let i=0;i<120;i++){
-   await journal.reconcile(adapter.reconcile);const records=await journal.records(),included=records.find(r=>r.taskId===result.taskId&&r.status==='included');
+   await journal.reconcile(adapter.reconcile);const records=await journal.records();const rejected=records.find(r=>r.taskId===result.taskId&&r.status==='not-submitted');if(rejected)throw Error('explicit pre-broadcast rejection: '+rejected.reason+'; inspect saved proof, use a deliberate fresh recovery label');const included=records.find(r=>r.taskId===result.taskId&&r.status==='included');
    if(included){const report={checkedAt:new Date().toISOString(),taskId:result.taskId,task,result:included.result,wallMilliseconds:Math.round(performance.now()-before)};save(output,report);console.log(report.checkedAt,m.kind,label,'included',included.result.checkpoint);return report;}
    await pause(10000);
   }
