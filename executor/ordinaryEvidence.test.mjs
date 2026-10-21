@@ -1,6 +1,6 @@
 import test from'node:test';import assert from'node:assert/strict';
 import{mkdtempSync,mkdirSync,writeFileSync,readFileSync,rmSync}from'node:fs';import{tmpdir}from'node:os';import{join}from'node:path';import{createHash}from'node:crypto';
-import{ordinaryEvidenceDirectory}from'./acceptance/ordinaryEvidence.mjs';
+import{ordinaryEvidenceDirectory,PRESESSION_DIAGNOSTIC_DRIVER_SHA256}from'./acceptance/ordinaryEvidence.mjs';
 function fixture(fn){const base=mkdtempSync(join(tmpdir(),'psy-ordinary-evidence-'));try{
  const original='maximum-dave-consent',replacement=original+'-recovery-v2';
  for(const p of ['public/ordinary-recoveries','attempts/'+original,'attempts/'+replacement])mkdirSync(join(base,p),{recursive:true});
@@ -28,4 +28,12 @@ test('replacement cannot change business calls even if its input checksum is upd
 test('receipt substitution and path escape fail before a caller skips its task',()=>fixture(x=>{
  x.put('attempts/'+x.replacement+'/included.json',{});assert.throws(()=>ordinaryEvidenceDirectory(x.base,x.original,2),/evidence changed/);
  x.record.replacementLabel='../other';x.put(x.recordFile,x.record);assert.throws(()=>ordinaryEvidenceDirectory(x.base,x.original,2));
+}));
+test('explicit diagnostic-only pre-session replacement retains reviewed failure and exact included calls',()=>fixture(x=>{
+ const path='attempts/'+x.original+'/failure.json',failure={automaticRetry:false,broadcastMayHaveBeenAttempted:false,ok:false,phase:'start-ordinary-session',privateDataSuppressed:true,reasonCode:'RPC_CONNECTION',suppressedErrorSha256:'d'.repeat(64)};
+ const configure=(patch={},driver=PRESESSION_DIAGNOSTIC_DRIVER_SHA256)=>{x.put(path,{...failure,...patch});x.put(x.recordFile,{...x.record,version:2,originalFailureSha256:x.sha(path),originalDriverSha256:driver});};
+ configure();assert.equal(ordinaryEvidenceDirectory(x.base,x.original,2),join(x.base,'attempts',x.replacement));
+ for(const patch of [{broadcastMayHaveBeenAttempted:true},{phase:'broadcast-ordinary-ups'},{reasonCode:'UNKNOWN'},{automaticRetry:true}]){configure(patch);assert.throws(()=>ordinaryEvidenceDirectory(x.base,x.original,2));}
+ configure({},'e'.repeat(64));assert.throws(()=>ordinaryEvidenceDirectory(x.base,x.original,2),/unreviewed/);
+ configure();x.put('attempts/'+x.original+'/intent.json',{});assert.throws(()=>ordinaryEvidenceDirectory(x.base,x.original,2),/manual reconciliation/);
 }));
