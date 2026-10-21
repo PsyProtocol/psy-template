@@ -12,7 +12,8 @@ script made four legitimate partial ordinary claims, then its final audit
 rejected **two still-pending NFTs**. No closure/success marker was written.
 `runRecoveryRounds` now skips historical rounds without declaring completion;
 all explicit market exhaustion markers are required, and unknown executions
-still stop immediately. Original claim receipts and failed audit logs remain.
+still stop immediately. Original claim receipts and failed audit logs remain in
+`recovery-replay-failed-audit-v1/` (58 files, original/compressed hashes checked).
 A new final-claim label preserves those partial claims; explicit read-only
 already-claimed observations avoid an empty or duplicate financial transaction.
 
