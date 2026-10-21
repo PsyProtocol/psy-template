@@ -35,12 +35,13 @@ const planPath = join(base, 'public/nft-competition-plan-v1.json');
 if (!existsSync(planPath)) {const s = await publicState(h.config), off = m.abi.contract.state.find(x => x.name === 'order_checkpoint').offset;
  const buyers = await Promise.all(['trader', 'charlie'].map(async name => ({name, owner: h.actors[name].id, orderCheckpoint: String(await s.slot(h.actors[name].id, m.id, off))})));
  buyers.sort((a, b) => Number(BigInt(a.orderCheckpoint) - BigInt(b.orderCheckpoint)) || a.owner - b.owner);
- save(planPath, {version: 1, epoch: 3, cutoff: s.checkpoint + 128, members: names.map(name => ({owner: h.actors[name].id, nonce: name === 'bob' ? '3' : '2'})).sort((a, b) => a.owner - b.owner), buyers, expectedWinner: buyers[0].name});}
+ const current=await s.slot(m.vault,m.id,m.abi.contract.state.find(x=>x.name==='queue_epoch').offset);assert.ok(current>=0n&&current<4294967295n);
+ save(planPath, {version: 1, epoch: Number(current)+1, cutoff: s.checkpoint + 128, members: names.map(name => ({owner: h.actors[name].id, nonce: name === 'bob' ? '3' : '2'})).sort((a, b) => a.owner - b.owner), buyers, expectedWinner: buyers[0].name});}
 const p = read(planPath), plan = {version: 1, epoch: p.epoch, cutoff: p.cutoff, members: p.members};
 try {
  const f = await formal(h, m, 'nft-competition', plan, {expiry: 24}); services.push(f);
  await fund('nft-competition-start-fund'); await f.step('nft-competition-start', operation('start_epoch'));
- await independent(names.map(name=>()=>h.user(name, 'nft-competition-' + name + '-consent', [m.order('request_admission', [3n, BigInt(p.cutoff)])])));
+ await independent(names.map(name=>()=>h.user(name, 'nft-competition-' + name + '-consent', [m.order('request_admission', [BigInt(p.epoch), BigInt(p.cutoff)])])));
  await fund('nft-competition-admit-0-fund');
  const raceFile = join(base, 'public/nft-competition-independent-journals.json');
  if (!existsSync(raceFile)) {

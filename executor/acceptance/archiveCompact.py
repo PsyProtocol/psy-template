@@ -12,7 +12,7 @@ for name in (a.select or ['public','attempts','runtime','markets-v1']):
  selected=base/relative;assert selected.exists() and selected.resolve().is_relative_to(base),'selected original missing or outside run'
  for f in ([selected] if selected.is_file() else sorted(selected.rglob('*'))):
   assert not f.is_symlink(),'symlink evidence forbidden'
-  if not f.is_file() or f.suffix not in ['.json','.log','.body','.rs','.mjs','.py','.txt']:continue
+  if not f.is_file() or f.suffix not in ['.json','.log','.body','.rs','.mjs','.py','.txt','.toml','.lock']:continue
   assert '.secrets' not in f.parts
   if 'drivers' in f.relative_to(base).parts:continue
   paths.append(f)

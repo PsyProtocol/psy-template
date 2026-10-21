@@ -2,7 +2,8 @@
 import assert from 'node:assert/strict';
 import {readFileSync, readdirSync, existsSync} from 'node:fs';
 import {join, relative} from 'node:path';
-import {createHash} from 'node:crypto';
+import {residentStartupRecords} from './residentCost.mjs';
+import {ordinaryEvidenceDirectory} from './ordinaryEvidence.mjs';
 import {save, read} from '../../batching/admission/liveSupport.mjs';
 const [base, output] = process.argv.slice(2);
 assert.ok(existsSync(join(base, 'public/maximum-complete-v1.json')), 'economic acceptance must finish before publishing its cost report');
@@ -11,15 +12,19 @@ const pairs = readdirSync(join(base, 'attempts')).filter(n => n.startsWith('maxi
  return {...r, source: relative(base, p), coldProcessOverheadMs: r.coldProcessTiming.wallMilliseconds - Number(r.coldTimingsMs.preflightTotal), preflightRatioColdOverWarm: Number(r.coldTimingsMs.preflightTotal) / Number(r.warmTimingsMs.preflightTotal)};
 });
 assert.equal(pairs.length, 8, 'commit and settlement for each of four markets');
-const ordinary = readdirSync(join(base, 'attempts')).filter(n => /^maximum-.*-(orders|consent|claim)$/.test(n)).map(n => {
- const dir = join(base, 'attempts', n), included = read(join(dir, 'included.json')), timing = read(join(dir, 'timing.json')), server = included.receipt.data;
+const completion=read(join(base,'public/maximum-complete-v1.json'));
+const ordinaryObservation=n=>{
+ const dir = ordinaryEvidenceDirectory(base,n), included = read(join(dir, 'included.json')), timing = read(join(dir, 'timing.json')), server = included.receipt.data;
  return {task: n, source: relative(base, dir), userId: included.userId, contentHash: included.contentHash, checkpoint: included.checkpoint,
   clientProcessMs: timing.wallMilliseconds, clientFinishedAt: timing.finishedAt, commonIndexedObservedAt: included.checkedAt,
   acknowledgementToCommonIndexedObservationMs: Date.parse(included.checkedAt) - Date.parse(timing.finishedAt),
   serviceReceivedAt: server.received_at, serviceIncludedAt: server.included_at, serviceReportedLatencyMs: server.latency_ms,
   fee: String(server.result.fees_collected),
   scope: 'client process includes cold circuit/session, full ordinary UPS, HTTP acknowledgement; observation includes polling, services indexing and common-realm visibility; server timestamps use a separate clock'};
-});
+};
+const ordinary=['bob','trader','charlie','dave'].flatMap(name=>['orders','consent','claim'].map(kind=>completion.ordinaryLabels?.[name]?.[kind]??'maximum-'+name+'-'+kind)).map(ordinaryObservation);
+const selectedOrdinary=new Set(ordinary.map(r=>r.source));
+const otherOrdinaryUps=readdirSync(join(base,'attempts')).filter(n=>n.startsWith('maximum-')&&existsSync(join(base,'attempts',n,'included.json'))&&!selectedOrdinary.has('attempts/'+n)).map(ordinaryObservation);
 const formal = readdirSync(join(base, 'public')).filter(n => /^maximum-.*-formal-result\.json$/.test(n)).map(n => {
  const r = read(join(base, 'public', n));
  const submit = r.submitMetricsFile ? read(r.submitMetricsFile) : null;
@@ -31,16 +36,8 @@ const formal = readdirSync(join(base, 'public')).filter(n => /^maximum-.*-formal
   scope: 'task wall includes preflight, optional deliberately repeated cold comparison, saved-proof verification, broadcast, polling and indexed/common visibility; not optimized production latency'};
 });
 const residentColdResourceConstruction = ['amm', 'orderbook', 'bondingcurve', 'nftmarket'].map(kind => {
- const r = read(join(base, 'public', 'maximum-' + kind + '-start-formal-result.json'));
- const taskHash = createHash('sha256').update(r.task.submission + '\n' + r.task.validUntilCheckpoint).digest('hex');
- const reg = read(join(base, 'markets-v1', kind, 'live-registration.json'));
- const dir = join(base, 'runtime/compact/sepolia', String(reg.vaultId), taskHash), samples = [];
- for (const n of readdirSync(dir).filter(n => n.endsWith('.preflight.log'))) for (const line of readFileSync(join(dir, n), 'utf8').split('\n')) {
-  if (!line.startsWith('PSY_COMPACT_SERVER ')) continue;
-  const value = JSON.parse(line.slice(19)); if (value.ready) samples.push({source: relative(base, join(dir, n)), ...value});
- }
- assert.equal(samples.length, 1, 'one first-start resource record per maximum resident process');
- return {market: kind, ...samples[0], scope: 'initial key/circuit manager construction before the first proof request; excluded from warm job preflight totals; excludes factory identity checks and OS startup'};
+ const samples=residentStartupRecords(base,kind);assert.ok(samples.length>=1,'resident construction evidence missing');
+ return {market:kind,starts:samples,startCount:samples.length,keyConstructionMs:samples.reduce((sum,r)=>sum+r.keyConstructionMs,0),sessionConstructionMs:samples.reduce((sum,r)=>sum+r.sessionConstructionMs,0),scope:'all recorded resident starts, including explicit restarts whose first proof is a later maintenance job; summed per-process construction, not parallel elapsed wall; excluded from warm job preflight totals; excludes factory identity checks and OS startup'};
 });
 const sums = ['amm', 'orderbook', 'bondingcurve', 'nftmarket'].map(market => {
  const p = pairs.filter(x => x.market === market); assert.equal(p.length, 2);
@@ -58,9 +55,10 @@ assert.equal(starts.length, 4); assert.equal(ends.length, 4);
 const started = Math.min(...starts), finished = Math.max(...ends), fills = sums.reduce((sum, x) => sum + x.economicFills, 0);
 const testEnvelope = {startedAt: new Date(started).toISOString(), finishedAt: new Date(finished).toISOString(), wallMilliseconds: finished - started,
  economicFills: fills, observedTestFillsPerSecond: fills * 1000 / (finished - started),
- scope: 'actual isolated acceptance envelope: four ordinary order UPSs through final ordinary claim observations; includes admission, sponsorship, deliberately repeated cold proofs, indexing and common-checkpoint polling; not normal optimized service throughput or chain TPS'};
-save(output, {schema: 1, generatedAt: new Date().toISOString(), pairs, sums, ordinary, formal, residentColdResourceConstruction,
+ scope: 'actual isolated acceptance envelope: four ordinary order UPSs through final ordinary claim observations; includes admission, sponsorship, deliberately repeated cold proofs, preserved pre-send read failure and operator resume, indexing and common-checkpoint polling; not normal optimized service throughput or chain TPS'};
+save(output, {schema: 1, generatedAt: new Date().toISOString(), pairs, sums, ordinary, otherOrdinaryUps, formal, residentColdResourceConstruction,
  testEnvelope,
+ emptyIntakeTimeout:existsSync(join(base,'public/maximum-empty-intake-timeout-v1.json'))?read(join(base,'public/maximum-empty-intake-timeout-v1.json')):null,
  accountingSnapshots:['maximum-assets-pre-orders.json','maximum-assets-before.json','maximum-assets-after.json'].map(file=>{const value=read(join(base,'public',file));return{source:'public/'+file,checkpoint:value.checkpoint,observation:value.observation??null,scope:'explicit cohort asset accounting, separately measured from UPS proving and confirmation; final after-claim audit is outside the reported order-to-last-claim envelope'};}),
  readOnlyRpcProbe: existsSync(join(base, 'public/rpc-read-latency-probe-v1.json')) ? read(join(base, 'public/rpc-read-latency-probe-v1.json')) : null,
  methodology: {sameMachine: true, sameBinaryAndRayonThreads: true, sameCompleteCallStackFeeNonceStartAndEndState: true,
