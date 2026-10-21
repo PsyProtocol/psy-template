@@ -37,6 +37,8 @@ use sha2::{Digest, Sha256};
 use std::{env, fs, io::{Write,BufRead}, path::Path};
 #[path = "../compact_prepared.rs"]
 mod compact_prepared;
+#[path = "../compact_benchmark.rs"]
+mod compact_benchmark;
 #[derive(Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 struct Guard {
@@ -92,6 +94,7 @@ async fn run(phase: &mut &'static str) -> Result<()> {
     *phase = "build-compact-key";
     let a = env::args().collect::<Vec<_>>();
     ensure!(a.len()>=3,"identity POLICY | register POLICY CONFIG FRESH_OUT | preflight/submit POLICY CONFIG CALLS GUARD FRESH_OUT");
+    compact_benchmark::requested(&a[1])?;
     let spec: Value = serde_json::from_slice(&fs::read(&a[2])?)?;
     let circuit = batch_compact::build(&spec)?;
     let key_ms = started.elapsed().as_millis();
@@ -261,7 +264,10 @@ async fn process_action(a:&[String],spec:&Value,fp:QHashOut<F>,hash:QHashOut<F>,
     *phase = "start-compact-session";
     let key = session.add_user(private, fp).await?;
     ensure!(key == hash, "compact public identity");
-    session.start_session(key).await?;
+    let source_pin=compact_benchmark::requested(&a[1])?;
+    let pin_started=std::time::Instant::now();
+    if let Some(cp)=source_pin{compact_benchmark::start_at(&session,key,guard.identity.vault_id,cp).await?;}else{session.start_session(key).await?;}
+    let source_pin_ms=if source_pin.is_some(){pin_started.elapsed().as_millis()}else{0};
     *phase = "prove-compact-calls";
     let calls_started = std::time::Instant::now();
     session
@@ -437,7 +443,7 @@ async fn process_action(a:&[String],spec:&Value,fp:QHashOut<F>,hash:QHashOut<F>,
         "compact nonce not submittable"
     );
     check(&guard, &session).await?;
-    let preflight = json!({"fullUpsVerified":true,"timingsMilliseconds":{"keyConstruction":key_ms,"sessionConstruction":session_ms,"callProving":calls_ms,"signatureProving":signature_ms,"recursiveFinalize":finalize_ms,"endCapProving":endcap_ms,"fullProofVerify":verify_ms,"preflightTotal":started.elapsed().as_millis()},"exactStackAndSessionVerified":true,"proofProfile":proof_profile,"profile":"compact-v1","actualCalls":actual.len(),"logicalSlots":40,"fee":burn,"core":endcap.core,"callsSha256":format!("{:x}",Sha256::digest(&bytes)),"guardSha256":format!("{:x}",Sha256::digest(&guard_bytes)),"broadcast":false});
+    let preflight = json!({"fullUpsVerified":true,"benchmarkSourceCheckpoint":source_pin,"timingsMilliseconds":{"keyConstruction":key_ms,"sessionConstruction":session_ms,"benchmarkSourceSetup":source_pin_ms,"callProving":calls_ms,"signatureProving":signature_ms,"recursiveFinalize":finalize_ms,"endCapProving":endcap_ms,"fullProofVerify":verify_ms,"preflightTotal":started.elapsed().as_millis()},"exactStackAndSessionVerified":true,"proofProfile":proof_profile,"profile":"compact-v1","actualCalls":actual.len(),"logicalSlots":40,"fee":burn,"core":endcap.core,"callsSha256":format!("{:x}",Sha256::digest(&bytes)),"guardSha256":format!("{:x}",Sha256::digest(&guard_bytes)),"broadcast":false});
     let request = QSubmitEndCapRPCRequest {
         user_ec_input: endcap,
         proof: bincode::serialize(&proof)?,

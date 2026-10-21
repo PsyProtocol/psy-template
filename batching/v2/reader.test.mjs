@@ -46,6 +46,22 @@ test('NFT frozen payout queue waits for claims, then expires without dropping it
 });
 
 test('uninitialized selected FT accounts are surfaced before freezing a batch',async()=>{const f=await idleFixture('orderbook');f.order(200);f.order(201,1);f.options.users=[200,201];const result=await scanBatch(f.options,async()=>({...await f.state(),contractStateRoot:async(u,c)=>u===200&&c===43?'0'.repeat(64):'1'.repeat(64)}),f.files);assert.equal(result.action,null);assert.equal(result.reason,'asset-account-initialization-required');assert.deepEqual(result.missing,[{userId:200,contractId:43}]);});
+test('NFT activation requires an authenticated materialized payer tree before proposing a proof',async()=>{
+ const f=await idleFixture('nftmarket');f.field(100,'batch_ready',0);f.options.automaticInitialize=true;f.options.activationPayerId=300;
+ f.put(300,0,203,F);f.put(300,42,33554853,1);
+ const noReader=await scanBatch(f.options,f.state,f.files);assert.equal(noReader.action,null);assert.equal(noReader.reason,'activation-payer-nft-state-check-required');
+ const absent=await scanBatch(f.options,async()=>({...await f.state(),contractStateRoot:async()=> '0'.repeat(64)}),f.files);
+ assert.equal(absent.action,null);assert.equal(absent.reason,'activation-payer-nft-initialization-required');assert.equal(absent.initializationRequest.ordinaryOwnerSignatureRequired,true);
+ const emptyHolder=await scanBatch(f.options,async()=>({...await f.state(),contractStateRoot:async()=> '1'.repeat(64)}),f.files);assert.equal(emptyHolder.action,null);assert.equal(emptyHolder.reason,'activation-payer-nft-holder-required');
+ f.put(300,41,0,1);const ready=await scanBatch(f.options,async()=>({...await f.state(),contractStateRoot:async()=> '1'.repeat(64)}),f.files);assert.equal(ready.action.kind,'batch_maintenance');
+});
+test('an empty vault needs two fee budgets for separate fund-gas and sender recovery UPSs',async()=>{
+ const f=await idleFixture('nftmarket');f.options.users=[200];f.field(200,'kind',0);f.field(200,'recovery_pool',100);f.put(200,0,203,F);f.put(200,42,33554853,1);
+ f.field(300,'sponsor_purpose',2);f.field(300,'sponsor_amount',F);f.put(300,0,203,F);
+ const short=await scanBatch(f.options,f.state,f.files);assert.equal(short.action,null);assert.equal(short.reason,'recovery-gas-sponsorship-required');assert.equal(short.requiredTotal,(2n*F).toString());assert.equal(short.sponsorPending,F.toString());
+ f.field(300,'sponsor_amount',2n*F);f.put(300,0,203,2n*F);const fund=await scanBatch(f.options,f.state,f.files);assert.ok(parseLosslessJson(fund.action.submission).contract_calls.some(c=>c.method_name==='fund_gas'));
+ f.put(100,0,0,F);const recover=await scanBatch(f.options,f.state,f.files);assert.ok(parseLosslessJson(recover.action.submission).contract_calls.some(c=>c.method_name==='recover_funding'));
+});
 
 for(const market of ['amm','bondingcurve'])test(`${market}: scanner freezes four canonical users and leaves the fifth for a later batch`,async()=>{
  const f=await idleFixture(market);if(market==='bondingcurve')f.field(100,'phase',1);for(const u of[204,203,202,201,200])f.order(u,0,market==='bondingcurve'?{lots:1,limit_mode:1}:{});f.options.users=[204,203,202,201,200];

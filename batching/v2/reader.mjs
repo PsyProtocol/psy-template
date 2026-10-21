@@ -66,6 +66,11 @@ export async function scanBatch(options,readState=publicState,files){
   const payer=options.activationPayerId??config.issuer??options.batchSponsorId;assert.ok(Number.isSafeInteger(payer)&&payer>0,'activation payer');const f=await funding(payer);
   const wantedB=market==='nftmarket'?0n:1n;
   if(f.fee_delta!==FEE_ESCROW||f.paid_a!==1n||f.paid_b!==wantedB)return {checkpoint:s.checkpoint,phase,batch,action:null,reason:'activation-seeds-required',payer};
+  if(market==='nftmarket'){
+   if(!s.contractStateRoot)return {checkpoint:s.checkpoint,phase,batch,action:null,reason:'activation-payer-nft-state-check-required',payer};
+   if(await s.contractStateRoot(payer,config.nftId)==='0'.repeat(64))return {checkpoint:s.checkpoint,phase,batch,action:null,reason:'activation-payer-nft-initialization-required',payer,initializationRequest:{userId:payer,contractId:config.nftId,positiveNftBalanceRequired:true,chooseExistingHolder:true,ordinaryOwnerSignatureRequired:true}};
+   if(await s.slot(payer,config.nftId,0)===0n)return {checkpoint:s.checkpoint,phase,batch,action:null,reason:'activation-payer-nft-holder-required',payer,initializationRequest:{userId:payer,contractId:config.nftId,positiveNftBalanceRequired:true,chooseExistingHolder:true}};
+  }
   return {checkpoint:s.checkpoint,phase,batch,action:maintenance(market==='nftmarket'?'activate':'activate_batch_vault',{payer:BigInt(payer)},f.maintenanceCursor)};
  }
  if(market==='bondingcurve'&&await scalar(V,'phase')===0n){
@@ -105,8 +110,8 @@ export async function scanBatch(options,readState=publicState,files){
   }
   if(recovery){const blocked=await backpressure(parseLosslessJson(recovery.submission).software_defined_call.inputs);if(blocked)return {checkpoint:s.checkpoint,phase,batch,action:null,reason:blocked};if(await s.slot(V,0,0)>=FEE_ESCROW)return {checkpoint:s.checkpoint,phase,batch,action:recovery};
    const sponsor=options.batchSponsorId,f=await funding(sponsor),[sp,sa,sn,su,purpose]=await readTogether([scalar(sponsor,'sponsor_pool'),scalar(sponsor,'sponsor_amount'),scalar(sponsor,'sponsor_nonce'),scalar(V,'used_sponsorship',sponsor),scalar(sponsor,'sponsor_purpose')]);
-   if(sp===BigInt(V)&&purpose===2n&&sn>su&&f.fee_delta===sa&&sa>=FEE_ESCROW&&sa<=2n*FEE_ESCROW)return {checkpoint:s.checkpoint,phase,batch,action:maintenance('fund_gas',{payer:BigInt(sponsor),lots:sa},`${sn}:${f.maintenanceCursor}`)};
-   return {checkpoint:s.checkpoint,phase,batch,action:null,reason:'recovery-gas-sponsorship-required'};
+   if(sp===BigInt(V)&&purpose===2n&&sn>su&&f.fee_delta===sa&&sa===2n*FEE_ESCROW)return {checkpoint:s.checkpoint,phase,batch,action:maintenance('fund_gas',{payer:BigInt(sponsor),lots:sa},`${sn}:${f.maintenanceCursor}`)};
+   return {checkpoint:s.checkpoint,phase,batch,action:null,reason:'recovery-gas-sponsorship-required',sponsorPending:f.fee_delta.toString(),requiredTotal:(2n*FEE_ESCROW).toString()};
   }
   return {checkpoint:s.checkpoint,phase,batch,action:null};
  }
