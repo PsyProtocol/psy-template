@@ -1,0 +1,49 @@
+TAP version 13
+# Subtest: production CLI action binds exact semantic task and its fresh window
+ok 1 - production CLI action binds exact semantic task and its fresh window
+  ---
+  duration_ms: 1.17425
+  ...
+# Subtest: CLI cannot substitute calls or weaken the window
+ok 2 - CLI cannot substitute calls or weaken the window
+  ---
+  duration_ms: 0.623792
+  ...
+# Subtest: CLI incomplete or multiple planning fails closed
+ok 3 - CLI incomplete or multiple planning fails closed
+  ---
+  duration_ms: 0.128667
+  ...
+# Subtest: intent pin rejects idle, changed epochs and absent windows before proving
+ok 4 - intent pin rejects idle, changed epochs and absent windows before proving
+  ---
+  duration_ms: 1.020583
+  ...
+# Subtest: CLI rejects null intent and wrong mode before loading any RPC config
+ok 5 - CLI rejects null intent and wrong mode before loading any RPC config
+  ---
+  duration_ms: 238.179875
+  ...
+# Subtest: explicit resume selects only exact durable task and proof
+ok 2 - explicit resume selects only exact durable task and proof
+  ---
+  duration_ms: 1.2275
+  ...
+# Subtest: resume cannot create new task or advance its send window
+ok 3 - resume cannot create new task or advance its send window
+  ---
+  duration_ms: 0.695875
+  ...
+# Subtest: proof absence and unknown transmission block resume
+ok 4 - proof absence and unknown transmission block resume
+  ---
+  duration_ms: 0.329625
+  ...
+1..8
+# tests 8
+# pass 8
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 467.387667

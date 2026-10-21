@@ -1,0 +1,147 @@
+{
+  "schema": 1,
+  "sourceDirectory": "/private/tmp/psy-market-candidate-live-20261021-v3",
+  "machine": "gewenbo.local",
+  "host": "macOS-15.7.3-arm64-arm-64bit",
+  "scope": "public formal Executor run including failures; success requires exact included receipt",
+  "walletFilesIncluded": false,
+  "sealedBinariesIncluded": false,
+  "records": [
+    {
+      "source": "attempts/maximum-retry-v1-start-fund/included.json",
+      "file": "files/attempts/maximum-retry-v1-start-fund/included.json.gz",
+      "bytes": 3243,
+      "sha256": "64e759070ec38b3d790eb25ce35bb24cf21db28ae28450a9285102a413b5dc64",
+      "gzipBytes": 1283,
+      "gzipSha256": "b68729cb32d967bf2f08e37007e68adcd6dc60f03131942039b63af7ffe84d88"
+    },
+    {
+      "source": "attempts/maximum-retry-v1-start-fund/intent.json",
+      "file": "files/attempts/maximum-retry-v1-start-fund/intent.json.gz",
+      "bytes": 185,
+      "sha256": "c757f3effbc1e6ff772ca5e3f91b587870dcebcf0538b33f7c36d8cbd4050e34",
+      "gzipBytes": 168,
+      "gzipSha256": "180133e381875622a48e2f9cdbc6f85f39deba8bea8833c97b6b77e87e9a034c"
+    },
+    {
+      "source": "attempts/maximum-retry-v1-start-fund/preflight.json",
+      "file": "files/attempts/maximum-retry-v1-start-fund/preflight.json.gz",
+      "bytes": 1618,
+      "sha256": "880a8275a2097429f247f593a3a209d96b2fed25ab46c1e84b285f8e0bddee46",
+      "gzipBytes": 818,
+      "gzipSha256": "7773980e0c50e4970ad8fefb8c7bbba38274461e31ae9864d6515e388f4b2bc6"
+    },
+    {
+      "source": "attempts/maximum-retry-v1-start-fund/receipt.json",
+      "file": "files/attempts/maximum-retry-v1-start-fund/receipt.json.gz",
+      "bytes": 258,
+      "sha256": "227a0de7e7243cb59e4d99e3ddfb5374d0544c4a8ec85543f6f1c68211e54c44",
+      "gzipBytes": 183,
+      "gzipSha256": "4ba793be5be5ce6829591a61b7074b46cf84ecddd12e311a98e852a63ca27205"
+    },
+    {
+      "source": "attempts/maximum-retry-v1-start-fund/request.json",
+      "file": "files/attempts/maximum-retry-v1-start-fund/request.json.gz",
+      "bytes": 1180884,
+      "sha256": "ea059b2ad5305f21fc29ee0a38f7e8636e9b89fa051beaac658e7a7d502facd3",
+      "gzipBytes": 195295,
+      "gzipSha256": "a141e2d9613d13741d1b6aedb0b9b10400fb03addd49ad7d9f7d134b90490fec"
+    },
+    {
+      "source": "attempts/maximum-retry-v1-start-fund/rpc-request.json",
+      "file": "files/attempts/maximum-retry-v1-start-fund/rpc-request.json.gz",
+      "bytes": 512769,
+      "sha256": "bcd68719271941a966c66e58315779d3477126a2885beb3dd3c26bf5f9ab3191",
+      "gzipBytes": 171206,
+      "gzipSha256": "37c79c9b07f372427ababb4f422c7214d76dcb397e2c8b502e26429aebd093b0"
+    },
+    {
+      "source": "attempts/maximum-retry-v1-start-fund/rpc-response-meta.json",
+      "file": "files/attempts/maximum-retry-v1-start-fund/rpc-response-meta.json.gz",
+      "bytes": 120,
+      "sha256": "eae25f2bfcaa6f20707ae957d3a4c79897b62f68f10ffca3a7a40358eb2dccc6",
+      "gzipBytes": 118,
+      "gzipSha256": "c34bcfdf82407e005e84054a0b1d526e7d5f8c18d463464ad94d05c0109a189b"
+    },
+    {
+      "source": "attempts/maximum-retry-v1-start-fund/rpc-response.body",
+      "file": "files/attempts/maximum-retry-v1-start-fund/rpc-response.body.gz",
+      "bytes": 38,
+      "sha256": "0d838a349418eb2e4db232f5454ddf684afea2d53c155da1fca3952dd564bab5",
+      "gzipBytes": 57,
+      "gzipSha256": "dcd098dc4a0e86eaf34f9806fa594225f4131d05ad260f60b72acf16432af8bf"
+    },
+    {
+      "source": "attempts/maximum-retry-v1-start-fund/timing.json",
+      "file": "files/attempts/maximum-retry-v1-start-fund/timing.json.gz",
+      "bytes": 107,
+      "sha256": "86cb5806dd4cd2bc53cb76ee68244612358d7f6ac49b19ecf29dd6aa1ef3a0b8",
+      "gzipBytes": 105,
+      "gzipSha256": "53d3bd10e001c0569c710eba91f87ca2eeecb7cfe926d43504315862d11f1141"
+    },
+    {
+      "source": "intake-timeout-runner-v2.log",
+      "file": "files/intake-timeout-runner-v2.log.gz",
+      "bytes": 80,
+      "sha256": "db2e5198e23aa95467e1adbb844635b283c04e2fce2b7bd2acbc09672130f94c",
+      "gzipBytes": 89,
+      "gzipSha256": "77401576c3fad5a9e1f5aad7bb825d5cac4703abd0b51191b291a9be36e412e6"
+    },
+    {
+      "source": "maximum-retry-v1-start-fund.log",
+      "file": "files/maximum-retry-v1-start-fund.log.gz",
+      "bytes": 2664,
+      "sha256": "f0e80939fcf0915c27051ce0d2ebc231535bed6b8f10fb52561c6244da439720",
+      "gzipBytes": 556,
+      "gzipSha256": "7c85818e46b54a922ad74046b07f11ee787fd0ef4e9a7f0a3178669ce835eef2"
+    },
+    {
+      "source": "maximum-runner-v3.log",
+      "file": "files/maximum-runner-v3.log.gz",
+      "bytes": 1276,
+      "sha256": "9f359f5e12c3b501b34cdfbfe7b3ac10dfcc6a4f32afb3ada7b40467c3f0071f",
+      "gzipBytes": 289,
+      "gzipSha256": "9f209e18bb64a8a438d0448f28d265d71cf6dfa90966b43609643aea3d727eea"
+    },
+    {
+      "source": "public/maximum-retry-ready-v1.json",
+      "file": "files/public/maximum-retry-ready-v1.json.gz",
+      "bytes": 262,
+      "sha256": "cc15f497590991ce8d60b33fb936ada76e7e37ce924ba66aae263efea638d8a8",
+      "gzipBytes": 217,
+      "gzipSha256": "190828972b05b321b1cb0157d1e768dec6f21d22d97b256eea74c89b15eb3903"
+    },
+    {
+      "source": "public/maximum-retry-v1-plan.json",
+      "file": "files/public/maximum-retry-v1-plan.json.gz",
+      "bytes": 611,
+      "sha256": "5517c3deb8473f8ff42b1922bcdb0c9a460514650761cfc5fd9effaf5f8f209f",
+      "gzipBytes": 257,
+      "gzipSha256": "486fc24bfd6549cbb2ffae971b4f441b74a9afd48a0e18b8522d57ed595e6779"
+    },
+    {
+      "source": "public/maximum-retry-v1-scan-serialization-recovery.json",
+      "file": "files/public/maximum-retry-v1-scan-serialization-recovery.json.gz",
+      "bytes": 680,
+      "sha256": "4eaa1a95c43986ceb3e0338418bd8b6b8a4fd13a876c55ef3eeb2e96a204c945",
+      "gzipBytes": 433,
+      "gzipSha256": "564920d8904815c695f9a51be8d5f117bab771cae49b9af6394dc6b4aec2466e"
+    },
+    {
+      "source": "public/maximum-retry-v1-start-fund.json",
+      "file": "files/public/maximum-retry-v1-start-fund.json.gz",
+      "bytes": 2608,
+      "sha256": "129f4e07069b4ea548bdb6aa4fea8c7498d6776bd66e56a4f5e0751fc7d4242e",
+      "gzipBytes": 988,
+      "gzipSha256": "7bf967caefa0656654eb590dbca56685094b2477d36e480ed7a4850d0480fdab"
+    },
+    {
+      "source": "public/runtime-source-overlay-v8.json",
+      "file": "files/public/runtime-source-overlay-v8.json.gz",
+      "bytes": 31937,
+      "sha256": "a079d4030c2885c0d3cb7ae6d2059fa0a009b6c31bed10d75418d5919c8418df",
+      "gzipBytes": 13686,
+      "gzipSha256": "20f40a9b32610f3e121ffce113b9b433fba03f26684e38e6316e9a4f14b3b445"
+    }
+  ]
+}
