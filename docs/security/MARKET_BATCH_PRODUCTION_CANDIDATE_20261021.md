@@ -28,7 +28,8 @@ now terminal (359725/359736); exact native fees total **5.000029000 test PSY**,
 QA FT/NFT inventory is conserved, and deposits/order nonces are retained for a
 fresh, separately consented epoch. The renewed four-market starts are now confirmed: Book/NFT **359774**, Curve
 **359791**, AMM **359793**, at fixed renewed cutoff **359887**. Fresh ordinary
-user consent is in progress. The maximum four-member economic batches, controlled warm/cold full-proof pairs,
+user consent is confirmed: Charlie **359812**, Bob/Trader/Dave **359813**.
+First-round admission sponsorship/proving is in progress. The maximum four-member economic batches, controlled warm/cold full-proof pairs,
 omitted-order exits and replacement NFT expiry/competition stages have **not yet
 completed**. Their scripts and waiting workers are not acceptance evidence.
 
@@ -400,6 +401,21 @@ Source overlay **v11** binds pushed source `f03761e`, SHA256
 The continuing maximum worker loaded that revision. Later timing labels do not
 change request/circuit/session behavior. A fresh local Node tracked-diff hash
 still matches the untouched baseline; this is not remote runtime attestation.
+
+### Renewed ordinary consents — confirmed
+
+`renewed-four-consents-v1/` preserves four full ordinary UPSs, exact request and
+receipt identities, logs and the unchanged plan. Charlie confirms at **359812**;
+Bob/Trader/Dave at **359813**. Each authorizes the already opened matching epoch
+and cutoff **359887** across all four markets. They are authorizations, not
+accepted queue membership or completed trades. First-round gas funding is in
+progress. Original assets were not transferred again.
+
+Timing-label-only source overlay **v12** binds source `866fc8f`, SHA256
+`bef851e7c00ffbaec68801a35fdd3afd06d5e4da54df1a947891ef8d642460e5`.
+It changes two reporting sources only; the continuing maximum worker loaded
+v11 and retains that provenance. Its eventual cost report will explicitly
+separate saved-proof recovery observations from full proving and confirmation.
 
 ## Ordered gates
 
