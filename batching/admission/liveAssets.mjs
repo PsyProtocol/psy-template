@@ -1,5 +1,12 @@
 import assert from 'node:assert/strict';
 import {decodeAmount,call} from '../../amm/u124/client.mjs';
+// JSON snapshots parsed losslessly use BigInt even for small IDs/slots. Do
+// not compare those directly with a live snapshot's bounded Number metadata.
+export function canonicalHeldNfts(rows){
+ const exact=(v,max)=>{assert.ok(typeof v==='bigint'||Number.isSafeInteger(v),'unsafe NFT snapshot integer');const n=BigInt(v);assert.ok(n>=0n&&n<max,'NFT snapshot integer bounds');return n;};
+ const hash=values=>{assert.ok(Array.isArray(values)&&values.length===4,'NFT hash shape');return values.map(v=>exact(v,18446744069414584321n));};
+ return rows.map(n=>{const user=exact(n.user,16777216n);assert.ok(user>0n);return{user,slot:exact(n.slot,128n),tokenId:hash(n.tokenId),metadataHash:hash(n.metadataHash)};}).sort((a,b)=>a.user<b.user?-1:a.user>b.user?1:a.slot<b.slot?-1:a.slot>b.slot?1:0);
+}
 export async function cohortAssets(s,{users,assets,nftId}){
  const observationStartedAt=new Date().toISOString(),observationStart=performance.now();
  assert.equal(new Set(users).size,users.length);const totals=Object.fromEntries(assets.map(a=>[a,0n]));let nativeTotal=0n;const accounts={},pending=[],nfts=[];

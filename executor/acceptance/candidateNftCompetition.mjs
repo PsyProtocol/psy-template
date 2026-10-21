@@ -9,7 +9,7 @@ import {read, save} from '../../batching/admission/liveSupport.mjs';
 import {publicState} from '../publicState.mjs';
 import {call, encodeAmount, FEE_ESCROW as F, parseLosslessJson} from '../../amm/u124/client.mjs';
 import {sponsorCalls, nftBuyCalls} from '../../batching/v2/client.mjs';
-import {cohortAssets, payoutClaims} from '../../batching/admission/liveAssets.mjs';
+import {cohortAssets, payoutClaims, canonicalHeldNfts} from '../../batching/admission/liveAssets.mjs';
 const [base, original] = process.argv.slice(2), h = cohort(base, original), m = h.by.nftmarket, unit = 10n ** 18n;
 assert.ok(existsSync(join(base, 'public/omitted-complete-v1.json')));
 const spec = {users: [...Object.values(h.actors).map(x => x.id), ...h.markets.map(x => x.vault), ...h.markets.map(x => read(join(original, 'markets-v1', x.kind, 'live-registration.json')).vaultId), 1695936], assets: [2464, 2466], nftId: 2467};
@@ -97,8 +97,9 @@ try {
  const before = parseLosslessJson(readFileSync(beforePath, 'utf8')), after = await cohortAssets(await publicState(h.config), spec);
  for (const asset of spec.assets) assert.equal(after.totals[asset], 1000n * unit);
  assert.equal(after.nfts.length, 2); assert.equal(after.nfts.filter(x => x.user === winnerId).length, 1); assert.equal(after.nfts.filter(x => x.user === h.actors.dave.id).length, 1);
- assert.equal(before.nftTotal,2);assert.equal(after.nftTotal,2);assert.equal(after.nftPending.length,0);
- for (const [src, dst] of [[h.actors.bob.id, winnerId], [h.actors.dave.id, h.actors.dave.id]]) {const old = before.nfts.find(x => x.user === src), now = after.nfts.find(x => x.user === dst); assert.deepEqual(now.tokenId, old.tokenId); assert.deepEqual(now.metadataHash, old.metadataHash);}
+ assert.equal(before.nftTotal,2n);assert.equal(after.nftTotal,2);assert.equal(after.nftPending.length,0);
+ const initialNfts=canonicalHeldNfts(before.nfts),finalNfts=canonicalHeldNfts(after.nfts);
+ for (const [src, dst] of [[h.actors.bob.id, winnerId], [h.actors.dave.id, h.actors.dave.id]]) {const old = initialNfts.find(x => x.user === BigInt(src)), now = finalNfts.find(x => x.user === BigInt(dst)); assert.ok(old&&now);assert.deepEqual(now.tokenId, old.tokenId); assert.deepEqual(now.metadataHash, old.metadataHash);}
  let fees = 0n; const perUser = [];
  for (const name of names) {const id = h.actors[name].id; let userFees = 0n;
   for (const attempt of readdirSync(join(base, 'attempts')).filter(x => x.startsWith('nft-competition-' + name + '-'))) {const q = join(base, 'attempts', attempt, 'included.json'); if (existsSync(q)) userFees += BigInt(read(q).receipt.data.result.fees_collected);}
