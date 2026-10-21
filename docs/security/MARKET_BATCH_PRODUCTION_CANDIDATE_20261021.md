@@ -182,3 +182,51 @@ this tool”; separate original workflow receipts establish indexed inclusion.
 See `checkpoint-deployment-audit-v1/manifest.json`. No receipt fallback or safety
 check was removed. A services contract-info root display discrepancy is retained
 for that service's review; transaction execution pins coordinator metadata.
+
+## Four fresh registrations completed; economic acceptance in progress
+
+| Market | Fresh contract | Fresh vault | Realm |
+| --- | --- | --- | --- |
+| AMM | 2473 | 1847488 | 1 |
+| Orderbook | 2474 | 143552 | 0 |
+| Bonding Curve | 2475 | 1192128 | 1 |
+| NFT Market | 2476 | 667840 | 0 |
+
+All four original initial-layout, exact deployed metadata, registration mapping
+and indexed receipt gates passed. Public originals and identity/build hashes
+are retained in `deployments-registered-v1/` under this day's verification
+directory. NFT 2476 is a fresh admission-consent-lock candidate incorporating
+2472's corrected missing-seller refund semantics. NFT 2469 remains retired.
+There were no old-contract updates or update probes. The latest full Executor
+application run passed 102 tests; this is not 102 network transactions.
+
+QA setup uses original issuer/trader/sponsor wallets and two fresh ordinary QA
+users, Charlie 1323200 and Dave 798912. Assets are QA FT-A 2464, QA FT-B 2466,
+QA NFT 2467 and real faucet test PSY. Existing pUSDT and old MCP wallets are not
+used. New registration success does not certify real economic settlement.
+
+Explicit executable acceptance stages now include `candidateSetup.mjs`,
+`candidateTrading.mjs` (LP then four-member maximum), `candidateRecovery.mjs`
+(deliberately omitted consented sender; terminal epoch, sender-bound returns,
+ordinary claims), and `candidateNftCompetition.mjs` (one listing/two buyers,
+nonempty expiry/refreeze, cancelled second listing refund). Stages stop on an
+unknown financial outcome and preserve original inputs, intents and failures.
+Their implementation is not yet a claim that every stage passed on the network.
+
+The maximum route includes an independent OS-process contender sharing the same
+durable journal, which must reject before proving. The later NFT stage prepares
+two valid different admission UPSs using independent journals before allowing
+the winner to broadcast; after exact winning inclusion, the loser's stale
+anchor must be rejected before sending. This deliberately scheduled contention
+must not be called simultaneous two-RPC consensus acceptance. That stage also
+discards the parent's submit result after durable child send and reconciles the
+exact receipt, then rejects a duplicate task without a replacement proof.
+
+Cost reporting requires eight full paired proofs: commit and settlement for
+each market, same host/binary/threads/calls/fee/nonce/initial and final state.
+Warm resident is followed by cold standalone, and only the warm proof is sent.
+Each is one ordered sample, susceptible to cache/order bias; not a statistical
+speedup claim or a comparison with the original 40-call route. The reporter
+separates ordinary process time, acknowledgement-to-indexed/common observation,
+server timestamps and task wall (which includes deliberate extra cold proofs).
+Cargo cold build is outside those pairs. Offline proof rate is never chain TPS.

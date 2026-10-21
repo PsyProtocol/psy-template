@@ -1,0 +1,90 @@
+{
+  "scope": "Four fresh registered candidates only; economic acceptance pending",
+  "originalDirectory": "/tmp/psy-market-candidate-live-20261021-v3",
+  "oldContractsUpdated": false,
+  "retiredNft": 2469,
+  "priorCorrectedNft": 2472,
+  "existingPusdtUsed": false,
+  "markets": [
+    {
+      "kind": "amm",
+      "contractId": 2473,
+      "vaultId": 1847488,
+      "fingerprint": "3dc2a3d9cfdac5f0c6231afe03aa27d7db833c5d1676a9fbc7913b7ed21364bd",
+      "publicKeyHash": "42f4d197551fe2732fb2458846ea4b799f9ca184913972b5fd1cd5786d485bb5",
+      "deploymentCheckpoint": 358970,
+      "deploymentContentHash": "101db119f9614bab68cde5df158629532ccb926397c201a7ed0b99ddc8594a7e",
+      "leaf": {
+        "deployer": "dba9803e86aebd0664cb74a6c997918632fa87bb881b2865eed214e13ce459cd",
+        "function_tree_root": "a9ea2ff34e53fb393c6454097b62bee29b41479040c7b9050ac08f0b2207ce9f",
+        "code_root": "789d9fdeac6ee0d0bccf986286c50e9021332dfbb80ed3ec8c7254ec1442f128",
+        "state_tree_height": 31,
+        "state_layout_root": "66937ad1fd6080a7be84d86cc1ef804e3ef3ab7fd08c8905b5e542d3ab8308f8",
+        "state_layout_field_count": 71,
+        "state_layout_slot_count": 1325400335
+      },
+      "buildManifestSha256": "e4d931ddb814cb944261a781884ca4c64bd928d186a610a1a433f67850f84746",
+      "boundManifestSha256": "cf2074d74058c90f25c7ac0e9cf1fbe222724610c4c3ed8612dd996c5d458a98"
+    },
+    {
+      "kind": "orderbook",
+      "contractId": 2474,
+      "vaultId": 143552,
+      "fingerprint": "b10eba2dcb756afc423c5cc022cf73208548dcb77236aba510e7836ba04d3469",
+      "publicKeyHash": "416d45641a6f2dc3e435b4a50ad0ce9c2831fb54bcd8bde1887414f1b6d3b829",
+      "deploymentCheckpoint": 358997,
+      "deploymentContentHash": "aead95c337e19ad452bfe613e357adf7e6b515211ea51ca3ff03b3ab5ebfd72d",
+      "leaf": {
+        "deployer": "dba9803e86aebd0664cb74a6c997918632fa87bb881b2865eed214e13ce459cd",
+        "function_tree_root": "4e852c7dfc5b5ef0ce6fb94c2ff5efa104fd1f2b377109016a565768e96910cf",
+        "code_root": "13498449c5fa913b3828ff64972f2c9c522688b22f250b8a470bf20720e3a1ff",
+        "state_tree_height": 31,
+        "state_layout_root": "28750d4a076db86dc198b60e502354b199ccaf47f97c943505e554a122ec3844",
+        "state_layout_field_count": 67,
+        "state_layout_slot_count": 1291845897
+      },
+      "buildManifestSha256": "15187810b8bb88b12a5a8ce30d1deebf8304e334af73d0ebecf2c161728345d5",
+      "boundManifestSha256": "073d7966224d83de6b4b1d78ff22f038055bfacdc4d528d3ceffb0b859dfa5d5"
+    },
+    {
+      "kind": "bondingcurve",
+      "contractId": 2475,
+      "vaultId": 1192128,
+      "fingerprint": "b7250e3792bd09933adf068046b92d0aa8e1cf23ca88dbe01bf0587e96cae82c",
+      "publicKeyHash": "beac0d485c51c83f2c12d983657b0bcf0788d6425fa1fa8f84cc4e5f869fa996",
+      "deploymentCheckpoint": 359026,
+      "deploymentContentHash": "26b5afc295c062d99728f0289873cefea0b50a077fa66814a88e3121601e6520",
+      "leaf": {
+        "deployer": "dba9803e86aebd0664cb74a6c997918632fa87bb881b2865eed214e13ce459cd",
+        "function_tree_root": "05f9ba472621d15cdbe872887ae6666acac589a372cc3da7241b8a4ff54e8c89",
+        "code_root": "3c5229ed6e612a5cf936fde56ae1f7d3a8a46677af1472269844d0b130e96dd8",
+        "state_tree_height": 31,
+        "state_layout_root": "30dedc410162bc15452e588cfc226119cd702b647b7b3db4daecd07f8b1d9367",
+        "state_layout_field_count": 76,
+        "state_layout_slot_count": 1291845916
+      },
+      "buildManifestSha256": "278e1d5fb3967d98f295f2914f187910a1c54842281d26bd4fdb8d390de4b103",
+      "boundManifestSha256": "b9add4b2f5c16f9de8502d5b0ec90ccc894660e0c2ec905dbd0c2d801ba8f483"
+    },
+    {
+      "kind": "nftmarket",
+      "contractId": 2476,
+      "vaultId": 667840,
+      "fingerprint": "8fe4f28e1f6b28f7e7a2fb55568cc7dc4d344e215f306d17eb235ed6823ae15b",
+      "publicKeyHash": "7a6ec7344c6bc0a4e77e64a5a5a44e5164a4fed3215881f66f237ada1a0bf797",
+      "deploymentCheckpoint": 359063,
+      "deploymentContentHash": "0cb12080403b81c0154cc69b712d342947d46465da231f3fcd6bc3be0d0afc9e",
+      "leaf": {
+        "deployer": "dba9803e86aebd0664cb74a6c997918632fa87bb881b2865eed214e13ce459cd",
+        "function_tree_root": "55003489af2eded3c389b42481dc5def3f92590d06da1a6f3826257ab79d590b",
+        "code_root": "c19b84a1a8ee7f932b4beeb7b9786258f17a1e025605ad34a5071ecbe4252391",
+        "state_tree_height": 31,
+        "state_layout_root": "3a82c7ea7289df13fbf6769f22c7624fcd5f1ada3925f7ff0bb8c6ee8214a3d2",
+        "state_layout_field_count": 82,
+        "state_layout_slot_count": 1442840782
+      },
+      "buildManifestSha256": "d1b29880d0fd6affdab7a3f9a737d190427884934a19fd9fd7b5952288e3019d",
+      "boundManifestSha256": "cb8bfd5bd5d01309dd16428ef2d9e34462edb4c05603d124e1a3fc9f21dd524c"
+    }
+  ]
+}

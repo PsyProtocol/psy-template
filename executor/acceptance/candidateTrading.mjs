@@ -41,7 +41,7 @@ if(stage==='liquidity'){
 
  // Orders already funded; the baseline includes every pending incoming delta.
  const beforeFile=join(base,'public/maximum-assets-before.json');if(!existsSync(beforeFile))save(beforeFile,await cohortAssets(await publicState(h.config),cohortSpec));
- for(const m of h.markets){const plan={version:1,epoch:p.epochs[m.kind],cutoff:p.cutoff,members:p.members.map(owner=>({owner,nonce:m.kind==='amm'&&owner===h.actors.bob.id?'2':'1'}))};const f=await formal(h,m,'maximum',plan,{benchmark:true});services.push(f);}
+ for(const m of h.markets){const plan={version:1,epoch:p.epochs[m.kind],cutoff:p.cutoff,members:p.members.map(owner=>({owner,nonce:m.kind==='amm'&&owner===h.actors.bob.id?'2':'1'}))};const f=await formal(h,m,'maximum',plan,{benchmark:true,...(m.kind==='nftmarket'?{contendOnMaintenance:'admit_entry'}:{})});services.push(f);}
  const execute=async(label,expected)=>parallelPairs(services.map((f,i)=>()=>f.step('maximum-'+h.markets[i].kind+'-'+label,expected)));
  await fund(h.markets,'maximum-start-fund',2);await execute('start',taskNamed('start_epoch'));
  await parallelPairs(names.map(name=>()=>h.user(name,'maximum-'+name+'-consent',h.markets.map(m=>m.order('request_admission',[BigInt(p.epochs[m.kind]),BigInt(p.cutoff)])))));
@@ -57,7 +57,7 @@ if(stage==='liquidity'){
  // Baseline is after orders: only consent, sponsor, formal and claims are in
  // this conservation interval. Order UPS fees are reported separately.
  let fees=0n;for(const name of readdirSync(join(base,'attempts')).filter(n=>n.startsWith('maximum-')&&!n.endsWith('-orders'))){const f=join(base,'attempts',name,'included.json');if(existsSync(f))fees+=BigInt(read(f).receipt.data.result.fees_collected);}
- for(const f of services){const records=await f.journal.records();for(const r of records.filter(r=>r.status==='included')){const task=records.find(x=>x.taskId===r.taskId&&x.status==='planned')?.task;if(task){const cp=Number(r.result.checkpoint);if(cp>=Number(before.checkpoint))fees+=BigInt(r.result.receipt.data.result.fees_collected);}}}
+ for(const f of services){const records=await f.journal.records();for(const r of records.filter(r=>r.status==='included')){const task=records.find(x=>x.taskId===r.taskId&&x.status==='planned')?.task;if(task){const cp=Number(r.result.checkpoint);if(cp>Number(before.checkpoint))fees+=BigInt(r.result.receipt.data.result.fees_collected);}}}
  const initial=parseLosslessJson(readFileSync(preOrdersFile,'utf8')),expectedOut=new Map(),expectedPrice=new Map();let reserveIn=20n*unit,reserveOut=20n*unit;
  for(const [i,owner]of p.members.entries()){const amount=unit*9970n*reserveOut/(reserveIn*10000n+unit*9970n);expectedOut.set(owner,amount);expectedPrice.set(owner,unit+BigInt(i)*10n**16n);reserveIn+=unit;reserveOut-=amount;}
  const perUser=[];
