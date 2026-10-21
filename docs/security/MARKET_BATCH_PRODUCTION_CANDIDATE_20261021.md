@@ -325,3 +325,20 @@ controlled-source cost comparison; registered identities are unchanged. Bob's
 original unused NFT activation deposit is being returned separately, with a
 closed three-account native/FT interval and ordinary-wallet claim. No economic
 batch or production-readiness result follows from activation alone.
+
+## Real unused-funding return closed
+
+Bob's original wrong-payer NFT bootstrap funds were returned through the formal
+route and claimed by his ordinary wallet, completing at 03:08:15 UTC. Returned
+principal: **1.0001 test PSY** and **one smallest unit of QA FT-A 2464** (18
+decimals, not one whole token). An initially underfunded vault requested two
+fee budgets; explicit sponsorship funded gas, then the exact sender-bound
+return executed at checkpoint 359288. Total fees across enrollment, sponsorship,
+fund-gas, return and ordinary claim were **5.000020000 test PSY**, of which
+Bob's two recovery wallet UPSs paid **2.000006000**. The closed Bob/sponsor/new
+NFT-vault interval includes all pairwise pending transfers: FT total unchanged,
+native decrease exactly equal to those included fees. This covers failure
+recovery without redirecting principal or borrowing another sender's funds.
+Full public requests/receipts/proofs and before/after accounting are archived
+under `bootstrap-orphan-return-v1/`; original files remain untouched. Curve
+inventory, LP and maximum economic batches were still progressing afterward.
