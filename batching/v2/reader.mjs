@@ -108,10 +108,10 @@ export async function scanBatch(options,readState=publicState,files){
    if(mask){recovery=maintenance(`recover_funding_${mask}`,{payer:o.owner,x:f.paid_a,y:f.paid_b,lots:f.fee_delta},f.maintenanceCursor);break;}
    if(market==='nftmarket'){const [sent,claimed]=await readTogether([s.slot(Number(o.owner),config.nftId,1182+35*V+32),s.slot(V,config.nftId,1182+35*Number(o.owner)+33)]);if(sent>claimed){recovery=maintenance('recover_nft',{payer:o.owner,nonce:claimed},`${sent}:${claimed}`);break;}}
   }
-  if(recovery){const blocked=await backpressure(parseLosslessJson(recovery.submission).software_defined_call.inputs);if(blocked)return {checkpoint:s.checkpoint,phase,batch,action:null,reason:blocked};if(await s.slot(V,0,0)>=FEE_ESCROW)return {checkpoint:s.checkpoint,phase,batch,action:recovery};
+  if(recovery){const units=options.recoveryGasUnits??2;assert.ok(Number.isSafeInteger(units)&&units>=2&&units<=8,'bounded explicit recovery gas budget');const recoveryGas=BigInt(units)*FEE_ESCROW;const blocked=await backpressure(parseLosslessJson(recovery.submission).software_defined_call.inputs);if(blocked)return {checkpoint:s.checkpoint,phase,batch,action:null,reason:blocked};if(await s.slot(V,0,0)>=FEE_ESCROW)return {checkpoint:s.checkpoint,phase,batch,action:recovery};
    const sponsor=options.batchSponsorId,f=await funding(sponsor),[sp,sa,sn,su,purpose]=await readTogether([scalar(sponsor,'sponsor_pool'),scalar(sponsor,'sponsor_amount'),scalar(sponsor,'sponsor_nonce'),scalar(V,'used_sponsorship',sponsor),scalar(sponsor,'sponsor_purpose')]);
-   if(sp===BigInt(V)&&purpose===2n&&sn>su&&f.fee_delta===sa&&sa===2n*FEE_ESCROW)return {checkpoint:s.checkpoint,phase,batch,action:maintenance('fund_gas',{payer:BigInt(sponsor),lots:sa},`${sn}:${f.maintenanceCursor}`)};
-   return {checkpoint:s.checkpoint,phase,batch,action:null,reason:'recovery-gas-sponsorship-required',sponsorPending:f.fee_delta.toString(),requiredTotal:(2n*FEE_ESCROW).toString()};
+   if(sp===BigInt(V)&&purpose===2n&&sn>su&&f.fee_delta===sa&&sa===recoveryGas)return {checkpoint:s.checkpoint,phase,batch,action:maintenance('fund_gas',{payer:BigInt(sponsor),lots:sa},`${sn}:${f.maintenanceCursor}`)};
+   return {checkpoint:s.checkpoint,phase,batch,action:null,reason:'recovery-gas-sponsorship-required',sponsorPending:f.fee_delta.toString(),requiredTotal:recoveryGas.toString()};
   }
   return {checkpoint:s.checkpoint,phase,batch,action:null};
  }
