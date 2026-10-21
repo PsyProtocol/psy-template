@@ -1,0 +1,131 @@
+{
+  "schema": 1,
+  "sourceDirectory": "/private/tmp/psy-market-candidate-bulk-live-20261021-v2",
+  "machine": "gewenbo.local",
+  "host": "macOS-15.7.3-arm64-arm-64bit",
+  "scope": "public formal Executor run including failures; success requires exact included receipt",
+  "walletFilesIncluded": false,
+  "sealedBinariesIncluded": false,
+  "records": [
+    {
+      "source": "attempts/liquidity-bob-seed-exact-wire-v1/intent.json",
+      "file": "files/attempts/liquidity-bob-seed-exact-wire-v1/intent.json.gz",
+      "bytes": 2083,
+      "sha256": "7fd25c2305bb11d7d9e8a4c6e3e726db8b91599a9fd7e6b5286c68b12a323793",
+      "gzipBytes": 961,
+      "gzipSha256": "6865124dfed8a60b2324c68a4092671accb12e717949016f8a1f36d94ae77417"
+    },
+    {
+      "source": "attempts/liquidity-bob-seed-exact-wire-v1/response.json",
+      "file": "files/attempts/liquidity-bob-seed-exact-wire-v1/response.json.gz",
+      "bytes": 147,
+      "sha256": "cedaa8a6e6e98932f77598d8eda7b77ff771ae69cc9bc4ad46ab0c88edcc0ecb",
+      "gzipBytes": 136,
+      "gzipSha256": "009ae1a416887c5dbb78456920ea2bc4f039ddbb9359be8d9e0b7333dd078fcc"
+    },
+    {
+      "source": "attempts/liquidity-bob-seed-exact-wire-v1/verification.json",
+      "file": "files/attempts/liquidity-bob-seed-exact-wire-v1/verification.json.gz",
+      "bytes": 546,
+      "sha256": "a6538bda78199f51f37074630e68ed78670ec56dfe288fc2d31c0d63fd4f3238",
+      "gzipBytes": 374,
+      "gzipSha256": "cf1b9544ec82246882bc25a576766a36bbb4fbf2d48e5b81c033bb3b6136d826"
+    },
+    {
+      "source": "attempts/liquidity-bob-seed-exact-wire-v1/verification.log",
+      "file": "files/attempts/liquidity-bob-seed-exact-wire-v1/verification.log.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "attempts/liquidity-bob-seed-returns/failure.json",
+      "file": "files/attempts/liquidity-bob-seed-returns/failure.json.gz",
+      "bytes": 295,
+      "sha256": "8d86b69289853fdc63f490ea1fc12f56e03e743078524217fc7710055a84531a",
+      "gzipBytes": 231,
+      "gzipSha256": "9cb1440976f32811f03093daf0da1b7af997f42164b380bbe8cde7a1e9f1a388"
+    },
+    {
+      "source": "attempts/liquidity-bob-seed-returns/included.json",
+      "file": "files/attempts/liquidity-bob-seed-returns/included.json.gz",
+      "bytes": 3232,
+      "sha256": "75dac10287448dc22d36733cc9dcda876205248833c098e10d49a40699ef9045",
+      "gzipBytes": 1244,
+      "gzipSha256": "0948855021ce6cfb7a49f5ec01c5a0b477e86bddb76ce670846faaa42053978a"
+    },
+    {
+      "source": "attempts/liquidity-bob-seed-returns/intent.json",
+      "file": "files/attempts/liquidity-bob-seed-returns/intent.json.gz",
+      "bytes": 184,
+      "sha256": "5f8a99f68672b9718dd90359b8011b74a09e75e4324261f55d2734f585294542",
+      "gzipBytes": 168,
+      "gzipSha256": "ce5303278f1aafd71b57f43b9621b9417a8330e1205b2e09fe72fa013a5e9e8b"
+    },
+    {
+      "source": "attempts/liquidity-bob-seed-returns/preflight.json",
+      "file": "files/attempts/liquidity-bob-seed-returns/preflight.json.gz",
+      "bytes": 1615,
+      "sha256": "6d1f82b77deda49a3483a9ebfe958574cddab585a67ae7b126135ecba22adf70",
+      "gzipBytes": 815,
+      "gzipSha256": "308152a5bb2fe14b49077917e30facd6754cc60946f3aa53d39a1cd67c9d8cf9"
+    },
+    {
+      "source": "attempts/liquidity-bob-seed-returns/request.json",
+      "file": "files/attempts/liquidity-bob-seed-returns/request.json.gz",
+      "bytes": 1177697,
+      "sha256": "873cbd7370c48cee6eb408954cdce1a908e4d16bc27c07081bdf8799bdea8a43",
+      "gzipBytes": 195154,
+      "gzipSha256": "ceb813e7027337ab09daa800c5cbd10e4112c6f04a28ebbe3eb9fc8f8a7a4124"
+    },
+    {
+      "source": "attempts/liquidity-bob-seed-returns/rpc-request.json",
+      "file": "files/attempts/liquidity-bob-seed-returns/rpc-request.json.gz",
+      "bytes": 510178,
+      "sha256": "07d6c93aadec8884f79122af80bac017b1f8cca2048a0452b521d918c49d9367",
+      "gzipBytes": 169855,
+      "gzipSha256": "1ba9db24a4c3d1d0c2c7e66ffddcfd269b80dd37bde3579036562244e4ff8af0"
+    },
+    {
+      "source": "liquidity-bob-seed-exact-wire-v1.log",
+      "file": "files/liquidity-bob-seed-exact-wire-v1.log.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "liquidity-bob-seed-returns.log",
+      "file": "files/liquidity-bob-seed-returns.log.gz",
+      "bytes": 2557,
+      "sha256": "14acac01c83b1bf9d2bd708ed25a330f9dd90a0f6d725f851d15c73c96f58f09",
+      "gzipBytes": 637,
+      "gzipSha256": "de6a8583ab97bc2a55238cfa7729f1f49cc1c3e72f8828366d458cdafc1cdfc4"
+    },
+    {
+      "source": "liquidity-runner-v1.log",
+      "file": "files/liquidity-runner-v1.log.gz",
+      "bytes": 1044,
+      "sha256": "2857e36a55773218fc31f31da347289046cd8e8ec26ec61ff0503ad45d67151f",
+      "gzipBytes": 490,
+      "gzipSha256": "91f83e43890d77eac32000a8d4f5fa274e00768a7aaccd7a5b5d69f5a43b04ca"
+    },
+    {
+      "source": "public/liquidity-bob-seed-read-reconcile-v1.json",
+      "file": "files/public/liquidity-bob-seed-read-reconcile-v1.json.gz",
+      "bytes": 578,
+      "sha256": "326885323ad94c5fd482c97a2ea6dcd508e1c1582e19ccf80fb3e2abdde64fd4",
+      "gzipBytes": 315,
+      "gzipSha256": "1ceccc1d5b8d6ab50462f0f727a3b4fe27436649dab36718dfa81a4728adbad0"
+    },
+    {
+      "source": "public/liquidity-bob-seed-returns.json",
+      "file": "files/public/liquidity-bob-seed-returns.json.gz",
+      "bytes": 1655,
+      "sha256": "e7cba270cf65d7c7269921ebba831ec0cfc2ae0c9536d2938e56cb82dfeabf07",
+      "gzipBytes": 509,
+      "gzipSha256": "b8235a29999d065615eb3932a92e9e67ce4c25f989f66f042782da8574d7b567"
+    }
+  ]
+}

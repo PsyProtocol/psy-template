@@ -4,6 +4,31 @@ Branch: `markets-batch-capacity-recovery-20261020`; accepted starting commit
 `e45d689e6806d362c03f15697c90aba44f8704e7`. No Node edits, old-contract update
 probes, new branches or replacement of original artifacts are authorized here.
 
+## Ordinary-wallet ambiguous transmission recovered without a new transaction
+
+The pre-LP Bob seed-return claim failed during `broadcast-ordinary-ups`. It
+preserved a full verified UPS, wire and nonce-34 intent, but no HTTP response;
+the diagnostic correctly said transmission **may** have occurred. The runner
+stopped before any LP order. Read-only history reconciliation found no exact
+included receipt, and the current own leaf still equalled the saved start leaf.
+This observation alone did not authorize a new proof or transfer.
+
+The existing explicit `recoverExactWire.mjs` path independently verified the
+complete original UPS against pinned end-cap verifier/common data, all metadata
+endpoints/fees, unchanged dependencies, own identity/start leaf/next nonce and
+the original bounded send window. It transmitted the **identical original wire
+once**, without re-signing, changing amount or nonce. HTTP acknowledgement was
+then reconciled to exact inclusion **360994**. The original failure and intent
+remain, and the ordinary restart now observes that original identity as included.
+This is a real ambiguous-send/restart recovery, not evidence of arbitrary
+same-nonce RPC concurrency safety or an automatic retry policy.
+
+`ordinary-seed-lost-response-v1/` preserves **15** public files (370,929 gzip
+bytes), including original failed runner log, proof/request/wire, read-only
+observation, full offline verification, explicit one-send intent and exact
+included receipt. All original/compressed hashes verify. Trader's seed claim
+and the LP interval continue; economic maximum acceptance is still pending.
+
 ## Bulk family setup complete; LP acceptance started
 
 At **13:16:46 UTC** all four fresh markets finished setup. The existing issuer's
