@@ -459,3 +459,12 @@ decompressed file with its original bytes. The verifier is read-only and
 rejects changed compressed/raw bytes, missing/unlisted/duplicate files, unsafe
 paths and symlinks. It checks artifact integrity only; the separate pinned
 full-UPS verifier, receipt checks and external release gates remain necessary.
+
+### Optional single-cycle operator intent pin
+
+`node executor/run.mjs executor.json once --expected-task reviewed-task.json`
+performs the usual fresh scan, then compares every selected action field and
+exact submission bytes with the reviewed task **before** proving/transmission.
+Only a non-regressing local send window may differ. The file cannot supply an
+action, bypass state/session/fee checks, or turn an idle scan into execution.
+An interrupted/unknown attempt still requires journal reconciliation.
