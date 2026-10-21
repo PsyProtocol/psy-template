@@ -29,7 +29,7 @@ export async function cohortAssets(s,{users,assets,nftId}){
  assert.equal(new Set(nftInventory.map(n=>n.tokenId.map(String).join(':'))).size,nftInventory.length,'duplicate NFT ownership or pending delivery');
  return {checkpoint:s.checkpoint,observation:{startedAt:observationStartedAt,finishedAt:new Date().toISOString(),wallMilliseconds:Math.round(performance.now()-observationStart),scope:'fixed-checkpoint cohort RPC reads, limiter/retry waits and local accounting; excludes initial realm-head reads, not pure transport latency or proving'},accounts,pending,nfts,nftPending,nftTotal:nftInventory.length,nftScope:{users,ownedSlots:[0,1],outboxes:'all directed pairs within the explicit cohort; unclaimed FIFO entries only',globalInventoryProof:false},totals,nativeTotal};
 }
-export async function payoutClaims(s,{userId,markets,tokenAbi,nftAbi,nftSlot}){
+export async function payoutClaims(s,{userId,markets,tokenAbi,nftAbi,nftSlot,allowEmpty=false}){
  const calls=[];
  for(const m of markets){for(const asset of m.kind==='nftmarket'?[m.driverConfig.tokenId]:[m.driverConfig.assetA,m.driverConfig.assetB]){
   const sent=decodeAmount(await Promise.all([s.slot(m.vault,asset,33554453+4*userId),s.slot(m.vault,asset,33554454+4*userId)])),claimed=decodeAmount(await Promise.all([s.slot(userId,asset,33554455+4*m.vault),s.slot(userId,asset,33554456+4*m.vault)]));assert.ok(sent>=claimed);if(sent>claimed)calls.push(call(BigInt(asset),tokenAbi,'claim',[BigInt(m.vault)]));
@@ -37,5 +37,5 @@ export async function payoutClaims(s,{userId,markets,tokenAbi,nftAbi,nftSlot}){
  const sent=await s.slot(m.vault,0,3+2*userId),claimed=await s.slot(userId,0,4+2*m.vault);assert.ok(sent>=claimed);if(sent>claimed)calls.push({contract_id:0n,method_name:'simple_claim',inputs:[BigInt(m.vault)]});
  }
  if(nftSlot!==undefined){const m=markets.find(m=>m.kind==='nftmarket'),id=m.driverConfig.nftId,sent=await s.slot(m.vault,id,1182+35*userId+32),claimed=await s.slot(userId,id,1182+35*m.vault+33);assert.equal(sent-claimed,1n,'exactly one delivery');calls.push(call(BigInt(id),nftAbi,'claim',[BigInt(nftSlot),BigInt(m.vault)]));}
- assert.ok(calls.length>0&&calls.length<=16);return calls;
+ assert.ok((allowEmpty||calls.length>0)&&calls.length<=16);return calls;
 }

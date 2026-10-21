@@ -50,3 +50,8 @@ test('a missing or duplicate NFT delivery cannot be reported as a claim',async()
  const {s}=setup(),options={userId:1,markets:[{kind:'nftmarket',vault:2,driverConfig:{nftId:41,tokenId:42}}],tokenAbi:{contract:{methods:[]}},nftAbi:{contract:{methods:[]}},nftSlot:0};
  await assert.rejects(()=>payoutClaims(s,options),/exactly one delivery/);
 });
+test('explicit already-claimed inspection yields no transaction while default empty claims reject',async()=>{
+ const {s}=setup(),options={userId:1,markets:[{kind:'nftmarket',vault:2,driverConfig:{nftId:41,tokenId:42}}],tokenAbi:{contract:{methods:[]}},nftAbi:{contract:{methods:[]}}};
+ await assert.rejects(()=>payoutClaims(s,options));assert.deepEqual(await payoutClaims(s,{...options,allowEmpty:true}),[]);
+ await assert.rejects(()=>payoutClaims(s,{...options,allowEmpty:true,nftSlot:0}),/exactly one delivery/);
+});

@@ -62,7 +62,7 @@ export async function formal(h,m,tag,plan,{benchmark=false,expiry=96,mode='resid
   if(existsSync(cliEvidence)){const prior=read(cliEvidence);assert.deepEqual(prior.reviewedTask,task,'reviewed CLI task changed');task=prior.actualTask;assert.ok(expected(task));cliOnce=false;}
   const before=performance.now();let result;
   if(cliOnce){
-   assert.equal(benchmark,false,'paired cost calibration must use its measured adapter');
+   assert.ok(!benchmark||task.kind==='batch_maintenance','paired commit/settlement calibration must use its measured adapter');
    const prior=await journal.records(),log=join(h.base,label+'-production-cli-once.log');
    assert.ok(!existsSync(log),'preserve prior CLI attempt and reconcile before explicit restart');
    const cliStartedAt=new Date().toISOString(),cliStart=performance.now();let timing,cliProcessError=null;

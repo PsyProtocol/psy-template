@@ -5,6 +5,7 @@ import {randomUUID} from 'node:crypto';
 import {residentProver} from './residentProver.mjs';
 import{withBulkAdmission}from'../batching/admission/bulk.mjs';
 import{preSessionTransportFailure}from'./preSessionRetry.mjs';
+import{ReadUnavailable}from'./readRetry.mjs';
 import {publicState} from './publicState.mjs';
 import {receiptReader} from './chainReceipts.mjs';
 import {sealDriver} from './sealedDriver.mjs';
@@ -78,8 +79,9 @@ export async function createCompactAdmissionAdapter(o,{readState=publicState,rea
     try{const args=['preflight',o.policy,o.rpcConfig,q.calls,q.guard,out];result=resident?await resident.prove(args):await runDriver(driver.file,args,{env,timeout:900000,maxBuffer:2000000});}
     catch(error){
      await publish(out+'.preflight-failure.log',(error.stdout??'')+'\n'+(error.stderr??''));
-     if(attempt!==0||!await preSessionTransportFailure(out,retryUrls))throw error;
+     if(!await preSessionTransportFailure(out,retryUrls,o.publicKeyHash))throw error;
      if(!await isCurrent(task))throw Error('pre-session transport failure: original task no longer current; no retry');
+     if(attempt!==0){await resident?.close();resident=makeResident();throw new ReadUnavailable('verified pre-session RPC failure after bounded retries; no UPS or broadcast exists',{cause:error});}
      await publish(out+'.read-retry.json',{version:1,attempt:1,reason:'verified pre-call transport failure',failedDirectory:out,financialBroadcastRetry:false,newSession:true,originalWindowUnchanged:true,scope:'one bounded read-only preflight restart; no request/preflight/prepared/intent exists in failed directory'});
      await resident?.close();resident=makeResident();continue;
     }

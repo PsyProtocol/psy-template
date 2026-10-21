@@ -1,7 +1,7 @@
 import test,{after} from 'node:test';import assert from 'node:assert/strict';
 import {readFile,writeFile,mkdtemp,mkdir,rm}from'node:fs/promises';import{tmpdir}from'node:os';import{join}from'node:path';
 import{validateOptions}from'./config.mjs';import{createPublicWalletAdapter}from'./publicWalletAdapter.mjs';import{bindCompactRequest}from'./compactAdmissionAdapter.mjs';
-import{scanExecutorAdmission,validateAdmissionPlan}from'./admissionReader.mjs';import{sha256}from'./requestBinding.mjs';import{ExecutionJournal,UnresolvedBroadcast,VaultBusy}from'./journal.mjs';import{executeCycle}from'./worker.mjs';
+import{scanExecutorAdmission,validateAdmissionPlan}from'./admissionReader.mjs';import{sha256}from'./requestBinding.mjs';import{ExecutionJournal,UnresolvedBroadcast,VaultBusy}from'./journal.mjs';import{executeCycle,watchWorker}from'./worker.mjs';
 import{losslessJson,parseLosslessJson,FEE_ESCROW as F}from'../amm/u124/client.mjs';
 import{compactRequest}from'../batching/admission/reader.mjs';
 import{withBulkAdmission,bulkAdmissionRequest,BULK_ADMISSION}from'../batching/admission/bulk.mjs';
@@ -104,3 +104,10 @@ test('all-four opt-in proposes exactly seven calls for canonical consents in eve
 test('bulk waits for all four consents and cannot bypass existing policy registration mode',()=>fixture('amm',async x=>{x.o.admissionMode='all-four-v1';await assert.rejects(()=>x.create(),/policy differs/);const{policy}=await bulkFixture(x,{ready:3});let r=await scanExecutorAdmission(x.o,async()=>x.state,x.files);assert.equal(r.action,null);assert.equal(r.reason,'awaiting-all-four-authenticated-consents');assert.equal(r.eligibleHintCount,3);for(const[n,v]of Object.entries({admission_epoch:10,admission_cutoff:120,admission_nonce:4,nonce:4,pool:100,kind:1}))x.set(203,n,v);r=await scanExecutorAdmission(x.o,async()=>x.state,x.files);const a=await x.create();assert.equal(await a.isCurrent(r.action),true);x.set(100,'queue_count',1);x.set(100,'queue_owner',200,0);assert.equal(await a.isCurrent(r.action),false);assert.equal(x.sends,0);}));
 
 test('bulk helper rejects duplicate, zero, rounded and out-of-range members and preserves canonical witness padding',()=>fixture('amm',async x=>{const p=withBulkAdmission(x.files.policy),members=[0,1,2,3].map(i=>({owner:200+i,nonce:String(i+1)}));for(const patch of [{owner:200},{nonce:'0'},{nonce:'9007199254740993',owner:0},{nonce:Number.MAX_SAFE_INTEGER+1},{nonce:String(2n**62n)}]){const m=structuredClone(members);m[3]={...m[3],...patch};assert.throws(()=>bulkAdmissionRequest(p,{payer:300n,members:m}));}assert.throws(()=>bulkAdmissionRequest(x.files.policy,{payer:300n,members}));const q=bulkAdmissionRequest(p,{payer:300n,members});q.software_defined_call.inputs[31]=1n;assert.throws(()=>compactRequest(p,q.software_defined_call.inputs));}));
+
+test('watch backs off after bounded verified pre-session outage and later submits exactly once',()=>fixture('amm',async x=>{
+ let attempts=0;const stop=new AbortController(),events=[],delays=[];
+ const a=await x.create({runDriver:async(bin,args)=>{if(args[0]==='preflight'&&++attempts<=2){await mkdir(args[5]);await put(join(args[5],'failure.json'),{...preSessionFailure,reason:`User ${x.o.publicKeyHash} not registered. Please register first: `+preSessionFailure.reason});throw Error('transport');}return x.run(bin,args);}});
+ x.confirm();await watchWorker({options:{...x.o,intervalMs:10},createAdapter:async()=>a,createJournal:()=>x.journal(),signal:stop.signal,wait:async ms=>delays.push(ms),onStatus:event=>{events.push(event.status);assert.notEqual(event.status,'halted');if(event.status==='included')stop.abort();}});
+ assert.ok(events.includes('read-unavailable'));assert.equal(attempts,3);assert.equal(x.proofs,1);assert.equal(x.sends,1);assert.ok(delays.some(ms=>ms>10));
+}));

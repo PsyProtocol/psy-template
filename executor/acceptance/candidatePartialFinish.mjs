@@ -1,7 +1,7 @@
 // Close the real partial intake with cancelled refunds. Never certify maximum
 // capacity, normal economic throughput, or alter the original immutable plan.
 import assert from'node:assert/strict';import{existsSync,readFileSync,readdirSync}from'node:fs';import{join}from'node:path';
-import{cohort,formal}from'./candidateHarness.mjs';import{read,save}from'../../batching/admission/liveSupport.mjs';import{publicState}from'../publicState.mjs';
+import{cohort,formal}from'./candidateHarness.mjs';import{runRecoveryRounds}from'./recoveryRounds.mjs';import{read,save}from'../../batching/admission/liveSupport.mjs';import{publicState}from'../publicState.mjs';
 import{parseLosslessJson,FEE_ESCROW as F}from'../../amm/u124/client.mjs';import{sponsorCalls}from'../../batching/v2/client.mjs';import{cohortAssets,payoutClaims,canonicalHeldNfts}from'../../batching/admission/liveAssets.mjs';
 const[base,original]=process.argv.slice(2),h=cohort(base,original),p=read(join(base,'public/maximum-retry-v1-plan.json')),names=['bob','trader','charlie','dave'],services=[];
 assert.ok(existsSync(join(base,'public/maximum-partial-cancellations-complete-v1.json')));assert.ok(!existsSync(join(base,'public/maximum-complete-v1.json')));
@@ -35,11 +35,10 @@ try{
  await independent(names.map(name=>()=>h.user(name,'maximum-partial-'+name+'-release-enroll',h.markets.flatMap(m=>[m.order('release_unaccepted',[]),m.order('request_recovery',[BigInt(m.vault)])]))));
  // Preserve the actual 2F contract grant cap. Batch each round's Sponsor
  // UPS and run different vaults in parallel; never raise a grant to 8F.
- let recovered=false;
- for(let round=0;round<24;round++){
+ await runRecoveryRounds({maxRounds:24,scanRound:async round=>{
   const work=[],needsGas=[];
   for(let i=0;i<services.length;i++){
-   const f=services[i],m=h.markets[i],label='maximum-partial-'+m.kind+'-recovery-'+round;
+   const f=services[i],m=h.markets[i],label='maximum-partial-'+m.kind+'-recovery-'+round+(m.kind==='nftmarket'&&round===3?'-retry-v2':'');
    if(existsSync(join(base,'public',label+'-formal-result.json')))continue;
    const donePrefix='maximum-partial-'+m.kind+'-recovery-done-';if(readdirSync(join(base,'public')).some(n=>n.startsWith(donePrefix)))continue;
    const scan=await f.adapter.scan();
@@ -54,14 +53,14 @@ try{
    }
    const calls=parseLosslessJson(scan.action.submission).contract_calls,op=calls.find(c=>['fund_gas','recover_funding','recover_nft'].includes(c.method_name));assert.ok(op,'unexpected recovery operation');if(op.method_name!=='fund_gas')assert.ok(names.some(name=>BigInt(h.actors[name].id)===op.inputs[0]),'recovery outside QA cohort');work.push({f,m,label,op:op.method_name});
   }
-  if(!work.length){recovered=true;break;}
+  return {work,needsGas};
+ },executeRound:async({work,needsGas},round)=>{
   if(needsGas.length)await fundExact(needsGas,'maximum-partial-recovery-gas-round-'+round,2,2n*F);
   await independent(work.map(({f,label,op})=>()=>f.step(label,t=>t.kind==='batch_maintenance'&&method(op)(t))));
- }
- assert.ok(recovered,'recovery round bound exhausted');
+ },isComplete:()=>h.markets.every(m=>readdirSync(join(base,'public')).some(n=>n.startsWith('maximum-partial-'+m.kind+'-recovery-done-')))});
 
  const before=parseLosslessJson(readFileSync(join(base,'public/maximum-assets-pre-orders.json'),'utf8'));
- await independent(names.map(name=>async()=>{const s=await publicState(h.config),id=h.actors[name].id,n=h.by.nftmarket,asset=n.driverConfig.nftId,sent=await s.slot(n.vault,asset,1182+35*id+32),claimed=await s.slot(id,asset,1182+35*n.vault+33);assert.ok(sent>=claimed&&sent-claimed<=1n);const held=before.nfts.find(row=>row.user===BigInt(id));await h.user(name,'maximum-partial-'+name+'-claim',await payoutClaims(s,{userId:id,markets:h.markets,tokenAbi:h.token,nftAbi:h.nft,nftSlot:sent>claimed?Number(held.slot):undefined}));}));
+ await independent(names.map(name=>async()=>{const s=await publicState(h.config),id=h.actors[name].id,n=h.by.nftmarket,asset=n.driverConfig.nftId,sent=await s.slot(n.vault,asset,1182+35*id+32),claimed=await s.slot(id,asset,1182+35*n.vault+33);assert.ok(sent>=claimed&&sent-claimed<=1n);const held=before.nfts.find(row=>row.user===BigInt(id));const label='maximum-partial-'+name+'-final-claim-v2',calls=await payoutClaims(s,{userId:id,markets:h.markets,tokenAbi:h.token,nftAbi:h.nft,nftSlot:sent>claimed?Number(held.slot):undefined,allowEmpty:true});if(calls.length)await h.user(name,label,calls);else if(!existsSync(join(base,'public',label+'-already-claimed.json')))save(join(base,'public',label+'-already-claimed.json'),{checkedAt:new Date().toISOString(),checkpoint:s.checkpoint,userId:id,scope:'all selected market outbox claim cursors already caught up; no additional financial transaction'});}));
  const spec={users:[...Object.values(h.actors).map(a=>a.id),...h.markets.map(m=>m.vault),...h.markets.map(m=>read(join(original,'markets-v1',m.kind,'live-registration.json')).vaultId),1695936],assets:[2464,2466],nftId:2467},after=await cohortAssets(await publicState(h.config),spec),seen=new Set(),walletFees=new Map();let fees=0n;
  for(const label of readdirSync(join(base,'attempts')).filter(n=>n.startsWith('maximum-'))){const file=join(base,'attempts',label,'included.json');if(!existsSync(file))continue;const r=read(file);assert.ok(!seen.has(r.contentHash));seen.add(r.contentHash);const fee=BigInt(r.receipt.data.result.fees_collected);fees+=fee;const id=r.receipt.data.owner_user_id;walletFees.set(id,(walletFees.get(id)??0n)+fee);}
  for(const f of services)for(const r of (await f.journal.records()).filter(r=>r.status==='included'&&Number(r.result.checkpoint)>Number(before.checkpoint))){assert.ok(!seen.has(r.result.contentHash));seen.add(r.result.contentHash);fees+=BigInt(r.result.receipt.data.result.fees_collected);}
