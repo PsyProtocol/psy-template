@@ -46,7 +46,7 @@ export async function createCompactAdmissionAdapter(o,{readState=publicState,rea
   for(const b of dependencies){const l=await s.contractLeaf(b.contract.contractId);assert.deepEqual({contract:{contractId:b.contract.contractId,codeRoot:l.code_root,layoutRoot:l.state_layout_root,stateTreeHeight:l.state_tree_height},functionTreeRoot:l.function_tree_root,layoutFieldCount:l.state_layout_field_count,layoutSlotCount:l.state_layout_slot_count},b,'live compact dependency changed');}
   assert.deepEqual(await s.userIds(o.publicKeyHash),[o.vaultId],'compact registered identity');await inputsCurrent();return s;};
  await bindingCurrent();const pinCurrent=await captureInputs([pin]),driver=await sealDriver(o);
- const env={...process.env,PSY_MARKET_TESTNET_PROFILE:o.testnetProfile,RAYON_NUM_THREADS:String(o.proverThreads??2)};for(const k of Object.keys(env))if(k.endsWith('_WITNESS_WALLET')||k.endsWith('_LOCAL_DEFS'))delete env[k];
+ const env={...process.env,PSY_MARKET_TESTNET_PROFILE:o.testnetProfile,RAYON_NUM_THREADS:String(o.proverThreads??2)};for(const k of Object.keys(env))if(k.endsWith('_WITNESS_WALLET')||k.endsWith('_LOCAL_DEFS')||k==='PSY_MARKET_BENCH_SOURCE_CHECKPOINT')delete env[k];
  const resident=o.proverMode==='resident'?residentProver(driver.file,o.policy,o.rpcConfig,{env}):null;
  const id=driverRecords((await runDriver(driver.file,['identity',o.policy],{env,timeout:120000,maxBuffer:2000000})).stdout).find(r=>r.profile==='compact-v1');assert.equal(id?.fingerprint,o.fingerprint);assert.equal(id?.publicKeyHash,o.publicKeyHash);
  const reader=await readReceipts(o.rpcConfig,{maxPages:o.receiptMaxPages??20});

@@ -36,6 +36,7 @@ pub async fn broadcast(a:&[String],spec:&Value,fp:QHashOut<F>,key:QHashOut<F>,ne
  let g:Guard=serde_json::from_slice(&gb)?;g.identity.validate(spec,"sepolia",&fp.to_string(),&key.to_string())?;
  let required=g.identity.contracts.iter().map(|x|x.contract_id).collect::<std::collections::BTreeSet<_>>();let bound=g.dependencies.iter().map(|x|x.contract.contract_id).collect::<std::collections::BTreeSet<_>>();ensure!(required==bound&&bound.len()==g.dependencies.len(),"complete prepared dependency bindings");
  let p:Value=serde_json::from_slice(&pb)?;let data:ContractCallData=serde_json::from_slice(&calls)?;
+ ensure!(p["benchmarkSourceCheckpoint"].is_null(),"historical source calibration proofs must never be broadcast");
  ensure!(p["fullUpsVerified"]==true&&p["exactStackAndSessionVerified"]==true&&p["broadcast"]==false&&p["callsSha256"]==m.calls_sha256&&p["guardSha256"]==m.guard_sha256,"prepared full stack/session report binding");
  let request:QSubmitEndCapRPCRequest<F>=serde_json::from_slice(&rb)?;
  let proof:ProofWithPublicInputs<F,C,D>=bincode::deserialize(&request.proof)?;

@@ -1,0 +1,14 @@
+{
+  "case": "declared source-calibration marker added to a copied real verified request; manifest recomputed to isolate the read-only gate",
+  "fullColdCalibrationPositivePending": true,
+  "driverSha256": "2fa4ab8668cde583792b84760594d631e0aa50abfb9921fee3e9f3487598935b",
+  "failure": {
+    "automaticRetry": false,
+    "broadcastMayHaveBeenAttempted": false,
+    "ok": false,
+    "phase": "verify-prepared-files",
+    "reason": "historical source calibration proofs must never be broadcast"
+  },
+  "financialBroadcastAttempted": false,
+  "originalProofUnchanged": true
+}

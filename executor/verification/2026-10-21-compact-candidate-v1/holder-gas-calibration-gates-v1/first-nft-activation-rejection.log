@@ -1,0 +1,39 @@
+2026-10-21T02:10:46.740Z amm candidate-amm-activate included 359154
+2026-10-21T02:16:58.128Z orderbook candidate-orderbook-activate included 359171
+2026-10-21T02:23:04.028Z bondingcurve candidate-bondingcurve-activate included 359182
+file:///Users/geir/Downloads/QED%E8%B5%84%E6%96%99/litepaper/psy-template-security-20261016/executor/residentProver.mjs:24
+    if(r.ok)p.resolve({stdout:p.stdout,stderr:p.stderr,residentStartup:ready});else{const e=Error(`resident proof rejected at ${r.phase}: ${r.error}`);e.stdout=p.stdout;e.stderr=p.stderr;p.reject(e);}
+                                                                                            ^
+
+Error: resident proof rejected at prove-compact-calls: prove contract call failed at call_index=3 total_contract_calls=5 contract_id=2476 method=activate input_count=1: assertion failed: activation sponsor NFT state required (left: 0, right: 1)
+    at Socket.<anonymous> (file:///Users/geir/Downloads/QED%E8%B5%84%E6%96%99/litepaper/psy-template-security-20261016/executor/residentProver.mjs:24:93)
+    at Socket.emit (node:events:513:28)
+    at addChunk (node:internal/streams/readable:324:12)
+    at readableAddChunk (node:internal/streams/readable:297:9)
+    at Readable.push (node:internal/streams/readable:234:10)
+    at Pipe.onStreamRead (node:internal/stream_base_commons:190:23) {
+  stdout: '\x1B[96mnew zk sign circuit\x1B[0m - \x1B[94mbuild inner circuit\x1B[0m: \x1B[38;5;230m\x1B[48;5;34m 0ms \x1B[0m\n' +
+    '\x1B[96mnew zk sign circuit\x1B[0m - \x1B[94mbuild inner circuit done\x1B[0m: \x1B[38;5;230m\x1B[48;5;34m 3ms \x1B[0m\n' +
+    '\x1B[96mnew zk sign circuit\x1B[0m - \x1B[94mbuild minifier circuit\x1B[0m: \x1B[38;5;230m\x1B[48;5;34m 0ms \x1B[0m\n' +
+    '\x1B[96mnew zk sign circuit\x1B[0m - \x1B[94mbuild minifier circuit done\x1B[0m: \x1B[48;5;24m 881ms \x1B[0m\n' +
+    'PSY_COMPACT_SERVER {"keyConstructionMs":1191,"ready":true,"sessionConstructionMs":49266}\n' +
+    'adding user {\n' +
+    '  "fingerprint": "8fe4f28e1f6b28f7e7a2fb55568cc7dc4d344e215f306d17eb235ed6823ae15b",\n' +
+    '  "public_key_param": "a92d5f86c90af2dd925d97251b4c356266e35dd07b7de574ca89fd8057462b49"\n' +
+    '}\n' +
+    'public_key: 7a6ec7344c6bc0a4e77e64a5a5a44e5164a4fed3215881f66f237ada1a0bf797\n' +
+    '\x1B[96mprove_ups_start\x1B[0m - \x1B[94mstart\x1B[0m: \x1B[38;5;230m\x1B[48;5;34m 0ms \x1B[0m\n' +
+    '\x1B[96mprove_ups_start\x1B[0m - \x1B[94mgen_witness\x1B[0m: \x1B[38;5;230m\x1B[48;5;34m 340ms \x1B[0m\n' +
+    '\x1B[96mprove_ups_start\x1B[0m - \x1B[94mprove_ups_start\x1B[0m: \x1B[48;5;24m 1088ms \x1B[0m\n' +
+    '\x1B[96mprove_ups_start\x1B[0m - \x1B[94minjest_single_leaf_proof\x1B[0m: \x1B[38;5;230m\x1B[48;5;34m 0ms \x1B[0m\n' +
+    '\x1B[96mcompress\x1B[0m - \x1B[94mproved compress\x1B[0m: \x1B[48;5;24m 1336ms \x1B[0m\n' +
+    '\x1B[96mcompress\x1B[0m - \x1B[94mproved compress\x1B[0m: \x1B[48;5;24m 1073ms \x1B[0m\n' +
+    '\x1B[96mcompress\x1B[0m - \x1B[94mproved compress\x1B[0m: \x1B[48;5;24m 932ms \x1B[0m\n' +
+    '\x1B[96mcompress\x1B[0m - \x1B[94mproved compress\x1B[0m: \x1B[48;5;24m 1043ms \x1B[0m\n' +
+    '\x1B[96mcompress\x1B[0m - \x1B[94mproved compress\x1B[0m: \x1B[48;5;24m 1261ms \x1B[0m\n' +
+    '\x1B[96mcompress\x1B[0m - \x1B[94mproved compress\x1B[0m: \x1B[48;5;24m 856ms \x1B[0m\n' +
+    'PSY_COMPACT_SERVER {"error":"prove contract call failed at call_index=3 total_contract_calls=5 contract_id=2476 method=activate input_count=1: assertion failed: activation sponsor NFT state required (left: 0, right: 1)","id":"3cfdf7cc-3789-4654-9c5a-3131544b34d9","ok":false,"phase":"prove-compact-calls"}\n',
+  stderr: ''
+}
+
+Node.js v18.16.0

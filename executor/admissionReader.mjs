@@ -32,7 +32,7 @@ export async function scanExecutorAdmission(o,readState=publicState,files){
  if(recoverable.length){
   const recovery=await scanBatch({...o,users:recoverable,automaticGraduation:false},async()=>s,files);
   if(recovery.action){assert.equal(recovery.action.kind,'batch_maintenance');const f=parseLosslessJson(recovery.action.submission).software_defined_call.inputs;return {...recovery,recoveryScope:'explicit sender recovery enrollment; no global discovery',action:{...recovery.action,profile:'compact-v1',validUntilCheckpoint:String(s.checkpoint+64),submission:losslessJson(compactRequest(files.policy,f))}};}
-  if(recovery.reason==='recovery-gas-sponsorship-required')return {...base,reason:recovery.reason,fundingRequest:{payer:o.batchSponsorId,vault:V,purpose:2,amount:F.toString(),operation:'recovery'}};
+  if(recovery.reason==='recovery-gas-sponsorship-required'){const pending=BigInt(recovery.sponsorPending);return {...base,reason:recovery.reason,fundingRequest:{payer:o.batchSponsorId,vault:V,purpose:2,amount:(2n*F).toString(),requiredTotal:(2n*F).toString(),pending:pending.toString(),additionalAmount:pending<=2n*F?(2n*F-pending).toString():null,manualReviewIfPendingDeltaDiffers:true,operation:'fund-gas-then-recovery'}};}
  }
  let name,a,b=0n;
  if([0n,3n].includes(phase)){

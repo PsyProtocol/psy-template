@@ -1,0 +1,10 @@
+file:///Users/geir/Downloads/QED%E8%B5%84%E6%96%99/litepaper/psy-template-security-20261016/batching/admission/liveSupport.mjs:15
+ try {await new Promise((resolve,reject)=>{const p=spawn(binary,args,{env:{...process.env,...env},stdio:['ignore',fd,fd]});p.on('error',reject);p.on('exit',code=>code===0?resolve():reject(Error(`client exit ${code}; inspect ${log}; do not retry an unresolved intent`)));});}
+                                                                                                                                                                                            ^
+
+Error: client exit 1; inspect /tmp/psy-market-candidate-live-20261021-v3/candidate-nft-activation-payer-ack-v1.log; do not retry an unresolved intent
+    at ChildProcess.<anonymous> (file:///Users/geir/Downloads/QED%E8%B5%84%E6%96%99/litepaper/psy-template-security-20261016/batching/admission/liveSupport.mjs:15:189)
+    at ChildProcess.emit (node:events:513:28)
+    at ChildProcess._handle.onexit (node:internal/child_process:291:12)
+
+Node.js v18.16.0

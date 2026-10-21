@@ -14,6 +14,7 @@ if(stage==='liquidity'){
  // the economic baseline so later payout sweeps cannot masquerade as trade
  // proceeds in each user's balance delta.
  if(!existsSync(join(base,'attempts/liquidity-bob-seed-returns/included.json'))){const claims=await payoutClaims(await publicState(h.config),{userId:h.actors.bob.id,markets:h.markets,tokenAbi:h.token,nftAbi:h.nft});await h.user('bob','liquidity-bob-seed-returns',claims);}
+ if(!existsSync(join(base,'attempts/liquidity-trader-seed-return/included.json'))){const claims=await payoutClaims(await publicState(h.config),{userId:h.actors.trader.id,markets:[h.by.nftmarket],tokenAbi:h.token,nftAbi:h.nft});await h.user('trader','liquidity-trader-seed-return',claims);}
  const m=h.by.amm,pf=join(base,'public/liquidity-plan-v1.json');if(!existsSync(pf)){const s=await publicState(h.config);save(pf,{version:1,epoch:1,cutoff:s.checkpoint+64,members:[{owner:h.actors.bob.id,nonce:'1'}]});}const p=read(pf),v=BigInt(m.vault),deadline=BigInt(p.cutoff)+1024n;
  await h.user('bob','liquidity-bob-order',[m.order('open_add',[v,encodeAmount(20n*unit),encodeAmount(20n*unit),encodeAmount(20n*unit-1000n),deadline,1n]),{contract_id:0n,method_name:'simple_transfer',inputs:[v,F]},...['assetA','assetB'].map(k=>call(BigInt(m.driverConfig[k]),h.token,'transfer',[v,encodeAmount(20n*unit)]))]);
  const f=await formal(h,m,'liquidity',p);services.push(f);

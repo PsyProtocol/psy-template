@@ -264,3 +264,45 @@ economic fills/s, explicitly including admission, sponsorship, extra cold
 comparisons and claims. It leaves network TPS unclaimed. Six read-only HTTPS
 samples (first round about 0.9 s, subsequent rounds about 0.34 s) are separately
 labelled as read observations, not submission/confirmation performance or an SLO.
+
+## Holder, recovery-budget and controlled-source gates
+
+Curve activation included at checkpoint 359182. NFT activation preflight then
+rejected Bob twice: the existing contract requires **NFT balance > 0**, not
+merely a materialized tree. An acknowledgement against the new empty vault
+also failed before ordinary broadcast; acknowledgement against the existing
+holder succeeded but did not give Bob an NFT. No failed activation reached
+chain submission. The current setup selects existing holder Trader as NFT
+activation payer and explicitly recovers Bob's unused native/FT seed deposit.
+All original failures remain. No deployed predicate or positive-balance check
+was removed. The scanner now exposes both tree and holder prerequisites before
+proposing a costly proof.
+
+An empty vault's standalone `fund_gas` and subsequent sender return are **two
+UPSs**. Recovery discovery now requests two conservative fee budgets, reports
+existing pending sponsorship separately, and supplies the exact additional
+amount; partial/overfunding still requires inspection. Single-UPS queue
+maintenance remains one budget. Targeted reader/compact checks passed 34 and
+the full Executor application run passed 104; those overlapping suites are
+not added together and are not network transactions. Live orphan return and
+the four-market economic matrix are still pending at this checkpoint.
+
+Controlled commitment comparisons must share a source checkpoint because
+`commit_batch` stores it in `batch_cutoff`. Driver v3 adds a **read-only**
+standalone source calibration using existing frozen SDK public constructors:
+materialized unchanged own anchor/key/nonce, historical registration, valid
+checkpoint bounds, fresh session stores/UPS-start, full stack/session/signature,
+whole pinned Node proof verification, fees and endpoint checks are retained.
+Normal Executor child environments strip the calibration selector. The prepared
+broadcast path rejects declared calibration artifacts. Two Rust negative groups
+and a real saved-request marker substitution passed without broadcast; full
+positive source-calibration proofs are still pending. All four registered
+fingerprints/public keys match v3 unchanged, so no key or contract was updated.
+
+Maximum/exit/competition stages explicitly select a fresh immutable
+`candidate-release-v3.json`; earlier v2 manifests/binaries remain. Each full
+paired sample must match source checkpoint, entire new user leaf, start/end
+hashes, calls, nonce and fee before the normal warm proof may be sent. Cold
+source-setup overhead is separately recorded; no state equality check is
+removed to make a comparison pass. The driver build manifest is a build-time
+source snapshot; subsequent JS runtime commits are separately reviewable.
