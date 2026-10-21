@@ -4,16 +4,20 @@ Fresh destination; exact original and compressed hashes; never edits the run.
 import argparse,gzip,hashlib,json,pathlib,platform,re
 p=argparse.ArgumentParser(description=__doc__)
 p.add_argument('--base',type=pathlib.Path,required=True);p.add_argument('--out',type=pathlib.Path,required=True)
+p.add_argument('--select',action='append',help='archive a completed relative file/directory only; repeat to preserve a partial milestone without snapshotting active work')
 a=p.parse_args();base=a.base.resolve();out=a.out.resolve();assert not out.exists()
 paths=[]
-for name in ['public','attempts','runtime','markets-v1']:
- for f in sorted((base/name).rglob('*')):
+for name in (a.select or ['public','attempts','runtime','markets-v1']):
+ relative=pathlib.Path(name);assert not relative.is_absolute() and '..' not in relative.parts,'selection must stay under the original run'
+ selected=base/relative;assert selected.exists() and selected.resolve().is_relative_to(base),'selected original missing or outside run'
+ for f in ([selected] if selected.is_file() else sorted(selected.rglob('*'))):
   assert not f.is_symlink(),'symlink evidence forbidden'
   if not f.is_file() or f.suffix not in ['.json','.log','.body','.rs','.mjs','.py','.txt']:continue
   assert '.secrets' not in f.parts
   if 'drivers' in f.relative_to(base).parts:continue
   paths.append(f)
-paths+=sorted(base.glob('*.log'))
+if not a.select:paths+=sorted(base.glob('*.log'))
+paths=sorted(set(paths))
 def check(x):
  if isinstance(x,dict):
   for k,v in x.items():
