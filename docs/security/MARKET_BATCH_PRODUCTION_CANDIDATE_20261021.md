@@ -4,6 +4,35 @@ Branch: `markets-batch-capacity-recovery-20261020`; accepted starting commit
 `e45d689e6806d362c03f15697c90aba44f8704e7`. No Node edits, old-contract update
 probes, new branches or replacement of original artifacts are authorized here.
 
+## Latest evidence checkpoint — 2026-10-21 07:40 UTC
+
+- Existing branch source checkpoint: `3f9af21`; all four fresh vaults retain
+  their registered single-admission keys. Recovery grants remain capped at 2F.
+- Application regression: **127/127** (`executor/*.test.mjs`). Frozen latest
+  consent-lock builder regression: **4/4**, including explicit bulk-policy
+  binding and unchanged legacy policy/build bytes. Earlier builder runs against
+  obsolete exit fixtures failed source equality; original logs are retained,
+  not counted as passes or suppressed by changing expected source.
+- Archived partial intake/sealing/cancellation and historical proof recovery:
+  `partial-intake-seal-historical-proof-v1/manifest.json`: **79 files**, original
+  and compressed hashes checked. Recovery/claims are not yet closed.
+- Historical AMM cancelled-partial commitment: resident preflight **116.359 s**,
+  cold preflight **175.343 s**, identical 3-call stack, authenticated source
+  checkpoint 359982, fee 1.000026000 test PSY, nonce and state endpoints. The
+  original driver reported complete proof verification; the recovery script
+  independently checks saved digests and metadata, not cryptographic replay.
+  The old proof is expired and will not be sent. Outer cold-process timing and
+  host-load samples are missing after report serialization failure.
+- Warm components include call proving **71.260 s**, recursive finalize
+  **10.484 s**, end-cap proving **5.013 s**, signature **2.906 s**, final verify
+  **3.525 s**. Cold resource construction includes key **1.243 s** and session
+  **51.423 s**. These stages do not exhaust the preflight interval; remaining
+  preparation/RPC time is not mislabelled as pure proof cost.
+- One sequential same-source pair is not a controlled multi-sample benchmark,
+  Cargo cold build, complete commit+settlement cost, confirmation/claim latency,
+  old-40-call comparison, four-order economic pass or network TPS. Further
+  measurements and the real maximum matrix remain outstanding.
+
 ## Baseline verified before implementation
 
 The 2,171 archived public files passed compressed and decompressed SHA256 checks.
@@ -446,14 +475,13 @@ seal actual authenticated scopes, refund every accepted cancellation, release
 and recover the remaining senders, ordinary-claim payouts, then compare the
 original pre-order cohort balances and exact actual fees. Completion is pending.
 
-Recovery can explicitly request **2..8** fee-escrow units from its named Sponsor;
-default remains 2. Each funded amount still requires the Sponsor's exact
-purpose/nonce/amount and native pending cursor; mismatched partial deposits stop
-for inspection. The per-UPS burn cap, complete stack/session verification and
-state/root/receipt checks are unchanged. This is a bounded shared gas pot, not
-a transfer of user principal or a promise of permissionless liveness. The
-partial runner allows at most one 8-unit replenishment per market, then stops
-if exhausted. No existing MCP wallet policy or Node code was changed.
+Recovery requests exactly **2** fee-escrow units per explicit Sponsor grant,
+matching the deployed contract cap. The formerly proposed 2..8 option was
+incorrect and has been removed before any 8F grant was sent. Exact Sponsor
+purpose/nonce/amount and native pending cursors remain required; mismatches
+stop for inspection. The partial runner bounds explicit 2F replenishments and
+runs independent vaults in parallel. No old contract, wallet policy or Node
+code is changed.
 
 Read-only cold calibration now runs after the journal has durably recorded the
 successful warm proof. A failed calibration leaves that proof reusable under

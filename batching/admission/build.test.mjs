@@ -30,3 +30,18 @@ test('late policy binding rejects asset aliases and altered candidate artifacts'
  const tampered=join(scratch,'tampered');cpSync(out,tampered,{recursive:true,errorOnExist:true,force:false});writeFileSync(tampered+'/main.psy.rs',readFileSync(tampered+'/main.psy.rs','utf8')+'\n// tampered candidate\n');
  assert.throws(()=>bindAdmission({build:tampered,marketId:2467,out:join(scratch,'tampered-policy')}),/changed build input/);
 });
+
+test('bulk late binding changes only the explicit new policy and preserves legacy bytes',()=>{
+ for(const kind of ['amm','orderbook','bondingcurve','nftmarket']){
+  const build=join(scratch,kind),before=readFileSync(build+'/BUILD.json');
+  const base=bindAdmission({build,marketId:1000,out:join(scratch,kind+'-legacy-again')});
+  const policy=bindAdmission({build,marketId:1000,out:join(scratch,kind+'-bulk'),admissionMode:'all-four-v1'});
+  assert.deepEqual(policy.operations.slice(0,-1),base.operations);
+  assert.deepEqual(policy.branches.slice(0,-1),base.branches);
+  assert.equal(policy.operations.at(-1).name,'admit_entries_4');
+  assert.equal(read(join(scratch,kind+'-bulk','BOUND.json')).admissionMode,'all-four-v1');
+  assert.equal(read(join(scratch,kind+'-bulk','BOUND.json')).registrationVerified,false);
+  assert.deepEqual(readFileSync(build+'/BUILD.json'),before);
+  assert.throws(()=>bindAdmission({build,marketId:1000,out:join(scratch,kind+'-invalid-mode'),admissionMode:'random'}));
+ }
+});
