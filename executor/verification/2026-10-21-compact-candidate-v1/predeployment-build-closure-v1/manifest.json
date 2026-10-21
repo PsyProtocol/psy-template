@@ -1,0 +1,51 @@
+{
+  "schema": 1,
+  "sourceDirectory": "/private/tmp/psy-market-predeploy-build-evidence-20261021-v1",
+  "machine": "gewenbo.local",
+  "host": "macOS-15.7.3-arm64-arm-64bit",
+  "scope": "public formal Executor run including failures; success requires exact included receipt",
+  "walletFilesIncluded": false,
+  "sealedBinariesIncluded": false,
+  "records": [
+    {
+      "source": "RESULT.json",
+      "file": "files/RESULT.json.gz",
+      "bytes": 248,
+      "sha256": "44a97bb54da2678dc6ed1d975c1fa656f364948aee37b57ae638d901d010acaf",
+      "gzipBytes": 193,
+      "gzipSha256": "d5357abbed906edaa461df50298d46912037393a34923539ac38273b2e4c121e"
+    },
+    {
+      "source": "candidate-build-positive-and-mutations.log",
+      "file": "files/candidate-build-positive-and-mutations.log.gz",
+      "bytes": 652,
+      "sha256": "253911248c10bb6d52fdd880f64d6d3c00acc3cb6e435488ad99c4e36d3a04fb",
+      "gzipBytes": 298,
+      "gzipSha256": "2980367fd9d29156b931426d6d69a0f98a1b51197016ff1ea0685f7cd45c5e05"
+    },
+    {
+      "source": "prepared-three-builds.json",
+      "file": "files/prepared-three-builds.json.gz",
+      "bytes": 2509,
+      "sha256": "0b7ab33a047c3f3685771fcd780cdf2e2f6a852327a23f837f453fb276643c7c",
+      "gzipBytes": 879,
+      "gzipSha256": "b89540108b993f69cbd33c96e7dbde95a7b2c4cf2d13f8a723a0a85f69783764"
+    },
+    {
+      "source": "regression-149.log",
+      "file": "files/regression-149.log.gz",
+      "bytes": 33178,
+      "sha256": "da1ff4275b71e948e180ef48af809788848e0ae2ad54abf0dfd6ee3a6834edd8",
+      "gzipBytes": 7327,
+      "gzipSha256": "361bd15c7e817ed00b80df2ad7fa203bae28bc0ecd1da9726d99cb07fbf20164"
+    },
+    {
+      "source": "wrong-fixture-missing-build-manifest.log",
+      "file": "files/wrong-fixture-missing-build-manifest.log.gz",
+      "bytes": 2289,
+      "sha256": "2b815884c27c5b4fa523cd731b7f0af8c069cb794268f138e363e38911ed0c31",
+      "gzipBytes": 813,
+      "gzipSha256": "ec37ef00177f3b84a6552ec3ef24c92676b618be8b97c8edf04010157918f9db"
+    }
+  ]
+}

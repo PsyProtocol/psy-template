@@ -39,6 +39,20 @@ It refuses to reconstruct that baseline after a plan already exists. The older
 case-specific mid-LP tail reporter is not a command for the new case. These new
 interval assertions await the fresh family's actual LP execution.
 
+The bulk deployment entry now rechecks the frozen compiler after preparation
+and immediately before deferred Curve compilation. Before any selected fresh
+deployment it checks the complete seven-file build manifest, compiler identity
+and exact reviewed generator/config/source equality, then creates an immutable
+build pin. Previously these file/source checks happened at late policy binding,
+after deployment. Three prepared candidates pass the new read-only gate; Curve
+waits for the new AMM identity. Four actual compiled fixtures and artifact,
+rehashed noncanonical source, incomplete-manifest and wrong-compiler mutations passed
+the two targeted gate tests; the relevant application regression is **149/149**.
+`predeployment-build-closure-v1/` preserves those logs, the original wrong-
+fixture/missing-manifest failure, and prepared-build hashes. The gate is an
+application integrity check, not independent compiler correctness or remote
+runtime attestation. Fresh deployment with this gate remains pending.
+
 ## Controlled full-UPS comparison scheduled after recovery closure
 
 `executor/acceptance/compareProofProfiles.mjs` now pins one frozen test binary,
