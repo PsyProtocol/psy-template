@@ -55,5 +55,6 @@ export async function scanExecutorAdmission(o,readState=publicState,files){
  const payer=o.batchSponsorId;
  const [sent,claimed,baseFee,pool,amount,nonce,used,purpose]=await Promise.all([s.slot(payer,0,3+2*V),s.slot(V,0,4+2*payer),at(V,'settled_fee',payer),at(payer,'sponsor_pool'),at(payer,'sponsor_amount'),at(payer,'sponsor_nonce'),at(V,'used_sponsorship',payer),at(payer,'sponsor_purpose')]);
  if(claimed!==baseFee||sent-baseFee!==F||pool!==BigInt(V)||amount!==F||nonce<=used||purpose!==2n)return {...base,action:null,reason:'admission-gas-sponsorship-required',fundingRequest:{payer,vault:V,purpose:2,amount:F.toString(),nextSponsorshipNonce:(nonce+1n).toString(),operation:name}};
- return {...base,reason:undefined,action:{kind:'batch_maintenance',maintenanceOperation:name,gasAuthorizationNonce:nonce.toString(),profile:'compact-v1',validUntilCheckpoint:String(name==='admit_entry'?Math.min(Number(cutoff),s.checkpoint+64):s.checkpoint+64),submission:losslessJson(queueMaintenance(files.policy,{name,payer:BigInt(payer),a,b}))}};
+ const {reason:_priorReason,...proposal}=base;
+ return {...proposal,action:{kind:'batch_maintenance',maintenanceOperation:name,gasAuthorizationNonce:nonce.toString(),profile:'compact-v1',validUntilCheckpoint:String(name==='admit_entry'?Math.min(Number(cutoff),s.checkpoint+64):s.checkpoint+64),submission:losslessJson(queueMaintenance(files.policy,{name,payer:BigInt(payer),a,b}))}};
 }

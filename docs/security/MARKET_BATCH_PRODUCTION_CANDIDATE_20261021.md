@@ -286,11 +286,24 @@ Source overlay **v7** binds 278 JS files at pushed source `0c6db91`, SHA256
 It links v6 and lists only the CLI intent/acceptance changes. Frozen binaries,
 registered keys, compiled assets/markets and SDK remain unchanged.
 
+### Renewed intake entry serialization fix
+
+New start sponsorship is confirmed. The renewed immutable plan selects AMM
+**epoch 3**, other markets **epoch 2**, source **359759**, cutoff **359887**;
+original funded orders are retained. Its first runner failed while saving scan
+observations, before market proving or transmission: successful maintenance
+proposals included `reason:undefined`, rejected by strict lossless JSON. The
+reader now omits that absent informational field; no serializer, call, fee,
+proof/session or state check is weakened. Fourteen targeted compact checks
+passed, including serialization of start/admit/seal/empty-abort proposals.
+The original failed log/plan are retained; same-plan explicit continuation is
+pending, without changing cutoff or resending order assets.
+
 ## Ordered gates
 
 | Gate | Current work | Not yet established |
 | --- | --- | --- |
-| 1 Formal Executor | Explicit `batch-admission-compact-v1` route; journal/locks and saved-proof broadcast; four fresh activations, LP, exact sender return/ordinary claim and same-proof no-send recovery confirmed; 111 application checks | Maximum economic entrance and replacement NFT competition/timeout acceptance remain in progress; application checks are not network trades |
+| 1 Formal Executor | Explicit `batch-admission-compact-v1` route; journal/locks and saved-proof broadcast; four fresh activations, LP, exact sender return/ordinary claim and same-proof no-send recovery confirmed; 115 combined application checks plus targeted gates | Maximum economic entrance and replacement NFT competition/timeout acceptance remain in progress; application checks are not network trades |
 | 2 End-to-end cost | Saved proof is not re-proved for broadcast; phase metrics; immutable circuit reuse with fresh sessions; strict same-checkpoint calibration implemented | Positive paired full-proof samples and maximum live cost report pending; no speedup or chain TPS claim |
 | 3 Before-admission fairness | Own-consent lock, immutable finite plans, explicit gas requests, terminal exit and sender-bound recovery; one actual unused-funding return closed | Pre-admission selection/refusal is not global censorship resistance; omitted consented orders still need their new live terminal-exit matrix |
 | 4 Random order | Deterministic mode retained | Authenticated future source, actual pre-revelation inclusion and anti-abort requirements remain external unless verified |
