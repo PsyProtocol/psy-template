@@ -77,3 +77,8 @@ test('asset initialization reads coalesce authenticated-root candidates at the f
  const rootReads=reads.filter(q=>q.method==='psy_get_user_contract_tree_leaf_hash');assert.equal(rootReads.length,1);assert.equal(rootReads[0].url,'https://r1.test');assert.deepEqual(rootReads[0].params,{checkpoint_id:100,user_id:1010,contract_id:42});
  await assert.rejects(s.contractStateRoot(1010,43),/invalid user contract root/);const before=reads.length;await assert.rejects(s.contractStateRoot(0,42),/user ID/);assert.equal(reads.length,before);
 }));
+
+test('explicit exact-integer RPC mode preserves a large nonce without changing legacy control reads',()=>fixture(async config=>{
+ globalThis.fetch=async(_url,options)=>{const q=JSON.parse(options.body);if(q.method==='psy_get_latest_l2_block_state')return{ok:true,json:async()=>({result:{checkpoint_id:100}})};return{ok:true,text:async()=>'{"jsonrpc":"2.0","id":1,"result":{"nonce":9007199254740993,"user_id":10}}',json:async()=>assert.fail('unsafe JSON integer conversion')};};
+ const s=await publicState(config),leaf=await s.rpc('https://r0.test','psy_get_user_leaf_data',{checkpoint_id:100,user_id:10},{exactIntegers:true});assert.equal(leaf.nonce,9007199254740993n);assert.equal(leaf.user_id,10n);assert.equal(s.checkpoint,100);
+}));

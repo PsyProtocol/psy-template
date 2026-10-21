@@ -1,0 +1,26 @@
+//! Read-only deployment recovery from checkpoint membership, not an indexer ACK.
+use anyhow::{ensure,Result};
+use plonky2::{field::{goldilocks_field::GoldilocksField as F,types::PrimeField64},hash::poseidon::PoseidonHash};
+use psy_client_common::data::qhashout::QHashOut;
+use psy_client_data::qdata::{contract::PsyContractLeaf,checkpoint::{PsyCheckpointGlobalStateRoots,PsyCheckpointLeaf}};
+use psy_provider::request::QDeployContractRPCRequest;
+use psy_crypto::hash::{merkle::core::MerkleProofCore,traits::qhashable::QFieldHashable,tx_hash::{compute_deploy_contract_content_hash,hash_to_hex}};
+use serde::Deserialize;use serde_json::{Value,json};use std::{fs,path::Path,io::Write};
+#[derive(Deserialize)]#[serde(rename_all="camelCase",deny_unknown_fields)]
+struct Observation{version:u8,contract_id:u64,before_checkpoint:u64,included_checkpoint:u64,anchor_checkpoint:u64,anchor_root:QHashOut<F>,expected_content_hash:String,expected_deployer:QHashOut<F>,before_block:Value,after_block:Value,leaf:PsyContractLeaf<F>,before_roots:PsyCheckpointGlobalStateRoots<F>,after_roots:PsyCheckpointGlobalStateRoots<F>,before_leaf:PsyCheckpointLeaf<F>,after_leaf:PsyCheckpointLeaf<F>,before_contract_proof:MerkleProofCore<QHashOut<F>>,after_contract_proof:MerkleProofCore<QHashOut<F>>,before_checkpoint_proof:MerkleProofCore<QHashOut<F>>,after_checkpoint_proof:MerkleProofCore<QHashOut<F>>}
+fn run()->Result<()>{let a=std::env::args().collect::<Vec<_>>();ensure!(a.len()==5,"verify_deployment_checkpoint OBSERVATION ARTIFACT ORIGINAL_REQUEST FRESH_REPORT");
+ let x:Observation=serde_json::from_slice(&fs::read(&a[1])?)?;ensure!(x.version==1&&x.contract_id>=5&&x.contract_id<(1<<24)&&x.before_checkpoint+1==x.included_checkpoint&&x.included_checkpoint<=x.anchor_checkpoint,"checkpoint/id bounds");
+ ensure!(x.before_block["checkpoint_id"].as_u64()==Some(x.before_checkpoint)&&x.after_block["checkpoint_id"].as_u64()==Some(x.included_checkpoint)&&x.before_block["next_contract_id"].as_u64()==Some(x.contract_id)&&x.after_block["next_contract_id"].as_u64()==Some(x.contract_id+1),"exact single-contract allocation interval");
+ for (proof,index)in[(&x.before_contract_proof,x.contract_id),(&x.after_contract_proof,x.contract_id),(&x.before_checkpoint_proof,x.before_checkpoint),(&x.after_checkpoint_proof,x.included_checkpoint)]{ensure!(proof.index==index&&proof.verify::<PoseidonHash>(),"invalid membership proof/index");}
+ ensure!(x.before_contract_proof.value==QHashOut::ZERO&&x.before_contract_proof.root==x.before_roots.contract_tree_root,"old contract must be absent");
+ ensure!(x.after_contract_proof.value==x.leaf.qfhash::<PoseidonHash>()&&x.after_contract_proof.root==x.after_roots.contract_tree_root,"exact new contract leaf membership");
+ ensure!(x.before_leaf.global_chain_root==x.before_roots.qfhash::<PoseidonHash>()&&x.after_leaf.global_chain_root==x.after_roots.qfhash::<PoseidonHash>(),"global roots not bound to checkpoints");
+ ensure!(x.before_checkpoint_proof.value==x.before_leaf.qfhash::<PoseidonHash>()&&x.after_checkpoint_proof.value==x.after_leaf.qfhash::<PoseidonHash>()&&x.before_checkpoint_proof.root==x.anchor_root&&x.after_checkpoint_proof.root==x.anchor_root,"checkpoint chain membership/root substitution");
+ let request:QDeployContractRPCRequest<F>=serde_json::from_slice(&fs::read(&a[3])?)?;let c=request.deploy_contract;let base=c.deploy_contract.clone().into_with_whitelist_root::<PoseidonHash>()?;
+ let content=hash_to_hex(&compute_deploy_contract_content_hash(&base.deployer.to_le_bytes(),&base.function_whitelist_root.to_le_bytes(),base.code_definition.state_tree_height as u64));
+ ensure!(content==x.expected_content_hash&&x.leaf.deployer==x.expected_deployer&&base.deployer==x.expected_deployer,"original receipt/deployer mismatch");
+ ensure!(x.leaf.function_tree_root==base.function_whitelist_root&&x.leaf.code_root==c.deploy_contract.code_root&&x.leaf.state_tree_height.to_canonical_u64()==base.code_definition.state_tree_height as u64&&x.leaf.state_layout_root==c.state_layout_root&&x.leaf.state_layout_field_count.to_canonical_u64()==c.state_layout_field_count&&x.leaf.state_layout_slot_count.to_canonical_u64()==c.state_layout_slot_count,"code/whitelist/layout endpoints mismatch");
+ let artifact=serde_json::from_slice(&fs::read(&a[2])?)?;let preflight=psy_template_u124_markets::layout_preflight::verify_initial(&artifact,&c,x.expected_deployer)?;
+ let report=json!({"schema":1,"contractId":x.contract_id,"checkpoint":x.included_checkpoint,"beforeCheckpoint":x.before_checkpoint,"anchorCheckpoint":x.anchor_checkpoint,"anchorRoot":x.anchor_root.to_string(),"contentHash":content,"leaf":x.leaf,"preflight":preflight,"oldAbsentAndNewPresent":true,"allMerklePathsVerified":true,"initialLayoutProofReverified":true,"exactRequestAndEndpointsVerified":true,"receiptSource":"authenticated-checkpoint-membership","servicesIndexedReceiptVerified":false,"trustBoundary":"checkpoint anchor obtained from the pinned coordinator endpoint; runtime image/finality not independently attested","readOnly":true});
+ let out=Path::new(&a[4]);let mut f=fs::OpenOptions::new().create_new(true).write(true).open(out)?;f.write_all(&serde_json::to_vec_pretty(&report)?)?;f.sync_all()?;println!("verified original deployment in checkpoint {}",x.included_checkpoint);Ok(())}
+fn main()->Result<()>{run()}

@@ -151,3 +151,34 @@ four markets. Two candidate layout jobs were stopped before broadcast and their
 artifacts are preserved; neither candidate contract was updated. Final candidate
 outputs use another fresh directory. Full ordinary-wallet end-caps and real
 acceptance of these revised methods remain a separate pending gate.
+
+## Driver and receipt audit checkpoint
+
+The full Executor application regression now has 96 passing checks, including
+exact nonce handling beyond 2^53. The exact-integer RPC mode is opt-in for the
+new route; existing control reads retain their established types. A new driver
+also handles a newly registered user's zero materialized tree correctly: nonce
+0→1, an actually absent user-tree leaf and a registration Merkle proof bound to
+checkpoint global roots are all required. Existing materialized key/anchor/nonce
+checks remain strict. Two Rust test groups cover the fresh and existing cases.
+The revised driver has the same registered circuit identities; it is selected
+through a fresh, hash-pinned release/toolchain manifest. Original binaries remain.
+
+Actual new deployment progress: AMM 2473 / vault 1847488, Orderbook 2474 / vault
+143552, Curve 2475 / vault 1192128. NFT deployment and the economic matrix were
+still pending at this checkpoint. Their original indexed deployment/registration
+gates remain enabled. The first AMM transaction was temporarily absent from the
+services hash lookup, then the original workflow confirmed it and continued.
+Do not misreport an early pending observation as the final deployment result.
+
+An additional **read-only** verifier independently reverified the initial
+0→71-field layout proof, exact original content hash/code/function/layout
+endpoints, prior contract absence, new leaf presence, global/checkpoint roots
+and both checkpoint membership paths. Six real-bundle substitutions were
+rejected. Its anchor is supplied by the pinned coordinator RPC; this is not an
+independently attested finality or running-binary certificate. It does not query
+services and its `servicesIndexedReceiptVerified:false` means “not checked by
+this tool”; separate original workflow receipts establish indexed inclusion.
+See `checkpoint-deployment-audit-v1/manifest.json`. No receipt fallback or safety
+check was removed. A services contract-info root display discrepancy is retained
+for that service's review; transaction execution pins coordinator metadata.

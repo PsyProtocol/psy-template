@@ -6,7 +6,7 @@ p=argparse.ArgumentParser(description=__doc__)
 p.add_argument('--base',type=pathlib.Path,required=True);p.add_argument('--out',type=pathlib.Path,required=True)
 a=p.parse_args();base=a.base.resolve();out=a.out.resolve();assert not out.exists()
 paths=[]
-for name in ['public','attempts','runtime']:
+for name in ['public','attempts','runtime','markets-v1']:
  for f in sorted((base/name).rglob('*')):
   assert not f.is_symlink(),'symlink evidence forbidden'
   if not f.is_file() or f.suffix not in ['.json','.log','.body','.rs','.mjs','.py','.txt']:continue
