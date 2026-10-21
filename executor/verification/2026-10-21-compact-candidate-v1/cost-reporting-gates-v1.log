@@ -1,0 +1,19 @@
+TAP version 13
+# Subtest: full-proof cost analysis preserves separate cold/noop/end-cap costs without a network rate
+ok 1 - full-proof cost analysis preserves separate cold/noop/end-cap costs without a network rate
+  ---
+  duration_ms: 2.137417
+  ...
+# Subtest: incomplete, VM-only, changed-fee and invalid-duration evidence cannot publish a complete comparison
+ok 2 - incomplete, VM-only, changed-fee and invalid-duration evidence cannot publish a complete comparison
+  ---
+  duration_ms: 4.273
+  ...
+1..2
+# tests 2
+# pass 2
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 80.509583
