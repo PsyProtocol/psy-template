@@ -12,3 +12,9 @@ The plan is not atomic. Each hop is an existing AMM order, settlement and
 claim. The intermediate asset is claimed before the next order is opened.
 Orderbook, curve and NFT are not components of this path, and `invoke_sync`
 is not used.
+
+`liveTwoHop.mjs` submits one such plan on the isolated staging testnet. With
+only assets A and B available, hop 1 is A→B on the existing pool and hop 2 is
+B→A on a second deployment of the same AMM. The completed acceptance case is
+read-only. The 2026-10-22 run settled both hops at the planned floors; see
+`docs/security/MARKET_BATCH_PRODUCTION_CANDIDATE_20261021.md`.
