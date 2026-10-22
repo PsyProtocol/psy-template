@@ -9,6 +9,14 @@ const sha=path=>createHash('sha256').update(readFileSync(path)).digest('hex');
 // Reviewed diagnostic format: this binary writes this phase before any proof
 // or broadcast. A claimed no-send field from an arbitrary binary is not enough.
 export const PRESESSION_DIAGNOSTIC_DRIVER_SHA256='65d16ecf29db6d7d8c0a8204df9219a52976b488efaafa0511a8100d68e2f22a';
+// The reviewed driver reaches these phases before adding the key, starting a
+// session, proving or broadcasting.
+export const PRESESSION_PHASES=['verify-ordinary-input-and-dependencies','start-ordinary-session'];
+export function assertPreSessionFailure(path){
+ const f=exact(path);assert.deepEqual(Object.keys(f).sort(),['automaticRetry','broadcastMayHaveBeenAttempted','ok','phase','privateDataSuppressed','reasonCode','suppressedErrorSha256'].sort());
+ assert.equal(f.automaticRetry,false);assert.equal(f.ok,false);assert.equal(f.broadcastMayHaveBeenAttempted,false,'ambiguous original transmission');assert.equal(f.privateDataSuppressed,true);assert.ok(PRESESSION_PHASES.includes(f.phase),'original progressed beyond reviewed pre-proof phase');assert.equal(f.reasonCode,'RPC_CONNECTION');assert.match(f.suppressedErrorSha256,/^[0-9a-f]{64}$/);
+ return f;
+}
 export function ordinaryEvidenceDirectory(base,label,expectedUserId){
  assert.match(label,/^[a-z0-9]+(?:-[a-z0-9]+)*$/);
  const original=join(base,'attempts',label),file=join(base,'public/ordinary-recoveries',label+'.json');
@@ -22,8 +30,7 @@ export function ordinaryEvidenceDirectory(base,label,expectedUserId){
   assert.deepEqual(readdirSync(original),['failure.json'],'original has proof/intent evidence; manual reconciliation required');
   assert.equal(r.originalDriverSha256,PRESESSION_DIAGNOSTIC_DRIVER_SHA256,'unreviewed diagnostic driver');
   assert.equal(sha(join(original,'failure.json')),r.originalFailureSha256,'original failure evidence changed');
-  const f=exact(join(original,'failure.json'));assert.deepEqual(Object.keys(f).sort(),['automaticRetry','broadcastMayHaveBeenAttempted','ok','phase','privateDataSuppressed','reasonCode','suppressedErrorSha256'].sort());
-  assert.equal(f.automaticRetry,false);assert.equal(f.ok,false);assert.equal(f.broadcastMayHaveBeenAttempted,false,'ambiguous original transmission');assert.equal(f.privateDataSuppressed,true);assert.equal(f.phase,'start-ordinary-session','original progressed beyond reviewed pre-proof phase');assert.equal(f.reasonCode,'RPC_CONNECTION');assert.match(f.suppressedErrorSha256,/^[0-9a-f]{64}$/);
+  assertPreSessionFailure(join(original,'failure.json'));
  }
  const replacement=join(base,'attempts',r.replacementLabel),oldInput=join(base,'public',label+'.json'),newInput=join(base,'public',r.replacementLabel+'.json'),receipt=join(replacement,'included.json');
  for(const [path,digest]of [[oldInput,r.originalInputSha256],[newInput,r.replacementInputSha256],[receipt,r.receiptSha256],[join(replacement,'request.json'),r.requestSha256]])assert.equal(sha(path),digest,'recovery evidence changed');
