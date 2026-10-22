@@ -4,6 +4,29 @@ Branch: `markets-batch-capacity-recovery-20261020`; accepted starting commit
 `e45d689e6806d362c03f15697c90aba44f8704e7`. No Node edits, old-contract update
 probes, new branches or replacement of original artifacts are authorized here.
 
+## 2026-10-22 minimal A→B→C route planner
+
+`composition/route.mjs` plans exactly two existing AMM hops. The second input
+is the first hop's exact floor from `swapQuote` (0.30%, same check as the U124
+AMM). A plan is rejected when the final floor is below the caller's minimum,
+the intermediate asset differs, a market is reused, a hop floors to zero, or
+the route is not two hops. It does not sign, submit, deploy, or use
+`invoke_sync`. The route is not atomic: the intermediate asset is claimed
+before the next order opens. Orderbook, curve and NFT are outside this path.
+`npm run test:composition` covers the planner only; no live route was submitted.
+
+## 2026-10-22 minimal two-hop route planner
+
+`composition/route.mjs` plans one A→B→C path across two existing AMM pools.
+Each hop uses `swapQuote`, the same 0.30% floor the U124 AMM checks, and the
+second input is exactly the first output. A plan is rejected when the final
+floor is below the caller minimum, the intermediate asset differs, a market is
+reused, a hop floors to zero, or the route is not exactly two hops. It does
+not sign, submit, deploy, or use `invoke_sync`. The hops are sequential
+existing settlements: the intermediate asset is claimed before the next order
+opens. Orderbook, curve and NFT are outside this path. No chain run and no
+throughput claim. `npm run test:composition` covers the planner.
+
 ## 2026-10-22 runbook acceptance matrix complete; evidence archived
 
 LP, maximum, cost report, omitted-sender recovery and NFT competition are all
