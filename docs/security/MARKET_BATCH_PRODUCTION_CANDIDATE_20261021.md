@@ -4,6 +4,37 @@ Branch: `markets-batch-capacity-recovery-20261020`; accepted starting commit
 `e45d689e6806d362c03f15697c90aba44f8704e7`. No Node edits, old-contract update
 probes, new branches or replacement of original artifacts are authorized here.
 
+## 2026-10-22 expired LP intake retired, refunded and renewed; LP complete
+
+The first LP intake (epoch 1, cutoff **361081**) stopped when the Sponsor's
+admission funding failed in `verify-ordinary-input-and-dependencies` with
+`RPC_CONNECTION`, `broadcastMayHaveBeenAttempted: false`. The session ended
+before resuming, so both the cutoff and Bob's nonce-1 `open_add` deadline
+(**362105**) passed. Read-only state at **363701**: queue phase 1, zero members,
+Bob's order funded and unconsumed, Sponsor AMM nonce still 1 (the failed funding
+was never included). The intake was not extended and the order was not reused.
+
+`candidateLiquidityRetry.mjs` aborted the empty epoch (**363757**). Bob's
+ordinary `request_cancel` + `release_unaccepted` + `request_recovery` UPS was
+followed by the bounded enrolled-recovery route: gas grant (**363797**) and
+sender-bound `recover_funding` (**363815**). Bob's claim hit the same
+pre-session `RPC_CONNECTION`; `ordinaryReplace.mjs` re-sent the identical
+business calls/dependencies under `-retry-v1` and wrote a v2 recovery record
+after exact inclusion. The pre-session guard now also accepts the earlier
+`verify-ordinary-input-and-dependencies` phase of the same reviewed driver
+(`65d16ecf…`); proving/broadcast phases stay rejected (regression added). The
+19-account audit shows Bob's 20/20 QA FT principal returned, FT/NFT conserved,
+and the native decrease equal to the **7.000038** test PSY of included fees.
+
+The renewed intake (`liquidity-retry-v1`) opened a fresh nonce-2 order **before**
+freezing epoch 2 (cutoff **363979**), so the wallet cold start no longer eats the
+window. Formal start/admit/seal/commit/settle were included at
+**363928/363954/363996/364008/364026**. Reserves are exactly 20/20 QA FT,
+total shares 20, Bob holds 20 minus 1,000 locked smallest units. The complete
+LP interval has 22 included UPSs; QA FT is conserved and the native decrease
+equals **22.000151** test PSY of fees. Every later Bob AMM nonce now shifts by
+one (`bobLpNonce`). Maximum economic fills and the remaining matrix are pending.
+
 ## Ordinary-wallet ambiguous transmission recovered without a new transaction
 
 The pre-LP Bob seed-return claim failed during `broadcast-ordinary-ups`. It
