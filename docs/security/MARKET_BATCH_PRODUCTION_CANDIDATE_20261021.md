@@ -4,6 +4,21 @@ Branch: `markets-batch-capacity-recovery-20261020`; accepted starting commit
 `e45d689e6806d362c03f15697c90aba44f8704e7`. No Node edits, old-contract update
 probes, new branches or replacement of original artifacts are authorized here.
 
+## 2026-10-22 runbook acceptance matrix complete; evidence archived
+
+LP, maximum, cost report, omitted-sender recovery and NFT competition are all
+complete on the isolated testnet. Evidence, all verified against the originals
+with `verifyCompactArchive.py --original-base`:
+- Git: `executor/verification/2026-10-21-compact-candidate-v1/maximum-recovery-nft-competition-v1/`
+  holds 517 files (3.47 MB → 481 KB gzip): all of `public/` (completion
+  records, formal tasks/results, cost report, recovery and non-submission
+  records), the failure/replacement/exact-wire attempt evidence and the runner logs.
+- Off-Git full run: `/tmp/psy-market-candidate-bulk-live-20261021-v2-archive-full-v1`
+  holds 2,370 files (1.13 GB → 79 MB gzip), including every proof request.
+`.secrets`, executables, drivers and wallet recovery material are excluded by
+the archiver; a content scan found no key fields. Not production-ready; no
+chain TPS is claimed.
+
 ## 2026-10-22 NFT competition complete (market 2481)
 
 Bob and Dave listed; Trader (`order_checkpoint` **364981**) and Charlie
