@@ -120,7 +120,10 @@ fn refused_admission_sender_can_opt_out_and_enroll_exact_recovery()->Result<()>{
   // Even an authenticated *historical* nonmembership snapshot cannot release
   // this consent. Different users' UPSs do not share a latest-read CAS.
   let stale_absence=w.clone();let mut release_candidate=stale_absence.clone();
-  assert!(release_candidate.run(u,M,"release_unaccepted",&[]).is_err());
+  // Live acceptance cannot see this text (the reviewed wallet suppresses error chains), so the reason is pinned here.
+  let locked=release_candidate.run(u,M,"release_unaccepted",&[]).unwrap_err().to_string();
+  assert!(locked.contains("admission consent locks terms until epoch closure"),"{kind}: {locked}");
+  assert_eq!(stale_absence.slots,release_candidate.slots);
   let mut admitted=w.clone();admitted.run(V,M,"admit_entry",&[u,admitted.val(u,"nonce",0)])?;
   let saved=admitted.slots.clone();assert!(admitted.run(u,M,"release_unaccepted",&[]).is_err());assert_eq!(saved,admitted.slots);
   // An omitted member can force the empty epoch's terminal timeout using the

@@ -60,17 +60,33 @@ try {
  // Prove-only negative gate. A failure cannot transmit, and own state must not move.
  const negative = join(base, 'public/omitted-early-release-negative.json');
  if (!existsSync(negative)) {
-  const s = await publicState(h.config), calls = h.markets.map(m => m.order('release_unaccepted', []));
-  const ids = [...new Set([0, ...calls.map(x => Number(x.contract_id))])];
-  const contracts = await Promise.all(ids.map(async id => {const expected = h.bindings.get(id); assert.deepEqual(await binding(s, id), expected); return expected;}));
-  const input = join(base, 'public/omitted-early-release-input.json'), out = join(base, 'attempts/omitted-early-release-negative');
-  save(input, {calls: {contract_calls: calls, software_defined_call: {inputs: []}}, contracts, validUntilCheckpoint: s.checkpoint + 64});
-  let rejected = false;
-  try {await run(h.ordinaryBinary, ['preflight', h.config, actor.secret, input, out], join(base, 'omitted-early-release-negative.log'), h.env);} catch {rejected = true;}
-  assert.ok(rejected, 'consented terms must remain locked while omitted epoch is open');
-  assert.ok(!existsSync(join(out, 'intent.json')) && !existsSync(join(out, 'request.json')), 'negative proof must not reach transmission');
-  assert.match(readFileSync(join(base, 'omitted-early-release-negative.log'), 'utf8'), /admission consent locks terms until epoch closure/);
-  save(negative, {checkedAt: new Date().toISOString(), rejected, marketIds: h.markets.map(m => m.id), scope: 'first AMM assertion rejects the combined call stack; all four negative CFCs are separately archived', broadcastAttempted: false});
+  const input = join(base, 'public/omitted-early-release-input.json'), out = join(base, 'attempts/omitted-early-release-negative'), log = join(base, 'omitted-early-release-negative.log');
+  // A completed negative proof is evaluated from its preserved record, never re-proved.
+  if (!existsSync(log)) {
+   const s = await publicState(h.config), calls = h.markets.map(m => m.order('release_unaccepted', []));
+   const ids = [...new Set([0, ...calls.map(x => Number(x.contract_id))])];
+   const contracts = await Promise.all(ids.map(async id => {const expected = h.bindings.get(id); assert.deepEqual(await binding(s, id), expected); return expected;}));
+   save(input, {calls: {contract_calls: calls, software_defined_call: {inputs: []}}, contracts, validUntilCheckpoint: s.checkpoint + 64});
+   let rejected = false;
+   try {await run(h.ordinaryBinary, ['preflight', h.config, actor.secret, input, out], log, h.env);} catch {rejected = true;}
+   assert.ok(rejected, 'consented terms must remain locked while omitted epoch is open');
+  }
+  assert.ok(!existsSync(join(out, 'intent.json')) && !existsSync(join(out, 'request.json')) && !existsSync(join(out, 'preflight.json')), 'negative proof must not reach transmission');
+  // The reviewed wallet suppresses contract error text; only static codes leave the process.
+  const failure = read(join(out, 'failure.json'));
+  assert.equal(failure.phase, 'prove-ordinary-calls');
+  assert.equal(failure.reasonCode, 'REJECTED_REVIEW_REQUIRED');
+  assert.equal(failure.broadcastMayHaveBeenAttempted, false);
+  const s = await publicState(h.config), locked = [];
+  for (const m of h.markets) {
+   const slot = name => s.slot(actor.id, m.id, m.abi.contract.state.find(x => x.name === name).offset);
+   const [kind, cancelled, orderNonce, admissionNonce, admissionEpoch] = await Promise.all(['kind', 'cancelled', 'nonce', 'admission_nonce', 'admission_epoch'].map(slot));
+   assert.notEqual(kind, 0n); assert.equal(cancelled, 1n); assert.equal(admissionNonce, orderNonce); assert.equal(admissionEpoch, BigInt(plan.epochs[m.kind]));
+   locked.push({market: m.id, kind: String(kind), cancelled: true, admissionEpoch: String(admissionEpoch), admissionNonce: String(admissionNonce)});
+  }
+  save(negative, {checkedAt: new Date().toISOString(), checkpoint: s.checkpoint, rejected: true, marketIds: h.markets.map(m => m.id), failurePhase: failure.phase, reasonCode: failure.reasonCode, suppressedErrorSha256: failure.suppressedErrorSha256, stillLockedAfterRejection: locked,
+   reasonAttribution: 'contract text is suppressed by the reviewed wallet; the same consented+cancelled release is pinned to "admission consent locks terms until epoch closure" by the VM regression refused_admission_sender_can_opt_out_and_enroll_exact_recovery on byte-identical release_unaccepted source; the identical release succeeds only after abort (omitted-bob-release-enroll)',
+   scope: 'first failing assertion rejects the combined call stack; all four negative CFCs are separately archived', broadcastAttempted: false});
  }
  await fund('omitted-abort-fund');
  while ((await publicState(h.config)).checkpoint <= plan.cutoff) await pause(10000);
