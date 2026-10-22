@@ -38,3 +38,13 @@ test('explicit diagnostic-only pre-session replacement retains reviewed failure 
  configure({},'e'.repeat(64));assert.throws(()=>ordinaryEvidenceDirectory(x.base,x.original,2),/unreviewed/);
  configure();x.put('attempts/'+x.original+'/intent.json',{});assert.throws(()=>ordinaryEvidenceDirectory(x.base,x.original,2),/manual reconciliation/);
 }));
+test('a chain of pre-session replacements is accepted only while each failed one holds just its failure',()=>fixture(x=>{
+ const failure={automaticRetry:false,broadcastMayHaveBeenAttempted:false,ok:false,phase:'start-ordinary-session',privateDataSuppressed:true,reasonCode:'REGISTRATION_LOOKUP_FAILED',suppressedErrorSha256:'d'.repeat(64)};
+ const failed=x.original+'-retry-v1',originalFailure='attempts/'+x.original+'/failure.json',failedFailure='attempts/'+failed+'/failure.json';
+ mkdirSync(join(x.base,'attempts',failed));x.put(originalFailure,{...failure,reasonCode:'RPC_CONNECTION'});x.put(failedFailure,failure);
+ const configure=()=>x.put(x.recordFile,{...x.record,version:2,originalFailureSha256:x.sha(originalFailure),originalDriverSha256:PRESESSION_DIAGNOSTIC_DRIVER_SHA256,failedReplacements:[{label:failed,failureSha256:x.sha(failedFailure)}]});
+ configure();assert.equal(ordinaryEvidenceDirectory(x.base,x.original,2),join(x.base,'attempts',x.replacement));
+ x.put(failedFailure,{...failure,phase:'prove-ordinary-calls'});configure();assert.throws(()=>ordinaryEvidenceDirectory(x.base,x.original,2),/pre-proof/);
+ x.put(failedFailure,failure);configure();x.put('attempts/'+failed+'/intent.json',{});assert.throws(()=>ordinaryEvidenceDirectory(x.base,x.original,2),/proof\/intent/);
+ rmSync(join(x.base,'attempts',failed,'intent.json'));x.put(failedFailure,{...failure,suppressedErrorSha256:'e'.repeat(64)});assert.throws(()=>ordinaryEvidenceDirectory(x.base,x.original,2),/evidence changed/);
+}));

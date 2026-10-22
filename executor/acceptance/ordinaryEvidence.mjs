@@ -12,9 +12,17 @@ export const PRESESSION_DIAGNOSTIC_DRIVER_SHA256='65d16ecf29db6d7d8c0a8204df9219
 // The reviewed driver reaches these phases before adding the key, starting a
 // session, proving or broadcasting.
 export const PRESESSION_PHASES=['verify-ordinary-input-and-dependencies','start-ordinary-session'];
+// Read-side lookups only; no key, session, proof or send exists yet.
+export const PRESESSION_REASON_CODES=['RPC_CONNECTION','REGISTRATION_LOOKUP_FAILED'];
+// Earlier replacements that also stopped pre-session; each holds only its failure.
+export function assertFailedReplacements(base,failed){
+ assert.ok(Array.isArray(failed));
+ failed.forEach((x,i)=>{assert.match(x.label,/^[a-z0-9]+(?:-[a-z0-9]+)*-retry-v\d+$/);const dir=join(base,'attempts',x.label);
+  assert.deepEqual(readdirSync(dir),['failure.json'],'failed replacement has proof/intent evidence');assert.equal(sha(join(dir,'failure.json')),x.failureSha256,'failed replacement evidence changed');assertPreSessionFailure(join(dir,'failure.json'));});
+}
 export function assertPreSessionFailure(path){
  const f=exact(path);assert.deepEqual(Object.keys(f).sort(),['automaticRetry','broadcastMayHaveBeenAttempted','ok','phase','privateDataSuppressed','reasonCode','suppressedErrorSha256'].sort());
- assert.equal(f.automaticRetry,false);assert.equal(f.ok,false);assert.equal(f.broadcastMayHaveBeenAttempted,false,'ambiguous original transmission');assert.equal(f.privateDataSuppressed,true);assert.ok(PRESESSION_PHASES.includes(f.phase),'original progressed beyond reviewed pre-proof phase');assert.equal(f.reasonCode,'RPC_CONNECTION');assert.match(f.suppressedErrorSha256,/^[0-9a-f]{64}$/);
+ assert.equal(f.automaticRetry,false);assert.equal(f.ok,false);assert.equal(f.broadcastMayHaveBeenAttempted,false,'ambiguous original transmission');assert.equal(f.privateDataSuppressed,true);assert.ok(PRESESSION_PHASES.includes(f.phase),'original progressed beyond reviewed pre-proof phase');assert.ok(PRESESSION_REASON_CODES.includes(f.reasonCode),'unreviewed pre-session reason');assert.match(f.suppressedErrorSha256,/^[0-9a-f]{64}$/);
  return f;
 }
 export function ordinaryEvidenceDirectory(base,label,expectedUserId){
@@ -31,6 +39,7 @@ export function ordinaryEvidenceDirectory(base,label,expectedUserId){
   assert.equal(r.originalDriverSha256,PRESESSION_DIAGNOSTIC_DRIVER_SHA256,'unreviewed diagnostic driver');
   assert.equal(sha(join(original,'failure.json')),r.originalFailureSha256,'original failure evidence changed');
   assertPreSessionFailure(join(original,'failure.json'));
+  if(r.failedReplacements!==undefined)assertFailedReplacements(base,r.failedReplacements);
  }
  const replacement=join(base,'attempts',r.replacementLabel),oldInput=join(base,'public',label+'.json'),newInput=join(base,'public',r.replacementLabel+'.json'),receipt=join(replacement,'included.json');
  for(const [path,digest]of [[oldInput,r.originalInputSha256],[newInput,r.replacementInputSha256],[receipt,r.receiptSha256],[join(replacement,'request.json'),r.requestSha256]])assert.equal(sha(path),digest,'recovery evidence changed');
