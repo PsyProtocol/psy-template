@@ -25,7 +25,7 @@ const deadline = BigInt((await publicState(h.config)).checkpoint) + 2048n;
 // Before consent, a sender can release immediately without service. This QA
 // order is deliberately unfunded; it cannot withdraw any other sender's funds.
 await h.user('bob', 'omitted-bob-before-consent-exit', [
- a.order('close_swap_0', []), a.order('open_swap', [BigInt(a.vault), 0n, encodeAmount(unit), encodeAmount(1n), deadline, 3n]),
+ a.order('close_swap_0', []), a.order('open_swap', [BigInt(a.vault), 0n, encodeAmount(unit), encodeAmount(1n), deadline, h.bobLpNonce + 2n]),
  a.order('request_cancel', []), a.order('release_unaccepted', []), a.order('request_recovery', [BigInt(a.vault)])
 ]);
 const immediatePath = join(base, 'public/omitted-before-consent-immediate-exit.json');
@@ -33,7 +33,7 @@ if (!existsSync(immediatePath)) {const s = await publicState(h.config), kind = a
  assert.equal(await s.slot(actor.id, a.id, kind), 0n);
  save(immediatePath, {checkedAt: new Date().toISOString(), market: a.id, userId: actor.id, funded: false, admissionConsentSigned: false, releasedInSameOrdinaryUps: true, otherSenderFundsWithdrawn: false});}
 await h.user('bob', 'omitted-bob-ft-orders', [
- a.order('open_swap', [BigInt(a.vault), 0n, encodeAmount(unit), encodeAmount(1n), deadline, 4n]),
+ a.order('open_swap', [BigInt(a.vault), 0n, encodeAmount(unit), encodeAmount(1n), deadline, h.bobLpNonce + 3n]),
  {contract_id: 0n, method_name: 'simple_transfer', inputs: [BigInt(a.vault), F]}, call(2464n, h.token, 'transfer', [BigInt(a.vault), encodeAmount(unit)]),
  b.order('close_0', []), b.order('open_sell', [BigInt(b.vault), 0n, encodeAmount(unit), encodeAmount(unit), deadline, 2n]),
  {contract_id: 0n, method_name: 'simple_transfer', inputs: [BigInt(b.vault), F]}, call(2464n, h.token, 'transfer', [BigInt(b.vault), encodeAmount(unit)]),

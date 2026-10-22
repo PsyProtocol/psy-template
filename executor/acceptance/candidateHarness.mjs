@@ -25,7 +25,10 @@ export function cohort(base,original){
  const extraFile=join(base,'public/additional-cohort-users-v1.json'),extra=existsSync(extraFile)?read(extraFile):{version:1,users:[]};assert.deepEqual(Object.keys(extra).sort(),['users','version']);assert.equal(extra.version,1);const assetSpec=assetCohort({actors:Object.values(actors).map(a=>a.id),marketVaults:markets.map(m=>m.vault),legacyVaults:markets.map(m=>read(join(original,'markets-v1',m.kind,'live-registration.json')).vaultId),extraUsers:extra.users});
  const by=Object.fromEntries(markets.map(m=>[m.kind,m])),bindings=new Map(markets.flatMap(m=>m.contracts).map(b=>[b.contract.contractId,b]));
  const user=async(actor,name,calls)=>{const out=ordinaryEvidenceDirectory(base,name,actors[actor].id);if(out!==join(base,'attempts',name))return out;if(existsSync(join(out,'preflight.json'))){if(!existsSync(join(out,'included.json')))await confirmUps(config,out);return out;}assert.ok(!existsSync(join(base,'public',name+'.json')),'partial unsigned input requires inspected new attempt');return ordinary({base,config,binary:ordinaryBinary,secret:actors[actor].secret,name,calls,bindings,env});};
- return{base,original,releaseFile,assetSpec,binary,binarySha256:tools.compactBinarySha256,ordinaryBinary,config,env,actors,markets,by,bindings,user,token:read(join(by.amm.build,'token-a.json')).abi,nft:read(join(by.nftmarket.build,'nft.json')).abi};
+ // Per-user AMM order nonces strictly increase. A renewed LP intake opens a
+ // second order, so every later Bob AMM order shifts by one.
+ const bobLpNonce=existsSync(join(base,'public/liquidity-retry-ready-v1.json'))?2n:1n;
+ return{base,original,releaseFile,assetSpec,bobLpNonce,binary,binarySha256:tools.compactBinarySha256,ordinaryBinary,config,env,actors,markets,by,bindings,user,token:read(join(by.amm.build,'token-a.json')).abi,nft:read(join(by.nftmarket.build,'nft.json')).abi};
 }
 export async function formal(h,m,tag,plan,{benchmark=false,expiry=96,mode='resident',runtimeSuffix='',contendOnMaintenance=null}={}){
  const dir=join(h.base,'public',tag+'-'+m.kind+'-executor');if(!existsSync(dir)){mkdirSync(dir);for(const[n,v]of Object.entries({abi:m.abi,config:m.driverConfig,policy:m.policy,dependencies:m.contracts,plan}))save(join(dir,n+'.json'),v);}
