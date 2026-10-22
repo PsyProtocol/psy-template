@@ -9,8 +9,15 @@ import {saveObservation} from '../observations.mjs';
 const [base, output] = process.argv.slice(2);
 assert.ok(existsSync(join(base, 'public/maximum-complete-v1.json')), 'economic acceptance must finish before publishing its cost report');
 const pairs = readdirSync(join(base, 'attempts')).filter(n => n.startsWith('maximum-') && n.endsWith('-cold-comparison')).map(n => {
- const p = join(base, 'attempts', n, 'comparison.json'), r = read(p);
- return {...r, source: relative(base, p), coldProcessOverheadMs: r.coldProcessTiming ? r.coldProcessTiming.wallMilliseconds - Number(r.coldTimingsMs.preflightTotal) : null, preflightRatioColdOverWarm: Number(r.coldTimingsMs.preflightTotal) / Number(r.warmTimingsMs.preflightTotal)};
+ const p = join(base, 'attempts', n, 'comparison.json'), marker = join(base, 'attempts', n + '-unavailable.json');
+ if (!existsSync(p)) {
+  // A failed read-only cold calibration has no cold sample; the warm side is the submitted proof.
+  const u = read(marker), warm = read(join(u.warmDirectory, 'preflight.json'));
+  return {market: u.market, task: u.task, comparisonAvailable: false, coldFailure: u.failure, source: relative(base, marker), warmDirectory: u.warmDirectory,
+   warmTimingsMs: warm.timingsMilliseconds, coldTimingsMs: null, coldProcessOverheadMs: null, preflightRatioColdOverWarm: null, chainTps: null};
+ }
+ const r = read(p);
+ return {...r, comparisonAvailable: true, source: relative(base, p), coldProcessOverheadMs: r.coldProcessTiming ? r.coldProcessTiming.wallMilliseconds - Number(r.coldTimingsMs.preflightTotal) : null, preflightRatioColdOverWarm: Number(r.coldTimingsMs.preflightTotal) / Number(r.warmTimingsMs.preflightTotal)};
 });
 assert.equal(pairs.length, 8, 'commit and settlement for each of four markets');
 const completion=read(join(base,'public/maximum-complete-v1.json'));
@@ -48,7 +55,8 @@ const sums = ['amm', 'orderbook', 'bondingcurve', 'nftmarket'].map(market => {
   warmCommitSettlementMs: warmMs,
   offlineFullProofFillsPerSecond: fills * 1000 / warmMs,
   rateScope: 'complete warm commitment plus settlement preflight only, excluding admission, confirmation and claims; not network TPS',
-  coldCommitSettlementMs: p.reduce((s, x) => s + Number(x.coldTimingsMs.preflightTotal), 0)};
+  coldComparedOperations: p.filter(x => x.comparisonAvailable).map(x => x.task),
+  coldCommitSettlementMs: p.every(x => x.comparisonAvailable) ? p.reduce((s, x) => s + Number(x.coldTimingsMs.preflightTotal), 0) : null};
 });
 const starts = ordinary.filter(x => x.task.endsWith('-orders')).map(x => Date.parse(read(join(base, x.source, 'timing.json')).startedAt));
 const ends = ordinary.filter(x => x.task.endsWith('-claim')).map(x => Date.parse(x.commonIndexedObservedAt));
@@ -64,6 +72,7 @@ saveObservation(output, {schema: 1, generatedAt: new Date().toISOString(), pairs
  readOnlyRpcProbe: existsSync(join(base, 'public/rpc-read-latency-probe-v1.json')) ? read(join(base, 'public/rpc-read-latency-probe-v1.json')) : null,
  methodology: {sameMachine: true, sameBinaryAndRayonThreads: true, sameCompleteCallStackFeeNonceStartAndEndState: true,
   pairOrder: ['warm', 'cold'], warmOnlyBroadcast: true, samplesPerMarketAndOperation: 1,
+  coldComparisonsAvailable: pairs.filter(x => x.comparisonAvailable).length, coldComparisonsUnavailable: pairs.filter(x => !x.comparisonAvailable).map(x => x.market + '/' + x.task),
   originalFortyCallControlledComparisonCompleted: false, cargoColdBuildMeasuredInThesePairs: false,
   offlineProvingIsChainTps: false, chainTps: null,
   limitations: ['Sequential warm-then-cold single pairs are susceptible to cache and order bias; no confidence interval.', 'No second proof job is intentionally run during each pair; host load is recorded, not globally controlled.', 'Resident retains pinned circuit resources but creates a fresh user/checkpoint/nonce/state session for every request.', 'Ordinary wallet claim process and confirmation observations are measured separately; server latency 0 is not end-to-end finality.', 'Broadcast-process time combines full saved-proof verification, fresh RPC checks and HTTP acknowledgement; pure transport time is not isolated.', 'The deliberate cold comparison is additional acceptance overhead; task wall must not be called normal optimized latency.']}});
