@@ -4,7 +4,7 @@ Branch: `markets-batch-capacity-recovery-20261020`; accepted starting commit
 `e45d689e6806d362c03f15697c90aba44f8704e7`. No Node edits, old-contract update
 probes, new branches or replacement of original artifacts are authorized here.
 
-## 2026-10-22 minimal A→B→C route planner
+## 2026-10-22 minimal two-hop route planner
 
 `composition/route.mjs` plans exactly two existing AMM hops. The second input
 is the first hop's exact floor from `swapQuote` (0.30%, same check as the U124
@@ -13,19 +13,37 @@ the intermediate asset differs, a market is reused, a hop floors to zero, or
 the route is not two hops. It does not sign, submit, deploy, or use
 `invoke_sync`. The route is not atomic: the intermediate asset is claimed
 before the next order opens. Orderbook, curve and NFT are outside this path.
-`npm run test:composition` covers the planner only; no live route was submitted.
+`npm run test:composition` covers the planner.
 
-## 2026-10-22 minimal two-hop route planner
+## 2026-10-22 isolated two-hop settlement
 
-`composition/route.mjs` plans one A→B→C path across two existing AMM pools.
-Each hop uses `swapQuote`, the same 0.30% floor the U124 AMM checks, and the
-second input is exactly the first output. A plan is rejected when the final
-floor is below the caller minimum, the intermediate asset differs, a market is
-reused, a hop floors to zero, or the route is not exactly two hops. It does
-not sign, submit, deploy, or use `invoke_sync`. The hops are sequential
-existing settlements: the intermediate asset is claimed before the next order
-opens. Orderbook, curve and NFT are outside this path. No chain run and no
-throughput claim. `npm run test:composition` covers the planner.
+`composition/liveTwoHop.mjs` ran that planner on the isolated staging testnet.
+Case `/tmp/psy-composition-live-20261022-v1` is separate from the completed
+acceptance case, which was only read. The only original AMM is contract 2478
+(assets 2464 and 2466, vault 1013952). A second copy of the same artifact was
+allocated as contract 2482, vault 2036928. The services indexer still names
+that content hash as contract 2478 at checkpoint 360768. The coordinator leaf
+at 2482 matched the preflight (included checkpoint 366374,
+`servicesIndexedReceiptVerified: false`, indexed id 2478). No second deploy
+was submitted.
+
+The settled route is A→B on 2478, then B→A on 2482. It uses the same two
+assets, not a third token. It does not use `invoke_sync` and it is not atomic.
+Bob's hop-2 LP order was still open (`kind` 2). The first hop-2 swap was
+rejected before broadcast. The replacement user transaction called `close_add`
+and then `open_swap` (side 1, nonce 2) and was included at checkpoint 366965.
+
+Planned floors matched the settled calls:
+
+- Input `1000000000000000000` of asset A.
+- Hop 1 `swap_0` settled at checkpoint 366904 for `665101965472923491` of asset B (epoch 5, cutoff 366827; start 366735, admit 366753, seal 366838, commit 366873).
+- Intermediate B was claimed at checkpoint 366941.
+- Hop 2 was seeded with `5·10^18` of each asset (LP settle 366699). `swap_1` settled at checkpoint 367130 for `585461919965050413` of asset A (epoch 2, cutoff 367082; start 366978, admit 367036, seal 367096, commit 367114).
+- The hop-2 claim was included at 367139. Pool 2482 reserves then equalled `5·10^18 − 585461919965050413` of A and `5·10^18 + 665101965472923491` of B.
+
+`public/composition-live-complete-v1.json` records `invokeSync: false`,
+`atomic: false`, and `productionReady: false`. This run does not measure
+chain throughput.
 
 ## 2026-10-22 runbook acceptance matrix complete; evidence archived
 
