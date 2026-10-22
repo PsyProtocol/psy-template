@@ -4,6 +4,36 @@ Branch: `markets-batch-capacity-recovery-20261020`; accepted starting commit
 `e45d689e6806d362c03f15697c90aba44f8704e7`. No Node edits, old-contract update
 probes, new branches or replacement of original artifacts are authorized here.
 
+## 2026-10-22 omitted-sender recovery: consent-lock negative and a never-connected abort
+
+The omitted-epoch negative gate (Bob consented then cancelled; `release_unaccepted`
+while the epoch is open) was rejected in `prove-ordinary-calls` with no intent
+or request. The reviewed wallet only emits static codes (`REJECTED_REVIEW_REQUIRED`
+plus `suppressedErrorSha256`), so the old text match could never pass. The gate
+now evaluates the preserved failure record without re-proving, and requires all
+four markets to still show Bob's order with `cancelled = 1` and the consent
+bound to the open epoch (AMM nonce 5 after the LP shift). The reason is pinned
+offline: `refused_admission_sender_can_opt_out_and_enroll_exact_recovery` asserts
+the exact text "admission consent locks terms until epoch closure" and unchanged
+slots, using fixtures whose `release_unaccepted` source is byte-identical to the
+deployed four markets (all 7 admission VM tests pass). The identical release
+succeeds only after abort (`omitted-bob-release-enroll`).
+
+Orderbook, AMM and NFT aborted at **364793**. The Curve abort (vault nonce 9)
+failed in `broadcast-compact-ups` with `client error (Connect): tcp connect error`
+to realm0, conservatively marked "may have been attempted". It was not resent
+automatically. `compactNonSubmission.mjs` resolves exactly one such intent only
+if the failure is connect-stage, the send window (**364846**) is closed by more
+than 4 checkpoints, the vault leaf still equals the proof's start leaf (nonce 8,
+`67c65b…`), and no receipt is indexed. Observed at **364853**, recorded as
+`not-submitted` (source `operator-connect-failure-closed-window-unapplied`). Any
+replacement starts from the same leaf, so at most one of the two can ever apply.
+The original task file is preserved; the fresh scan ran as
+`omitted-bondingcurve-abort-retry-v1` and was included at **364868**. Recovery
+grants were then included for Curve (**364892**), Orderbook (**364897**) and NFT
+(**364896**, **364910**). Later realm0/realm1 TLS resets were read-only
+confirmation failures; each resume reconciles first.
+
 ## 2026-10-22 maximum economic stage complete; cost report published
 
 All four markets admitted 4 consented members each through the formal executor
