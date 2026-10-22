@@ -4,6 +4,39 @@ Branch: `markets-batch-capacity-recovery-20261020`; accepted starting commit
 `e45d689e6806d362c03f15697c90aba44f8704e7`. No Node edits, old-contract update
 probes, new branches or replacement of original artifacts are authorized here.
 
+## 2026-10-22 NFT competition complete (market 2481)
+
+Bob and Dave listed; Trader (`order_checkpoint` **364981**) and Charlie
+(**365018**) both bid for Bob's listing, so Trader is the planned winner. All
+four consented to epoch 3. Two independent executor journals proved full UPSs
+from the same vault nonce 12 and start leaf (`09f5f252…`) with different end
+roots; the winner was released first and included (admit **365085**), the
+contender was then rejected as `not-submitted`, and a duplicate execute
+reported `already-included`. This is a durable-journal race, not simultaneous
+RPC submission. Seal **365166**, commit **365191**; Dave cancelled after the
+freeze; expiry **365208**; refreeze **365229** kept the identical
+`queue_root/owner/nonce` and applied Dave's cancellation; settle **365249**.
+Outcome: exactly one sale (Bob → Trader, 5 QA FT), Dave's unmatched NFT returned,
+FT supply and NFT holdings conserved, every user's native delta equals their
+fees (plus Trader's escrow), and the global native decrease equals the
+**25.000228** test PSY of included fees (`nft-competition-complete-v1.json`).
+
+Operator events, none of which re-signed a business operation:
+- Charlie's buy stopped pre-session twice (`RPC_CONNECTION`, then a transient
+  `REGISTRATION_LOOKUP_FAILED`; his leaf was readable at nonce 12). The
+  replacement tool now accepts that reviewed code and a chain of
+  `-retry-vN` replacements, each failed one holding only its pre-session
+  failure, hashed in the v2 record and re-verified on every read
+  (regression added). `-retry-v2` was included.
+- The sponsor's admit funding stopped pre-session; `-retry-v1` was included.
+- Charlie's consent, Charlie's claim and Dave's claim each failed during
+  `broadcast-ordinary-ups` with no response. In each case the own leaf still
+  equalled the start leaf inside the original window, and `recoverExactWire.mjs`
+  (offline verifier `0f3f359d…`) re-sent the identical original wire once
+  (HTTP 200). The original identities were then reconciled to exact inclusion.
+- On resume the runner now reads preserved freeze/final snapshots and only
+  confirms existing claim proofs instead of recomputing payouts.
+
 ## 2026-10-22 omitted-sender recovery: consent-lock negative and a never-connected abort
 
 The omitted-epoch negative gate (Bob consented then cancelled; `release_unaccepted`
