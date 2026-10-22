@@ -4,6 +4,49 @@ Branch: `markets-batch-capacity-recovery-20261020`; accepted starting commit
 `e45d689e6806d362c03f15697c90aba44f8704e7`. No Node edits, old-contract update
 probes, new branches or replacement of original artifacts are authorized here.
 
+## 2026-10-22 maximum economic stage complete; cost report published
+
+All four markets admitted 4 consented members each through the formal executor
+(production CLI `once` for admission). Commit/settle were included for AMM,
+Orderbook, Curve (settle **364497**) and NFT (commit **364518**, settle
+**364563**), all before expiry. Economic fills: AMM 4, Orderbook 2, Curve 4,
+NFT 2. All four ordinary claims were included; QA FT supply is conserved, NFT
+ownership is unique, and the native decrease equals **32.000504** test PSY of
+included fees (`maximum-complete-v1.json`, `maximum-individual-conservation.json`).
+
+Two operator events, both before any broadcast: the Curve settle proof hit a
+realm1 connection error during proving and was rerun; the read-only Curve
+settle **cold** calibration then hit a realm0 connection error
+(`prove-compact-endcap`, `broadcastMayHaveBeenAttempted: false`). Calibration
+never blocks the submission, so the failure is preserved and marked
+`comparisonAvailable: false`; the warm proof was submitted. The cold sample
+cannot be retaken under the same source state, so it is reported as missing,
+not estimated.
+
+`maximum-cost-report-v1.json`, same host, same binary, 2 rayon threads,
+single sequential warm-then-cold pair per operation (no confidence interval):
+
+| Market / operation | warm preflight ms | cold preflight ms | cold / warm |
+| --- | ---: | ---: | ---: |
+| AMM commit | 137,594 | 232,892 | 1.69 |
+| AMM settle | 272,674 | 310,810 | 1.14 |
+| Orderbook commit | 137,684 | 187,458 | 1.36 |
+| Orderbook settle | 254,958 | 309,190 | 1.21 |
+| Curve commit | 142,670 | 204,628 | 1.43 |
+| Curve settle | 276,432 | unavailable | — |
+| NFT commit | 144,165 | 194,298 | 1.35 |
+| NFT settle | 280,581 | 334,705 | 1.19 |
+
+The resident process removes per-job key/session construction (cold AMM settle:
+1.3 s keys + 48.8 s session + 6.3 s source setup; warm: 0). Recursive call proving
+still dominates both sides (~160–177 s per settle), so it is the next real lever.
+Saved-proof verify + fresh checks + HTTP acknowledgement took 19–27 s per
+formal broadcast; acknowledgement-to-common-indexed observation was 25–195 s.
+Formal UPS fees were 1.000005–1.000061 test PSY each. The isolated test envelope
+(first order UPS to last claim observation, including deliberate cold proofs,
+network failures and operator resumes) was 9,948.6 s for 12 economic fills. That
+is an acceptance observation, **not** service throughput, and no chain TPS is claimed.
+
 ## 2026-10-22 expired LP intake retired, refunded and renewed; LP complete
 
 The first LP intake (epoch 1, cutoff **361081**) stopped when the Sponsor's
