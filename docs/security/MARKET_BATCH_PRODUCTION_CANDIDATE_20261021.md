@@ -34,6 +34,16 @@ grants were then included for Curve (**364892**), Orderbook (**364897**) and NFT
 (**364896**, **364910**). Later realm0/realm1 TLS resets were read-only
 confirmation failures; each resume reconciles first.
 
+The first global conservation check failed by exactly **1.000007** test PSY:
+a TLS reset had interrupted confirmation of the AMM recovery, and the resumed
+round saw the enrolled hint exhausted from chain state, so the AMM journal kept
+one unresolved intent. The read-only production `run.mjs reconcile` found it
+included at **364896** (fee 1.000007). With that record the check passes
+(`omitted-complete-v1.json`): Bob's FT/NFT and native principal are returned
+(his native decrease equals his 6.000076 test PSY of fees), QA FT supply and NFT
+holdings are unchanged, and the global native decrease equals the
+**21.000203** test PSY of included fees. No fairness claim is made.
+
 ## 2026-10-22 maximum economic stage complete; cost report published
 
 All four markets admitted 4 consented members each through the formal executor
