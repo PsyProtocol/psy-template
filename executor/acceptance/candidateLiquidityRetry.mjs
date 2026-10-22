@@ -3,7 +3,7 @@
 // returns only to him through the enrolled-recovery route; the renewed intake
 // then needs a fresh order and fresh consent.
 import assert from'node:assert/strict';import{existsSync,readdirSync,readFileSync}from'node:fs';import{join}from'node:path';
-import{cohort,formal,pause}from'./candidateHarness.mjs';import{read,save}from'../../batching/admission/liveSupport.mjs';import{publicState}from'../publicState.mjs';import{parseLosslessJson,FEE_ESCROW as F,losslessJson}from'../../amm/u124/client.mjs';import{sponsorCalls}from'../../batching/v2/client.mjs';import{cohortAssets,payoutClaims,canonicalHeldNfts}from'../../batching/admission/liveAssets.mjs';import{enrolledRecovery}from'./enrolledRecovery.mjs';
+import{cohort,formal,pause}from'./candidateHarness.mjs';import{read,save}from'../../batching/admission/liveSupport.mjs';import{publicState}from'../publicState.mjs';import{parseLosslessJson,FEE_ESCROW as F,losslessJson}from'../../amm/u124/client.mjs';import{sponsorCalls}from'../../batching/v2/client.mjs';import{cohortAssets,payoutClaims,canonicalHeldNfts}from'../../batching/admission/liveAssets.mjs';import{enrolledRecovery}from'./enrolledRecovery.mjs';import{ordinaryEvidenceDirectory}from'./ordinaryEvidence.mjs';
 const[base,original]=process.argv.slice(2),h=cohort(base,original),m=h.by.amm,p=read(join(base,'public/liquidity-plan-v1.json')),bob=h.actors.bob.id,services=[];
 assert.equal(h.bobLpNonce,1n,'renewed LP intake is already prepared');
 assert.ok(!existsSync(join(base,'public/liquidity-complete-v1.json')),'completed LP interval has no empty intake to retire');
@@ -21,7 +21,7 @@ try{
  {const s=await validateEmpty();assert.equal(await s.slot(m.vault,m.id,off('queue_phase')),3n);assert.equal(await s.slot(bob,m.id,off('nonce')),1n);assert.ok(await s.slot(m.vault,m.id,off('consumed')+bob)<1n,'LP order must remain unconsumed');}
  await h.user('bob','liquidity-timeout-bob-release-enroll',[m.order('request_cancel',[]),m.order('release_unaccepted',[]),m.order('request_recovery',[BigInt(m.vault)])]);
  await enrolledRecovery({...h,markets:[m]},services,{prefix:'liquidity-timeout-recovery',owners:[bob],maxGrantsPerMarket:2,maxRounds:12});
- await h.user('bob','liquidity-timeout-bob-claim',await payoutClaims(await publicState(h.config),{userId:bob,markets:[m],tokenAbi:h.token,nftAbi:h.nft}));
+ if(!existsSync(join(ordinaryEvidenceDirectory(base,'liquidity-timeout-bob-claim',bob),'included.json')))await h.user('bob','liquidity-timeout-bob-claim',await payoutClaims(await publicState(h.config),{userId:bob,markets:[m],tokenAbi:h.token,nftAbi:h.nft}));
  const s=await publicState(h.config);assert.equal(await s.slot(bob,m.id,off('kind')),0n,'expired LP order must be released');
  const afterFile=join(base,'public/liquidity-timeout-assets-after-v1.json');if(!existsSync(afterFile))save(afterFile,await cohortAssets(s,h.assetSpec));
  const exact=path=>parseLosslessJson(readFileSync(path,'utf8')),before=exact(beforeFile),after=exact(afterFile),lpBefore=exact(join(base,'public/liquidity-assets-before-v1.json'));
