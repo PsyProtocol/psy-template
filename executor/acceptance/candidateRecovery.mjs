@@ -90,7 +90,9 @@ try {
  }
  await fund('omitted-abort-fund');
  while ((await publicState(h.config)).checkpoint <= plan.cutoff) await pause(10000);
- await independent(services.map((service, i) => () => service.step('omitted-' + h.markets[i].kind + '-abort', operation('abort_empty_epoch'))));
+ // A resolved never-connected abort keeps its original task file; the replacement is scanned fresh.
+ const abortLabel = kind => existsSync(join(base, 'public', 'omitted-' + kind + '-abort-nonsubmission-v1.json')) ? 'omitted-' + kind + '-abort-retry-v1' : 'omitted-' + kind + '-abort';
+ await independent(services.map((service, i) => () => service.step(abortLabel(h.markets[i].kind), operation('abort_empty_epoch'))));
  await h.user('bob', 'omitted-bob-release-enroll', h.markets.flatMap(m => [m.order('release_unaccepted', []), m.order('request_recovery', [BigInt(m.vault)])]));
  // Abort consumed its gas grant. A fresh bounded two-fee authorization is
  // needed for fund-gas + return; NFT delivery can require a second grant.
