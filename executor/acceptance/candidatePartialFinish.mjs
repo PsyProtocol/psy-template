@@ -24,7 +24,7 @@ async function fundExact(markets,label,purpose,amount){
  save(marker,{completedAt:new Date().toISOString(),purpose,amountPerSelectedMarket:amount,markets:markets.map(m=>m.id),adopted,ordinaryInput:existsSync(input)?input:null,scope:'explicit exact sponsorship or already matching unused grant; no additional unreviewed top-up'});
 }
 try{
- for(const m of h.markets)services.push(await formal(h,m,'maximum-partial-v2',{version:1,epoch:p.epochs[m.kind],cutoff:p.cutoff,members:p.members.map(owner=>({owner,nonce:m.kind==='amm'&&owner===h.actors.bob.id?'2':'1'}))},{benchmark:false}));
+ for(const m of h.markets)services.push(await formal(h,m,'maximum-partial-v2',{version:1,epoch:p.epochs[m.kind],cutoff:p.cutoff,members:p.members.map(owner=>({owner,nonce:m.kind==='amm'&&owner===h.actors.bob.id?String(h.bobLpNonce+1n):'1'}))},{benchmark:false}));
  await fundExact(h.markets,'maximum-partial-seal-fund',2,F);
  await independent(services.map((f,i)=>()=>f.step('maximum-partial-'+h.markets[i].kind+'-seal',method('seal_epoch'))));
  await fundExact(h.markets,'maximum-partial-commit-fund',1,2n*F);
