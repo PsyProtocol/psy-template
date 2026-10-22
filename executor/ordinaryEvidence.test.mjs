@@ -33,7 +33,8 @@ test('explicit diagnostic-only pre-session replacement retains reviewed failure 
  const path='attempts/'+x.original+'/failure.json',failure={automaticRetry:false,broadcastMayHaveBeenAttempted:false,ok:false,phase:'start-ordinary-session',privateDataSuppressed:true,reasonCode:'RPC_CONNECTION',suppressedErrorSha256:'d'.repeat(64)};
  const configure=(patch={},driver=PRESESSION_DIAGNOSTIC_DRIVER_SHA256)=>{x.put(path,{...failure,...patch});x.put(x.recordFile,{...x.record,version:2,originalFailureSha256:x.sha(path),originalDriverSha256:driver});};
  configure();assert.equal(ordinaryEvidenceDirectory(x.base,x.original,2),join(x.base,'attempts',x.replacement));
- for(const patch of [{broadcastMayHaveBeenAttempted:true},{phase:'broadcast-ordinary-ups'},{reasonCode:'UNKNOWN'},{automaticRetry:true}]){configure(patch);assert.throws(()=>ordinaryEvidenceDirectory(x.base,x.original,2));}
+ configure({phase:'verify-ordinary-input-and-dependencies'});assert.equal(ordinaryEvidenceDirectory(x.base,x.original,2),join(x.base,'attempts',x.replacement));
+ for(const patch of [{broadcastMayHaveBeenAttempted:true},{phase:'broadcast-ordinary-ups'},{phase:'prove-ordinary-calls'},{reasonCode:'UNKNOWN'},{automaticRetry:true}]){configure(patch);assert.throws(()=>ordinaryEvidenceDirectory(x.base,x.original,2));}
  configure({},'e'.repeat(64));assert.throws(()=>ordinaryEvidenceDirectory(x.base,x.original,2),/unreviewed/);
  configure();x.put('attempts/'+x.original+'/intent.json',{});assert.throws(()=>ordinaryEvidenceDirectory(x.base,x.original,2),/manual reconciliation/);
 }));
