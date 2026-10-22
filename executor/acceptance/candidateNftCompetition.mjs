@@ -10,6 +10,7 @@ import {publicState} from '../publicState.mjs';
 import {call, encodeAmount, FEE_ESCROW as F, parseLosslessJson} from '../../amm/u124/client.mjs';
 import {sponsorCalls, nftBuyCalls} from '../../batching/v2/client.mjs';
 import {cohortAssets, payoutClaims, canonicalHeldNfts} from '../../batching/admission/liveAssets.mjs';
+import {ordinaryEvidenceDirectory} from './ordinaryEvidence.mjs';
 const [base, original] = process.argv.slice(2), h = cohort(base, original), m = h.by.nftmarket, unit = 10n ** 18n;
 assert.ok(existsSync(join(base, 'public/omitted-complete-v1.json')));
 const spec = h.assetSpec;
@@ -38,6 +39,8 @@ if (!existsSync(planPath)) {const s = await publicState(h.config), off = m.abi.c
  const current=await s.slot(m.vault,m.id,m.abi.contract.state.find(x=>x.name==='queue_epoch').offset);assert.ok(current>=0n&&current<4294967295n);
  save(planPath, {version: 1, epoch: Number(current)+1, cutoff: s.checkpoint + 128, members: names.map(name => ({owner: h.actors[name].id, nonce: name === 'bob' ? '3' : '2'})).sort((a, b) => a.owner - b.owner), buyers, expectedWinner: buyers[0].name});}
 const p = read(planPath), plan = {version: 1, epoch: p.epoch, cutoff: p.cutoff, members: p.members};
+// A resumed run reads the snapshot taken at its original point in the lifecycle.
+const snapshot = async name => {const path = join(base, 'public', name + '.state.json'); return existsSync(path) ? parseLosslessJson(readFileSync(path, 'utf8')) : m.snapshot(name);};
 try {
  const f = await formal(h, m, 'nft-competition', plan, {expiry: 24}); services.push(f);
  await fund('nft-competition-start-fund'); await f.step('nft-competition-start', operation('start_epoch'));
@@ -91,14 +94,15 @@ try {
  await f.step('nft-competition-expire', t => t.kind === 'batch_expire'); await f.close();
  const g = await formal(h, m, 'nft-competition-refreeze', plan, {expiry: 96}); services.push(g);
  await fund('nft-competition-refreeze-fund', 1); await g.step('nft-competition-refreeze', t => t.kind === 'batch_commit');
- const originalFreeze = parseLosslessJson(readFileSync(frozenPath, 'utf8')), refreshed = await m.snapshot('nft-competition-second-freeze');
+ const originalFreeze = parseLosslessJson(readFileSync(frozenPath, 'utf8')), refreshed = await snapshot('nft-competition-second-freeze');
  for (const field of ['queue_root', 'queue_owner', 'queue_nonce']) assert.deepEqual(refreshed.fields[field], originalFreeze.fields[field], 'expiry cannot reselect the accepted set');
  const daveIndex = p.members.findIndex(x => x.owner === h.actors.dave.id); assert.equal(originalFreeze.fields.frozen_cancelled[daveIndex], 0n); assert.equal(refreshed.fields.frozen_cancelled[daveIndex], 1n);
  await g.step('nft-competition-settle', t => t.kind === 'batch_settle');
- const settled = await m.snapshot('nft-competition-final'); assert.equal(settled.fields.queue_phase[0], 3n);
+ const settled = await snapshot('nft-competition-final'); assert.equal(settled.fields.queue_phase[0], 3n);
  const winnerId = h.actors[p.expectedWinner].id;
  assert.deepEqual(settled.fields.queue_outcome, p.members.map(x => x.owner === h.actors.bob.id || x.owner === winnerId ? 1n : 2n));
- for (const name of names) await h.user(name, 'nft-competition-' + name + '-claim', await payoutClaims(await publicState(h.config), {userId: h.actors[name].id, markets: [m], tokenAbi: h.token, nftAbi: h.nft, nftSlot: name === 'dave' || name === p.expectedWinner ? 0 : undefined}));
+ // An existing proof is only confirmed; recomputing payouts after inclusion would find none.
+ for (const name of names) await h.user(name, 'nft-competition-' + name + '-claim', existsSync(join(ordinaryEvidenceDirectory(base, 'nft-competition-' + name + '-claim', h.actors[name].id), 'preflight.json')) ? [] : await payoutClaims(await publicState(h.config), {userId: h.actors[name].id, markets: [m], tokenAbi: h.token, nftAbi: h.nft, nftSlot: name === 'dave' || name === p.expectedWinner ? 0 : undefined}));
  const before = parseLosslessJson(readFileSync(beforePath, 'utf8')), after = await cohortAssets(await publicState(h.config), spec);
  for (const asset of spec.assets) assert.equal(after.totals[asset], 1000n * unit);
  assert.equal(after.nfts.length, 2); assert.equal(after.nfts.filter(x => x.user === winnerId).length, 1); assert.equal(after.nfts.filter(x => x.user === h.actors.dave.id).length, 1);
