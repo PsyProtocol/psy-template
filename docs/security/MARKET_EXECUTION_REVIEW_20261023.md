@@ -317,3 +317,15 @@ graceful EOF to TERM/KILL with bounded waits. An unconfirmed exit halts instead
 of starting a replacement alongside it. `2026-10-23-resident-exit-v1` retains
 fault-injected exit/protocol regression evidence (174 pass, two skip overall).
 It does not certify real SDK peak-memory reduction or multi-host coordination.
+
+Fresh persistent QA bootstrap now includes two new ordinary public identities
+and one complete native faucet claim by owner 1717440 at checkpoint 370267.
+Exactly 1,000 test PSY credit, 1.000002 PSY included fee and 998.999998 balance
+reconcile. First pre-session RPC failure is preserved; a single reviewed exact
+input/window repair confirmed fresh nonce 0 and no prior request/broadcast.
+Its complete saved proof independently verifies. Native claim client wall
+161.433 s, indexed/common observation 23.213 s after acknowledgement, full
+process peak RSS 5.723 GiB. No matched before/after, separate internal phase or
+warm sample exists. This is not a market fill, pUSDT/FT/NFT claim or four-market
+acceptance. See `2026-10-23-performance-native-bootstrap-v1` and the performance
+status matrix for pending gates, source scripts and original failure evidence.

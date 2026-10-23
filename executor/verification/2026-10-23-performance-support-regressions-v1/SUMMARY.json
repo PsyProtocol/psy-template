@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "regressions": {
+    "pass": 174,
+    "skip": 2,
+    "fail": 0
+  },
+  "scope": "JS formal Executor/acceptance unit regressions, including exact-wire tampering; historical three-market flows not rerun. New native claim evidence is separate.",
+  "sourceHashes": {
+    "executor/acceptance/ownedCase.mjs": "462a743f3a7db5efddf4b496af15ae2a1f6d213e9ab9582721ea077ab7f6ef4a",
+    "executor/acceptance/recoverCompactWire.mjs": "f1b1ad32984cc4b336a70da55a32d4c2f4c7a0318c82c426e7bda659a90c7a53",
+    "executor/acceptance/recoverCompactWire.test.mjs": "51e9c3f9d823399667f465ef8b189b05b2c3f638876892f67d29a7b2ae004b4b",
+    "executor/acceptance/repairOwnedOrdinary.mjs": "890036aed6e7723b2b7a94863624a2470e5118315a9c22ce7c3fb824fe7be4e4",
+    "executor/acceptance/thinMarketsLive.mjs": "ca7295841f92fb79c988499132d935eac0014a2090a9921431bc116929cfb1e2",
+    "executor/acceptance/thinMarketsFinish.mjs": "66576021623f4eab7502f16026895c79d149629bb0ece7dd113d8b4fa696f677",
+    "executor/acceptance/thinMarketsSettle.mjs": "ca2e28fb65509590a56d1dd2d42043ef281b47d2725a92907a464c12dd5a6d7d",
+    "executor/acceptance/performanceActors.mjs": "a4391be8d94e0b1d885959b5ec086e5d27a7a5174ba50d69285217adc88a70c0",
+    "executor/acceptance/performanceFaucet.mjs": "5b514592d7bda1f59682b50fd2bb4af5fd2d12dbfbba3aa6b9a060df497b7c1d",
+    "executor/acceptance/performanceNativeClaim.mjs": "dbf5dbb29155ae34eb93247fb5ae441246a89b4341a5b4d423c34791b87713b6",
+    "executor/acceptance/performanceClaimRepair.mjs": "cf6fd0f970b58089a1d543785f4f429c826675a079f45a258872d1ecefb307df"
+  },
+  "productionReady": false
+}

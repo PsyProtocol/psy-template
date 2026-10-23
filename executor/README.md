@@ -566,6 +566,26 @@ An unconfirmed exit rejects close and halts replacement; there is no automatic
 restart, proof broadcast or financial retry. Unit fault injection covers an
 unresponsive child. This is resource lifecycle safety, not a measured speedup.
 
+### QA source and evidence boundaries
+
+`acceptance/performanceActors.mjs`, `performanceFaucet.mjs`,
+`performanceNativeClaim.mjs` and `performanceClaimRepair.mjs` are explicit owned
+QA bootstrap commands, not automatic production retry handlers. They pin the
+selected build, use persistent cases and preserve partial output. The repair
+is restricted to the reviewed first native claim's failure-only pre-session
+RPC case, unchanged nonce/credit/input/window and one new directory. Unknown
+broadcasts and arbitrary proof failures are ineligible. The published native
+claim evidence is supporting baseline only; four-market acceptance is pending.
+
+Earlier `thinMarkets*`, `ownedCase`, `repairOwnedOrdinary`, `recoverCompactWire`
+and `ordinary_call_probe.rs` sources are retained for review. Original `/tmp`
+QA cases and their ordinary secrets were lost in the reboot; these sources
+do not reconstruct them. Old binary pins/paths are intentional preconditions,
+not permission to substitute a rebuilt binary. `recoverCompactWire` may only
+resend one exact original verified wire after reconciliation and current-state
+checks; its unit test is not evidence of a real retransmission. This round did
+not rerun those historical financial flows or the read-only Rust call probe.
+
 ### Opt-in pre-admission bulk fallback
 
 For `admissionMode:"all-four-v1"`, `bulkFallbackRemainingCheckpoints` (1..64)
