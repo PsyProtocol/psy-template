@@ -737,3 +737,23 @@ conclusion follows. Closed first-hop/source/receipt/state artifacts are in
 verification and whole-cohort audits are still required. The final ordinary
 claim audit additionally binds the pinned ordinary actor's public-key hash,
 nonce and end user-state root; it does not accept only a matching numeric ID.
+
+### Both actual pool settlements and next resource coverage
+
+Second-pool settlement is included at checkpoint 371489. Actual intermediate
+consumption, final Outbox and reserve deltas match **3.141711878267176122 QA-A**,
+above the signed minimum **3.110294759484504360 QA-A**. Final controller claim,
+return and ordinary owner's receipt still require their own confirmations.
+
+Success already exercises explicit first-fund restart/reconciliation. The future
+recovery child will instead retain its resident from its actual first fund into
+its first open, covering that fresh-root warm transition without repeating a
+completed cold restart. Adapter/resource IDs and parent PID are observations;
+old prepared witnesses, nonce, signature session, fee/current-state checks and
+full UPS proofs are unchanged. A restart produces a different ID and cannot be
+reported as warm continuity. The running success child keeps its prior loaded
+source. Exact planned future source hashes and 43 focused resource/journal/
+measurement regressions are archived in
+`executor/verification/2026-10-24-composition-warm-preflight-v1`. Live warm reuse,
+final owner claims and compensation remain pending; no speedup conclusion yet.
+The SDK/genesis/lock check and unchanged preexisting Node diff are re-recorded.
