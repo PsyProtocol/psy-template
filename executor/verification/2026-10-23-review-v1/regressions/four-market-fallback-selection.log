@@ -1,0 +1,149 @@
+TAP version 13
+# Subtest: formal route binds and processes every sealed member in four markets
+ok 1 - formal route binds and processes every sealed member in four markets
+  ---
+  duration_ms: 675.601125
+  ...
+# Subtest: lost receipt, restart and duplicate task reconcile without re-proving or re-sending
+ok 2 - lost receipt, restart and duplicate task reconcile without re-proving or re-sending
+  ---
+  duration_ms: 239.683541
+  ...
+# Subtest: proof digest substitution and config replacement halt before transmission
+ok 3 - proof digest substitution and config replacement halt before transmission
+  ---
+  duration_ms: 80.894041
+  ...
+# Subtest: cached proof loses validity when anchor nonce or broadcast window changes
+ok 4 - cached proof loses validity when anchor nonce or broadcast window changes
+  ---
+  duration_ms: 84.366709
+  ...
+# Subtest: double local executors share journal lock and create only one unresolved broadcast
+ok 5 - double local executors share journal lock and create only one unresolved broadcast
+  ---
+  duration_ms: 168.574791
+  ...
+# Subtest: unsealed lifecycle honors consent, cutoff, capacity and explicit sponsorship
+ok 6 - unsealed lifecycle honors consent, cutoff, capacity and explicit sponsorship
+  ---
+  duration_ms: 8.75575
+  ...
+# Subtest: profile and public admission plan reject ambiguous bindings and fake configuration
+ok 7 - profile and public admission plan reject ambiguous bindings and fake configuration
+  ---
+  duration_ms: 7.6165
+  ...
+# Subtest: normal Executor children never inherit the read-only benchmark source selector
+ok 8 - normal Executor children never inherit the read-only benchmark source selector
+  ---
+  duration_ms: 75.674791
+  ...
+# Subtest: recovery funding requests distinguish the two-UPS budget from an existing partial deposit
+ok 9 - recovery funding requests distinguish the two-UPS budget from an existing partial deposit
+  ---
+  duration_ms: 36.929583
+  ...
+# Subtest: included receipt waits for common realm visibility before releasing vault
+ok 10 - included receipt waits for common realm visibility before releasing vault
+  ---
+  duration_ms: 177.137541
+  ...
+# Subtest: only explicit pre-broadcast driver rejection permits not-submitted; missing evidence remains unknown
+ok 11 - only explicit pre-broadcast driver rejection permits not-submitted; missing evidence remains unknown
+  ---
+  duration_ms: 338.811959
+  ...
+# Subtest: recovery hints process only enrolled inactive senders without selecting other market orders
+ok 12 - recovery hints process only enrolled inactive senders without selecting other market orders
+  ---
+  duration_ms: 8.355125
+  ...
+# Subtest: prepared nonce metadata stays exact beyond JavaScript safe integer range
+ok 13 - prepared nonce metadata stays exact beyond JavaScript safe integer range
+  ---
+  duration_ms: 89.103625
+  ...
+# Subtest: explicit no-send recovery reuses one proof and never masks a later pending attempt
+ok 14 - explicit no-send recovery reuses one proof and never masks a later pending attempt
+  ---
+  duration_ms: 270.99225
+  ...
+# Subtest: pre-session transport restart preserves failed attempt and sends only verified replacement session
+ok 15 - pre-session transport restart preserves failed attempt and sends only verified replacement session
+  ---
+  duration_ms: 180.361334
+  ...
+# Subtest: pre-session transport restart is bounded and never sends on exhaustion
+ok 16 - pre-session transport restart is bounded and never sends on exhaustion
+  ---
+  duration_ms: 101.783625
+  ...
+# Subtest: pre-session restart refuses an expired original task window
+ok 17 - pre-session restart refuses an expired original task window
+  ---
+  duration_ms: 70.686666
+  ...
+# Subtest: legacy contract recovery cap cannot be raised by client configuration
+ok 18 - legacy contract recovery cap cannot be raised by client configuration
+  ---
+  duration_ms: 6.686125
+  ...
+# Subtest: all-four opt-in proposes exactly seven calls for canonical consents in every market
+ok 19 - all-four opt-in proposes exactly seven calls for canonical consents in every market
+  ---
+  duration_ms: 40.039208
+  ...
+# Subtest: bulk waits for all four consents and cannot bypass existing policy registration mode
+ok 20 - bulk waits for all four consents and cannot bypass existing policy registration mode
+  ---
+  duration_ms: 44.313916
+  ...
+# Subtest: bulk helper rejects duplicate, zero, rounded and out-of-range members and preserves canonical witness padding
+ok 21 - bulk helper rejects duplicate, zero, rounded and out-of-range members and preserves canonical witness padding
+  ---
+  duration_ms: 7.421541
+  ...
+# Subtest: watch backs off after bounded verified pre-session outage and later submits exactly once
+ok 22 - watch backs off after bounded verified pre-session outage and later submits exactly once
+  ---
+  duration_ms: 238.836459
+  ...
+# Subtest: scan uses one fresh snapshot but refreshes dependency and registry bindings on its next scan
+ok 23 - scan uses one fresh snapshot but refreshes dependency and registry bindings on its next scan
+  ---
+  duration_ms: 44.19025
+  ...
+# Subtest: parallel metadata failures drain sibling reads and cannot start queue planning
+ok 24 - parallel metadata failures drain sibling reads and cannot start queue planning
+  ---
+  duration_ms: 52.415541
+  ...
+# Subtest: amm: opt-in deadline fallback selects consenting hints before admission and retains every accepted member
+ok 25 - amm: opt-in deadline fallback selects consenting hints before admission and retains every accepted member
+  ---
+  duration_ms: 9.425459
+  ...
+# Subtest: orderbook: opt-in deadline fallback selects consenting hints before admission and retains every accepted member
+ok 26 - orderbook: opt-in deadline fallback selects consenting hints before admission and retains every accepted member
+  ---
+  duration_ms: 8.457333
+  ...
+# Subtest: bondingcurve: opt-in deadline fallback selects consenting hints before admission and retains every accepted member
+ok 27 - bondingcurve: opt-in deadline fallback selects consenting hints before admission and retains every accepted member
+  ---
+  duration_ms: 7.777666
+  ...
+# Subtest: nftmarket: opt-in deadline fallback selects consenting hints before admission and retains every accepted member
+ok 28 - nftmarket: opt-in deadline fallback selects consenting hints before admission and retains every accepted member
+  ---
+  duration_ms: 7.226333
+  ...
+1..28
+# tests 28
+# pass 28
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 3690.433125

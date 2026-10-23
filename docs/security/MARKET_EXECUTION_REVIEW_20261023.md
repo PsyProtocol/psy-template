@@ -212,3 +212,16 @@ Book or NFT. The three retain their prior maximum/recovery proofs and live
 acceptance. Composition custody/controller/SD-key/full UPS and new-instance
 financial acceptance remain incomplete; external runtime/domain/upgrade/random
 source/atomic multiwriter gates remain open. No production certification follows.
+
+## Other-market continuation audit
+
+The deadline fallback selection regression now runs against all four archived
+market ABI/policy fixtures. It checks the default wait, pre-freeze deadline
+choice, deterministic first/next eligible consent, retention of accepted members
+and cutoff seal. All 28 compact-adapter tests pass; these use provider/driver
+doubles and perform no proof/broadcast. The preceding maximum, partial refund,
+omitted-sender and NFT competition evidence is retained. A fresh thin-dispatch
+live case for Book, Curve and NFT is still unverified, and is not inferred from
+the AMM result or these selection tests. Shared-vault multi-host coordination,
+financial composition controller/key/full UPS and external release/authorization
+requirements remain the next substantive gates.
