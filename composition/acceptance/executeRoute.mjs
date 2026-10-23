@@ -1,7 +1,64 @@
-import{controllerDirectory}from'./controllerDirectory.mjs';
-// Real separate-UPS two-AMM route using production factories and journals.
-import assert from'node:assert/strict';import{existsSync}from'node:fs';import{join}from'node:path';import{marketHarness,formal,methodTask,waitCutoff,exact}from'./marketHarness.mjs';import{financialHarness}from'./financialHarness.mjs';import{read,save}from'../../batching/admission/liveSupport.mjs';import{publicState}from'../../executor/publicState.mjs';import{prepareOwnerClaim}from'../client.mjs';import{decodeAmount,FEE_ESCROW as F}from'../../amm/u124/client.mjs';import{sponsorCalls}from'../../batching/v2/client.mjs';
-const[base,scenario]=process.argv.slice(2);assert.ok(['success','recovery'].includes(scenario));const h=await marketHarness(base),home=join(controllerDirectory(base),scenario),r=read(join(home,'build/REGISTERED.json')),f=await financialHarness(base,scenario,{loseFundParentAck:scenario==='success'}),V=r.vaultId,augmented={...h,actors:{...h.actors,component:{id:V}}};
-try{await f.ownerFund();await f.step('fund');const initMarker=join(home,'public/INITIALIZATION-VERIFIED-v1.json');if(!existsSync(initMarker)){const s=await f.adapter.snapshot(),B=Number(f.adapter.model.assetB),U=r.owner.userId;assert.notEqual(await s.contractStateRoot(V,B),'0'.repeat(64),'other FT root must be authenticated before market entry');assert.equal(await s.slot(V,B,0),0n);assert.equal(await s.slot(V,B,1),0n);assert.equal(await s.slot(V,B,33554453+4*U),1n);assert.equal(await s.slot(V,B,33554455+4*U),1n);save(initMarker,{checkpoint:s.checkpoint,asset:B,root:await s.contractStateRoot(V,B),spendable:0n,originalOwnerRefundOutbox:1n,scope:'first full controller UPS cancels declared one-atom owner seed back to owner, establishes asset tree with zero trading balance'});}const restartMarker=join(home,'public/RESTART-RECONCILED-v1.json');if(!existsSync(restartMarker)&&scenario==='success'){const restart=await f.restart();save(restartMarker,{...restart,checkedAt:new Date().toISOString(),unresolved:(await f.journal.unresolved()).length,scope:'new adapter/process resources over same persisted journal, original included funding is reconciled, not repeated'});}
-for(let hop=1;hop<=(scenario==='success'?2:1);hop++){const m=h.markets[hop-1],tag='composition-'+scenario+'-hop-'+hop;const opened=await f.step('open-'+hop);if(scenario==='recovery'&&hop===1){const marker=join(home,'public/WARM-FUND-TO-OPEN-v1.json');if(!existsSync(marker)){const funded=read(join(home,'public/composition-recovery-fund-v1-formal-result.json'));save(marker,{checkedAt:new Date().toISOString(),fundTaskId:funded.taskId,openTaskId:opened.taskId,fundResourceId:funded.adapterInstanceId??null,openResourceId:opened.adapterInstanceId??null,warmTransitionVerified:typeof funded.adapterInstanceId==='string'&&funded.adapterInstanceId===opened.adapterInstanceId,scope:'same adapter/resident resource through real first fund and next open UPS when IDs match; false after an intervening restart, never reuse old state witnesses or infer performance speedup'});}}await h.fund([m],tag+'-start-fund',2);const planPath=join(home,'public',tag+'-admission-plan.json');if(!existsSync(planPath)){const s=await publicState(h.config),field=m.abi.contract.state.find(x=>x.name==='queue_epoch');save(planPath,{version:1,epoch:Number(await s.slot(m.vault,m.id,field.offset))+1,cutoff:s.checkpoint+64,members:[{owner:V,nonce:'1'}]});}const plan=read(planPath),b=await formal(augmented,m,tag,plan,{performanceMetrics:true});try{await b.step(tag+'-start',methodTask('start_epoch'));await f.step('consent-'+hop);await h.fund([m],tag+'-admit-fund',2);await b.step(tag+'-admit',methodTask('admit_entry'));await h.fund([m],tag+'-seal-fund',2);await waitCutoff(h.config,plan.cutoff);await b.step(tag+'-seal',methodTask('seal_epoch'));await h.fund([m],tag+'-commit-fund',1);await b.step(tag+'-commit',t=>t.kind==='batch_commit');await b.step(tag+'-settle',t=>t.kind==='batch_settle');}finally{await b.close();}await f.step('success-'+hop);}
-if(scenario==='recovery'){await f.step('open-2');await f.ownerCancel();await f.step('cancel-2');await f.step('recover-2');const m=h.markets[1],tag='composition-recovery-unaccepted-hop-2',planPath=join(home,'public',tag+'-plan.json');if(!existsSync(planPath)){const s=await publicState(h.config),offset=m.abi.contract.state.find(f=>f.name==='queue_epoch').offset;save(planPath,{version:1,epoch:Number(await s.slot(m.vault,m.id,offset))+1,cutoff:s.checkpoint+64,members:[{owner:V,nonce:'1'}]});}const b=await formal(augmented,m,tag,read(planPath),{performanceMetrics:true});try{let scan=await b.adapter.scan();if(!scan.action&&scan.reason==='recovery-gas-sponsorship-required'){await h.user('sponsor',tag+'-gas-fund',async()=>{const s=await publicState(h.config),S=h.actors.sponsor.id;assert.equal(await s.slot(S,0,3+2*m.vault),await s.slot(m.vault,0,4+2*S),'existing sponsor grant must reconcile before recovery funding');const offset=m.abi.contract.state.find(f=>f.name==='sponsor_nonce').offset;return sponsorCalls({marketId:BigInt(m.id),abi:m.abi,vaultId:BigInt(m.vault),nonce:await s.slot(S,m.id,offset)+1n,purpose:2n,amount:2n*F});});scan=await b.adapter.scan();}if(scan.action&&methodTask('fund_gas')(scan.action)&&!methodTask('recover_funding')(scan.action))await b.step(tag+'-fund-gas',methodTask('fund_gas'));await b.step(tag+'-return-principal',methodTask('recover_funding'));}finally{await b.close();}await f.step('recovered-2');await f.step('return-middle');}else await f.step('return-final');const outboxFile=join(home,'public/FINAL-OWNER-OUTBOX-v1.json'),before=existsSync(outboxFile)?exact(outboxFile):await prepareOwnerClaim(f.adapter);assert.equal(before.status,'owner-signature-required');if(!existsSync(outboxFile))save(outboxFile,before);await f.ownerClaim();const claimed=await prepareOwnerClaim(f.adapter);assert.equal(claimed.status,'owner-outboxes-claimed');const s=await f.adapter.snapshot(),model=f.adapter.model,at=n=>s.slot(V,r.controllerId,model.controllerAbi.contract.state.find(x=>x.name===n).offset);assert.equal(await at('phase'),99n);const asset=scenario==='success'?model.assetA:model.assetB,amount=before.pending.find(p=>p.asset===asset)?.amount;assert.ok(amount>0n);if(scenario==='success')assert.ok(amount>=model.intent.terms.output.amount);const principal=scenario==='success'?amount:decodeAmount(await Promise.all([0,1].map(j=>s.slot(V,r.controllerId,model.controllerAbi.contract.state.find(f=>f.name==='middle').offset+j))));const controllerFees=await at('fees'),nativeRefund=await s.slot(V,0,3+2*r.owner.userId),budget=await at('budget'),netMarketEscrow=(scenario==='success'?2n:1n)*F;assert.equal(budget,controllerFees+nativeRefund+netMarketEscrow,'controller budget, actual fees, owner refund and net market escrows');const receipts=new Map((await f.journal.records()).filter(row=>row.status==='included').map(row=>[row.taskId,row.result]));assert.equal([...receipts.values()].reduce((n,row)=>n+BigInt(row.receipt.data.result.fees_collected),0n),controllerFees,'actual controller receipt burns');save(join(home,'public/LIVE-ROUTE-COMPLETE-v1.json'),{checkedAt:new Date().toISOString(),checkpoint:s.checkpoint,scenario,intentId:model.intent.id,input:model.intent.terms.input,received:{asset,amount},initializationRefund:{asset:f.adapter.model.assetB,amount:1n},routePrincipal:{asset,amount:principal},owner:r.owner.userId,vaultId:V,controllerId:r.controllerId,nativeAccounting:{budget,controllerReceiptBurn:controllerFees,ownerRefund:nativeRefund,netMarketEscrow,scope:'controller deposits/refund/receipt burn/market service escrow; external sponsor and ordinary owner burn separately audited across whole cohort'},ordinaryOwnerClaimIncluded:true,controllerPhase:99,controllerNative:await s.slot(V,0,0),controllerAssets:await Promise.all([model.assetA,model.assetB].map(async id=>({asset:id,balance:decodeAmount(await Promise.all([0,1].map(j=>s.slot(V,Number(id),j))))}))),atomic:false,scope:scenario==='success'?'two base AMM trades confirmed, intermediate and final claim, ordinary owner FT/native claim; cross-UPS workflow, not cross-vault atomicity':'first AMM trade confirmed; second hop input deposited then owner cancelled before admission; sender-bound base recovery and controller refund UPSs returned actual QA-B and escrow, ordinary owner claimed; no reversal of first trade'});console.log(scenario,'actual route and owner claim complete');}finally{await f.close();}
+// Bounded QA supervisor. Financial work runs in a separate worker. Only the
+// declared, fully included lifecycle checkpoint permits one new process.
+import assert from 'node:assert/strict';
+import {spawn} from 'node:child_process';
+import {readFileSync, existsSync} from 'node:fs';
+import {join} from 'node:path';
+import {fileURLToPath} from 'node:url';
+import {controllerDirectory} from './controllerDirectory.mjs';
+import {PLANNED_RESTART, verifyRestart} from './processCheckpoint.mjs';
+import {ExecutionJournal} from '../../executor/journal.mjs';
+import {sha256} from '../../executor/requestBinding.mjs';
+import {read, save} from '../../batching/admission/liveSupport.mjs';
+const [base, scenario] = process.argv.slice(2);
+assert.ok(base && ['success','recovery'].includes(scenario));
+const home = join(controllerDirectory(base), scenario), configFile = join(home, 'route/executor.json');
+const config = read(configFile), configSha256 = sha256(readFileSync(configFile));
+const planFile = join(base, 'public/RECOVERY-PROCESS-RESTART-PLAN-v1.json');
+const planned = scenario === 'recovery' && existsSync(planFile);
+const pointFile = join(home, 'public/PROCESS-RESTART-POINT-v1.json');
+const worker = fileURLToPath(new URL('./executeRouteWorker.mjs', import.meta.url));
+if (planned) {
+  const plan = read(planFile);
+  assert.equal(plan.vaultId, config.vaultId);
+  assert.equal(plan.fingerprint, config.fingerprint);
+  assert.equal(plan.publicKeyHash, config.publicKeyHash);
+  assert.equal(plan.sdkManifestHash, config.sdkManifestHash);
+  assert.equal(plan.controllerId, read(join(home, 'build/REGISTERED.json')).controllerId);
+  assert.deepEqual(Object.keys(plan.sources).sort(),
+    ['executeRoute.mjs','executeRouteWorker.mjs','financialHarness.mjs','processCheckpoint.mjs'].sort());
+  for (const [name, digest] of Object.entries(plan.sources)) {
+    assert.ok(['executeRoute.mjs','executeRouteWorker.mjs','financialHarness.mjs','processCheckpoint.mjs'].includes(name));
+    assert.equal(sha256(readFileSync(fileURLToPath(new URL('./'+name, import.meta.url)))), digest);
+  }
+}
+const attempts = [];
+for (let index = 0; index < 2; index++) {
+  assert.equal(sha256(readFileSync(configFile)), configSha256);
+  const {pid, code, signal} = await new Promise((resolve, reject) => {
+    const child = spawn(process.execPath, [worker, base, scenario], {stdio:'inherit',
+      env:{...process.env, PSY_COMPOSITION_QA_RESTART_AFTER_WARM_OPEN:planned ? '1' : '0'}});
+    child.once('error', reject);
+    child.once('exit', (code, signal) => resolve({pid:child.pid, code, signal}));
+  });
+  attempts.push({pid, code, signal});
+  if (code === 0) {
+    if (planned && attempts.length === 2) {
+      const resumed = read(join(home, 'public/PROCESS-RESTART-RESUMED-v1.json'));
+      assert.equal(resumed.oldPid, attempts[0].pid);
+      assert.equal(resumed.newPid, pid);
+      assert.notEqual(resumed.oldPid, resumed.newPid);
+      save(join(home, 'public/PROCESS-RESTART-COMPLETE-v1.json'), {
+        checkedAt:new Date().toISOString(), configSha256, attempts, resumed,
+        scope:'one planned real worker exit, new PID, exact original receipt reconciliation and later route completion; no unknown-broadcast retry or cross-machine takeover claim'});
+    }
+    break;
+  }
+  assert.ok(planned && index === 0 && code === PLANNED_RESTART && signal === null,
+    'worker stopped; preserve original financial identity and review, no automatic retry');
+  const journal = new ExecutionJournal({directory:config.runtimeDirectory, network:config.network,
+    vaultId:config.vaultId, fingerprint:config.fingerprint});
+  verifyRestart(read(pointFile), {exitCode:code, oldPid:pid, configSha256,
+    records:await journal.records(), unresolved:(await journal.unresolved()).length});
+  console.log('QA confirmed checkpoint worker exited; continuing exact journals in a new worker', pid);
+}
