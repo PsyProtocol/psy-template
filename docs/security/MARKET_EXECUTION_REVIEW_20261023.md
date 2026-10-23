@@ -384,3 +384,15 @@ No unsafe old-contract upgrade probes or Node changes are made here. A certified
 future random beacon/seed with checkpoint proof and commit-before-reveal rule,
 and cross-host lease/fencing evidence for avoiding duplicate prover work, remain
 separate deliveries. Deterministic order and own-account nonce safety remain.
+
+The guarded controller's accepted-cancel/refund path now has six additional full
+UPSs and independent saved-request verification; funding-then-pretrade-cancel
+adds two more (16 new controller UPSs total across three scenarios). Principal
+and native escrow claims are proved in the controller, zero terminal balances
+checked; base-market/ordinary actions remain VM-only. Archives:
+`2026-10-23-composition-refund-ups-v1` and `2026-10-23-composition-cancel-ups-v1`.
+Fresh QA FT 2483 has an indexed new deployment receipt. QA-B's first attempt
+failed at a pre-broadcast state read after initial proof preparation; the pinned
+driver explicitly records no broadcast attempt. The failed request/proof is
+preserved; one separately reviewed same-artifact/deployer attempt is recorded
+under a new directory. No unknown broadcast is automatically replaced.
