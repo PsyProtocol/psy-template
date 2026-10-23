@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {observedConfirmation, matchVerifiedReceipt, summarizePublicReads} from './livePerformance.mjs';
+import {observedConfirmation, matchVerifiedReceipt, summarizePublicReads, observedWarmTransition} from './livePerformance.mjs';
 
 test('missing acknowledgement is unknown, not zero; reversed or invalid observation time rejects', () => {
   const included = {checkedAt:'2026-10-24T01:01:00Z'};
@@ -32,4 +32,15 @@ test('performance cannot attribute a proof from another receipt, payer or exact 
   for (const patch of [{contentHash:'b'}, {userId:134336n}, {fee:row.fee+1n}]) {
     assert.throws(() => matchVerifiedReceipt(row, {...row, ...patch}));
   }
+});
+
+test('warm resource observation must join exact included intent, operation and original process',()=>{
+ const fund={taskId:'a',task:{intentId:'i',operation:'fund'},result:{status:'included'},
+   adapterInstanceId:'455540b4-1175-45af-9019-e051467d44a5',parentPid:1358n};
+ const open={...fund,taskId:'b',task:{intentId:'i',operation:'open-1'}};
+ assert.equal(observedWarmTransition(fund,open,'i').warmTransitionVerified,true);
+ for(const patch of [{parentPid:8098n},{adapterInstanceId:'a5fc61cf-296e-4e03-b1f4-f910bb0f8354'},{parentPid:undefined}])
+   assert.equal(observedWarmTransition(fund,{...open,...patch},'i').warmTransitionVerified,false);
+ assert.throws(()=>observedWarmTransition(fund,open,'another-intent'));
+ assert.throws(()=>observedWarmTransition(fund,{...open,result:{status:'unresolved'}},'i'));
 });
