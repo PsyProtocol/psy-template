@@ -116,3 +116,26 @@ pass. A new evidence case will test this via the production CLI, existing owned
 QA AMM 2478 (no new deployment), ordinary claim and a 20-account conservation
 interval including the historical second pool. This is not new composition
 controller acceptance. No result is claimed before its final receipt/audit.
+
+## Follow-up review: recovery route and checkpoint binding
+
+The client recovery scaffold originally compared `intentId`, registry hash and
+its own plan hash without reconstructing the actual steps. A caller could supply
+a changed step vault and recompute a local plan digest. It could also prepare a
+later stage against a source checkpoint older than the preceding confirmed
+common checkpoint. Neither path currently sends funds, but both would be unsafe
+foundations for a future financial adapter.
+
+`planIntent` now retains its registry/snapshot provenance; workflow start and
+every transition recompute all steps against the intent's committed registry.
+Changed vault/market/quantity/receiver and changed registry roots fail, even with
+a new local plan hash. Later stage sources must include prior common checkpoints.
+Twenty-six composition tests pass, including these route-substitution and stale-
+source regressions. Supplied reserve snapshots remain explicitly unauthenticated;
+the dedicated controller/key and receipt verifier are still required.
+
+The reservation-only controller is being compiled with the same frozen SDK.
+Its application compiler must retain `GetUserPublicKeyHash` while prepending a
+Felt height constant. No key check is removed to compile it. Until actual
+bytecode tests and complete UPS/SD-key gates pass, it has no custody capability
+and must not receive delegated funds. Original failed compile directories remain.

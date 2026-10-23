@@ -45,3 +45,11 @@ still need a full-proof/historical/index verifier, and it currently has **no
 financial adapter**. Local revision tests do not prove multi-host exclusion or
 on-chain authorization. The initial store is one intent per dedicated case;
 controller/key and actual new-instance acceptance remain uncompleted gates.
+
+Recovery now recomputes the complete advisory plan from its embedded registry
+and snapshots, checking that registry against the user's committed hash. Matching
+intent IDs and a replacement local plan digest cannot substitute a vault, market,
+amount or receiver. Each new stage's source checkpoint must also include all
+previous confirmed common checkpoints. Old plans lacking this provenance fail
+closed; no persisted original evidence is rewritten. These consistency checks
+still do not authenticate supplied snapshots or authorize transfers.
