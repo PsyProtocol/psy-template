@@ -124,7 +124,7 @@ test('parallel metadata failures drain sibling reads and cannot start queue plan
  await assert.rejects(()=>a.scan(),/metadata read outage/);assert.equal(active,0);assert.ok(finished>1);assert.equal(planned,0);assert.equal(x.sends,0);
 }));
 
-test('opt-in deadline fallback selects consenting hints before admission and retains every accepted member',()=>fixture('amm',async x=>{
+for(const kind of ['amm','orderbook','bondingcurve','nftmarket'])test(kind+': opt-in deadline fallback selects consenting hints before admission and retains every accepted member',()=>fixture(kind,async x=>{
  x.o.admissionMode='all-four-v1';x.files.policy=withBulkAdmission(x.files.policy);x.files.admissionPlan={version:1,epoch:10,cutoff:120,members:[0,1,2,3].map(i=>({owner:200+i,nonce:String(i+1)}))};
  for(const[n,v]of Object.entries({queue_phase:1,queue_epoch:10,queue_count:0,queue_cutoff:120}))x.set(100,n,v);
  for(let i=0;i<4;i++)x.set(100,'queue_owner',0,i);
