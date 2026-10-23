@@ -1,5 +1,13 @@
 # Executor measurement ledger — 2026-10-23
 
+New supporting native ordinary claim baseline and phase-by-phase remaining
+gates are in `MARKET_EXECUTOR_PERFORMANCE_STATUS_20261023.md`: one real test PSY
+claim confirmed at 370267; cold client process 161.433 s, acknowledgement to
+indexed/common observation 23.213 s, process peak RSS 5.723 GiB, fee 1.000002 PSY.
+This is neither a four-market fill nor a matched optimization comparison.
+Raw public requests/receipts/failures and independent proof check are archived
+under `2026-10-23-performance-native-bootstrap-v1`.
+
 ## Latest continuation: persistence and read-cost instrumentation
 
 ### Public identity reuse (separate, narrowly scoped experiment)
