@@ -4,6 +4,19 @@ Branch: `markets-batch-capacity-recovery-20261020`; accepted starting commit
 `e45d689e6806d362c03f15697c90aba44f8704e7`. No Node edits, old-contract update
 probes, new branches or replacement of original artifacts are authorized here.
 
+## 2026-10-23 review supersedes the historical composition execution path
+
+See `MARKET_EXECUTION_REVIEW_20261023.md` for the code review and current work.
+The old two-hop script's allocation-counter fallback bypassed the exact indexed
+occurrence gate. That financial entry is retired; `liveTwoHop.mjs` now only reads
+the unchanged historical report. The prior two ordinary-user-signed swaps do
+not certify dedicated intent/controller/SD-key authorization. New strict intent,
+complete dependency registry and durable staged recovery modules are under
+`composition/`, with explicit non-authorizing status until controller/full-UPS
+verification. No Node edit, SDK migration, old-contract probe or original-evidence
+replacement occurred. Formal Executor phase metrics and timed full-proof RSS
+measurements have begun; no new measured speedup or production conclusion yet.
+
 ## 2026-10-22 minimal two-hop route planner
 
 `composition/route.mjs` plans exactly two existing AMM hops. The second input

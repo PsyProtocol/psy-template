@@ -81,3 +81,15 @@ was attempted. Six original/hash-verified public files are archived at
 The current focused complete JS regression is **157/157**, supporting evidence
 rather than a production certificate. New composition controller/SD-key and
 financial acceptance remain pending.
+
+## Independent composition recovery state implemented
+
+The intent now also binds the dedicated execution account, controller and full
+key/code/layout metadata. `workflow.mjs` and `store.mjs` implement exact pending
+request identities, stage order (including mandatory claims), duplicate receipt
+idempotency, caller/nonce/fee bounds, explicit intermediate-asset compensation,
+append-only hash-linked snapshots, restart restoration and local revision/lock
+competition. Over-budget observed inclusion is retained as `review-required`.
+These modules **do not send funds**: receipt verification adapter, dedicated
+controller bytecode/key and fresh-instance full-UPS/live acceptance are still
+required. Their tests must not be presented as a chain authorization certificate.
