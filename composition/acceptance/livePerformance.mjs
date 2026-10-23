@@ -33,6 +33,34 @@ export function matchVerifiedReceipt(item, verified) {
   assert.equal(item.userId, verified.userId);
   assert.equal(item.fee, verified.fee);
 }
+export function summarizePublicReads(rows) {
+  const methods = {};
+  for (const row of rows) {
+    assert.equal(row.schema, 1);
+    assert.equal(row.phase, 'public-rpc-read');
+    assert.equal(typeof row.failed, 'boolean');
+    assert.match(row.method, /^psy_get_/);
+    const key = row.endpointHost+'/'+row.method;
+    const entry = methods[key] ??= {attempts:0, failed:0, missingQueueTimings:0,
+      missingRpcTimings:0, queueOperationSumMilliseconds:0, rpcOperationSumMilliseconds:0,
+      maximumRpcMilliseconds:null};
+    entry.attempts++;entry.failed += Number(row.failed);
+    for (const [field, missing, sum] of [
+      ['queueMilliseconds','missingQueueTimings','queueOperationSumMilliseconds'],
+      ['rpcAndParseMilliseconds','missingRpcTimings','rpcOperationSumMilliseconds']]) {
+      const value = row[field];
+      if (value === null) entry[missing]++;
+      else {
+        assert.ok(typeof value === 'number' && Number.isFinite(value) && value >= 0 && value <= Number.MAX_SAFE_INTEGER);
+        entry[sum] += value;
+        if (field === 'rpcAndParseMilliseconds') entry.maximumRpcMilliseconds =
+          entry.maximumRpcMilliseconds === null ? value : Math.max(entry.maximumRpcMilliseconds, value);
+      }
+    }
+  }
+  return {observedAttempts:rows.length, methods,
+    scope:'observed physical JavaScript public-read attempts only; retries counted individually, concurrent/phase-nested sums are not elapsed wall; Rust SDK witness/proving reads and unobserved calls are not included'};
+}
 export function compositionPerformance(base, proofSummary, resourceSummary) {
   base = resolve(base);
   const inside = p => {
@@ -135,6 +163,12 @@ export function compositionPerformance(base, proofSummary, resourceSummary) {
       assert.equal(row.scope.fingerprint, identities.fingerprint);
       assert.equal(row.scope.walletSha256, identities.walletSha256);
     }
+    const publicReads = all.filter(p => p.includes('/runtime/rpc-performance/') && p.endsWith('.json')).map(observation);
+    for (const row of publicReads) {
+      assert.equal(row.scope.vaultId, identities.vaultId);
+      assert.equal(row.scope.fingerprint, identities.fingerprint);
+      assert.equal(row.scope.walletSha256, identities.walletSha256);
+    }
     const marketSettlements = [];
     for (let hop = 1; hop <= (scenario === 'success' ? 2 : 1); hop++) {
       const tag = 'composition-'+scenario+'-hop-'+hop;
@@ -166,6 +200,7 @@ export function compositionPerformance(base, proofSummary, resourceSummary) {
     }
     routes.push({scenario, identities, completion:done, proofs, ordinary, sponsors, baseStages, marketSettlements,
       initialResourceTransition:warmTransition, processRestart,
+      publicReads:summarizePublicReads(publicReads),
       adapterStartups:all.filter(p => /\/ADAPTER-STARTUP-[^/]+\.json$/.test(p)).map(observation),
       residentJobs:all.filter(p => /\/RESIDENT-(quote|prove)-[^/]+\.json$/.test(p)).map(observation),
       phases:summarizePhases(phases),

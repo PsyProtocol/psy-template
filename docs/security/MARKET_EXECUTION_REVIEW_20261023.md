@@ -811,3 +811,31 @@ Closed success evidence is in
 proof re-verification remains a later gate. This is actual two-pool/ordinary-wallet
 success acceptance, not browser UX, global fairness, cross-vault atomicity or
 production qualification. The separately funded recovery instance is now running.
+
+### Real warm transition and physical worker continuation verified
+
+Recovery controller 2489 / account 134336 confirms fund at **371580** and open-1
+at **371593** with the same adapter/resident resource
+455540b4-1175-45af-9019-e051467d44a5 in worker PID 1358. Complete new witnesses,
+nonce/session/call/fee/full-proof checks remain enabled. The first warmed
+fresh-account transition is therefore exercised against the actual network.
+
+At that exact included checkpoint with no unresolved broadcast, the resident
+was confirmed closed and worker 1358 actually exited with reserved code 73.
+Supervisor then started worker **8098**, which created resource
+a5fc61cf-296e-4e03-b1f4-f910bb0f8354, revalidated source/key/dependencies and
+re-reconciled both original receipts before the next sponsorship. Original
+broadcast IDs are unchanged; neither financial operation/proof/payment repeats.
+The full cancelled-second-hop route and ordinary claim still remain pending;
+this is a planned known-included worker boundary, not power-cut, unknown-broadcast
+failover or multi-host coordination. Source/proof/checkpoint records are in
+`executor/verification/2026-10-24-composition-worker-resumed-live-v1` (108 files,
+9,791,448 compressed bytes; all originals compared).
+
+The performance reporter now summarizes observed JavaScript public RPC physical
+attempts, failures, fractional queue/RPC durations and missing timings by method
+and endpoint. It does not interpret missing values as zero or concurrent sums as
+elapsed wall, and explicitly excludes unobserved/Rust SDK witness IO. Six targeted
+measurement/claim checks pass, including invalid partial scope, receipt/payer/fee,
+large limbs, nonfinite timing and missing/failed observations. No matched full
+live speedup or chain throughput conclusion is made.
