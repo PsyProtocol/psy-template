@@ -266,3 +266,10 @@ context-opcode regressions, exact unchanged identities for all four base keys,
 and the final 36-test client run. The owner funding entry rejects any SDK or
 network other than the selected frozen isolated profile. Its local review hash
 is not represented as a chain signature or authenticated state source.
+
+`2026-10-23-funded-composition-v3` closes the synthetic six-controller-UPS
+accepted-cancellation refund case: principal stays locked until market terminal
+refund, actual FT/native escrow are claimed, only original owner receives return,
+and execution account has no residual. All six serialized proofs independently
+verify. Two incorrect fixture branch attempts remain in evidence; base contracts
+are unchanged. This is not a network or complete base-market UPS workflow result.

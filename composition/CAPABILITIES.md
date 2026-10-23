@@ -84,3 +84,10 @@ Public code/layout/key reads are necessary before each broadcast, but they do
 not settle the network's upgrade-authorization trust boundary. The frozen registry
 is not an authenticated on-chain code-root reader inside the stack-only key.
 Production authorization and runtime identity gates therefore remain open.
+
+Supplementary proof coverage: `funded-composition-v2` verifies the two-UPS
+fund/cancelled-input exit; `funded-composition-v3` verifies six linked controller
+UPSs through accepted-order cancellation, sender-bound market refund, principal
+and native escrow claim, and owner return. Base-market and ordinary-user actions
+are still VM-only. Other recovery branches, second-hop failure, network
+composition, unattended financial adapter and multi-host competition remain open.

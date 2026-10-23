@@ -11,7 +11,7 @@ fn policy(m:u64)->Result<Value>{let mut p:Value=serde_json::from_slice(&std::fs:
 pub fn at(w:&World,u:u64,m:u64,name:&str,index:u64)->u64{let f=w.artifacts[&m]["abi"]["contract"]["state"].as_array().unwrap().iter().find(|f|f["name"]==name).unwrap();w.get(u,m,f["offset"].as_u64().unwrap()+index)}
 fn wide(w:&World,u:u64,m:u64,name:&str)->u128{at(w,u,m,name,0)as u128+super::world::R*at(w,u,m,name,1)as u128}
 fn fields(p:&Value,name:&str,payer:u64,peer:u64,x:u128,y:u128,z:u128,nonce:u64)->Vec<u64>{
- let op=p["operations"].as_array().unwrap().iter().find(|o|o["name"]==name).unwrap();let mut f=vec![op["branch"].as_u64().unwrap(),payer,peer];f.extend(pair(x));f.extend(pair(y));f.extend(pair(z));f.extend([0,nonce,0,0]);
+ let op=p["operations"].as_array().unwrap().iter().find(|o|o["name"]==name).unwrap();let mut f=vec![op["branch"].as_u64().unwrap(),payer,peer];f.extend(pair(x));f.extend(pair(y));f.extend(pair(z));f.extend([if name.starts_with("refund_funding_"){F}else{0},nonce,0,0]);
  let mut used=std::collections::BTreeSet::from([0]);for c in op["calls"].as_array().unwrap(){for a in c["inputs"].as_array().unwrap(){if let Some(i)=a["witness"].as_u64(){used.insert(i as usize);}}}for(i,n)in f.iter_mut().enumerate(){if !used.contains(&i){*n=0;}}f
 }
 fn execute(w:&mut World,vault:u64,p:&Value,f:&[u64])->Result<()>{let mut next=w.clone();for c in psy_template_u124_markets::batch_compact::calls(p,f)?{let inputs=c["inputs"].as_array().unwrap().iter().map(|v|v.as_u64().unwrap()).collect::<Vec<_>>();next.run(vault,c["contract_id"].as_u64().unwrap(),c["method_name"].as_str().unwrap(),&inputs)?;}*w=next;Ok(())}
@@ -35,3 +35,4 @@ pub fn pools(w:&mut World)->Result<()>{w.load_markets()?;w.set(5,0,0,1000*F);w.s
 pub fn swap(w:&mut World,hop:usize,input:u128)->Result<u128>{let(m,vault)=MARKETS[hop-1];let a=wide(w,vault,m,"reserve_a");let b=wide(w,vault,m,"reserve_b");let(ri,ro)=if hop==1{(a,b)}else{(b,a)};let output=((BigUint::from(input)*9970u64*BigUint::from(ro))/(BigUint::from(ri)*10000u64+BigUint::from(input)*9970u64)).to_u128().unwrap();
  settle(w,m,vault,super::world::V,1,if hop==1{"swap_0"}else{"swap_1"},input,output,0)?;ensure!(at(w,vault,m,"consumed",super::world::V)==1,"VM market consumed exact order");Ok(output)
 }
+pub fn refund(w:&mut World,hop:usize,input:u128)->Result<()>{let(m,vault)=MARKETS[hop-1];settle(w,m,vault,super::world::V,1,if hop==1{"refund_funding_5"}else{"refund_funding_6"},if hop==1{input}else{0},if hop==1{0}else{input},0)?;ensure!(at(w,vault,m,"consumed",super::world::V)==1,"VM refund consumed exact order");Ok(())}
