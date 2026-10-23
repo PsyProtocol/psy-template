@@ -546,6 +546,20 @@ If original artifacts are missing, do not create replacement payments from chat
 history. Current RPC state cannot reconstruct original signed requests, fee
 receipts or lost ordinary QA wallet keys.
 
+### Public key construction reuse
+
+The formal compact factory coalesces identical public key identity checks in
+one process (bounded 32-entry cache). The key binds the reviewed binary digest,
+exact policy/RPC config digests, network, market/vault/key identities and complete
+code/layout/dependency bindings. Fresh registry/root checks and full driver byte
+checks still run at every construction, followed by immutable input checks.
+Failures and mismatched identity output are not cached. No nonce, state, witness,
+permission decision or transaction proof is stored here. A process restart loses
+the cache. Proof/session resources remain in the existing proof-only resident;
+each proof request clears its user session. This only saves deterministic identity
+subprocess work when a factory is recreated; stable watch mode already retains
+its adapter. It is not an increase in financial proof or confirmation throughput.
+
 ### Opt-in pre-admission bulk fallback
 
 For `admissionMode:"all-four-v1"`, `bulkFallbackRemainingCheckpoints` (1..64)

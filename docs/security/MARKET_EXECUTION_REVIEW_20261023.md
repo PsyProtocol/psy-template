@@ -301,3 +301,13 @@ financial modes reject temporary journals before any RPC; symlink paths are
 covered. This is a persistence/cost-observability milestone, not a measured
 settlement speedup or complete six-phase performance acceptance. See the
 performance ledger and `2026-10-23-executor-recovery-v1` evidence.
+
+Public identity reuse milestone: the formal compact factory now coalesces
+identical deterministic key metadata per process, bounded to 32 entries and
+binding reviewed driver, exact policy/RPC bytes, network/vault/key and complete
+dependencies. It still checks current registrations, code/layout roots and
+sealed binary bytes for every factory. No financial state/proof is cached here.
+Identity-only four-lookup experiment ran four children before and one after;
+it does not establish settlement speedup. Rebuilt frozen verifier independently
+rechecked six preserved complete controller proofs. Evidence and limitations:
+`2026-10-23-identity-reuse-v1`; 173 formal JS regressions passed, two skipped.

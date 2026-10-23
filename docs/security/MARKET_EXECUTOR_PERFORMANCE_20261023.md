@@ -2,6 +2,33 @@
 
 ## Latest continuation: persistence and read-cost instrumentation
 
+### Public identity reuse (separate, narrowly scoped experiment)
+
+The rebuilt frozen-SDK compact binary performs the same four public identity
+lookups per profile, on the same host with two Rayon threads. Uncached process
+walls: 2033.29, 1109.23, 1108.91, 1120.18 ms. Cached: first miss 1105.29 ms,
+then 0.07, 0.05, 0.04 ms; four identity processes become one. Raw Darwin process
+RSS and timings are retained for each actual process; no child-memory zero is
+invented for cache hits. Sequential uncached-then-cached order and OS cache bias
+remain uncontrolled. No transaction proof, RPC or financial operation is run
+in this experiment. This is NOT a proof/settlement throughput improvement.
+
+Formal factory public-metadata caching is bounded and pins binary, policy/RPC
+bytes, network, vault/key and all code/layout/dependency identities. Live roots,
+registry and sealed binary bytes are still checked every time. Wrong roots,
+network, registration, changed binary and identity outputs fail before proving
+or broadcasting. Balances, witnesses, nonce and proof objects are never cached.
+Stable watch mode already retains an adapter/resident; savings apply to repeated
+factory construction in a process. Multi-host duplicate proof work is unchanged.
+
+The locked/offline rebuild completed without SDK source changes. Its independent
+verifier rechecked six preserved complete controller proofs from the v3 accepted
+refund archive (end-cap key/common data, metadata, endpoints and fees). This
+confirms restored proof validity, not new financial market/cache/network
+acceptance. Formal JS regressions: 173 passed, two skipped. Raw evidence and
+source/build pins: `2026-10-23-identity-reuse-v1`. A fresh persistent owned-QA
+actor case is separate from lost ordinary wallet keys and old market payments.
+
 `executor/verification/2026-10-23-executor-recovery-v1` records the current
 source closure, public inventory and formal JS regressions (168 passed, two
 skipped). No new settlement speedup has been established by this milestone.
