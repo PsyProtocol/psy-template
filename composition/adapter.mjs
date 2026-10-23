@@ -5,6 +5,7 @@ import {readFile,mkdir} from 'node:fs/promises';import {join,dirname} from 'node
 import {execFile} from 'node:child_process';import {promisify} from 'node:util';
 import {executionModel,scanComposition,bindAction,withActionFee} from './execution.mjs';
 import {decodeDocument} from './codec.mjs';
+import {componentPaths,verifyComponents} from './components.mjs';
 import {compositionDomain} from './domain.mjs';
 import {generateFunds} from './contract/funds.mjs';
 import {COMPOSITION_MAGIC,COMPOSITION_SDK} from './contract/runtimePolicy.mjs';
@@ -16,10 +17,10 @@ import {residentProver} from '../executor/residentProver.mjs';import {runDurable
 import {assertDurableRuntimeDirectory} from '../executor/runtimeStorage.mjs';import {validateU124TokenAbi} from '../executor/u124Abi.mjs';
 const json=async p=>JSON.parse(await readFile(p,'utf8')),exact=async p=>parseLosslessJson(await readFile(p,'utf8'));
 async function immutable(path,value){const text=typeof value==='string'?value:losslessJson(value)+'\n';await mkdir(dirname(path),{recursive:true,mode:0o700});try{await publishFile(path,text);}catch(e){if(e.code!=='EEXIST')throw e;assert.equal(await readFile(path,'utf8'),text,'immutable composition artifact changed');}}
-export async function createCompositionAdapter(o,{readState=publicState,readReceipts=receiptReader,runDriver=promisify(execFile),submitDriver=runDurableSubmission,residentFactory=residentProver}={}){
+export async function createCompositionAdapter(o,{readState=publicState,readReceipts=receiptReader,runDriver=promisify(execFile),submitDriver=runDurableSubmission,residentFactory=residentProver,verifyRouteComponents=verifyComponents}={}){
  o=structuredClone(o);
  assert.equal(o.profile,'composition-funded-v1');assert.equal(o.network,'sepolia');assert.equal(o.sdkManifestHash,COMPOSITION_SDK);assert.equal(o.testnetProfile,'staging-bundled-regtest-20261020-v1');assertDurableRuntimeDirectory(o.runtimeDirectory);
- const paths=[o.intent,o.plan,o.policy,o.controllerAbi,o.controllerSource,o.controllerArtifact,o.tokenAbi,o.otherTokenAbi,o.nativeAbi,...o.marketAbis,o.rpcConfig],inputsCurrent=await captureInputs(paths);
+ const paths=[o.intent,o.plan,o.policy,o.controllerAbi,o.controllerSource,o.controllerArtifact,o.tokenAbi,o.otherTokenAbi,o.nativeAbi,...o.marketAbis,o.rpcConfig,...componentPaths(o)],inputsCurrent=await captureInputs(paths);
  const [intent,plan]=await Promise.all([o.intent,o.plan].map(async p=>decodeDocument(await readFile(p,'utf8'))));
  // Policy and ABI IDs are bounded metadata, not financial integer parsing.
  const plainPolicy=await json(o.policy),controllerAbi=await json(o.controllerAbi),tokenAbi=await json(o.tokenAbi),otherToken=await json(o.otherTokenAbi),nativeAbi=await json(o.nativeAbi),marketAbis=await Promise.all(o.marketAbis.map(json));
@@ -37,7 +38,8 @@ export async function createCompositionAdapter(o,{readState=publicState,readRece
  const bindings=[...dependencies.values()].sort((a,b)=>a.contractId<b.contractId?-1:1).map(d=>({contract:{contractId:Number(d.contractId),codeRoot:d.codeRoot,layoutRoot:d.layoutRoot,stateTreeHeight:Number(d.stateTreeHeight)},functionTreeRoot:d.functionTreeRoot,layoutFieldCount:Number(d.layoutFieldCount),layoutSlotCount:Number(d.layoutSlotCount)}));
  const identity={version:1,network:o.network,marketId:C,vaultId:V,fingerprint:o.fingerprint,publicKeyHash:o.publicKeyHash,contracts:bindings.map(b=>b.contract)};
  const networkState=async()=>{await inputsCurrent();const s=await readState(o.rpcConfig);assert.equal(s.networkName,o.network);assert.equal(BigInt(s.network.magic),COMPOSITION_MAGIC);assert.equal(t.domainHash,compositionDomain(s.networkName,s.network),'intent domain differs from pinned application network');return s;};
- const current=async()=>{const s=await networkState();
+ let componentClosure;
+ const current=async()=>{await componentClosure.check();const s=await networkState();
   for(const b of bindings){const l=await s.contractLeaf(b.contract.contractId);assert.deepEqual({contract:{contractId:b.contract.contractId,codeRoot:l.code_root,layoutRoot:l.state_layout_root,stateTreeHeight:l.state_tree_height},functionTreeRoot:l.function_tree_root,layoutFieldCount:l.state_layout_field_count,layoutSlotCount:l.state_layout_slot_count},b,'composition code/layout/function dependency changed');}
   for(const m of [...model.plan.registry.value.markets,{vaultId:t.execution.vaultId,publicKeyHash:t.execution.publicKeyHash}])assert.deepEqual(await s.userIds(m.publicKeyHash),[Number(m.vaultId)],'composition/base market key registration');
   for(const m of o.assetMetadata){assert.equal(await s.slot(m.issuerUserId,m.contractId,33554445),BigInt(m.decimals),'live canonical decimals changed');assert.equal(await s.slot(m.issuerUserId,m.contractId,3),1n,'token administration must be immutable before funding');}
@@ -45,7 +47,7 @@ export async function createCompositionAdapter(o,{readState=publicState,readRece
  };
  // Receipt-only restart remains possible after a dependency changes. Every
  // new scan/proof/send still performs the complete current dependency check.
- await networkState();const driver=await sealDriver(o),env={...process.env,PSY_MARKET_TESTNET_PROFILE:o.testnetProfile,RAYON_NUM_THREADS:String(o.proverThreads??2)};
+ await networkState();componentClosure=await verifyRouteComponents(o,model,{runDriver});await inputsCurrent();const driver=await sealDriver(o),env={...process.env,PSY_MARKET_TESTNET_PROFILE:o.testnetProfile,RAYON_NUM_THREADS:String(o.proverThreads??2)};
  for(const k of Object.keys(env))if(k.endsWith('_WITNESS_WALLET')||k.endsWith('_LOCAL_DEFS')||k==='PSY_MARKET_BENCH_SOURCE_CHECKPOINT')delete env[k];
  const id=driverRecords((await runDriver(driver.file,['identity',o.policy],{env,timeout:120000,maxBuffer:2000000})).stdout).find(r=>r.profile==='composition-v1');assert.equal(id?.fingerprint,o.fingerprint);assert.equal(id?.publicKeyHash,o.publicKeyHash);
  const inspection=join(o.runtimeDirectory,'composition-inspection-'+randomUUID());await runDriver(driver.file,['inspect-controller',o.policy,o.controllerArtifact,inspection],{env,timeout:900000,maxBuffer:2000000});const inspected=await json(join(inspection,'inspection.json'));assert.equal(inspected.artifactSha256,sha256(await readFile(o.controllerArtifact)));assert.equal(inspected.initialLayoutVerified,true);assert.equal(inspected.publicEndpointsBound,true);for(const [field,want]of [['codeRoot',t.execution.codeRoot],['layoutRoot',t.execution.layoutRoot],['functionTreeRoot',t.execution.functionTreeRoot],['stateTreeHeight',Number(t.execution.stateTreeHeight)],['newFieldCount',Number(t.execution.layoutFieldCount)],['newSlotCount',Number(t.execution.layoutSlotCount)]])assert.equal(inspected[field],want,'actual compiled controller identity '+field);

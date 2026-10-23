@@ -396,3 +396,49 @@ failed at a pre-broadcast state read after initial proof preparation; the pinned
 driver explicitly records no broadcast attempt. The failed request/proof is
 preserved; one separately reviewed same-artifact/deployer attempt is recorded
 under a new directory. No unknown broadcast is automatically replaced.
+
+## Source closure and interrupted-request recovery checkpoint
+
+Formal composition startup now requires two canonical FT source builds and two
+canonical AMM admission/bulk source builds, reviewed compiler/inspector/key tool
+hashes, full integer IR/ABI comparison and all six derived registry fields. Base
+SD-key policies and identities are reconstructed separately. ABI compatibility
+or executor-supplied addresses/roots alone cannot authorize a route. Adapter
+transport tests explicitly inject stub IO; that injection is not a CLI option.
+The current regression invocation passes 60 tests. Actual artifact-derived
+identities/counts also match included QA-A 2483; this is not yet an actual
+four-component startup or economic composition acceptance.
+
+The unfunded original live case is quarantined and retains its unknown request
+601e19d3…93beda. A late receipt cannot enable that case's financial entrypoints.
+The successor changes QA-B's canonical issuer/code and records its request
+4ec1d50f…e7ac2 before one compact-wire broadcast. The process was interrupted
+before a response was saved; read-only lookup at checkpoint 370621 remains 404.
+No new request replaces that unknown deployment and no controller is funded.
+Neither absence nor local quarantine is an on-chain cancellation.
+
+An ordinary owner-to-owned-recipient 20 test PSY transfer was interrupted before
+any completed proof/request/intent file. A reviewed recovery verified the exact
+pinned binary's durable write-before-send order, stopped process, empty output,
+unchanged account nonce/balance/cursors and original input/window, then completed
+the original transfer once. Recipient's ordinary claim is included: balance
+18.999998 test PSY, claim fee 1.000002. A faucet TLS failure is preserved separately;
+no repeat faucet request or pUSDT funding was made. QA FT 2483 initial issuance
+is a separate in-flight UPS; no market/composition completion is claimed here.
+
+Only a read RPC was used for transport-size diagnostics: one 77-byte request
+returned HTTP 200 in 1,141 ms, and one 10,818,090-byte request in 4,971 ms. These
+single observations do not identify deployment verification/queue failure or
+show proof/confirmation throughput. Request compaction is not claimed as a
+measured end-to-end speedup. Original artifacts and withdrawn/replacement release
+metadata remain intact. Evidence/source checkpoint:
+`executor/verification/2026-10-23-composition-source-closure-v1/README.md`.
+
+External deployment capability needed for safe automatic recovery: a caller-bound
+idempotency identity with durable accepted/queued/included/rejected/expired
+status and a guarantee that terminal rejection/expiry cannot later enqueue the
+same initial request. Existing content hash identifies code/deployer, not a
+unique queued occurrence. Current indexed 404 cannot supply that guarantee.
+This is an interface requirement, not authorization to edit Node or probe old
+contracts. Runtime/upgrade evidence and other previously listed boundaries stay
+open; existing candidate code does not claim to solve them.

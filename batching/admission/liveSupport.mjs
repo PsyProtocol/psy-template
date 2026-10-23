@@ -8,6 +8,7 @@ import {publicState} from '../../executor/publicState.mjs';
 import {receiptReader} from '../../executor/chainReceipts.mjs';
 import {retryRead} from '../../executor/readRetry.mjs';
 import {losslessJson} from '../../amm/u124/client.mjs';
+import {ordinaryPreflight} from './ordinaryReport.mjs';
 import {freshDeploymentReceipt} from './freshDeployment.mjs';
 export const read=p=>JSON.parse(readFileSync(p,'utf8'));
 export const save=(p,v)=>writeFileSync(p,losslessJson(v)+'\n',{flag:'wx'});
@@ -20,10 +21,9 @@ export async function run(binary,args,log,env={}){
 export function contractBinding(id,l){return {contract:{contractId:id,codeRoot:l.code_root,layoutRoot:l.state_layout_root,stateTreeHeight:l.state_tree_height},functionTreeRoot:l.function_tree_root,layoutFieldCount:l.state_layout_field_count,layoutSlotCount:l.state_layout_slot_count};}
 export async function binding(state,id){return contractBinding(id,await state.contractLeaf(id));}
 export async function confirmUps(config,attempt,{polls=120,intervalMs=10000}={}){
- const p=read(join(attempt,'preflight.json'));assert.equal(p.fullUpsVerified,true);
- const userId=p.userId??p.core?.new_user_leaf?.user_id,endUserLeafHash=p.endUserLeafHash??p.core?.state_transition?.end_user_leaf_hash;
+ const {preflight:p,userId,endUserLeafHash,minCheckpoint}=ordinaryPreflight(readFileSync(join(attempt,'preflight.json'),'utf8'));
  const find=await receiptReader(config,{maxPages:20});
- for(let i=0;i<polls;i++){const result=await find({userId,endUserLeafHash,minCheckpoint:p.core?.checkpoint_id??0});if(result.status==='included'){
+ for(let i=0;i<polls;i++){const result=await find({userId,endUserLeafHash,minCheckpoint});if(result.status==='included'){
   // A later cross-realm reader must not plan from an earlier common snapshot.
   let common;for(let j=0;j<polls;j++){common=await publicState(config);if(common.checkpoint>=result.checkpoint)break;await new Promise(r=>setTimeout(r,intervalMs));}
   assert.ok(common.checkpoint>=result.checkpoint,'included UPS not yet visible at common realm checkpoint');

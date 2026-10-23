@@ -1,0 +1,4 @@
+// Preserve exact public preflight financial values when copying them into an
+// inclusion observation. Only protocol-bounded RPC IDs/checkpoints become Number.
+import assert from'node:assert/strict';import{parseLosslessJson}from'../../amm/u124/client.mjs';
+export function ordinaryPreflight(text){const preflight=parseLosslessJson(text);assert.equal(preflight.fullUpsVerified,true);const user=preflight.userId??preflight.core?.new_user_leaf?.user_id,cp=preflight.core?.checkpoint_id??0n,endUserLeafHash=preflight.endUserLeafHash??preflight.core?.state_transition?.end_user_leaf_hash;assert.ok(typeof user==='bigint'&&user>0n&&user<16777216n,'bounded ordinary user ID');assert.ok(typeof cp==='bigint'&&cp>=0n&&cp<2n**32n,'bounded ordinary source checkpoint');assert.match(endUserLeafHash??'',/^[0-9a-f]{64}$/);return{preflight,userId:Number(user),minCheckpoint:Number(cp),endUserLeafHash};}

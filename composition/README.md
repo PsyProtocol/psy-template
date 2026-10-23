@@ -111,3 +111,45 @@ Evidence and exact performance boundaries:
 Initial fresh QA asset bootstrap is `composition/acceptance/bootstrap.mjs`; it
 requires an explicitly pinned FT compiler release. It deploys no old updates and
 funds no composition controller. An unknown deployment requires reconciliation.
+
+### Reviewed source and base key closure
+
+Financial startup now also requires four `components` records, exactly two
+`{role:'token', contractId, source, artifact}` and two
+`{role:'market', contractId, source, artifact, config, policy,
+admissionMode:'all-four-v1'}`. Supply reviewed `{file, sha256}` release pins for
+`tokenCompiler`, `marketCompiler`, `componentInspector` and `baseKeyDriver`.
+Paths are absolute or relative to the CLI configuration. The SDK pin is unchanged.
+
+`components.mjs` regenerates canonical token/AMM source, rebuilds it with the
+pinned compilers, compares complete integer IR and ABI, derives actual CFC code,
+layout and function roots, and matches all six registry identity/count fields.
+It separately reconstructs the base admission/bulk policy and derives the key
+fingerprint/public identity. Source or ABI similarity alone is insufficient.
+Identical builds are shared within startup; transaction witnesses/state are not
+cached here. The sealed tools are an operator-reviewed host trust boundary.
+Tests with stub compilers are boundary tests, not a claim of cryptography or
+four-component network acceptance. Actual derived roots/counts have separately
+been matched against the included QA-A asset.
+
+### Interrupted and unknown isolated requests
+
+The unfunded `composition-live-v1` case is quarantined. Entry points reject a
+case carrying `public/QUARANTINED-v1.json`; this local operational guard does not
+cancel a chain request or revoke an already running process. Read-only exact
+receipt observation remains possible and cannot publish a financial prerequisite
+for a quarantined case. No old artifact is replaced.
+
+`freshCase.mjs` creates an independent successor with QA-B's canonical issuer
+changed, making its code/request identity distinct. `prepare_initial_request`
+creates and verifies an initial layout request entirely offline. `submitInitial`
+independently verifies the saved request, records a deterministic lookup identity
+and exact compact wire, then sends once. It never sends an update or retries an
+unknown broadcast. A content hash is not a unique deployment occurrence: receipt
+checkpoint/ID/deployer and all endpoint metadata are still required.
+
+`resumeIssuerFunding.mjs` handles only the reviewed ordinary binary interrupted
+with an empty output directory, stopped process, unchanged nonce/balance/cursors,
+and the original calls/window. Any proof/request/intent artifact stops this
+recovery path; unknown sends use exact reconciliation. Native funding and a
+possible late faucet grant remain separate, explicitly accounted transfers.

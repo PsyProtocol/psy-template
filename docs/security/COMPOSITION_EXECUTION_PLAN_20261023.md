@@ -69,3 +69,21 @@ and consuming its funds reject any other owner. New generation requires this
 pin and immutable canonical token metadata. Current generated source exactly
 matches the guarded fixture's eight newly verified controller UPSs; legacy
 archives are kept unchanged and rejected by the financial adapter.
+
+## Component identity closure and transport recovery checkpoint
+
+Financial adapter startup now rebuilds the four canonical component sources,
+compares lossless IR/ABI, derives code/layout/function identities/counts, and
+reconstructs the base AMM SD-key policy and identity. Required tool release pins
+and input files are documented in composition/README.md. This is an application
+source/registry gate; it does not certify runtime images or upgrade authority.
+
+An initial QA deployment without an inclusion result remains unresolved, never
+silently resent. The first unfunded case is quarantined; successor QA-B has a
+distinct canonical issuer/code. New request preparation is offline, followed by
+full independent verification and a single compact-wire broadcast with a saved
+lookup identity. A second unknown outcome is still not a reason to create an
+unbounded series of replacements. Existing included QA-A and owned ordinary
+accounts can continue independent constituent acceptance while exact original
+deployment identities are observed. No controller or market receives funds until
+the complete route closure and fresh instance identities have been verified.
