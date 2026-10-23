@@ -58,5 +58,12 @@ export function planIntent({intent,registry,snapshots,checkpoint}){
   steps.push({marketId,vaultId:m.vaultId,side,inputAsset:assetIn,input:amount,outputAsset:out.id,output,sourceRoot:s.stateRoot,requiresConfirmedClaimBeforeNextStep:true});amount=output;assetIn=out.id;assetDecimals=out.decimals;
  }
  assert.equal(assetIn,i.terms.output.id,'final asset mismatch');assert.equal(assetDecimals,i.terms.output.decimals,'final decimals mismatch');assert.ok(amount>=i.terms.output.amount,'slippage floor');
- return freeze({intentId:i.id,registryHash:r.hash,sourceCheckpoint:checkpoint,steps,finalOutput:amount,receiver:i.terms.receiver,atomic:false,invokeSync:false,authorization:'quote-only-controller-and-SD-key-not-yet-proved',sourceAuthenticated:false,compensation:'return input before first trade, intermediate after first trade, output after second; executed trades are irreversible'});
+ return freeze({intentId:i.id,registryHash:r.hash,registry:r,snapshots:structuredClone(snapshots),sourceCheckpoint:checkpoint,steps,finalOutput:amount,receiver:i.terms.receiver,atomic:false,invokeSync:false,authorization:'quote-only-controller-and-SD-key-not-yet-proved',sourceAuthenticated:false,compensation:'return input before first trade, intermediate after first trade, output after second; executed trades are irreversible'});
+}
+// Recompute the complete advisory plan rather than trusting its intentId or a
+// freshly recomputed local plan hash. Source authentication remains a separate
+// mandatory gate; self-consistent supplied reserves are still only quotes.
+export function validatePlan(intent,plan){
+ const expected=planIntent({intent,registry:plan.registry,snapshots:plan.snapshots,checkpoint:plan.sourceCheckpoint});
+ assert.deepEqual(plan,expected,'composition plan differs from committed registry and intent');return expected;
 }

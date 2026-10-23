@@ -1,18 +1,18 @@
 // Independent client recovery state, NOT delegated authority or a substitute
 // for controller/SD-key proofs. No financial side effects exist in this module.
 import assert from'node:assert/strict';
-import{createIntent,commitment}from'./intent.mjs';import{integer,user}from'../amm/u124/client.mjs';
+import{createIntent,commitment,validatePlan}from'./intent.mjs';import{integer,user}from'../amm/u124/client.mjs';
 const steps=['fund-first','settle-first','claim-intermediate','fund-second','settle-second','claim-output','deliver-output','claim-final'];
 const h=v=>{assert.match(v,/^[0-9a-f]{64}$/);return v;};
 export function startWorkflow(intent,plan){
- const i=createIntent(intent.terms);assert.equal(i.id,intent.id);assert.equal(plan.intentId,i.id);assert.equal(plan.registryHash,i.terms.registryHash);assert.equal(plan.atomic,false);assert.equal(plan.invokeSync,false);
+ const i=createIntent(intent.terms);assert.equal(i.id,intent.id);validatePlan(i,plan);
  return{schema:1,intent:i,plan:structuredClone(plan),planHash:commitment('psy-composition-plan-v1',plan),revision:0,stepIndex:0,pending:null,receipts:[],fees:0n,status:'awaiting-verification',clientObservationOnly:true};
 }
-function check(s){assert.equal(s.schema,1);assert.equal(createIntent(s.intent.terms).id,s.intent.id);assert.equal(commitment('psy-composition-plan-v1',s.plan),s.planHash);assert.ok(Number.isSafeInteger(s.revision)&&s.revision>=0);integer(s.fees);}
+function check(s){assert.equal(s.schema,1);assert.equal(createIntent(s.intent.terms).id,s.intent.id);validatePlan(s.intent,s.plan);assert.equal(commitment('psy-composition-plan-v1',s.plan),s.planHash);assert.ok(Number.isSafeInteger(s.revision)&&s.revision>=0);integer(s.fees);}
 function actor(s,stage){return stage==='settle-first'?s.plan.steps[0].vaultId:stage==='settle-second'?s.plan.steps[1].vaultId:stage==='claim-final'?s.intent.terms.receiver:s.intent.terms.execution.vaultId;}
 export function prepareStage(state,{expectedRevision,stage,requestHash,proofHash,startLeaf,endLeaf,caller,nonce,sourceCheckpoint,validUntilCheckpoint,maximumFee}){
  check(state);assert.equal(expectedRevision,state.revision,'workflow changed; rescan before preparing');assert.ok(!state.pending,'unknown broadcast must reconcile by original identity');assert.ok(!['completed','review-required','recovering'].includes(state.status));assert.equal(stage,steps[state.stepIndex],'cannot skip a stage or spend an unclaimed Outbox');
- for(const x of [requestHash,proofHash,startLeaf,endLeaf])h(x);assert.ok(!state.receipts.some(r=>r.requestHash===requestHash),'request already consumed');user(caller);assert.equal(caller,actor(state,stage),'stage caller');integer(nonce,(1n<<62n)-1n);assert.ok(nonce>0n);assert.ok(state.receipts.filter(r=>r.caller===caller).every(r=>r.nonce<nonce),'stage nonce must advance');integer(sourceCheckpoint,(1n<<32n)-1n);integer(validUntilCheckpoint,(1n<<32n)-1n);assert.ok(sourceCheckpoint<=validUntilCheckpoint&&validUntilCheckpoint<=state.intent.terms.expiresAtCheckpoint,'stage deadline');integer(maximumFee,(1n<<62n)-1n);assert.ok(maximumFee>0n&&state.fees+maximumFee<=state.intent.terms.maxNativeFees,'fee cap');
+ for(const x of [requestHash,proofHash,startLeaf,endLeaf])h(x);assert.ok(!state.receipts.some(r=>r.requestHash===requestHash),'request already consumed');user(caller);assert.equal(caller,actor(state,stage),'stage caller');integer(nonce,(1n<<62n)-1n);assert.ok(nonce>0n);assert.ok(state.receipts.filter(r=>r.caller===caller).every(r=>r.nonce<nonce),'stage nonce must advance');integer(sourceCheckpoint,(1n<<32n)-1n);integer(validUntilCheckpoint,(1n<<32n)-1n);assert.ok(sourceCheckpoint>=state.plan.sourceCheckpoint&&state.receipts.every(r=>sourceCheckpoint>=r.commonCheckpoint),'stage source predates confirmed dependency');assert.ok(sourceCheckpoint<=validUntilCheckpoint&&validUntilCheckpoint<=state.intent.terms.expiresAtCheckpoint,'stage deadline');integer(maximumFee,(1n<<62n)-1n);assert.ok(maximumFee>0n&&state.fees+maximumFee<=state.intent.terms.maxNativeFees,'fee cap');
  const s=structuredClone(state);s.pending={stage,requestHash,proofHash,startLeaf,endLeaf,caller,nonce,sourceCheckpoint,validUntilCheckpoint,maximumFee,broadcast:false};s.status='prepared';s.revision++;return s;
 }
 export function recordBroadcast(state,{expectedRevision,requestHash}){
