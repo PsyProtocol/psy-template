@@ -329,3 +329,58 @@ process peak RSS 5.723 GiB. No matched before/after, separate internal phase or
 warm sample exists. This is not a market fill, pUSDT/FT/NFT claim or four-market
 acceptance. See `2026-10-23-performance-native-bootstrap-v1` and the performance
 status matrix for pending gates, source scripts and original failure evidence.
+
+## Independent financial composition continuation
+
+The candidate now connects `composition/adapter.mjs`, `execution.mjs`,
+`selection.mjs`, `client.mjs` and `run.mjs` to the existing financial journal and a
+separate `composition_wallet` driver. The old observation-only workflow is not
+used to authorize money. First scope remains two separate AMMs, same ordered
+U124 FT pair, A→B→A. Book / Curve / NFT composition policies remain unimplemented;
+base pricing, priorities and unique-sale semantics are unchanged.
+
+Actual fixes:
+- Pin the sole user in generated controller bytecode, rejecting another funder
+  publishing/occupying a one-shot account first. New generation requires owner
+  and canonical metadata; adapter rejects old unsafe/unpinned source.
+- Authenticate issuer decimals and renounced token administration in the
+  controller before custody/trading; compile/ABI/code/layout/function closure
+  checked separately. Every new action rechecks roots, keys, domain and inputs.
+- Proof-only resident process supports non-authorizing exact fee preparation.
+  Fresh full UPS must still match complete stack, signature/session, nonce,
+  endpoints, modified slots and actual burn. No old witness is reused.
+- Persist exact prepared task and checkpoint window on restart. Unknown broadcast
+  blocks replacements; code/layout changes halt new work without erasing exact
+  original receipt reconciliation, including after process restart.
+- Ordinary owner funding is one UPS request/FT/native transfer/bind; terminal
+  claims verify exact expected asset/cursors and distinguish an intermediate
+  refund from reversing a completed trade.
+
+Current closed evidence: 55 JS/transport tests; six bytecode regressions; one
+actual bytecode first-funder rejection; 18 signature templates / 18 attacks;
+eight new linked guarded controller UPSs, each independently reverified. Input
+4,611,686,018,427,387,921 → intermediate 3,738,416,797,288,011,079 → output
+3,141,711,878,267,176,122 atomic units; all controller balances zero. **Base-market
+and ordinary owner steps in this harness are VM-only.** Fresh network asset
+bootstrap is a separate in-progress case; no network composition acceptance or
+production conclusion is recorded.
+
+Offline process 489.61 s, maximum RSS 6,762,348,544 bytes, cold construction
+125.229 s; eight controller proofs total 326.067 s (32.489–50.932 s each),
+8.000069 test-PSY-equivalent controller burn plus two 1.0001 escrows. Some work
+overlapped other offline builds/inspection. No matched performance comparison,
+actual chain fill throughput, ordinary full-UPS claim or confirmation latency
+is inferred. Full request/proof/state/fee evidence:
+`executor/verification/2026-10-23-composition-financial-executor-v1/README.md`.
+
+External production evidence still required (QA progress is not blocked on a
+branch-name discussion): runtime owners provide coordinator/realm/edge binary
+or image digests linked to commit/config, the upgrade RPC authentication and
+replay/unauthorized rejection evidence, and a reproducible reviewed SDK release
+matching the existing dependency snapshot. Existing public contract leaf /
+contract-Merkle / checkpoint-Merkle RPCs must be tied to the reviewed anchor;
+HTTPS observations do not attest running code or inclusion-time immutability.
+No unsafe old-contract upgrade probes or Node changes are made here. A certified
+future random beacon/seed with checkpoint proof and commit-before-reveal rule,
+and cross-host lease/fencing evidence for avoiding duplicate prover work, remain
+separate deliveries. Deterministic order and own-account nonce safety remain.

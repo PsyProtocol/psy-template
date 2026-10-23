@@ -27,14 +27,16 @@ export function residentProver(binary,policy,config,{env,timeout=900000,stopTime
    }
   });
  };
- return {
-  prove:async(args)=>{
-   if(args.length!==6||args[0]!=='preflight'||args[1]!==policy||args[2]!==config)throw Error('resident accepts only pinned preflight requests');
+ const request=async(action,args)=>{
+   if(args.length!==6||args[0]!==action||args[1]!==policy||args[2]!==config)throw Error('resident accepts only pinned preflight/quote requests');
    if(pending)throw Error('resident proof already running');start();
    return new Promise((resolve,reject)=>{const id=randomUUID();pending={id,resolve,reject,stdout:startup,stderr:'',timer:setTimeout(()=>{stopped=true;child.kill('SIGTERM');fail(Error('resident proof timed out; no automatic retry'));},timeout)};startup='';
-    child.stdin.write(JSON.stringify({id,calls:args[3],guard:args[4],out:args[5]})+'\n');
+    child.stdin.write(JSON.stringify({id,calls:args[3],guard:args[4],out:args[5],...(action==='quote'?{action}: {})})+'\n');
    });
-  },
+  };
+ return {
+  prove:args=>request('preflight',args),
+  quote:args=>request('quote',args),
   close:async()=>{
    if(closing)return closing;
    stopped=true;if(!child||exited)return;

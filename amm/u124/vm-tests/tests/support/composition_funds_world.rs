@@ -18,7 +18,9 @@ impl World {
   let artifacts=BTreeMap::from([(C,controller.clone()),(A,token.clone()),(B,token),(0,native)]);
   let mut methods=HashMap::new();for(cid,a)in &artifacts {let defs:Vec<DPNFunctionCircuitDefinition>=serde_json::from_value(a["circuit_definitions"].clone())?;for def in defs{methods.insert((*cid,def.name.clone()),def);}}
   let fields=controller["abi"]["contract"]["state"].as_array().unwrap().iter().map(|f|(f["name"].as_str().unwrap().into(),f["offset"].as_u64().unwrap())).collect();
-  Ok(Self{state:InMemoryStateBackend::new(),slots:BTreeMap::new(),methods,fields,artifacts,policy:load("policy.json")?,checkpoint:100,revision:0,key:[11,22,33,44]})
+  let mut w=Self{state:InMemoryStateBackend::new(),slots:BTreeMap::new(),methods,fields,artifacts,policy:load("policy.json")?,checkpoint:100,revision:0,key:[11,22,33,44]};
+  if std::env::var_os("COMPOSITION_METADATA_GUARD").is_some(){for c in[A,B]{w.run(5,c,"set_metadata",&[123,18])?;w.run(5,c,"mint",&pair(1u128<<120))?;w.run(5,c,"renounce_mint_authority",&[])?;}}
+  Ok(w)
  }
  pub fn load_markets(&mut self)->Result<()> {
   let a:Value=serde_json::from_slice(&fs::read(format!("{}/amm.json",std::env::var("COMPOSITION_BUILD")?))?)?;
@@ -49,7 +51,7 @@ impl World {
  }
  pub fn seed_funding(&mut self,input:u128)->Result<()> {
   self.set(U,0,0,100*F);self.run(U,0,"simple_transfer",&[V,20*F])?;
-  for c in [A,B]{self.run(5,c,"set_metadata",&[123,18])?;self.run(5,c,"mint",&pair(1u128<<120))?;}
+  for c in [A,B]{if self.get(5,c,3)==0{self.run(5,c,"set_metadata",&[123,18])?;self.run(5,c,"mint",&pair(1u128<<120))?;}}
   let mut args=vec![U];args.extend(pair(input));self.run(5,A,"transfer",&args)?;self.run(U,A,"claim",&[5])?;
   let mut args=vec![V];args.extend(pair(input));self.run(U,A,"transfer",&args)?;self.run(U,C,"bind_funding",&[1])
  }

@@ -1,0 +1,35 @@
+{
+  "schema": 1,
+  "sourceDirectory": "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-market-recovery-20261023",
+  "machine": "gewenbo.local",
+  "host": "macOS-15.7.3-arm64-arm-64bit",
+  "scope": "public formal Executor run including failures; success requires exact included receipt",
+  "walletFilesIncluded": false,
+  "sealedBinariesIncluded": false,
+  "records": [
+    {
+      "source": "composition-final-validation-v1/SOURCE.json",
+      "file": "files/composition-final-validation-v1/SOURCE.json.gz",
+      "bytes": 4567,
+      "sha256": "6f597f91e9373daf3aa5693e299be62fd81891732cbbabd22e2c19008d6759d6",
+      "gzipBytes": 2152,
+      "gzipSha256": "b940cdf40f8bf594af987dfc4b44b26ce2215b4cf42151b19e4d824bbdbee75b"
+    },
+    {
+      "source": "composition-final-validation-v1/composition-final-regressions-v1.log",
+      "file": "files/composition-final-validation-v1/composition-final-regressions-v1.log.gz",
+      "bytes": 5346,
+      "sha256": "a0fc648535bb046658a90b19c0f60f78d33fa1a1499f486c71dc457a80eb77ae",
+      "gzipBytes": 2469,
+      "gzipSha256": "da310d60aa473c87c9705113d5c3ea76ed40526ad1d0072eb9911306cb7d531a"
+    },
+    {
+      "source": "composition-final-validation-v1/composition-generator-current-equivalence-v1.json",
+      "file": "files/composition-final-validation-v1/composition-generator-current-equivalence-v1.json.gz",
+      "bytes": 228,
+      "sha256": "c9bca63b67c4dae0ac84b8a8d62aa1327f1f8819597eabddb4163f944bfc0b9d",
+      "gzipBytes": 180,
+      "gzipSha256": "6dd61566188df342e8d806aae3811755854f1b88568fd3582bc2271245448a89"
+    }
+  ]
+}

@@ -39,6 +39,8 @@ use std::{env, fs, io::{Write,BufRead}, path::Path};
 mod compact_prepared;
 #[path = "../compact_benchmark.rs"]
 mod compact_benchmark;
+#[path = "../composition_quote.rs"]
+mod composition_quote;
 #[derive(Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 struct Guard {
@@ -89,14 +91,19 @@ async fn check(guard: &Guard, s: &WalletSession) -> Result<()> {
     }
     unreachable!("bounded read guard retry returns on its last attempt")
 }
-async fn run(phase: &mut &'static str) -> Result<()> {
+async fn run(phase: &mut &'static str, composition:bool) -> Result<()> {
     let started = std::time::Instant::now();
     *phase = "build-compact-key";
     let a = env::args().collect::<Vec<_>>();
     ensure!(a.len()>=3,"identity POLICY | register POLICY CONFIG FRESH_OUT | preflight/submit POLICY CONFIG CALLS GUARD FRESH_OUT");
     compact_benchmark::requested(&a[1])?;
     let spec: Value = serde_json::from_slice(&fs::read(&a[2])?)?;
-    let circuit = batch_compact::build(&spec)?;
+    let circuit = if composition {
+        psy_template_u124_markets::composition_policy::build(&spec)?
+    } else {
+        ensure!(spec.get("composition_profile").is_none(),"funded composition requires its dedicated driver/key");
+        batch_compact::build(&spec)?
+    };
     let key_ms = started.elapsed().as_millis();
     let fp = circuit.get_fingerprint();
     let private = QHashOut(HashOut {
@@ -112,8 +119,19 @@ async fn run(phase: &mut &'static str) -> Result<()> {
         ensure!(a.len() == 3, "identity args");
         println!(
             "{}",
-            json!({"profile":"compact-v1","fingerprint":fp.to_string(),"publicKeyHash":hash.to_string(),"publicKeyParam":param.to_string()})
+            json!({"profile":if composition{"composition-v1"}else{"compact-v1"},"fingerprint":fp.to_string(),"publicKeyHash":hash.to_string(),"publicKeyParam":param.to_string()})
         );
+        return Ok(());
+    }
+    if composition && a[1]=="inspect-controller" {
+        ensure!(a.len()==5,"inspect-controller POLICY ARTIFACT FRESH_OUT");
+        let bytes=fs::read(&a[3])?;
+        let artifact:psy_compiler::output::serialize::CompilationArtifact=serde_json::from_slice(&bytes)?;
+        let prepared=psy_template_u124_markets::layout_preflight::prepare_initial(artifact.clone(),hash)?;
+        let mut report=psy_template_u124_markets::layout_preflight::verify_initial(&artifact,&prepared,hash)?;
+        report["functionTreeRoot"]=json!(prepared.deploy_contract.clone().into_with_whitelist_root::<PsyHasher>()?.function_whitelist_root.to_string());
+        report["artifactSha256"]=json!(format!("{:x}",Sha256::digest(&bytes)));
+        let out=Path::new(&a[4]);fs::create_dir(out)?;save(&out.join("inspection.json"),&report)?;
         return Ok(());
     }
     let config = PsyConfigGoldilocks::from_file(&a[3])?;
@@ -179,7 +197,8 @@ async fn run(phase: &mut &'static str) -> Result<()> {
         // state across requests. Only circuit resources remain warm.
         for line in std::io::stdin().lock().lines(){
             let job:ResidentJob=serde_json::from_str(&line?)?;
-            let args=vec![a[0].clone(),"preflight".into(),a[2].clone(),a[3].clone(),job.calls,job.guard,job.out.clone()];
+            ensure!(job.action=="preflight"||(composition&&job.action=="quote"),"resident proof/quote actions only");
+            let args=vec![a[0].clone(),job.action,a[2].clone(),a[3].clone(),job.calls,job.guard,job.out.clone()];
             let mut job_phase="resident-preflight-start";
             let result=psy_template_u124_markets::runtime::contain(process_action(&args,&spec,fp,hash,param,private,&net,&mut session,0,0,std::time::Instant::now(),&mut job_phase)).await;
             session.user_session_mgrs.remove(&hash);
@@ -194,11 +213,12 @@ async fn run(phase: &mut &'static str) -> Result<()> {
 }
 #[derive(Deserialize)]
 #[serde(deny_unknown_fields)]
-struct ResidentJob {id:String,calls:String,guard:String,out:String}
+struct ResidentJob {id:String,calls:String,guard:String,out:String,#[serde(default="preflight_action")]action:String}
+fn preflight_action()->String{"preflight".into()}
 #[allow(clippy::too_many_arguments)]
 async fn process_action(a:&[String],spec:&Value,fp:QHashOut<F>,hash:QHashOut<F>,param:QHashOut<F>,private:QHashOut<F>,net:&psy_config::NetworkConfigGoldilocks,session:&mut WalletSession,key_ms:u128,session_ms:u128,started:std::time::Instant,phase:&mut &'static str)->Result<()> {
     ensure!(
-        a.len() == 7 && ["preflight", "submit"].contains(&a[1].as_str()),
+        a.len() == 7 && (["preflight", "submit"].contains(&a[1].as_str())||(spec["composition_profile"]=="two-amm-owner-funded-v1"&&a[1]=="quote")),
         "explicit compact action args"
     );
     *phase = "verify-compact-request";
@@ -268,6 +288,10 @@ async fn process_action(a:&[String],spec:&Value,fp:QHashOut<F>,hash:QHashOut<F>,
     let pin_started=std::time::Instant::now();
     if let Some(cp)=source_pin{compact_benchmark::start_at(&session,key,guard.identity.vault_id,cp).await?;}else{session.start_session(key).await?;}
     let source_pin_ms=if source_pin.is_some(){pin_started.elapsed().as_millis()}else{0};
+    if a[1]=="quote" {
+        *phase="composition-fee-quote";
+        return composition_quote::quote(session,key,&data,out).await;
+    }
     *phase = "prove-compact-calls";
     let calls_started = std::time::Instant::now();
     session
@@ -443,7 +467,7 @@ async fn process_action(a:&[String],spec:&Value,fp:QHashOut<F>,hash:QHashOut<F>,
         "compact nonce not submittable"
     );
     check(&guard, &session).await?;
-    let preflight = json!({"fullUpsVerified":true,"benchmarkSourceCheckpoint":source_pin,"timingsMilliseconds":{"keyConstruction":key_ms,"sessionConstruction":session_ms,"benchmarkSourceSetup":source_pin_ms,"callProving":calls_ms,"signatureProving":signature_ms,"recursiveFinalize":finalize_ms,"endCapProving":endcap_ms,"fullProofVerify":verify_ms,"preflightTotal":started.elapsed().as_millis()},"exactStackAndSessionVerified":true,"proofProfile":proof_profile,"profile":"compact-v1","actualCalls":actual.len(),"logicalSlots":40,"fee":burn,"core":endcap.core,"callsSha256":format!("{:x}",Sha256::digest(&bytes)),"guardSha256":format!("{:x}",Sha256::digest(&guard_bytes)),"broadcast":false});
+    let preflight = json!({"fullUpsVerified":true,"compositionProfile":spec["composition_profile"],"benchmarkSourceCheckpoint":source_pin,"timingsMilliseconds":{"keyConstruction":key_ms,"sessionConstruction":session_ms,"benchmarkSourceSetup":source_pin_ms,"callProving":calls_ms,"signatureProving":signature_ms,"recursiveFinalize":finalize_ms,"endCapProving":endcap_ms,"fullProofVerify":verify_ms,"preflightTotal":started.elapsed().as_millis()},"exactStackAndSessionVerified":true,"proofProfile":proof_profile,"profile":"compact-v1","actualCalls":actual.len(),"logicalSlots":40,"fee":burn,"core":endcap.core,"callsSha256":format!("{:x}",Sha256::digest(&bytes)),"guardSha256":format!("{:x}",Sha256::digest(&guard_bytes)),"broadcast":false});
     let request = QSubmitEndCapRPCRequest {
         user_ec_input: endcap,
         proof: bincode::serialize(&proof)?,
@@ -471,9 +495,13 @@ async fn process_action(a:&[String],spec:&Value,fp:QHashOut<F>,hash:QHashOut<F>,
 }
 #[tokio::main]
 async fn main() -> std::process::ExitCode {
+    execute_profile(false).await
+}
+pub async fn execute_composition()->std::process::ExitCode{execute_profile(true).await}
+async fn execute_profile(composition:bool) -> std::process::ExitCode {
     std::panic::set_hook(Box::new(|_| {}));
     let mut phase = "start";
-    match psy_template_u124_markets::runtime::contain(run(&mut phase)).await {
+    match psy_template_u124_markets::runtime::contain(run(&mut phase,composition)).await {
         Ok(()) => std::process::ExitCode::SUCCESS,
         Err(failure) => {
             // This client has only a deliberately public SD-key witness. Keep

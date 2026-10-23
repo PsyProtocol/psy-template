@@ -91,3 +91,24 @@ UPSs through accepted-order cancellation, sender-bound market refund, principal
 and native escrow claim, and owner return. Base-market and ordinary-user actions
 are still VM-only. Other recovery branches, second-hop failure, network
 composition, unattended financial adapter and multi-host competition remain open.
+
+
+## Financial adapter continuation
+
+The independent financial adapter and CLI now exist (`adapter.mjs`, `run.mjs`).
+This updates the earlier integration gap above; network acceptance is still open.
+The current guarded source pins the sole intent owner as well as both canonical
+issuer/decimals/renounced-administration records. This prevents another user
+occupying the fresh one-shot account first. The adapter refuses legacy unguarded
+source. New controller bytecode has eight independently reverified full UPSs;
+see `2026-10-23-composition-financial-executor-v1`. Its base-market and ordinary
+steps are still VM-only. New QA assets, market instances and financial service
+acceptance are distinct gates, not inferred from those proofs.
+
+Ordinary user cancellation records an intent on the owner's account. It does
+not retroactively invalidate an already signed foreign-checkpoint proof. A
+controller refund/cancel transition competes at that controller's own nonce;
+only its confirmed transition supplies that account's definitive exit. Current
+RPC rechecks reduce races but cannot claim an inclusion-time global snapshot or
+atomic cancellation across users. A settled hop may only return its resulting
+asset, never its original input at the old price.
