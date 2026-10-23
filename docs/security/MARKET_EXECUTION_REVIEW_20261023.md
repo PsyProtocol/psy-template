@@ -103,3 +103,16 @@ Compact warms were 180–206 s versus 578–603 s; process RSS was higher for co
 in this sample. No concurrency increase or new algorithmic speedup is claimed.
 Thirty original/compressed-hash-verified public files are archived. These are
 synthetic full proofs, not a new real-network economic run or chain TPS.
+
+## Optional pre-admission fallback
+
+`bulkFallbackRemainingCheckpoints` adds an opt-in deterministic dispatch choice
+within existing key/contract capacity. Before any acceptance, four eligible
+consents use the seven-call bulk path; near cutoff, a partially consented plan
+may use the already authorized single-entry path. Accepted members are never
+removed; sealed set processing/refunds stay unchanged. Default behavior and
+all deployed keys/contracts are unchanged. Focused selection/nonce/cutoff tests
+pass. A new evidence case will test this via the production CLI, existing owned
+QA AMM 2478 (no new deployment), ordinary claim and a 20-account conservation
+interval including the historical second pool. This is not new composition
+controller acceptance. No result is claimed before its final receipt/audit.

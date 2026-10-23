@@ -123,3 +123,15 @@ test('parallel metadata failures drain sibling reads and cannot start queue plan
  x.state.contractLeaf=async id=>{active++;try{await new Promise(r=>setTimeout(r,id===0?1:15));if(id===0)throw Error('metadata read outage');return leaf(id);}finally{active--;finished++;}};
  await assert.rejects(()=>a.scan(),/metadata read outage/);assert.equal(active,0);assert.ok(finished>1);assert.equal(planned,0);assert.equal(x.sends,0);
 }));
+
+test('opt-in deadline fallback selects consenting hints before admission and retains every accepted member',()=>fixture('amm',async x=>{
+ x.o.admissionMode='all-four-v1';x.files.policy=withBulkAdmission(x.files.policy);x.files.admissionPlan={version:1,epoch:10,cutoff:120,members:[0,1,2,3].map(i=>({owner:200+i,nonce:String(i+1)}))};
+ for(const[n,v]of Object.entries({queue_phase:1,queue_epoch:10,queue_count:0,queue_cutoff:120}))x.set(100,n,v);
+ for(let i=0;i<4;i++)x.set(100,'queue_owner',0,i);
+ for(let i=0;i<2;i++){const u=200+i;for(const[n,v]of Object.entries({admission_epoch:10,admission_cutoff:120,admission_nonce:i+1,nonce:i+1,pool:100,kind:1}))x.set(u,n,v);}
+ x.sponsor(2);assert.equal((await scanExecutorAdmission(x.o,async()=>x.state,x.files)).reason,'awaiting-all-four-authenticated-consents');
+ x.o.bulkFallbackRemainingCheckpoints=5;assert.equal((await scanExecutorAdmission(x.o,async()=>x.state,x.files)).action,null);
+ x.head(115);const fallback=await scanExecutorAdmission(x.o,async()=>x.state,x.files);assert.equal(fallback.action.maintenanceOperation,'admit_entry');assert.equal(parseLosslessJson(fallback.action.submission).software_defined_call.inputs[23],200n);
+ x.set(100,'queue_count',1);x.set(100,'queue_owner',200,0);const second=await scanExecutorAdmission(x.o,async()=>x.state,x.files);assert.equal(parseLosslessJson(second.action.submission).software_defined_call.inputs[23],201n);assert.equal(await x.state.slot(100,1000,x.files.abi.contract.state.find(f=>f.name==='queue_owner').offset),200n);
+ x.head(121);assert.equal((await scanExecutorAdmission(x.o,async()=>x.state,x.files)).action.maintenanceOperation,'seal_epoch');assert.equal(x.proofs,0);assert.equal(x.sends,0);
+}));

@@ -522,3 +522,16 @@ historical memory stays absent. Telemetry has no witness/call payloads and canno
 replace a financial result or cause another submit if disk logging fails;
 `adapter.metricFailures` reports observation loss. Observation retention and disk
 capacity are operator responsibilities; do not use missing metrics as zeros.
+
+### Opt-in pre-admission bulk fallback
+
+For `admissionMode:"all-four-v1"`, `bulkFallbackRemainingCheckpoints` (1..64)
+may opt into existing single-entry authorization when an empty open queue is
+within that many checkpoints of cutoff and only some of the four **explicit
+plan hints** have matching authenticated consent. Four eligible hints still use
+one bulk operation. Once any member is accepted, subsequent scans use the
+existing single-entry route, and seal/commit must process the entire accepted
+set. No accepted/frozen set is shrunk, and capacity remains four. Default is the
+previous wait-for-all-four behavior. More single UPSs can cost more sponsor gas;
+scans request explicit authorization, never auto-pay. This is source-checkpoint
+scheduling, not a guaranteed actual-inclusion deadline or global fairness.
