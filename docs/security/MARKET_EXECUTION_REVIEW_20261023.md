@@ -716,3 +716,24 @@ missing data stays unknown. Four observation-unit checks pass, including large
 limbs, wrong balances/cursors/fees and wrong receipt/payer attribution. Actual
 final live claims and the second-hop recovery are still pending. Unit/snapshot
 archive: `executor/verification/2026-10-24-composition-claim-observation-v1`.
+
+### First real hop settled and intermediate FT claimed
+
+The first sealed collection is confirmed at 371253 (nonzero sealed root and same
+sole member/cutoff observed at 371258), committed at 371276 and actually settled
+at 371303. The dedicated controller then claims the intermediate QA-B at 371335.
+Actual spendable balance and cumulative claim cursor agree at a later common
+snapshot. Input **4.611686018427387921 QA-A** produces
+**3.738416797288011079 QA-B**; actual reserves are
+24.611686018427387921 QA-A / 16.261583202711988921 QA-B. These exactly match the
+canonical pricing and reserve deltas. No existing pUSDT is used.
+
+The next order uses this actual spendable intermediate asset; its second-vault
+UPSs, final return, ordinary final claim and cancellation/refund scenario remain
+pending. No cross-vault atomicity, global fairness, chain TPS or production
+conclusion follows. Closed first-hop/source/receipt/state artifacts are in
+`executor/verification/2026-10-24-composition-first-hop-live-v1` (2,330 files,
+24,879,711 compressed bytes; originals compared). Later independent actual-proof
+verification and whole-cohort audits are still required. The final ordinary
+claim audit additionally binds the pinned ordinary actor's public-key hash,
+nonce and end user-state root; it does not accept only a matching numeric ID.
