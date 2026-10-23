@@ -34,3 +34,14 @@ All returned plans explicitly remain **quote-only**, with unauthenticated source
 snapshots. A digest is not a signature. Dedicated controller/SD-key bytecode,
 workflow recovery and new isolated acceptance are still required. See
 [CAPABILITIES.md](CAPABILITIES.md) for exact atomicity and compensation limits.
+
+`workflow.mjs` tracks the staged request identities, confirmations and recovery
+asset class. `store.mjs` persists append-only, hash-linked snapshots with revision
+checks and the Executor's same-host lock. Unknown broadcasts prevent another
+prepared task; a confirmed Outbox must be claimed before the next stage. An
+observed actual fee breach is retained as `review-required`, not hidden by a
+failed local assertion. This is an observation/control scaffold: receipt facts
+still need a full-proof/historical/index verifier, and it currently has **no
+financial adapter**. Local revision tests do not prove multi-host exclusion or
+on-chain authorization. The initial store is one intent per dedicated case;
+controller/key and actual new-instance acceptance remain uncompleted gates.

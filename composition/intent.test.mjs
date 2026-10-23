@@ -6,7 +6,7 @@ const dep=id=>({contractId:id,codeRoot:root,layoutRoot:root,functionTreeRoot:roo
 export function fixture(){
  const market=(id,vault,assets)=>({kind:'amm',marketId:id,vaultId:vault,fingerprint:root,publicKeyHash:other,dependencies:[0n,id,...assets.map(a=>a.id)].map(dep),assets});
  const registry=createRegistry({domainHash:root,sdkManifestHash:sdk,markets:[market(100n,200n,[{id:10n,decimals:18},{id:11n,decimals:6}]),market(101n,201n,[{id:11n,decimals:6},{id:12n,decimals:9}])]});
- const terms={version:1,domainHash:root,sdkManifestHash:sdk,registryHash:registry.hash,owner:50n,nonce:1n,receiver:50n,expiresAtCheckpoint:200n,maxNativeFees:50_000_000_000n,input:{id:10n,decimals:18,amount:100n},output:{id:12n,decimals:9,amount:1n},markets:[100n,101n]};
+ const terms={version:1,domainHash:root,sdkManifestHash:sdk,registryHash:registry.hash,owner:50n,nonce:1n,receiver:50n,expiresAtCheckpoint:200n,maxNativeFees:50_000_000_000n,input:{id:10n,decimals:18,amount:100n},output:{id:12n,decimals:9,amount:1n},markets:[100n,101n],execution:{controllerId:102n,vaultId:202n,fingerprint:root,publicKeyHash:other,codeRoot:root,layoutRoot:root,functionTreeRoot:root,stateTreeHeight:31n,layoutFieldCount:20n,layoutSlotCount:100n}};
  const intent=createIntent(terms),snapshots=[{marketId:100n,vaultId:200n,checkpoint:100n,stateRoot:root,reserveA:1000n,reserveB:1000n},{marketId:101n,vaultId:201n,checkpoint:100n,stateRoot:root,reserveA:1000n,reserveB:1000n}];
  return{terms,intent,registry,snapshots,checkpoint:100n};
 }

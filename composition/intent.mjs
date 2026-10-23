@@ -24,9 +24,11 @@ export function units(text,d){
 }
 function asset(a){exactKeys(a,['id','decimals','amount']);user(a.id);decimals(a.decimals);positive(a.amount);encodeAmount(a.amount);}
 export function createIntent(input){
- exactKeys(input,['version','domainHash','sdkManifestHash','registryHash','owner','nonce','receiver','expiresAtCheckpoint','maxNativeFees','input','output','markets']);
+ exactKeys(input,['version','domainHash','sdkManifestHash','registryHash','owner','nonce','receiver','expiresAtCheckpoint','maxNativeFees','input','output','markets','execution']);
  const v=structuredClone(input);assert.equal(v.version,1);for(const k of ['domainHash','sdkManifestHash','registryHash'])hash(v[k]);
  user(v.owner);user(v.receiver);assert.equal(v.receiver,v.owner,'v1 requires owner as final receiver');positive(v.nonce,(1n<<62n)-1n);positive(v.expiresAtCheckpoint,(1n<<32n)-1n);positive(v.maxNativeFees,(1n<<62n)-1n);
+ exactKeys(v.execution,['controllerId','vaultId','fingerprint','publicKeyHash','codeRoot','layoutRoot','functionTreeRoot','stateTreeHeight','layoutFieldCount','layoutSlotCount']);
+ user(v.execution.controllerId);user(v.execution.vaultId);assert.notEqual(v.execution.vaultId,v.owner,'dedicated execution account required');for(const k of ['fingerprint','publicKeyHash','codeRoot','layoutRoot','functionTreeRoot'])hash(v.execution[k]);positive(v.execution.stateTreeHeight,32n);integer(v.execution.layoutFieldCount,(1n<<32n)-1n);integer(v.execution.layoutSlotCount,(1n<<32n)-1n);
  asset(v.input);asset(v.output);assert.ok(Array.isArray(v.markets)&&v.markets.length===2);v.markets.forEach(user);assert.notEqual(v.markets[0],v.markets[1],'distinct market instances');
  return freeze({id:commitment('psy-composition-intent-v1',v),terms:v,atomic:false,authorization:'unsigned-client-intent'});
 }
@@ -47,7 +49,7 @@ export function createRegistry(input){
  return freeze({hash:commitment('psy-composition-registry-v1',v),value:v});
 }
 export function planIntent({intent,registry,snapshots,checkpoint}){
- const i=createIntent(intent.terms),r=createRegistry(registry.value);assert.equal(i.id,intent.id,'intent substitution');assert.equal(r.hash,registry.hash,'registry substitution');assert.equal(i.terms.registryHash,r.hash);for(const k of ['domainHash','sdkManifestHash'])assert.equal(i.terms[k],r.value[k]);integer(checkpoint,(1n<<32n)-1n);assert.ok(checkpoint<i.terms.expiresAtCheckpoint,'intent expired');
+ const i=createIntent(intent.terms),r=createRegistry(registry.value);assert.equal(i.id,intent.id,'intent substitution');assert.equal(r.hash,registry.hash,'registry substitution');assert.equal(i.terms.registryHash,r.hash);assert.ok(!r.value.markets.some(m=>m.vaultId===i.terms.execution.vaultId||m.marketId===i.terms.execution.controllerId),'dedicated composition scope');for(const k of ['domainHash','sdkManifestHash'])assert.equal(i.terms[k],r.value[k]);integer(checkpoint,(1n<<32n)-1n);assert.ok(checkpoint<i.terms.expiresAtCheckpoint,'intent expired');
  assert.ok(Array.isArray(snapshots)&&snapshots.length===2);let amount=i.terms.input.amount,assetIn=i.terms.input.id,assetDecimals=i.terms.input.decimals;const steps=[];
  for(const [j,marketId]of i.terms.markets.entries()){
   const m=r.value.markets.find(m=>m.marketId===marketId);assert.ok(m,'market not allowed');const side=m.assets.findIndex(a=>a.id===assetIn);assert.ok(side>=0,'route asset mismatch');assert.equal(m.assets[side].decimals,assetDecimals,'asset decimals mismatch');
