@@ -913,3 +913,28 @@ Closed zero-fill recovery/ordinary claim/reentry evidence is archived at
 `executor/verification/2026-10-24-composition-timeout-claimed-v1` (2,218 files,
 23,605,491 compressed bytes; every original hash compared). Integrity comparison
 is not the separately pending independent full-cohort UPS verification.
+
+### Actual cross-realm funding and warmed distinct-nonce UPSs
+
+The partial-recovery owner **406720 (realm 0)** funds execution account
+**1756352 (realm 1)** at checkpoint **371948**. Controller 2492 confirms `fund`
+at **371972** (nonce 1) and `open-1` at **371993** (nonce 2), each with **7 actual
+calls including burn**. End leaves, exact original receipts, stats, full-proof
+and stack/session preflights agree. The same resource
+223bdbf4-9a19-4340-96a3-650c4ae94d14 / PID 31322 serves both operations; separate
+fresh transaction witnesses/nonces remain mandatory. The performance join rejects
+another intent, unresolved result, wrong operation, missing or changed process /
+resource identity. Four focused performance/audit regressions pass.
+
+Measured preflight totals are **136.872 / 139.571 seconds**, including witness/
+state IO within the Rust phase walls; call proving is 70.620 / 69.800, recursive
+finalize 22.094 / 22.048, end-cap 4.755 / 4.706 and full-proof verification
+3.312 / 3.376 seconds. Key/session construction is observed separately in the
+first resident quote. These are distinct operations, not matched before/after
+throughput samples, HTTP latency or chain confirmation rates. No speedup follows.
+
+Evidence is `executor/verification/2026-10-24-composition-cross-realm-warm-v1`
+(86 files / 1,811,275 compressed bytes; all originals compared). First market
+intake plan is chosen before opening: **epoch 5, cutoff 372100**, one member
+1756352 / nonce 1, deterministic mode. Admission, sealing, actual trade, second-hop
+cancellation, ordinary final claim and independent final audit are still pending.

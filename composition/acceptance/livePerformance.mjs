@@ -33,6 +33,20 @@ export function matchVerifiedReceipt(item, verified) {
   assert.equal(item.userId, verified.userId);
   assert.equal(item.fee, verified.fee);
 }
+export function observedWarmTransition(fund, open, intentId) {
+  for(const [row,operation] of [[fund,'fund'],[open,'open-1']]) {
+    assert.equal(row.result.status,'included');
+    assert.equal(row.task.operation,operation);
+    assert.equal(row.task.intentId,intentId,'resource observation belongs to another intent');
+  }
+  const known=[fund,open].every(r=>typeof r.adapterInstanceId==='string' &&
+    /^[0-9a-f-]{36}$/.test(r.adapterInstanceId) && typeof r.parentPid==='bigint' && r.parentPid>0n);
+  return {fundTaskId:fund.taskId,openTaskId:open.taskId,
+    fundResourceId:fund.adapterInstanceId??null,openResourceId:open.adapterInstanceId??null,
+    fundParentPid:fund.parentPid??null,openParentPid:open.parentPid??null,
+    warmTransitionVerified:known && fund.adapterInstanceId===open.adapterInstanceId && fund.parentPid===open.parentPid,
+    scope:'derived from original included operation reports; observed same adapter resource and parent process only, not state-proof reuse, hardware attestation or measured speedup'};
+}
 export function summarizePublicReads(rows) {
   const methods = {};
   for (const row of rows) {
@@ -202,7 +216,9 @@ export function compositionPerformance(base, proofSummary, resourceSummary) {
         scope:'one frozen composition member; confirmed base settlement and subsequent controller payout are both required'});
     }
     const warmPath = join(home, 'public/WARM-FUND-TO-OPEN-v1.json');
-    const warmTransition = existsSync(warmPath) ? exact(warmPath) : null;
+    const warmTransition = existsSync(warmPath) ? exact(warmPath) : observedWarmTransition(
+      exact(join(home,'public','composition-'+scenario+'-fund-v1-formal-result.json')),
+      exact(join(home,'public','composition-'+scenario+'-open-1-v1-formal-result.json')),done.intentId);
     const restartPath = join(home, 'public/PROCESS-RESTART-COMPLETE-v1.json');
     let processRestart = existsSync(restartPath) ? exact(restartPath) : null;
     const resumedPath = join(home, 'public/PROCESS-RESTART-RESUMED-v1.json');
