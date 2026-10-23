@@ -189,3 +189,26 @@ trade. Historical/index agreement is an RPC observation, not a cryptographic
 inclusion/finality witness; runtime identity/domain/upgrade gates remain open.
 Archive: `composition-exact-receipt-observer-v1/`, 32 files / 570,462 gzip bytes,
 original-copy and compressed hashes verified. Original first-run evidence stays.
+
+## Formal AMM fallback economic acceptance closed
+
+The opt-in 4-hint/1-consent route has now completed through production CLI
+admission, seal, commitment, settlement and ordinary wallet claim on AMM 2478.
+One accepted member, one fill; 1 QA FT-A paid and 0.614011123258459198 QA FT-B
+claimed. Twelve exact included UPSs; native cohort decrease equals **12.000078
+test PSY** fees. Twenty-account finite-cohort FT totals and NFT identities match;
+pUSDT was not used. No proof replacement, new business nonce retry or repeated
+payment was performed. Capacity, market pricing and deterministic ordering stay.
+
+Full source/SDK/binary closure, requests, complete proofs, receipts, identities,
+state changes and phase measurements are archived in `formal-fallback-economic-v1/`
+(288 files / 9,089,717 gzip bytes), original/compressed hashes verified. See the
+performance report for cold/warm, confirmation, claim, memory and fee scopes.
+The ordinary order-to-last-claim envelope is 42m 37.226s, including sponsorship,
+cutoff and polling waits; it is not chain TPS or an old/new live speed comparison.
+
+This closes the new **AMM** thin-dispatch case, not fresh thin cases for Curve,
+Book or NFT. The three retain their prior maximum/recovery proofs and live
+acceptance. Composition custody/controller/SD-key/full UPS and new-instance
+financial acceptance remain incomplete; external runtime/domain/upgrade/random
+source/atomic multiwriter gates remain open. No production certification follows.
