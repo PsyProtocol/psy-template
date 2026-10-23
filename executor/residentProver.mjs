@@ -1,15 +1,17 @@
 // Proof-only child, one pinned policy/config. It never submits transactions.
 import {spawn} from 'node:child_process';
 import {randomUUID} from 'node:crypto';
-export function residentProver(binary,policy,config,{env,timeout=900000,spawnProcess=spawn}={}){
- let child,pending,buffer='',startup='',ready,stopped=false;
+export function residentProver(binary,policy,config,{env,timeout=900000,stopTimeout=5000,spawnProcess=spawn}={}){
+ if(!Number.isSafeInteger(stopTimeout)||stopTimeout<1||stopTimeout>10000)throw Error('invalid resident stop timeout');
+ let child,pending,buffer='',startup='',ready,stopped=false,exited=false,exitPromise,closing;
  const fail=error=>{if(pending){clearTimeout(pending.timer);const p=pending;pending=null;error.stdout=p.stdout;error.stderr=p.stderr;p.reject(error);}else startup+=error.message+'\n';};
  const start=()=>{
   if(stopped)throw Error('resident prover is closed; explicit restart required');
   if(child)return;
   child=spawnProcess(binary,['serve-preflight',policy,config],{env,stdio:['pipe','pipe','pipe']});
-  child.on('error',e=>{stopped=true;fail(e);});
-  child.on('exit',(code,signal)=>{stopped=true;fail(Error(`resident proof child exited ${code??signal}; no automatic retry`));});
+  let ended;exitPromise=new Promise(resolve=>{ended=resolve;});
+  child.on('error',e=>{stopped=true;exited=true;ended();fail(e);});
+  child.on('exit',(code,signal)=>{stopped=true;exited=true;ended();fail(Error(`resident proof child exited ${code??signal}; no automatic retry`));});
   child.stdin.on('error',e=>{stopped=true;fail(e);});
   child.stderr.on('data',chunk=>{if(pending)pending.stderr+=String(chunk);else startup+=String(chunk);});
   child.stdout.on('data',chunk=>{
@@ -33,6 +35,18 @@ export function residentProver(binary,policy,config,{env,timeout=900000,spawnPro
     child.stdin.write(JSON.stringify({id,calls:args[3],guard:args[4],out:args[5]})+'\n');
    });
   },
-  close:async()=>{stopped=true;if(child){child.stdin.end();if(pending){child.kill('SIGTERM');fail(Error('resident closed while proof was running'));}}}
+  close:async()=>{
+   if(closing)return closing;
+   stopped=true;if(!child||exited)return;
+   closing=(async()=>{
+    child.stdin.end();if(pending){child.kill('SIGTERM');fail(Error('resident closed while proof was running'));}
+    const waitExit=()=>new Promise(resolve=>{const timer=setTimeout(()=>resolve(false),stopTimeout);exitPromise.then(()=>{clearTimeout(timer);resolve(true);});});
+    if(await waitExit())return;
+    child.kill('SIGTERM');if(await waitExit())return;
+    child.kill('SIGKILL');if(await waitExit())return;
+    throw Error('resident child exit unconfirmed; do not start a replacement proof process');
+   })();
+   return closing;
+  }
  };
 }

@@ -1,0 +1,12 @@
+✔ one pinned proof child serves sequential requests and reports warm circuit startup (3.41775ms)
+✔ resident never accepts submit, changed policy, changed config or overlapping requests (0.681167ms)
+✔ unmatched response or child exit fails without automatic restart (3.149083ms)
+✔ close waits for actual process exit, escalates a stuck child, and never restarts it (31.818583ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 210.960791
