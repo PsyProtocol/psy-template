@@ -45,6 +45,16 @@ Planned floors matched the settled calls:
 `atomic: false`, and `productionReady: false`. This run does not measure
 chain throughput.
 
+## 2026-10-22 AMM floor into one orderbook cross
+
+`composition/book.mjs` plans the same AMM floor, then one resting orderbook
+bid. `matchBook` supplies the crossing rule. The intermediate asset is the
+whole sell order: the fill pays that bid's full amount, and a bid whose
+minimum exceeds the AMM output does not cross. The trader's own bid is
+skipped. The AMM and the book must be different markets. `partialFill`,
+`invokeSync` and `atomic` are false. Curve and NFT are not in this plan.
+`npm run test:composition` covers it. No book hop has been submitted.
+
 ## 2026-10-22 runbook acceptance matrix complete; evidence archived
 
 LP, maximum, cost report, omitted-sender recovery and NFT competition are all
