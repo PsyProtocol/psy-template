@@ -757,3 +757,22 @@ measurement regressions are archived in
 `executor/verification/2026-10-24-composition-warm-preflight-v1`. Live warm reuse,
 final owner claims and compensation remain pending; no speedup conclusion yet.
 The SDK/genesis/lock check and unchanged preexisting Node diff are re-recorded.
+
+### Actual worker restart gate prepared
+
+The QA recovery entry now supervises a separate financial worker. After real
+fund and open-1 confirmations with the same warm resource, the worker verifies
+zero unknown broadcasts, saves an included checkpoint, confirms resident closure
+and exits with reserved code 73. One new worker is permitted only for that exact
+PID/config/included-journal checkpoint. It re-reconciles the exact receipts before
+any next ordinary sponsorship and records a different PID/resource with unchanged
+broadcast identities. Other errors stop; no unknown business operation is retried.
+The running success retains its original loaded source and adapter restart test.
+
+45 targeted checks pass; the exact new plan/worker/harness source hashes and
+regression log are in `2026-10-24-composition-process-restart-preflight-v1`.
+The earlier warm-only plan remains unmodified and is explicitly superseded for
+these lifecycle hashes. Actual warm first-fund transition, physical worker exit/
+resume and cancelled second-hop final claim still await real execution. The final
+performance report requires those planned live markers and does not equate this
+controlled exit with a power cut, multi-host takeover or production qualification.

@@ -152,8 +152,20 @@ export function compositionPerformance(base, proofSummary, resourceSummary) {
         scope:'one frozen composition member; confirmed base settlement and subsequent controller payout are both required'});
     }
     const warmPath = join(home, 'public/WARM-FUND-TO-OPEN-v1.json');
+    const warmTransition = existsSync(warmPath) ? exact(warmPath) : null;
+    const restartPath = join(home, 'public/PROCESS-RESTART-COMPLETE-v1.json');
+    const processRestart = existsSync(restartPath) ? exact(restartPath) : null;
+    if (scenario === 'recovery' && existsSync(join(base, 'public/RECOVERY-PROCESS-RESTART-PLAN-v1.json'))) {
+      assert.equal(warmTransition?.warmTransitionVerified, true, 'planned warm network transition not verified');
+      assert.ok(processRestart, 'planned real worker restart not verified');
+      assert.equal(processRestart.attempts.length, 2);
+      assert.notEqual(processRestart.resumed.oldPid, processRestart.resumed.newPid);
+      assert.equal(processRestart.resumed.exactOriginalReceiptsReconciled, true);
+      assert.equal(processRestart.resumed.unresolved, 0n);
+      assert.equal(processRestart.configSha256, sha256(readFileSync(join(home, 'route/executor.json'))));
+    }
     routes.push({scenario, identities, completion:done, proofs, ordinary, sponsors, baseStages, marketSettlements,
-      initialResourceTransition:existsSync(warmPath) ? exact(warmPath) : null,
+      initialResourceTransition:warmTransition, processRestart,
       adapterStartups:all.filter(p => /\/ADAPTER-STARTUP-[^/]+\.json$/.test(p)).map(observation),
       residentJobs:all.filter(p => /\/RESIDENT-(quote|prove)-[^/]+\.json$/.test(p)).map(observation),
       phases:summarizePhases(phases),
