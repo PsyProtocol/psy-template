@@ -839,3 +839,32 @@ elapsed wall, and explicitly excludes unobserved/Rust SDK witness IO. Six target
 measurement/claim checks pass, including invalid partial scope, receipt/payer/fee,
 large limbs, nonfinite timing and missing/failed observations. No matched full
 live speedup or chain throughput conclusion is made.
+
+### Observed intake expiry and explicit, non-retrying recovery (2026-10-24)
+
+After the physical worker restart, controller 2489 / account 134336 confirmed
+consent at checkpoint 371654. The first market's epoch 4 closed at 371671;
+`admit_entry` then failed its actual proof bounds before any request or broadcast
+intent existed. Original failure reports `broadcastMayHaveBeenAttempted: false`.
+The Executor stopped rather than resending, backdating the witness, extending
+that epoch or loosening the cutoff check. Empty abort confirms at **371738**.
+The exact pending sponsor authorization is consumed; no duplicate grant is sent.
+Explicit owner cancellation and sender-bound principal/native recovery are now
+running through the original controller and market identities.
+
+The controller permits one consent per hop. An expired consent cannot be renewed
+under this one-shot intent; its exit is cancellation/refund and a new isolated
+intent. This is a real liveness boundary, not an automatically renewed queue.
+A separate `partial-recovery` instance is being registered for the outstanding
+first-trade/second-hop-unaccepted compensation test. Its intake window is chosen
+**before opening**, 96 checkpoints within the unchanged on-chain maximum 128;
+member count, call lengths, fees, keys and all source/session checks stay bounded
+by their existing verified policy. Its owner is the same QA recipient, publisher
+is the other owned QA actor, and its controller/account/key are new. The old
+funded timeout instance and its evidence are preserved.
+
+Acceptance and performance reports now distinguish zero-fill principal recovery
+from one-fill middle-asset compensation and two-fill success. A resumed worker
+followed by domain expiry is recorded as such, never a successful original
+supervisor run. All three ordinary owner claims and final exact cohort/full-UPS
+verification remain mandatory before the combined completion report is emitted.

@@ -70,11 +70,13 @@ export function compositionPerformance(base, proofSummary, resourceSummary) {
   };
   const completePath = join(base, 'public/INITIALIZED-LIVE-ACCEPTANCE-COMPLETE-v1.json');
   const complete = exact(completePath);
-  for (const scenario of ['success', 'recovery']) {
-    assert.equal(complete[scenario].ordinaryOwnerClaimIncluded, true);
-    assert.equal(complete[scenario].controllerPhase, 99n);
-    assert.equal(complete[scenario].controllerNative, 0n);
-    for (const asset of complete[scenario].controllerAssets) assert.equal(asset.balance, 0n);
+  const completed = Object.fromEntries([['success',complete.success],['recovery',complete.recovery],
+    ...(complete.partialRecovery ? [['partial-recovery',complete.partialRecovery]] : [])]);
+  for (const scenario of Object.keys(completed)) {
+    assert.equal(completed[scenario].ordinaryOwnerClaimIncluded, true);
+    assert.equal(completed[scenario].controllerPhase, 99n);
+    assert.equal(completed[scenario].controllerNative, 0n);
+    for (const asset of completed[scenario].controllerAssets) assert.equal(asset.balance, 0n);
   }
   const auditPath = join(base, 'public/COMPOSITION-RECOVERY-AUDIT-v1.json');
   const audit = exact(auditPath), verified = exact(proofSummary);
@@ -92,10 +94,10 @@ export function compositionPerformance(base, proofSummary, resourceSummary) {
   const ownerClaims = exact(ownerAuditPath);
   assert.equal(ownerClaims.broadcast, false);
   assert.equal(ownerClaims.verificationSummarySha256, sha256(readFileSync(proofSummary)));
-  assert.deepEqual(ownerClaims.rows.map(r => r.scenario).sort(), ['recovery', 'success']);
+  assert.deepEqual(ownerClaims.rows.map(r => r.scenario).sort(), Object.keys(completed).sort());
   for (const row of ownerClaims.rows) {
-    assert.equal(row.owner, complete[row.scenario].owner);
-    assert.equal(row.vault, complete[row.scenario].vaultId);
+    assert.equal(row.owner, completed[row.scenario].owner);
+    assert.equal(row.vault, completed[row.scenario].vaultId);
     assert.ok(proofByHash.has(row.contentHash));
     assert.equal(proofByHash.get(row.contentHash).requestSha256, row.requestSha256);
   }
@@ -104,15 +106,16 @@ export function compositionPerformance(base, proofSummary, resourceSummary) {
     const timing = existsSync(timingPath) ? exact(timingPath) : null;
     assert.ok(proofByHash.has(row.contentHash));
     return {file:relative(base, p), timing, checkpoint:row.checkpoint,
+      includedObservedAt:row.checkedAt, contentHash:row.contentHash,
       fee:row.receipt.data.result.fees_collected,
       acknowledgementToIncludedCommonObservationMilliseconds:observedConfirmation(timing, row),
       scope:'ordinary wallet process wall includes build/read/proof/verification/HTTP; separate receipt/common observation includes polling'};
   };
   const routes = [];
-  for (const scenario of ['success', 'recovery']) {
+  for (const scenario of Object.keys(completed)) {
     const home = join(controllerDirectory(base), scenario);
     const configuration = observation(join(home, 'route/executor.json'));
-    const all = files(home), done = complete[scenario];
+    const all = files(home), done = completed[scenario];
     const identities = {network:configuration.network, vaultId:configuration.vaultId,
       controllerId:Number(done.controllerId), walletSha256:configuration.walletSha256,
       sdkManifestHash:configuration.sdkManifestHash, fingerprint:configuration.fingerprint};
@@ -137,6 +140,19 @@ export function compositionPerformance(base, proofSummary, resourceSummary) {
         scope:'durable broadcast-intent to receipt/common observation includes verification, fresh reads, HTTP and polling; not pure confirmation latency'};
     });
     const ordinary = all.filter(p => /\/attempts\/owner-[^/]+\/included\.json$/.test(p)).map(ordinaryObservation);
+    const adapterStartups = all.filter(p => /\/ADAPTER-STARTUP-[^/]+\.json$/.test(p)).map(observation);
+    assert.ok(adapterStartups.length > 0);
+    for (const row of adapterStartups) assert.ok(Number.isFinite(Date.parse(row.startedAt)));
+    const firstStartup = [...adapterStartups].sort((a,b) => Date.parse(a.startedAt)-Date.parse(b.startedAt))[0];
+    const funding = ordinary.find(r => r.file.includes('/owner-fund-v1/'));
+    const claim = ordinary.find(r => r.file.includes('/owner-claim-v1/'));
+    assert.ok(funding && claim);
+    const envelope = {
+      adapterStartedAt:firstStartup.startedAt, ownerFundingStartedAt:funding.timing?.startedAt ?? null,
+      ordinaryClaimObservedAt:claim.includedObservedAt,
+      adapterStartToClaimObservationMilliseconds:observedConfirmation({finishedAt:firstStartup.startedAt}, {checkedAt:claim.includedObservedAt}),
+      fundingStartToClaimObservationMilliseconds:funding.timing ? observedConfirmation({finishedAt:funding.timing.startedAt}, {checkedAt:claim.includedObservedAt}) : null,
+      scope:'application adapter/ordinary funding starts to exact final ordinary receipt/common observation; includes cold setup, proofs, sponsor steps, queues, injected lifecycle tests and polling; earlier SDK build/deployment/LP excluded; not chain TPS or service SLO'};
     const sponsors = files(join(base, 'attempts')).filter(p =>
       p.endsWith('/included.json') && p.includes('/attempts/composition-'+scenario+'-')).map(ordinaryObservation);
     const baseStages = files(join(base, 'public')).filter(p =>
@@ -170,7 +186,7 @@ export function compositionPerformance(base, proofSummary, resourceSummary) {
       assert.equal(row.scope.walletSha256, identities.walletSha256);
     }
     const marketSettlements = [];
-    for (let hop = 1; hop <= (scenario === 'success' ? 2 : 1); hop++) {
+    for (let hop = 1; hop <= Number(done.marketFills ?? (scenario === 'success' ? 2 : 1)); hop++) {
       const tag = 'composition-'+scenario+'-hop-'+hop;
       const frozen = exact(join(home, 'public', tag+'-admission-plan.json'));
       assert.equal(frozen.members.length, 1);
@@ -188,20 +204,31 @@ export function compositionPerformance(base, proofSummary, resourceSummary) {
     const warmPath = join(home, 'public/WARM-FUND-TO-OPEN-v1.json');
     const warmTransition = existsSync(warmPath) ? exact(warmPath) : null;
     const restartPath = join(home, 'public/PROCESS-RESTART-COMPLETE-v1.json');
-    const processRestart = existsSync(restartPath) ? exact(restartPath) : null;
+    let processRestart = existsSync(restartPath) ? exact(restartPath) : null;
+    const resumedPath = join(home, 'public/PROCESS-RESTART-RESUMED-v1.json');
+    if (!processRestart && existsSync(resumedPath)) {
+      const point = exact(join(home,'public/PROCESS-RESTART-POINT-v1.json'));
+      const resumed = exact(resumedPath);
+      assert.equal(done.outcome,'first-hop-admission-timeout-cancelled-and-refunded');
+      assert.equal(done.marketFills,0n);
+      processRestart = {configSha256:resumed.configSha256, resumed,
+        checkpoint:point, supervisorCompleted:false, terminalOutcome:done.outcome,
+        scope:'planned worker restart and exact receipt reconciliation succeeded; later admission proof expired before broadcast; original supervisor halted and separate explicit refund helper completed; not uninterrupted route completion'};
+    }
     if (scenario === 'recovery' && existsSync(join(base, 'public/RECOVERY-PROCESS-RESTART-PLAN-v1.json'))) {
       assert.equal(warmTransition?.warmTransitionVerified, true, 'planned warm network transition not verified');
       assert.ok(processRestart, 'planned real worker restart not verified');
-      assert.equal(processRestart.attempts.length, 2);
+      if (processRestart.attempts) assert.equal(processRestart.attempts.length, 2);
+      else assert.equal(processRestart.supervisorCompleted,false);
       assert.notEqual(processRestart.resumed.oldPid, processRestart.resumed.newPid);
       assert.equal(processRestart.resumed.exactOriginalReceiptsReconciled, true);
       assert.equal(processRestart.resumed.unresolved, 0n);
       assert.equal(processRestart.configSha256, sha256(readFileSync(join(home, 'route/executor.json'))));
     }
-    routes.push({scenario, identities, completion:done, proofs, ordinary, sponsors, baseStages, marketSettlements,
+    routes.push({scenario, identities, completion:done, envelope, proofs, ordinary, sponsors, baseStages, marketSettlements,
       initialResourceTransition:warmTransition, processRestart,
       publicReads:summarizePublicReads(publicReads),
-      adapterStartups:all.filter(p => /\/ADAPTER-STARTUP-[^/]+\.json$/.test(p)).map(observation),
+      adapterStartups,
       residentJobs:all.filter(p => /\/RESIDENT-(quote|prove)-[^/]+\.json$/.test(p)).map(observation),
       phases:summarizePhases(phases),
       failedAttempts:all.filter(p => p.endsWith('/failure.json')).map(p => relative(base, p))});

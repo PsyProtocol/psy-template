@@ -1,3 +1,4 @@
+import{SCENARIOS}from'./scenarios.mjs';
 // Bounded QA supervisor. Financial work runs in a separate worker. Only the
 // declared, fully included lifecycle checkpoint permits one new process.
 import assert from 'node:assert/strict';
@@ -11,7 +12,7 @@ import {ExecutionJournal} from '../../executor/journal.mjs';
 import {sha256} from '../../executor/requestBinding.mjs';
 import {read, save} from '../../batching/admission/liveSupport.mjs';
 const [base, scenario] = process.argv.slice(2);
-assert.ok(base && ['success','recovery'].includes(scenario));
+assert.ok(base && SCENARIOS.includes(scenario));
 const home = join(controllerDirectory(base), scenario), configFile = join(home, 'route/executor.json');
 const config = read(configFile), configSha256 = sha256(readFileSync(configFile));
 const planFile = join(base, 'public/RECOVERY-PROCESS-RESTART-PLAN-v1.json');

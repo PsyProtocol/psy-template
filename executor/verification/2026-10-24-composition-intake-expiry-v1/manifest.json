@@ -1,0 +1,235 @@
+{
+  "schema": 1,
+  "sourceDirectory": "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-market-recovery-20261023",
+  "machine": "gewenbo.local",
+  "host": "macOS-15.7.3-arm64-arm-64bit",
+  "scope": "public formal Executor run including failures; success requires exact included receipt",
+  "walletFilesIncluded": false,
+  "sealedBinariesIncluded": false,
+  "records": [
+    {
+      "source": "composition-initialized-complete-acceptance-v2.log",
+      "file": "files/composition-initialized-complete-acceptance-v2.log.gz",
+      "bytes": 1077,
+      "sha256": "131dfb33541b2a6ae7e978fb54a189715f6daa0bcd2869eb465c8a679c5df100",
+      "gzipBytes": 500,
+      "gzipSha256": "52f6afcd64a6eac6b0d76adb1c26456e850ff59a2a371859f77db850c448708b"
+    },
+    {
+      "source": "composition-live-recovery-execute-v2.log",
+      "file": "files/composition-live-recovery-execute-v2.log.gz",
+      "bytes": 3536,
+      "sha256": "d5a09b4eaf4588ceb611eab7a217735b2ee8812105c970741a03d120284ad0a3",
+      "gzipBytes": 1366,
+      "gzipSha256": "b7a436a11c4bdf040d2595e90b6bf03427bc0771cc13b637202d21f9707a7189"
+    },
+    {
+      "source": "composition-live-v2/controllers-initialized-v1/partial-recovery/attempts/deploy-controller-v1/before.json",
+      "file": "files/composition-live-v2/controllers-initialized-v1/partial-recovery/attempts/deploy-controller-v1/before.json.gz",
+      "bytes": 230,
+      "sha256": "ffde994366551dd30fe5829941340f5ee06dd934739363d6bbe5cb2379ff0593",
+      "gzipBytes": 148,
+      "gzipSha256": "f51d00e80b3e345b665bbba4dd4436dc861ba99f937de6a80cef248da5ab014b"
+    },
+    {
+      "source": "composition-live-v2/controllers-initialized-v1/partial-recovery/attempts/deploy-controller-v1/included.json",
+      "file": "files/composition-live-v2/controllers-initialized-v1/partial-recovery/attempts/deploy-controller-v1/included.json.gz",
+      "bytes": 1774,
+      "sha256": "43615e983c38cf05dd36272a04c7af8855109e9b27a1fdd83c96ea64a0d6be65",
+      "gzipBytes": 823,
+      "gzipSha256": "2c9f0f2940467d057091633bd0c67988a28f5ac915d4bdd03bc81f253b6ecc9a"
+    },
+    {
+      "source": "composition-live-v2/controllers-initialized-v1/partial-recovery/attempts/deploy-controller-v1/intent.json",
+      "file": "files/composition-live-v2/controllers-initialized-v1/partial-recovery/attempts/deploy-controller-v1/intent.json.gz",
+      "bytes": 208,
+      "sha256": "598838fb61de94a193d569a4c8346c526362e1d3efee8986c5769dcfbf742b7e",
+      "gzipBytes": 175,
+      "gzipSha256": "80bc1be343472b9e2e32051fa72705be1abfe41ba85ae73a76cc129814fb3dc6"
+    },
+    {
+      "source": "composition-live-v2/controllers-initialized-v1/partial-recovery/attempts/deploy-controller-v1/preflight.json",
+      "file": "files/composition-live-v2/controllers-initialized-v1/partial-recovery/attempts/deploy-controller-v1/preflight.json.gz",
+      "bytes": 702,
+      "sha256": "6b8e07008782ca46b469db051a99fae53ac83948213dc6a90623eaa06b905718",
+      "gzipBytes": 438,
+      "gzipSha256": "8f05fbf0a4f0db04b31763caa894603592b9a40373b795b66e243c8956772639"
+    },
+    {
+      "source": "composition-live-v2/controllers-initialized-v1/partial-recovery/attempts/deploy-controller-v1/receipt.json",
+      "file": "files/composition-live-v2/controllers-initialized-v1/partial-recovery/attempts/deploy-controller-v1/receipt.json.gz",
+      "bytes": 84,
+      "sha256": "eeb275a1d025e809a209fd4a0653420b9c0ebbc9bcb9cffe0661f8e41c4f9155",
+      "gzipBytes": 94,
+      "gzipSha256": "dd2a2d33da9b5b68054db066a59037b1dc1a777f98e4784b2b6911810a3811a7"
+    },
+    {
+      "source": "composition-live-v2/controllers-initialized-v1/partial-recovery/attempts/deploy-controller-v1/request.json",
+      "file": "files/composition-live-v2/controllers-initialized-v1/partial-recovery/attempts/deploy-controller-v1/request.json.gz",
+      "bytes": 30681509,
+      "sha256": "1a6bbe5153413b067134c31e2558f7247c332ff60e16cc976fa8d04418390f3e",
+      "gzipBytes": 632552,
+      "gzipSha256": "0d9dff3b63f2dcd85d5e3f8ddd1532d5902587dc8dbaab3a564b50f6d1c588bd"
+    },
+    {
+      "source": "composition-live-v2/controllers-initialized-v1/partial-recovery/attempts/deploy-controller-v1/timing.json",
+      "file": "files/composition-live-v2/controllers-initialized-v1/partial-recovery/attempts/deploy-controller-v1/timing.json.gz",
+      "bytes": 107,
+      "sha256": "d2e112d59a20eeea7c4a4b3a0bccd3d7006a1b08a7612f625557d0df73aa64cc",
+      "gzipBytes": 105,
+      "gzipSha256": "09a2b10651335df5b908b67d86449117b7ee613428cdd5458c9b8143941b1a13"
+    },
+    {
+      "source": "composition-live-v2/controllers-initialized-v1/partial-recovery/attempts/register-execution-v1/intent.json",
+      "file": "files/composition-live-v2/controllers-initialized-v1/partial-recovery/attempts/register-execution-v1/intent.json.gz",
+      "bytes": 317,
+      "sha256": "6db02dfd21e5f93688a566ad96bc486d9d50995269fb0df68866799479767b47",
+      "gzipBytes": 240,
+      "gzipSha256": "b0cc9f09977058c5f5703d89d0163bbc4386a45bc7e82de32ffb20525cfada3e"
+    },
+    {
+      "source": "composition-live-v2/controllers-initialized-v1/partial-recovery/attempts/register-execution-v1/receipt.json",
+      "file": "files/composition-live-v2/controllers-initialized-v1/partial-recovery/attempts/register-execution-v1/receipt.json.gz",
+      "bytes": 151,
+      "sha256": "523080eacdd6b49677029a3bbf1cce2c0e3556b8724774269a06210e142b094a",
+      "gzipBytes": 142,
+      "gzipSha256": "c40c245a7d16194334d7de03791bee139c8e2f421f320526c63cd21a7d23812e"
+    },
+    {
+      "source": "composition-live-v2/controllers-initialized-v1/partial-recovery/attempts/register-execution-v1/request.json",
+      "file": "files/composition-live-v2/controllers-initialized-v1/partial-recovery/attempts/register-execution-v1/request.json.gz",
+      "bytes": 204,
+      "sha256": "c47a28d75c78b4d0b651ac164a6dcf277d77d8eb8f2a2373fc5f834bb3b98d12",
+      "gzipBytes": 171,
+      "gzipSha256": "1c566aa408e025e4a1d302ed7d494552b7b4ffb5a8bae9c9363652c31334f7d3"
+    },
+    {
+      "source": "composition-live-v2/controllers-initialized-v1/partial-recovery/build/REGISTERED.json",
+      "file": "files/composition-live-v2/controllers-initialized-v1/partial-recovery/build/REGISTERED.json.gz",
+      "bytes": 4533,
+      "sha256": "a08157f33598ec4bf7e838fc57152fd6784fd632a7bfa262ad2ee1672e2dfe4d",
+      "gzipBytes": 1832,
+      "gzipSha256": "92c353dffc8c2aaa6f6d981a1e5c4c9acf0b46369febf3acd796d864e985d320"
+    },
+    {
+      "source": "composition-live-v2/controllers-initialized-v1/partial-recovery/build/compile.log",
+      "file": "files/composition-live-v2/controllers-initialized-v1/partial-recovery/build/compile.log.gz",
+      "bytes": 26,
+      "sha256": "b8c34675233d5e4555ceeef573189b15b683eb81832df80956ecf97afbbe465a",
+      "gzipBytes": 46,
+      "gzipSha256": "8dfcc3233b52c9d40775bc94f048578ddbc76a808f6fca25624cb549c86d5009"
+    },
+    {
+      "source": "composition-live-v2/controllers-initialized-v1/partial-recovery/build/compiled/compilation_artifact.json",
+      "file": "files/composition-live-v2/controllers-initialized-v1/partial-recovery/build/compiled/compilation_artifact.json.gz",
+      "bytes": 2190563,
+      "sha256": "a05949dd5e96797f650821e014e849069f9c37348c3ad6d0b7013c67dd0445ce",
+      "gzipBytes": 250884,
+      "gzipSha256": "fe0ab528292b664ab84660bd15634f8a059f1c8052255d4741d8dd6c9c00931c"
+    },
+    {
+      "source": "composition-live-v2/controllers-initialized-v1/partial-recovery/build/main.psy.rs",
+      "file": "files/composition-live-v2/controllers-initialized-v1/partial-recovery/build/main.psy.rs.gz",
+      "bytes": 407131,
+      "sha256": "9e2873a4d15c07865e8c7e3b71d5dd8502294f5fd90b9a0a2e9d3bf2bfbd9fb8",
+      "gzipBytes": 21390,
+      "gzipSha256": "573d5b3a384867137a8acd1a1f05e0444da35a5b48cabd242138e6c855b52add"
+    },
+    {
+      "source": "composition-live-v2/controllers-initialized-v1/partial-recovery/build/metadata.json",
+      "file": "files/composition-live-v2/controllers-initialized-v1/partial-recovery/build/metadata.json.gz",
+      "bytes": 115,
+      "sha256": "5782862632f4155ef3de3e2c81aea3a2ffbe621db6226921a85e2beaed488e79",
+      "gzipBytes": 89,
+      "gzipSha256": "bca9bd5334eb3348558bdebace736be937b9d39ac7cab4148048ec46e9420d24"
+    },
+    {
+      "source": "composition-live-v2/controllers-initialized-v1/partial-recovery/build/owner.json",
+      "file": "files/composition-live-v2/controllers-initialized-v1/partial-recovery/build/owner.json.gz",
+      "bytes": 404,
+      "sha256": "dcecbd443acd2399ce084b905a8994a8234f173b5089c1aee9119ae0a815b939",
+      "gzipBytes": 302,
+      "gzipSha256": "777e809f696d57b5c09c1287d562d027d1e63adc3e76cd901bd1973030169a5d"
+    },
+    {
+      "source": "composition-live-v2/controllers-initialized-v1/partial-recovery/build/policy-raw.json",
+      "file": "files/composition-live-v2/controllers-initialized-v1/partial-recovery/build/policy-raw.json.gz",
+      "bytes": 17509,
+      "sha256": "55c8ed2a66a2265b861bd39537133f5a4ffd5241bec1b1fd378fc9881656f523",
+      "gzipBytes": 1315,
+      "gzipSha256": "a9ba0b16bf92670b9bc49c7070fd77e555174fd9ade0c4d89281ff94de5355fa"
+    },
+    {
+      "source": "composition-live-v2/controllers-initialized-v1/partial-recovery/build/policy.json",
+      "file": "files/composition-live-v2/controllers-initialized-v1/partial-recovery/build/policy.json.gz",
+      "bytes": 33743,
+      "sha256": "d2127f383bd202f5e8da8b9a61f3deaeb602acd32bf33e3593e55883a06ab78b",
+      "gzipBytes": 1547,
+      "gzipSha256": "9bb5c7f9b1e1fed26efebbbabca5711a1e092578ab269d2ed4ef0d13bee1b693"
+    },
+    {
+      "source": "composition-live-v2/controllers-initialized-v1/partial-recovery/build/registry.json",
+      "file": "files/composition-live-v2/controllers-initialized-v1/partial-recovery/build/registry.json.gz",
+      "bytes": 6397,
+      "sha256": "03da197b6e89d39266e54a64fe1294c06055b0ea6315bcff56a1f8884952a262",
+      "gzipBytes": 1131,
+      "gzipSha256": "f4a0f735068e9b4b214fd0d1f1adaa5ae1d998c0b2430287dcbe55d4ebd84264"
+    },
+    {
+      "source": "composition-live-v2/controllers-initialized-v1/partial-recovery/deploy-controller-v1.log",
+      "file": "files/composition-live-v2/controllers-initialized-v1/partial-recovery/deploy-controller-v1.log.gz",
+      "bytes": 5873,
+      "sha256": "da1d6687cf6076e6c2d32827bc5416fdee04812f4445f4fb1547addf7780bd6a",
+      "gzipBytes": 1181,
+      "gzipSha256": "1746a29edb4e825577f76636fe816c286daaea0ff88b502d43859db6eaff1f08"
+    },
+    {
+      "source": "composition-live-v2/controllers-initialized-v1/partial-recovery/register-execution-v1.log",
+      "file": "files/composition-live-v2/controllers-initialized-v1/partial-recovery/register-execution-v1.log.gz",
+      "bytes": 485,
+      "sha256": "1dafc406dccf2d23a7812cddab93cbfc003fd0dc2cdb6d184fa3e12819c9ed04",
+      "gzipBytes": 213,
+      "gzipSha256": "6633b894c635ca9a8d5727ddef52b44866007081d0f7463b9a0134a593d76a8b"
+    },
+    {
+      "source": "composition-live-v2/public/RECOVERY-ADMISSION-FAILURE-STATE-v1.json",
+      "file": "files/composition-live-v2/public/RECOVERY-ADMISSION-FAILURE-STATE-v1.json.gz",
+      "bytes": 403,
+      "sha256": "86df303d6e3b8c0e929f353f5a1d921283893c86030654a9a4f13a42e11557a5",
+      "gzipBytes": 279,
+      "gzipSha256": "f274a875a0d3dbd5a7759ddaeca86c753b5e02a3d95d119b2130c335c48da14e"
+    },
+    {
+      "source": "composition-live-v2/public/SDK-SOURCE-CHECK-v4.json",
+      "file": "files/composition-live-v2/public/SDK-SOURCE-CHECK-v4.json.gz",
+      "bytes": 721,
+      "sha256": "d5409a1e234f65d527a60ce2c696f73f6f76c4e24e606d64583f120f827d2c67",
+      "gzipBytes": 485,
+      "gzipSha256": "9931a049165fe7c6ddd93847b6c0df5843f3e91144f011cbba8f075b44c86b09"
+    },
+    {
+      "source": "composition-live-v2/runtime/compact/sepolia/1012928/8a57299c804a8edf5001b0b639c4b72afab42be9d0ee692a083484c702e0c398/proof-27c2cc9e-6786-46ef-80c3-b8f14c78189c/failure.json",
+      "file": "files/composition-live-v2/runtime/compact/sepolia/1012928/8a57299c804a8edf5001b0b639c4b72afab42be9d0ee692a083484c702e0c398/proof-27c2cc9e-6786-46ef-80c3-b8f14c78189c/failure.json.gz",
+      "bytes": 308,
+      "sha256": "e5acc341cb46b85bfc7661f035ce9942c3bab98cb86573f06e5371ba41f21c61",
+      "gzipBytes": 224,
+      "gzipSha256": "aa9ec4d972ffd424a349b24596fceb52c8b33c6762b71f0022b08e7cb255d632"
+    },
+    {
+      "source": "composition-partial-controller-setup-v1.log",
+      "file": "files/composition-partial-controller-setup-v1.log.gz",
+      "bytes": 51,
+      "sha256": "4ceebcc96d6f8246a12013e93085f88ad7e0dbef242ae46d8d894a02e164ee77",
+      "gzipBytes": 71,
+      "gzipSha256": "67fe7cfda62a826ebaa410245c6023e5a4603d78a4ebfc4f871205171012fc24"
+    },
+    {
+      "source": "composition-recovery-continuation-v1-SOURCES.json",
+      "file": "files/composition-recovery-continuation-v1-SOURCES.json.gz",
+      "bytes": 1277,
+      "sha256": "56ba0cbfca4d1a7cc044320adce069b5b8daf3a61394be17a0676542a881b923",
+      "gzipBytes": 782,
+      "gzipSha256": "c25e2e29ed6bf392877538f77b714e1bef93ecd2688acbd3aa5473abecf08e8f"
+    }
+  ]
+}
