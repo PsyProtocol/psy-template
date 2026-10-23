@@ -75,6 +75,9 @@ fn lower_ranges(def:&mut Def,batch:bool)->Result<()> {
         }else{
             match node.op_type as u16 {
                 0|1|2|3|46|47|48=>{},
+                // Hash context getter has no Felt references. Preserve its
+                // ignored zero payload while scalarizing two-limb reads.
+                50 if batch=>{ensure!(node.inputs.iter().all(|x|*x==0),"unexpected key-context literal payload");},
                 18=>{for id in &mut node.inputs[1..]{ensure!(!high_arrays.contains_key(id),"unsupported whole self array use");*id=reference(*id,&targets)?;}},
                 4|5|6|7|8|9|10|13|14|15|20|23=>{for id in &mut node.inputs{ensure!(!high_arrays.contains_key(id),"unsupported whole self array use");*id=reference(*id,&targets)?;}},
                 16|17|21|22|78 if batch=>{for id in &mut node.inputs{ensure!(!high_arrays.contains_key(id),"unsupported whole self array use");*id=reference(*id,&targets)?;}},

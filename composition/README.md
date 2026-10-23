@@ -65,3 +65,14 @@ authenticated finality proof or runtime attestation. It does not certify actual
 calls against the business route: the dedicated controller/SD-key and financial
 adapter are still required. The live read-only smoke uses a synthetic workflow
 around an existing QA ordinary request, **not composition economic acceptance**.
+
+## Funded controller / dedicated key candidate
+
+See `CAPABILITIES.md` → Funded candidate checkpoint for current scope.
+`contract/funds.mjs` is distinct from the **never-fund** reservation profile.
+`funding.mjs` creates an atomic owner request/funding/bind sequence, while
+`contract/policy.mjs` binds 18 controller operation templates. Rust
+`tests/composition_funds.rs` and `tests/composition_key.rs` prove the current key
+and linked controller UPSs. No financial unattended adapter is enabled yet.
+Evidence is in `executor/verification/2026-10-23-funded-composition-v1/`;
+reproduction and remaining gates are in that directory's `README.md`.

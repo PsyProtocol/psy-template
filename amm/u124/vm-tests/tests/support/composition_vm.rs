@@ -41,7 +41,7 @@ fn execute_inner(state:&InMemoryStateBackend,def:&DPNFunctionCircuitDefinition,u
     DPNStateCmd::SetContractStateSlotSingle(c)=>{let mut old=get(user,contract,c.sub_slot_index,1)?;old.push(c.value);if c.condition!=0{pending=Some((c.sub_slot_index,vec![c.value]));}old},
     DPNStateCmd::SetContractStateSlotHash(c)=>{let mut old=get(user,contract,c.slot_index*4,4)?;old.extend(c.value);if c.condition!=0{pending=Some((c.slot_index*4,c.value.to_vec()));}old},
     DPNStateCmd::SetContractStateSlotRange(c)=>{let mut old=get(user,contract,c.sub_slot_index,c.value.len()as u64)?;old.extend(&c.value);if c.condition!=0{pending=Some((c.sub_slot_index,c.value));}old},
-    _=>bail!("unsupported reservation test state command"),
+    other=>bail!("unsupported public test state command: {other:?}"),
    };
    if let Some((start,values))=pending{for(i,value)in values.into_iter().enumerate(){writes.insert((user,contract,start+i as u64),value);}}
    results.insert(index,result);
