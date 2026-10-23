@@ -560,6 +560,12 @@ each proof request clears its user session. This only saves deterministic identi
 subprocess work when a factory is recreated; stable watch mode already retains
 its adapter. It is not an increase in financial proof or confirmation throughput.
 
+Resident shutdown now waits for actual child exit before a caller can replace
+the process. Graceful EOF, TERM and KILL are bounded (default five seconds each).
+An unconfirmed exit rejects close and halts replacement; there is no automatic
+restart, proof broadcast or financial retry. Unit fault injection covers an
+unresponsive child. This is resource lifecycle safety, not a measured speedup.
+
 ### Opt-in pre-admission bulk fallback
 
 For `admissionMode:"all-four-v1"`, `bulkFallbackRemainingCheckpoints` (1..64)

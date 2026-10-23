@@ -311,3 +311,9 @@ Identity-only four-lookup experiment ran four children before and one after;
 it does not establish settlement speedup. Rebuilt frozen verifier independently
 rechecked six preserved complete controller proofs. Evidence and limitations:
 `2026-10-23-identity-reuse-v1`; 173 formal JS regressions passed, two skipped.
+
+Resident shutdown now confirms the proof-only child has exited, escalating
+graceful EOF to TERM/KILL with bounded waits. An unconfirmed exit halts instead
+of starting a replacement alongside it. `2026-10-23-resident-exit-v1` retains
+fault-injected exit/protocol regression evidence (174 pass, two skip overall).
+It does not certify real SDK peak-memory reduction or multi-host coordination.
