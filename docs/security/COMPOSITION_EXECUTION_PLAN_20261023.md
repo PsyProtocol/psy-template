@@ -87,3 +87,19 @@ unbounded series of replacements. Existing included QA-A and owned ordinary
 accounts can continue independent constituent acceptance while exact original
 deployment identities are observed. No controller or market receives funds until
 the complete route closure and fresh instance identities have been verified.
+
+### QA-B receipt continuation and first live route
+
+A bounded independent issuer deployment is now included as QA-B 2484; unknown
+original deployments stay excluded. New AMMs 2485 and 2486 with distinct vaults
+are registered. Do not confuse these registration prerequisites with actual LP
+or composition settlement. See current review continuation for exact receipt.
+The new `composition/acceptance` route uses 20 QA-A / 20 QA-B LP per pool,
+then an owner-funded A→B→A workflow. A separate controller scenario cancels after
+the first confirmed trade and returns actual QA-B, without pretending to reverse
+that trade. Controller source/IR/root recompilation is now a mandatory adapter
+gate. Ordinary wallet RPC empty-body failures are addressed at application level
+with bounded public-read retries only; SDK remains frozen. Original claims are
+preserved and their absence of broadcast is checked before the reviewed resume.
+Actual route, final ordinary claims, failure recovery and cohort/fee audit remain
+pending until exact included receipts and endpoint checks are archived.

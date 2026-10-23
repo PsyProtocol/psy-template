@@ -18,7 +18,7 @@ async fn probe()->Result<()> {
  let key=s.add_user(private,pk.fingerprint).await?;s.start_session(key).await?;
  let mut rows=vec![];for(index,call)in calls.contract_calls.into_iter().enumerate(){let cid=call.contract_id;let started=std::time::Instant::now();let result=s.prove_contract_call(key,vec![call]).await;
   let failure=result.as_ref().err().map(|e|format!("{:x}",Sha256::digest(format!("{e:#}").as_bytes())));
-  let row=json!({"index":index,"contractId":cid,"localCallProved":result.is_ok(),"elapsedMs":started.elapsed().as_millis(),"suppressedErrorSha256":failure,"broadcast":false});save(&out.join(format!("call-{index}.json")),&row)?;rows.push(row);
+  let row=json!({"index":index,"contractId":cid,"localCallProved":result.is_ok(),"elapsedMs":started.elapsed().as_millis(),"suppressedErrorSha256":failure,"diagnosticTags":result.as_ref().err().map(|e|{let s=format!("{e:#}").to_lowercase();["checkpoint","nonce","ahead","root","leaf","assert","no tokens to claim","not found","merkle","state","missing","tree","canonical","overflow","underflow","signature","circuit","input","whitelist","deferred","inbox","outbox","rpc","decode","json","height","proof","claim","connection","failed to fetch"].into_iter().filter(|tag|s.contains(tag)).collect::<Vec<_>>()}),"broadcast":false});save(&out.join(format!("call-{index}.json")),&row)?;rows.push(row);
   if result.is_err(){save(&out.join("RESULT.json"),&json!({"calls":rows,"failedCallIndex":index,"inputSha256":format!("{:x}",Sha256::digest(&bytes)),"signedEndcap":false,"broadcast":false}))?;return Ok(());}
  }
  save(&out.join("RESULT.json"),&json!({"calls":rows,"failedCallIndex":null,"signedEndcap":false,"broadcast":false}))?;Ok(())

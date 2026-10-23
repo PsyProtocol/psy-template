@@ -484,3 +484,40 @@ Final source/61 regressions and new all-field report:
 `executor/verification/2026-10-23-composition-final-checks-v1/README.md`.
 All 1,466 SDK source hashes were checked again. No SDK switch, Node changes,
 old-contract update probe, UI expansion or original artifact overwrite occurred.
+
+## Continuation: independent QA-B receipt and live route prerequisites
+
+The unresolved QA-B content hashes above remain excluded and were not resent.
+A single explicitly bounded alternative uses the already registered canonical
+QA-B issuer as deployer (a different deployment identity): contract **2484**,
+content hash `ea8eaafd385df8425dd8e03010c47e8ea66c915d4a3304ddd3e1230613b7ad6f`,
+included checkpoint **370732**, with initial layout, deployer and all six
+code/layout/function/count fields checked. This does not establish that either
+older request was discarded. Fresh AMMs **2485 / vault 1012928** and
+**2486 / vault 718016** are included and registered; existing markets unchanged.
+
+QA-B issuance/renunciation and the issuer's Outbox send are included. Initial
+ordinary claim attempts stopped before broadcast. Their identical suppressed
+error SHA256 matches the exact frozen SDK error `Failed to parse JSON response:
+EOF while parsing a value at line 1 column 0`. A read-only call proof passed;
+the reviewed second attempt additionally reached full UPS proving, then failed
+its post-proof public-state read. Original attempts and validity windows remain
+intact. The application-only v4 build retries only recognized public-read
+transport/empty-body errors, up to four attempts. Constraint/identity failures,
+partial session proving and broadcasts are not retried. No SDK or Node change.
+The subsequent claim and market liquidity/route operations are pending evidence,
+not accepted merely because their runners now exist.
+
+The financial adapter now requires a pinned controller compiler and actual
+canonical controller source → complete integer IR/ABI → code/layout/function
+root closure. Real frozen-tool offline derivation passed in 34.540 seconds on
+the prior synthetic-ID controller fixture; this is a build check, not transaction
+proof/confirmation performance. New live runners keep controller orchestration
+separate from base market Executors. The success and partial-trade cancellation
+cases use dedicated owner-pinned controllers and keys, formal factories/journals,
+ordinary owner funding/claims and exact receipt recovery. They still require
+actual completed network evidence before a live composition acceptance claim.
+
+Regression at this checkpoint: 61 composition tests passed, including controller
+source/IR/root boundary rejection and immutable application release selection.
+Archive: `executor/verification/2026-10-23-composition-new-pair-v1/README.md`.

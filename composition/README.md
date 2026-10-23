@@ -163,3 +163,20 @@ using actual pinned tools and explicitly synthetic route IDs. Final source,
 61 regression results and the full-metadata read-only acceptance check are in
 `2026-10-23-composition-final-checks-v1`. Unknown QA-B deployment is observed
 with `observeInitial.mjs`; it can never send a replacement request.
+
+### Independent live pair and controller source closure
+
+New QA-B 2484 and AMMs 2485/2486 have included deployment/registration evidence
+in `2026-10-23-composition-new-pair-v1`. Unknown predecessor deployments remain
+excluded, never resent. This prerequisite archive alone is not route settlement.
+`controllerBuild.mjs` adds mandatory `controllerCompiler: {file, sha256}` to the
+financial configuration, recompiling the canonical owner/metadata-pinned source
+and matching whole integer IR/ABI and actual roots before funding. The base four
+components retain their independent source and key verification.
+
+`acceptance/controllerSetup.mjs`, `setupLiquidity.mjs`, `routeSetup.mjs` and
+`executeRoute.mjs` run only new instances through formal adapters/journals. They
+preserve original attempts and stop on uncertain mutations. `financialHarness`
+explicitly labels simulated parent ACK loss, rather than claiming a physical
+network fault. Application v4 selection is case-local, immutable and SDK-bound;
+only public-read transport/empty-body failures are retried, never broadcasts.

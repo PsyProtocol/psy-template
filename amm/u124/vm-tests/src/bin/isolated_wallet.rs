@@ -45,13 +45,34 @@ fn hash(bytes: &[u8]) -> String {
 // Return only reviewed static codes. Never print an arbitrary SDK error chain:
 // witness/key values can appear in lower-level diagnostics.
 fn error_code(reason: &str) -> &'static str {
-    if reason.contains("Connection error to https://") && reason.contains("error sending request") {"RPC_CONNECTION"}
+    if reason == "Failed to parse JSON response: EOF while parsing a value at line 1 column 0" {"RPC_EMPTY_JSON"}
+    else if reason.contains("Connection error to https://") && reason.contains("error sending request") {"RPC_CONNECTION"}
     else if reason.contains("ahead of coordinator checkpoint") {"REALM_AHEAD_COORDINATOR"}
     else if reason.contains("Invalid checkpoint:") {"NON_MONOTONIC_SOURCE_CHECKPOINT"}
     else if reason.contains("not registered") {"REGISTRATION_LOOKUP_FAILED"}
     else if reason.contains("stale ordinary anchor") {"STALE_OWN_ANCHOR"}
     else if reason.contains("nonce not submittable") {"NONCE_NOT_SUBMITTABLE"}
     else {"REJECTED_REVIEW_REQUIRED"}
+}
+// Only retry public reads on recognizable transport/empty-body failures. A
+// failed constraint, identity check, state witness or submission is never retried.
+fn transient_public_read(reason: &str) -> bool {
+    reason == "Failed to parse JSON response: EOF while parsing a value at line 1 column 0"
+        || reason.starts_with("Connection error to https://")
+        || reason.starts_with("Timeout error to https://")
+}
+async fn public_read<T, F, Fut>(mut read: F) -> Result<T>
+where F: FnMut() -> Fut, Fut: std::future::Future<Output = Result<T>> {
+    for attempt in 0..4u64 {
+        match read().await {
+            Ok(value) => return Ok(value),
+            Err(error) => {
+                if attempt == 3 || !transient_public_read(&format!("{error:#}")) { return Err(error); }
+                tokio::time::sleep(std::time::Duration::from_millis(500 * (attempt + 1))).await;
+            }
+        }
+    }
+    unreachable!()
 }
 async fn run(phase: &mut &'static str) -> Result<()> {
     *phase = "load-testnet-config";
@@ -246,12 +267,12 @@ async fn run(phase: &mut &'static str) -> Result<()> {
     let end = endcap.core.state_transition.end_user_leaf_hash;
     *phase = "verify-current-ordinary-state";
     let provider = session.st_provider.with_user_id_owned(user);
-    let cp = provider.get_latest_block_state().await?.checkpoint_id;
+    let cp = public_read(|| provider.get_latest_block_state()).await?.checkpoint_id;
     ensure!(
         cp <= valid_until,
         "ordinary broadcast window expired; regenerate from current state"
     );
-    let current = provider.get_user_leaf_data(cp, user).await?;
+    let current = public_read(|| provider.get_user_leaf_data(cp, user)).await?;
     ensure!(
         endcap.core.state_transition.start_user_leaf_hash == QHashOut::ZERO
             || current.qfhash::<PsyHasher>() == endcap.core.state_transition.start_user_leaf_hash,
@@ -259,13 +280,13 @@ async fn run(phase: &mut &'static str) -> Result<()> {
     );
     ensure!(
         matches!(
-            provider.get_tx_status(user, nonce).await?,
+            public_read(|| provider.get_tx_status(user, nonce)).await?,
             TxStatus::Submittable
         ),
         "ordinary nonce not submittable"
     );
     for c in &bindings {
-        c.check(&provider).await?;
+        public_read(|| c.check(&provider)).await?;
     }
     save(
         &out.join("preflight.json"),
@@ -321,6 +342,11 @@ async fn main() -> std::process::ExitCode {
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn only_public_transport_failures_are_retryable() {
+        assert!(transient_public_read("Failed to parse JSON response: EOF while parsing a value at line 1 column 0"));
+        for reason in ["assertion failed", "stale ordinary anchor", "nonce not submittable", "RPC returned invalid proof", "Failed to parse JSON response: wrong type", "broadcast result unknown"] { assert!(!transient_public_read(reason)); }
+    }
     #[test]
     fn diagnostics_are_static_codes_without_private_error_text() {
         for (reason,code) in [
