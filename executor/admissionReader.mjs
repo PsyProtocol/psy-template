@@ -48,8 +48,14 @@ export async function scanExecutorAdmission(o,readState=publicState,files){
    const accepted=await Promise.all([0,1,2,3].map(i=>at(V,'queue_owner',i)));if(count===4n)return {...base,reason:'queue-full-awaiting-cutoff'};
    if(o.admissionMode==='all-four-v1'&&plan.members.length===4&&count===0n){
     const checks=await Promise.all(plan.members.map(async m=>{if(m.owner===V||m.owner===o.batchSponsorId)return false;const[e,c,n,orderNonce,pool,kind,used]=await Promise.all([at(m.owner,'admission_epoch'),at(m.owner,'admission_cutoff'),at(m.owner,'admission_nonce'),at(m.owner,'nonce'),at(m.owner,'pool'),at(m.owner,'kind'),at(V,'consumed',m.owner)]);return e===epoch&&c===cutoff&&n===BigInt(m.nonce)&&orderNonce===n&&pool===BigInt(V)&&kind!==0n&&n>used;}));
-    if(!checks.every(Boolean))return {...base,reason:'awaiting-all-four-authenticated-consents',eligibleHintCount:checks.filter(Boolean).length,proofVerified:false};
-    name=BULK_ADMISSION;bulkMembers=plan.members;
+    if(checks.every(Boolean)){name=BULK_ADMISSION;bulkMembers=plan.members;}
+    else {
+     // Opt-in pre-admission liveness policy. Existing keys already authorize
+     // single entries; never change or drop an accepted/frozen member.
+     const remaining=cutoff-BigInt(s.checkpoint),fallback=o.bulkFallbackRemainingCheckpoints;
+     if(fallback===undefined||remaining>BigInt(fallback)||!checks.some(Boolean))return {...base,reason:'awaiting-all-four-authenticated-consents',eligibleHintCount:checks.filter(Boolean).length,proofVerified:false};
+     const member=plan.members[checks.indexOf(true)];name='admit_entry';a=BigInt(member.owner);b=BigInt(member.nonce);
+    }
    }else{
    for(const m of plan.members){if(m.owner===V||accepted.includes(BigInt(m.owner)))continue;
     const [e,c,n,orderNonce,pool,kind,used]=await Promise.all([at(m.owner,'admission_epoch'),at(m.owner,'admission_cutoff'),at(m.owner,'admission_nonce'),at(m.owner,'nonce'),at(m.owner,'pool'),at(m.owner,'kind'),at(V,'consumed',m.owner)]);

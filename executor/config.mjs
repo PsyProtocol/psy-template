@@ -4,7 +4,7 @@ import {dirname,resolve} from 'node:path';
 const kinds=['amm','orderbook','bondingcurve','launchamm','nftmarket'];
 const paths=['rpcConfig','wallet','abi','driverConfig','runtimeDirectory','usersFile','policy','dependencyBindings','admissionPlan'];
 const allowed=new Set(['kind','name','network','contractId','vaultId','publicKeyHash','fingerprint','codeRoot','layoutRoot','walletSha256',
-  ...paths,'users','intervalMs','receiptMaxPages','cli','pool','launch','automaticInitialize','automaticGraduation','profile','assetA','assetB','collection','paymentToken','batchSponsorId','batchExpiryCheckpoints','activationPayerId','batchMemberLimit','testnetProfile','proverThreads','proverMode','admissionMode','performanceMetrics']);
+  ...paths,'users','intervalMs','receiptMaxPages','cli','pool','launch','automaticInitialize','automaticGraduation','profile','assetA','assetB','collection','paymentToken','batchSponsorId','batchExpiryCheckpoints','activationPayerId','batchMemberLimit','testnetProfile','proverThreads','proverMode','admissionMode','performanceMetrics','bulkFallbackRemainingCheckpoints']);
 export function validateUsers(users,vaultId){
   if(!Array.isArray(users)||users.length>10000||users.some(x=>!Number.isSafeInteger(x)||x<1||x>=16777216||x===vaultId))throw Error('users must contain at most 10000 valid payer IDs');
   return [...new Set(users)].sort((a,b)=>a-b);
@@ -51,6 +51,7 @@ export function validateOptions(input,base=process.cwd()){
     o.batchExpiryCheckpoints??=256;if(!Number.isSafeInteger(o.batchExpiryCheckpoints)||o.batchExpiryCheckpoints<1||o.batchExpiryCheckpoints>1024)throw Error('batchExpiryCheckpoints must be 1..1024');
     const paired=['orderbook','nftmarket'].includes(o.kind);o.batchMemberLimit??=o.profile==='batch-admission-compact-v1'?4:paired?4:2;if(!Number.isSafeInteger(o.batchMemberLimit)||o.batchMemberLimit<(paired?2:1)||o.batchMemberLimit>4)throw Error('invalid batchMemberLimit for market');
   }else if(o.batchSponsorId!==undefined||o.batchExpiryCheckpoints!==undefined||o.activationPayerId!==undefined||o.batchMemberLimit!==undefined)throw Error('batch fields require batch-v2');
+  if(o.bulkFallbackRemainingCheckpoints!==undefined&&(!Number.isSafeInteger(o.bulkFallbackRemainingCheckpoints)||o.bulkFallbackRemainingCheckpoints<1||o.bulkFallbackRemainingCheckpoints>64||o.profile!=='batch-admission-compact-v1'||o.admissionMode!=='all-four-v1'))throw Error('bulk fallback requires all-four-v1 and 1..64 remaining checkpoints');
   if(o.admissionMode!==undefined&&(o.profile!=='batch-admission-compact-v1'||!['single-v1','all-four-v1'].includes(o.admissionMode)))throw Error('explicit supported compact admissionMode required');
   if(o.profile==='batch-admission-compact-v1'){
     for(const key of ['dependencyBindings','admissionPlan'])if(typeof o[key]!=='string'||!o[key])throw Error(`path required: ${key}`);
