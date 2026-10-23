@@ -1,0 +1,83 @@
+{
+  "schema": 1,
+  "sourceDirectory": "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-market-recovery-20261023",
+  "machine": "gewenbo.local",
+  "host": "macOS-15.7.3-arm64-arm-64bit",
+  "scope": "public formal Executor run including failures; success requires exact included receipt",
+  "walletFilesIncluded": false,
+  "sealedBinariesIncluded": false,
+  "records": [
+    {
+      "source": "composition-owner-cancel-ups-v1/REPORT.json",
+      "file": "files/composition-owner-cancel-ups-v1/REPORT.json.gz",
+      "bytes": 3960,
+      "sha256": "4daffed19e3a132983d8e5e763b30946e8d99885f2f72d4d0a7471b3124e84af",
+      "gzipBytes": 1298,
+      "gzipSha256": "d2a76e5bfd49272af0e5f7cd2a04a892dda27fff53189267e8c0c0b2b0867f74"
+    },
+    {
+      "source": "composition-owner-cancel-ups-v1/request-nonce-1.json",
+      "file": "files/composition-owner-cancel-ups-v1/request-nonce-1.json.gz",
+      "bytes": 502178,
+      "sha256": "8ffa35ed7e26043f24302ba4fea83595664ac7a6e3d902109120bc86eb562675",
+      "gzipBytes": 168781,
+      "gzipSha256": "27354ec657afea364b8fa4f3883a0d686874047b6e0f5b0f1858ebb5a4a4b4f0"
+    },
+    {
+      "source": "composition-owner-cancel-ups-v1/request-nonce-2.json",
+      "file": "files/composition-owner-cancel-ups-v1/request-nonce-2.json.gz",
+      "bytes": 494774,
+      "sha256": "b296e897a9091ce1372e3258e9d1fcff4e1aca8a08a27b71b0e4de781a0050a7",
+      "gzipBytes": 169877,
+      "gzipSha256": "0c7c8a7af70c31d8c09d6821ff94670e6fa83fe8b5245f8f792f6df2a121f26a"
+    },
+    {
+      "source": "composition-owner-cancel-ups-v1.log",
+      "file": "files/composition-owner-cancel-ups-v1.log.gz",
+      "bytes": 4336,
+      "sha256": "d8b407a094f4bfd1610ea76d38ed4b48329cabe682df703daec0f26e7c6940c5",
+      "gzipBytes": 830,
+      "gzipSha256": "9557f249924bd7a96d3c0cd0ad7d231ea25f40e6739d129ce13ce533b508fa71"
+    },
+    {
+      "source": "composition-owner-cancel-verification-v1/SUMMARY.json",
+      "file": "files/composition-owner-cancel-verification-v1/SUMMARY.json.gz",
+      "bytes": 153,
+      "sha256": "a74be9214306a3d853269efb298f5c22c5edc9f7740a1ed387afcb218bd32645",
+      "gzipBytes": 141,
+      "gzipSha256": "e12b914a874be3760ba96d090b928ef53e17cb98872854f323f1cf6fef13a25f"
+    },
+    {
+      "source": "composition-owner-cancel-verification-v1/request-nonce-1-verified.json",
+      "file": "files/composition-owner-cancel-verification-v1/request-nonce-1-verified.json.gz",
+      "bytes": 539,
+      "sha256": "e5f5a2e3645308f1a0c7c173ea78ef59a7205e86e84c246ef48e29eddb1483ec",
+      "gzipBytes": 337,
+      "gzipSha256": "55bf20649f38d7dacb674297ab070c5d49791aca4f84c116de80690555fc565b"
+    },
+    {
+      "source": "composition-owner-cancel-verification-v1/request-nonce-1.log",
+      "file": "files/composition-owner-cancel-verification-v1/request-nonce-1.log.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "composition-owner-cancel-verification-v1/request-nonce-2-verified.json",
+      "file": "files/composition-owner-cancel-verification-v1/request-nonce-2-verified.json.gz",
+      "bytes": 539,
+      "sha256": "11035872fbfd34812c645ba484d4874f5584432f508006f4a89c4b1662c0f146",
+      "gzipBytes": 368,
+      "gzipSha256": "7ec4dbf00ffbfe0cc9a4c1900a1824a547982943c6d80643fa007e1e234fcd2b"
+    },
+    {
+      "source": "composition-owner-cancel-verification-v1/request-nonce-2.log",
+      "file": "files/composition-owner-cancel-verification-v1/request-nonce-2.log.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    }
+  ]
+}

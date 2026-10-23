@@ -1,0 +1,195 @@
+{
+  "schema": 1,
+  "sourceDirectory": "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-market-recovery-20261023",
+  "machine": "gewenbo.local",
+  "host": "macOS-15.7.3-arm64-arm-64bit",
+  "scope": "public formal Executor run including failures; success requires exact included receipt",
+  "walletFilesIncluded": false,
+  "sealedBinariesIncluded": false,
+  "records": [
+    {
+      "source": "composition-owner-inspection-v1/inspection.json",
+      "file": "files/composition-owner-inspection-v1/inspection.json.gz",
+      "bytes": 790,
+      "sha256": "c17ad85cc0f5de9303ca603809f64346c217b404cb4a398365261cc2de2d1809",
+      "gzipBytes": 490,
+      "gzipSha256": "c998ff924e667c43d970635221b72b99b170494d57f6a4dfb0af9348c4231402"
+    },
+    {
+      "source": "composition-owner-inspection-v1.log",
+      "file": "files/composition-owner-inspection-v1.log.gz",
+      "bytes": 5446,
+      "sha256": "1ea4683e28a179b265a19704f8030eabfe45029daa8f63e6092d937870496a71",
+      "gzipBytes": 1044,
+      "gzipSha256": "0786a45a95ce387c26d9ebaeab40cd626e280d927aa9c53358b700308c60ed6f"
+    },
+    {
+      "source": "composition-owner-refund-ups-v1/REPORT.json",
+      "file": "files/composition-owner-refund-ups-v1/REPORT.json.gz",
+      "bytes": 9901,
+      "sha256": "c301fe48b7e94500e83a84a4099bdf907cfc7db7988f92b6c9f3e24893906386",
+      "gzipBytes": 2147,
+      "gzipSha256": "62245e127ae8a61680a11c47d894551febb5170d9c8edeb6a32f178586ef7038"
+    },
+    {
+      "source": "composition-owner-refund-ups-v1/request-nonce-1.json",
+      "file": "files/composition-owner-refund-ups-v1/request-nonce-1.json.gz",
+      "bytes": 501940,
+      "sha256": "15f230a79168aad9aba0e1a8fb44f6d2c0d8f14d3bab3c3a246aef4dec654ddb",
+      "gzipBytes": 170369,
+      "gzipSha256": "7a909f86cd37fa05c7e433d16de259a6a4e09c60fec759904abc2227d4072d5c"
+    },
+    {
+      "source": "composition-owner-refund-ups-v1/request-nonce-2.json",
+      "file": "files/composition-owner-refund-ups-v1/request-nonce-2.json.gz",
+      "bytes": 514091,
+      "sha256": "f6d14372bbb5da2d1a6f47acd97f29611287a521fc3ca6f260ee229ac9e38966",
+      "gzipBytes": 169391,
+      "gzipSha256": "60ad98e849b121981de184ea88c865dff32bb256d8f05f76de04036a4970fcff"
+    },
+    {
+      "source": "composition-owner-refund-ups-v1/request-nonce-3.json",
+      "file": "files/composition-owner-refund-ups-v1/request-nonce-3.json.gz",
+      "bytes": 479671,
+      "sha256": "54f78d8ca647e836d71129c0e3b9b3e9d1c7a64f1afb6074df815c3995f559d3",
+      "gzipBytes": 167878,
+      "gzipSha256": "e2c2159ef9c0f7ef1a24c7c8456a9da96df28bd1c19c76f64242dbcf8ef8f017"
+    },
+    {
+      "source": "composition-owner-refund-ups-v1/request-nonce-4.json",
+      "file": "files/composition-owner-refund-ups-v1/request-nonce-4.json.gz",
+      "bytes": 479657,
+      "sha256": "d0107d1ae438d59b702d3836f6f676eeb7e4cae3d134050bc1bb3ba4e2cf2b12",
+      "gzipBytes": 167050,
+      "gzipSha256": "6dbe124cc47932ae4da71587768ddbd005b7f7f986f8715c970dbbdaec7cc433"
+    },
+    {
+      "source": "composition-owner-refund-ups-v1/request-nonce-5.json",
+      "file": "files/composition-owner-refund-ups-v1/request-nonce-5.json.gz",
+      "bytes": 501620,
+      "sha256": "705a22038361287330298f3ce3dc3152621ba2a0b184d8e2317fce3ef438d272",
+      "gzipBytes": 170656,
+      "gzipSha256": "81a650598bf311d74ffba644e7bb84a767aedbb720a76445798c7810591e5e3b"
+    },
+    {
+      "source": "composition-owner-refund-ups-v1/request-nonce-6.json",
+      "file": "files/composition-owner-refund-ups-v1/request-nonce-6.json.gz",
+      "bytes": 495049,
+      "sha256": "535863d2d89411aeed574f772d5a3694c502a7195e0a6526b31604c627970955",
+      "gzipBytes": 170693,
+      "gzipSha256": "fdfc010a5249d8d87345c4ccd4276ed268758a87eb20cdc7c57d12d95462706c"
+    },
+    {
+      "source": "composition-owner-refund-ups-v1.log",
+      "file": "files/composition-owner-refund-ups-v1.log.gz",
+      "bytes": 11077,
+      "sha256": "1b015cf8469c3a50b38b0da25fe7e483cb42cc7de4717456749763eb101c9e21",
+      "gzipBytes": 1277,
+      "gzipSha256": "0a45579e0ac62decc670e609e51acd642e59170854d219a7ef6b0e7ea71d05e9"
+    },
+    {
+      "source": "composition-owner-refund-verification-v1/SUMMARY.json",
+      "file": "files/composition-owner-refund-verification-v1/SUMMARY.json.gz",
+      "bytes": 153,
+      "sha256": "67e34ed14993186fe2e4bb834913ed0c7367b3a5e254480658868cc1094245eb",
+      "gzipBytes": 141,
+      "gzipSha256": "d9838b3cb5c30ceee00f19102b8dc2d8635adc16f9a19f9d6b544d9bdc25f2e5"
+    },
+    {
+      "source": "composition-owner-refund-verification-v1/request-nonce-1-verified.json",
+      "file": "files/composition-owner-refund-verification-v1/request-nonce-1-verified.json.gz",
+      "bytes": 539,
+      "sha256": "6fda8682993676bd59ec2c1303719c4fe7a9cdf36f11adbb1819bb424170d780",
+      "gzipBytes": 334,
+      "gzipSha256": "93ce733b86f205feb10b21a0400482f1f09214c2fe1c605808f590705a165b0f"
+    },
+    {
+      "source": "composition-owner-refund-verification-v1/request-nonce-1.log",
+      "file": "files/composition-owner-refund-verification-v1/request-nonce-1.log.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "composition-owner-refund-verification-v1/request-nonce-2-verified.json",
+      "file": "files/composition-owner-refund-verification-v1/request-nonce-2-verified.json.gz",
+      "bytes": 539,
+      "sha256": "f799e8923cbe95dbcc6185a24c19545a179f470cd168bc33ea27c1a1025f7f22",
+      "gzipBytes": 368,
+      "gzipSha256": "d3ae8d55a5717af5a9ac7e3e4e187451a98190f83373c7c1d9062c1487ff04d1"
+    },
+    {
+      "source": "composition-owner-refund-verification-v1/request-nonce-2.log",
+      "file": "files/composition-owner-refund-verification-v1/request-nonce-2.log.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "composition-owner-refund-verification-v1/request-nonce-3-verified.json",
+      "file": "files/composition-owner-refund-verification-v1/request-nonce-3-verified.json.gz",
+      "bytes": 539,
+      "sha256": "00920ca1c32902dbe32afb22a917df77aa492fdb07a009524ddd1807d34ab7b9",
+      "gzipBytes": 369,
+      "gzipSha256": "0f7c930312ce42d4fe5ad40d951c6ae81b4933df1694274775de9414a54e8f32"
+    },
+    {
+      "source": "composition-owner-refund-verification-v1/request-nonce-3.log",
+      "file": "files/composition-owner-refund-verification-v1/request-nonce-3.log.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "composition-owner-refund-verification-v1/request-nonce-4-verified.json",
+      "file": "files/composition-owner-refund-verification-v1/request-nonce-4-verified.json.gz",
+      "bytes": 539,
+      "sha256": "9689d76f1ed98c3f938ed63c53b331b8bac5b91341b1cb371d2c17a217747183",
+      "gzipBytes": 370,
+      "gzipSha256": "72f72b6a1155f0992a6aa5a1c8121439c9f0a477839fdd26ee601930e66e3fe3"
+    },
+    {
+      "source": "composition-owner-refund-verification-v1/request-nonce-4.log",
+      "file": "files/composition-owner-refund-verification-v1/request-nonce-4.log.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "composition-owner-refund-verification-v1/request-nonce-5-verified.json",
+      "file": "files/composition-owner-refund-verification-v1/request-nonce-5-verified.json.gz",
+      "bytes": 539,
+      "sha256": "f33d6010c25d09688a92dc81fa27d5cca388e4d3d65818d0428d1011b2c63e6a",
+      "gzipBytes": 370,
+      "gzipSha256": "eff1bc57cfa7e47a41c3bbb4a748786354ec238e094d6fce966e59eca383af2f"
+    },
+    {
+      "source": "composition-owner-refund-verification-v1/request-nonce-5.log",
+      "file": "files/composition-owner-refund-verification-v1/request-nonce-5.log.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "composition-owner-refund-verification-v1/request-nonce-6-verified.json",
+      "file": "files/composition-owner-refund-verification-v1/request-nonce-6-verified.json.gz",
+      "bytes": 539,
+      "sha256": "bfb173b96db04f72bc63ab178732347dad1bb9da3be98c2afac7a95651653a94",
+      "gzipBytes": 372,
+      "gzipSha256": "b45e2a0b47876c2562c2233b0d40a877677895f5b901ac0cc683baeb879d07d9"
+    },
+    {
+      "source": "composition-owner-refund-verification-v1/request-nonce-6.log",
+      "file": "files/composition-owner-refund-verification-v1/request-nonce-6.log.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    }
+  ]
+}
