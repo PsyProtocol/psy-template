@@ -63,6 +63,7 @@ pub fn compile_market(source:&str,a:u64,b:u64)->Result<ContractOutput>{
 }
 
 pub mod batch_compact;
+pub mod composition_policy;
 
 pub mod live_guard;
 pub mod live_rpc;
@@ -87,6 +88,7 @@ impl KeyProbe {
   require(actual[0] == expected[0] && actual[1] == expected[1] && actual[2] == expected[2] && actual[3] == expected[3], "key mismatch");
   self.remembered = actual; self.owner = ctx.user_id;
  }
+
 }
 "#;
   let out=psy_compiler::compile(source)?;
@@ -117,6 +119,31 @@ impl KeyProbe {
     ensure!(!eval(def,&wrong).0,"wrong key limb {limb} accepted");
    }
   }
+  Ok(())
+ }
+
+ #[test]
+ fn range_lowering_preserves_key_context_payload()->Result<()> {
+  let source=r#"
+#[contract]
+pub struct LowerKeyProbe { pub remembered: Hash, pub values: [Felt;2] }
+#[contract_implementation]
+impl LowerKeyProbe {
+ #[contract_method]
+ pub fn remember(&mut self, ctx: &mut ChainContext, expected: Hash) {
+  let values = self.values;
+  let actual: Hash = ctx.user_public_key;
+  require(actual[0] == expected[0] && actual[1] == expected[1] && actual[2] == expected[2] && actual[3] == expected[3], "key mismatch");
+  self.values = [values[1], values[0]]; self.remembered = actual;
+ }
+}
+"#;
+  let out=psy_compiler::compile(source)?;
+  let original=&out.circuit_definitions[0];
+  let mut lowered=original.clone();ranges::lower_batch_ranges(&mut lowered)?;
+  let before=original.definitions.iter().find(|n|n.op_type==DPNOpType::GetUserPublicKeyHash).unwrap();
+  let after=lowered.definitions.iter().find(|n|n.op_type==DPNOpType::GetUserPublicKeyHash).unwrap();
+  ensure!(before.data_type==after.data_type&&before.index==after.index&&before.inputs==after.inputs,"range lowering changed Hash context");
   Ok(())
  }
 }

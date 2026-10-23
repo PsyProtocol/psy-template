@@ -45,8 +45,42 @@ executor-supplied address or `verified:true` JSON flag authenticates a route.
    key path but needs proof resources and explicitly bounded gas; no free-service
    or unconditional liveness guarantee.
 
-Controller transitions, stack authorization, gas accounting, exact residual
-return and intent replay protection must be compiled/proved **before delegated
-funding**. The intent and client state modules are candidate scaffolding until
-that gate closes. The old two-hop runner is read-only and cannot substitute for
-this acceptance. All cross-UPS stages remain non-atomic.
+## Funded candidate checkpoint
+
+`contract/funds.mjs` now generates an independent one-shot A→B→A controller;
+`contract/policy.mjs` and Rust `composition_policy.rs` define its dedicated key.
+The current compiled fixture and 8 linked full controller UPS requests are in
+`executor/verification/2026-10-23-funded-composition-v1/`. They use the frozen SDK,
+actual bytecode, authenticated synthetic Merkle checkpoints, exact call-stack /
+session binding, actual burn and exported endpoint/delta verification. An
+independent pinned end-cap verifier reverified every saved request. Five VM
+regressions and all 18 operation templates / 18 key attacks passed separately.
+
+This evidence is **not a complete market workflow UPS or network acceptance**:
+base-market setup/admission/commit/settlement and ordinary owner funding/final
+claims in this fixture execute bytecode in the VM only. The old two-hop runner
+stays read-only. Dedicated financial Executor integration, actual reviewed route
+bindings, new deployment/registration and recovery/competition network acceptance
+remain open. All cross-UPS stages remain non-atomic.
+
+`funding.mjs` recomputes the strict registry/plan/policy and creates the owner's
+single-UPS request + exact native/FT transfers + `bind_funding`. It rejects a
+changed route, receiver, decimals, amounts, nonce or budget. Its digest is a local
+review identity; the chain intent identity is the controller Poseidon commitment.
+It does not authenticate supplied snapshots, sign or send. Current profile is
+nonce 1 on a fresh one-shot account, ordered A/B assets and owner-only recipient.
+It reserves at least 6F for three ordinary owner UPSs separately from the bounded
+20F..64F controller reserve; external market sponsor fees are reported separately.
+No arbitrary unexpected deposits or automatic budget top-up is supported.
+
+A frozen-SDK CFC cannot materialize an external read of an absent contract root
+in this initial profile. The dedicated key instead authenticates the entire
+empty starting user leaf (including all balances/cursors) and first session nonce.
+Contract checks still bind actual owner funding, actual claims, key identity and
+all subsequent balances. No SDK/Node check was deleted or bypassed. This profile
+must not be used on a previously operated account.
+
+Public code/layout/key reads are necessary before each broadcast, but they do
+not settle the network's upgrade-authorization trust boundary. The frozen registry
+is not an authenticated on-chain code-root reader inside the stack-only key.
+Production authorization and runtime identity gates therefore remain open.

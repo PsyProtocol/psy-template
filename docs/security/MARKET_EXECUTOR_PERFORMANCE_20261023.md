@@ -156,3 +156,15 @@ report handles fractional observation milliseconds, missing CLI metrics and
 separate ordinary-claim confirmation/audit scopes. Its final focused regression
 passes; the complete Executor/composition suite passed 189 tests with no skips
 before the final report-only additions, followed by their focused regressions.
+
+## Separate composition controller sample
+
+Current eight-controller-UPS synthetic run: cold circuit construction 128.891 s;
+full proofs total 360.398 s (48.471, 58.375, 36.603, 40.886, 54.396, 37.806,
+42.212, 41.649 s), 43 physical calls including burns, total verified burn
+8.000069 test-PSY equivalent. Total test wall 534.54 s includes setup and other
+checks. No process peak memory, network confirmation, ordinary-wallet proof time
+or before/after performance comparison was measured in this sample; those fields
+remain unavailable. Base-market steps are VM-only and their proofs/fees are not
+included. Do not compare this total with a complete deployed two-hop workflow or
+report network TPS. All eight preserved full requests were independently verified.

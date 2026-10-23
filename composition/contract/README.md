@@ -47,3 +47,12 @@ It retains original compile failures, test failures and final passes, source
 hashes, the unchanged-SDK check and four-market byte comparisons. Hash integrity
 does not establish Merkle-path authentication, session authorization or full UPS
 validity. Those gates must close before adding or enabling custody.
+
+## Separate funded profile (current candidate)
+
+The reservation section above describes only `reservation.mjs`.
+`funds.mjs` + `policy.mjs` now provide a **different** one-shot funded controller
+and dedicated session-bound compact key. See `../CAPABILITIES.md` for the exact
+eight-controller-UPS proof boundary, funding binding, empty-account invariant,
+asset-specific recovery and remaining financial-adapter/network gates.
+Do not transfer funds to the reservation profile or synthetic fixture IDs.

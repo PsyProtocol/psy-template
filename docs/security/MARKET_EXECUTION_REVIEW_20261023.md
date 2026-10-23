@@ -225,3 +225,44 @@ live case for Book, Curve and NFT is still unverified, and is not inferred from
 the AMM result or these selection tests. Shared-vault multi-host coordination,
 financial composition controller/key/full UPS and external release/authorization
 requirements remain the next substantive gates.
+
+## Funded composition continuation (2026-10-23, evidence checkpoint)
+
+Branch unchanged. Added independent `composition/contract/funds.mjs`, its
+18-template dedicated SD-key and client `funding.mjs`. Ordinary owner funding
+must execute request, native/FT transfers and funding binding together. All funds
+return only to that owner; no intermediate Outbox is spendable before claim;
+cancelled/expired in-flight orders remain locked until market recovery.
+The key authenticates the complete empty first account state and nonce 1.
+
+Evidence `executor/verification/2026-10-23-funded-composition-v1/` contains the
+current compiler artifact, source closure, unchanged 1,466-file SDK check, eight
+serialized controller UPS requests and independent end-cap verifications. Full
+stack, session, burn, metadata, Merkle export and linked own-state endpoints pass.
+Base-market transitions and ordinary owner steps are VM-only in that fixture.
+This is not network composition acceptance, cross-vault atomicity or a production
+conclusion. Five financial VM regressions, eighteen key templates/attacks and
+36 client/recovery tests were also run; counts are supporting evidence only.
+
+Three-market thin test case remains `/tmp/psy-market-three-thin-live-20261023-v1`.
+Curve 2480 commit and settlement are included at checkpoints 369518 / 369536,
+followed by Bob's ordinary claim. Book 2479 / corrected NFT 2481 continue. Old NFT
+2469 remains retired. RPC failures and expired empty intake windows are preserved;
+no accepted set is changed, no new financial order/redeposit is substituted.
+Renewal v3 uses two explicit eligible hints within the existing four-member key
+capacity and a 128-checkpoint intake window. Earlier four-hint fallback and the
+64-checkpoint attempt remain recorded failures, not completed acceptance.
+Assets are QA FT 2464/2466 and QA NFT 2467 plus test PSY fees; existing pUSDT unused.
+
+Open gates: controller financial Executor adapter and reviewed live registry;
+complete base-market/owner UPS workflow and new isolated composition deployment;
+refund/recovery/competition matrix; authenticated runtime/upgrade authorization;
+future randomness, pre-queue inclusion/service availability and multi-host
+coordination. No Node or SDK source change and no old-contract update probe.
+
+Additional sealed continuation: `2026-10-23-funded-composition-v2` retains the
+current v7 two-UPS cancelled exit and independent proof verification, two
+context-opcode regressions, exact unchanged identities for all four base keys,
+and the final 36-test client run. The owner funding entry rejects any SDK or
+network other than the selected frozen isolated profile. Its local review hash
+is not represented as a chain signature or authenticated state source.

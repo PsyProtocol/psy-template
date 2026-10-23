@@ -34,7 +34,10 @@ pub fn validate(spec:&Value)->Result<()>{
  }Ok(())
 }
 pub fn build(spec:&Value)->Result<SDKeyCircuitGadget>{build_with_profile(spec,false)}
-pub(crate) fn build_with_profile(spec:&Value,compact:bool)->Result<SDKeyCircuitGadget>{validate(spec)?;
+pub(crate) fn build_with_profile(spec:&Value,compact:bool)->Result<SDKeyCircuitGadget>{build_profile(spec,compact,false)}
+// Separate application key; never changes the fingerprint of base market keys.
+pub(crate) fn build_composition_profile(spec:&Value)->Result<SDKeyCircuitGadget>{build_profile(spec,true,true)}
+fn build_profile(spec:&Value,compact:bool,composition:bool)->Result<SDKeyCircuitGadget>{validate(spec)?;
  let mut b=CircuitBuilder::<F,2>::new(CircuitConfig::standard_recursion_config());let cfg=SDKeyConfig{num_introspectable_transactions:COUNT as u32,can_read_state:false,contract_state_tree_height:MAX_CONTRACT_STATE_TREE_HEIGHT,requires_secp256k1:false,num_secp256k1_slots:0};
  let mut g=if compact {crate::batch_compact::add_virtual_to(&mut b,&cfg,spec)?}else{SDKeyCircuitGadget::add_virtual_to(&mut b,&cfg,WIDTH)};
  // Fail to compile against older SDKs whose generic key does not expose the
@@ -42,6 +45,23 @@ pub(crate) fn build_with_profile(spec:&Value,compact:bool)->Result<SDKeyCircuitG
  // proof: the frozen-source checks and negative-context proofs remain required.
  let _ = &g.session_context;
  let f=g.circuit_inputs.clone();let slots=&g.tx_introspection.tx_info_slots;
+ if composition {
+  let maintenance=b.constant(F::from_canonical_u64(4));b.connect(f[0],maintenance);
+  // Every controller charge / final refund and the actual automatic burn use
+  // the same exact fee. No fee estimate can authorize a different burn.
+  b.connect(f[33],f[73]);
+  // Funding is the first UPS of a newly registered, empty execution account.
+  // Authenticate the ENTIRE empty start state, including all asset balances
+  // and claim cursors. This avoids an unsupported external read of an absent
+  // contract root without weakening its zero-initialization requirement.
+  let fund=chosen(&mut b,f[21],1);
+  let mut empty=g.session_context.sign_context.user_leaf;
+  empty.user_state_tree_root=b.constant_hash(plonky2::hash::hash_types::HashOut{elements:psy_config::DEFAULT_USER_STATE_TREE_ROOT_U64.map(F::from_canonical_u64)});
+  let z=b.zero();empty.balance=z;empty.nonce=z;empty.last_checkpoint_id=z;empty.event_index=z;empty.user_id=g.user_id;
+  let expected=empty.to_hash::<PoseidonHash,F,2>(&mut b);
+  for (actual,wanted)in g.session_context.start_user_leaf_hash.elements.into_iter().zip(expected.elements){eq(&mut b,fund,actual,wanted);}
+  let first=b.one();eq(&mut b,fund,g.session_context.nonce,first);
+ }
  for(i,t)in f.iter().enumerate(){if !(13..17).contains(&i){b.range_check(*t,62);}}
  let mode:Vec<_>=(1..=4).map(|n|chosen(&mut b,f[0],n)).collect();let mut valid=b._false();for s in&mode{valid=b.or(valid,*s);}b.assert_one(valid.target);
  for(m,gate)in mode.iter().enumerate(){
