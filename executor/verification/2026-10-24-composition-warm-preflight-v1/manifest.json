@@ -1,0 +1,43 @@
+{
+  "schema": 1,
+  "sourceDirectory": "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-market-recovery-20261023",
+  "machine": "gewenbo.local",
+  "host": "macOS-15.7.3-arm64-arm-64bit",
+  "scope": "public formal Executor run including failures; success requires exact included receipt",
+  "walletFilesIncluded": false,
+  "sealedBinariesIncluded": false,
+  "records": [
+    {
+      "source": "composition-live-v2/public/COMPOSITION-SECOND-HOP-SETTLEMENT-OBSERVED-v1.json",
+      "file": "files/composition-live-v2/public/COMPOSITION-SECOND-HOP-SETTLEMENT-OBSERVED-v1.json.gz",
+      "bytes": 800,
+      "sha256": "87e04ed811e5e77d36db6d204ef94c1f5c3ba2f1bc07ebe7ec036933232d94b3",
+      "gzipBytes": 502,
+      "gzipSha256": "8161b5c8e44b48bb3c87105960975c16e11a8fbeb60efaea4e636237a8b431de"
+    },
+    {
+      "source": "composition-live-v2/public/RECOVERY-RESOURCE-PLAN-v1.json",
+      "file": "files/composition-live-v2/public/RECOVERY-RESOURCE-PLAN-v1.json.gz",
+      "bytes": 1096,
+      "sha256": "9d67fc372833ea5f4fc03ad8730ba26193bf2277596944c268c51728811dfcfd",
+      "gzipBytes": 694,
+      "gzipSha256": "614f4795528a80a2801f672c4701449392afe118bead65b765b5225613d152a7"
+    },
+    {
+      "source": "composition-live-v2/public/SDK-SOURCE-CHECK-v4.json",
+      "file": "files/composition-live-v2/public/SDK-SOURCE-CHECK-v4.json.gz",
+      "bytes": 721,
+      "sha256": "d5409a1e234f65d527a60ce2c696f73f6f76c4e24e606d64583f120f827d2c67",
+      "gzipBytes": 485,
+      "gzipSha256": "9931a049165fe7c6ddd93847b6c0df5843f3e91144f011cbba8f075b44c86b09"
+    },
+    {
+      "source": "composition-warm-resource-regression-v1.log",
+      "file": "files/composition-warm-resource-regression-v1.log.gz",
+      "bytes": 4300,
+      "sha256": "06f661c4c4026724e6f0197956697157390b836d2fb1959e847a0a3a67669e49",
+      "gzipBytes": 1967,
+      "gzipSha256": "fb58e8e4d50b4a0dc4693feaadcdea8c0166f276577930957bdf5a7762a72afb"
+    }
+  ]
+}

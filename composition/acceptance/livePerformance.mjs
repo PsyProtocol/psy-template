@@ -151,7 +151,9 @@ export function compositionPerformance(base, proofSummary, resourceSummary) {
         fee:proofByHash.get(contentHash).fee,
         scope:'one frozen composition member; confirmed base settlement and subsequent controller payout are both required'});
     }
+    const warmPath = join(home, 'public/WARM-FUND-TO-OPEN-v1.json');
     routes.push({scenario, identities, completion:done, proofs, ordinary, sponsors, baseStages, marketSettlements,
+      initialResourceTransition:existsSync(warmPath) ? exact(warmPath) : null,
       adapterStartups:all.filter(p => /\/ADAPTER-STARTUP-[^/]+\.json$/.test(p)).map(observation),
       residentJobs:all.filter(p => /\/RESIDENT-(quote|prove)-[^/]+\.json$/.test(p)).map(observation),
       phases:summarizePhases(phases),
@@ -169,6 +171,7 @@ export function compositionPerformance(base, proofSummary, resourceSummary) {
       exactServerFinalityLatency:null, productionReady:false,
       phaseWalls:'nested/overlapping; do not add as elapsed wall',
       residentStartup:'same startup descriptor repeats in later jobs; count only firstJobInProcess',
+      proofTimings:'driver phase walls may include fresh witness/state IO; they are not isolated cryptographic CPU times',
       memory:'parent RSS endpoints and optional sampled known wallet processes; not per-stage or true process-tree peaks',
       scope:'two-AMM A-to-B-to-A cross-UPS workflow; deterministic finite queues, ordinary owner claims and actual intermediate-asset compensation; no cross-vault atomicity'}};
 }
