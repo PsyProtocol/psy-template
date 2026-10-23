@@ -273,3 +273,31 @@ refund, actual FT/native escrow are claimed, only original owner receives return
 and execution account has no residual. All six serialized proofs independently
 verify. Two incorrect fixture branch attempts remain in evidence; base contracts
 are unchanged. This is not a network or complete base-market UPS workflow result.
+
+## Reboot recovery and formal telemetry continuation (supersedes transient paths)
+
+Host reboot on 2026-10-23 cleared the original `/tmp` QA wallets, three-market
+thin-case journals and unarchived requests. The owner confirmed no backup exists.
+Earlier thin-case observations above are historical notes, not a completed or
+replayable acceptance certificate. No original artifact is reconstructed or
+replaced and no replacement payment is performed by this inventory.
+
+Five public archives were restored with gzip/raw SHA checks into persistent
+workspace storage, including the maximum recovery/NFT competition archive.
+All 1,466 selected SDK source files match the unchanged frozen manifest. A fresh
+offline/locked toolchain rebuild is separate from old binary identity; it does
+not migrate the SDK and is not yet new financial acceptance.
+
+New read-only inventory at common checkpoint 370200 matches the four archived
+market/dependency/code/layout and public key registrations. AMM 2478 and Curve
+2480 have terminal queue/batch phase 3. Book 2479 and NFT 2481 still have open
+queue phase 1 with two accepted owners each; their prior batch phase is 3.
+No receipt history, private wallet recovery or historical conservation claim
+follows from this snapshot. Old NFT 2469 remains retired.
+
+Formal compact Executor now observes initialization plus separate bounded public
+RPC attempts, without changing proof guards, calls, pricing or capacity. CLI
+financial modes reject temporary journals before any RPC; symlink paths are
+covered. This is a persistence/cost-observability milestone, not a measured
+settlement speedup or complete six-phase performance acceptance. See the
+performance ledger and `2026-10-23-executor-recovery-v1` evidence.

@@ -6,6 +6,7 @@ import {loadService,currentUsers} from './config.mjs';
 import {createPublicWalletAdapter} from './publicWalletAdapter.mjs';
 import {ExecutionJournal} from './journal.mjs';
 import {ExecutionLimiter,executeCycle,watchWorker,classifyError,executionExitCode} from './worker.mjs';
+import {assertDurableRuntimeDirectory} from './runtimeStorage.mjs';
 
 const stringify=x=>JSON.stringify(x,(_k,v)=>typeof v==='bigint'?v.toString():v);
 const makeJournal=options=>new ExecutionJournal({directory:options.runtimeDirectory,network:options.network,vaultId:options.vaultId,fingerprint:options.fingerprint});
@@ -84,6 +85,7 @@ if(process.argv[1]&&resolve(process.argv[1])===fileURLToPath(import.meta.url)){
  const [file,mode='scan']=process.argv.slice(2);
  if(!file||!['scan','once','watch','status'].includes(mode))throw Error('usage: node executor/service.mjs service.json [scan|once|watch|status]');
  const config=await loadService(file);
+ if(['once','watch'].includes(mode))for(const o of config.vaults)assertDurableRuntimeDirectory(o.runtimeDirectory);
  if(mode==='status'){
   if(!config.statusFile)throw Error('statusFile is not configured');
   console.log(await readFile(config.statusFile,'utf8'));
