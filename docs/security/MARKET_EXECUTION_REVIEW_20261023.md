@@ -550,3 +550,61 @@ no accepted/frozen collection is shortened or replaced.
 
 Archive: `executor/verification/2026-10-23-composition-qa-pair-claimed-v1`.
 Live trade/owner claims/recovery and whole-cohort fee audit still need evidence.
+
+## 2026-10-24: actual initialization gap, safe v2 intent and empty-epoch recovery
+
+Before controller funding, code review found that the fresh execution account
+has no second FT tree. The current base Executor correctly refuses to treat an
+absent contract tree as an authenticated nonzero-height empty tree. Earlier
+controller-only synthetic proofs did not exercise that market-Executor check.
+The check was retained; no Node or SDK migration was made.
+
+Financial intent **v2** explicitly binds a one-atomic-unit initialization of the
+other FT. One owner UPS sends the exact input/native budget and this one unit;
+`bind_funding` checks the exact unit or rejects the whole owner UPS. First
+controller UPS checks that authenticated owner Outbox, sender-bound cancels it
+back to the owner, checks zero spendable other-asset balance and exact refund,
+then charges the actual fee. The request commitment now binds version 2 and the
+initialization identity. The unit never supplies trading liquidity; the owner
+claims its separate refund with final payouts. This current SDK requirement is
+explicit, rather than an assertion of A-only onboarding. A future authenticated
+absence interface or reviewed FT account initialization method remains separate.
+Legacy v1 advisory/report reading stays available; financial custody requires v2.
+
+Earlier registered but unfunded controllers 2487/2488 and their keys were
+checked at nonce zero with zero assets, then retired without updates. New source
+and keys use fresh instances. A same-checkpoint deployment receipt-ID discrepancy
+was caught before funding; original requests were not resent. See
+`DEPLOY_RECEIPT_ID_COLLISION_20261024.md`. The selected exact-ID prerequisites
+are success **2491 / 1445056**, recovery **2489 / 134336**.
+
+Evidence so far: 64 composition regressions, 7 actual-bytecode VM tests, all 18
+key templates and 18 stack/session/fee/initialization attacks pass. New success
+path has 8 linked full controller UPSs; new accepted-cancellation/refund path has
+6. The final two-UPS pretrade cancel test is still running at this checkpoint.
+First complete initialization proof was independently checked against pinned
+key/common data. Its exported delta changes the other FT root from absent to
+nonzero, with spendable balance zero, owner seed claim cursor 1 and owner refund
+Outbox 1. These remain synthetic checkpoint proofs, not live composition fills.
+
+Success proof run: 497.85 s total test wall, 124.514 s cold circuit build,
+334.938 s summed eight full controller UPS stages, fee 8.000070 test PSY;
+base/ordinary actions are VM-only in that run. Concurrent network setup and
+other proving work occurred. This is not a matched before/after benchmark,
+confirmation throughput or speedup claim. Full refund test wall: 420.73 s.
+
+Real bootstrap audit at its fixed snapshot conserves 1000 QA-A and QA-B each,
+including pending Outboxes, and matches exactly 7.000038 test PSY of new fees.
+Seven actual bootstrap UPSs independently verify; actual fee mutation rejects.
+The first 40-checkpoint LP epoch expired before admission: queue count zero in
+both pools, no accepted/frozen collection. Two exact empty-epoch abort UPSs are
+included at checkpoint 370965. The same funded LP orders request fresh owner
+consent in epoch 2 with a 64-checkpoint unopened window; no principal is resent.
+New LP settlement, ordinary final wallet claims, the live route and its
+cancelled second-hop sender recovery still require their own completed receipts.
+
+The frozen SDK's 1466 sources and Cargo.lock match again, and the preexisting
+Node diff SHA256 remains `002e35e0b13cb6c422fe3abf500ce6aa5241229264d85a3314f22b5e14b59a64`.
+No runtime-image, upgrade-authorization, global fairness or production conclusion
+follows from these passing tests. Current archive:
+`executor/verification/2026-10-24-composition-initialization-v1`.

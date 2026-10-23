@@ -1,7 +1,8 @@
 # Two-hop AMM route
 
-This module plans one A→B→C path across two existing AMM pools. It does not
-deploy a contract, submit a transaction, or change Node.
+`route.mjs` plans one advisory A→B→C path across two existing AMM pools. That
+planner does not deploy or submit. The independent financial controller and
+acceptance entry points below are separate; none changes Node.
 
 `planExactRoute` quotes each hop with `swapQuote`, the same 0.30% floor the
 U124 AMM contract checks. The second hop's input is the first hop's output.
@@ -180,3 +181,27 @@ preserve original attempts and stop on uncertain mutations. `financialHarness`
 explicitly labels simulated parent ACK loss, rather than claiming a physical
 network fault. Application v4 selection is case-local, immutable and SDK-bound;
 only public-read transport/empty-body failures are retried, never broadcasts.
+
+### Financial v2 account initialization and safe new-instance acceptance
+
+Current financial intents require `version: 2` and
+`execution.initialization: {asset: OTHER_FT_ID, amount: 1n,
+mode: 'sender-bound-cancel-before-route'}`. Funding authorization schema is 2.
+The owner explicitly deposits one atomic unit alongside input/native funding;
+`bind_funding` checks it inside that same ordinary UPS. The first dedicated-key
+UPS cancels that unit back to the original owner and proves zero spendable other
+asset. Its nonzero tree can then be read by base market proofs. Final ordinary
+claims include the separate initialization refund. No principal or shared-pool
+liquidity is prefilled, and cross-UPS atomicity is not claimed. Legacy v1 plans
+remain advisory/read-only; they do not authorize current financial execution.
+
+`controllerDirectory.mjs` selects an immutable fresh generation; old artifacts
+are retained. `completeInitializedAcceptance.mjs` waits for 16 new full synthetic
+controller UPSs, current key negatives, real LP and explicit QA initialization
+funding, then runs the formal success/recovery adapters and audits serially.
+A failed child stops; no uncertain submit is retried. `recoverLiquidityEpoch.mjs`
+only aborts a proven empty expired epoch, then reconsents the original LP order
+in a later epoch. `verifyReceiptBundle.mjs` independently checks exact saved
+network proofs/receipt endpoints and a mutated actual fee. The initializer's
+current extra-asset requirement and the external deployment index discrepancy
+remain explicit limitations, not evidence of general production readiness.

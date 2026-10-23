@@ -25,9 +25,10 @@ export function units(text,d){
 function asset(a){exactKeys(a,['id','decimals','amount']);user(a.id);decimals(a.decimals);positive(a.amount);encodeAmount(a.amount);}
 export function createIntent(input){
  exactKeys(input,['version','domainHash','sdkManifestHash','registryHash','owner','nonce','receiver','expiresAtCheckpoint','maxNativeFees','input','output','markets','execution']);
- const v=structuredClone(input);assert.equal(v.version,1);for(const k of ['domainHash','sdkManifestHash','registryHash'])hash(v[k]);
+ const v=structuredClone(input);assert.ok([1,2].includes(v.version));for(const k of ['domainHash','sdkManifestHash','registryHash'])hash(v[k]);
  user(v.owner);user(v.receiver);assert.equal(v.receiver,v.owner,'v1 requires owner as final receiver');positive(v.nonce,(1n<<62n)-1n);positive(v.expiresAtCheckpoint,(1n<<32n)-1n);positive(v.maxNativeFees,(1n<<62n)-1n);
- exactKeys(v.execution,['controllerId','vaultId','fingerprint','publicKeyHash','codeRoot','layoutRoot','functionTreeRoot','stateTreeHeight','layoutFieldCount','layoutSlotCount']);
+ exactKeys(v.execution,['controllerId','vaultId','fingerprint','publicKeyHash','codeRoot','layoutRoot','functionTreeRoot','stateTreeHeight','layoutFieldCount','layoutSlotCount',...(v.version===2?['initialization']:[])]);
+ if(v.version===2){const a=v.execution.initialization;exactKeys(a,['asset','amount','mode']);user(a.asset);assert.equal(a.amount,1n,'initialization is exactly one atomic unit');assert.equal(a.mode,'sender-bound-cancel-before-route');}
  user(v.execution.controllerId);user(v.execution.vaultId);assert.notEqual(v.execution.vaultId,v.owner,'dedicated execution account required');for(const k of ['fingerprint','publicKeyHash','codeRoot','layoutRoot','functionTreeRoot'])hash(v.execution[k]);positive(v.execution.stateTreeHeight,32n);integer(v.execution.layoutFieldCount,(1n<<32n)-1n);integer(v.execution.layoutSlotCount,(1n<<32n)-1n);
  asset(v.input);asset(v.output);assert.ok(Array.isArray(v.markets)&&v.markets.length===2);v.markets.forEach(user);assert.notEqual(v.markets[0],v.markets[1],'distinct market instances');
  return freeze({id:commitment('psy-composition-intent-v1',v),terms:v,atomic:false,authorization:'unsigned-client-intent'});

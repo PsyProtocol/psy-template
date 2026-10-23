@@ -49,6 +49,7 @@ export async function scanComposition(model,s){
   for(const[name,value]of [['request_vault',BigInt(V)],['request_nonce',t.nonce],['request_expiry',expiry],['request_budget',model.controllerBudget]])assert.equal(await at(U,name),value,'owner request '+name);
   for(const[name,value]of [['request_input',t.input.amount],['request_mid',model.plan.steps[0].output],['request_final',t.output.amount]])assert.equal(await pair(U,name),value,'owner signed amount '+name);
   assert.deepEqual(await Promise.all([0,1,2,3].map(i=>at(U,'request_key',i))),publicKeyFelts(t.execution.publicKeyHash));
+  assert.equal(await pair(U,'request_input'),t.input.amount);const seed=decodeAmount(await Promise.all([0,1].map(j=>s.slot(U,Number(model.assetB),33554453+4*V+j))));assert.equal(seed,1n,'explicit exact refundable initialization seed');
   // Funding is also allowed after cancellation/expiry, solely to claim the
   // already committed owner's assets and then take the controller refund exit.
   return task('fund');
