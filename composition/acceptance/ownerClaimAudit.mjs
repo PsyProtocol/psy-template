@@ -26,9 +26,9 @@ export function checkClaimAmounts({before, after, sent, claimed, newClaimed, fee
   return sent - claimed;
 }
 export async function auditOwnerClaims(base, verificationSummary, scenarios=['success','recovery']) {
-  assert.ok(Array.isArray(scenarios) && scenarios.length > 0 && scenarios.length <= 2);
+  assert.ok(Array.isArray(scenarios) && scenarios.length > 0 && scenarios.length <= 3);
   assert.equal(new Set(scenarios).size, scenarios.length);
-  assert.ok(scenarios.every(s => ['success','recovery'].includes(s)), 'explicit known claim scenarios only');
+  assert.ok(scenarios.every(s => ['success','recovery','partial-recovery'].includes(s)), 'explicit known claim scenarios only');
   const verified = exact(verificationSummary), rows = [];
   assert.equal(verified.mutatedActualFeeRejected, true);
   assert.equal(verified.broadcast, false);
@@ -114,5 +114,5 @@ export async function auditOwnerClaims(base, verificationSummary, scenarios=['su
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
   const [base, proofs, out, scenario] = process.argv.slice(2);
   assert.ok(base && proofs && out);
-  save(out, await auditOwnerClaims(base, proofs, scenario ? [scenario] : undefined));
+  save(out, await auditOwnerClaims(base, proofs, scenario === 'all' ? ['success','recovery','partial-recovery'] : scenario ? [scenario] : undefined));
 }
