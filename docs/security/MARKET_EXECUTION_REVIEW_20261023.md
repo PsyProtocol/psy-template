@@ -608,3 +608,58 @@ Node diff SHA256 remains `002e35e0b13cb6c422fe3abf500ce6aa5241229264d85a3314f22b
 No runtime-image, upgrade-authorization, global fairness or production conclusion
 follows from these passing tests. Current archive:
 `executor/verification/2026-10-24-composition-initialization-v1`.
+
+### Saved static layout verification and completed v2 proof gates
+
+All 16 v2 controller UPSs now pass: 8 success, 6 accepted refund, 2 pretrade
+cancel/exit. The last test wall is 166.19 s. Client regressions now total 67,
+including exact saved initial proof endpoint/provenance rejection and live
+controller-deployer rechecks. The actual selected 2491/2489 source/artifact/
+code/layout/function/base-key closures pass offline over real included IDs,
+in 143.735 / 141.465 s respectively; these are startup validation costs, not
+transaction proving or network confirmation.
+
+The previous adapter inspection generated another static initial-layout proof
+on every start. A new optional path instead re-verifies the **exact saved initial
+deployment request** with the existing frozen verifier (SHA256 910949e3…ae1).
+The verifier checks canonical ABI layout, zero old fields/slots, real deployer,
+whole reviewed compiled code/whitelist, proof validity and all public endpoints.
+Source recompilation/IR/function-root closure remains mandatory; current live
+code/layout/function/count/deployer/key/network checks and every fresh account
+witness/nonce/signature context/fee/UPS/receipt check remain. No old user-state
+proof is reused. Without this configuration, full prior inspection still runs.
+
+One sequential same-host/artifact/SDK/2-thread static-validation pair measured
+295.687 s re-generation vs 61.282 s saved-proof verification. Process peak RSS:
+4,520,493,056 vs 2,604,236,800 bytes (`time -l`). Old inspection uses the dedicated
+key hash as nominal deployer; new verification uses the actual included deployer.
+Other test work ran concurrently. This is neither an identical financial request
+comparison nor a controlled statistical before/after network benchmark. Wrong
+deployer, altered layout count and corrupted actual proof all reject. No chain
+TPS, transaction proof speedup or production conclusion is inferred.
+
+Real LP orders are now both admitted in epoch 2 at checkpoint 371009 and sealed
+at 371048, with commits included at 371061. The accepted collection is unchanged.
+Settlement, ordinary initializer grant, real composition/claims/refund still
+require the continuing live run. Native controller budgets are separately checked
+against exact receipt burn, owner refund and net market service escrow; whole
+cohort burn/FT supply accounting includes all internal pending Outboxes.
+
+### Live prerequisites and read recovery continuation
+
+Both isolated AMM LP batches settled at checkpoint 371072 and the ordinary LP
+close actions completed; the fixed audit at 371079 shows 20 QA-A / 20 QA-B in
+each reserve. The one-unit QA-B initialization grant to the recovery owner was
+sent and ordinarily claimed at 371093. No composition execution account was
+prefilled. The success owner's exact funding UPS has an included receipt; later
+controller stages and final claims remain pending and are not inferred from it.
+
+Public RPC reads now also retry the exact empty-JSON `SyntaxError` within the
+existing three-attempt bound. Malformed nonempty JSON, authentication and logical
+errors still fail closed. No broadcast or proof-generation retry was added.
+86 focused read/receipt/composition regressions pass. Monetary final acceptance
+reports are read losslessly; performance metadata includes actual code/layout
+identities. The two prerequisite waiters were restarted only before route
+financial work and their restart records preserve the old logs. Static comparison
+archive integrity matches all 55 originals:
+`executor/verification/2026-10-24-composition-static-validation-v1`.

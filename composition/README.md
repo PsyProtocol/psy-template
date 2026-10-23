@@ -205,3 +205,19 @@ in a later epoch. `verifyReceiptBundle.mjs` independently checks exact saved
 network proofs/receipt endpoints and a mutated actual fee. The initializer's
 current extra-asset requirement and the external deployment index discrepancy
 remain explicit limitations, not evidence of general production readiness.
+
+### Reuse an immutable deployment proof, without reusing transaction state
+
+An optional `initialDeployment` configuration supplies the exact saved request
+path/SHA256, actual deployer and reviewed `verify_initial_request` file/SHA256.
+`initialDeployment.mjs` verifies that proof and the whole artifact/whitelist;
+it does not generate or send anything. Canonical source/IR/function-root and all
+current live dependency/key/deployer/network checks remain mandatory. Every
+financial operation still gets fresh state/nonce/context and a full UPS.
+Without this option the prior full inspection path remains. `routeSetup.mjs`
+selects the exact already included request for the new isolated instances.
+
+`compareInitialValidation.mjs` preserves one static validation timing/RSS pair
+and three actual malformed-request rejections. Its scope excludes financial
+proof/confirmation throughput. See the team review's exact measurements and
+limitations; no broad speedup or production claim follows from this cache.
