@@ -1,0 +1,119 @@
+TAP version 13
+# Subtest: the AMM floor is sold in full to the best crossing bid
+ok 1 - the AMM floor is sold in full to the best crossing bid
+  ---
+  duration_ms: 1.333375
+  ...
+# Subtest: a bid that cannot take the whole AMM output does not cross
+ok 2 - a bid that cannot take the whole AMM output does not cross
+  ---
+  duration_ms: 0.263583
+  ...
+# Subtest: the book must take the AMM output asset
+ok 3 - the book must take the AMM output asset
+  ---
+  duration_ms: 0.067584
+  ...
+# Subtest: the AMM and the book are different markets
+ok 4 - the AMM and the book are different markets
+  ---
+  duration_ms: 0.057667
+  ...
+# Subtest: the trader cannot fill their own bid
+ok 5 - the trader cannot fill their own bid
+  ---
+  duration_ms: 0.726375
+  ...
+# Subtest: retired runner cannot create, deploy, fund or resume a new case
+ok 2 - retired runner cannot create, deploy, fund or resume a new case
+  ---
+  duration_ms: 65.092125
+  ...
+# Subtest: two exact floors chain the first output into the second input
+ok 3 - two exact floors chain the first output into the second input
+  ---
+  duration_ms: 0.716
+  ...
+# Subtest: a route stops when the final floor is below the caller minimum
+ok 4 - a route stops when the final floor is below the caller minimum
+  ---
+  duration_ms: 0.322166
+  ...
+# Subtest: the second pool must take the first pool output asset
+ok 5 - the second pool must take the first pool output asset
+  ---
+  duration_ms: 0.072583
+  ...
+# Subtest: one market cannot be both hops
+ok 6 - one market cannot be both hops
+  ---
+  duration_ms: 0.059167
+  ...
+# Subtest: longer or single-hop routes are outside this module
+ok 7 - longer or single-hop routes are outside this module
+  ---
+  duration_ms: 0.07375
+  ...
+# Subtest: a zero floor is not a hop
+ok 8 - a zero floor is not a hop
+  ---
+  duration_ms: 0.509917
+  ...
+# Subtest: only a never-established connection during compact broadcast can be resolved as not submitted
+ok 4 - only a never-established connection during compact broadcast can be resolved as not submitted
+  ---
+  duration_ms: 1.703416
+  ...
+# Subtest: explicit replacement retains original empty attempt and requires exact included identity
+ok 5 - explicit replacement retains original empty attempt and requires exact included identity
+  ---
+  duration_ms: 8.569334
+  ...
+# Subtest: an original proof or request cannot be silently superseded by a replacement
+ok 6 - an original proof or request cannot be silently superseded by a replacement
+  ---
+  duration_ms: 3.869833
+  ...
+# Subtest: replacement cannot change business calls even if its input checksum is updated
+ok 7 - replacement cannot change business calls even if its input checksum is updated
+  ---
+  duration_ms: 3.899209
+  ...
+# Subtest: receipt substitution and path escape fail before a caller skips its task
+ok 8 - receipt substitution and path escape fail before a caller skips its task
+  ---
+  duration_ms: 5.007209
+  ...
+# Subtest: explicit diagnostic-only pre-session replacement retains reviewed failure and exact included calls
+ok 9 - explicit diagnostic-only pre-session replacement retains reviewed failure and exact included calls
+  ---
+  duration_ms: 10.0615
+  ...
+# Subtest: a chain of pre-session replacements is accepted only while each failed one holds just its failure
+ok 10 - a chain of pre-session replacements is accepted only while each failed one holds just its failure
+  ---
+  duration_ms: 7.881709
+  ...
+# Subtest: one pinned proof child serves sequential requests and reports warm circuit startup
+ok 6 - one pinned proof child serves sequential requests and reports warm circuit startup
+  ---
+  duration_ms: 2.74875
+  ...
+# Subtest: resident never accepts submit, changed policy, changed config or overlapping requests
+ok 7 - resident never accepts submit, changed policy, changed config or overlapping requests
+  ---
+  duration_ms: 0.919
+  ...
+# Subtest: unmatched response or child exit fails without automatic restart
+ok 8 - unmatched response or child exit fails without automatic restart
+  ---
+  duration_ms: 1.294458
+  ...
+1..22
+# tests 22
+# pass 22
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 757.344458

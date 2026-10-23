@@ -4,7 +4,7 @@ import {dirname,resolve} from 'node:path';
 const kinds=['amm','orderbook','bondingcurve','launchamm','nftmarket'];
 const paths=['rpcConfig','wallet','abi','driverConfig','runtimeDirectory','usersFile','policy','dependencyBindings','admissionPlan'];
 const allowed=new Set(['kind','name','network','contractId','vaultId','publicKeyHash','fingerprint','codeRoot','layoutRoot','walletSha256',
-  ...paths,'users','intervalMs','receiptMaxPages','cli','pool','launch','automaticInitialize','automaticGraduation','profile','assetA','assetB','collection','paymentToken','batchSponsorId','batchExpiryCheckpoints','activationPayerId','batchMemberLimit','testnetProfile','proverThreads','proverMode','admissionMode']);
+  ...paths,'users','intervalMs','receiptMaxPages','cli','pool','launch','automaticInitialize','automaticGraduation','profile','assetA','assetB','collection','paymentToken','batchSponsorId','batchExpiryCheckpoints','activationPayerId','batchMemberLimit','testnetProfile','proverThreads','proverMode','admissionMode','performanceMetrics']);
 export function validateUsers(users,vaultId){
   if(!Array.isArray(users)||users.length>10000||users.some(x=>!Number.isSafeInteger(x)||x<1||x>=16777216||x===vaultId))throw Error('users must contain at most 10000 valid payer IDs');
   return [...new Set(users)].sort((a,b)=>a-b);
@@ -13,6 +13,8 @@ export function validateOptions(input,base=process.cwd()){
   if(!input||typeof input!=='object'||Array.isArray(input))throw Error('executor config must be an object');
   for(const key of Object.keys(input))if(!allowed.has(key))throw Error(`unknown executor config field: ${key}`);
   const o={...input};
+  if(o.performanceMetrics!==undefined&&typeof o.performanceMetrics!=='boolean')throw Error('boolean performanceMetrics required');
+  if(o.performanceMetrics&&o.profile!=='batch-admission-compact-v1')throw Error('phase metrics currently require compact admission');
   if(!kinds.includes(o.kind))throw Error('unsupported executor kind');
   if(o.profile!==undefined&&!['legacy','u124','nft-v3-u124','batch-v2','batch-admission-compact-v1'].includes(o.profile))throw Error('unsupported amount profile');
   if(o.kind==='nftmarket'){

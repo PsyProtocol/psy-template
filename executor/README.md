@@ -503,3 +503,22 @@ All four synthetic complete UPSs and compact signature mutation gates passed.
 Fresh live registration, maximum economic execution, ordinary claims and the
 remaining network matrix are not yet accepted. See the latest production
 candidate ledger and `bulk-four-full-ups-v1` / `bulk-four-signature-mutations-v1`.
+
+### Optional phase observations
+
+A compact admission configuration may set `"performanceMetrics": true`.
+The **formal factory** then writes immutable per-operation observations under
+`runtimeDirectory/performance/<network>/<vault>/`: scan, reconcile, current-state
+and proof validation, proving, preparation and saved-proof submission. Existing
+registration/root/nonce/window/stack/end-cap guards are unchanged. Watch mode
+already keeps one pinned resident prover per adapter; each request still creates
+fresh transaction state. A cached proof is reused only after journal validation.
+
+Parent Node RSS/heap endpoints are **not** child peak memory. Darwin timed full
+UPS comparison supports `PSY_PROFILE_RESOURCE_TIME=1`, records process peak RSS
+(bytes), and verifies unchanged final state and fees across fixed40/compact.
+No per-phase child RSS or network TPS may be inferred from those peaks. Absent
+historical memory stays absent. Telemetry has no witness/call payloads and cannot
+replace a financial result or cause another submit if disk logging fails;
+`adapter.metricFailures` reports observation loss. Observation retention and disk
+capacity are operator responsibilities; do not use missing metrics as zeros.

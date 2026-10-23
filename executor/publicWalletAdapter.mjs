@@ -14,10 +14,11 @@ import {runDurableSubmission,submissionLeaf} from './driverProcess.mjs';
 import {publishFile} from './durableFile.mjs';
 import {createU124WalletAdapter} from './u124Adapter.mjs';
 import {createCompactAdmissionAdapter} from './compactAdmissionAdapter.mjs';
+import {withPhaseMetrics} from './phaseMetrics.mjs';
 const execFile=promisify(execFileCallback);
 const padded=x=>x.toLowerCase().padStart(64,'0');
 export async function createPublicWalletAdapter(options,{readState=publicState,readReceipts=receiptReader,runDriver=execFile,submitDriver=runDurableSubmission}={}){
- if(options.profile==='batch-admission-compact-v1')return createCompactAdmissionAdapter(options,{readState,readReceipts,runDriver,submitDriver});
+ if(options.profile==='batch-admission-compact-v1')return withPhaseMetrics(options,await createCompactAdmissionAdapter(options,{readState,readReceipts,runDriver,submitDriver}));
  if(options.profile==='u124'||options.profile==='nft-v3-u124'||options.profile==='batch-v2')return createU124WalletAdapter(options,{readState,readReceipts,runDriver,submitDriver});
  assert.ok(['launchamm','orderbook','amm','bondingcurve'].includes(options.kind),'unsupported public wallet kind');
  const state=await readState(options.rpcConfig),leaf=await state.contractLeaf(options.contractId);

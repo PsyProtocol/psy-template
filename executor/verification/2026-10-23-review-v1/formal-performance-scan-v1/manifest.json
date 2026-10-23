@@ -1,0 +1,59 @@
+{
+  "schema": 1,
+  "sourceDirectory": "/private/tmp/psy-executor-performance-live-20261023-v1",
+  "machine": "gewenbo.local",
+  "host": "macOS-15.7.3-arm64-arm-64bit",
+  "scope": "public formal Executor run including failures; success requires exact included receipt",
+  "walletFilesIncluded": false,
+  "sealedBinariesIncluded": false,
+  "records": [
+    {
+      "source": "SCOPE.json",
+      "file": "files/SCOPE.json.gz",
+      "bytes": 214,
+      "sha256": "3eca6bb4651222c725d7be588254bab0fc88294ea60253aa8be96f25140f2a00",
+      "gzipBytes": 186,
+      "gzipSha256": "43813296debf859014ae762c0a6f8b3ff1279d825840651c65070d74eb11cce3"
+    },
+    {
+      "source": "executor.json",
+      "file": "files/executor.json.gz",
+      "bytes": 2342,
+      "sha256": "b55e0341fc9a5b3739e85cb5b4397f7fcf615af0c8753afd8b66a4d2b9dd7e0a",
+      "gzipBytes": 912,
+      "gzipSha256": "857d5f607843109cf5191f6046de36ecc134fe4d13816901bb0258fc222db354"
+    },
+    {
+      "source": "plan.json",
+      "file": "files/plan.json.gz",
+      "bytes": 53,
+      "sha256": "ce560f9b044da6bf79e9c260a0186e659ffedd53c4f94da8a5dcef9557ae4c21",
+      "gzipBytes": 72,
+      "gzipSha256": "7610e39de549f7a9b0fc4d029c7cb27845e5e98d670f6e48abc9e515b1487d10"
+    },
+    {
+      "source": "runtime/bindings/sepolia/1013952/a6802076919b44fc92747c8100bfcc7917390ddedf78637c1764b7a1d5c0114a-compact.json",
+      "file": "files/runtime/bindings/sepolia/1013952/a6802076919b44fc92747c8100bfcc7917390ddedf78637c1764b7a1d5c0114a-compact.json.gz",
+      "bytes": 3145,
+      "sha256": "73cb2176f5a546e811151c59eac88900f9ce084dba3143309449b35d2ecdab64",
+      "gzipBytes": 787,
+      "gzipSha256": "34bb2d0b9fa0c242006530e8619108c2ee7fe65946968d535e83d302d59d7ef8"
+    },
+    {
+      "source": "runtime/performance/sepolia/1013952/2eb8a9b8-1045-4e00-98bb-06113cf90944.json",
+      "file": "files/runtime/performance/sepolia/1013952/2eb8a9b8-1045-4e00-98bb-06113cf90944.json.gz",
+      "bytes": 848,
+      "sha256": "909eda4fea8490b74d9a21f486cbc25f9ce0f81a81f8cb1784c9494c08df8c88",
+      "gzipBytes": 544,
+      "gzipSha256": "6148cc193f2c5293b509ec79d1dfef88feb2fc840bc5bc53fa3d07e9efbbf22b"
+    },
+    {
+      "source": "scan-v1.log",
+      "file": "files/scan-v1.log.gz",
+      "bytes": 521,
+      "sha256": "e6938b6bb271ea0a0c5f0788dbd650d89dd29810690a71cb463e50420eaed8c2",
+      "gzipBytes": 367,
+      "gzipSha256": "b3141da5a70109fc31a182433c846abf3c5ee1d3c4a083c873e1a990bf70200a"
+    }
+  ]
+}

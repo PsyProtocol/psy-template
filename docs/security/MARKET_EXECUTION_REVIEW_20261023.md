@@ -53,3 +53,31 @@ The Node checkout remains at `5b7f4e1`; its pre-existing diff SHA256 remains
   then a dedicated controller and exact-stack session-bound key. Quote planners
   remain non-authorizing. No UI, new repository or market mechanism change.
 - External gates in `MARKET_BATCH_EXTERNAL_GATES_20261021.md` remain open.
+
+## Implemented continuation checkpoints
+
+- Strict unsigned intent/registry and two-AMM planning now live in
+  `composition/intent.mjs`. Identity/decimals/U124/substitution tests pass. Quotes
+  explicitly remain unauthenticated/non-authorizing until the dedicated contract
+  and SD-key proofs are complete; no delegated funding is enabled.
+- `performanceMetrics:true` opts the formal compact factory into phase records.
+  Observation failures cannot change transaction outcomes. Parent RSS endpoints
+  and full timed-process RSS have separate names/units/scopes.
+- First transport failure during optional cold calibration is now recorded as
+  missing in that same attempt; existing failures are validated too. Unknown,
+  cryptographic or possible-broadcast failures cannot use that escape. This
+  changes measurement control flow only; all warm proof checks remain.
+- The new four-market timed fixed40/compact full-proof comparison is running in
+  `/tmp/psy-market-profile-resource-20261023-v1`; no new result claimed yet.
+
+## Formal scan observation (not financial acceptance)
+
+The actual `executor/run.mjs ... scan` entry passed current complete dependency
+and key registration checks at common checkpoint **368187**. Scan: **6,213.48 ms**;
+Node parent RSS after scan: **82,509,824 bytes** (endpoint, not peak). It returned
+only a 1.0001 test PSY start sponsorship request; no proving, funding or submit
+was attempted. Six original/hash-verified public files are archived at
+`executor/verification/2026-10-23-review-v1/formal-performance-scan-v1/`.
+The current focused complete JS regression is **157/157**, supporting evidence
+rather than a production certificate. New composition controller/SD-key and
+financial acceptance remain pending.
