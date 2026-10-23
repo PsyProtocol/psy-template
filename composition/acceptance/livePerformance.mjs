@@ -60,6 +60,26 @@ export function compositionPerformance(base, proofSummary, resourceSummary) {
     assert.ok(proofByHash.has(row.contentHash), 'unverified actual receipt');
     matchVerifiedReceipt(row, proofByHash.get(row.contentHash));
   }
+  const ownerAuditPath = join(base, 'public/COMPOSITION-OWNER-CLAIMS-AUDIT-v1.json');
+  const ownerClaims = exact(ownerAuditPath);
+  assert.equal(ownerClaims.broadcast, false);
+  assert.equal(ownerClaims.verificationSummarySha256, sha256(readFileSync(proofSummary)));
+  assert.deepEqual(ownerClaims.rows.map(r => r.scenario).sort(), ['recovery', 'success']);
+  for (const row of ownerClaims.rows) {
+    assert.equal(row.owner, complete[row.scenario].owner);
+    assert.equal(row.vault, complete[row.scenario].vaultId);
+    assert.ok(proofByHash.has(row.contentHash));
+    assert.equal(proofByHash.get(row.contentHash).requestSha256, row.requestSha256);
+  }
+  const ordinaryObservation = p => {
+    const row = exact(p), timingPath = join(resolve(p, '..'), 'timing.json');
+    const timing = existsSync(timingPath) ? exact(timingPath) : null;
+    assert.ok(proofByHash.has(row.contentHash));
+    return {file:relative(base, p), timing, checkpoint:row.checkpoint,
+      fee:row.receipt.data.result.fees_collected,
+      acknowledgementToIncludedCommonObservationMilliseconds:observedConfirmation(timing, row),
+      scope:'ordinary wallet process wall includes build/read/proof/verification/HTTP; separate receipt/common observation includes polling'};
+  };
   const routes = [];
   for (const scenario of ['success', 'recovery']) {
     const home = join(controllerDirectory(base), scenario);
@@ -85,17 +105,29 @@ export function compositionPerformance(base, proofSummary, resourceSummary) {
         preflight:relative(base, preflightPath), fee:checked.fee,
         actualCalls:preflight.actualCalls, timingsMilliseconds:preflight.timingsMilliseconds,
         broadcastIntentAt:broadcast.at, includedObservedAt:row.at,
-        intentToIncludedObservationMilliseconds:Date.parse(row.at)-Date.parse(broadcast.at),
+        intentToIncludedObservationMilliseconds:observedConfirmation({finishedAt:broadcast.at}, {checkedAt:row.at}),
         scope:'durable broadcast-intent to receipt/common observation includes verification, fresh reads, HTTP and polling; not pure confirmation latency'};
     });
-    const ordinary = all.filter(p => /\/attempts\/owner-[^/]+\/included\.json$/.test(p)).map(p => {
-      const row = exact(p), timingPath = join(resolve(p, '..'), 'timing.json');
-      const timing = existsSync(timingPath) ? exact(timingPath) : null;
-      assert.ok(proofByHash.has(row.contentHash));
-      return {file:relative(base, p), timing, checkpoint:row.checkpoint,
-        fee:row.receipt.data.result.fees_collected,
-        acknowledgementToIncludedCommonObservationMilliseconds:observedConfirmation(timing, row),
-        scope:'ordinary wallet process wall includes build/read/proof/verification/HTTP; separate receipt/common observation includes polling'};
+    const ordinary = all.filter(p => /\/attempts\/owner-[^/]+\/included\.json$/.test(p)).map(ordinaryObservation);
+    const sponsors = files(join(base, 'attempts')).filter(p =>
+      p.endsWith('/included.json') && p.includes('/attempts/composition-'+scenario+'-')).map(ordinaryObservation);
+    const baseStages = files(join(base, 'public')).filter(p =>
+      p.endsWith('-formal-result.json') && p.includes('/composition-'+scenario+'-')).map(p => {
+      const r = exact(p);
+      assert.equal(r.result.status, 'included');
+      const hash = r.result.receipt.data.content_hash, checked = proofByHash.get(hash);
+      assert.ok(checked, 'base stage must independently verify');
+      const preflight = exact(inside(join(resolve(String(checked.requestPath), '..'), 'preflight.json')));
+      assert.equal(preflight.fullUpsVerified, true);
+      assert.equal(preflight.exactStackAndSessionVerified, true);
+      assert.equal(preflight.core.state_transition.end_user_leaf_hash, checked.endUserLeafHash);
+      const submitted = r.submitMetricsFile ? exact(inside(String(r.submitMetricsFile))) : null;
+      return {file:relative(base, p), kind:r.task.kind, contentHash:hash,
+        checkpoint:r.result.checkpoint, fee:checked.fee, actualCalls:preflight.actualCalls,
+        timingsMilliseconds:preflight.timingsMilliseconds,
+        parentAttemptWallMilliseconds:r.wallMilliseconds,
+        submitted,
+        acknowledgementToIncludedCommonObservationMilliseconds:observedConfirmation(submitted, r)};
     });
     const phases = all.filter(p => p.includes('/runtime/performance/') && p.endsWith('.json')).map(observation);
     for (const row of phases) {
@@ -119,7 +151,7 @@ export function compositionPerformance(base, proofSummary, resourceSummary) {
         fee:proofByHash.get(contentHash).fee,
         scope:'one frozen composition member; confirmed base settlement and subsequent controller payout are both required'});
     }
-    routes.push({scenario, identities, completion:done, proofs, ordinary, marketSettlements,
+    routes.push({scenario, identities, completion:done, proofs, ordinary, sponsors, baseStages, marketSettlements,
       adapterStartups:all.filter(p => /\/ADAPTER-STARTUP-[^/]+\.json$/.test(p)).map(observation),
       residentJobs:all.filter(p => /\/RESIDENT-(quote|prove)-[^/]+\.json$/.test(p)).map(observation),
       phases:summarizePhases(phases),
@@ -127,7 +159,8 @@ export function compositionPerformance(base, proofSummary, resourceSummary) {
   }
   return {schema:1, generatedAt:new Date().toISOString(),
     acceptanceSha256:sha256(readFileSync(completePath)), auditSha256:verified.auditSha256,
-    proofSummarySha256:sha256(readFileSync(proofSummary)), routes,
+    proofSummarySha256:sha256(readFileSync(proofSummary)),
+    ownerClaimsAuditSha256:sha256(readFileSync(ownerAuditPath)), ownerClaims, routes,
     actualMarketFills:Object.fromEntries(routes.map(r => [r.scenario, r.marketSettlements.length])),
     cohortFeesSinceConstituentBaseline:audit.newBurn,
     feeScope:'all audited cohort receipts since constituent baseline, including bootstrap/LP/sponsorship; not solely composition fees',

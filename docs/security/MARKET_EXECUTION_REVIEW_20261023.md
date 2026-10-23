@@ -691,3 +691,28 @@ It distinguishes startup, resident quote/full proof, overlapping adapter phases,
 ordinary wallet process wall, receipt/common observation and optional sampled
 memory. No matched live control or server-finality latency is invented. Focused
 regressions total 88. This reporter does not submit or authorize transactions.
+
+### Accepted first-hop collection and final-claim audit gates
+
+Success controller opening is included at 371154, market epoch start at 371178,
+owner consent at 371195 and exact first-hop admission at 371215 (cutoff 371227).
+The common 371241 snapshot still has exactly the intended sole member 1445056 /
+nonce 1 in epoch 3, phase 1. The queue root remains zero before sealing; this
+snapshot is not presented as a sealed-root or global-market completeness proof.
+The original admitted collection continues through sealing and settlement.
+
+`composition/acceptance/ownerClaimAudit.mjs` adds a read-only final gate: actual
+historical ordinary-owner balances and cumulative sender/claim cursors must
+match the full independently verified request's start/end leaves, identity,
+input bytes and exact fee. QA FTs use U124 and 18 decimals; native test PSY uses
+9. The declared one-unit initialization refund is included separately from
+route principal. These are explicitly public historical state observations,
+not a separate Merkle proof for every RPC slot or runtime attestation.
+
+The closed-case performance reporter requires both this claim audit and the
+whole-cohort/independent-proof gates. It records all base stage proof timings
+and submit/observation walls plus ordinary owner and sponsor process walls;
+missing data stays unknown. Four observation-unit checks pass, including large
+limbs, wrong balances/cursors/fees and wrong receipt/payer attribution. Actual
+final live claims and the second-hop recovery are still pending. Unit/snapshot
+archive: `executor/verification/2026-10-24-composition-claim-observation-v1`.
