@@ -442,3 +442,45 @@ unique queued occurrence. Current indexed 404 cannot supply that guarantee.
 This is an interface requirement, not authorization to edit Node or probe old
 contracts. Runtime/upgrade evidence and other previously listed boundaries stay
 open; existing candidate code does not claim to solve them.
+
+## Closed real constituent acceptance and final source checks
+
+QA-A 2483 issuance is now included: 1,000 QA FT, 18 decimals, administration
+renounced. Real cross-realm ordinary transfer and claim of
+4.611686018427387921 QA FT (limbs 17/1) both included. Owner holds
+995.388313981572612079; recipient 4.611686018427387921. Total remains 1,000;
+sent/claimed cursors agree. Five actual ordinary UPS requests (native send and
+claim, FT issuance, FT send and claim) were independently verified against the
+fixed key/common data and endpoint/fee binding; a changed fee in the actual
+claim fails. Total fee is 5.000015 **test PSY**. Combined native spendable
+balance 998.999998 → 993.999983, exactly matching burn. Existing pUSDT unused.
+No new pool or financial controller has received funds.
+
+The four-component source/IR/code/layout/function/base-key gate has additionally
+passed with real compilers/identity tools over synthetic route IDs, with no RPC
+or UPS in that gate. The verification stage took 116.989 s; fixture preparation
+is excluded. Final regression count is 61. Separate full-metadata read-only
+acceptance rechecks all frozen code/layout/function/count fields. Recovery of
+already-issued QA-A now retains QA-B claim and conserves the prior QA transfer
+allocation instead of reminting or skipping a stage.
+
+Process-through-ack wall: native claim 109.269 s; issuance 135.935 s; FT send
+116.346 s; FT claim 126.594 s. Ack to local inclusion observation: 97.440 /
+218.011 / 63.224 / 184.367 s, respectively. Resumed native-send timing was not
+recorded. These include cold work, polling/indexer/common-snapshot effects and
+concurrent offline work. Phase RSS, matched cold/warm comparison and market
+confirmation throughput remain unmeasured. No acceleration or chain TPS claim.
+
+The newer QA-B exact request remains unresolved at the last recorded checkpoint
+370672. Its content hash and original wire/proof/intent remain durable; no
+resend or new sequence of substitute deployments was issued. This blocks the
+new two-pool/controller live composition workflow. The above wallet primitives
+and offline full controller UPSs do not close that gap, the other market adapters,
+refund/competition matrix or external runtime/upgrade/fairness dependencies.
+
+Sources, full requests/receipts, endpoint roots, fees and original timing logs:
+`executor/verification/2026-10-23-composition-constituent-live-v1/README.md`.
+Final source/61 regressions and new all-field report:
+`executor/verification/2026-10-23-composition-final-checks-v1/README.md`.
+All 1,466 SDK source hashes were checked again. No SDK switch, Node changes,
+old-contract update probe, UI expansion or original artifact overwrite occurred.

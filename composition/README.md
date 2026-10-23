@@ -153,3 +153,13 @@ with an empty output directory, stopped process, unchanged nonce/balance/cursors
 and the original calls/window. Any proof/request/intent artifact stops this
 recovery path; unknown sends use exact reconciliation. Native funding and a
 possible late faucet grant remain separate, explicitly accounted transfers.
+
+Closed constituent network evidence is now in
+`executor/verification/2026-10-23-composition-constituent-live-v1`: five included
+ordinary UPSs, independent saved-proof verification, exact fees and a real QA
+U124 FT transfer/claim across realms. This is **not** a live composition route.
+`verifyComponentsOffline.mjs` also runs the source/IR/root/base-key pipeline
+using actual pinned tools and explicitly synthetic route IDs. Final source,
+61 regression results and the full-metadata read-only acceptance check are in
+`2026-10-23-composition-final-checks-v1`. Unknown QA-B deployment is observed
+with `observeInitial.mjs`; it can never send a replacement request.
