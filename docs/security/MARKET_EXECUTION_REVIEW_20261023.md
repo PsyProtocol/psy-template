@@ -521,3 +521,32 @@ actual completed network evidence before a live composition acceptance claim.
 Regression at this checkpoint: 61 composition tests passed, including controller
 source/IR/root boundary rejection and immutable application release selection.
 Archive: `executor/verification/2026-10-23-composition-new-pair-v1/README.md`.
+
+### QA pair claimed; live route still pending
+
+The application v4 reviewed claim is now included and independently verified
+against the frozen end-cap key/common data. QA-B issuance and claim full proofs
+both pass the separate saved-request verifier. `ASSETS-READY-v1.json` at common
+checkpoint **370847** checks 1,000 QA-A and QA-B each, 18 decimals, renounced
+administration, exact claimed QA-B cursors and the earlier QA-A allocation.
+The claim process-through-ack took **103.580 s**; it is not pure proving time.
+No ambiguous request was resent. All older attempts are preserved.
+
+Success controller **2487**, dedicated execution account **390336**, is newly
+registered. Recovery controller **2488 / 1307840** was registered subsequently.
+These registrations and the two AMMs are isolated new instances, not evidence
+that a route has yet traded. Explicit LP/bootstrap, route success and partial-
+trade cancellation/return remain underway. Native top-up is one separately
+accounted 100-test-PSY internal transfer, with exact original identity reconciled
+across a deliberately stopped orchestration parent; no replacement payment.
+
+Acceptance now also recovers an already included composition operation before
+planning the next action after restart; a duplicate included identity stops for
+review. 62 composition regressions and two static Rust diagnostic/read-retry
+boundary tests pass. Same-host competition is explicitly labelled; no claim of
+cross-machine locking follows. The fixed admission window remains within the
+existing 128-checkpoint protocol bound and is chosen before admitting orders;
+no accepted/frozen collection is shortened or replaced.
+
+Archive: `executor/verification/2026-10-23-composition-qa-pair-claimed-v1`.
+Live trade/owner claims/recovery and whole-cohort fee audit still need evidence.
