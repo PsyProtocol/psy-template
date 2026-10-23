@@ -163,10 +163,22 @@ async fn run(phase: &mut &'static str) -> Result<()> {
             deploy_contract: prepared,
         };
         save(&out.join("request.json"), &request)?;
-        save(
-            &out.join("before.json"),
-            &session.st_provider.get_latest_block_state().await?,
-        )?;
+        // Long offline layout proving can outlive an idle HTTP connection.
+        // Retry this PUBLIC READ only; the deployment POST below stays single.
+        let mut read_attempt = 0;
+        let before = loop {
+            match session.st_provider.get_latest_block_state().await {
+                Ok(state) => break state,
+                Err(error) => {
+                    read_attempt += 1;
+                    if read_attempt < 3 && error_code(&format!("{error:#}")) == "RPC_CONNECTION" {
+                        eprintln!("{}", json!({"publicReadRetry":read_attempt,"method":"latest-deployment-state","mutationRetry":false}));
+                        tokio::time::sleep(std::time::Duration::from_millis(500)).await;
+                    } else { return Err(error); }
+                }
+            }
+        };
+        save(&out.join("before.json"), &before)?;
         save(
             &out.join("intent.json"),
             &json!({"action":"initial-deploy-only","deployer":public.to_string(),"artifactSha256":hash(&fs::read(&a[4])?)}),
