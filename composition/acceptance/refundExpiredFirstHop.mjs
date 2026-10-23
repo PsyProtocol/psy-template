@@ -9,7 +9,7 @@ import {controllerDirectory} from './controllerDirectory.mjs';
 import {prepareOwnerClaim} from '../client.mjs';
 import {read, save} from '../../batching/admission/liveSupport.mjs';
 import {publicState} from '../../executor/publicState.mjs';
-import {decodeAmount} from '../../amm/u124/client.mjs';
+import {decodeAmount,losslessJson} from '../../amm/u124/client.mjs';
 import {sha256} from '../../executor/requestBinding.mjs';
 const [base] = process.argv.slice(2), h = await marketHarness(base);
 const home = join(controllerDirectory(base),'recovery'), reg = read(join(home,'build/REGISTERED.json'));
@@ -39,17 +39,22 @@ try {
   await f.ownerCancel();
   await f.step('cancel-1');
   await f.step('recover-1');
-  const scan = await b.adapter.scan();
-  assert.ok(scan.action && methodTask('recover_funding')(scan.action),
-    'sender-bound refund requires reviewed available treasury gas; do not invent a top-up');
-  await b.step('composition-recovery-hop-1-timeout-return-principal-v1',methodTask('recover_funding'));
+  const refundLabel='composition-recovery-hop-1-timeout-return-principal-v1';
+  // An already persisted task must reconcile its original identity. A terminal
+  // refund no longer appears in a fresh scan; absence cannot imply resending.
+  if(!existsSync(join(base,'public',refundLabel+'-formal-task.json')) &&
+     !existsSync(join(base,'public',refundLabel+'-formal-result.json'))) {
+    const scan = await b.adapter.scan();
+    assert.ok(scan.action && methodTask('recover_funding')(scan.action),
+      'sender-bound refund requires reviewed available treasury gas; do not invent a top-up');
+  }
+  await b.step(refundLabel,methodTask('recover_funding'));
   await f.step('recovered-1');
   await f.step('return-input');
-  const pending = await prepareOwnerClaim(f.adapter);
-  assert.equal(pending.status,'owner-signature-required');
   const outbox = join(home,'public/FINAL-OWNER-OUTBOX-v1.json');
-  assert.equal(existsSync(outbox),false);
-  save(outbox,pending);
+  const pending = existsSync(outbox) ? exact(outbox) : await prepareOwnerClaim(f.adapter);
+  assert.equal(pending.status,'owner-signature-required');
+  if(!existsSync(outbox))save(outbox,pending);
   await f.ownerClaim();
   assert.equal((await prepareOwnerClaim(f.adapter)).status,'owner-outboxes-claimed');
   const s = await f.adapter.snapshot(), model = f.adapter.model, V = reg.vaultId;
@@ -62,7 +67,7 @@ try {
   const assets = await Promise.all([model.assetA,model.assetB].map(async asset=>({asset,
     balance:decodeAmount(await Promise.all([0,1].map(j=>s.slot(V,Number(asset),j))))})));
   assert.equal(await s.slot(V,0,0),0n);for(const a of assets)assert.equal(a.balance,0n);
-  save(join(home,'public/LIVE-ROUTE-COMPLETE-v1.json'),{
+  const report = {
     checkedAt:new Date().toISOString(),checkpoint:s.checkpoint,scenario:'recovery',
     outcome:'first-hop-admission-timeout-cancelled-and-refunded',marketFills:0,
     intentId:model.intent.id,input:model.intent.terms.input,owner:reg.owner.userId,
@@ -73,7 +78,15 @@ try {
       scope:'original input/escrow fully returned; actual controller fees remain spent; ordinary/base/sponsor fees separately audited'},
     ordinaryOwnerClaimIncluded:true,controllerPhase:99,controllerNative:0n,controllerAssets:assets,atomic:false,
     failedProofSha256:sha256(readFileSync(join(failed,'failure.json'))),
-    scope:'actual expired empty intake, no admission broadcast or market fill; explicit owner cancellation, empty abort and sender-bound refunds, ordinary owner received original QA-A/one-unit QA-B/native remainder; not the later partial-trade scenario'});
+    scope:'actual expired empty intake, no admission broadcast or market fill; explicit owner cancellation, empty abort and sender-bound refunds, ordinary owner received original QA-A/one-unit QA-B/native remainder; not the later partial-trade scenario'};
+  const completed = join(home,'public/LIVE-ROUTE-COMPLETE-v1.json');
+  if(!existsSync(completed))save(completed,report);
+  else {
+    const original=exact(completed);
+    for(const name of ['scenario','outcome','intentId','received','routePrincipal','initializationRefund','nativeAccounting','ordinaryOwnerClaimIncluded','controllerPhase','controllerNative','controllerAssets','failedProofSha256'])
+      assert.equal(losslessJson(report[name]),losslessJson(original[name]),'completed original refund changed: '+name);
+    assert.ok(BigInt(report.checkpoint)>=original.checkpoint);
+  }
   console.log('actual timed-out first hop refunded and ordinarily claimed');
 } finally {
   if(f) await f.close();

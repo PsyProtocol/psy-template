@@ -159,3 +159,36 @@ receipt association remains unresolved. Runtime-image/upgrade-authorization
 attestation also remains external. Current deterministic finite-queue guarantees
 are not global fairness, and same-host journal contention is not multi-host
 coordination. No production-level conclusion follows solely from test counts.
+
+### Live outcomes recorded after the v2 candidate checkpoint
+
+Success controller **2491 / 1445056** completed both real AMM trades and the
+ordinary owner's final claim (checkpoint **371528**). Input was
+4.611686018427387921 QA-A; confirmed intermediate output was
+3.738416797288011079 QA-B; final ordinary-wallet receipt was
+3.141711878267176122 QA-A plus the separately declared one-unit QA-B refund and
+native remainder. Both AMM and controller identities were verified, with fresh
+per-stage state/nonce proofs. See `2026-10-24-composition-success-complete-v1` and
+the team review for exact receipt/budget/cohort scopes. This closes real success
+and ordinary-claim gates; final combined actual-UPS verification remains separate.
+
+Recovery controller **2489 / 134336** encountered a real pre-broadcast admission
+expiry after a successful planned worker restart. The 64-checkpoint intake ended
+while proving. No original admission request existed or was retried. The exact
+empty epoch was aborted; owner cancellation confirmed at 371787 and sender-bound
+recovery authorization at 371829. Final principal return/ordinary claim is still
+running. Since the one-shot controller only consents once per hop, its safe exit
+is refund plus a new intent, not renewing its old consent or cutoff.
+
+Independent controller **2492 / 1756352** is registered for first-trade/second-hop
+unaccepted recovery. Its 96-checkpoint intake is selected before opening and
+within the unchanged 128-checkpoint constraint. No capacity expansion or random
+ordering is implied. It waits for the prior ordinary-wallet refund before funding
+so shared owner nonces are not raced. Success, zero-fill expiry recovery and
+one-fill intermediate-asset compensation have different completion markers.
+
+The zero-fill recovery has subsequently completed: original owner ordinarily
+claimed 1 QA-A, the initialization unit and 13.001943000 native test PSY at
+371903; controller residuals are zero. Nine-account QA supplies/native fee
+accounting passes at 371905. `partial-recovery` has started its separate real
+Executor route; its one-fill compensation gate remains unfinished.
