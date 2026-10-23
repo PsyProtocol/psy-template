@@ -52,7 +52,7 @@ fn owner_request_and_funding_binding_reject_wrong_asset_atomically()->Result<()>
  let before=w.slots.clone();let mut transfer=vec![V];transfer.extend(pair(amount));let request=w.request_args(amount,7,5);
  let wrong=vec![(C,"request_route",request.clone()),(0,"simple_transfer",vec![V,20*F]),(B,"transfer",transfer.clone()),(C,"bind_funding",vec![1])];
  assert!(w.atomic_calls(U,&wrong).is_err());assert_eq!(w.slots,before);assert_eq!(w.at(U,"request_nonce"),0);assert_eq!(w.wide(U,B,33554453+4*V),0);
- let right=vec![(C,"request_route",request),(0,"simple_transfer",vec![V,20*F]),(A,"transfer",transfer),(C,"bind_funding",vec![1])];w.atomic_calls(U,&right)?;assert_eq!(w.at(U,"request_funded"),1);assert_eq!(w.wide(U,A,33554453+4*V),amount);Ok(())
+ let right=vec![(C,"request_route",request),(0,"simple_transfer",vec![V,20*F]),(A,"transfer",transfer),(B,"transfer",vec![V,1,0]),(C,"bind_funding",vec![1])];w.atomic_calls(U,&right)?;assert_eq!(w.at(U,"request_funded"),1);assert_eq!(w.wide(U,A,33554453+4*V),amount);Ok(())
 }
 #[test]
 fn canonical_metadata_and_renounced_administration_are_required_before_custody()->Result<()> {
@@ -63,4 +63,11 @@ fn canonical_metadata_and_renounced_administration_are_required_before_custody()
  let mut w=World::new()?;w.request(R+17,7,5)?;w.seed_funding(R+17)?;
  for(asset,slot,value)in[(A,33554445,9),(B,3,0)]{let mut bad=w.clone();bad.set(5,asset,slot,value);let before=bad.slots.clone();assert!(bad.execute(&bad.fields("fund",&[],F)?).is_err());assert_eq!(bad.slots,before);}
  Ok(())
+}
+
+#[test]
+fn refundable_initialization_is_exact_and_never_spendable_liquidity()->Result<()> {
+ let mut w=World::new()?;w.request(R+17,7,5)?;w.seed_funding(R+17)?;
+ for amount in [0,2] {let mut bad=w.clone();bad.set(U,B,33554453+4*V,amount);let before=bad.slots.clone();assert!(bad.execute(&bad.fields("fund",&[],F)?).is_err());assert_eq!(bad.slots,before);}
+ w.execute(&w.fields("fund",&[],F)?)?;assert_eq!(w.wide(V,B,0),0);assert_eq!(w.wide(V,B,33554455+4*U),1);assert_eq!(w.wide(V,B,33554453+4*U),1);w.run(U,B,"claim",&[V])?;assert_eq!(w.wide(U,B,0),1);let before=w.slots.clone();assert!(w.run(U,B,"claim",&[V]).is_err());assert_eq!(w.slots,before);Ok(())
 }

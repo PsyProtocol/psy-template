@@ -103,3 +103,29 @@ with bounded public-read retries only; SDK remains frozen. Original claims are
 preserved and their absence of broadcast is checked before the reviewed resume.
 Actual route, final ordinary claims, failure recovery and cohort/fee audit remain
 pending until exact included receipts and endpoint checks are archived.
+
+### 2026-10-24 initialized financial candidate
+
+Financial intent v2 declares one refundable atomic unit of the other FT. Exact
+owner funding is atomic within the owner's UPS. First dedicated controller UPS
+sender-bound cancels the unit back, proving zero spendable initialization balance
+and a nonzero authenticated asset tree. This solves the discovered fresh-account
+base-Executor integration gap without removing absence/root checks or pretending
+the unit is trading capital. Ordinary final claim includes this separate refund.
+The current client therefore requires this declared initialization asset; A-only
+onboarding still needs a separate reviewed capability. No Node/SDK changes.
+
+Fresh selected controllers: 2491/1445056 (success), 2489/134336 (recovery).
+Predecessors remain unfunded/retired. A caught deployment receipt-ID mismatch is
+an external API/index association issue, with a single recorded independent
+serial fallback; see dedicated report. No original request was resent.
+
+The real LP pipeline exposed expiry before admission. Empty queues were legally
+aborted and the same orders reconsented for epoch 2; deposited principal was not
+repeated. Future live success remains two distinct AMMs A→B→A. Recovery now opens
+and funds hop 2, cancels before admission, releases/enrolls sender recovery,
+executes the base market's exact orphan refund, claims back through the dedicated
+controller, then returns/claims actual middle asset. First trade remains final.
+All live financial children stop on a failed or uncertain operation; completed
+proof gates, exact receipt recovery, ordinary claims and cohort/fee audit precede
+an acceptance conclusion. Unfinished real results are not inferred from VM tests.

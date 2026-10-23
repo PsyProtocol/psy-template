@@ -53,7 +53,7 @@ impl World {
   self.set(U,0,0,100*F);self.run(U,0,"simple_transfer",&[V,20*F])?;
   for c in [A,B]{if self.get(5,c,3)==0{self.run(5,c,"set_metadata",&[123,18])?;self.run(5,c,"mint",&pair(1u128<<120))?;}}
   let mut args=vec![U];args.extend(pair(input));self.run(5,A,"transfer",&args)?;self.run(U,A,"claim",&[5])?;
-  let mut args=vec![V];args.extend(pair(input));self.run(U,A,"transfer",&args)?;self.run(U,C,"bind_funding",&[1])
+  let mut args=vec![V];args.extend(pair(input));self.run(U,A,"transfer",&args)?;self.run(5,B,"transfer",&[U,1,0])?;self.run(U,B,"claim",&[5])?;self.run(U,B,"transfer",&[V,1,0])?;self.run(U,C,"bind_funding",&[1])
  }
  pub fn fields(&self,name:&str,values:&[(usize,u64)],fee:u64)->Result<Vec<u64>> {
   let op=self.policy["operations"].as_array().unwrap().iter().find(|o|o["name"]==name).ok_or_else(||anyhow::anyhow!("unknown operation {name}"))?;

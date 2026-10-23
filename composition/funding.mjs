@@ -13,13 +13,13 @@ export function publicKeyFelts(hash){
 }
 function call(id,abi,name,inputs){const m=abi.contract.methods.find(m=>m.name===name);assert.ok(m,'compiled method '+name);assert.equal(inputs.length,m.input_felt_count);return{contract_id:id,method_name:name,method_id:BigInt(m.method_id),inputs};}
 export function ownerFunding({intent,plan,policy,controllerAbi,tokenAbi,nativeAbi,marketAbis,networkMagic,controllerBudget,ownerFeeReserve}){
- const i=createIntent(intent.terms);assert.equal(i.id,intent.id);validatePlan(i,plan);const t=i.terms;
+ const i=createIntent(intent.terms);assert.equal(i.id,intent.id);validatePlan(i,plan);const t=i.terms;assert.equal(t.version,2,'financial custody requires explicit account initialization intent v2');
  assert.equal(networkMagic,1384803358401154921n,'only the validated isolated proof domain is supported');
  assert.equal(t.sdkManifestHash,SDK,'frozen SDK only; migration is a separate task');
  assert.equal(t.nonce,1n,'one-shot execution account requires nonce 1');
  assert.equal(t.input.id,t.output.id,'current funded profile is A -> B -> A');
  assert.deepEqual(plan.steps.map(s=>s.side),[0,1],'fixed route sides');
- const [first,second]=plan.steps,registry=plan.registry.value;
+ const [first,second]=plan.steps,registry=plan.registry.value;assert.equal(t.execution.initialization.asset,first.outputAsset,'initialization must be the other FT');assert.equal(t.execution.initialization.amount,1n);
  assert.equal(first.inputAsset,t.input.id);assert.equal(second.outputAsset,t.input.id);assert.equal(first.outputAsset,second.inputAsset);
  const markets=t.markets.map(id=>{const m=registry.markets.find(m=>m.marketId===id);assert.ok(m);return m;});
  assert.deepEqual(markets[0].assets,markets[1].assets,'same ordered asset pair on distinct pools');
@@ -31,8 +31,8 @@ export function ownerFunding({intent,plan,policy,controllerAbi,tokenAbi,nativeAb
  const expected=fundsPolicy({controllerId:Number(t.execution.controllerId),controllerAbi,assetA:Number(first.inputAsset),assetB:Number(first.outputAsset),tokenAbi,nativeAbi,markets:markets.map((m,j)=>({id:Number(m.marketId),vault:Number(m.vaultId),abi:marketAbis[j]})),registryHash:plan.registryHash});
  assert.deepEqual(policy,expected,'policy differs from complete reviewed route');
  const key=publicKeyFelts(t.execution.publicKeyHash),args=[t.execution.vaultId,t.nonce,...encodeAmount(t.input.amount),...encodeAmount(first.output),...encodeAmount(t.output.amount),t.expiresAtCheckpoint,controllerBudget,...key];
- const calls=[call(t.execution.controllerId,controllerAbi,'request_route',args),call(0n,nativeAbi,'simple_transfer',[t.execution.vaultId,controllerBudget]),call(t.input.id,tokenAbi,'transfer',[t.execution.vaultId,...encodeAmount(t.input.amount)]),call(t.execution.controllerId,controllerAbi,'bind_funding',[t.nonce])];
- const authorization={schema:1,profile:'two-amm-owner-funded-v1',intentId:i.id,registryHash:plan.registryHash,networkMagic,owner:t.owner,execution:t.execution,controllerBudget,ownerFeeReserve,maximumOwnerSpend:t.maxNativeFees,midMinimum:first.output,finalMinimum:t.output.amount,calls,atomicScope:'one owner UPS: request, both funding transfers and funding binding',workflowAtomic:false,servicePayerFees:'external market sponsors; reported separately, never debited by this owner authorization',chainIntentIdentity:'controller Poseidon commitment over network/controller/owner/nonce/version, exact terms, execution key and compiled registry hash',sourceAuthenticated:false,requires:'fresh full UPS and frozen code/layout/key/network checks before any broadcast'};
- return{...authorization,reviewHash:commitment('psy-composition-owner-funding-v1',authorization)};
+ const calls=[call(t.execution.controllerId,controllerAbi,'request_route',args),call(0n,nativeAbi,'simple_transfer',[t.execution.vaultId,controllerBudget]),call(t.input.id,tokenAbi,'transfer',[t.execution.vaultId,...encodeAmount(t.input.amount)]),call(first.outputAsset,tokenAbi,'transfer',[t.execution.vaultId,1n,0n]),call(t.execution.controllerId,controllerAbi,'bind_funding',[t.nonce])];
+ const authorization={schema:2,profile:'two-amm-owner-funded-v1',intentId:i.id,registryHash:plan.registryHash,networkMagic,owner:t.owner,execution:t.execution,controllerBudget,ownerFeeReserve,maximumOwnerSpend:t.maxNativeFees,midMinimum:first.output,finalMinimum:t.output.amount,calls,initialization:t.execution.initialization,atomicScope:'one owner UPS: request, exact input/native and one-atom initialization Outbox transfers, funding binding; seed is sender-bound cancelled inside first controller UPS',workflowAtomic:false,servicePayerFees:'external market sponsors; reported separately, never debited by this owner authorization',chainIntentIdentity:'controller Poseidon commitment over network/controller/owner/nonce/version, exact terms, execution key and compiled registry hash',sourceAuthenticated:false,requires:'fresh full UPS and frozen code/layout/key/network checks before any broadcast'};
+ return{...authorization,reviewHash:commitment('psy-composition-owner-funding-v2',authorization)};
 }
 export function validateOwnerFunding(authorization,inputs){assert.deepEqual(authorization,ownerFunding(inputs),'funding review changed');return authorization;}

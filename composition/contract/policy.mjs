@@ -13,7 +13,7 @@ export function fundsPolicy({controllerId,controllerAbi,assetA,assetB,tokenAbi,n
  const noop=ctrl('noop'),forbidden=ctrl('forbidden'),operations=[];
  const charge=()=>ctrl('charge',[w(12)]),own=[w(1),w(2)],amount=[w(3),w(4)],minimum=[w(5),w(6)];
  const add=(name,calls)=>{assert.ok(calls.length<=9);operations.push({branch:operations.length+1,name,maintenance:true,calls:[...calls,...Array.from({length:9-calls.length},()=>structuredClone(noop))]});};
- add('fund',[ctrl('begin_funding',own),ft(assetA,'claim',[w(1)]),native('simple_claim',[w(1)]),ctrl('finish_funding',own),charge()]);
+ add('fund',[ctrl('begin_funding',own),ft(assetA,'claim',[w(1)]),native('simple_claim',[w(1)]),ft(assetB,'cancel_unclaimed_payment',[w(1)]),ctrl('finish_funding',own),charge()]);
  for(const hop of [1,2]){
   const vault=markets[hop-1].vault,side=hop-1,input=hop===1?assetA:assetB,output=hop===1?assetB:assetA;
   add('open-'+hop,[ctrl('prepare_'+hop,[...own,...amount,...minimum,w(7),w(8)]),market(hop,'open_swap',[c(vault),c(side),...amount,...minimum,w(7),w(8)]),native('simple_transfer',[c(vault),c(F)]),ft(input,'transfer',[c(vault),...amount]),ctrl('finish_send_'+hop,own),charge()]);
