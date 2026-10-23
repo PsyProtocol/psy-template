@@ -112,3 +112,50 @@ only its confirmed transition supplies that account's definitive exit. Current
 RPC rechecks reduce races but cannot claim an inclusion-time global snapshot or
 atomic cancellation across users. A settled hop may only return its resulting
 asset, never its original input at the old price.
+
+## Current financial v2 candidate — 2026-10-24
+
+This section supersedes the earlier v1 financial-integration status above;
+historical evidence retains its original scope. Dedicated financial adapter,
+normal persisted journal, frozen-tool/source validation and formal base-market
+Executor routing now run together against new isolated instances. Two QA FTs
+2483/2484 and AMMs 2485/2486 are included. Both actual LP batches settled, with
+20 QA-A / 20 QA-B reserves per pool before route trading. Selected dedicated
+controllers are 2491 (success) and 2489 (recovery); earlier 2487/2488 are retired,
+unfunded instances. No old contract is updated.
+
+A v2 financial intent additionally binds one atomic unit of the other FT. The
+owner's single funding UPS sends it with the input/native budget. The first
+controller UPS claims only the declared owner's funds and sender-bound cancels
+the one-unit payment back to that owner. It authenticates a newly established
+other-FT root, zero spendable balance and exact one-unit refund Outbox. It cannot
+use the unit as swap liquidity. The final ordinary owner claim includes that
+separate refund. This makes an existing SDK/base-Executor initialization
+requirement explicit; **A-only onboarding is not supported by this profile**.
+Financial custody rejects v1 intents. Owner-only receiver, fresh account, nonce 1
+and actual issuer/18-decimal/renounced-administration checks still apply.
+
+The revised source/key has 16 linked full controller UPSs (8 success, 6 accepted
+refund, 2 pretrade cancellation), 18 operation templates, 18 negative key cases
+and actual-bytecode initialization/amount/replay tests. Synthetic base/ordinary
+steps in those proofs do not establish real network completion. Live success,
+ordinary final claim, actual second-hop failure/refund, cohort conservation and
+independent actual receipt verification must each have their own final artifacts.
+
+An optional startup path independently verifies the exact saved initial layout
+proof rather than generating it again. It binds the frozen verifier/dependency,
+artifact/request bytes, actual deployer, zero old layout and every new public
+endpoint. Source/IR/function-root verification and all current live identities,
+key/session/nonce/fees/state/UPS checks remain required. Transaction witnesses
+and account state proofs are fresh. This static resource reuse is not evidence
+of a transaction-proof speedup or higher network throughput.
+
+One live API deployment-ID mismatch was caught before funding: an old success
+request's receipt named the recovery ID while actual code/deployer differed.
+The mismatched instance was not used. A single independent serial deployment by
+an explicit different publisher supplied matching 2491 metadata/receipt. The
+original request was not replayed, no identity check was relaxed, and upstream
+receipt association remains unresolved. Runtime-image/upgrade-authorization
+attestation also remains external. Current deterministic finite-queue guarantees
+are not global fairness, and same-host journal contention is not multi-host
+coordination. No production-level conclusion follows solely from test counts.
