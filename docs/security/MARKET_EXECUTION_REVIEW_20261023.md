@@ -93,3 +93,13 @@ competition. Over-budget observed inclusion is retained as `review-required`.
 These modules **do not send funds**: receipt verification adapter, dedicated
 controller bytecode/key and fresh-instance full-UPS/live acceptance are still
 required. Their tests must not be presented as a chain authorization certificate.
+
+## Resource comparison finished
+
+All eight timed fixed40/compact four-market processes completed with matching
+full-UPS state/fee endpoints. Full methodology, cold/warm, peak RSS and separate
+actual confirmation/claim boundaries are in `MARKET_EXECUTOR_PERFORMANCE_20261023.md`.
+Compact warms were 180–206 s versus 578–603 s; process RSS was higher for compact
+in this sample. No concurrency increase or new algorithmic speedup is claimed.
+Thirty original/compressed-hash-verified public files are archived. These are
+synthetic full proofs, not a new real-network economic run or chain TPS.
