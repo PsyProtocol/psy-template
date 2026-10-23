@@ -1,0 +1,267 @@
+{
+  "schema": 1,
+  "sourceDirectory": "/private/tmp/psy-composition-receipt-evidence-20261023-v1",
+  "machine": "gewenbo.local",
+  "host": "macOS-15.7.3-arm64-arm-64bit",
+  "scope": "public formal Executor run including failures; success requires exact included receipt",
+  "walletFilesIncluded": false,
+  "sealedBinariesIncluded": false,
+  "records": [
+    {
+      "source": "INPUTS.json",
+      "file": "files/INPUTS.json.gz",
+      "bytes": 3639,
+      "sha256": "12d85898e63901df30a521067ac2661efd7a9059b4475bcf5f7c8dad88fc7865",
+      "gzipBytes": 1428,
+      "gzipSha256": "70e3d4d627daaf4268303e2456624274f868e668eb0e67c2e4307195b52196da"
+    },
+    {
+      "source": "composition-tests.log",
+      "file": "files/composition-tests.log.gz",
+      "bytes": 5491,
+      "sha256": "85bb438a85cfc8cfa0b15628e025686e173fbdd8fe63d5b4b940b52d29123d0a",
+      "gzipBytes": 1525,
+      "gzipSha256": "f378f7b051bb16c75227b8240c4c093cf0cb6cd45378ed85bba9d9c25dc06d37"
+    },
+    {
+      "source": "negative/COMPLETE.json",
+      "file": "files/negative/COMPLETE.json.gz",
+      "bytes": 245,
+      "sha256": "98cd1538eace9c9d057e79216ad1967af7bdb2a6bd331e78f7fd00f8143d73e7",
+      "gzipBytes": 191,
+      "gzipSha256": "e700bdb2f0d052272fc1d1f07cb25192df35fc604bd3de47a7995f292da227f0"
+    },
+    {
+      "source": "negative/SOURCE.json",
+      "file": "files/negative/SOURCE.json.gz",
+      "bytes": 688,
+      "sha256": "f4264fa8262924e219e98c0d678de188d8c7b9389d52d16d96100eb9df111e49",
+      "gzipBytes": 462,
+      "gzipSha256": "8465ca933ceb6cd8f405f9b38731d43edf2f7116f2925ee67a617308b03c27e6"
+    },
+    {
+      "source": "negative/corrupt-request.json",
+      "file": "files/negative/corrupt-request.json.gz",
+      "bytes": 497499,
+      "sha256": "f35d4b9c2d12cfef58bcc15a12e8e484c23e7f6fb328922dc7eded6a6084ce5e",
+      "gzipBytes": 171483,
+      "gzipSha256": "d8f5a767ead32667025bb5c3f179c0c38457781078c8bce1de398d439e53f8cf"
+    },
+    {
+      "source": "negative/driver.mjs",
+      "file": "files/negative/driver.mjs.gz",
+      "bytes": 4044,
+      "sha256": "058f7e57cc21fedee64ff7d5948386d247b18d9f63b6ae00e7bab6bab6e18c99",
+      "gzipBytes": 1731,
+      "gzipSha256": "342eecd2b0d5b093c12d19670bf7d1b8e6afa8b5044b25c710dee41861bf8e56"
+    },
+    {
+      "source": "negative/observation/INPUTS.json",
+      "file": "files/negative/observation/INPUTS.json.gz",
+      "bytes": 556,
+      "sha256": "6b3d3a189289e48b31feac0d9fe11c82dd070ec6b7372c2907db021611b1bf92",
+      "gzipBytes": 374,
+      "gzipSha256": "6fd7ba98608e3b50e011080b3b80d72c0b2b79be68f8535f58ef311f5dfb97f3"
+    },
+    {
+      "source": "negative/observation/OBSERVATION.json",
+      "file": "files/negative/observation/OBSERVATION.json.gz",
+      "bytes": 159,
+      "sha256": "2d830e5112fffe6c7ba43ee87eab103ace2449c3466b59b37f225a77faeefcf4",
+      "gzipBytes": 136,
+      "gzipSha256": "2742556699e81df1a4f5d6313ebfd36b1347b42fe37c6ab77964df505938bdcb"
+    },
+    {
+      "source": "negative/observation/request.json",
+      "file": "files/negative/observation/request.json.gz",
+      "bytes": 497499,
+      "sha256": "f35d4b9c2d12cfef58bcc15a12e8e484c23e7f6fb328922dc7eded6a6084ce5e",
+      "gzipBytes": 171483,
+      "gzipSha256": "d8f5a767ead32667025bb5c3f179c0c38457781078c8bce1de398d439e53f8cf"
+    },
+    {
+      "source": "negative/observation/rpc.json",
+      "file": "files/negative/observation/rpc.json.gz",
+      "bytes": 1738,
+      "sha256": "93f0c6a80f0c34b596b4b1a862d0c2d51ee248ac8ddd5e88caf8157a59a398bc",
+      "gzipBytes": 577,
+      "gzipSha256": "ace57b52c39bfbc5d517ac55f07edd9063a43d627710e15cdef203cfc629c33a"
+    },
+    {
+      "source": "negative/observation/verification.log",
+      "file": "files/negative/observation/verification.log.gz",
+      "bytes": 106,
+      "sha256": "f817b40692b01e6492fb7c66ca5d7743c633d2756892054d6bd3066c8f4e7df7",
+      "gzipBytes": 114,
+      "gzipSha256": "cb93330035afdd296b710ffe63f381eef2561a832b0e4bcb5208679645721d11"
+    },
+    {
+      "source": "negative/runner.log",
+      "file": "files/negative/runner.log.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "negative/source/bondingcurve/receiptCheck.mjs",
+      "file": "files/negative/source/bondingcurve/receiptCheck.mjs.gz",
+      "bytes": 2392,
+      "sha256": "6fc0eafa9dd15ddfd488987cf35963fc424c4ff7e3979fc4b5c3ca4e660dc0fc",
+      "gzipBytes": 956,
+      "gzipSha256": "8d56467ceba19ececba3ad4d8d9e5960d49589e6d51d92e7679787e5dd56c705"
+    },
+    {
+      "source": "negative/source/composition/intent.mjs",
+      "file": "files/negative/source/composition/intent.mjs.gz",
+      "bytes": 8453,
+      "sha256": "7669f35f4611937c4929ea097488d9b066f0454b32895ab779157ff7770333b4",
+      "gzipBytes": 3074,
+      "gzipSha256": "da63a99cea03092596f2a5e734641eac0cbb6242456380ff816d185aa9d8e3e5"
+    },
+    {
+      "source": "negative/source/composition/receipt.mjs",
+      "file": "files/negative/source/composition/receipt.mjs.gz",
+      "bytes": 7422,
+      "sha256": "d1a4adcfd16f8531bbc282816568b078c69d45f38ceb5e486a97df974442e113",
+      "gzipBytes": 2615,
+      "gzipSha256": "a74f5ee31a06abae7777a615b0a6fff0a92e4272cf33dc850e1aa818bef40d63"
+    },
+    {
+      "source": "negative/source/composition/workflow.mjs",
+      "file": "files/negative/source/composition/workflow.mjs.gz",
+      "bytes": 6041,
+      "sha256": "4b27bae8727a4157488da70e02600c670b62da84d53ef82e4f82da72395fd7bc",
+      "gzipBytes": 2325,
+      "gzipSha256": "ac23c154d247cd2ab181aa393e83ee5ad9c6fb5369666fe60ab55c52dce85cf4"
+    },
+    {
+      "source": "negative/source/executor/chainReceipts.mjs",
+      "file": "files/negative/source/executor/chainReceipts.mjs.gz",
+      "bytes": 3847,
+      "sha256": "f8e2b09b13b2af17429d888a614ce6370dbbffe974949a7f6ce8e78ae74be48d",
+      "gzipBytes": 1692,
+      "gzipSha256": "cc2eb20a1f59bfcec822479e3bf7deb35ef8683463cd737653d270a40be1a617"
+    },
+    {
+      "source": "positive/COMPLETE.json",
+      "file": "files/positive/COMPLETE.json.gz",
+      "bytes": 766,
+      "sha256": "f893d69f89345c71482b926eb3c29935d4ac934235e67dc03b50d4723ad8d8a7",
+      "gzipBytes": 491,
+      "gzipSha256": "1ca20790b3aabb49fd3377d90fcaa1c97d17e2121304cc1786f449042d0f16da"
+    },
+    {
+      "source": "positive/SOURCE.json",
+      "file": "files/positive/SOURCE.json.gz",
+      "bytes": 688,
+      "sha256": "e12aa20d07b8fb779e2134ef3907011f740ac168ae9230a4a45687743f6fdd03",
+      "gzipBytes": 462,
+      "gzipSha256": "16d41cc56f5010b60c557dbedef5a7ca39d332a29fe640a81df08af6cb785a23"
+    },
+    {
+      "source": "positive/driver.mjs",
+      "file": "files/positive/driver.mjs.gz",
+      "bytes": 3875,
+      "sha256": "10fea4494653564d57ec4354e514c30ee0eba8cd8a572267c610c9452e830e48",
+      "gzipBytes": 1647,
+      "gzipSha256": "d40d98b57de1b8e1c09103b6d9aae689392d8b228e72469957148b8486bcfcb5"
+    },
+    {
+      "source": "positive/observation/INPUTS.json",
+      "file": "files/positive/observation/INPUTS.json.gz",
+      "bytes": 556,
+      "sha256": "cd20282d1c21e7482b1c22fe2fe881d75346372915e0d26608ab743ba58ff46b",
+      "gzipBytes": 374,
+      "gzipSha256": "f41fcfa056aa62a253490a2ee5b1b37e83e84ac8332fedee5df94acbf9aea2c3"
+    },
+    {
+      "source": "positive/observation/OBSERVATION.json",
+      "file": "files/positive/observation/OBSERVATION.json.gz",
+      "bytes": 2470,
+      "sha256": "19f43df39bd3d213b77c9161ae39df8aedca25a5fdecf77b2baf91e5a597fa6d",
+      "gzipBytes": 969,
+      "gzipSha256": "092272dc1c6ae0d83f9c780098e7e520245058c9765b834ff15edfc5f075eb3d"
+    },
+    {
+      "source": "positive/observation/request.json",
+      "file": "files/positive/observation/request.json.gz",
+      "bytes": 1160757,
+      "sha256": "51af086c3eb3f9cdc9310c3103ca39b6ac10ade5a818a4a7b98c4d6d836d11a4",
+      "gzipBytes": 194678,
+      "gzipSha256": "13b454f2d1a845c0e1fc99c431b715973451f0d0fc734c9c4c32866d9d496e3e"
+    },
+    {
+      "source": "positive/observation/rpc.json",
+      "file": "files/positive/observation/rpc.json.gz",
+      "bytes": 1738,
+      "sha256": "93f0c6a80f0c34b596b4b1a862d0c2d51ee248ac8ddd5e88caf8157a59a398bc",
+      "gzipBytes": 577,
+      "gzipSha256": "ace57b52c39bfbc5d517ac55f07edd9063a43d627710e15cdef203cfc629c33a"
+    },
+    {
+      "source": "positive/observation/verification.json",
+      "file": "files/positive/observation/verification.json.gz",
+      "bytes": 546,
+      "sha256": "5b2f82ea0668df2c50ce75bcb0c561923edff536f79f664547bb0ec407ff9572",
+      "gzipBytes": 375,
+      "gzipSha256": "a5143105fabd96a65bfa13ac394a2388247a36f0d6596aef13a1586ec9feb197"
+    },
+    {
+      "source": "positive/observation/verification.log",
+      "file": "files/positive/observation/verification.log.gz",
+      "bytes": 1,
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "gzipBytes": 21,
+      "gzipSha256": "74420f89d2d2a4256b5b578f1c2a01dd2b605f9aca4905db839d008cfd29cac0"
+    },
+    {
+      "source": "positive/runner.log",
+      "file": "files/positive/runner.log.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "positive/source/bondingcurve/receiptCheck.mjs",
+      "file": "files/positive/source/bondingcurve/receiptCheck.mjs.gz",
+      "bytes": 2392,
+      "sha256": "6fc0eafa9dd15ddfd488987cf35963fc424c4ff7e3979fc4b5c3ca4e660dc0fc",
+      "gzipBytes": 956,
+      "gzipSha256": "8d56467ceba19ececba3ad4d8d9e5960d49589e6d51d92e7679787e5dd56c705"
+    },
+    {
+      "source": "positive/source/composition/intent.mjs",
+      "file": "files/positive/source/composition/intent.mjs.gz",
+      "bytes": 8453,
+      "sha256": "7669f35f4611937c4929ea097488d9b066f0454b32895ab779157ff7770333b4",
+      "gzipBytes": 3074,
+      "gzipSha256": "da63a99cea03092596f2a5e734641eac0cbb6242456380ff816d185aa9d8e3e5"
+    },
+    {
+      "source": "positive/source/composition/receipt.mjs",
+      "file": "files/positive/source/composition/receipt.mjs.gz",
+      "bytes": 7422,
+      "sha256": "d1a4adcfd16f8531bbc282816568b078c69d45f38ceb5e486a97df974442e113",
+      "gzipBytes": 2615,
+      "gzipSha256": "a74f5ee31a06abae7777a615b0a6fff0a92e4272cf33dc850e1aa818bef40d63"
+    },
+    {
+      "source": "positive/source/composition/workflow.mjs",
+      "file": "files/positive/source/composition/workflow.mjs.gz",
+      "bytes": 6041,
+      "sha256": "4b27bae8727a4157488da70e02600c670b62da84d53ef82e4f82da72395fd7bc",
+      "gzipBytes": 2325,
+      "gzipSha256": "ac23c154d247cd2ab181aa393e83ee5ad9c6fb5369666fe60ab55c52dce85cf4"
+    },
+    {
+      "source": "positive/source/executor/chainReceipts.mjs",
+      "file": "files/positive/source/executor/chainReceipts.mjs.gz",
+      "bytes": 3847,
+      "sha256": "f8e2b09b13b2af17429d888a614ce6370dbbffe974949a7f6ce8e78ae74be48d",
+      "gzipBytes": 1692,
+      "gzipSha256": "cc2eb20a1f59bfcec822479e3bf7deb35ef8683463cd737653d270a40be1a617"
+    }
+  ]
+}

@@ -53,3 +53,15 @@ amount or receiver. Each new stage's source checkpoint must also include all
 previous confirmed common checkpoints. Old plans lacking this provenance fail
 closed; no persisted original evidence is rewritten. These consistency checks
 still do not authenticate supplied snapshots or authorize transfers.
+
+`receipt.mjs` now observes an **already recorded exact broadcast**. It pins the
+existing offline verifier, SDK and RPC configuration, verifies the preserved
+full UPS, binds request/proof hashes, caller/key, nonce and endpoints, and matches
+historical leaf/indexed occurrence and receipt stats/fees before recording common-
+checkpoint progress. Unknown inclusion retains the original pending identity;
+invalid proof stops before network reads. It never proves, sends or substitutes
+a transaction. Historical/index inclusion remains an RPC observation, not an
+authenticated finality proof or runtime attestation. It does not certify actual
+calls against the business route: the dedicated controller/SD-key and financial
+adapter are still required. The live read-only smoke uses a synthetic workflow
+around an existing QA ordinary request, **not composition economic acceptance**.
