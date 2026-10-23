@@ -165,3 +165,27 @@ passes, zero failures and two fixture-gated skips; the two gates were then run
 against the actual frozen four-market builds and both passed. The first gate
 rerun used an incorrect directory and its ENOENT invocation log is retained too.
 No test-count-based production conclusion is drawn.
+
+## Exact UPS observation adapter
+
+`composition/receipt.mjs` adds the read-only reconciliation path for an already
+recorded broadcast. It hashes preserved request/proof bytes, pins the existing
+offline verifier/RPC configuration/SDK profile, verifies the complete proof and
+metadata, checks caller/key/nonce/start/end/source, then matches historical leaf,
+indexed receipt, proof stats, actual fee and common checkpoint. Unknown results
+retain the original pending identity; the module has no send/prove/replacement
+operation. Invalid proof failure is retained before throwing.
+
+Read-only smoke: actual ordinary QA request `51af086c…6d11a4`, user 860352,
+nonce 63, included checkpoint 368302, content hash `2804f505…507cc4`, verified
+fee **1.000007 test PSY** already spent by the original request. No new fee or
+financial operation was incurred by this observation. Corrupting a proof byte
+was rejected by the frozen verifier with **zero network reads**, preserving the
+pending identity. Twenty-nine composition JS regressions pass.
+
+The test workflow/route is synthetic and its controller is not deployed. This
+does not verify business-call authorization or constitute a new composition
+trade. Historical/index agreement is an RPC observation, not a cryptographic
+inclusion/finality witness; runtime identity/domain/upgrade gates remain open.
+Archive: `composition-exact-receipt-observer-v1/`, 32 files / 570,462 gzip bytes,
+original-copy and compressed hashes verified. Original first-run evidence stays.
