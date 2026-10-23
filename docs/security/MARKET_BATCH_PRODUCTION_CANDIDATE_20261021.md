@@ -15,7 +15,12 @@ complete dependency registry and durable staged recovery modules are under
 `composition/`, with explicit non-authorizing status until controller/full-UPS
 verification. No Node edit, SDK migration, old-contract probe or original-evidence
 replacement occurred. Formal Executor phase metrics and timed full-proof RSS
-measurements have begun; no new measured speedup or production conclusion yet.
+measurements are recorded in `MARKET_EXECUTOR_PERFORMANCE_20261023.md`, including
+the completed four-market offline comparison and the 1-member formal AMM live
+case with ordinary claim and exact 12-UPS fee conservation. No chain TPS or
+controlled live speedup is established. The unfunded reservation controller and
+read-only exact-UPS observer are tested; composition custody/SD-key/full-UPS
+financial acceptance remains unfinished.
 
 ## 2026-10-22 minimal two-hop route planner
 

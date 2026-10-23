@@ -100,3 +100,59 @@ The opt-in fallback case is running in
 `/tmp/psy-market-fallback-live-20261023-v1`; completed stages alone are not its
 final economic acceptance. Its original source hashes and raw evidence remain
 unchanged. The final report must wait for settlement, ordinary claim and audit.
+
+## Closed AMM thin-batch economic case
+
+Case `/tmp/psy-market-fallback-live-20261023-v1` completed at
+2026-10-23 01:48:20 UTC. Existing owned QA AMM **2478**, vault **1013952**;
+no deployment/update, key replacement, SDK switch or pUSDT use. Four explicit
+plan hints, one eligible consent, one accepted member and one fill; production
+`once --expected-task` admitted that member. All five formal stages and seven
+ordinary transactions were included: **12 UPSs**, **12.000078 test PSY** fees.
+Bob paid **1 QA FT-A** and claimed **0.614011123258459198 QA FT-B**, both with
+18 decimals. Both 1,000-token supplies, native-before minus native-after and
+the two NFT identities were conserved across the explicit 20-account cohort.
+This is not a global inventory proof, pUSDT acceptance or a new three-market
+thin-batch test. Existing four-market maximum/recovery evidence remains separate.
+
+| Observed stage | Measurement |
+| --- | --- |
+| First resident key / session construction | 1.184 s / 44.120 s |
+| Separate CLI resident key / session construction | 1.172 s / 46.178 s |
+| Warm commit complete preflight | 128.758 s, 3 actual calls including burn |
+| Warm settlement complete preflight | 128.278 s, 7 actual calls including burn |
+| Commit / settlement full-proof verification component | 3.244 s / 3.185 s |
+| Commit / settlement recursive-finalize component | 9.087 s / 21.650 s |
+| Commit / settlement end-cap proving component | 4.782 s / 4.589 s |
+| Saved-proof verification + fresh checks + HTTP acknowledgement | 17.895–24.801 s, four correlated parent measurements |
+| Acknowledgement to exact indexed/common observation | 25.291–86.231 s, same four measurements |
+| Ordinary final-claim child process | 101.087 s |
+| Final-claim acknowledgement to indexed/common observation | 57.514 s |
+| First order wallet start to final ordinary common observation | 2,557.226 s (42m 37.226s) |
+| Separate before / after finite-cohort asset audits | 260.258 s / 271.635 s |
+| Maximum observed Node parent RSS endpoint | 325,877,760 bytes; not child or process-tree peak |
+
+The preflight span includes live identity/state reads, new UPS start and proof
+work; `callProving` also surrounds the SDK invocation path, not isolated VM/CPU
+execution. Detailed timings need not cover every operation. One warm manager was
+reused across start/seal/commit/settlement; CLI once starts another process.
+Transaction state, nonce and witnesses were newly generated. Saved-proof sends
+reported `reproved:false`. Five completed proof directories, no failed proof log
+and one original broadcast directory per mutation; receipt polling was read-only.
+The separate CLI admission has no correlated parent submit metric: its per-task
+acknowledgement/confirmation split remains **null**, not zero or another task's.
+
+This single case includes ordinary sponsorship transactions, queue cutoff waits,
+RPC/index polling and some concurrent local compilation/tests. It has no matched
+old-profile live control, isolated ordinary cold-build timing, per-phase child
+RSS or server finality measurement. **No live speedup, chain TPS or service SLO
+is established.** The offline profile comparison above retains its separate
+input/state/fee comparison and stated host limitations.
+
+`PERFORMANCE-v1.json` and full request/proof/receipt/state/fee evidence are in
+`executor/verification/2026-10-23-review-v1/formal-fallback-economic-v1/`:
+288 files / 9,089,717 gzip bytes, original and compressed hashes checked. The
+report handles fractional observation milliseconds, missing CLI metrics and
+separate ordinary-claim confirmation/audit scopes. Its final focused regression
+passes; the complete Executor/composition suite passed 189 tests with no skips
+before the final report-only additions, followed by their focused regressions.
