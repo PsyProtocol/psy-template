@@ -139,3 +139,29 @@ Its application compiler must retain `GetUserPublicKeyHash` while prepending a
 Felt height constant. No key check is removed to compile it. Until actual
 bytecode tests and complete UPS/SD-key gates pass, it has no custody capability
 and must not receive delegated funds. Original failed compile directories remain.
+
+## Reservation prerequisite verified; financial gate stays closed
+
+Application Felt rebasing now preserves opcode 50's Hash index and ignored zero
+payload. The SDK proving primitive checks original/transformed key probes with
+identical resolved state writes, rejecting each wrong key component. A compiled
+reservation lifecycle passes both actual-bytecode tests, including an independent
+Poseidon commitment with nonzero high U124 limb, nonce/epoch locks, wrong key,
+cancellation and timeout. A test-only state adapter supplies unauthenticated slots;
+this is **not a CFC, full UPS, SD-key, client-intent bridge or financial test**.
+The frozen lightweight VM cannot materialize this context hash's four components;
+the proving-path primitive is used without changing Node or deleting checks.
+
+The new application compiler outputs are byte-identical to all four original
+market artifacts. It was not substituted into the financial runtime or deployment
+toolchain. The unfunded fixture compiled into a fresh v3 directory; v1/v2 compile
+failures and subsequent test failures/passes remain. All 1,466 SDK source hashes
+were checked again. A local debug digest is not an upstream reviewed SDK release
+or a portable bit-reproducibility claim.
+
+Archive: `composition-reservation-prerequisite-v1/`, **75 files / 6,378,789 gzip
+bytes**, originals and compressed hashes verified. The broad JS run has 184
+passes, zero failures and two fixture-gated skips; the two gates were then run
+against the actual frozen four-market builds and both passed. The first gate
+rerun used an incorrect directory and its ENOENT invocation log is retained too.
+No test-count-based production conclusion is drawn.

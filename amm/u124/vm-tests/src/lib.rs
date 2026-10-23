@@ -21,7 +21,9 @@ fn prepend_height(def:&mut DPNFunctionCircuitDefinition,height:u64)->Result<()> 
  for n in &mut def.definitions {
   if n.data_type==DPNBuiltInDataType::Target{n.index+=1;}
   match n.op_type as u16 {
-   0|1|2|3|46|47|48|53|54|55=>{},
+   // GetUserPublicKeyHash (50) produces a Hash context value and consumes
+   // no Felt references. Preserve its index and inputs when adding a Felt.
+   0|1|2|3|46|47|48|50|53|54|55=>{},
    18=>{for id in &mut n.inputs[1..]{*id=felt_ref(*id);}},
    4|5|6|7|8|9|10|13|14|15|16|17|20|21|22|23|78=>{for id in &mut n.inputs{*id=felt_ref(*id);}},
    _=>bail!("unsupported rebase opcode {:?} in {}",n.op_type,def.name),
@@ -64,3 +66,57 @@ pub mod batch_compact;
 
 pub mod live_guard;
 pub mod live_rpc;
+
+#[cfg(test)]
+mod context_rebase_tests {
+ use super::*;
+ use psy_config::network_constants::DEFAULT_CALLER_CONTRACT_ID_U64;
+ use plonky2::field::{goldilocks_field::GoldilocksField as F,types::{Field,PrimeField64}};
+ use psy_vm::dpn::vm::exec::SimpleDPNExecutor;
+
+ #[test]
+ fn prepended_height_preserves_authenticated_key_and_rejects_each_wrong_limb()->Result<()> {
+  let source=r#"
+#[contract]
+pub struct KeyProbe { pub remembered: Hash, pub owner: Felt }
+#[contract_implementation]
+impl KeyProbe {
+ #[contract_method]
+ pub fn remember(&mut self, ctx: &mut ChainContext, expected: Hash) {
+  let actual: Hash = ctx.user_public_key;
+  require(actual[0] == expected[0] && actual[1] == expected[1] && actual[2] == expected[2] && actual[3] == expected[3], "key mismatch");
+  self.remembered = actual; self.owner = ctx.user_id;
+ }
+}
+"#;
+  let out=psy_compiler::compile(source)?;
+  let original=out.circuit_definitions.iter().find(|d|d.name=="remember").unwrap();
+  let key=original.definitions.iter().find(|n|n.op_type==DPNOpType::GetUserPublicKeyHash).unwrap();
+  // The frozen serializer may retain a zero placeholder. The execution opcode
+  // ignores it; it is not a reference to Felt target zero.
+  ensure!(key.inputs.iter().all(|x|*x==0),"unexpected context literal payload: {:?}",key);
+  let mut rebased=original.clone();prepend_height(&mut rebased,32)?;
+  let after=rebased.definitions.iter().find(|n|n.op_type==DPNOpType::GetUserPublicKeyHash).unwrap();
+  ensure!(after.index==key.index&&after.data_type==key.data_type&&after.inputs==key.inputs,"Hash context changed");
+  // Use the SDK's proving-path primitive executor. Its lightweight VmExecutor
+  // oracle does not materialize all four context-hash components.
+  let eval=|def:&DPNFunctionCircuitDefinition,input:&[u64]|{
+   let f=F::from_canonical_u64;
+   let mut vm=SimpleDPNExecutor::new_with_contract_ctx(input.iter().copied().map(f).collect(),f(200),f(1000),f(DEFAULT_CALLER_CONTRACT_ID_U64),f(100),f(1),[11,22,33,44].map(f),[F::ZERO;4]);
+   for op in &def.definitions{vm.process_var_def(op);}
+   let success=def.assertions.iter().all(|a|vm.resolve_target(a.left)==vm.resolve_target(a.right));
+   let writes=def.state_commands.iter().map(|c|c.get_inputs().into_iter().map(|id|vm.resolve_target(id).to_canonical_u64()).collect::<Vec<_>>()).collect::<Vec<_>>();
+   (success,writes)
+  };
+  let reference=eval(original,&[11,22,33,44]);let transformed=eval(&rebased,&[11,22,33,44]);
+  ensure!(reference.0&&transformed.0,"reference/rebased key check");
+  ensure!(reference.1==transformed.1&&!transformed.1.is_empty(),"rebase changed resolved state writes");
+  for limb in 0..4 {
+   let mut wrong=[11,22,33,44];wrong[limb]+=1;
+   for def in [original,&rebased] {
+    ensure!(!eval(def,&wrong).0,"wrong key limb {limb} accepted");
+   }
+  }
+  Ok(())
+ }
+}
