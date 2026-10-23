@@ -78,3 +78,25 @@ end-to-end before/after confirmation/claim comparison, actual economic watch-
 service lifetime acceptance, adaptive pre-freeze batching, and further recursive/
 end-cap improvements. No Node changes or weakened checks are justified by this
 ledger. No chain TPS or production certification is claimed.
+
+## Closed-case formal Executor report
+
+`executor/acceptance/livePerformance.mjs CASE FRESH_REPORT.json` reads a case
+only after `public/COMPLETE.json` confirms ordinary claiming and the economic
+audit. It performs no RPC, proof or broadcast. It separates resident startup
+observations from per-proof timings, parent adapter phase walls, ordinary wallet
+process walls, saved-proof verification/fresh checks/acknowledgement, and the
+subsequent exact indexed/common-state observation. Failed preflight logs and
+failed phase counts remain visible. Overlapping operation sums are not case wall.
+
+No cold startup is inferred from a warm zero; missing startup remains null.
+Child peak RSS, matched live before/after speedup and chain TPS remain null.
+Network magic/profile and source/binary/SDK hashes are retained from the case.
+This is a report over the existing acceptance assertions, not a new cryptographic
+receipt verifier. Three focused regressions cover construction ambiguity,
+failure accounting, closed-case gating and references outside the case.
+
+The opt-in fallback case is running in
+`/tmp/psy-market-fallback-live-20261023-v1`; completed stages alone are not its
+final economic acceptance. Its original source hashes and raw evidence remain
+unchanged. The final report must wait for settlement, ordinary claim and audit.
