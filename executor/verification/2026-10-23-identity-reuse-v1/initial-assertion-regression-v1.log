@@ -1,0 +1,62 @@
+✔ formal route binds and processes every sealed member in four markets (695.801166ms)
+✔ formal telemetry records initialization and RPC attempts separately without altering a four-member task (85.327667ms)
+✔ lost receipt, restart and duplicate task reconcile without re-proving or re-sending (239.383666ms)
+✔ proof digest substitution and config replacement halt before transmission (70.855458ms)
+✔ cached proof loses validity when anchor nonce or broadcast window changes (81.524125ms)
+✔ double local executors share journal lock and create only one unresolved broadcast (160.379625ms)
+✔ unsealed lifecycle honors consent, cutoff, capacity and explicit sponsorship (7.313458ms)
+✔ profile and public admission plan reject ambiguous bindings and fake configuration (10.412958ms)
+✖ normal Executor children never inherit the read-only benchmark source selector (80.845542ms)
+✔ recovery funding requests distinguish the two-UPS budget from an existing partial deposit (38.245541ms)
+✔ included receipt waits for common realm visibility before releasing vault (194.078917ms)
+✔ only explicit pre-broadcast driver rejection permits not-submitted; missing evidence remains unknown (368.009375ms)
+✔ recovery hints process only enrolled inactive senders without selecting other market orders (7.473208ms)
+✔ prepared nonce metadata stays exact beyond JavaScript safe integer range (80.465459ms)
+✔ explicit no-send recovery reuses one proof and never masks a later pending attempt (297.338166ms)
+✔ pre-session transport restart preserves failed attempt and sends only verified replacement session (203.365542ms)
+✔ pre-session transport restart is bounded and never sends on exhaustion (101.677792ms)
+✔ pre-session restart refuses an expired original task window (74.27975ms)
+✔ legacy contract recovery cap cannot be raised by client configuration (5.506834ms)
+✔ all-four opt-in proposes exactly seven calls for canonical consents in every market (44.461208ms)
+✔ bulk waits for all four consents and cannot bypass existing policy registration mode (55.503875ms)
+✔ bulk helper rejects duplicate, zero, rounded and out-of-range members and preserves canonical witness padding (6.027666ms)
+✔ watch backs off after bounded verified pre-session outage and later submits exactly once (253.205208ms)
+✔ scan uses one fresh snapshot but refreshes dependency and registry bindings on its next scan (36.985459ms)
+✔ parallel metadata failures drain sibling reads and cannot start queue planning (58.876916ms)
+✔ amm: opt-in deadline fallback selects consenting hints before admission and retains every accepted member (6.918542ms)
+✔ orderbook: opt-in deadline fallback selects consenting hints before admission and retains every accepted member (6.020417ms)
+✔ bondingcurve: opt-in deadline fallback selects consenting hints before admission and retains every accepted member (6.365958ms)
+✔ nftmarket: opt-in deadline fallback selects consenting hints before admission and retains every accepted member (5.861917ms)
+✔ only a never-established connection during compact broadcast can be resolved as not submitted (1.026875ms)
+✔ concurrent and sequential identical public identities build once; no mutable proof state is retained (2.955459ms)
+✔ all release, network, key and code/layout dependencies invalidate public metadata reuse (0.533083ms)
+✔ wrong identities and loader failures never become reusable successful entries (0.814291ms)
+✔ bounded cache evicts completed metadata rather than accumulating release identities (0.156792ms)
+ℹ tests 34
+ℹ suites 0
+ℹ pass 33
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3668.328042
+
+✖ failing tests:
+
+test at executor/compactAdmission.test.mjs:54:1
+✖ normal Executor children never inherit the read-only benchmark source selector (80.845542ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  1 !== 2
+  
+      at file:///Users/geir/Downloads/QED%E8%B5%84%E6%96%99/litepaper/psy-template-security-20261016/executor/compactAdmission.test.mjs:56:206
+      at async fixture (file:///Users/geir/Downloads/QED%E8%B5%84%E6%96%99/litepaper/psy-template-security-20261016/executor/compactAdmission.test.mjs:36:2)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 1,
+    expected: 2,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

@@ -3,6 +3,7 @@ import {readFile,mkdir} from 'node:fs/promises';
 import {join,dirname} from 'node:path';
 import {randomUUID} from 'node:crypto';
 import {residentProver} from './residentProver.mjs';
+import {processCompactIdentity} from './identityCache.mjs';
 import{withBulkAdmission}from'../batching/admission/bulk.mjs';
 import{preSessionTransportFailure}from'./preSessionRetry.mjs';
 import{ReadUnavailable}from'./readRetry.mjs';
@@ -54,7 +55,10 @@ export async function createCompactAdmissionAdapter(o,{readState=publicState,rea
  const initialState=await bindingCurrent(),retryUrls=[...initialState.network.realm_configs,...(initialState.network.coordinator_configs??[])].flatMap(r=>r.rpc_url);const pinCurrent=await captureInputs([pin]),driver=await sealDriver(o);
  const env={...process.env,PSY_MARKET_TESTNET_PROFILE:o.testnetProfile,RAYON_NUM_THREADS:String(o.proverThreads??2)};for(const k of Object.keys(env))if(k.endsWith('_WITNESS_WALLET')||k.endsWith('_LOCAL_DEFS')||k==='PSY_MARKET_BENCH_SOURCE_CHECKPOINT')delete env[k];
  const makeResident=()=>o.proverMode==='resident'?residentProver(driver.file,o.policy,o.rpcConfig,{env}):null;let resident=makeResident();
- const id=driverRecords((await runDriver(driver.file,['identity',o.policy],{env,timeout:120000,maxBuffer:2000000})).stdout).find(r=>r.profile==='compact-v1');assert.equal(id?.fingerprint,o.fingerprint);assert.equal(id?.publicKeyHash,o.publicKeyHash);
+ // Only public deterministic key metadata is reusable. sealDriver and fresh
+ // live dependency/registry checks still run on EVERY factory construction.
+ await processCompactIdentity({driverSha256:driver.sha256,policySha256:sha256(await readFile(o.policy)),rpcConfigSha256:sha256(await readFile(o.rpcConfig)),identity,dependencies},async()=>driverRecords((await runDriver(driver.file,['identity',o.policy],{env,timeout:120000,maxBuffer:2000000})).stdout).find(r=>r.profile==='compact-v1'));
+ await inputsCurrent();await driver.check();
  const reader=await readReceipts(o.rpcConfig,{maxPages:o.receiptMaxPages??20});
  const root=task=>join(o.runtimeDirectory,'compact',o.network,String(o.vaultId),sha256(task.submission+'\n'+task.validUntilCheckpoint));
  const paths=task=>({calls:join(root(task),'calls.json'),guard:join(root(task),'guard.json')});

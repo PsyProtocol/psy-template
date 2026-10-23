@@ -1,0 +1,51 @@
+{
+  "schema": 1,
+  "verifierSha256": "95344886059c5fe78617a6e1f7b9988cfd4ce8e9805da05086a79f7f5a6599cf",
+  "sdkManifestSha256": "0afb4c65116cddcaca450b406a06503d65b63d38a004d8e773c6e5fa363bd425",
+  "records": [
+    {
+      "source": "2026-10-23-funded-composition-v3/accepted-refund-controller-ups/request-nonce-1.json",
+      "requestSha256": "7534afec1ac51d946ee95c292868b8705864e48aa2405d63dcf87afe78a9b8be",
+      "report": "verified-0.json",
+      "log": "verified-0.log",
+      "wallSeconds": 3.5525437500000407
+    },
+    {
+      "source": "2026-10-23-funded-composition-v3/accepted-refund-controller-ups/request-nonce-2.json",
+      "requestSha256": "084f6dc8c9cc141566e8957c843601ca5b971ccf4b04b824d308047dde87e7ef",
+      "report": "verified-1.json",
+      "log": "verified-1.log",
+      "wallSeconds": 2.9827089169998544
+    },
+    {
+      "source": "2026-10-23-funded-composition-v3/accepted-refund-controller-ups/request-nonce-3.json",
+      "requestSha256": "df8a5789800b70092d42ad50a31c29d6406af011fadf7e766f79d38b1f8f167d",
+      "report": "verified-2.json",
+      "log": "verified-2.log",
+      "wallSeconds": 2.977526875000194
+    },
+    {
+      "source": "2026-10-23-funded-composition-v3/accepted-refund-controller-ups/request-nonce-4.json",
+      "requestSha256": "4187ce0661ec8598c5838fa727fb5df0d939c721686aede606f13fd37b98f95a",
+      "report": "verified-3.json",
+      "log": "verified-3.log",
+      "wallSeconds": 3.017286000000013
+    },
+    {
+      "source": "2026-10-23-funded-composition-v3/accepted-refund-controller-ups/request-nonce-5.json",
+      "requestSha256": "c98066f798a1e9b3c20fd2625a897e4a9c187bf7eae52e1670c371e6cf449dcf",
+      "report": "verified-4.json",
+      "log": "verified-4.log",
+      "wallSeconds": 2.9584888330000467
+    },
+    {
+      "source": "2026-10-23-funded-composition-v3/accepted-refund-controller-ups/request-nonce-6.json",
+      "requestSha256": "d48dda50980e6d326cc72790089e899b81e107a2f9ca8ec4385411da9b928657",
+      "report": "verified-5.json",
+      "log": "verified-5.log",
+      "wallSeconds": 2.9867366670000592
+    }
+  ],
+  "scope": "Six preserved synthetic controller end-cap proofs independently verified by fresh frozen-SDK build. Does not prove new financial Executor cache hit settlement or network inclusion.",
+  "broadcast": false
+}

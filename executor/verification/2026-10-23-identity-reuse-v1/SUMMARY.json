@@ -1,0 +1,50 @@
+{
+  "schema": 1,
+  "parentCommit": "2b38b7d02eb1cee9a6f41cd63a56b7912f03fdaf",
+  "frozenSdkManifestSha256": "0afb4c65116cddcaca450b406a06503d65b63d38a004d8e773c6e5fa363bd425",
+  "sourceHashes": {
+    "executor/identityCache.mjs": "a37b718de1ab61d176b9935f1d09e3fd26a604e354d145f08999556cfed46218",
+    "executor/identityCache.test.mjs": "6924feeeaa0a22f02755ade5b40c4b01e0bb9b6446eb34229adfb3159812927c",
+    "executor/compactAdmissionAdapter.mjs": "1c8a0af0251c5145a5e39af21fa4bca5f4b5b5961eb3533a60b5c798417412f3",
+    "executor/compactAdmission.test.mjs": "d8d0ba58ba7f6ef2b2fce3f5927cc96484573b3422bee30cdc3c2821ad1acdb5",
+    "executor/acceptance/compareIdentityInitialization.mjs": "50c137110923fac90662086bf8a83cfaa4b371897a8e972923e85adc6445ead4"
+  },
+  "identityOnly": {
+    "lookupsPerProfile": 4,
+    "uncachedWallMilliseconds": [
+      2033.2882920000002,
+      1109.2321659999998,
+      1108.9117080000005,
+      1120.1757910000006
+    ],
+    "cachedWallMilliseconds": [
+      1105.29025,
+      0.06862499999988358,
+      0.046291999999994005,
+      0.039624999999432475
+    ],
+    "uncachedProcesses": 4,
+    "cachedProcesses": 1,
+    "samePublicFingerprintAndHash": true,
+    "proofsGenerated": 0,
+    "networkWrites": 0,
+    "scope": "Single-host four identity lookups per profile, uncached then cached, OS/cache/order bias uncontrolled. Measures adapter public metadata startup only, not resident circuit/session, proof throughput or network settlement."
+  },
+  "regressions": {
+    "pass": 173,
+    "skip": 2,
+    "fail": 0,
+    "initialFailure": "old env-isolation test assumed every factory must start identity child; updated to allow verified metadata cache hit, still checks all executed children omit benchmark source selector"
+  },
+  "rebuiltVerifier": {
+    "preservedFullProofsVerified": 6,
+    "newLiveSettlementAcceptance": false
+  },
+  "remaining": {
+    "matchedFullProofWarmColdAndConfirmAndClaim": false,
+    "multiHostCoordination": false,
+    "newOrdinaryWalletAcceptance": "fresh isolated actor bootstrap underway; not yet included or funded"
+  },
+  "chainTps": null,
+  "productionReady": false
+}

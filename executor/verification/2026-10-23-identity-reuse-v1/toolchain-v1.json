@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "sdkManifestSha256": "0afb4c65116cddcaca450b406a06503d65b63d38a004d8e773c6e5fa363bd425",
+  "binaries": {
+    "isolated_wallet": {
+      "file": "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-market-recovery-20261023/build-v1/target/release/isolated_wallet",
+      "sha256": "9feb798ba468a8b2606827c33631621d32231295fe62e4fdcc8523e9cb1c0d6b"
+    },
+    "compact_market_wallet": {
+      "file": "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-market-recovery-20261023/build-v1/target/release/compact_market_wallet",
+      "sha256": "343f0b01b45b178127afe4916964bdf9107630c867f8984df05ef4219d922259"
+    },
+    "compile_batch": {
+      "file": "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-market-recovery-20261023/build-v1/target/release/compile_batch",
+      "sha256": "132a165a4a5c1841aa34f83b14e5c86d9d0efc7c4e757991fb87218f9f834d4a"
+    },
+    "verify_saved_ups": {
+      "file": "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-market-recovery-20261023/build-v1/target/release/verify_saved_ups",
+      "sha256": "95344886059c5fe78617a6e1f7b9988cfd4ce8e9805da05086a79f7f5a6599cf"
+    }
+  },
+  "scope": "new independently pinned frozen-SDK rebuild; not old binary identity; new owned QA only"
+}
