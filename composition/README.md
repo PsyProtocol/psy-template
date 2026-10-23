@@ -31,8 +31,9 @@ and a two-AMM planner. Registry commitments include each market, vault, key,
 code/layout/function roots, complete dependency metadata and asset decimals.
 The v1 receiver is the owner; unsupported NFT/delegation scopes fail closed.
 All returned plans explicitly remain **quote-only**, with unauthenticated source
-snapshots. A digest is not a signature. Dedicated controller/SD-key bytecode,
-workflow recovery and new isolated acceptance are still required. See
+snapshots. A digest is not a signature. The separately proved funded controller/key below
+does not automatically authorize these advisory plans; financial adapter,
+workflow recovery and new isolated acceptance remain required. See
 [CAPABILITIES.md](CAPABILITIES.md) for exact atomicity and compensation limits.
 
 `workflow.mjs` tracks the staged request identities, confirmations and recovery
@@ -44,7 +45,7 @@ failed local assertion. This is an observation/control scaffold: receipt facts
 still need a full-proof/historical/index verifier, and it currently has **no
 financial adapter**. Local revision tests do not prove multi-host exclusion or
 on-chain authorization. The initial store is one intent per dedicated case;
-controller/key and actual new-instance acceptance remain uncompleted gates.
+financial adapter and actual new-instance acceptance remain uncompleted gates.
 
 Recovery now recomputes the complete advisory plan from its embedded registry
 and snapshots, checking that registry against the user's committed hash. Matching
@@ -62,8 +63,8 @@ checkpoint progress. Unknown inclusion retains the original pending identity;
 invalid proof stops before network reads. It never proves, sends or substitutes
 a transaction. Historical/index inclusion remains an RPC observation, not an
 authenticated finality proof or runtime attestation. It does not certify actual
-calls against the business route: the dedicated controller/SD-key and financial
-adapter are still required. The live read-only smoke uses a synthetic workflow
+calls against the business route: the separate funded controller/key must be
+connected through the financial adapter before delegated execution. The live read-only smoke uses a synthetic workflow
 around an existing QA ordinary request, **not composition economic acceptance**.
 
 ## Funded controller / dedicated key candidate

@@ -163,3 +163,28 @@ async fn two_pool_controller_workflow_full_ups()->Result<()> {
  fs::write(format!("{out}/REPORT.json"),serde_json::to_vec_pretty(&json!({"scope":"eight linked controller UPSs on explicit synthetic authenticated checkpoints; two base markets execute actual activation, LP, admission, commit, exact-price settlement and transfers in VM only; ordinary owner request/funding/final claims VM only; no market UPS, chain inclusion, cross-vault atomicity or production claim", "fullControllerUpsVerified":true,"controllerUpsCount":8,"route":"A -> B -> A on two distinct pools","input":input.to_string(),"intermediate":mid.to_string(),"finalOutput":final_out.to_string(),"controllerPublicKeyHash":pk.to_string(),"measurements":chain.measurements,"recipientClaimBytecodeVerified":true,"intermediateRequiresClaim":true,"terminalReplayRejected":true,"allControllerBalancesZero":true,"atomicAcrossVaults":false,"broadcast":false,"chainTps":null,"productionReady":false}))?)?;
  Ok(())
 }
+
+#[tokio::test]
+#[ignore="explicit current compiled fixture and fresh output; six full controller UPSs"]
+async fn cancelled_inflight_hop_refund_full_ups()->Result<()> {
+ use super::world::{R,pair,U};use super::market_vm;
+ let out=std::env::var("COMPOSITION_UPS_OUT")?;fs::create_dir(&out)?;
+ let mut w=World::new()?;w.load_markets()?;let input=R+17;let p=pair(input);
+ let opening=vec![(3,p[0]),(4,p[1]),(5,1),(7,500),(8,1)];
+ let templates=[w.fields("fund",&[],ESCROW)?,w.fields("open-1",&opening,ESCROW)?,w.fields("consent-1",&[(9,2),(10,200)],ESCROW)?,w.fields("cancel-1",&[],ESCROW)?,w.fields("refund-1",&[(3,p[0]),(4,p[1])],ESCROW)?,w.fields("return-input",&[(3,p[0]),(4,p[1]),(11,1)],ESCROW)?];
+ let mut needed=vec![];for f in &templates{needed.extend(batch_policy::expected_calls(&w.policy,f)?);}
+ let mut chain=Chain::new(&w,&needed)?;let param=get_sd_key_public_key_param(&QHashOut(HashOut{elements:[GF::ONE;4]}));let pk=ZKPublicKeyInfo{public_key_param:param,fingerprint:chain.key.get_fingerprint()}.qfhash::<PoseidonHash>();w.key=pk.0.elements.map(|x|x.to_canonical_u64());
+ w.request(input,1,1)?;w.seed_funding(input)?;market_vm::pools(&mut w)?;
+ for (name,values) in [("fund",vec![]),("open-1",opening)]{let f=exact_fee(&w,w.fields(name,&values,ESCROW)?,false)?;chain.prove(&mut w,f).await?;}
+ let(m,vault)=market_vm::MARKETS[0];let(epoch,cutoff)=market_vm::start(&mut w,m,vault)?;
+ let f=exact_fee(&w,w.fields("consent-1",&[(9,epoch),(10,cutoff)],ESCROW)?,false)?;chain.prove(&mut w,f).await?;
+ market_vm::admit_seal(&mut w,m,vault,V,1,epoch,cutoff)?;w.run(U,super::world::C,"request_cancel",&[1])?;
+ let before=w.slots.clone();let early=w.fields("return-input",&[(3,p[0]),(4,p[1]),(11,1)],ESCROW)?;ensure!(w.execute(&early).is_err()&&w.slots==before,"accepted principal unlocked before refund");
+ let f=exact_fee(&w,w.fields("cancel-1",&[],ESCROW)?,false)?;chain.prove(&mut w,f).await?;
+ market_vm::refund(&mut w,1,input)?;ensure!(w.wide(V,A,0)==0,"refund outbox prematurely spendable");
+ let f=exact_fee(&w,w.fields("refund-1",&[(3,p[0]),(4,p[1])],ESCROW)?,false)?;chain.prove(&mut w,f).await?;
+ ensure!(w.at(V,"phase")==7&&w.wide(V,A,0)==input,"actual principal not recovered");
+ let f=exact_fee(&w,w.fields("return-input",&[(3,p[0]),(4,p[1]),(11,1)],ESCROW)?,true)?;chain.prove(&mut w,f).await?;
+ w.run(U,A,"claim",&[V])?;w.run(U,0,"simple_claim",&[V])?;ensure!(w.wide(U,A,0)==input&&w.wide(V,A,0)==0&&w.wide(V,B,0)==0&&w.get(V,0,0)==0,"refund recipient / residual");
+ fs::write(format!("{out}/REPORT.json"),serde_json::to_vec_pretty(&json!({"scope":"six linked full controller UPSs, synthetic authenticated checkpoints; base-market accepted cancellation/refund and ordinary owner actions VM-only; not network acceptance", "fullControllerUpsVerified":true,"controllerUpsCount":6,"acceptedPrincipalLockedUntilRefund":true,"escrowClaimVerified":true,"recipientRecoveredInput":true,"input":input.to_string(),"allControllerBalancesZero":true,"measurements":chain.measurements,"broadcast":false,"atomicAcrossVaults":false,"productionReady":false}))?)?;Ok(())
+}
