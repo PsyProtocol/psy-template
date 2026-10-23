@@ -224,7 +224,7 @@ limitations; no broad speedup or production claim follows from this cache.
 
 ## Closed live acceptance reports
 
-After both isolated route runners and the fixed-checkpoint cohort audit have
+After all selected isolated route runners and the fixed-checkpoint cohort audit have
 completed, run these read-only checks with **fresh output paths**:
 
 ```sh
@@ -245,3 +245,13 @@ the exact cohort audit and all actual proof verifications. Missing timings stay
 unknown; overlapping phase walls are not summed as elapsed time, and repeated
 resident startup descriptors are counted only on the first job in a process.
 These reports do not submit transactions or assert production readiness.
+
+For the explicit expired-intake continuation with three outcomes, use
+`completeRecoveryAcceptance.mjs` only after reviewing the original failure and
+starting its sender-bound refund helper. It never replays the success route or
+old failed admission. The new partial-recovery deployment must already exist;
+each child has a fresh immutable invocation log and a failure stops progression.
+For its three ordinary claims add `all` as the final argument to
+`ownerClaimAudit.mjs`. A zero-fill timeout refund is not counted as a market fill
+or as intermediate-asset recovery. Missing combined/verification reports remain
+unfinished gates even if one individual route succeeded.

@@ -228,7 +228,8 @@ export function compositionPerformance(base, proofSummary, resourceSummary) {
     routes.push({scenario, identities, completion:done, envelope, proofs, ordinary, sponsors, baseStages, marketSettlements,
       initialResourceTransition:warmTransition, processRestart,
       publicReads:summarizePublicReads(publicReads),
-      adapterStartups,
+      adapterStartups:adapterStartups.filter(row=>Date.parse(row.startedAt)<=Date.parse(claim.includedObservedAt)),
+      postClaimVerificationAdapterStartups:adapterStartups.filter(row=>Date.parse(row.startedAt)>Date.parse(claim.includedObservedAt)),
       residentJobs:all.filter(p => /\/RESIDENT-(quote|prove)-[^/]+\.json$/.test(p)).map(observation),
       phases:summarizePhases(phases),
       failedAttempts:all.filter(p => p.endsWith('/failure.json')).map(p => relative(base, p))});
@@ -240,6 +241,14 @@ export function compositionPerformance(base, proofSummary, resourceSummary) {
     actualMarketFills:Object.fromEntries(routes.map(r => [r.scenario, r.marketSettlements.length])),
     cohortFeesSinceConstituentBaseline:audit.newBurn,
     feeScope:'all audited cohort receipts since constituent baseline, including bootstrap/LP/sponsorship; not solely composition fees',
+    basePreparationFailures:files(join(base,'runtime','compact')).filter(p=>p.endsWith('/failure.json')).map(p=>{
+      const failure=exact(p), root=resolve(p,'../..'), calls=join(root,'calls.json');
+      return {file:relative(base,p), failure,
+        callsFile:existsSync(calls)?relative(base,calls):null,
+        callsSha256:existsSync(calls)?sha256(readFileSync(calls)):null,
+        originalRequestPresent:existsSync(join(resolve(p,'..'),'request.json')),
+        scope:'observed base-adapter failures for this entire QA case, including bootstrap if present; not automatically assigned to a composition route or counted as confirmed fills'};
+    }),
     sampledResources:resourceSummary ? observation(resourceSummary) : null,
     limits:{coldBinaryBuild:null, chainTps:null, matchedLiveBeforeAfterSpeedup:null,
       exactServerFinalityLatency:null, productionReady:false,

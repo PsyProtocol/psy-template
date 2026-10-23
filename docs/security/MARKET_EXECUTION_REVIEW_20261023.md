@@ -868,3 +868,48 @@ from one-fill middle-asset compensation and two-fill success. A resumed worker
 followed by domain expiry is recorded as such, never a successful original
 supervisor run. All three ordinary owner claims and final exact cohort/full-UPS
 verification remain mandatory before the combined completion report is emitted.
+
+### Real zero-fill timeout recovery completed
+
+The original recovery instance now has a complete, ordinarily claimed exit:
+
+- Empty epoch abort: 371738; owner cancellation controller transition: 371787.
+- Recovery authorization: 371829; base sender-bound return: 371843.
+- Controller claims original QA-A/native escrow: 371871; return to owner: 371887.
+- Ordinary owner claim: **371903**, exact indexed content hash
+  `ff0f5c8ed8a941731e1f5636e5d9914b1fc57168f851778c91019043314541d2`.
+
+The user received **1 QA-A**, the separate **one-atom QA-B** initialization refund,
+and **13.001943000 test PSY**. The controller's original 20.002000000 budget equals
+7.000057000 actual controller receipt burn plus that refund, with zero net market
+escrow after cancellation. Ordinary claim burn is separately 1.000006000; other
+ordinary and base/sponsor costs are in the cohort audit. Controller phase is 99
+and all its spendable QA/native balances are zero. No market fill is counted.
+
+At fixed checkpoint **371905**, the nine-account cohort, including every directed
+internal pending Outbox, has exactly 1,000 QA-A and 1,000 QA-B. Native balance change
+matches **76.000612000 test PSY** across 76 new deduplicated receipts since the
+constituent baseline. That cohort amount includes bootstrap/LP/sponsorship and
+is not the composition intent fee cap. All-receipt independent cryptographic
+reverification and the one-fill middle-asset recovery remain open.
+
+New controller 2492 / account 1756352 now has frozen plan
+`b8b8c1003b8f7df640bcc7eb79dfaba462e643b45a1e68f522d73a466e24d19a`.
+Its real financial Executor has started after the original ordinary claim and
+cohort audit. Original funded timeout evidence is retained unchanged.
+
+The refund helper's continuation now recognizes persisted base refund tasks and
+uses the original final-Outbox report after the owner's claim. It no longer
+requires an already completed refund to reappear as a new scanner action, and
+never replaces the original completion marker. An actual second helper process
+was run after terminal ordinary claim: all original financial request, intent,
+receipt, journal financial-identity files and the completion report have identical
+before/after hashes; no new financial request appears. The report is
+`TIMEOUT-TERMINAL-REENTRY-v1.json`. This closes terminal duplicate-entry coverage,
+not interruption at an unknown broadcast. Post-claim source-verification adapter
+startups are reported separately from the route's operational resource lifetime.
+
+Closed zero-fill recovery/ordinary claim/reentry evidence is archived at
+`executor/verification/2026-10-24-composition-timeout-claimed-v1` (2,218 files,
+23,605,491 compressed bytes; every original hash compared). Integrity comparison
+is not the separately pending independent full-cohort UPS verification.
