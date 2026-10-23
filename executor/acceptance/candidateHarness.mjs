@@ -9,6 +9,7 @@ import{ordinaryEvidenceDirectory}from'./ordinaryEvidence.mjs';
 import{selectedCliTask}from'./cliExecution.mjs';
 import{saveObservation}from'../observations.mjs';
 import{assetCohort}from'./cohortScope.mjs';
+import{optionalCalibration}from'./optionalCalibration.mjs';
 import{parseLosslessJson}from'../../amm/u124/client.mjs';
 export const pause=ms=>new Promise(r=>setTimeout(r,ms));
 export function cohort(base,original){
@@ -56,8 +57,11 @@ export async function formal(h,m,tag,plan,{benchmark=false,expiry=96,mode='resid
   const source=dirname(p.preparedDirectory),out=join(h.base,'attempts',tag+'-'+m.kind+'-'+task.kind+'-cold-comparison');
   // Calibration is read-only measurement. A failed cold run is preserved and
   // reported as missing; it never blocks or replaces the warm submission.
-  if(existsSync(join(out,'failure.json'))){const marker=out+'-unavailable.json';if(!existsSync(marker))save(marker,{checkedAt:new Date().toISOString(),market:m.kind,task:task.kind,failure:read(join(out,'failure.json')),warmDirectory:p.preparedDirectory,comparisonAvailable:false});return prepareSubmission(task,p);}
-  const t=await run(h.binary,['preflight',o.policy,h.config,join(source,'calls.json'),join(source,'guard.json'),out],join(h.base,tag+'-'+m.kind+'-'+task.kind+'-cold-comparison.log'),{...h.env,PSY_MARKET_BENCH_SOURCE_CHECKPOINT:warm.core.checkpoint_id.toString()});
+  const failurePath=join(out,'failure.json'),t=await optionalCalibration({existingFailure:existsSync(failurePath)?read(failurePath):null,
+   run:()=>run(h.binary,['preflight',o.policy,h.config,join(source,'calls.json'),join(source,'guard.json'),out],join(h.base,tag+'-'+m.kind+'-'+task.kind+'-cold-comparison.log'),{...h.env,PSY_MARKET_BENCH_SOURCE_CHECKPOINT:warm.core.checkpoint_id.toString()}),
+   readFailure:async()=>existsSync(failurePath)?read(failurePath):null,
+   onUnavailable:async failure=>{const marker=out+'-unavailable.json';if(!existsSync(marker))save(marker,{checkedAt:new Date().toISOString(),market:m.kind,task:task.kind,failure,warmDirectory:p.preparedDirectory,comparisonAvailable:false});}});
+  if(t===null)return prepareSubmission(task,p);
   const cold=parseLosslessJson(readFileSync(join(out,'preflight.json'),'utf8'));assert.equal(warm.benchmarkSourceCheckpoint,null);assert.equal(cold.benchmarkSourceCheckpoint,warm.core.checkpoint_id);assert.equal(cold.core.checkpoint_id,warm.core.checkpoint_id);
   for(const x of [warm,cold]){assert.equal(x.fullUpsVerified,true);assert.equal(x.exactStackAndSessionVerified,true);}assert.equal(warm.core.state_transition.start_user_leaf_hash,cold.core.state_transition.start_user_leaf_hash);assert.equal(warm.core.new_user_leaf.user_state_tree_root,cold.core.new_user_leaf.user_state_tree_root);assert.deepEqual(warm.core.new_user_leaf,cold.core.new_user_leaf);assert.equal(warm.core.state_transition.end_user_leaf_hash,cold.core.state_transition.end_user_leaf_hash);assert.equal(warm.core.new_user_leaf.nonce,cold.core.new_user_leaf.nonce);assert.equal(warm.fee,cold.fee);assert.equal(warm.actualCalls,cold.actualCalls);assert.equal(warm.callsSha256,cold.callsSha256);
   saveObservation(out+'/comparison.json',{scope:'single same-host sequential warm then cold full UPS pair; same request, authenticated source checkpoint, own anchor, nonce, fee and end state; cold source-calibration proof is read-only and never submitted',order:['warm','cold'],host:hostname(),platform:platform(),arch:arch(),logicalCpus:cpus().length,loadAverageAfterPair:loadavg(),rayonThreads:2,binarySha256:o.walletSha256,market:m.kind,task:task.kind,warmDirectory:p.preparedDirectory,coldDirectory:out,coldProcessTiming:t,warmTimingsMs:warm.timingsMilliseconds,coldTimingsMs:cold.timingsMilliseconds,calls:warm.actualCalls,fee:warm.fee,startLeaf:warm.core.state_transition.start_user_leaf_hash,endStateRoot:warm.core.new_user_leaf.user_state_tree_root,warmCheckpoint:warm.core.checkpoint_id,coldCheckpoint:cold.core.checkpoint_id,chainTps:null,preparedManifestSha256:p.manifestSha256});return prepareSubmission(task,p);
