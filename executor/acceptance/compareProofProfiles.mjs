@@ -4,6 +4,9 @@ import {mkdirSync,readFileSync,existsSync} from 'node:fs';import {join} from 'no
 import {createHash} from 'node:crypto';import {hostname,cpus,loadavg} from 'node:os';
 import {read,run} from '../../batching/admission/liveSupport.mjs';
 import {saveObservation} from '../observations.mjs';import {closedParent} from './parentRecoveryGate.mjs';
+import {darwinResourceUsage} from './resourceUsage.mjs';
+const measureResources=process.env.PSY_PROFILE_RESOURCE_TIME==='1';
+if(measureResources)assert.equal(process.platform,'darwin','resource units require Darwin /usr/bin/time -l');
 const [parent,binary,expectedBinarySha,legacy,compact,out]=process.argv.slice(2);
 const sha=p=>createHash('sha256').update(readFileSync(p)).digest('hex');assert.equal(sha(binary),expectedBinarySha);assert.ok(!existsSync(out),'fresh benchmark directory required');mkdirSync(out);
 const markets=['amm','orderbook','bondingcurve','nftmarket'];
@@ -18,11 +21,12 @@ for(const profile of profiles){
  const started=performance.now(),startedAt=new Date().toISOString(),loadBefore=loadavg();
  for(let i=0;i<markets.length;i+=2){const jobs=markets.slice(i,i+2).map(async market=>{
   const dir=join(out,market+'-'+profile),env={PSY_NETWORK:'localhost',RAYON_NUM_THREADS:'2',BATCH_BUILD:profile==='fixed40'?legacy:compact,BATCH_ADMISSION_TEST:'1',BATCH_PROOF_PROFILE:profile,BATCH_FULL_UPS_MARKETS:market,BATCH_FULL_UPS_SIZE:['amm','bondingcurve'].includes(market)?'4':'2',BATCH_UPS_SPREAD_IDS:'1',BATCH_FULL_UPS_OUT:dir};
-  const timing=await run(binary,['full_ups::full_ups_four_market_commit_and_settle_proofs','--exact','--test-threads=1','--nocapture'],dir+'.log',env),r=read(join(dir,market+'.json'));
+  const args=['full_ups::full_ups_four_market_commit_and_settle_proofs','--exact','--test-threads=1','--nocapture'];
+  const timing=await run(measureResources?'/usr/bin/time':binary,measureResources?['-l',binary,...args]:args,dir+'.log',env),r=read(join(dir,market+'.json'));
   assert.equal(r.market,market);assert.equal(r.members,4);assert.equal(r.broadcast,false);assert.equal(r.fills,['amm','bondingcurve'].includes(market)?4:2);
   const proofs=r.measurements.filter(x=>x.fullUpsVerified);assert.deepEqual(proofs.map(x=>x.phase),['commit','settle']);
   for(const p of proofs){assert.equal(p.publicEndpointsBound,true);assert.equal(p.exportedDeltasVerified,true);assert.equal(p.profile,profile);assert.ok(p.burn<=1000100000);if(profile==='fixed40')assert.equal(p.calls,40);else assert.ok(p.calls<40);}
-  const result={market,profile,timing,report:join(dir,market+'.json'),reportSha256:sha(join(dir,market+'.json')),proofs};saveObservation(join(dir,'OBSERVATION.json'),result);return result;
+  const result={market,profile,timing,resources:measureResources?darwinResourceUsage(readFileSync(dir+'.log','utf8')):null,report:join(dir,market+'.json'),reportSha256:sha(join(dir,market+'.json')),proofs};saveObservation(join(dir,'OBSERVATION.json'),result);return result;
  });const settled=await Promise.allSettled(jobs);for(const r of settled)if(r.status==='fulfilled')results.push(r.value);const failure=settled.find(r=>r.status==='rejected');if(failure)throw failure.reason;}
  saveObservation(join(out,profile+'-GROUP.json'),{startedAt,finishedAt:new Date().toISOString(),processGroupWallMilliseconds:Math.round(performance.now()-started),loadBefore,loadAfter:loadavg(),markets:4,fills:12,scope:'two concurrent proof processes each with two Rayon threads; includes per-process cold circuit construction; synthetic offline proving group only, not on-chain TPS'});
 }

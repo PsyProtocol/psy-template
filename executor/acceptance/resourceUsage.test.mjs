@@ -1,0 +1,2 @@
+import test from 'node:test';import assert from 'node:assert/strict';import{darwinResourceUsage}from'./resourceUsage.mjs';
+test('Darwin process RSS units and timed wall stay explicit',()=>{const log=' 12.50 real 20.10 user 0.20 sys\n 123456 maximum resident set size\n';assert.equal(darwinResourceUsage(log).peakResidentBytes,123456);assert.equal(darwinResourceUsage(log).realSeconds,12.5);assert.throws(()=>darwinResourceUsage(log+log),/ambiguous/);assert.throws(()=>darwinResourceUsage('12 real 1 user 1 sys\n'),/missing/);});
