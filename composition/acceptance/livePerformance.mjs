@@ -2,7 +2,7 @@
 // audited and independently verified requests, never from timing metadata.
 import assert from 'node:assert/strict';
 import {readFileSync, readdirSync, existsSync} from 'node:fs';
-import {join, resolve, relative, isAbsolute} from 'node:path';
+import {join, resolve, relative, isAbsolute, basename} from 'node:path';
 import {pathToFileURL} from 'node:url';
 import {parseLosslessJson} from '../../amm/u124/client.mjs';
 import {sha256} from '../../executor/requestBinding.mjs';
@@ -32,6 +32,26 @@ export function matchVerifiedReceipt(item, verified) {
   assert.equal(item.contentHash, verified.contentHash);
   assert.equal(item.userId, verified.userId);
   assert.equal(item.fee, verified.fee);
+}
+export function ordinaryFundingInputs(calls) {
+  const nativeTransfers=[],nativeClaimSenders=[],sponsorships=[];
+  const exactAmount=x=>{assert.ok(typeof x==='bigint'&&x>=0n,'exact nonnegative funding amount');return x;};
+  const user=x=>{assert.ok(typeof x==='bigint'&&x>0n&&x<2n**24n,'exact user identity');return x;};
+  for(const c of calls){
+    if(c.contract_id===0n){
+      if(c.method_name==='simple_transfer'){
+        assert.equal(c.inputs.length,2);nativeTransfers.push({to:user(c.inputs[0]),amount:exactAmount(c.inputs[1])});
+      }else if(c.method_name==='simple_claim'){
+        assert.equal(c.inputs.length,1);nativeClaimSenders.push(user(c.inputs[0]));
+      }else assert.fail('unrecognized native input cannot silently disappear from cost report');
+    }else if(c.method_name==='authorize_sponsor'){
+      assert.equal(c.inputs.length,4);
+      sponsorships.push({market:c.contract_id,vault:user(c.inputs[0]),amount:exactAmount(c.inputs[1]),
+        nonce:exactAmount(c.inputs[2]),purpose:exactAmount(c.inputs[3])});
+    }
+  }
+  return {nativeTransfers,nativeClaimSenders,sponsorships,
+    scope:'explicit native transfers are funding, not receipt fee burn; authorize_sponsor is an authorization paired with its transfer, never add the two as separate payments; actual claims are verified separately'};
 }
 export function observedWarmTransition(fund, open, intentId) {
   for(const [row,operation] of [[fund,'fund'],[open,'open-1']]) {
@@ -119,7 +139,11 @@ export function compositionPerformance(base, proofSummary, resourceSummary) {
     const row = exact(p), timingPath = join(resolve(p, '..'), 'timing.json');
     const timing = existsSync(timingPath) ? exact(timingPath) : null;
     assert.ok(proofByHash.has(row.contentHash));
+    const inputPath=join(resolve(p,'../../..'),'public',basename(resolve(p,'..'))+'.json');
+    assert.equal(sha256(readFileSync(inputPath)),row.preflight.inputSha256,'exact ordinary funding input');
+    const funding=ordinaryFundingInputs(exact(inputPath).calls.contract_calls);
     return {file:relative(base, p), timing, checkpoint:row.checkpoint,
+      inputFile:relative(base,inputPath),inputSha256:row.preflight.inputSha256,funding,
       includedObservedAt:row.checkedAt, contentHash:row.contentHash,
       fee:row.receipt.data.result.fees_collected,
       acknowledgementToIncludedCommonObservationMilliseconds:observedConfirmation(timing, row),
@@ -199,6 +223,13 @@ export function compositionPerformance(base, proofSummary, resourceSummary) {
       assert.equal(row.scope.fingerprint, identities.fingerprint);
       assert.equal(row.scope.walletSha256, identities.walletSha256);
     }
+    const splitAtClaim=(rows,field)=>{
+      const before=[],after=[],cutoff=Date.parse(claim.includedObservedAt);
+      for(const row of rows){const time=Date.parse(row[field]);assert.ok(Number.isFinite(time),'invalid performance observation time');
+        (time<=cutoff?before:after).push(row);}
+      return {before,after};
+    };
+    const phaseWindows=splitAtClaim(phases,'startedAt'),readWindows=splitAtClaim(publicReads,'queuedAt');
     const marketSettlements = [];
     for (let hop = 1; hop <= Number(done.marketFills ?? (scenario === 'success' ? 2 : 1)); hop++) {
       const tag = 'composition-'+scenario+'-hop-'+hop;
@@ -243,11 +274,13 @@ export function compositionPerformance(base, proofSummary, resourceSummary) {
     }
     routes.push({scenario, identities, completion:done, envelope, proofs, ordinary, sponsors, baseStages, marketSettlements,
       initialResourceTransition:warmTransition, processRestart,
-      publicReads:summarizePublicReads(publicReads),
+      publicReads:summarizePublicReads(readWindows.before),
+      postClaimVerificationPublicReads:summarizePublicReads(readWindows.after),
       adapterStartups:adapterStartups.filter(row=>Date.parse(row.startedAt)<=Date.parse(claim.includedObservedAt)),
       postClaimVerificationAdapterStartups:adapterStartups.filter(row=>Date.parse(row.startedAt)>Date.parse(claim.includedObservedAt)),
       residentJobs:all.filter(p => /\/RESIDENT-(quote|prove)-[^/]+\.json$/.test(p)).map(observation),
-      phases:summarizePhases(phases),
+      phases:summarizePhases(phaseWindows.before),
+      postClaimVerificationPhases:summarizePhases(phaseWindows.after),
       failedAttempts:all.filter(p => p.endsWith('/failure.json')).map(p => relative(base, p))});
   }
   return {schema:1, generatedAt:new Date().toISOString(),

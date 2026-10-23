@@ -938,3 +938,30 @@ Evidence is `executor/verification/2026-10-24-composition-cross-realm-warm-v1`
 intake plan is chosen before opening: **epoch 5, cutoff 372100**, one member
 1756352 / nonce 1, deterministic mode. Admission, sealing, actual trade, second-hop
 cancellation, ordinary final claim and independent final audit are still pending.
+
+### Partial-recovery first trade is real and included
+
+The same fixed epoch 5 / cutoff 372100 / one-member set proceeds through actual
+consent **372041**, admission **372059**, seal **372107**, commit **372135** and
+settlement **372150**. The original pre-broadcast expiry is not retried or hidden.
+This new accepted member proves before the new, preselected cutoff with all
+original bounds. Deterministic mode and existing capacity remain unchanged.
+
+The first swap consumes nonce 1 exactly once and trades **1 QA-A** for
+**0.633097631070860774 QA-B**. A fixed public snapshot matches the original quote,
+reserve A plus exact input and reserve B minus exact output. At that snapshot the
+QA-B is still the first vault's Outbox. The execution account must confirm its
+own claim before spending it on the second market. No cross-vault atomicity is
+claimed. The later one-fill compensation and ordinary final claim remain open.
+
+`executor/verification/2026-10-24-composition-partial-first-fill-v1` contains 188
+files / 4,886,239 compressed bytes, all originals compared. Five base-stage and
+controller-consent original requests/receipts/preflights and funding evidence
+are present; final independent whole-cohort proof verification is a separate gate.
+
+Cost reporting now checks each ordinary input's exact preflight SHA and records
+native transfers, sponsor authorizations and claim senders separately from actual
+receipt burn. Paired authorization + transfer is one funding payment. Nineteen
+then-included ordinary inputs pass; large exact amounts and unknown native-call
+rejection have focused regressions. Post-claim verification reads/phases are
+separated from the operational window. No network TPS or matched speedup claim.

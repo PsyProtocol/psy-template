@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {observedConfirmation, matchVerifiedReceipt, summarizePublicReads, observedWarmTransition} from './livePerformance.mjs';
+import {observedConfirmation, matchVerifiedReceipt, summarizePublicReads, observedWarmTransition, ordinaryFundingInputs} from './livePerformance.mjs';
 
 test('missing acknowledgement is unknown, not zero; reversed or invalid observation time rejects', () => {
   const included = {checkedAt:'2026-10-24T01:01:00Z'};
@@ -43,4 +43,15 @@ test('warm resource observation must join exact included intent, operation and o
    assert.equal(observedWarmTransition(fund,{...open,...patch},'i').warmTransitionVerified,false);
  assert.throws(()=>observedWarmTransition(fund,open,'another-intent'));
  assert.throws(()=>observedWarmTransition(fund,{...open,result:{status:'unresolved'}},'i'));
+});
+
+test('ordinary cost report separates large exact funding, gas authorization, claim and actual burn',()=>{
+ const amount=(1n<<62n)+17n;
+ const calls=[{contract_id:0n,method_name:'simple_transfer',inputs:[1756352n,amount]},
+  {contract_id:2485n,method_name:'authorize_sponsor',inputs:[1012928n,1000100000n,14n,2n]},
+  {contract_id:0n,method_name:'simple_claim',inputs:[134336n]}];
+ const r=ordinaryFundingInputs(calls);assert.equal(r.nativeTransfers[0].amount,amount);
+ assert.equal(r.sponsorships[0].amount,1000100000n);assert.deepEqual(r.nativeClaimSenders,[134336n]);
+ assert.throws(()=>ordinaryFundingInputs([{...calls[0],inputs:[1756352n,Number(amount)]}]));
+ assert.throws(()=>ordinaryFundingInputs([{contract_id:0n,method_name:'unrecognized',inputs:[]}]));
 });
