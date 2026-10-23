@@ -663,3 +663,31 @@ identities. The two prerequisite waiters were restarted only before route
 financial work and their restart records preserve the old logs. Static comparison
 archive integrity matches all 55 originals:
 `executor/verification/2026-10-24-composition-static-validation-v1`.
+
+### First real initialized controller funding
+
+The owner's exact v2 funding UPS is included at checkpoint 371108; dedicated
+controller 2491 / execution account 1445056 fund UPS is included at 371125.
+Actual QA-B state is nonzero-root with spendable balance zero and exactly one
+atomic unit refunded to the original owner. Parent acknowledgment was deliberately
+lost after successful child broadcast; exact receipt reconciliation completed
+without replacement/resend. A real second local OS process rejected VaultBusy
+before proof or send. These are explicitly injected parent-fault and same-host
+shared-journal tests, not physical outage or multi-host coordination.
+
+A newly created adapter reconciled the original funding, retained exactly the
+same broadcast identities and found no unresolved operation. Source/layout/key
+and current public dependency checks remained enabled on restart. First-hop
+opening is now proceeding; no final route or owner claim conclusion yet.
+`executor/verification/2026-10-24-composition-live-funding-v1` preserves this
+closed milestone plus actual LP/empty-epoch recovery and ordinary initialization
+records (1,711 files; 15,471,638 compressed bytes, original hashes checked).
+
+A read-only closed-case performance reporter now requires both final ordinary
+claims, zero controller residual balances, the exact cohort audit and complete
+independent actual-proof verification before producing a report. Receipt hash,
+fee and payer must agree. Missing timing stays null; reversed timestamps reject.
+It distinguishes startup, resident quote/full proof, overlapping adapter phases,
+ordinary wallet process wall, receipt/common observation and optional sampled
+memory. No matched live control or server-finality latency is invented. Focused
+regressions total 88. This reporter does not submit or authorize transactions.
