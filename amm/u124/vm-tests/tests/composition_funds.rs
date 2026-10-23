@@ -48,9 +48,19 @@ fn inflight_principal_stays_locked_and_cancel_cannot_be_repeated_for_fees()->Res
 #[test]
 fn owner_request_and_funding_binding_reject_wrong_asset_atomically()->Result<()> {
  let mut w=World::new()?;let amount=R+17;w.set(U,0,0,100*F);
- for asset in[A,B]{w.run(5,asset,"set_metadata",&[123,18])?;w.run(5,asset,"mint",&pair(1u128<<120))?;let mut args=vec![U];args.extend(pair(amount));w.run(5,asset,"transfer",&args)?;w.run(U,asset,"claim",&[5])?;}
+ for asset in[A,B]{if w.get(5,asset,3)==0{w.run(5,asset,"set_metadata",&[123,18])?;w.run(5,asset,"mint",&pair(1u128<<120))?;}let mut args=vec![U];args.extend(pair(amount));w.run(5,asset,"transfer",&args)?;w.run(U,asset,"claim",&[5])?;}
  let before=w.slots.clone();let mut transfer=vec![V];transfer.extend(pair(amount));let request=w.request_args(amount,7,5);
  let wrong=vec![(C,"request_route",request.clone()),(0,"simple_transfer",vec![V,20*F]),(B,"transfer",transfer.clone()),(C,"bind_funding",vec![1])];
  assert!(w.atomic_calls(U,&wrong).is_err());assert_eq!(w.slots,before);assert_eq!(w.at(U,"request_nonce"),0);assert_eq!(w.wide(U,B,33554453+4*V),0);
  let right=vec![(C,"request_route",request),(0,"simple_transfer",vec![V,20*F]),(A,"transfer",transfer),(C,"bind_funding",vec![1])];w.atomic_calls(U,&right)?;assert_eq!(w.at(U,"request_funded"),1);assert_eq!(w.wide(U,A,33554453+4*V),amount);Ok(())
+}
+#[test]
+fn canonical_metadata_and_renounced_administration_are_required_before_custody()->Result<()> {
+ if std::env::var_os("COMPOSITION_METADATA_GUARD").is_none(){return Ok(());}
+ for (asset,slot,value)in[(A,33554445,9),(B,33554445,9),(A,3,0),(B,3,0)]{
+  let mut w=World::new()?;w.set(5,asset,slot,value);let before=w.slots.clone();assert!(w.request(R+17,7,5).is_err());assert_eq!(w.slots,before);
+ }
+ let mut w=World::new()?;w.request(R+17,7,5)?;w.seed_funding(R+17)?;
+ for(asset,slot,value)in[(A,33554445,9),(B,3,0)]{let mut bad=w.clone();bad.set(5,asset,slot,value);let before=bad.slots.clone();assert!(bad.execute(&bad.fields("fund",&[],F)?).is_err());assert_eq!(bad.slots,before);}
+ Ok(())
 }

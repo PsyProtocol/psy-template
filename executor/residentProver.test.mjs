@@ -18,3 +18,4 @@ test('close waits for actual process exit, escalates a stuck child, and never re
   await assert.rejects(()=>p.prove(args('two')),/closed/);
  }
 });
+test('non-authorizing quote and full preflight share one child; actions remain distinct',async()=>{const actions=[];const x=fixture((c,j)=>{actions.push(j.action??'preflight');queueMicrotask(()=>c.stdout.write('PSY_COMPACT_SERVER '+JSON.stringify({id:j.id,ok:true})+'\n'));});try{await x.prover.quote(['quote',...args('quote-out').slice(1)]);await x.prover.prove(args('proof-out'));assert.deepEqual(actions,['quote','preflight']);assert.equal(x.builds,1);await assert.rejects(()=>x.prover.quote(args('bad')),/only pinned/);await assert.rejects(()=>x.prover.prove(['quote',...args('bad').slice(1)]),/only pinned/);}finally{await x.prover.close();}});

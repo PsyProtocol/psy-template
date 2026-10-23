@@ -3,11 +3,13 @@
 import assert from 'node:assert/strict';
 import {IntegerDsl} from '../../amm/u124/math.mjs';
 const F=1000100000n;
-export function generateFunds({networkMagic,registryHash,assetA,assetB}){
+export function generateFunds({networkMagic,registryHash,assetA,assetB,assetMetadata,intentOwner}){
  assert.ok(typeof networkMagic==='bigint'&&networkMagic>0n&&networkMagic<18446744069414584321n);
  assert.match(registryHash,/^[0-9a-f]{64}$/);
  for(const id of [assetA,assetB])assert.ok(Number.isSafeInteger(id)&&id>=5&&id<16777216);
  assert.notEqual(assetA,assetB);
+ assert.ok(Number.isSafeInteger(intentOwner)&&intentOwner>0&&intentOwner<16777216,'dedicated intent owner is required');
+ assert.ok(Array.isArray(assetMetadata)&&assetMetadata.length===2,'canonical immutable asset metadata is required');for(const [i,m]of assetMetadata.entries()){assert.deepEqual(Object.keys(m).sort(),['contractId','issuerUserId','decimals'].sort());assert.equal(m.contractId,[assetA,assetB][i]);assert.ok(Number.isSafeInteger(m.issuerUserId)&&m.issuerUserId>0&&m.issuerUserId<16777216);assert.ok(Number.isInteger(m.decimals)&&m.decimals>=0&&m.decimals<=18);}
  const roots=Array.from({length:8},(_,i)=>BigInt('0x'+registryHash.slice(i*8,i*8+8))),methods=[];
  const method=(name,params,body)=>{const d=new IntegerDsl();body(d);methods.push(`#[contract_method]\npub fn ${name}(&mut self, ctx: &mut ChainContext${params?', '+params:''}) {\n${d.text()}\n}`);};
  const read=(d,expr)=>{const n=d.name('read');d.emit(`let ${n} = ${expr};`);return n;};
@@ -17,15 +19,19 @@ export function generateFunds({networkMagic,registryHash,assetA,assetB}){
  const pairValue=(d,a)=>a.startsWith('self.')?read(d,a):a;
  const same=(d,a,b,msg)=>d.emit(`require(${d.eq(pairValue(d,a),pairValue(d,b))}, "${msg}");`);
  const zero=(d,a,msg)=>d.emit(`require(${a}[0] == 0 && ${a}[1] == 0, "${msg}");`);
- const owner=d=>{d.range('owner',24);d.range('nonce',62);d.emit('require(owner != 0 && self.owner == owner && self.intent_nonce == nonce && nonce != 0, "active signed intent");');};
+ const pinnedOwner=d=>d.emit(`require(owner == ${intentOwner}, "dedicated intent owner");`);
+ const owner=d=>{pinnedOwner(d);d.range('owner',24);d.range('nonce',62);d.emit('require(owner != 0 && self.owner == owner && self.intent_nonce == nonce && nonce != 0, "active signed intent");');};
  const keyCheck=(d,expected)=>{const actual=d.name('key');d.emit(`let ${actual}: Hash = ctx.user_public_key;`);for(let i=0;i<4;i++)d.emit(`require(${actual}[${i}] == ${expected}[${i}], "execution key");`);};
  const checkNative=d=>d.emit(`require(${native(d)} == self.native_expected, "native accounting");`);
  const stop=d=>{const cancelled=read(d,remote('self.owner','request_cancelled'));d.emit(`require(${cancelled} == 1 || ctx.checkpoint_id > self.expiry, "owner cancel or expiry");`);};
  const live=d=>{const cancelled=read(d,remote('self.owner','request_cancelled'));d.emit(`require(${cancelled} == 0 && ctx.checkpoint_id <= self.expiry, "route stopped");`);};
+ const metadata=d=>{for(const m of assetMetadata){d.emit(`require(ctx.users[${m.issuerUserId}].contract_state::<Self::ABI>(${m.contractId}).native_view[33554445] == ${m.decimals}, "canonical asset decimals"); require(ctx.users[${m.issuerUserId}].contract_state::<Self::ABI>(${m.contractId}).native_view[3] == 1, "immutable token administration required");`);}};
  const inflight=(d,{unchangedNative=true}={})=>{owner(d);d.emit('require((hop == 1 && self.phase == 3) || (hop == 2 && self.phase == 5), "inflight hop");');if(unchangedNative)checkNative(d);};
  method('noop','',()=>{});
  method('forbidden','',d=>d.emit('require(false, "unsupported composition phase");'));
  for(const renew of [false,true])method(renew?'renew_route':'request_route','vault: Felt, nonce: Felt, input: [Felt;2], minimum_mid: [Felt;2], minimum_final: [Felt;2], expiry: Felt, budget: Felt, execution_key: Hash',d=>{
+  metadata(d);
+  d.emit(`require(ctx.user_id == ${intentOwner}, "dedicated request owner");`);
   d.range('vault',24);d.range('nonce',62);d.range('expiry',32);d.range('budget',62);for(const n of ['input','minimum_mid','minimum_final'])d.nonzero(n);
   d.emit(`require(vault != 0 && vault != ctx.user_id && nonce == self.request_nonce + 1 && expiry > ctx.checkpoint_id && budget >= ${20n*F} && budget <= ${64n*F}, "request terms");`);
   if(renew){const oldPhase=read(d,remote('self.request_vault','phase'));d.emit(`require(self.request_nonce != 0 && ${oldPhase} == 99, "prior funded intent remains locked");`);}else d.emit('require(self.request_nonce == 0 && nonce == 1, "first request only");');
@@ -39,6 +45,8 @@ export function generateFunds({networkMagic,registryHash,assetA,assetB}){
  });
  method('request_cancel','nonce: Felt',d=>d.emit('require(nonce == self.request_nonce && nonce != 0, "cancel nonce"); self.request_cancelled = 1;'));
  method('begin_funding','owner: Felt, nonce: Felt',d=>{
+  metadata(d);
+  pinnedOwner(d);
   d.range('owner',24);d.range('nonce',62);d.emit('require(owner != 0 && owner != ctx.user_id && nonce != 0 && self.phase == 0 && self.owner == 0, "one shot funding");');
   for(const [field,value]of [['request_vault','ctx.user_id'],['request_nonce','nonce'],['request_funded','1']])d.emit(`require(${read(d,remote('owner',field))} == ${value}, "signed funding identity");`);
   const k=d.name('expected');d.emit(`let ${k}: Hash = ${remote('owner','request_key')};`);keyCheck(d,k);
@@ -52,6 +60,7 @@ export function generateFunds({networkMagic,registryHash,assetA,assetB}){
  });
  method('finish_funding','owner: Felt, nonce: Felt',d=>{owner(d);d.emit('require(self.phase == 1, "funding phase");');same(d,balance(d,assetA),'self.input','claimed input');checkNative(d);d.emit('self.phase = 2;');});
  for(const hop of [1,2])method('prepare_'+hop,'owner: Felt, nonce: Felt, amount: [Felt;2], minimum: [Felt;2], deadline: Felt, order_nonce: Felt',d=>{
+  metadata(d);
   owner(d);checkNative(d);live(d);d.range('order_nonce',62);d.emit(`require(self.phase == ${hop===1?2:4} && order_nonce != 0 && deadline == self.expiry && self.return_only == 0, "hop preparation");`);same(d,'amount',hop===1?'self.input':'self.middle','hop input');same(d,'minimum',hop===1?'self.minimum_mid':'self.minimum_final','hop floor');same(d,balance(d,hop===1?assetA:assetB),'amount','spendable hop input');if(hop===2)zero(d,balance(d,assetA),'other asset residual');d.emit(`self.phase = ${hop===1?3:5}; self.order_nonce = order_nonce; self.consent_sent = 0; self.cancel_sent = 0; self.recovery_sent = 0;`);
  });
  for(const hop of [1,2])method('finish_send_'+hop,'owner: Felt, nonce: Felt',d=>{owner(d);d.emit(`require(self.phase == ${hop===1?3:5}, "send phase");`);zero(d,balance(d,assetA),'input not fully sent');if(hop===2)zero(d,balance(d,assetB),'middle not fully sent');d.emit(`require(self.native_expected >= ${F} && ${native(d)} + ${F} == self.native_expected, "exact market escrow"); self.native_expected = self.native_expected - ${F};`);});
