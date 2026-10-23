@@ -523,6 +523,29 @@ replace a financial result or cause another submit if disk logging fails;
 `adapter.metricFailures` reports observation loss. Observation retention and disk
 capacity are operator responsibilities; do not use missing metrics as zeros.
 
+The compact formal factory also records `initialize` separately (ABI/policy,
+dependency reads, sealed binary and key identity). It excludes the lazy
+resident's circuit/session construction, which remains in first-proof startup.
+`rpc-performance/<network>/<vault>/` contains opt-in physical read attempts:
+queue wait, HTTP + response parsing, host, method and failure. Coalesced reads
+produce one sample; retry attempts remain separate. No parameters, witnesses,
+raw errors or URL credentials are logged. These intervals nest in adapter phase
+walls; do not add them to those walls. They exclude receipt-service reads,
+Rust SDK reads, proving and submission transport. A telemetry write failure
+does not retry a successful read or alter a financial outcome.
+
+### Persistent execution directories
+
+Production CLI `once`, `watch`, `resume` and service CLI execution reject OS
+temporary runtime paths, including symlinks to them, before adapter/RPC startup.
+Use a persistent location for journals, proofs, exact requests and broadcasts.
+The guard checks location, not filesystem durability, backups or multi-host
+coordination. Direct embedding APIs still require persistent storage from the
+host. Read-only scan/reconcile remain available for recovery inventory.
+If original artifacts are missing, do not create replacement payments from chat
+history. Current RPC state cannot reconstruct original signed requests, fee
+receipts or lost ordinary QA wallet keys.
+
 ### Opt-in pre-admission bulk fallback
 
 For `admissionMode:"all-four-v1"`, `bulkFallbackRemainingCheckpoints` (1..64)

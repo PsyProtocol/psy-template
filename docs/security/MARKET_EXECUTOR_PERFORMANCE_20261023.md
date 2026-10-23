@@ -1,5 +1,38 @@
 # Executor measurement ledger — 2026-10-23
 
+## Latest continuation: persistence and read-cost instrumentation
+
+`executor/verification/2026-10-23-executor-recovery-v1` records the current
+source closure, public inventory and formal JS regressions (168 passed, two
+skipped). No new settlement speedup has been established by this milestone.
+The frozen SDK is unchanged. The OS reboot erased unarchived `/tmp` thin-case
+wallets and requests; the owner confirmed no backup. Those three-market tests
+remain incomplete; they are not reconstructed from historical notes.
+
+Current four-market read-only inventory at common checkpoint 370200 took
+73.227 s with 87 physical RPC attempts, including three failed attempts.
+It checks archived dependency/key registrations and queue/batch fields; it is
+neither a proof nor a financial/ordinary-claim acceptance. Parent RSS endpoints
+are retained in the JSON, not reported as child peak memory or a memory gain.
+Uncontrolled host scratch compilation ran concurrently, so this is not a
+before/after benchmark. The raw read-attempt ledger separates slot queue waits
+from HTTP/parse and retains retries; it does not isolate receipt or SDK reads.
+
+Formal compact factory now records initialization independently of first-proof
+resident construction. Opt-in RPC observations are a separate nested ledger.
+The same identity/dependency/nonce/window/full-stack/fee/endpoint checks remain.
+Financial CLI modes now reject temporary journal paths before RPC, including
+symlinks. This checks path location, not backups or multi-host durability.
+The first attempt to run bounded JS tests under system Node.js 18 rejected an
+unsupported test flag; retained as a failed tool invocation. Tests ran under
+bundled Node.js 24.19.0; the Psy Node repository was not modified.
+
+Remaining: new same-condition cold/warm proof/confirmation/claim measurements,
+new isolated QA actors for ordinary-wallet acceptance, safe cache optimization
+measured against unchanged transaction results, and multi-host coordination.
+The historical comparison below remains the existing compact-vs-fixed40
+experiment; it is not credited to the new telemetry or persistence code.
+
 Frozen SDK manifest `0afb4c65116cddcaca450b406a06503d65b63d38a004d8e773c6e5fa363bd425`;
 same frozen full-UPS test binary `87b8147a…648d533`; same host, fixtures, four
 members/market, 12 economic fills/profile, two processes with two Rayon threads

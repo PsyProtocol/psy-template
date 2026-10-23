@@ -4,6 +4,7 @@ import assert from'node:assert/strict';
 import{readFileSync,readdirSync,existsSync}from'node:fs';
 import{join,resolve,relative,isAbsolute}from'node:path';
 import{pathToFileURL}from'node:url';
+import{createHash}from'node:crypto';
 import{parseLosslessJson}from'../../amm/u124/client.mjs';
 import{saveObservation}from'../observations.mjs';
 const read=p=>parseLosslessJson(readFileSync(p,'utf8'));
@@ -19,7 +20,10 @@ export function summarizePhases(rows){
 function files(dir){if(!existsSync(dir))return[];return readdirSync(dir,{withFileTypes:true}).flatMap(d=>{assert.ok(!d.isSymbolicLink(),'evidence symlink refused');const p=join(dir,d.name);return d.isDirectory()?files(p):[p];});}
 export function analyzeLivePerformance(directory){
  const base=resolve(directory),inside=p=>{const r=relative(base,resolve(p));assert.ok(r&&!r.startsWith('..')&&!isAbsolute(r),'report path outside case');return join(base,r);};
- const complete=read(join(base,'public/COMPLETE.json')),source=read(join(base,'public/SOURCE.json'));assert.equal(complete.ordinaryClaimIncluded,true);assert.equal(complete.productionReady,false);const proofPaths=files(join(base,'runtime/compact')).filter(p=>p.endsWith('/preflight.json'));assert.ok(proofPaths.length);
+ const complete=read(join(base,'public/COMPLETE.json'));assert.equal(complete.ordinaryClaimIncluded,true);assert.equal(complete.productionReady,false);
+ const activeSourceName=complete.sourceManifest??'SOURCE.json';assert.match(activeSourceName,/^(?:SOURCE|SOURCE-RESUME-v[1-9][0-9]*|FINISH-SOURCE-v[1-9][0-9]*)\.json$/);
+ const source=read(inside(join(base,'public',activeSourceName))),sourceHistory=files(join(base,'public')).filter(p=>/\/(?:SOURCE|SOURCE-RESUME-v[1-9][0-9]*|FINISH-SOURCE-v[1-9][0-9]*)\.json$/.test(p)).map(p=>({file:relative(base,p),sha256:createHash('sha256').update(readFileSync(p)).digest('hex'),manifest:read(p)}));
+ const proofPaths=files(join(base,'runtime/compact')).filter(p=>p.endsWith('/preflight.json'));assert.ok(proofPaths.length);
  const proofs=proofPaths.map(p=>{const r=read(p);assert.equal(r.fullUpsVerified,true);assert.equal(r.exactStackAndSessionVerified,true);const log=resolve(p,'..')+'.preflight.log';assert.ok(existsSync(log),'missing proof process observation');return{file:relative(base,p),actualCalls:r.actualCalls,sourceCheckpoint:r.core.checkpoint_id,fee:r.fee,proofProfile:r.proofProfile,residentConstruction:residentConstruction(readFileSync(log,'utf8')),timingsMilliseconds:r.timingsMilliseconds,scope:'full UPS preflight, includes fresh state/identity checks; construction shown separately when resident starts'};});
  // These are observational fractional millisecond measurements, not financial
  // Felt values. Keep the lossless integer parser for proofs/fees/receipts.
@@ -37,7 +41,8 @@ export function analyzeLivePerformance(directory){
  const intervals=ordinary.filter(r=>r.included&&typeof r.startedAt==='string'&&r.includedObservedAt!==null),first=[...intervals].sort((a,b)=>Date.parse(a.startedAt)-Date.parse(b.startedAt))[0],last=[...intervals].sort((a,b)=>Date.parse(b.includedObservedAt)-Date.parse(a.includedObservedAt))[0];let ordinaryEnvelope=null;
  if(first&&last){const elapsed=Date.parse(last.includedObservedAt)-Date.parse(first.startedAt);assert.ok(Number.isFinite(elapsed)&&elapsed>=0);ordinaryEnvelope={firstAttempt:first.file,lastAttempt:last.file,startedAt:first.startedAt,finishedAt:last.includedObservedAt,wallMilliseconds:elapsed,scope:'first ordinary wallet process start to last included/common ordinary observation; includes sponsorship, cutoff waits, proofs and polling; excludes earlier preparation and later audit; not service SLO or TPS'};}
  const assetAudits=Object.fromEntries(['before','after'].map(which=>{const p=join(base,'public/assets-'+which+'.json');return[which,existsSync(p)?read(p).observation:null];}));
- return{schema:1,generatedAt:new Date().toISOString(),caseSource:source,marketId:complete.marketId,vaultId:complete.vaultId,fills:complete.fills,acceptedMembers:complete.acceptedMembers,actualFees:complete.fee,ordinaryClaimIncluded:complete.ordinaryClaimIncluded,proofs,phases,ordinary,results,failedProofLogs,ordinaryEnvelope,assetAudits,
+ const ordinaryFailures=files(join(base,'attempts')).filter(p=>p.endsWith('/failure.json')).map(p=>({file:relative(base,p),failure:read(p),scope:'failed ordinary attempt; not an included payment, automatic retry or replacement authorization'}));
+ return{schema:1,generatedAt:new Date().toISOString(),caseSource:source,activeSourceName,sourceHistory,marketId:complete.marketId,vaultId:complete.vaultId,markets:complete.markets??null,fills:complete.fills,acceptedMembers:complete.acceptedMembers,actualFees:complete.fee,ordinaryClaimIncluded:complete.ordinaryClaimIncluded,proofs,phases,ordinary,ordinaryFailures,results,failedProofLogs,ordinaryEnvelope,assetAudits,
   measurementLimits:{coldBinaryBuild:'not measured in this live case',stateReadAndOrderPreparation:'included in operation walls; not independently isolated',childPeakRssBytes:null,memory:'Node parent endpoints only, not process-tree or child peak RSS',confirmation:'local acknowledgement to exact indexed/common observation; clocks and polling affect values',beforeAfterSpeedup:null,chainTps:null,productionReady:false,comparison:'no matched old-profile live control in this run; offline fixed40/compact measurements are a separate experiment',phaseSums:'operations overlap; do not sum phase totals as elapsed case wall'}};
 }
 if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).href){const[base,out]=process.argv.slice(2);assert.ok(base&&out);saveObservation(out,analyzeLivePerformance(base));}

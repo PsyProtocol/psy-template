@@ -82,3 +82,24 @@ test('explicit exact-integer RPC mode preserves a large nonce without changing l
  globalThis.fetch=async(_url,options)=>{const q=JSON.parse(options.body);if(q.method==='psy_get_latest_l2_block_state')return{ok:true,json:async()=>({result:{checkpoint_id:100}})};return{ok:true,text:async()=>'{"jsonrpc":"2.0","id":1,"result":{"nonce":9007199254740993,"user_id":10}}',json:async()=>assert.fail('unsafe JSON integer conversion')};};
  const s=await publicState(config),leaf=await s.rpc('https://r0.test','psy_get_user_leaf_data',{checkpoint_id:100,user_id:10},{exactIntegers:true});assert.equal(leaf.nonce,9007199254740993n);assert.equal(leaf.user_id,10n);assert.equal(s.checkpoint,100);
 }));
+
+test('read observations count physical attempts, coalescing and failures without recording parameters',()=>fixture(async config=>{
+ const rows=[];let attempts=0;
+ globalThis.fetch=async(_url,options)=>{const q=JSON.parse(options.body);
+  if(q.method==='psy_get_latest_l2_block_state')return{ok:true,json:async()=>({result:{checkpoint_id:100}})};
+  if(++attempts===1)return{ok:false,status:503};
+  return{ok:true,json:async()=>({result:leaf(1,2,3,4)})};
+ };
+ const s=await publicState(config,{observeRead:r=>rows.push(r)});
+ assert.deepEqual(await Promise.all([s.slot(10,64,0),s.slot(10,64,1)]),[1n,2n]);
+ assert.equal(attempts,2);assert.equal(rows.length,4);assert.deepEqual(rows.map(r=>r.failed),[false,false,true,false]);
+ for(const r of rows){assert.ok(r.queueMilliseconds>=0);assert.ok(r.rpcAndParseMilliseconds>=0);assert.match(r.endpointHost,/^r[01]\.test$/);assert.equal('params'in r,false);assert.equal('result'in r,false);assert.equal('url'in r,false);}
+ assert.equal(s.readMetricFailures,0);
+ await assert.rejects(s.rpc('https://r0.test','psy_submit_transaction',{}),/read RPC/);assert.equal(rows.length,4);
+}));
+test('failed read telemetry neither changes exact result nor retries a successful read',()=>fixture(async config=>{
+ let requests=0;globalThis.fetch=async(_url,options)=>{requests++;const q=JSON.parse(options.body);return{ok:true,json:async()=>({result:q.method==='psy_get_latest_l2_block_state'?{checkpoint_id:100}:leaf(7,8,9,10)})};};
+ const s=await publicState(config,{observeRead:()=>{throw Error('telemetry disk full');}});
+ assert.equal(await s.slot(10,64,0),7n);assert.equal(requests,3);assert.equal(s.readMetricFailures,3);
+ await assert.rejects(publicState(config,{observeRead:true}),/invalid read observer/);assert.equal(requests,3);
+}));
