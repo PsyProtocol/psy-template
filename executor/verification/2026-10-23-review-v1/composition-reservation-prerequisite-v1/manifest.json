@@ -1,0 +1,611 @@
+{
+  "schema": 1,
+  "sourceDirectory": "/private/tmp/psy-composition-reservation-evidence-20261023-v1",
+  "machine": "gewenbo.local",
+  "host": "macOS-15.7.3-arm64-arm-64bit",
+  "scope": "public formal Executor run including failures; success requires exact included receipt",
+  "walletFilesIncluded": false,
+  "sealedBinariesIncluded": false,
+  "records": [
+    {
+      "source": "RESULT.json",
+      "file": "files/RESULT.json.gz",
+      "bytes": 2808,
+      "sha256": "c5d24a8cf1fd8e775d048a4d52e846589b4a8d43f72cafa2d4908e921802476f",
+      "gzipBytes": 1469,
+      "gzipSha256": "9e59b5b71f7abc9f44793de6d3f663818055cce2ae4bc20fd0a2cd4cd9855cd1"
+    },
+    {
+      "source": "application/amm/u124/vm-tests/Cargo.lock",
+      "file": "files/application/amm/u124/vm-tests/Cargo.lock.gz",
+      "bytes": 211841,
+      "sha256": "4e895a309801d56e785f17eee5af04e50aee7785a3488e4aea1ae36fb2adb10c",
+      "gzipBytes": 49511,
+      "gzipSha256": "8cb0c94e2f2457d2f5adbd1a461343232247a84a377ab534f5281c674c431e4e"
+    },
+    {
+      "source": "application/amm/u124/vm-tests/Cargo.toml",
+      "file": "files/application/amm/u124/vm-tests/Cargo.toml.gz",
+      "bytes": 2235,
+      "sha256": "b587de4606204df87c8f455d6f65a759508e750648aecb426abc4068a7e8f5d1",
+      "gzipBytes": 703,
+      "gzipSha256": "2166662e0e8be9de099b904a951c37bc480d940e08125944ca301d5fb54fe8c2"
+    },
+    {
+      "source": "application/amm/u124/vm-tests/src/batch_compile.rs",
+      "file": "files/application/amm/u124/vm-tests/src/batch_compile.rs.gz",
+      "bytes": 2376,
+      "sha256": "4b9f1e23fb485d431cf25734e53b8da9a0326b011e251b9c03f63b4c27e35590",
+      "gzipBytes": 994,
+      "gzipSha256": "9fed1afbf0cea939bd8fe3ff39dc2061dd2229e21e068baaae9cac87c6dcdcc1"
+    },
+    {
+      "source": "application/amm/u124/vm-tests/src/bin/compile_batch.rs",
+      "file": "files/application/amm/u124/vm-tests/src/bin/compile_batch.rs.gz",
+      "bytes": 660,
+      "sha256": "8dd186aa3cdf427df4717341315bdd969c705a7a89e0bcb09292dc4daf2b359e",
+      "gzipBytes": 450,
+      "gzipSha256": "42c33d9d87552fc303bfe585b58dc63d30b1275ec1a16bcebb6b8273eb96a109"
+    },
+    {
+      "source": "application/amm/u124/vm-tests/src/lib.rs",
+      "file": "files/application/amm/u124/vm-tests/src/lib.rs.gz",
+      "bytes": 7645,
+      "sha256": "3c6bf81c3ee1aeda001c60ec674d04d0b098d6c0836b3a2b1991a25bae2c0c02",
+      "gzipBytes": 3118,
+      "gzipSha256": "61071b9897195c471be21aa8b2fdfe9b5df47ad3667fb0fde4b50e63dcec0cdd"
+    },
+    {
+      "source": "application/amm/u124/vm-tests/tests/composition_reservation.rs",
+      "file": "files/application/amm/u124/vm-tests/tests/composition_reservation.rs.gz",
+      "bytes": 4649,
+      "sha256": "25137b398d8fbed942d33b02145ca715510f5f97b726bbd1682fb7a9a49ee702",
+      "gzipBytes": 1788,
+      "gzipSha256": "07bb1f41d0138510d3407c8fc29cc5b7f357b2331b08e3fed26161919f19d7e0"
+    },
+    {
+      "source": "application/amm/u124/vm-tests/tests/support/composition_vm.rs",
+      "file": "files/application/amm/u124/vm-tests/tests/support/composition_vm.rs.gz",
+      "bytes": 5431,
+      "sha256": "7fca4d86a7059b1e27cc9a99c8963c78922adaa89c84b60f45da478c01020418",
+      "gzipBytes": 1980,
+      "gzipSha256": "f0e50c9fe1913d2d206d150c90a84a510bd580c972e339982daa00aa64429098"
+    },
+    {
+      "source": "application/composition/contract/prepare.mjs",
+      "file": "files/application/composition/contract/prepare.mjs.gz",
+      "bytes": 2106,
+      "sha256": "2a0a28462faded668f04423dfb830534c846169c650cfa1f3629bc344582cffc",
+      "gzipBytes": 1022,
+      "gzipSha256": "ee7402ee2ba4985ec806416875b3706c2c682732b7762db62cd7fea4dc928fcf"
+    },
+    {
+      "source": "application/composition/contract/reservation.mjs",
+      "file": "files/application/composition/contract/reservation.mjs.gz",
+      "bytes": 6460,
+      "sha256": "9ea8e3b3692ff87d02ff6a3f9ced28fc961a081d9786895024caff6995cd09fa",
+      "gzipBytes": 2162,
+      "gzipSha256": "d67a51049c331fcdfa26364fde09889f233a5e4faa67c9e6de4253fdbc949cb4"
+    },
+    {
+      "source": "build-v1/compile.log",
+      "file": "files/build-v1/compile.log.gz",
+      "bytes": 38,
+      "sha256": "e40d8f0f77ad65552d3210f15cc2c4bfe870e585ab655539dcc0e8cc81600c8d",
+      "gzipBytes": 58,
+      "gzipSha256": "da40462ab14b6a9c7b74c92eeff87debcf41b6505b7b76a7b56aaeed8b33448e"
+    },
+    {
+      "source": "build-v1/main.psy.rs",
+      "file": "files/build-v1/main.psy.rs.gz",
+      "bytes": 36797,
+      "sha256": "c3594591bb16ec88212c19eb18b1fc2b67bc6d595e731681f5037d0dbdb3ac59",
+      "gzipBytes": 4514,
+      "gzipSha256": "6f69b7161826d63485a07a4104f5f689179bfb1e8731df619f1897184c4e9f2a"
+    },
+    {
+      "source": "build-v2/compile.log",
+      "file": "files/build-v2/compile.log.gz",
+      "bytes": 76,
+      "sha256": "4cdac452af6f32f8d4b4feb95b1aab5ee188371c4d073bf6470675e8bb0b0b17",
+      "gzipBytes": 92,
+      "gzipSha256": "8eb4bfc77a05c20603e20d713889239a7c083568c2180e5f508bd8eedebd0039"
+    },
+    {
+      "source": "build-v2/main.psy.rs",
+      "file": "files/build-v2/main.psy.rs.gz",
+      "bytes": 36853,
+      "sha256": "59a102d43eaf0e21f104f4c54ce3a22be4e224fe47edefaa79216f7b29ed067e",
+      "gzipBytes": 4533,
+      "gzipSha256": "38fa992c72f8bbcdc60023c08905fe78578b4c4d24a45d3f10fa6c90d5e90a8b"
+    },
+    {
+      "source": "build-v3/PREPARED.json",
+      "file": "files/build-v3/PREPARED.json.gz",
+      "bytes": 793,
+      "sha256": "37d5efc2022c158a1d9970484a83c6695f80dae4ab12ebc7ced77f59bdb05d35",
+      "gzipBytes": 466,
+      "gzipSha256": "01a333a8cc2636f0dbbcc0affcf913cadeec753c590fdee0628231927becfa25"
+    },
+    {
+      "source": "build-v3/compile.log",
+      "file": "files/build-v3/compile.log.gz",
+      "bytes": 25,
+      "sha256": "8aa2016e365c66ef0fadaa0cbaed3193581a5d6c1e12974923842c617f86892c",
+      "gzipBytes": 45,
+      "gzipSha256": "9dc6b737c696d7d7accea9b2e7341939cd617919d9ea647c708e2f5d71f7966e"
+    },
+    {
+      "source": "build-v3/compiled/compilation_artifact.json",
+      "file": "files/build-v3/compiled/compilation_artifact.json.gz",
+      "bytes": 215146,
+      "sha256": "abfbef219fc6e4ce37bd7247751c3343c8914e319e7419702465118c7b5e2640",
+      "gzipBytes": 24361,
+      "gzipSha256": "d4d8f717146d6c92dac93740ba180ec32d21ab8eca9927096beca126d2100322"
+    },
+    {
+      "source": "build-v3/main.psy.rs",
+      "file": "files/build-v3/main.psy.rs.gz",
+      "bytes": 36853,
+      "sha256": "59a102d43eaf0e21f104f4c54ce3a22be4e224fe47edefaa79216f7b29ed067e",
+      "gzipBytes": 4533,
+      "gzipSha256": "38fa992c72f8bbcdc60023c08905fe78578b4c4d24a45d3f10fa6c90d5e90a8b"
+    },
+    {
+      "source": "compiler-four-market-regression/COMPLETE.json",
+      "file": "files/compiler-four-market-regression/COMPLETE.json.gz",
+      "bytes": 1350,
+      "sha256": "694045f8ce1505c1d23bd2d0d5bb86dec4aa7bb3a0e23699244aef38ad4643bf",
+      "gzipBytes": 643,
+      "gzipSha256": "5e70eee03e22747acebfd1c65cf706ad5fc6c94b4bb816ee05a57d3fe2b69bfc"
+    },
+    {
+      "source": "compiler-four-market-regression/amm/compilation_artifact.json",
+      "file": "files/compiler-four-market-regression/amm/compilation_artifact.json.gz",
+      "bytes": 27056214,
+      "sha256": "d15d8263309b07d5904bb7519772a3516dbe7b399fcf5e0a80b17d61441d9080",
+      "gzipBytes": 2961647,
+      "gzipSha256": "8ff26ae36bb675922a50c485ac10743f9fcb8a78d1046fb194cb8e62dba209ff"
+    },
+    {
+      "source": "compiler-four-market-regression/amm.log",
+      "file": "files/compiler-four-market-regression/amm.log.gz",
+      "bytes": 26,
+      "sha256": "3901f8e4044668d8035c5d62671fcedee683e5bbb73659937ee77d6419f285cf",
+      "gzipBytes": 46,
+      "gzipSha256": "7f4173c6f365eab01170c9c405a2eab7747e57531879eeb73d560efd0bbf33e2"
+    },
+    {
+      "source": "compiler-four-market-regression/bondingcurve/compilation_artifact.json",
+      "file": "files/compiler-four-market-regression/bondingcurve/compilation_artifact.json.gz",
+      "bytes": 13686007,
+      "sha256": "e2faeaa14d18a65db0fded229f5f80566c7b85de0957dc020c138d5ae4710b62",
+      "gzipBytes": 1506666,
+      "gzipSha256": "0db7a66bb1f83e23654cf6a30cb235fffab66fc54790642d3346b65fde6a6cab"
+    },
+    {
+      "source": "compiler-four-market-regression/bondingcurve.log",
+      "file": "files/compiler-four-market-regression/bondingcurve.log.gz",
+      "bytes": 26,
+      "sha256": "d9fa0db25712af671f7feae8d5e087ac550fd521e93a94bf18eec24c3b0627c4",
+      "gzipBytes": 46,
+      "gzipSha256": "de7609fd22f4b81adb030971e88928f3b33cceaaa4c91b69cbe68db154ac556d"
+    },
+    {
+      "source": "compiler-four-market-regression/nftmarket/compilation_artifact.json",
+      "file": "files/compiler-four-market-regression/nftmarket/compilation_artifact.json.gz",
+      "bytes": 5086550,
+      "sha256": "2d3f76254a4e27e99131d5d4ccd40354c115e86958cedcdc9f7ce41410864b74",
+      "gzipBytes": 565324,
+      "gzipSha256": "509db1db78e42ce9c529b0fe3f90408840d22a2112af9c4fac8cb0a383f65136"
+    },
+    {
+      "source": "compiler-four-market-regression/nftmarket.log",
+      "file": "files/compiler-four-market-regression/nftmarket.log.gz",
+      "bytes": 26,
+      "sha256": "b8c34675233d5e4555ceeef573189b15b683eb81832df80956ecf97afbbe465a",
+      "gzipBytes": 46,
+      "gzipSha256": "8dfcc3233b52c9d40775bc94f048578ddbc76a808f6fca25624cb549c86d5009"
+    },
+    {
+      "source": "compiler-four-market-regression/orderbook/compilation_artifact.json",
+      "file": "files/compiler-four-market-regression/orderbook/compilation_artifact.json.gz",
+      "bytes": 10229424,
+      "sha256": "8d0459eff96e7cbcae035529b51180ec6fd98abbdb9784f7f0e7fb8addc3dd0e",
+      "gzipBytes": 1128143,
+      "gzipSha256": "2da1111d49bed319d0a87fd392ca146d7b146dee1278c564aa70d610625b89e2"
+    },
+    {
+      "source": "compiler-four-market-regression/orderbook.log",
+      "file": "files/compiler-four-market-regression/orderbook.log.gz",
+      "bytes": 26,
+      "sha256": "5045f57d9f65ed8ff41adc1ecee1337fe11584555bb70ddeaac1b922c0394719",
+      "gzipBytes": 46,
+      "gzipSha256": "96606e523394b8787b0bd6a55f4adf010c8f87a75db43c53e913ba80ba848ad4"
+    },
+    {
+      "source": "prior-application-context-v1/src/batch_compact.rs",
+      "file": "files/prior-application-context-v1/src/batch_compact.rs.gz",
+      "bytes": 5540,
+      "sha256": "13e55040ad2c1f047f144b41e04ab7ace10147e1697105434d8e268b5d781f16",
+      "gzipBytes": 2014,
+      "gzipSha256": "4cbd1a764443991590e3785ceb1302b5d24f747eecb1d4d6a9e01a85f58c790f"
+    },
+    {
+      "source": "prior-application-context-v1/src/batch_compile.rs",
+      "file": "files/prior-application-context-v1/src/batch_compile.rs.gz",
+      "bytes": 2376,
+      "sha256": "4b9f1e23fb485d431cf25734e53b8da9a0326b011e251b9c03f63b4c27e35590",
+      "gzipBytes": 994,
+      "gzipSha256": "9fed1afbf0cea939bd8fe3ff39dc2061dd2229e21e068baaae9cac87c6dcdcc1"
+    },
+    {
+      "source": "prior-application-context-v1/src/batch_policy.rs",
+      "file": "files/prior-application-context-v1/src/batch_policy.rs.gz",
+      "bytes": 10680,
+      "sha256": "62d14df24d415d0d0d9bb72bb04b8d9c209549d982f7b71d4523861c0dec0a09",
+      "gzipBytes": 3673,
+      "gzipSha256": "40df7c4356f1d00c893f514627371a7ac0a0782a8103b6a59e910d3b9e304c35"
+    },
+    {
+      "source": "prior-application-context-v1/src/bin/artifact_roots.rs",
+      "file": "files/prior-application-context-v1/src/bin/artifact_roots.rs.gz",
+      "bytes": 2810,
+      "sha256": "51727c43e7c53737126674eab33a0fd1740280d0326c4a79101a6f1b48cd8c4e",
+      "gzipBytes": 1290,
+      "gzipSha256": "538633143c56e14ac533c0d21ed5ddf91e2b282682e898fde59b5192598acda4"
+    },
+    {
+      "source": "prior-application-context-v1/src/bin/compact_market_wallet.rs",
+      "file": "files/prior-application-context-v1/src/bin/compact_market_wallet.rs.gz",
+      "bytes": 21292,
+      "sha256": "ec2258b4c4bb3dfd5539c9245a567b85ad970ae0d876195a9cc9fa7d644b9a3d",
+      "gzipBytes": 6550,
+      "gzipSha256": "2e7020ee6194cd5b9c2b73f9e0fd8c469c1a60daca27440a583d1df3fefcf3f1"
+    },
+    {
+      "source": "prior-application-context-v1/src/bin/compile_batch.rs",
+      "file": "files/prior-application-context-v1/src/bin/compile_batch.rs.gz",
+      "bytes": 660,
+      "sha256": "8dd186aa3cdf427df4717341315bdd969c705a7a89e0bcb09292dc4daf2b359e",
+      "gzipBytes": 450,
+      "gzipSha256": "42c33d9d87552fc303bfe585b58dc63d30b1275ec1a16bcebb6b8273eb96a109"
+    },
+    {
+      "source": "prior-application-context-v1/src/bin/compile_market.rs",
+      "file": "files/prior-application-context-v1/src/bin/compile_market.rs.gz",
+      "bytes": 784,
+      "sha256": "06ee94ca89339f481cef68dd5543e9bd72cafbb3ab81123a902b521173b7b14a",
+      "gzipBytes": 459,
+      "gzipSha256": "4139ed6781d69421779c541a34d230dd4eb00c84fd8ee80cb2ae1e72840fca03"
+    },
+    {
+      "source": "prior-application-context-v1/src/bin/compile_nft_market.rs",
+      "file": "files/prior-application-context-v1/src/bin/compile_nft_market.rs.gz",
+      "bytes": 657,
+      "sha256": "68f1e5d47b8b9601fc1396a52c29700ed2dab867797b5798daeae55ebc7cca5c",
+      "gzipBytes": 410,
+      "gzipSha256": "6fde60270c6d199d052cb72b01290865aa666999fce017d863672af67d2a4498"
+    },
+    {
+      "source": "prior-application-context-v1/src/bin/isolated_wallet.rs",
+      "file": "files/prior-application-context-v1/src/bin/isolated_wallet.rs.gz",
+      "bytes": 14548,
+      "sha256": "2a3f8765e3f35c24d8fca5a2f87a654616a4a89bbd19f23d50be959bf09d1cbf",
+      "gzipBytes": 4634,
+      "gzipSha256": "c70c900118070ed2f7f82b78130ce4ae75a6f20da6e0fc7e7461208b27b70905"
+    },
+    {
+      "source": "prior-application-context-v1/src/bin/market_wallet.rs",
+      "file": "files/prior-application-context-v1/src/bin/market_wallet.rs.gz",
+      "bytes": 211,
+      "sha256": "b15300bd8f904cd84940567bd01caf7e330b4b31f326a471c01fca72d30c7c33",
+      "gzipBytes": 191,
+      "gzipSha256": "a4c6707f170184e67190feca2b75652a2c27984f621d9b5b311f92a0f7e25f29"
+    },
+    {
+      "source": "prior-application-context-v1/src/bin/market_wallet_verified.rs",
+      "file": "files/prior-application-context-v1/src/bin/market_wallet_verified.rs.gz",
+      "bytes": 211,
+      "sha256": "b15300bd8f904cd84940567bd01caf7e330b4b31f326a471c01fca72d30c7c33",
+      "gzipBytes": 191,
+      "gzipSha256": "a4c6707f170184e67190feca2b75652a2c27984f621d9b5b311f92a0f7e25f29"
+    },
+    {
+      "source": "prior-application-context-v1/src/bin/nft_cfc_probe.rs",
+      "file": "files/prior-application-context-v1/src/bin/nft_cfc_probe.rs.gz",
+      "bytes": 5130,
+      "sha256": "9846ee25032692bc7773ba28744dd073dbe971d70dce4a08afc2eb993542bfc1",
+      "gzipBytes": 2087,
+      "gzipSha256": "bb44a164de1f499f117efcf3bcd7f21dd27a94193336d71e1453d1879dedd710"
+    },
+    {
+      "source": "prior-application-context-v1/src/bin/policy_identity.rs",
+      "file": "files/prior-application-context-v1/src/bin/policy_identity.rs.gz",
+      "bytes": 1075,
+      "sha256": "075047dfee74ed10ffa374d634be864edf3fb7b7c676719b9d4c2c49463d081d",
+      "gzipBytes": 590,
+      "gzipSha256": "3822c8656f2860ce7250642bcb31ff39f4d5b7e99591a3768fe9c06a2d256257"
+    },
+    {
+      "source": "prior-application-context-v1/src/bin/preflight_code_update.rs",
+      "file": "files/prior-application-context-v1/src/bin/preflight_code_update.rs.gz",
+      "bytes": 5044,
+      "sha256": "8e2ccae6dfda44e44600610bbae398f6dcee6ccc63c3ce0f22ae5b12d2f65c82",
+      "gzipBytes": 1969,
+      "gzipSha256": "296744acb47341e4dac5110657a308bcc557423db09deb594714c691f305a809"
+    },
+    {
+      "source": "prior-application-context-v1/src/bin/preflight_initial.rs",
+      "file": "files/prior-application-context-v1/src/bin/preflight_initial.rs.gz",
+      "bytes": 5660,
+      "sha256": "b71b13d0c5facf4c6322c134957236f4f6320554dfd1ff9c509e184ffb6cd187",
+      "gzipBytes": 2074,
+      "gzipSha256": "47ccb80eb34209470aeeaf5767c5275a3c2dae4e87c36efcc22246aa823f7435"
+    },
+    {
+      "source": "prior-application-context-v1/src/bin/preflight_nft_initial.rs",
+      "file": "files/prior-application-context-v1/src/bin/preflight_nft_initial.rs.gz",
+      "bytes": 1305,
+      "sha256": "baa0ce0d8f92dbf141dc2af8eb4d4ab59e1e7c39d26979bc3563013d33fdb074",
+      "gzipBytes": 667,
+      "gzipSha256": "ce666d323a1f9ea0606c6146d53d938f590a23e64a11c2d247385cfd742b5769"
+    },
+    {
+      "source": "prior-application-context-v1/src/bin/probe_endcap_profile.rs",
+      "file": "files/prior-application-context-v1/src/bin/probe_endcap_profile.rs.gz",
+      "bytes": 2938,
+      "sha256": "6bc80eb7534c3f09ca85dafcfe36f2414088fdfc43ad95375b43bd63dde5e0f2",
+      "gzipBytes": 1310,
+      "gzipSha256": "5e3cfe9b7ddc31a803540ec0045aeb4a9b4e7d56517d6fb9b978f7d93982a276"
+    },
+    {
+      "source": "prior-application-context-v1/src/bin/verify_deployment_checkpoint.rs",
+      "file": "files/prior-application-context-v1/src/bin/verify_deployment_checkpoint.rs.gz",
+      "bytes": 5309,
+      "sha256": "2ce0cb499f86aee3226a0be1346359fdc66bf7633ae504ebd8be301688876ffe",
+      "gzipBytes": 1906,
+      "gzipSha256": "2b28279fc3103608d592e1ddd5d3cc078044c356bf211cf29c5f86d7bc9382d5"
+    },
+    {
+      "source": "prior-application-context-v1/src/bin/verify_saved_ups.rs",
+      "file": "files/prior-application-context-v1/src/bin/verify_saved_ups.rs.gz",
+      "bytes": 2214,
+      "sha256": "ceb5e5bfed3a04f1dc5eb701670189c2877137b3a219b5d6afe4ac7b6e4e2c5a",
+      "gzipBytes": 1066,
+      "gzipSha256": "c0a90c41050736dfee3d4c833143838b8bf973f795ebeae3c5abef9e54496b63"
+    },
+    {
+      "source": "prior-application-context-v1/src/compact_benchmark.rs",
+      "file": "files/prior-application-context-v1/src/compact_benchmark.rs.gz",
+      "bytes": 4356,
+      "sha256": "2f886f9b4f91810acbee5b567ecde5891f8dda1098e65a1c17e6037cb3c2689a",
+      "gzipBytes": 1906,
+      "gzipSha256": "49feeac686820d7e7bbb85eff47f9b4a79094b6af969c0f219dc0de6db5517b1"
+    },
+    {
+      "source": "prior-application-context-v1/src/compact_prepared.rs",
+      "file": "files/prior-application-context-v1/src/compact_prepared.rs.gz",
+      "bytes": 10296,
+      "sha256": "4f2f144d7e881309542942f16bb3497a684c15062e9457d9cd68bd5f18b2dbb8",
+      "gzipBytes": 3746,
+      "gzipSha256": "db0022a7c62e13f319672ecb768e5e240dca56dd3787c2e91c84329d04613ae8"
+    },
+    {
+      "source": "prior-application-context-v1/src/layout_preflight.rs",
+      "file": "files/prior-application-context-v1/src/layout_preflight.rs.gz",
+      "bytes": 5515,
+      "sha256": "d338322657c060d022348f39e286ea2e2f35a3eaed264c5adbbe85f3df355468",
+      "gzipBytes": 1891,
+      "gzipSha256": "7948c2b64db35efc1fda1eb09bab82fbb83a536b518d636b02be681a0e493362"
+    },
+    {
+      "source": "prior-application-context-v1/src/lib.rs",
+      "file": "files/prior-application-context-v1/src/lib.rs.gz",
+      "bytes": 7238,
+      "sha256": "e732706207562a96f2a921c5a22d2027d6a7bbd528671213d690eaf4c6c82cc7",
+      "gzipBytes": 2843,
+      "gzipSha256": "c7fca9db50b6acdf27ce1068c1df870e2b18141715fa5472fcb08d3af826b03a"
+    },
+    {
+      "source": "prior-application-context-v1/src/live_guard.rs",
+      "file": "files/prior-application-context-v1/src/live_guard.rs.gz",
+      "bytes": 11012,
+      "sha256": "91251945e60960ce78d8719efe3f3770a1b05bcd54415501eae7e46a45d4a2f7",
+      "gzipBytes": 3174,
+      "gzipSha256": "33924c39ba50ecf430364c7986926a2cf4af5afd1a3135b613fa5fc617a43fa5"
+    },
+    {
+      "source": "prior-application-context-v1/src/live_rpc.rs",
+      "file": "files/prior-application-context-v1/src/live_rpc.rs.gz",
+      "bytes": 4665,
+      "sha256": "1ec46d780793d256516de26144594529f8aa13d75ad81cebe9ab7f2c3023b934",
+      "gzipBytes": 1863,
+      "gzipSha256": "c5adce6f753a953079dac4637989bf82f019e94467e71f572290f41662d92712"
+    },
+    {
+      "source": "prior-application-context-v1/src/nft_market.rs",
+      "file": "files/prior-application-context-v1/src/nft_market.rs.gz",
+      "bytes": 3003,
+      "sha256": "bdab2954ac2541798471cce9cd1c8bbabb71416b895d2c66a0f608611e2b2d02",
+      "gzipBytes": 1281,
+      "gzipSha256": "e455aa94e28ae1e8ed196c6ef97bbd158af06045900adf5e6d527cdfedbae14b"
+    },
+    {
+      "source": "prior-application-context-v1/src/policy.rs",
+      "file": "files/prior-application-context-v1/src/policy.rs.gz",
+      "bytes": 6998,
+      "sha256": "addc6046aa34b92b8fa2c9feda0ad287279094e37f8dcb26b1b70edb296fc850",
+      "gzipBytes": 2611,
+      "gzipSha256": "e618ba42019908439d66f5c3ec56d6ca950f7103b81d72b53751c5ac1a101b10"
+    },
+    {
+      "source": "prior-application-context-v1/src/proof_binding.rs",
+      "file": "files/prior-application-context-v1/src/proof_binding.rs.gz",
+      "bytes": 2999,
+      "sha256": "00bee74f137d4290cf8e55e82242ed18b669182237fbdd80e6ea95183d337ea0",
+      "gzipBytes": 986,
+      "gzipSha256": "b4b9e29271e349aa734b2b46c6be40cdd098b677e76a094f82ccf90564c3efa0"
+    },
+    {
+      "source": "prior-application-context-v1/src/ranges.rs",
+      "file": "files/prior-application-context-v1/src/ranges.rs.gz",
+      "bytes": 7231,
+      "sha256": "2cbe1992b1cfd1001834bdae4b1815c7128b19bf5754fe9db935ed33ba8c407f",
+      "gzipBytes": 2320,
+      "gzipSha256": "7f45116b3cb7fe9e870565cf5c15dfd9388824805c5a8114d46419c5c2369f49"
+    },
+    {
+      "source": "prior-application-context-v1/src/runtime.rs",
+      "file": "files/prior-application-context-v1/src/runtime.rs.gz",
+      "bytes": 2016,
+      "sha256": "88fa3ebd7703954dab154697af021957b5b060682cb68d8842088b4cd47d38c2",
+      "gzipBytes": 904,
+      "gzipSha256": "c8504cb9c4cd4d6e5dda565fbd1098d4076681e3f2efce26663c96fc79aa6c67"
+    },
+    {
+      "source": "prior-application-context-v1/src/submission_guard.rs",
+      "file": "files/prior-application-context-v1/src/submission_guard.rs.gz",
+      "bytes": 13224,
+      "sha256": "e2e28c906497c2fa18005c062f47350922f1b702975b001f6bc6fe5666bc25a9",
+      "gzipBytes": 3663,
+      "gzipSha256": "a8ffa073107a52a488dc11c70d97bbe7d9cfb49a07fb9455b34f1a4dd31a91f0"
+    },
+    {
+      "source": "prior-application-context-v1/src/wallet_driver.rs",
+      "file": "files/prior-application-context-v1/src/wallet_driver.rs.gz",
+      "bytes": 16931,
+      "sha256": "21877056485b6ba106a017433484bd4084831836ec78be4aaa03243442178f58",
+      "gzipBytes": 4940,
+      "gzipSha256": "409a8c8250496014d240745f17ba0ff9fa34721a7ef977ca015fa0fc79068304"
+    },
+    {
+      "source": "regressions/psy-composition-route-binding-test-20261023-v2.log",
+      "file": "files/regressions/psy-composition-route-binding-test-20261023-v2.log.gz",
+      "bytes": 4792,
+      "sha256": "11e2a405357885f72f647cf4e69137e881819a6ca828a61656bf4de914960345",
+      "gzipBytes": 1366,
+      "gzipSha256": "02a774d58c9dd08f6269773085c4fb5960e3a86d489908766263263cb7c2934c"
+    },
+    {
+      "source": "regressions/psy-executor-composition-regression-20261023-v2.log",
+      "file": "files/regressions/psy-executor-composition-regression-20261023-v2.log.gz",
+      "bytes": 40574,
+      "sha256": "3a07e63fcbe6e40412707471ecae1da466bc00d9bc2eb1d433d2f53912cd832d",
+      "gzipBytes": 8886,
+      "gzipSha256": "c360bc6101fae4cec8b9cda666a00db37abdd347e14c01b63c97610c3858cf3c"
+    },
+    {
+      "source": "regressions/psy-live-performance-report-test-20261023-v2.log",
+      "file": "files/regressions/psy-live-performance-report-test-20261023-v2.log.gz",
+      "bytes": 779,
+      "sha256": "5d0f91e2b8465ed6565d9f0aeba36dcd9a2712a3c440874cc068b5093f89509e",
+      "gzipBytes": 336,
+      "gzipSha256": "a6bd7c7b5a21159e4301d5a4f1330f0f31eac8759f25190d310dce59bab18a0e"
+    },
+    {
+      "source": "regressions/psy-market-build-gate-recheck-20261023-v1.log",
+      "file": "files/regressions/psy-market-build-gate-recheck-20261023-v1.log.gz",
+      "bytes": 2288,
+      "sha256": "52bd7b9b44ff0731ff71d6652bbd01f8241972c701eade28076ec800245cda9f",
+      "gzipBytes": 819,
+      "gzipSha256": "11dfedec38a780eaf1a7b408f0e25fcb6b006ad1b724e073639522b991b34ffa"
+    },
+    {
+      "source": "regressions/psy-market-build-gate-recheck-20261023-v2.log",
+      "file": "files/regressions/psy-market-build-gate-recheck-20261023-v2.log.gz",
+      "bytes": 653,
+      "sha256": "9d6fb93b69fa47268a6d1ecdd7ae84dd6963d86516d75e508c70338a3e5a1609",
+      "gzipBytes": 298,
+      "gzipSha256": "42f786583e149ba1e6f5b3750ca4903fa3e659ba9143e2deab3e580ce2db9d08"
+    },
+    {
+      "source": "toolchain/INPUTS-context-v2.json",
+      "file": "files/toolchain/INPUTS-context-v2.json.gz",
+      "bytes": 587,
+      "sha256": "fa3fea14a5ae546cc91642daf750019be2b30ed597235f5d5ecefc2ba8eaac5a",
+      "gzipBytes": 391,
+      "gzipSha256": "8ad0aea4220f321881f946a9a898ba7ad2a11a7450613b22b3614a681db03f9a"
+    },
+    {
+      "source": "toolchain/INPUTS-reservation-test-v3.json",
+      "file": "files/toolchain/INPUTS-reservation-test-v3.json.gz",
+      "bytes": 525,
+      "sha256": "b7a2c91acbd096faf3755ffb59c188e7f8226e66a271d0737e7f07f5a9d97ccd",
+      "gzipBytes": 364,
+      "gzipSha256": "0cafb899c99b372f61e85ce095d1b33583b17faad7d9c2b979662d3d3f38d043"
+    },
+    {
+      "source": "toolchain/INPUTS-reservation-test-v4.json",
+      "file": "files/toolchain/INPUTS-reservation-test-v4.json.gz",
+      "bytes": 370,
+      "sha256": "8a96b77f8d185c2d8704af881b185c53a51b157562600918f01cdab4a20a86e5",
+      "gzipBytes": 267,
+      "gzipSha256": "39efd074028e54d3bfa26dd9420ce18be93f15abd264a3665f0beff05e4d9bc7"
+    },
+    {
+      "source": "toolchain/INPUTS-reservation-test-v5.json",
+      "file": "files/toolchain/INPUTS-reservation-test-v5.json.gz",
+      "bytes": 406,
+      "sha256": "000cd5a52904be6dc54ed9f9098e14c5ef616720ef7f3733707f256da66dcf5f",
+      "gzipBytes": 291,
+      "gzipSha256": "a375229384bd97efdfb219e8909bbc08335a421a89c7a0314643263ded1385ab"
+    },
+    {
+      "source": "toolchain/INPUTS.json",
+      "file": "files/toolchain/INPUTS.json.gz",
+      "bytes": 5241,
+      "sha256": "04c8b044e75a1371777c1890087d96b2f6b7c75b4d859cef2207d08fa0a32943",
+      "gzipBytes": 2671,
+      "gzipSha256": "2217db49835b334420d55f9539742377803dcac3c8f5602efa0eeb84840dff8a"
+    },
+    {
+      "source": "toolchain/compiler-build.log",
+      "file": "files/toolchain/compiler-build.log.gz",
+      "bytes": 22154,
+      "sha256": "1ffdc1fad626c4453a0ba6f47916963780e33920b65febcaf85a63a33d7505d6",
+      "gzipBytes": 4511,
+      "gzipSha256": "9c81c3ed7af7b01a81f80745430ab33368e77ffe42f84fdb03a9c326fa572f34"
+    },
+    {
+      "source": "toolchain/context-rebase-test-v2.log",
+      "file": "files/toolchain/context-rebase-test-v2.log.gz",
+      "bytes": 22527,
+      "sha256": "4df088a8ed79ce76e7a8955eb5f05699d3b4d5a7c759cc538ccd3cc007cc2dba",
+      "gzipBytes": 4686,
+      "gzipSha256": "d85ce4fa65c85a2e89f5005ade0b72a3abd9f1428f13ce4e71ed9b07e729971f"
+    },
+    {
+      "source": "toolchain/context-rebase-test.log",
+      "file": "files/toolchain/context-rebase-test.log.gz",
+      "bytes": 44643,
+      "sha256": "5f6a015f339045380b993e72ab477b7c9c5661a3fb6be604236da9ff9111652b",
+      "gzipBytes": 9870,
+      "gzipSha256": "93d772cb5057bfe4329fbbddbdc6ab6b983362f1168859c4c57bd1ef7c7d2646"
+    },
+    {
+      "source": "toolchain/reservation-vm-test-v3.log",
+      "file": "files/toolchain/reservation-vm-test-v3.log.gz",
+      "bytes": 27119,
+      "sha256": "6430b551d33a7014da688b54bb023a6ab1ebb9942eff0c5403e81bb999c90629",
+      "gzipBytes": 5159,
+      "gzipSha256": "e0110cedb10ad0f3d013945ae414e304f03a4574187686caed0550494a30f02a"
+    },
+    {
+      "source": "toolchain/reservation-vm-test-v4.log",
+      "file": "files/toolchain/reservation-vm-test-v4.log.gz",
+      "bytes": 23477,
+      "sha256": "9707159327ff68f20edce18c683eae18a43d7aafc9ae97bfbac390f76cae689a",
+      "gzipBytes": 4927,
+      "gzipSha256": "8636444be1aaeb2c5919ec212accd0b08bab4d8050d28321822ad2ece323b810"
+    },
+    {
+      "source": "toolchain/reservation-vm-test-v5.log",
+      "file": "files/toolchain/reservation-vm-test-v5.log.gz",
+      "bytes": 24073,
+      "sha256": "fa3b9843889240649edc52cac017214a157e9b6b495bcf624acd35586ff79b8e",
+      "gzipBytes": 4888,
+      "gzipSha256": "6eaf3113563bf53b1068d474f401652dec1eb9c7b679dbd84f8ee1c4ad09cd7a"
+    }
+  ]
+}
