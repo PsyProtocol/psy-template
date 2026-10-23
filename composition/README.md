@@ -221,3 +221,27 @@ selects the exact already included request for the new isolated instances.
 and three actual malformed-request rejections. Its scope excludes financial
 proof/confirmation throughput. See the team review's exact measurements and
 limitations; no broad speedup or production claim follows from this cache.
+
+## Closed live acceptance reports
+
+After both isolated route runners and the fixed-checkpoint cohort audit have
+completed, run these read-only checks with **fresh output paths**:
+
+```sh
+node composition/acceptance/verifyReceiptBundle.mjs "$CASE" \
+  "$CASE/public/COMPOSITION-RECOVERY-AUDIT-v1.json" "$PINNED_UPS_VERIFIER" "$FRESH_PROOF_OUTPUT"
+node composition/acceptance/ownerClaimAudit.mjs "$CASE" \
+  "$FRESH_PROOF_OUTPUT/SUMMARY.json" "$CASE/public/COMPOSITION-OWNER-CLAIMS-AUDIT-v1.json"
+node composition/acceptance/livePerformance.mjs "$CASE" \
+  "$FRESH_PROOF_OUTPUT/SUMMARY.json" "$FRESH_PERFORMANCE_OUTPUT" "$CLOSED_RESOURCE_SUMMARY"
+```
+
+The ordinary claim audit compares actual historical balances and cumulative
+Outbox/claim cursors with the independently verified ordinary UPS start/end user
+leaves, exact request identity and actual fee. QA FT amounts use both U124 limbs;
+native test PSY has 9 decimals. It includes the one-unit initialization refund.
+The performance report requires completed claims, zero controller residuals,
+the exact cohort audit and all actual proof verifications. Missing timings stay
+unknown; overlapping phase walls are not summed as elapsed time, and repeated
+resident startup descriptors are counted only on the first job in a process.
+These reports do not submit transactions or assert production readiness.
