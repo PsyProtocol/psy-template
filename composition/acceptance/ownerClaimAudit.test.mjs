@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {checkClaimAmounts} from './ownerClaimAudit.mjs';
+import {checkClaimAmounts, auditOwnerClaims} from './ownerClaimAudit.mjs';
 import {MAX_AMOUNT} from '../../token/wide/arithmetic.mjs';
 
 test('historical claim audit uses both U124 limbs and exact cumulative cursors', () => {
@@ -18,4 +18,11 @@ test('native claim must reconcile actual receipt fee; pending zero is legitimate
   assert.equal(checkClaimAmounts(row), 50n);
   assert.throws(() => checkClaimAmounts({...row, fee:4n}));
   assert.equal(checkClaimAmounts({before:10n, after:10n, sent:5n, claimed:5n, newClaimed:5n}), 0n);
+});
+
+test('partial audit rejects unknown, repeated or empty scenarios before any file or RPC read', async () => {
+  for (const scenarios of [[], ['success','success'], ['../.secrets']]) {
+    await assert.rejects(auditOwnerClaims('/not-read', '/not-read', scenarios),
+      error => error.code === 'ERR_ASSERTION');
+  }
 });
