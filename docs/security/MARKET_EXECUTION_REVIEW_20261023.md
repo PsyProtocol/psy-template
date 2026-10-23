@@ -776,3 +776,38 @@ these lifecycle hashes. Actual warm first-fund transition, physical worker exit/
 resume and cancelled second-hop final claim still await real execution. The final
 performance report requires those planned live markers and does not equate this
 controlled exit with a power cut, multi-host takeover or production qualification.
+
+### Completed real success path and ordinary owner receipt
+
+The second output is claimed by the controller at 371504 and returned at 371519.
+The ordinary signature CLI wallet actually claims at **371528**. Its historical
+QA-A balance increases from 950.776627963145224158 to
+953.918339841412400280: exactly **3.141711878267176122 QA-A**, above the signed
+minimum. QA-B increases by the separate one-unit initialization refund. Controller
+phase is 99 and A/B/native spendable balances are all zero at 371532.
+
+Actual native controller accounting (test PSY, 9 decimals):
+20.002000000 budget = 8.000070000 controller receipt burn + 10.001730000 owner
+refund + 2.000200000 net market escrows. The final ordinary claim fee is
+1.000006000; actual owner native changes 842.997532000 → 851.999256000,
+exactly refund minus that fee. This differs from external sponsor and ordinary
+funding costs. Native fee limits are not assertions of profitable Bot economics.
+
+The actual ordinary full UPS independently verifies against pinned key/common
+data, and actual fee mutation rejects. Historical ordinary owner request hash,
+public key/nonce, start/end leaf roots, FT spendable increases, claim cursors and
+native fee agree. The audit helper supports explicitly selected known scenarios
+for milestones; the final combined report still requires both scenarios and all
+cohort proofs. Three claim-audit checks include rejecting invalid/duplicate/empty
+partial scenario selection before filesystem/RPC access.
+
+At the fixed success snapshot, both QA supplies remain 1,000 and the eight-account
+cohort including pending internal Outboxes matches **61.000505000 test PSY** of
+new deduplicated receipt burn since the earlier constituent baseline. This amount
+includes LP/bootstrap/market/sponsorship work, not solely the composition fee cap.
+Closed success evidence is in
+`executor/verification/2026-10-24-composition-success-complete-v1` (5,203 files,
+35,350,371 compressed bytes; all originals compared). Full cohort independent
+proof re-verification remains a later gate. This is actual two-pool/ordinary-wallet
+success acceptance, not browser UX, global fairness, cross-vault atomicity or
+production qualification. The separately funded recovery instance is now running.

@@ -25,14 +25,17 @@ export function checkClaimAmounts({before, after, sent, claimed, newClaimed, fee
   assert.equal(after, before + sent - claimed - fee, 'actual owner spendable balance delta');
   return sent - claimed;
 }
-export async function auditOwnerClaims(base, verificationSummary) {
+export async function auditOwnerClaims(base, verificationSummary, scenarios=['success','recovery']) {
+  assert.ok(Array.isArray(scenarios) && scenarios.length > 0 && scenarios.length <= 2);
+  assert.equal(new Set(scenarios).size, scenarios.length);
+  assert.ok(scenarios.every(s => ['success','recovery'].includes(s)), 'explicit known claim scenarios only');
   const verified = exact(verificationSummary), rows = [];
   assert.equal(verified.mutatedActualFeeRejected, true);
   assert.equal(verified.broadcast, false);
   const actors = JSON.parse(readFileSync(join(base, 'public/BOOTSTRAP-v1.json'), 'utf8')).actors;
   const state = await publicState(join(base, 'public/rpc.json'));
   assert.equal(BigInt(state.network.magic), COMPOSITION_MAGIC);
-  for (const scenario of ['success', 'recovery']) {
+  for (const scenario of scenarios) {
     const home = join(controllerDirectory(base), scenario);
     const done = exact(join(home, 'public/LIVE-ROUTE-COMPLETE-v1.json'));
     assert.equal(done.ordinaryOwnerClaimIncluded, true);
@@ -109,7 +112,7 @@ export async function auditOwnerClaims(base, verificationSummary) {
     rows, broadcast:false, scope:'actual ordinary-owner FT/native spendable increases and exact sender cursor consumption at historical checkpoints, tied to independently verified UPS start/end leaves and exact fees; public state observations, not runtime attestation or cross-UPS atomicity'};
 }
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
-  const [base, proofs, out] = process.argv.slice(2);
+  const [base, proofs, out, scenario] = process.argv.slice(2);
   assert.ok(base && proofs && out);
-  save(out, await auditOwnerClaims(base, proofs));
+  save(out, await auditOwnerClaims(base, proofs, scenario ? [scenario] : undefined));
 }
