@@ -29,6 +29,7 @@ export async function auditOwnerClaims(base, verificationSummary) {
   const verified = exact(verificationSummary), rows = [];
   assert.equal(verified.mutatedActualFeeRejected, true);
   assert.equal(verified.broadcast, false);
+  const actors = JSON.parse(readFileSync(join(base, 'public/BOOTSTRAP-v1.json'), 'utf8')).actors;
   const state = await publicState(join(base, 'public/rpc.json'));
   assert.equal(BigInt(state.network.magic), COMPOSITION_MAGIC);
   for (const scenario of ['success', 'recovery']) {
@@ -46,6 +47,9 @@ export async function auditOwnerClaims(base, verificationSummary) {
     assert.equal(included.status, 'included');
     assert.ok(BigInt(state.checkpoint) >= included.checkpoint);
     assert.equal(c.new_user_leaf.user_id, done.owner);
+    const actor = actors.find(a => BigInt(a.userId) === done.owner);
+    assert.ok(actor, 'claim owner must be an explicitly pinned ordinary actor');
+    assert.equal(c.new_user_leaf.public_key, actor.identity.publicKeyHash);
     const proof = verified.rows.find(r => r.contentHash === included.contentHash);
     assert.ok(proof, 'ordinary owner claim must independently verify first');
     assert.equal(proof.requestSha256, sha256(readFileSync(join(attempt, 'request.json'))));
@@ -93,10 +97,12 @@ export async function auditOwnerClaims(base, verificationSummary) {
     const received = checkClaimAmounts({before, after, sent, claimed, newClaimed, fee, wide:false});
     assert.equal(beforeReport.nativePending, received);
     assert.equal(await next.slot(V, 0, 0), 0n);
-    rows.push({scenario, owner:done.owner, vault:done.vaultId, contentHash:included.contentHash,
+    rows.push({scenario, owner:done.owner, publicKeyHash:c.new_user_leaf.public_key,
+      nonce:c.new_user_leaf.nonce, vault:done.vaultId, contentHash:included.contentHash,
       requestSha256:proof.requestSha256, sourceCheckpoint:c.checkpoint_id,
       includedCheckpoint:included.checkpoint, startUserLeafHash:c.state_transition.start_user_leaf_hash,
-      endUserLeafHash:c.state_transition.end_user_leaf_hash, assets,
+      endUserLeafHash:c.state_transition.end_user_leaf_hash,
+      endUserStateRoot:c.new_user_leaf.user_state_tree_root, assets,
       native:{asset:0, decimals:9, before, after, sent, claimed, newClaimed, received, fee}});
   }
   return {checkedAt:new Date().toISOString(), verificationSummarySha256:sha256(readFileSync(verificationSummary)),
