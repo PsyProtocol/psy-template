@@ -3,7 +3,7 @@
 // an acknowledged submit into an unrecorded business retry.
 import{mkdir}from'node:fs/promises';import{join}from'node:path';import{randomUUID}from'node:crypto';
 import{publishFile}from'./durableFile.mjs';import{observationJson}from'./observations.mjs';
-const phases=['initialize','scan','reconcile','isCurrent','validateProof','prove','prepareSubmission','submit'];
+const phases=['initialize','scan','quote','validateFeePreparation','snapshot','reconcile','isCurrent','validateProof','prove','prepareSubmission','submit'];
 export function instrumentAdapter(adapter,{scope,sink,clock=()=>performance.now(),memory=()=>process.memoryUsage(),now=()=>new Date().toISOString()}={}){
  const result={...adapter};let metricFailures=0;
  Object.defineProperty(result,'metricFailures',{get:()=>metricFailures});
@@ -17,7 +17,7 @@ export function instrumentAdapter(adapter,{scope,sink,clock=()=>performance.now(
    try{const after=memory();await sink({schema:1,scope,phase,startedAt,finishedAt:now(),wallMilliseconds:clock()-start,failed,
     parentRssBeforeBytes:before.rss,parentRssAfterBytes:after.rss,parentHeapUsedBeforeBytes:before.heapUsed,parentHeapUsedAfterBytes:after.heapUsed,
     memoryScope:'Node parent endpoints only; not child proof memory or peak RSS',
-    phaseScope:phase==='initialize'?'adapter construction, dependency reads, sealed driver and key identity; resident circuit/session construction remains in first proof startup':phase==='prove'?'complete adapter proving path including fresh state/identity checks; detailed circuit/call/end-cap timings remain in preflight':phase==='submit'?'saved-proof verification, fresh identity/dependency/state checks and acknowledgement; excludes proving and confirmation':phase==='reconcile'?'receipt/index/common-state observation; not server finality latency':'adapter operation wall; do not add overlapping operations as elapsed wall'});}
+    phaseScope:phase==='initialize'?'adapter construction, dependency reads, sealed driver and key identity; resident circuit/session construction remains in first proof startup':phase==='quote'?'advisory fee trace and fresh eligibility checks only; exact fee burn remains gated by full UPS':phase==='validateFeePreparation'?'exact retained advisory trace binding and fresh eligibility checks; no reuse of old state witnesses':phase==='prove'?'complete adapter proving path including fresh state/identity checks; detailed circuit/call/end-cap timings remain in preflight':phase==='submit'?'saved-proof verification, fresh identity/dependency/state checks and acknowledgement; excludes proving and confirmation':phase==='reconcile'?'receipt/index/common-state observation; not server finality latency':'adapter operation wall; do not add overlapping operations as elapsed wall'});}
    catch{metricFailures++;}
   }
  };}

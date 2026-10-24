@@ -5,6 +5,7 @@ export async function selectCompositionAction(adapter,journal){
  const rows=await journal.records(),closed=new Set(rows.filter(r=>['included','not-submitted'].includes(r.status)).map(r=>r.taskId));
  for(const r of [...rows].reverse())if(r.status==='planned'&&!closed.has(r.taskId)){
   const proof=rows.findLast(p=>p.taskId===r.taskId&&p.status==='proved')?.proof;
+  if(!proof&&adapter.validateFeePreparation&&await adapter.validateFeePreparation(r.task))return{status:'selected',task:r.task,reusedPreparedProof:false,reusedPreparedFee:true};
   if(proof&&await adapter.isCurrent(r.task)&&await adapter.validateProof(r.task,proof))return{status:'selected',task:r.task,reusedPreparedProof:true};
  }
  const scan=await adapter.scan();if(!scan.action)return{status:'idle',...scan};
