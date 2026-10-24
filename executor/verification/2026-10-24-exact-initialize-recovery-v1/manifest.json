@@ -1,0 +1,339 @@
+{
+  "schema": 1,
+  "sourceDirectory": "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-market-recovery-20261023",
+  "machine": "gewenbo.local",
+  "host": "macOS-15.7.3-arm64-arm-64bit",
+  "scope": "public formal Executor run including failures; success requires exact included receipt",
+  "walletFilesIncluded": false,
+  "sealedBinariesIncluded": false,
+  "records": [
+    {
+      "source": "three-markets-performance-live-v1/attempts/three-inventory-bondingcurve-batch_maintenance-cold-comparison/comparison.json",
+      "file": "files/three-markets-performance-live-v1/attempts/three-inventory-bondingcurve-batch_maintenance-cold-comparison/comparison.json.gz",
+      "bytes": 1965,
+      "sha256": "2dae7b25f809506056f1912a87b6488e02860c3abdb6ea47fe3bd340d2f4a149",
+      "gzipBytes": 1068,
+      "gzipSha256": "cc46e0107f458b5f28fa41b0f59b52c95795b4dd6ab7193e7d6c233f820289de"
+    },
+    {
+      "source": "three-markets-performance-live-v1/attempts/three-inventory-bondingcurve-batch_maintenance-cold-comparison/preflight.json",
+      "file": "files/three-markets-performance-live-v1/attempts/three-inventory-bondingcurve-batch_maintenance-cold-comparison/preflight.json.gz",
+      "bytes": 2074,
+      "sha256": "a788d3b1fa3e703a70522716769c3e1ec65b2b6095e0ce914349fd483c07717a",
+      "gzipBytes": 1052,
+      "gzipSha256": "8527714df0ef2d0fb47fb28c395edb9f2ae1c58bb2687fd8d475174cc369587d"
+    },
+    {
+      "source": "three-markets-performance-live-v1/attempts/three-inventory-bondingcurve-batch_maintenance-cold-comparison/prepared.json",
+      "file": "files/three-markets-performance-live-v1/attempts/three-inventory-bondingcurve-batch_maintenance-cold-comparison/prepared.json.gz",
+      "bytes": 451,
+      "sha256": "959c26e89ad9c6f69dc4aaae38e9dcc76c6c96f20534cdde20828979981f6adf",
+      "gzipBytes": 300,
+      "gzipSha256": "20457c85ccb0eddd653a72aee7990af36ce3c8f5fc197f564877f90c3d88036c"
+    },
+    {
+      "source": "three-markets-performance-live-v1/attempts/three-inventory-bondingcurve-batch_maintenance-cold-comparison/request.json",
+      "file": "files/three-markets-performance-live-v1/attempts/three-inventory-bondingcurve-batch_maintenance-cold-comparison/request.json.gz",
+      "bytes": 1153827,
+      "sha256": "c72b1da972cc7fa64baf9e239a7063e32eaa4e96e829f277d475885c27ef58d0",
+      "gzipBytes": 193579,
+      "gzipSha256": "8d1085a8fd5fe6d8b4bd5d5e225601aa05136ceba5de6c1a8cd6a78800f5ce25"
+    },
+    {
+      "source": "three-markets-performance-live-v1/initialize-prepared-recovery-v1.log",
+      "file": "files/three-markets-performance-live-v1/initialize-prepared-recovery-v1.log.gz",
+      "bytes": 2841,
+      "sha256": "f1058da92cbfc3b0916d8a35d5c3445e9a7785219c8538b9298ebab63f248d37",
+      "gzipBytes": 890,
+      "gzipSha256": "a2c6f85ebc8b4b72058af5f8b091a72f7cd55fdf0eac39b0eee93c1a8cb0e172"
+    },
+    {
+      "source": "three-markets-performance-live-v1/initialize-prepared-recovery-v2.log",
+      "file": "files/three-markets-performance-live-v1/initialize-prepared-recovery-v2.log.gz",
+      "bytes": 84,
+      "sha256": "2d507422fe7e4de669a270e5fd42417c8435b2ee1ce1f8e9891ae5b3fcd5671a",
+      "gzipBytes": 94,
+      "gzipSha256": "9cd661415740e77b64392bc4b7ba10ead79d03c2dfd96eab91c41fe0c25e275c"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/INITIALIZE-RECOVERY-CLOSED-v1.json",
+      "file": "files/three-markets-performance-live-v1/public/INITIALIZE-RECOVERY-CLOSED-v1.json.gz",
+      "bytes": 548,
+      "sha256": "3d4fd4394b4242c85faa8ef8c0a8ba15ed54c974d8b2b3bfd315410d241f462e",
+      "gzipBytes": 355,
+      "gzipSha256": "72e187220bdde58abe461f6cdf5604bec6ca034c11c67e446d5cbc42d7b81d37"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/INITIALIZE-RECOVERY-SOURCE-v2.json",
+      "file": "files/three-markets-performance-live-v1/public/INITIALIZE-RECOVERY-SOURCE-v2.json.gz",
+      "bytes": 308,
+      "sha256": "da746a1bf37cc9556dd0f46dec81fdb87aec262c8e03afaeb0b071bdafe1c852",
+      "gzipBytes": 242,
+      "gzipSha256": "5e5e63d0400dbddfcf04c5356165314727ce97cbea5276a55a0b8af54172b3dc"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/PREPARED-INVENTORY-RECOVERY-v1.json",
+      "file": "files/three-markets-performance-live-v1/public/PREPARED-INVENTORY-RECOVERY-v1.json.gz",
+      "bytes": 732,
+      "sha256": "48c5666a59ca3e2371c8f6742d5c90f2ba9143fce97fd7d9398cc3b850a431ba",
+      "gzipBytes": 506,
+      "gzipSha256": "a3245e3ab9f237caa63f0c161668dcb401e490fcce8d1b5630c9c2692dd69966"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/initialize-recovery-executed-source-v2.mjs",
+      "file": "files/three-markets-performance-live-v1/public/initialize-recovery-executed-source-v2.mjs.gz",
+      "bytes": 3145,
+      "sha256": "792923d4fce9904129c7be0bdb718dd07aeacddf0c59f42c16ef6e5be527a5e7",
+      "gzipBytes": 1241,
+      "gzipSha256": "6df93e8e7bc8c045468d9c82915defdc290fc38320877153857e8bae97c6b02d"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/initialize-recovery-parse-failed-source-v1.mjs",
+      "file": "files/three-markets-performance-live-v1/public/initialize-recovery-parse-failed-source-v1.mjs.gz",
+      "bytes": 3119,
+      "sha256": "45f735d0089e01232fd8b8a3128d09e1e67a89c1d03a4ae089da55f70f35b902",
+      "gzipBytes": 1230,
+      "gzipSha256": "0952f410ccdc01f8ebe27a87a182a38a1cb0df7869ca911a80776db52aeaa73a"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/three-bondingcurve-initialize-formal-result.json",
+      "file": "files/three-markets-performance-live-v1/public/three-bondingcurve-initialize-formal-result.json.gz",
+      "bytes": 3226,
+      "sha256": "98ec4532778288b166808ee78ec1b0a19160ef5a25887e04a7c5b28ef9a3e764",
+      "gzipBytes": 1291,
+      "gzipSha256": "d84cc0d106c8cf9e66cc7f2455207a45053644555b2ca4cd456d9fa42f8ca35e"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/three-bondingcurve-initialize-formal-task.json",
+      "file": "files/three-markets-performance-live-v1/public/three-bondingcurve-initialize-formal-task.json.gz",
+      "bytes": 630,
+      "sha256": "72a09777c93b3fd6b98fb20b2d57f6d5aa5aa6399414e7b6c2562330e8647df5",
+      "gzipBytes": 280,
+      "gzipSha256": "5f4fb3fcaa533de3236db0f5585a2ddcf5bf6f993b03c5238ec58ef044be55dd"
+    },
+    {
+      "source": "three-markets-performance-live-v1/route-run-v2.log",
+      "file": "files/three-markets-performance-live-v1/route-run-v2.log.gz",
+      "bytes": 1563,
+      "sha256": "11b0faad6937929eb9f8ceddb0febf596f6dfb7f0c673d128a0fc5707063cd49",
+      "gzipBytes": 613,
+      "gzipSha256": "2e5d32ae887497bbc71ad02c46a19424ab84c7bd78585ea8ac7adf1c870f9f3e"
+    },
+    {
+      "source": "three-markets-performance-live-v1/runtime/compact/sepolia/302272/00a2bab17095fd8fd4b990bef7271712157a1ac065831605e0200023ab67724d/calls.json",
+      "file": "files/three-markets-performance-live-v1/runtime/compact/sepolia/302272/00a2bab17095fd8fd4b990bef7271712157a1ac065831605e0200023ab67724d/calls.json.gz",
+      "bytes": 393,
+      "sha256": "b26dfafa7584683d9c57b491b6386a4f74990e32d94f863e32b01fa61404216e",
+      "gzipBytes": 157,
+      "gzipSha256": "e4916b1b7d9bd89df0466d9b2ec01d6f1c86bd76e0dcea2e8f796d57aef79389"
+    },
+    {
+      "source": "three-markets-performance-live-v1/runtime/compact/sepolia/302272/00a2bab17095fd8fd4b990bef7271712157a1ac065831605e0200023ab67724d/guard.json",
+      "file": "files/three-markets-performance-live-v1/runtime/compact/sepolia/302272/00a2bab17095fd8fd4b990bef7271712157a1ac065831605e0200023ab67724d/guard.json.gz",
+      "bytes": 3119,
+      "sha256": "65e7da4eeec511fcc39680d70a6ec78f550e52b132af25788960421497cd577f",
+      "gzipBytes": 855,
+      "gzipSha256": "23a005c64ca74c426f08af72fc82dd418e0e37594a5b4f0cc2a9bb6044d8d526"
+    },
+    {
+      "source": "three-markets-performance-live-v1/runtime/compact/sepolia/302272/00a2bab17095fd8fd4b990bef7271712157a1ac065831605e0200023ab67724d/proof-0570ac38-91e8-4abc-9eee-b327088828df/preflight.json",
+      "file": "files/three-markets-performance-live-v1/runtime/compact/sepolia/302272/00a2bab17095fd8fd4b990bef7271712157a1ac065831605e0200023ab67724d/proof-0570ac38-91e8-4abc-9eee-b327088828df/preflight.json.gz",
+      "bytes": 2061,
+      "sha256": "6187b8fec81b08bde39404325dc6d6e5b26f9d9342da460642a3079cc4b45934",
+      "gzipBytes": 1044,
+      "gzipSha256": "0a250d9b313d95cceadfd9c73f2159631c5bfbbe4da725a329c87d6e176f54d9"
+    },
+    {
+      "source": "three-markets-performance-live-v1/runtime/compact/sepolia/302272/00a2bab17095fd8fd4b990bef7271712157a1ac065831605e0200023ab67724d/proof-0570ac38-91e8-4abc-9eee-b327088828df/prepared.json",
+      "file": "files/three-markets-performance-live-v1/runtime/compact/sepolia/302272/00a2bab17095fd8fd4b990bef7271712157a1ac065831605e0200023ab67724d/proof-0570ac38-91e8-4abc-9eee-b327088828df/prepared.json.gz",
+      "bytes": 451,
+      "sha256": "74bb4f937c24abe52c8e2a02c0feb4beac30c3a4d878bcac92b16da8c875c72d",
+      "gzipBytes": 302,
+      "gzipSha256": "d4b444c3177c17a07e476dd6b049dfe83a3805a38efd80c30a8bb6b7c56cacf0"
+    },
+    {
+      "source": "three-markets-performance-live-v1/runtime/compact/sepolia/302272/00a2bab17095fd8fd4b990bef7271712157a1ac065831605e0200023ab67724d/proof-0570ac38-91e8-4abc-9eee-b327088828df/request.json",
+      "file": "files/three-markets-performance-live-v1/runtime/compact/sepolia/302272/00a2bab17095fd8fd4b990bef7271712157a1ac065831605e0200023ab67724d/proof-0570ac38-91e8-4abc-9eee-b327088828df/request.json.gz",
+      "bytes": 1153669,
+      "sha256": "e3ff6f73402ab43b426a67500d01feff1ec928b5b59cea825b0ab52914c80c9b",
+      "gzipBytes": 193608,
+      "gzipSha256": "5e4b9110e140475d3fc3b79af453baa0f0e3f3629101bf31a223bfddc442b38b"
+    },
+    {
+      "source": "three-markets-performance-live-v1/runtime/compact/sepolia/302272/00a2bab17095fd8fd4b990bef7271712157a1ac065831605e0200023ab67724d/proof-0570ac38-91e8-4abc-9eee-b327088828df.preflight.log",
+      "file": "files/three-markets-performance-live-v1/runtime/compact/sepolia/302272/00a2bab17095fd8fd4b990bef7271712157a1ac065831605e0200023ab67724d/proof-0570ac38-91e8-4abc-9eee-b327088828df.preflight.log.gz",
+      "bytes": 1729,
+      "sha256": "78280a2e7fb3f52c1e09bd92a2ea631104d9f38a7f6d2c5017390659a9159872",
+      "gzipBytes": 550,
+      "gzipSha256": "e962168cad6461fb6bcb818fe0680ed3a41000e088c337607ab13a0472ced9b9"
+    },
+    {
+      "source": "three-markets-performance-live-v1/runtime/compact/sepolia/302272/00a2bab17095fd8fd4b990bef7271712157a1ac065831605e0200023ab67724d/send-3adb2cd7-b05c-426d-8e83-94e47549044f/failure.json",
+      "file": "files/three-markets-performance-live-v1/runtime/compact/sepolia/302272/00a2bab17095fd8fd4b990bef7271712157a1ac065831605e0200023ab67724d/send-3adb2cd7-b05c-426d-8e83-94e47549044f/failure.json.gz",
+      "bytes": 278,
+      "sha256": "8ab9a74cf5853cf775946c2a570d44bf2c2c4f49aac32a5569c9aa59776e6a59",
+      "gzipBytes": 190,
+      "gzipSha256": "f2b5bb95f19ee6effe5fe98183a0086a9028d4ce62c2922dde994c76dd783ba8"
+    },
+    {
+      "source": "three-markets-performance-live-v1/runtime/compact/sepolia/302272/00a2bab17095fd8fd4b990bef7271712157a1ac065831605e0200023ab67724d/send-3adb2cd7-b05c-426d-8e83-94e47549044f.log",
+      "file": "files/three-markets-performance-live-v1/runtime/compact/sepolia/302272/00a2bab17095fd8fd4b990bef7271712157a1ac065831605e0200023ab67724d/send-3adb2cd7-b05c-426d-8e83-94e47549044f.log.gz",
+      "bytes": 257,
+      "sha256": "0f4fbb1f081c3fcc83cc05e288e3768d4c87b163ef2c5afe57b4393b782c2422",
+      "gzipBytes": 183,
+      "gzipSha256": "699a88c12f43f70ca774bc07ecd89c8234a3037898f6ce1ab9454e1302c373bf"
+    },
+    {
+      "source": "three-markets-performance-live-v1/runtime/compact/sepolia/302272/00a2bab17095fd8fd4b990bef7271712157a1ac065831605e0200023ab67724d/send-a5e84a86-8544-4e86-97f2-6c1046802a4c/intent.json",
+      "file": "files/three-markets-performance-live-v1/runtime/compact/sepolia/302272/00a2bab17095fd8fd4b990bef7271712157a1ac065831605e0200023ab67724d/send-a5e84a86-8544-4e86-97f2-6c1046802a4c/intent.json.gz",
+      "bytes": 270,
+      "sha256": "062dc72892b256964369e35684df459535c026dbfc397b4f19836ea1740dcca0",
+      "gzipBytes": 220,
+      "gzipSha256": "2b2eeadb4cd9fb224fb1ff95479e682c6fa00a37b2a8a3ea5253f63e276b3394"
+    },
+    {
+      "source": "three-markets-performance-live-v1/runtime/compact/sepolia/302272/00a2bab17095fd8fd4b990bef7271712157a1ac065831605e0200023ab67724d/send-a5e84a86-8544-4e86-97f2-6c1046802a4c/receipt.json",
+      "file": "files/three-markets-performance-live-v1/runtime/compact/sepolia/302272/00a2bab17095fd8fd4b990bef7271712157a1ac065831605e0200023ab67724d/send-a5e84a86-8544-4e86-97f2-6c1046802a4c/receipt.json.gz",
+      "bytes": 258,
+      "sha256": "7b8c397736418a04b098b344504b6e20337a19d5a934712cb9e04388b2d3e601",
+      "gzipBytes": 184,
+      "gzipSha256": "a25b4370963e86afea517a62b80536103e39ed49afd42db8d5e2f19cfd2dab33"
+    },
+    {
+      "source": "three-markets-performance-live-v1/runtime/compact/sepolia/302272/00a2bab17095fd8fd4b990bef7271712157a1ac065831605e0200023ab67724d/send-a5e84a86-8544-4e86-97f2-6c1046802a4c/request.json",
+      "file": "files/three-markets-performance-live-v1/runtime/compact/sepolia/302272/00a2bab17095fd8fd4b990bef7271712157a1ac065831605e0200023ab67724d/send-a5e84a86-8544-4e86-97f2-6c1046802a4c/request.json.gz",
+      "bytes": 1153669,
+      "sha256": "e3ff6f73402ab43b426a67500d01feff1ec928b5b59cea825b0ab52914c80c9b",
+      "gzipBytes": 193608,
+      "gzipSha256": "5e4b9110e140475d3fc3b79af453baa0f0e3f3629101bf31a223bfddc442b38b"
+    },
+    {
+      "source": "three-markets-performance-live-v1/runtime/compact/sepolia/302272/00a2bab17095fd8fd4b990bef7271712157a1ac065831605e0200023ab67724d/send-a5e84a86-8544-4e86-97f2-6c1046802a4c/rpc-request.json",
+      "file": "files/three-markets-performance-live-v1/runtime/compact/sepolia/302272/00a2bab17095fd8fd4b990bef7271712157a1ac065831605e0200023ab67724d/send-a5e84a86-8544-4e86-97f2-6c1046802a4c/rpc-request.json.gz",
+      "bytes": 492263,
+      "sha256": "90fd749401de4fdea1b3ae5ca50a1abb8b50c4aa5c76b567e8bfb7cf1dc024ba",
+      "gzipBytes": 169456,
+      "gzipSha256": "2739f7610db781d756b089666e1d6f201123386adc1f20e9b1588bd989ca8bb8"
+    },
+    {
+      "source": "three-markets-performance-live-v1/runtime/compact/sepolia/302272/00a2bab17095fd8fd4b990bef7271712157a1ac065831605e0200023ab67724d/send-a5e84a86-8544-4e86-97f2-6c1046802a4c/rpc-response-meta.json",
+      "file": "files/three-markets-performance-live-v1/runtime/compact/sepolia/302272/00a2bab17095fd8fd4b990bef7271712157a1ac065831605e0200023ab67724d/send-a5e84a86-8544-4e86-97f2-6c1046802a4c/rpc-response-meta.json.gz",
+      "bytes": 120,
+      "sha256": "dac63eed566a54e025d7dfcbb1f2b7991d23c59fba11f5b21763a42249d36770",
+      "gzipBytes": 117,
+      "gzipSha256": "500a998fac6f6906368f41f425dc75270b3e9c2226a48c6ee3eb5ccc73bc2346"
+    },
+    {
+      "source": "three-markets-performance-live-v1/runtime/compact/sepolia/302272/00a2bab17095fd8fd4b990bef7271712157a1ac065831605e0200023ab67724d/send-a5e84a86-8544-4e86-97f2-6c1046802a4c/rpc-response.body",
+      "file": "files/three-markets-performance-live-v1/runtime/compact/sepolia/302272/00a2bab17095fd8fd4b990bef7271712157a1ac065831605e0200023ab67724d/send-a5e84a86-8544-4e86-97f2-6c1046802a4c/rpc-response.body.gz",
+      "bytes": 38,
+      "sha256": "0d838a349418eb2e4db232f5454ddf684afea2d53c155da1fca3952dd564bab5",
+      "gzipBytes": 57,
+      "gzipSha256": "dcd098dc4a0e86eaf34f9806fa594225f4131d05ad260f60b72acf16432af8bf"
+    },
+    {
+      "source": "three-markets-performance-live-v1/runtime/compact/sepolia/302272/00a2bab17095fd8fd4b990bef7271712157a1ac065831605e0200023ab67724d/send-a5e84a86-8544-4e86-97f2-6c1046802a4c/verification.json",
+      "file": "files/three-markets-performance-live-v1/runtime/compact/sepolia/302272/00a2bab17095fd8fd4b990bef7271712157a1ac065831605e0200023ab67724d/send-a5e84a86-8544-4e86-97f2-6c1046802a4c/verification.json.gz",
+      "bytes": 689,
+      "sha256": "ee1a984c56746e911491d937d91903d1869d6938705840b76007a0289ac19964",
+      "gzipBytes": 444,
+      "gzipSha256": "e330874f4e6ceb0929438926eb5629b0820f885ad5df381f052dd0dbffb6173b"
+    },
+    {
+      "source": "three-markets-performance-live-v1/runtime/compact/sepolia/302272/00a2bab17095fd8fd4b990bef7271712157a1ac065831605e0200023ab67724d/send-a5e84a86-8544-4e86-97f2-6c1046802a4c.log",
+      "file": "files/three-markets-performance-live-v1/runtime/compact/sepolia/302272/00a2bab17095fd8fd4b990bef7271712157a1ac065831605e0200023ab67724d/send-a5e84a86-8544-4e86-97f2-6c1046802a4c.log.gz",
+      "bytes": 214,
+      "sha256": "d19a4762818fdbecaf4a3342119c5bf103e8ea2a53bce37847ad2db1ad3dec88",
+      "gzipBytes": 185,
+      "gzipSha256": "593fa97e35beacc0c3b778b974ca2901065bd713d907ba4458622594522f1992"
+    },
+    {
+      "source": "three-markets-performance-live-v1/runtime/d2ddc1b3668198aad45a53239955484730ae4889a5f5ce397185c7966c82dd71/00000005-planned.json",
+      "file": "files/three-markets-performance-live-v1/runtime/d2ddc1b3668198aad45a53239955484730ae4889a5f5ce397185c7966c82dd71/00000005-planned.json.gz",
+      "bytes": 981,
+      "sha256": "53bde10354bed8a20b0ad9fa0dc56b87069cfbca0013e4f9206a3cf41d2bfead",
+      "gzipBytes": 470,
+      "gzipSha256": "de8aa74cd233a2a909a8811ec362e058df405c06d7b23b6f90ddfaa8165fe5fa"
+    },
+    {
+      "source": "three-markets-performance-live-v1/runtime/d2ddc1b3668198aad45a53239955484730ae4889a5f5ce397185c7966c82dd71/00000006-proved.json",
+      "file": "files/three-markets-performance-live-v1/runtime/d2ddc1b3668198aad45a53239955484730ae4889a5f5ce397185c7966c82dd71/00000006-proved.json.gz",
+      "bytes": 779,
+      "sha256": "2e12f6410a105540bd1aaa34eacc53c186601a95d19f73f5ef28bfc486e3ea20",
+      "gzipBytes": 530,
+      "gzipSha256": "36a79b0c7bbb235f481311d94b94410178e48c669955fd03d4f4ae2ae6118210"
+    },
+    {
+      "source": "three-markets-performance-live-v1/runtime/d2ddc1b3668198aad45a53239955484730ae4889a5f5ce397185c7966c82dd71/00000007-broadcast-intent.json",
+      "file": "files/three-markets-performance-live-v1/runtime/d2ddc1b3668198aad45a53239955484730ae4889a5f5ce397185c7966c82dd71/00000007-broadcast-intent.json.gz",
+      "bytes": 1748,
+      "sha256": "12e28532258ea11c0c6f49c6c67a3e8b0db3504266a06002caf01821f0ce56c9",
+      "gzipBytes": 810,
+      "gzipSha256": "9a665ad6d020b2b9bbdf5a2de16b05b2a40bdea5bf8ef9b42e5da21188dff080"
+    },
+    {
+      "source": "three-markets-performance-live-v1/runtime/d2ddc1b3668198aad45a53239955484730ae4889a5f5ce397185c7966c82dd71/00000008-broadcast-result.json",
+      "file": "files/three-markets-performance-live-v1/runtime/d2ddc1b3668198aad45a53239955484730ae4889a5f5ce397185c7966c82dd71/00000008-broadcast-result.json.gz",
+      "bytes": 756,
+      "sha256": "b607ad0949353f6207f3419536c80c44b40b5e9498fc1ad6ad176189b933b1fb",
+      "gzipBytes": 526,
+      "gzipSha256": "74776acb4af6bfbdf8a2adaf74a76b03e17084a7c5bf19a29b7658c7a019b2b9"
+    },
+    {
+      "source": "three-markets-performance-live-v1/runtime/d2ddc1b3668198aad45a53239955484730ae4889a5f5ce397185c7966c82dd71/00000009-not-submitted.json",
+      "file": "files/three-markets-performance-live-v1/runtime/d2ddc1b3668198aad45a53239955484730ae4889a5f5ce397185c7966c82dd71/00000009-not-submitted.json.gz",
+      "bytes": 501,
+      "sha256": "35f2cd632a4181c481d70fa7cbf5083e4d7e28bc45b49da030e8f0e419d214d7",
+      "gzipBytes": 343,
+      "gzipSha256": "8a01a28271d9f853b22991bf7d987dedc5a51a1486f3ca02612ba8a36e43dc69"
+    },
+    {
+      "source": "three-markets-performance-live-v1/runtime/d2ddc1b3668198aad45a53239955484730ae4889a5f5ce397185c7966c82dd71/00000010-planned.json",
+      "file": "files/three-markets-performance-live-v1/runtime/d2ddc1b3668198aad45a53239955484730ae4889a5f5ce397185c7966c82dd71/00000010-planned.json.gz",
+      "bytes": 981,
+      "sha256": "1f93c47c8ed4f4eceb0025b31a3f2244a3980fda41e2d7ac4c1f1e93e103ed3b",
+      "gzipBytes": 470,
+      "gzipSha256": "0ae6f4b69797fcf8b34866a930294668aee2005b8349c46879b534b6f2acdece"
+    },
+    {
+      "source": "three-markets-performance-live-v1/runtime/d2ddc1b3668198aad45a53239955484730ae4889a5f5ce397185c7966c82dd71/00000011-broadcast-intent.json",
+      "file": "files/three-markets-performance-live-v1/runtime/d2ddc1b3668198aad45a53239955484730ae4889a5f5ce397185c7966c82dd71/00000011-broadcast-intent.json.gz",
+      "bytes": 1748,
+      "sha256": "ad8a165876e9eff699939a831ba8728a3e6f71f9d64fdfd41bd584d072482d2f",
+      "gzipBytes": 811,
+      "gzipSha256": "fa06b28f16ece63195e172a65433232f78d0fc144c8c1041ef28a176dcf9df4b"
+    },
+    {
+      "source": "three-markets-performance-live-v1/runtime/d2ddc1b3668198aad45a53239955484730ae4889a5f5ce397185c7966c82dd71/00000012-broadcast-result.json",
+      "file": "files/three-markets-performance-live-v1/runtime/d2ddc1b3668198aad45a53239955484730ae4889a5f5ce397185c7966c82dd71/00000012-broadcast-result.json.gz",
+      "bytes": 717,
+      "sha256": "a480a7bb6b88b12a416123e84f57dfd381f36d6a9d607ce49a6bf8a9860f78a3",
+      "gzipBytes": 502,
+      "gzipSha256": "0378a4b5a73711b02bf671e25816747f7e4f1cdf8ec01115e700429d88256510"
+    },
+    {
+      "source": "three-markets-performance-live-v1/runtime/d2ddc1b3668198aad45a53239955484730ae4889a5f5ce397185c7966c82dd71/00000013-included.json",
+      "file": "files/three-markets-performance-live-v1/runtime/d2ddc1b3668198aad45a53239955484730ae4889a5f5ce397185c7966c82dd71/00000013-included.json.gz",
+      "bytes": 3470,
+      "sha256": "aa844d1811163287d96243089a2a8ecce20f93017d07ca14193d9247e8aea682",
+      "gzipBytes": 869,
+      "gzipSha256": "eda7a56b039bf0420fd103c7d7c7676a8b26c548ba106a1c3a90595b6f9acd21"
+    },
+    {
+      "source": "three-markets-performance-live-v1/three-inventory-bondingcurve-batch_maintenance-cold-comparison.log",
+      "file": "files/three-markets-performance-live-v1/three-inventory-bondingcurve-batch_maintenance-cold-comparison.log.gz",
+      "bytes": 1974,
+      "sha256": "21fe83b010c3fd39a9c3026b66997460a3f9f26347f6e120d43c4f320fa9e0f7",
+      "gzipBytes": 515,
+      "gzipSha256": "b81fec928c319f0f108ca16aa161a4c9fc5fda584092b3d0319b3a6ebce91bec"
+    },
+    {
+      "source": "three-markets-proof-build-v2/completed-calibration-regressions-v1.log",
+      "file": "files/three-markets-proof-build-v2/completed-calibration-regressions-v1.log.gz",
+      "bytes": 417,
+      "sha256": "8ce201983f232de559d062e67eef04265241da9c69fbc2afe6dcb52240725a34",
+      "gzipBytes": 284,
+      "gzipSha256": "88106e5a561748f0f401fbc0fec620f88294f14dc9da1f871721c1f6a1b7e441"
+    }
+  ]
+}
