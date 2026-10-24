@@ -28,6 +28,13 @@ test('TLS, credential and exact approved domain/key/artifact scope are mandatory
   assert.ok(!JSON.stringify(f.client()).includes(f.authToken),'credential is not enumerable status data');
  }finally{await f.close();}
 });
+test('another intent or artifact root cannot create an independent lease for the same financial payer',async()=>{
+ const f=await fixture();try{
+  for(const edit of [{intentId:'4'.repeat(64)},{artifactRoot:join(f.dir,'other-artifacts')}])
+   await assert.rejects(()=>startCoordinationServer({directory:join(f.dir,'separate-authority'),authToken:f.authToken,
+    scopes:[f.scope,{...f.scope,...edit}]}),/one authoritative scope/);
+ }finally{await f.close();}
+});
 test('second network client is excluded before proving and sees the same durable task ledger',async()=>{
  const f=await fixture();try{
   const a=f.client(),b=f.client();let held,release;

@@ -31,6 +31,9 @@ in-flight financial result by its original identity after restart.
 
 - Scope binds network/domain, SDK, vault, fingerprint, public key, intent,
   registry, driver digest and absolute artifact directory.
+- The authority rejects two approved scopes for the same network/payer vault.
+  A changed intent or artifact path cannot bypass that vault's existing lease;
+  changing financial scope requires reviewed history migration.
 - Leases fence journal mutations and are checked immediately before invoking
   the financial driver. Shared vault/payer dependencies still apply.
 - Planned/proved/broadcast history is durable. Unknown broadcasts block

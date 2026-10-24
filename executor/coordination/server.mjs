@@ -18,6 +18,8 @@ export async function startCoordinationServer({directory,authToken,scopes,port=0
   assert.ok(Number.isSafeInteger(maxRecords)&&maxRecords>=1&&maxRecords<=100000);
   const approved=new Map(scopes.map(s=>{const {scope,key}=coordinationScope(s);return[key,scope];}));
   assert.equal(approved.size,scopes.length);assert.ok(approved.size>0);
+  assert.equal(new Set(scopes.map(s=>JSON.stringify([s.network,s.vaultId]))).size,scopes.length,
+    'one authoritative scope per financial payer/vault; changing intent or artifact root requires reviewed migration');
   const leases=new Map(),chains=new Map();
   const serialize=(key,fn)=>{
     const task=(chains.get(key)??Promise.resolve()).then(fn);
