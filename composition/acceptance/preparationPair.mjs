@@ -24,7 +24,7 @@ export async function preparationPair(options,{baselineSource,baselineManifest,o
  for(const [file,sha]of Object.entries(manifest.files))assert.equal(digest(join(baselineSource,file)),sha,'frozen baseline changed');
  assert.ok(!existsSync(join(outputDirectory,'COMPLETE.json')));mkdirSync(outputDirectory,{recursive:true});
  const imports=[join(baselineSource,'composition/adapter.mjs'),resolve('composition/adapter.mjs')];
- const variants=['baseline','optimized'],adapters={},observations=[],pending=new Map();let sharedResident,sharedBinding,sequence=0;
+ const variants=['baseline','optimized'],adapters={},observations=[],pending=new Map();let sharedResident,sharedBinding,sequence=0,residentJobsStarted=0;
  const write=(phase,value)=>saveObservation(join(outputDirectory,phase+'-'+randomUUID()+'.json'),value);
  try{
   for(let i=0;i<2;i++){
@@ -34,9 +34,9 @@ export async function preparationPair(options,{baselineSource,baselineManifest,o
    const adapter=await createCompositionAdapter(options,{...resources,
     readState:file=>publicState(file,{observeRead:event=>{reads.push(event);}}),
     residentFactory:(...args)=>{const binding=losslessJson(args);if(sharedBinding)assert.equal(binding,sharedBinding,'only exact driver/policy/network/environment shares a resident');else sharedBinding=binding;const resident=sharedResident??=residentProver(...args);return{...resident,close:async()=>{},...Object.fromEntries(['quote','prove'].map(method=>[method,async args=>{
-     const before=performance.now(),at=new Date().toISOString();let failed=true;
-     try{const result=await resident[method](args);failed=false;residentJobs.push({method,startedAt:at,wallMilliseconds:performance.now()-before,firstJob,residentStartup:result.residentStartup??null,failed});firstJob=false;return result;}
-     finally{if(failed)residentJobs.push({method,startedAt:at,wallMilliseconds:performance.now()-before,firstJob,failed});}
+     const before=performance.now(),at=new Date().toISOString(),coldResidentStart=residentJobsStarted++===0;let failed=true;
+     try{const result=await resident[method](args);failed=false;residentJobs.push({method,startedAt:at,wallMilliseconds:performance.now()-before,firstJob,coldResidentStart,residentStartup:result.residentStartup??null,failed});firstJob=false;return result;}
+     finally{if(failed)residentJobs.push({method,startedAt:at,wallMilliseconds:performance.now()-before,firstJob,coldResidentStart,failed});}
     }]))};}});
    const startup={variant,startedAt,wallMilliseconds:performance.now()-t,reads:reads.splice(0)};write('startup',startup);
    adapters[variant]={adapter,reads,residentJobs};
