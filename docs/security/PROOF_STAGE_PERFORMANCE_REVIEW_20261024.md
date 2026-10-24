@@ -342,3 +342,23 @@ actual request to consume the original nonce from the same start leaf. It never
 marks an expired proof reusable or converts an unknown broadcast to unsigned.
 One regression covers valid reporting and seven tampering/replay variants.
 At this milestone, actual fills and final ordinary claims are still pending.
+
+### Exact pre-session funding recovery; financial continuation
+
+The fresh NFT seal confirmed at 375562. The following ordinary batch-sponsor
+preparation stopped at `verify-ordinary-input-and-dependencies` with a suppressed
+`RPC_CONNECTION`, explicitly before broadcast. Its original output contains only
+`failure.json`. A separate recovery gate checks that fact, the unchanged sponsor
+nonce and all three sealed queues with their exact accepted counts. It then
+proves the original calls unchanged under a fresh evidence label. This exact
+funding confirmed at 375605; no original order/deposit was repeated.
+
+Financial continuation uses the existing supported 256-checkpoint batch lifetime
+(configuration accepts 1..1024) to tolerate read/proof/confirmation waits. It is a
+new execution configuration, not a change to market contracts, keys, pricing,
+members or capacity. Native source/expiry/session/stack/fee checks remain in
+force. Original 64-checkpoint maintenance and 96-checkpoint batch artifacts are
+preserved; a fresh static source closure records the continuation. This runner
+uses formal Executor adapters/journals and resident scope, with no diagnostic
+ABBA on its financial path. Curve commit has confirmed at 375675; settlement and
+ordinary payout claims remain pending at this milestone.
