@@ -231,7 +231,7 @@ completed, run these read-only checks with **fresh output paths**:
 node composition/acceptance/verifyReceiptBundle.mjs "$CASE" \
   "$CASE/public/COMPOSITION-RECOVERY-AUDIT-v1.json" "$PINNED_UPS_VERIFIER" "$FRESH_PROOF_OUTPUT"
 node composition/acceptance/ownerClaimAudit.mjs "$CASE" \
-  "$FRESH_PROOF_OUTPUT/SUMMARY.json" "$CASE/public/COMPOSITION-OWNER-CLAIMS-AUDIT-v1.json"
+  "$FRESH_PROOF_OUTPUT/SUMMARY.json" "$CASE/public/COMPOSITION-OWNER-CLAIMS-AUDIT-v1.json" all
 node composition/acceptance/livePerformance.mjs "$CASE" \
   "$FRESH_PROOF_OUTPUT/SUMMARY.json" "$FRESH_PERFORMANCE_OUTPUT" "$CLOSED_RESOURCE_SUMMARY"
 ```
@@ -255,3 +255,21 @@ For its three ordinary claims add `all` as the final argument to
 `ownerClaimAudit.mjs`. A zero-fill timeout refund is not counted as a market fill
 or as intermediate-asset recovery. Missing combined/verification reports remain
 unfinished gates even if one individual route succeeded.
+
+For the separately observed SDK `start-compact-session` connection failure after
+the second vault's confirmed refund, `resumePartialRecovery.mjs` performs an
+explicit reviewed continuation. It requires that exact saved pre-broadcast read
+failure, no request/intent/receipt/preflight, original included ledger, no
+unresolved broadcasts, and a matching current nonce/owner/phase. It preserves
+original reports and never repeats the funding, trades or base return. Give each
+explicit invocation a fresh `vN` marker and log; an error halts again. It does not
+implement generic automatic transport/broadcast retries. After final ordinary
+claim, `finalizeRecoveryAcceptance.mjs` runs the full cohort audit and writes the
+combined marker; `terminalStateAudit.mjs` separately checks known-flow residuals,
+current code/layout/function identities and both markets' final reserve semantics.
+
+The receipt verifier accepts a formal result alias only by finding its unique
+original broadcast intent, matching the complete task and payer, then verifying
+that original prepared request. Legacy included records must share the original
+journal directory. Missing, ambiguous, modified or out-of-case identities fail
+closed. Report alias resolution never creates, resigns or broadcasts a request.
