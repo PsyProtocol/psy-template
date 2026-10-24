@@ -1,3 +1,5 @@
+import assert from 'node:assert/strict';
+import {validateConfirmedNonceConflict} from './confirmedNonceConflict.mjs';
 import {mkdir,open,readFile,readdir,unlink} from 'node:fs/promises';
 import {join} from 'node:path';
 import {createHash} from 'node:crypto';
@@ -22,7 +24,7 @@ async function readRecord(path){
  try{return JSON.parse(await readFile(path,'utf8'));}
  finally{const next=waitingReaders.shift();if(next)next();else readers--;}
 }
-function pendingFrom(records){const attempts=new Map();for(const r of records){if(r.status==='broadcast-intent')attempts.set(r.taskId,r);if(r.status==='included'||r.status==='not-submitted')attempts.delete(r.taskId);}return [...attempts.values()];}
+function pendingFrom(records){const attempts=new Map();for(const r of records){if(r.status==='broadcast-intent')attempts.set(r.taskId,r);if(r.status==='resolved-by-confirmed-conflict'){const original=attempts.get(r.taskId);assert.ok(original,'conflict resolution requires original pending intent');assert.equal(r.evidence.originalTaskId,r.taskId);validateConfirmedNonceConflict(r.evidence,{vaultId:original.scope.vaultId,fingerprint:original.scope.fingerprint,manifestSha256:original.proof.manifestSha256});attempts.delete(r.taskId);}if(r.status==='included'||r.status==='not-submitted')attempts.delete(r.taskId);}return [...attempts.values()];}
 export class ExecutionJournal {
  constructor({directory,network,vaultId,fingerprint}){
   if(!directory||!network||!Number.isInteger(vaultId)||vaultId<1||!(/^[0-9a-f]{64}$/i.test(fingerprint)))throw Error('explicit network, vault and fingerprint required');
@@ -77,11 +79,17 @@ export class ExecutionJournal {
   }
   return out;
  });}
+ async resolveByConfirmedConflict({taskId,verify}){return this.locked(async()=>{
+  assert.equal(typeof verify,'function','explicit trusted proof/receipt verification required');const records=await this.records(),prior=records.findLast(r=>r.taskId===taskId&&r.status==='resolved-by-confirmed-conflict');if(prior)return {status:'already-resolved-by-confirmed-conflict',taskId,evidence:prior.evidence};
+  const original=pendingFrom(records).find(r=>r.taskId===taskId);assert.ok(original,'original unresolved intent required');assert.equal(original.task.profile,'compact-v1');assert.equal(original.task.kind,'batch_maintenance');assert.equal(original.task.maintenanceOperation,'admit_entry');assert.equal(original.proof.version,1);assert.match(original.proof.manifestSha256,/^[0-9a-f]{64}$/);
+  const evidence=await verify(original);assert.equal(evidence.originalTaskId,taskId);validateConfirmedNonceConflict(evidence,{vaultId:this.scope.vaultId,fingerprint:this.scope.fingerprint,manifestSha256:original.proof.manifestSha256});await this.append({status:'resolved-by-confirmed-conflict',taskId,evidence});return {status:'resolved-by-confirmed-conflict',taskId,evidence};
+ });}
  async execute({task,prove,validateProof,isCurrent,prepareSubmission,submit,reconcile}){
   return this.locked(async()=>{
    const records=await this.records(),pending=pendingFrom(records);if(pending.length)throw new UnresolvedBroadcast(pending.map(x=>x.taskId));
    const taskId=sha({scope:this.scope,task});
    if(records.some(x=>x.taskId===taskId&&x.status==='included'))return {status:'already-included',taskId};
+   const conflict=records.findLast(x=>x.taskId===taskId&&x.status==='resolved-by-confirmed-conflict');if(conflict)return {status:'resolved-by-confirmed-conflict',taskId,evidence:conflict.evidence};
    if(!await isCurrent(task))throw new StaleTask('task state changed before proof');
    await this.append({status:'planned',taskId,task});
    let cached=records.findLast(x=>x.taskId===taskId&&x.status==='proved');

@@ -249,3 +249,51 @@ it does not replace the pending full saved-UPS and actual-receipt verification.
 Read telemetry reports observed physical owners, not every transport: sharing
 with a caller outside instrumentation can leave an unobserved owner, and native
 SDK/ordinary wallet RPC reads remain outside the JS count.
+
+## Real expired epoch and ambiguous-admission recovery
+
+The first intake exceeded cutoff 375031 during real SDK/transport failures.
+Book/NFT were empty and their standard `abort_empty_epoch` UPSs confirmed at
+375146 / 375145, using their existing explicit maintenance grants. Original
+orders remained unconsumed and vault FT roots unchanged. No owner deposits were
+repeated. The original Curve admission remained ambiguous; expiry alone did
+not authorize a replacement, and the native verifier rejected retransmission
+of the expired proof. A log-open collision in the recovery wrapper also stopped
+before child creation; the original log/marker and explicit review remain.
+
+Curve still had the exact original start leaf, nonce 3 and an expired empty
+queue. Under the original vault lock, an explicit **timeout abort** candidate
+was proved from that same leaf with nonce 4, using the same SD-key and existing
+gas authorization. It confirmed at checkpoint 375200. Independent pinned
+verification of BOTH full UPSs establishes same user/key/start leaf/nonce 4,
+different end leaves, and a real historical/common receipt for the legal abort.
+The original request can no longer consume that nonce under the chain's account
+transition rules. Its earlier broadcast remains recorded; it is never called
+not-submitted. No expired request was transmitted by bypassing native checks.
+
+`ExecutionJournal.resolveByConfirmedConflict` is an explicit operator recovery
+interface, restricted to compact ambiguous admissions and a verified expired
+empty abort. It requires an independent proof/receipt verifier and validates
+same source, same nonce, distinct ends and common inclusion. The truthful
+`resolved-by-confirmed-conflict` record clears the block; that original task ID
+can never re-execute. Ordinary unknown broadcasts still block by default.
+17 journal/conflict regressions pass, including invalid verifier/nonce/receipt,
+persistence, replay refusal and unchanged unknown-broadcast blocking.
+Actual resolution evidence is `CURVE-ORIGINAL-RESOLVED-v1.json`, with both full
+proof verification reports. This is a one-host recovery, not distributed lease
+or arbitrary transaction cancellation evidence.
+
+The fresh epoch runner first verifies every old queue is terminal/empty and
+all original orders unconsumed. Sponsor funding confirms before a NEW cutoff
+is chosen; the original `PLANS.json` and all proofs stay untouched. Users sign
+new admission consent; their original FT/NFT deposits are reused. A 92-file
+static application import closure is captured before this financial run, while
+SDK/native release and data remain separately pinned.
+
+Completed calibration adoption now reaches the formal harness. Saved exact
+warm/cold comparisons and ABBA samples can be reused only for the same proof
+manifest. Partial ABBA samples persist individually. A strictly classified
+unsigned public-transport failure may mark a PERFORMANCE sample unavailable;
+proof/state/layout/expiry rejection never takes that path. Financial submission
+always repeats native full-proof/session/fee/current-state verification. The
+report must show missing samples, not fabricate speedups or zeros.
