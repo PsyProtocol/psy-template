@@ -1,0 +1,15 @@
+// Explicit recovery of this unsigned initialization after a coordinator read
+// failure. Preserve the already completed cold calibration; never prove again.
+import assert from'node:assert/strict';import{readFileSync,existsSync}from'node:fs';import{join}from'node:path';
+import{threeMarketCase}from'./threeMarketCase.mjs';import{formal}from'./candidateHarness.mjs';import{parseLosslessJson}from'../../amm/u124/client.mjs';import{sha256}from'../requestBinding.mjs';import{save}from'../../batching/admission/liveSupport.mjs';
+const[base]=process.argv.slice(2),exact=p=>parseLosslessJson(readFileSync(p,'utf8'));assert.ok(base);const comparison=JSON.parse(readFileSync(join(base,'attempts/three-inventory-bondingcurve-batch_maintenance-cold-comparison/comparison.json'),'utf8')),warm=exact(join(comparison.warmDirectory,'preflight.json')),cold=exact(join(comparison.coldDirectory,'preflight.json'));
+assert.deepEqual(warm.core,cold.core);assert.equal(warm.fullUpsVerified,true);assert.equal(warm.exactStackAndSessionVerified,true);assert.equal(cold.fullUpsVerified,true);assert.equal(cold.exactStackAndSessionVerified,true);assert.equal(cold.broadcast,false);
+const manifest=readFileSync(join(comparison.warmDirectory,'prepared.json')),digest=sha256(manifest);assert.equal(digest,comparison.preparedManifestSha256);
+const h=await threeMarketCase(base),f=await formal(h,h.by.bondingcurve,'three-inventory',{version:1,epoch:1,cutoff:1,members:[]},{performanceMetrics:true});
+try{const rows=await f.journal.records(),last=rows.at(-1);assert.equal(last.status,'not-submitted');const prior=rows.findLast(r=>r.status==='broadcast-intent'&&r.taskId===last.taskId);assert.ok(prior);assert.equal(prior.proof.manifestSha256,digest);assert.equal(prior.proof.preparedDirectory,comparison.warmDirectory);
+ const failed=exact(join(prior.proof.submissionDirectory,'failure.json'));assert.equal(failed.broadcastMayHaveBeenAttempted,false);assert.ok(!existsSync(join(prior.proof.submissionDirectory,'intent.json'))&&!existsSync(join(prior.proof.submissionDirectory,'rpc-request.json')));
+ const review=join(base,'public/PREPARED-INVENTORY-RECOVERY-v1.json');save(review,{at:new Date().toISOString(),originalPreparedSha256:digest,originalPreparedDirectory:comparison.warmDirectory,comparisonSha256:sha256(readFileSync(join(base,'attempts/three-inventory-bondingcurve-batch_maintenance-cold-comparison/comparison.json'))),priorFailureSha256:sha256(readFileSync(join(prior.proof.submissionDirectory,'failure.json'))),originalBroadcast:false,reproveAllowed:false,newColdCalibration:false,sourceSha256:sha256(readFileSync(new URL(import.meta.url)))});
+ f.adapter.prove=async()=>{throw Error('reviewed initialization proof became stale: stop, no implicit reproof');};
+ const prepare=f.adapter.prepareSubmission;f.adapter.prepareSubmission=async(task,p)=>{assert.equal(p.manifestSha256,digest);assert.equal(p.preparedDirectory,comparison.warmDirectory);return prepare(task,p);};
+ await f.step('three-bondingcurve-initialize',t=>t.kind==='batch_maintenance'&&parseLosslessJson(t.submission).contract_calls.some(c=>c.method_name==='initialize'));
+}finally{await f.close();}

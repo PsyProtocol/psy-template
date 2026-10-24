@@ -148,3 +148,30 @@ binds the actual frozen source and build manifest; the original metadata remains
 untouched. The only reference-source difference adds diagnostic report tags.
 
 [Exact-proof recovery and additive provenance correction archive](../../executor/verification/2026-10-24-exact-proof-recovery-v1/manifest.json) preserves the accepted retransmission, original request identity and five recovery / two transport-reporting regression results. The latter tests explicitly keep a timed-out send plus exact retransmission as one signed transaction, and refuse to count HTTP 200 with RPC error as acknowledgement.
+
+## Completed initialization calibration and unsigned-send recovery
+
+Curve inventory initialization now has an actual included UPS at checkpoint
+374808. Its warm/cold complete public cores match. Warm preflight was 98,504 ms;
+cold was 180,060 ms, including 41,244 ms session construction, 1,090 ms key
+construction and 7,353 ms additional authenticated historical-source setup.
+This is one sequential same-host resource comparison, not an isolated proving
+algorithm improvement, matched chain confirmation comparison or confidence
+interval. The source checkpoint, nonce, fee and all public endpoints match.
+
+After calibration, a coordinator connection error stopped native live checking
+**before** creation of a wire request or native broadcast intent. Explicit
+`resumePreparedInventory.mjs` binds the saved comparison and original proof,
+forbids its `prove` callback, and lets the formal journal redo the normal fresh
+current-state and native submission checks. The journal contains one `proved`
+record, two local submission intents and one final inclusion for this task.
+A separate failed parse attempt (decimal observations read with integer-only
+JSON) remains preserved; it performed no transaction. Reporting now keeps all
+submission attempts and includes restart/recovery delay in the original
+attempt-to-final-observation interval.
+
+`completedCalibration.mjs` adds exact-manifest adoption checks for completed
+cold comparisons and ABBA guard measurements; its three regressions pass.
+It is not wired into the currently running, source-frozen financial worker;
+that integration will be committed after this worker closes. Native financial
+full-proof and fresh identity/anchor/expiry checks remain mandatory.
