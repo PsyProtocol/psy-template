@@ -619,3 +619,20 @@ scheduling, not a guaranteed actual-inclusion deadline or global fairness.
 ### Identical concurrent public reads
 
 Public snapshots share only an outstanding identical `psy_get_` request. The flight key includes configuration bytes, endpoint, method/params and fetch implementation. Every completion or failure evicts the flight; each consumer parses independently and still validates its own network, identity and code/layout expectations. This is not a state/proof/nonce cache. `coalesced` marks logical waiters; `physicalReadOwner` identifies the actual wire owner. Historical rows without these flags predate sharing and represent physical attempts. Only transport owners should be summed as physical RPC costs. The `coalesceRead: false` option is a measurement control and preserves all checks.
+
+### Persisted cryptographic UPS recovery
+
+`compact_market_wallet` now durably saves a verified exact-stack UPS before its
+fallible final public reads. The immutable preflight record explicitly carries
+`crypto-before-final-guard-v1` / `liveGuardsPending`; successful live checks are
+recorded separately. `preflightRecovery.mjs` may reuse the same request after an
+unsigned final-read outage or a parent stop before the journal `proved` event.
+Driver/task/policy/network config bytes must match. Native saved-proof checking
+repeats the full proof, session/stack/fee, current start/nonce/expiry and dependency
+checks; submission repeats them again. A cryptographic candidate alone grants no
+permission to broadcast. A failed recheck stops without re-proving or paying.
+Unknown broadcasts still reconcile by their original identity first.
+
+Proof resources are acquired only when a new proof is actually needed. Cache-only
+restart recovery therefore avoids constructing another proof session. This is
+local persistent recovery; it does not establish coordination across machines.

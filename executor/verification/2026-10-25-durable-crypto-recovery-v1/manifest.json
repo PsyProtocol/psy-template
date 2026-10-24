@@ -1,0 +1,2251 @@
+{
+  "schema": 1,
+  "sourceDirectory": "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-market-recovery-20261023",
+  "machine": "gewenbo.local",
+  "host": "macOS-15.7.3-arm64-arm-64bit",
+  "scope": "public formal Executor run including failures; success requires exact included receipt",
+  "walletFilesIncluded": false,
+  "sealedBinariesIncluded": false,
+  "records": [
+    {
+      "source": "three-markets-performance-live-v1/continue-settlement-run-v1.log",
+      "file": "files/three-markets-performance-live-v1/continue-settlement-run-v1.log.gz",
+      "bytes": 4522,
+      "sha256": "5c30c92b1132ee9e8393720be1b5ba52d3d8a0074c11f0255eb5f092d2cff4e2",
+      "gzipBytes": 1272,
+      "gzipSha256": "f02606cc322f97f6816acb12a214315775ad3132f677fb1acda6dfcea91f3614"
+    },
+    {
+      "source": "three-markets-performance-live-v1/durable-nft-run-v1.log",
+      "file": "files/three-markets-performance-live-v1/durable-nft-run-v1.log.gz",
+      "bytes": 443,
+      "sha256": "04ae1e435f89c3137d07b48540db40456c9ff6d7aa463f2691e6c05f3681d59f",
+      "gzipBytes": 345,
+      "gzipSha256": "0ee8dbea0caa746f3bf2537af1801b77dd26d07e8274c553a8d8de1dfdfa2114"
+    },
+    {
+      "source": "three-markets-performance-live-v1/durable-nft-run-v2.log",
+      "file": "files/three-markets-performance-live-v1/durable-nft-run-v2.log.gz",
+      "bytes": 2772,
+      "sha256": "e2372e0976db993bd03991e597fb79ad0370f548ba9e75cc49ff869a1ed38808",
+      "gzipBytes": 894,
+      "gzipSha256": "db7931fe372dfcf0d8f64f110d2556bcfe559d28f9dd16fafc299efa8fafa1ae"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/DURABLE-CLIENT-REVIEW-v1.json",
+      "file": "files/three-markets-performance-live-v1/public/DURABLE-CLIENT-REVIEW-v1.json.gz",
+      "bytes": 874,
+      "sha256": "a3993aa8de6f18a68b569913d319391b1e36f9d86af2df5972b083a27b995ff1",
+      "gzipBytes": 557,
+      "gzipSha256": "00b43f0593aa4bd0d2797342e0b5f1a52f0cbbfc8db1cd7e210118c3c0fec3e5"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/DURABLE-PROCESS-OBSERVATION-v1.json",
+      "file": "files/three-markets-performance-live-v1/public/DURABLE-PROCESS-OBSERVATION-v1.json.gz",
+      "bytes": 575,
+      "sha256": "8a9b1978938e1296dec35cfa1522cd3656484574d4e0b25850c940b24c77b2df",
+      "gzipBytes": 405,
+      "gzipSha256": "f6017efc8c5ab58c180c058783e5d9f2459a68d4d9e63fbacf802014151e8a9e"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/DURABLE-PROCESS-OBSERVATION-v2.json",
+      "file": "files/three-markets-performance-live-v1/public/DURABLE-PROCESS-OBSERVATION-v2.json.gz",
+      "bytes": 626,
+      "sha256": "bca65b939fb162397296bf434027ed9ce41688817a1fb0302cdec54b538b8c4c",
+      "gzipBytes": 432,
+      "gzipSha256": "1c2693075101dd26952a855933e33f21f83b370c11a080677e673cdb2f4daa57"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/NFT-DURABLE-RESTART-ADOPTED-v1.json",
+      "file": "files/three-markets-performance-live-v1/public/NFT-DURABLE-RESTART-ADOPTED-v1.json.gz",
+      "bytes": 1742,
+      "sha256": "3cc04a93e31721d97c304bbadee112603c00cb78d425a9c8c2e1ef2ae7df0116",
+      "gzipBytes": 883,
+      "gzipSha256": "114e85384113bbab017ca690688c02792269aa06c11b517d81b646cb2a4fbc91"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/NFT-DURABLE-RESTART-v1.json",
+      "file": "files/three-markets-performance-live-v1/public/NFT-DURABLE-RESTART-v1.json.gz",
+      "bytes": 1389,
+      "sha256": "22edbae27b4d8dc4d87a77dee19665a259169be9ddc73db7b46b602346e13444",
+      "gzipBytes": 800,
+      "gzipSha256": "4158a096a7eb9f91299b7f47219b8a2a32c5bdd9e87e68e181cb8a5762163085"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/NFT-POSTCRYPTO-FAILURE-REVIEW-v1.json",
+      "file": "files/three-markets-performance-live-v1/public/NFT-POSTCRYPTO-FAILURE-REVIEW-v1.json.gz",
+      "bytes": 1269,
+      "sha256": "a4742c0b1cbb8b315a039297e31a781da42d4e62612e4c27dc687d682fce9f56",
+      "gzipBytes": 728,
+      "gzipSha256": "1ac37c0186273d362a50e6c4a898163e945e84a1b043a8b338ca1b60c62ba405"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/TOOLS-v2.json",
+      "file": "files/three-markets-performance-live-v1/public/TOOLS-v2.json.gz",
+      "bytes": 1901,
+      "sha256": "6afb1cbf07d6a7563a934971fa7a5aa51aebd80ce1b32570c9a05674d53b1a40",
+      "gzipBytes": 862,
+      "gzipSha256": "587f49f42d14d4e8023f3e987cc7499b073135ddd35d1459b65273fd6648be79"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-SOURCE.json",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-SOURCE.json.gz",
+      "bytes": 9311,
+      "sha256": "bceae0ebf7302d0248b852813348c494dc6f72846ab7224c569b19e0c06c9947",
+      "gzipBytes": 4763,
+      "gzipSha256": "e3bd9f95398fc2b44dd76c0240a98ec9d3e691bc56b03cd4b497977d96d91ef8"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/amm/callBuilder.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/amm/callBuilder.mjs.gz",
+      "bytes": 10840,
+      "sha256": "fff2477b4685ba7c4ee1ea422aa8e7b5632ab5815eb93ffb1a87271c65cd5603",
+      "gzipBytes": 2599,
+      "gzipSha256": "617a1e8d8086a1dcca7d18cfde4d4cba626db59ce6c77071e9415d75947b20cb"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/amm/chainReader.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/amm/chainReader.mjs.gz",
+      "bytes": 6500,
+      "sha256": "f6af8dfddc3910b26eaaf7a58048ebdb9917b86c32946b2197246b1f9c7bb7f5",
+      "gzipBytes": 2057,
+      "gzipSha256": "158c1699206c54669ee0881fda15054839889c971b16e957be7177dc855ddd5a"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/amm/operationCalls.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/amm/operationCalls.mjs.gz",
+      "bytes": 556,
+      "sha256": "6ded485d216fe2278636c24142599b70f2629f5b39d59860f76caff3d320576e",
+      "gzipBytes": 305,
+      "gzipSha256": "cf16401459f9bab0bd0994cc9684251900812fb6f7da779c9482a4d51aed06b4"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/amm/referenceMath.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/amm/referenceMath.mjs.gz",
+      "bytes": 5300,
+      "sha256": "d30c837cc2c7fe13b5b63674533e4e2661e13315f57551eeea3b1188303cef23",
+      "gzipBytes": 1482,
+      "gzipSha256": "e9bf2fd95597c8af94bfed9567731dc751437df99b9035503dc09393fa10dcd7"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/amm/u124/artifactGate.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/amm/u124/artifactGate.mjs.gz",
+      "bytes": 4626,
+      "sha256": "ad6b2b62361e054d2c7a36dd0d02017ae8ce768231fe7284d311df569861d91f",
+      "gzipBytes": 1649,
+      "gzipSha256": "ae25f09b0802aeddf56676171fbc0ef9e10905a50836bb661955a73b074f9e60"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/amm/u124/build.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/amm/u124/build.mjs.gz",
+      "bytes": 5422,
+      "sha256": "5cb20278db3e76a1078685e77e6d37e1e9afd7e603aa28dd1a15491f04f5bc2b",
+      "gzipBytes": 2054,
+      "gzipSha256": "8b55b73a59f13b94bf3ea87c17f5dff4f9e61091bd0992d497532b1afee758a7"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/amm/u124/client.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/amm/u124/client.mjs.gz",
+      "bytes": 6822,
+      "sha256": "65e29a5a3c429113aeea737b35bce8bd5675946d17456ebe063b5e9738f899ec",
+      "gzipBytes": 2704,
+      "gzipSha256": "4dd4369acc10eee266255cec0bacd7c8e72ee0373a029f5fe70e79cc07f60d37"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/amm/u124/generate.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/amm/u124/generate.mjs.gz",
+      "bytes": 15368,
+      "sha256": "0b99a0d36eef9f58a2f2f90a458fa12d91ac9fd0765e26c00f976f6f9e381f94",
+      "gzipBytes": 4259,
+      "gzipSha256": "e27f5ef088cfa918623636b5cecf4f291c8e8db4f695521aa0f796035b177210"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/amm/u124/math.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/amm/u124/math.mjs.gz",
+      "bytes": 4325,
+      "sha256": "a1c7da522ca49fe371abca2e428a7f3de4dc70e6144da159187e058046b87fd7",
+      "gzipBytes": 1595,
+      "gzipSha256": "aefc9f06e2d1130d8390dcb9bf4e0a32079b788ae78874f36e0c424f755c0fb3"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/amm/u124/policy.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/amm/u124/policy.mjs.gz",
+      "bytes": 5418,
+      "sha256": "deb1cec25b754c7c0c32e0d55c42ef9b152f4fb82186f179a74ef3eadd3bfb5f",
+      "gzipBytes": 1945,
+      "gzipSha256": "acf661070788869c9b1b0e0d35965e3fe0f96d1d86f18c6e3c083675f56ed48e"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/amm/wide/chainReader.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/amm/wide/chainReader.mjs.gz",
+      "bytes": 498,
+      "sha256": "363c853daff4b863425f4537ae1fac795fbe4bf95666c7644c6905079a4128c7",
+      "gzipBytes": 308,
+      "gzipSha256": "1244aac0b2f20775d9964efc3ccb4c07f81636086c334fadd0f4322630a7596a"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/amm/wide/operationCalls.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/amm/wide/operationCalls.mjs.gz",
+      "bytes": 563,
+      "sha256": "3ff7567ce073d91e53fd3428a38250be4e171330a37bd0893c300cf40664ec19",
+      "gzipBytes": 310,
+      "gzipSha256": "62ce8bfe6b2afd52401a3ac3f3bea50215d40020cf012c5abd7a9af726474ef1"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/batching/admission/build.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/batching/admission/build.mjs.gz",
+      "bytes": 6268,
+      "sha256": "b614e621f456810a5a1c42372d4acf5b1937ce8dbc1f28802ab721083e4fbde8",
+      "gzipBytes": 2424,
+      "gzipSha256": "24248fe1d2c2302c10bc0795901f70e179d0868b197882cc719138b465d6c421"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/batching/admission/bulk.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/batching/admission/bulk.mjs.gz",
+      "bytes": 2121,
+      "sha256": "73bbbff746ae05a92f650a405f7a1e53346dd1cdb2b3f5417b65ea2ff7848967",
+      "gzipBytes": 1011,
+      "gzipSha256": "fae45ce197e20882f0c61c8a39267e8beb796a53a004e6f1f6d791012e1093e6"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/batching/admission/freshDeployment.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/batching/admission/freshDeployment.mjs.gz",
+      "bytes": 917,
+      "sha256": "2823349672a88bfb8924940c6486f2cff87a3c105f1d8e4a9ee80913b01882ec",
+      "gzipBytes": 481,
+      "gzipSha256": "1a807412b72b70bcbff532b3d1b212db2735c57b1b0b12cf9bbf48900d906a50"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/batching/admission/generate.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/batching/admission/generate.mjs.gz",
+      "bytes": 11954,
+      "sha256": "9aceace9487f209b2cba3a205879d26add71e3cc20e761599d6c09e37148727d",
+      "gzipBytes": 4025,
+      "gzipSha256": "855d57d8aec10b43f03905a2cda8bf42c24d554154c44cb49261495d7c292507"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/batching/admission/liveAssets.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/batching/admission/liveAssets.mjs.gz",
+      "bytes": 5742,
+      "sha256": "91420cc1d341453b9c6e6321ac3d066870f57c3fb80f52d68ce26575323d3af3",
+      "gzipBytes": 2280,
+      "gzipSha256": "270178e1a40f201961695a6c134248734016d8b7c3eae937c688511625076343"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/batching/admission/liveMarket.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/batching/admission/liveMarket.mjs.gz",
+      "bytes": 8113,
+      "sha256": "32ba4af0d39467d71f9e94d8d37e9344ff70752291dd98c6effd11abbfaeb1a5",
+      "gzipBytes": 2776,
+      "gzipSha256": "be6fa729fd58f78627bbcb1b3ada01676f69c5312a58bfe587de272c9757f6ba"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/batching/admission/liveSupport.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/batching/admission/liveSupport.mjs.gz",
+      "bytes": 6923,
+      "sha256": "c1a54bade341ca066ac2a2922e9754f378c77492393a4ffadc0b2df5a98352bb",
+      "gzipBytes": 2527,
+      "gzipSha256": "ba9a26dc045360a9966a3d41315c537c7c6828722184f3e98ccbec83a2cc1dde"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/batching/admission/ordinaryReport.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/batching/admission/ordinaryReport.mjs.gz",
+      "bytes": 891,
+      "sha256": "e57ad6d4829f73007895884ce03a85e2eb6d5b1b571a6118fe0e1ba145852ddf",
+      "gzipBytes": 502,
+      "gzipSha256": "75686baa317e5c759bc13de7760f9def72e79ed90ba9fdd31a78c535dc1d3af9"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/batching/admission/prepare.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/batching/admission/prepare.mjs.gz",
+      "bytes": 3782,
+      "sha256": "6b98fb045533482b403a695a43b348fb7a87e6bfba557ef8d135614ebb41fcbd",
+      "gzipBytes": 1553,
+      "gzipSha256": "88c386b3a7f98612980db3ca0f06cc44047ee344deec9700a927c9ed0b02e4db"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/batching/admission/reader.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/batching/admission/reader.mjs.gz",
+      "bytes": 5536,
+      "sha256": "427a2243bd6a5276633d140e0ed0d8b94338aaa259d0c275f8307b706c2cac1e",
+      "gzipBytes": 2260,
+      "gzipSha256": "816b3e595c84373c2f2bcb457e76635cd7dc707c8e66619da2f6aa661eb75018"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/batching/admission/registrationPublication.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/batching/admission/registrationPublication.mjs.gz",
+      "bytes": 2537,
+      "sha256": "122a204e90d5181c7233fe2aefe6b6e6969631a1cbe44a03606dcee6ab1ff613",
+      "gzipBytes": 960,
+      "gzipSha256": "338b6db9c7944b0616e3a81f77a92c01239939b6bd9f0378afda065d4d15e1da"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/batching/v2/bootstrap.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/batching/v2/bootstrap.mjs.gz",
+      "bytes": 1294,
+      "sha256": "edf601a2b116e2a44e9155ff98806b99546072fe2bfac37f22db365aaa065850",
+      "gzipBytes": 619,
+      "gzipSha256": "a3419135375c80dccd0658d736b5898377f2e8b9ae9d67592fb9c31a88d483ae"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/batching/v2/client.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/batching/v2/client.mjs.gz",
+      "bytes": 3105,
+      "sha256": "b0c00a38eb84d4acfb487a1316272b9633e7d90cb0df39838cbf6d6419684e9b",
+      "gzipBytes": 1188,
+      "gzipSha256": "25d93a61df1462df784e4461ef4690d95ee6dd026e6e1b665f573d737f4da7c4"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/batching/v2/controller.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/batching/v2/controller.mjs.gz",
+      "bytes": 12476,
+      "sha256": "6e8ff4dd448cce8c4df62ac54914b9ec7c4721ebeaa33ec3b80df0c492403eab",
+      "gzipBytes": 4128,
+      "gzipSha256": "fc36d5ea1ab4f807a047154af8370ce306b8f0f00aa3595af1a27f5dac6c89eb"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/batching/v2/funding.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/batching/v2/funding.mjs.gz",
+      "bytes": 2741,
+      "sha256": "616a28d1547a27e9e46dddab2735e1ddcafa01565d6665f3504b29bff3e49795",
+      "gzipBytes": 1088,
+      "gzipSha256": "b8cee9bc40563676dfbecd95b07da71ea699bc9257ed8e0b9f0f97a678da2d8e"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/batching/v2/generate.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/batching/v2/generate.mjs.gz",
+      "bytes": 13174,
+      "sha256": "d1e5e19a27cd2ee3eddadd1874bd503431a82165beec59c7492af98396f29116",
+      "gzipBytes": 4544,
+      "gzipSha256": "9f876279a4893af8787b25bb7a6a5744f4cf990f3c87031352b448a63bd6c55c"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/batching/v2/guards.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/batching/v2/guards.mjs.gz",
+      "bytes": 14138,
+      "sha256": "f81bcd174540644e3f67bfc3e501582aa92e9f81824dc67314c36d8d05c753aa",
+      "gzipBytes": 4146,
+      "gzipSha256": "e5f5207fdce5d06cc4842978d616d6d058081569e1e1e6e253039f9fb0dba1fc"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/batching/v2/planner.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/batching/v2/planner.mjs.gz",
+      "bytes": 6317,
+      "sha256": "bdc340907709a10e3d8895bd5d4e3a93e0fa81df1cae997fa9c9bbc68053515e",
+      "gzipBytes": 2397,
+      "gzipSha256": "263c7e2a00bd5c78766149865d5369263ad68970dacbe9224e44cbd4a889081e"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/batching/v2/policy.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/batching/v2/policy.mjs.gz",
+      "bytes": 10078,
+      "sha256": "8d2e6ee706ba2b05baa607ddb115c47a201c7eeba4f1c1be5eafa3bc781d1971",
+      "gzipBytes": 3248,
+      "gzipSha256": "a7f9c279fce8fb1d76c9cc20e32eb1aff9ad05111322be15d8d08c59b69ae5f0"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/batching/v2/reader.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/batching/v2/reader.mjs.gz",
+      "bytes": 16385,
+      "sha256": "d14c12e1233690887493805dafd037b54ffa4304d7e931871cee39549ebbd994",
+      "gzipBytes": 5031,
+      "gzipSha256": "2aaf9cc2e8d44db15f083a591467102861ffaad88f67ade70788415104d6dabd"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/batching/v2/recovery.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/batching/v2/recovery.mjs.gz",
+      "bytes": 4776,
+      "sha256": "a9ad7e8ae56af2b8a58adce75d405182bdf2d17263bb72f194ce578708eb408d",
+      "gzipBytes": 1574,
+      "gzipSha256": "213c55f2d49078e9b6584d4491f8ec457725514fe3d4f29f0e204d47eee61d1f"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/bondingcurve/chainReader.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/bondingcurve/chainReader.mjs.gz",
+      "bytes": 5665,
+      "sha256": "ba7c5498b4491190fc737cdf4ce8d5045d314e2e8783a4a7a8fb8cb2c6400d48",
+      "gzipBytes": 2105,
+      "gzipSha256": "8b67b2e42a137e2ce6117923db545a339c7a37f81e3f364bd0c0545406716ce3"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/bondingcurve/curveMath.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/bondingcurve/curveMath.mjs.gz",
+      "bytes": 2738,
+      "sha256": "dfc150794a0716e7953f33761f4c058485c6afa4232caa7d00d96de2979b60ed",
+      "gzipBytes": 833,
+      "gzipSha256": "48c333478c806d5230434b8ac146c28d2720d1eec840fe512db9cf119e02540e"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/bondingcurve/operationCalls.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/bondingcurve/operationCalls.mjs.gz",
+      "bytes": 8773,
+      "sha256": "1d9955a05e695c08366877aa2bd10cc718d2261030209bf37c83e6d4275c1831",
+      "gzipBytes": 2118,
+      "gzipSha256": "79fe8693b3f9252a2437385894bff2fda75b4c5a72e42760a1a98e3a1df23af5"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/bondingcurve/receiptCheck.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/bondingcurve/receiptCheck.mjs.gz",
+      "bytes": 2392,
+      "sha256": "6fc0eafa9dd15ddfd488987cf35963fc424c4ff7e3979fc4b5c3ca4e660dc0fc",
+      "gzipBytes": 956,
+      "gzipSha256": "8d56467ceba19ececba3ad4d8d9e5960d49589e6d51d92e7679787e5dd56c705"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/acceptance/attemptOutcome.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/acceptance/attemptOutcome.mjs.gz",
+      "bytes": 443,
+      "sha256": "8bdcff74f3314939ed4588bb089f280915f6c8e5b80174f804e6d14913ed5590",
+      "gzipBytes": 294,
+      "gzipSha256": "3bb5ec7a19421b91ab22d15e64d6ca7b5e9d0777674a7eb72b242b044e6c8d5f"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/acceptance/calibrationTransportFailure.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/acceptance/calibrationTransportFailure.mjs.gz",
+      "bytes": 532,
+      "sha256": "317e53589588a407f56147e53ab19e0e4c0ed5ef0bf0ce14d795f7458214c361",
+      "gzipBytes": 350,
+      "gzipSha256": "8653348b090473ed411847aa7327080a558b1b9c470eb8e76bef73ae56acb39d"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/acceptance/candidateHarness.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/acceptance/candidateHarness.mjs.gz",
+      "bytes": 16796,
+      "sha256": "f2c3171ae682eb62d56bdd2a9d789f0602ef0a2abb1d456c2bd58147830025a8",
+      "gzipBytes": 5859,
+      "gzipSha256": "21c623e6cfd18c83dd2daee726cc325eac48959224e20d96c53a563ae76f2ad4"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/acceptance/cliExecution.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/acceptance/cliExecution.mjs.gz",
+      "bytes": 785,
+      "sha256": "e84e8a22e81b65fb5376a48d36588d31e90423b726df59be516c15309744b47d",
+      "gzipBytes": 413,
+      "gzipSha256": "39ff1e3480e6aa399c972dfa80fb9c40fecc501391a89b3b58b07d620e92c73c"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/acceptance/cohortScope.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/acceptance/cohortScope.mjs.gz",
+      "bytes": 627,
+      "sha256": "d67d553ca43b49944cbfe34dbb599fdb53271ff079b3b9137eed27b508e566ea",
+      "gzipBytes": 396,
+      "gzipSha256": "7c6c46e90b58fb54d55ec36edad6a51e08597c76eeb8e585a3a86583973efea6"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/acceptance/completedCalibration.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/acceptance/completedCalibration.mjs.gz",
+      "bytes": 2887,
+      "sha256": "818cd46556266b16a0334e1a3567c8b4afc920e44291fbab3e59a43890922811",
+      "gzipBytes": 949,
+      "gzipSha256": "c557a33d4f0688f7d6a4b581104b87c656df0d6ecc36a79476e893bed8fd3991"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/acceptance/guardCalibration.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/acceptance/guardCalibration.mjs.gz",
+      "bytes": 4239,
+      "sha256": "b643a0fc7ca395bf783cce868baf088a7a4a3177238756144b88701e3eb13c09",
+      "gzipBytes": 1413,
+      "gzipSha256": "655384df12e822ecca7ca4236df0d606e1b70b6ed802101b21ac393caeff4190"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/acceptance/optionalCalibration.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/acceptance/optionalCalibration.mjs.gz",
+      "bytes": 1204,
+      "sha256": "f70657eb0380a80dbdcdd096f982753271d533e06124052fd9340162dea9a1ab",
+      "gzipBytes": 607,
+      "gzipSha256": "702579a84452030f99b24ac0c9275018f42ddad0357f3e39b8c08f4273b0feda"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/acceptance/ordinaryEvidence.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/acceptance/ordinaryEvidence.mjs.gz",
+      "bytes": 5641,
+      "sha256": "3f1093f7f61ab4c0dce7065b4d51e6a278382c4c51d3d0d621c7898251f792e1",
+      "gzipBytes": 2016,
+      "gzipSha256": "1bbbd3f3c22e4a227349b2b1cc1c065a2e646156838da0ef21068219f2f8a447"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/acceptance/resumeDurableNft.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/acceptance/resumeDurableNft.mjs.gz",
+      "bytes": 7824,
+      "sha256": "405d09fa2954e4653eaad4adbc5a299c3d60c807be81a56ddf60c1bdf4b71e1f",
+      "gzipBytes": 3182,
+      "gzipSha256": "addc694cc527bdeee32c10d27d6a6555a27b3cff960a8176ddadfc9b961ef956"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/acceptance/sourceClosure.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/acceptance/sourceClosure.mjs.gz",
+      "bytes": 1753,
+      "sha256": "dd3de5a1392909df07e349b1f92235a28ded810d8490c2d9e09d375fd784a7c2",
+      "gzipBytes": 880,
+      "gzipSha256": "a9caf27000c931bd93ef2407f75c2a6fcfeaa54ce59d40ce71ac26c487b49b63"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/acceptance/threeMarketBalances.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/acceptance/threeMarketBalances.mjs.gz",
+      "bytes": 1650,
+      "sha256": "8367d67a43ebbca5f37634103d2e7faed9c636cc7da9284f9490c8db0a834293",
+      "gzipBytes": 795,
+      "gzipSha256": "badcc01ea4e191924ec0261b7c29628c61e850ea04194c7406c98c652a99c75f"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/acceptance/threeMarketCase.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/acceptance/threeMarketCase.mjs.gz",
+      "bytes": 4229,
+      "sha256": "9a3ca39adde300833d4e040e7649f469254bd9e8ca9fb6991c2af3012c21d790",
+      "gzipBytes": 1845,
+      "gzipSha256": "6b8fa901d010c79c2a90be176b1187895f32b83cdfdc58790ce868815ebff00e"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/admissionReader.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/admissionReader.mjs.gz",
+      "bytes": 7473,
+      "sha256": "03f819afc17e60b7f06c69019e8bcba84189e45a32ec10eb664c0b0051850ee5",
+      "gzipBytes": 2770,
+      "gzipSha256": "a575de9be9e195f20eafd3507059517e0bd7d85a5a0c0eab2cf3031899c482a2"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/chainReceipts.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/chainReceipts.mjs.gz",
+      "bytes": 3847,
+      "sha256": "f8e2b09b13b2af17429d888a614ce6370dbbffe974949a7f6ce8e78ae74be48d",
+      "gzipBytes": 1692,
+      "gzipSha256": "cc2eb20a1f59bfcec822479e3bf7deb35ef8683463cd737653d270a40be1a617"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/compactAdmissionAdapter.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/compactAdmissionAdapter.mjs.gz",
+      "bytes": 16968,
+      "sha256": "66ae318d2282755ced17fc715ce188c343a1e1e2d02f6fcffcb51d1665109b80",
+      "gzipBytes": 5365,
+      "gzipSha256": "697b22c8356f8382eb738d03ad531f4623112931739efcef0789d74b02bdc8f8"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/config.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/config.mjs.gz",
+      "bytes": 10860,
+      "sha256": "272c03a863e37a9a98971f3b291f3a8c4033a1c39432065facc1a12d4c22bca5",
+      "gzipBytes": 2841,
+      "gzipSha256": "05a023e87f4c3fee5148a782e554941fdd34ba9eef0f7961b3db940c01b11c09"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/confirmedNonceConflict.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/confirmedNonceConflict.mjs.gz",
+      "bytes": 2036,
+      "sha256": "2217d1cb4e466d9d035e3b1967f4844a2834ce4199f154a27c20f93758399d06",
+      "gzipBytes": 787,
+      "gzipSha256": "63dfcce65d93f025d3a7130a7d72ab621dfe064033e095517fc571b7f6d01092"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/driverProcess.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/driverProcess.mjs.gz",
+      "bytes": 1696,
+      "sha256": "0ccd44179344685f4bba1ce12d230c33970f8e6db88ac528452187702010d325",
+      "gzipBytes": 912,
+      "gzipSha256": "80d44e3f769c3723b22dbd18acfd85190399383d26d88f90285af2910571d98f"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/durableFile.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/durableFile.mjs.gz",
+      "bytes": 758,
+      "sha256": "099f2698e2b5878c100d52c4dc37ad115ec5f1c09d790f12a9b4380c437e5ec0",
+      "gzipBytes": 415,
+      "gzipSha256": "b0625ae8180e075e9d2cdc19f176598e7ee6446107c380e94a6191ebd25047f3"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/identityCache.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/identityCache.mjs.gz",
+      "bytes": 1763,
+      "sha256": "a37b718de1ab61d176b9935f1d09e3fd26a604e354d145f08999556cfed46218",
+      "gzipBytes": 827,
+      "gzipSha256": "4feed2b0a5c3e849eb5ab7c704de576dc0847bfd4e9149f66823f54ea4871f72"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/journal.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/journal.mjs.gz",
+      "bytes": 9497,
+      "sha256": "6b6f99b8072b82d9b80df4b34fb01d1a73ba1fb6d74d83b9b157f1e0bb8b8303",
+      "gzipBytes": 2958,
+      "gzipSha256": "2a7791bc45ebf332633990ded90e0ea6a7b20b5fc5d8cb2d87e7a8f8a860c771"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/observations.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/observations.mjs.gz",
+      "bytes": 891,
+      "sha256": "987e2c6e5cc3030b0064b840bf704691963dd03d89db9c411e50321b547f53a4",
+      "gzipBytes": 430,
+      "gzipSha256": "0cb41482834a003fca05f76025fa652f28ba6b3601552369e881a9bb09acec86"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/phaseMetrics.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/phaseMetrics.mjs.gz",
+      "bytes": 3871,
+      "sha256": "6e02e7aa08867bdf5d678c649f3ffdc7a8ccfc5dc3ba1e233ee84a0124ed2ed0",
+      "gzipBytes": 1630,
+      "gzipSha256": "c76c5640d8bdf12d9921b63ce9ecacbe198d6e8f7049d1533980e4fdf61c8d9f"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/preSessionRetry.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/preSessionRetry.mjs.gz",
+      "bytes": 1086,
+      "sha256": "64c85ff25a6a6903749be77f3a477188118fd587f42829fc05f5e559e47d86af",
+      "gzipBytes": 630,
+      "gzipSha256": "0a78baf7b82763454da958acbf56c08bde10e572ba58623c83f2e955693901a9"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/preflight.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/preflight.mjs.gz",
+      "bytes": 611,
+      "sha256": "0205e1e27450742753068a52b9e5e11e569ec6383f006d843acf42a8776fbd56",
+      "gzipBytes": 399,
+      "gzipSha256": "7a972e16607e8a853580a07f7e2be7af6f8a310a2ed7051c41a4c74aaf4f5323"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/preflightRecovery.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/preflightRecovery.mjs.gz",
+      "bytes": 4815,
+      "sha256": "78723c46346428731e11b08b91acd82ecef2edf4b534e5b217971403afdd0d3a",
+      "gzipBytes": 1832,
+      "gzipSha256": "82d5c84bdab44e81476dadb744f255c911ee81901d22ee04aa9bd6dc2c37d261"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/publicState.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/publicState.mjs.gz",
+      "bytes": 5922,
+      "sha256": "f1606cc4a0fcf2c71e68fb8c7d6e7a835e2e41673c0115cfdb66cedc33fde979",
+      "gzipBytes": 2326,
+      "gzipSha256": "9cd842c962742e4c199caac8e658a4b6ae8a4404254ed80e5c2cc17978921fb3"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/publicWalletAdapter.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/publicWalletAdapter.mjs.gz",
+      "bytes": 6099,
+      "sha256": "bc33f1c61d15f41850f66c4eb9f587f13b111ed96a51b009041d87e919c172ad",
+      "gzipBytes": 2101,
+      "gzipSha256": "886222e392b661d6141d4c06610330c05c4efa43ce1ecc3d3078774fbc02b16a"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/readConcurrency.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/readConcurrency.mjs.gz",
+      "bytes": 1457,
+      "sha256": "b341c4b91c837e92d47c425fcf783b1abb661ab79cd9f3696893e6998e530072",
+      "gzipBytes": 737,
+      "gzipSha256": "a26a8d7f98f90f2bb069eec2873710a9c977d2ae4ced94c7e18c8955aedde58d"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/readRetry.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/readRetry.mjs.gz",
+      "bytes": 761,
+      "sha256": "a3690049dc4f729e642a17c26add8dd2bd984dfc817b6fcd54fe5d27825d9a88",
+      "gzipBytes": 472,
+      "gzipSha256": "36c46a10cc8f8b17a0789c7f217ee6c2ad77319b8c716f2d034f67e83e57d606"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/readSingleFlight.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/readSingleFlight.mjs.gz",
+      "bytes": 1090,
+      "sha256": "5a8febcf46f63db4095290d7fbbe7256d69a9f1ddc0f80b8e8c0db6204fcbb79",
+      "gzipBytes": 561,
+      "gzipSha256": "84b13f32b979af317c80218d5de5a14a4f9fcecb9d1220be1d9cc68c11071274"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/requestBinding.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/requestBinding.mjs.gz",
+      "bytes": 1554,
+      "sha256": "18f7d0b394f03481be1ed25581c6b551e4e780bcba20e217a99f80be9f2aa2c2",
+      "gzipBytes": 704,
+      "gzipSha256": "7d1a6474cd1f3c1c130df21b2b011d3888d50daf59bc577c15cb4200835b4dd0"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/residentProver.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/residentProver.mjs.gz",
+      "bytes": 3775,
+      "sha256": "fbde59dca84dc222974aa42f2fe6b15315d71e6380b6bfbb36514ee96c4687d3",
+      "gzipBytes": 1499,
+      "gzipSha256": "f41ab36c59ec4ac7ebec5641035f2283a9252278c59e104503b0625deed8f63c"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/residentScope.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/residentScope.mjs.gz",
+      "bytes": 3347,
+      "sha256": "f51352c1f9dcf33ae3f15b0e75b3090c5cf45116dee8038206f0aab27ccd3248",
+      "gzipBytes": 1347,
+      "gzipSha256": "fedbcf063190c401c2ef84755b962cd49122d570771d9c11563ba14cdcda0273"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/sealedDriver.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/sealedDriver.mjs.gz",
+      "bytes": 1535,
+      "sha256": "369b6e6594e206f19172def380ebeb35a07af2f27cfe39fb2c4cf2e00ea12881",
+      "gzipBytes": 699,
+      "gzipSha256": "1bf2a9476e893fc9371cc1c1f7eb8f2d210cd3632d3ac0ac04980493270cc128"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/submissionGuard.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/submissionGuard.mjs.gz",
+      "bytes": 2230,
+      "sha256": "d53851bab52649f366fcb743278071b6f3503b658aae7c3c0f8b1a032d3442aa",
+      "gzipBytes": 1101,
+      "gzipSha256": "e38b6964f291db785d3a73aabf97ae536d7f844954fb92c4324344f5be094426"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/taskIntent.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/taskIntent.mjs.gz",
+      "bytes": 649,
+      "sha256": "2abc63d9c35e4c7279837821a55f80b1242ded3070aa8464f00c071f347886ea",
+      "gzipBytes": 373,
+      "gzipSha256": "10bc7524efdb3f91e2696308fbc01bb6a7885fa1661d0928668fac63d78864d9"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/u124Abi.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/u124Abi.mjs.gz",
+      "bytes": 2657,
+      "sha256": "9940b8e45ac076eb8b022701db8033a8a4e6ba30f3dcde591b54d704efc42433",
+      "gzipBytes": 1009,
+      "gzipSha256": "fca5b99cba9c7ce432b7dda5ce018f5c5fc7b3adb3fd463778012750801ba697"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/u124Adapter.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/u124Adapter.mjs.gz",
+      "bytes": 10718,
+      "sha256": "d7e0c6335a0a2d87479d2a89daf82a7e92cde0efb2bd1252b4fd8cb98eb1803b",
+      "gzipBytes": 3366,
+      "gzipSha256": "0e25ce72d4bd1e7d927220d6dc07a77d0fdfa278afad38341534ccc83265e0e8"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/u124Reader.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/u124Reader.mjs.gz",
+      "bytes": 8969,
+      "sha256": "c9cf98980218801086c7e9d82f3db51f54560e0d20bbf1f42754b89803197fd7",
+      "gzipBytes": 2884,
+      "gzipSha256": "6fe0999048d9537d6138bf570e834e1550c5b27bff08d11549245171e3fd8ff2"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/u124Submission.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/executor/u124Submission.mjs.gz",
+      "bytes": 2315,
+      "sha256": "d633d961a96e73a56850b8b17817041a7aeef75c4988e3be742978990ddf4c67",
+      "gzipBytes": 907,
+      "gzipSha256": "5b584ff8b2e0d2ad752bffe373e75b3a17250b93468565e64ae9f86b7953ae83"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/launchamm/chainReader.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/launchamm/chainReader.mjs.gz",
+      "bytes": 2909,
+      "sha256": "024ebafd2d5162e2d757e4c99cf3ca86b6f91662002ffc43007e895f38f14c60",
+      "gzipBytes": 1072,
+      "gzipSha256": "868ac97eb267f48be2c44e89c2fc4ef4be79fe32158f986bcc53bddb9aa81c3b"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/launchamm/operationCalls.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/launchamm/operationCalls.mjs.gz",
+      "bytes": 12406,
+      "sha256": "51ee1c63838bf42a4ec9fa1af2165a71d0f5a554e15edb2939daa7bfa958019c",
+      "gzipBytes": 3151,
+      "gzipSha256": "5a09109817d27a70e8d618f3a9ddcd452075456fd7e4eef374e0261f1b556987"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/launchamm/planner.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/launchamm/planner.mjs.gz",
+      "bytes": 3126,
+      "sha256": "a24bd8758b1d97becd33dfd5bf1c08a865d85862a03e0ed3b78dd6a880c1bd97",
+      "gzipBytes": 1144,
+      "gzipSha256": "b49f81a64cc13460e085a7da6e9c3b96db5340022224059dc8e2bc20c58c265a"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/nft-marketplace/abi.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/nft-marketplace/abi.mjs.gz",
+      "bytes": 4505,
+      "sha256": "13e766ccf096262deea21836d27f74668814f6a0ab46e7b04198ec7972ba28a6",
+      "gzipBytes": 1748,
+      "gzipSha256": "b131a4da0c91494a383bfc9c2870af4ce59e60b0b1a16ca97bfa152dd87e3c5d"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/nft-marketplace/client.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/nft-marketplace/client.mjs.gz",
+      "bytes": 3291,
+      "sha256": "ab4957d258abbab46bebef3a9e01a0ce389edfbc2c8aa2c28062d676ccfd4062",
+      "gzipBytes": 1257,
+      "gzipSha256": "c066599de1b6177529eb48a39e0ac5fe6f67de20eed38509b200931c5e8950ca"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/nft-marketplace/generate.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/nft-marketplace/generate.mjs.gz",
+      "bytes": 15227,
+      "sha256": "2db49d48aefbb011523dc7fd874cc004051b5aed7e95e4215c25a95334b0610b",
+      "gzipBytes": 4579,
+      "gzipSha256": "4f957a2be5591c685dbbe1b1e84318eed09b976f855eb99d2e76d249fb0211d0"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/nft-marketplace/policy.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/nft-marketplace/policy.mjs.gz",
+      "bytes": 3630,
+      "sha256": "073ec93fa514dcdf3cf46d8b1790f4c71a766dc81d284072f76177fc9ad07878",
+      "gzipBytes": 1365,
+      "gzipSha256": "3ccc18992c2e25a4f04b05d08d78c1b1168c27bf18ee7edeaf73fe7c03ef3324"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/nft-marketplace/reader.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/nft-marketplace/reader.mjs.gz",
+      "bytes": 6652,
+      "sha256": "055ed692c5f620e5509628bf557abf775e2dd18f949b7c313541f9a0cad0494f",
+      "gzipBytes": 2414,
+      "gzipSha256": "dd14aff04e1d84aae18dcaa21575732538de89957ad15225b78e78a318fa7024"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/nft-marketplace/status.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/nft-marketplace/status.mjs.gz",
+      "bytes": 4259,
+      "sha256": "48a3242c1fed2fb06fbb2d816285ecde848b681f69c8d78ee02e38b2ec92bc82",
+      "gzipBytes": 1648,
+      "gzipSha256": "fe7b60661c5661aba3d61b5008f4a432ebe6907fe55d335ad686ee3152536278"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/orderbook/matcherCore.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/orderbook/matcherCore.mjs.gz",
+      "bytes": 4573,
+      "sha256": "7a54e18e58fef2cb6ad8f10406be4343525d6cb984ea9b7a42f9abc3c6e0b7d0",
+      "gzipBytes": 1582,
+      "gzipSha256": "d185afdbaa504e3557cf44b52547147257658997e39ab6af93929360a22f86c9"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/orderbook/operationCalls.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/orderbook/operationCalls.mjs.gz",
+      "bytes": 5354,
+      "sha256": "8e6d433d877621bc2e78268720bf0e3985a9cfc68b046bf0b6caba3c685a0fd8",
+      "gzipBytes": 1592,
+      "gzipSha256": "dbda79dbec0d85616e5984c276a1142489efe8cfd75ee6b3edb895e9af5148da"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/orderbook/rpcReader.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/orderbook/rpcReader.mjs.gz",
+      "bytes": 2487,
+      "sha256": "18ebc358df60f7f99a17502536b3ac45ba273557a6b35283032a82b2bcbe8a27",
+      "gzipBytes": 1024,
+      "gzipSha256": "7b2888fd8de10c1cdaebc8b636ea60cc209cefb999a86e93d43bd7796316d9ee"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/token/wide/arithmetic.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/token/wide/arithmetic.mjs.gz",
+      "bytes": 2826,
+      "sha256": "60a85bafc6619dffbd9fe70a56d269d8356f55068434e8e83e2d51d28fdccc94",
+      "gzipBytes": 1099,
+      "gzipSha256": "85ffda49e5d427bb0c97f51dce229841b9dfe9a981f5ee0104d36c43c678a283"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v1-source/token/wide/artifactGate.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v1-source/token/wide/artifactGate.mjs.gz",
+      "bytes": 1760,
+      "sha256": "7f5577b19a784fff2465a8881e514002941f74f2c11d076f7cf60d7fb01441fe",
+      "gzipBytes": 825,
+      "gzipSha256": "169ba3c57e6c6c99e42405b43f02fe017a889174a1f00009e9789a29ad31faf4"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-SOURCE.json",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-SOURCE.json.gz",
+      "bytes": 9313,
+      "sha256": "ad61f9cd5f2a37fe59bf9264e26d8d0d843fbb3745024be6eca2e1c40c64a024",
+      "gzipBytes": 4766,
+      "gzipSha256": "234d8f3b6c83d392cac6e2f5c0b4983c4e0396e8a716776363cb91145add1bad"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/amm/callBuilder.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/amm/callBuilder.mjs.gz",
+      "bytes": 10840,
+      "sha256": "fff2477b4685ba7c4ee1ea422aa8e7b5632ab5815eb93ffb1a87271c65cd5603",
+      "gzipBytes": 2599,
+      "gzipSha256": "617a1e8d8086a1dcca7d18cfde4d4cba626db59ce6c77071e9415d75947b20cb"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/amm/chainReader.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/amm/chainReader.mjs.gz",
+      "bytes": 6500,
+      "sha256": "f6af8dfddc3910b26eaaf7a58048ebdb9917b86c32946b2197246b1f9c7bb7f5",
+      "gzipBytes": 2057,
+      "gzipSha256": "158c1699206c54669ee0881fda15054839889c971b16e957be7177dc855ddd5a"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/amm/operationCalls.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/amm/operationCalls.mjs.gz",
+      "bytes": 556,
+      "sha256": "6ded485d216fe2278636c24142599b70f2629f5b39d59860f76caff3d320576e",
+      "gzipBytes": 305,
+      "gzipSha256": "cf16401459f9bab0bd0994cc9684251900812fb6f7da779c9482a4d51aed06b4"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/amm/referenceMath.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/amm/referenceMath.mjs.gz",
+      "bytes": 5300,
+      "sha256": "d30c837cc2c7fe13b5b63674533e4e2661e13315f57551eeea3b1188303cef23",
+      "gzipBytes": 1482,
+      "gzipSha256": "e9bf2fd95597c8af94bfed9567731dc751437df99b9035503dc09393fa10dcd7"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/amm/u124/artifactGate.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/amm/u124/artifactGate.mjs.gz",
+      "bytes": 4626,
+      "sha256": "ad6b2b62361e054d2c7a36dd0d02017ae8ce768231fe7284d311df569861d91f",
+      "gzipBytes": 1649,
+      "gzipSha256": "ae25f09b0802aeddf56676171fbc0ef9e10905a50836bb661955a73b074f9e60"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/amm/u124/build.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/amm/u124/build.mjs.gz",
+      "bytes": 5422,
+      "sha256": "5cb20278db3e76a1078685e77e6d37e1e9afd7e603aa28dd1a15491f04f5bc2b",
+      "gzipBytes": 2054,
+      "gzipSha256": "8b55b73a59f13b94bf3ea87c17f5dff4f9e61091bd0992d497532b1afee758a7"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/amm/u124/client.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/amm/u124/client.mjs.gz",
+      "bytes": 6822,
+      "sha256": "65e29a5a3c429113aeea737b35bce8bd5675946d17456ebe063b5e9738f899ec",
+      "gzipBytes": 2704,
+      "gzipSha256": "4dd4369acc10eee266255cec0bacd7c8e72ee0373a029f5fe70e79cc07f60d37"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/amm/u124/generate.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/amm/u124/generate.mjs.gz",
+      "bytes": 15368,
+      "sha256": "0b99a0d36eef9f58a2f2f90a458fa12d91ac9fd0765e26c00f976f6f9e381f94",
+      "gzipBytes": 4259,
+      "gzipSha256": "e27f5ef088cfa918623636b5cecf4f291c8e8db4f695521aa0f796035b177210"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/amm/u124/math.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/amm/u124/math.mjs.gz",
+      "bytes": 4325,
+      "sha256": "a1c7da522ca49fe371abca2e428a7f3de4dc70e6144da159187e058046b87fd7",
+      "gzipBytes": 1595,
+      "gzipSha256": "aefc9f06e2d1130d8390dcb9bf4e0a32079b788ae78874f36e0c424f755c0fb3"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/amm/u124/policy.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/amm/u124/policy.mjs.gz",
+      "bytes": 5418,
+      "sha256": "deb1cec25b754c7c0c32e0d55c42ef9b152f4fb82186f179a74ef3eadd3bfb5f",
+      "gzipBytes": 1945,
+      "gzipSha256": "acf661070788869c9b1b0e0d35965e3fe0f96d1d86f18c6e3c083675f56ed48e"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/amm/wide/chainReader.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/amm/wide/chainReader.mjs.gz",
+      "bytes": 498,
+      "sha256": "363c853daff4b863425f4537ae1fac795fbe4bf95666c7644c6905079a4128c7",
+      "gzipBytes": 308,
+      "gzipSha256": "1244aac0b2f20775d9964efc3ccb4c07f81636086c334fadd0f4322630a7596a"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/amm/wide/operationCalls.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/amm/wide/operationCalls.mjs.gz",
+      "bytes": 563,
+      "sha256": "3ff7567ce073d91e53fd3428a38250be4e171330a37bd0893c300cf40664ec19",
+      "gzipBytes": 310,
+      "gzipSha256": "62ce8bfe6b2afd52401a3ac3f3bea50215d40020cf012c5abd7a9af726474ef1"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/batching/admission/build.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/batching/admission/build.mjs.gz",
+      "bytes": 6268,
+      "sha256": "b614e621f456810a5a1c42372d4acf5b1937ce8dbc1f28802ab721083e4fbde8",
+      "gzipBytes": 2424,
+      "gzipSha256": "24248fe1d2c2302c10bc0795901f70e179d0868b197882cc719138b465d6c421"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/batching/admission/bulk.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/batching/admission/bulk.mjs.gz",
+      "bytes": 2121,
+      "sha256": "73bbbff746ae05a92f650a405f7a1e53346dd1cdb2b3f5417b65ea2ff7848967",
+      "gzipBytes": 1011,
+      "gzipSha256": "fae45ce197e20882f0c61c8a39267e8beb796a53a004e6f1f6d791012e1093e6"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/batching/admission/freshDeployment.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/batching/admission/freshDeployment.mjs.gz",
+      "bytes": 917,
+      "sha256": "2823349672a88bfb8924940c6486f2cff87a3c105f1d8e4a9ee80913b01882ec",
+      "gzipBytes": 481,
+      "gzipSha256": "1a807412b72b70bcbff532b3d1b212db2735c57b1b0b12cf9bbf48900d906a50"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/batching/admission/generate.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/batching/admission/generate.mjs.gz",
+      "bytes": 11954,
+      "sha256": "9aceace9487f209b2cba3a205879d26add71e3cc20e761599d6c09e37148727d",
+      "gzipBytes": 4025,
+      "gzipSha256": "855d57d8aec10b43f03905a2cda8bf42c24d554154c44cb49261495d7c292507"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/batching/admission/liveAssets.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/batching/admission/liveAssets.mjs.gz",
+      "bytes": 5742,
+      "sha256": "91420cc1d341453b9c6e6321ac3d066870f57c3fb80f52d68ce26575323d3af3",
+      "gzipBytes": 2280,
+      "gzipSha256": "270178e1a40f201961695a6c134248734016d8b7c3eae937c688511625076343"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/batching/admission/liveMarket.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/batching/admission/liveMarket.mjs.gz",
+      "bytes": 8113,
+      "sha256": "32ba4af0d39467d71f9e94d8d37e9344ff70752291dd98c6effd11abbfaeb1a5",
+      "gzipBytes": 2776,
+      "gzipSha256": "be6fa729fd58f78627bbcb1b3ada01676f69c5312a58bfe587de272c9757f6ba"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/batching/admission/liveSupport.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/batching/admission/liveSupport.mjs.gz",
+      "bytes": 6923,
+      "sha256": "c1a54bade341ca066ac2a2922e9754f378c77492393a4ffadc0b2df5a98352bb",
+      "gzipBytes": 2527,
+      "gzipSha256": "ba9a26dc045360a9966a3d41315c537c7c6828722184f3e98ccbec83a2cc1dde"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/batching/admission/ordinaryReport.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/batching/admission/ordinaryReport.mjs.gz",
+      "bytes": 891,
+      "sha256": "e57ad6d4829f73007895884ce03a85e2eb6d5b1b571a6118fe0e1ba145852ddf",
+      "gzipBytes": 502,
+      "gzipSha256": "75686baa317e5c759bc13de7760f9def72e79ed90ba9fdd31a78c535dc1d3af9"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/batching/admission/prepare.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/batching/admission/prepare.mjs.gz",
+      "bytes": 3782,
+      "sha256": "6b98fb045533482b403a695a43b348fb7a87e6bfba557ef8d135614ebb41fcbd",
+      "gzipBytes": 1553,
+      "gzipSha256": "88c386b3a7f98612980db3ca0f06cc44047ee344deec9700a927c9ed0b02e4db"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/batching/admission/reader.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/batching/admission/reader.mjs.gz",
+      "bytes": 5536,
+      "sha256": "427a2243bd6a5276633d140e0ed0d8b94338aaa259d0c275f8307b706c2cac1e",
+      "gzipBytes": 2260,
+      "gzipSha256": "816b3e595c84373c2f2bcb457e76635cd7dc707c8e66619da2f6aa661eb75018"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/batching/admission/registrationPublication.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/batching/admission/registrationPublication.mjs.gz",
+      "bytes": 2537,
+      "sha256": "122a204e90d5181c7233fe2aefe6b6e6969631a1cbe44a03606dcee6ab1ff613",
+      "gzipBytes": 960,
+      "gzipSha256": "338b6db9c7944b0616e3a81f77a92c01239939b6bd9f0378afda065d4d15e1da"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/batching/v2/bootstrap.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/batching/v2/bootstrap.mjs.gz",
+      "bytes": 1294,
+      "sha256": "edf601a2b116e2a44e9155ff98806b99546072fe2bfac37f22db365aaa065850",
+      "gzipBytes": 619,
+      "gzipSha256": "a3419135375c80dccd0658d736b5898377f2e8b9ae9d67592fb9c31a88d483ae"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/batching/v2/client.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/batching/v2/client.mjs.gz",
+      "bytes": 3105,
+      "sha256": "b0c00a38eb84d4acfb487a1316272b9633e7d90cb0df39838cbf6d6419684e9b",
+      "gzipBytes": 1188,
+      "gzipSha256": "25d93a61df1462df784e4461ef4690d95ee6dd026e6e1b665f573d737f4da7c4"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/batching/v2/controller.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/batching/v2/controller.mjs.gz",
+      "bytes": 12476,
+      "sha256": "6e8ff4dd448cce8c4df62ac54914b9ec7c4721ebeaa33ec3b80df0c492403eab",
+      "gzipBytes": 4128,
+      "gzipSha256": "fc36d5ea1ab4f807a047154af8370ce306b8f0f00aa3595af1a27f5dac6c89eb"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/batching/v2/funding.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/batching/v2/funding.mjs.gz",
+      "bytes": 2741,
+      "sha256": "616a28d1547a27e9e46dddab2735e1ddcafa01565d6665f3504b29bff3e49795",
+      "gzipBytes": 1088,
+      "gzipSha256": "b8cee9bc40563676dfbecd95b07da71ea699bc9257ed8e0b9f0f97a678da2d8e"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/batching/v2/generate.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/batching/v2/generate.mjs.gz",
+      "bytes": 13174,
+      "sha256": "d1e5e19a27cd2ee3eddadd1874bd503431a82165beec59c7492af98396f29116",
+      "gzipBytes": 4544,
+      "gzipSha256": "9f876279a4893af8787b25bb7a6a5744f4cf990f3c87031352b448a63bd6c55c"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/batching/v2/guards.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/batching/v2/guards.mjs.gz",
+      "bytes": 14138,
+      "sha256": "f81bcd174540644e3f67bfc3e501582aa92e9f81824dc67314c36d8d05c753aa",
+      "gzipBytes": 4146,
+      "gzipSha256": "e5f5207fdce5d06cc4842978d616d6d058081569e1e1e6e253039f9fb0dba1fc"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/batching/v2/planner.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/batching/v2/planner.mjs.gz",
+      "bytes": 6317,
+      "sha256": "bdc340907709a10e3d8895bd5d4e3a93e0fa81df1cae997fa9c9bbc68053515e",
+      "gzipBytes": 2397,
+      "gzipSha256": "263c7e2a00bd5c78766149865d5369263ad68970dacbe9224e44cbd4a889081e"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/batching/v2/policy.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/batching/v2/policy.mjs.gz",
+      "bytes": 10078,
+      "sha256": "8d2e6ee706ba2b05baa607ddb115c47a201c7eeba4f1c1be5eafa3bc781d1971",
+      "gzipBytes": 3248,
+      "gzipSha256": "a7f9c279fce8fb1d76c9cc20e32eb1aff9ad05111322be15d8d08c59b69ae5f0"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/batching/v2/reader.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/batching/v2/reader.mjs.gz",
+      "bytes": 16385,
+      "sha256": "d14c12e1233690887493805dafd037b54ffa4304d7e931871cee39549ebbd994",
+      "gzipBytes": 5031,
+      "gzipSha256": "2aaf9cc2e8d44db15f083a591467102861ffaad88f67ade70788415104d6dabd"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/batching/v2/recovery.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/batching/v2/recovery.mjs.gz",
+      "bytes": 4776,
+      "sha256": "a9ad7e8ae56af2b8a58adce75d405182bdf2d17263bb72f194ce578708eb408d",
+      "gzipBytes": 1574,
+      "gzipSha256": "213c55f2d49078e9b6584d4491f8ec457725514fe3d4f29f0e204d47eee61d1f"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/bondingcurve/chainReader.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/bondingcurve/chainReader.mjs.gz",
+      "bytes": 5665,
+      "sha256": "ba7c5498b4491190fc737cdf4ce8d5045d314e2e8783a4a7a8fb8cb2c6400d48",
+      "gzipBytes": 2105,
+      "gzipSha256": "8b67b2e42a137e2ce6117923db545a339c7a37f81e3f364bd0c0545406716ce3"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/bondingcurve/curveMath.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/bondingcurve/curveMath.mjs.gz",
+      "bytes": 2738,
+      "sha256": "dfc150794a0716e7953f33761f4c058485c6afa4232caa7d00d96de2979b60ed",
+      "gzipBytes": 833,
+      "gzipSha256": "48c333478c806d5230434b8ac146c28d2720d1eec840fe512db9cf119e02540e"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/bondingcurve/operationCalls.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/bondingcurve/operationCalls.mjs.gz",
+      "bytes": 8773,
+      "sha256": "1d9955a05e695c08366877aa2bd10cc718d2261030209bf37c83e6d4275c1831",
+      "gzipBytes": 2118,
+      "gzipSha256": "79fe8693b3f9252a2437385894bff2fda75b4c5a72e42760a1a98e3a1df23af5"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/bondingcurve/receiptCheck.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/bondingcurve/receiptCheck.mjs.gz",
+      "bytes": 2392,
+      "sha256": "6fc0eafa9dd15ddfd488987cf35963fc424c4ff7e3979fc4b5c3ca4e660dc0fc",
+      "gzipBytes": 956,
+      "gzipSha256": "8d56467ceba19ececba3ad4d8d9e5960d49589e6d51d92e7679787e5dd56c705"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/acceptance/attemptOutcome.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/acceptance/attemptOutcome.mjs.gz",
+      "bytes": 443,
+      "sha256": "8bdcff74f3314939ed4588bb089f280915f6c8e5b80174f804e6d14913ed5590",
+      "gzipBytes": 294,
+      "gzipSha256": "3bb5ec7a19421b91ab22d15e64d6ca7b5e9d0777674a7eb72b242b044e6c8d5f"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/acceptance/calibrationTransportFailure.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/acceptance/calibrationTransportFailure.mjs.gz",
+      "bytes": 532,
+      "sha256": "317e53589588a407f56147e53ab19e0e4c0ed5ef0bf0ce14d795f7458214c361",
+      "gzipBytes": 350,
+      "gzipSha256": "8653348b090473ed411847aa7327080a558b1b9c470eb8e76bef73ae56acb39d"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/acceptance/candidateHarness.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/acceptance/candidateHarness.mjs.gz",
+      "bytes": 16796,
+      "sha256": "f2c3171ae682eb62d56bdd2a9d789f0602ef0a2abb1d456c2bd58147830025a8",
+      "gzipBytes": 5859,
+      "gzipSha256": "21c623e6cfd18c83dd2daee726cc325eac48959224e20d96c53a563ae76f2ad4"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/acceptance/cliExecution.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/acceptance/cliExecution.mjs.gz",
+      "bytes": 785,
+      "sha256": "e84e8a22e81b65fb5376a48d36588d31e90423b726df59be516c15309744b47d",
+      "gzipBytes": 413,
+      "gzipSha256": "39ff1e3480e6aa399c972dfa80fb9c40fecc501391a89b3b58b07d620e92c73c"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/acceptance/cohortScope.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/acceptance/cohortScope.mjs.gz",
+      "bytes": 627,
+      "sha256": "d67d553ca43b49944cbfe34dbb599fdb53271ff079b3b9137eed27b508e566ea",
+      "gzipBytes": 396,
+      "gzipSha256": "7c6c46e90b58fb54d55ec36edad6a51e08597c76eeb8e585a3a86583973efea6"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/acceptance/completedCalibration.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/acceptance/completedCalibration.mjs.gz",
+      "bytes": 2887,
+      "sha256": "818cd46556266b16a0334e1a3567c8b4afc920e44291fbab3e59a43890922811",
+      "gzipBytes": 949,
+      "gzipSha256": "c557a33d4f0688f7d6a4b581104b87c656df0d6ecc36a79476e893bed8fd3991"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/acceptance/guardCalibration.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/acceptance/guardCalibration.mjs.gz",
+      "bytes": 4239,
+      "sha256": "b643a0fc7ca395bf783cce868baf088a7a4a3177238756144b88701e3eb13c09",
+      "gzipBytes": 1413,
+      "gzipSha256": "655384df12e822ecca7ca4236df0d606e1b70b6ed802101b21ac393caeff4190"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/acceptance/optionalCalibration.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/acceptance/optionalCalibration.mjs.gz",
+      "bytes": 1204,
+      "sha256": "f70657eb0380a80dbdcdd096f982753271d533e06124052fd9340162dea9a1ab",
+      "gzipBytes": 607,
+      "gzipSha256": "702579a84452030f99b24ac0c9275018f42ddad0357f3e39b8c08f4273b0feda"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/acceptance/ordinaryEvidence.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/acceptance/ordinaryEvidence.mjs.gz",
+      "bytes": 5641,
+      "sha256": "3f1093f7f61ab4c0dce7065b4d51e6a278382c4c51d3d0d621c7898251f792e1",
+      "gzipBytes": 2016,
+      "gzipSha256": "1bbbd3f3c22e4a227349b2b1cc1c065a2e646156838da0ef21068219f2f8a447"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/acceptance/resumeDurableNftV2.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/acceptance/resumeDurableNftV2.mjs.gz",
+      "bytes": 8223,
+      "sha256": "0af32448c583da22fb51bceffd04ad998ae85302d60c8bedaee0bcb135679240",
+      "gzipBytes": 3333,
+      "gzipSha256": "e8835cd47370e8c7cd204b7cfcd6407e46ae2104174c3250558e0bb7af1f0794"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/acceptance/sourceClosure.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/acceptance/sourceClosure.mjs.gz",
+      "bytes": 1753,
+      "sha256": "dd3de5a1392909df07e349b1f92235a28ded810d8490c2d9e09d375fd784a7c2",
+      "gzipBytes": 880,
+      "gzipSha256": "a9caf27000c931bd93ef2407f75c2a6fcfeaa54ce59d40ce71ac26c487b49b63"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/acceptance/threeMarketBalances.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/acceptance/threeMarketBalances.mjs.gz",
+      "bytes": 1650,
+      "sha256": "8367d67a43ebbca5f37634103d2e7faed9c636cc7da9284f9490c8db0a834293",
+      "gzipBytes": 795,
+      "gzipSha256": "badcc01ea4e191924ec0261b7c29628c61e850ea04194c7406c98c652a99c75f"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/acceptance/threeMarketCase.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/acceptance/threeMarketCase.mjs.gz",
+      "bytes": 4229,
+      "sha256": "9a3ca39adde300833d4e040e7649f469254bd9e8ca9fb6991c2af3012c21d790",
+      "gzipBytes": 1845,
+      "gzipSha256": "6b8fa901d010c79c2a90be176b1187895f32b83cdfdc58790ce868815ebff00e"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/admissionReader.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/admissionReader.mjs.gz",
+      "bytes": 7473,
+      "sha256": "03f819afc17e60b7f06c69019e8bcba84189e45a32ec10eb664c0b0051850ee5",
+      "gzipBytes": 2770,
+      "gzipSha256": "a575de9be9e195f20eafd3507059517e0bd7d85a5a0c0eab2cf3031899c482a2"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/chainReceipts.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/chainReceipts.mjs.gz",
+      "bytes": 3847,
+      "sha256": "f8e2b09b13b2af17429d888a614ce6370dbbffe974949a7f6ce8e78ae74be48d",
+      "gzipBytes": 1692,
+      "gzipSha256": "cc2eb20a1f59bfcec822479e3bf7deb35ef8683463cd737653d270a40be1a617"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/compactAdmissionAdapter.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/compactAdmissionAdapter.mjs.gz",
+      "bytes": 16968,
+      "sha256": "66ae318d2282755ced17fc715ce188c343a1e1e2d02f6fcffcb51d1665109b80",
+      "gzipBytes": 5365,
+      "gzipSha256": "697b22c8356f8382eb738d03ad531f4623112931739efcef0789d74b02bdc8f8"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/config.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/config.mjs.gz",
+      "bytes": 10860,
+      "sha256": "272c03a863e37a9a98971f3b291f3a8c4033a1c39432065facc1a12d4c22bca5",
+      "gzipBytes": 2841,
+      "gzipSha256": "05a023e87f4c3fee5148a782e554941fdd34ba9eef0f7961b3db940c01b11c09"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/confirmedNonceConflict.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/confirmedNonceConflict.mjs.gz",
+      "bytes": 2036,
+      "sha256": "2217d1cb4e466d9d035e3b1967f4844a2834ce4199f154a27c20f93758399d06",
+      "gzipBytes": 787,
+      "gzipSha256": "63dfcce65d93f025d3a7130a7d72ab621dfe064033e095517fc571b7f6d01092"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/driverProcess.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/driverProcess.mjs.gz",
+      "bytes": 1696,
+      "sha256": "0ccd44179344685f4bba1ce12d230c33970f8e6db88ac528452187702010d325",
+      "gzipBytes": 912,
+      "gzipSha256": "80d44e3f769c3723b22dbd18acfd85190399383d26d88f90285af2910571d98f"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/durableFile.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/durableFile.mjs.gz",
+      "bytes": 758,
+      "sha256": "099f2698e2b5878c100d52c4dc37ad115ec5f1c09d790f12a9b4380c437e5ec0",
+      "gzipBytes": 415,
+      "gzipSha256": "b0625ae8180e075e9d2cdc19f176598e7ee6446107c380e94a6191ebd25047f3"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/identityCache.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/identityCache.mjs.gz",
+      "bytes": 1763,
+      "sha256": "a37b718de1ab61d176b9935f1d09e3fd26a604e354d145f08999556cfed46218",
+      "gzipBytes": 827,
+      "gzipSha256": "4feed2b0a5c3e849eb5ab7c704de576dc0847bfd4e9149f66823f54ea4871f72"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/journal.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/journal.mjs.gz",
+      "bytes": 9497,
+      "sha256": "6b6f99b8072b82d9b80df4b34fb01d1a73ba1fb6d74d83b9b157f1e0bb8b8303",
+      "gzipBytes": 2958,
+      "gzipSha256": "2a7791bc45ebf332633990ded90e0ea6a7b20b5fc5d8cb2d87e7a8f8a860c771"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/observations.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/observations.mjs.gz",
+      "bytes": 891,
+      "sha256": "987e2c6e5cc3030b0064b840bf704691963dd03d89db9c411e50321b547f53a4",
+      "gzipBytes": 430,
+      "gzipSha256": "0cb41482834a003fca05f76025fa652f28ba6b3601552369e881a9bb09acec86"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/phaseMetrics.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/phaseMetrics.mjs.gz",
+      "bytes": 3871,
+      "sha256": "6e02e7aa08867bdf5d678c649f3ffdc7a8ccfc5dc3ba1e233ee84a0124ed2ed0",
+      "gzipBytes": 1630,
+      "gzipSha256": "c76c5640d8bdf12d9921b63ce9ecacbe198d6e8f7049d1533980e4fdf61c8d9f"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/preSessionRetry.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/preSessionRetry.mjs.gz",
+      "bytes": 1086,
+      "sha256": "64c85ff25a6a6903749be77f3a477188118fd587f42829fc05f5e559e47d86af",
+      "gzipBytes": 630,
+      "gzipSha256": "0a78baf7b82763454da958acbf56c08bde10e572ba58623c83f2e955693901a9"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/preflight.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/preflight.mjs.gz",
+      "bytes": 611,
+      "sha256": "0205e1e27450742753068a52b9e5e11e569ec6383f006d843acf42a8776fbd56",
+      "gzipBytes": 399,
+      "gzipSha256": "7a972e16607e8a853580a07f7e2be7af6f8a310a2ed7051c41a4c74aaf4f5323"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/preflightRecovery.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/preflightRecovery.mjs.gz",
+      "bytes": 4815,
+      "sha256": "78723c46346428731e11b08b91acd82ecef2edf4b534e5b217971403afdd0d3a",
+      "gzipBytes": 1832,
+      "gzipSha256": "82d5c84bdab44e81476dadb744f255c911ee81901d22ee04aa9bd6dc2c37d261"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/publicState.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/publicState.mjs.gz",
+      "bytes": 5922,
+      "sha256": "f1606cc4a0fcf2c71e68fb8c7d6e7a835e2e41673c0115cfdb66cedc33fde979",
+      "gzipBytes": 2326,
+      "gzipSha256": "9cd842c962742e4c199caac8e658a4b6ae8a4404254ed80e5c2cc17978921fb3"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/publicWalletAdapter.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/publicWalletAdapter.mjs.gz",
+      "bytes": 6099,
+      "sha256": "bc33f1c61d15f41850f66c4eb9f587f13b111ed96a51b009041d87e919c172ad",
+      "gzipBytes": 2101,
+      "gzipSha256": "886222e392b661d6141d4c06610330c05c4efa43ce1ecc3d3078774fbc02b16a"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/readConcurrency.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/readConcurrency.mjs.gz",
+      "bytes": 1457,
+      "sha256": "b341c4b91c837e92d47c425fcf783b1abb661ab79cd9f3696893e6998e530072",
+      "gzipBytes": 737,
+      "gzipSha256": "a26a8d7f98f90f2bb069eec2873710a9c977d2ae4ced94c7e18c8955aedde58d"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/readRetry.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/readRetry.mjs.gz",
+      "bytes": 761,
+      "sha256": "a3690049dc4f729e642a17c26add8dd2bd984dfc817b6fcd54fe5d27825d9a88",
+      "gzipBytes": 472,
+      "gzipSha256": "36c46a10cc8f8b17a0789c7f217ee6c2ad77319b8c716f2d034f67e83e57d606"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/readSingleFlight.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/readSingleFlight.mjs.gz",
+      "bytes": 1090,
+      "sha256": "5a8febcf46f63db4095290d7fbbe7256d69a9f1ddc0f80b8e8c0db6204fcbb79",
+      "gzipBytes": 561,
+      "gzipSha256": "84b13f32b979af317c80218d5de5a14a4f9fcecb9d1220be1d9cc68c11071274"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/requestBinding.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/requestBinding.mjs.gz",
+      "bytes": 1554,
+      "sha256": "18f7d0b394f03481be1ed25581c6b551e4e780bcba20e217a99f80be9f2aa2c2",
+      "gzipBytes": 704,
+      "gzipSha256": "7d1a6474cd1f3c1c130df21b2b011d3888d50daf59bc577c15cb4200835b4dd0"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/residentProver.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/residentProver.mjs.gz",
+      "bytes": 3775,
+      "sha256": "fbde59dca84dc222974aa42f2fe6b15315d71e6380b6bfbb36514ee96c4687d3",
+      "gzipBytes": 1499,
+      "gzipSha256": "f41ab36c59ec4ac7ebec5641035f2283a9252278c59e104503b0625deed8f63c"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/residentScope.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/residentScope.mjs.gz",
+      "bytes": 3347,
+      "sha256": "f51352c1f9dcf33ae3f15b0e75b3090c5cf45116dee8038206f0aab27ccd3248",
+      "gzipBytes": 1347,
+      "gzipSha256": "fedbcf063190c401c2ef84755b962cd49122d570771d9c11563ba14cdcda0273"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/sealedDriver.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/sealedDriver.mjs.gz",
+      "bytes": 1535,
+      "sha256": "369b6e6594e206f19172def380ebeb35a07af2f27cfe39fb2c4cf2e00ea12881",
+      "gzipBytes": 699,
+      "gzipSha256": "1bf2a9476e893fc9371cc1c1f7eb8f2d210cd3632d3ac0ac04980493270cc128"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/submissionGuard.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/submissionGuard.mjs.gz",
+      "bytes": 2230,
+      "sha256": "d53851bab52649f366fcb743278071b6f3503b658aae7c3c0f8b1a032d3442aa",
+      "gzipBytes": 1101,
+      "gzipSha256": "e38b6964f291db785d3a73aabf97ae536d7f844954fb92c4324344f5be094426"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/taskIntent.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/taskIntent.mjs.gz",
+      "bytes": 649,
+      "sha256": "2abc63d9c35e4c7279837821a55f80b1242ded3070aa8464f00c071f347886ea",
+      "gzipBytes": 373,
+      "gzipSha256": "10bc7524efdb3f91e2696308fbc01bb6a7885fa1661d0928668fac63d78864d9"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/u124Abi.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/u124Abi.mjs.gz",
+      "bytes": 2657,
+      "sha256": "9940b8e45ac076eb8b022701db8033a8a4e6ba30f3dcde591b54d704efc42433",
+      "gzipBytes": 1009,
+      "gzipSha256": "fca5b99cba9c7ce432b7dda5ce018f5c5fc7b3adb3fd463778012750801ba697"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/u124Adapter.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/u124Adapter.mjs.gz",
+      "bytes": 10718,
+      "sha256": "d7e0c6335a0a2d87479d2a89daf82a7e92cde0efb2bd1252b4fd8cb98eb1803b",
+      "gzipBytes": 3366,
+      "gzipSha256": "0e25ce72d4bd1e7d927220d6dc07a77d0fdfa278afad38341534ccc83265e0e8"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/u124Reader.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/u124Reader.mjs.gz",
+      "bytes": 8969,
+      "sha256": "c9cf98980218801086c7e9d82f3db51f54560e0d20bbf1f42754b89803197fd7",
+      "gzipBytes": 2884,
+      "gzipSha256": "6fe0999048d9537d6138bf570e834e1550c5b27bff08d11549245171e3fd8ff2"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/u124Submission.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/executor/u124Submission.mjs.gz",
+      "bytes": 2315,
+      "sha256": "d633d961a96e73a56850b8b17817041a7aeef75c4988e3be742978990ddf4c67",
+      "gzipBytes": 907,
+      "gzipSha256": "5b584ff8b2e0d2ad752bffe373e75b3a17250b93468565e64ae9f86b7953ae83"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/launchamm/chainReader.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/launchamm/chainReader.mjs.gz",
+      "bytes": 2909,
+      "sha256": "024ebafd2d5162e2d757e4c99cf3ca86b6f91662002ffc43007e895f38f14c60",
+      "gzipBytes": 1072,
+      "gzipSha256": "868ac97eb267f48be2c44e89c2fc4ef4be79fe32158f986bcc53bddb9aa81c3b"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/launchamm/operationCalls.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/launchamm/operationCalls.mjs.gz",
+      "bytes": 12406,
+      "sha256": "51ee1c63838bf42a4ec9fa1af2165a71d0f5a554e15edb2939daa7bfa958019c",
+      "gzipBytes": 3151,
+      "gzipSha256": "5a09109817d27a70e8d618f3a9ddcd452075456fd7e4eef374e0261f1b556987"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/launchamm/planner.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/launchamm/planner.mjs.gz",
+      "bytes": 3126,
+      "sha256": "a24bd8758b1d97becd33dfd5bf1c08a865d85862a03e0ed3b78dd6a880c1bd97",
+      "gzipBytes": 1144,
+      "gzipSha256": "b49f81a64cc13460e085a7da6e9c3b96db5340022224059dc8e2bc20c58c265a"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/nft-marketplace/abi.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/nft-marketplace/abi.mjs.gz",
+      "bytes": 4505,
+      "sha256": "13e766ccf096262deea21836d27f74668814f6a0ab46e7b04198ec7972ba28a6",
+      "gzipBytes": 1748,
+      "gzipSha256": "b131a4da0c91494a383bfc9c2870af4ce59e60b0b1a16ca97bfa152dd87e3c5d"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/nft-marketplace/client.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/nft-marketplace/client.mjs.gz",
+      "bytes": 3291,
+      "sha256": "ab4957d258abbab46bebef3a9e01a0ce389edfbc2c8aa2c28062d676ccfd4062",
+      "gzipBytes": 1257,
+      "gzipSha256": "c066599de1b6177529eb48a39e0ac5fe6f67de20eed38509b200931c5e8950ca"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/nft-marketplace/generate.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/nft-marketplace/generate.mjs.gz",
+      "bytes": 15227,
+      "sha256": "2db49d48aefbb011523dc7fd874cc004051b5aed7e95e4215c25a95334b0610b",
+      "gzipBytes": 4579,
+      "gzipSha256": "4f957a2be5591c685dbbe1b1e84318eed09b976f855eb99d2e76d249fb0211d0"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/nft-marketplace/policy.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/nft-marketplace/policy.mjs.gz",
+      "bytes": 3630,
+      "sha256": "073ec93fa514dcdf3cf46d8b1790f4c71a766dc81d284072f76177fc9ad07878",
+      "gzipBytes": 1365,
+      "gzipSha256": "3ccc18992c2e25a4f04b05d08d78c1b1168c27bf18ee7edeaf73fe7c03ef3324"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/nft-marketplace/reader.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/nft-marketplace/reader.mjs.gz",
+      "bytes": 6652,
+      "sha256": "055ed692c5f620e5509628bf557abf775e2dd18f949b7c313541f9a0cad0494f",
+      "gzipBytes": 2414,
+      "gzipSha256": "dd14aff04e1d84aae18dcaa21575732538de89957ad15225b78e78a318fa7024"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/nft-marketplace/status.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/nft-marketplace/status.mjs.gz",
+      "bytes": 4259,
+      "sha256": "48a3242c1fed2fb06fbb2d816285ecde848b681f69c8d78ee02e38b2ec92bc82",
+      "gzipBytes": 1648,
+      "gzipSha256": "fe7b60661c5661aba3d61b5008f4a432ebe6907fe55d335ad686ee3152536278"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/orderbook/matcherCore.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/orderbook/matcherCore.mjs.gz",
+      "bytes": 4573,
+      "sha256": "7a54e18e58fef2cb6ad8f10406be4343525d6cb984ea9b7a42f9abc3c6e0b7d0",
+      "gzipBytes": 1582,
+      "gzipSha256": "d185afdbaa504e3557cf44b52547147257658997e39ab6af93929360a22f86c9"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/orderbook/operationCalls.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/orderbook/operationCalls.mjs.gz",
+      "bytes": 5354,
+      "sha256": "8e6d433d877621bc2e78268720bf0e3985a9cfc68b046bf0b6caba3c685a0fd8",
+      "gzipBytes": 1592,
+      "gzipSha256": "dbda79dbec0d85616e5984c276a1142489efe8cfd75ee6b3edb895e9af5148da"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/orderbook/rpcReader.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/orderbook/rpcReader.mjs.gz",
+      "bytes": 2487,
+      "sha256": "18ebc358df60f7f99a17502536b3ac45ba273557a6b35283032a82b2bcbe8a27",
+      "gzipBytes": 1024,
+      "gzipSha256": "7b2888fd8de10c1cdaebc8b636ea60cc209cefb999a86e93d43bd7796316d9ee"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/token/wide/arithmetic.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/token/wide/arithmetic.mjs.gz",
+      "bytes": 2826,
+      "sha256": "60a85bafc6619dffbd9fe70a56d269d8356f55068434e8e83e2d51d28fdccc94",
+      "gzipBytes": 1099,
+      "gzipSha256": "85ffda49e5d427bb0c97f51dce229841b9dfe9a981f5ee0104d36c43c678a283"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/durable-nft-resume-v2-source/token/wide/artifactGate.mjs",
+      "file": "files/three-markets-performance-live-v1/public/durable-nft-resume-v2-source/token/wide/artifactGate.mjs.gz",
+      "bytes": 1760,
+      "sha256": "7f5577b19a784fff2465a8881e514002941f74f2c11d076f7cf60d7fb01441fe",
+      "gzipBytes": 825,
+      "gzipSha256": "169ba3c57e6c6c99e42405b43f02fe017a889174a1f00009e9789a29ad31faf4"
+    },
+    {
+      "source": "three-markets-proof-build-v3/BUILD-ATTEMPT-v1.json",
+      "file": "files/three-markets-proof-build-v3/BUILD-ATTEMPT-v1.json.gz",
+      "bytes": 276,
+      "sha256": "a3584f45b1f5b9ff2908f87fbfa0f7965bafb6d85439bfd75790fc991931c403",
+      "gzipBytes": 213,
+      "gzipSha256": "df440483f2c7b933c0eef2c5d98a45100f4e5a6cff968860a2be40fb2aa26a0d"
+    },
+    {
+      "source": "three-markets-proof-build-v3/DEPENDENCY-UNCHANGED-v1.json",
+      "file": "files/three-markets-proof-build-v3/DEPENDENCY-UNCHANGED-v1.json.gz",
+      "bytes": 402,
+      "sha256": "ad45bb97c7fab80865bc016f7d198eb98d360c895d63a6fd75aa9fb17b0a84ef",
+      "gzipBytes": 284,
+      "gzipSha256": "397c57ea14f2332146119dbac710e115e85826842034e30c3a00ec87048b1e27"
+    },
+    {
+      "source": "three-markets-proof-build-v3/RELEASE.json",
+      "file": "files/three-markets-proof-build-v3/RELEASE.json.gz",
+      "bytes": 1901,
+      "sha256": "6afb1cbf07d6a7563a934971fa7a5aa51aebd80ce1b32570c9a05674d53b1a40",
+      "gzipBytes": 862,
+      "gzipSha256": "587f49f42d14d4e8023f3e987cc7499b073135ddd35d1459b65273fd6648be79"
+    },
+    {
+      "source": "three-markets-proof-build-v3/SOURCE.json",
+      "file": "files/three-markets-proof-build-v3/SOURCE.json.gz",
+      "bytes": 7225,
+      "sha256": "9d722420a0ba7a42a2b5e2c1288df173c700ec13da60f29f1afc3419ba860beb",
+      "gzipBytes": 3574,
+      "gzipSha256": "c2ace51da57f3b8aaee25aee2efec31b303ca9ae87dfcd0c7a86a27e09996fa8"
+    },
+    {
+      "source": "three-markets-proof-build-v3/adapter-regressions-v1.log",
+      "file": "files/three-markets-proof-build-v3/adapter-regressions-v1.log.gz",
+      "bytes": 4263,
+      "sha256": "9944e8f92ba1a9801f7784e02dd8f8323a1738fd4c647778190c17a13b051e27",
+      "gzipBytes": 1918,
+      "gzipSha256": "d18a5cb22db36d4c25e3fb6b00f4149fcf67b3626a52b6231737e6b57add3d57"
+    },
+    {
+      "source": "three-markets-proof-build-v3/adapter-regressions-v2.log",
+      "file": "files/three-markets-proof-build-v3/adapter-regressions-v2.log.gz",
+      "bytes": 5904,
+      "sha256": "bdbee4d210cfac323da70ee83f9a4be9ddbda9a28ee0194f33f71611a9f0ecbf",
+      "gzipBytes": 2579,
+      "gzipSha256": "059c14971516ba580f7cc17083ce8a3a15f3ba3a6e73116f248e28a9c3aab1ef"
+    },
+    {
+      "source": "three-markets-proof-build-v3/adapter-regressions-v3.log",
+      "file": "files/three-markets-proof-build-v3/adapter-regressions-v3.log.gz",
+      "bytes": 5049,
+      "sha256": "5e6759dd02bb49cde2ef737c169203bcc92d4a3765308d89e7acf98e0273dce4",
+      "gzipBytes": 2229,
+      "gzipSha256": "9d393c98af15d764dda98c832b283cca5ffc0b657b67df4e63d0aadef443e5e9"
+    },
+    {
+      "source": "three-markets-proof-build-v3/build-v1.log",
+      "file": "files/three-markets-proof-build-v3/build-v1.log.gz",
+      "bytes": 45896,
+      "sha256": "d98b60883d75080ea82d17c7c578f67222ab0fd7e9f1f44aaa800953249cb17e",
+      "gzipBytes": 9634,
+      "gzipSha256": "1957217e1945da3c2e2faeace06d6f464f3dae72649881f1c108586dcfab2f37"
+    },
+    {
+      "source": "three-markets-proof-build-v3/build-v2.log",
+      "file": "files/three-markets-proof-build-v3/build-v2.log.gz",
+      "bytes": 23461,
+      "sha256": "3e4fa917ec1f522089e90575ec1080ec5437143c8b11f4da609d7956ea83a24b",
+      "gzipBytes": 4570,
+      "gzipSha256": "cef2be70fff404d5cab545004772fb807c361674436abeabe4ce5bc03e177203"
+    },
+    {
+      "source": "three-markets-proof-build-v3/guard-tests-v1.log",
+      "file": "files/three-markets-proof-build-v3/guard-tests-v1.log.gz",
+      "bytes": 23934,
+      "sha256": "3ffca7d74e1a927e6a8a1f5136e6475493cfceebb026df5b11b6a171f0c4a5a8",
+      "gzipBytes": 4762,
+      "gzipSha256": "ccbbfb509ff41933b57b1f4bd2c7226cdab5f097ed473fd3351d1f11cb39adc0"
+    },
+    {
+      "source": "three-markets-proof-build-v3/nft-identity-v1.log",
+      "file": "files/three-markets-proof-build-v3/nft-identity-v1.log.gz",
+      "bytes": 273,
+      "sha256": "fffbf8dceede61ec80beb427c3b29bb3ec259d6c1e95a68628b12f3b050641ad",
+      "gzipBytes": 214,
+      "gzipSha256": "47fde8714cc791120de06f43afcc603c91a6e0efded3f1768ad4b4185dc1ebea"
+    },
+    {
+      "source": "three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/Cargo.lock",
+      "file": "files/three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/Cargo.lock.gz",
+      "bytes": 211841,
+      "sha256": "4e895a309801d56e785f17eee5af04e50aee7785a3488e4aea1ae36fb2adb10c",
+      "gzipBytes": 49511,
+      "gzipSha256": "8cb0c94e2f2457d2f5adbd1a461343232247a84a377ab534f5281c674c431e4e"
+    },
+    {
+      "source": "three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/Cargo.toml",
+      "file": "files/three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/Cargo.toml.gz",
+      "bytes": 3459,
+      "sha256": "42cc779196a08d249d1a4ef4eb3a4d65ab94bbd4366b951193372a14bc729747",
+      "gzipBytes": 775,
+      "gzipSha256": "fd28df7a5b066226538803ac95628476f97a32d172a60ad73b7b98fa6e3f3719"
+    },
+    {
+      "source": "three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/batch_compact.rs",
+      "file": "files/three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/batch_compact.rs.gz",
+      "bytes": 5612,
+      "sha256": "c2755dc2285e225f522889075e8174937874aa65d96c7b2aaf13dcdcd49d5d6a",
+      "gzipBytes": 2029,
+      "gzipSha256": "dfd9bd0e32cc6189bc8b2453b20842204aded181312b47e9b861e8a6ecbe5ce1"
+    },
+    {
+      "source": "three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/batch_compile.rs",
+      "file": "files/three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/batch_compile.rs.gz",
+      "bytes": 2376,
+      "sha256": "4b9f1e23fb485d431cf25734e53b8da9a0326b011e251b9c03f63b4c27e35590",
+      "gzipBytes": 994,
+      "gzipSha256": "9fed1afbf0cea939bd8fe3ff39dc2061dd2229e21e068baaae9cac87c6dcdcc1"
+    },
+    {
+      "source": "three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/batch_policy.rs",
+      "file": "files/three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/batch_policy.rs.gz",
+      "bytes": 12224,
+      "sha256": "f5c56d7b93d4e615395395ec03467dc76443bff5f2bdb0850fe99dd820b79ec3",
+      "gzipBytes": 4249,
+      "gzipSha256": "cdea1b2a3d1b98701a964a1f438361b2b32e1c70aca8f0b9389a2d6cc631a4ec"
+    },
+    {
+      "source": "three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/bin/artifact_identity.rs",
+      "file": "files/three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/bin/artifact_identity.rs.gz",
+      "bytes": 1997,
+      "sha256": "3f61a6abd2aeaea3159bb455bae71a6fc147a7a3e7c62eb312da191fac99da29",
+      "gzipBytes": 992,
+      "gzipSha256": "ab67210411e6663c71b044c1f8d1422495e33c9e69d825367c2a3fef1bef1b9d"
+    },
+    {
+      "source": "three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/bin/artifact_roots.rs",
+      "file": "files/three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/bin/artifact_roots.rs.gz",
+      "bytes": 2810,
+      "sha256": "51727c43e7c53737126674eab33a0fd1740280d0326c4a79101a6f1b48cd8c4e",
+      "gzipBytes": 1290,
+      "gzipSha256": "538633143c56e14ac533c0d21ed5ddf91e2b282682e898fde59b5192598acda4"
+    },
+    {
+      "source": "three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/bin/compact_market_wallet.rs",
+      "file": "files/three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/bin/compact_market_wallet.rs.gz",
+      "bytes": 24069,
+      "sha256": "673a1706cfb23f5584799e064f57c6ff687bb4fbe7eb4d6137c50a58fe01ce06",
+      "gzipBytes": 7313,
+      "gzipSha256": "585ca4a4e356ec8f2eae850126b391108bdf8b35f4c11c1f6c5d351c075a6c24"
+    },
+    {
+      "source": "three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/bin/compile_batch.rs",
+      "file": "files/three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/bin/compile_batch.rs.gz",
+      "bytes": 660,
+      "sha256": "8dd186aa3cdf427df4717341315bdd969c705a7a89e0bcb09292dc4daf2b359e",
+      "gzipBytes": 450,
+      "gzipSha256": "42c33d9d87552fc303bfe585b58dc63d30b1275ec1a16bcebb6b8273eb96a109"
+    },
+    {
+      "source": "three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/bin/compile_composition_token.rs",
+      "file": "files/three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/bin/compile_composition_token.rs.gz",
+      "bytes": 993,
+      "sha256": "a1b7178fbfcd9617dbc41e254a5e13b86609bb8e1990d0805f1a65162b7b5d8e",
+      "gzipBytes": 593,
+      "gzipSha256": "25823a558447e47f3f2d30d2fb533b4c9d21cfb259155e98457fd6ba127b0dc4"
+    },
+    {
+      "source": "three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/bin/compile_market.rs",
+      "file": "files/three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/bin/compile_market.rs.gz",
+      "bytes": 784,
+      "sha256": "06ee94ca89339f481cef68dd5543e9bd72cafbb3ab81123a902b521173b7b14a",
+      "gzipBytes": 459,
+      "gzipSha256": "4139ed6781d69421779c541a34d230dd4eb00c84fd8ee80cb2ae1e72840fca03"
+    },
+    {
+      "source": "three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/bin/compile_nft_market.rs",
+      "file": "files/three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/bin/compile_nft_market.rs.gz",
+      "bytes": 657,
+      "sha256": "68f1e5d47b8b9601fc1396a52c29700ed2dab867797b5798daeae55ebc7cca5c",
+      "gzipBytes": 410,
+      "gzipSha256": "6fde60270c6d199d052cb72b01290865aa666999fce017d863672af67d2a4498"
+    },
+    {
+      "source": "three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/bin/compile_qa_nft.rs",
+      "file": "files/three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/bin/compile_qa_nft.rs.gz",
+      "bytes": 750,
+      "sha256": "eaac6466178373d7bf2c3ea054668b74a49818b262900d3de6a30532b8904418",
+      "gzipBytes": 469,
+      "gzipSha256": "afd7b62a9e33b08cbeaa59be8d2732b196980498d9056c2c19bf82bfdda9f089"
+    },
+    {
+      "source": "three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/bin/composition_wallet.rs",
+      "file": "files/three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/bin/composition_wallet.rs.gz",
+      "bytes": 296,
+      "sha256": "49ba04aec2d2c643b28165a24693ab203c9807ea5a70cadbdbe75338ce44efe9",
+      "gzipBytes": 235,
+      "gzipSha256": "dee744ea7441125d8ea4ffe66985f279058995b0b30e05eec44b1a21402df766"
+    },
+    {
+      "source": "three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/bin/initial_request_identity.rs",
+      "file": "files/three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/bin/initial_request_identity.rs.gz",
+      "bytes": 1524,
+      "sha256": "f693ad032b33618c1a4e13bef2d3d81f652e3b495547f80edcaefc5e347a0665",
+      "gzipBytes": 824,
+      "gzipSha256": "bb6eb1939ec4500628742120acc3253d1ffd9fe021f7c1cfa062a449d61a3157"
+    },
+    {
+      "source": "three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/bin/isolated_wallet.rs",
+      "file": "files/three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/bin/isolated_wallet.rs.gz",
+      "bytes": 16842,
+      "sha256": "3d5405d9803c1a9551e310722aa91b836ca818d61fb6c52ac29743852fb4aa39",
+      "gzipBytes": 5349,
+      "gzipSha256": "e662cae15da5f66a02c7caf5cf9cf095d39ca6eb522af83e8450ae426ee3b5f3"
+    },
+    {
+      "source": "three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/bin/market_wallet.rs",
+      "file": "files/three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/bin/market_wallet.rs.gz",
+      "bytes": 211,
+      "sha256": "b15300bd8f904cd84940567bd01caf7e330b4b31f326a471c01fca72d30c7c33",
+      "gzipBytes": 191,
+      "gzipSha256": "a4c6707f170184e67190feca2b75652a2c27984f621d9b5b311f92a0f7e25f29"
+    },
+    {
+      "source": "three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/bin/market_wallet_verified.rs",
+      "file": "files/three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/bin/market_wallet_verified.rs.gz",
+      "bytes": 211,
+      "sha256": "b15300bd8f904cd84940567bd01caf7e330b4b31f326a471c01fca72d30c7c33",
+      "gzipBytes": 191,
+      "gzipSha256": "a4c6707f170184e67190feca2b75652a2c27984f621d9b5b311f92a0f7e25f29"
+    },
+    {
+      "source": "three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/bin/nft_cfc_probe.rs",
+      "file": "files/three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/bin/nft_cfc_probe.rs.gz",
+      "bytes": 5130,
+      "sha256": "9846ee25032692bc7773ba28744dd073dbe971d70dce4a08afc2eb993542bfc1",
+      "gzipBytes": 2087,
+      "gzipSha256": "bb44a164de1f499f117efcf3bcd7f21dd27a94193336d71e1453d1879dedd710"
+    },
+    {
+      "source": "three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/bin/ordinary_call_probe.rs",
+      "file": "files/three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/bin/ordinary_call_probe.rs.gz",
+      "bytes": 3596,
+      "sha256": "e1e4a78f6fb1cf5e0e0f1ebbb446a48a6fddb8ad264d1b8e48b3dd5cbf7b7e46",
+      "gzipBytes": 1758,
+      "gzipSha256": "3cf86d4658205714d36b8db90dd5ab0013ba8b8e61846fa1d651766926ee0abd"
+    },
+    {
+      "source": "three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/bin/policy_identity.rs",
+      "file": "files/three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/bin/policy_identity.rs.gz",
+      "bytes": 1075,
+      "sha256": "075047dfee74ed10ffa374d634be864edf3fb7b7c676719b9d4c2c49463d081d",
+      "gzipBytes": 590,
+      "gzipSha256": "3822c8656f2860ce7250642bcb31ff39f4d5b7e99591a3768fe9c06a2d256257"
+    },
+    {
+      "source": "three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/bin/preflight_code_update.rs",
+      "file": "files/three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/bin/preflight_code_update.rs.gz",
+      "bytes": 5044,
+      "sha256": "8e2ccae6dfda44e44600610bbae398f6dcee6ccc63c3ce0f22ae5b12d2f65c82",
+      "gzipBytes": 1969,
+      "gzipSha256": "296744acb47341e4dac5110657a308bcc557423db09deb594714c691f305a809"
+    },
+    {
+      "source": "three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/bin/preflight_initial.rs",
+      "file": "files/three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/bin/preflight_initial.rs.gz",
+      "bytes": 5660,
+      "sha256": "b71b13d0c5facf4c6322c134957236f4f6320554dfd1ff9c509e184ffb6cd187",
+      "gzipBytes": 2074,
+      "gzipSha256": "47ccb80eb34209470aeeaf5767c5275a3c2dae4e87c36efcc22246aa823f7435"
+    },
+    {
+      "source": "three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/bin/preflight_nft_initial.rs",
+      "file": "files/three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/bin/preflight_nft_initial.rs.gz",
+      "bytes": 1305,
+      "sha256": "baa0ce0d8f92dbf141dc2af8eb4d4ab59e1e7c39d26979bc3563013d33fdb074",
+      "gzipBytes": 667,
+      "gzipSha256": "ce666d323a1f9ea0606c6146d53d938f590a23e64a11c2d247385cfd742b5769"
+    },
+    {
+      "source": "three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/bin/prepare_initial_request.rs",
+      "file": "files/three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/bin/prepare_initial_request.rs.gz",
+      "bytes": 1928,
+      "sha256": "ecd787b2396fd50e24743f30a7b794f4b963c5d638b04c2a83039347b03133c6",
+      "gzipBytes": 955,
+      "gzipSha256": "83ded365121f66f3d4758738379d08c5c6df76634153ee46c11e9759312c3919"
+    },
+    {
+      "source": "three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/bin/probe_endcap_profile.rs",
+      "file": "files/three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/bin/probe_endcap_profile.rs.gz",
+      "bytes": 2938,
+      "sha256": "6bc80eb7534c3f09ca85dafcfe36f2414088fdfc43ad95375b43bd63dde5e0f2",
+      "gzipBytes": 1310,
+      "gzipSha256": "5e3cfe9b7ddc31a803540ec0045aeb4a9b4e7d56517d6fb9b978f7d93982a276"
+    },
+    {
+      "source": "three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/bin/verify_deployment_checkpoint.rs",
+      "file": "files/three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/bin/verify_deployment_checkpoint.rs.gz",
+      "bytes": 5309,
+      "sha256": "2ce0cb499f86aee3226a0be1346359fdc66bf7633ae504ebd8be301688876ffe",
+      "gzipBytes": 1906,
+      "gzipSha256": "2b28279fc3103608d592e1ddd5d3cc078044c356bf211cf29c5f86d7bc9382d5"
+    },
+    {
+      "source": "three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/bin/verify_initial_request.rs",
+      "file": "files/three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/bin/verify_initial_request.rs.gz",
+      "bytes": 1363,
+      "sha256": "932078fcb2282c020d45797c2f1707d74c40863e777bb42d4eec7cf67067bb6d",
+      "gzipBytes": 712,
+      "gzipSha256": "07752203ec4c3a912a0afd633f5c23a797c4c13b102999499def9889423f0e0c"
+    },
+    {
+      "source": "three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/bin/verify_saved_ups.rs",
+      "file": "files/three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/bin/verify_saved_ups.rs.gz",
+      "bytes": 2214,
+      "sha256": "ceb5e5bfed3a04f1dc5eb701670189c2877137b3a219b5d6afe4ac7b6e4e2c5a",
+      "gzipBytes": 1066,
+      "gzipSha256": "c0a90c41050736dfee3d4c833143838b8bf973f795ebeae3c5abef9e54496b63"
+    },
+    {
+      "source": "three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/compact_benchmark.rs",
+      "file": "files/three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/compact_benchmark.rs.gz",
+      "bytes": 4356,
+      "sha256": "2f886f9b4f91810acbee5b567ecde5891f8dda1098e65a1c17e6037cb3c2689a",
+      "gzipBytes": 1906,
+      "gzipSha256": "49feeac686820d7e7bbb85eff47f9b4a79094b6af969c0f219dc0de6db5517b1"
+    },
+    {
+      "source": "three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/compact_prepared.rs",
+      "file": "files/three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/compact_prepared.rs.gz",
+      "bytes": 10427,
+      "sha256": "5768b87477e7806761cabc363086ab01301a355bb54eb9b72f56e024f2359b0e",
+      "gzipBytes": 3807,
+      "gzipSha256": "f528e3c13bfbab7e118a6f87586110a1becb2d2e51e098171289008e3bba8f56"
+    },
+    {
+      "source": "three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/composition_policy.rs",
+      "file": "files/three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/composition_policy.rs.gz",
+      "bytes": 1451,
+      "sha256": "04163e713b962ce7e4f679005e5b5b48a6aae7293e8b6f379790fb6b072ae202",
+      "gzipBytes": 721,
+      "gzipSha256": "e74932090f65344240805a15062e3f5edcbe4125f9db46c8cd865d60103e28a1"
+    },
+    {
+      "source": "three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/composition_quote.rs",
+      "file": "files/three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/composition_quote.rs.gz",
+      "bytes": 2101,
+      "sha256": "6ef071fef2d1bc4764c637e7d4cb9e0abc627409d4e5835425c108bb3773aa0e",
+      "gzipBytes": 1068,
+      "gzipSha256": "89f64b22c974d16606da4b7e0619bfe0ede8a8667fcf72e5c65fc4d64f01f9c9"
+    },
+    {
+      "source": "three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/guard_reads.rs",
+      "file": "files/three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/guard_reads.rs.gz",
+      "bytes": 3359,
+      "sha256": "9109a650da1fd352ef032890fcfc35662d8bc67e803e2d7c064ee781fb170b6b",
+      "gzipBytes": 1421,
+      "gzipSha256": "e43afc7e33bdc60fd1275a800c7a92f72c6f610ef1d76caecc3885507e0c294e"
+    },
+    {
+      "source": "three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/layout_preflight.rs",
+      "file": "files/three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/layout_preflight.rs.gz",
+      "bytes": 5515,
+      "sha256": "d338322657c060d022348f39e286ea2e2f35a3eaed264c5adbbe85f3df355468",
+      "gzipBytes": 1891,
+      "gzipSha256": "7948c2b64db35efc1fda1eb09bab82fbb83a536b518d636b02be681a0e493362"
+    },
+    {
+      "source": "three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/lib.rs",
+      "file": "files/three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/lib.rs.gz",
+      "bytes": 8811,
+      "sha256": "6fe7ebf405ae6b0af051bb877ba80fc0e7dc3a7348a5d3e1a09f3b010f6027cb",
+      "gzipBytes": 3297,
+      "gzipSha256": "72fcad29b486c80216b9f6d3280e8c5116039b861ccfb5184fae1801a025f4a7"
+    },
+    {
+      "source": "three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/live_guard.rs",
+      "file": "files/three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/live_guard.rs.gz",
+      "bytes": 11012,
+      "sha256": "91251945e60960ce78d8719efe3f3770a1b05bcd54415501eae7e46a45d4a2f7",
+      "gzipBytes": 3174,
+      "gzipSha256": "33924c39ba50ecf430364c7986926a2cf4af5afd1a3135b613fa5fc617a43fa5"
+    },
+    {
+      "source": "three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/live_rpc.rs",
+      "file": "files/three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/live_rpc.rs.gz",
+      "bytes": 4665,
+      "sha256": "1ec46d780793d256516de26144594529f8aa13d75ad81cebe9ab7f2c3023b934",
+      "gzipBytes": 1863,
+      "gzipSha256": "c5adce6f753a953079dac4637989bf82f019e94467e71f572290f41662d92712"
+    },
+    {
+      "source": "three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/nft_market.rs",
+      "file": "files/three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/nft_market.rs.gz",
+      "bytes": 3003,
+      "sha256": "bdab2954ac2541798471cce9cd1c8bbabb71416b895d2c66a0f608611e2b2d02",
+      "gzipBytes": 1281,
+      "gzipSha256": "e455aa94e28ae1e8ed196c6ef97bbd158af06045900adf5e6d527cdfedbae14b"
+    },
+    {
+      "source": "three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/policy.rs",
+      "file": "files/three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/policy.rs.gz",
+      "bytes": 6998,
+      "sha256": "addc6046aa34b92b8fa2c9feda0ad287279094e37f8dcb26b1b70edb296fc850",
+      "gzipBytes": 2611,
+      "gzipSha256": "e618ba42019908439d66f5c3ec56d6ca950f7103b81d72b53751c5ac1a101b10"
+    },
+    {
+      "source": "three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/proof_binding.rs",
+      "file": "files/three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/proof_binding.rs.gz",
+      "bytes": 2999,
+      "sha256": "00bee74f137d4290cf8e55e82242ed18b669182237fbdd80e6ea95183d337ea0",
+      "gzipBytes": 986,
+      "gzipSha256": "b4b9e29271e349aa734b2b46c6be40cdd098b677e76a094f82ccf90564c3efa0"
+    },
+    {
+      "source": "three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/ranges.rs",
+      "file": "files/three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/ranges.rs.gz",
+      "bytes": 7497,
+      "sha256": "81f624f5600137eaff52716b78a268e6467c4dc34727b31fcc8c3e13c53b93c2",
+      "gzipBytes": 2421,
+      "gzipSha256": "5ece75412124f80942dec73f3d09f81b457d6802ec9aca8dd665281cbdee7541"
+    },
+    {
+      "source": "three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/runtime.rs",
+      "file": "files/three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/runtime.rs.gz",
+      "bytes": 2016,
+      "sha256": "88fa3ebd7703954dab154697af021957b5b060682cb68d8842088b4cd47d38c2",
+      "gzipBytes": 904,
+      "gzipSha256": "c8504cb9c4cd4d6e5dda565fbd1098d4076681e3f2efce26663c96fc79aa6c67"
+    },
+    {
+      "source": "three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/submission_guard.rs",
+      "file": "files/three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/submission_guard.rs.gz",
+      "bytes": 13302,
+      "sha256": "8a5715ae831a1c836129979afd9ec5c5670643cfe21d204a938729ac34c81984",
+      "gzipBytes": 3704,
+      "gzipSha256": "0c5010fc51dabd3d92b6d1ca4a6b5c2afeb10631076eed41aafc6b76a8059c49"
+    },
+    {
+      "source": "three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/wallet_driver.rs",
+      "file": "files/three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/src/wallet_driver.rs.gz",
+      "bytes": 16931,
+      "sha256": "21877056485b6ba106a017433484bd4084831836ec78be4aaa03243442178f58",
+      "gzipBytes": 4940,
+      "gzipSha256": "409a8c8250496014d240745f17ba0ff9fa34721a7ef977ca015fa0fc79068304"
+    },
+    {
+      "source": "three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/tests/arithmetic_proof.rs",
+      "file": "files/three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/tests/arithmetic_proof.rs.gz",
+      "bytes": 2115,
+      "sha256": "36764188c4435480b1335f48260acee5315d2752bcd9996caaf93da39a7b2154",
+      "gzipBytes": 1093,
+      "gzipSha256": "0e319748d5a18914799744e6fbac2faa24a495c9ef6ac44b16935ee6a3648403"
+    },
+    {
+      "source": "three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/tests/batch_compact.rs",
+      "file": "files/three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/tests/batch_compact.rs.gz",
+      "bytes": 5296,
+      "sha256": "5cc3c3b61850d2fa21eda65066888e1bfa7902e281f4d1acb61b1c6dd6c5b689",
+      "gzipBytes": 2143,
+      "gzipSha256": "466a2d316e5948a9d9dd54b9025bb8e4c175f2a50d28cdf5e094587c4856afc7"
+    },
+    {
+      "source": "three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/tests/batch_lifecycle.rs",
+      "file": "files/three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/tests/batch_lifecycle.rs.gz",
+      "bytes": 30970,
+      "sha256": "91313dc35617a3c54e3b6330efdcb0db0c9887847a7da2b2e730c44b587a0747",
+      "gzipBytes": 8837,
+      "gzipSha256": "1bf7cf2566fba4ca303aeb6bacf83c182a89df81d36e709e3e8cf5083570b374"
+    },
+    {
+      "source": "three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/tests/batch_preflight.rs",
+      "file": "files/three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/tests/batch_preflight.rs.gz",
+      "bytes": 8852,
+      "sha256": "b7340a7bf6af409445177411c1dd0d11358cc85c1fc8985992f9eec211476867",
+      "gzipBytes": 2986,
+      "gzipSha256": "82f73ef96f9aaa14083673034693b3753fe8992384451b04f4c9a7c7934c7895"
+    },
+    {
+      "source": "three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/tests/batch_sdkey.rs",
+      "file": "files/three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/tests/batch_sdkey.rs.gz",
+      "bytes": 11254,
+      "sha256": "d347287d557bff1c73ab2663cf44dff274f69c095c7aeab4a4dc84adfe47db9a",
+      "gzipBytes": 3363,
+      "gzipSha256": "55d0b2e472e4f13be16009cfd76c29941c6136f0ef800ba037f293b40934bd0d"
+    },
+    {
+      "source": "three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/tests/composition_funds.rs",
+      "file": "files/three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/tests/composition_funds.rs.gz",
+      "bytes": 6414,
+      "sha256": "649f876d2fd3a487107f4260b17ad2f69f45ea62209c145097dd64875ac3a997",
+      "gzipBytes": 1835,
+      "gzipSha256": "3ef4b1cfad472eceeacb2d736d4cfa400182685092c11a3eb49e8eca8bdfc6be"
+    },
+    {
+      "source": "three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/tests/composition_key.rs",
+      "file": "files/three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/tests/composition_key.rs.gz",
+      "bytes": 5594,
+      "sha256": "bb006f85d1770339a0b8501fd2ea3e3a6e70ae4c4ad55db51bb53b33f7e9e1cf",
+      "gzipBytes": 2194,
+      "gzipSha256": "b9d4256814ef056bdd3b89f1cebdbb011312fd304f5bddf98019c5db6c16351a"
+    },
+    {
+      "source": "three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/tests/composition_owner.rs",
+      "file": "files/three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/tests/composition_owner.rs.gz",
+      "bytes": 1222,
+      "sha256": "b6f32053fcdb5ba100562fd1353c14e6bb0768b11173c015300bcf51a741873f",
+      "gzipBytes": 692,
+      "gzipSha256": "d646551b9253e28859291b2c1412231aebd3370334e707687940b2e33c25d0e6"
+    },
+    {
+      "source": "three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/tests/composition_reservation.rs",
+      "file": "files/three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/tests/composition_reservation.rs.gz",
+      "bytes": 4649,
+      "sha256": "25137b398d8fbed942d33b02145ca715510f5f97b726bbd1682fb7a9a49ee702",
+      "gzipBytes": 1788,
+      "gzipSha256": "07bb1f41d0138510d3407c8fc29cc5b7f357b2331b08e3fed26161919f19d7e0"
+    },
+    {
+      "source": "three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/tests/full_close_circuits.rs",
+      "file": "files/three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/tests/full_close_circuits.rs.gz",
+      "bytes": 1373,
+      "sha256": "52a5aa8e26c3aa683bbb3c4e382b979c75ffd04bc3516c4eaddbada5b42e59b8",
+      "gzipBytes": 739,
+      "gzipSha256": "bb7cad7dd6c8e5dc41b0e3cc2651c3c2fe718a16a0fdb9681cad7385ffed8c9b"
+    },
+    {
+      "source": "three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/tests/live_verifier.rs",
+      "file": "files/three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/tests/live_verifier.rs.gz",
+      "bytes": 3481,
+      "sha256": "56baa0cce348a43766b42a3f176bae4b3009932805e666d6e4eb667796a7e351",
+      "gzipBytes": 1515,
+      "gzipSha256": "51685e065913272b906cea1b5723ecc306f47508e69cc0b3ba534af4a6513450"
+    },
+    {
+      "source": "three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/tests/markets.rs",
+      "file": "files/three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/tests/markets.rs.gz",
+      "bytes": 19377,
+      "sha256": "24c910d8750cfb1700bcbb1c18fea5d9d7e4ac42273fb81b7efe8b19e016f685",
+      "gzipBytes": 5369,
+      "gzipSha256": "56dbea3d646e5b08537eee9ee0057169778971a3a9922d6d2e418a903aa68ec1"
+    },
+    {
+      "source": "three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/tests/nft_layout.rs",
+      "file": "files/three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/tests/nft_layout.rs.gz",
+      "bytes": 2251,
+      "sha256": "aa71f7fb5912f4256cc4efcfdc0a97e59b6b73350a2e3915c2305f9269c6479c",
+      "gzipBytes": 835,
+      "gzipSha256": "190f8a338789292ba60683702641c422e56430e2aead4c7bc302714d142521e2"
+    },
+    {
+      "source": "three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/tests/nft_market.rs",
+      "file": "files/three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/tests/nft_market.rs.gz",
+      "bytes": 16734,
+      "sha256": "af01045b3c7c1bc2fb0917ef8eb7a4346e03112d4858701a9d2ede174d7ae376",
+      "gzipBytes": 4878,
+      "gzipSha256": "a526311b0727e1719320c143d4e8fa5a006666c742391c50f52658eef9f606b5"
+    },
+    {
+      "source": "three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/tests/nft_sdkey.rs",
+      "file": "files/three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/tests/nft_sdkey.rs.gz",
+      "bytes": 7653,
+      "sha256": "7cfdb4394ae7a94a71b1b6a6f3d58b1eeffa20ada389098abd2722860dc9ad6b",
+      "gzipBytes": 2227,
+      "gzipSha256": "761cb7c3dff79e0ca58995f9059570a91dc9f87e40149b6000c2abc89063e946"
+    },
+    {
+      "source": "three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/tests/production_dense.rs",
+      "file": "files/three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/tests/production_dense.rs.gz",
+      "bytes": 11341,
+      "sha256": "817b576171572e0e7ce870451ae473f04a208079897ab9b3c912513048fe2c02",
+      "gzipBytes": 2681,
+      "gzipSha256": "74cdb04382cf65257c1d6b9910c8dd0dc0166546c10f89afff71ea32dd9750f8"
+    },
+    {
+      "source": "three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/tests/runtime.rs",
+      "file": "files/three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/tests/runtime.rs.gz",
+      "bytes": 2486,
+      "sha256": "2a342b63101b2f37813079e9ac6723fc62895600fa46e848eb6ee941492bb9b6",
+      "gzipBytes": 933,
+      "gzipSha256": "6874373edd8753cca1c356a51b7972440a5f085b312e54b09e18d17e30e693bf"
+    },
+    {
+      "source": "three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/tests/sdkey_proof.rs",
+      "file": "files/three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/tests/sdkey_proof.rs.gz",
+      "bytes": 10027,
+      "sha256": "456c5e073d22ada3a27f50bc024c246440ee85bb089222fdab39b0ccce533f45",
+      "gzipBytes": 2756,
+      "gzipSha256": "0be1452cd6e586dad9f8297ebe0a5b826a1d841792e059a0a0e0e319a4b2437b"
+    },
+    {
+      "source": "three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/tests/support/batch_admission.rs",
+      "file": "files/three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/tests/support/batch_admission.rs.gz",
+      "bytes": 11616,
+      "sha256": "325da445859f8da455b7d3ccfeb3e12bd921741603847fb398babcfca98d515e",
+      "gzipBytes": 3335,
+      "gzipSha256": "ab4f8430cc337035e7bb93dd95da6e2810b145eda69c52a553c2b7bb6604bee7"
+    },
+    {
+      "source": "three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/tests/support/batch_full_ups.rs",
+      "file": "files/three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/tests/support/batch_full_ups.rs.gz",
+      "bytes": 49853,
+      "sha256": "ffb60cf616a3a36a259e21a5c7bf1c2e92902a68d447b2cec0ee696036dafad1",
+      "gzipBytes": 14520,
+      "gzipSha256": "b2a45adc0bf3dc7035b1bccb4b84d2733ec32079d39f7b54d5835e32d0b06a9c"
+    },
+    {
+      "source": "three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/tests/support/composition_full_ups.rs",
+      "file": "files/three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/tests/support/composition_full_ups.rs.gz",
+      "bytes": 28589,
+      "sha256": "e091f3a1e54a7ecce532dedfe80b7bdd13c9faff998f84a4bd03415846941745",
+      "gzipBytes": 8953,
+      "gzipSha256": "9d403692b593f2bf99666286d2b38f6bf23ab3c7a29356a0f47045a0434546f9"
+    },
+    {
+      "source": "three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/tests/support/composition_funds_world.rs",
+      "file": "files/three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/tests/support/composition_funds_world.rs.gz",
+      "bytes": 5933,
+      "sha256": "2344b0462242df779c6641ab10b94dd2b7e7f5aa6fa621f7e80027d5cd6e70d0",
+      "gzipBytes": 2401,
+      "gzipSha256": "d9331c9b5c6c400dbb7bc25b56c2b3e6a07b9f0cd1aa66cc70cbef4cafe20396"
+    },
+    {
+      "source": "three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/tests/support/composition_market_vm.rs",
+      "file": "files/three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/tests/support/composition_market_vm.rs.gz",
+      "bytes": 5881,
+      "sha256": "f87a40f81a375b5665cfc23ebf93111c861028c26fbecd694033456a295cd687",
+      "gzipBytes": 2259,
+      "gzipSha256": "f0e6c348d3a4400254dffcce93048da049c4b96f1eaa1f67032c84cd9dcb6ace"
+    },
+    {
+      "source": "three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/tests/support/composition_vm.rs",
+      "file": "files/three-markets-proof-build-v3/psy-template/amm/u124/vm-tests/tests/support/composition_vm.rs.gz",
+      "bytes": 5441,
+      "sha256": "79403f04aeed1b705d1c195a4ed5762f11f3d0e647b8be36f533a9424da9667a",
+      "gzipBytes": 1989,
+      "gzipSha256": "cd001a583dcbcdc035e186dab928275161b8a8d1ada4dcf59610b488b725704a"
+    },
+    {
+      "source": "three-markets-proof-build-v3/report-evidence-regressions-v1.log",
+      "file": "files/three-markets-proof-build-v3/report-evidence-regressions-v1.log.gz",
+      "bytes": 419,
+      "sha256": "401e7248c9988c5a6c9ca87e58a2b97c565f2f4cfb579faaca4646cf6cad9e96",
+      "gzipBytes": 291,
+      "gzipSha256": "ebf544ec93fdde964f7498b36f67f531f1f7810c242a37d8213f94e23f914ad1"
+    },
+    {
+      "source": "three-markets-proof-build-v3/saved-crypto-tests-v1.log",
+      "file": "files/three-markets-proof-build-v3/saved-crypto-tests-v1.log.gz",
+      "bytes": 534,
+      "sha256": "4448ef8922d0a15d74c3303af1e769b7daa582f5a29159e90806cb88e77b8e89",
+      "gzipBytes": 348,
+      "gzipSha256": "2bab5441666ce58c0deb06a746d76d1f6ec8bcc866be711ad1cc452f5a350dea"
+    }
+  ]
+}
