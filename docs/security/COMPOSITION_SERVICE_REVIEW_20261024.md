@@ -201,3 +201,7 @@ name or HTTPS observation does not attest the running binaries.
 Test counts and startup speed do not close these boundaries. Selected-queue
 completeness does not prove global inclusion or censorship resistance. Multi-UPS
 composition remains a staged financial workflow, not cross-vault atomicity.
+
+## Settlement preparation performance follow-up
+
+[Current scoped review](SETTLEMENT_PREPARATION_REVIEW_20261024.md): one advisory trace instead of convergence re-tracing, exact trace retention across a safe restart, new unsigned windows with fresh proofs, and bounded independent fresh reads. Evidence includes a correctly rejected different-checkpoint open comparison and a same-source correction. Existing local service closure remains separate from the new real-fill performance run; do not infer matched chain-confirmation acceleration or production readiness from phase timings.
