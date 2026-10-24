@@ -1,25 +1,19 @@
-// Read-only ABBA calibration of the EXACT saved UPS; no signing or submit.
-import assert from 'node:assert/strict';
-import {readFileSync,existsSync} from 'node:fs';import{join,dirname}from'node:path';
-import {read,run} from '../../batching/admission/liveSupport.mjs';
-import {saveObservation} from '../observations.mjs';
-import {sha256} from '../requestBinding.mjs';
+// Read-only ABBA of the EXACT saved UPS. Financial native checks are separate.
+import assert from'node:assert/strict';import{readFileSync,existsSync}from'node:fs';import{join,dirname}from'node:path';import{read,run}from'../../batching/admission/liveSupport.mjs';import{saveObservation}from'../observations.mjs';import{sha256}from'../requestBinding.mjs';import{completedGuardCalibration}from'./completedCalibration.mjs';import{calibrationTransportFailure}from'./calibrationTransportFailure.mjs';
 export function withGuardCalibration(f,{base,binary,baselineBinary,env},kind){
- const prepare=f.adapter.prepareSubmission;
- f.adapter.prepareSubmission=async(task,proof)=>{
+ const prepare=f.adapter.prepareSubmission;f.adapter.prepareSubmission=async(task,proof)=>{
   if(task.maintenanceOperation!=='seal_epoch')return prepare(task,proof);
-  const marker=join(base,'public',kind+'-guard-calibration.json');
-  assert.ok(!existsSync(marker),'preserve earlier calibration; reconcile exact prepared work before repeating');
-  const root=dirname(proof.preparedDirectory),samples=[],manifest=read(join(proof.preparedDirectory,'prepared.json'));
-  for(const [i,variant]of ['baseline','optimized','optimized','baseline'].entries()){
-   assert.ok(baselineBinary,'frozen original application driver required');const driver=variant==='baseline'?baselineBinary:binary;
-   const out=join(base,'attempts',kind+'-guard-read-'+i),timing=await run(driver,['verify-prepared',f.options.policy,f.options.rpcConfig,join(root,'calls.json'),join(root,'guard.json'),proof.preparedDirectory,proof.manifestSha256,out],out+'.log',env);
-   const v=read(join(out,'verification.json'));assert.equal(v.fullUpsVerified,true);assert.equal(v.exactStackAndSessionVerified,true);assert.equal(v.broadcast,false);assert.equal(v.reproved,false);assert.equal(v.requestSha256,manifest.requestSha256);assert.equal(v.preparedManifestSha256,proof.manifestSha256);assert.ok(!existsSync(join(out,'intent.json'))&&!existsSync(join(out,'request.json')));
-   samples.push({variant,driverSha256:sha256(readFileSync(driver)),timing,verification:v,verificationSha256:sha256(readFileSync(join(out,'verification.json'))),source:out});
+  const marker=join(base,'public',kind+'-guard-calibration.json'),unavailable=join(base,'public',kind+'-guard-calibration-unavailable.json'),manifest=read(join(proof.preparedDirectory,'prepared.json'));
+  if(completedGuardCalibration(marker,{proof,requestSha256:manifest.requestSha256,baselineBinary,binary}))return prepare(task,proof);
+  if(existsSync(unavailable)){const old=read(unavailable);assert.equal(old.requestSha256,manifest.requestSha256);assert.equal(old.preparedManifestSha256,proof.manifestSha256);assert.equal(sha256(readFileSync(join(old.failedDirectory,'failure.json'))),old.failureSha256);calibrationTransportFailure(read(join(old.failedDirectory,'failure.json')));assert.ok(!existsSync(join(old.failedDirectory,'intent.json'))&&!existsSync(join(old.failedDirectory,'request.json')));return prepare(task,proof);}
+  const root=dirname(proof.preparedDirectory),samples=[];
+  for(const[i,variant]of['baseline','optimized','optimized','baseline'].entries()){
+   assert.ok(baselineBinary,'frozen original application driver required');const driver=variant==='baseline'?baselineBinary:binary,out=join(base,'attempts',kind+'-guard-'+proof.manifestSha256.slice(0,16)+'-'+i),measurement=join(out,'measurement.json');let sample;
+   if(existsSync(measurement)){sample=JSON.parse(readFileSync(measurement,'utf8'));assert.equal(sample.variant,variant);assert.equal(sample.driverSha256,sha256(readFileSync(driver)));}
+   else{let timing;try{timing=await run(driver,['verify-prepared',f.options.policy,f.options.rpcConfig,join(root,'calls.json'),join(root,'guard.json'),proof.preparedDirectory,proof.manifestSha256,out],out+'.native.log',env);}catch(error){const failure=read(join(out,'failure.json'));calibrationTransportFailure(failure);assert.ok(!existsSync(join(out,'intent.json'))&&!existsSync(join(out,'request.json')));saveObservation(unavailable,{at:new Date().toISOString(),requestSha256:manifest.requestSha256,preparedManifestSha256:proof.manifestSha256,failedDirectory:out,failureSha256:sha256(readFileSync(join(out,'failure.json'))),samples,comparisonAvailable:false,scope:'explicit unsigned transport loss removed a read-only sample; candidate financial native full proof/current-state checks are still mandatory; no speedup conclusion'});return prepare(task,proof);}
+    const verification=read(join(out,'verification.json'));sample={variant,driverSha256:sha256(readFileSync(driver)),timing,verification,verificationSha256:sha256(readFileSync(join(out,'verification.json'))),source:out};saveObservation(measurement,sample);}
+   const v=read(join(out,'verification.json'));assert.equal(sha256(readFileSync(join(out,'verification.json'))),sample.verificationSha256);assert.equal(v.fullUpsVerified,true);assert.equal(v.exactStackAndSessionVerified,true);assert.equal(v.broadcast,false);assert.equal(v.reproved,false);assert.equal(v.requestSha256,manifest.requestSha256);assert.equal(v.preparedManifestSha256,proof.manifestSha256);assert.ok(!existsSync(join(out,'intent.json'))&&!existsSync(join(out,'request.json')));samples.push(sample);
   }
-  assert.equal(sha256(readFileSync(join(proof.preparedDirectory,'prepared.json'))),proof.manifestSha256);
-  saveObservation(marker,{scope:'same exact proof, full stack/session/fee/nonce/code/layout checks; ABBA original frozen application driver versus bounded public guards; same SDK, no financial broadcast or proving-speed comparison',samples,requestSha256:manifest.requestSha256,binarySha256:sha256(readFileSync(binary))});
-  return prepare(task,proof);
- };
- return f;
+  assert.equal(sha256(readFileSync(join(proof.preparedDirectory,'prepared.json'))),proof.manifestSha256);saveObservation(marker,{scope:'same exact proof, full stack/session/fee/nonce/code/layout checks; ABBA original versus bounded public guards; same SDK, no financial broadcast or proving-speed comparison',samples,requestSha256:manifest.requestSha256,binarySha256:sha256(readFileSync(binary))});return prepare(task,proof);
+ };return f;
 }
