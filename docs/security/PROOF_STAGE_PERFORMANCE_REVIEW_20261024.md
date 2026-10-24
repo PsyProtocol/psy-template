@@ -177,3 +177,33 @@ that integration will be committed after this worker closes. Native financial
 full-proof and fresh identity/anchor/expiry checks remain mandatory.
 
 [Initialization exact-proof recovery archive](../../executor/verification/2026-10-24-exact-initialize-recovery-v1/manifest.json) contains both calibration requests, the unsigned coordinator rejection, the unchanged prepared proof, the successful formal recovery and its actual checkpoint receipt. All 41 files were byte-compared with originals. Archive integrity is not cryptographic proof verification; final independent UPS accounting remains open until the three-fill route closes.
+
+## Ordinary sponsor exact-wire recovery
+
+The grouped `start-fund-v1` ordinary UPS timed out during its first POST. Its
+original request, intent, wire and private-error digest remain untouched; there
+was no process timing return for that failed invocation. The independent frozen
+verifier confirmed its full signed UPS before recovery. A read-only first
+recovery attempt stopped on Number/BigInt representation in contract bindings;
+its artifacts and source are retained. The corrected path compares lossless
+canonical bindings without narrowing amounts or relaxing fields.
+
+`recoverOrdinaryWire.mjs` reuses the existing exact-wire validator and no wallet
+secret. It checks original input hash, actor/key, signed core, complete dependency
+coverage, original fee cap, current network, registered identity, exact nonce /
+start leaf, expiry and code/layout/function endpoints, reconciles receipts again,
+and writes a per-original exclusive one-send marker. Only then does it transmit
+the original wire. The recovery received `ok` and the original UPS was confirmed
+at checkpoint 374896. Neither missing receipts nor an unchanged nonce establish
+that the original remote queue entry is absent. No replacement funding was made.
+
+The old compact recovery utility's transient `/tmp` verifier path was removed;
+its CLI now requires explicit frozen `TOOLS.json` with the selected SDK digest
+and verified binary SHA. Saved retransmission wires/responses use the same
+transport evidence format. Four ordinary/compact recovery regressions pass.
+The original compact wire validator's source actually imported by the ordinary
+recovery is preserved separately from this subsequent maintenance change.
+
+Three new epoch-1 plans are now fixed at cutoff 375031: Book has two members,
+Curve one and NFT Market two. This is still five accepted-to-be members / three
+planned fills, not yet successful fills. All accepted members remain mandatory.
