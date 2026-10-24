@@ -59,7 +59,7 @@ const added=audit.newReceipts.filter(r=>!oldHashes.has(r.contentHash));
 assert.equal(added.length,proofs.length+ordinary.length);
 assert.equal(added.reduce((n,r)=>n+r.fee,0n),audit.newBurn-before.newBurn);
 const resourcesPath=join(root,'composition-service-resources-v1-SUMMARY.json'),resources=plain(resourcesPath);
-const buildRows=readFileSync(join(home,'service-build-resources-v1.log'),'utf8').trim().split('\n').map(JSON.parse);
+const buildRows=readFileSync(done.buildResourceLog??join(home,'service-build-resources-v1.log'),'utf8').trim().split('\n').map(JSON.parse);
 assert.equal(buildRows.filter(r=>r.cacheHit).length,3);assert.equal(buildRows.filter(r=>!r.cacheHit).length,3);
 const benchmarkPath=join(root,'composition-service-build-benchmark-v1/SUMMARY.json');
 saveObservation(output,{checkedAt:new Date().toISOString(),scope:'real zero-fill cancellation/return/ordinary claim via formal local service; not a pool trading throughput or physical two-host test',
