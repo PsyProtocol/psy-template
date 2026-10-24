@@ -297,3 +297,22 @@ unsigned public-transport failure may mark a PERFORMANCE sample unavailable;
 proof/state/layout/expiry rejection never takes that path. Financial submission
 always repeats native full-proof/session/fee/current-state verification. The
 report must show missing samples, not fabricate speedups or zeros.
+
+[Expired-admission recovery archive](../../executor/verification/2026-10-24-expired-admission-conflict-live-v1/manifest.json) now preserves 2,128 public files / 32,920,348 original bytes, with compressed/original SHA checks and byte comparison. It includes the complete original journals, all three real empty aborts, both independent Curve proofs and the truthful terminal conflict event, exact executed-source reconstruction and failed attempts. It excludes wallets and sealed binaries; archive integrity and full proof verification remain distinct.
+
+The final auditor resolves multiple local attempts only when every original
+intent has identical task, scope, driver, prepared manifest and signed request
+bytes. Different requests may not be assigned to a receipt by end leaf alone.
+It verifies all completed saved UPSs, including unused candidates at nonces
+consumed in the actual chain, rather than counting only successful requests.
+The actual Curve conflict is independently cross-checked against the verified
+abort receipt. Native no-send/measurement failures stay separate from settled
+UPSs and fees. A Mac canonical temporary-path expectation in the locator test
+was corrected without relaxing path containment; two locator regressions pass.
+
+By the second epoch's admission stage, telemetry has observed 40 coalesced
+logical waiters. This is evidence of avoided simultaneous duplicate reads,
+not an end-to-end acceleration result. Book/Curve starts confirmed at 375281;
+NFT start at 375300, renewed owner consent at 375306, buyer consent at 375317,
+Curve admission at 375319 and first Book/NFT admissions at 375324. Actual fills
+and final ordinary claims still remain open at this milestone.
