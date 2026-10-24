@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "commit": "a16af26a",
+  "financialRegressions": 136,
+  "reportingRegressions": 4,
+  "scope": "SDK and Node unchanged; unsigned advisory fee renewal only; checkpoint-sensitive proof comparison fix; original signed proofs never retimed",
+  "records": [
+    {
+      "source": "regressions-v3.log",
+      "bytes": 2920,
+      "sha256": "58999ba08315e6facf3585be9e9ef2cbbc3ba2973ce13a2aabb8d4661ca921b4",
+      "file": "regressions-v3.log.gz",
+      "gzipSha256": "e67dc6d2fd469bc292d148a3ca121e6120b3ac697e1657b13c36a26879a41926"
+    },
+    {
+      "source": "regressions-v4.log",
+      "bytes": 13884,
+      "sha256": "bcb75d1f3eaae293e5c7cdd9466c51dd9b9e0e81ee3e4c36294c04463d193e8b",
+      "file": "regressions-v4.log.gz",
+      "gzipSha256": "953778b16c00cd0db3afb984c286fc3be55d69431fe94f47fa3e5aa2da137fa9"
+    },
+    {
+      "source": "reporting-regressions-v1.log",
+      "bytes": 538,
+      "sha256": "a72caf4e580de9fadee5cc809e76a13dd36286cb664721fdbdd85227738e6bc7",
+      "file": "reporting-regressions-v1.log.gz",
+      "gzipSha256": "caef94b1e1f7a5e78fe7b9d025829ea91ef90731fa8442faf5d7a27232067574"
+    }
+  ]
+}
