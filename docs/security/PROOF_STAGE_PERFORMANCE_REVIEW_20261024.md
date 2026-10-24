@@ -118,3 +118,31 @@ That seed transfer is now included. Three prior confirmed initialization UPSs
 are adopted by their original receipts. Original and resumed worker sources
 are preserved separately by the original manifest hashes; post-launch copies
 are not falsely described as pre-execution snapshots.
+
+## NFT activation acknowledgement loss
+
+Book 2497 / vault 662720 and Curve 2498 / vault 302272 activation were
+confirmed at checkpoints 374716 / 374717. NFT Market 2499 / vault 1072320
+activation's first transport timed out after a durable broadcast intent.
+The saved request hash is
+`82240a91caa412741defb1f20fab9ea64293feaa182142a926ca50b7b4cc0786`.
+Missing indexed receipts and unchanged nonce do **not** establish rejection or
+queue absence. The selected SDK's `get_tx_status` locally compares nonce and
+also does not establish queue absence; the remote RPC returned Method not found.
+
+An explicit acceptance-only recovery preserves the original journal as the
+authority and rechecks its manifest, signed request bytes, source and endpoints.
+It invokes the existing native `broadcast-prepared` for **one identical request**
+in a new evidence directory. The native verifier repeats full UPS, stack/session,
+fee, dependency, registration, current anchor/nonce and expiry checks; it neither
+signs nor builds a new proof or business operation. Original and retransmitted
+requests, if both reach the network, describe the same state transition. This
+is not a general automatic retry or proof of remote queue idempotency. If the
+original is included during checking, native anchor validation rejects another
+send and the original receipt remains authoritative. This milestone is still
+pending final inclusion and must not be counted as a fill.
+
+The earlier diagnostic metadata recorded the current reference source digest
+rather than the frozen binary's compiled source. A separate additive correction
+binds the actual frozen source and build manifest; the original metadata remains
+untouched. The only reference-source difference adds diagnostic report tags.
