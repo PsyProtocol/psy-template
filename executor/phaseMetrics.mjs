@@ -3,7 +3,7 @@
 // an acknowledged submit into an unrecorded business retry.
 import{mkdir}from'node:fs/promises';import{join}from'node:path';import{randomUUID}from'node:crypto';
 import{publishFile}from'./durableFile.mjs';import{observationJson}from'./observations.mjs';
-const phases=['initialize','scan','quote','validateFeePreparation','snapshot','reconcile','isCurrent','validateProof','prove','prepareSubmission','submit'];
+const phases=['initialize','scan','quote','validateFeePreparation','renewFeePreparation','snapshot','reconcile','isCurrent','validateProof','prove','prepareSubmission','submit'];
 export function instrumentAdapter(adapter,{scope,sink,clock=()=>performance.now(),memory=()=>process.memoryUsage(),now=()=>new Date().toISOString()}={}){
  const result={...adapter};let metricFailures=0;
  Object.defineProperty(result,'metricFailures',{get:()=>metricFailures});

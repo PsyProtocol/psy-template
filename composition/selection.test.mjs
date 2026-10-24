@@ -18,3 +18,7 @@ test('safe proof-session restart retains exact advisory fee task but never a sta
  a.validateFeePreparation=async()=>false;await selectCompositionAction(a,journal);assert.equal(quoted,1);assert.equal(scanned,1);
  rows.push({status:'broadcast-intent',taskId:'x'});journal.unresolved=async()=>[rows.at(-1)];await selectCompositionAction(a,journal);assert.equal(quoted,1);
 });
+test('expired exact proof is never retimed; advisory renewal selects a fresh task before proving',async()=>{
+ const old={operation:'open-1',validUntilCheckpoint:'164'},next={...old,validUntilCheckpoint:'234'},journal={unresolved:async()=>[],records:async()=>[{status:'planned',taskId:'old',task:old},{status:'proved',taskId:'old',proof:{file:'old-signed'}}]};let quoted=0;
+ const a={isCurrent:async()=>false,scan:async()=>({checkpoint:170,action:next}),renewFeePreparation:async(t,p)=>{assert.equal(t,old);assert.equal(p,next);return next;},quote:async()=>quoted++};const r=await selectCompositionAction(a,journal);assert.equal(r.task,next);assert.equal(r.reusedPreparedFee,true);assert.equal(r.reusedPreparedProof,false);assert.equal(quoted,0);
+});
