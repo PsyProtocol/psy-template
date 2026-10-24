@@ -507,6 +507,22 @@ candidate ledger and `bulk-four-full-ups-v1` / `bulk-four-signature-mutations-v1
 ### Optional phase observations
 
 A compact admission configuration may set `"performanceMetrics": true`.
+
+Compact adapter factories can accept an explicit `residentScope` resource owner
+from `residentScope.mjs`. The production CLI creates one and closes it after
+its adapters. Compatible stages can retain circuit resources across adapter
+lifetimes; scope entries bind the driver/compiled SDK, complete policy and
+network config, key, dependency endpoints and actual launch environment.
+Different immutable stage-copy paths are accepted only with identical bytes,
+including a fresh check of the original pinned paths. Each task still gets new
+calls, guard, witnesses, state and nonce. No parallel job is permitted for one
+exact key, and no failed child is silently replaced. Release all adapters before
+closing the scope; unconfirmed exits stay errors. The default maximum is four
+distinct resource entries, with explicit backpressure rather than unbounded
+native processes.
+
+New real-fill performance acceptance and its current boundaries are tracked in
+`docs/security/PROOF_STAGE_PERFORMANCE_REVIEW_20261024.md`.
 The **formal factory** then writes immutable per-operation observations under
 `runtimeDirectory/performance/<network>/<vault>/`: scan, reconcile, current-state
 and proof validation, proving, preparation and saved-proof submission. Existing

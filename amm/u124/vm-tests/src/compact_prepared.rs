@@ -51,11 +51,12 @@ pub async fn broadcast(a:&[String],spec:&Value,fp:QHashOut<F>,key:QHashOut<F>,ne
  let mut fields=data.software_defined_call.inputs.clone();ensure!(fields.len()==74&&(fields[73]==0||fields[73]==fee),"prepared witness fee");fields[73]=fee;
  let expected=batch_compact::calls(spec,&fields)?;ensure!(serde_json::to_value(&data.contract_calls)?==serde_json::to_value(&expected[..expected.len()-1])?&&core.stats.total_transactions==f(expected.len() as u64),"prepared complete call list/count");
  ensure!(g.valid_until_checkpoint<(1u64<<32)&&source_cp<=g.valid_until_checkpoint&&(fields[0]!=1||g.valid_until_checkpoint<=fields[3]),"prepared expiry");
- *phase="check-prepared-live-state";let provider=RpcProvider::new_with_config(net)?;g.identity.check_current(&provider).await?;for b in &g.dependencies{b.check(&provider).await?;}
+ *phase="check-prepared-live-state";let provider=RpcProvider::new_with_config(net)?;g.identity.check_current(&provider).await?;
+ psy_template_u124_markets::guard_reads::checked(&g.dependencies,psy_template_u124_markets::guard_reads::concurrency()?,|b|b.check(&provider)).await?;
  let provider=provider.with_user_id_owned(user);let cp=provider.get_latest_block_state().await?.checkpoint_id;
  ensure!(source_cp<=cp&&cp<=g.valid_until_checkpoint,"prepared broadcast window expired");
- let leaf=provider.get_user_leaf_data(cp,user).await?;
- let actual=provider.get_user_tree_leaf_hash(cp,user).await?;
+ let (leaf,actual)=tokio::join!(provider.get_user_leaf_data(cp,user),provider.get_user_tree_leaf_hash(cp,user));
+ let leaf=leaf?;let actual=actual?;
  let fresh=core.state_transition.start_user_leaf_hash==QHashOut::ZERO;
  let registration=if fresh{
   let index=psy_crypto::common::user_id::get_registration_id_from_user_id(user);

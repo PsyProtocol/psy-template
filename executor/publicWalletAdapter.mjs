@@ -17,10 +17,10 @@ import {createCompactAdmissionAdapter} from './compactAdmissionAdapter.mjs';
 import {withPhaseMetrics,readMetricObserver} from './phaseMetrics.mjs';
 const execFile=promisify(execFileCallback);
 const padded=x=>x.toLowerCase().padStart(64,'0');
-export async function createPublicWalletAdapter(options,{readState=publicState,readReceipts=receiptReader,runDriver=execFile,submitDriver=runDurableSubmission}={}){
+export async function createPublicWalletAdapter(options,{readState=publicState,readReceipts=receiptReader,runDriver=execFile,submitDriver=runDurableSubmission,residentScope}={}){
  if(options.profile==='batch-admission-compact-v1'){
   const observeRead=readMetricObserver(options),measuredRead=observeRead?path=>readState(path,{observeRead}):readState;
-  const factory=withPhaseMetrics(options,{initialize:()=>createCompactAdmissionAdapter(options,{readState:measuredRead,readReceipts,runDriver,submitDriver})});
+  const factory=withPhaseMetrics(options,{initialize:()=>createCompactAdmissionAdapter(options,{readState:measuredRead,readReceipts,runDriver,submitDriver,residentScope})});
   return withPhaseMetrics(options,await factory.initialize());
  }
  if(options.profile==='u124'||options.profile==='nft-v3-u124'||options.profile==='batch-v2')return createU124WalletAdapter(options,{readState,readReceipts,runDriver,submitDriver});

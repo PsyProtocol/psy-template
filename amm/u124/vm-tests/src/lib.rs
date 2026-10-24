@@ -66,6 +66,7 @@ pub mod batch_compact;
 pub mod composition_policy;
 
 pub mod live_guard;
+pub mod guard_reads;
 pub mod live_rpc;
 
 #[cfg(test)]

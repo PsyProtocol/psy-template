@@ -69,9 +69,9 @@ fn save(path: &Path, value: &impl serde::Serialize) -> Result<()> {
 }
 async fn check_once(guard: &Guard, s: &WalletSession) -> Result<()> {
     guard.identity.check_current(&s.st_provider).await.context("live vault registration/code/layout guard")?;
-    for b in &guard.dependencies {
-        b.check(&s.st_provider).await.with_context(||format!("live dependency {}",b.contract.contract_id))?;
-    }
+    psy_template_u124_markets::guard_reads::checked(&guard.dependencies, psy_template_u124_markets::guard_reads::concurrency()?, |b| async move {
+        b.check(&s.st_provider).await.with_context(||format!("live dependency {}",b.contract.contract_id))
+    }).await?;
     Ok(())
 }
 async fn check(guard: &Guard, s: &WalletSession) -> Result<()> {
