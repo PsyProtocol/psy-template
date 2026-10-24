@@ -362,3 +362,73 @@ preserved; a fresh static source closure records the continuation. This runner
 uses formal Executor adapters/journals and resident scope, with no diagnostic
 ABBA on its financial path. Curve commit has confirmed at 375675; settlement and
 ordinary payout claims remain pending at this milestone.
+
+### Actual Book/Curve fills; durable post-proof recovery candidate
+
+Curve and Book commits confirmed at 375675 / 375695 and settlements at
+375786 / 375801. Each is one real economic fill (Book has two members). Their
+native settlement preflight observations were 277,426 / 345,911 ms; the SDK
+call phase includes reads and call recursion (188,797 / 253,303 ms), explicit
+final recursion 24,389 / 33,434 ms, end-cap 4,597 / 4,601 ms. These are candidate
+observations, not old-versus-new confirmation performance or pure CPU timings.
+
+NFT's first commit attempt had one preserved pre-session connection failure,
+then a final post-proof identity guard `Request error`. Both were unsigned;
+the old binary did not persist the latter proof bytes before that failed read.
+Its raw proof therefore cannot be independently inventoried; logs/code identify
+the lost work, not an independently verified additional UPS. No NFT commit was
+broadcast, and its original sealed members and sponsorship remain available.
+
+The application-only v3 binary persists an immutable, fully cryptographically
+verified exact-stack UPS **before** final live reads. Its record explicitly says
+`liveGuardsPending`; a separate successful live marker, or fresh native complete
+saved-proof verification, is required before the adapter returns a usable proof.
+Submission still independently repeats full proof, stack/session/sig context,
+fee, network/dependency, nonce/start and expiry checks. Nothing treats a saved
+cryptographic candidate alone as authority to transmit.
+
+The Executor can adopt this exact candidate after a narrowly classified unsigned
+final-read error or a completed native call lost before the journal's `proved`
+event. Cache producer binding includes driver, task, policy and RPC config bytes;
+only the same immutable task root is searched. Native state/nonce/expiry/root
+rejection stops adoption. Unknown broadcasts still reconcile first. It never
+falls through from a failed cached recheck to a new proof/payment. Prover resources
+are now acquired lazily, so cache-only recovery does not start another full
+session construction. One active native job per key and all scope checks remain.
+
+47 client/adapter/resident regressions and two Rust guard-read tests pass. They
+cover actual routing/state gates, simulated parent loss before journaling,
+post-crypto read outage, exact request/manifest/producer binding and rejection
+without proof/send fallback. The older eager-resource test was updated to verify
+lazy acquisition while retaining all binding/leak checks. A prior failed test
+log is preserved. Test doubles are not claimed as cryptographic live evidence.
+
+Build v3 explicitly uses `nightly-2025-09-20`, `--locked --offline`, unchanged
+SDK manifest 0afb4c65…5425 and all 1,466 consumed SDK source digests. A shell-default
+compiler attempt was stopped and never released/executed; its log is retained.
+The successful cached build took 40.78 s, not a clean SDK cold build. Node's
+pre-existing diff hash remains unchanged. New client SHA is
+39be37cc5206239a7409b63a648794df8195d2cdcff9fb26408649179753c02f;
+NFT fingerprint/public key match the existing new QA instance exactly. Original
+TOOLS and binaries remain intact; TOOLS-v2 selects only this new application
+binary, with the same SDK, ordinary wallet, compiler and independent verifier.
+
+The final NFT continuation uses the already-supported bounded 512-checkpoint
+batch lifetime; queue, price, members, capacity and owner deadlines are unchanged.
+It deliberately stops its parent after a real proof is saved and before any
+journal `proved`/broadcast, then requires a second process to recheck and reuse
+exactly those request bytes. Actual restart/settlement/ordinary claims remain
+pending here. Its first read-only gate found two prior partial attempts instead
+of one and halted; both original attempts were subsequently checked explicitly
+in a fresh source generation. No financial action happened in that failed gate.
+Memory observers use separate immutable logs for each selected app release;
+reporting preserves gaps and does not interpolate unobserved RSS.
+
+The intentional pre-journal parent stop has now actually occurred. A second
+local PID, under the same frozen source closure, adopted the exact original
+request d4b4b9ea…695cf5a after fresh native revalidation (22,873 ms). The original
+cryptographic preparation was 182,122 ms plus separate final live checks and
+resident startup; these different phase scopes must not be turned into an
+end-to-end speedup percentage. No second full proof was generated for that task.
+NFT submission/confirmation and final ordinary claims remain pending. Public
+process observations identify both local PIDs without any wallet secrets.

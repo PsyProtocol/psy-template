@@ -82,7 +82,7 @@ async fn check(guard: &Guard, s: &WalletSession) -> Result<()> {
             Ok(()) => return Ok(()),
             Err(error) => {
                 let reason=format!("{error:#}");
-                if attempt<2 && reason.contains("Connection error to https://") && reason.contains("error sending request for url") {
+                if attempt<2 && psy_template_u124_markets::guard_reads::retryable_public_transport(&reason) {
                     eprintln!("{}",json!({"publicGuardReadRetry":attempt+1,"reason":reason,"mutationRetry":false}));
                     tokio::time::sleep(std::time::Duration::from_millis(500)).await;
                 } else {return Err(error);}
@@ -443,10 +443,23 @@ async fn process_action(a:&[String],spec:&Value,fp:QHashOut<F>,hash:QHashOut<F>,
     );
     drop(manager);
     drop(key_circuit);
-    check(&guard, &session).await?;
     let user = endcap.core.new_user_leaf.user_id.to_canonical_u64();
     let n = nonce.to_canonical_u64();
     let end = endcap.core.state_transition.end_user_leaf_hash;
+    // Persist the full cryptographically verified, exact-stack UPS before any
+    // fallible final public read. This is NOT authorization to broadcast.
+    let preflight = json!({"persistenceProfile":"crypto-before-final-guard-v1","liveGuardsPending":true,"fullUpsVerified":true,"compositionProfile":spec["composition_profile"],"benchmarkSourceCheckpoint":source_pin,"timingsMilliseconds":{"keyConstruction":key_ms,"sessionConstruction":session_ms,"benchmarkSourceSetup":source_pin_ms,"callProving":calls_ms,"signatureProving":signature_ms,"recursiveFinalize":finalize_ms,"endCapProving":endcap_ms,"fullProofVerify":verify_ms,"cryptographicPreparationTotal":started.elapsed().as_millis()},"exactStackAndSessionVerified":true,"proofProfile":proof_profile,"profile":"compact-v1","actualCalls":actual.len(),"logicalSlots":40,"fee":burn,"core":endcap.core,"callsSha256":format!("{:x}",Sha256::digest(&bytes)),"guardSha256":format!("{:x}",Sha256::digest(&guard_bytes)),"broadcast":false});
+    let request = QSubmitEndCapRPCRequest {
+        user_ec_input: endcap,
+        proof: bincode::serialize(&proof)?,
+    };
+    save(&out.join("preflight.json"), &preflight)?;
+    save(&out.join("request.json"), &request)?;
+    let prepared = compact_prepared::manifest(&a[2], &bytes, &guard_bytes, out)?;
+    save(&out.join("prepared.json"), &prepared)?;
+    *phase = "verify-final-compact-state";
+    let final_guard_started = std::time::Instant::now();
+    check(&guard, &session).await?;
     let provider = session.st_provider.with_user_id_owned(user);
     let cp = provider.get_latest_block_state().await?.checkpoint_id;
     ensure!(
@@ -455,8 +468,8 @@ async fn process_action(a:&[String],spec:&Value,fp:QHashOut<F>,hash:QHashOut<F>,
     );
     let latest = provider.get_user_leaf_data(cp, user).await?;
     ensure!(
-        endcap.core.state_transition.start_user_leaf_hash == QHashOut::ZERO
-            || latest.qfhash::<PsyHasher>() == endcap.core.state_transition.start_user_leaf_hash,
+        request.user_ec_input.core.state_transition.start_user_leaf_hash == QHashOut::ZERO
+            || latest.qfhash::<PsyHasher>() == request.user_ec_input.core.state_transition.start_user_leaf_hash,
         "stale compact anchor"
     );
     ensure!(
@@ -467,15 +480,11 @@ async fn process_action(a:&[String],spec:&Value,fp:QHashOut<F>,hash:QHashOut<F>,
         "compact nonce not submittable"
     );
     check(&guard, &session).await?;
-    let preflight = json!({"fullUpsVerified":true,"compositionProfile":spec["composition_profile"],"benchmarkSourceCheckpoint":source_pin,"timingsMilliseconds":{"keyConstruction":key_ms,"sessionConstruction":session_ms,"benchmarkSourceSetup":source_pin_ms,"callProving":calls_ms,"signatureProving":signature_ms,"recursiveFinalize":finalize_ms,"endCapProving":endcap_ms,"fullProofVerify":verify_ms,"preflightTotal":started.elapsed().as_millis()},"exactStackAndSessionVerified":true,"proofProfile":proof_profile,"profile":"compact-v1","actualCalls":actual.len(),"logicalSlots":40,"fee":burn,"core":endcap.core,"callsSha256":format!("{:x}",Sha256::digest(&bytes)),"guardSha256":format!("{:x}",Sha256::digest(&guard_bytes)),"broadcast":false});
-    let request = QSubmitEndCapRPCRequest {
-        user_ec_input: endcap,
-        proof: bincode::serialize(&proof)?,
-    };
-    save(&out.join("preflight.json"), &preflight)?;
-    save(&out.join("request.json"), &request)?;
-    let prepared = compact_prepared::manifest(&a[2], &bytes, &guard_bytes, out)?;
-    save(&out.join("prepared.json"), &prepared)?;
+    save(&out.join("final-live-state.json"), &json!({"liveGuardsPassed":true,"broadcast":false,
+        "requestSha256":compact_prepared::sha(&fs::read(out.join("request.json"))?),
+        "preparedManifestSha256":format!("{:x}",Sha256::digest(fs::read(out.join("prepared.json"))?)),
+        "finalLiveGuardMilliseconds":final_guard_started.elapsed().as_millis(),
+        "preflightTotalMilliseconds":started.elapsed().as_millis()}))?;
     if a[1] == "preflight" {
         println!("verified compact UPS {end}; not submitted");
         return Ok(());

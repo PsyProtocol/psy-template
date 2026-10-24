@@ -2,6 +2,13 @@
 use anyhow::{ensure, Result};
 use std::future::Future;
 
+/// Only the read-only public guard uses this classification. A retry never
+/// turns a failed identity/layout/nonce check into an accepted transaction.
+pub fn retryable_public_transport(reason: &str) -> bool {
+    (reason.contains("Connection error to https://") || reason.contains("Request error to https://"))
+        && reason.contains("error sending request for url")
+}
+
 pub fn concurrency() -> Result<usize> {
     match std::env::var("PSY_MARKET_GUARD_READ_MODE").as_deref() {
         Err(std::env::VarError::NotPresent) | Ok("parallel-v1") => Ok(4),
@@ -26,6 +33,11 @@ where C: Fn(&'a T) -> Fut, Fut: Future<Output = Result<()>> {
 mod tests {
     use super::*;
     use std::sync::atomic::{AtomicUsize, Ordering::SeqCst};
+    #[test]
+    fn only_observed_transport_errors_are_repeated() {
+        for kind in ["Connection", "Request"] { assert!(retryable_public_transport(&format!("{kind} error to https://example.invalid: error sending request for url"))); }
+        for reason in ["layout mismatch", "expired window", "wrong network", "Request error to https://example.invalid: invalid proof"] { assert!(!retryable_public_transport(reason)); }
+    }
     #[tokio::test]
     async fn same_checks_bounded_and_failed_chunk_drained() {
         for limit in [1, 4] {

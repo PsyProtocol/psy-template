@@ -10,8 +10,9 @@ import {sha256} from '../requestBinding.mjs';
 import {sponsorCalls} from '../../batching/v2/client.mjs';
 import {parseLosslessJson,FEE_ESCROW as F} from '../../amm/u124/client.mjs';
 export const SDK='0afb4c65116cddcaca450b406a06503d65b63d38a004d8e773c6e5fa363bd425';
-export async function threeMarketCase(base) {
- const pin=read(join(base,'public/CASE.json')),tools=read(join(base,'public/TOOLS.json'));
+export async function threeMarketCase(base,{toolManifest='TOOLS.json'}={}) {
+ assert.match(toolManifest,/^TOOLS(?:-v[1-9][0-9]*)?\.json$/);
+ const pin=read(join(base,'public/CASE.json')),tools=read(join(base,'public',toolManifest));
  assert.equal(pin.schema,1);assert.equal(tools.sdkManifestSha256,SDK);
  for(const tool of Object.values(tools.binaries))assert.equal(sha256(readFileSync(tool.file)),tool.sha256,'selected application changed');
  const config=join(base,'public/rpc.json'),env={PSY_MARKET_TESTNET_PROFILE:'staging-bundled-regtest-20261020-v1',RAYON_NUM_THREADS:'2'};
