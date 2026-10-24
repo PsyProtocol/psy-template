@@ -52,6 +52,11 @@ all trials completed. `finalizeBuildBenchmark.mjs` checks those original rows,
 identity/configuration/cache hits and exclusively writes the missing summary.
 No trial or failed log is replaced. Future runs use the observational serializer.
 
+Closed benchmark/dependency/regression evidence:
+`executor/verification/2026-10-24-composition-build-reuse-v1` (82 files,
+12,432,687 compressed bytes, every original compared). Its integrity result is
+separate from the pending actual service financial proof/claim acceptance.
+
 ## New isolated financial acceptance
 
 New controller **2494**, vault **117952**, owner **406720**. QA-A 2483 and QA-B
