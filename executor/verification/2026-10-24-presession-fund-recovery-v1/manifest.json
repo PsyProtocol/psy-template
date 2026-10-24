@@ -1,0 +1,883 @@
+{
+  "schema": 1,
+  "sourceDirectory": "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-market-recovery-20261023",
+  "machine": "gewenbo.local",
+  "host": "macOS-15.7.3-arm64-arm-64bit",
+  "scope": "public formal Executor run including failures; success requires exact included receipt",
+  "walletFilesIncluded": false,
+  "sealedBinariesIncluded": false,
+  "records": [
+    {
+      "source": "three-markets-performance-live-v1/attempts/retry-commit-fund-read-recovery-v1/included.json",
+      "file": "files/three-markets-performance-live-v1/attempts/retry-commit-fund-read-recovery-v1/included.json.gz",
+      "bytes": 3654,
+      "sha256": "cac53420ee343b55a2914829acba95b3eeb0a141b13a24acf374a006f7023904",
+      "gzipBytes": 1293,
+      "gzipSha256": "80ce6cd6c88ba8f1239e28e34f2dcace14b4bf4ea0a76ec0e2e67c74cc6124be"
+    },
+    {
+      "source": "three-markets-performance-live-v1/attempts/retry-commit-fund-read-recovery-v1/intent.json",
+      "file": "files/three-markets-performance-live-v1/attempts/retry-commit-fund-read-recovery-v1/intent.json.gz",
+      "bytes": 183,
+      "sha256": "34cefd385de50efe3a57ee764c14a38d7c2d14fb4835f1a2eed28ff357041ac1",
+      "gzipBytes": 165,
+      "gzipSha256": "3292fc6ad2812291a79943139615b6458b9719d6c9563829c8ff3ac3b285e8d0"
+    },
+    {
+      "source": "three-markets-performance-live-v1/attempts/retry-commit-fund-read-recovery-v1/preflight.json",
+      "file": "files/three-markets-performance-live-v1/attempts/retry-commit-fund-read-recovery-v1/preflight.json.gz",
+      "bytes": 1612,
+      "sha256": "ae5d6d9f331eba599dcaf76ad78129325b48634f74772c8e3d249d9bf157d502",
+      "gzipBytes": 817,
+      "gzipSha256": "643a1cc4a4d40cdccd23c856e79c7049a5434c8c69890d1d21fe779f84ea18a0"
+    },
+    {
+      "source": "three-markets-performance-live-v1/attempts/retry-commit-fund-read-recovery-v1/receipt.json",
+      "file": "files/three-markets-performance-live-v1/attempts/retry-commit-fund-read-recovery-v1/receipt.json.gz",
+      "bytes": 258,
+      "sha256": "3c0927cfadb3343c2c30fe95924d8f315361b3c83c8560d47883235b82526f25",
+      "gzipBytes": 181,
+      "gzipSha256": "f53242c94b3d7f5933207190e3f86800d9a9c0ca8d9bd69bd77266740a30a190"
+    },
+    {
+      "source": "three-markets-performance-live-v1/attempts/retry-commit-fund-read-recovery-v1/request.json",
+      "file": "files/three-markets-performance-live-v1/attempts/retry-commit-fund-read-recovery-v1/request.json.gz",
+      "bytes": 1168102,
+      "sha256": "a654345979a55d2e9c6cdf9ce98a285f05296c773274a1f9397e9a2e78ccc382",
+      "gzipBytes": 194315,
+      "gzipSha256": "63506afed3bdf721192296c53201dadd8da2adc2464a29061823b6449ccd5903"
+    },
+    {
+      "source": "three-markets-performance-live-v1/attempts/retry-commit-fund-read-recovery-v1/rpc-request.json",
+      "file": "files/three-markets-performance-live-v1/attempts/retry-commit-fund-read-recovery-v1/rpc-request.json.gz",
+      "bytes": 503147,
+      "sha256": "6277367b52201fe84f8a057c471c96356743a1b7c49f73835a082e86d13b1224",
+      "gzipBytes": 170170,
+      "gzipSha256": "eda4cb8862c138695355c89cc91f75e87f517b70d54b55f1197f6f2a4f76bd19"
+    },
+    {
+      "source": "three-markets-performance-live-v1/attempts/retry-commit-fund-read-recovery-v1/rpc-response-meta.json",
+      "file": "files/three-markets-performance-live-v1/attempts/retry-commit-fund-read-recovery-v1/rpc-response-meta.json.gz",
+      "bytes": 120,
+      "sha256": "dac63eed566a54e025d7dfcbb1f2b7991d23c59fba11f5b21763a42249d36770",
+      "gzipBytes": 117,
+      "gzipSha256": "500a998fac6f6906368f41f425dc75270b3e9c2226a48c6ee3eb5ccc73bc2346"
+    },
+    {
+      "source": "three-markets-performance-live-v1/attempts/retry-commit-fund-read-recovery-v1/rpc-response.body",
+      "file": "files/three-markets-performance-live-v1/attempts/retry-commit-fund-read-recovery-v1/rpc-response.body.gz",
+      "bytes": 38,
+      "sha256": "0d838a349418eb2e4db232f5454ddf684afea2d53c155da1fca3952dd564bab5",
+      "gzipBytes": 57,
+      "gzipSha256": "dcd098dc4a0e86eaf34f9806fa594225f4131d05ad260f60b72acf16432af8bf"
+    },
+    {
+      "source": "three-markets-performance-live-v1/attempts/retry-commit-fund-read-recovery-v1/timing.json",
+      "file": "files/three-markets-performance-live-v1/attempts/retry-commit-fund-read-recovery-v1/timing.json.gz",
+      "bytes": 107,
+      "sha256": "2a7fa7a5e00c77e4e753e6f3ed25c60fcdb241e0553d30a781475c1f767c1021",
+      "gzipBytes": 106,
+      "gzipSha256": "f1c46df9658e2bb1e53db47c5c34f4c2eb82045f12af79f0852b20680a9741f5"
+    },
+    {
+      "source": "three-markets-performance-live-v1/attempts/retry-commit-fund-v1/failure.json",
+      "file": "files/three-markets-performance-live-v1/attempts/retry-commit-fund-v1/failure.json.gz",
+      "bytes": 302,
+      "sha256": "e9883cde12b3e9ef508e85010fe211c3c632d17f80f63e9b2fa0083aa9af98d4",
+      "gzipBytes": 236,
+      "gzipSha256": "708ac2e65da118c1af96d0effe14be102264da1f561fb37c950773d05ded81d9"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/COMMIT-FUND-READ-RECOVERY-v1.json",
+      "file": "files/three-markets-performance-live-v1/public/COMMIT-FUND-READ-RECOVERY-v1.json.gz",
+      "bytes": 619,
+      "sha256": "0e6d19634f9cbe0b4b455191ab4f712760478d7b899b6c7bec64eddaf2ae09cc",
+      "gzipBytes": 437,
+      "gzipSha256": "bc0358bac2d90ce570a7581a226825c4321e2e298eb427afd60dcaa016078f4f"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/retry-commit-fund-read-recovery-v1.json",
+      "file": "files/three-markets-performance-live-v1/public/retry-commit-fund-read-recovery-v1.json.gz",
+      "bytes": 2067,
+      "sha256": "3a9b82437ab84d016b8cea4f6c658b0fcee5b49bd8e90038b87e629441af10be",
+      "gzipBytes": 830,
+      "gzipSha256": "9be6f7582c81e4c13c3a8414f8975276de8a463630f1342da8e535de4750f78c"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/retry-commit-fund-v1.json",
+      "file": "files/three-markets-performance-live-v1/public/retry-commit-fund-v1.json.gz",
+      "bytes": 2067,
+      "sha256": "ff62b696e0d92d2137ad4903233d66b76c86284d8ed8ec10d4519a9372b3390e",
+      "gzipBytes": 830,
+      "gzipSha256": "9fc49f9d69da3327ecc0a330eebc965ad4ed5de1c95c2fa139b15a00d466c357"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-SOURCE.json",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-SOURCE.json.gz",
+      "bytes": 9224,
+      "sha256": "e228262afc8aa21c5c96b9450507d72541b09de415182d23178cc2528bee0ae1",
+      "gzipBytes": 4714,
+      "gzipSha256": "491d5f654a08f1143f4e893e56e46b7afe43773e1ab8c4eb15e0ca8f63b3e7f0"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/amm/callBuilder.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/amm/callBuilder.mjs.gz",
+      "bytes": 10840,
+      "sha256": "fff2477b4685ba7c4ee1ea422aa8e7b5632ab5815eb93ffb1a87271c65cd5603",
+      "gzipBytes": 2599,
+      "gzipSha256": "617a1e8d8086a1dcca7d18cfde4d4cba626db59ce6c77071e9415d75947b20cb"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/amm/chainReader.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/amm/chainReader.mjs.gz",
+      "bytes": 6500,
+      "sha256": "f6af8dfddc3910b26eaaf7a58048ebdb9917b86c32946b2197246b1f9c7bb7f5",
+      "gzipBytes": 2057,
+      "gzipSha256": "158c1699206c54669ee0881fda15054839889c971b16e957be7177dc855ddd5a"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/amm/operationCalls.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/amm/operationCalls.mjs.gz",
+      "bytes": 556,
+      "sha256": "6ded485d216fe2278636c24142599b70f2629f5b39d59860f76caff3d320576e",
+      "gzipBytes": 305,
+      "gzipSha256": "cf16401459f9bab0bd0994cc9684251900812fb6f7da779c9482a4d51aed06b4"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/amm/referenceMath.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/amm/referenceMath.mjs.gz",
+      "bytes": 5300,
+      "sha256": "d30c837cc2c7fe13b5b63674533e4e2661e13315f57551eeea3b1188303cef23",
+      "gzipBytes": 1482,
+      "gzipSha256": "e9bf2fd95597c8af94bfed9567731dc751437df99b9035503dc09393fa10dcd7"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/amm/u124/artifactGate.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/amm/u124/artifactGate.mjs.gz",
+      "bytes": 4626,
+      "sha256": "ad6b2b62361e054d2c7a36dd0d02017ae8ce768231fe7284d311df569861d91f",
+      "gzipBytes": 1649,
+      "gzipSha256": "ae25f09b0802aeddf56676171fbc0ef9e10905a50836bb661955a73b074f9e60"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/amm/u124/build.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/amm/u124/build.mjs.gz",
+      "bytes": 5422,
+      "sha256": "5cb20278db3e76a1078685e77e6d37e1e9afd7e603aa28dd1a15491f04f5bc2b",
+      "gzipBytes": 2054,
+      "gzipSha256": "8b55b73a59f13b94bf3ea87c17f5dff4f9e61091bd0992d497532b1afee758a7"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/amm/u124/client.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/amm/u124/client.mjs.gz",
+      "bytes": 6822,
+      "sha256": "65e29a5a3c429113aeea737b35bce8bd5675946d17456ebe063b5e9738f899ec",
+      "gzipBytes": 2704,
+      "gzipSha256": "4dd4369acc10eee266255cec0bacd7c8e72ee0373a029f5fe70e79cc07f60d37"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/amm/u124/generate.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/amm/u124/generate.mjs.gz",
+      "bytes": 15368,
+      "sha256": "0b99a0d36eef9f58a2f2f90a458fa12d91ac9fd0765e26c00f976f6f9e381f94",
+      "gzipBytes": 4259,
+      "gzipSha256": "e27f5ef088cfa918623636b5cecf4f291c8e8db4f695521aa0f796035b177210"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/amm/u124/math.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/amm/u124/math.mjs.gz",
+      "bytes": 4325,
+      "sha256": "a1c7da522ca49fe371abca2e428a7f3de4dc70e6144da159187e058046b87fd7",
+      "gzipBytes": 1595,
+      "gzipSha256": "aefc9f06e2d1130d8390dcb9bf4e0a32079b788ae78874f36e0c424f755c0fb3"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/amm/u124/policy.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/amm/u124/policy.mjs.gz",
+      "bytes": 5418,
+      "sha256": "deb1cec25b754c7c0c32e0d55c42ef9b152f4fb82186f179a74ef3eadd3bfb5f",
+      "gzipBytes": 1945,
+      "gzipSha256": "acf661070788869c9b1b0e0d35965e3fe0f96d1d86f18c6e3c083675f56ed48e"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/amm/wide/chainReader.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/amm/wide/chainReader.mjs.gz",
+      "bytes": 498,
+      "sha256": "363c853daff4b863425f4537ae1fac795fbe4bf95666c7644c6905079a4128c7",
+      "gzipBytes": 308,
+      "gzipSha256": "1244aac0b2f20775d9964efc3ccb4c07f81636086c334fadd0f4322630a7596a"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/amm/wide/operationCalls.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/amm/wide/operationCalls.mjs.gz",
+      "bytes": 563,
+      "sha256": "3ff7567ce073d91e53fd3428a38250be4e171330a37bd0893c300cf40664ec19",
+      "gzipBytes": 310,
+      "gzipSha256": "62ce8bfe6b2afd52401a3ac3f3bea50215d40020cf012c5abd7a9af726474ef1"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/batching/admission/build.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/batching/admission/build.mjs.gz",
+      "bytes": 6268,
+      "sha256": "b614e621f456810a5a1c42372d4acf5b1937ce8dbc1f28802ab721083e4fbde8",
+      "gzipBytes": 2424,
+      "gzipSha256": "24248fe1d2c2302c10bc0795901f70e179d0868b197882cc719138b465d6c421"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/batching/admission/bulk.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/batching/admission/bulk.mjs.gz",
+      "bytes": 2121,
+      "sha256": "73bbbff746ae05a92f650a405f7a1e53346dd1cdb2b3f5417b65ea2ff7848967",
+      "gzipBytes": 1011,
+      "gzipSha256": "fae45ce197e20882f0c61c8a39267e8beb796a53a004e6f1f6d791012e1093e6"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/batching/admission/freshDeployment.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/batching/admission/freshDeployment.mjs.gz",
+      "bytes": 917,
+      "sha256": "2823349672a88bfb8924940c6486f2cff87a3c105f1d8e4a9ee80913b01882ec",
+      "gzipBytes": 481,
+      "gzipSha256": "1a807412b72b70bcbff532b3d1b212db2735c57b1b0b12cf9bbf48900d906a50"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/batching/admission/generate.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/batching/admission/generate.mjs.gz",
+      "bytes": 11954,
+      "sha256": "9aceace9487f209b2cba3a205879d26add71e3cc20e761599d6c09e37148727d",
+      "gzipBytes": 4025,
+      "gzipSha256": "855d57d8aec10b43f03905a2cda8bf42c24d554154c44cb49261495d7c292507"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/batching/admission/liveAssets.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/batching/admission/liveAssets.mjs.gz",
+      "bytes": 5742,
+      "sha256": "91420cc1d341453b9c6e6321ac3d066870f57c3fb80f52d68ce26575323d3af3",
+      "gzipBytes": 2280,
+      "gzipSha256": "270178e1a40f201961695a6c134248734016d8b7c3eae937c688511625076343"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/batching/admission/liveMarket.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/batching/admission/liveMarket.mjs.gz",
+      "bytes": 8113,
+      "sha256": "32ba4af0d39467d71f9e94d8d37e9344ff70752291dd98c6effd11abbfaeb1a5",
+      "gzipBytes": 2776,
+      "gzipSha256": "be6fa729fd58f78627bbcb1b3ada01676f69c5312a58bfe587de272c9757f6ba"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/batching/admission/liveSupport.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/batching/admission/liveSupport.mjs.gz",
+      "bytes": 6923,
+      "sha256": "c1a54bade341ca066ac2a2922e9754f378c77492393a4ffadc0b2df5a98352bb",
+      "gzipBytes": 2527,
+      "gzipSha256": "ba9a26dc045360a9966a3d41315c537c7c6828722184f3e98ccbec83a2cc1dde"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/batching/admission/ordinaryReport.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/batching/admission/ordinaryReport.mjs.gz",
+      "bytes": 891,
+      "sha256": "e57ad6d4829f73007895884ce03a85e2eb6d5b1b571a6118fe0e1ba145852ddf",
+      "gzipBytes": 502,
+      "gzipSha256": "75686baa317e5c759bc13de7760f9def72e79ed90ba9fdd31a78c535dc1d3af9"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/batching/admission/prepare.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/batching/admission/prepare.mjs.gz",
+      "bytes": 3782,
+      "sha256": "6b98fb045533482b403a695a43b348fb7a87e6bfba557ef8d135614ebb41fcbd",
+      "gzipBytes": 1553,
+      "gzipSha256": "88c386b3a7f98612980db3ca0f06cc44047ee344deec9700a927c9ed0b02e4db"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/batching/admission/reader.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/batching/admission/reader.mjs.gz",
+      "bytes": 5536,
+      "sha256": "427a2243bd6a5276633d140e0ed0d8b94338aaa259d0c275f8307b706c2cac1e",
+      "gzipBytes": 2260,
+      "gzipSha256": "816b3e595c84373c2f2bcb457e76635cd7dc707c8e66619da2f6aa661eb75018"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/batching/admission/registrationPublication.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/batching/admission/registrationPublication.mjs.gz",
+      "bytes": 2537,
+      "sha256": "122a204e90d5181c7233fe2aefe6b6e6969631a1cbe44a03606dcee6ab1ff613",
+      "gzipBytes": 960,
+      "gzipSha256": "338b6db9c7944b0616e3a81f77a92c01239939b6bd9f0378afda065d4d15e1da"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/batching/v2/bootstrap.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/batching/v2/bootstrap.mjs.gz",
+      "bytes": 1294,
+      "sha256": "edf601a2b116e2a44e9155ff98806b99546072fe2bfac37f22db365aaa065850",
+      "gzipBytes": 619,
+      "gzipSha256": "a3419135375c80dccd0658d736b5898377f2e8b9ae9d67592fb9c31a88d483ae"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/batching/v2/client.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/batching/v2/client.mjs.gz",
+      "bytes": 3105,
+      "sha256": "b0c00a38eb84d4acfb487a1316272b9633e7d90cb0df39838cbf6d6419684e9b",
+      "gzipBytes": 1188,
+      "gzipSha256": "25d93a61df1462df784e4461ef4690d95ee6dd026e6e1b665f573d737f4da7c4"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/batching/v2/controller.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/batching/v2/controller.mjs.gz",
+      "bytes": 12476,
+      "sha256": "6e8ff4dd448cce8c4df62ac54914b9ec7c4721ebeaa33ec3b80df0c492403eab",
+      "gzipBytes": 4128,
+      "gzipSha256": "fc36d5ea1ab4f807a047154af8370ce306b8f0f00aa3595af1a27f5dac6c89eb"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/batching/v2/funding.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/batching/v2/funding.mjs.gz",
+      "bytes": 2741,
+      "sha256": "616a28d1547a27e9e46dddab2735e1ddcafa01565d6665f3504b29bff3e49795",
+      "gzipBytes": 1088,
+      "gzipSha256": "b8cee9bc40563676dfbecd95b07da71ea699bc9257ed8e0b9f0f97a678da2d8e"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/batching/v2/generate.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/batching/v2/generate.mjs.gz",
+      "bytes": 13174,
+      "sha256": "d1e5e19a27cd2ee3eddadd1874bd503431a82165beec59c7492af98396f29116",
+      "gzipBytes": 4544,
+      "gzipSha256": "9f876279a4893af8787b25bb7a6a5744f4cf990f3c87031352b448a63bd6c55c"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/batching/v2/guards.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/batching/v2/guards.mjs.gz",
+      "bytes": 14138,
+      "sha256": "f81bcd174540644e3f67bfc3e501582aa92e9f81824dc67314c36d8d05c753aa",
+      "gzipBytes": 4146,
+      "gzipSha256": "e5f5207fdce5d06cc4842978d616d6d058081569e1e1e6e253039f9fb0dba1fc"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/batching/v2/planner.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/batching/v2/planner.mjs.gz",
+      "bytes": 6317,
+      "sha256": "bdc340907709a10e3d8895bd5d4e3a93e0fa81df1cae997fa9c9bbc68053515e",
+      "gzipBytes": 2397,
+      "gzipSha256": "263c7e2a00bd5c78766149865d5369263ad68970dacbe9224e44cbd4a889081e"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/batching/v2/policy.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/batching/v2/policy.mjs.gz",
+      "bytes": 10078,
+      "sha256": "8d2e6ee706ba2b05baa607ddb115c47a201c7eeba4f1c1be5eafa3bc781d1971",
+      "gzipBytes": 3248,
+      "gzipSha256": "a7f9c279fce8fb1d76c9cc20e32eb1aff9ad05111322be15d8d08c59b69ae5f0"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/batching/v2/reader.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/batching/v2/reader.mjs.gz",
+      "bytes": 16385,
+      "sha256": "d14c12e1233690887493805dafd037b54ffa4304d7e931871cee39549ebbd994",
+      "gzipBytes": 5031,
+      "gzipSha256": "2aaf9cc2e8d44db15f083a591467102861ffaad88f67ade70788415104d6dabd"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/batching/v2/recovery.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/batching/v2/recovery.mjs.gz",
+      "bytes": 4776,
+      "sha256": "a9ad7e8ae56af2b8a58adce75d405182bdf2d17263bb72f194ce578708eb408d",
+      "gzipBytes": 1574,
+      "gzipSha256": "213c55f2d49078e9b6584d4491f8ec457725514fe3d4f29f0e204d47eee61d1f"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/bondingcurve/chainReader.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/bondingcurve/chainReader.mjs.gz",
+      "bytes": 5665,
+      "sha256": "ba7c5498b4491190fc737cdf4ce8d5045d314e2e8783a4a7a8fb8cb2c6400d48",
+      "gzipBytes": 2105,
+      "gzipSha256": "8b67b2e42a137e2ce6117923db545a339c7a37f81e3f364bd0c0545406716ce3"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/bondingcurve/curveMath.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/bondingcurve/curveMath.mjs.gz",
+      "bytes": 2738,
+      "sha256": "dfc150794a0716e7953f33761f4c058485c6afa4232caa7d00d96de2979b60ed",
+      "gzipBytes": 833,
+      "gzipSha256": "48c333478c806d5230434b8ac146c28d2720d1eec840fe512db9cf119e02540e"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/bondingcurve/operationCalls.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/bondingcurve/operationCalls.mjs.gz",
+      "bytes": 8773,
+      "sha256": "1d9955a05e695c08366877aa2bd10cc718d2261030209bf37c83e6d4275c1831",
+      "gzipBytes": 2118,
+      "gzipSha256": "79fe8693b3f9252a2437385894bff2fda75b4c5a72e42760a1a98e3a1df23af5"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/bondingcurve/receiptCheck.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/bondingcurve/receiptCheck.mjs.gz",
+      "bytes": 2392,
+      "sha256": "6fc0eafa9dd15ddfd488987cf35963fc424c4ff7e3979fc4b5c3ca4e660dc0fc",
+      "gzipBytes": 956,
+      "gzipSha256": "8d56467ceba19ececba3ad4d8d9e5960d49589e6d51d92e7679787e5dd56c705"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/acceptance/attemptOutcome.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/acceptance/attemptOutcome.mjs.gz",
+      "bytes": 443,
+      "sha256": "8bdcff74f3314939ed4588bb089f280915f6c8e5b80174f804e6d14913ed5590",
+      "gzipBytes": 294,
+      "gzipSha256": "3bb5ec7a19421b91ab22d15e64d6ca7b5e9d0777674a7eb72b242b044e6c8d5f"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/acceptance/calibrationTransportFailure.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/acceptance/calibrationTransportFailure.mjs.gz",
+      "bytes": 532,
+      "sha256": "317e53589588a407f56147e53ab19e0e4c0ed5ef0bf0ce14d795f7458214c361",
+      "gzipBytes": 350,
+      "gzipSha256": "8653348b090473ed411847aa7327080a558b1b9c470eb8e76bef73ae56acb39d"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/acceptance/candidateHarness.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/acceptance/candidateHarness.mjs.gz",
+      "bytes": 16796,
+      "sha256": "f2c3171ae682eb62d56bdd2a9d789f0602ef0a2abb1d456c2bd58147830025a8",
+      "gzipBytes": 5859,
+      "gzipSha256": "21c623e6cfd18c83dd2daee726cc325eac48959224e20d96c53a563ae76f2ad4"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/acceptance/cliExecution.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/acceptance/cliExecution.mjs.gz",
+      "bytes": 785,
+      "sha256": "e84e8a22e81b65fb5376a48d36588d31e90423b726df59be516c15309744b47d",
+      "gzipBytes": 413,
+      "gzipSha256": "39ff1e3480e6aa399c972dfa80fb9c40fecc501391a89b3b58b07d620e92c73c"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/acceptance/cohortScope.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/acceptance/cohortScope.mjs.gz",
+      "bytes": 627,
+      "sha256": "d67d553ca43b49944cbfe34dbb599fdb53271ff079b3b9137eed27b508e566ea",
+      "gzipBytes": 396,
+      "gzipSha256": "7c6c46e90b58fb54d55ec36edad6a51e08597c76eeb8e585a3a86583973efea6"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/acceptance/completedCalibration.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/acceptance/completedCalibration.mjs.gz",
+      "bytes": 2887,
+      "sha256": "818cd46556266b16a0334e1a3567c8b4afc920e44291fbab3e59a43890922811",
+      "gzipBytes": 949,
+      "gzipSha256": "c557a33d4f0688f7d6a4b581104b87c656df0d6ecc36a79476e893bed8fd3991"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/acceptance/continueThreeMarketSettlement.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/acceptance/continueThreeMarketSettlement.mjs.gz",
+      "bytes": 6568,
+      "sha256": "6c419894624f89b6bab42bcfb5f4552b9ab4083898a610fd09b82a50e10169df",
+      "gzipBytes": 2616,
+      "gzipSha256": "bfa262e20394f6fce0751784477faf9eff6a4b3be26a7db2795b16e7def4c754"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/acceptance/guardCalibration.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/acceptance/guardCalibration.mjs.gz",
+      "bytes": 4239,
+      "sha256": "b643a0fc7ca395bf783cce868baf088a7a4a3177238756144b88701e3eb13c09",
+      "gzipBytes": 1413,
+      "gzipSha256": "655384df12e822ecca7ca4236df0d606e1b70b6ed802101b21ac393caeff4190"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/acceptance/optionalCalibration.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/acceptance/optionalCalibration.mjs.gz",
+      "bytes": 1204,
+      "sha256": "f70657eb0380a80dbdcdd096f982753271d533e06124052fd9340162dea9a1ab",
+      "gzipBytes": 607,
+      "gzipSha256": "702579a84452030f99b24ac0c9275018f42ddad0357f3e39b8c08f4273b0feda"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/acceptance/ordinaryEvidence.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/acceptance/ordinaryEvidence.mjs.gz",
+      "bytes": 5641,
+      "sha256": "3f1093f7f61ab4c0dce7065b4d51e6a278382c4c51d3d0d621c7898251f792e1",
+      "gzipBytes": 2016,
+      "gzipSha256": "1bbbd3f3c22e4a227349b2b1cc1c065a2e646156838da0ef21068219f2f8a447"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/acceptance/sourceClosure.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/acceptance/sourceClosure.mjs.gz",
+      "bytes": 1753,
+      "sha256": "dd3de5a1392909df07e349b1f92235a28ded810d8490c2d9e09d375fd784a7c2",
+      "gzipBytes": 880,
+      "gzipSha256": "a9caf27000c931bd93ef2407f75c2a6fcfeaa54ce59d40ce71ac26c487b49b63"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/acceptance/threeMarketBalances.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/acceptance/threeMarketBalances.mjs.gz",
+      "bytes": 1650,
+      "sha256": "8367d67a43ebbca5f37634103d2e7faed9c636cc7da9284f9490c8db0a834293",
+      "gzipBytes": 795,
+      "gzipSha256": "badcc01ea4e191924ec0261b7c29628c61e850ea04194c7406c98c652a99c75f"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/acceptance/threeMarketCase.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/acceptance/threeMarketCase.mjs.gz",
+      "bytes": 4133,
+      "sha256": "08a189dd0ad9e8ac1f5d82922f38b1c6ec9f045a097b58bca6efe5b16580bc9b",
+      "gzipBytes": 1792,
+      "gzipSha256": "073956d26450f42a47ce437eacaa79a9e39adc62964ef81128e2a44a41947a95"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/admissionReader.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/admissionReader.mjs.gz",
+      "bytes": 7473,
+      "sha256": "03f819afc17e60b7f06c69019e8bcba84189e45a32ec10eb664c0b0051850ee5",
+      "gzipBytes": 2770,
+      "gzipSha256": "a575de9be9e195f20eafd3507059517e0bd7d85a5a0c0eab2cf3031899c482a2"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/chainReceipts.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/chainReceipts.mjs.gz",
+      "bytes": 3847,
+      "sha256": "f8e2b09b13b2af17429d888a614ce6370dbbffe974949a7f6ce8e78ae74be48d",
+      "gzipBytes": 1692,
+      "gzipSha256": "cc2eb20a1f59bfcec822479e3bf7deb35ef8683463cd737653d270a40be1a617"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/compactAdmissionAdapter.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/compactAdmissionAdapter.mjs.gz",
+      "bytes": 14610,
+      "sha256": "15080bc7843e9086711ad747d5a156ab4acc163611e7d037898261a1294ed702",
+      "gzipBytes": 4855,
+      "gzipSha256": "0629a6672c1caba155b409feae49cc5a7429e66718f42a77f0dbfa8e84ceb7e9"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/config.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/config.mjs.gz",
+      "bytes": 10860,
+      "sha256": "272c03a863e37a9a98971f3b291f3a8c4033a1c39432065facc1a12d4c22bca5",
+      "gzipBytes": 2841,
+      "gzipSha256": "05a023e87f4c3fee5148a782e554941fdd34ba9eef0f7961b3db940c01b11c09"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/confirmedNonceConflict.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/confirmedNonceConflict.mjs.gz",
+      "bytes": 2036,
+      "sha256": "2217d1cb4e466d9d035e3b1967f4844a2834ce4199f154a27c20f93758399d06",
+      "gzipBytes": 787,
+      "gzipSha256": "63dfcce65d93f025d3a7130a7d72ab621dfe064033e095517fc571b7f6d01092"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/driverProcess.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/driverProcess.mjs.gz",
+      "bytes": 1696,
+      "sha256": "0ccd44179344685f4bba1ce12d230c33970f8e6db88ac528452187702010d325",
+      "gzipBytes": 912,
+      "gzipSha256": "80d44e3f769c3723b22dbd18acfd85190399383d26d88f90285af2910571d98f"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/durableFile.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/durableFile.mjs.gz",
+      "bytes": 758,
+      "sha256": "099f2698e2b5878c100d52c4dc37ad115ec5f1c09d790f12a9b4380c437e5ec0",
+      "gzipBytes": 415,
+      "gzipSha256": "b0625ae8180e075e9d2cdc19f176598e7ee6446107c380e94a6191ebd25047f3"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/identityCache.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/identityCache.mjs.gz",
+      "bytes": 1763,
+      "sha256": "a37b718de1ab61d176b9935f1d09e3fd26a604e354d145f08999556cfed46218",
+      "gzipBytes": 827,
+      "gzipSha256": "4feed2b0a5c3e849eb5ab7c704de576dc0847bfd4e9149f66823f54ea4871f72"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/journal.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/journal.mjs.gz",
+      "bytes": 9497,
+      "sha256": "6b6f99b8072b82d9b80df4b34fb01d1a73ba1fb6d74d83b9b157f1e0bb8b8303",
+      "gzipBytes": 2958,
+      "gzipSha256": "2a7791bc45ebf332633990ded90e0ea6a7b20b5fc5d8cb2d87e7a8f8a860c771"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/observations.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/observations.mjs.gz",
+      "bytes": 891,
+      "sha256": "987e2c6e5cc3030b0064b840bf704691963dd03d89db9c411e50321b547f53a4",
+      "gzipBytes": 430,
+      "gzipSha256": "0cb41482834a003fca05f76025fa652f28ba6b3601552369e881a9bb09acec86"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/phaseMetrics.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/phaseMetrics.mjs.gz",
+      "bytes": 3871,
+      "sha256": "6e02e7aa08867bdf5d678c649f3ffdc7a8ccfc5dc3ba1e233ee84a0124ed2ed0",
+      "gzipBytes": 1630,
+      "gzipSha256": "c76c5640d8bdf12d9921b63ce9ecacbe198d6e8f7049d1533980e4fdf61c8d9f"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/preSessionRetry.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/preSessionRetry.mjs.gz",
+      "bytes": 1086,
+      "sha256": "64c85ff25a6a6903749be77f3a477188118fd587f42829fc05f5e559e47d86af",
+      "gzipBytes": 630,
+      "gzipSha256": "0a78baf7b82763454da958acbf56c08bde10e572ba58623c83f2e955693901a9"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/preflight.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/preflight.mjs.gz",
+      "bytes": 611,
+      "sha256": "0205e1e27450742753068a52b9e5e11e569ec6383f006d843acf42a8776fbd56",
+      "gzipBytes": 399,
+      "gzipSha256": "7a972e16607e8a853580a07f7e2be7af6f8a310a2ed7051c41a4c74aaf4f5323"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/publicState.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/publicState.mjs.gz",
+      "bytes": 5922,
+      "sha256": "f1606cc4a0fcf2c71e68fb8c7d6e7a835e2e41673c0115cfdb66cedc33fde979",
+      "gzipBytes": 2326,
+      "gzipSha256": "9cd842c962742e4c199caac8e658a4b6ae8a4404254ed80e5c2cc17978921fb3"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/publicWalletAdapter.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/publicWalletAdapter.mjs.gz",
+      "bytes": 6099,
+      "sha256": "bc33f1c61d15f41850f66c4eb9f587f13b111ed96a51b009041d87e919c172ad",
+      "gzipBytes": 2101,
+      "gzipSha256": "886222e392b661d6141d4c06610330c05c4efa43ce1ecc3d3078774fbc02b16a"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/readConcurrency.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/readConcurrency.mjs.gz",
+      "bytes": 1457,
+      "sha256": "b341c4b91c837e92d47c425fcf783b1abb661ab79cd9f3696893e6998e530072",
+      "gzipBytes": 737,
+      "gzipSha256": "a26a8d7f98f90f2bb069eec2873710a9c977d2ae4ced94c7e18c8955aedde58d"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/readRetry.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/readRetry.mjs.gz",
+      "bytes": 761,
+      "sha256": "a3690049dc4f729e642a17c26add8dd2bd984dfc817b6fcd54fe5d27825d9a88",
+      "gzipBytes": 472,
+      "gzipSha256": "36c46a10cc8f8b17a0789c7f217ee6c2ad77319b8c716f2d034f67e83e57d606"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/readSingleFlight.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/readSingleFlight.mjs.gz",
+      "bytes": 1090,
+      "sha256": "5a8febcf46f63db4095290d7fbbe7256d69a9f1ddc0f80b8e8c0db6204fcbb79",
+      "gzipBytes": 561,
+      "gzipSha256": "84b13f32b979af317c80218d5de5a14a4f9fcecb9d1220be1d9cc68c11071274"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/requestBinding.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/requestBinding.mjs.gz",
+      "bytes": 1554,
+      "sha256": "18f7d0b394f03481be1ed25581c6b551e4e780bcba20e217a99f80be9f2aa2c2",
+      "gzipBytes": 704,
+      "gzipSha256": "7d1a6474cd1f3c1c130df21b2b011d3888d50daf59bc577c15cb4200835b4dd0"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/residentProver.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/residentProver.mjs.gz",
+      "bytes": 3775,
+      "sha256": "fbde59dca84dc222974aa42f2fe6b15315d71e6380b6bfbb36514ee96c4687d3",
+      "gzipBytes": 1499,
+      "gzipSha256": "f41ab36c59ec4ac7ebec5641035f2283a9252278c59e104503b0625deed8f63c"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/residentScope.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/residentScope.mjs.gz",
+      "bytes": 3347,
+      "sha256": "f51352c1f9dcf33ae3f15b0e75b3090c5cf45116dee8038206f0aab27ccd3248",
+      "gzipBytes": 1347,
+      "gzipSha256": "fedbcf063190c401c2ef84755b962cd49122d570771d9c11563ba14cdcda0273"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/sealedDriver.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/sealedDriver.mjs.gz",
+      "bytes": 1535,
+      "sha256": "369b6e6594e206f19172def380ebeb35a07af2f27cfe39fb2c4cf2e00ea12881",
+      "gzipBytes": 699,
+      "gzipSha256": "1bf2a9476e893fc9371cc1c1f7eb8f2d210cd3632d3ac0ac04980493270cc128"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/submissionGuard.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/submissionGuard.mjs.gz",
+      "bytes": 2230,
+      "sha256": "d53851bab52649f366fcb743278071b6f3503b658aae7c3c0f8b1a032d3442aa",
+      "gzipBytes": 1101,
+      "gzipSha256": "e38b6964f291db785d3a73aabf97ae536d7f844954fb92c4324344f5be094426"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/taskIntent.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/taskIntent.mjs.gz",
+      "bytes": 649,
+      "sha256": "2abc63d9c35e4c7279837821a55f80b1242ded3070aa8464f00c071f347886ea",
+      "gzipBytes": 373,
+      "gzipSha256": "10bc7524efdb3f91e2696308fbc01bb6a7885fa1661d0928668fac63d78864d9"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/u124Abi.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/u124Abi.mjs.gz",
+      "bytes": 2657,
+      "sha256": "9940b8e45ac076eb8b022701db8033a8a4e6ba30f3dcde591b54d704efc42433",
+      "gzipBytes": 1009,
+      "gzipSha256": "fca5b99cba9c7ce432b7dda5ce018f5c5fc7b3adb3fd463778012750801ba697"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/u124Adapter.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/u124Adapter.mjs.gz",
+      "bytes": 10718,
+      "sha256": "d7e0c6335a0a2d87479d2a89daf82a7e92cde0efb2bd1252b4fd8cb98eb1803b",
+      "gzipBytes": 3366,
+      "gzipSha256": "0e25ce72d4bd1e7d927220d6dc07a77d0fdfa278afad38341534ccc83265e0e8"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/u124Reader.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/u124Reader.mjs.gz",
+      "bytes": 8969,
+      "sha256": "c9cf98980218801086c7e9d82f3db51f54560e0d20bbf1f42754b89803197fd7",
+      "gzipBytes": 2884,
+      "gzipSha256": "6fe0999048d9537d6138bf570e834e1550c5b27bff08d11549245171e3fd8ff2"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/u124Submission.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/executor/u124Submission.mjs.gz",
+      "bytes": 2315,
+      "sha256": "d633d961a96e73a56850b8b17817041a7aeef75c4988e3be742978990ddf4c67",
+      "gzipBytes": 907,
+      "gzipSha256": "5b584ff8b2e0d2ad752bffe373e75b3a17250b93468565e64ae9f86b7953ae83"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/launchamm/chainReader.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/launchamm/chainReader.mjs.gz",
+      "bytes": 2909,
+      "sha256": "024ebafd2d5162e2d757e4c99cf3ca86b6f91662002ffc43007e895f38f14c60",
+      "gzipBytes": 1072,
+      "gzipSha256": "868ac97eb267f48be2c44e89c2fc4ef4be79fe32158f986bcc53bddb9aa81c3b"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/launchamm/operationCalls.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/launchamm/operationCalls.mjs.gz",
+      "bytes": 12406,
+      "sha256": "51ee1c63838bf42a4ec9fa1af2165a71d0f5a554e15edb2939daa7bfa958019c",
+      "gzipBytes": 3151,
+      "gzipSha256": "5a09109817d27a70e8d618f3a9ddcd452075456fd7e4eef374e0261f1b556987"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/launchamm/planner.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/launchamm/planner.mjs.gz",
+      "bytes": 3126,
+      "sha256": "a24bd8758b1d97becd33dfd5bf1c08a865d85862a03e0ed3b78dd6a880c1bd97",
+      "gzipBytes": 1144,
+      "gzipSha256": "b49f81a64cc13460e085a7da6e9c3b96db5340022224059dc8e2bc20c58c265a"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/nft-marketplace/abi.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/nft-marketplace/abi.mjs.gz",
+      "bytes": 4505,
+      "sha256": "13e766ccf096262deea21836d27f74668814f6a0ab46e7b04198ec7972ba28a6",
+      "gzipBytes": 1748,
+      "gzipSha256": "b131a4da0c91494a383bfc9c2870af4ce59e60b0b1a16ca97bfa152dd87e3c5d"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/nft-marketplace/client.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/nft-marketplace/client.mjs.gz",
+      "bytes": 3291,
+      "sha256": "ab4957d258abbab46bebef3a9e01a0ce389edfbc2c8aa2c28062d676ccfd4062",
+      "gzipBytes": 1257,
+      "gzipSha256": "c066599de1b6177529eb48a39e0ac5fe6f67de20eed38509b200931c5e8950ca"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/nft-marketplace/generate.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/nft-marketplace/generate.mjs.gz",
+      "bytes": 15227,
+      "sha256": "2db49d48aefbb011523dc7fd874cc004051b5aed7e95e4215c25a95334b0610b",
+      "gzipBytes": 4579,
+      "gzipSha256": "4f957a2be5591c685dbbe1b1e84318eed09b976f855eb99d2e76d249fb0211d0"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/nft-marketplace/policy.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/nft-marketplace/policy.mjs.gz",
+      "bytes": 3630,
+      "sha256": "073ec93fa514dcdf3cf46d8b1790f4c71a766dc81d284072f76177fc9ad07878",
+      "gzipBytes": 1365,
+      "gzipSha256": "3ccc18992c2e25a4f04b05d08d78c1b1168c27bf18ee7edeaf73fe7c03ef3324"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/nft-marketplace/reader.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/nft-marketplace/reader.mjs.gz",
+      "bytes": 6652,
+      "sha256": "055ed692c5f620e5509628bf557abf775e2dd18f949b7c313541f9a0cad0494f",
+      "gzipBytes": 2414,
+      "gzipSha256": "dd14aff04e1d84aae18dcaa21575732538de89957ad15225b78e78a318fa7024"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/nft-marketplace/status.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/nft-marketplace/status.mjs.gz",
+      "bytes": 4259,
+      "sha256": "48a3242c1fed2fb06fbb2d816285ecde848b681f69c8d78ee02e38b2ec92bc82",
+      "gzipBytes": 1648,
+      "gzipSha256": "fe7b60661c5661aba3d61b5008f4a432ebe6907fe55d335ad686ee3152536278"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/orderbook/matcherCore.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/orderbook/matcherCore.mjs.gz",
+      "bytes": 4573,
+      "sha256": "7a54e18e58fef2cb6ad8f10406be4343525d6cb984ea9b7a42f9abc3c6e0b7d0",
+      "gzipBytes": 1582,
+      "gzipSha256": "d185afdbaa504e3557cf44b52547147257658997e39ab6af93929360a22f86c9"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/orderbook/operationCalls.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/orderbook/operationCalls.mjs.gz",
+      "bytes": 5354,
+      "sha256": "8e6d433d877621bc2e78268720bf0e3985a9cfc68b046bf0b6caba3c685a0fd8",
+      "gzipBytes": 1592,
+      "gzipSha256": "dbda79dbec0d85616e5984c276a1142489efe8cfd75ee6b3edb895e9af5148da"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/orderbook/rpcReader.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/orderbook/rpcReader.mjs.gz",
+      "bytes": 2487,
+      "sha256": "18ebc358df60f7f99a17502536b3ac45ba273557a6b35283032a82b2bcbe8a27",
+      "gzipBytes": 1024,
+      "gzipSha256": "7b2888fd8de10c1cdaebc8b636ea60cc209cefb999a86e93d43bd7796316d9ee"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/token/wide/arithmetic.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/token/wide/arithmetic.mjs.gz",
+      "bytes": 2826,
+      "sha256": "60a85bafc6619dffbd9fe70a56d269d8356f55068434e8e83e2d51d28fdccc94",
+      "gzipBytes": 1099,
+      "gzipSha256": "85ffda49e5d427bb0c97f51dce229841b9dfe9a981f5ee0104d36c43c678a283"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/settlement-read-resume-v1-source/token/wide/artifactGate.mjs",
+      "file": "files/three-markets-performance-live-v1/public/settlement-read-resume-v1-source/token/wide/artifactGate.mjs.gz",
+      "bytes": 1760,
+      "sha256": "7f5577b19a784fff2465a8881e514002941f74f2c11d076f7cf60d7fb01441fe",
+      "gzipBytes": 825,
+      "gzipSha256": "169ba3c57e6c6c99e42405b43f02fe017a889174a1f00009e9789a29ad31faf4"
+    },
+    {
+      "source": "three-markets-performance-live-v1/resume-seal-run-v1.log",
+      "file": "files/three-markets-performance-live-v1/resume-seal-run-v1.log.gz",
+      "bytes": 1179,
+      "sha256": "86ef41488f72bd2c803ce305476f2e1ade0de3c9d0f2214964c4cff477f5abda",
+      "gzipBytes": 563,
+      "gzipSha256": "9ac6b549558ca63a4e0841f5e96be1210561c452577705ce9aa1459a36f65a8b"
+    },
+    {
+      "source": "three-markets-performance-live-v1/retry-commit-fund-read-recovery-v1.log",
+      "file": "files/three-markets-performance-live-v1/retry-commit-fund-read-recovery-v1.log.gz",
+      "bytes": 2388,
+      "sha256": "477edc9982aa043414136f14481393603bd317ce075178b12cc3d224fcff89af",
+      "gzipBytes": 534,
+      "gzipSha256": "7cc5a0c7ad420bde7eca3bebaa08b9421081eac08dedb175621ac7b643a41f8f"
+    },
+    {
+      "source": "three-markets-performance-live-v1/retry-commit-fund-v1.log",
+      "file": "files/three-markets-performance-live-v1/retry-commit-fund-v1.log.gz",
+      "bytes": 663,
+      "sha256": "7c2e876c42f0f047e279fd3eefa1bccbef9dac6d7c322558f621edead9139c66",
+      "gzipBytes": 309,
+      "gzipSha256": "6baa399524146999048ef76180d8d0f9dff03a75e50af6c029de6c935634f7c3"
+    }
+  ]
+}
