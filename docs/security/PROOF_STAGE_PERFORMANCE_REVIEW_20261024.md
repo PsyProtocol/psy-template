@@ -1,5 +1,8 @@
 # Full proof and stage costs — 2026-10-24
 
+> 最终更新（2026-10-25）：三个市场各一笔真实成交及普通签名钱包领取均已确认；48 笔实际 UPS、51 份不同完整证明完成独立审计。NFT 真实进程重启复用了原 UPS，并通过未过期已消费证明的原生拒绝测试。完整费用、冷/暖态、确认与内存口径、失败样本和未关闭项见 [最终性能与证据报告](THREE_MARKET_LIVE_PERFORMANCE_20261025.md)。以下保留各阶段历史状态；不以早期“pending”段落替代最终关闭索引，也不据此宣称生产级或链 TPS 提升。
+
+
 ## Scope and current acceptance status
 
 Continues `d13bcf8c` on `markets-batch-capacity-recovery-20261020`.

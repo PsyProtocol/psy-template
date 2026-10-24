@@ -1,0 +1,43 @@
+{
+  "at": "2026-10-24T18:09:26.166383+00:00",
+  "sdkManifestSha256": "0afb4c65116cddcaca450b406a06503d65b63d38a004d8e773c6e5fa363bd425",
+  "sdkFilesVerified": 1466,
+  "configSha256": "6c054465b28329820100e0e1958f86f6eb55a37f3ea4a734269340286930017b",
+  "nodeExistingDiffSha256": "002e35e0b13cb6c422fe3abf500ce6aa5241229264d85a3314f22b5e14b59a64",
+  "nodeChangedByTask": false,
+  "sdkMigration": false,
+  "financialSourceClosures": [
+    {
+      "label": "three-retry-v1",
+      "files": 92,
+      "manifestSha256": "2c90f8323483b5b66a83f024763f346de181e88339293c85688d3506e6791998",
+      "executedCopiesUnchanged": true
+    },
+    {
+      "label": "three-seal-resume-v1",
+      "files": 92,
+      "manifestSha256": "ad1ad55c8a1f9e7bce64591c821df4c8a20e2dbcd579deeaf856044d7a7da733",
+      "executedCopiesUnchanged": true
+    },
+    {
+      "label": "settlement-read-resume-v1",
+      "files": 92,
+      "manifestSha256": "e228262afc8aa21c5c96b9450507d72541b09de415182d23178cc2528bee0ae1",
+      "executedCopiesUnchanged": true
+    },
+    {
+      "label": "durable-nft-resume-v1",
+      "files": 93,
+      "manifestSha256": "bceae0ebf7302d0248b852813348c494dc6f72846ab7224c569b19e0c06c9947",
+      "executedCopiesUnchanged": true
+    },
+    {
+      "label": "durable-nft-resume-v2",
+      "files": 93,
+      "manifestSha256": "ad61f9cd5f2a37fe59bf9264e26d8d0d843fbb3745024be6eca2e1c40c64a024",
+      "executedCopiesUnchanged": true
+    }
+  ],
+  "readonlySourceCopiesVerified": true,
+  "scope": "original SDK, Node baseline, selected binary digests and executed source copies checked; repository sources include explicit post-acceptance report/terminal-reader fixes, not a runtime image attestation"
+}

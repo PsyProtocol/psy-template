@@ -3,5 +3,5 @@
 export function latestBroadcastOutcome(records,taskId){
  const start=records.findLastIndex(r=>r.taskId===taskId&&r.status==='broadcast-intent');
  if(start<0)return null;
- return records.slice(start+1).findLast(r=>r.taskId===taskId&&['included','not-submitted'].includes(r.status))??null;
+ return records.slice(start+1).findLast(r=>r.taskId===taskId&&['included','not-submitted','resolved-by-confirmed-conflict'].includes(r.status))??null;
 }

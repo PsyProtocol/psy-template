@@ -1,0 +1,5 @@
+import{test}from'node:test';import assert from'node:assert/strict';import{latestBroadcastOutcome}from'./attemptOutcome.mjs';
+const r=(status,taskId='a')=>({status,taskId});
+test('confirmed conflict is a truthful terminal outcome, never an inclusion or permission to retry',()=>{const rows=[r('broadcast-intent'),r('broadcast-result'),r('resolved-by-confirmed-conflict')];assert.equal(latestBroadcastOutcome(rows,'a').status,'resolved-by-confirmed-conflict');});
+test('an earlier no-send rejection never hides a later unknown transmission',()=>{const rows=[r('broadcast-intent'),r('not-submitted'),r('broadcast-intent'),r('included','other')];assert.equal(latestBroadcastOutcome(rows,'a'),null);});
+test('only the selected task and latest attempt determine an included outcome',()=>{const rows=[r('broadcast-intent'),r('not-submitted'),r('broadcast-intent'),r('included'),r('resolved-by-confirmed-conflict','other')];assert.equal(latestBroadcastOutcome(rows,'a').status,'included');assert.equal(latestBroadcastOutcome(rows,'missing'),null);});
