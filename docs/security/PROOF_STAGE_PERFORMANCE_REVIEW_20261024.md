@@ -139,10 +139,12 @@ signs nor builds a new proof or business operation. Original and retransmitted
 requests, if both reach the network, describe the same state transition. This
 is not a general automatic retry or proof of remote queue idempotency. If the
 original is included during checking, native anchor validation rejects another
-send and the original receipt remains authoritative. This milestone is still
-pending final inclusion and must not be counted as a fill.
+send and the original receipt remains authoritative. The original journal subsequently reconciled the exact end leaf at checkpoint
+374754. Activation is confirmed; it is not a market fill.
 
 The earlier diagnostic metadata recorded the current reference source digest
 rather than the frozen binary's compiled source. A separate additive correction
 binds the actual frozen source and build manifest; the original metadata remains
 untouched. The only reference-source difference adds diagnostic report tags.
+
+[Exact-proof recovery and additive provenance correction archive](../../executor/verification/2026-10-24-exact-proof-recovery-v1/manifest.json) preserves the accepted retransmission, original request identity and five recovery / two transport-reporting regression results. The latter tests explicitly keep a timed-out send plus exact retransmission as one signed transaction, and refuse to count HTTP 200 with RPC error as acknowledgement.
