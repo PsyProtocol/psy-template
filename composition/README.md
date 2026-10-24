@@ -276,6 +276,33 @@ closed. Report alias resolution never creates, resigns or broadcasts a request.
 
 ## Resident service and local coordination
 
+### Fee preparation and fresh state
+
+The production adapter uses one advisory VM fee trace. Its result authorizes no
+payment: the full UPS and sealed driver must still agree on the actual fee,
+complete calls/session, nonce and public state endpoints. A changed slot cost
+fails closed. The service does not automatically increase a fee or replace an
+unknown broadcast.
+
+Advisory records are immutable and bind the exact task, trace, intent, driver
+and SDK. `renewFeePreparation` can retain that advice for a fresh unsigned
+transport window only if every business term and call is identical and current
+eligibility passes. It never retimes a signed guard or copies a state proof.
+Exact proof reuse remains a separate path with fresh nonce, leaf, dependency
+and expiry checks. Independent registry and controller reads run under the
+existing bounded scheduler within each new snapshot; balances and permissions
+are not cached across snapshots.
+
+For the real-fill preparation comparison, close the route and ordinary claim
+before running `preparationAccounting.mjs after`, `verifyPreparationRun.mjs`,
+`reportPreparationPerformance.mjs`, `reportPreparationReads.mjs` and
+`reportPreparationMemory.mjs`, each with a fresh output path. Baseline transport
+is disabled. Shared resident fee traces are paired in alternating order; cold
+historical calibration and exact-proof validation are not independent warm
+proving benchmarks. See
+`docs/security/SETTLEMENT_PREPARATION_REVIEW_20261024.md` for receipts, scope and
+the correctly rejected different-checkpoint calibration.
+
 The formal CLI's `watch`, `once` and `reconcile` modes now share
 `runCompositionService`. Safe pre-session proof-read rejection recovery is
 bounded and journaled; unknown broadcasts keep their original identity and block
