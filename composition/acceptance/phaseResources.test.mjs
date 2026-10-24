@@ -8,3 +8,5 @@ test('actual case attribution excludes unrelated clients using the same binary',
  const phase={startedAt:t(0),finishedAt:t(4000),parentRssBeforeBytes:20,parentRssAfterBytes:30},samples=[{at:t(2000),sumRssBytes:9000,processes:[{parentPid:10,rssBytes:100},{parentPid:20,rssBytes:8900}]}];
  assert.equal(sampledPhaseResources(phase,samples,{parentPid:10}).sampledWalletSumRssMaxBytes,100);assert.equal(sampledPhaseResources(phase,samples,{parentPid:20}).sampledWalletSumRssMaxBytes,8900);assert.throws(()=>sampledPhaseResources(phase,[{at:t(2000),sumRssBytes:10}],{parentPid:10}));
 });
+
+test('missing ordinary-process parent endpoints are unknown, not zero or unserializable undefined',()=>{const r=sampledPhaseResources({startedAt:t(0),finishedAt:t(4000)},[]);assert.equal(r.parentRssBeforeBytes,null);assert.equal(r.parentRssAfterBytes,null);});
