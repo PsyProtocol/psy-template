@@ -235,3 +235,23 @@ safe dropped request. Original broadcasts are not resent. Production/runtime
 attestation, upgrade authorization, certified randomness, global fairness,
 A-only onboarding, arbitrary routes and cross-vault atomicity remain outside this
 acceptance. Ordinary claims use the normal signing CLI, not browser UI evidence.
+
+## Local resident-service acceptance — 2026-10-24
+
+Formal CLI service lifecycle now has bounded, persisted proof-session read
+recovery, immutable source-verification reuse, an unsigned final-claim handoff
+and optional scope-bound coordination. New controller 2494 / vault 117952 passed
+ordinary funding/cancellation, two actual controller UPSs and ordinary final
+claim. Its assets/native balance are zero at phase 99; 102 full cohort UPSs were
+independently verified with actual-fee mutation rejection and owner historical
+balance/cursor checks. Actual terminal CLI re-entry adds no broadcast and leaves
+financial history byte-identical. An independent local contender loses the
+active journal lock before financial methods. Physical two-host and
+coordinator-mode chain financial takeover remain unverified.
+
+Matched adapter reconstruction medians are 213.267 s versus 12.232 s for verified
+immutable resource reuse. This is not a measured settlement speedup. The new
+zero-fill recovery case takes 2,687.793 s overall and costs 4.000038 test PSY;
+both QA FT supplies remain 1,000. Detailed timings, explicit one-atom onboarding
+requirement and external trust gates are in
+`docs/security/COMPOSITION_SERVICE_REVIEW_20261024.md`.
