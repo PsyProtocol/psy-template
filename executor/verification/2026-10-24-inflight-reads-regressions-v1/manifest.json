@@ -1,0 +1,203 @@
+{
+  "schema": 1,
+  "sourceDirectory": "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-market-recovery-20261023",
+  "machine": "gewenbo.local",
+  "host": "macOS-15.7.3-arm64-arm-64bit",
+  "scope": "public formal Executor run including failures; success requires exact included receipt",
+  "walletFilesIncluded": false,
+  "sealedBinariesIncluded": false,
+  "records": [
+    {
+      "source": "three-markets-performance-live-v1/nft-start-exact-recovery-v1-review.json",
+      "file": "files/three-markets-performance-live-v1/nft-start-exact-recovery-v1-review.json.gz",
+      "bytes": 2567,
+      "sha256": "000634475c583cf27d9e1c4ef3265930da7e42afa2dd237039be662305fbcb6a",
+      "gzipBytes": 1122,
+      "gzipSha256": "383321b89b7ca64aef9059a00a191a91a06a889979c94e02ffa04eb5e51a49de"
+    },
+    {
+      "source": "three-markets-performance-live-v1/nft-start-exact-recovery-v1.log",
+      "file": "files/three-markets-performance-live-v1/nft-start-exact-recovery-v1.log.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/EXACT-RECOVERY-START-SOURCE-v2.json",
+      "file": "files/three-markets-performance-live-v1/public/EXACT-RECOVERY-START-SOURCE-v2.json.gz",
+      "bytes": 365,
+      "sha256": "cb59759eb770153017ab8443b3fd4e7fd7677e525be5810953cb1f98cab06c7a",
+      "gzipBytes": 277,
+      "gzipSha256": "366dddce0833f2bdfb1bec7d5d866240a37629b1226fc20b7bf5da5fbbce4fe2"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/RUN-SOURCE-READS-CLOSURE-v2.json",
+      "file": "files/three-markets-performance-live-v1/public/RUN-SOURCE-READS-CLOSURE-v2.json.gz",
+      "bytes": 1455,
+      "sha256": "22a90bd934a65692a4c735a0a87f9aeabe2a33741e44086177ab123843736d8d",
+      "gzipBytes": 807,
+      "gzipSha256": "a9b38c54dda65b719457576f7ea3c5fffae6bb457ced010858e52433cf4154af"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/RUN-SOURCE-READS-v2.json",
+      "file": "files/three-markets-performance-live-v1/public/RUN-SOURCE-READS-v2.json.gz",
+      "bytes": 1525,
+      "sha256": "23123a1108f10db20c4b945bdf9106e4ec03d1f9a41781988c96c82588610aa4",
+      "gzipBytes": 883,
+      "gzipSha256": "939b3d328b6916b29cfa4c06e78c60c2ff4b03c80bed956586d9c180a8e1dcf8"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/exact-recovery-start-executed-source-v2.mjs",
+      "file": "files/three-markets-performance-live-v1/public/exact-recovery-start-executed-source-v2.mjs.gz",
+      "bytes": 4967,
+      "sha256": "758250b3912cf88228db0584d57f2f87d356aab828012b07fd11c02c88beb053",
+      "gzipBytes": 1991,
+      "gzipSha256": "08cc65fc8f3919ccdc1a79509a5babfa4354d524823807673eb683d26c09025c"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/public-state-before-singleflight-v1.mjs",
+      "file": "files/three-markets-performance-live-v1/public/public-state-before-singleflight-v1.mjs.gz",
+      "bytes": 5045,
+      "sha256": "f2faea8ae3d68c4e5236328aea498b92f01b221bef3f360324c7ea460cf04465",
+      "gzipBytes": 1954,
+      "gzipSha256": "11874e3aa99703e5ebe8f24c1956f61518073b7851da7599834ad07e52cd6af6"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/run-source-reads-v2/executor/acceptance/candidateHarness.mjs",
+      "file": "files/three-markets-performance-live-v1/public/run-source-reads-v2/executor/acceptance/candidateHarness.mjs.gz",
+      "bytes": 16609,
+      "sha256": "bad8c113a121ab6a8a45458d3957cb67309be607496f91d723c372372e8698f7",
+      "gzipBytes": 5818,
+      "gzipSha256": "3fa3c3371ed6a34df9326b3d6118aeb0bab83eff91567c6f20a9260f22803fac"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/run-source-reads-v2/executor/acceptance/guardCalibration.mjs",
+      "file": "files/three-markets-performance-live-v1/public/run-source-reads-v2/executor/acceptance/guardCalibration.mjs.gz",
+      "bytes": 2435,
+      "sha256": "f0ca97ffdc7e48611f00efed13f5a04675581399dea3eeed66a16886e125bc64",
+      "gzipBytes": 1030,
+      "gzipSha256": "cbd1098d9872e25f4b2d69d9666004f06e4e00a5875880d1581227f29b11d81e"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/run-source-reads-v2/executor/acceptance/runThreeMarkets.mjs",
+      "file": "files/three-markets-performance-live-v1/public/run-source-reads-v2/executor/acceptance/runThreeMarkets.mjs.gz",
+      "bytes": 11946,
+      "sha256": "fc0d57e0cd8488f0aa0cbfc94372749688b3b4945b8011f19d436d4bbfe11a05",
+      "gzipBytes": 3935,
+      "gzipSha256": "65efd22b5284e5214cb2a3913656d45f500e0c8d6b1e494ce16b7af0ff58d7b3"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/run-source-reads-v2/executor/acceptance/seedRecovery.mjs",
+      "file": "files/three-markets-performance-live-v1/public/run-source-reads-v2/executor/acceptance/seedRecovery.mjs.gz",
+      "bytes": 3340,
+      "sha256": "86024faedce7d6d6ed9373beceee056cbf1b8b7d3dd02566e6c3a18a2f94fa7d",
+      "gzipBytes": 1433,
+      "gzipSha256": "0eff83926a96f448cf6c0b3ab80f09e6e0df3e39fc705dc955bc61817c192daa"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/run-source-reads-v2/executor/acceptance/threeMarketCase.mjs",
+      "file": "files/three-markets-performance-live-v1/public/run-source-reads-v2/executor/acceptance/threeMarketCase.mjs.gz",
+      "bytes": 4133,
+      "sha256": "08a189dd0ad9e8ac1f5d82922f38b1c6ec9f045a097b58bca6efe5b16580bc9b",
+      "gzipBytes": 1792,
+      "gzipSha256": "073956d26450f42a47ce437eacaa79a9e39adc62964ef81128e2a44a41947a95"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/run-source-reads-v2/executor/compactAdmissionAdapter.mjs",
+      "file": "files/three-markets-performance-live-v1/public/run-source-reads-v2/executor/compactAdmissionAdapter.mjs.gz",
+      "bytes": 14610,
+      "sha256": "15080bc7843e9086711ad747d5a156ab4acc163611e7d037898261a1294ed702",
+      "gzipBytes": 4855,
+      "gzipSha256": "0629a6672c1caba155b409feae49cc5a7429e66718f42a77f0dbfa8e84ceb7e9"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/run-source-reads-v2/executor/journal.mjs",
+      "file": "files/three-markets-performance-live-v1/public/run-source-reads-v2/executor/journal.mjs.gz",
+      "bytes": 7611,
+      "sha256": "31e3e3745d268286a7c01f9d77db7045e7ee5a84a34e4ec3a6fd50cfb199d6e8",
+      "gzipBytes": 2541,
+      "gzipSha256": "0034dc545c20e039e88798d12370c1b6205a08c4ccdaf0089c9d01953c8ad982"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/run-source-reads-v2/executor/publicState.mjs",
+      "file": "files/three-markets-performance-live-v1/public/run-source-reads-v2/executor/publicState.mjs.gz",
+      "bytes": 5922,
+      "sha256": "f1606cc4a0fcf2c71e68fb8c7d6e7a835e2e41673c0115cfdb66cedc33fde979",
+      "gzipBytes": 2326,
+      "gzipSha256": "9cd842c962742e4c199caac8e658a4b6ae8a4404254ed80e5c2cc17978921fb3"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/run-source-reads-v2/executor/publicWalletAdapter.mjs",
+      "file": "files/three-markets-performance-live-v1/public/run-source-reads-v2/executor/publicWalletAdapter.mjs.gz",
+      "bytes": 6099,
+      "sha256": "bc33f1c61d15f41850f66c4eb9f587f13b111ed96a51b009041d87e919c172ad",
+      "gzipBytes": 2101,
+      "gzipSha256": "886222e392b661d6141d4c06610330c05c4efa43ce1ecc3d3078774fbc02b16a"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/run-source-reads-v2/executor/readSingleFlight.mjs",
+      "file": "files/three-markets-performance-live-v1/public/run-source-reads-v2/executor/readSingleFlight.mjs.gz",
+      "bytes": 1090,
+      "sha256": "5a8febcf46f63db4095290d7fbbe7256d69a9f1ddc0f80b8e8c0db6204fcbb79",
+      "gzipBytes": 561,
+      "gzipSha256": "84b13f32b979af317c80218d5de5a14a4f9fcecb9d1220be1d9cc68c11071274"
+    },
+    {
+      "source": "three-markets-performance-live-v1/public/run-source-reads-v2/executor/residentScope.mjs",
+      "file": "files/three-markets-performance-live-v1/public/run-source-reads-v2/executor/residentScope.mjs.gz",
+      "bytes": 3347,
+      "sha256": "f51352c1f9dcf33ae3f15b0e75b3090c5cf45116dee8038206f0aab27ccd3248",
+      "gzipBytes": 1347,
+      "gzipSha256": "fedbcf063190c401c2ef84755b962cd49122d570771d9c11563ba14cdcda0273"
+    },
+    {
+      "source": "three-markets-performance-live-v1/route-run-v4.log",
+      "file": "files/three-markets-performance-live-v1/route-run-v4.log.gz",
+      "bytes": 3877,
+      "sha256": "5b6d53f90676a74309e653697f52d0a5a1b992d482bb1e16d38df00c718f7fac",
+      "gzipBytes": 1171,
+      "gzipSha256": "9c852b7ec1effc9c36718e82da7f5cc5e714003d764e47afe4e289eba6963fcc"
+    },
+    {
+      "source": "three-markets-performance-live-v1/route-run-v5.log",
+      "file": "files/three-markets-performance-live-v1/route-run-v5.log.gz",
+      "bytes": 1599,
+      "sha256": "1a49f5104a1db0cc555c6971892d733909389033d32fe78b56424e5f0a862531",
+      "gzipBytes": 588,
+      "gzipSha256": "c27afd7192f6a9fa4cbf29b6d606993ace113cc5446a124b2d2a642d9bc33b48"
+    },
+    {
+      "source": "three-markets-proof-build-v2/exact-prepared-recovery-regressions-v2.log",
+      "file": "files/three-markets-proof-build-v2/exact-prepared-recovery-regressions-v2.log.gz",
+      "bytes": 309,
+      "sha256": "34f938d0d14de3258bf9fb8cb4db4805e30357967aa34a1832a723adc0d8b342",
+      "gzipBytes": 232,
+      "gzipSha256": "69d0f18e034d2d3c33a6ad94d9318628c88b3bf69eacc8a453bf6c20bcb3b373"
+    },
+    {
+      "source": "three-markets-proof-build-v2/single-flight-regressions-v1.log",
+      "file": "files/three-markets-proof-build-v2/single-flight-regressions-v1.log.gz",
+      "bytes": 18605,
+      "sha256": "826306ba3d514540f61ab06a9f67c6ea4edda08ae785bc4f1bece7775c38a73d",
+      "gzipBytes": 2049,
+      "gzipSha256": "5f9c2514d60b2d55be38018d1d679d8e77dac7ad629c3f4de33d0e9d9b33985c"
+    },
+    {
+      "source": "three-markets-proof-build-v2/single-flight-regressions-v2.log",
+      "file": "files/three-markets-proof-build-v2/single-flight-regressions-v2.log.gz",
+      "bytes": 2189,
+      "sha256": "71447862e4e68dcc272b3d00cfe17a4b98727efa2a99b9285410a82586b14c7a",
+      "gzipBytes": 1116,
+      "gzipSha256": "9334d60655c073248c3e7570c2be4e8c40579e131184349238a47906eae824ae"
+    },
+    {
+      "source": "three-markets-proof-build-v2/three-market-owner-regressions-v1.log",
+      "file": "files/three-markets-proof-build-v2/three-market-owner-regressions-v1.log.gz",
+      "bytes": 328,
+      "sha256": "ead5d4ad0a6c07f46bff77dcf12d2edbc7feb6138ebc1f64af3a65eec3d74496",
+      "gzipBytes": 248,
+      "gzipSha256": "5290213f2aa33f40239c90e4b627316227f9a18a77d863553da98e6d72916d2d"
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+// Finite known QA cohort, not an all-market inventory or censorship proof.
+import assert from'node:assert/strict';import{canonicalHeldNfts}from'../../batching/admission/liveAssets.mjs';
+export function verifyThreeMarketBalances({before,after,owner,buyer,markets,assets}){
+ const unit=10n**18n,[a,b]=assets.map(String),curve=String(markets.find(m=>m.kind==='bondingcurve').vaultId),u=String(owner),v=String(buyer),expected={[u]:{[a]:5n*unit,[b]:0n},[v]:{[a]:-4n*unit,[b]:-unit},[curve]:{[a]:-unit,[b]:unit}};
+ assert.deepEqual(Object.keys(before.accounts).sort(),Object.keys(after.accounts).sort());for(const [id,row]of Object.entries(before.accounts))for(const asset of[a,b])assert.equal(after.accounts[id].ft[asset]-row.ft[asset],expected[id]?.[asset]??0n,'actual asset owner/vault delta '+id+':'+asset);
+ const vaults=new Set(markets.map(m=>String(m.vaultId))),traders=new Set([u,v]);for(const row of after.pending){if(vaults.has(String(row.sender))&&traders.has(String(row.recipient))||traders.has(String(row.sender))&&vaults.has(String(row.recipient)))for(const asset of[a,b])assert.equal(row.ft[asset],0n,'new market/trader FT outbox must be claimed');}
+ const old=canonicalHeldNfts(before.nfts),now=canonicalHeldNfts(after.nfts);assert.equal(old.length,1);assert.equal(now.length,1);assert.equal(old[0].user,BigInt(owner));assert.equal(now[0].user,BigInt(buyer));assert.deepEqual(now[0].tokenId,old[0].tokenId);assert.deepEqual(now[0].metadataHash,old[0].metadataHash);assert.equal(after.nftPending.length,0);return{allKnownFtOwnerAndVaultDeltasVerified:true,newMarketTraderFtOutboxesClaimed:true,nftUniqueIdentityAndMetadataVerified:true};
+}
