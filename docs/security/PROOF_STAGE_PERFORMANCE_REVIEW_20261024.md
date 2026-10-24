@@ -316,3 +316,29 @@ not an end-to-end acceleration result. Book/Curve starts confirmed at 375281;
 NFT start at 375300, renewed owner consent at 375306, buyer consent at 375317,
 Curve admission at 375319 and first Book/NFT admissions at 375324. Actual fills
 and final ordinary claims still remain open at this milestone.
+
+### Sealing calibration exhausted the NFT send window (preserved)
+
+The second epoch admitted all five original members. Book and Curve sealed at
+375425 / 375427. Their exact-proof guard ABBA samples completed: Book baseline
+17,893/17,348 ms, candidate 13,724/14,525 ms; Curve baseline 16,927/15,828 ms,
+candidate 16,378/14,367 ms. These are full saved-proof/live-check observations,
+not proving speed or confirmation performance.
+
+NFT produced a complete seal UPS but slow reads and the diagnostic samples
+exhausted its 375493 send window. The third sample correctly rejected it as
+`prepared broadcast window expired`. Two partial samples (54,121 ms baseline,
+64,987 ms candidate) remain preserved; they do not form a matched ABBA result.
+No financial intent was appended for that old task. The recovery entrypoint
+checks no unresolved intent, the old unchanged start leaf/nonce, the same two
+admitted orders and the expired unsigned failure before requesting a fresh
+seal proof. Its financial path omits diagnostic calibration and retains all
+native proof/session/fee/dependency/expiry checks. Already confirmed Book/Curve
+seals and original owner deposits are reused. The new static source closure is
+captured separately; the earlier 92-file closure and its outputs remain intact.
+
+The independent reporting gate additionally requires a distinct, fully verified
+actual request to consume the original nonce from the same start leaf. It never
+marks an expired proof reusable or converts an unknown broadcast to unsigned.
+One regression covers valid reporting and seven tampering/replay variants.
+At this milestone, actual fills and final ordinary claims are still pending.
