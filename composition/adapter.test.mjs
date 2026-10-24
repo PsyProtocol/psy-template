@@ -35,3 +35,36 @@ test('stale nonce, wrong network/dependency/metadata and modified inputs cannot 
 test('compiled inspection binds actual controller roots and rejects a mismatched artifact before resident startup',async()=>{const x=await fixture();try{x.state.wrongInspection=true;await assert.rejects(()=>x.create(),/compiled controller identity codeRoot/);assert.equal(x.state.proofs,0);assert.equal(x.state.sends,0);}finally{await x.cleanup();}});
 
 test('saved initial path preserves full source gates and checks actual live deployer on every new action',async()=>{const x=await fixture();let a;try{const request=x.opts.controllerArtifact,bytes=await readFile(request),deployer='a'.repeat(64);x.opts.initialDeployment={request,requestSha256:sha256(bytes),deployer,verifier:{file:'explicit test stub',sha256:'0'.repeat(64)}};const leaf=x.rpcState.contractLeaf;x.rpcState.contractLeaf=async id=>({...await leaf(id),deployer});let checked=0;x.io.verifyInitialDeployment=async()=>({expectedDeployer:deployer,check:async()=>checked++});const invoke=x.io.runDriver;x.io.runDriver=async(...args)=>{assert.notEqual(args[1][0],'inspect-controller','saved proof must not be regenerated');return invoke(...args);};a=await x.create();await a.scan();assert.ok(checked>0);x.rpcState.contractLeaf=async id=>({...await leaf(id),deployer:'b'.repeat(64)});await assert.rejects(()=>a.scan(),/deployment owner changed/);assert.equal(x.state.sends,0);}finally{await a?.close();await x.cleanup();}});
+test('one advisory fee trace survives a new adapter while every resulting UPS checks actual burn',async()=>{
+ const x=await fixture();let a,b;
+ try{
+  a=await x.create();const proposal=(await a.scan()).action,task=await a.quote(proposal);
+  assert.equal(x.state.quotes,1);assert.equal(await a.validateFeePreparation(task),true);
+  await x.journal.locked(()=>x.journal.append({status:'planned',taskId:'exact',task}));await a.close();a=null;
+  b=await x.create();const selected=await selectCompositionAction(b,x.journal);
+  assert.equal(selected.reusedPreparedFee,true);assert.equal(x.state.quotes,1);assert.equal(x.state.proofs,0);
+  // A changed account nonce is NOT reusable state proof: prove constructs the
+  // fresh session. The advisory fee is still only a bounded proposal.
+  x.state.nonce=3n;const p=await b.prove(task);assert.equal(await b.validateProof(task,p),true);
+  x.state.nonce=4n;assert.equal(await b.validateProof(task,p),false);
+  x.state.corruptFee=true;await assert.rejects(()=>b.prove(task));assert.equal(x.state.sends,0);
+ }finally{await a?.close();await b?.close();await x.cleanup();}
+});
+test('retained advisory trace detects tampering, expiry, code/key/network/metadata changes and cancellation',async()=>{
+ const x=await fixture();let a;
+ try{a=await x.create();const task=await a.quote((await a.scan()).action);
+  const old=x.rpcState.checkpoint;x.rpcState.checkpoint=165;assert.equal(await a.validateFeePreparation(task),false);x.rpcState.checkpoint=old;
+  const network=x.rpcState.networkName;x.rpcState.networkName='other';await assert.rejects(()=>a.validateFeePreparation(task));x.rpcState.networkName=network;
+  x.put(5,42,33554445,9);await assert.rejects(()=>a.validateFeePreparation(task),/decimals/);x.put(5,42,33554445,18);
+  const originalIds=x.rpcState.userIds;x.rpcState.userIds=async()=>[];await assert.rejects(()=>a.validateFeePreparation(task),/registration/);x.rpcState.userIds=originalIds;
+  const original=x.dependencies.get(1000);x.dependencies.set(1000,{...original,codeRoot:'b'.repeat(64)});await assert.rejects(()=>a.validateFeePreparation(task),/dependency changed/);x.dependencies.set(1000,original);
+  x.funded();const open=await a.quote((await a.scan()).action);x.field(200,'request_cancelled',1n);assert.equal(await a.validateFeePreparation(open),false);x.field(200,'request_cancelled',0n);x.field(100,'phase',0n);
+  const altered={...task,validUntilCheckpoint:'163'};assert.equal(await a.validateFeePreparation(altered),false);
+  const {readdir}=await import('node:fs/promises');const roots=join(x.opts.runtimeDirectory,'composition/sepolia/100');const dirs=await readdir(roots);let record;
+  for(const d of dirs)for(const n of await readdir(join(roots,d)))if(/^fee-preparation-.*\.json$/.test(n)){const p=join(roots,d,n),r=parseLosslessJson(await readFile(p,'utf8'));if(r.taskSha256===sha256(losslessJson(task)))record=p;}
+  assert.ok(record);await writeFile(record,'{}');await assert.rejects(()=>a.validateFeePreparation(task));assert.equal(x.state.sends,0);
+ }finally{await a?.close();await x.cleanup();}
+});
+test('a second quote of the same exact task preserves the first record and complete fee checks',async()=>{
+ const x=await fixture();let a;try{a=await x.create();const proposal=(await a.scan()).action,t1=await a.quote(proposal),t2=await a.quote(proposal);assert.deepEqual(t1,t2);assert.equal(await a.validateFeePreparation(t2),true);assert.equal(x.state.quotes,2);}finally{await a?.close();await x.cleanup();}
+});
