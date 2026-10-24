@@ -542,7 +542,7 @@ capacity are operator responsibilities; do not use missing metrics as zeros.
 The compact formal factory also records `initialize` separately (ABI/policy,
 dependency reads, sealed binary and key identity). It excludes the lazy
 resident's circuit/session construction, which remains in first-proof startup.
-`rpc-performance/<network>/<vault>/` contains opt-in physical read attempts:
+`rpc-performance/<network>/<vault>/` contains opt-in logical read attempts and physical transport-owner flags:
 queue wait, HTTP + response parsing, host, method and failure. Coalesced reads
 produce one sample; retry attempts remain separate. No parameters, witnesses,
 raw errors or URL credentials are logged. These intervals nest in adapter phase
@@ -614,3 +614,7 @@ set. No accepted/frozen set is shrunk, and capacity remains four. Default is the
 previous wait-for-all-four behavior. More single UPSs can cost more sponsor gas;
 scans request explicit authorization, never auto-pay. This is source-checkpoint
 scheduling, not a guaranteed actual-inclusion deadline or global fairness.
+
+### Identical concurrent public reads
+
+Public snapshots share only an outstanding identical `psy_get_` request. The flight key includes configuration bytes, endpoint, method/params and fetch implementation. Every completion or failure evicts the flight; each consumer parses independently and still validates its own network, identity and code/layout expectations. This is not a state/proof/nonce cache. `coalesced` marks logical waiters; `physicalReadOwner` identifies the actual wire owner. Historical rows without these flags predate sharing and represent physical attempts. Only transport owners should be summed as physical RPC costs. The `coalesceRead: false` option is a measurement control and preserves all checks.

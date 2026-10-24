@@ -207,3 +207,30 @@ recovery is preserved separately from this subsequent maintenance change.
 Three new epoch-1 plans are now fixed at cutoff 375031: Book has two members,
 Curve one and NFT Market two. This is still five accepted-to-be members / three
 planned fills, not yet successful fills. All accepted members remain mandatory.
+
+## In-flight public read coalescing (same SDK / native proof binary)
+
+Subsequent actual starts hit both an unsigned partial-call EOF and a bounded
+pre-session connection retry. Curve's start eventually confirmed at checkpoint
+374934. Book's full start proof was saved, but native live checking rejected
+its send before broadcast. Those failures remain in the run; no old contract
+was updated and no old request was replaced by a new payment.
+
+`publicState.mjs` now coalesces only simultaneously outstanding identical public
+reads via `readSingleFlight.mjs`. Keys bind exact configuration digest, endpoint,
+method/params and fetch transport identity. Only `psy_get_` methods qualify.
+The result is raw response bytes; each caller parses its own object, including
+lossless integer mode, and independently checks identities/code/layout. The
+entry is evicted on both success and failure before consumers resume. A later
+read always goes to the network. This is neither a state-proof cache nor reuse
+of nonce/witness context; native full proof and final submission guards remain
+unchanged. Logical waiters and physical transport owners are recorded separately.
+
+20 public-reader/coalescer/limiter/retry regressions pass. The initial test attempt
+exposed legacy mocks with only `json()`; mocks now model `Response.text()` and
+the expected coalesced physical count. Existing checkpoint separation, malformed
+heads, invalid IDs, failure draining, observer failure and exact large nonce
+checks remain. The new `state-reads-v2` financial continuation records an additive
+11-file source manifest and preserves all older manifests / loaded source copies.
+The source used by the still-running continuation must remain unchanged until
+it closes. No network confirmation speedup is inferred from these tests.
