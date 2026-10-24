@@ -965,3 +965,97 @@ receipt burn. Paired authorization + transfer is one funding payment. Nineteen
 then-included ordinary inputs pass; large exact amounts and unknown native-call
 rejection have focused regressions. Post-claim verification reads/phases are
 separated from the operational window. No network TPS or matched speedup claim.
+
+### Actual SDK transport interruption after sender-bound refund
+
+The partial scenario confirms first-asset claim **372173**, second order open
+**372191**, cancel **372221**, recovery authorization **372248**, and second
+vault's sender-bound QA-B/native escrow return **372269**. The latter does not
+reverse the first swap. Its exact original return proof/request and receipt are
+retained; it is not submitted twice.
+
+The following controller collection encountered a real realm-1 connection error
+at **start-compact-session**. The saved failure explicitly has
+`broadcastMayHaveBeenAttempted=false`, `automaticRetry=false`, with no request,
+intent, receipt or full preflight in that failed output directory. The worker and
+supervisor stop. The original coordinator's error log is preserved.
+
+`resumePartialRecovery.mjs` is an explicit case continuation, not an automatic
+financial retry. It checks the exact read-failure phase/host, missing financial
+artifacts, all original seven included operation identities, zero unresolved
+broadcasts, current controller owner/intent/phase and **nonce 7**. New source/key /
+SDK checks, state witnesses, send window, signature context and full proof are
+required. The original seven report hashes are frozen and must remain identical.
+The original funding, swaps and vault return are never repeated. New collection
+confirms at **372384** (controller nonce 8); final return and ordinary owner claim
+are still running. General unattended SDK reconnection and cross-host takeover
+are not established by this manual safe continuation.
+
+A post-recovery check again matches all **1,466** frozen SDK files, application
+Cargo.lock, build configuration and genesis. Manifest remains
+`0afb4c65116cddcaca450b406a06503d65b63d38a004d8e773c6e5fa363bd425`.
+The preexisting tracked Node source/README diff hash remains unchanged
+(`002e35e0…b59a64`); private wallet files are excluded and not read. Local source
+reproducibility is not upstream release certification or runtime attestation.
+
+
+### Three real terminal outcomes and independent whole-cohort proofs closed
+
+The partial route now confirms collection **372384**, middle-asset return
+**372426** and ordinary owner claim **372434**. Owner S receives actual principal
+**0.633097631070860774 QA-B**, the separate one-unit QA-B initializer and gross
+**10.001824000 test PSY**. Ordinary claim burn is **1.000004000 PSY**; controller
+burn **9.000076000** plus gross refund plus filled first-hop service escrow
+**1.000100000** equals its **20.002000000** reserve. The first swap is not reversed.
+Original seven included controller reports remain unchanged; final nonce is 9.
+
+This closes the three selected outcomes: success (two trades, ordinary claim
+371528), expired first intake (zero trades, ordinary claim 371903), and actual
+first trade / second-hop cancellation (one trade, ordinary claim 372434).
+All three have phase 99 and zero QA/native spendable balances. Known cohort
+incoming/outgoing Outboxes have no residual. Public terminal check **372450**
+confirms current code/layout/function identities, first-pool reserves matching
+the recorded single partial fill, and unchanged second-pool reserves. Historical
+non-consent is checked through controller consent_sent and the full nine-receipt
+nonce ledger, not inferred from cleared market admission fields alone.
+
+Final nine-account cohort audit conserves **1000 QA-A and 1000 QA-B** and records
+**98.000777000 test PSY** fees across **98 new actual receipts** since constituent
+baseline. This includes bootstrap/LP/sponsor/ordinary operations, not only the
+three intent budgets. Existing pUSDT is not used. Every saved exact UPS has now
+been independently verified against the pinned SDK end-cap key/common data;
+an actual-fee mutation is rejected. Original first verification output (69 proofs
+before the report locator stopped) is retained. Fresh v2 checks all 98.
+
+`receiptRequestLocator.mjs` fixes a report association gap without changing any
+financial transaction: formal results must find a unique original broadcast
+intent with equal full task and payer; legacy included records must share that
+journal. The original request remains inside the case, and all proof, endpoint,
+nonce and fee checks remain. Ambiguous, missing, tampered and wrong-payer cases
+fail closed. Twenty focused JS acceptance regressions pass; this count does not
+replace the cryptographic or real financial evidence.
+
+See [the final Chinese acceptance report](COMPOSITION_LIVE_ACCEPTANCE_20261024.md)
+for identities, exact amounts, both refunds, original unknown-request quarantine,
+performance measurement limits and explicit unresolved security boundaries.
+
+
+Historical ordinary-claim reconciliation also passes for all three outcomes:
+exact start/end user leaves, FT/native spendable deltas, sender Outbox/receiver
+claim cursors and receipt fee. Final closed performance report exists only after
+all 98 independent proofs and these claim checks. Controller full preflights
+span 91.390–182.253 seconds; actual single-member market settle preflights
+144.694–162.168 seconds. No matched live before/after speedup or chain TPS is
+established. Native funding is separated from burned fees. Memory is a 2-second
+sample of known wallet process RSS, max 11,550,539,776 bytes, not a process-tree
+peak. The Chinese report contains per-outcome ordinary process/confirmation
+observations, cold/resource timings, end-to-end faults and all measurement limits.
+
+
+Closed public evidence is archived in
+`executor/verification/2026-10-24-composition-final-live-v1`: **12,797 files / 116,096,142 compressed bytes; all original bytes compared**.
+`INTEGRITY.json` is a byte-integrity result, separate from the 98 cryptographic
+checks. Includes original failures, all three final claims, exact requests,
+receipts, preflights, states/fees, v1/v2 verification records, SDK recheck,
+closed resource log and immutable source snapshots. No wallets or executables.
+The same existing branch is retained; no Node source change or SDK migration.

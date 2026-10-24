@@ -192,3 +192,46 @@ claimed 1 QA-A, the initialization unit and 13.001943000 native test PSY at
 371903; controller residuals are zero. Nine-account QA supplies/native fee
 accounting passes at 371905. `partial-recovery` has started its separate real
 Executor route; its one-fill compensation gate remains unfinished.
+
+
+### Three actual terminal outcomes — 2026-10-24
+
+This supersedes the unfinished outcome status above. All three selected new
+controllers have phase 99, zero spendable QA/native balances, and no pending
+flows to or from any member of the explicit nine-account acceptance cohort:
+
+| Route | Actual fills | Ordinary owner claim | Result |
+| --- | --- | --- | --- |
+| 2491 / 1445056 | 2 | 371528 | 3.141711878267176122 QA-A from 4.611686018427387921 QA-A |
+| 2489 / 134336 | 0 | 371903 | 1 QA-A refunded after first intake expiry |
+| 2492 / 1756352 | 1 | 372434 | 0.633097631070860774 QA-B principal returned after second-hop cancellation |
+
+Every claim also returns the separately declared one-atomic-unit QA-B initializer
+and the remaining native reserve. Partial recovery returns the actual intermediate
+asset; it does not reverse the first swap or satisfy the final QA-A target.
+Second-pool reserves remain unchanged during this partial scenario. Final public
+state checks at 372450 match the known complete controller nonce/receipt ledger,
+second-hop `consent_sent=0`, current code/layout/function identities and reserves.
+Terminal zero admission fields alone are not used to infer historical non-admission.
+
+A real realm read failure stopped the original worker before it had any financial
+request or broadcast. Explicit continuation checks all original seven included
+controller tasks, nonce 7, zero unknown broadcasts and fresh source/key/state
+bindings; only subsequent collection/return UPSs are built. The original seven
+reports remain byte-identical. Final controller nonce is 9. This is a verified
+case-specific recovery, not unattended SDK reconnection or multi-host failover.
+
+The final fixed-checkpoint audit counts both spendable balances and all internal
+directed Outboxes: 1000 QA-A and 1000 QA-B are conserved across nine accounts;
+98 new receipts burn 98.000777000 test PSY since the constituent baseline.
+That includes bootstrap/LP/sponsor operations and is not just the three intent
+fee caps. No existing pUSDT was used. Independent proof and historical ordinary
+claim audit reports are distinct gates, linked from the final team review.
+
+The two original unknown initial deployments stay quarantined and unfunded; the
+selected QA-B 2484 has its own exact included deployment identity. Neither an
+unknown result nor an observed API deployment-ID collision is reclassified as a
+safe dropped request. Original broadcasts are not resent. Production/runtime
+attestation, upgrade authorization, certified randomness, global fairness,
+A-only onboarding, arbitrary routes and cross-vault atomicity remain outside this
+acceptance. Ordinary claims use the normal signing CLI, not browser UI evidence.
