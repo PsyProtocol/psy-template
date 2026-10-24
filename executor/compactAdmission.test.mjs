@@ -139,6 +139,14 @@ test('parallel metadata failures drain sibling reads and cannot start queue plan
  await assert.rejects(()=>a.scan(),/metadata read outage/);assert.equal(active,0);assert.ok(finished>1);assert.equal(planned,0);assert.equal(x.sends,0);
 }));
 
+test('public compact factory forwards the exact proof scope and does not leak on failed initialization',()=>fixture('amm',async x=>{
+ x.o.proverMode='resident';let acquired=0,released=0,binding;
+ const residentScope={acquire:async(b,binary,policy,config)=>{acquired++;binding=b;assert.equal(policy,x.o.policy);assert.equal(config,x.o.rpcConfig);return{prove:args=>x.run(binary,args),close:async()=>{released++;}};}};
+ await assert.rejects(x.create({residentScope,readReceipts:async()=>{throw Error('receipt initialization failed');}}));assert.equal(acquired,0);
+ const a=await x.create({residentScope});assert.equal(acquired,1);assert.equal(binding.identity.publicKeyHash,x.o.publicKeyHash);assert.equal(binding.policySha256,sha256(await readFile(x.o.policy)));assert.equal(binding.rpcSha256,sha256(await readFile(x.o.rpcConfig)));assert.deepEqual(binding.dependencies,await j(x.o.dependencyBindings));
+ const task=(await a.scan()).action;await a.prove(task);assert.equal(x.proofs,1);await a.close();assert.equal(released,1);
+}));
+
 for(const kind of ['amm','orderbook','bondingcurve','nftmarket'])test(kind+': opt-in deadline fallback selects consenting hints before admission and retains every accepted member',()=>fixture(kind,async x=>{
  x.o.admissionMode='all-four-v1';x.files.policy=withBulkAdmission(x.files.policy);x.files.admissionPlan={version:1,epoch:10,cutoff:120,members:[0,1,2,3].map(i=>({owner:200+i,nonce:String(i+1)}))};
  for(const[n,v]of Object.entries({queue_phase:1,queue_epoch:10,queue_count:0,queue_cutoff:120}))x.set(100,n,v);

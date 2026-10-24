@@ -33,7 +33,7 @@ export function bindCompactRequest(task,policy){
  assert.ok(Number.isSafeInteger(Number(task.validUntilCheckpoint))&&BigInt(task.validUntilCheckpoint)>0n&&BigInt(task.validUntilCheckpoint)<2n**32n);
  return r;
 }
-export async function createCompactAdmissionAdapter(o,{readState=publicState,readReceipts=receiptReader,runDriver,submitDriver=runDurableSubmission}={}){
+export async function createCompactAdmissionAdapter(o,{readState=publicState,readReceipts=receiptReader,runDriver,submitDriver=runDurableSubmission,residentScope}={}){
  assert.equal(o.profile,'batch-admission-compact-v1');
  const assets=o.kind==='nftmarket'?[o.paymentToken,o.collection]:[o.assetA,o.assetB];
  const inputsCurrent=await captureInputs([o.abi,o.driverConfig,o.policy,o.rpcConfig,o.dependencyBindings,o.admissionPlan,...assets.map(a=>a.abi)]);
@@ -54,7 +54,7 @@ export async function createCompactAdmissionAdapter(o,{readState=publicState,rea
   assert.deepEqual(registered,[o.vaultId],'compact registered identity');await inputsCurrent();return s;};
  const initialState=await bindingCurrent(),retryUrls=[...initialState.network.realm_configs,...(initialState.network.coordinator_configs??[])].flatMap(r=>r.rpc_url);const pinCurrent=await captureInputs([pin]),driver=await sealDriver(o);
  const env={...process.env,PSY_MARKET_TESTNET_PROFILE:o.testnetProfile,RAYON_NUM_THREADS:String(o.proverThreads??2)};for(const k of Object.keys(env))if(k.endsWith('_WITNESS_WALLET')||k.endsWith('_LOCAL_DEFS')||k==='PSY_MARKET_BENCH_SOURCE_CHECKPOINT')delete env[k];
- const makeResident=()=>o.proverMode==='resident'?residentProver(driver.file,o.policy,o.rpcConfig,{env}):null;let resident=makeResident();
+ const makeResident=async()=>o.proverMode!=='resident'?null:residentScope?residentScope.acquire({driverSha256:driver.sha256,policySha256:sha256(await readFile(o.policy)),rpcSha256:sha256(await readFile(o.rpcConfig)),identity,dependencies,env},driver.file,o.policy,o.rpcConfig,{env}):residentProver(driver.file,o.policy,o.rpcConfig,{env});
  // Only public deterministic key metadata is reusable. sealDriver and fresh
  // live dependency/registry checks still run on EVERY factory construction.
  await processCompactIdentity({driverSha256:driver.sha256,policySha256:sha256(await readFile(o.policy)),rpcConfigSha256:sha256(await readFile(o.rpcConfig)),identity,dependencies},async()=>driverRecords((await runDriver(driver.file,['identity',o.policy],{env,timeout:120000,maxBuffer:2000000})).stdout).find(r=>r.profile==='compact-v1'));
@@ -77,6 +77,9 @@ export async function createCompactAdmissionAdapter(o,{readState=publicState,rea
   const receipt=await reader({userId:o.vaultId,endUserLeafHash:intent.endUserLeafHash,minCheckpoint:Number(pre.core.checkpoint_id)});if(receipt.status==='included'){const common=await readState(o.rpcConfig);if(common.checkpoint<receipt.checkpoint)return {status:'unresolved',reason:'included-awaiting-common-state',includedReceipt:receipt,commonCheckpoint:common.checkpoint};return {...receipt,commonCheckpoint:common.checkpoint};}return receipt;};
  const isCurrent=async task=>{bindCompactRequest(task,files.policy);await pinCurrent();await driver.check();const s=await bindingCurrent();if(BigInt(s.checkpoint)>BigInt(task.validUntilCheckpoint))return false;const next=(await scanExecutorAdmission(o,async()=>s,files)).action;if(!next)return false;
    const x=structuredClone(next),a=bindCompactRequest(task,files.policy),b=bindCompactRequest(next,files.policy);if(a.software_defined_call.inputs[0]===1n){const f=b.software_defined_call.inputs;f[3]=a.software_defined_call.inputs[3];if(f[3]<=BigInt(s.checkpoint)||f[3]>BigInt(s.checkpoint)+1024n)return false;x.submission=losslessJson(compactRequest(files.policy,f));}x.validUntilCheckpoint=task.validUntilCheckpoint;return JSON.stringify(x)===JSON.stringify(task);};
+ // Acquire only after every fallible factory guard, preventing leaked leases
+ // if identity/receipt initialization rejects before returning an adapter.
+ let resident=await makeResident();
  return {scan,reconcile,close:async()=>resident?.close(),
   isCurrent,
   validateProof:async(task,p)=>{try{const {pre}=await proofFiles(task,p),s=await bindingCurrent();if(s.checkpoint>Number(task.validUntilCheckpoint))return false;const url=s.network.realm_configs.find(r=>r.id===Math.floor(o.vaultId/s.network.users_per_realm)).rpc_url[0],args={checkpoint_id:s.checkpoint,user_id:o.vaultId};const [leaf,hash]=await readTogether([s.rpc(url,'psy_get_user_leaf_data',args,{exactIntegers:true}),s.rpc(url,'psy_get_user_tree_leaf_hash',args)]);return integer(leaf.nonce)+1n===pre.core.new_user_leaf.nonce&&(hash===pre.core.state_transition.start_user_leaf_hash||(integer(leaf.nonce)===0n&&pre.core.state_transition.start_user_leaf_hash==='0'.repeat(64)));}catch(e){if(e.code==='ENOENT')return false;throw e;}},
@@ -88,9 +91,9 @@ export async function createCompactAdmissionAdapter(o,{readState=publicState,rea
      await publish(out+'.preflight-failure.log',(error.stdout??'')+'\n'+(error.stderr??''));
      if(!await preSessionTransportFailure(out,retryUrls,o.publicKeyHash))throw error;
      if(!await isCurrent(task))throw Error('pre-session transport failure: original task no longer current; no retry');
-     if(attempt!==0){await resident?.close();resident=makeResident();throw new ReadUnavailable('verified pre-session RPC failure after bounded retries; no UPS or broadcast exists',{cause:error});}
+     if(attempt!==0){await resident?.close();resident=await makeResident();throw new ReadUnavailable('verified pre-session RPC failure after bounded retries; no UPS or broadcast exists',{cause:error});}
      await publish(out+'.read-retry.json',{version:1,attempt:1,reason:'verified pre-call transport failure',failedDirectory:out,financialBroadcastRetry:false,newSession:true,originalWindowUnchanged:true,scope:'one bounded read-only preflight restart; no request/preflight/prepared/intent exists in failed directory'});
-     await resident?.close();resident=makeResident();continue;
+     await resident?.close();resident=await makeResident();continue;
     }
     await publish(out+'.preflight.log',(result.stdout??'')+'\n'+(result.stderr??''));break;
    }

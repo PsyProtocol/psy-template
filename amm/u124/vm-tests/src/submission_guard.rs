@@ -125,9 +125,9 @@ impl SubmissionGuard {
             provider.get_user_ids_for_public_key(hash).await? == vec![self.vault_id],
             "guard vault registration changed"
         );
-        for c in &self.contracts {
-            c.check_leaf(&provider.get_contract_leaf_data(c.contract_id).await?)?;
-        }
+        crate::guard_reads::checked(&self.contracts, crate::guard_reads::concurrency()?, |c| async move {
+            c.check_leaf(&provider.get_contract_leaf_data(c.contract_id).await?)
+        }).await?;
         Ok(())
     }
 }
