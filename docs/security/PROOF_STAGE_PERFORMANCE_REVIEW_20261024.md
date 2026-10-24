@@ -175,3 +175,5 @@ cold comparisons and ABBA guard measurements; its three regressions pass.
 It is not wired into the currently running, source-frozen financial worker;
 that integration will be committed after this worker closes. Native financial
 full-proof and fresh identity/anchor/expiry checks remain mandatory.
+
+[Initialization exact-proof recovery archive](../../executor/verification/2026-10-24-exact-initialize-recovery-v1/manifest.json) contains both calibration requests, the unsigned coordinator rejection, the unchanged prepared proof, the successful formal recovery and its actual checkpoint receipt. All 41 files were byte-compared with originals. Archive integrity is not cryptographic proof verification; final independent UPS accounting remains open until the three-fill route closes.
