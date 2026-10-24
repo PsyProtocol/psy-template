@@ -7,14 +7,16 @@ import{read,save}from'../../batching/admission/liveSupport.mjs';import{publicSta
 import{call,encodeAmount,FEE_ESCROW as F,parseLosslessJson}from'../../amm/u124/client.mjs';
 import{activationFunding,curveLimitCalls,nftBuyCalls}from'../../batching/v2/client.mjs';
 import{cohortAssets,payoutClaims,canonicalHeldNfts}from'../../batching/admission/liveAssets.mjs';import{sha256}from'../requestBinding.mjs';
-const[base]=process.argv.slice(2);assert.ok(base);assert.ok(!existsSync(join(base,'public/COMPLETE.json')),'closed case: no transaction');
+import{seedRecovery}from'./seedRecovery.mjs';
+const[base,resume]=process.argv.slice(2);assert.ok(base);assert.ok(resume===undefined||resume==='seed-without-ack-v1');assert.ok(!existsSync(join(base,'public/COMPLETE.json')),'closed case: no transaction');
 const h=await threeMarketCase(base),U=h.actors.bob.id,B=h.actors.buyer.id,T=h.actors.sponsor.id,unit=10n**18n;
 h.activationPayers={nftmarket:U};h.residentScope=residentScope();const services=[];
 const exact=p=>parseLosslessJson(readFileSync(p,'utf8')),by=h.by,nftId=read(join(base,'public/NFT-DEPLOYMENT.json')).contractId;
-const source=join(base,'public/RUN-SOURCE.json');if(!existsSync(source)){const files=['executor/acceptance/runThreeMarkets.mjs','executor/acceptance/threeMarketCase.mjs','executor/acceptance/candidateHarness.mjs','executor/acceptance/guardCalibration.mjs','executor/compactAdmissionAdapter.mjs','executor/publicWalletAdapter.mjs','executor/residentScope.mjs','executor/journal.mjs'];save(source,{files:Object.fromEntries(files.map(p=>[p,sha256(readFileSync(p))])),binarySha256:h.binarySha256,scope:'new owned QA markets; 3 actual trades and ordinary claims; same SDK and existing pricing, no Node edits'});}for(const[p,d]of Object.entries(read(source).files))assert.equal(sha256(readFileSync(p)),d,'financial worker source changed');
+const originalSource=join(base,'public/RUN-SOURCE.json');if(resume){for(const[p,d]of Object.entries(read(originalSource).files)){assert.equal(sha256(readFileSync(join(base,'public/run-source-v1',p))),d,'preserved original source');if(p!=='executor/acceptance/runThreeMarkets.mjs')assert.equal(sha256(readFileSync(p)),d,'unrelated dependency changed');}}
+const source=join(base,'public',resume?'RUN-SOURCE-RESUME-v1.json':'RUN-SOURCE.json');if(!existsSync(source)){const files=['executor/acceptance/runThreeMarkets.mjs','executor/acceptance/seedRecovery.mjs','executor/acceptance/threeMarketCase.mjs','executor/acceptance/candidateHarness.mjs','executor/acceptance/guardCalibration.mjs','executor/compactAdmissionAdapter.mjs','executor/publicWalletAdapter.mjs','executor/residentScope.mjs','executor/journal.mjs'];save(source,{files:Object.fromEntries(files.map(p=>[p,sha256(readFileSync(p))])),previousSourceSha256:resume?sha256(readFileSync(originalSource)):null,binarySha256:h.binarySha256,scope:'new owned QA markets; 3 actual trades and ordinary claims; same SDK and existing pricing, no Node edits'});}for(const[p,d]of Object.entries(read(source).files))assert.equal(sha256(readFileSync(p)),d,'financial worker source changed');
 const pairs=async jobs=>{for(let i=0;i<jobs.length;i+=2){const results=await Promise.allSettled(jobs.slice(i,i+2).map(fn=>fn()));const failed=results.find(r=>r.status==='rejected');if(failed)throw failed.reason;}};
 const named=name=>t=>t.kind==='batch_maintenance'&&parseLosslessJson(t.submission).contract_calls.some(c=>c.method_name===name);
-const get=async(m,tag,plan,benchmark=false)=>{const f=await formal(h,m,tag,plan,{performanceMetrics:true,benchmark});services.push(f);return f;};
+const get=async(m,tag,plan,benchmark=false,benchmarkKinds)=>{const f=await formal(h,m,tag,plan,{performanceMetrics:true,benchmark,...(benchmarkKinds?{benchmarkKinds}:{})});services.push(f);return f;};
 try{
  await h.user('bob','mint-and-distribute-v1',[
   call(BigInt(nftId),h.nft,'set_collection_metadata',[24n,[24n,10n,24n,1n]]),
@@ -30,12 +32,15 @@ try{
   ()=>h.user('buyer','buyer-asset-claim-v1',[{contract_id:0n,method_name:'simple_claim',inputs:[BigInt(U)]},...[2483,2484].map(id=>call(BigInt(id),h.token,'claim',[BigInt(U)]))]),
   ()=>h.user('sponsor','sponsor-native-claim-v1',[{contract_id:0n,method_name:'simple_claim',inputs:[BigInt(U)]}])
  ]);
- await h.user('bob','activation-seeds-v1',h.markets.flatMap(m=>[...activationFunding({market:m.kind,config:m.driverConfig,tokenAbi:h.token,vaultId:BigInt(m.vault)}),...(m.kind==='nftmarket'?[call(BigInt(nftId),h.nft,'acknowledge',[BigInt(m.vault)])]:[])]));
+ const seeds=h.markets.flatMap(m=>activationFunding({market:m.kind,config:m.driverConfig,tokenAbi:h.token,vaultId:BigInt(m.vault)}));
+ if(resume)await seedRecovery(h,seeds);else await h.user('bob','activation-seeds-v1',seeds);
  const boot={version:1,epoch:1,cutoff:1,members:[]},setup=[];
  for(const m of h.markets)setup.push(await get(m,'three-setup',boot));
  await pairs(setup.map((f,i)=>()=>f.step('three-'+h.markets[i].kind+'-activate',named(h.markets[i].kind==='nftmarket'?'activate':'activate_batch_vault'))));
+ await setup[1].close();
  const c=by.bondingcurve;await h.user('bob','curve-inventory-v1',[{contract_id:0n,method_name:'simple_transfer',inputs:[BigInt(c.vault),F]},call(2483n,h.token,'transfer',[BigInt(c.vault),encodeAmount(20n*unit)])]);
- await setup[1].step('three-bondingcurve-initialize',named('initialize'));
+ const inventory=await get(c,'three-inventory',boot,true,['batch_maintenance']);
+ await inventory.step('three-bondingcurve-initialize',named('initialize'));await inventory.close();
  await h.user('bob','activation-seed-claim-v1',async()=>payoutClaims(await publicState(h.config),{userId:U,markets:h.markets,tokenAbi:h.token,nftAbi:h.nft}));
  for(const f of setup)await f.close();
  const spec={users:[U,B,T,...h.markets.map(m=>m.vault),...h.pin.legacyAssetVaults],assets:[2483,2484],nftId};
@@ -52,7 +57,7 @@ try{
  ]);
  await h.fund(h.markets,'start-fund-v1');
  const planFile=join(base,'public/PLANS.json');if(!existsSync(planFile)){const s=await publicState(h.config);save(planFile,Object.fromEntries(h.markets.map(m=>[m.kind,{version:1,epoch:1,cutoff:s.checkpoint+128,members:(m.kind==='bondingcurve'?[U]:[U,B]).sort((a,b)=>a-b).map(owner=>({owner,nonce:'1'}))}])));}const plans=read(planFile),fs=[];
- for(const m of h.markets)fs.push(withGuardCalibration(await get(m,'three-trade',plans[m.kind],true),h,m.kind));
+ for(const m of h.markets)fs.push(withGuardCalibration(await get(m,'three-trade',plans[m.kind],false),h,m.kind));
  await pairs(fs.map((f,i)=>()=>f.step('three-'+h.markets[i].kind+'-start',named('start_epoch'))));
  // Gas authorization can be proved alongside different users' consents.
  // The prior grants are already consumed; each signer has one active UPS.

@@ -13,9 +13,9 @@ This is a new performance case, not completion inferred from old `/tmp` runs.
 Durable original directory:
 `psy-market-recovery-20261023/three-markets-performance-live-v1`.
 Current deployments: fresh QA NFT 2496; Orderbook 2497 / vault 662720;
-Curve and NFT Market registration still pending at this milestone. New fee
-sponsor 519360 is registered. No new market fill or ordinary payout is claimed
-yet. Existing owned QA FT 2483/2484 (18 decimals) and test PSY (9 decimals) are
+Curve 2498 / vault 302272; NFT Market 2499 / vault 1072320. New fee sponsor
+519360 is registered. Initial NFT mint, asset distribution and both ordinary
+claims are included. Market activation is running; no new fill is claimed yet. Existing owned QA FT 2483/2484 (18 decimals) and test PSY (9 decimals) are
 used; existing pUSDT is unused. Old NFT 2469 remains retired.
 
 ## Changes being accepted
@@ -55,12 +55,13 @@ used; existing pUSDT is unused. Old NFT 2469 remains retired.
 - Before: original application driver SHA
   `343f0b01b45b178127afe4916964bdf9107630c867f8984df05ef4219d922259`.
   Candidate: new application-only binary, pinned by `TOOLS.json`; same SDK.
-- For commit/settle: warm resident proof versus a separate cold process at the
+- For the necessary Curve inventory initialization, after releasing its setup
+  adapter: warm resident proof versus a separate cold process at the
   **same authenticated source checkpoint**, with complete public core, calls,
   nonce, fees and end-state equality. Historical calibration proofs are never
   broadcast. Such a comparison measures resource/cold-process costs, not an
   independent warm algorithmic speedup or two matched confirmations.
-- For each market's commit: ABBA `verify-prepared` over the **same exact proof**
+- For each market's seal: ABBA `verify-prepared` over the **same exact proof**
   with original and candidate drivers. Both independently verify the full UPS,
   actual fee, context, own leaf/nonce and live code/layout; neither calibration
   writes a broadcast intent. This is verification/guard wall, not proving time.
@@ -74,21 +75,46 @@ used; existing pUSDT is unused. Old NFT 2469 remains retired.
 
 ## Regression evidence at this milestone
 
-77 application tests pass, including public factory scope forwarding, failure
+77 core application tests pass, including public factory scope forwarding, failure
 before lease acquisition, exact resource identity, altered files, failed-child
 isolation, unconfirmed exit, compact four-market security/nonce/expiry paths,
 bounded reads and durable journals. One Rust scheduler test covers serial/four
 concurrency, all checks on success, failed-chunk draining and no next chunk.
-These mocked IO tests do not substitute for full proof or live acceptance.
+Three further seed-recovery tests reject possible broadcasts, extra original
+request files, altered calls and diagnostics that signed/broadcast or did not
+fail the exact NFT call. Mocked IO tests do not substitute for full proof or
+live acceptance.
 
 [Regression and frozen dependency archive](../../executor/verification/2026-10-24-proof-stage-regressions-v1/manifest.json).
 
 ## Gates still open
 
-Fresh Curve/NFT Market registration, actual Book/Curve/NFT fills and ordinary
+Actual Book/Curve/NFT fills and ordinary
 claims, independently verified saved UPSs, exact receipt-fee/cohort conservation,
 closed per-stage performance/RSS evidence and archive comparison remain open.
 No speedup, four-market throughput or production readiness is asserted here.
 Random ordering remains off; authenticated finite queues are not global
 inclusion/anti-censorship proofs. Runtime/upgrade-auth/upstream SDK release and
 cross-machine coordination evidence remain separate boundaries.
+
+## Preserved startup and seed recovery
+
+Registration indexing initially lagged its acknowledgement. The same saved
+request was reconciled read-only. A later HTTP 503 during NFT registration
+reconciliation was preserved; no registration or deployment was repeated.
+
+The first seed preparation failed at `prove-ordinary-calls`, with explicit
+`broadcastMayHaveBeenAttempted=false` and only `failure.json` in its output.
+A separate proof-only diagnostic reproduced failure of the last, redundant
+owner-to-uninitialized-NFT-vault `acknowledge` call. It created no signed endcap
+or broadcast request. The owner already holds the minted NFT; required vault
+activation/holder/acknowledgement checks remain in the market and SD-key.
+
+An explicit `seed-without-ack-v1` continuation verifies original failure/input
+hashes, the exact diagnostic, unchanged owner nonce, zero seed outboxes and
+positive owner NFT balance. It removes only the diagnosed preparation call and
+uses `activation-seeds-reviewed-v1`, with a fresh proof and distinct artifacts.
+That seed transfer is now included. Three prior confirmed initialization UPSs
+are adopted by their original receipts. Original and resumed worker sources
+are preserved separately by the original manifest hashes; post-launch copies
+are not falsely described as pre-execution snapshots.
