@@ -1114,3 +1114,7 @@ financial core matches its captured v3 source; user's original Node diff digest
 is unchanged. Original failed frozen-array harness and read-only finalization
 logs remain; fresh labeled continuations never overwrite requests or receipts.
 Original unknown deployments remain quarantined, not declared cancelled.
+
+## 2026-10-24 settlement preparation follow-up
+
+See [settlement preparation review](SETTLEMENT_PREPARATION_REVIEW_20261024.md) for the frozen `efe3c9fa` control, unchanged SDK, 136 regression results, single advisory trace, safe unsigned-window renewal and fresh state-read scheduling. New isolated controller 2495 / account 1092800 is exercising the formal two-market route. The checkpoint-sensitive calibration rejection was preserved and corrected; old signed proofs are not retimed. Warm fee/RPC measurements are provisional phase observations; actual new fills, final ordinary claim and conservation must close before this round's economic/performance conclusion. No Node update or old-contract upgrade probe is part of this work.
