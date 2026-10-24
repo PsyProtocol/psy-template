@@ -1,0 +1,5 @@
+import{comparisonDirectories}from'./comparisonConfig.mjs';
+import assert from'node:assert/strict';import{readFileSync,readdirSync}from'node:fs';import{join}from'node:path';import{saveObservation}from'../../executor/observations.mjs';import{sampledPhaseResources}from'./phaseResources.mjs';
+const[base,out]=process.argv.slice(2),summary=JSON.parse(readFileSync(join(base,'performance-resources-v1-SUMMARY.json'),'utf8')),samples=readFileSync(join(base,'performance-resources-v1.log'),'utf8').trim().split('\n').map(JSON.parse);assert.equal(samples.length,summary.samples);
+const phases=comparisonDirectories(base).flatMap(dir=>readdirSync(dir).filter(n=>/^(quote|prove|submit)-/.test(n)).map(n=>{const r=JSON.parse(readFileSync(join(dir,n),'utf8'));return{source:join(dir,n),variant:r.variant,operation:r.operation,method:r.method,failed:r.failed,wallMilliseconds:r.wallMilliseconds,...sampledPhaseResources(r,samples)};}));
+saveObservation(out,{at:new Date().toISOString(),summary,phases,scope:'phase-aligned observations only; baseline and candidate use one identical resident, fresh state per job; no memory-reduction or network-TPS claim'});

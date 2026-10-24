@@ -29,3 +29,11 @@ Compare frozen baseline and candidate on identical exact tasks, own starting lea
 **Boundary:** this is a matched preparation/proof comparison attached to real fills. Only the candidate is broadcast, so there is no paired baseline network-confirmation measurement and no claim of overall confirmation speedup, chain TPS or production readiness. Child SDK reads remain inside resident timing, not individually instrumented. RSS sampling is not a true per-phase memory peak.
 
 Completion, actual fees, accounting and performance figures will be added after the run closes. No acceleration numbers are claimed yet.
+
+## Calibration rejection and recovery correction
+
+The first open comparison correctly stopped before broadcast: its two fresh proofs used different source checkpoints, and AMM `order_checkpoint` is written from `ctx.checkpoint_id`. Different ending roots must not be normalized or ignored. The only included controller operation was funding; the independently read current nonce was 1, with zero open broadcasts/unresolved intents. Original logs/proofs stay in comparison generation v1.
+
+Comparison generation v2 uses the **existing frozen standalone historical-source calibration** on the first open, selecting the candidate's authenticated source checkpoint. Its full ending leaf/state, nonce, calls and fees must match exactly. The frozen broadcast driver rejects historical calibration bundles. It is cold standalone calibration, so its wall is not presented as a matched warm proof speed comparison. Subsequent operations freshly validate the **same exact already verified transaction proof** with the baseline's identity/nonce/expiry gates, avoiding unnecessary duplicate proofs; these validations are not independent proving timers.
+
+Fee preparation alone remains a paired warm before/after comparison. Explicitly selected v2 files preserve v1, and original funding is adopted by exact included receipt without resending. Advisory fees may renew only an unsigned transport window when every business field/call matches a fresh scan. New state proofs/nonces are constructed; old signed guards and proofs remain immutable. Cancellation, changed amounts/key/dependencies, and unknown broadcasts still stop reuse.

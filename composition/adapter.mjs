@@ -99,13 +99,32 @@ export async function createCompositionAdapter(o,{readState=publicState,readRece
   const recordPath=join(root(task),'fee-preparation-'+randomUUID()+'.json');await immutable(recordPath,record);
   try{await publishFile(feeRecord(task),losslessJson({version:1,recordPath,recordSha256:sha256(await readFile(recordPath))})+'\n');}catch(error){if(error.code!=='EEXIST')throw error;assert.equal(await validateFeePreparation(task),true,'existing fee preparation must remain exact and current');}return task;
  };
- const validateFeePreparation=async task=>{try{
-  bindAction(model,task);const pointer=await exact(feeRecord(task));assert.equal(pointer.version,1n);attemptPath(task,'fee-preparation',pointer.recordPath.replace(/\.json$/,''));
-  const bytes=await readFile(pointer.recordPath);assert.equal(sha256(bytes),pointer.recordSha256);const record=parseLosslessJson(bytes.toString('utf8'));assert.equal(record.version,1n);assert.equal(record.driverSha256,driver.sha256);assert.equal(record.sdkManifestHash,o.sdkManifestHash);assert.equal(record.intentId,model.intent.id);assert.equal(record.taskSha256,sha256(losslessJson(task)));
-  bindAction(model,record.proposal);attemptPath(record.proposal,'quote',record.quoteDirectory);const reportBytes=await readFile(join(record.quoteDirectory,'quote.json'));assert.equal(sha256(reportBytes),record.quoteSha256);const report=parseLosslessJson(reportBytes.toString('utf8'));assert.equal(report.broadcast,false);assert.equal(report.endcapSigned,false);assert.equal(report.actualBurnVerified,false);
-  assert.equal(losslessJson(withActionFee(model,record.proposal,report.fee)),losslessJson(task));return await isCurrent(task);
- }catch(e){if(e.code==='ENOENT')return false;throw e;}};
- const adapter={scan,isCurrent,quote,validateFeePreparation,model,snapshot:current,close:()=>resident.close(),
+ const loadFeePreparation=async task=>{
+  bindAction(model,task);let pointer;try{pointer=await exact(feeRecord(task));}catch(error){if(error.code==='ENOENT')return null;throw error;}
+  assert.equal(pointer.version,1n);attemptPath(task,'fee-preparation',pointer.recordPath.replace(/\.json$/,''));
+  const bytes=await readFile(pointer.recordPath);assert.equal(sha256(bytes),pointer.recordSha256);const record=parseLosslessJson(bytes.toString('utf8'));assert.ok(record.version===1n||record.version===2n);assert.equal(record.driverSha256,driver.sha256);assert.equal(record.sdkManifestHash,o.sdkManifestHash);assert.equal(record.intentId,model.intent.id);assert.equal(record.taskSha256,sha256(losslessJson(task)));
+  bindAction(model,record.proposal);const quoted=record.quotedProposal??record.proposal;bindAction(model,quoted);
+  // Only the unsigned transport window can differ. Calls, fee proposal,
+  // amounts, intent, recipient and every business term must remain exact.
+  assert.equal(losslessJson({...quoted,validUntilCheckpoint:record.proposal.validUntilCheckpoint}),losslessJson(record.proposal),'advisory renewal changed business terms');
+  attemptPath(quoted,'quote',record.quoteDirectory);const reportBytes=await readFile(join(record.quoteDirectory,'quote.json'));assert.equal(sha256(reportBytes),record.quoteSha256);const report=parseLosslessJson(reportBytes.toString('utf8'));assert.equal(report.broadcast,false);assert.equal(report.endcapSigned,false);assert.equal(report.actualBurnVerified,false);assert.ok(report.fee>=1000000000n&&report.fee<=1000100000n&&report.fee%1000n===0n);
+  assert.equal(losslessJson(withActionFee(model,record.proposal,report.fee)),losslessJson(task));return{record,report,pointer};
+ };
+ const validateFeePreparation=async task=>{const saved=await loadFeePreparation(task);return saved?await isCurrent(task):false;};
+ const renewFeePreparation=async(task,proposal)=>{
+  const saved=await loadFeePreparation(task);if(!saved)return null;bindAction(model,proposal);
+  const next=withActionFee(model,proposal,saved.report.fee);
+  if(losslessJson({...task,validUntilCheckpoint:next.validUntilCheckpoint})!==losslessJson(next))return null;
+  if(!await isCurrent(next))return null;
+  if(next.validUntilCheckpoint===task.validUntilCheckpoint)return next;
+  // No request/proof/signature is copied. A new task gets a fresh full UPS;
+  // old signed proofs keep their original guard and are never retimed.
+  const record={...saved.record,version:2,proposal,quotedProposal:saved.record.quotedProposal??saved.record.proposal,taskSha256:sha256(losslessJson(next)),renewedFromTaskSha256:sha256(losslessJson(task)),sourceRecordSha256:saved.pointer.recordSha256};
+  const path=join(root(next),'fee-preparation-'+randomUUID()+'.json');await immutable(path,record);
+  try{await publishFile(feeRecord(next),losslessJson({version:1,recordPath:path,recordSha256:sha256(await readFile(path))})+'\n');}catch(error){if(error.code!=='EEXIST')throw error;assert.equal(await validateFeePreparation(next),true);}
+  return next;
+ };
+ const adapter={scan,isCurrent,quote,validateFeePreparation,renewFeePreparation,model,snapshot:current,close:()=>resident.close(),
   validateProof:async(task,p)=>{try{const {r}=await pre(task,p),s=await current();if(BigInt(s.checkpoint)>BigInt(task.validUntilCheckpoint))return false;const realm=s.network.realm_configs.find(x=>x.id===Math.floor(V/s.network.users_per_realm)),params={checkpoint_id:s.checkpoint,user_id:V},[leaf,hash]=await readTogether([s.rpc(realm.rpc_url[0],'psy_get_user_leaf_data',params,{exactIntegers:true}),s.rpc(realm.rpc_url[0],'psy_get_user_tree_leaf_hash',params)]);return BigInt(leaf.nonce)+1n===r.core.new_user_leaf.nonce&&(hash===r.core.state_transition.start_user_leaf_hash||(BigInt(leaf.nonce)===0n&&r.core.state_transition.start_user_leaf_hash==='0'.repeat(64)));}catch(e){if(e.code==='ENOENT')return false;throw e;}},
   prove:async task=>{if(!await isCurrent(task))throw new StaleTask('stale composition operation');const q=files(task);await immutable(q.calls,task.submission);await immutable(q.guard,{identity,dependencies:bindings,validUntilCheckpoint:Number(task.validUntilCheckpoint)});const out=join(root(task),'proof-'+randomUUID());const result=await proofOnly('prove',task,out,['preflight',o.policy,o.rpcConfig,q.calls,q.guard,out]);await immutable(out+'.log',(result.stdout??'')+'\n'+(result.stderr??''));await inputsCurrent();await driver.check();const p={driverSha256:driver.sha256,preparedDirectory:out,manifestSha256:sha256(await readFile(join(out,'prepared.json')))};await pre(task,p);return p;},
   prepareSubmission:async(task,p)=>({...p,submissionDirectory:join(root(task),'send-'+randomUUID())}),

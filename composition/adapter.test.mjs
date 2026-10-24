@@ -68,3 +68,18 @@ test('retained advisory trace detects tampering, expiry, code/key/network/metada
 test('a second quote of the same exact task preserves the first record and complete fee checks',async()=>{
  const x=await fixture();let a;try{a=await x.create();const proposal=(await a.scan()).action,t1=await a.quote(proposal),t2=await a.quote(proposal);assert.deepEqual(t1,t2);assert.equal(await a.validateFeePreparation(t2),true);assert.equal(x.state.quotes,2);}finally{await a?.close();await x.cleanup();}
 });
+test('expired advisory fee can bind a fresh unsigned window without retiming a signed proof',async()=>{
+ const x=await fixture();let a;try{a=await x.create();const old=await a.quote((await a.scan()).action),p=await a.prove(old),guardPath=join(p.preparedDirectory,'..','guard.json'),oldGuard=await readFile(guardPath,'utf8');x.rpcState.checkpoint=170;
+  assert.equal(await a.validateFeePreparation(old),false);assert.equal(await a.validateProof(old,p),false);
+  const proposal=(await a.scan()).action,next=await a.renewFeePreparation(old,proposal);assert.ok(next);assert.equal(next.validUntilCheckpoint,'234');assert.equal(next.submission,old.submission);assert.equal(x.state.quotes,1);assert.equal(await a.validateFeePreparation(next),true);
+  await assert.rejects(()=>a.validateProof(next,p),/attempt path/);assert.equal(old.validUntilCheckpoint,'164');assert.equal(await readFile(guardPath,'utf8'),oldGuard);assert.equal(x.state.sends,0); // old signed proof/guard remains unchanged
+ }finally{await a?.close();await x.cleanup();}
+});
+test('advisory renewal cannot change a cancelled route, amount, actor, key or dependency binding',async()=>{
+ const x=await fixture();let a;try{a=await x.create();x.funded();const old=await a.quote((await a.scan()).action);x.rpcState.checkpoint=170;
+  x.field(200,'request_cancelled',1);assert.equal(await a.renewFeePreparation(old,(await a.scan()).action),null);x.field(200,'request_cancelled',0);
+  const proposal=(await a.scan()).action,changed={...proposal,terms:proposal.terms.replace('4611686018427387921','4611686018427387922')};await assert.rejects(()=>a.renewFeePreparation(old,changed));
+  const ids=x.rpcState.userIds;x.rpcState.userIds=async()=>[];await assert.rejects(()=>a.renewFeePreparation(old,proposal),/registration/);x.rpcState.userIds=ids;
+  const dep=x.dependencies.get(1000);x.dependencies.set(1000,{...dep,layoutRoot:'b'.repeat(64)});await assert.rejects(()=>a.renewFeePreparation(old,proposal),/dependency changed/);x.dependencies.set(1000,dep);assert.equal(x.state.sends,0);
+ }finally{await a?.close();await x.cleanup();}
+});
