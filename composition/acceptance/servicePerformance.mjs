@@ -1,7 +1,7 @@
 // Closed-case observations, bound to independently verified actual requests.
 // Does not generate or broadcast financial work or replace original evidence.
 import assert from 'node:assert/strict';
-import {readFileSync} from 'node:fs';import {join,dirname} from 'node:path';
+import {readFileSync,readdirSync} from 'node:fs';import {join,dirname} from 'node:path';
 import {ExecutionJournal} from '../../executor/journal.mjs';
 import {parseLosslessJson} from '../../amm/u124/client.mjs';
 import {sha256} from '../../executor/requestBinding.mjs';
@@ -61,15 +61,29 @@ assert.equal(added.reduce((n,r)=>n+r.fee,0n),audit.newBurn-before.newBurn);
 const resourcesPath=join(root,'composition-service-resources-v1-SUMMARY.json'),resources=plain(resourcesPath);
 const buildRows=readFileSync(done.buildResourceLog??join(home,'service-build-resources-v1.log'),'utf8').trim().split('\n').map(JSON.parse);
 assert.equal(buildRows.filter(r=>r.cacheHit).length,3);assert.equal(buildRows.filter(r=>!r.cacheHit).length,3);
+const serviceEvents=readdirSync(done.serviceEventDirectory).filter(n=>/^\d+-service-state\.json$/.test(n)).sort()
+ .map(name=>plain(join(done.serviceEventDirectory,name)));
+const adapterReconstructions=[];let creating;
+for(const row of serviceEvents){
+ if(row.state==='creating-adapter')creating=row;
+ if(row.state==='adapter-ready'){
+  assert.ok(creating);adapterReconstructions.push({startedAt:creating.at,finishedAt:row.at,
+   wallMilliseconds:Date.parse(row.at)-Date.parse(creating.at),prebuiltBeforeService:adapterReconstructions.length===0});
+  creating=undefined;
+ }
+}
+assert.equal(adapterReconstructions.length,2);
 const benchmarkPath=join(root,'composition-service-build-benchmark-v1/SUMMARY.json');
 saveObservation(output,{checkedAt:new Date().toISOString(),scope:'real zero-fill cancellation/return/ordinary claim via formal local service; not a pool trading throughput or physical two-host test',
  done,beforeAuditSha256:sha256(readFileSync(beforePath)),auditSha256:verified.auditSha256,
  independentVerificationSummarySha256:sha256(readFileSync(summaryPath)),ownerAuditSha256:sha256(readFileSync(claimsPath)),
  actualMarketFills:0,financialReceipts:added.length,actualControllerBroadcasts:2,automaticSessionRebuilds:1,
  recoveryInjection:'explicit QA interception before proof-session start; no natural outage claim',
- totalReceiptFeeBurn:added.reduce((n,r)=>n+r.fee,0n),ordinary,proofs,buildRows,
+  totalReceiptFeeBurn:added.reduce((n,r)=>n+r.fee,0n),ordinary,proofs,buildRows,adapterReconstructions,
+  adapterTimingScope:'first adapter was built by acceptance before funding; its near-zero service factory handoff is not cold construction. Second interval includes actual resource reuse and fresh guarded startup.',
  buildBenchmark:plain(benchmarkPath),buildBenchmarkSha256:sha256(readFileSync(benchmarkPath)),
- resources,resourceSummarySha256:sha256(readFileSync(resourcesPath)),
+  resources,resourceSummarySha256:sha256(readFileSync(resourcesPath)),
+  resourceCoverage:'two-second sampled sums for known wallet basenames and two sealed wallet digests; excludes Node parents and source compiler/inspector or verifier binaries with other names. Shared pages may be counted twice. Not true process-tree or per-phase peak memory.',
  transactionProofReuse:'only exact verified artifacts accepted after current-state/nonce/identity/expiry checks; no stale-state reuse',
  matchedFinancialBeforeAfter:false,chainTps:null,
  unmeasured:['separate ordinary-wallet phase split','true peak or per-stage memory','physical two-host takeover','matched financial settlement acceleration']});

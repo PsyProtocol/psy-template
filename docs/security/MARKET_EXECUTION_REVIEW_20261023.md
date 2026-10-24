@@ -1059,3 +1059,58 @@ checks. Includes original failures, all three final claims, exact requests,
 receipts, preflights, states/fees, v1/v2 verification records, SDK recheck,
 closed resource log and immutable source snapshots. No wallets or executables.
 The same existing branch is retained; no Node source change or SDK migration.
+
+## Local resident composition service acceptance — 2026-10-24
+
+New controller **2494**, execution vault **117952**, ordinary owner **406720**
+passed funding plus cancellation, formal service recovery after an explicitly
+injected pre-session read rejection, actual fund/return UPSs and ordinary final
+claim. Actual checkpoints: **372882 / 372962 / 372987 / 372997**. The four UPSs
+burn **4.000038 test PSY**; controller budget 20.002 equals 2.000019 controller
+burn plus 18.001981 gross refund. Ordinary claim separately burns 1.000006.
+Returned principal is 1 QA-A plus the explicitly declared 1-atom QA-B seed;
+native/FT controller balances are zero at phase 99. No existing pUSDT is used.
+
+The ten-account cohort conserves both 1,000-token QA supplies and includes all
+directed internal Outboxes. Its **102 actual UPSs** were independently verified
+with actual-fee mutation rejection; the ordinary claim additionally matches
+historical start/end leaves, exact spendable balance and claim cursor deltas.
+Actual terminal CLI re-entry creates no broadcast and preserves the financial
+journal byte-for-byte. A second independent local process is excluded by the
+live holder's lock before quote/prove/submit. Physical two-host or
+coordinator-mode chain takeover remains unverified; HTTP authority/process
+recovery tests use explicit mock financial IO.
+
+The formal CLI now shares persisted bounded session-read recovery, an unsigned
+ordinary-owner claim handoff and immutable build-resource reuse. Source/SDK/
+network/key/intent scope is bound; source/tool hashes and fresh state/nonce/full
+UPS checks remain. The optional authority rejects a second approved scope for
+the same network/payer vault. Final integrated regression: **118 passed**,
+without treating count as production evidence. No Node/SDK, base contract,
+pricing, SD-key bytecode or old-contract upgrade change was made.
+
+Matched ABBA reconstruction medians: **213.267 s → 12.232 s**, two trials per
+variant plus separate cold priming. This establishes only immutable source
+verification reuse savings. The real zero-fill cancellation/recovery case takes
+**2,687.793 s** including injection/backoff, reads, fee preparation, proofs,
+submission/common observation and ordinary claim. It is neither matched trading
+acceleration nor chain TPS. RPC/fee preparation, recursive/end-cap work and
+ordinary-wallet startup remain measured or explicitly unisolated bottlenecks.
+
+Detailed interpretation, timings, explicit one-atom initialization requirement
+and remaining SDK/runtime/upgrade/randomness/global-fairness boundaries:
+`docs/security/COMPOSITION_SERVICE_REVIEW_20261024.md`.
+Closed archives:
+
+- `executor/verification/2026-10-24-composition-build-reuse-v1`:
+  82 files / 12,432,687 compressed bytes, including original benchmark failure
+  and all five unchanged measurement rows.
+- `executor/verification/2026-10-24-composition-service-live-v1`:
+  837 files / 24,932,866 compressed bytes, all originals compared, complete
+  marker and financial/proof/claim/resource/source/failed-invocation evidence.
+
+The SDK's 1,466 files and lock/config pins were rechecked after acceptance. Live
+financial core matches its captured v3 source; user's original Node diff digest
+is unchanged. Original failed frozen-array harness and read-only finalization
+logs remain; fresh labeled continuations never overwrite requests or receipts.
+Original unknown deployments remain quarantined, not declared cancelled.

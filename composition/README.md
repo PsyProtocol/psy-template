@@ -287,3 +287,16 @@ scope; every transaction retains fresh state, nonce, fees and full UPS checks.
 Optional coordination deployment and local-test limits are documented in
 `executor/coordination/README.md`. Current evidence and measured startup costs:
 `docs/security/COMPOSITION_SERVICE_REVIEW_20261024.md`.
+
+`prepareOwnerFundingAndCancel` is an explicit unsigned ordinary-owner builder
+for funding and cancelling in the same UPS. It clones the canonical frozen
+funding input and binds cancellation to the intent nonce. The normal funding
+builder retains its original behavior. Both require the ordinary owner's
+signature; the financial service cannot sign them.
+
+Local acceptance is closed by
+`composition/acceptance/finalizeServiceAcceptance.mjs`: new controller 2494 /
+vault 117952, two actual controller UPSs, exact ordinary claim, 102 independently
+verified cohort UPSs, local contender exclusion and actual terminal CLI re-entry
+without another broadcast. Evidence:
+`executor/verification/2026-10-24-composition-service-live-v1`.
