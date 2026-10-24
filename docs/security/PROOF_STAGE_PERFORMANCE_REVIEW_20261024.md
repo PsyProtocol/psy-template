@@ -234,3 +234,18 @@ checks remain. The new `state-reads-v2` financial continuation records an additi
 11-file source manifest and preserves all older manifests / loaded source copies.
 The source used by the still-running continuation must remain unchanged until
 it closes. No network confirmation speedup is inferred from these tests.
+
+The read-only NFT-start recovery found the original inclusion at checkpoint
+374965 and stopped before starting a native broadcast command. No retransmission
+was needed for that start. Its review and executed source are preserved in
+[the in-flight reader/source regression archive](../../executor/verification/2026-10-24-inflight-reads-regressions-v1/manifest.json), alongside both prior unsigned start failures and the initial mock failure / corrected 20-test reader run. All 24 files match originals.
+
+The independent final audit now verifies the exact finite-cohort FT delta for
+every account/vault (including unchanged sponsor and legacy holdings), zero new
+market/trader FT pending payouts and the unique NFT owner/identity/metadata.
+Two regressions reject a conserved total with the wrong vault, unclaimed payout,
+wrong NFT owner and metadata substitution. This strengthens audit assertions;
+it does not replace the pending full saved-UPS and actual-receipt verification.
+Read telemetry reports observed physical owners, not every transport: sharing
+with a caller outside instrumentation can leave an unobserved owner, and native
+SDK/ordinary wallet RPC reads remain outside the JS count.

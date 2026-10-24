@@ -543,8 +543,9 @@ The compact formal factory also records `initialize` separately (ABI/policy,
 dependency reads, sealed binary and key identity). It excludes the lazy
 resident's circuit/session construction, which remains in first-proof startup.
 `rpc-performance/<network>/<vault>/` contains opt-in logical read attempts and physical transport-owner flags:
-queue wait, HTTP + response parsing, host, method and failure. Coalesced reads
-produce one sample; retry attempts remain separate. No parameters, witnesses,
+queue wait, HTTP + response parsing, host, method and failure. Each logical caller produces a sample; `physicalReadOwner` distinguishes
+the owner of a shared transport from its waiters. A snapshot's own packed-leaf
+cache still avoids additional logical calls. Retry attempts remain separate. No parameters, witnesses,
 raw errors or URL credentials are logged. These intervals nest in adapter phase
 walls; do not add them to those walls. They exclude receipt-service reads,
 Rust SDK reads, proving and submission transport. A telemetry write failure
