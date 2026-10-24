@@ -17,6 +17,11 @@ export async function prepareOwnerFunding(adapter){
  const prepared=input(m,s,m.funding.calls);prepared.validUntilCheckpoint=Number(BigInt(prepared.validUntilCheckpoint)<t.expiresAtCheckpoint?BigInt(prepared.validUntilCheckpoint):t.expiresAtCheckpoint);
  return{status:'owner-signature-required',intentId:m.intent.id,owner:t.owner,authorization:m.funding,input:prepared,sourceCheckpoint:s.checkpoint,sourceAuthenticated:false,scope:'ordinary owner UPS request + exact FT/native funding + binding; not a composition settlement or broadcast'};
 }
+export async function prepareOwnerFundingAndCancel(adapter){
+ const prepared=await prepareOwnerFunding(adapter),input=structuredClone(prepared.input),t=adapter.model.intent.terms;
+ input.calls.contract_calls.push({contract_id:t.execution.controllerId,method_name:'request_cancel',inputs:[t.nonce]});
+ return {...prepared,input,cancelledBeforeRouting:true};
+}
 export async function prepareOwnerClaim(adapter){
  const s=await adapter.snapshot(),m=adapter.model,t=m.intent.terms,U=Number(t.owner),V=Number(t.execution.vaultId),C=Number(t.execution.controllerId),at=n=>s.slot(V,C,offset(m.controllerAbi,n));
  assert.equal(await at('phase'),99n,'controller must be terminal');assert.equal(await at('owner'),t.owner);assert.equal(await at('intent_nonce'),t.nonce);assert.equal(await s.slot(V,0,0),0n);for(const id of[m.assetA,m.assetB])assert.equal(await wide(s,V,Number(id),0),0n,'controller residual');

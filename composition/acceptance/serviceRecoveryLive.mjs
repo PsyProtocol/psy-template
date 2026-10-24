@@ -7,7 +7,7 @@ import {mkdir} from 'node:fs/promises';
 import {join,dirname,resolve} from 'node:path';
 import {createCompositionAdapter} from '../adapter.mjs';
 import {runCompositionService} from '../service.mjs';
-import {prepareOwnerFunding} from '../client.mjs';
+import {prepareOwnerFundingAndCancel} from '../client.mjs';
 import {residentProver} from '../../executor/residentProver.mjs';
 import {ExecutionJournal} from '../../executor/journal.mjs';
 import {sha256} from '../../executor/requestBinding.mjs';
@@ -16,7 +16,8 @@ import {read,save,run,confirmUps} from '../../batching/admission/liveSupport.mjs
 import {ordinaryRelease} from './applicationRelease.mjs';
 import {controllerDirectory} from './controllerDirectory.mjs';
 import {createCompositionBuildResources} from '../buildResources.mjs';
-const [base]=process.argv.slice(2),home=join(controllerDirectory(base),'service-recovery');
+const [base,label='v1']=process.argv.slice(2),home=join(controllerDirectory(base),'service-recovery');
+assert.match(label,/^v[1-9][0-9]*$/);
 const benchmarkPlan=join(base,'public/SERVICE-BUILD-BENCHMARK-PLAN-v1.json');
 if(existsSync(benchmarkPlan)){
  const benchmark=read(benchmarkPlan).outputDirectory;
@@ -36,8 +37,9 @@ const oldTools=read(join(base,'public/toolchain-v1.json')),ordinary=ordinaryRele
 const env={PSY_MARKET_TESTNET_PROFILE:o.testnetProfile,RAYON_NUM_THREADS:'2'};
 let injected=false,first,usedFirst=false,claimed=false;
 const startedAt=new Date().toISOString(),wall=performance.now();
-const stateLog=join(home,'service-live-status-v1.log');assert.ok(!existsSync(stateLog),'immutable invocation; reconcile partial run before continuing');
-const resources=createCompositionBuildResources({observe:event=>appendFileSync(join(home,'service-build-resources-v1.log'),losslessJson(event)+'\n')});
+const stateLog=join(home,'service-live-status-'+label+'.log'),buildResourceLog=join(home,'service-build-resources-'+label+'.log');
+assert.ok(!existsSync(stateLog)&&!existsSync(buildResourceLog),'immutable invocation; reconcile partial run before continuing');
+const resources=createCompositionBuildResources({observe:event=>appendFileSync(buildResourceLog,losslessJson(event)+'\n')});
 const request=async(label,inputPath)=>{
  const out=join(home,'attempts',label);assert.ok(!existsSync(out),'never replay an original owner request');
  const timing=await run(ordinary.file,['call',o.rpcConfig,join(base,'.secrets',actor.name+'.json'),inputPath,out],join(home,label+'.log'),env);
@@ -58,10 +60,9 @@ try{
    const error=Error('explicit QA injected pre-session read rejection');error.residentRejection={phase:failure.phase,error:reason};throw error;
   }};
  }});
- const funding=await prepareOwnerFunding(first);
+ const funding=await prepareOwnerFundingAndCancel(first);
  // The ordinary owner signs both the funding and its cancellation in ONE UPS.
  // No second market order is created; controller may claim then return only.
- funding.input.calls.contract_calls.push({contract_id:BigInt(registration.controllerId),method_name:'request_cancel',inputs:[1n]});
  const fundingPath=join(home,'public/owner-fund-cancel-v1.json');save(fundingPath,funding.input);
  const funded=await request('owner-fund-cancel-v1',fundingPath);
  const service=await runCompositionService(o,{settings:{intervalMs:10000,maxBackoffMs:300000,maxSessionRestarts:1,maxReadFailures:5},
@@ -91,7 +92,7 @@ try{
   phase:99,assets,native:0,controllerFeeBurn:fees,ownerNativeRefund:refund,budget,
   ownerFundingContentHash:funded.contentHash,ownerClaim:exact(join(home,'attempts/owner-claim-v1/included.json')),
   injectedSessionReadFailure:true,automaticSessionRebuilds:1,actualControllerBroadcasts:2,
-  serviceEventDirectory:service.eventDirectory,sdkManifestHash:o.sdkManifestHash,atomic:false,
+  serviceEventDirectory:service.eventDirectory,buildResourceLog,stateLog,invocation:label,sdkManifestHash:o.sdkManifestHash,atomic:false,
   scope:'real new controller/key, owner funding/cancel, two full controller UPSs via formal service, exact ordinary claim; explicit QA read injection, no natural outage/multi-host claim'});
  save(join(home,'public/LIVE-ROUTE-COMPLETE-v1.json'),{checkedAt:new Date().toISOString(),checkpoint:s.checkpoint,
   scenario:'service-recovery',outcome:'owner-cancel-before-first-order',marketFills:0,intentId:first.model.intent.id,

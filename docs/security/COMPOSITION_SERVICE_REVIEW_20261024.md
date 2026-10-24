@@ -76,6 +76,15 @@ trade and one-fill intermediate-asset recovery.
 Completion requires complete marker, ordinary claim proof, exact fee accounting,
 zero controller residual and cohort audit; planned steps are not passed evidence.
 
+The first live harness invocation stopped on a frozen-array mutation before any
+owner funding request file, wallet command or financial journal existed. Its
+source snapshot, source-build metrics and failure log are preserved. The client
+now has an explicit `prepareOwnerFundingAndCancel` builder which clones the
+unsigned input, preserves canonical funding authorization and binds cancellation
+to the actual intent nonce. A regression verifies this with the frozen model.
+Continuation `v3` resumes only the failed live stage with fresh source/log names;
+deployment, registration and the completed before-audit are not repeated.
+
 ## Frozen dependency and external evidence
 
 SDK manifest remains
