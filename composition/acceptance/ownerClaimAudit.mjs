@@ -1,3 +1,4 @@
+import {SCENARIOS} from './scenarios.mjs';
 // Read-only historical ordinary-owner claim audit after actual route completion.
 // Indexed balance deltas are compared with full-proof endpoints, not treated as
 // proof generation, runtime attestation or an alternative receipt identity.
@@ -26,9 +27,9 @@ export function checkClaimAmounts({before, after, sent, claimed, newClaimed, fee
   return sent - claimed;
 }
 export async function auditOwnerClaims(base, verificationSummary, scenarios=['success','recovery']) {
-  assert.ok(Array.isArray(scenarios) && scenarios.length > 0 && scenarios.length <= 3);
+  assert.ok(Array.isArray(scenarios) && scenarios.length > 0 && scenarios.length <= SCENARIOS.length);
   assert.equal(new Set(scenarios).size, scenarios.length);
-  assert.ok(scenarios.every(s => ['success','recovery','partial-recovery'].includes(s)), 'explicit known claim scenarios only');
+  assert.ok(scenarios.every(s => SCENARIOS.includes(s)), 'explicit known claim scenarios only');
   const verified = exact(verificationSummary), rows = [];
   assert.equal(verified.mutatedActualFeeRejected, true);
   assert.equal(verified.broadcast, false);

@@ -1,0 +1,21 @@
+import test from 'node:test';import assert from 'node:assert/strict';
+import {cohortState} from './cohortState.mjs';
+import {encodeAmount} from '../../amm/u124/client.mjs';
+test('cohort audit counts spendable plus all directed pending assets exactly once, including both limbs',async()=>{
+ const users=[10,20],assets=[5],slots=new Map();
+ const put=(u,a,o,v)=>slots.set([u,a,o].join(':'),v);
+ const wide=(u,o,v)=>encodeAmount(v).forEach((limb,j)=>put(u,5,o+j,limb));
+ put(10,0,0,100n);put(20,0,0,200n);
+ put(10,0,3+2*20,50n);put(20,0,4+2*10,30n);
+ wide(10,0,1n<<62n);wide(20,0,7n);
+ wide(10,33554453+4*20,(1n<<62n)+17n);wide(20,33554455+4*10,1n<<62n);
+ const s={slot:async(u,a,o)=>slots.get([u,a,o].join(':'))??0n,contractStateRoot:async(u,a)=>'root-'+u+'-'+a};
+ const audit=await cohortState(s,users,assets);
+ assert.deepEqual(audit.accounts.map(r=>r.user),users);
+ assert.deepEqual(audit.outboxes.map(r=>[r.from,r.to]),[[10,20],[20,10]]);
+ assert.equal(audit.native,320n);assert.equal(audit.totals.get(5),(1n<<62n)+24n);
+ assert.equal(audit.outboxes[0].ft[0].pending,17n);
+ put(10,0,3+2*20,29n);await assert.rejects(()=>cohortState(s,users,assets),/claim exceeds/);
+ put(10,0,3+2*20,50n);wide(20,33554455+4*10,(1n<<62n)+18n);
+ await assert.rejects(()=>cohortState(s,users,assets),/claim exceeds/);
+});
