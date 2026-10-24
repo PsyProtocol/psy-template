@@ -273,3 +273,17 @@ original broadcast intent, matching the complete task and payer, then verifying
 that original prepared request. Legacy included records must share the original
 journal directory. Missing, ambiguous, modified or out-of-case identities fail
 closed. Report alias resolution never creates, resigns or broadcasts a request.
+
+## Resident service and local coordination
+
+The formal CLI's `watch`, `once` and `reconcile` modes now share
+`runCompositionService`. Safe pre-session proof-read rejection recovery is
+bounded and journaled; unknown broadcasts keep their original identity and block
+replacement operations. The final ordinary-owner claim is exported unsigned.
+The service never holds the ordinary owner's key.
+
+Verified immutable source/IR/layout resources can be reused within one service
+scope; every transaction retains fresh state, nonce, fees and full UPS checks.
+Optional coordination deployment and local-test limits are documented in
+`executor/coordination/README.md`. Current evidence and measured startup costs:
+`docs/security/COMPOSITION_SERVICE_REVIEW_20261024.md`.

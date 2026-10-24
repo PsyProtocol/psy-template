@@ -23,7 +23,7 @@ export function residentProver(binary,policy,config,{env,timeout=900000,stopTime
     if(r.ready){ready=r;continue;}
     if(!pending||r.id!==pending.id){stopped=true;child.kill('SIGTERM');fail(Error('resident request identity mismatch'));return;}
     const p=pending;pending=null;clearTimeout(p.timer);
-    if(r.ok)p.resolve({stdout:p.stdout,stderr:p.stderr,residentStartup:ready});else{const e=Error(`resident proof rejected at ${r.phase}: ${r.error}`);e.stdout=p.stdout;e.stderr=p.stderr;p.reject(e);}
+    if(r.ok)p.resolve({stdout:p.stdout,stderr:p.stderr,residentStartup:ready});else{const e=Error(`resident proof rejected at ${r.phase}: ${r.error}`);e.residentRejection=Object.freeze({phase:r.phase,error:r.error});e.stdout=p.stdout;e.stderr=p.stderr;p.reject(e);}
    }
   });
  };

@@ -1,7 +1,7 @@
 // Acceptance-only labels and windows. They do not change call/key capacity or
 // permit modifying an opened/frozen epoch. A new plan is chosen before start.
 import assert from 'node:assert/strict';
-export const SCENARIOS = ['success','recovery','partial-recovery'];
+export const SCENARIOS = ['success','recovery','partial-recovery','service-recovery'];
 export function scenarioProfile(name) {
   assert.ok(SCENARIOS.includes(name), 'known isolated scenario only');
   return name === 'success' ? {ownerIndex:0,publisherIndex:0,cutoffLead:64} :
