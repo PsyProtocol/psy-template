@@ -14,6 +14,9 @@ for(const v of performanceReport.variants){
   if(line.startsWith('PSY_PROVER_LIFECYCLE '))constructions.push({...JSON.parse(line.slice(21)),log:p});
  }}
  assert.ok(events.length>0,'native allocation observations required');
+ const checkpoints=Object.fromEntries([...new Set(events.map(e=>e.phase))].map(phase=>[phase,events.filter(e=>e.phase===phase).length]));
+ assert.deepEqual(checkpoints,{'ordinary-circuits-built':3,'ordinary-signed':11,'ordinary-session-cleared':11,'compact-circuits-built':1,'compact-endcap-proved':6,'compact-session-cleared':6},'complete native constructor/proof/cleanup observations required');
+ assert.ok(events.every(e=>Number.isSafeInteger(e.rssBeforeBytes)&&e.rssBeforeBytes>0&&Number.isSafeInteger(e.rssAfterBytes)&&e.rssAfterBytes>0),'missing native RSS must not become zero');
  const mode=v.selection==='baseline'?'retain-v1':'release-unused-v1';assert.ok(events.every(e=>e.memoryMode===mode));
  const ordinary=[];
  for(const job of v.ordinary){
