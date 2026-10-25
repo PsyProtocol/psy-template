@@ -46,6 +46,7 @@ fn hash(bytes: &[u8]) -> String {
 // witness/key values can appear in lower-level diagnostics.
 fn error_code(reason: &str) -> &'static str {
     if reason == "Failed to parse JSON response: EOF while parsing a value at line 1 column 0" {"RPC_EMPTY_JSON"}
+    else if reason.starts_with("error sending request for url (") && reason.ends_with(": operation timed out") {"RPC_SEND_TIMEOUT_UNKNOWN"}
     else if reason.contains("Connection error to https://") && reason.contains("error sending request") {"RPC_CONNECTION"}
     else if reason.contains("ahead of coordinator checkpoint") {"REALM_AHEAD_COORDINATOR"}
     else if reason.contains("Invalid checkpoint:") {"NON_MONOTONIC_SOURCE_CHECKPOINT"}
