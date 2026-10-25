@@ -1,0 +1,49 @@
+{
+  "originalFiles": 265,
+  "actualPrivateKeyStringsScanned": 3,
+  "privateMatches": 0,
+  "signedRequestCopies": [
+    {
+      "file": "fixed-verifier-performance-live-v4/baseline/attempts/buyer-order/request.json",
+      "userId": 406720,
+      "nonce": 71,
+      "confirmedNonceAtLeast": 71
+    },
+    {
+      "file": "fixed-verifier-performance-live-v4/baseline/attempts/buyer-order/rpc-request.json",
+      "userId": 406720,
+      "nonce": 71,
+      "confirmedNonceAtLeast": 71
+    },
+    {
+      "file": "fixed-verifier-performance-live-v4/baseline/attempts/owner-order/request.json",
+      "userId": 1717440,
+      "nonce": 54,
+      "confirmedNonceAtLeast": 54
+    },
+    {
+      "file": "fixed-verifier-performance-live-v4/baseline/attempts/owner-order/rpc-request.json",
+      "userId": 1717440,
+      "nonce": 54,
+      "confirmedNonceAtLeast": 54
+    },
+    {
+      "file": "fixed-verifier-performance-live-v4/baseline/attempts/start-fund/request.json",
+      "userId": 519360,
+      "nonce": 46,
+      "confirmedNonceAtLeast": 46
+    },
+    {
+      "file": "fixed-verifier-performance-live-v4/baseline/attempts/start-fund/rpc-request.json",
+      "userId": 519360,
+      "nonce": 46,
+      "confirmedNonceAtLeast": 46
+    }
+  ],
+  "allPublishedSignedRequestNoncesConsumed": true,
+  "regressionsPassed": 21,
+  "originalAttemptActualUps": 3,
+  "originalAttemptActualFills": 0,
+  "continuationAccountingPending": true,
+  "cleanPerformancePairEligible": false
+}

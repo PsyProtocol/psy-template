@@ -1,0 +1,180 @@
+{
+  "at": "2026-10-25T16:01:48.516167+00:00",
+  "originalAttemptActualUps": 3,
+  "originalAttemptActualFills": 0,
+  "originalAttemptTotalFeeNativeAtoms": "3000015000",
+  "rows": [
+    {
+      "label": "owner-order",
+      "userId": 1717440,
+      "nonce": 54,
+      "checkpoint": 383425,
+      "contentHash": "94ca17c4b98fdad847e64b5d320c5fb20f21918cd561faadac3af068683918ed",
+      "requestSha256": "2c93600f987d7602d3c9448c9ea30f2f82ca11de884cba37a8f73b4dad3501ad",
+      "feeNativeAtoms": "1000006000",
+      "phases": [
+        {
+          "milliseconds": 0.15829200000000002,
+          "phase": "load-job"
+        },
+        {
+          "milliseconds": 5.154708,
+          "phase": "load-own-isolated-identity"
+        },
+        {
+          "milliseconds": 5024.373667,
+          "phase": "verify-ordinary-input-and-dependencies"
+        },
+        {
+          "milliseconds": 16195.700041999999,
+          "phase": "start-ordinary-session"
+        },
+        {
+          "milliseconds": 71077.6875,
+          "phase": "prove-ordinary-calls"
+        },
+        {
+          "milliseconds": 22807.442041000002,
+          "phase": "prove-ordinary-signature-endcap"
+        },
+        {
+          "milliseconds": 3349.398083,
+          "phase": "verify-ordinary-full-proof"
+        },
+        {
+          "milliseconds": 2672.716458,
+          "phase": "verify-current-ordinary-state"
+        },
+        {
+          "milliseconds": 3098.99675,
+          "phase": "broadcast-ordinary-ups"
+        }
+      ],
+      "endToEnd": {
+        "startedAt": "2026-10-25T15:41:39.155Z",
+        "finishedAt": "2026-10-25T15:46:11.518Z",
+        "wallMilliseconds": 272373.727875,
+        "selection": "baseline",
+        "actor": "bob",
+        "scope": "fresh dependency/snapshot reads, ordinary preparation/proof, ACK, indexed receipt and common visibility; ordinary payout claims are real UPSs"
+      }
+    },
+    {
+      "label": "buyer-order",
+      "userId": 406720,
+      "nonce": 71,
+      "checkpoint": 383425,
+      "contentHash": "c2f887b82cbf7219f09b0037cbf7f808a3ed2b20a74e21fd901bf008187edf5f",
+      "requestSha256": "234573a17585a2fee5bdd2a92615238dc26714face42dda5ff712ad37cbaa773",
+      "feeNativeAtoms": "1000006000",
+      "phases": [
+        {
+          "milliseconds": 0.194166,
+          "phase": "load-job"
+        },
+        {
+          "milliseconds": 7.514749999999999,
+          "phase": "load-own-isolated-identity"
+        },
+        {
+          "milliseconds": 2419.7916250000003,
+          "phase": "verify-ordinary-input-and-dependencies"
+        },
+        {
+          "milliseconds": 22470.816917,
+          "phase": "start-ordinary-session"
+        },
+        {
+          "milliseconds": 81199.948709,
+          "phase": "prove-ordinary-calls"
+        },
+        {
+          "milliseconds": 22731.247583999997,
+          "phase": "prove-ordinary-signature-endcap"
+        },
+        {
+          "milliseconds": 3284.91575,
+          "phase": "verify-ordinary-full-proof"
+        },
+        {
+          "milliseconds": 2719.158791,
+          "phase": "verify-current-ordinary-state"
+        },
+        {
+          "milliseconds": 3004.253959,
+          "phase": "broadcast-ordinary-ups"
+        }
+      ],
+      "endToEnd": {
+        "startedAt": "2026-10-25T15:41:39.155Z",
+        "finishedAt": "2026-10-25T15:46:20.264Z",
+        "wallMilliseconds": 281120.58691699995,
+        "selection": "baseline",
+        "actor": "buyer",
+        "scope": "fresh dependency/snapshot reads, ordinary preparation/proof, ACK, indexed receipt and common visibility; ordinary payout claims are real UPSs"
+      }
+    },
+    {
+      "label": "start-fund",
+      "userId": 519360,
+      "nonce": 46,
+      "checkpoint": 383436,
+      "contentHash": "2b94461abc59b5d2303366980de9e837a9cf1e8dce919b4f157cb5485f89ce4f",
+      "requestSha256": "2dc8862f27b9d7f02acc94bfd1d4924dc968c3c23d29343dd510bd8abd8ae586",
+      "feeNativeAtoms": "1000003000",
+      "phases": [
+        {
+          "milliseconds": 0.145916,
+          "phase": "load-job"
+        },
+        {
+          "milliseconds": 5.631083,
+          "phase": "load-own-isolated-identity"
+        },
+        {
+          "milliseconds": 1797.881541,
+          "phase": "verify-ordinary-input-and-dependencies"
+        },
+        {
+          "milliseconds": 14019.674332999999,
+          "phase": "start-ordinary-session"
+        },
+        {
+          "milliseconds": 25202.997,
+          "phase": "prove-ordinary-calls"
+        },
+        {
+          "milliseconds": 17109.632458,
+          "phase": "prove-ordinary-signature-endcap"
+        },
+        {
+          "milliseconds": 3267.807042,
+          "phase": "verify-ordinary-full-proof"
+        },
+        {
+          "milliseconds": 4521.115667,
+          "phase": "verify-current-ordinary-state"
+        },
+        {
+          "milliseconds": 30300.853917,
+          "phase": "broadcast-ordinary-ups"
+        }
+      ],
+      "endToEnd": {
+        "startedAt": "2026-10-25T15:46:20.307Z",
+        "finishedAt": "2026-10-25T15:50:58.222Z",
+        "wallMilliseconds": 277925.9273750001,
+        "selection": "baseline",
+        "actor": "sponsor",
+        "scope": "fresh dependency/snapshot reads, ordinary preparation/proof, ACK, indexed receipt and common visibility; ordinary payout claims are real UPSs"
+      }
+    }
+  ],
+  "cleanPerformancePairEligible": false,
+  "failureStage": "fresh publicState checkpoint head read after start-fund inclusion and before prewarm/epoch freeze",
+  "originalProofsAndEndpointsIndependentlyRechecked": true,
+  "recoveredPrefixReportSha256": "116a3bf8f5868a74be2d7186655f7536574461325ae1500b57e3d414dbd1270b",
+  "observerStopped": true,
+  "continuationAccountingPending": true,
+  "scope": "immutable interrupted-prefix evidence, not final continuation outcome, asset conservation audit or a successful performance pair; no fill or caching acceleration claim"
+}

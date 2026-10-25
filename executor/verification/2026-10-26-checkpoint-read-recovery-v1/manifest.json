@@ -1,0 +1,2131 @@
+{
+  "schema": 1,
+  "sourceDirectory": "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-market-recovery-20261023",
+  "machine": "gewenbo.local",
+  "host": "macOS-15.7.3-arm64-arm-64bit",
+  "scope": "public formal Executor run including failures; success requires exact included receipt",
+  "walletFilesIncluded": false,
+  "sealedBinariesIncluded": false,
+  "records": [
+    {
+      "source": "fixed-verifier-performance-live-v4/baseline/attempts/buyer-order/confirmation-timing.json",
+      "file": "files/fixed-verifier-performance-live-v4/baseline/attempts/buyer-order/confirmation-timing.json.gz",
+      "bytes": 311,
+      "sha256": "2e5ec4be7a32e6f16e5591b565009f6ae61afc77c4ae81871221f8b1f88885ef",
+      "gzipBytes": 239,
+      "gzipSha256": "d796c7d4a67bc8ac6835798a71ef3aa7cde8f9bdb141da21978b7d18e77982c4"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/baseline/attempts/buyer-order/included.json",
+      "file": "files/fixed-verifier-performance-live-v4/baseline/attempts/buyer-order/included.json.gz",
+      "bytes": 3177,
+      "sha256": "d6e9aaae91b92cbc12e588d769350e9e7ea0f455d5147ba28e6620421efdf939",
+      "gzipBytes": 1296,
+      "gzipSha256": "3ac8dd84a27029c7b46f9855c5904bbca8e2a87fcd876131779c6f0b4bbe7d7c"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/baseline/attempts/buyer-order/intent.json",
+      "file": "files/fixed-verifier-performance-live-v4/baseline/attempts/buyer-order/intent.json.gz",
+      "bytes": 184,
+      "sha256": "ec6178695306d699115be1f11e76cac760711c0dc2746d6208a882877744eca4",
+      "gzipBytes": 168,
+      "gzipSha256": "1f4d240b611a0f587479182531a264f574a9555d5f7a72210c3ac60d745a0814"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/baseline/attempts/buyer-order/metrics.json",
+      "file": "files/fixed-verifier-performance-live-v4/baseline/attempts/buyer-order/metrics.json.gz",
+      "bytes": 1195,
+      "sha256": "8548e2a4b709e5d8f612ba0f57f3736aef3c6bac6dd48a0f6ac58d1ea6a38a56",
+      "gzipBytes": 477,
+      "gzipSha256": "027f5f80c581ec25f3f6b242336c174d8e3474fcd0a2925b0301332500a16791"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/baseline/attempts/buyer-order/preflight.json",
+      "file": "files/fixed-verifier-performance-live-v4/baseline/attempts/buyer-order/preflight.json.gz",
+      "bytes": 1615,
+      "sha256": "2f8886eeb40eb09e5338cd7a8f3b68d96b2d7d46801c93e3b266c81db31c14f7",
+      "gzipBytes": 820,
+      "gzipSha256": "ab317b3f4a7d394e84d0f5a2fb9c55f2ad07cf369728f6a374ed9d2365705abc"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/baseline/attempts/buyer-order/receipt.json",
+      "file": "files/fixed-verifier-performance-live-v4/baseline/attempts/buyer-order/receipt.json.gz",
+      "bytes": 258,
+      "sha256": "afa00b42c4a543fb9bd78f9d26957f4e6c04b0854fff3cb2bb02d7f6013f4295",
+      "gzipBytes": 184,
+      "gzipSha256": "f2d5e78f02cf52a134586b8a3450cb5b8bc838cea17b8636aa8a767b1bcc007b"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/baseline/attempts/buyer-order/request.json",
+      "file": "files/fixed-verifier-performance-live-v4/baseline/attempts/buyer-order/request.json.gz",
+      "bytes": 1157265,
+      "sha256": "234573a17585a2fee5bdd2a92615238dc26714face42dda5ff712ad37cbaa773",
+      "gzipBytes": 194344,
+      "gzipSha256": "a5f6d1c69cfe0f72b595e1a15188a115bece71e3561b4a26e7cfa96d857ea522"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/baseline/attempts/buyer-order/rpc-request.json",
+      "file": "files/fixed-verifier-performance-live-v4/baseline/attempts/buyer-order/rpc-request.json.gz",
+      "bytes": 494869,
+      "sha256": "5947e1f0b4d0ab23465e271abf46d99639d6e94b1f83d6a5ab48c04a579beb69",
+      "gzipBytes": 170642,
+      "gzipSha256": "892ee02adb35cd7f83f2316fc1bf58c1effd7eb2083da1f38e01eeb4baa4a4fc"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/baseline/attempts/buyer-order/rpc-response-meta.json",
+      "file": "files/fixed-verifier-performance-live-v4/baseline/attempts/buyer-order/rpc-response-meta.json.gz",
+      "bytes": 148,
+      "sha256": "777a3a221360bc6495a1f0b521593a3dd477a6ec6812ac36f705b8c1fee92842",
+      "gzipBytes": 134,
+      "gzipSha256": "61b035aca5647d674af030b76c292cf85ecc2ec66cba5b7cba7863f16a55d134"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/baseline/attempts/buyer-order/rpc-response.body",
+      "file": "files/fixed-verifier-performance-live-v4/baseline/attempts/buyer-order/rpc-response.body.gz",
+      "bytes": 38,
+      "sha256": "0d838a349418eb2e4db232f5454ddf684afea2d53c155da1fca3952dd564bab5",
+      "gzipBytes": 57,
+      "gzipSha256": "dcd098dc4a0e86eaf34f9806fa594225f4131d05ad260f60b72acf16432af8bf"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/baseline/attempts/buyer-order/rpc-transport.json",
+      "file": "files/fixed-verifier-performance-live-v4/baseline/attempts/buyer-order/rpc-transport.json.gz",
+      "bytes": 342,
+      "sha256": "88e8a5766c12e353828dbf4f115c03a72e0eb8bcbbd27b2a4743d364d4770261",
+      "gzipBytes": 232,
+      "gzipSha256": "aaa70b240bec70cd47bfd8bfd5b070a39f469c7641b0f2b0eb5dbd3efbe4df56"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/baseline/attempts/buyer-order/timing.json",
+      "file": "files/fixed-verifier-performance-live-v4/baseline/attempts/buyer-order/timing.json.gz",
+      "bytes": 449,
+      "sha256": "8f7d09bbf154466126d795ff2a5376c72b832518a29d5972a5017dd0f7bf465b",
+      "gzipBytes": 304,
+      "gzipSha256": "c59a7eedcbda1568b641984e336cd63409bbab58ecbab8d82520bb0b646f8359"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/baseline/attempts/owner-order/confirmation-timing.json",
+      "file": "files/fixed-verifier-performance-live-v4/baseline/attempts/owner-order/confirmation-timing.json.gz",
+      "bytes": 311,
+      "sha256": "de2eaabde18ed232da1b735f0fbb39fbec0ee2fa2663799329290ae6ac48a025",
+      "gzipBytes": 237,
+      "gzipSha256": "b21bf21215e69b2dc88df265233f26bb59c250882f38a7bf628dffdf82315fc6"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/baseline/attempts/owner-order/included.json",
+      "file": "files/fixed-verifier-performance-live-v4/baseline/attempts/owner-order/included.json.gz",
+      "bytes": 3102,
+      "sha256": "f3a3ce3979360c71440c32eb39431dfc56ef324dcc771d25230395e03f95f88c",
+      "gzipBytes": 1283,
+      "gzipSha256": "7558252baf104260b5c33e7e0379c13bc2789495376e93049f4c61d39b824909"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/baseline/attempts/owner-order/intent.json",
+      "file": "files/fixed-verifier-performance-live-v4/baseline/attempts/owner-order/intent.json.gz",
+      "bytes": 185,
+      "sha256": "aa50088af991fab96acc5a1c96b807b877a1ace794d772b646c9c1c52b8b4488",
+      "gzipBytes": 169,
+      "gzipSha256": "ea56b4c41aa2294ad7ed2fa33c0f32b6f63ea35f2b46a99a4e8f3cbcf721cce0"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/baseline/attempts/owner-order/metrics.json",
+      "file": "files/fixed-verifier-performance-live-v4/baseline/attempts/owner-order/metrics.json.gz",
+      "bytes": 1194,
+      "sha256": "90f9e4747ceeabacb658bd47a2f6a59c309739bb7571314d4966da9620c9fa21",
+      "gzipBytes": 479,
+      "gzipSha256": "c30132d8339852cb270796138e868a4902ea5e76ca79144d0971c3dd76089817"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/baseline/attempts/owner-order/preflight.json",
+      "file": "files/fixed-verifier-performance-live-v4/baseline/attempts/owner-order/preflight.json.gz",
+      "bytes": 1618,
+      "sha256": "f98fe1c0741d8ddff8c3ff677dc374e81cca20e423af37c18a239b50ef3b42e3",
+      "gzipBytes": 820,
+      "gzipSha256": "cd946a2561df23adf3afcfe95fa48514d7ef391d6b439f4d12bf7dbf7832080e"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/baseline/attempts/owner-order/receipt.json",
+      "file": "files/fixed-verifier-performance-live-v4/baseline/attempts/owner-order/receipt.json.gz",
+      "bytes": 258,
+      "sha256": "33179caa7a35b311d0a393cefddf9a2d35d91838ae5a2cf2ca3411c96dfdf205",
+      "gzipBytes": 183,
+      "gzipSha256": "c6b20a8ece0a1e79382fa961cb787ce11e41666b017f3b24721e3559451f0cad"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/baseline/attempts/owner-order/request.json",
+      "file": "files/fixed-verifier-performance-live-v4/baseline/attempts/owner-order/request.json.gz",
+      "bytes": 1157782,
+      "sha256": "2c93600f987d7602d3c9448c9ea30f2f82ca11de884cba37a8f73b4dad3501ad",
+      "gzipBytes": 194248,
+      "gzipSha256": "7a4ee938f719c5294290bbba8fc6e737c46132b9a95730ef4332c897915c36b7"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/baseline/attempts/owner-order/rpc-request.json",
+      "file": "files/fixed-verifier-performance-live-v4/baseline/attempts/owner-order/rpc-request.json.gz",
+      "bytes": 495386,
+      "sha256": "d585d7431bd9a3402e5ec2b4621ad809090dea5c7bff17d7fd0ae25247158541",
+      "gzipBytes": 170962,
+      "gzipSha256": "9ec3e847058c05bd9258b6ce4a3e45e9d8f765b2d747047dfa225e379b654fa2"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/baseline/attempts/owner-order/rpc-response-meta.json",
+      "file": "files/fixed-verifier-performance-live-v4/baseline/attempts/owner-order/rpc-response-meta.json.gz",
+      "bytes": 148,
+      "sha256": "6c4e279c46318dae14c7195b7c0b9a6cec8850285e79354db4ea4e908465ae03",
+      "gzipBytes": 133,
+      "gzipSha256": "ef51bee38bfcafc0ef5bcb535ae05029c4fc8bc05a88aaad95c0409c3fb6b2e5"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/baseline/attempts/owner-order/rpc-response.body",
+      "file": "files/fixed-verifier-performance-live-v4/baseline/attempts/owner-order/rpc-response.body.gz",
+      "bytes": 38,
+      "sha256": "0d838a349418eb2e4db232f5454ddf684afea2d53c155da1fca3952dd564bab5",
+      "gzipBytes": 57,
+      "gzipSha256": "dcd098dc4a0e86eaf34f9806fa594225f4131d05ad260f60b72acf16432af8bf"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/baseline/attempts/owner-order/rpc-transport.json",
+      "file": "files/fixed-verifier-performance-live-v4/baseline/attempts/owner-order/rpc-transport.json.gz",
+      "bytes": 342,
+      "sha256": "f19500818eb8bc951b811b817f423bba7f251752149c6ca7a58fd808de52be67",
+      "gzipBytes": 232,
+      "gzipSha256": "8d84c630656ba765d6f4b8e8e6d60753805722ed10f5cd093047ab82e4362f49"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/baseline/attempts/owner-order/timing.json",
+      "file": "files/fixed-verifier-performance-live-v4/baseline/attempts/owner-order/timing.json.gz",
+      "bytes": 445,
+      "sha256": "06447a9a818154eb8a49883882682b6c5fd6b1de548437d1f9cf7ac9b5c6b8db",
+      "gzipBytes": 300,
+      "gzipSha256": "9f665c0bd20ea84e2e1b7b2ba24e9cf15239fc2a60a6ef4917b90ab2c79a2a23"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/baseline/attempts/start-fund/confirmation-timing.json",
+      "file": "files/fixed-verifier-performance-live-v4/baseline/attempts/start-fund/confirmation-timing.json.gz",
+      "bytes": 312,
+      "sha256": "2fbc213d4a42917ddab941c98a2f2bd2f8d682b3b07c973e61123224cf13d51c",
+      "gzipBytes": 239,
+      "gzipSha256": "37c227643b9ded6796437152f9d813e25f6be238c85004a0d7636508627c1d96"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/baseline/attempts/start-fund/included.json",
+      "file": "files/fixed-verifier-performance-live-v4/baseline/attempts/start-fund/included.json.gz",
+      "bytes": 2634,
+      "sha256": "bf3ec4fbc023db11bf1a66609211c26aea2c2d944233845a73acbd9b8482674f",
+      "gzipBytes": 1194,
+      "gzipSha256": "8ab3cab1448cb230824bc5cbeaec7f028298d3e3b8ff2a5a2d0d6082f48e8bd5"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/baseline/attempts/start-fund/intent.json",
+      "file": "files/fixed-verifier-performance-live-v4/baseline/attempts/start-fund/intent.json.gz",
+      "bytes": 184,
+      "sha256": "d4911f81dff024a4aab9c51f9825e0a3542276e12404505650ac7011d28e0bfc",
+      "gzipBytes": 168,
+      "gzipSha256": "10d33dcc05a5df4de8398ff87cd556d8386c072bb9bd57df996b6ab89d3ac13d"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/baseline/attempts/start-fund/metrics.json",
+      "file": "files/fixed-verifier-performance-live-v4/baseline/attempts/start-fund/metrics.json.gz",
+      "bytes": 1172,
+      "sha256": "0134fb8c1536f2f0e5208483a4173dff45cf247289d2076aa5fcbc43a5986522",
+      "gzipBytes": 469,
+      "gzipSha256": "fb7126b106f786c325fca86478e3bc96892efa943c0cc34833a9e999c23b185d"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/baseline/attempts/start-fund/preflight.json",
+      "file": "files/fixed-verifier-performance-live-v4/baseline/attempts/start-fund/preflight.json.gz",
+      "bytes": 1615,
+      "sha256": "5084e2fbe7ce401704624319c87100e8fc307c8e80c6b83257bf88f0369963d2",
+      "gzipBytes": 820,
+      "gzipSha256": "e331d3b2bbf6ffad1746a13ca15164caa53a0b94a1ba3f1021a119493c710363"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/baseline/attempts/start-fund/receipt.json",
+      "file": "files/fixed-verifier-performance-live-v4/baseline/attempts/start-fund/receipt.json.gz",
+      "bytes": 258,
+      "sha256": "97e8fe22d019428a14e17d4376c5f43fc19bdc073493c97f5c9fc1ec23da7350",
+      "gzipBytes": 183,
+      "gzipSha256": "d4175fac049313289a5e8f663233fa312861896430ceebae763c7b985b22c790"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/baseline/attempts/start-fund/request.json",
+      "file": "files/fixed-verifier-performance-live-v4/baseline/attempts/start-fund/request.json.gz",
+      "bytes": 1135530,
+      "sha256": "2dc8862f27b9d7f02acc94bfd1d4924dc968c3c23d29343dd510bd8abd8ae586",
+      "gzipBytes": 192774,
+      "gzipSha256": "7e8dd7e86191c53e19bc0333d06c830e288c5377de920c6ef90a84ff3a261361"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/baseline/attempts/start-fund/rpc-request.json",
+      "file": "files/fixed-verifier-performance-live-v4/baseline/attempts/start-fund/rpc-request.json.gz",
+      "bytes": 478483,
+      "sha256": "b8a64f56e5fb565719d03fb7e19f30b0cd1548e601dcc1dfb190703dc80121a8",
+      "gzipBytes": 167436,
+      "gzipSha256": "2ae7d864c7d3142f536cd4b2d5ff80396791a46f1ff0140c5294ad9439c2de6a"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/baseline/attempts/start-fund/rpc-response-meta.json",
+      "file": "files/fixed-verifier-performance-live-v4/baseline/attempts/start-fund/rpc-response-meta.json.gz",
+      "bytes": 148,
+      "sha256": "777a3a221360bc6495a1f0b521593a3dd477a6ec6812ac36f705b8c1fee92842",
+      "gzipBytes": 134,
+      "gzipSha256": "61b035aca5647d674af030b76c292cf85ecc2ec66cba5b7cba7863f16a55d134"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/baseline/attempts/start-fund/rpc-response.body",
+      "file": "files/fixed-verifier-performance-live-v4/baseline/attempts/start-fund/rpc-response.body.gz",
+      "bytes": 38,
+      "sha256": "0d838a349418eb2e4db232f5454ddf684afea2d53c155da1fca3952dd564bab5",
+      "gzipBytes": 57,
+      "gzipSha256": "dcd098dc4a0e86eaf34f9806fa594225f4131d05ad260f60b72acf16432af8bf"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/baseline/attempts/start-fund/rpc-transport.json",
+      "file": "files/fixed-verifier-performance-live-v4/baseline/attempts/start-fund/rpc-transport.json.gz",
+      "bytes": 342,
+      "sha256": "88e8a5766c12e353828dbf4f115c03a72e0eb8bcbbd27b2a4743d364d4770261",
+      "gzipBytes": 232,
+      "gzipSha256": "aaa70b240bec70cd47bfd8bfd5b070a39f469c7641b0f2b0eb5dbd3efbe4df56"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/baseline/attempts/start-fund/timing.json",
+      "file": "files/fixed-verifier-performance-live-v4/baseline/attempts/start-fund/timing.json.gz",
+      "bytes": 449,
+      "sha256": "71f35f7f3c45abfba250aa84888fa5fce780021bd9a54e76b0260cddba519339",
+      "gzipBytes": 302,
+      "gzipSha256": "801077595f79007bae19c5d8e2e1a791aabef277a05b28d019547c1da9493ea2"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/baseline/buyer-order.log",
+      "file": "files/fixed-verifier-performance-live-v4/baseline/buyer-order.log.gz",
+      "bytes": 3880,
+      "sha256": "c0426555c04269d08959ec756d0667c24a95c5e2b7cb1614bcdf0f02e35a2c8c",
+      "gzipBytes": 1120,
+      "gzipSha256": "436339c0e02546a393084ac60f9b7069c978e265868bd13ba188f71f3d9020c1"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/baseline/buyer-order.log.lifecycle.jsonl",
+      "file": "files/fixed-verifier-performance-live-v4/baseline/buyer-order.log.lifecycle.jsonl.gz",
+      "bytes": 1503,
+      "sha256": "f5e601d582bc7b47321ab4bc7591ffb6ef63fcf8d337c8291df950a48153dbc0",
+      "gzipBytes": 483,
+      "gzipSha256": "31c1b9851cfc4240dbf2f044faceb93a3732f2a3cbc072852a7ca4f169e4850e"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/baseline/owner-order.log",
+      "file": "files/fixed-verifier-performance-live-v4/baseline/owner-order.log.gz",
+      "bytes": 3887,
+      "sha256": "885d6e326bb36bb13fb37d846dd29dd1e0083f9f8fd952ba97736261cb0eaf51",
+      "gzipBytes": 1118,
+      "gzipSha256": "95802d2a21e5bd431757b53b6c1a6c5349fda4eefdf1f41219627f91b90bc3ce"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/baseline/owner-order.log.lifecycle.jsonl",
+      "file": "files/fixed-verifier-performance-live-v4/baseline/owner-order.log.lifecycle.jsonl.gz",
+      "bytes": 1494,
+      "sha256": "693b99ba53411a1448d1b9506edc50c68f59b4d453a0b7726de28971c3135bd3",
+      "gzipBytes": 482,
+      "gzipSha256": "8cb9a08413dee5fc9df5c9383908415945ea79b92282d978066c1efb7dc0cc6d"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/baseline/public/ENVIRONMENT.json",
+      "file": "files/fixed-verifier-performance-live-v4/baseline/public/ENVIRONMENT.json.gz",
+      "bytes": 812,
+      "sha256": "94689cc20db99189dffa5ae41b03141f59a2ef47465ce215389a117bcb9d0898",
+      "gzipBytes": 546,
+      "gzipSha256": "44f0efbd2697a6bbb3e5073c661b7c92f7d249b02cf54836c7937331a12f7ab9"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/baseline/public/assets-before.json",
+      "file": "files/fixed-verifier-performance-live-v4/baseline/public/assets-before.json.gz",
+      "bytes": 8883,
+      "sha256": "82fe6b85f41c9754e84ee40ab8283a0405acf8e3a02905d197d69de806676afc",
+      "gzipBytes": 1701,
+      "gzipSha256": "2a14e11a448eae69e9413937b9feaccbe7de9a2a4d4b311dd0b6d77d867b4ab2"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/baseline/public/buyer-order-end-to-end.json",
+      "file": "files/fixed-verifier-performance-live-v4/baseline/public/buyer-order-end-to-end.json.gz",
+      "bytes": 310,
+      "sha256": "68ca5bb44046375c1e271441e6a57b016b7682281c6592e10f42b54354da6cbe",
+      "gzipBytes": 242,
+      "gzipSha256": "3b7ac2c9746a5007428198b6ddfc6798485eb1370c97751b9ff1e7905276f0f0"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/baseline/public/buyer-order.json",
+      "file": "files/fixed-verifier-performance-live-v4/baseline/public/buyer-order.json.gz",
+      "bytes": 1557,
+      "sha256": "cad56baf523f4143f67c640568f4725c6d8bd34b6bc5b5084485274467e9ff37",
+      "gzipBytes": 684,
+      "gzipSha256": "5767bb569b25cc0f86fc14a085d331866865d7247927dd1dc3b5080c3bdb862e"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/baseline/public/ordinary-dependencies.json",
+      "file": "files/fixed-verifier-performance-live-v4/baseline/public/ordinary-dependencies.json.gz",
+      "bytes": 1385,
+      "sha256": "9d87c4820207d6626e181c6a5628fb33346d2f36f974e9d0e692112ef461604e",
+      "gzipBytes": 573,
+      "gzipSha256": "c4a1c9368f1d2e3e7eb3c0de1fce7f7b747bb7e245e68f2cb9316dfe20cf1898"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/baseline/public/owner-order-end-to-end.json",
+      "file": "files/fixed-verifier-performance-live-v4/baseline/public/owner-order-end-to-end.json.gz",
+      "bytes": 303,
+      "sha256": "52ad16357293aa90b6de34255eda89ce25a2363055a1b5959a6f899cb790cef4",
+      "gzipBytes": 239,
+      "gzipSha256": "065b6a52921f51b5b906a4917902a0ccff853b01171660e885a198e42d547943"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/baseline/public/owner-order.json",
+      "file": "files/fixed-verifier-performance-live-v4/baseline/public/owner-order.json.gz",
+      "bytes": 1557,
+      "sha256": "6dfbc741ab1641c5b849206af4027a3c69a8996691f879225c24d3d066fb9b93",
+      "gzipBytes": 680,
+      "gzipSha256": "57407729c583eeeebc1b5d3470f1cdf4c7f1bec74fcfbf9aa41ed401cff8224a"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/baseline/public/start-fund-end-to-end.json",
+      "file": "files/fixed-verifier-performance-live-v4/baseline/public/start-fund-end-to-end.json.gz",
+      "bytes": 311,
+      "sha256": "a495880580eb23e1f9e512a2e296b1373fdc0d46c5792b25198465edf6b34c80",
+      "gzipBytes": 245,
+      "gzipSha256": "fb41eccd675d7d590bb38b0fae17eadf2efb14f144bab9c90eb7bfc6b3f6f7f2"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/baseline/public/start-fund.json",
+      "file": "files/fixed-verifier-performance-live-v4/baseline/public/start-fund.json.gz",
+      "bytes": 989,
+      "sha256": "a1cd1788ba8f51ce50eaa7e5f2e4dbc2df61fd6efba9a69dbfb0a9862fb50097",
+      "gzipBytes": 508,
+      "gzipSha256": "837b244e32f9391630a6253ab93e5848d30b223a427fc97190ced7bcf7ad3a8c"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/baseline/start-fund.log",
+      "file": "files/fixed-verifier-performance-live-v4/baseline/start-fund.log.gz",
+      "bytes": 3601,
+      "sha256": "b9a87243a986fb9b42fe84367600ce45f5e1877c595455124f3849d55882e6c7",
+      "gzipBytes": 1108,
+      "gzipSha256": "8108616eaffcd9604b8071272b7a69d3c78cc12063f521b02cd0fe939d506b29"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/baseline/start-fund.log.lifecycle.jsonl",
+      "file": "files/fixed-verifier-performance-live-v4/baseline/start-fund.log.lifecycle.jsonl.gz",
+      "bytes": 1507,
+      "sha256": "0842f652e2b2d48bfff2071e602514574951706ff6926b7c7f98613dc962797f",
+      "gzipBytes": 489,
+      "gzipSha256": "5bc016081e73f6e53506b4d499b106e0b07d9151cff65c45aacdfde66f5ece1f"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/baseline-parent-v1.log",
+      "file": "files/fixed-verifier-performance-live-v4/baseline-parent-v1.log.gz",
+      "bytes": 1116,
+      "sha256": "b8c3246fa66c75a5b96065ed40286ea7705680d6845d4038fe2265d27d015ba5",
+      "gzipBytes": 451,
+      "gzipSha256": "bc6c2272d1f23344028650979655a4a80219419f5bce6ff8beda6765390ad28a"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/baseline-read-recovery-parent-v1.log",
+      "file": "files/fixed-verifier-performance-live-v4/baseline-read-recovery-parent-v1.log.gz",
+      "bytes": 1526,
+      "sha256": "4dfca5c1123bd8f42d5a0f61c76631de1ba2da15de5e558577a37f5700f23733",
+      "gzipBytes": 582,
+      "gzipSha256": "559976dae997046352ac851b99a6da906423fc8640c79f4d4947bc2cb789f02b"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/comparison-parent-v1.log",
+      "file": "files/fixed-verifier-performance-live-v4/comparison-parent-v1.log.gz",
+      "bytes": 1094,
+      "sha256": "4808efa240add79f648fc1741a839407e405005f2116deb52faa3f3f8e8751e5",
+      "gzipBytes": 513,
+      "gzipSha256": "b32fbdecb3d6794030b6178e066ceb75a12b7d33d93143ec73e5fd16e8540c95"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/pre-epoch-read-recovery-v1/buyer-order-full-proof.json",
+      "file": "files/fixed-verifier-performance-live-v4/pre-epoch-read-recovery-v1/buyer-order-full-proof.json.gz",
+      "bytes": 546,
+      "sha256": "5b78a638f9542bde1187598de5abc479bbb986ac7926e5fe533c9430ed4cdff9",
+      "gzipBytes": 374,
+      "gzipSha256": "7c850831f4044f23d0cbac95d22d64601018332867d3561d16dc8cb07e7a934e"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/pre-epoch-read-recovery-v1/buyer-order-full-proof.json.log",
+      "file": "files/fixed-verifier-performance-live-v4/pre-epoch-read-recovery-v1/buyer-order-full-proof.json.log.gz",
+      "bytes": 1,
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "gzipBytes": 21,
+      "gzipSha256": "74420f89d2d2a4256b5b578f1c2a01dd2b605f9aca4905db839d008cfd29cac0"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/pre-epoch-read-recovery-v1/owner-order-full-proof.json",
+      "file": "files/fixed-verifier-performance-live-v4/pre-epoch-read-recovery-v1/owner-order-full-proof.json.gz",
+      "bytes": 547,
+      "sha256": "61a570af0c20db5a78a1037629c106bb7f6f7a8ba7a3f3ff8e15e215131676b7",
+      "gzipBytes": 378,
+      "gzipSha256": "c202c16bb161c8b523189818baec8c0a884e5fd6b198c5fe8877d362ab8aaf64"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/pre-epoch-read-recovery-v1/owner-order-full-proof.json.log",
+      "file": "files/fixed-verifier-performance-live-v4/pre-epoch-read-recovery-v1/owner-order-full-proof.json.log.gz",
+      "bytes": 1,
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "gzipBytes": 21,
+      "gzipSha256": "74420f89d2d2a4256b5b578f1c2a01dd2b605f9aca4905db839d008cfd29cac0"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/pre-epoch-read-recovery-v1/start-fund-full-proof.json",
+      "file": "files/fixed-verifier-performance-live-v4/pre-epoch-read-recovery-v1/start-fund-full-proof.json.gz",
+      "bytes": 546,
+      "sha256": "0e02de7e3cd79d64b6c02616d8f97ef8e6e07c55eba1b8aadea7474ca4c23f2e",
+      "gzipBytes": 377,
+      "gzipSha256": "8256707f07f9e16f3605c0fdb3c039f8a21fa375d52583212c7b914da52a783c"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/pre-epoch-read-recovery-v1/start-fund-full-proof.json.log",
+      "file": "files/fixed-verifier-performance-live-v4/pre-epoch-read-recovery-v1/start-fund-full-proof.json.log.gz",
+      "bytes": 1,
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "gzipBytes": 21,
+      "gzipSha256": "74420f89d2d2a4256b5b578f1c2a01dd2b605f9aca4905db839d008cfd29cac0"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/pre-epoch-read-recovery-v2/CHECKED.json",
+      "file": "files/fixed-verifier-performance-live-v4/pre-epoch-read-recovery-v2/CHECKED.json.gz",
+      "bytes": 1951,
+      "sha256": "116a3bf8f5868a74be2d7186655f7536574461325ae1500b57e3d414dbd1270b",
+      "gzipBytes": 1105,
+      "gzipSha256": "fad144503d5b492fd828493f5a11fbda71fab4100b17ae85c4b9d9ecec43dc2b"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/pre-epoch-read-recovery-v2/buyer-order-full-proof.json",
+      "file": "files/fixed-verifier-performance-live-v4/pre-epoch-read-recovery-v2/buyer-order-full-proof.json.gz",
+      "bytes": 546,
+      "sha256": "5b78a638f9542bde1187598de5abc479bbb986ac7926e5fe533c9430ed4cdff9",
+      "gzipBytes": 374,
+      "gzipSha256": "7c850831f4044f23d0cbac95d22d64601018332867d3561d16dc8cb07e7a934e"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/pre-epoch-read-recovery-v2/buyer-order-full-proof.json.log",
+      "file": "files/fixed-verifier-performance-live-v4/pre-epoch-read-recovery-v2/buyer-order-full-proof.json.log.gz",
+      "bytes": 1,
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "gzipBytes": 21,
+      "gzipSha256": "74420f89d2d2a4256b5b578f1c2a01dd2b605f9aca4905db839d008cfd29cac0"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/pre-epoch-read-recovery-v2/owner-order-full-proof.json",
+      "file": "files/fixed-verifier-performance-live-v4/pre-epoch-read-recovery-v2/owner-order-full-proof.json.gz",
+      "bytes": 547,
+      "sha256": "61a570af0c20db5a78a1037629c106bb7f6f7a8ba7a3f3ff8e15e215131676b7",
+      "gzipBytes": 378,
+      "gzipSha256": "c202c16bb161c8b523189818baec8c0a884e5fd6b198c5fe8877d362ab8aaf64"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/pre-epoch-read-recovery-v2/owner-order-full-proof.json.log",
+      "file": "files/fixed-verifier-performance-live-v4/pre-epoch-read-recovery-v2/owner-order-full-proof.json.log.gz",
+      "bytes": 1,
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "gzipBytes": 21,
+      "gzipSha256": "74420f89d2d2a4256b5b578f1c2a01dd2b605f9aca4905db839d008cfd29cac0"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/pre-epoch-read-recovery-v2/start-fund-full-proof.json",
+      "file": "files/fixed-verifier-performance-live-v4/pre-epoch-read-recovery-v2/start-fund-full-proof.json.gz",
+      "bytes": 546,
+      "sha256": "0e02de7e3cd79d64b6c02616d8f97ef8e6e07c55eba1b8aadea7474ca4c23f2e",
+      "gzipBytes": 377,
+      "gzipSha256": "8256707f07f9e16f3605c0fdb3c039f8a21fa375d52583212c7b914da52a783c"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/pre-epoch-read-recovery-v2/start-fund-full-proof.json.log",
+      "file": "files/fixed-verifier-performance-live-v4/pre-epoch-read-recovery-v2/start-fund-full-proof.json.log.gz",
+      "bytes": 1,
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "gzipBytes": 21,
+      "gzipSha256": "74420f89d2d2a4256b5b578f1c2a01dd2b605f9aca4905db839d008cfd29cac0"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/INTERRUPTED-PREFIX-v1.json",
+      "file": "files/fixed-verifier-performance-live-v4/public/INTERRUPTED-PREFIX-v1.json.gz",
+      "bytes": 5925,
+      "sha256": "cf04c9d0d7acd4d10a8d61bf3a84fd452d5f0b01a84eef93edf9ea5c785eaa6e",
+      "gzipBytes": 1541,
+      "gzipSha256": "93f214432c24b6afc12a99d771b17ff5b38c2f88d2ddb0c602ab4b8e970eee5c"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/RELEASE.json",
+      "file": "files/fixed-verifier-performance-live-v4/public/RELEASE.json.gz",
+      "bytes": 1432,
+      "sha256": "64863dc761df4d7d842e823095ca7db8d98df09dd205c4f1d87860f044ec77ac",
+      "gzipBytes": 802,
+      "gzipSha256": "02043334ad11d871048d25ca071d47b68ba6c37456f14befc1cff309adc17728"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/SETUP-REUSE-v1.json",
+      "file": "files/fixed-verifier-performance-live-v4/public/SETUP-REUSE-v1.json.gz",
+      "bytes": 2064,
+      "sha256": "4196aef2b30330adf8b053ba6a231c01b5095f79c632806acae769fee27f0913",
+      "gzipBytes": 1056,
+      "gzipSha256": "13face53de171d006f9c245075561266af5fb031f7214181cfad262ed5b10224"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-SOURCE.json",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-SOURCE.json.gz",
+      "bytes": 9375,
+      "sha256": "844778d8f6249f4b16ea0d98c91c30a25c79771ea1ed3051410d39acb24da8d5",
+      "gzipBytes": 4807,
+      "gzipSha256": "7fa897808f296dad15ff69cb415846deb79c96d9731bc4e0b553725b00010781"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/amm/callBuilder.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/amm/callBuilder.mjs.gz",
+      "bytes": 10840,
+      "sha256": "fff2477b4685ba7c4ee1ea422aa8e7b5632ab5815eb93ffb1a87271c65cd5603",
+      "gzipBytes": 2599,
+      "gzipSha256": "617a1e8d8086a1dcca7d18cfde4d4cba626db59ce6c77071e9415d75947b20cb"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/amm/chainReader.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/amm/chainReader.mjs.gz",
+      "bytes": 6500,
+      "sha256": "f6af8dfddc3910b26eaaf7a58048ebdb9917b86c32946b2197246b1f9c7bb7f5",
+      "gzipBytes": 2057,
+      "gzipSha256": "158c1699206c54669ee0881fda15054839889c971b16e957be7177dc855ddd5a"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/amm/operationCalls.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/amm/operationCalls.mjs.gz",
+      "bytes": 556,
+      "sha256": "6ded485d216fe2278636c24142599b70f2629f5b39d59860f76caff3d320576e",
+      "gzipBytes": 305,
+      "gzipSha256": "cf16401459f9bab0bd0994cc9684251900812fb6f7da779c9482a4d51aed06b4"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/amm/referenceMath.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/amm/referenceMath.mjs.gz",
+      "bytes": 5300,
+      "sha256": "d30c837cc2c7fe13b5b63674533e4e2661e13315f57551eeea3b1188303cef23",
+      "gzipBytes": 1482,
+      "gzipSha256": "e9bf2fd95597c8af94bfed9567731dc751437df99b9035503dc09393fa10dcd7"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/amm/u124/artifactGate.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/amm/u124/artifactGate.mjs.gz",
+      "bytes": 4626,
+      "sha256": "ad6b2b62361e054d2c7a36dd0d02017ae8ce768231fe7284d311df569861d91f",
+      "gzipBytes": 1649,
+      "gzipSha256": "ae25f09b0802aeddf56676171fbc0ef9e10905a50836bb661955a73b074f9e60"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/amm/u124/build.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/amm/u124/build.mjs.gz",
+      "bytes": 5422,
+      "sha256": "5cb20278db3e76a1078685e77e6d37e1e9afd7e603aa28dd1a15491f04f5bc2b",
+      "gzipBytes": 2054,
+      "gzipSha256": "8b55b73a59f13b94bf3ea87c17f5dff4f9e61091bd0992d497532b1afee758a7"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/amm/u124/client.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/amm/u124/client.mjs.gz",
+      "bytes": 6822,
+      "sha256": "65e29a5a3c429113aeea737b35bce8bd5675946d17456ebe063b5e9738f899ec",
+      "gzipBytes": 2704,
+      "gzipSha256": "4dd4369acc10eee266255cec0bacd7c8e72ee0373a029f5fe70e79cc07f60d37"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/amm/u124/generate.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/amm/u124/generate.mjs.gz",
+      "bytes": 15368,
+      "sha256": "0b99a0d36eef9f58a2f2f90a458fa12d91ac9fd0765e26c00f976f6f9e381f94",
+      "gzipBytes": 4259,
+      "gzipSha256": "e27f5ef088cfa918623636b5cecf4f291c8e8db4f695521aa0f796035b177210"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/amm/u124/math.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/amm/u124/math.mjs.gz",
+      "bytes": 4325,
+      "sha256": "a1c7da522ca49fe371abca2e428a7f3de4dc70e6144da159187e058046b87fd7",
+      "gzipBytes": 1595,
+      "gzipSha256": "aefc9f06e2d1130d8390dcb9bf4e0a32079b788ae78874f36e0c424f755c0fb3"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/amm/u124/policy.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/amm/u124/policy.mjs.gz",
+      "bytes": 5418,
+      "sha256": "deb1cec25b754c7c0c32e0d55c42ef9b152f4fb82186f179a74ef3eadd3bfb5f",
+      "gzipBytes": 1945,
+      "gzipSha256": "acf661070788869c9b1b0e0d35965e3fe0f96d1d86f18c6e3c083675f56ed48e"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/amm/wide/chainReader.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/amm/wide/chainReader.mjs.gz",
+      "bytes": 498,
+      "sha256": "363c853daff4b863425f4537ae1fac795fbe4bf95666c7644c6905079a4128c7",
+      "gzipBytes": 308,
+      "gzipSha256": "1244aac0b2f20775d9964efc3ccb4c07f81636086c334fadd0f4322630a7596a"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/amm/wide/operationCalls.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/amm/wide/operationCalls.mjs.gz",
+      "bytes": 563,
+      "sha256": "3ff7567ce073d91e53fd3428a38250be4e171330a37bd0893c300cf40664ec19",
+      "gzipBytes": 310,
+      "gzipSha256": "62ce8bfe6b2afd52401a3ac3f3bea50215d40020cf012c5abd7a9af726474ef1"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/batching/admission/build.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/batching/admission/build.mjs.gz",
+      "bytes": 6268,
+      "sha256": "b614e621f456810a5a1c42372d4acf5b1937ce8dbc1f28802ab721083e4fbde8",
+      "gzipBytes": 2424,
+      "gzipSha256": "24248fe1d2c2302c10bc0795901f70e179d0868b197882cc719138b465d6c421"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/batching/admission/bulk.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/batching/admission/bulk.mjs.gz",
+      "bytes": 2121,
+      "sha256": "73bbbff746ae05a92f650a405f7a1e53346dd1cdb2b3f5417b65ea2ff7848967",
+      "gzipBytes": 1011,
+      "gzipSha256": "fae45ce197e20882f0c61c8a39267e8beb796a53a004e6f1f6d791012e1093e6"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/batching/admission/freshDeployment.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/batching/admission/freshDeployment.mjs.gz",
+      "bytes": 917,
+      "sha256": "2823349672a88bfb8924940c6486f2cff87a3c105f1d8e4a9ee80913b01882ec",
+      "gzipBytes": 481,
+      "gzipSha256": "1a807412b72b70bcbff532b3d1b212db2735c57b1b0b12cf9bbf48900d906a50"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/batching/admission/generate.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/batching/admission/generate.mjs.gz",
+      "bytes": 11954,
+      "sha256": "9aceace9487f209b2cba3a205879d26add71e3cc20e761599d6c09e37148727d",
+      "gzipBytes": 4025,
+      "gzipSha256": "855d57d8aec10b43f03905a2cda8bf42c24d554154c44cb49261495d7c292507"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/batching/admission/liveAssets.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/batching/admission/liveAssets.mjs.gz",
+      "bytes": 7402,
+      "sha256": "019fcb561cb8fbb8ed69d18418e8f7d650d3e6a24e312ee10ac266588d83343b",
+      "gzipBytes": 2793,
+      "gzipSha256": "299578b464c68ba0ba27434e24b8b952c486220215ddbf3922b5e6c9200a011a"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/batching/admission/liveMarket.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/batching/admission/liveMarket.mjs.gz",
+      "bytes": 8113,
+      "sha256": "32ba4af0d39467d71f9e94d8d37e9344ff70752291dd98c6effd11abbfaeb1a5",
+      "gzipBytes": 2776,
+      "gzipSha256": "be6fa729fd58f78627bbcb1b3ada01676f69c5312a58bfe587de272c9757f6ba"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/batching/admission/liveSupport.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/batching/admission/liveSupport.mjs.gz",
+      "bytes": 7726,
+      "sha256": "bad654871f9321473a033bf89bb66a1fb327324d913e2bad272e6e5c2a375ae5",
+      "gzipBytes": 2765,
+      "gzipSha256": "29d414e8da28ad5cf968447a00912abd17e421a590901d61b88751d97fc6c836"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/batching/admission/ordinaryReport.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/batching/admission/ordinaryReport.mjs.gz",
+      "bytes": 891,
+      "sha256": "e57ad6d4829f73007895884ce03a85e2eb6d5b1b571a6118fe0e1ba145852ddf",
+      "gzipBytes": 502,
+      "gzipSha256": "75686baa317e5c759bc13de7760f9def72e79ed90ba9fdd31a78c535dc1d3af9"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/batching/admission/prepare.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/batching/admission/prepare.mjs.gz",
+      "bytes": 3782,
+      "sha256": "6b98fb045533482b403a695a43b348fb7a87e6bfba557ef8d135614ebb41fcbd",
+      "gzipBytes": 1553,
+      "gzipSha256": "88c386b3a7f98612980db3ca0f06cc44047ee344deec9700a927c9ed0b02e4db"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/batching/admission/reader.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/batching/admission/reader.mjs.gz",
+      "bytes": 5536,
+      "sha256": "427a2243bd6a5276633d140e0ed0d8b94338aaa259d0c275f8307b706c2cac1e",
+      "gzipBytes": 2260,
+      "gzipSha256": "816b3e595c84373c2f2bcb457e76635cd7dc707c8e66619da2f6aa661eb75018"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/batching/admission/registrationPublication.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/batching/admission/registrationPublication.mjs.gz",
+      "bytes": 2537,
+      "sha256": "122a204e90d5181c7233fe2aefe6b6e6969631a1cbe44a03606dcee6ab1ff613",
+      "gzipBytes": 960,
+      "gzipSha256": "338b6db9c7944b0616e3a81f77a92c01239939b6bd9f0378afda065d4d15e1da"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/batching/v2/bootstrap.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/batching/v2/bootstrap.mjs.gz",
+      "bytes": 1294,
+      "sha256": "edf601a2b116e2a44e9155ff98806b99546072fe2bfac37f22db365aaa065850",
+      "gzipBytes": 619,
+      "gzipSha256": "a3419135375c80dccd0658d736b5898377f2e8b9ae9d67592fb9c31a88d483ae"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/batching/v2/client.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/batching/v2/client.mjs.gz",
+      "bytes": 3105,
+      "sha256": "b0c00a38eb84d4acfb487a1316272b9633e7d90cb0df39838cbf6d6419684e9b",
+      "gzipBytes": 1188,
+      "gzipSha256": "25d93a61df1462df784e4461ef4690d95ee6dd026e6e1b665f573d737f4da7c4"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/batching/v2/controller.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/batching/v2/controller.mjs.gz",
+      "bytes": 12476,
+      "sha256": "6e8ff4dd448cce8c4df62ac54914b9ec7c4721ebeaa33ec3b80df0c492403eab",
+      "gzipBytes": 4128,
+      "gzipSha256": "fc36d5ea1ab4f807a047154af8370ce306b8f0f00aa3595af1a27f5dac6c89eb"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/batching/v2/funding.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/batching/v2/funding.mjs.gz",
+      "bytes": 2741,
+      "sha256": "616a28d1547a27e9e46dddab2735e1ddcafa01565d6665f3504b29bff3e49795",
+      "gzipBytes": 1088,
+      "gzipSha256": "b8cee9bc40563676dfbecd95b07da71ea699bc9257ed8e0b9f0f97a678da2d8e"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/batching/v2/generate.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/batching/v2/generate.mjs.gz",
+      "bytes": 13174,
+      "sha256": "d1e5e19a27cd2ee3eddadd1874bd503431a82165beec59c7492af98396f29116",
+      "gzipBytes": 4544,
+      "gzipSha256": "9f876279a4893af8787b25bb7a6a5744f4cf990f3c87031352b448a63bd6c55c"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/batching/v2/guards.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/batching/v2/guards.mjs.gz",
+      "bytes": 14138,
+      "sha256": "f81bcd174540644e3f67bfc3e501582aa92e9f81824dc67314c36d8d05c753aa",
+      "gzipBytes": 4146,
+      "gzipSha256": "e5f5207fdce5d06cc4842978d616d6d058081569e1e1e6e253039f9fb0dba1fc"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/batching/v2/planner.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/batching/v2/planner.mjs.gz",
+      "bytes": 6317,
+      "sha256": "bdc340907709a10e3d8895bd5d4e3a93e0fa81df1cae997fa9c9bbc68053515e",
+      "gzipBytes": 2397,
+      "gzipSha256": "263c7e2a00bd5c78766149865d5369263ad68970dacbe9224e44cbd4a889081e"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/batching/v2/policy.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/batching/v2/policy.mjs.gz",
+      "bytes": 10078,
+      "sha256": "8d2e6ee706ba2b05baa607ddb115c47a201c7eeba4f1c1be5eafa3bc781d1971",
+      "gzipBytes": 3248,
+      "gzipSha256": "a7f9c279fce8fb1d76c9cc20e32eb1aff9ad05111322be15d8d08c59b69ae5f0"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/batching/v2/reader.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/batching/v2/reader.mjs.gz",
+      "bytes": 16741,
+      "sha256": "04f2246e943308d075cd52b7874bca8e8aa598ccb83b87cdf50de5a263b8a837",
+      "gzipBytes": 5056,
+      "gzipSha256": "f85ed84bcb8d6881fe2c1daab77c7877b0f2c2090c18f5ca790acf1cd1060b84"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/batching/v2/recovery.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/batching/v2/recovery.mjs.gz",
+      "bytes": 4776,
+      "sha256": "a9ad7e8ae56af2b8a58adce75d405182bdf2d17263bb72f194ce578708eb408d",
+      "gzipBytes": 1574,
+      "gzipSha256": "213c55f2d49078e9b6584d4491f8ec457725514fe3d4f29f0e204d47eee61d1f"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/bondingcurve/chainReader.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/bondingcurve/chainReader.mjs.gz",
+      "bytes": 5665,
+      "sha256": "ba7c5498b4491190fc737cdf4ce8d5045d314e2e8783a4a7a8fb8cb2c6400d48",
+      "gzipBytes": 2105,
+      "gzipSha256": "8b67b2e42a137e2ce6117923db545a339c7a37f81e3f364bd0c0545406716ce3"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/bondingcurve/curveMath.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/bondingcurve/curveMath.mjs.gz",
+      "bytes": 2738,
+      "sha256": "dfc150794a0716e7953f33761f4c058485c6afa4232caa7d00d96de2979b60ed",
+      "gzipBytes": 833,
+      "gzipSha256": "48c333478c806d5230434b8ac146c28d2720d1eec840fe512db9cf119e02540e"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/bondingcurve/operationCalls.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/bondingcurve/operationCalls.mjs.gz",
+      "bytes": 8773,
+      "sha256": "1d9955a05e695c08366877aa2bd10cc718d2261030209bf37c83e6d4275c1831",
+      "gzipBytes": 2118,
+      "gzipSha256": "79fe8693b3f9252a2437385894bff2fda75b4c5a72e42760a1a98e3a1df23af5"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/bondingcurve/receiptCheck.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/bondingcurve/receiptCheck.mjs.gz",
+      "bytes": 2392,
+      "sha256": "6fc0eafa9dd15ddfd488987cf35963fc424c4ff7e3979fc4b5c3ca4e660dc0fc",
+      "gzipBytes": 956,
+      "gzipSha256": "8d56467ceba19ececba3ad4d8d9e5960d49589e6d51d92e7679787e5dd56c705"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/acceptance/attemptOutcome.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/acceptance/attemptOutcome.mjs.gz",
+      "bytes": 476,
+      "sha256": "e7cc0829de6848e9c43b7e433a12e7b2d20aa5e392a0fa19ef2dc2dfb4f017d0",
+      "gzipBytes": 313,
+      "gzipSha256": "127c7ad3390a02e17bc738d4ef2a0ec4e4a50d807c6daff304f36c463297ae41"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/acceptance/candidateHarness.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/acceptance/candidateHarness.mjs.gz",
+      "bytes": 17384,
+      "sha256": "2c73db0b1d37a272e7211b02b10c87c866c61910b8b836981e40a17112d02309",
+      "gzipBytes": 6075,
+      "gzipSha256": "e6f365af4210b695bcdd46fa522bf788cc937458ed460bc181e1c0c35349bdb5"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/acceptance/cliExecution.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/acceptance/cliExecution.mjs.gz",
+      "bytes": 785,
+      "sha256": "e84e8a22e81b65fb5376a48d36588d31e90423b726df59be516c15309744b47d",
+      "gzipBytes": 413,
+      "gzipSha256": "39ff1e3480e6aa399c972dfa80fb9c40fecc501391a89b3b58b07d620e92c73c"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/acceptance/cohortScope.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/acceptance/cohortScope.mjs.gz",
+      "bytes": 627,
+      "sha256": "d67d553ca43b49944cbfe34dbb599fdb53271ff079b3b9137eed27b508e566ea",
+      "gzipBytes": 396,
+      "gzipSha256": "7c6c46e90b58fb54d55ec36edad6a51e08597c76eeb8e585a3a86583973efea6"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/acceptance/completedCalibration.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/acceptance/completedCalibration.mjs.gz",
+      "bytes": 2887,
+      "sha256": "818cd46556266b16a0334e1a3567c8b4afc920e44291fbab3e59a43890922811",
+      "gzipBytes": 949,
+      "gzipSha256": "c557a33d4f0688f7d6a4b581104b87c656df0d6ecc36a79476e893bed8fd3991"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/acceptance/optionalCalibration.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/acceptance/optionalCalibration.mjs.gz",
+      "bytes": 1204,
+      "sha256": "f70657eb0380a80dbdcdd096f982753271d533e06124052fd9340162dea9a1ab",
+      "gzipBytes": 607,
+      "gzipSha256": "702579a84452030f99b24ac0c9275018f42ddad0357f3e39b8c08f4273b0feda"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/acceptance/ordinaryEvidence.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/acceptance/ordinaryEvidence.mjs.gz",
+      "bytes": 7058,
+      "sha256": "91078c14e587627d8161896d66264fefa7c74e0dfcbec97b619ade4c1a3d2071",
+      "gzipBytes": 2432,
+      "gzipSha256": "d245b9850b9902cbe44384c47550f4168ca729fb5fa4baf66be4995848dd44cc"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/acceptance/preEpochResume.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/acceptance/preEpochResume.mjs.gz",
+      "bytes": 6085,
+      "sha256": "11f9342b6010307db4d30910ec2115791d3178e2fcde5fb8a0cde3a254c2a178",
+      "gzipBytes": 2261,
+      "gzipSha256": "97f89c0c2cb04f76955a5b39ab542c7eebde35031f389178f4fa813443048bc4"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/acceptance/runRpcOrdinaryComparison.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/acceptance/runRpcOrdinaryComparison.mjs.gz",
+      "bytes": 17576,
+      "sha256": "1ebd32ad30069c909d1230e25730b73b9eb0390df3682f8cef946b308e5d2f62",
+      "gzipBytes": 5843,
+      "gzipSha256": "bfd3ffc8d32b71a7a67345dbb19de61c0b4e7fe205d8fdccdffea921f47355de"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/acceptance/sourceClosure.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/acceptance/sourceClosure.mjs.gz",
+      "bytes": 1753,
+      "sha256": "dd3de5a1392909df07e349b1f92235a28ded810d8490c2d9e09d375fd784a7c2",
+      "gzipBytes": 880,
+      "gzipSha256": "a9caf27000c931bd93ef2407f75c2a6fcfeaa54ce59d40ce71ac26c487b49b63"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/acceptance/threeMarketCase.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/acceptance/threeMarketCase.mjs.gz",
+      "bytes": 4229,
+      "sha256": "9a3ca39adde300833d4e040e7649f469254bd9e8ca9fb6991c2af3012c21d790",
+      "gzipBytes": 1845,
+      "gzipSha256": "6b8fa901d010c79c2a90be176b1187895f32b83cdfdc58790ce868815ebff00e"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/admissionReader.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/admissionReader.mjs.gz",
+      "bytes": 7622,
+      "sha256": "91289ab9f78c56a44bf543b2da319b87e15ef3842112906320876c49de4e0554",
+      "gzipBytes": 2802,
+      "gzipSha256": "0c29619415f2d172b7b98f6231e7e9c55ba135991b62f128553feba2130cbe6b"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/chainReceipts.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/chainReceipts.mjs.gz",
+      "bytes": 7232,
+      "sha256": "e37ff3f52509b96bfabe404516452aa088be34df6da752a66ff03099735f6c91",
+      "gzipBytes": 2835,
+      "gzipSha256": "c97235bdb0c209a6fc0395ce0012e2c12cf60b381b468e4cbe2fb7345a9b0045"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/checkpointHeads.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/checkpointHeads.mjs.gz",
+      "bytes": 785,
+      "sha256": "e8fd868573b0aa489bd3cfc0aa8e57ed4eaf33d6145bf3614a9b787a371f05cd",
+      "gzipBytes": 492,
+      "gzipSha256": "78febaa9275a79040be00acdce413a4ffb004cad50b016f59f3d4e4e92cf2b3f"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/compactAdmissionAdapter.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/compactAdmissionAdapter.mjs.gz",
+      "bytes": 17346,
+      "sha256": "70ab06bf994dac4dbd4237e598fabc5f024b1513a7913fe3882f369ee6f8fa49",
+      "gzipBytes": 5487,
+      "gzipSha256": "0ff35beef2d9ef52d90c5ca4b4ae147308e71cbac30b0ec7558f5ba3909339e7"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/config.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/config.mjs.gz",
+      "bytes": 11272,
+      "sha256": "b21cd98eff5febac2f6f65593588b3f331f74629957c27d844034b671b3e9d96",
+      "gzipBytes": 2931,
+      "gzipSha256": "585d3ecd2887374a11c16644ba0f4161f932bc60c80aba1875d227f69a6aaec7"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/confirmedNonceConflict.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/confirmedNonceConflict.mjs.gz",
+      "bytes": 2036,
+      "sha256": "2217d1cb4e466d9d035e3b1967f4844a2834ce4199f154a27c20f93758399d06",
+      "gzipBytes": 787,
+      "gzipSha256": "63dfcce65d93f025d3a7130a7d72ab621dfe064033e095517fc571b7f6d01092"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/driverProcess.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/driverProcess.mjs.gz",
+      "bytes": 1696,
+      "sha256": "0ccd44179344685f4bba1ce12d230c33970f8e6db88ac528452187702010d325",
+      "gzipBytes": 912,
+      "gzipSha256": "80d44e3f769c3723b22dbd18acfd85190399383d26d88f90285af2910571d98f"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/durableFile.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/durableFile.mjs.gz",
+      "bytes": 758,
+      "sha256": "099f2698e2b5878c100d52c4dc37ad115ec5f1c09d790f12a9b4380c437e5ec0",
+      "gzipBytes": 415,
+      "gzipSha256": "b0625ae8180e075e9d2cdc19f176598e7ee6446107c380e94a6191ebd25047f3"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/identityCache.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/identityCache.mjs.gz",
+      "bytes": 1763,
+      "sha256": "a37b718de1ab61d176b9935f1d09e3fd26a604e354d145f08999556cfed46218",
+      "gzipBytes": 827,
+      "gzipSha256": "4feed2b0a5c3e849eb5ab7c704de576dc0847bfd4e9149f66823f54ea4871f72"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/journal.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/journal.mjs.gz",
+      "bytes": 9497,
+      "sha256": "6b6f99b8072b82d9b80df4b34fb01d1a73ba1fb6d74d83b9b157f1e0bb8b8303",
+      "gzipBytes": 2958,
+      "gzipSha256": "2a7791bc45ebf332633990ded90e0ea6a7b20b5fc5d8cb2d87e7a8f8a860c771"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/observations.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/observations.mjs.gz",
+      "bytes": 891,
+      "sha256": "987e2c6e5cc3030b0064b840bf704691963dd03d89db9c411e50321b547f53a4",
+      "gzipBytes": 430,
+      "gzipSha256": "0cb41482834a003fca05f76025fa652f28ba6b3601552369e881a9bb09acec86"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/ordinaryResident.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/ordinaryResident.mjs.gz",
+      "bytes": 8785,
+      "sha256": "c5b7141362355bf92769a594fd5cef8bc0c6a3f8b8a313b7ed53b87eaac52b55",
+      "gzipBytes": 3137,
+      "gzipSha256": "485a954c3af89a347cbc6057f7cd7bdd9705baf387889e4b3e7e3eb633a14e2d"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/phaseMetrics.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/phaseMetrics.mjs.gz",
+      "bytes": 3871,
+      "sha256": "6e02e7aa08867bdf5d678c649f3ffdc7a8ccfc5dc3ba1e233ee84a0124ed2ed0",
+      "gzipBytes": 1630,
+      "gzipSha256": "c76c5640d8bdf12d9921b63ce9ecacbe198d6e8f7049d1533980e4fdf61c8d9f"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/preSessionRetry.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/preSessionRetry.mjs.gz",
+      "bytes": 1086,
+      "sha256": "64c85ff25a6a6903749be77f3a477188118fd587f42829fc05f5e559e47d86af",
+      "gzipBytes": 630,
+      "gzipSha256": "0a78baf7b82763454da958acbf56c08bde10e572ba58623c83f2e955693901a9"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/preflight.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/preflight.mjs.gz",
+      "bytes": 611,
+      "sha256": "0205e1e27450742753068a52b9e5e11e569ec6383f006d843acf42a8776fbd56",
+      "gzipBytes": 399,
+      "gzipSha256": "7a972e16607e8a853580a07f7e2be7af6f8a310a2ed7051c41a4c74aaf4f5323"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/preflightRecovery.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/preflightRecovery.mjs.gz",
+      "bytes": 4815,
+      "sha256": "78723c46346428731e11b08b91acd82ecef2edf4b534e5b217971403afdd0d3a",
+      "gzipBytes": 1832,
+      "gzipSha256": "82d5c84bdab44e81476dadb744f255c911ee81901d22ee04aa9bd6dc2c37d261"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/publicState.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/publicState.mjs.gz",
+      "bytes": 6008,
+      "sha256": "c753370e1b1e36c0ee7ed2a8bde53f01f969f434423cf09e74ef2d96f0a9232c",
+      "gzipBytes": 2378,
+      "gzipSha256": "286861f1688e0088c1661e9f5b490fd281dcfe63afac0adaf9f63e9bce262344"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/publicWalletAdapter.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/publicWalletAdapter.mjs.gz",
+      "bytes": 6099,
+      "sha256": "bc33f1c61d15f41850f66c4eb9f587f13b111ed96a51b009041d87e919c172ad",
+      "gzipBytes": 2101,
+      "gzipSha256": "886222e392b661d6141d4c06610330c05c4efa43ce1ecc3d3078774fbc02b16a"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/readConcurrency.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/readConcurrency.mjs.gz",
+      "bytes": 1457,
+      "sha256": "b341c4b91c837e92d47c425fcf783b1abb661ab79cd9f3696893e6998e530072",
+      "gzipBytes": 737,
+      "gzipSha256": "a26a8d7f98f90f2bb069eec2873710a9c977d2ae4ced94c7e18c8955aedde58d"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/readRetry.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/readRetry.mjs.gz",
+      "bytes": 761,
+      "sha256": "a3690049dc4f729e642a17c26add8dd2bd984dfc817b6fcd54fe5d27825d9a88",
+      "gzipBytes": 472,
+      "gzipSha256": "36c46a10cc8f8b17a0789c7f217ee6c2ad77319b8c716f2d034f67e83e57d606"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/readSingleFlight.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/readSingleFlight.mjs.gz",
+      "bytes": 1090,
+      "sha256": "5a8febcf46f63db4095290d7fbbe7256d69a9f1ddc0f80b8e8c0db6204fcbb79",
+      "gzipBytes": 561,
+      "gzipSha256": "84b13f32b979af317c80218d5de5a14a4f9fcecb9d1220be1d9cc68c11071274"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/requestBinding.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/requestBinding.mjs.gz",
+      "bytes": 1554,
+      "sha256": "18f7d0b394f03481be1ed25581c6b551e4e780bcba20e217a99f80be9f2aa2c2",
+      "gzipBytes": 704,
+      "gzipSha256": "7d1a6474cd1f3c1c130df21b2b011d3888d50daf59bc577c15cb4200835b4dd0"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/residentProver.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/residentProver.mjs.gz",
+      "bytes": 4443,
+      "sha256": "5f13bfed644066afc54cc20d12be54835582e95b0288b8b55f3abd20603f0ac1",
+      "gzipBytes": 1604,
+      "gzipSha256": "717ba05497ef54b63f77ae2b1aaae67e52bbdbf10109fff45b4b05440ea958ce"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/residentScope.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/residentScope.mjs.gz",
+      "bytes": 3828,
+      "sha256": "e034f905326ab689c48e4516e11de23c9d6592c19f26dd0aa52a6c4734f2e18c",
+      "gzipBytes": 1402,
+      "gzipSha256": "c79da9d14d2b1d9167687001ab289ec20ca7fb3278f066c14902ef6cefc40d8f"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/sealedDriver.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/sealedDriver.mjs.gz",
+      "bytes": 1535,
+      "sha256": "369b6e6594e206f19172def380ebeb35a07af2f27cfe39fb2c4cf2e00ea12881",
+      "gzipBytes": 699,
+      "gzipSha256": "1bf2a9476e893fc9371cc1c1f7eb8f2d210cd3632d3ac0ac04980493270cc128"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/sponsorGrant.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/sponsorGrant.mjs.gz",
+      "bytes": 1982,
+      "sha256": "03acd53946bf1cafed5d96aa6fc0622360f902fe725c4c788a0c25a3ee7ba47b",
+      "gzipBytes": 900,
+      "gzipSha256": "703785dbb7fe17ebb5881b33b3d77bff3c3b1bb6a0cac84143a13cde014e3691"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/submissionGuard.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/submissionGuard.mjs.gz",
+      "bytes": 2230,
+      "sha256": "d53851bab52649f366fcb743278071b6f3503b658aae7c3c0f8b1a032d3442aa",
+      "gzipBytes": 1101,
+      "gzipSha256": "e38b6964f291db785d3a73aabf97ae536d7f844954fb92c4324344f5be094426"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/taskIntent.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/taskIntent.mjs.gz",
+      "bytes": 649,
+      "sha256": "2abc63d9c35e4c7279837821a55f80b1242ded3070aa8464f00c071f347886ea",
+      "gzipBytes": 373,
+      "gzipSha256": "10bc7524efdb3f91e2696308fbc01bb6a7885fa1661d0928668fac63d78864d9"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/u124Abi.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/u124Abi.mjs.gz",
+      "bytes": 2657,
+      "sha256": "9940b8e45ac076eb8b022701db8033a8a4e6ba30f3dcde591b54d704efc42433",
+      "gzipBytes": 1009,
+      "gzipSha256": "fca5b99cba9c7ce432b7dda5ce018f5c5fc7b3adb3fd463778012750801ba697"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/u124Adapter.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/u124Adapter.mjs.gz",
+      "bytes": 10718,
+      "sha256": "d7e0c6335a0a2d87479d2a89daf82a7e92cde0efb2bd1252b4fd8cb98eb1803b",
+      "gzipBytes": 3366,
+      "gzipSha256": "0e25ce72d4bd1e7d927220d6dc07a77d0fdfa278afad38341534ccc83265e0e8"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/u124Reader.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/u124Reader.mjs.gz",
+      "bytes": 8969,
+      "sha256": "c9cf98980218801086c7e9d82f3db51f54560e0d20bbf1f42754b89803197fd7",
+      "gzipBytes": 2884,
+      "gzipSha256": "6fe0999048d9537d6138bf570e834e1550c5b27bff08d11549245171e3fd8ff2"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/u124Submission.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/executor/u124Submission.mjs.gz",
+      "bytes": 2315,
+      "sha256": "d633d961a96e73a56850b8b17817041a7aeef75c4988e3be742978990ddf4c67",
+      "gzipBytes": 907,
+      "gzipSha256": "5b584ff8b2e0d2ad752bffe373e75b3a17250b93468565e64ae9f86b7953ae83"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/launchamm/chainReader.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/launchamm/chainReader.mjs.gz",
+      "bytes": 2909,
+      "sha256": "024ebafd2d5162e2d757e4c99cf3ca86b6f91662002ffc43007e895f38f14c60",
+      "gzipBytes": 1072,
+      "gzipSha256": "868ac97eb267f48be2c44e89c2fc4ef4be79fe32158f986bcc53bddb9aa81c3b"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/launchamm/operationCalls.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/launchamm/operationCalls.mjs.gz",
+      "bytes": 12406,
+      "sha256": "51ee1c63838bf42a4ec9fa1af2165a71d0f5a554e15edb2939daa7bfa958019c",
+      "gzipBytes": 3151,
+      "gzipSha256": "5a09109817d27a70e8d618f3a9ddcd452075456fd7e4eef374e0261f1b556987"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/launchamm/planner.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/launchamm/planner.mjs.gz",
+      "bytes": 3126,
+      "sha256": "a24bd8758b1d97becd33dfd5bf1c08a865d85862a03e0ed3b78dd6a880c1bd97",
+      "gzipBytes": 1144,
+      "gzipSha256": "b49f81a64cc13460e085a7da6e9c3b96db5340022224059dc8e2bc20c58c265a"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/nft-marketplace/abi.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/nft-marketplace/abi.mjs.gz",
+      "bytes": 4505,
+      "sha256": "13e766ccf096262deea21836d27f74668814f6a0ab46e7b04198ec7972ba28a6",
+      "gzipBytes": 1748,
+      "gzipSha256": "b131a4da0c91494a383bfc9c2870af4ce59e60b0b1a16ca97bfa152dd87e3c5d"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/nft-marketplace/client.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/nft-marketplace/client.mjs.gz",
+      "bytes": 3291,
+      "sha256": "ab4957d258abbab46bebef3a9e01a0ce389edfbc2c8aa2c28062d676ccfd4062",
+      "gzipBytes": 1257,
+      "gzipSha256": "c066599de1b6177529eb48a39e0ac5fe6f67de20eed38509b200931c5e8950ca"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/nft-marketplace/generate.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/nft-marketplace/generate.mjs.gz",
+      "bytes": 15227,
+      "sha256": "2db49d48aefbb011523dc7fd874cc004051b5aed7e95e4215c25a95334b0610b",
+      "gzipBytes": 4579,
+      "gzipSha256": "4f957a2be5591c685dbbe1b1e84318eed09b976f855eb99d2e76d249fb0211d0"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/nft-marketplace/policy.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/nft-marketplace/policy.mjs.gz",
+      "bytes": 3630,
+      "sha256": "073ec93fa514dcdf3cf46d8b1790f4c71a766dc81d284072f76177fc9ad07878",
+      "gzipBytes": 1365,
+      "gzipSha256": "3ccc18992c2e25a4f04b05d08d78c1b1168c27bf18ee7edeaf73fe7c03ef3324"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/nft-marketplace/reader.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/nft-marketplace/reader.mjs.gz",
+      "bytes": 6652,
+      "sha256": "055ed692c5f620e5509628bf557abf775e2dd18f949b7c313541f9a0cad0494f",
+      "gzipBytes": 2414,
+      "gzipSha256": "dd14aff04e1d84aae18dcaa21575732538de89957ad15225b78e78a318fa7024"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/nft-marketplace/status.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/nft-marketplace/status.mjs.gz",
+      "bytes": 4259,
+      "sha256": "48a3242c1fed2fb06fbb2d816285ecde848b681f69c8d78ee02e38b2ec92bc82",
+      "gzipBytes": 1648,
+      "gzipSha256": "fe7b60661c5661aba3d61b5008f4a432ebe6907fe55d335ad686ee3152536278"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/orderbook/matcherCore.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/orderbook/matcherCore.mjs.gz",
+      "bytes": 4573,
+      "sha256": "7a54e18e58fef2cb6ad8f10406be4343525d6cb984ea9b7a42f9abc3c6e0b7d0",
+      "gzipBytes": 1582,
+      "gzipSha256": "d185afdbaa504e3557cf44b52547147257658997e39ab6af93929360a22f86c9"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/orderbook/operationCalls.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/orderbook/operationCalls.mjs.gz",
+      "bytes": 5354,
+      "sha256": "8e6d433d877621bc2e78268720bf0e3985a9cfc68b046bf0b6caba3c685a0fd8",
+      "gzipBytes": 1592,
+      "gzipSha256": "dbda79dbec0d85616e5984c276a1142489efe8cfd75ee6b3edb895e9af5148da"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/orderbook/rpcReader.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/orderbook/rpcReader.mjs.gz",
+      "bytes": 2487,
+      "sha256": "18ebc358df60f7f99a17502536b3ac45ba273557a6b35283032a82b2bcbe8a27",
+      "gzipBytes": 1024,
+      "gzipSha256": "7b2888fd8de10c1cdaebc8b636ea60cc209cefb999a86e93d43bd7796316d9ee"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/token/wide/arithmetic.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/token/wide/arithmetic.mjs.gz",
+      "bytes": 2826,
+      "sha256": "60a85bafc6619dffbd9fe70a56d269d8356f55068434e8e83e2d51d28fdccc94",
+      "gzipBytes": 1099,
+      "gzipSha256": "85ffda49e5d427bb0c97f51dce229841b9dfe9a981f5ee0104d36c43c678a283"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/token/wide/artifactGate.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-read-recovery-v2-source/token/wide/artifactGate.mjs.gz",
+      "bytes": 1760,
+      "sha256": "7f5577b19a784fff2465a8881e514002941f74f2c11d076f7cf60d7fb01441fe",
+      "gzipBytes": 825,
+      "gzipSha256": "169ba3c57e6c6c99e42405b43f02fe017a889174a1f00009e9789a29ad31faf4"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-BOOTSTRAP-STARTED.json",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-BOOTSTRAP-STARTED.json.gz",
+      "bytes": 169,
+      "sha256": "24231c181dc2ca7da0e942208416d90b0807afacb31898327760b9443bf6849f",
+      "gzipBytes": 159,
+      "gzipSha256": "5ec743be19d3c3ed7bcddd837d1ac36153edea50e9c736da65185db8b3a90665"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-BOOTSTRAP-TIMING.json",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-BOOTSTRAP-TIMING.json.gz",
+      "bytes": 373,
+      "sha256": "680abf6629a2969f11733c6cf93427cfa333ef95f4ce334a3d105159245b9bed",
+      "gzipBytes": 276,
+      "gzipSha256": "a07909f98536d3c1e9decd37d0b0e7bd4eedb63e9ec147f3d420f3eb5a4c49f9"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-SOURCE.json",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-SOURCE.json.gz",
+      "bytes": 9169,
+      "sha256": "8517fc88caa695a39508a1a43329b44b7cdcd8135c55a6acf67b874b48f884c8",
+      "gzipBytes": 4710,
+      "gzipSha256": "9712ff7321a429acabceb8baa4e7f154cac15fce638c70581a89f17022e415ab"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/amm/callBuilder.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/amm/callBuilder.mjs.gz",
+      "bytes": 10840,
+      "sha256": "fff2477b4685ba7c4ee1ea422aa8e7b5632ab5815eb93ffb1a87271c65cd5603",
+      "gzipBytes": 2599,
+      "gzipSha256": "617a1e8d8086a1dcca7d18cfde4d4cba626db59ce6c77071e9415d75947b20cb"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/amm/chainReader.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/amm/chainReader.mjs.gz",
+      "bytes": 6500,
+      "sha256": "f6af8dfddc3910b26eaaf7a58048ebdb9917b86c32946b2197246b1f9c7bb7f5",
+      "gzipBytes": 2057,
+      "gzipSha256": "158c1699206c54669ee0881fda15054839889c971b16e957be7177dc855ddd5a"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/amm/operationCalls.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/amm/operationCalls.mjs.gz",
+      "bytes": 556,
+      "sha256": "6ded485d216fe2278636c24142599b70f2629f5b39d59860f76caff3d320576e",
+      "gzipBytes": 305,
+      "gzipSha256": "cf16401459f9bab0bd0994cc9684251900812fb6f7da779c9482a4d51aed06b4"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/amm/referenceMath.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/amm/referenceMath.mjs.gz",
+      "bytes": 5300,
+      "sha256": "d30c837cc2c7fe13b5b63674533e4e2661e13315f57551eeea3b1188303cef23",
+      "gzipBytes": 1482,
+      "gzipSha256": "e9bf2fd95597c8af94bfed9567731dc751437df99b9035503dc09393fa10dcd7"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/amm/u124/artifactGate.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/amm/u124/artifactGate.mjs.gz",
+      "bytes": 4626,
+      "sha256": "ad6b2b62361e054d2c7a36dd0d02017ae8ce768231fe7284d311df569861d91f",
+      "gzipBytes": 1649,
+      "gzipSha256": "ae25f09b0802aeddf56676171fbc0ef9e10905a50836bb661955a73b074f9e60"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/amm/u124/build.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/amm/u124/build.mjs.gz",
+      "bytes": 5422,
+      "sha256": "5cb20278db3e76a1078685e77e6d37e1e9afd7e603aa28dd1a15491f04f5bc2b",
+      "gzipBytes": 2054,
+      "gzipSha256": "8b55b73a59f13b94bf3ea87c17f5dff4f9e61091bd0992d497532b1afee758a7"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/amm/u124/client.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/amm/u124/client.mjs.gz",
+      "bytes": 6822,
+      "sha256": "65e29a5a3c429113aeea737b35bce8bd5675946d17456ebe063b5e9738f899ec",
+      "gzipBytes": 2704,
+      "gzipSha256": "4dd4369acc10eee266255cec0bacd7c8e72ee0373a029f5fe70e79cc07f60d37"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/amm/u124/generate.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/amm/u124/generate.mjs.gz",
+      "bytes": 15368,
+      "sha256": "0b99a0d36eef9f58a2f2f90a458fa12d91ac9fd0765e26c00f976f6f9e381f94",
+      "gzipBytes": 4259,
+      "gzipSha256": "e27f5ef088cfa918623636b5cecf4f291c8e8db4f695521aa0f796035b177210"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/amm/u124/math.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/amm/u124/math.mjs.gz",
+      "bytes": 4325,
+      "sha256": "a1c7da522ca49fe371abca2e428a7f3de4dc70e6144da159187e058046b87fd7",
+      "gzipBytes": 1595,
+      "gzipSha256": "aefc9f06e2d1130d8390dcb9bf4e0a32079b788ae78874f36e0c424f755c0fb3"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/amm/u124/policy.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/amm/u124/policy.mjs.gz",
+      "bytes": 5418,
+      "sha256": "deb1cec25b754c7c0c32e0d55c42ef9b152f4fb82186f179a74ef3eadd3bfb5f",
+      "gzipBytes": 1945,
+      "gzipSha256": "acf661070788869c9b1b0e0d35965e3fe0f96d1d86f18c6e3c083675f56ed48e"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/amm/wide/chainReader.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/amm/wide/chainReader.mjs.gz",
+      "bytes": 498,
+      "sha256": "363c853daff4b863425f4537ae1fac795fbe4bf95666c7644c6905079a4128c7",
+      "gzipBytes": 308,
+      "gzipSha256": "1244aac0b2f20775d9964efc3ccb4c07f81636086c334fadd0f4322630a7596a"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/amm/wide/operationCalls.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/amm/wide/operationCalls.mjs.gz",
+      "bytes": 563,
+      "sha256": "3ff7567ce073d91e53fd3428a38250be4e171330a37bd0893c300cf40664ec19",
+      "gzipBytes": 310,
+      "gzipSha256": "62ce8bfe6b2afd52401a3ac3f3bea50215d40020cf012c5abd7a9af726474ef1"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/batching/admission/build.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/batching/admission/build.mjs.gz",
+      "bytes": 6268,
+      "sha256": "b614e621f456810a5a1c42372d4acf5b1937ce8dbc1f28802ab721083e4fbde8",
+      "gzipBytes": 2424,
+      "gzipSha256": "24248fe1d2c2302c10bc0795901f70e179d0868b197882cc719138b465d6c421"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/batching/admission/bulk.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/batching/admission/bulk.mjs.gz",
+      "bytes": 2121,
+      "sha256": "73bbbff746ae05a92f650a405f7a1e53346dd1cdb2b3f5417b65ea2ff7848967",
+      "gzipBytes": 1011,
+      "gzipSha256": "fae45ce197e20882f0c61c8a39267e8beb796a53a004e6f1f6d791012e1093e6"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/batching/admission/freshDeployment.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/batching/admission/freshDeployment.mjs.gz",
+      "bytes": 917,
+      "sha256": "2823349672a88bfb8924940c6486f2cff87a3c105f1d8e4a9ee80913b01882ec",
+      "gzipBytes": 481,
+      "gzipSha256": "1a807412b72b70bcbff532b3d1b212db2735c57b1b0b12cf9bbf48900d906a50"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/batching/admission/generate.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/batching/admission/generate.mjs.gz",
+      "bytes": 11954,
+      "sha256": "9aceace9487f209b2cba3a205879d26add71e3cc20e761599d6c09e37148727d",
+      "gzipBytes": 4025,
+      "gzipSha256": "855d57d8aec10b43f03905a2cda8bf42c24d554154c44cb49261495d7c292507"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/batching/admission/liveAssets.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/batching/admission/liveAssets.mjs.gz",
+      "bytes": 7402,
+      "sha256": "019fcb561cb8fbb8ed69d18418e8f7d650d3e6a24e312ee10ac266588d83343b",
+      "gzipBytes": 2793,
+      "gzipSha256": "299578b464c68ba0ba27434e24b8b952c486220215ddbf3922b5e6c9200a011a"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/batching/admission/liveMarket.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/batching/admission/liveMarket.mjs.gz",
+      "bytes": 8113,
+      "sha256": "32ba4af0d39467d71f9e94d8d37e9344ff70752291dd98c6effd11abbfaeb1a5",
+      "gzipBytes": 2776,
+      "gzipSha256": "be6fa729fd58f78627bbcb1b3ada01676f69c5312a58bfe587de272c9757f6ba"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/batching/admission/liveSupport.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/batching/admission/liveSupport.mjs.gz",
+      "bytes": 7726,
+      "sha256": "bad654871f9321473a033bf89bb66a1fb327324d913e2bad272e6e5c2a375ae5",
+      "gzipBytes": 2765,
+      "gzipSha256": "29d414e8da28ad5cf968447a00912abd17e421a590901d61b88751d97fc6c836"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/batching/admission/ordinaryReport.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/batching/admission/ordinaryReport.mjs.gz",
+      "bytes": 891,
+      "sha256": "e57ad6d4829f73007895884ce03a85e2eb6d5b1b571a6118fe0e1ba145852ddf",
+      "gzipBytes": 502,
+      "gzipSha256": "75686baa317e5c759bc13de7760f9def72e79ed90ba9fdd31a78c535dc1d3af9"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/batching/admission/prepare.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/batching/admission/prepare.mjs.gz",
+      "bytes": 3782,
+      "sha256": "6b98fb045533482b403a695a43b348fb7a87e6bfba557ef8d135614ebb41fcbd",
+      "gzipBytes": 1553,
+      "gzipSha256": "88c386b3a7f98612980db3ca0f06cc44047ee344deec9700a927c9ed0b02e4db"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/batching/admission/reader.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/batching/admission/reader.mjs.gz",
+      "bytes": 5536,
+      "sha256": "427a2243bd6a5276633d140e0ed0d8b94338aaa259d0c275f8307b706c2cac1e",
+      "gzipBytes": 2260,
+      "gzipSha256": "816b3e595c84373c2f2bcb457e76635cd7dc707c8e66619da2f6aa661eb75018"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/batching/admission/registrationPublication.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/batching/admission/registrationPublication.mjs.gz",
+      "bytes": 2537,
+      "sha256": "122a204e90d5181c7233fe2aefe6b6e6969631a1cbe44a03606dcee6ab1ff613",
+      "gzipBytes": 960,
+      "gzipSha256": "338b6db9c7944b0616e3a81f77a92c01239939b6bd9f0378afda065d4d15e1da"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/batching/v2/bootstrap.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/batching/v2/bootstrap.mjs.gz",
+      "bytes": 1294,
+      "sha256": "edf601a2b116e2a44e9155ff98806b99546072fe2bfac37f22db365aaa065850",
+      "gzipBytes": 619,
+      "gzipSha256": "a3419135375c80dccd0658d736b5898377f2e8b9ae9d67592fb9c31a88d483ae"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/batching/v2/client.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/batching/v2/client.mjs.gz",
+      "bytes": 3105,
+      "sha256": "b0c00a38eb84d4acfb487a1316272b9633e7d90cb0df39838cbf6d6419684e9b",
+      "gzipBytes": 1188,
+      "gzipSha256": "25d93a61df1462df784e4461ef4690d95ee6dd026e6e1b665f573d737f4da7c4"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/batching/v2/controller.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/batching/v2/controller.mjs.gz",
+      "bytes": 12476,
+      "sha256": "6e8ff4dd448cce8c4df62ac54914b9ec7c4721ebeaa33ec3b80df0c492403eab",
+      "gzipBytes": 4128,
+      "gzipSha256": "fc36d5ea1ab4f807a047154af8370ce306b8f0f00aa3595af1a27f5dac6c89eb"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/batching/v2/funding.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/batching/v2/funding.mjs.gz",
+      "bytes": 2741,
+      "sha256": "616a28d1547a27e9e46dddab2735e1ddcafa01565d6665f3504b29bff3e49795",
+      "gzipBytes": 1088,
+      "gzipSha256": "b8cee9bc40563676dfbecd95b07da71ea699bc9257ed8e0b9f0f97a678da2d8e"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/batching/v2/generate.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/batching/v2/generate.mjs.gz",
+      "bytes": 13174,
+      "sha256": "d1e5e19a27cd2ee3eddadd1874bd503431a82165beec59c7492af98396f29116",
+      "gzipBytes": 4544,
+      "gzipSha256": "9f876279a4893af8787b25bb7a6a5744f4cf990f3c87031352b448a63bd6c55c"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/batching/v2/guards.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/batching/v2/guards.mjs.gz",
+      "bytes": 14138,
+      "sha256": "f81bcd174540644e3f67bfc3e501582aa92e9f81824dc67314c36d8d05c753aa",
+      "gzipBytes": 4146,
+      "gzipSha256": "e5f5207fdce5d06cc4842978d616d6d058081569e1e1e6e253039f9fb0dba1fc"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/batching/v2/planner.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/batching/v2/planner.mjs.gz",
+      "bytes": 6317,
+      "sha256": "bdc340907709a10e3d8895bd5d4e3a93e0fa81df1cae997fa9c9bbc68053515e",
+      "gzipBytes": 2397,
+      "gzipSha256": "263c7e2a00bd5c78766149865d5369263ad68970dacbe9224e44cbd4a889081e"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/batching/v2/policy.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/batching/v2/policy.mjs.gz",
+      "bytes": 10078,
+      "sha256": "8d2e6ee706ba2b05baa607ddb115c47a201c7eeba4f1c1be5eafa3bc781d1971",
+      "gzipBytes": 3248,
+      "gzipSha256": "a7f9c279fce8fb1d76c9cc20e32eb1aff9ad05111322be15d8d08c59b69ae5f0"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/batching/v2/reader.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/batching/v2/reader.mjs.gz",
+      "bytes": 16741,
+      "sha256": "04f2246e943308d075cd52b7874bca8e8aa598ccb83b87cdf50de5a263b8a837",
+      "gzipBytes": 5056,
+      "gzipSha256": "f85ed84bcb8d6881fe2c1daab77c7877b0f2c2090c18f5ca790acf1cd1060b84"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/batching/v2/recovery.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/batching/v2/recovery.mjs.gz",
+      "bytes": 4776,
+      "sha256": "a9ad7e8ae56af2b8a58adce75d405182bdf2d17263bb72f194ce578708eb408d",
+      "gzipBytes": 1574,
+      "gzipSha256": "213c55f2d49078e9b6584d4491f8ec457725514fe3d4f29f0e204d47eee61d1f"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/bondingcurve/chainReader.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/bondingcurve/chainReader.mjs.gz",
+      "bytes": 5665,
+      "sha256": "ba7c5498b4491190fc737cdf4ce8d5045d314e2e8783a4a7a8fb8cb2c6400d48",
+      "gzipBytes": 2105,
+      "gzipSha256": "8b67b2e42a137e2ce6117923db545a339c7a37f81e3f364bd0c0545406716ce3"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/bondingcurve/curveMath.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/bondingcurve/curveMath.mjs.gz",
+      "bytes": 2738,
+      "sha256": "dfc150794a0716e7953f33761f4c058485c6afa4232caa7d00d96de2979b60ed",
+      "gzipBytes": 833,
+      "gzipSha256": "48c333478c806d5230434b8ac146c28d2720d1eec840fe512db9cf119e02540e"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/bondingcurve/operationCalls.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/bondingcurve/operationCalls.mjs.gz",
+      "bytes": 8773,
+      "sha256": "1d9955a05e695c08366877aa2bd10cc718d2261030209bf37c83e6d4275c1831",
+      "gzipBytes": 2118,
+      "gzipSha256": "79fe8693b3f9252a2437385894bff2fda75b4c5a72e42760a1a98e3a1df23af5"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/bondingcurve/receiptCheck.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/bondingcurve/receiptCheck.mjs.gz",
+      "bytes": 2392,
+      "sha256": "6fc0eafa9dd15ddfd488987cf35963fc424c4ff7e3979fc4b5c3ca4e660dc0fc",
+      "gzipBytes": 956,
+      "gzipSha256": "8d56467ceba19ececba3ad4d8d9e5960d49589e6d51d92e7679787e5dd56c705"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/acceptance/attemptOutcome.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/acceptance/attemptOutcome.mjs.gz",
+      "bytes": 476,
+      "sha256": "e7cc0829de6848e9c43b7e433a12e7b2d20aa5e392a0fa19ef2dc2dfb4f017d0",
+      "gzipBytes": 313,
+      "gzipSha256": "127c7ad3390a02e17bc738d4ef2a0ec4e4a50d807c6daff304f36c463297ae41"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/acceptance/candidateHarness.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/acceptance/candidateHarness.mjs.gz",
+      "bytes": 17384,
+      "sha256": "2c73db0b1d37a272e7211b02b10c87c866c61910b8b836981e40a17112d02309",
+      "gzipBytes": 6075,
+      "gzipSha256": "e6f365af4210b695bcdd46fa522bf788cc937458ed460bc181e1c0c35349bdb5"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/acceptance/cliExecution.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/acceptance/cliExecution.mjs.gz",
+      "bytes": 785,
+      "sha256": "e84e8a22e81b65fb5376a48d36588d31e90423b726df59be516c15309744b47d",
+      "gzipBytes": 413,
+      "gzipSha256": "39ff1e3480e6aa399c972dfa80fb9c40fecc501391a89b3b58b07d620e92c73c"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/acceptance/cohortScope.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/acceptance/cohortScope.mjs.gz",
+      "bytes": 627,
+      "sha256": "d67d553ca43b49944cbfe34dbb599fdb53271ff079b3b9137eed27b508e566ea",
+      "gzipBytes": 396,
+      "gzipSha256": "7c6c46e90b58fb54d55ec36edad6a51e08597c76eeb8e585a3a86583973efea6"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/acceptance/completedCalibration.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/acceptance/completedCalibration.mjs.gz",
+      "bytes": 2887,
+      "sha256": "818cd46556266b16a0334e1a3567c8b4afc920e44291fbab3e59a43890922811",
+      "gzipBytes": 949,
+      "gzipSha256": "c557a33d4f0688f7d6a4b581104b87c656df0d6ecc36a79476e893bed8fd3991"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/acceptance/optionalCalibration.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/acceptance/optionalCalibration.mjs.gz",
+      "bytes": 1204,
+      "sha256": "f70657eb0380a80dbdcdd096f982753271d533e06124052fd9340162dea9a1ab",
+      "gzipBytes": 607,
+      "gzipSha256": "702579a84452030f99b24ac0c9275018f42ddad0357f3e39b8c08f4273b0feda"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/acceptance/ordinaryEvidence.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/acceptance/ordinaryEvidence.mjs.gz",
+      "bytes": 7058,
+      "sha256": "91078c14e587627d8161896d66264fefa7c74e0dfcbec97b619ade4c1a3d2071",
+      "gzipBytes": 2432,
+      "gzipSha256": "d245b9850b9902cbe44384c47550f4168ca729fb5fa4baf66be4995848dd44cc"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/acceptance/runRpcOrdinaryComparison.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/acceptance/runRpcOrdinaryComparison.mjs.gz",
+      "bytes": 17245,
+      "sha256": "659834badaaff0da903f152ff3f61244d1f281a6e5f82dfe22317f641f795e54",
+      "gzipBytes": 5735,
+      "gzipSha256": "c0adb9494eedca7b0c4c66c0ff5c1526d03fd3be88ed91aaa5bb36d0c90dd23b"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/acceptance/sourceClosure.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/acceptance/sourceClosure.mjs.gz",
+      "bytes": 1753,
+      "sha256": "dd3de5a1392909df07e349b1f92235a28ded810d8490c2d9e09d375fd784a7c2",
+      "gzipBytes": 880,
+      "gzipSha256": "a9caf27000c931bd93ef2407f75c2a6fcfeaa54ce59d40ce71ac26c487b49b63"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/acceptance/threeMarketCase.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/acceptance/threeMarketCase.mjs.gz",
+      "bytes": 4229,
+      "sha256": "9a3ca39adde300833d4e040e7649f469254bd9e8ca9fb6991c2af3012c21d790",
+      "gzipBytes": 1845,
+      "gzipSha256": "6b8fa901d010c79c2a90be176b1187895f32b83cdfdc58790ce868815ebff00e"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/admissionReader.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/admissionReader.mjs.gz",
+      "bytes": 7622,
+      "sha256": "91289ab9f78c56a44bf543b2da319b87e15ef3842112906320876c49de4e0554",
+      "gzipBytes": 2802,
+      "gzipSha256": "0c29619415f2d172b7b98f6231e7e9c55ba135991b62f128553feba2130cbe6b"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/chainReceipts.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/chainReceipts.mjs.gz",
+      "bytes": 7232,
+      "sha256": "e37ff3f52509b96bfabe404516452aa088be34df6da752a66ff03099735f6c91",
+      "gzipBytes": 2835,
+      "gzipSha256": "c97235bdb0c209a6fc0395ce0012e2c12cf60b381b468e4cbe2fb7345a9b0045"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/compactAdmissionAdapter.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/compactAdmissionAdapter.mjs.gz",
+      "bytes": 17346,
+      "sha256": "70ab06bf994dac4dbd4237e598fabc5f024b1513a7913fe3882f369ee6f8fa49",
+      "gzipBytes": 5487,
+      "gzipSha256": "0ff35beef2d9ef52d90c5ca4b4ae147308e71cbac30b0ec7558f5ba3909339e7"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/config.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/config.mjs.gz",
+      "bytes": 11272,
+      "sha256": "b21cd98eff5febac2f6f65593588b3f331f74629957c27d844034b671b3e9d96",
+      "gzipBytes": 2931,
+      "gzipSha256": "585d3ecd2887374a11c16644ba0f4161f932bc60c80aba1875d227f69a6aaec7"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/confirmedNonceConflict.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/confirmedNonceConflict.mjs.gz",
+      "bytes": 2036,
+      "sha256": "2217d1cb4e466d9d035e3b1967f4844a2834ce4199f154a27c20f93758399d06",
+      "gzipBytes": 787,
+      "gzipSha256": "63dfcce65d93f025d3a7130a7d72ab621dfe064033e095517fc571b7f6d01092"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/driverProcess.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/driverProcess.mjs.gz",
+      "bytes": 1696,
+      "sha256": "0ccd44179344685f4bba1ce12d230c33970f8e6db88ac528452187702010d325",
+      "gzipBytes": 912,
+      "gzipSha256": "80d44e3f769c3723b22dbd18acfd85190399383d26d88f90285af2910571d98f"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/durableFile.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/durableFile.mjs.gz",
+      "bytes": 758,
+      "sha256": "099f2698e2b5878c100d52c4dc37ad115ec5f1c09d790f12a9b4380c437e5ec0",
+      "gzipBytes": 415,
+      "gzipSha256": "b0625ae8180e075e9d2cdc19f176598e7ee6446107c380e94a6191ebd25047f3"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/identityCache.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/identityCache.mjs.gz",
+      "bytes": 1763,
+      "sha256": "a37b718de1ab61d176b9935f1d09e3fd26a604e354d145f08999556cfed46218",
+      "gzipBytes": 827,
+      "gzipSha256": "4feed2b0a5c3e849eb5ab7c704de576dc0847bfd4e9149f66823f54ea4871f72"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/journal.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/journal.mjs.gz",
+      "bytes": 9497,
+      "sha256": "6b6f99b8072b82d9b80df4b34fb01d1a73ba1fb6d74d83b9b157f1e0bb8b8303",
+      "gzipBytes": 2958,
+      "gzipSha256": "2a7791bc45ebf332633990ded90e0ea6a7b20b5fc5d8cb2d87e7a8f8a860c771"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/observations.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/observations.mjs.gz",
+      "bytes": 891,
+      "sha256": "987e2c6e5cc3030b0064b840bf704691963dd03d89db9c411e50321b547f53a4",
+      "gzipBytes": 430,
+      "gzipSha256": "0cb41482834a003fca05f76025fa652f28ba6b3601552369e881a9bb09acec86"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/ordinaryResident.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/ordinaryResident.mjs.gz",
+      "bytes": 8785,
+      "sha256": "c5b7141362355bf92769a594fd5cef8bc0c6a3f8b8a313b7ed53b87eaac52b55",
+      "gzipBytes": 3137,
+      "gzipSha256": "485a954c3af89a347cbc6057f7cd7bdd9705baf387889e4b3e7e3eb633a14e2d"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/phaseMetrics.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/phaseMetrics.mjs.gz",
+      "bytes": 3871,
+      "sha256": "6e02e7aa08867bdf5d678c649f3ffdc7a8ccfc5dc3ba1e233ee84a0124ed2ed0",
+      "gzipBytes": 1630,
+      "gzipSha256": "c76c5640d8bdf12d9921b63ce9ecacbe198d6e8f7049d1533980e4fdf61c8d9f"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/preSessionRetry.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/preSessionRetry.mjs.gz",
+      "bytes": 1086,
+      "sha256": "64c85ff25a6a6903749be77f3a477188118fd587f42829fc05f5e559e47d86af",
+      "gzipBytes": 630,
+      "gzipSha256": "0a78baf7b82763454da958acbf56c08bde10e572ba58623c83f2e955693901a9"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/preflight.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/preflight.mjs.gz",
+      "bytes": 611,
+      "sha256": "0205e1e27450742753068a52b9e5e11e569ec6383f006d843acf42a8776fbd56",
+      "gzipBytes": 399,
+      "gzipSha256": "7a972e16607e8a853580a07f7e2be7af6f8a310a2ed7051c41a4c74aaf4f5323"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/preflightRecovery.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/preflightRecovery.mjs.gz",
+      "bytes": 4815,
+      "sha256": "78723c46346428731e11b08b91acd82ecef2edf4b534e5b217971403afdd0d3a",
+      "gzipBytes": 1832,
+      "gzipSha256": "82d5c84bdab44e81476dadb744f255c911ee81901d22ee04aa9bd6dc2c37d261"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/publicState.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/publicState.mjs.gz",
+      "bytes": 5922,
+      "sha256": "f1606cc4a0fcf2c71e68fb8c7d6e7a835e2e41673c0115cfdb66cedc33fde979",
+      "gzipBytes": 2326,
+      "gzipSha256": "9cd842c962742e4c199caac8e658a4b6ae8a4404254ed80e5c2cc17978921fb3"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/publicWalletAdapter.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/publicWalletAdapter.mjs.gz",
+      "bytes": 6099,
+      "sha256": "bc33f1c61d15f41850f66c4eb9f587f13b111ed96a51b009041d87e919c172ad",
+      "gzipBytes": 2101,
+      "gzipSha256": "886222e392b661d6141d4c06610330c05c4efa43ce1ecc3d3078774fbc02b16a"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/readConcurrency.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/readConcurrency.mjs.gz",
+      "bytes": 1457,
+      "sha256": "b341c4b91c837e92d47c425fcf783b1abb661ab79cd9f3696893e6998e530072",
+      "gzipBytes": 737,
+      "gzipSha256": "a26a8d7f98f90f2bb069eec2873710a9c977d2ae4ced94c7e18c8955aedde58d"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/readRetry.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/readRetry.mjs.gz",
+      "bytes": 761,
+      "sha256": "a3690049dc4f729e642a17c26add8dd2bd984dfc817b6fcd54fe5d27825d9a88",
+      "gzipBytes": 472,
+      "gzipSha256": "36c46a10cc8f8b17a0789c7f217ee6c2ad77319b8c716f2d034f67e83e57d606"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/readSingleFlight.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/readSingleFlight.mjs.gz",
+      "bytes": 1090,
+      "sha256": "5a8febcf46f63db4095290d7fbbe7256d69a9f1ddc0f80b8e8c0db6204fcbb79",
+      "gzipBytes": 561,
+      "gzipSha256": "84b13f32b979af317c80218d5de5a14a4f9fcecb9d1220be1d9cc68c11071274"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/requestBinding.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/requestBinding.mjs.gz",
+      "bytes": 1554,
+      "sha256": "18f7d0b394f03481be1ed25581c6b551e4e780bcba20e217a99f80be9f2aa2c2",
+      "gzipBytes": 704,
+      "gzipSha256": "7d1a6474cd1f3c1c130df21b2b011d3888d50daf59bc577c15cb4200835b4dd0"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/residentProver.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/residentProver.mjs.gz",
+      "bytes": 4443,
+      "sha256": "5f13bfed644066afc54cc20d12be54835582e95b0288b8b55f3abd20603f0ac1",
+      "gzipBytes": 1604,
+      "gzipSha256": "717ba05497ef54b63f77ae2b1aaae67e52bbdbf10109fff45b4b05440ea958ce"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/residentScope.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/residentScope.mjs.gz",
+      "bytes": 3828,
+      "sha256": "e034f905326ab689c48e4516e11de23c9d6592c19f26dd0aa52a6c4734f2e18c",
+      "gzipBytes": 1402,
+      "gzipSha256": "c79da9d14d2b1d9167687001ab289ec20ca7fb3278f066c14902ef6cefc40d8f"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/sealedDriver.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/sealedDriver.mjs.gz",
+      "bytes": 1535,
+      "sha256": "369b6e6594e206f19172def380ebeb35a07af2f27cfe39fb2c4cf2e00ea12881",
+      "gzipBytes": 699,
+      "gzipSha256": "1bf2a9476e893fc9371cc1c1f7eb8f2d210cd3632d3ac0ac04980493270cc128"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/sponsorGrant.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/sponsorGrant.mjs.gz",
+      "bytes": 1982,
+      "sha256": "03acd53946bf1cafed5d96aa6fc0622360f902fe725c4c788a0c25a3ee7ba47b",
+      "gzipBytes": 900,
+      "gzipSha256": "703785dbb7fe17ebb5881b33b3d77bff3c3b1bb6a0cac84143a13cde014e3691"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/submissionGuard.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/submissionGuard.mjs.gz",
+      "bytes": 2230,
+      "sha256": "d53851bab52649f366fcb743278071b6f3503b658aae7c3c0f8b1a032d3442aa",
+      "gzipBytes": 1101,
+      "gzipSha256": "e38b6964f291db785d3a73aabf97ae536d7f844954fb92c4324344f5be094426"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/taskIntent.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/taskIntent.mjs.gz",
+      "bytes": 649,
+      "sha256": "2abc63d9c35e4c7279837821a55f80b1242ded3070aa8464f00c071f347886ea",
+      "gzipBytes": 373,
+      "gzipSha256": "10bc7524efdb3f91e2696308fbc01bb6a7885fa1661d0928668fac63d78864d9"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/u124Abi.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/u124Abi.mjs.gz",
+      "bytes": 2657,
+      "sha256": "9940b8e45ac076eb8b022701db8033a8a4e6ba30f3dcde591b54d704efc42433",
+      "gzipBytes": 1009,
+      "gzipSha256": "fca5b99cba9c7ce432b7dda5ce018f5c5fc7b3adb3fd463778012750801ba697"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/u124Adapter.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/u124Adapter.mjs.gz",
+      "bytes": 10718,
+      "sha256": "d7e0c6335a0a2d87479d2a89daf82a7e92cde0efb2bd1252b4fd8cb98eb1803b",
+      "gzipBytes": 3366,
+      "gzipSha256": "0e25ce72d4bd1e7d927220d6dc07a77d0fdfa278afad38341534ccc83265e0e8"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/u124Reader.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/u124Reader.mjs.gz",
+      "bytes": 8969,
+      "sha256": "c9cf98980218801086c7e9d82f3db51f54560e0d20bbf1f42754b89803197fd7",
+      "gzipBytes": 2884,
+      "gzipSha256": "6fe0999048d9537d6138bf570e834e1550c5b27bff08d11549245171e3fd8ff2"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/u124Submission.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/executor/u124Submission.mjs.gz",
+      "bytes": 2315,
+      "sha256": "d633d961a96e73a56850b8b17817041a7aeef75c4988e3be742978990ddf4c67",
+      "gzipBytes": 907,
+      "gzipSha256": "5b584ff8b2e0d2ad752bffe373e75b3a17250b93468565e64ae9f86b7953ae83"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/launchamm/chainReader.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/launchamm/chainReader.mjs.gz",
+      "bytes": 2909,
+      "sha256": "024ebafd2d5162e2d757e4c99cf3ca86b6f91662002ffc43007e895f38f14c60",
+      "gzipBytes": 1072,
+      "gzipSha256": "868ac97eb267f48be2c44e89c2fc4ef4be79fe32158f986bcc53bddb9aa81c3b"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/launchamm/operationCalls.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/launchamm/operationCalls.mjs.gz",
+      "bytes": 12406,
+      "sha256": "51ee1c63838bf42a4ec9fa1af2165a71d0f5a554e15edb2939daa7bfa958019c",
+      "gzipBytes": 3151,
+      "gzipSha256": "5a09109817d27a70e8d618f3a9ddcd452075456fd7e4eef374e0261f1b556987"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/launchamm/planner.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/launchamm/planner.mjs.gz",
+      "bytes": 3126,
+      "sha256": "a24bd8758b1d97becd33dfd5bf1c08a865d85862a03e0ed3b78dd6a880c1bd97",
+      "gzipBytes": 1144,
+      "gzipSha256": "b49f81a64cc13460e085a7da6e9c3b96db5340022224059dc8e2bc20c58c265a"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/nft-marketplace/abi.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/nft-marketplace/abi.mjs.gz",
+      "bytes": 4505,
+      "sha256": "13e766ccf096262deea21836d27f74668814f6a0ab46e7b04198ec7972ba28a6",
+      "gzipBytes": 1748,
+      "gzipSha256": "b131a4da0c91494a383bfc9c2870af4ce59e60b0b1a16ca97bfa152dd87e3c5d"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/nft-marketplace/client.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/nft-marketplace/client.mjs.gz",
+      "bytes": 3291,
+      "sha256": "ab4957d258abbab46bebef3a9e01a0ce389edfbc2c8aa2c28062d676ccfd4062",
+      "gzipBytes": 1257,
+      "gzipSha256": "c066599de1b6177529eb48a39e0ac5fe6f67de20eed38509b200931c5e8950ca"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/nft-marketplace/generate.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/nft-marketplace/generate.mjs.gz",
+      "bytes": 15227,
+      "sha256": "2db49d48aefbb011523dc7fd874cc004051b5aed7e95e4215c25a95334b0610b",
+      "gzipBytes": 4579,
+      "gzipSha256": "4f957a2be5591c685dbbe1b1e84318eed09b976f855eb99d2e76d249fb0211d0"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/nft-marketplace/policy.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/nft-marketplace/policy.mjs.gz",
+      "bytes": 3630,
+      "sha256": "073ec93fa514dcdf3cf46d8b1790f4c71a766dc81d284072f76177fc9ad07878",
+      "gzipBytes": 1365,
+      "gzipSha256": "3ccc18992c2e25a4f04b05d08d78c1b1168c27bf18ee7edeaf73fe7c03ef3324"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/nft-marketplace/reader.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/nft-marketplace/reader.mjs.gz",
+      "bytes": 6652,
+      "sha256": "055ed692c5f620e5509628bf557abf775e2dd18f949b7c313541f9a0cad0494f",
+      "gzipBytes": 2414,
+      "gzipSha256": "dd14aff04e1d84aae18dcaa21575732538de89957ad15225b78e78a318fa7024"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/nft-marketplace/status.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/nft-marketplace/status.mjs.gz",
+      "bytes": 4259,
+      "sha256": "48a3242c1fed2fb06fbb2d816285ecde848b681f69c8d78ee02e38b2ec92bc82",
+      "gzipBytes": 1648,
+      "gzipSha256": "fe7b60661c5661aba3d61b5008f4a432ebe6907fe55d335ad686ee3152536278"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/orderbook/matcherCore.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/orderbook/matcherCore.mjs.gz",
+      "bytes": 4573,
+      "sha256": "7a54e18e58fef2cb6ad8f10406be4343525d6cb984ea9b7a42f9abc3c6e0b7d0",
+      "gzipBytes": 1582,
+      "gzipSha256": "d185afdbaa504e3557cf44b52547147257658997e39ab6af93929360a22f86c9"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/orderbook/operationCalls.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/orderbook/operationCalls.mjs.gz",
+      "bytes": 5354,
+      "sha256": "8e6d433d877621bc2e78268720bf0e3985a9cfc68b046bf0b6caba3c685a0fd8",
+      "gzipBytes": 1592,
+      "gzipSha256": "dbda79dbec0d85616e5984c276a1142489efe8cfd75ee6b3edb895e9af5148da"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/orderbook/rpcReader.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/orderbook/rpcReader.mjs.gz",
+      "bytes": 2487,
+      "sha256": "18ebc358df60f7f99a17502536b3ac45ba273557a6b35283032a82b2bcbe8a27",
+      "gzipBytes": 1024,
+      "gzipSha256": "7b2888fd8de10c1cdaebc8b636ea60cc209cefb999a86e93d43bd7796316d9ee"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/token/wide/arithmetic.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/token/wide/arithmetic.mjs.gz",
+      "bytes": 2826,
+      "sha256": "60a85bafc6619dffbd9fe70a56d269d8356f55068434e8e83e2d51d28fdccc94",
+      "gzipBytes": 1099,
+      "gzipSha256": "85ffda49e5d427bb0c97f51dce229841b9dfe9a981f5ee0104d36c43c678a283"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/baseline-run-v1-source/token/wide/artifactGate.mjs",
+      "file": "files/fixed-verifier-performance-live-v4/public/baseline-run-v1-source/token/wide/artifactGate.mjs.gz",
+      "bytes": 1760,
+      "sha256": "7f5577b19a784fff2465a8881e514002941f74f2c11d076f7cf60d7fb01441fe",
+      "gzipBytes": 825,
+      "gzipSha256": "169ba3c57e6c6c99e42405b43f02fe017a889174a1f00009e9789a29ad31faf4"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/public/rpc.json",
+      "file": "files/fixed-verifier-performance-live-v4/public/rpc.json.gz",
+      "bytes": 1738,
+      "sha256": "93f0c6a80f0c34b596b4b1a862d0c2d51ee248ac8ddd5e88caf8157a59a398bc",
+      "gzipBytes": 577,
+      "gzipSha256": "ace57b52c39bfbc5d517ac55f07edd9063a43d627710e15cdef203cfc629c33a"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/read-recovery-regressions-v2.log",
+      "file": "files/fixed-verifier-performance-live-v4/read-recovery-regressions-v2.log.gz",
+      "bytes": 2337,
+      "sha256": "6f81c067e07ebf7f21d73722e4a442599a42bac7fe1fe64865070c626debe16b",
+      "gzipBytes": 1184,
+      "gzipSha256": "d38f7e9e253295c95ab9784cb6d6cf9ab79b85ed5addce4103b74ea22b344a71"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/resources-v1-IDENTITY.json",
+      "file": "files/fixed-verifier-performance-live-v4/resources-v1-IDENTITY.json.gz",
+      "bytes": 545,
+      "sha256": "8dba33b2783c8f606e7e6e9088ca702c55e4f2af168ad2e452f34356794dbbe6",
+      "gzipBytes": 422,
+      "gzipSha256": "011ef002abea2e1c846578f839be247bca8dca85be43cf05459ebd732ea6cf0e"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/resources-v1-SUMMARY.json",
+      "file": "files/fixed-verifier-performance-live-v4/resources-v1-SUMMARY.json.gz",
+      "bytes": 379,
+      "sha256": "fab7c22397602dd83608a866fd7d174db0c6450435fb695c7de1aa63621bac87",
+      "gzipBytes": 294,
+      "gzipSha256": "57c4ffa8849f1c3e9a710bc26d9bbabcfc1e59e8cb428febece5c39b1deff766"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v4/resources-v1.log",
+      "file": "files/fixed-verifier-performance-live-v4/resources-v1.log.gz",
+      "bytes": 340250,
+      "sha256": "0803cc8053bf82566e391c5f7e88b1a9ffcb30ffc15cd6fa20f5c235520eb674",
+      "gzipBytes": 15223,
+      "gzipSha256": "f81a6de4bb67884c334485d15cc60d475a1cc6c003b4a5fb484b0f72da00c2b1"
+    }
+  ]
+}

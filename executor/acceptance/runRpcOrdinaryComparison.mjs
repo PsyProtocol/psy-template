@@ -19,6 +19,7 @@ import {residentScope} from '../residentScope.mjs';
 import {freezeAppModules} from './sourceClosure.mjs';
 import {saveObservation} from '../observations.mjs';
 import {readSponsorGrant,sponsorGrant} from '../sponsorGrant.mjs';
+import {verifyPreEpochResume} from './preEpochResume.mjs';
 
 const [base,original,selection='baseline']=process.argv.slice(2);
 const resourceComparison=process.env.PSY_RESOURCE_COMPARISON==='1';
@@ -103,7 +104,11 @@ try {
  const before=resuming?parseLosslessJson(readFileSync(beforeFile,'utf8')):await cohortAssets(s,spec);if(!resuming)save(beforeFile,before);
  assert.ok(before.accounts[U].ft[2483]>=unit&&before.accounts[B].ft[2484]>=unit);
  assert.ok(before.accounts[h.actors.sponsor.id].native>=12_000_000_000n,'explicit sponsor budget');
- const initialGrant=await readSponsorGrant(s,m,h.actors.sponsor.id);assert.equal(initialGrant.sent,initialGrant.claimed,'recover unused sponsorship before any new financial round');assert.equal(initialGrant.claimed,initialGrant.settledFee,'sponsor claim/accounting cursor');
+ const initialGrant=await readSponsorGrant(s,m,h.actors.sponsor.id);
+ const recoveryLabel=process.env.PSY_PRE_EPOCH_READ_RECOVERY;
+ if(recoveryLabel){assert.equal(resuming,true);await verifyPreEpochResume({base,round,original,selection,market:m,state:s,actors:h.actors,grant:initialGrant,bindings:h.bindings,label:recoveryLabel});}
+ else assert.equal(initialGrant.sent,initialGrant.claimed,'recover unused sponsorship before any new financial round');
+ assert.equal(initialGrant.claimed,initialGrant.settledFee,'sponsor claim/accounting cursor');
  if(!resuming)saveObservation(join(round,'public/ENVIRONMENT.json'),{at:new Date().toISOString(),host:hostname(),logicalCpus:cpus().length,physicalMemoryBytes:totalmem(),loadAverage:loadavg(),threads:2,sdkSha256:SDK,compactBinary:h.binarySha256,ordinaryBinary:ordinaryTool.sha256,selection,resourceComparison,verifierComparison,prewarmBeforeEpoch:verifierComparison,consentSchedule:verifierComparison?'parallel-three-v1':'historical-pair-v1',fixedVerifierMode,memoryMode:resourceComparison?memoryMode:null,market:m.id,vault:m.vault,inputPerSide:unit.toString(),fills:1,matching:'existing deterministic Book priority, two members, one trade; normal new orders only, no contract updates'});
  if(resourceComparison)saveObservation(join(base,'public',sourceLabel+'-BOOTSTRAP-TIMING.json'),{startedAt:bootstrapAt,finishedAt:new Date().toISOString(),wallMilliseconds:performance.now()-bootstrapStart,pid:process.pid,selection,cohortSnapshotMilliseconds:before.observation.wallMilliseconds,scope:'source/binary/config identity checks, SDK-selected fixture loading, fresh realm/dependency/order reads and finite-cohort snapshot; separate from native circuit construction'});
  await pair([

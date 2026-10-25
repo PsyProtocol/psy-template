@@ -5,6 +5,7 @@ import {decodeFeltSlot} from '../orderbook/matcherCore.mjs';
 import {parseLosslessJson,losslessJson} from '../amm/u124/client.mjs';
 import {retryRead} from './readRetry.mjs';
 import {withReadSlot,readTogether} from './readConcurrency.mjs';
+import {checkpointHeads} from './checkpointHeads.mjs';
 export async function publicState(rpcConfig,{observeRead,coalesceRead=true}={}) {
  if(observeRead!==undefined&&typeof observeRead!=='function')throw Error('invalid read observer');
  if(typeof coalesceRead!=='boolean')throw Error('invalid public read coalescing mode');
@@ -28,7 +29,7 @@ export async function publicState(rpcConfig,{observeRead,coalesceRead=true}={}) 
   });
  };
  const coordinator=network.coordinator_configs[0].rpc_url[0];
- const heads=await readTogether(network.realm_configs.map(x=>rpc(x.rpc_url[0],'psy_get_latest_l2_block_state',{})));
+ const heads=await checkpointHeads(network.realm_configs,rpc,{onRecovery:row=>console.error('PSY_CHECKPOINT_READ_RECOVERY '+JSON.stringify(row))});
  if(heads.some(x=>!Number.isSafeInteger(x?.checkpoint_id)||x.checkpoint_id<1))throw Error('invalid realm checkpoint');
  const checkpoint=Math.min(...heads.map(x=>x.checkpoint_id));
  if(!Number.isSafeInteger(checkpoint)||checkpoint<1)throw Error('invalid checkpoint');
