@@ -1,0 +1,28 @@
+PSY_RECEIPT_READ_UNAVAILABLE {"at":"2026-10-25T10:58:51.570Z","userId":123,"endUserLeafHash":"ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff","minCheckpoint":101,"status":500}
+✔ bounded services outage stays unresolved; next poll recovers the original exact identity (3015.977666ms)
+✔ receipt older than the latest 100 events is recovered with exact historical leaf and receipt (5.947958ms)
+✔ verified source bound skips older leaf RPCs without dropping pages or receipt validation (2.333875ms)
+✔ pagination stops at advertised final page and does not confuse a matching leaf with a mismatched receipt (2.750041ms)
+✔ an exhausted history window stays unresolved and never requests an unbounded next page (8.549875ms)
+✔ overlapping pages deduplicate events and historical reads; a stuck pagination response stays unresolved (7.549375ms)
+✔ missing leaves make no requests; invalid identities or malformed listings cannot clear a broadcast (1.779458ms)
+✔ historical reads overlap in bounded chunks and retain deterministic receipt selection (28.190625ms)
+✔ one failed historical candidate does not authorize a retry or hide a later exact included receipt (1.669667ms)
+✔ single source-bounded candidate overlaps receipt and leaf, but both endpoints remain mandatory (21.285167ms)
+✔ only same-source same-nonce confirmed legal abort resolves ambiguous admission (0.701417ms)
+✔ missing receipt, a later nonce, different anchor/key scope, original winning and unverified proof all fail (4.514584ms)
+✔ wire compaction preserves U124 literals, quoted whitespace, escaped quotes and UTF-8 (1.595917ms)
+✔ invalid JSON or UTF-8 cannot be converted into an apparently valid request (0.443667ms)
+✔ retirement guard permits exactly one fee leaf and no market business mutation (1.573792ms)
+✔ actual lossless JSON representation preserves prototype-independent financial validation (0.630041ms)
+✔ wrong identity/nonce, transfers, added state, fees and nonbalance mutations fail closed (1.626541ms)
+✔ same-nonce ordinary conflict requires both exact verified requests and exact confirmed winner (1.848208ms)
+✔ receipt, identity, fee, verification and raw-byte substitutions do not retire an ambiguous request (4.930667ms)
+ℹ tests 19
+ℹ suites 0
+ℹ pass 19
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3147.099792
