@@ -12,7 +12,7 @@ for name in (a.select or ['public','attempts','runtime','markets-v1']):
  selected=base/relative;assert selected.exists() and selected.resolve().is_relative_to(base),'selected original missing or outside run'
  for f in ([selected] if selected.is_file() else sorted(selected.rglob('*'))):
   assert not f.is_symlink(),'symlink evidence forbidden'
-  if not f.is_file() or f.suffix not in ['.json','.log','.body','.rs','.mjs','.py','.txt','.toml','.lock']:continue
+  if not f.is_file() or f.suffix not in ['.json','.jsonl','.log','.body','.rs','.mjs','.py','.txt','.toml','.lock']:continue
   assert '.secrets' not in f.parts
   if 'drivers' in f.relative_to(base).parts:continue
   paths.append(f)
@@ -27,6 +27,9 @@ def check(x):
   for v in x:check(v)
 for f in paths:
  if f.suffix=='.json':check(json.loads(f.read_bytes()))
+ if f.suffix=='.jsonl':
+  for line in f.read_bytes().splitlines():
+   if line.strip():check(json.loads(line))
 out.mkdir(parents=True,exist_ok=False);sha=lambda b:hashlib.sha256(b).hexdigest();records=[]
 for f in paths:
  raw=f.read_bytes();packed=gzip.compress(raw,compresslevel=9,mtime=0);relative=f.relative_to(base);dest=out/'files'/(str(relative)+'.gz');dest.parent.mkdir(parents=True,exist_ok=True)
