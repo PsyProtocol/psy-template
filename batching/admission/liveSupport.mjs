@@ -20,23 +20,24 @@ export async function run(binary,args,log,env={}){
 }
 export function contractBinding(id,l){return {contract:{contractId:id,codeRoot:l.code_root,layoutRoot:l.state_layout_root,stateTreeHeight:l.state_tree_height},functionTreeRoot:l.function_tree_root,layoutFieldCount:l.state_layout_field_count,layoutSlotCount:l.state_layout_slot_count};}
 export async function binding(state,id){return contractBinding(id,await state.contractLeaf(id));}
-export async function confirmUps(config,attempt,{polls=120,intervalMs=10000}={}){
+export async function confirmUps(config,attempt,{polls=120,intervalMs=10000,findReceipt,historyConcurrency=4}={}){
  const {preflight:p,userId,endUserLeafHash,minCheckpoint}=ordinaryPreflight(readFileSync(join(attempt,'preflight.json'),'utf8'));
- const find=await receiptReader(config,{maxPages:20});
- for(let i=0;i<polls;i++){const result=await find({userId,endUserLeafHash,minCheckpoint});if(result.status==='included'){
+ const find=findReceipt??await receiptReader(config,{maxPages:20,historyConcurrency});
+ const startedAt=new Date().toISOString(),start=performance.now();let observations=0,commonObservations=0;
+ for(let i=0;i<polls;i++){observations++;const result=await find({userId,endUserLeafHash,minCheckpoint});if(result.status==='included'){
   // A later cross-realm reader must not plan from an earlier common snapshot.
-  let common;for(let j=0;j<polls;j++){common=await publicState(config);if(common.checkpoint>=result.checkpoint)break;await new Promise(r=>setTimeout(r,intervalMs));}
+  let common;for(let j=0;j<polls;j++){commonObservations++;common=await publicState(config);if(common.checkpoint>=result.checkpoint)break;await new Promise(r=>setTimeout(r,intervalMs));}
   assert.ok(common.checkpoint>=result.checkpoint,'included UPS not yet visible at common realm checkpoint');
-  save(join(attempt,'included.json'),{checkedAt:new Date().toISOString(),...result,commonCheckpoint:common.checkpoint,preflight:p});return result;
+  save(join(attempt,'included.json'),{checkedAt:new Date().toISOString(),...result,commonCheckpoint:common.checkpoint,preflight:p});save(join(attempt,'confirmation-timing.json'),{startedAt,finishedAt:new Date().toISOString(),wallMilliseconds:Math.round(performance.now()-start),observations,commonObservations,historyConcurrency,scope:'ACK/recovery start to indexed exact historical receipt and common visibility; includes polling/read time, not server finality alone'});return result;
  }await new Promise(r=>setTimeout(r,intervalMs));}
  throw Error('inclusion unresolved; saved intent must be reconciled, never blindly retried');
 }
-export async function ordinary({base,config,binary,secret,name,calls,bindings,env}){
+export async function ordinary({base,config,binary,secret,name,calls,bindings,env,worker,historyConcurrency=4}){
  const s=await publicState(config),ids=[...new Set([0,...calls.map(c=>Number(c.contract_id))])];
  const contracts=await Promise.all(ids.map(async id=>{const expected=bindings?.get(id);assert.ok(expected,'frozen dependency binding required '+id);assert.deepEqual(await binding(s,id),expected,'dependency changed');return expected;}));
  const input=join(base,'public',name+'.json'),out=join(base,'attempts',name);save(input,{calls:{contract_calls:calls,software_defined_call:{inputs:[]}},contracts,validUntilCheckpoint:s.checkpoint+128});
- const timing=await run(binary,['call',config,secret,input,out],join(base,name+'.log'),env);save(join(out,'timing.json'),timing);
- await confirmUps(config,out);return out;
+ const timing=worker?await worker.run({action:'call',input,out,log:join(base,name+'.log')}):await run(binary,['call',config,secret,input,out],join(base,name+'.log'),env);save(join(out,'timing.json'),timing);
+ await confirmUps(config,out,{historyConcurrency,...(worker?{findReceipt:()=>worker.reconcile()}: {})});return out;
 }
 export async function confirmDeploy(config,attempt,expectedDeployer){
  assert.match(expectedDeployer,/^[0-9a-f]{64}$/,'deployment owner must be a pinned public-key hash, not a user ID');

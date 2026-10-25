@@ -67,3 +67,31 @@ test('missing leaves make no requests; invalid identities or malformed listings 
  const malformed=await receiptReader(config,{fetchImpl:async()=>response({success:true,data:{items:[],user_id:124}})});
  await assert.rejects(malformed({userId,endUserLeafHash:leaf}),/listing/);
 }));
+test('historical reads overlap in bounded chunks and retain deterministic receipt selection',()=>fixture(async config=>{
+ for(const concurrency of [1,4]){
+  let active=0,peak=0,finished=0;const checks=[];
+  const io=fetcher({pages:()=>({items:[1,2,3,4,5,6].map(event),has_next:false}),target:3});
+  const fetchImpl=async(url,options)=>{
+   if(options?.method==='POST'){
+    active++;peak=Math.max(peak,active);await new Promise(r=>setTimeout(r,5));
+    const result=await io.fetchImpl(url,options);active--;finished++;return result;
+   }
+   if(url.includes('/transaction/hash/'))checks.push({active,finished});
+   return io.fetchImpl(url,options);
+  };
+  const result=await(await receiptReader(config,{fetchImpl,historyConcurrency:concurrency}))({userId,endUserLeafHash:leaf});
+  assert.equal(result.status,'included');assert.equal(result.checkpoint,3);assert.equal(peak,concurrency);assert.equal(active,0);
+  assert.deepEqual(checks,[{active:0,finished:concurrency===1?3:4}]);
+ }
+ await assert.rejects(receiptReader(config,{historyConcurrency:8}),/concurrency/);
+}));
+test('one failed historical candidate does not authorize a retry or hide a later exact included receipt',()=>fixture(async config=>{
+ const io=fetcher({pages:()=>({items:[1,2,3,4].map(event),has_next:false}),target:3});
+ const result=await(await receiptReader(config,{fetchImpl:async(url,options)=>{
+  if(options?.method==='POST'&&JSON.parse(options.body).params.checkpoint_id===2)throw Error('read unavailable');
+  return io.fetchImpl(url,options);
+ }}))({userId,endUserLeafHash:leaf});
+ assert.equal(result.status,'included');assert.equal(result.checkpoint,3);
+ const bad=fetcher({pages:()=>({items:[1,2,3,4].map(event),has_next:false}),receiptPatch:{status:'pending'},target:3});
+ assert.equal((await(await receiptReader(config,bad))({userId,endUserLeafHash:leaf})).status,'unresolved');
+}));
