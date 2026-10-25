@@ -1,0 +1,38 @@
+{
+  "at": "2026-10-25T02:53:22.509642+00:00",
+  "sdkManifestSha256": "0afb4c65116cddcaca450b406a06503d65b63d38a004d8e773c6e5fa363bd425",
+  "sdkSourceFilesUnchanged": 1466,
+  "nodeDiffSha256": "002e35e0b13cb6c422fe3abf500ce6aa5241229264d85a3314f22b5e14b59a64",
+  "sdkMigration": false,
+  "nodeChanged": false,
+  "oldContractsUpdated": false,
+  "fills": 2,
+  "actualUps": 34,
+  "distinctVerifiedRequests": 34,
+  "perRoundUps": [
+    17,
+    17
+  ],
+  "auditFiles": [
+    {
+      "file": "baseline-audit-v1/SUMMARY.json",
+      "sha256": "c857064a2783281d75fcd3e337e3f6a75bd618049c1a2d530d7d80038ad66a7a"
+    },
+    {
+      "file": "candidate-audit-v1/SUMMARY.json",
+      "sha256": "2bed48af37051e825ae8fd436455727a5d0a45a49c524a20c2c7eb851824064c"
+    }
+  ],
+  "totalFeesNativeAtoms": "34000230000",
+  "nativeAsset": "test PSY (0), 9 decimals",
+  "tradedAssets": "QA FT 2483 / 2484, 18 decimals; existing pUSDT unused",
+  "ordinaryClaimsIncluded": true,
+  "ftAndNativeConservationVerified": true,
+  "crossRoundExactActorStateContinuityVerified": true,
+  "nonceAndStateChainsVerified": true,
+  "fullProofAccountingPending": false,
+  "runtimeImageAttested": false,
+  "performanceReportSha256": "4a3ceabac5683ae59c5a86e301f143e74b281fc70eb779ac5d5fb97af863b616",
+  "noChainTpsClaim": true,
+  "noProductionGradeClaim": true
+}

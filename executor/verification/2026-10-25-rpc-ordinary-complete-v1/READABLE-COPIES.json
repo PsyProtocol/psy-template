@@ -1,0 +1,54 @@
+{
+  "schema": 1,
+  "records": [
+    {
+      "file": "ACCEPTANCE-CLOSED.json",
+      "source": "rpc-ordinary-performance-live-v1/public/ACCEPTANCE-CLOSED-v1.json",
+      "sha256": "34c803ab017f2228c6abfcc3d7b93af7c7f5ce2df57099a7dab1f82f9c6fe34c",
+      "bytes": 1321
+    },
+    {
+      "file": "PERFORMANCE.json",
+      "source": "rpc-ordinary-performance-live-v1/public/PERFORMANCE-v1.json",
+      "sha256": "4a3ceabac5683ae59c5a86e301f143e74b281fc70eb779ac5d5fb97af863b616",
+      "bytes": 63629
+    },
+    {
+      "file": "BASELINE-AUDIT.json",
+      "source": "rpc-ordinary-performance-live-v1/baseline-audit-v1/SUMMARY.json",
+      "sha256": "c857064a2783281d75fcd3e337e3f6a75bd618049c1a2d530d7d80038ad66a7a",
+      "bytes": 17668
+    },
+    {
+      "file": "CANDIDATE-AUDIT.json",
+      "source": "rpc-ordinary-performance-live-v1/candidate-audit-v1/SUMMARY.json",
+      "sha256": "2bed48af37051e825ae8fd436455727a5d0a45a49c524a20c2c7eb851824064c",
+      "bytes": 17617
+    },
+    {
+      "file": "RECENT-RECEIPT-ABBA.json",
+      "source": "rpc-ordinary-performance-live-v1/public/receipt-current-abba-COMPLETE.json",
+      "sha256": "e63d984192d846c2d3384cd9d8b0bb46beabc3c390be17dbbb241939133d0df7",
+      "bytes": 10028
+    },
+    {
+      "file": "HISTORICAL-RECEIPT-ABBA.json",
+      "source": "rpc-ordinary-performance-live-v1/public/receipt-history-abba-COMPLETE.json",
+      "sha256": "d51b0dac11d962ab1c3373a1385e2d07d20000fff341bd6f021e49be304f7e3c",
+      "bytes": 32969
+    },
+    {
+      "file": "RESOURCE-SELECTION.json",
+      "source": "rpc-ordinary-performance-live-v1/public/RESOURCE-SELECTION-v1.json",
+      "sha256": "6c6bd014cf76e9a5a80a5868baa57aeef985a803726432ada0d0d144b80f91f6",
+      "bytes": 626
+    },
+    {
+      "file": "ORIGINAL-ORDER-RECOVERY.json",
+      "source": "rpc-ordinary-performance-live-v1/public/CANDIDATE-ORIGINAL-ORDERS-RECOVERED-v1.json",
+      "sha256": "7c752c957c17e4bf23c6f5657aa9f5285d1172072772c774e857e872109a1ffa",
+      "bytes": 1086
+    }
+  ],
+  "scope": "exact readable copies of archived originals; not replacements"
+}
