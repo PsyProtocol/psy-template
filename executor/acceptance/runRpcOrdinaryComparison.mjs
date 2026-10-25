@@ -20,6 +20,7 @@ import {freezeAppModules} from './sourceClosure.mjs';
 import {saveObservation} from '../observations.mjs';
 import {readSponsorGrant,sponsorGrant} from '../sponsorGrant.mjs';
 import {verifyPreEpochResume} from './preEpochResume.mjs';
+import {assertBookFillCohort} from './fillCohort.mjs';
 
 const [base,original,selection='baseline']=process.argv.slice(2);
 const resourceComparison=process.env.PSY_RESOURCE_COMPARISON==='1';
@@ -143,8 +144,7 @@ try {
   ()=>user('buyer','buyer-payout',async()=>payoutClaims(await publicState(config),{userId:B,markets:[m],tokenAbi:h.token,nftAbi:h.nft}))
  ]);
  const after=await cohortAssets(await publicState(config),spec);save(join(round,'public/assets-after.json'),after);
- for(const id of spec.assets)assert.equal(after.totals[id],before.totals[id]);
- for(const [id,row]of Object.entries(before.accounts))for(const asset of spec.assets){const delta=id===String(U)?(asset===2483?-unit:unit):id===String(B)?(asset===2483?unit:-unit):0n;assert.equal(after.accounts[id].ft[asset]-row.ft[asset],delta,'actual owner/vault FT delta');}
+ assertBookFillCohort(before,after,{owner:U,buyer:B,assets:spec.assets,unit});
  const terminal=await m.snapshot('terminal');assert.equal(terminal.fields.queue_phase[0],3n);assert.equal(terminal.fields.queue_count[0],2n);assert.deepEqual(terminal.fields.queue_outcome.slice(0,2),[1n,1n]);
  for(const owner of [U,B])assert.equal(await h.at(await publicState(config),m,m.vault,'consumed',owner),nonceU);
  await f.journal.reconcile(f.adapter.reconcile);assert.equal((await f.journal.unresolved()).length,0);

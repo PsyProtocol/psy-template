@@ -4,6 +4,21 @@ Branch: `markets-batch-capacity-recovery-20261020`; accepted starting commit
 `e45d689e6806d362c03f15697c90aba44f8704e7`. No Node edits, old-contract update
 probes, new branches or replacement of original artifacts are authorized here.
 
+## 2026-10-26 current Executor evidence
+
+[The latest closed recovery run](../../executor/verification/2026-10-26-fixed-verifier-recovery-closed-v1/README.md)
+contains one actual Book fill, ordinary wallet claims and strict full-proof,
+receipt, fee and finite-cohort conservation checks for 17 UPS. Original epoch,
+members, deposits and cutoff were retained. No SDK/Node/old-contract change or
+new branch was made. Original failed attempts remain available.
+
+This is recovery acceptance, not a clean end-to-end fresh/cached comparison or
+production certification. Full original parent timing and complete memory
+coverage remain unavailable for that interrupted run; no acceleration/TPS is
+claimed. See `FIXED_VERIFIER_PERFORMANCE_REVIEW_20261025.md` for current results
+and external boundaries. This update is limited to Executor work and does not
+upgrade the historical composition claims below.
+
 ## 2026-10-23 review supersedes the historical composition execution path
 
 See `MARKET_EXECUTION_REVIEW_20261023.md` for the code review and current work.

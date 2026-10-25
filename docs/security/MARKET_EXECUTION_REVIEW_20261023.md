@@ -4,6 +4,28 @@ Reviewed baseline: `7c90fb7`, branch `markets-batch-capacity-recovery-20261020`.
 Frozen SDK manifest SHA256: `0afb4c65116cddcaca450b406a06503d65b63d38a004d8e773c6e5fa363bd425`.
 No SDK migration, Node edit, old-contract update probe or evidence replacement.
 
+## 2026-10-26 Executor recovery acceptance
+
+The original Book epoch completed one actual fill and both ordinary wallet
+claims: **17 UPS, 17 independent full-proof verifications, 17.000118 test PSY
+network fees**. FT/NFT and finite-cohort native accounting, exact receipts and
+nonce/state chains are closed. All market/user/sponsor native pending balances
+and finite-cohort FT pending balances are clear. No extra epoch, repeated owner
+funding, SDK migration, Node edit or old-contract update was used.
+
+See [closed evidence and measurement limits](../../executor/verification/2026-10-26-fixed-verifier-recovery-closed-v1/README.md)
+and [current detailed review](FIXED_VERIFIER_PERFORMANCE_REVIEW_20261025.md).
+This adds checkpoint read recovery, exact persisted-proof reuse, narrowly bound
+pre-session transport recognition, explicit unsigned settlement recovery, exact
+snapshot comparisons and failed-process timing. 122 related regressions pass;
+the conclusion rests on full proofs/receipts/accounting, not the count.
+
+The real run had transport failures, restarts and missing original outer timing.
+It is **not** a clean fresh/cached performance pair or a production certificate.
+There is no new complete memory comparison, chain TPS, cross-machine/fairness
+claim or SDK/runtime upgrade attestation. Historical sections below retain their
+original scope; this Book run does not establish cross-UPS composition atomicity.
+
 ## Confirmed completed work
 
 The four-market maximum/recovery/NFT competition archive was reverified against

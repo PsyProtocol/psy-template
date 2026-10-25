@@ -9,3 +9,8 @@ test('SDK registration wrapper qualifies only for the bound identity and known t
  assert.equal(await check({...wrapped,reason:`User ${key} not registered. Please register first: account absent`},undefined,key),false);
  assert.equal(await check(wrapped,'request.json',key),false);assert.equal(await check({...wrapped,phase:'prove-compact-calls'},undefined,key),false);
 });
+test('observed SDK Request error qualifies only before calls, without proof material and with both URLs bound',async()=>{
+ const request={...failure,automaticRetry:false,reason:failure.reason.replace('Connection error','Request error')};assert.equal(await check(request),true);
+ for(const patch of [{automaticRetry:true},{phase:'check-prepared-live-state'},{phase:'prove-compact-calls'},{reason:request.reason.replace('(https://realm.test/)','(https://foreign.test/)')},{reason:'Request error to https://realm.test: HTTP status client error (401 Unauthorized)'},{reason:'Request error to https://realm.test: invalid contract state'}])assert.equal(await check({...request,...patch}),false);
+ for(const file of ['request.json','prepared.json','intent.json','preflight.json'])assert.equal(await check(request,file),false);
+});
