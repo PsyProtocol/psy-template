@@ -1,6 +1,7 @@
 //! Immutable verification resources only. No witness, account, nonce, market
 //! layout, signed request or verification result is cached here.
-use anyhow::{ensure, Result};
+use anyhow::Result;
+#[cfg(test)] use anyhow::ensure;
 use plonky2::{field::goldilocks_field::GoldilocksField as F, plonk::circuit_data::VerifierCircuitData};
 use psy_client_data::config::store_config::C;
 use psy_core::{constants::chain_id::PsyChainNetworkType, job::job_id::ProvingJobCircuitType};

@@ -2,12 +2,10 @@
 //! The expected manifest digest comes from the durable Executor journal.
 use super::{f, save, Guard};
 use anyhow::{ensure, Context, Result};
-use plonky2::{field::{goldilocks_field::GoldilocksField as F,types::PrimeField64},plonk::{circuit_data::VerifierCircuitData,proof::ProofWithPublicInputs}};
+use plonky2::{field::{goldilocks_field::GoldilocksField as F,types::PrimeField64},plonk::proof::ProofWithPublicInputs};
 use psy_client_common::{args::ContractCallData,data::qhashout::QHashOut};
 use psy_client_data::{config::store_config::{C,D,PsyHasher},traits::qdatastore::{qmetadata::QMetaDataStoreReaderSync,qtreedata::QTreeDataStoreReaderSync}};
-use psy_core::{constants::chain_id::PsyChainNetworkType,job::job_id::ProvingJobCircuitType};
 use psy_crypto::hash::traits::qhashable::QFieldHashable;
-use psy_plonky2_circuits::{circuit_library::end_cap_verifier_data::get_end_cap_alt_verifier_data_for_network,generated::cached_common_data::get_cached_common_data_library};
 use psy_provider::{provider::RpcProvider,request::QSubmitEndCapRPCRequest,session::TxStatus};
 use psy_template_u124_markets::{batch_compact,proof_binding::validate_endcap_binding};
 use serde::{Deserialize,Serialize};
