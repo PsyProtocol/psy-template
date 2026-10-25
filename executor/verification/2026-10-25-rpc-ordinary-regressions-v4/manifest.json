@@ -1,0 +1,35 @@
+{
+  "schema": 1,
+  "sourceDirectory": "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-market-recovery-20261023",
+  "machine": "gewenbo.local",
+  "host": "macOS-15.7.3-arm64-arm-64bit",
+  "scope": "public formal Executor run including failures; success requires exact included receipt",
+  "walletFilesIncluded": false,
+  "sealedBinariesIncluded": false,
+  "records": [
+    {
+      "source": "rpc-ordinary-build-v3/regressions-v3.log",
+      "file": "files/rpc-ordinary-build-v3/regressions-v3.log.gz",
+      "bytes": 2605,
+      "sha256": "fd499a58bb078cefeba2f2b7b9bdb2c39bc3a6cff56d839647c118d5970a14a7",
+      "gzipBytes": 1286,
+      "gzipSha256": "4a1a42cdb1766aab17451fe098fb3df8672f8b442ebf17029b0c86b34ff15b45"
+    },
+    {
+      "source": "rpc-ordinary-build-v3/regressions-v4.log",
+      "file": "files/rpc-ordinary-build-v3/regressions-v4.log.gz",
+      "bytes": 2708,
+      "sha256": "1ae4013a1ca0dacbcb425ea36e648346c9e85f82f2554f7baeb03291bb8c21e0",
+      "gzipBytes": 1324,
+      "gzipSha256": "c5b64b7f866d34de8888e658943dd5faa5b912d1c5a4d51e3de201c033dca4e9"
+    },
+    {
+      "source": "rpc-ordinary-performance-live-v1/public/baseline-v2-PLAN-REJECTED.json",
+      "file": "files/rpc-ordinary-performance-live-v1/public/baseline-v2-PLAN-REJECTED.json.gz",
+      "bytes": 558,
+      "sha256": "9e27c17b47d5f3a2a2c0cf5d4fd09ac6a5c6d8176f681163ad711f699307ffcf",
+      "gzipBytes": 380,
+      "gzipSha256": "c279124600091583b24cce81b5baa27cd44be594eb852e6cb6a6187b13d0a001"
+    }
+  ]
+}

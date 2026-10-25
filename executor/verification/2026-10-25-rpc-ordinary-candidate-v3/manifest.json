@@ -1,0 +1,99 @@
+{
+  "schema": 1,
+  "sourceDirectory": "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-market-recovery-20261023",
+  "machine": "gewenbo.local",
+  "host": "macOS-15.7.3-arm64-arm-64bit",
+  "scope": "public formal Executor run including failures; success requires exact included receipt",
+  "walletFilesIncluded": false,
+  "sealedBinariesIncluded": false,
+  "records": [
+    {
+      "source": "rpc-ordinary-build-v1/RETIRED.json",
+      "file": "files/rpc-ordinary-build-v1/RETIRED.json.gz",
+      "bytes": 189,
+      "sha256": "cf1baaacfce2ef0caf0ab46c7f3853ea166420be42df8a9d4dc035fcfd856916",
+      "gzipBytes": 163,
+      "gzipSha256": "38258a862851a3981fd13f8ecdc5a72f178e32856e8ebbef8ca12329b761ca2d"
+    },
+    {
+      "source": "rpc-ordinary-build-v2/RETIRED.json",
+      "file": "files/rpc-ordinary-build-v2/RETIRED.json.gz",
+      "bytes": 163,
+      "sha256": "ebac369f631074523995b00ac6a75c47ec47ec94fdae46e34a167c8a548e0b70",
+      "gzipBytes": 143,
+      "gzipSha256": "646be65402382c52c8fe385bb16389063e0afd25ddbcddd30340aff9507799bf"
+    },
+    {
+      "source": "rpc-ordinary-build-v3/RELEASE.json",
+      "file": "files/rpc-ordinary-build-v3/RELEASE.json.gz",
+      "bytes": 647,
+      "sha256": "fc11282713e943b2a78fdf4a9d765805fbadeb30bb681d89091db2e50726c85b",
+      "gzipBytes": 438,
+      "gzipSha256": "2808f108f09290d528aaf6d5f41af46c49cc662ff57a976fca9d960fcb899090"
+    },
+    {
+      "source": "rpc-ordinary-build-v3/SOURCE.json",
+      "file": "files/rpc-ordinary-build-v3/SOURCE.json.gz",
+      "bytes": 5288,
+      "sha256": "b1e5242949dc479608fe7dfd49ab195ca8b6d089ae3c823cc625a75ebae936d5",
+      "gzipBytes": 2267,
+      "gzipSha256": "d57cf7ca542614c56028f074235835e56b7118e730893f4434fef438e0978276"
+    },
+    {
+      "source": "rpc-ordinary-build-v3/build-v1.log",
+      "file": "files/rpc-ordinary-build-v3/build-v1.log.gz",
+      "bytes": 23856,
+      "sha256": "9294f62402a807c5cd3a14b6e1285d5ac96dc792646d116960de64de5ba5ec65",
+      "gzipBytes": 4646,
+      "gzipSha256": "aa89c50391185061bf3996b131bdc41843749c29fe661d1ca96a368a88bbc8fd"
+    },
+    {
+      "source": "rpc-ordinary-build-v3/native-tests-v1.log",
+      "file": "files/rpc-ordinary-build-v3/native-tests-v1.log.gz",
+      "bytes": 24401,
+      "sha256": "5ff3349e59d455d4a0abcf6537b279aa7a67cf7dd264c5dd08b31f38cbd9f709",
+      "gzipBytes": 4861,
+      "gzipSha256": "34c3599ff6bc9f60b4ad51ffa20c94861b737bacbfc245e2197cf02c5300dec8"
+    },
+    {
+      "source": "rpc-ordinary-build-v3/psy-template/amm/u124/vm-tests/src/bin/isolated_wallet.rs",
+      "file": "files/rpc-ordinary-build-v3/psy-template/amm/u124/vm-tests/src/bin/isolated_wallet.rs.gz",
+      "bytes": 27309,
+      "sha256": "4ba0fcd640e4c703a25dc59f017f27f53522861cc993816d4f32cf95c6f26c06",
+      "gzipBytes": 8375,
+      "gzipSha256": "1508d747066061608631a292a653b4d988f9b9ffeb6789c488092dafc0a40aab"
+    },
+    {
+      "source": "rpc-ordinary-build-v3/regressions-v1.log",
+      "file": "files/rpc-ordinary-build-v3/regressions-v1.log.gz",
+      "bytes": 2607,
+      "sha256": "30e34be6240235a299d901cdc28ad7200610c85b40036036f96332d0d5ad0697",
+      "gzipBytes": 1285,
+      "gzipSha256": "d8776f87daf177e9086c669921b91f3edec0d8bcb376c3f8e0b57138154f86b7"
+    },
+    {
+      "source": "rpc-ordinary-build-v3/regressions-v2.log",
+      "file": "files/rpc-ordinary-build-v3/regressions-v2.log.gz",
+      "bytes": 2607,
+      "sha256": "010b696701e83bcdc7423e55c23ca004d3ce8151dda7b19d8b3bec4a5fe423d0",
+      "gzipBytes": 1290,
+      "gzipSha256": "54a5d241aea68479ccee1819ff51c9b4ce32c1dfe6a476a313b1d4a38f243568"
+    },
+    {
+      "source": "rpc-ordinary-performance-live-v1/public/DEPENDENCY-CHECK-before.json",
+      "file": "files/rpc-ordinary-performance-live-v1/public/DEPENDENCY-CHECK-before.json.gz",
+      "bytes": 133,
+      "sha256": "4fbdda34985540ea1bd185ae15449d4098a7fbaf8b15fb3fda63c4d3db8256c2",
+      "gzipBytes": 134,
+      "gzipSha256": "839a2c54157ae41bd831a19abe2f5fe375dabeb35ae4c617dc67e7d128d22666"
+    },
+    {
+      "source": "rpc-ordinary-performance-live-v1/public/baseline-v1-REJECTED.json",
+      "file": "files/rpc-ordinary-performance-live-v1/public/baseline-v1-REJECTED.json.gz",
+      "bytes": 727,
+      "sha256": "ff18d405447d5af4a8b08526f8f12d8feb3d5d4234e7318bbc04019d6dfd68e6",
+      "gzipBytes": 380,
+      "gzipSha256": "55be82bec5ff1bf28be449d716443dfb1961d7db27bbdecf46ba3fd02632750f"
+    }
+  ]
+}
