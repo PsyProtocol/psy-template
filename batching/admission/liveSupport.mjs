@@ -10,6 +10,7 @@ import {retryRead} from '../../executor/readRetry.mjs';
 import {losslessJson} from '../../amm/u124/client.mjs';
 import {ordinaryPreflight} from './ordinaryReport.mjs';
 import {freshDeploymentReceipt} from './freshDeployment.mjs';
+import {saveObservation} from '../../executor/observations.mjs';
 export const read=p=>JSON.parse(readFileSync(p,'utf8'));
 export const save=(p,v)=>writeFileSync(p,losslessJson(v)+'\n',{flag:'wx'});
 export async function run(binary,args,log,env={}){
@@ -36,7 +37,7 @@ export async function ordinary({base,config,binary,secret,name,calls,bindings,en
  const s=await publicState(config),ids=[...new Set([0,...calls.map(c=>Number(c.contract_id))])];
  const contracts=await Promise.all(ids.map(async id=>{const expected=bindings?.get(id);assert.ok(expected,'frozen dependency binding required '+id);assert.deepEqual(await binding(s,id),expected,'dependency changed');return expected;}));
  const input=join(base,'public',name+'.json'),out=join(base,'attempts',name);save(input,{calls:{contract_calls:calls,software_defined_call:{inputs:[]}},contracts,validUntilCheckpoint:s.checkpoint+128});
- const timing=worker?await worker.run({action:'call',input,out,log:join(base,name+'.log')}):await run(binary,['call',config,secret,input,out],join(base,name+'.log'),env);save(join(out,'timing.json'),timing);
+ const timing=worker?await worker.run({action:'call',input,out,log:join(base,name+'.log')}):await run(binary,['call',config,secret,input,out],join(base,name+'.log'),env);saveObservation(join(out,'timing.json'),timing);
  await confirmUps(config,out,{historyConcurrency,...(worker?{findReceipt:()=>worker.reconcile()}: {})});return out;
 }
 export async function confirmDeploy(config,attempt,expectedDeployer){

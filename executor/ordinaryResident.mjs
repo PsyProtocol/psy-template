@@ -70,7 +70,8 @@ export async function ordinaryResident({binary,binarySha256,config,dependencies,
    }
   },
   reconcile:()=>{
-   if(reconciling)return reconciling;
+   // Share transport work, not mutable receipt objects between consumers.
+   if(reconciling)return reconciling.then(result=>structuredClone(result));
    const gate=unconfirmed;
    const work=(async()=>{
     assert.ok(!active,'cannot reconcile an active ordinary job');if(!gate)return {status:'none'};
@@ -80,7 +81,7 @@ export async function ordinaryResident({binary,binarySha256,config,dependencies,
     if(result.status==='included'&&unconfirmed===gate)unconfirmed=undefined;
     return result;
    })();
-   const tracked=work.finally(()=>{if(reconciling===tracked)reconciling=undefined;});reconciling=tracked;return tracked;
+   const tracked=work.finally(()=>{if(reconciling===tracked)reconciling=undefined;});reconciling=tracked;return tracked.then(result=>structuredClone(result));
   },
   close:async()=>{
    if(closing)return closing;closed=true;
