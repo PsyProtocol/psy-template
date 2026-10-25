@@ -7,7 +7,7 @@ import {EventEmitter} from 'node:events';
 import {PassThrough,Writable} from 'node:stream';
 import {ordinaryResident} from './ordinaryResident.mjs';
 import {sha256} from './requestBinding.mjs';
-async function fixture(fn,{wrongIdentity=false,wrongResponse=false,reject=false,hold=false,withReceipts=false}={}) {
+async function fixture(fn,{wrongIdentity=false,wrongResponse=false,reject=false,hold=false,withReceipts=false,badCore=false}={}) {
  const dir=await mkdtemp(join(tmpdir(),'ordinary-resource-')),paths={};
  for(const k of ['binary','config','dependencies','secret','sdkManifest']){paths[k]=join(dir,k);await writeFile(paths[k],k);}
  if(withReceipts)await writeFile(paths.config,JSON.stringify({defaultNetwork:'test',networks:{test:{api_services_url:['https://services.test'],users_per_realm:1000,realm_configs:[{id:0,rpc_url:['https://realm.test']}]}}}));
@@ -18,7 +18,7 @@ async function fixture(fn,{wrongIdentity=false,wrongResponse=false,reject=false,
   child.stdin=new Writable({write(data,_e,done){jobs++;const j=JSON.parse(String(data));if(!hold)setImmediate(async()=>{
    if(j.action==='call'){
     await mkdir(j.out);const end='f'.repeat(64),core={checkpoint_id:3,new_user_leaf:{public_key:publicKeyHash,user_id:123,nonce:1},state_transition:{end_user_leaf_hash:end}};
-    for(const [name,value]of Object.entries({'preflight.json':{fullUpsVerified:true,userId:123,endUserLeafHash:end,core,inputSha256:sha256('input')},'request.json':{user_ec_input:{core}},'intent.json':{userId:123,nonce:1,endUserLeafHash:end}}))await writeFile(join(j.out,name),JSON.stringify(value));
+    for(const [name,value]of Object.entries({'preflight.json':{fullUpsVerified:true,userId:123,endUserLeafHash:end,core,inputSha256:sha256('input')},'request.json':{user_ec_input:{core:badCore?{...core,unexpected:true}:core}},'intent.json':{userId:123,nonce:1,endUserLeafHash:end}}))await writeFile(join(j.out,name),JSON.stringify(value));
    }
    child.stdout.write('PSY_ORDINARY_SERVER '+JSON.stringify({id:wrongResponse?j.id+'x':j.id,ok:!reject,phase:'test',reasonCode:reject?'REJECTED':null})+'\n');
   });done();},final(done){queueMicrotask(()=>child.emit('exit',0));done();}});
@@ -82,3 +82,11 @@ test('wrong signer, mismatched response and rejection poison the process without
 test('stalled proof is stopped and cannot trigger another send',()=>fixture(async x=>{
  await assert.rejects(x.run('call'),/deadline/);await assert.rejects(x.run(),/unavailable/);assert.equal(x.jobs,1);
 },{hold:true}));
+test('failure after native ACK keeps cold timing and original ambiguity, without a replacement job',()=>fixture(async x=>{
+ await assert.rejects(x.run('call'),/request\/core mismatch/);
+ const events=(await readFile(join(x.dir,'job-0.log.lifecycle.jsonl'),'utf8')).trim().split('\n').map(JSON.parse);
+ assert.equal(events.find(r=>r.event==='ready').sessionConstructionMilliseconds,42);
+ assert.equal(events.find(r=>r.event==='native-response').ok,true);
+ assert.equal(events.at(-1).ok,false);assert.ok(events.at(-1).elapsedMilliseconds>0);
+ await assert.rejects(x.run('call'),/unavailable/);assert.equal(x.jobs,1);
+},{badCore:true}));

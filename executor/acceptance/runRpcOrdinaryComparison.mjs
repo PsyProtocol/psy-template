@@ -29,6 +29,8 @@ if(selection==='candidate'){
 }
 const roundTag=process.env.PSY_RPC_COMPARISON_ROUND??selection;assert.match(roundTag,new RegExp('^'+selection+'(?:-v[1-9][0-9]*)?$'));
 const sourceLabel=process.env.PSY_RPC_COMPARISON_SOURCE_LABEL??roundTag+'-run-v1';assert.match(sourceLabel,/^[a-z0-9-]+$/);
+const bootstrapAt=new Date().toISOString(),bootstrapStart=performance.now();
+if(resourceComparison)saveObservation(join(base,'public',sourceLabel+'-BOOTSTRAP-STARTED.json'),{startedAt:bootstrapAt,pid:process.pid,selection,scope:'application body after module imports; outer process timer records full invocation'});
 freezeAppModules(fileURLToPath(import.meta.url),base,sourceLabel);
 const old=await threeMarketCase(original,{toolManifest:'TOOLS-v2.json'});
 assert.equal(read(join(original,'public/ACCEPTANCE-CLOSED-v1.json')).fullProofAccountingPending,false);
@@ -96,6 +98,7 @@ try {
  assert.ok(before.accounts[U].ft[2483]>=unit&&before.accounts[B].ft[2484]>=unit);
  assert.ok(before.accounts[h.actors.sponsor.id].native>=12_000_000_000n,'explicit sponsor budget');
  if(!resuming)saveObservation(join(round,'public/ENVIRONMENT.json'),{at:new Date().toISOString(),host:hostname(),logicalCpus:cpus().length,physicalMemoryBytes:totalmem(),loadAverage:loadavg(),threads:2,sdkSha256:SDK,compactBinary:h.binarySha256,ordinaryBinary:ordinaryTool.sha256,selection,resourceComparison,memoryMode:resourceComparison?memoryMode:null,market:m.id,vault:m.vault,inputPerSide:unit.toString(),fills:1,matching:'existing deterministic Book priority, two members, one trade; normal new orders only, no contract updates'});
+ if(resourceComparison)saveObservation(join(base,'public',sourceLabel+'-BOOTSTRAP-TIMING.json'),{startedAt:bootstrapAt,finishedAt:new Date().toISOString(),wallMilliseconds:performance.now()-bootstrapStart,pid:process.pid,selection,cohortSnapshotMilliseconds:before.observation.wallMilliseconds,scope:'source/binary/config identity checks, SDK-selected fixture loading, fresh realm/dependency/order reads and finite-cohort snapshot; separate from native circuit construction'});
  await pair([
   ()=>user('bob','owner-order',[m.order('close_0',[]),m.order('open_sell',[BigInt(m.vault),0n,encodeAmount(unit),encodeAmount(unit),BigInt(before.checkpoint)+8192n,nonceU]),{contract_id:0n,method_name:'simple_transfer',inputs:[BigInt(m.vault),F]},call(2483n,h.token,'transfer',[BigInt(m.vault),encodeAmount(unit)])]),
   ()=>user('buyer','buyer-order',[m.order('close_1',[]),m.order('open_sell',[BigInt(m.vault),1n,encodeAmount(unit),encodeAmount(unit),BigInt(before.checkpoint)+8192n,nonceB]),{contract_id:0n,method_name:'simple_transfer',inputs:[BigInt(m.vault),F]},call(2484n,h.token,'transfer',[BigInt(m.vault),encodeAmount(unit)])])
