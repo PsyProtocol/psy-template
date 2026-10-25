@@ -2,6 +2,14 @@
 
 沿用 `markets-batch-capacity-recovery-20261020` 与已选 session-bound SDK；不修改 Node、SDK、市场定价或旧合约代码/布局。原始构建、请求和回执不覆盖。
 
+## 11:10 UTC 更新：nonce 恢复已确认，退款继续
+
+用户追加授权后，先读取账户及原请求/旧 noop 的精确回执；账户仍是 nonce 43、候选仍在窗口内、无追加发送锁。完成无损状态码及 413 尾换行检查修复后，紧凑版同一请求只发送一次，得到 HTTP 200/`ok`，随后取得 checkpoint/common checkpoint **382717** 的精确包含回执。实际手续费 **1.000001 测试 PSY**，没有 FT/NFT 转移。发送前两次类型/格式拒绝均未形成网络提交，原 source closure 保留。
+
+已独立完整验证原取消与胜出 noop，核对相同公钥、用户、nonce 44、起始根，以及不同结束根；并重新核对精确历史回执、实际费用和 common 可见性。**原取消请求已经由确认的 nonce 冲突排除**。无需再次授权即可按本次完整计划继续新的取消、受限 SD-key 原路退款和普通钱包领取；这些后续阶段尚在进行，未声明退款审计或干净成交配对完成。
+
+证据与复现：[nonce 恢复归档](../../executor/verification/2026-10-25-nonce-retirement-confirmed-v1/README.md)。以下 413 小节保留为历史记录，不再是当前待授权状态。
+
 ## 10:52 UTC 恢复检查：单次 noop 返回 HTTP 413
 
 用户已授权 QA 用户 1717440 的一次 nonce 44 纯 noop 恢复，手续费限定为 1.000001 测试 PSY，不转 FT/NFT。发送前确认账户仍是 nonce 43 / 原起始根；旧候选过期后保留原件，生成 v2 候选并独立验证完整证明、身份、费用和状态端点。v2 只实际发送了一次，HTTP 返回 **413 / `invalid or oversized body`**，没有接收确认或精确包含回执。原发送锁、请求和失败记录均保留。
@@ -28,7 +36,7 @@
 
 离线数据是在同一进程、同一两个已包含的普通钱包/SD-key UPS 上按 fresh/cached/cached/fresh 顺序测量。它只测验证资源与验证本身，不包含新证明生成、RPC、确认、领取或实际费用。首次冷构建没有消失。
 
-真实网络当前阻塞点：QA 用户 1717440 的 `request_cancel + release_unaccepted + request_recovery` 请求，用户交易 nonce 44（不同于市场订单 nonce 7），完整请求已保存，提交连接在 30.0198 秒超时。原始受抑制错误 SHA256 与公开错误 `error sending request for url (https://realm1-stg.psy-protocol.xyz/): operation timed out` 精确相等。同期 SDK 会话阶段 25.797 秒、最后状态检查 16.662 秒，网络等待不能归为固定验证器构建。请求结果仍未知，没有重发、重签替代业务或推断它已丢弃。
+此前的真实网络阻塞点：QA 用户 1717440 的 `request_cancel + release_unaccepted + request_recovery` 请求，用户交易 nonce 44（不同于市场订单 nonce 7），完整请求已保存，提交连接在 30.0198 秒超时。原始受抑制错误 SHA256 与公开错误 `error sending request for url (https://realm1-stg.psy-protocol.xyz/): operation timed out` 精确相等。同期 SDK 会话阶段 25.797 秒、最后状态检查 16.662 秒，网络等待不能归为固定验证器构建。该请求现已由确认的同 nonce noop 排除，未通过超时推断丢弃；后续原路退款正在执行。
 
 SDK 的 `get_tx_status` 当前只是根据可读用户 nonce 计算 Submittable/Stale，不提供权威的接收/入队/最终丢弃状态。需要服务团队另行交付按原请求摘要、用户/nonce/结束状态查询的持久化接收状态及最终拒绝证据；本轮不改 Node。
 
