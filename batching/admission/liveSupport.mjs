@@ -15,9 +15,17 @@ export const read=p=>JSON.parse(readFileSync(p,'utf8'));
 export const save=(p,v)=>writeFileSync(p,losslessJson(v)+'\n',{flag:'wx'});
 export async function run(binary,args,log,env={}){
  const fd=openSync(log,'wx',0o600),startedAt=new Date().toISOString(),start=performance.now();
- try {await new Promise((resolve,reject)=>{const p=spawn(binary,args,{env:{...process.env,...env},stdio:['ignore',fd,fd]});p.on('error',reject);p.on('exit',code=>code===0?resolve():reject(Error(`client exit ${code}; inspect ${log}; do not retry an unresolved intent`)));});}
- finally {closeSync(fd);}
- return {startedAt,finishedAt:new Date().toISOString(),wallMilliseconds:Math.round(performance.now()-start)};
+ const outcome={spawned:false,exitCode:null,signal:null,errorCode:null};let failed=false,timing;
+ try {await new Promise((resolve,reject)=>{const p=spawn(binary,args,{env:{...process.env,...env},stdio:['ignore',fd,fd]});p.on('spawn',()=>{outcome.spawned=true;});p.on('error',error=>{outcome.errorCode=error.code??null;reject(error);});p.on('exit',(code,signal)=>{outcome.exitCode=code;outcome.signal=signal;code===0?resolve():reject(Error(`client exit ${code??signal}; inspect ${log}; do not retry an unresolved intent`));});});}
+ catch(error){failed=true;throw error;}
+ finally {
+  closeSync(fd);timing={startedAt,finishedAt:new Date().toISOString(),wallMilliseconds:Math.round(performance.now()-start)};
+  // Persist failed/cold invocations too. A telemetry failure never changes a
+  // successful financial command into an automatic retry or masks its error.
+  try{saveObservation(log+'.timing.json',{schema:1,...timing,ok:!failed,...outcome,scope:'whole child invocation including spawn, construction and exit; not phase CPU, confirmation or chain TPS'});}
+  catch(error){console.error('PSY_PROCESS_TIMING_UNAVAILABLE '+JSON.stringify({code:error.code??null,commandFailed:failed}));}
+ }
+ return timing;
 }
 export function contractBinding(id,l){return {contract:{contractId:id,codeRoot:l.code_root,layoutRoot:l.state_layout_root,stateTreeHeight:l.state_tree_height},functionTreeRoot:l.function_tree_root,layoutFieldCount:l.state_layout_field_count,layoutSlotCount:l.state_layout_slot_count};}
 export async function binding(state,id){return contractBinding(id,await state.contractLeaf(id));}

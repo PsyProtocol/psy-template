@@ -1,0 +1,72 @@
+{
+  "at": "2026-10-25T18:17:56.314364+00:00",
+  "actualUps": 17,
+  "actualFills": 1,
+  "uniqueFullProofs": 17,
+  "totalNetworkFeeNativeAtoms": "17000118000",
+  "networkFeeDecimals": 9,
+  "assetIds": [
+    2483,
+    2484
+  ],
+  "assetDecimals": 18,
+  "nftId": 2496,
+  "existingPusdtUsed": false,
+  "ordinaryClaimsIncluded": true,
+  "fullProofAccountingPending": false,
+  "allMarketUserAndSponsorPendingNativeClear": true,
+  "finiteCohortFtPendingClear": true,
+  "ftNativeAndNftAccountingClosed": true,
+  "assetSnapshotCheckpoint": 383716,
+  "finalUserEndpoints": [
+    {
+      "userId": 519360,
+      "nonce": 50,
+      "endUserLeafHash": "d348975f74d448b57bff5b2060e5a0810fce295bf29081e0716c7261faa4ff5a",
+      "checkpoint": 383615
+    },
+    {
+      "userId": 406720,
+      "nonce": 73,
+      "endUserLeafHash": "65939833aab0631c9b04b9a32888129d60ec97d9908e9d39c020e4917d4bb92e",
+      "checkpoint": 383716
+    },
+    {
+      "userId": 1717440,
+      "nonce": 56,
+      "endUserLeafHash": "e7c196d3192575824251d00ec720fdcd5284c8aca80e8af039154e425d78acb9",
+      "checkpoint": 383716
+    },
+    {
+      "userId": 662720,
+      "nonce": 55,
+      "endUserLeafHash": "1548aa516f7bf76aa2d4f94e95ac47782170a9b311c23929367e180046cad287",
+      "checkpoint": 383705
+    }
+  ],
+  "nativeBalanceDeltaAtoms": {
+    "302272": "0",
+    "406720": "-3000013000",
+    "519360": "-11000616000",
+    "662720": "1000623000",
+    "718016": "0",
+    "1012928": "0",
+    "1072320": "0",
+    "1717440": "-4000112000"
+  },
+  "vaultNativeReserveIncreaseAtoms": "1000623000",
+  "reserveScope": "vault gas reserve increase is not an extra network fee or unclaimed sponsorship",
+  "originalEpoch": 9,
+  "originalOrderNonce": 11,
+  "originalCutoff": 383577,
+  "originalOwnerDepositsRepeated": false,
+  "emptyEpochAborted": false,
+  "newEpochConsentAdded": false,
+  "sealWholeProofReused": true,
+  "partialSettlementReprovedAfterUnsignedRpcEof": true,
+  "regressionsPassed": 122,
+  "auditSha256": "338d3098e22db98370fab4fdea91d797a820c36cae46bb98960de0ddab7a1600",
+  "performanceReportSha256": "8f5713dc404970a6dc89547077461c46e1a59490d486d28063ea6d04b13724a2",
+  "cleanPerformancePairEligible": false,
+  "scope": "closed original real Book fill and ordinary wallet claims after exact same-proof reuse and manual unsigned recovery; finite eight-user accounting, not production certification, all-market fairness or clean cold/warm performance comparison"
+}
