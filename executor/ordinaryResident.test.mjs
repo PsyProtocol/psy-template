@@ -68,8 +68,8 @@ test('concurrent exact reconciliations share one read flight and cannot release 
   if(url.includes('/get/user/transactions')){listings++;await wait;return{ok:true,json:async()=>({success:true,data:{user_id:123,has_next:false,items:[{tx_type:'user_endcap',owner_user_id:123,included_checkpoint_id:4,content_hash:hash}]}})};}
   return{ok:true,json:async()=>options?.method==='POST'?{result:'f'.repeat(64)}:{success:true,data:{status:'included',owner_user_id:123,included_checkpoint_id:4,content_hash:hash}}};
  });
- await x.run('call');const a=x.worker.reconcile(),b=x.worker.reconcile();assert.equal(a,b);release();assert.equal((await a).status,'included');
- await x.run('call');assert.equal((await b).status,'included');await assert.rejects(x.run(),/original result/);assert.equal(listings,1);assert.equal(x.jobs,2);
+ await x.run('call');const a=x.worker.reconcile(),b=x.worker.reconcile();release();const first=await a;assert.equal(first.status,'included');first.receipt.data.owner_user_id=999;
+ await x.run('call');const second=await b;assert.equal(second.status,'included');assert.equal(second.receipt.data.owner_user_id,123,'each observer receives its own receipt object');await assert.rejects(x.run(),/original result/);assert.equal(listings,1);assert.equal(x.jobs,2);
 },{withReceipts:true}));
 test('wrong signer, mismatched response and rejection poison the process without automatic retry',async()=>{
  for(const options of [{wrongIdentity:true},{wrongResponse:true},{reject:true}])await fixture(async x=>{
