@@ -1,0 +1,8 @@
+// Only public reads and local receipt persistence. Never signs or broadcasts.
+import assert from'node:assert/strict';import{existsSync,readFileSync}from'node:fs';import{join}from'node:path';import{fileURLToPath}from'node:url';import{confirmUps,save}from'../../batching/admission/liveSupport.mjs';import{parseLosslessJson}from'../../amm/u124/client.mjs';import{freezeAppModules}from'./sourceClosure.mjs';
+const[base,config,attempt,label]=process.argv.slice(2);assert.match(label,/^[a-z0-9-]+$/);freezeAppModules(fileURLToPath(import.meta.url),base,label+'-source');
+const exact=p=>parseLosslessJson(readFileSync(p,'utf8')),p=exact(join(attempt,'preflight.json')),q=exact(join(attempt,'request.json')),intent=exact(join(attempt,'intent.json'));
+assert.deepEqual(q.user_ec_input.core,p.core);assert.equal(intent.endUserLeafHash,p.endUserLeafHash);assert.equal(intent.userId,p.core.new_user_leaf.user_id);assert.equal(intent.nonce,p.core.new_user_leaf.nonce);
+if(!existsSync(join(attempt,'included.json')))await confirmUps(config,attempt);
+const included=exact(join(attempt,'included.json'));assert.equal(included.receipt.data.status,'included');assert.equal(included.endUserLeafHash,p.endUserLeafHash);assert.equal(included.userId,intent.userId);assert.equal(included.contentHash,included.receipt.data.content_hash);
+save(join(base,'public',label+'-COMPLETE.json'),{originalRequestReconciled:true,proofRepeated:false,submitRepeated:false,userId:intent.userId,nonce:intent.nonce,endUserLeafHash:intent.endUserLeafHash,contentHash:included.contentHash,checkpoint:included.checkpoint});console.log('original ordinary request exactly included; no re-sign or retransmission');

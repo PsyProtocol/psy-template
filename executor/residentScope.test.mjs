@@ -2,6 +2,12 @@ import test from 'node:test';import assert from 'node:assert/strict';
 import {mkdtemp,writeFile,rm} from 'node:fs/promises';import{tmpdir}from'node:os';import{join}from'node:path';
 import{residentScope}from'./residentScope.mjs';import{sha256}from'./requestBinding.mjs';
 async function fixture(fn){const dir=await mkdtemp(join(tmpdir(),'resident-scope-'));try{const binary=join(dir,'binary'),policy=join(dir,'policy'),config=join(dir,'config'),copy=join(dir,'copy');for(const[p,v]of[[binary,'driver'],[policy,'policy'],[copy,'policy'],[config,'config']])await writeFile(p,v);const binding={driverSha256:sha256('driver'),policySha256:sha256('policy'),rpcSha256:sha256('config'),identity:{network:'qa',key:'a',code:'b',layout:'c'},dependencies:['asset-a','asset-b'],env:{RAYON_NUM_THREADS:'2'}};await fn({binary,policy,config,copy,binding});}finally{await rm(dir,{recursive:true,force:true});}}
+test('warm leases reuse only exact immutable bindings and reject changed files before native access',()=>fixture(async f=>{
+ let starts=0,warms=0;const scope=residentScope({create:()=>{starts++;return{warm:async()=>{warms++;return{residentStartup:{sessionConstructionMs:1}};},close:async()=>{}};}});
+ const a=await scope.acquire(f.binding,f.binary,f.policy,f.config,{env:f.binding.env});await a.warm();await a.close();
+ const b=await scope.acquire(f.binding,f.binary,f.copy,f.config,{env:f.binding.env});await b.warm();assert.equal(starts,1);assert.equal(warms,2);
+ await writeFile(f.config,'changed-network');await assert.rejects(b.warm(),/network config changed/);assert.equal(warms,2);await b.close();await scope.close();
+}));
 test('stages retain exact resources while each job supplies new calls, guards and output',()=>fixture(async f=>{
  let starts=0,stops=0;const jobs=[],scope=residentScope({create:()=>{starts++;return{prove:async a=>{jobs.push(a);return{freshJob:jobs.length};},close:async()=>{stops++;}};}});
  const a=await scope.acquire(f.binding,f.binary,f.policy,f.config,{env:f.binding.env});await a.prove(['preflight',f.policy,f.config,'calls-1','guard-1','out-1']);await a.close();
