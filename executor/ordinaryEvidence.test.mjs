@@ -1,6 +1,6 @@
 import test from'node:test';import assert from'node:assert/strict';
 import{mkdtempSync,mkdirSync,writeFileSync,readFileSync,rmSync}from'node:fs';import{tmpdir}from'node:os';import{join}from'node:path';import{createHash}from'node:crypto';
-import{ordinaryEvidenceDirectory,PRESESSION_DIAGNOSTIC_DRIVER_SHA256}from'./acceptance/ordinaryEvidence.mjs';
+import{ordinaryEvidenceDirectory,PRESESSION_DIAGNOSTIC_DRIVER_SHA256,assertMeasuredPreSessionFailure,PRESESSION_METRICS_DRIVER_SHA256}from'./acceptance/ordinaryEvidence.mjs';
 function fixture(fn){const base=mkdtempSync(join(tmpdir(),'psy-ordinary-evidence-'));try{
  const original='maximum-dave-consent',replacement=original+'-recovery-v2';
  for(const p of ['public/ordinary-recoveries','attempts/'+original,'attempts/'+replacement])mkdirSync(join(base,p),{recursive:true});
@@ -47,4 +47,21 @@ test('a chain of pre-session replacements is accepted only while each failed one
  x.put(failedFailure,{...failure,phase:'prove-ordinary-calls'});configure();assert.throws(()=>ordinaryEvidenceDirectory(x.base,x.original,2),/pre-proof/);
  x.put(failedFailure,failure);configure();x.put('attempts/'+failed+'/intent.json',{});assert.throws(()=>ordinaryEvidenceDirectory(x.base,x.original,2),/proof\/intent/);
  rmSync(join(x.base,'attempts',failed,'intent.json'));x.put(failedFailure,{...failure,suppressedErrorSha256:'e'.repeat(64)});assert.throws(()=>ordinaryEvidenceDirectory(x.base,x.original,2),/evidence changed/);
+}));
+test('reviewed measured pre-session failure permits fractional timing observations, never signed/broadcast artifacts',()=>fixture(x=>{
+ const d='attempts/'+x.original,fail={automaticRetry:false,broadcastMayHaveBeenAttempted:false,ok:false,phase:'start-ordinary-session',privateDataSuppressed:true,reasonCode:'RPC_CONNECTION',suppressedErrorSha256:'d'.repeat(64)},metrics={schema:'ordinary-phases-v1',resident:false,ok:false,lastPhase:'start-ordinary-session',startupMilliseconds:42572.638458,phases:[{phase:'load-job',milliseconds:0.923167},{phase:'start-ordinary-session',milliseconds:6505.30275}]};
+ x.put(d+'/failure.json',fail);x.put(d+'/metrics.json',metrics);assertMeasuredPreSessionFailure(join(x.base,d),PRESESSION_METRICS_DRIVER_SHA256);
+ for(const patch of[{broadcastMayHaveBeenAttempted:true},{phase:'broadcast-ordinary-ups'},{reasonCode:'REJECTED_REVIEW_REQUIRED'}]){x.put(d+'/failure.json',{...fail,...patch});assert.throws(()=>assertMeasuredPreSessionFailure(join(x.base,d),PRESESSION_METRICS_DRIVER_SHA256));}
+ x.put(d+'/failure.json',fail);assert.throws(()=>assertMeasuredPreSessionFailure(join(x.base,d),'e'.repeat(64)));
+ x.put(d+'/metrics.json',{...metrics,phases:[...metrics.phases,{phase:'prove-ordinary-calls',milliseconds:1}]});assert.throws(()=>assertMeasuredPreSessionFailure(join(x.base,d),PRESESSION_METRICS_DRIVER_SHA256));
+ x.put(d+'/metrics.json',metrics);x.put(d+'/request.json',{});assert.throws(()=>assertMeasuredPreSessionFailure(join(x.base,d),PRESESSION_METRICS_DRIVER_SHA256));
+}));
+test('measured replacement binds the original deadline and cannot reclassify an existing signed request',()=>fixture(x=>{
+ const d='attempts/'+x.original,old='public/'+x.original+'.json',next='public/'+x.replacement+'.json',receipt='attempts/'+x.replacement+'/included.json';
+ x.put(d+'/failure.json',{automaticRetry:false,broadcastMayHaveBeenAttempted:false,ok:false,phase:'start-ordinary-session',privateDataSuppressed:true,reasonCode:'RPC_CONNECTION',suppressedErrorSha256:'d'.repeat(64)});
+ x.put(d+'/metrics.json',{schema:'ordinary-phases-v1',resident:false,ok:false,lastPhase:'start-ordinary-session',phases:[{phase:'start-ordinary-session',milliseconds:1.5}]});
+ const configure=input=>{x.put(next,input);const r=JSON.parse(readFileSync(join(x.base,receipt),'utf8'));r.preflight.inputSha256=x.sha(next);x.put(receipt,r);x.put(x.recordFile,{...x.record,version:3,originalDriverSha256:PRESESSION_METRICS_DRIVER_SHA256,originalFailureSha256:x.sha(d+'/failure.json'),originalMetricsSha256:x.sha(d+'/metrics.json'),replacementInputSha256:x.sha(next),receiptSha256:x.sha(receipt)});};
+ const input=JSON.parse(readFileSync(join(x.base,old),'utf8'));configure(input);assert.equal(ordinaryEvidenceDirectory(x.base,x.original,2),join(x.base,'attempts',x.replacement));
+ configure({...input,validUntilCheckpoint:129});assert.throws(()=>ordinaryEvidenceDirectory(x.base,x.original,2),/including expiry/);
+ configure(input);x.put(d+'/request.json',{});assert.throws(()=>ordinaryEvidenceDirectory(x.base,x.original,2),/original has proof/);
 }));
