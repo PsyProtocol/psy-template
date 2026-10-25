@@ -1,0 +1,499 @@
+{
+  "schema": 1,
+  "sourceDirectory": "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-market-recovery-20261023",
+  "machine": "gewenbo.local",
+  "host": "macOS-15.7.3-arm64-arm-64bit",
+  "scope": "public formal Executor run including failures; success requires exact included receipt",
+  "walletFilesIncluded": false,
+  "sealedBinariesIncluded": false,
+  "records": [
+    {
+      "source": "fixed-verifier-performance-live-v2/authorized-compact-recovery-v1/CANCEL-413-OBSERVATION-v1.json",
+      "file": "files/fixed-verifier-performance-live-v2/authorized-compact-recovery-v1/CANCEL-413-OBSERVATION-v1.json.gz",
+      "bytes": 305,
+      "sha256": "8826ea33366f332d99f7654c9e071a8a21796acf5a7a43cde84564c7092a7ee5",
+      "gzipBytes": 246,
+      "gzipSha256": "c359d13b3b18ff3b9dd94c8de15ac118ace4c0f74b89b8f992500e3e4aefdcdb"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v2/authorized-compact-recovery-v1/http-read-probes-v1/http1.1-body.txt",
+      "file": "files/fixed-verifier-performance-live-v2/authorized-compact-recovery-v1/http-read-probes-v1/http1.1-body.txt.gz",
+      "bytes": 230,
+      "sha256": "7b56eb733c31fbf327de00b192cb553cbcdfd40b455fbd2248162ada2203d85e",
+      "gzipBytes": 160,
+      "gzipSha256": "c279ec39f480bba8b0496f24dad79a2f979f251c59733cebcee26d7e4d4f4c8a"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v2/authorized-compact-recovery-v1/http-read-probes-v1/http1.1-headers.txt",
+      "file": "files/fixed-verifier-performance-live-v2/authorized-compact-recovery-v1/http-read-probes-v1/http1.1-headers.txt.gz",
+      "bytes": 323,
+      "sha256": "adb002dff2dfaf507fe75f4172a70ddb6d56fb6d03b41a3d1d400cedadb9255f",
+      "gzipBytes": 245,
+      "gzipSha256": "1f353ba3a3bbed9c5198deaeb682a946670495e43259d513ef898740af167962"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v2/authorized-compact-recovery-v1/http-read-probes-v1/http1.1-result.txt",
+      "file": "files/fixed-verifier-performance-live-v2/authorized-compact-recovery-v1/http-read-probes-v1/http1.1-result.txt.gz",
+      "bytes": 18,
+      "sha256": "3b546aabd748c251d5fb1911d61325d15a23f347cb602b416c51d99de981d4c0",
+      "gzipBytes": 38,
+      "gzipSha256": "687dd6123341af92a81e9ae9d9ca1f73ccbf1f4ad9227b694c8ab9927ec97c4f"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v2/authorized-compact-recovery-v1/http-read-probes-v1/http2-body.txt",
+      "file": "files/fixed-verifier-performance-live-v2/authorized-compact-recovery-v1/http-read-probes-v1/http2-body.txt.gz",
+      "bytes": 230,
+      "sha256": "7b56eb733c31fbf327de00b192cb553cbcdfd40b455fbd2248162ada2203d85e",
+      "gzipBytes": 160,
+      "gzipSha256": "c279ec39f480bba8b0496f24dad79a2f979f251c59733cebcee26d7e4d4f4c8a"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v2/authorized-compact-recovery-v1/http-read-probes-v1/http2-headers.txt",
+      "file": "files/fixed-verifier-performance-live-v2/authorized-compact-recovery-v1/http-read-probes-v1/http2-headers.txt.gz",
+      "bytes": 319,
+      "sha256": "7691855e9c37288fa83005bd1d4708e57e084372f931c3b0c3aa811f306fca3e",
+      "gzipBytes": 241,
+      "gzipSha256": "b589c83eac220ccf2021b14562382635213eb3da1be35acdf1503b440b1845ff"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v2/authorized-compact-recovery-v1/http-read-probes-v1/http2-result.txt",
+      "file": "files/fixed-verifier-performance-live-v2/authorized-compact-recovery-v1/http-read-probes-v1/http2-result.txt.gz",
+      "bytes": 15,
+      "sha256": "3c1dbace943caf8516f994ec7deac911367ddaea19747e6c981cdff3a10bbdb1",
+      "gzipBytes": 35,
+      "gzipSha256": "2d0f4fde16923593213eabfeefd01fdb48aed723b6829304c9c6675fe7fec5e4"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v2/authorized-compact-recovery-v1/http-read-probes-v1/node-body.txt",
+      "file": "files/fixed-verifier-performance-live-v2/authorized-compact-recovery-v1/http-read-probes-v1/node-body.txt.gz",
+      "bytes": 230,
+      "sha256": "7b56eb733c31fbf327de00b192cb553cbcdfd40b455fbd2248162ada2203d85e",
+      "gzipBytes": 160,
+      "gzipSha256": "c279ec39f480bba8b0496f24dad79a2f979f251c59733cebcee26d7e4d4f4c8a"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v2/authorized-compact-recovery-v1/http-read-probes-v1/node-meta.json",
+      "file": "files/fixed-verifier-performance-live-v2/authorized-compact-recovery-v1/http-read-probes-v1/node-meta.json.gz",
+      "bytes": 416,
+      "sha256": "77b61939ce333c3d87871563be1367ea1789f31d65a47867c1b5905390e5ab54",
+      "gzipBytes": 295,
+      "gzipSha256": "cbc57aefe1faa357d2a5f0f4790873a8af8c66e95e734b1988807921ea5bb69d"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v2/authorized-compact-recovery-v1/http-read-probes-v1/read-only-request.json",
+      "file": "files/fixed-verifier-performance-live-v2/authorized-compact-recovery-v1/http-read-probes-v1/read-only-request.json.gz",
+      "bytes": 477540,
+      "sha256": "60386e0fb43c19380cb9ae343bb192a9a7006cbddadc2cfe0bfd62a0836f0164",
+      "gzipBytes": 579,
+      "gzipSha256": "ef9fe4afc0a87b41ab1cab1db0f95718521d140d5fe7ccac537fe9c48977da1b"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v2/authorized-compact-recovery-v1/http-read-probes-v2/declared-body.txt",
+      "file": "files/fixed-verifier-performance-live-v2/authorized-compact-recovery-v1/http-read-probes-v2/declared-body.txt.gz",
+      "bytes": 230,
+      "sha256": "367e83d11fb5648dcfcc52d09d630eabe01e3d93f93e3165c13c49a5a50b47e2",
+      "gzipBytes": 161,
+      "gzipSha256": "1752dff0d2ffcae2ce7968291623ba5f9e47e21a8437241d2f1bbb8ff7a7480b"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v2/authorized-compact-recovery-v1/http-read-probes-v2/declared-curl-result.txt",
+      "file": "files/fixed-verifier-performance-live-v2/authorized-compact-recovery-v1/http-read-probes-v2/declared-curl-result.txt.gz",
+      "bytes": 16,
+      "sha256": "9933c1184fe3702a190d324bedf542c89470d11241dda752f0def1e4aa805f71",
+      "gzipBytes": 36,
+      "gzipSha256": "a6a6862360233970e9b0aa81f6853e0668fa8c4ff47a8117975bb0135ac5da3f"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v2/authorized-compact-recovery-v1/http-read-probes-v2/declared-headers.txt",
+      "file": "files/fixed-verifier-performance-live-v2/authorized-compact-recovery-v1/http-read-probes-v2/declared-headers.txt.gz",
+      "bytes": 319,
+      "sha256": "df420448ae4ad3f74d7bff45c292fb1f091f56a0b53cf11b922d37910bea5b0a",
+      "gzipBytes": 240,
+      "gzipSha256": "43cb419c9c868f053cbfaf6bb6e0af72feded87a20f835e711bb1e8a37bf02f1"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v2/authorized-compact-recovery-v1/http-read-probes-v2/declared-node-body.txt",
+      "file": "files/fixed-verifier-performance-live-v2/authorized-compact-recovery-v1/http-read-probes-v2/declared-node-body.txt.gz",
+      "bytes": 230,
+      "sha256": "2b0d38b40eb73f77a07215cdb181fb32b9fcdcabe39897b8e63a94650ca145aa",
+      "gzipBytes": 161,
+      "gzipSha256": "ff9b65708ca0af905a9072cbea9383c78b824b927d82b83c5836dc49feb0fb69"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v2/authorized-compact-recovery-v1/http-read-probes-v2/declared-node-meta.json",
+      "file": "files/fixed-verifier-performance-live-v2/authorized-compact-recovery-v1/http-read-probes-v2/declared-node-meta.json.gz",
+      "bytes": 60,
+      "sha256": "91de0b703a78a9f11255e1d9ddfad8c32e343e329c05f3ec8d25254f8f6ec9a2",
+      "gzipBytes": 77,
+      "gzipSha256": "b4c31baed02aefcbfa70ec029ef785822a6c73deb595fe496aed5ecb9566a581"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v2/authorized-compact-recovery-v1/http-read-probes-v2/declared-read-only-request.json",
+      "file": "files/fixed-verifier-performance-live-v2/authorized-compact-recovery-v1/http-read-probes-v2/declared-read-only-request.json.gz",
+      "bytes": 477591,
+      "sha256": "6285abf72d15cc035caeb6ee0ffeb8424a8f206cbfa421ba6d7f6d82b638f207",
+      "gzipBytes": 169425,
+      "gzipSha256": "6a21bc8d35a622ff94a99293698213be66e5bfceffacc8e3fabfd8574a7dade5"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v2/authorized-compact-recovery-v1/http-read-probes-v2/native-auto-v1/report.json",
+      "file": "files/fixed-verifier-performance-live-v2/authorized-compact-recovery-v1/http-read-probes-v2/native-auto-v1/report.json.gz",
+      "bytes": 286,
+      "sha256": "8af51cabf362a4a438a647123f5eb39df733e0eacc07a7f476dcdc06dfb506aa",
+      "gzipBytes": 205,
+      "gzipSha256": "ba30acbfba612f72d7f158e80b15ac784ae917ad4612de408843ffebe669290e"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v2/authorized-compact-recovery-v1/http-read-probes-v2/native-auto-v1/response.body",
+      "file": "files/fixed-verifier-performance-live-v2/authorized-compact-recovery-v1/http-read-probes-v2/native-auto-v1/response.body.gz",
+      "bytes": 230,
+      "sha256": "81a0eb12a847c620cb61c1855df43afe5f65088896ac99ea382228b2332b7b84",
+      "gzipBytes": 160,
+      "gzipSha256": "d634263fb0622a051d86e04b162f3ebd758707dda765188c10f7a3fcf9a50857"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v2/authorized-compact-recovery-v1/http-read-probes-v2/native-auto-v1.txt",
+      "file": "files/fixed-verifier-performance-live-v2/authorized-compact-recovery-v1/http-read-probes-v2/native-auto-v1.txt.gz",
+      "bytes": 233,
+      "sha256": "f910033354ca545f70c47b14966db5a05c36504d4c33c0afbd093d0d285bb7a5",
+      "gzipBytes": 191,
+      "gzipSha256": "d86a488acde594cf94833a2ce1a50ac49003df2e30a64f597560443ecd8a26d8"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v2/authorized-compact-recovery-v1/http-read-probes-v2/native-http1-v1/report.json",
+      "file": "files/fixed-verifier-performance-live-v2/authorized-compact-recovery-v1/http-read-probes-v2/native-http1-v1/report.json.gz",
+      "bytes": 287,
+      "sha256": "bfeb8a8fba3281b21b18fc8488147196bc9fb0f995a3afe0b9a0bc0b9b6644ae",
+      "gzipBytes": 206,
+      "gzipSha256": "3b941e44dccd8d1ce0c200a7545f2bc1d0023b6bde360a042f79fed39c530035"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v2/authorized-compact-recovery-v1/http-read-probes-v2/native-http1-v1/response.body",
+      "file": "files/fixed-verifier-performance-live-v2/authorized-compact-recovery-v1/http-read-probes-v2/native-http1-v1/response.body.gz",
+      "bytes": 230,
+      "sha256": "81a0eb12a847c620cb61c1855df43afe5f65088896ac99ea382228b2332b7b84",
+      "gzipBytes": 160,
+      "gzipSha256": "d634263fb0622a051d86e04b162f3ebd758707dda765188c10f7a3fcf9a50857"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v2/authorized-compact-recovery-v1/http-read-probes-v2/native-http1-v1.txt",
+      "file": "files/fixed-verifier-performance-live-v2/authorized-compact-recovery-v1/http-read-probes-v2/native-http1-v1.txt.gz",
+      "bytes": 234,
+      "sha256": "a8b2c31170f185f28df672cd99fc17f2a633290ac6877e24b772b66bd8293915",
+      "gzipBytes": 192,
+      "gzipSha256": "ed08dbebc0ffaa092e31c211c8a0485d340e6610141567cc3b4b262aae949f15"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v2/authorized-compact-recovery-v1/http-read-probes-v2/sorted-body.txt",
+      "file": "files/fixed-verifier-performance-live-v2/authorized-compact-recovery-v1/http-read-probes-v2/sorted-body.txt.gz",
+      "bytes": 230,
+      "sha256": "367e83d11fb5648dcfcc52d09d630eabe01e3d93f93e3165c13c49a5a50b47e2",
+      "gzipBytes": 161,
+      "gzipSha256": "1752dff0d2ffcae2ce7968291623ba5f9e47e21a8437241d2f1bbb8ff7a7480b"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v2/authorized-compact-recovery-v1/http-read-probes-v2/sorted-curl-result.txt",
+      "file": "files/fixed-verifier-performance-live-v2/authorized-compact-recovery-v1/http-read-probes-v2/sorted-curl-result.txt.gz",
+      "bytes": 16,
+      "sha256": "734af32394a1be2da67fd926da03b7301bfd406081d117e681dacc3c9e5fa879",
+      "gzipBytes": 36,
+      "gzipSha256": "8d62205fc5b8da7cf8d98aa916384d6fc27699a09d206b8acf73ab3c7f0c4cc8"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v2/authorized-compact-recovery-v1/http-read-probes-v2/sorted-headers.txt",
+      "file": "files/fixed-verifier-performance-live-v2/authorized-compact-recovery-v1/http-read-probes-v2/sorted-headers.txt.gz",
+      "bytes": 319,
+      "sha256": "3b81259aa91f080b194e0423a2d78a8afc79475beb811ae27d5cf4be0e2f7ee5",
+      "gzipBytes": 240,
+      "gzipSha256": "13fe65595e4110c28b8b0341b24bcbd8ff91d377ce619781d6a3953765763012"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v2/authorized-compact-recovery-v1/http-read-probes-v2/sorted-node-body.txt",
+      "file": "files/fixed-verifier-performance-live-v2/authorized-compact-recovery-v1/http-read-probes-v2/sorted-node-body.txt.gz",
+      "bytes": 230,
+      "sha256": "2b0d38b40eb73f77a07215cdb181fb32b9fcdcabe39897b8e63a94650ca145aa",
+      "gzipBytes": 161,
+      "gzipSha256": "ff9b65708ca0af905a9072cbea9383c78b824b927d82b83c5836dc49feb0fb69"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v2/authorized-compact-recovery-v1/http-read-probes-v2/sorted-node-meta.json",
+      "file": "files/fixed-verifier-performance-live-v2/authorized-compact-recovery-v1/http-read-probes-v2/sorted-node-meta.json.gz",
+      "bytes": 60,
+      "sha256": "91de0b703a78a9f11255e1d9ddfad8c32e343e329c05f3ec8d25254f8f6ec9a2",
+      "gzipBytes": 77,
+      "gzipSha256": "b4c31baed02aefcbfa70ec029ef785822a6c73deb595fe496aed5ecb9566a581"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v2/authorized-compact-recovery-v1/http-read-probes-v2/sorted-read-only-request.json",
+      "file": "files/fixed-verifier-performance-live-v2/authorized-compact-recovery-v1/http-read-probes-v2/sorted-read-only-request.json.gz",
+      "bytes": 477591,
+      "sha256": "3adae32d19cfa48eca5b409a9e714c7ae204359848c57c3f5a0bcd76e8087d61",
+      "gzipBytes": 169425,
+      "gzipSha256": "1ba3c55cb71c7784c2cd1dcbb371a3f3c8655e30357a5932fa81bff8ce154789"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v2/retired-recovery-v1/attempts/bob-cancel-release-and-enroll/confirmation-timing.json",
+      "file": "files/fixed-verifier-performance-live-v2/retired-recovery-v1/attempts/bob-cancel-release-and-enroll/confirmation-timing.json.gz",
+      "bytes": 310,
+      "sha256": "feda6438f29def63cc98bdab7d2b2fa29020aefea3ccfbc3abafcb2d80fe4f2d",
+      "gzipBytes": 235,
+      "gzipSha256": "6e2cc8fc27631bd2f6a48ea4524d8afb6b31b4baa0d0c239d27bfe47daab763f"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v2/retired-recovery-v1/attempts/bob-cancel-release-and-enroll/exact-delivery-v1/ORIGINAL-RECEIPT-BEFORE.json",
+      "file": "files/fixed-verifier-performance-live-v2/retired-recovery-v1/attempts/bob-cancel-release-and-enroll/exact-delivery-v1/ORIGINAL-RECEIPT-BEFORE.json.gz",
+      "bytes": 138,
+      "sha256": "67820fde715e3194a13c73ee5c4949d6b8c136ea04bee87e95e571363f325e55",
+      "gzipBytes": 140,
+      "gzipSha256": "b031cf32d9c9bf21242b4567b3102f6a55cd5d91164d3011f4bb5123707dea47"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v2/retired-recovery-v1/attempts/bob-cancel-release-and-enroll/exact-delivery-v1/confirmation-timing.json",
+      "file": "files/fixed-verifier-performance-live-v2/retired-recovery-v1/attempts/bob-cancel-release-and-enroll/exact-delivery-v1/confirmation-timing.json.gz",
+      "bytes": 311,
+      "sha256": "6c10e58c6b53c30701b250614ad818917646625e6f7c87bbee2107dfdb40bffe",
+      "gzipBytes": 238,
+      "gzipSha256": "17509c32d36b30915952997ed5122a411ef226958acd8b0e904ac93bd92eac67"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v2/retired-recovery-v1/attempts/bob-cancel-release-and-enroll/exact-delivery-v1/full-proof-verification.json",
+      "file": "files/fixed-verifier-performance-live-v2/retired-recovery-v1/attempts/bob-cancel-release-and-enroll/exact-delivery-v1/full-proof-verification.json.gz",
+      "bytes": 547,
+      "sha256": "e98a110a880f3dc9c8bb5d2f7a86c35b766066b1dd8c064a489c836ee9dee395",
+      "gzipBytes": 377,
+      "gzipSha256": "0af1bc05c8f1d71d6daa65eecd7b1c2f710ef8d7c62889c21c73014b1e2b2abe"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v2/retired-recovery-v1/attempts/bob-cancel-release-and-enroll/exact-delivery-v1/included.json",
+      "file": "files/fixed-verifier-performance-live-v2/retired-recovery-v1/attempts/bob-cancel-release-and-enroll/exact-delivery-v1/included.json.gz",
+      "bytes": 3016,
+      "sha256": "492d5ce82f0a12c64fc1dc39a4384de2a88f509ee7a0d9800c101fae312b74e8",
+      "gzipBytes": 1228,
+      "gzipSha256": "5badb572ab8f74fa0e50b8bb9666b3f5b85db317e4b1ebf07ecafe86f68de6d0"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v2/retired-recovery-v1/attempts/bob-cancel-release-and-enroll/exact-delivery-v1/intent.json",
+      "file": "files/fixed-verifier-performance-live-v2/retired-recovery-v1/attempts/bob-cancel-release-and-enroll/exact-delivery-v1/intent.json.gz",
+      "bytes": 485,
+      "sha256": "0d90ada47ee7f45b768dfa3d3ecd84517376051f3552316377037f674c7b7f63",
+      "gzipBytes": 377,
+      "gzipSha256": "61289217e7f5065c7eeba0929bbd28c99722020e2250dd9a3f3875c7f53aec05"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v2/retired-recovery-v1/attempts/bob-cancel-release-and-enroll/exact-delivery-v1/preflight.json",
+      "file": "files/fixed-verifier-performance-live-v2/retired-recovery-v1/attempts/bob-cancel-release-and-enroll/exact-delivery-v1/preflight.json.gz",
+      "bytes": 1618,
+      "sha256": "8cd7c4bbe819f9d95d542ce2ef10cb23a068cbd848db478846343461c42cc7d3",
+      "gzipBytes": 819,
+      "gzipSha256": "7dd10dc6cda1340da27e2e77267a73a329e655c8e72cafae3f9dfeae70b68022"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v2/retired-recovery-v1/attempts/bob-cancel-release-and-enroll/exact-delivery-v1/receipt.json",
+      "file": "files/fixed-verifier-performance-live-v2/retired-recovery-v1/attempts/bob-cancel-release-and-enroll/exact-delivery-v1/receipt.json.gz",
+      "bytes": 136,
+      "sha256": "045684ca90832e0a29ba0aebb361cfd32fad7ca596ee89958ee04099748eda5b",
+      "gzipBytes": 138,
+      "gzipSha256": "fea37b42a34561d9f1a99ccb91f029ea432ee4ef317ffdd574dc93e15c4cca84"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v2/retired-recovery-v1/attempts/bob-cancel-release-and-enroll/exact-delivery-v1/request.json",
+      "file": "files/fixed-verifier-performance-live-v2/retired-recovery-v1/attempts/bob-cancel-release-and-enroll/exact-delivery-v1/request.json.gz",
+      "bytes": 1134283,
+      "sha256": "c8b45b94a4d50236174d2132f9e1a3cac21dd7586ecb319ae4a367057aa361db",
+      "gzipBytes": 192679,
+      "gzipSha256": "f51a6cdad811320c230e2ba1c2c469e5b3b7a6ebdfbe7af3b8183dd17e077e5a"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v2/retired-recovery-v1/attempts/bob-cancel-release-and-enroll/exact-delivery-v1/rpc-request.json",
+      "file": "files/fixed-verifier-performance-live-v2/retired-recovery-v1/attempts/bob-cancel-release-and-enroll/exact-delivery-v1/rpc-request.json.gz",
+      "bytes": 477572,
+      "sha256": "bc0a688e80bb888277de8da42670d52291d1092119950ef36adb365ca86938c6",
+      "gzipBytes": 169769,
+      "gzipSha256": "d5af78aa7964c6120e2bc6cd62d3a575d89e7ad5762432270c0ab39ac8829cf1"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v2/retired-recovery-v1/attempts/bob-cancel-release-and-enroll/exact-delivery-v1/rpc-response-meta.json",
+      "file": "files/fixed-verifier-performance-live-v2/retired-recovery-v1/attempts/bob-cancel-release-and-enroll/exact-delivery-v1/rpc-response-meta.json.gz",
+      "bytes": 42,
+      "sha256": "4804e8ecd24f0823afb623610d42b5843261c06f8a35b526f39beb2f9690a6eb",
+      "gzipBytes": 62,
+      "gzipSha256": "e44c7789a72559142f40110e0261adbe78267aa78517e00ac220f9ba2b877dd6"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v2/retired-recovery-v1/attempts/bob-cancel-release-and-enroll/exact-delivery-v1/rpc-response.body",
+      "file": "files/fixed-verifier-performance-live-v2/retired-recovery-v1/attempts/bob-cancel-release-and-enroll/exact-delivery-v1/rpc-response.body.gz",
+      "bytes": 38,
+      "sha256": "0d838a349418eb2e4db232f5454ddf684afea2d53c155da1fca3952dd564bab5",
+      "gzipBytes": 57,
+      "gzipSha256": "dcd098dc4a0e86eaf34f9806fa594225f4131d05ad260f60b72acf16432af8bf"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v2/retired-recovery-v1/attempts/bob-cancel-release-and-enroll/exact-delivery-v1/verification.log",
+      "file": "files/fixed-verifier-performance-live-v2/retired-recovery-v1/attempts/bob-cancel-release-and-enroll/exact-delivery-v1/verification.log.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v2/retired-recovery-v1/attempts/bob-cancel-release-and-enroll/failure.json",
+      "file": "files/fixed-verifier-performance-live-v2/retired-recovery-v1/attempts/bob-cancel-release-and-enroll/failure.json.gz",
+      "bytes": 295,
+      "sha256": "e990dec506492d6ba12116c4513b601167e872e59f32d28c8babc13f31fd6b6a",
+      "gzipBytes": 231,
+      "gzipSha256": "f8fc17de384c84d0001c236fd369402b343d81d8ab2dcaf8a0827cde0ebf2f98"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v2/retired-recovery-v1/attempts/bob-cancel-release-and-enroll/included.json",
+      "file": "files/fixed-verifier-performance-live-v2/retired-recovery-v1/attempts/bob-cancel-release-and-enroll/included.json.gz",
+      "bytes": 3016,
+      "sha256": "bad6faca172b3580136e3731451045dfacd67b5925e8476f564728081ad81ba7",
+      "gzipBytes": 1228,
+      "gzipSha256": "f980a1a1189da33003361f98bb36274bb52d73576512c5ceb9cd0cb629ec79f2"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v2/retired-recovery-v1/attempts/bob-cancel-release-and-enroll/intent.json",
+      "file": "files/fixed-verifier-performance-live-v2/retired-recovery-v1/attempts/bob-cancel-release-and-enroll/intent.json.gz",
+      "bytes": 185,
+      "sha256": "e76ecd3fc59dd77f4928c395fc8f334bc246d0dba9104a80ccd6677a91df68a6",
+      "gzipBytes": 168,
+      "gzipSha256": "7ee3f8631af9caf887b14f919e50eb1354770806cadf54b6186ba7d10e473d5e"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v2/retired-recovery-v1/attempts/bob-cancel-release-and-enroll/metrics.json",
+      "file": "files/fixed-verifier-performance-live-v2/retired-recovery-v1/attempts/bob-cancel-release-and-enroll/metrics.json.gz",
+      "bytes": 1196,
+      "sha256": "1ddb5f4a376023ebe0cdefe15ff7508ffd728c6d872895dea6c0b25266cb4f12",
+      "gzipBytes": 486,
+      "gzipSha256": "d2999e18092eaf905fb645f3ca933592729eac220ee266c74db929135b8d7ca7"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v2/retired-recovery-v1/attempts/bob-cancel-release-and-enroll/preflight.json",
+      "file": "files/fixed-verifier-performance-live-v2/retired-recovery-v1/attempts/bob-cancel-release-and-enroll/preflight.json.gz",
+      "bytes": 1618,
+      "sha256": "8cd7c4bbe819f9d95d542ce2ef10cb23a068cbd848db478846343461c42cc7d3",
+      "gzipBytes": 819,
+      "gzipSha256": "7dd10dc6cda1340da27e2e77267a73a329e655c8e72cafae3f9dfeae70b68022"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v2/retired-recovery-v1/attempts/bob-cancel-release-and-enroll/request.json",
+      "file": "files/fixed-verifier-performance-live-v2/retired-recovery-v1/attempts/bob-cancel-release-and-enroll/request.json.gz",
+      "bytes": 1134283,
+      "sha256": "c8b45b94a4d50236174d2132f9e1a3cac21dd7586ecb319ae4a367057aa361db",
+      "gzipBytes": 192679,
+      "gzipSha256": "f51a6cdad811320c230e2ba1c2c469e5b3b7a6ebdfbe7af3b8183dd17e077e5a"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v2/retired-recovery-v1/attempts/bob-cancel-release-and-enroll/reviewed-exact-delivery-fence-v1.json",
+      "file": "files/fixed-verifier-performance-live-v2/retired-recovery-v1/attempts/bob-cancel-release-and-enroll/reviewed-exact-delivery-fence-v1.json.gz",
+      "bytes": 495,
+      "sha256": "0e6517a09fa5ff73177fa5cf8d84c37fd76f4110684a3ce035c86d56432b7cb8",
+      "gzipBytes": 379,
+      "gzipSha256": "9a45bba3d345e37a67a283b8a85dd421e08b314daf3683bff9c5fbc053069414"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v2/retired-recovery-v1/attempts/bob-cancel-release-and-enroll/rpc-request.json",
+      "file": "files/fixed-verifier-performance-live-v2/retired-recovery-v1/attempts/bob-cancel-release-and-enroll/rpc-request.json.gz",
+      "bytes": 477572,
+      "sha256": "25ff0e01843ed770aa70e7ef582a127cd0e553c79036110e95adea0ff1c2a2fc",
+      "gzipBytes": 169405,
+      "gzipSha256": "34be66f2e12538efaf49648608b1c1ca380a89d8f7fc58c5a4ab37d3f104b6d9"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v2/retired-recovery-v1/attempts/bob-cancel-release-and-enroll/rpc-response-meta.json",
+      "file": "files/fixed-verifier-performance-live-v2/retired-recovery-v1/attempts/bob-cancel-release-and-enroll/rpc-response-meta.json.gz",
+      "bytes": 148,
+      "sha256": "c9fc72e7bfe6ea7f74ef8262184afdcffeafd0563232e7e0921e82959203cb5d",
+      "gzipBytes": 134,
+      "gzipSha256": "eff86f45ec0fe1ebed6d13275ed916c29e40c6608bb7214697a684093dddb972"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v2/retired-recovery-v1/attempts/bob-cancel-release-and-enroll/rpc-response.body",
+      "file": "files/fixed-verifier-performance-live-v2/retired-recovery-v1/attempts/bob-cancel-release-and-enroll/rpc-response.body.gz",
+      "bytes": 26,
+      "sha256": "44da9232aed68278d782bf7d7a2b2ae7bf9cfad6b7401cc83b01211f306cfa80",
+      "gzipBytes": 46,
+      "gzipSha256": "e1fcdb06cb0bd5ca131206eae049c79f8f41a476480d77b0680725d7d9337263"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v2/retired-recovery-v1/attempts/bob-cancel-release-and-enroll/rpc-transport.json",
+      "file": "files/fixed-verifier-performance-live-v2/retired-recovery-v1/attempts/bob-cancel-release-and-enroll/rpc-transport.json.gz",
+      "bytes": 342,
+      "sha256": "f19500818eb8bc951b811b817f423bba7f251752149c6ca7a58fd808de52be67",
+      "gzipBytes": 232,
+      "gzipSha256": "8d84c630656ba765d6f4b8e8e6d60753805722ed10f5cd093047ab82e4362f49"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v2/retired-recovery-v1/public/bob-cancel-release-and-enroll.json",
+      "file": "files/fixed-verifier-performance-live-v2/retired-recovery-v1/public/bob-cancel-release-and-enroll.json.gz",
+      "bytes": 1069,
+      "sha256": "64f1ef602eb8bcedf68ea28afbb6b6f9193e4378198deae1d636f779548f788e",
+      "gzipBytes": 513,
+      "gzipSha256": "8e8931586214c331dad8c1b6b244966d5f426782a764a18f55af1d77541bde53"
+    },
+    {
+      "source": "ordinary-exact-recovery-review-v1/ORIGINAL-ONLY-RESULT.json",
+      "file": "files/ordinary-exact-recovery-review-v1/ORIGINAL-ONLY-RESULT.json.gz",
+      "bytes": 710,
+      "sha256": "ae94a41d13cdbcd4f96c7b9defcef44a6ce0901eeaef33c3a8988c673772a176",
+      "gzipBytes": 444,
+      "gzipSha256": "a90483e2b83f7209e35683a2b8707602306181cfe65e3f7ad3e374beff2194ae"
+    },
+    {
+      "source": "ordinary-exact-recovery-review-v1/READ-TRANSPORT-PROVENANCE.json",
+      "file": "files/ordinary-exact-recovery-review-v1/READ-TRANSPORT-PROVENANCE.json.gz",
+      "bytes": 621,
+      "sha256": "44c6dda1809c6f2416279169c59292a8e3bd13f40e6330b2ef9b0d4be317f658",
+      "gzipBytes": 429,
+      "gzipSha256": "fe8c42f83b640b15e8cd41ff43fb03d778f0f40699e5f707bd3d954ba214ffe5"
+    },
+    {
+      "source": "ordinary-exact-recovery-review-v1/native-read-guard-tests.txt",
+      "file": "files/ordinary-exact-recovery-review-v1/native-read-guard-tests.txt.gz",
+      "bytes": 23754,
+      "sha256": "4f19314e16c5a8d198faa75fb186bede3879f931701453de8ed96eb17e06c161",
+      "gzipBytes": 4729,
+      "gzipSha256": "77dc3f0478adffdd60bde4a99bfdefbc602a035c3053afdc0bcc89b9bcc9001f"
+    },
+    {
+      "source": "ordinary-exact-recovery-review-v1/regression.txt",
+      "file": "files/ordinary-exact-recovery-review-v1/regression.txt.gz",
+      "bytes": 3022,
+      "sha256": "6f76e0b3570070f0fb94a92f096990f9a69a05c24515babcdd5f7b024570876f",
+      "gzipBytes": 1468,
+      "gzipSha256": "71cb7e26a10649ad8d2b2ae211a8556d74b3b1972e51484cc30fc97eb3d72fe6"
+    },
+    {
+      "source": "rpc-read-transport-probe-build-v1/amm/u124/vm-tests/src/bin/rpc_read_transport_probe.rs",
+      "file": "files/rpc-read-transport-probe-build-v1/amm/u124/vm-tests/src/bin/rpc_read_transport_probe.rs.gz",
+      "bytes": 2386,
+      "sha256": "1b6e2d0b6aa8bd5fe8a814493e1f69166e7218ea8004068bed809c36e64272f1",
+      "gzipBytes": 1276,
+      "gzipSha256": "71076a01fcbe332eadf80bf87fa7814dbce5f95579e8de9445a16eacbb05b875"
+    },
+    {
+      "source": "rpc-read-transport-probe-build-v2/amm/u124/vm-tests/Cargo.lock",
+      "file": "files/rpc-read-transport-probe-build-v2/amm/u124/vm-tests/Cargo.lock.gz",
+      "bytes": 211841,
+      "sha256": "4e895a309801d56e785f17eee5af04e50aee7785a3488e4aea1ae36fb2adb10c",
+      "gzipBytes": 49511,
+      "gzipSha256": "8cb0c94e2f2457d2f5adbd1a461343232247a84a377ab534f5281c674c431e4e"
+    },
+    {
+      "source": "rpc-read-transport-probe-build-v2/amm/u124/vm-tests/Cargo.toml",
+      "file": "files/rpc-read-transport-probe-build-v2/amm/u124/vm-tests/Cargo.toml.gz",
+      "bytes": 3459,
+      "sha256": "42cc779196a08d249d1a4ef4eb3a4d65ab94bbd4366b951193372a14bc729747",
+      "gzipBytes": 775,
+      "gzipSha256": "fd28df7a5b066226538803ac95628476f97a32d172a60ad73b7b98fa6e3f3719"
+    },
+    {
+      "source": "rpc-read-transport-probe-build-v2/amm/u124/vm-tests/src/bin/rpc_read_transport_probe.rs",
+      "file": "files/rpc-read-transport-probe-build-v2/amm/u124/vm-tests/src/bin/rpc_read_transport_probe.rs.gz",
+      "bytes": 3734,
+      "sha256": "9a2b6fa517e885e10aa7eb22790bb2375b5fb263cbd05e72b3e729e2a5f959c1",
+      "gzipBytes": 1724,
+      "gzipSha256": "ea4fc91b6f07c16d8813146dca4813b7f22a3c5bccc17ff188d8c45ed9c8fd3f"
+    }
+  ]
+}
