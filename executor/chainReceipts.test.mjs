@@ -13,6 +13,14 @@ async function fixture(fn){
  try{await fn(config);}finally{await rm(directory,{recursive:true,force:true});}
 }
 const response=data=>({ok:true,json:async()=>data});
+test('bounded services outage stays unresolved; next poll recovers the original exact identity',()=>fixture(async config=>{
+ let failing=true,requests=0;const io=fetcher({pages:()=>({items:[event(101)],has_next:false})});
+ const read=await receiptReader(config,{fetchImpl:async(...args)=>{requests++;return failing?{ok:false,status:500}:io.fetchImpl(...args);}});
+ const pending=await read({userId,endUserLeafHash:leaf,minCheckpoint:101});
+ assert.equal(pending.status,'unresolved');assert.equal(pending.readUnavailable,true);assert.equal(pending.endUserLeafHash,leaf);assert.equal(requests,3,'one bounded read burst, no other request or mutation');
+ failing=false;const included=await read({userId,endUserLeafHash:leaf,minCheckpoint:101});assert.equal(included.status,'included');assert.equal(included.endUserLeafHash,leaf);assert.equal(included.contentHash,event(101).content_hash);
+ const unauthorized=await receiptReader(config,{fetchImpl:async()=>({ok:false,status:401})});await assert.rejects(unauthorized({userId,endUserLeafHash:leaf}),/HTTP 401/);
+}));
 function fetcher({pages,target=101,receiptPatch={}}){
  const offsets=[],reads=[];
  return {offsets,reads,fetchImpl:async(url,options)=>{

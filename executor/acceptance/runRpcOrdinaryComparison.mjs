@@ -117,9 +117,11 @@ try {
  await f.step('admit-0',named('admit_entry'));
  await fund('admit-1-fund');await f.step('admit-1',named('admit_entry'));
  await fund('seal-fund');
- const waitStart=performance.now(),waitAt=new Date().toISOString();
+ const waitFile=join(round,'public/cutoff-wait.json');
+ if(existsSync(waitFile)){assert.equal(read(waitFile).cutoff,plan.cutoff,'original cutoff binding');}
+ else{const waitStart=performance.now(),waitAt=new Date().toISOString();
  while((await publicState(config)).checkpoint<=plan.cutoff)await pause(10000);
- saveObservation(join(round,'public/cutoff-wait.json'),{startedAt:waitAt,finishedAt:new Date().toISOString(),wallMilliseconds:performance.now()-waitStart,cutoff:plan.cutoff,scope:'protocol cutoff wait, separate from prover/RPC execution cost'});
+ saveObservation(waitFile,{startedAt:waitAt,finishedAt:new Date().toISOString(),wallMilliseconds:performance.now()-waitStart,cutoff:plan.cutoff,scope:'protocol cutoff wait, separate from prover/RPC execution cost'});}
  await f.step('seal',named('seal_epoch'));await fund('commit-fund',1);
  await f.step('commit',t=>t.kind==='batch_commit');await f.step('settle',t=>t.kind==='batch_settle');
  await pair([
