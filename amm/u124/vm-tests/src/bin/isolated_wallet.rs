@@ -147,6 +147,7 @@ async fn serve(a:&[String], net:&psy_config::NetworkConfigGoldilocks, session:&m
         *phase="resident-job-start";
         let result=psy_template_u124_markets::runtime::contain(process(&args,net,session,0.0,Some(&pin),phase)).await;
         session.user_session_mgrs.clear();
+        psy_template_u124_markets::prover_resources::checkpoint(psy_template_u124_markets::prover_resources::MemoryMode::selected()?,"ordinary-session-cleared");
         let code=match &result {
             Ok(())=>None,
             Err(psy_template_u124_markets::runtime::Failure::Rejected(e))=>Some(error_code(&format!("{e:#}"))),
@@ -163,6 +164,7 @@ async fn serve(a:&[String], net:&psy_config::NetworkConfigGoldilocks, session:&m
     Ok(())
 }
 async fn run(phase: &mut &'static str) -> Result<()> {
+    let memory_mode=psy_template_u124_markets::prover_resources::MemoryMode::selected()?;
     *phase = "load-testnet-config";
     let a = env::args().collect::<Vec<_>>();
     ensure!(
@@ -184,6 +186,8 @@ async fn run(phase: &mut &'static str) -> Result<()> {
     let started = Instant::now();
     let mut session = WalletSession::new(&net).await?;
     let startup_ms = started.elapsed().as_secs_f64() * 1000.0;
+    eprintln!("PSY_PROVER_LIFECYCLE {}",json!({"event":"session-built","pid":std::process::id(),"sessionConstructionMilliseconds":startup_ms,"memoryMode":memory_mode.name()}));
+    psy_template_u124_markets::prover_resources::checkpoint(memory_mode,"ordinary-circuits-built");
     if a[1] == "serve-ordinary" {
         return serve(&a, &net, &mut session, startup_ms, pinned.context("resident identity not frozen")?, phase).await;
     }
@@ -373,6 +377,12 @@ async fn operation(a: &[String], net: &psy_config::NetworkConfigGoldilocks, sess
         .await?;
     metrics.enter(phase, "prove-ordinary-signature-endcap");
     let (endcap, proof) = session.sign(key, data.software_defined_call).await?;
+    // sign returns owned final inputs/proof. Release transaction-only managers
+    // before verification/RPC; immutable wallet circuits remain live. Every
+    // request still verifies the complete proof and its exact end-cap binding.
+    if psy_template_u124_markets::prover_resources::MemoryMode::selected()?.release() { session.user_session_mgrs.clear(); }
+    psy_template_u124_markets::prover_resources::checkpoint(psy_template_u124_markets::prover_resources::MemoryMode::selected()?,"ordinary-signed");
+    metrics.enter(phase, "verify-ordinary-full-proof");
     let proof_profile = psy_template_u124_markets::live_guard::verify_ups_with_session_manager(
         session.wallet.random_circuit_manager().as_ref(), &proof,
     ).await?;

@@ -30,6 +30,8 @@ async function fixture(fn,{wrongIdentity=false,wrongResponse=false,reject=false,
 }
 test('sequential ordinary jobs reuse one pinned process, without reusing a request',()=>fixture(async x=>{
  const first=await x.run();assert.equal(first.coldStart,true);assert.equal(first.sessionConstructionMillisecondsCharged,42);const r=await x.run();assert.equal(r.coldStart,false);assert.equal(r.sessionConstructionMillisecondsCharged,0);assert.equal(r.residentStartup.sessionConstructionMs,42);assert.equal(x.builds,1);assert.equal(x.jobs,2);
+ const cold=(await readFile(join(x.dir,'job-0.log.lifecycle.jsonl'),'utf8')).trim().split('\n').map(JSON.parse),warm=(await readFile(join(x.dir,'job-1.log.lifecycle.jsonl'),'utf8')).trim().split('\n').map(JSON.parse);
+ assert.ok(cold.find(r=>r.event==='ready').sessionConstructionMilliseconds===42);assert.ok(cold.find(r=>r.event==='spawned'));assert.equal(warm.some(r=>r.event==='spawned'),false);assert.ok(cold.at(-1).ok&&warm.at(-1).ok);for(let i=1;i<cold.length;i++)assert.ok(cold[i].elapsedMilliseconds>=cold[i-1].elapsedMilliseconds);
 }));
 test('changed executable/network/dependencies/SDK/signer stop before another job',async()=>{
  for(const field of ['binary','config','dependencies','sdkManifest','secret'])await fixture(async x=>{
@@ -74,6 +76,7 @@ test('concurrent exact reconciliations share one read flight and cannot release 
 test('wrong signer, mismatched response and rejection poison the process without automatic retry',async()=>{
  for(const options of [{wrongIdentity:true},{wrongResponse:true},{reject:true}])await fixture(async x=>{
   await assert.rejects(x.run());await assert.rejects(x.run(),/unavailable/);assert.equal(x.builds,1);if(options.wrongIdentity)assert.equal(x.jobs,0,'no task is sent before the signer readiness check');
+  const trace=(await readFile(join(x.dir,'job-0.log.lifecycle.jsonl'),'utf8')).trim().split('\n').map(JSON.parse);assert.equal(trace.at(-1).event,'finished');assert.equal(trace.at(-1).ok,false);
  },options);
 });
 test('stalled proof is stopped and cannot trigger another send',()=>fixture(async x=>{

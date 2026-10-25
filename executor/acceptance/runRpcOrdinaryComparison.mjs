@@ -20,6 +20,7 @@ import {freezeAppModules} from './sourceClosure.mjs';
 import {saveObservation} from '../observations.mjs';
 
 const [base,original,selection='baseline']=process.argv.slice(2);
+const resourceComparison=process.env.PSY_RESOURCE_COMPARISON==='1';
 assert.ok(base&&original);assert.ok(['baseline','candidate'].includes(selection));
 assert.ok(!existsSync(join(base,'public',selection+'-COMPLETE.json')),'closed round');
 if(selection==='candidate'){
@@ -37,11 +38,17 @@ assert.equal(sha256(readFileSync(sdkManifest)),SDK);assert.equal(release.sdkMani
 if(selection==='candidate'){assert.ok(process.env.PSY_ORDINARY_RELEASE_FILE,'select a reviewed candidate release explicitly; original generations stay preserved');assert.equal(release.inputDigestBoundBeforeProof,true);assert.equal(release.readyIdentityBeforeJob,true);}
 const round=join(base,roundTag);if(!existsSync(round)){mkdirSync(round);mkdirSync(join(round,'public'));mkdirSync(join(round,'attempts'));copyFileSync(join(base,'public/rpc.json'),join(round,'public/rpc.json'));}
 const config=join(round,'public/rpc.json'),m=new LiveMarket({...old.by.orderbook,base:round,config});
-const baselineFormal=(await import(pathToFileURL(join(base,'baseline-source/executor/acceptance/candidateHarness.mjs')).href)).formal;
+const baselineFormal=resourceComparison?candidateFormal:(await import(pathToFileURL(join(base,'baseline-source/executor/acceptance/candidateHarness.mjs')).href)).formal;
 const h={...old,base:round,config,markets:[m],by:{orderbook:m},residentScope:residentScope()};
-const ordinaryTool=selection==='candidate'?release.binaries.ordinary:old.tools.binaries.ordinary;
+const ordinaryTool=resourceComparison||selection==='candidate'?release.binaries.ordinary:old.tools.binaries.ordinary;
+const memoryMode=selection==='baseline'?'retain-v1':'release-unused-v1';
+if(resourceComparison){
+ assert.equal(release.resourceComparison,true);assert.equal(release.sameBinaryBothVariants,true);
+ assert.equal(sha256(readFileSync(release.binaries.compact.file)),release.binaries.compact.sha256);
+ h.binary=release.binaries.compact.file;h.binarySha256=release.binaries.compact.sha256;h.proverMemoryMode=memoryMode;
+}
 assert.equal(sha256(readFileSync(ordinaryTool.file)),ordinaryTool.sha256);
-const env={...h.env,...(selection==='candidate'?{}:{PSY_ORDINARY_GUARD_MODE:'serial-v1'})};
+const env={...h.env,...(resourceComparison?{PSY_PROVER_MEMORY_MODE:memoryMode,PSY_PROVER_RESOURCE_METRICS:'1'}:selection==='candidate'?{}:{PSY_ORDINARY_GUARD_MODE:'serial-v1'})};
 const depsFile=join(round,'public/ordinary-dependencies.json');if(!existsSync(depsFile))save(depsFile,m.contracts);
 const workers=new Map();
 const user=async(actor,label,calls)=>{
@@ -50,19 +57,19 @@ const user=async(actor,label,calls)=>{
   assert.ok(existsSync(join(out,'preflight.json')),'partial original ordinary attempt; inspect and never replace automatically');
   const p=parseLosslessJson(readFileSync(join(out,'preflight.json'),'utf8')),request=parseLosslessJson(readFileSync(join(out,'request.json'),'utf8'));
   assert.equal(p.inputSha256,sha256(readFileSync(input)));if(typeof calls!=='function')assert.deepEqual(parseLosslessJson(readFileSync(input,'utf8')).calls.contract_calls,parseLosslessJson(losslessJson(calls)),'original ordinary business calls changed');assert.equal(p.core.new_user_leaf.public_key,h.actors[actor].publicKeyHash);assert.deepEqual(request.user_ec_input.core,p.core);
-  if(!existsSync(join(out,'included.json')))await confirmUps(config,out,{historyConcurrency:selection==='baseline'?1:4});
+  if(!existsSync(join(out,'included.json')))await confirmUps(config,out,{historyConcurrency:!resourceComparison&&selection==='baseline'?1:4});
   const included=parseLosslessJson(readFileSync(join(out,'included.json'),'utf8'));
   assert.equal(included.receipt.data.status,'included');assert.equal(included.userId,BigInt(h.actors[actor].id));assert.equal(included.endUserLeafHash,p.endUserLeafHash);assert.equal(included.contentHash,included.receipt.data.content_hash);assert.ok(included.commonCheckpoint>=included.checkpoint);return out;
  }
  assert.ok(!existsSync(input),'partial original ordinary input; preserve and inspect');
  let worker;
- if(selection==='candidate'){
+ if(resourceComparison||selection==='candidate'){
   const key=h.actors[actor].publicKeyHash;
   if(!workers.has(key))workers.set(key,ordinaryResident({binary:ordinaryTool.file,binarySha256:ordinaryTool.sha256,config,dependencies:depsFile,secret:h.actors[actor].secret,publicKeyHash:key,sdkManifest,sdkSha256:SDK,env}));
   worker=await workers.get(key);
  }
  const startedAt=new Date().toISOString(),t=performance.now();
- const result=await ordinary({base:round,config,binary:ordinaryTool.file,secret:h.actors[actor].secret,name:label,calls:typeof calls==='function'?await calls():calls,bindings:h.bindings,env,worker,historyConcurrency:selection==='baseline'?1:4});
+ const result=await ordinary({base:round,config,binary:ordinaryTool.file,secret:h.actors[actor].secret,name:label,calls:typeof calls==='function'?await calls():calls,bindings:h.bindings,env,worker,historyConcurrency:!resourceComparison&&selection==='baseline'?1:4});
  saveObservation(join(round,'public',label+'-end-to-end.json'),{startedAt,finishedAt:new Date().toISOString(),wallMilliseconds:performance.now()-t,selection,actor,scope:'fresh dependency/snapshot reads, ordinary preparation/proof, ACK, indexed receipt and common visibility; ordinary payout claims are real UPSs'});
  return result;
 };
@@ -88,7 +95,7 @@ try {
  const before=resuming?parseLosslessJson(readFileSync(beforeFile,'utf8')):await cohortAssets(s,spec);if(!resuming)save(beforeFile,before);
  assert.ok(before.accounts[U].ft[2483]>=unit&&before.accounts[B].ft[2484]>=unit);
  assert.ok(before.accounts[h.actors.sponsor.id].native>=12_000_000_000n,'explicit sponsor budget');
- if(!resuming)saveObservation(join(round,'public/ENVIRONMENT.json'),{at:new Date().toISOString(),host:hostname(),logicalCpus:cpus().length,physicalMemoryBytes:totalmem(),loadAverage:loadavg(),threads:2,sdkSha256:SDK,compactBinary:h.binarySha256,ordinaryBinary:ordinaryTool.sha256,selection,market:m.id,vault:m.vault,inputPerSide:unit.toString(),fills:1,matching:'existing deterministic Book priority, two members, one trade; normal new orders only, no contract updates'});
+ if(!resuming)saveObservation(join(round,'public/ENVIRONMENT.json'),{at:new Date().toISOString(),host:hostname(),logicalCpus:cpus().length,physicalMemoryBytes:totalmem(),loadAverage:loadavg(),threads:2,sdkSha256:SDK,compactBinary:h.binarySha256,ordinaryBinary:ordinaryTool.sha256,selection,resourceComparison,memoryMode:resourceComparison?memoryMode:null,market:m.id,vault:m.vault,inputPerSide:unit.toString(),fills:1,matching:'existing deterministic Book priority, two members, one trade; normal new orders only, no contract updates'});
  await pair([
   ()=>user('bob','owner-order',[m.order('close_0',[]),m.order('open_sell',[BigInt(m.vault),0n,encodeAmount(unit),encodeAmount(unit),BigInt(before.checkpoint)+8192n,nonceU]),{contract_id:0n,method_name:'simple_transfer',inputs:[BigInt(m.vault),F]},call(2483n,h.token,'transfer',[BigInt(m.vault),encodeAmount(unit)])]),
   ()=>user('buyer','buyer-order',[m.order('close_1',[]),m.order('open_sell',[BigInt(m.vault),1n,encodeAmount(unit),encodeAmount(unit),BigInt(before.checkpoint)+8192n,nonceB]),{contract_id:0n,method_name:'simple_transfer',inputs:[BigInt(m.vault),F]},call(2484n,h.token,'transfer',[BigInt(m.vault),encodeAmount(unit)])])
