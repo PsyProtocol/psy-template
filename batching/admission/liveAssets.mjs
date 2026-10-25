@@ -1,5 +1,20 @@
 import assert from 'node:assert/strict';
-import {decodeAmount,call} from '../../amm/u124/client.mjs';
+import {decodeAmount,call,parseLosslessJson,losslessJson} from '../../amm/u124/client.mjs';
+// Compare economic values across live Number metadata/plain objects and saved
+// lossless BigInt metadata/null-prototype objects. Keep all accounting checks;
+// native fee conservation is verified separately against actual receipts.
+export function assertRefundCohort(before,after,{assets,owners,vaultId}){
+ const canonical=v=>parseLosslessJson(losslessJson(v));
+ assert.deepEqual(Object.keys(after.accounts).sort(),Object.keys(before.accounts).sort());
+ assert.deepEqual(Object.keys(after.totals).sort(),assets.map(String).sort());
+ assert.deepEqual(Object.keys(before.totals).sort(),assets.map(String).sort());
+ for(const asset of assets){assert.equal(after.totals[asset],before.totals[asset],'FT total');for(const id of Object.keys(before.accounts))assert.equal(after.accounts[id].ft[asset],before.accounts[id].ft[asset],'original FT owner balance');}
+ assert.deepEqual(canonicalHeldNfts(after.nfts),canonicalHeldNfts(before.nfts));assert.deepEqual(canonical(after.nftPending),canonical(before.nftPending));
+ const pairs=rows=>{const map=new Map();for(const r of rows){const k=BigInt(r.sender)+':'+BigInt(r.recipient);assert.ok(!map.has(k),'duplicate pending pair');map.set(k,r);}return map;},a=pairs(before.pending),b=pairs(after.pending);
+ assert.deepEqual([...b.keys()].sort(),[...a.keys()].sort(),'same finite outbox scope');
+ for(const owner of owners)for(const [sender,recipient]of[[owner,vaultId],[vaultId,owner]]){const row=b.get(BigInt(sender)+':'+BigInt(recipient));assert.ok(row,'missing owner/vault outbox');for(const asset of assets)assert.equal(row.ft[asset],0n,'owner/vault FT outbox clear');}
+ return true;
+}
 // JSON snapshots parsed losslessly use BigInt even for small IDs/slots. Do
 // not compare those directly with a live snapshot's bounded Number metadata.
 export function canonicalHeldNfts(rows){
