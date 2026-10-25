@@ -1,6 +1,6 @@
 import {readFile} from 'node:fs/promises';
 import {reconcileSubmission} from '../bondingcurve/receiptCheck.mjs';
-import {retryRead} from './readRetry.mjs';
+import {retryRead,ReadUnavailable} from './readRetry.mjs';
 import {withReadSlot} from './readConcurrency.mjs';
 // A submission returns an end-user leaf, not a services transaction hash.
 // Confirm both the historical leaf and the indexed content-hash receipt.
@@ -12,7 +12,7 @@ export async function receiptReader(rpcConfig,{fetchImpl=fetch,maxPages=20,histo
  const network=c.networks[c.defaultNetwork];
  if(!network?.api_services_url?.[0])throw Error('services URL missing');
  const get=(url,body)=>retryRead(async()=>withReadSlot(async()=>{const start=performance.now();let failed=true;try{const r=await fetchImpl(url,body?{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(body),signal:AbortSignal.timeout(15000)}:{signal:AbortSignal.timeout(15000)});if(!r.ok){const error=Error(`HTTP ${r.status}`);error.status=r.status;throw error;}const v=await r.json();if(v.error)throw Error(JSON.stringify(v.error));failed=false;return v;}finally{if(observeRead)await observeRead({at:new Date().toISOString(),method:body?.method??(url.includes('/get/user/transactions')?'services-list':'services-receipt'),milliseconds:performance.now()-start,failed});}}));
- return async({userId,endUserLeafHash,minCheckpoint=0})=>{
+ const readExact=async({userId,endUserLeafHash,minCheckpoint=0})=>{
   if(!endUserLeafHash)return {status:'unresolved',reason:'no deterministic leaf recorded; operator reconciliation required'};
   if(!Number.isSafeInteger(userId)||userId<1||userId>=16777216||!(/^[0-9a-f]{64}$/i).test(endUserLeafHash))throw Error('invalid receipt identity');
   if(!Number.isSafeInteger(minCheckpoint)||minCheckpoint<0)throw Error('invalid receipt source checkpoint bound');
@@ -72,5 +72,17 @@ export async function receiptReader(rpcConfig,{fetchImpl=fetch,maxPages=20,histo
   }
   // An exhausted history window is still ambiguous, never permission to retry.
   return {status:'unresolved',userId,endUserLeafHash,errors,reason:'receipt history page limit reached; increase receiptMaxPages or reconcile manually'};
+ };
+ return async identity=>{
+  try{return await readExact(identity);}
+  catch(e){
+   if(!(e instanceof ReadUnavailable))throw e;
+   // Exhausting a bounded, purely public read is not a transaction verdict.
+   // The caller retains its original broadcast gate and schedules another
+   // exact-identity poll. No signing/submission exists in this reader.
+   const observation={at:new Date().toISOString(),userId:identity.userId,endUserLeafHash:identity.endUserLeafHash,minCheckpoint:identity.minCheckpoint??0,status:e.cause?.status??null};
+   console.error('PSY_RECEIPT_READ_UNAVAILABLE '+JSON.stringify(observation));
+   return {status:'unresolved',userId:identity.userId,endUserLeafHash:identity.endUserLeafHash,errors:['bounded receipt read unavailable'],reason:'receipt-index-read-unavailable',readUnavailable:true};
+  }
  };
 }
