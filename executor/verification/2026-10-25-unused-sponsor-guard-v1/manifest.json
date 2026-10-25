@@ -1,0 +1,299 @@
+{
+  "schema": 1,
+  "sourceDirectory": "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-market-recovery-20261023",
+  "machine": "gewenbo.local",
+  "host": "macOS-15.7.3-arm64-arm-64bit",
+  "scope": "public formal Executor run including failures; success requires exact included receipt",
+  "walletFilesIncluded": false,
+  "sealedBinariesIncluded": false,
+  "records": [
+    {
+      "source": "fixed-verifier-performance-live-v3/baseline/public/PLAN.json",
+      "file": "files/fixed-verifier-performance-live-v3/baseline/public/PLAN.json.gz",
+      "bytes": 111,
+      "sha256": "696138bdfd544251443fe96c9d27aa57bc0a1e6da048bae50d5912e6eabe09a2",
+      "gzipBytes": 107,
+      "gzipSha256": "533cacb36ac6b5bbd21b05e0c82172d60064bd949a6b075c5eb08c0b4b9673aa"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/baseline/public/PREWARM.json",
+      "file": "files/fixed-verifier-performance-live-v3/baseline/public/PREWARM.json.gz",
+      "bytes": 388,
+      "sha256": "79c6fd11fc2e08a054a232940234518355c5bce048b4f42b0fd916a775bd43ba",
+      "gzipBytes": 283,
+      "gzipSha256": "15da79efc163920b5ae4b076b5a76a60f8dde83e34a27a86b2ccec1353fa6a7a"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/baseline-parent-v1.log",
+      "file": "files/fixed-verifier-performance-live-v3/baseline-parent-v1.log.gz",
+      "bytes": 1105,
+      "sha256": "fff65c17fce6014fd5a6dcc32cd0f8329ce48bd21bda308e330604ad4d5f8f96",
+      "gzipBytes": 687,
+      "gzipSha256": "defd94422de03db9f9242babfad534a0e12141ea4c0a02e90488d87a0d210590"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/comparison-parent-v1.log",
+      "file": "files/fixed-verifier-performance-live-v3/comparison-parent-v1.log.gz",
+      "bytes": 1094,
+      "sha256": "07707ee50a0b8985e93b5405a124102524f8c086cc431676346914760343543d",
+      "gzipBytes": 514,
+      "gzipSha256": "13b64c1f3f83f17163e44a15b875bd053a3ecf980c95a12aa7a170242a97b948"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/sponsorship-diagnostic-v1/SPONSOR-WITNESS-v1.json",
+      "file": "files/fixed-verifier-performance-live-v3/sponsorship-diagnostic-v1/SPONSOR-WITNESS-v1.json.gz",
+      "bytes": 1254,
+      "sha256": "1e2212f5a3014869f96054b166276fe456a842fe811340197085d473128fa8a3",
+      "gzipBytes": 431,
+      "gzipSha256": "2ebf11a080aa0cd0a0684fae47f170162686a9da7f7cd5e9fba7227b0f4d04ee"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/sponsorship-diagnostic-v1/regressions-v1.log",
+      "file": "files/fixed-verifier-performance-live-v3/sponsorship-diagnostic-v1/regressions-v1.log.gz",
+      "bytes": 17781,
+      "sha256": "6d72b4adbf5744ad91419082e042900b7599d9ca3f85fd1c7a012b4105090e3e",
+      "gzipBytes": 3604,
+      "gzipSha256": "de010f6ec42c48f3886e8f282a98bb1cfaa5730e8c724f6db92d44829b9075b1"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/sponsorship-diagnostic-v1/regressions-v2.log",
+      "file": "files/fixed-verifier-performance-live-v3/sponsorship-diagnostic-v1/regressions-v2.log.gz",
+      "bytes": 6757,
+      "sha256": "b175edc5ba35531b6076b722dddddee352dbff1b45f52e37683f8498f0df54eb",
+      "gzipBytes": 2643,
+      "gzipSha256": "c54902f71e40c70f335f3ea30849ceb92d1b38e19391667b4179f5047452e33c"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/sponsorship-diagnostic-v1/regressions-v3.log",
+      "file": "files/fixed-verifier-performance-live-v3/sponsorship-diagnostic-v1/regressions-v3.log.gz",
+      "bytes": 6760,
+      "sha256": "595adf5c9832442e166143dfd0287579f8bfecabdab2d5136d9957192f8d1b7b",
+      "gzipBytes": 2651,
+      "gzipSha256": "68d0594df5b33afb0b14de86f794aecd003e0d6b5b27e6a43ca91a7664038426"
+    },
+    {
+      "source": "sponsorship-reader-regression-fixtures-v2/PROVENANCE.json",
+      "file": "files/sponsorship-reader-regression-fixtures-v2/PROVENANCE.json.gz",
+      "bytes": 2124,
+      "sha256": "fb0dc4f8c1798f470a8f38b19ed2a919854e0801b8a085b46b977fa11a84a540",
+      "gzipBytes": 796,
+      "gzipSha256": "965ec320aa9e5b1a9c13dd1a929b3e9afa9fb751424e1f762cd35510210349e6"
+    },
+    {
+      "source": "sponsorship-reader-regression-fixtures-v2/amm/compiled/compilation_artifact.json",
+      "file": "files/sponsorship-reader-regression-fixtures-v2/amm/compiled/compilation_artifact.json.gz",
+      "bytes": 37880,
+      "sha256": "a8f9d87c26954b3db698ecb96b2c97dbd179e903f3830bfbdc16b0f59e3222d7",
+      "gzipBytes": 3069,
+      "gzipSha256": "a7578ca11b03d2420b16b746b92d5465a96fa27ce8b3b05af6b8a316e284922d"
+    },
+    {
+      "source": "sponsorship-reader-regression-fixtures-v2/amm/config.json",
+      "file": "files/sponsorship-reader-regression-fixtures-v2/amm/config.json.gz",
+      "bytes": 224,
+      "sha256": "f824cff6c0941a7c72a6e4faecc86d21d8f2d3cdd52f42530af936c03e272fa7",
+      "gzipBytes": 152,
+      "gzipSha256": "df8fc4af12df3baacc80fe7cb5eb25bdb9ab40dc6503ca3a1b50bab1bc0bafbb"
+    },
+    {
+      "source": "sponsorship-reader-regression-fixtures-v2/amm/policy.json",
+      "file": "files/sponsorship-reader-regression-fixtures-v2/amm/policy.json.gz",
+      "bytes": 48065,
+      "sha256": "e8fec6325a3ef3e5c0353338ba327d87bd4b310949ff03d39028b72864973ff8",
+      "gzipBytes": 1453,
+      "gzipSha256": "2cb20919139f6b5da33766385c81ed0cd92562c05c454f1cd0252f8924927cb4"
+    },
+    {
+      "source": "sponsorship-reader-regression-fixtures-v2/bondingcurve/compiled/compilation_artifact.json",
+      "file": "files/sponsorship-reader-regression-fixtures-v2/bondingcurve/compiled/compilation_artifact.json.gz",
+      "bytes": 38845,
+      "sha256": "aa911eaf5ff2838a060941989466677e4b89499b4275b3773a72b5bf44427e37",
+      "gzipBytes": 3159,
+      "gzipSha256": "d37186b99d229a1344488a4a23229a90ec819f9599533fdd67290175ad6e35b9"
+    },
+    {
+      "source": "sponsorship-reader-regression-fixtures-v2/bondingcurve/config.json",
+      "file": "files/sponsorship-reader-regression-fixtures-v2/bondingcurve/config.json.gz",
+      "bytes": 224,
+      "sha256": "f824cff6c0941a7c72a6e4faecc86d21d8f2d3cdd52f42530af936c03e272fa7",
+      "gzipBytes": 152,
+      "gzipSha256": "df8fc4af12df3baacc80fe7cb5eb25bdb9ab40dc6503ca3a1b50bab1bc0bafbb"
+    },
+    {
+      "source": "sponsorship-reader-regression-fixtures-v2/bondingcurve/policy.json",
+      "file": "files/sponsorship-reader-regression-fixtures-v2/bondingcurve/policy.json.gz",
+      "bytes": 49959,
+      "sha256": "981604693e1217386b6cf6b13cc8d171e3b7c95b92ef536990a1180d80a32898",
+      "gzipBytes": 1551,
+      "gzipSha256": "b6d7a2ce0534cf171d6131bb7ec0afc5532f90e8f51c735579667bd841ddc9dc"
+    },
+    {
+      "source": "sponsorship-reader-regression-fixtures-v2/nftmarket/compiled/compilation_artifact.json",
+      "file": "files/sponsorship-reader-regression-fixtures-v2/nftmarket/compiled/compilation_artifact.json.gz",
+      "bytes": 36909,
+      "sha256": "78cd03f30c044261c2b8b39ba8ddcb086f19b1bcac635ab71e03b0e184061bb8",
+      "gzipBytes": 3188,
+      "gzipSha256": "bcce2c286d4a20feddcc525322cbc6a841ff32b017b12fd46c80991af92cf7e8"
+    },
+    {
+      "source": "sponsorship-reader-regression-fixtures-v2/nftmarket/config.json",
+      "file": "files/sponsorship-reader-regression-fixtures-v2/nftmarket/config.json.gz",
+      "bytes": 63,
+      "sha256": "5062c0698ec52f4131e3bcf3bac2bada13120da5542bed8ee228d0de530aedbd",
+      "gzipBytes": 79,
+      "gzipSha256": "b0760e7ad82505b03ca4becf4e69b01e8b077bf2089b78353686e16a57ab5ab7"
+    },
+    {
+      "source": "sponsorship-reader-regression-fixtures-v2/nftmarket/policy.json",
+      "file": "files/sponsorship-reader-regression-fixtures-v2/nftmarket/policy.json.gz",
+      "bytes": 31175,
+      "sha256": "133a08fa41cbaef4ab0324746241f4b6923aac708899defcbd852ed6aa3d3f24",
+      "gzipBytes": 1186,
+      "gzipSha256": "f7b8e0bf7bf71346ece2a0746d0d9ddf5ae4bb6ebcf177a0969582081cf08cf8"
+    },
+    {
+      "source": "sponsorship-reader-regression-fixtures-v2/orderbook/compiled/compilation_artifact.json",
+      "file": "files/sponsorship-reader-regression-fixtures-v2/orderbook/compiled/compilation_artifact.json.gz",
+      "bytes": 30686,
+      "sha256": "9937d9be75cc625c08c6dd73cfbcfca15abcf43411acf5c071fb5f223091f641",
+      "gzipBytes": 2768,
+      "gzipSha256": "991a1d6acf01d7a68e78fc6c3108c1d56251286359861ce69536177ef9163301"
+    },
+    {
+      "source": "sponsorship-reader-regression-fixtures-v2/orderbook/config.json",
+      "file": "files/sponsorship-reader-regression-fixtures-v2/orderbook/config.json.gz",
+      "bytes": 224,
+      "sha256": "f824cff6c0941a7c72a6e4faecc86d21d8f2d3cdd52f42530af936c03e272fa7",
+      "gzipBytes": 152,
+      "gzipSha256": "df8fc4af12df3baacc80fe7cb5eb25bdb9ab40dc6503ca3a1b50bab1bc0bafbb"
+    },
+    {
+      "source": "sponsorship-reader-regression-fixtures-v2/orderbook/policy.json",
+      "file": "files/sponsorship-reader-regression-fixtures-v2/orderbook/policy.json.gz",
+      "bytes": 35745,
+      "sha256": "fd4fe04aa5fce785d58245fdea1995b3658919ee58d74bb77495055e032a607f",
+      "gzipBytes": 1232,
+      "gzipSha256": "86424120012e480589cbc9f10ce50a1800b7b6d9f1a50f4d27a0056546518ba0"
+    },
+    {
+      "source": "sponsorship-regression-fixtures-v1/SOURCES.json",
+      "file": "files/sponsorship-regression-fixtures-v1/SOURCES.json.gz",
+      "bytes": 1913,
+      "sha256": "39016591ebe2f54b35f70e3571753e2a1904a3197918c982fbdebb89d464ff4e",
+      "gzipBytes": 684,
+      "gzipSha256": "b242ec6dcccf4203e604fee8fa28ff72de37a2c8f69c4f80f64a9557b2de91c8"
+    },
+    {
+      "source": "sponsorship-regression-fixtures-v1/amm/compiled/compilation_artifact.json",
+      "file": "files/sponsorship-regression-fixtures-v1/amm/compiled/compilation_artifact.json.gz",
+      "bytes": 37880,
+      "sha256": "a8f9d87c26954b3db698ecb96b2c97dbd179e903f3830bfbdc16b0f59e3222d7",
+      "gzipBytes": 3069,
+      "gzipSha256": "a7578ca11b03d2420b16b746b92d5465a96fa27ce8b3b05af6b8a316e284922d"
+    },
+    {
+      "source": "sponsorship-regression-fixtures-v1/amm/config.json",
+      "file": "files/sponsorship-regression-fixtures-v1/amm/config.json.gz",
+      "bytes": 219,
+      "sha256": "29b541fd7b1cd0e714622a4eea8d1ef511eebdc40e0434c57e6b15b5949c3e61",
+      "gzipBytes": 153,
+      "gzipSha256": "cf5fa6aca28e30c9907836a64f8e82761381f38659cf9db7db6c8d215fc0ced6"
+    },
+    {
+      "source": "sponsorship-regression-fixtures-v1/amm/policy.json",
+      "file": "files/sponsorship-regression-fixtures-v1/amm/policy.json.gz",
+      "bytes": 54922,
+      "sha256": "ba6c87d58b8ef7e7aecf0991c8b1dcc90ba8d11468acaa0a99cb4504186a3d12",
+      "gzipBytes": 1645,
+      "gzipSha256": "288cd0b4dd58f3a6814554d2e11d24a321cba9d3ab7c641e6162e737899ed64c"
+    },
+    {
+      "source": "sponsorship-regression-fixtures-v1/bondingcurve/compiled/compilation_artifact.json",
+      "file": "files/sponsorship-regression-fixtures-v1/bondingcurve/compiled/compilation_artifact.json.gz",
+      "bytes": 38845,
+      "sha256": "aa911eaf5ff2838a060941989466677e4b89499b4275b3773a72b5bf44427e37",
+      "gzipBytes": 3159,
+      "gzipSha256": "d37186b99d229a1344488a4a23229a90ec819f9599533fdd67290175ad6e35b9"
+    },
+    {
+      "source": "sponsorship-regression-fixtures-v1/bondingcurve/config.json",
+      "file": "files/sponsorship-regression-fixtures-v1/bondingcurve/config.json.gz",
+      "bytes": 224,
+      "sha256": "a67627c9a550dcf7e4b8c193a7d324ebe58912f848a7a446504212472e029b57",
+      "gzipBytes": 155,
+      "gzipSha256": "ee6105c30ce6f2d956f2a2417ed6346f7d51d4fef6b3e30fffe5d27c6367b348"
+    },
+    {
+      "source": "sponsorship-regression-fixtures-v1/bondingcurve/policy.json",
+      "file": "files/sponsorship-regression-fixtures-v1/bondingcurve/policy.json.gz",
+      "bytes": 56875,
+      "sha256": "ed365e5e925673c8387b620f3eabeff15f513bd8a7e5a047bb5de655a510eb3c",
+      "gzipBytes": 1751,
+      "gzipSha256": "4426373156b43021fb2623ea5777201ede5e9d21fcba42b03d52130c4ced1eab"
+    },
+    {
+      "source": "sponsorship-regression-fixtures-v1/nft/compilation_artifact.json",
+      "file": "files/sponsorship-regression-fixtures-v1/nft/compilation_artifact.json.gz",
+      "bytes": 10666,
+      "sha256": "e4a8657bd4c74ee5fefead24ec8ef30f95a9992ae5303fdbe21a0be427d34ec8",
+      "gzipBytes": 1428,
+      "gzipSha256": "90819fbee4650ebd8b819ad03682e904ba971b5074de1b9d4324cab21bdd441a"
+    },
+    {
+      "source": "sponsorship-regression-fixtures-v1/nftmarket/compiled/compilation_artifact.json",
+      "file": "files/sponsorship-regression-fixtures-v1/nftmarket/compiled/compilation_artifact.json.gz",
+      "bytes": 36909,
+      "sha256": "78cd03f30c044261c2b8b39ba8ddcb086f19b1bcac635ab71e03b0e184061bb8",
+      "gzipBytes": 3188,
+      "gzipSha256": "bcce2c286d4a20feddcc525322cbc6a841ff32b017b12fd46c80991af92cf7e8"
+    },
+    {
+      "source": "sponsorship-regression-fixtures-v1/nftmarket/config.json",
+      "file": "files/sponsorship-regression-fixtures-v1/nftmarket/config.json.gz",
+      "bytes": 67,
+      "sha256": "430edafca8cff63500f27572d1d5bba27d158b02f1718b0d45e357dd045c9c8a",
+      "gzipBytes": 81,
+      "gzipSha256": "48f9c16ec15d5440370950016d4bc9385f981515acd553d3ead0a6e0f999edef"
+    },
+    {
+      "source": "sponsorship-regression-fixtures-v1/nftmarket/policy.json",
+      "file": "files/sponsorship-regression-fixtures-v1/nftmarket/policy.json.gz",
+      "bytes": 37971,
+      "sha256": "d63389e660901c142a5511283ee448a5bf36266921d35e63d7ea8427d576c73e",
+      "gzipBytes": 1372,
+      "gzipSha256": "46a1d35ff95354b5bb59f40321fcadda776617468211d2e7c5a88d5664de2cc2"
+    },
+    {
+      "source": "sponsorship-regression-fixtures-v1/orderbook/compiled/compilation_artifact.json",
+      "file": "files/sponsorship-regression-fixtures-v1/orderbook/compiled/compilation_artifact.json.gz",
+      "bytes": 30686,
+      "sha256": "9937d9be75cc625c08c6dd73cfbcfca15abcf43411acf5c071fb5f223091f641",
+      "gzipBytes": 2768,
+      "gzipSha256": "991a1d6acf01d7a68e78fc6c3108c1d56251286359861ce69536177ef9163301"
+    },
+    {
+      "source": "sponsorship-regression-fixtures-v1/orderbook/config.json",
+      "file": "files/sponsorship-regression-fixtures-v1/orderbook/config.json.gz",
+      "bytes": 219,
+      "sha256": "29b541fd7b1cd0e714622a4eea8d1ef511eebdc40e0434c57e6b15b5949c3e61",
+      "gzipBytes": 153,
+      "gzipSha256": "cf5fa6aca28e30c9907836a64f8e82761381f38659cf9db7db6c8d215fc0ced6"
+    },
+    {
+      "source": "sponsorship-regression-fixtures-v1/orderbook/policy.json",
+      "file": "files/sponsorship-regression-fixtures-v1/orderbook/policy.json.gz",
+      "bytes": 42556,
+      "sha256": "27051d38f912c6707bdb9c0d35b43256d58011292165897bffde98e3bef5ae05",
+      "gzipBytes": 1425,
+      "gzipSha256": "cab58d3c603586a8e7c371d18feee42ea50c71083e232b00273e1f8340ec4553"
+    },
+    {
+      "source": "sponsorship-regression-fixtures-v1/token/compilation_artifact.json",
+      "file": "files/sponsorship-regression-fixtures-v1/token/compilation_artifact.json.gz",
+      "bytes": 15264,
+      "sha256": "19af2a5176b5322fbd0b9a0c33ff9fa98deaf2616bf9cd8cad206680036f4c56",
+      "gzipBytes": 1732,
+      "gzipSha256": "d73ec7bc96298e149758fe09a451ae5f233b77168fd3c9400e1c72332bb00009"
+    }
+  ]
+}
