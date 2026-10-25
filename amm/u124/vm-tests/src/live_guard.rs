@@ -63,6 +63,10 @@ fn selected_magic() -> Result<u64> {
         &std::env::var("PSY_MARKET_TESTNET_PROFILE").unwrap_or_else(|_| "sepolia-config-v1".into()),
     )
 }
+pub fn require_compiled_verifier_domain() -> Result<()> {
+    ensure!(selected_magic()? == psy_config::PSY_NETWORK_MAGIC, "fixed verifier compiled network domain mismatch");
+    Ok(())
+}
 fn staging_config(net: &psy_config::NetworkConfigGoldilocks, expected_magic: u64) -> Result<()> {
     let text = net.magic.strip_prefix("0x").unwrap_or(&net.magic);
     let magic = if net.magic.starts_with("0x") {
@@ -176,18 +180,16 @@ pub async fn verify_ups_with_session_manager(
         generated::cached_common_data::get_cached_common_data_library,
         proof_minifier::pm_core::get_circuit_fingerprint_generic_q,
     };
-    let bundled = get_end_cap_alt_verifier_data_for_network::<F>(PsyChainNetworkType::InternalTestnet)?
-        .to_verifier_data::<C, 2>();
     let actual = cm.ups_end_cap_circuit_verifier_config().await?;
-    ensure!(actual == bundled, "session SDK key differs from fixed Node verifier; no broadcast");
-    let library = get_cached_common_data_library::<C, 2>();
-    let common = library.get_common_circuit_data_ref(ProvingJobCircuitType::UserEndCap)?.clone();
-    let verifier = plonky2::plonk::circuit_data::VerifierCircuitData { verifier_only: actual, common };
-    verifier.verify(proof.clone())?;
+    let fingerprint = crate::fixed_verifier::with_verifier(|verifier| {
+        ensure!(actual == verifier.verifier_only, "session SDK key differs from fixed Node verifier; no broadcast");
+        verifier.verify(proof.clone())?;
+        Ok(get_circuit_fingerprint_generic_q::<2,F,C>(&verifier.verifier_only).to_string())
+    })?;
     Ok(serde_json::json!({
         "profile":std::env::var("PSY_MARKET_TESTNET_PROFILE").unwrap_or_else(|_|"sepolia-config-v1".into()),
         "networkMagic":selected_magic()?.to_string(),
-        "bundledNodeVerifierFingerprint":get_circuit_fingerprint_generic_q::<2,F,C>(&bundled).to_string(),
+        "bundledNodeVerifierFingerprint":fingerprint,
         "verifierOnlyMatches":true,"fullProofVerifiedWithPinnedCommonData":true,
         "sdkCommonDataObjectEqualityCompared":false,"sessionManagerReused":true,
         "runtimeImageAttested":false

@@ -4,7 +4,7 @@ import {dirname,resolve} from 'node:path';
 const kinds=['amm','orderbook','bondingcurve','launchamm','nftmarket'];
 const paths=['rpcConfig','wallet','abi','driverConfig','runtimeDirectory','usersFile','policy','dependencyBindings','admissionPlan'];
 const allowed=new Set(['kind','name','network','contractId','vaultId','publicKeyHash','fingerprint','codeRoot','layoutRoot','walletSha256',
-  ...paths,'users','intervalMs','receiptMaxPages','cli','pool','launch','automaticInitialize','automaticGraduation','profile','assetA','assetB','collection','paymentToken','batchSponsorId','batchExpiryCheckpoints','activationPayerId','batchMemberLimit','testnetProfile','proverThreads','proverMode','proverMemoryMode','admissionMode','performanceMetrics','bulkFallbackRemainingCheckpoints']);
+  ...paths,'users','intervalMs','receiptMaxPages','cli','pool','launch','automaticInitialize','automaticGraduation','profile','assetA','assetB','collection','paymentToken','batchSponsorId','batchExpiryCheckpoints','activationPayerId','batchMemberLimit','testnetProfile','proverThreads','proverMode','proverMemoryMode','fixedVerifierMode','admissionMode','performanceMetrics','bulkFallbackRemainingCheckpoints']);
 export function validateUsers(users,vaultId){
   if(!Array.isArray(users)||users.length>10000||users.some(x=>!Number.isSafeInteger(x)||x<1||x>=16777216||x===vaultId))throw Error('users must contain at most 10000 valid payer IDs');
   return [...new Set(users)].sort((a,b)=>a-b);
@@ -58,9 +58,10 @@ export function validateOptions(input,base=process.cwd()){
     if(o.network!=='sepolia'||!['sepolia-config-v1','staging-bundled-regtest-20261020-v1'].includes(o.testnetProfile))throw Error('explicit supported compact testnet profile required');
     if(o.batchMemberLimit!==4)throw Error('compact admission processes the complete four-member capacity');
     o.proverMode??='subprocess';if(!['subprocess','resident'].includes(o.proverMode))throw Error('proverMode must be subprocess or resident');
+    if(o.fixedVerifierMode!==undefined&&!['fresh-v1','cached-v1'].includes(o.fixedVerifierMode))throw Error('unsupported explicit fixedVerifierMode');
     if(o.proverMemoryMode!==undefined&&!['retain-v1','release-unused-v1'].includes(o.proverMemoryMode))throw Error('unsupported explicit proverMemoryMode');
     o.proverThreads??=2;if(!Number.isSafeInteger(o.proverThreads)||o.proverThreads<1||o.proverThreads>32)throw Error('proverThreads must be 1..32');
-  }else if(o.dependencyBindings!==undefined||o.admissionPlan!==undefined||o.testnetProfile!==undefined||o.proverThreads!==undefined||o.proverMode!==undefined||o.proverMemoryMode!==undefined)throw Error('compact admission fields require batch-admission-compact-v1');
+  }else if(o.dependencyBindings!==undefined||o.admissionPlan!==undefined||o.testnetProfile!==undefined||o.proverThreads!==undefined||o.proverMode!==undefined||o.proverMemoryMode!==undefined||o.fixedVerifierMode!==undefined)throw Error('compact admission fields require batch-admission-compact-v1');
   if(typeof o.network!=='string'||!/^[a-zA-Z0-9_-]+$/.test(o.network))throw Error('explicit network required');
   if(!Number.isSafeInteger(o.contractId)||o.contractId<5||o.contractId>=16777216)throw Error('invalid contract ID');
   if(!Number.isSafeInteger(o.vaultId)||o.vaultId<1||o.vaultId>=16777216)throw Error('invalid vault ID');

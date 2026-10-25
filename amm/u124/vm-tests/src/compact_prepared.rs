@@ -41,7 +41,7 @@ pub async fn broadcast(a:&[String],spec:&Value,fp:QHashOut<F>,key:QHashOut<F>,ne
  let request:QSubmitEndCapRPCRequest<F>=serde_json::from_slice(&rb)?;
  let proof:ProofWithPublicInputs<F,C,D>=bincode::deserialize(&request.proof)?;
  *phase="verify-prepared-full-proof";
- let verifier=get_end_cap_alt_verifier_data_for_network::<F>(PsyChainNetworkType::InternalTestnet)?.to_verifier_data::<C,D>();let library=get_cached_common_data_library::<C,D>();let common=library.get_common_circuit_data_ref(ProvingJobCircuitType::UserEndCap)?.clone();VerifierCircuitData{verifier_only:verifier,common}.verify(proof.clone())?;
+ psy_template_u124_markets::fixed_verifier::with_verifier(|verifier| {verifier.verify(proof.clone())?; Ok(())})?;
  let core=&request.user_ec_input.core;validate_endcap_binding(core,&proof.public_inputs)?;
  ensure!(p["core"]==serde_json::to_value(core)?,"prepared metadata swap");
  let user=core.new_user_leaf.user_id.to_canonical_u64();let nonce=core.new_user_leaf.nonce.to_canonical_u64();let source_cp=core.checkpoint_id.to_canonical_u64();

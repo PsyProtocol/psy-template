@@ -43,14 +43,17 @@ const config=join(round,'public/rpc.json'),m=new LiveMarket({...old.by.orderbook
 const baselineFormal=resourceComparison?candidateFormal:(await import(pathToFileURL(join(base,'baseline-source/executor/acceptance/candidateHarness.mjs')).href)).formal;
 const h={...old,base:round,config,markets:[m],by:{orderbook:m},residentScope:residentScope()};
 const ordinaryTool=resourceComparison||selection==='candidate'?release.binaries.ordinary:old.tools.binaries.ordinary;
-const memoryMode=selection==='baseline'?'retain-v1':'release-unused-v1';
+const verifierComparison=process.env.PSY_FIXED_VERIFIER_COMPARISON==='1';
+const memoryMode=verifierComparison?'retain-v1':selection==='baseline'?'retain-v1':'release-unused-v1';
+const fixedVerifierMode=verifierComparison?(selection==='baseline'?'fresh-v1':'cached-v1'):'cached-v1';
+if(verifierComparison){assert.equal(release.experiment,'fixed-verifier-resources-v1');assert.deepEqual(release.variants[selection],{memoryMode,fixedVerifierMode});}
 if(resourceComparison){
  assert.equal(release.resourceComparison,true);assert.equal(release.sameBinaryBothVariants,true);
  assert.equal(sha256(readFileSync(release.binaries.compact.file)),release.binaries.compact.sha256);
- h.binary=release.binaries.compact.file;h.binarySha256=release.binaries.compact.sha256;h.proverMemoryMode=memoryMode;
+ h.binary=release.binaries.compact.file;h.binarySha256=release.binaries.compact.sha256;h.proverMemoryMode=memoryMode;h.fixedVerifierMode=fixedVerifierMode;
 }
 assert.equal(sha256(readFileSync(ordinaryTool.file)),ordinaryTool.sha256);
-const env={...h.env,...(resourceComparison?{PSY_PROVER_MEMORY_MODE:memoryMode,PSY_PROVER_RESOURCE_METRICS:'1'}:selection==='candidate'?{}:{PSY_ORDINARY_GUARD_MODE:'serial-v1'})};
+const env={...h.env,...(resourceComparison?{PSY_PROVER_MEMORY_MODE:memoryMode,PSY_FIXED_VERIFIER_MODE:fixedVerifierMode,PSY_PROVER_RESOURCE_METRICS:'1'}:selection==='candidate'?{}:{PSY_ORDINARY_GUARD_MODE:'serial-v1'})};
 const depsFile=join(round,'public/ordinary-dependencies.json');if(!existsSync(depsFile))save(depsFile,m.contracts);
 const workers=new Map();
 const user=async(actor,label,calls)=>{
@@ -97,7 +100,7 @@ try {
  const before=resuming?parseLosslessJson(readFileSync(beforeFile,'utf8')):await cohortAssets(s,spec);if(!resuming)save(beforeFile,before);
  assert.ok(before.accounts[U].ft[2483]>=unit&&before.accounts[B].ft[2484]>=unit);
  assert.ok(before.accounts[h.actors.sponsor.id].native>=12_000_000_000n,'explicit sponsor budget');
- if(!resuming)saveObservation(join(round,'public/ENVIRONMENT.json'),{at:new Date().toISOString(),host:hostname(),logicalCpus:cpus().length,physicalMemoryBytes:totalmem(),loadAverage:loadavg(),threads:2,sdkSha256:SDK,compactBinary:h.binarySha256,ordinaryBinary:ordinaryTool.sha256,selection,resourceComparison,memoryMode:resourceComparison?memoryMode:null,market:m.id,vault:m.vault,inputPerSide:unit.toString(),fills:1,matching:'existing deterministic Book priority, two members, one trade; normal new orders only, no contract updates'});
+ if(!resuming)saveObservation(join(round,'public/ENVIRONMENT.json'),{at:new Date().toISOString(),host:hostname(),logicalCpus:cpus().length,physicalMemoryBytes:totalmem(),loadAverage:loadavg(),threads:2,sdkSha256:SDK,compactBinary:h.binarySha256,ordinaryBinary:ordinaryTool.sha256,selection,resourceComparison,verifierComparison,fixedVerifierMode,memoryMode:resourceComparison?memoryMode:null,market:m.id,vault:m.vault,inputPerSide:unit.toString(),fills:1,matching:'existing deterministic Book priority, two members, one trade; normal new orders only, no contract updates'});
  if(resourceComparison)saveObservation(join(base,'public',sourceLabel+'-BOOTSTRAP-TIMING.json'),{startedAt:bootstrapAt,finishedAt:new Date().toISOString(),wallMilliseconds:performance.now()-bootstrapStart,pid:process.pid,selection,cohortSnapshotMilliseconds:before.observation.wallMilliseconds,scope:'source/binary/config identity checks, SDK-selected fixture loading, fresh realm/dependency/order reads and finite-cohort snapshot; separate from native circuit construction'});
  await pair([
   ()=>user('bob','owner-order',[m.order('close_0',[]),m.order('open_sell',[BigInt(m.vault),0n,encodeAmount(unit),encodeAmount(unit),BigInt(before.checkpoint)+8192n,nonceU]),{contract_id:0n,method_name:'simple_transfer',inputs:[BigInt(m.vault),F]},call(2483n,h.token,'transfer',[BigInt(m.vault),encodeAmount(unit)])]),
