@@ -174,12 +174,7 @@ pub async fn verify_ups_with_session_manager(
     >,
 ) -> Result<serde_json::Value> {
     use psy_client_data::config::store_config::C;
-    use psy_core::{constants::chain_id::PsyChainNetworkType, job::job_id::ProvingJobCircuitType};
-    use psy_plonky2_circuits::{
-        circuit_library::end_cap_verifier_data::get_end_cap_alt_verifier_data_for_network,
-        generated::cached_common_data::get_cached_common_data_library,
-        proof_minifier::pm_core::get_circuit_fingerprint_generic_q,
-    };
+    use psy_plonky2_circuits::proof_minifier::pm_core::get_circuit_fingerprint_generic_q;
     let actual = cm.ups_end_cap_circuit_verifier_config().await?;
     let fingerprint = crate::fixed_verifier::with_verifier(|verifier| {
         ensure!(actual == verifier.verifier_only, "session SDK key differs from fixed Node verifier; no broadcast");
