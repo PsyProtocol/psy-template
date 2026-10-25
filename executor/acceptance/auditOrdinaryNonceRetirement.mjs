@@ -1,0 +1,14 @@
+// Read-only/offline reconciliation after the explicitly authorized one-send.
+import assert from 'node:assert/strict';import {readFileSync,mkdirSync} from 'node:fs';import {join} from 'node:path';import {fileURLToPath} from 'node:url';
+import {ordinaryNonceConflict} from '../ordinaryNonceConflict.mjs';import {parseLosslessJson} from '../../amm/u124/client.mjs';import {sha256} from '../requestBinding.mjs';import {run,save} from '../../batching/admission/liveSupport.mjs';import {receiptReader} from '../chainReceipts.mjs';import {freezeAppModules} from './sourceClosure.mjs';
+const [base,original,candidateName,out,sendName='authorized-send-v1']=process.argv.slice(2);assert.ok(out);assert.ok(['authorized-send-v1','authorized-compact-send-v1'].includes(sendName));assert.match(candidateName,/^nonce-retirement-candidate-v[1-9][0-9]*$/);
+freezeAppModules(fileURLToPath(import.meta.url),base,'retirement-audit-'+candidateName);mkdirSync(out,{mode:0o700});
+const exact=p=>parseLosslessJson(readFileSync(p,'utf8')),candidate=join(base,candidateName),review=exact(join(candidate,'REVIEW.json')),send=join(candidate,sendName),fence=exact(join(base,'public',(sendName==='authorized-compact-send-v1'?'AUTHORIZED-COMPACT-RETIREMENT-SEND-':'AUTHORIZED-RETIREMENT-SEND-')+review.userId+'-'+review.originalNonce+'.json'));
+assert.equal(fence.requestSha256,review.candidateRequestSha256);assert.equal(fence.out,send);
+const tool=JSON.parse(readFileSync(join(original,'public/TOOLS-v2.json'),'utf8')).binaries.verifier;assert.equal(sha256(readFileSync(tool.file)),tool.sha256);
+const originalRequest=join(review.originalAttempt,'request.json'),resolutionRequest=join(send,'request.json');
+for(const [name,path]of [['original',originalRequest],['resolution',resolutionRequest]])await run(tool.file,[path,join(out,name+'-full-proof.json')],join(out,name+'-full-proof.log'),{RAYON_NUM_THREADS:'2'});
+const saved=exact(join(send,'included.json')),fresh=await(await receiptReader(join(base,'baseline/public/rpc.json')))({userId:Number(review.userId),endUserLeafHash:review.candidateEnd,minCheckpoint:Number(exact(join(send,'preflight.json')).core.checkpoint_id)});
+assert.equal(fresh.status,'included');assert.equal(fresh.contentHash,saved.contentHash);save(join(out,'FRESH-EXACT-RECEIPT.json'),fresh);
+const evidence=ordinaryNonceConflict({originalBytes:readFileSync(originalRequest),resolutionBytes:readFileSync(resolutionRequest),originalVerification:exact(join(out,'original-full-proof.json')),resolutionVerification:exact(join(out,'resolution-full-proof.json')),included:saved,expectedUserId:review.userId,expectedPublicKeyHash:review.publicKeyHash});
+assert.equal(evidence.resolutionRequestSha256,review.candidateRequestSha256);save(join(out,'CONFIRMED-CONFLICT.json'),{...evidence,verifierSha256:tool.sha256,candidateName,verifiedAt:new Date().toISOString()});console.log('exact confirmed fee-only winner excludes original request; fresh cancellation may proceed');
