@@ -25,8 +25,10 @@ for(const selection of ['baseline','candidate']){
  for(const label of ['start','admit-0','admit-1','seal','commit','settle']){
   const r=json(join(round,'public',label+'-formal-result.json'));
   const included=audit.actual.find(a=>exact(a.source).taskId===r.taskId);assert.ok(included,'exact actual stage request');
+  const includedRecord=json(included.source),records=readdirSync(dirname(included.source)).filter(n=>/^\d{8}-broadcast-result\.json$/.test(n)).map(n=>json(join(dirname(included.source),n))),ack=records.findLast(x=>x.taskId===r.taskId);
+  assert.ok(ack,'durable original broadcast outcome');const ackToCommonMilliseconds=Date.parse(includedRecord.at)-Date.parse(ack.at);assert.ok(ackToCommonMilliseconds>=0);
   const p=json(join(dirname(included.request),'preflight.json')); // timing fields only
-  stages.push({label,taskId:r.taskId,calls:p.actualCalls,timingsMilliseconds:p.timingsMilliseconds,parentAttemptMilliseconds:r.wallMilliseconds,submit:r.submitMetricsFile?json(r.submitMetricsFile):null,feeNativeAtoms:included.fee.toString(),requestSha256:included.requestSha256});
+  stages.push({label,taskId:r.taskId,calls:p.actualCalls,timingsMilliseconds:p.timingsMilliseconds,parentAttemptMilliseconds:r.wallMilliseconds,submit:r.submitMetricsFile?json(r.submitMetricsFile):null,ackRecordedAt:ack.at,inclusionAndCommonObservedAt:includedRecord.at,ackToCommonMilliseconds,confirmationScope:'durable native HTTP outcome to exact indexed historical receipt and common realm visibility, including polling; not server finality alone',feeNativeAtoms:included.fee.toString(),requestSha256:included.requestSha256});
  }
  const start=Math.min(...ordinary.map(r=>Date.parse(r.startedAt))),end=Math.max(...ordinary.map(r=>Date.parse(r.finishedAt)));
  variants.push({selection,round:done.roundTag,environment:json(join(round,'public/ENVIRONMENT.json')),fills:1,members:2,actualUps:17,ordinary,stages,totalFeesNativeAtoms:audit.totalFees.toString(),cutoffWait:json(join(round,'public/cutoff-wait.json')),observedRoundWallMilliseconds:end-start,roundResources:sampledPhaseResources({startedAt:new Date(start).toISOString(),finishedAt:new Date(end).toISOString()},samples),proofAuditFile:auditFile,proofAuditSha256:sha256(readFileSync(auditFile))});

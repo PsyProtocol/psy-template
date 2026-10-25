@@ -57,8 +57,9 @@ const user=async(actor,label,calls)=>{
  assert.ok(!existsSync(input),'partial original ordinary input; preserve and inspect');
  let worker;
  if(selection==='candidate'){
-  if(!workers.has(actor))workers.set(actor,await ordinaryResident({binary:ordinaryTool.file,binarySha256:ordinaryTool.sha256,config,dependencies:depsFile,secret:h.actors[actor].secret,publicKeyHash:h.actors[actor].publicKeyHash,sdkManifest,sdkSha256:SDK,env}));
-  worker=workers.get(actor);
+  const key=h.actors[actor].publicKeyHash;
+  if(!workers.has(key))workers.set(key,ordinaryResident({binary:ordinaryTool.file,binarySha256:ordinaryTool.sha256,config,dependencies:depsFile,secret:h.actors[actor].secret,publicKeyHash:key,sdkManifest,sdkSha256:SDK,env}));
+  worker=await workers.get(key);
  }
  const startedAt=new Date().toISOString(),t=performance.now();
  const result=await ordinary({base:round,config,binary:ordinaryTool.file,secret:h.actors[actor].secret,name:label,calls:typeof calls==='function'?await calls():calls,bindings:h.bindings,env,worker,historyConcurrency:selection==='baseline'?1:4});
@@ -120,7 +121,7 @@ try {
  await f.journal.reconcile(f.adapter.reconcile);assert.equal((await f.journal.unresolved()).length,0);
  save(join(base,'public',selection+'-COMPLETE.json'),{at:new Date().toISOString(),selection,roundTag,fills:1,members:2,ordinaryClaimsIncluded:true,fullProofAccountingPending:true,assets:spec,ftConserved:true,oldContractUpdates:false,scope:'one real new Book epoch on the same owned QA market/key/vault and economic workload; not a four-market or steady-state TPS benchmark'});
 } finally {
- const closed=await Promise.allSettled([Promise.resolve().then(()=>f?.close()),...Array.from(workers.values(),worker=>worker.close())]);
+ const closed=await Promise.allSettled([Promise.resolve().then(()=>f?.close()),...Array.from(workers.values(),async worker=>(await worker).close())]);
  const scoped=await Promise.allSettled([h.residentScope.close()]);
  const failed=[...closed,...scoped].find(r=>r.status==='rejected');if(failed)throw failed.reason;
 }

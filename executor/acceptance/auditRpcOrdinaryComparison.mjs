@@ -13,6 +13,8 @@ const [base,selection,original,out]=process.argv.slice(2);assert.ok(out);
 const exact=p=>parseLosslessJson(readFileSync(p,'utf8'));
 const done=exact(join(base,'public',selection+'-COMPLETE.json')),round=join(base,done.roundTag);
 assert.equal(done.fills,1n);assert.equal(done.ordinaryClaimsIncluded,true);
+const actors=exact(join(original,'public/CASE.json')).actors,registration=exact(join(original,'markets-v1/orderbook/live-registration.json'));
+const identities=new Map([...Object.values(actors).map(a=>[String(a.id),a.publicKeyHash]),[String(registration.vaultId),registration.publicKeyHash]]);
 const verifier=JSON.parse(readFileSync(join(original,'public/TOOLS-v2.json'),'utf8')).binaries.verifier;
 assert.equal(sha256(readFileSync(verifier.file)),verifier.sha256);mkdirSync(out);
 const walk=dir=>readdirSync(dir,{withFileTypes:true}).flatMap(e=>{
@@ -39,6 +41,7 @@ const actual=[];
 for(const [contentHash,{r,raw,source}]of receipts){
  const request=exactReceiptRequest(round,source,raw,r.userId,index),{digest,core}=await verify(request);
  assert.equal(core.new_user_leaf.user_id,r.userId);assert.equal(core.state_transition.end_user_leaf_hash,r.endUserLeafHash);assert.equal(r.receipt.data.owner_user_id,r.userId);assert.equal(r.receipt.data.included_checkpoint_id,r.checkpoint);
+ assert.equal(core.new_user_leaf.public_key,identities.get(String(r.userId)),'exact reviewed signer/vault identity');
  const fee=core.stats.guta_fees_collected+core.stats.da_fees_collected;assert.equal(fee,r.receipt.data.result.fees_collected);
  for(const field of ['slots_modified','total_transactions','user_ops_processed'])assert.equal(core.stats[field],r.receipt.data.result[field]);
  actual.push({contentHash,source,request,requestSha256:digest,userId:r.userId,nonce:core.new_user_leaf.nonce,start:core.state_transition.start_user_leaf_hash,end:r.endUserLeafHash,checkpoint:r.checkpoint,fee,...proofs.get(digest)});
