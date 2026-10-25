@@ -4,6 +4,7 @@ pub mod batch_policy;
 pub mod submission_guard;
 pub mod policy;
 pub mod runtime;
+pub mod prover_resources;
 pub mod wallet_driver;
 pub mod nft_market;
 pub mod layout_preflight;

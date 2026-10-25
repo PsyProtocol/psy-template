@@ -8,6 +8,7 @@ import {sha256} from './requestBinding.mjs';
 import {ordinaryPreflight} from '../batching/admission/ordinaryReport.mjs';
 import {receiptReader} from './chainReceipts.mjs';
 import {parseLosslessJson} from '../amm/u124/client.mjs';
+import {writeSync,fsyncSync} from 'node:fs';
 export async function ordinaryResident({binary,binarySha256,config,dependencies,secret,publicKeyHash,sdkManifest,sdkSha256,env,spawnProcess=spawn,timeout=900000}) {
  assert.match(publicKeyHash,/^[0-9a-f]{64}$/);assert.match(sdkSha256,/^[0-9a-f]{64}$/);
  const paths=[binary,config,dependencies,sdkManifest],digests=await Promise.all(paths.map(async p=>sha256(await readFile(p))));
@@ -38,9 +39,9 @@ export async function ordinaryResident({binary,binarySha256,config,dependencies,
    if(buffer.length>2000000){fail(Error('ordinary worker protocol bound'));child.kill('SIGTERM');return;}
    for(let i;(i=buffer.indexOf('\n'))>=0;){const line=buffer.slice(0,i);buffer=buffer.slice(i+1);if(!line.startsWith('PSY_ORDINARY_SERVER '))continue;
     let response;try{response=JSON.parse(line.slice(20));}catch{fail(Error('ordinary worker invalid response'));child.kill('SIGTERM');return;}
-    if(response.ready){if(ready||response.publicKeyHash!==publicKeyHash){fail(Error('ordinary worker identity mismatch'));child.kill('SIGTERM');return;}ready=Object.freeze(response);if(pending)child.stdin.write(pending.request);continue;}
+    if(response.ready){if(ready||response.publicKeyHash!==publicKeyHash){fail(Error('ordinary worker identity mismatch'));child.kill('SIGTERM');return;}ready=Object.freeze(response);if(pending){try{pending.trace('ready',{pid:child.pid??null,sessionConstructionMilliseconds:ready.sessionConstructionMs});pending.trace('dispatched');child.stdin.write(pending.request);}catch(e){fail(e);child.kill('SIGTERM');}}continue;}
     if(!ready||!pending||response.id!==pending.id){fail(Error('ordinary worker request mismatch'));child.kill('SIGTERM');return;}
-    const p=pending;pending=null;clearTimeout(p.timer);
+    const p=pending;try{p.trace('native-response',{ok:response.ok,phase:response.phase??null});}catch(e){fail(e);child.kill('SIGTERM');continue;}pending=null;clearTimeout(p.timer);
     if(response.ok)p.resolve(response);else{poisoned=true;p.reject(Error(`ordinary worker stopped at ${response.phase}: ${response.reasonCode}; reconcile original request`));}
    }
   });
@@ -50,22 +51,25 @@ export async function ordinaryResident({binary,binarySha256,config,dependencies,
    assert.ok(['call','preflight'].includes(action));assert.ok(!closed&&!poisoned,'ordinary resident unavailable; explicit reconciliation/restart required');assert.ok(!unconfirmed,'ordinary original result must be reconciled before another job');assert.equal(active,false,'one active ordinary transaction per signer');
    // Occupy the lease before asynchronous identity checks: concurrent callers
    // cannot both pass the one-signer gate.
-   active=true;const coldStart=!child,startedAt=new Date().toISOString(),before=performance.now();let file,entry,timing;
+   active=true;const coldStart=!child,startedAt=new Date().toISOString(),before=performance.now();let file,traceFile,entry,timing,completed=false;
+   const trace=(event,fields={})=>{if(traceFile){writeSync(traceFile.fd,JSON.stringify({schema:1,event,at:new Date().toISOString(),elapsedMilliseconds:performance.now()-before,coldStart,...fields})+'\n');fsyncSync(traceFile.fd);}};
    try{
-    await check();assert.ok(!closed&&!poisoned,'ordinary resident stopped during binding checks');file=await open(log,'wx',0o600);
-    const inputSha256=sha256(await readFile(input));
+    traceFile=await open(log+'.lifecycle.jsonl','wx',0o600);trace('started',{startedAt});
+    await check();assert.ok(!closed&&!poisoned,'ordinary resident stopped during binding checks');trace('bindings-checked');file=await open(log,'wx',0o600);
+    const inputSha256=sha256(await readFile(input));trace('input-bound',{inputSha256});
     if(action==='call')unconfirmed={out,inputSha256};
     const result=await new Promise((resolve,reject)=>{
-     const id=randomUUID();entry={id,resolve,reject,log:startup,request:JSON.stringify({id,action,input,inputSha256,out})+'\n',timer:setTimeout(()=>{fail(Error('ordinary worker deadline; reconcile original request'));child?.kill('SIGTERM');},timeout)};startup='';pending=entry;
-     if(!child)start();else if(ready)child.stdin.write(entry.request);
+     const id=randomUUID();entry={id,resolve,reject,trace,log:startup,request:JSON.stringify({id,action,input,inputSha256,out})+'\n',timer:setTimeout(()=>{fail(Error('ordinary worker deadline; reconcile original request'));child?.kill('SIGTERM');},timeout)};startup='';pending=entry;
+     if(!child){trace('spawn-requested');start();trace('spawned',{pid:child.pid??null});}else if(ready){trace('dispatched',{pid:child.pid??null});child.stdin.write(entry.request);}
     });
     if(action==='call')await exactIdentity(unconfirmed);
+    trace('exact-identity-checked');completed=true;
     timing={startedAt,finishedAt:new Date().toISOString(),wallMilliseconds:Math.round(performance.now()-before),coldStart,sessionConstructionMillisecondsCharged:coldStart?ready.sessionConstructionMs:0,residentStartup:ready,response:result};return timing;
    }catch(error){poisoned=true;throw error;}
    finally{
     try{if(entry&&file)await file.writeFile(entry.log);}catch(error){poisoned=true;throw error;}
     finally{try{await file?.close();}catch(error){poisoned=true;throw error;}
-     finally{active=false;if(timing){timing.finishedAt=new Date().toISOString();timing.wallMilliseconds=Math.round(performance.now()-before);}}
+     finally{try{trace('finished',{ok:completed&&!poisoned,pid:child?.pid??null});}finally{try{await traceFile?.close();}finally{active=false;if(timing){timing.finishedAt=new Date().toISOString();timing.wallMilliseconds=Math.round(performance.now()-before);}}}}
     }
    }
   },

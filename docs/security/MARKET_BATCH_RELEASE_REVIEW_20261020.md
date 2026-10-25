@@ -1,3 +1,5 @@
+> 2026-10-25 本轮完整证明／常驻内存验收进度见 [PROVER_MEMORY_REVIEW_20261025.md](PROVER_MEMORY_REVIEW_20261025.md)。历史缺失冷启动记录保留，新一轮单独测量。
+
 # Four-market release review: ordered evidence gates
 
 > 后续更新（2026-10-25，RPC／普通钱包）：同一 QA Book 的前后两轮各一笔真实成交及领取已关闭，34 个实际 UPS／34 个完整证明和资金链独立验证通过。暖态费用准备和领取客户端阶段下降，完整承诺＋结算证明约 260 s 基本未变；确认波动、较长 cutoff 等待、内存代价及缺失样本均保留。见 [配对性能与完整证据](RPC_ORDINARY_PERFORMANCE_REVIEW_20261025.md)。不据此宣称整轮提速或链 TPS。

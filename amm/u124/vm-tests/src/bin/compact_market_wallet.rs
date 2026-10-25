@@ -92,6 +92,7 @@ async fn check(guard: &Guard, s: &WalletSession) -> Result<()> {
     unreachable!("bounded read guard retry returns on its last attempt")
 }
 async fn run(phase: &mut &'static str, composition:bool) -> Result<()> {
+    let memory_mode=psy_template_u124_markets::prover_resources::MemoryMode::selected()?;
     let started = std::time::Instant::now();
     *phase = "build-compact-key";
     let a = env::args().collect::<Vec<_>>();
@@ -158,6 +159,8 @@ async fn run(phase: &mut &'static str, composition:bool) -> Result<()> {
     let mut session = WalletSession::new(&net).await?;
     let session_ms = session_started.elapsed().as_millis();
     session.wallet.insert_sd_key_circuit(fp, circuit);
+    eprintln!("PSY_PROVER_LIFECYCLE {}",json!({"event":"session-built","pid":std::process::id(),"keyConstructionMilliseconds":key_ms,"sessionConstructionMilliseconds":session_ms,"memoryMode":memory_mode.name()}));
+    psy_template_u124_markets::prover_resources::checkpoint(memory_mode,"compact-circuits-built");
     if a[1] == "register" {
         ensure!(a.len() == 5, "register POLICY CONFIG FRESH_OUT");
         let out = Path::new(&a[4]);
@@ -202,6 +205,7 @@ async fn run(phase: &mut &'static str, composition:bool) -> Result<()> {
             let mut job_phase="resident-preflight-start";
             let result=psy_template_u124_markets::runtime::contain(process_action(&args,&spec,fp,hash,param,private,&net,&mut session,0,0,std::time::Instant::now(),&mut job_phase)).await;
             session.user_session_mgrs.remove(&hash);
+            psy_template_u124_markets::prover_resources::checkpoint(memory_mode,"compact-session-cleared");
             let error=match result {Ok(())=>None,Err(psy_template_u124_markets::runtime::Failure::Rejected(e))=>Some(format!("{e:#}")),Err(psy_template_u124_markets::runtime::Failure::Panic(code))=>Some(code.to_owned())};
             if let Some(reason)=&error{let dir=Path::new(&job.out);if dir.is_dir(){save(&dir.join("failure.json"),&json!({"ok":false,"phase":job_phase,"reason":reason,"broadcastMayHaveBeenAttempted":false,"automaticRetry":false}))?;}}
             println!("PSY_COMPACT_SERVER {}",json!({"id":job.id,"ok":error.is_none(),"error":error,"phase":job_phase}));std::io::stdout().flush()?;
@@ -429,20 +433,23 @@ async fn process_action(a:&[String],spec:&Value,fp:QHashOut<F>,hash:QHashOut<F>,
         )
         .await?;
     let endcap_ms = endcap_started.elapsed().as_millis();
+    let endcap = manager.get_api_input().await?;
+    drop(manager);
+    drop(key_circuit);
+    let memory_mode=psy_template_u124_markets::prover_resources::MemoryMode::selected()?;
+    if memory_mode.release() { session.user_session_mgrs.remove(&key); }
+    psy_template_u124_markets::prover_resources::checkpoint(memory_mode,"compact-endcap-proved");
     let verify_started = std::time::Instant::now();
     let proof_profile = psy_template_u124_markets::live_guard::verify_ups_with_session_manager(
         cm.as_ref(), &proof,
     ).await?;
     let verify_ms = verify_started.elapsed().as_millis();
-    let endcap = manager.get_api_input().await?;
     validate_endcap_binding(&endcap.core, &proof.public_inputs)?;
     ensure!(
         endcap.core.new_user_leaf.user_id.to_canonical_u64() == guard.identity.vault_id
             && endcap.core.stats.total_transactions == f(actual.len() as u64),
         "proven compact identity/count"
     );
-    drop(manager);
-    drop(key_circuit);
     let user = endcap.core.new_user_leaf.user_id.to_canonical_u64();
     let n = nonce.to_canonical_u64();
     let end = endcap.core.state_transition.end_user_leaf_hash;
