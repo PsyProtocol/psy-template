@@ -37,6 +37,16 @@ export async function receiptReader(rpcConfig,{fetchImpl=fetch,maxPages=20,histo
     const key=JSON.stringify([event.tx_type,event.owner_user_id,event.included_checkpoint_id,event.content_hash]);
     if(seen.has(key))return false;seen.add(key);return true;
    });
+   const validCandidates=events.filter(e=>e.tx_type==='user_endcap'&&e.owner_user_id===userId&&
+    Number.isSafeInteger(e.included_checkpoint_id)&&e.included_checkpoint_id>=1&&/^[0-9a-f]{64}$/i.test(e.content_hash??''));
+   // With exactly one source-bounded candidate, its receipt can be read
+   // alongside the historical leaf. Both still have to match. Do not fan out
+   // speculative receipt requests across an older history or retain either
+   // result across polls. Serial mode is the controlled reference path.
+   let receiptFlight;
+   if(historyConcurrency===4&&minCheckpoint>0&&validCandidates.length===1){
+    const event=validCandidates[0];receiptFlight={hash:event.content_hash,promise:get(services+'/api/v1/transaction/hash/'+event.content_hash).then(value=>({value}),()=>({unavailable:true}))};
+   }
    let result={status:'unresolved',userId,endUserLeafHash,errors:[]};
    for(let begin=0;begin<events.length;begin+=historyConcurrency){
    const chunk=events.slice(begin,begin+historyConcurrency);
@@ -50,10 +60,11 @@ export async function receiptReader(rpcConfig,{fetchImpl=fetch,maxPages=20,histo
      if(!leaves.has(cp))leaves.set(cp,get(realm.rpc_url[0],{jsonrpc:'2.0',id:1,method:'psy_get_user_tree_leaf_hash',params:{checkpoint_id:cp,user_id:userId}}).then(x=>({value:x.result}),()=>({unavailable:true})));
      await leaves.get(cp);
    }));
+   if(receiptFlight)await receiptFlight.promise;
    result=await reconcileSubmission({userId,endUserLeafHash,events:chunk,
     readUserLeafHash:async(checkpoint,id)=>{
      const read=await leaves.get(checkpoint);if(read?.unavailable)throw Error('historical state unavailable');return read?.value;
-    },readReceipt:hash=>get(services+'/api/v1/transaction/hash/'+hash)});
+    },readReceipt:async hash=>{if(receiptFlight?.hash===hash){const r=await receiptFlight.promise;if(r.unavailable)throw Error('receipt unavailable');return r.value;}return get(services+'/api/v1/transaction/hash/'+hash);}});
    if(result.status==='included')return result;
    errors.push(...result.errors);
    }

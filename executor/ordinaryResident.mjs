@@ -25,7 +25,7 @@ export async function ordinaryResident({binary,binarySha256,config,dependencies,
   return identity;
  };
  let active=false;env=Object.freeze({...env});
- let child,pending,buffer='',startup='',ready,poisoned=false,closed=false,exitPromise,ended=false,closing,unconfirmed;
+ let child,pending,buffer='',startup='',ready,poisoned=false,closed=false,exitPromise,ended=false,closing,unconfirmed,reconciling;
  const fail=error=>{poisoned=true;if(pending){const p=pending;pending=null;clearTimeout(p.timer);p.reject(error);}};
  const start=()=>{
   child=spawnProcess(binary,['serve-ordinary',config,secret,dependencies],{env:{...process.env,...env},stdio:['pipe','pipe','pipe']});
@@ -38,7 +38,7 @@ export async function ordinaryResident({binary,binarySha256,config,dependencies,
    if(buffer.length>2000000){fail(Error('ordinary worker protocol bound'));child.kill('SIGTERM');return;}
    for(let i;(i=buffer.indexOf('\n'))>=0;){const line=buffer.slice(0,i);buffer=buffer.slice(i+1);if(!line.startsWith('PSY_ORDINARY_SERVER '))continue;
     let response;try{response=JSON.parse(line.slice(20));}catch{fail(Error('ordinary worker invalid response'));child.kill('SIGTERM');return;}
-    if(response.ready){if(ready||response.publicKeyHash!==publicKeyHash){fail(Error('ordinary worker identity mismatch'));child.kill('SIGTERM');return;}ready=response;if(pending)child.stdin.write(pending.request);continue;}
+    if(response.ready){if(ready||response.publicKeyHash!==publicKeyHash){fail(Error('ordinary worker identity mismatch'));child.kill('SIGTERM');return;}ready=Object.freeze(response);if(pending)child.stdin.write(pending.request);continue;}
     if(!ready||!pending||response.id!==pending.id){fail(Error('ordinary worker request mismatch'));child.kill('SIGTERM');return;}
     const p=pending;pending=null;clearTimeout(p.timer);
     if(response.ok)p.resolve(response);else{poisoned=true;p.reject(Error(`ordinary worker stopped at ${response.phase}: ${response.reasonCode}; reconcile original request`));}
@@ -50,7 +50,7 @@ export async function ordinaryResident({binary,binarySha256,config,dependencies,
    assert.ok(['call','preflight'].includes(action));assert.ok(!closed&&!poisoned,'ordinary resident unavailable; explicit reconciliation/restart required');assert.ok(!unconfirmed,'ordinary original result must be reconciled before another job');assert.equal(active,false,'one active ordinary transaction per signer');
    // Occupy the lease before asynchronous identity checks: concurrent callers
    // cannot both pass the one-signer gate.
-   active=true;const coldStart=!child,startedAt=new Date().toISOString(),before=performance.now();let file,entry;
+   active=true;const coldStart=!child,startedAt=new Date().toISOString(),before=performance.now();let file,entry,timing;
    try{
     await check();assert.ok(!closed&&!poisoned,'ordinary resident stopped during binding checks');file=await open(log,'wx',0o600);
     const inputSha256=sha256(await readFile(input));
@@ -60,18 +60,27 @@ export async function ordinaryResident({binary,binarySha256,config,dependencies,
      if(!child)start();else if(ready)child.stdin.write(entry.request);
     });
     if(action==='call')await exactIdentity(unconfirmed);
-    return {startedAt,finishedAt:new Date().toISOString(),wallMilliseconds:Math.round(performance.now()-before),coldStart,sessionConstructionMillisecondsCharged:coldStart?ready.sessionConstructionMs:0,residentStartup:ready,response:result};
+    timing={startedAt,finishedAt:new Date().toISOString(),wallMilliseconds:Math.round(performance.now()-before),coldStart,sessionConstructionMillisecondsCharged:coldStart?ready.sessionConstructionMs:0,residentStartup:ready,response:result};return timing;
    }catch(error){poisoned=true;throw error;}
-   finally{if(entry&&file)await file.writeFile(entry.log);await file?.close();active=false;}
+   finally{
+    try{if(entry&&file)await file.writeFile(entry.log);}catch(error){poisoned=true;throw error;}
+    finally{try{await file?.close();}catch(error){poisoned=true;throw error;}
+     finally{active=false;if(timing){timing.finishedAt=new Date().toISOString();timing.wallMilliseconds=Math.round(performance.now()-before);}}
+    }
+   }
   },
-  reconcile:async()=>{
-   assert.ok(!active,'cannot reconcile an active ordinary job');
-   if(!unconfirmed)return {status:'none'};
-   await check();
-   const {userId,endUserLeafHash,minCheckpoint}=await exactIdentity(unconfirmed);
-   const result=await(await receiptReader(config))({userId,endUserLeafHash,minCheckpoint});
-   if(result.status==='included')unconfirmed=undefined;
-   return result;
+  reconcile:()=>{
+   if(reconciling)return reconciling;
+   const gate=unconfirmed;
+   const work=(async()=>{
+    assert.ok(!active,'cannot reconcile an active ordinary job');if(!gate)return {status:'none'};
+    await check();const {userId,endUserLeafHash,minCheckpoint}=await exactIdentity(gate);
+    const result=await(await receiptReader(config))({userId,endUserLeafHash,minCheckpoint});
+    // A late observation of A must never clear a subsequent job B's gate.
+    if(result.status==='included'&&unconfirmed===gate)unconfirmed=undefined;
+    return result;
+   })();
+   const tracked=work.finally(()=>{if(reconciling===tracked)reconciling=undefined;});reconciling=tracked;return tracked;
   },
   close:async()=>{
    if(closing)return closing;closed=true;

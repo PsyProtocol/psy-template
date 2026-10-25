@@ -95,3 +95,16 @@ test('one failed historical candidate does not authorize a retry or hide a later
  const bad=fetcher({pages:()=>({items:[1,2,3,4].map(event),has_next:false}),receiptPatch:{status:'pending'},target:3});
  assert.equal((await(await receiptReader(config,bad))({userId,endUserLeafHash:leaf})).status,'unresolved');
 }));
+test('single source-bounded candidate overlaps receipt and leaf, but both endpoints remain mandatory',()=>fixture(async config=>{
+ for(const mutation of ['none','leaf','receipt']){
+  const calls=[];let active=0,peak=0;
+  const io=fetcher({pages:()=>({items:[event(101)],has_next:false}),...(mutation==='leaf'?{target:102}:{}),...(mutation==='receipt'?{receiptPatch:{owner_user_id:124}}:{})});
+  const fetchImpl=async(url,options)=>{
+   const endpoint=options?.method==='POST'?'leaf':url.includes('/transaction/hash/')?'receipt':'list';calls.push(endpoint);
+   if(endpoint!=='list'){active++;peak=Math.max(active,peak);await new Promise(r=>setTimeout(r,5));}
+   const result=await io.fetchImpl(url,options);if(endpoint!=='list')active--;return result;
+  };
+  const r=await(await receiptReader(config,{fetchImpl}))({userId,endUserLeafHash:leaf,minCheckpoint:101});
+  assert.equal(r.status,mutation==='none'?'included':'unresolved');assert.equal(peak,2);assert.equal(active,0);assert.deepEqual(calls.sort(),['leaf','list','receipt']);
+ }
+}));
