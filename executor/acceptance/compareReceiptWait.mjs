@@ -28,5 +28,9 @@ for(const mode of ['baseline','candidate','candidate','baseline']){
  rows.push({mode,startedAt,finishedAt:new Date().toISOString(),milliseconds:performance.now()-start,peakFetches:peak,physicalAttempts:reads.length,reads,fetched,result});
  saveObservation(join(base,'public','receipt-'+flavour+'-abba-'+rows.length+'.json'),rows.at(-1));
 }
-for(const row of rows)assert.deepEqual(row.result,rows[0].result,'same exact actual historical receipt');
+const identity=r=>({status:r.status,userId:r.userId,endUserLeafHash:r.endUserLeafHash,checkpoint:r.checkpoint,contentHash:r.contentHash,
+ receiptStatus:r.receipt.data.status,receiptOwner:r.receipt.data.owner_user_id,receiptCheckpoint:r.receipt.data.included_checkpoint_id,receiptHash:r.receipt.data.content_hash,result:r.receipt.data.result});
+// The envelope timestamp is generated for every GET. Compare the immutable
+// transaction identity and economic receipt fields, preserving full responses.
+for(const row of rows)assert.deepEqual(identity(row.result),identity(rows[0].result),'same exact actual historical receipt');
 saveObservation(join(base,'public','receipt-'+flavour+'-abba-COMPLETE.json'),{at:new Date().toISOString(),host:hostname(),attempt,flavour,minCheckpoint:flavour==='current'?p.minCheckpoint:0,preflightSha256:sha256(readFileSync(join(attempt,'preflight.json'))),rows,scope:'same actual included end leaf, live historical leaf and indexed receipt requests, serial/parallel/parallel/serial; no mutation, no proof, no chain-confirmation or steady-state throughput claim'});
