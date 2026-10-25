@@ -1,0 +1,30 @@
+PSY_RECEIPT_READ_UNAVAILABLE {"at":"2026-10-25T11:13:17.437Z","userId":123,"endUserLeafHash":"ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff","minCheckpoint":101,"status":500}
+✔ bounded services outage stays unresolved; next poll recovers the original exact identity (3019.382958ms)
+✔ receipt older than the latest 100 events is recovered with exact historical leaf and receipt (9.438041ms)
+✔ verified source bound skips older leaf RPCs without dropping pages or receipt validation (3.928791ms)
+✔ pagination stops at advertised final page and does not confuse a matching leaf with a mismatched receipt (2.86225ms)
+✔ an exhausted history window stays unresolved and never requests an unbounded next page (7.123625ms)
+✔ overlapping pages deduplicate events and historical reads; a stuck pagination response stays unresolved (7.634334ms)
+✔ missing leaves make no requests; invalid identities or malformed listings cannot clear a broadcast (1.351792ms)
+✔ historical reads overlap in bounded chunks and retain deterministic receipt selection (28.791333ms)
+✔ one failed historical candidate does not authorize a retry or hide a later exact included receipt (2.095459ms)
+✔ single source-bounded candidate overlaps receipt and leaf, but both endpoints remain mandatory (21.290584ms)
+✔ only same-source same-nonce confirmed legal abort resolves ambiguous admission (0.725166ms)
+✔ missing receipt, a later nonce, different anchor/key scope, original winning and unverified proof all fail (4.633125ms)
+✔ wire compaction preserves U124 literals, quoted whitespace, escaped quotes and UTF-8 (1.739125ms)
+✔ invalid JSON or UTF-8 cannot be converted into an apparently valid request (0.454875ms)
+✔ retirement guard permits exactly one fee leaf and no market business mutation (1.134208ms)
+✔ actual lossless JSON representation preserves prototype-independent financial validation (0.556125ms)
+✔ wrong identity/nonce, transfers, added state, fees and nonbalance mutations fail closed (1.407541ms)
+✔ additional-delivery evidence accepts actual lossless status representation without retiring either request (0.648041ms)
+✔ actual archived 413 status and newline response pass the lossless transport evidence gate (1.421625ms)
+✔ same-nonce ordinary conflict requires both exact verified requests and exact confirmed winner (2.316458ms)
+✔ receipt, identity, fee, verification and raw-byte substitutions do not retire an ambiguous request (5.284583ms)
+ℹ tests 21
+ℹ suites 0
+ℹ pass 21
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 3161.04175

@@ -3,6 +3,17 @@
 // fresh identity/network/anchor/dependency/expiry checks. It never transmits.
 import assert from'node:assert/strict';
 import{decodeFeltSlot}from'../orderbook/matcherCore.mjs';
+import{sha256}from'./requestBinding.mjs';
+// This validates the prior transport evidence, never grants permission for an
+// additional send. The calling acceptance entry still requires separate human
+// authorization and preserves both immutable per-nonce transmission fences.
+export function validatePriorOversizedRetirement({priorFence,priorRequestBytes,priorResponseMeta,priorResponseBody,userId,nonce}){
+ assert.equal(BigInt(priorFence.userId),BigInt(userId));assert.equal(BigInt(priorFence.nonce),BigInt(nonce));
+ assert.equal(sha256(priorRequestBytes),priorFence.requestSha256);
+ assert.equal(BigInt(priorResponseMeta.httpStatus),413n);assert.equal(priorResponseMeta.automaticRetry,false);
+ assert.ok(['invalid or oversized body','invalid or oversized body\n'].includes(priorResponseBody.toString()),'unexpected prior rejection body');
+ return {priorRequestSha256:priorFence.requestSha256,priorHttpStatus:413n,priorOutcomeRetired:false};
+}
 export function validateNonceRetirement({input,preflight,request,review}){
  const e=request.user_ec_input,c=e.core,fee=1_000_001_000n;
  assert.deepEqual(c,preflight.core);assert.equal(preflight.fullUpsVerified,true);

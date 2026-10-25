@@ -1,10 +1,10 @@
 // Requires explicit operator authorization for THIS fee-only recovery. Never
 // run merely because the original receipt is missing. No signing or retries.
 import assert from'node:assert/strict';import{readFileSync,mkdirSync}from'node:fs';import{join}from'node:path';import{fileURLToPath}from'node:url';
-import{parseLosslessJson,losslessJson}from'../../amm/u124/client.mjs';import{publicState}from'../publicState.mjs';import{validateNonceRetirement}from'../nonceRetirement.mjs';import{sha256}from'../requestBinding.mjs';import{run,binding,confirmUps}from'../../batching/admission/liveSupport.mjs';import{freezeAppModules}from'./sourceClosure.mjs';import{publishFile}from'../durableFile.mjs';
+import{parseLosslessJson,losslessJson}from'../../amm/u124/client.mjs';import{publicState}from'../publicState.mjs';import{validateNonceRetirement,validatePriorOversizedRetirement}from'../nonceRetirement.mjs';import{sha256}from'../requestBinding.mjs';import{run,binding,confirmUps}from'../../batching/admission/liveSupport.mjs';import{freezeAppModules}from'./sourceClosure.mjs';import{publishFile}from'../durableFile.mjs';
 import{userEndCapWire}from'../exactJsonWire.mjs';
 const saveDurable=(path,value)=>publishFile(path,losslessJson(value)+'\n');
-const[base,original,authorization,candidateName='nonce-retirement-candidate-v1']=process.argv.slice(2);assert.match(candidateName,/^nonce-retirement-candidate-v[1-9][0-9]*$/);assert.ok(['--authorized-noop-once','--authorized-compact-noop-once'].includes(authorization),'explicit human recovery authorization is required');const additional=authorization==='--authorized-compact-noop-once';freezeAppModules(fileURLToPath(import.meta.url),base,(additional?'authorized-compact-':'authorized-')+candidateName);
+const[base,original,authorization,candidateName='nonce-retirement-candidate-v1']=process.argv.slice(2);assert.match(candidateName,/^nonce-retirement-candidate-v[1-9][0-9]*$/);assert.ok(['--authorized-noop-once','--authorized-compact-noop-once'].includes(authorization),'explicit human recovery authorization is required');const additional=authorization==='--authorized-compact-noop-once';freezeAppModules(fileURLToPath(import.meta.url),base,(additional?'authorized-compact-':'authorized-')+candidateName+'-source-v3');
 const dir=join(base,candidateName),exact=p=>parseLosslessJson(readFileSync(p,'utf8')),review=exact(join(dir,'REVIEW.json')),input=exact(join(dir,'input.json')),preflight=exact(join(dir,'prepared/preflight.json')),raw=readFileSync(join(dir,'prepared/request.json')),request=parseLosslessJson(raw.toString());
 // This one-off acceptance authorization is limited to this QA signer/nonce.
 assert.equal(review.userId,1717440n);assert.equal(review.originalNonce,44n);assert.equal(review.publicKeyHash,'0110846a44285289643e8e32fb684be8c3006a419ce33d50d3351034db29dd2a');
@@ -14,10 +14,7 @@ if(additional){
  // on HTTP status or expiry. Preserve the original one-send fence and unknown
  // outcome. The extra fence below permits at most one additional delivery.
  const prior=exact(join(base,'public','AUTHORIZED-RETIREMENT-SEND-'+identity.userId+'-'+identity.nonce+'.json'));
- assert.equal(prior.userId,identity.userId);assert.equal(prior.nonce,identity.nonce);
- assert.equal(sha256(readFileSync(join(prior.out,'request.json'))),prior.requestSha256);
- assert.equal(exact(join(prior.out,'rpc-response-meta.json')).httpStatus,413);
- assert.equal(readFileSync(join(prior.out,'rpc-response.body'),'utf8'),'invalid or oversized body');
+ validatePriorOversizedRetirement({priorFence:prior,priorRequestBytes:readFileSync(join(prior.out,'request.json')),priorResponseMeta:exact(join(prior.out,'rpc-response-meta.json')),priorResponseBody:readFileSync(join(prior.out,'rpc-response.body')),userId:identity.userId,nonce:identity.nonce});
 }
 const config=join(base,'baseline/public/rpc.json'),out=join(dir,additional?'authorized-compact-send-v1':'authorized-send-v1');mkdirSync(out,{mode:0o700});
 const tools=JSON.parse(readFileSync(join(original,'public/TOOLS-v2.json'),'utf8')),verifier=tools.binaries.verifier;assert.equal(sha256(readFileSync(verifier.file)),verifier.sha256);
