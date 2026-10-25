@@ -25,21 +25,31 @@ for(const source of walk(round).filter(p=>p.endsWith('/included.json')||/\d+-inc
  if(receipts.has(r.contentHash)){assert.deepEqual(receipts.get(r.contentHash).r,r);continue;}
  receipts.set(r.contentHash,{r,raw,source});
 }
-const actual=[];
-for(const [contentHash,{r,raw,source}]of receipts){
- const request=exactReceiptRequest(round,source,raw,r.userId,index),bytes=readFileSync(request),digest=sha256(bytes),q=exact(request),core=q.user_ec_input.core;
+async function verify(request){
+ const bytes=readFileSync(request),digest=sha256(bytes),q=exact(request),core=q.user_ec_input.core;
  if(!proofs.has(digest)){
   const report=join(out,digest+'.json'),start=performance.now();const result=await promisify(execFile)(verifier.file,[insideCase(round,request),report],{timeout:120000,maxBuffer:2000000,env:{...process.env,RAYON_NUM_THREADS:'2'}});
   writeFileSync(report+'.log',result.stdout+'\n'+result.stderr,{flag:'wx'});
   const v=exact(report);assert.equal(v.fullProofVerifiedAgainstPinnedNodeKeyAndCommon,true);assert.equal(v.metadataEndpointsAndFeesVerified,true);assert.equal(v.requestSha256,digest);assert.equal(v.publicKeyHash,core.new_user_leaf.public_key);assert.equal(v.nonce,core.new_user_leaf.nonce);
   proofs.set(digest,{verificationMilliseconds:Math.round(performance.now()-start),report});
  }
+ return {digest,core,...proofs.get(digest)};
+}
+const actual=[];
+for(const [contentHash,{r,raw,source}]of receipts){
+ const request=exactReceiptRequest(round,source,raw,r.userId,index),{digest,core}=await verify(request);
  assert.equal(core.new_user_leaf.user_id,r.userId);assert.equal(core.state_transition.end_user_leaf_hash,r.endUserLeafHash);assert.equal(r.receipt.data.owner_user_id,r.userId);assert.equal(r.receipt.data.included_checkpoint_id,r.checkpoint);
  const fee=core.stats.guta_fees_collected+core.stats.da_fees_collected;assert.equal(fee,r.receipt.data.result.fees_collected);
  for(const field of ['slots_modified','total_transactions','user_ops_processed'])assert.equal(core.stats[field],r.receipt.data.result[field]);
  actual.push({contentHash,source,request,requestSha256:digest,userId:r.userId,nonce:core.new_user_leaf.nonce,start:core.state_transition.start_user_leaf_hash,end:r.endUserLeafHash,checkpoint:r.checkpoint,fee,...proofs.get(digest)});
 }
 assert.equal(actual.length,17,'11 ordinary UPSs plus six market UPSs');
+// Also verify complete unused requests left by a guard/transport failure. An
+// orphan proof is work consumed, not a successful fill or another receipt.
+for(const file of walk(round).filter(p=>p.endsWith('/request.json'))){
+ const q=exact(file);if(q.user_ec_input?.core&&Array.isArray(q.proof))await verify(file);
+}
+
 const before=exact(join(round,'public/assets-before.json')),after=exact(join(round,'public/assets-after.json'));
 for(const user of new Set(actual.map(r=>r.userId))){const rows=actual.filter(r=>r.userId===user).sort((a,b)=>a.nonce<b.nonce?-1:1);for(let i=1;i<rows.length;i++){assert.equal(rows[i].nonce,rows[i-1].nonce+1n);assert.equal(rows[i].start,rows[i-1].end);}}
 const totalFees=actual.reduce((n,r)=>n+r.fee,0n);assert.equal(before.nativeTotal-after.nativeTotal,totalFees);
@@ -50,4 +60,4 @@ for(const asset of [2483,2484]){
 }
 for(const row of after.pending)if((row.sender===662720n&&[1717440n,406720n].includes(row.recipient))||(row.recipient===662720n&&[1717440n,406720n].includes(row.sender)))for(const asset of [2483,2484])assert.equal(row.ft[asset],0n,'market/user FT outboxes clear');
 assert.deepEqual(after.nfts,before.nfts);assert.deepEqual(after.nftPending,before.nftPending);
-save(join(out,'SUMMARY.json'),{at:new Date().toISOString(),selection,round:done.roundTag,fills:1,actualUps:actual.length,uniqueFullProofs:proofs.size,totalFees,actual,ordinaryClaimsVerified:true,ftAndNativeConservationVerified:true,nftUnchanged:true,nonceAndStateChainsVerified:true,fullProofAccountingPending:false,scope:'one actual paired Book cohort; native verifier checks all signed requests against the fixed Node key/common data; does not attest deployed server binaries'});
+save(join(out,'SUMMARY.json'),{at:new Date().toISOString(),selection,round:done.roundTag,fills:1,actualUps:actual.length,uniqueFullProofs:proofs.size,allCompletedRequestsVerified:true,totalFees,actual,ordinaryClaimsVerified:true,ftAndNativeConservationVerified:true,nftUnchanged:true,nonceAndStateChainsVerified:true,fullProofAccountingPending:false,scope:'one actual paired Book cohort; native verifier checks all signed requests against the fixed Node key/common data; does not attest deployed server binaries'});

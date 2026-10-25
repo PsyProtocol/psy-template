@@ -22,6 +22,10 @@ import {saveObservation} from '../observations.mjs';
 const [base,original,selection='baseline']=process.argv.slice(2);
 assert.ok(base&&original);assert.ok(['baseline','candidate'].includes(selection));
 assert.ok(!existsSync(join(base,'public',selection+'-COMPLETE.json')),'closed round');
+if(selection==='candidate'){
+ const prior=read(join(base,'baseline-audit-v1/SUMMARY.json'));
+ assert.equal(prior.fullProofAccountingPending,false,'close baseline and reconcile every original before another financial round');assert.equal(prior.fills,1);
+}
 const roundTag=process.env.PSY_RPC_COMPARISON_ROUND??selection;assert.match(roundTag,new RegExp('^'+selection+'(?:-v[1-9][0-9]*)?$'));
 const sourceLabel=process.env.PSY_RPC_COMPARISON_SOURCE_LABEL??roundTag+'-run-v1';assert.match(sourceLabel,/^[a-z0-9-]+$/);
 freezeAppModules(fileURLToPath(import.meta.url),base,sourceLabel);
@@ -30,6 +34,7 @@ assert.equal(read(join(original,'public/ACCEPTANCE-CLOSED-v1.json')).fullProofAc
 const releaseName=process.env.PSY_ORDINARY_RELEASE_FILE??'RELEASE.json';assert.match(releaseName,/^RELEASE(?:-v[1-9][0-9]*)?\.json$/);
 const release=read(join(base,'public',releaseName)),sdkManifest=join(process.cwd(),'batching/dependencies/session-bound-sdk-20261020/manifest.json');
 assert.equal(sha256(readFileSync(sdkManifest)),SDK);assert.equal(release.sdkManifestSha256,SDK);
+if(selection==='candidate'){assert.ok(process.env.PSY_ORDINARY_RELEASE_FILE,'select a reviewed candidate release explicitly; original generations stay preserved');assert.equal(release.inputDigestBoundBeforeProof,true);assert.equal(release.readyIdentityBeforeJob,true);}
 const round=join(base,roundTag);if(!existsSync(round)){mkdirSync(round);mkdirSync(join(round,'public'));mkdirSync(join(round,'attempts'));copyFileSync(join(base,'public/rpc.json'),join(round,'public/rpc.json'));}
 const config=join(round,'public/rpc.json'),m=new LiveMarket({...old.by.orderbook,base:round,config});
 const baselineFormal=(await import(pathToFileURL(join(base,'baseline-source/executor/acceptance/candidateHarness.mjs')).href)).formal;
@@ -114,4 +119,8 @@ try {
  for(const owner of [U,B])assert.equal(await h.at(await publicState(config),m,m.vault,'consumed',owner),nonceU);
  await f.journal.reconcile(f.adapter.reconcile);assert.equal((await f.journal.unresolved()).length,0);
  save(join(base,'public',selection+'-COMPLETE.json'),{at:new Date().toISOString(),selection,roundTag,fills:1,members:2,ordinaryClaimsIncluded:true,fullProofAccountingPending:true,assets:spec,ftConserved:true,oldContractUpdates:false,scope:'one real new Book epoch on the same owned QA market/key/vault and economic workload; not a four-market or steady-state TPS benchmark'});
-} finally { await f?.close();await h.residentScope.close();for(const worker of workers.values())await worker.close(); }
+} finally {
+ const closed=await Promise.allSettled([Promise.resolve().then(()=>f?.close()),...Array.from(workers.values(),worker=>worker.close())]);
+ const scoped=await Promise.allSettled([h.residentScope.close()]);
+ const failed=[...closed,...scoped].find(r=>r.status==='rejected');if(failed)throw failed.reason;
+}

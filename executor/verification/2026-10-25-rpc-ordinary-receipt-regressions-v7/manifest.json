@@ -1,0 +1,75 @@
+{
+  "schema": 1,
+  "sourceDirectory": "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-market-recovery-20261023",
+  "machine": "gewenbo.local",
+  "host": "macOS-15.7.3-arm64-arm-64bit",
+  "scope": "public formal Executor run including failures; success requires exact included receipt",
+  "walletFilesIncluded": false,
+  "sealedBinariesIncluded": false,
+  "records": [
+    {
+      "source": "rpc-ordinary-build-v3/TOOLCHAIN-IDENTITY-v1.json",
+      "file": "files/rpc-ordinary-build-v3/TOOLCHAIN-IDENTITY-v1.json.gz",
+      "bytes": 619,
+      "sha256": "441753a947ff3edcaa8812fb975c9799d34d935d00d2e8dad4f2bfae5d6bcafd",
+      "gzipBytes": 366,
+      "gzipSha256": "db068f8ee474c34e1c10569c1610ddcda295b8689a05d39de9cbd3b17644b66c"
+    },
+    {
+      "source": "rpc-ordinary-build-v3/psy-template/amm/u124/vm-tests/Cargo.lock",
+      "file": "files/rpc-ordinary-build-v3/psy-template/amm/u124/vm-tests/Cargo.lock.gz",
+      "bytes": 211841,
+      "sha256": "4e895a309801d56e785f17eee5af04e50aee7785a3488e4aea1ae36fb2adb10c",
+      "gzipBytes": 49511,
+      "gzipSha256": "8cb0c94e2f2457d2f5adbd1a461343232247a84a377ab534f5281c674c431e4e"
+    },
+    {
+      "source": "rpc-ordinary-build-v3/psy-template/amm/u124/vm-tests/Cargo.toml",
+      "file": "files/rpc-ordinary-build-v3/psy-template/amm/u124/vm-tests/Cargo.toml.gz",
+      "bytes": 3459,
+      "sha256": "42cc779196a08d249d1a4ef4eb3a4d65ab94bbd4366b951193372a14bc729747",
+      "gzipBytes": 775,
+      "gzipSha256": "fd28df7a5b066226538803ac95628476f97a32d172a60ad73b7b98fa6e3f3719"
+    },
+    {
+      "source": "rpc-ordinary-build-v3/recovery-regressions-v1.log",
+      "file": "files/rpc-ordinary-build-v3/recovery-regressions-v1.log.gz",
+      "bytes": 2191,
+      "sha256": "81e62a66ece11df2e87fea58698dc4f24057bb33e2eda1e12036161826a2ad54",
+      "gzipBytes": 1115,
+      "gzipSha256": "da47f558c47f0582497d4e62a32040b3e550f65f0eedd191c3d9956d21c5c39c"
+    },
+    {
+      "source": "rpc-ordinary-build-v3/regressions-v5.log",
+      "file": "files/rpc-ordinary-build-v3/regressions-v5.log.gz",
+      "bytes": 2826,
+      "sha256": "13c5c506ef095453b5cf45aa6a1c2483d3f0439bb2a8d62da4dae8de167124c8",
+      "gzipBytes": 1372,
+      "gzipSha256": "64123b423dbe61e657e37580ce26e0984d75b6b455ed03acc1e949f4f99233b1"
+    },
+    {
+      "source": "rpc-ordinary-build-v3/regressions-v6.log",
+      "file": "files/rpc-ordinary-build-v3/regressions-v6.log.gz",
+      "bytes": 2817,
+      "sha256": "545e85b8c2ed0efb07482c8e0bf6892927f8223afeeaaa69e48d1d348401b93f",
+      "gzipBytes": 1367,
+      "gzipSha256": "655f724dee2ad9b3016f5b12dccc05b3f43fc55d38aefb8db7712ae5a2af5b39"
+    },
+    {
+      "source": "rpc-ordinary-build-v3/regressions-v7.log",
+      "file": "files/rpc-ordinary-build-v3/regressions-v7.log.gz",
+      "bytes": 2934,
+      "sha256": "147fde2b1274a709c43c7e431ea252d6aa1f5cb541f469327d9d322bb1a53611",
+      "gzipBytes": 1401,
+      "gzipSha256": "c6cbe90554ba3ee101ffed749cc5972b3a95509ed1224d67cadee3f32619c9cc"
+    },
+    {
+      "source": "rpc-ordinary-performance-live-v1/public/cutoff-observation-v1.json",
+      "file": "files/rpc-ordinary-performance-live-v1/public/cutoff-observation-v1.json.gz",
+      "bytes": 190,
+      "sha256": "04b2754f6aea870b351526eaa53d466b1d1812703b9fa40ed49b30e2b62c7957",
+      "gzipBytes": 162,
+      "gzipSha256": "515ce09ccf3def03721f5a2fded635b0510414dd8fbb5dce600af861ea5a48dd"
+    }
+  ]
+}

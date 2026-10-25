@@ -9,7 +9,7 @@ import {receiptReader} from '../chainReceipts.mjs';
 import {ordinaryPreflight} from '../../batching/admission/ordinaryReport.mjs';
 import {saveObservation} from '../observations.mjs';
 import {sha256} from '../requestBinding.mjs';
-const [base,attempt]=process.argv.slice(2);assert.ok(base&&attempt);
+const [base,attempt,flavour='history']=process.argv.slice(2);assert.ok(base&&attempt);assert.ok(['history','current'].includes(flavour));
 const p=ordinaryPreflight(readFileSync(join(attempt,'preflight.json'),'utf8'));
 const baseline=(await import(pathToFileURL(join(base,'baseline-source/executor/chainReceipts.mjs')).href)).receiptReader;
 const rows=[];
@@ -23,10 +23,10 @@ for(const mode of ['baseline','candidate','candidate','baseline']){
  const start=performance.now(),startedAt=new Date().toISOString();
  // Include all retained historical candidates identically in each run. No
  // source-bound or safety checks are bypassed for a submitted transaction.
- const result=await(await(mode==='baseline'?baseline:receiptReader)(join(base,'public/rpc.json'),{fetchImpl}))({userId:p.userId,endUserLeafHash:p.endUserLeafHash,minCheckpoint:0});
+ const result=await(await(mode==='baseline'?baseline:receiptReader)(join(base,'public/rpc.json'),{fetchImpl}))({userId:p.userId,endUserLeafHash:p.endUserLeafHash,minCheckpoint:flavour==='current'?p.minCheckpoint:0});
  assert.equal(result.status,'included');
  rows.push({mode,startedAt,finishedAt:new Date().toISOString(),milliseconds:performance.now()-start,peakFetches:peak,physicalAttempts:reads.length,reads,fetched,result});
- saveObservation(join(base,'public','receipt-abba-'+rows.length+'.json'),rows.at(-1));
+ saveObservation(join(base,'public','receipt-'+flavour+'-abba-'+rows.length+'.json'),rows.at(-1));
 }
 for(const row of rows)assert.deepEqual(row.result,rows[0].result,'same exact actual historical receipt');
-saveObservation(join(base,'public/receipt-abba-COMPLETE.json'),{at:new Date().toISOString(),host:hostname(),attempt,preflightSha256:sha256(readFileSync(join(attempt,'preflight.json'))),rows,scope:'same actual included end leaf, live historical leaf and indexed receipt requests, serial/parallel/parallel/serial; no mutation, no proof, no chain-confirmation or steady-state throughput claim'});
+saveObservation(join(base,'public','receipt-'+flavour+'-abba-COMPLETE.json'),{at:new Date().toISOString(),host:hostname(),attempt,flavour,minCheckpoint:flavour==='current'?p.minCheckpoint:0,preflightSha256:sha256(readFileSync(join(attempt,'preflight.json'))),rows,scope:'same actual included end leaf, live historical leaf and indexed receipt requests, serial/parallel/parallel/serial; no mutation, no proof, no chain-confirmation or steady-state throughput claim'});

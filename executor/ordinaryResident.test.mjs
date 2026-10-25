@@ -25,7 +25,7 @@ async function fixture(fn,{wrongIdentity=false,wrongResponse=false,reject=false,
   queueMicrotask(()=>child.stdout.write('PSY_ORDINARY_SERVER '+JSON.stringify({ready:true,publicKeyHash:wrongIdentity?'b'.repeat(64):publicKeyHash,sessionConstructionMs:42})+'\n'));return child;
  };
  const worker=await ordinaryResident({...paths,binarySha256:sha256('binary'),sdkSha256:sha256('sdkManifest'),publicKeyHash,spawnProcess,timeout:500});
- let index=0;const run=(action='preflight')=>worker.run({action,input:join(dir,'input'),out:join(dir,'out'),log:join(dir,'job-'+index+++'.log')});
+ let index=0;const run=(action='preflight')=>{const n=index++;return worker.run({action,input:join(dir,'input'),out:join(dir,n===0?'out':'out-'+n),log:join(dir,'job-'+n+'.log')});};
  try{await fn({worker,paths,dir,run,get builds(){return builds;},get jobs(){return jobs;}});}finally{await worker.close();await rm(dir,{recursive:true,force:true});}
 }
 test('sequential ordinary jobs reuse one pinned process, without reusing a request',()=>fixture(async x=>{
@@ -61,6 +61,15 @@ test('only exact historical state plus an included indexed receipt release the n
  }}));
  await x.run('call');assert.equal((await x.worker.reconcile()).status,'unresolved');await assert.rejects(x.run(),/original result/);
  pending=false;assert.equal((await x.worker.reconcile()).status,'included');await x.run();assert.equal(x.jobs,2);assert.equal(x.builds,1);
+},{withReceipts:true}));
+test('concurrent exact reconciliations share one read flight and cannot release the next transaction',t=>fixture(async x=>{
+ const hash='c'.repeat(64);let release,listings=0;const wait=new Promise(r=>{release=r;});
+ t.mock.method(globalThis,'fetch',async(url,options)=>{
+  if(url.includes('/get/user/transactions')){listings++;await wait;return{ok:true,json:async()=>({success:true,data:{user_id:123,has_next:false,items:[{tx_type:'user_endcap',owner_user_id:123,included_checkpoint_id:4,content_hash:hash}]}})};}
+  return{ok:true,json:async()=>options?.method==='POST'?{result:'f'.repeat(64)}:{success:true,data:{status:'included',owner_user_id:123,included_checkpoint_id:4,content_hash:hash}}};
+ });
+ await x.run('call');const a=x.worker.reconcile(),b=x.worker.reconcile();assert.equal(a,b);release();assert.equal((await a).status,'included');
+ await x.run('call');assert.equal((await b).status,'included');await assert.rejects(x.run(),/original result/);assert.equal(listings,1);assert.equal(x.jobs,2);
 },{withReceipts:true}));
 test('wrong signer, mismatched response and rejection poison the process without automatic retry',async()=>{
  for(const options of [{wrongIdentity:true},{wrongResponse:true},{reject:true}])await fixture(async x=>{
