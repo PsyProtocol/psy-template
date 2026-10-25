@@ -93,5 +93,5 @@ export async function formal(h,m,tag,plan,{benchmark=false,benchmarkKinds=['batc
   }
   throw Error('formal broadcast remains unresolved; preserve intent and stop');
  };
- return{options:o,adapter,journal,step,close:()=>adapter.close?.()};
+ return{options:o,adapter,journal,step,warm:()=>adapter.warm(),close:()=>adapter.close?.()};
 }

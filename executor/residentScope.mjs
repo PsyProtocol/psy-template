@@ -31,7 +31,11 @@ export function residentScope({maxEntries=4,create=residentProver}={}) {
     }catch(error){entry.poisoned=true;throw error;}
     finally{entry.active--;}
    };
-   return {prove:args=>request('prove',args),quote:args=>request('quote',args),close:async()=>{
+   return {warm:async()=>{
+    assert.equal(released,false);assert.equal(closed,false);assert.equal(entry.poisoned,false);assert.equal(entry.active,0,'one active resource operation per exact key');entry.active++;
+    try{await hashes(policy,config,binding);await hashes(entry.policy,entry.config,binding);assert.equal(sha256(await readFile(entry.binary)),binding.driverSha256);return await entry.native.warm();}
+    catch(error){entry.poisoned=true;throw error;}finally{entry.active--;}
+   },prove:args=>request('prove',args),quote:args=>request('quote',args),close:async()=>{
     if(released)return;assert.equal(entry.active,0,'cannot release an active proof');released=true;entry.refs--;
     if(entry.poisoned&&entry.refs===0){await entry.native.close();entries.delete(digest);}
    }};

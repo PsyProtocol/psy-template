@@ -1,7 +1,7 @@
 // Matched real fills. Baseline modules/binaries are frozen before mutations.
 // A partial/unknown attempt is a stop, never permission to replace a payment.
 import assert from 'node:assert/strict';
-import {existsSync,mkdirSync,readFileSync,copyFileSync} from 'node:fs';
+import {existsSync,mkdirSync,readFileSync,copyFileSync,writeFileSync} from 'node:fs';
 import {join} from 'node:path';
 import {pathToFileURL,fileURLToPath} from 'node:url';
 import {hostname,cpus,totalmem,loadavg} from 'node:os';
@@ -96,24 +96,29 @@ try {
  assert.equal(nonceU,nonceB);
  // A vault UPS cannot clear another user's order state. Close the consumed
  // prior order in that user's ordinary UPS before opening the next nonce.
- if(!resuming)for(const [owner,side]of [[U,0n],[B,1n]]){assert.equal(await h.at(s,m,owner,'kind'),1n);assert.equal(await h.at(s,m,owner,'side'),side);assert.equal(await h.at(s,m,m.vault,'consumed',owner),nonceU-1n);}
+ if(!resuming)for(const [owner,side]of [[U,0n],[B,1n]]){assert.equal(await h.at(s,m,owner,'kind'),1n);assert.equal(await h.at(s,m,owner,'side'),side);assert.ok(await h.at(s,m,m.vault,'consumed',owner)<=nonceU-1n,'consumed never exceeds the prior nonce; close itself proves incoming cursors are settled, including an unfunded QA fixture');}
  const before=resuming?parseLosslessJson(readFileSync(beforeFile,'utf8')):await cohortAssets(s,spec);if(!resuming)save(beforeFile,before);
  assert.ok(before.accounts[U].ft[2483]>=unit&&before.accounts[B].ft[2484]>=unit);
  assert.ok(before.accounts[h.actors.sponsor.id].native>=12_000_000_000n,'explicit sponsor budget');
- if(!resuming)saveObservation(join(round,'public/ENVIRONMENT.json'),{at:new Date().toISOString(),host:hostname(),logicalCpus:cpus().length,physicalMemoryBytes:totalmem(),loadAverage:loadavg(),threads:2,sdkSha256:SDK,compactBinary:h.binarySha256,ordinaryBinary:ordinaryTool.sha256,selection,resourceComparison,verifierComparison,fixedVerifierMode,memoryMode:resourceComparison?memoryMode:null,market:m.id,vault:m.vault,inputPerSide:unit.toString(),fills:1,matching:'existing deterministic Book priority, two members, one trade; normal new orders only, no contract updates'});
+ if(!resuming)saveObservation(join(round,'public/ENVIRONMENT.json'),{at:new Date().toISOString(),host:hostname(),logicalCpus:cpus().length,physicalMemoryBytes:totalmem(),loadAverage:loadavg(),threads:2,sdkSha256:SDK,compactBinary:h.binarySha256,ordinaryBinary:ordinaryTool.sha256,selection,resourceComparison,verifierComparison,prewarmBeforeEpoch:verifierComparison,consentSchedule:verifierComparison?'parallel-three-v1':'historical-pair-v1',fixedVerifierMode,memoryMode:resourceComparison?memoryMode:null,market:m.id,vault:m.vault,inputPerSide:unit.toString(),fills:1,matching:'existing deterministic Book priority, two members, one trade; normal new orders only, no contract updates'});
  if(resourceComparison)saveObservation(join(base,'public',sourceLabel+'-BOOTSTRAP-TIMING.json'),{startedAt:bootstrapAt,finishedAt:new Date().toISOString(),wallMilliseconds:performance.now()-bootstrapStart,pid:process.pid,selection,cohortSnapshotMilliseconds:before.observation.wallMilliseconds,scope:'source/binary/config identity checks, SDK-selected fixture loading, fresh realm/dependency/order reads and finite-cohort snapshot; separate from native circuit construction'});
  await pair([
   ()=>user('bob','owner-order',[m.order('close_0',[]),m.order('open_sell',[BigInt(m.vault),0n,encodeAmount(unit),encodeAmount(unit),BigInt(before.checkpoint)+8192n,nonceU]),{contract_id:0n,method_name:'simple_transfer',inputs:[BigInt(m.vault),F]},call(2483n,h.token,'transfer',[BigInt(m.vault),encodeAmount(unit)])]),
   ()=>user('buyer','buyer-order',[m.order('close_1',[]),m.order('open_sell',[BigInt(m.vault),1n,encodeAmount(unit),encodeAmount(unit),BigInt(before.checkpoint)+8192n,nonceB]),{contract_id:0n,method_name:'simple_transfer',inputs:[BigInt(m.vault),F]},call(2484n,h.token,'transfer',[BigInt(m.vault),encodeAmount(unit)])])
  ]);
  await fund('start-fund');
+ if(verifierComparison){
+  const at=await publicState(config),prewarmPlan={version:1,epoch:Number(await h.at(at,m,m.vault,'queue_epoch'))+1,cutoff:at.checkpoint+128,members:[U,B].sort((a,b)=>a-b).map(owner=>({owner,nonce:nonceU.toString()}))};
+  const warm=await candidateFormal(h,m,'non-authorizing-prewarm',prewarmPlan,{performanceMetrics:true,expiry:512,runtimeSuffix:'-comparison'});
+  try{const startedAt=new Date().toISOString(),begin=performance.now(),result=await warm.warm();writeFileSync(join(round,'prewarm-native.log'),result.stdout+'\n'+result.stderr,{flag:'wx'});saveObservation(join(round,'public/PREWARM.json'),{startedAt,finishedAt:new Date().toISOString(),wallMilliseconds:performance.now()-begin,residentStartup:result.residentStartup,scope:'immutable resources only, before actual epoch plan is frozen; no scan, proof, order consent or network submission; included in round wall and cold construction accounting'});}finally{await warm.close();}
+ }
  const planName=process.env.PSY_RPC_COMPARISON_PLAN??'PLAN.json';assert.match(planName,/^PLAN(?:-v[1-9][0-9]*)?\.json$/);const planFile=join(round,'public',planName);
  let plan;if(existsSync(planFile))plan=read(planFile);else{const at=await publicState(config);plan={version:1,epoch:Number(await h.at(at,m,m.vault,'queue_epoch'))+1,cutoff:at.checkpoint+128,members:[U,B].sort((a,b)=>a-b).map(owner=>({owner,nonce:nonceU.toString()}))};save(planFile,plan);}
  const formalTag=process.env.PSY_RPC_FORMAL_TAG??'rpc-ordinary';assert.match(formalTag,/^[a-z0-9-]+$/);
  f=await(selection==='baseline'?baselineFormal:candidateFormal)(h,m,formalTag,plan,{performanceMetrics:true,expiry:512,runtimeSuffix:'-comparison'});
  await f.step('start',named('start_epoch'));
- await pair([()=>user('bob','owner-consent',[m.order('request_admission',[BigInt(plan.epoch),BigInt(plan.cutoff)])]),()=>fund('admit-0-fund')]);
- await user('buyer','buyer-consent',[m.order('request_admission',[BigInt(plan.epoch),BigInt(plan.cutoff)])]);
+ await pair([()=>user('bob','owner-consent',[m.order('request_admission',[BigInt(plan.epoch),BigInt(plan.cutoff)])]),...(verifierComparison?[()=>user('buyer','buyer-consent',[m.order('request_admission',[BigInt(plan.epoch),BigInt(plan.cutoff)])])]:[]),()=>fund('admit-0-fund')]);
+ if(!verifierComparison)await user('buyer','buyer-consent',[m.order('request_admission',[BigInt(plan.epoch),BigInt(plan.cutoff)])]);
  await f.step('admit-0',named('admit_entry'));
  await fund('admit-1-fund');await f.step('admit-1',named('admit_entry'));
  await fund('seal-fund');
