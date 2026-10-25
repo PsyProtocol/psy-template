@@ -1,0 +1,16 @@
+// Offline only: audit setup separately, never charge it to the fill benchmark.
+import assert from'node:assert/strict';import{readFileSync,mkdirSync,writeFileSync}from'node:fs';import{join}from'node:path';import{execFile}from'node:child_process';import{promisify}from'node:util';
+import{parseLosslessJson,losslessJson}from'../../amm/u124/client.mjs';import{sha256}from'../requestBinding.mjs';import{save}from'../../batching/admission/liveSupport.mjs';
+const[base,original,out]=process.argv.slice(2);assert.ok(out);const exact=p=>parseLosslessJson(readFileSync(p,'utf8')),json=p=>JSON.parse(readFileSync(p,'utf8'));
+const tools=json(join(original,'public/TOOLS-v2.json')),actors=json(join(original,'public/CASE.json')).actors,verifier=tools.binaries.verifier;assert.equal(sha256(readFileSync(verifier.file)),verifier.sha256);assert.equal(exact(join(base,'public/COMPLETE.json')).ordinaryClaimIncluded,true);mkdirSync(out);
+const rows=[];
+for(const[label,actor,method,inputs]of[['topup',actors.bob,'simple_transfer',[BigInt(actors.sponsor.id),10_000_000_000n]],['simple-claim-v1',actors.sponsor,'simple_claim',[BigInt(actors.bob.id)]]]){
+ const dir=join(base,'attempts',label),input=join(base,'public',label+'.json'),p=exact(join(dir,'preflight.json')),q=exact(join(dir,'request.json')),included=exact(join(dir,'included.json'));
+ assert.equal(p.inputSha256,sha256(readFileSync(input)));assert.deepEqual(q.user_ec_input.core,p.core);assert.equal(p.core.new_user_leaf.public_key,actor.publicKeyHash);assert.equal(p.core.new_user_leaf.user_id,BigInt(actor.id));
+ assert.deepEqual(exact(input).calls,parseLosslessJson(losslessJson({contract_calls:[{contract_id:0n,method_name:method,inputs}],software_defined_call:{inputs:[]}})));
+ assert.equal(included.endUserLeafHash,p.endUserLeafHash);assert.equal(included.receipt.data.status,'included');assert.equal(included.receipt.data.content_hash,included.contentHash);
+ const fee=p.core.stats.guta_fees_collected+p.core.stats.da_fees_collected;assert.equal(fee,included.receipt.data.result.fees_collected);const report=join(out,label+'.json'),result=await promisify(execFile)(verifier.file,[join(dir,'request.json'),report],{timeout:120000,maxBuffer:2000000,env:{...process.env,RAYON_NUM_THREADS:'2'}});writeFileSync(report+'.log',result.stdout+'\n'+result.stderr,{flag:'wx'});
+ const verified=json(report);assert.equal(verified.fullProofVerifiedAgainstPinnedNodeKeyAndCommon,true);assert.equal(verified.metadataEndpointsAndFeesVerified,true);assert.equal(verified.requestSha256,sha256(readFileSync(join(dir,'request.json'))));
+ rows.push({label,userId:actor.id,requestSha256:verified.requestSha256,contentHash:included.contentHash,checkpoint:included.checkpoint,fee,fullProofVerified:true});
+}
+save(join(out,'SUMMARY.json'),{schema:1,actualUps:2,asset:0,assetDescription:'native test PSY; no QA FT, NFT or existing pUSDT moved',transferred:10_000_000_000n,ordinaryNativeClaimVerified:true,totalFees:rows.reduce((n,r)=>n+r.fee,0n),rows,scope:'one original transfer and one original ordinary claim, independently full-proof/receipt checked; excluded from both matched real-fill performance rounds; parent stop and read-only recovery do not create another payment'});
