@@ -9,9 +9,10 @@ import {sha256} from '../requestBinding.mjs';
 import {save} from '../../batching/admission/liveSupport.mjs';
 import {indexBroadcastIntents,insideCase} from '../../composition/acceptance/receiptRequestLocator.mjs';
 import {exactReceiptRequest} from './exactReceiptRequest.mjs';
-const [base,selection,original,out]=process.argv.slice(2);assert.ok(out);
+const [base,selection,original,out,mode]=process.argv.slice(2);assert.ok(out);assert.ok(mode===undefined||['empty-epoch-recovery-v1','read-session-recovery-v1'].includes(mode));
 const exact=p=>parseLosslessJson(readFileSync(p,'utf8'));
-const done=exact(join(base,'public',selection+'-COMPLETE.json')),round=join(base,done.roundTag);
+const done=exact(join(base,'public',selection+(mode?'-RECOVERY-COMPLETE-v1.json':'-COMPLETE.json'))),round=join(base,done.roundTag);
+if(mode){assert.equal(done.expectedActualUps,mode==='empty-epoch-recovery-v1'?23n:17n);assert.equal(done.cleanPerformancePairEligible,false);assert.equal(done.originalOrdersAndDepositsReused,true);assert.equal(done.emptyEpochAborted,mode==='empty-epoch-recovery-v1');}
 assert.equal(done.fills,1n);assert.equal(done.ordinaryClaimsIncluded,true);
 const actors=exact(join(original,'public/CASE.json')).actors,registration=exact(join(original,'markets-v1/orderbook/live-registration.json'));
 const identities=new Map([...Object.values(actors).map(a=>[String(a.id),a.publicKeyHash]),[String(registration.vaultId),registration.publicKeyHash]]);
@@ -46,7 +47,7 @@ for(const [contentHash,{r,raw,source}]of receipts){
  for(const field of ['slots_modified','total_transactions','user_ops_processed'])assert.equal(core.stats[field],r.receipt.data.result[field]);
  actual.push({contentHash,source,request,requestSha256:digest,userId:r.userId,nonce:core.new_user_leaf.nonce,start:core.state_transition.start_user_leaf_hash,end:r.endUserLeafHash,checkpoint:r.checkpoint,fee,...proofs.get(digest)});
 }
-assert.equal(actual.length,17,'11 ordinary UPSs plus six market UPSs');
+assert.equal(actual.length,mode==='empty-epoch-recovery-v1'?23:17,mode==='empty-epoch-recovery-v1'?'15 ordinary UPSs, six new market UPSs and original start/empty abort':'11 ordinary UPSs plus six market UPSs');
 // Also verify complete unused requests left by a guard/transport failure. An
 // orphan proof is work consumed, not a successful fill or another receipt.
 for(const file of walk(round).filter(p=>p.endsWith('/request.json'))){
@@ -63,4 +64,4 @@ for(const asset of [2483,2484]){
 }
 for(const row of after.pending)if((row.sender===662720n&&[1717440n,406720n].includes(row.recipient))||(row.recipient===662720n&&[1717440n,406720n].includes(row.sender)))for(const asset of [2483,2484])assert.equal(row.ft[asset],0n,'market/user FT outboxes clear');
 assert.deepEqual(after.nfts,before.nfts);assert.deepEqual(after.nftPending,before.nftPending);
-save(join(out,'SUMMARY.json'),{at:new Date().toISOString(),selection,round:done.roundTag,fills:1,actualUps:actual.length,uniqueFullProofs:proofs.size,allCompletedRequestsVerified:true,totalFees,actual,ordinaryClaimsVerified:true,ftAndNativeConservationVerified:true,nftUnchanged:true,nonceAndStateChainsVerified:true,fullProofAccountingPending:false,scope:'one actual paired Book cohort; native verifier checks all signed requests against the fixed Node key/common data; does not attest deployed server binaries'});
+save(join(out,'SUMMARY.json'),{at:new Date().toISOString(),selection,round:done.roundTag,fills:1,actualUps:actual.length,uniqueFullProofs:proofs.size,allCompletedRequestsVerified:true,totalFees,actual,ordinaryClaimsVerified:true,ftAndNativeConservationVerified:true,nftUnchanged:true,nonceAndStateChainsVerified:true,fullProofAccountingPending:false,...(mode?{recoveryMode:mode,cleanPerformancePairEligible:false}:{}),scope:mode==='empty-epoch-recovery-v1'?'one actual recovered Book fill, original empty epoch/abort and new consents; every proof, receipt, fee and state chain checked, excluded from clean performance comparison; no server runtime attestation':mode==='read-session-recovery-v1'?'one actual original Book fill after unsigned session failure and explicit restart; original 17 UPS workload and epoch retained, every proof/receipt/fee/state chain checked; excluded from clean performance comparison; no server runtime attestation':'one actual paired Book cohort; native verifier checks all signed requests against the fixed Node key/common data; does not attest deployed server binaries'});
