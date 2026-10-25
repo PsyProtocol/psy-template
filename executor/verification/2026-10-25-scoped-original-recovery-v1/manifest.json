@@ -1,0 +1,1363 @@
+{
+  "schema": 1,
+  "sourceDirectory": "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-market-recovery-20261023",
+  "machine": "gewenbo.local",
+  "host": "macOS-15.7.3-arm64-arm-64bit",
+  "scope": "public formal Executor run including failures; success requires exact included receipt",
+  "walletFilesIncluded": false,
+  "sealedBinariesIncluded": false,
+  "records": [
+    {
+      "source": "fixed-verifier-performance-live-v3/buyer-cancel-original-delivery-parent-v1.log",
+      "file": "files/fixed-verifier-performance-live-v3/buyer-cancel-original-delivery-parent-v1.log.gz",
+      "bytes": 79,
+      "sha256": "cdd8a86c06a92e4cab3f383f9eba8817683d656bb41f2ed201c0059ead0de878",
+      "gzipBytes": 88,
+      "gzipSha256": "05a21f6e5a3711ccc68d528b7cdccb6aebae06ef05804520cdec27dfbad380b8"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/buyer-claim-pre-session-recovery-parent-v1.log",
+      "file": "files/fixed-verifier-performance-live-v3/buyer-claim-pre-session-recovery-parent-v1.log.gz",
+      "bytes": 3253,
+      "sha256": "7bd87f4e78627d15270517c2270a844ff4dd1a7d3ec0cd726a2025ee227f2378",
+      "gzipBytes": 934,
+      "gzipSha256": "99c98ff8c95f04c215182fa2a01c342a035de48c86882503fa4b028c4e84927e"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/buyer-claim-pre-session-recovery-parent-v2.log",
+      "file": "files/fixed-verifier-performance-live-v3/buyer-claim-pre-session-recovery-parent-v2.log.gz",
+      "bytes": 85,
+      "sha256": "8ee7203464efcc46916f80a66e7af113d654792f9aacdb76ddc2d826a0da0b53",
+      "gzipBytes": 91,
+      "gzipSha256": "e845b4c92082cc1f8897f26b33b9933ca1ac3876b783513f2b2fdffef8be5c45"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/sponsor-original-delivery-parent-v1.log",
+      "file": "files/fixed-verifier-performance-live-v3/sponsor-original-delivery-parent-v1.log.gz",
+      "bytes": 92,
+      "sha256": "c7b37e0c53d0b50c064561c0a447ae9508bb95e336bc087a03dd3f7314882123",
+      "gzipBytes": 91,
+      "gzipSha256": "7468294f3d31019fea79168282daf0a611fca01bdaf982f12d7f17a85130bf5d"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/sponsorship-diagnostic-v1/SPONSOR-WITNESS-v1.json",
+      "file": "files/fixed-verifier-performance-live-v3/sponsorship-diagnostic-v1/SPONSOR-WITNESS-v1.json.gz",
+      "bytes": 1254,
+      "sha256": "1e2212f5a3014869f96054b166276fe456a842fe811340197085d473128fa8a3",
+      "gzipBytes": 431,
+      "gzipSha256": "2ebf11a080aa0cd0a0684fae47f170162686a9da7f7cd5e9fba7227b0f4d04ee"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/sponsorship-diagnostic-v1/native-refund-sample-v1.txt",
+      "file": "files/fixed-verifier-performance-live-v3/sponsorship-diagnostic-v1/native-refund-sample-v1.txt.gz",
+      "bytes": 2952870,
+      "sha256": "3774e81b7c99206e7004faea384e2768d21ff34449c38f135e764e9b7ed796d9",
+      "gzipBytes": 101607,
+      "gzipSha256": "a492c77ed597a66b56d382372450641ae57ef39daf69e977d81c35ad3240a60b"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/sponsorship-diagnostic-v1/regressions-v1.log",
+      "file": "files/fixed-verifier-performance-live-v3/sponsorship-diagnostic-v1/regressions-v1.log.gz",
+      "bytes": 17781,
+      "sha256": "6d72b4adbf5744ad91419082e042900b7599d9ca3f85fd1c7a012b4105090e3e",
+      "gzipBytes": 3604,
+      "gzipSha256": "de010f6ec42c48f3886e8f282a98bb1cfaa5730e8c724f6db92d44829b9075b1"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/sponsorship-diagnostic-v1/regressions-v2.log",
+      "file": "files/fixed-verifier-performance-live-v3/sponsorship-diagnostic-v1/regressions-v2.log.gz",
+      "bytes": 6757,
+      "sha256": "b175edc5ba35531b6076b722dddddee352dbff1b45f52e37683f8498f0df54eb",
+      "gzipBytes": 2643,
+      "gzipSha256": "c54902f71e40c70f335f3ea30849ceb92d1b38e19391667b4179f5047452e33c"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/sponsorship-diagnostic-v1/regressions-v3.log",
+      "file": "files/fixed-verifier-performance-live-v3/sponsorship-diagnostic-v1/regressions-v3.log.gz",
+      "bytes": 6760,
+      "sha256": "595adf5c9832442e166143dfd0287579f8bfecabdab2d5136d9957192f8d1b7b",
+      "gzipBytes": 2651,
+      "gzipSha256": "68d0594df5b33afb0b14de86f794aecd003e0d6b5b27e6a43ca91a7664038426"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/sponsorship-diagnostic-v1/regressions-v4.log",
+      "file": "files/fixed-verifier-performance-live-v3/sponsorship-diagnostic-v1/regressions-v4.log.gz",
+      "bytes": 7467,
+      "sha256": "8e4d795229e11fe72c8bcde276b6c10fee4f66ef9cecd4415b2935e5fe80894d",
+      "gzipBytes": 2929,
+      "gzipSha256": "443a95f2147b9b5a99651ff8043e50ff8a5db231bd2dbb085e6aca8684ae8bd5"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/sponsorship-diagnostic-v1/regressions-v5.log",
+      "file": "files/fixed-verifier-performance-live-v3/sponsorship-diagnostic-v1/regressions-v5.log.gz",
+      "bytes": 8325,
+      "sha256": "6a31e8da4c8047c393f3a1db140acdef15b1889d151cb8f325e4e0ea2f9ba687",
+      "gzipBytes": 3237,
+      "gzipSha256": "42120d3dbde5b2072aed4a015a3dc4885fe652b9e1845b0c8308bd77454f5d4b"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-parent-v1.log",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-parent-v1.log.gz",
+      "bytes": 1203,
+      "sha256": "91e9bdb633d7f606e3998db3efa2e33b70476068df099515f214293a2dba1c72",
+      "gzipBytes": 588,
+      "gzipSha256": "14da7bbd13d436e14ffe126056178b74bb60974cbdfed1a8b5d28daeee19857f"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-parent-v2.log",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-parent-v2.log.gz",
+      "bytes": 1212,
+      "sha256": "7d8902c0b9eba6fc8293d12e20cc256d999ed85202278e19bd9fae2266f64f31",
+      "gzipBytes": 585,
+      "gzipSha256": "3e2d3162e83605c67884f7de9f0eae8208f0a0d742838f3731710787318eee44"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/buyer-claim-original-funding/failure.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/buyer-claim-original-funding/failure.json.gz",
+      "bytes": 286,
+      "sha256": "51383d030aee02a40c3272aa968f93593e3307555f108a34634260ad5f9b29c2",
+      "gzipBytes": 226,
+      "gzipSha256": "e84c73d664158352762bdac212457744206a79f120df00a4b443f95ac83772e5"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/buyer-claim-original-funding/metrics.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/buyer-claim-original-funding/metrics.json.gz",
+      "bytes": 734,
+      "sha256": "dc9528990a4a46bdd6dfc477df06781e4487284265ddde92339e29d62e91fada",
+      "gzipBytes": 374,
+      "gzipSha256": "09c92ed3997fefd16bf9bc202e5162d2fb3faabed58ea271ea06fd0d12856e1f"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/buyer-claim-original-funding-read-recovery-v1/confirmation-timing.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/buyer-claim-original-funding-read-recovery-v1/confirmation-timing.json.gz",
+      "bytes": 311,
+      "sha256": "e2999369722323f25263d000257624322b19a041ee1d20b34fbe32485729fdf6",
+      "gzipBytes": 238,
+      "gzipSha256": "c893ca39f50bff3f2bab99a559ed9e670eca0931bc808ab8ff85301b24a4625e"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/buyer-claim-original-funding-read-recovery-v1/included.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/buyer-claim-original-funding-read-recovery-v1/included.json.gz",
+      "bytes": 2980,
+      "sha256": "468cb663670dab5cab722f01e8ad258cd0d2cc389db28218b778390783065b0e",
+      "gzipBytes": 1250,
+      "gzipSha256": "c8f058cc8539c6206fcc8922d4de809e4938068c6baf7f6c201a32ca1416863f"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/buyer-claim-original-funding-read-recovery-v1/intent.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/buyer-claim-original-funding-read-recovery-v1/intent.json.gz",
+      "bytes": 184,
+      "sha256": "c0a2ce63f1ac738085d41bbd2b1418b9dfde6898f02eb06f87ae9e28b138a463",
+      "gzipBytes": 167,
+      "gzipSha256": "47ce854d062bb9c77e1a8106e5715c225c9aebe5ea69c7d9d20871c3f49cca51"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/buyer-claim-original-funding-read-recovery-v1/metrics.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/buyer-claim-original-funding-read-recovery-v1/metrics.json.gz",
+      "bytes": 1181,
+      "sha256": "89057fb0dfb84208f50bec9e45cc0b0f93edeb249e2f55440b51f91fe7047710",
+      "gzipBytes": 480,
+      "gzipSha256": "9a11a5e866c779203dbcd5da7a648fb3fbfbcbe8f6ad02b0fa6116ad3c993095"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/buyer-claim-original-funding-read-recovery-v1/preflight.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/buyer-claim-original-funding-read-recovery-v1/preflight.json.gz",
+      "bytes": 1615,
+      "sha256": "d8f7b8abd22a21eade74b2bc00286504327c48b7a15b06e2a4202f07cd638aee",
+      "gzipBytes": 816,
+      "gzipSha256": "a407910c6f1bd5818e07978c8737b59ed34f5b646f7892954edf516e1f311bba"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/buyer-claim-original-funding-read-recovery-v1/receipt.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/buyer-claim-original-funding-read-recovery-v1/receipt.json.gz",
+      "bytes": 258,
+      "sha256": "85ca36936abc344e443f4ed09cc5e2b4043d70c763f3952b2d743f82d373eea7",
+      "gzipBytes": 183,
+      "gzipSha256": "1f211ea879893b8ef29cecca173b7fd8c4a17681f4bc3f7cba14183641cc4d82"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/buyer-claim-original-funding-read-recovery-v1/request.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/buyer-claim-original-funding-read-recovery-v1/request.json.gz",
+      "bytes": 1141614,
+      "sha256": "0833746b3a0a75b17765ff603aba58b7fb026be0425eeb595f28c8936cb097b6",
+      "gzipBytes": 193588,
+      "gzipSha256": "1311b74bc14004314ae9dd377bebed6a8a778df163310b43e67b172af72f189d"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/buyer-claim-original-funding-read-recovery-v1/rpc-request.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/buyer-claim-original-funding-read-recovery-v1/rpc-request.json.gz",
+      "bytes": 482902,
+      "sha256": "0e6a495227bdf2074e6cad8fb362c9f8293500a89030c6b73d6cef3ecc64e8ad",
+      "gzipBytes": 170155,
+      "gzipSha256": "2cb2217d2ba824ade50dac865ed3619cfcee8af5d3ea49f4c71c0cf9db8c3ae9"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/buyer-claim-original-funding-read-recovery-v1/rpc-response-meta.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/buyer-claim-original-funding-read-recovery-v1/rpc-response-meta.json.gz",
+      "bytes": 148,
+      "sha256": "777a3a221360bc6495a1f0b521593a3dd477a6ec6812ac36f705b8c1fee92842",
+      "gzipBytes": 134,
+      "gzipSha256": "61b035aca5647d674af030b76c292cf85ecc2ec66cba5b7cba7863f16a55d134"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/buyer-claim-original-funding-read-recovery-v1/rpc-response.body",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/buyer-claim-original-funding-read-recovery-v1/rpc-response.body.gz",
+      "bytes": 38,
+      "sha256": "0d838a349418eb2e4db232f5454ddf684afea2d53c155da1fca3952dd564bab5",
+      "gzipBytes": 57,
+      "gzipSha256": "dcd098dc4a0e86eaf34f9806fa594225f4131d05ad260f60b72acf16432af8bf"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/buyer-claim-original-funding-read-recovery-v1/rpc-transport.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/buyer-claim-original-funding-read-recovery-v1/rpc-transport.json.gz",
+      "bytes": 342,
+      "sha256": "88e8a5766c12e353828dbf4f115c03a72e0eb8bcbbd27b2a4743d364d4770261",
+      "gzipBytes": 232,
+      "gzipSha256": "aaa70b240bec70cd47bfd8bfd5b070a39f469c7641b0f2b0eb5dbd3efbe4df56"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/cancel-and-enroll/confirmation-timing.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/cancel-and-enroll/confirmation-timing.json.gz",
+      "bytes": 310,
+      "sha256": "15c6cece808e6d825796b005196b3479569d6fb93fbe4b9c5f8296479b7db88d",
+      "gzipBytes": 234,
+      "gzipSha256": "eb2bab00d4e9fd8c721c6cc74ae85ae785e22071a291eccae2fe6df3f80939bd"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/cancel-and-enroll/exact-delivery-v1/ORIGINAL-RECEIPT-BEFORE.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/cancel-and-enroll/exact-delivery-v1/ORIGINAL-RECEIPT-BEFORE.json.gz",
+      "bytes": 137,
+      "sha256": "afba703c82c288986ea9954b7aefb9f7535c5eb5bb2bc81c3bc3fdc5d8b0e860",
+      "gzipBytes": 139,
+      "gzipSha256": "570b5413185036131eab8c5facfc85e9c7c2cf755f77985f3f1dd6801dccf73e"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/cancel-and-enroll/exact-delivery-v1/confirmation-timing.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/cancel-and-enroll/exact-delivery-v1/confirmation-timing.json.gz",
+      "bytes": 311,
+      "sha256": "a406d2001b73381bca60d630efa6829fc9d4b43c508bd527002de2cbd7c3a40e",
+      "gzipBytes": 237,
+      "gzipSha256": "3483202bb5b797e6857718b8e7f9dfdc02fe56b4fa3b7365fceaff4db3419b4c"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/cancel-and-enroll/exact-delivery-v1/full-proof-verification.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/cancel-and-enroll/exact-delivery-v1/full-proof-verification.json.gz",
+      "bytes": 546,
+      "sha256": "51471a8c63b6390290e28ac4288cf43d1bfa42fdd27dafb4bde616b0406b829a",
+      "gzipBytes": 376,
+      "gzipSha256": "af488bf45ba239e506218e6bc7e0f3ef72cbc0fe8b2af1041588e6152db58b5a"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/cancel-and-enroll/exact-delivery-v1/included.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/cancel-and-enroll/exact-delivery-v1/included.json.gz",
+      "bytes": 2617,
+      "sha256": "dbb678f06b6b554625f3daa187c23fac939491594f0679057f98fb7b813445a2",
+      "gzipBytes": 1179,
+      "gzipSha256": "d68aca0c5007f5fd4c824de61f8791bdacabd62f6afc0706017ef99054aa39f2"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/cancel-and-enroll/exact-delivery-v1/intent.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/cancel-and-enroll/exact-delivery-v1/intent.json.gz",
+      "bytes": 479,
+      "sha256": "3ddff156b2aa32264c3f70250be4bd038158b80da4a04689a73651ebd83c7a2b",
+      "gzipBytes": 377,
+      "gzipSha256": "3e3bdbc27b77b3cd42bad533b39e379150d5fd267b8489f7f89d7f0de96b4387"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/cancel-and-enroll/exact-delivery-v1/preflight.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/cancel-and-enroll/exact-delivery-v1/preflight.json.gz",
+      "bytes": 1615,
+      "sha256": "237b8da525d8d07e69be81413e0b3881a7f1d9c817395fdb5699011038f5a34d",
+      "gzipBytes": 817,
+      "gzipSha256": "79161c8bbeeaee4f788c8d7395d42d672cea38bab0108968e02e400f4608cc7d"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/cancel-and-enroll/exact-delivery-v1/receipt.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/cancel-and-enroll/exact-delivery-v1/receipt.json.gz",
+      "bytes": 136,
+      "sha256": "13b4f4c816b567c94ec8a2fb85650e70367c15fb87bcebbf75a5a9d21f1014b5",
+      "gzipBytes": 136,
+      "gzipSha256": "5c8912b12a075b7922a801cec76e061a473265e3cb01ac9332dcdad02959308a"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/cancel-and-enroll/exact-delivery-v1/request.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/cancel-and-enroll/exact-delivery-v1/request.json.gz",
+      "bytes": 1134338,
+      "sha256": "308141adb266bfbfeb5d00e2ddb288afb6451214ba4a1e020c068d8b859e111b",
+      "gzipBytes": 192541,
+      "gzipSha256": "bed6f82b74fe205a2029f3049ff6bb346cbc6ef4cbbc80e3b053c21d406329d6"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/cancel-and-enroll/exact-delivery-v1/rpc-request.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/cancel-and-enroll/exact-delivery-v1/rpc-request.json.gz",
+      "bytes": 477627,
+      "sha256": "0afdff5e081d5f292056c4e464f0696c4536256abcba2c5d62c37ca6d17eb6be",
+      "gzipBytes": 169685,
+      "gzipSha256": "534cf613a5bcab9fd4818209c5220cf3f189f6cbbb0732cb6c4522fe78133075"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/cancel-and-enroll/exact-delivery-v1/rpc-response-meta.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/cancel-and-enroll/exact-delivery-v1/rpc-response-meta.json.gz",
+      "bytes": 42,
+      "sha256": "4804e8ecd24f0823afb623610d42b5843261c06f8a35b526f39beb2f9690a6eb",
+      "gzipBytes": 62,
+      "gzipSha256": "e44c7789a72559142f40110e0261adbe78267aa78517e00ac220f9ba2b877dd6"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/cancel-and-enroll/exact-delivery-v1/rpc-response.body",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/cancel-and-enroll/exact-delivery-v1/rpc-response.body.gz",
+      "bytes": 38,
+      "sha256": "0d838a349418eb2e4db232f5454ddf684afea2d53c155da1fca3952dd564bab5",
+      "gzipBytes": 57,
+      "gzipSha256": "dcd098dc4a0e86eaf34f9806fa594225f4131d05ad260f60b72acf16432af8bf"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/cancel-and-enroll/exact-delivery-v1/verification.log",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/cancel-and-enroll/exact-delivery-v1/verification.log.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/cancel-and-enroll/failure.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/cancel-and-enroll/failure.json.gz",
+      "bytes": 295,
+      "sha256": "ae8e83c71b31711f0d0d0435a0c34ff53cdffdd5f20b10e2aed9b79b11aef28a",
+      "gzipBytes": 231,
+      "gzipSha256": "d7f9d641319cc2121f22c3b31de044ae3fa07cd083069dc53b5c6413b0197e8e"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/cancel-and-enroll/included.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/cancel-and-enroll/included.json.gz",
+      "bytes": 2617,
+      "sha256": "930a112d4f970f89960329546ff84a712d8ac69e6815b81cacba7cec68165a04",
+      "gzipBytes": 1181,
+      "gzipSha256": "d1f73b286a7f71bdf0488c61aeebce53d32187765dc28b05a7475b5905cc6cb2"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/cancel-and-enroll/intent.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/cancel-and-enroll/intent.json.gz",
+      "bytes": 184,
+      "sha256": "371046b22e4195953d5ffc4af79da731420a32c465fbf8cb2611d6b0dfe20765",
+      "gzipBytes": 166,
+      "gzipSha256": "69a00b730a374df1be2b58c9f8fddef82459f0c79e999dcc3c82eb9ab2084a8b"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/cancel-and-enroll/metrics.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/cancel-and-enroll/metrics.json.gz",
+      "bytes": 1183,
+      "sha256": "33ae46308a4bb16296623509995c33b777827ee0adc9f7d17dab09e7571155cd",
+      "gzipBytes": 478,
+      "gzipSha256": "2d7f2f3fe3d6fda3794971502b5f7665ec65192b20d5700ea9eb132283b72596"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/cancel-and-enroll/preflight.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/cancel-and-enroll/preflight.json.gz",
+      "bytes": 1615,
+      "sha256": "237b8da525d8d07e69be81413e0b3881a7f1d9c817395fdb5699011038f5a34d",
+      "gzipBytes": 817,
+      "gzipSha256": "79161c8bbeeaee4f788c8d7395d42d672cea38bab0108968e02e400f4608cc7d"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/cancel-and-enroll/request.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/cancel-and-enroll/request.json.gz",
+      "bytes": 1134338,
+      "sha256": "308141adb266bfbfeb5d00e2ddb288afb6451214ba4a1e020c068d8b859e111b",
+      "gzipBytes": 192541,
+      "gzipSha256": "bed6f82b74fe205a2029f3049ff6bb346cbc6ef4cbbc80e3b053c21d406329d6"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/cancel-and-enroll/reviewed-exact-delivery-fence-v1.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/cancel-and-enroll/reviewed-exact-delivery-fence-v1.json.gz",
+      "bytes": 490,
+      "sha256": "daecc77150ac1beedb8af4471e521db7937e0cefc5d6669e1bce4d99f48ce225",
+      "gzipBytes": 382,
+      "gzipSha256": "21fcd2c713fa5117fd908019b55ff523b4224f1ac9ad5f43d494cb3ae7d46792"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/cancel-and-enroll/rpc-request.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/cancel-and-enroll/rpc-request.json.gz",
+      "bytes": 477627,
+      "sha256": "55feea98e5c2b6f5616377265d57c4f877100b6884257e1b64f040d531c98183",
+      "gzipBytes": 169389,
+      "gzipSha256": "c0c78e7147d99a9d232d03b0f357672c7c30417ed344e6bda022de811bfe1e5b"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/cancel-and-enroll/rpc-transport.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/cancel-and-enroll/rpc-transport.json.gz",
+      "bytes": 342,
+      "sha256": "88e8a5766c12e353828dbf4f115c03a72e0eb8bcbbd27b2a4743d364d4770261",
+      "gzipBytes": 232,
+      "gzipSha256": "aaa70b240bec70cd47bfd8bfd5b070a39f469c7641b0f2b0eb5dbd3efbe4df56"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/claim-native-and-return-seeds/confirmation-timing.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/claim-native-and-return-seeds/confirmation-timing.json.gz",
+      "bytes": 311,
+      "sha256": "c59969e41e81b1784fcbdde7a0439d8fbc18c7d56af21b7c15fe161f08836779",
+      "gzipBytes": 239,
+      "gzipSha256": "14657be55fc0bdc2324ecbaed7647da458df56d17700354f1cadf60e9a938cf6"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/claim-native-and-return-seeds/included.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/claim-native-and-return-seeds/included.json.gz",
+      "bytes": 2884,
+      "sha256": "ba8e4b15a63913a369abdb3508e9962f220dd617106f4f4d60609666629a3b1d",
+      "gzipBytes": 1204,
+      "gzipSha256": "ceb3c7c965c4b8183e8dc725b20d1c1146452bae6cb78eef66ab49a6bbb78614"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/claim-native-and-return-seeds/intent.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/claim-native-and-return-seeds/intent.json.gz",
+      "bytes": 184,
+      "sha256": "0c1e67279e29b8c9c73500c9db27b61010a90d0635456e8e2552492fa3b2cf42",
+      "gzipBytes": 168,
+      "gzipSha256": "ac24e8fa581f3b0477497de437d00b67f9cb31bb4c6896adf64047a31f2f500d"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/claim-native-and-return-seeds/metrics.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/claim-native-and-return-seeds/metrics.json.gz",
+      "bytes": 1202,
+      "sha256": "c28a474ef899694ebbc0c7bd816dff18b72c333540e8edc23d04307777c0204d",
+      "gzipBytes": 488,
+      "gzipSha256": "4680ab3e0c9cd1b2f491effa2959b3f48f173964c5a2dcbb1e8e86d0e95b99ad"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/claim-native-and-return-seeds/preflight.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/claim-native-and-return-seeds/preflight.json.gz",
+      "bytes": 1615,
+      "sha256": "2bef53880531256951be9d9c58eb07e5eaf2bcae34768f67d59dee2b1361cb09",
+      "gzipBytes": 818,
+      "gzipSha256": "28492a49a8ece09d453cfb4b9d571437a06af8e996324b682b50a0a0644cef5e"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/claim-native-and-return-seeds/receipt.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/claim-native-and-return-seeds/receipt.json.gz",
+      "bytes": 258,
+      "sha256": "b13e77d384a58334d3e1648de8435e5820efdddc7e31df9f3216e670e6c67031",
+      "gzipBytes": 184,
+      "gzipSha256": "510ad67f8db8ab31db8e7774a25ebb1eab2b590f69cf7798b00a10fa75dd244b"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/claim-native-and-return-seeds/request.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/claim-native-and-return-seeds/request.json.gz",
+      "bytes": 1153978,
+      "sha256": "2e0c4a78d03fcb38ad583a651c08ae732733c38aef9738b840c4a35872bccc93",
+      "gzipBytes": 192926,
+      "gzipSha256": "0879983d39d6982fc915aa4b39ccbda26fab2b402def44c3dcf18f796268ae0e"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/claim-native-and-return-seeds/rpc-request.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/claim-native-and-return-seeds/rpc-request.json.gz",
+      "bytes": 492434,
+      "sha256": "d0d0c6397fb8fa83fb3605d68381143314d5850aee8b8983a666090bf86fe3ea",
+      "gzipBytes": 167447,
+      "gzipSha256": "eeacb7a8f3b3bcc5eb0c675783de7eb06408635fb281039289749b93fa12566c"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/claim-native-and-return-seeds/rpc-response-meta.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/claim-native-and-return-seeds/rpc-response-meta.json.gz",
+      "bytes": 148,
+      "sha256": "777a3a221360bc6495a1f0b521593a3dd477a6ec6812ac36f705b8c1fee92842",
+      "gzipBytes": 134,
+      "gzipSha256": "61b035aca5647d674af030b76c292cf85ecc2ec66cba5b7cba7863f16a55d134"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/claim-native-and-return-seeds/rpc-response.body",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/claim-native-and-return-seeds/rpc-response.body.gz",
+      "bytes": 38,
+      "sha256": "0d838a349418eb2e4db232f5454ddf684afea2d53c155da1fca3952dd564bab5",
+      "gzipBytes": 57,
+      "gzipSha256": "dcd098dc4a0e86eaf34f9806fa594225f4131d05ad260f60b72acf16432af8bf"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/claim-native-and-return-seeds/rpc-transport.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/claim-native-and-return-seeds/rpc-transport.json.gz",
+      "bytes": 342,
+      "sha256": "88e8a5766c12e353828dbf4f115c03a72e0eb8bcbbd27b2a4743d364d4770261",
+      "gzipBytes": 232,
+      "gzipSha256": "aaa70b240bec70cd47bfd8bfd5b070a39f469c7641b0f2b0eb5dbd3efbe4df56"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/claim-native-and-return-seeds/timing.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/claim-native-and-return-seeds/timing.json.gz",
+      "bytes": 107,
+      "sha256": "37cd1e2869100230b9c21e38cd795201875af204ac0a5b34212f221a26f22eb4",
+      "gzipBytes": 105,
+      "gzipSha256": "a05ea8a0863df73311fd2641a130be0d8f0baa260ad956f21c5b62bd63001ce0"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/claim-seeds-and-enroll/confirmation-timing.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/claim-seeds-and-enroll/confirmation-timing.json.gz",
+      "bytes": 312,
+      "sha256": "0e8e7743937cbb32810b7393a27b7ca7bd92b5f6fbcedbb1371d51d52745c1c2",
+      "gzipBytes": 237,
+      "gzipSha256": "1756914d9b778f44d16034d2522311786464e0a98ee95e90a37edea69696f6e4"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/claim-seeds-and-enroll/included.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/claim-seeds-and-enroll/included.json.gz",
+      "bytes": 2886,
+      "sha256": "870b5b44e3546c34e49c7db9ea0bb5c92008cf60712ef10dd73feecbbacbad77",
+      "gzipBytes": 1208,
+      "gzipSha256": "ed4049e70175bab8890d850c7dd58898bbc6031c9421dfe8bf095559cb1c21c1"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/claim-seeds-and-enroll/intent.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/claim-seeds-and-enroll/intent.json.gz",
+      "bytes": 184,
+      "sha256": "9743f0e454ca0cd61003f5dd7f6da69eab9543e17687826462c99bd3b3104fb1",
+      "gzipBytes": 167,
+      "gzipSha256": "0710103e662c1306760ac070a1c17d01e8953fd2f640d0da19dc9b5405935ee0"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/claim-seeds-and-enroll/metrics.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/claim-seeds-and-enroll/metrics.json.gz",
+      "bytes": 1194,
+      "sha256": "4efe49b617a15cdd69be1a5a6f364ff2ce8bce285219d3490d6f25309daf0ae3",
+      "gzipBytes": 485,
+      "gzipSha256": "dfb3a8efcd02f6c2943a23f7c78f83c6d648737a78cac2850a6b07414818c2d2"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/claim-seeds-and-enroll/preflight.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/claim-seeds-and-enroll/preflight.json.gz",
+      "bytes": 1615,
+      "sha256": "7a1e39f680c99fb1e05f8073da5415244e01a88552769daf628ea3500495e479",
+      "gzipBytes": 819,
+      "gzipSha256": "e0e89321a4be18586d86d9b576c7e5f2e9c15a5a3aef19caec6e11c374f4138e"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/claim-seeds-and-enroll/receipt.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/claim-seeds-and-enroll/receipt.json.gz",
+      "bytes": 258,
+      "sha256": "15199547601b88779e2831a06433626b7b6c301cdc141e820d023209ebf4b8c7",
+      "gzipBytes": 184,
+      "gzipSha256": "ddae4ce3ff0a0ded4c8216214807fc28d9d47e04805c64f3f1e9bd4415c69b5b"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/claim-seeds-and-enroll/request.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/claim-seeds-and-enroll/request.json.gz",
+      "bytes": 1156358,
+      "sha256": "ce9e0a614d896a7d0657390133ae57f8a3c38a4e74a84236353ab49f2d87962f",
+      "gzipBytes": 193257,
+      "gzipSha256": "f2256d9315261f77803c597eb1c04f79b5e4ac451d8ca9462fbb1d9c541c9bff"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/claim-seeds-and-enroll/rpc-request.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/claim-seeds-and-enroll/rpc-request.json.gz",
+      "bytes": 494502,
+      "sha256": "40795241ef9982a74b181b766e15397bb486238743b9fbc8f103ef468b5e227d",
+      "gzipBytes": 168852,
+      "gzipSha256": "bc72903583a6de02f35a4e749c2a0a79f2721ac740326889e3d3cddd3c103282"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/claim-seeds-and-enroll/rpc-response-meta.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/claim-seeds-and-enroll/rpc-response-meta.json.gz",
+      "bytes": 148,
+      "sha256": "777a3a221360bc6495a1f0b521593a3dd477a6ec6812ac36f705b8c1fee92842",
+      "gzipBytes": 134,
+      "gzipSha256": "61b035aca5647d674af030b76c292cf85ecc2ec66cba5b7cba7863f16a55d134"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/claim-seeds-and-enroll/rpc-response.body",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/claim-seeds-and-enroll/rpc-response.body.gz",
+      "bytes": 38,
+      "sha256": "0d838a349418eb2e4db232f5454ddf684afea2d53c155da1fca3952dd564bab5",
+      "gzipBytes": 57,
+      "gzipSha256": "dcd098dc4a0e86eaf34f9806fa594225f4131d05ad260f60b72acf16432af8bf"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/claim-seeds-and-enroll/rpc-transport.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/claim-seeds-and-enroll/rpc-transport.json.gz",
+      "bytes": 342,
+      "sha256": "88e8a5766c12e353828dbf4f115c03a72e0eb8bcbbd27b2a4743d364d4770261",
+      "gzipBytes": 232,
+      "gzipSha256": "aaa70b240bec70cd47bfd8bfd5b070a39f469c7641b0f2b0eb5dbd3efbe4df56"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/claim-seeds-and-enroll/timing.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/claim-seeds-and-enroll/timing.json.gz",
+      "bytes": 107,
+      "sha256": "1242f8ee352ea9a45a24ec72c34702b14b8eee30e7b4917db74c3f8bf334382f",
+      "gzipBytes": 104,
+      "gzipSha256": "534b6b4835677f80ea949fce976010814d01a19d51b4d2ada7f24a9c05a4a7bd"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/claim-seeds-cancel-and-qa-setup/confirmation-timing.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/claim-seeds-cancel-and-qa-setup/confirmation-timing.json.gz",
+      "bytes": 311,
+      "sha256": "d34703e7157cf1cb38db71c0fce1dfd043cdad9706def741cc3f815903cafc10",
+      "gzipBytes": 236,
+      "gzipSha256": "a9f7a5478d3bd578d36995de8e366ae4b1b6eab14fd0f3c4a922a74bcf96d96e"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/claim-seeds-cancel-and-qa-setup/included.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/claim-seeds-cancel-and-qa-setup/included.json.gz",
+      "bytes": 3164,
+      "sha256": "73af5289e28391e16e370c81a7952668bd15ad92e9f86726c3b88fc40305d487",
+      "gzipBytes": 1262,
+      "gzipSha256": "18fcd8356002c74a1c5a65867b2e3a3072b2935545afa18456570e74202d8307"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/claim-seeds-cancel-and-qa-setup/intent.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/claim-seeds-cancel-and-qa-setup/intent.json.gz",
+      "bytes": 185,
+      "sha256": "acf7dce952e00e0696a19219154322944a00c0ae4c9c82276e7d8b9a229b649e",
+      "gzipBytes": 168,
+      "gzipSha256": "6a5e40462ff46578ef8723919a29ac21024f16f7cc0c01962be71fed410c520b"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/claim-seeds-cancel-and-qa-setup/metrics.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/claim-seeds-cancel-and-qa-setup/metrics.json.gz",
+      "bytes": 1186,
+      "sha256": "8430df4dc676bb778d7b2366b3d32a24cb3146d040e461ab31390cc75b89a19e",
+      "gzipBytes": 481,
+      "gzipSha256": "c5cf9e60c989d561c7800b6a04fbc85b2ecb60a85e6a0d6b39404d4bcf25ba6b"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/claim-seeds-cancel-and-qa-setup/preflight.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/claim-seeds-cancel-and-qa-setup/preflight.json.gz",
+      "bytes": 1618,
+      "sha256": "039253456a5f20653265e9096f6871b8cd6ba90604180cee1e45b57fb2080145",
+      "gzipBytes": 818,
+      "gzipSha256": "56e21e42ade1d53419ab4853d34e9770308bf64a6da027a530c8e66df872ab24"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/claim-seeds-cancel-and-qa-setup/receipt.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/claim-seeds-cancel-and-qa-setup/receipt.json.gz",
+      "bytes": 258,
+      "sha256": "f22dabea7703efede9c95f32916108aa692077dc8f7bf6b5c1f7db0752defe21",
+      "gzipBytes": 183,
+      "gzipSha256": "b96882120a7461d5b0171a04a63befea2449f7ac54f1506179ac4b2be613d9da"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/claim-seeds-cancel-and-qa-setup/request.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/claim-seeds-cancel-and-qa-setup/request.json.gz",
+      "bytes": 1173061,
+      "sha256": "3472a6a43502935fba8da824de9539ca74fac5ed63f470b95c3ba29bb708ce00",
+      "gzipBytes": 195010,
+      "gzipSha256": "e2ca37736d65c465e645414b24861377c1e6f7790f730253511021b9996a874b"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/claim-seeds-cancel-and-qa-setup/rpc-request.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/claim-seeds-cancel-and-qa-setup/rpc-request.json.gz",
+      "bytes": 506904,
+      "sha256": "3574615e4c0bd6ef7cbc27bf509e0cf9a56c36a31532494dd149691998259631",
+      "gzipBytes": 170077,
+      "gzipSha256": "4b91bab9eedd49a92024980f1448b1df68d33e3e1e1e612ada80b1bae7fcd444"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/claim-seeds-cancel-and-qa-setup/rpc-response-meta.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/claim-seeds-cancel-and-qa-setup/rpc-response-meta.json.gz",
+      "bytes": 148,
+      "sha256": "6c4e279c46318dae14c7195b7c0b9a6cec8850285e79354db4ea4e908465ae03",
+      "gzipBytes": 133,
+      "gzipSha256": "ef51bee38bfcafc0ef5bcb535ae05029c4fc8bc05a88aaad95c0409c3fb6b2e5"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/claim-seeds-cancel-and-qa-setup/rpc-response.body",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/claim-seeds-cancel-and-qa-setup/rpc-response.body.gz",
+      "bytes": 38,
+      "sha256": "0d838a349418eb2e4db232f5454ddf684afea2d53c155da1fca3952dd564bab5",
+      "gzipBytes": 57,
+      "gzipSha256": "dcd098dc4a0e86eaf34f9806fa594225f4131d05ad260f60b72acf16432af8bf"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/claim-seeds-cancel-and-qa-setup/rpc-transport.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/claim-seeds-cancel-and-qa-setup/rpc-transport.json.gz",
+      "bytes": 342,
+      "sha256": "f19500818eb8bc951b811b817f423bba7f251752149c6ca7a58fd808de52be67",
+      "gzipBytes": 232,
+      "gzipSha256": "8d84c630656ba765d6f4b8e8e6d60753805722ed10f5cd093047ab82e4362f49"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/claim-seeds-cancel-and-qa-setup/timing.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/claim-seeds-cancel-and-qa-setup/timing.json.gz",
+      "bytes": 107,
+      "sha256": "8d5a3b463ee763aeb91a288a79c6e7fbce6ebbbcf380918a0acffb5cdae85f08",
+      "gzipBytes": 105,
+      "gzipSha256": "cda4f9f81d23fa229765d59f4568ca60c2aa3205e91da1adc57a632b6fb6e251"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/seed-sponsor-asset-accounts/confirmation-timing.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/seed-sponsor-asset-accounts/confirmation-timing.json.gz",
+      "bytes": 311,
+      "sha256": "7aaa1444d21ea84da0c0b72c74235bfecdca8a494e6f14ebf38cd43e377d953b",
+      "gzipBytes": 237,
+      "gzipSha256": "7c6b0f45098f87d955563ef74558833781ed6eb07730a121a3be1f3bd73a3c12"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/seed-sponsor-asset-accounts/included.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/seed-sponsor-asset-accounts/included.json.gz",
+      "bytes": 2864,
+      "sha256": "57c5b223388ec476891cf515acb197bdda310aad95ce81e0f490e09f7fedd3db",
+      "gzipBytes": 1225,
+      "gzipSha256": "d54ab678af110101a48a7a7659ed7590cd3d9d703db808af5a7b21db6245becf"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/seed-sponsor-asset-accounts/intent.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/seed-sponsor-asset-accounts/intent.json.gz",
+      "bytes": 185,
+      "sha256": "c5e04e077bb883b38603950be4d40157076c5753ad94e657b8f02e86705f5554",
+      "gzipBytes": 167,
+      "gzipSha256": "5f41d82e094d85d02825a22916573f06b853be770b45fedc3ce922b9977a4e7d"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/seed-sponsor-asset-accounts/metrics.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/seed-sponsor-asset-accounts/metrics.json.gz",
+      "bytes": 1188,
+      "sha256": "001d9020f94f5bab2da4ca14b64546a4c802266d03de0078dde1abf5755725e4",
+      "gzipBytes": 480,
+      "gzipSha256": "b759fc948f9cde669e3a8c0a52aa957a310e081ae50b681f6a5b6d164b6bd554"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/seed-sponsor-asset-accounts/preflight.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/seed-sponsor-asset-accounts/preflight.json.gz",
+      "bytes": 1618,
+      "sha256": "113e8bc8f928436a41f824130537546aba3a23fb39eed8a66eebd8352aa77472",
+      "gzipBytes": 821,
+      "gzipSha256": "61653f0f59af12fdc2c5badc2fa9cee16cf19f40c3b1d5e5e92dc88ac222d324"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/seed-sponsor-asset-accounts/receipt.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/seed-sponsor-asset-accounts/receipt.json.gz",
+      "bytes": 258,
+      "sha256": "3b41b7a5110fafa208406fdb6d63f6cc2fcdc46c08ee5c9de038343fa51a726f",
+      "gzipBytes": 182,
+      "gzipSha256": "f4ae997cba9b89c4ae6503ce318abe1b6d974eb83817359edb15005d82f6a4bc"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/seed-sponsor-asset-accounts/request.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/seed-sponsor-asset-accounts/request.json.gz",
+      "bytes": 1150493,
+      "sha256": "cb0e91d9ad1f98e8b5a37edc759ba545b59fff0647e2ccde386fede8f028d5c3",
+      "gzipBytes": 193832,
+      "gzipSha256": "d626626ddb136fab668f4b058dddab9ef795a52d284c09fe0fc4c74a2b222de8"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/seed-sponsor-asset-accounts/rpc-request.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/seed-sponsor-asset-accounts/rpc-request.json.gz",
+      "bytes": 489878,
+      "sha256": "158010d44c65f437f02e4cf830224fbeeb996020e79a62644562f5652c4438bd",
+      "gzipBytes": 168467,
+      "gzipSha256": "166b7a6a6cbdc577988f7f572889b325b5ffd5ea264d235502bd527ce6a3f904"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/seed-sponsor-asset-accounts/rpc-response-meta.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/seed-sponsor-asset-accounts/rpc-response-meta.json.gz",
+      "bytes": 148,
+      "sha256": "6c4e279c46318dae14c7195b7c0b9a6cec8850285e79354db4ea4e908465ae03",
+      "gzipBytes": 133,
+      "gzipSha256": "ef51bee38bfcafc0ef5bcb535ae05029c4fc8bc05a88aaad95c0409c3fb6b2e5"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/seed-sponsor-asset-accounts/rpc-response.body",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/seed-sponsor-asset-accounts/rpc-response.body.gz",
+      "bytes": 38,
+      "sha256": "0d838a349418eb2e4db232f5454ddf684afea2d53c155da1fca3952dd564bab5",
+      "gzipBytes": 57,
+      "gzipSha256": "dcd098dc4a0e86eaf34f9806fa594225f4131d05ad260f60b72acf16432af8bf"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/seed-sponsor-asset-accounts/rpc-transport.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/seed-sponsor-asset-accounts/rpc-transport.json.gz",
+      "bytes": 342,
+      "sha256": "f19500818eb8bc951b811b817f423bba7f251752149c6ca7a58fd808de52be67",
+      "gzipBytes": 232,
+      "gzipSha256": "8d84c630656ba765d6f4b8e8e6d60753805722ed10f5cd093047ab82e4362f49"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/seed-sponsor-asset-accounts/timing.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/seed-sponsor-asset-accounts/timing.json.gz",
+      "bytes": 107,
+      "sha256": "30bb7dcafc034c7b64cbd60af971f3578f1a6ee8e787283e9ff490369bbfad80",
+      "gzipBytes": 106,
+      "gzipSha256": "cb5fd418a0864dd173777a213e9fa19563417519070e0212eba4c6078c0bfb9e"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/public/buyer-claim-original-funding-read-recovery-v1.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/public/buyer-claim-original-funding-read-recovery-v1.json.gz",
+      "bytes": 1013,
+      "sha256": "2dcaec8f5ce2f9f9c4e76f29dcc1f1d56bf5cf8238cc95e058f2e3882c29cd22",
+      "gzipBytes": 484,
+      "gzipSha256": "3e5474d4f1667597abd27b841f9213a5e96e81b3c1bbbfcaf8cdc9a33f78a2a8"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/public/buyer-claim-original-funding.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/public/buyer-claim-original-funding.json.gz",
+      "bytes": 1013,
+      "sha256": "2dcaec8f5ce2f9f9c4e76f29dcc1f1d56bf5cf8238cc95e058f2e3882c29cd22",
+      "gzipBytes": 484,
+      "gzipSha256": "3e5474d4f1667597abd27b841f9213a5e96e81b3c1bbbfcaf8cdc9a33f78a2a8"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/public/buyer-original-funding-return-formal-result.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/public/buyer-original-funding-return-formal-result.json.gz",
+      "bytes": 3318,
+      "sha256": "e6cb5822312723e72517ca6ff1f0f157d05999288056fdd5d3c5ead27c24e745",
+      "gzipBytes": 1315,
+      "gzipSha256": "38339b6c00e12a3ef59b20a47cff400564e5a4cd74776964b854b16f2687b6bb"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/public/buyer-original-funding-return-formal-task.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/public/buyer-original-funding-return-formal-task.json.gz",
+      "bytes": 887,
+      "sha256": "53633ebd7a17ac11e119adbfb64eb2ea0ecf1922df895bfbbcce5f85965db411",
+      "gzipBytes": 309,
+      "gzipSha256": "1928975c6cf0d9b123b773efbeda99a46e036574ff22909257abed859c5f3e29"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/public/cancel-and-enroll.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/public/cancel-and-enroll.json.gz",
+      "bytes": 1069,
+      "sha256": "f990673e77e6e5df421ccd20716c09d7608f5473ab7b655bf7742ffe9ae14462",
+      "gzipBytes": 514,
+      "gzipSha256": "593bdbcbe06df856a10fa39745a4134345f192a650c016e0af11290e2442cde1"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/public/claim-native-and-return-seeds.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/public/claim-native-and-return-seeds.json.gz",
+      "bytes": 1394,
+      "sha256": "287226c106788ec62df6c8e444d525ec15ee0839a11a1d045d035ffcff1b74fe",
+      "gzipBytes": 587,
+      "gzipSha256": "6eaaab72077020bd22c910471310c3be4413d013a9ec4dea21bace2651774655"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/public/claim-seeds-and-enroll.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/public/claim-seeds-and-enroll.json.gz",
+      "bytes": 1761,
+      "sha256": "38f0d2fbde729a817681dedd8529e366d20f1bcd159ef17d3a516712d349e0b5",
+      "gzipBytes": 732,
+      "gzipSha256": "6240ea29d584075ed5cd49de93bf3076ecd3e05de066461cd25797622e767b60"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/public/claim-seeds-cancel-and-qa-setup.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/public/claim-seeds-cancel-and-qa-setup.json.gz",
+      "bytes": 2015,
+      "sha256": "30000afd62eab378dc65157e14e61e7bc490ce53e7b47214f0636226989e561f",
+      "gzipBytes": 794,
+      "gzipSha256": "eaca13f49fc90268cb10829b8ee613fa74623a67304501701136466141de7dcc"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/public/ordinary-recoveries/buyer-claim-original-funding.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/public/ordinary-recoveries/buyer-claim-original-funding.json.gz",
+      "bytes": 923,
+      "sha256": "fe91995276ccd3102c93a4a359911ca6d58e2ba865b211953e0d68cf1f3b5473",
+      "gzipBytes": 526,
+      "gzipSha256": "0cf8df21e0380f82be65a150626b71eff19a1c2183f92727918910963fd0513f"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/public/seed-sponsor-asset-accounts.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/public/seed-sponsor-asset-accounts.json.gz",
+      "bytes": 1327,
+      "sha256": "62bb8f5710d4e67dfc4947068a519552fc1bd56c93944a5bd5f667a01c435b24",
+      "gzipBytes": 570,
+      "gzipSha256": "2eedf04417ed05701dad5849f8adac0377952e3a50c687981428b3a0025a6752"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/public/sponsor-original-funding-return-formal-result.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/public/sponsor-original-funding-return-formal-result.json.gz",
+      "bytes": 2694,
+      "sha256": "a53bfc201f1d8e9ac3fd61abb8bf0525c6b31ec09d7b2d50214b6f956966ed11",
+      "gzipBytes": 1246,
+      "gzipSha256": "7b30619d36de01f7f4b3aa278c8ef5b216ebd3c8aca362f38001716fc35e54dd"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/public/sponsor-original-funding-return-formal-task.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/public/sponsor-original-funding-return-formal-task.json.gz",
+      "bytes": 654,
+      "sha256": "d0da39b7a94b7e046ee3452d195b948e73069184a324f2109afa758eb65f72aa",
+      "gzipBytes": 290,
+      "gzipSha256": "6924303ed1bc12749f94a81725bd1d0f9dd050f7e528d19fd7359e09e333497d"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/public/unused-sponsor-exit-orderbook-executor/abi.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/public/unused-sponsor-exit-orderbook-executor/abi.json.gz",
+      "bytes": 30828,
+      "sha256": "11f61f061b0c967357b955fcbcd61976e5c28e01d9e61dc1f3638a3ef21a3569",
+      "gzipBytes": 2790,
+      "gzipSha256": "4c2bc08ab7c314f14569c88a6de47c71b92db139a0d089c7cdf9094f035ca2fb"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/public/unused-sponsor-exit-orderbook-executor/asset-2483-abi.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/public/unused-sponsor-exit-orderbook-executor/asset-2483-abi.json.gz",
+      "bytes": 15256,
+      "sha256": "cab169705adb258839e12e04da12ba84f16e66b52a50ed20180acbfd5dbc6aa1",
+      "gzipBytes": 1726,
+      "gzipSha256": "b7e59e5f68722c8711598fada5ef4df79de1660476781895313311d34c99859b"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/public/unused-sponsor-exit-orderbook-executor/asset-2484-abi.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/public/unused-sponsor-exit-orderbook-executor/asset-2484-abi.json.gz",
+      "bytes": 15256,
+      "sha256": "cab169705adb258839e12e04da12ba84f16e66b52a50ed20180acbfd5dbc6aa1",
+      "gzipBytes": 1726,
+      "gzipSha256": "b7e59e5f68722c8711598fada5ef4df79de1660476781895313311d34c99859b"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/public/unused-sponsor-exit-orderbook-executor/config.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/public/unused-sponsor-exit-orderbook-executor/config.json.gz",
+      "bytes": 223,
+      "sha256": "51db530fa99fdb5d091bca83e6332e0ed10599cb4c59213c159682b1f5aef398",
+      "gzipBytes": 154,
+      "gzipSha256": "99324214266d73a756c4a603a3eef280ca62fcf181ff2a6ab9f295ad96b20f6b"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/public/unused-sponsor-exit-orderbook-executor/dependencies.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/public/unused-sponsor-exit-orderbook-executor/dependencies.json.gz",
+      "bytes": 1385,
+      "sha256": "9d87c4820207d6626e181c6a5628fb33346d2f36f974e9d0e692112ef461604e",
+      "gzipBytes": 573,
+      "gzipSha256": "c4a1c9368f1d2e3e7eb3c0de1fce7f7b747bb7e245e68f2cb9316dfe20cf1898"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/public/unused-sponsor-exit-orderbook-executor/executor.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/public/unused-sponsor-exit-orderbook-executor/executor.json.gz",
+      "bytes": 3175,
+      "sha256": "c2804d637fa3d296e03a8ce7d207c71b703703c511113c8070e9300631480d61",
+      "gzipBytes": 1006,
+      "gzipSha256": "6a7c26beae1d810b57a86499c94ba0c012745adac7a282c6fcc5fafa5db284ef"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/public/unused-sponsor-exit-orderbook-executor/plan.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/public/unused-sponsor-exit-orderbook-executor/plan.json.gz",
+      "bytes": 111,
+      "sha256": "696138bdfd544251443fe96c9d27aa57bc0a1e6da048bae50d5912e6eabe09a2",
+      "gzipBytes": 107,
+      "gzipSha256": "533cacb36ac6b5bbd21b05e0c82172d60064bd949a6b075c5eb08c0b4b9673aa"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/public/unused-sponsor-exit-orderbook-executor/policy.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/public/unused-sponsor-exit-orderbook-executor/policy.json.gz",
+      "bytes": 42560,
+      "sha256": "0c9b6b732c35a378fa937143c24c03da555ad1ee884c25fc468f30e58eb3c7cf",
+      "gzipBytes": 1428,
+      "gzipSha256": "997bb4495884142b56a60870559c10f124955a9e6cf9ac8c7420e1e19115af1c"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/6e786c926d8597b760c3fff118fe572dac4c634abff5760eb94bc5cbfda6655d/00000000-planned.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/6e786c926d8597b760c3fff118fe572dac4c634abff5760eb94bc5cbfda6655d/00000000-planned.json.gz",
+      "bytes": 999,
+      "sha256": "c6d3eebb1f28d6185d0cdc91f53663bf97a4ca4aed845721f12d2388713ed1c8",
+      "gzipBytes": 477,
+      "gzipSha256": "3c69720657a2597e37edc0e16b8daeb9ac9089e6df9e63f4fd52eb076aedc911"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/6e786c926d8597b760c3fff118fe572dac4c634abff5760eb94bc5cbfda6655d/00000001-proved.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/6e786c926d8597b760c3fff118fe572dac4c634abff5760eb94bc5cbfda6655d/00000001-proved.json.gz",
+      "bytes": 827,
+      "sha256": "4670dbf68a1eb54f7a02317ea6c4b64e6899eb0008dded9ac452cc5befa51bd2",
+      "gzipBytes": 559,
+      "gzipSha256": "91ec740a5c26d7d73d111c4ef6a5e3ed4976e5e1c05bb32078ff708b1f8eb30a"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/6e786c926d8597b760c3fff118fe572dac4c634abff5760eb94bc5cbfda6655d/00000002-broadcast-intent.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/6e786c926d8597b760c3fff118fe572dac4c634abff5760eb94bc5cbfda6655d/00000002-broadcast-intent.json.gz",
+      "bytes": 1862,
+      "sha256": "e793c01402dfa30bf3565dfd87a5441701475532463d5208761acce76cd10148",
+      "gzipBytes": 844,
+      "gzipSha256": "6a2e2d51e96ee641b276998f83b6aa9c060d9d634f98e0d56c108d2461a3d63f"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/6e786c926d8597b760c3fff118fe572dac4c634abff5760eb94bc5cbfda6655d/00000003-broadcast-result.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/6e786c926d8597b760c3fff118fe572dac4c634abff5760eb94bc5cbfda6655d/00000003-broadcast-result.json.gz",
+      "bytes": 804,
+      "sha256": "9a0d69b2eeef3fa016ff87b614448a0ebe86d6990352deca6aec21c3c546dc40",
+      "gzipBytes": 550,
+      "gzipSha256": "69125b8a75537fbe7504eb4bfc49b6b4d365ccad3ba50a5f4cba59aa3958ac38"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/6e786c926d8597b760c3fff118fe572dac4c634abff5760eb94bc5cbfda6655d/00000004-included.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/6e786c926d8597b760c3fff118fe572dac4c634abff5760eb94bc5cbfda6655d/00000004-included.json.gz",
+      "bytes": 2332,
+      "sha256": "4684000054b242d3c79356d09f28afc89fc340985e5121e5ae4c2b2576609795",
+      "gzipBytes": 804,
+      "gzipSha256": "c417d488b398156ee6c6c1f81cc7e3356a3cb6a8d040db9905ead49f4028507f"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/6e786c926d8597b760c3fff118fe572dac4c634abff5760eb94bc5cbfda6655d/00000005-planned.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/6e786c926d8597b760c3fff118fe572dac4c634abff5760eb94bc5cbfda6655d/00000005-planned.json.gz",
+      "bytes": 1232,
+      "sha256": "52c4be87ada582f2c00dee335c483605274947918ccede931ac9a2faf34da30f",
+      "gzipBytes": 498,
+      "gzipSha256": "e43d24cafc1307326b1bac089a420e309af3b2929f6b540cbfda16a50ca63f7b"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/6e786c926d8597b760c3fff118fe572dac4c634abff5760eb94bc5cbfda6655d/00000006-proved.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/6e786c926d8597b760c3fff118fe572dac4c634abff5760eb94bc5cbfda6655d/00000006-proved.json.gz",
+      "bytes": 827,
+      "sha256": "0ddc7847677df1b827b61f0254df194e47529cc0b99180af7cc497b6696ab903",
+      "gzipBytes": 558,
+      "gzipSha256": "6cfbde8a17d99ca0a3deff41e167adf75035d200197fb9159ca2878ff07a2fc3"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/6e786c926d8597b760c3fff118fe572dac4c634abff5760eb94bc5cbfda6655d/00000007-broadcast-intent.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/6e786c926d8597b760c3fff118fe572dac4c634abff5760eb94bc5cbfda6655d/00000007-broadcast-intent.json.gz",
+      "bytes": 2095,
+      "sha256": "00ac829b72c92bd925e0347ae675a2fa04f89f00327f9c0858c7bfc165c2b96b",
+      "gzipBytes": 866,
+      "gzipSha256": "df46465abc95a66f9e4ded51a7046951e0f28f09879c7b3079aa39b17e0e9ea6"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/6e786c926d8597b760c3fff118fe572dac4c634abff5760eb94bc5cbfda6655d/00000008-broadcast-result.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/6e786c926d8597b760c3fff118fe572dac4c634abff5760eb94bc5cbfda6655d/00000008-broadcast-result.json.gz",
+      "bytes": 765,
+      "sha256": "dd5ffc909c99e7c0149a284149f6ed8b4e179d0eb727ba2f9826583c807698a7",
+      "gzipBytes": 530,
+      "gzipSha256": "93d371bad91ce4bc53376467a497a7368c630626f206ee99da6722f2aadc55e1"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/6e786c926d8597b760c3fff118fe572dac4c634abff5760eb94bc5cbfda6655d/00000009-included.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/6e786c926d8597b760c3fff118fe572dac4c634abff5760eb94bc5cbfda6655d/00000009-included.json.gz",
+      "bytes": 3000,
+      "sha256": "4673110ee8f353a4f32214ffb90e8bb0ed737a7ea26b147777db738c8a8427df",
+      "gzipBytes": 850,
+      "gzipSha256": "80b0638d67ff356573ba227cd7ce622bc99754ba97127b466c9feb05e7503eb5"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/0eb84c31ab0159e6bce65923f9ec803658963b046a867c4c676070524bf5e265/calls.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/0eb84c31ab0159e6bce65923f9ec803658963b046a867c4c676070524bf5e265/calls.json.gz",
+      "bytes": 456,
+      "sha256": "9bbae5c8c396be0f23857a8dd5bc62bce8b0fe79b93dc493f6f3b6b48df958ae",
+      "gzipBytes": 179,
+      "gzipSha256": "a2fbb93d6a60392e72ea01855c25ce63bbb9b57cf83c6f7439f458c9bfa08e7d"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/0eb84c31ab0159e6bce65923f9ec803658963b046a867c4c676070524bf5e265/guard.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/0eb84c31ab0159e6bce65923f9ec803658963b046a867c4c676070524bf5e265/guard.json.gz",
+      "bytes": 3119,
+      "sha256": "f8e9b6bdb8e184728137572a39f50bf8a941416c7fa0b3120b7a8b13bb08e31e",
+      "gzipBytes": 856,
+      "gzipSha256": "afed1c53c168519264abae71a6ca7847c1cd9de5db69879812003d7f60fdd084"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/0eb84c31ab0159e6bce65923f9ec803658963b046a867c4c676070524bf5e265/proof-cd227923-1af1-4169-b268-5020312f4f42/final-live-state.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/0eb84c31ab0159e6bce65923f9ec803658963b046a867c4c676070524bf5e265/proof-cd227923-1af1-4169-b268-5020312f4f42/final-live-state.json.gz",
+      "bytes": 316,
+      "sha256": "248d41b3a91f8cfcf214a99670a6e8ee799347c7f571549d4424f98baa6be896",
+      "gzipBytes": 234,
+      "gzipSha256": "82b71f1cfd29e5a95ad482e98986b013ea7298b4e35885c27a1da1f1bf35bb48"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/0eb84c31ab0159e6bce65923f9ec803658963b046a867c4c676070524bf5e265/proof-cd227923-1af1-4169-b268-5020312f4f42/preflight.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/0eb84c31ab0159e6bce65923f9ec803658963b046a867c4c676070524bf5e265/proof-cd227923-1af1-4169-b268-5020312f4f42/preflight.json.gz",
+      "bytes": 2166,
+      "sha256": "0045dacd973304ed06f8ea14cafd4885d412a0f8be21cd540517a889e137def7",
+      "gzipBytes": 1095,
+      "gzipSha256": "e34f65382e23edd3edc0e2e9e5a38b54209d4ea8ba50d9152230c553f1388b08"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/0eb84c31ab0159e6bce65923f9ec803658963b046a867c4c676070524bf5e265/proof-cd227923-1af1-4169-b268-5020312f4f42/prepared.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/0eb84c31ab0159e6bce65923f9ec803658963b046a867c4c676070524bf5e265/proof-cd227923-1af1-4169-b268-5020312f4f42/prepared.json.gz",
+      "bytes": 451,
+      "sha256": "6ecda86c1aaac86071f4b95951784369e4bff564e7c0bd51fef89ca08fc6af7a",
+      "gzipBytes": 299,
+      "gzipSha256": "91353b1a69c7c2e4c68deeca0df4e924f560b6bad3b67c466e1c023887eb6a82"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/0eb84c31ab0159e6bce65923f9ec803658963b046a867c4c676070524bf5e265/proof-cd227923-1af1-4169-b268-5020312f4f42/request.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/0eb84c31ab0159e6bce65923f9ec803658963b046a867c4c676070524bf5e265/proof-cd227923-1af1-4169-b268-5020312f4f42/request.json.gz",
+      "bytes": 1145574,
+      "sha256": "f2cc9aedb38862f90b997bbbe449f3903c6659a51cc017a229fd33dfe0b96465",
+      "gzipBytes": 193385,
+      "gzipSha256": "ad9bcc0f9ab05c55401f08a02981b34b6faec91f40adc078d8422919f7aeb27b"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/0eb84c31ab0159e6bce65923f9ec803658963b046a867c4c676070524bf5e265/proof-cd227923-1af1-4169-b268-5020312f4f42.preflight.log",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/0eb84c31ab0159e6bce65923f9ec803658963b046a867c4c676070524bf5e265/proof-cd227923-1af1-4169-b268-5020312f4f42.preflight.log.gz",
+      "bytes": 2652,
+      "sha256": "13f2f656fd10112a09c30f1df1b58d0114c98c53e9aea9363c9fb713d705669d",
+      "gzipBytes": 883,
+      "gzipSha256": "73d2607252979d569aee7c3dc376ba47812ebd7dacee5c5d450de65b6351aa22"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/0eb84c31ab0159e6bce65923f9ec803658963b046a867c4c676070524bf5e265/proof-cd227923-1af1-4169-b268-5020312f4f42.producer.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/0eb84c31ab0159e6bce65923f9ec803658963b046a867c4c676070524bf5e265/proof-cd227923-1af1-4169-b268-5020312f4f42.producer.json.gz",
+      "bytes": 348,
+      "sha256": "b18423ce791ba604ffb6a5e97f05fec83dcc1465b965057e704c7db610ff0e90",
+      "gzipBytes": 245,
+      "gzipSha256": "b82af17c1ccd3248a1f6f0daab3ee5630b9d06a8ecca264cdc965f5500b1430b"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/0eb84c31ab0159e6bce65923f9ec803658963b046a867c4c676070524bf5e265/reviewed-original-delivery-v1/intent.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/0eb84c31ab0159e6bce65923f9ec803658963b046a867c4c676070524bf5e265/reviewed-original-delivery-v1/intent.json.gz",
+      "bytes": 271,
+      "sha256": "96eda5a6369425a4d53419b44d4d3ad1a227565e8d3ede732f60b2a8a8ce3a17",
+      "gzipBytes": 221,
+      "gzipSha256": "a441770200e969511735093d414906596c91aa4ac22df67a9818381f78bd8544"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/0eb84c31ab0159e6bce65923f9ec803658963b046a867c4c676070524bf5e265/reviewed-original-delivery-v1/receipt.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/0eb84c31ab0159e6bce65923f9ec803658963b046a867c4c676070524bf5e265/reviewed-original-delivery-v1/receipt.json.gz",
+      "bytes": 258,
+      "sha256": "2ac44f00942cadbeacf490652f4bf4b2f764648fb3f649e23e33b710af58d855",
+      "gzipBytes": 182,
+      "gzipSha256": "e595c60cd7a9992418c92003da15054c0cba4023649c82c58587394b2517a4c8"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/0eb84c31ab0159e6bce65923f9ec803658963b046a867c4c676070524bf5e265/reviewed-original-delivery-v1/request.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/0eb84c31ab0159e6bce65923f9ec803658963b046a867c4c676070524bf5e265/reviewed-original-delivery-v1/request.json.gz",
+      "bytes": 1145574,
+      "sha256": "f2cc9aedb38862f90b997bbbe449f3903c6659a51cc017a229fd33dfe0b96465",
+      "gzipBytes": 193385,
+      "gzipSha256": "ad9bcc0f9ab05c55401f08a02981b34b6faec91f40adc078d8422919f7aeb27b"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/0eb84c31ab0159e6bce65923f9ec803658963b046a867c4c676070524bf5e265/reviewed-original-delivery-v1/rpc-request.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/0eb84c31ab0159e6bce65923f9ec803658963b046a867c4c676070524bf5e265/reviewed-original-delivery-v1/rpc-request.json.gz",
+      "bytes": 486029,
+      "sha256": "473903f94987bd02d31a645a06212c12508eb65b12ebe1518757355b8a1b63e9",
+      "gzipBytes": 168291,
+      "gzipSha256": "a9bcc68fb1106653c1f8c54fc398e7d0563253a79931edd34a701534887fa156"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/0eb84c31ab0159e6bce65923f9ec803658963b046a867c4c676070524bf5e265/reviewed-original-delivery-v1/rpc-response-meta.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/0eb84c31ab0159e6bce65923f9ec803658963b046a867c4c676070524bf5e265/reviewed-original-delivery-v1/rpc-response-meta.json.gz",
+      "bytes": 148,
+      "sha256": "777a3a221360bc6495a1f0b521593a3dd477a6ec6812ac36f705b8c1fee92842",
+      "gzipBytes": 134,
+      "gzipSha256": "61b035aca5647d674af030b76c292cf85ecc2ec66cba5b7cba7863f16a55d134"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/0eb84c31ab0159e6bce65923f9ec803658963b046a867c4c676070524bf5e265/reviewed-original-delivery-v1/rpc-response.body",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/0eb84c31ab0159e6bce65923f9ec803658963b046a867c4c676070524bf5e265/reviewed-original-delivery-v1/rpc-response.body.gz",
+      "bytes": 38,
+      "sha256": "0d838a349418eb2e4db232f5454ddf684afea2d53c155da1fca3952dd564bab5",
+      "gzipBytes": 57,
+      "gzipSha256": "dcd098dc4a0e86eaf34f9806fa594225f4131d05ad260f60b72acf16432af8bf"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/0eb84c31ab0159e6bce65923f9ec803658963b046a867c4c676070524bf5e265/reviewed-original-delivery-v1/rpc-transport.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/0eb84c31ab0159e6bce65923f9ec803658963b046a867c4c676070524bf5e265/reviewed-original-delivery-v1/rpc-transport.json.gz",
+      "bytes": 342,
+      "sha256": "88e8a5766c12e353828dbf4f115c03a72e0eb8bcbbd27b2a4743d364d4770261",
+      "gzipBytes": 232,
+      "gzipSha256": "aaa70b240bec70cd47bfd8bfd5b070a39f469c7641b0f2b0eb5dbd3efbe4df56"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/0eb84c31ab0159e6bce65923f9ec803658963b046a867c4c676070524bf5e265/reviewed-original-delivery-v1/verification.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/0eb84c31ab0159e6bce65923f9ec803658963b046a867c4c676070524bf5e265/reviewed-original-delivery-v1/verification.json.gz",
+      "bytes": 690,
+      "sha256": "9c088027a96bc0720a9f722ba85b4cbc08d636a81f4e0fed6b37f6118c615318",
+      "gzipBytes": 444,
+      "gzipSha256": "4f4b7c65d92f9c3ca12ff54cf579b97a7d4b390bf4b723604688ba953ee22af1"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/0eb84c31ab0159e6bce65923f9ec803658963b046a867c4c676070524bf5e265/reviewed-original-delivery-v1-review.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/0eb84c31ab0159e6bce65923f9ec803658963b046a867c4c676070524bf5e265/reviewed-original-delivery-v1-review.json.gz",
+      "bytes": 986,
+      "sha256": "50b1927460fa099402a1f1de833e2dbd1154441e29785afbfce36705696eeda5",
+      "gzipBytes": 619,
+      "gzipSha256": "7a774eab9075acaae49d0a22e413de23d04a52038022812d70bddb5273c5a03e"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/0eb84c31ab0159e6bce65923f9ec803658963b046a867c4c676070524bf5e265/reviewed-original-delivery-v1.native.log",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/0eb84c31ab0159e6bce65923f9ec803658963b046a867c4c676070524bf5e265/reviewed-original-delivery-v1.native.log.gz",
+      "bytes": 515,
+      "sha256": "1f9e0e863ebe65290a01f5d07ff50dbb49026a865d14f5c1eaf5e9ea89305bc5",
+      "gzipBytes": 379,
+      "gzipSha256": "4a3cf9989553ee43509e9c216e3efb1b3ce2477a1c25722d69c25c475d1715cc"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/0eb84c31ab0159e6bce65923f9ec803658963b046a867c4c676070524bf5e265/send-521ad819-4453-45f4-8385-f1cf125a0421/failure.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/0eb84c31ab0159e6bce65923f9ec803658963b046a867c4c676070524bf5e265/send-521ad819-4453-45f4-8385-f1cf125a0421/failure.json.gz",
+      "bytes": 251,
+      "sha256": "224e34f64e71389b15f1c025c0266209e770165a740e93dcdac69aa9e1ae566f",
+      "gzipBytes": 199,
+      "gzipSha256": "494db02dfde5bb229bd1675d355a6e9f3a1ca3e6582950497d4b0385503f922f"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/0eb84c31ab0159e6bce65923f9ec803658963b046a867c4c676070524bf5e265/send-521ad819-4453-45f4-8385-f1cf125a0421/intent.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/0eb84c31ab0159e6bce65923f9ec803658963b046a867c4c676070524bf5e265/send-521ad819-4453-45f4-8385-f1cf125a0421/intent.json.gz",
+      "bytes": 271,
+      "sha256": "96eda5a6369425a4d53419b44d4d3ad1a227565e8d3ede732f60b2a8a8ce3a17",
+      "gzipBytes": 221,
+      "gzipSha256": "a441770200e969511735093d414906596c91aa4ac22df67a9818381f78bd8544"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/0eb84c31ab0159e6bce65923f9ec803658963b046a867c4c676070524bf5e265/send-521ad819-4453-45f4-8385-f1cf125a0421/request.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/0eb84c31ab0159e6bce65923f9ec803658963b046a867c4c676070524bf5e265/send-521ad819-4453-45f4-8385-f1cf125a0421/request.json.gz",
+      "bytes": 1145574,
+      "sha256": "f2cc9aedb38862f90b997bbbe449f3903c6659a51cc017a229fd33dfe0b96465",
+      "gzipBytes": 193385,
+      "gzipSha256": "ad9bcc0f9ab05c55401f08a02981b34b6faec91f40adc078d8422919f7aeb27b"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/0eb84c31ab0159e6bce65923f9ec803658963b046a867c4c676070524bf5e265/send-521ad819-4453-45f4-8385-f1cf125a0421/reviewed-exact-delivery-fence-v1.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/0eb84c31ab0159e6bce65923f9ec803658963b046a867c4c676070524bf5e265/send-521ad819-4453-45f4-8385-f1cf125a0421/reviewed-exact-delivery-fence-v1.json.gz",
+      "bytes": 560,
+      "sha256": "a19721122381718179eb896474109fd6acefed99bd2f5611c37dd71a19a73244",
+      "gzipBytes": 428,
+      "gzipSha256": "551d3d2182d0f5ff817b291ee2ffc5faf44c02881c1db4ec4e3259adc99c71a4"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/0eb84c31ab0159e6bce65923f9ec803658963b046a867c4c676070524bf5e265/send-521ad819-4453-45f4-8385-f1cf125a0421/rpc-request.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/0eb84c31ab0159e6bce65923f9ec803658963b046a867c4c676070524bf5e265/send-521ad819-4453-45f4-8385-f1cf125a0421/rpc-request.json.gz",
+      "bytes": 486029,
+      "sha256": "473903f94987bd02d31a645a06212c12508eb65b12ebe1518757355b8a1b63e9",
+      "gzipBytes": 168291,
+      "gzipSha256": "a9bcc68fb1106653c1f8c54fc398e7d0563253a79931edd34a701534887fa156"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/0eb84c31ab0159e6bce65923f9ec803658963b046a867c4c676070524bf5e265/send-521ad819-4453-45f4-8385-f1cf125a0421/rpc-transport.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/0eb84c31ab0159e6bce65923f9ec803658963b046a867c4c676070524bf5e265/send-521ad819-4453-45f4-8385-f1cf125a0421/rpc-transport.json.gz",
+      "bytes": 342,
+      "sha256": "88e8a5766c12e353828dbf4f115c03a72e0eb8bcbbd27b2a4743d364d4770261",
+      "gzipBytes": 232,
+      "gzipSha256": "aaa70b240bec70cd47bfd8bfd5b070a39f469c7641b0f2b0eb5dbd3efbe4df56"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/0eb84c31ab0159e6bce65923f9ec803658963b046a867c4c676070524bf5e265/send-521ad819-4453-45f4-8385-f1cf125a0421/verification.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/0eb84c31ab0159e6bce65923f9ec803658963b046a867c4c676070524bf5e265/send-521ad819-4453-45f4-8385-f1cf125a0421/verification.json.gz",
+      "bytes": 690,
+      "sha256": "9c088027a96bc0720a9f722ba85b4cbc08d636a81f4e0fed6b37f6118c615318",
+      "gzipBytes": 444,
+      "gzipSha256": "4f4b7c65d92f9c3ca12ff54cf579b97a7d4b390bf4b723604688ba953ee22af1"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/0eb84c31ab0159e6bce65923f9ec803658963b046a867c4c676070524bf5e265/send-521ad819-4453-45f4-8385-f1cf125a0421.log",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/0eb84c31ab0159e6bce65923f9ec803658963b046a867c4c676070524bf5e265/send-521ad819-4453-45f4-8385-f1cf125a0421.log.gz",
+      "bytes": 534,
+      "sha256": "baff5e14b7b2f720b94b4da8ec1d2ffef20efbf828d4f8810d7bab1b0a153064",
+      "gzipBytes": 373,
+      "gzipSha256": "3f861fd34bab15da1ff915ff445f5b4d4081058e7811c5feeae7b2c57e22ce2f"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/8ca6ac0fe725bd7ef48224430b8bb2e5477e230aa44b202e3d38add82db1a4f3/calls.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/8ca6ac0fe725bd7ef48224430b8bb2e5477e230aa44b202e3d38add82db1a4f3/calls.json.gz",
+      "bytes": 639,
+      "sha256": "e1d7b89155c0e03704cd50327e926c5123e041f72ebd27c6a4e50a7c16912363",
+      "gzipBytes": 195,
+      "gzipSha256": "cfca0dca91c5cdc2508ddf28b2cac34a06a833e5d035ceb9c2a72b5022bc4986"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/8ca6ac0fe725bd7ef48224430b8bb2e5477e230aa44b202e3d38add82db1a4f3/guard.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/8ca6ac0fe725bd7ef48224430b8bb2e5477e230aa44b202e3d38add82db1a4f3/guard.json.gz",
+      "bytes": 3119,
+      "sha256": "0beab8255fbe162dc74e016c025d274340dbf2a380fe779e784efcf6b4c3f1ee",
+      "gzipBytes": 856,
+      "gzipSha256": "1d51072fc17e13ce0498f4f9538c7f61ce9cb71c2be7a9d8d331c98f285da8e2"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/8ca6ac0fe725bd7ef48224430b8bb2e5477e230aa44b202e3d38add82db1a4f3/proof-89d9c442-0230-41fc-b7f4-0279a3813af0/final-live-state.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/8ca6ac0fe725bd7ef48224430b8bb2e5477e230aa44b202e3d38add82db1a4f3/proof-89d9c442-0230-41fc-b7f4-0279a3813af0/final-live-state.json.gz",
+      "bytes": 314,
+      "sha256": "456d0d8e02766592dd1eb98b93fcb4981e5a02162ee9c894877436170094179b",
+      "gzipBytes": 233,
+      "gzipSha256": "8c569bd996a00e6c1c5e8b4fc18ea8e083f53b1c00b5a88125c264519053fae1"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/8ca6ac0fe725bd7ef48224430b8bb2e5477e230aa44b202e3d38add82db1a4f3/proof-89d9c442-0230-41fc-b7f4-0279a3813af0/preflight.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/8ca6ac0fe725bd7ef48224430b8bb2e5477e230aa44b202e3d38add82db1a4f3/proof-89d9c442-0230-41fc-b7f4-0279a3813af0/preflight.json.gz",
+      "bytes": 2166,
+      "sha256": "e4c7fafdb45092fcc3a28b1071e6bbd8ebdc20f7a258b9124d5a91b49a46bdf7",
+      "gzipBytes": 1095,
+      "gzipSha256": "61534808d45bfd5c265b81a2c2cb929e9d2f6d8534e51d6102c85c4f3f14e91d"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/8ca6ac0fe725bd7ef48224430b8bb2e5477e230aa44b202e3d38add82db1a4f3/proof-89d9c442-0230-41fc-b7f4-0279a3813af0/prepared.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/8ca6ac0fe725bd7ef48224430b8bb2e5477e230aa44b202e3d38add82db1a4f3/proof-89d9c442-0230-41fc-b7f4-0279a3813af0/prepared.json.gz",
+      "bytes": 451,
+      "sha256": "61783f6049f0655c2e0b80b6ddb576e330db70c7380525118663130c003482e1",
+      "gzipBytes": 298,
+      "gzipSha256": "0cf4707cb7c691bb3479765dbd16d234089e652a495a812f58dc31409757576d"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/8ca6ac0fe725bd7ef48224430b8bb2e5477e230aa44b202e3d38add82db1a4f3/proof-89d9c442-0230-41fc-b7f4-0279a3813af0/request.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/8ca6ac0fe725bd7ef48224430b8bb2e5477e230aa44b202e3d38add82db1a4f3/proof-89d9c442-0230-41fc-b7f4-0279a3813af0/request.json.gz",
+      "bytes": 1161474,
+      "sha256": "698bc1af323469778d45a8fa2d5a9a2ecc8f8ef938c06618bef9c0617e65e2b2",
+      "gzipBytes": 194013,
+      "gzipSha256": "5bc42e357bacc627631afe7cdf89c6d45b3217d565d2c4f45ceb70636395c0a5"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/8ca6ac0fe725bd7ef48224430b8bb2e5477e230aa44b202e3d38add82db1a4f3/proof-89d9c442-0230-41fc-b7f4-0279a3813af0.preflight.log",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/8ca6ac0fe725bd7ef48224430b8bb2e5477e230aa44b202e3d38add82db1a4f3/proof-89d9c442-0230-41fc-b7f4-0279a3813af0.preflight.log.gz",
+      "bytes": 2931,
+      "sha256": "dd2c34b348f03164a781f5b4e76cfb41e6ece754ee2cfb3bce75ae0aa4b675be",
+      "gzipBytes": 891,
+      "gzipSha256": "beacbb6995353315f3b382fe90691d3b3ead2605463451fb4470bf5bb1487722"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/8ca6ac0fe725bd7ef48224430b8bb2e5477e230aa44b202e3d38add82db1a4f3/proof-89d9c442-0230-41fc-b7f4-0279a3813af0.producer.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/8ca6ac0fe725bd7ef48224430b8bb2e5477e230aa44b202e3d38add82db1a4f3/proof-89d9c442-0230-41fc-b7f4-0279a3813af0.producer.json.gz",
+      "bytes": 348,
+      "sha256": "c636e5a2f1cb092da38983eedabdcbbed03fba2442970eb6e9f0817666a47b13",
+      "gzipBytes": 244,
+      "gzipSha256": "759da8ddf72ca542bf0db03926ae8bc7ca47a5264446d4034ce87667aa69b7bc"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/8ca6ac0fe725bd7ef48224430b8bb2e5477e230aa44b202e3d38add82db1a4f3/send-54e17ddc-8bbd-4128-8eb8-16954d4c7296/intent.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/8ca6ac0fe725bd7ef48224430b8bb2e5477e230aa44b202e3d38add82db1a4f3/send-54e17ddc-8bbd-4128-8eb8-16954d4c7296/intent.json.gz",
+      "bytes": 271,
+      "sha256": "a682d09c15dddb21ebfbd528fdfe36ec66125360475a57040a4043597b615abe",
+      "gzipBytes": 221,
+      "gzipSha256": "d6fbccc10fc29e83ab81f7f8f8b21680497edcdc48313862aff0cb79b0dabd3c"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/8ca6ac0fe725bd7ef48224430b8bb2e5477e230aa44b202e3d38add82db1a4f3/send-54e17ddc-8bbd-4128-8eb8-16954d4c7296/receipt.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/8ca6ac0fe725bd7ef48224430b8bb2e5477e230aa44b202e3d38add82db1a4f3/send-54e17ddc-8bbd-4128-8eb8-16954d4c7296/receipt.json.gz",
+      "bytes": 258,
+      "sha256": "d7c5b83c90c48ea4d658de00bd7e22860c81dd72ebfeac0896a44642dc73b572",
+      "gzipBytes": 183,
+      "gzipSha256": "914fbe019ff3569f053fde842dcdfc4af0b7593e991687de2a07e380b3cd8be7"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/8ca6ac0fe725bd7ef48224430b8bb2e5477e230aa44b202e3d38add82db1a4f3/send-54e17ddc-8bbd-4128-8eb8-16954d4c7296/request.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/8ca6ac0fe725bd7ef48224430b8bb2e5477e230aa44b202e3d38add82db1a4f3/send-54e17ddc-8bbd-4128-8eb8-16954d4c7296/request.json.gz",
+      "bytes": 1161474,
+      "sha256": "698bc1af323469778d45a8fa2d5a9a2ecc8f8ef938c06618bef9c0617e65e2b2",
+      "gzipBytes": 194013,
+      "gzipSha256": "5bc42e357bacc627631afe7cdf89c6d45b3217d565d2c4f45ceb70636395c0a5"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/8ca6ac0fe725bd7ef48224430b8bb2e5477e230aa44b202e3d38add82db1a4f3/send-54e17ddc-8bbd-4128-8eb8-16954d4c7296/rpc-request.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/8ca6ac0fe725bd7ef48224430b8bb2e5477e230aa44b202e3d38add82db1a4f3/send-54e17ddc-8bbd-4128-8eb8-16954d4c7296/rpc-request.json.gz",
+      "bytes": 498030,
+      "sha256": "15f47ca28a1f3a4f03dbf63a14733090e1ab266e6fe7fa01635943286c535c14",
+      "gzipBytes": 170444,
+      "gzipSha256": "20bd15b60acd15cd1e5e7ce67896ee27b7bae3c7651cefabd2f08d940136cc24"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/8ca6ac0fe725bd7ef48224430b8bb2e5477e230aa44b202e3d38add82db1a4f3/send-54e17ddc-8bbd-4128-8eb8-16954d4c7296/rpc-response-meta.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/8ca6ac0fe725bd7ef48224430b8bb2e5477e230aa44b202e3d38add82db1a4f3/send-54e17ddc-8bbd-4128-8eb8-16954d4c7296/rpc-response-meta.json.gz",
+      "bytes": 148,
+      "sha256": "777a3a221360bc6495a1f0b521593a3dd477a6ec6812ac36f705b8c1fee92842",
+      "gzipBytes": 134,
+      "gzipSha256": "61b035aca5647d674af030b76c292cf85ecc2ec66cba5b7cba7863f16a55d134"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/8ca6ac0fe725bd7ef48224430b8bb2e5477e230aa44b202e3d38add82db1a4f3/send-54e17ddc-8bbd-4128-8eb8-16954d4c7296/rpc-response.body",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/8ca6ac0fe725bd7ef48224430b8bb2e5477e230aa44b202e3d38add82db1a4f3/send-54e17ddc-8bbd-4128-8eb8-16954d4c7296/rpc-response.body.gz",
+      "bytes": 38,
+      "sha256": "0d838a349418eb2e4db232f5454ddf684afea2d53c155da1fca3952dd564bab5",
+      "gzipBytes": 57,
+      "gzipSha256": "dcd098dc4a0e86eaf34f9806fa594225f4131d05ad260f60b72acf16432af8bf"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/8ca6ac0fe725bd7ef48224430b8bb2e5477e230aa44b202e3d38add82db1a4f3/send-54e17ddc-8bbd-4128-8eb8-16954d4c7296/rpc-transport.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/8ca6ac0fe725bd7ef48224430b8bb2e5477e230aa44b202e3d38add82db1a4f3/send-54e17ddc-8bbd-4128-8eb8-16954d4c7296/rpc-transport.json.gz",
+      "bytes": 342,
+      "sha256": "88e8a5766c12e353828dbf4f115c03a72e0eb8bcbbd27b2a4743d364d4770261",
+      "gzipBytes": 232,
+      "gzipSha256": "aaa70b240bec70cd47bfd8bfd5b070a39f469c7641b0f2b0eb5dbd3efbe4df56"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/8ca6ac0fe725bd7ef48224430b8bb2e5477e230aa44b202e3d38add82db1a4f3/send-54e17ddc-8bbd-4128-8eb8-16954d4c7296/verification.json",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/8ca6ac0fe725bd7ef48224430b8bb2e5477e230aa44b202e3d38add82db1a4f3/send-54e17ddc-8bbd-4128-8eb8-16954d4c7296/verification.json.gz",
+      "bytes": 690,
+      "sha256": "4ff85fd6df1025d91c32decf2d92737f0d65c9fa30dbb6b53941bf874d73dd1d",
+      "gzipBytes": 443,
+      "gzipSha256": "e6ab1d69139aca705a125273883a66aa268bd664fff91995a916f8ea75031aec"
+    },
+    {
+      "source": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/8ca6ac0fe725bd7ef48224430b8bb2e5477e230aa44b202e3d38add82db1a4f3/send-54e17ddc-8bbd-4128-8eb8-16954d4c7296.log",
+      "file": "files/fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/8ca6ac0fe725bd7ef48224430b8bb2e5477e230aa44b202e3d38add82db1a4f3/send-54e17ddc-8bbd-4128-8eb8-16954d4c7296.log.gz",
+      "bytes": 515,
+      "sha256": "a5f51d825d84ec394dc75de1d8851f35fe3ec79f7992e5e638e2a34182b9c006",
+      "gzipBytes": 378,
+      "gzipSha256": "aefc9a57f0f89e06d1d380810b05e67c359123cd87c7892e190336ecc8cffe4b"
+    }
+  ]
+}

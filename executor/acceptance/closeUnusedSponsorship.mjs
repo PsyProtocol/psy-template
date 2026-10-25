@@ -11,9 +11,10 @@ import {publicState} from '../publicState.mjs';import {readSponsorGrant} from '.
 import {sha256} from '../requestBinding.mjs';
 import {parseLosslessJson,losslessJson,call,encodeAmount,FEE_ESCROW as F} from '../../amm/u124/client.mjs';
 import {cohortAssets,payoutClaims,assertRefundCohort} from '../../batching/admission/liveAssets.mjs';
+import {ordinaryEvidenceDirectory}from'./ordinaryEvidence.mjs';
 
 const [base,original]=process.argv.slice(2);assert.ok(original);
-freezeAppModules(fileURLToPath(import.meta.url),base,'unused-sponsorship-exit-v1');
+freezeAppModules(fileURLToPath(import.meta.url),base,'unused-sponsorship-exit-v2');
 const exact=p=>parseLosslessJson(readFileSync(p,'utf8')),release=read(join(base,'public/RELEASE.json'));
 assert.equal(release.sdkManifestSha256,SDK);for(const b of Object.values(release.binaries))assert.equal(sha256(readFileSync(b.file)),b.sha256);
 const rec=join(base,'unused-sponsorship-exit-v1');for(const d of[rec,join(rec,'public'),join(rec,'attempts')])if(!existsSync(d))mkdirSync(d);
@@ -24,7 +25,7 @@ const h={...old,base:rec,config,markets:[m],binary:release.binaries.compact.file
 const U=h.actors.bob.id,B=h.actors.buyer.id,T=h.actors.sponsor.id,V=m.vault;
 assert.deepEqual([m.id,V,U,B,T],[2497,662720,1717440,406720,519360]);
 const user=async(actor,label,calls)=>{
- const a=h.actors[actor],out=join(rec,'attempts',label),input=join(rec,'public',label+'.json');
+ const a=h.actors[actor],out=ordinaryEvidenceDirectory(rec,label,a.id),input=join(rec,'public',label+'.json');
  if(existsSync(out)){
   const p=exact(join(out,'preflight.json')),q=exact(join(out,'request.json'));assert.equal(p.inputSha256,sha256(readFileSync(input)));assert.deepEqual(q.user_ec_input.core,p.core);assert.equal(p.core.new_user_leaf.public_key,a.publicKeyHash);
   assert.deepEqual(exact(input).calls.contract_calls,parseLosslessJson(losslessJson(calls)));
