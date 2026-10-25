@@ -1,0 +1,24 @@
+{
+  "schema": 1,
+  "sdkManifestSha256": "0afb4c65116cddcaca450b406a06503d65b63d38a004d8e773c6e5fa363bd425",
+  "binaries": {
+    "ordinary": {
+      "file": "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-market-recovery-20261023/fixed-verifier-build-v4/target/release/isolated_wallet",
+      "sha256": "e4f119c17eb81cd85939e0cc7b1e37fe96d7eaa03e31998897cefe828fe4dfdf"
+    },
+    "compact": {
+      "file": "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-market-recovery-20261023/fixed-verifier-build-v4/target/release/compact_market_wallet",
+      "sha256": "265f699cbf752ce6782564a3284778bd638a015e07ce759234d12b22cc2b3005"
+    }
+  },
+  "sourceManifestSha256": "6a5b50e4b1a1cfc14939213363ed3462d43adf53cef0f0daaf0c0cb3ef038c4a",
+  "compiler": "nightly-2025-09-20",
+  "sdkMigration": false,
+  "nodeChanged": false,
+  "defaultAckTimeoutSeconds": 120,
+  "connectTimeoutSeconds": 10,
+  "automaticSubmissionRetries": false,
+  "physicalConnectionReuseMeasured": false,
+  "actualPairedTradeAcceptanceComplete": false,
+  "scope": "offline validated candidate; fresh/cached actual trade pair remains blocked by original ordinary nonce recovery review"
+}

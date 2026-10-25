@@ -1,0 +1,40 @@
+{
+  "copies": [
+    {
+      "file": "RELEASE.json",
+      "source": "fixed-verifier-build-v4/RELEASE.json",
+      "sha256": "967499da2a68b1ecdb18ac66c4814e9fef533ba940017ae323e6e2056e51c3e0"
+    },
+    {
+      "file": "DEPENDENCIES.json",
+      "source": "fixed-verifier-build-v4/DEPENDENCY-BOUNDARIES-v1.json",
+      "sha256": "6160457b485f17f84661d55cb5bb2c4fc33763b07f0dfde5c5c804adb8f49281"
+    },
+    {
+      "file": "OFFLINE-VERIFIER-TIMINGS.json",
+      "source": "fixed-verifier-build-v4/OFFLINE-VERIFIER-TIMING-SUMMARY-v1.json",
+      "sha256": "47a15e5ba03a4ee1563a9d7e3382612ea541e67cf8a1f75b45aa914bcb68124d"
+    },
+    {
+      "file": "FULL-PROOF-REGRESSION.json",
+      "source": "fixed-verifier-build-v4/FULL-PROOF-RESULT-v1.json",
+      "sha256": "38eb847fd18855cf5397a81546e19905574c15577165260fc2c54a3f25da1ac7"
+    },
+    {
+      "file": "PREVIOUS-ROUND-DIAGNOSIS.json",
+      "source": "fixed-verifier-build-v1/PREVIOUS-ROUND-DIAGNOSIS-v1.json",
+      "sha256": "36a002aad9bd6b7f8a966f3474368ef872b298afca443b2a62cc0c1611729f98"
+    },
+    {
+      "file": "SUBMISSION-TIMEOUT-DIAGNOSIS.json",
+      "source": "fixed-verifier-performance-live-v2/public/SUBMISSION-TIMEOUT-DIAGNOSIS-v1.json",
+      "sha256": "4b0ba792af8f6f6292ab037d95e3a2cb4f42e7ff2d6257d6ac8ab4c7687cd192"
+    },
+    {
+      "file": "NONCE-RETIREMENT-SAFE-SUMMARY.json",
+      "source": "fixed-verifier-build-v4/NONCE-RETIREMENT-SHAPE-RESULT-v1.json",
+      "sha256": "5ee55b14a57db696319e1eec0cb78665c09ffeee026eb954bf0a6dcdd73262df"
+    }
+  ],
+  "originalBytesCompared": true
+}

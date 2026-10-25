@@ -1,0 +1,46 @@
+{
+  "at": "2026-10-25T08:43:15.902014+00:00",
+  "originalErrorDigestMatchedExactly": true,
+  "publicTransportError": "error sending request for url (https://realm1-stg.psy-protocol.xyz/): operation timed out",
+  "originalFailureSha256": "af558cd7a9f32576fc63b47cf0bf9241a6e579041e0aa7dc8980a592ce7c1ba6",
+  "phases": [
+    {
+      "milliseconds": 0.095125,
+      "phase": "load-job"
+    },
+    {
+      "milliseconds": 7.873042,
+      "phase": "load-own-isolated-identity"
+    },
+    {
+      "milliseconds": 4404.103166,
+      "phase": "verify-ordinary-input-and-dependencies"
+    },
+    {
+      "milliseconds": 25797.475667,
+      "phase": "start-ordinary-session"
+    },
+    {
+      "milliseconds": 49460.921749999994,
+      "phase": "prove-ordinary-calls"
+    },
+    {
+      "milliseconds": 19465.466375,
+      "phase": "prove-ordinary-signature-endcap"
+    },
+    {
+      "milliseconds": 2993.9588329999997,
+      "phase": "verify-ordinary-full-proof"
+    },
+    {
+      "milliseconds": 16662.145042,
+      "phase": "verify-current-ordinary-state"
+    },
+    {
+      "milliseconds": 30019.779833,
+      "phase": "broadcast-ordinary-ups"
+    }
+  ],
+  "configuredTimeoutSeconds": 30,
+  "scope": "exact suppressed-error digest match and measured 30.0198-second broadcast wait; proves a client timeout, does not prove server receipt or final discard"
+}
