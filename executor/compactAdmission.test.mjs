@@ -91,6 +91,26 @@ test('prepared nonce metadata stays exact beyond JavaScript safe integer range',
  x.nonce(n+1n);assert.equal(await a.validateProof(t,p),false);x.nonce(Number(n));await assert.rejects(()=>a.validateProof(t,p),/unsafe integer metadata/);
 }));
 
+test('four markets return the enrolled sponsor whole to itself without spending another pending grant',async()=>{
+ for(const kind of ['amm','orderbook','bondingcurve','nftmarket'])await fixture(kind,async x=>{
+  x.set(100,'queue_phase',3);x.set(100,'queue_epoch',9);x.sponsor(2);x.values.set('300:0:203',5n*F);x.values.set('100:0:0',F);
+  let r=await scanExecutorAdmission(x.o,async()=>x.state,x.files);assert.equal(r.action,null,'no recovery without sender enrollment');
+  x.set(300,'recovery_pool',100);x.values.set('300:0:203',F);r=await scanExecutorAdmission(x.o,async()=>x.state,x.files);
+  assert.equal(r.action.maintenanceOperation,'start_epoch','normal scope does not auto-revoke an enrolled sponsor new grant');
+  x.values.set('300:0:203',5n*F);x.o.users.push(300);r=await scanExecutorAdmission(x.o,async()=>x.state,x.files);
+  const calls=parseLosslessJson(r.action.submission).contract_calls,refund=calls.find(c=>c.method_name==='recover_funding');
+  assert.equal(refund.inputs[0],300n);assert.equal(refund.inputs[5],5n*F);assert.ok(calls.some(c=>c.method_name==='simple_transfer'&&c.inputs[0]===300n&&c.inputs[1]===5n*F));
+  assert.ok(!calls.some(c=>c.method_name==='fund_gas'));
+  x.set(300,'kind',1);x.set(300,'pool',100);x.set(300,'nonce',1);r=await scanExecutorAdmission(x.o,async()=>x.state,x.files);assert.equal(r.action,null,'active payer cannot recover');
+ });
+});
+test('sponsor recovery requires initialized asset trees and cannot fund gas by topping up an oversized pending grant',()=>fixture('orderbook',async x=>{
+ x.set(100,'queue_phase',3);x.set(100,'queue_epoch',9);x.set(300,'recovery_pool',100);x.o.users.push(300);x.sponsor(2);x.values.set('300:0:203',5n*F);x.values.set('100:0:0',F);
+ const missing={...x.state,contractStateRoot:async()=> '0'.repeat(64)};
+ let r=await scanExecutorAdmission(x.o,async()=>missing,x.files);assert.equal(r.action,null);assert.equal(r.reason,'asset-account-initialization-required');assert.equal(r.missing.length,2);assert.ok(r.missing.every(m=>m.userId===300));
+ x.values.set('100:0:0',0n);r=await scanExecutorAdmission(x.o,async()=>x.state,x.files);assert.equal(r.action,null);assert.equal(r.reason,'recovery-gas-sponsorship-required');assert.equal(r.fundingRequest.pending,(5n*F).toString());assert.equal(r.fundingRequest.additionalAmount,null);
+}));
+
 test('explicit no-send recovery reuses one proof and never masks a later pending attempt',()=>fixture('amm',async x=>{
  let attempts=0;
  const adapter=await x.create({submitDriver:async(binary,args,options)=>{

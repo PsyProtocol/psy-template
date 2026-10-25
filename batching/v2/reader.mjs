@@ -103,9 +103,9 @@ export async function scanBatch(options,readState=publicState,files){
   // Orphan returns require an explicit sender enrollment. This materializes
   // their market tree and prevents a missing-tree proof from looking valid.
   let recovery=null;
-  for(const o of discovered){if(o.owner===BigInt(options.batchSponsorId)||available.some(a=>a.owner===o.owner)||await scalar(Number(o.owner),'recovery_pool')!==BigInt(V))continue;
+  for(const o of discovered){if(available.some(a=>a.owner===o.owner)||await scalar(Number(o.owner),'recovery_pool')!==BigInt(V))continue;
    const f=await funding(Number(o.owner));const mask=(f.paid_a?1:0)+(f.paid_b?2:0)+(f.fee_delta?4:0);
-   if(mask){recovery=maintenance(`recover_funding_${mask}`,{payer:o.owner,x:f.paid_a,y:f.paid_b,lots:f.fee_delta},f.maintenanceCursor);break;}
+   if(mask){if(s.contractStateRoot){const assets=market==='nftmarket'?[config.tokenId]:[config.assetA,config.assetB],missing=[];for(const asset of assets)if(await s.contractStateRoot(Number(o.owner),asset)==='0'.repeat(64))missing.push({userId:Number(o.owner),contractId:asset});if(missing.length)return {checkpoint:s.checkpoint,phase,batch,action:null,reason:'asset-account-initialization-required',missing};}recovery=maintenance(`recover_funding_${mask}`,{payer:o.owner,x:f.paid_a,y:f.paid_b,lots:f.fee_delta},f.maintenanceCursor);break;}
    if(market==='nftmarket'){const [sent,claimed]=await readTogether([s.slot(Number(o.owner),config.nftId,1182+35*V+32),s.slot(V,config.nftId,1182+35*Number(o.owner)+33)]);if(sent>claimed){recovery=maintenance('recover_nft',{payer:o.owner,nonce:claimed},`${sent}:${claimed}`);break;}}
   }
   if(recovery){const recoveryGas=2n*FEE_ESCROW;const blocked=await backpressure(parseLosslessJson(recovery.submission).software_defined_call.inputs);if(blocked)return {checkpoint:s.checkpoint,phase,batch,action:null,reason:blocked};if(await s.slot(V,0,0)>=FEE_ESCROW)return {checkpoint:s.checkpoint,phase,batch,action:recovery};

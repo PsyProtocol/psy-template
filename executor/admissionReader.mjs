@@ -26,13 +26,14 @@ export async function scanExecutorAdmission(o,readState=publicState,files){
  // Never let scanBatch select an active order outside the accepted universe.
  const recoverable=[];
  for(const owner of [...new Set([...(o.users??[]),...plan.members.map(m=>m.owner)])].sort((a,b)=>a-b)){
-  if(owner===V||owner===o.batchSponsorId)continue;
+  if(owner===V)continue;
   const [enrolled,kind,pool,nonce,used]=await Promise.all([at(owner,'recovery_pool'),at(owner,'kind'),at(owner,'pool'),at(owner,'nonce'),at(V,'consumed',owner)]);
   if(enrolled===BigInt(V)&&(kind===0n||pool!==BigInt(V)||nonce<=used))recoverable.push(owner);
  }
  if(recoverable.length){
   const recovery=await scanBatch({...o,users:recoverable,automaticGraduation:false},async()=>s,files);
   if(recovery.action){assert.equal(recovery.action.kind,'batch_maintenance');const f=parseLosslessJson(recovery.action.submission).software_defined_call.inputs;return {...recovery,recoveryScope:'explicit sender recovery enrollment; no global discovery',action:{...recovery.action,profile:'compact-v1',validUntilCheckpoint:String(s.checkpoint+64),submission:losslessJson(compactRequest(files.policy,f))}};}
+  if(recovery.reason==='asset-account-initialization-required')return {...recovery,recoveryScope:'explicit sender recovery enrollment; authenticated asset account required'};
   if(recovery.reason==='recovery-gas-sponsorship-required'){const pending=BigInt(recovery.sponsorPending),required=2n*F;assert.equal(recovery.requiredTotal,required.toString());return {...base,reason:recovery.reason,fundingRequest:{payer:o.batchSponsorId,vault:V,purpose:2,amount:required.toString(),requiredTotal:required.toString(),pending:pending.toString(),additionalAmount:pending<=required?(required-pending).toString():null,manualReviewIfPendingDeltaDiffers:true,operation:'fund-gas-then-recovery'}};}
  }
  let name,a,b=0n,bulkMembers;
