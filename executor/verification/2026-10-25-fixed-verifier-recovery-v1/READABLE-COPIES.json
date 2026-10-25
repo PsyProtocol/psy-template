@@ -1,0 +1,40 @@
+{
+  "copies": [
+    {
+      "file": "ACCEPTANCE-CLOSED.json",
+      "source": "fixed-verifier-performance-live-v1/public/RECOVERY-ACCEPTANCE-CLOSED-v1.json",
+      "sha256": "23ac4f1cd5539f1aa19c81f71e0c84b24a39b742720e7e968c531a00ce765062"
+    },
+    {
+      "file": "AUDIT.json",
+      "source": "fixed-verifier-performance-live-v1/baseline-audit-v1/SUMMARY.json",
+      "sha256": "ae0c90bb61f70c81fe4ab669dc315330ad641a9f23f3570f108594a6d16e3bb3"
+    },
+    {
+      "file": "SETUP-AUDIT.json",
+      "source": "fixed-verifier-performance-live-v1/funding-audit-v1/SUMMARY.json",
+      "sha256": "a4aa237d4bc38a57a929589b01a57318d55b9c573e0e103db9c06d18c4388d80"
+    },
+    {
+      "file": "INTERRUPTION.json",
+      "source": "fixed-verifier-performance-live-v1/public/INTERRUPTED-BASELINE-v1.json",
+      "sha256": "80f01b8de5224860e75cb31611b720aff525b5ef29a6318487458d87ef02c467"
+    },
+    {
+      "file": "ORIGINAL-COMMIT-RECOVERY.json",
+      "source": "fixed-verifier-performance-live-v1/original-commit-recovery-v1/COMPLETE.json",
+      "sha256": "0c7406982b3d1a79e59eb9f69db9635db7749fefaf6992160b5f4e0b3f42d5e9"
+    },
+    {
+      "file": "REDACTION-CHECK.json",
+      "source": "fixed-verifier-performance-live-v1/public/PUBLIC-REDACTION-CHECK-v1.json",
+      "sha256": "67875ba9044c86204518296af55610fb919808f27636bb44a149b1d6c64b4330"
+    },
+    {
+      "file": "RELEASE.json",
+      "source": "fixed-verifier-performance-live-v1/public/RELEASE.json",
+      "sha256": "73c9200d21279da5d10bd4a3c29b113f3ee7f862e999a844b6a8088b0f8576c7"
+    }
+  ],
+  "originalBytesCompared": true
+}
