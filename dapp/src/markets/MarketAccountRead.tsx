@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useId } from "react";
+import { useEffect, useRef, useState, useId, lazy, Suspense } from "react";
 import {
   createPositionClient,
   type PositionSnapshot,
@@ -6,6 +6,9 @@ import {
 import registry from "../../../market-client/reviewed/staging-position-readers-20261027-v2/registry.json";
 import pin from "../../../market-client/reviewed/staging-position-readers-20261027-v2/client-pin.json";
 import { fullAmount } from "./domain.mjs";
+const MarketActionPlan = lazy(() =>
+  import("./MarketActionPlan").then((m) => ({ default: m.MarketActionPlan })),
+);
 const client = createPositionClient({
   registry,
   registryHash: pin.registrySha256,
@@ -39,6 +42,7 @@ export function MarketAccountRead({
   const errorId = useId(),
     userRef = useRef<HTMLInputElement>(null),
     slotRef = useRef<HTMLInputElement>(null);
+  const [planOpen, setPlanOpen] = useState(false);
   const [invalid, setInvalid] = useState<"user" | "slot" | null>(null);
   const generation = useRef(0),
     pending = useRef(false);
@@ -351,6 +355,20 @@ export function MarketAccountRead({
           one-shot broadcast and original-identity recovery must be connected
           and tested first. No direct signing fallback.
         </p>
+        <details onToggle={(e) => setPlanOpen(e.currentTarget.open)}>
+          <summary>Plan a real unsigned action</summary>
+          {planOpen && (
+            <Suspense fallback={<p role="status">Loading reviewed planner…</p>}>
+              <MarketActionPlan
+                key={market}
+                marketId={market}
+                user={user}
+                account={account}
+                snapshot={snapshot}
+              />
+            </Suspense>
+          )}
+        </details>
       </details>
     </section>
   );

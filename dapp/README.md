@@ -234,3 +234,27 @@ UPS, actual settlement/claim/refund and fees remain unaccepted. Wallet internal
 proof APIs exist, but the secure public staged integration still needs to be
 implemented and accepted. No direct-sign fallback was enabled. See the
 [review record](../executor/verification/2026-10-27-market-readers-live-v1/README.md).
+
+
+## Real unsigned action preparation
+
+The QA reader includes a separate lazy-loaded planner. It supports whole-order
+Book limits, Curve limit buy/sell, observed NFT listing/purchase, queue consent,
+cancellation, lawful release/closure, sender-bound recovery enrollment and pending
+FT/native/NFT claim plans. Inputs are separate from the demonstration forms and
+are not restored as authorization. The ordinary owner is the only recipient.
+Maximum network fees and checkpoint validity are explicit.
+
+The browser recomputes the exact plan using pinned ABI/registry hashes and fresh
+server observations. NFT listing and claim require an observed ownership page;
+NFT buying first reads seller terms and then rechecks those exact terms and funded
+escrow at the plan's common checkpoint. Missing/unavailable/stale data produces an
+error and no plan. Opening a planner never submits, pays or claims. The wallet
+execution button remains disabled; the secure native proof/provider integration
+and real settlement acceptance have not been completed. No direct-sign fallback.
+
+The planner and reviewed ABIs are a separate dynamic bundle, loaded only when the
+planner opens. This preserves a separate initial chunk; no startup, financial
+proof or confirmation speedup has been measured. The actual Book and Curve route
+checks returned HTTP 503; NFT local guards were exercised without fake ownership.
+See [review/evidence](../executor/verification/2026-10-27-market-actions-v1/README.md).

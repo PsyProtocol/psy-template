@@ -427,3 +427,29 @@ implementation work. Do not characterize this as an inherent SDK impossibility
 or use direct signing as a fallback. New-market financial planners and all live
 write acceptance remain open alongside RPC/runtime/upgrade evidence dependencies.
 The original financial plan was neither restarted nor cancelled by these UI reads.
+
+
+## 2026-10-27 three-market action plans and ordinary Executor workflow
+
+[Review and evidence](../../executor/verification/2026-10-27-market-actions-v1/README.md).
+The formal gateway now offers a durable, unsigned three-market planning route and
+shared browser reconstruction. Book whole-order limits, Curve progressive limit
+orders, exact NFT listing/buying, consent/cancel/close/release/recovery and ordinary
+claim plans use pinned real ABIs and common-checkpoint state. NFT buying verifies
+the actual seller NFT packet/FIFO sequence and fee escrow. U124/cursor and native
+fee limits fail closed. No base market, SDK or Node change was required.
+
+A separate three-market Executor adapter reuses the financial journal/worker with
+full stack, native-verifier, session/sig_hash, identity, state and fee gates.
+Synthetic lost-ACK/restart/repeated-task and same-machine competition checks pass;
+the public HTTP service does not instantiate the financial adapter. Browser
+planners remain unsigned and show no invented result when RPC fails.
+
+Final checks: 56 client/gateway tests, 50 frontend tests, production build and ten
+browser checks pass. An intermediate seller-escrow variable-shadowing regression
+failed and was fixed; its original log is retained. Actual Book/Curve planning
+requests returned HTTP 503; all three independent endpoint diagnostics did too.
+No proof, financial broadcast, fill, fee, wallet claim/refund or performance result
+was produced. Browser secure staged provider implementation, selected SDK/key
+attestation, real bytecode/full UPS and isolated write acceptance remain open.
+The heartbeat stays deleted; the original financial plan was not resumed.

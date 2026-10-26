@@ -102,6 +102,7 @@ export async function loadPositions(config, rpcConfig) {
     details.set(m.marketId, { abi, nft });
   }
   return {
+    directory: dir,
     registry,
     registryHash: config.registrySha256,
     details,
