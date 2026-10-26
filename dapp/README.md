@@ -48,3 +48,7 @@ npm run dev
 ## 品牌与语言
 
 当前 UI 统一为英文。Logo、favicon、Geist 字体直接复用现有 psy-dapp 官方资源，采用当前共用的 psy-editorial 产品主题：白底、黑字、钴蓝、直角控件。来源及逐文件 SHA256 见 design/2026-10-26/BRAND-PROVENANCE-v2.json；初版生成图、中文及紫色方案仅保留为已废弃的设计历史。
+
+## Liquidity 入口
+
+侧栏 Liquidity 提供现有 AMM 池的 Add liquidity **离线预览**：两种代币数量、存入比例、最少 LP 份额、owner ID 和费用预算。直接复用 `addShares` 的严格比例及双 Felt/U124 检查，不用 `min` 近似、不假造自动超额退款。LP 份额展示内部原始单位，不假设为 18 位小数的 FT。Demo 使用明确的 1:1 储备 fixture；LP 持仓、真实入金、创建空池、移除流动性、签名和提交未接通。网络名称为 Psy testnet，资产 ticker 保持 PSY。

@@ -38,3 +38,14 @@ Validation: production build, domain/provider regressions and brand/English
 regressions, plus IAB desktop/mobile checks of the actual wordmark, loaded fonts,
 preview, validation, Orders, Assets and recovery copy. New screenshots supersede
 the Chinese v1 archive; original screenshots remain unchanged.
+
+## Liquidity extension
+
+The user requested `Psy testnet` casing and identified the missing add-liquidity
+entry. Liquidity now reuses the existing form/dialog/theme primitives. It
+previews both token deposits, exact-ratio validation and minimum internal LP
+shares using existing `addShares`. Raw LP units are explicit, with BigInt digit
+grouping and stacked mobile quantities; no LP token decimals are invented.
+Four-item mobile navigation uses a two-column grid. Positions and live deposit/
+withdrawal remain unconnected and marked as such; no fake LP order is inserted
+into the swap-order store. The original v2 screenshots remain unchanged.

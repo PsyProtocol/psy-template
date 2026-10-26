@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { Icon } from "./icons";
-export type View = "swap" | "orders" | "assets";
+export type View = "swap" | "liquidity" | "orders" | "assets";
 export function WorkbenchShell({
   view,
   onView,
@@ -18,6 +18,7 @@ export function WorkbenchShell({
 }) {
   const nav = [
     ["swap", "Swap", "swap"],
+    ["liquidity", "Liquidity", "network"],
     ["orders", "Orders", "orders"],
     ["assets", "Assets & claims", "wallet"],
   ] as const;
@@ -55,7 +56,7 @@ export function WorkbenchShell({
         <div className="network-status">
           <div>
             <Icon name="network" />
-            <span>PSY testnet</span>
+            <span>Psy testnet</span>
           </div>
           <p>
             <span className="status-dot amber" />
