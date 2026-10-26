@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { readWalletContext } from "./readWallet.mjs";
 const config = JSON.parse(
-  await readFile("market-client/reviewed/staging-qa-20261026/rpc-config.json"),
+  await readFile("market-client/reviewed/staging-qa-20261026-account-v2/rpc-config.json"),
 );
 function wallet(change = {}) {
   const calls = [],

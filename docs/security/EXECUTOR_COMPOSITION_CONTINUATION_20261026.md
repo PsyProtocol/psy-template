@@ -316,3 +316,25 @@ The UTF-8 test keeps identical runtime bytes via source escapes. A dedicated
 language check and CI job reject new Han prose and changed frozen originals.
 No Node/SDK/contract/key/financial-state change or new financial acceptance is
 part of this editorial milestone. Existing blockers and the original plan remain.
+
+
+## AMM observed-account and unsigned recovery/withdrawal integration
+
+[Source, public evidence and explicit acceptance boundaries](../../executor/verification/2026-10-26-amm-account-ui-v1/README.md).
+Schema-2 common-checkpoint observations now include native output cursors, owned
+raw LP and vault recovery/batch lifecycle. The separate account panel never
+conflates demo claims, pending outputs, unused funding or consumed-order status
+with spendable funds or successful fills. Unsigned planning adds LP removal,
+native claim, lawful release and sender-bound recovery enrollment. It never
+moves funds, opens a direct-sign fallback or replaces unknown broadcasts.
+The new pinned registry extends existing frozen ABI descriptors; old inputs and
+all 1,466 SDK source hashes remain unchanged.
+
+TypeScript/Vite build, 38 client/gateway tests, 36 frontend tests and 10 IAB
+desktop/mobile checks pass. The initial three registry-method failures remain.
+Actual snapshot and withdrawal-plan reads returned HTTP 503 and failed closed;
+healthy account rendering and on-chain actions remain unaccepted. No financial
+operation, complete UPS, actual fee, fill, claim or performance result was added.
+The exact-wallet transport, formal Executor projection and original financial
+acceptance plan remain open. UI lease closes only after archival and push;
+existing work is not terminated by the heartbeat.

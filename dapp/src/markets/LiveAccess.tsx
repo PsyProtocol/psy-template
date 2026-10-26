@@ -6,10 +6,12 @@ import {
   type PlanRecord,
 } from "../../../market-client/client.mjs";
 import { readWalletContext } from "../../../market-client/readWallet.mjs";
-import expectedRpcConfig from "../../../market-client/reviewed/staging-qa-20261026/rpc-config.json";
-import registry from "../../../market-client/reviewed/staging-qa-20261026/registry.json";
-import pin from "../../../market-client/reviewed/staging-qa-20261026/client-pin.json";
+import expectedRpcConfig from "../../../market-client/reviewed/staging-qa-20261026-account-v2/rpc-config.json";
+import registry from "../../../market-client/reviewed/staging-qa-20261026-account-v2/registry.json";
+import pin from "../../../market-client/reviewed/staging-qa-20261026-account-v2/client-pin.json";
 import type { DraftForm } from "./domain.mjs";
+import { ObservedAccount } from "./ObservedAccount";
+import type { WithdrawalForm } from "./liquidity.mjs";
 import type { LiquidityForm } from "./liquidity.mjs";
 import { fullAmount } from "./domain.mjs";
 import { Modal } from "./OrderDialog";
@@ -19,12 +21,15 @@ const client = createPublicMarketClient({
 });
 export type LiveDraft =
   | { kind: "swap"; form: DraftForm }
-  | { kind: "add"; form: LiquidityForm };
+  | { kind: "add"; form: LiquidityForm }
+  | { kind: "remove"; form: WithdrawalForm };
 export function LiveAccess({
   account,
   draft,
   onClose,
+  page,
 }: {
+  page: string;
   account: string | null;
   draft: LiveDraft | null;
   onClose: () => void;
@@ -39,7 +44,16 @@ export function LiveAccess({
     [plan, setPlan] = useState<PlanRecord | null>(null),
     [originalLeaf, setOriginalLeaf] = useState(""),
     [sourceCheckpoint, setSourceCheckpoint] = useState(""),
-    [receipt, setReceipt] = useState("");
+    [receipt, setReceipt] = useState(""),
+    [actionRequest, setActionRequest] = useState<MarketRequest | null>(null),
+    [actionFee, setActionFee] = useState("5"),
+    [observedNow, setObservedNow] = useState(Date.now());
+  const modalOpen = Boolean(draft || actionRequest);
+  useEffect(() => {
+    if (!state) return;
+    const timer = window.setInterval(() => setObservedNow(Date.now()), 1000);
+    return () => window.clearInterval(timer);
+  }, [state]);
   const generation = useRef(0),
     pending = useRef(false);
   useEffect(() => {
@@ -48,6 +62,7 @@ export function LiveAccess({
     setState(null);
     setPlan(null);
     setReceipt("");
+    setActionRequest(null);
     setError("");
     setStatus(
       account
@@ -101,18 +116,44 @@ export function LiveAccess({
     setReceipt("");
     setError("");
   };
+  const closePlan = () => {
+    generation.current++;
+    setActionRequest(null);
+    setPlan(null);
+    setError("");
+    onClose();
+  };
   const prepare = () =>
     void run(async () => {
-      if (!draft) throw Error("Select a swap or liquidity draft first");
-      const owner = userId(),
-        f = draft.form;
+      if (!draft && !actionRequest) throw Error("Select an action first");
+      const owner = actionRequest?.userId ?? userId();
       if (!/^[1-9]\d{0,2}$/.test(checkpoints) || Number(checkpoints) > 128)
         throw Error("Plan validity must be 1..128 checkpoints");
-      if (draft.kind === "swap" && draft.form.mode !== "single")
+      if (draft?.kind === "swap" && draft.form.mode !== "single")
         throw Error(
           "Two-pool execution needs the independent controller workflow; it is not a single-pool plan",
         );
-      const target = draft.kind === "add" ? Number(draft.form.pool) : 2485;
+      if (actionRequest) {
+        const result = await client.plan({
+          ...actionRequest,
+          feeCap: actionFee,
+          validForCheckpoints: Number(checkpoints),
+        });
+        return () => {
+          setPlan(result);
+          setState(result.snapshot);
+          setObservedNow(Date.now());
+          setStatus(
+            "Unsigned action plan checked; submission remains unavailable",
+          );
+        };
+      }
+      if (!draft) throw Error("No form selected");
+      const f = draft.form;
+      const target =
+        draft.kind === "add" || draft.kind === "remove"
+          ? Number(draft.form.pool)
+          : 2485;
       const m = registry.markets.find((m) => m.marketId === target);
       if (!m) throw Error("Unreviewed pool");
       const request: MarketRequest = {
@@ -120,7 +161,12 @@ export function LiveAccess({
         marketId: target,
         userId: owner,
         recipientId: f.receiver ? Number(f.receiver) : owner,
-        amountA: draft.kind === "add" ? draft.form.amountA : draft.form.amount,
+        amountA:
+          draft.kind === "add"
+            ? draft.form.amountA
+            : draft.kind === "remove"
+              ? draft.form.shares
+              : draft.form.amount,
         amountB: draft.kind === "add" ? draft.form.amountB : "",
         assetIn:
           draft.kind === "swap" && draft.form.sell === "B"
@@ -134,6 +180,7 @@ export function LiveAccess({
       return () => {
         setPlan(result);
         setState(result.snapshot);
+        setObservedNow(Date.now());
         setStatus("Unsigned RPC-based plan checked; trading unavailable");
       };
     });
@@ -152,6 +199,7 @@ export function LiveAccess({
       const result = await client.snapshot(Number(market), userId());
       return () => {
         setState(result);
+        setObservedNow(Date.now());
         setStatus(
           "Reviewed bindings matched RPC observations; no state proof verified",
         );
@@ -214,7 +262,10 @@ export function LiveAccess({
   );
   return (
     <>
-      <details className="live-access">
+      <details
+        className="live-access"
+        open={page === "assets" || page === "orders"}
+      >
         <summary>Live connection · read-only</summary>
         <p className="small-note">
           Psy testnet · pinned QA registry {pin.registrySha256.slice(0, 12)}… ·
@@ -258,25 +309,6 @@ export function LiveAccess({
         <button className="secondary-button" disabled={busy} onClick={read}>
           {busy ? "Reading…" : "Read pool & account"}
         </button>
-        {state && (
-          <div className="live-state">
-            <p>
-              RPC snapshot at checkpoint {state.checkpoint}. Observed data, not
-              a cryptographic state proof.
-            </p>
-            {state.assets.map((a) => (
-              <p key={a.contractId}>
-                {a.symbol}: balance {fullAmount(a.balance, a.decimals)} ·
-                pending claim {fullAmount(a.claimableFromVault, a.decimals)}
-              </p>
-            ))}
-            <p>
-              LP position:{" "}
-              {BigInt(state.pool.ownedShares).toLocaleString("en-US")} raw
-              units. Wallet nonce: {state.user.nonce}.
-            </p>
-          </div>
-        )}
         <details>
           <summary>Reconcile an original request</summary>
           <label>
@@ -318,19 +350,56 @@ export function LiveAccess({
           Financial submission is unavailable. No direct signing fallback. The
           Executor service has not been attached to this UI.
         </p>
-        {error && !draft && (
+        {error && !modalOpen && (
           <p className="form-error" role="alert">
             {error}
           </p>
         )}
       </details>
-      {draft && (
-        <Modal title="Prepare RPC-based plan" onClose={onClose}>
+      {state && (
+        <ObservedAccount
+          snapshot={state}
+          now={observedNow}
+          onRefresh={read}
+          onPlan={(request) => {
+            generation.current++;
+            setActionRequest(request);
+            setPlan(null);
+            setError("");
+          }}
+        />
+      )}
+      {modalOpen && (
+        <Modal title="Prepare RPC-based plan" onClose={closePlan}>
           <p className="dialog-notice">
             Reads real configured RPC state and prepares exact calls. This never
             signs, funds, admits or submits an order.
           </p>
-          {fields}
+          {actionRequest ? (
+            <>
+              <p>
+                Action: {actionRequest.kind} · public user{" "}
+                {actionRequest.userId} · AMM {actionRequest.marketId}. The
+                original owner and selected vault are fixed.
+              </p>
+              <label>
+                Maximum wallet network fee · test PSY
+                <input
+                  aria-label="Action network fee cap"
+                  inputMode="decimal"
+                  value={actionFee}
+                  onChange={(e) => {
+                    generation.current++;
+                    setActionFee(e.target.value);
+                    setPlan(null);
+                    setError("");
+                  }}
+                />
+              </label>
+            </>
+          ) : (
+            fields
+          )}
           <label>
             Plan validity · checkpoints
             <input
@@ -361,6 +430,22 @@ export function LiveAccess({
             <>
               <p>Record {plan.recordId.slice(0, 16)}…</p>
               <p className="small-note">{plan.plan.next}</p>
+              {plan.plan.withdrawal && (
+                <dl className="terms">
+                  <div>
+                    <dt>Raw LP shares</dt>
+                    <dd>{plan.plan.withdrawal.burned}</dd>
+                  </div>
+                  <div>
+                    <dt>Minimum QA-A</dt>
+                    <dd>{fullAmount(plan.plan.withdrawal.minimumA)}</dd>
+                  </div>
+                  <div>
+                    <dt>Minimum QA-B</dt>
+                    <dd>{fullAmount(plan.plan.withdrawal.minimumB)}</dd>
+                  </div>
+                </dl>
+              )}
               <details>
                 <summary>Exact planned calls</summary>
                 <pre>{JSON.stringify(plan.plan, null, 2)}</pre>

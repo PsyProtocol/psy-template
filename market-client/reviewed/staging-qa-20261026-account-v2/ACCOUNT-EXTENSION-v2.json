@@ -1,0 +1,33 @@
+{
+  "schema": 1,
+  "sourceDirectory": "market-client/reviewed/staging-qa-20261026",
+  "sourceRegistryFileSha256": "9e9b6997609309bfa69a7201b5cc038b23850eb65f40dccd78f0177d1732003e",
+  "sourceRegistryCanonicalSha256": "0fdcad74eed43304b5f155be2723f34c0abde3ce4e6268dbd0aba93b259adeea",
+  "registryCanonicalSha256": "d1b7222f99aea7313b72f76aa21a4d43c25f35df96e7a640c27f5fbadb220423",
+  "addedMethods": [
+    "open_remove",
+    "close_remove",
+    "request_recovery",
+    "release_unaccepted"
+  ],
+  "snapshotSchema": 2,
+  "contractOrKeyChanges": false,
+  "sdkChanges": false,
+  "unchangedSourceFiles": {
+    "2486-asset-2484-abi.json": "cab169705adb258839e12e04da12ba84f16e66b52a50ed20180acbfd5dbc6aa1",
+    "2486-config.json": "fdfe8f66efc28f15667b0bf3a7f9f1b022d19b417138b9878c646f977245cc92",
+    "2485-asset-2484-abi.json": "cab169705adb258839e12e04da12ba84f16e66b52a50ed20180acbfd5dbc6aa1",
+    "PROVENANCE.json": "85bc54464483511c600acccebcdd4c56bfeef6ef4e3add11cbea0e3dad2453bd",
+    "2485-policy.json": "13f36015e72d9f97f47db531550cc98056d45e2c096ce7b01638757ff9dec135",
+    "2486-dependencies.json": "ac87cdd480a4b6714b66d1f670d55bd7e6eae3c39132c04a8729a8ba4fbdd8e5",
+    "2486-policy.json": "920d2e19fc795026b1f63d71cdd8990b63666544646fa8e734d45ccc7f60adf0",
+    "2486-abi.json": "92e9360a523a276b66e90316e2992513bf0b0c679df06dd6d3b6861d9bde3333",
+    "2485-dependencies.json": "1fad74185af8976d2b0794a62243f35eea8bf644e1bb745415aa315972288129",
+    "2486-asset-2483-abi.json": "cab169705adb258839e12e04da12ba84f16e66b52a50ed20180acbfd5dbc6aa1",
+    "2485-config.json": "fdfe8f66efc28f15667b0bf3a7f9f1b022d19b417138b9878c646f977245cc92",
+    "2485-asset-2483-abi.json": "cab169705adb258839e12e04da12ba84f16e66b52a50ed20180acbfd5dbc6aa1",
+    "2485-abi.json": "92e9360a523a276b66e90316e2992513bf0b0c679df06dd6d3b6861d9bde3333",
+    "rpc-config.json": "93f0c6a80f0c34b596b4b1a862d0c2d51ee248ac8ddd5e88caf8157a59a398bc",
+    "artifacts.json": "cbb969edb7bf2d0693a75561def184406bb6c1267450a7d6176128c327ed645e"
+  }
+}

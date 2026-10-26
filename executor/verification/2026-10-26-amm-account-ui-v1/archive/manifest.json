@@ -1,0 +1,91 @@
+{
+  "schema": 1,
+  "sourceDirectory": "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-market-recovery-20261023",
+  "machine": "gewenbo.local",
+  "host": "macOS-15.7.3-arm64-arm-64bit",
+  "scope": "public formal Executor run including failures; success requires exact included receipt",
+  "walletFilesIncluded": false,
+  "sealedBinariesIncluded": false,
+  "records": [
+    {
+      "source": "market-ui-amm-account-20261026-v1/build-v2.log",
+      "file": "files/market-ui-amm-account-20261026-v1/build-v2.log.gz",
+      "bytes": 405,
+      "sha256": "1d964d47335052f1be63c0b949b2e0814b4a3d7151861b7e5b3b5f9e90a180f2",
+      "gzipBytes": 271,
+      "gzipSha256": "ef4a1c7592551864372ec349ebc3e090ca32e61c5a49ac38e4195369630e0f56"
+    },
+    {
+      "source": "market-ui-amm-account-20261026-v1/frontend-regression-v2.log",
+      "file": "files/market-ui-amm-account-20261026-v1/frontend-regression-v2.log.gz",
+      "bytes": 3625,
+      "sha256": "8fa9ab787b388c24b52137ef65fddb953eaa41b9f90e0b5aeeb9e89418a731c6",
+      "gzipBytes": 1766,
+      "gzipSha256": "974f8582fba9bdb66f5d8c9a39462620f692bdfc40608e2f2cb7c39e3e4d55c1"
+    },
+    {
+      "source": "market-ui-amm-account-20261026-v1/gateway-initial-failure-v1.log",
+      "file": "files/market-ui-amm-account-20261026-v1/gateway-initial-failure-v1.log.gz",
+      "bytes": 5072,
+      "sha256": "5f4b7f0637f45e2063688672b590c30612e312f7aeeb690bad9ee07c6f46134f",
+      "gzipBytes": 1169,
+      "gzipSha256": "f0ba2f4ea6b84894769d06ad9969f689093548e1d0529fb9a2871f976eb62ecb"
+    },
+    {
+      "source": "market-ui-amm-account-20261026-v1/gateway-observations-prefix-v1.log",
+      "file": "files/market-ui-amm-account-20261026-v1/gateway-observations-prefix-v1.log.gz",
+      "bytes": 877,
+      "sha256": "77b8ee78e6f6e5e61f5bfc2f3b8ca65a123153fabb65eda7dcb95175670a946f",
+      "gzipBytes": 429,
+      "gzipSha256": "46b5afb2076c414705318dbc5ef1747640afa9adad1df319a60bee8bbea582f8"
+    },
+    {
+      "source": "market-ui-amm-account-20261026-v1/gateway-regression-v2.log",
+      "file": "files/market-ui-amm-account-20261026-v1/gateway-regression-v2.log.gz",
+      "bytes": 3878,
+      "sha256": "40d621043c60760455f292fcfab2cef3b4dd3505fb8ec1e390a997b07a7d3e3f",
+      "gzipBytes": 1891,
+      "gzipSha256": "2a415d80c8f6a721714c259c0ce0fbae0fff29fcfa1f37d9b85cd5ea00a3b55a"
+    },
+    {
+      "source": "market-ui-amm-account-20261026-v1/public/ACTIVE-v1.json",
+      "file": "files/market-ui-amm-account-20261026-v1/public/ACTIVE-v1.json.gz",
+      "bytes": 361,
+      "sha256": "f20f926e23ca56883569c054d6162b1d0f1def47866f6dc198295fbcbef9d7d5",
+      "gzipBytes": 273,
+      "gzipSha256": "6f2421803f9de407711d18d6076ca6413e27e1e3aeb241205790e12f3d3a33af"
+    },
+    {
+      "source": "market-ui-amm-account-20261026-v1/public/BROWSER-QA-v1.json",
+      "file": "files/market-ui-amm-account-20261026-v1/public/BROWSER-QA-v1.json.gz",
+      "bytes": 1778,
+      "sha256": "5b5aec9aee7d5aa122292d0f431c8ee3c9782412aca4b610420ed85e08e23719",
+      "gzipBytes": 755,
+      "gzipSha256": "d0341e9b9695041c98979998e30244023b214a7fc4fd1e720925294c9e1e4e25"
+    },
+    {
+      "source": "market-ui-amm-account-20261026-v1/public/GATEWAY-RESTART-v1.json",
+      "file": "files/market-ui-amm-account-20261026-v1/public/GATEWAY-RESTART-v1.json.gz",
+      "bytes": 528,
+      "sha256": "ce16a0e9a91e91c99c642dc55dcaa7cee9b15a421ee3422c355bec4e5b5038ed",
+      "gzipBytes": 353,
+      "gzipSha256": "a8ad3fd07a21aebdb03ceeac3956cbd77f2059c3dbf20c251d8c513d5282fbe7"
+    },
+    {
+      "source": "market-ui-amm-account-20261026-v1/public/SCREENSHOTS-v1.json",
+      "file": "files/market-ui-amm-account-20261026-v1/public/SCREENSHOTS-v1.json.gz",
+      "bytes": 544,
+      "sha256": "ca7661d8d615cae37f7239d3159cad906eced1971f4030a5665ff8d30f8f2c63",
+      "gzipBytes": 323,
+      "gzipSha256": "c57e14f163dacb3c2d38633b444b52a0bc13abb6253f149ce2fb31dc1d10e09c"
+    },
+    {
+      "source": "market-ui-amm-account-20261026-v1/public/SOURCE-CLOSURE-v1.json",
+      "file": "files/market-ui-amm-account-20261026-v1/public/SOURCE-CLOSURE-v1.json.gz",
+      "bytes": 5490,
+      "sha256": "1b91b2dce1b84e48dbb450d0b1b3ca07139511b621561a28d8e7ac547e41f032",
+      "gzipBytes": 2228,
+      "gzipSha256": "57e96cc35ac9f584aad6abf5be93b85d4dafb97f2a47785a05eac98d75445d16"
+    }
+  ]
+}

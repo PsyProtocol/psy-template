@@ -7,7 +7,11 @@ import {
 } from "./liquidity.mjs";
 import { fullAmount, displayAmount } from "./domain.mjs";
 import { Modal } from "./OrderDialog";
-export function RemoveLiquidityPanel() {
+export function RemoveLiquidityPanel({
+  onLivePlan,
+}: {
+  onLivePlan: (form: WithdrawalForm) => void;
+}) {
   const [form, setForm] = useState<WithdrawalForm>({
       pool: "2485",
       receiver: "",
@@ -120,6 +124,13 @@ export function RemoveLiquidityPanel() {
             </p>
           )}
           <button className="primary-button">Preview withdrawal</button>
+          <button
+            className="secondary-button rpc-plan-button"
+            type="button"
+            onClick={() => onLivePlan({ ...form })}
+          >
+            Prepare RPC-based withdrawal
+          </button>
           <p className="form-footnote">
             No LP burn, transfer or claim is submitted.
           </p>
@@ -147,8 +158,9 @@ export function RemoveLiquidityPanel() {
             settlement. Output tokens then require their ordinary wallet claims.
           </div>
           <p className="section-note">
-            This is not a withdrawal request or a live gateway route. LP units
-            are internal raw shares, not a token with assumed decimals.
+            This preview is not a withdrawal request. RPC-based planning reads
+            the actual position but never signs or submits. LP units are
+            internal raw shares, not a token with assumed decimals.
           </p>
         </section>
       </div>
