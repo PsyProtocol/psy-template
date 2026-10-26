@@ -227,6 +227,8 @@ v2 的第二次 `admit_entry` 在完整证明生成后触发最终 `compact broa
 
 ## 提交传输的后续修改
 
+2026-10-26 继续记录见 [阶段审阅文档](EXECUTOR_COMPOSITION_CONTINUATION_20261026.md)。冻结源码编译冷／暖计时已补齐，新的双池资源对照仍被只读 RPC 503 阻塞；不改变既有实际成交样本的性能结论。广泛并发扫描候选经过 16 次测量后已撤回；完整失败及原始样本保留。
+
 原应用每次提交新建 HTTP 客户端、固定总等待 30 秒。候选改为进程内复用不可变客户端（不缓存请求/见证/nonce/响应），每次仍验证网络域及目标 realm；连接建立最多 10 秒，总等待显式支持 30/120 秒，默认 120。每个 host 的空闲连接上限为 1；不推断物理连接或 TLS 会话实际复用。传输元数据明确记录 `clientInitializedBeforeCall` 与 `physicalConnectionReuseMeasured=false`。
 
 重定向、reqwest 协议 nack 自动重试均关闭，保持单次显式传输；超时仍为未知结果，不等于失败回滚。原始 `retryAllowed=false` 及文件均保留。增加 `RPC_SEND_TIMEOUT_UNKNOWN` 分类，避免将原始超时泛化为普通拒绝。提高预算与客户端复用的实际网络收益尚未完成测量，不能作为已提速结论。
