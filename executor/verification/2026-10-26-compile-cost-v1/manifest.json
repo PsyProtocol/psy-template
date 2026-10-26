@@ -1,0 +1,235 @@
+{
+  "schema": 1,
+  "sourceDirectory": "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-market-recovery-20261023",
+  "machine": "gewenbo.local",
+  "host": "macOS-15.7.3-arm64-arm-64bit",
+  "scope": "public formal Executor run including failures; success requires exact included receipt",
+  "walletFilesIncluded": false,
+  "sealedBinariesIncluded": false,
+  "records": [
+    {
+      "source": "compile-cost-measurement-20261026-v1/build-tree-v1-READY.json",
+      "file": "files/compile-cost-measurement-20261026-v1/build-tree-v1-READY.json.gz",
+      "bytes": 157,
+      "sha256": "21e342fa7e01af8fffc140c1ca18a8e74a42abaf78c4c45a20b4958947df9106",
+      "gzipBytes": 148,
+      "gzipSha256": "d2a1afa7b696addf8d2d594c39ff0528a0581eb43d2f9bc4a3b025b5a186b17b"
+    },
+    {
+      "source": "compile-cost-measurement-20261026-v1/build-tree-v1-SUMMARY.json",
+      "file": "files/compile-cost-measurement-20261026-v1/build-tree-v1-SUMMARY.json.gz",
+      "bytes": 613,
+      "sha256": "54d490228341a29ecf406105b5720de07de92d8428b44bd911e8825b61b29660",
+      "gzipBytes": 428,
+      "gzipSha256": "2493364ea4654ef2c5880df4a68c80acddec77d7800577e5c0b8e3f59bd3f91f"
+    },
+    {
+      "source": "compile-cost-measurement-20261026-v1/build-tree-v1.log",
+      "file": "files/compile-cost-measurement-20261026-v1/build-tree-v1.log.gz",
+      "bytes": 112602,
+      "sha256": "28744317ea30989cc5f0e75516b5a2f3414f39da404bed3813dcf6a94c2cd70f",
+      "gzipBytes": 9282,
+      "gzipSha256": "1908ed545e76f4b18e31f780764d76d7b4ca9d8fa85cb15f938091ffa103a0f4"
+    },
+    {
+      "source": "compile-cost-measurement-20261026-v1/cold.jsonl",
+      "file": "files/compile-cost-measurement-20261026-v1/cold.jsonl.gz",
+      "bytes": 770458,
+      "sha256": "6a35a45c6fcb6d452d72cbc29ec5abfb9c677b39c6d7ef98f118d11486f04b27",
+      "gzipBytes": 50307,
+      "gzipSha256": "73530ee7f1daf63cc8451062c7d02d0cfbb1f152d93a07112e86e6fd37d7c239"
+    },
+    {
+      "source": "compile-cost-measurement-20261026-v1/cold.stderr.log",
+      "file": "files/compile-cost-measurement-20261026-v1/cold.stderr.log.gz",
+      "bytes": 15566,
+      "sha256": "abdd76164c8fe6d21d427fee928f88ba53b18f82d9a0c1ae012c20c51691e1af",
+      "gzipBytes": 4062,
+      "gzipSha256": "3461fe78b7aa82bafc6cf33233aa5e18fca434ebdddba58acad4ad1e06550a1a"
+    },
+    {
+      "source": "compile-cost-measurement-20261026-v1/public/BUILD-COMPLETE-v1.json",
+      "file": "files/compile-cost-measurement-20261026-v1/public/BUILD-COMPLETE-v1.json.gz",
+      "bytes": 460,
+      "sha256": "2fd987045b54ce3cba42ce64682d3ee2c2b975dd12fcf2a98f4b4685d67311b3",
+      "gzipBytes": 315,
+      "gzipSha256": "6cdfa0b963ceda7547aea00aa56610c79a7003be26da2e949776bd6880152e4a"
+    },
+    {
+      "source": "compile-cost-measurement-20261026-v1/public/BUILD-PLAN-v1.json",
+      "file": "files/compile-cost-measurement-20261026-v1/public/BUILD-PLAN-v1.json.gz",
+      "bytes": 1532,
+      "sha256": "56c6dcc7df18c62ee36778f716ed67e3a262b46693cf4eb2cfbd5318e34ca258",
+      "gzipBytes": 888,
+      "gzipSha256": "a2bd768c8bc76f6b97f6975fd613393da094c8b041e91cbbdb1012528d1425e0"
+    },
+    {
+      "source": "compile-cost-measurement-20261026-v1/public/MEASUREMENT-EXCLUDE-v1.json",
+      "file": "files/compile-cost-measurement-20261026-v1/public/MEASUREMENT-EXCLUDE-v1.json.gz",
+      "bytes": 12,
+      "sha256": "32d27d5019bf07bd0a90612898f7377e672f00dd29a5093584d61adcae5036a8",
+      "gzipBytes": 32,
+      "gzipSha256": "e4b5bc9054cd2cb617438857cad86c38d8b76f73c609adc486ecfc4d4309eedf"
+    },
+    {
+      "source": "compile-cost-measurement-20261026-v1/public/MEASUREMENT-ROOT-v1.json",
+      "file": "files/compile-cost-measurement-20261026-v1/public/MEASUREMENT-ROOT-v1.json.gz",
+      "bytes": 53,
+      "sha256": "0028ed680ed320578fcd99939a18907b3111fdb7a2b2585edf595e666ba2f978",
+      "gzipBytes": 73,
+      "gzipSha256": "22a137c5d5944844608f80ece1b97ea361da81ff0718b5fcc811b3a0343ff003"
+    },
+    {
+      "source": "compile-cost-measurement-20261026-v1/public/cold-TIMING-v1.json",
+      "file": "files/compile-cost-measurement-20261026-v1/public/cold-TIMING-v1.json.gz",
+      "bytes": 170,
+      "sha256": "0b59514e24ef8a118f942037c824fe277bcb0b1a755c360c17f2fc956e42b600",
+      "gzipBytes": 152,
+      "gzipSha256": "3c736518c46c261585874d6e8be40ddfc9f8fa4f6be0fdf13a291a28ae5ac885"
+    },
+    {
+      "source": "compile-cost-measurement-20261026-v2/build-tree-v1-READY.json",
+      "file": "files/compile-cost-measurement-20261026-v2/build-tree-v1-READY.json.gz",
+      "bytes": 157,
+      "sha256": "ad0d3806a64ff38318950cf9ff03bf7ee81bd30d3fd6bccd519d0f1982bd4436",
+      "gzipBytes": 149,
+      "gzipSha256": "5b507e1de775dc83fe27241c053a5f6d3d5b1c764deac5c4fad18ad6bc3a37ea"
+    },
+    {
+      "source": "compile-cost-measurement-20261026-v2/build-tree-v1-SUMMARY.json",
+      "file": "files/compile-cost-measurement-20261026-v2/build-tree-v1-SUMMARY.json.gz",
+      "bytes": 613,
+      "sha256": "06b2f98bbe6abaaacb389c37c4e90d9e76e8e1456e2386bb6877eb5cb0678ee7",
+      "gzipBytes": 428,
+      "gzipSha256": "239f1d44dc041372efa3717fd5fa386581f4c8c8ed67f1d239ceb6aa0311826b"
+    },
+    {
+      "source": "compile-cost-measurement-20261026-v2/build-tree-v1.log",
+      "file": "files/compile-cost-measurement-20261026-v2/build-tree-v1.log.gz",
+      "bytes": 306575,
+      "sha256": "9cb661ae040ae209142a989ccfe473026b259ca7e41be2f68891d3d4c5a9995f",
+      "gzipBytes": 23660,
+      "gzipSha256": "eac5a1797c1f3217d80c22b0988796493f135757ec4430facb1a2e0eafbd9b69"
+    },
+    {
+      "source": "compile-cost-measurement-20261026-v2/cold.jsonl",
+      "file": "files/compile-cost-measurement-20261026-v2/cold.jsonl.gz",
+      "bytes": 1267812,
+      "sha256": "2ecd0f5f9834d209a9e05e50ed60ba82578a71aa77b9b558302c3d551996749b",
+      "gzipBytes": 87476,
+      "gzipSha256": "120cb2a70a0e6c0501de2b5be6391bbfed37411659b4476c3e128f484c694ec3"
+    },
+    {
+      "source": "compile-cost-measurement-20261026-v2/cold.stderr.log",
+      "file": "files/compile-cost-measurement-20261026-v2/cold.stderr.log.gz",
+      "bytes": 23316,
+      "sha256": "98ea6d86f6b1185a9f7c5143828c072e13f9ba1ae0367fa43d4e46cff853f17a",
+      "gzipBytes": 5413,
+      "gzipSha256": "cd6072eb3c72f32a6e61030dc931f9ae1fa14460c8f040645920c0e4335fc382"
+    },
+    {
+      "source": "compile-cost-measurement-20261026-v2/public/BUILD-COMPLETE-v1.json",
+      "file": "files/compile-cost-measurement-20261026-v2/public/BUILD-COMPLETE-v1.json.gz",
+      "bytes": 629,
+      "sha256": "bba643e390d15e1c95a9454cd878e38b5f481b192e014fedab26370fe68bbd4c",
+      "gzipBytes": 351,
+      "gzipSha256": "afcd26ccb6309effcdf1f0cfc8137ae7ccad1d812e1c0bf9bcadf47ef0601f5e"
+    },
+    {
+      "source": "compile-cost-measurement-20261026-v2/public/BUILD-PLAN-v1.json",
+      "file": "files/compile-cost-measurement-20261026-v2/public/BUILD-PLAN-v1.json.gz",
+      "bytes": 1902,
+      "sha256": "7f96c50adcbfdca94798823ebca0a8eeb93563b97e2b5846dae858c64e126112",
+      "gzipBytes": 1089,
+      "gzipSha256": "cffaaacc4212eaba50f4cc1d248eacb92b161f2e8f87f638308a33414a1b7b39"
+    },
+    {
+      "source": "compile-cost-measurement-20261026-v2/public/COMPILE-COST-REPORT-v1.json",
+      "file": "files/compile-cost-measurement-20261026-v2/public/COMPILE-COST-REPORT-v1.json.gz",
+      "bytes": 4729,
+      "sha256": "292fb6123a27a09717fe8290aec4278568f4c190d440f6b8d23e2db05fe873d1",
+      "gzipBytes": 2026,
+      "gzipSha256": "36809434716a379e99c0b9c0c6228a25ae8ca60053f745cabff651e969cba389"
+    },
+    {
+      "source": "compile-cost-measurement-20261026-v2/public/HELPER-SOURCE-PROVENANCE-v1.json",
+      "file": "files/compile-cost-measurement-20261026-v2/public/HELPER-SOURCE-PROVENANCE-v1.json.gz",
+      "bytes": 344,
+      "sha256": "f335dca9659f51b2b08d809a317911796c231b69286813e9bf9f26252abaa3b0",
+      "gzipBytes": 274,
+      "gzipSha256": "d6b7d3c8976e25b51e390cf21aeec80a18d4e2966c3ee6b037dd07eb334ff33d"
+    },
+    {
+      "source": "compile-cost-measurement-20261026-v2/public/MEASUREMENT-EXCLUDE-v1.json",
+      "file": "files/compile-cost-measurement-20261026-v2/public/MEASUREMENT-EXCLUDE-v1.json.gz",
+      "bytes": 12,
+      "sha256": "32d27d5019bf07bd0a90612898f7377e672f00dd29a5093584d61adcae5036a8",
+      "gzipBytes": 32,
+      "gzipSha256": "e4b5bc9054cd2cb617438857cad86c38d8b76f73c609adc486ecfc4d4309eedf"
+    },
+    {
+      "source": "compile-cost-measurement-20261026-v2/public/MEASUREMENT-ROOT-v1.json",
+      "file": "files/compile-cost-measurement-20261026-v2/public/MEASUREMENT-ROOT-v1.json.gz",
+      "bytes": 53,
+      "sha256": "0a922d1c844a89bfff0e79886bb3e780c2843174b28a5b264ad11a39cab88a5c",
+      "gzipBytes": 73,
+      "gzipSha256": "e092fd76407df225a379a04985bd728d159bd82c785709b0d177755e028b58c4"
+    },
+    {
+      "source": "compile-cost-measurement-20261026-v2/public/cold-BINARIES-v1.json",
+      "file": "files/compile-cost-measurement-20261026-v2/public/cold-BINARIES-v1.json.gz",
+      "bytes": 259,
+      "sha256": "2cc11c11b7b8c8fa2ce3fa1baf6b94e66b1628803097ce76c29d8fa20b8449f3",
+      "gzipBytes": 209,
+      "gzipSha256": "da27939b986204ac8fc1d0dfd7c6ae1352b2150ed5879457f0e6d1644033ff8e"
+    },
+    {
+      "source": "compile-cost-measurement-20261026-v2/public/cold-TIMING-v1.json",
+      "file": "files/compile-cost-measurement-20261026-v2/public/cold-TIMING-v1.json.gz",
+      "bytes": 168,
+      "sha256": "162eeba7c3e4eb2ca5879a6094cf8a2bfe7c45c2030423d2c46705928c9d2f6c",
+      "gzipBytes": 150,
+      "gzipSha256": "74cf05ace460981acb48b5a6e1e01c0bb6946ce97b67d86686f675df46880df3"
+    },
+    {
+      "source": "compile-cost-measurement-20261026-v2/public/helper-source-v2.mjs",
+      "file": "files/compile-cost-measurement-20261026-v2/public/helper-source-v2.mjs.gz",
+      "bytes": 5907,
+      "sha256": "161e98dffb5ec35b5462bd8f5711429f52289cc9dcf79084630716137375431e",
+      "gzipBytes": 2404,
+      "gzipSha256": "1b71e0c8a635c82c69fcafc0bfc1441a4a6bb93590e25883984882551b46de01"
+    },
+    {
+      "source": "compile-cost-measurement-20261026-v2/public/warm-BINARIES-v1.json",
+      "file": "files/compile-cost-measurement-20261026-v2/public/warm-BINARIES-v1.json.gz",
+      "bytes": 259,
+      "sha256": "2cc11c11b7b8c8fa2ce3fa1baf6b94e66b1628803097ce76c29d8fa20b8449f3",
+      "gzipBytes": 209,
+      "gzipSha256": "da27939b986204ac8fc1d0dfd7c6ae1352b2150ed5879457f0e6d1644033ff8e"
+    },
+    {
+      "source": "compile-cost-measurement-20261026-v2/public/warm-TIMING-v1.json",
+      "file": "files/compile-cost-measurement-20261026-v2/public/warm-TIMING-v1.json.gz",
+      "bytes": 172,
+      "sha256": "9e56a56630b1c0114c9de190fcef882563c3f2da54319b1b6c7bedf1ff62783d",
+      "gzipBytes": 152,
+      "gzipSha256": "64a0879985c505a6331fed86661619c282d3978262d205bf8ee2e90a232b118b"
+    },
+    {
+      "source": "compile-cost-measurement-20261026-v2/warm.jsonl",
+      "file": "files/compile-cost-measurement-20261026-v2/warm.jsonl.gz",
+      "bytes": 908596,
+      "sha256": "81a253729be4a3fe224bada66113a722ac12f886d09cb93bb03492aebf5f32d5",
+      "gzipBytes": 61484,
+      "gzipSha256": "ac1add19fa95005534caa513ccd899e8d795cfef172b42f5acfa5e316b5e7a65"
+    },
+    {
+      "source": "compile-cost-measurement-20261026-v2/warm.stderr.log",
+      "file": "files/compile-cost-measurement-20261026-v2/warm.stderr.log.gz",
+      "bytes": 497,
+      "sha256": "48372031abb908fe987fb6f0495efb848b0b3379ee356f2b392996094ba10358",
+      "gzipBytes": 240,
+      "gzipSha256": "2d0cc31573d988c0be5bb1de91da4e7c26f220ec8c64cd4806abfd71c3ec7412"
+    }
+  ]
+}
