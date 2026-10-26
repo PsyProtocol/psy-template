@@ -40,7 +40,7 @@ export function withActionFee(model,task,fee){
 export async function scanComposition(model,s){
  const t=model.intent.terms,V=Number(t.execution.vaultId),C=Number(t.execution.controllerId),U=Number(t.owner),fields=new Map(model.controllerAbi.contract.state.map(f=>[f.name,f.offset]));
  const at=(user,name,i=0)=>{assert.ok(fields.has(name),'controller ABI field '+name);return s.slot(user,C,fields.get(name)+i);};
- const pair=async(user,name)=>decodeAmount(await Promise.all([at(user,name),at(user,name,1)]));
+ const pair=async(user,name)=>decodeAmount(await readTogether([at(user,name),at(user,name,1)]));
  const [phase,cancelled]=await readTogether([at(V,'phase'),at(U,'request_cancelled')]),checkpoint=BigInt(s.checkpoint),expiry=t.expiresAtCheckpoint,stopped=cancelled===1n||checkpoint>expiry;
  const view={checkpoint:s.checkpoint,phase,intentId:model.intent.id,atomic:false,sourceAuthenticated:false};
  const idle=(reason,extra={})=>({...view,action:null,reason,...extra});
@@ -64,7 +64,7 @@ export async function scanComposition(model,s){
  const [owner,intentNonce,liveExpiry]=await readTogether([at(V,'owner'),at(V,'intent_nonce'),at(V,'expiry')]);assert.equal(owner,t.owner);assert.equal(intentNonce,t.nonce);assert.equal(liveExpiry,expiry);
  assert.ok([2n,3n,4n,5n,6n,7n,99n].includes(phase),'intermediate/unknown controller phase cannot be resumed');
  const [nativeExpected,nativeBalance]=await readTogether([at(V,'native_expected'),s.slot(V,0,0)]);assert.equal(nativeBalance,nativeExpected,'native controller accounting');
- const balance=async id=>decodeAmount(await Promise.all([s.slot(V,Number(id),0),s.slot(V,Number(id),1)]));
+ const balance=async id=>decodeAmount(await readTogether([s.slot(V,Number(id),0),s.slot(V,Number(id),1)]));
  if(phase===99n){assert.equal(nativeBalance,0n);const balances=await readTogether([balance(model.assetA),balance(model.assetB)]);assert.deepEqual(balances,[0n,0n]);return idle('controller-terminal-owner-claim-required',{owner:t.owner,scope:'controller is terminal; ordinary owner must claim its exact FT/native Outbox; local terminal is not final receipt'});}
  if(nativeExpected<F)return idle('fee-budget-insufficient',{automaticTopup:false,who:'owner-authorized recovery only; no implicit spend'});
  if([2n,4n,6n,7n].includes(phase)){
@@ -78,7 +78,7 @@ export async function scanComposition(model,s){
  }
  const hop=phase===3n?1:2,m=model.plan.steps[hop-1],M=Number(m.marketId),P=Number(m.vaultId),abi=model.marketAbis[hop-1],offset=new Map(abi.contract.state.map(f=>[f.name,f.offset]));
  const market=(user,name,i=0)=>{assert.ok(offset.has(name),'market ABI field '+name);return s.slot(user,M,offset.get(name)+i);};
- const pending=async asset=>{const sent=decodeAmount(await Promise.all([s.slot(P,Number(asset),33554453+4*V),s.slot(P,Number(asset),33554454+4*V)])),claimed=decodeAmount(await Promise.all([s.slot(V,Number(asset),33554455+4*P),s.slot(V,Number(asset),33554456+4*P)]));assert.ok(sent>=claimed);return sent-claimed;};
+ const pending=async asset=>{const sent=decodeAmount(await readTogether([s.slot(P,Number(asset),33554453+4*V),s.slot(P,Number(asset),33554454+4*V)])),claimed=decodeAmount(await readTogether([s.slot(V,Number(asset),33554455+4*P),s.slot(V,Number(asset),33554456+4*P)]));assert.ok(sent>=claimed);return sent-claimed;};
  const input=hop===1?model.assetA:model.assetB,output=hop===1?model.assetB:model.assetA,principal=hop===1?t.input.amount:await pair(V,'middle'),orderNonce=await at(V,'order_nonce'),consumed=await market(P,'consumed',V),kind=await market(V,'kind');
  const [outputPending,inputPending,nativeSent,nativeClaimed]=await readTogether([pending(output),pending(input),s.slot(P,0,3+2*V),s.slot(V,0,4+2*P)]),nativePending=nativeSent-nativeClaimed;assert.ok(nativePending>=0n);
  if(consumed===orderNonce&&kind!==0n){

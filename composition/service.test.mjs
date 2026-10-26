@@ -75,5 +75,23 @@ test('ordinary owner claim request preserves U124 numeric bytes and service neve
  }finally{await x.cleanup();}
 });
 test('service settings reject unbounded retry and unknown options',()=>{
- for(const x of [{maxSessionRestarts:1000},{intervalMs:0},{maxReadFailures:0},{automaticResubmit:true}])assert.throws(()=>serviceSettings(x));
+ for(const x of [{maxSessionRestarts:1000},{intervalMs:0},{maxReadFailures:0},{automaticResubmit:true},{prewarmResources:'yes'}])assert.throws(()=>serviceSettings(x));
+});
+test('explicit service prewarm occurs once before financial work; default stays disabled',async()=>{
+ for(const enabled of[false,true]){const x=await fixture();let warms=0;try{
+  x.args.settings.prewarmResources=enabled;x.args.adapterFactory=()=>{const a=x.make();a.warm=async()=>{warms++;assert.equal(x.state.proofs+x.state.sends,0);return{residentStartup:{ready:true}};};return a;};
+  assert.equal((await runCompositionService(x.options,x.args)).status,'completed');assert.equal(warms,enabled?1:0);assert.equal(x.state.sends,1);
+ }finally{await x.cleanup();}}
+});
+test('reconcile-only service does not build optional proof resources',async()=>{
+ const x=await fixture();try{x.args.settings.prewarmResources=true;x.args.adapterFactory=()=>{const a=x.make();a.warm=async()=>assert.fail('reconcile-only must not warm');return a;};assert.equal((await runCompositionService(x.options,{...x.args,mode:'reconcile'})).status,'reconciled');assert.equal(x.state.proofs+x.state.sends,0);}finally{await x.cleanup();}
+});
+test('failed explicit prewarm halts without a financial request or silent fallback',async()=>{
+ const x=await fixture();try{x.args.settings.prewarmResources=true;x.args.adapterFactory=()=>{const a=x.make();a.warm=async()=>{throw Error('pinned resource changed');};return a;};await assert.rejects(runCompositionService(x.options,x.args),/pinned resource changed/);assert.equal(x.state.proofs+x.state.sends,0);assert.equal(x.state.closes,1);}finally{await x.cleanup();}
+});
+test('unresolved original broadcast skips prewarm and all replacement financial work',async()=>{
+ const x=await fixture();try{const pending=x.make();pending.reconcile=async()=>({status:'unresolved'});await x.journal.execute({task:x.task,...pending});await pending.close();const proofs=x.state.proofs,sends=x.state.sends;
+  x.args.settings.prewarmResources=true;x.args.adapterFactory=()=>{const a=x.make();a.warm=async()=>assert.fail('unknown original must be reconciled first');a.reconcile=async()=>({status:'unresolved'});return a;};
+  assert.equal((await runCompositionService(x.options,{...x.args,mode:'once'})).status,'unresolved');assert.ok(x.events.some(e=>e.status==='resource-warmup-skipped'));assert.equal(x.state.proofs,proofs);assert.equal(x.state.sends,sends);
+ }finally{await x.cleanup();}
 });

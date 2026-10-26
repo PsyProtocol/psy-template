@@ -22,8 +22,9 @@ const makeLocalJournal=o=>new ExecutionJournal({directory:o.runtimeDirectory,net
   vaultId:o.vaultId,fingerprint:o.fingerprint});
 const makeJournal=o=>o.coordinator?createCoordinatedJournal(o):makeLocalJournal(o);
 export function serviceSettings(input={}) {
-  assert.ok(Object.keys(input).every(k=>['intervalMs','maxBackoffMs','maxSessionRestarts','maxReadFailures'].includes(k)));
-  const settings={intervalMs:10000,maxBackoffMs:300000,maxSessionRestarts:3,maxReadFailures:5,...input};
+  assert.ok(Object.keys(input).every(k=>['intervalMs','maxBackoffMs','maxSessionRestarts','maxReadFailures','prewarmResources'].includes(k)));
+  const settings={intervalMs:10000,maxBackoffMs:300000,maxSessionRestarts:3,maxReadFailures:5,prewarmResources:false,...input};
+  assert.equal(typeof settings.prewarmResources,'boolean');
   for(const [key,min,max] of [['intervalMs',1,300000],['maxBackoffMs',1,3600000],
     ['maxSessionRestarts',0,10],['maxReadFailures',1,100]])
     assert.ok(Number.isSafeInteger(settings[key])&&settings[key]>=min&&settings[key]<=max,key);
@@ -65,6 +66,18 @@ export async function runCompositionService(options,{mode='watch',signal,
           await emit({status:'creating-adapter'});
           adapter=await create(options);
           await emit({status:'adapter-ready',intentId:adapter.model.intent.id});
+          // Warming creates only pinned immutable circuits. It cannot replace
+          // receipt reconciliation or authorize spending a pending Outbox.
+          if(settings.prewarmResources&&mode!=='reconcile') {
+            if((await journal.locked(()=>journal.unresolved())).length)await emit({status:'resource-warmup-skipped',reason:'original-broadcast-unresolved'});
+            else {
+              assert.equal(typeof adapter.warm,'function','explicit warmup requires a guarded adapter');
+              await emit({status:'resource-warmup-started'});
+              const warmed=await adapter.warm();
+              await emit({status:'resource-warmup-ready',residentStartup:warmed.residentStartup,
+                scope:'immutable pinned resources only; no quote, transaction witness, signature, proof or submission'});
+            }
+          }
         }
         const result=mode==='reconcile'?{status:'reconciled',recovered:await journal.reconcile(adapter.reconcile)}:
           await compositionCycle(adapter,journal,{signal});
