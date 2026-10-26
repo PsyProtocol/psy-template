@@ -173,3 +173,16 @@ write is connected. Real integration still needs the wallet security interfaces,
 authenticated state and end-to-end acceptance. See
 [design notes](design/2026-10-26/THREE-MARKETS-v1.md) and
 [verification](../executor/verification/2026-10-26-three-market-ui-v1/README.md).
+
+
+## Unsubmitted editing preferences
+
+Swap, liquidity add/remove/mode, Orderbook, Curve and NFT inputs use independent
+`psy.markets.editing.v1.*` records. Only bounded strings and reviewed selections
+are stored. No balance, nonce, quote, proof, signature, prepared plan or wallet
+credential is stored. Restored values are preferences, never authorization.
+Corrupt/oversized/wrong-schema records remain untouched with autosave paused;
+storage failures preserve current memory inputs. Another tab's storage change
+pauses autosave and asks for a reload instead of silently overwriting edits.
+Reset affects the current valid form only. Saved market drafts and demo order
+journals are not migrated, replaced or reactivated by form restoration.

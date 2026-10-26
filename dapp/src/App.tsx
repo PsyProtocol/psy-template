@@ -1,3 +1,5 @@
+import { useEditingForm } from "./hooks/useEditingForm";
+import { FormDraftNotice } from "./markets/FormDraftNotice";
 import { useEffect, useState } from "react";
 import { usePsy } from "./hooks/usePsy";
 import { WorkbenchShell, DemoNotice, type View } from "./markets/Shell";
@@ -95,10 +97,11 @@ export default function App() {
     [draftStatus, setDraftStatus] = useState<"all" | DraftActivityState>("all"),
     [activityQuery, setActivityQuery] = useState("");
   const draftNow = useDraftClock(products.records);
+  const swapEditing = useEditingForm<DraftForm>("swap", INITIAL_FORM);
+  const { form, setForm } = swapEditing;
   const wallet = usePsy(),
     [view, setView] = useState<View>(hashView),
     [navigationRevision, setNavigationRevision] = useState(0),
-    [form, setForm] = useState<DraftForm>(INITIAL_FORM),
     [initial] = useState(initialRecords),
     [orders, setOrders] = useState(initial.orders),
     [storageIssue, setStorageIssue] = useState(initial.issue),
@@ -306,6 +309,12 @@ export default function App() {
           <>
             <div className="trade-grid">
               <SwapPanel
+                editingNotice={
+                  <FormDraftNotice
+                    {...swapEditing}
+                    onReset={swapEditing.reset}
+                  />
+                }
                 form={form}
                 setForm={setForm}
                 onPreview={setPreview}

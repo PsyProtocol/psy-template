@@ -364,3 +364,14 @@ save/cancellation/reload, exact quantities, intermediate-output demo handling,
 Back, modal focus and console/layout checks. No RPC read, chain financial action,
 proof or performance measurement occurred. No Node, SDK or old-contract change.
 Real signing, settlement/claim and healthy RPC acceptance remain open.
+
+
+## 2026-10-27 usability phase 1: unsubmitted editing persistence
+
+[Review and evidence](../../executor/verification/2026-10-27-market-usability-ui-v1/README.md).
+Versioned per-form preferences preserve unfinished exact amounts and selections,
+not quotes, identities or executable plans. Restore never submits; corrupt records
+are preserved with autosave paused. Cross-tab changes pause editing writes and
+do not claim financial coordination. 44 frontend tests, production build and eight
+browser restore checks pass. No Node/SDK/old-contract or financial action changed;
+the RPC heartbeat remains deleted. Liquidity/field/position phases follow.

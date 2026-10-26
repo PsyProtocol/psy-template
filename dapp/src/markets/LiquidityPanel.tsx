@@ -1,3 +1,5 @@
+import { useEditingForm } from "../hooks/useEditingForm";
+import { FormDraftNotice } from "./FormDraftNotice";
 import { useMemo, useState } from "react";
 import {
   previewLiquidity,
@@ -23,8 +25,9 @@ function AddLiquidityPanel({
 }: {
   onLivePlan: (form: LiquidityForm) => void;
 }) {
-  const [form, setForm] = useState(INITIAL),
-    [error, setError] = useState(""),
+  const editing = useEditingForm("add", INITIAL);
+  const { form, setForm } = editing;
+  const [error, setError] = useState(""),
     [preview, setPreview] = useState<Readonly<LiquidityPreview> | null>(null);
   const update = (key: keyof LiquidityForm, value: string) => {
     setError("");
@@ -57,6 +60,13 @@ function AddLiquidityPanel({
           }}
         >
           <h2>Add liquidity</h2>
+          <FormDraftNotice
+            {...editing}
+            onReset={() => {
+              editing.reset();
+              setError("");
+            }}
+          />
           <p className="section-note">
             Supply both assets to an existing pool.
           </p>
@@ -283,7 +293,9 @@ export function LiquidityPanel(props: {
   onLivePlan: (form: LiquidityForm) => void;
   onLiveWithdrawal: (form: WithdrawalForm) => void;
 }) {
-  const [mode, setMode] = useState("add");
+  const editing = useEditingForm("liquidity", { mode: "add" });
+  const mode = editing.form.mode;
+  const setMode = (mode: string) => editing.setForm({ mode });
   return (
     <>
       <div

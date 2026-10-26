@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 import {
   DEMO_ASSETS,
   previewDraft,
@@ -23,7 +23,9 @@ export function SwapPanel({
   onPreview,
   account,
   onLivePlan,
+  editingNotice,
 }: {
+  editingNotice?: ReactNode;
   form: DraftForm;
   setForm: (v: DraftForm) => void;
   onPreview: (v: Preview) => void;
@@ -58,6 +60,7 @@ export function SwapPanel({
       }}
       noValidate
     >
+      {editingNotice}
       <div className="route-tabs" aria-label="Swap route">
         {(["single", "double"] as const).map((mode) => (
           <button
