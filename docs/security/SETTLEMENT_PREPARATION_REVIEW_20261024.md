@@ -1,117 +1,157 @@
-> 2026-10-25 新一轮完整内存／冷启动／真实配对结果见 [PROVER_MEMORY_REVIEW_20261025.md](PROVER_MEMORY_REVIEW_20261025.md)，包含更慢的暖态／整轮指标，不作全面提速结论。
-
 # Settlement preparation review — 2026-10-24
 
-> 后续更新（2026-10-25，RPC／普通钱包）：同一 QA Book 的前后两轮各一笔真实成交及领取已关闭，34 个实际 UPS／34 个完整证明和资金链独立验证通过。暖态费用准备和领取客户端阶段下降，完整承诺＋结算证明约 260 s 基本未变；确认波动、较长 cutoff 等待、内存代价及缺失样本均保留。见 [配对性能与完整证据](RPC_ORDINARY_PERFORMANCE_REVIEW_20261025.md)。不据此宣称整轮提速或链 TPS。
+Later [memory](PROVER_MEMORY_REVIEW_20261025.md),
+[RPC/ordinary pair](RPC_ORDINARY_PERFORMANCE_REVIEW_20261025.md) and
+[three-market live](THREE_MARKET_LIVE_PERFORMANCE_20261025.md) evidence supersede
+historical pending states. Warm/client gains do not establish overall acceleration.
 
-> 最终更新（2026-10-25）：三个市场各一笔真实成交及普通签名钱包领取均已确认；48 笔实际 UPS、51 份不同完整证明完成独立审计。NFT 真实进程重启复用了原 UPS，并通过未过期已消费证明的原生拒绝测试。完整费用、冷/暖态、确认与内存口径、失败样本和未关闭项见 [最终性能与证据报告](THREE_MARKET_LIVE_PERFORMANCE_20261025.md)。以下保留各阶段历史状态；不以早期“pending”段落替代最终关闭索引，也不据此宣称生产级或链 TPS 提升。
+## Result and identity
 
+Fee preparation/independent reads are integrated in formal adapters. Two actual
+one-fill AMM batches, full two-pool route and ordinary claim completed; controller
+phase 99 with zero FT/native balances. Six warm fee stages total **672.75→376.21 s,
+44.08% reduction**, same machine/dependencies. No old network confirmation control:
+not whole-route speedup, chain TPS or production readiness. Shared four-market
+regressions are not actual performance acceptance for every market.
 
-## 本轮结论
+- Same branch; pre-optimization `efe3c9fad1605f23a8177ec3d0ea71826badb9cd`,1137hashed files.
+- SDK manifest 0afb4c65116cddcaca450b406a06503d65b63d38a004d8e773c6e5fa363bd425:
+  1466 sources/four execution-verification binaries unchanged. Upstream migration separate.
+- Original Node diff 002e35e0b13cb6c422fe3abf500ce6aa5241229264d85a3314f22b5e14b59a64
+  unchanged; no old code/layout upgrade.
+- Controller2495/key1092800 realm 1; ordinary1717440; Sponsor 406720.
+- New orders/epochs in existing owned QA pools2485/vault 1012928,2486/vault 718016
+  realm 0, not compatibility probing by update.
+- QA FT-A2483/B2484:18 dec; test PSY 9 dec fees, no pUSDT.
 
-费用准备和独立状态读取优化已接入正式适配器。两个真实薄批次各成交一单，双池路线及普通钱包领取完成，控制器到达终态 99，FT 和原生币余额均为零。六个暖态费用准备阶段合计从 **672.75 秒降至 376.21 秒，减少 44.08%**。这是同机、同依赖的本机准备成本对照；没有旧版网络确认配对样本，不能推导整条路线加速、链上 TPS 或生产级结论。
+## Changes and constraints
 
-本轮真实性能样本来自两个 AMM；四市场共享适配器有回归覆盖，不能据此称四市场都完成了新的真实性能验收。
+1. Advisory fee traces reduce two→one. Actual fee/modified slots/full stack/session/
+   nonce/endpoints still pass full UPS/sealed driver. Mismatch stops; no automatic
+   higher price or replacement payment.
+2. Append-only advisory binds task/traceSHA/driver/SDK/intent. renewFeePreparation
+   may renew an unsigned transport window only with identical business/calls and
+   current eligibility. New tasks rebuild witness/proof; old guards/signatures/
+   proofs do not receive new expiry. Unknown broadcast blocks new business.
+3. Same-snapshot bounded independent dependency/key/metadata/controller reads.
+   No balance/authority/nonce/proof cache across snapshots. Remove adjacent
+   current() after successful isCurrent, retaining eligibility/final driver checks.
+4. Compact adapters overlap registration/dependencies and exact-proof leaf/nonce/hash
+   reads; failures drain all in-flight siblings.
+5. Window selection only before freeze, capacity4. First128 checkpoints unchanged;
+   second96 selected before start, historical replay verified. Readonly selection
+   success does not establish universal adaptive routes or tail guarantees.
+6. Observation failures cannot affect finance/resend. Stage RSS selects owned child
+   processes, not unrelated wallets.
 
-## 固定基线与身份
+## Same-condition methodology
 
-- 分支：`markets-batch-capacity-recovery-20261020`；沿用原分支。
-- 优化前源码：`efe3c9fad1605f23a8177ec3d0ea71826badb9cd`，冻结 1137 个文件；每个文件均校验摘要。
-- SDK manifest SHA256：`0afb4c65116cddcaca450b406a06503d65b63d38a004d8e773c6e5fa363bd425`；1466 个冻结源文件及四个执行／验证二进制未变。SDK 上游迁移独立处理。
-- Node 原有 diff SHA256：`002e35e0b13cb6c422fe3abf500ce6aa5241229264d85a3314f22b5e14b59a64`，本轮未变。未升级旧合约代码或布局。
-- 独立控制器 2495，专用执行账户 1092800（realm 1），普通钱包 1717440，费用赞助钱包 406720。
-- 使用已有自有 QA 池 2485／金库 1012928、2486／金库 718016（realm 0）的新订单和新 epoch；没有更新旧合约探测兼容性。
-- QA FT-A 2483、QA FT-B 2484 均为 18 decimals；费用是 9 decimals 的测试 PSY；没有使用既有 pUSDT。
+arm64 Mac/10 logical CPUs/32 GiB, RAYON_NUM_THREADS=2, same SDK/binaries/policies/
+exact calls/start leaf/nonce. Fee ABBA shares resident resources but new sessions.
+Network varies; small sample/no confidence interval/independent causal attribution.
+44.08% is joint trace/read scheduling observation. Only candidate broadcasts.
+First-open control proves an authenticated historical source; later baseline
+reverifies the candidate's exact proof rather than duplicating generation. Those
+verification times are not old proof-generation costs.
 
-## 实际代码变化与安全约束
-
-1. `composition/adapter.mjs` 将 advisory fee trace 从两轮降为一轮。实际费用、修改槽、完整调用栈／会话、nonce 和公开状态端点仍须通过完整 UPS 与 sealed broadcast driver。费用不符直接停止，不自动提价或替代付款。
-2. Advisory 记录以追加方式绑定 task、trace SHA、driver、SDK 和意图。`renewFeePreparation` 仅可在业务字段和调用完全一致、实时资格校验通过后更新**未签名传输窗口**。新任务重新构建见证与证明；旧 guard、签名和证明不改时间。不确定广播始终阻止另起业务操作。
-3. 组合依赖、key 注册、不可变元数据和独立控制器字段在同一新快照内有界并发读取。余额、权限、nonce 和状态证明不跨快照缓存。删除 `isCurrent` 成功后紧邻的重复 `current()`；提交资格与驱动发送前校验仍在。
-4. 四市场 compact 适配器并发读取 key 注册与依赖，校验已存精确证明时并发读取 leaf／nonce 和 leaf hash；失败会排空在途读取，不带失败结果继续交易。
-5. 新 epoch 选窗函数只在集合冻结前工作，容量仍为 4。第一窗口 128 个 checkpoint 保持不变；第二窗口在 start 前使用 96 个 checkpoint，并经历史快照重放验证。当前只读预选工具的成功不等于所有正式路由已有自动自适应选窗，也不是尾延迟保证。
-6. 观测不参与授权；埋点失败不能改变金融结果或触发重发。RSS 按记录的 Executor 子进程归属统计，不把其他钱包进程算入阶段内存。
-
-## 同条件测量口径
-
-同一台 arm64 Mac、10 个逻辑 CPU、32 GiB 内存，`RAYON_NUM_THREADS=2`；相同冻结 SDK、二进制、策略、精确业务调用与起始账户 leaf／nonce。费用准备按 ABBA 次序共享完全相同的常驻证明资源，每次任务生成新会话状态。网络仍有时变延迟，样本小，没有置信区间或独立分项因果拆分；44.08% 是减少 trace 与并行读取的联合观测结果。
-
-仅候选请求广播。第一次 open 用同一认证 source checkpoint 的独立只读历史校准证明比较完整 core；后续基线重新核验候选**同一份精确证明**，不再制造重复证明。这些基线验证计时不是旧版生成证明的耗时。
-
-### 暖态费用准备
-
-| 操作 | 优化前秒数 | 优化后秒数 | 应用 RPC 次数：前／后 |
+| Warm operation | Before s | After s | Application RPC before/after |
 | --- | ---: | ---: | ---: |
-| consent-1 | 109.21 | 52.69 | 66 / 66 |
-| success-1 | 116.32 | 68.21 | 60 / 60 |
-| open-2 | 128.13 | 71.65 | 42 / 42 |
-| consent-2 | 108.10 | 55.69 | 68 / 68 |
-| success-2 | 118.98 | 59.92 | 62 / 62 |
-| return-final | 92.01 | 68.06 | 40 / 40 |
-| 合计 | 672.75 | 376.21 | 338 / 338 |
+| consent-1 | 109.21 | 52.69 | 66/66 |
+| success-1 | 116.32 | 68.21 | 60/60 |
+| open-2 | 128.13 | 71.65 | 42/42 |
+| consent-2 | 108.10 | 55.69 | 68/68 |
+| success-2 | 118.98 | 59.92 | 62/62 |
+| return-final | 92.01 | 68.06 | 40/40 |
+| Total | 672.75 | 376.21 | 338/338 |
 
-六个阶段的 trace 数从 12 减为 6。两段互不重叠的应用读取观察区间合计从约 178.83 秒降至 104.82 秒；这是 queue-to-last-RPC-finish 的阶段内跨度，含排队与解析，SDK 内部读取没有单独埋点。不能把并行 RPC 耗时相加当作整体墙钟时间。提交前删除重复快照的次数收益由源码变化确认，本轮没有旧版实际广播的配对读计数。
+Trace count 12→6. Two disjoint app-read spans178.83→104.82 s measure queue-to-last-
+finish incl parsing, not SDK internal reads or sums of parallel RPC times.
+Source confirms redundant pre-submit snapshot removal; no old actual broadcast
+read-count control exists.
 
-### 冷启动、证明、确认、内存与费用
-
-| 项目 | 实测与范围 |
+| Stage | Actual scope |
 | --- | --- |
-| 冷资源构建 | 首次常驻进程记录 key construction 1.077 秒、session construction 41.699 秒；包含在首个 job 内，不另加到墙钟总数。没有重新测量冷二进制编译。 |
-| 冷样本排除 | 初次 fund 的基线先冷启动、候选后使用暖资源；恢复后的 first-open 使用冷历史校准。二者不进入六项暖态汇总，也不作冷态加速结论。 |
-| 候选暖态完整证明 | 六项适配器 prove wall 为 91.64～124.69 秒，含当次新鲜状态检查；基线后续为精确证明验证，没有配对证明加速结论。 |
-| 两池 commit | 完整 preflight 104.451／105.111 秒；其中递归收尾约 8.99／8.90 秒、end-cap 4.52／4.49 秒、完整验证约 3.09／3.11 秒。各项是嵌套时段，不能重复相加。 |
-| 两池 settle | 完整 preflight 132.416／135.421 秒；调用证明约 74.37／73.71 秒、递归收尾 21.02／20.94 秒、end-cap 4.51／4.45 秒、完整验证 3.16／3.06 秒。真实调用计数 7，含策略调用；每批一笔成交。 |
-| 控制器提交 | intent 到驱动结果约 25.38～35.94 秒，含发送前检查／验证与 HTTP，不是纯网络传输。 |
-| 控制器确认观察 | 驱动结果到 indexed/common 观察约 16.39～183.62 秒，含索引、轮询与恢复观察；不是服务器最终性延迟，也没有旧版配对确认时间。 |
-| 普通钱包最终领取 | 冷进程至 ACK 124.305 秒，随后 indexed/common 观察 50.293 秒，合计 174.598 秒；真实领取 checkpoint 374233。 |
-| 阶段内存 | 暖态 quote 阶段归属于同一 Executor 的钱包子进程 RSS 采样最大值：基线约 4.58 GiB、候选约 3.46 GiB。2 秒采样，共享常驻资源和缓存驻留有差异；不宣称内存下降比例或真实峰值。父进程端点另记。全观察窗口约 7.30 GiB 的合计最大采样还包含其他工具，不能当阶段峰值。 |
-| 实际费用 | 28 个已确认 UPS 共燃烧 **28.000228 测试 PSY**；控制器自身 8.000070 PSY，其余为基础市场与普通钱包／赞助操作。注入的费用 escrow 不另算一次燃烧。配对请求实际费用相同，本轮没有链上费率降低结论。 |
+| Cold resources | First key1.077 s/session41.699 s inside first job, not added again. Binary compilation not remeasured. |
+| Excluded cold controls | First fund baseline cold/candidate warm and resumed first-open cold historical calibration excluded from six warm jobs. |
+| Candidate warm proofs | Six adapter prove walls91.64–124.69 s incl fresh checks; later baseline exact-proof verification is not paired reproof. |
+| Two commits | Preflight104.451/105.111 s; recursion8.99/8.90, end-cap4.52/4.49, verify3.09/3.11, nested. |
+| Two settles | Preflight132.416/135.421 s; calls74.37/73.71, recursion21.02/20.94, end-cap4.51/4.45, verify3.16/3.06. Seven calls/one fill each. |
+| Controller submit | Intent→result25.38–35.94 s incl checks/verify/HTTP, not pure transport. |
+| Controller confirmation | Result→indexed/common16.39–183.62 s incl index/poll/recovery, not server-only finality/control. |
+| Final ordinary claim | Cold process→ACK124.305 s + common50.293 =174.598 s; checkpoint 374233. |
+| Stage memory | Same-Executor wallet RSS maxima warm quote4.58/3.46 GiB, two-second sampling with resource/cache differences. No reduction ratio/true peak claim. Parent endpoints separate; whole observer~7.30 GiB includes other tools. |
+| Fees | 28 confirmed UPS burn28.000228 testPSY, controller8.000070; remainder market/ordinary/Sponsor. Escrow is not counted again. Paired actual fees equal. |
 
-恢复后的 v2 测试包络为 UTC 07:07:16.960～09:29:27.200，约 142.17 分钟，包含刻意的基线校准、两次入队窗口及多个独立 UPS；之前已确认的 fund 位于 v1。该包络不是正常纯优化运行耗时，不能换算成链上 TPS。
+Resumed v2 envelope07:07:16.960–09:29:27.200UTC (~142.17 min) includes intentional
+controls/admission windows/multiple UPS; fund was earlier v1. Not normal optimized
+latency or chain TPS.
 
-## 真实成交与资金闭环
+## Actual fills and conservation
 
-| 事件 | checkpoint | 精确 content hash |
+| Event | Checkpoint | Content hash |
 | --- | ---: | --- |
-| 池一结算 | 373901 | `bf1c0e0215d55b22c633ee3a7c78a6a2e05781d905aa91bd7a77c0f6e98d9dee` |
-| 池二结算 | 374141 | `6b65426055d92e742eae32ae9ad2405386d834450af7ed654006c724d6088dcc` |
-| 控制器领取池二输出 | 374196 | `4d08d02623a0ddac047fa46df7f851f66411cbce4e1cd7f51976723b8e329f37` |
-| 最终返还 Outbox | 374225 | `90df53cc5b6f83d3e2e9192aae1b9a0c41ad5f951445fb6a73b58ee9462017ef` |
-| 普通钱包领取 | 374233 | `69958393a494c99e8a8b29ebd700ac3a34f5a941eabaabf7a8a15c34a4a29fc5` |
+| Pool1 settle | 373901 | `bf1c0e0215d55b22c633ee3a7c78a6a2e05781d905aa91bd7a77c0f6e98d9dee` |
+| Pool2 settle | 374141 | `6b65426055d92e742eae32ae9ad2405386d834450af7ed654006c724d6088dcc` |
+| Controller hop2 claim | 374196 | `4d08d02623a0ddac047fa46df7f851f66411cbce4e1cd7f51976723b8e329f37` |
+| Final return Outbox | 374225 | `90df53cc5b6f83d3e2e9192aae1b9a0c41ad5f951445fb6a73b58ee9462017ef` |
+| Ordinary claim | 374233 | `69958393a494c99e8a8b29ebd700ac3a34f5a941eabaabf7a8a15c34a4a29fc5` |
 
-输入 4.611686018427387921 QA FT-A，经两池得到 2.378634516813680904 QA FT-B，再得到并领取 1.531196339553268088 QA FT-A。输入、储备与输出按原有定价验证，差额不是遗失资金，也不是盈利或统一价格清算测试。初始化的 1 atom QA FT-B 已退给普通钱包。
+4.611686018427387921 QA-A→2.378634516813680904 QA-B→claimed1.531196339553268088 QA-A.
+Existing pricing verifies reserves/input/output; difference is not lost funds,
+profit or uniform clearing. One initialization QA-B atom returned.
+Checkpoint374234 finite owned accounts/pools/controller conserve1000 each FT incl
+Outbox/claim cursors; native difference equals28receipt burns. Controller balances
+zero, queues/batches terminal, both outcomes filled. Intermediate B becomes
+spendable only after claim UPS. **Cross-UPS workflow, not cross-vault atomicity.**
 
-checkpoint 374234 的固定快照对账：自有测试账户与两池、控制器范围内，FT-A 和 FT-B 含累计 Outbox／领取游标的总额前后均为 1000；原生币差额严格等于 28 个回执费用。控制器 FT／native 为零、两池 queue/batch 为终态、两单 outcome 均为成交。中间 B 在领取 UPS 后才成为可支配余额；整条路线是**跨 UPS 工作流，非跨金库原子操作**。
+## Rejected calibration and safe resume
 
-## 被正确拒绝的首次校准与恢复
+First-open proof sources differed in checkpoint; AMM writes ctx.checkpoint_id into
+order_checkpoint, so end roots differed. Comparator rejected before open broadcast,
+without normalization/ignoring roots. Readonly audit found only fund confirmed,
+nonce 1, no open broadcast/pending. Corrected readonly historical source373680
+matches full public core; sealed driver refuses historical-calibration broadcast.
+Original fund reconciled, never resent. Advisory renewal5.90 s reuses VM trace,
+not production proof; full fresh proof generated. v1/v2 sources/failures retained.
 
-最初 first-open 两份证明取自不同 source checkpoint，而 AMM 将 `ctx.checkpoint_id` 写入 `order_checkpoint`，因此结束根不同。比较器在 open 广播前拒绝，没有忽略或归一化根。独立只读审计证明当时控制器只有原 fund 已确认、nonce=1、open 广播数与未决请求数均为零。
+Second window selected before freeze. Helper loaded source reconstructed from edit
+records, not falsely claimed prehashed. Current stricter implementation replays
+373955 to reproduce plan. Actual admit374046<cutoff 374051; seal374080. Five-checkpoint
+slack in one sample is not a general low-latency guarantee.
 
-修正后的独立历史校准仅用于只读基线，选择候选认证 source checkpoint 373680，完整公开 core 相同；冻结 sealed driver 拒绝广播历史校准包。随后原 fund 按精确回执接续，未重发付款；advisory 传输窗口续用耗时约 5.90 秒，不重新跑 VM trace，但重新生成完整生产证明。v1／v2 源码、失败证明与日志均保留。
+## Verification and remaining work
 
-第二入队窗口是在集合冻结前预选，而非改动已接受队列。helper 原加载版本的源码按原编辑记录重建，未伪称运行前已做摘要；更严格的当前实现又用 checkpoint 373955 的历史状态重放，精确复现同一计划。实际 admit 为 374046，早于 cutoff 374051；seal 为 374080。该单样本只有 5 个 checkpoint 余量，不能声称普遍保证低延迟。
+140 application regressions pass: four adapters, nonce/state/expiry/root/network/
+key/fee changes, advisory/window/restart/unresolved/concurrency/observation/window
+bounds. Mock IO is not cryptographic/live evidence or additive security counting.
+32distinct full requests independently verify;28have actual receipts, remainder
+readonly/rejected controls. Deduplicate by requestSHA. Fee mutation rejects.
+Actual identities/nonces/endpoints/receipt stats/fees verify; calibration failed
+before broadcasting, with no replacement operation.
 
-## 验证与证据
-
-- **140 项应用回归通过**：四市场适配、陈旧 nonce／状态、过期、代码／布局／网络／key 更换、费用篡改、advisory 记录与窗口绑定、重启／未决回执、并发读取、观测失败及选窗边界。mock IO 的测试不是密码学或真实网络证据，不与过往重复运行次数相加。
-- **32 份不同精确请求完整 UPS 独立验证通过**，其中 **28 份对应实际已确认回执**；其余为只读基线／被拒校准。按 request SHA 去重，重复引用不是新增证明。篡改实际费用负例被拒绝。
-- 所有实际请求的身份、nonce、状态端点、回执 stats／fees 已核对。未知广播不生成替代业务操作；本轮校准失败发生在广播前。
-- 证据压缩归档逐文件保存原始 SHA256 与 gzip SHA256，并与原目录字节比较；不包含钱包密钥或执行二进制。归档完整性验证和完整 UPS 验证是两项独立检查。
-
-[最终摘要](../../executor/verification/2026-10-24-settlement-preparation-live-v1/PERFORMANCE-SUMMARY.json) · [性能明细](../../executor/verification/2026-10-24-settlement-preparation-live-v1/PERFORMANCE.json) · [独立证明摘要](../../executor/verification/2026-10-24-settlement-preparation-live-v1/PROOF-VERIFICATION-SUMMARY.json) · [原始证据索引](../../executor/verification/2026-10-24-settlement-preparation-live-v1/manifest.json) · [140 项回归与固定依赖](../../executor/verification/2026-10-24-settlement-preparation-final-regressions-v1/manifest.json) · [首次拒绝校准原件](../../executor/verification/2026-10-24-preparation-rejected-calibration-v1/manifest.json)
-
-重放归档完整性：
+[Summary](../../executor/verification/2026-10-24-settlement-preparation-live-v1/PERFORMANCE-SUMMARY.json),
+[detail](../../executor/verification/2026-10-24-settlement-preparation-live-v1/PERFORMANCE.json),
+[proofs](../../executor/verification/2026-10-24-settlement-preparation-live-v1/PROOF-VERIFICATION-SUMMARY.json),
+[originals](../../executor/verification/2026-10-24-settlement-preparation-live-v1/manifest.json),
+[regressions](../../executor/verification/2026-10-24-settlement-preparation-final-regressions-v1/manifest.json),
+[rejected control](../../executor/verification/2026-10-24-preparation-rejected-calibration-v1/manifest.json).
 
 ```sh
 python3 executor/acceptance/verifyCompactArchive.py executor/verification/2026-10-24-settlement-preparation-live-v1
 ```
 
-恢复原目录后，先按已选依赖构建固定 verifier，再在新的输出目录运行 `verifyPreparationRun.mjs`；不能把 JSON 摘要当作证明本身。报告脚本与金融执行源码分别有 `REPORTING-SOURCE-v1`、`CANDIDATE-SOURCE-v1/v2` 快照；生产请求来自当时已加载的金融源码，后处理改动不冒充执行时版本。
+Integrity is distinct from full UPS verification. Restore originals/build frozen
+verifier then run verifyPreparationRun into fresh output. REPORTING-SOURCE versus
+CANDIDATE-SOURCE-v1/v2 distinguish loaded financial source from postprocessing.
+No keys/binaries in public archive.
 
-## 剩余瓶颈和未关闭边界
+Remaining full calls/recursion/end-cap/internal witness reads/multistage confirmations/
+ordinary cold start dominate. No SDK sub-read instrumentation or cold binary control.
+Joint trace/scheduling change has no isolated attribution. Two thin fills do not
+establish max capacity/steady/all-market performance. First accepted window intact;
+second only once under low load. No capacity expansion/Sponsor-UPS merge/multi-host
+closure. Random off; scoped queue is not global censorship resistance. Upstream
+release/running image/upgrade/network trust remain external; success does not
+replace them or establish production readiness.
 
-- 完整调用证明、递归／end-cap、SDK 内部见证读取、多个阶段确认与普通钱包冷启动仍高；本轮没有 SDK 级分项读取埋点或二进制冷编译对照。
-- 当前对照联合改变 trace 数与读取调度，不能独立归因各项收益；薄批次样本只有两笔成交，不支持最大容量、稳态吞吐或所有市场性能结论。
-- 第一已接受窗口未改；第二窗口只验证一次实际低负载周期。最大批次扩容、费用赞助 UPS 合并、跨机器协调不在本轮结果内。
-- 随机排序保持关闭；有限认证队列不等于全市场纳入或抗审查；市场语义、共享金库均未改变。
-- 已选 SDK 的上游审查／发行、运行服务镜像证明、升级授权及网络域信任边界仍是独立外部交付；本轮应用校验未放松，也未用成功回执替代这些证据。没有生产级结论。
+Branch identity: `markets-batch-capacity-recovery-20261020`.

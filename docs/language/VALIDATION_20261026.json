@@ -1,0 +1,247 @@
+{
+  "schema": 1,
+  "baselineCommit": "4f15da5e5a33a37f26052690e0e8aa58f9db9e76",
+  "checks": [
+    {
+      "command": [
+        "python3",
+        "scripts/check_language.py"
+      ],
+      "exitCode": 0,
+      "output": "{\n  \"checkedTextFiles\": 2384,\n  \"frozenExactMatches\": 99,\n  \"failures\": []\n}\n"
+    },
+    {
+      "command": [
+        "python3",
+        "scripts/check_language.test.py"
+      ],
+      "exitCode": 0,
+      "output": "...\n----------------------------------------------------------------------\nRan 3 tests in 0.002s\n\nOK\n"
+    },
+    {
+      "command": [
+        "/Users/geir/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "--test",
+        "executor/exactJsonWire.test.mjs"
+      ],
+      "exitCode": 0,
+      "output": "\u2714 wire compaction preserves U124 literals, quoted whitespace, escaped quotes and UTF-8 (3.928083ms)\n\u2714 invalid JSON or UTF-8 cannot be converted into an apparently valid request (0.498791ms)\n\u2139 tests 2\n\u2139 suites 0\n\u2139 pass 2\n\u2139 fail 0\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 51.316708\n"
+    }
+  ],
+  "referenceRetention": [
+    {
+      "path": "DESIGN.md",
+      "originalLinkTargetsRetained": 0,
+      "originalFullHexIdentifiersRetained": 0
+    },
+    {
+      "path": "HANDOFF_2026-09-24.md",
+      "originalLinkTargetsRetained": 10,
+      "originalFullHexIdentifiersRetained": 0
+    },
+    {
+      "path": "MCP_PAYMENT_POLICY_REVIEW_2026-10-09.md",
+      "originalLinkTargetsRetained": 2,
+      "originalFullHexIdentifiersRetained": 5
+    },
+    {
+      "path": "PRODUCTION_READINESS.md",
+      "originalLinkTargetsRetained": 18,
+      "originalFullHexIdentifiersRetained": 0
+    },
+    {
+      "path": "PUSDT_TEST_FUNDING.md",
+      "originalLinkTargetsRetained": 7,
+      "originalFullHexIdentifiersRetained": 0
+    },
+    {
+      "path": "README.md",
+      "originalLinkTargetsRetained": 28,
+      "originalFullHexIdentifiersRetained": 0
+    },
+    {
+      "path": "amm/u124/README.md",
+      "originalLinkTargetsRetained": 6,
+      "originalFullHexIdentifiersRetained": 0
+    },
+    {
+      "path": "amm/wide/README.md",
+      "originalLinkTargetsRetained": 2,
+      "originalFullHexIdentifiersRetained": 0
+    },
+    {
+      "path": "amm/wide/v2/README.md",
+      "originalLinkTargetsRetained": 0,
+      "originalFullHexIdentifiersRetained": 2
+    },
+    {
+      "path": "bondingcurve/u124/README.md",
+      "originalLinkTargetsRetained": 1,
+      "originalFullHexIdentifiersRetained": 0
+    },
+    {
+      "path": "composition/EXECUTION_DEPENDENCIES.md",
+      "originalLinkTargetsRetained": 0,
+      "originalFullHexIdentifiersRetained": 0
+    },
+    {
+      "path": "dapp/README.md",
+      "originalLinkTargetsRetained": 2,
+      "originalFullHexIdentifiersRetained": 0
+    },
+    {
+      "path": "docs/design/MARKET_BATCH_V2.md",
+      "originalLinkTargetsRetained": 0,
+      "originalFullHexIdentifiersRetained": 0
+    },
+    {
+      "path": "docs/security/COMPOSITION_LIVE_ACCEPTANCE_20261024.md",
+      "originalLinkTargetsRetained": 9,
+      "originalFullHexIdentifiersRetained": 2
+    },
+    {
+      "path": "docs/security/DEPLOY_RECEIPT_ID_COLLISION_20261024.md",
+      "originalLinkTargetsRetained": 0,
+      "originalFullHexIdentifiersRetained": 6
+    },
+    {
+      "path": "docs/security/EXECUTOR_COMPOSITION_CONTINUATION_20261026.md",
+      "originalLinkTargetsRetained": 13,
+      "originalFullHexIdentifiersRetained": 1
+    },
+    {
+      "path": "docs/security/FIXED_VERIFIER_PERFORMANCE_REVIEW_20261025.md",
+      "originalLinkTargetsRetained": 14,
+      "originalFullHexIdentifiersRetained": 1
+    },
+    {
+      "path": "docs/security/MARKET_BATCH_FOLLOWUP_20261020.md",
+      "originalLinkTargetsRetained": 1,
+      "originalFullHexIdentifiersRetained": 2
+    },
+    {
+      "path": "docs/security/MARKET_BATCH_PREFLIGHT_20261020.md",
+      "originalLinkTargetsRetained": 2,
+      "originalFullHexIdentifiersRetained": 1
+    },
+    {
+      "path": "docs/security/MARKET_BATCH_RELEASE_REVIEW_20261020.md",
+      "originalLinkTargetsRetained": 11,
+      "originalFullHexIdentifiersRetained": 7
+    },
+    {
+      "path": "docs/security/MARKET_BATCH_V2_RESULTS_20261020.md",
+      "originalLinkTargetsRetained": 1,
+      "originalFullHexIdentifiersRetained": 1
+    },
+    {
+      "path": "docs/security/PROOF_STAGE_PERFORMANCE_REVIEW_20261024.md",
+      "originalLinkTargetsRetained": 8,
+      "originalFullHexIdentifiersRetained": 4
+    },
+    {
+      "path": "docs/security/PROVER_MEMORY_REVIEW_20261025.md",
+      "originalLinkTargetsRetained": 6,
+      "originalFullHexIdentifiersRetained": 1
+    },
+    {
+      "path": "docs/security/RPC_ORDINARY_PERFORMANCE_REVIEW_20261025.md",
+      "originalLinkTargetsRetained": 12,
+      "originalFullHexIdentifiersRetained": 2
+    },
+    {
+      "path": "docs/security/SETTLEMENT_PREPARATION_REVIEW_20261024.md",
+      "originalLinkTargetsRetained": 9,
+      "originalFullHexIdentifiersRetained": 8
+    },
+    {
+      "path": "docs/security/THREE_MARKET_LIVE_PERFORMANCE_20261025.md",
+      "originalLinkTargetsRetained": 15,
+      "originalFullHexIdentifiersRetained": 1
+    },
+    {
+      "path": "docs/security/UPGRADE_AUTHORITY_REVIEW_20261019.md",
+      "originalLinkTargetsRetained": 7,
+      "originalFullHexIdentifiersRetained": 2
+    },
+    {
+      "path": "executor/operations/systemd/README.md",
+      "originalLinkTargetsRetained": 0,
+      "originalFullHexIdentifiersRetained": 0
+    },
+    {
+      "path": "nft-marketplace/README.md",
+      "originalLinkTargetsRetained": 3,
+      "originalFullHexIdentifiersRetained": 0
+    },
+    {
+      "path": "orderbook/u124/README.md",
+      "originalLinkTargetsRetained": 1,
+      "originalFullHexIdentifiersRetained": 0
+    },
+    {
+      "path": "token/README.md",
+      "originalLinkTargetsRetained": 19,
+      "originalFullHexIdentifiersRetained": 1
+    },
+    {
+      "path": "token/wide/README.md",
+      "originalLinkTargetsRetained": 4,
+      "originalFullHexIdentifiersRetained": 0
+    },
+    {
+      "path": "token/wide/private/README.md",
+      "originalLinkTargetsRetained": 1,
+      "originalFullHexIdentifiersRetained": 0
+    }
+  ],
+  "runtimeUtf8FixtureBytesIdentical": true,
+  "runtimeUtf8FixtureBytes": 112,
+  "frozenPlaintextOriginalsUnchanged": 99,
+  "compressedEvidenceChanged": false,
+  "chainNodeChanged": false,
+  "sdkChanged": false,
+  "financialOperations": 0,
+  "historicalCommitsWithHanProse": [],
+  "historyRewritten": false,
+  "localLinkCheck": {
+    "newBrokenLinks": [],
+    "historicalMissingPathsRetained": [
+      {
+        "path": "MCP_PAYMENT_POLICY_REVIEW_2026-10-09.md",
+        "target": "tests/security/mcp-policy-fix-followup-2026-10-09/"
+      },
+      {
+        "path": "MCP_PAYMENT_POLICY_REVIEW_2026-10-09.md",
+        "target": "tests/security/mcp-policy-fix-2026-10-09/"
+      }
+    ],
+    "initialEditorialErrorsCorrected": [
+      "Two local PSY20 report links had an accidental space; corrected before commit."
+    ]
+  },
+  "archiveUnicodeRecheck": {
+    "schema": 1,
+    "scope": "All tracked gzip containers; exact duplicates decoded once; no evidence mutation",
+    "stats": {
+      "files": 66254,
+      "compressedBytes": 823588885,
+      "uncompressedBytes": 10317937878,
+      "binaryFiles": 0,
+      "filesWithHan": 1554
+    },
+    "uniquePayloads": 37398,
+    "groupsWithHan": {
+      "batching": 2,
+      "executor": 1552
+    },
+    "failures": [],
+    "wallSeconds": 60.80559079098748,
+    "mutations": 0
+  },
+  "languageFinal": {
+    "checkedTextFiles": 2386,
+    "frozenExactMatches": 99,
+    "failures": []
+  }
+}

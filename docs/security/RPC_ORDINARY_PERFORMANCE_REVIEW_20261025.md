@@ -1,96 +1,137 @@
-> 2026-10-25 新一轮完整内存／冷启动／真实配对结果见 [PROVER_MEMORY_REVIEW_20261025.md](PROVER_MEMORY_REVIEW_20261025.md)，包含更慢的暖态／整轮指标，不作全面提速结论。
+# RPC waits and resident ordinary wallet: actual pair — 2026-10-25
 
-# RPC 等待与普通钱包常驻资源：真实配对验收（2026-10-25）
+Later [memory/cold-start pair](PROVER_MEMORY_REVIEW_20261025.md) includes slower
+warm/whole-round results; do not infer overall acceleration.
 
-## 结果和范围
+## Scope and results
 
-本轮关闭：同一独立 QA Orderbook 2497 / 金库 662720，连续两个新 epoch，每轮两名用户、每侧 1 QA FT、一笔成交、真实普通钱包领取。**共 34 笔实际 UPS、34 份不同完整请求，均完成独立密码学验证、收据/身份/费用核对，以及跨轮 nonce 和状态端点连续性审计。** 两种 QA FT 的有限已知持有集合始终各为 1,000；两轮之间账户状态精确连续；FT 出入金和领取均守恒。
+Same isolated QA Book 2497/vault 662720, two consecutive epochs, two users/one FT
+per side/one fill and actual ordinary claims per round. **34 actual UPS/distinct
+requests independently verify**, including receipts/identity/fees and inter-round
+nonce/endpoints. Each finite known FT total stays1000; exact state continuity and
+fund/claim conservation verify. Client stages improved, not whole-round time or
+commit/settle proving; no four-market TPS/production claim.
 
-沿用 `markets-batch-capacity-recovery-20261020`，基线代码 `5ac1bf32`。SDK 未切换，1466 份消费源码、构建配置及原 Node worktree 差异重新核验；不改 Node，不升级合约。SDK manifest SHA256：
-`0afb4c65116cddcaca450b406a06503d65b63d38a004d8e773c6e5fa363bd425`。
-编译器为 `nightly-2025-09-20`。实际候选 ordinary 二进制 SHA256：
-`0aa27f29334307de94be586c185f36951d9cad2f6d4d9dd920ba242d6e4226eb`。
+Same branch, baseline5ac1bf32, unchanged1,466-source SDK/config/original Node diff;
+no contract upgrade. SDK manifest:
+`0afb4c65116cddcaca450b406a06503d65b63d38a004d8e773c6e5fa363bd425`.
+Compiler nightly-2025-09-20. Actual ordinary-binary SHA256:
+`0aa27f29334307de94be586c185f36951d9cad2f6d4d9dd920ba242d6e4226eb`. QA FT 2483/2484:18 dec; native testPSY0:9 dec; **no existing pUSDT**.
+NFT 2496/other inventory unchanged.
 
-资产严格区分：QA FT 2483 / 2484，18 decimals；手续费为测试 PSY 0，9 decimals；**未使用既有 pUSDT**。QA NFT 2496 及其他市场库存保持不变。
+## Changes
 
-本轮证明的是客户端阶段收益；**未证明整轮更快，也未降低完整承诺／结算的证明成本**。不据此宣称四市场 TPS 或生产级。
+1. Explicit ordinary resident lifecycle binds binary, SDK, network, complete
+   dependencies and one wallet. Private-file digest stays memory-only. Recheck
+   before/after construction and each task; handshake precedes dispatch and IPC
+   binds raw input hash.
+2. Reuse only public circuits, immutable code and HTTP client; reset transaction
+   session and regenerate state/nonce/witness/signature/full UPS each job.
+3. Bounded independent dependency and leaf/nonce reads all drain before proceeding.
+   Fee/expiry/code/layout/function/field/slot/endpoints/full-proof checks remain.
+4. Historical receipts use up to four parallel reads but verify ordered history
+   and indexed content hash. A single source-bound candidate overlaps both required
+   reads. Shared concurrency cap, no completed/negative cache.
+5. One financial job per wallet; ACK does not release the gate before reconciliation.
+   In-flight reconciliation shares reads but returns copies; late A cannot clear
+   subsequent B. Unknown/failure never auto-signs/reproves/pays again.
+6. Finance uses strict integer serialization; only observation DTOs accept fractional
+   milliseconds. Job times include writing/closing result logs.
 
-## 实际改动
+Sources: [ordinary client](../../executor/ordinaryResident.mjs),
+[native](../../amm/u124/vm-tests/src/bin/isolated_wallet.rs),
+[receipts](../../executor/chainReceipts.mjs), [pair runner](../../executor/acceptance/runRpcOrdinaryComparison.mjs),
+[audit](../../executor/acceptance/auditRpcOrdinaryComparison.mjs),
+[report](../../executor/acceptance/reportRpcOrdinaryComparison.mjs).
 
-1. 普通钱包增加明确生命周期的常驻进程。绑定二进制、SDK manifest、网络配置、完整依赖及单一钱包身份；私钥文件摘要仅在内存中检查。构建前后及每项任务重新检查绑定。身份握手通过后才派发任务，IPC 绑定输入原始字节摘要。
-2. 仅保留可复用的公共电路、不可变代码资源及 HTTP 客户端。每项任务清空交易会话管理器，重新准备状态、nonce、见证、签名和完整 UPS；不复用旧状态证明。
-3. 独立公共依赖读取有界并行；当前用户叶与 nonce 状态并行读取并全部等待完成。费用、有效期、代码／布局／函数树／字段槽位端点及完整证明检查保留。
-4. 回执历史查找最多四路并行，按原顺序验证历史用户叶与 indexed content-hash 收据；仅单一 source-bound 候选时，将这两个必需读取重叠。共用 RPC 并发上限，不缓存已结束的查询或否定结果。
-5. 同一普通钱包只允许一个资金任务。ACK 不释放后续操作，必须精确对账。并发对账共享正在执行的读取、各自获得结果副本；迟到的 A 结果不能清除后续 B 的门闩。失败/未知结果不自动再签、重证明或重复付款。
-6. 财务输入继续使用严格整数序列化；浮点毫秒只由性能 DTO 写入器保存。客户端任务耗时包含结果日志写入和关闭。
+## Ordinary-wallet pair (seconds)
 
-源码：[常驻普通钱包](../../executor/ordinaryResident.mjs)、[原生客户端](../../amm/u124/vm-tests/src/bin/isolated_wallet.rs)、[回执读取](../../executor/chainReceipts.mjs)、[正式路由配对验收](../../executor/acceptance/runRpcOrdinaryComparison.mjs)、[独立审计](../../executor/acceptance/auditRpcOrdinaryComparison.mjs)、[性能汇总](../../executor/acceptance/reportRpcOrdinaryComparison.mjs)。
+Same machine/SDK/network/assets/market/vault/users/Sponsor, two Rayon threads per
+prover, same calls/parameter counts/economic volume. Nonces/checkpoints/balances
+naturally differ sequentially.
 
-## 普通钱包实测
-
-同一机器、相同 SDK/网络/资产/市场/金库、同一普通用户和 sponsor、每个 prover 2 个 Rayon 线程。每轮相同调用身份、参数数量和经济交易量；nonce、checkpoint 及顺序余额自然变化。下表单位为秒。
-
-| 指标 | 基线 | 候选 |
+| Metric | Baseline | Candidate |
 | --- | ---: | ---: |
-| 首次赞助费用准备（冷进程） | 104.823 | 108.309 |
-| 后续四次费用准备均值（前冷／后暖） | 104.380 | 57.260 |
-| Owner 领取客户端任务 | 102.057 | 55.411 |
-| Buyer 领取客户端任务 | 110.425 | 63.948 |
-| Owner 领取端到端 | 132.240 | 86.602 |
-| Buyer 领取端到端 | 131.922 | 97.034 |
+| First Sponsor fee job, cold process | 104.823 | 108.309 |
+| Four later fee jobs, mean (cold→warm) | 104.380 | 57.260 |
+| Owner claim client job | 102.057 | 55.411 |
+| Buyer claim client job | 110.425 | 63.948 |
+| Owner claim end-to-end | 132.240 | 86.602 |
+| Buyer claim end-to-end | 131.922 | 97.034 |
 
-- 四次重复费用准备：45.14% 的客户端任务样本降幅；两次领取客户端任务分别下降 45.71% / 42.09%。这是本机配对样本，不是 P95 或网络吞吐结论。
-- 冷构建没有变快：候选首次 sponsor 电路/会话构建 41.284 s，首次总任务反而略慢。后续暖态任务不再支付这一构建成本；每笔新证明仍执行。
-- 领取端到端包含 JS 依赖读取、任务、HTTP ACK、indexed exact receipt 及共同 realm checkpoint 可见性。Owner 的确认观察为 24.987 → 24.997 s，Buyer 为 15.482 → 26.892 s；后者并未变快。
-- 以暖态费用准备为例：新状态会话约 10.6–11.2 s，调用证明约 19.7–21.1 s，签名/end-cap 约 18.8–19.0 s，最终校验及提交约 4.4–4.9 s。SDK 阶段仍含其内部 RPC 和递归开销，不能解释为纯 CPU 证明时间。
+Fee-job reduction45.14%; claim client45.71%/42.09% are local paired observations,
+not p95 or network throughput. Cold build did not improve: first Sponsor
+circuit/session41.284 s, first total slightly slower. Warm tasks omit rebuild but
+prove fresh. End-to-end includes JS reads, job, ACK, exact indexed receipt/common
+checkpoint. Owner confirmation24.987→24.997 s, Buyer15.482→26.892 s, not faster.
+Warm fee stages: session10.6–11.2 s, call proof19.7–21.1 s, signature/end-cap18.8–19.0 s,
+final checks/submit4.4–4.9 s; SDK reads/recursion remain inside, not pure CPU.
 
-## RPC 真网 ABBA
+## Actual readonly RPC ABBA
 
-同一笔已经真实确认的交易，顺序均为串行 / 并行 / 并行 / 串行。完整返回被保存，匹配交易身份及经济收据字段；不比较每次 GET 生成的 envelope 时间戳。
+Same included transaction, serial/parallel/parallel/serial. Full returns retained;
+compare identity/economic receipt, not per-GET envelope timestamps.
 
-| 路径 | 串行 1 | 并行 1 | 并行 2 | 串行 2 | 实际请求数/次 |
+| Path | Serial1 | Parallel1 | Parallel2 | Serial2 | Requests/run |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| 单一近期候选 | 2.893 | 0.719 | 0.718 | 1.056 | 3 |
-| 历史查找 | 8.204 | 2.843 | 1.855 | 6.124 | 14 |
+| Single recent candidate | 2.893 | 0.719 | 0.718 | 1.056 | 3 |
+| Historical search | 8.204 | 2.843 | 1.855 | 6.124 | 14 |
 
-近期候选峰值为 2 个 fetch，历史查找为 4，实际请求数不变，安全核对不减少。首个近期串行样本包含冷连接，不能把全部差额归因于优化。近期测量在固定截止等待、证明进程空闲时进行，历史测量在金融工作结束后进行；两者均为真实只读 RPC，**不是广播到确认时间**。
+Max fetches2/4, same request counts/checks. First serial includes cold connection,
+so total delta is not attributable to scheduling. Recent queries occurred during
+cutoff with provers idle; history after finance. Neither measures broadcast→confirm.
 
-## 完整证明、确认及总成本
+## Full proofs, confirmation and cost
 
-| 指标（秒） | 基线 | 候选 |
+| Seconds | Baseline | Candidate |
 | --- | ---: | ---: |
-| 承诺完整 cryptographic preparation | 99.211 | 99.655 |
-| 结算完整 cryptographic preparation | 160.740 | 161.162 |
-| 承诺 ACK → indexed/common 观察 | 27.551 | 118.363 |
-| 结算 ACK → indexed/common 观察 | 163.621 | 26.984 |
-| 固定截止等待 | 329.930 | 612.110 |
+| Commit cryptographic preparation | 99.211 | 99.655 |
+| Settle cryptographic preparation | 160.740 | 161.162 |
+| Commit ACK→indexed/common | 27.551 | 118.363 |
+| Settle ACK→indexed/common | 163.621 | 26.984 |
+| Cutoff wait | 329.930 | 612.110 |
 
-承诺＋结算完整准备约 260 s，两版基本相同。确认观察包含网络、索引、共同状态可见性和客户端轮询，波动明显，不能把某笔确认变快归因于证明缓存或 RPC 排程。
+Commit+settle stays~260 s. Confirmation combines network/index/common visibility/
+polling and varies; it cannot be attributed to proof caching or RPC ordering.
+Each round17 UPS/one fill/**17.000115 testPSY**, identical per-operation fees despite
+limb carry changes. Ordinary-wallet sampled RSS7.966/10.688 GiB increases with
+resident resources; sums include idle/shared pages, not physical/instantaneous peak.
+Initial observer omitted compact-driver SHA, leaving full-prover RSS missing;
+ordinary RSS is not all proving memory. Whole envelopes58.923/63.093 min include
+development pauses/recovery/different cutoffs, not overall speedup or chain TPS.
 
-每轮均 17 笔 UPS / 1 笔成交，实际总费用均 **17.000115 测试 PSY**。逐项费用相同；虽然顺序余额的双 Felt 进借位不同，也没有实际节费。两版普通钱包进程 RSS 采样峰值分别为 **7.966 / 10.688 GiB**：常驻资源增加内存占用。它是所有被选中普通钱包（含空闲常驻进程）的 RSS 和，可能重复计入共享页，不是真实峰值或整机内存。
+## Failures and missing data
 
-初始观察器未包含封装 compact driver 的 SHA，故缺少完整 prover RSS 配对；原日志保留、报告显式标注，不能用普通钱包 RSS 冒充全部证明内存。
+- First baseline order hit consumed-but-unclosed slot before request/broadcast.
+  Both versions explicitly close_0/1 under existing rules before new orders.
+- A512-checkpoint plan rejected before start proof/send; preserve it and use a new
+  plan within deployed128 cap, not config-only capacity expansion.
+- Native v1/v2 never used financially: retired for startup-binding window/missing
+  IPC input hash. Actual release is v3.
+- Candidate first two native jobs proved/ACKed but parent observation serialization
+  used an integer-only writer. Exact original identities/receipts recovered; no
+  replacement orders/proofs/payments. Financial integer checks remain strict.
+- Those two outer totals stay null, not inferred from mtimes. Native stage data
+  remains; after restart owner/buyer first consents are cold, not warm.
+- Early baseline slightly overlaps builds/tests; final commit/settle/claims do not.
+  All source generations/failures remain.
 
-整轮观察为 58.923 / 63.093 min，包含两版早期开发停顿、恢复及不同截止等待；**不作为优化后的整体加速指标**。没有以 VM 速度或证明聚合替代真实确认吞吐。
+29 RPC/resident/integration,21 journal/recovery and3 native ordinary tests pass.
+Independent audits verify all 34 actual signed full UPS against fixed key/common,
+signer/vault, metadata/fees, nonce/root chain, FT/native and claims. Counts alone
+are not production evidence.
 
-## 失败样本及数据缺口
+Original `rpc-ordinary-performance-live-v1` is durable; old three-markets run stays
+closed. Closure public/ACCEPTANCE-CLOSED-v1.json and PERFORMANCE-v1.json supersede
+initial pending fields in original COMPLETE without overwriting it.
 
-- 基线首次新订单被已消费但未关闭的用户订单槽位拒绝，未产生请求或广播。两版均按合约原规则显式 `close_0/close_1` 后开新单。
-- 初始 512-checkpoint 入队计划被应用扫描拒绝，未产生启动证明或广播；保留原计划，以新文件使用部署合约已有的 128 上限。没有通过改配置数字扩大能力。
-- native 构建 v1/v2 从未参与金融调用，分别因启动绑定窗口、缺少 IPC 输入摘要绑定退役，原产物保留；真正使用的是 v3。
-- 候选首两笔已由 native 完整证明并 ACK，但外层性能 DTO 误用整数财务写入器导致父进程停止。按原 user/end-leaf/hash 收据精确恢复，没有重生成订单、证明或转账。财务整数约束未放松。
-- 这两笔外层总耗时缺失，报告为 null；native 构建与阶段数据仍保留，不按文件时间补造。安全重启后 owner/buyer 的首次 consent 仍为冷进程，未计作暖态。
-- 首轮基线前期与构建/测试少量重叠；最终承诺、结算、领取期间没有构建任务。所有失败和 source closure 代际保留。
+- [Baseline requests/proofs/receipts/source](../../executor/verification/2026-10-25-rpc-ordinary-baseline-live-v1/manifest.json)
+- [Candidate and readable evidence](../../executor/verification/2026-10-25-rpc-ordinary-complete-v1/README.md)
+- [Build/regressions](../../executor/verification/2026-10-25-rpc-ordinary-candidate-v3/manifest.json)
+- [Exact timing-failure recovery](../../executor/verification/2026-10-25-ordinary-timing-recovery-v1/manifest.json)
 
-## 验证、证据与剩余边界
-
-29 项 RPC/常驻/入口集成回归、21 项 journal/精确恢复回归、3 项原生 ordinary 测试通过。独立审计另外验证每个实际 signed request：34 份完整 UPS，固定 Node key/common、实际 signer/vault 身份、收据 metadata/费用、nonce/状态链、FT/native 守恒和领取均通过。测试数量不是生产级依据。
-
-原始持久目录：`psy-market-recovery-20261023/rpc-ordinary-performance-live-v1`。旧 `three-markets-performance-live-v1` 保持关闭。当前关闭索引为 `public/ACCEPTANCE-CLOSED-v1.json`；详细数字为 `public/PERFORMANCE-v1.json`；原始 `COMPLETE` 中早期 pending 字段保留，由独立 audit 和关闭索引补充。
-
-- [基线完整证明、请求、回执及源闭包](../../executor/verification/2026-10-25-rpc-ordinary-baseline-live-v1/manifest.json)
-- [本轮候选完整证据和可读摘要](../../executor/verification/2026-10-25-rpc-ordinary-complete-v1/README.md)
-- [原生构建和回归](../../executor/verification/2026-10-25-rpc-ordinary-candidate-v3/manifest.json)
-- [计时失败后的精确原请求恢复](../../executor/verification/2026-10-25-ordinary-timing-recovery-v1/manifest.json)
-
-该模块服务于本机 Executor/QA 普通钱包客户端，未迁移浏览器扩展或其他 MCP 入口。单机并发门闩不能替代跨机器账户协调；已有跨机器验收仍需外部环境。SDK 上游发行、运行服务镜像身份、升级授权等边界仍按 [四市场主 review](MARKET_BATCH_RELEASE_REVIEW_20261020.md) 记录。确定性排序、定价、撮合及 NFT 唯一成交语义不变；不据本次单 Book 配对外推其他三市场 TPS、全市场公平性或完整生产级。
+Local Executor/QA ordinary CLI only, not browser/MCP migration. Local gate is not
+cross-machine coordination. Upstream SDK/running images/upgrades remain in the
+[main review](MARKET_BATCH_RELEASE_REVIEW_20261020.md). Deterministic pricing,
+matching and NFT unique-sale semantics remain; one Book pair does not establish
+other-market TPS, global fairness or production readiness.

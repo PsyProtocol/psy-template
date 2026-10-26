@@ -1,0 +1,502 @@
+{
+  "schema": 1,
+  "baselineCommit": "4f15da5e5a33a37f26052690e0e8aa58f9db9e76",
+  "scope": "Explicit unchanged historical files; no blanket directory exception",
+  "records": [
+    {
+      "path": "amm/STAGING_PUSDT_TEST_2026-10-05.md",
+      "sha256": "5782a7d74a9d60a789386cfe67a6a843ce8463d104c57233cf78472aaebf45d4",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "amm/STAGING_PUSDT_TEST_2026-10-09.md",
+      "sha256": "2ea3db80f2055eb71902533632a0f8ec87c70073045aaf3d03f9de10f5ddcc93",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "amm/deployments/staging-pusdt-2026-10-05/amm-compiled-tests.log",
+      "sha256": "ee49ed417bd4d4fefce2d8a96ee34b16c614fcaf386976abac2905f1a35dc52a",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "amm/deployments/staging-pusdt-2026-10-05/amm-rust-tests.log",
+      "sha256": "d86a780cc416010788c372f8d7eb2e4fed73db04ea9c67f2fe639097f2c06c7b",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "amm/deployments/staging-pusdt-2026-10-05/amm-rust-verified-release-tests.log",
+      "sha256": "5c173ce45325d2754de03e3e2fb65842e500f28b95ad5dee1dca5ae8911f9f90",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "amm/deployments/staging-pusdt-2026-10-05/audit.mjs",
+      "sha256": "25e4b3819a8258f6952b6db8d41c30ec46b4b3fff73f0aa6a64ff77c2e034fe4",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "amm/deployments/staging-pusdt-2026-10-05/executor-amm.json",
+      "sha256": "c9bfdc452f38d544ab2d1ee0151ea0e1d165c345aaa295fdf43d61f44fa7f02c",
+      "reason": "Literal historical local filesystem provenance or a raw observation; path is not maintained prose"
+    },
+    {
+      "path": "amm/deployments/staging-pusdt-2026-10-05/run-rounds-initial.mjs",
+      "sha256": "57829e2624d932b88442f5d31311de70698e474ed501c980c1e388d10b6fafb8",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "amm/deployments/staging-pusdt-2026-10-05/run-rounds.mjs",
+      "sha256": "aac186f265c654266e89455f694477711746af7bfa0617b011ec1381770d053e",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "amm/deployments/staging-pusdt-2026-10-05/snapshot.mjs",
+      "sha256": "fb4f7306e435d5bbd16596c15b5a0d20960ba7b24d4cb8b9585819acc37362ef",
+      "reason": "Literal historical local filesystem provenance or a raw observation; path is not maintained prose"
+    },
+    {
+      "path": "amm/u124/deployments/staging-2026-10-12/continuation-2026-10-13/REPORT.md",
+      "sha256": "2f80f1b499ee7786f28fdf02ccf78dc7b215d0eaa60625aebcb4920f8523adaa",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "amm/u124/verification-2026-10-12/REPORT.md",
+      "sha256": "9f6451f97b4e7ea196dbd7703f1767c60008302efb6cad54b1fada08190d6486",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "amm/u124/verification-2026-10-13-hardening-01/AUDIT_HANDOFF.md",
+      "sha256": "59d8affcb10d50f46dc37f7b3f6f03fd1655b8da093153218a2b02d3e7b1b5c4",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "amm/u124/verification-2026-10-13-hardening-01/REPORT.md",
+      "sha256": "768410f20a27fd22c37c3b6d713db1fad1db03f9a7194385920f69469de86032",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "amm/wide/deployments/staging-2026-10-12/REPORT.md",
+      "sha256": "b01198b0c14bb70717d29a3177881097d13e1b1e639dddce9857d3941ffab756",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "amm/wide/verification-2026-10-11/REPORT.md",
+      "sha256": "98e36ddfc01333df3633fc5be0a07d93bc83ea33a2f8e23a5fed59004e307ff3",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "batching/evidence/20261020/capacity-recovery-v1/proof-cost-baseline.json",
+      "sha256": "290556d93979e9d952da615a6e5f2f6ff111ffc9390bfd6b8aa9d32ed6086378",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "batching/evidence/20261020/capacity-recovery-v1/proof-cost-recovery.json",
+      "sha256": "a77ef08b221617693ccbda503f21de64155aa823f62c28cdf08ba91a3fb4b146",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "batching/evidence/20261020/capacity-recovery-v1/sdk-api-gate-build.log",
+      "sha256": "f6c8e17e63d3d2772ad47925b1756c493985b416ebfa57d8fb862e80b158f1ee",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "bondingcurve/STAGING_EXECUTION_2026-09-30.md",
+      "sha256": "26666409a70b807f3ab3aa0ca2035c8cd1d1508a8789e86a83375cb5692424d0",
+      "reason": "Literal historical local filesystem provenance or a raw observation; path is not maintained prose"
+    },
+    {
+      "path": "bondingcurve/STAGING_TEST_2026-10-04.md",
+      "sha256": "b83945da37c4f3df34bb898b22168265a6caff969d909f20b0924bb752710247",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "bondingcurve/deployments/staging-2026-10-04/compiled-lifecycle.log",
+      "sha256": "53dc6b89dd1de3e7d6462d65b20487a51b55510a25ac59f0c38dc38c622a5ba3",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "bondingcurve/deployments/staging-2026-10-04/driver-build.log",
+      "sha256": "cef775813132811ac38ae90f18ad7f241033e8ffa3771d606b7ce2e6dd6cd431",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "bondingcurve/deployments/staging-2026-10-04/sdkey-security.log",
+      "sha256": "506f2bfa77f8a583bbd981dd455629d8db7924086452d50f44132b5c9eb9f76f",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "dapp/design/2026-10-26/DESIGN-v1-superseded.md",
+      "sha256": "4158a96d6f795199b45a69ccfeeae28f51b255ddc04ba02c06466f61fba23e16",
+      "reason": "Superseded design/prompt preserved as original rejected history"
+    },
+    {
+      "path": "dapp/design/2026-10-26/IMAGEGEN_PROMPT.md",
+      "sha256": "63d8a15ec92ed5469f4f37b00b286096f6c0c3275174a4c0fafe818fcd7ac1ff",
+      "reason": "Superseded design/prompt preserved as original rejected history"
+    },
+    {
+      "path": "executor/operations/staging-nft-2026-10-14/OPERATIONS.md",
+      "sha256": "6f4c15c8bcfb2b77d047eff559dd32554629a89ca27c7be455d33f576d828ad5",
+      "reason": "Literal historical local filesystem provenance or a raw observation; path is not maintained prose"
+    },
+    {
+      "path": "executor/operations/staging-u124-2026-10-13/OPERATIONS.md",
+      "sha256": "5eb0d86482ba0119b76675342c302e91ee574a8b07b7eed38be2ad837bfb4d6b",
+      "reason": "Literal historical local filesystem provenance or a raw observation; path is not maintained prose"
+    },
+    {
+      "path": "executor/verification/2026-10-09/REPORT.md",
+      "sha256": "dccecf1268da962e4e2627b8f035a1f8d360eb71700e6429204ec55a900d98ed",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "executor/verification/2026-10-10/REPORT.md",
+      "sha256": "a4c529a76cae9e65c8e3a0df598c1612a42d5ce84385979a924d3aa92fc3cb26",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "executor/verification/2026-10-11/REPORT.md",
+      "sha256": "189a7654858c17182ace7725dd3247877fd647d4ab719291d3aca565ca92db07",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "executor/verification/2026-10-14-hardening-02/REPORT.md",
+      "sha256": "fa6b31e9a11ae26e8cfeda00e272ede09f3fda78d814b2eddad70352cbcfb5e7",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "executor/verification/2026-10-14-resume-01/REPORT.md",
+      "sha256": "0eb98b8a24e12b2786b6c5da2bcb4fa9d0e8ddc2cffe0d47c634add5063ecd61",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "executor/verification/2026-10-21-compact-candidate-v1/admission-vm-fixed-v2.log",
+      "sha256": "7903847018912ee6d8f07c3f18ce606320fe2ff2c905350085376966dd1d3ec3",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "executor/verification/2026-10-21-compact-candidate-v1/consent-lock-vm-v1.log",
+      "sha256": "def498ce4e24b49b0997ac8c7ff2495ef4a756e8af46d3a5bde541e3440bc32e",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "executor/verification/2026-10-21-compact-candidate-v1/first-open-cfc-baseline-failure.log",
+      "sha256": "55767c8b6e0d853c33059b924d8c6736f280d8276e5fa3e260cfc0b16c2fc1d8",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "executor/verification/2026-10-21-compact-candidate-v1/fresh-account-anchor-tests-v1.log",
+      "sha256": "a9659bd5e98d6c598d8a965461c512778b94d87019350871c41fc8f1d2a716a2",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "executor/verification/2026-10-21-compact-candidate-v1/holder-gas-calibration-gates-v1/driver-incremental-build.log",
+      "sha256": "81dceb91fbdd68e7452b3f294ae412b26ccab3274c8d44e7f12a2f679aa9bf1d",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "executor/verification/2026-10-21-compact-candidate-v1/holder-gas-calibration-gates-v1/rust-source-pin-2-tests.log",
+      "sha256": "157849209adb6043b6e1f5fe5ccbed6e484d14a5f9dca520ef20c6555bee40cd",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "executor/verification/2026-10-21-compact-candidate-v1/ordinary-consent-cfc-v1.log",
+      "sha256": "5f0de6cbca463fa93ebe23cb0d9cd12f0135ad1e4bad8906e171b1b7141c1149",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "executor/verification/2026-10-21-compact-candidate-v1/psy-ordinary-diagnostics-build-20261021-v1.log",
+      "sha256": "2094c540eec0cb93ddd05d2e19b2b7dba5d7d5bdeab126360413b783a6d66725",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "executor/verification/2026-10-21-compact-candidate-v1/psy-ordinary-diagnostics-tests-20261021-v2.log",
+      "sha256": "f7177de9801b8b166f3e24d444fc4920ab17e9665a2d570525e95cddaf175300",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "executor/verification/2026-10-21-compact-candidate-v1/unfunded-baseline-reproduction.log",
+      "sha256": "e3b6b28798cc9c98ba842fba06e74a00fefeabc932f166e385417266ad3485f8",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "executor/verification/2026-10-24-settlement-preparation-live-v1/PERFORMANCE.json",
+      "sha256": "a42aeb8e6fb489aca1277a0928a04d1adc3da3e81d4bb45e28f34967396afe98",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "executor/verification/2026-10-24-settlement-preparation-live-v1/PROOF-VERIFICATION-SUMMARY.json",
+      "sha256": "f0113f80ca71de1c32f56a2c6b7f631ac01ebc101f7b0150a9661eb90ed76568",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "executor/verification/2026-10-25-fixed-verifier-build-v4/FULL-PROOF-REGRESSION.json",
+      "sha256": "38eb847fd18855cf5397a81546e19905574c15577165260fc2c54a3f25da1ac7",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "executor/verification/2026-10-25-fixed-verifier-recovery-v1/AUDIT.json",
+      "sha256": "ae0c90bb61f70c81fe4ab669dc315330ad641a9f23f3570f108594a6d16e3bb3",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "executor/verification/2026-10-25-nonce-retirement-413-v1/README.md",
+      "sha256": "6aa4704d9b26c528f8c7b51e189f39d269de6f1a719107d0d1a944d5d8780247",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "executor/verification/2026-10-25-nonce-retirement-confirmed-v1/README.md",
+      "sha256": "daaca72c26e1da57374ea6c2fa0da1828a74711150a3ff88b8b924b3881b1c87",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "executor/verification/2026-10-25-ordinary-exact-recovery-v1/README.md",
+      "sha256": "0949de013a084c79f7a9dcbf6701be5df2777fdc6267a070a80b34cb256b023f",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "executor/verification/2026-10-25-prover-memory-complete-v1/BASELINE-AUDIT.json",
+      "sha256": "b999c7a56fe0f8f38173dfa0ffd556acbec2653c4fe9208453f5aaa4c716fb95",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "executor/verification/2026-10-25-prover-memory-complete-v1/CANDIDATE-AUDIT.json",
+      "sha256": "a2d6b312b2244479288074192e517c52017b894237edc444d09fbfffee0905c2",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "executor/verification/2026-10-25-prover-memory-complete-v1/MEMORY-PERFORMANCE.json",
+      "sha256": "1a85bdbb0c03e1255a09fb3e17661456e8a1c951f3fbddd67f16ab565b66ba02",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "executor/verification/2026-10-25-prover-memory-complete-v1/PERFORMANCE.json",
+      "sha256": "234cb3a89a93967a2ea3a6121e91a9660315bf93a7804ef38f9577aeb8e45761",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "executor/verification/2026-10-25-retired-refunds-closed-v1/README.md",
+      "sha256": "27162eea4e752ff294e4b764131ee174a956f94d164ee40257d6aaf70e1251e1",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "executor/verification/2026-10-25-retired-refunds-closed-v1/SUMMARY.json",
+      "sha256": "0b08e183ae7b8255c84a43db9f639c9e7666439391933db2de95d30bf9fc7988",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "executor/verification/2026-10-25-rpc-ordinary-complete-v1/BASELINE-AUDIT.json",
+      "sha256": "c857064a2783281d75fcd3e337e3f6a75bd618049c1a2d530d7d80038ad66a7a",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "executor/verification/2026-10-25-rpc-ordinary-complete-v1/CANDIDATE-AUDIT.json",
+      "sha256": "2bed48af37051e825ae8fd436455727a5d0a45a49c524a20c2c7eb851824064c",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "executor/verification/2026-10-25-rpc-ordinary-complete-v1/HISTORICAL-RECEIPT-ABBA.json",
+      "sha256": "d51b0dac11d962ab1c3373a1385e2d07d20000fff341bd6f021e49be304f7e3c",
+      "reason": "Literal historical local filesystem provenance or a raw observation; path is not maintained prose"
+    },
+    {
+      "path": "executor/verification/2026-10-25-rpc-ordinary-complete-v1/PERFORMANCE.json",
+      "sha256": "4a3ceabac5683ae59c5a86e301f143e74b281fc70eb779ac5d5fb97af863b616",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "executor/verification/2026-10-25-rpc-ordinary-complete-v1/README.md",
+      "sha256": "aa32a274dd38795685725dd9ee29fdfc1ec1c90f46732cc64313978d446e346e",
+      "reason": "Literal historical local filesystem provenance or a raw observation; path is not maintained prose"
+    },
+    {
+      "path": "executor/verification/2026-10-25-rpc-ordinary-complete-v1/RECENT-RECEIPT-ABBA.json",
+      "sha256": "e63d984192d846c2d3384cd9d8b0bb46beabc3c390be17dbbb241939133d0df7",
+      "reason": "Literal historical local filesystem provenance or a raw observation; path is not maintained prose"
+    },
+    {
+      "path": "executor/verification/2026-10-25-scoped-original-recovery-v1/README.md",
+      "sha256": "7f32ebe00ab8ab563ea4025fe1f155cc0bbe629b7de1431c57fa1add30e2c6ef",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "executor/verification/2026-10-25-three-market-performance-complete-v1/ACCEPTANCE-CLOSED.json",
+      "sha256": "d270024d56033b8bb36ec9246a6e233f6661bffd655562fd89049d0a8d0cef1d",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "executor/verification/2026-10-25-three-market-performance-complete-v1/AUDIT-SUMMARY.json",
+      "sha256": "d2f75eb28c6fb7d168ca19722e2a705267d6a646a3c288d3c86df2407fb31993",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "executor/verification/2026-10-25-three-market-performance-complete-v1/PERFORMANCE.json",
+      "sha256": "0579218a8e997c9762b607b1b7bb0a5917203814949ed6d70e70e26d8b3526aa",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "executor/verification/2026-10-25-unused-sponsor-closed-v1/README.md",
+      "sha256": "8afe4ce34cb177891a61657e8851f13bf9567dd07aa8742fba4c07547c849c77",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "executor/verification/2026-10-25-unused-sponsor-closed-v1/SUMMARY.json",
+      "sha256": "a5cb2389797d58756f38b5331730c135c4abc509c850a501f6aee8010eaa6169",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "executor/verification/2026-10-25-unused-sponsor-guard-v1/README.md",
+      "sha256": "da7b3d844306887dfdd313c500e2e89c525346cd9062156f8f65c572ab923561",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "executor/verification/2026-10-26-baseline-inventory-v1/BASELINE-INVENTORY-v1.json",
+      "sha256": "d28e0778cd1017289c3a61a835720735b92d9572a6386231f3efeb89bfa3e710",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "executor/verification/2026-10-26-checkpoint-read-recovery-v1/README.md",
+      "sha256": "92bbf9f20f9606a89eb77837c038fb934207738cf6cb1867aaafeb488d121dfd",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "executor/verification/2026-10-26-compile-cost-v1/COMPILE-COST-REPORT.json",
+      "sha256": "292fb6123a27a09717fe8290aec4278568f4c190d440f6b8d23e2db05fe873d1",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "executor/verification/2026-10-26-complete-cold-warm-pair-v1/COLD-WARM-RESOURCES-v1.json",
+      "sha256": "35d2bd781c7f1da59598896c0c1094c83ff6ba499af4d8de86079f9f0ff5dca2",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "executor/verification/2026-10-26-complete-cold-warm-pair-v1/FIXED-VERIFIER-PERFORMANCE-v1.json",
+      "sha256": "6a6ed2235b902f475aae7ebbac13fc9f4771dcd5423283c2bd8b99239656a2f9",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "executor/verification/2026-10-26-complete-cold-warm-pair-v1/PERFORMANCE-v1.json",
+      "sha256": "65faaed4064b1afb8789427c60f733047f1e310191335cd1f7fd6839d378748c",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "executor/verification/2026-10-26-complete-cold-warm-pair-v1/PROVER-RESOURCES-v1.json",
+      "sha256": "a5b33a7c241dd3e4840cabd809f13548b696f166ad036748a61afcc3235f8033",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "executor/verification/2026-10-26-complete-cold-warm-pair-v1/README.md",
+      "sha256": "6e0292ee91978c1c87b5993d7c13129bef7bb2979fc25480f32f0d6e2d72fbdb",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "executor/verification/2026-10-26-complete-cold-warm-pair-v1/baseline-AUDIT-v1.json",
+      "sha256": "bd177379024f3055117325ab2517ce12d80dcee33bdcc10bea5d6064eae08ad4",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "executor/verification/2026-10-26-complete-cold-warm-pair-v1/candidate-AUDIT-v1.json",
+      "sha256": "e628adb771127bd7a765b906ad26c68628e0bfc90a3f861632f9c80e99db7eaf",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "executor/verification/2026-10-26-complete-measurement-preflight-v1/README.md",
+      "sha256": "793cbe6a2da0ad9c69b5d871dec411bd1f9ca0d921f616d4479d5e08364483e7",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "executor/verification/2026-10-26-fixed-verifier-recovery-closed-v1/FULL-PROOF-AUDIT.json",
+      "sha256": "338d3098e22db98370fab4fdea91d797a820c36cae46bb98960de0ddab7a1600",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "executor/verification/2026-10-26-fixed-verifier-recovery-closed-v1/README.md",
+      "sha256": "c18cf18213d433e104b6cd95093d9b18707803062bbb8243f44ffefb92f0f48a",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "executor/verification/2026-10-26-unsigned-session-recovery-v1/README.md",
+      "sha256": "b002def1b52af8b84f0a2e5384e368a3131e34cccea85a1a1538e78d15834a55",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "launchamm/STAGING_TEST_2026-10-05.md",
+      "sha256": "d4f651546c882143e596f6cca0065db9999de4d0de07a4469a3c2caa19d1f45c",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "launchamm/deployments/staging-2026-10-05/execution/audit.mjs",
+      "sha256": "31bc6614c64849e5acb2d23be24d7c582e317457e453699d853211819aca517e",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "launchamm/deployments/staging-2026-10-05/execution/collect-receipts.mjs",
+      "sha256": "cae8507831db865468d163b80d945c9f3c1e4cff24bedbfd9602dab74f32bc15",
+      "reason": "Literal historical local filesystem provenance or a raw observation; path is not maintained prose"
+    },
+    {
+      "path": "launchamm/deployments/staging-2026-10-05/execution/logs/executor-orderbook-live.log",
+      "sha256": "35cdfe2aab9d12ddc6e4760a43347ede7721ffb328c547ab1fc5affd5a9d9da3",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "launchamm/deployments/staging-2026-10-05/source/launchamm/STAGING_TEST_2026-10-05.md",
+      "sha256": "d4f651546c882143e596f6cca0065db9999de4d0de07a4469a3c2caa19d1f45c",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "launchamm/deployments/staging-2026-10-05/verification/rust-build.log",
+      "sha256": "4db548bada832795e5bf5c70e343a39d41c9214c2e689d24f6b55decc49e3099",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "launchamm/deployments/staging-2026-10-05/verification/rust-tests.log",
+      "sha256": "9946b5b93ccaf1b9846b922fbd024e3ec4d556d4db67e59ff91c3c1a5c849686",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "nft-marketplace/verification/2026-10-14-continuation-01/REPORT.md",
+      "sha256": "a19d85c5d9bb721dd4f4cad567f7170e7c64fb1e511d82a3f030e09f1ca2dc3e",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "nft-marketplace/verification/2026-10-14-continuation-01/RESULTS.json",
+      "sha256": "aca6747faed9694eacc0f16396d1fd69e7782fbcaa8120d1d9cd99413d4271d3",
+      "reason": "Literal historical local filesystem provenance or a raw observation; path is not maintained prose"
+    },
+    {
+      "path": "nft-marketplace/verification/2026-10-14-production-01/AUDIT_HANDOFF.md",
+      "sha256": "9ca56c4adcd851cf33d0e7422f7ce12acdff1f3b24186e5cf4bfa034bfc5fb69",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "nft-marketplace/verification/2026-10-14-production-01/REPORT.md",
+      "sha256": "11852a1dbd2a602446f4cbef69f8f3e7b08088145a8ba7c9a02ab117054e71c6",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "nft-marketplace/verification/2026-10-14-production-01/RESULTS.json",
+      "sha256": "3ce026f6e1385fec9da1001e13d12769f45352073ad58a3aeb638b9dcb4dc1ae",
+      "reason": "Literal historical local filesystem provenance or a raw observation; path is not maintained prose"
+    },
+    {
+      "path": "nft-marketplace/verification/2026-10-14/REPORT.md",
+      "sha256": "58e119ee9cbc87229eb772999d165ae74604b86018d20d125e0826863fc1bb2e",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "token/wide/private/deployments/staging-2026-10-14-01/REPORT.md",
+      "sha256": "8091b00533265e0d8a965aed89a75421a20ff52cf25044d20670e76911a38880",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "token/wide/private/verification/2026-10-14-01/REPORT.md",
+      "sha256": "aaa89f180f6eed6de58b8bbac052689d23ad94779b55a72974b04279ba8bf1e8",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    },
+    {
+      "path": "token/wide/verification-2026-10-12/REPORT.md",
+      "sha256": "706d00a049dbdad27b54b7330c3997b4e652924e92b0caaf7e6fa0219e546e5a",
+      "reason": "Frozen historical deployment/verification report or raw evidence; do not alter original bytes"
+    }
+  ]
+}

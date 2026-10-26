@@ -1,16 +1,16 @@
-最新继续记录（2026-10-26）：[Executor／双池组合阶段清单](EXECUTOR_COMPOSITION_CONTINUATION_20261026.md)。源码冷／暖编译补测已关闭；扫描并发候选因结果不稳定已撤回；双池真实配对入口和本地回归已补齐，但四次只读预检均遇 HTTP 503，没有新金融操作，持续运行和 Book→AMM 尚未启动。不要把本地测试或编译时间当作新的真实吞吐或生产级证据。
+Latest continuation (2026-10-26): [Executor/two-pool checklist](EXECUTOR_COMPOSITION_CONTINUATION_20261026.md). Cold/warm source compilation is measured; unstable broad scan concurrency was withdrawn. Actual two-pool pair entry/regressions are ready, but four readonly preflights returned503. No new finance; sustained/Book→AMM not started. Local tests/build time are not new confirmed throughput or production evidence.
 
-恢复跟进（06:22–06:29 UTC）：第五次完整预检和随后三轮逐端点只读检查仍未通过；7 次 HTTP 503、2 次传输失败，未发起金融操作。[请求／响应与后续执行约束](../../executor/verification/2026-10-26-rpc-recovery-followup-v1/README.md)已归档，每 15 分钟在本聊天静默复查，恢复且完整预检通过后才继续原计划。
+RPC follow-up06:22–06:29UTC: fifth full preflight and three endpoint rounds still fail: seven HTTP503/two transport failures, no finance. [Originals/constraints](../../executor/verification/2026-10-26-rpc-recovery-followup-v1/README.md). Quiet15-minute checks resume the original plan only after recovery/full preflight.
 
-本轮后续调查与验证资源复用：[FIXED_VERIFIER_PERFORMANCE_REVIEW_20261025.md](FIXED_VERIFIER_PERFORMANCE_REVIEW_20261025.md)。
+Further diagnosis/resource reuse: [fixed-verifier review](FIXED_VERIFIER_PERFORMANCE_REVIEW_20261025.md).
 
-> 2026-10-25 本轮完整证明／常驻内存验收进度见 [PROVER_MEMORY_REVIEW_20261025.md](PROVER_MEMORY_REVIEW_20261025.md)。历史缺失冷启动记录保留，新一轮单独测量。
+> Memory/full-proof progress: [memory review](PROVER_MEMORY_REVIEW_20261025.md). Historical missing cold timings remain missing; measure new runs separately.
 
 # Four-market release review: ordered evidence gates
 
-> 后续更新（2026-10-25，RPC／普通钱包）：同一 QA Book 的前后两轮各一笔真实成交及领取已关闭，34 个实际 UPS／34 个完整证明和资金链独立验证通过。暖态费用准备和领取客户端阶段下降，完整承诺＋结算证明约 260 s 基本未变；确认波动、较长 cutoff 等待、内存代价及缺失样本均保留。见 [配对性能与完整证据](RPC_ORDINARY_PERFORMANCE_REVIEW_20261025.md)。不据此宣称整轮提速或链 TPS。
+> RPC/ordinary-wallet update, 2026-10-25: two rounds on the same QA Book each completed an actual fill and claims; 34 actual UPS/full proofs and asset chains independently verify. Warm fee/claim client stages improved; commit+settle preparation stayed near 260 s. Confirmation variance, longer cutoff waits, memory costs and missing samples remain. See [pair/evidence](RPC_ORDINARY_PERFORMANCE_REVIEW_20261025.md). No whole-round or chain-TPS acceleration is claimed.
 
-> 最终更新（2026-10-25）：三个市场各一笔真实成交及普通签名钱包领取均已确认；48 笔实际 UPS、51 份不同完整证明完成独立审计。NFT 真实进程重启复用了原 UPS，并通过未过期已消费证明的原生拒绝测试。完整费用、冷/暖态、确认与内存口径、失败样本和未关闭项见 [最终性能与证据报告](THREE_MARKET_LIVE_PERFORMANCE_20261025.md)。以下保留各阶段历史状态；不以早期“pending”段落替代最终关闭索引，也不据此宣称生产级或链 TPS 提升。
+> Final update, 2026-10-25: all three markets confirmed one actual fill and ordinary signed-wallet claims; 48 actual UPS and 51 distinct full proofs independently audited. NFT restart reused the original UPS; native rejection of an unexpired consumed proof passed. [Final report](THREE_MARKET_LIVE_PERFORMANCE_20261025.md) records fees, cold/warm timing, confirmation/memory methodology, failures and open work. Earlier pending entries are chronological, not the final closure index. No production or chain-TPS improvement follows.
 
 
 Branch: `markets-batch-capacity-recovery-20261020`. Historical outputs in
@@ -55,11 +55,11 @@ version method. Branch confirmation alone does not close runtime identity.
 
 1. **Runtime identity (operations):** authenticated deployment manifest for each
    coordinator/realm/edge: network magic/realm, Git SHA + dirty=false, image digest,
-   executable SHA256, build lock/toolchain/config hashes, deployment time and
+   executable SHA 256, build lock/toolchain/config hashes, deployment time and
    operator signature/attestation. Validate the running image against immutable
    registry/build provenance, not a user-supplied version string.
 2. **SDK release (SDK/security):** immutable reachable source revision or signed
-   archive + SHA256; exact Cargo.lock/toolchain/config/features; session-context
+   archive + SHA 256; exact Cargo.lock/toolchain/config/features; session-context
    digest derivation; expected fingerprints; clean reconstruction commands and
    successful wrong-stack/count/network/nonce/checkpoint/start/end/root rejection
    tests. Do not release by removing constraints.
@@ -289,17 +289,17 @@ hard wall-clock admission deadline or use source checkpoint as proof of
 commit-before-random-revelation. Future source freshness/inclusion capability
 remains a protocol evidence requirement. No Node change or update probe was made.
 
-## 当前团队速览（2026-10-21，Asia/Taipei）
+## Team overview (2026-10-21, Asia/Taipei)
 
-- 已完成应用依赖快照、隔离 release 构建、旧 key 公共身份复现。没有修改 Node。
-- 固定 40 调用与新短调用 key 的同条件 ABBA 对照完成，32 份完整 UPS 均通过。双笔批次承诺＋结算证明中位耗时分别为 AMM 303→64 秒、Orderbook 297→95 秒、Curve 294→71 秒、NFT Market 297→102 秒。冷构建另计；不是链上 TPS／生产 P95。
-- 认证队列候选已通过四市场字节码安全／恢复验证；新 reader 只取封口队列，忽略扫描提示，
-  即使旧发现上限为 1 也包含全部 4 名成员。队列全流程 32 个 UPS、超时／重新固定／退款 16 个 UPS 已验证；普通钱包原生 PSY 领取已确认。市场两轮真实批量结算和普通钱包领取已验收；既有 Executor daemon 新路由仍未验收。
-- 随机排序关闭。封口队列范围不等于所有市场请求；认证源 checkpoint 不等于实际包含时间。
-- 按用户补充授权，测试网改为自行预检后逐项新部署。版本字符串不作为形式门槛。
-  普通钱包与短调用入口已保存请求／意图／回执，核验代码、布局、函数白名单、费用、
-  nonce 和状态端点；现有钱包与旧执行器入口不改动。实现源文件存在不等于已验收。
-- 升级授权与新部署测试分开记录；小额测试通过也不构成不可升级或生产安全证明。
+- Dependency snapshot, isolated release and original public-key identity reproduction complete. Node unchanged.
+- Same-condition ABBA40-call/compact-key comparison:32 full UPS pass. Two-fill commit+settle proof medians AMM 303→64 s, Book 297→95 s, Curve 294→71 s, NFT 297→102 s. Cold construction separate; not chain TPS/productionP95.
+- Authenticated queue candidate passes four-market bytecode safety/recovery. Reader uses only sealed queue, ignores discovery hints,
+  and reconstructs all four members even with discovery cap1. Queue lifecycle32 UPS, expiry/refreeze/refund16 UPS verify; ordinary native claims confirm. Two actual batch rounds/claims accepted; new formal Executor daemon route not yet accepted at this historical stage.
+- Random ordering off. Sealed scope is not all market requests; authenticated source checkpoint is not actual inclusion time.
+- User authorized fresh deployments after application preflight; version strings are not a formal substitute.
+  Ordinary/compact entries retain requests/intents/receipts and check code/layout/functions/fees,
+  nonce/endpoints. Existing wallets/Executor entry points remain; source presence is not acceptance.
+- Upgrade authorization is tracked separately from fresh deployment. Small-value success does not prove immutability or production safety.
 
 `isolated_wallet` only reads its own generated `isolated-market-wallet-v1`
 secret schema and writes new secret files mode 0600. No old wallet import is
@@ -329,7 +329,7 @@ binary against staging endpoints. No security check was removed.
 
 Read-only `probe_endcap_profile` compared the immutable SDK manager to the Node
 source bundle. `release/testnet-stable` and the consumed SDK base have identical
-`end_cap_verifier_data.rs` SHA256
+`end_cap_verifier_data.rs` SHA 256
 `fab6e1f6bb62211863e238e81edaa225b832a43a48090faecf0a976cf004b1c7`.
 SDK magic `1384803358401154921` produces fingerprint
 `d8c6bb2df3bde570c618b9ebb297cf5743e1b017481e0d73ca558209538cb5f7`,
@@ -424,7 +424,7 @@ including preparation. Complete receipts, roots and measured intervals are in
 [the final report](../../batching/evidence/20261020/staged-release-v1/live-final-acceptance-v1.json)
 and [live review](MARKET_BATCH_LIVE_ACCEPTANCE_20261020.md).
 
-Both public archives have verified compressed and decompressed SHA256 manifests:
+Both public archives have verified compressed and decompressed SHA 256 manifests:
 1,683 primary files and 488 replacement files. Node’s tracked diff remained
 `002e35e0b13cb6c422fe3abf500ce6aa5241229264d85a3314f22b5e14b59a64`;
 all 1,466 consumed SDK source files and both frozen client binaries matched.

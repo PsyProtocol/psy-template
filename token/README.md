@@ -106,10 +106,14 @@ Before production use, change the protocol if unilateral delegation cancellation
 
 The [token VM test crate](vm-tests/README.md) executes the actual legacy, public v3 and private v3 artifacts across synthetic user partitions. Its five cases check original-payer returns, no replay, partial refunds and later deposits, overflow rejection, and unchanged private note state. Build all profiles using the commands above before running it; the private compiler fingerprint is checked independently. These are local VM tests, and do not update any existing token deployment.
 
-## 双 Felt 隐私版本
+## Two-Felt private version
 
-新增 [U124 私有版](wide/private/README.md)提供 22 个方法，
-包括完整两 limb 金额的 `private_transfer` / `private_claim`。
-它使用分开绑定面值的 low/high 票据树，复用现有原生票据证明电路。
-本地编译、原生证明、VM 与断言电路测试已通过；尚未部署或完成完整 CFC/UPS验收。
-需要新合约 ID，不能直接更新默认公开版或旧隐私合约 53。
+The new [U124 private version](wide/private/README.md) provides 22 methods,
+including full two-limb `private_transfer` / `private_claim`.
+It uses separately denomination-bound low/high note trees and existing native note-proof circuits.
+The initial local compile, native proof, VM and assertion-circuit checks passed; deployment and full CFC/UPS acceptance were still pending at that historical milestone.
+It requires a new contract ID; do not update the default public token or old private contract 53 in place.
+
+## Additional preserved source references
+
+- [PSY20_DELEGATION_REPORT_2026-09-23.md](../tests/live/PSY20_DELEGATION_REPORT_2026-09-23.md)

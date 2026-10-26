@@ -1,107 +1,318 @@
-# Executor 与组合执行继续计划（2026-10-26）
+# Executor and composition continuation plan (2026-10-26)
 
-基线 `61bf987e`，沿用 `markets-batch-capacity-recovery-20261020`，固定 SDK manifest `0afb4c65116cddcaca450b406a06503d65b63d38a004d8e773c6e5fa363bd425`。不改 Node、不切换依赖、不更新旧合约，不覆盖证据。确定性排序、共享金库、原市场定价/撮合和完整授权校验保留。
+Baseline `61bf987e`, branch `markets-batch-capacity-recovery-20261020`, fixed SDK
+manifest `0afb4c65116cddcaca450b406a06503d65b63d38a004d8e773c6e5fa363bd425`.
+Do not change Node/dependencies, update old contracts or overwrite evidence.
+Retain deterministic ordering, shared vaults, market pricing/matching and full
+authorization checks.
 
-启动检查未发现活跃金融/证明进程；现有 Node 进程属于 Codex 的 UI/工具运行时，没有终止它们。上轮两个测量子进程和采样器已正常退出，34 UPS 审计关闭，无未知广播待继续。本轮任何金融执行必须有独立新计划和唯一运行目录；历史未知部署仍隔离，不重新提交。
+Initial inspection found no active financial/proving process. Existing Node
+processes belonged to the Codex UI/tool runtime and were left running. The previous
+two measurement children and sampler exited normally; the 34-UPS audit closed,
+with no unknown broadcast to resume. New finance requires a separate declared
+plan and unique run directory. Historical unknown deployments remain quarantined
+and are not resubmitted.
 
-| 顺序 | 已有能力/证据 | 当前缺口与本轮动作 |
+| Order | Existing capability/evidence | Gap and next action |
 | --- | --- | --- |
-| 1 性能口径 | Book 同条件 34 UPS、两成交、四普通领取、完整冷暖/内存；另三市场已有历史真实成交 | 复用已关闭样本，生成编译/首次构建/常驻后续任务分类索引。Cargo 日志 58.08 秒仅为应用构建报告，缓存状态和完整编译外层计时缺失，清洁 SDK 编译未测；不补造历史时间。其他市场新配对、双池整轮配对未完成。 |
-| 2 资源和读取 | 常驻证明器、固定验证库、HTTP 客户端、在途读取合并、单快照 leaf 复用、精确证明恢复已存在 | 不重复开发缓存。检查组合扫描内同一快照上的独立顺序读取，做实际只读配对与安全回归；提交前 fresh checks、nonce 和状态端点不减少。内存回收仍可选。 |
-| 3 双池关键路径 | 专用控制器、SD-key、两次真实 AMM 成交、普通领取和中间资产恢复已有证据 | 缺相同调度下的整条路线对照与完整生命周期内存。明确每条确认/Outbox/截止/费用/共享账户依赖，先并行不依赖前跳输出的准备；不得提前花待领取资产。 |
-| 4 本机持续运行 | 本机 journal 争抢、单次真实重启、零/一/两跳终态分别验收过 | 缺预声明、多真实批次连续运行和全部故障矩阵。开始前冻结轮数/时长/预算/停止条件。不能用单机锁代表跨机器协调。 |
-| 5 Book→AMM | `composition/book.mjs` 只有只读 AMM→Book 规划，非金融执行；Book 匹配整笔订单 | 不增加部分成交来凑路线。拟采用整单 Book 优先的未成交剩余（全额）退出→解锁→领取→AMM 路径；已成交则不重复消费。需独立控制器/策略/状态机、实际字节码和完整 UPS 后才进入新隔离实例。前四项未闭环前不启动此金融路径。 |
+| 1. Measurement | Book: matched-condition 34 UPS, two fills, four ordinary claims, cold/warm and full memory; historical actual fills in the other markets | Index closed samples by compilation, first resource construction and resident follow-up. Cargo's 58.08 seconds is application build reporting with unknown cache state and missing outer timing, not clean SDK compilation. Other-market new pairs and a whole two-pool pair remain open. |
+| 2. Resources/reads | Resident prover, fixed verifier library, HTTP client, in-flight coalescing, snapshot leaf reuse and exact-proof recovery | Do not rebuild existing caches. Inspect independent sequential reads in composition scans; measure real readonly pairs and regressions without reducing pre-submit freshness, nonce or endpoint checks. Memory reclamation stays optional. |
+| 3. Two-pool critical path | Dedicated controller/SD-key, two actual AMM fills, ordinary claims and intermediate recovery | Need whole-route comparison with the same schedule and lifecycle memory. Identify confirmation, Outbox, cutoff, fee and shared-account dependencies. Parallelize only preparation independent of preceding output; do not spend unclaimed assets. |
+| 4. Local sustained operation | Local journal races, one actual restart, separate zero/one/two-hop terminal acceptance | Need declared continuous actual batches and the full fault matrix. Freeze rounds, duration, budget and stop conditions first. Local locks are not cross-machine coordination. |
+| 5. Book→AMM | `composition/book.mjs` is readonly AMM→Book planning, not financial execution; Book matches whole orders | Do not add partial matching to fit the route. Proposed minimum: unmatched whole Book order exits, unlocks and claims its full remainder before AMM. Filled funds cannot be spent again. Require independent controller/policy/state machine, bytecode and full UPS before a new isolated instance. Do not start this financial path before the first four stages close. |
 
-各阶段单独提交、推送、追加 review 与证据。应用/SDK 编译和业务启动不混算；协议等待、失败、重试和领取全部保留。固定验证库上一轮虽减少构建 40.239 秒，但整轮更慢、冷构建/整体采样 RSS 更高；没有整体加速、内存降低或生产级结论。
+Commit, push and append review/evidence per stage. Separate application/SDK
+compilation from business startup. Retain protocol waits, failures, retries and
+claims. The previous fixed-verifier work saved 40.239 seconds of construction but
+slowed the whole round and increased cold-build/full sampled RSS. It does not
+support overall acceleration, memory reduction or production readiness.
 
-已有证据：[完整冷暖配对](../../executor/verification/2026-10-26-complete-cold-warm-pair-v1/README.md)、[组合服务](COMPOSITION_SERVICE_REVIEW_20261024.md)、[双池准备成本](SETTLEMENT_PREPARATION_REVIEW_20261024.md)、[组合边界](../../composition/CAPABILITIES.md)。外部运行镜像、升级授权、SDK 上游发行、认证随机源和跨机器验收仍未关闭。
+Existing evidence: [complete cold/warm pair](../../executor/verification/2026-10-26-complete-cold-warm-pair-v1/README.md),
+[composition service](COMPOSITION_SERVICE_REVIEW_20261024.md),
+[two-pool preparation](SETTLEMENT_PREPARATION_REVIEW_20261024.md),
+[capabilities](../../composition/CAPABILITIES.md). Running image identities,
+upgrade authorization, upstream SDK release, authenticated randomness and
+cross-machine acceptance remain open.
 
-## 第 1 项证据补充已提交
+## Stage 1: evidence index
 
-[只读性能分类索引](../../executor/verification/2026-10-26-baseline-inventory-v1/README.md)校验已有闭环标记、完整内存覆盖、相同金融源闭包、三个普通首次作业和八个后续常驻作业。应用 Cargo 报告 58.08 秒独立列账；清洁 SDK 编译和外层构建耗时保留 null，不为补数字重跑昂贵编译。两个分类回归通过，没有新金融操作。其他市场新配对和双池整轮对照仍需后续真实样本，不能以此索引冒充已完成。
+The [readonly classification index](../../executor/verification/2026-10-26-baseline-inventory-v1/README.md)
+checks closed markers, full memory coverage, the same financial source closure,
+three ordinary first jobs and eight resident follow-ups. Cargo's 58.08-second
+application report is separate. Clean SDK compilation and outer build time were
+left null rather than invented or measured by an unnecessary rebuild. Two
+classification regressions pass; no financial operation was added. The index is
+not a substitute for new other-market or whole-route pairs.
 
-## 第 2 项：候选调度已测量撤回，安全修复保留
+## Stage 2: scheduling candidate withdrawn; safety fix retained
 
-同一两份历史 checkpoint、同一模型/依赖、全局四路 RPC 上限、新快照缓存，先 ABBA 八次、再预声明 BAAB 八次。全部 16 样本、读取失败和重试保留。373744 基线/候选中位数为 21.142 / 10.355 秒；374013 则为 16.707 / 30.743 秒。第二跳未能证明收益，因此撤回整版广泛并发扫描，不按有利子集发布提速。
+Same two historical checkpoints, model/dependencies, global four-RPC limit and
+fresh snapshot cache: eight ABBA samples, then eight predeclared BAAB samples.
+All 16 samples, read failures and retries are retained. Baseline/candidate medians
+at 373744 are 21.142/10.355 seconds; at 374013 they are 16.707/30.743 seconds.
+The second hop did not establish a benefit. Broad concurrent scanning was
+withdrawn rather than reporting a favorable subset.
 
-保留 U124 双 limb 读取的失败排空：单 limb 失败后先等待同组在途读取结束，再向上拒绝；不遗留读取进入下一任务，不改变数值/授权。既有在途合并、常驻证明器、固定验证资源和 HTTP 客户端不重复实现，不增加完成态余额/nonce 缓存。完整证明精确复用、提交前各项校验不变。
+The retained U124 two-limb fix drains in-flight sibling reads before propagating
+a failed limb. No read leaks into the next task; amounts/authorization are
+unchanged. Existing in-flight merging, resident prover, fixed resources and HTTP
+client remain. No completed-balance/nonce cache was added. Exact-proof reuse and
+all submission checks remain.
 
-新增 guarded `adapter.warm()` 及显式 `service.prewarmResources`（默认 false），只构建固定资源，前后重验网络/身份/代码/布局/配置；不 quote、prove 或 send。服务预热前在 journal 锁内检查未决原请求，未知广播跳过预热；reconcile 模式也不预热。首次回归发现新 journal 尚未初始化的问题，已修正为锁内初始化/检查；原失败日志保留。最终 46 项相关回归通过，默认未启用新的内存回收或并行调度。预热的真实路线/内存收益尚未验收。
+Guarded `adapter.warm()` and explicit `service.prewarmResources` (default false)
+construct only fixed resources, rechecking network/identity/code/layout/config
+before and after. They do not quote, prove or send. Under the journal lock,
+unresolved originals skip warmup; reconcile mode also skips it. The first
+regression found an uninitialized new journal; initialization/checking now occurs
+under the lock, and the failure log is retained. Final related regressions: 46
+pass. New memory reclamation/parallel scheduling is not enabled by default.
+Actual route/memory benefit from warmup is not accepted yet.
 
-只读历史测量首次启动还发现旧 acceptance 配置采用原工作目录相对路径；测量工具显式使用原约定，不更改正式配置加载器、不改旧配置。新验收必须生成绝对路径配置，避免混用此约定。
+The first historical readonly run also exposed old acceptance configs resolving
+paths from the original working directory. The measurement tool explicitly uses
+that existing convention; production loading and old configs are unchanged.
+New acceptance configs must use absolute paths.
 
-## 第 1 项追加：源码冷／暖编译补测
+## Stage 1 supplement: source cold/warm compilation
 
-[完整原件与口径](../../executor/verification/2026-10-26-compile-cost-v1/README.md)。同机、固定 SDK／72 份应用源码、双线程、新空 target 冷构建 661.127 秒，随后同命令暖构建 0.943 秒，775 个 artifact 全部 fresh。首次 237.182 秒失败记录保留：冻结环境没有显式指定配置路径，SDK build script 的默认路径不存在。第二次显式传入 manifest 对应的既有冻结配置（同一 SHA256）和编译网络，没有更换 SDK、改 Node 或代用其他网络。
+[Originals and methodology](../../executor/verification/2026-10-26-compile-cost-v1/README.md):
+same machine, fixed SDK/72 application sources, two threads, fresh target. Cold
+build: 661.127 seconds; same-command warm build: 0.943 seconds, all 775 artifacts
+fresh. The initial 237.182-second failure remains: no explicit config path and a
+missing SDK build-script default. The second run explicitly supplied the existing
+manifest-bound config (same SHA 256) and compile network. No SDK, Node or network
+substitution occurred.
 
-编译器报告的 SDK／应用／其他依赖 unit 耗时重叠，不可相加；这也不是证明或链上确认时间。冷编译采样 RSS 最大 2,512,453,632 字节；不足一秒的暖编译仅一个样本，其峰值保留 null。新产物冷暖 hash 相同，但不同于已选发行产物，因此只作编译观测，不选入金融执行，不宣称发行可字节复现。历史 58.08 秒缓存状态不明，仍不重新标作冷编译。
+Compiler-reported SDK/application/other unit times overlap and cannot be summed.
+These are not proof/confirmation times. Cold-build sampled RSS maximum:
+2,512,453,632 bytes. The sub-second warm build has one sample and a null peak.
+Cold/warm artifact hashes match each other but differ from the selected release;
+they are observations only, not selected for finance or evidence of byte-reproducible
+release. Historical 58.08 seconds remains cache-unknown, not relabelled cold.
 
-## 第 3 项：真实双池对照入口已实现，尚未执行
+## Stage 3: actual two-pool comparison entry implemented, not executed
 
-[准备、安全回归与原始失败证据](../../executor/verification/2026-10-26-route-resource-preflight-v1/README.md)。新入口复用正式 adapter／journal／原生驱动；两边均保持固定 SDK 和相同已验收的普通钱包二进制。普通 owner、Sponsor 和两个市场 key 的资源常驻到轮末，每笔实际状态、nonce、见证、签名上下文仍重建。Sponsor 现存未消费授权必须原样对账，不允许追加另一笔转账来掩盖。
+[Preparation, safety regressions and original failures](../../executor/verification/2026-10-26-route-resource-preflight-v1/README.md).
+The new entry reuses formal adapter/journal/native driver. Both sides retain the
+fixed SDK and same accepted ordinary-wallet binary. Ordinary owner, Sponsor and
+two market-key resources remain resident through the round. Each transaction
+regenerates actual state, nonce, witness and signing context. An unconsumed
+Sponsor grant must reconcile exactly; another transfer cannot conceal it.
 
-候选只显式并行普通入金与 guarded 控制器资源预热；双方成功后才能进入控制器 fund UPS。任一失败先排空两项，已确认付款不当作回滚，不自动重签。预热默认不开启。等待依赖见 [执行图](../../composition/EXECUTION_DEPENDENCIES.md)：前跳确认、Outbox 领取、原队列截止、费用授权、共享付款账户/金库状态均保留；不提前使用中间资产。
+The candidate explicitly overlaps ordinary funding with guarded controller
+warmup only. Both must succeed before controller fund UPS. Drain both on failure;
+confirmed payment is not rolled back and is not automatically re-signed. Warmup
+is opt-in. The [dependency graph](../../composition/EXECUTION_DEPENDENCIES.md)
+retains preceding confirmation, Outbox claim, original cutoff, fee authorization
+and shared account/vault state. Intermediate assets are not spent early.
 
-预声明 baseline／candidate 各 28 UPS、2 笔真实成交、1 次最终普通钱包领取；每轮最长 6 小时、整对最长 12 小时。每轮网络费上限 35.0035 测试 PSY，另列尚未执行的 40 测试 PSY setup 转账（不是网络费）。固定一成员薄批次、两个 cutoff lead 均为 128，不改已接纳集合。相同池子和输入量的顺序样本仍有不同储备、报价、nonce 和网络状态，不能宣称完全相同经济输出。
+Declared baseline/candidate: 28 UPS, two actual fills and one final ordinary claim
+per round; six hours per round, 12 hours per pair. Network fee cap 35.0035 test PSY
+per round. The separately listed 40 test PSY setup transfer has not run and is
+not a network fee. Fixed one-member thin batches, both cutoff leads 128; accepted
+sets remain intact. Sequential samples share pools/input amounts but differ in
+reserves, quotes, nonces and network state, so identical economic output is not
+claimed.
 
-入口绑定 SDK／网络／原生发行、独立新 controller/key/vault、源码/布局产物、注册记录和准备计划；仅存在 ready 文件不能放行。完整进程树采样先于金融子进程，首轮 28 份精确 UPS 的独立验证、费用/回执/状态链、守恒与领取审计关闭后才运行第二轮。失败即停止配对；未知广播不生成替代操作。报告须区分源码编译、新进程资源、常驻任务和到账，不把重叠阶段相加。
+The entry binds SDK/network/native release, independent new controller/key/vault,
+source/layout, registration and preparation plan. A ready file alone cannot
+permit execution. Full process-tree sampling precedes the financial child. Only
+after the first 28 exact UPS pass independent proof, fee/receipt/state-chain,
+conservation and claim audits may round two run. Failure stops the pair; unknown
+broadcasts never generate substitutes. Reports distinguish compilation, first
+resources, resident tasks and final receipt; overlapping stages are not summed.
 
-四次新只读预检均在 common-checkpoint 耗尽有界重试、HTTP 503；最新 03:50:22–03:50:40 UTC。没有绕过预检、换端点/SDK、部署/注册控制器、setup 转账或新增成交。现有 public 计划原样保留，`baselineCommit=ef57e457` 的含义已追加澄清为参考基线；实际执行必须由根 runner 在启动前冻结源码闭包，不能把 review 快照当作已运行。
+Four new readonly preflights exhausted bounded common-checkpoint retries with
+HTTP 503, latest 03:50:22–03:50:40 UTC. No bypass, endpoint/SDK switch, controller
+deployment/registration, setup transfer or new fill occurred. The public plan is
+preserved. `baselineCommit=ef57e457` is clarified as a reference baseline; the root
+runner must freeze the actual source closure before execution. Review snapshots
+are not executed runs.
 
-相关回归 58 项通过；Executor/组合集成回归 342 项通过、无跳过，彼此重叠、不累计成安全结论。17 个改动文件语法检查通过。归档 420 份原件全部与本机原目录比较通过；连同编译证据 448 份公开记录经过实际 QA 密钥值扫描，无匹配。没有本轮新完整 UPS／确认吞吐或端到端加速结果。
+Related regressions: 58 pass; Executor/composition integration: 342 pass, none
+skipped. Counts overlap and are not cumulative security evidence. Syntax checks
+pass for 17 changed files. All 420 archived originals compare with the local
+source; with compilation evidence, 448 public records passed actual QA-key-value
+scanning. No new full UPS, confirmation throughput or end-to-end acceleration.
 
-## 尚未关闭与下一步
+## Open work
 
-1. 新鲜只读 gate 成功后，才能逐项完成新 controller/key 注册、原身份 setup 转账/领取，以及这份双池真实对照；任何结果未知先原样对账。RPC 当前不可用是执行阻塞，不是减少安全校验的理由。
-2. 第 4 项持续运行：已有零/一/两跳与本机竞争的历史证据，但缺本轮预声明连续真实批次及完整故障/内存趋势闭环。尚未启动，不宣称本机或跨机器持续运行已验收。
-3. 第 5 项仍待前四项闭环。Book 当前整单撮合，不能假造部分成交。最小可行方案是未成交整单先终结/退出、解锁并领取全部实际余款后再 AMM；已成交不再花同笔资金。独立控制器/SD-key/状态机、真实字节码/UPS 与新隔离实例验收均未新增完成。
-4. 上游 SDK 发行、运行镜像身份、升级授权、认证未来随机源、跨机器协调和全市场纳入仍未关闭；确定性模式保持，不用测试数或成功回执替代生产级证据。
+1. A fresh readonly gate must succeed before new controller/key registration,
+   original-identity setup funding/claim and this actual pair. Unknown results
+   require exact reconciliation. Unavailable RPC is not a reason to weaken checks.
+2. Sustained operation still needs this round's declared continuous actual batches,
+   fault matrix and memory trend. Historical zero/one/two-hop/local-race evidence
+   does not establish local or cross-machine sustained acceptance.
+3. Book→AMM waits for stages 1–4. Book is whole-order only. An unmatched order must
+   terminate/exit, unlock and claim its actual full remainder before AMM. Filled
+   funds cannot be consumed twice. No new independent controller/SD-key/state
+   machine, bytecode/UPS or isolated-instance acceptance is claimed.
+4. Upstream SDK release, running image identity, upgrade authorization,
+   authenticated future randomness, cross-machine coordination and global order
+   inclusion remain open. Keep deterministic mode; test counts/receipts do not
+   establish production readiness.
 
-## RPC 恢复跟进：2026-10-26 06:22–06:29 UTC
+## RPC follow-up: 2026-10-26 06:22–06:29 UTC
 
-新的完整预检 v5 仍在共同 checkpoint 读取时耗尽有界重试，HTTP 503。随后按预声明的三轮只读计划，直接检查同一配置的两个 realm 与 coordinator：9 次显式读取中 7 次返回 Caddy 标头的空体 HTTP 503，2 次传输失败（HTTP 状态未知，不冒充超时或链上拒绝）。没有拿到全套可用的金融起始状态，也不能据此断言 Node 崩溃或确定后端故障根因。
+Full preflight v5 again exhausted bounded common-checkpoint reads with HTTP 503.
+Three predeclared readonly rounds queried the same two realms and coordinator:
+of nine reads, seven returned empty HTTP 503 with Caddy headers; two failed at
+transport level with unknown HTTP status, not falsely classified as timeout or
+chain rejection. No complete financial starting state was obtained. This does
+not diagnose a Node crash or establish the backend root cause.
 
-[原始请求／响应、源码版本和结果](../../executor/verification/2026-10-26-rpc-recovery-followup-v1/README.md)。新增诊断只允许指定公开读取，记录端点状态且不具金融授权；HTTP 可访问也必须重新通过原完整预检。后续加强了诊断角色／ID 输入约束，防止输出文件名越界；实际探测 v1 与后加校验 v2 源码分别保存，4 项本地回归通过。两份归档分别包含 151 和 11 份精确原件；所有 SDK 源码、冻结配置、原生发行 pin 和原 Node diff 校验不变。
+[Requests/responses, versions and results](../../executor/verification/2026-10-26-rpc-recovery-followup-v1/README.md).
+Diagnostics allow only specified public reads and grant no financial authority.
+HTTP recovery still requires the original complete preflight. Later role/ID
+validation prevents output-path traversal. Original probe v1 and hardened v2
+sources are separately retained; four local regressions pass. Archives contain
+151 and 11 exact originals. SDK sources, frozen config, native release pin and
+original Node diff checks remain unchanged.
 
-本轮金融操作、部署注册、成交和领取均为 0；不是双池性能验收，不关闭持续运行与 Book→AMM 阶段。已在本聊天启用每 15 分钟的 heartbeat，未变化故障保持安静；恢复后继续原预算／固定计划，不重复启动已有进程或替换未知请求。只有双池完整证明、状态／回执／费用与资金／领取和性能闭环后，才按顺序进入后两项；用户取消或全部完成后停用。
+Financial operations, deployment/registration, fills and claims: zero. This is
+not two-pool performance acceptance and does not close sustained/Book→AMM work.
+The 15-minute heartbeat stays quiet on unchanged faults, resumes the original
+budget/plan only after safe recovery, and never duplicates active processes or
+replaces unknown requests. Stop it on cancellation or full completion.
 
-## 用户另行授权的 UI：官方品牌、英文与共用产品主题
+## Separately authorized UI: official brand, English and shared theme
 
-[当前 UI 代码、验证与截图](../../executor/verification/2026-10-26-market-ui-v2/README.md)。已在现有 dapp 实现 AMM 单池、既有双池路径、订单中心与领取/退款演示；当前真实提交入口始终关闭，钱包连接不放行。直接复用既有 U124 双 Felt 和 AMM BigInt 函数；中间 Outbox 先领取，首跳已成交后退出显示实际中间资产。
+[UI, checks and screenshots](../../executor/verification/2026-10-26-market-ui-v2/README.md).
+The existing dApp now has single/two-pool AMM, orders and claim/refund demos.
+Writes remain closed; wallet connection cannot permit them. Existing U124/two-Felt
+BigInt functions are reused. Intermediate Outbox must be claimed; exit after hop
+one shows actual intermediate assets.
 
-按用户纠正，删除通用 Ψ 占位标记，原样复用 psy-dapp 官方 PsyLogo.svg、PsyIconSq.svg 和本地 Geist 字体；采用当前 website／Bridge／Explorer／IDE 共用的 psy-editorial：白、黑、钴蓝、直角控件。所有活动界面、元数据、状态、错误及恢复文案统一英文。来源 SHA256 和主题 token 提取记录见 dapp/design/2026-10-26/BRAND-PROVENANCE-v2.json。初版生成图、中文和紫色视觉已被用户否定，原始产物仍保留在 v1，不能作为当前验收。
+Following the brand correction, the generic symbol was removed and official
+psy-dapp PsyLogo.svg, PsyIconSq.svg and local Geist reused unchanged. The shared
+website/Bridge/Explorer/IDE `psy-editorial` theme is white/black/cobalt with square
+controls. Active copy, metadata, states, errors and recovery text use English.
+Hashes/token provenance: `dapp/design/2026-10-26/BRAND-PROVENANCE-v2.json`.
+The initial generated image, Chinese copy and purple design were rejected and
+remain historical v1 artifacts, not current acceptance.
 
-生产构建通过，17 项前端回归通过，无失败或跳过；IAB 1505×1045 桌面／390×844 手机验证 10 项通过、控制台无警告错误。初版键盘焦点问题和旧工具链审计失败原件保留；当前审计 0 已知漏洞，冻结依赖可离线安装。UI Node.js 使用已有 24.19.0，不是修改链 Node；1,466 份已选 SDK 源码哈希仍一致，无链侧迁移。7 份新公开原件逐字节归档、4 张新截图单独哈希；新旧 UI 源码/证据按实际 QA 私钥值扫描，无匹配，无钱包恢复文件上传。
+Production build and 17 frontend tests pass, none skipped/failed. IAB desktop
+1505×1045/mobile 390×844: ten checks pass, no console warnings/errors. Original
+keyboard/toolchain audit failures remain. Current audit: zero known vulnerabilities;
+frozen dependencies install offline. Existing UI Node.js 24.19.0 is not a chain
+Node change. All 1,466 fixed SDK source hashes match. Seven new public originals
+compare exactly; four new screenshots have separate hashes. QA-key-value scanning
+finds no matches, and no wallet recovery files are uploaded.
 
-本项仅为前端可用性与本地离线演示，不是实际链身份、费用、成交、证明、领取或性能验收。尚未接通正式 Executor 金融路由；未关闭双池真实对照、本机持续运行或 Book→AMM，也不宣称生产级。UI 工作期间只读 RPC 仍为 503；本次没有启动金融任务或更改旧合约、Node、原生发行与链 SDK。UI 收尾后释放本地 ACTIVE 标记，由既有 heartbeat 在 RPC 恢复且完整新鲜预检通过后继续原计划。
+This is frontend/local-demo acceptance, not chain identity, fee, fill, proof,
+claim or performance acceptance. No formal financial route is connected; actual
+two-pool, sustained and Book→AMM work remains open. RPC remained 503 during UI
+work; no finance, old-contract, Node, native-release or SDK change occurred.
+Closing the UI ACTIVE lease lets the existing heartbeat resume the original plan
+only after recovery and full fresh preflight.
 
-## UI 补充：Psy testnet 与添加流动性预览
+## UI supplement: Psy testnet and add liquidity
 
-按用户纠正，网络标签改为 `Psy testnet`，货币代码仍为 PSY。侧栏新增 Liquidity / Add liquidity，提供两个既有 QA 池引用、双资产数量、LP owner、滑点最低份额和测试 PSY 费用预算的离线预览。直接复用既有 `addShares`，严格要求存入比例，不假设自动超额退款；校验完整 U124 双 Felt、储备/总份额溢出和整数取整。LP 是池内原始份额单位，不冒充 18 位 FT；未来真实 owner 必须绑定认证 caller。没有向 swap 订单存储伪造 LP 记录。
+The network label is `Psy testnet`; the asset ticker is PSY. Liquidity/Add liquidity
+previews two existing QA pools, deposits, owner, minimum shares and test PSY fee
+budget. It reuses `addShares`, requires exact ratios without invented excess
+refunds, and checks U124, reserve/share overflow and rounding. LP is raw internal
+units, not an assumed 18-decimal FT; real ownership must bind the authenticated
+caller. No LP records are fabricated in swap storage.
 
-[代码与验收记录](../../executor/verification/2026-10-26-market-ui-liquidity-v1/README.md)。构建通过，22 项前端回归通过，桌面/手机 9 项浏览器检查通过、无控制台警告错误；保留初始和改进后截图。旧证据未覆盖；UI 期间新增独立 lease，既有 heartbeat 保持只读，防止与证明/金融任务重叠。
+[Code and acceptance](../../executor/verification/2026-10-26-market-ui-liquidity-v1/README.md).
+Build/22 frontend tests pass; nine desktop/mobile browser checks pass without
+console warnings/errors. Initial and improved screenshots remain. A separate UI
+lease prevents finance/proof measurement overlap; prior evidence is unchanged.
 
-**当前仍不能通过 UI 真实兑换、入金、领取或管理 LP**：真实路由未接通，池状态、费用、余额、持仓和 owner 均未认证；live 按钮始终关闭。没有改 Node、链 SDK 或基础合约，没有实际存款、LP 增发或移除。RPC 恢复后仍须完成正式客户端/Executor 接入及完整新鲜预检与真实验收，不把离线预览称为可用的金融功能。
+**No real UI swap, deposit, claim or LP management is enabled.** Pool state, fee,
+balance, position and owner are unverified; live controls remain closed. No Node,
+SDK, contract, actual deposit, share issuance or removal changed. RPC recovery
+still needs formal integration, fresh preflight and actual acceptance.
 
-## 公共市场接入第一阶段：只读网关、调用规划与精确钱包边界
+## Public integration stage one: readonly gateway and exact-wallet boundary
 
-[源码、运行步骤、验收与缺口](../../executor/verification/2026-10-26-market-gateway-v1/README.md)。已将现有 dapp 接到同源本机网关，复用正式 Executor 的共同 checkpoint 读取和原 end-user leaf＋历史状态／服务回执对账。固定 QA 2485/2486、资产 2483/2484、金库/key 和完整代码／布局／函数身份；前后端同一规划器、浏览器独立复算调用与摘要。真实 RPC 观察不能冒充状态证明，演示数据仍隔离。
+[Sources, runbook and gaps](../../executor/verification/2026-10-26-market-gateway-v1/README.md).
+The same-origin local gateway reuses formal Executor common-checkpoint reads and
+original end-user-leaf/history/service-receipt reconciliation. QA pools 2485/2486,
+assets 2483/2484, vault/key and code/layout/function identities are pinned. Both
+ends use one planner; the browser recomputes calls/digest. RPC observations are
+not cryptographic state proofs, and demo data remains separate.
 
-提供 swap/add/admit/cancel-request/close/claim 未签名计划；新增存款前检查旧订单、同意、资金与费用游标、队列容量。LP 严格比例、U124 双 Felt、实际 owner、checkpoint 期限及独立 fee cap 保留。发现旧演示允许任意收款人而现有 AMM 实际归 owner，真实规划器明确拒绝另一个 recipient；另转需独立授权。只读服务无签名、广播、任意代理或 Executor 控制入口。上游重定向、超 1 MiB 响应及错误 RPC ID 拒绝；application publicState 只新增显式可选 fetch 注入，既有默认不变，不是修改 Node。
+Unsigned swap/add/admit/cancel-request/close/claim plans check old orders, consent,
+funding/fee cursors and queue capacity before deposits. Exact LP ratio, U124,
+owner, checkpoint expiry and separate fee cap remain. The real AMM planner rejects
+an alternate recipient because outputs belong to the owner; later transfer needs
+separate authorization. No signing, broadcasting, arbitrary proxy or Executor
+control route exists. Redirects, bodies above 1 MiB and wrong RPC IDs are rejected.
+Application publicState adds only optional fetch injection; the default and Node
+are unchanged.
 
-未来精确钱包 seam 复用 ExecutionJournal/executeCycle，但未接入 HTTP／浏览器金融通路。回归发现并修复新 seam 的调用对象别名问题，传输边界独立复制并复算持久计划；完整栈含自动 burn、实际费用、调用者、key/SDK、nonce、session/sig_hash／状态端点必须通过独立 verifier，未知广播先原身份对账，同付款账户本机竞争保持锁。模拟 transport 测试不算真实完整 UPS，也不算跨机器验收。
+The future exact-wallet seam reuses ExecutionJournal/executeCycle but is not
+wired to financial HTTP/browser transport. Regression found/fixed call-object
+aliasing: transport copies independently and recomputes the durable plan. The
+full stack, automatic burn, actual fee, caller, key/SDK, nonce, session/sig_hash
+and state endpoints need independent verification. Unknown broadcasts reconcile
+first; shared payer work uses local locks. Mock transports are not real full UPS
+or cross-machine acceptance.
 
-最终共享层／正式 Executor 回归 247 项通过（含网关／客户端 27 项），前端 22 项通过，无失败／跳过；计数重叠，不累计为安全结论。9 项实际 IAB 检查通过；本机网关 HTTP 200，真实池读取和一次计划读取仍不可用，没有接收真实快照／计划、证明、交易、LP 或领取；上下文切换后旧返回被丢弃，无演示替代或重签。26 份公开原件保留初始失败复现与最终结果；83 项源码／静态闭包输入与产物绑定，1,466 份既有 SDK 源码哈希不变。钱包仓库只读核对，没有修改其代码或切换 SDK。
+Shared/formal Executor regressions: 247 pass (including 27 gateway/client), plus
+22 frontend tests, none failed/skipped; counts overlap. Nine actual IAB checks
+pass. Local gateway is HTTP 200, while pool and one plan read remain unavailable;
+no real snapshot/plan, proof, trade, LP or claim was accepted. Context changes
+discard stale responses without demo fallback/re-signing. Twenty-six public
+originals retain initial failures and final checks; 83 source/static-closure
+inputs and build outputs are bound. All 1,466 SDK sources match; wallet source
+was inspected readonly, without SDK switching.
 
-**尚未接通真实交易。** 浏览器钱包源码有直接发送与模拟，但尚无已验收的固定证明／请求、独立验证、一次性精确广播和原请求恢复接口；buildId/debug 不是 SDK／key 证明。具体交付字段与验收见 market-client/README.md，不调用不存在的方法，不绕到直接发送。实际 full UPS、浏览器资金链、未纳入订单完整恢复／资金 seeds、Executor 状态投影、运行身份及升级授权仍待验证。RPC 恢复不会自动开启 UI。继续沿用原金融计划与预算，未关闭双池／持续运行／Book→AMM；其他三市场 UI 在公共资金通路和 AMM 验收之后复用，不以更多演示页面替代实际接入。
+**Real trading remains unconnected.** Wallet source exposes direct sending and
+simulation but no accepted exact proof/request, independent verification,
+one-shot broadcast and original-request recovery interface. BuildId/debug strings
+are not SDK/key attestation. Required fields/acceptance are in
+`market-client/README.md`; no nonexistent method or direct-send fallback is used.
+Actual full UPS, browser asset chain, unaccepted-order recovery/funding seeds,
+Executor projection, running identity and upgrade authorization remain open.
+RPC recovery cannot enable UI writes. Actual two-pool/sustained/Book→AMM remain
+in the original plan; additional demos do not replace financial integration.
 
+## Three-market UI and LP withdrawal previews
 
-## UI 补齐：Orderbook、Curve、NFT Market 与移除流动性
+The user separately requested unfinished UI work, bringing forward clearly
+labelled offline interactions for the other markets. This changes the page
+schedule, not financial integration order or safety gates.
+[Code, screenshots and public checks](../../executor/verification/2026-10-26-three-market-ui-v1/README.md).
+English copy, official logo, existing Geist/white/black/cobalt theme and native
+mobile navigation are retained. Added whole-order quotes, Curve integer lots/
+bounds/graduation, NFT search/sort/exact purchase/listing previews, a shared
+durable draft center and raw LP proportional-withdrawal preview.
 
-用户另行要求继续未完成 UI，本轮先完成三个市场的明确离线交互，覆盖此前“只在资金通路之后复用”的页面排期；实际资金接入顺序和安全门禁没有变化。[源码、截图与公开验证](../../executor/verification/2026-10-26-three-market-ui-v1/README.md)。全英文、官方 Psy logo、既有 Geist/白黑钴蓝样式；手机原生导航。新增整单报价、Curve 整数 lots/界限/毕业说明、NFT 搜索排序/购买身份/挂牌预览、共享持久草稿中心，以及 AMM 原始 LP 份额比例取出预览。
+Existing U124/curveQuote/withdraw arithmetic and market semantics remain.
+Orderbook exchanges full offers, without partial fills or maker-price refunds.
+NFT binds collection/token/metadata/seller/listing nonce/price; saving does not
+publish. New drafts recompute strictly in separate storage with only
+`draft`/`cancelled` states. Local cancellation is not chain cancellation/refund/
+claim. Original AMM demo records remain intact.
 
-金额复用既有 U124/curveQuote/withdraw，不改变市场定价或撮合。Orderbook 完整交换双方 offer，无部分成交或 maker-price 找零；NFT 固定 collection/token/metadata/seller/listing nonce/价格；保存挂牌不会发布。新草稿严格重算、独立存储，状态只有 draft/cancelled，本地取消不变成链上撤单、退款或领取。原 AMM 演示记录保留。
+Build and 36 frontend tests pass. Desktop/mobile IAB has no document horizontal
+overflow; modal keyboard, errors, persistence, Back/deep links and console checks
+pass. Two initial text assertions mismatched actual DOM wording/formatting;
+originals remain and explicit DOM checks supersede them. Initial closure: 77
+source/build inputs; final documentation closure: v2 with 78 inputs. SDK source
+count remains 1,466; screenshot hashes are retained. No SDK, Node or old contract
+change occurred.
 
-构建和 36 项前端回归通过；实际 IAB 桌面/手机验证无页面横向溢出，键盘弹窗、错误路径、持久化、Back/深链接通过，无控制台警告错误。两次初始检查仅因文本断言不符失败，原件保留并以实际 DOM 内容复核；不是隐藏产品失败。77 项当时源码/构建闭包、1,466 份固定 SDK 源码及截图哈希记录，最终文档补充后的闭包另留 v2。没有切换 SDK、改 Node 或旧合约。
+The three markets are still `local-fixture` with no live identities, read gateways
+or wallet funding transport. Real LP removal is unconnected. Exact wallet proof/
+verify/one-shot broadcast/original recovery, authenticated state, Executor
+projection and actual ordinary claims remain open. No new financial request,
+UPS, fill, fee or performance result exists. Actual two-pool/sustained/Book→AMM
+and production readiness are not closed. The UI lease closes after archival/push;
+the original heartbeat and financial plan remain.
 
-三个新市场仍是 local-fixture，没有 live 身份、市场读取网关或钱包资金通路。移除 LP 也未连接真实订单。浏览器钱包精确证明/验证/一次广播/原身份恢复、认证状态、Executor 投影及实际普通钱包领取仍未关闭。没有本轮金融请求、UPS、成交、费用或性能结果；不关闭双池真实对照、连续运行或 Book→AMM，也不宣称生产级。UI lease 在归档推送后关闭，原 heartbeat/金融计划继续保留。
+## Repository-wide English documentation review
+
+The user requested an international-project language review after finding Chinese
+prose in published diffs. Maintained module/readiness/design/security/performance
+material has been revised to English, with an explicit
+[full inventory and validation](../language/README.md). Original raw archives and
+99 individually hashed historical text files remain byte-identical; the
+[English evidence guide](../language/HISTORICAL_EVIDENCE_GUIDE.md) provides context.
+The UTF-8 test keeps identical runtime bytes via source escapes. A dedicated
+language check and CI job reject new Han prose and changed frozen originals.
+No Node/SDK/contract/key/financial-state change or new financial acceptance is
+part of this editorial milestone. Existing blockers and the original plan remain.

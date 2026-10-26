@@ -1,58 +1,97 @@
 # NFT Marketplace v3
 
-一口价 NFT 市场，由 Marketplace 合约、公开 SD-key 和现有 Executor 组成。
-绑定一个 NFT v3 合约和一个 U124 FT 支付合约，金额使用 `[low62, high62]`。
-原生 PSY 仅用于手续费。没有修改 NFT 资产合约、已有三个市场或 psy-node。
+Fixed-price market comprising a contract, public SD-key and existing Executor.
+It binds one NFT v3 collection and one U124 payment FT, using `[low62, high62]`.
+Native PSY pays fees only. NFT assets, original markets and psy-node are unchanged.
 
-## 首次启用与钱包准备
+## Activation and wallet preparation
 
-新的 SD-key 注册后尚无用户状态，NFT/FT 合约树也可能不存在。仅注册账户不能保证外部状态读取可证明。
+Registration alone does not materialize user/NFT/FT state or make foreign reads
+provable.
 
-1. 使用已持有 NFT、且有支付 FT 的发起钱包，给新金库转入精确的 `1.0001 PSY` 和 **1 个 FT 最小单位**。`activationFundingCalls` 编码这两笔入金。
-2. Executor 在 `pool == 0` 的金库分区发现这份精确入金后提出 `activate`。其固定 UPS 先 claim 原生手续费、NFT ACK 发起钱包、claim FT，再验证一次性启用条件、将 1 个 FT 最小单位返还同一钱包，填充 noop，最后支付 burn。完整证明及入链是原子的，失败不会只执行前几个调用。
-3. 启用只写入现有的金库 `pool = ctx.user_id` 标记以及两项入金游标，不增加布局字段。标记不能重复设置，超额 seed、错误手续费、已使用的金库会拒绝。初始化者需要自行 FT claim 返还的最小单位。
-4. 启用确认后再挂单。买家 `purchaseCalls` 先执行 `NFT.acknowledge(seller)`，建立自己的 NFT 状态树，再开买单和付款。
+1. An initiator holding NFT state and payment FT sends exactly **1.0001 PSY** and
+   **one FT base unit** to the fresh vault (`activationFundingCalls`).
+2. At `pool == 0`, Executor proposes `activate`. One fixed UPS claims native fee,
+   ACKs initiator NFT state, claims FT, checks one-time activation, returns the FT
+   seed to that same wallet, pads noops and burns fees. Failure rejects the whole
+   UPS, without partial execution.
+3. Activation sets existing `pool = ctx.user_id` and two funding cursors, with no
+   new fields. Repeat activation, excess seed, wrong fee and used vaults reject.
+   The initiator separately claims the returned FT atom.
+4. List only after confirmation. Buyer `purchaseCalls` first invokes
+   `NFT.acknowledge(seller)` to establish NFT state, then opens/pays the buy order.
 
-请使用 Node 客户端的 `verifiedListingCalls` / `verifiedPurchaseCalls`：它们校验市场和资产代码/布局、注册账户、精确策略 fingerprint，以及公开 SD-key 值所派生的公钥哈希，并拒绝未启用金库。调用者提供的订单参数不能覆盖验证后的资产或金库地址。低层 `listingCalls` / `purchaseCalls` 只编码调用，不进行网络信任校验。
+Use `verifiedListingCalls`/`verifiedPurchaseCalls`: they verify market/asset code
+and layout, registration, exact fingerprint and public-key hash derived from
+public SD-key values, rejecting inactive vaults. Order fields cannot override
+verified assets/vaults. Low-level `listingCalls`/`purchaseCalls` encode only and do
+not establish network trust.
 
-Executor 的 NFT profile 要求新驱动的 `identity <policy.json>` 命令，同时绑定 fingerprint 和公钥哈希；普通私钥钱包不能仅靠伪造启用标记冒充被验证的 SD-key 金库。原有三类市场的驱动接口保持兼容。
+The NFT Executor profile requires driver `identity <policy.json>`, checking both
+fingerprint and public-key hash. An ordinary-key wallet cannot impersonate a
+verified public vault by faking an activation marker. Legacy market interfaces
+remain compatible.
 
-## 交易与退款
+## Trading and refunds
 
-1. 卖家在自己的分区签署 `open_listing`。合约读取持有槽位的四 Felt NFT ID、metadata hash，记录指定价格、期限、nonce 和下一笔 FIFO 序号。卖家给金库支付手续费保证金，并转出该 NFT。建议使用 `client.mjs::listingCalls` 在同一个用户 UPS 中完成；它先 ACK 之前已经领取的入金。
-2. 买家签署 `open_buy`，明确指定卖家、卖单 nonce 和价格，然后给金库支付 FT 和自己的手续费保证金。`purchaseCalls` 可组合成同一个用户 UPS。
-3. 任意执行者可使用公开 SD-key 提交成交。固定的十个调用在一个金库 UPS 内验证订单、领取两人的手续费、领取买家的 FT 和卖家的指定 NFT、ACK 买家的已领取队列、向买家发送 NFT、向卖家发送 FT、返还卖家的手续费保证金、支付网络 burn。
-4. 买家自行 `NFT.claim(slot, vault)`；卖家自行 `FT.claim(vault)`，领取返还的 PSY 使用 `simple_claim(vault)`。金库 UPS 的原子性保证两个输出同时发出；收款人随后领取，不表示已经同步写入买家的持有分区。
-5. 用户使用 `request_cancel` 签署取消。活跃且未过期的订单不能被观察者任意退款。过期后，任何执行者都可按指纹退款。卖家退款始终发送给卖家；买家的 FT 退款始终发送给该买家。
-6. 买家订单取消、过期、引用的卖单被取消/消费/替换后，可以退款。付款不足或超额会按实际未领取 FT 增量退回，不用错误的标价覆盖真实入金。
-7. 只付手续费、尚未转出 NFT/FT 的订单有独立退款分支。完全未入金的订单可 `abandon_unfunded`。已结算且没有额外未领取入金的订单可 `close_listing` / `close_buy`，再用更大的 nonce 开单。
+1. Seller signs `open_listing` in their partition. The contract reads all four
+   token-ID/metadata Felts and records price, deadline, nonce and next FIFO index.
+   Seller funds fee escrow and transfers that exact NFT. `listingCalls` combines
+   this in one user UPS, first ACKing earlier claimed deliveries.
+2. Buyer signs `open_buy`, binding seller, listing nonce and price, then pays FT
+   and fee escrow. `purchaseCalls` combines these in one user UPS.
+3. Anyone can settle via public SD-key. Ten fixed vault calls guard orders, claim
+   both fees, buyer FT and seller NFT, ACK buyer deliveries, send NFT to buyer/FT
+   to seller, refund seller fee and burn actual network fees.
+4. Buyer calls `NFT.claim(slot, vault)`; seller calls `FT.claim(vault)` and native
+   `simple_claim(vault)` for fee return. Vault UPS atomically creates both outputs;
+   it does not synchronously write buyer ownership. Claims remain separate.
+5. `request_cancel` requires user authorization. Observers cannot refund an active
+   unexpired order arbitrarily. After expiry anyone may execute fingerprint-bound
+   refunds, always to the original seller/buyer.
+6. A buyer can refund after cancellation, expiry or a cancelled/consumed/replaced
+   listing. Under/overpayment returns the actual unclaimed FT delta, not a fictitious
+   listed-price amount.
+7. Fee-only funding has dedicated refunds. Entirely unfunded orders may
+   `abandon_unfunded`; settled orders without extra pending deposits may
+   `close_listing`/`close_buy`, then reopen with a higher nonce.
 
-买家和卖家的成交准备各要求 **1.0001 PSY** 新的手续费保证金。成交时卖家的这份保证金全部返还；买家的保证金承担成交 UPS 的实际网络费。取消/退款时对应付款人的保证金承担退款 UPS 的网络费。自动 burn 必须处于 1–1.0001 PSY，且为 1000 nanoPSY 的整数倍。最终费用由证明驱动读取，超出范围拒绝广播。保证金的小额剩余留在金库；当前没有任意提现分支。
+Both parties supply a fresh **1.0001 PSY** fee deposit. Seller's deposit returns in
+full on sale; buyer's pays settlement burn. Refunds use that payer's fee deposit.
+Burn must be 1–1.0001 PSY in multiples of 1000 nanoPSY; actual driver fees outside
+the range reject broadcast. Small unused surplus stays in the vault, with no
+arbitrary withdrawal branch.
 
-## 并发与队列
+## Concurrency and queues
 
-- 每用户一个活动订单；nonce 和金库 `consumed` 游标阻止重复成交/退款。同一卖单有多个买家时，只有一个成功，其余买家可退款。
-- NFT 从卖家到金库必须是下一笔 FIFO 项，且恰好新增一个；ID 和 metadata hash 的全部四个 Felt 都要相等。
-- 金库使用固定临时槽位 0，并在一次结算内领取、转出，结算之间不持有 NFT。
-- 金库发送 NFT 前 ACK 收款人的已领取记录。队列中仍有四笔未领取时整笔结算失败，不会只扣款而漏发 NFT。
-- 无后续交易时，收款人可单独注入一份手续费，执行 `ack_delivery` 回收已领取队列。该分支拒绝挪用未结算订单的手续费。
-- 原 NFT 合约的 128 个持有槽位和四笔 FIFO 窗口继续适用。买家需保留空槽位，退款收款人也需领取。当前没有收款人分区强制领取功能。
+- One active order per user. Nonces and vault consumed cursors prevent duplicate
+  fill/refund. One listing has one winning buyer; losing buyers can refund.
+- Seller→vault transfer must be exactly the next single FIFO item, matching all
+  token-ID and metadata Felts.
+- Vault scratch slot 0 is claimed and sent in the same settlement, holding no NFT
+  between settlements.
+- Vault ACKs recipient claims before sending. Four still-unclaimed deliveries
+  reject the whole settlement, without charging for a missing NFT output.
+- Without further trading, the recipient can fund a separate fee for
+  `ack_delivery`, which cannot consume unsettled-order fees.
+- Existing 128 ownership slots/four-item FIFO remain. Buyer needs a free slot;
+  refund recipients also must claim. There is no forced recipient-partition claim.
 
-## 代码
+## Sources
 
-| 文件 | 用途 |
+| File | Purpose |
 | --- | --- |
-| `generate.mjs` / `contract/src/main.psy.rs` | 14 个方法的市场合约；源文件中的 41/42 仅为本地测试 ID |
-| `policy.mjs` | 六个严格绑定的 SD-key 分支、十个调用、固定临时 NFT 槽位 |
-| `client.mjs` | 用户下单/入金组合、BigInt 金额 |
-| `reader.mjs` | 单 checkpoint 扫描、成交/退款/ACK 规划 |
-| `abi.mjs` / `build.mjs` | NFT/FT ABI 检查、正确外部读取高度、全新产物和来源哈希 |
-| `../amm/u124/vm-tests/src/nft_market.rs` | 应用编译 pass：NFT 高度 30、FT/市场 31、PSY 32 |
-| `../executor/u124Adapter.mjs` | 复用已有持久提交、回执核对和不明广播保护 |
+| `generate.mjs`, `contract/src/main.psy.rs` | 14-method contract; IDs 41/42 are local fixtures |
+| `policy.mjs` | Six bound branches, ten calls and fixed NFT scratch slot |
+| `client.mjs` | User order/funding calls and BigInt |
+| `reader.mjs` | Single-checkpoint scan and fill/refund/ACK plans |
+| `abi.mjs`, `build.mjs` | ABI checks, foreign heights, fresh output and provenance |
+| `../amm/u124/vm-tests/src/nft_market.rs` | Application pass: NFT height 30, FT/market 31, PSY 32 |
+| `../executor/u124Adapter.mjs` | Durable submit, receipt checks and unknown-result protection |
 
-## 构建与验证
+## Build and verify
 
-先准备 NFT v3、U124 Token 的编译产物，以及兼容 SDK。构建驱动：
+Prepare NFT v3/U124 FT artifacts and a compatible SDK:
 
 ```sh
 cargo +nightly-2025-09-20 build --offline --locked --release \
@@ -60,7 +99,7 @@ cargo +nightly-2025-09-20 build --offline --locked --release \
   --bin compile_nft_market --bin market_wallet_verified
 ```
 
-配置只包含实际 NFT / FT 合约 ID，例如 `{ "nftId": 41, "tokenId": 42 }`。以下输出目录必须尚不存在：
+Config contains actual IDs, e.g. `{ "nftId": 41, "tokenId": 42 }`. Output must be new:
 
 ```sh
 npm run build:nft-marketplace -- \
@@ -68,11 +107,9 @@ npm run build:nft-marketplace -- \
   --compiler /path/to/compile_nft_market \
   --nft /path/to/nft/compilation_artifact.json \
   --token /path/to/token/compilation_artifact.json
-
 node nft-marketplace/samples.mjs \
   /tmp/nft-market-fresh/market/policy.json \
   /tmp/nft-market-fresh/market/policy-samples.json
-
 npm run test:nft-marketplace
 NFT_MARKET_BUILD=/tmp/nft-market-fresh TOKEN_WIDE_ARTIFACT=/path/to/token/compilation_artifact.json \
   node --test nft-marketplace/tests/*.test.mjs
@@ -82,12 +119,14 @@ NFT_MARKET_BUILD=/tmp/nft-market-fresh TOKEN_WIDE_ARTIFACT=/path/to/token/compil
   --lib --test nft_market --test nft_sdkey --test nft_layout -- --test-threads=1
 ```
 
-Rust 测试使用本地 ID NFT 41、FT 42、Market 1000、issuer 5。`NFT_MARKET_BUILD/nft/compilation_artifact.json` 必须是对应 NFT v3 的编译产物；测试会通过真实 mint/transfer/claim 初始化资产。签名样例只测试策略，不表示对应订单已经入金。
+Rust fixtures use NFT 41, FT 42, Market 1000, issuer 5.
+`NFT_MARKET_BUILD/nft/compilation_artifact.json` must be matching NFT v3 bytecode;
+actual mint/transfer/claim initializes test assets. Signing examples prove policy,
+not real order funding.
 
-## Executor 配置
+## Executor configuration
 
-沿用现有 `executor/run.mjs config.json scan|once|watch|reconcile` 和 `executor/service.mjs`。
-新实例用 `kind: "nftmarket"`、`profile: "nft-v3-u124"`，需要以下绑定：
+Use existing `executor/run.mjs config.json scan|once|watch|reconcile` or service:
 
 ```json
 {
@@ -118,64 +157,107 @@ Rust 测试使用本地 ID NFT 41、FT 42、Market 1000、issuer 5。`NFT_MARKET
 }
 ```
 
-这是配置结构示例，占位哈希会被校验拒绝。Executor 启动及执行前绑定网络、三个 code/layout roots、各自状态树高度、金库注册和精确 fingerprint。扫描显式用户列表，并读取买单引用的卖家；尚未实现全链自动发现用户。
+Placeholders reject validation. Startup/pre-execution binds network, all three
+code/layout roots, heights, registration and fingerprint. Discovery scans explicit
+users and sellers referenced by buy orders, not the whole chain.
 
-## 验收边界
+## Acceptance boundaries
 
-当前实现支持一口价成交及撤回。未实现拍卖、报价单、版税、平台抽成、多合集路由或私密 NFT 交易。
-不承诺处理没有市场订单的任意直接 NFT 入金；额外 NFT 会违反严格序号要求，应使用组合调用避免。额外手续费也必须核对，当前要求精确手续费增量。结算后追加的入金可能阻止关闭，应完成订单再开下一单。
+Fixed-price sales/refunds only: no auctions, bids, royalties, platform fees,
+multi-collection routing or private NFT trades. Arbitrary direct NFT deposits
+without orders are unsupported; extra NFTs break exact FIFO constraints. Use
+combined calls. Exact fee deltas are required; post-settlement deposits may block
+close. Finish an order before funding the next.
 
-新 NFT Marketplace 应使用**新的合约 ID 和新的 SD-key**。不要拿原始编译器输出直接部署，不要更新既有合约布局。离线 ABI/VM/策略证明及 CFC 构建通过，不等于完整认证状态 UPS 证明、真实链上验收或独立审计。部署就绪标记保持 false，直到对应部署的完整预检和实际回执完成。
+Use **new contract IDs and SD-keys**, never raw compiler output or legacy layout
+updates. ABI/VM/policy proofs and CFC builds do not establish authenticated full
+UPS, actual acceptance or independent audit. Deployment-ready stays false until
+that instance's full preflight and receipts close.
 
-## v2 结算结果与部署预检
+## v2 results and initial-deployment preflight
 
-金库分区的 `results[user]` 保存该用户最近一次成交/退款的订单 nonce、结果、交易对方、报价、完整 NFT ID / metadata，以及 FT/NFT/PSY 的输出游标。
-`status.mjs::readOrderStatus` 在同一个 checkpoint 区分 `sold`、`purchased`、`nft-refunded`、`payment-refunded` 和手续费单独退款，并分别报告资产是否已领取。新订单不能把自己的取消标记套到旧订单的结果上。较旧结果被下一次结算覆盖后，查询会返回 `historical-result`，不会编造细节；持久历史需要索引服务。
+Vault `results[user]` records last order nonce/outcome/counterparty/quote/full NFT
+ID/metadata and FT/NFT/PSY output cursors. `readOrderStatus` distinguishes sold,
+purchased, nft-refunded, payment-refunded and fee-only refund at one checkpoint,
+reporting claims separately. New cancellation cannot attach to an old outcome.
+Overwritten results return `historical-result`, not fabricated detail; durable
+history needs indexing.
 
-**取消的确定性边界：**链允许历史远端状态证明。`request_cancel` 确认只表示提出取消，先前已准备的成交证明仍可能赢得竞争。金库的退款 UPS 确认后，其调用者状态和 `consumed` 游标已经改变，才完成撤销；成交先确认则显示取消竞争失败。期限也是证明 checkpoint 的条件，不能把客户端观察到过期等同于所有旧证明立即失效。自动执行器会读取当前状态并优先处理取消/到期退款。
+Cancellation is a request: historical remote proofs are allowed, so a prepared
+sale can beat a confirmed request. Cancellation completes only after a confirmed
+vault refund changes current caller state/consumed cursor. A first-confirmed sale
+means cancellation lost. Expiry constrains proving checkpoint, not instant
+invalidation of every old proof. Executor reads current state and prioritizes
+cancel/expiry refunds.
 
-结果里的四 Felt ID 和 metadata 各用一个 `Hash` 保存；全部 17 Felt 记录不变，类型 DAG 降到当前 16 节点上限内。应用编译器现在先检查 canonical 类型布局，超出上限的源文件在产物写出前拒绝。此前部署的合约不做布局更新。
+Four-Felt IDs/metadata use Hash fields, retaining 17 Felts while fitting the
+16-node type-DAG limit. Compiler checks canonical layouts before writing outputs;
+existing contracts are not upgraded.
 
 ```sh
-# Build the application-owned offline verifier.
 cargo +nightly-2025-09-20 build --offline --locked --release \
   --manifest-path amm/u124/vm-tests/Cargo.toml --bin preflight_nft_initial
-
-# Generate and independently verify a new market's INITIAL deployment proof.
 node nft-marketplace/preflight.mjs --bundle /path/to/fresh-market \
   --deployer <public-deployer-hash> --verifier /path/to/preflight_nft_initial \
   --out /path/to/new-initial-review
-
-# Read settlement and claim status after a verified deployment is configured.
 node nft-marketplace/status-cli.mjs /path/to/executor-config.json <user-id> [nonce]
 ```
 
-预检绑定源码、资产配置、编译产物、ABI、验证器哈希和公开部署者，验证旧布局为空且字段/槽位数为 0、新布局和代码完全对应产物。接口没有更新部署模式，也不会提交交易。NFT 高度 30、FT/市场高度 31 的初次部署验证共用同一个验证库。SDK 测试包括七种 root/count/code/owner/height/proof 篡改拒绝。
+Preflight binds source/config/artifact/ABI/verifier hash/public deployer. It proves
+old layout empty with zero fields/slots and exact new code/layout. It has no update
+mode or submission. NFT height 30 and FT/market 31 share the verification library;
+SDK tests reject seven root/count/code/owner/height/proof mutations.
 
-### 同函数读取根与写入顺序
+### Read roots and write order
 
-v2 构建将市场状态写入安排在校验之后，保证自账户外部资产读取先于本地市场写入。CFC 的这些读取绑定调用入口的用户合约根。读写交错因此需要额外验证；调整顺序后真实挂单仍出现目标值冲突，不能把这一改动认定为根因修复。VM 执行正确与 CFC 可构建均不能替代带认证状态的证明。Artifact gate 会拒绝本地写入之后出现自账户外部读取的产物。标量数组索引也被规范化为标量运算。
+v2 moved local writes after validation so self-account foreign asset reads precede
+market writes; those CFC reads bind entry user-contract roots. Actual listing
+still conflicted after reordering, so this was not established as the root-cause
+fix. VM correctness/CFC construction do not replace authenticated-state proofs.
+Artifact gate rejects later self-foreign reads after local writes; scalar-array
+indexes are normalized to scalar operations.
 
-初次部署去重标识可能由函数电路白名单产生：字节码改写但电路指纹相同，可能返回已有部署。部署后必须核对真实 code root / layout root；标记文件中的合约 ID 本身不是新版本确认。此问题只做匹配检查，不覆盖原部署或旧证明。
+Initial deployment deduplication may use function-circuit whitelist: changed
+bytecode with the same fingerprint may return an existing ID. Verify actual
+code/layout roots after deployment; a marker ID alone does not identify new code.
+No old deployment/proof is overwritten.
 
-## 2026-10-14 历史 v2 验收
+## Historical v2 acceptance: 2026-10-14
 
-独立测试 NFT 2447、18 位 U124 FT 2448、Marketplace 2451 和 SD-key 金库 1755712 已确认部署/注册。初次布局证明为 0 → 22，代码根、布局根和收据均匹配。普通 `noop` 已确认上链。
+NFT 2447, U124 FT 2448 (18 decimals), Market 2451/vault 1755712 deployed/registered;
+initial layout 0→22, roots and receipts match. An ordinary noop confirmed.
+**Actual sale failed:** MCP listing CFC failed before broadcast. No listing or
+NFT/FT/fee deposit reached the vault. Reordering/noop did not resolve it; full
+fill/refund UPS acceptance stayed false. See [original report](verification/2026-10-14-continuation-01/REPORT.md).
+Registration alone does not make that vault accepted custody.
 
-**真实成交未通过。** `open_listing` 在 MCP 本地 CFC 证明阶段失败，没有广播挂单，也没有向金库转入 NFT、FT 或手续费。读写顺序调整和一次 `noop` 后仍复现；完整成交/退款 UPS 验收标记保持 false。详见 [验收记录](verification/2026-10-14-continuation-01/REPORT.md)。已注册的测试金库不能作为已验收产品金库使用。
+## v3 root cause and verification
 
-## v3 根因与验证
+Readonly `nft_cfc_probe` builds witnesses without signing/broadcast. Old inactive
+vault 1755712 has a zero remote leaf, while the SDK default user hash includes
+`15152617885907939637`, reproducing the original failure. Activation on fresh
+2452/vault 1256000 allowed the same actual-state listing CFC to verify.
 
-只读 `nft_cfc_probe` 从公开状态构造 CFC witness，无签名或广播。对未启用的旧金库 1755712，其远端用户树叶为零，而 SDK 默认用户结构的哈希包含 `15152617885907939637`，准确复现原错误。首次启用后，新实例 2452 / 1256000 的同一真实挂单 CFC 已独立验证成功。
+`analyze <witness.json> <fresh-report>` checks remote user-leaf hashes and upper/
+lower roots. Original failures/v2 artifacts remain. [v3 sales, refunds and buyer
+competition](verification/2026-10-14-production-01/REPORT.md) are separate evidence.
 
-诊断工具还提供 `analyze <witness.json> <fresh-report>`，计算远端用户叶哈希并核对上下层状态根。原始失败记录与历史 v2 验收文件保留。当前 v3 成交、取消退款和竞争买家验证见 [本次报告](verification/2026-10-14-production-01/REPORT.md)。
+## Release acceptance and HTTPS
 
-## 发布验收工具与 HTTPS
+`npm run verify:nft-marketplace -- --config ... --evidence ... --out ...` readonly
+rechecks receipts, release hashes, public identity, actual claims, conservation,
+NFT IDs/metadata. Output must be new. It requires three real participants, two
+sales, one NFT refund and two FT refunds with independently verified broadcast
+logs. `tests/acceptance.test.mjs` fixtures are explicit doubles, not live evidence.
 
-`npm run verify:nft-marketplace -- --config ... --evidence ... --out ...` 只读重查回执，核对发布哈希、公钥身份、实际领取、资产守恒、NFT 身份和 metadata；输出文件必须尚不存在。它要求三名实际参与者、两笔成交、一笔 NFT 撤回和两笔 FT 退款，并绑定独立验证后的广播日志。格式与失败样例见 `tests/acceptance.test.mjs`，这些测试替身本身不是链上验收。
+Evidence version 2 requires reviewed `walletSha256`, a `guardFile` for every
+sdkOperation, release coverage for RPC/guards and complete policy-branch calls.
+Reports bind exact raw `callsSha256`/`guardSha256`. Old logs cannot be made accepted
+by filling in hashes retrospectively; matching-version drivers must produce new
+evidence. Historical reports stay intact. JSON is trusted-driver output, not an
+independently signed audit.
 
-新验收要求 `version: 2`。Executor 配置必须填写已审核驱动的 `walletSha256`；每项 `sdkOperations` 增加 `guardFile`。release 列表覆盖 RPC 配置及每个 guard 文件。调用文件必须完整匹配其 policy branch，广播报告必须带与该文件和 guard 字节完全一致的 `callsSha256` / `guardSha256`。旧日志缺少这些绑定时不能补填摘要后声称新验收通过，需要匹配版本驱动重新生成证据；既有历史报告原样保留。JSON 日志仍是受信驱动的输出，不是独立签名的审计证明。
-
-应用驱动显式启用 reqwest HTTPS 支持，保留证书与域名验证。当前驱动需支持 `identity <policy.json>`；仅返回 fingerprint 的旧二进制不满足新执行器的身份检查。此修复位于应用构建配置，未修改 Node 或 MCP。
-
-工程验收通过仍不会自动设置 `productionReady: true`。独立审计、更新权限、链上代码根约束及可用性/容量边界见 [生产验收清单](../PRODUCTION_READINESS.md)。
+Application reqwest HTTPS support retains certificate/hostname checks. Drivers
+must support identity, not fingerprint alone. This build change does not edit
+Node/MCP. Engineering acceptance never automatically sets productionReady true;
+see [audit/upgrade/root/availability gates](../PRODUCTION_READINESS.md).

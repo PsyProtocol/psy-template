@@ -1,242 +1,185 @@
-# 四市场批处理：五项缺口的后续验证
+# Four-market batch follow-up: five open gaps
 
-分支：`markets-batch-capacity-recovery-20261020`，基线
-`5a9a7e7c631729f19a52f173ab6d7d4aa27d5666`。
-范围：应用市场生成器、Executor scanner、测试和证明成本分析；不修改 Node，
-不发起合约更新或网络交易。原始预检、旧构建和上一轮测量保留。
+Branch `markets-batch-capacity-recovery-20261020`, baseline
+`5a9a7e7c631729f19a52f173ab6d7d4aa27d5666`. Application generators/scanner/tests/
+proof-cost analysis only; no Node edits, contract updates or network transactions.
+Original preflight/builds/measurements remain intact. This is a chronological
+2026-10-20 record; later release/live evidence is separate.
 
-## 五项问题的状态
-
-| 问题 | 本轮处理 | 仍未满足的条件 |
+| Gap | This milestone | Still required |
 | --- | --- | --- |
-| 随机排序 | 继续关闭；Executor 不生成替代 seed | 经过审核的不可偏置源、认证读取、真实承诺包含时间、固定未来 seed、抗选择性放弃协议 |
-| 全市场完整性 | 继续只承诺所选集合；scanner 的排序和发现提示不构成遗漏证明 | 认证的 admission universe / 队列及 epoch 截止快照，证明该范围内全部订单逐项被处理或被规则排除 |
-| 小容量 | AMM / Curve 候选扩大到 4 成员 / 4 单；Book / NFT 保持 4 成员 / 2 对 | 更大容量须独立改变数组、顺序证明、调用栈和费用预算，再完整证明；本轮不宣称大批量市场 |
-| 证明成本 | 新增 `batching/v2/proof-cost.mjs`，分离实测 work / noop / 未跟踪开销；补测 4 单 | 固定 40 调用尚未缩短；未完成旧版对照加速验证，未优化完整在线流水线 |
-| 真实网络验收 | 新增 commit → expire → recommit → refund 的完整 UPS 连续证明用例 | 仍为合成认证 checkpoint；SDK 依赖发行、升级授权证据、真实注册 / 接纳 / 确认 / 领取验收未完成 |
+| Random order | Off; no Executor-selected seed | Reviewed hard-to-bias source, authenticated read, actual commitment inclusion, fixed future seed and anti-abandonment protocol |
+| Global completeness | Selected-set commitment only; discovery hints are not omission proofs | Authenticated admission universe/queue/cutoff, every scoped order processed or lawfully excluded |
+| Capacity | AMM/Curve candidate four members/four orders; Book/NFT four members/two pairs | Larger arrays/order/calls/fee budget need independent full proofs; no large-batch claim |
+| Proof cost | proof-cost.mjs separates useful/noop/untracked work; four-order samples | Forty slots unchanged, no controlled old/new speedup or full online optimization |
+| Live acceptance | Full commit→expire→recommit→refund proof chain | Synthetic checkpoints only; SDK release, upgrade authorization and actual register/admit/confirm/claim remain |
 
-上述状态不能汇总成“生产级已完成”。离线恢复证明也不能填充真实网络验收栏。
+These do not combine into production readiness. Offline recovery cannot fill a
+live-acceptance column.
 
-## 本轮实现
+## Implementation and binding
 
-- `commit_batch` 的 AMM / Curve 成员上限从 2 改为 4；scanner 通过显式 `batchMemberLimit:4` 选取最多 4 人。旧 AMM / Curve
-  配置默认仍为 2，避免同名旧 V2 候选配置静默超出旧合约上限；Book / NFT 默认 4。
-  已有 4 个操作块、布局和 74-Felt witness 没有扩大；每 UPS 仍是 40 调用。
-- 第三、四单使用先前各单更新后的储备 / sold 数量，逐单验证。漏掉任一结果、
-  相邻换序和重复执行的候选必须拒绝，不能靠 Executor 先算报价代替合约约束。
-- 4 个分散高位 ID 的 AMM / Curve / Book 双资产退款测试同时领取 FT 和 native，
-  只返回各自付款人；NFT 的同类 4 退款回归继续保留。
-- 恢复用例先证明 commit，检查无效结算不改变冻结状态、提前 expire 拒绝，再在
-  期限后证明 expire、新 commit 和退款。四个证明的金库起止叶逐个相连，并验证
-  CFC、递归、SD-key、end-cap、公开元数据和导出 Merkle 增量。
-  普通用户发撤单及最终收款 claim 使用真实 VM 字节码，**没有将它们计为普通
-  钱包完整 UPS 或真实网络确认**。
-- 每次重承诺都需要新的赞助 nonce 和 2F 预算；expire 本身也收费。本用例不假设
-  一个已经消耗的赞助授权能无限次重用。未知广播结果仍先按精确终态叶对账。
+AMM/Curve caps increase 2→4 through explicit `batchMemberLimit:4`; legacy configs
+default two to avoid silently exceeding deployed code. Book/NFT default four.
+Four operation blocks/layout/74-Felt witness remain, exactly 40 calls per UPS.
+Orders three/four use preceding reserves/sold; missing/reordered/repeated results
+reject in contract, not merely JS quotes. Dispersed high-ID FT/native refunds return
+to each payer, with NFT regression retained.
 
-本轮新编译产物只改变 AMM / Curve 的 code roots；布局及 policy 文件与前一候选的
-关系须按冻结哈希核对。不能向旧金库直接套用源文件的新容量；本分支没有部署。
+Recovery proves commit, rejects invalid settle/early expiry without mutating
+frozen state, then proves expire/new commit/refund. All four vault endpoint links,
+CFC/recursion/key/end-cap/metadata/deltas verify. Ordinary cancel/final claims use
+actual VM, not ordinary full UPS or network confirmation. Recommit needs a new
+Sponsor nonce/2F; expiry costs fees. Uncertain broadcasts still reconcile exact
+end-leaf. New roots change only AMM/Curve code; check frozen layout/policy hashes.
+New source capacity cannot be applied to old vaults; nothing deployed here.
 
-## 性能定位
+## Cost diagnosis
 
-上一轮 `implementation-v2/full-ups-size1` 中保存的完整 UPS trace：
+Saved `implementation-v2/full-ups-size1` traces:
 
-| 市场 | commit 总耗时 / noop 耗时 | settle 总耗时 / noop 耗时 |
+| Market | Commit total/noop s | Settle total/noop s |
 | --- | --- | --- |
-| AMM | 113.36 / 47.17 秒 | 104.69 / 40.72 秒 |
-| Orderbook | 114.29 / 54.99 秒 | 120.38 / 47.12 秒 |
-| Curve | 104.63 / 44.42 秒 | 103.96 / 39.63 秒 |
-| NFT Market | 107.15 / 46.75 秒 | 104.35 / 34.35 秒 |
+| AMM | 113.36 / 47.17 | 104.69 / 40.72 |
+| Book | 114.29 / 54.99 | 120.38 / 47.12 |
+| Curve | 104.63 / 44.42 | 103.96 / 39.63 |
+| NFT | 107.15 / 46.75 | 104.35 / 34.35 |
 
-commit 有 37 个 noop；单笔 settle 有 28～33 个 noop。其余时间含真实工作调用、
-会话准备、自动 burn、签名、end-cap 及验证，不能全部归因于市场算术。
-这一拆分给出优化依据，不是删除 noop 后的性能预测。
+Commit has 37 noops; one-fill settle 28–33. Remaining time includes useful calls,
+session, burn, signing/end-cap/verify, not only arithmetic. This is diagnosis, not
+predicted speed after deleting padding. SDK introspection binds exact tx_count;
+old key padding cannot be removed or recursion skipped as “proof caching”. New
+lengths need new application circuits/fingerprints, exact prefix/length/burn/unused
+slots/session digest, negative regressions and full UPS. SDK context/trace paths
+also enforce exact counts; changing one policy number is insufficient.
 
-当前 SDK 的 `SDKeyCircuitGadget::build_tx_introspection` 将 `tx_count` 与配置中的
-固定数直接连接。沿用当前 key 时不能删掉 padding；也不能跳过 UPS 递归步骤并
-称作证明缓存。若做可变长度，需要新的应用签名电路 / 指纹，认证精确调用前缀、
-动态长度、最终 burn、规范的未用槽和会话 digest，并重新完成攻击回归和完整 UPS。
-此外，当前 SDK 的 `build_sd_key_context` 和 trace 路径也校验精确数量；新的
-应用驱动必须经审核地构造并认证签名上下文，不能只改一个 policy 数字或跳过
-这些检查。这可以作为独立应用方案研究，不能当作本轮已经实现的优化。
+Four-order/recovery timings are offline; chainTps=null. Some overlapped builds/tests,
+so no controlled speedup or production p95.
 
-4 单测量和恢复证明结果见本页后续冻结证据。所有证明测量只表示本机离线生成和
-验证，`chainTps=null`。本轮容量证明运行部分时间与应用测试编译重叠，不能拿它
-与旧记录计算受控加速比例或生产 P95。
+## Required future protocols
 
-## 后续协议方案与放行证据
+Random mode requires source-generation/trust/finality evidence, actual pre-seed
+commitment inclusion, fixed future checkpoint, circuit seed→root authentication,
+domain/market/vault/epoch/set/order keys, full permutation/ties and rejection of
+historical seeds, reorg/reseed, changed epoch/set, post-disclosure additions and
+selective abort. Timeout/recommit fees and anti-reroll rules must be explicit.
+An early number is not inclusion evidence; authenticated thread_rng output is not
+hard-to-bias randomness. Node is not modified to conceal this gap.
 
-### 1. 认证随机源
+Completeness first defines authenticated admission scope, root/length/cutoff, then
+proves each entry fills/refunds/carries/is publicly excluded, binding user/nonce/
+funding/market/epoch. Executor cannot invent an unauthenticated queue root. Shared
+admission serializes updates despite parallel intents; sharded admission requires
+certified shard membership/complete merging. Whitelists prove only their own scope.
+Monitoring/challenges detect/remedy, not prove absence of omissions.
 
-继续使用确定顺序，直到取得源的生成规则 / 信任假设 / 最终性证据，再实现：
+For live acceptance obtain reproducible reviewed SDK and upgrade evidence
+([review](UPGRADE_AUTHORITY_REVIEW_20261019.md)); application roots cannot replace
+these. Use new isolated markets/keys/vaults, never legacy update probes. Retain
+network/deployment identity, registration, roots/PK/fingerprint, exact request/
+receipt hashes, calls/fees/bytes/endpoints/checkpoints/claims, two-executor races,
+lost receipts and expiry. Separate proof throughput from confirmed throughput.
+No keys/mnemonics/recovery files in evidence.
 
-1. batch commitment 的实际包含证明，绑定一个不可事后更换的未来 seed checkpoint。
-2. 电路认证 seed 到 checkpoint root；不能只认证 Executor 提供的四个 Felt。
-3. 域、市场、金库、epoch、batch root、订单 ID 共同派生排序键，完整排列检查及并列规则。
-4. seed 重抽、重组、换 epoch / batch、挑历史 seed、承诺后加单、选择性 abort 的拒绝测试。
-5. timeout 后如何处理同一集合、何时允许重新承诺、谁付费及如何限制重抽，必须在
-   协议中确定。仅证明“较早的 checkpoint 数字”不足以证明承诺确实在开奖前入链。
+## Stable branch/source recheck
 
-本地 coordinator 的 `thread_rng` 输出有认证路径，也不能据此推断其不可操纵。
-在“不改 Node”条件下，应用不能将这个缺口伪装为已经修好的随机性。
+User confirmed release/testnet-stable; readonly remote HEAD:
+`6eb535003bdab1fcdb27386dbcb93e8aa9727998`, fetched into an independent bare store.
+Node checkout unchanged; running image/binary identity remains unverified.
+Stable SDKeyCircuitGadget creates separate sig_hash/checkpoint/user/stack witnesses
+but lacks the selected snapshot's SDKeySessionContextTargets/UPS-digest rebuild
+and session_context witness. Existing safe candidate APIs/proofs are therefore
+not reproduced by that clean SDK. “SD-key supported” does not remove this client
+circuit difference. No SDK edit or downgrade to an unbound key occurred here.
 
-### 2. 全市场订单集合
+Stable end-cap/end-cap-tree/DPN historical-checkpoint/random-source files match
+local hashes, narrowing differences without attesting whole-service compatibility.
+Randomness and upgrade evidence remain open. Source hashes are separate; no remote
+file overwrote Node or original artifacts.
 
-先确定 admission 的可认证范围，再承诺公平性。候选方案是独立的 epoch admission
-协议，冻结队列根 / 长度 / 截止点，并逐段证明队列中每个条目是成交、退款、合法
-carry 或按公开资格规则排除。每笔绑定用户、订单 nonce、资金游标、市场与 epoch；
-不能由 Executor 任意填写队列根而无用户入队认证。
+## Completed offline checks
 
-若采用共享 admission 账户，入队本身需要顺序状态更新；用户可以并行提交意图，
-不能把它描述成无限并行的完整全局排队。若采用独立用户分片，需要可认证的分片
-注册集合和完整合并证明。有限白名单只能证明该白名单内的完整性，不能称为全市场。
-挑战 / 监控只能提供检测与补救；未经挑战不等于不存在遗漏。
+39 application plus two shared-config JS tests and 21 actual VM groups pass.
+Eight-worker AMM/Curve maximum-four-order races remain local compare-and-commit.
+Four full commit/settle UPS for AMM/Curve verify endpoint linkage/deltas. Dispersed
+four-refund write leaves: AMM 48, Curve 49, Book 50, NFT 71, all within 100. Four-market
+commit/expire/recommit/refund chains add 16 full UPS, **20 new UPS total**. Wrong
+root/early expiry are VM negatives; ordinary cancel/claim remains VM only.
 
-### 3. 真实网络验收
-
-先取得与冻结源码一致、可复现的 SDK 发行，以及升级授权的可核验证据，参见
-`UPGRADE_AUTHORITY_REVIEW_20261019.md`。应用的 code/layout 复查不能代替它们。
-随后仅对新的隔离市场 / key / 金库做注册和验收，不通过旧合约在线更新探测安全性。
-
-网络验收需保存网络和部署版本、注册 ID、code/layout/PK/fingerprint、请求和回执
-哈希、实际调用数 / 费用 / bytes、起止叶、确认 checkpoint、claim 结果，以及两个
-Executor 的同金库竞争、丢回执对账、超时恢复记录。确认吞吐与离线证明吞吐分别算。
-私钥、助记词和钱包恢复文件不进入证据或 Git。
-
-## 稳定分支核对（用户确认后补充）
-
-用户确认 `release/testnet-stable`。远端只读观察到 HEAD
-`6eb535003bdab1fcdb27386dbcb93e8aa9727998`，使用独立 bare object store 获取指定源码，
-原 Node 工作区不变。尚未独立取得运行中服务的镜像 digest / 二进制 commit。
-
-该分支的 `SDKeyCircuitGadget::add_virtual_to` 创建独立的 `sig_hash`、checkpoint /
-user ID 和调用栈 witness，但没有当前离线依赖快照的 `SDKeySessionContextTargets`
-和 UPS digest 重建绑定；对应 witness 结构也没有 `session_context`。因此，本轮
-使用既有本地安全修复的证明与 API 不能宣称已由稳定分支 SDK 原样复现。
-这是客户端证明电路依赖差异，不能仅凭“服务支持 SD-key”消除；本轮没有改动
-Node 服务或这些 SDK 文件，也没有用未绑定的原版 key 替换候选安全 key。
-
-稳定分支的 end-cap 和 end-cap tree 两个检查文件、DPN 历史 checkpoint 读取及
-coordinator 随机 seed 生成文件的哈希与本地快照相同；这只缩小源码差异范围，
-不能由几个文件相同推断完整服务 / 网络版本兼容。随机源仍未提供不可偏置证明。
-升级授权复核结果仍未关闭缺口，详见 `UPGRADE_AUTHORITY_REVIEW_20261019.md` 的补充。
-固定源码哈希单独保存；未从远端覆盖本地 Node 或原始构建产物。
-
-## 已完成的本轮验证
-
-- 39 项应用 JS 回归及 2 项共享配置回归通过；21 组实际字节码 VM 回归通过。AMM / Curve 的 8 worker
-  同金库竞争已使用 4 单最大批次；这里只证明本地比较并提交模型。
-- AMM / Curve 各 4 单的 commit + settle 共 **4 份完整 UPS** 通过。每份核验公开端点、
-  CFC / 递归 / SD-key / end-cap 和导出 Merkle 增量，commit 终态链接 settle 起态。
-- 分散高位用户 ID 的 4 个双资产退款：AMM 48、Curve 49、Book 50 个写入叶；既有
-  NFT 的 FT / NFT / native 组合退款回归为 71 个，均在当前 100 叶策略预算内。
-- 四市场各 4 成员的 commit → expire → recommit → refund 恢复链全部通过，
-  共 **16 份完整 UPS**；加上前述 4 份，本轮新增 **20 份完整 UPS**。
-  每条链逐个核验起止叶连接；错误 root 结算和提前超时为 VM 拒绝测试。
-  普通撤单与最终收款 claim 为 VM 执行，未计为普通钱包完整 UPS 或网络确认。
-
-| 最大交易样本 | 成员 / 成交 | commit / settle 秒 | 写入叶 commit / settle | 观察到的温态证明成交 / 秒 |
+| Maximum sample | Members/fills | Commit/settle s | Leaves commit/settle | Warm proved fills/s |
 | --- | --- | --- | --- | --- |
 | AMM | 4 / 4 | 174.68 / 168.48 | 23 / 24 | 0.01166 |
 | Curve | 4 / 4 | 171.90 / 141.45 | 30 / 24 | 0.01277 |
 
-每份 end-cap 序列化 130,328 bytes。冷构造另为 AMM 74.19 秒、Curve 87.51 秒。
-每市场仅一个样本，部分与编译 / 回归重叠，**不与旧版做加速比或 P95 比较**。
-这些数字包括本地生成和验证，尚不包含真实 RPC、用户提交 / 领取和确认。
+End-cap serialization: 130,328 bytes. Cold construction AMM 74.19/Curve 87.51 seconds.
+One sample/market with some build/test overlap: no old/new speedup/p95 or network/
+user-submission/claim cost included.
 
-独立运行的 VM benchmark 每档 12 次；下列为 commit + settle 两阶段中位耗时的
-吞吐换算，commit 包含模型中的赞助授权 / 转入。它不含任何密码学证明或网络确认。
+Twelve-round standalone VM benchmark, including model Sponsor funding in commit:
 
-| 市场 | 成交 / 批 | commit P50 / settle P50 毫秒 | 两阶段 VM 成交 / 秒 |
+| Market | Fills/batch | Commit/settle P50 ms | Two-stage VM fills/s |
 | --- | --- | --- | --- |
 | AMM | 4 | 2.83 / 10.06 | 310.36 |
 | Curve | 4 | 2.48 / 7.83 | 387.99 |
 | Book | 2 | 2.81 / 7.61 | 191.99 |
 | NFT | 2 | 2.26 / 3.15 | 369.72 |
 
-完整原始样本、源文件 / 二进制哈希、日志及 SDK 分支差异在
-`batching/evidence/20261020/capacity-recovery-v1/`。这些证据不改变本页开头五项缺口的
-状态；特别是 VM 吞吐远大于实际证明吞吐，不能写成链上 TPS。
+Evidence: `batching/evidence/20261020/capacity-recovery-v1/`, including source/binary
+hashes, logs and SDK differences. VM rates are not chain TPS.
 
-## 只读网络预检补充
+## Readonly network and build guards
 
-通过仓库已有的 staging 配置，两个 realm 在首次读取时均为 checkpoint 355583；
-原生合约 0 的树高为 32。第二次读取为 355594，两个请求起点相隔 357.735 秒，
-这一段观察约为 32.52 秒 / checkpoint，**不代表协议保证或未来出块间隔**。
-不能从本地 runner 的 6 秒配置推导线上超时分钟数，也不能把 checkpoint 速度换成
-市场确认 TPS。本轮没有据此自动改动 expiry；它仍是显式 checkpoint 语义。
+Existing staging realms first read 355583, native height32; second read355594.
+357.735 seconds between starts gives observed 32.52 seconds/checkpoint, not a
+protocol/future guarantee. Local six-second runner config cannot determine network
+expiry minutes or TPS. Expiry remains explicit; no automatic change.
 
-新增离线 `artifact_roots` 工具，使用 SDK 的规范代码哈希 / 树高常量，读取编译
-产物或保存的 RPC code definition，不构建交易。取得的 RPC native code definition
-重算根与其公布的合约叶一致：`53735dc6…c88d4ba`。原离线 native artifact 的完整
-代码根不同，仍原样保存；逐方法比较显示批次实际调用的 `simple_claim`、
-`simple_transfer`、`simple_burn` 的 ID、输入 / 输出数及代码哈希全部一致。
-差异位于未被批次策略调用的其他方法，不能把整体 artifact 标成与线上完全相同。
-工具拒绝了错误 arity、错误 method envelope、未知 VM 类型和重复 method ID。
+Readonly artifact_roots recomputes canonical code roots/heights from artifacts/
+saved RPC definitions. RPC native root matches `53735dc6…c88d4ba`. Original offline
+native full root differs and remains intact. Called simple_claim/transfer/burn
+IDs/arity/code hashes match; unused methods explain differences. No whole-artifact
+identity claim. Wrong arity/envelope/type/duplicate IDs reject. Function whitelist,
+new registration, 40-call admission/actual settlement remain unverified. All reads
+are psy_get_*; raw code is separately retained, no Node/native fixture overwrite.
 
-以上仅关闭了已用 native 方法的代码身份差异疑问；没有验证线上函数白名单指纹、
-新金库注册、40 调用 UPS 接纳或真实资产结算，不作为 live acceptance 通过凭证。
-所有请求均为 `psy_get_*`。原始 RPC code 保存在独立临时文件，摘要与方法比较进入
-证据目录；未改动 Node、本轮原始 native fixture 或旧部署产物。
+Application batch_policy::build explicitly requires SDK session_context; old APIs
+fail compilation rather than silently produce unsafe keys. Current snapshot builds;
+field existence alone is not correct-constraint proof or a stable-branch compile.
+Source review/wrong-session negatives remain. The reference adds no constraints.
+Discovery caps apply only before commitment. Frozen four-member sets reconstruct
+fully even after a restart lowers discovery limit to one. Original37/final39-test
+logs are separate.
 
-## 构建与配置保护补充
+## Final recovery proof record
 
-应用侧 `batch_policy::build` 显式依赖 SDK 的 `session_context` 字段；缺少这个
-API 的旧 SDK 会在编译时失败，避免静默生成缺少该绑定的公开 key。使用当前冻结
-快照的构建已通过；没有把“字段存在”当成约束正确的证明，也没有声称已针对完整
-稳定分支运行一次编译。源码审核及错误会话上下文的负例证明仍是必要门槛。
-这条字段引用不增加电路约束；本轮未改动 Node。
+Synthetic authenticated checkpoints, four members/market, actual original-payer
+refunds, NFT ID/metadata checks and repeated-terminal rejection. Forty calls/burn
+per UPS; actual written leaves determine fees, not free retries.
 
-Executor 的成员上限只约束尚未承诺时的发现。旧 AMM / Curve 配置默认选 2 人，
-新 4 人候选显式配置 `batchMemberLimit:4` 并核验新代码根；Book / NFT 默认 4 人。
-已冻结的 4 人集合即使重启后把发现上限降为 1，也必须完整重建并结算，新增回归
-已检查这一点。原 37 项日志保留，兼容修复后的 39 项日志另存，不覆盖旧记录。
-
-恢复证明采用 2 个进程，每进程 Rayon 4 线程，并与少量应用构建 / 验证重叠；
-这些分段时间是诊断记录，不用于受控加速比、单进程极限吞吐或生产 P95。
-
-## 最终恢复证明记录
-
-下表每格是一份本地生成并验证的完整 UPS。测试使用合成认证 checkpoint，
-所有批次均为 4 成员；退款把已付资产返回原付款人。NFT 同时核验 token ID
-与 metadata，终态重复执行被拒绝。每份仍为 40 调用，包含自动 burn；
-费用按实际写入叶检查，不能把本轮 4 阶段免费重试。
-
-| 市场 | commit 秒 | expire 秒 | recommit 秒 | refund 秒 | 四阶段合计秒 |
+| Market | Commit s | Expire s | Recommit s | Refund s | Total s |
 | --- | --- | --- | --- | --- | --- |
 | AMM | 282.62 | 290.32 | 285.83 | 293.93 | 1152.71 |
 | Curve | 283.03 | 291.58 | 286.31 | 294.79 | 1155.70 |
-| Orderbook | 293.20 | 349.14 | 280.48 | 277.49 | 1200.30 |
-| NFT Market | 295.23 | 358.33 | 269.90 | 278.19 | 1201.65 |
+| Book | 293.20 | 349.14 | 280.48 | 277.49 | 1200.30 |
+| NFT | 295.23 | 358.33 | 269.90 | 278.19 | 1201.65 |
 
-冷电路构造另计，依次为 AMM 110.72、Curve 102.36、Book 75.91、NFT 95.38 秒。
-两个进程的总墙钟分别为 2546.98 和 2561.92 秒，各进程先后运行两个市场；
-最大 RSS 分别为 1,816,838,144 和 1,777,778,688 bytes。该运行与少量应用编译 /
-验证重叠，不是隔离性能基准，不用于旧版加速比例或生产 P95。
+Cold construction: 110.72/102.36/75.91/95.38 s. Two processes, four Rayon threads
+each, sequential two markets/process: wall2546.98/2561.92 s; max RSS1,816,838,144/
+1,777,778,688 bytes. Some build/verify overlap; not an isolated benchmark/p95.
+Per UPS noop45.14–147.25 s; endcapProveAndVerify136.11–196.56 s. Nested/segmented
+times cannot be added again to totals. Padding/aggregation dominate VM pricing;
+shared-state sequential dependencies are not eliminated.
 
-16 份恢复 UPS 的 noop 调用合计耗时每份为 45.14～147.25 秒；
-`endcapProveAndVerify` 每份为 136.11～196.56 秒。两者是不同分段，不能把
-总耗时和分段重复相加。当前明显成本在 padding 调用和证明聚合，而非 VM 报价。
-本轮没有修改固定调用数，也没有宣称证明聚合消除了同池共享状态的顺序依赖。
+recovery/*.json records stages/endpoints/calls/fees/timings; proof-cost-recovery
+covers 16 per-method traces; recovery-summary/log-provenance retain original and
+ANSI-clean log hashes. Initial fixtures fullUpsVerified:false remains an initial
+record, superseded by final stage reports, not overwritten. Final source inputs
+are distinct from earlier recovery-binary input snapshots; API/scanner guards do
+not change frozen bytecode. Node HEAD/diff/11 source hashes match start;
+CHECKSUMS covers remaining evidence.
 
-`recovery/*.json` 保存每个阶段、公开起止叶、调用 / 费用、分段耗时及验证标记；
-`proof-cost-recovery.json` 保存 16 份逐方法成本分析。`recovery-summary.json`
-是范围摘要，`log-provenance-recovery.json` 保存原始及清理 ANSI 后日志的哈希。
-最初 `fixtures.json` 的 `fullUpsVerified:false` 是准备阶段记录，原样保留；
-最终通过凭证是各阶段报告、日志和上述摘要，不覆盖历史状态。
-
-`source-inputs-final.json` 与较早的恢复二进制输入快照分开保存；后续 SDK API
-字段检查不增加电路约束，scanner 配置保护也不改变冻结的市场字节码。
-`node-after.json` 复核 Node HEAD、既有 tracked diff 及 11 个关键源码哈希，
-均与本轮开始一致。`CHECKSUMS.json` 覆盖本目录其余证据文件。
-
-最终边界仍是：随机排序关闭、所选集合以外的订单完整性未证明、Book / NFT
-仍最多 2 笔成交、完整证明仍需数分钟、SDK 可复现发行与真实网络验收未完成。
-用户确认的稳定分支与运行服务的独立版本证明不是同一项证据，升级授权问题
-也没有因分支名确认而关闭。本轮不提交在线更新或资金交易。
-
-## 后续五阶段发布审查
-
-继续沿用本分支，阶段状态、依赖重建和外部证据接口见
-[MARKET_BATCH_RELEASE_REVIEW_20261020.md](MARKET_BATCH_RELEASE_REVIEW_20261020.md)。
-原始测量、证明和本页已记录结果不覆盖；新 key 与性能实验单独保存。
+Historical conclusion: randomness/global inclusion/larger Book-NFT batches/full
+proof cost/reproducible SDK/live acceptance remain open. Branch identity is not
+running-service attestation or upgrade authorization. Later five-stage progress:
+[release review](MARKET_BATCH_RELEASE_REVIEW_20261020.md). New keys/experiments have
+separate evidence; originals remain unchanged.

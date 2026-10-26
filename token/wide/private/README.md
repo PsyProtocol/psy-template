@@ -1,27 +1,27 @@
-# 双 Felt FT 的隐私票据功能
+# Two-Felt FT private notes
 
-独立私有版源文件：`src/main.psy.rs`。保留公开 U124 FT 的 20 个方法，新增
-`private_transfer` / `private_claim`，共 22 个方法。金额仍为 `[low62, high62]`，
-支持 0～18 位精度及最大 `2^124−1` 个最小单位。
+Independent source: `src/main.psy.rs`. All 20 public U124 methods remain, plus
+`private_transfer`/`private_claim` (22 total). `[low62, high62]` supports 0–18
+decimals and at most `2^124−1` base units.
 
-## 两棵票据树
+## Two note trees
 
-链上现有 `PrivateNoteInclusionCircuit` 证明一个 Felt 金额。此版本复用它，
-为非零 low / high limb 分别创建票据，high 票据的面值单位是 `2^62`。
-证明使用同一原生电路、同一个检查点；领取方法核对两条路径后一次性入账。
-任一证明、余额范围或 nullifier 检查失败，整次领取失败。
+The existing `PrivateNoteInclusionCircuit` proves one Felt amount. This profile
+reuses it separately for nonzero low/high limbs; high notes have denomination
+`2^62`. Both proofs use the same native circuit/checkpoint. Claim validates both
+session paths and credits atomically. Invalid proof/range/nullifier rejects the
+entire claim.
 
-| 项目 | low | high |
-|---|---:|---:|
-| 根的 Felt offset | 1174405224 | 1174405228 |
-| 根的四 Felt leaf index | 293601306 | 293601307 |
-| 票据金额范围 | 1～2^62−1 | 1～2^62−1 |
-| 每棵树容量 | 2^20 | 2^20 |
+| Property | Low | High |
+| --- | ---: | ---: |
+| Root Felt offset | 1174405224 | 1174405228 |
+| Four-Felt root leaf index | 293601306 | 293601307 |
+| Note amount range | 1–2^62−1 | 1–2^62−1 |
+| Tree capacity | 2^20 | 2^20 |
 
-根的 leaf index 固定在合约的证明公开输入中，不能由调用者选择。
-将 low 证明拿去领取 high 会导致会话树根校验失败。
-
-每张票据使用独立的 nullifier secret 和 note secret：
+Root leaf indexes are fixed proof public inputs, not caller choices. Using a low
+proof for high fails session-root validation. Each note has independent nullifier
+and note secrets:
 
 ```text
 receiver = Poseidon(user_id, 1337, random0, random1)
@@ -30,20 +30,22 @@ commitment = Poseidon2(Poseidon2(receiver, [limb,0,0,0]), note_secret_hash)
 nullifier = Poseidon(nullifier_secret[4])
 ```
 
-已消费 nullifier 写入领取者分区的 `private_nullifiers`；收款人绑定防止另一用户领取。
-同次双 limb 领取不能使用相同 nullifier。零 limb 不创建票据，领取参数必须使用全零
-nullifier 和空会话路径。票据不能重复消费；若收款人选择分次领取两个 limb，
-已经消费的 limb 也不能再次领取。应用默认一次性领取完整金额。
+Spent nullifiers enter the recipient-local `private_nullifiers`. Recipient binding
+prevents another user claiming. Two limbs in one claim cannot share a nullifier.
+Zero limbs create no note and require zero nullifier/empty session path. Notes
+cannot be spent twice, including when the recipient claims limbs separately.
+The application defaults to claiming the full amount together.
 
-**这是隐私票据与隐藏票据来源的证明机制，不代表所有金额、余额、调用参数、事件
-或交易关系都不可观察。** 转出事件包含发送者和 commitment；转入参数包含收款金额。
-没有提供完全匿名或全面金额保密保证。隐私强度还取决于链上的数据公开方式。
+**This hides note origin through inclusion proofs; it does not promise that all
+amounts, balances, parameters, events or transaction relationships are invisible.**
+Send events include sender/commitment; claim parameters contain amounts. Full
+anonymity/amount confidentiality is not guaranteed and depends on published data.
 
-## 客户端
+## Client
 
-`client.mjs` 保留 BigInt，提供完整公开方法与两个新增调用构造器。
-`preparePrivateTransfer` 使用系统随机数产生票据秘密，调用方必须安全保管 bundle。
-不得把 bundle、nullifier secret、note secret 或收款随机数写入公开日志/测试报告。
+`client.mjs` preserves BigInt and provides public/new private builders.
+`preparePrivateTransfer` uses system randomness; callers must protect the bundle.
+Never publish bundles, nullifier/note secrets or recipient randomness in logs.
 
 ```js
 import {preparePrivateTransfer,preparePrivateClaim} from './client.mjs';
@@ -53,113 +55,92 @@ const {call,bundle}=await preparePrivateTransfer({
   contractId:NEW_PRIVATE_TOKEN_ID,
   recipient:RECEIVER_ID,
   amount:10n**27n+7n,
-  hashProvider, // SDK Poseidon: hashNoPad(values), twoToOne(left,right), BigInt hashes
+  hashProvider, // SDK Poseidon hashNoPad/twoToOne with BigInt hashes.
 });
-// 通过钱包执行 call；等待确认，取得同一检查点的票据/状态/用户树路径。
+// Execute call, confirm, then obtain same-checkpoint note/state/user-tree paths.
 const claim=await preparePrivateClaim({
   bundle,userTreeRoot,checkpointId,hashProvider,
-  proveNote,       // 原生电路证明；返回 fingerprint、publicInputs 和原生 proof/verifier data
-  addSessionProof,// 将原生证明加入接收者会话；返回 16-bit leaf index
-  getSessionPath, // 从当前会话读取 {index,siblings,root}
+  proveNote,        // Native proof, fingerprint, publicInputs and verifier data.
+  addSessionProof,  // Add native proof; return its 16-bit session leaf index.
+  getSessionPath,   // Read {index,siblings,root} from the current session.
 });
-// 同一会话执行 claim.call；不能在路径生成后再插入其他证明或调用。
+// Execute in that same session. Do not insert another proof/call after path reads.
 const wire=losslessJson(claim.call);
 ```
 
-`preparePrivateClaim` 先添加全部非零 limb 的证明，再读取最终会话路径。
-它重算 commitment、nullifier、证明公开输入哈希及路径根，并要求两条路径根相同。
-不能直接复用旧 SDK 的单 Felt `ClaimBatchItem::PrivateTransfer` 参数编码。
-现有 SDK 的通用 external-proof/session-call 接口可以用于上述适配；当前 MCP 钱包
-尚未提供这一双 limb bundle 的专用入口，本轮没有修改钱包或 MCP 服务。
+All nonzero proofs are added before final path reads. Commitment, nullifier,
+public-input hash and path roots are recomputed; both roots must match. Old
+single-Felt `ClaimBatchItem::PrivateTransfer` encoding cannot be reused directly.
+The SDK generic external-proof/session-call APIs support adaptation. At this
+historical implementation milestone, no dedicated MCP two-limb bundle entry was
+available and no MCP/wallet service was modified by this module.
 
-`vm-tests` 的 `prove_note_u124` 二进制可离线生成并验证原生证明：
+`vm-tests` binary `prove_note_u124` generates/verifies native proofs offline:
 
 ```sh
 prove_note_u124 PRIVATE_WITNESS_JSON NEW_PROOF_JSON
 ```
 
-输入为 SDK `PrivateNoteInclusionInput`，必须包含一致的同检查点路径。
-输出只有 ZK proof、verifier data、fingerprint 和公开输入哈希，不包含 witness。
-辅助 JSON 的四 Felt 指纹和公开输入使用十进制字符串；JS 接入时显式 `.map(BigInt)`。
-`noteProofJson` / `verifierDataJson` 是不透明 JSON 字符串，直接传给 Rust SDK 解析；
-不要在 JavaScript 中用普通 `JSON.parse` 再重编码其内部 Felt，以免丢失精度。
+Input is `PrivateNoteInclusionInput` with consistent same-checkpoint paths. Output
+contains proof/verifier data/fingerprint/public-input hash, never witness. Auxiliary
+four-Felt hashes are decimal strings; explicitly `.map(BigInt)`. `noteProofJson`
+and `verifierDataJson` are opaque strings for Rust parsing. Do not JSON.parse and
+re-encode their internal Felts in JS.
 
-## 构建与验证
+## Build and verification
 
 ```sh
 node token/wide/private/generate.mjs --check
 npm run test:token-wide-private
 
-# 只读归档相邻 psy-node，在新目录的副本中暴露现有 VM intrinsics。
-# 不修改 Node checkout，不部署 Node。
+# Archive adjacent SDK readonly; expose existing VM intrinsics in an isolated copy.
+# Do not edit the Node checkout or deploy Node.
 npm run build:token-wide-private:toolchain -- /private/tmp/psy-private-u124-toolchain-new
-# 从 toolchain.json 读取两个二进制路径：
+# Read these binary paths from toolchain.json.
 export TOKEN_WIDE_PRIVATE_COMPILER=/path/to/compile_private
 export TOKEN_WIDE_PRIVATE_FINGERPRINT=/path/to/fingerprint
 npm run build:token-wide-private -- /private/tmp/psy-private-u124-build-new --issuer REGISTERED_ISSUER_ID
 
-# 针对该工具链归档中的 crate（同样位于 toolchain.json）：
+# Use the isolated crate also recorded in toolchain.json.
 TOKEN_WIDE_PRIVATE_ARTIFACT=/path/to/compilation_artifact.json \
 TOKEN_WIDE_ARTIFACT=/path/to/compilation_artifact.json \
   cargo +nightly-2025-09-20 test --offline --locked --release \
   --manifest-path /path/to/isolated/vm-tests/Cargo.toml --test privacy --test public_token -- --test-threads=1
 ```
 
-编译检查会拒绝错误 ABI、错误根位置、非 32 层状态树及不匹配的原生电路指纹。
-输出目录必须不存在。模板 issuer 5 仅用于本地夹具；正式构建要绑定实际发行者。
+Compilation rejects incorrect ABI/root positions, non-height-32 layouts and native
+fingerprint mismatch. Output must be new. Issuer 5 is a fixture; deploy with a real
+registered issuer. Independent initial-deployment proof tooling must verify empty
+old layout and exact new code/layout, including rejection when old field count is
+changed to 14. Before submission compare actual wallet request to the artifact;
+afterward reconcile unique transaction identity and chain leaves. This tool does
+not generate upgrades for existing contracts.
 
-## 兼容性与状态
+## Public SD-key test driver
 
-此版增加两棵树、nullifier map 和使状态树达到 32 层的保留空间。
-**需要新的合约 ID；不能直接覆盖现有公开 U124 FT 或旧单 Felt FT。**
-虽然保留了公开方法的 ABI 和原字段 offset，现有余额与市场的合约 ID 绑定不会自动迁移。
-AMM、Orderbook、Bonding Curve、NFT Market 目前继续使用它们已有的公开资产；
-隐私转账功能不会自动使市场交易成为隐私交易。
-
-本地验证通过实际编译、真实原生票据证明、DPN VM/断言电路和公开功能回归。
-这些离线验证使用合成检查点与本地状态适配器；测试网结果单独记录在
-`deployments/staging-2026-10-14-01/`，不能把离线结果当作链上验收。
-尚未标记生产就绪。nullifier map 每个领取者最多 2^20 项；
-无票据秘密恢复、隐私余额迁移和已发布隐私票据的单方面撤销功能。
-
-## 新实例部署预检
-
-`vm-tests` 的 `preflight_private_initial` 只生成和验证新实例请求，没有更新或广播路径：
-
-```sh
-preflight_private_initial prepare ARTIFACT PUBLIC_DEPLOYER NEW_REQUEST
-preflight_private_initial audit ARTIFACT PUBLIC_DEPLOYER REQUEST NEW_REPORT
-```
-
-它从 ABI 重建 canonical layout，验证原生 layout 证明、空旧根、旧字段/槽数为零，
-并绑定新根、字段/槽数、发行者、公钥身份、代码与方法白名单。`audit` 还检查七种
-错误请求被拒绝，包含把旧字段数改成 14 的情形。正式提交前必须核对实际钱包生成的
-请求与该产物一致；提交后用唯一交易标识确认入块，再对比链上合约叶子。
-不能用这个工具为已有合约生成升级证明。
-
-## 公开 SD-key 测试驱动
-
-`vm-tests` 的 `private_test_wallet` 用公开种子 `[1,1,1,1]` 注册受限 SD-key，
-不读取普通钱包的私钥或恢复文件。策略只允许领取 Native PSY、执行指定 FT 方法，
-以及固定上限内的自动手续费销毁；公开 FT 回款的接收人固定为发行者。
-这是可由任何人执行的测试账户，不能用于保管用户资产。
+`private_test_wallet` registers the restricted public seed `[1,1,1,1]` without
+reading ordinary keys/recovery files. Policy permits native claims, specified FT
+methods and bounded automatic burns; public FT returns only to the issuer.
+Anyone can execute this test account; it is unsuitable for custody.
 
 ```sh
 private_test_wallet identity POLICY_JSON
 private_test_wallet register POLICY_JSON RPC_CONFIG
 private_test_wallet prepare-note PUBLIC_NOTE_SPEC NEW_SECRET_FILE
 private_test_wallet verified-submit POLICY_JSON TRANSFER_CALL RPC_CONFIG
-# 等待确切入块回执后，用同一个已确认检查点生成两个 limb 的原生证明：
+# After exact confirmation, prove both limbs at the same confirmed checkpoint.
 private_test_wallet prove-notes SECRET_FILE SENDER_ID CHECKPOINT RPC_CONFIG NEW_PACKET
 private_test_wallet claim-verified-submit POLICY_JSON PACKET RPC_CONFIG
 ```
 
-票据规格的金额是十进制字符串。secret 与 packet 文件以 `0600` 权限独占创建，
-不能提交到 Git 或输出到公共日志。驱动读取同检查点的真实票据、状态、合约和用户树
-路径；加入全部外部证明后才读取会话路径，生成 CFC/UPS 并独立验证 endcap。
-`*-preflight` 不广播，`*-verified-submit` 在广播前输出唯一 leaf hash。
-失败后应核对这个标识是否入块；不能盲目重试或覆盖原始记录。
+Amounts in note specs are decimal strings. Secret/packet files are exclusively
+created with 0600 permissions, never committed or logged. The driver reads actual
+same-checkpoint note/state/contract/user paths and obtains session paths only
+after adding all external proofs. It generates CFC/UPS and independently verifies
+end-cap. Preflight never broadcasts; verified-submit reports the unique leaf hash
+before send. Reconcile that identity after failure; never retry blindly/overwrite.
 
-测试网新实例 **2457** 已部署。实际双向隐私转账、领取及完整认证 CFC/UPS 的
-结果见 [测试网验收报告](deployments/staging-2026-10-14-01/REPORT.md)。
-测试使用公开 SD-key 账户；普通 MCP 钱包的双 limb 私有 bundle 入口仍未提供。
+Fresh testnet instance **2457** completed actual bidirectional private transfers,
+claims and authenticated CFC/UPS; see [acceptance](deployments/staging-2026-10-14-01/REPORT.md).
+That milestone used public SD-key accounts; it did not establish ordinary MCP
+bundle support. Later wallet adaptation evidence must be reviewed separately.

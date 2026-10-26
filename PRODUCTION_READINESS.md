@@ -1,141 +1,141 @@
-# 2026-10-19：驱动冻结、请求证据与 UPS 元数据绑定
+# 2026-10-19: frozen driver, request evidence and UPS metadata binding
 
-本轮继续只修改应用仓库，不修改 Node、协议电路、六个合约源码或已注册的 SD-key policy；没有部署或广播。既有合约 code/layout roots 和 fingerprint 不因本次驱动修改而改变。
+This milestone changes only the application repository, not Node, protocol circuits, six contract sources or registered SD-key policies. No deployment or broadcast occurred. Contract code/layout roots and fingerprints are unchanged.
 
-- U124 与 NFT Market 的 Executor 配置要求显式 `walletSha256`，只执行匹配审核摘要的独立私有副本；安装目录中的二进制替换不会改变运行中的驱动。副本被修改或权限改变时停止证明/提交。
-- JS 和 Rust 在 RPC 前核对 policy 选中分支的全部显式调用，包括所有收款人、资产、方法与参数，补齐此前普通分支只检查首个市场调用的应用预检。链上原有整栈 SD-key 约束继续保留。
-- 完整 UPS 证明验证后，驱动显式绑定四个证明公开输入与即将广播的 end-cap state transition/stats，并检查新用户叶哈希、用户 ID、checkpoint 的内部一致性。
-- 驱动对实际读取的原始 calls/guard 文件输出 SHA256；Executor 的 preflight、提交与恢复校验同一组摘要。旧缓存 proof 不能冒充新版 proof，既有 pending 广播仍可只读对账。
-- NFT 工程验收升级为 evidence version 2，核对完整调用组、审核过的驱动摘要、guard 身份与全部依赖、RPC 配置封存及请求摘要；交换两份合法成交日志不能伪造另一笔操作的覆盖率。
+- U124/NFT Market Executor configs require explicit `walletSha256` and execute an independently copied private driver with that reviewed digest. Replacing the installed binary does not alter the active driver. Changed copy contents or permissions stop proving/submission.
+- Before RPC, JS/Rust check every explicit call selected by the policy branch: recipients, assets, methods and parameters. This closes the earlier application preflight that checked only the first market call on ordinary branches. Existing full-stack circuit constraints remain.
+- After full UPS verification, the driver binds its four public inputs to the end-cap state transition/stats about to broadcast, checking consistency of new user leaf hash, user ID and checkpoint.
+- The driver reports SHA 256 of the actual raw calls/guard files. Executor preflight, submit and recovery require identical digests. Old cached proofs cannot impersonate the new version; pending historical broadcasts remain readonly-reconcilable.
+- NFT engineering acceptance evidence v2 checks full calls, reviewed driver hash, guard identity/all dependencies, sealed RPC config and request digests. Swapping two valid fill logs cannot fake operation coverage.
 
-完整离线回归：237 项 JavaScript、62 次 Rust VM/CFC/layout/SD-key/FT 测试执行通过，0 失败、0 跳过；驱动 release 构建通过。实际执行冻结后的新驱动，与上一版驱动比较四组 policy 的 fingerprint / publicKeyHash 均一致；七份编译产物（公开/隐私 FT、NFT、三市场、NFT Market）逐字节一致。
+Full offline regressions: 237 JavaScript tests and 62 Rust VM/CFC/layout/SD-key/FT executions pass, zero failed/skipped; release driver build passes. The frozen new driver matches the previous fingerprint/publicKeyHash for four policies. Seven compiled artifacts (public/private FT, NFT, three markets, NFT Market) are byte-identical.
 
-摘要报告依然来自受信驱动；它不是协议新增的公开输入，也不是独立签名的安全审计。Node 升级授权路径、SD-key 中的代码根认证、独立安全审计等边界仍在，不能仅通过填写摘要将这些事项认定为已完成。
-
----
-
-# 2026-10-19：广播前绑定与历史状态回归
-
-本轮只修改 psy-template 的应用驱动、执行器及测试；Node 运行时、VM 和协议电路源码未修改，没有部署或广播交易。
-
-## 代码修复
-
-- U124 三市场及 NFT Market 使用新的 `guarded-preflight` / `guarded-submit` 驱动入口。绑定文件必须完整覆盖 policy 的全部被调用合约，包括市场、FT、NFT、PSY 手续费资产和配置中的 bootstrap AMM，禁止缺漏、重复或额外依赖。
-- Rust 应用驱动在证明前、UPS 验证后、广播意图落盘前重新读取 code/layout roots、状态树高度和金库注册，并验证实际证明对应的金库 ID。网络、市场、fingerprint 和公开 SD-key 公钥哈希必须匹配。
-- 金库绑定文件持久化，重启时不允许自动接受变化的根。PSY 根在首次使用时从受信 RPC 建立基线，其余根来自显式部署配置。需要变更基线时必须作为新发布审查。
-- ABI、policy、市场配置、RPC 配置和资产 ABI 在运行期间变化时停止证明或提交；新提交拒绝缺少 guard 验证标记的驱动输出。旧提交日志保留只读对账能力。
-- 修复 journal 即时对账没有传递本次独立日志路径的问题：子进程已保存广播身份但父进程没有拿到 stdout 时，也能立即找到准确回执，避免无必要地停留在 unresolved。
-- Executor 拒绝越出 24 位范围的合约 ID，以及市场与资产 ID 重叠的配置。
-
-## 新增与加强的验收
-
-- 本地实际 HTTP RPC 回归验证驱动每次重新读取当前 code/layout roots、树高和注册身份，变化时拒绝。
-- JavaScript 回归覆盖全部市场/资产/PSY 根变化、运行中配置替换、重启基线变化、旧驱动拒绝与精确日志恢复。
-- 公开及隐私 FT 的实际字节码分别验证历史发送额度不能重复领取；spender 本地 terminal close 后，即使远端提供历史 ACTIVE 委托状态也不能再次花费，退款后不能再次退款。
-- 三市场实际字节码验证远端付款人的历史 OPEN 订单不能重复执行已提交的退款；NFT 字节码验证历史发送队列不能重复领取。
-- 统一离线入口增加独立公开 FT profile 的执行，以及三个市场共八个 close 方法的生产树高 CFC 构建；不能只在隐私 FT 的兼容接口上运行公开方法测试。
-
-本轮完整离线结果：227 项 JavaScript 测试、60 次 Rust VM/CFC/layout/SD-key/FT 测试执行通过，0 失败，0 跳过；Rust 应用驱动 release 构建通过。60 次执行包含公开/隐私 FT 两个 profile 分别运行相同公开方法回归。
-
-## 不能据此消除的边界
-
-上述重复根检查属于受信执行器的应用防护。RPC 叶子并未在这里独立认证；检查与广播之间仍可能发生升级，其他公开执行者也不受此检查约束。合约不可升级保证或明确接受的升级权限治理仍须独立落实。 本地 Node 基线的升级入口还需核验实际授权路径：deployer 字段一致不等于持有者授权；详见[升级授权审查记录](docs/security/UPGRADE_AUTHORITY_REVIEW_20261019.md)。此记录仅为只读源码观察，不代表已核验现网部署。
-
-历史状态测试使用实际字节码与显式混合快照，本地 caller 状态保持当前；它们不构成 Node 对陈旧 caller 证明的独立验收。委托仍为合作关闭，不能称为单方面即时撤销。安全审计、权限治理和生产运维验收尚未完成，因此仍不声明全部生产级。
+Digest reports still come from a trusted driver, not new protocol public inputs or an independently signed security audit. Node upgrade authorization, circuit-authenticated code roots and independent audit remain external boundaries; filling in hashes does not close them.
 
 ---
 
-# 2026-10-19：关闭三项 fixture 测试缺口
+# 2026-10-19: pre-broadcast binding and historical-state regressions
 
-原先被标记为 ignored 的三项测试现已接入同一离线验收入口：
+Only psy-template application driver/Executor/tests changed. Node runtime, VM and protocol circuits did not; no deployment or broadcast occurred.
 
-- `curve_bootstrap_advances_donor_cursor_and_allows_post_graduation_refund`：实际 Curve 字节码验证毕业费不足时回滚、两个捐款人的累计游标推进、毕业后旧买家新订单退款。
-- `curve_bootstrap_binds_seed_recipient_method_minimum_deadline_nonce_and_fee_donor`：实际 SD-key 证明验证毕业分支，并拒绝收款人、方法、最低流动性、deadline、nonce 和手续费捐款人篡改。
-- `public_acceptance_payer_only_funds_fixed_markets_and_returns_to_fixed_funders`：实际 SD-key 证明验证原测试付款人的九个固定分支，拒绝把剩余资金退给其他账户。
+## Fixes
 
-准备脚本从当前源码重新编译 bootstrap Curve，生成配置、policy 和样本，同时生成固定测试付款人的 policy；所有输入与产物仍由 manifest 冻结。三项测试不再带 `ignore`，缺少 fixture 会直接失败。统一入口还拒绝包含 ignored Rust 测试的结果，不能把跳过当作验收成功。
+- U124 markets and NFT Market use `guarded-preflight` / `guarded-submit`. Binding files must cover every invoked contract: market, FT, NFT, PSY fees and configured bootstrap AMM, with no missing, duplicate or extra dependencies.
+- Before proof, after UPS verification and before persisting broadcast intent, the Rust driver re-reads code/layout roots, tree height and vault registration and verifies the actual proving vault ID. Network, market, fingerprint and public SD-key public-key hash must match.
+- Vault bindings persist; restart cannot silently accept changed roots. PSY roots establish a trusted-RPC baseline on first use; other roots come from explicit deployment config. A baseline change requires a new release review.
+- Runtime changes to ABI, policy, market/RPC config or asset ABI stop proving/submission. New submissions reject driver output lacking guard verification; historical logs remain readonly-reconcilable.
+- Immediate journal reconciliation now receives the exact independent run-log path. If the child persisted broadcast identity but stdout was lost, the parent can still find its precise receipt rather than unnecessarily remaining unresolved.
+- Executor rejects contract IDs outside 24 bits and market/asset ID overlap.
 
-补测发现并修复了 policy 预校验器漏接原有 `bounded_test_payer` 类型的问题。仅显式恢复该已存在类型，调用数量、字段范围和 witness 校验继续生效，合法 policy 的电路约束未放宽。
+## Added/strengthened acceptance
 
-本轮离线验证结果：221 项 JavaScript、44 项实际 VM/CFC/layout/SD-key/FT 测试通过，0 项合约测试跳过。bootstrap 配置里的 code/layout root 为显式测试占位值；这些测试不验证代码根认证，也没有向链上提交更新。
+- Actual local HTTP RPC regressions check fresh root/height/registration reads and rejection on change.
+- JavaScript tests cover all market/asset/PSY root changes, runtime config replacement, restart baseline changes, old-driver rejection and exact-log recovery.
+- Public/private FT bytecode rejects duplicate historical send claims. After spender-local terminal close, historical remote ACTIVE authorization cannot spend again, and refunded escrow cannot refund twice.
+- Actual three-market bytecode rejects replaying a committed refund from historical remote OPEN payer state; NFT bytecode rejects repeated historical-queue claims.
+- The unified offline entry runs an independent public FT profile and production-height CFC builds for all eight close methods across three markets; public APIs are not tested only through the private FT compatibility surface.
 
-这关闭了先前列出的三项测试缺口。独立安全审计与合约升级权限边界仍需落实，不能据此把整套代码直接标为生产级。
+Full offline results: 227 JavaScript tests and 60 Rust VM/CFC/layout/SD-key/FT executions pass, zero failed/skipped; Rust release driver builds. The 60 executions include separately running public-method tests in public/private FT profiles.
+
+## Boundaries these results do not remove
+
+These repeated root checks protect compliant trusted Executors at application level. RPC leaves are not independently authenticated here; upgrades may occur between check and broadcast, and arbitrary public executors need not perform the checks. Verified immutability or explicitly accepted upgrade governance remains required. The local Node upgrade authorization path still needs review: deployer-field equality is not holder authorization. See [upgrade review](docs/security/UPGRADE_AUTHORITY_REVIEW_20261019.md), a readonly source observation, not deployed-network attestation.
+
+Historical-state tests execute actual bytecode with explicit mixed snapshots and current local caller state. They do not independently accept Node rejection of stale caller proofs. Delegation remains cooperative, not unilateral instant revocation. Independent audit, governance and production operations remain open; the suite is not uniformly production-ready.
 
 ---
 
-# 2026-10-16 代码安全验收
+# 2026-10-19: three fixture-test gaps closed
 
-本轮评估代码与证明约束。没有修改 Node，没有部署或更新链上合约。不能仅凭本轮回归把六个合约统一标为生产级。
+Three previously ignored tests now run in the same offline acceptance entry:
 
-## 新增修复和验证
+- `curve_bootstrap_advances_donor_cursor_and_allows_post_graduation_refund`: Curve bytecode checks rollback on insufficient graduation fee, cumulative cursors for two donors and post-graduation refund of a new order from an earlier buyer.
+- `curve_bootstrap_binds_seed_recipient_method_minimum_deadline_nonce_and_fee_donor`: actual SD-key proofs accept graduation and reject recipient, method, minimum liquidity, deadline, nonce and donor tampering.
+- `public_acceptance_payer_only_funds_fixed_markets_and_returns_to_fixed_funders`: actual SD-key proofs cover nine fixed test-payer branches and reject returning surplus to another account.
 
-- SD-key policy JSON 在分配电路前验证市场类型、调用数量、branch、method/contract ID、witness 索引和 Goldilocks 常量。畸形输入返回错误，避免 panic 或非规范字段进入电路。合法 policy 的电路与 fingerprint 不变。
-- AMM、Orderbook、Bonding Curve 使用实际 SD-key gadget 验证所有授权分支，并拒绝每个调用的方法替换、caller 冒充、额外调用、付款人替换、高 limb 修改、收款人重定向、错误资产、调用重排和签名摘要篡改。
-- NFT 和 NFT Market 执行实际编译字节码，覆盖 128 个接收持有槽全部占满、失败后游标和身份不变、释放槽后精确领取、重复领取/销毁/结算拒绝、越权 mint，以及后置检查失败的写入回滚。
-- FT 执行公开和隐私字节码，覆盖 U124 进借位、边界值、总量守恒、重复领取、错金额/错面额证明、两棵隐私树容量失败的原子回滚、委托关闭和原付款人退款。
-- 同批钱包修复普通 checkpoint 刷新误使预览失效、精确费用失败时的确认门禁、单/双 Felt FT 公开调用与累计账本适配、地址十六进制解析和小窗口布局。
-- 同批 Services 把实时消息与历史重放分开，历史进度独立持久化，仅完整扫描成功后推进；增加真实 PostgreSQL、Redis 和本地 WebSocket 回归。
+Preparation recompiles bootstrap Curve from current source and generates config, policy, samples and fixed-payer policy. Manifests freeze inputs/outputs. These tests no longer have `ignore`; missing fixtures fail. The unified entry rejects ignored Rust tests rather than treating skips as acceptance.
 
-## 可复现的离线验证
+Testing found/fixed a missing `bounded_test_payer` type in policy prevalidation. Only that existing type was explicitly restored; call counts, ranges and witness checks remain. Valid-policy circuit constraints were not relaxed.
 
-冻结兼容的 `compile`、`compile_private`、`compile_market`、`compile_nft_market` 四个 release 编译器，放入外部目录。工具源码分别在既有 VM tests 的 `src/bin/` 中；使用锁定依赖和 `nightly-2025-09-20` 构建。不要复用旧产物目录。
+Offline results: 221 JavaScript tests and 44 actual VM/CFC/layout/SD-key/FT tests pass, zero contract skips. Bootstrap code/layout roots are explicit fixture placeholders; these tests do not authenticate code roots or submit updates.
+
+These results close the three listed test gaps, not independent audit or contract-upgrade authorization. They do not establish production readiness.
+
+---
+
+# 2026-10-16 code security acceptance
+
+This milestone assesses code/proof constraints. No Node change or on-chain deployment/update occurred. These regressions alone cannot certify all six contracts as production-grade.
+
+## Added fixes and checks
+
+- SD-key policy JSON validates market type, call count, branch, method/contract IDs, witness indexes and Goldilocks constants before circuit allocation. Malformed input returns errors instead of panics/noncanonical fields. Valid circuits/fingerprints remain unchanged.
+- Actual AMM/Orderbook/Curve SD-key gadgets cover all branches and reject method substitution, caller impersonation, extra calls, payer changes, high-limb tampering, redirected recipients, wrong assets, call reordering and signature-digest changes.
+- NFT/NFT Market bytecode covers all 128 receiving slots full, stable cursors/identity after failure, exact claims after freeing capacity, repeated claim/burn/settlement rejection, unauthorized mint and rollback after late checks.
+- Public/private FT bytecode covers U124 carry/borrow/boundaries, supply conservation, duplicate claims, wrong amount/denomination proofs, atomic rollback at either private-tree capacity, delegation close and original-payer refunds.
+- Related wallet work fixes normal checkpoint refresh invalidating previews, confirmation gates on exact-fee failure, single/two-Felt public calls/cumulative ledgers, hexadecimal address parsing and small-window layout.
+- Related Services work separates live messages from historical replay, persists history progress separately and advances it only after complete scans, with actual PostgreSQL/Redis/local-WebSocket regressions.
+
+## Reproducible offline verification
+
+Freeze compatible release `compile`, `compile_private`, `compile_market` and `compile_nft_market` binaries in an external directory. Sources are in existing VM-test `src/bin/` paths. Build locked dependencies with `nightly-2025-09-20`; never reuse an old output directory.
 
 ```sh
 node tests/security/prepare-six-contracts.mjs --compiler-bin /absolute/frozen/bin --out /absolute/new/artifacts
 CARGO_TARGET_DIR=/absolute/isolated/rust-target node tests/security/run-six-contracts.mjs --artifacts /absolute/new/artifacts --out /absolute/new/results
 ```
 
-要求支持项目依赖的 Node.js、Rust 工具链和本地 Cargo 依赖缓存。脚本记录输入源码、编译器和产物 SHA256，执行 JavaScript 回归、真实 VM、CFC/layout 与 SD-key 证明测试；失败退出非零。仅生成离线证据，不广播。Curve bootstrap 和测试付款人专用 fixture 已包含在准备及验收脚本中，三项测试默认执行，任何 ignored Rust 测试都会使验收失败。真实网络 UPS 和跨机器可用性不属于这套离线验证。
+Requires a supported Node.js, Rust toolchain and local Cargo cache. Scripts record source/compiler/output SHA 256 and run JavaScript, actual VM, CFC/layout and SD-key tests, exiting nonzero on failure. Offline evidence only, no broadcast. Bootstrap/test-payer fixtures run by default; any ignored Rust test fails acceptance. Actual network UPS and cross-machine availability are outside this entry.
 
-## 仍须明确的资金安全边界
+## Remaining asset-safety boundaries
 
-1. SD-key fingerprint 认证完整调用栈、method ID 和参数；当前协议没有给该 gadget 认证可调用合约的 code/layout root。执行器检查 roots 只能约束遵守检查的执行器。公开私钥允许任何人提交满足 fingerprint 的交易，因此升级者替换同 ID 实现属于实际信任边界。生产使用须有经核验的不可升级保证或明确接受的升级权限治理；应用代码不能单独消除这一边界。
-2. 跨用户读取可来自历史 checkpoint。退款、撤单与委托关闭的安全性依赖付款人累计游标和调用者当前状态；委托撤销仍是合作关闭，不能宣称单方面即时冻结 spender。超时也不能安全追回已转给永久离线接收人的 NFT。
-3. 需要独立合约/密码学安全审计。本文的不同模型代码审查和自动回归不等于独立安全审计，也不构成六合约端到端安全证明。
+1. Fingerprints authenticate full calls, methods and parameters, but the current gadget does not authenticate contract code/layout roots. Executor checks constrain only compliant executors. Anyone can submit using a public key if its fingerprint passes, so replacement implementations under the same ID remain a real trust boundary. Production needs verified immutability or accepted upgrade governance; application code alone cannot remove it.
+2. Cross-user reads may be historical. Refund/cancel/delegation safety depends on cumulative payer cursors and current caller state. Delegation close is cooperative, not unilateral instant freezing. Timeout also cannot safely recover an NFT already delivered to a permanently offline recipient.
+3. Independent contract/cryptographic audit is required. Model-assisted code reviews and automatic regressions are not independent audit or end-to-end safety proofs for all six contracts.
 
-以下历史记录保留；时间较早的“仍需验收”应与新增证据一起阅读。
+Historical records below remain chronological; read earlier pending items alongside later evidence.
 
 ---
 
-# 生产验收边界
+# Production acceptance boundaries
 
-本仓库当前仍不声明 mainnet production ready。部署、回归和测试网结算是工程证据；它们不代替独立审计、生产运行验收或权限治理。
+This repository does not claim mainnet production readiness. Deployment, regressions and testnet settlement are engineering evidence, not substitutes for independent audit, production operations or governance.
 
-## 按模块检查
+## Per-module review
 
-| 模块 | 工程证据 | 上线前仍需验收 |
+| Module | Engineering evidence | Remaining release gates |
 | --- | --- | --- |
-| U124 FT | 两个 62 位 limb；18 位精度；公开版实际字节码和三市场交易；[新增私有版本地验证](token/wide/private/README.md) | 独立审计、发行及升级权限治理；实际浏览器隐私转账与领取已在 2026-10-15 验证 |
-| NFT | 实际 mint、transfer、claim；身份、metadata、FIFO 和持有槽检查 | 独立审计、发行及升级权限治理 |
-| AMM / Orderbook / Curve | [真实结算、退款、领取关闭、Curve 建池和同机崩溃恢复](executor/verification/2026-10-14-resume-01/REPORT.md) | 独立审计、链上容量和故障验收 |
-| NFT Market | 独立初始 layout 验证；一次性启用；完整 UPS；成交与取消退款 | 三用户竞争验收结果及发布验收见本次报告；仍须独立审计 |
-| Executor | 持久广播意图、精确回执恢复、同机共享日志锁、根与公钥身份检查 | 服务可用性、告警响应和专用生产环境验收 |
+| U124 FT | Two 62-bit limbs, 18 decimals, public bytecode and three-market trades; [private version](token/wide/private/README.md) | Independent audit, issuance/upgrade governance; actual browser private transfer/claim was verified on 2026-10-15 |
+| NFT | Actual mint/transfer/claim; identity, metadata, FIFO and ownership-slot checks | Independent audit and issuance/upgrade governance |
+| AMM / Orderbook / Curve | [Actual settlement/refund/claim-close, Curve AMM seeding and same-host crash recovery](executor/verification/2026-10-14-resume-01/REPORT.md) | Independent audit, on-chain capacity and fault acceptance |
+| NFT Market | Independent initial layout, one-time activation, full UPS, fill/cancel refunds | Three-user competition/release results in the report; independent audit remains |
+| Executor | Durable broadcast intent, exact receipt recovery, same-host shared-journal locks, root/public-identity checks | Availability, alert response and dedicated production-environment acceptance |
 
-## 发布需要满足的条件
+## Release requirements
 
-1. 冻结源码、ABI、policy、驱动和 code/layout roots，记录哈希；不得覆盖原编译或证明产物。
-2. 初次部署使用经过独立验证的空旧布局证明。更新既有合约必须另行核对链上旧布局和证明端点，不能复用初次部署证明。
-3. 使用与 fingerprint 对应的公开 SD-key 公钥哈希；普通私钥账号即使注册、持有类似状态，也不能冒充公开金库。
-4. 真实 UPS 证明验证后只广播一次；响应丢失时按持久叶哈希对账。缺少回执不能作为重发依据。
-5. 验证实际领取、FT 总量、NFT 数量、NFT 身份和 metadata，不能只检查订单状态或余额计数。
-6. 独立团队审计合约、SD-key、应用编译适配及更新权限；修复发现项，再重跑受影响的验证。
-7. 在专用环境验收可用性、链上容量、故障恢复、备份恢复和告警响应，并记录实际测量结果。
+1. Freeze source, ABI, policy, driver and code/layout roots with hashes; never overwrite original compile/proof outputs.
+2. Independently verify empty-old-layout proofs for new deployment. Existing updates require separately checking on-chain old layout and proof endpoints; initial-deployment proofs cannot be reused.
+3. Use the public SD-key public-key hash corresponding to the fingerprint. A registered ordinary-key account with similar state is not a public vault.
+4. Broadcast the independently verified actual UPS once. Lost replies reconcile by durable leaf hash; a missing receipt does not authorize resending.
+5. Verify actual claims, FT supply, NFT counts, identities and metadata, not just order flags or balance counters.
+6. Independent reviewers must audit contracts, SD-key, application compiler adaptations and upgrade authorization. Fix findings and rerun affected checks.
+7. Accept availability, on-chain capacity, fault/backup recovery and alert response in a dedicated environment with actual measurements.
 
-## 升级权限必须审查
+## Upgrade authorization review is mandatory
 
-当前 policy 校验的是合约 ID、method ID、参数和完整调用栈；`can_read_state` 保持关闭。执行器另行检查 code/layout roots。**这些应用检查不等于 fingerprint 在链上冻结了合约代码。**
+Current policies constrain contract/method IDs, parameters and full calls; `can_read_state` remains disabled. Executors separately check code/layout roots. **Application checks do not freeze code on-chain through the fingerprint.**
 
-若部署者能够更新相同 method ID 的实现，其权限属于资金安全边界。生产发布必须明确升级权限的持有人、控制及恢复方式，审查是否需要不可升级部署或在 SD-key 证明中认证代码根。不能把客户端拒绝执行新代码当作对任意公开执行者的链上约束。本轮没有修改 Node、绕开未认证状态读取限制或对既有合约提交布局更新。
+If a deployer can replace an implementation under the same method IDs, that authority affects asset safety. Release must identify authority holders, controls and recovery, and assess immutable deployment or circuit-authenticated roots. Client rejection does not constrain arbitrary public executors. No Node change, unauthenticated-state bypass or existing layout update occurred.
 
-## 并发与运行范围
+## Concurrency and operating scope
 
-当前支持一个执行主机上的多个进程共享同一 runtime 目录。链上 nonce/锚点用于判定竞争证明，持久日志负责提交与恢复。同机锁测试不代表跨机器租约或链上 TPS 已通过。
+Current support covers multiple processes on one host sharing one runtime directory. Chain nonce/anchors adjudicate competing proofs; durable journals govern submit/recovery. Local lock tests do not establish cross-machine leases or chain TPS.
 
-macOS 登录服务依赖机器保持唤醒、网络和用户会话。它适合测试网运行，不构成生产可用性承诺。部署到服务器前需要验证该环境的编译驱动、证书信任、资源容量和运维流程。
+The macOS login service depends on wakefulness, connectivity and the user session. It suits testnet use but is not a production availability guarantee. Server deployment needs platform driver, certificate trust, capacity and operations acceptance.
 
-## NFT Market 的只读验收
+## Readonly NFT Market acceptance
 
-`nft-marketplace/acceptance.mjs` 重新查询交易回执，核对冻结文件、SD-key 身份、实际领取及 FT/NFT 守恒。需要三名真实参与者和启用、成交、取消退款、竞争买家退款的证据。它不签名、不转账、不重试提交。
+`nft-marketplace/acceptance.mjs` re-queries receipts and checks frozen files, SD-key identity, actual claims and FT/NFT conservation. It requires three real participants and activation/fill/cancellation/losing-buyer refund evidence. It does not sign, transfer or retry submission.
 
 ```sh
 npm run verify:nft-marketplace -- \
@@ -144,11 +144,11 @@ npm run verify:nft-marketplace -- \
   --out /absolute/path/to/fresh-verification.json
 ```
 
-通过时输出 `engineeringAcceptanceVerified: true`；`productionReady` 仍为 `false`，并列出外部审计、权限治理与运行验收门槛。验收数据格式由 [测试样例](nft-marketplace/tests/acceptance.test.mjs) 展示；样例中的 RPC 和驱动是明确的测试替身，不能作为真实链上证据。
+On success it returns `engineeringAcceptanceVerified: true`, while `productionReady` remains `false`, listing audit/governance/operations gates. [Test fixtures](nft-marketplace/tests/acceptance.test.mjs) use explicit RPC/driver doubles, not actual chain evidence.
 
 ---
 
-# 既有 FT/NFT 证据与门槛（原记录保留）
+# Existing FT/NFT evidence and release gates (historical record)
 
 # Production readiness gates
 

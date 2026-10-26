@@ -1,149 +1,196 @@
-# 共享金库市场批次 V2：具体改造设计
+# Shared-vault market batch v2 design
 
-本设计已进入实现：`batching/v2/` 是独立 `batch-v2` profile，测试与证据范围见 `batching/v2/README.md` 和 `docs/security/MARKET_BATCH_V2_RESULTS_20261020.md`。本文保留预检时的约束及验收目标；未实测的网络指标仍不算完成。限制：只改 psy-template 的四个市场、SD-key、应用编译桥和 Executor；保留共享金库；不改 Node、FT 或 NFT；随机排序关闭。
+Implementation lives in independent `batching/v2`/`batch-v2`. Scope/evidence:
+[profile](../../batching/v2/README.md), [results](../security/MARKET_BATCH_V2_RESULTS_20261020.md).
+This design retains original preflight limits and acceptance targets; unmeasured
+network metrics are not completed work. Changes are application-owned contracts,
+SD-key, compiler bridge and Executor only: shared vaults, unchanged Node/FT/NFT,
+deterministic ordering, random mode disabled.
 
-## 1. 状态与提交阶段
+## 1. State and submission phases
 
-用户在自己的分区并行下单和付款。Executor 读取同一个 checkpoint 的订单、资金游标和金库状态，生成有边界的候选集合。不同用户分区可以并行证明；同一金库的状态递推仍有前后依赖。
+Users order/fund in their own partitions concurrently. Executor reads orders,
+funding cursors and vault at one checkpoint and proposes a bounded set. Independent
+users can prove concurrently; one vault's shared state still evolves sequentially.
 
-已生成的主要入口：
+- `commit_batch`: after prior completion/safe expiry, stores ID, version, cutoff,
+  set commitment, sort mode, member count and expiry.
+- `begin_batch`: checks confirmed commitment/full bounded set; derives ordering,
+  fills and refunds from authenticated orders.
+- Operation guards permit only the next batch step, checking ID/cursor/shared
+  state/payable amounts and advancing cursor.
+- `finish_batch`: every member has a lawful outcome and payment calls complete;
+  binds final state/result commitment.
+- `expire_batch`: releases an unsettled expired commitment, never refunds spent
+  or already refunded assets again.
 
-- `commit_batch`：只有上一批完成 / 安全超时后才可承诺下一批；保存 batch ID、版本、截止 checkpoint、集合承诺、排序模式、数量、失效时间。
-- `begin_batch`：验证已确认承诺及完整有界候选集合；基于认证订单状态确定顺序、成交和退款结果。
-- 有界操作 guard：只允许当前批次的下一步；校验 batch ID / cursor / 当前共享状态和应付金额；递增 cursor。
-- `finish_batch`：所有成员都有规则允许的结果，支付调用完成；绑定最终状态与结果承诺。
-- `expire_batch`：确认未结算且已过截止条件后释放承诺。不能把已成交 / 已退款的资金再退一次。
+Commit and settlement are **two independent UPS**. Only the settle UPS is atomic;
+the pair does not roll back together. Commit claims no order assets. Reproof stays
+on the same ID/set/order. Commit fees require an explicit payer, cursor and refund
+policy, not another user's principal. Local JSON is not an on-chain freeze:
+a proven contract commitment and settlement read must exist.
 
-一次 `commit_batch` UPS 和一次 `settle_batch` UPS 是两个提交。**只有 settle UPS 内部原子，两个 UPS 不共同回滚。** commit 不领取用户资产；失败重证只围绕同一 batch ID，不能重新抽取集合或排序。若承诺本身需要费用，必须绑定明确的付费者、费用游标和退费策略，不能从别人的订单资金扣取。
+## 2. Member and outcome binding
 
-不能先写一个客户端 JSON，然后把它称为链上冻结。必须存在经证明的合约承诺及接下来结算对它的读取。
+Circuit commitments use versioned/domain-separated Poseidon. File SHA 256 remains
+an integrity check, not circuit set authentication. Bind network magic, market/
+asset IDs, vault, version, batch ID, cutoff, count, ordering and each user's ID,
+nonce, type, amounts, limits, deadline, counterparty/NFT identity, actual deposits
+and settlement cursors.
 
-## 2. 订单集合和执行结果绑定
+Commit the deduplicated canonical set separately from rule-derived execution
+order. Require a complete one-to-one permutation; reordered input cannot select
+priority or add/repeat/omit members. Every member fills, lawfully refunds or carries.
+Book carry does not finalize consumed or recharge fees and can join a later batch.
+An unverified skip flag cannot discard difficult orders.
 
-电路承诺采用 Poseidon、带版本及域分隔。文件完整性可继续用 SHA-256，但**文件 SHA-256 不能代替电路集合认证**。
+Initial discovery scans a user list, not a certified global queue. The first
+version guarantees order/coverage **inside its committed set only**. Global
+price/time fairness needs authenticated indexing/admission and omission proofs or
+challenges, with explicit write contention, fees, admission times and cutoff.
+Central scan order is not global arrival order.
 
-承诺至少绑定：network magic、市场及资产 contract IDs、vault ID、新版本、batch ID、截止 checkpoint、候选数量、排序模式，以及每个成员的用户 ID / nonce / 类型 / 数量 / 价格限制 / deadline / 对手引用 / NFT 身份 / 实际入金与已结算游标。
+## 3. Market semantics
 
-集合和执行列表分别表示：集合使用确定的规范顺序去重并承诺；执行顺序由规则推导，验证是一一对应的排列。不能通过调换输入数组重选优先级，不能增加、重复或删去承诺中的成员。
-
-批次结果必须覆盖所有成员：成交、合法退款或继续挂单。Book 继续挂单不能推进订单的终局 consumed，也不能重复扣取处理费；它可以出现在未来批次。拒绝使用未经验证的 `skip=true` 跳过难处理的订单。
-
-### 集合完整性的实际范围
-
-当前 RPC 扫描使用用户发现列表，不是全市场可认证队列。首版只保证**承诺集合内部**的排序与完整处理，不保证所有链上有效订单都被纳入。
-
-若要全市场价格 / 时间优先，需要额外的可认证挂单索引或链上登记队列和遗漏证明 / 挑战机制。它们的写竞争、费用、订单登记时刻及截止点需要独立设计；不以中心化扫描顺序伪装成全局顺序。
-
-## 3. 四个市场的规则
-
-| 市场 | 首版排序与状态更新 | 必需的新约束 |
+| Market | Deterministic ordering/state | Required constraints |
 | --- | --- | --- |
-| AMM | 承诺集合内 `(order_checkpoint, user_id, order_nonce)`，逐步更新储备及 LP 状态 | 添加可认证的订单 checkpoint；滑点 / 到期 / 撤单分支必须由合约判断；下一笔只能用上一步储备 |
-| Bonding Curve | 同样确定排序，逐步更新 `sold_lots` 和储备 | 新增限价订单；保留旧精确报价入口的语义；库存、毕业和退款不得被跳过 |
-| Orderbook | 卖单最低要求价格升序；买单出价降序；同价按 `(order_checkpoint,user_id,nonce)` | 价格用跨 limb 整数交叉乘法比较；优先级必须在电路验证候选集合后得到，不能只在 JS 排序 |
-| NFT Market | 候选买单按 `(order_checkpoint,buyer_id,buy_nonce)`；严格匹配卖方及 listing nonce | 同一 `(seller,listing_nonce)` 唯一胜者；其他买方按规则退回支付，不能重复领取卖方 NFT 或手续费 |
+| AMM | `(order_checkpoint,user_id,order_nonce)`, sequential reserves/LP | Authenticated checkpoint; contract-derived slippage/expiry/cancel branches; next fill uses preceding reserves |
+| Curve | Same ordering; sequential sold lots/reserves | New limit orders without reinterpreting exact quotes; inventory/graduation/refund coverage |
+| Orderbook | Lowest ask, highest bid; ties checkpoint/user/nonce | Full-limb cross-product price comparison and circuit priority, not JS-only sorting |
+| NFT Market | Buy checkpoint/buyer/buy nonce; exact seller/listing nonce | One winner per listing; other buyers refund without duplicate NFT/fees |
 
-同一 checkpoint 内没有可靠的全局到达先后，故 user ID / nonce 是公开确定的并列规则。它不是随机公平，也不是严格按网络到达时间的 FIFO。
+Checkpoint ties have no trusted global arrival order. Public ID/nonce tie-breaking
+is deterministic, not random fairness or strict network FIFO.
 
-### AMM
+AMM checks actual reserves, exact floor outputs, minimums, deadlines and fees.
+Mixed LP/swap operations require one canonical shared-state order; the initial
+profile may restrict homogeneous operations rather than let Executor choose
+profitable mixing. Contract-derived refund conditions prevent refunding all valid
+orders and calling that complete processing.
 
-按顺序验证实际储备、精确整数输出、最小到账、期限及费用。LP 添加 / 移除与 swap 若混批，也必须共享一个确定的顺序及同一状态递推；初版可限制同类操作，不能让 Executor 自选对自己有利的混排。
+Curve exact `expected_sold == sold_lots` orders go stale after the first fill.
+Limit buys fix lots/max_quote and deposit max; execution computes current cost,
+fills within cap and returns surplus. Limit sells fix lots/min_quote and token
+input; fill above minimum or refund tokens. Legacy exact quotes retain semantics;
+they are not implicit consent to a higher price. Deposit/fill/refund/fee cursors
+stay distinct. Graduation is separate and must preserve unfinished exits.
 
-现有退款 guard 并不等于新的确定性成交选择。新版本要验证退款条件，避免执行者对有效订单任意全退并声称“完整批次”。
+Book retains whole-order pairing. Verify priority inside the committed set and
+choose the earliest compatible pair satisfying both minimums. Crossing prices
+alone do not ensure compatible whole sizes. Unmatched orders remain valid, with
+no repeated fund/fee claim. Partial fills need separate remainder/cursor/rounding
+design.
 
-### Curve：不能只拼接旧订单
+NFT terminal keys are `(seller,listing_nonce)` and `(buyer,buy_nonce)`. One terminal
+outcome cannot change to another. Losing buyers have executable refunds. Validate
+recipient capacity, sender FIFO, scratch slot, ACK, metadata and cursors. Do not
+omit ACK to fit a batch. Initial size limits reject repeated identities/cross roles
+and allow only one terminal operation per person.
 
-当前 `expected_sold == sold_lots` 加精确报价的语义会使多个同时基于旧状态报价的买单在首笔成交后失效。因此需要新增限价接口：
+## 4. Cancellation, historical reads and refunds
 
-- 买入：锁定 lots 和 `max_quote`，入金为 max；按执行时 sold 计算实际成本，符合上限才成交，剩余 quote 原路退回。
-- 卖出：锁定 lots 和 `min_quote`，入金为 lots 对应 token；符合下限才成交，否则原路退 token。
-- 旧精确报价订单继续按原规则验证，不能擅自换成愿意支付更高价格。
-- 退款、差额、费用游标区分实际入金与成交金额；毕业单独结算，先处理或明确保留未完成订单的返还路径。
+AMM/Book/Curve add signed cancel requests/checkpoints; NFT cancellation enters the
+same outcome rules. Cancellation present in the committed cutoff state permits
+only refund. Later requests do not retroactively alter frozen results. Historical
+foreign reads mean a request cannot instantly defeat every prepared fill proof.
 
-### Orderbook
+Current vault consumed/batch ID/cursor allows one final commit. After fill/refund,
+historical OPEN duplicates must fail against changed vault state. User nonce or
+Executor memory locks alone are insufficient. Refunds bind original payer/asset,
+actual claimable cumulative delta and terminal state. Excess/insufficient/half-LP/
+fee-missing deposits need explicit exits, not silent scanner exclusion.
 
-保留整单配对，不在本轮暗中引入部分成交。先在承诺集合内验证价格 / 时间优先序，再沿这个序列找到最早兼容对，验证双方最低接收量。数量不兼容的最佳报价可能无法整单匹配，不能把它简单视为“价格交叉就必然成交”。
+## 5. SD-key and driver
 
-没有对应对手的单保持有效，资金及用户手续费不被重复领取。部分成交需要剩余量、订单游标和新的金额舍入规则，另行设计。
+Use an independently versioned builder/Rust circuit; extra arrays cannot be
+smuggled into the legacy 13-Felt witness. Register a new fingerprint rather than
+widen authorization under an old identity.
 
-### NFT Market
+The original implementation fixes **40 introspection slots/74-Felt witness**:
+four worst-case refunds at nine slots each, begin/finish, padding and burn. Unused
+slots are market-bound noops; final slot is automatic burn. Each dynamic slot binds
+contract/method/caller/input hash/input length; index/commitment bind its guard.
 
-挂牌终局键为 `(seller,listing_nonce)`；买单终局键为 `(buyer,buy_nonce)`。结果只能从未处理变为唯一的成交或退款，不能从一个终局改成另一个终局。
+In-place fingerprint replacement for an old vault is not accepted. Shared-vault
+architecture does not authorize changing legacy keys. Default to new independent
+shared vaults for offline/isolated tests; old assets remain claimable. Real migration
+requires its own reviewable path. Driver retains frozen binary, raw-request binding,
+full UPS/public endpoints, roots and exact broadcast identity. Application root
+checks do not establish immutable code; upgrade authorization remains open.
 
-同一挂牌多个买家竞购，胜者唯一；其他买家支付必须有可执行的退款分支。买家的 NFT 接收队列满、发送方 FIFO、scratch slot、ACK、元数据及输出游标都要验证，不能为了凑批次省略 ACK。为初版控制规模，一人只参与一个终局操作，重复身份和交叉角色先拒绝。
+## 6. Executor and recovery
 
-## 4. 撤单、历史状态和退款
+Durable journal separately tracks commit/settle/expire/maintenance through proof,
+broadcast intent and exact receipt. Unresolved intent blocks mutations. Persist
+immutable members/order inputs/requests/commitments/driver/guard hashes. Restart
+cannot reselect members; pending does not authorize resend. Reconcile exact
+end-leaf before continuing.
 
-AMM / Book / Curve 新增明确的用户撤单请求及 checkpoint 标记；NFT 延用撤单请求并纳入统一结果。
+Same-host processes lock by network/vault. Multi-host chain anchors/batch state
+adjudicate competing proofs, but no distributed lease means no claim of one prover
+across machines. Reads/independent preparation can overlap; shared transitions
+and submissions preserve dependencies.
 
-规则需要公开：在批次承诺的截止状态中已撤单的订单只可退款；截止之后的撤单不追溯改变已冻结集合的结果，下一批处理。由于外国账户读取可以证明历史状态，**不能承诺用户发出撤单就立即抢占所有已生成成交证明**。
+## 7. Delivery and acceptance
 
-同一金库的 current consumed / batch ID / cursor 决定只能有一个终局提交。成交或退款先提交后，任何携带历史 open 状态的重复证明都应因金库状态已变而拒绝。只验证用户 nonce 或只依赖 Executor 内存锁不够。
-
-退款限定原付款者、原资产、实际可领取的累计入金差额及当前终局状态。超额入金、缺少手续费、只付了半个 LP 订单等必须有明确处理规则，不能因扫描器过滤掉就变成永久卡款。
-
-## 5. SD-key 与应用驱动
-
-新增独立版本的 batch policy builder 和 Rust 电路入口；不能给旧 13-Felt witness 塞入未绑定的额外数组。新指纹重新注册是必要步骤，不能沿用旧金库身份授权更宽调用栈。
-
-实现：精确 40 个 introspection slots（74-Felt witness；最坏 4 个退款各占 9 槽，加 begin / finish、padding 和 burn），未用槽只能为绑定本市场的 noop，最终一个自动 burn。固定分支集合及每个动态 slot 的 contract / method / caller / input hash / 输入长度都必须匹配；序号和 batch commitments 必须绑定对应 guard。
-
-新 key 是否支持“原金库账户原地换指纹”尚未证明。**保留共享金库架构不等于擅自更换旧账户密钥。** 默认先使用新批次 key 对应的独立共享金库进行离线和隔离验证，旧金库和旧资产可继续领取；任何真实迁移另行提供可审核路径。
-
-驱动继续执行冻结二进制、绑定原始请求、验证完整 UPS 及公开端点、检查代码 / 布局、精确 broadcast identity。应用根检查不能代替链上不可升级保证；既有升级授权审计缺口依然存在。
-
-## 6. Executor 与故障恢复
-
-复用已有 durable journal，每个 `batch_commit / batch_settle / batch_expire / batch_maintenance` 独立经历 prove、broadcast-intent 和精确回执确认；commit 与 settle 分别记录。未确认 intent 保持 unresolved 并阻止后续 mutation。
-
-候选集合、排序输入、完整请求、batch commitments、驱动 hash 和 guard hash 落盘后保持不变。任何一次广播结果未知，阻止该金库的下一个 mutation；先按精确 end-leaf 回执核对。进程重启不得重选集合，不得把一次 pending 当作可以重发。
-
-同机多进程继续按 network + vault 锁协调。多机 Executor 仍以链上 current-anchor / batch state 竞争为最终约束；没有分布式租约实现前，不宣称跨机器只有一个证明者。可并行做读取和独立证明准备；同一金库状态递推与提交必须遵守依赖。
-
-## 7. 实施次序与验收矩阵
-
-| 阶段 | 交付 | 放行门槛 |
+| Stage | Deliverable | Gate |
 | --- | --- | --- |
-| P0，本分支 | 容量探针、费用 / 随机性 / 原子性预检、设计 | 对证据范围和未完成项如实标识 |
-| P1 | 规范集合、batch state、确定性排序、四市场新入口及新 policy | 生成布局和 ABI、全输入绑定、字节码正反向测试 |
-| P2 | AMM / Curve 顺序状态证明；Book 优先级；NFT 唯一胜者 | 认证 CFC + 完整 UPS；尾调用失败、费用不足或换序一律不能产生部分提交 |
-| P3 | Executor durable 批次恢复、旧新 profile 分流 | 双执行者、崩溃、延迟回执、超时、撤单 / 退款竞争的回归 |
-| P4 | 实际批处理基准与隔离测试网确认 | 输出下面所有指标；失败样本也保留，不筛选只报成功 |
-| P5，依赖未满足 | 未来 seed 排序 | seed 认证、不可偏置来源、commit-before-seed、防选集合 / abort grinding 全部证明后才启用 |
+| P0 | Capacity/fees/randomness/atomicity preflight/design | Accurate evidence/open-item scope |
+| P1 | Canonical set/state/order/four new entry points/policy | Generated ABI/layout, full binding, positive/negative bytecode |
+| P2 | AMM/Curve sequential proofs, Book priority, NFT unique winner | Authenticated CFC/full UPS; late-call, fee and reordering failures have no partial commit |
+| P3 | Durable Executor recovery/profile routing | Two executors, crash/delayed receipts, expiry/cancel/refund races |
+| P4 | Actual batch benchmark/isolated network | All metrics below, including failed samples |
+| P5, externally blocked | Future-seed ordering | Authenticated hard-to-bias seed after commitment, full permutation, selection/abort-grinding defenses |
 
-必须覆盖：
+Cover omitted/duplicate members, low/high/nonce/contract/vault/network/cutoff/root/
+branch/order/tail-call mutation; cross-batch replay; multiple NFT buyers; fill/
+cancel/refund races and historical OPEN versus current consumed. First/middle/last
+call failure, funds/slippage/inventory/expiry/capacity/ACK failures reject the whole
+settle UPS. Test excess/short/orphan deposits, surplus refund, carry without fees,
+ordinary claims and exact payer recovery. Crash at commit/proof/intent/send/receipt
+boundaries; unresolved work blocks the next batch. Test local competition,
+simulated remote races, same/different pools; distinguish models from actual
+coordinator acceptance.
 
-- 漏成员、重复成员、换金额 / 高 limb / nonce / contract / vault / network / cutoff、伪造集合根、换序、换 branch、追加尾调用。
-- 同一订单跨批次重放、同一挂牌多个买家、成交与退款 / 撤单并发、历史订单证明与当前 consumed 冲突。
-- 第一个 / 中间 / 最后一个调用失败；余额不足、滑点越界、Curve stale / 库存耗尽、订单超时、NFT 队列满、ACK 失败；整个 settle UPS 拒绝。
-- 超额 / 不足入金、孤立入金、差额退款、Book carry 不重复收费、用户到账领取、恢复原付款者可回收金额。
-- commit 后崩溃、证明后崩溃、写 intent 后崩溃、发送后断网、收到回执前崩溃；未确认的 intent 阻止下一批。
-- 同机多个 Executor、不同主机模拟竞争、同一 pool 多用户、不同 pool 并发；明确区分本地 compare-and-commit 模型与真实 Node 接纳证据。
+## 8. Measurement
 
-## 8. 吞吐基准口径
+Start with one/two operations per market; expand only after all gates. Book reports
+pairs and member orders separately; NFT reports sales/buys/listings without double
+counting. Record read/freeze, compile/cold start, each CFC, recursion/signature,
+end-cap, verify, submit/confirm p50/p95; proof/RPC bytes, RSS/CPU, modified slots,
+burn, fees and refunds. Include commit costs.
 
-每个市场批次操作数 1 / 2；只有全部门槛通过后才扩大。Book 同时报告撮合对数和用户订单数；NFT 报销售数、买单数与挂牌数，避免重复计数。
+Separate VM ops/s, full-proved settled ops/s per vault (including commit/reproof),
+and chain-confirmed fills/orders/refunds per second with two-stage waits and
+claims. Compare same machine, initial pools, distribution and total operations.
+Test-data seeds are only reproducibility inputs, never market randomness. Measure
+parallel user admission separately from ordered same-pool execution; aggregation
+count is not independent-fill throughput.
 
-记录：候选读取 / 固定集合耗时、编译 / 冷启动、每个 CFC 证明、递归及签名、end-cap、校验、提交及确认的 p50 / p95；proof bytes、RPC bytes、最大 RSS、CPU 时间、slots_modified、burn、用户费用及退款。commit UPS 的成本和耗时必须计入总成本。
+## 9. Implementation supplement: 2026-10-20
 
-报告以下指标，分别命名：
-
-1. VM 操作 / 秒（非认证执行，不含网络）。
-2. 完整证明的已结算操作 / 秒（一个金库，含必要 commit 和重证）。
-3. 链上确认的成交 / 秒、用户订单 / 秒及退款 / 秒（含两阶段提交、等待及领取的独立统计）。
-
-相同机器、初始池状态、订单分布和总操作数，对比当前单单与新批次。记录随机种子仅用于**测试数据复现**，绝不能作为市场排序的随机源。用户并行下单与同池有序执行分别测量；递归聚合数量不计为独立成交吞吐。
-
-
-## 9. 实现补充（2026-10-20）
-
-- 上限：四个市场每批最多 4 个成员；AMM / Curve 最多 4 单，Book / NFT 最多 2 对成交。Book 的一对交易需要两个成员；NFT 卖方引用也占成员。最多 4 个操作块，每块 9 调用，总计 40 调用含自动 burn。
-- `commit_batch` 只冻结订单和资金，不领取用户订单资产；显式赞助账户预付 2F。F = 1,000,100,000 原生最小单位，预留 commit 和 settle 各一次烧费上界。赞助 `purpose=1` 仅用于 commit，`purpose=2` 仅用于维护补费；授权池、金额和递增 nonce 都进电路。
-- Executor 的 `batchExpiryCheckpoints` 默认 256，允许 1..1024；合约上界 1024。依据实测完整 UPS 成本扩大窗口。部署者必须按实际 checkpoint 频率和证明/重证/等待成本配置，不能把这一数字当作固定秒数。期限是证明上下文语义，未提供可信当前墙钟的全局撤销能力。
-- 新金库先执行显式 activation，真实 materialize 所需市场和资产子树。FT 市场需赞助 F 和每资产 1 最小单位（种子退回）；NFT activation 付款方需为 collection issuer，FT 种子退回。不能直接对未初始化的空外部合约树造读取证明。
-- NFT 买方先 `NFT.acknowledge(vault)`，再 `open_buy`，可放在同一普通用户 UPS；`client.mjs` 已提供入口。
-- 取消/过期/无效资金订单使用统一 `refund_funding_*`，原路退回实际资金和预付原生费；NFT 落选买家同样退款。有效但报价不满足的 AMM / Curve 报价退款仍收取原有处理费，合约验证报价条件。不能以任意退款分支绕过可执行交易。
-- 孤立转入需要原发送者 `request_recovery(pool)`；有尚未终局订单者不能通过恢复入口绕开排序。维护操作仅在无进行中 batch 时执行。
-- NFT 队列满或 commit 后有额外转入会使当前候选不可执行。Scanner 等待接收者领取或期限后 expire，再按新游标重建；不忽略新资金继续领取。Expire 无资产转出，原资金仍有新批次/原路恢复路径。
-- 随机排序未启用。没有认证且不可偏置的 seed 与 commit-before-seed 协议，本实现不使用 Executor 随机数。
-- 分别验证真实 VM、CFC、40-call SD-key、完整 UPS end-cap 及导出 Merkle 状态增量；本地竞争模型不代表真实 coordinator 接纳测试。详细结果单独保存。
+- Four members per market: AMM/Curve up to four orders; Book/NFT up to two pairs.
+  Book pairs and NFT seller references consume members. At most four nine-call
+  blocks, 40 total calls including burn.
+- Commit freezes orders/funding without claiming principal. Explicit Sponsor
+  prepays 2F, F=1,000,100,000 native atoms, for commit/settle burn caps. Purpose 1
+  means commit, 2 maintenance funding; pool/amount/increasing nonce are constrained.
+- Executor expiry defaults 256, allowed 1..1024, contract cap 1024. Configure to
+  measured checkpoint/proof/reproof/wait costs, not fixed seconds. Proof checkpoint
+  expiry is not trusted wall-clock global revocation.
+- Explicit activation materializes trees. FT markets need F plus one atom/asset,
+  returned to payer; NFT activation payer is collection issuer and FT seed returns.
+  Do not prove reads against uninitialized empty foreign trees.
+- Buyer NFT ACK(vault) precedes open_buy in the same ordinary UPS if desired.
+- Unified refund_funding branches return actual invalid/cancelled/expired funding
+  and prepaid fee; losing NFT buyers refund too. Valid AMM/Curve price failures
+  retain original processing fee and contract-check the quote condition.
+- Orphan deposits require sender request_recovery(pool); active nonterminal orders
+  cannot bypass priority. Maintenance runs only outside an active batch.
+- Full NFT queue or new deposits after commit may make a candidate unexecutable.
+  Wait for claims or expire then rebuild with new cursors; do not ignore funding.
+  Expire moves no principal; later batch/payer recovery remains available.
+- Random mode stays disabled without authenticated hard-to-bias seed and a
+  commit-before-seed protocol. No Executor-selected randomness.
+- Verify actual VM, CFC, 40-call SD-key, full UPS end-cap and exported Merkle delta
+  separately. Local competition models are not coordinator acceptance evidence.

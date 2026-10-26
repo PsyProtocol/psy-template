@@ -1,7 +1,7 @@
 # Psy Protocol Smart Contract Asset Standards Design Specification (V-Final)
 
 > **Document Status**: Complete Architectural Specification for `psy-template` (V-Final).
-> **`psy-template` 整体生产状态定论**: 纯 JS 虚拟模型不能作为最终安全证据，但仍可保留作为快速单元测试；最终结论必须由真实编译产物、真实状态树和真实 ZK E2E 测试确认。目前已按 V-Final 基准方案全面落地完整架构，但整个 `psy-template` 仍未达到主网生产就绪（Not Mainnet Production Ready）。
+> **Overall production status**: JavaScript models remain useful unit tests but are not final security evidence. Conclusions require actual compiled artifacts, state trees and ZK end-to-end tests. The V-Final reference architecture is implemented; `psy-template` is still **Not Mainnet Production Ready**.
 > **Core Principle**: ZK-native client-side recursive proving with user-partitioned state trees. Zero shared global state contention.
 
 ---
@@ -29,7 +29,7 @@ State in Psy is structured as a hierarchical Sparse Merkle Tree partitioned by u
   let other_contract = ContractRef::new(ContractMetadata::new(get_contract_id(), target_user_id));
   ```
   The client prover supplies an inclusion proof verifying the target user's state root against the consensus state root at a given Checkpoint.
-- **Checkpoint State Commitment Aggregation**: Checkpoint-level state aggregation must be understood as **状态承诺/证明聚合 (State Commitment / Proof Aggregation)**, not as shared global mutable state.
+- **Checkpoint State Commitment Aggregation**: Checkpoint aggregation means **State Commitment / Proof Aggregation**, not shared global mutable state.
 
 ### 1.3 Asynchronous Asset Flow: The Outbox/Claim Pattern
 Because cross-user writes are prohibited, asset transfers between users utilize an asynchronous **Outbox/Claim (Push-Pull)** protocol:
@@ -156,7 +156,7 @@ In a partitioned state tree, global token uniqueness cannot rely on a single glo
 - Global token identity is computed on-chain via native ZK Poseidon circuit:
   $$\text{token\_id} = \text{Poseidon}([\text{creator}, 0, 0, 0], [\text{local\_id}, 0, 0, 0]) \in \mathbb{F}^{4}$$
 - **Security Guarantee**:
-  > 在固定编码、唯一 creator 和哈希抗碰撞假设下，提供计算意义上的命名空间唯一性。
+  > Computational namespace uniqueness assumes fixed encoding, unique creators and collision-resistant hashing.
 
 ### 4.2 Storage Layout & FIFO 4-Slot Sliding Window Outbox
 - **`owned_tokens: ContractStateArray<128, NFTSlot>`**: Indexed token slots storing `(token_id, is_active, metadata_hash)`.
@@ -208,10 +208,10 @@ In a partitioned state tree, global token uniqueness cannot rely on a single glo
      ```
   3. The staging-compatible NFT v3 compiler does not expose `get_contract_deployer()`. Its NFT methods enforce `ctx.user_id == ISSUER_USER_ID` on chain. The checked deploy script verifies that the selected wallet owns that registered ID before submission.
 - The native `dargo test` runner uses caller user 5 and a mock deployer key for the legacy source. It does not execute the NFT v3 source.
-- **Toolchain Boundary & Deployment Verification Status (工具链边界与部署闭环现状)**:
+- **Toolchain Boundary & Deployment Verification Status**:
   - **psyup CLI Independence**: The `psyup` CLI tool is an external Rust binary independent of Node.js/npm. When developers invoke `psyup build` or `psyup deploy` directly in their terminal, npm preflight scripts (`npm run check:preflight` / `npm run build:deploy`) are completely bypassed.
   - **Circuit-Level Introspection Limit**: Within ZK circuits, contracts cannot inspect the caller's or deployer's on-chain `user_id` mapping. The host syscall `get_contract_deployer()` returns a 4-Felt array representing the deployer's public key hash, not their `user_id`. Furthermore, the Psy state model maintains zero global state and no consensus-level public-key-to-user-id reverse lookup.
-  - **Definitive Boundary Verdict**: **Mandatory deployment verification is not yet closed under the current toolchain (强制部署校验在当前工具链下尚未闭环)**. True end-to-end deployment closure requires either:
+  - **Definitive Boundary Verdict**: **Mandatory deployment verification is not yet closed under the current toolchain**. True end-to-end deployment closure requires either:
     1. Node-level protocol syscall support for deployer `user_id` introspection, or
     2. Built-in preflight checks directly inside the `psyup deploy` binary before transaction submission.
   - The standalone templates' `deploy:checked` command now requires an explicit `RPC_CONFIG`, checks the selected wallet's first registered user ID against the configured issuer on that network, then builds and deploys with the same configuration. The `.issuer_configured` marker alone proves only local source configuration. Direct `psyup deploy` still bypasses the checked wrapper, so mandatory verification remains a toolchain-level gap.

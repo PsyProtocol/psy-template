@@ -1,55 +1,85 @@
-# pUSDT 补充资产与联测说明
+# pUSDT funding and integration acceptance
 
-本文记录真实 PSY/pUSDT 联测的资产来源、部署边界和验收条件。2026 年 10 月 5 日，用户从 Psy 用户 90112 向 Bob（1283072）转入 **1,000 pUSDT**，转账在 checkpoint 160793 入块；Bob 通过已安装 MCP 钱包领取，领取在 checkpoint 160813 入块。随后 Bob 向 Alice 和 Charlie 各分配 1 pUSDT，两人也已通过 MCP 领取。
+Historical funding: on October 5, 2026, the user sent **1,000 pUSDT** from user
+90112 to Bob 1283072, included at 160793. Bob's MCP claim confirmed at 160813.
+Bob sent one pUSDT each to Alice/Charlie, who separately claimed through MCP.
 
-## 接收测试资产
+## Assets and baseline
 
-本轮资产已经补充，无需再次转入。接收钱包为 Psy Sepolia staging 的 **Bob，Psy-01283072，用户 ID 1283072**。Psy 上的 pUSDT 是 **合约 4**，精度为 6；1 pUSDT = 1,000,000 基础单位。原生 PSY 是合约 0，精度为 9。
+No additional transfer was needed for that round. Bob: Psy-01283072, user 1283072,
+Psy Sepolia staging. pUSDT is contract **4**, six decimals (1,000,000 atoms/token).
+Native PSY is **0**, nine decimals.
 
-如果使用公开转账，请同时提供发送方的 **Psy 用户 ID** 和交易回执。Bob 需要通过 MCP `claim_all` 指定发送方及 `token: "USDT"` 领取；发送方的转账入块与 Bob 的可用余额增加是两个步骤。如果使用隐私转账，应先通过 MCP 获取 Bob 的完整接收信息并完成 note 投递，随后核对领取回执。
+Public sends need sender Psy user ID and receipt; Bob uses `claim_all` with sender
+and `token: "USDT"`. Send inclusion and spendable receipt are separate. Private
+sends require MCP recipient details/note delivery and a separate claim receipt.
 
-到账后基准 checkpoint 为 **160847**：Alice（1882112）持有 1 pUSDT，Bob（1283072）持有 998 pUSDT，Charlie（861696）持有 1 pUSDT；三人及 Orderbook 金库之间没有待领取资产。本轮所有普通钱包写操作使用 MCP，按交易回执入块顺序执行。
+At baseline **160847**: Alice 1882112 held one pUSDT, Bob held 998, Charlie 861696
+held one. No pending assets between them and the Orderbook vault. Ordinary writes
+used MCP in included-receipt order.
 
-## Faucet 与桥接能力
+## Faucet/bridge boundary
 
-已安装 MCP 的 `claim_faucet` 描述明确只领取测试 PSY，输入没有代币选择参数。当前源码中的桥接网页提供 EVM 测试网的 pUSDT faucet：先由 EVM 钱包调用 `TokenFaucetManager.claim(token)`，再通过 Router 桥接到 Psy，等待 relayer 证明后领取。
+Installed `claim_faucet` issued only test PSY with no token selector. The bridge
+UI's EVM pUSDT faucet calls `TokenFaucetManager.claim(token)`, then Router bridging,
+relayer proof and a Psy claim. MCP deposit requires an owner-configured L1 signer;
+`PSY_MCP_L1_KEY` and temporary L1 metadata were absent. There was no direct MCP
+pUSDT faucet method. A public Psy faucet endpoint would need separate verification.
 
-MCP `deposit` 可以执行桥接，但它使用由钱包所有者配置的 L1 签名器。本机配置和继承环境均未配置 `PSY_MCP_L1_KEY`，且本次临时 L2 配置没有初始化 L1 元数据。当前没有可直接调用的 MCP pUSDT faucet 方法。若已有 Psy 链 pUSDT faucet 服务，可提供其公开入口再核验。
+Never send keys, mnemonics or recovery files through chat. L1 signers belong in
+the owner-controlled wallet service. No old-wallet keys or restricted token-4 mint
+were used.
 
-不要通过聊天发送私钥、助记词或恢复文件。若采用 L1 路径，签名器应由所有者在钱包服务端配置；本次没有读取旧测试钱包的密钥，也没有尝试调用合约 4 的受限铸币方法。
+## Market boundaries
 
-## AMM 与 Orderbook 的部署边界
+| Instance | Historical boundary/action |
+| --- | --- |
+| Launch AMM 1503 / vault 773632 | Fingerprint fixes token 1494, Curve 66 and source vault; claim/transfer ABI. Preserve; replacing token ID with 4 is invalid. |
+| Old AMM 59 / vault 1347584 | Nine-method deployment. New local lifecycle candidate was not proof of deployed state; use independently verified 1758/499200 for this round. |
+| New AMM 1758 / vault 499200 | 22 fields, 14 methods, close/overwrite guards and expired paid-LP-removal cancellation; independent compile/layout proof/deployment/roots/registration completed, two-vault policy authorization applied, multiuser swap/LP/refund/conservation accepted. |
+| Orderbook 64 / vault 591872 | Existing PSY/pUSDT whole-order/refund instance; recheck roots/fingerprint, then use new orders/nonces. |
 
-| 对象 | 当前边界 | 下一步 |
-| --- | --- | --- |
-| Launch AMM 合约 1503，金库 773632 | fingerprint 固定代币 1494、曲线 66 及来源金库；代币调用为 `claim` 和 `transfer` | 保留原市场；不能将 token ID 改为 4 后直接使用 |
-| 历史 PSY/pUSDT AMM 合约 59，金库 1347584 | 九方法旧部署；较新的本地候选增加订单关闭及防覆盖检查，尚未证明已部署 | 保留历史市场；本轮使用已验证的新合约 1758 和金库 499200 |
-| 新 PSY/pUSDT AMM 合约 1758，金库 499200 | 22 字段、14 方法；增加订单关闭、防覆盖检查和到期 LP 撤出取消 | 已完成独立编译、证明验证、新部署入块、链上根值核对及 SD-key 注册；指定两金库授权已应用；多用户兑换、LP 与退款测试及最终守恒核对已完成 |
-| Orderbook 合约 64，金库 591872 | 已验证的 PSY/pUSDT 整单撮合与撤销部署 | 重新核对 code/layout/fingerprint 后复用，以新订单和新 nonce 测试 |
+pUSDT 4 uses simple_claim/simple_transfer, unlike token 1494. Verify ABI, decimals,
+full calls/fingerprint, not just config IDs. Local candidate source is not chain
+state. Initial deployments require independent code/layout recomputation, ABI,
+empty→new canonical proof, durable intent, one broadcast and post-inclusion roots.
+Do not use/update 62/63; retain original artifacts/hash lists.
 
-pUSDT 合约 4 使用 `simple_claim` 和 `simple_transfer`，与发行代币 1494 的方法不同。新 AMM 必须同时核对资产 ABI、精度、完整调用栈及 fingerprint，不能只替换配置中的 token ID。旧 AMM 的本地候选源码也不能视为链上现状。
+## Historical acceptance sequence
 
-新部署沿用独立 code/layout 重算、ABI 核对、空布局到新布局的 canonical proof 验证、提交意图保存、单次广播及入块后根值核对。合约 62 和 63 不用于新订单，也不提交更新；上一轮原产物及 SHA 清单保持原样。
+October 5 completed claims, deployment, two Book pairs and AMM initialization.
+October 9 completed remaining cases after explicit authorization to add only the
+two vault recipients. [Final follow-up](amm/STAGING_PUSDT_TEST_2026-10-09.md).
+Cross-machine competition remained separate.
 
-## 到账后的测试顺序
+1. Claim through MCP, retain included receipts/balances/pending, fix a common baseline.
+2. Alice PSY/Bob pUSDT whole pair on Book 64, claim/close, reverse direction, then
+   expiry refunds in each asset only to the original payer.
+3. Each Book order pays principal/fee escrow **1,000,100,000 nanoPSY**; amount cap
+   **10,000,000 base units**. Equal atomic counts do not mean equal token values.
+4. Independently compile/prove/deploy/register AMM before initial LP, bidirectional
+   swaps, add/remove, both refunds, close/reopen and paid-removal cancellation.
+5. At least three ordinary MCP wallets, duplicate tasks, changing state and unknown
+   broadcasts: no duplicate payment or third-party output.
+6. All orders closed/broadcasts resolved. PSY plus pending plus actual burns must
+   match baseline; pUSDT plus pending conserves; LP supply equals holders+locked.
 
-以下为本轮采用的验收顺序。10 月 5 日完成资产领取、部署、两轮 Orderbook 撮合和 AMM 初始化；10 月 9 日经用户明确授权，仅新增两个金库收款人后，完成剩余退款、兑换及 LP 场景，见 [最终补充报告](amm/STAGING_PUSDT_TEST_2026-10-09.md)。跨机器竞争等执行网络项目仍需后续验证。
+Archive source, artifacts, layout proof, exact requests/receipts/calls/baselines
+and hashes separately. The [54 October-5 launch trades](launchamm/STAGING_TEST_2026-10-05.md)
+used token 1494, not pUSDT.
 
-1. 通过 MCP 领取到账资产，保存 included 回执及 PSY/pUSDT 可用余额；读取相关账户与待领取金额，以到账后的同一 checkpoint 建立新基准。
-2. 先在 Orderbook 64 做一对完整成交：Alice 卖 PSY、Bob 卖 pUSDT；领取两边输出并关闭订单，再换方向做第二轮。随后分别测试 PSY 和 pUSDT 到期撤销，资金只退原付款人。
-3. 每个 Orderbook 卖单按现有规则支付本金与执行费。费用 escrow 为 **1,000,100,000 nanoPSY**；整单卖出上限为 **10,000,000 基础单位**。每种资产分别处理精度，不把相同基础单位数解释为相同币值。
-4. 为 PSY/pUSDT AMM 完成候选编译、真实 CFC/SD-key 证明及新部署检查，注册并核对新金库后再支付初始化资产。测试初始 LP、双向兑换、增减 LP、两种资产退款、订单关闭及重新开单；已付费 LP 撤出取消也必须有明确恢复路径。
-5. 使用至少三个 MCP 钱包验证多用户订单。重复同一任务、证明期间状态变化及广播结果不确定时，核对无重复支付且不能将输出转给第三人。
-6. 最终确认相关订单全部关闭、广播日志全部 resolved。PSY 余额加已知待领取金额及实际手续费应与基准一致；pUSDT 余额加待领取金额应守恒；LP 总量应等于用户份额加永久锁定份额。
+## Evidence and outcome
 
-新增测试独立保存源码、编译 JSON、layout 证明、精确请求、回执、调用栈、余额基准和 SHA 清单。此前 [10 月 5 日报告](launchamm/STAGING_TEST_2026-10-05.md) 的 54 笔交易属于 PSY/代币 1494 测试，不计作本轮 pUSDT 测试。
+- [MCP balances/wallet observations](launchamm/deployments/pusdt-funding-check-2026-10-05/).
+- Readonly source checks: sibling MCP private_tools.rs, claims_tools.rs, l1.rs;
+  installed listTools separately checked. Bridge FaucetPage.tsx supplied L1 flow.
+- [Deployment](amm/DEPLOYMENT_READINESS_2026-09-28.md),
+  [lifecycle candidate](amm/STAGING_LIFECYCLE_CANDIDATE_2026-09-30.md),
+  [Book amount/fee/calls](orderbook/operationCalls.mjs).
 
-## 核查依据
-
-- 本次公开 MCP 响应保存在 [资产核查证据目录](launchamm/deployments/pusdt-funding-check-2026-10-05/)，包括三个钱包的余额、钱包列表及活动钱包恢复结果。
-- MCP 源码：`../psy-node/client_prover/psy_mcp_server/src/private_tools.rs`、`src/claims_tools.rs`、`src/l1.rs`。本次未修改这些文件；当前已安装工具的描述与参数另经 `listTools` 核对。
-- Faucet 网页源码：`../psy-dapp/apps/bridge/src/pages/FaucetPage.tsx`。
-- 历史 AMM 部署与限制：[部署报告](amm/DEPLOYMENT_READINESS_2026-09-28.md)、[订单生命周期候选报告](amm/STAGING_LIFECYCLE_CANDIDATE_2026-09-30.md)。
-- Orderbook 金额、费用及调用栈：[operationCalls.mjs](orderbook/operationCalls.mjs)。
-
-前次零余额核查目录保留为历史记录。新增资产来源为用户转账；没有调用 pUSDT 铸币方法，也没有读取普通钱包私钥或恢复文件。本轮补充测试 58 笔 UserEndcap 全部匹配 included 回执，订单、待领取资产和未确认广播均清零；pUSDT 守恒、PSY 加实际网络手续费守恒。MCP 通用代币入口和客户端确认接口已完成；默认回归通过，但额外复现 5 项历史策略问题，服务仍未切换，见 [接口修复记录](MCP_PAYMENT_POLICY_REVIEW_2026-10-09.md)。
+Earlier zero-balance observations remain historical. Funding came from the user,
+not minting or ordinary-key access. The 58 follow-up UserEndcaps all matched
+included receipts; orders, pending assets and unresolved broadcasts cleared.
+pUSDT and PSY-plus-burns conserved. MCP/client work completed, but five historical
+policy diagnostics still blocked switching the installed service at that point;
+see [interface review](MCP_PAYMENT_POLICY_REVIEW_2026-10-09.md).

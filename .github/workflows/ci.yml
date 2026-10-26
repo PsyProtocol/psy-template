@@ -7,6 +7,17 @@ on:
     branches: [ main ]
 
 jobs:
+  language:
+    name: English maintained text and frozen evidence
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Check maintained language and historical hashes
+        run: python3 scripts/check_language.py
+      - name: Test language gate failure cases
+        run: python3 scripts/check_language.test.py
+
   applications:
     name: Exchange, NFT market and executor regressions
     runs-on: ubuntu-latest
