@@ -1,7 +1,7 @@
 # Public market access and exact user-workflow boundary
 
 This module connects the existing dapp to a local **read-only** gateway and
-shares exact AMM planning with the server. It does not enable financial actions.
+shares exact AMM and three-market unsigned planning with the server. It does not enable financial actions.
 Registry hashes and RPC checks are application bindings, not cryptographic state
 proofs. Demo reserves/orders remain separate. No Node or chain SDK is changed.
 
@@ -147,8 +147,8 @@ Executor; the expanded unsigned plans alone do not close every recovery path.
 
 The two-pool controller remains a separate multi-UPS workflow. This gateway does
 not make it atomic or attach its payer/fees. Orderbook, Curve and NFT Market have separate pinned QA account readers. Their
-financial planners and live write integration still require the common accepted
-wallet/Executor write boundary and AMM live path. Their existing matching/pricing/unique-sale semantics stay intact.
+unsigned financial planners are now implemented below; actual writes still require
+the common accepted wallet/Executor boundary and real UPS acceptance. Their existing matching/pricing/unique-sale semantics stay intact.
 
 Tests: `npm run test:gateway` in dapp, plus `npm run build` and
 `npm run test:markets`. Synthetic transport tests are explicitly not real UPS or
@@ -200,3 +200,63 @@ be treated as prepare-only. The current local wallet SDK dependency is outside
 this frozen application snapshot. Do not replace dependencies or use direct
 signing to bypass the missing integration. Details and unresolved implementation
 work are in the [acceptance record](../executor/verification/2026-10-27-market-readers-live-v1/README.md).
+
+
+## Three-market unsigned actions and Executor adapter (2026-10-27)
+
+`POST /v1/market-plan` prepares public, unsigned ordinary-user calls from one
+fixed-checkpoint session. It never signs, proves or broadcasts. The strict request
+is `{kind,marketId,userId,recipientId,validForCheckpoints,feeCap,terms}`. Recipient
+must be the ordinary owner; expiry is 1..128 checkpoints, not minutes. Unknown
+fields, markets/assets, terms and precision reject before state reads. The server
+persists the exact canonical request/snapshot/context/plan record through the
+existing bounded durable unsigned-plan store; its digest grants no authority.
+
+| Kind | Terms | Bound behavior |
+| --- | --- | --- |
+| book-order | side, amount, minimum | Whole offered amount and minimum counter-offer; no partial fill |
+| curve-buy / curve-sell | lots, quoteLimit | Whole lots and explicit maximum spend/minimum output; contract limit mode |
+| nft-list | slot, price, tokenId, metadataHash | Exact owned NFT, price and deposit sequence |
+| nft-buy | sellerId, listingNonce, price, tokenId, metadataHash | Seller listing and funded NFT/fee escrow at the buyer checkpoint |
+| admit / cancel | empty | Existing order, exact open queue consent or cancellation request |
+| release / recover / close | empty | Consent/lifecycle and actual unused funding checks; no invented reversal |
+| claim-ft | assetId | Positive reviewed FT Outbox delta, no balance overflow |
+| claim-native | empty | Actual native pending output and bounded balance |
+| claim-nft | slot, sequence, tokenId, metadataHash | Next FIFO delivery and an observed empty ownership slot |
+
+New funding requires a compatible open queue, closed prior consent, settled and
+claimed prior fee escrow, no unused deposits/recovery enrollment, current balances
+and nonoverflowing native/FT/NFT cursors. Full U124 amounts are split only at the
+call boundary. Curve price is calculated from the observed reserve/sold state for
+planning checks, while settlement recomputes the actual progressive price subject
+to the user's limit. No chainless quote is trusted for a future fill.
+
+NFT buying independently reads the seller through the same public-state session.
+It binds collection, token/metadata, seller, listing nonce, deadline, price,
+consumption and cancellation. The actual seller-to-vault FIFO packet and sequence
+and exact fee funding are checked, not just the listing flag. Admission,
+settlement, recovery and ordinary claims remain separate actions/UPS. The planner
+has at most four explicit ordinary calls before the wallet burn; this is a local
+planner bound, not acceptance of a new UPS/circuit capacity.
+
+`marketActionClient.mjs` verifies the pinned registry and canonical-newline ABI
+hashes, reconstructs every call and endpoint, checks fees and compares the complete
+record digest. UI planners are loaded lazily, never copy demonstration terms and
+never convert minute-based draft expiry to a checkpoint authorization.
+
+`executor/gateway/marketWorkflow.mjs` connects these plans to the existing journal
+and worker with a required exact transport. It clones registry/ABIs and boundary
+data, checks the full prepared stack including burn, key/public identity, SDK,
+start/end endpoints, nonce, deadline, actual fee and independent full-UPS/caller/
+session/sig_hash verification. State/lifecycle/fee/seller changes block broadcast.
+Lost ACK and restart reconcile the original exact identity; successful indexed
+receipt and common-state visibility are required. A negative/missing receipt does
+not authorize replacement. Locks demonstrate same-machine payer coordination only.
+
+The public gateway does not instantiate this financial adapter. The current wallet
+web provider still lacks the accepted staged integration and selected dependency/
+key attestation. Internal proof APIs are not unavailable in principle; their secure
+web integration remains implementation work. No direct signer was exposed.
+[Tests and limitations](../executor/verification/2026-10-27-market-actions-v1/README.md)
+distinguish synthetic transport acceptance from actual bytecode/full UPS and live
+settlement/claim/refund, which remain unaccepted while RPC returns HTTP 503.

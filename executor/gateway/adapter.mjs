@@ -20,6 +20,7 @@ import {
 } from "../../market-client/protocol.mjs";
 import { buildAmmPlan, marketFor } from "../../market-client/ammPlan.mjs";
 import { loadPositions, positionReader } from "./positions.mjs";
+import { marketActionReader } from "./marketActions.mjs";
 const sha = (x) => createHash("sha256").update(x).digest("hex"),
   json = async (p) => JSON.parse(await readFile(p, "utf8"));
 export async function loadGateway(file) {
@@ -174,6 +175,39 @@ export async function createGatewayAdapter(
         return readPositions(input);
       }
     : undefined;
+  const readMarketPlan = loaded.positions
+    ? await marketActionReader(loaded.positions, {
+        rpcConfig: c.rpcConfig,
+        readState,
+        now,
+      })
+    : null;
+  const marketPlan = readMarketPlan
+    ? async (input) => {
+        await current();
+        const result = await readMarketPlan(input);
+        const { recordId, registryHash, ...record } = result;
+        await persistUnsigned(record, recordId);
+        return result;
+      }
+    : undefined;
+  async function persistUnsigned(record, recordId) {
+    if (!planDirectory) return;
+    assert.equal(sha(canonical(record)), recordId);
+    await mkdir(planDirectory, { recursive: true, mode: 0o700 });
+    const path = join(planDirectory, recordId + ".json"),
+      data = canonical(record) + "\n";
+    try {
+      assert.ok(
+        (await readdir(planDirectory)).length < 1000,
+        "Unsigned plan store capacity reached",
+      );
+      await publishFile(path, data);
+    } catch (e) {
+      if (e.code !== "EEXIST") throw e;
+      assert.equal(await readFile(path, "utf8"), data);
+    }
+  }
   let finder;
   const status = async () => {
     await current();
@@ -429,21 +463,7 @@ export async function createGatewayAdapter(
     });
     const record = { schema: 1, request, snapshot: observed, plan },
       recordId = sha(canonical(record));
-    if (planDirectory) {
-      await mkdir(planDirectory, { recursive: true, mode: 0o700 });
-      const path = join(planDirectory, recordId + ".json"),
-        data = canonical(record) + "\n";
-      try {
-        assert.ok(
-          (await readdir(planDirectory)).length < 1000,
-          "Unsigned plan store capacity reached",
-        );
-        await publishFile(path, data);
-      } catch (e) {
-        if (e.code !== "EEXIST") throw e;
-        assert.equal(await readFile(path, "utf8"), data);
-      }
-    }
+    await persistUnsigned(record, recordId);
     return { ...record, recordId, registryHash: c.registrySha256 };
   };
   const receipt = async (input) => {
@@ -470,5 +490,6 @@ export async function createGatewayAdapter(
     plan,
     receipt,
     ...(positionSnapshot ? { positionSnapshot } : {}),
+    ...(marketPlan ? { marketPlan } : {}),
   };
 }

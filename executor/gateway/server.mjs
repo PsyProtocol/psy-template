@@ -53,6 +53,7 @@ export function createPublicGateway({
         "/v1/plan": "plan",
         "/v1/receipt": "receipt",
         "/v1/positions": "positionSnapshot",
+        "/v1/market-plan": "marketPlan",
       };
       if (
         req.method !== "POST" ||
