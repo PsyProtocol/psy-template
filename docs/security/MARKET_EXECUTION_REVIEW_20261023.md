@@ -1,5 +1,11 @@
 # 2026-10-23 review and continuation
 
+## 2026-10-26: complete cold/warm real-fill measurement closed
+
+[Matched workload, complete memory coverage and original evidence](../../executor/verification/2026-10-26-complete-cold-warm-pair-v1/README.md): 34 actual UPSs, two Book fills, four ordinary claims; full proofs, exact receipts, fees and finite asset/state/nonce continuity audited. Zero failures/retries. Same SDK/binaries/source, two threads and retain mode; no Node or old-contract changes.
+
+Fixed verifier builds fell from 23 to 10 (70.591 to 30.352 seconds), warm funding jobs averaged 57.025 to 53.143 seconds. The complete round was **slower** (1954.649 to 3925.458 seconds), and sampled full-tree RSS maximum was **higher** (9.159 to 12.641 GiB). Protocol cutoff wait grew 102.316 to 1294.638 seconds; proof preparation and confirmation are reported separately. Cold, warm and payout memory windows are now complete; sampled RSS sums are not physical footprint or true peaks. No general acceleration, memory saving, chain TPS or production-grade claim; other markets were not remeasured by this Book pair. Existing external security/runtime and cross-machine boundaries remain open. Earlier progress below is historical.
+
 Reviewed baseline: `7c90fb7`, branch `markets-batch-capacity-recovery-20261020`.
 Frozen SDK manifest SHA256: `0afb4c65116cddcaca450b406a06503d65b63d38a004d8e773c6e5fa363bd425`.
 No SDK migration, Node edit, old-contract update probe or evidence replacement.
