@@ -2194,3 +2194,32 @@ td small {
   min-height: 44px;
   flex: 1;
 }
+.field-summary {
+  border: 1px solid #b13a22;
+  border-left-width: 3px;
+  background: #fff8f6;
+  color: #7a2415;
+  padding: 14px 16px;
+  margin: 16px 0;
+  font-size: 13px;
+  line-height: 1.7;
+}
+.field-summary ul {
+  margin: 8px 0 0;
+  padding-left: 20px;
+}
+.field-summary button {
+  text-decoration: underline;
+  padding: 2px;
+  text-align: left;
+  font-weight: 700;
+}
+input[aria-invalid="true"],
+select[aria-invalid="true"] {
+  border: 1px solid #b13a22;
+}
+@media (max-width: 650px) {
+  .field-summary button {
+    min-height: 44px;
+  }
+}

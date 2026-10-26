@@ -1,3 +1,4 @@
+import { useFieldFeedback, FieldErrors } from "./FieldFeedback";
 import { EXAMPLE_LP_SHARES, rawShareFraction } from "./liquidityControls.mjs";
 import { useEditingForm } from "../hooks/useEditingForm";
 import { FormDraftNotice } from "./FormDraftNotice";
@@ -25,8 +26,10 @@ export function RemoveLiquidityPanel({
   const { form, setForm } = editing;
   const [error, setError] = useState(""),
     [preview, setPreview] = useState<Readonly<WithdrawalPreview> | null>(null);
+  const feedback = useFieldFeedback("remove", form);
   const update = (key: keyof WithdrawalForm, value: string) => {
     setError("");
+    feedback.clear(key);
     setForm({ ...form, [key]: value });
   };
   const quote = useMemo(() => {
@@ -44,6 +47,7 @@ export function RemoveLiquidityPanel({
           noValidate
           onSubmit={(e) => {
             e.preventDefault();
+            if (!feedback.check(e.currentTarget)) return;
             try {
               setPreview(previewWithdrawal(form));
             } catch (e) {
@@ -52,10 +56,12 @@ export function RemoveLiquidityPanel({
           }}
         >
           <h2>Remove liquidity</h2>
+          <FieldErrors feedback={feedback} />
           <FormDraftNotice
             {...editing}
             onReset={() => {
               editing.reset();
+              feedback.reset();
               setError("");
             }}
           />
@@ -104,6 +110,7 @@ export function RemoveLiquidityPanel({
             LP shares to burn · raw units
             <input
               aria-label="Raw LP shares to remove"
+              {...feedback.field("shares")}
               inputMode="numeric"
               value={form.shares}
               onChange={(e) => update("shares", e.target.value)}
@@ -118,6 +125,7 @@ export function RemoveLiquidityPanel({
               LP owner ID
               <input
                 aria-label="Withdrawal owner ID"
+                {...feedback.field("receiver")}
                 inputMode="numeric"
                 placeholder="Testnet user ID"
                 value={form.receiver}
@@ -128,6 +136,7 @@ export function RemoveLiquidityPanel({
               Max slippage
               <select
                 aria-label="Withdrawal max slippage"
+                {...feedback.field("slippageBps")}
                 value={form.slippageBps}
                 onChange={(e) => update("slippageBps", e.target.value)}
               >
@@ -141,6 +150,7 @@ export function RemoveLiquidityPanel({
             Fee cap · test PSY
             <input
               aria-label="Withdrawal fee cap"
+              {...feedback.field("feeCap")}
               inputMode="decimal"
               value={form.feeCap}
               onChange={(e) => update("feeCap", e.target.value)}

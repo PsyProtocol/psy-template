@@ -1,3 +1,4 @@
+import { useFieldFeedback, FieldErrors } from "./FieldFeedback";
 import { useEditingForm } from "../hooks/useEditingForm";
 import { FormDraftNotice } from "./FormDraftNotice";
 import { useEffect, useRef, useState } from "react";
@@ -88,11 +89,17 @@ export function NftMarketPanel({
   const setSort = (sort: string) => editing.setForm((p) => ({ ...p, sort }));
   const [error, setError] = useState("");
   const errorRef = useRef<HTMLParagraphElement>(null);
+  const settingsRef = useRef<HTMLElement>(null);
+  const feedback = useFieldFeedback(
+    mode === "browse" ? "nft-buy" : "nft-list",
+    { ...common, maxPrice, price, ownedId },
+  );
   useEffect(() => {
     if (error) errorRef.current?.focus();
   }, [error]);
   const update = (key: keyof CommonProductForm, value: string) => {
     setError("");
+    feedback.clear(key);
     setCommon({ ...common, [key]: value });
   };
   const listings = NFT_LISTINGS.filter((n) =>
@@ -115,6 +122,7 @@ export function NftMarketPanel({
         {...editing}
         onReset={() => {
           editing.reset();
+          feedback.reset();
           setError("");
         }}
       />
@@ -124,6 +132,7 @@ export function NftMarketPanel({
           className={mode === "browse" ? "selected" : ""}
           onClick={() => {
             setError("");
+            feedback.reset();
             setMode("browse");
           }}
         >
@@ -134,6 +143,7 @@ export function NftMarketPanel({
           className={mode === "list" ? "selected" : ""}
           onClick={() => {
             setError("");
+            feedback.reset();
             setMode("list");
           }}
         >
@@ -141,22 +151,25 @@ export function NftMarketPanel({
         </button>
       </div>
       <div className="nft-workspace">
-        <section className="swap-panel nft-settings">
+        <section className="swap-panel nft-settings" ref={settingsRef}>
           <h2>{mode === "browse" ? "Purchase settings" : "Listing draft"}</h2>
           <p className="section-note">
             QA Studies · local collection fixture. Ownership and escrow are
             unverified.
           </p>
-          <ProductFields form={common} onChange={update} />
+          <FieldErrors feedback={feedback} />
+          <ProductFields form={common} onChange={update} feedback={feedback} />
           {mode === "browse" ? (
             <label className="liquidity-pool">
               Maximum price per NFT · QA-B
               <input
                 aria-label="NFT maximum price"
+                {...feedback.field("maxPrice")}
                 inputMode="decimal"
                 value={maxPrice}
                 onChange={(e) => {
                   setError("");
+                  feedback.clear("maxPrice");
                   setMaxPrice(e.target.value);
                 }}
               />
@@ -166,6 +179,7 @@ export function NftMarketPanel({
               noValidate
               onSubmit={(e) => {
                 e.preventDefault();
+                if (!feedback.check(settingsRef.current)) return;
                 try {
                   onPreview(previewNftListing({ ...common, ownedId, price }));
                 } catch (e) {
@@ -177,9 +191,11 @@ export function NftMarketPanel({
                 Demo owned NFT
                 <select
                   aria-label="Demo owned NFT"
+                  {...feedback.field("ownedId")}
                   value={ownedId}
                   onChange={(e) => {
                     setError("");
+                    feedback.clear("ownedId");
                     setOwnedId(e.target.value);
                   }}
                 >
@@ -194,10 +210,12 @@ export function NftMarketPanel({
                 Listing price · QA-B
                 <input
                   aria-label="NFT listing price"
+                  {...feedback.field("price")}
                   inputMode="decimal"
                   value={price}
                   onChange={(e) => {
                     setError("");
+                    feedback.clear("price");
                     setPrice(e.target.value);
                   }}
                 />
@@ -278,6 +296,7 @@ export function NftMarketPanel({
                         aria-describedby={error ? "nft-form-error" : undefined}
                         aria-label={`Preview purchase of ${item.title}`}
                         onClick={() => {
+                          if (!feedback.check(settingsRef.current)) return;
                           try {
                             setError("");
                             onPreview(

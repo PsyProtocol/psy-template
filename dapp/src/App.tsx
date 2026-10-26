@@ -1,5 +1,4 @@
 import { useEditingForm } from "./hooks/useEditingForm";
-import { FormDraftNotice } from "./markets/FormDraftNotice";
 import { useEffect, useState } from "react";
 import { usePsy } from "./hooks/usePsy";
 import { WorkbenchShell, DemoNotice, type View } from "./markets/Shell";
@@ -309,12 +308,7 @@ export default function App() {
           <>
             <div className="trade-grid">
               <SwapPanel
-                editingNotice={
-                  <FormDraftNotice
-                    {...swapEditing}
-                    onReset={swapEditing.reset}
-                  />
-                }
+                editingStatus={swapEditing}
                 form={form}
                 setForm={setForm}
                 onPreview={setPreview}

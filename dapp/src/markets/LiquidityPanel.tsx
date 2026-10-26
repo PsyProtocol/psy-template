@@ -1,3 +1,4 @@
+import { useFieldFeedback, FieldErrors } from "./FieldFeedback";
 import { matchDemoDeposit } from "./liquidityControls.mjs";
 import { useEditingForm } from "../hooks/useEditingForm";
 import { FormDraftNotice } from "./FormDraftNotice";
@@ -32,8 +33,10 @@ function AddLiquidityPanel({
   const linked = linkEditing.form.linked === "on";
   const [error, setError] = useState(""),
     [preview, setPreview] = useState<Readonly<LiquidityPreview> | null>(null);
+  const feedback = useFieldFeedback("add", form);
   const update = (key: keyof LiquidityForm, value: string) => {
     setError("");
+    feedback.clear(key);
     const next = { ...form, [key]: value };
     if (linked && (key === "amountA" || key === "amountB")) {
       try {
@@ -65,6 +68,7 @@ function AddLiquidityPanel({
           noValidate
           onSubmit={(e) => {
             e.preventDefault();
+            if (!feedback.check(e.currentTarget)) return;
             try {
               setPreview(previewLiquidity(form));
               setError("");
@@ -74,11 +78,13 @@ function AddLiquidityPanel({
           }}
         >
           <h2>Add liquidity</h2>
+          <FieldErrors feedback={feedback} />
           <FormDraftNotice
             {...editing}
             issue={editing.issue || linkEditing.issue}
             onReset={() => {
               editing.reset();
+              feedback.reset();
               linkEditing.reset();
               setError("");
             }}
@@ -122,6 +128,7 @@ function AddLiquidityPanel({
               <div className="asset-input">
                 <input
                   id={"deposit-" + asset}
+                  {...feedback.field(asset === "A" ? "amountA" : "amountB")}
                   inputMode="decimal"
                   autoComplete="off"
                   value={form[asset === "A" ? "amountA" : "amountB"]}
@@ -131,7 +138,12 @@ function AddLiquidityPanel({
                       e.target.value,
                     )
                   }
-                  aria-describedby="liquidity-ratio"
+                  aria-describedby={[
+                    "liquidity-ratio",
+                    feedback.errorId(asset === "A" ? "amountA" : "amountB"),
+                  ]
+                    .filter(Boolean)
+                    .join(" ")}
                 />
                 <span className="asset-select">
                   <Coin asset={asset} small />
@@ -160,6 +172,7 @@ function AddLiquidityPanel({
               LP owner ID
               <input
                 id="lp-owner"
+                {...feedback.field("receiver")}
                 placeholder="Testnet user ID"
                 inputMode="numeric"
                 value={form.receiver}
@@ -170,6 +183,7 @@ function AddLiquidityPanel({
               Max slippage
               <select
                 aria-label="Liquidity max slippage"
+                {...feedback.field("slippageBps")}
                 value={form.slippageBps}
                 onChange={(e) => update("slippageBps", e.target.value)}
               >
@@ -183,6 +197,7 @@ function AddLiquidityPanel({
             Fee cap · test PSY
             <input
               aria-label="Liquidity fee cap"
+              {...feedback.field("feeCap")}
               inputMode="decimal"
               value={form.feeCap}
               onChange={(e) => update("feeCap", e.target.value)}
