@@ -1,37 +1,63 @@
-# 双池路线的实际等待依赖
+# Actual wait dependencies of the two-pool route
 
-对应 `adapter.mjs` / `service.mjs` / `acceptance/executeRouteWorker.mjs`。单一 UPS 只写一个执行账户拥有的状态；跨金库和跨 realm 是多个独立确认的阶段，没有全局原子回滚。图中的确认必须包括精确历史回执及共同 checkpoint 可见，ACK 本身不够。
+Applies to `adapter.mjs`, `service.mjs` and `acceptance/executeRouteWorker.mjs`.
+A UPS writes state owned by one executing account. Multiple vaults/realms require
+separately confirmed stages, without global atomic rollback. Confirmation below
+requires the exact historical receipt and visibility at a common checkpoint;
+an ACK alone is insufficient.
 
 ```mermaid
 flowchart TD
-  P[核验依赖、网络、合约和 key] --> W[可选固定证明资源预热]
-  P --> U[普通用户签署精确输入和费用预算]
-  U --> UC[入金 UPS 确认，用户 Outbox]
-  UC --> F[控制器领取并核对输入 UPS]
+  P[Verify dependencies, network, contracts and key] --> W[Optional fixed-resource warmup]
+  P --> U[Ordinary user signs exact input and fee budget]
+  U --> UC[Funding UPS confirmed: user Outbox]
+  UC --> F[Controller claims and verifies input UPS]
   W --> F
-  F --> O1[第一池下单及转入 UPS 确认]
-  O1 --> G1[独立 Sponsor 费用授权确认]
-  G1 --> Q1[固定第一池集合和截止点，start 确认]
-  Q1 --> A1[控制器 consent 确认，再 admit 确认]
-  A1 --> C1[等待原截止点，seal 确认]
-  C1 --> S1[commit 和 settle 分别确认]
-  S1 --> X1[输出仅在金库 Outbox]
-  X1 --> CL1[控制器领取中间资产 UPS 确认]
-  CL1 --> O2[核对实际余额，再向第二池下单]
-  O2 --> G2[第二池 Sponsor 授权、固定集合]
-  G2 --> A2[consent、admit 及原截止点]
-  A2 --> S2[seal、commit、settle 分别确认]
-  S2 --> CL2[控制器领取最终资产 UPS 确认]
-  CL2 --> R[控制器返还资产和未用费用，确认]
-  R --> RC[普通用户领取 UPS 确认，核对最终到账]
+  F --> O1[First-pool order and funding UPS confirmed]
+  O1 --> G1[Separate Sponsor fee grant confirmed]
+  G1 --> Q1[Fix first-pool members and cutoff: start confirmed]
+  Q1 --> A1[Controller consent confirmed, then admit confirmed]
+  A1 --> C1[Wait original cutoff: seal confirmed]
+  C1 --> S1[Commit and settle separately confirmed]
+  S1 --> X1[Output exists only in vault Outbox]
+  X1 --> CL1[Controller intermediate-asset claim UPS confirmed]
+  CL1 --> O2[Verify actual balance, then order in second pool]
+  O2 --> G2[Second-pool Sponsor grant and fixed set]
+  G2 --> A2[Consent, admit and original cutoff]
+  A2 --> S2[Seal, commit and settle separately confirmed]
+  S2 --> CL2[Controller final-asset claim UPS confirmed]
+  CL2 --> R[Controller returns assets and unused fees: confirmed]
+  R --> RC[Ordinary user claim UPS confirmed: verify final receipt]
 ```
 
-同一 Sponsor 的后续 grant 必须等前份精确授权被消费/对账，账户 nonce 串行；共享金库每次依赖其上一笔结束根。controller 的每一步同样按自身 nonce/根串行。第二池输入依赖第一池实际成交和控制器已确认领取，不能把报价或待领取 Outbox 当余额。
+A Sponsor must consume/reconcile its exact preceding grant before another grant;
+its nonce is serial. Each shared vault depends on its previous final root. Each
+controller step also serializes its own nonce/root. The second pool requires the
+actual first fill and a confirmed controller claim: neither quotes nor pending
+Outbox outputs are spendable balances.
 
-可以提前的工作是无状态电路资源、身份绑定和独立只读准备。预热只在明确选择后执行，前后保留全部校验；未来实际并行验收须同时计入预热资源的耗时和内存。前一份广播不明时先对账，不借预热启动另一金融操作。任何在途普通钱包付款都必须独立完成或原样对账，不能因并行的预热失败就当作付款失败。
+Stateless circuit resources, identity binding and independent reads may prepare
+early. Warmup is explicit opt-in and preserves all checks before/after; future
+parallel acceptance must include its full time/memory. Reconcile unknown broadcasts
+before new financial work. An ordinary-wallet payment already in flight must
+complete or reconcile independently; failed parallel warmup does not undo payment.
 
-集合只在冻结前选择；当前容量仍为已验证的四成员上限。等待与预算估计是建议，不授权改变已接受集合或 cutoff。任何缩短选窗都必须验证可用时间并保留失败退出，不把一次满足窗口当作尾延迟保证。
+Choose members before freezing, within the verified four-member capacity.
+Wait/budget estimates do not authorize changing accepted sets or cutoffs. A shorter
+window needs available-time checks and failure exits; one successful window is
+not a tail-latency guarantee.
 
-取消/超时在第一跳成交前退出时返还实际输入；第一跳成交、第二跳未成交时返还实际中间资产及剩余 escrow，不逆转原成交价格。已接纳订单必须先经过市场终态和 sender-bound 恢复，再领取返还资产。原付款人可请求取消/恢复，任何拥有证明资源者可按专用策略推进；控制器花费用户预授权预算，市场 Executor 花费显式 Sponsor 授权，普通领取由普通用户付费。
+Cancellation/expiry before hop one returns actual input. After hop one fills but
+hop two does not, return actual intermediate assets and remaining escrow, without
+reversing the original price. Admitted orders must reach a lawful market terminal
+state and sender-bound recovery before refund claims. The original payer may
+request recovery; anyone with proving resources can advance the dedicated policy.
+The controller spends user-authorized budget, market Executor spends explicit
+Sponsor grants, and ordinary users pay for their claims.
 
-预算不足会停止，不暗中充值。当前 one-shot 控制器没有任意 top-up 通道；已不足以生成合法恢复 UPS 的情形不能声称存在可执行无条件退出，必须在持续验收的启动预算和停止条件中单列。新策略若需追加预算，须另行绑定付款人/上限/用途并验证，不能放松旧策略。
+Insufficient budget stops execution, without hidden top-ups. The current one-shot
+controller has no arbitrary top-up channel. An unconditional executable exit
+cannot be claimed when remaining funds cannot pay for a legal recovery UPS.
+Record that condition in sustained-run budgets and stop rules. Any new budget
+policy must separately bind payer, cap and purpose and pass validation; do not
+weaken the old policy.

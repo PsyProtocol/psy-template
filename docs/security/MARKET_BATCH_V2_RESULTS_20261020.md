@@ -1,200 +1,132 @@
-# 四市场确定性批处理：实现与验证（2026-10-20）
+# Deterministic four-market batches: implementation and verification
 
-本文记录最初 2 单 AMM / Curve 候选的冻结结果；后续 4 单容量、完整超时恢复
-和五项未完成条件见 [后续验证](MARKET_BATCH_FOLLOWUP_20261020.md)。原始测量不覆盖。
+Historical 2026-10-20 initial two-order AMM/Curve candidate; later four-order/
+recovery work is [separate](MARKET_BATCH_FOLLOWUP_20261020.md). Branch
+`markets-deterministic-batches-20261020`, independent batch-v2 contracts/key/
+compiler bridge/Executor. Shared vaults retained, randomness off. No Node edit,
+registration, deployment, legacy update or network transaction.
 
-分支：`markets-deterministic-batches-20261020`。范围为 psy-template 的独立
-`batch-v2` 市场、SD-key、应用编译桥和 Executor。共享金库保留；随机排序关闭。
-本次没有修改 Node，也没有注册、部署、更新旧合约或提交网络交易。
+## Implemented rules
 
-## 实现范围
-
-| 市场 | 合约验证的规则 | 当前上限 |
+| Market | Verified semantics | Initial cap |
 | --- | --- | --- |
-| AMM | 集合内 checkpoint / 用户 ID 确定顺序；逐笔用新储备计算整数报价；LP 与 swap 共用顺序；滑点及退款条件验证 | 2 成员 |
-| Bonding Curve | 顺序更新 sold / 储备；精确报价与限价模式分开；限价买单退差额；库存、退款、毕业约束 | 2 成员 |
-| Orderbook | 248-bit 整数交叉乘法验证价格，再按 checkpoint / 用户 ID；最早兼容整单配对；无对手可 carry 且不扣用户费 | 4 成员，最多 2 对 |
-| NFT Market | 挂牌 nonce / NFT 身份 / FIFO 资金绑定；同一挂牌唯一买家；落选买家原路退款 | 4 成员，最多 2 笔销售 |
+| AMM | Checkpoint/user order, updated reserves, exact integer quote, common LP/swap order, checked slippage/refund | 2 members |
+| Curve | Sequential sold/reserves, distinct exact/limit modes, buy surplus refund, inventory/graduation | 2 members |
+| Book | 248-bit cross-product prices, checkpoint/user ties, earliest compatible whole pair, fee-free carry | 4 members/2 pairs |
+| NFT | Listing nonce, identity/FIFO/funding, one winner and original-payer loser refunds | 4 members/2 sales |
 
-每个 UPS 精确 40 调用，含自动 burn；74-Felt witness。一个承诺 UPS 冻结集合，
-一个结算 UPS 处理其结果。两者不具备跨 UPS 原子性。集合根为电路里的 Poseidon
-承诺；文件 SHA-256 仅作发行完整性校验，不代替订单认证。
+Exact 40 calls including burn, 74-Felt witness. Commit freezes a Poseidon set;
+settle processes it in another UPS. No cross-UPS atomicity; SHA 256 is file integrity
+only. Entries: `batching/v2/{generate,controller,guards,funding,policy,reader,planner,
+recovery,client}.mjs`; Rust batch_policy.rs, batch_compile.rs, wallet_driver.rs.
+Build/config/activation/sponsorship: [profile](../../batching/v2/README.md).
 
-代码入口：`batching/v2/generate.mjs`、`controller.mjs`、`guards.mjs`、`funding.mjs`、
-`policy.mjs`、`reader.mjs`、`planner.mjs`、`recovery.mjs`、`client.mjs`；Rust 的
-`amm/u124/vm-tests/src/batch_policy.rs`、`batch_compile.rs` 和 `wallet_driver.rs`。
-构建、配置、初始化、赞助和复现命令见 `batching/v2/README.md`。
+## Security, concurrency and asset semantics
 
-## 安全与并发验证
+31 JS tests cover regenerated ABI/policies/templates, wrong padding, sequential
+quotes, frozen restart, lost-receipt blocking, exact prepared request reuse, pair/
+NFT discovery, stale listing, backpressure/funding drift and expiry. Nineteen actual
+VM groups use market/FT/NFT/native bytecode: omission/order/replay/root/duplicate/
+nonce/expiry/slippage/price/surplus/unique-sale/cancel/refund/partial/excess/wrong-asset/
+FIFO/remainder/sponsor/recovery constraints. Four 40-slot keys prove 58 positive
+stacks and reject each method/order/caller/hash/length/count/session/unused-field/
+burn mutation. These authorize calls, not asset CFCs.
 
-- **31 项 JS 测试通过**：策略与实际 ABI 再生一致；全部调用模板绑定；错误调用 /
-  padding 拒绝；逐步报价；冻结集合重启恢复；丢失回执阻塞；证明后崩溃复用请求；
-  Book 发现配对；NFT 分组、旧挂牌引用、队列背压、资金漂移和超时恢复。
-- **19 组真实 VM 测试通过**：使用实际市场、FT、NFT、native 字节码。包括换序 /
-  漏成员 / 重放、集合根篡改、重复成员与错误 nonce、承诺期限上界、滑点/价格优先、
-  Curve 差额、NFT 唯一成交、取消截止点、原路退款、部分/超额/错误资产、NFT FIFO
-  实际身份、剩余 NFT 恢复、赞助用途隔离、活跃订单不能绕过批次走恢复入口。
-- **40 槽 SD-key 电路证明通过**：四个 key 共 58 个正向模板栈；每个市场都执行
-  换调用、换序、换 caller、篡改哈希/长度、额外调用、错误会话签名上下文、未使用
-  字段和烧费超额的拒绝测试。这些测试认证调用授权，不把它们冒充资产 CFC 证明。
-- **驱动绑定测试通过**：发 RPC 前检查 39 显式调用和 74 个字段，允许规范的待计算
-  burn 占位，拒绝每个位置的调用替换。实际 burn 后绑定精确第 40 调用。
-- **126 项既有模块 JS 回归通过**。四个旧市场源码用原 profile 重编译后产物逐字节一致；
-  结果见证据里的 `legacy-artifacts.json`。没有用“测试通过”推断旧链状态已迁移。
-- 首、中、尾调用的故障注入都丢弃本地候选 overlay；两个独立金库的分区提交互不覆盖；8 个 worker 同一金库与用户
-  撤单并发，每个市场只接受一个本地 compare-and-commit 结果，并保留另一用户分区
-  的并发写入。这是**本地竞争/提交模型**，不是 coordinator 接纳回归。
-- 完整 UPS 验证另外检查 CFC、递归、SD-key、end-cap、公开起止根 / nonce / 费用 /
-  调用数元数据、导出的 Merkle 状态增量，以及 VM 和证明写入一致。commit 的已证明
-  终态根作为 settle 的起态根；篡改公开元数据的负例必须拒绝。
+Driver checks 39 explicit calls/74 fields before RPC, accepts only canonical
+computed-burn placeholders, then binds call 40. Existing 126 JS regressions pass;
+recompiled legacy-profile artifacts remain byte-identical (`legacy-artifacts.json`),
+without implying chain migration. First/middle/tail failures discard overlays;
+independent vault writes do not clobber each other. Eight same-vault workers plus
+user cancellation yield one local compare-and-commit winner while preserving
+another user's writes. **Local model, not coordinator acceptance.**
 
-完整 UPS 和性能结果在本页末尾的冻结证据完成后汇总；不能用上述 VM / key 测试
-替代它们，也不能用合成 checkpoint 的 end-cap 验证代替真实网络接纳。
+Full UPS separately checks CFC/recursion/key/end-cap, public roots/nonce/fees/count,
+exported Merkle delta and VM/proof-write equality; commit end links settle start.
+Metadata mutations reject. Synthetic checkpoints are not network admission.
 
-## 资金、取消及恢复语义
+Purpose-1 sponsorship prepays 2F (F=1,000,100,000 native units); purpose 2 funds
+maintenance. Pool/amount/increasing nonce bind consent, not transfer alone.
+Cancelled/expired/invalid-funded/NFT losers refund actual input and prepaid fees to
+sender. Valid AMM/Curve quote failures retain processing fees; carry claims neither
+principal nor fees. Arbitrary recipient parameters cannot drain reserves.
 
-显式赞助用途 1 预付 2F 供两阶段 burn，F=1,000,100,000 native 最小单位；用途 2
-只补维护 gas。授权绑定池、金额、递增 nonce；单独收到转账不代表同意付执行费。
-取消、过期、无效资金和落选 NFT 买家走统一退款，资金及原生订单费退原发送者。
-仍存活但不满足已验证报价条件的 AMM / Curve 报价退款沿用处理费。Book carry 不
-领取资产或订单费。共享池储备不能按任意传入的收款人参数转出。
+Sender recovery requires a terminal order. Extra NFTs return by actual FIFO ID,
+not claimed listing identity. Every FT account needs materialized state; volunteer
+one-atom funding plus ordinary claim may initialize it. A zero RPC leaf is not a
+proven empty tree. NFT buyers ACK vault; vault activates; FT seeds return to payer.
+Post-commit funding drift/capacity waits for claims or expiry/refreeze. Expiry claims
+no principal; default 256 checkpoints, cap 1024. Deadline is admission eligibility:
+orders committed by cutoff remain bound until batch expiry, not an absolute
+wall-clock inclusion deadline or retroactive invalidation of old proofs.
 
-用户先在自己的分区请求 recovery，活跃订单必须先有批次终局。未使用的超额 NFT
-按真实 FIFO 身份退回，不能用挂牌声称的身份替换实际资产。所有读取的 FT 账户须先有非空资产子树；首次用户可由自愿资助者转 1 最小单位，
-再用普通钱包 claim。扫描器提前报告缺失账户，不能把 RPC 的零值当作已认证空树。
-NFT 买方必须先 ACK
-金库；新金库必须 activation 初始化必要子树。FT seed 返回原付款者。
+## Scope and trust boundaries
 
-commit 后新增资金会导致 frozen-funding-drift，等待 expiry 并重新冻结。队列满则
-等待领取或 expire。Expire 不领取订单资产，不把旧快照强行应用于新游标。默认期限
-256 checkpoint，上界 1024；必须为冷启动、双阶段、preflight 和提交重证预留时间。
-期限是被证明上下文里的检查，无法承诺用户发撤单后所有历史证明立即失效。
-V2 的订单 `deadline` 是进批资格截止：在 cutoff 前被承诺的订单，即使之后到达
-deadline，仍受该批次约束，直到 batch expiry。它不是沿用旧单次结算的执行时
-deadline 语义；客户端必须明确展示这个接受窗口，不能承诺墙钟上的绝对入块截止。
+The dependency baseline `5b7f4e1e11adf4607a958bc39e863a2a80b5a7a6` already included
+uncommitted session-binding patches. Tracked-diff/key-source hashes match preflight
+(`node-unchanged.json`); none are copied into Node by this work. A clean commit
+alone does not reproduce APIs/security. Reviewed SDK release remains required.
+Discovery is not global completeness; random seed/commit-before-seed is unavailable.
+Public orders/Outbox, not private orders/notes; one active order per user/market.
+Same-pool transitions remain sequential despite recursive aggregation. All local
+funds/users/checkpoints are synthetic; no faucet, PSY/pUSDT transfer, registration,
+40-slot network admission, RPC/claim/confirmation throughput measured here.
 
-## 依赖与适用边界
+Use fresh contracts/keys/vaults and reviewed migration, not widened old identities.
+Upgrade authority/root authentication remain open. Users must verify actual public
+registration/fingerprint, not trust an arbitrary pool parameter or encoding helper.
+Small batches, whole-order Book, no automatic Curve→AMM bootstrap. Online submit
+reproves, so offline preflight understates full pipeline cost. Not production-ready.
 
-1. **依赖快照不是干净 Node commit。** 本次使用已有工作区的 SDK / 电路源，HEAD
-   `5b7f4e1e11adf4607a958bc39e863a2a80b5a7a6`，其开始时已有 SD-key 会话绑定等
-   未提交改动。关键源码和整体 tracked diff 的 SHA-256 与预检完全相同，见
-   `node-unchanged.json`。没有在本分支复制或提交这些 Node 改动。复现及发布需要匹配
-   并审核这套 SDK 依赖，不能声称干净该 commit 已提供相同接口/安全性。
-2. 用户发现列表不是完整、可认证的全市场挂单索引。因此排序和完整处理仅覆盖
-   承诺集合；仍需独立设计全局遗漏证明/挑战，才能宣称全局 FIFO 或抗审查。
-3. 没有可用的完整、不可偏置 seed 接口与 commit-before-seed 协议。随机排序关闭，
-   不使用 Executor 自选随机数，也不声称消除了 MEV。本版读取公开订单和公开 FT
-   outbox，未实现私密订单或 private-note 入金。每用户每市场分区最多一个活跃订单。
-4. 同池状态递推有串行依赖。独立用户提交、读取及独立池准备可以并发；递归聚合
-   并不让同一共享储备的交易完全并行。
-5. 离线测试的用户和余额均为合成输入。没有 faucet，没有真实 PSY/pUSDT 流转。
-   未测注册后 40 槽 key 的网络接纳、实际 RPC 数据成本、确认/领取延迟及确认 TPS。
-6. 旧金库不可原地假定获得新权限；需要新的合约/key/共享金库及可审阅迁移方案。
-   既有合约升级授权审计缺口仍保留，应用代码根/布局绑定不能弥补底层授权缺口。
-7. 用户转入前需核验配置金库的注册公钥及 SD-key 指纹。普通调用辅助方法只生成
-   请求，不把任意 `pool` 账户认证为公开批次金库；Executor 已做身份绑定，不能替代
-   用户选择可信金库。
-8. 首版仍为有界小批次、Book 整单交易、无自动 Curve→AMM bootstrap；Executor
-   提交路径会重新证明，端到端线上成本高于本地单次 preflight 测量。
+## Preserved failures
 
-这些边界意味着本分支可作为审阅及隔离验证候选，不能仅凭本次测试标为已完成
-高吞吐生产认证。网络测试、SDK 发行和既有授权缺口应分别验收。
+Initial activation end-cap failed (`activation-v20-amm.log`): fixture incorrectly
+prewrote an empty new user's ordinary leaf. Actual first UPS needs empty user
+leaf, registration public-key commitment/start proof and ZERO state transition.
+Corrected fixture uses registration tree/is_new_user and revalidates metadata/
+Merkle delta; no weakened gate or Node change. Resource interruptions remain.
 
+## Offline measurements
 
-## 保留的失败与修正
+M1 Max/10 logical cores/32 GiB/macOS 15.7.3, Rust nightly-2025-09-20 release,
+Node.js 18.16.0. Full end-cap serialization is 130,328 bytes. All assets/users synthetic. VM benchmark: 12 rounds per size,
+commit plus settle with write tracking. Proof cost and VM are separate.
 
-新金库 activation 的首轮测试在 end-cap 公开端点绑定处失败，原日志保留为
-`activation-v20-amm.log`。原因是夹具给完全空状态的新用户提前写入了普通用户树
-leaf，但协议首次 UPS 的注册路径要求用户树空 leaf、registration-tree 的公钥承诺、
-register-user start proof，以及从 ZERO 起点更新。这不是可忽略的“证明通过”。
-修正后的夹具使用真实登记树、`is_new_user` 和注册 start proof；必须重新通过
-end-cap 元数据及状态增量校验后才记录 activation 成功。没有放松绑定检查或改 Node。
-
-
-## 测量口径
-
-机器为 Apple M1 Max，10 逻辑核、32 GiB RAM，macOS 15.7.3；release 构建，
-Rust nightly-2025-09-20。Node.js v18.16.0。所有币额和用户均为显式合成测试输入。
-VM 基准每市场、每批量 12 轮，计入 commit 和 settle，各 UPS 都执行完整 40 调用。
-P50 采用偶数样本中间两项均值，P95 采用 nearest-rank；保存所有样本。两阶段
-VM 吞吐公式为 `fills × 1000 / (commitP50Ms + settleP50Ms)`。Book 的 fill 指一对
-整单撮合，NFT 指一笔销售；成员数另列，不能把两方各计一次成交。
-
-完整 UPS 的双笔结果每市场各一个 linked commit+settle 样本。时长包含状态准备、
-CFC、递归、签名、burn/end-cap、校验和导出状态增量校验，冷电路构建另列。完整
-证明的暖态观察吞吐为 `2 × 1000 / (commitMs + settleMs)`，不是 P50 / P95，也不含
-链上确认、用户下单/入金/领取 UPS 或网络。部分验证任务曾并行，不能据此比较
-不同市场的硬件极限或宣称相比旧单单 UPS 的加速比例。
-
-初始测试夹具保留所有未调用 CFC，造成较高内存压力；后续只缓存计划调用的 CFC，
-但仍生成全部函数的真实白名单指纹并验证其 Merkle 路径，不省略实际调用证明。
-发现系统换页后主动终止了两项并行测试；记录在 `resource-aborts.json`，其结果不
-计入成功或性能样本。随后采用串行任务。不会把后台资源竞争中的数字包装为隔离
-性能上限。真实确认 TPS、RPC bytes 和确认 P95 均未测，保持 null。
-
-
-## 已验证的双笔 UPS 结果
-
-四市场共 8 个完整证明通过，全部 `fullUpsVerified/publicEndpointsBound/exportedDeltasVerified=true`。
-
-| 市场 | 成交 / 成员 | 冷构建秒 | 承诺秒 | 结算秒 | 含承诺的暖态证明成交/秒 |
+| Market | Fills/members | Cold s | Commit s | Settle s | Warm proof fills/s including commit |
 | --- | --- | --- | --- | --- | --- |
 | amm | 2 / 2 | 56.19 | 108.01 | 209.63 | 0.00630 |
 | orderbook | 2 / 4 | 52.68 | 139.79 | 118.18 | 0.00775 |
 | bondingcurve | 2 / 2 | 52.24 | 104.69 | 103.09 | 0.00963 |
 | nftmarket | 2 / 4 | 69.10 | 211.59 | 150.68 | 0.00552 |
 
-每份 end-cap 证明序列化为 130,328 bytes。每个 UPS 的实际 burn 和 slots_modified
-在 `full-ups-size2-summary.json` 中分别列出，未把 padding 调用算成额外成交。这是
-验证负载下的一次观察，不是隔离性能上限或链上确认 TPS。
-
-### VM 基准（每格 12 轮，单独执行）
-
-| 市场 | 单笔两阶段 VM 成交/秒 | 双笔两阶段 VM 成交/秒 | 双笔 settle P50 / P95 毫秒 |
+| Market | One-fill two-stage VM fills/s | Two-fill VM fills/s | Two-fill settle P50/P95 ms |
 | --- | --- | --- | --- |
 | amm | 177.79 | 266.73 | 4.963 / 6.118 |
 | orderbook | 145.22 | 219.31 | 6.827 / 9.536 |
 | bondingcurve | 191.39 | 284.80 | 4.390 / 5.284 |
 | nftmarket | 282.45 | 438.01 | 2.634 / 3.344 |
 
-VM 数字只反映内存里的实际字节码执行，完全不包含证明、RPC 或确认。完整证明的
-成本远高于 VM 执行；当前主要性能瓶颈在证明流程，不能用此表声称同池达到数百
-链上 TPS。原上中位数摘要保留在 superseded 文件，最终表按原始样本的中位数生成。
+VM excludes proof/RPC/confirmation; it is not hundreds of chain TPS. Earlier
+upper-median summaries are superseded, with original samples retained.
 
+All four new-vault activations pass complete 40-call UPS with actual registration
+tree/start proof/ZERO transition/delta (`activation-summary.json`). Four dispersed
+NFT/FT/native refunds for users 1000001/8388607/12345679/16777214 touch 71 distinct
+four-Felt leaves, below 100; asset/fee recovery verifies. That case has no separate
+end-cap and is not counted as full UPS. Initial nonconsecutive mint IDs rejected;
+corrected fixture uses 4..7 after bootstrap; both logs remain, NFT unchanged.
 
-### 首次注册与 activation
+Eight one-fill controls, eight two-fill UPS and four activations total **20 complete
+UPS**, each endpoint/delta verified:
 
-四个市场的新金库均通过完整 40 调用 UPS，包括真实 registration-tree 公钥绑定、
-register-user start proof、ZERO 起点和导出 Merkle 增量；结果在 `activation-summary.json`。
-原失败夹具日志与资源中断记录保留，未混入通过样本。
-
-
-### 分散地址与费用预算
-
-另以用户 1000001、8388607、12345679、16777214 执行同批四个 NFT+FT+原生费
-退款，真实 VM 写入去重后触及 71 个四-Felt 存储叶子，小于 100 叶子的 burn 预算，
-并校验各用户的原资产、NFT 和预付费恢复。该例没有单独生成 end-cap，不能把它
-并入完整 UPS 计数。首轮因测试夹具的 NFT mint ID 跳号被拒绝，改为 bootstrap 后
-连续的 4..7；失败及通过日志均保留，没有修改 NFT 合约。
-
-
-## 最终单笔对照与验证总数
-
-四市场单笔对照再生成并验证 8 个完整 UPS。加上双笔 8 个和首次注册/activation
-4 个，本轮共 **20 个完整 UPS 通过**，均有公开端点绑定和导出状态增量校验。
-
-| 市场 | 承诺秒 | 结算秒 | 含承诺的单笔证明成交/秒 |
+| Market | Commit s | Settle s | One-fill proof fills/s including commit |
 | --- | --- | --- | --- |
 | amm | 113.36 | 104.69 | 0.00459 |
 | orderbook | 114.29 | 120.38 | 0.00426 |
 | bondingcurve | 104.63 | 103.96 | 0.00479 |
 | nftmarket | 107.15 | 104.35 | 0.00473 |
 
-单笔对照使用单个证明 worker 和按需缓存；双笔记录为较早的验证负载下、缓存全部
-CFC 的样本。两者不是隔离的同条件加速比试验；原始记录及运行二进制映射均保留。
-单笔是 **V2 的单笔批次（40 槽）**，不是旧版 9/10 槽单单 UPS 的性能基线。未
-完成旧版与 V2 的受控性能对比，也未测网络确认 TPS，不能据此宣称吞吐提升倍数。
-最后的 VM 表使用写入追踪后重新运行的 12 轮样本，先前两版摘要另存作历史记录。
-
-全部证据位于 `batching/evidence/20261020/implementation-v2/`；`CHECKSUMS.json`
-覆盖其中的发行证据文件，`source-inputs.json` 记录改动源码哈希。
+One-fill used one worker/on-demand cache; earlier two-fill retained all CFCs under
+different load. Not a controlled speedup. Both are v2 40-slot batches, not old
+9/10-slot operations. No old/new controlled comparison or network TPS. Final VM
+numbers reran 12 write-tracked rounds; two earlier summaries remain historical.
+Evidence: `batching/evidence/20261020/implementation-v2/`, CHECKSUMS and source-inputs.

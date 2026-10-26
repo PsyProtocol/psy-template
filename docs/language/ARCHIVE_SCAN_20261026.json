@@ -1,0 +1,19 @@
+{
+  "schema": 1,
+  "scope": "All tracked gzip containers, including historical source snapshots and raw logs; byte-identical payloads decoded once",
+  "stats": {
+    "files": 66254,
+    "compressedBytes": 823588885,
+    "uncompressedBytes": 10317937878,
+    "binaryFiles": 0,
+    "filesWithHan": 1554
+  },
+  "uniquePayloads": 37398,
+  "groupsWithHan": {
+    "batching": 2,
+    "executor": 1552
+  },
+  "failures": [],
+  "wallSeconds": 44.34038150002016,
+  "mutations": 0
+}

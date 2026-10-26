@@ -1,10 +1,10 @@
-> 2026-10-25 新一轮完整内存／冷启动／真实配对结果见 [PROVER_MEMORY_REVIEW_20261025.md](PROVER_MEMORY_REVIEW_20261025.md)，包含更慢的暖态／整轮指标，不作全面提速结论。
+> The 2026-10-25 [memory/cold-start/live-pair results](PROVER_MEMORY_REVIEW_20261025.md) include slower warm jobs and whole rounds; they do not establish overall acceleration.
 
 # Full proof and stage costs — 2026-10-24
 
-> 后续更新（2026-10-25，RPC／普通钱包）：同一 QA Book 的前后两轮各一笔真实成交及领取已关闭，34 个实际 UPS／34 个完整证明和资金链独立验证通过。暖态费用准备和领取客户端阶段下降，完整承诺＋结算证明约 260 s 基本未变；确认波动、较长 cutoff 等待、内存代价及缺失样本均保留。见 [配对性能与完整证据](RPC_ORDINARY_PERFORMANCE_REVIEW_20261025.md)。不据此宣称整轮提速或链 TPS。
+> RPC/ordinary-wallet update, 2026-10-25: two rounds on the same QA Book each completed an actual fill and claims; 34 actual UPS/full proofs and asset chains independently verify. Warm fee/claim client stages improved; commit+settle preparation stayed near 260 s. Confirmation variance, longer cutoff waits, memory costs and missing samples remain. See [pair/evidence](RPC_ORDINARY_PERFORMANCE_REVIEW_20261025.md). No whole-round or chain-TPS acceleration is claimed.
 
-> 最终更新（2026-10-25）：三个市场各一笔真实成交及普通签名钱包领取均已确认；48 笔实际 UPS、51 份不同完整证明完成独立审计。NFT 真实进程重启复用了原 UPS，并通过未过期已消费证明的原生拒绝测试。完整费用、冷/暖态、确认与内存口径、失败样本和未关闭项见 [最终性能与证据报告](THREE_MARKET_LIVE_PERFORMANCE_20261025.md)。以下保留各阶段历史状态；不以早期“pending”段落替代最终关闭索引，也不据此宣称生产级或链 TPS 提升。
+> Final update, 2026-10-25: all three markets confirmed one actual fill and ordinary signed-wallet claims; 48 actual UPS and 51 distinct full proofs independently audited. NFT restart reused the original UPS; native rejection of an unexpired consumed proof passed. [Final report](THREE_MARKET_LIVE_PERFORMANCE_20261025.md) records fees, cold/warm timing, confirmation/memory methodology, failures and open work. Earlier pending entries are chronological, not the final closure index. No production or chain-TPS improvement follows.
 
 
 ## Scope and current acceptance status

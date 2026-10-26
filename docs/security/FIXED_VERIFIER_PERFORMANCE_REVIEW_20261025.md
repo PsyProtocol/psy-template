@@ -1,234 +1,301 @@
-# 固定验证资源复用与暖态回退调查（2026-10-25）
+# Fixed-verifier reuse and warm-job regression investigation
 
-沿用 `markets-batch-capacity-recovery-20261020` 与已选 session-bound SDK；不修改 Node、SDK、市场定价或旧合约代码/布局。原始构建、请求和回执不覆盖。
+2026-10-25/26, same branch and selected session-bound SDK. No Node/SDK/market-
+semantic/legacy-code/layout change; original builds, requests and receipts remain.
+This English editorial revision puts the final result first and retains the
+historical recovery chronology below. The complete earlier wording remains in Git
+at the pre-language-review commit; raw evidence is unchanged.
 
-## 2026-10-26 已完成：同条件两轮真实成交与完整内存对照
+## Final 2026-10-26 pair: actual fills and full lifecycle memory
 
-[完整报告与 2682 份原始证据](../../executor/verification/2026-10-26-complete-cold-warm-pair-v1/README.md)已关闭：**34 个实际 UPS、2 笔 Book 成交、4 笔普通钱包领取，失败/重试均为 0**。相同源闭包、v4 二进制、冻结 SDK、机器、两线程、retain、预热与截止规则，仅比较固定验证器 fresh/cached。全部完整证明、回执、费用、有限资产守恒及跨轮状态/nonce 连续性通过；Node 与 SDK 未改。
+[Closed report/2682 originals](../../executor/verification/2026-10-26-complete-cold-warm-pair-v1/README.md):
+**34 actual UPS, two Book fills, four ordinary claims, zero failures/retries**.
+Same source closure/v4 binaries/frozen SDK/machine/two threads/retain/warmup/cutoff;
+only fixed verifier fresh/cached differs. Every full proof/receipt/fee/finite asset
+and cross-round nonce/root chain verifies. Node/SDK unchanged.
 
-| 实测口径 | fresh | cached |
+| Metric | fresh | cached |
 | --- | ---: | ---: |
-| 完整父进程（含 bootstrap、领取和清理） | 1954.649 秒 | 3925.458 秒 |
-| 三个普通冷构建，逐个范围 | 43.046–43.644 秒 | 41.285–41.757 秒 |
-| 四项暖态费用作业均值 | 57.025 秒 | 53.143 秒 |
-| 固定验证资源构建次数/合计 | 23 / 70.591 秒 | 10 / 30.352 秒（13 命中） |
-| 承诺+结算完整准备 | 259.600 秒 | 279.600 秒 |
-| 协议 cutoff 等待 | 102.316 秒 | 1294.638 秒 |
-| 完整进程树采样 RSS 最大值 | 9.159 GiB | 12.641 GiB |
-| 冷构建窗口进程树 RSS 最大值 | 9.144 GiB | 12.111 GiB |
-| 暖态费用窗口进程树 RSS 最大值 | 3.690 GiB | 3.290 GiB |
-| 实际网络费用（测试 PSY） | 17.000117 | 17.000115 |
-
-验证资源重复开销确实减少，完整证明每次仍验证；但整轮更慢、冷构建与整体采样 RSS 更高，**没有整体加速/省内存、链上 TPS 或生产级结论**。财务阶段 +1970.824 秒中：cutoff +1192.323、普通临界区间 +332.790、市场成功步骤 +441.100、其余 +4.612。结算调用证明含 SDK RPC，不能从本次计时归因全部 CPU/网络/内存原因。DA 费差来自结算 slots_modified 21→19，不归功缓存。
-
-两轮分别 1951/3918 个全程样本，最大间隔 1167/1199 ms；采样覆盖启动前到领取/快照/清理后。RSS 含共享页、并行任务和空闲常驻资源，不等于物理内存或瞬时峰值，各窗口/组件峰值不可相加。冷是新进程/电路，OS/SDK 磁盘缓存未清空；单次顺序样本不证明普遍收益，也不推广为另外三个市场实测。准备 52 项及后续报告相关 10 项回归通过（有重跑）。80 个已归档签名请求副本的 nonce 全消费，实际三钱包 27 种私钥表示检查零匹配。以下保留原阶段记录，以本节为最新结论。
-
-## 2026-10-26 新配对：完整冷启动与进程树内存预检
-
-新目录 `fixed-verifier-performance-live-v5` 已完成只读继承：前轮 17 UPS 审计与四个当前端点一致，准备新增转账/领取为 0；SDK、二进制、Node 边界不变。新增完整进程树观察器和启动屏障，两个采样器先就绪再启动测量子进程，退出清理后再关闭。两轮只改变 fixed verifier fresh/cached 模式，其他资源/工作量/截止规则相同。
-
-原严格冷构建、完整证明、资金守恒、会话绑定与状态端点门槛保留。新窄范围读取恢复只复用明确未发送且仍有效的原完整证明，一次失败后再拒绝即停止；不重试未知广播或重新付款。52 项准备回归通过。[预检证据](../../executor/verification/2026-10-26-complete-measurement-preflight-v1/README.md)。**新配对结果、完整内存对照与新的加速结论仍待真实成交验收。**
-
-## 2026-10-26 最终闭环：原批次一笔成交、普通钱包领取与 17 UPS 审计完成
-
-[完整恢复证据与报告](../../executor/verification/2026-10-26-fixed-verifier-recovery-closed-v1/README.md)已关闭：**17 个实际 UPS、17 份唯一完整证明、1 笔真实 Book 成交，实际网络费用 17.000118 测试 PSY**。两种 QA FT 2483/2484（18 decimals）各 1000 总量、逐账户兑换差额、有限集合 Native 费用总差额、NFT 2496 归属、nonce 和状态链均通过；两份普通领取在 **383716** 确认。没有使用既有 pUSDT。
-
-金库 Native 余额增加 1.000623 测试 PSY，是已授权入金/执行费用余量；不再当作网络费或未领取赞助款。市场与用户/Sponsor 的 Native pending 清空，有限集合 FT pending 清空。epoch 9、两成员、订单 nonce 11、cutoff 383577 未变；没有重复用户入金、新一期 consent 或实际 empty abort。
-
-真实恢复包含：公开 heads 失败后整组有界读取；固定 SDK `Request error` 的窄范围 pre-session 识别及内外 URL 绑定；封口前连接失败后复用同一已验证完整证明，确认 **383609**；承诺 **383637**；SDK 在结算 VM 证明中收到空 JSON 后，验证固定纯证明进程、无完整请求/广播、同一承诺后叶及原任务，再重建结算，确认 **383705**。不将局部 VM 工作冒充完整证明复用。修复精确复用守卫过宽、快照数值/对象类型差异与失败子进程计时保存。**122 项相关回归通过**，生产级结论不由数量决定。
-
-性能如实区分：bootstrap **267.731 秒**；成功承诺/结算准备分别 **327.808 / 235.058 秒**（包含 SDK 读取与递归，非纯 CPU）；24 次 fresh 验证资源构建合计 **78.855 秒**，验证本身合计约 **89.674 ms**。10 次普通冷作业构建为 **42.964～50.835 秒**，反映重启重复成本；本轮只有一次真正暖态费用准备作业（57.685 秒，另有 153.284 秒确认等待）。不能冒充四样本前后均值。
-
-ENVIRONMENT 至最终快照观测 **142.250 分钟**包含 cutoff、网络、人工恢复停顿和额外冷构建。原完整外层父计时缺失保持 null，首次失败后的内存采样没有延续；**本轮仍无新的干净端到端 fresh/cached 配对，不宣称加速、链上 TPS 或生产级**。新的计时入口对后续失败/成功都保存观测，不补造历史缺失。
-
-2403 份原件完整归档并逐项对比原始 SHA；实际钱包私钥及表示形式扫描无匹配，所有公开签名请求副本的 nonce 已消费。SDK 1466 份来源与 Node 既有差异再核对未变。外部仍需 RPC 结构化诊断/稳定性，以及服务身份、网络域、升级授权/重放拒绝证据；跨机器、认证随机排序、全市场抗审查未由本轮关闭。以下段落保留历史进度，以本节与最终闭环摘要为准。
-
-## 2026-10-26 后续：未签名 SDK 会话故障恢复，两名原成员入队
-
-首名成员的 SDK `start-compact-session` 请求失败，原证明目录只有未广播失败诊断；没有证明或签名请求。新增守卫结合确切目录、原 producer/driver/策略/网络哈希和持久化 journal，拒绝任何已证明/已广播或阶段不符的情况。只读进程采样未证明网络根因，不修改代理、Node 或 SDK。
-
-链上最新 checkpoint 383492 表明原发送窗口 383522 仍有效，因此停止尚未提交任何退出操作的空队列等待，继续原未广播接纳。两个原成员最终在 **383503、383524** 精确确认；epoch 9、cutoff 383577、两份订单与原入金不变，没有新的 consent 或实际 abort。现等待原 cutoff，**尚未发生本轮成交**。109 项相关回归通过，仍需完整结算、领取和资金审计。[阶段证据](../../executor/verification/2026-10-26-unsigned-session-recovery-v1/README.md)。
-
-新增精确 FT/NFT 快照比较与只读终态入口，处理保存后的 BigInt ID/对象原型和现场 Number 元数据差异，继续拒绝实际所有权、金额和 pending 变化。终态入口尚未运行；实际旧 runner 的源闭包保留，不回写其产物。恢复费用、等待和冷构建不排除；正常干净对照门槛保持，当前仍无新的成功 fresh/cached 配对。
-
-## 2026-10-26 更新：检查点读取故障与受限续跑
-
-v4 新基线在两份订单及费用准备精确确认后、预热/冻结队列之前，公开检查点读取超时退出。失败前 **3 实际 UPS、0 成交、3.000015 测试 PSY**。停止原资源采样；不作为干净的缓存性能配对，也不丢弃失败费用。见 [前缀完整证明、回执和恢复检查证据](../../executor/verification/2026-10-26-checkpoint-read-recovery-v1/README.md)。
-
-新增整组检查点有界读取恢复：仅在已分类传输失败后重读全部 heads，先排空旧读取，既有身份/数据校验保留，正常路径无额外请求。广播不使用这一重试。新增手动续跑守卫已实际重新验证三份原完整证明、精确回执、当前三个账户 nonce/端点、原金库状态、依赖和网络，以及恰好一份未用原费用授权；不再次下单或注资。首次守卫因无损对象原型差异拒绝，原件保留；修复后通过，21 项相关回归关闭。外层计时入口也改用允许小数的观测序列化器。
-
-当前继续原批次结算及领取，**后续资金守恒/完整审计待完成**。重启、停顿及新增冷构建如实记录，不能通过放宽性能报告门槛宣称干净配对、整轮加速或生产级。Node/SDK 不变；此前退款、赞助款退出及 nonce 44 的关闭仍成立，不再提交 noop。
-
-## 最新闭环：15 UPS 完整审计与零新增资金准备
-
-本轮失败批次及退出已关闭：[完整证据与独立审计](../../executor/verification/2026-10-25-unused-sponsor-closed-v1/README.md)。**15 个实际 UPS、0 笔成交，实际费用 15.000077 测试 PSY**；两名用户的 FT 和 Native 订单入金、Sponsor 5.0005 PSY 未用款、两份 1 原子单位 QA FT 种子均已退回并领取。两种 FT 各 1000 枚总量、逐账户余额、指定 Outbox、NFT 归属、Native 费用总差额及四个用户 nonce/状态链全部核对。另列 U→买方 10 测试 PSY 的内部 QA 准备款，不是收费或 faucet。
-
-最后未注资清理也遇到广播异常和一次原样投递连接超时。原请求、旧单次发送锁均保留；第二次额外投递绑定第一次失败及原字节，重新查原回执、独立完整验证、核对当前身份/依赖/nonce/起始根/所属 realm 期限后发送同一请求。没有重签、替代业务或重复付款。83 项相关回归通过；新守卫同时拒绝滞后 common 头掩盖所属 realm 过期、换原请求/锁、已 ACK 及第三次额外投递。计时/读取/签名前失败的原件保留，没有计入成功性能配对。
-
-新目录 `fixed-verifier-performance-live-v4` 的只读继承准备已通过：前序 15 UPS 完整审计及四个当前用户叶端点一致，复用历史两笔 Native QA 准备的审计事实，**新增转账 0、领取 0**。没有重新提交旧证明，历史费用不重复计算。原 v1/v2/v3 目录及产物不覆盖。
-
-Node 与已选 SDK/二进制不变。当前仍没有本次 fixed-verifier fresh/cached 的完整成功前后配对；接下来两边使用同一 v4 二进制、SDK、两线程、retain、预热和调度，只改变固定验证资源模式。报告将分别给出完整父进程耗时、bootstrap/初始读取、财务阶段、冷暖证明/确认/领取、RSS、实际费用与失败次数。无链上 TPS、跨机器协调或生产级结论。
-
-以下小节保留为历史阶段记录，以本节和最终性能报告为准。
-
-## 精确恢复与买方领取已确认，最后退款进行中
-
-Sponsor 的 5.0005 测试 PSY 退款在 **383109** 确认并已领取，两个 1 原子单位 QA FT 初始化种子已归还并领取。买方订单退款在 **383213** 确认；买方也已领取订单入金及独立列账的 10 测试 PSY QA 准备款。最后一位用户的退款、最终未注资订单清理及整轮 15 UPS 独立总账审计仍待完成，未进入成功性能配对。
-
-SDK 首次退款提交发生连接超时；买方撤销 nonce 68 也发生广播异常。各自原证明、原意图和错误保留，先按原身份对账，再受控投递**相同签名请求**一次：没有重新证明、改 nonce、金额、期限或生成另一笔付款，链上各只有一次资产变化。后续买方领取在 `start-ordinary-session` 因 RPC 连接失败退出，固定二进制只留下 failure/metrics，没有请求/证明/发送意图；新目录复制完全相同输入（含原期限）重试后确认，建立严格 v3 映射。
-
-新 v3 诊断仅接受已审查的 v4 驱动 SHA256、精确文件集合、未广播标志与已知签名前阶段；出现签名载荷或发送意图即拒绝。观测 metrics 含小数，改用普通 JSON 只读取计时/阶段，财务输入、证明、身份与状态仍无损处理。旧 v1/v2 守卫保留，新增期限及伪造诊断回归；合计 **78 项**相关回归通过。
-
-[精确恢复与原样输入重试证据](../../executor/verification/2026-10-25-scoped-original-recovery-v1/README.md)仅归档已确认且 nonce 已消费的载荷，剩余活跃证明没有发布。两次异常不证明服务最终丢弃原请求，SDK/Node 来源及运行身份边界仍不变。整体性能和生产级结论仍未关闭。
-
-下一次配对准备了只读 setup 继承入口：核对前序完整审计和当前四个账户的精确叶端点，再复用历史已确认的 QA 资金准备记录，不重新转账或领取。该入口还未实际运行。性能报告同时列出完整父进程耗时与 bootstrap/初始读取、财务阶段耗时，避免漏掉冷启动前的准备成本；新报告仍待实测。
-
-## 赞助款余留导致新基线被正确拒绝
-
-v3 在两份新订单及首笔费用准备确认后、市场 `start_epoch` 证明之前被严格费用游标检查拦下，未发生新批次成交。读取记录显示 Sponsor→Book 累计 sent 48.0048、claimed/settled_fee 43.0043 测试 PSY，待领取 **5.0005 PSY**。其中 4.0004 是此前退款脚本在金库已有 gas 时仍转入的两份 2F，另 1.0001 是 v3 的新准备款。此前 24 UPS 审计已将这份旧 pending 计入有限集合总资产；用户 FT 退款和费用守恒仍成立，但这不等于赞助款已经退回。
-
-应用修改：
-
-- 新 `sponsorGrant` 仅允许零 pending 时规划新转账，或整体采用金额、目的、金库、nonce 均相符的未用授权；非精确 pending、重复授权、游标差异及溢出均拒绝。性能入口在任何新订单付款前检查旧 pending，并对每次费用准备重查。
-- 旧退款继续入口按实际 gas 缺口准备费用，必要时先执行已认证的 `fund_gas`；有足够余额时不再盲转 2F。
-- 恢复扫描允许**明确列入恢复范围**的费用赞助人，经其普通钱包 `request_recovery` 授权后，只取回自己尚未使用的入款。默认撮合范围不自动加入 Sponsor，避免旧退出登记导致新授权被自动撤回。
-- 外部资产账户尚未初始化时，先返回明确缺口，不浪费完整证明或忽略认证树高度。QA 恢复使用各 1 个最小单位的两种 QA FT 建立账户，随后归还种子并领取；这些是账户准备，不是市场成交。
-
-63 项相关 JS 回归通过，包含四市场原付款人退款、活跃订单不能退款、正常范围不撤回新赞助款、精确 grant、防重复、陈旧 nonce/根、丢回执和同机竞争。第一次扩大回归使用了不匹配的真实部署资产 ID 夹具，保留失败日志；改用标准 41/42/43 测试配置后通过，没有修改断言或市场规则。该回归不是新字节码/完整 UPS 证明。
-
-真实 Sponsor 5.0005 PSY 原路退回、两份未成交订单退出及其独立完整审计正在执行。普通钱包准备将另列 10 测试 PSY 的 QA 内部转账和领取，不改钱包策略。v3 已排除出成功性能配对；所有旧目录、请求和采样保留。修复不改 Node/SDK、合约或 SD-key 注册代码/布局。完整前后性能及生产级结论仍未具备。
-
-## 12:28 UTC 更新：失败轮、退款与领取闭环
-
-两位用户的原路退款和普通钱包领取，以及两项未注资 QA 订单清理均已确认。独立完整证明、精确回执、逐用户 nonce/状态链和有限资金集合审计关闭：**24 个实际 UPS、0 笔成交，实际费用合计 24.000133 测试 PSY**。同一取消请求的两条回执观察只算一次。QA FT 2483/2484 各 1000 枚总量守恒、各账户余额回到失败轮前；用户与金库双向 FT Outbox 清空，QA NFT 2496 及其待领取状态未变。没有使用既有 pUSDT。
-
-新增退款快照比较函数，兼容实时对象和无损反序列化对象，同时保留逐账户余额、完整有限 Outbox 范围、NFT 归属检查；修复旧检查用 BigInt ID 比较实时 Number ID 而可能漏查 Outbox 的问题。15 项针对性回归通过；测试数量不作为生产级依据。
-
-[全部失败轮与退出证据](../../executor/verification/2026-10-25-retired-refunds-closed-v1/README.md)保留原 HTTP 413、未知广播、授权 noop、精确取消恢复、退款、领取和独立审计。旧阶段中的“退款待完成”保留为当时记录，以本节为最新状态。确认消费的 nonce 使归档旧证明不可再次执行；Node 与固定 SDK 的 1466 份依赖源文件未改。
-
-干净配对使用新目录 `fixed-verifier-performance-live-v3`。测试 PSY 资金准备单独计费、单独验证；两边同一 v4 二进制、SDK、两线程、retain 模式、相同预热与调度，仅改变固定验证资源 fresh/cached 模式。目前正在准备，尚无新的端到端对照结果。
-
-## 本次继续：原取消恢复成功，逐位退款
-
-nonce 44 关闭后，新取消 nonce 45 的原生紧凑请求也返回 413（477,572 bytes，广播阶段约 68.662 秒）。只读 HTTP/1.1、HTTP/2、Node 与相同 Rust HTTP 依赖均能成功处理相近/相同结构的读取请求，尚未定位实际 413 根因；没有据此切换协议、删除校验或声称网络问题已解决。
-
-按继续取消/退款任务的授权，对 nonce 45 先做精确对账，再独立完整验证原证明，并重新检查网络、代码/布局依赖、起始根、用户/公钥、nonce 和原有效期，受控发送原签名请求一次。未重签、修改业务、费用或期限；原失败及 no-auto-retry 意图保留，增加独立的一次性恢复发送锁。精确包含后，两条回执路径按同一原字节和状态端点去重；实际一次 UPS、费用 1.000005 测试 PSY。
-
-第一位用户的 SD-key 原路退款已在 checkpoint 382810 确认，普通钱包领取也已确认；第二位用户仍在退出流程中，全部退款的费用/守恒审计和干净成交性能对比尚未关闭。新增 [原取消恢复证据](../../executor/verification/2026-10-25-ordinary-exact-recovery-v1/README.md)。
-
-## 11:10 UTC 更新：nonce 恢复已确认，退款继续
-
-用户追加授权后，先读取账户及原请求/旧 noop 的精确回执；账户仍是 nonce 43、候选仍在窗口内、无追加发送锁。完成无损状态码及 413 尾换行检查修复后，紧凑版同一请求只发送一次，得到 HTTP 200/`ok`，随后取得 checkpoint/common checkpoint **382717** 的精确包含回执。实际手续费 **1.000001 测试 PSY**，没有 FT/NFT 转移。发送前两次类型/格式拒绝均未形成网络提交，原 source closure 保留。
-
-已独立完整验证原取消与胜出 noop，核对相同公钥、用户、nonce 44、起始根，以及不同结束根；并重新核对精确历史回执、实际费用和 common 可见性。**原取消请求已经由确认的 nonce 冲突排除**。无需再次授权即可按本次完整计划继续新的取消、受限 SD-key 原路退款和普通钱包领取；这些后续阶段尚在进行，未声明退款审计或干净成交配对完成。
-
-证据与复现：[nonce 恢复归档](../../executor/verification/2026-10-25-nonce-retirement-confirmed-v1/README.md)。以下 413 小节保留为历史记录，不再是当前待授权状态。
-
-## 10:52 UTC 恢复检查：单次 noop 返回 HTTP 413
-
-用户已授权 QA 用户 1717440 的一次 nonce 44 纯 noop 恢复，手续费限定为 1.000001 测试 PSY，不转 FT/NFT。发送前确认账户仍是 nonce 43 / 原起始根；旧候选过期后保留原件，生成 v2 候选并独立验证完整证明、身份、费用和状态端点。v2 只实际发送了一次，HTTP 返回 **413 / `invalid or oversized body`**，没有接收确认或精确包含回执。原发送锁、请求和失败记录均保留。
-
-恢复脚本发送了格式化请求，线体积 1,119,272 bytes；原生 Rust 客户端本来使用紧凑 JSON。新增不经过 JS Number 的逐 token 空白压缩，同一请求降到 **466,115 bytes**。U124 字面量、字符串转义、证明及签名内容不变；压缩后的请求再次通过独立完整证明验证。此处只确认请求体积，不推断实际运行服务的限制配置或其最终队列状态。
-
-首次发送后的 10:52:15 UTC，common checkpoint 382678、所属 realm checkpoint 382679，账户 nonce 仍为 43，起始根仍为 `23189890dec66366d00fbbf9b88d6911fb594ecb6727b2ece23cf42c5665dfb8`。这不能证明任一请求已被永久丢弃。紧凑线请求仅准备，没有再次发送；已发出追加一次恢复提交的授权问题，等待答复。没有新增取消、转账或退款业务操作，没有确认的 noop 费用。
-
-增加普通钱包同 nonce 冲突审计入口：必须独立验证两份精确请求，并匹配相同用户、公钥、nonce、起始根，以及胜出请求的历史端点、索引回执、费用和 common 可见性，才可排除旧请求。后续退款入口仅在该审计关闭后运行，现阶段尚未完成真实调用验收。不能用超时、413、期限已过或单独观察到较高 nonce 替代胜出证据。
-
-代码：`executor/exactJsonWire.mjs`、`executor/ordinaryNonceConflict.mjs`；受限验收入口位于 `executor/acceptance/{broadcastNonceRetirement,auditOrdinaryNonceRetirement,finishRetiredVerifierRecovery}.mjs`。活跃签名载荷继续留在本机私有目录；公开归档只含不可执行摘要、验证报告、413 原响应和只读观察。
-
-## 最新状态：真实前后配对未完成
-
-本轮已完成固定验证器缓存、资源预热与授权并行调度、回执读取故障保持待确认、进程级 HTTP 客户端复用及提交等待预算调整。**尚无干净的真实成交缓存前后配对，不宣称整轮加速、链上 TPS 或生产验收完成。**
-
-| 已测量项目 | 结果与口径 |
-| --- | --- |
-| 同一保存证明，现场构建资源＋完整验证 | 中位数 3098.54 ms，4 样本 |
-| 缓存第一次资源构建＋完整验证 | 3119.93 ms，1 样本 |
-| 缓存暖态完整验证 | 中位数 3.545 ms，3 样本，仍每次验证整个证明 |
-| 第一轮实际成交及普通钱包领取 | 1 笔、17 个实际 UPS，独立全证明/回执/费用/守恒审计关闭；发生过 HTTP 500 中断，不作干净配对 |
-| 第二轮 | 第二次入队提交前被 cutoff 检查拒绝；已完成单成员合法 carry，无成交，退款退出未完成 |
-
-离线数据是在同一进程、同一两个已包含的普通钱包/SD-key UPS 上按 fresh/cached/cached/fresh 顺序测量。它只测验证资源与验证本身，不包含新证明生成、RPC、确认、领取或实际费用。首次冷构建没有消失。
-
-此前的真实网络阻塞点：QA 用户 1717440 的 `request_cancel + release_unaccepted + request_recovery` 请求，用户交易 nonce 44（不同于市场订单 nonce 7），完整请求已保存，提交连接在 30.0198 秒超时。原始受抑制错误 SHA256 与公开错误 `error sending request for url (https://realm1-stg.psy-protocol.xyz/): operation timed out` 精确相等。同期 SDK 会话阶段 25.797 秒、最后状态检查 16.662 秒，网络等待不能归为固定验证器构建。该请求现已由确认的同 nonce noop 排除，未通过超时推断丢弃；后续原路退款正在执行。
-
-SDK 的 `get_tx_status` 当前只是根据可读用户 nonce 计算 Submittable/Stale，不提供权威的接收/入队/最终丢弃状态。需要服务团队另行交付按原请求摘要、用户/nonce/结束状态查询的持久化接收状态及最终拒绝证据；本轮不改 Node。
-
-第一份同 nonce 的纯 noop 候选 v1 生成后未发送；取得本次授权时已过期，原件保留。随后 v2 重新按当前状态生成、独立验证并单次发送，得到 413，详见本页首节。原请求先胜出时不发送占位；只有确认实际胜出结果后才推进后续退款。仍可能执行的原请求及 noop 签名数据留在本机私有目录，不公开上传可执行载荷；不可执行摘要、验证报告和原响应见 [恢复证据](../../executor/verification/2026-10-25-nonce-retirement-413-v1/README.md)。
-
-已通过：74 项相关 JS 回归、3 项 fee-only/无损数值编码约束测试、3 项原生传输测试、2 项固定验证器测试，以及真实保存证明的 8 次正例与对应篡改/元数据/错误网络/错误模式拒绝。测试数量不代表生产验收。
-
-证据：[实际成交与原承诺恢复](../../executor/verification/2026-10-25-fixed-verifier-recovery-v1/README.md)、[冻结构建、离线实测和超时诊断](../../executor/verification/2026-10-25-fixed-verifier-build-v4/README.md)。
-
-## 上一轮回退归因
-
-基于已关闭的 `prover-memory-performance-live-v1`。每轮两成员、一笔实际 Orderbook 成交、17 UPS，并非四市场容量验收。
-
-四次暖态费用准备，平均每项阶段差值：
-
-| 阶段 | release-unused 相对 retain |
+| Whole parent lifecycle, bootstrap/claim/cleanup | 1954.649 s | 3925.458 s |
+| Three ordinary cold builds, individual range | 43.046–43.644 s | 41.285–41.757 s |
+| Four warm fee jobs, mean | 57.025 s | 53.143 s |
+| Fixed-resource builds/count/time | 23 / 70.591 s | 10 / 30.352 s, 13 hits |
+| Full commit+settle preparation | 259.600 s | 279.600 s |
+| Cutoff wait | 102.316 s | 1294.638 s |
+| Whole process-tree sampled RSS maximum | 9.159 GiB | 12.641 GiB |
+| Cold-build-window tree RSS maximum | 9.144 GiB | 12.111 GiB |
+| Warm-fee-window tree RSS maximum | 3.690 GiB | 3.290 GiB |
+| Actual test PSY fees | 17.000117 | 17.000115 |
+
+Repeated verifier construction decreases and every proof still verifies, but
+whole round is slower and cold/full sampled memory higher: **no overall speedup,
+memory reduction, chain TPS or production conclusion**. Financial delta+1970.824 s:
+cutoff+1192.323, ordinary critical intervals+332.790, market-success+441.100,
+other+4.612. SDK RPC is inside settle proving, so CPU/network/memory causes are
+not fully separable. Fee difference comes from slots_modified21→19, not cache.
+
+1951/3918 samples, max gaps1167/1199 ms, cover before launch through final snapshot/
+claim/cleanup. RSS includes shared pages/concurrency/idle resources, not physical
+or instantaneous peak; component/window peaks cannot sum. Cold means fresh process/
+circuits, not flushed OS/SDK disk cache. One sequential pair is not universal or
+an actual rerun of the other markets. Preparation52/report10 regressions pass
+(with reruns);80 archived signed copies have consumed nonces; three real wallets'
+27key representations yield zero matches.
+
+## Candidate mechanics and earlier attribution
+
+`fixed_verifier.rs` OnceLock stores only immutable fixed Node end-cap key/common
+within one binary/frozen SDK. It caches neither proof-validity result nor witness,
+state, nonce, fees, transactions or signatures. SDK get_cached_common_data_library
+otherwise constructs four lookalike circuits each call; retain only needed common
+data, not the temporary proving library.
+
+Every access checks explicit profile/compiled network domain. Each request runs
+full verification and compares session verifier with fixed key. Stack/session/
+sig_hash/caller/parameters/fees/endpoints/dependency roots/nonce/expiry and outer
+resident identity/state isolation remain. No disk cache or supplied verifier key.
+Modes only fresh-v1/cached-v1; invalid fails without downgrade. Default cached-v1;
+proverMemoryMode stays retain-v1. First access still builds; short-lived verify/
+broadcast-prepared children each pay it. No cross-process cache claim.
+
+Earlier saved-proof component test, same process/two included ordinary+SD-key UPS,
+ABBA fresh/cached/cached/fresh: fresh median3098.54 ms/four samples, first cached
+3119.93 ms/one, warm cached median3.545 ms/three, full proof verified each time.
+Not new proof/RPC/confirmation/claim/fee throughput. Native equality rejects
+unrelated circuits under both paths. Earlier53JS and later 74JS, three fee-only/
+lossless tests, three transport, two fixed-verifier tests and eight real saved-proof
+positives plus mutation/domain/mode negatives are staged evidence, not additive
+production certification.
+
+Previous reclaim pair (one Book fill/17 UPS each) warm mean stage delta:
+
+| Stage | release-unused minus retain |
 | --- | ---: |
-| 会话初始化（含 SDK 读取） | +3.660 秒 |
-| 调用证明（含 SDK RPC） | +2.075 秒 |
-| 签名和 end-cap | +0.147 秒 |
-| 完整证明验证 | -0.057 秒 |
-| 提交前状态检查 | +1.470 秒 |
-| 广播到 HTTP 结果 | +3.780 秒 |
+| Session initialization incl SDK reads | +3.660 s |
+| Call proving incl SDK RPC | +2.075 s |
+| Signature/end-cap | +0.147 s |
+| Full verify | -0.057 s |
+| Final state checks | +1.470 s |
+| Broadcast→HTTP result | +3.780 s |
 
-这四项均已暖机，没有再次构建 WalletSession 电路。固定验证库仍在每次完整验证时重建，约 3.1 秒，但它不是上一轮变慢的全部原因。初始化/证明阶段未区分 SDK 内部 CPU 和网络等待，不能从该实验认定全部回退由分配器或 RPC 引起。
+All four jobs were warm, without WalletSession rebuild. Fixed verification still
+rebuilt~3.1 s but was not the entire regression. Whole2255.177→2694.058 s,+438.881:
+ordinary critical+295.974, market-success+63.539, cutoff+58.416, other+20.952.
+Parallel critical paths use real intervals, not summed job durations. Reproduce
+readonly with diagnoseWarmFees.mjs CASE FRESH_REPORT, recording source hashes.
+No attribution of all slowdown to allocator or RPC.
 
-整轮 2255.177 → 2694.058 秒，增加 438.881 秒。按实际验收脚本的串行依赖预算分解：普通钱包临界区间 +295.974 秒，市场成功执行步骤 +63.539 秒，协议 cutoff +58.416 秒，其余读取/规划/快照与计时边界 +20.952 秒。并行对取真实起止区间，不把并行任务耗时相加为墙钟时间。
+## Recovery chronology (historical, not current pending states)
 
-复现：`executor/acceptance/diagnoseWarmFees.mjs CASE FRESH_REPORT`；报告记录源文件 SHA256，不改旧证据。
+### Initial v1 network interruption and v2 cutoff
 
-## 本轮应用修改
+After commit HTTP result, receipt reads repeatedly500; parent exited safely,
+retaining request/proof/identity. Readonly reconcileComparisonOriginal confirmed
+the original commit without reproving/resubmitting, then only settle/claims ran.
+17actual UPS/one fill/full audit closes that interrupted round, excluded from
+clean cache A/B. Missing parent time/cutoff/failure logs remain missing/original.
 
-`fixed_verifier.rs` 为同一二进制/冻结 SDK 内的固定 Node end-cap key 与 common data 提供 `OnceLock`。只保存不可变电路验证资源，不保存证明验证结果、见证、用户/市场状态、nonce、费用、交易或签名。SDK 的 `get_cached_common_data_library` 实际每次创建四类 lookalike 电路；缓存只保留所需 common data，不保留整个临时 prover 库。
+receiptReader catches only exhausted ReadUnavailable, returning unresolved/
+readUnavailable with original gate. Later same-identity polling is allowed;401,
+invalid identity/structure/authentication still throw. Unknown is not rejection or
+re-sign permission. PSY_RECEIPT_READ_UNAVAILABLE records failures; polling budget
+still bounds prolonged outages.28related tests pass, including three 500/no other
+request and next-poll recovery;401 is not swallowed.
 
-每次访问校验显式网络 profile 与编译网络域。每笔请求重新执行完整证明验证，实际会话 verifier key 仍与固定 key 比较；调用栈、sig_hash/会话绑定、caller、参数、费用、状态端点、依赖根、nonce 和有效期检查不放松。市场/普通签名者的外层 resident 绑定与状态隔离保留。没有磁盘反序列化缓存或外部提供的 verifier key。
+v2 second admit proved then final broadcast-window-expired rejected, without send.
+Original cutoff 381727 unchanged; first member accepted, second not. Freeze exactly
+one accepted member, commit/finish lawful Book carry, zero fills/payout. A helper
+incorrectly expected refund; empty payoutClaims rejects before constructing a claim.
+Original owners then cancel/release_unaccepted under terminal epoch/request_recovery,
+restricted payer refund and ordinary claim. Carry is not itself a refund.
 
-`fixedVerifierMode` 只接受 `fresh-v1` 或 `cached-v1`，属于 resident 环境身份。错误模式失败，不降级跳过验证。默认 `cached-v1`；原 `proverMemoryMode` 默认仍为 `retain-v1`。
+Warm fixed policy/config before fixing the real epoch; warm metadata is not an
+accepted set. Re-read fresh checkpoint after warmup then never alter cutoff.
+Count warmup in total/cold cost. Independent users' consent and one Sponsor fee
+may overlap; subsequent shared Sponsor grant waits for consumption/nonce. Warm/prove
+mutually exclude and dead children do not auto-restart.45related tests pass;
+128 checkpoint contract cap not expanded. Both future controls use identical warmup/
+authorization scheduling, with setup/recovery separate from fills.
 
-首个访问仍需构建固定库；短命的 verify-prepared/broadcast-prepared 子进程各自仍有该开销。这里不宣称消除了所有冷构建或实现跨进程缓存。
+### Original unknown cancel, authorized nonce 44 noop and HTTP413
 
-## 验证进展
+QA 1717440 request_cancel/release_unaccepted/request_recovery at transaction nonce 44
+(order nonce 7) timed out30.0198 s. Suppressed-error SHA matched the public realm 1
+operation-timed-out error. Session25.797 s/final reads16.662 s were network waits,
+not verifier construction. SDK get_tx_status reports nonce-derived Submittable/
+Stale, not durable accepted/queued/finally discarded status. Service team still
+needs source-bound durable original-request disposition; no Node edit here.
 
-- 固定 key/common 缓存与原 SDK 现场构建对象严格相等；无关电路证明在两路径都被拒绝。
-- 已完成相关 JS 回归 53 项；完整真实证明篡改/网络域回归及新真实成交配对验收进行中。
-- 新配对：同一二进制、SDK、机器、两线程、`retain-v1`；唯一主动变量是 `fresh-v1` 与 `cached-v1`。各轮一笔实际撮合、普通钱包领取和独立全证明/费用/资产守恒审计。QA 资金准备独立记录，不计入性能结果。
-- 目前尚无本轮端到端加速、确认吞吐或生产级结论。最终结果将在完整回执、状态和证明审计关闭后追加。
+First noop v1 was never sent and expired before authorization. User authorized
+one fresh same-nonce pure noop, fee 1.000001 PSY/no FT/NFT. Account nonce 43/start
+root rechecked, expired candidate retained, v2 fully proved/verified. One formatted
+send returned413 invalid-or-oversized-body, no ACK/exact receipt. Original lock/
+request/failure preserved. Wire1,119,272→466,115 bytes via token-aware whitespace
+compaction without JS Number, preserving U124 literals/escapes/proof/signature;
+independent proof reverified. This establishes size, not server limits/disposition.
 
-外部边界保持：运行服务镜像身份/升级授权未由本轮证明；无跨机器协调或全市场抗审查结论；保持确定性排序；不存在认证随机源的新交付。
+At10:52:15UTC common382678/realm 382679, account still43/root
+23189890dec66366d00fbbf9b88d6911fb594ecb6727b2ece23cf42c5665dfb8.
+No evidence of permanent discard. Compact retry awaited explicit one-time
+additional authorization; no new cancel/transfer/refund or confirmed noop fee then.
+Same-nonce conflict audit requires both full proofs, same user/public-key/nonce/
+start and winner historical endpoints/indexed receipt/fees/common visibility.
+Timeout/413/expiry/high nonce alone cannot retire an original.
 
-## 首轮网络中断与恢复
+After additional authorization, exact original/noop lookups, fresh window and
+absence of added send lock passed. Lossless status/trailing-newline type fixes
+were tested; two pre-send format rejections made no submission. Compact request
+sent once, HTTP200/ok, exact inclusion/common **382717**, fee**1.000001 PSY**, no
+FT/NFT. Both cancel and winning noop independently verify, same start/user/key/
+nonce 44 and distinct end. Confirmed conflict retires original; no further noop.
+[413](../../executor/verification/2026-10-25-nonce-retirement-413-v1/README.md),
+[confirmed conflict](../../executor/verification/2026-10-25-nonce-retirement-confirmed-v1/README.md).
+Active signed payloads stay private until consumed; public early evidence is
+nonexecutable summaries/verification/responses only.
 
-`fixed-verifier-performance-live-v1` 在承诺 UPS 已获 HTTP 结果后，回执列表读取连续返回 HTTP 500。原父进程安全退出，原证明、请求和广播身份保留。使用只读 `reconcileComparisonOriginal.mjs` 确认原承诺已包含，没有再次 prove/submit。随后仅完成该批次剩余的结算和普通钱包领取。
+### Nonce45 cancel and failed-round refunds
 
-该恢复轮已独立验证 17 个实际 UPS、一笔成交、普通钱包领取、资金守恒和费用。因为发生进程退出与资源重建，整轮排除在干净的缓存性能配对之外；不补造缺失的父进程计时，也不覆盖 cutoff 或原失败日志。
+Fresh cancel45 compact477,572 bytes also413 after68.662 s. Readonly HTTP1.1/2/Node/
+same Rust dependency succeeded on comparable reads, not proof of actual413 cause;
+no protocol switch/check deletion or declared repair. Under existing recovery
+authorization, reconcile exact original, independently verify and recheck network/
+roots/start/user/key/nonce/expiry, then send identical signed bytes once under a
+new recovery lock. No signature/business/fee/expiry change. Duplicate receipt
+surfaces deduplicate one UPS, fee 1.000005 PSY. First refund confirmed382810/claimed.
+[Exact original cancel](../../executor/verification/2026-10-25-ordinary-exact-recovery-v1/README.md).
 
-应用修复：`receiptReader` 对耗尽有界重试后的纯读取不可用返回明确 `unresolved/readUnavailable`，保留原广播 gate，允许后续按相同身份轮询。只捕获 `ReadUnavailable`；HTTP 401、无效身份、结构/认证错误仍抛出。返回未知不是交易拒绝或重签授权。父日志输出 `PSY_RECEIPT_READ_UNAVAILABLE` 以统计实际故障次数。长期不可用仍受上层轮询预算限制。
+At12:28UTC both users' refund/claims and two unfunded-order cleanups close:
+**24 UPS/zero fills/24.000133 PSY**. Both FT totals1000, individual balances restore,
+FT Outbox clear, NFT 2496/metadata/pending unchanged, no pUSDT. Snapshot comparison
+now handles lossless/live object prototypes and BigInt versus Number IDs without
+omitting Outbox.15targeted tests pass. Confirmed nonce consumption makes archived
+old proofs unusable;1466SDK sources/Node unchanged.
+[Closed failed round](../../executor/verification/2026-10-25-retired-refunds-closed-v1/README.md).
 
-新增故障回归及相关测试 28 项通过：三次 HTTP 500 不产生其他请求，下一轮精确恢复；401 不吞掉。新的 `fixed-verifier-performance-live-v2` 使用相同修复后的读取路径和同一二进制做配对，引用原 QA 资金准备及恢复审计，没有另行充值或替换旧业务操作。该轮随后触发入队截止检查，见下节；没有成功的缓存模式成交对照。
+### Sponsor surplus, scoped recovery and 15-UPS closure
 
-## 第二轮截止点拒绝与调度修改
+v3 after orders/first fee but before start_epoch rejects strict fee cursors:
+Sponsor→Book sent48.0048, claimed/settled43.0043, pending**5.0005 PSY**. Of it4.0004
+was old blind two×2F top-up despite adequate gas;1.0001 new. Previous24 UPS audit
+included pending as assets, not falsely claimed returned Sponsor funds.
 
-v2 的第二次 `admit_entry` 在完整证明生成后触发最终 `compact broadcast window expired` 检查，未提交。队列 cutoff 381727 未修改；第一次入队已确认，第二个计划成员没有在截止前被接收。本轮同样排除在成功成交配对之外。
+sponsorGrant now requires zero pending or adopts one exact unused amount/purpose/
+vault/nonce grant; rejects mismatches/duplicates/cursor drift/overflow. Entry checks
+before orders and each fee. Recovery funds actual gas deficit, optionally fund_gas,
+not blind2F. Only explicitly recovery-enrolled Sponsor may request own unused input;
+normal discovery excludes it to prevent old enrollment revoking fresh grants.
+Uninitialized foreign state reports a gap before proving. Two one-atom QA FT seeds
+materialize accounts then return/claim, not market trades.
 
-实际恢复：封口精确的已接收单成员集合，承诺并完成 Book 的合法 carry（`begin_batch` + `finish_batch`），没有成交，也没有付款输出。原恢复脚本错误地预期即时退款，`payoutClaims` 的空调用检查在构造任何领取请求前拒绝了操作。后续由原付款人 `request_cancel`、终态 epoch 下的 `release_unaccepted`、`request_recovery`，再经受限 SD-key 返还其尚未使用的原入金并领取。资金返还与费用审计仍在进行，不能将合法保留说成已退款。
+63related JS tests pass; first expanded regression used wrong deployed-asset IDs,
+retained failure, then standard41/42/43fixtures passed without weakened assertions.
+Sponsor refund confirms**383109**/claimed; buyer order refund**383213**/claimed,
+plus separately accounted10 PSY internal QA funds. Native refund send/buyer cancel68
+had transport exceptions. Reconcile then controlled identical signed request once,
+without new proof/nonce/amount/expiry; each moves assets once. Ordinary claim
+start-ordinary-session failed before request/proof/intent; exact original input/
+deadline retried in new directory under strictv3 mapping.
 
-改造针对协议窗口内的资源调度，不扩大合约的 128 checkpoint 上限：
+Guard accepts reviewedv4 SHA/exact files/known pre-sign stage/no-broadcast markers,
+rejects any signed payload/intent. Observation metrics use fractional JSON only;
+finance/proofs remain lossless. Oldv1/v2 retained;78related tests pass. No inference
+that exceptions mean server discard. [Scoped originals](../../executor/verification/2026-10-25-scoped-original-recovery-v1/README.md).
 
-- 增加 `residentProver.warm` 与 scope/adapter 入口。只启动固定 policy/config 的电路资源并等待 ready，不派发证明、扫描、签名或网络提交。校验二进制、网络、代码/布局、key 与依赖后才预热，使用前仍重新校验实际任务上下文。
-- 在真实 epoch 计划固定之前预热市场资源；预热辅助 plan 仅为未执行的元数据，不是被接受或封口的订单集合。正式 cutoff 在预热结束后读取新 checkpoint 再固定，之后不更改。预热耗时计入整轮与冷构建口径，不移出总成本。
-- 两名独立用户的 consent 与单个 sponsor 的费用准备可并行。共享 sponsor 的后续授权仍按上一笔市场消费完成后串行，避免覆盖其 grant/nonce。
-- 预热、证明互斥，子进程退出不自动重启；相关回归 45 项通过。资源预热本身不等于复用旧状态证明。
+Final cleanup also had broadcast uncertainty/one exact-delivery timeout. Added send
+binds first failure/original bytes, rechecks receipt/full proof/identity/dependencies/
+nonce/start/**owning realm** expiry, sends same request. No resign/replacement.
+83 tests reject stale common masking realm expiry, changed request/lock, already
+ACKed and third added send. **15actual UPS/zero fills/15.000077 PSY** closes refunds,
+Sponsor 5.0005 PSY, two seeds, per-account FT/native/NFT/Outbox and four nonce chains.
+Separate internal10 PSY U→buyer is not fees/faucet.
+[Unused Sponsor closure](../../executor/verification/2026-10-25-unused-sponsor-closed-v1/README.md).
 
-下一份干净配对将让两边采用完全相同的预热/授权调度，只比较固定验证资源模式。恢复和必要的未注资 QA 订单准备另列请求、证明和费用，不把它们算作成交或缓存加速。
+Readonly setup inheritance checks full preceding audit/four current endpoints,
+reusing existing two QA transfers, **zero new transfer/claim**, no old-proof resend
+or double-counted fee. v1/v2/v3 directories remain; v4 pair was planned with only
+verifier mode changed, same binaries/SDK/threads/retain/warmup/scheduling.
 
-## 提交传输的后续修改
+### v4 checkpoint read failure, unsigned session recovery, actual fill
 
-2026-10-26 继续记录见 [阶段审阅文档](EXECUTOR_COMPOSITION_CONTINUATION_20261026.md)。冻结源码编译冷／暖计时已补齐，新的双池资源对照仍被只读 RPC 503 阻塞；不改变既有实际成交样本的性能结论。广泛并发扫描候选经过 16 次测量后已撤回；完整失败及原始样本保留。
+v4 before warm/freeze, after orders/fee: public heads timeout, **3 UPS/zero fills/
+3.000015 PSY**. Sampler stops, not a clean performance pair. Bounded classified-
+transport recovery drains old reads then rereads all heads; no extra normal-path
+request or broadcast retry. Manual guard verifies all three proofs/receipts, three
+current nonce/endpoints, vault/dependencies/network and exact one unused grant.
+Initial prototype mismatch rejects; corrected comparison passes,21 tests. Fractional
+outer observations no longer use financial integer writer.
+[Prefix evidence](../../executor/verification/2026-10-26-checkpoint-read-recovery-v1/README.md).
 
-原应用每次提交新建 HTTP 客户端、固定总等待 30 秒。候选改为进程内复用不可变客户端（不缓存请求/见证/nonce/响应），每次仍验证网络域及目标 realm；连接建立最多 10 秒，总等待显式支持 30/120 秒，默认 120。每个 host 的空闲连接上限为 1；不推断物理连接或 TLS 会话实际复用。传输元数据明确记录 `clientInitializedBeforeCall` 与 `physicalConnectionReuseMeasured=false`。
+First admission start-compact-session fails unsigned; guard binds exact directory/
+producer/driver/policy/network/journal and rejects proved/sent/wrong stages. Readonly
+sampling does not establish root cause; no proxy/SDK/Node edits. Head383492 shows
+original send window383522 still valid, so stop empty-queue waiting before any exit
+submission and resume original admission. Members confirm**383503/383524**, epoch 9,
+cutoff 383577, original deposits/orders, no new consent or actual abort.109 tests.
+Snapshot comparison handles persisted BigInt/prototypes/live metadata without
+weakening asset/pending/NFT checks. [Unsigned recovery](../../executor/verification/2026-10-26-unsigned-session-recovery-v1/README.md).
 
-重定向、reqwest 协议 nack 自动重试均关闭，保持单次显式传输；超时仍为未知结果，不等于失败回滚。原始 `retryAllowed=false` 及文件均保留。增加 `RPC_SEND_TIMEOUT_UNKNOWN` 分类，避免将原始超时泛化为普通拒绝。提高预算与客户端复用的实际网络收益尚未完成测量，不能作为已提速结论。
+Final original epoch 9/two members/order nonce 11 closes **17 UPS/17unique full proofs/
+one fill/17.000118 PSY**, ordinary claims**383716**, FT totals1000 each, all per-account
+and native fee changes/NFT 2496/nonce/root chain verify. Native vault+1.000623 PSY is
+authorized execution surplus, not extra burn/unclaimed Sponsor. All scoped native/
+FT pending clear, no duplicate funding/new consent/empty abort.
+
+Seal connection failure reuses the same verified full proof→**383609**; commit
+**383637**. Settle VM proof gets empty JSON: guard proves fixed pure-proof producer,
+no complete request/broadcast, unchanged committed state/task, then rebuilds settle
+→**383705**. Local VM partial work is not full-proof reuse. Exact-reuse overly broad
+guard, snapshot type mismatch and failed-child timings fixed;122related tests.
+[Full closure](../../executor/verification/2026-10-26-fixed-verifier-recovery-closed-v1/README.md).
+
+Bootstrap267.731 s; successful commit/settle327.808/235.058 s incl reads/recursion.
+24 fresh verifier builds78.855 s; verification itself~89.674 ms total. Ten ordinary
+cold builds42.964–50.835 s reveal restart overhead. Only one genuinely warm fee job
+57.685 s plus153.284 s confirmation, not four-sample paired mean. ENVIRONMENT→snapshot
+142.250 min includes cutoff/network/manual pauses/rebuilds. Full parent timing null;
+sampling did not continue after first failure. Not a clean A/B or speedup.
+2403originals compare hashes; consumed signed nonces, zero key-value matches,
+1466 sources/original Node diff unchanged. RPC structured diagnostics/stability,
+service/network/upgrade authorization/replay rejection, multi-host/random/global
+inclusion remain external.
+
+### v5 complete lifecycle preflight and final pair
+
+fixed-verifier-performance-live-v5 inherits previous 17 UPS audit/four live endpoints
+readonly, no setup transfers/claims, same SDK/binaries/Node. Two process-tree
+samplers ready before children, stop after cleanup. Only fresh/cached differs;
+strict cold/full-proof/conservation/session/endpoint gates remain. Narrow read
+recovery only reuses a valid verified original demonstrably unsent, stopping after
+one further failure; never retries unknown payment.52preparation tests pass.
+[Preflight](../../executor/verification/2026-10-26-complete-measurement-preflight-v1/README.md).
+The final measured pair is the first section of this document, not these earlier
+pending notes.
+
+## Submission transport follow-up
+
+Process-local immutable HTTP client replaces per-send construction, without
+request/witness/nonce/response cache. Per-send domain/realm checks remain.
+Connect cap10 s; total explicitly30/120 s, default120 (old30). One idle connection/
+host; clientInitializedBeforeCall records lifecycle, physicalConnectionReuseMeasured=false.
+No unsupported TLS/physical reuse claim. Redirects and reqwest protocol-NACK retry
+disabled; one explicit send. Timeout is RPC_SEND_TIMEOUT_UNKNOWN, not rejection/
+rollback. Original retryAllowed=false files remain. Real latency benefit from
+client/timeout changes is not measured.
+
+[2026-10-26 continuation](EXECUTOR_COMPOSITION_CONTINUATION_20261026.md): compilation
+cold/warm now measured; new two-pool pair still blocked by readonly503. Broad scan
+concurrency withdrawn after16 samples, all failures retained. Prior fill/performance
+conclusions unchanged. Sources include exactJsonWire.mjs, ordinaryNonceConflict.mjs
+and bounded broadcastNonceRetirement/auditOrdinaryNonceRetirement/
+finishRetiredVerifierRecovery acceptance entries. Original running images,
+upgrade authority, multi-host coordination, global censorship resistance and
+authenticated randomness remain unclosed. No production claim.
+
+## Additional preserved source references
+
+- [README.md](../../executor/verification/2026-10-25-fixed-verifier-build-v4/README.md)
+- [README.md](../../executor/verification/2026-10-25-fixed-verifier-recovery-v1/README.md)
+
+Branch identity: `markets-batch-capacity-recovery-20261020`.
+
+QA payment assets in the accepted Book rounds: FT 2483/2484, each 18 decimals; native test PSY pays fees.

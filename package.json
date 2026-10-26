@@ -58,7 +58,8 @@
     "test:markets-batch:ups": "cargo +nightly-2025-09-20 test --offline --locked --release --manifest-path amm/u124/vm-tests/Cargo.toml --test batch_lifecycle full_ups_four_market -- --test-threads=1",
     "bench:markets-batch:vm": "cargo +nightly-2025-09-20 test --offline --locked --release --manifest-path amm/u124/vm-tests/Cargo.toml --test batch_lifecycle bytecode_batch_throughput_benchmark -- --ignored --test-threads=1",
     "test:markets-batch:recovery": "cargo +nightly-2025-09-20 test --offline --locked --release --manifest-path amm/u124/vm-tests/Cargo.toml --test batch_lifecycle full_ups_expire_refreeze_and_refund_four_markets -- --test-threads=1",
-    "test:composition": "node --test composition/*.test.mjs"
+    "test:composition": "node --test composition/*.test.mjs",
+    "check:language": "python3 scripts/check_language.py"
   },
   "author": "Psy Protocol",
   "license": "MIT"

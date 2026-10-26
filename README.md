@@ -6,6 +6,10 @@ Official Psy project templates for [Psy Protocol](https://github.com/PsyProtocol
 
 Designed for use with `psyup new`.
 
+Maintained code comments, UI copy, documentation, reviews and new commits use English.
+See [contribution rules](CONTRIBUTING.md), the [repository-wide language audit](docs/language/README.md)
+and the [English guide to preserved historical evidence](docs/language/HISTORICAL_EVIDENCE_GUIDE.md).
+
 For a full breakdown of the ZK-native partitioned state model, Plonky2 Goldilocks arithmetic, Outbox/Claim protocols, and stated security invariants, see the [Design Specification](DESIGN.md).
 
 For release blockers and acceptance criteria, see [Production Readiness Gates](PRODUCTION_READINESS.md).
