@@ -52,3 +52,9 @@ npm run dev
 ## Liquidity 入口
 
 侧栏 Liquidity 提供现有 AMM 池的 Add liquidity **离线预览**：两种代币数量、存入比例、最少 LP 份额、owner ID 和费用预算。直接复用 `addShares` 的严格比例及双 Felt/U124 检查，不用 `min` 近似、不假造自动超额退款。LP 份额展示内部原始单位，不假设为 18 位小数的 FT。Demo 使用明确的 1:1 储备 fixture；LP 持仓、真实入金、创建空池、移除流动性、签名和提交未接通。网络名称为 Psy testnet，资产 ticker 保持 PSY。
+
+## 公共读取与规划层
+
+新增 Live connection（只读），以及单池/流动性表单的 Prepare RPC-based plan。启动 `npm run gateway -- /绝对路径/持久化unsigned-plan目录` 后，UI 通过同源代理连接本机 5274 网关，可读取真实配置的 RPC、核对已审查身份并生成未签名调用计划、按原 end-user leaf 查询回执。RPC 数据明确标记为观察值，不冒充状态证明；演示订单不会变为链上记录。
+
+`npm run test:gateway` 运行共享客户端、网关及未来精确钱包传输 seam 的回归。说明和具体缺失的钱包接口见 [market-client/README.md](../market-client/README.md)。当前没有钱包的分阶段精确证明/广播适配，没有 Executor 控制接口；资金写入仍关闭。RPC 恢复本身不会开启交易。

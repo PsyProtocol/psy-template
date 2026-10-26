@@ -6,10 +6,11 @@ import {parseLosslessJson,losslessJson} from '../amm/u124/client.mjs';
 import {retryRead} from './readRetry.mjs';
 import {withReadSlot,readTogether} from './readConcurrency.mjs';
 import {checkpointHeads} from './checkpointHeads.mjs';
-export async function publicState(rpcConfig,{observeRead,coalesceRead=true}={}) {
+export async function publicState(rpcConfig,{observeRead,coalesceRead=true,fetchImpl=fetch}={}) {
  if(observeRead!==undefined&&typeof observeRead!=='function')throw Error('invalid read observer');
+ if(typeof fetchImpl!=='function')throw Error('invalid public read transport');
  if(typeof coalesceRead!=='boolean')throw Error('invalid public read coalescing mode');
- const configBytes=await readFile(rpcConfig,'utf8'),domain=createHash('sha256').update(configBytes).digest('hex'),fetcher=fetch,config=JSON.parse(configBytes),network=config.networks[config.defaultNetwork];
+ const configBytes=await readFile(rpcConfig,'utf8'),domain=createHash('sha256').update(configBytes).digest('hex'),fetcher=fetchImpl,config=JSON.parse(configBytes),network=config.networks[config.defaultNetwork];
  if(!network||!Number.isSafeInteger(network.users_per_realm)||network.users_per_realm<1||!Array.isArray(network.realm_configs)||!network.realm_configs.length||!Array.isArray(network.coordinator_configs)||!network.coordinator_configs.length)throw Error('invalid public state network configuration');
  const realmIds=network.realm_configs.map(x=>x.id);if(realmIds.some(x=>!Number.isSafeInteger(x)||x<0)||new Set(realmIds).size!==realmIds.length)throw Error('invalid or duplicate realm ID');
  const bounded=(n,label,min=0)=>{if(!Number.isSafeInteger(n)||n<min||n>4294967295)throw Error('invalid '+label);return n;};

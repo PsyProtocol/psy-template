@@ -60,7 +60,7 @@ export function WorkbenchShell({
           </div>
           <p>
             <span className="status-dot amber" />
-            Live service offline
+            Trading unavailable
           </p>
         </div>
       </aside>

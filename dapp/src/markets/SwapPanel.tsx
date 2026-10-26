@@ -22,11 +22,13 @@ export function SwapPanel({
   setForm,
   onPreview,
   account,
+  onLivePlan,
 }: {
   form: DraftForm;
   setForm: (v: DraftForm) => void;
   onPreview: (v: Preview) => void;
   account: string | null;
+  onLivePlan: (form: DraftForm) => void;
 }) {
   const [error, setError] = useState("");
   const buy =
@@ -206,6 +208,18 @@ export function SwapPanel({
       <button className="primary-button" type="submit">
         Preview order
       </button>
+      <button
+        type="button"
+        className="secondary-button rpc-plan-button"
+        disabled={form.mode !== "single"}
+        onClick={() => onLivePlan({ ...form })}
+      >
+        Prepare RPC-based plan
+      </button>
+      <p className="small-note">
+        Read-only planning for single-pool swaps. The two-pool controller is not
+        connected to this UI.
+      </p>
       <p className="form-footnote">
         Preview never signs or sends a transaction
       </p>
