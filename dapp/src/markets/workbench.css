@@ -1451,3 +1451,80 @@ td small {
     padding-inline: 7px;
   }
 }
+
+/* Liquidity reuses the same canonical product form and dialog primitives. */
+.liquidity-form > h2 {
+  margin: 4px 0 6px;
+}
+.liquidity-form > .section-note {
+  margin-bottom: 20px;
+}
+.liquidity-pool {
+  display: block;
+  font-size: 14px;
+  margin: 16px 0;
+}
+.liquidity-pool select,
+.liquidity-pool input {
+  display: block;
+  width: 100%;
+  min-height: 42px;
+  margin-top: 8px;
+  padding: 9px 12px;
+  border: 1px solid var(--psy-line);
+  background: white;
+}
+.liquidity-form .quote-details strong {
+  overflow-wrap: anywhere;
+  min-width: 0;
+}
+.liquidity-form .quote-details > div {
+  gap: 16px;
+}
+.liquidity-steps {
+  margin: 24px 0;
+  padding-left: 22px;
+}
+.liquidity-steps li {
+  padding: 0 0 20px 8px;
+}
+.liquidity-steps strong {
+  font-size: 15px;
+}
+.liquidity-steps p {
+  color: var(--psy-muted);
+  font-size: 13px;
+  line-height: 1.7;
+  margin-top: 7px;
+}
+.liquidity-position {
+  margin-top: 26px;
+}
+@media (max-width: 650px) {
+  .sidebar nav {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2px 8px;
+  }
+  .sidebar nav button {
+    justify-content: flex-start;
+  }
+  .liquidity-form .quote-details > div {
+    align-items: start;
+  }
+  .liquidity-form .quote-details strong {
+    max-width: 52%;
+  }
+}
+@media (max-width: 650px) {
+  .liquidity-form .quote-details > div {
+    display: block;
+    margin-block: 8px;
+  }
+  .liquidity-form .quote-details strong {
+    display: block;
+    max-width: none;
+    text-align: left;
+    margin-top: 5px;
+  }
+}

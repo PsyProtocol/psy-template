@@ -18,7 +18,8 @@ test("official Psy assets are unchanged and used instead of a generic glyph", ()
     );
   }
   assert.match(read("src/markets/Shell.tsx"), /src="\/brand\/PsyLogo.svg"/);
-  assert.doesNotMatch(read("src/markets/Shell.tsx"), /Ψ|psy-mark/);
+  assert.doesNotMatch(read("src/markets/Shell.tsx"), /Ψ|psy-mark|PSY testnet/);
+  assert.match(read("src/markets/Shell.tsx"), /Psy testnet/);
   assert.match(read("index.html"), /lang="en" class="psy-editorial"/);
   assert.match(read("index.html"), /\/brand\/PsyIconSq.svg/);
   assert.match(

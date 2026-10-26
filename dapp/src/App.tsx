@@ -9,6 +9,7 @@ import {
   PreviewDialog,
   type DemoAction,
 } from "./markets/OrderDialog";
+import { LiquidityPanel } from "./markets/LiquidityPanel";
 import { AssetsPanel } from "./markets/AssetsPanel";
 import { Icon } from "./markets/icons";
 import {
@@ -39,11 +40,13 @@ function initialRecords() {
   }
 }
 function hashView(): View {
-  return location.hash === "#orders"
-    ? "orders"
-    : location.hash === "#assets"
-      ? "assets"
-      : "swap";
+  return location.hash === "#liquidity"
+    ? "liquidity"
+    : location.hash === "#orders"
+      ? "orders"
+      : location.hash === "#assets"
+        ? "assets"
+        : "swap";
 }
 export default function App() {
   const wallet = usePsy(),
@@ -140,16 +143,20 @@ export default function App() {
           <h1>
             {view === "swap"
               ? "Swap"
-              : view === "orders"
-                ? "Orders"
-                : "Assets & claims"}
+              : view === "liquidity"
+                ? "Liquidity"
+                : view === "orders"
+                  ? "Orders"
+                  : "Assets & claims"}
           </h1>
           <p>
             {view === "swap"
               ? "Set your amount, minimum received and recipient."
-              : view === "orders"
-                ? "Follow each stage and reconcile the original request."
-                : "Track balances, pending claims and actual refund assets."}
+              : view === "liquidity"
+                ? "Preview balanced deposits and minimum LP shares."
+                : view === "orders"
+                  ? "Follow each stage and reconcile the original request."
+                  : "Track balances, pending claims and actual refund assets."}
           </p>
         </div>
         <DemoNotice />
@@ -189,6 +196,8 @@ export default function App() {
               recent
             />
           </>
+        ) : view === "liquidity" ? (
+          <LiquidityPanel />
         ) : view === "orders" ? (
           <>
             <div className="order-toolbar">
