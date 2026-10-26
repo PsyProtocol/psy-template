@@ -215,14 +215,14 @@ export function pendingTotals(orders) {
       const total = orders
         .filter(
           (o) =>
-            ["claimable", "refundable"].includes(o.stage) &&
-            (o.stage === "refundable" ? remainingAsset(o) : o.buy) === asset,
+            ["claimable", "refundable", "middle_outbox"].includes(o.stage) &&
+            (o.stage === "claimable" ? o.buy : remainingAsset(o)) === asset,
         )
         .reduce(
           (sum, o) =>
             sum +
             BigInt(
-              o.stage === "refundable" ? remainingUnits(o) : o.outputUnits,
+              o.stage === "claimable" ? o.outputUnits : remainingUnits(o),
             ),
           0n,
         );

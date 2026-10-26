@@ -73,6 +73,32 @@ Frontend toolchain locking and server auditing are separate from chain SDK relea
 The historical [Token tutorial](LEGACY_TOKEN_DEMO.md) does not apply to this market
 UI. Do not use its historical dependencies or deployment steps to probe old contracts.
 
+## Local activity and navigation
+
+The Orders page searches both local market drafts and AMM demo activity by
+record/intent identity, asset, owner/recipient or NFT collection/token reference.
+Draft market/status filters and AMM activity-state filters remain separate;
+result counts and an explicit clear action explain empty searches. Summary counts
+refer to all local records, not just search matches or chain activity.
+
+Pending intermediate outputs, final claims and refunds are excluded from
+in-progress/completed records. Unknown broadcasts have their own unresolved
+receipt category; a filter never resolves them. The Assets page includes actual
+demo intermediate quantities in the correct asset, removes them from pending
+totals after a simulated claim, and never treats them as verified wallet funds.
+
+Draft expiry updates at the local deadline and on returning to the browser,
+without rewriting saved records or any chain deadline. Details show the current
+local status, exact amounts, owner and expiry, with original data available under
+disclosure. Open market navigation does not reactivate or submit a saved draft.
+Page titles, focus and scroll follow the selected route; browser Back closes
+out-of-context dialogs while retaining in-session activity filters. Search/filter
+preferences reset on full reload, while saved draft and demo records persist.
+The RPC panel defaults to collapsed on Orders and remains available explicitly.
+
+The user stopped the RPC heartbeat to focus on UI work. No background financial
+continuation is scheduled by this interface. All existing live-write gates remain.
+
 ## Brand and language
 
 The UI and maintained project documentation use English. Logo, favicon and local

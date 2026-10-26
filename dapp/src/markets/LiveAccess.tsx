@@ -264,7 +264,7 @@ export function LiveAccess({
     <>
       <details
         className="live-access"
-        open={page === "assets" || page === "orders"}
+        open={page === "assets"}
       >
         <summary>Live connection · read-only</summary>
         <p className="small-note">

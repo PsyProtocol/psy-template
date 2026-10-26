@@ -22,6 +22,15 @@ import {
   ProductDetailDialog,
 } from "./markets/ProductCommon";
 import type { ProductPreview } from "./markets/productDrafts.mjs";
+import {
+  filterDraftActivity,
+  filterAmmActivity,
+  type DraftActivityState,
+  type AmmActivityState,
+} from "./markets/activity.mjs";
+import type { ProductMarket } from "./markets/productDrafts.mjs";
+import { ActivitySummary } from "./markets/ActivitySummary";
+import { useDraftClock } from "./hooks/useDraftClock";
 import { Icon } from "./markets/icons";
 import {
   STORAGE_KEY,
@@ -80,11 +89,15 @@ export default function App() {
   const [productPreview, setProductPreview] = useState<ProductPreview | null>(
       null,
     ),
-    [productDetail, setProductDetail] = useState<ProductPreview | null>(null),
+    [productDetail, setProductDetail] = useState<string | null>(null),
     [productError, setProductError] = useState(""),
-    [productFilter, setProductFilter] = useState("all");
+    [productFilter, setProductFilter] = useState<"all" | ProductMarket>("all"),
+    [draftStatus, setDraftStatus] = useState<"all" | DraftActivityState>("all"),
+    [activityQuery, setActivityQuery] = useState("");
+  const draftNow = useDraftClock(products.records);
   const wallet = usePsy(),
     [view, setView] = useState<View>(hashView),
+    [navigationRevision, setNavigationRevision] = useState(0),
     [form, setForm] = useState<DraftForm>(INITIAL_FORM),
     [initial] = useState(initialRecords),
     [orders, setOrders] = useState(initial.orders),
@@ -93,7 +106,17 @@ export default function App() {
     [liveDraft, setLiveDraft] = useState<LiveDraft | null>(null),
     [selected, setSelected] = useState<string | null>(null),
     [toast, setToast] = useState(""),
-    [filter, setFilter] = useState("all");
+    [filter, setFilter] = useState<"all" | AmmActivityState>("all");
+  useEffect(() => {
+    document.title = `${VIEW_COPY[view][0]} · Psy Markets`;
+    document.getElementById("main-content")?.focus({ preventScroll: true });
+    window.scrollTo(0, 0);
+    setSelected(null);
+    setProductDetail(null);
+    setProductPreview(null);
+    setPreview(null);
+    setLiveDraft(null);
+  }, [view, navigationRevision]);
   useEffect(() => {
     const changed = () => {
       if (location.hash !== "#main-content") setView(hashView());
@@ -122,6 +145,7 @@ export default function App() {
   }, [toast]);
   const navigate = (v: View) => {
       setView(v);
+      setNavigationRevision((n) => n + 1);
       if (location.hash !== "#" + v) history.pushState(null, "", "#" + v);
     },
     order = orders.find((o) => o.id === selected);
@@ -191,11 +215,17 @@ export default function App() {
       "Local market drafts exported. No keys or transaction proofs are included.",
     );
   };
-  const productRows = products.records.filter((r) =>
-    ["orderbook", "curve", "nft"].includes(view)
-      ? r.preview.market === view
-      : productFilter === "all" || r.preview.market === productFilter,
+  const marketPage = ["orderbook", "curve", "nft"].includes(view);
+  const productRows = filterDraftActivity(
+    products.records,
+    {
+      query: marketPage ? "" : activityQuery,
+      market: marketPage ? (view as ProductMarket) : productFilter,
+      status: marketPage ? "all" : draftStatus,
+    },
+    draftNow,
   );
+  const detailRecord = products.records.find((r) => r.id === productDetail);
   const productTable = (compact = false) => (
     <ProductDrafts
       records={compact ? productRows.slice(0, 5) : productRows}
@@ -203,14 +233,18 @@ export default function App() {
       onCancel={cancelProduct}
       onExport={exportProduct}
       compact={compact}
+      now={draftNow}
+      emptyText={
+        products.records.length && !compact
+          ? "No drafts match these filters. Clear filters to see all saved records."
+          : "No local drafts yet. Preview an order to save one."
+      }
     />
   );
-  const filtered =
-    filter === "pending"
-      ? orders.filter((o) => ["claimable", "refundable"].includes(o.stage))
-      : filter === "active"
-        ? orders.filter((o) => !["claimed", "refunded"].includes(o.stage))
-        : orders;
+  const filtered = filterAmmActivity(orders, {
+    query: activityQuery,
+    status: filter,
+  });
   return (
     <>
       <a
@@ -311,19 +345,74 @@ export default function App() {
           </>
         ) : view === "orders" ? (
           <>
-            <label className="draft-filter">
-              Draft market
-              <select
-                aria-label="Filter draft market"
-                value={productFilter}
-                onChange={(e) => setProductFilter(e.target.value)}
+            <ActivitySummary
+              drafts={products.records}
+              orders={orders}
+              now={draftNow}
+            />
+            <div className="activity-search">
+              <label>
+                Search local activity
+                <input
+                  type="search"
+                  aria-label="Search local activity"
+                  maxLength={120}
+                  placeholder="Record ID, asset, owner or NFT collection"
+                  value={activityQuery}
+                  onChange={(e) => setActivityQuery(e.target.value)}
+                />
+              </label>
+              <button
+                className="secondary-button"
+                onClick={() => {
+                  setActivityQuery("");
+                  setProductFilter("all");
+                  setDraftStatus("all");
+                  setFilter("all");
+                }}
               >
-                <option value="all">All markets</option>
-                <option value="orderbook">Orderbook</option>
-                <option value="curve">Bonding Curve</option>
-                <option value="nft">NFT Market</option>
-              </select>
-            </label>
+                Clear filters
+              </button>
+            </div>
+            <p className="section-note">
+              Search applies to both lists below. All counts and results are
+              local; no chain history is queried.
+            </p>
+            <div className="draft-filters">
+              <label className="draft-filter">
+                Draft market
+                <select
+                  aria-label="Filter draft market"
+                  value={productFilter}
+                  onChange={(e) =>
+                    setProductFilter(e.target.value as "all" | ProductMarket)
+                  }
+                >
+                  <option value="all">All markets</option>
+                  <option value="orderbook">Orderbook</option>
+                  <option value="curve">Bonding Curve</option>
+                  <option value="nft">NFT Market</option>
+                </select>
+              </label>
+              <label className="draft-filter">
+                Draft status
+                <select
+                  aria-label="Filter draft status"
+                  value={draftStatus}
+                  onChange={(e) =>
+                    setDraftStatus(e.target.value as "all" | DraftActivityState)
+                  }
+                >
+                  <option value="all">All draft states</option>
+                  <option value="draft">Open local drafts</option>
+                  <option value="expired">Expired drafts</option>
+                  <option value="cancelled">Cancelled locally</option>
+                </select>
+              </label>
+              <p className="activity-result-count" role="status">
+                {productRows.length} of {products.records.length} local drafts
+              </p>
+            </div>
             {productTable()}
             <h2 className="amm-activity-title">AMM demo activity</h2>
             <div className="order-toolbar">
@@ -332,11 +421,15 @@ export default function App() {
                 <select
                   aria-label="Filter orders"
                   value={filter}
-                  onChange={(e) => setFilter(e.target.value)}
+                  onChange={(e) =>
+                    setFilter(e.target.value as "all" | AmmActivityState)
+                  }
                 >
                   <option value="all">All demo orders</option>
                   <option value="pending">Claims & refunds</option>
                   <option value="active">In progress</option>
+                  <option value="unknown">Original receipt unresolved</option>
+                  <option value="completed">Completed demos</option>
                 </select>
               </label>
               <button className="secondary-button" onClick={exportRecords}>
@@ -344,6 +437,9 @@ export default function App() {
                 Export demo records
               </button>
             </div>
+            <p className="activity-result-count" role="status">
+              {filtered.length} of {orders.length} AMM demo records
+            </p>
             <OrderTable orders={filtered} onSelect={setSelected} />
           </>
         ) : (
@@ -377,10 +473,15 @@ export default function App() {
           error={productError}
         />
       )}
-      {productDetail && (
+      {detailRecord && (
         <ProductDetailDialog
-          preview={productDetail}
+          record={detailRecord}
+          now={draftNow}
           onClose={() => setProductDetail(null)}
+          onMarket={() => {
+            setProductDetail(null);
+            navigate(detailRecord.preview.market);
+          }}
         />
       )}
       {preview && (
