@@ -1,0 +1,42 @@
+/* Canonical token block from psy-dapp/apps/site/src/styles/product-theme.css.
+   Only tokens are imported; unrelated website/product selectors are excluded. */
+:root.psy-editorial {
+  --psy-paper: #ffffff;
+  --psy-surface: #fafafa;
+  --psy-ink: #000000;
+  --psy-muted: #666666;
+  --psy-line: #e5e5e5;
+  --psy-blue: #1b55f5;
+  --psy-blue-hover: #0d42d1;
+  --psy-sans: "Geist", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  --psy-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas,
+    monospace;
+  --psy-gutter: clamp(24px, 4.5vw, 64px);
+  --psy-page-width: 1440px;
+  --psy-control-radius: 0px;
+  --psy-action: var(--psy-ink);
+  --psy-action-hover: var(--psy-blue);
+  --psy-action-radius: 0px;
+  --psy-focus: var(--psy-blue);
+  --font-sans: var(--psy-sans);
+  --font-mono: var(--psy-mono);
+  --cp-radius-xs: 0px;
+  --cp-radius-sm: 0px;
+  --cp-radius-md: 0px;
+  --cp-radius-lg: 0px;
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-xl: 0px;
+  --bg-primary: var(--psy-paper);
+  --bg-secondary: var(--psy-surface);
+  --bg-card: var(--psy-surface);
+  --bg-elevated: var(--psy-paper);
+  --text-primary: var(--psy-ink);
+  --text-secondary: var(--psy-muted);
+  --border-primary: var(--psy-line);
+  --accent-primary: var(--psy-blue);
+  --accent-active: var(--psy-blue);
+  --accent-blue: var(--psy-blue);
+}

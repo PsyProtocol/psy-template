@@ -1,5 +1,5 @@
 import { useState, type ReactNode } from 'react'
-import type { ContractCallArgs } from '@psy-protocol/psy-sdk'
+import type { ContractCallArgs } from '../lib/callTypes'
 import { sendCall } from '../lib/psy'
 import { token } from '../lib/token'
 import { getContractId, setContractId } from '../config'

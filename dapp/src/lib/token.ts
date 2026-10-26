@@ -1,7 +1,7 @@
 // Production wrapper around the PsyTokenContract defined in contract/src/main.psy.
 // Each method here produces a ContractCallArgs ready for window.psy.sendTransaction.
 
-import type { ContractCallArgs } from '@psy-protocol/psy-sdk'
+import type { ContractCallArgs } from './callTypes'
 import { getContractId } from '../config'
 
 function requireContractId(): bigint {

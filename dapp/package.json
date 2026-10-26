@@ -14,18 +14,22 @@
     "build:contract:deploy": "npm run check:preflight && cd contract && psyup build",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
-    "typecheck": "tsc -b"
+    "typecheck": "tsc -b",
+    "test:markets": "node --test tests/*.test.mjs"
   },
   "dependencies": {
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "@psy-protocol/psy-sdk": "^1.1.12"
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
   },
   "devDependencies": {
-    "@types/react": "^18.3.12",
-    "@types/react-dom": "^18.3.1",
-    "@vitejs/plugin-react": "^4.3.4",
-    "typescript": "^5.6.3",
-    "vite": "^5.4.10"
+    "@types/node": "22.12.0",
+    "@types/react": "18.3.12",
+    "@types/react-dom": "18.3.1",
+    "@vitejs/plugin-react": "6.1.2",
+    "typescript": "5.6.3",
+    "vite": "8.3.5"
+  },
+  "engines": {
+    "node": ">=22.12.0"
   }
 }
