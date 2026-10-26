@@ -7,6 +7,7 @@ import {
 } from "./liquidity.mjs";
 import { fullAmount, LIVE_GATE } from "./domain.mjs";
 import { Coin } from "./icons";
+import { RemoveLiquidityPanel } from "./RemoveLiquidityPanel";
 import { Modal } from "./OrderDialog";
 const INITIAL: LiquidityForm = {
   pool: "2485",
@@ -16,7 +17,7 @@ const INITIAL: LiquidityForm = {
   slippageBps: "50",
   feeCap: "35.0035",
 };
-export function LiquidityPanel({
+function AddLiquidityPanel({
   onLivePlan,
 }: {
   onLivePlan: (form: LiquidityForm) => void;
@@ -273,6 +274,41 @@ export function LiquidityPanel({
           <p className="small-note">{LIVE_GATE.reason}</p>
         </Modal>
       )}
+    </>
+  );
+}
+
+export function LiquidityPanel(props: {
+  onLivePlan: (form: LiquidityForm) => void;
+}) {
+  const [mode, setMode] = useState("add");
+  return (
+    <>
+      <div
+        className="route-tabs liquidity-action-tabs"
+        aria-label="Liquidity action"
+      >
+        <button
+          aria-pressed={mode === "add"}
+          className={mode === "add" ? "selected" : ""}
+          onClick={() => setMode("add")}
+        >
+          Add liquidity
+        </button>
+        <button
+          aria-pressed={mode === "remove"}
+          className={mode === "remove" ? "selected" : ""}
+          onClick={() => setMode("remove")}
+        >
+          Remove liquidity
+        </button>
+      </div>
+      <div hidden={mode !== "add"}>
+        <AddLiquidityPanel {...props} />
+      </div>
+      <div hidden={mode !== "remove"}>
+        <RemoveLiquidityPanel />
+      </div>
     </>
   );
 }

@@ -1587,3 +1587,345 @@ td small {
   background: var(--psy-surface);
   padding: 10px;
 }
+/* Three market surfaces inherit Psy's editorial tokens and primitives. */
+.mobile-market-nav {
+  display: none;
+}
+.market-boundary {
+  padding: 11px 14px;
+  background: var(--psy-surface);
+  border-left: 3px solid var(--psy-blue);
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+.product-grid {
+  display: grid;
+  grid-template-columns: minmax(320px, 0.85fr) minmax(370px, 1.15fr);
+  gap: 28px;
+  align-items: start;
+}
+.product-grid > *,
+.nft-workspace > * {
+  min-width: 0;
+}
+.product-form {
+  padding: 20px;
+}
+.product-form > h2 {
+  margin-bottom: 18px;
+}
+.product-form .quote-details strong {
+  max-width: 50%;
+  overflow-wrap: anywhere;
+}
+.fixture-tag {
+  font-size: 11px;
+  padding: 5px 8px;
+  background: var(--psy-surface);
+  color: var(--psy-muted);
+  white-space: nowrap;
+}
+.book-side {
+  margin: 20px 0;
+}
+.book-side h3,
+.curve-overview h3 {
+  font-size: 14px;
+  margin: 16px 0 12px;
+}
+.book-side table {
+  font-variant-numeric: tabular-nums;
+}
+.book-side .text-button {
+  min-height: 36px;
+}
+.ask-ink {
+  color: #a62c34;
+}
+.bid-ink {
+  color: #0d7748;
+}
+.product-drafts {
+  border: 1px solid var(--psy-line);
+  padding: 18px;
+  margin-top: 24px;
+  min-width: 0;
+}
+.product-drafts .section-note {
+  margin-bottom: 14px;
+}
+.product-drafts td {
+  max-width: 380px;
+  overflow-wrap: anywhere;
+}
+.product-drafts td:last-child {
+  display: flex;
+  gap: 14px;
+}
+.product-drafts .text-button {
+  min-height: 36px;
+}
+.product-drafts table {
+  min-width: 700px;
+}
+.product-json {
+  font-size: 11px;
+  line-height: 1.6;
+  overflow-x: auto;
+  padding: 12px;
+  background: var(--psy-surface);
+  max-width: 100%;
+}
+.curve-chart {
+  width: 100%;
+  height: auto;
+  margin-top: 20px;
+}
+.chart-axis,
+.chart-grid {
+  fill: none;
+  stroke: var(--psy-line);
+  stroke-width: 1;
+}
+.chart-line {
+  fill: none;
+  stroke: var(--psy-blue);
+  stroke-width: 3;
+}
+.chart-threshold {
+  stroke: var(--psy-muted);
+  stroke-dasharray: 5 4;
+}
+.chart-point {
+  fill: var(--psy-blue);
+  stroke: white;
+  stroke-width: 2;
+}
+.curve-chart text {
+  font-family: var(--psy-sans);
+  font-size: 11px;
+  fill: var(--psy-muted);
+}
+.market-stat-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  border-top: 1px solid var(--psy-line);
+  padding-top: 20px;
+  margin: 12px 0 26px;
+}
+.market-stat-grid span {
+  display: block;
+  color: var(--psy-muted);
+  font-size: 12px;
+  margin-bottom: 9px;
+}
+.market-stat-grid strong {
+  font-size: 21px;
+  letter-spacing: -0.025em;
+}
+.curve-overview progress {
+  display: block;
+  width: 100%;
+  height: 9px;
+  margin: 12px 0;
+  accent-color: var(--psy-blue);
+}
+.curve-overview details {
+  margin-top: 20px;
+  font-size: 13px;
+}
+.nft-mode-tabs {
+  max-width: 450px;
+  margin-bottom: 22px;
+}
+.nft-workspace {
+  display: grid;
+  grid-template-columns: minmax(300px, 0.7fr) minmax(400px, 1.3fr);
+  gap: 28px;
+  align-items: start;
+}
+.nft-settings {
+  padding: 20px;
+}
+.nft-settings > h2 {
+  margin-bottom: 10px;
+}
+.nft-settings .section-note {
+  margin-top: 16px;
+}
+.nft-gallery {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+.nft-card {
+  border: 1px solid var(--psy-line);
+  min-width: 0;
+}
+.nft-art {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.art-caption {
+  fill: var(--psy-muted);
+  font-family: var(--psy-sans);
+  font-size: 8px;
+  letter-spacing: 0.5px;
+}
+.nft-card-body {
+  padding: 18px;
+}
+.nft-card h3 {
+  font-size: 19px;
+  margin: 8px 0 12px;
+  letter-spacing: -0.025em;
+}
+.nft-card p {
+  font-size: 12px;
+  color: var(--psy-muted);
+  line-height: 1.6;
+}
+.nft-card strong {
+  font-size: 16px;
+  display: block;
+  margin: 16px 0;
+  overflow-wrap: anywhere;
+}
+.nft-card .secondary-button {
+  width: 100%;
+  min-height: 44px;
+  justify-content: center;
+}
+.nft-toolbar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(145px, 0.6fr);
+  gap: 16px;
+  margin: 16px 0 20px;
+}
+.nft-toolbar label,
+.draft-filter {
+  color: var(--psy-muted);
+  font-size: 12px;
+}
+.nft-toolbar input,
+.nft-toolbar select,
+.draft-filter select {
+  display: block;
+  width: 100%;
+  border: 1px solid var(--psy-line);
+  background: white;
+  min-height: 42px;
+  padding: 9px 10px;
+  font-size: 13px;
+  margin-top: 7px;
+}
+.draft-filter {
+  display: block;
+  max-width: 240px;
+  margin: 16px 0 0;
+}
+.all-drafts-link {
+  margin: 12px 0;
+  min-height: 40px;
+}
+.amm-activity-title {
+  margin: 32px 0 16px;
+}
+.other-market-claims {
+  border-top: 1px solid var(--psy-line);
+  margin-top: 25px;
+  padding-top: 24px;
+}
+.other-market-claims .section-note {
+  margin: 10px 0;
+}
+@media (max-width: 1100px) {
+  .product-grid,
+  .nft-workspace {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .nft-gallery {
+    max-width: 800px;
+  }
+}
+@media (max-width: 650px) {
+  .sidebar nav {
+    display: none;
+  }
+  .mobile-market-nav {
+    display: block;
+    margin: 16px 0 14px;
+    font-size: 12px;
+    color: var(--psy-muted);
+  }
+  .mobile-market-nav select {
+    display: block;
+    width: 100%;
+    min-height: 44px;
+    margin-top: 7px;
+    border: 1px solid var(--psy-line);
+    background: white;
+    padding: 8px 12px;
+    font-size: 16px;
+  }
+  .product-form,
+  .nft-settings {
+    padding: 17px 14px;
+  }
+  .product-form input,
+  .nft-settings input,
+  .product-form select,
+  .nft-settings select {
+    font-size: 16px;
+  }
+  .product-drafts {
+    padding: 15px 12px;
+  }
+  .product-drafts .section-heading {
+    align-items: start;
+    gap: 8px;
+  }
+  .product-drafts .section-heading h2 span {
+    display: block;
+    margin-left: 0;
+    margin-top: 5px;
+  }
+  .book-side td,
+  .book-side th {
+    padding: 8px 6px;
+  }
+  .book-side .text-button {
+    min-height: 44px;
+    font-size: 11px;
+  }
+  .fixture-tag {
+    white-space: normal;
+  }
+  .market-stat-grid strong {
+    font-size: 18px;
+  }
+  .nft-gallery {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .nft-toolbar {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+  }
+  .nft-toolbar input,
+  .nft-toolbar select {
+    font-size: 16px;
+  }
+  .product-form .quote-details > div {
+    gap: 12px;
+  }
+  .product-form .quote-details strong {
+    max-width: 45%;
+  }
+}
+.liquidity-action-tabs {
+  max-width: 450px;
+  margin-bottom: 20px;
+}

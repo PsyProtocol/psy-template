@@ -25,3 +25,27 @@ export const DEMO_POOLS: readonly string[];
 export function previewLiquidity(
   form: LiquidityForm,
 ): Readonly<LiquidityPreview>;
+export interface WithdrawalForm {
+  pool: string;
+  receiver: string;
+  shares: string;
+  slippageBps: string;
+  feeCap: string;
+}
+export interface WithdrawalPreview {
+  source: "demo";
+  financialAuthorization: false;
+  pool: string;
+  owner: string;
+  burned: string;
+  owned: string;
+  a: string;
+  b: string;
+  minimumA: string;
+  minimumB: string;
+  burnedLimbs: string[];
+  feeCap: string;
+}
+export function previewWithdrawal(
+  form: WithdrawalForm,
+): Readonly<WithdrawalPreview>;
