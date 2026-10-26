@@ -12,6 +12,7 @@ import{assetCohort}from'./cohortScope.mjs';
 import{optionalCalibration}from'./optionalCalibration.mjs';
 import{completedColdCalibration}from'./completedCalibration.mjs';
 import{parseLosslessJson}from'../../amm/u124/client.mjs';
+import{guardReadRetry}from'./guardReadRetry.mjs';
 export const pause=ms=>new Promise(r=>setTimeout(r,ms));
 export function cohort(base,original){
  assert.ok(!existsSync(join(base,'public/ABANDONED-DEPLOYMENT-v1.json')),'retired QA case cannot run financial acceptance');
@@ -87,6 +88,15 @@ export async function formal(h,m,tag,plan,{benchmark=false,benchmarkKinds=['batc
    save(cliEvidence,{checkedAt:new Date().toISOString(),entrypoint:'executor/run.mjs once',config:path,log,timing,cliProcessError,reviewedTask:task,actualTask:selected.task,taskId:selected.taskId,scope:'real production CLI process; fresh scan may advance local send window, complete calls and all other task fields must match'});
    task=selected.task;result={taskId:selected.taskId};
   }else result=await journal.execute({task,...adapter});
+  if(process.env.PSY_MEASURED_GUARD_READ_RETRY==='1'&&result.status==='not-submitted'){
+   const state=await publicState(h.config),urls=[...state.network.realm_configs,...state.network.coordinator_configs].flatMap(r=>r.rpc_url);
+   const retry=guardReadRetry(await journal.records(),result.taskId,{base:h.base,driverSha256:h.binarySha256,urls});
+   if(retry){
+    assert.deepEqual(retry.originalTask,task);save(join(h.base,'public',label+'-guard-read-retry-v1.json'),{at:new Date().toISOString(),...retry,scope:'one exact prepared-proof retry after proved pre-wire read failure; no reproof, new funding, expiry extension or unknown broadcast retry'});
+    const prepare=adapter.prepareSubmission;
+    result=await journal.execute({task,...adapter,prove:async()=>{throw Error('measured guard retry original proof became stale; no implicit reproof');},prepareSubmission:async(t,p)=>{assert.deepEqual(t,task);assert.equal(p.manifestSha256,retry.proof.manifestSha256);assert.equal(p.preparedDirectory,retry.proof.preparedDirectory);return prepare(t,p);}});
+   }
+  }
   for(let i=0;i<120;i++){
    await journal.reconcile(adapter.reconcile);const records=await journal.records(),outcome=latestBroadcastOutcome(records,result.taskId);if(outcome?.status==='resolved-by-confirmed-conflict')throw Error('original task is terminal: resolved by confirmed nonce conflict; do not re-execute or wait for its old receipt');if(outcome?.status==='not-submitted')throw Error('explicit pre-broadcast rejection: '+outcome.reason+'; inspect evidence before explicitly resuming; reuse requires unchanged proof, anchor and send window');const included=outcome?.status==='included'?outcome:null;
    if(included){const mp=metricsPath(task,records.findLast(r=>r.taskId===result.taskId&&r.status==='broadcast-intent')?.proof);const report={checkedAt:new Date().toISOString(),taskId:result.taskId,task,result:included.result,wallMilliseconds:Math.round(performance.now()-before),executionStatus:result.status??(cliOnce?'production-cli-once':null),wallMillisecondsScope:result.status==='already-included'?'receipt observation of already included task only; excludes earlier proof/send/recovery work':'this successful parent attempt only; cached proof or earlier failed attempts may be outside this interval; includes deliberately repeated cold calibration when enabled',submitMetricsFile:mp&&existsSync(mp)?mp:null};save(output,report);console.log(report.checkedAt,m.kind,label,'included',included.result.checkpoint);return report;}
