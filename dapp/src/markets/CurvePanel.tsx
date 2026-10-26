@@ -1,3 +1,5 @@
+import { useEditingForm } from "../hooks/useEditingForm";
+import { FormDraftNotice } from "./FormDraftNotice";
 import { useMemo, useState } from "react";
 import {
   CURVE,
@@ -21,8 +23,9 @@ export function CurvePanel({
 }: {
   onPreview: (p: ProductPreview) => void;
 }) {
-  const [form, setForm] = useState(INITIAL),
-    [error, setError] = useState("");
+  const editing = useEditingForm("curve", INITIAL);
+  const { form, setForm } = editing;
+  const [error, setError] = useState("");
   const update = (key: keyof CurveForm, value: string) => {
     setError("");
     setForm({ ...form, [key]: value });
@@ -64,6 +67,13 @@ export function CurvePanel({
           }}
         >
           <h2>Trade curve lots</h2>
+          <FormDraftNotice
+            {...editing}
+            onReset={() => {
+              editing.reset();
+              setError("");
+            }}
+          />
           <div className="route-tabs" aria-label="Curve direction">
             {(["buy", "sell"] as const).map((side) => (
               <button

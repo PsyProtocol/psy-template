@@ -1,3 +1,5 @@
+import { useEditingForm } from "../hooks/useEditingForm";
+import { FormDraftNotice } from "./FormDraftNotice";
 import { useMemo, useState } from "react";
 import {
   previewWithdrawal,
@@ -12,14 +14,15 @@ export function RemoveLiquidityPanel({
 }: {
   onLivePlan: (form: WithdrawalForm) => void;
 }) {
-  const [form, setForm] = useState<WithdrawalForm>({
-      pool: "2485",
-      receiver: "",
-      shares: "5000000000000000000",
-      slippageBps: "50",
-      feeCap: "5",
-    }),
-    [error, setError] = useState(""),
+  const editing = useEditingForm<WithdrawalForm>("remove", {
+    pool: "2485",
+    receiver: "",
+    shares: "5000000000000000000",
+    slippageBps: "50",
+    feeCap: "5",
+  });
+  const { form, setForm } = editing;
+  const [error, setError] = useState(""),
     [preview, setPreview] = useState<Readonly<WithdrawalPreview> | null>(null);
   const update = (key: keyof WithdrawalForm, value: string) => {
     setError("");
@@ -48,6 +51,13 @@ export function RemoveLiquidityPanel({
           }}
         >
           <h2>Remove liquidity</h2>
+          <FormDraftNotice
+            {...editing}
+            onReset={() => {
+              editing.reset();
+              setError("");
+            }}
+          />
           <label className="liquidity-pool">
             Pool
             <select

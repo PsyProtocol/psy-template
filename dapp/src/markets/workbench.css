@@ -2119,3 +2119,7 @@ td small {
     width: 100%;
   }
 }
+.editing-notice { display: flex; align-items: start; gap: 12px; justify-content: space-between; margin: 10px 0 18px; }
+.editing-notice p { margin: 0; flex: 1; }
+.editing-notice button { flex: 0 0 auto; min-height: 32px; }
+@media(max-width:650px) { .editing-notice { flex-direction: column; gap: 4px; } .editing-notice button { min-height: 44px; } }

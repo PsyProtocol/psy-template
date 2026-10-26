@@ -1,3 +1,5 @@
+import { useEditingForm } from "../hooks/useEditingForm";
+import { FormDraftNotice } from "./FormDraftNotice";
 import { useMemo, useState } from "react";
 import {
   BOOK_ROWS,
@@ -22,8 +24,9 @@ export function OrderbookPanel({
 }: {
   onPreview: (p: ProductPreview) => void;
 }) {
-  const [form, setForm] = useState(INITIAL),
-    [error, setError] = useState("");
+  const editing = useEditingForm("orderbook", INITIAL);
+  const { form, setForm } = editing;
+  const [error, setError] = useState("");
   const update = (key: keyof BookForm, value: string) => {
     setError("");
     setForm({ ...form, [key]: value });
@@ -53,6 +56,13 @@ export function OrderbookPanel({
           }}
         >
           <h2>Limit order</h2>
+          <FormDraftNotice
+            {...editing}
+            onReset={() => {
+              editing.reset();
+              setError("");
+            }}
+          />
           <div className="route-tabs" aria-label="Order side">
             {(["buy", "sell"] as const).map((side) => (
               <button

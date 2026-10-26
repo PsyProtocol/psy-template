@@ -1,3 +1,5 @@
+import { useEditingForm } from "../hooks/useEditingForm";
+import { FormDraftNotice } from "./FormDraftNotice";
 import { useEffect, useRef, useState } from "react";
 import {
   NFT_LISTINGS,
@@ -56,18 +58,35 @@ export function NftMarketPanel({
 }: {
   onPreview: (p: ProductPreview) => void;
 }) {
-  const [mode, setMode] = useState<"browse" | "list">("browse"),
-    [common, setCommon] = useState<CommonProductForm>({
-      userId: "12345",
-      feeCap: "5",
-      deadlineMinutes: "30",
-    }),
-    [maxPrice, setMaxPrice] = useState("10"),
-    [price, setPrice] = useState("3"),
-    [ownedId, setOwnedId] = useState("owned-3"),
-    [query, setQuery] = useState(""),
-    [sort, setSort] = useState("low"),
-    [error, setError] = useState("");
+  const editing = useEditingForm("nft", {
+    mode: "browse" as "browse" | "list",
+    userId: "12345",
+    feeCap: "5",
+    deadlineMinutes: "30",
+    maxPrice: "10",
+    price: "3",
+    ownedId: "owned-3",
+    query: "",
+    sort: "low",
+  });
+  const { mode, maxPrice, price, ownedId, query, sort } = editing.form;
+  const common: CommonProductForm = {
+    userId: editing.form.userId,
+    feeCap: editing.form.feeCap,
+    deadlineMinutes: editing.form.deadlineMinutes,
+  };
+  const setCommon = (value: CommonProductForm) =>
+    editing.setForm((p) => ({ ...p, ...value }));
+  const setMode = (mode: "browse" | "list") =>
+    editing.setForm((p) => ({ ...p, mode }));
+  const setMaxPrice = (maxPrice: string) =>
+    editing.setForm((p) => ({ ...p, maxPrice }));
+  const setPrice = (price: string) => editing.setForm((p) => ({ ...p, price }));
+  const setOwnedId = (ownedId: string) =>
+    editing.setForm((p) => ({ ...p, ownedId }));
+  const setQuery = (query: string) => editing.setForm((p) => ({ ...p, query }));
+  const setSort = (sort: string) => editing.setForm((p) => ({ ...p, sort }));
+  const [error, setError] = useState("");
   const errorRef = useRef<HTMLParagraphElement>(null);
   useEffect(() => {
     if (error) errorRef.current?.focus();
@@ -92,6 +111,13 @@ export function NftMarketPanel({
   return (
     <>
       <ProductBoundary />
+      <FormDraftNotice
+        {...editing}
+        onReset={() => {
+          editing.reset();
+          setError("");
+        }}
+      />
       <div className="route-tabs nft-mode-tabs" aria-label="NFT activity">
         <button
           aria-pressed={mode === "browse"}
