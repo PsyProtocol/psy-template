@@ -318,12 +318,30 @@ export async function createGatewayAdapter(
         };
       }),
     );
-    const [nativeBalance, feeSent, feeSettled, feeClaimed] = await Promise.all([
+    const [
+      nativeBalance,
+      feeSent,
+      feeSettled,
+      feeClaimed,
+      nativeSent,
+      nativeClaimed,
+      consumed,
+      recoveryPool,
+      batchReady,
+      batchPhase,
+    ] = await Promise.all([
       s.slot(userId, 0, 0),
       s.slot(userId, 0, 3 + 2 * m.vaultId),
       field(m.vaultId, "settled_fee", userId),
       s.slot(m.vaultId, 0, 4 + 2 * userId),
+      s.slot(m.vaultId, 0, 3 + 2 * userId),
+      s.slot(userId, 0, 4 + 2 * m.vaultId),
+      field(m.vaultId, "consumed", userId),
+      field(userId, "recovery_pool"),
+      field(m.vaultId, "batch_ready"),
+      field(m.vaultId, "batch_phase"),
     ]);
+    assert.ok(nativeSent >= nativeClaimed, "Native output cursor underflow");
     const anchors = (
       await Promise.all(
         [userId, m.vaultId].map((u) =>
@@ -339,7 +357,7 @@ export async function createGatewayAdapter(
     ).flat();
     await current();
     return {
-      schema: 1,
+      schema: 2,
       registryHash: c.registrySha256,
       network: registry.network,
       marketId,
@@ -359,10 +377,19 @@ export async function createGatewayAdapter(
       order,
       assets,
       anchors,
+      lifecycle: {
+        consumed: String(consumed),
+        recoveryPool: String(recoveryPool),
+        batchReady: String(batchReady),
+        batchPhase: String(batchPhase),
+      },
       funding: {
         feeSent: String(feeSent),
         feeSettled: String(feeSettled),
         feeClaimed: String(feeClaimed),
+        nativeSent: String(nativeSent),
+        nativeClaimed: String(nativeClaimed),
+        nativeClaimable: String(nativeSent - nativeClaimed),
       },
     };
   }

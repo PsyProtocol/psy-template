@@ -168,3 +168,131 @@ test("claim plans consume only the selected reviewed vault Outbox; no output mea
   assert.deepEqual(p.calls[0].inputs, [String(registry.markets[0].vaultId)]);
   assert.equal(p.calls[0].contract_id, "2484");
 });
+
+test("withdrawal uses actual owned raw LP shares, both outputs and no token deposit", () => {
+  const s = make();
+  s.pool.ownedShares = "10000000000000000000";
+  const request = {
+    ...swapRequest(),
+    kind: "remove",
+    amountA: "4611686018427387921",
+  };
+  const p = plan(s, request);
+  assert.deepEqual(
+    p.calls.map((c) => c.method_name),
+    ["open_remove", "simple_transfer"],
+  );
+  assert.deepEqual(p.calls[0].inputs.slice(1, 3), ["17", "1"]);
+  assert.equal(p.withdrawal.outputA, "4611686018427387921");
+  assert.equal(p.withdrawal.minimumA, "4588627588335250981");
+  assert.equal(p.orderNonce, "1");
+  assert.equal(p.debits.length, 1);
+  for (const amountA of ["1.5", "10000000000000000001", "0", "01"])
+    assert.throws(() => plan(s, { ...request, amountA }));
+  const locked = make();
+  locked.pool.ownedShares = locked.pool.totalShares;
+  assert.throws(
+    () => plan(locked, { ...request, amountA: locked.pool.totalShares }),
+    /shares/,
+  );
+});
+test("native claim uses only PSY and the selected vault; contradictory or old snapshots reject", () => {
+  const s = make(),
+    request = {
+      ...swapRequest(),
+      kind: "claim-native",
+      amountA: "",
+      assetIn: 0,
+    };
+  assert.throws(() => plan(s, request), /No confirmed native/);
+  s.funding.nativeSent = "1234567890";
+  s.funding.nativeClaimable = "1234567890";
+  assert.deepEqual(plan(s, request).calls, [
+    {
+      contract_id: "0",
+      method_name: "simple_claim",
+      inputs: [String(registry.markets[0].vaultId)],
+    },
+  ]);
+  assert.throws(() => plan(s, { ...request, assetIn: 2483 }), /asset/);
+  s.funding.nativeClaimed = "1";
+  assert.throws(() => plan(s, request), /cursor mismatch/);
+  const old = make();
+  old.schema = 1;
+  assert.throws(() => plan(old), /identity mismatch/);
+});
+test("recovery enrollment requires actual unused funding and cannot bypass an active or committed order", () => {
+  const s = make(),
+    request = { ...swapRequest(), kind: "recover", amountA: "" };
+  assert.throws(() => plan(s, request), /No unused/);
+  s.assets[1].sentToVault = "4611686018427387921";
+  const p = plan(s, request);
+  assert.equal(p.calls[0].method_name, "request_recovery");
+  assert.deepEqual(p.calls[0].inputs, [String(registry.markets[0].vaultId)]);
+  assert.equal(p.debits.length, 0);
+  assert.match(p.next, /does not refund/);
+  s.order.kind = "1";
+  s.order.pool = String(registry.markets[0].vaultId);
+  s.order.nonce = "1";
+  assert.throws(() => plan(s, request), /Active order/);
+  s.lifecycle.consumed = "1";
+  assert.equal(plan(s, request).callCount, 1);
+  s.lifecycle.batchPhase = "2";
+  assert.throws(() => plan(s, request), /Committed batch/);
+  s.lifecycle.batchPhase = "3";
+  s.lifecycle.recoveryPool = s.order.pool;
+  assert.throws(() => plan(s, request), /already enrolled/);
+});
+test("release cannot use historical nonmembership or bypass frozen consent", () => {
+  const s = make(),
+    request = { ...swapRequest(), kind: "release", amountA: "" };
+  s.order = {
+    ...s.order,
+    kind: "1",
+    pool: String(registry.markets[0].vaultId),
+    nonce: "1",
+    cancelled: "1",
+    admission_epoch: "1",
+    admission_nonce: "1",
+  };
+  for (const phase of ["1", "2"]) {
+    s.queue.phase = phase;
+    assert.throws(() => plan(s, request), /consent locks/);
+  }
+  s.queue.phase = "3";
+  assert.equal(plan(s, request).calls[0].method_name, "release_unaccepted");
+  s.order.cancelled = "0";
+  assert.throws(() => plan(s, request), /Cancel/);
+});
+test("withdrawal cancellation and closure retain original queue constraints", () => {
+  const s = make();
+  s.order = {
+    ...s.order,
+    kind: "3",
+    pool: String(registry.markets[0].vaultId),
+    nonce: "1",
+  };
+  const r = { ...swapRequest(), kind: "cancel", amountA: "" };
+  assert.equal(plan(s, r).calls[0].method_name, "request_cancel");
+  assert.equal(
+    plan(s, { ...r, kind: "close" }).calls[0].method_name,
+    "close_remove",
+  );
+  s.order.admission_epoch = "1";
+  s.order.admission_nonce = "1";
+  assert.throws(() => plan(s, { ...r, kind: "close" }), /locks closure/);
+});
+test("account lifecycle bounds and funding cursors cannot be omitted or forged", () => {
+  for (const mutate of [
+    (s) => delete s.lifecycle,
+    (s) => (s.lifecycle.batchReady = "2"),
+    (s) => (s.lifecycle.batchPhase = "5"),
+    (s) => (s.lifecycle.recoveryPool = "16777216"),
+    (s) => (s.funding.nativeClaimable = "1"),
+    (s) => (s.funding.nativeSent = String(RADIX)),
+  ]) {
+    const s = make();
+    mutate(s);
+    assert.throws(() => plan(s));
+  }
+});

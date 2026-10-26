@@ -6,6 +6,7 @@ import {
 } from "../token/wide/arithmetic.mjs";
 import {
   swapQuote,
+  withdraw,
   addShares,
   encodeAmount,
   FEE_ESCROW,
@@ -51,7 +52,7 @@ export function validateSnapshot(
   );
   ok(userId !== m.vaultId, "The public vault is not an ordinary user");
   ok(
-    snapshot?.schema === 1 &&
+    snapshot?.schema === 2 &&
       snapshot.marketId === marketId &&
       snapshot.userId === userId,
     "Snapshot identity mismatch",
@@ -138,6 +139,28 @@ export function validateSnapshot(
   integer(snapshot.funding.feeSent);
   integer(snapshot.funding.feeSettled);
   integer(snapshot.funding.feeClaimed);
+  for (const f of ["nativeSent", "nativeClaimed", "nativeClaimable"])
+    integer(snapshot.funding[f], RADIX - 1n);
+  ok(
+    BigInt(snapshot.funding.nativeSent) >=
+      BigInt(snapshot.funding.nativeClaimed) &&
+      BigInt(snapshot.funding.nativeSent) -
+        BigInt(snapshot.funding.nativeClaimed) ===
+        BigInt(snapshot.funding.nativeClaimable),
+    "Native output cursor mismatch",
+  );
+  for (const f of ["consumed", "recoveryPool", "batchReady", "batchPhase"])
+    integer(snapshot.lifecycle?.[f], RADIX - 1n);
+  ok(
+    ["0", "1"].includes(snapshot.lifecycle.batchReady) &&
+      ["0", "1", "2", "3", "4"].includes(snapshot.lifecycle.batchPhase),
+    "Invalid vault lifecycle",
+  );
+  ok(
+    BigInt(snapshot.lifecycle.recoveryPool) < 16777216n,
+    "Recovery user ID overflow",
+  );
+
   ok(
     BigInt(snapshot.funding.feeSent) >= BigInt(snapshot.funding.feeSettled),
     "Noncanonical fee cursor",
@@ -187,7 +210,18 @@ export function buildAmmPlan(
       registryHash,
     });
   ok(
-    ["swap", "add", "admit", "cancel", "close", "claim"].includes(kind),
+    [
+      "swap",
+      "add",
+      "remove",
+      "admit",
+      "cancel",
+      "close",
+      "claim",
+      "claim-native",
+      "release",
+      "recover",
+    ].includes(kind),
     "Unsupported AMM action",
   );
   id(request.recipientId);
@@ -203,7 +237,9 @@ export function buildAmmPlan(
   );
   ok([10, 50, 100].includes(request.slippageBps), "Unsupported slippage limit");
   ok(
-    m.assets.some((a) => a.contractId === request.assetIn),
+    kind === "claim-native"
+      ? request.assetIn === 0
+      : m.assets.some((a) => a.contractId === request.assetIn),
     "Unreviewed input asset",
   );
   const [a, b] = snapshot.assets,
@@ -234,6 +270,7 @@ export function buildAmmPlan(
     debits = [],
     balance = (x) => BigInt(x.balance),
     outstanding = (x) => BigInt(x.sentToVault) - BigInt(x.vaultSettled);
+  let withdrawal = null;
   let quote = null,
     minimum = null,
     next = "Confirm the original request before planning another stage.";
@@ -355,12 +392,108 @@ export function buildAmmPlan(
     funding(b, y);
     next =
       "After confirmation, consent to an open queue. Shares are internal pool units, not an FT balance.";
+  } else if (kind === "remove") {
+    newOrder();
+    ok(
+      request.amountB === "" && request.assetIn === a.contractId,
+      "Withdrawal uses raw shares and fixed asset order",
+    );
+    const burned = integer(request.amountA);
+    const result = withdraw(
+      burned,
+      BigInt(snapshot.pool.reserveA),
+      BigInt(snapshot.pool.reserveB),
+      BigInt(snapshot.pool.totalShares),
+      BigInt(snapshot.pool.ownedShares),
+    );
+    const minA = (result.a * (10000n - BigInt(request.slippageBps))) / 10000n,
+      minB = (result.b * (10000n - BigInt(request.slippageBps))) / 10000n;
+    ok(minA > 0n && minB > 0n, "Withdrawal minimum rounds to zero");
+    calls.push(
+      market("open_remove", [
+        va,
+        encodeAmount(burned),
+        encodeAmount(minA),
+        encodeAmount(minB),
+        BigInt(end),
+        BigInt(order.nonce) + 1n,
+      ]),
+    );
+    escrow();
+    withdrawal = {
+      burned: String(burned),
+      outputA: String(result.a),
+      outputB: String(result.b),
+      minimumA: String(minA),
+      minimumB: String(minB),
+    };
+    next =
+      "An unsigned withdrawal does not burn LP. After order confirmation, consent to the open queue; only confirmed settlement creates claimable token outputs.";
   } else {
     ok(
       request.amountA === "" && request.amountB === "",
       "Amounts are not accepted for this action",
     );
-    if (kind === "claim") {
+
+    const consentUnlocked = () =>
+      order.admission_nonce !== order.nonce ||
+      order.admission_epoch === "0" ||
+      BigInt(snapshot.queue.epoch) > BigInt(order.admission_epoch) ||
+      (snapshot.queue.epoch === order.admission_epoch &&
+        snapshot.queue.phase === "3");
+    if (kind === "claim-native") {
+      ok(
+        BigInt(snapshot.funding.nativeClaimable) > 0n,
+        "No confirmed native Outbox delta to claim",
+      );
+      calls.push({
+        contract_id: 0n,
+        method_name: "simple_claim",
+        inputs: [va],
+      });
+      next =
+        "Claim the actual native Outbox delta, then check receipt and net balance after the ordinary wallet fee. A pending return is not spendable.";
+    } else if (kind === "recover") {
+      ok(
+        order.kind === "0" ||
+          order.pool !== String(m.vaultId) ||
+          BigInt(snapshot.lifecycle.consumed) >= BigInt(order.nonce),
+        "Active order must first settle, refund or lawfully release",
+      );
+      ok(
+        snapshot.lifecycle.recoveryPool !== String(m.vaultId),
+        "Recovery already enrolled; reconcile the original request and wait for sender-bound recovery",
+      );
+      ok(
+        outstanding(a) > 0n ||
+          outstanding(b) > 0n ||
+          BigInt(snapshot.funding.feeSent) >
+            BigInt(snapshot.funding.feeSettled),
+        "No unused incoming funding to recover",
+      );
+      ok(
+        snapshot.lifecycle.batchReady === "1" &&
+          ["0", "3", "4"].includes(snapshot.lifecycle.batchPhase),
+        "Committed batch blocks recovery; await its outcome or lawful expiry",
+      );
+      calls.push(market("request_recovery", [va]));
+      next =
+        "This enrolls only the original payer; it does not refund assets. The restricted Executor must recover actual unused deposits with sufficient authorized fees, then the owner separately claims outputs. Completed trades are not undone.";
+    } else if (kind === "release") {
+      ok(
+        order.kind !== "0" &&
+          order.pool === String(m.vaultId) &&
+          order.cancelled === "1",
+        "Cancel the selected order before releasing it",
+      );
+      ok(
+        consentUnlocked(),
+        "Original admission consent locks release until epoch closure",
+      );
+      calls.push(market("release_unaccepted"));
+      next =
+        "This clears an order only after lawful consent closure; no funds move. Refresh before requesting sender-bound recovery and later claims. It cannot remove frozen members.";
+    } else if (kind === "claim") {
       const asset = request.assetIn === a.contractId ? a : b;
       ok(
         BigInt(asset.claimableFromVault) > 0n,
@@ -371,8 +504,9 @@ export function buildAmmPlan(
         "Verify the exact receipt and fresh token balance. An Outbox delta is not spendable until claimed.";
     } else {
       ok(
-        ["1", "2"].includes(order.kind) && order.pool === String(m.vaultId),
-        "No matching active swap/add order",
+        ["1", "2", "3"].includes(order.kind) &&
+          order.pool === String(m.vaultId),
+        "No matching active swap/add/remove order",
       );
       if (kind === "admit") {
         ok(
@@ -425,11 +559,13 @@ export function buildAmmPlan(
         );
         calls.push(
           market(
-            order.kind === "2"
-              ? "close_add"
-              : order.side === "0"
-                ? "close_swap_0"
-                : "close_swap_1",
+            order.kind === "3"
+              ? "close_remove"
+              : order.kind === "2"
+                ? "close_add"
+                : order.side === "0"
+                  ? "close_swap_0"
+                  : "close_swap_1",
           ),
         );
         next =
@@ -465,7 +601,7 @@ export function buildAmmPlan(
     startUserLeafHash: snapshot.user.leafHash,
     walletNonce: (BigInt(snapshot.user.nonce) + 1n).toString(),
     orderNonce:
-      kind === "swap" || kind === "add"
+      kind === "swap" || kind === "add" || kind === "remove"
         ? (BigInt(order.nonce) + 1n).toString()
         : order.nonce,
     vault: {
@@ -477,6 +613,7 @@ export function buildAmmPlan(
     calls: exactCalls,
     callCount: exactCalls.length,
     debits,
+    withdrawal,
     quote: quote === null ? null : String(quote),
     minimum: minimum === null ? null : String(minimum),
     maxNetworkFee: String(feeCap),

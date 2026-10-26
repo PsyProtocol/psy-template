@@ -88,18 +88,33 @@ shares, owner ID and fee cap. It reuses `addShares` and full U124 checks rather
 than a `min` approximation or an invented excess refund. LP shares are raw
 internal units, without assumed FT decimals. The reserve fixture is explicitly
 1:1. Remove liquidity reuses `withdraw`, raw shares, downward rounding, locked
-minimum supply and owned-share bounds. Live positions, deposits, empty-pool
-creation, LP removal, signing and submission are not connected. The network label
+minimum supply and owned-share bounds. Live deposits, empty-pool creation,
+LP removal execution, signing and submission are not connected. The network label
 is `Psy testnet`; the asset ticker remains PSY.
 
 ## Public read and planning layer
 
-Live connection is read-only. Single-pool/add-liquidity forms provide Prepare
+Live connection is read-only. Single-pool/add/remove-liquidity forms provide Prepare
 RPC-based plan. Run `npm run gateway -- /absolute/path/to/durable-unsigned-plans`;
 the UI uses a same-origin proxy to the loopback gateway on port 5274. It can read
 the configured RPCs, check reviewed identities, prepare unsigned calls and look
 up receipts by original end-user leaf. RPC values are observations, not state
 proofs. Demo orders never become chain records.
+
+Assets and Orders open the public read panel. A successful schema-2 RPC snapshot
+renders a separate AMM account section with exact FT/native balances, vault
+outputs requiring claims, unused deposits, raw LP ownership and order/queue
+observations. There is no fallback to demo values. A consumed nonce does not
+prove a fill, and a cancellation request does not prove a refund. Data expires
+after 30 seconds; action planning always requests a fresh snapshot.
+
+The account panel can prepare unsigned FT/native claims, admission, cancellation,
+lawful release, sender-bound funding recovery enrollment and order closure.
+Removal planning uses actual raw owned shares and minimums for both assets, with
+no FT deposit. All actions stop at exact unsigned calls: financial submission
+remains disabled. With configured RPCs returning HTTP 503, healthy account
+rendering and actual on-chain actions remain unaccepted; model/HTTP fixture
+tests are not chain acceptance.
 
 `npm run test:gateway` exercises the shared client, gateway and future exact-wallet
 transport seam. [Required wallet interfaces](../market-client/README.md) are still

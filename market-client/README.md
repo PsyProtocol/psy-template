@@ -34,7 +34,7 @@ No process signs, sends or controls a financial Executor on startup.
   reuses existing durable broadcast-intent ordering, restart reconciliation and
   same-payer locks. It is **not wired to the HTTP server or a live browser signer**.
 
-`reviewed/staging-qa-20261026` preserves the already-reviewed QA AMMs 2485/2486,
+`reviewed/staging-qa-20261026` preserves the original reviewed QA AMMs 2485/2486,
 FTs 2483/2484, exact ABI/policy/dependency bytes and the same public RPC config.
 PROVENANCE binds original paths and hashes. The SDK manifest remains
 0afb4c65116cddcaca450b406a06503d65b63d38a004d8e773c6e5fa363bd425.
@@ -64,7 +64,28 @@ The unsigned plan store stops at 1,000 records; files are immutable and contain
 public data only. It is not a financial journal, approval or pending payment.
 There is no submit, arbitrary URL/path, wallet selection or Executor-control API.
 
-AMM planning supports swap, add, consent, cancel-request, close and token claim.
+The active `reviewed/staging-qa-20261026-account-v2` registry adds the existing
+`open_remove`, `close_remove`, `release_unaccepted` and `request_recovery`
+descriptors from those same frozen ABIs. `ACCOUNT-EXTENSION-v2.json` binds the
+original registry and all unchanged inputs. No contract, key or SDK was updated.
+Both browser and gateway pin its canonical registry hash:
+`d1b7222f99aea7313b72f76aa21a4d43c25f35df96e7a640c27f5fbadb220423`.
+
+Snapshot schema 2 includes actual native Outbox sent/claimed cursors, vault
+consumption/recovery/batch state, LP ownership and existing token observations
+at the same checkpoint. Older snapshots are rejected, not defaulted to zero.
+`accountProjection.mjs` separates wallet balances, pending outputs and unused
+deposits; it never infers a fill from a consumed nonce. Observations become stale
+after 30 seconds and cannot be retimestamped for planning. A processed order is
+not necessarily a fill; admission consent is not accepted queue membership.
+
+AMM planning supports swap, add, raw-share removal, consent, cancel-request,
+lawful unaccepted-order release, recovery enrollment, closure and FT/native claim.
+Removal uses actual LP ownership and downward-rounded outputs for both assets;
+it funds only market fee escrow and never transfers input FT. Release requires
+cancellation and lawful consent closure, without moving funds. Recovery enrolls
+the original payer only; the restricted Executor still needs authorized fees,
+actual recovery and separate ordinary claims. Neither action reverses a trade.
 New deposits stop if a previous order/consent/funding cursor is unresolved or
 there is no open queue capacity. Cancellation does not remove a frozen member
 or authorize immediate refund. LP and swap outputs credit the actual order owner;
@@ -122,7 +143,7 @@ ordinary full UPS, wallet transaction, deposit, settlement or claim is accepted
 in this milestone. Runtime image identity, upgrade authorization and browser SDK/
 key attestation remain open. Full unaccepted-order recovery enrollment, funding
 seeds and a healthy service status projection must be integrated with the formal
-Executor; the six unsigned action plans alone do not close every recovery path.
+Executor; the expanded unsigned plans alone do not close every recovery path.
 
 The two-pool controller remains a separate multi-UPS workflow. This gateway does
 not make it atomic or attach its payer/fees. Orderbook, Curve and NFT Market UI/

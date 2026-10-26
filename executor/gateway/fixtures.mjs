@@ -4,7 +4,9 @@ import { createHash } from "node:crypto";
 export const H = (x) => createHash("sha256").update(String(x)).digest("hex");
 export const NOW = 1793000000000;
 export async function fixtureConfig(directory) {
-  const source = resolve("market-client/reviewed/staging-qa-20261026"),
+  const source = resolve(
+      "market-client/reviewed/staging-qa-20261026-account-v2",
+    ),
     reviewed = join(directory, "reviewed");
   await mkdir(directory, { recursive: true });
   await cp(source, reviewed, { recursive: true });
@@ -24,13 +26,15 @@ export async function fixtureConfig(directory) {
 }
 export async function fixtureRegistry() {
   return JSON.parse(
-    await readFile("market-client/reviewed/staging-qa-20261026/registry.json"),
+    await readFile(
+      "market-client/reviewed/staging-qa-20261026-account-v2/registry.json",
+    ),
   );
 }
 export async function fixturePin() {
   return JSON.parse(
     await readFile(
-      "market-client/reviewed/staging-qa-20261026/client-pin.json",
+      "market-client/reviewed/staging-qa-20261026-account-v2/client-pin.json",
     ),
   );
 }
@@ -42,7 +46,7 @@ export function observed(
   const m = registry.markets.find((m) => m.marketId === marketId),
     R = 1000n * 10n ** 18n;
   return {
-    schema: 1,
+    schema: 2,
     registryHash,
     network: registry.network,
     marketId,
@@ -91,7 +95,20 @@ export function observed(
         root: H("state:" + u + ":" + d.contract.contractId),
       })),
     ),
-    funding: { feeSent: "0", feeSettled: "0", feeClaimed: "0" },
+    funding: {
+      feeSent: "0",
+      feeSettled: "0",
+      feeClaimed: "0",
+      nativeSent: "0",
+      nativeClaimed: "0",
+      nativeClaimable: "0",
+    },
+    lifecycle: {
+      consumed: "0",
+      recoveryPool: "0",
+      batchReady: "1",
+      batchPhase: "3",
+    },
   };
 }
 export const swapRequest = () => ({
@@ -175,6 +192,32 @@ export function fakePublicState(loaded, snapshot) {
     snapshot.funding.feeSettled,
   );
   put(m.vaultId, 0, 4 + 2 * snapshot.userId, snapshot.funding.feeClaimed);
+  put(m.vaultId, 0, 3 + 2 * snapshot.userId, snapshot.funding.nativeSent);
+  put(snapshot.userId, 0, 4 + 2 * m.vaultId, snapshot.funding.nativeClaimed);
+  put(
+    m.vaultId,
+    m.marketId,
+    map.get("consumed") + snapshot.userId,
+    snapshot.lifecycle.consumed,
+  );
+  put(
+    snapshot.userId,
+    m.marketId,
+    map.get("recovery_pool"),
+    snapshot.lifecycle.recoveryPool,
+  );
+  put(
+    m.vaultId,
+    m.marketId,
+    map.get("batch_ready"),
+    snapshot.lifecycle.batchReady,
+  );
+  put(
+    m.vaultId,
+    m.marketId,
+    map.get("batch_phase"),
+    snapshot.lifecycle.batchPhase,
+  );
   return {
     networkName: loaded.registry.network.name,
     network: {

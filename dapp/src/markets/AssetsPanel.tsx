@@ -22,10 +22,11 @@ export function AssetsPanel({
   return (
     <>
       <section className="assets-section">
-        <h2>Asset overview</h2>
+        <h2>Demo asset overview</h2>
         <p className="section-note">
-          Wallet balances have not been read or verified. Pending amounts below
-          summarize local demo records only.
+          Amounts below summarize local demo records only. Any real RPC
+          observations appear in the separate AMM account panel above; these
+          records never become chain balances or claims.
         </p>
         <div className="asset-list">
           {(["A", "B"] as const).map((key) => {

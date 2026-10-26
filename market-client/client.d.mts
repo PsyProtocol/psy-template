@@ -1,5 +1,5 @@
 export interface MarketSnapshot {
-  schema: 1;
+  schema: 2;
   registryHash: string;
   marketId: number;
   userId: number;
@@ -25,12 +25,48 @@ export interface MarketSnapshot {
     decimals: number;
     balance: string;
     claimableFromVault: string;
+    sentToVault: string;
+    vaultSettled: string;
   }[];
-  order: { kind: string; nonce: string; cancelled: string };
+  order: {
+    kind: string;
+    pool: string;
+    nonce: string;
+    cancelled: string;
+    side: string;
+    deadline: string;
+    admission_epoch: string;
+    admission_cutoff: string;
+    admission_nonce: string;
+  };
+  funding: {
+    feeSent: string;
+    feeSettled: string;
+    feeClaimed: string;
+    nativeSent: string;
+    nativeClaimed: string;
+    nativeClaimable: string;
+  };
+  lifecycle: {
+    consumed: string;
+    recoveryPool: string;
+    batchReady: string;
+    batchPhase: string;
+  };
   queue: { phase: string; epoch: string; count: string; cutoff: string };
 }
 export interface MarketRequest {
-  kind: "swap" | "add" | "admit" | "cancel" | "close" | "claim";
+  kind:
+    | "swap"
+    | "add"
+    | "remove"
+    | "admit"
+    | "cancel"
+    | "close"
+    | "claim"
+    | "claim-native"
+    | "release"
+    | "recover";
   marketId: number;
   userId: number;
   recipientId: number;
@@ -47,6 +83,16 @@ export interface PlanRecord {
   snapshot: MarketSnapshot;
   plan: {
     financialAuthorization: false;
+    kind: MarketRequest["kind"];
+    marketId: number;
+    userId: number;
+    withdrawal: null | {
+      burned: string;
+      outputA: string;
+      outputB: string;
+      minimumA: string;
+      minimumB: string;
+    };
     calls: { contract_id: string; method_name: string; inputs: string[] }[];
     quote: string | null;
     minimum: string | null;

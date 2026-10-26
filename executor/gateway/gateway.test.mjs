@@ -232,3 +232,31 @@ test("exact receipt route preserves original identity and leaves missing receipt
   assert.equal(r.result.status, "unresolved");
   await assert.rejects(adapter.receipt({ ...ident, retry: true }));
 });
+
+test("account snapshot v2 reads actual native output cursors and vault recovery lifecycle", async (t) => {
+  const f = await fixture(t);
+  f.s.funding.nativeSent = "5000000017";
+  f.s.funding.nativeClaimed = "4000000000";
+  f.s.funding.nativeClaimable = "1000000017";
+  f.s.lifecycle.consumed = "3";
+  f.s.lifecycle.recoveryPool = "1012928";
+  const state = fakePublicState(f.loaded, f.s),
+    adapter = await createGatewayAdapter(f.loaded, {
+      readState: async () => state,
+      now: () => NOW,
+    });
+  const snapshot = await adapter.snapshot({ marketId: 2485, userId: 12345 });
+  assert.equal(snapshot.schema, 2);
+  assert.deepEqual(snapshot.funding, f.s.funding);
+  assert.deepEqual(snapshot.lifecycle, f.s.lifecycle);
+  f.s.funding.nativeClaimed = "6000000000";
+  const invalid = fakePublicState(f.loaded, f.s);
+  const bad = await createGatewayAdapter(f.loaded, {
+    readState: async () => invalid,
+    now: () => NOW,
+  });
+  await assert.rejects(
+    bad.snapshot({ marketId: 2485, userId: 12345 }),
+    /Native output cursor underflow/,
+  );
+});

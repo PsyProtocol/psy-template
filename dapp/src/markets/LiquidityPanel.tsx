@@ -3,6 +3,7 @@ import {
   previewLiquidity,
   DEMO_POOLS,
   type LiquidityForm,
+  type WithdrawalForm,
   type LiquidityPreview,
 } from "./liquidity.mjs";
 import { fullAmount, LIVE_GATE } from "./domain.mjs";
@@ -280,6 +281,7 @@ function AddLiquidityPanel({
 
 export function LiquidityPanel(props: {
   onLivePlan: (form: LiquidityForm) => void;
+  onLiveWithdrawal: (form: WithdrawalForm) => void;
 }) {
   const [mode, setMode] = useState("add");
   return (
@@ -307,7 +309,7 @@ export function LiquidityPanel(props: {
         <AddLiquidityPanel {...props} />
       </div>
       <div hidden={mode !== "remove"}>
-        <RemoveLiquidityPanel />
+        <RemoveLiquidityPanel onLivePlan={props.onLiveWithdrawal} />
       </div>
     </>
   );

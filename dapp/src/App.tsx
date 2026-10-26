@@ -52,7 +52,10 @@ function initialRecords() {
 }
 const VIEW_COPY: Record<View, [string, string]> = {
   swap: ["Swap", "Set your amount, minimum received and recipient."],
-  liquidity: ["Liquidity", "Preview deposits, LP shares and proportional withdrawals."],
+  liquidity: [
+    "Liquidity",
+    "Preview deposits, LP shares and proportional withdrawals.",
+  ],
   orderbook: ["Orderbook", "Set whole-order offers and minimum returns."],
   curve: [
     "Bonding Curve",
@@ -237,6 +240,7 @@ export default function App() {
         {!["orderbook", "curve", "nft"].includes(view) && (
           <LiveAccess
             account={wallet.account}
+            page={view}
             draft={liveDraft}
             onClose={() => setLiveDraft(null)}
           />
@@ -286,6 +290,7 @@ export default function App() {
         ) : view === "liquidity" ? (
           <LiquidityPanel
             onLivePlan={(form) => setLiveDraft({ kind: "add", form })}
+            onLiveWithdrawal={(form) => setLiveDraft({ kind: "remove", form })}
           />
         ) : view === "orderbook" || view === "curve" || view === "nft" ? (
           <>
