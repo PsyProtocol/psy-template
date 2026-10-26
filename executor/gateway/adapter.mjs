@@ -19,6 +19,7 @@ import {
   WRITE_BOUNDARY,
 } from "../../market-client/protocol.mjs";
 import { buildAmmPlan, marketFor } from "../../market-client/ammPlan.mjs";
+import { loadPositions, positionReader } from "./positions.mjs";
 const sha = (x) => createHash("sha256").update(x).digest("hex"),
   json = async (p) => JSON.parse(await readFile(p, "utf8"));
 export async function loadGateway(file) {
@@ -31,6 +32,7 @@ export async function loadGateway(file) {
     "port",
     "origin",
     "executorStatusFile",
+    ...(Object.hasOwn(c, "positions") ? ["positions"] : []),
   ]);
   assert.equal(c.schema, 1);
   assert.ok(hashPattern.test(c.registrySha256));
@@ -138,7 +140,16 @@ export async function loadGateway(file) {
     );
     markets.set(m.marketId, { abi, config });
   }
-  return { config: c, registry, markets, current: await captureInputs(paths) };
+  const positions = c.positions
+    ? await loadPositions(c.positions, c.rpcConfig)
+    : null;
+  return {
+    config: c,
+    registry,
+    markets,
+    positions,
+    current: await captureInputs(paths),
+  };
 }
 export async function createGatewayAdapter(
   loaded,
@@ -150,9 +161,23 @@ export async function createGatewayAdapter(
   } = {},
 ) {
   const { config: c, registry, markets, current } = loaded;
+  const readPositions = loaded.positions
+    ? positionReader(loaded.positions, {
+        rpcConfig: c.rpcConfig,
+        readState,
+        now,
+      })
+    : null;
+  const positionSnapshot = readPositions
+    ? async (input) => {
+        await current();
+        return readPositions(input);
+      }
+    : undefined;
   let finder;
   const status = async () => {
     await current();
+    if (loaded.positions) await loaded.positions.current();
     return {
       schema: 1,
       registry,
@@ -439,5 +464,11 @@ export async function createGatewayAdapter(
       financialAuthorization: false,
     };
   };
-  return { status, snapshot, plan, receipt };
+  return {
+    status,
+    snapshot,
+    plan,
+    receipt,
+    ...(positionSnapshot ? { positionSnapshot } : {}),
+  };
 }

@@ -5,5 +5,9 @@
   "rpcConfig": "market-client/reviewed/staging-qa-20261026-account-v2/rpc-config.json",
   "port": 5274,
   "origin": "http://127.0.0.1:5273",
-  "executorStatusFile": null
+  "executorStatusFile": null,
+  "positions": {
+    "reviewedDirectory": "market-client/reviewed/staging-position-readers-20261027-v2",
+    "registrySha256": "66666fc365674f18ef7c836a8a0fc00066082d0b824387cc38d8e7f33cad8dbd"
+  }
 }

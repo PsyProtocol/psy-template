@@ -26,7 +26,7 @@ export function AssetsPanel({
         <h2>Demo asset overview</h2>
         <p className="section-note">
           Amounts below summarize local demo records only. Any real RPC
-          observations appear in the separate AMM account panel above; these
+          observations appear in the separate account readers above; these
           records never become chain balances or claims.
         </p>
         <div className="asset-list">

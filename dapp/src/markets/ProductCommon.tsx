@@ -73,8 +73,8 @@ export function ProductFields({
 export function ProductBoundary() {
   return (
     <p className="market-boundary">
-      Local fixtures only. No live route, signing, submission or claims are
-      connected for this market.
+      Trading previews use local fixtures. The separate QA account reader does
+      not enable signing, submission or claims.
     </p>
   );
 }

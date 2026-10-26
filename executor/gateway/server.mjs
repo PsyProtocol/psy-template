@@ -52,8 +52,13 @@ export function createPublicGateway({
         "/v1/snapshot": "snapshot",
         "/v1/plan": "plan",
         "/v1/receipt": "receipt",
+        "/v1/positions": "positionSnapshot",
       };
-      if (req.method !== "POST" || !Object.hasOwn(methods, route)) {
+      if (
+        req.method !== "POST" ||
+        !Object.hasOwn(methods, route) ||
+        typeof adapter[methods[route]] !== "function"
+      ) {
         send(404, {
           error:
             "Public read route not found; financial actions are unavailable",
