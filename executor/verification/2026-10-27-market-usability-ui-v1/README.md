@@ -26,3 +26,17 @@ Sources: [editing codec](../../../dapp/src/markets/editingDrafts.mjs),
 [regressions](../../../dapp/tests/editing-drafts.test.mjs).
 
 [Phase 1 original evidence](phase1/manifest.json).
+
+
+## Phase 2: liquidity editing controls
+
+Example 1:1 deposit linking uses exact BigInt token units and rejects unknown
+example pool IDs. Its independent preference survives reload. It is never used
+for RPC reserves. Both maximum-wallet-balance buttons remain disabled without
+verified balances. Removal explicitly selects an example position; 25/50/75/Max
+shortcuts floor raw integer shares, while verified-wallet position selection
+remains unavailable. No LP ownership, wallet balance or live quote is invented.
+
+46 frontend tests and the production build pass. Five browser checks cover exact
+linking, manual preference restoration, raw-share percentages and disabled live
+balance/position controls. [Phase 2 evidence](phase2/manifest.json).

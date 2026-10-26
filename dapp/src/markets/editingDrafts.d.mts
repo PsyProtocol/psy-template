@@ -3,6 +3,7 @@ export type EditingKind =
   | "add"
   | "remove"
   | "liquidity"
+  | "add-options"
   | "orderbook"
   | "curve"
   | "nft";

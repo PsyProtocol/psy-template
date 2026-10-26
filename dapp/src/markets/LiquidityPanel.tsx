@@ -1,3 +1,4 @@
+import { matchDemoDeposit } from "./liquidityControls.mjs";
 import { useEditingForm } from "../hooks/useEditingForm";
 import { FormDraftNotice } from "./FormDraftNotice";
 import { useMemo, useState } from "react";
@@ -27,11 +28,24 @@ function AddLiquidityPanel({
 }) {
   const editing = useEditingForm("add", INITIAL);
   const { form, setForm } = editing;
+  const linkEditing = useEditingForm("add-options", { linked: "on" });
+  const linked = linkEditing.form.linked === "on";
   const [error, setError] = useState(""),
     [preview, setPreview] = useState<Readonly<LiquidityPreview> | null>(null);
   const update = (key: keyof LiquidityForm, value: string) => {
     setError("");
-    setForm({ ...form, [key]: value });
+    const next = { ...form, [key]: value };
+    if (linked && (key === "amountA" || key === "amountB")) {
+      try {
+        next[key === "amountA" ? "amountB" : "amountA"] = matchDemoDeposit(
+          value,
+          form.pool,
+        );
+      } catch {
+        next[key === "amountA" ? "amountB" : "amountA"] = "";
+      }
+    }
+    setForm(next);
   };
   const quote = useMemo(() => {
     try {
@@ -62,8 +76,10 @@ function AddLiquidityPanel({
           <h2>Add liquidity</h2>
           <FormDraftNotice
             {...editing}
+            issue={editing.issue || linkEditing.issue}
             onReset={() => {
               editing.reset();
+              linkEditing.reset();
               setError("");
             }}
           />
@@ -84,6 +100,20 @@ function AddLiquidityPanel({
               ))}
             </select>
           </label>
+          <label className="link-deposits">
+            <input
+              type="checkbox"
+              checked={linked}
+              onChange={(e) =>
+                linkEditing.setForm({ linked: e.target.checked ? "on" : "off" })
+              }
+            />
+            Link example deposits at 1:1
+          </label>
+          <p className="small-note">
+            Example pool ratio only. RPC-based plans independently read current
+            reserves; this switch never quotes a live deposit.
+          </p>
           {(["A", "B"] as const).map((asset) => (
             <div key={asset}>
               <label className="field-label" htmlFor={"deposit-" + asset}>
@@ -108,7 +138,17 @@ function AddLiquidityPanel({
                   QA-{asset}
                 </span>
               </div>
-              <p className="balance-note">Balance: unverified</p>
+              <div className="balance-actions">
+                <p className="balance-note">Balance: unverified</p>
+                <button
+                  type="button"
+                  className="text-button"
+                  disabled
+                  title="Verified wallet balance is unavailable"
+                >
+                  Use maximum balance
+                </button>
+              </div>
             </div>
           ))}
           <p className="small-note" id="liquidity-ratio">

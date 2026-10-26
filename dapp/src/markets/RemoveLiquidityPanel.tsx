@@ -1,3 +1,4 @@
+import { EXAMPLE_LP_SHARES, rawShareFraction } from "./liquidityControls.mjs";
 import { useEditingForm } from "../hooks/useEditingForm";
 import { FormDraftNotice } from "./FormDraftNotice";
 import { useMemo, useState } from "react";
@@ -72,6 +73,33 @@ export function RemoveLiquidityPanel({
               ))}
             </select>
           </label>
+          <div className="position-source">
+            <span>Position source</span>
+            <strong>Example position · not your wallet</strong>
+            <p className="small-note">
+              Live LP ownership is unverified. Example shortcuts never use a
+              wallet balance.
+            </p>
+            <button type="button" className="text-button" disabled>
+              Use verified wallet position
+            </button>
+          </div>
+          <fieldset className="share-shortcuts">
+            <legend>Example position shortcuts</legend>
+            {([25, 50, 75, 100] as const).map((percent) => (
+              <button
+                type="button"
+                key={percent}
+                className="secondary-button"
+                aria-label={`Use ${percent}% of example LP shares`}
+                onClick={() =>
+                  update("shares", rawShareFraction(EXAMPLE_LP_SHARES, percent))
+                }
+              >
+                {percent === 100 ? "Max" : `${percent}%`}
+              </button>
+            ))}
+          </fieldset>
           <label className="liquidity-pool">
             LP shares to burn · raw units
             <input
