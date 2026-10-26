@@ -56,3 +56,37 @@ checks remain; these usability checks are not an authoritative contract check.
 forms, error links, exact corrected previews, reset and mobile focus/reflow.
 No screen-reader conformance, live RPC/UPS or financial acceptance is inferred.
 [Phase 3 evidence](phase3/manifest.json).
+
+
+## Phase 4: explicit positions by market
+
+Assets has AMM, Orderbook, Curve and NFT position cards. Data sources and local
+activity are explicit; all unauthenticated holdings remain unverified/null, not
+zero or inferred from a draft. Cards open the market with saved editing inputs,
+or the original draft list filtered by market. Open AMM account reader opens the
+readonly disclosure and focuses the public ID only, without an RPC or wallet
+call. The existing real-observation panel remains separate. Actual reviewed
+Book/Curve/NFT position feeds are still absent; this closes presentation and
+navigation only, not real holdings/escrow or live settlement acceptance.
+
+50 frontend tests, production build, 38 client/gateway regressions and seven
+phase-4 desktop/mobile checks pass. Across four phases, 31 browser checks pass.
+No relevant console warnings/errors or document horizontal overflow were observed.
+Model tests confirm that missing positions remain unknown with/without drafts.
+The existing IAB through cua Playwright was reused (Browser plugin unavailable;
+previous Ego continuity blocker retained), with no raw Playwright process,
+network/storage mock or browser-state injection. Temporary cross-tab QA used the
+actual application input controls and was closed afterwards.
+
+[Phase 4 and final source evidence](phase4/manifest.json). The immutable archive
+contains the original build/test logs, browser observations, source/build hashes,
+all selected screenshot hashes, language gate and final dependency checks.
+Official logo and all 1,466 selected SDK source files match their existing pins.
+No Node, SDK, old contract, pricing/matching or financial permission was changed.
+No new RPC read, financial transaction, proof, actual fee, fill or wallet claim was
+performed. The deleted heartbeat remains deleted; original financial tasks are
+still pending and are not implicitly resumed by this UI work.
+
+![Liquidity desktop](liquidity-desktop-v1.jpg)
+![Liquidity mobile](liquidity-mobile-v1.jpg)
+![Market position sources](market-positions-desktop-v1.jpg)

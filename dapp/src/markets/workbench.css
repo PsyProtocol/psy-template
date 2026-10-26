@@ -2223,3 +2223,58 @@ select[aria-invalid="true"] {
     min-height: 44px;
   }
 }
+.market-positions {
+  margin: 32px 0 16px;
+}
+.market-position-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 20px;
+}
+.market-position-card {
+  border: 1px solid var(--psy-line);
+  padding: 22px;
+  min-width: 0;
+}
+.market-position-card h3 {
+  margin: 0 0 8px;
+  font-size: 18px;
+}
+.position-source-label {
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--psy-muted);
+}
+.market-position-card dl {
+  margin: 18px 0;
+}
+.market-position-card dl > div {
+  border-top: 1px solid var(--psy-line);
+  padding: 10px 0;
+}
+.market-position-card dt {
+  color: var(--psy-muted);
+  font-size: 13px;
+  line-height: 1.7;
+}
+.market-position-card dd {
+  margin: 3px 0 0;
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+.position-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  margin-top: 18px;
+}
+.position-actions button {
+  min-height: 44px;
+}
+@media (max-width: 900px) {
+  .market-position-grid {
+    grid-template-columns: 1fr;
+  }
+}

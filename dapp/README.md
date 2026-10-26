@@ -186,3 +186,27 @@ storage failures preserve current memory inputs. Another tab's storage change
 pauses autosave and asks for a reload instead of silently overwriting edits.
 Reset affects the current valid form only. Saved market drafts and demo order
 journals are not migrated, replaced or reactivated by form restoration.
+
+
+## Liquidity controls, field recovery and positions
+
+Link example deposits at 1:1 optionally keeps the two fixture amounts equal using
+exact integer units; the preference has its own editing key. It never estimates
+a live ratio. Maximum wallet balance stays disabled without verified funds.
+Example LP percentage shortcuts use raw shares and are labelled separately from
+unavailable verified-wallet ownership. Live plans still fetch and constrain their
+own actual state; fixture limits are not substituted for chain state.
+
+Preview forms identify amount/fee precision, owner IDs, lot/raw-share quantities
+and ratio errors using field-specific descriptions and an alert summary. Links
+and failed submits focus the affected control in document order. Correcting a
+field preserves other inputs, and explicit reset clears stale feedback. Original
+domain/contract checks are retained. This is bounded keyboard/browser evidence,
+not a full assistive-technology conformance claim.
+
+Assets includes four market position cards with explicit source and verification
+boundaries. Unavailable holdings are unknown, never zero or inferred from drafts.
+Local draft history is separate from owned/escrowed assets. Actions open the market
+or a filtered draft list. Open AMM account reader opens and focuses public input
+only; it does not query RPC, connect/sign a wallet or grant financial permission.
+Book/Curve/NFT still need reviewed position feeds and actual chain acceptance.
