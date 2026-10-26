@@ -1,5 +1,5 @@
 import { parseUnits, encodeAmount } from "../../../token/wide/arithmetic.mjs";
-import { addShares } from "../../../amm/u124/client.mjs";
+import { addShares, withdraw } from "../../../amm/u124/client.mjs";
 import { SDK_MANIFEST } from "./domain.mjs";
 // Explicit fixtures, never authenticated pool state or executable authorization.
 export const DEMO_POOLS = Object.freeze(["2485", "2486"]);
@@ -75,5 +75,62 @@ export function previewLiquidity(form) {
     aLimbs: encodeAmount(a).map(String),
     bLimbs: encodeAmount(b).map(String),
     mintedLimbs: encodeAmount(minted).map(String),
+  });
+}
+
+// Removal fixture uses internal raw LP shares, never an assumed FT decimals value.
+export function previewWithdrawal(form) {
+  if (
+    !form ||
+    Object.keys(form).sort().join(",") !==
+      "feeCap,pool,receiver,shares,slippageBps"
+  )
+    throw Error("Invalid withdrawal draft");
+  if (!DEMO_POOLS.includes(form.pool)) throw Error("Unsupported demo pool");
+  if (!["10", "50", "100"].includes(form.slippageBps))
+    throw Error("Unsupported slippage limit");
+  if (
+    typeof form.receiver !== "string" ||
+    !/^[1-9]\d{0,7}$/.test(form.receiver) ||
+    BigInt(form.receiver) >= 16777216n
+  )
+    throw Error("LP owner must be a testnet user ID from 1 to 16777215");
+  if (typeof form.shares !== "string" || !/^[1-9]\d{0,37}$/.test(form.shares))
+    throw Error("LP shares must be a positive integer in raw units");
+  const burned = BigInt(form.shares);
+  encodeAmount(burned);
+  let fee;
+  try {
+    if (typeof form.feeCap !== "string" || form.feeCap.length > 32)
+      throw Error();
+    fee = parseUnits(form.feeCap, 9);
+  } catch {
+    throw Error("Fee cap uses test PSY with at most 9 decimals");
+  }
+  if (!fee || fee > 50n * 10n ** 9n)
+    throw Error("Fee cap must be positive and at most 50 test PSY");
+  const owned = 10n * 10n ** 18n;
+  if (burned > owned)
+    throw Error(
+      "Exceeds the fixture position of 10000000000000000000 raw LP shares",
+    );
+  const { a, b } = withdraw(burned, RESERVE, RESERVE, RESERVE, owned),
+    bps = BigInt(form.slippageBps),
+    minimumA = (a * (10000n - bps)) / 10000n,
+    minimumB = (b * (10000n - bps)) / 10000n;
+  if (!minimumA || !minimumB) throw Error("Withdrawal minimum rounds to zero");
+  return Object.freeze({
+    source: "demo",
+    financialAuthorization: false,
+    pool: form.pool,
+    owner: form.receiver,
+    burned: String(burned),
+    owned: String(owned),
+    a: String(a),
+    b: String(b),
+    minimumA: String(minimumA),
+    minimumB: String(minimumB),
+    burnedLimbs: encodeAmount(burned).map(String),
+    feeCap: String(fee),
   });
 }

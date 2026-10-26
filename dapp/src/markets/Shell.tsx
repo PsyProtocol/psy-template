@@ -1,6 +1,13 @@
 import type { ReactNode } from "react";
 import { Icon } from "./icons";
-export type View = "swap" | "liquidity" | "orders" | "assets";
+export type View =
+  | "swap"
+  | "liquidity"
+  | "orderbook"
+  | "curve"
+  | "nft"
+  | "orders"
+  | "assets";
 export function WorkbenchShell({
   view,
   onView,
@@ -19,6 +26,9 @@ export function WorkbenchShell({
   const nav = [
     ["swap", "Swap", "swap"],
     ["liquidity", "Liquidity", "network"],
+    ["orderbook", "Orderbook", "book"],
+    ["curve", "Bonding Curve", "curve"],
+    ["nft", "NFT Market", "nft"],
     ["orders", "Orders", "orders"],
     ["assets", "Assets & claims", "wallet"],
   ] as const;
@@ -28,7 +38,10 @@ export function WorkbenchShell({
         <a
           href="#swap"
           className="brand"
-          onClick={() => onView("swap")}
+          onClick={(e) => {
+            e.preventDefault();
+            onView("swap");
+          }}
           aria-label="Psy Markets swap home"
         >
           <img
@@ -53,6 +66,20 @@ export function WorkbenchShell({
             </button>
           ))}
         </nav>
+        <label className="mobile-market-nav">
+          Market & activity
+          <select
+            aria-label="Market navigation"
+            value={view}
+            onChange={(e) => onView(e.target.value as View)}
+          >
+            {nav.map(([id, label]) => (
+              <option key={id} value={id}>
+                {label}
+              </option>
+            ))}
+          </select>
+        </label>
         <div className="network-status">
           <div>
             <Icon name="network" />

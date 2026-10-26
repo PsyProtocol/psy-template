@@ -12,6 +12,16 @@ import {
 import { LiveAccess, type LiveDraft } from "./markets/LiveAccess";
 import { LiquidityPanel } from "./markets/LiquidityPanel";
 import { AssetsPanel } from "./markets/AssetsPanel";
+import { useProductDrafts } from "./hooks/useProductDrafts";
+import { OrderbookPanel } from "./markets/OrderbookPanel";
+import { CurvePanel } from "./markets/CurvePanel";
+import { NftMarketPanel } from "./markets/NftMarketPanel";
+import {
+  ProductPreviewDialog,
+  ProductDrafts,
+  ProductDetailDialog,
+} from "./markets/ProductCommon";
+import type { ProductPreview } from "./markets/productDrafts.mjs";
 import { Icon } from "./markets/icons";
 import {
   STORAGE_KEY,
@@ -40,16 +50,36 @@ function initialRecords() {
     };
   }
 }
+const VIEW_COPY: Record<View, [string, string]> = {
+  swap: ["Swap", "Set your amount, minimum received and recipient."],
+  liquidity: ["Liquidity", "Preview deposits, LP shares and proportional withdrawals."],
+  orderbook: ["Orderbook", "Set whole-order offers and minimum returns."],
+  curve: [
+    "Bonding Curve",
+    "Trade integer lots with a progressive price bound.",
+  ],
+  nft: ["NFT Market", "Review exact NFT listings or prepare a listing draft."],
+  orders: [
+    "Orders",
+    "Review local drafts and clearly labelled AMM demo activity.",
+  ],
+  assets: [
+    "Assets & claims",
+    "Track balances, pending claims and actual refund assets.",
+  ],
+};
 function hashView(): View {
-  return location.hash === "#liquidity"
-    ? "liquidity"
-    : location.hash === "#orders"
-      ? "orders"
-      : location.hash === "#assets"
-        ? "assets"
-        : "swap";
+  const key = location.hash.slice(1);
+  return Object.hasOwn(VIEW_COPY, key) ? (key as View) : "swap";
 }
 export default function App() {
+  const products = useProductDrafts();
+  const [productPreview, setProductPreview] = useState<ProductPreview | null>(
+      null,
+    ),
+    [productDetail, setProductDetail] = useState<ProductPreview | null>(null),
+    [productError, setProductError] = useState(""),
+    [productFilter, setProductFilter] = useState("all");
   const wallet = usePsy(),
     [view, setView] = useState<View>(hashView),
     [form, setForm] = useState<DraftForm>(INITIAL_FORM),
@@ -62,9 +92,15 @@ export default function App() {
     [toast, setToast] = useState(""),
     [filter, setFilter] = useState("all");
   useEffect(() => {
-    const changed = () => setView(hashView());
+    const changed = () => {
+      if (location.hash !== "#main-content") setView(hashView());
+    };
     window.addEventListener("hashchange", changed);
-    return () => window.removeEventListener("hashchange", changed);
+    window.addEventListener("popstate", changed);
+    return () => {
+      window.removeEventListener("hashchange", changed);
+      window.removeEventListener("popstate", changed);
+    };
   }, []);
   useEffect(() => {
     if (storageIssue) return;
@@ -83,7 +119,7 @@ export default function App() {
   }, [toast]);
   const navigate = (v: View) => {
       setView(v);
-      history.replaceState(null, "", "#" + v);
+      if (location.hash !== "#" + v) history.pushState(null, "", "#" + v);
     },
     order = orders.find((o) => o.id === selected);
   const save = () => {
@@ -121,6 +157,51 @@ export default function App() {
       "Demo records exported. The file contains no keys or real transaction proofs.",
     );
   };
+  const openProduct = (preview: ProductPreview) => {
+    setProductError("");
+    setProductPreview(preview);
+  };
+  const saveProduct = () => {
+    if (!productPreview) return;
+    try {
+      products.add(productPreview);
+      setProductPreview(null);
+      setToast("Local draft saved. Nothing was signed, funded or submitted.");
+    } catch (e) {
+      setProductError((e as Error).message);
+    }
+  };
+  const cancelProduct = (id: string) => {
+    products.cancel(id);
+    setToast("Draft cancelled locally. No chain order or funds were changed.");
+  };
+  const exportProduct = () => {
+    const url = URL.createObjectURL(
+        new Blob([products.exportText()], { type: "application/json" }),
+      ),
+      a = document.createElement("a");
+    a.href = url;
+    a.download = "psy-markets-local-drafts-v1.json";
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    setToast(
+      "Local market drafts exported. No keys or transaction proofs are included.",
+    );
+  };
+  const productRows = products.records.filter((r) =>
+    ["orderbook", "curve", "nft"].includes(view)
+      ? r.preview.market === view
+      : productFilter === "all" || r.preview.market === productFilter,
+  );
+  const productTable = (compact = false) => (
+    <ProductDrafts
+      records={compact ? productRows.slice(0, 5) : productRows}
+      onOpen={setProductDetail}
+      onCancel={cancelProduct}
+      onExport={exportProduct}
+      compact={compact}
+    />
+  );
   const filtered =
     filter === "pending"
       ? orders.filter((o) => ["claimable", "refundable"].includes(o.stage))
@@ -129,7 +210,14 @@ export default function App() {
         : orders;
   return (
     <>
-      <a className="skip-link" href="#main-content">
+      <a
+        className="skip-link"
+        href="#main-content"
+        onClick={(e) => {
+          e.preventDefault();
+          document.getElementById("main-content")?.focus();
+        }}
+      >
         Skip to main content
       </a>
       <WorkbenchShell
@@ -142,31 +230,17 @@ export default function App() {
         }}
       >
         <div className="page-heading">
-          <h1>
-            {view === "swap"
-              ? "Swap"
-              : view === "liquidity"
-                ? "Liquidity"
-                : view === "orders"
-                  ? "Orders"
-                  : "Assets & claims"}
-          </h1>
-          <p>
-            {view === "swap"
-              ? "Set your amount, minimum received and recipient."
-              : view === "liquidity"
-                ? "Preview balanced deposits and minimum LP shares."
-                : view === "orders"
-                  ? "Follow each stage and reconcile the original request."
-                  : "Track balances, pending claims and actual refund assets."}
-          </p>
+          <h1>{VIEW_COPY[view][0]}</h1>
+          <p>{VIEW_COPY[view][1]}</p>
         </div>
         <DemoNotice />
-        <LiveAccess
-          account={wallet.account}
-          draft={liveDraft}
-          onClose={() => setLiveDraft(null)}
-        />
+        {!["orderbook", "curve", "nft"].includes(view) && (
+          <LiveAccess
+            account={wallet.account}
+            draft={liveDraft}
+            onClose={() => setLiveDraft(null)}
+          />
+        )}
         {wallet.error && (
           <p className="form-error" role="alert">
             {wallet.status === "missing"
@@ -178,6 +252,11 @@ export default function App() {
           <p className="wallet-scope-note">
             Wallet connected. Network and on-chain identity remain unverified;
             live submission is paused.
+          </p>
+        )}
+        {products.issue && (
+          <p className="storage-note" role="status">
+            {products.issue}
           </p>
         )}
         {storageIssue && (
@@ -208,8 +287,40 @@ export default function App() {
           <LiquidityPanel
             onLivePlan={(form) => setLiveDraft({ kind: "add", form })}
           />
+        ) : view === "orderbook" || view === "curve" || view === "nft" ? (
+          <>
+            {view === "orderbook" ? (
+              <OrderbookPanel onPreview={openProduct} />
+            ) : view === "curve" ? (
+              <CurvePanel onPreview={openProduct} />
+            ) : (
+              <NftMarketPanel onPreview={openProduct} />
+            )}{" "}
+            {productTable(true)}
+            <button
+              className="text-button all-drafts-link"
+              onClick={() => navigate("orders")}
+            >
+              View all market drafts
+            </button>
+          </>
         ) : view === "orders" ? (
           <>
+            <label className="draft-filter">
+              Draft market
+              <select
+                aria-label="Filter draft market"
+                value={productFilter}
+                onChange={(e) => setProductFilter(e.target.value)}
+              >
+                <option value="all">All markets</option>
+                <option value="orderbook">Orderbook</option>
+                <option value="curve">Bonding Curve</option>
+                <option value="nft">NFT Market</option>
+              </select>
+            </label>
+            {productTable()}
+            <h2 className="amm-activity-title">AMM demo activity</h2>
             <div className="order-toolbar">
               <label>
                 Filter orders
@@ -231,13 +342,42 @@ export default function App() {
             <OrderTable orders={filtered} onSelect={setSelected} />
           </>
         ) : (
-          <AssetsPanel orders={orders} onSelect={setSelected} />
+          <>
+            <AssetsPanel orders={orders} onSelect={setSelected} />
+            <section className="other-market-claims">
+              <h2>Other market assets</h2>
+              <p className="section-note">
+                Orderbook, Curve and NFT drafts hold no assets. Live positions,
+                NFT deliveries and claims are not connected.
+              </p>
+              <button
+                className="text-button"
+                onClick={() => navigate("orders")}
+              >
+                Review local market drafts
+              </button>
+            </section>
+          </>
         )}
         <footer className="app-footer">
           QA FT are test assets, separate from existing pUSDT. Demo quotes do
           not authorize execution.
         </footer>
       </WorkbenchShell>
+      {productPreview && (
+        <ProductPreviewDialog
+          preview={productPreview}
+          onClose={() => setProductPreview(null)}
+          onSave={saveProduct}
+          error={productError}
+        />
+      )}
+      {productDetail && (
+        <ProductDetailDialog
+          preview={productDetail}
+          onClose={() => setProductDetail(null)}
+        />
+      )}
       {preview && (
         <PreviewDialog
           preview={preview}

@@ -14,7 +14,10 @@ export function Icon({
     | "info"
     | "check"
     | "download"
-    | "network";
+    | "network"
+    | "book"
+    | "curve"
+    | "nft";
   size?: number;
   style?: CSSProperties;
 }) {
@@ -52,6 +55,22 @@ export function Icon({
     download: (
       <>
         <path d="M12 3v12m-4-4 4 4 4-4M4 16v5h16v-5" />
+      </>
+    ),
+    book: (
+      <>
+        <path d="M4 5h6v14H4zM14 5h6v14h-6zM6 9h2m-2 4h2m8-4h2m-2 4h2" />
+      </>
+    ),
+    curve: (
+      <>
+        <path d="M4 3v17h17M6 16c8 0 5-10 14-11" />
+      </>
+    ),
+    nft: (
+      <>
+        <rect x="4" y="3" width="16" height="18" rx="1" />
+        <path d="m7 16 4-6 3 4 3-2M8 7h1" />
       </>
     ),
     network: (
