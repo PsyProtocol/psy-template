@@ -40,3 +40,19 @@ remains unavailable. No LP ownership, wallet balance or live quote is invented.
 46 frontend tests and the production build pass. Five browser checks cover exact
 linking, manual preference restoration, raw-share percentages and disabled live
 balance/position controls. [Phase 2 evidence](phase2/manifest.json).
+
+
+## Phase 3: field-specific error recovery
+
+Shared local validation identifies amount/fee precision, positive quantities,
+owner/recipient IDs, example ratios, raw shares and whole lots. Preview submits
+focus the first invalid control in document order. An alert summary links to
+specific controls, with aria-invalid and real description targets; correction
+preserves unrelated values. Reset clears stale validation. NFT purchase/listing
+settings share the same mechanism. Original preview/domain and live planning
+checks remain; these usability checks are not an authoritative contract check.
+
+49 frontend tests, production build and 11 browser checks pass, covering all six
+forms, error links, exact corrected previews, reset and mobile focus/reflow.
+No screen-reader conformance, live RPC/UPS or financial acceptance is inferred.
+[Phase 3 evidence](phase3/manifest.json).

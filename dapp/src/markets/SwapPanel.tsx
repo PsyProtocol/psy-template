@@ -1,4 +1,6 @@
-import { useMemo, useState, type ReactNode } from "react";
+import { FormDraftNotice } from "./FormDraftNotice";
+import { useFieldFeedback, FieldErrors } from "./FieldFeedback";
+import { useMemo, useState } from "react";
 import {
   DEMO_ASSETS,
   previewDraft,
@@ -23,9 +25,9 @@ export function SwapPanel({
   onPreview,
   account,
   onLivePlan,
-  editingNotice,
+  editingStatus,
 }: {
-  editingNotice?: ReactNode;
+  editingStatus: { issue: string; restored: boolean; reset: () => void };
   form: DraftForm;
   setForm: (v: DraftForm) => void;
   onPreview: (v: Preview) => void;
@@ -42,8 +44,10 @@ export function SwapPanel({
       return null;
     }
   }, [form]);
+  const feedback = useFieldFeedback("swap", form);
   const update = (key: keyof DraftForm, value: string) => {
     setError("");
+    feedback.clear(key);
     setForm({ ...form, [key]: value });
   };
   return (
@@ -51,6 +55,7 @@ export function SwapPanel({
       className="swap-panel"
       onSubmit={(e) => {
         e.preventDefault();
+        if (!feedback.check(e.currentTarget)) return;
         try {
           onPreview(previewDraft(form));
           setError("");
@@ -60,7 +65,15 @@ export function SwapPanel({
       }}
       noValidate
     >
-      {editingNotice}
+      <FormDraftNotice
+        {...editingStatus}
+        onReset={() => {
+          editingStatus.reset();
+          feedback.reset();
+          setError("");
+        }}
+      />
+      <FieldErrors feedback={feedback} />
       <div className="route-tabs" aria-label="Swap route">
         {(["single", "double"] as const).map((mode) => (
           <button
@@ -80,12 +93,14 @@ export function SwapPanel({
       <div className="asset-input">
         <input
           id="pay-amount"
-          name="amount"
+          {...feedback.field("amount")}
           inputMode="decimal"
           autoComplete="off"
           value={form.amount}
           onChange={(e) => update("amount", e.target.value)}
-          aria-describedby="amount-note"
+          aria-describedby={["amount-note", feedback.errorId("amount")]
+            .filter(Boolean)
+            .join(" ")}
         />
         <button
           type="button"
@@ -136,6 +151,7 @@ export function SwapPanel({
           Max slippage
           <select
             aria-label="Max slippage"
+            {...feedback.field("slippageBps")}
             value={form.slippageBps}
             onChange={(e) => update("slippageBps", e.target.value)}
           >
@@ -148,6 +164,7 @@ export function SwapPanel({
           Expiry
           <select
             aria-label="Draft expiry"
+            {...feedback.field("deadlineMinutes")}
             value={form.deadlineMinutes}
             onChange={(e) => update("deadlineMinutes", e.target.value)}
           >
@@ -162,6 +179,7 @@ export function SwapPanel({
           Recipient
           <input
             id="receiver"
+            {...feedback.field("receiver")}
             inputMode="numeric"
             autoComplete="off"
             placeholder="Testnet user ID"
@@ -173,6 +191,7 @@ export function SwapPanel({
           Fee cap · test PSY
           <input
             id="fee-cap"
+            {...feedback.field("feeCap")}
             inputMode="decimal"
             value={form.feeCap}
             onChange={(e) => update("feeCap", e.target.value)}

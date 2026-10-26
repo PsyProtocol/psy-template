@@ -1,3 +1,4 @@
+import type { FieldFeedback } from "./FieldFeedback";
 import type {
   CommonProductForm,
   ProductPreview,
@@ -17,9 +18,11 @@ export const MARKET_NAMES = {
   nft: "NFT Market",
 };
 export function ProductFields({
+  feedback,
   form,
   onChange,
 }: {
+  feedback?: FieldFeedback;
   form: CommonProductForm;
   onChange: (key: keyof CommonProductForm, value: string) => void;
 }) {
@@ -30,6 +33,7 @@ export function ProductFields({
           Demo user ID
           <input
             aria-label="Demo user ID"
+            {...feedback?.field("userId")}
             inputMode="numeric"
             value={form.userId}
             onChange={(e) => onChange("userId", e.target.value)}
@@ -39,6 +43,7 @@ export function ProductFields({
           Draft expiry
           <select
             aria-label="Market draft expiry"
+            {...feedback?.field("deadlineMinutes")}
             value={form.deadlineMinutes}
             onChange={(e) => onChange("deadlineMinutes", e.target.value)}
           >
@@ -52,6 +57,7 @@ export function ProductFields({
         Fee cap · test PSY
         <input
           aria-label="Market fee cap"
+          {...feedback?.field("feeCap")}
           inputMode="decimal"
           value={form.feeCap}
           onChange={(e) => onChange("feeCap", e.target.value)}

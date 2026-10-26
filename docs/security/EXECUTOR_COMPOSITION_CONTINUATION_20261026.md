@@ -381,3 +381,10 @@ Usability phase 2 adds explicit example deposit linking and raw-share percentage
 shortcuts, preserving manual mode across reload. Live maximum balance and verified
 LP position controls remain disabled. 46 frontend tests, build and five browser
 checks pass; this adds no financial authorization, RPC read or chain acceptance.
+
+
+Usability phase 3 adds field-specific local preview errors, linked descriptions,
+summary navigation and document-order focus. Correction/reset retain recoverable
+inputs. Original domain and RPC checks remain. 49 frontend tests, production build
+and 11 desktop/mobile browser checks pass; no AT-wide conformance or financial
+acceptance is claimed. Source/evidence remain in the usability review above.

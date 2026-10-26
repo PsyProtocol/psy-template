@@ -1,3 +1,4 @@
+import { useFieldFeedback, FieldErrors } from "./FieldFeedback";
 import { useEditingForm } from "../hooks/useEditingForm";
 import { FormDraftNotice } from "./FormDraftNotice";
 import { useMemo, useState } from "react";
@@ -27,8 +28,10 @@ export function OrderbookPanel({
   const editing = useEditingForm("orderbook", INITIAL);
   const { form, setForm } = editing;
   const [error, setError] = useState("");
+  const feedback = useFieldFeedback("orderbook", form);
   const update = (key: keyof BookForm, value: string) => {
     setError("");
+    feedback.clear(key);
     setForm({ ...form, [key]: value });
   };
   const quote = useMemo(() => {
@@ -48,6 +51,7 @@ export function OrderbookPanel({
           noValidate
           onSubmit={(e) => {
             e.preventDefault();
+            if (!feedback.check(e.currentTarget)) return;
             try {
               onPreview(previewBook(form));
             } catch (e) {
@@ -56,10 +60,12 @@ export function OrderbookPanel({
           }}
         >
           <h2>Limit order</h2>
+          <FieldErrors feedback={feedback} />
           <FormDraftNotice
             {...editing}
             onReset={() => {
               editing.reset();
+              feedback.reset();
               setError("");
             }}
           />
@@ -82,6 +88,7 @@ export function OrderbookPanel({
               : "QA-A offered · whole order"}
             <input
               aria-label="Orderbook QA-A amount"
+              {...feedback.field("amount")}
               inputMode="decimal"
               value={form.amount}
               onChange={(e) => update("amount", e.target.value)}
@@ -91,6 +98,7 @@ export function OrderbookPanel({
             Limit price · QA-B per QA-A
             <input
               aria-label="Orderbook limit price"
+              {...feedback.field("limitPrice")}
               inputMode="decimal"
               value={form.limitPrice}
               onChange={(e) => update("limitPrice", e.target.value)}
@@ -118,7 +126,7 @@ export function OrderbookPanel({
             Whole orders only. Both parties receive the complete counter-offer;
             no partial fill or maker-price change refund.
           </p>
-          <ProductFields form={form} onChange={update} />
+          <ProductFields form={form} onChange={update} feedback={feedback} />
           {error && (
             <p className="form-error" role="alert">
               {error}

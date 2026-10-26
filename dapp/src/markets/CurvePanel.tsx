@@ -1,3 +1,4 @@
+import { useFieldFeedback, FieldErrors } from "./FieldFeedback";
 import { useEditingForm } from "../hooks/useEditingForm";
 import { FormDraftNotice } from "./FormDraftNotice";
 import { useMemo, useState } from "react";
@@ -26,8 +27,10 @@ export function CurvePanel({
   const editing = useEditingForm("curve", INITIAL);
   const { form, setForm } = editing;
   const [error, setError] = useState("");
+  const feedback = useFieldFeedback("curve", form);
   const update = (key: keyof CurveForm, value: string) => {
     setError("");
+    feedback.clear(key);
     setForm({ ...form, [key]: value });
   };
   const quote = useMemo(() => {
@@ -59,6 +62,7 @@ export function CurvePanel({
           noValidate
           onSubmit={(e) => {
             e.preventDefault();
+            if (!feedback.check(e.currentTarget)) return;
             try {
               onPreview(previewCurve(form));
             } catch (e) {
@@ -67,10 +71,12 @@ export function CurvePanel({
           }}
         >
           <h2>Trade curve lots</h2>
+          <FieldErrors feedback={feedback} />
           <FormDraftNotice
             {...editing}
             onReset={() => {
               editing.reset();
+              feedback.reset();
               setError("");
             }}
           />
@@ -91,6 +97,7 @@ export function CurvePanel({
             Whole lots · 1 lot = 1 QA-A
             <input
               aria-label="Curve lots"
+              {...feedback.field("lots")}
               inputMode="numeric"
               value={form.lots}
               onChange={(e) => update("lots", e.target.value)}
@@ -103,6 +110,7 @@ export function CurvePanel({
             Price tolerance
             <select
               aria-label="Curve price tolerance"
+              {...feedback.field("slippageBps")}
               value={form.slippageBps}
               onChange={(e) => update("slippageBps", e.target.value)}
             >
@@ -134,7 +142,7 @@ export function CurvePanel({
             Integer-lot progressive pricing. Earlier orders change sold lots;
             your bound decides execution or refund.
           </p>
-          <ProductFields form={form} onChange={update} />
+          <ProductFields form={form} onChange={update} feedback={feedback} />
           {error && (
             <p className="form-error" role="alert">
               {error}
