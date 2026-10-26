@@ -2,6 +2,12 @@
 
 沿用 `markets-batch-capacity-recovery-20261020` 与已选 session-bound SDK；不修改 Node、SDK、市场定价或旧合约代码/布局。原始构建、请求和回执不覆盖。
 
+## 2026-10-26 新配对：完整冷启动与进程树内存预检
+
+新目录 `fixed-verifier-performance-live-v5` 已完成只读继承：前轮 17 UPS 审计与四个当前端点一致，准备新增转账/领取为 0；SDK、二进制、Node 边界不变。新增完整进程树观察器和启动屏障，两个采样器先就绪再启动测量子进程，退出清理后再关闭。两轮只改变 fixed verifier fresh/cached 模式，其他资源/工作量/截止规则相同。
+
+原严格冷构建、完整证明、资金守恒、会话绑定与状态端点门槛保留。新窄范围读取恢复只复用明确未发送且仍有效的原完整证明，一次失败后再拒绝即停止；不重试未知广播或重新付款。52 项准备回归通过。[预检证据](../../executor/verification/2026-10-26-complete-measurement-preflight-v1/README.md)。**新配对结果、完整内存对照与新的加速结论仍待真实成交验收。**
+
 ## 2026-10-26 最终闭环：原批次一笔成交、普通钱包领取与 17 UPS 审计完成
 
 [完整恢复证据与报告](../../executor/verification/2026-10-26-fixed-verifier-recovery-closed-v1/README.md)已关闭：**17 个实际 UPS、17 份唯一完整证明、1 笔真实 Book 成交，实际网络费用 17.000118 测试 PSY**。两种 QA FT 2483/2484（18 decimals）各 1000 总量、逐账户兑换差额、有限集合 Native 费用总差额、NFT 2496 归属、nonce 和状态链均通过；两份普通领取在 **383716** 确认。没有使用既有 pUSDT。
