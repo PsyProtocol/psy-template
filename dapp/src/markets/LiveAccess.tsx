@@ -28,8 +28,10 @@ export function LiveAccess({
   draft,
   onClose,
   page,
+  readerRequest = 0,
 }: {
   page: string;
+  readerRequest?: number;
   account: string | null;
   draft: LiveDraft | null;
   onClose: () => void;
@@ -49,6 +51,16 @@ export function LiveAccess({
     [actionFee, setActionFee] = useState("5"),
     [observedNow, setObservedNow] = useState(Date.now());
   const modalOpen = Boolean(draft || actionRequest);
+  const readerRef = useRef<HTMLDetailsElement>(null);
+  useEffect(() => {
+    if (!readerRequest || !readerRef.current) return;
+    readerRef.current.open = true;
+    readerRef.current
+      .querySelector<HTMLInputElement>(
+        'input[aria-label="Live public user ID"]',
+      )
+      ?.focus();
+  }, [readerRequest]);
   useEffect(() => {
     if (!state) return;
     const timer = window.setInterval(() => setObservedNow(Date.now()), 1000);
@@ -262,10 +274,7 @@ export function LiveAccess({
   );
   return (
     <>
-      <details
-        className="live-access"
-        open={page === "assets"}
-      >
+      <details ref={readerRef} className="live-access" open={page === "assets"}>
         <summary>Live connection · read-only</summary>
         <p className="small-note">
           Psy testnet · pinned QA registry {pin.registrySha256.slice(0, 12)}… ·

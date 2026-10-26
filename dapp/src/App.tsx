@@ -1,3 +1,4 @@
+import { MarketPositions } from "./markets/MarketPositions";
 import { useEditingForm } from "./hooks/useEditingForm";
 import { useEffect, useState } from "react";
 import { usePsy } from "./hooks/usePsy";
@@ -101,6 +102,7 @@ export default function App() {
   const wallet = usePsy(),
     [view, setView] = useState<View>(hashView),
     [navigationRevision, setNavigationRevision] = useState(0),
+    [readerRequest, setReaderRequest] = useState(0),
     [initial] = useState(initialRecords),
     [orders, setOrders] = useState(initial.orders),
     [storageIssue, setStorageIssue] = useState(initial.issue),
@@ -118,6 +120,7 @@ export default function App() {
     setProductPreview(null);
     setPreview(null);
     setLiveDraft(null);
+    setReaderRequest(0);
   }, [view, navigationRevision]);
   useEffect(() => {
     const changed = () => {
@@ -277,6 +280,7 @@ export default function App() {
           <LiveAccess
             account={wallet.account}
             page={view}
+            readerRequest={readerRequest}
             draft={liveDraft}
             onClose={() => setLiveDraft(null)}
           />
@@ -448,19 +452,19 @@ export default function App() {
         ) : (
           <>
             <AssetsPanel orders={orders} onSelect={setSelected} />
-            <section className="other-market-claims">
-              <h2>Other market assets</h2>
-              <p className="section-note">
-                Orderbook, Curve and NFT drafts hold no assets. Live positions,
-                NFT deliveries and claims are not connected.
-              </p>
-              <button
-                className="text-button"
-                onClick={() => navigate("orders")}
-              >
-                Review local market drafts
-              </button>
-            </section>
+            <MarketPositions
+              drafts={products.records}
+              orders={orders}
+              now={draftNow}
+              onMarket={navigate}
+              onAmmRead={() => setReaderRequest((n) => n + 1)}
+              onDrafts={(market) => {
+                setProductFilter(market);
+                setDraftStatus("all");
+                setActivityQuery("");
+                navigate("orders");
+              }}
+            />
           </>
         )}
         <footer className="app-footer">

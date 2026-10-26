@@ -388,3 +388,14 @@ summary navigation and document-order focus. Correction/reset retain recoverable
 inputs. Original domain and RPC checks remain. 49 frontend tests, production build
 and 11 desktop/mobile browser checks pass; no AT-wide conformance or financial
 acceptance is claimed. Source/evidence remain in the usability review above.
+
+
+Usability phase 4 adds market-specific position-source cards, unknown holdings,
+local-only draft counts and links to markets/filtered draft history. The AMM
+reader shortcut only opens and focuses its public input. Reviewed Book/Curve/NFT
+on-chain position feeds remain missing; no verified holdings are invented.
+Final acceptance: 50 frontend tests, build, 38 client/gateway regressions and 31
+browser checks across all four phases pass. Mobile layouts, field focus, reload,
+cross-tab editing conflicts and existing brand/source pins are covered. No Node,
+SDK, old-contract, financial operation, RPC read or performance claim was added.
+The RPC heartbeat remains deleted; financial acceptance stays pending.
