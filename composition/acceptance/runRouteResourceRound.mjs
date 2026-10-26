@@ -1,0 +1,5 @@
+// One complete new intent. Every subprocess failure stops; there is no retry.
+import assert from'node:assert/strict';import{join}from'node:path';import{run}from'../../batching/admission/liveSupport.mjs';import{routeResourcePlan,beginRouteResourceRun}from'./routeResourcePlan.mjs';import{saveObservation}from'../../executor/observations.mjs';
+const[base,release,tools]=process.argv.slice(2),plan=beginRouteResourceRun(base);assert.ok(plan&&tools);
+const jobs=[['route-setup','routeSetup',[base,'success',release,tools]],['assets-before','preparationAccounting',[base,'before']],['financial-route','executeRoute',[base,'success']],['assets-after','preparationAccounting',[base,'after']]];
+for(const[label,file,args]of jobs){if(label==='assets-after')routeResourcePlan(base).check();else plan.check();const timing=await run(process.execPath,['composition/acceptance/'+file+'.mjs',...args],join(base,label+'-v1.log'),{PSY_MARKET_TESTNET_PROFILE:'staging-bundled-regtest-20261020-v1',RAYON_NUM_THREADS:'2'});saveObservation(join(base,'public',label+'-TIMING-v1.json'),timing);}

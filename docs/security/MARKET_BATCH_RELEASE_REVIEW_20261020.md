@@ -1,3 +1,5 @@
+最新继续记录（2026-10-26）：[Executor／双池组合阶段清单](EXECUTOR_COMPOSITION_CONTINUATION_20261026.md)。源码冷／暖编译补测已关闭；扫描并发候选因结果不稳定已撤回；双池真实配对入口和本地回归已补齐，但四次只读预检均遇 HTTP 503，没有新金融操作，持续运行和 Book→AMM 尚未启动。不要把本地测试或编译时间当作新的真实吞吐或生产级证据。
+
 本轮后续调查与验证资源复用：[FIXED_VERIFIER_PERFORMANCE_REVIEW_20261025.md](FIXED_VERIFIER_PERFORMANCE_REVIEW_20261025.md)。
 
 > 2026-10-25 本轮完整证明／常驻内存验收进度见 [PROVER_MEMORY_REVIEW_20261025.md](PROVER_MEMORY_REVIEW_20261025.md)。历史缺失冷启动记录保留，新一轮单独测量。
