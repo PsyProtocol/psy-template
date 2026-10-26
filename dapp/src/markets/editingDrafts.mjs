@@ -13,6 +13,7 @@ export const EDITING_FIELDS = Object.freeze({
   add: ["pool", "amountA", "amountB", "receiver", "slippageBps", "feeCap"],
   remove: ["pool", "receiver", "shares", "slippageBps", "feeCap"],
   liquidity: ["mode"],
+  "add-options": ["linked"],
   orderbook: [...common, "side", "amount", "limitPrice"],
   curve: [...common, "side", "lots", "slippageBps"],
   nft: [...common, "mode", "maxPrice", "price", "ownedId", "query", "sort"],
@@ -40,6 +41,7 @@ export function validateEditingForm(kind, form) {
     slippageBps: ["10", "50", "100"],
     deadlineMinutes: ["15", "30", "60"],
     sort: ["low", "high"],
+    linked: ["on", "off"],
   };
   if (kind === "swap") enums.mode = ["single", "double"];
   if (kind === "liquidity") enums.mode = ["add", "remove"];

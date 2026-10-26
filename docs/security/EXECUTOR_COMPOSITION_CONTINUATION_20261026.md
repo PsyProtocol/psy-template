@@ -375,3 +375,9 @@ are preserved with autosave paused. Cross-tab changes pause editing writes and
 do not claim financial coordination. 44 frontend tests, production build and eight
 browser restore checks pass. No Node/SDK/old-contract or financial action changed;
 the RPC heartbeat remains deleted. Liquidity/field/position phases follow.
+
+
+Usability phase 2 adds explicit example deposit linking and raw-share percentage
+shortcuts, preserving manual mode across reload. Live maximum balance and verified
+LP position controls remain disabled. 46 frontend tests, build and five browser
+checks pass; this adds no financial authorization, RPC read or chain acceptance.
