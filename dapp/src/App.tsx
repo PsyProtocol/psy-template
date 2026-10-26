@@ -9,6 +9,7 @@ import {
   PreviewDialog,
   type DemoAction,
 } from "./markets/OrderDialog";
+import { LiveAccess, type LiveDraft } from "./markets/LiveAccess";
 import { LiquidityPanel } from "./markets/LiquidityPanel";
 import { AssetsPanel } from "./markets/AssetsPanel";
 import { Icon } from "./markets/icons";
@@ -56,6 +57,7 @@ export default function App() {
     [orders, setOrders] = useState(initial.orders),
     [storageIssue, setStorageIssue] = useState(initial.issue),
     [preview, setPreview] = useState<Preview | null>(null),
+    [liveDraft, setLiveDraft] = useState<LiveDraft | null>(null),
     [selected, setSelected] = useState<string | null>(null),
     [toast, setToast] = useState(""),
     [filter, setFilter] = useState("all");
@@ -160,6 +162,11 @@ export default function App() {
           </p>
         </div>
         <DemoNotice />
+        <LiveAccess
+          account={wallet.account}
+          draft={liveDraft}
+          onClose={() => setLiveDraft(null)}
+        />
         {wallet.error && (
           <p className="form-error" role="alert">
             {wallet.status === "missing"
@@ -186,6 +193,7 @@ export default function App() {
                 setForm={setForm}
                 onPreview={setPreview}
                 account={wallet.account}
+                onLivePlan={(form) => setLiveDraft({ kind: "swap", form })}
               />
               <RoutePreview form={form} />
             </div>
@@ -197,7 +205,9 @@ export default function App() {
             />
           </>
         ) : view === "liquidity" ? (
-          <LiquidityPanel />
+          <LiquidityPanel
+            onLivePlan={(form) => setLiveDraft({ kind: "add", form })}
+          />
         ) : view === "orders" ? (
           <>
             <div className="order-toolbar">

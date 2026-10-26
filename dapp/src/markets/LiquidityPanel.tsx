@@ -16,7 +16,11 @@ const INITIAL: LiquidityForm = {
   slippageBps: "50",
   feeCap: "35.0035",
 };
-export function LiquidityPanel() {
+export function LiquidityPanel({
+  onLivePlan,
+}: {
+  onLivePlan: (form: LiquidityForm) => void;
+}) {
   const [form, setForm] = useState(INITIAL),
     [error, setError] = useState(""),
     [preview, setPreview] = useState<Readonly<LiquidityPreview> | null>(null);
@@ -156,6 +160,13 @@ export function LiquidityPanel() {
           )}
           <button className="primary-button" type="submit">
             Preview liquidity
+          </button>
+          <button
+            type="button"
+            className="secondary-button rpc-plan-button"
+            onClick={() => onLivePlan({ ...form })}
+          >
+            Prepare RPC-based plan
           </button>
           <p className="form-footnote">
             Preview only. No deposits, signatures or orders are sent.

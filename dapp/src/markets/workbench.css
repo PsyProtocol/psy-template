@@ -1528,3 +1528,62 @@ td small {
     margin-top: 5px;
   }
 }
+.live-access {
+  border: 1px solid var(--psy-line);
+  padding: 12px 16px;
+  margin-bottom: 18px;
+  font-size: 13px;
+}
+.live-access > summary {
+  cursor: pointer;
+  font-weight: 700;
+}
+.live-access > p,
+.live-access details,
+.live-state {
+  margin-top: 12px;
+  line-height: 1.65;
+}
+.live-access label,
+.market-dialog > label {
+  display: block;
+  margin-top: 12px;
+  font-size: 13px;
+}
+.live-access input,
+.live-access select,
+.market-dialog > label input {
+  display: block;
+  width: 100%;
+  max-width: 460px;
+  min-height: 40px;
+  padding: 9px 12px;
+  border: 1px solid var(--psy-line);
+  margin: 7px 0;
+}
+.live-actions {
+  display: flex;
+  gap: 10px;
+  margin: 12px 0;
+  flex-wrap: wrap;
+}
+.live-access .secondary-button {
+  margin-top: 10px;
+}
+.live-state {
+  padding: 12px;
+  background: var(--psy-surface);
+  overflow-wrap: anywhere;
+}
+.rpc-plan-button {
+  width: 100%;
+  margin-top: 10px;
+  justify-content: center;
+}
+.market-dialog pre {
+  max-width: 100%;
+  overflow: auto;
+  font-size: 11px;
+  background: var(--psy-surface);
+  padding: 10px;
+}
