@@ -146,11 +146,57 @@ seeds and a healthy service status projection must be integrated with the formal
 Executor; the expanded unsigned plans alone do not close every recovery path.
 
 The two-pool controller remains a separate multi-UPS workflow. This gateway does
-not make it atomic or attach its payer/fees. Orderbook, Curve and NFT Market UI/
-planners come after the common wallet/Executor write boundary and AMM live path
-are accepted. Their existing matching/pricing/unique-sale semantics stay intact.
+not make it atomic or attach its payer/fees. Orderbook, Curve and NFT Market have separate pinned QA account readers. Their
+financial planners and live write integration still require the common accepted
+wallet/Executor write boundary and AMM live path. Their existing matching/pricing/unique-sale semantics stay intact.
 
 Tests: `npm run test:gateway` in dapp, plus `npm run build` and
 `npm run test:markets`. Synthetic transport tests are explicitly not real UPS or
 cross-machine coordination acceptance. No performance or production claim follows
 from passing tests.
+
+
+## Reviewed three-market account observations (2026-10-27)
+
+`POST /v1/positions` is an optional public read route, used by the shared
+`positionSnapshot.mjs` browser client via `/api/markets/v1/positions`. Its exact
+request is `{marketId,userId,slotStart,slotCount}`. Reviewed isolated QA instances
+are Orderbook 2497/vault 662720, Curve 2498/vault 302272 and NFT Market 2499/vault
+1072320. These are observation targets, not new financial authorization. The
+existing AMM registry is unchanged. The additional registry's canonical SHA256 is
+`66666fc365674f18ef7c836a8a0fc00066082d0b824387cc38d8e7f33cad8dbd`.
+
+`executor/gateway/buildPositionRegistry.py` creates a new destination from original
+build/config/policy and later registration evidence, matching their hashes and
+identities. It never updates a contract or overwrites original evidence. Original
+BOUND registration/root flags remain false in provenance; later registration
+records are separately checked. Historical registration is not fresh RPC proof.
+The pinned assets are QA FT 2483/2484 with 18 decimals; NFT 2499 uses payment
+QA-A 2483 and collection 2496, independently of demonstration form fixtures.
+
+The reader fetches one common checkpoint, rechecks network, contract code/layout/
+function roots, registered vault mapping and issuer metadata, and decodes complete
+dual-Felt amounts. It returns the current user order, queue/lifecycle, funding and
+FT/native pending outputs; Curve includes reserve/phase state. NFT ownership is a
+bounded page of up to eight of 128 slots, with the four-entry delivery FIFO checked
+against both cursors. It is never a complete inventory or global order scan.
+Responses include exact user/vault state anchors. The browser independently checks
+identity, shape, precision, cursor arithmetic, roots, bounded scope and freshness.
+Unknown or changed pinned inputs and RPC failures stop the observation; no fixture
+fallback is permitted. RPC-observed data is not cryptographically authenticated
+state or spending authority. No transaction route was added.
+
+The exact user workflow also explicitly compares schema-2 lifecycle/consumption
+and recovery fields during fresh recheck, alongside existing roots and nonce.
+Tests reject changed consumption, queue phase/readiness and recovery identity.
+Existing state anchors already constrained chain state; this is explicit field
+binding hardening, not evidence of a previously exploitable chain vulnerability.
+
+The wallet source audit found internal `proveEndCapProof`/`submitEndCap` and
+job-level separation. It did not find an accepted dApp-facing staged prepare,
+independent verify, fresh recheck, one-shot exact broadcast and original-identity
+reconcile protocol. A trace-step API can itself finish in `Submitted`; it must not
+be treated as prepare-only. The current local wallet SDK dependency is outside
+this frozen application snapshot. Do not replace dependencies or use direct
+signing to bypass the missing integration. Details and unresolved implementation
+work are in the [acceptance record](../executor/verification/2026-10-27-market-readers-live-v1/README.md).

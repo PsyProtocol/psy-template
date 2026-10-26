@@ -107,6 +107,7 @@ export function createExactUserWorkflow({
       "order",
       "assets",
       "funding",
+      "lifecycle",
       "anchors",
     ].every((k) => canonical(fresh[k]) === canonical(task.snapshot[k]));
   };

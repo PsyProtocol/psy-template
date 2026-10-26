@@ -168,8 +168,8 @@ preserves the original value and pauses autosave. Storage provides no
 identity authentication, cross-tab financial coordination or financial journal.
 
 All three pages use `local-fixture`; no contract/vault/key identity is assigned.
-No new-market live gateway, proof, signature, Executor projection or financial
-write is connected. Real integration still needs the wallet security interfaces,
+The trading forms have no new-market proof, signature, Executor projection or
+financial write connected. Separate QA account readers are described below. Real integration still needs the wallet security interfaces,
 authenticated state and end-to-end acceptance. See
 [design notes](design/2026-10-26/THREE-MARKETS-v1.md) and
 [verification](../executor/verification/2026-10-26-three-market-ui-v1/README.md).
@@ -209,4 +209,28 @@ boundaries. Unavailable holdings are unknown, never zero or inferred from drafts
 Local draft history is separate from owned/escrowed assets. Actions open the market
 or a filtered draft list. Open AMM account reader opens and focuses public input
 only; it does not query RPC, connect/sign a wallet or grant financial permission.
-Book/Curve/NFT still need reviewed position feeds and actual chain acceptance.
+Book/Curve/NFT now have separate reviewed QA observation readers; healthy-network
+identity and financial acceptance remain pending.
+
+
+## Separate QA account readers
+
+Assets, Orderbook, Curve and NFT Market expose a pinned read-only account panel.
+Assets shortcuts select the correct market and focus the public user ID without
+issuing a request. Reads are explicit and bounded; market/account changes clear
+old results and invalidate in-flight context. Invalid IDs and NFT slot ranges
+focus the affected input. An RPC failure displays an error and no balances.
+
+The isolated registry binds Orderbook 2497, Curve 2498 and NFT Market 2499 to their
+own vaults and QA assets. These identities are not assigned to the local trading
+forms. In particular the real NFT observation uses QA-A 2483 while the demonstration
+purchase form uses fixture QA-B. Full two-Felt quantities remain exact. NFT reads
+cover eight slots starting at 0..120, not complete ownership. RPC observations
+expire after 30 seconds and do not authorize writes or become portfolio totals.
+
+All three real browser reads returned HTTP 503 in this run. The desktop/mobile
+error and navigation paths passed; healthy observations, wallet signing, complete
+UPS, actual settlement/claim/refund and fees remain unaccepted. Wallet internal
+proof APIs exist, but the secure public staged integration still needs to be
+implemented and accepted. No direct-sign fallback was enabled. See the
+[review record](../executor/verification/2026-10-27-market-readers-live-v1/README.md).

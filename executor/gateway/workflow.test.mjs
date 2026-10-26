@@ -191,6 +191,10 @@ test("nonce, wrong network and state-root changes during proof stop the send", a
     (s) => (s.user.nonce = "8"),
     (s) => (s.network = { ...s.network, magic: "42" }),
     (s) => (s.anchors[0].root = H("changed state")),
+    (s) => (s.lifecycle.consumed = "1"),
+    (s) => (s.lifecycle.recoveryPool = "1012928"),
+    (s) => (s.lifecycle.batchReady = "0"),
+    (s) => (s.lifecycle.batchPhase = "2"),
   ]) {
     const f = await setup(t);
     const prepare = f.transport.prepare;

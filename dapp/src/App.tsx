@@ -1,3 +1,4 @@
+import { MarketAccountRead } from "./markets/MarketAccountRead";
 import { MarketPositions } from "./markets/MarketPositions";
 import { useEditingForm } from "./hooks/useEditingForm";
 import { useEffect, useState } from "react";
@@ -97,6 +98,10 @@ export default function App() {
     [draftStatus, setDraftStatus] = useState<"all" | DraftActivityState>("all"),
     [activityQuery, setActivityQuery] = useState("");
   const draftNow = useDraftClock(products.records);
+  const [positionReaderRequest, setPositionReaderRequest] = useState<{
+    marketId: number;
+    revision: number;
+  } | null>(null);
   const swapEditing = useEditingForm<DraftForm>("swap", INITIAL_FORM);
   const { form, setForm } = swapEditing;
   const wallet = usePsy(),
@@ -285,6 +290,13 @@ export default function App() {
             onClose={() => setLiveDraft(null)}
           />
         )}
+        {["assets", "orderbook", "curve", "nft"].includes(view) && (
+          <MarketAccountRead
+            page={view}
+            account={wallet.account}
+            readerRequest={positionReaderRequest}
+          />
+        )}
         {wallet.error && (
           <p className="form-error" role="alert">
             {wallet.status === "missing"
@@ -456,6 +468,12 @@ export default function App() {
               drafts={products.records}
               orders={orders}
               now={draftNow}
+              onReadMarket={(market) =>
+                setPositionReaderRequest((p) => ({
+                  marketId: { orderbook: 2497, curve: 2498, nft: 2499 }[market],
+                  revision: (p?.revision ?? 0) + 1,
+                }))
+              }
               onMarket={navigate}
               onAmmRead={() => setReaderRequest((n) => n + 1)}
               onDrafts={(market) => {

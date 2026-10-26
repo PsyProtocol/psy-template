@@ -8,6 +8,7 @@ export function MarketPositions({
   onMarket,
   onDrafts,
   onAmmRead,
+  onReadMarket,
 }: {
   drafts: ProductRecord[];
   orders: DemoOrder[];
@@ -15,6 +16,7 @@ export function MarketPositions({
   onMarket: (v: "liquidity" | ProductMarket) => void;
   onDrafts: (v: ProductMarket) => void;
   onAmmRead: () => void;
+  onReadMarket: (market: ProductMarket) => void;
 }) {
   return (
     <section
@@ -71,9 +73,17 @@ export function MarketPositions({
             <p className="small-note">
               {card.market === "amm"
                 ? "Use the AMM reader for fresh checkpoint observations. RPC reads alone are not proof of an authorized position."
-                : "No reviewed on-chain position feed is attached. Drafts cannot establish live orders, balances, escrow or NFT ownership."}
+                : "Use the pinned QA account reader for this market. Drafts cannot establish live orders, balances, escrow or NFT ownership."}
             </p>
             <div className="position-actions">
+              {card.market !== "amm" && (
+                <button
+                  className="text-button"
+                  onClick={() => onReadMarket(card.market as ProductMarket)}
+                >
+                  Open {card.name} account reader
+                </button>
+              )}
               <button
                 className="secondary-button"
                 onClick={() => onMarket(card.route)}

@@ -399,3 +399,31 @@ browser checks across all four phases pass. Mobile layouts, field focus, reload,
 cross-tab editing conflicts and existing brand/source pins are covered. No Node,
 SDK, old-contract, financial operation, RPC read or performance claim was added.
 The RPC heartbeat remains deleted; financial acceptance stays pending.
+
+
+## 2026-10-27 three-market observation integration and wallet audit
+
+[Review and evidence](../../executor/verification/2026-10-27-market-readers-live-v1/README.md).
+The formal loopback gateway and shared browser client now expose pinned QA
+Orderbook/Curve/NFT account observations. Historical build and later registration
+evidence freeze registry identity; original BOUND flags are preserved. Each read
+rechecks network, metadata, code/layout/function roots and vault mapping at one
+checkpoint. Browser validation preserves exact U124 values, bounded NFT scope and
+pending-output arithmetic. Schema-2 workflow fresh checks explicitly bind lifecycle
+fields as well as existing roots. UI form fixtures and actual observations remain
+separate; no write route, contract update or SDK change was added.
+
+44 client/gateway regressions, 50 frontend tests and the production build pass.
+Eight browser checks cover local validation, all three real RPC outage paths,
+Assets shortcuts and mobile layout; no mock network or storage injection was used.
+Real reads returned HTTP 503; no healthy-chain observation, UPS, fill, fee, wallet
+claim/refund or performance acceptance is claimed. The RPC heartbeat stays deleted.
+
+Wallet main and existing security candidate sources were inspected without edits.
+Internal end-cap prepare/submit APIs exist, while trace-step can auto-submit. The
+dApp-facing approved exact staged provider, source/key/circuit attestation,
+independent verifier integration and durable original-request recovery are still
+implementation work. Do not characterize this as an inherent SDK impossibility
+or use direct signing as a fallback. New-market financial planners and all live
+write acceptance remain open alongside RPC/runtime/upgrade evidence dependencies.
+The original financial plan was neither restarted nor cancelled by these UI reads.
