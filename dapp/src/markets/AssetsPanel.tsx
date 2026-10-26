@@ -17,8 +17,9 @@ export function AssetsPanel({
   onSelect: (id: string) => void;
 }) {
   const pending = orders.filter((o) =>
-    ["claimable", "refundable"].includes(o.stage),
+    ["claimable", "refundable", "middle_outbox"].includes(o.stage),
   );
+  const totals = pendingTotals(orders);
   return (
     <>
       <section className="assets-section">
@@ -30,7 +31,7 @@ export function AssetsPanel({
         </p>
         <div className="asset-list">
           {(["A", "B"] as const).map((key) => {
-            const total = pendingTotals(orders)[key];
+            const total = totals[key];
             return (
               <div className="asset-row" key={key}>
                 <Coin asset={key} />
@@ -71,30 +72,28 @@ export function AssetsPanel({
         {pending.length ? (
           pending.map((o) => {
             const key: AssetKey =
-              o.stage === "refundable" ? remainingAsset(o) : o.buy;
+              o.stage === "claimable" ? o.buy : remainingAsset(o);
             return (
               <div className="claim-row" key={o.id}>
                 <Coin asset={key} small />
                 <div>
                   <strong>{o.id}</strong>
                   <small>
-                    {o.stage === "refundable"
-                      ? "Actual remaining asset refund"
-                      : "Final output claim"}{" "}
+                    {o.stage === "middle_outbox"
+                      ? "Intermediate output claim"
+                      : o.stage === "refundable"
+                        ? "Actual remaining asset refund"
+                        : "Final output claim"}{" "}
                     · Demo only
                   </small>
                 </div>
                 <strong
                   title={fullAmount(
-                    o.stage === "refundable"
-                      ? remainingUnits(o)
-                      : o.outputUnits,
+                    o.stage === "claimable" ? o.outputUnits : remainingUnits(o),
                   )}
                 >
                   {displayAmount(
-                    o.stage === "refundable"
-                      ? remainingUnits(o)
-                      : o.outputUnits,
+                    o.stage === "claimable" ? o.outputUnits : remainingUnits(o),
                   )}{" "}
                   {DEMO_ASSETS[key].symbol}
                 </strong>

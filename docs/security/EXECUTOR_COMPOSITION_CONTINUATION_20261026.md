@@ -338,3 +338,29 @@ operation, complete UPS, actual fee, fill, claim or performance result was added
 The exact-wallet transport, formal Executor projection and original financial
 acceptance plan remain open. UI lease closes only after archival and push;
 existing work is not terminated by the heartbeat.
+
+
+## UI focus: RPC heartbeat stopped and local activity completed
+
+At the user's explicit request, automation `rpc` was deleted through the app
+management tool. There is no scheduled RPC/financial continuation. This does not
+cancel, replace or reconcile any financial request; the original financial plan
+remains pending until separately resumed with its complete safety gates.
+
+[UI source and acceptance](../../executor/verification/2026-10-26-market-activity-ui-v1/README.md).
+Orders now offers shared local search, separate market/draft and AMM status
+filters, counts, reset and empty-state recovery. Pending intermediate/final/refund
+outputs no longer appear in-progress/completed; unresolved receipts remain a
+separate category. The asset summary includes actual demo intermediate asset
+amounts and removes only their pending entry after the simulated claim.
+Draft details show current cancellation/expiry and exact terms; opening the
+market does not reactivate the draft. Local expiry refreshes without modifying
+original records. Route titles/main focus/scroll and browser Back are coordinated.
+The readonly RPC disclosure is collapsed on Orders to prioritize local activity.
+
+41 frontend tests and production build pass. Twenty-one desktop/mobile browser
+checks pass, including four-market navigation, combined search, local QA draft
+save/cancellation/reload, exact quantities, intermediate-output demo handling,
+Back, modal focus and console/layout checks. No RPC read, chain financial action,
+proof or performance measurement occurred. No Node, SDK or old-contract change.
+Real signing, settlement/claim and healthy RPC acceptance remain open.

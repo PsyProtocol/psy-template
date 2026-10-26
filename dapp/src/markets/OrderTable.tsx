@@ -78,9 +78,11 @@ export function OrderTable({
                     {DEMO_ASSETS[o.sell].symbol}
                   </span>
                   <small>
-                    {o.stage === "refundable" || o.stage === "refunded"
-                      ? `Return ${displayAmount(remainingUnits(o), 18, 4)} ${DEMO_ASSETS[remainingAsset(o)].symbol}`
-                      : `Est. ${displayAmount(o.outputUnits, 18, 4)} ${DEMO_ASSETS[o.buy].symbol}`}
+                    {o.stage === "middle_outbox"
+                      ? `Pending ${displayAmount(o.middleUnits, 18, 4)} ${DEMO_ASSETS[remainingAsset(o)].symbol}`
+                      : o.stage === "refundable" || o.stage === "refunded"
+                        ? `Return ${displayAmount(remainingUnits(o), 18, 4)} ${DEMO_ASSETS[remainingAsset(o)].symbol}`
+                        : `Est. ${displayAmount(o.outputUnits, 18, 4)} ${DEMO_ASSETS[o.buy].symbol}`}
                   </small>
                 </td>
                 <td>
@@ -103,7 +105,8 @@ export function OrderTable({
         </table>
         {!orders.length && (
           <p className="empty-state">
-            No matching demo orders. Preview and add an order on the Swap page.
+            No matching demo orders. Clear activity filters or preview an order
+            on the Swap page.
           </p>
         )}
       </div>

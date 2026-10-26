@@ -5,6 +5,12 @@ import type {
 } from "./productDrafts.mjs";
 import { fullAmount } from "./domain.mjs";
 import { Modal } from "./OrderDialog";
+import { draftState } from "./activity.mjs";
+const DRAFT_LABELS = {
+  draft: "Local draft",
+  expired: "Draft expired",
+  cancelled: "Cancelled locally",
+};
 export const MARKET_NAMES = {
   orderbook: "Orderbook",
   curve: "Bonding Curve",
@@ -162,12 +168,16 @@ export function ProductDrafts({
   onCancel,
   onExport,
   compact = false,
+  now,
+  emptyText = "No local drafts yet. Preview an order to save one.",
 }: {
   records: ProductRecord[];
-  onOpen: (p: ProductPreview) => void;
+  onOpen: (id: string) => void;
   onCancel: (id: string) => void;
   onExport: () => void;
   compact?: boolean;
+  now: number;
+  emptyText?: string;
 }) {
   return (
     <section className="product-drafts">
@@ -219,17 +229,13 @@ export function ProductDrafts({
                   </td>
                   <td>
                     <span className="status-badge">
-                      {r.status === "cancelled"
-                        ? "Cancelled locally"
-                        : r.preview.expiresAt < Date.now()
-                          ? "Draft expired"
-                          : "Local draft"}
+                      {DRAFT_LABELS[draftState(r, now)]}
                     </span>
                   </td>
                   <td>
                     <button
                       className="text-button"
-                      onClick={() => onOpen(r.preview)}
+                      onClick={() => onOpen(r.id)}
                       aria-label={`Open ${r.id}`}
                     >
                       Details
@@ -250,20 +256,23 @@ export function ProductDrafts({
           </table>
         </div>
       ) : (
-        <p className="empty-state">
-          No local drafts yet. Preview an order to save one.
-        </p>
+        <p className="empty-state">{emptyText}</p>
       )}
     </section>
   );
 }
 export function ProductDetailDialog({
-  preview,
+  record,
+  now,
   onClose,
+  onMarket,
 }: {
-  preview: ProductPreview;
+  record: ProductRecord;
+  now: number;
   onClose: () => void;
+  onMarket: () => void;
 }) {
+  const preview = record.preview;
   return (
     <Modal
       title={`${MARKET_NAMES[preview.market]} draft details`}
@@ -273,7 +282,53 @@ export function ProductDetailDialog({
         Local draft only. No funds, NFT escrow, proof or receipt exists.
       </p>
       <p>{preview.note}</p>
-      <pre className="product-json">{JSON.stringify(preview, null, 2)}</pre>
+      <dl className="terms">
+        <div>
+          <dt>Draft ID</dt>
+          <dd>{record.id}</dd>
+        </div>
+        <div>
+          <dt>Current local state</dt>
+          <dd>{DRAFT_LABELS[draftState(record, now)]}</dd>
+        </div>
+        <div>
+          <dt>Owner</dt>
+          <dd>{preview.owner} · unverified</dd>
+        </div>
+        <div>
+          <dt>Offered asset</dt>
+          <dd>
+            {preview.spend.asset.startsWith("QA-")
+              ? fullAmount(preview.spend.units)
+              : preview.spend.units}{" "}
+            {preview.spend.asset}
+          </dd>
+        </div>
+        <div>
+          <dt>Minimum / target</dt>
+          <dd>
+            {preview.receive.asset.startsWith("QA-")
+              ? fullAmount(preview.receive.units)
+              : preview.receive.units}{" "}
+            {preview.receive.asset}
+          </dd>
+        </div>
+        <div>
+          <dt>Local expiry</dt>
+          <dd>{new Date(preview.expiresAt).toLocaleString("en-US")}</dd>
+        </div>
+      </dl>
+      <button className="secondary-button" onClick={onMarket}>
+        Open {MARKET_NAMES[preview.market]}
+      </button>
+      <p className="small-note">
+        Opens the market form without submitting or reactivating this draft.
+        Expiry and local cancellation do not release on-chain funds.
+      </p>
+      <details>
+        <summary>Original draft data</summary>
+        <pre className="product-json">{JSON.stringify(preview, null, 2)}</pre>
+      </details>
     </Modal>
   );
 }
