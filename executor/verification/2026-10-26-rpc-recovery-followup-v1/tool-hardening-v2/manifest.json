@@ -1,0 +1,99 @@
+{
+  "schema": 1,
+  "sourceDirectory": "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-market-recovery-20261023",
+  "machine": "gewenbo.local",
+  "host": "macOS-15.7.3-arm64-arm-64bit",
+  "scope": "public formal Executor run including failures; success requires exact included receipt",
+  "walletFilesIncluded": false,
+  "sealedBinariesIncluded": false,
+  "records": [
+    {
+      "source": "rpc-recovery-followup-20261026-v1/diagnostic-regressions-v2.log",
+      "file": "files/rpc-recovery-followup-20261026-v1/diagnostic-regressions-v2.log.gz",
+      "bytes": 501,
+      "sha256": "ce60758cf9547fe4895b380ea37d899f73f185cfbb4860a00df1695ca9fd8c7f",
+      "gzipBytes": 345,
+      "gzipSha256": "93aee1cf74efb9a71f1a8b7ea19ad40ad1fd6fbcebd43dd3a2fbe014bcefe527"
+    },
+    {
+      "source": "rpc-recovery-followup-20261026-v1/public/TOOL-HARDENING-v2.json",
+      "file": "files/rpc-recovery-followup-20261026-v1/public/TOOL-HARDENING-v2.json.gz",
+      "bytes": 695,
+      "sha256": "1bd2010503d2066b407cd248801663468860832e427ae98fc95e4c6c48a6f55a",
+      "gzipBytes": 445,
+      "gzipSha256": "0f9bb2c84d2d29112e4905e1a3eabd32f76313a0dc86b477bfbc9a51bb059530"
+    },
+    {
+      "source": "rpc-recovery-followup-20261026-v1/public/diagnostic-v2-SOURCE.json",
+      "file": "files/rpc-recovery-followup-20261026-v1/public/diagnostic-v2-SOURCE.json.gz",
+      "bytes": 967,
+      "sha256": "c00f394d2a6866ee66e98051a2ec03da3c6c2f1a4ab615d9d7ece3a6e19dfe3d",
+      "gzipBytes": 637,
+      "gzipSha256": "46dd2f318dde6f31ca1feff4f669f3364e92ec6dc22a0439ed99042f9e518018"
+    },
+    {
+      "source": "rpc-recovery-followup-20261026-v1/public/diagnostic-v2-source/amm/u124/client.mjs",
+      "file": "files/rpc-recovery-followup-20261026-v1/public/diagnostic-v2-source/amm/u124/client.mjs.gz",
+      "bytes": 6822,
+      "sha256": "65e29a5a3c429113aeea737b35bce8bd5675946d17456ebe063b5e9738f899ec",
+      "gzipBytes": 2704,
+      "gzipSha256": "4dd4369acc10eee266255cec0bacd7c8e72ee0373a029f5fe70e79cc07f60d37"
+    },
+    {
+      "source": "rpc-recovery-followup-20261026-v1/public/diagnostic-v2-source/amm/u124/policy.mjs",
+      "file": "files/rpc-recovery-followup-20261026-v1/public/diagnostic-v2-source/amm/u124/policy.mjs.gz",
+      "bytes": 5418,
+      "sha256": "deb1cec25b754c7c0c32e0d55c42ef9b152f4fb82186f179a74ef3eadd3bfb5f",
+      "gzipBytes": 1945,
+      "gzipSha256": "acf661070788869c9b1b0e0d35965e3fe0f96d1d86f18c6e3c083675f56ed48e"
+    },
+    {
+      "source": "rpc-recovery-followup-20261026-v1/public/diagnostic-v2-source/batching/v2/policy.mjs",
+      "file": "files/rpc-recovery-followup-20261026-v1/public/diagnostic-v2-source/batching/v2/policy.mjs.gz",
+      "bytes": 10078,
+      "sha256": "8d2e6ee706ba2b05baa607ddb115c47a201c7eeba4f1c1be5eafa3bc781d1971",
+      "gzipBytes": 3248,
+      "gzipSha256": "a7f9c279fce8fb1d76c9cc20e32eb1aff9ad05111322be15d8d08c59b69ae5f0"
+    },
+    {
+      "source": "rpc-recovery-followup-20261026-v1/public/diagnostic-v2-source/executor/acceptance/networkReadinessProbe.mjs",
+      "file": "files/rpc-recovery-followup-20261026-v1/public/diagnostic-v2-source/executor/acceptance/networkReadinessProbe.mjs.gz",
+      "bytes": 6075,
+      "sha256": "773532ed766529aee2f20a4d6c6e85d3ad9bab4f4c577bda86f2ef0bda53357d",
+      "gzipBytes": 2391,
+      "gzipSha256": "a6c9c57672ec6b648b95433688e96ebb56e4b85ac22deae23c7bcb522d58bca1"
+    },
+    {
+      "source": "rpc-recovery-followup-20261026-v1/public/diagnostic-v2-source/executor/observations.mjs",
+      "file": "files/rpc-recovery-followup-20261026-v1/public/diagnostic-v2-source/executor/observations.mjs.gz",
+      "bytes": 891,
+      "sha256": "987e2c6e5cc3030b0064b840bf704691963dd03d89db9c411e50321b547f53a4",
+      "gzipBytes": 430,
+      "gzipSha256": "0cb41482834a003fca05f76025fa652f28ba6b3601552369e881a9bb09acec86"
+    },
+    {
+      "source": "rpc-recovery-followup-20261026-v1/public/diagnostic-v2-source/executor/requestBinding.mjs",
+      "file": "files/rpc-recovery-followup-20261026-v1/public/diagnostic-v2-source/executor/requestBinding.mjs.gz",
+      "bytes": 1554,
+      "sha256": "18f7d0b394f03481be1ed25581c6b551e4e780bcba20e217a99f80be9f2aa2c2",
+      "gzipBytes": 704,
+      "gzipSha256": "7d1a6474cd1f3c1c130df21b2b011d3888d50daf59bc577c15cb4200835b4dd0"
+    },
+    {
+      "source": "rpc-recovery-followup-20261026-v1/public/diagnostic-v2-source/nft-marketplace/policy.mjs",
+      "file": "files/rpc-recovery-followup-20261026-v1/public/diagnostic-v2-source/nft-marketplace/policy.mjs.gz",
+      "bytes": 3630,
+      "sha256": "073ec93fa514dcdf3cf46d8b1790f4c71a766dc81d284072f76177fc9ad07878",
+      "gzipBytes": 1365,
+      "gzipSha256": "3ccc18992c2e25a4f04b05d08d78c1b1168c27bf18ee7edeaf73fe7c03ef3324"
+    },
+    {
+      "source": "rpc-recovery-followup-20261026-v1/public/diagnostic-v2-source/token/wide/arithmetic.mjs",
+      "file": "files/rpc-recovery-followup-20261026-v1/public/diagnostic-v2-source/token/wide/arithmetic.mjs.gz",
+      "bytes": 2826,
+      "sha256": "60a85bafc6619dffbd9fe70a56d269d8356f55068434e8e83e2d51d28fdccc94",
+      "gzipBytes": 1099,
+      "gzipSha256": "85ffda49e5d427bb0c97f51dce229841b9dfe9a981f5ee0104d36c43c678a283"
+    }
+  ]
+}
