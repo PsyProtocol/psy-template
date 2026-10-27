@@ -598,3 +598,14 @@ performance, real UI or production acceptance items by implication.
 See [selected-SDK migration and live boundary](MAINNET_BETA_MARKET_MIGRATION_20261027.md#new-chain-deployments-and-read-only-ui-follow-up). New QA assets 6/7/8, AMM 9, Book 10 and NFT Market 12 have original deployment/key/checkpoint evidence. Curve 11 is quarantined before funding because of an unverified graduation recipient inherited from an offline fixture. A corrected, undeployed candidate has an offline initial-layout proof; no old contract update was performed. Current UI reader pins use the new chain and wallet planning rejects quarantine. This does not enable UI financial writes.
 
 Focused regressions and selected-SDK wallet build passed; the browser journey verified blocked inactive-account and quarantined-Curve states, with the earlier capacity failure retained. At checkpoint 4902 issuer test PSY remains zero, its user leaf is empty, and the original faucet request remains unknown. There are no new real fills, ordinary claims, cold/warm comparisons or throughput results. Previous-chain evidence is retained as historical, not reused as current-chain acceptance. Full candidate/live UPSs, exact wallet transport, actual funding/settlement/recovery and service/upgrade trust evidence remain open.
+
+### 2026-10-27 corrected Curve proof closure
+
+Exact recipient-corrected Curve bytecode passed two full trading UPSs and a
+full graduation UPS. The public requests, code/layout and original failed runs
+are archived in
+[the proof manifest](../../executor/verification/2026-10-27-mainnet-beta-curve-ups-v1/manifest.json).
+This is synthetic authenticated-state evidence (market 1000/vault 100), not
+live key or browser acceptance. Curve 11 remains quarantined. Replacement
+initial deployment, new key registration, funding and real settlement remain
+separate gates. No Node, SDK source or old contract was changed.

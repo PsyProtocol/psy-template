@@ -292,3 +292,39 @@ freshness recheck, broadcast and reconciliation until those adapters are
 implemented and accepted. Private FT packet verification remains unavailable
 in the unchanged SDK and rejects before payment. No UI write, chain TPS,
 cross-machine or production-ready conclusion is supported by this milestone.
+
+## Corrected Curve: exact-bytecode proof milestone
+
+The recipient-corrected candidate (`0d02be67…5777b5d`) now has complete
+commit and settlement UPSs for two fills, plus a separate complete graduation
+UPS. The configured recipient is the registered ordinary QA trader 1856512;
+QA assets are FT 6 and FT 7, issued by 1590272. The authenticated offline
+fixture uses market 1000 and vault 100: these proofs are **not** acceptance of a
+registered live Curve key. Existing Curve 11 remains quarantined and unchanged.
+
+The graduation regression rejects a different recipient without changing state,
+proves the configured transfers and fees, and checks that the output remains
+Outbox until the recipient claims it. Setup, trading to the cap and those
+recipient claims are VM checks in this specific graduation test; the complete
+UPS assertion applies to graduation. The two trading UPSs have their own exact
+public requests and endpoint verification.
+
+[Public proof archive](../../executor/verification/2026-10-27-mainnet-beta-curve-ups-v1/manifest.json)
+retains all three exact requests, the candidate bytecode/layout, source-hash
+inventory and original logs. The [separate tested source archive](../../executor/verification/2026-10-27-mainnet-beta-curve-source-v1/manifest.json)
+retains all 81 recorded application files and its APPLICATION.json, including
+Cargo manifest/lock and the verifier modules compiled into that snapshot. The
+staged Curve test omits only the unused wallet-verifier test-module import; the
+exact tested snapshot is preserved independently of later wallet work. It also preserves failed test invocations: a zero-change
+operation mismatch, a compilation import error, and an incorrect policy
+operation name. Graduation v4 passed but omitted raw-request capture; v5
+repeated it with a required matching archive output and retained the request.
+No original artifact was overwritten. The v5 test took 163.45 seconds; its
+whole command took 588.47 seconds including application binary compilation.
+These are offline measurements, not a controlled speed comparison or network
+confirmation timing.
+
+Next gates remain: initial replacement deployment and checkpoint membership,
+its new key registration, funding, initialization and real settlement/claim.
+The existing browser write gate stays closed pending extension-owned complete
+verification, exact approval and actual wallet acceptance.
