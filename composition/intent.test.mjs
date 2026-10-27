@@ -16,3 +16,18 @@ test('decimal parsing is exact for differing verified precision',()=>{assert.equ
 test('route, registry, assets, decimals, domain and expiry substitutions reject',()=>{const f=fixture();for(const change of [{checkpoint:200n},{intent:{...f.intent,id:other}},{registry:{...f.registry,hash:other}},{snapshots:[{...f.snapshots[0],vaultId:202n},f.snapshots[1]]},{snapshots:[{...f.snapshots[0],checkpoint:99n},f.snapshots[1]]}])assert.throws(()=>planIntent({...f,...change}));for(const change of [{domainHash:other},{sdkManifestHash:other},{input:{...f.terms.input,decimals:9}},{output:{...f.terms.output,id:10n}},{output:{...f.terms.output,amount:MAX_AMOUNT}}])assert.throws(()=>planIntent({...f,intent:createIntent({...f.terms,...change})}));});
 test('registry commits code/layout/function/key/vault plus complete dependencies',()=>{const f=fixture();for(const field of ['fingerprint','publicKeyHash']){const r=structuredClone(f.registry.value);r.markets[0][field]='d'.repeat(64);assert.notEqual(createRegistry(r).hash,f.registry.hash);}for(const field of ['codeRoot','layoutRoot','functionTreeRoot']){const r=structuredClone(f.registry.value);r.markets[0].dependencies[0][field]='d'.repeat(64);assert.notEqual(createRegistry(r).hash,f.registry.hash);}const r=structuredClone(f.registry.value);r.markets[0].dependencies.pop();assert.throws(()=>createRegistry(r),/closure/);});
 test('U124 carry and reserve overflow remain checked by base arithmetic',()=>{const f=fixture();const i=createIntent({...f.terms,input:{...f.terms.input,amount:(1n<<62n)+17n}});assert.throws(()=>planIntent({...f,intent:i,snapshots:[{...f.snapshots[0],reserveA:MAX_AMOUNT,reserveB:MAX_AMOUNT},f.snapshots[1]]}),/bounded/);assert.throws(()=>createIntent({...f.terms,input:{...f.terms.input,amount:MAX_AMOUNT+1n}}),/bounded/);});
+
+test('layout slots use the selected SDK packed-word capacity while metadata stays exact',()=>{
+ const f=fixture(),r=structuredClone(f.registry.value),nativeSlots=8594128984n;
+ for(const m of r.markets){const d=m.dependencies.find(d=>d.contractId===0n);d.stateTreeHeight=32n;d.layoutSlotCount=nativeSlots;d.layoutFieldCount=8n;}
+ const accepted=createRegistry(r);assert.notEqual(accepted.hash,f.registry.hash);
+ for(const invalid of [-1n,17179869185n,8594128984,9007199254740992]){
+  const wrong=structuredClone(r);wrong.markets[0].dependencies[0].layoutSlotCount=invalid;assert.throws(()=>createRegistry(wrong),/bounded/);
+ }
+ const short=structuredClone(r);short.markets[0].dependencies[0].stateTreeHeight=31n;assert.throws(()=>createRegistry(short),/bounded/);
+ const execution={...f.terms.execution,stateTreeHeight:32n,layoutSlotCount:nativeSlots};
+ assert.equal(createIntent({...f.terms,execution}).terms.execution.layoutSlotCount,nativeSlots);
+ assert.equal(createIntent({...f.terms,execution:{...execution,layoutSlotCount:17179869184n}}).terms.execution.layoutSlotCount,17179869184n);
+ for(const bad of [{layoutSlotCount:17179869185n},{layoutSlotCount:8594128984},{stateTreeHeight:31n},{stateTreeHeight:33n},{layoutFieldCount:1n<<32n}])
+  assert.throws(()=>createIntent({...f.terms,execution:{...execution,...bad}}),/bounded/);
+});

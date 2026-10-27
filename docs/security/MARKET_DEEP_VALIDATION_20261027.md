@@ -217,3 +217,9 @@ application-owned approval policy extraction, generic wallet authority, fresh
 read-only chain checks and capability matrix. It also identifies composition's
 remaining legacy SDK/native profile and u32 slot-count restrictions. Current-chain
 financial activation and complete two-pool recovery remain unaccepted.
+
+The subsequent layout-capacity fix closes composition's client u32 count
+restriction with the frozen SDK's exact packed-word bound and 89 model
+regressions. Its legacy SDK/domain/native-method migration remains open; no
+current-chain composition, wallet financial or performance acceptance is implied.
+See the follow-up in the current intent-layer report.

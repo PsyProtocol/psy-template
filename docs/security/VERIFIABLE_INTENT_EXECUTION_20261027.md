@@ -127,3 +127,25 @@ financial phase from the current zero-budget source plan. Runtime binary/image
 and upgrade authorization/replay evidence remain service-owner deliverables.
 
 [Public source, regression/build failures and passes, and readonly evidence](../../executor/verification/2026-10-27-wallet-policy-boundary-v1/manifest.json).
+
+## Layout-capacity follow-up
+
+The isolated client correction is now implemented in `composition/intent.mjs`.
+Registry dependency and controller layout slot counts require exact BigInt values
+and satisfy the frozen SDK's packed-word capacity `(1 << stateTreeHeight) * 4`;
+height remains at most 32 and field count remains u32. The actual native slot
+count 8,594,128,984 is accepted only with sufficient height. Negative, Number,
+rounded, capacity+1 and oversized-height/count inputs reject. Existing valid
+registry/intent commitment bytes are unchanged because serialization is unchanged.
+
+All 89 composition application regressions passed. These are unit/model checks,
+not new key, bytecode, full UPS or financial acceptance. The legacy composition
+SDK/domain/native-method restriction remains open; the count fix does not activate
+that profile on the current chain. No contracts, keys or original evidence changed.
+
+The wallet policy extraction is now separately published as
+[`5c15a9d`](https://github.com/PsyProtocol/psy-wallet/commit/5c15a9df9d5c47c4df449988ab7cb89b5d397b32),
+with all 26 vendor outputs reproduced from published application `40d1a212`.
+The native installed release remains null.
+
+[Range source snapshot, frozen backend rule and regression log](../../executor/verification/2026-10-27-composition-layout-capacity-v1/manifest.json).
