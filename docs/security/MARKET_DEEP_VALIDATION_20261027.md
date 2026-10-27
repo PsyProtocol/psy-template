@@ -168,3 +168,35 @@ These checks do not install a live verifier release or enable page writes. The
 follow publication of the corresponding application source milestone.
 
 [Guard source snapshot, failed/successful regression logs and selected-cohort build evidence](../../executor/verification/2026-10-27-wallet-chain-guard-v1/manifest.json).
+
+## Composition/probe layout propagation and full native whitelist
+
+A follow-up source search found the same zero-layout assumption in the dual-pool
+complete-UPS fixture and two independent CFC probes. Those three paths now use
+the shared strict ABI reconstruction. `cargo check --release --locked --offline`
+passed for `batch_lifecycle` and `composition_funds` against the unchanged frozen
+SDK (4.90 s incremental check). This compiles both test targets; it is not a
+new proof or execution pass. The earlier four-UPS archive retains its exact tested
+source snapshot; no proof was regenerated for these separate fixture paths.
+
+The source-derived verifier exporter additionally rebuilt **all** native method
+fingerprints and reproduced the complete captured native function root
+`1ad1a069…13c5b1`, together with its exact code and canonical layout/counts.
+It exported verifier-only resources for public transfer/claim/burn, with pack
+SHA256 `ffcd8f90d35aabeedf10e1f5d8fb95a71f82c9ecaee670a1f58dd79ca5a8cbe8`.
+This closes full-native-whitelist reconstruction beyond the earlier three
+membership paths; it does not validate the business semantics of every other
+native method. The 25.34 s resource build generated no business UPS and is not a
+transaction-performance result. The native-only pack is not an installable
+four-market wallet release and was not activated by the wallet or UI.
+
+The published wallet commit
+[`075703d`](https://github.com/PsyProtocol/psy-wallet/commit/075703d)
+vendors the exact application source from
+[`e302d157`](https://github.com/PsyProtocol/psy-template/commit/e302d157).
+Fresh reproduction matched all 21 output files (19 modules, bundle and source
+inventory). An HTTPS push failure was recovered using SSH for the same commit;
+no branch/dependency changed. All new native/composition work remains financial
+operation count zero.
+
+[Follow-up source, compile log, native verifier resources and reproduction evidence](../../executor/verification/2026-10-27-composition-native-layout-v1/manifest.json).

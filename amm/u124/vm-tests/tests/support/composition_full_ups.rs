@@ -38,7 +38,8 @@ impl Chain{
    }
    let(wl,code_root,cache)=&built[&hash];for(i,c)in cache{cm.contract_circuits.insert((cid,*i as u32),c.clone());}
    let mut leaf=PsyContractLeaf{code_root:*code_root,state_tree_height:f(height as u64),..Default::default()};
-   if cid!=0{let manifest=psy_data::v1::qdata::contract::canonical_layout_manifest_from_compiler_abi_json::<parth_core::pgoldilocks::PoseidonHasher,GF,parth_core::pgoldilocks::QHashOut<GF>>(&serde_json::to_string(&artifact["abi"])?,psy_core::constants::protocol::STATE_LAYOUT_TREE_HEIGHT,psy_data::v1::qdata::contract::CANONICAL_TYPE_LAYOUT_STRUCT_TREE_HEIGHT)?;let l=manifest.layout.contract_layout;leaf.state_layout_root=QHashOut(HashOut{elements:l.state_layout_root.0.elements});leaf.state_layout_field_count=f(l.state_layout_field_count);leaf.state_layout_slot_count=f(l.state_layout_slot_count);}
+   let(layout,fields,slots)=psy_template_u124_markets::contract_layout::artifact_layout(cid,height,&artifact["abi"])?;
+   leaf.state_layout_root=layout;leaf.state_layout_field_count=f(fields);leaf.state_layout_slot_count=f(slots);
    code.insert(cid,ContractCodeDefinition{state_tree_height:height as u16,functions:defs.iter().map(dapen_fc_to_cfc_code_definition).collect()});leaves.insert(cid,leaf);whitelists.insert(cid,wl.clone());
   }
   Ok(Self{cm,key,code,leaves,whitelists,last_leaf:None,measurements:vec![json!({"phase":"cold-circuit-build","elapsedMs":started.elapsed().as_secs_f64()*1000.})]})
