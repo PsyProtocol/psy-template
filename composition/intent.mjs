@@ -29,7 +29,7 @@ export function createIntent(input){
  user(v.owner);user(v.receiver);assert.equal(v.receiver,v.owner,'v1 requires owner as final receiver');positive(v.nonce,(1n<<62n)-1n);positive(v.expiresAtCheckpoint,(1n<<32n)-1n);positive(v.maxNativeFees,(1n<<62n)-1n);
  exactKeys(v.execution,['controllerId','vaultId','fingerprint','publicKeyHash','codeRoot','layoutRoot','functionTreeRoot','stateTreeHeight','layoutFieldCount','layoutSlotCount',...(v.version===2?['initialization']:[])]);
  if(v.version===2){const a=v.execution.initialization;exactKeys(a,['asset','amount','mode']);user(a.asset);assert.equal(a.amount,1n,'initialization is exactly one atomic unit');assert.equal(a.mode,'sender-bound-cancel-before-route');}
- user(v.execution.controllerId);user(v.execution.vaultId);assert.notEqual(v.execution.vaultId,v.owner,'dedicated execution account required');for(const k of ['fingerprint','publicKeyHash','codeRoot','layoutRoot','functionTreeRoot'])hash(v.execution[k]);positive(v.execution.stateTreeHeight,32n);integer(v.execution.layoutFieldCount,(1n<<32n)-1n);integer(v.execution.layoutSlotCount,(1n<<32n)-1n);
+ user(v.execution.controllerId);user(v.execution.vaultId);assert.notEqual(v.execution.vaultId,v.owner,'dedicated execution account required');for(const k of ['fingerprint','publicKeyHash','codeRoot','layoutRoot','functionTreeRoot'])hash(v.execution[k]);positive(v.execution.stateTreeHeight,32n);integer(v.execution.layoutFieldCount,(1n<<32n)-1n);integer(v.execution.layoutSlotCount,(1n<<v.execution.stateTreeHeight)*4n);
  asset(v.input);asset(v.output);assert.ok(Array.isArray(v.markets)&&v.markets.length===2);v.markets.forEach(user);assert.notEqual(v.markets[0],v.markets[1],'distinct market instances');
  return freeze({id:commitment('psy-composition-intent-v1',v),terms:v,atomic:false,authorization:'unsigned-client-intent'});
 }
@@ -43,7 +43,7 @@ export function createRegistry(input){
   assert.ok(Array.isArray(m.assets)&&m.assets.length===2);m.assets.forEach(a=>{exactKeys(a,['id','decimals']);user(a.id);decimals(a.decimals);});assert.notEqual(m.assets[0].id,m.assets[1].id);
   assert.ok(Array.isArray(m.dependencies));const required=[0n,m.marketId,...m.assets.map(a=>a.id)].sort((a,b)=>a<b?-1:a>b?1:0);
   assert.equal(new Set(required.map(String)).size,4,'market and assets must be distinct contracts');
-  const actual=m.dependencies.map(d=>{exactKeys(d,['contractId','codeRoot','layoutRoot','functionTreeRoot','stateTreeHeight','layoutFieldCount','layoutSlotCount']);integer(d.contractId,16777215n);for(const k of ['codeRoot','layoutRoot','functionTreeRoot'])hash(d[k]);positive(d.stateTreeHeight,32n);integer(d.layoutFieldCount,(1n<<32n)-1n);integer(d.layoutSlotCount,(1n<<32n)-1n);return d.contractId;}).sort((a,b)=>a<b?-1:a>b?1:0);
+  const actual=m.dependencies.map(d=>{exactKeys(d,['contractId','codeRoot','layoutRoot','functionTreeRoot','stateTreeHeight','layoutFieldCount','layoutSlotCount']);integer(d.contractId,16777215n);for(const k of ['codeRoot','layoutRoot','functionTreeRoot'])hash(d[k]);positive(d.stateTreeHeight,32n);integer(d.layoutFieldCount,(1n<<32n)-1n);integer(d.layoutSlotCount,(1n<<d.stateTreeHeight)*4n);return d.contractId;}).sort((a,b)=>a<b?-1:a>b?1:0);
   assert.deepEqual(actual,required,'exact complete dependency closure');m.dependencies.sort((a,b)=>a.contractId<b.contractId?-1:a.contractId>b.contractId?1:0);
  }
  v.markets.sort((a,b)=>a.marketId<b.marketId?-1:1);
