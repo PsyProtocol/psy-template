@@ -2333,3 +2333,17 @@ select[aria-invalid="true"] {
     font-size: 16px;
   }
 }
+
+.chain-readiness { margin: 18px 0 24px; padding: 22px 24px; background: var(--psy-surface, #fff); border: 1px solid var(--psy-line, #d8deeb); border-left: 3px solid var(--psy-blue, #1b55f5); border-radius: 10px; }
+.chain-readiness-heading { display: flex; gap: 12px; align-items: center; }
+.chain-readiness-heading > div { flex: 1; min-width: 0; }
+.chain-readiness h2 { font-size: 18px; margin: 4px 0; line-height: 1.4; }
+.chain-readiness p { font-size: 14px; line-height: 1.65; }
+.chain-readiness .eyebrow { font-size: 10px; letter-spacing: .12em; margin: 0; }
+.chain-readiness-meta { display: flex; flex-wrap: wrap; gap: 8px 22px; color: #4e5e78; font-size: 12px; font-variant-numeric: tabular-nums; }
+.chain-readiness details { margin-top: 14px; font-size: 13px; }
+.chain-readiness summary { cursor: pointer; min-height: 24px; }
+.chain-readiness dt { font-weight: 600; margin-top: 10px; }
+.chain-readiness dd { margin: 4px 0 0; overflow-wrap: anywhere; line-height: 1.6; font-family: inherit; }
+.chain-readiness button { min-height: 40px; padding: 8px 12px; }
+@media (max-width: 640px) { .chain-readiness { padding: 16px; } .chain-readiness-heading { flex-wrap: wrap; } .chain-readiness-heading > button { margin-left: 32px; width: calc(100% - 32px); } }

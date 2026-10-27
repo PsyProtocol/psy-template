@@ -494,3 +494,59 @@ gates before enabling finance. Offline contract optimization can proceed alongsi
 UI implementation, but accepted UI instances and performance samples remain
 isolated from candidate deployment/build/proof work. No Node or SDK change; current
 branches retained. Deterministic ordering and existing market semantics remain.
+
+## 2026-10-27 fresh-chain protocol rejection and real readonly UI
+
+[Preflight, UI and public evidence](../../executor/verification/2026-10-27-new-chain-preflight-ui-v1/README.md).
+The unchanged selected SDK was rechecked against 1,466 pinned source files.
+Captured new-chain native bytecode decodes and recomputes to the observed code
+root, but its numeric deployer fails the SDK's exact hash-owner schema. The new
+native transfer/claim/burn ABI also lacks the SDK's automatic fee-burn method
+`2923993647`. The offline native CLI records and rejects these concrete protocol
+differences; it does not coerce owners or bypass fees. Endcap/key, fresh full UPS
+and upgrade authorization remain unverified. Isolation deployment stopped before
+identity creation: zero registrations, deployments, faucets, financial UPSs,
+fees or asset movements. The symbolic chain-scoped draft is not a live registry.
+
+The existing gateway/UI now display actual readonly network checkpoints and
+native/chain identity, with explicit incompatibility, expiry and outage states.
+Matching roots alone cannot accept an unpinned checkpoint-one chain. Simultaneous
+diagnostic reads can coalesce; completed observations are discarded. Old market
+IDs are not probed through this route after native incompatibility. Trading,
+wallet write and financial adapter gates remain closed. Existing demo records
+and unsigned planners remain separate. One real refresh encountered an outage;
+RPC availability is intermittent, not continuously healthy.
+
+74 application checks, 50 frontend tests, production build and three native CLI
+unit tests pass. Actual browser refresh, expiry and Liquidity keyboard navigation
+were observed with no captured application errors in that window. Screenshots
+timed out and runtime viewport behavior was unstable; complete desktop/mobile
+visual acceptance is not claimed. Browser tooling was not upgraded. SDK release
+and wallet call/session attestation/build blockers remain open. The required
+external protocol/configuration/authorization deliveries are itemized in the
+review. No Node/SDK change, old-contract probe or restarted heartbeat.
+
+## 2026-10-27 optional immutable deployment resource experiment
+
+[Implementation, comparison and complete canonical-proof evidence](../../executor/verification/2026-10-27-initial-layout-cache-v1/README.md).
+An opt-in artifact-template cache avoids rebuilding identical code/whitelist
+resources for each new deployer while rebinding the actual owner and preserving
+all canonical layout/code/owner endpoint checks. It caches no transaction state,
+witness, nonce, signature or UPS. Default owner-v1 is retained; unknown profiles
+are rejected. Base market bytecode, pricing and matching semantics are unchanged.
+
+On one real U124 artifact, two sequential owners, the same fixed SDK/machine and
+two threads, second-owner preparation measured 22.565 seconds baseline versus
+0.013 seconds candidate. First-owner preparation measured 118.987 versus 116.207
+seconds. Whole child duration was 168.201 versus 142.559 seconds, but maximum RSS
+rose from 2,721,693,696 to 3,430,858,752 bytes and peak physical footprint also
+rose slightly. One sample, uncontrolled host load/order and offline deployment
+preparation do not establish overall settlement acceleration or memory reduction.
+The candidate stays opt-in, and no full UPS/network TPS claim is made.
+
+Two complete initial-layout requests per measured variant verify and reject
+owner/code/count/root/proof mutations. A later final-source test independently
+reverifies two preserved requests under both profiles, rejecting wrong owners
+and unknown profiles. Earlier attempts, original outputs, complete requests,
+build/run logs, exact source snapshots and binary hashes are retained. No live
+financial request was generated or submitted by this experiment.
