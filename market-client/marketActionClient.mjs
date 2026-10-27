@@ -46,7 +46,53 @@ export function createMarketActionClient({
           );
       }
     })());
+  const validate = async (input, response) => {
+    const request = JSON.parse(canonical(input)),
+      r = JSON.parse(canonical(response));
+    await pin();
+    validateMarketRequest(request, registry);
+    exactFields(r, [
+      "schema",
+      "request",
+      "snapshot",
+      "context",
+      "plan",
+      "registryHash",
+      "recordId",
+    ]);
+    ok(
+      r.schema === 1 &&
+        r.registryHash === registryHash &&
+        canonical(r.request) === canonical(request),
+      "Market plan request substituted",
+    );
+    const expected = buildMarketPlan(
+      r.snapshot,
+      r.context,
+      request,
+      registry,
+      abis,
+      { registryHash, now: now() },
+    );
+    ok(
+      canonical(r.plan) === canonical(expected),
+      "Market plan calls, terms, endpoints or fees changed",
+    );
+    const record = {
+      schema: 1,
+      request: r.request,
+      snapshot: r.snapshot,
+      context: r.context,
+      plan: r.plan,
+    };
+    ok(
+      (await digest(record)) === r.recordId,
+      "Market plan record identity changed",
+    );
+    return r;
+  };
   return {
+    validate: async (response) => validate(response.request, response),
     plan: async (input) => {
       const request = JSON.parse(canonical(input));
       await pin();
@@ -69,45 +115,7 @@ export function createMarketActionClient({
         throw Error("Market plan gateway unavailable");
       }
       if (!response.ok) throw Error(r.error || "Market plan request failed");
-      exactFields(r, [
-        "schema",
-        "request",
-        "snapshot",
-        "context",
-        "plan",
-        "registryHash",
-        "recordId",
-      ]);
-      ok(
-        r.schema === 1 &&
-          r.registryHash === registryHash &&
-          canonical(r.request) === canonical(request),
-        "Market plan request substituted",
-      );
-      const expected = buildMarketPlan(
-        r.snapshot,
-        r.context,
-        request,
-        registry,
-        abis,
-        { registryHash, now: now() },
-      );
-      ok(
-        canonical(r.plan) === canonical(expected),
-        "Market plan calls, terms, endpoints or fees changed",
-      );
-      const record = {
-        schema: 1,
-        request: r.request,
-        snapshot: r.snapshot,
-        context: r.context,
-        plan: r.plan,
-      };
-      ok(
-        (await digest(record)) === r.recordId,
-        "Market plan record identity changed",
-      );
-      return r;
+      return validate(request, r);
     },
   };
 }

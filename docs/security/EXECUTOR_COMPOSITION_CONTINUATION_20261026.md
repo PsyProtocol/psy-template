@@ -453,3 +453,26 @@ No proof, financial broadcast, fill, fee, wallet claim/refund or performance res
 was produced. Browser secure staged provider implementation, selected SDK/key
 attestation, real bytecode/full UPS and isolated write acceptance remain open.
 The heartbeat stays deleted; the original financial plan was not resumed.
+
+## 2026-10-27 ordinary wallet prepare-only and native UPS coverage
+
+[Review and public evidence](../../executor/verification/2026-10-27-safe-wallet-native-v1/README.md).
+Added explicit proof-only job execution, pinned SDK-shaped trace validation,
+public capsule projection and a durable account/network/chain reservation with
+one-shot/original-identity recovery rules. The existing wallet candidate core
+uses the same wallet FIFO and durable store for internal preparation. It gates
+legacy writes/previews and refuses unresolved legacy queue history. No new web
+write permission, financial gateway or SDK attestation is enabled.
+
+Four-market ordinary funding/order and claim fixtures exercise real bytecode,
+standard signatures, complete UPSs, fees/endpoints, two nonzero FT limbs and NFT
+FIFO identity at synthetic authenticated checkpoints. Setup/Outboxes are VM-only;
+this does not close live settlement, refunds or browser wallet acceptance. Saved
+requests also undergo the pinned independent full endcap/core verifier. Actual
+browser call/session attestation is a separate missing native adapter.
+
+The unchanged wallet baseline reproduces the same 10 existing private-FT SDK
+TypeScript errors and two SDK package-path-blocked queue suites. Nine focused
+wallet checks and 68 application checks pass; neither makes the wallet release
+build accepted. Dependency migration remains separate. Configured RPC probes
+still return 503, with zero financial broadcasts. The heartbeat stays deleted.
