@@ -303,6 +303,10 @@ export async function createGatewayAdapter(
       }),
       s.rpc(realm.rpc_url[0], "psy_get_user_tree_leaf_hash", params),
     ]);
+    if (leaf.public_key === "0".repeat(64))
+      throw Object.assign(Error("Account has no active leaf at the observed checkpoint"), {
+        code: "ACCOUNT_NOT_ACTIVE",
+      });
     assert.ok(
       hashPattern.test(leaf.public_key) &&
         leaf.public_key !== "0".repeat(64) &&

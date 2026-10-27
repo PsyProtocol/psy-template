@@ -1,0 +1,627 @@
+{
+  "schema": 1,
+  "sourceDirectory": "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-market-recovery-20261023/market-mainnet-migration-20261027-v1/isolated-live-v1",
+  "machine": "gewenbo.local",
+  "host": "macOS-15.7.3-arm64-arm-64bit",
+  "scope": "public formal Executor run including failures; success requires exact included receipt",
+  "walletFilesIncluded": false,
+  "sealedBinariesIncluded": false,
+  "records": [
+    {
+      "source": "assets/SOURCE.json",
+      "file": "files/assets/SOURCE.json.gz",
+      "bytes": 1042,
+      "sha256": "e6b307472cef72254da3c71540a7b545cd00b393af0a30edd0cfc999405ded16",
+      "gzipBytes": 550,
+      "gzipSha256": "3170820b62f8a0b794d9bc37d43b3d2d6b4b0f7d733841738e54c2f166d47857"
+    },
+    {
+      "source": "assets/native.json",
+      "file": "files/assets/native.json.gz",
+      "bytes": 429498,
+      "sha256": "b68fd259b5e26b72cee9f877f90a129cfab05b9b6203c481d49c26fdb0559b45",
+      "gzipBytes": 23186,
+      "gzipSha256": "ddf23bd2c87523d0a2ae9ab7020ceb4b367c6d43309cd25481322a8a57de8082"
+    },
+    {
+      "source": "assets/qa-a-compile.log",
+      "file": "files/assets/qa-a-compile.log.gz",
+      "bytes": 69,
+      "sha256": "f6c26d99e6a31a05116af830fc84714a9afee82ba74d3a97a53d46e457165047",
+      "gzipBytes": 88,
+      "gzipSha256": "cd10bec1bfa460961851906fcbfc8ebb4b8c961b92cd61271d825a7e22af017e"
+    },
+    {
+      "source": "assets/qa-a-compiled/abi.json",
+      "file": "files/assets/qa-a-compiled/abi.json.gz",
+      "bytes": 29851,
+      "sha256": "e8b0d060f2ba22bc64ea0d6c11ababc47f6aa6779642c18c5942aac0802c97cf",
+      "gzipBytes": 2099,
+      "gzipSha256": "e76184d250e17da743ede5e7efaf7294d5ba69244e1a1d0371f1d6444ea19960"
+    },
+    {
+      "source": "assets/qa-a-compiled/compilation_artifact.json",
+      "file": "files/assets/qa-a-compiled/compilation_artifact.json.gz",
+      "bytes": 4066436,
+      "sha256": "a3718e5ecc49e6360d02c325fb4bff676237fa8b4c1cc64724a092f74fc98d22",
+      "gzipBytes": 458380,
+      "gzipSha256": "84c3b7ecac91ebec131ecbb1b55142c3d56a62f066205d0428e90171c3285c52"
+    },
+    {
+      "source": "assets/qa-a-compiled/source-sha256.txt",
+      "file": "files/assets/qa-a-compiled/source-sha256.txt.gz",
+      "bytes": 65,
+      "sha256": "8743637355892a7fe93656d2b760c61aa431bee98899ffb83c75773b49aa9a22",
+      "gzipBytes": 71,
+      "gzipSha256": "856023394de91eea8175b8475c8c4baaa6ca4b905506e5c8c7491fb52424714e"
+    },
+    {
+      "source": "assets/qa-a.psy.rs",
+      "file": "files/assets/qa-a.psy.rs.gz",
+      "bytes": 998422,
+      "sha256": "4e622ca0b66d6bc265e766f27285ee2f2bf7cb2df5a8efc95ca6efddb049dddf",
+      "gzipBytes": 90647,
+      "gzipSha256": "f05b5d6c6e864a2ac2614475cb68dd7b7276bae396426e7e3a7642a2fcd05131"
+    },
+    {
+      "source": "assets/qa-b-compile.log",
+      "file": "files/assets/qa-b-compile.log.gz",
+      "bytes": 69,
+      "sha256": "f6c26d99e6a31a05116af830fc84714a9afee82ba74d3a97a53d46e457165047",
+      "gzipBytes": 88,
+      "gzipSha256": "cd10bec1bfa460961851906fcbfc8ebb4b8c961b92cd61271d825a7e22af017e"
+    },
+    {
+      "source": "assets/qa-b-compiled/abi.json",
+      "file": "files/assets/qa-b-compiled/abi.json.gz",
+      "bytes": 29851,
+      "sha256": "e8b0d060f2ba22bc64ea0d6c11ababc47f6aa6779642c18c5942aac0802c97cf",
+      "gzipBytes": 2099,
+      "gzipSha256": "e76184d250e17da743ede5e7efaf7294d5ba69244e1a1d0371f1d6444ea19960"
+    },
+    {
+      "source": "assets/qa-b-compiled/compilation_artifact.json",
+      "file": "files/assets/qa-b-compiled/compilation_artifact.json.gz",
+      "bytes": 4066436,
+      "sha256": "b67ce3ad4c5e54a7019fb0808069d3e05918a97fceb90c589c72e646b1c75d12",
+      "gzipBytes": 458378,
+      "gzipSha256": "30efbf9f58ccf69d0df5548f25b53c76143be9512d54119c882befe8f08f0ad4"
+    },
+    {
+      "source": "assets/qa-b-compiled/source-sha256.txt",
+      "file": "files/assets/qa-b-compiled/source-sha256.txt.gz",
+      "bytes": 65,
+      "sha256": "8f322f354d7bdce50dfdf1a0e1cc11d18560c1af86e0a6db54bb545a71c250c8",
+      "gzipBytes": 72,
+      "gzipSha256": "a7d81e899e7f3e8664259a01e01cd0684b70a9880aa348f29ee885a4a90f5f6a"
+    },
+    {
+      "source": "assets/qa-b.psy.rs",
+      "file": "files/assets/qa-b.psy.rs.gz",
+      "bytes": 998422,
+      "sha256": "3a29364d6411bf30f788f0c617b00610371fc7234a40b19fab45b176e27013db",
+      "gzipBytes": 90647,
+      "gzipSha256": "667a5e79400529ff5ecf19acc61bb0765cb7931ad51c4ef904817ec4e31cc795"
+    },
+    {
+      "source": "assets/qa-ft-compile.log",
+      "file": "files/assets/qa-ft-compile.log.gz",
+      "bytes": 69,
+      "sha256": "f6c26d99e6a31a05116af830fc84714a9afee82ba74d3a97a53d46e457165047",
+      "gzipBytes": 88,
+      "gzipSha256": "cd10bec1bfa460961851906fcbfc8ebb4b8c961b92cd61271d825a7e22af017e"
+    },
+    {
+      "source": "assets/qa-ft-compiled/abi.json",
+      "file": "files/assets/qa-ft-compiled/abi.json.gz",
+      "bytes": 29851,
+      "sha256": "e8b0d060f2ba22bc64ea0d6c11ababc47f6aa6779642c18c5942aac0802c97cf",
+      "gzipBytes": 2099,
+      "gzipSha256": "e76184d250e17da743ede5e7efaf7294d5ba69244e1a1d0371f1d6444ea19960"
+    },
+    {
+      "source": "assets/qa-ft-compiled/compilation_artifact.json",
+      "file": "files/assets/qa-ft-compiled/compilation_artifact.json.gz",
+      "bytes": 4066246,
+      "sha256": "b546c244b26e4d0a8da3d19e600e93d46991d6c865f132653c76d08223bd8b98",
+      "gzipBytes": 458326,
+      "gzipSha256": "a9fb25d4f847eba61c0aa933b712b22e1e1784c70d90825a8abe9f26279a966e"
+    },
+    {
+      "source": "assets/qa-ft-compiled/source-sha256.txt",
+      "file": "files/assets/qa-ft-compiled/source-sha256.txt.gz",
+      "bytes": 65,
+      "sha256": "6fbdefa7ded876206fa8b6a09c01c1d5c486b4b058abe7675867c29a90705c66",
+      "gzipBytes": 73,
+      "gzipSha256": "d4f0c3251a7f94ead9d95eb5676e49f6b0852252683608ad1d46b939d59e402a"
+    },
+    {
+      "source": "assets/qa-ft.psy.rs",
+      "file": "files/assets/qa-ft.psy.rs.gz",
+      "bytes": 998358,
+      "sha256": "fb587f0bb7174f0afe0d813d0a65bc3a62359e05744f33e505ed8fac3af9abfc",
+      "gzipBytes": 90610,
+      "gzipSha256": "74fe924b01d3690b0c17ce6f4b6c8b6ceced53559b4d8dc1ff2aa9144dc0f6b6"
+    },
+    {
+      "source": "assets/qa-nft-compile.log",
+      "file": "files/assets/qa-nft-compile.log.gz",
+      "bytes": 47,
+      "sha256": "2c366e76cffd18e0432d640ca4cb1be5fc2b4d0c508c7182134119cec256e5ec",
+      "gzipBytes": 67,
+      "gzipSha256": "2c397fbc567f41e84118e03a0bb8aeffde71a748f6f0deb3d1d9ec21ea8c7340"
+    },
+    {
+      "source": "assets/qa-nft-compiled/compilation_artifact.json",
+      "file": "files/assets/qa-nft-compiled/compilation_artifact.json.gz",
+      "bytes": 61249,
+      "sha256": "9861404dc6b3dac0d0f55bc31f6d89f6dfce347cce461495d4083e2ef42e4aae",
+      "gzipBytes": 6879,
+      "gzipSha256": "bcb6fcb19e319d3726d248968fa5a4176a93b0c4dd9c91db0d2c9e6cb8510987"
+    },
+    {
+      "source": "assets/qa-nft.psy.rs",
+      "file": "files/assets/qa-nft.psy.rs.gz",
+      "bytes": 14037,
+      "sha256": "22e8394ed7ec895711173e7887e43027b1bb0abfa29b50ea55220a55dd75c4c1",
+      "gzipBytes": 2506,
+      "gzipSha256": "8aa72700c4af3aa1dd4205014dcade80fd4d8cc81d436082d3280fc76ae6fca0"
+    },
+    {
+      "source": "attempts/deploy-qa-a-v1/before.json",
+      "file": "files/attempts/deploy-qa-a-v1/before.json.gz",
+      "bytes": 224,
+      "sha256": "2ba7e60ed8be8b2e52b9aff0808bb3b62e387a8225b7b3dcda13cf1aad83e74e",
+      "gzipBytes": 144,
+      "gzipSha256": "21657f7027bd657c3fd43de3bda1db6cd50577d537e21c8769e44421772587a5"
+    },
+    {
+      "source": "attempts/deploy-qa-a-v1/included.json",
+      "file": "files/attempts/deploy-qa-a-v1/included.json.gz",
+      "bytes": 1646,
+      "sha256": "f6e29c0d71d648fe2ab0b10d83294a229365b31dad7e6efccf47bf3fca04af31",
+      "gzipBytes": 786,
+      "gzipSha256": "3219d4cedd3c4600a48a1c877eca802f01cd62972fd5b69982cea9076507dfa1"
+    },
+    {
+      "source": "attempts/deploy-qa-a-v1/intent.json",
+      "file": "files/attempts/deploy-qa-a-v1/intent.json.gz",
+      "bytes": 208,
+      "sha256": "90a28ff8e7e85baa9c16206f39e1cf54166e50f092268435e2afd52b568d00cf",
+      "gzipBytes": 174,
+      "gzipSha256": "886d94bbf7f3bf3828634856896204d27bac64393bceea6594dfcf803791ecfc"
+    },
+    {
+      "source": "attempts/deploy-qa-a-v1/metrics.json",
+      "file": "files/attempts/deploy-qa-a-v1/metrics.json.gz",
+      "bytes": 725,
+      "sha256": "f68f2475cd9ee51cefcb95b5b7e4c74e4a0229babd8109a4c51f0d1844b5e029",
+      "gzipBytes": 382,
+      "gzipSha256": "4f9510eae1b9cbe552a1f63c3b218bdbc9b61dfce3cf9654828a5408cb8bda0f"
+    },
+    {
+      "source": "attempts/deploy-qa-a-v1/preflight.json",
+      "file": "files/attempts/deploy-qa-a-v1/preflight.json.gz",
+      "bytes": 645,
+      "sha256": "4f976c37c698c8db84788742574dd5d82817d48ff3f0c9a2ec25a022c7a4ba5c",
+      "gzipBytes": 403,
+      "gzipSha256": "38e99f90b38f538d05d30ad7c9afd48f8aef0f5cb412b62bb49da0a3cf740d9a"
+    },
+    {
+      "source": "attempts/deploy-qa-a-v1/receipt.json",
+      "file": "files/attempts/deploy-qa-a-v1/receipt.json.gz",
+      "bytes": 84,
+      "sha256": "45b2ae83559cdd427e078dcd941b905d7269de322c8e368cb5b6cb3651dc380a",
+      "gzipBytes": 93,
+      "gzipSha256": "6e2db9c6bb19a24b7e676c68c33ad453f86866c28fb21e73e380ac198281a7cc"
+    },
+    {
+      "source": "attempts/deploy-qa-a-v1/request.json",
+      "file": "files/attempts/deploy-qa-a-v1/request.json.gz",
+      "bytes": 55857051,
+      "sha256": "b39899bdee6df84d7ae2831fb3b479f16cad811305f8a1e85b3913c2b18c74f3",
+      "gzipBytes": 964544,
+      "gzipSha256": "04d3051958ca7a362ca5ed0b9c56a15d11227490c01090fcfed5bce310abeb90"
+    },
+    {
+      "source": "attempts/deploy-qa-b-v1/before.json",
+      "file": "files/attempts/deploy-qa-b-v1/before.json.gz",
+      "bytes": 224,
+      "sha256": "06642bcf19a2cbf702d0208c981039939735ec29eee7aa2a8a763d2eb7bd5b9f",
+      "gzipBytes": 143,
+      "gzipSha256": "c2042952e9dea5cfb9a6d0681a62e9145504a111af2cec1ed5efaef723a4d2b0"
+    },
+    {
+      "source": "attempts/deploy-qa-b-v1/included.json",
+      "file": "files/attempts/deploy-qa-b-v1/included.json.gz",
+      "bytes": 1646,
+      "sha256": "428e2d8947ac82f2b9de663217b9f0daeb34249044c50859e2985beb77cacded",
+      "gzipBytes": 791,
+      "gzipSha256": "7d9ebf7c434857b98e20048a458a89a034f32b58d181f815f0f3123f73feae1e"
+    },
+    {
+      "source": "attempts/deploy-qa-b-v1/intent.json",
+      "file": "files/attempts/deploy-qa-b-v1/intent.json.gz",
+      "bytes": 208,
+      "sha256": "f35cbca4fcd0c8c5cf208184b596b6d9c14200bb22ffbb004b08184943ed32fb",
+      "gzipBytes": 173,
+      "gzipSha256": "e2fbe3f0121fc39662ca9fcf2a49477425d13307dfce0b70990be17ae03d88e4"
+    },
+    {
+      "source": "attempts/deploy-qa-b-v1/metrics.json",
+      "file": "files/attempts/deploy-qa-b-v1/metrics.json.gz",
+      "bytes": 713,
+      "sha256": "75c0403fc19a90ad9c89172615b759a1f096f4d57e53afeeeb857ae655fd0b04",
+      "gzipBytes": 376,
+      "gzipSha256": "9b1919f08142c26abb9658746e94e349ed0101bcfce97d0c47cfc9c7b0a4f1ef"
+    },
+    {
+      "source": "attempts/deploy-qa-b-v1/preflight.json",
+      "file": "files/attempts/deploy-qa-b-v1/preflight.json.gz",
+      "bytes": 645,
+      "sha256": "b5f1e93522e2e0fd7bb65ede7e384d5df4b1f070d8f553a77c5dfd1356406cb1",
+      "gzipBytes": 404,
+      "gzipSha256": "3e706eec145fc3a97ae16a599b0f9cf53c32e1644a4ca398b727086d20295c79"
+    },
+    {
+      "source": "attempts/deploy-qa-b-v1/receipt.json",
+      "file": "files/attempts/deploy-qa-b-v1/receipt.json.gz",
+      "bytes": 84,
+      "sha256": "b0c2efd29b2f81e3fcfc9bfd10e290b140983d722bbba8c4b9d75596f256f208",
+      "gzipBytes": 94,
+      "gzipSha256": "9f85102cff30f740da906ed75919a4692c4c0794dbc14dfd98e3c33ec4b7bdbb"
+    },
+    {
+      "source": "attempts/deploy-qa-b-v1/request.json",
+      "file": "files/attempts/deploy-qa-b-v1/request.json.gz",
+      "bytes": 55856776,
+      "sha256": "02762c9e26bfcf023525f8843011050275c2b95ab88664bac83ec763026a42c9",
+      "gzipBytes": 964115,
+      "gzipSha256": "1d954b6bf2c80e75e63f0100f6a688e6fa5f475e0665310caeccd95b2a327dff"
+    },
+    {
+      "source": "attempts/deploy-qa-nft-v1/before.json",
+      "file": "files/attempts/deploy-qa-nft-v1/before.json.gz",
+      "bytes": 224,
+      "sha256": "128381b0c2f7041a9ec6a0a45d2cfb1f7e57b6d8e4713362ef223c261fc5f108",
+      "gzipBytes": 143,
+      "gzipSha256": "37956c0d9c768d0bce90afaf26eeab016dfe40c13f3b5d18d813d9c6d0d62b4d"
+    },
+    {
+      "source": "attempts/deploy-qa-nft-v1/included.json",
+      "file": "files/attempts/deploy-qa-nft-v1/included.json.gz",
+      "bytes": 1644,
+      "sha256": "29d41eb0fc8d5257212b586538636e6ebbe25e28b95d3888f0bb96c446d19922",
+      "gzipBytes": 786,
+      "gzipSha256": "f60862797cdc925d24c58196a71e61676a2c4ebdb361064af894ac43edea6a7c"
+    },
+    {
+      "source": "attempts/deploy-qa-nft-v1/intent.json",
+      "file": "files/attempts/deploy-qa-nft-v1/intent.json.gz",
+      "bytes": 208,
+      "sha256": "67e58f2a3084e6b4c039576918525a1567f4ae8f330dc33e8725bb79c69d2ce4",
+      "gzipBytes": 175,
+      "gzipSha256": "69bfe9e3f0360f525206b07bc1b6937b9578dbc517bf955700a7ac749df75749"
+    },
+    {
+      "source": "attempts/deploy-qa-nft-v1/metrics.json",
+      "file": "files/attempts/deploy-qa-nft-v1/metrics.json.gz",
+      "bytes": 727,
+      "sha256": "4e53675eccf01aabcf3d2c7f582f58f076f2cb294e263ee9cafca5f79540de7c",
+      "gzipBytes": 382,
+      "gzipSha256": "4baebca7d5e3d2bc6f65847a005003d54fa889f808606b78cb741ee51a674ce8"
+    },
+    {
+      "source": "attempts/deploy-qa-nft-v1/preflight.json",
+      "file": "files/attempts/deploy-qa-nft-v1/preflight.json.gz",
+      "bytes": 644,
+      "sha256": "26d817106cd5eb77ca4781b0ff4d8e1171ca4670b21e5e2d0b60b7bf5b1cae4d",
+      "gzipBytes": 403,
+      "gzipSha256": "eaa79e74834c55d17382fc631c61504643408faa6ea9a94bcef433ba695ae559"
+    },
+    {
+      "source": "attempts/deploy-qa-nft-v1/receipt.json",
+      "file": "files/attempts/deploy-qa-nft-v1/receipt.json.gz",
+      "bytes": 84,
+      "sha256": "fedd68d91446d40e670c3f1bdef44d4395fba211f6d48e69ef3fff3c0fb0a576",
+      "gzipBytes": 93,
+      "gzipSha256": "9c95bae454c46ccdb29353909195797ac0b14bf9119fda68f097699a98da229e"
+    },
+    {
+      "source": "attempts/deploy-qa-nft-v1/request.json",
+      "file": "files/attempts/deploy-qa-nft-v1/request.json.gz",
+      "bytes": 2143655,
+      "sha256": "90f3923b416774449ded2d61fa61e1effa562f256f09505c58611279fe5685e4",
+      "gzipBytes": 219409,
+      "gzipSha256": "a17d2406e5aca61ccec1b3b4dab53dd286dc994c24888d7c228d25355af76295"
+    },
+    {
+      "source": "attempts/issuer-faucet-v1/http-error-observation.json",
+      "file": "files/attempts/issuer-faucet-v1/http-error-observation.json.gz",
+      "bytes": 228,
+      "sha256": "5bf3f8ab67762d0cfff8c65f75a965ed20637cf84ce3dfce6dd393f7119251fe",
+      "gzipBytes": 193,
+      "gzipSha256": "584abc9bbcaa4c9792497984e2a0790f89093d34b6890161634ffc0a2ee9363b"
+    },
+    {
+      "source": "attempts/issuer-faucet-v1/intent.json",
+      "file": "files/attempts/issuer-faucet-v1/intent.json.gz",
+      "bytes": 233,
+      "sha256": "718bc39cbfaaf6e82cd44e45ca269c1412c1f21d3768e6856c9fbeb52bac2984",
+      "gzipBytes": 211,
+      "gzipSha256": "88377e0b0b93bfb58dcd824ad9b66944b0c064b1c2580846468f43a94ac9ff52"
+    },
+    {
+      "source": "attempts/issuer-faucet-v1/request.json",
+      "file": "files/attempts/issuer-faucet-v1/request.json.gz",
+      "bytes": 102,
+      "sha256": "d15e171798a65585c98967406a5417aac01f47447d0f40ddad34005197276f0e",
+      "gzipBytes": 110,
+      "gzipSha256": "4a383809c49d99c44fe68d5964c8c8df8e509a7aa4dfb898d095a95806b9bddc"
+    },
+    {
+      "source": "attempts/issuer-faucet-v1/unknown.json",
+      "file": "files/attempts/issuer-faucet-v1/unknown.json.gz",
+      "bytes": 68,
+      "sha256": "03d6b6a41567844c5965d03e368db13b3bddfe76ad77e371c3126abdb697a5a3",
+      "gzipBytes": 82,
+      "gzipSha256": "bca195352e5f1a4cc920e4c83184472b4e7126002c2b0dde5aea193a133a3cd1"
+    },
+    {
+      "source": "attempts/register-issuer-v1/intent.json",
+      "file": "files/attempts/register-issuer-v1/intent.json.gz",
+      "bytes": 268,
+      "sha256": "9e9e8a99e60d4730de61b262dd21905ab23dcf22bc2240ce9b006266cabc25a7",
+      "gzipBytes": 214,
+      "gzipSha256": "57f7d0e5f178de19809004813e02bef3dacb95c43a1724460901275f7ee1dd9e"
+    },
+    {
+      "source": "attempts/register-issuer-v1/receipt.json",
+      "file": "files/attempts/register-issuer-v1/receipt.json.gz",
+      "bytes": 151,
+      "sha256": "cb5509754b76a2f28a616dcb6b3be090c83698e84a876fadd4cc8a56426f3dcf",
+      "gzipBytes": 145,
+      "gzipSha256": "2c937d37e4a373f83a9e28b64cf71a51f38b20cc29c088daa64ae3b78d328937"
+    },
+    {
+      "source": "attempts/register-issuer-v1/request.json",
+      "file": "files/attempts/register-issuer-v1/request.json.gz",
+      "bytes": 204,
+      "sha256": "807a1a6fcb9401e94dc30098406932c4e54b9952606b562642f28d5373507104",
+      "gzipBytes": 172,
+      "gzipSha256": "b96b022a8ad01aec60b39c75a7256873c232da4c0a8f574d16c1b263e5859af2"
+    },
+    {
+      "source": "public/GATES-v1.json",
+      "file": "files/public/GATES-v1.json.gz",
+      "bytes": 904,
+      "sha256": "7689bdce017dbd690baae9424478a661e34d5f6c05a0b479a51cc724bf6b368b",
+      "gzipBytes": 544,
+      "gzipSha256": "a167a4fbb8a4cbe9f4ab0eee975b332bd6bcbf097251248c200ecb41c96bcb00"
+    },
+    {
+      "source": "public/deploy-qa-a-result-v1.json",
+      "file": "files/public/deploy-qa-a-result-v1.json.gz",
+      "bytes": 228,
+      "sha256": "3f82bca65a397dd52d4a04b47ea0f8e31c250b6a3f1f0e2716e4c59c68754eb8",
+      "gzipBytes": 195,
+      "gzipSha256": "da01850ba8829d58e0a10653f4289c1c317b9bd73195fb37bcc2abb3cd90cf12"
+    },
+    {
+      "source": "public/deploy-qa-a-v1.log",
+      "file": "files/public/deploy-qa-a-v1.log.gz",
+      "bytes": 3790,
+      "sha256": "8167e7746a2aab4344d0469622a26f5e0054e5f22ed2af4952542e288c72b02c",
+      "gzipBytes": 995,
+      "gzipSha256": "3a84d749dfa444d8e40f174783efe14eb9ec5aa0d99bf7eeec8c35c1c0fbf7b1"
+    },
+    {
+      "source": "public/deploy-qa-b-v1.log",
+      "file": "files/public/deploy-qa-b-v1.log.gz",
+      "bytes": 3797,
+      "sha256": "3de6f44e1e8642a49d440d02684dc162d2f6d8d41c2c673c149bca25987de77f",
+      "gzipBytes": 998,
+      "gzipSha256": "2c6742a042df9e1b3f0090e36a3e1a2cd3b0aa59fc009a2836604df5740b29ad"
+    },
+    {
+      "source": "public/deploy-qa-nft-v1.log",
+      "file": "files/public/deploy-qa-nft-v1.log.gz",
+      "bytes": 3717,
+      "sha256": "18d5b49a45d54f290c7bd2321023bd4816984ad8315343c57df7bb39e7617aab",
+      "gzipBytes": 991,
+      "gzipSha256": "4717bd940d46f96aa1f952c409fc2fadc75dcae1cc66e43a30a3bf0c64c0630f"
+    },
+    {
+      "source": "public/faucet-reconciliation-v1/claimable-response.json",
+      "file": "files/public/faucet-reconciliation-v1/claimable-response.json.gz",
+      "bytes": 192,
+      "sha256": "dd216b940ea33e1a9c28050650a05b9e8b4dea999922ec18a4c1b9a2420b19d0",
+      "gzipBytes": 165,
+      "gzipSha256": "a9f88ffd1f40c5d89f4c666ee8e84e099f96c052d7ff5f05eb3de5f249f60018"
+    },
+    {
+      "source": "public/issuer-history-v1.json",
+      "file": "files/public/issuer-history-v1.json.gz",
+      "bytes": 725,
+      "sha256": "07697f910fb92c8bca052422fe80217d78f3da8d47b870dd9485b92d1667574b",
+      "gzipBytes": 410,
+      "gzipSha256": "6872914fa73c78b574803d2d37424eff40452ff199462e11ae758aabed8b5b0f"
+    },
+    {
+      "source": "public/issuer-included-v1.json",
+      "file": "files/public/issuer-included-v1.json.gz",
+      "bytes": 401,
+      "sha256": "5e884c9e6aa8b5f1d85995d48a03973d9621353baa820486dc57996003b7d762",
+      "gzipBytes": 299,
+      "gzipSha256": "09d12446c4b625aac7f35d6a6ff3d1194d2261517119165f0c58e003650ca212"
+    },
+    {
+      "source": "public/issuer-lookup-v1.json",
+      "file": "files/public/issuer-lookup-v1.json.gz",
+      "bytes": 43,
+      "sha256": "e1625f0bb86a645fdc3a34d8bf6cbb975b50d10ac2f6e085b1e08109f753303e",
+      "gzipBytes": 63,
+      "gzipSha256": "07eae97c32a0b3cd075b0530a90613902c4ad235fd648b8938a5fd10b6dee43b"
+    },
+    {
+      "source": "public/issuer-receipt-v1.json",
+      "file": "files/public/issuer-receipt-v1.json.gz",
+      "bytes": 627,
+      "sha256": "f90f116b08c49039388c61445d37a9b67b280b7be6fd75d8673e54d5b1742997",
+      "gzipBytes": 384,
+      "gzipSha256": "8e68fa2e3251b1cea4ac987cb4e25adcfbe1ee3b55de79bd0f6bdd6c35a3e4ec"
+    },
+    {
+      "source": "public/issuer.json",
+      "file": "files/public/issuer.json.gz",
+      "bytes": 369,
+      "sha256": "e73983fe2b13caec0d187b2a1bfa6333866c63174b5b83611fbdea83fbc0ff24",
+      "gzipBytes": 269,
+      "gzipSha256": "05e21b40e61d73d9c77c8d23cd8b16dd2ccc865c87116e8381d1f20f04f419c7"
+    },
+    {
+      "source": "public/qa-a-checkpoint-v1/observation.json",
+      "file": "files/public/qa-a-checkpoint-v1/observation.json.gz",
+      "bytes": 12016,
+      "sha256": "8e21c00c8e81eb483b1c3659fce28feed5672182e7ff5e5679662b8339b744c6",
+      "gzipBytes": 3049,
+      "gzipSha256": "371720323c96d00b1af7ae270780508a1ebd1120b0e9974373d47b8f39d6bef3"
+    },
+    {
+      "source": "public/qa-a-checkpoint-v1/provenance.json",
+      "file": "files/public/qa-a-checkpoint-v1/provenance.json.gz",
+      "bytes": 2171,
+      "sha256": "5e65482cfeb2a428cbc9778546a5b8934070765673f6fe9db5ddb012e541e922",
+      "gzipBytes": 508,
+      "gzipSha256": "5a5bfd2596f5f43ccdf9cc07e9fcc449f0d75da8fd994437ca6ea6c1d58119aa"
+    },
+    {
+      "source": "public/qa-a-checkpoint-v1/verified.json",
+      "file": "files/public/qa-a-checkpoint-v1/verified.json.gz",
+      "bytes": 1715,
+      "sha256": "fc1a7be2e135785ca79f76db16d1b3af4490ca974ef4ebb9dbab6f19da5e9f66",
+      "gzipBytes": 816,
+      "gzipSha256": "3381cfb5a47e788596caad0dab2ce7e6fd1948399146e75f9f193987b49bf522"
+    },
+    {
+      "source": "public/qa-a-checkpoint-v1/verify.log",
+      "file": "files/public/qa-a-checkpoint-v1/verify.log.gz",
+      "bytes": 624,
+      "sha256": "1683b791470c2959f5ec8e82d97b2d8db0bea5d114a23122596185318ef2e7dd",
+      "gzipBytes": 286,
+      "gzipSha256": "fc23841852ed9dcd91824dae7b0b03fd51586232ac5ad35a093df7b084a5d4f2"
+    },
+    {
+      "source": "public/qa-a-checkpoint-v1/verify.log.timing.json",
+      "file": "files/public/qa-a-checkpoint-v1/verify.log.timing.json.gz",
+      "bytes": 300,
+      "sha256": "711845255e6b9be08f571f6fac6692eb922ef8090a5c6070ac2c2ef0dc97b983",
+      "gzipBytes": 230,
+      "gzipSha256": "40405d4bd64fbac17db6c1f23c8e09986b5f4cf300c04a9cddf50d33591f6fc2"
+    },
+    {
+      "source": "public/qa-b-checkpoint-v1/observation.json",
+      "file": "files/public/qa-b-checkpoint-v1/observation.json.gz",
+      "bytes": 12016,
+      "sha256": "58253fde55acb367fee4d8516f454e7f36b8bc010df003a6b4ccdff202b6db9b",
+      "gzipBytes": 3112,
+      "gzipSha256": "d49bb17566ccea3e03a43b71c130fadbe73be246c1dc7c8423f5b95708be8727"
+    },
+    {
+      "source": "public/qa-b-checkpoint-v1/provenance.json",
+      "file": "files/public/qa-b-checkpoint-v1/provenance.json.gz",
+      "bytes": 1733,
+      "sha256": "edd9e12c3973de9ebb1b30023e660de6d246ec41e1a25d10e41130781e51b535",
+      "gzipBytes": 480,
+      "gzipSha256": "55ad54f9165366c422c33c89c8a3eaab21f824201f3405ffc05974ed9a85fc10"
+    },
+    {
+      "source": "public/qa-b-checkpoint-v1/verified.json",
+      "file": "files/public/qa-b-checkpoint-v1/verified.json.gz",
+      "bytes": 1715,
+      "sha256": "f27410e1171fe9d6d9e906f21c37198429b62b640095247a4b990fce1373d1eb",
+      "gzipBytes": 819,
+      "gzipSha256": "da369c0b267a5979436e5a8e40a5c7a7be9924c772e4e917a4bcd575e87b1a52"
+    },
+    {
+      "source": "public/qa-b-checkpoint-v1/verify.log",
+      "file": "files/public/qa-b-checkpoint-v1/verify.log.gz",
+      "bytes": 623,
+      "sha256": "ce353e068ecb8e6724e1cbae9a67bb6f9edc164cdd88d8bb5d16446195b34851",
+      "gzipBytes": 284,
+      "gzipSha256": "e96d4d30c2b8912ba2f70c97b0ce6fc399e4a285869b062099db00c7520c41db"
+    },
+    {
+      "source": "public/qa-b-checkpoint-v1/verify.log.timing.json",
+      "file": "files/public/qa-b-checkpoint-v1/verify.log.timing.json.gz",
+      "bytes": 300,
+      "sha256": "c3bdb32c6d5c5d83f00877d1d505e2c25c6f3d0f6eae5bed9fe9fa5a80a2ed65",
+      "gzipBytes": 229,
+      "gzipSha256": "7da5ba783f6a83f873e24a2124ac19681ac1a870498969f20d3f498df483e7bc"
+    },
+    {
+      "source": "public/qa-nft-checkpoint-v1/observation.json",
+      "file": "files/public/qa-nft-checkpoint-v1/observation.json.gz",
+      "bytes": 12015,
+      "sha256": "0ed1725008ad3efac0c3caf8f5c9765d63c78e01049ff6e619d0550f0e62f7a1",
+      "gzipBytes": 3215,
+      "gzipSha256": "ceb8948958c4feec33012569d046aa4528f3c552d90305de64f7d53cf984cf3b"
+    },
+    {
+      "source": "public/qa-nft-checkpoint-v1/provenance.json",
+      "file": "files/public/qa-nft-checkpoint-v1/provenance.json.gz",
+      "bytes": 1733,
+      "sha256": "966e270dcf94d9caf8edaeddc175f653107553b8f6c4ba9ae0db42773b740ef9",
+      "gzipBytes": 482,
+      "gzipSha256": "1cdd6c06cba0e61dc32d15db237bd74bd4c38ade62209a63c8cf451d71eea943"
+    },
+    {
+      "source": "public/qa-nft-checkpoint-v1/verified.json",
+      "file": "files/public/qa-nft-checkpoint-v1/verified.json.gz",
+      "bytes": 1713,
+      "sha256": "b94968e7cb4707ee089c0e5b0225c75114dfe1c846367e4ba0f1b00485f52d0b",
+      "gzipBytes": 818,
+      "gzipSha256": "6cd416c0b6d754fd2328a715f15c55bac0c6d6097abeebb06da84e0c4777aef7"
+    },
+    {
+      "source": "public/qa-nft-checkpoint-v1/verify.log",
+      "file": "files/public/qa-nft-checkpoint-v1/verify.log.gz",
+      "bytes": 620,
+      "sha256": "5405e71093ecb6b2d928411e0007d2d80853ccfb3b7f9f3f1782c342f32ee180",
+      "gzipBytes": 283,
+      "gzipSha256": "6c1656fc315c7c9fcbef7b471c262d3408e5b12beb7ce42eaf5bf021ab82932e"
+    },
+    {
+      "source": "public/qa-nft-checkpoint-v1/verify.log.timing.json",
+      "file": "files/public/qa-nft-checkpoint-v1/verify.log.timing.json.gz",
+      "bytes": 300,
+      "sha256": "b8209000985ef4cbd450d63344d6e8d6808e807a5fbe750775ff95db853bcfe6",
+      "gzipBytes": 229,
+      "gzipSha256": "24268e9187e99ea5bccbfb567c5793282b46c3c093e0cc1ea2e589e600b3440e"
+    },
+    {
+      "source": "public/remaining-qa-assets-plan-v1.json",
+      "file": "files/public/remaining-qa-assets-plan-v1.json.gz",
+      "bytes": 218,
+      "sha256": "7744478f37bc0441b4f7ee3d80d4fbfce0f8d55b94733247ff3a9ca66fb95a79",
+      "gzipBytes": 189,
+      "gzipSha256": "1ec2681383f596e759a07cba60d59a0eedc67bb37db7a1e7389a1f685b49fa88"
+    },
+    {
+      "source": "public/remaining-qa-assets-result-v1.json",
+      "file": "files/public/remaining-qa-assets-result-v1.json.gz",
+      "bytes": 391,
+      "sha256": "63a458bd284bb88b8f4e900488d5b5cd4f5f4246b8ec196d5426d3aaefd5c52a",
+      "gzipBytes": 202,
+      "gzipSha256": "273fce567bc6d35b91691a11a9c79f70566687ccee46f3e2574f7476815f93c1"
+    },
+    {
+      "source": "public/rpc.json",
+      "file": "files/public/rpc.json.gz",
+      "bytes": 5736,
+      "sha256": "da7f676f47ab78f14d930def7d2019a3a56ac10ce2d097e3594425f11681b0eb",
+      "gzipBytes": 882,
+      "gzipSha256": "3e614aeaf753441125b9269cdf2af10204b0120b13ed876223cb980bda9141e5"
+    }
+  ]
+}

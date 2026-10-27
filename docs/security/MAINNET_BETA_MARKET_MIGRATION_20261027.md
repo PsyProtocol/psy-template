@@ -200,3 +200,95 @@ results. Browser market broadcasting remains disabled until new market
 registries, setup, native full-call/session verification and exact transport,
 real settlement, ordinary claims and recovery are accepted. This report does
 not mark those remaining user tasks complete.
+
+
+## New-chain deployments and read-only UI (follow-up)
+
+The selected SDK/client/backend pins above are unchanged. No protocol Node
+source or existing contract was modified. The wallet follow-up is
+[eaccc2a](https://github.com/PsyProtocol/psy-wallet/commit/eaccc2a).
+
+| Component | New contract | Registered vault | Acceptance boundary |
+| --- | ---: | ---: | --- |
+| QA FT A / B | 6 / 7 | Not applicable | Initial deployment and authenticated checkpoint evidence only; metadata and supply not initialized |
+| QA NFT | 8 | Not applicable | Initial deployment and authenticated checkpoint evidence only |
+| AMM | 9 | 631808 | Deployed/key registered; setup and real settlement pending |
+| Orderbook | 10 | 287744 | Deployed/key registered; setup and real settlement pending |
+| Bonding Curve | 11 | 746496 | **Quarantined before initialization or funding** |
+| NFT Market | 12 | 1053696 | Deployed/key registered; setup and real settlement pending |
+
+Each original deployment and key registration was sent once. Numeric owner,
+complete code/function/layout endpoints, initial layout proof and authenticated
+checkpoint membership were reverified. This does not establish runtime image
+provenance, upgrade authorization, market initialization or a successful fill.
+No ordinary UPS was submitted in this new-chain live stage.
+
+Curve 11 inherited graduation recipient 400 from the offline fixture. That
+recipient was not verified as controlled. This was a configuration error, not
+an accepted deployment for funding. The instance is unfunded and uninitialized;
+it will not be updated. The pinned v3 registry marks it quarantined, and
+client plan validation, wallet preparation and gateway reads reject it before
+preparation/RPC. The UI removes its real account/action controls while retaining
+clearly marked local demonstration forms. Historical pre-quarantine read-only
+registries are archived, not used as current runtime configuration.
+
+A fresh candidate binds graduation to SDK-created test identity 1856512, using
+its exact included registration at checkpoint 4827 and unique coordinator
+mapping. The acceptance guard rejects fixture target substitution, issuer
+aliasing, key changes, missing inclusion and ambiguous mappings. Registration
+and mapping are not an authenticated active user leaf or funding authorization.
+The candidate compiled and its new initial-layout request verified offline:
+76 fields, 1,291,845,916 slots, owner 1590272, code root
+`0d02be6709797e981c802b8515dfb58110c4a0d05708b4a2f8adcf4235777b5d`.
+It is **not deployed**, has no registered key and has not passed a full UPS
+against a new live instance. The originally declared seven-contract run cap is
+exhausted; replacing Curve requires a separately recorded additional-deployment
+decision, full candidate acceptance and fresh live gates. No old update is used
+to avoid that boundary.
+
+The current gateway uses `mainnet-beta-v3.json`. AMM 9 and the other new-chain
+identities replace previous-chain reader pins; local demo drafts retain their
+original fixture IDs. Liquidity controls label the separately planned live
+pool 9 instead of silently treating a demonstration draft as a live order.
+Browser taskspace 51 exercised the actual rendered application: the issuer
+read reports no active user leaf; Curve 11 renders quarantine with zero action
+controls. No signing, payment or browser wallet claim occurred. The initial
+read hit the two-reader capacity limit and its wait timed out; that failure
+was retained before the later read succeeded in reporting the inactive state.
+The dedicated browser session was then closed; unrelated sessions were not
+used. The optional Ego Lite update was not installed.
+
+At common checkpoint 4902 issuer 1590272 still had native balance zero and an
+empty user leaf. Its indexed registration is not evidence of spendable funds.
+The original faucet request remains unknown after HTTP 502, and is not retried.
+The gateway now gives bounded static errors for inactive accounts and
+unfinalized/mismatching token metadata while keeping all validation and write
+restrictions. It never exposes raw internal exception text for these cases.
+
+Focused client/gateway/recipient regressions: 81 passed. The wallet's unchanged
+selected-SDK cohort: 716 passed, one skipped; typecheck, distribution guard,
+application build and staging extension build passed. An accidental invocation
+of nonexistent `pnpm build` failed before compilation and remains recorded;
+`build:staging` is the verified command. These are compatibility/security
+checks, not a performance comparison or live settlement acceptance. The
+narrow wallet staged-diff review read all three changed files, checked all
+twelve source hashes and exact bundle/registry/ABI/SDK digests, and found no
+unresolved issue in that scope. It did not audit SDK upstream or attest chain
+runtime identity.
+
+Evidence:
+
+- [QA deployments and original faucet observation](../../executor/verification/2026-10-27-mainnet-beta-isolated-assets-v1/manifest.json).
+- [AMM deployment and key registration](../../executor/verification/2026-10-27-mainnet-beta-amm-deployment-v1/manifest.json).
+- [Book, Curve quarantine, NFT and recipient registration](../../executor/verification/2026-10-27-mainnet-beta-three-deployments-v1/manifest.json).
+- [UI, failures, wallet checks and replacement layout proof](../../executor/verification/2026-10-27-mainnet-beta-ui-quarantine-v1/manifest.json).
+
+Still open: test PSY funding reconciliation; finalized QA metadata and supply;
+new Curve deployment/key and exact-instance UPSs; market setup, real fills,
+ordinary claims/refunds/recovery; wallet-owned fixed native full-call/session
+verifier plus durable exact broadcast/reconciliation; runtime provenance and
+upgrade authorization. The prepare-only wallet intentionally rejects verify,
+freshness recheck, broadcast and reconciliation until those adapters are
+implemented and accepted. Private FT packet verification remains unavailable
+in the unchanged SDK and rejects before payment. No UI write, chain TPS,
+cross-machine or production-ready conclusion is supported by this milestone.

@@ -91,6 +91,14 @@ export function createPublicGateway({
       const input = JSON.parse(Buffer.concat(chunks).toString("utf8"));
       send(200, await adapter[methods[route]](input));
     } catch (error) {
+      const notReady = {
+        ACCOUNT_NOT_ACTIVE: "This account has no active state at the observed checkpoint. Registration alone does not establish spendable funds. No financial action was submitted.",
+        TOKEN_NOT_READY: "Reviewed token metadata is not finalized or differs from the pinned values. Market actions remain disabled. No financial action was submitted.",
+      };
+      if (Object.hasOwn(notReady, error.code)) {
+        send(409, { error: notReady[error.code], kind: "market-not-ready" });
+        return;
+      }
       const unavailable =
         error.name === "ReadUnavailable" ||
         error.name === "TimeoutError" ||

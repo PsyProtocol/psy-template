@@ -66,6 +66,7 @@ export function validateMarketRequest(r, registry) {
   id(r.recipientId);
   const m = registry.markets.find((m) => m.marketId === r.marketId);
   ok(m, "Unreviewed market");
+  ok(m.quarantined !== true, "Market quarantined; no action can be prepared");
   ok(
     r.userId !== m.vaultId && r.recipientId === r.userId,
     "Only the ordinary owner can receive this action",

@@ -120,6 +120,7 @@ export function positionReader(
     id(userId);
     const m = loaded.registry.markets.find((x) => x.marketId === marketId);
     assert.ok(m);
+    assert.notEqual(m.quarantined, true, "Market quarantined; account reader disabled");
     assert.notEqual(userId, m.vaultId);
     assert.ok(
       Number.isSafeInteger(slotStart) &&
@@ -187,7 +188,10 @@ export function positionReader(
       s.rpc(realm.rpc_url[0], "psy_get_user_tree_leaf_hash", params),
       s.slot(userId, 0, 0),
     ]);
-    assert.notEqual(leaf.public_key, "0".repeat(64));
+    if (leaf.public_key === "0".repeat(64))
+      throw Object.assign(Error("Account has no active leaf at the observed checkpoint"), {
+        code: "ACCOUNT_NOT_ACTIVE",
+      });
     const orderNames = m.nftId
       ? [
           "kind",
@@ -247,8 +251,10 @@ export function positionReader(
           s.slot(a.issuerUserId, a.contractId, 33554445),
           s.slot(a.issuerUserId, a.contractId, 3),
         ]);
-        assert.equal(dec, 18n);
-        assert.equal(renounced, 1n);
+        if (dec !== 18n || renounced !== 1n)
+          throw Object.assign(Error("Reviewed token metadata is not finalized or differs"), {
+            code: "TOKEN_NOT_READY",
+          });
         const wide = async (u, o) =>
           String(
             decodeAmount(

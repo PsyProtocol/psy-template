@@ -6,8 +6,8 @@ import {
   projectAmmAccount,
   makeAccountAction,
 } from "../../../market-client/accountProjection.mjs";
-import registry from "../../../market-client/reviewed/staging-qa-20261026-account-v2/registry.json";
-import pin from "../../../market-client/reviewed/staging-qa-20261026-account-v2/client-pin.json";
+import registry from "../../../market-client/reviewed/mainnet-beta-amm-20261027-v2/registry.json";
+import pin from "../../../market-client/reviewed/mainnet-beta-amm-20261027-v2/client-pin.json";
 export function ObservedAccount({
   snapshot,
   now,

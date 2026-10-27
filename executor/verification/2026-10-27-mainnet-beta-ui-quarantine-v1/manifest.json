@@ -1,0 +1,411 @@
+{
+  "schema": 1,
+  "sourceDirectory": "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-market-recovery-20261023/market-mainnet-migration-20261027-v1",
+  "machine": "gewenbo.local",
+  "host": "macOS-15.7.3-arm64-arm-64bit",
+  "scope": "public formal Executor run including failures; success requires exact included receipt",
+  "walletFilesIncluded": false,
+  "sealedBinariesIncluded": false,
+  "records": [
+    {
+      "source": "isolated-live-v1/curve-replacement-candidate-v1/BUILD.json",
+      "file": "files/isolated-live-v1/curve-replacement-candidate-v1/BUILD.json.gz",
+      "bytes": 1056,
+      "sha256": "4dfc3d17a3bb19099a2426ea568aed705838fee81b9044e15206e9482a88e4f9",
+      "gzipBytes": 630,
+      "gzipSha256": "51e91d12d4eb649fdf5d38beaeedf8cf48c088658c98e4d3b2f076b7bbd645e9"
+    },
+    {
+      "source": "isolated-live-v1/curve-replacement-candidate-v1/RECIPIENT.json",
+      "file": "files/isolated-live-v1/curve-replacement-candidate-v1/RECIPIENT.json.gz",
+      "bytes": 511,
+      "sha256": "fe680b0545888f8f147844b2f871a96ac8e1dcbc176cb23c6c14f84c38637814",
+      "gzipBytes": 326,
+      "gzipSha256": "6feed5e430f171f98abde12ef47e3a01bdb57082960ec32e768f1e1c44de99d1"
+    },
+    {
+      "source": "isolated-live-v1/curve-replacement-candidate-v1/compile.log",
+      "file": "files/isolated-live-v1/curve-replacement-candidate-v1/compile.log.gz",
+      "bytes": 26,
+      "sha256": "d9fa0db25712af671f7feae8d5e087ac550fd521e93a94bf18eec24c3b0627c4",
+      "gzipBytes": 46,
+      "gzipSha256": "de7609fd22f4b81adb030971e88928f3b33cceaaa4c91b69cbe68db154ac556d"
+    },
+    {
+      "source": "isolated-live-v1/curve-replacement-candidate-v1/compiled/compilation_artifact.json",
+      "file": "files/isolated-live-v1/curve-replacement-candidate-v1/compiled/compilation_artifact.json.gz",
+      "bytes": 13682854,
+      "sha256": "c380ebd8566be46b4919819de47304a0d424618b1c741ecea6c9d2d61ad3c2ec",
+      "gzipBytes": 1506809,
+      "gzipSha256": "18ae3464fb1190d4305c2bbd43b22c29d4139bb5b673b821571926deeeea6e9e"
+    },
+    {
+      "source": "isolated-live-v1/curve-replacement-candidate-v1/config.json",
+      "file": "files/isolated-live-v1/curve-replacement-candidate-v1/config.json.gz",
+      "bytes": 307,
+      "sha256": "e75a2e42113dbf0d73b87baec577d9b9f6784ca7273753abd8fc3813523bc987",
+      "gzipBytes": 178,
+      "gzipSha256": "b01590cac7d57b7b2b0598830aef7ac3e21bfba3ed9db06afd4a194949492e01"
+    },
+    {
+      "source": "isolated-live-v1/curve-replacement-candidate-v1/main.psy.rs",
+      "file": "files/isolated-live-v1/curve-replacement-candidate-v1/main.psy.rs.gz",
+      "bytes": 3483358,
+      "sha256": "97c020e3d807f8b54b9239d03b69456df187044d4c1d45270e8120d22d8e8af6",
+      "gzipBytes": 298734,
+      "gzipSha256": "5ed6598a6c9c86440eb963c77c10ad9c8330a1ddba04120f1beb69afa080748b"
+    },
+    {
+      "source": "isolated-live-v1/curve-replacement-candidate-v1/native.json",
+      "file": "files/isolated-live-v1/curve-replacement-candidate-v1/native.json.gz",
+      "bytes": 429498,
+      "sha256": "b68fd259b5e26b72cee9f877f90a129cfab05b9b6203c481d49c26fdb0559b45",
+      "gzipBytes": 23186,
+      "gzipSha256": "ddf23bd2c87523d0a2ae9ab7020ceb4b367c6d43309cd25481322a8a57de8082"
+    },
+    {
+      "source": "isolated-live-v1/curve-replacement-candidate-v1/nft.json",
+      "file": "files/isolated-live-v1/curve-replacement-candidate-v1/nft.json.gz",
+      "bytes": 61249,
+      "sha256": "9861404dc6b3dac0d0f55bc31f6d89f6dfce347cce461495d4083e2ef42e4aae",
+      "gzipBytes": 6879,
+      "gzipSha256": "bcb6fcb19e319d3726d248968fa5a4176a93b0c4dd9c91db0d2c9e6cb8510987"
+    },
+    {
+      "source": "isolated-live-v1/curve-replacement-candidate-v1/token-a.json",
+      "file": "files/isolated-live-v1/curve-replacement-candidate-v1/token-a.json.gz",
+      "bytes": 4066436,
+      "sha256": "a3718e5ecc49e6360d02c325fb4bff676237fa8b4c1cc64724a092f74fc98d22",
+      "gzipBytes": 458380,
+      "gzipSha256": "84c3b7ecac91ebec131ecbb1b55142c3d56a62f066205d0428e90171c3285c52"
+    },
+    {
+      "source": "isolated-live-v1/curve-replacement-candidate-v1/token-b.json",
+      "file": "files/isolated-live-v1/curve-replacement-candidate-v1/token-b.json.gz",
+      "bytes": 4066436,
+      "sha256": "b67ce3ad4c5e54a7019fb0808069d3e05918a97fceb90c589c72e646b1c75d12",
+      "gzipBytes": 458378,
+      "gzipSha256": "30efbf9f58ccf69d0df5548f25b53c76143be9512d54119c882befe8f08f0ad4"
+    },
+    {
+      "source": "isolated-live-v1/curve-replacement-layout-v1/preflight.json",
+      "file": "files/isolated-live-v1/curve-replacement-layout-v1/preflight.json.gz",
+      "bytes": 879,
+      "sha256": "c0edc57b90a7a8b69327c409f4b9a9c57d18d664f8723830b6f24e3777e6b681",
+      "gzipBytes": 529,
+      "gzipSha256": "6623e2492e41817e22068c3b5145c5e21de4f8892fe15ee70118b2012139fc7e"
+    },
+    {
+      "source": "isolated-live-v1/curve-replacement-layout-v1/request.json",
+      "file": "files/isolated-live-v1/curve-replacement-layout-v1/request.json.gz",
+      "bytes": 182940913,
+      "sha256": "98eec81bb01a352352519b35dd22497e2aeb6ea62dc3592d099f22c9101b17f0",
+      "gzipBytes": 2741189,
+      "gzipSha256": "bbd500a304e2037eec3659a5179d16f789df81c8b083da02dec14ef6e6ab660e"
+    },
+    {
+      "source": "public/curve-replacement-layout-v1.log",
+      "file": "files/public/curve-replacement-layout-v1.log.gz",
+      "bytes": 8582,
+      "sha256": "87ea2c72d5726379f54e44430ef0f71e6c1a9be3be81272f8bf4f20e09e0e650",
+      "gzipBytes": 1445,
+      "gzipSha256": "11ea52d6f0820d2e070d789dc7045aed890a43ff43fc9afca86124f9fa3f74f9"
+    },
+    {
+      "source": "public/ui-browser-initial-capacity-failure-v1.json",
+      "file": "files/public/ui-browser-initial-capacity-failure-v1.json.gz",
+      "bytes": 243,
+      "sha256": "6f0d0f10a861ee18a11d2b4f3789a810e5f88d3324bd5d195e1241249b818cbf",
+      "gzipBytes": 198,
+      "gzipSha256": "c34708b53342f70c8e2d0a92ffeeca70fe84393806f6a0d0c1f4ac300c3161dc"
+    },
+    {
+      "source": "public/ui-mainnet-quarantine-build-v1.log",
+      "file": "files/public/ui-mainnet-quarantine-build-v1.log.gz",
+      "bytes": 506,
+      "sha256": "c0d3a54c688e88d8a7643b086cbf34080e1aab28c1a69697df891aad9a4a5214",
+      "gzipBytes": 312,
+      "gzipSha256": "00dc50ded2a172afbb391fd75ac2b2dadb3e47b6214fc91d5301c8a22fba43fe"
+    },
+    {
+      "source": "public/ui-mainnet-quarantine-regressions-v1.log",
+      "file": "files/public/ui-mainnet-quarantine-regressions-v1.log.gz",
+      "bytes": 8255,
+      "sha256": "630b58d1f54b5503cd794d9961587460d4f4ce973eab66f05da0bf26b24f8b3e",
+      "gzipBytes": 3526,
+      "gzipSha256": "4b32fb56a8eb676f05794c9d8b53c1ffb0da9d3de954c39158c7ff3f69d90f45"
+    },
+    {
+      "source": "public/ui-quarantine-after-v1.log",
+      "file": "files/public/ui-quarantine-after-v1.log.gz",
+      "bytes": 2128,
+      "sha256": "4bcff649a048a450bb277115d643ae50063c506ca66061215a9a5b6585024f6d",
+      "gzipBytes": 1124,
+      "gzipSha256": "cf29e4ba8f038696ce3b8a0d5b0dd76cf2f5a4a1758e6c1a871159f5dcba1044"
+    },
+    {
+      "source": "public/ui-quarantine-before-v1.log",
+      "file": "files/public/ui-quarantine-before-v1.log.gz",
+      "bytes": 4337,
+      "sha256": "dcddca7195518c6284481fc764e72d300032f230fa3c3e2723b744aa5f715380",
+      "gzipBytes": 1657,
+      "gzipSha256": "9267acb4617bb387100a774c081c7de779c5c6a1fa2ae4d148e2af5ae84cb5e8"
+    },
+    {
+      "source": "public/ui-quarantine-registry-v1.json",
+      "file": "files/public/ui-quarantine-registry-v1.json.gz",
+      "bytes": 162,
+      "sha256": "1830175b811ced54f987684b46f25b2b6c76c5c2bca1caf86f42289fccaa1773",
+      "gzipBytes": 156,
+      "gzipSha256": "192d5dfc73ec0316b0c94234fea835912596e0b3536574440eb0b3d0860f9950"
+    },
+    {
+      "source": "public/ui-readonly-browser-v2.json",
+      "file": "files/public/ui-readonly-browser-v2.json.gz",
+      "bytes": 1023,
+      "sha256": "1c6e988132f94050d07c54460e7aa475acc2525510439f9c3aabbe6ccd994777",
+      "gzipBytes": 553,
+      "gzipSha256": "431c8682b839d271bd3c412c5235184eab5e1506e8390de86b45e82969a3738d"
+    },
+    {
+      "source": "public/ui-registry-pre-quarantine-v2.json",
+      "file": "files/public/ui-registry-pre-quarantine-v2.json.gz",
+      "bytes": 285,
+      "sha256": "4b75016cdec356582ba8fe3149249de465f6e2ec177b4c69b9cf204f78eb0226",
+      "gzipBytes": 225,
+      "gzipSha256": "635cc33df3c3dc32ade2cf5848f0301aa248173de5f98b852354a43c74a81eb8"
+    },
+    {
+      "source": "public/ui-wallet-quarantine-acceptance-v1.json",
+      "file": "files/public/ui-wallet-quarantine-acceptance-v1.json.gz",
+      "bytes": 1335,
+      "sha256": "c3aa9f706a81e5ff5a604eea4daf16330db3ad82fd2118c165d4fea729fbfbc8",
+      "gzipBytes": 646,
+      "gzipSha256": "02a6fde56f1843914277b4f3727251dd978224906781f2b14274ebc171757b66"
+    },
+    {
+      "source": "public/wallet-quarantine-build-staging-v2.log",
+      "file": "files/public/wallet-quarantine-build-staging-v2.log.gz",
+      "bytes": 3401,
+      "sha256": "3a9f9a4a2763ab3bf602274fbe0fd8aa5ea4abe2703e09ea851016abe57dc087",
+      "gzipBytes": 1440,
+      "gzipSha256": "0df3338866d7531225f7c214279ea416c9893277d449ca7b6705f8ea6bfd19a1"
+    },
+    {
+      "source": "public/wallet-quarantine-build-v1.log",
+      "file": "files/public/wallet-quarantine-build-v1.log.gz",
+      "bytes": 104,
+      "sha256": "852220a3d6e2afa25166dbeb6a659816749635c45043bf16841a3efcbda39c88",
+      "gzipBytes": 113,
+      "gzipSha256": "e4cb580c254f372b5593c3be7223e7f02969cdf90cbe61f789c1037b32c4fa9c"
+    },
+    {
+      "source": "public/wallet-quarantine-tests-v1.log",
+      "file": "files/public/wallet-quarantine-tests-v1.log.gz",
+      "bytes": 527,
+      "sha256": "a268c9edcfc9c3d96981796af5d9b3a36f687a78b60a94d23763bdfba749e2cd",
+      "gzipBytes": 310,
+      "gzipSha256": "cc915e23c1e50d04f902a9307296e7825a728bee20c1d56f7a0b6b8be9bedeca"
+    },
+    {
+      "source": "public/wallet-quarantine-typecheck-v1.log",
+      "file": "files/public/wallet-quarantine-typecheck-v1.log.gz",
+      "bytes": 465,
+      "sha256": "16d016898a19e2392f1c84961b5bcb6f350da1a94bb754ba377b9f2f8f05468e",
+      "gzipBytes": 355,
+      "gzipSha256": "12decc56838a7c8dd7e22b262d814a4729bbdbd57bf78029b1f072cdf2e42c2c"
+    },
+    {
+      "source": "ui-registry-pre-quarantine-v2/mainnet-beta-markets-20261027-v2/10-abi.json",
+      "file": "files/ui-registry-pre-quarantine-v2/mainnet-beta-markets-20261027-v2/10-abi.json.gz",
+      "bytes": 30828,
+      "sha256": "425ccd0f0629015b17ffb03680d6a35b9218bbde3d537911407a6d0dd214abd3",
+      "gzipBytes": 2739,
+      "gzipSha256": "603913ea20ef4115e13a7b2fd5b700b7188ea4a77b2caaa59e68fe359472f8f3"
+    },
+    {
+      "source": "ui-registry-pre-quarantine-v2/mainnet-beta-markets-20261027-v2/10-asset-6-abi.json",
+      "file": "files/ui-registry-pre-quarantine-v2/mainnet-beta-markets-20261027-v2/10-asset-6-abi.json.gz",
+      "bytes": 15256,
+      "sha256": "d4c974b907eb2dc5e88e2ac48a4ba26e0c249bc5891bc85526b6e7dbf1d608ed",
+      "gzipBytes": 1717,
+      "gzipSha256": "07bd4c98adbad4eeb343c4ce8de127578a6922fa2043c5d9178892d7d680617b"
+    },
+    {
+      "source": "ui-registry-pre-quarantine-v2/mainnet-beta-markets-20261027-v2/10-asset-7-abi.json",
+      "file": "files/ui-registry-pre-quarantine-v2/mainnet-beta-markets-20261027-v2/10-asset-7-abi.json.gz",
+      "bytes": 15256,
+      "sha256": "d4c974b907eb2dc5e88e2ac48a4ba26e0c249bc5891bc85526b6e7dbf1d608ed",
+      "gzipBytes": 1717,
+      "gzipSha256": "07bd4c98adbad4eeb343c4ce8de127578a6922fa2043c5d9178892d7d680617b"
+    },
+    {
+      "source": "ui-registry-pre-quarantine-v2/mainnet-beta-markets-20261027-v2/10-config.json",
+      "file": "files/ui-registry-pre-quarantine-v2/mainnet-beta-markets-20261027-v2/10-config.json.gz",
+      "bytes": 250,
+      "sha256": "11f77509bcfc416233925f02ab7f307033c72730d0f6c06f0a6191426fdd4a49",
+      "gzipBytes": 172,
+      "gzipSha256": "065c0c8b2a8e251ac10b7fa290e1f184bf8e53109d34ce27c11a6e02cc6d862b"
+    },
+    {
+      "source": "ui-registry-pre-quarantine-v2/mainnet-beta-markets-20261027-v2/10-policy.json",
+      "file": "files/ui-registry-pre-quarantine-v2/mainnet-beta-markets-20261027-v2/10-policy.json.gz",
+      "bytes": 41594,
+      "sha256": "0653cdc162d6b42119e7dc12d2dc6b5ace4000eeb078b945eae06e218470a0b9",
+      "gzipBytes": 1566,
+      "gzipSha256": "825b4a4bc1720f2f16bd0186983f5e842715d0f18f1f8a53a5c850e9d07d64ed"
+    },
+    {
+      "source": "ui-registry-pre-quarantine-v2/mainnet-beta-markets-20261027-v2/10-registration.json",
+      "file": "files/ui-registry-pre-quarantine-v2/mainnet-beta-markets-20261027-v2/10-registration.json.gz",
+      "bytes": 2959,
+      "sha256": "93b5650fb848198a8b36a11695560d5b40273b708f5869fbd2064ac988f760b5",
+      "gzipBytes": 1112,
+      "gzipSha256": "342129c97335c7ab9d4986e1610194f7a8661122b0581886d35e1cae12d0e961"
+    },
+    {
+      "source": "ui-registry-pre-quarantine-v2/mainnet-beta-markets-20261027-v2/11-abi.json",
+      "file": "files/ui-registry-pre-quarantine-v2/mainnet-beta-markets-20261027-v2/11-abi.json.gz",
+      "bytes": 38988,
+      "sha256": "2611f01341c512d876e99554389b596338741391b1a58aa144c80d859c6e6bcb",
+      "gzipBytes": 3130,
+      "gzipSha256": "be166add439d8d26405f01ea760afded606aa73d1f78b90b4112640fe85a7b25"
+    },
+    {
+      "source": "ui-registry-pre-quarantine-v2/mainnet-beta-markets-20261027-v2/11-asset-6-abi.json",
+      "file": "files/ui-registry-pre-quarantine-v2/mainnet-beta-markets-20261027-v2/11-asset-6-abi.json.gz",
+      "bytes": 15256,
+      "sha256": "d4c974b907eb2dc5e88e2ac48a4ba26e0c249bc5891bc85526b6e7dbf1d608ed",
+      "gzipBytes": 1717,
+      "gzipSha256": "07bd4c98adbad4eeb343c4ce8de127578a6922fa2043c5d9178892d7d680617b"
+    },
+    {
+      "source": "ui-registry-pre-quarantine-v2/mainnet-beta-markets-20261027-v2/11-asset-7-abi.json",
+      "file": "files/ui-registry-pre-quarantine-v2/mainnet-beta-markets-20261027-v2/11-asset-7-abi.json.gz",
+      "bytes": 15256,
+      "sha256": "d4c974b907eb2dc5e88e2ac48a4ba26e0c249bc5891bc85526b6e7dbf1d608ed",
+      "gzipBytes": 1717,
+      "gzipSha256": "07bd4c98adbad4eeb343c4ce8de127578a6922fa2043c5d9178892d7d680617b"
+    },
+    {
+      "source": "ui-registry-pre-quarantine-v2/mainnet-beta-markets-20261027-v2/11-config.json",
+      "file": "files/ui-registry-pre-quarantine-v2/mainnet-beta-markets-20261027-v2/11-config.json.gz",
+      "bytes": 250,
+      "sha256": "11f77509bcfc416233925f02ab7f307033c72730d0f6c06f0a6191426fdd4a49",
+      "gzipBytes": 172,
+      "gzipSha256": "065c0c8b2a8e251ac10b7fa290e1f184bf8e53109d34ce27c11a6e02cc6d862b"
+    },
+    {
+      "source": "ui-registry-pre-quarantine-v2/mainnet-beta-markets-20261027-v2/11-policy.json",
+      "file": "files/ui-registry-pre-quarantine-v2/mainnet-beta-markets-20261027-v2/11-policy.json.gz",
+      "bytes": 55518,
+      "sha256": "c44399fe5c7b55f3e4a0dbd6642d520c213927618831ca18da393560d7bcd845",
+      "gzipBytes": 1869,
+      "gzipSha256": "ef4d9d28361ac13f45575827531cde99eb5323928eef52d31237c3edaba8cb95"
+    },
+    {
+      "source": "ui-registry-pre-quarantine-v2/mainnet-beta-markets-20261027-v2/11-registration.json",
+      "file": "files/ui-registry-pre-quarantine-v2/mainnet-beta-markets-20261027-v2/11-registration.json.gz",
+      "bytes": 2959,
+      "sha256": "bbb586bf6026e249052b9f8232022c080d23f8d699abd02e253d6c24877dadee",
+      "gzipBytes": 1111,
+      "gzipSha256": "b9726db4ce4ac3e5292020cfe56839148e992cf89f45cede8a4cdd04ba404dac"
+    },
+    {
+      "source": "ui-registry-pre-quarantine-v2/mainnet-beta-markets-20261027-v2/12-abi.json",
+      "file": "files/ui-registry-pre-quarantine-v2/mainnet-beta-markets-20261027-v2/12-abi.json.gz",
+      "bytes": 37052,
+      "sha256": "622f71763b9528af26790306477bb7365c91e847e17cc02dfbf3f74f7808a053",
+      "gzipBytes": 3155,
+      "gzipSha256": "a3e72a0381a2688b7e43786885a59190e47666418fe2d87775571153354d19f3"
+    },
+    {
+      "source": "ui-registry-pre-quarantine-v2/mainnet-beta-markets-20261027-v2/12-asset-6-abi.json",
+      "file": "files/ui-registry-pre-quarantine-v2/mainnet-beta-markets-20261027-v2/12-asset-6-abi.json.gz",
+      "bytes": 15256,
+      "sha256": "d4c974b907eb2dc5e88e2ac48a4ba26e0c249bc5891bc85526b6e7dbf1d608ed",
+      "gzipBytes": 1717,
+      "gzipSha256": "07bd4c98adbad4eeb343c4ce8de127578a6922fa2043c5d9178892d7d680617b"
+    },
+    {
+      "source": "ui-registry-pre-quarantine-v2/mainnet-beta-markets-20261027-v2/12-config.json",
+      "file": "files/ui-registry-pre-quarantine-v2/mainnet-beta-markets-20261027-v2/12-config.json.gz",
+      "bytes": 250,
+      "sha256": "11f77509bcfc416233925f02ab7f307033c72730d0f6c06f0a6191426fdd4a49",
+      "gzipBytes": 172,
+      "gzipSha256": "065c0c8b2a8e251ac10b7fa290e1f184bf8e53109d34ce27c11a6e02cc6d862b"
+    },
+    {
+      "source": "ui-registry-pre-quarantine-v2/mainnet-beta-markets-20261027-v2/12-nft-abi.json",
+      "file": "files/ui-registry-pre-quarantine-v2/mainnet-beta-markets-20261027-v2/12-nft-abi.json.gz",
+      "bytes": 10658,
+      "sha256": "44080580f207d685c41dc0ff9f84658fbd45eae5397931a8e2db6efa6073b9b6",
+      "gzipBytes": 1426,
+      "gzipSha256": "df1380f2fe4877c5740a80e9603468fd33df3f68c7551bd423f1b8429c0d9483"
+    },
+    {
+      "source": "ui-registry-pre-quarantine-v2/mainnet-beta-markets-20261027-v2/12-policy.json",
+      "file": "files/ui-registry-pre-quarantine-v2/mainnet-beta-markets-20261027-v2/12-policy.json.gz",
+      "bytes": 37267,
+      "sha256": "4eebf0b7fa76e91acc4dc2f4bfc7da4dd8010e98908d64e2232ddf5af9c779ab",
+      "gzipBytes": 1560,
+      "gzipSha256": "3c24d99f083d490efbecf2ce31458ce7af0bbf9a5fc3434644389cd4cea993be"
+    },
+    {
+      "source": "ui-registry-pre-quarantine-v2/mainnet-beta-markets-20261027-v2/12-registration.json",
+      "file": "files/ui-registry-pre-quarantine-v2/mainnet-beta-markets-20261027-v2/12-registration.json.gz",
+      "bytes": 2963,
+      "sha256": "46b753a9590ee9fb9bc2e25f139d6030f163a06b929b24494855617797641bb4",
+      "gzipBytes": 1166,
+      "gzipSha256": "0aafee6eb781ae6b32663b8d334c697a4132f6af86a4482486a74982f17886f4"
+    },
+    {
+      "source": "ui-registry-pre-quarantine-v2/mainnet-beta-markets-20261027-v2/PROVENANCE.json",
+      "file": "files/ui-registry-pre-quarantine-v2/mainnet-beta-markets-20261027-v2/PROVENANCE.json.gz",
+      "bytes": 255,
+      "sha256": "2185067a9b3ac3acde8c9d613bf313b3094603459055438d6eead4ff119465f7",
+      "gzipBytes": 199,
+      "gzipSha256": "085d198bf6661f5d9f86de766d4a66a7462b1e7d00b7a2d30d5f43c3a60bdd5f"
+    },
+    {
+      "source": "ui-registry-pre-quarantine-v2/mainnet-beta-markets-20261027-v2/artifacts.json",
+      "file": "files/ui-registry-pre-quarantine-v2/mainnet-beta-markets-20261027-v2/artifacts.json.gz",
+      "bytes": 1549,
+      "sha256": "193d307eb4c0643eb9d7b2f6754d3ba14c1233d10c26a4322c75ca51df65eed7",
+      "gzipBytes": 596,
+      "gzipSha256": "fa77d39bf33f978c33e1c7cc2c5909c41e53f35ad93168ef43845eb0619cb419"
+    },
+    {
+      "source": "ui-registry-pre-quarantine-v2/mainnet-beta-markets-20261027-v2/client-pin.json",
+      "file": "files/ui-registry-pre-quarantine-v2/mainnet-beta-markets-20261027-v2/client-pin.json.gz",
+      "bytes": 86,
+      "sha256": "92ab77ce249066e52cf405ddfac09cafa44f1808aae7a4f0923f2bb08f40c93b",
+      "gzipBytes": 95,
+      "gzipSha256": "ace54168cf374fb4d82ee36231eb5c3a234755b45e634a29e592bb602267a097"
+    },
+    {
+      "source": "ui-registry-pre-quarantine-v2/mainnet-beta-markets-20261027-v2/registry.json",
+      "file": "files/ui-registry-pre-quarantine-v2/mainnet-beta-markets-20261027-v2/registry.json.gz",
+      "bytes": 7960,
+      "sha256": "07032c3a2d8ce5956929f61f3004ef9caca58d99a5f04ca8d062aa8575017bb4",
+      "gzipBytes": 2210,
+      "gzipSha256": "851749eaebc85305ccbb28aec741e61e3e78c49bfc8e34c982fa16a531e144b4"
+    },
+    {
+      "source": "ui-registry-pre-quarantine-v2/mainnet-beta-markets-20261027-v2/rpc-config.json",
+      "file": "files/ui-registry-pre-quarantine-v2/mainnet-beta-markets-20261027-v2/rpc-config.json.gz",
+      "bytes": 5736,
+      "sha256": "da7f676f47ab78f14d930def7d2019a3a56ac10ce2d097e3594425f11681b0eb",
+      "gzipBytes": 882,
+      "gzipSha256": "3e614aeaf753441125b9269cdf2af10204b0120b13ed876223cb980bda9141e5"
+    },
+    {
+      "source": "ui-registry-pre-quarantine-v2/mainnet-beta-v2.json",
+      "file": "files/ui-registry-pre-quarantine-v2/mainnet-beta-v2.json.gz",
+      "bytes": 548,
+      "sha256": "14133a46b033e4328dbc1c5ddbe77bbdb9dc1c5b76e119ddfeb473e83cde9330",
+      "gzipBytes": 308,
+      "gzipSha256": "48dbe4939d0c260909f863368f3c64b0b1c981de3a1f5bfd69fa875de332621a"
+    }
+  ]
+}

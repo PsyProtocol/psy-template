@@ -1,0 +1,867 @@
+{
+  "schema": 1,
+  "sourceDirectory": "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-market-recovery-20261023/market-mainnet-migration-20261027-v1/isolated-live-v1",
+  "machine": "gewenbo.local",
+  "host": "macOS-15.7.3-arm64-arm-64bit",
+  "scope": "public formal Executor run including failures; success requires exact included receipt",
+  "walletFilesIncluded": false,
+  "sealedBinariesIncluded": false,
+  "records": [
+    {
+      "source": "attempts/deploy-bondingcurve-v1/before.json",
+      "file": "files/attempts/deploy-bondingcurve-v1/before.json.gz",
+      "bytes": 225,
+      "sha256": "7277cb9da71f4280762f6d91401efd6c1d4fd74c898ebc93a156462937ad88fc",
+      "gzipBytes": 144,
+      "gzipSha256": "746e03e52d3cee5998b5e98ae60d4dfa527e60830fa38a3ba6c63d0ef3137ef2"
+    },
+    {
+      "source": "attempts/deploy-bondingcurve-v1/included.json",
+      "file": "files/attempts/deploy-bondingcurve-v1/included.json.gz",
+      "bytes": 1648,
+      "sha256": "09321c695fee51d4e57caa757f72cfe89b13677e4afbb89cf50de351e7350836",
+      "gzipBytes": 788,
+      "gzipSha256": "f14115f33e685281a5fb47926769800cac5e0841358d76949c2afd996be6793f"
+    },
+    {
+      "source": "attempts/deploy-bondingcurve-v1/intent.json",
+      "file": "files/attempts/deploy-bondingcurve-v1/intent.json.gz",
+      "bytes": 208,
+      "sha256": "d3b6b467d41b099a304c8d96d83d91652669118e51e4ac8c985dcbbeac42468c",
+      "gzipBytes": 176,
+      "gzipSha256": "cea88b3a76e05484fd62977eb2d79af2ea7d8d504923b43576ff3b2139ee976a"
+    },
+    {
+      "source": "attempts/deploy-bondingcurve-v1/metrics.json",
+      "file": "files/attempts/deploy-bondingcurve-v1/metrics.json.gz",
+      "bytes": 715,
+      "sha256": "1e3f626364d9d9112589e5e85f93d43fcea680f0fd719baa4017c7c2e9d7b72f",
+      "gzipBytes": 376,
+      "gzipSha256": "1709ce4f5b2629ae66372f78254972b88f9aaef685a12d0a00b0fcd97d8ab488"
+    },
+    {
+      "source": "attempts/deploy-bondingcurve-v1/preflight.json",
+      "file": "files/attempts/deploy-bondingcurve-v1/preflight.json.gz",
+      "bytes": 645,
+      "sha256": "001de9e48eb2a888f6f0b2e115b13ca13ce49c8e11d65e6232dd13e72332d7fb",
+      "gzipBytes": 401,
+      "gzipSha256": "954fd8b9d614602ab5a1e2b19c91e9a50dff74735546bffa9a7df16b786d2ece"
+    },
+    {
+      "source": "attempts/deploy-bondingcurve-v1/receipt.json",
+      "file": "files/attempts/deploy-bondingcurve-v1/receipt.json.gz",
+      "bytes": 84,
+      "sha256": "f0688198a60bfeaa16267340b5ba0cdf0ffa07788945224bdd290544f48aac47",
+      "gzipBytes": 94,
+      "gzipSha256": "a85928b72dc526f2e14ca47e0e586b13ad677607d902e8a3e5de6bdc57b9885a"
+    },
+    {
+      "source": "attempts/deploy-bondingcurve-v1/request.json",
+      "file": "files/attempts/deploy-bondingcurve-v1/request.json.gz",
+      "bytes": 182940741,
+      "sha256": "21ca68595440a4555cfcfd3a39f7cc8aa98e5fc92317dbfb8ef1d8b66771b019",
+      "gzipBytes": 2740852,
+      "gzipSha256": "ae5f55ab1b7f379987c9604b970f4704f2d29c5b025b24ea1501838360bd21a3"
+    },
+    {
+      "source": "attempts/deploy-nftmarket-v1/before.json",
+      "file": "files/attempts/deploy-nftmarket-v1/before.json.gz",
+      "bytes": 225,
+      "sha256": "247da5f47c8246e90ce6ff6d05e55468c7b99c6ade954a1484933dcb1a3d3887",
+      "gzipBytes": 142,
+      "gzipSha256": "349b0fae06d3e7b86b2a98b02f210b3ce2b06d19ddb597a85c34314ccb4d2ae3"
+    },
+    {
+      "source": "attempts/deploy-nftmarket-v1/included.json",
+      "file": "files/attempts/deploy-nftmarket-v1/included.json.gz",
+      "bytes": 1648,
+      "sha256": "ea1a3d0752881798505760629c55abfd7785ecb096a9a673f3026868ae144bcc",
+      "gzipBytes": 785,
+      "gzipSha256": "80c3800b7fce8f6812af817645ec9ae1e68ade01dbe1cdf6be6b0472aecfea29"
+    },
+    {
+      "source": "attempts/deploy-nftmarket-v1/intent.json",
+      "file": "files/attempts/deploy-nftmarket-v1/intent.json.gz",
+      "bytes": 208,
+      "sha256": "7a62b3e4917b75470e0754f5cdb01e211d30485ec1009b7033906d48ac8e5296",
+      "gzipBytes": 174,
+      "gzipSha256": "cc4cc4ee2620bb0a331d298deba1156a24f151a9047e4da7b5c3efcf61559896"
+    },
+    {
+      "source": "attempts/deploy-nftmarket-v1/metrics.json",
+      "file": "files/attempts/deploy-nftmarket-v1/metrics.json.gz",
+      "bytes": 749,
+      "sha256": "50f2d03d38c6fa7c1e25a2bd9a29f0366cf3a66bb893ca0c9e63b991152c10f0",
+      "gzipBytes": 387,
+      "gzipSha256": "871859b41b5d65508e74b2618e4f9a2a0384e2db6ed2fa10d9ff6d5d5b6378ec"
+    },
+    {
+      "source": "attempts/deploy-nftmarket-v1/preflight.json",
+      "file": "files/attempts/deploy-nftmarket-v1/preflight.json.gz",
+      "bytes": 645,
+      "sha256": "c0d94fe388d66566a325358860b5fae027305af426845be141efa00b386c197f",
+      "gzipBytes": 399,
+      "gzipSha256": "4e2453d568e61fddeb54c15f0c5ca948625b26c229ec8f5a483a5df13547d92f"
+    },
+    {
+      "source": "attempts/deploy-nftmarket-v1/receipt.json",
+      "file": "files/attempts/deploy-nftmarket-v1/receipt.json.gz",
+      "bytes": 84,
+      "sha256": "7d2da3e776a3a443829abc86438619cc0c8a0619d80d0139e5ba5c9d55178afa",
+      "gzipBytes": 94,
+      "gzipSha256": "87abf6bd55ca3d23fd5c78ba79a5fc720b19ebd4a8db5172c873bb2d9ae6c38b"
+    },
+    {
+      "source": "attempts/deploy-nftmarket-v1/request.json",
+      "file": "files/attempts/deploy-nftmarket-v1/request.json.gz",
+      "bytes": 69409633,
+      "sha256": "1231b5ac43c6462f0e63a044f407034f3e3d64466afc672f83e186fe5e5c8be2",
+      "gzipBytes": 1164040,
+      "gzipSha256": "b2fefa31ff490b67f286e07c82c65303561a4393c8ad9595f368ee0abd1c8cf6"
+    },
+    {
+      "source": "attempts/deploy-orderbook-v1/before.json",
+      "file": "files/attempts/deploy-orderbook-v1/before.json.gz",
+      "bytes": 225,
+      "sha256": "316e576976a7c7169630ba5795eb3d10ebad53fecc5f83a0ea2fa781c0b785dd",
+      "gzipBytes": 144,
+      "gzipSha256": "6f6280909ddab6541762d12f66cb67a6b0feeb3a79a69e3082f4348161a391ba"
+    },
+    {
+      "source": "attempts/deploy-orderbook-v1/included.json",
+      "file": "files/attempts/deploy-orderbook-v1/included.json.gz",
+      "bytes": 1648,
+      "sha256": "14ec83eef3a4ab86ae12609c2f48f2408b8417b7518e1eb8d25656fcb4d93f93",
+      "gzipBytes": 786,
+      "gzipSha256": "0c18e6efe69b6fe299ee770392eefb46a0fc15caea8cf6def03cb12286c451a2"
+    },
+    {
+      "source": "attempts/deploy-orderbook-v1/intent.json",
+      "file": "files/attempts/deploy-orderbook-v1/intent.json.gz",
+      "bytes": 208,
+      "sha256": "ec7f1f1570d09d110a55efa56bd99c5528946b62aac862651b58894090c8d394",
+      "gzipBytes": 174,
+      "gzipSha256": "01318a731c53b4196e3f5ff8a915217cce2a44babae89bdee40063f92d7b330e"
+    },
+    {
+      "source": "attempts/deploy-orderbook-v1/metrics.json",
+      "file": "files/attempts/deploy-orderbook-v1/metrics.json.gz",
+      "bytes": 722,
+      "sha256": "eedabe8cee4fdd177232600d7730cee35f9ecee109eb8838f4bbbd693005fc12",
+      "gzipBytes": 378,
+      "gzipSha256": "8acf0a37af2000a6215d509768d71d8a5a09e4332f402e69271fc939ee5c583d"
+    },
+    {
+      "source": "attempts/deploy-orderbook-v1/preflight.json",
+      "file": "files/attempts/deploy-orderbook-v1/preflight.json.gz",
+      "bytes": 645,
+      "sha256": "fda4d87b0219d930222ba1c3e705d75b9f1b4612e1e4b290a1c52bab32abf90c",
+      "gzipBytes": 403,
+      "gzipSha256": "66fbec9f64f4af5890d862a5dd331d4f9e7c8785863729efec099745f06ec42e"
+    },
+    {
+      "source": "attempts/deploy-orderbook-v1/receipt.json",
+      "file": "files/attempts/deploy-orderbook-v1/receipt.json.gz",
+      "bytes": 84,
+      "sha256": "927a8de01616209b49d0fe649396546172d070f7d8b8579a8764967f79c4f646",
+      "gzipBytes": 94,
+      "gzipSha256": "447181408593cbd80c1459f954210dc8467fa539499092150b40d149ca19a884"
+    },
+    {
+      "source": "attempts/deploy-orderbook-v1/request.json",
+      "file": "files/attempts/deploy-orderbook-v1/request.json.gz",
+      "bytes": 137249442,
+      "sha256": "e888c9d1025aaf770c18dcc7f062dd3739208868a4d677c855dbf268abfc9d1e",
+      "gzipBytes": 2067562,
+      "gzipSha256": "d57d5fc557b778725d4df6c37755f2a463d7eeb81b5e7614ddf91e7fdb3ae1e8"
+    },
+    {
+      "source": "attempts/register-bondingcurve-vault-v1/included.json",
+      "file": "files/attempts/register-bondingcurve-vault-v1/included.json.gz",
+      "bytes": 2959,
+      "sha256": "f95cc3816120171c388db0626b82271324eb2f8e1e2e973c82df2683c0086fa9",
+      "gzipBytes": 1129,
+      "gzipSha256": "f0b0f8c16ac85324085b65d9ce1bdfdcc0e7c56bf77fdcc9e5f0bc771456102e"
+    },
+    {
+      "source": "attempts/register-bondingcurve-vault-v1/intent.json",
+      "file": "files/attempts/register-bondingcurve-vault-v1/intent.json.gz",
+      "bytes": 317,
+      "sha256": "d2ca2b3d9b8a48c4081fe57dddd4a57667f070d96a5782b51105a3e3515a1fc0",
+      "gzipBytes": 240,
+      "gzipSha256": "d8c0c40a30feebdb8f0e0f4d43528d7d6eb4721fbd4bf5d231e9eb31fe8e06bb"
+    },
+    {
+      "source": "attempts/register-bondingcurve-vault-v1/receipt.json",
+      "file": "files/attempts/register-bondingcurve-vault-v1/receipt.json.gz",
+      "bytes": 151,
+      "sha256": "e659c4b50ca22ad3ca0caf3b3a4725f88f1598f4a60bfa7e981ccfab115f9888",
+      "gzipBytes": 144,
+      "gzipSha256": "dc173645795bc8965d37efd5109eb3181290db29f56b854db68b90a1bfcacf77"
+    },
+    {
+      "source": "attempts/register-bondingcurve-vault-v1/request.json",
+      "file": "files/attempts/register-bondingcurve-vault-v1/request.json.gz",
+      "bytes": 204,
+      "sha256": "ed183485e7298b427d17254fdc717232abcd37b299333d1a5c401ab293f7b937",
+      "gzipBytes": 171,
+      "gzipSha256": "4e4737f1425f8b3854596dc474f80a857f1128d95bd0378f1d21e5953225eb6d"
+    },
+    {
+      "source": "attempts/register-nftmarket-vault-v1/included.json",
+      "file": "files/attempts/register-nftmarket-vault-v1/included.json.gz",
+      "bytes": 2963,
+      "sha256": "1cf156647781c1c173c0281b5666f3ae7a717780e735b500e0dd12bf8453fd94",
+      "gzipBytes": 1183,
+      "gzipSha256": "834e73eeefeb93b62a93aeac8ba39650062ac7127adca1688dbb54902987ef57"
+    },
+    {
+      "source": "attempts/register-nftmarket-vault-v1/intent.json",
+      "file": "files/attempts/register-nftmarket-vault-v1/intent.json.gz",
+      "bytes": 317,
+      "sha256": "a25a83f66a3f4e0ed74c5085ffe6ad1a9dcad2ce0a13be61e61bc8d3f91767d1",
+      "gzipBytes": 242,
+      "gzipSha256": "9c575f227bce1adabad11964e662d32fffbe0cb271c4f5b1a589689eae2399c2"
+    },
+    {
+      "source": "attempts/register-nftmarket-vault-v1/receipt.json",
+      "file": "files/attempts/register-nftmarket-vault-v1/receipt.json.gz",
+      "bytes": 151,
+      "sha256": "2a4c7d5caa89244f1d9d407f930b599c197eff82cdf4e4507bcec66af796ef9b",
+      "gzipBytes": 142,
+      "gzipSha256": "76dccf91e553fe453ab3765f4bd37f3a9e2bd028bd87ecbf8eb4f6e65b8fbe8c"
+    },
+    {
+      "source": "attempts/register-nftmarket-vault-v1/request.json",
+      "file": "files/attempts/register-nftmarket-vault-v1/request.json.gz",
+      "bytes": 204,
+      "sha256": "87c05d7d2a1654574037e07f4edcdb1a7ce8f5ef82123148ab243efc6f416c48",
+      "gzipBytes": 172,
+      "gzipSha256": "c6718c7403bcff64df6d00c2d3831e4954aada3f5ce436efdb998e9083f169f0"
+    },
+    {
+      "source": "attempts/register-orderbook-vault-v1/included.json",
+      "file": "files/attempts/register-orderbook-vault-v1/included.json.gz",
+      "bytes": 2959,
+      "sha256": "78af35e07cc0cc7b3f57a3283366da3df2b69b65d21f5f33f868059ac407149d",
+      "gzipBytes": 1131,
+      "gzipSha256": "2085a3a707e58cf5b361b350b9da3fea84959ad9dbfc4124a1f21b476fcd96b0"
+    },
+    {
+      "source": "attempts/register-orderbook-vault-v1/intent.json",
+      "file": "files/attempts/register-orderbook-vault-v1/intent.json.gz",
+      "bytes": 317,
+      "sha256": "d50baa81c293ec58afa5438718dd2ae01b20c7ff639b6e8266247acf76c6fe3e",
+      "gzipBytes": 239,
+      "gzipSha256": "9cc07bb63df6fa5712a4b65f7b659db4a9b894691892083843968e559e5e9967"
+    },
+    {
+      "source": "attempts/register-orderbook-vault-v1/receipt.json",
+      "file": "files/attempts/register-orderbook-vault-v1/receipt.json.gz",
+      "bytes": 151,
+      "sha256": "031d0adf64287334c31144fece646dee591a14c9fc0e39bd82c343b84a06211b",
+      "gzipBytes": 144,
+      "gzipSha256": "2d507f456bc1ee959c039ad7fcf6a21a25763894ba00b48115082eb9f3ef46c2"
+    },
+    {
+      "source": "attempts/register-orderbook-vault-v1/request.json",
+      "file": "files/attempts/register-orderbook-vault-v1/request.json.gz",
+      "bytes": 204,
+      "sha256": "11802d325a5e5c630627bc667a18b4dc1e5dbeae0d2c0f5358f2610f04588837",
+      "gzipBytes": 172,
+      "gzipSha256": "670dde65d17b6c14c35903a9530fda319e5494254a609da088ff05c77ed6300d"
+    },
+    {
+      "source": "attempts/register-trader-v1/intent.json",
+      "file": "files/attempts/register-trader-v1/intent.json.gz",
+      "bytes": 268,
+      "sha256": "adb87d27105ca06f0870452258c83eb4bb1a5ccadff4917ebdda91b05a456225",
+      "gzipBytes": 216,
+      "gzipSha256": "25fdc10094ac182c5a2eb6ca61a2550c997c6c96e1537eeeab8c4df846eba9f7"
+    },
+    {
+      "source": "attempts/register-trader-v1/receipt.json",
+      "file": "files/attempts/register-trader-v1/receipt.json.gz",
+      "bytes": 151,
+      "sha256": "a04bc34069fb700779a7ed52ab979160087bae7a10e100c9522df00b0e439c44",
+      "gzipBytes": 143,
+      "gzipSha256": "f4ff65a923a079f59405e0b0cd817c911d5dc9450fb963d4c459f3679215ac8d"
+    },
+    {
+      "source": "attempts/register-trader-v1/request.json",
+      "file": "files/attempts/register-trader-v1/request.json.gz",
+      "bytes": 204,
+      "sha256": "b6c4cd870f3ec198b048e76b01bfe7c51e4a0bc8be05451a1550e10b3c7ed0b1",
+      "gzipBytes": 171,
+      "gzipSha256": "cf8840d5cac467a3ee814661bb0dc29e5c17dee7f87edb0cca82c9b03dcc19f7"
+    },
+    {
+      "source": "markets-v1/bondingcurve/BUILD.json",
+      "file": "files/markets-v1/bondingcurve/BUILD.json.gz",
+      "bytes": 1056,
+      "sha256": "0c1d42a9e04858ca1ea80e04715a882d9ca29ab5c461c4700a187503d6757f61",
+      "gzipBytes": 630,
+      "gzipSha256": "eca221b74d9e951ea165b00a8d694693421c65e09eceb83753c8fd261e1bfc49"
+    },
+    {
+      "source": "markets-v1/bondingcurve/bound/BOUND.json",
+      "file": "files/markets-v1/bondingcurve/bound/BOUND.json.gz",
+      "bytes": 331,
+      "sha256": "6489787a3f577bfcbb7d89980808266da7049b109ba464a1079196a6473e04b4",
+      "gzipBytes": 237,
+      "gzipSha256": "f3049fc4db92f807b741a537b685498ff0f435be676483bea4dd4c37bb476f95"
+    },
+    {
+      "source": "markets-v1/bondingcurve/bound/policy.json",
+      "file": "files/markets-v1/bondingcurve/bound/policy.json.gz",
+      "bytes": 126616,
+      "sha256": "0964985e8b4b40d3b9504024cdd2c110ec6aa1c4cdc81e71b7550f78b1e1e579",
+      "gzipBytes": 3008,
+      "gzipSha256": "6525c2544af7390d5019b71a7d24375567b2a9a9fdb22e679cf45c1a6970963a"
+    },
+    {
+      "source": "markets-v1/bondingcurve/compile.log",
+      "file": "files/markets-v1/bondingcurve/compile.log.gz",
+      "bytes": 26,
+      "sha256": "d9fa0db25712af671f7feae8d5e087ac550fd521e93a94bf18eec24c3b0627c4",
+      "gzipBytes": 46,
+      "gzipSha256": "de7609fd22f4b81adb030971e88928f3b33cceaaa4c91b69cbe68db154ac556d"
+    },
+    {
+      "source": "markets-v1/bondingcurve/compiled/compilation_artifact.json",
+      "file": "files/markets-v1/bondingcurve/compiled/compilation_artifact.json.gz",
+      "bytes": 13682850,
+      "sha256": "83d80c56745e27b545c13000538a728e44bab39966befa5b82281d45c4f9f243",
+      "gzipBytes": 1506801,
+      "gzipSha256": "484e4e44c982b857b7cfa64844f9441daf1f1d890f59156835c2401f965ae5cc"
+    },
+    {
+      "source": "markets-v1/bondingcurve/config.json",
+      "file": "files/markets-v1/bondingcurve/config.json.gz",
+      "bytes": 303,
+      "sha256": "a8753510551291ef5e556960e9ec6bb91112cdb0c2d1ea19052bb9af67124623",
+      "gzipBytes": 176,
+      "gzipSha256": "60bcfadbb928ea25998a446be8e400042c5d49ba65e7756319c9aa1f88cbd0d2"
+    },
+    {
+      "source": "markets-v1/bondingcurve/live-registration.json",
+      "file": "files/markets-v1/bondingcurve/live-registration.json.gz",
+      "bytes": 2959,
+      "sha256": "f95cc3816120171c388db0626b82271324eb2f8e1e2e973c82df2683c0086fa9",
+      "gzipBytes": 1129,
+      "gzipSha256": "f0b0f8c16ac85324085b65d9ce1bdfdcc0e7c56bf77fdcc9e5f0bc771456102e"
+    },
+    {
+      "source": "markets-v1/bondingcurve/main.psy.rs",
+      "file": "files/markets-v1/bondingcurve/main.psy.rs.gz",
+      "bytes": 3483354,
+      "sha256": "2d699dc415bafca6ef706f71d4d393ebc0cb575bd4c1c0daeb0afde1db3c8abb",
+      "gzipBytes": 298729,
+      "gzipSha256": "b24b5f5b44df861c8a11a0c61d1b90cf8e6767d806ce88085cc4313dad547ae6"
+    },
+    {
+      "source": "markets-v1/bondingcurve/native.json",
+      "file": "files/markets-v1/bondingcurve/native.json.gz",
+      "bytes": 429498,
+      "sha256": "b68fd259b5e26b72cee9f877f90a129cfab05b9b6203c481d49c26fdb0559b45",
+      "gzipBytes": 23186,
+      "gzipSha256": "ddf23bd2c87523d0a2ae9ab7020ceb4b367c6d43309cd25481322a8a57de8082"
+    },
+    {
+      "source": "markets-v1/bondingcurve/nft.json",
+      "file": "files/markets-v1/bondingcurve/nft.json.gz",
+      "bytes": 61249,
+      "sha256": "9861404dc6b3dac0d0f55bc31f6d89f6dfce347cce461495d4083e2ef42e4aae",
+      "gzipBytes": 6879,
+      "gzipSha256": "bcb6fcb19e319d3726d248968fa5a4176a93b0c4dd9c91db0d2c9e6cb8510987"
+    },
+    {
+      "source": "markets-v1/bondingcurve/token-a.json",
+      "file": "files/markets-v1/bondingcurve/token-a.json.gz",
+      "bytes": 4066436,
+      "sha256": "a3718e5ecc49e6360d02c325fb4bff676237fa8b4c1cc64724a092f74fc98d22",
+      "gzipBytes": 458380,
+      "gzipSha256": "84c3b7ecac91ebec131ecbb1b55142c3d56a62f066205d0428e90171c3285c52"
+    },
+    {
+      "source": "markets-v1/bondingcurve/token-b.json",
+      "file": "files/markets-v1/bondingcurve/token-b.json.gz",
+      "bytes": 4066436,
+      "sha256": "b67ce3ad4c5e54a7019fb0808069d3e05918a97fceb90c589c72e646b1c75d12",
+      "gzipBytes": 458378,
+      "gzipSha256": "30efbf9f58ccf69d0df5548f25b53c76143be9512d54119c882befe8f08f0ad4"
+    },
+    {
+      "source": "markets-v1/nftmarket/BUILD.json",
+      "file": "files/markets-v1/nftmarket/BUILD.json.gz",
+      "bytes": 1053,
+      "sha256": "8e0eac9ce41be351b24917741fd53de4462fcd429eef9b620bae45cc478058ba",
+      "gzipBytes": 627,
+      "gzipSha256": "fbe936ca8c2df92a7c9a4d369e50391e44aded6eeec2655bae343f1336420d84"
+    },
+    {
+      "source": "markets-v1/nftmarket/bound/BOUND.json",
+      "file": "files/markets-v1/nftmarket/bound/BOUND.json.gz",
+      "bytes": 328,
+      "sha256": "2442fb6912f044f1ba7c21fd3637badeef91d94cdbbca0b19bd9c2880de83466",
+      "gzipBytes": 233,
+      "gzipSha256": "254e1f11616e2fdfeeb570a8586c85f31d3e0380e812904bd33383c31a9481ba"
+    },
+    {
+      "source": "markets-v1/nftmarket/bound/policy.json",
+      "file": "files/markets-v1/nftmarket/bound/policy.json.gz",
+      "bytes": 83781,
+      "sha256": "2392d764f4e0a7e47df6760f68a1fc63d0496c868bf383c5521819111eea2ebc",
+      "gzipBytes": 2336,
+      "gzipSha256": "f98430ff7588848be0e1fbf0c849b45e9fd7ea2e4547ea2e8c195a047d51ea80"
+    },
+    {
+      "source": "markets-v1/nftmarket/compile.log",
+      "file": "files/markets-v1/nftmarket/compile.log.gz",
+      "bytes": 26,
+      "sha256": "b8c34675233d5e4555ceeef573189b15b683eb81832df80956ecf97afbbe465a",
+      "gzipBytes": 46,
+      "gzipSha256": "8dfcc3233b52c9d40775bc94f048578ddbc76a808f6fca25624cb549c86d5009"
+    },
+    {
+      "source": "markets-v1/nftmarket/compiled/compilation_artifact.json",
+      "file": "files/markets-v1/nftmarket/compiled/compilation_artifact.json.gz",
+      "bytes": 5085209,
+      "sha256": "2f695466b9c241aa6c6583727bad74d3232b3410703e7ab4e737358881bb99b7",
+      "gzipBytes": 564997,
+      "gzipSha256": "b21c12e87e640a6c9b92ef736f322ce7c1cc9c037ba50774529cb8a720630002"
+    },
+    {
+      "source": "markets-v1/nftmarket/config.json",
+      "file": "files/markets-v1/nftmarket/config.json.gz",
+      "bytes": 303,
+      "sha256": "a8753510551291ef5e556960e9ec6bb91112cdb0c2d1ea19052bb9af67124623",
+      "gzipBytes": 176,
+      "gzipSha256": "60bcfadbb928ea25998a446be8e400042c5d49ba65e7756319c9aa1f88cbd0d2"
+    },
+    {
+      "source": "markets-v1/nftmarket/live-registration.json",
+      "file": "files/markets-v1/nftmarket/live-registration.json.gz",
+      "bytes": 2963,
+      "sha256": "1cf156647781c1c173c0281b5666f3ae7a717780e735b500e0dd12bf8453fd94",
+      "gzipBytes": 1183,
+      "gzipSha256": "834e73eeefeb93b62a93aeac8ba39650062ac7127adca1688dbb54902987ef57"
+    },
+    {
+      "source": "markets-v1/nftmarket/main.psy.rs",
+      "file": "files/markets-v1/nftmarket/main.psy.rs.gz",
+      "bytes": 1170198,
+      "sha256": "e69bf214b5c2a85325697a3348ecef03f25b3ab3f58e3a6e645a55a3f8e786ed",
+      "gzipBytes": 104176,
+      "gzipSha256": "1197d69d0939c78ff5073057c826ae94f0ac04d832dcab9259fa6107d10f65a1"
+    },
+    {
+      "source": "markets-v1/nftmarket/native.json",
+      "file": "files/markets-v1/nftmarket/native.json.gz",
+      "bytes": 429498,
+      "sha256": "b68fd259b5e26b72cee9f877f90a129cfab05b9b6203c481d49c26fdb0559b45",
+      "gzipBytes": 23186,
+      "gzipSha256": "ddf23bd2c87523d0a2ae9ab7020ceb4b367c6d43309cd25481322a8a57de8082"
+    },
+    {
+      "source": "markets-v1/nftmarket/nft.json",
+      "file": "files/markets-v1/nftmarket/nft.json.gz",
+      "bytes": 61249,
+      "sha256": "9861404dc6b3dac0d0f55bc31f6d89f6dfce347cce461495d4083e2ef42e4aae",
+      "gzipBytes": 6879,
+      "gzipSha256": "bcb6fcb19e319d3726d248968fa5a4176a93b0c4dd9c91db0d2c9e6cb8510987"
+    },
+    {
+      "source": "markets-v1/nftmarket/token-a.json",
+      "file": "files/markets-v1/nftmarket/token-a.json.gz",
+      "bytes": 4066436,
+      "sha256": "a3718e5ecc49e6360d02c325fb4bff676237fa8b4c1cc64724a092f74fc98d22",
+      "gzipBytes": 458380,
+      "gzipSha256": "84c3b7ecac91ebec131ecbb1b55142c3d56a62f066205d0428e90171c3285c52"
+    },
+    {
+      "source": "markets-v1/nftmarket/token-b.json",
+      "file": "files/markets-v1/nftmarket/token-b.json.gz",
+      "bytes": 4066436,
+      "sha256": "b67ce3ad4c5e54a7019fb0808069d3e05918a97fceb90c589c72e646b1c75d12",
+      "gzipBytes": 458378,
+      "gzipSha256": "30efbf9f58ccf69d0df5548f25b53c76143be9512d54119c882befe8f08f0ad4"
+    },
+    {
+      "source": "markets-v1/orderbook/BUILD.json",
+      "file": "files/markets-v1/orderbook/BUILD.json.gz",
+      "bytes": 1053,
+      "sha256": "748b96ac95f75d39f5292c4883c82aec0fdbfdcfef510ee4f110a51f6d177f47",
+      "gzipBytes": 629,
+      "gzipSha256": "fd3e5dda48bc85e231099137974c13c294f2d59abad0ba51460d6887d1ddab77"
+    },
+    {
+      "source": "markets-v1/orderbook/bound/BOUND.json",
+      "file": "files/markets-v1/orderbook/bound/BOUND.json.gz",
+      "bytes": 328,
+      "sha256": "8a89d3afbbb8913a2d82030486f85d4cff390a2dfcb5334ab002b6136a129d54",
+      "gzipBytes": 236,
+      "gzipSha256": "22e3fe3405a0feecca95c243eb7f03c032f4d65283ea572ab043181b0f6715ab"
+    },
+    {
+      "source": "markets-v1/orderbook/bound/policy.json",
+      "file": "files/markets-v1/orderbook/bound/policy.json.gz",
+      "bytes": 95126,
+      "sha256": "1a27e2309ab24d7f24524bbb2aa14302dc0dcdbc1f00195a4ae74a31977732ac",
+      "gzipBytes": 2390,
+      "gzipSha256": "00f1a054d8120ad9e0f0c6d0e45302c12c590f24e47f6b4e23102be5444b715a"
+    },
+    {
+      "source": "markets-v1/orderbook/compile.log",
+      "file": "files/markets-v1/orderbook/compile.log.gz",
+      "bytes": 26,
+      "sha256": "5045f57d9f65ed8ff41adc1ecee1337fe11584555bb70ddeaac1b922c0394719",
+      "gzipBytes": 46,
+      "gzipSha256": "96606e523394b8787b0bd6a55f4adf010c8f87a75db43c53e913ba80ba848ad4"
+    },
+    {
+      "source": "markets-v1/orderbook/compiled/compilation_artifact.json",
+      "file": "files/markets-v1/orderbook/compiled/compilation_artifact.json.gz",
+      "bytes": 10228461,
+      "sha256": "9352ff29563e3f76d9876dd216a753720d807a69de36fb888f95ff9aa17c7c37",
+      "gzipBytes": 1127991,
+      "gzipSha256": "08a16e18a19c06247bf02531aa8150eed35900e555c90a8f553ff5642a21d3e0"
+    },
+    {
+      "source": "markets-v1/orderbook/config.json",
+      "file": "files/markets-v1/orderbook/config.json.gz",
+      "bytes": 303,
+      "sha256": "a8753510551291ef5e556960e9ec6bb91112cdb0c2d1ea19052bb9af67124623",
+      "gzipBytes": 176,
+      "gzipSha256": "60bcfadbb928ea25998a446be8e400042c5d49ba65e7756319c9aa1f88cbd0d2"
+    },
+    {
+      "source": "markets-v1/orderbook/live-registration.json",
+      "file": "files/markets-v1/orderbook/live-registration.json.gz",
+      "bytes": 2959,
+      "sha256": "78af35e07cc0cc7b3f57a3283366da3df2b69b65d21f5f33f868059ac407149d",
+      "gzipBytes": 1131,
+      "gzipSha256": "2085a3a707e58cf5b361b350b9da3fea84959ad9dbfc4124a1f21b476fcd96b0"
+    },
+    {
+      "source": "markets-v1/orderbook/main.psy.rs",
+      "file": "files/markets-v1/orderbook/main.psy.rs.gz",
+      "bytes": 2409396,
+      "sha256": "5558f015f3ac8fa866a82f94d069f1806e8c751f2061e114292657b54f9c701f",
+      "gzipBytes": 202866,
+      "gzipSha256": "509ea2da8375bde727d4fea79d257c0fbd9d62567a53bf12acfd6d9f21563263"
+    },
+    {
+      "source": "markets-v1/orderbook/native.json",
+      "file": "files/markets-v1/orderbook/native.json.gz",
+      "bytes": 429498,
+      "sha256": "b68fd259b5e26b72cee9f877f90a129cfab05b9b6203c481d49c26fdb0559b45",
+      "gzipBytes": 23186,
+      "gzipSha256": "ddf23bd2c87523d0a2ae9ab7020ceb4b367c6d43309cd25481322a8a57de8082"
+    },
+    {
+      "source": "markets-v1/orderbook/nft.json",
+      "file": "files/markets-v1/orderbook/nft.json.gz",
+      "bytes": 61249,
+      "sha256": "9861404dc6b3dac0d0f55bc31f6d89f6dfce347cce461495d4083e2ef42e4aae",
+      "gzipBytes": 6879,
+      "gzipSha256": "bcb6fcb19e319d3726d248968fa5a4176a93b0c4dd9c91db0d2c9e6cb8510987"
+    },
+    {
+      "source": "markets-v1/orderbook/token-a.json",
+      "file": "files/markets-v1/orderbook/token-a.json.gz",
+      "bytes": 4066436,
+      "sha256": "a3718e5ecc49e6360d02c325fb4bff676237fa8b4c1cc64724a092f74fc98d22",
+      "gzipBytes": 458380,
+      "gzipSha256": "84c3b7ecac91ebec131ecbb1b55142c3d56a62f066205d0428e90171c3285c52"
+    },
+    {
+      "source": "markets-v1/orderbook/token-b.json",
+      "file": "files/markets-v1/orderbook/token-b.json.gz",
+      "bytes": 4066436,
+      "sha256": "b67ce3ad4c5e54a7019fb0808069d3e05918a97fceb90c589c72e646b1c75d12",
+      "gzipBytes": 458378,
+      "gzipSha256": "30efbf9f58ccf69d0df5548f25b53c76143be9512d54119c882befe8f08f0ad4"
+    },
+    {
+      "source": "public/CURVE-11-QUARANTINED-v1.json",
+      "file": "files/public/CURVE-11-QUARANTINED-v1.json.gz",
+      "bytes": 451,
+      "sha256": "c1737680418c234fe0fbe435eabffbe9f0c9ed814c7805ceade8fb9ab7d6cb27",
+      "gzipBytes": 306,
+      "gzipSha256": "c0add66d3c9bd0986af739b110b0be4a0e147ff7aed93940418ddc3ad9e85db2"
+    },
+    {
+      "source": "public/bondingcurve-checkpoint-v1/observation.json",
+      "file": "files/public/bondingcurve-checkpoint-v1/observation.json.gz",
+      "bytes": 12021,
+      "sha256": "c911ca2b4b6eb0a5122d63447be2f1755e6e14eab2c145b992cfabfc19737ce9",
+      "gzipBytes": 3043,
+      "gzipSha256": "b75c03663f7c6d6a1bd17f33795ac462eca0a205986edbf82e18e6c862259b81"
+    },
+    {
+      "source": "public/bondingcurve-checkpoint-v1/provenance.json",
+      "file": "files/public/bondingcurve-checkpoint-v1/provenance.json.gz",
+      "bytes": 1519,
+      "sha256": "97d6d2003073d9434a0cd2519e00f6df013e482565aaa1e7e5431cb19d68479f",
+      "gzipBytes": 473,
+      "gzipSha256": "d3d652d9e48db5f167199ceee759839f12e7ebebf223508a90e52c01bd966c73"
+    },
+    {
+      "source": "public/bondingcurve-checkpoint-v1/verified.json",
+      "file": "files/public/bondingcurve-checkpoint-v1/verified.json.gz",
+      "bytes": 1716,
+      "sha256": "441d3e1a076c4470f5f9e03276c6281462d32c262710ecdb89adab4e27533ef3",
+      "gzipBytes": 817,
+      "gzipSha256": "f336cce43d87eb865b4cbfd673e5618d32af4f2ebccf69269181dfcb303d77cb"
+    },
+    {
+      "source": "public/bondingcurve-checkpoint-v1/verify.log",
+      "file": "files/public/bondingcurve-checkpoint-v1/verify.log.gz",
+      "bytes": 622,
+      "sha256": "d6cbed2e0c65197a7d2658bae6445d4c018398a1685c845c927152336e3a2dee",
+      "gzipBytes": 283,
+      "gzipSha256": "b6b12f7ad8db63b8298e4bd417f77555126a9dd483ef83d3daee43c0e9b36d22"
+    },
+    {
+      "source": "public/bondingcurve-checkpoint-v1/verify.log.timing.json",
+      "file": "files/public/bondingcurve-checkpoint-v1/verify.log.timing.json.gz",
+      "bytes": 300,
+      "sha256": "877e08d6e530fb768107368fb42e45a530d4c7ec1e9451b1347e4b5c6f37c354",
+      "gzipBytes": 230,
+      "gzipSha256": "8c52558920652eedbb7a1996ed46201e3bd0a722f156d03067905fa17cda0f75"
+    },
+    {
+      "source": "public/bondingcurve-deployed-registered-v1.json",
+      "file": "files/public/bondingcurve-deployed-registered-v1.json.gz",
+      "bytes": 191,
+      "sha256": "a566771a0fdafb7ecc9be66bfe44fbd7fc5d1eb88c846540ab62a9a0bbc02974",
+      "gzipBytes": 170,
+      "gzipSha256": "863d73322a10a688a4e6731694c4b93c05185f9cced0454e89c6604fae53f5c6"
+    },
+    {
+      "source": "public/create-trader-v1.log",
+      "file": "files/public/create-trader-v1.log.gz",
+      "bytes": 932,
+      "sha256": "ac59af8dccdfa4e88b475c82ed366d10d4b7a7ac41dddfa925306e440bfcf8a5",
+      "gzipBytes": 508,
+      "gzipSha256": "44664caf8604327a40ea9abc76ca404582e54fab0e929792e9aad0db6d624a3e"
+    },
+    {
+      "source": "public/deploy-bondingcurve-v1.log",
+      "file": "files/public/deploy-bondingcurve-v1.log.gz",
+      "bytes": 9227,
+      "sha256": "ac85a47ea11c83ce7b7abd464b2b3eae3c8bbce259e34f7268df1c55a9fecdad",
+      "gzipBytes": 1729,
+      "gzipSha256": "7e4e79679a280b0a42ba04b76452e616cc954be63a9e582b8e9e0613c9823117"
+    },
+    {
+      "source": "public/deploy-nftmarket-v1.log",
+      "file": "files/public/deploy-nftmarket-v1.log.gz",
+      "bytes": 9803,
+      "sha256": "329cae7b9e382d27b2afac164c0cb801a70fdc396029ddbe5d795c6f5453ef83",
+      "gzipBytes": 1819,
+      "gzipSha256": "19c17440f3b039aa990a76cbc2ecf953bbaef8e706a52ce472ca0c95e440cc2f"
+    },
+    {
+      "source": "public/deploy-orderbook-v1.log",
+      "file": "files/public/deploy-orderbook-v1.log.gz",
+      "bytes": 8557,
+      "sha256": "cc8126a89dbe13cfff3eccc8da986c8acb2e89ce41a0a48ef968bead6191e5de",
+      "gzipBytes": 1667,
+      "gzipSha256": "ec4d8eeb2b97c64097670e6be6db8da29de1260f88baaa6fc0331b0f9ce67f78"
+    },
+    {
+      "source": "public/four-markets-deployed-registered-v1.json",
+      "file": "files/public/four-markets-deployed-registered-v1.json.gz",
+      "bytes": 891,
+      "sha256": "24a7eeb7c2ef81be1980026b92932705dbc274b06bfdd45a40e68a941e225f2a",
+      "gzipBytes": 291,
+      "gzipSha256": "1f5514cc0322460af0ac9ee6dca4ec717cb3a1e0a5c521626e05c39cfc57d95c"
+    },
+    {
+      "source": "public/issuer-inactive-observation-v3.json",
+      "file": "files/public/issuer-inactive-observation-v3.json.gz",
+      "bytes": 484,
+      "sha256": "0234f30938957c50d3b35f36c1d3e019112bd366bd083dcb3f0dabff2bbbc6a8",
+      "gzipBytes": 280,
+      "gzipSha256": "db7f24f8984c17ebb561889fe91db76f18405f127531e4697d88f0a6e237167c"
+    },
+    {
+      "source": "public/nftmarket-checkpoint-v1/observation.json",
+      "file": "files/public/nftmarket-checkpoint-v1/observation.json.gz",
+      "bytes": 12021,
+      "sha256": "3bd4102dff431711f5c7697052dc800b5b5027b3102aab9c4b94f4c7ebd932b5",
+      "gzipBytes": 3078,
+      "gzipSha256": "115d8163db380f0ff5d5d0426dc0dae67751a1a59e1f1514c8ec2b39c3251c40"
+    },
+    {
+      "source": "public/nftmarket-checkpoint-v1/provenance.json",
+      "file": "files/public/nftmarket-checkpoint-v1/provenance.json.gz",
+      "bytes": 1519,
+      "sha256": "36b069d3caebae3a65013d5bf0890bc0aac7597ab140914334528702c74391f0",
+      "gzipBytes": 471,
+      "gzipSha256": "839a2ba4307d7ca0023cca434939fa330d156de40c8f78856805ddce773ca7d9"
+    },
+    {
+      "source": "public/nftmarket-checkpoint-v1/verified.json",
+      "file": "files/public/nftmarket-checkpoint-v1/verified.json.gz",
+      "bytes": 1716,
+      "sha256": "c1efdf69cacc565ea172af3787e92c2cdb54b01ff1e6990e82187ccb63ad3536",
+      "gzipBytes": 815,
+      "gzipSha256": "d715e678a98690b3835714f8d176f5ae269503ce8d5bdcfdb2f4a551852b7f8c"
+    },
+    {
+      "source": "public/nftmarket-checkpoint-v1/verify.log",
+      "file": "files/public/nftmarket-checkpoint-v1/verify.log.gz",
+      "bytes": 624,
+      "sha256": "ec63693dbf226789d8f5b2cd20f51d183d95cf87149a8ac0888e5168e5137b37",
+      "gzipBytes": 285,
+      "gzipSha256": "05f8f82e7b7dd507f2cb81e513af1c6065425cff05b24f05d24e00f63761d07c"
+    },
+    {
+      "source": "public/nftmarket-checkpoint-v1/verify.log.timing.json",
+      "file": "files/public/nftmarket-checkpoint-v1/verify.log.timing.json.gz",
+      "bytes": 300,
+      "sha256": "ecaa09cb90a9d04a0219e4eb914b8cee38c9db1a76217ada69cf96ee5bceee48",
+      "gzipBytes": 230,
+      "gzipSha256": "3112dcd561041eed16a8fe701188a3d2ae3462632198a5cf55c440b310e02ad1"
+    },
+    {
+      "source": "public/nftmarket-deployed-registered-v1.json",
+      "file": "files/public/nftmarket-deployed-registered-v1.json.gz",
+      "bytes": 189,
+      "sha256": "9599ab0dcea9849ac055ace26c972bb0e2cd97506e609d059791d488026ea74f",
+      "gzipBytes": 166,
+      "gzipSha256": "a2f7b60b429493d7006ef44acfbfb092180f2fd7a100a3b2fd5c72a87fa0a80e"
+    },
+    {
+      "source": "public/orderbook-checkpoint-v1/observation.json",
+      "file": "files/public/orderbook-checkpoint-v1/observation.json.gz",
+      "bytes": 12021,
+      "sha256": "b8e7219ac4a7a23b39416352019498f3d752a8da77cab77ff1661c1792aca7b5",
+      "gzipBytes": 3113,
+      "gzipSha256": "11252886319b955fdb54f658d9ed0a2a32f06cdfeee8f1f4af1b4d464b41c7d1"
+    },
+    {
+      "source": "public/orderbook-checkpoint-v1/provenance.json",
+      "file": "files/public/orderbook-checkpoint-v1/provenance.json.gz",
+      "bytes": 1519,
+      "sha256": "92e03397ec80a80c18e700cbf3c119e0a60227d328e8d65f4918ebe72fa79041",
+      "gzipBytes": 472,
+      "gzipSha256": "cafe795a39c070525ce3777d459966ac71191034809546054dd052af773cff49"
+    },
+    {
+      "source": "public/orderbook-checkpoint-v1/verified.json",
+      "file": "files/public/orderbook-checkpoint-v1/verified.json.gz",
+      "bytes": 1716,
+      "sha256": "dd68db08683dac005067a48c3f4d61ff10085307201c0b4946b610a7385cb013",
+      "gzipBytes": 817,
+      "gzipSha256": "824333e7f96521d0e2f3a9b41cbdd9fc6cb0f6b0debea3b0f9fbfef8cee4e8c6"
+    },
+    {
+      "source": "public/orderbook-checkpoint-v1/verify.log",
+      "file": "files/public/orderbook-checkpoint-v1/verify.log.gz",
+      "bytes": 624,
+      "sha256": "ab190d22725de272c6e653e76684d486b19281e19adef7b8bf8d1c9d9c57eed5",
+      "gzipBytes": 284,
+      "gzipSha256": "656f6d99901f03874501df9bd5a677e3ddca111a10768b091039c7a2e433d0e4"
+    },
+    {
+      "source": "public/orderbook-checkpoint-v1/verify.log.timing.json",
+      "file": "files/public/orderbook-checkpoint-v1/verify.log.timing.json.gz",
+      "bytes": 300,
+      "sha256": "9931d8b1314be36fa43559b5f6159b4c309d30aef1f66d1860f839a480e77c95",
+      "gzipBytes": 231,
+      "gzipSha256": "396800fd182277f2bd5ecb17051f7c1701ddae04141c8d10d135b74e44ecd0e7"
+    },
+    {
+      "source": "public/orderbook-deployed-registered-v1.json",
+      "file": "files/public/orderbook-deployed-registered-v1.json.gz",
+      "bytes": 188,
+      "sha256": "9c3e88481351970bd1401813f22392d17778e8388a11c5930f8edb9316ff18ed",
+      "gzipBytes": 167,
+      "gzipSha256": "261744c437daeadc65c914185d02e5888ce295d470c2a217ee17a04cc19b3d2c"
+    },
+    {
+      "source": "public/register-trader-v1.log",
+      "file": "files/public/register-trader-v1.log.gz",
+      "bytes": 706,
+      "sha256": "b2f411c25e4f2ff9f292be9c246e89349334c893a3a230961fdb112359c3e29f",
+      "gzipBytes": 374,
+      "gzipSha256": "55776fb01b7fc66d9ce7369ed81ab7b003a8c7c5b1c765192344a089e4d8bfc8"
+    },
+    {
+      "source": "public/trader-history-v1.json",
+      "file": "files/public/trader-history-v1.json.gz",
+      "bytes": 725,
+      "sha256": "0871771884ed60b4872bba0b0a20d9b758fc1af1ee450918ec0dcbd3e4a4ee7b",
+      "gzipBytes": 410,
+      "gzipSha256": "339997bdf406fceb1491724b951065a15f0720d9c0919ca87ce68b53263f6b58"
+    },
+    {
+      "source": "public/trader-included-v1.json",
+      "file": "files/public/trader-included-v1.json.gz",
+      "bytes": 377,
+      "sha256": "e67d611dba171586cd580672a74c652c3fea9095b3149f1abb7d63473b50575b",
+      "gzipBytes": 280,
+      "gzipSha256": "60522f992e17abc05c88660ffe049ee0e68630c4917d7e8a9add88dba4ea90f8"
+    },
+    {
+      "source": "public/trader-lookup-v1.json",
+      "file": "files/public/trader-lookup-v1.json.gz",
+      "bytes": 43,
+      "sha256": "58cb36469b86b476fca4b5662b892a5e93fce4da3f15dd1dc6cae83d3a4f5a8c",
+      "gzipBytes": 63,
+      "gzipSha256": "ec1212a907ab4bcc6ca53c6d357305fcb6fe493476b44530f35e3d2a335485d0"
+    },
+    {
+      "source": "public/trader-receipt-v1.json",
+      "file": "files/public/trader-receipt-v1.json.gz",
+      "bytes": 627,
+      "sha256": "33aafcb05af386ab44c9871f58d73f866bee70ca2804a01f3b201b99e51146ba",
+      "gzipBytes": 387,
+      "gzipSha256": "ff3cd589be9a76756d5cbcebc8297d68526f6ecb841b674e2f0dac90ece82439"
+    },
+    {
+      "source": "public/trader-registration-process-v1.json",
+      "file": "files/public/trader-registration-process-v1.json.gz",
+      "bytes": 368,
+      "sha256": "f0745e9409e2fdd38269f615793ee5447094a423f0962b172345121e3cb08633",
+      "gzipBytes": 211,
+      "gzipSha256": "f6e081657430e7c422392462eda401c8ae9d4782b869a2209b4aa248109cf8df"
+    },
+    {
+      "source": "public/trader.json",
+      "file": "files/public/trader.json.gz",
+      "bytes": 369,
+      "sha256": "5418d16c88285c374718181ad0923191e84c7db4c860426866c7aa006056171f",
+      "gzipBytes": 269,
+      "gzipSha256": "906f7edfcdd8cb6e23df416e8ef59c709dadd6c5082528a99d41f0a7655f5c20"
+    },
+    {
+      "source": "register-bondingcurve-vault-v1.log",
+      "file": "files/register-bondingcurve-vault-v1.log.gz",
+      "bytes": 726,
+      "sha256": "999ba7cb61d69169c8958fab78e5d24342edd57660bb5dd8f9c10305c7b977a5",
+      "gzipBytes": 375,
+      "gzipSha256": "e0173d7ed8a87941ad7a5dca5462588c51e1797604238d7cc78fdcf088817c79"
+    },
+    {
+      "source": "register-nftmarket-vault-v1.log",
+      "file": "files/register-nftmarket-vault-v1.log.gz",
+      "bytes": 726,
+      "sha256": "d9d1c2db1874f4f70522e9c86155c55cff70fd0df44e7a75892e87d712160817",
+      "gzipBytes": 376,
+      "gzipSha256": "f68886df82d98d45baa4b9b493920ad61f2e74d00d3e5dc7ab03a09d6b9022e2"
+    },
+    {
+      "source": "register-orderbook-vault-v1.log",
+      "file": "files/register-orderbook-vault-v1.log.gz",
+      "bytes": 726,
+      "sha256": "65f1a1b16680eeda8cfc3b1d188f63f2b7896dd79c2a9bc462e817fa7ae131d9",
+      "gzipBytes": 374,
+      "gzipSha256": "31b92269d2f166727222a3495e5e2900bec5a87f95c155f598f41118d90f63ee"
+    }
+  ]
+}

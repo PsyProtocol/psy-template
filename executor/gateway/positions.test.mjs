@@ -18,6 +18,21 @@ const req = (m) => ({
   slotStart: 0,
   slotCount: m.nftId ? 8 : 0,
 });
+test("quarantined markets reject before RPC and inactive accounts remain unavailable", async (t) => {
+  const f = await positionFixture(t), m = f.loaded.registry.markets[1];
+  m.quarantined = true;
+  let reads = 0;
+  const reader = positionReader(f.loaded, { rpcConfig: f.rpcConfig,
+    readState: async () => { reads++; throw Error("unexpected RPC"); } });
+  await assert.rejects(reader(req(m)), /quarantined/i);
+  assert.equal(reads, 0);
+  delete m.quarantined;
+  const fake = fakePositionState(f.loaded, m.marketId);
+  fake.state.rpc = async (_url, method) => method === "psy_get_user_leaf_data"
+    ? { public_key: "0".repeat(64), nonce: 0n } : "1".repeat(64);
+  await assert.rejects(positionReader(f.loaded, { rpcConfig: f.rpcConfig,
+    readState: async () => fake.state })(req(m)), { code: "ACCOUNT_NOT_ACTIVE" });
+});
 test("all three real ABI readers preserve exact two-Felt amounts and finite NFT delivery/slot scope", async (t) => {
   const f = await positionFixture(t);
   for (const m of f.loaded.registry.markets) {

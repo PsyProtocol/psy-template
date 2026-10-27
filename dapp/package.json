@@ -17,7 +17,7 @@
     "typecheck": "tsc -b",
     "test:markets": "node --test tests/*.test.mjs",
     "test:gateway": "cd .. && node --test market-client/*.test.mjs executor/gateway/*.test.mjs",
-    "gateway": "cd .. && node executor/gateway/server.mjs executor/gateway/example.json"
+    "gateway": "cd .. && node executor/gateway/server.mjs executor/gateway/mainnet-beta-v3.json"
   },
   "dependencies": {
     "react": "18.3.1",
