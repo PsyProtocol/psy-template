@@ -30,7 +30,7 @@ async fn authenticated_commit_cfc_probe()->Result<()>{
  let kind=std::env::var("BATCH_CFC_KIND").unwrap_or_else(|_|"amm".into());let (mut w,participants,_,_)=trading_setup(&kind)?;
  w.run(S,M,"authorize_sponsor",&[V,2*ESCROW,w.val(S,"sponsor_nonce",0)+1,1])?;w.run(S,0,"transfer",&[V,2*ESCROW])?;let db=Store::new();let cp=w.checkpoint;
  for(cid,height)in[(0,32),(M,31),(A,31),(B,31),(NFT,30)]{let mut leaf=PsyContractLeaf{state_tree_height:f(height),..Default::default()};
- if std::env::var_os("BATCH_CFC_METADATA").is_some(){let root=std::env::var("BATCH_BUILD")?;let path=match cid{0=>"native.json".to_string(),M=>format!("{kind}/compiled/compilation_artifact.json"),NFT=>"nft/compilation_artifact.json".to_string(),_=>"token/compilation_artifact.json".to_string()};let a:Value=serde_json::from_slice(&fs::read(format!("{root}/{path}"))?)?;let defs:Vec<DPNFunctionCircuitDefinition>=serde_json::from_value(a["circuit_definitions"].clone())?;leaf.code_root=get_code_root_by_code_hashes::<GF,PoseidonHash>(&defs.iter().map(hash_dpn_function::<GF>).collect::<Vec<_>>(),15);
+ if std::env::var_os("BATCH_CFC_METADATA").is_some(){let root=std::env::var("BATCH_BUILD")?;let path=match cid{0=>"native.json".to_string(),M=>format!("{kind}/compiled/compilation_artifact.json"),NFT=>"nft/compilation_artifact.json".to_string(),_=>super::token_artifact(cid)};let a:Value=serde_json::from_slice(&fs::read(format!("{root}/{path}"))?)?;let defs:Vec<DPNFunctionCircuitDefinition>=serde_json::from_value(a["circuit_definitions"].clone())?;leaf.code_root=get_code_root_by_code_hashes::<GF,PoseidonHash>(&defs.iter().map(hash_dpn_function::<GF>).collect::<Vec<_>>(),15);
  if cid!=0{let m=psy_data::v1::qdata::contract::canonical_layout_manifest_from_compiler_abi_json::<parth_core::pgoldilocks::PoseidonHasher,GF,parth_core::pgoldilocks::QHashOut<GF>>(&serde_json::to_string(&a["abi"])?,psy_core::constants::protocol::STATE_LAYOUT_TREE_HEIGHT,psy_data::v1::qdata::contract::CANONICAL_TYPE_LAYOUT_STRUCT_TREE_HEIGHT)?;let l=m.layout.contract_layout;leaf.state_layout_root=QHashOut(HashOut{elements:l.state_layout_root.0.elements});leaf.state_layout_field_count=f(l.state_layout_field_count);leaf.state_layout_slot_count=f(l.state_layout_slot_count);}}
 db.set_contract_leaf_data(cp,cid,&leaf)?;db.set_contract_tree_leaf_hash(cp,cid,leaf.qfhash::<PoseidonHash>())?;}
  let mut groups:BTreeMap<(u64,u64,u64),[GF;4]>=BTreeMap::new();let mut users=BTreeSet::new();for((u,c,o),n)in&w.slots{users.insert(*u);groups.entry((*u,*c,*o/4)).or_insert([GF::ZERO;4])[(*o%4)as usize]=f(*n);}
@@ -67,7 +67,7 @@ impl Chain{
   // represented in the code root and whitelist, including unused functions.
   let needed_names=needed.iter().map(|c|c["method_name"].as_str().unwrap().to_owned()).collect::<BTreeSet<_>>();
   let mut built:HashMap<String,(Vec<QHashOut<GF>>,QHashOut<GF>,HashMap<usize,Arc<DapenContractFunctionCircuit<C,2>>>)>=HashMap::new();
-  for(cid,height,path)in[(M,31,format!("{}/compiled/compilation_artifact.json",w.kind)),(A,31,"token/compilation_artifact.json".into()),(B,31,"token/compilation_artifact.json".into()),(NFT,30,"nft/compilation_artifact.json".into()),(0,32,"native.json".into())]{
+  for(cid,height,path)in[(M,31,format!("{}/compiled/compilation_artifact.json",w.kind)),(A,31,"token/compilation_artifact.json".into()),(B,31,super::token_artifact(B)),(NFT,30,"nft/compilation_artifact.json".into()),(0,32,"native.json".into())]{
    if cid==NFT&&w.kind!="nftmarket"{continue;}if cid==B&&w.kind=="nftmarket"{continue;}
    let bytes=fs::read(format!("{root}/{path}"))?;let artifact:Value=serde_json::from_slice(&bytes)?;let defs:Vec<DPNFunctionCircuitDefinition>=serde_json::from_value(artifact["circuit_definitions"].clone())?;let hash=format!("{:x}",Sha256::digest(&bytes));
    if !built.contains_key(&hash){let mut wl=vec![];let mut keep=HashMap::new();let mut hashes=vec![];
@@ -82,6 +82,7 @@ impl Chain{
    if cid!=0{let manifest=psy_data::v1::qdata::contract::canonical_layout_manifest_from_compiler_abi_json::<parth_core::pgoldilocks::PoseidonHasher,GF,parth_core::pgoldilocks::QHashOut<GF>>(&serde_json::to_string(&artifact["abi"])?,psy_core::constants::protocol::STATE_LAYOUT_TREE_HEIGHT,psy_data::v1::qdata::contract::CANONICAL_TYPE_LAYOUT_STRUCT_TREE_HEIGHT)?;let l=manifest.layout.contract_layout;leaf.state_layout_root=QHashOut(HashOut{elements:l.state_layout_root.0.elements});leaf.state_layout_field_count=f(l.state_layout_field_count);leaf.state_layout_slot_count=f(l.state_layout_slot_count);}
    code.insert(cid,ContractCodeDefinition{state_tree_height:height as u16,functions:defs.iter().map(dapen_fc_to_cfc_code_definition).collect()});leaves.insert(cid,leaf);whitelists.insert(cid,wl.clone());
   }
+  if let Ok(expected)=std::env::var("BATCH_EXPECTED_MARKET_CODE_ROOT"){ensure!(leaves[&M].code_root.to_string()==expected,"exact candidate code root mismatch");}
   let measured=json!({"phase":"cold-circuit-build","elapsedMs":started.elapsed().as_secs_f64()*1000.});println!("FULL_UPS {} {measured}",w.kind);
   Ok(Self{compact,cm,key,code,leaves,whitelists,last_leaf:None,measurements:vec![measured]})
  }
@@ -136,6 +137,41 @@ impl Chain{
 pub(super) fn trading_setup(kind:&str)->Result<(World,Vec<u64>,Vec<Vec<u64>>,[u64;4])>{
  trading_setup_size(kind,2)
 }
+
+#[tokio::test]
+#[ignore="fresh Curve candidate bytecode, exact identities and output required"]
+async fn full_ups_curve_graduation_recipient_proof()->Result<()> {
+ let out=std::env::var("CURVE_GRADUATION_UPS_OUT")?;
+ ensure!(std::env::var("BATCH_FULL_UPS_OUT").as_deref()==Ok(out.as_str()),"exact public UPS request archive must use graduation output");
+ fs::create_dir(&out)?;
+ let mut w=World::new("bondingcurve")?;let cfg=w.policy["config"].clone();
+ let target=cfg["target"].as_u64().context("configured recipient")?;
+ let lots=cfg["cap"].as_u64().context("lot cap")?;
+ let unit=cfg["unit"].as_str().context("unit")?.parse::<u128>()?;
+ let base=cfg["base"].as_str().context("base")?.parse::<u128>()?;
+ let step=cfg["step"].as_str().context("step")?.parse::<u128>()?;
+ let quote=base*lots as u128+step*(lots as u128)*(lots as u128-1)/2;
+ w.fee(I)?;w.pay(I,A,(lots+cfg["liquidity"].as_u64().unwrap())as u128*unit)?;
+ w.operation_maintenance("initialize",0,0,0,0,0,0)?;
+ w.run(200,M,"open_limit_buy",&args(&[V,lots,0],&[quote],&[200,1]))?;
+ w.fee(200)?;w.pay(200,B,quote)?;w.commit(&[200])?;
+ let buy=w.fields("settle_limit_buy_exact",200,0,quote,unit*lots as u128,0,lots,1,0);
+ w.settle(vec![buy],[0;4])?;w.fee(I)?;
+ let remaining=cfg["liquidity"].as_u64().unwrap()as u128*unit;
+ let before=w.slots.clone();
+ let wrong=if target==400{401}else{400};
+ ensure!(w.run(V,M,"graduate",&args(&[wrong],&[quote,remaining],&[])).is_err(),"wrong graduation target accepted");
+ ensure!(w.slots==before,"rejected graduation changed state");
+ let op=w.fields("graduate",0,0,quote,remaining,0,0,0,0);
+ let fields=w.request(4,vec![op],[0;4]);let needed=batch_policy::expected_calls(&w.policy,&fields)?;
+ let mut chain=Chain::new(&w,&needed)?;chain.prove(&mut w,fields).await?;
+ ensure!(w.val(V,"phase",0)==2&&w.wide(V,"quote_reserve")==0,"graduation terminal state");
+ ensure!(w.balance(target,A)==0&&w.balance(target,B)==0,"Outbox prematurely spendable");
+ w.run(target,A,"claim",&[V])?;w.run(target,B,"claim",&[V])?;
+ ensure!(w.balance(target,A)==remaining&&w.balance(target,B)==quote,"wrong graduation amounts or recipient");
+ fs::write(format!("{out}/REPORT.json"),serde_json::to_vec_pretty(&json!({"marketCodeRoot":chain.leaves[&M].code_root.to_string(),"target":target,"issuer":I,"assetA":A,"assetB":B,"quoteReturned":quote.to_string(),"tokensReturned":remaining.to_string(),"wrongRecipientRejected":true,"rejectionPreservedState":true,"outboxNotSpendableBeforeClaim":true,"fullUpsVerified":true,"measurements":chain.measurements,"scope":"synthetic authenticated graduation UPS; setup, trading to cap and ordinary target claims are VM-only; no live acceptance","broadcast":false}))?)?;
+ Ok(())
+}
 pub(super) fn trading_setup_size(kind:&str,size:usize)->Result<(World,Vec<u64>,Vec<Vec<u64>>,[u64;4])>{
  let ids=if std::env::var("BATCH_UPS_SPREAD_IDS").as_deref()==Ok("1"){[65536,861696,1283072,1882112]}else{[200,201,202,203]};trading_setup_with_ids(kind,size,ids)
 }
@@ -164,7 +200,7 @@ async fn full_ups_four_market_commit_and_settle_proofs()->Result<()>{let out=std
   if size==1{ops.truncate(1);users=match kind{"orderbook"=>vec![users[0],users[2]],"nftmarket"=>vec![users[0],users[1]],_=>users};}
   if std::env::var("BATCH_ADMISSION_TEST").as_deref()==Ok("1"){super::admission::enroll(&mut w,&users)?;}
   w.run(S,M,"authorize_sponsor",&[V,2*ESCROW,w.val(S,"sponsor_nonce",0)+1,1])?;w.run(S,0,"transfer",&[V,2*ESCROW])?;let mut f=vec![0;74];f[0]=1;f[1]=w.val(V,"batch_id",0)+1;f[2]=users.len()as u64;f[3]=w.checkpoint+20;f[4]=S;f[73]=ESCROW;for(i,u)in users.iter().enumerate(){f[5+i]=*u;f[9+i]=w.val(*u,"nonce",0);}
-  let mut needed=batch_policy::expected_calls(&w.policy,&f)?;needed.extend(batch_policy::expected_calls(&w.policy,&w.request(2,ops.clone(),rank))?);let mut chain=Chain::new(&w,&needed)?;chain.prove(&mut w,f).await?;let settle=w.request(2,ops,rank);chain.prove(&mut w,settle).await?;ensure!(w.val(V,"batch_phase",0)==3,"batch terminal phase");fs::write(format!("{out}/{kind}.json"),serde_json::to_vec_pretty(&json!({"market":kind,"scope":"authenticated synthetic checkpoints, full UPS; no coordinator","measurements":chain.measurements,"broadcast":false,"fills":size,"members":users.len(),"chainTps":null}))?)?;
+  let mut needed=batch_policy::expected_calls(&w.policy,&f)?;needed.extend(batch_policy::expected_calls(&w.policy,&w.request(2,ops.clone(),rank))?);let mut chain=Chain::new(&w,&needed)?;chain.prove(&mut w,f).await?;let settle=w.request(2,ops,rank);chain.prove(&mut w,settle).await?;ensure!(w.val(V,"batch_phase",0)==3,"batch terminal phase");fs::write(format!("{out}/{kind}.json"),serde_json::to_vec_pretty(&json!({"market":kind,"fixtureIdentities":{"market":M,"vault":V,"issuer":I,"assetA":A,"assetB":B,"nft":NFT},"marketCodeRoot":chain.leaves[&M].code_root.to_string(),"scope":"authenticated synthetic checkpoints, full UPS; no coordinator","measurements":chain.measurements,"broadcast":false,"fills":size,"members":users.len(),"chainTps":null}))?)?;
  }Ok(())}
 
 
@@ -353,7 +389,7 @@ async fn admitted_ordinary_open_and_exit_cfc_constraints()->Result<()>{
 async fn prove_ordinary_cfc(w:&World,kind:&str,name:&str,values:&[u64])->Result<()>{
 let db=Store::new();let cp=w.checkpoint;
  for(cid,height)in[(0,32),(M,31),(A,31),(B,31),(NFT,30)]{let mut leaf=PsyContractLeaf{state_tree_height:f(height),..Default::default()};
- if std::env::var_os("BATCH_CFC_METADATA").is_some(){let root=std::env::var("BATCH_BUILD")?;let path=match cid{0=>"native.json".to_string(),M=>format!("{kind}/compiled/compilation_artifact.json"),NFT=>"nft/compilation_artifact.json".to_string(),_=>"token/compilation_artifact.json".to_string()};let a:Value=serde_json::from_slice(&fs::read(format!("{root}/{path}"))?)?;let defs:Vec<DPNFunctionCircuitDefinition>=serde_json::from_value(a["circuit_definitions"].clone())?;leaf.code_root=get_code_root_by_code_hashes::<GF,PoseidonHash>(&defs.iter().map(hash_dpn_function::<GF>).collect::<Vec<_>>(),15);
+ if std::env::var_os("BATCH_CFC_METADATA").is_some(){let root=std::env::var("BATCH_BUILD")?;let path=match cid{0=>"native.json".to_string(),M=>format!("{kind}/compiled/compilation_artifact.json"),NFT=>"nft/compilation_artifact.json".to_string(),_=>super::token_artifact(cid)};let a:Value=serde_json::from_slice(&fs::read(format!("{root}/{path}"))?)?;let defs:Vec<DPNFunctionCircuitDefinition>=serde_json::from_value(a["circuit_definitions"].clone())?;leaf.code_root=get_code_root_by_code_hashes::<GF,PoseidonHash>(&defs.iter().map(hash_dpn_function::<GF>).collect::<Vec<_>>(),15);
  if cid!=0{let m=psy_data::v1::qdata::contract::canonical_layout_manifest_from_compiler_abi_json::<parth_core::pgoldilocks::PoseidonHasher,GF,parth_core::pgoldilocks::QHashOut<GF>>(&serde_json::to_string(&a["abi"])?,psy_core::constants::protocol::STATE_LAYOUT_TREE_HEIGHT,psy_data::v1::qdata::contract::CANONICAL_TYPE_LAYOUT_STRUCT_TREE_HEIGHT)?;let l=m.layout.contract_layout;leaf.state_layout_root=QHashOut(HashOut{elements:l.state_layout_root.0.elements});leaf.state_layout_field_count=f(l.state_layout_field_count);leaf.state_layout_slot_count=f(l.state_layout_slot_count);}}
 db.set_contract_leaf_data(cp,cid,&leaf)?;db.set_contract_tree_leaf_hash(cp,cid,leaf.qfhash::<PoseidonHash>())?;}
  let mut groups:BTreeMap<(u64,u64,u64),[GF;4]>=BTreeMap::new();let mut users=BTreeSet::new();for((u,c,o),n)in&w.slots{users.insert(*u);groups.entry((*u,*c,*o/4)).or_insert([GF::ZERO;4])[(*o%4)as usize]=f(*n);}
