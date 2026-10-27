@@ -260,3 +260,13 @@ web integration remains implementation work. No direct signer was exposed.
 [Tests and limitations](../executor/verification/2026-10-27-market-actions-v1/README.md)
 distinguish synthetic transport acceptance from actual bytecode/full UPS and live
 settlement/claim/refund, which remain unaccepted while RPC returns HTTP 503.
+
+### Internal prepare-only candidate (2026-10-27)
+
+`wallet/prepareService.mjs` now connects the reviewed ordinary market record
+validator, exact proof-only SDK jobs, public capsule and durable account/chain
+reservation. `wallet/vendor.mjs` reproduces the application module bundle for the
+existing wallet candidate. No web write permission or financial transport is
+enabled: native full-call/session attestation, explicit approvals, SDK release
+identity and live exact request/receipt acceptance remain required. See the
+[review and complete native UPS evidence](../executor/verification/2026-10-27-safe-wallet-native-v1/README.md).

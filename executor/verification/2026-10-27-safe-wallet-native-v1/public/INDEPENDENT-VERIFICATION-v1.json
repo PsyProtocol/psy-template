@@ -1,0 +1,30 @@
+{
+  "binarySha256": "36c8ff6858a2043328d551f5315045f3fe2f239e046a28eb7f30cc34f3120fe6",
+  "scope": "Pinned native endcap proof, metadata endpoints and fees; this verifier alone does not attest actual call stack/session to browser approval",
+  "rows": [
+    {
+      "market": "amm",
+      "exitCode": 0,
+      "stderr": "",
+      "requestSha256": "60b353b151e3e7f004197f5824443fe121009ed21ca4b9e226ded1c226e9b9fe"
+    },
+    {
+      "market": "orderbook",
+      "exitCode": 0,
+      "stderr": "",
+      "requestSha256": "58d043e6bd72bcff3a294e0558253d5b0c01c82907279e02de20210a76062375"
+    },
+    {
+      "market": "bondingcurve",
+      "exitCode": 0,
+      "stderr": "",
+      "requestSha256": "d3dd49b23ca2cbd99bbcc0e3993e7a176ff828b8501737fbdf6cc500be4ebc49"
+    },
+    {
+      "market": "nftmarket",
+      "exitCode": 0,
+      "stderr": "",
+      "requestSha256": "4090b805ab2264742c2ba49a79c6c7556d66fbffb92e73b7dab37c03cf632700"
+    }
+  ]
+}

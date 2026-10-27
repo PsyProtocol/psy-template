@@ -1,0 +1,27 @@
+{
+  "at": "2026-10-27T00:22:43.690Z",
+  "scope": "one readonly probe per configured endpoint; no retries or finance",
+  "rows": [
+    {
+      "role": "realm0",
+      "host": "realm0-stg.psy-protocol.xyz",
+      "httpStatus": 503,
+      "body": "",
+      "elapsedMs": 2193.564292
+    },
+    {
+      "role": "realm1",
+      "host": "realm1-stg.psy-protocol.xyz",
+      "httpStatus": 503,
+      "body": "",
+      "elapsedMs": 6287.3798750000005
+    },
+    {
+      "role": "coordinator0",
+      "host": "coordinator-stg.psy-protocol.xyz",
+      "httpStatus": 503,
+      "body": "",
+      "elapsedMs": 1031.883667
+    }
+  ]
+}

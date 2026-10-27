@@ -1,0 +1,38 @@
+{
+  "hook": "pnpm format; git update-index --again",
+  "unrelatedFormatterFilesRestored": [
+    "src/background/__tests__/exact-preview-integrity.test.ts",
+    "src/components/modals/transfer-modal.tsx",
+    "src/lib/i18n/translations/ar.ts",
+    "src/lib/i18n/translations/de.ts",
+    "src/lib/i18n/translations/en.ts",
+    "src/lib/i18n/translations/es.ts",
+    "src/lib/i18n/translations/fr.ts",
+    "src/lib/i18n/translations/hi.ts",
+    "src/lib/i18n/translations/id.ts",
+    "src/lib/i18n/translations/it.ts",
+    "src/lib/i18n/translations/ja.ts",
+    "src/lib/i18n/translations/ko.ts",
+    "src/lib/i18n/translations/pt.ts",
+    "src/lib/i18n/translations/ru.ts",
+    "src/lib/i18n/translations/th.ts",
+    "src/lib/i18n/translations/tr.ts",
+    "src/lib/i18n/translations/vi.ts",
+    "src/lib/i18n/translations/zh-Hans.ts",
+    "src/lib/i18n/translations/zh-Hant.ts",
+    "src/lib/preview-trace.test.ts",
+    "src/lib/preview-trace.ts",
+    "src/lib/publicFtAdapter.test.ts",
+    "src/lib/publicFtAdapter.ts"
+  ],
+  "submoduleFormatterFilesRestored": [
+    "config.json",
+    "genesis_abi/PsyDepositTreeContract.json",
+    "genesis_abi/PsyFaucetContract.json",
+    "genesis_abi/PsyPOWMiningRewardsClaimContract.json",
+    "genesis_abi/PsyTokenContract.json",
+    "genesis_abi/PsyWithdrawalTreeContract.json",
+    "genesis_abi/USDTTokenContract.json"
+  ],
+  "scope": "Only formatter changes created by this commit hook; baseline worktree was clean. Exact generated vendor sources are restored from the canonical application bundler; further scoped commit disables the formatting-only hook and reruns targeted checks."
+}

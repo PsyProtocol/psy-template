@@ -1,0 +1,21 @@
+{
+  "selectedSpecifier": "file:../psy-sdk/psy-ts-sdk/packages/psy-sdk",
+  "lockSha256": "7e54cb81e135a00b5caf7b34aad48613fe08dae587e79ca56e1278259d367865",
+  "packageJsonSha256": "bbabd4ef77c7d50bedd30483032bdeae8f9e975f68bb62755694d0447ccba4bb",
+  "requiredApplicationSdkManifestSha256": "0afb4c65116cddcaca450b406a06503d65b63d38a004d8e773c6e5fa363bd425",
+  "walletSdkAttestedAgainstApplication": false,
+  "sdkFiles": [
+    {
+      "file": "package.json",
+      "sha256": "5b768b2fa849bff8e9d3c6b580db4f8325aaeb69392b50f2fe8ef78c07db7c8e"
+    },
+    {
+      "file": "dist/local-prover-rpc/types.d.ts",
+      "sha256": "de78d9cc8c48f70c0ff3deaceea487012641053009ec2fb8c63a08c5030b91e8"
+    },
+    {
+      "file": "dist/utils/felt.mjs",
+      "sha256": "f1b6639295f0c8521143a34e41cc0981811294a81956954b749ed02ee3408c57"
+    }
+  ]
+}

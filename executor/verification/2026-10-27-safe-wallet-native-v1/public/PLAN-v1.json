@@ -1,0 +1,22 @@
+{
+  "schema": 1,
+  "at": "2026-10-26T23:12:09.967837+00:00",
+  "baseCommit": "beaa8a29a6f9560b2ab38bbb45017efa7b77be68",
+  "markets": [
+    "amm",
+    "orderbook",
+    "bondingcurve",
+    "nftmarket"
+  ],
+  "freshOrdinaryProofsPlanned": 4,
+  "rpcCallsPlanned": 0,
+  "financialBroadcastsPlanned": 0,
+  "rayonThreads": 2,
+  "proofProcesses": 1,
+  "maximumRunMinutes": 45,
+  "stopOnFailure": true,
+  "scope": "Synthetic authenticated fixture ordinary signatures, real bytecode, complete UPS and fee/endpoints, no wallet key import or live acceptance",
+  "sdkManifestSha256": "0afb4c65116cddcaca450b406a06503d65b63d38a004d8e773c6e5fa363bd425",
+  "sdkSourcesVerified": 1466,
+  "secretPolicy": "Ephemeral in-memory synthetic test signer, never output or persisted"
+}

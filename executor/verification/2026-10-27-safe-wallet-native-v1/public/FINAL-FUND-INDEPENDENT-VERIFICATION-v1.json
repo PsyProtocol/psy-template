@@ -1,0 +1,34 @@
+{
+  "binarySha256": "36c8ff6858a2043328d551f5315045f3fe2f239e046a28eb7f30cc34f3120fe6",
+  "scope": "Pinned endcap proof/key/common and metadata; not browser call-manifest attestation",
+  "rows": [
+    {
+      "market": "amm",
+      "action": "fund",
+      "exitCode": 0,
+      "stderr": "",
+      "requestSha256": "8594816f978a349ad440c72c19215e8c95779bdf563576870f1cf4cf6edc7f6b"
+    },
+    {
+      "market": "orderbook",
+      "action": "fund",
+      "exitCode": 0,
+      "stderr": "",
+      "requestSha256": "605cd467a17d0fa7be721cee961e6dc4f6265acb2840991d087ec82e79d851b9"
+    },
+    {
+      "market": "bondingcurve",
+      "action": "fund",
+      "exitCode": 0,
+      "stderr": "",
+      "requestSha256": "858bcb7dae6057af298142a41a0f5a9a8b7b443900b4e254f77d5f0c02062a39"
+    },
+    {
+      "market": "nftmarket",
+      "action": "fund",
+      "exitCode": 0,
+      "stderr": "",
+      "requestSha256": "af3084f933086f247571b0cdfbd4e21b7cb12d219817e36f1beae541a199447c"
+    }
+  ]
+}

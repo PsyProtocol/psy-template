@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "records": 107,
+  "publicRequestsValidated": 12,
+  "finalNativeUps": 8,
+  "excluded": [
+    "wallet storage/recovery/private keys",
+    "hydrated signing traces",
+    "build binaries",
+    "unrelated formatter patch"
+  ],
+  "archivePolicy": "Explicit public allowlist; complete public request shape validated; compressed and original digests retained",
+  "financialBroadcasts": 0
+}

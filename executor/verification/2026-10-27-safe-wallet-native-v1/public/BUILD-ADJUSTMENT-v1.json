@@ -1,0 +1,6 @@
+{
+  "schema": 1,
+  "reason": "Cargo test was also compiling every unrelated application binary. Stopped only this owned offline build and disabled automatic binary discovery in the fresh build snapshot. Original source/SDK/build artifacts unchanged. First build lacked explicit frozen PSY_CONFIG_PATH and failed before proof generation. Both logs retained.",
+  "financialOperations": 0,
+  "autobins": false
+}

@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "at": "2026-10-27T00:21:56.003334+00:00",
+  "markets": [
+    "amm",
+    "orderbook",
+    "bondingcurve",
+    "nftmarket"
+  ],
+  "action": "ordinary claim; FT two limbs nonzero; NFT exact next FIFO item",
+  "freshProofsPlanned": 4,
+  "maximumRunMinutes": 30,
+  "rayonThreads": 2,
+  "financialBroadcasts": 0,
+  "setup": "VM-only public outbox creation; not proven market settlement or live acceptance",
+  "priorArtifactsPreserved": true
+}

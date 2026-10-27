@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "at": "2026-10-27T00:31:16.891231+00:00",
+  "action": "fund",
+  "markets": [
+    "amm",
+    "orderbook",
+    "bondingcurve",
+    "nftmarket"
+  ],
+  "freshProofsPlanned": 4,
+  "maximumRunMinutes": 30,
+  "rayonThreads": 2,
+  "financialBroadcasts": 0,
+  "reason": "Reprove final fund/claim source revision with retained immutable runner/source, preserving earlier successful and failed attempts"
+}

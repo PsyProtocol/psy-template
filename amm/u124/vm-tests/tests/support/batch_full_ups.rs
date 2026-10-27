@@ -22,6 +22,7 @@ use psy_client_data::qblock::cmds::deploy_contract::get_code_root_by_code_hashes
 use sha2::{Digest,Sha256};
 fn f(n:u64)->GF{GF::from_canonical_u64(n)}
 type Manager=UserProvingSessionManager<GF,PoseidonHash,Store,C,2>;
+#[path="ordinary_wallet_full_ups.rs"] mod ordinary_wallet;
 #[tokio::test]
 async fn authenticated_commit_cfc_probe()->Result<()>{
  let kind=std::env::var("BATCH_CFC_KIND").unwrap_or_else(|_|"amm".into());let (mut w,participants,_,_)=trading_setup(&kind)?;

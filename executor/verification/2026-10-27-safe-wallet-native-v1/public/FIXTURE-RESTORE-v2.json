@@ -1,0 +1,107 @@
+{
+  "schema": 1,
+  "reason": "Initial reconstructed token/NFT fixtures contained ABI-only public views; the native test rejected them before proving. Restored complete previously archived synthetic proof fixtures into a fresh directory. Original inputs, failed attempt and archived bytes are unchanged.",
+  "records": [
+    {
+      "source": "executor/verification/2026-10-21-compact-candidate-v1/bulk-four-full-ups-v1/files/fixtures/BULK-FIXTURES.json.gz",
+      "file": "BULK-FIXTURES.json",
+      "sha256": "717d8aed2bb8469f8c79bb84bb494de4517020c1022ff23fa07a5819b45fb4e8"
+    },
+    {
+      "source": "executor/verification/2026-10-21-compact-candidate-v1/bulk-four-full-ups-v1/files/fixtures/amm/compiled/compilation_artifact.json.gz",
+      "file": "amm/compiled/compilation_artifact.json",
+      "sha256": "73e2daa1171995809b27dd87e3695301c9fd15e900cff1be51d65a2e179f014f"
+    },
+    {
+      "source": "executor/verification/2026-10-21-compact-candidate-v1/bulk-four-full-ups-v1/files/fixtures/amm/config.json.gz",
+      "file": "amm/config.json",
+      "sha256": "86aee19b2406d6120dfca238fd02d01b8d3368c7821654dd6c46509f0c205e72"
+    },
+    {
+      "source": "executor/verification/2026-10-21-compact-candidate-v1/bulk-four-full-ups-v1/files/fixtures/amm/main.psy.rs.gz",
+      "file": "amm/main.psy.rs",
+      "sha256": "36d76861010f8e99502457d5d311cd91621166658ae6b1a1ee92b2b3787d7192"
+    },
+    {
+      "source": "executor/verification/2026-10-21-compact-candidate-v1/bulk-four-full-ups-v1/files/fixtures/amm/policy.json.gz",
+      "file": "amm/policy.json",
+      "sha256": "9ee9c30daaf49719ce7ae4efb40539753149e9c7345843f35a55564c8c8bc82e"
+    },
+    {
+      "source": "executor/verification/2026-10-21-compact-candidate-v1/bulk-four-full-ups-v1/files/fixtures/bondingcurve/compiled/compilation_artifact.json.gz",
+      "file": "bondingcurve/compiled/compilation_artifact.json",
+      "sha256": "5739429c19ef0ca8fa59213470a9776144f937a46cc64299a8ca09d4701f78e2"
+    },
+    {
+      "source": "executor/verification/2026-10-21-compact-candidate-v1/bulk-four-full-ups-v1/files/fixtures/bondingcurve/config.json.gz",
+      "file": "bondingcurve/config.json",
+      "sha256": "86aee19b2406d6120dfca238fd02d01b8d3368c7821654dd6c46509f0c205e72"
+    },
+    {
+      "source": "executor/verification/2026-10-21-compact-candidate-v1/bulk-four-full-ups-v1/files/fixtures/bondingcurve/main.psy.rs.gz",
+      "file": "bondingcurve/main.psy.rs",
+      "sha256": "b75f3584bb7849acbb185497cf76155b1392b11417fc065e107f5c19284525a2"
+    },
+    {
+      "source": "executor/verification/2026-10-21-compact-candidate-v1/bulk-four-full-ups-v1/files/fixtures/bondingcurve/policy.json.gz",
+      "file": "bondingcurve/policy.json",
+      "sha256": "46009dc12e302c220e2f6a8a254619c75197400a24ccc6948c15b4e6f44676c0"
+    },
+    {
+      "source": "executor/verification/2026-10-21-compact-candidate-v1/bulk-four-full-ups-v1/files/fixtures/native.json.gz",
+      "file": "native.json",
+      "sha256": "bf756535620ecd6b360cf58fce90e66f1e7fecc5ed28c4445c23d745d7510606"
+    },
+    {
+      "source": "executor/verification/2026-10-21-compact-candidate-v1/bulk-four-full-ups-v1/files/fixtures/nft/compilation_artifact.json.gz",
+      "file": "nft/compilation_artifact.json",
+      "sha256": "f2e07bdfc72503485c3c681a51b5a9722891b0cb6acae6922b88b08f9800541d"
+    },
+    {
+      "source": "executor/verification/2026-10-21-compact-candidate-v1/bulk-four-full-ups-v1/files/fixtures/nftmarket/compiled/compilation_artifact.json.gz",
+      "file": "nftmarket/compiled/compilation_artifact.json",
+      "sha256": "cb35cee23ba5cae6b2d35c3f7ac76c4116e78d070614f0584e7ed765a2333313"
+    },
+    {
+      "source": "executor/verification/2026-10-21-compact-candidate-v1/bulk-four-full-ups-v1/files/fixtures/nftmarket/config.json.gz",
+      "file": "nftmarket/config.json",
+      "sha256": "3df320e9e70e666fec9d06e9d8bd4c170a6beaf72ece0adfaec68304b13f96d9"
+    },
+    {
+      "source": "executor/verification/2026-10-21-compact-candidate-v1/bulk-four-full-ups-v1/files/fixtures/nftmarket/main.psy.rs.gz",
+      "file": "nftmarket/main.psy.rs",
+      "sha256": "b34b678654f3a73199234d430e673d7b9df213a0a438c4c88313ae9d447521ed"
+    },
+    {
+      "source": "executor/verification/2026-10-21-compact-candidate-v1/bulk-four-full-ups-v1/files/fixtures/nftmarket/policy.json.gz",
+      "file": "nftmarket/policy.json",
+      "sha256": "839430a5e46d25ece47c945b3c7eb7e89e35fba495ed5ec3dc3c9704a82ca816"
+    },
+    {
+      "source": "executor/verification/2026-10-21-compact-candidate-v1/bulk-four-full-ups-v1/files/fixtures/orderbook/compiled/compilation_artifact.json.gz",
+      "file": "orderbook/compiled/compilation_artifact.json",
+      "sha256": "1642201ab45180dca5f5d3e20b5c65c6815ac9299acfd516e3aef44f1f07e7b7"
+    },
+    {
+      "source": "executor/verification/2026-10-21-compact-candidate-v1/bulk-four-full-ups-v1/files/fixtures/orderbook/config.json.gz",
+      "file": "orderbook/config.json",
+      "sha256": "86aee19b2406d6120dfca238fd02d01b8d3368c7821654dd6c46509f0c205e72"
+    },
+    {
+      "source": "executor/verification/2026-10-21-compact-candidate-v1/bulk-four-full-ups-v1/files/fixtures/orderbook/main.psy.rs.gz",
+      "file": "orderbook/main.psy.rs",
+      "sha256": "0536346e97dc5e2fc0a7e7451105286325f4af890538ea9238ceac0ce3c6b826"
+    },
+    {
+      "source": "executor/verification/2026-10-21-compact-candidate-v1/bulk-four-full-ups-v1/files/fixtures/orderbook/policy.json.gz",
+      "file": "orderbook/policy.json",
+      "sha256": "e8b908932f70aa37fb56b8c45928d045756a1578fcd669ebafadd2c2e83d826a"
+    },
+    {
+      "source": "executor/verification/2026-10-21-compact-candidate-v1/bulk-four-full-ups-v1/files/fixtures/token/compilation_artifact.json.gz",
+      "file": "token/compilation_artifact.json",
+      "sha256": "476bc76fcd4b512f585cb1093de41611455cd58df323b8ea4bcc4f71a4163b0f"
+    }
+  ],
+  "broadcast": false
+}

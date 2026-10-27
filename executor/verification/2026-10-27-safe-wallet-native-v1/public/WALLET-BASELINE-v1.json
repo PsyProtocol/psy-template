@@ -1,0 +1,21 @@
+{
+  "baselineCommit": "1787ff0ace55deedd9bb10add3cfbfb1c6bfc4d3",
+  "sdkDependencyUnchanged": true,
+  "baselineTypeErrors": 10,
+  "candidateTypeErrors": 10,
+  "normalizedErrorsEqual": true,
+  "errors": [
+    "src/background/psy-wallet-ext-core.ts: error TS2339: Property 'verifyPrivateFtPacket' does not exist on type 'IPsyUserProverProvider'.",
+    "src/background/psy-wallet-ext-core.ts: error TS2339: Property 'verifyPrivateFtPacket' does not exist on type 'IPsyUserProverProvider'.",
+    "src/background/psy-wallet-ext-core.ts: error TS2339: Property 'verifyPrivateFtPacket' does not exist on type 'IPsyUserProverProvider'.",
+    "src/lib/claimables.ts: error TS2339: Property 'private_ft_profile' does not exist on type 'PrivateTransferClaimRaw'.",
+    "src/lib/claimables.ts: error TS2339: Property 'private_ft_profile' does not exist on type 'PrivateTransferClaimRaw'.",
+    "src/lib/privateFtDelivery.test.ts: error TS2339: Property 'private_ft_packet' does not exist on type 'PrivateTransferClaimRaw'.",
+    "src/lib/privateFtDelivery.test.ts: error TS2339: Property 'private_ft_profile' does not exist on type 'PrivateTransferClaimRaw'.",
+    "src/lib/privateFtDelivery.ts: error TS2353: Object literal may only specify known properties, and 'private_ft_packet' does not exist in type 'PrivateTransferClaimRaw'.",
+    "src/lib/tx-inputs.ts: error TS2339: Property 'private_ft_packet' does not exist on type 'PrivateTransferClaimRaw'.",
+    "src/lib/tx-inputs.ts: error TS2339: Property 'private_ft_packet' does not exist on type 'PrivateTransferClaimRaw'."
+  ],
+  "baselineQueueSuites": "2 blocked by existing SDK packaged dist/node_modules/.pnpm/doge-sdk path; no tests ran",
+  "candidateFocusedTests": "9 pass; not runtime wallet/native acceptance"
+}

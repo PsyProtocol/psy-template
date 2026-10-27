@@ -39,4 +39,7 @@ export function createMarketActionClient(options: {
   abis: Record<string, unknown>;
   fetcher?: typeof fetch;
   now?: () => number;
-}): { plan: (request: MarketActionRequest) => Promise<MarketActionRecord> };
+}): {
+  validate: (record: MarketActionRecord) => Promise<MarketActionRecord>;
+  plan: (request: MarketActionRequest) => Promise<MarketActionRecord>;
+};
