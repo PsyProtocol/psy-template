@@ -1,5 +1,6 @@
 // Extension-owned integration. A web request may supply a reviewed record, never
 // a prover, verifier report, persistence adapter or broadcast implementation.
+import { createMarketChainGuard } from "./chainGuard.mjs";
 import { createBrowserWalletLock } from "./lockCoordinator.mjs";
 import { createMarketActionClient } from "../marketActionClient.mjs";
 import { canonical, digest, exactFields } from "../protocol.mjs";
@@ -15,8 +16,11 @@ function createMarketService({
   prepareTrace,
   parse,
   stringify,
+  fetcher,
 }, nativeOptions) {
   if(bundle.amm&&canonical(bundle.amm.networkConfig)!==canonical(bundle.networkConfig))throw Error("AMM and market bundles must share the exact network domain");
+  if(bundle.amm&&canonical(bundle.amm.registry.network)!==canonical(bundle.registry.network))throw Error("AMM and market registries must share the exact chain instance");
+  const assertChain=createMarketChainGuard({bundle,fetcher});
   const exactTransport=nativeOptions?createExactMarketTransport({bundle,parse,fetcher:nativeOptions.fetcher}):null;
   const selectBundle=(record)=>{
     if(record.registryHash===bundle.registryHash)return bundle;
@@ -104,6 +108,7 @@ function createMarketService({
         .catch(() => {})
         .then(async () => {
           await verifyRecord(r,true); // Fresh observation required before a new trace.
+          await assertChain(); // Reject resets before any witness/proof work.
           activeContext = c;
           try {
             return await service.prepare(c, r);
@@ -119,6 +124,7 @@ function createMarketService({
       broadcast:service.broadcast,
       reconcile:service.reconcile,
     } : {}),
+    assertChain,
     list: service.list,
     cancelPreparation: service.cancelPreparation,
     async contextFor(identity) {

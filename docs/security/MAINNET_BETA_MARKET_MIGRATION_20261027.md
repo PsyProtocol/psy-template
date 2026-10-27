@@ -479,3 +479,9 @@ canonical native ABI when present and retains strict reviewed endpoints. Four
 linked corrected-Curve recovery UPSs passed on synthetic checkpoints with the
 new native layout. No new financial operation or real wallet claim occurred.
 See [current gaps, exact scope, measurements and evidence](MARKET_DEEP_VALIDATION_20261027.md).
+
+The wallet preparation service additionally checks the current chain instance
+before expensive trace work; no completed observation is reused. Real RPC rejects
+the old reviewed bundle on the reset chain. This does not activate a native write
+route. The [current report](MARKET_DEEP_VALIDATION_20261027.md#wallet-pre-proof-chain-guard-milestone)
+retains application/wallet tests and the reproducible module snapshot.

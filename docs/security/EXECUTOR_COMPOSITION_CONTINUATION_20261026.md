@@ -650,3 +650,8 @@ four linked synthetic recovery UPSs; live setup, fills, claims and matched
 performance acceptance remain open. No financial operation occurred. Faucet
 still returns HTTP 503. See the [current review report](MARKET_DEEP_VALIDATION_20261027.md)
 for exact evidence, budget limits and remaining sequence.
+
+A separate wallet preparation guard now stops old-instance trace generation
+before proving or persistence. The original pending/broadcast state remains
+preserved. The native write entry point, new-instance deployment/claims and
+controlled performance/fault acceptance are still open; no financial job ran.
