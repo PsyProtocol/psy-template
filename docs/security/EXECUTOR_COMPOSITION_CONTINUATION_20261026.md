@@ -550,3 +550,30 @@ reverifies two preserved requests under both profiles, rejecting wrong owners
 and unknown profiles. Earlier attempts, original outputs, complete requests,
 build/run logs, exact source snapshots and binary hashes are retained. No live
 financial request was generated or submitted by this experiment.
+
+## 2026-10-27 selected mainnet-beta SDK: native compatibility confirmed
+
+[Selected source, actual checks and migration boundary](../../executor/verification/2026-10-27-sdk-mainnet-beta-v1/README.md).
+The user clarified that the SDK branch is `psy-sdk/mainnet-beta`, not the Node
+deployment branch `release/testnet-stable`. Pin SDK `c92880c8` and its consumed
+client `b280d714`, retaining the existing upstream backend patch and each exact
+Genesis gitlink. A fresh reconstruction verifies 2,756 upstream files with zero
+source patches. Do not misapply the previous old-snapshot incompatibility result
+to this SDK: compiled testnet native checks now pass, including numeric deployer,
+new transfer/claim/burn IDs and exact bytecode/code-root equality. Four mutated
+captures are rejected; three native unit tests and three materializer tests pass.
+
+Actual circuit metadata is observed through the SDK's JSON-string envelope; the
+decoded Endcap verifier config equals its selected source blob. This does not
+attest runtime keys or prove full UPS acceptance. No metadata promotion occurred.
+
+The isolated existing market-library check reaches 12 application API/type
+errors after an old Go-path issue is resolved with the installed Go 1.26.0.
+Custom SD-key/session/witness interfaces, compact logical versus active actual
+slots, wallet insert methods and numeric owner binding require a real port and
+complete proofs. No unsafe alias, hash-to-user-ID conversion or deleted check
+was used to force compilation. Old evidence, root market inputs, registry and
+UI financial gates remain unchanged while this candidate integration is open.
+This is the selected SDK compatibility milestone, not completed deployment,
+browser wallet adoption, market settlement, performance or production acceptance.
+Zero financial operations; no Node/SDK source edits or resumed heartbeat.

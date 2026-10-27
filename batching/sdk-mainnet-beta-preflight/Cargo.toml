@@ -1,0 +1,24 @@
+[package]
+name = "psy-market-mainnet-beta-preflight"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+# These are the exact client sources consumed by psy-sdk mainnet-beta c92880c8.
+# Materialize the pinned upstream trees as siblings; never use a dirty Node tree.
+[dependencies]
+anyhow = "1"
+serde_json = "1"
+sha2 = "=0.10.9"
+psy_client_data = { path = "../../../psy-node/client_prover/psy_core/psy_data", default-features = false }
+psy_client_common = { path = "../../../psy-node/client_prover/psy_core/psy_common" }
+psy_config = { path = "../../../psy-node/client_prover/psy_core/psy_config" }
+psy_vm = { path = "../../../psy-node/client_prover/psy_vm", default-features = false }
+plonky2 = { git = "https://github.com/PsyProtocol/plonky2-hwa", rev = "1dfe6112c3eca3668c15820755371a8a3e75f934", features = ["ts-rs"] }
+
+# Match the selected SDK's existing backend replacement exactly.
+[patch."https://github.com/PsyProtocol/plonky2-hwa"]
+plonky2 = { git = "https://www.github.com/PsyProtocol/plonky2-hwa", rev = "736572e9dd3ca93566471cf5a2a1cb67a13fe01d" }
+plonky2_field = { git = "https://www.github.com/PsyProtocol/plonky2-hwa", rev = "736572e9dd3ca93566471cf5a2a1cb67a13fe01d" }
+plonky2_maybe_rayon = { git = "https://www.github.com/PsyProtocol/plonky2-hwa", rev = "736572e9dd3ca93566471cf5a2a1cb67a13fe01d" }
+plonky2_util = { git = "https://www.github.com/PsyProtocol/plonky2-hwa", rev = "736572e9dd3ca93566471cf5a2a1cb67a13fe01d" }
