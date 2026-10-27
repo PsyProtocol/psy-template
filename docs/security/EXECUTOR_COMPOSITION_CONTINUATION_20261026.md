@@ -655,3 +655,9 @@ A separate wallet preparation guard now stops old-instance trace generation
 before proving or persistence. The original pending/broadcast state remains
 preserved. The native write entry point, new-instance deployment/claims and
 controlled performance/fault acceptance are still open; no financial job ran.
+
+The dual-pool UPS fixture and two CFC probes now share canonical native-layout
+reconstruction. Both related test targets compile on the fixed SDK; no new
+composition UPS or real transaction is claimed. A native-only resource build
+reconstructed the entire current native function root, but remains separate from
+a reviewed four-market wallet release. See the current report's follow-up section.
