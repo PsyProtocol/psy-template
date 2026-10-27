@@ -1,0 +1,59 @@
+{
+  "schema": 1,
+  "sourceDirectory": "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-market-recovery-20261023/market-mainnet-migration-20261027-v1",
+  "machine": "gewenbo.local",
+  "host": "macOS-15.7.3-arm64-arm-64bit",
+  "scope": "public formal Executor run including failures; success requires exact included receipt",
+  "walletFilesIncluded": false,
+  "sealedBinariesIncluded": false,
+  "records": [
+    {
+      "source": "public/SDK-SOURCE-UNCHANGED-v1.json",
+      "file": "files/public/SDK-SOURCE-UNCHANGED-v1.json.gz",
+      "bytes": 201,
+      "sha256": "fe5a3a04e737ae77e4f15ded4a8ecd8f4de4aafc52a80dd82096f9d9b9786976",
+      "gzipBytes": 177,
+      "gzipSha256": "2b8d0d2a4de7dc5d5832ac0463fe816ab308837efd8d01a54eddb8d5e1cd9cfc"
+    },
+    {
+      "source": "rpc-observation-v2/REPORT.json",
+      "file": "files/rpc-observation-v2/REPORT.json.gz",
+      "bytes": 511,
+      "sha256": "cbd12bafc9d06bdd515eff00763f9e86df12b7728cb780af1e14c44236eef33d",
+      "gzipBytes": 216,
+      "gzipSha256": "7e5fa1aded59d98261a6e9f6a76d5f9c48627f1ca4a39b9a13c0548280a03fb2"
+    },
+    {
+      "source": "rpc-observation-v2/coordinator.body",
+      "file": "files/rpc-observation-v2/coordinator.body.gz",
+      "bytes": 43,
+      "sha256": "48caae8035d67e0d831666c96ea8fd5356946df4ae3a6c5c01c55f12250de38b",
+      "gzipBytes": 63,
+      "gzipSha256": "62af4082233aaaa9ebfdb39b55b25a1536480f0417e29d4774e3bbc5412a4526"
+    },
+    {
+      "source": "rpc-observation-v2/realm0.body",
+      "file": "files/rpc-observation-v2/realm0.body.gz",
+      "bytes": 43,
+      "sha256": "48caae8035d67e0d831666c96ea8fd5356946df4ae3a6c5c01c55f12250de38b",
+      "gzipBytes": 63,
+      "gzipSha256": "62af4082233aaaa9ebfdb39b55b25a1536480f0417e29d4774e3bbc5412a4526"
+    },
+    {
+      "source": "rpc-observation-v2/realm1.body",
+      "file": "files/rpc-observation-v2/realm1.body.gz",
+      "bytes": 43,
+      "sha256": "48caae8035d67e0d831666c96ea8fd5356946df4ae3a6c5c01c55f12250de38b",
+      "gzipBytes": 63,
+      "gzipSha256": "62af4082233aaaa9ebfdb39b55b25a1536480f0417e29d4774e3bbc5412a4526"
+    },
+    {
+      "source": "rpc-observation-v2/request.json",
+      "file": "files/rpc-observation-v2/request.json.gz",
+      "bytes": 78,
+      "sha256": "3f4d92fb01040306e994092a87018d0f18da258efd1cf023f051ddff478a72c9",
+      "gzipBytes": 93,
+      "gzipSha256": "1d8a5a448c94386bb3d5f7ff7f23bf97b7f9ec9f58a09b94589420788d910c2d"
+    }
+  ]
+}

@@ -72,3 +72,29 @@ Event sidecars are advisory and cannot establish funds, NFT identity or receipt
 inclusion. NFT writes fail closed pending same-UPS token-identity postconditions.
 Read-only RPC rechecks do not attest remote runtime/upgrade governance and are
 not a replacement for complete cryptographic proof verification.
+
+## Source-derived numeric-ID resources
+
+`export_market_verifiers REVIEWED_ARTIFACTS_JSON FRESH_DIRECTORY` checks every
+input file hash, code/layout identity, complete source whitelist and selected
+method set. Inputs contain local `file`, `sha256`, reviewed `binding` and
+`methods` for each contract. It exports only verifier/common bytes; no RPC or
+proof is sent. Never infer a replacement contract ID before its actual receipt.
+
+`ownedLoader.mjs` is for an extension bootstrap with statically imported
+bindgen glue and compiled release pins. It accepts only that extension's own
+resource URL, verifies WASM bytes and embedded resource/SDK/network identities,
+and snapshots pins/functions before awaiting I/O. A failed release stays failed
+for that context. It creates no page RPC or approval permission. The related
+`loaderAcceptance.mjs` exercises real web-target WASM and a saved public proof
+in Node with simulated extension location/file transport; it is not evidence
+of actual extension installation or financial authorization.
+
+The loader accepts only the sealed application glue. After `wasm-bindgen
+--target web`, run `sealGlue.py --js ORIGINAL_JS --sha256 REVIEWED_JS_SHA256
+--wasm ORIGINAL_WASM --out FRESH_DIRECTORY`. The exact original remains intact;
+the fresh copy exports a read-only module-identity accessor. One initializer
+can own only one release. Preinitialized or raced glue rejects, and successful
+initialization must identify the exact compiled verified module. The helper
+never patches the SDK prover. `loaderAcceptance.mjs` tests same-pack/different-
+binary reuse and preinitialization with real bindgen output.

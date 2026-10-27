@@ -402,3 +402,71 @@ The browser lock was real, but proof and send adapters were synthetic. This is
 same-origin browser protocol evidence, not extension-origin, payment,
 cross-machine or live financial acceptance. The original narrower test was
 renamed to state its same-store scope. No browser tool upgrade was performed.
+
+## Reviewed numeric-ID resources and extension loader
+
+The source-only resource exporter now rebuilds every CFC fingerprint for each
+reviewed function tree, compares complete code/layout/function roots and keeps
+only selected verifier/common bytes. Each temporary proving resource is dropped
+before the next method. It performs no RPC, signing, proof job or deployment.
+The resulting pack covers 41 ordinary methods across contracts 0, 6, 7, 8, 9,
+10 and 12. Curve 11 is excluded; no replacement ID is guessed while its initial
+deployment is blocked. These roots match prior reviewed deployment records,
+not a fresh runtime attestation during the RPC outage.
+
+A new complete ordinary proof uses the actual AMM 9, vault 631808 and QA FT
+6/7 identities on synthetic authenticated state. All four calls and fifteen
+mutations passed native verification. The exact saved proof also passed WASM
+compiled with the independently source-derived multi-contract pack, then the
+web-target owned loader. The loader verifies binary/resource/SDK/network pins
+before initialization and refuses external resource URLs. It snapshots release
+pins and module functions before asynchronous loading. Concurrent loads read
+one immutable resource; changing nonce still rejects the old proof without
+reloading that resource. This is resource reuse, not state-proof caching.
+
+[Source, proof and resource evidence](../../executor/verification/2026-10-27-wallet-reviewed-resources-v1/manifest.json)
+retains the actual-bytecode input artifacts, public pack, complete requests,
+source closures, build hashes and original reports. The exporter’s input-root
+struct was renamed after generation, with unchanged JSON fields; the staged
+version also passed Cargo check. Forty-two application regressions and the
+six-case wallet vendor integration passed. The wallet vendors 18 application
+modules; its active factory remains prepare-only.
+
+The owned loader was exercised with actual web-target WASM and a complete
+proof under a simulated extension location/file transport in Node. Actual
+extension-origin installation, the user confirmation surface, browser network
+broadcast and ordinary receipt/claim remain unaccepted. Candidate binary hashes
+are recorded for this frozen local build; cross-machine bit-for-bit identity
+is not claimed. NFT intent postconditions remain closed. No contract was
+updated, no additional contract was deployed and no new PSY grant was attempted.
+
+### Bindgen instance ownership correction
+
+The staged review found that a module-global bindgen initializer could ignore a
+second binary with the same resource pack. The loader now reserves one release
+per initializer and requires a read-only application-owned accessor for the
+actual initialized WebAssembly.Module. It compiles verified bytes itself and
+checks object identity after initialization and on every native call. External preinitialization and an
+I/O-time initialization race reject. `sealGlue.py` exposes only that getter in a
+fresh copy of this application's native verifier glue, using an exact input
+hash and pinned bindgen shape. It does not edit original glue, the SDK prover,
+Node, or any circuit/key.
+
+[Instance-ownership evidence](../../executor/verification/2026-10-27-wallet-loader-instance-v1/manifest.json)
+uses real bindgen glue and two different valid binaries with the same pack
+(the second has an additional WASM custom section). Second-release reuse,
+external preinitialization and initialization during loading all reject.
+An outside initializer that began earlier but finalized later is detected on
+subsequent native use; cached wrappers cannot silently execute its binary. The
+same accepted instance still verifies the exact AMM proof and rejects a changed
+nonce. An intermediate check assumed an unavailable bindgen property; its
+failed real-glue invocation is retained. The final check uses the application's
+read-only private-module accessor and passed. This remains Node-based WASM
+verification, not actual extension-origin installation or live acceptance.
+
+The final [read-only precondition record](../../executor/verification/2026-10-27-wallet-final-preconditions-v1/manifest.json)
+observed HTTP 503 from both Realms and the Coordinator. The frozen SDK/Node
+source pin sets were reverified unchanged. No additional deployment,
+registration, faucet grant or ordinary financial request was sent during this
+wallet milestone. Existing unknown faucet status and all original evidence are
+preserved.

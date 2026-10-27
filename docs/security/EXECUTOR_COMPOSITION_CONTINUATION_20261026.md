@@ -629,3 +629,14 @@ require the browser-origin LockManager before reading or writing durable state.
 Separate-wrapper regression and real two-page/reload lock tests observed one
 mocked send. [Supplemental evidence](../../executor/verification/2026-10-27-wallet-browser-lock-v1/manifest.json)
 is explicitly not live payment or cross-machine acceptance.
+
+### 2026-10-27 actual-ID verifier resources
+
+The source-derived pack now matches reviewed roots for 0/6/7/8/9/10/12 and
+excludes quarantined Curve 11. An actual-ID AMM 9/vault 631808 ordinary UPS
+passed native and multi-contract-pack WASM verification on synthetic state.
+The owned binary loader checks immutable release identity before initialization
+and rejects a changed nonce with the same loaded verifier. [Evidence](../../executor/verification/2026-10-27-wallet-reviewed-resources-v1/manifest.json)
+includes exact bytecode, source closures, public proof and candidate hashes.
+This does not close actual extension installation, confirmation UI, NFT intent
+binding or live financial acceptance. RPC/faucet preconditions remain blocked.
