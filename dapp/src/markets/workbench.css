@@ -2347,3 +2347,10 @@ select[aria-invalid="true"] {
 .chain-readiness dd { margin: 4px 0 0; overflow-wrap: anywhere; line-height: 1.6; font-family: inherit; }
 .chain-readiness button { min-height: 40px; padding: 8px 12px; }
 @media (max-width: 640px) { .chain-readiness { padding: 16px; } .chain-readiness-heading { flex-wrap: wrap; } .chain-readiness-heading > button { margin-left: 32px; width: calc(100% - 32px); } }
+
+.market-wallet-execution {
+  display: grid;
+  gap: 10px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}

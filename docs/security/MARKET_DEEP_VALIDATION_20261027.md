@@ -200,3 +200,12 @@ no branch/dependency changed. All new native/composition work remains financial
 operation count zero.
 
 [Follow-up source, compile log, native verifier resources and reproduction evidence](../../executor/verification/2026-10-27-composition-native-layout-v1/manifest.json).
+
+## Formal wallet source integration follow-up
+
+[Formal integration report](WALLET_FORMAL_INTEGRATION_20261027.md) records the
+background/approval/exact-send wiring, explicit reset-chain profile, reviewed
+resource build tool and page protocol. The installed release remains null and
+NFT writes remain closed. The user deferred unlocking; no new financial or
+proof work was started. Current faucet configuration is enabled, but no grant
+was requested. Actual extension and current-chain market acceptance remain open.

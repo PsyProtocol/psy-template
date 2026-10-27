@@ -179,6 +179,9 @@ export function createStagedWallet({
     preparedHash: e.preparedHash ?? null,
     requestSha256: e.prepared?.requestSha256 ?? null,
     endUserLeafHash: e.prepared?.endUserLeafHash ?? null,
+    actualFee: e.prepared?.actualFee ?? null,
+    contentHash: e.prepared?.contentHash ?? null,
+    confirmedCheckpoint: e.phase === "included" ? e.receipt?.checkpoint ?? null : null,
   });
   const validatePrepared = async (e, p) => {
     identity(e.context, e.record);
@@ -394,6 +397,7 @@ export function createStagedWallet({
           requestSha256: e.prepared.requestSha256,
           fullCalls: e.prepared.fullCalls, actualFee: e.prepared.actualFee,
           maxNetworkFee: e.record.plan.maxNetworkFee,
+          review: {request: clone(e.record.request), plan: clone(e.record.plan)},
           validUntilCheckpoint: e.prepared.validUntilCheckpoint,
         };
         const approvalSha256 = await hash(canon(approvalTerms));

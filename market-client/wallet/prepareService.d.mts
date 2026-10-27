@@ -11,7 +11,11 @@ export interface PreparationRecord {
   [key: string]: unknown;
 }
 export interface PreparationService {
-  capabilities(): Record<string, unknown>;
+  capabilities(): {
+    schema: 1; prepareOnly: boolean; broadcast: boolean;
+    nativeFullCallVerifier: boolean; financialAuthorization: false;
+    registryHash: string; requiredSdkManifestSha256: string; boundary: string;
+  };
   prepare(
     context: PreparationContext,
     record: PreparationRecord,

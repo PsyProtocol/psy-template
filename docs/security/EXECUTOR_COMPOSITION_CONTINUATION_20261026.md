@@ -661,3 +661,11 @@ reconstruction. Both related test targets compile on the fixed SDK; no new
 composition UPS or real transaction is claimed. A native-only resource build
 reconstructed the entire current native function root, but remains separate from
 a reviewed four-market wallet release. See the current report's follow-up section.
+
+## 27 October: formal wallet source integration
+
+[Wallet integration report](WALLET_FORMAL_INTEGRATION_20261027.md) records the
+formal background and page wiring. Current-instance resources and actual browser
+financial acceptance remain pending; the installed release stays null. No
+composition/financial/proof task was resumed while the user deferred unlock.
+No prior cold/warm performance evidence is replaced by source test timings.

@@ -1,5 +1,6 @@
 // Extension-owned fixed-network transport. No signer, prover, replacement,
 // reserialization of a prepared request, automatic send retry or ACK-as-finality.
+import {nativeProfile,nativeManifestPath,isMainnetBetaProfile,RESET_BETA_PROFILE} from "../nativeProtocol.mjs";
 import { digest, canonical, hashPattern } from "../protocol.mjs";
 const ok = (v, text) => { if (!v) throw Error(text); };
 const hashBytes = async (text) => [...new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text)))].map(x => x.toString(16).padStart(2, "0")).join("");
@@ -11,7 +12,9 @@ function bounded(v, max = 4294967295) {
 export function createExactMarketTransport({ bundle, fetcher = fetch, parse, maxPages = 20 }) {
   ok(typeof parse === "function" && Number.isSafeInteger(maxPages) && maxPages >= 1 && maxPages <= 100, "Lossless codec and bounded history required");
   const { registry, networkConfig: network } = bundle;
-  ok(registry.nativeProtocol === "mainnet-beta-20261027" && registry.sdkManifestSha256 === "06d86a86775bef1f217e61a2192b525d657bc8de2d3687e5c28d93e7abfaec8f", "Pinned SDK profile required");
+  const profile=nativeProfile(registry);
+  if(profile===RESET_BETA_PROFILE)nativeManifestPath(registry);
+  ok(isMainnetBetaProfile(profile) && registry.sdkManifestSha256 === "06d86a86775bef1f217e61a2192b525d657bc8de2d3687e5c28d93e7abfaec8f", "Pinned SDK profile required");
   ok(registry.network.name === "testnet" && BigInt(network.magic) === 1384803358401154921n && BigInt(registry.network.magic) === BigInt(network.magic), "Pinned testnet required");
   ok(network.users_per_realm === registry.network.usersPerRealm && network.realm_configs.length > 0, "Realm domain changed");
   const coordinator = network.coordinator_configs[0].rpc_url[0];
@@ -60,7 +63,9 @@ export function createExactMarketTransport({ bundle, fetcher = fetch, parse, max
       ok(anchor.global_chain_root === registry.network.chainRootAt1, "Wrong chain instance");
       await Promise.all(market.dependencies.map(async expected => {
         const id = expected.contract.contractId, leaf = await rpc(coordinator, "psy_get_contract_leaf_data", { contract_id: id });
-        const got = { contract: { contractId: id, codeRoot: leaf.code_root, layoutRoot: leaf.state_layout_root, stateTreeHeight: bounded(leaf.state_tree_height) }, functionTreeRoot: leaf.function_tree_root, layoutFieldCount: bounded(leaf.state_layout_field_count), layoutSlotCount: bounded(leaf.state_layout_slot_count) };
+        // Layout slots exceed u32 on the reset chain. Reviewed registries use exact
+        // safe integers; larger or rounded observations must reject, not coerce.
+        const got = { contract: { contractId: id, codeRoot: leaf.code_root, layoutRoot: leaf.state_layout_root, stateTreeHeight: bounded(leaf.state_tree_height) }, functionTreeRoot: leaf.function_tree_root, layoutFieldCount: bounded(leaf.state_layout_field_count), layoutSlotCount: bounded(leaf.state_layout_slot_count, Number.MAX_SAFE_INTEGER) };
         ok(canonical(got) === canonical(expected), "Code/layout/function dependency changed");
       }));
       const [mapping, current] = await Promise.all([

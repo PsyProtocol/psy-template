@@ -1,7 +1,8 @@
 // Reproduce the wallet's reviewed application module bundle; no SDK mutation.
-import { readFileSync, writeFileSync, mkdirSync, existsSync } from "node:fs";
+import { readFileSync, writeFileSync, mkdirSync, existsSync, realpathSync } from "node:fs";
 import { resolve, dirname, relative } from "node:path";
 import { createHash } from "node:crypto";
+import {nativeManifestPath} from "../nativeProtocol.mjs";
 import { canonical } from "../protocol.mjs";
 const root = resolve(import.meta.dirname, "../.."),
   dest = resolve(process.argv[2] ?? "");
@@ -23,52 +24,36 @@ function collect(p) {
 collect(resolve(root, "market-client/wallet/prepareService.mjs"));
 collect(resolve(root, "market-client/wallet/native/ownedLoader.mjs"));
 paths.add(resolve(root, "market-client/wallet/prepareService.d.mts"));
-const dir = resolve(
-  root,
-  "market-client/reviewed/mainnet-beta-markets-20261027-v3",
-);
-const registry = JSON.parse(readFileSync(resolve(dir, "registry.json"))),
-  abis = {};
-for (const m of registry.markets) {
-  abis[m.marketId] = JSON.parse(
-    readFileSync(resolve(dir, m.marketId + "-abi.json")),
-  );
-  for (const a of m.assets)
-    abis[a.contractId] = JSON.parse(
-      readFileSync(
-        resolve(dir, `${m.marketId}-asset-${a.contractId}-abi.json`),
-      ),
-    );
-  if (m.nftId)
-    abis[m.nftId] = JSON.parse(
-      readFileSync(resolve(dir, m.marketId + "-nft-abi.json")),
-    );
+paths.add(resolve(root, "market-client/wallet/native/ownedLoader.d.mts"));
+paths.add(resolve(root, "market-client/protocol.d.mts"));
+paths.add(resolve(root, "token/wide/arithmetic.d.mts"));
+// Optional reviewed-directory pair is explicit; no search or protocol fallback.
+if(Boolean(process.argv[3])!==Boolean(process.argv[4])||process.argv.length>5)
+  throw Error("Supply both reviewed market and AMM directories or neither");
+function readReviewed(input){
+ const dir=realpathSync(resolve(root,input)),allowed=realpathSync(resolve(root,"market-client/reviewed"));
+ if(!dir.startsWith(allowed+"/"))throw Error("Reviewed input must remain inside the application review directory");
+ const registry=JSON.parse(readFileSync(resolve(dir,"registry.json"))),abis={};
+ nativeManifestPath(registry);
+ const registryHash=sha(canonical(registry));
+ if(JSON.parse(readFileSync(resolve(dir,"client-pin.json"))).registrySha256!==registryHash)
+  throw Error("Reviewed registry pin changed");
+ function abi(name,expected){const raw=readFileSync(resolve(dir,name));if(sha(raw)!==expected)throw Error("Reviewed ABI changed: "+name);return JSON.parse(raw);}
+ for(const m of registry.markets){
+  abis[m.marketId]=abi(m.marketId+"-abi.json",m.abiSha256);
+  for(const a of m.assets)abis[a.contractId]=abi(`${m.marketId}-asset-${a.contractId}-abi.json`,a.abiSha256);
+  if(m.nftId)abis[m.nftId]=abi(m.marketId+"-nft-abi.json",m.nftAbiSha256);
+ }
+ const configBytes=readFileSync(resolve(dir,"rpc-config.json"));
+ if(sha(configBytes)!==registry.network.rpcConfigSha256)throw Error("Reviewed RPC configuration changed");
+ const config=JSON.parse(configBytes);
+ return {registry,registryHash,abis,networkConfig:config.networks[registry.network.name]};
 }
-const net = JSON.parse(
-  readFileSync(
-    resolve(
-      root,
-      "market-client/reviewed/mainnet-beta-markets-20261027-v3/rpc-config.json",
-    ),
-  ),
-);
-const bundle = {
-  registry,
-  registryHash: sha(canonical(registry)),
-  abis,
-  networkConfig: net.networks[registry.network.name],
-};
-// AMM uses its independently reviewed registry and ABI; it shares only the
-// exact network domain and the wallet-owned service lifecycle.
-const ammDir=resolve(root,"market-client/reviewed/mainnet-beta-amm-20261027-v2");
-const ammRegistry=JSON.parse(readFileSync(resolve(ammDir,"registry.json"))),ammAbis={};
-for(const m of ammRegistry.markets){
- ammAbis[m.marketId]=JSON.parse(readFileSync(resolve(ammDir,m.marketId+"-abi.json")));
- for(const a of m.assets)ammAbis[a.contractId]=JSON.parse(readFileSync(resolve(ammDir,`${m.marketId}-asset-${a.contractId}-abi.json`)));
-}
-const ammNet=JSON.parse(readFileSync(resolve(ammDir,"rpc-config.json")));
-bundle.amm={registry:ammRegistry,registryHash:sha(canonical(ammRegistry)),abis:ammAbis,networkConfig:ammNet.networks[ammRegistry.network.name]};
-if(canonical(bundle.amm.networkConfig)!==canonical(bundle.networkConfig))throw Error("Reviewed wallet bundles use different network domains");
+const bundle=readReviewed(process.argv[3]??"market-client/reviewed/mainnet-beta-markets-20261027-v3");
+bundle.amm=readReviewed(process.argv[4]??"market-client/reviewed/mainnet-beta-amm-20261027-v2");
+if(canonical(bundle.amm.networkConfig)!==canonical(bundle.networkConfig)||canonical(bundle.amm.registry.network)!==canonical(bundle.registry.network))
+ throw Error("Reviewed wallet bundles use different network/chain domains");
+const registry=bundle.registry;
 mkdirSync(dest, { recursive: true });
 const entries = [];
 for (const p of [...paths].sort()) {

@@ -1,0 +1,627 @@
+{
+  "schema": 1,
+  "scope": "Formal background/approval/exact-transport source integration; unit/protocol/build tests and public RPC observations only. Installed release remains null. No actual extension approval, new-chain deployment, proof generation or financial acceptance.",
+  "archive": "public-evidence.tar.gz",
+  "archiveSha256": "daf9e33d460aad7025e789e203387018c32b25f52d986b12ad0b1be213154f70",
+  "archiveBytes": 223641,
+  "files": [
+    {
+      "path": "application-source/dapp/src/markets/LiveAccess.tsx",
+      "sha256": "0b69e479deb6df8e5847740c699143d66bf6567d504091fcda39daa8f8674406",
+      "bytes": 15437
+    },
+    {
+      "path": "application-source/dapp/src/markets/MarketActionPlan.tsx",
+      "sha256": "a4d13c3e765fcfe960e9710074a8b87032aa2a2e4395e22f87e3a59d51a11215",
+      "bytes": 13778
+    },
+    {
+      "path": "application-source/dapp/src/markets/WalletExecution.tsx",
+      "sha256": "87048db0b103a28c006dc8ceb70c7e205d0acdfa5c32f5c4a1032a259487bbec",
+      "bytes": 6510
+    },
+    {
+      "path": "application-source/dapp/src/markets/workbench.css",
+      "sha256": "416f1b75ff5aec1c6bf951ed61bc3096a7179f3db3d7a73d37b96f090688e95d",
+      "bytes": 43035
+    },
+    {
+      "path": "application-source/executor/gateway/readiness.mjs",
+      "sha256": "5340bacc53df6fd472ffb0e52277aba44c453b1df6d8108ed7b8b9b583a3d140",
+      "bytes": 5457
+    },
+    {
+      "path": "application-source/market-client/client.d.mts",
+      "sha256": "d5c2183ab7752566e97e1c4bd94b324efbc1107c42e7477e3c4462d4698447f8",
+      "bytes": 2947
+    },
+    {
+      "path": "application-source/market-client/marketActionClient.d.mts",
+      "sha256": "d1102a6c49c484b8810328b06429f454b4e0616e4b7ec4b1b8bfd130e6c39604",
+      "bytes": 1180
+    },
+    {
+      "path": "application-source/market-client/marketWallet.d.mts",
+      "sha256": "07bf29b217c813c67e33f12432cff7edc08683b616c9b52457eeeb9abe921536",
+      "bytes": 915
+    },
+    {
+      "path": "application-source/market-client/marketWallet.mjs",
+      "sha256": "dcab6899ca95e44e10aeaadd9e4e5c95277820e02b4e7642feb2e88effb7353d",
+      "bytes": 3043
+    },
+    {
+      "path": "application-source/market-client/marketWallet.test.mjs",
+      "sha256": "a579110e0c5c01187b59224af1e4f08e218bc50326ba0d808b5e7ec0c76e3409",
+      "bytes": 2677
+    },
+    {
+      "path": "application-source/market-client/nativeProtocol.mjs",
+      "sha256": "f6621ef8d554cabfbdd6e8a14d8d714626523c28b60fcf23ef35913cd368ac46",
+      "bytes": 3221
+    },
+    {
+      "path": "application-source/market-client/nativeProtocol.test.mjs",
+      "sha256": "ff7b7703fe3806357f4717b96fa36509bb5aa889b28d5ddcbc6052f16e861f01",
+      "bytes": 2920
+    },
+    {
+      "path": "application-source/market-client/protocol.d.mts",
+      "sha256": "1925cb14a1e395b10a424c15e05b855b6a59627c61ccf029f7eb8f6e70a0aefb",
+      "bytes": 108
+    },
+    {
+      "path": "application-source/market-client/wallet/exactTransport.mjs",
+      "sha256": "82074ab7d0729d12526f84e2f763c6680e20aadd8a12b9c090cc09b4f2bc990b",
+      "bytes": 11612
+    },
+    {
+      "path": "application-source/market-client/wallet/exactTransport.test.mjs",
+      "sha256": "8a3459cb08ead2229abbc188ed7fb1af9aa74a310c814e3c6e3c5df58fcfee6b",
+      "bytes": 6917
+    },
+    {
+      "path": "application-source/market-client/wallet/native/ownedLoader.d.mts",
+      "sha256": "56e16a3186edeb1c05ba670ed389274e90cde3ca199f4ddb85243187f34267e7",
+      "bytes": 869
+    },
+    {
+      "path": "application-source/market-client/wallet/prepareService.d.mts",
+      "sha256": "0746d6a42aaf99f979a14799496839aaf50568b47420ce072b0a6c81f764e7e5",
+      "bytes": 2347
+    },
+    {
+      "path": "application-source/market-client/wallet/staged.mjs",
+      "sha256": "4f834891426bbfd576439bc3e5fa1d8c6d1c9a3ea5bdd9ec45abcc0646e90819",
+      "bytes": 17654
+    },
+    {
+      "path": "application-source/market-client/wallet/vendor.mjs",
+      "sha256": "d323b8aa39dd932e0dc841357d6308da0d036033cfc186769bc98b2faa210ee4",
+      "bytes": 4323
+    },
+    {
+      "path": "application-source/market-client/wallet/vendor.test.mjs",
+      "sha256": "bbb01fde01f52d6d7d35a35277e962fb51811d3af58155d628dac4a0ee1cbfb3",
+      "bytes": 1616
+    },
+    {
+      "path": "application-source/token/wide/arithmetic.d.mts",
+      "sha256": "e788c7d11a629d3c2f9acd6d505046e8a18710700583db99f9a235fa09e4aa80",
+      "bytes": 98
+    },
+    {
+      "path": "historical-release-build/RELEASE.json",
+      "sha256": "54f02b3dacc3dc7ba0512a2cd74f0e4ceba68dac7ccd383e0429ae77fd59f7d7",
+      "bytes": 1741
+    },
+    {
+      "path": "public/PLAN-v1.json",
+      "sha256": "f21f0e362d4661184b73074c7c0823a11fab778de2faa1facff3ff3265dc952f",
+      "bytes": 1064
+    },
+    {
+      "path": "public/application-full-regression-v1.log",
+      "sha256": "e1cc4f180116373e30c67ce5a42d982e595015e12164cfc912015766dea8ce4e",
+      "bytes": 9383
+    },
+    {
+      "path": "public/application-full-regression-v2.log",
+      "sha256": "798e61996f124b96371761d246f78aa29d34b8a0234f3f8d98bb1f7359367b91",
+      "bytes": 9571
+    },
+    {
+      "path": "public/application-regressions-v1.log",
+      "sha256": "1ea6197a2da303f3e128c64e0366d1332bf9452235002081492ba8e9c642bc19",
+      "bytes": 2016
+    },
+    {
+      "path": "public/application-regressions-v2.log",
+      "sha256": "105af3258b0e7628c82f6712dcd491a15109fb98d497b70a73acaf91d81fd3ca",
+      "bytes": 2516
+    },
+    {
+      "path": "public/application-regressions-v3.log",
+      "sha256": "8e3ccaa0c552567ebbc5c44637731e3d79bdf40610144a19e3d3016529bb5ed2",
+      "bytes": 2514
+    },
+    {
+      "path": "public/application-regressions-v4.log",
+      "sha256": "02eaba7e84a6978a959756dc311575e740b100b40bed1673b8812520b70d6c0e",
+      "bytes": 2509
+    },
+    {
+      "path": "public/approval-panel-format-v2.log",
+      "sha256": "596357aef033ce2472013ce29cd4e99899589df3caceebdfd6aa6173cb9012ff",
+      "bytes": 40
+    },
+    {
+      "path": "public/dapp-build-v1.log",
+      "sha256": "155a2c0858a63fa0039361acbe59f1760aa123111c318e7f96d29d903fc72dc5",
+      "bytes": 1289
+    },
+    {
+      "path": "public/dapp-build-v2.log",
+      "sha256": "681ce2c4581d2b5b3a71dbea66b279d60567508b6b7bb39453f0ccca31a27f6b",
+      "bytes": 506
+    },
+    {
+      "path": "public/dapp-build-v3.log",
+      "sha256": "daa244d0feaae0e1a771923d9b80736f3374772302e4c923eba44560fcd9a8ec",
+      "bytes": 506
+    },
+    {
+      "path": "public/dapp-build-v4.log",
+      "sha256": "122ed901c659ba03670a693226774eb7eccd8f014cf3bffbcdd26228d1eff9b6",
+      "bytes": 506
+    },
+    {
+      "path": "public/dapp-build-v5.log",
+      "sha256": "afbc130898f2a87aeb4a4696c109fefe95520818f1789987f33fa8556a3edf13",
+      "bytes": 506
+    },
+    {
+      "path": "public/dapp-build-v6.log",
+      "sha256": "e3222b6c7c276e021237c294619edf65b19661c2e66a2d60a3db47645d4938ca",
+      "bytes": 506
+    },
+    {
+      "path": "public/dapp-market-regression-v1.log",
+      "sha256": "58508ac8447b4ddb3c806b734c53c56e1aeb5a6165ca1fd2dc66b550fc74f291",
+      "bytes": 5003
+    },
+    {
+      "path": "public/faucet-config-correct-request-v1.json",
+      "sha256": "1213c7b25f216018f0463e26f4e4f9b275117739b559fe9f18cf03624848fb3f",
+      "bytes": 91
+    },
+    {
+      "path": "public/historical-release-build-input-v1.json",
+      "sha256": "4c1b6ce5f5a4d7099eb4256f3a00c7b778fe885826b3681f444111c8c0f0d9c7",
+      "bytes": 1907
+    },
+    {
+      "path": "public/historical-release-build-v1.log",
+      "sha256": "988965c1c03de605fbb8b5386d973864107c87dcd9a88dda0e0051d110d594c1",
+      "bytes": 945
+    },
+    {
+      "path": "public/historical-release-build-v2.log",
+      "sha256": "b99c26834c640ad4a43fd6c7f2fed707b9a214bf40b67ad09a80d3326e8db47c",
+      "bytes": 947
+    },
+    {
+      "path": "public/historical-release-build-v3.log",
+      "sha256": "542ebfc96db5e9b26a28092f948b4b94005f5118e089ac6644fa0530f66f7371",
+      "bytes": 212
+    },
+    {
+      "path": "public/historical-release-build-v4.log",
+      "sha256": "89addad414dc52f39c1b1babe944d194a4406780175ec9cced4583f57eb5baec",
+      "bytes": 212
+    },
+    {
+      "path": "public/launcher-corrections-v1.json",
+      "sha256": "56c6e507dfc272057931c3229fc875b58956d5bff895377f25944d180bcc791b",
+      "bytes": 694
+    },
+    {
+      "path": "public/new-files-format-v1.log",
+      "sha256": "d385c93743489faed507f40bb99c0f0c2417ef07fa03e4b9dac805130e30dd22",
+      "bytes": 44
+    },
+    {
+      "path": "public/readonly-v1.log",
+      "sha256": "19a490a8a3934ff5bdd71cb4d1910ee1b33d65ce7f5b52cb372e1f994339b561",
+      "bytes": 317
+    },
+    {
+      "path": "public/release-installer-test-v1.log",
+      "sha256": "270d245b241059c6f51a15a2f9478d9b49d0373f7af27ac0728f050476bdbb0c",
+      "bytes": 218
+    },
+    {
+      "path": "public/release-installer-test-v2.log",
+      "sha256": "5eec07fd2a41451ba54b3ba0ad4c8bc9ddbd570b75f95895a9d10b0523c0d542",
+      "bytes": 215
+    },
+    {
+      "path": "public/release-installer-test-v3.log",
+      "sha256": "1ee6b63862ec39526b14538a7d36d4d78e077668ad3967e86f3ee1178b9fb318",
+      "bytes": 316
+    },
+    {
+      "path": "public/release-installer-test-v4.log",
+      "sha256": "d16ba6ed7ede6b51d9916ccf070ad699ba0dd8b366627ed807cf8a3f8c0722ff",
+      "bytes": 317
+    },
+    {
+      "path": "public/release-installer-test-v5.log",
+      "sha256": "d883d2607cd96cced13a0107b897ae88c9446ca93a2f2d83c15af7eaf1b5191f",
+      "bytes": 312
+    },
+    {
+      "path": "public/reset-client-profile-v1.log",
+      "sha256": "e77b055b2cbc8ff5dc683f104f86bba511fc195472ef8b19518e00820fea4892",
+      "bytes": 1367
+    },
+    {
+      "path": "public/reset-transport-review-fix-v1.log",
+      "sha256": "abfb6a82f065010a259b3a08326870820f3b2c895f069bf287d8a4ecbdbfb933",
+      "bytes": 4321
+    },
+    {
+      "path": "public/review-fixes-v2.log",
+      "sha256": "dd82865f0a174a74091e2d70aa1b4d166974b20b4c3d0cca61b357f11069e220",
+      "bytes": 579
+    },
+    {
+      "path": "public/typecheck-v1.log",
+      "sha256": "aeb70674033adeb86c589d921cc40bce9ff0afc7513fcf6eebd1d68f6d814b1a",
+      "bytes": 1856
+    },
+    {
+      "path": "public/typecheck-v2.log",
+      "sha256": "f4591dfd5a7f118952583bbb30d1266ad84e667d8d591dc4c8d24eebb914b761",
+      "bytes": 328
+    },
+    {
+      "path": "public/typecheck-v3.log",
+      "sha256": "ec09abfc907225117ce9c07731742d271d470518ef582ab1c5578cd8abe55d89",
+      "bytes": 5601
+    },
+    {
+      "path": "public/typecheck-v4.log",
+      "sha256": "f4591dfd5a7f118952583bbb30d1266ad84e667d8d591dc4c8d24eebb914b761",
+      "bytes": 328
+    },
+    {
+      "path": "public/typecheck-v5.log",
+      "sha256": "f4591dfd5a7f118952583bbb30d1266ad84e667d8d591dc4c8d24eebb914b761",
+      "bytes": 328
+    },
+    {
+      "path": "public/typecheck-v6.log",
+      "sha256": "f4591dfd5a7f118952583bbb30d1266ad84e667d8d591dc4c8d24eebb914b761",
+      "bytes": 328
+    },
+    {
+      "path": "public/wallet-build-v1.log",
+      "sha256": "dcf25e17fcd8d242e44f490b704139df8ab69aa95e388d00e5650f67e868c6f3",
+      "bytes": 3264
+    },
+    {
+      "path": "public/wallet-build-v2.log",
+      "sha256": "04343a00ca0327c43f9c61a4af2a9610e4e89d18d7a738d82590be34a59104f9",
+      "bytes": 3264
+    },
+    {
+      "path": "public/wallet-build-v3.log",
+      "sha256": "b8ed2e616b6b978d4d16cad7346af873b68509c9725dc6135cae19911c9e974d",
+      "bytes": 3264
+    },
+    {
+      "path": "public/wallet-focused-regression-v4.log",
+      "sha256": "bb09226e3134d846782f2962e4a3919706676af63bf5db4a42f2f10474f3d961",
+      "bytes": 536
+    },
+    {
+      "path": "public/wallet-full-regression-v1.log",
+      "sha256": "df30f236200eabe3db1dc27c838cf954012c29aeb120b6774b4710f727a61f84",
+      "bytes": 382
+    },
+    {
+      "path": "public/wallet-full-regression-v2.log",
+      "sha256": "e2a6e4fe7fd2b3c9b29c57d197cafcff230b5935593c4c8b0261588a684d7cce",
+      "bytes": 382
+    },
+    {
+      "path": "public/wallet-modules-v1.json",
+      "sha256": "4b59d2fe87dd01269b1f0cf148a34de3c726d41c6fd6203c15313cb4f230cb2b",
+      "bytes": 122
+    },
+    {
+      "path": "public/wallet-modules-v2.json",
+      "sha256": "485408b4583e30d906b65295dde43cb71f48cbfdfc89967600105308bd2ea94c",
+      "bytes": 122
+    },
+    {
+      "path": "public/wallet-modules-v3.json",
+      "sha256": "485408b4583e30d906b65295dde43cb71f48cbfdfc89967600105308bd2ea94c",
+      "bytes": 122
+    },
+    {
+      "path": "public/wallet-modules-v4.json",
+      "sha256": "485408b4583e30d906b65295dde43cb71f48cbfdfc89967600105308bd2ea94c",
+      "bytes": 122
+    },
+    {
+      "path": "public/wallet-modules-v5.json",
+      "sha256": "01cf2e7803da7e111e64f752ce1b93b3d64e482d23c9b848d6677348e4e70c93",
+      "bytes": 122
+    },
+    {
+      "path": "public/wallet-modules-v6.json",
+      "sha256": "01cf2e7803da7e111e64f752ce1b93b3d64e482d23c9b848d6677348e4e70c93",
+      "bytes": 122
+    },
+    {
+      "path": "public/wallet-regressions-v1.log",
+      "sha256": "280b6ab1f7cfcb9cf6f7d821318eb4f88528105272b2aa266c1e5c0639fda14a",
+      "bytes": 499
+    },
+    {
+      "path": "public/wallet-regressions-v2.log",
+      "sha256": "198fbcbeaafe6f6d4c4d602c15d59a564786cfda2c5c1b06027c5ea04a55da68",
+      "bytes": 536
+    },
+    {
+      "path": "public/wallet-regressions-v3.log",
+      "sha256": "a6f9fa145a567b7760437fad1bbbd2fe5ef8233721889d07aaee95a0757b7316",
+      "bytes": 536
+    },
+    {
+      "path": "public/wallet-vendor-explicit-v1.log",
+      "sha256": "01cf2e7803da7e111e64f752ce1b93b3d64e482d23c9b848d6677348e4e70c93",
+      "bytes": 122
+    },
+    {
+      "path": "public/wallet-vendor-v8.log",
+      "sha256": "01cf2e7803da7e111e64f752ce1b93b3d64e482d23c9b848d6677348e4e70c93",
+      "bytes": 122
+    },
+    {
+      "path": "readonly-observations/REPORT.json",
+      "sha256": "d5b9078e5f50560f599462055f66d36d3921bb0f804e7b32e5def04ff809080b",
+      "bytes": 580
+    },
+    {
+      "path": "readonly-observations/checkpoint1-request.json",
+      "sha256": "8e5ab01b5c7f54dccf9dbcce501bf9fac4fd437185cc376c2d066ce96802c965",
+      "bytes": 94
+    },
+    {
+      "path": "readonly-observations/checkpoint1-response.json",
+      "sha256": "0dc1329cb8229f9bccd034c8812e60558326da2c17cc8907b089e694f301d8be",
+      "bytes": 790
+    },
+    {
+      "path": "readonly-observations/circuits-request.json",
+      "sha256": "41b4877f003693262ea52a121873cce3902040ab5f0fc79ce3553a3af76d2452",
+      "bytes": 70
+    },
+    {
+      "path": "readonly-observations/circuits-response.json",
+      "sha256": "c1fc6f72975e62ed87c63593b43e08f7e26fe2aacddae5b96272021ab35726bb",
+      "bytes": 25921
+    },
+    {
+      "path": "readonly-observations/faucet-config-response-v2.json",
+      "sha256": "b12e2673ca962597d2fd40f518047de25e5d50cc5861ba246c94a9ab09cbf4af",
+      "bytes": 947
+    },
+    {
+      "path": "readonly-observations/faucet-request.json",
+      "sha256": "32dd01b22f51c114e47928de87e5ab1e7920f71a99b629955c4570d3d331100d",
+      "bytes": 70
+    },
+    {
+      "path": "readonly-observations/faucet-response.json",
+      "sha256": "75e0bb273c496d4e723d781bb28b7d5107123bc7f9969f15732c9fab94df5d96",
+      "bytes": 77
+    },
+    {
+      "path": "readonly-observations/native-request.json",
+      "sha256": "3a5107148db35961a95591bac17da5b45a3f753031cdf6cf121ba82e8b67e7c6",
+      "bytes": 90
+    },
+    {
+      "path": "readonly-observations/native-response.json",
+      "sha256": "62eb9e61f3c60cbf3e07e23a121d0afaed83ae6c6067c7a8af18b9e7cb8a6e64",
+      "bytes": 391
+    },
+    {
+      "path": "readonly-observations/realm0-request.json",
+      "sha256": "3f4d92fb01040306e994092a87018d0f18da258efd1cf023f051ddff478a72c9",
+      "bytes": 78
+    },
+    {
+      "path": "readonly-observations/realm0-response.json",
+      "sha256": "ba621e857672e1ddb085b888de281dd107e4f7b5b33655fa8fb09f30fbb3cea5",
+      "bytes": 223
+    },
+    {
+      "path": "readonly-observations/realm1-request.json",
+      "sha256": "3f4d92fb01040306e994092a87018d0f18da258efd1cf023f051ddff478a72c9",
+      "bytes": 78
+    },
+    {
+      "path": "readonly-observations/realm1-response.json",
+      "sha256": "ba621e857672e1ddb085b888de281dd107e4f7b5b33655fa8fb09f30fbb3cea5",
+      "bytes": 223
+    },
+    {
+      "path": "recipes/readonly-v1.mjs",
+      "sha256": "e8b763ffd20143c857f5f88114409e91f587132dfe49f6ab6ba916215dfae8ec",
+      "bytes": 1404
+    },
+    {
+      "path": "wallet-source/scripts/install-market-release.mjs",
+      "sha256": "5f6f0319a744ad22e44a2be99c42bf13bbf598084976ecbf740675d268446f26",
+      "bytes": 8215
+    },
+    {
+      "path": "wallet-source/scripts/install-market-release.test.mjs",
+      "sha256": "88dd26345572ff8083fbad519a5813947636b4d2009436cd0f88aa83e6c78836",
+      "bytes": 3782
+    },
+    {
+      "path": "wallet-source/src/background/__tests__/approve-manager.test.ts",
+      "sha256": "db1547086268fefdcc716e3ade297a886da398807e72fa06b13e010709e9f2ba",
+      "bytes": 17270
+    },
+    {
+      "path": "wallet-source/src/background/approve-manager.ts",
+      "sha256": "ad32dfdcc420eccc732de946180d35f67fc9a777257b91b0ad098235d9ad2440",
+      "bytes": 42732
+    },
+    {
+      "path": "wallet-source/src/background/main.ts",
+      "sha256": "426431181541bff397a5ca7c19dc315dc43087dd09edf40598f7a1daf02e5e47",
+      "bytes": 52729
+    },
+    {
+      "path": "wallet-source/src/background/market-preparation.test.ts",
+      "sha256": "9e8dcd110fa56f2eb2f3f2082244553a29e8daf4f88e0a43a5cbff5adcf9f0e2",
+      "bytes": 4876
+    },
+    {
+      "path": "wallet-source/src/background/market-router.test.ts",
+      "sha256": "690b15c2a3f4e40cb02e7329acfa1538a176c335d7777ebf184cffd109932afa",
+      "bytes": 3513
+    },
+    {
+      "path": "wallet-source/src/background/market-router.ts",
+      "sha256": "6db04fa0f7ce8ea68a24f8bac5dde4ac6b3d12efbba4a19bac4c3fad5c3188c7",
+      "bytes": 3320
+    },
+    {
+      "path": "wallet-source/src/background/psy-wallet-ext-core.ts",
+      "sha256": "4f851d34a310d7eee64c613aa9d7216348db372dd118c8d0478ed3e936b86ebf",
+      "bytes": 351349
+    },
+    {
+      "path": "wallet-source/src/components/approve-main/approve-panel/approve-market.tsx",
+      "sha256": "1a5c353f60f4fdd91b53310e3addaef06dd51e7f32e3fafc3e24a7a39574c73d",
+      "bytes": 5598
+    },
+    {
+      "path": "wallet-source/src/components/approve-main/approve-panel/index.tsx",
+      "sha256": "839025adcb577280cfa0c0e523c258c1cd7813fb03a7f3951b2c1ff412073aaf",
+      "bytes": 2174
+    },
+    {
+      "path": "wallet-source/src/content/webHook.js",
+      "sha256": "d89c6c627a7c2975e78da1f21fa69989e0c54b4640f82325eb380ad6e0de9095",
+      "bytes": 29169
+    },
+    {
+      "path": "wallet-source/src/hooks/use-psy-state.ts",
+      "sha256": "359adb035a1f45cbae94bd0fc9db61b632086175ad99d8bbf200d69739e241f6",
+      "bytes": 13460
+    },
+    {
+      "path": "wallet-source/src/market-native/LimitRows.tsx",
+      "sha256": "17f715db85dd1f8644a7a4a4e96184b7bf5728fc9c25cb83d02954a4d8f3527f",
+      "bytes": 355
+    },
+    {
+      "path": "wallet-source/src/market-native/actions.ts",
+      "sha256": "f95a47a45e651181cfc59066d9b8d1f51537262a4f183d2018bd39bc5452763a",
+      "bytes": 356
+    },
+    {
+      "path": "wallet-source/src/market-native/confirmation.fixture.ts",
+      "sha256": "b7dd519338f188c2fb65bfbfe47fa0f11e1d7033e41233f808d3c28f3cdfb4ce",
+      "bytes": 1143
+    },
+    {
+      "path": "wallet-source/src/market-native/confirmation.test.ts",
+      "sha256": "7b58959e92823ad6d625090d63e3d7d7b3b654e67d0d6127cf7f6a0643780c03",
+      "bytes": 4391
+    },
+    {
+      "path": "wallet-source/src/market-native/confirmation.ts",
+      "sha256": "88d09e66687d3bff928cef593665e0aaadb57bd0dd88ea13714dc4e1c9918a5c",
+      "bytes": 5719
+    },
+    {
+      "path": "wallet-source/src/market-native/installed.ts",
+      "sha256": "9001ae002e9fa893e7d26f1e8176722438df3cc60f8fd59286fdfb9edf6b2951",
+      "bytes": 289
+    },
+    {
+      "path": "wallet-source/src/market-native/runtime.ts",
+      "sha256": "81dd4b9d9f08522ebb778d70a191f57865390adea45427fe7710c3999ae28162",
+      "bytes": 1962
+    },
+    {
+      "path": "wallet-source/src/market-preparation/SOURCE.json",
+      "sha256": "a123d907f654f1f8ebf51c9a6ce30c848c797b319eede9955b885a3accc0131c",
+      "bytes": 3557
+    },
+    {
+      "path": "wallet-source/src/market-preparation/market-client/nativeProtocol.mjs",
+      "sha256": "f6621ef8d554cabfbdd6e8a14d8d714626523c28b60fcf23ef35913cd368ac46",
+      "bytes": 3221
+    },
+    {
+      "path": "wallet-source/src/market-preparation/market-client/protocol.d.mts",
+      "sha256": "1925cb14a1e395b10a424c15e05b855b6a59627c61ccf029f7eb8f6e70a0aefb",
+      "bytes": 108
+    },
+    {
+      "path": "wallet-source/src/market-preparation/market-client/wallet/exactTransport.mjs",
+      "sha256": "82074ab7d0729d12526f84e2f763c6680e20aadd8a12b9c090cc09b4f2bc990b",
+      "bytes": 11612
+    },
+    {
+      "path": "wallet-source/src/market-preparation/market-client/wallet/native/ownedLoader.d.mts",
+      "sha256": "56e16a3186edeb1c05ba670ed389274e90cde3ca199f4ddb85243187f34267e7",
+      "bytes": 869
+    },
+    {
+      "path": "wallet-source/src/market-preparation/market-client/wallet/prepareService.d.mts",
+      "sha256": "0746d6a42aaf99f979a14799496839aaf50568b47420ce072b0a6c81f764e7e5",
+      "bytes": 2347
+    },
+    {
+      "path": "wallet-source/src/market-preparation/market-client/wallet/staged.mjs",
+      "sha256": "4f834891426bbfd576439bc3e5fa1d8c6d1c9a3ea5bdd9ec45abcc0646e90819",
+      "bytes": 17654
+    },
+    {
+      "path": "wallet-source/src/market-preparation/token/wide/arithmetic.d.mts",
+      "sha256": "e788c7d11a629d3c2f9acd6d505046e8a18710700583db99f9a235fa09e4aa80",
+      "bytes": 98
+    },
+    {
+      "path": "wallet-source/src/message.ts",
+      "sha256": "da48d2b7cfaf4334bc501191df7546a2cd764eef97ec29618ec69262ca6c2f6e",
+      "bytes": 7345
+    },
+    {
+      "path": "wallet-source/src/types/index.ts",
+      "sha256": "2b9c3a2cb61461e0b5b1f7680657e72ab34e424eb0ca41e6bf37dbedcb95a262",
+      "bytes": 13997
+    }
+  ],
+  "sdkCommit": "c92880c8b6e2c8d392f19368bc8801a2584fd427",
+  "applicationBase": "29f2ad1569f286fd147ae953d49386dec3d36c40",
+  "walletBase": "075703d2162f75f1cae293f421b84704e141421d",
+  "financialOperations": 0,
+  "actualFills": 0,
+  "actualFeesTestPsy": "0",
+  "secretsIncluded": false,
+  "originalEvidenceModified": false
+}
