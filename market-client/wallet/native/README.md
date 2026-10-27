@@ -98,3 +98,29 @@ can own only one release. Preinitialized or raced glue rejects, and successful
 initialization must identify the exact compiled verified module. The helper
 never patches the SDK prover. `loaderAcceptance.mjs` tests same-pack/different-
 binary reuse and preinitialization with real bindgen output.
+
+## First-session proof variant
+
+A zero stored user leaf requires the separately pinned SDK registration-start
+verifier, nonce one and its authenticated empty session leaf. Its signature
+hashes that initialized session leaf; its Endcap still binds the zero stored
+leaf. Missing registration resources reject. Initialized-user proof packs remain
+usable only for their initialized-user branch.
+
+The ignored `full_ups::wallet_proof::verify_preserved_wallet_bundle_and_mutations`
+test accepts `MARKET_WALLET_REPLAY_IN` and a fresh
+`MARKET_WALLET_VERIFIER_OUT`, with the selected release manifest and `--test
+batch_lifecycle -- --exact --ignored --nocapture`. It only re-verifies saved
+public bytes and negative mutations; it creates no replacement proof or request.
+For the native claim/burn first-session case, after the normal WASM build:
+
+```sh
+node market-client/wallet/native/firstSessionAcceptance.mjs \
+  "$VERIFIER_BUILD/node/market_verifier.js" "$PUBLIC_FIXTURES" "$FRESH_REPORT"
+```
+
+This uses the actual compiled WASM with public synthetic proofs. It does not
+simulate an extension origin or prove live registration, broadcast, receipt or
+ordinary-wallet acceptance. See
+[the first-session report](../../../docs/security/FIRST_SESSION_WALLET_VERIFICATION_20261028.md)
+for failures, exact proof reuse, fee-slot conservation and unclosed activation gates.

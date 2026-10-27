@@ -87,6 +87,12 @@ pub struct MethodVerifier {
     pub verifier_b64: String,
 }
 #[derive(Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct RegistrationStartVerifier {
+    pub fingerprint: Q<F>,
+    pub verifier_b64: String,
+}
+#[derive(Serialize, Deserialize)]
 pub struct VerifierPack {
     pub schema: u32,
     pub sdk_manifest: String,
@@ -96,6 +102,8 @@ pub struct VerifierPack {
     pub step_fingerprint: Q<F>,
     pub endcap_b64: String,
     pub start_b64: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub registration_start: Option<RegistrationStartVerifier>,
     pub step_b64: String,
     pub sign_b64: String,
     pub sign_fingerprint: Q<F>,
@@ -297,7 +305,17 @@ pub fn verify_market_request(
             && core.stats.total_transactions.to_canonical_u64() == approval.calls.len() as u64,
         "fees/whole-stack count"
     );
-    let start_key = verifier(&pack.start_b64)?;
+    // Registration starts prove a zero stored user leaf and a registered key;
+    // they are a different fixed circuit, never a fallback after failed proof.
+    let registration_start = approval.start_leaf == Q::ZERO;
+    let (start_key, start_fingerprint) = if registration_start {
+        ensure!(approval.nonce == 1, "first-session nonce must be one");
+        let fixed = pack.registration_start.as_ref()
+            .context("pinned registration-start verifier is absent")?;
+        (verifier(&fixed.verifier_b64)?, fixed.fingerprint)
+    } else {
+        (verifier(&pack.start_b64)?, pack.start_fingerprint)
+    };
     let step_key = verifier(&pack.step_b64)?;
     let sign_key = verifier(&pack.sign_b64)?;
     let mut previous = bundle.start_header;
@@ -317,7 +335,12 @@ pub fn verify_market_request(
     ensure!(
         session.checkpoint_id == core.checkpoint_id
             && session.checkpoint_tree_root == core.state_transition.checkpoint_tree_root_hash
-            && session.start_session_user_leaf.qfhash::<H>() == approval.start_leaf,
+            && if registration_start {
+                session.start_session_user_leaf == psy_client_data::qstore::controllers::register_helpers::get_new_empty_user_leaf(
+                    F::from_canonical_u64(approval.user_id), approval.public_key)
+            } else {
+                session.start_session_user_leaf.qfhash::<H>() == approval.start_leaf
+            },
         "start session endpoint"
     );
     ensure!(
@@ -343,7 +366,7 @@ pub fn verify_market_request(
         pi(H::get_zero_hash(16), previous.qfhash::<H>()),
     )?;
     let mut proof_leaves = vec![H::q_two_to_one(
-        pack.start_fingerprint,
+        start_fingerprint,
         pi(H::get_zero_hash(16), previous.qfhash::<H>()),
     )];
     let mut event_cursor = 0usize;
@@ -574,7 +597,9 @@ pub fn verify_market_request(
     end_leaf.nonce = F::from_canonical_u64(approval.nonce);
     ensure!(end_leaf == core.new_user_leaf, "full path/proof endpoint");
     let sig_data = PsyUserProvingSessionSignatureDataCompact {
-        start_user_leaf_hash: approval.start_leaf,
+        // The signature commits to the authenticated initialized session leaf.
+        // A first Endcap separately commits to the zero stored GUSR leaf.
+        start_user_leaf_hash: session.start_session_user_leaf.qfhash::<H>(),
         end_user_leaf_hash: end_leaf.qfhash::<H>(),
         checkpoint_leaf_hash: session.checkpoint_leaf_hash,
         tx_stack_hash: previous.current_state.tx_hash_stack,
@@ -604,6 +629,6 @@ pub fn verify_market_request(
         H::q_two_to_one(sig_hash, bundle.public_key_param),
     )?;
     Ok(
-        serde_json::json!({"fullProofVerified":true,"fullCallsBound":true,"sessionBound":true,"sigHashBound":true,"endpointsAndFeesBound":true,"requestSha256":format!("{:x}",Sha256::digest(request_bytes)),"sdkManifestSha256":SDK,"contentHash":request.user_ec_input.get_tx_hash()?.to_string(),"userId":approval.user_id,"nonce":approval.nonce.to_string(),"checkpoint":cp,"endUserLeafHash":core.state_transition.end_user_leaf_hash.to_string(),"sigHash":sig_hash.to_string(),"sessionHash":session_hash,"fingerprint":pack.sign_fingerprint.to_string(),"actualFee":fee.to_string(),"eventAssurance":"advisory data; count and identity envelope checked, never authoritative state","broadcast":false}),
+        serde_json::json!({"fullProofVerified":true,"fullCallsBound":true,"sessionBound":true,"sigHashBound":true,"endpointsAndFeesBound":true,"requestSha256":format!("{:x}",Sha256::digest(request_bytes)),"sdkManifestSha256":SDK,"contentHash":request.user_ec_input.get_tx_hash()?.to_string(),"userId":approval.user_id,"nonce":approval.nonce.to_string(),"checkpoint":cp,"endUserLeafHash":core.state_transition.end_user_leaf_hash.to_string(),"sigHash":sig_hash.to_string(),"sessionHash":session_hash,"fingerprint":pack.sign_fingerprint.to_string(),"actualFee":fee.to_string(),"registrationStartVerified":registration_start,"registrationIndex":if registration_start {Some(psy_crypto::common::user_id::get_registration_id_from_user_id(approval.user_id).to_string())} else {None},"eventAssurance":"advisory data; count and identity envelope checked, never authoritative state","broadcast":false}),
     )
 }

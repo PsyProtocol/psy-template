@@ -233,3 +233,14 @@ UPS-start proving error. There is no confirmed grant, deployment, market fill or
 ordinary claim. The first-session native/WASM verifier variant remains a separate
 code/UPS gate; initialized-user synthetic evidence does not close it. Raw remote
 proof-wire diagnostics and all secret files are excluded from published evidence.
+
+## 28 October: first-session native and WASM verification
+
+[First-session report](FIRST_SESSION_WALLET_VERIFICATION_20261028.md) closes the
+pinned registration-start and distinct stored/session signature-preimage gaps.
+The exact saved claim/burn proof passes corrected native replay and actual WASM;
+old initialized-user proof/pack replay also passes. Failed fixture/verifier/tool
+runs remain failed in the archive. No proof or financial operation is regenerated
+to obtain these replay results. Fresh first-session transport, installed wallet
+release, extension approval and live financial acceptance remain open. The original
+faucet request is unresolved, and the existing financial stop is unchanged.
