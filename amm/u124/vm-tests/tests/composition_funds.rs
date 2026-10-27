@@ -13,7 +13,7 @@ fn exact_owner_funding_fee_and_cancelled_exit_have_no_residual()->Result<()> {
  let p=pair(R+17);let out=w.fields("return-input",&[(3,p[0]),(4,p[1]),(11,18*F)],F)?;
  assert!(w.execute(&out).is_err());assert_eq!(w.slots,original);
  w.run(U,C,"request_cancel",&[1])?;w.execute(&out)?;assert_eq!(w.at(V,"phase"),99);assert_eq!(w.wide(V,A,0),0);assert_eq!(w.wide(V,B,0),0);assert_eq!(w.get(V,0,0),0);
- w.run(U,A,"claim",&[V])?;w.run(U,0,"simple_claim",&[V])?;assert_eq!(w.wide(U,A,0),R+17);assert_eq!(w.get(U,0,0),98*F);
+ w.run(U,A,"claim",&[V])?;w.run(U,0,"claim",&[V])?;assert_eq!(w.wide(U,A,0),R+17);assert_eq!(w.get(U,0,0),98*F);
  let terminal=w.slots.clone();assert!(w.execute(&out).is_err());assert_eq!(w.slots,terminal);Ok(())
 }
 #[test]
@@ -50,9 +50,9 @@ fn owner_request_and_funding_binding_reject_wrong_asset_atomically()->Result<()>
  let mut w=World::new()?;let amount=R+17;w.set(U,0,0,100*F);
  for asset in[A,B]{if w.get(5,asset,3)==0{w.run(5,asset,"set_metadata",&[123,18])?;w.run(5,asset,"mint",&pair(1u128<<120))?;}let mut args=vec![U];args.extend(pair(amount));w.run(5,asset,"transfer",&args)?;w.run(U,asset,"claim",&[5])?;}
  let before=w.slots.clone();let mut transfer=vec![V];transfer.extend(pair(amount));let request=w.request_args(amount,7,5);
- let wrong=vec![(C,"request_route",request.clone()),(0,"simple_transfer",vec![V,20*F]),(B,"transfer",transfer.clone()),(C,"bind_funding",vec![1])];
+ let wrong=vec![(C,"request_route",request.clone()),(0,"transfer",vec![V,20*F]),(B,"transfer",transfer.clone()),(C,"bind_funding",vec![1])];
  assert!(w.atomic_calls(U,&wrong).is_err());assert_eq!(w.slots,before);assert_eq!(w.at(U,"request_nonce"),0);assert_eq!(w.wide(U,B,33554453+4*V),0);
- let right=vec![(C,"request_route",request),(0,"simple_transfer",vec![V,20*F]),(A,"transfer",transfer),(B,"transfer",vec![V,1,0]),(C,"bind_funding",vec![1])];w.atomic_calls(U,&right)?;assert_eq!(w.at(U,"request_funded"),1);assert_eq!(w.wide(U,A,33554453+4*V),amount);Ok(())
+ let right=vec![(C,"request_route",request),(0,"transfer",vec![V,20*F]),(A,"transfer",transfer),(B,"transfer",vec![V,1,0]),(C,"bind_funding",vec![1])];w.atomic_calls(U,&right)?;assert_eq!(w.at(U,"request_funded"),1);assert_eq!(w.wide(U,A,33554453+4*V),amount);Ok(())
 }
 #[test]
 fn canonical_metadata_and_renounced_administration_are_required_before_custody()->Result<()> {

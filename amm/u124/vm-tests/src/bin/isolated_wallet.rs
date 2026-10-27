@@ -177,7 +177,7 @@ async fn run(phase: &mut &'static str) -> Result<()> {
     let pinned=if a[1]=="serve-ordinary" {Some(PinnedOrdinary::load(&a)?)} else {None};
     let config = PsyConfigGoldilocks::from_file(&a[2])?;
     ensure!(
-        config.current_network_name() == "sepolia",
+        config.current_network_name() == "testnet",
         "isolated testnet only"
     );
     let mut net = config.get_current_network()?.clone();
@@ -217,10 +217,10 @@ async fn operation(a: &[String], net: &psy_config::NetworkConfigGoldilocks, sess
     if a[1] == "create" {
         ensure!(a.len() == 5, "create CONFIG FRESH_SECRET FRESH_PUBLIC");
         let k = session.get_random_keypair().await?;
-        let public = json!({"schema":"isolated-market-wallet-v1","network":"sepolia","networkMagic":PSY_NETWORK_MAGIC.to_string(),"publicKeyHash":k.public_key.qfhash::<PsyHasher>().to_string(),"fingerprint":k.public_key.fingerprint.to_string(),"publicKeyParam":k.public_key.public_key_param.to_string()});
+        let public = json!({"schema":"isolated-market-wallet-v1","network":"testnet","networkMagic":PSY_NETWORK_MAGIC.to_string(),"publicKeyHash":k.public_key.qfhash::<PsyHasher>().to_string(),"fingerprint":k.public_key.fingerprint.to_string(),"publicKeyParam":k.public_key.public_key_param.to_string()});
         save(
             Path::new(&a[3]),
-            &json!({"schema":"isolated-market-wallet-v1","network":"sepolia","networkMagic":PSY_NETWORK_MAGIC.to_string(),"privateKey":k.private_key.to_string(),"public":public}),
+            &json!({"schema":"isolated-market-wallet-v1","network":"testnet","networkMagic":PSY_NETWORK_MAGIC.to_string(),"privateKey":k.private_key.to_string(),"public":public}),
         )?;
         save(Path::new(&a[4]), &public)?;
         println!("{}", public);
@@ -229,7 +229,7 @@ async fn operation(a: &[String], net: &psy_config::NetworkConfigGoldilocks, sess
     let secret: Value = serde_json::from_slice(&fs::read(&a[3])?)?;
     ensure!(
         secret["schema"] == "isolated-market-wallet-v1"
-            && secret["network"] == "sepolia"
+            && secret["network"] == "testnet"
             && secret["networkMagic"] == PSY_NETWORK_MAGIC.to_string(),
         "isolated wallet identity/network schema"
     );
@@ -295,8 +295,11 @@ async fn operation(a: &[String], net: &psy_config::NetworkConfigGoldilocks, sess
         let artifact: psy_compiler::output::serialize::CompilationArtifact =
             serde_json::from_slice(&fs::read(&a[4])?)?;
         metrics.enter(phase, "prepare-and-verify-initial-layout");
-        let prepared = layout_preflight::prepare_initial(artifact.clone(), public)?;
-        let mut report = layout_preflight::verify_initial(&artifact, &prepared, public)?;
+        let owners=session.st_provider.get_user_ids_for_public_key(public).await?;
+        ensure!(owners.len()==1,"one explicit registered deployment owner required");
+        let owner=owners[0];
+        let prepared = layout_preflight::prepare_initial(artifact.clone(), owner)?;
+        let mut report = layout_preflight::verify_initial(&artifact, &prepared, owner)?;
         let function_root = prepared
             .deploy_contract
             .clone()

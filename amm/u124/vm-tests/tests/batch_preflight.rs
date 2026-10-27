@@ -1,5 +1,6 @@
 //! Offline capacity/cost probe for the existing SD-key primitive, including its
 //! two recursive minifiers. This is NOT a market batch, CFC, UPS, or node TPS test.
+use psy_template_u124_markets::market_key::MarketKeyConfig as SDKeyConfig;
 use anyhow::{ensure, Result};
 use plonky2::{
     field::{goldilocks_field::GoldilocksField as F, types::Field},
@@ -11,7 +12,7 @@ use psy_client_common::data::qhashout::QHashOut;
 use psy_client_data::{
     dpn::{
         proving_session::DPNProvingSessionCompactMethodCall,
-        sd_key::{SDKeyConfig, SDKeyTransactionInfo},
+        sd_key::{SDKeyTransactionInfo},
     },
     qdata::{
         ups_signature::PsyUserProvingSessionSignatureDataCompact, user::PsyUserLeaf,
@@ -22,12 +23,11 @@ use psy_common_circuit::builder::hash::core::CircuitBuilderHashCore;
 use psy_config::{
     network_constants::{
         DEFAULT_CALLER_CONTRACT_ID_U64, MAX_CONTRACT_STATE_TREE_HEIGHT,
-        SD_KEY_MAX_INTROSPECTABLE_TRANSACTIONS,
     },
     PSY_NETWORK_MAGIC,
 };
 use psy_crypto::hash::traits::qhashable::QFieldHashable;
-use psy_ups_circuit::signature::sd_key::{compute_tx_stack_hash, SDKeyCircuitGadget};
+use psy_template_u124_markets::market_key::{compute_tx_stack_hash, SDKeyCircuitGadget};
 use serde_json::json;
 use std::{fs::OpenOptions, io::Write, time::Instant};
 
@@ -75,6 +75,7 @@ fn witness(
         },
     )?;
     w.set_hash_target(g.sig_hash, sig.0)?;
+    g.session_context.start_user_leaf.set_witness(&mut w, &leaf)?;
     w.set_hash_target(
         g.session_context.start_user_leaf_hash,
         leaf.qfhash::<PoseidonHash>().0,
@@ -212,7 +213,7 @@ fn measure_exact_stack_capacity_and_recursive_authorization_cost() -> Result<()>
         measurements.push(row);
     }
     output.write_all(&serde_json::to_vec_pretty(&json!({"schema":1,"scope":"synthetic exact-stack SD-key with two dynamic 62-bit inputs per call plus two recursive minifiers",
-        "configuredIntrospectionConstant":SD_KEY_MAX_INTROSPECTABLE_TRANSACTIONS,"measurements":measurements,
+        "applicationLogicalCapacity":64,"measurements":measurements,
         "marketBatchImplemented":false,"fullUpsVerified":false,"nodeAdmissionTested":false,"broadcast":false,"chainTps":null}))?)?;
     output.write_all(b"\n")?;
     output.sync_all()?;

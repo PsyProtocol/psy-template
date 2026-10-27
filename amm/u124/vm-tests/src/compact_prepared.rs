@@ -31,7 +31,7 @@ pub async fn broadcast(a:&[String],spec:&Value,fp:QHashOut<F>,key:QHashOut<F>,ne
  let m:Manifest=serde_json::from_slice(&mb)?;ensure!(m.version==1,"prepared format");
  let calls=fs::read(&a[4])?;let gb=fs::read(&a[5])?;let pb=fs::read(source.join("preflight.json"))?;let rb=fs::read(source.join("request.json"))?;
  ensure!(m.policy_sha256==sha(&fs::read(&a[2])?)&&m.calls_sha256==sha(&calls)&&m.guard_sha256==sha(&gb)&&m.preflight_sha256==sha(&pb)&&m.request_sha256==sha(&rb),"prepared file substitution");
- let g:Guard=serde_json::from_slice(&gb)?;g.identity.validate(spec,"sepolia",&fp.to_string(),&key.to_string())?;
+ let g:Guard=serde_json::from_slice(&gb)?;g.identity.validate(spec,"testnet",&fp.to_string(),&key.to_string())?;
  let required=g.identity.contracts.iter().map(|x|x.contract_id).collect::<std::collections::BTreeSet<_>>();let bound=g.dependencies.iter().map(|x|x.contract.contract_id).collect::<std::collections::BTreeSet<_>>();ensure!(required==bound&&bound.len()==g.dependencies.len(),"complete prepared dependency bindings");
  let p:Value=serde_json::from_slice(&pb)?;let data:ContractCallData=serde_json::from_slice(&calls)?;
  ensure!(p["benchmarkSourceCheckpoint"].is_null(),"historical source calibration proofs must never be broadcast");

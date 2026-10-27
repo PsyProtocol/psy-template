@@ -9,7 +9,7 @@ use serde_json::{json,Value};
 use sha2::{Digest,Sha256};
 use std::{fs,io::Write,collections::BTreeSet};
 fn envelope(bytes:&[u8])->Result<Value>{let r:Value=serde_json::from_slice(bytes)?;ensure!(r["jsonrpc"]=="2.0"&&r["id"]==1&&r.get("error").is_none()&&r.get("result").is_some(),"successful exact RPC envelope required");Ok(r["result"].clone())}
-fn leaf_check(v:Value)->Value {match serde_json::from_value::<PsyContractLeaf<F>>(v){Ok(leaf)=>json!({"ok":true,"codeRoot":leaf.code_root.to_string(),"stateTreeHeight":leaf.state_tree_height.to_canonical_u64()}),Err(e)=>json!({"ok":false,"error":e.to_string(),"expectedDeployer":"selected SDK QHashOut serialized as hexadecimal string; no numeric-owner coercion is permitted"})}}
+fn leaf_check(v:Value)->Value {match serde_json::from_value::<PsyContractLeaf<F>>(v){Ok(leaf)=>json!({"ok":true,"codeRoot":leaf.code_root.to_string(),"stateTreeHeight":leaf.state_tree_height.to_canonical_u64()}),Err(e)=>json!({"ok":false,"error":e.to_string(),"expectedDeployer":"selected SDK numeric deployer user ID; public-key hashes are not owners"})}}
 fn main()->Result<()>{
  let a=std::env::args().collect::<Vec<_>>();ensure!(a.len()==4,"PUBLIC_NATIVE_LEAF_ENVELOPE PUBLIC_NATIVE_CODE_ENVELOPE FRESH_REPORT");
  let leaf_bytes=fs::read(&a[1])?;let code_bytes=fs::read(&a[2])?;let leaf=envelope(&leaf_bytes)?;let code=envelope(&code_bytes)?;
@@ -22,8 +22,8 @@ fn main()->Result<()>{
  },Err(e)=>errors.push(format!("native code schema: {e}"))}
  let root=if errors.is_empty(){Some(get_code_root_by_code_hashes::<F,PoseidonHash>(&hashes,15).to_string())}else{None};
  let root_matches=root.as_deref()==leaf["code_root"].as_str();
- for(name,inputs)in [("simple_transfer",2),("simple_claim",1),("simple_burn",1)]{if !methods.iter().any(|m|m["name"]==name&&m["inputs"]==inputs&&m["outputs"]==0){errors.push(format!("required native signature missing: {name}/{inputs}"));}}
- let burn_id=psy_config::network_constants::TOKEN_SIMPLE_BURN_METHOD_ID;
+ for(name,inputs)in [("transfer",2),("claim",1),("burn",1)]{if !methods.iter().any(|m|m["name"]==name&&m["inputs"]==inputs&&m["outputs"]==0){errors.push(format!("required native signature missing: {name}/{inputs}"));}}
+ let burn_id=psy_config::network_constants::TOKEN_BURN_METHOD_ID;
  let automatic_burn_supported=methods.iter().any(|m|m["methodId"]==burn_id&&m["inputs"]==1&&m["outputs"]==0);
  if !automatic_burn_supported{errors.push(format!("SDK automatic fee-burn method ID {burn_id} is absent"));}
  let compatible=schema["ok"]==true&&root_matches&&errors.is_empty();
@@ -33,6 +33,6 @@ fn main()->Result<()>{
 }
 #[cfg(test)]mod tests{use super::*;
  #[test]fn selected_sdk_leaf_accepts_its_exact_serialized_schema(){let value=serde_json::to_value(PsyContractLeaf::<F>::default()).unwrap();assert_eq!(leaf_check(value)["ok"],true);}
- #[test]fn numeric_owner_is_not_coerced_to_a_public_key_hash(){let mut value=serde_json::to_value(PsyContractLeaf::<F>::default()).unwrap();value["deployer"]=json!(0);assert_eq!(leaf_check(value)["ok"],false);}
+ #[test]fn hash_owner_is_not_coerced_to_a_numeric_user_id(){let mut value=serde_json::to_value(PsyContractLeaf::<F>::default()).unwrap();value["deployer"]=json!("0".repeat(64));assert_eq!(leaf_check(value)["ok"],false);}
  #[test]fn rpc_errors_or_wrong_envelope_are_not_results(){for v in [json!({"jsonrpc":"2.0","id":1,"error":{"code":-1}}),json!({"jsonrpc":"2.0","id":2,"result":{}})]{assert!(envelope(&serde_json::to_vec(&v).unwrap()).is_err());}}
 }

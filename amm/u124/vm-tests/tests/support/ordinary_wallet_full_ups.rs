@@ -29,7 +29,7 @@ async fn four_market_ordinary_wallet_complete_ups() -> Result<()> {
    calls.push(json!({"contract_id":NFT,"method_name":"acknowledge","inputs":[V]}));
    calls.push(json!({"contract_id":M,"method_name":"open_buy","inputs":args(&[V,200,1],&[qty],&[deadline,1])}));
   }
-  if mode=="fund" {calls.push(json!({"contract_id":0,"method_name":"simple_transfer","inputs":[V,ESCROW]}));
+  if mode=="fund" {calls.push(json!({"contract_id":0,"method_name":"transfer","inputs":[V,ESCROW]}));
   calls.push(json!({"contract_id":if kind=="bondingcurve"{B}else{A},"method_name":"transfer","inputs":args(&[V],&[if kind=="bondingcurve"{(1u128<<110)+17}else{qty}],&[])}));
   w.run(V,M,"start_epoch",&[w.val(V,"queue_epoch",0)+1,w.checkpoint+10])?;}
   let chain=Chain::new(&w,&calls)?;
@@ -62,7 +62,7 @@ async fn four_market_ordinary_wallet_complete_ups() -> Result<()> {
   }
   session.prove_burn_fee(&chain.cm).await?;
   let burn=session.require_lps()?.last_transaction_record().call_data.call_data.inputs[0].to_canonical_u64();
-  reference.run(user,0,"simple_burn",&[burn])?;
+  reference.run(user,0,"burn",&[burn])?;
   let header=*session.get_current_ups_header();let nonce=GF::ONE;
   ensure!(header.current_state.tx_count==f(calls.len()as u64+1),"complete ordinary stack including burn");
   let sighash=session.get_sighash(PSY_NETWORK_MAGIC,nonce);
@@ -70,6 +70,8 @@ async fn four_market_ordinary_wallet_complete_ups() -> Result<()> {
   let slots=session.require_lps()?.get_total_slots_modified();
   let proof=session.prove_end_cap(&chain.cm,PSY_NETWORK_MAGIC,nonce,slots,signature.get_fingerprint(),key.get_public_key_param::<PoseidonHash>(),sig,signature.get_verifier_config_ref().clone()).await?;
   chain.cm.ups_end_cap.verify_proof(proof.clone())?;
+  let fixed_profile=psy_template_u124_markets::live_guard::verify_ups_profile(&chain.cm)?;
+  psy_template_u124_markets::fixed_verifier::with_verifier(|v|{v.verify(proof.clone())?;Ok(())})?;
   let api=session.get_api_input().await?;validate_endcap_binding(&api.core,&proof.public_inputs)?;
   ensure!(api.core.new_user_leaf.public_key==pk&&api.core.new_user_leaf.nonce==nonce,"ordinary signer and nonce");
   ensure!(api.core.stats.guta_fees_collected.to_canonical_u64()+api.core.stats.da_fees_collected.to_canonical_u64()==burn,"exact actual fee");
@@ -86,7 +88,7 @@ async fn four_market_ordinary_wallet_complete_ups() -> Result<()> {
   let request=QSubmitEndCapRPCRequest{user_ec_input:api,proof:bincode::serialize(&proof)?};
   let bytes=serde_json::to_vec(&request)?;let path=format!("{output}/{kind}-request.json");
   let mut file=fs::OpenOptions::new().write(true).create_new(true).open(&path)?;use std::io::Write;file.write_all(&bytes)?;file.sync_all()?;
-  let row=json!({"market":kind,"action":mode,"userId":user,"callsIncludingBurn":calls.len()+1,"actualFee":burn,"proofBytes":request.proof.len(),"fullUpsVerified":true,"ordinarySignature":true,"sigHash":sighash.to_string(),"requestSha256":format!("{:x}",Sha256::digest(&bytes)),"sourceCheckpoint":w.checkpoint,"startUserLeafHash":request.user_ec_input.core.state_transition.start_user_leaf_hash.to_string(),"endUserLeafHash":request.user_ec_input.core.state_transition.end_user_leaf_hash.to_string(),"publicKeyHash":pk.to_string(),"rejectedMetadata":rejection_cases,"corruptProofRejected":true,"referenceBytecodeStateMatched":true,"elapsedMilliseconds":started.elapsed().as_secs_f64()*1000.,"broadcast":false});
+  let row=json!({"market":kind,"action":mode,"userId":user,"callsIncludingBurn":calls.len()+1,"actualFee":burn,"proofBytes":request.proof.len(),"fullUpsVerified":true,"fixedNodeVerifier":fixed_profile,"ordinarySignature":true,"sigHash":sighash.to_string(),"requestSha256":format!("{:x}",Sha256::digest(&bytes)),"sourceCheckpoint":w.checkpoint,"startUserLeafHash":request.user_ec_input.core.state_transition.start_user_leaf_hash.to_string(),"endUserLeafHash":request.user_ec_input.core.state_transition.end_user_leaf_hash.to_string(),"publicKeyHash":pk.to_string(),"rejectedMetadata":rejection_cases,"corruptProofRejected":true,"referenceBytecodeStateMatched":true,"elapsedMilliseconds":started.elapsed().as_secs_f64()*1000.,"broadcast":false});
   println!("ORDINARY_FULL_UPS {}",serde_json::to_string(&row)?);rows.push(row);
  }
  fs::write(format!("{output}/REPORT.json"),serde_json::to_vec_pretty(&json!({"schema":1,"rows":rows,"broadcast":false,"scope":"fresh complete ordinary signature UPSs; synthetic authenticated checkpoints; fixture setup VM-only; no RPC, live acceptance, TPS or wallet-extension acceptance"}))?)?;

@@ -2,7 +2,7 @@
 //! construction, restricted to explicit controller operation branches only.
 use anyhow::{ensure,Result};
 use serde_json::Value;
-use psy_ups_circuit::signature::sd_key::SDKeyCircuitGadget;
+use crate::market_key::SDKeyCircuitGadget;
 pub fn validate(spec:&Value)->Result<()> {
  crate::batch_compact::validate(spec)?;
  ensure!(spec["composition_profile"]=="two-amm-owner-funded-v1","composition profile");

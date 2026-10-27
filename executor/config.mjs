@@ -55,7 +55,7 @@ export function validateOptions(input,base=process.cwd()){
   if(o.admissionMode!==undefined&&(o.profile!=='batch-admission-compact-v1'||!['single-v1','all-four-v1'].includes(o.admissionMode)))throw Error('explicit supported compact admissionMode required');
   if(o.profile==='batch-admission-compact-v1'){
     for(const key of ['dependencyBindings','admissionPlan'])if(typeof o[key]!=='string'||!o[key])throw Error(`path required: ${key}`);
-    if(o.network!=='sepolia'||!['sepolia-config-v1','staging-bundled-regtest-20261020-v1'].includes(o.testnetProfile))throw Error('explicit supported compact testnet profile required');
+    if(!(o.network==='testnet'&&o.testnetProfile==='mainnet-beta-20261027-v1')&&(o.network!=='sepolia'||!['sepolia-config-v1','staging-bundled-regtest-20261020-v1'].includes(o.testnetProfile)))throw Error('explicit supported compact testnet profile required');
     if(o.batchMemberLimit!==4)throw Error('compact admission processes the complete four-member capacity');
     o.proverMode??='subprocess';if(!['subprocess','resident'].includes(o.proverMode))throw Error('proverMode must be subprocess or resident');
     if(o.fixedVerifierMode!==undefined&&!['fresh-v1','cached-v1'].includes(o.fixedVerifierMode))throw Error('unsupported explicit fixedVerifierMode');

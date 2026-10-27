@@ -43,3 +43,14 @@ num-bigint = "=0.4.8"
 num-traits = "=0.2.19"
 
 psy_network_circuit = { path = "../../../../psy-node/client_prover/psy_circuit/psy_network_circuit" }
+
+[patch."https://github.com/PsyProtocol/plonky2-hwa"]
+plonky2 = { git = "https://www.github.com/PsyProtocol/plonky2-hwa", rev = "736572e9dd3ca93566471cf5a2a1cb67a13fe01d" }
+plonky2_field = { git = "https://www.github.com/PsyProtocol/plonky2-hwa", rev = "736572e9dd3ca93566471cf5a2a1cb67a13fe01d" }
+plonky2_maybe_rayon = { git = "https://www.github.com/PsyProtocol/plonky2-hwa", rev = "736572e9dd3ca93566471cf5a2a1cb67a13fe01d" }
+plonky2_util = { git = "https://www.github.com/PsyProtocol/plonky2-hwa", rev = "736572e9dd3ca93566471cf5a2a1cb67a13fe01d" }
+
+[package.metadata.psy-sdk]
+branch = "mainnet-beta"
+commit = "c92880c8b6e2c8d392f19368bc8801a2584fd427"
+client-commit = "b280d714a8f0930c61962c885374ea63ea63d274"

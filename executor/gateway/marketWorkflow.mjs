@@ -1,3 +1,4 @@
+import { nativeMethod } from "../../market-client/nativeProtocol.mjs";
 // Ordinary three-market Executor adapter. Requires a separately accepted exact
 // wallet transport and independent native verifier; the public HTTP server never
 // instantiates it. No direct signer or replacement-operation fallback exists.
@@ -116,7 +117,7 @@ export function createExactMarketWorkflow({
       p.fullCalls,
       [
         ...plan.calls,
-        { contract_id: "0", method_name: "simple_burn", inputs: [p.actualFee] },
+        { contract_id: "0", method_name: nativeMethod(registry, "burn"), inputs: [p.actualFee] },
       ],
       "Full stack including fee burn changed",
     );

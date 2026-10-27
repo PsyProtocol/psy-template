@@ -1,3 +1,4 @@
+import { nativeManifestPath } from "../../market-client/nativeProtocol.mjs";
 // Fixed-checkpoint public observations. No proof generation, wallet or send path.
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
@@ -24,7 +25,7 @@ export async function loadPositions(config, rpcConfig) {
   assert.equal(sha(canonical(registry)), config.registrySha256);
   assert.equal(registry.schema, 1);
   const sdk = resolve(
-    "batching/dependencies/session-bound-sdk-20261020/manifest.json",
+    nativeManifestPath(registry),
   );
   assert.equal(sha(await readFile(sdk)), registry.sdkManifestSha256);
   assert.equal(

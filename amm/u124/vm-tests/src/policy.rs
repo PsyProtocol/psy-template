@@ -1,10 +1,10 @@
 //! Exact whole-stack SD-key authorization for U124 markets and NFT Marketplace.
 use anyhow::{ensure,Result};
 use plonky2::{field::{goldilocks_field::GoldilocksField as F,types::Field},hash::poseidon::PoseidonHash,iop::target::{BoolTarget,Target},plonk::{circuit_builder::CircuitBuilder,circuit_data::CircuitConfig}};
-use psy_client_data::dpn::sd_key::SDKeyConfig;
+use crate::market_key::MarketKeyConfig as SDKeyConfig;
 use psy_common_circuit::builder::hash::core::CircuitBuilderHashCore;
 use psy_config::network_constants::{DEFAULT_CALLER_CONTRACT_ID_U64,MAX_CONTRACT_STATE_TREE_HEIGHT};
-use psy_ups_circuit::signature::sd_key::{SDKeyCircuitGadget,SDKeyTransactionInfoTargets};
+use crate::market_key::{SDKeyCircuitGadget,SDKeyTransactionInfoTargets};
 use serde_json::Value;
 fn eq(b:&mut CircuitBuilder<F,2>,when:BoolTarget,a:Target,e:Target){let difference=b.sub(a,e);let gated=b.mul(when.target,difference);let zero=b.zero();b.connect(gated,zero);}
 /// Reject malformed or noncanonical policy JSON before allocating targets.

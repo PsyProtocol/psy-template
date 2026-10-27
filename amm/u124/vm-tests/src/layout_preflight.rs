@@ -14,7 +14,7 @@ fn verifier()->&'static CanonicalLayoutProofVerifier<C,2>{
  static V:OnceLock<CanonicalLayoutProofVerifier<C,2>>=OnceLock::new();
  V.get_or_init(||CanonicalLayoutProofVerifier::<C,2>::new(STATE_LAYOUT_TREE_HEIGHT-STATE_LAYOUT_APPEND_SUB_TREE_HEIGHT,STATE_LAYOUT_APPEND_SUB_TREE_HEIGHT,STATE_LAYOUT_MAX_AGGREGATION_DEPTH))
 }
-fn expected_code(a:&CompilationArtifact,deployer:QHashOut<F>)->Result<QBCDeployContract<F>>{
+fn expected_code(a:&CompilationArtifact,deployer:u64)->Result<QBCDeployContract<F>>{
  // Circuit fingerprints, code and function whitelists depend on the immutable
  // artifact and compiled network configuration, never on its eventual owner.
  // The opt-in cache holds a zero-owner template; every returned request is rebound.
@@ -24,7 +24,7 @@ fn expected_code(a:&CompilationArtifact,deployer:QHashOut<F>)->Result<QBCDeployC
  let mode=std::env::var("PSY_INITIAL_CODE_CACHE").unwrap_or_else(|_|"owner-v1".into());
  ensure!(["owner-v1","artifact-template-v1"].contains(&mode.as_str()),"unknown initial code cache profile");
  let template_mode=mode=="artifact-template-v1";
- let resource_owner=if template_mode{QHashOut::<F>::ZERO}else{deployer};
+ let resource_owner=if template_mode{0}else{deployer};
  let key=serde_json::to_string(&(&mode,psy_config::PSY_NETWORK_MAGIC,resource_owner,a.state_tree_height,&a.circuit_definitions))?;
  if let Some(mut c)=cache.lock().map_err(|_|anyhow::anyhow!("code cache poisoned"))?.get(&key).cloned(){c.deployer=deployer;return Ok(c);}
  let (_,template)=gen_contract_deploy_and_circuits_for_functions::<C,2>(resource_owner,a.state_tree_height as u8,&a.circuit_definitions)?;
@@ -34,13 +34,15 @@ fn expected_code(a:&CompilationArtifact,deployer:QHashOut<F>)->Result<QBCDeployC
 pub fn verify_abi_layout(abi_json:&str)->Result<()>{
  psy_data::v1::qdata::contract::canonical_layout_manifest_from_compiler_abi_json::<parth_core::pgoldilocks::PoseidonHasher,F,LayoutHash<F>>(abi_json,STATE_LAYOUT_TREE_HEIGHT,psy_data::v1::qdata::contract::CANONICAL_TYPE_LAYOUT_STRUCT_TREE_HEIGHT)?;Ok(())
 }
-pub fn prepare_initial(a:CompilationArtifact,deployer:QHashOut<F>)->Result<QBCDeployContractV2<F>>{
+pub fn prepare_initial(a:CompilationArtifact,deployer:u64)->Result<QBCDeployContractV2<F>>{
+ ensure!(deployer>0&&deployer<(1u64<<32),"explicit bounded deployment user ID required");
  ensure!([30,31].contains(&a.state_tree_height),"NFT/U124 deployment height required");
  verify_abi_layout(&serde_json::to_string(&a.abi)?)?;
  let base=expected_code(&a,deployer)?;
  build_layout_aware_deploy_command(&ContractOutput{contract_code:base.code_definition.clone(),circuit_definitions:a.circuit_definitions,abi:a.abi},base)
 }
-pub fn verify_initial(a:&CompilationArtifact,c:&QBCDeployContractV2<F>,deployer:QHashOut<F>)->Result<serde_json::Value>{
+pub fn verify_initial(a:&CompilationArtifact,c:&QBCDeployContractV2<F>,deployer:u64)->Result<serde_json::Value>{
+ ensure!(deployer>0&&deployer<(1u64<<32),"explicit bounded deployment user ID required");
  c.validate_shape()?;ensure!([30,31].contains(&a.state_tree_height),"NFT/U124 deployment height required");
  ensure!(c.deploy_contract.deployer==deployer,"deployer binding mismatch");
  ensure!(c.deploy_contract.code_definition.state_tree_height==a.state_tree_height,"candidate height differs");
@@ -69,10 +71,10 @@ pub fn verify_initial(a:&CompilationArtifact,c:&QBCDeployContractV2<F>,deployer:
   let artifact=std::env::var("LAYOUT_REUSE_ARTIFACT")?;let output=std::env::var("LAYOUT_REUSE_OUT")?;fs::create_dir(&output)?;
   let bytes=fs::read(&artifact)?;let a:CompilationArtifact=serde_json::from_slice(&bytes)?;let mut rows=vec![];
   for index in 1..=2u64 {
-   let owner=QHashOut::<F>::from_values(index,index+10,index+20,index+30);let began=Instant::now();
+   let owner=index;let began=Instant::now();
    let request=prepare_initial(a.clone(),owner)?;let prepared_ms=began.elapsed().as_secs_f64()*1000.;let verified=Instant::now();
    let report=verify_initial(&a,&request,owner)?;let verify_ms=verified.elapsed().as_secs_f64()*1000.;
-   let other=QHashOut::<F>::from_values(index+40,index+50,index+60,index+70);
+   let other=index+40;
    ensure!(verify_initial(&a,&request,other).is_err(),"wrong expected owner accepted");
    let mut changed=request.clone();changed.deploy_contract.deployer=other;ensure!(verify_initial(&a,&changed,owner).is_err(),"mutated request owner accepted");
    let mut changed=request.clone();changed.deploy_contract.code_definition.functions[0].num_inputs+=1;ensure!(verify_initial(&a,&changed,owner).is_err(),"mutated code accepted");
@@ -93,10 +95,10 @@ pub fn verify_initial(a:&CompilationArtifact,c:&QBCDeployContractV2<F>,deployer:
   let artifact=std::env::var("LAYOUT_REUSE_ARTIFACT")?;let input=std::env::var("LAYOUT_PRESERVED_INPUT")?;let output=std::env::var("LAYOUT_PRESERVED_REPORT")?;
   let a:CompilationArtifact=serde_json::from_slice(&fs::read(artifact)?)?;let mut rows=vec![];
   for mode in ["owner-v1","artifact-template-v1"]{std::env::set_var("PSY_INITIAL_CODE_CACHE",mode);for index in 1..=2u64{
-   let owner=QHashOut::<F>::from_values(index,index+10,index+20,index+30);let request:QBCDeployContractV2<F>=serde_json::from_slice(&fs::read(format!("{input}/owner-{index}-request.json"))?)?;
-   let report=verify_initial(&a,&request,owner)?;ensure!(verify_initial(&a,&request,QHashOut::<F>::ZERO).is_err(),"wrong owner accepted");rows.push(json!({"profile":mode,"ownerIndex":index,"completeInitialLayoutVerified":true,"wrongOwnerRejected":true,"report":report}));
+   let owner=index;let request:QBCDeployContractV2<F>=serde_json::from_slice(&fs::read(format!("{input}/owner-{index}-request.json"))?)?;
+   let report=verify_initial(&a,&request,owner)?;ensure!(verify_initial(&a,&request,0).is_err(),"wrong owner accepted");rows.push(json!({"profile":mode,"ownerIndex":index,"completeInitialLayoutVerified":true,"wrongOwnerRejected":true,"report":report}));
   }}
-  std::env::set_var("PSY_INITIAL_CODE_CACHE","unknown-profile");let owner=QHashOut::<F>::from_values(1,11,21,31);let request:QBCDeployContractV2<F>=serde_json::from_slice(&fs::read(format!("{input}/owner-1-request.json"))?)?;ensure!(verify_initial(&a,&request,owner).is_err(),"unknown cache profile accepted");
+  std::env::set_var("PSY_INITIAL_CODE_CACHE","unknown-profile");let owner=1;let request:QBCDeployContractV2<F>=serde_json::from_slice(&fs::read(format!("{input}/owner-1-request.json"))?)?;ensure!(verify_initial(&a,&request,owner).is_err(),"unknown cache profile accepted");
   let mut f=fs::OpenOptions::new().write(true).create_new(true).open(output)?;f.write_all(&serde_json::to_vec_pretty(&json!({"rows":rows,"unknownProfileRejected":true,"rpcCalls":0,"financialOperations":0,"scope":"verify preserved public static initial-layout proofs; not transaction state-proof reuse or live acceptance"}))?)?;f.sync_all()?;Ok(())
  }
 }

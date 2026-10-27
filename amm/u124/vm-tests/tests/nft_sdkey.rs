@@ -4,7 +4,7 @@ use psy_client_common::data::qhashout::QHashOut;
 use psy_client_data::{dpn::{proving_session::DPNProvingSessionCompactMethodCall,sd_key::SDKeyTransactionInfo},qdata::{ups_signature::PsyUserProvingSessionSignatureDataCompact,user::PsyUserLeaf,user_contract_state::SignContext}};
 use psy_config::{PSY_NETWORK_MAGIC,network_constants::DEFAULT_CALLER_CONTRACT_ID_U64};
 use psy_crypto::hash::traits::qhashable::QFieldHashable;
-use psy_ups_circuit::signature::sd_key::{compute_tx_stack_hash,SDKeyCircuitGadget};
+use psy_template_u124_markets::market_key::{compute_tx_stack_hash,SDKeyCircuitGadget};
 use psy_template_u124_markets::policy::build_policy;
 use serde_json::Value;
 use std::fs;
@@ -52,6 +52,7 @@ use std::fs;
             )
             .get_qhash::<PoseidonHash>();
         let mut witness = PartialWitness::<F>::new();
+        gadget.session_context.start_user_leaf.set_witness(&mut witness,&user_leaf)?;
         witness.set_hash_target(
             gadget.private_key,
             HashOut {

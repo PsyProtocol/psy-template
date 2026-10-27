@@ -1,3 +1,16 @@
+# SDK dependency snapshots
+
+The active application targets the user-selected `psy-sdk/mainnet-beta` source
+freeze in [mainnet-beta-20261027](mainnet-beta-20261027/README.md). Use its fresh
+source materializer and application snapshot builder. Do not build the current
+application against an arbitrary sibling Node checkout.
+
+The instructions below describe **historical reproduction only**. Use the
+application commit recorded by the historical evidence; current migrated source
+requires the selected new SDK. The old application Cargo.lock is retained in
+`session-bound-sdk-20261020/Cargo.lock` so preserving this snapshot does not
+constrain or overwrite the active lockfile.
+
 # Reproducible application SDK snapshot
 
 `session-bound-sdk-20261020/` freezes the **existing** local SDK dependency,

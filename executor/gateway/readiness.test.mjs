@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { createReadinessReader } from "./readiness.mjs";
 import { fixtureRegistry, H, NOW } from "./fixtures.mjs";
 import { validateReadiness } from "../../market-client/readiness.mjs";
+import { MAINNET_BETA_PROFILE, MAINNET_BETA_MANIFEST, MAINNET_BETA_NATIVE_ROOT } from "../../market-client/nativeProtocol.mjs";
 async function setup() {
   const registry = await fixtureRegistry();
   registry.network.chainRootAt1 = H("chain");
@@ -82,6 +83,22 @@ test("numeric native owner and changed code root stop before probing old market 
   assert.equal(s.state, "protocol-incompatible");
   assert.equal(s.nativeSchemaCompatible, false);
   assert.deepEqual(f.checked, [0]);
+});
+test("selected SDK accepts its exact numeric native owner and rejects legacy coercion", async () => {
+  const f = await setup();
+  f.registry.nativeProtocol = MAINNET_BETA_PROFILE;
+  f.registry.sdkManifestSha256 = MAINNET_BETA_MANIFEST;
+  f.registry.network.name = f.state.networkName = "testnet";
+  for (const m of f.registry.markets)
+    m.dependencies.find(d => d.contract.contractId === 0).contract.codeRoot = MAINNET_BETA_NATIVE_ROOT;
+  const leaf = f.state.contractLeaf;
+  let owner = 0;
+  f.state.contractLeaf = async id => ({ ...(await leaf(id)), deployer: id === 0 ? owner : 1 });
+  assert.equal((await f.reader()()).state, "registry-matches");
+  for (const bad of ["0", H("owner"), -1, 4294967296]) {
+    owner = bad;
+    assert.equal((await f.reader()()).state, "protocol-incompatible");
+  }
 });
 test("missing or changed checkpoint-one identity cannot accept matching contract roots", async () => {
   for (const pinned of [undefined, H("other-chain")]) {

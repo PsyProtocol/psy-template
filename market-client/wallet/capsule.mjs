@@ -1,3 +1,4 @@
+import { nativeMethod } from "../nativeProtocol.mjs";
 // Public ordinary-market capsule projection. Hydrated traces/witnesses stay in
 // wallet memory; only the public endcap request and approved manifest survive.
 import { prepareOnlyMarketJobs } from "./prepareOnly.mjs";
@@ -99,7 +100,7 @@ export function validateMarketTrace({
   );
   const expected = [
     ...record.plan.calls,
-    { contract_id: "0", method_name: "simple_burn", inputs: [actualFee] },
+    { contract_id: "0", method_name: nativeMethod(record.plan, "burn"), inputs: [actualFee] },
   ];
   const cfc = trace.steps.filter((s) =>
     ["standard", "burn_fee"].includes(s.kind),

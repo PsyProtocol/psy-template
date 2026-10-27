@@ -1,3 +1,4 @@
+import { nativeProfile, MAINNET_BETA_PROFILE } from "../../market-client/nativeProtocol.mjs";
 // Live readonly diagnostics, never a financial preflight or authorization.
 import assert from "node:assert/strict";
 import { canonical, hashPattern } from "../../market-client/protocol.mjs";
@@ -68,10 +69,11 @@ export function createReadinessReader({
       result.chainRoot = anchor.global_chain_root;
       result.nativeCodeRoot = leaf.code_root;
       result.nativeFunctionRoot = leaf.function_tree_root;
-      // The selected SDK's exact leaf serializer requires a QHashOut owner. A
-      // numeric owner is a protocol change, never permission to coerce schemas.
+      // Select the exact reviewed schema. Do not coerce hash owners to user IDs.
       result.nativeSchemaCompatible =
-        typeof leaf.deployer === "string" && hashPattern.test(leaf.deployer);
+        nativeProfile(registry) === MAINNET_BETA_PROFILE
+          ? leaf.deployer === 0
+          : typeof leaf.deployer === "string" && hashPattern.test(leaf.deployer);
       result.nativeRootMatchesRegistry =
         leaf.code_root === native.contract.codeRoot &&
         leaf.function_tree_root === native.functionTreeRoot &&
