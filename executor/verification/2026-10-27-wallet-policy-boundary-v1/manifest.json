@@ -1,0 +1,234 @@
+{
+  "schema": 1,
+  "scope": "Application-owned policy source and coordinated unpublished wallet candidate snapshot; mocked protocol/unit/build tests and public readonly observations only; no current financial/extension/proof acceptance.",
+  "archive": "public-evidence.tar.gz",
+  "archiveSha256": "91a653b0aee10adfad1c3388cff92e46c63c6e83b5e3e25a8a35111fd6a22ae9",
+  "files": [
+    {
+      "path": "application-source/market-client/wallet/approvalPolicy.d.mts",
+      "bytes": 710,
+      "sha256": "a83767b9ee6f672aa38f072f7258a125e8498a25202c0ce54d392810bcbd6567"
+    },
+    {
+      "path": "application-source/market-client/wallet/approvalPolicy.mjs",
+      "bytes": 5933,
+      "sha256": "a68155cf12668025fe9c739cf823a55bd15d26cd6e79564c7c9efd343015161a"
+    },
+    {
+      "path": "application-source/market-client/wallet/approvalPolicy.test.mjs",
+      "bytes": 3781,
+      "sha256": "2cb555c6b08548eb0f5a40ad938917f06789f27ae45917fbc3a76c48beb93af5"
+    },
+    {
+      "path": "application-source/market-client/wallet/vendor.mjs",
+      "bytes": 4461,
+      "sha256": "99de4909be6b5d5a206d7c3c22a08ddb6c1d412d21ebd9db91be11f52c565acb"
+    },
+    {
+      "path": "observations/REPORT.json",
+      "bytes": 910,
+      "sha256": "2d0fdb9d12389157796a13b604186796f4e09807ade3ae10e06800e60868ad17"
+    },
+    {
+      "path": "observations/checkpoint1-request.json",
+      "bytes": 94,
+      "sha256": "8e5ab01b5c7f54dccf9dbcce501bf9fac4fd437185cc376c2d066ce96802c965"
+    },
+    {
+      "path": "observations/checkpoint1-response.json",
+      "bytes": 790,
+      "sha256": "0dc1329cb8229f9bccd034c8812e60558326da2c17cc8907b089e694f301d8be"
+    },
+    {
+      "path": "observations/circuits-request.json",
+      "bytes": 70,
+      "sha256": "41b4877f003693262ea52a121873cce3902040ab5f0fc79ce3553a3af76d2452"
+    },
+    {
+      "path": "observations/circuits-response.json",
+      "bytes": 25921,
+      "sha256": "c1fc6f72975e62ed87c63593b43e08f7e26fe2aacddae5b96272021ab35726bb"
+    },
+    {
+      "path": "observations/faucet-request.json",
+      "bytes": 74,
+      "sha256": "6e9b715550b9704dee99760ae3a147ca0a384d471adf3f2ad193e242f66e802d"
+    },
+    {
+      "path": "observations/faucet-response.json",
+      "bytes": 947,
+      "sha256": "b12e2673ca962597d2fd40f518047de25e5d50cc5861ba246c94a9ab09cbf4af"
+    },
+    {
+      "path": "observations/native-request.json",
+      "bytes": 90,
+      "sha256": "3a5107148db35961a95591bac17da5b45a3f753031cdf6cf121ba82e8b67e7c6"
+    },
+    {
+      "path": "observations/native-response.json",
+      "bytes": 391,
+      "sha256": "62eb9e61f3c60cbf3e07e23a121d0afaed83ae6c6067c7a8af18b9e7cb8a6e64"
+    },
+    {
+      "path": "observations/realm0-request.json",
+      "bytes": 78,
+      "sha256": "3f4d92fb01040306e994092a87018d0f18da258efd1cf023f051ddff478a72c9"
+    },
+    {
+      "path": "observations/realm0-response.json",
+      "bytes": 223,
+      "sha256": "982b269f1e7e23f1664c2838ac4bc224f5a5dc291edd3fa4bbafe27086b11349"
+    },
+    {
+      "path": "observations/realm1-request.json",
+      "bytes": 78,
+      "sha256": "3f4d92fb01040306e994092a87018d0f18da258efd1cf023f051ddff478a72c9"
+    },
+    {
+      "path": "observations/realm1-response.json",
+      "bytes": 223,
+      "sha256": "982b269f1e7e23f1664c2838ac4bc224f5a5dc291edd3fa4bbafe27086b11349"
+    },
+    {
+      "path": "public/PLAN-v1.json",
+      "bytes": 963,
+      "sha256": "4f8327f4bf514c27a9f58627d3dc540f83b30bfbbbabf908cf9a3b0e8bc6daf1"
+    },
+    {
+      "path": "public/application-regression-v1.log",
+      "bytes": 10764,
+      "sha256": "81f0cb9a7d2fb99048fc56372e5c7f14e85412efde3a72ec61ffa78a76aae4e8"
+    },
+    {
+      "path": "public/application-regression-v2.log",
+      "bytes": 10006,
+      "sha256": "46eae72cd9328c3eade18908dae81d4b91da3d8f6f15368ba7202b274d0d6b67"
+    },
+    {
+      "path": "public/approval-policy-v1.log",
+      "bytes": 1300,
+      "sha256": "a06e4887667cef664af14e06b74e9e024338746897cfe7dc4f3d64a349508fa9"
+    },
+    {
+      "path": "public/approval-policy-v2.log",
+      "bytes": 540,
+      "sha256": "1a176eac0dc2f5eee6d819ae1b7f098254a8b90fd115d9598078546fa20543b0"
+    },
+    {
+      "path": "public/readonly-v1.log",
+      "bytes": 220,
+      "sha256": "89463bbb1b454b04e387cab22ecf3b9eb24f75bf1c57be1834e6021d4fdd9441"
+    },
+    {
+      "path": "public/typecheck-v1.log",
+      "bytes": 3816,
+      "sha256": "64f5884e6a9a089ebc0bf77e592f83798ad4333fda25eed8570ebdfafa6753db"
+    },
+    {
+      "path": "public/typecheck-v2.log",
+      "bytes": 328,
+      "sha256": "f4591dfd5a7f118952583bbb30d1266ad84e667d8d591dc4c8d24eebb914b761"
+    },
+    {
+      "path": "public/typecheck-v3.log",
+      "bytes": 328,
+      "sha256": "f4591dfd5a7f118952583bbb30d1266ad84e667d8d591dc4c8d24eebb914b761"
+    },
+    {
+      "path": "public/vendor-v1.log",
+      "bytes": 122,
+      "sha256": "7f2bff4eeadb62fd6ef2d97c27d9b84b0ec931bce3dc626644dab355084855c9"
+    },
+    {
+      "path": "public/vendor-v2.log",
+      "bytes": 122,
+      "sha256": "7f2bff4eeadb62fd6ef2d97c27d9b84b0ec931bce3dc626644dab355084855c9"
+    },
+    {
+      "path": "public/vendor-v3.log",
+      "bytes": 122,
+      "sha256": "7f2bff4eeadb62fd6ef2d97c27d9b84b0ec931bce3dc626644dab355084855c9"
+    },
+    {
+      "path": "public/wallet-build-v1.log",
+      "bytes": 3264,
+      "sha256": "40203fc3490e6e9fcd5d86f8baf7e7524199b69018db29d6b2edc783ea581ba2"
+    },
+    {
+      "path": "public/wallet-focused-v1.log",
+      "bytes": 2625,
+      "sha256": "3f78a536d2da5a596248279626146ba6290b225f89fe43f55db2492a401010da"
+    },
+    {
+      "path": "public/wallet-focused-v2.log",
+      "bytes": 323,
+      "sha256": "47c2aef5ec93a6e34dd521504903021592c4062ea8dec03011274543088b3740"
+    },
+    {
+      "path": "public/wallet-full-v1.log",
+      "bytes": 382,
+      "sha256": "e9449b63045bdade508c99f588dbfe76b2fe9f163d2a32d30e61a17544ac5499"
+    },
+    {
+      "path": "recipes/readonly-v1.mjs",
+      "bytes": 1619,
+      "sha256": "b16dd8c402b980e02ce9681f9ee04e1aef6e4615bace5b2c1c82f2c9ace45fda"
+    },
+    {
+      "path": "wallet-source/src/background/approve-manager.ts",
+      "bytes": 42943,
+      "sha256": "29009c252f9aca46d5e70ec45cee56644aaba8de3934021da2b813a9ac68cee1"
+    },
+    {
+      "path": "wallet-source/src/background/market-router.test.ts",
+      "bytes": 3531,
+      "sha256": "53170016b1dfa77bca1347943b6aecdef10a7e37157d9c2d6c856b6cd3aa8820"
+    },
+    {
+      "path": "wallet-source/src/background/psy-wallet-ext-core.ts",
+      "bytes": 350933,
+      "sha256": "997c76b6b5a33bb142ad4d33828d697ec8cb7ef8b4100c8c6988c60bff97cc48"
+    },
+    {
+      "path": "wallet-source/src/components/approve-main/approve-panel/approve-market.tsx",
+      "bytes": 4411,
+      "sha256": "925ba6d4f1fed860b157698b56c5f12620ca816e87c4bc6c57da8e179dda26bb"
+    },
+    {
+      "path": "wallet-source/src/market-native/confirmation.fixture.ts",
+      "bytes": 1236,
+      "sha256": "650d48faf7ca9a0a33778450fd92d221e585a5508d3bfc9c450ed6cd3182394c"
+    },
+    {
+      "path": "wallet-source/src/market-native/confirmation.test.ts",
+      "bytes": 4383,
+      "sha256": "44c101a42010d9468dab9a7e5ab7fd9a31924c876bde325f720d722b8e4f5f77"
+    },
+    {
+      "path": "wallet-source/src/market-native/confirmation.ts",
+      "bytes": 2573,
+      "sha256": "0f887cdac823e3a90819ae4ccde379074150f11a38f4455d794e66c9289c6a2f"
+    },
+    {
+      "path": "wallet-source/src/market-preparation/SOURCE.json",
+      "bytes": 3865,
+      "sha256": "d3062dd90c84a3ca02ec2a2004a42a47a0316d3ab8b1b262532cbc2b4f237545"
+    },
+    {
+      "path": "wallet-source/src/market-preparation/market-client/wallet/approvalPolicy.d.mts",
+      "bytes": 710,
+      "sha256": "a83767b9ee6f672aa38f072f7258a125e8498a25202c0ce54d392810bcbd6567"
+    },
+    {
+      "path": "wallet-source/src/market-preparation/market-client/wallet/approvalPolicy.mjs",
+      "bytes": 5933,
+      "sha256": "a68155cf12668025fe9c739cf823a55bd15d26cd6e79564c7c9efd343015161a"
+    }
+  ],
+  "financialOperations": 0,
+  "proofsGenerated": 0,
+  "actualFills": 0,
+  "actualFeesTestPsy": "0",
+  "originalEvidenceModified": false,
+  "secretsIncluded": false
+}

@@ -209,3 +209,11 @@ resource build tool and page protocol. The installed release remains null and
 NFT writes remain closed. The user deferred unlocking; no new financial or
 proof work was started. Current faucet configuration is enabled, but no grant
 was requested. Actual extension and current-chain market acceptance remain open.
+
+## Verifiable intent responsibility boundary
+
+[Current intent-layer report](VERIFIABLE_INTENT_EXECUTION_20261027.md) records the
+application-owned approval policy extraction, generic wallet authority, fresh
+read-only chain checks and capability matrix. It also identifies composition's
+remaining legacy SDK/native profile and u32 slot-count restrictions. Current-chain
+financial activation and complete two-pool recovery remain unaccepted.
