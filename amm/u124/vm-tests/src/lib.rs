@@ -1,3 +1,4 @@
+pub mod registration_checkpoint;
 pub mod market_key;
 pub mod proof_binding;
 pub mod batch_compile;

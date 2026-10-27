@@ -1,0 +1,1412 @@
+{
+  "schema": 1,
+  "scope": "One fresh QA registration with SDK-derived URT and checkpoint membership plus indexed receipt; one faucet request returned a remote proving error and remains unresolved. Public projections only; no new contract, ordinary UPS, market fill, claim, UI or complete first-session acceptance.",
+  "archive": "public-evidence.tar.gz",
+  "archiveSha256": "6b2daaed6d4c47e84762e4cc2218dcedbb944d5d30bbe5946a9aa3fc701fb9a3",
+  "archiveBytes": 144262,
+  "files": [
+    {
+      "path": "application-source/Cargo.lock",
+      "bytes": 217301,
+      "sha256": "d12d86f486408d3b88f496dde27e6494839511489a1202e778f09f0eca3c1183"
+    },
+    {
+      "path": "application-source/Cargo.toml",
+      "bytes": 2970,
+      "sha256": "22c178815f755fefe6dea09845b41f64cdbdcb791d0155297a0f272cf10631cb"
+    },
+    {
+      "path": "application-source/bin/verify_registration_checkpoint.rs",
+      "bytes": 1992,
+      "sha256": "5bbefa4ee45cd6d299bbf5b919b20f05d476e17fd45f70a6a2dd55f6fd5cc8af"
+    },
+    {
+      "path": "application-source/lib.rs",
+      "bytes": 9897,
+      "sha256": "eebaf5eefb16b2dad6236edd384070a13ca069235ec029936e016a80ba77a430"
+    },
+    {
+      "path": "application-source/registration_checkpoint.rs",
+      "bytes": 5339,
+      "sha256": "39576155c90ca0ca98596f9fc606e40c52c250894352ff7b8c03872a14fb71e2"
+    },
+    {
+      "path": "application-source/wallet_verification.rs",
+      "bytes": 23669,
+      "sha256": "3c5fd762e5d0fdab7d04550eb6d32a24016270b066a977b35f29d046309626b4"
+    },
+    {
+      "path": "application-source/wallet_verifier_export.rs",
+      "bytes": 2204,
+      "sha256": "f784f5e5304c9b5c08ace9fef322a740303f4775975e27788cd9670582ad510e"
+    },
+    {
+      "path": "original-registration/intent.json",
+      "bytes": 268,
+      "sha256": "c09b1836b46e1530ebbab0a4e7382307240680fec2f7e015c059d141cde320e7"
+    },
+    {
+      "path": "original-registration/receipt.json",
+      "bytes": 151,
+      "sha256": "52697547e8a3838732f317b02b7bdf7cee276669b35b2ad8cd4d61917a709565"
+    },
+    {
+      "path": "original-registration/request.json",
+      "bytes": 204,
+      "sha256": "96743ecc7d60007bc49754b170a0f1dd9e5ee6c171bfc73ebdb82b4862f5fa32"
+    },
+    {
+      "path": "public/BOOTSTRAP-OWNER-v1.json",
+      "bytes": 50,
+      "sha256": "fb240ec6f1ea2f04443f1fa557a8b55aaebd4b1c9075395ef66971feca720865"
+    },
+    {
+      "path": "public/BOOTSTRAP-PLAN-v1.json",
+      "bytes": 771,
+      "sha256": "cb33a80c6f3fa59e5fbf84c9667154ac9877e673bc57301db001a42a95cc30c4"
+    },
+    {
+      "path": "public/CASE-LEDGER-v1.json",
+      "bytes": 1272,
+      "sha256": "ca497cc5b1f60f49071ddf5834fde1634fcc0cf274f93e836aef98b290cb2b20"
+    },
+    {
+      "path": "public/DRIVERS-v1.json",
+      "bytes": 701,
+      "sha256": "f292cd1b2f73ce69c5fca50f7ed6f40cd66ce35f7d5c3aeebf15207f13be9491"
+    },
+    {
+      "path": "public/FINANCIAL-STOP-v1.json",
+      "bytes": 855,
+      "sha256": "b8d2f4b97fb46e02fdd21c3f213a42af43477cdae327e69c4a3cde301f202aaf"
+    },
+    {
+      "path": "public/IDENTITY_PREPARATION-v1.json",
+      "bytes": 459,
+      "sha256": "36020a53e26339e21b1ddf00e6383c26568c1a3081618a7e2e500727db887681"
+    },
+    {
+      "path": "public/KEY-PREPARATION-MEASUREMENTS-v1.json",
+      "bytes": 841,
+      "sha256": "f9fd82cf90723a060a932086bb6ff23b9282874facadcf06ca1f982ed58e30d6"
+    },
+    {
+      "path": "public/PLAN-v1.json",
+      "bytes": 1955,
+      "sha256": "b0b400d8386f89fe71c805e10346e1c2776cdd46a80143c402c2349bd80fba3c"
+    },
+    {
+      "path": "public/RPC-DOMAIN-PROJECTION.json",
+      "bytes": 751,
+      "sha256": "57c62935fb88a755f7899dd900879cb1ecab4f9e01b3871b550a7ee98e723d7a"
+    },
+    {
+      "path": "public/application-snapshot-v1.json",
+      "bytes": 8819,
+      "sha256": "1f5dee9c1d98337dbb6d3df5211ce425093c572c7f9d2252376b5204ed1da183"
+    },
+    {
+      "path": "public/bootstrap-launcher-v1.log",
+      "bytes": 1231,
+      "sha256": "7238d12b24a146a018210dceebe296474489af18033f73fc92523a02e87e7c20"
+    },
+    {
+      "path": "public/bootstrap-launcher-v2.log",
+      "bytes": 732,
+      "sha256": "3c0204b1ecae33603854b1e8e3a23f96fedc9a96742d2713a5c894e27e9203ae"
+    },
+    {
+      "path": "public/bootstrap-observations-v1/1-psy_get_checkpoint_leaf_data.json",
+      "bytes": 1034,
+      "sha256": "c38c7f40ee18d74b6640dc0e72f4c1a5388bc1366b7e23d1ae0c1fc763cf51f3"
+    },
+    {
+      "path": "public/bootstrap-observations-v1/10-psy_get_checkpoint_leaf_data.json",
+      "bytes": 1034,
+      "sha256": "c38c7f40ee18d74b6640dc0e72f4c1a5388bc1366b7e23d1ae0c1fc763cf51f3"
+    },
+    {
+      "path": "public/bootstrap-observations-v1/11-psy_get_user_ids_for_public_key.json",
+      "bytes": 291,
+      "sha256": "842b63b606339a08acc57af87694b609eca45119c627d65d864eaf6dd49dc87c"
+    },
+    {
+      "path": "public/bootstrap-observations-v1/12-psy_get_checkpoint_leaf_data.json",
+      "bytes": 1034,
+      "sha256": "c38c7f40ee18d74b6640dc0e72f4c1a5388bc1366b7e23d1ae0c1fc763cf51f3"
+    },
+    {
+      "path": "public/bootstrap-observations-v1/13-psy_get_user_ids_for_public_key.json",
+      "bytes": 291,
+      "sha256": "842b63b606339a08acc57af87694b609eca45119c627d65d864eaf6dd49dc87c"
+    },
+    {
+      "path": "public/bootstrap-observations-v1/14-psy_get_checkpoint_leaf_data.json",
+      "bytes": 1034,
+      "sha256": "c38c7f40ee18d74b6640dc0e72f4c1a5388bc1366b7e23d1ae0c1fc763cf51f3"
+    },
+    {
+      "path": "public/bootstrap-observations-v1/15-psy_get_user_ids_for_public_key.json",
+      "bytes": 297,
+      "sha256": "bb2ad83ef144b68f8c214b12155357009c72f086433dd953dfe563b6a7dc3c96"
+    },
+    {
+      "path": "public/bootstrap-observations-v1/16-psy_get_latest_l2_block_state.json",
+      "bytes": 416,
+      "sha256": "9d371708c267e57532cf1b73da69d800988eaf8fdb7ee8c2ba785319d351c77c"
+    },
+    {
+      "path": "public/bootstrap-observations-v1/17-psy_get_latest_l2_block_state.json",
+      "bytes": 416,
+      "sha256": "c6557de5c62d2ed1ea44ab0ff67f03c1542c0b80341ec319e1804415d21d4c18"
+    },
+    {
+      "path": "public/bootstrap-observations-v1/18-psy_get_user_leaf_data.json",
+      "bytes": 508,
+      "sha256": "b81ed178fa76b75cfe4c4c8f458a9930226a2a7a3253ecd1ff9fbd3db8cad979"
+    },
+    {
+      "path": "public/bootstrap-observations-v1/2-psy_get_contract_leaf_data.json",
+      "bytes": 605,
+      "sha256": "093a67c21ae629fd4deab180b6a0475294239817ce46d9780ce68f1d722c6742"
+    },
+    {
+      "path": "public/bootstrap-observations-v1/3-psy_get_user_ids_for_public_key.json",
+      "bytes": 291,
+      "sha256": "842b63b606339a08acc57af87694b609eca45119c627d65d864eaf6dd49dc87c"
+    },
+    {
+      "path": "public/bootstrap-observations-v1/4-psy_get_checkpoint_leaf_data.json",
+      "bytes": 1034,
+      "sha256": "c38c7f40ee18d74b6640dc0e72f4c1a5388bc1366b7e23d1ae0c1fc763cf51f3"
+    },
+    {
+      "path": "public/bootstrap-observations-v1/5-psy_get_user_ids_for_public_key.json",
+      "bytes": 291,
+      "sha256": "842b63b606339a08acc57af87694b609eca45119c627d65d864eaf6dd49dc87c"
+    },
+    {
+      "path": "public/bootstrap-observations-v1/6-psy_get_checkpoint_leaf_data.json",
+      "bytes": 1034,
+      "sha256": "c38c7f40ee18d74b6640dc0e72f4c1a5388bc1366b7e23d1ae0c1fc763cf51f3"
+    },
+    {
+      "path": "public/bootstrap-observations-v1/7-psy_get_user_ids_for_public_key.json",
+      "bytes": 291,
+      "sha256": "842b63b606339a08acc57af87694b609eca45119c627d65d864eaf6dd49dc87c"
+    },
+    {
+      "path": "public/bootstrap-observations-v1/8-psy_get_checkpoint_leaf_data.json",
+      "bytes": 1034,
+      "sha256": "c38c7f40ee18d74b6640dc0e72f4c1a5388bc1366b7e23d1ae0c1fc763cf51f3"
+    },
+    {
+      "path": "public/bootstrap-observations-v1/9-psy_get_user_ids_for_public_key.json",
+      "bytes": 291,
+      "sha256": "842b63b606339a08acc57af87694b609eca45119c627d65d864eaf6dd49dc87c"
+    },
+    {
+      "path": "public/capture-registration-v1.log",
+      "bytes": 91,
+      "sha256": "19dc10a49361a1538f082735e8634fa0d6f0c5389636546a241f38e9819869e3"
+    },
+    {
+      "path": "public/capture-registration-v2.log",
+      "bytes": 91,
+      "sha256": "19dc10a49361a1538f082735e8634fa0d6f0c5389636546a241f38e9819869e3"
+    },
+    {
+      "path": "public/driver-build-v1.log",
+      "bytes": 47384,
+      "sha256": "48cf4ee5f3810f9a03ee4c29a2bc5493e96089ef1f4be33b2bf4c7e4e5656e15"
+    },
+    {
+      "path": "public/faucet-broadcast-intent-v1.json",
+      "bytes": 367,
+      "sha256": "442aebfe3574f142e79a86016bd86e467eb3e1b6f2e3b431bf6fb6a3d12e2ee5"
+    },
+    {
+      "path": "public/faucet-launcher-v1.log",
+      "bytes": 77,
+      "sha256": "27ef2f34b728c984f219a242b4a44aae26e4f6c25bb22c7c60af47c7a45d3162"
+    },
+    {
+      "path": "public/faucet-precheck-1.json",
+      "bytes": 1034,
+      "sha256": "365201a5411d58d87b24a8499974d5d155bbbd44ce59b5970a9d6351ebde7eb1"
+    },
+    {
+      "path": "public/faucet-precheck-2.json",
+      "bytes": 297,
+      "sha256": "72939dafd1d0cf868b6e99407b2e07e7d534901d749b78ce559b9f0f4d8735b0"
+    },
+    {
+      "path": "public/faucet-precheck-3.json",
+      "bytes": 421,
+      "sha256": "67830f55565bc634dd04762c180ed5b46df32dbdcb82f2c8c6bab18fd29dc285"
+    },
+    {
+      "path": "public/faucet-precheck-4.json",
+      "bytes": 332,
+      "sha256": "edad42203445125cb2298cc001f0707d29187a037ad262360fd84bcf07c52c9f"
+    },
+    {
+      "path": "public/faucet-precheck-5.json",
+      "bytes": 1138,
+      "sha256": "c11b97372ba7386dc7aa8abfa1fa04fd8c25972a303634ea600d61daed104e53"
+    },
+    {
+      "path": "public/faucet-public-projection-v1.json",
+      "bytes": 721,
+      "sha256": "cca7fefbd86435a0bbde00e7a057e961ccf13625e9d48ce15fa40af8faa7ad40"
+    },
+    {
+      "path": "public/faucet-request-v1.json",
+      "bytes": 182,
+      "sha256": "85332da2e78775c0653737658234df46df80a5e326ee3440afb81879ba2d286d"
+    },
+    {
+      "path": "public/faucet-send-once-v1.lock",
+      "bytes": 85,
+      "sha256": "0b98a452818f67a271e9dc58ae6438c83f2cb3b4a0c97c08721105ff5e25b288"
+    },
+    {
+      "path": "public/faucet-unresolved-v1.json",
+      "bytes": 245,
+      "sha256": "b90dae582dd8d427bb771b97bd8ac716229214e204878bd4331c9fb5ad1491e3"
+    },
+    {
+      "path": "public/identity-launcher-v1.log",
+      "bytes": 99,
+      "sha256": "d5806f88a795329e0dcd9ee6e33a847cad5b71a2fd950044127cbfb4fd448eb7"
+    },
+    {
+      "path": "public/qa-issuer-lp-create-result-v1.json",
+      "bytes": 4439,
+      "sha256": "618da17810332e686c915ccb9346bf575197229b5c523ed4f6fed49cf774bf8c"
+    },
+    {
+      "path": "public/qa-issuer-lp-create-v1.log",
+      "bytes": 932,
+      "sha256": "3bf0cb422fce417e0a923a40ba8ae4a095540e22f6118a05238fbfc208442dc2"
+    },
+    {
+      "path": "public/qa-issuer-lp-register-process-v1.json",
+      "bytes": 36,
+      "sha256": "040a505567e1299a3b7eeb2f5c21a4a88ff9939a2aa2fa2f5632cf56b99fb7c4"
+    },
+    {
+      "path": "public/qa-issuer-lp-register-v1.log",
+      "bytes": 700,
+      "sha256": "eabcf47b96b39ce8cf5c517427b1b2908e51c493b0844097a84329c5cdf9c1b2"
+    },
+    {
+      "path": "public/qa-issuer-lp.json",
+      "bytes": 369,
+      "sha256": "d1aabf8aafad30e94ba79bbfbed61ca1581699142062d1a1ef1cf1e9fa1d69e5"
+    },
+    {
+      "path": "public/qa-user-create-result-v1.json",
+      "bytes": 4344,
+      "sha256": "37fce7d6cc8609a0d73e38be7587dad48f6a9d48a4ec3ee437976344a41ed9e7"
+    },
+    {
+      "path": "public/qa-user-create-v1.log",
+      "bytes": 938,
+      "sha256": "28ca907c2d98d2ec06102c85a74c12cbe6b09ff28a5f139108d244995dbeb7db"
+    },
+    {
+      "path": "public/qa-user.json",
+      "bytes": 369,
+      "sha256": "0db0834fa50781c2f94f11c17167220d479cf8cf6c2b34da33665117871f4cf8"
+    },
+    {
+      "path": "public/reconcile-registration-v1.log",
+      "bytes": 130,
+      "sha256": "ee551f0dbf5635e4f7f65de6a692501a41bee57bb438b069d2211d340687be69"
+    },
+    {
+      "path": "public/registration-checkpoint-v1/1-psy_get_checkpoint_leaf_data.json",
+      "bytes": 1034,
+      "sha256": "365201a5411d58d87b24a8499974d5d155bbbd44ce59b5970a9d6351ebde7eb1"
+    },
+    {
+      "path": "public/registration-checkpoint-v1/2-psy_get_user_ids_for_public_key.json",
+      "bytes": 297,
+      "sha256": "72939dafd1d0cf868b6e99407b2e07e7d534901d749b78ce559b9f0f4d8735b0"
+    },
+    {
+      "path": "public/registration-checkpoint-v1/3-psy_get_latest_l2_block_state.json",
+      "bytes": 416,
+      "sha256": "4fa066838e9e2edc3f25b8bbca5f92476fba9f66957618576b87e37d95731978"
+    },
+    {
+      "path": "public/registration-checkpoint-v1/4-psy_get_latest_l2_block_state.json",
+      "bytes": 416,
+      "sha256": "6a4206b0bfc49d0dde6581ca7d66e0160425fde639e89f1b77cde193c390c6c8"
+    },
+    {
+      "path": "public/registration-checkpoint-v1/5-psy_get_user_leaf_data.json",
+      "bytes": 508,
+      "sha256": "62375550f213c3a9673d9a710bb43059f388cf8d68ae4d8469607e7bc47e8542"
+    },
+    {
+      "path": "public/registration-checkpoint-v1/6-psy_get_user_registration_tree_merkle_proof.json",
+      "bytes": 2662,
+      "sha256": "463814b05c314fb9ca0edc3d75e6e55f05a98b35176216d697ff0040d473d645"
+    },
+    {
+      "path": "public/registration-checkpoint-v1/7-psy_get_checkpoint_leaf_data.json",
+      "bytes": 1049,
+      "sha256": "ae575ebaa8db20d55de336e8c296db4e41b58b03cc2d7d23e93cc5b5ff8d4c30"
+    },
+    {
+      "path": "public/registration-checkpoint-v1/8-psy_get_checkpoint_global_state_roots.json",
+      "bytes": 804,
+      "sha256": "88e1dad19a63bdc85e653de4f9984f252b052777cc63606cad649b3b781051ed"
+    },
+    {
+      "path": "public/registration-checkpoint-v1/RESULT.json",
+      "bytes": 409,
+      "sha256": "f981c95e0c058dd2b5bdbb9dfaad43364570c90ff73cd9b16248d0211595fb4b"
+    },
+    {
+      "path": "public/registration-checkpoint-v1/indexed-registration-list.json",
+      "bytes": 943,
+      "sha256": "d57977eb7c5523b3431dba4e2ba0c20a88a5baecc06e05c373312f23f819beb3"
+    },
+    {
+      "path": "public/registration-checkpoint-v1/indexed-registration-receipt.json",
+      "bytes": 859,
+      "sha256": "790b2555f2d14e6b7e98f4f9ea9a3a40a84ae2c37db45b36bb0f2ffde4e43d04"
+    },
+    {
+      "path": "public/registration-checkpoint-v1/input.json",
+      "bytes": 3895,
+      "sha256": "886e88f362e3979a504853227b2e433b3643a09b652bef86a6f284b1065ffa9f"
+    },
+    {
+      "path": "public/registration-checkpoint-v1/verified.json",
+      "bytes": 559,
+      "sha256": "27cc435207350547153dee51cd5f4ad38c7d0f314356f9c4652e692729ab724a"
+    },
+    {
+      "path": "public/registration-checkpoint-v2/1-psy_get_checkpoint_leaf_data.json",
+      "bytes": 1034,
+      "sha256": "365201a5411d58d87b24a8499974d5d155bbbd44ce59b5970a9d6351ebde7eb1"
+    },
+    {
+      "path": "public/registration-checkpoint-v2/10-psy_get_checkpoint_global_state_roots.json",
+      "bytes": 804,
+      "sha256": "7633b5954b6ec33bd1d564440774124a91f0c506071dba6e42e4e9af7a0ed0a7"
+    },
+    {
+      "path": "public/registration-checkpoint-v2/11-psy_get_checkpoint_tree_merkle_proof.json",
+      "bytes": 2659,
+      "sha256": "3ce4c21ae7b408be7569df6d1e6845523d59c206f69993c484645c06c8d2af4c"
+    },
+    {
+      "path": "public/registration-checkpoint-v2/12-psy_get_checkpoint_tree_merkle_proof.json",
+      "bytes": 2665,
+      "sha256": "16fbdb73c1e70305e0920013525492f7cfef92f03e8a9ab073b3631aa908ea43"
+    },
+    {
+      "path": "public/registration-checkpoint-v2/2-psy_get_user_ids_for_public_key.json",
+      "bytes": 297,
+      "sha256": "72939dafd1d0cf868b6e99407b2e07e7d534901d749b78ce559b9f0f4d8735b0"
+    },
+    {
+      "path": "public/registration-checkpoint-v2/3-psy_get_latest_l2_block_state.json",
+      "bytes": 416,
+      "sha256": "7541cfc15c5adebcf00b2bfcbd6c27c8d91c8c2c0437cc54105ab6ee88c0a705"
+    },
+    {
+      "path": "public/registration-checkpoint-v2/4-psy_get_latest_l2_block_state.json",
+      "bytes": 416,
+      "sha256": "3ba1ac32934dfe8f5f1e9238218aeb09e62b57e4ee1499968fe0c54ec9818433"
+    },
+    {
+      "path": "public/registration-checkpoint-v2/5-psy_get_latest_l2_block_state.json",
+      "bytes": 421,
+      "sha256": "4f520f62704176315d6e05af5bde959976441a35cfa4333c03dffed0368ed8b2"
+    },
+    {
+      "path": "public/registration-checkpoint-v2/6-psy_get_user_leaf_data.json",
+      "bytes": 508,
+      "sha256": "80bd70d022df18ad64f6c2da8edf85e2f61833755961f96e2cad71f8aeec3143"
+    },
+    {
+      "path": "public/registration-checkpoint-v2/7-psy_get_user_registration_tree_merkle_proof.json",
+      "bytes": 2662,
+      "sha256": "418f2cde0ac467a49256ee2d203efc9cd1add5b63072d4423c45ac8e3ecc5390"
+    },
+    {
+      "path": "public/registration-checkpoint-v2/8-psy_get_checkpoint_leaf_data.json",
+      "bytes": 1037,
+      "sha256": "71bcf57f31082f50a9003252fe7c1ba62b8da92b660ab4d55040237331d048c4"
+    },
+    {
+      "path": "public/registration-checkpoint-v2/9-psy_get_checkpoint_tree_root.json",
+      "bytes": 303,
+      "sha256": "dfdc5633ce9a029d2f5c810ed5c9ea9a7990148a5bde06c20acd81d3196b3269"
+    },
+    {
+      "path": "public/registration-checkpoint-v2/RESULT.json",
+      "bytes": 533,
+      "sha256": "24052005bab81826b57a508473d2fe16b77883588d1ad80b75562fb134e81d90"
+    },
+    {
+      "path": "public/registration-checkpoint-v2/indexed-registration-list.json",
+      "bytes": 943,
+      "sha256": "73c6a7ac949f65e52bea8055241326ab11be9d57fa2a97a0dbc32c6f3a6e8364"
+    },
+    {
+      "path": "public/registration-checkpoint-v2/indexed-registration-receipt.json",
+      "bytes": 859,
+      "sha256": "c7613335cba9bb908226e1f2820a0a9765eff30f966765d71dac14c4f5ad3e49"
+    },
+    {
+      "path": "public/registration-checkpoint-v2/input.json",
+      "bytes": 9254,
+      "sha256": "7265fdde5474115878e6046ea8554cefc410d24376e506f89846eed5b6ca623e"
+    },
+    {
+      "path": "public/registration-checkpoint-v2/verified.json",
+      "bytes": 710,
+      "sha256": "0ed930e2e0a301a4c044a55d8ec77d525cf38fe8da75dee5c3fa202115b4b182"
+    },
+    {
+      "path": "public/registration-mutations-v1/RESULTS.json",
+      "bytes": 827,
+      "sha256": "e30942d6f752f67b091d37441ba5e1d94832e49264fe589bbf0f71b44b214a86"
+    },
+    {
+      "path": "public/registration-mutations-v1/checkpoint-index.json",
+      "bytes": 9487,
+      "sha256": "020cb2b4d6d4d99f29d3f139394b542ffba86465096a540b173a7ba6d13de3c8"
+    },
+    {
+      "path": "public/registration-mutations-v1/checkpoint-index.log",
+      "bytes": 50,
+      "sha256": "d6881066acc9be4dfd28fe32bf0f529149c68c18d730aa559130229c5c2ec5ad"
+    },
+    {
+      "path": "public/registration-mutations-v1/oversized-input.json",
+      "bytes": 100001,
+      "sha256": "726e7b09e07ae37466cebbdb718679969b5f7e772fe97421b4db63870ef0b78c"
+    },
+    {
+      "path": "public/registration-mutations-v1/oversized-input.log",
+      "bytes": 50,
+      "sha256": "c52590b3d4a8769c1156906adbba3a510263374bfed07957cce33e0dd9ba8f5f"
+    },
+    {
+      "path": "public/registration-mutations-v1/registration-index.json",
+      "bytes": 9487,
+      "sha256": "b014319962b701122b7e83a38ac579dd5cd2f6f7e2b3cca5354684685032535f"
+    },
+    {
+      "path": "public/registration-mutations-v1/registration-index.log",
+      "bytes": 33,
+      "sha256": "5958fdbd71ca0873663da2fe9cafdc3580186930bd68ad3b82840ae748835957"
+    },
+    {
+      "path": "public/registration-mutations-v1/wrong-domain.json",
+      "bytes": 9487,
+      "sha256": "62c4f6331a8bc2e2f1ec478c3278a2e243fa36f9833713f68e0826211396a4fd"
+    },
+    {
+      "path": "public/registration-mutations-v1/wrong-domain.log",
+      "bytes": 51,
+      "sha256": "e9c3eef805f99f119a486ea793e88dfb9b7882e803ba659940a522e11b4b2769"
+    },
+    {
+      "path": "public/registration-mutations-v1/wrong-key.json",
+      "bytes": 9487,
+      "sha256": "62c4f6331a8bc2e2f1ec478c3278a2e243fa36f9833713f68e0826211396a4fd"
+    },
+    {
+      "path": "public/registration-mutations-v1/wrong-key.log",
+      "bytes": 46,
+      "sha256": "a32ff655e5826b82e3583ea91bd05b23279aef73eef2b165c0cf46dd31e2ca24"
+    },
+    {
+      "path": "public/registration-mutations-v1/wrong-root.json",
+      "bytes": 9487,
+      "sha256": "62c4f6331a8bc2e2f1ec478c3278a2e243fa36f9833713f68e0826211396a4fd"
+    },
+    {
+      "path": "public/registration-mutations-v1/wrong-root.log",
+      "bytes": 50,
+      "sha256": "d6881066acc9be4dfd28fe32bf0f529149c68c18d730aa559130229c5c2ec5ad"
+    },
+    {
+      "path": "public/registration-mutations-v1/wrong-user.json",
+      "bytes": 9487,
+      "sha256": "62c4f6331a8bc2e2f1ec478c3278a2e243fa36f9833713f68e0826211396a4fd"
+    },
+    {
+      "path": "public/registration-mutations-v1/wrong-user.log",
+      "bytes": 46,
+      "sha256": "a32ff655e5826b82e3583ea91bd05b23279aef73eef2b165c0cf46dd31e2ca24"
+    },
+    {
+      "path": "public/registration-reconcile-v1/1-psy_get_checkpoint_leaf_data.json",
+      "bytes": 1034,
+      "sha256": "365201a5411d58d87b24a8499974d5d155bbbd44ce59b5970a9d6351ebde7eb1"
+    },
+    {
+      "path": "public/registration-reconcile-v1/10-psy_get_user_leaf_data.json",
+      "bytes": 508,
+      "sha256": "de99686dd01a30635c67abcf44d7be6b233b5a265a458aa59b4933ce37cbd9ce"
+    },
+    {
+      "path": "public/registration-reconcile-v1/100-psy_get_user_leaf_data.json",
+      "bytes": 508,
+      "sha256": "51990a6a2a5d204e5ce59fa2c0fcbfe8efceef74c762cbf919066ee26c1e9ee4"
+    },
+    {
+      "path": "public/registration-reconcile-v1/101-psy_get_checkpoint_leaf_data.json",
+      "bytes": 1034,
+      "sha256": "365201a5411d58d87b24a8499974d5d155bbbd44ce59b5970a9d6351ebde7eb1"
+    },
+    {
+      "path": "public/registration-reconcile-v1/102-psy_get_user_ids_for_public_key.json",
+      "bytes": 297,
+      "sha256": "72939dafd1d0cf868b6e99407b2e07e7d534901d749b78ce559b9f0f4d8735b0"
+    },
+    {
+      "path": "public/registration-reconcile-v1/103-psy_get_latest_l2_block_state.json",
+      "bytes": 416,
+      "sha256": "fd5615900f6cb48ef3a95b865c788507b5cd7b7d40a00929bafac505d3f82f62"
+    },
+    {
+      "path": "public/registration-reconcile-v1/104-psy_get_latest_l2_block_state.json",
+      "bytes": 416,
+      "sha256": "aefb9df1525724e5db7a7532a1c0e61b339a88ad52c046868a3f3cdc798d1661"
+    },
+    {
+      "path": "public/registration-reconcile-v1/105-psy_get_user_leaf_data.json",
+      "bytes": 508,
+      "sha256": "51990a6a2a5d204e5ce59fa2c0fcbfe8efceef74c762cbf919066ee26c1e9ee4"
+    },
+    {
+      "path": "public/registration-reconcile-v1/106-psy_get_checkpoint_leaf_data.json",
+      "bytes": 1034,
+      "sha256": "365201a5411d58d87b24a8499974d5d155bbbd44ce59b5970a9d6351ebde7eb1"
+    },
+    {
+      "path": "public/registration-reconcile-v1/107-psy_get_user_ids_for_public_key.json",
+      "bytes": 297,
+      "sha256": "72939dafd1d0cf868b6e99407b2e07e7d534901d749b78ce559b9f0f4d8735b0"
+    },
+    {
+      "path": "public/registration-reconcile-v1/108-psy_get_latest_l2_block_state.json",
+      "bytes": 416,
+      "sha256": "aefb9df1525724e5db7a7532a1c0e61b339a88ad52c046868a3f3cdc798d1661"
+    },
+    {
+      "path": "public/registration-reconcile-v1/109-psy_get_latest_l2_block_state.json",
+      "bytes": 416,
+      "sha256": "fd5615900f6cb48ef3a95b865c788507b5cd7b7d40a00929bafac505d3f82f62"
+    },
+    {
+      "path": "public/registration-reconcile-v1/11-psy_get_checkpoint_leaf_data.json",
+      "bytes": 1034,
+      "sha256": "365201a5411d58d87b24a8499974d5d155bbbd44ce59b5970a9d6351ebde7eb1"
+    },
+    {
+      "path": "public/registration-reconcile-v1/110-psy_get_user_leaf_data.json",
+      "bytes": 508,
+      "sha256": "51990a6a2a5d204e5ce59fa2c0fcbfe8efceef74c762cbf919066ee26c1e9ee4"
+    },
+    {
+      "path": "public/registration-reconcile-v1/111-psy_get_checkpoint_leaf_data.json",
+      "bytes": 1034,
+      "sha256": "365201a5411d58d87b24a8499974d5d155bbbd44ce59b5970a9d6351ebde7eb1"
+    },
+    {
+      "path": "public/registration-reconcile-v1/112-psy_get_user_ids_for_public_key.json",
+      "bytes": 297,
+      "sha256": "72939dafd1d0cf868b6e99407b2e07e7d534901d749b78ce559b9f0f4d8735b0"
+    },
+    {
+      "path": "public/registration-reconcile-v1/113-psy_get_latest_l2_block_state.json",
+      "bytes": 416,
+      "sha256": "2038d027b78f9331f8d4f3ce2578851c7b7e037ca9019299ef88ee62042136ce"
+    },
+    {
+      "path": "public/registration-reconcile-v1/114-psy_get_latest_l2_block_state.json",
+      "bytes": 416,
+      "sha256": "8050d63564a57c89737a165626e8da82e33df4274b7b8f55c94fd6385d38996a"
+    },
+    {
+      "path": "public/registration-reconcile-v1/115-psy_get_user_leaf_data.json",
+      "bytes": 508,
+      "sha256": "1965d560843529b7f724445fb4bd0396881781389bf94dfe949e0e75d413f084"
+    },
+    {
+      "path": "public/registration-reconcile-v1/116-psy_get_checkpoint_leaf_data.json",
+      "bytes": 1034,
+      "sha256": "365201a5411d58d87b24a8499974d5d155bbbd44ce59b5970a9d6351ebde7eb1"
+    },
+    {
+      "path": "public/registration-reconcile-v1/117-psy_get_user_ids_for_public_key.json",
+      "bytes": 297,
+      "sha256": "72939dafd1d0cf868b6e99407b2e07e7d534901d749b78ce559b9f0f4d8735b0"
+    },
+    {
+      "path": "public/registration-reconcile-v1/118-psy_get_latest_l2_block_state.json",
+      "bytes": 416,
+      "sha256": "2038d027b78f9331f8d4f3ce2578851c7b7e037ca9019299ef88ee62042136ce"
+    },
+    {
+      "path": "public/registration-reconcile-v1/119-psy_get_latest_l2_block_state.json",
+      "bytes": 416,
+      "sha256": "8050d63564a57c89737a165626e8da82e33df4274b7b8f55c94fd6385d38996a"
+    },
+    {
+      "path": "public/registration-reconcile-v1/12-psy_get_user_ids_for_public_key.json",
+      "bytes": 297,
+      "sha256": "72939dafd1d0cf868b6e99407b2e07e7d534901d749b78ce559b9f0f4d8735b0"
+    },
+    {
+      "path": "public/registration-reconcile-v1/120-psy_get_user_leaf_data.json",
+      "bytes": 508,
+      "sha256": "1965d560843529b7f724445fb4bd0396881781389bf94dfe949e0e75d413f084"
+    },
+    {
+      "path": "public/registration-reconcile-v1/121-psy_get_checkpoint_leaf_data.json",
+      "bytes": 1034,
+      "sha256": "365201a5411d58d87b24a8499974d5d155bbbd44ce59b5970a9d6351ebde7eb1"
+    },
+    {
+      "path": "public/registration-reconcile-v1/122-psy_get_user_ids_for_public_key.json",
+      "bytes": 297,
+      "sha256": "72939dafd1d0cf868b6e99407b2e07e7d534901d749b78ce559b9f0f4d8735b0"
+    },
+    {
+      "path": "public/registration-reconcile-v1/123-psy_get_latest_l2_block_state.json",
+      "bytes": 416,
+      "sha256": "2038d027b78f9331f8d4f3ce2578851c7b7e037ca9019299ef88ee62042136ce"
+    },
+    {
+      "path": "public/registration-reconcile-v1/124-psy_get_latest_l2_block_state.json",
+      "bytes": 416,
+      "sha256": "8050d63564a57c89737a165626e8da82e33df4274b7b8f55c94fd6385d38996a"
+    },
+    {
+      "path": "public/registration-reconcile-v1/125-psy_get_user_leaf_data.json",
+      "bytes": 508,
+      "sha256": "1965d560843529b7f724445fb4bd0396881781389bf94dfe949e0e75d413f084"
+    },
+    {
+      "path": "public/registration-reconcile-v1/126-psy_get_checkpoint_leaf_data.json",
+      "bytes": 1034,
+      "sha256": "365201a5411d58d87b24a8499974d5d155bbbd44ce59b5970a9d6351ebde7eb1"
+    },
+    {
+      "path": "public/registration-reconcile-v1/127-psy_get_user_ids_for_public_key.json",
+      "bytes": 297,
+      "sha256": "72939dafd1d0cf868b6e99407b2e07e7d534901d749b78ce559b9f0f4d8735b0"
+    },
+    {
+      "path": "public/registration-reconcile-v1/128-psy_get_latest_l2_block_state.json",
+      "bytes": 416,
+      "sha256": "2038d027b78f9331f8d4f3ce2578851c7b7e037ca9019299ef88ee62042136ce"
+    },
+    {
+      "path": "public/registration-reconcile-v1/129-psy_get_latest_l2_block_state.json",
+      "bytes": 416,
+      "sha256": "8050d63564a57c89737a165626e8da82e33df4274b7b8f55c94fd6385d38996a"
+    },
+    {
+      "path": "public/registration-reconcile-v1/13-psy_get_latest_l2_block_state.json",
+      "bytes": 416,
+      "sha256": "ac98b18b884cec991595c5286d252b9162f9cadbb088624932641c04150f301e"
+    },
+    {
+      "path": "public/registration-reconcile-v1/130-psy_get_user_leaf_data.json",
+      "bytes": 508,
+      "sha256": "1965d560843529b7f724445fb4bd0396881781389bf94dfe949e0e75d413f084"
+    },
+    {
+      "path": "public/registration-reconcile-v1/131-psy_get_checkpoint_leaf_data.json",
+      "bytes": 1034,
+      "sha256": "365201a5411d58d87b24a8499974d5d155bbbd44ce59b5970a9d6351ebde7eb1"
+    },
+    {
+      "path": "public/registration-reconcile-v1/132-psy_get_user_ids_for_public_key.json",
+      "bytes": 297,
+      "sha256": "72939dafd1d0cf868b6e99407b2e07e7d534901d749b78ce559b9f0f4d8735b0"
+    },
+    {
+      "path": "public/registration-reconcile-v1/133-psy_get_latest_l2_block_state.json",
+      "bytes": 416,
+      "sha256": "2ac246cbf9061324e2ca6ea2329fae77b602a80f02597cfb6fb85d213e2b24d3"
+    },
+    {
+      "path": "public/registration-reconcile-v1/134-psy_get_latest_l2_block_state.json",
+      "bytes": 416,
+      "sha256": "68e61152fbb5559126c8564745c43b0046785bccc0e46860a6f3a5de7e6a039c"
+    },
+    {
+      "path": "public/registration-reconcile-v1/135-psy_get_user_leaf_data.json",
+      "bytes": 508,
+      "sha256": "d0a16082ebe0369012cf80a132dce2c5085c4447e25b18d72c2266d0ddf5cd63"
+    },
+    {
+      "path": "public/registration-reconcile-v1/136-psy_get_checkpoint_leaf_data.json",
+      "bytes": 1034,
+      "sha256": "365201a5411d58d87b24a8499974d5d155bbbd44ce59b5970a9d6351ebde7eb1"
+    },
+    {
+      "path": "public/registration-reconcile-v1/137-psy_get_user_ids_for_public_key.json",
+      "bytes": 297,
+      "sha256": "72939dafd1d0cf868b6e99407b2e07e7d534901d749b78ce559b9f0f4d8735b0"
+    },
+    {
+      "path": "public/registration-reconcile-v1/138-psy_get_latest_l2_block_state.json",
+      "bytes": 416,
+      "sha256": "68e61152fbb5559126c8564745c43b0046785bccc0e46860a6f3a5de7e6a039c"
+    },
+    {
+      "path": "public/registration-reconcile-v1/139-psy_get_latest_l2_block_state.json",
+      "bytes": 416,
+      "sha256": "2ac246cbf9061324e2ca6ea2329fae77b602a80f02597cfb6fb85d213e2b24d3"
+    },
+    {
+      "path": "public/registration-reconcile-v1/14-psy_get_latest_l2_block_state.json",
+      "bytes": 416,
+      "sha256": "0d34b3eee984893ff76829d2a5fd497c61a1377481a46ebdde72f951c3c52626"
+    },
+    {
+      "path": "public/registration-reconcile-v1/140-psy_get_user_leaf_data.json",
+      "bytes": 508,
+      "sha256": "d0a16082ebe0369012cf80a132dce2c5085c4447e25b18d72c2266d0ddf5cd63"
+    },
+    {
+      "path": "public/registration-reconcile-v1/141-psy_get_checkpoint_leaf_data.json",
+      "bytes": 1034,
+      "sha256": "365201a5411d58d87b24a8499974d5d155bbbd44ce59b5970a9d6351ebde7eb1"
+    },
+    {
+      "path": "public/registration-reconcile-v1/142-psy_get_user_ids_for_public_key.json",
+      "bytes": 297,
+      "sha256": "72939dafd1d0cf868b6e99407b2e07e7d534901d749b78ce559b9f0f4d8735b0"
+    },
+    {
+      "path": "public/registration-reconcile-v1/143-psy_get_latest_l2_block_state.json",
+      "bytes": 416,
+      "sha256": "2ac246cbf9061324e2ca6ea2329fae77b602a80f02597cfb6fb85d213e2b24d3"
+    },
+    {
+      "path": "public/registration-reconcile-v1/144-psy_get_latest_l2_block_state.json",
+      "bytes": 416,
+      "sha256": "68e61152fbb5559126c8564745c43b0046785bccc0e46860a6f3a5de7e6a039c"
+    },
+    {
+      "path": "public/registration-reconcile-v1/145-psy_get_user_leaf_data.json",
+      "bytes": 508,
+      "sha256": "d0a16082ebe0369012cf80a132dce2c5085c4447e25b18d72c2266d0ddf5cd63"
+    },
+    {
+      "path": "public/registration-reconcile-v1/146-psy_get_checkpoint_leaf_data.json",
+      "bytes": 1034,
+      "sha256": "365201a5411d58d87b24a8499974d5d155bbbd44ce59b5970a9d6351ebde7eb1"
+    },
+    {
+      "path": "public/registration-reconcile-v1/147-psy_get_user_ids_for_public_key.json",
+      "bytes": 297,
+      "sha256": "72939dafd1d0cf868b6e99407b2e07e7d534901d749b78ce559b9f0f4d8735b0"
+    },
+    {
+      "path": "public/registration-reconcile-v1/148-psy_get_latest_l2_block_state.json",
+      "bytes": 416,
+      "sha256": "dc5b5242a12db3b1ea4b4db5f30dfee4fd2582fa1957a4a91da92931d471d202"
+    },
+    {
+      "path": "public/registration-reconcile-v1/149-psy_get_latest_l2_block_state.json",
+      "bytes": 416,
+      "sha256": "54d2dde865b91ad9b12d423de4e63522af3c26ce8d12f8bbb212fd537942611a"
+    },
+    {
+      "path": "public/registration-reconcile-v1/15-psy_get_user_leaf_data.json",
+      "bytes": 508,
+      "sha256": "de99686dd01a30635c67abcf44d7be6b233b5a265a458aa59b4933ce37cbd9ce"
+    },
+    {
+      "path": "public/registration-reconcile-v1/150-psy_get_user_leaf_data.json",
+      "bytes": 508,
+      "sha256": "1393a4374c5918e92ed6b95380a34efbf60f43ada38f33e48240f4d83f050ad7"
+    },
+    {
+      "path": "public/registration-reconcile-v1/16-psy_get_checkpoint_leaf_data.json",
+      "bytes": 1034,
+      "sha256": "365201a5411d58d87b24a8499974d5d155bbbd44ce59b5970a9d6351ebde7eb1"
+    },
+    {
+      "path": "public/registration-reconcile-v1/17-psy_get_user_ids_for_public_key.json",
+      "bytes": 297,
+      "sha256": "72939dafd1d0cf868b6e99407b2e07e7d534901d749b78ce559b9f0f4d8735b0"
+    },
+    {
+      "path": "public/registration-reconcile-v1/18-psy_get_latest_l2_block_state.json",
+      "bytes": 416,
+      "sha256": "ac98b18b884cec991595c5286d252b9162f9cadbb088624932641c04150f301e"
+    },
+    {
+      "path": "public/registration-reconcile-v1/19-psy_get_latest_l2_block_state.json",
+      "bytes": 416,
+      "sha256": "0d34b3eee984893ff76829d2a5fd497c61a1377481a46ebdde72f951c3c52626"
+    },
+    {
+      "path": "public/registration-reconcile-v1/2-psy_get_user_ids_for_public_key.json",
+      "bytes": 297,
+      "sha256": "72939dafd1d0cf868b6e99407b2e07e7d534901d749b78ce559b9f0f4d8735b0"
+    },
+    {
+      "path": "public/registration-reconcile-v1/20-psy_get_user_leaf_data.json",
+      "bytes": 508,
+      "sha256": "de99686dd01a30635c67abcf44d7be6b233b5a265a458aa59b4933ce37cbd9ce"
+    },
+    {
+      "path": "public/registration-reconcile-v1/21-psy_get_checkpoint_leaf_data.json",
+      "bytes": 1034,
+      "sha256": "365201a5411d58d87b24a8499974d5d155bbbd44ce59b5970a9d6351ebde7eb1"
+    },
+    {
+      "path": "public/registration-reconcile-v1/22-psy_get_user_ids_for_public_key.json",
+      "bytes": 297,
+      "sha256": "72939dafd1d0cf868b6e99407b2e07e7d534901d749b78ce559b9f0f4d8735b0"
+    },
+    {
+      "path": "public/registration-reconcile-v1/23-psy_get_latest_l2_block_state.json",
+      "bytes": 416,
+      "sha256": "4e4d12f6568c1619677c44d043712b61707b6bcca97b0b0f475a4428eb8cc606"
+    },
+    {
+      "path": "public/registration-reconcile-v1/24-psy_get_latest_l2_block_state.json",
+      "bytes": 416,
+      "sha256": "0d34b3eee984893ff76829d2a5fd497c61a1377481a46ebdde72f951c3c52626"
+    },
+    {
+      "path": "public/registration-reconcile-v1/25-psy_get_user_leaf_data.json",
+      "bytes": 508,
+      "sha256": "2c9a615a330d80ec90839a8d1542a0557eec82d93adc21e5d99575434fc9078e"
+    },
+    {
+      "path": "public/registration-reconcile-v1/26-psy_get_checkpoint_leaf_data.json",
+      "bytes": 1034,
+      "sha256": "365201a5411d58d87b24a8499974d5d155bbbd44ce59b5970a9d6351ebde7eb1"
+    },
+    {
+      "path": "public/registration-reconcile-v1/27-psy_get_user_ids_for_public_key.json",
+      "bytes": 297,
+      "sha256": "72939dafd1d0cf868b6e99407b2e07e7d534901d749b78ce559b9f0f4d8735b0"
+    },
+    {
+      "path": "public/registration-reconcile-v1/28-psy_get_latest_l2_block_state.json",
+      "bytes": 416,
+      "sha256": "ac98b18b884cec991595c5286d252b9162f9cadbb088624932641c04150f301e"
+    },
+    {
+      "path": "public/registration-reconcile-v1/29-psy_get_latest_l2_block_state.json",
+      "bytes": 416,
+      "sha256": "0d34b3eee984893ff76829d2a5fd497c61a1377481a46ebdde72f951c3c52626"
+    },
+    {
+      "path": "public/registration-reconcile-v1/3-psy_get_latest_l2_block_state.json",
+      "bytes": 416,
+      "sha256": "3e9a543ea0e3fb52c624997d1e2cb17c65cada199ebc6a94c8f760799735fa97"
+    },
+    {
+      "path": "public/registration-reconcile-v1/30-psy_get_user_leaf_data.json",
+      "bytes": 508,
+      "sha256": "de99686dd01a30635c67abcf44d7be6b233b5a265a458aa59b4933ce37cbd9ce"
+    },
+    {
+      "path": "public/registration-reconcile-v1/31-psy_get_checkpoint_leaf_data.json",
+      "bytes": 1034,
+      "sha256": "365201a5411d58d87b24a8499974d5d155bbbd44ce59b5970a9d6351ebde7eb1"
+    },
+    {
+      "path": "public/registration-reconcile-v1/32-psy_get_user_ids_for_public_key.json",
+      "bytes": 297,
+      "sha256": "72939dafd1d0cf868b6e99407b2e07e7d534901d749b78ce559b9f0f4d8735b0"
+    },
+    {
+      "path": "public/registration-reconcile-v1/33-psy_get_latest_l2_block_state.json",
+      "bytes": 416,
+      "sha256": "44a52d96db37890768785dee40c794ab44ec9957311e2fa320263a23bc25434e"
+    },
+    {
+      "path": "public/registration-reconcile-v1/34-psy_get_latest_l2_block_state.json",
+      "bytes": 416,
+      "sha256": "837f7e7cd49565930d7f900dd0b875a487c150f528be2c3c4f2986e4b09f0cbd"
+    },
+    {
+      "path": "public/registration-reconcile-v1/35-psy_get_user_leaf_data.json",
+      "bytes": 508,
+      "sha256": "372cdf812437fc51227e3e9f3cf0f615ae81ac886fbfc71d746551479bc93998"
+    },
+    {
+      "path": "public/registration-reconcile-v1/36-psy_get_checkpoint_leaf_data.json",
+      "bytes": 1034,
+      "sha256": "365201a5411d58d87b24a8499974d5d155bbbd44ce59b5970a9d6351ebde7eb1"
+    },
+    {
+      "path": "public/registration-reconcile-v1/37-psy_get_user_ids_for_public_key.json",
+      "bytes": 297,
+      "sha256": "72939dafd1d0cf868b6e99407b2e07e7d534901d749b78ce559b9f0f4d8735b0"
+    },
+    {
+      "path": "public/registration-reconcile-v1/38-psy_get_latest_l2_block_state.json",
+      "bytes": 416,
+      "sha256": "44a52d96db37890768785dee40c794ab44ec9957311e2fa320263a23bc25434e"
+    },
+    {
+      "path": "public/registration-reconcile-v1/39-psy_get_latest_l2_block_state.json",
+      "bytes": 416,
+      "sha256": "837f7e7cd49565930d7f900dd0b875a487c150f528be2c3c4f2986e4b09f0cbd"
+    },
+    {
+      "path": "public/registration-reconcile-v1/4-psy_get_latest_l2_block_state.json",
+      "bytes": 416,
+      "sha256": "ac98b18b884cec991595c5286d252b9162f9cadbb088624932641c04150f301e"
+    },
+    {
+      "path": "public/registration-reconcile-v1/40-psy_get_user_leaf_data.json",
+      "bytes": 508,
+      "sha256": "372cdf812437fc51227e3e9f3cf0f615ae81ac886fbfc71d746551479bc93998"
+    },
+    {
+      "path": "public/registration-reconcile-v1/41-psy_get_checkpoint_leaf_data.json",
+      "bytes": 1034,
+      "sha256": "365201a5411d58d87b24a8499974d5d155bbbd44ce59b5970a9d6351ebde7eb1"
+    },
+    {
+      "path": "public/registration-reconcile-v1/42-psy_get_user_ids_for_public_key.json",
+      "bytes": 297,
+      "sha256": "72939dafd1d0cf868b6e99407b2e07e7d534901d749b78ce559b9f0f4d8735b0"
+    },
+    {
+      "path": "public/registration-reconcile-v1/43-psy_get_latest_l2_block_state.json",
+      "bytes": 416,
+      "sha256": "44a52d96db37890768785dee40c794ab44ec9957311e2fa320263a23bc25434e"
+    },
+    {
+      "path": "public/registration-reconcile-v1/44-psy_get_latest_l2_block_state.json",
+      "bytes": 416,
+      "sha256": "837f7e7cd49565930d7f900dd0b875a487c150f528be2c3c4f2986e4b09f0cbd"
+    },
+    {
+      "path": "public/registration-reconcile-v1/45-psy_get_user_leaf_data.json",
+      "bytes": 508,
+      "sha256": "372cdf812437fc51227e3e9f3cf0f615ae81ac886fbfc71d746551479bc93998"
+    },
+    {
+      "path": "public/registration-reconcile-v1/46-psy_get_checkpoint_leaf_data.json",
+      "bytes": 1034,
+      "sha256": "365201a5411d58d87b24a8499974d5d155bbbd44ce59b5970a9d6351ebde7eb1"
+    },
+    {
+      "path": "public/registration-reconcile-v1/47-psy_get_user_ids_for_public_key.json",
+      "bytes": 297,
+      "sha256": "72939dafd1d0cf868b6e99407b2e07e7d534901d749b78ce559b9f0f4d8735b0"
+    },
+    {
+      "path": "public/registration-reconcile-v1/48-psy_get_latest_l2_block_state.json",
+      "bytes": 416,
+      "sha256": "864459d1c19cac71b53c74970a24261f6e58cd35165625ca64760d50396ef152"
+    },
+    {
+      "path": "public/registration-reconcile-v1/49-psy_get_latest_l2_block_state.json",
+      "bytes": 416,
+      "sha256": "55022250002656e42eb375541de2eb1127b5f5c2f12af815247cebecf5baa66c"
+    },
+    {
+      "path": "public/registration-reconcile-v1/5-psy_get_user_leaf_data.json",
+      "bytes": 508,
+      "sha256": "de99686dd01a30635c67abcf44d7be6b233b5a265a458aa59b4933ce37cbd9ce"
+    },
+    {
+      "path": "public/registration-reconcile-v1/50-psy_get_user_leaf_data.json",
+      "bytes": 508,
+      "sha256": "713e15c33df2dde4c6a807ec2080fae2986f1b661ec1fbb2acbabada38b0acd1"
+    },
+    {
+      "path": "public/registration-reconcile-v1/51-psy_get_checkpoint_leaf_data.json",
+      "bytes": 1034,
+      "sha256": "365201a5411d58d87b24a8499974d5d155bbbd44ce59b5970a9d6351ebde7eb1"
+    },
+    {
+      "path": "public/registration-reconcile-v1/52-psy_get_user_ids_for_public_key.json",
+      "bytes": 297,
+      "sha256": "72939dafd1d0cf868b6e99407b2e07e7d534901d749b78ce559b9f0f4d8735b0"
+    },
+    {
+      "path": "public/registration-reconcile-v1/53-psy_get_latest_l2_block_state.json",
+      "bytes": 416,
+      "sha256": "864459d1c19cac71b53c74970a24261f6e58cd35165625ca64760d50396ef152"
+    },
+    {
+      "path": "public/registration-reconcile-v1/54-psy_get_latest_l2_block_state.json",
+      "bytes": 416,
+      "sha256": "55022250002656e42eb375541de2eb1127b5f5c2f12af815247cebecf5baa66c"
+    },
+    {
+      "path": "public/registration-reconcile-v1/55-psy_get_user_leaf_data.json",
+      "bytes": 508,
+      "sha256": "713e15c33df2dde4c6a807ec2080fae2986f1b661ec1fbb2acbabada38b0acd1"
+    },
+    {
+      "path": "public/registration-reconcile-v1/56-psy_get_checkpoint_leaf_data.json",
+      "bytes": 1034,
+      "sha256": "365201a5411d58d87b24a8499974d5d155bbbd44ce59b5970a9d6351ebde7eb1"
+    },
+    {
+      "path": "public/registration-reconcile-v1/57-psy_get_user_ids_for_public_key.json",
+      "bytes": 297,
+      "sha256": "72939dafd1d0cf868b6e99407b2e07e7d534901d749b78ce559b9f0f4d8735b0"
+    },
+    {
+      "path": "public/registration-reconcile-v1/58-psy_get_latest_l2_block_state.json",
+      "bytes": 416,
+      "sha256": "864459d1c19cac71b53c74970a24261f6e58cd35165625ca64760d50396ef152"
+    },
+    {
+      "path": "public/registration-reconcile-v1/59-psy_get_latest_l2_block_state.json",
+      "bytes": 416,
+      "sha256": "55022250002656e42eb375541de2eb1127b5f5c2f12af815247cebecf5baa66c"
+    },
+    {
+      "path": "public/registration-reconcile-v1/6-psy_get_checkpoint_leaf_data.json",
+      "bytes": 1034,
+      "sha256": "365201a5411d58d87b24a8499974d5d155bbbd44ce59b5970a9d6351ebde7eb1"
+    },
+    {
+      "path": "public/registration-reconcile-v1/60-psy_get_user_leaf_data.json",
+      "bytes": 508,
+      "sha256": "713e15c33df2dde4c6a807ec2080fae2986f1b661ec1fbb2acbabada38b0acd1"
+    },
+    {
+      "path": "public/registration-reconcile-v1/61-psy_get_checkpoint_leaf_data.json",
+      "bytes": 1034,
+      "sha256": "365201a5411d58d87b24a8499974d5d155bbbd44ce59b5970a9d6351ebde7eb1"
+    },
+    {
+      "path": "public/registration-reconcile-v1/62-psy_get_user_ids_for_public_key.json",
+      "bytes": 297,
+      "sha256": "72939dafd1d0cf868b6e99407b2e07e7d534901d749b78ce559b9f0f4d8735b0"
+    },
+    {
+      "path": "public/registration-reconcile-v1/63-psy_get_latest_l2_block_state.json",
+      "bytes": 416,
+      "sha256": "8eb848582d16c6f697fcf0b89b7a6654c076967356fd5f6dc34f0179350f7de5"
+    },
+    {
+      "path": "public/registration-reconcile-v1/64-psy_get_latest_l2_block_state.json",
+      "bytes": 416,
+      "sha256": "8b5be1dd1b9d4e6666069e85750564b69ca2b21cdb8116753c5eef21d6442971"
+    },
+    {
+      "path": "public/registration-reconcile-v1/65-psy_get_user_leaf_data.json",
+      "bytes": 508,
+      "sha256": "5e3e1448cfc44f989ac5c9f01613699dcf35851f1249cd11c2dbdb19803d20c0"
+    },
+    {
+      "path": "public/registration-reconcile-v1/66-psy_get_checkpoint_leaf_data.json",
+      "bytes": 1034,
+      "sha256": "365201a5411d58d87b24a8499974d5d155bbbd44ce59b5970a9d6351ebde7eb1"
+    },
+    {
+      "path": "public/registration-reconcile-v1/67-psy_get_user_ids_for_public_key.json",
+      "bytes": 297,
+      "sha256": "72939dafd1d0cf868b6e99407b2e07e7d534901d749b78ce559b9f0f4d8735b0"
+    },
+    {
+      "path": "public/registration-reconcile-v1/68-psy_get_latest_l2_block_state.json",
+      "bytes": 416,
+      "sha256": "8eb848582d16c6f697fcf0b89b7a6654c076967356fd5f6dc34f0179350f7de5"
+    },
+    {
+      "path": "public/registration-reconcile-v1/69-psy_get_latest_l2_block_state.json",
+      "bytes": 416,
+      "sha256": "8b5be1dd1b9d4e6666069e85750564b69ca2b21cdb8116753c5eef21d6442971"
+    },
+    {
+      "path": "public/registration-reconcile-v1/7-psy_get_user_ids_for_public_key.json",
+      "bytes": 297,
+      "sha256": "72939dafd1d0cf868b6e99407b2e07e7d534901d749b78ce559b9f0f4d8735b0"
+    },
+    {
+      "path": "public/registration-reconcile-v1/70-psy_get_user_leaf_data.json",
+      "bytes": 508,
+      "sha256": "5e3e1448cfc44f989ac5c9f01613699dcf35851f1249cd11c2dbdb19803d20c0"
+    },
+    {
+      "path": "public/registration-reconcile-v1/71-psy_get_checkpoint_leaf_data.json",
+      "bytes": 1034,
+      "sha256": "365201a5411d58d87b24a8499974d5d155bbbd44ce59b5970a9d6351ebde7eb1"
+    },
+    {
+      "path": "public/registration-reconcile-v1/72-psy_get_user_ids_for_public_key.json",
+      "bytes": 297,
+      "sha256": "72939dafd1d0cf868b6e99407b2e07e7d534901d749b78ce559b9f0f4d8735b0"
+    },
+    {
+      "path": "public/registration-reconcile-v1/73-psy_get_latest_l2_block_state.json",
+      "bytes": 416,
+      "sha256": "8eb848582d16c6f697fcf0b89b7a6654c076967356fd5f6dc34f0179350f7de5"
+    },
+    {
+      "path": "public/registration-reconcile-v1/74-psy_get_latest_l2_block_state.json",
+      "bytes": 416,
+      "sha256": "8b5be1dd1b9d4e6666069e85750564b69ca2b21cdb8116753c5eef21d6442971"
+    },
+    {
+      "path": "public/registration-reconcile-v1/75-psy_get_user_leaf_data.json",
+      "bytes": 508,
+      "sha256": "5e3e1448cfc44f989ac5c9f01613699dcf35851f1249cd11c2dbdb19803d20c0"
+    },
+    {
+      "path": "public/registration-reconcile-v1/76-psy_get_checkpoint_leaf_data.json",
+      "bytes": 1034,
+      "sha256": "365201a5411d58d87b24a8499974d5d155bbbd44ce59b5970a9d6351ebde7eb1"
+    },
+    {
+      "path": "public/registration-reconcile-v1/77-psy_get_user_ids_for_public_key.json",
+      "bytes": 297,
+      "sha256": "72939dafd1d0cf868b6e99407b2e07e7d534901d749b78ce559b9f0f4d8735b0"
+    },
+    {
+      "path": "public/registration-reconcile-v1/78-psy_get_latest_l2_block_state.json",
+      "bytes": 416,
+      "sha256": "8eb848582d16c6f697fcf0b89b7a6654c076967356fd5f6dc34f0179350f7de5"
+    },
+    {
+      "path": "public/registration-reconcile-v1/79-psy_get_latest_l2_block_state.json",
+      "bytes": 416,
+      "sha256": "8b5be1dd1b9d4e6666069e85750564b69ca2b21cdb8116753c5eef21d6442971"
+    },
+    {
+      "path": "public/registration-reconcile-v1/8-psy_get_latest_l2_block_state.json",
+      "bytes": 416,
+      "sha256": "ac98b18b884cec991595c5286d252b9162f9cadbb088624932641c04150f301e"
+    },
+    {
+      "path": "public/registration-reconcile-v1/80-psy_get_user_leaf_data.json",
+      "bytes": 508,
+      "sha256": "5e3e1448cfc44f989ac5c9f01613699dcf35851f1249cd11c2dbdb19803d20c0"
+    },
+    {
+      "path": "public/registration-reconcile-v1/81-psy_get_checkpoint_leaf_data.json",
+      "bytes": 1034,
+      "sha256": "365201a5411d58d87b24a8499974d5d155bbbd44ce59b5970a9d6351ebde7eb1"
+    },
+    {
+      "path": "public/registration-reconcile-v1/82-psy_get_user_ids_for_public_key.json",
+      "bytes": 297,
+      "sha256": "72939dafd1d0cf868b6e99407b2e07e7d534901d749b78ce559b9f0f4d8735b0"
+    },
+    {
+      "path": "public/registration-reconcile-v1/83-psy_get_latest_l2_block_state.json",
+      "bytes": 416,
+      "sha256": "561c1530ad441321b026a6247286f9d0615686b4087d3f6f7787757c0368d2da"
+    },
+    {
+      "path": "public/registration-reconcile-v1/84-psy_get_latest_l2_block_state.json",
+      "bytes": 416,
+      "sha256": "a023e03783287c0b243ff7943f8e8a9fbdf05cfd6a6e36c475a2369a0ac999b3"
+    },
+    {
+      "path": "public/registration-reconcile-v1/85-psy_get_user_leaf_data.json",
+      "bytes": 508,
+      "sha256": "1f4a1e7d697a43baed291efdf36b2f6da5361141db2ee3f8a6ecba4c501f5d1a"
+    },
+    {
+      "path": "public/registration-reconcile-v1/86-psy_get_checkpoint_leaf_data.json",
+      "bytes": 1034,
+      "sha256": "365201a5411d58d87b24a8499974d5d155bbbd44ce59b5970a9d6351ebde7eb1"
+    },
+    {
+      "path": "public/registration-reconcile-v1/87-psy_get_user_ids_for_public_key.json",
+      "bytes": 297,
+      "sha256": "72939dafd1d0cf868b6e99407b2e07e7d534901d749b78ce559b9f0f4d8735b0"
+    },
+    {
+      "path": "public/registration-reconcile-v1/88-psy_get_latest_l2_block_state.json",
+      "bytes": 416,
+      "sha256": "561c1530ad441321b026a6247286f9d0615686b4087d3f6f7787757c0368d2da"
+    },
+    {
+      "path": "public/registration-reconcile-v1/89-psy_get_latest_l2_block_state.json",
+      "bytes": 416,
+      "sha256": "a023e03783287c0b243ff7943f8e8a9fbdf05cfd6a6e36c475a2369a0ac999b3"
+    },
+    {
+      "path": "public/registration-reconcile-v1/9-psy_get_latest_l2_block_state.json",
+      "bytes": 416,
+      "sha256": "3e9a543ea0e3fb52c624997d1e2cb17c65cada199ebc6a94c8f760799735fa97"
+    },
+    {
+      "path": "public/registration-reconcile-v1/90-psy_get_user_leaf_data.json",
+      "bytes": 508,
+      "sha256": "1f4a1e7d697a43baed291efdf36b2f6da5361141db2ee3f8a6ecba4c501f5d1a"
+    },
+    {
+      "path": "public/registration-reconcile-v1/91-psy_get_checkpoint_leaf_data.json",
+      "bytes": 1034,
+      "sha256": "365201a5411d58d87b24a8499974d5d155bbbd44ce59b5970a9d6351ebde7eb1"
+    },
+    {
+      "path": "public/registration-reconcile-v1/92-psy_get_user_ids_for_public_key.json",
+      "bytes": 297,
+      "sha256": "72939dafd1d0cf868b6e99407b2e07e7d534901d749b78ce559b9f0f4d8735b0"
+    },
+    {
+      "path": "public/registration-reconcile-v1/93-psy_get_latest_l2_block_state.json",
+      "bytes": 416,
+      "sha256": "561c1530ad441321b026a6247286f9d0615686b4087d3f6f7787757c0368d2da"
+    },
+    {
+      "path": "public/registration-reconcile-v1/94-psy_get_latest_l2_block_state.json",
+      "bytes": 416,
+      "sha256": "a023e03783287c0b243ff7943f8e8a9fbdf05cfd6a6e36c475a2369a0ac999b3"
+    },
+    {
+      "path": "public/registration-reconcile-v1/95-psy_get_user_leaf_data.json",
+      "bytes": 508,
+      "sha256": "1f4a1e7d697a43baed291efdf36b2f6da5361141db2ee3f8a6ecba4c501f5d1a"
+    },
+    {
+      "path": "public/registration-reconcile-v1/96-psy_get_checkpoint_leaf_data.json",
+      "bytes": 1034,
+      "sha256": "365201a5411d58d87b24a8499974d5d155bbbd44ce59b5970a9d6351ebde7eb1"
+    },
+    {
+      "path": "public/registration-reconcile-v1/97-psy_get_user_ids_for_public_key.json",
+      "bytes": 297,
+      "sha256": "72939dafd1d0cf868b6e99407b2e07e7d534901d749b78ce559b9f0f4d8735b0"
+    },
+    {
+      "path": "public/registration-reconcile-v1/98-psy_get_latest_l2_block_state.json",
+      "bytes": 416,
+      "sha256": "aefb9df1525724e5db7a7532a1c0e61b339a88ad52c046868a3f3cdc798d1661"
+    },
+    {
+      "path": "public/registration-reconcile-v1/99-psy_get_latest_l2_block_state.json",
+      "bytes": 416,
+      "sha256": "fd5615900f6cb48ef3a95b865c788507b5cd7b7d40a00929bafac505d3f82f62"
+    },
+    {
+      "path": "public/registration-reconcile-v1/RESULT.json",
+      "bytes": 130,
+      "sha256": "ee551f0dbf5635e4f7f65de6a692501a41bee57bb438b069d2211d340687be69"
+    },
+    {
+      "path": "public/registration-source-v1.json",
+      "bytes": 9047,
+      "sha256": "2b639c5dfb7001d48ca98468b5672cdb698d94dbbb350196f8a5dcf1a80efdd1"
+    },
+    {
+      "path": "public/registration-source-v2.json",
+      "bytes": 9047,
+      "sha256": "6834201ef7f64f0d3839ae5f73839b5c41f4f62da4e5915091320d926f054668"
+    },
+    {
+      "path": "public/registration-tests-v1.log",
+      "bytes": 46961,
+      "sha256": "2e6e3aa2dfd45105e0b491ef77cc80ef3dbfcbea9641f1ec0565b78e66c60f51"
+    },
+    {
+      "path": "public/registration-tests-v2.log",
+      "bytes": 46961,
+      "sha256": "5f0b22d75af57be619e4045317bd151521098999b6f0af8f851a92b0e5de353b"
+    },
+    {
+      "path": "public/registration-verifier-build-v1.log",
+      "bytes": 46443,
+      "sha256": "03ab002cd6eb8ef5e0f284b77a7e72ef4f732158aad91b6161b905ea92539def"
+    },
+    {
+      "path": "public/registration-verifier-build-v2.log",
+      "bytes": 46443,
+      "sha256": "8a4b11ef92111753037988686f074a18ee28163d37c27e2c96dda8d7644468a2"
+    },
+    {
+      "path": "recipes/bootstrap-v1.mjs",
+      "bytes": 7533,
+      "sha256": "bd17fab6984779daec1cf4e46bdb0a3a6a5a491f8d44008de3268c8b14077646"
+    },
+    {
+      "path": "recipes/bootstrap-v2.mjs",
+      "bytes": 7590,
+      "sha256": "a64970401c7a0ac475749d381e9c75dd9400b5913c7bc38fc67fae54ac39e2ba"
+    },
+    {
+      "path": "recipes/capture-registration-v1.mjs",
+      "bytes": 4485,
+      "sha256": "3373fb669aff2460339e7cce81531df5622b3e3b08f624b2a7b07d13b68da3ad"
+    },
+    {
+      "path": "recipes/capture-registration-v2.mjs",
+      "bytes": 5126,
+      "sha256": "1f60286e7446a4fbf959bf17a86f14f3d31f799b42ead37884b5cbc1257519f0"
+    },
+    {
+      "path": "recipes/create-identities-v1.py",
+      "bytes": 2510,
+      "sha256": "743ad0fb8428ba3c1e3588fae5825699f87f27036c8b5897169f7438d444b202"
+    },
+    {
+      "path": "recipes/faucet-once-v1.mjs",
+      "bytes": 4724,
+      "sha256": "ff0d88f51532a2ddb6759a8338b0d48367ad96a14c7b2b5993511114d294f255"
+    },
+    {
+      "path": "recipes/reconcile-registration-v1.mjs",
+      "bytes": 2608,
+      "sha256": "f6e19817e5aa63a6a6c3c6b4605717f5c1d060a07a6313cf45e389e2a55b15f0"
+    },
+    {
+      "path": "tested-registration-v1/bin/verify_registration_checkpoint.rs",
+      "bytes": 1716,
+      "sha256": "b7ce73f947f655b12b208e44875b802b9f7375f8cf25cc656a5cb92dcdca52fb"
+    },
+    {
+      "path": "tested-registration-v1/registration_checkpoint.rs",
+      "bytes": 4070,
+      "sha256": "8dcb909dc3e0fd0e9fc133e9483eedfdd7a1b3f2142ea33a6f68d4e00d6a20bf"
+    },
+    {
+      "path": "tested-registration-v2/bin/verify_registration_checkpoint.rs",
+      "bytes": 1992,
+      "sha256": "5bbefa4ee45cd6d299bbf5b919b20f05d476e17fd45f70a6a2dd55f6fd5cc8af"
+    },
+    {
+      "path": "tested-registration-v2/registration_checkpoint.rs",
+      "bytes": 5339,
+      "sha256": "39576155c90ca0ca98596f9fc606e40c52c250894352ff7b8c03872a14fb71e2"
+    }
+  ],
+  "caseTotals": {
+    "registrationRequests": 1,
+    "faucetRequests": 1,
+    "grantsConfirmed": 0,
+    "deployments": 0,
+    "ordinaryUpsSent": 0,
+    "fills": 0,
+    "ordinaryClaims": 0,
+    "ownerUpsFeesTestPsy": "0",
+    "operatorFees": "not independently evidenced",
+    "existingPusdtSpend": "0"
+  },
+  "captureCountScope": "zero mutation counts in individual read-only capture/verifier reports are per tool, not case totals; CASE-LEDGER-v1.json is authoritative for this case",
+  "rawRemoteDiagnosticSha256": "e98fce03dc11a92cd08db702726f7a0a71dc2f1f6d4768077989cd3b58794927",
+  "rawRemoteDiagnosticsPublished": false,
+  "privateFilesPublished": false,
+  "originalEvidenceModified": false,
+  "sdkCommit": "c92880c8b6e2c8d392f19368bc8801a2584fd427"
+}

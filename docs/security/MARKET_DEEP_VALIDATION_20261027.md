@@ -223,3 +223,13 @@ restriction with the frozen SDK's exact packed-word bound and 89 model
 regressions. Its legacy SDK/domain/native-method migration remains open; no
 current-chain composition, wallet financial or performance acceptance is implied.
 See the follow-up in the current intent-layer report.
+
+## 28 October: reset-chain bootstrap and first-session boundary
+
+[Current bootstrap report](AMM_RESET_BOOTSTRAP_20261028.md) records one new
+registration matched to URT membership and indexed receipt, an independently
+bound checkpoint audit, and one exact faucet request stopped after a service
+UPS-start proving error. There is no confirmed grant, deployment, market fill or
+ordinary claim. The first-session native/WASM verifier variant remains a separate
+code/UPS gate; initialized-user synthetic evidence does not close it. Raw remote
+proof-wire diagnostics and all secret files are excluded from published evidence.
