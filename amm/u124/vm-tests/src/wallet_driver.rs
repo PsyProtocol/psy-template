@@ -25,7 +25,7 @@ use psy_provider::{
     provider::QUserRpcProvider, request::QSubmitEndCapRPCRequest, session::TxStatus,
 };
 use psy_ups_circuit::circuit_manager::core::PsyUPSStepCircuitManager;
-use psy_ups_circuit::signature::sd_key::get_sd_key_public_key_param;
+use crate::market_key::get_sd_key_public_key_param;
 use psy_crypto::signature::zk::data::ZKPublicKeyInfo;
 use std::io::Write;
 use sha2::{Digest, Sha256};
@@ -113,18 +113,22 @@ async fn run(progress: &mut Progress) -> Result<()> {
     network.prove_proxy_url.clear();
     let mut session = WalletSession::new(&network).await?;
     if let Some(g) = &guard { g.check_current(&session.st_provider).await?; }
-    session.wallet.insert_sd_key_circuit(fingerprint, circuit);
+    // The application holds its custom circuit; no unsupported SDK wallet mode is enabled.
     let public_key = QHashOut(HashOut {
         elements: [F::ONE; 4],
     });
     if action == "register" {
         progress.broadcast_attempted = true;
-        let key = session.register_user(public_key, fingerprint).await?;
+        let param=get_sd_key_public_key_param(&public_key);
+        let info=ZKPublicKeyInfo{public_key_param:param,fingerprint};
+        let key=info.qfhash::<PsyHasher>();
+        ensure!(session.st_provider.get_user_ids_for_public_key(key).await?.is_empty(),"registration exists; reconcile original identity");
+        session.st_provider.register_user(psy_provider::request::QRegisterUserRPCRequest{public_key:info}).await?;
         println!("registered public market account {key}; fingerprint {fingerprint}");
         return Ok(());
     }
     let mut data = calls.context("missing call request")?;
-    let key = session.add_user(public_key, fingerprint).await?;
+    let key=ZKPublicKeyInfo{public_key_param:get_sd_key_public_key_param(&public_key),fingerprint}.qfhash::<PsyHasher>();
     session.start_session(key).await?;
     session
         .prove_contract_call(key, data.contract_calls)
@@ -135,7 +139,7 @@ async fn run(progress: &mut Progress) -> Result<()> {
         let burn = &lps.last_transaction_record().call_data.call_data;
         ensure!(
             burn.contract_id.to_canonical_u64() == 0
-                && burn.method_id.to_canonical_u64() == 2_923_993_647
+                && burn.method_id.to_canonical_u64() == psy_config::network_constants::TOKEN_BURN_METHOD_ID as u64
                 && burn.inputs.len() == 1,
             "unexpected automatic PSY burn"
         );
@@ -152,7 +156,7 @@ async fn run(progress: &mut Progress) -> Result<()> {
     *data.software_defined_call.inputs.last_mut().context("burn witness")? = fee;
     match action {
         "preflight" | "verified-submit" | "submit" | "guarded-preflight" | "guarded-submit" => {
-            let (endcap, proof) = session.sign(key, data.software_defined_call).await?;
+            let (endcap, proof) = crate::market_key::prove_session_endcap(&session,key,public_key,&circuit,&data.software_defined_call.inputs,None).await?;
             let verifier = PsyUPSStepCircuitManager::<C, D>::new_with_config(PSY_NETWORK_MAGIC);
             ensure!(
                 verifier.ups_end_cap.get_fingerprint()

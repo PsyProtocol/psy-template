@@ -1,0 +1,315 @@
+{
+  "schema": 1,
+  "sourceDirectory": "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-market-recovery-20261023/market-mainnet-migration-20261027-v1",
+  "machine": "gewenbo.local",
+  "host": "macOS-15.7.3-arm64-arm-64bit",
+  "scope": "public formal Executor run including failures; success requires exact included receipt",
+  "walletFilesIncluded": false,
+  "sealedBinariesIncluded": false,
+  "records": [
+    {
+      "source": "authorization-compact-v2.log",
+      "file": "files/authorization-compact-v2.log.gz",
+      "bytes": 15657,
+      "sha256": "5103fe2d2d0da802085397809aa99befd05122c3ec6b115920963f17e8438e4f",
+      "gzipBytes": 1030,
+      "gzipSha256": "e87fd5121e738afecafa9897f395e9cb31caf4c1f49852945dfdcfe158e086ec"
+    },
+    {
+      "source": "browser-sdk-build-v5.log",
+      "file": "files/browser-sdk-build-v5.log.gz",
+      "bytes": 66130,
+      "sha256": "d746d6ae22984a05104e9b734e9dab7e627a134bd8f74c0f602632dfac075348",
+      "gzipBytes": 10015,
+      "gzipSha256": "4fbc544bfee2c9eab185c2e7948317367b01e2b845910ed75a3957c507df9f51"
+    },
+    {
+      "source": "ordinary-claim-v1/REPORT.json",
+      "file": "files/ordinary-claim-v1/REPORT.json.gz",
+      "bytes": 5834,
+      "sha256": "277a6b13fd082c5402559446b498223dcfc2eb2291ae447f410886ccd3a0d9c9",
+      "gzipBytes": 1611,
+      "gzipSha256": "710d1f244ca4a76d3e58f58c519ce7eb8f03d4c8a362c7f01854f552a89e9780"
+    },
+    {
+      "source": "ordinary-claim-v1/amm-request.json",
+      "file": "files/ordinary-claim-v1/amm-request.json.gz",
+      "bytes": 477554,
+      "sha256": "659842b0e290ff528035233ccc82279384268658c9ad617bd3cfaaf872ef73bc",
+      "gzipBytes": 169401,
+      "gzipSha256": "9934a469f4846628f54787891634824fae5f13756fbeae0a7a9b47932bbbe137"
+    },
+    {
+      "source": "ordinary-claim-v1/bondingcurve-request.json",
+      "file": "files/ordinary-claim-v1/bondingcurve-request.json.gz",
+      "bytes": 477924,
+      "sha256": "0d80cd882a094f41fd0069260ab73c1b40cad5690fc12a676a63307bb8471870",
+      "gzipBytes": 168662,
+      "gzipSha256": "ce9f7b7ad92614ec46d14fe59bf8bae8d79bbcca2dfcc8a7b175959112d84247"
+    },
+    {
+      "source": "ordinary-claim-v1/nftmarket-request.json",
+      "file": "files/ordinary-claim-v1/nftmarket-request.json.gz",
+      "bytes": 479946,
+      "sha256": "90e6f14769cd51eb7f3369f31c4051744b3286dc1906923c6202cc9011033814",
+      "gzipBytes": 169732,
+      "gzipSha256": "f3612556f5a357fef08c5a62b795eaa2fb08014864c78b98f084e452913a7718"
+    },
+    {
+      "source": "ordinary-claim-v1/orderbook-request.json",
+      "file": "files/ordinary-claim-v1/orderbook-request.json.gz",
+      "bytes": 478183,
+      "sha256": "9107eedd2c475410d9e6d40ba7e96af6408c669df8e93125b9fed24684b7a218",
+      "gzipBytes": 168027,
+      "gzipSha256": "aaa0b21680ac218728a602471aaadee76e82d5a14394ec9c064e974aba235f0b"
+    },
+    {
+      "source": "ordinary-claim-v1.log",
+      "file": "files/ordinary-claim-v1.log.gz",
+      "bytes": 11465,
+      "sha256": "e60e71fe8d332262876c02eeb7d90bf84fc8b0d19b7b9b5bc4e784be3db46451",
+      "gzipBytes": 2216,
+      "gzipSha256": "e665c547090a3b027d28ba7f226ca030a8b734b9d98b49eeef2d7baaf47db25b"
+    },
+    {
+      "source": "ordinary-fund-v1/REPORT.json",
+      "file": "files/ordinary-fund-v1/REPORT.json.gz",
+      "bytes": 5842,
+      "sha256": "0c0cfbc640539f43ca79e10bbd6c47735fa97685358e6fcea1cf6d55099851e4",
+      "gzipBytes": 1626,
+      "gzipSha256": "95e78b12a6408ee2d38484a902bb30bc7192180f0c1bac007b688e422b9faa39"
+    },
+    {
+      "source": "ordinary-fund-v1/amm-request.json",
+      "file": "files/ordinary-fund-v1/amm-request.json.gz",
+      "bytes": 499952,
+      "sha256": "958f99a2e3636c15cda60b5dc5c7cebd7de3e7eeffd35da61bc7230f753100f4",
+      "gzipBytes": 170465,
+      "gzipSha256": "6fa46ae9f6e9d730470b27eb217aa889bc9c013ce857557e2f03c5b4db2a1e7c"
+    },
+    {
+      "source": "ordinary-fund-v1/bondingcurve-request.json",
+      "file": "files/ordinary-fund-v1/bondingcurve-request.json.gz",
+      "bytes": 502282,
+      "sha256": "1c7da5fee9d5d890602d123df5066023748325bcea568eda21b63cd3be3d1ee8",
+      "gzipBytes": 170211,
+      "gzipSha256": "75314097c26616b16b17a46d899e3862ba4ea94bcca6088af2106fd9e0251908"
+    },
+    {
+      "source": "ordinary-fund-v1/nftmarket-request.json",
+      "file": "files/ordinary-fund-v1/nftmarket-request.json.gz",
+      "bytes": 501692,
+      "sha256": "3974df0fb41ae465037139bd712220ac463a0adb4273552b555a7014ab6029ec",
+      "gzipBytes": 169017,
+      "gzipSha256": "06602836df46644a06c417d90c47ca0001281ab0143c6211ade307ba1802ffc8"
+    },
+    {
+      "source": "ordinary-fund-v1/orderbook-request.json",
+      "file": "files/ordinary-fund-v1/orderbook-request.json.gz",
+      "bytes": 497422,
+      "sha256": "d8ec662a6c7f1d46cf937fc06c8503b85f1e9b76703cd9f1c2295de83610942f",
+      "gzipBytes": 169013,
+      "gzipSha256": "4c7efce797d56be43484b08c4eaa668a8a6c6593c730928781f7023c15fc48e2"
+    },
+    {
+      "source": "ordinary-fund-v1.log",
+      "file": "files/ordinary-fund-v1.log.gz",
+      "bytes": 12712,
+      "sha256": "5df5f1eae00c70109908c425db00fa1f6afc558de299703bab189e46371e2cc1",
+      "gzipBytes": 2306,
+      "gzipSha256": "2bc83c3c2aa3e0cb59d215bc4b74f13dc7f133df18b527a764d0318d193f9b4b"
+    },
+    {
+      "source": "public/WALLET-UPS-CLOSED-v1.json",
+      "file": "files/public/WALLET-UPS-CLOSED-v1.json.gz",
+      "bytes": 80,
+      "sha256": "e802e2a1f2dbb6d8ce304a89fab547737b80ea6d73fe930416ea72abbac62ce3",
+      "gzipBytes": 96,
+      "gzipSha256": "9c51553c90dd5f1707279d093ed83628c195aac0b85070548742e745f0eeb85d"
+    },
+    {
+      "source": "public/authorization-compact-v2-exit.json",
+      "file": "files/public/authorization-compact-v2-exit.json.gz",
+      "bytes": 419,
+      "sha256": "0de1e132d6536eb84500da593e835472d7fd85ef0239355d35cef63c7d16439f",
+      "gzipBytes": 319,
+      "gzipSha256": "dcacf74b43c76947543bc675c67726495f32f807cf870c0a17a8e716f58dec58"
+    },
+    {
+      "source": "public/browser-sdk-distribution-v1.json",
+      "file": "files/public/browser-sdk-distribution-v1.json.gz",
+      "bytes": 54677,
+      "sha256": "8bbbd5b643c4150721422c5ec5468f3a64ae322115233d8df5881c767fd58c8a",
+      "gzipBytes": 21936,
+      "gzipSha256": "c2436775bda578b243644173d9957acf3e0da035fd5eec56a5b010ce908ed073"
+    },
+    {
+      "source": "public/network-preflight-v3/REPORT.json",
+      "file": "files/public/network-preflight-v3/REPORT.json.gz",
+      "bytes": 2800,
+      "sha256": "5dfcc1a48885f23370ff13e52a7c4c34460d4dc7d5934fde416f4baa76530291",
+      "gzipBytes": 715,
+      "gzipSha256": "7d9d24d5038031cfb394ad0652041f6486ec0da7e733fff5900338abaf02922e"
+    },
+    {
+      "source": "public/network-preflight-v3/application-config.json",
+      "file": "files/public/network-preflight-v3/application-config.json.gz",
+      "bytes": 5736,
+      "sha256": "da7f676f47ab78f14d930def7d2019a3a56ac10ce2d097e3594425f11681b0eb",
+      "gzipBytes": 882,
+      "gzipSha256": "3e614aeaf753441125b9269cdf2af10204b0120b13ed876223cb980bda9141e5"
+    },
+    {
+      "source": "public/network-preflight-v3/circuit-metadata-response.json",
+      "file": "files/public/network-preflight-v3/circuit-metadata-response.json.gz",
+      "bytes": 25921,
+      "sha256": "c1fc6f72975e62ed87c63593b43e08f7e26fe2aacddae5b96272021ab35726bb",
+      "gzipBytes": 11955,
+      "gzipSha256": "71d31c2ecc93e0e651309b31a27c010a5dfdcc9be89db51a60a0b41d549fbd92"
+    },
+    {
+      "source": "public/network-preflight-v3/genesis-checkpoint-response.json",
+      "file": "files/public/network-preflight-v3/genesis-checkpoint-response.json.gz",
+      "bytes": 790,
+      "sha256": "42679ef5cca6df42dee6e399e58ff18f6fe392cb629946b94d85f9cf5e00619d",
+      "gzipBytes": 392,
+      "gzipSha256": "f608aec4261e7028643183d4cc5e381b8774219c74848462825011d577cc0c5b"
+    },
+    {
+      "source": "public/network-preflight-v3/native-code-response.json",
+      "file": "files/public/network-preflight-v3/native-code-response.json.gz",
+      "bytes": 431274,
+      "sha256": "a744099fd9911120eab64b2b437dace285ba80c26f71d1a37cb6f6432bb8fc4c",
+      "gzipBytes": 22678,
+      "gzipSha256": "fd2d3798bb5e2b10b204385850722c40d180d65bd89b9568b0839309975fe1d0"
+    },
+    {
+      "source": "public/network-preflight-v3/native-leaf-response.json",
+      "file": "files/public/network-preflight-v3/native-leaf-response.json.gz",
+      "bytes": 382,
+      "sha256": "63374224ffa3c01f814a1bde28d416eac03c3922534765101d47301d21158470",
+      "gzipBytes": 228,
+      "gzipSha256": "b1da4130c70d672458d2016c7ac752ece8bbf570ab38b7fbb2f8884ec651f3c9"
+    },
+    {
+      "source": "public/network-preflight-v3/native-verified.json",
+      "file": "files/public/network-preflight-v3/native-verified.json.gz",
+      "bytes": 2294,
+      "sha256": "0c779eb1a3bb4adb4834da4215cd1e86f2be97d2360cf2883ada5052aaabdf88",
+      "gzipBytes": 834,
+      "gzipSha256": "c0927edd2e037d28c5da6250931590714e8e651c42b4e3a5df583c26739e6f98"
+    },
+    {
+      "source": "public/network-preflight-v3/realm0-head-response.json",
+      "file": "files/public/network-preflight-v3/realm0-head-response.json.gz",
+      "bytes": 224,
+      "sha256": "ea03b37f1ad16e239d92457ad272ca6590d1bcfb2535a561fd4340e5c00b4ec3",
+      "gzipBytes": 156,
+      "gzipSha256": "37654fe052a3f9c635f484b15184a1ff3f5b82c8cb2873b4518d35241408a5a3"
+    },
+    {
+      "source": "public/network-preflight-v3/realm1-head-response.json",
+      "file": "files/public/network-preflight-v3/realm1-head-response.json.gz",
+      "bytes": 224,
+      "sha256": "ea03b37f1ad16e239d92457ad272ca6590d1bcfb2535a561fd4340e5c00b4ec3",
+      "gzipBytes": 156,
+      "gzipSha256": "37654fe052a3f9c635f484b15184a1ff3f5b82c8cb2873b4518d35241408a5a3"
+    },
+    {
+      "source": "public/ordinary-claim-v1-exit.json",
+      "file": "files/public/ordinary-claim-v1-exit.json.gz",
+      "bytes": 516,
+      "sha256": "f5716e8d1521652c4340f6077d16169bc172a58b57963e51c60892ac25bd8591",
+      "gzipBytes": 368,
+      "gzipSha256": "70129c7b1c6eba9beb1afc1ac085036c8377918da4e875e3ff7f26e663a455a8"
+    },
+    {
+      "source": "public/ordinary-fund-v1-exit.json",
+      "file": "files/public/ordinary-fund-v1-exit.json.gz",
+      "bytes": 516,
+      "sha256": "81d4b527eb53c75b03ed963cf89bfe5af6039f65fe6f0c16e9bed4421b0b9641",
+      "gzipBytes": 368,
+      "gzipSha256": "b5fc4f2d0792e02433353eef6a91c76797e83be3db164a99cc0b571928ab2dbd"
+    },
+    {
+      "source": "wallet-build-mainnet-beta-v1.log",
+      "file": "files/wallet-build-mainnet-beta-v1.log.gz",
+      "bytes": 2769,
+      "sha256": "8a7b6b038c851fecbeb24eb3060577ea5dffd0161b104624417da80d6ebb9117",
+      "gzipBytes": 1081,
+      "gzipSha256": "bc0cecd49cd8dd0c042f103b3d4c71d92a2dcea413b2c36f2d18026db80746ae"
+    },
+    {
+      "source": "wallet-native-after-v2.log",
+      "file": "files/wallet-native-after-v2.log.gz",
+      "bytes": 995,
+      "sha256": "883fe1019c5298af2b8ea32feba1e254ae4c583a2b2e35a1e59a738fb10373ff",
+      "gzipBytes": 459,
+      "gzipSha256": "dbf4642e53f9246431b732a32f01b2fda5be47573afbff1a088780fcd76b9ca1"
+    },
+    {
+      "source": "wallet-native-after-v3.log",
+      "file": "files/wallet-native-after-v3.log.gz",
+      "bytes": 322,
+      "sha256": "e9e6430409e4137542526c3e34503c63c199ffdef0c950d5026d3bb7d1978907",
+      "gzipBytes": 257,
+      "gzipSha256": "64d799ce59f6fe8855532194299733d0d3e5bbbad279ce968f03bd0af5c87b46"
+    },
+    {
+      "source": "wallet-native-before-v1.log",
+      "file": "files/wallet-native-before-v1.log.gz",
+      "bytes": 1187,
+      "sha256": "628e9f02b4ef41c7d4f0cd145e2a50963cbebc91a34c59a7c1bbb3e2ad6f4e3d",
+      "gzipBytes": 577,
+      "gzipSha256": "1b5ca25a87a9a9a94491bb7e3a064a95d42bae5d60e6147dbcbff19620171898"
+    },
+    {
+      "source": "wallet-network-after-v4.log",
+      "file": "files/wallet-network-after-v4.log.gz",
+      "bytes": 319,
+      "sha256": "68779f65e35942a936fae51f62c5e84e491779872e3757b312ef61531e44fcbb",
+      "gzipBytes": 250,
+      "gzipSha256": "51ebc60e60a7979c385652846a1c247a706cff55dcf281a600b14fd5b62df0f0"
+    },
+    {
+      "source": "wallet-network-reproduction-v3.log",
+      "file": "files/wallet-network-reproduction-v3.log.gz",
+      "bytes": 2427,
+      "sha256": "0af3490c56cb76ba089a348856d389d2cad311fe35ac85b1c320ffa50fff7df5",
+      "gzipBytes": 827,
+      "gzipSha256": "541c287bb48cd2161b6e9219f5f861cd7a207a8055b913e0bb6ab91188f87fe3"
+    },
+    {
+      "source": "wallet-regression-v4.log",
+      "file": "files/wallet-regression-v4.log.gz",
+      "bytes": 2993,
+      "sha256": "0811cea52fa4e031f8e7c98828ab274d95eade9cbaddb31a0df26d21da70b7fc",
+      "gzipBytes": 1246,
+      "gzipSha256": "b39b561d2cfb0f8ef20f89bd230da8ca96b03cb0cb92fa7691ce550417145b17"
+    },
+    {
+      "source": "wallet-regression-v5.log",
+      "file": "files/wallet-regression-v5.log.gz",
+      "bytes": 342,
+      "sha256": "82d234b660a5da4b5edce56080b1cceac83358dffa86fc555dd4c477a5e7e6e8",
+      "gzipBytes": 274,
+      "gzipSha256": "aee6293231c36f41190bdfdece75afb5ba750d65cabdb2ffd9efeb1b40575be2"
+    },
+    {
+      "source": "wallet-sdk-typecheck-after-v5.log",
+      "file": "files/wallet-sdk-typecheck-after-v5.log.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "wallet-sdk-typecheck-before-v1.log",
+      "file": "files/wallet-sdk-typecheck-before-v1.log.gz",
+      "bytes": 6577,
+      "sha256": "c431a5b93b4849619a5e7134a1353a7a45790dd1a98dd6c50f29ca20e9053d12",
+      "gzipBytes": 1653,
+      "gzipSha256": "5d864a9503fd747038db1ea4744cc013761e3bcea3835a572aa75284e129654b"
+    }
+  ]
+}

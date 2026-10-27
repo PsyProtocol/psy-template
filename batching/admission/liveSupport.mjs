@@ -1,3 +1,4 @@
+import{verifyDeploymentOwner,PROFILE as MAINNET_BETA_PROFILE}from'../mainnet-beta/native.mjs';
 // Isolated acceptance helpers. An acknowledgement is never treated as inclusion.
 // No mutation is retried. All outputs use exclusive creation; secrets stay outside.
 import assert from 'node:assert/strict';
@@ -48,8 +49,8 @@ export async function ordinary({base,config,binary,secret,name,calls,bindings,en
  const timing=worker?await worker.run({action:'call',input,out,log:join(base,name+'.log')}):await run(binary,['call',config,secret,input,out],join(base,name+'.log'),env);saveObservation(join(out,'timing.json'),timing);
  await confirmUps(config,out,{historyConcurrency,...(worker?{findReceipt:()=>worker.reconcile()}: {})});return out;
 }
-export async function confirmDeploy(config,attempt,expectedDeployer){
- assert.match(expectedDeployer,/^[0-9a-f]{64}$/,'deployment owner must be a pinned public-key hash, not a user ID');
+export async function confirmDeploy(config,attempt,expectedDeployer,{nativeProtocol='legacy-v1'}={}){
+ verifyDeploymentOwner({deployer:expectedDeployer},expectedDeployer,nativeProtocol);
  const hash=read(join(attempt,'receipt.json')).receipt;assert.match(hash,/^[0-9a-f]{64}$/);
  const c=read(config),url=c.networks[c.defaultNetwork].api_services_url[0];
  for(let i=0;i<120;i++){
@@ -57,7 +58,7 @@ export async function confirmDeploy(config,attempt,expectedDeployer){
   if(receipt.data?.status==='included'){
    assert.equal(receipt.success,true);assert.equal(receipt.data.content_hash,hash);assert.equal(receipt.data.tx_type,'DeployContract');
    const id=freshDeploymentReceipt(read(join(attempt,'before.json')),receipt.data);let s=await publicState(config);for(let visible=0;s.checkpoint<receipt.data.included_checkpoint_id&&visible<120;visible++){await new Promise(r=>setTimeout(r,10000));s=await publicState(config);}assert.ok(s.checkpoint>=receipt.data.included_checkpoint_id,'deployment not visible at common realm checkpoint');const leaf=await s.contractLeaf(id),preflight=read(join(attempt,'preflight.json'));
-   assert.equal(leaf.deployer,expectedDeployer);assert.equal(preflight.initialLayoutVerified,true);assert.equal(preflight.publicEndpointsBound,true);assert.equal(preflight.oldFieldCount,0);assert.equal(preflight.oldSlotCount,0);
+   verifyDeploymentOwner(leaf,expectedDeployer,nativeProtocol);if(nativeProtocol===MAINNET_BETA_PROFILE)assert.equal(preflight.expectedDeployer,String(expectedDeployer));assert.equal(preflight.initialLayoutVerified,true);assert.equal(preflight.publicEndpointsBound,true);assert.equal(preflight.oldFieldCount,0);assert.equal(preflight.oldSlotCount,0);
    for(const [actual,expected] of [['code_root','codeRoot'],['function_tree_root','functionTreeRoot'],['state_layout_root','layoutRoot'],['state_tree_height','stateTreeHeight'],['state_layout_field_count','newFieldCount'],['state_layout_slot_count','newSlotCount']])assert.equal(leaf[actual],preflight[expected],'deployed endpoint '+actual);
    const report={checkedAt:new Date().toISOString(),checkpoint:s.checkpoint,commonCheckpoint:s.checkpoint,receipt,contractId:id,leaf,preflight,requestSaved:true};
    save(join(attempt,'included.json'),report);return report;

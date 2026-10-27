@@ -15,10 +15,12 @@ its source recipe, code, build products and evidence remain unchanged.
 
 The current native protocol checks **pass** with the selected source: numeric
 deployer, `transfer`/`claim`/`burn` and automatic burn ID `3998182541`, plus exact
-bytecode/code-root equality. The application still needs its custom SD-key,
-wallet witness and numeric deployment-owner adapters migrated and fully proved.
-**This is not a completed market-library, browser SDK package, complete UPS or
-live deployment acceptance.** Financial gates remain closed.
+bytecode/code-root equality. Application SD-key and numeric-owner adapters now
+pass complete market commit/settle and ordinary funding/claim proofs. The
+unchanged browser SDK distribution also built. See the
+[migration report](../../../docs/security/MAINNET_BETA_MARKET_MIGRATION_20261027.md)
+for exact evidence and consumer gaps. Live inclusion, a new reviewed registry
+and browser write authorization remain separate gates.
 
 ## Reconstruct without changing existing repositories
 
@@ -54,7 +56,8 @@ Use the retained consumer Cargo.lock. Offline reproduction additionally requires
 its registry/git sources in the local cache. An initial offline build without the
 new backend source failed and is retained; no fallback backend was substituted.
 The consumer imports the exact core/VM crates consumed by the selected SDK. It
-does not claim that the SDK's complete Rust/WASM/TypeScript distribution built.
+does not by itself attest a complete distribution; the later build and compiler
+pins are recorded in the migration report.
 
 The stage is explicitly **testnet**, with magic `1384803358401154921`
 (`0x1337CF514544CF69`) and the upstream staging URLs. The SDK branch name does

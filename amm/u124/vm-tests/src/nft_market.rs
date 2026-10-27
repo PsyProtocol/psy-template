@@ -20,7 +20,7 @@ pub fn compile(source:&str,nft:u64,token:u64)->Result<ContractOutput>{
    }
   }
   super::prepend_height(def,32)?;
-  super::prepend_height(def,30)?;
+  let nft_height=super::prepend_height(def,30)?;let native_height=nft_height+1;
   let mut constants=std::collections::HashMap::new();let mut current=None;
   for node in &def.definitions {let v=serde_json::to_value(node)?;if v["data_type"]==0&&v["op_type"]==1{constants.insert(v["index"].as_u64().unwrap(),v["inputs"][0].as_u64().unwrap());}if v["data_type"]==0&&v["op_type"]==47{current=v["index"].as_u64();}}
   for cmd in &mut def.state_commands {
@@ -32,7 +32,7 @@ pub fn compile(source:&str,nft:u64,token:u64)->Result<ContractOutput>{
    if let Some((cid,height,length))=foreign{
     ensure!(length==1 || (Some(cid)==current&&length==2),"NFT/FT reads must be scalar; market price may be a pair");
     ensure!(constants.get(height)==Some(&31),"unexpected unresolved height");
-    match constants.get(&cid).copied(){Some(0)=>*height=1,Some(id)if id==nft=>*height=0,Some(id)if id==token=>{},_ if Some(cid)==current=>{},_=>bail!("unknown foreign contract in {}",def.name)}
+    match constants.get(&cid).copied(){Some(0)=>*height=native_height,Some(id)if id==nft=>*height=nft_height,Some(id)if id==token=>{},_ if Some(cid)==current=>{},_=>bail!("unknown foreign contract in {}",def.name)}
    }
   }
  }

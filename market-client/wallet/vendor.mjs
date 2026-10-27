@@ -1,5 +1,5 @@
 // Reproduce the wallet's reviewed application module bundle; no SDK mutation.
-import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
+import { readFileSync, writeFileSync, mkdirSync, existsSync } from "node:fs";
 import { resolve, dirname, relative } from "node:path";
 import { createHash } from "node:crypto";
 import { canonical } from "../protocol.mjs";
@@ -9,6 +9,7 @@ if (!process.argv[2])
   throw Error(
     "Explicit fresh wallet src/market-preparation directory required",
   );
+if (existsSync(dest)) throw Error("Fresh wallet module output required");
 const sha = (x) => createHash("sha256").update(x).digest("hex"),
   paths = new Set();
 function collect(p) {

@@ -12,7 +12,7 @@ fn main()->Result<()>{
  let a=std::env::args().collect::<Vec<_>>();ensure!(a.len()==3,"PUBLIC_REQUEST FRESH_REPORT; offline only");
  let bytes=fs::read(&a[1])?;let request:QSubmitEndCapRPCRequest<F>=serde_json::from_slice(&bytes)?;
  let proof:ProofWithPublicInputs<F,C,D>=bincode::deserialize(&request.proof)?;
- let key=get_end_cap_alt_verifier_data_for_network::<F>(PsyChainNetworkType::InternalTestnet)?.to_verifier_data::<C,D>();
+ let key=get_end_cap_alt_verifier_data_for_network::<F>(PsyChainNetworkType::try_from_chain_id(psy_config::PSY_NETWORK_MAGIC)?)?.to_verifier_data::<C,D>();
  let library=get_cached_common_data_library::<C,D>();let common=library.get_common_circuit_data_ref(ProvingJobCircuitType::UserEndCap)?.clone();
  VerifierCircuitData{verifier_only:key,common}.verify(proof.clone())?;
  validate_endcap_binding(&request.user_ec_input.core,&proof.public_inputs)?;

@@ -35,7 +35,7 @@ def main():
     if digest(patch) != manifest['deltaSha256'] or digest(config) != manifest['configSha256']:
         raise ValueError('freeze checksum mismatch')
     app = Path(__file__).resolve().parents[2]
-    if digest((app / 'amm/u124/vm-tests/Cargo.lock').read_bytes()) != manifest['applicationCargoLockSha256']:
+    if digest((FREEZE / 'Cargo.lock').read_bytes()) != manifest['applicationCargoLockSha256']:
         raise ValueError('application Cargo.lock differs from frozen dependency contract')
     root = args.out.absolute()
     if root.exists() or root.is_symlink():

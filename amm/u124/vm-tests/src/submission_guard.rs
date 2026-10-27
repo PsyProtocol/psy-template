@@ -300,6 +300,7 @@ mod tests {
                     .timeout(Duration::from_secs(3))
                     .build()?,
             ),
+            endpoint_clients: None,
             realm_configs: HashMap::new(),
             coordinator_configs: HashMap::from([(0, vec![url])]),
             users_per_realm: 1024,

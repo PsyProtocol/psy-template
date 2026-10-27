@@ -1,5 +1,11 @@
 import test from 'node:test';import assert from 'node:assert/strict';import {readFile} from 'node:fs/promises';import {sponsorCalls,nftBuyCalls,activationFunding,recoveryEnrollment,curveLimitCalls} from './client.mjs';import {FEE_ESCROW as F} from '../../amm/u124/client.mjs';
 const root=process.env.BATCH_BUILD;if(!root)throw Error('BATCH_BUILD required');const read=async p=>JSON.parse(await readFile(`${root}/${p}`));const a=(await read('nftmarket/compiled/compilation_artifact.json')).abi,n=(await read('nft/compilation_artifact.json')).abi,t=(await read('token/compilation_artifact.json')).abi,c=await read('nftmarket/config.json');
+test('selected SDK ordinary helpers preserve every input while selecting the new native method',()=>{
+ const opts={marketId:1000n,abi:a,vaultId:100n,nonce:1n};
+ const old=sponsorCalls(opts),fresh=sponsorCalls({...opts,nativeProtocol:'mainnet-beta-20261027'});
+ assert.deepEqual(fresh[0],old[0]);assert.equal(fresh[1].method_name,'transfer');assert.deepEqual(fresh[1].inputs,old[1].inputs);
+ assert.throws(()=>sponsorCalls({...opts,nativeProtocol:'automatic'}));
+});
 test('NFT ordinary-wallet order materializes NFT account before reading it',()=>{const calls=nftBuyCalls({marketId:1000n,marketAbi:a,config:c,nftAbi:n,tokenAbi:t,vaultId:100n,seller:200n,listingNonce:1n,price:(1n<<80n)+17n,deadline:200n,nonce:1n});assert.deepEqual(calls.map(c=>c.method_name),['acknowledge','open_buy','simple_transfer','transfer']);assert.deepEqual(calls[3].inputs,[100n,17n,1n<<18n]);});
 test('commit and maintenance sponsorship carry separate explicit purposes',()=>{const commit=sponsorCalls({marketId:1000n,abi:a,vaultId:100n,nonce:1n}),gas=sponsorCalls({marketId:1000n,abi:a,vaultId:100n,nonce:2n,purpose:2n});assert.deepEqual(commit[0].inputs,[100n,2n*F,1n,1n]);assert.deepEqual(gas[0].inputs,[100n,2n*F,2n,2n]);assert.throws(()=>sponsorCalls({marketId:1000n,abi:a,vaultId:100n,nonce:1n,amount:F}));});
 test('activation seeds and recovery enrollment target the original vault',()=>{const calls=activationFunding({market:'nftmarket',config:c,tokenAbi:t,vaultId:100n});assert.deepEqual(calls[1].inputs,[100n,1n,0n]);assert.equal(recoveryEnrollment({marketId:1000n,abi:a,vaultId:100n}).method_name,'request_recovery');});

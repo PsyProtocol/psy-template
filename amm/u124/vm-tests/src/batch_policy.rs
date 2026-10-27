@@ -2,10 +2,10 @@
 //! begin/finish, canonical padding, and the automatic final native burn.
 use anyhow::{ensure,Context,Result};
 use plonky2::{field::{goldilocks_field::GoldilocksField as F,types::Field},hash::poseidon::PoseidonHash,iop::target::{Target,BoolTarget},plonk::{circuit_builder::CircuitBuilder,circuit_data::CircuitConfig}};
-use psy_client_data::dpn::sd_key::SDKeyConfig;
+use crate::market_key::MarketKeyConfig as SDKeyConfig;
 use psy_config::network_constants::{DEFAULT_CALLER_CONTRACT_ID_U64,MAX_CONTRACT_STATE_TREE_HEIGHT};
 use psy_common_circuit::builder::hash::core::CircuitBuilderHashCore;
-use psy_ups_circuit::signature::sd_key::{SDKeyCircuitGadget,SDKeyTransactionInfoTargets};
+use crate::market_key::{SDKeyCircuitGadget,SDKeyTransactionInfoTargets};
 use serde_json::{Value,json};
 pub const COUNT:usize=40;pub const WIDTH:usize=74;
 fn eq(b:&mut CircuitBuilder<F,2>,gate:BoolTarget,a:Target,v:Target){let x=b.sub(a,v);let x=b.mul(x,gate.target);let z=b.zero();b.connect(x,z);}

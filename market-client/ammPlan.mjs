@@ -1,3 +1,4 @@
+import { nativeMethod } from "./nativeProtocol.mjs";
 import {
   parseUnits,
   decodeAmount,
@@ -322,7 +323,7 @@ export function buildAmmPlan(
   const escrow = () => {
     calls.push({
       contract_id: 0n,
-      method_name: "simple_transfer",
+      method_name: nativeMethod(registry, "transfer"),
       inputs: [va, FEE_ESCROW],
     });
     debits.push({
@@ -448,7 +449,7 @@ export function buildAmmPlan(
       );
       calls.push({
         contract_id: 0n,
-        method_name: "simple_claim",
+        method_name: nativeMethod(registry, "claim"),
         inputs: [va],
       });
       next =
@@ -595,6 +596,7 @@ export function buildAmmPlan(
     financialAuthorization: false,
     registryHash: snapshot.registryHash,
     sdkManifestSha256: registry.sdkManifestSha256,
+    ...(registry.nativeProtocol ? {nativeProtocol: registry.nativeProtocol} : {}),
     network: registry.network,
     startCheckpoint: snapshot.checkpoint,
     validUntilCheckpoint: end,

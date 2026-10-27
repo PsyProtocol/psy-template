@@ -1,3 +1,4 @@
+import { nativeMethod } from "../nativeProtocol.mjs";
 // Background-only wallet service. Storage and native/prover adapters are owned
 // by the extension, never supplied through a page request. No automatic retry.
 const storeLocks = new WeakMap();
@@ -238,7 +239,7 @@ export function createStagedWallet({
           ...e.record.plan.calls,
           {
             contract_id: "0",
-            method_name: "simple_burn",
+            method_name: nativeMethod(e.record.plan, "burn"),
             inputs: [p.actualFee],
           },
         ]),

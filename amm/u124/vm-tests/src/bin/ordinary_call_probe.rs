@@ -10,7 +10,7 @@ use serde_json::{json,Value};use sha2::{Digest,Sha256};use std::{env,fs,path::Pa
 fn save(p:&Path,v:&Value)->Result<()>{let mut f=fs::OpenOptions::new().write(true).create_new(true).open(p)?;f.write_all(&serde_json::to_vec_pretty(v)?)?;f.sync_all()?;Ok(())}
 async fn probe()->Result<()> {
  let a=env::args().collect::<Vec<_>>();ensure!(a.len()==5,"CONFIG OWN_SECRET INPUT FRESH_OUT");let out=Path::new(&a[4]);fs::create_dir(out)?;
- let config=PsyConfigGoldilocks::from_file(&a[1])?;ensure!(config.current_network_name()=="sepolia","isolated QA only");let mut net=config.get_current_network()?.clone();require_staging(&net)?;net.prove_proxy_url.clear();
+ let config=PsyConfigGoldilocks::from_file(&a[1])?;ensure!(config.current_network_name()=="testnet","isolated QA only");let mut net=config.get_current_network()?.clone();require_staging(&net)?;net.prove_proxy_url.clear();
  let mut s=WalletSession::new(&net).await?;let secret:Value=serde_json::from_slice(&fs::read(&a[2])?)?;ensure!(secret["schema"]=="isolated-market-wallet-v1"&&secret["networkMagic"]==PSY_NETWORK_MAGIC.to_string(),"owned QA identity");
  let private:QHashOut<F>=secret["privateKey"].as_str().context("missing own key")?.parse().map_err(|_|anyhow::anyhow!("key encoding"))?;
  let pk=s.get_zk_public_key(private).await?;let bytes=fs::read(&a[3])?;let input:Value=serde_json::from_slice(&bytes)?;let calls:ContractCallData=serde_json::from_value(input["calls"].clone())?;ensure!(calls.software_defined_call.inputs.is_empty()&&calls.contract_calls.len()<=16,"ordinary calls only");

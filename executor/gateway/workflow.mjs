@@ -1,3 +1,4 @@
+import { nativeMethod } from "../../market-client/nativeProtocol.mjs";
 // Integration seam for a future reviewed browser exact-proof transport. It uses
 // the existing financial journal, not browser localStorage. Production gateway
 // does not instantiate this until that transport and full UPS are accepted.
@@ -80,7 +81,7 @@ export function createExactUserWorkflow({
       p.fullCalls,
       [
         ...task.plan.calls,
-        { contract_id: "0", method_name: "simple_burn", inputs: [p.actualFee] },
+        { contract_id: "0", method_name: nativeMethod(registry, "burn"), inputs: [p.actualFee] },
       ],
       "Full ordinary stack, including automatic burn, must match exactly",
     );

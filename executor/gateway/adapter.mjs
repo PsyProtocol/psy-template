@@ -1,3 +1,4 @@
+import { nativeManifestPath } from "../../market-client/nativeProtocol.mjs";
 // Public-only application adapter: reuse the formal Executor's checkpoint and
 // exact-receipt readers. No wallet file, signing key, driver or send path loads.
 import assert from "node:assert/strict";
@@ -50,9 +51,9 @@ export async function loadGateway(file) {
     artifacts = await json(join(dir, "artifacts.json"));
   assert.equal(sha(canonical(registry)), c.registrySha256);
   assert.equal(registry.schema, 1);
-  assert.equal(registry.network.name, "sepolia");
+  assert.equal(registry.network.name, registry.nativeProtocol ? "testnet" : "sepolia");
   const sdk = resolve(
-    "batching/dependencies/session-bound-sdk-20261020/manifest.json",
+    nativeManifestPath(registry),
   );
   assert.equal(sha(await readFile(sdk)), registry.sdkManifestSha256);
   assert.equal(

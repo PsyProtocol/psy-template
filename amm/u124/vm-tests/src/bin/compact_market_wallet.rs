@@ -29,8 +29,8 @@ use psy_template_u124_markets::{
     proof_binding::validate_endcap_binding,
     submission_guard::SubmissionGuard,
 };
-use psy_ups_circuit::signature::sd_key::{compute_tx_stack_hash, get_sd_key_public_key_param};
-use psy_vm::ups::sd_key::{SDKeyCircuitWitnessInput, SDKeySessionContext};
+use psy_template_u124_markets::market_key::{compute_tx_stack_hash, get_sd_key_public_key_param};
+use psy_template_u124_markets::market_key::{SDKeyCircuitWitnessInput, SDKeySessionContext};
 use serde::Deserialize;
 use serde_json::{json, Value};
 use sha2::{Digest, Sha256};
@@ -125,19 +125,19 @@ async fn run(phase: &mut &'static str, composition:bool) -> Result<()> {
         return Ok(());
     }
     if composition && a[1]=="inspect-controller" {
-        ensure!(a.len()==5,"inspect-controller POLICY ARTIFACT FRESH_OUT");
+        ensure!(a.len()==6,"inspect-controller POLICY ARTIFACT DEPLOYER_USER_ID FRESH_OUT");
         let bytes=fs::read(&a[3])?;
         let artifact:psy_compiler::output::serialize::CompilationArtifact=serde_json::from_slice(&bytes)?;
-        let prepared=psy_template_u124_markets::layout_preflight::prepare_initial(artifact.clone(),hash)?;
-        let mut report=psy_template_u124_markets::layout_preflight::verify_initial(&artifact,&prepared,hash)?;
+        let prepared=psy_template_u124_markets::layout_preflight::prepare_initial(artifact.clone(),a[4].parse::<u64>()?)?;
+        let mut report=psy_template_u124_markets::layout_preflight::verify_initial(&artifact,&prepared,a[4].parse::<u64>()?)?;
         report["functionTreeRoot"]=json!(prepared.deploy_contract.clone().into_with_whitelist_root::<PsyHasher>()?.function_whitelist_root.to_string());
         report["artifactSha256"]=json!(format!("{:x}",Sha256::digest(&bytes)));
-        let out=Path::new(&a[4]);fs::create_dir(out)?;save(&out.join("inspection.json"),&report)?;
+        let out=Path::new(&a[5]);fs::create_dir(out)?;save(&out.join("inspection.json"),&report)?;
         return Ok(());
     }
     let config = PsyConfigGoldilocks::from_file(&a[3])?;
     ensure!(
-        config.current_network_name() == "sepolia",
+        config.current_network_name() == "testnet",
         "isolated staging only"
     );
     let mut net = config.get_current_network()?.clone();
@@ -158,7 +158,7 @@ async fn run(phase: &mut &'static str, composition:bool) -> Result<()> {
     let session_started = std::time::Instant::now();
     let mut session = WalletSession::new(&net).await?;
     let session_ms = session_started.elapsed().as_millis();
-    session.wallet.insert_sd_key_circuit(fp, circuit);
+    let circuit=std::sync::Arc::new(circuit);
     eprintln!("PSY_PROVER_LIFECYCLE {}",json!({"event":"session-built","pid":std::process::id(),"keyConstructionMilliseconds":key_ms,"sessionConstructionMilliseconds":session_ms,"memoryMode":memory_mode.name()}));
     psy_template_u124_markets::prover_resources::checkpoint(memory_mode,"compact-circuits-built");
     if a[1] == "register" {
@@ -203,7 +203,7 @@ async fn run(phase: &mut &'static str, composition:bool) -> Result<()> {
             ensure!(job.action=="preflight"||(composition&&job.action=="quote"),"resident proof/quote actions only");
             let args=vec![a[0].clone(),job.action,a[2].clone(),a[3].clone(),job.calls,job.guard,job.out.clone()];
             let mut job_phase="resident-preflight-start";
-            let result=psy_template_u124_markets::runtime::contain(process_action(&args,&spec,fp,hash,param,private,&net,&mut session,0,0,std::time::Instant::now(),&mut job_phase)).await;
+            let result=psy_template_u124_markets::runtime::contain(process_action(&args,&spec,fp,hash,param,private,&net,&mut session,&circuit,0,0,std::time::Instant::now(),&mut job_phase)).await;
             session.user_session_mgrs.remove(&hash);
             psy_template_u124_markets::prover_resources::checkpoint(memory_mode,"compact-session-cleared");
             let error=match result {Ok(())=>None,Err(psy_template_u124_markets::runtime::Failure::Rejected(e))=>Some(format!("{e:#}")),Err(psy_template_u124_markets::runtime::Failure::Panic(code))=>Some(code.to_owned())};
@@ -213,14 +213,14 @@ async fn run(phase: &mut &'static str, composition:bool) -> Result<()> {
         }
         return Ok(());
     }
-    process_action(&a,&spec,fp,hash,param,private,&net,&mut session,key_ms,session_ms,started,phase).await
+    process_action(&a,&spec,fp,hash,param,private,&net,&mut session,&circuit,key_ms,session_ms,started,phase).await
 }
 #[derive(Deserialize)]
 #[serde(deny_unknown_fields)]
 struct ResidentJob {id:String,calls:String,guard:String,out:String,#[serde(default="preflight_action")]action:String}
 fn preflight_action()->String{"preflight".into()}
 #[allow(clippy::too_many_arguments)]
-async fn process_action(a:&[String],spec:&Value,fp:QHashOut<F>,hash:QHashOut<F>,param:QHashOut<F>,private:QHashOut<F>,net:&psy_config::NetworkConfigGoldilocks,session:&mut WalletSession,key_ms:u128,session_ms:u128,started:std::time::Instant,phase:&mut &'static str)->Result<()> {
+async fn process_action(a:&[String],spec:&Value,fp:QHashOut<F>,hash:QHashOut<F>,param:QHashOut<F>,private:QHashOut<F>,net:&psy_config::NetworkConfigGoldilocks,session:&mut WalletSession,circuit:&psy_template_u124_markets::market_key::MarketKeyCircuit,key_ms:u128,session_ms:u128,started:std::time::Instant,phase:&mut &'static str)->Result<()> {
     ensure!(
         a.len() == 7 && (["preflight", "submit"].contains(&a[1].as_str())||(spec["composition_profile"]=="two-amm-owner-funded-v1"&&a[1]=="quote")),
         "explicit compact action args"
@@ -264,7 +264,7 @@ async fn process_action(a:&[String],spec:&Value,fp:QHashOut<F>,hash:QHashOut<F>,
     }
     guard.identity.validate(
         &spec,
-        "sepolia",
+        "testnet",
         &fp.to_string(),
         &hash.to_string(),
     )?;
@@ -286,7 +286,7 @@ async fn process_action(a:&[String],spec:&Value,fp:QHashOut<F>,hash:QHashOut<F>,
     *phase = "verify-live-identity-and-dependencies";
     check(&guard, &session).await?;
     *phase = "start-compact-session";
-    let key = session.add_user(private, fp).await?;
+    let key = hash;
     ensure!(key == hash, "compact public identity");
     let source_pin=compact_benchmark::requested(&a[1])?;
     let pin_started=std::time::Instant::now();
@@ -376,6 +376,7 @@ async fn process_action(a:&[String],spec:&Value,fp:QHashOut<F>,hash:QHashOut<F>,
     );
     let input = SDKeyCircuitWitnessInput {
         session_context: SDKeySessionContext {
+            start_user_leaf: h.session_start_context.start_session_user_leaf,
             start_user_leaf_hash: h
                 .session_start_context
                 .start_session_user_leaf
@@ -394,10 +395,7 @@ async fn process_action(a:&[String],spec:&Value,fp:QHashOut<F>,hash:QHashOut<F>,
         checkpoint_id: h.session_start_context.checkpoint_id,
         user_id: h.session_start_context.start_session_user_leaf.user_id,
     };
-    let key_circuit = session
-        .wallet
-        .get_sd_key_circuit(&fp)
-        .context("compact circuit")?;
+    let key_circuit = circuit;
     *phase = "prove-compact-session-signature";
     let signature_started = std::time::Instant::now();
     let signature = key_circuit

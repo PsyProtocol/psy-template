@@ -4,11 +4,11 @@
 //! This is a new circuit/fingerprint and requires a new isolated vault.
 use anyhow::{ensure,Result};
 use plonky2::{field::{goldilocks_field::GoldilocksField as F,types::Field},hash::{hash_types::HashOut,poseidon::PoseidonHash},plonk::{circuit_builder::CircuitBuilder}};
-use psy_client_data::dpn::sd_key::SDKeyConfig;
+use crate::market_key::MarketKeyConfig as SDKeyConfig;
 use psy_common_circuit::builder::hash::core::CircuitBuilderHashCore;
 use psy_config::{PSY_NETWORK_MAGIC,network_constants::DEFERRED_CALL_MAGIC};
 use psy_network_circuit::{gadgets::qdata::user_contract_state::SignContextGadget,ups::gadgets::ups_signature_data::PsyUserProvingSessionSignatureDataCompactGadget};
-use psy_ups_circuit::signature::sd_key::{SDKeyCircuitGadget,SDKeySessionContextTargets,SDKeyTransactionIntrospectionGadget,SDKeyTransactionInfoTargets,get_zk_public_key_param};
+use crate::market_key::{SDKeyCircuitGadget,SDKeySessionContextTargets,SDKeyTransactionIntrospectionGadget,SDKeyTransactionInfoTargets,get_zk_public_key_param};
 use serde_json::Value;
 
 pub(crate) fn validate(spec:&Value)->Result<()>{
@@ -46,12 +46,7 @@ pub(crate) fn add_virtual_to(b:&mut CircuitBuilder<F,2>,cfg:&SDKeyConfig,spec:&V
   slots.push(SDKeyTransactionInfoTargets{contract_id,method_id,caller_contract_id,inputs_length,inputs_hash,tx_hash});
  }
  b.connect_hashes(running,tx_stack_hash);b.connect(count,tx_count);
- let session_context=SDKeySessionContextTargets{start_user_leaf_hash:b.add_virtual_hash(),checkpoint_leaf_hash:b.add_virtual_hash(),sign_context:SignContextGadget::add_virtual_to(b),nonce:b.add_virtual_target()};
- let mut end=session_context.sign_context.user_leaf;end.nonce=session_context.nonce;
- let end_hash=end.to_hash::<PoseidonHash,F,2>(b);
- let data=PsyUserProvingSessionSignatureDataCompactGadget::new_from_known(session_context.start_user_leaf_hash,end_hash,session_context.checkpoint_leaf_hash,tx_stack_hash,tx_count);
- let expected=data.get_sig_action_with_user_info::<PoseidonHash,F,2>(b,PSY_NETWORK_MAGIC,user_id,session_context.nonce,&session_context.sign_context).sig_action_hash;
- b.connect_hashes(sig_hash,expected);b.connect(user_id,session_context.sign_context.user_leaf.user_id);b.connect(checkpoint_id,session_context.sign_context.user_leaf.last_checkpoint_id);
+ let session_context=crate::market_key::add_session_context(b,sig_hash,user_id,checkpoint_id,tx_stack_hash,tx_count);
  let param=get_zk_public_key_param(b,&private_key);let public=b.hash_two_to_one::<PoseidonHash>(sig_hash,param);b.register_public_inputs(&public.elements);
  Ok(SDKeyCircuitGadget{config:cfg.clone(),tx_introspection:SDKeyTransactionIntrospectionGadget{tx_info_slots:slots,tx_stack_hash,tx_count},state_reader:None,secp256k1:None,circuit_inputs,private_key,sig_hash,session_context,checkpoint_id,user_id,circuit_data:None,minifier_chain:None})
 }

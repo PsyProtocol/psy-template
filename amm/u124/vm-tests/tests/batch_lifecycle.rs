@@ -29,11 +29,11 @@ impl World{
  }
  fn set(&mut self,u:u64,c:u64,o:u64,n:u64){self.state.set_slot(u,c,o,n);self.slots.insert((u,c,o),n);}
  fn run(&mut self,u:u64,c:u64,name:&str,input:&[u64])->Result<()>{self.run_traced(u,c,name,input).map(|_|())}
- fn run_traced(&mut self,u:u64,c:u64,name:&str,input:&[u64])->Result<Vec<(u64,u64,u64)>>{let mut vm=VmExecutor::new(self.state.clone());let d=self.methods.get(&(c,name.into())).ok_or_else(||anyhow::anyhow!("missing {name}"))?;let r=vm.execute(d,&ExecutionContext{user_id:u,contract_id:c,caller_contract_id:DEFAULT_CALLER_CONTRACT_ID_U64,checkpoint_id:self.checkpoint,nonce:self.revision+1,user_public_key_hash:[0;4]},input)?;if !r.success{bail!("{name}: {}",r.failure.unwrap().message);}let writes=vm.write_overlay();self.state.apply_overlay(writes);self.slots.extend(writes.iter().map(|(k,v)|(*k,*v)));self.state.apply_imt_overlay(vm.imt_write_overlay());Ok(writes.keys().copied().collect())}
+ fn run_traced(&mut self,u:u64,c:u64,name:&str,input:&[u64])->Result<Vec<(u64,u64,u64)>>{let mut vm=VmExecutor::new(self.state.clone());let d=self.methods.get(&(c,name.into())).ok_or_else(||anyhow::anyhow!("missing {name}"))?;let r=vm.execute(d,&ExecutionContext{user_id:u,contract_id:c,caller_contract_id:DEFAULT_CALLER_CONTRACT_ID_U64,checkpoint_id:self.checkpoint,nonce:self.revision+1,user_public_key_hash:[0;4],session_proof_tree_root:[0;4],transaction_log:vec![],transaction_stack_hash:[0;4]},input)?;if !r.success{bail!("{name}: {}",r.failure.unwrap().message);}let writes=vm.write_overlay();self.state.apply_overlay(writes);self.slots.extend(writes.iter().map(|(k,v)|(*k,*v)));self.state.apply_imt_overlay(vm.imt_write_overlay());Ok(writes.keys().copied().collect())}
  fn val(&self,u:u64,f:&str,i:u64)->u64{self.state.get_contract_slot(u,M,self.fields[f]+i).unwrap()}
  fn wide(&self,u:u64,f:&str)->u128{self.val(u,f,0)as u128+R*self.val(u,f,1)as u128}
  fn balance(&self,u:u64,c:u64)->u128{self.state.get_contract_slot(u,c,0).unwrap()as u128+R*self.state.get_contract_slot(u,c,1).unwrap()as u128}
- fn fee(&mut self,u:u64)->Result<()>{self.run(u,0,"simple_transfer",&[self.vault,F])}
+ fn fee(&mut self,u:u64)->Result<()>{self.run(u,0,"transfer",&[self.vault,F])}
  fn pay(&mut self,u:u64,c:u64,n:u128)->Result<()>{self.run(u,c,"transfer",&args(&[self.vault],&[n],&[]))}
  fn fields(&self,name:&str,p:u64,peer:u64,x:u128,y:u128,z:u128,lots:u64,nonce:u64,peer_nonce:u64)->Vec<u64>{let id=self.policy["operations"].as_array().unwrap().iter().find(|o|o["name"]==name).unwrap()["branch"].as_u64().unwrap();let mut f=vec![id,p,peer];f.extend(pair(x));f.extend(pair(y));f.extend(pair(z));f.extend([lots,nonce,peer_nonce,0]);
   // The policy's operation has canonical unused fields. Normalize only the
@@ -43,7 +43,7 @@ impl World{
  fn request(&self,mode:u64,ops:Vec<Vec<u64>>,rank:[u64;4])->Vec<u64>{let mut f=vec![0;74];f[0]=mode;if mode==2||mode==3{f[1]=self.val(self.vault,"batch_id",0);}if mode==2{for i in 0..4{f[13+i]=self.val(self.vault,"batch_root",i as u64);}if self.kind=="orderbook"{f[17..21].copy_from_slice(&rank);}}for(i,o)in ops.iter().enumerate(){f[21+13*i..34+13*i].copy_from_slice(o);}f[73]=F;f}
  fn execute(&mut self,f:&[u64])->Result<()>{let calls=expected_calls(&self.policy,f)?;let mut next=self.clone();for c in calls{let input=c["inputs"].as_array().unwrap().iter().map(|x|x.as_u64().unwrap()).collect::<Vec<_>>();next.run(self.vault,c["contract_id"].as_u64().unwrap(),c["method_name"].as_str().unwrap(),&input)?;}next.revision+=1;*self=next;Ok(())}
  fn operation_maintenance(&mut self,name:&str,p:u64,peer:u64,x:u128,y:u128,z:u128,lots:u64)->Result<()>{let op=self.fields(name,p,peer,x,y,z,lots,0,0);self.execute(&self.request(4,vec![op],[0;4]))}
- fn commit(&mut self,users:&[u64])->Result<()>{if std::env::var("BATCH_ADMISSION_TEST").as_deref()==Ok("1") && self.val(V,"queue_phase",0)!=2 {admission::enroll(self,users)?;}self.run(S,M,"authorize_sponsor",&[self.vault,2*F,self.val(S,"sponsor_nonce",0)+1,1])?;self.run(S,0,"simple_transfer",&[self.vault,2*F])?;let mut f=vec![0;74];f[0]=1;f[1]=self.val(self.vault,"batch_id",0)+1;f[2]=users.len()as u64;f[3]=self.checkpoint+20;f[4]=S;for(i,u)in users.iter().enumerate(){f[5+i]=*u;f[9+i]=if self.kind=="nftmarket"&&(self.val(*u,"kind",0)==0||self.val(*u,"nonce",0)<=self.val(self.vault,"consumed",*u)||users.iter().any(|buyer|buyer!=u&&self.val(*buyer,"kind",0)==2&&self.val(*buyer,"seller",0)==*u&&self.val(*u,"kind",0)!=1)){0}else{self.val(*u,"nonce",0)};}f[73]=F; self.execute(&f)}
+ fn commit(&mut self,users:&[u64])->Result<()>{if std::env::var("BATCH_ADMISSION_TEST").as_deref()==Ok("1") && self.val(V,"queue_phase",0)!=2 {admission::enroll(self,users)?;}self.run(S,M,"authorize_sponsor",&[self.vault,2*F,self.val(S,"sponsor_nonce",0)+1,1])?;self.run(S,0,"transfer",&[self.vault,2*F])?;let mut f=vec![0;74];f[0]=1;f[1]=self.val(self.vault,"batch_id",0)+1;f[2]=users.len()as u64;f[3]=self.checkpoint+20;f[4]=S;for(i,u)in users.iter().enumerate(){f[5+i]=*u;f[9+i]=if self.kind=="nftmarket"&&(self.val(*u,"kind",0)==0||self.val(*u,"nonce",0)<=self.val(self.vault,"consumed",*u)||users.iter().any(|buyer|buyer!=u&&self.val(*buyer,"kind",0)==2&&self.val(*buyer,"seller",0)==*u&&self.val(*u,"kind",0)!=1)){0}else{self.val(*u,"nonce",0)};}f[73]=F; self.execute(&f)}
  fn settle(&mut self,ops:Vec<Vec<u64>>,rank:[u64;4])->Result<()>{self.execute(&self.request(2,ops,rank))}
  fn give_nft(&mut self,u:u64,slot:u64,id:u64)->Result<()>{let source=(0..128).find(|i|self.state.get_contract_slot(I,NFT,34+9*i).unwrap()==0).context("issuer NFT capacity")?;self.run(I,NFT,"mint",&[source,id,11,id,33,44])?;self.run(I,NFT,"acknowledge",&[u])?;self.run(I,NFT,"transfer",&[source,u])?;self.run(u,NFT,"claim",&[slot,I])}
  fn pool(&mut self,n:u128)->Result<()>{self.run(200,M,"open_add",&args(&[self.vault],&[n,n,n-1000],&[200,1]))?;self.fee(200)?;self.pay(200,A,n)?;self.pay(200,B,n)?;self.commit(&[200])?;let op=self.fields("add_liquidity",200,0,n,n,n-1000,0,1,0);self.settle(vec![op],[0;4])?;self.run(200,M,"close_add",&[])}
@@ -114,16 +114,16 @@ fn bytecode_batch_throughput_benchmark()->Result<()>{use std::time::Instant;let 
 
 #[test]fn unsolicited_funding_recovery_and_sponsor_consent_are_enforced()->Result<()>{for market in["amm","orderbook","bondingcurve","nftmarket"]{let mut w=World::new(market)?;
  // Receiving native tokens alone is not consent to sponsor an Executor.
- w.run(S,0,"simple_transfer",&[V,2*F])?;let unauthorized=w.fields("fund_gas",S,0,0,0,0,2*F,0,0);let before=w.slots.clone();assert!(w.execute(&w.request(4,vec![unauthorized.clone()],[0;4])).is_err());assert_eq!(w.slots,before);
- w.run(S,M,"authorize_sponsor",&[V,2*F,1,2])?;w.execute(&w.request(4,vec![unauthorized],[0;4]))?;let a=w.balance(201,A);w.run(201,M,"request_recovery",&[V])?;w.pay(201,A,17)?;let has_b=market!="nftmarket";let b=w.balance(201,B);if has_b{w.pay(201,B,23)?;}w.run(201,0,"simple_transfer",&[V,13])?;
- let op=w.fields(if has_b{"recover_funding_7"}else{"recover_funding_5"},201,0,17,if has_b{23}else{0},0,13,0,0);let mut bad=op.clone();bad[1]=202;assert!(w.execute(&w.request(4,vec![bad],[0;4])).is_err());w.execute(&w.request(4,vec![op],[0;4]))?;w.run(201,A,"claim",&[V])?;if has_b{w.run(201,B,"claim",&[V])?;assert_eq!(w.balance(201,B),b);}w.run(201,0,"simple_claim",&[V])?;assert_eq!(w.balance(201,A),a);
+ w.run(S,0,"transfer",&[V,2*F])?;let unauthorized=w.fields("fund_gas",S,0,0,0,0,2*F,0,0);let before=w.slots.clone();assert!(w.execute(&w.request(4,vec![unauthorized.clone()],[0;4])).is_err());assert_eq!(w.slots,before);
+ w.run(S,M,"authorize_sponsor",&[V,2*F,1,2])?;w.execute(&w.request(4,vec![unauthorized],[0;4]))?;let a=w.balance(201,A);w.run(201,M,"request_recovery",&[V])?;w.pay(201,A,17)?;let has_b=market!="nftmarket";let b=w.balance(201,B);if has_b{w.pay(201,B,23)?;}w.run(201,0,"transfer",&[V,13])?;
+ let op=w.fields(if has_b{"recover_funding_7"}else{"recover_funding_5"},201,0,17,if has_b{23}else{0},0,13,0,0);let mut bad=op.clone();bad[1]=202;assert!(w.execute(&w.request(4,vec![bad],[0;4])).is_err());w.execute(&w.request(4,vec![op],[0;4]))?;w.run(201,A,"claim",&[V])?;if has_b{w.run(201,B,"claim",&[V])?;assert_eq!(w.balance(201,B),b);}w.run(201,0,"claim",&[V])?;assert_eq!(w.balance(201,A),a);
  }Ok(())}
 
-#[test]fn nft_partial_fee_listing_refund_returns_the_same_nft()->Result<()>{let mut w=World::new("nftmarket")?;let price=10u128.pow(24);w.run(200,NFT,"acknowledge",&[V])?;w.run(200,M,"open_listing",&args(&[V,0],&[price],&[200,1]))?;w.run(200,NFT,"transfer",&[0,V])?;w.run(200,0,"simple_transfer",&[V,17])?;w.commit(&[200])?;w.settle(vec![w.fields("refund_funding_12",200,0,0,0,0,17,1,0)],[0;4])?;w.run(200,NFT,"claim",&[0,V])?;w.run(200,M,"close_listing",&[])?;assert_eq!(w.val(V,"consumed",200),1);Ok(())}
+#[test]fn nft_partial_fee_listing_refund_returns_the_same_nft()->Result<()>{let mut w=World::new("nftmarket")?;let price=10u128.pow(24);w.run(200,NFT,"acknowledge",&[V])?;w.run(200,M,"open_listing",&args(&[V,0],&[price],&[200,1]))?;w.run(200,NFT,"transfer",&[0,V])?;w.run(200,0,"transfer",&[V,17])?;w.commit(&[200])?;w.settle(vec![w.fields("refund_funding_12",200,0,0,0,0,17,1,0)],[0;4])?;w.run(200,NFT,"claim",&[0,V])?;w.run(200,M,"close_listing",&[])?;assert_eq!(w.val(V,"consumed",200),1);Ok(())}
 
 #[test]fn wrong_and_excess_nft_deposits_return_actual_fifo_assets()->Result<()>{for excess in[false,true]{let mut w=World::new("nftmarket")?;w.give_nft(200,1,4)?;let price=10u128.pow(24);w.run(200,NFT,"acknowledge",&[V])?;w.run(200,M,"open_listing",&args(&[V,0],&[price],&[200,1]))?;w.fee(200)?;
  if excess{w.run(200,NFT,"transfer",&[0,V])?;}w.run(200,NFT,"transfer",&[1,V])?;w.commit(&[200])?;w.settle(vec![w.fields("refund_funding_12",200,0,0,0,0,F,1,0)],[0;4])?;w.run(200,NFT,"claim",&[if excess{0}else{1},V])?;
- if excess{w.run(200,M,"request_recovery",&[V])?;w.run(S,M,"authorize_sponsor",&[V,2*F,2,2])?;w.run(S,0,"simple_transfer",&[V,2*F])?;let fund=w.fields("fund_gas",S,0,0,0,0,2*F,0,0);w.execute(&w.request(4,vec![fund],[0;4]))?;let recover=w.fields("recover_nft",200,0,0,0,0,0,1,0);w.execute(&w.request(4,vec![recover],[0;4]))?;w.run(200,NFT,"claim",&[1,V])?;}
+ if excess{w.run(200,M,"request_recovery",&[V])?;w.run(S,M,"authorize_sponsor",&[V,2*F,2,2])?;w.run(S,0,"transfer",&[V,2*F])?;let fund=w.fields("fund_gas",S,0,0,0,0,2*F,0,0);w.execute(&w.request(4,vec![fund],[0;4]))?;let recover=w.fields("recover_nft",200,0,0,0,0,0,1,0);w.execute(&w.request(4,vec![recover],[0;4]))?;w.run(200,NFT,"claim",&[1,V])?;}
  w.run(200,M,"close_listing",&[])?;assert_eq!(w.val(V,"consumed",200),1);
  }Ok(())}
 
@@ -135,11 +135,11 @@ fn cancelled_book_fee_returns_to_sender_and_active_order_cannot_use_recovery()->
  w.run(200,M,"request_cancel",&[])?;w.commit(&[200])?;
  w.settle(vec![w.fields("refund_funding_5",200,0,n,0,0,F,1,0)],[0,1,2,3])?;
  w.run(200,A,"claim",&[V])?;let native=w.state.get_contract_slot(200,0,0)?;
- w.run(200,0,"simple_claim",&[V])?;assert_eq!(w.state.get_contract_slot(200,0,0)?,native+F);assert_eq!(w.balance(200,A),before);Ok(())
+ w.run(200,0,"claim",&[V])?;assert_eq!(w.state.get_contract_slot(200,0,0)?,native+F);assert_eq!(w.balance(200,A),before);Ok(())
 }
 #[test]
 fn commit_sponsorship_cannot_be_spent_as_maintenance()->Result<()>{
- let mut w=World::new("orderbook")?;w.run(S,M,"authorize_sponsor",&[V,2*F,1,1])?;w.run(S,0,"simple_transfer",&[V,2*F])?;
+ let mut w=World::new("orderbook")?;w.run(S,M,"authorize_sponsor",&[V,2*F,1,1])?;w.run(S,0,"transfer",&[V,2*F])?;
  let f=w.request(4,vec![w.fields("fund_gas",S,0,0,0,0,2*F,0,0)],[0;4]);let before=w.slots.clone();assert!(w.execute(&f).is_err());assert_eq!(w.slots,before);Ok(())
 }
 #[test]
@@ -148,7 +148,7 @@ fn first_and_middle_call_failures_discard_candidate_overlay()->Result<()>{
   for position in [0usize,20]{let mut calls=expected_calls(&w.policy,&f)?;
    // Fault injection into a local VM transaction: the SD-key would reject
    // this substituted call too. It does not simulate coordinator persistence.
-   calls[position]=json!({"contract_id":0,"method_name":"simple_burn","inputs":[u64::MAX]});
+   calls[position]=json!({"contract_id":0,"method_name":"burn","inputs":[u64::MAX]});
    let before=w.slots.clone();let mut candidate=w.clone();let mut failed=false;
    for call in calls{let inputs=call["inputs"].as_array().unwrap().iter().map(|n|n.as_u64().unwrap()).collect::<Vec<_>>();if candidate.run(V,call["contract_id"].as_u64().unwrap(),call["method_name"].as_str().unwrap(),&inputs).is_err(){failed=true;break;}}
    assert!(failed);assert_eq!(w.slots,before);assert_eq!(w.val(V,"batch_phase",0),1);
@@ -160,7 +160,7 @@ fn first_and_middle_call_failures_discard_candidate_overlay()->Result<()>{
 fn canonical_commitment_bounds_and_forged_root_are_rejected()->Result<()>{
  let mut w=World::new("orderbook")?;let n=10u128.pow(24);
  for u in [200,201]{w.run(u,M,"open_sell",&args(&[V,0],&[n,n],&[200,1]))?;w.fee(u)?;w.pay(u,A,n)?;}
- w.run(S,M,"authorize_sponsor",&[V,2*F,1,2])?;w.run(S,0,"simple_transfer",&[V,2*F])?;
+ w.run(S,M,"authorize_sponsor",&[V,2*F,1,2])?;w.run(S,0,"transfer",&[V,2*F])?;
  let mut f=vec![0;74];f[0]=1;f[1]=1;f[2]=2;f[3]=w.checkpoint+1024;f[4]=S;f[5]=200;f[6]=201;f[9]=1;f[10]=1;f[73]=F;
  assert!(w.execute(&f).is_err(),"maintenance consent cannot sponsor commit");w.run(S,M,"authorize_sponsor",&[V,2*F,2,1])?;
  for (index,value) in [(3,w.checkpoint+1025),(6,200),(9,2),(2,5)]{let mut bad=f.clone();bad[index]=value;let before=w.slots.clone();assert!(w.execute(&bad).is_err());assert_eq!(w.slots,before);}
@@ -195,7 +195,7 @@ fn sparse_maximum_user_ids_fit_the_refund_fee_budget()->Result<()>{
   ops.push(w.fields("refund_funding_13",u,0,17,0,0,F,1,0));
  }w.commit(&users)?;let mut touched=BTreeSet::new();for call in expected_calls(&w.policy,&w.request(2,ops,[0;4]))?{let input=call["inputs"].as_array().unwrap().iter().map(|v|v.as_u64().unwrap()).collect::<Vec<_>>();for (u,c,o) in w.run_traced(V,call["contract_id"].as_u64().unwrap(),call["method_name"].as_str().unwrap(),&input)?{if u==V{touched.insert((c,o/4));}}}
  assert_eq!(w.val(V,"batch_phase",0),3);ensure!(touched.len()<=100,"sparse recipients exceed burn policy budget: {}",touched.len());println!("SPARSE_REFUND positional_leaves={} policy_max=100",touched.len());
- for u in users{w.run(u,A,"claim",&[V])?;w.run(u,NFT,"claim",&[0,V])?;w.run(u,0,"simple_claim",&[V])?;assert_eq!(w.balance(u,A),seed);assert_eq!(w.state.get_contract_slot(u,0,0)?,1000*F);assert_eq!(w.val(V,"consumed",u),1);}Ok(())
+ for u in users{w.run(u,A,"claim",&[V])?;w.run(u,NFT,"claim",&[0,V])?;w.run(u,0,"claim",&[V])?;assert_eq!(w.balance(u,A),seed);assert_eq!(w.state.get_contract_slot(u,0,0)?,1000*F);assert_eq!(w.val(V,"consumed",u),1);}Ok(())
 }
 
 #[test]
@@ -219,6 +219,6 @@ fn four_sparse_dual_asset_refunds_fit_commit_and_settlement_budgets()->Result<()
   }
   w.commit(&users)?;let rank=if kind=="orderbook"{[0,1,2,3]}else{[0;4]};let mut touched=BTreeSet::new();for c in expected_calls(&w.policy,&w.request(2,ops,rank))?{let inputs=c["inputs"].as_array().unwrap().iter().map(|v|v.as_u64().unwrap()).collect::<Vec<_>>();for(u,c,o)in w.run_traced(V,c["contract_id"].as_u64().unwrap(),c["method_name"].as_str().unwrap(),&inputs)?{if u==V{touched.insert((c,o/4));}}}
   ensure!(w.val(V,"batch_phase",0)==3&&touched.len()<=100,"four-refund fee budget");println!("FOUR_SPARSE_REFUND {kind} positional_leaves={} policy_max=100",touched.len());
-  for u in users{for c in[A,B]{w.run(u,c,"claim",&[V])?;assert_eq!(w.balance(u,c),seed);}w.run(u,0,"simple_claim",&[V])?;assert_eq!(w.balance(u,0),1000*F as u128);}
+  for u in users{for c in[A,B]{w.run(u,c,"claim",&[V])?;assert_eq!(w.balance(u,c),seed);}w.run(u,0,"claim",&[V])?;assert_eq!(w.balance(u,0),1000*F as u128);}
  }Ok(())
 }

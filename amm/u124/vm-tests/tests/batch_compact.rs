@@ -5,8 +5,8 @@ use psy_client_common::data::qhashout::QHashOut;
 use psy_client_data::{dpn::{sd_key::{SDKeyTransactionInfo},proving_session::DPNProvingSessionCompactMethodCall},qdata::{user::PsyUserLeaf,user_contract_state::SignContext,ups_signature::PsyUserProvingSessionSignatureDataCompact}};
 use psy_crypto::hash::traits::qhashable::QFieldHashable;
 use psy_config::{PSY_NETWORK_MAGIC,network_constants::DEFAULT_CALLER_CONTRACT_ID_U64};
-use psy_ups_circuit::signature::sd_key::{compute_tx_stack_hash,SDKeyCircuitGadget};
-use psy_vm::ups::sd_key::{SDKeyCircuitWitnessInput,SDKeySessionContext};
+use psy_template_u124_markets::market_key::{compute_tx_stack_hash,SDKeyCircuitGadget};
+use psy_template_u124_markets::market_key::{SDKeyCircuitWitnessInput,SDKeySessionContext};
 use psy_template_u124_markets::{batch_policy,batch_compact};
 use serde_json::Value;
 fn f(n:u64)->F{F::from_canonical_u64(n)}
@@ -23,7 +23,7 @@ async fn prove(g:&SDKeyCircuitGadget,spec:&Value,fields:&[u64],attack:usize)->Re
  match attack{1=>actual[0].contract_id=f(999),2=>{actual.pop();},3=>{actual.push(actual[0]);},4=>end.nonce=f(2),5=>end.user_state_tree_root=QHashOut(HashOut{elements:[f(7);4]}),6=>start=QHashOut(HashOut{elements:[f(8);4]}),7=>cp=QHashOut(HashOut{elements:[f(9);4]}),8=>tree=QHashOut(HashOut{elements:[f(10);4]}),9=>domain+=1,10=>{let n=logical.iter().find(|c|noop(c)).unwrap();actual.insert(1,*n);},11=>{logical[0].caller_contract_id=f(12);actual[0].caller_contract_id=f(12);},12=>{actual.swap(0,1);},13=>{let n=logical.iter_mut().find(|c|noop(c)).unwrap();n.inputs_length=f(1);},_=>{}}
  let data=PsyUserProvingSessionSignatureDataCompact{start_user_leaf_hash:start,end_user_leaf_hash:end.qfhash::<PoseidonHash>(),checkpoint_leaf_hash:cp,tx_stack_hash:compute_tx_stack_hash(&actual),tx_count:f(actual.len()as u64)};
  let sig=data.get_sig_action_for_user::<PoseidonHash>(domain,f(123),end.nonce,SignContext::new(tree,user)).get_qhash::<PoseidonHash>();
- let input=SDKeyCircuitWitnessInput{session_context:SDKeySessionContext{start_user_leaf_hash:user.qfhash::<PoseidonHash>(),checkpoint_leaf_hash:QHashOut(HashOut::ZERO),checkpoint_tree_root:QHashOut(HashOut::ZERO),current_user_leaf:user,nonce:f(1)},circuit_inputs:fields.iter().copied().map(f).collect(),transaction_infos:logical,tx_stack_hash:compute_tx_stack_hash(&actual),tx_count:f(actual.len()as u64),state_reader_results:None,secp256k1_slots:vec![],checkpoint_id:f(7),user_id:f(123)};
+ let input=SDKeyCircuitWitnessInput{session_context:SDKeySessionContext{start_user_leaf:user,start_user_leaf_hash:user.qfhash::<PoseidonHash>(),checkpoint_leaf_hash:QHashOut(HashOut::ZERO),checkpoint_tree_root:QHashOut(HashOut::ZERO),current_user_leaf:user,nonce:f(1)},circuit_inputs:fields.iter().copied().map(f).collect(),transaction_infos:logical,tx_stack_hash:compute_tx_stack_hash(&actual),tx_count:f(actual.len()as u64),state_reader_results:None,secp256k1_slots:vec![],checkpoint_id:f(7),user_id:f(123)};
  let proof=g.prove(QHashOut(HashOut{elements:[F::ONE;4]}),&input,sig).await?;g.minifier_chain.as_ref().unwrap().verify(proof)?;Ok(())
 }
 #[tokio::test]

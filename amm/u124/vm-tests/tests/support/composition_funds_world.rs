@@ -33,7 +33,7 @@ impl World {
  pub fn run(&mut self,u:u64,c:u64,name:&str,input:&[u64])->Result<()> {
   let d=self.methods.get(&(c,name.into())).ok_or_else(||anyhow::anyhow!("missing {c}/{name}"))?;
   let writes=if c!=0&&name!="set_metadata" {primitive::execute(&self.state,d,u,c,self.checkpoint,if u==V{self.key}else{[0;4]},input)?} else {
-   let mut vm=VmExecutor::new(self.state.clone());let result=vm.execute(d,&ExecutionContext{user_id:u,contract_id:c,caller_contract_id:psy_config::network_constants::DEFAULT_CALLER_CONTRACT_ID_U64,checkpoint_id:self.checkpoint,nonce:self.revision+1,user_public_key_hash:if u==V{self.key}else{[0;4]}},input)?;
+   let mut vm=VmExecutor::new(self.state.clone());let result=vm.execute(d,&ExecutionContext{user_id:u,contract_id:c,caller_contract_id:psy_config::network_constants::DEFAULT_CALLER_CONTRACT_ID_U64,checkpoint_id:self.checkpoint,nonce:self.revision+1,user_public_key_hash:if u==V{self.key}else{[0;4]},session_proof_tree_root:[0;4],transaction_log:vec![],transaction_stack_hash:[0;4]},input)?;
    ensure!(result.success,"public synthetic call {c}/{name}: {:?}",result.failure);
    self.state.apply_imt_overlay(vm.imt_write_overlay());vm.write_overlay().clone()
   };
@@ -50,7 +50,7 @@ impl World {
   let mut next=self.clone();for(c,name,args)in calls{next.run(user,*c,name,args)?;}*self=next;Ok(())
  }
  pub fn seed_funding(&mut self,input:u128)->Result<()> {
-  self.set(U,0,0,100*F);self.run(U,0,"simple_transfer",&[V,20*F])?;
+  self.set(U,0,0,100*F);self.run(U,0,"transfer",&[V,20*F])?;
   for c in [A,B]{if self.get(5,c,3)==0{self.run(5,c,"set_metadata",&[123,18])?;self.run(5,c,"mint",&pair(1u128<<120))?;}}
   let mut args=vec![U];args.extend(pair(input));self.run(5,A,"transfer",&args)?;self.run(U,A,"claim",&[5])?;
   let mut args=vec![V];args.extend(pair(input));self.run(U,A,"transfer",&args)?;self.run(5,B,"transfer",&[U,1,0])?;self.run(U,B,"claim",&[5])?;self.run(U,B,"transfer",&[V,1,0])?;self.run(U,C,"bind_funding",&[1])

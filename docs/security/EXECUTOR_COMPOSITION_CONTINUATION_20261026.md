@@ -577,3 +577,17 @@ UI financial gates remain unchanged while this candidate integration is open.
 This is the selected SDK compatibility milestone, not completed deployment,
 browser wallet adoption, market settlement, performance or production acceptance.
 Zero financial operations; no Node/SDK source edits or resumed heartbeat.
+
+
+## Selected SDK migration — October 27
+
+The selected SDK is mainnet-beta at c92880c8b6e2c8d392f19368bc8801a2584fd427,
+not the Node deployment branch. Application-owned stateless SD-key circuits
+retain complete stack/session binding through unchanged SDK proof APIs.
+Eight market and eight ordinary-wallet full UPSs passed offline, together
+with executable bytecode and adversarial authorization checks. The unchanged
+browser SDK distribution and wallet extension built.
+[Migration report](MAINNET_BETA_MARKET_MIGRATION_20261027.md) owns source pins,
+retained failures, unsupported APIs and remaining live gates. No Node source
+or old contract was modified. These migration/security results do not close
+performance, real UI or production acceptance items by implication.

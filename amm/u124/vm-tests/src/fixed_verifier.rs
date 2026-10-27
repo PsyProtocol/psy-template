@@ -14,7 +14,7 @@ pub fn mode(text: &str) -> Result<bool> {
     match text { "cached-v1" => Ok(true), "fresh-v1" => Ok(false), _ => anyhow::bail!("unsupported fixed verifier resource mode") }
 }
 fn build() -> Result<FixedVerifier> {
-    let verifier_only = get_end_cap_alt_verifier_data_for_network::<F>(PsyChainNetworkType::InternalTestnet)?.to_verifier_data::<C, 2>();
+    let verifier_only = get_end_cap_alt_verifier_data_for_network::<F>(PsyChainNetworkType::try_from_chain_id(psy_config::PSY_NETWORK_MAGIC)?)?.to_verifier_data::<C, 2>();
     let library = get_cached_common_data_library::<C, 2>();
     let common = library.get_common_circuit_data_ref(ProvingJobCircuitType::UserEndCap)?.clone();
     Ok(FixedVerifier { verifier_only, common })

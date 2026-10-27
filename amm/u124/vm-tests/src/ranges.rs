@@ -32,10 +32,14 @@ fn lower_ranges(def:&mut Def,batch:bool)->Result<()> {
         command_map.push((count,high));count+=if high.is_some(){2}else{1};
     }
     let constants:HashMap<u64,u64>=def.definitions.iter().filter(|n|n.data_type==Type::Target&&n.op_type==Op::Constant).map(|n|(n.index as u64,n.inputs[0])).collect();
-    let mut out=Vec::new();let mut next=0usize;let zero=push(&mut out,&mut next,Op::Constant,vec![0]);
-    let mut targets=HashMap::new();let mut high_arrays=HashMap::new();
+    let prefix=def.definitions.iter().take_while(|n|matches!(n.op_type,Op::InputTarget|Op::U32InputTarget|Op::BoolInputTarget)).count();
+    ensure!(def.definitions[..prefix].iter().all(|n|n.data_type==Type::Target),"market input lanes must be Felt");
+    let mut out=def.definitions[..prefix].to_vec();let mut next=prefix;
+    let mut targets:HashMap<u64,u64>=(0..prefix as u64).map(|i|(i,i)).collect();
+    let zero=push(&mut out,&mut next,Op::Constant,vec![0]);let mut high_arrays=HashMap::new();
     let mut commands:Vec<Option<Cmd<u64>>>=vec![None;count];let mut indices=vec![0usize;count];
-    for (i,original) in def.definitions.iter().enumerate(){
+    ensure!(def.state_command_resolution_indices.iter().all(|i|*i>=prefix),"state command inside input prefix");
+    for (i,original) in def.definitions.iter().enumerate().skip(prefix){
         let reads:Vec<_>=def.state_command_resolution_indices.iter().enumerate().filter_map(|(j,pos)|(*pos==i).then_some(j)).collect();
         for &j in &reads {
             let (low,high)=command_map[j];let original=&def.state_commands[j];

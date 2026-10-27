@@ -1,3 +1,4 @@
+pub mod market_key;
 pub mod proof_binding;
 pub mod batch_compile;
 pub mod batch_policy;
@@ -14,13 +15,14 @@ use anyhow::{bail,ensure,Result};
 use psy_compiler::output::serialize::ContractOutput;
 use psy_vm::dpn::{contract::dapen_fc_to_cfc_code_definition,ops::{state_cmd::{data::DPNStateCmd,types::DPNStateCmdCore},op_types::{DPNBuiltInDataType,DPNIndexedVarDef,DPNOpType}},vm::def::DPNFunctionCircuitDefinition};
 use serde_json::Value;
-// The production executor allocates dense target vectors. A prepended target
-// must have index zero; rebase symbolic Felt references without changing any
-// literal input positions, split widths, constants or state-command IDs.
-fn felt_ref(id:u64)->u64{if id>>32==0{id+1}else{id}}
-fn prepend_height(def:&mut DPNFunctionCircuitDefinition,height:u64)->Result<()> {
+// Insert immutable height resources after the complete input prefix. Preserve
+// input positions, typed lanes, literal operands and state resolution timing.
+fn prepend_height(def:&mut DPNFunctionCircuitDefinition,height:u64)->Result<u64> {
+ let prefix=def.definitions.iter().take_while(|n|matches!(n.op_type,DPNOpType::InputTarget|DPNOpType::U32InputTarget|DPNOpType::BoolInputTarget)).count();
+ ensure!(def.definitions[..prefix].iter().all(|n|n.data_type==DPNBuiltInDataType::Target),"market input lanes must be Felt");
+ let height_index=prefix as u64;let felt_ref=|id:u64|if id>>32==0 && id>=height_index{id+1}else{id};
  for n in &mut def.definitions {
-  if n.data_type==DPNBuiltInDataType::Target{n.index+=1;}
+  if n.data_type==DPNBuiltInDataType::Target && n.index as u64>=height_index{n.index+=1;}
   match n.op_type as u16 {
    // GetUserPublicKeyHash (50) produces a Hash context value and consumes
    // no Felt references. Preserve its index and inputs when adding a Felt.
@@ -34,26 +36,25 @@ fn prepend_height(def:&mut DPNFunctionCircuitDefinition,height:u64)->Result<()> 
  for a in &mut def.assertions{a.left=felt_ref(a.left);a.right=felt_ref(a.right);}
  for cmd in &mut def.state_commands{let refs:Vec<_>=cmd.get_inputs().into_iter().map(felt_ref).collect();*cmd=cmd.convert_to_u64(&refs);}
  ensure!(def.events.is_empty(),"market event rebase not implemented");
- for index in &mut def.state_command_resolution_indices{*index+=1;}
- def.definitions.insert(0,DPNIndexedVarDef{data_type:DPNBuiltInDataType::Target,index:0,op_type:DPNOpType::Constant,inputs:vec![height]});
+ for index in &mut def.state_command_resolution_indices{ensure!(*index>=prefix,"state command inside input prefix");*index+=1;}
+ def.definitions.insert(prefix,DPNIndexedVarDef{data_type:DPNBuiltInDataType::Target,index:height_index as usize,op_type:DPNOpType::Constant,inputs:vec![height]});
  let mut next=0;for n in &def.definitions{if n.data_type==DPNBuiltInDataType::Target{ensure!(n.index==next,"non-dense Felt definition in {}",def.name);next+=1;}}
- Ok(())
+ Ok(height_index)
 }
-fn prepend_native_height(def:&mut DPNFunctionCircuitDefinition)->Result<()> { prepend_height(def,32) }
+fn prepend_native_height(def:&mut DPNFunctionCircuitDefinition)->Result<u64> { prepend_height(def,32) }
 pub fn compile_market(source:&str,a:u64,b:u64)->Result<ContractOutput>{
  ensure!(a>=5 && b>=5 && a!=b,"two distinct U124 asset IDs required");
  let mut out=psy_compiler::compile(source)?;
  ensure!(out.state_tree_height()==31,"market layout height must be 31");
  for def in &mut out.circuit_definitions {
   ranges::lower_close_ranges(def)?;
-  prepend_native_height(def)?;
+  let native_height=prepend_native_height(def)?;
   let mut constants=std::collections::HashMap::new();
   let mut current=None;
   for node in &def.definitions {let v=serde_json::to_value(node)?;if v["data_type"]==0 && v["op_type"]==1 {constants.insert(v["index"].as_u64().unwrap(),v["inputs"][0].as_u64().unwrap());}if v["data_type"]==0&&v["op_type"]==47{current=v["index"].as_u64();}}
   // Two-limb self reads are lowered to transaction-local single readers. This
   // avoids the frozen SDK's range cache key mismatch without changing Node or
   // replacing current-session reads with an UPS-start foreign-user snapshot.
-  let native_height=0;
   for (_i,cmd) in def.state_commands.iter_mut().enumerate(){let foreign=match cmd { DPNStateCmd::GetOtherUserContractStateSlotRange(c)=>Some((c.contract_id, &mut c.contract_state_tree_height,c.length)), DPNStateCmd::GetOtherUserContractStateSlotSingle(c)=>Some((c.contract_id, &mut c.contract_state_tree_height,1)), DPNStateCmd::GetSelfUserExternalContractStateSlotRange(c)=>Some((c.contract_id, &mut c.contract_state_tree_height,c.length)), DPNStateCmd::GetSelfUserExternalContractStateSlotSingle(c)=>Some((c.contract_id, &mut c.contract_state_tree_height,1)),_=>None}; if let Some((contract_id,height,length))=foreign {
    ensure!(constants.get(height)==Some(&31),"unexpected unresolved read height");
    match constants.get(&contract_id).copied(){Some(0)=>{*height=native_height;ensure!(length==1,"PSY read must be one Felt");},Some(id) if id==a||id==b=>ensure!(length==2||(length==1&&def.name.starts_with("close_")),"U124 read must contain both limbs"),_ if Some(contract_id)==current=>{},_=>bail!("unrecognized foreign contract in {}",def.name)}
@@ -99,7 +100,10 @@ impl KeyProbe {
   // The frozen serializer may retain a zero placeholder. The execution opcode
   // ignores it; it is not a reference to Felt target zero.
   ensure!(key.inputs.iter().all(|x|*x==0),"unexpected context literal payload: {:?}",key);
-  let mut rebased=original.clone();prepend_height(&mut rebased,32)?;
+  let mut rebased=original.clone();let height_index=prepend_height(&mut rebased,32)?;
+  psy_vm::dpn::vm::validate::validate_function_definition(&rebased)?;
+  ensure!(rebased.circuit_inputs==original.circuit_inputs,"height insertion changed ABI input references");
+  ensure!(height_index==original.definitions.iter().take_while(|n|n.op_type==DPNOpType::InputTarget).count() as u64,"height must follow input prefix");
   let after=rebased.definitions.iter().find(|n|n.op_type==DPNOpType::GetUserPublicKeyHash).unwrap();
   ensure!(after.index==key.index&&after.data_type==key.data_type&&after.inputs==key.inputs,"Hash context changed");
   // Use the SDK's proving-path primitive executor. Its lightweight VmExecutor
@@ -143,6 +147,8 @@ impl LowerKeyProbe {
   let out=psy_compiler::compile(source)?;
   let original=&out.circuit_definitions[0];
   let mut lowered=original.clone();ranges::lower_batch_ranges(&mut lowered)?;
+  psy_vm::dpn::vm::validate::validate_function_definition(&lowered)?;
+  ensure!(lowered.circuit_inputs==original.circuit_inputs,"range lowering changed ABI inputs");
   let before=original.definitions.iter().find(|n|n.op_type==DPNOpType::GetUserPublicKeyHash).unwrap();
   let after=lowered.definitions.iter().find(|n|n.op_type==DPNOpType::GetUserPublicKeyHash).unwrap();
   ensure!(before.data_type==after.data_type&&before.index==after.index&&before.inputs==after.inputs,"range lowering changed Hash context");

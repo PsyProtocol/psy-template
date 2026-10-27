@@ -50,18 +50,19 @@ impl LiveBinding {
     }
 }
 const STAGING_MAGIC: u64 = 0x1337CF514544C169;
+pub const MAINNET_BETA_PROFILE: &str = "mainnet-beta-20261027-v1";
 pub const BUNDLED_PROFILE: &str = "staging-bundled-regtest-20261020-v1";
 fn profile_magic(name: &str) -> Result<u64> {
     match name {
         "sepolia-config-v1" => Ok(STAGING_MAGIC),
-        BUNDLED_PROFILE => Ok(0x1337CF514544CF69),
+        BUNDLED_PROFILE | MAINNET_BETA_PROFILE => Ok(0x1337CF514544CF69),
         _ => anyhow::bail!("unknown explicit staging compatibility profile"),
     }
 }
 fn selected_magic() -> Result<u64> {
-    profile_magic(
-        &std::env::var("PSY_MARKET_TESTNET_PROFILE").unwrap_or_else(|_| "sepolia-config-v1".into()),
-    )
+    let profile = std::env::var("PSY_MARKET_TESTNET_PROFILE")
+        .map_err(|_| anyhow::anyhow!("explicit PSY_MARKET_TESTNET_PROFILE required"))?;
+    profile_magic(&profile)
 }
 pub fn require_compiled_verifier_domain() -> Result<()> {
     ensure!(selected_magic()? == psy_config::PSY_NETWORK_MAGIC, "fixed verifier compiled network domain mismatch");
@@ -142,7 +143,7 @@ pub fn verify_ups_profile(
         proof_minifier::pm_core::get_circuit_fingerprint_generic_q,
     };
     let bundled =
-        get_end_cap_alt_verifier_data_for_network::<F>(PsyChainNetworkType::InternalTestnet)?
+        get_end_cap_alt_verifier_data_for_network::<F>(PsyChainNetworkType::try_from_chain_id(psy_config::PSY_NETWORK_MAGIC)?)?
             .to_verifier_data::<C, 2>();
     ensure!(
         cm.ups_end_cap.get_verifier_config_ref() == &bundled,
@@ -155,7 +156,7 @@ pub fn verify_ups_profile(
         "SDK common data differs from declared stable Node verifier; no broadcast"
     );
     Ok(
-        serde_json::json!({"profile":std::env::var("PSY_MARKET_TESTNET_PROFILE").unwrap_or_else(|_|"sepolia-config-v1".into()),"networkMagic":selected_magic()?.to_string(),"bundledNodeVerifierFingerprint":get_circuit_fingerprint_generic_q::<2,F,C>(&bundled).to_string(),"verifierOnlyMatches":true,"commonDataMatches":true,"runtimeImageAttested":false}),
+        serde_json::json!({"profile":std::env::var("PSY_MARKET_TESTNET_PROFILE").unwrap_or_else(|_|MAINNET_BETA_PROFILE.into()),"networkMagic":selected_magic()?.to_string(),"bundledNodeVerifierFingerprint":get_circuit_fingerprint_generic_q::<2,F,C>(&bundled).to_string(),"verifierOnlyMatches":true,"commonDataMatches":true,"runtimeImageAttested":false}),
     )
 }
 
@@ -182,7 +183,7 @@ pub async fn verify_ups_with_session_manager(
         Ok(get_circuit_fingerprint_generic_q::<2,F,C>(&verifier.verifier_only).to_string())
     })?;
     Ok(serde_json::json!({
-        "profile":std::env::var("PSY_MARKET_TESTNET_PROFILE").unwrap_or_else(|_|"sepolia-config-v1".into()),
+        "profile":std::env::var("PSY_MARKET_TESTNET_PROFILE").unwrap_or_else(|_|MAINNET_BETA_PROFILE.into()),
         "networkMagic":selected_magic()?.to_string(),
         "bundledNodeVerifierFingerprint":fingerprint,
         "verifierOnlyMatches":true,"fullProofVerifiedWithPinnedCommonData":true,
@@ -196,11 +197,11 @@ mod tests {
     use super::*;
     #[test]
     fn staging_guard_rejects_domain_or_endpoint_substitution() -> Result<()> {
-        let config = psy_config::PsyConfigGoldilocks::from_file(concat!(
-            env!("CARGO_MANIFEST_DIR"),
-            "/../../deployments/staging-pusdt-2026-10-05/mcp/mcp-sepolia-config.json"
-        ))?;
-        let net = config.get_current_network()?.clone();
+        let config = psy_config::PsyConfigGoldilocks::from_file(&std::env::var("PSY_CONFIG_PATH")?)?;
+        let selected = config.get_current_network()?.clone();
+        staging_config(&selected, profile_magic(MAINNET_BETA_PROFILE)?)?;
+        require_staging(&selected)?;
+        let mut net = selected.clone();net.magic=format!("0x{STAGING_MAGIC:x}");
         staging_config(&net, STAGING_MAGIC)?;
         assert_eq!(
             require_staging(&net).is_ok(),

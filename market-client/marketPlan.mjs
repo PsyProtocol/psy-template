@@ -1,3 +1,4 @@
+import { nativeMethod } from "./nativeProtocol.mjs";
 // Unsigned ordinary-user plans. RPC observations and plans never authorize funds.
 import { canonical, exactFields, id, requireThat as ok } from "./protocol.mjs";
 import { validatePositionSnapshot } from "./positionSnapshot.mjs";
@@ -266,7 +267,7 @@ export function buildMarketPlan(
       BigInt(context.feeSent) + FEE_ESCROW < RADIX,
       "Native fee cursor overflow",
     );
-    native("simple_transfer", [v, FEE_ESCROW]);
+    native(nativeMethod(registry, "transfer"), [v, FEE_ESCROW]);
     debits.push({ contractId: 0, amount: String(FEE_ESCROW) });
   };
   const fund = (asset, qty) => {
@@ -434,7 +435,7 @@ export function buildMarketPlan(
       BigInt(s.user.nativeBalance) + BigInt(s.nativeOutbox.claimable) < RADIX,
       "Native claim balance overflow",
     );
-    native("simple_claim", [v]);
+    native(nativeMethod(registry, "claim"), [v]);
   } else if (r.kind === "claim-nft") {
     const pending = s.nft.pending[0],
       destination = s.nft.slots.find((x) => x.slot === t.slot);
@@ -556,6 +557,7 @@ export function buildMarketPlan(
     recipientId: r.userId,
     registryHash,
     sdkManifestSha256: registry.sdkManifestSha256,
+    ...(registry.nativeProtocol ? {nativeProtocol: registry.nativeProtocol} : {}),
     network: registry.network,
     vault: {
       userId: m.vaultId,

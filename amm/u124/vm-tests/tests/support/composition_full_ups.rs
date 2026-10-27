@@ -1,4 +1,6 @@
 //! Complete synthetic authenticated composition UPSs. No RPC or deployment.
+use psy_template_u124_markets::market_key::get_sd_key_public_key_param;
+use psy_template_u124_markets::market_key::{SDKeyCircuitWitnessInput,SDKeySessionContext};
 use super::world::{World,V,A,B,F as ESCROW};
 use psy_vm::dpn::eval::executor::StateBackend;
 use anyhow::{ensure,Context,Result};
@@ -11,8 +13,8 @@ use psy_crypto::hash::traits::qhashable::QFieldHashable;
 use psy_crypto::signature::zk::data::ZKPublicKeyInfo;
 use psy_common_circuit::circuits::traits::qstandard::QStandardCircuit;
 use psy_dpn_circuit::circuits::cfc::DapenContractFunctionCircuit;
-use psy_ups_circuit::{circuit_manager::core::PsyUPSStepCircuitManager,session::UserProvingSessionManager,signature::sd_key::get_sd_key_public_key_param};
-use psy_vm::{ups::{circuit_manager::UPSCircuitManager,sd_key::{SDKeyCircuitWitnessInput,SDKeySessionContext}},dpn::{contract::{dapen_fc_to_cfc_code_definition,hash_dpn_function},vm::def::DPNFunctionCircuitDefinition}};
+use psy_ups_circuit::{circuit_manager::core::PsyUPSStepCircuitManager,session::UserProvingSessionManager};
+use psy_vm::{ups::{circuit_manager::UPSCircuitManager},dpn::{contract::{dapen_fc_to_cfc_code_definition,hash_dpn_function},vm::def::DPNFunctionCircuitDefinition}};
 use psy_config::{PSY_NETWORK_MAGIC,DA_FEE,network_constants::GUTA_FEE};
 use psy_template_u124_markets::{batch_compact,batch_policy,composition_policy,proof_binding::validate_endcap_binding};
 use serde_json::{Value,json};
@@ -21,7 +23,7 @@ use psy_client_data::qblock::cmds::deploy_contract::get_code_root_by_code_hashes
 use sha2::{Digest,Sha256};
 fn f(n:u64)->GF{GF::from_canonical_u64(n)}
 type Manager=UserProvingSessionManager<GF,PoseidonHash,Store,C,2>;
-struct Chain {cm:PsyUPSStepCircuitManager<C,2>,key:psy_ups_circuit::signature::sd_key::SDKeyCircuitGadget,code:BTreeMap<u64,ContractCodeDefinition>,leaves:BTreeMap<u64,PsyContractLeaf<GF>>,whitelists:BTreeMap<u64,Vec<QHashOut<GF>>>,last_leaf:Option<PsyUserLeaf<GF>>,measurements:Vec<Value>}
+struct Chain {cm:PsyUPSStepCircuitManager<C,2>,key:psy_template_u124_markets::market_key::SDKeyCircuitGadget,code:BTreeMap<u64,ContractCodeDefinition>,leaves:BTreeMap<u64,PsyContractLeaf<GF>>,whitelists:BTreeMap<u64,Vec<QHashOut<GF>>>,last_leaf:Option<PsyUserLeaf<GF>>,measurements:Vec<Value>}
 impl Chain{
  fn new(w:&World,needed:&[Value])->Result<Self>{
   let started=Instant::now();let cm=PsyUPSStepCircuitManager::<C,2>::new_with_config(PSY_NETWORK_MAGIC);let key=composition_policy::build(&w.policy)?;
@@ -75,8 +77,8 @@ impl Chain{
    let logical=batch_policy::expected_calls(&w.policy,&fields)?;
    let expanded=logical.iter().map(|c|{let cid=c["contract_id"].as_u64().unwrap();let name=c["method_name"].as_str().unwrap();let def=&w.methods[&(cid,name.into())];let inputs=c["inputs"].as_array().unwrap().iter().map(|v|f(v.as_u64().unwrap())).collect::<Vec<_>>();psy_client_data::dpn::proving_session::DPNProvingSessionCompactMethodCall::new_from_inputs::<PoseidonHash>(f(psy_config::network_constants::DEFAULT_CALLER_CONTRACT_ID_U64),f(cid),f(def.method_id as u64),&inputs).into()}).collect::<Vec<psy_client_data::dpn::sd_key::SDKeyTransactionInfo<GF>>>();
    let selected=expanded.iter().filter(|c|c.contract_id!=f(w.policy["noop"]["contract_id"].as_u64().unwrap())||c.method_id!=f(w.policy["noop"]["method_id"].as_u64().unwrap())).copied().collect::<Vec<_>>();
-   ensure!(selected.len()==actual_infos.len()&&psy_ups_circuit::signature::sd_key::compute_tx_stack_hash(&selected)==psy_ups_circuit::signature::sd_key::compute_tx_stack_hash(&actual_infos),"compact actual call sequence");expanded
-  };let input=SDKeyCircuitWitnessInput{session_context:SDKeySessionContext{start_user_leaf_hash:h.session_start_context.start_session_user_leaf.qfhash::<PoseidonHash>(),checkpoint_leaf_hash:h.session_start_context.checkpoint_leaf_hash,checkpoint_tree_root:h.session_start_context.checkpoint_tree_root,current_user_leaf:h.current_state.user_leaf,nonce},circuit_inputs:fields.iter().copied().map(f).collect(),transaction_infos:infos,tx_stack_hash:h.current_state.tx_hash_stack,tx_count:f(count as u64),state_reader_results:None,secp256k1_slots:vec![],checkpoint_id:f(w.checkpoint),user_id:f(V)};
+   ensure!(selected.len()==actual_infos.len()&&psy_template_u124_markets::market_key::compute_tx_stack_hash(&selected)==psy_template_u124_markets::market_key::compute_tx_stack_hash(&actual_infos),"compact actual call sequence");expanded
+  };let input=SDKeyCircuitWitnessInput{session_context:SDKeySessionContext{start_user_leaf:h.session_start_context.start_session_user_leaf,start_user_leaf_hash:h.session_start_context.start_session_user_leaf.qfhash::<PoseidonHash>(),checkpoint_leaf_hash:h.session_start_context.checkpoint_leaf_hash,checkpoint_tree_root:h.session_start_context.checkpoint_tree_root,current_user_leaf:h.current_state.user_leaf,nonce},circuit_inputs:fields.iter().copied().map(f).collect(),transaction_infos:infos,tx_stack_hash:h.current_state.tx_hash_stack,tx_count:f(count as u64),state_reader_results:None,secp256k1_slots:vec![],checkpoint_id:f(w.checkpoint),user_id:f(V)};
   let sig=self.key.prove(QHashOut(HashOut{elements:[GF::ONE;4]}),&input,session.get_sighash(PSY_NETWORK_MAGIC,nonce)).await?;let sign_ms=stage.elapsed().as_secs_f64()*1000.;let stage=Instant::now();let slots=session.require_lps()?.get_total_slots_modified();let param=get_sd_key_public_key_param(&QHashOut(HashOut{elements:[GF::ONE;4]}));let proof=session.prove_end_cap(&self.cm,PSY_NETWORK_MAGIC,nonce,slots,self.key.get_fingerprint(),param,sig,self.key.minifier_chain.as_ref().unwrap().get_verifier_data().clone()).await?;
   self.cm.ups_end_cap.verify_proof(proof.clone())?;let end=session.get_current_ups_header().current_state.user_leaf;
   let core=SubmitUserEndCapNonProofCoreInput{checkpoint_id:f(w.checkpoint),stats:GUTAStats{guta_fees_collected:f(GUTA_FEE),da_fees_collected:f(DA_FEE)*slots,user_ops_processed:GF::ONE,total_transactions:f(count as u64),slots_modified:slots},state_transition:UPSEndCapResultCompact{start_user_leaf_hash:if fresh{QHashOut::ZERO}else{start_leaf.qfhash::<PoseidonHash>()},end_user_leaf_hash:end.qfhash::<PoseidonHash>(),checkpoint_tree_root_hash:h.session_start_context.checkpoint_tree_root,user_id:f(V)},new_user_leaf:end};validate_endcap_binding(&core,&proof.public_inputs)?;
@@ -125,7 +127,7 @@ async fn funded_controller_cancelled_exit_full_ups()->Result<()> {
  w.run(super::world::U,super::world::C,"request_cancel",&[1])?;
  let ret=exact_fee(&w,ret,true)?;chain.prove(&mut w,ret).await?;
  ensure!(w.at(V,"phase")==99&&w.wide(V,A,0)==0&&w.wide(V,B,0)==0&&w.get(V,0,0)==0,"terminal residual");
- w.run(super::world::U,A,"claim",&[V])?;w.run(super::world::U,0,"simple_claim",&[V])?;
+ w.run(super::world::U,A,"claim",&[V])?;w.run(super::world::U,0,"claim",&[V])?;
  ensure!(w.wide(super::world::U,A,0)==input,"actual input recovered");
  fs::write(format!("{out}/REPORT.json"),serde_json::to_vec_pretty(&json!({"scope":"synthetic authenticated checkpoints: linked dedicated-key funding and cancelled exit UPSs; ordinary request, funding, cancel and final recipient claims execute bytecode only; no market trade, registration, coordinator or network acceptance", "fullUpsVerified":true,"requestBytesPreserved":true,"measurements":chain.measurements,"controllerPublicKeyHash":pk.to_string(),"fingerprint":chain.key.get_fingerprint().to_string(),"input":input.to_string(),"terminalControllerPhase":99,"residualA":0,"residualB":0,"residualNative":0,"recipientRecoveredInput":true,"broadcast":false,"productionReady":false}))?)?;
  Ok(())
@@ -159,7 +161,7 @@ async fn two_pool_controller_workflow_full_ups()->Result<()> {
  }
  let p=pair(final_out);let ret=exact_fee(&w,w.fields("return-final",&[(3,p[0]),(4,p[1]),(11,1)],ESCROW)?,true)?;chain.prove(&mut w,ret.clone()).await?;
  ensure!(w.at(V,"phase")==99&&w.wide(V,A,0)==0&&w.wide(V,B,0)==0&&w.get(V,0,0)==0,"final controller residual");let terminal=w.slots.clone();ensure!(w.execute(&ret).is_err()&&w.slots==terminal,"terminal replay");
- w.run(U,A,"claim",&[V])?;w.run(U,0,"simple_claim",&[V])?;ensure!(w.wide(U,A,0)==final_out,"recipient final claim");
+ w.run(U,A,"claim",&[V])?;w.run(U,0,"claim",&[V])?;ensure!(w.wide(U,A,0)==final_out,"recipient final claim");
  fs::write(format!("{out}/REPORT.json"),serde_json::to_vec_pretty(&json!({"scope":"eight linked controller UPSs on explicit synthetic authenticated checkpoints; two base markets execute actual activation, LP, admission, commit, exact-price settlement and transfers in VM only; ordinary owner request/funding/final claims VM only; no market UPS, chain inclusion, cross-vault atomicity or production claim", "fullControllerUpsVerified":true,"controllerUpsCount":8,"route":"A -> B -> A on two distinct pools","input":input.to_string(),"intermediate":mid.to_string(),"finalOutput":final_out.to_string(),"controllerPublicKeyHash":pk.to_string(),"measurements":chain.measurements,"recipientClaimBytecodeVerified":true,"intermediateRequiresClaim":true,"terminalReplayRejected":true,"allControllerBalancesZero":true,"atomicAcrossVaults":false,"broadcast":false,"chainTps":null,"productionReady":false}))?)?;
  Ok(())
 }
@@ -185,6 +187,6 @@ async fn cancelled_inflight_hop_refund_full_ups()->Result<()> {
  let f=exact_fee(&w,w.fields("refund-1",&[(3,p[0]),(4,p[1])],ESCROW)?,false)?;chain.prove(&mut w,f).await?;
  ensure!(w.at(V,"phase")==7&&w.wide(V,A,0)==input,"actual principal not recovered");
  let f=exact_fee(&w,w.fields("return-input",&[(3,p[0]),(4,p[1]),(11,1)],ESCROW)?,true)?;chain.prove(&mut w,f).await?;
- w.run(U,A,"claim",&[V])?;w.run(U,0,"simple_claim",&[V])?;ensure!(w.wide(U,A,0)==input&&w.wide(V,A,0)==0&&w.wide(V,B,0)==0&&w.get(V,0,0)==0,"refund recipient / residual");
+ w.run(U,A,"claim",&[V])?;w.run(U,0,"claim",&[V])?;ensure!(w.wide(U,A,0)==input&&w.wide(V,A,0)==0&&w.wide(V,B,0)==0&&w.get(V,0,0)==0,"refund recipient / residual");
  fs::write(format!("{out}/REPORT.json"),serde_json::to_vec_pretty(&json!({"scope":"six linked full controller UPSs, synthetic authenticated checkpoints; base-market accepted cancellation/refund and ordinary owner actions VM-only; not network acceptance", "fullControllerUpsVerified":true,"controllerUpsCount":6,"acceptedPrincipalLockedUntilRefund":true,"escrowClaimVerified":true,"recipientRecoveredInput":true,"input":input.to_string(),"allControllerBalancesZero":true,"measurements":chain.measurements,"broadcast":false,"atomicAcrossVaults":false,"productionReady":false}))?)?;Ok(())
 }
