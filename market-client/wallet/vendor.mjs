@@ -24,7 +24,7 @@ collect(resolve(root, "market-client/wallet/prepareService.mjs"));
 paths.add(resolve(root, "market-client/wallet/prepareService.d.mts"));
 const dir = resolve(
   root,
-  "market-client/reviewed/staging-position-readers-20261027-v2",
+  "market-client/reviewed/mainnet-beta-markets-20261027-v3",
 );
 const registry = JSON.parse(readFileSync(resolve(dir, "registry.json"))),
   abis = {};
@@ -47,7 +47,7 @@ const net = JSON.parse(
   readFileSync(
     resolve(
       root,
-      "market-client/reviewed/staging-qa-20261026-account-v2/rpc-config.json",
+      "market-client/reviewed/mainnet-beta-markets-20261027-v3/rpc-config.json",
     ),
   ),
 );

@@ -4,8 +4,8 @@ import {
   validateReadiness,
   type Readiness,
 } from "../../../market-client/readiness.mjs";
-import registry from "../../../market-client/reviewed/staging-qa-20261026-account-v2/registry.json";
-import pin from "../../../market-client/reviewed/staging-qa-20261026-account-v2/client-pin.json";
+import registry from "../../../market-client/reviewed/mainnet-beta-amm-20261027-v2/registry.json";
+import pin from "../../../market-client/reviewed/mainnet-beta-amm-20261027-v2/client-pin.json";
 import { Icon } from "./icons";
 export function NetworkReadiness() {
   const [state, setState] = useState<Readiness | null>(null),

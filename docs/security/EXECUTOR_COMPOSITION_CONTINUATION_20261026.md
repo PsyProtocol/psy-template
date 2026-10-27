@@ -591,3 +591,10 @@ browser SDK distribution and wallet extension built.
 retained failures, unsupported APIs and remaining live gates. No Node source
 or old contract was modified. These migration/security results do not close
 performance, real UI or production acceptance items by implication.
+
+
+## 2026-10-27 new-chain reader and quarantine follow-up
+
+See [selected-SDK migration and live boundary](MAINNET_BETA_MARKET_MIGRATION_20261027.md#new-chain-deployments-and-read-only-ui-follow-up). New QA assets 6/7/8, AMM 9, Book 10 and NFT Market 12 have original deployment/key/checkpoint evidence. Curve 11 is quarantined before funding because of an unverified graduation recipient inherited from an offline fixture. A corrected, undeployed candidate has an offline initial-layout proof; no old contract update was performed. Current UI reader pins use the new chain and wallet planning rejects quarantine. This does not enable UI financial writes.
+
+Focused regressions and selected-SDK wallet build passed; the browser journey verified blocked inactive-account and quarantined-Curve states, with the earlier capacity failure retained. At checkpoint 4902 issuer test PSY remains zero, its user leaf is empty, and the original faucet request remains unknown. There are no new real fills, ordinary claims, cold/warm comparisons or throughput results. Previous-chain evidence is retained as historical, not reused as current-chain acceptance. Full candidate/live UPSs, exact wallet transport, actual funding/settlement/recovery and service/upgrade trust evidence remain open.

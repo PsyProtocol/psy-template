@@ -8,8 +8,8 @@ import {
   createPositionClient,
   type PositionSnapshot,
 } from "../../../market-client/positionSnapshot.mjs";
-import registry from "../../../market-client/reviewed/staging-position-readers-20261027-v2/registry.json";
-import pin from "../../../market-client/reviewed/staging-position-readers-20261027-v2/client-pin.json";
+import registry from "../../../market-client/reviewed/mainnet-beta-markets-20261027-v3/registry.json";
+import pin from "../../../market-client/reviewed/mainnet-beta-markets-20261027-v3/client-pin.json";
 import { marketActionAbis } from "./marketActionBindings";
 import { fullAmount } from "./domain.mjs";
 const client = createMarketActionClient({

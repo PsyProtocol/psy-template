@@ -1,3 +1,4 @@
+import liveRegistry from "../../../market-client/reviewed/mainnet-beta-amm-20261027-v2/registry.json";
 import { useFieldFeedback, FieldErrors } from "./FieldFeedback";
 import { matchDemoDeposit } from "./liquidityControls.mjs";
 import { useEditingForm } from "../hooks/useEditingForm";
@@ -231,9 +232,9 @@ function AddLiquidityPanel({
           <button
             type="button"
             className="secondary-button rpc-plan-button"
-            onClick={() => onLivePlan({ ...form })}
+            onClick={() => onLivePlan({ ...form, pool: String(liveRegistry.markets[0].marketId) })}
           >
-            Prepare RPC-based plan
+            Plan for live pool {liveRegistry.markets[0].marketId}
           </button>
           <p className="form-footnote">
             Preview only. No deposits, signatures or orders are sent.

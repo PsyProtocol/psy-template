@@ -6,7 +6,7 @@ import {
   positionNow,
 } from "./positionFixtures.mjs";
 import { marketActionReader } from "./marketActions.mjs";
-import { buildMarketPlan } from "../../market-client/marketPlan.mjs";
+import { buildMarketPlan, validateMarketRequest } from "../../market-client/marketPlan.mjs";
 import { createMarketActionClient } from "../../market-client/marketActionClient.mjs";
 import { readFile, readdir } from "node:fs/promises";
 import { join } from "node:path";
@@ -18,6 +18,13 @@ const request = (marketId, kind, terms = {}) => ({
   recipientId: 12345,
   feeCap: "5",
   validForCheckpoints: 64,
+});
+test("quarantine blocks unsigned plans and wallet record reconstruction", async (t) => {
+  const f = await positionFixture(t), m = f.loaded.registry.markets[1];
+  m.quarantined = true;
+  assert.throws(() => validateMarketRequest(request(m.marketId, "curve-buy", {
+    lots: "1", quoteLimit: "2",
+  }), f.loaded.registry), /quarantined/i);
 });
 async function setup(t, index = 0) {
   const f = await positionFixture(t),

@@ -3,8 +3,8 @@ import {
   createPositionClient,
   type PositionSnapshot,
 } from "../../../market-client/positionSnapshot.mjs";
-import registry from "../../../market-client/reviewed/staging-position-readers-20261027-v2/registry.json";
-import pin from "../../../market-client/reviewed/staging-position-readers-20261027-v2/client-pin.json";
+import registry from "../../../market-client/reviewed/mainnet-beta-markets-20261027-v3/registry.json";
+import pin from "../../../market-client/reviewed/mainnet-beta-markets-20261027-v3/client-pin.json";
 import { fullAmount } from "./domain.mjs";
 const MarketActionPlan = lazy(() =>
   import("./MarketActionPlan").then((m) => ({ default: m.MarketActionPlan })),
@@ -19,9 +19,9 @@ const labels: Record<string, string> = {
   nftmarket: "NFT Market",
 };
 const pageMarket: Record<string, number> = {
-  orderbook: 2497,
-  curve: 2498,
-  nft: 2499,
+  orderbook: registry.markets.find(m => m.kind === "orderbook")!.marketId,
+  curve: registry.markets.find(m => m.kind === "bondingcurve")!.marketId,
+  nft: registry.markets.find(m => m.kind === "nftmarket")!.marketId,
 };
 export function MarketAccountRead({
   page,
@@ -32,7 +32,7 @@ export function MarketAccountRead({
   account: string | null;
   readerRequest?: { marketId: number; revision: number } | null;
 }) {
-  const [market, setMarket] = useState(pageMarket[page] ?? 2497),
+  const [market, setMarket] = useState(pageMarket[page] ?? registry.markets[0].marketId),
     [user, setUser] = useState(""),
     [slotStart, setSlotStart] = useState("0"),
     [snapshot, setSnapshot] = useState<PositionSnapshot | null>(null),
@@ -142,6 +142,14 @@ export function MarketAccountRead({
   const stale =
     snapshot &&
     (clock < snapshot.observedAt || clock - snapshot.observedAt > 30000);
+  if ("quarantined" in m && m.quarantined === true)
+    return (
+      <section className="market-account-read" aria-label="Quarantined market">
+        <h2>Live Bonding Curve unavailable</h2>
+        <p role="status">Contract #{m.marketId} is quarantined before initialization or funding because its graduation recipient is unverified. A replacement requires fresh deployment and acceptance.</p>
+        <p>No account plan, wallet preparation or payment is available for this instance. The forms below remain local demonstrations.</p>
+      </section>
+    );
   return (
     <section
       className="market-account-read"

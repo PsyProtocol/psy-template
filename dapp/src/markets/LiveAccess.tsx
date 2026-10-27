@@ -6,9 +6,9 @@ import {
   type PlanRecord,
 } from "../../../market-client/client.mjs";
 import { readWalletContext } from "../../../market-client/readWallet.mjs";
-import expectedRpcConfig from "../../../market-client/reviewed/staging-qa-20261026-account-v2/rpc-config.json";
-import registry from "../../../market-client/reviewed/staging-qa-20261026-account-v2/registry.json";
-import pin from "../../../market-client/reviewed/staging-qa-20261026-account-v2/client-pin.json";
+import expectedRpcConfig from "../../../market-client/reviewed/mainnet-beta-amm-20261027-v2/rpc-config.json";
+import registry from "../../../market-client/reviewed/mainnet-beta-amm-20261027-v2/registry.json";
+import pin from "../../../market-client/reviewed/mainnet-beta-amm-20261027-v2/client-pin.json";
 import type { DraftForm } from "./domain.mjs";
 import { ObservedAccount } from "./ObservedAccount";
 import type { WithdrawalForm } from "./liquidity.mjs";
@@ -37,7 +37,7 @@ export function LiveAccess({
   onClose: () => void;
 }) {
   const [user, setUser] = useState(""),
-    [market, setMarket] = useState("2485"),
+    [market, setMarket] = useState(String(registry.markets[0].marketId)),
     [checkpoints, setCheckpoints] = useState("64"),
     [status, setStatus] = useState("Not checked"),
     [error, setError] = useState(""),
@@ -165,7 +165,7 @@ export function LiveAccess({
       const target =
         draft.kind === "add" || draft.kind === "remove"
           ? Number(draft.form.pool)
-          : 2485;
+          : registry.markets[0].marketId;
       const m = registry.markets.find((m) => m.marketId === target);
       if (!m) throw Error("Unreviewed pool");
       const request: MarketRequest = {

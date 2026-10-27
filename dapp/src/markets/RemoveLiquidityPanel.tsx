@@ -1,3 +1,4 @@
+import liveRegistry from "../../../market-client/reviewed/mainnet-beta-amm-20261027-v2/registry.json";
 import { useFieldFeedback, FieldErrors } from "./FieldFeedback";
 import { EXAMPLE_LP_SHARES, rawShareFraction } from "./liquidityControls.mjs";
 import { useEditingForm } from "../hooks/useEditingForm";
@@ -175,9 +176,9 @@ export function RemoveLiquidityPanel({
           <button
             className="secondary-button rpc-plan-button"
             type="button"
-            onClick={() => onLivePlan({ ...form })}
+            onClick={() => onLivePlan({ ...form, pool: String(liveRegistry.markets[0].marketId) })}
           >
-            Prepare RPC-based withdrawal
+            Plan withdrawal for live pool {liveRegistry.markets[0].marketId}
           </button>
           <p className="form-footnote">
             No LP burn, transfer or claim is submitted.

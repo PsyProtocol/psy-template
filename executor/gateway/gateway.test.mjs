@@ -36,6 +36,20 @@ async function serverFor(t, adapter) {
   );
   return "http://127.0.0.1:" + server.address().port;
 }
+test("inactive account and unfinalized token errors are public, bounded and fail closed", async (t) => {
+  for (const code of ["ACCOUNT_NOT_ACTIVE", "TOKEN_NOT_READY"]) {
+    const base = await serverFor(t, { positionSnapshot: async () => {
+      throw Object.assign(Error("sensitive internal text"), { code });
+    }});
+    const response = await fetch(base + "/v1/positions", { method: "POST",
+      headers: { "content-type": "application/json" }, body: "{}" });
+    assert.equal(response.status, 409);
+    const body = await response.json();
+    assert.equal(body.kind, "market-not-ready");
+    assert.match(body.error, /No financial action was submitted/);
+    assert.doesNotMatch(body.error, /sensitive/);
+  }
+});
 test("real gateway adapter + HTTP + browser client computes the same exact unsigned plan", async (t) => {
   const f = await fixture(t),
     state = fakePublicState(f.loaded, f.s),
