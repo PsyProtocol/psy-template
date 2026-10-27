@@ -1,3 +1,4 @@
+import { publicMarketProofBundle } from "./publicBundle.mjs";
 import { nativeMethod } from "../nativeProtocol.mjs";
 // Public ordinary-market capsule projection. Hydrated traces/witnesses stay in
 // wallet memory; only the public endcap request and approved manifest survive.
@@ -201,6 +202,7 @@ export async function prepareMarketCapsule({
   parse,
   stringify,
   dependencies,
+  publicVerifier,
 }) {
   ok(typeof stringify === "function", "Lossless SDK serializer required");
   const { trace, expected, actualFee, cfc } = validateMarketTrace({
@@ -210,12 +212,14 @@ export async function prepareMarketCapsule({
     parse,
     dependencies,
   });
+  const identity = publicVerifier ? await publicVerifier.identify(stringify({user_ec_input:trace.finalization.submit_end_cap_input,proof:[]})) : null;
   const proved = await prepareOnlyMarketJobs({
     provider,
     account: context.account,
     envelope,
     parse,
     expectedStepCount: cfc.length,
+    collectPublicProofs: Boolean(publicVerifier),
   });
   const requestJson = stringify({
     user_ec_input: trace.finalization.submit_end_cap_input,
@@ -237,11 +241,20 @@ export async function prepareMarketCapsule({
     sessionHash: await sha(stable(trace.anchor)),
     fingerprint: context.fingerprint,
   };
+  let verificationBundleJson;
+  if(publicVerifier){verificationBundleJson=stringify(publicMarketProofBundle(trace,proved.publicProofOutputs,parse));publicManifest.contentHash=identity.contentHash;publicManifest.verifierPackSha256=identity.verifierPackSha256;publicManifest.verificationBundleSha256=await sha(verificationBundleJson);}
   return {
-    schema: 1,
+    schema: publicVerifier ? 2 : 1,
+    ...(publicVerifier ? {verificationBundleJson} : {}),
     requestJson,
     requestSha256: await sha(requestJson),
     manifestSha256: await sha(stable(publicManifest)),
     ...publicManifest,
   };
+}
+
+export { stable as stablePublic, sha as shaPublic };
+export function publicManifest(p){
+ const names=["userId","publicKeyHash","networkHash","registryHash","sdkManifestSha256","startUserLeafHash","walletNonce","validUntilCheckpoint","actualFee","fullCalls","endUserLeafHash","sigHash","sessionHash","fingerprint",...(p.schema===2?["contentHash","verificationBundleSha256","verifierPackSha256"]:[])];
+ return Object.fromEntries(names.map(k=>[k,p[k]]));
 }

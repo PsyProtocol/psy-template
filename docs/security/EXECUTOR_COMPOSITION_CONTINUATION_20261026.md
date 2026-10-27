@@ -609,3 +609,23 @@ This is synthetic authenticated-state evidence (market 1000/vault 100), not
 live key or browser acceptance. Curve 11 remains quarantined. Replacement
 initial deployment, new key registration, funding and real settlement remain
 separate gates. No Node, SDK source or old contract was changed.
+
+### 2026-10-27 wallet verifier and exact transport
+
+A real saved ordinary UPS now verifies through the same native and WASM public
+core. Complete calls, signature/session, dependencies, deltas, endpoints and
+fees are checked independently of trace production. An extension-owned exact
+confirmation is required before fresh checks and the durable single-send
+intent; unknown broadcasts reconcile their original content hash and endpoint.
+[Evidence and tested source](../../executor/verification/2026-10-27-wallet-native-verifier-v1/manifest.json)
+retain failures and public proofs. No page write route is enabled. Actual-ID
+resource installation, browser confirmation/claim acceptance and same-UPS NFT
+identity assertions remain application work. Fresh RPC preflight failed (503;
+subsequent realm connection resets/coordinator 503), and faucet config remains
+502. Replacement deployment, new funding and real settlement were not sent.
+
+The final wallet review also closed a store-wrapper race: financial writes now
+require the browser-origin LockManager before reading or writing durable state.
+Separate-wrapper regression and real two-page/reload lock tests observed one
+mocked send. [Supplemental evidence](../../executor/verification/2026-10-27-wallet-browser-lock-v1/manifest.json)
+is explicitly not live payment or cross-machine acceptance.

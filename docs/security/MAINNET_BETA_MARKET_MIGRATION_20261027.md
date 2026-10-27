@@ -328,3 +328,77 @@ Next gates remain: initial replacement deployment and checkpoint membership,
 its new key registration, funding, initialization and real settlement/claim.
 The existing browser write gate stays closed pending extension-owned complete
 verification, exact approval and actual wallet acceptance.
+
+## Wallet complete verification and exact transport milestone
+
+The application now has a shared native/WASM public verifier and an internal
+wallet service for exact prepared requests. This closes the **public proof
+verification and transport-code** milestone, not browser write acceptance.
+
+| Boundary | Evidence and current result |
+| --- | --- |
+| Complete native proof | A real four-call ordinary UPS, all CFC/recursive steps and ordinary signature passed; 15 mutations rejected. State is authenticated but synthetic. |
+| Same proof in WASM | The same saved public request, per-step proofs and signature passed the compiled WASM core and JS capsule adapter. Six additional artifact/capsule mutations were rejected. No second proof was generated. |
+| Public retention | Only public proof statements, Merkle contexts/deltas, proof bytes and the exact request survive preparation. Signing witnesses, hydrated traces and private wallet files are excluded. |
+| Approval | Exact calls, actual/max fees, expiry, prepared/request identity and account/network/origin are passed to a wallet-owned confirmation callback. Missing, denied or substituted approval stops before send. Its digest is durable before the sole POST. |
+| Recovery | Original request bytes and content hash are preserved. HTTP ACK is not inclusion. Lost replies remain unresolved; reconciliation requires the original indexed receipt, historical end leaf and common visibility. No automatic re-signing or resending. |
+| Fresh checks | Pinned network/chain, dependency code/layout/functions, registered vault, starting leaf/nonce, approved state anchors and actual funds/fees are rechecked before send. Completed state reads are not reused. |
+| Distribution | The wallet vendors the reviewed AMM registry alongside the three-market registry under the identical network domain. Its active integration still uses the prepare-only factory; no web write RPC was enabled. |
+
+[Public evidence and exact source archive](../../executor/verification/2026-10-27-wallet-native-verifier-v1/manifest.json)
+contains native/WASM reports, public proofs, complete proof-producing source,
+verifier build sources/lock/resource digest, all failed attempts and final
+regressions. The WASM resource build preserves selected dependency versions;
+its producer rejects graph drift. An early `generate-lockfile` experiment
+drifted compatible crates and was rejected before acceptance. macOS default
+C compilation also failed; the successful build uses the existing WASM-capable
+compiler/archiver without SDK patches. Acceptance-script failures were a
+missing tool path, bounded test-registry integer conversion and object-key
+ordering comparison; their original outputs remain archived.
+
+Forty-one final application regressions passed (the earlier forty-case sample
+is retained). The selected SDK wallet cohort passed
+716 tests with one existing skip; the updated six-case market integration
+suite, SDK distribution guard (472 files), typecheck and staging build passed.
+These counts are supporting regressions, not production or live acceptance.
+
+### Remaining application and network gates
+
+- Install a source-derived, reviewed verifier pack for the **actual live IDs**,
+  extension-owned WASM loader and confirmation surface. The synthetic fixture
+  pack (market 1000/vault 100) must never be installed as that live pack.
+- NFT token identity needs a same-UPS postcondition: token ID/metadata observed
+  only through RPC are insufficient when absent from actual calldata. The new
+  native factory rejects NFT plans until that assertion path is proved.
+- The selected protocol commits event count/envelope, not event data. Event
+  sidecars are advisory and must not establish funds, token identity or receipt
+  inclusion. This application does not patch Node or claim stronger semantics.
+- Fresh replacement-deployment preflight failed at HTTP 503. Later one-shot
+  diagnostics observed realm 0/1 connection resets and coordinator HTTP 503.
+  No replacement deployment or registration was sent after this failed gate.
+- The configured faucet's read-only configuration call still returns HTTP 502
+  with an empty body. No new grant was attempted. The original issuer grant
+  remains unknown; zero native balance was the last successful observation.
+  No available Psy wallet/faucet connector was exposed in this tool session.
+- Real initialization, settlement, browser exact broadcast, ordinary claim and
+  refund acceptance therefore remain unverified. Runtime/upgrade governance
+  evidence remains outside the application proof milestone.
+
+### Cross-context lock correction
+
+The staged review found that the prior WeakMap/store-object lock did not cover
+independent storage wrappers. Native service construction now requires the
+browser's same-origin LockManager, captured from the extension realm. The lock
+covers storage reads as well as writes, confirmation, fresh checks and the
+single POST. Preparation/cancellation use the same authority where available.
+A direct staged broadcast without an authoritative lock fails closed.
+
+[Supplemental lock evidence](../../executor/verification/2026-10-27-wallet-browser-lock-v1/manifest.json)
+contains the added separate-wrapper regression and an actual two-page browser
+exercise. Both independent page contexts raced the same durable test record;
+only one confirmation and one mocked send occurred. Reload reconstructed the
+service, retained the unresolved identity and caused no new confirmation/send.
+The browser lock was real, but proof and send adapters were synthetic. This is
+same-origin browser protocol evidence, not extension-origin, payment,
+cross-machine or live financial acceptance. The original narrower test was
+renamed to state its same-store scope. No browser tool upgrade was performed.

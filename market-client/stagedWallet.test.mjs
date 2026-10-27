@@ -6,6 +6,9 @@ import { createStagedWallet } from "./wallet/staged.mjs";
 import { prepareOnlyMarketJobs } from "./wallet/prepareOnly.mjs";
 import { canonical } from "./protocol.mjs";
 const H = (s) => createHash("sha256").update(s).digest("hex");
+// Synthetic shared lock authority. It models the Browser LockManager contract;
+// it is not a browser-worker or cross-machine acceptance claim.
+function lockAuthority(){const tails=new Map();return async(key,work)=>{const prior=tails.get(key)??Promise.resolve();const next=prior.catch(()=>{}).then(work);tails.set(key,next);try{return await next;}finally{if(tails.get(key)===next)tails.delete(key);}};}
 function fixture() {
   const memory = new Map(),
     network = { name: "synthetic", magic: "1" },
@@ -124,11 +127,15 @@ function fixture() {
           }
         : { status: "unresolved" },
   };
-  const make = () =>
+  const exclusive=lockAuthority();
+  const make = (options={}) =>
     createStagedWallet({
       store,
       backend,
+      exclusive,
+      confirmBroadcast: async terms => ({approved:true,approvalSha256:H(canonical(terms))}),
       verifyRecord: async (r) => assert.equal(r.recordId, record.recordId),
+      ...options,
     });
   return {
     make,
@@ -136,6 +143,7 @@ function fixture() {
     record,
     backend,
     memory,
+    exclusive,
     set valid(x) {
       valid = x;
     },
@@ -381,4 +389,35 @@ test("persistence failure after the only send leaves original broadcast intent a
     "included",
   );
   assert.equal(sends, 1);
+});
+
+test("broadcast requires wallet-owned approval of exact calls and fee",async()=>{
+ const f=fixture(), service=createStagedWallet({store:{get:async k=>structuredClone(f.memory.get(k)),set:async(k,v)=>f.memory.set(k,structuredClone(v))},backend:f.backend,exclusive:f.exclusive,verifyRecord:async()=>{}});
+ const p=await service.prepare(f.context,f.record);
+ await assert.rejects(service.broadcast(f.context,p.intentId,p.preparedHash),/approval is not connected/);
+ assert.equal(f.sends,0);
+ for(const confirmation of [{approved:false},{approved:true,approvalSha256:H("substituted terms")}]){
+  const denied=createStagedWallet({store:{get:async k=>structuredClone(f.memory.get(k)),set:async(k,v)=>f.memory.set(k,structuredClone(v))},backend:f.backend,exclusive:f.exclusive,verifyRecord:async()=>{},confirmBroadcast:async()=>confirmation});
+  await assert.rejects(denied.broadcast(f.context,p.intentId,p.preparedHash),/confirmation denied/);assert.equal(f.sends,0);
+ }
+});
+
+test("one exact approval is durable before send and cannot replay in the same store",async()=>{
+ const f=fixture();let approvals=0,sends=0;
+ const service=f.make({confirmBroadcast:async terms=>{approvals++;assert.equal(terms.actualFee,"1000001000");assert.equal(terms.fullCalls.length,2);assert.equal(terms.context.origin,f.context.origin);return{approved:true,approvalSha256:H(canonical(terms))};}});
+ const p=await service.prepare(f.context,f.record);
+ f.backend.broadcastExact=async()=>{sends++;const e=[...f.memory.values()][0].entries[0];assert.equal(e.phase,"broadcast-intent");assert.equal(e.approval.preparedHash,p.preparedHash);assert.match(e.approval.approvalSha256,/^[0-9a-f]{64}$/);throw Error("reply lost");};
+ await Promise.all([service.broadcast(f.context,p.intentId,p.preparedHash),service.broadcast(f.context,p.intentId,p.preparedHash)]);
+ await f.make().broadcast(f.context,p.intentId,p.preparedHash);assert.equal(approvals,1);assert.equal(sends,1);
+});
+
+test("separate store wrappers share the authority before reading durable intent",async()=>{
+ const f=fixture();let approvals=0,sends=0;
+ const make=()=>createStagedWallet({store:{get:async k=>structuredClone(f.memory.get(k)),set:async(k,v)=>{await new Promise(r=>setTimeout(r,1));f.memory.set(k,structuredClone(v));}},exclusive:f.exclusive,backend:f.backend,verifyRecord:async()=>{},confirmBroadcast:async terms=>{approvals++;return{approved:true,approvalSha256:H(canonical(terms))};}});
+ const a=make(),b=make(),p=await a.prepare(f.context,f.record);
+ f.backend.broadcastExact=async()=>{sends++;throw Error("reply lost");};
+ await Promise.all([a.broadcast(f.context,p.intentId,p.preparedHash),b.broadcast(f.context,p.intentId,p.preparedHash)]);
+ await make().broadcast(f.context,p.intentId,p.preparedHash);assert.equal(approvals,1);assert.equal(sends,1);
+ const g=fixture(),q=await g.make().prepare(g.context,g.record);
+ await assert.rejects(g.make({exclusive:undefined}).broadcast(g.context,q.intentId,q.preparedHash),/Authoritative wallet lock/);assert.equal(g.sends,0);
 });

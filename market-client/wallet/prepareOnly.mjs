@@ -9,7 +9,9 @@ export async function prepareOnlyMarketJobs({
   envelope,
   parse,
   expectedStepCount,
+  collectPublicProofs = false,
 }) {
+  ok(typeof collectPublicProofs === "boolean", "Public proof projection mode");
   ok(typeof parse === "function", "Lossless SDK parser required");
   ok(
     Number.isSafeInteger(expectedStepCount) &&
@@ -96,6 +98,7 @@ export async function prepareOnlyMarketJobs({
     "Invalid public endcap proof bytes",
   );
   return {
+    ...(collectPublicProofs ? { publicProofOutputs: outputs } : {}),
     endcapOutput,
     proof: endcap.data.proof.map(Number),
     txHash: endcap.data.tx_hash,

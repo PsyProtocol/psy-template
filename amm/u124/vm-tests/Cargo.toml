@@ -31,6 +31,7 @@ parth_common = { path = "../../../../psy-node/parth_common" }
 psy_plonky2_circuits = { path = "../../../../psy-node/psy_plonky2_circuits", default-features = false, features = ["std", "serialize_speedy", "serialize_rkyv", "serialize_postcard"] }
 
 bincode = "1"
+base64 = "=0.22.1"
 futures-util = "0.3"
 
 # The SDK disables reqwest default features. Enable HTTPS in the application

@@ -1,0 +1,1115 @@
+{
+  "schema": 1,
+  "sourceDirectory": "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-market-recovery-20261023/market-mainnet-migration-20261027-v1",
+  "machine": "gewenbo.local",
+  "host": "macOS-15.7.3-arm64-arm-64bit",
+  "scope": "public formal Executor run including failures; success requires exact included receipt",
+  "walletFilesIncluded": false,
+  "sealedBinariesIncluded": false,
+  "records": [
+    {
+      "source": "application-wallet-v25/APPLICATION.json",
+      "file": "files/application-wallet-v25/APPLICATION.json.gz",
+      "bytes": 8745,
+      "sha256": "19ae5f107d6d73f2c820c9b0026c2896e10ca56a5e14ba3850b7a89cb752ddbb",
+      "gzipBytes": 4283,
+      "gzipSha256": "4de47c4d74756a0803eca4361a8d3fa570f7d7a9f303f48759e8ecff0b541be0"
+    },
+    {
+      "source": "application-wallet-v25/Cargo.lock",
+      "file": "files/application-wallet-v25/Cargo.lock.gz",
+      "bytes": 217301,
+      "sha256": "d12d86f486408d3b88f496dde27e6494839511489a1202e778f09f0eca3c1183",
+      "gzipBytes": 50781,
+      "gzipSha256": "a4627f8f09ad4cdee75968b5fb6380925b321a4e7c5476fd485d38abe2d47015"
+    },
+    {
+      "source": "application-wallet-v25/Cargo.toml",
+      "file": "files/application-wallet-v25/Cargo.toml.gz",
+      "bytes": 4697,
+      "sha256": "ae9ecbddc47d81af798371401906172826bb2f68ef88d6dfb01ea8664af006b2",
+      "gzipBytes": 985,
+      "gzipSha256": "b3c96588f76bea7cf21fa2f8e6d88b4b61a178e4c790421c43d1ac22fd597ba4"
+    },
+    {
+      "source": "application-wallet-v25/src/batch_compact.rs",
+      "file": "files/application-wallet-v25/src/batch_compact.rs.gz",
+      "bytes": 4837,
+      "sha256": "38922e1b8ed0d3b5b5d9942c1065eb8b304400ddeabd668aa50c2052261d496b",
+      "gzipBytes": 1850,
+      "gzipSha256": "14f9270805b97776fedc0335a28525bd9e323fec85287448902c6a47382e2041"
+    },
+    {
+      "source": "application-wallet-v25/src/batch_compile.rs",
+      "file": "files/application-wallet-v25/src/batch_compile.rs.gz",
+      "bytes": 2406,
+      "sha256": "2598a13d1d0ca0da074eb5f019c84c851557a20db92c3d275c5b5e364cbd874b",
+      "gzipBytes": 1004,
+      "gzipSha256": "a8c4751866241018ce58394d8682a615b6c162b6460c9c828e69bc7c338dcd2b"
+    },
+    {
+      "source": "application-wallet-v25/src/batch_policy.rs",
+      "file": "files/application-wallet-v25/src/batch_policy.rs.gz",
+      "bytes": 12215,
+      "sha256": "447128eb080881a5e7458d954d938a54774c665ebdf13917a52402fe740eda06",
+      "gzipBytes": 4239,
+      "gzipSha256": "316fcf9cbf0c08ccf3dca251afcfc8b9f93cdcec8fdfe7c9d924447eaf8543f8"
+    },
+    {
+      "source": "application-wallet-v25/src/bin/artifact_identity.rs",
+      "file": "files/application-wallet-v25/src/bin/artifact_identity.rs.gz",
+      "bytes": 1979,
+      "sha256": "f6c2d80a72038a4cbfef3168d73e956be2952b5c9d4d3b608619b7a493362b91",
+      "gzipBytes": 984,
+      "gzipSha256": "c633de918273929e7682761144979942243e4fbb2d3d8cf27d011d33922f8a22"
+    },
+    {
+      "source": "application-wallet-v25/src/bin/artifact_roots.rs",
+      "file": "files/application-wallet-v25/src/bin/artifact_roots.rs.gz",
+      "bytes": 2810,
+      "sha256": "51727c43e7c53737126674eab33a0fd1740280d0326c4a79101a6f1b48cd8c4e",
+      "gzipBytes": 1290,
+      "gzipSha256": "538633143c56e14ac533c0d21ed5ddf91e2b282682e898fde59b5192598acda4"
+    },
+    {
+      "source": "application-wallet-v25/src/bin/chain_protocol_preflight.rs",
+      "file": "files/application-wallet-v25/src/bin/chain_protocol_preflight.rs.gz",
+      "bytes": 5092,
+      "sha256": "65d4948cdcfcdb619214189b44e4d8585d45640a3c1ef87dec1545d70d0af8f5",
+      "gzipBytes": 2245,
+      "gzipSha256": "0bac4798f5b2f25287e259dd69f16e03cb27878bc7f9f3f44881c1ca568ac0ec"
+    },
+    {
+      "source": "application-wallet-v25/src/bin/compact_market_wallet.rs",
+      "file": "files/application-wallet-v25/src/bin/compact_market_wallet.rs.gz",
+      "bytes": 24945,
+      "sha256": "1bbc4b0fede1c55a5827627a354114e5865e34dc729470d54185e6e89f281372",
+      "gzipBytes": 7482,
+      "gzipSha256": "ac6dfb295e6bb1f2a2872ad2c3907f9ccf974e9bb5c55f47489e17b2fc774d28"
+    },
+    {
+      "source": "application-wallet-v25/src/bin/compile_batch.rs",
+      "file": "files/application-wallet-v25/src/bin/compile_batch.rs.gz",
+      "bytes": 660,
+      "sha256": "8dd186aa3cdf427df4717341315bdd969c705a7a89e0bcb09292dc4daf2b359e",
+      "gzipBytes": 450,
+      "gzipSha256": "42c33d9d87552fc303bfe585b58dc63d30b1275ec1a16bcebb6b8273eb96a109"
+    },
+    {
+      "source": "application-wallet-v25/src/bin/compile_composition_token.rs",
+      "file": "files/application-wallet-v25/src/bin/compile_composition_token.rs.gz",
+      "bytes": 993,
+      "sha256": "a1b7178fbfcd9617dbc41e254a5e13b86609bb8e1990d0805f1a65162b7b5d8e",
+      "gzipBytes": 593,
+      "gzipSha256": "25823a558447e47f3f2d30d2fb533b4c9d21cfb259155e98457fd6ba127b0dc4"
+    },
+    {
+      "source": "application-wallet-v25/src/bin/compile_market.rs",
+      "file": "files/application-wallet-v25/src/bin/compile_market.rs.gz",
+      "bytes": 784,
+      "sha256": "06ee94ca89339f481cef68dd5543e9bd72cafbb3ab81123a902b521173b7b14a",
+      "gzipBytes": 459,
+      "gzipSha256": "4139ed6781d69421779c541a34d230dd4eb00c84fd8ee80cb2ae1e72840fca03"
+    },
+    {
+      "source": "application-wallet-v25/src/bin/compile_nft_market.rs",
+      "file": "files/application-wallet-v25/src/bin/compile_nft_market.rs.gz",
+      "bytes": 657,
+      "sha256": "68f1e5d47b8b9601fc1396a52c29700ed2dab867797b5798daeae55ebc7cca5c",
+      "gzipBytes": 410,
+      "gzipSha256": "6fde60270c6d199d052cb72b01290865aa666999fce017d863672af67d2a4498"
+    },
+    {
+      "source": "application-wallet-v25/src/bin/compile_qa_nft.rs",
+      "file": "files/application-wallet-v25/src/bin/compile_qa_nft.rs.gz",
+      "bytes": 750,
+      "sha256": "eaac6466178373d7bf2c3ea054668b74a49818b262900d3de6a30532b8904418",
+      "gzipBytes": 469,
+      "gzipSha256": "afd7b62a9e33b08cbeaa59be8d2732b196980498d9056c2c19bf82bfdda9f089"
+    },
+    {
+      "source": "application-wallet-v25/src/bin/composition_wallet.rs",
+      "file": "files/application-wallet-v25/src/bin/composition_wallet.rs.gz",
+      "bytes": 296,
+      "sha256": "49ba04aec2d2c643b28165a24693ab203c9807ea5a70cadbdbe75338ce44efe9",
+      "gzipBytes": 235,
+      "gzipSha256": "dee744ea7441125d8ea4ffe66985f279058995b0b30e05eec44b1a21402df766"
+    },
+    {
+      "source": "application-wallet-v25/src/bin/decode_native.rs",
+      "file": "files/application-wallet-v25/src/bin/decode_native.rs.gz",
+      "bytes": 1326,
+      "sha256": "d56bd0422d81ea4006e74153ed07acad083856db257e9a6551730f58b626489e",
+      "gzipBytes": 696,
+      "gzipSha256": "1b3c7ae15587f56cdfd0cbda135d47a383a4ed55cd8df286407aa14b812383f0"
+    },
+    {
+      "source": "application-wallet-v25/src/bin/initial_request_identity.rs",
+      "file": "files/application-wallet-v25/src/bin/initial_request_identity.rs.gz",
+      "bytes": 1509,
+      "sha256": "5efbf568274089c1bb2c219518a4b1a88b40a2c42c592cc4e7195a9e5b99aec9",
+      "gzipBytes": 825,
+      "gzipSha256": "3bc8b44f795964c58230f6eb7203ce800cdac069be86446e6e94fe5d8b4c35cd"
+    },
+    {
+      "source": "application-wallet-v25/src/bin/isolated_wallet.rs",
+      "file": "files/application-wallet-v25/src/bin/isolated_wallet.rs.gz",
+      "bytes": 28741,
+      "sha256": "f2b2ae499fc66a561820073def34061ebdc0d9728ab4b8bad5c57406e3b888cd",
+      "gzipBytes": 8740,
+      "gzipSha256": "f9fe24aa2340df5b201758944d9749f6c1d5594b30e818956844d161cef5a924"
+    },
+    {
+      "source": "application-wallet-v25/src/bin/market_wallet.rs",
+      "file": "files/application-wallet-v25/src/bin/market_wallet.rs.gz",
+      "bytes": 211,
+      "sha256": "b15300bd8f904cd84940567bd01caf7e330b4b31f326a471c01fca72d30c7c33",
+      "gzipBytes": 191,
+      "gzipSha256": "a4c6707f170184e67190feca2b75652a2c27984f621d9b5b311f92a0f7e25f29"
+    },
+    {
+      "source": "application-wallet-v25/src/bin/market_wallet_verified.rs",
+      "file": "files/application-wallet-v25/src/bin/market_wallet_verified.rs.gz",
+      "bytes": 211,
+      "sha256": "b15300bd8f904cd84940567bd01caf7e330b4b31f326a471c01fca72d30c7c33",
+      "gzipBytes": 191,
+      "gzipSha256": "a4c6707f170184e67190feca2b75652a2c27984f621d9b5b311f92a0f7e25f29"
+    },
+    {
+      "source": "application-wallet-v25/src/bin/nft_cfc_probe.rs",
+      "file": "files/application-wallet-v25/src/bin/nft_cfc_probe.rs.gz",
+      "bytes": 5130,
+      "sha256": "9846ee25032692bc7773ba28744dd073dbe971d70dce4a08afc2eb993542bfc1",
+      "gzipBytes": 2087,
+      "gzipSha256": "bb44a164de1f499f117efcf3bcd7f21dd27a94193336d71e1453d1879dedd710"
+    },
+    {
+      "source": "application-wallet-v25/src/bin/ordinary_call_probe.rs",
+      "file": "files/application-wallet-v25/src/bin/ordinary_call_probe.rs.gz",
+      "bytes": 3596,
+      "sha256": "fc1fa3f6d9dc1092065316e412caeb5f57ce597b37ea7fdbd81f8b79fe72381d",
+      "gzipBytes": 1758,
+      "gzipSha256": "4bcdcb219011c20383a506a742f991a4c21418d2286755bc62bc3268329e0588"
+    },
+    {
+      "source": "application-wallet-v25/src/bin/policy_identity.rs",
+      "file": "files/application-wallet-v25/src/bin/policy_identity.rs.gz",
+      "bytes": 1078,
+      "sha256": "65e368a437c645ab7e19840d1b4c82a4d35d252f1ac4c1b581ed5f454aaa9816",
+      "gzipBytes": 580,
+      "gzipSha256": "3f02d6722b42e0a34701085ddf60957a7b14b5fc1a4498269798c6b5c608417a"
+    },
+    {
+      "source": "application-wallet-v25/src/bin/preflight_code_update.rs",
+      "file": "files/application-wallet-v25/src/bin/preflight_code_update.rs.gz",
+      "bytes": 5128,
+      "sha256": "f24e11783e553e475fa90476d09e1b9139489a4ac2c3874d0918cf3f27abf73c",
+      "gzipBytes": 2028,
+      "gzipSha256": "b313118d415763778e9a3371e9a398c662dc3915b83658e180e8e2ae0aaf8190"
+    },
+    {
+      "source": "application-wallet-v25/src/bin/preflight_initial.rs",
+      "file": "files/application-wallet-v25/src/bin/preflight_initial.rs.gz",
+      "bytes": 5648,
+      "sha256": "803ea3d2c6aa0a177070377adbd063ad45d85eae83f23f1302fe9c77ee3f8d96",
+      "gzipBytes": 2073,
+      "gzipSha256": "6a30ea43961c8307a252a603218ab113dfb8f4959b5135cd744b63a0184625d9"
+    },
+    {
+      "source": "application-wallet-v25/src/bin/preflight_nft_initial.rs",
+      "file": "files/application-wallet-v25/src/bin/preflight_nft_initial.rs.gz",
+      "bytes": 1299,
+      "sha256": "754fb748c6baeb5996511e5992447eec84cb9d2ad17d408d7c28c47e4c871eb1",
+      "gzipBytes": 666,
+      "gzipSha256": "058ebba3372afef7a1cac94861460464dadbe38600006bf34d55a1f2c5d3a010"
+    },
+    {
+      "source": "application-wallet-v25/src/bin/prepare_initial_request.rs",
+      "file": "files/application-wallet-v25/src/bin/prepare_initial_request.rs.gz",
+      "bytes": 1920,
+      "sha256": "23127eba9dc23e7178372a1d890918f6b22d024342bf0a16acd2e539f5468f72",
+      "gzipBytes": 951,
+      "gzipSha256": "5f76a34512b50ee5d0f177007593b604658438f7e616fb501615ccb7f35cc3c3"
+    },
+    {
+      "source": "application-wallet-v25/src/bin/probe_endcap_profile.rs",
+      "file": "files/application-wallet-v25/src/bin/probe_endcap_profile.rs.gz",
+      "bytes": 2938,
+      "sha256": "6bc80eb7534c3f09ca85dafcfe36f2414088fdfc43ad95375b43bd63dde5e0f2",
+      "gzipBytes": 1310,
+      "gzipSha256": "5e3cfe9b7ddc31a803540ec0045aeb4a9b4e7d56517d6fb9b978f7d93982a276"
+    },
+    {
+      "source": "application-wallet-v25/src/bin/rpc_read_transport_probe.rs",
+      "file": "files/application-wallet-v25/src/bin/rpc_read_transport_probe.rs.gz",
+      "bytes": 3734,
+      "sha256": "9a2b6fa517e885e10aa7eb22790bb2375b5fb263cbd05e72b3e729e2a5f959c1",
+      "gzipBytes": 1724,
+      "gzipSha256": "ea4fc91b6f07c16d8813146dca4813b7f22a3c5bccc17ff188d8c45ed9c8fd3f"
+    },
+    {
+      "source": "application-wallet-v25/src/bin/verify_deployment_checkpoint.rs",
+      "file": "files/application-wallet-v25/src/bin/verify_deployment_checkpoint.rs.gz",
+      "bytes": 5305,
+      "sha256": "1e727ba26cba8f3e3f7c557939535de2f06e594b5e8bfb97f50fa59a52c80209",
+      "gzipBytes": 1908,
+      "gzipSha256": "5f9c5189f23421e30426ab3f8b740b7844ea14e4d73ed0481ad3058226936049"
+    },
+    {
+      "source": "application-wallet-v25/src/bin/verify_initial_request.rs",
+      "file": "files/application-wallet-v25/src/bin/verify_initial_request.rs.gz",
+      "bytes": 1355,
+      "sha256": "6309d06a35549d3b3dd7fa753dc3e4c78370203d5b8f604190e99ed28bff55a1",
+      "gzipBytes": 712,
+      "gzipSha256": "8720cef10a13fcacbc2d20a54ddbb8eca99dbf451327dbbeabf1fc6a01b61dee"
+    },
+    {
+      "source": "application-wallet-v25/src/bin/verify_saved_ups.rs",
+      "file": "files/application-wallet-v25/src/bin/verify_saved_ups.rs.gz",
+      "bytes": 2248,
+      "sha256": "64195b109b22fcbb7b5495a734d5cc298d40d711ff60dfcf0c717844e8d90587",
+      "gzipBytes": 1089,
+      "gzipSha256": "ccc2c230938147270903eac87d0c2691e303eb64673d6c45c9e8f85d90c67b94"
+    },
+    {
+      "source": "application-wallet-v25/src/compact_benchmark.rs",
+      "file": "files/application-wallet-v25/src/compact_benchmark.rs.gz",
+      "bytes": 4356,
+      "sha256": "2f886f9b4f91810acbee5b567ecde5891f8dda1098e65a1c17e6037cb3c2689a",
+      "gzipBytes": 1906,
+      "gzipSha256": "49feeac686820d7e7bbb85eff47f9b4a79094b6af969c0f219dc0de6db5517b1"
+    },
+    {
+      "source": "application-wallet-v25/src/compact_prepared.rs",
+      "file": "files/application-wallet-v25/src/compact_prepared.rs.gz",
+      "bytes": 9895,
+      "sha256": "52f50aa3b30fb9d6f5dab3b6fd7b150f689a7a77855e50f780927a4438455dff",
+      "gzipBytes": 3629,
+      "gzipSha256": "0798cd472090fee5d8d13176b0b425f04a8e4ad2ce63f537f2fd209aaf95e606"
+    },
+    {
+      "source": "application-wallet-v25/src/composition_policy.rs",
+      "file": "files/application-wallet-v25/src/composition_policy.rs.gz",
+      "bytes": 1434,
+      "sha256": "490ac991910c18707f5438d696019bc9a7869f47f44d3ab25ec306c96b9a3876",
+      "gzipBytes": 709,
+      "gzipSha256": "bbd76f770b8e158aba77b5afc2d45feb903bc870d6e6f515a73db844c2ca0e83"
+    },
+    {
+      "source": "application-wallet-v25/src/composition_quote.rs",
+      "file": "files/application-wallet-v25/src/composition_quote.rs.gz",
+      "bytes": 2101,
+      "sha256": "6ef071fef2d1bc4764c637e7d4cb9e0abc627409d4e5835425c108bb3773aa0e",
+      "gzipBytes": 1068,
+      "gzipSha256": "89f64b22c974d16606da4b7e0619bfe0ede8a8667fcf72e5c65fc4d64f01f9c9"
+    },
+    {
+      "source": "application-wallet-v25/src/fixed_verifier.rs",
+      "file": "files/application-wallet-v25/src/fixed_verifier.rs.gz",
+      "bytes": 4026,
+      "sha256": "90cddc211e70fb83369f6d5017693222fa3437c7bbbebba82661c10315859dfc",
+      "gzipBytes": 1769,
+      "gzipSha256": "2f5dc019fc712a27b7dab6c3f6d31faea1693de3e3b17c24123fc96cfdf481aa"
+    },
+    {
+      "source": "application-wallet-v25/src/guard_reads.rs",
+      "file": "files/application-wallet-v25/src/guard_reads.rs.gz",
+      "bytes": 3359,
+      "sha256": "9109a650da1fd352ef032890fcfc35662d8bc67e803e2d7c064ee781fb170b6b",
+      "gzipBytes": 1421,
+      "gzipSha256": "e43afc7e33bdc60fd1275a800c7a92f72c6f610ef1d76caecc3885507e0c294e"
+    },
+    {
+      "source": "application-wallet-v25/src/layout_preflight.rs",
+      "file": "files/application-wallet-v25/src/layout_preflight.rs.gz",
+      "bytes": 10890,
+      "sha256": "f768d87a209a10a7f3ebfbd029df0c04d9b10a188bb75639dfc039d04f3338c1",
+      "gzipBytes": 3503,
+      "gzipSha256": "6db1a84124511df4f3e3f216f6b241e5c22c88128de288bbe50d5f5c12cfa1b9"
+    },
+    {
+      "source": "application-wallet-v25/src/lib.rs",
+      "file": "files/application-wallet-v25/src/lib.rs.gz",
+      "bytes": 9838,
+      "sha256": "66ecd3e7badefa61859e8077f9484705d476cc5600c5f1d538a3a1a81e924ca3",
+      "gzipBytes": 3567,
+      "gzipSha256": "511e99609b43ab521ca2468702b4dc9650349a01d29b7ce6e9b57574c9ed883f"
+    },
+    {
+      "source": "application-wallet-v25/src/live_guard.rs",
+      "file": "files/application-wallet-v25/src/live_guard.rs.gz",
+      "bytes": 10927,
+      "sha256": "c3d3a46d267df4a786aeb65f111cd0950f449a25f330b125273f9c89235d6c87",
+      "gzipBytes": 3263,
+      "gzipSha256": "51418293c610b42940e2ef9b50fc5d416b3b4159af101f3ad95d4de4f6195d32"
+    },
+    {
+      "source": "application-wallet-v25/src/live_rpc.rs",
+      "file": "files/application-wallet-v25/src/live_rpc.rs.gz",
+      "bytes": 7156,
+      "sha256": "9d6dcbacc63573214e7c4c108210a3129057203c35ae0c50bebfc3f6e77f9e82",
+      "gzipBytes": 2780,
+      "gzipSha256": "5d89de129d79f2e953159115b86d8a3f6089ba42f04713c5179ddabd8e16f9b1"
+    },
+    {
+      "source": "application-wallet-v25/src/market_key.rs",
+      "file": "files/application-wallet-v25/src/market_key.rs.gz",
+      "bytes": 19189,
+      "sha256": "7a2926b5518c35bdebc5cb57d114e96e81ee3f4509cbb5e24a712599d8905b46",
+      "gzipBytes": 4594,
+      "gzipSha256": "1e2d6499ed049ab8002de1c070e2359554e91fd966801a44ebae03a74e7da69d"
+    },
+    {
+      "source": "application-wallet-v25/src/nft_market.rs",
+      "file": "files/application-wallet-v25/src/nft_market.rs.gz",
+      "bytes": 3070,
+      "sha256": "e9a89d82c994dd6c8e7e8db9d46660797493614d0643f776ec2b3109115c0fbc",
+      "gzipBytes": 1301,
+      "gzipSha256": "40bee56103b8e5b6fef5f1109f252fb0ff8bd5651688560b7536598f9cff447b"
+    },
+    {
+      "source": "application-wallet-v25/src/policy.rs",
+      "file": "files/application-wallet-v25/src/policy.rs.gz",
+      "bytes": 6989,
+      "sha256": "0b6d3c42feb675ef3870006efd7713c3e8e133bfbbe68eaf4b10e5c9aee33d1f",
+      "gzipBytes": 2597,
+      "gzipSha256": "544b5f89deeeb171f637144f7d62fbd9ca2e72052f08e2a541533e11d03afbcb"
+    },
+    {
+      "source": "application-wallet-v25/src/proof_binding.rs",
+      "file": "files/application-wallet-v25/src/proof_binding.rs.gz",
+      "bytes": 2999,
+      "sha256": "00bee74f137d4290cf8e55e82242ed18b669182237fbdd80e6ea95183d337ea0",
+      "gzipBytes": 986,
+      "gzipSha256": "b4b9e29271e349aa734b2b46c6be40cdd098b677e76a094f82ccf90564c3efa0"
+    },
+    {
+      "source": "application-wallet-v25/src/prover_resources.rs",
+      "file": "files/application-wallet-v25/src/prover_resources.rs.gz",
+      "bytes": 3276,
+      "sha256": "1732eca533c36b5f1019d05a8eefe8b47118634f1891003447507d60d805c343",
+      "gzipBytes": 1532,
+      "gzipSha256": "cc76a28255e8f6c957145eada43690e0d3c762a8ab13957f29b12790c4f00dd2"
+    },
+    {
+      "source": "application-wallet-v25/src/ranges.rs",
+      "file": "files/application-wallet-v25/src/ranges.rs.gz",
+      "bytes": 7949,
+      "sha256": "08004516e048d8044656a2f0058ab87d5b3f55002365ae7047d8e7e4c19d1d7a",
+      "gzipBytes": 2558,
+      "gzipSha256": "9075e61e2e116fa8ffda71ddaa3ffb9b031eae3936ad39424effb788700c3e21"
+    },
+    {
+      "source": "application-wallet-v25/src/runtime.rs",
+      "file": "files/application-wallet-v25/src/runtime.rs.gz",
+      "bytes": 2016,
+      "sha256": "88fa3ebd7703954dab154697af021957b5b060682cb68d8842088b4cd47d38c2",
+      "gzipBytes": 904,
+      "gzipSha256": "c8504cb9c4cd4d6e5dda565fbd1098d4076681e3f2efce26663c96fc79aa6c67"
+    },
+    {
+      "source": "application-wallet-v25/src/submission_guard.rs",
+      "file": "files/application-wallet-v25/src/submission_guard.rs.gz",
+      "bytes": 13338,
+      "sha256": "595fab229c61947bd105b7572a58c76aa4a8d1a67e794e2f45b9818f0c55c4aa",
+      "gzipBytes": 3721,
+      "gzipSha256": "9b3160b021566afc4996937054244355b51fb68a01f4e026933898eefa3bebbd"
+    },
+    {
+      "source": "application-wallet-v25/src/wallet_driver.rs",
+      "file": "files/application-wallet-v25/src/wallet_driver.rs.gz",
+      "bytes": 17469,
+      "sha256": "85aea100ed1ff2d465083e52e045182a5dc429f37802f0319e6ffdef8422cf0b",
+      "gzipBytes": 5104,
+      "gzipSha256": "e71c4d307eb5d25e4455cf4f6437b258a12365bfb1a93de1f2f21a1c3b73cdc7"
+    },
+    {
+      "source": "application-wallet-v25/src/wallet_verification.rs",
+      "file": "files/application-wallet-v25/src/wallet_verification.rs.gz",
+      "bytes": 17724,
+      "sha256": "9d382777e7d00bc74dd28aed8b4f7c1ca1c63e97f448a8abba27940f6b06e151",
+      "gzipBytes": 5325,
+      "gzipSha256": "8639a175a086abe6e2fdebc6ac3562cb5dc572ac8bc40029d18e0de19c191b13"
+    },
+    {
+      "source": "application-wallet-v25/src/wallet_verifier_export.rs",
+      "file": "files/application-wallet-v25/src/wallet_verifier_export.rs.gz",
+      "bytes": 1876,
+      "sha256": "4931d4403b6c52cb4c545ebbbe37ccbd2ad97ef796f2b8a1bff084e31ea759ab",
+      "gzipBytes": 878,
+      "gzipSha256": "75932bbc7eacfc7059855b258d779b7f5eff10d62e564b392dbc7f8080214a5e"
+    },
+    {
+      "source": "application-wallet-v25/tests/arithmetic_proof.rs",
+      "file": "files/application-wallet-v25/tests/arithmetic_proof.rs.gz",
+      "bytes": 2115,
+      "sha256": "36764188c4435480b1335f48260acee5315d2752bcd9996caaf93da39a7b2154",
+      "gzipBytes": 1093,
+      "gzipSha256": "0e319748d5a18914799744e6fbac2faa24a495c9ef6ac44b16935ee6a3648403"
+    },
+    {
+      "source": "application-wallet-v25/tests/batch_compact.rs",
+      "file": "files/application-wallet-v25/tests/batch_compact.rs.gz",
+      "bytes": 5338,
+      "sha256": "d7b60dcfa2c6f99339c0fe607e220db899b73bc7f386f6c19e27b606e847d49b",
+      "gzipBytes": 2136,
+      "gzipSha256": "bd1fc15e7c064409f9f1f84b4d91593c2df3680017a21aa786467b927781cb02"
+    },
+    {
+      "source": "application-wallet-v25/tests/batch_lifecycle.rs",
+      "file": "files/application-wallet-v25/tests/batch_lifecycle.rs.gz",
+      "bytes": 32233,
+      "sha256": "09d04ca632664abfa0b778d57874d8c4f9c848fa98323471e0f62ef421f28ea2",
+      "gzipBytes": 9294,
+      "gzipSha256": "634274a1f053d57d26908812cd81cd78d3c20bf89017c4505aa3bca281b1e653"
+    },
+    {
+      "source": "application-wallet-v25/tests/batch_preflight.rs",
+      "file": "files/application-wallet-v25/tests/batch_preflight.rs.gz",
+      "bytes": 8895,
+      "sha256": "b67113f0284e1bc2b931c2fc494d5faffd42d797afbeaace631c37f441770762",
+      "gzipBytes": 2986,
+      "gzipSha256": "cee344771169548922a25da263098d1d21b051f075fcabb84e8fe7c22d16a953"
+    },
+    {
+      "source": "application-wallet-v25/tests/batch_sdkey.rs",
+      "file": "files/application-wallet-v25/tests/batch_sdkey.rs.gz",
+      "bytes": 11343,
+      "sha256": "23558c070d685ff6cd1e0ba60dbf77caa482a4daf4f7311523ea0803902da26a",
+      "gzipBytes": 3365,
+      "gzipSha256": "6f1306542b4d08707c61fddab39456114ccbbf28d90bbebbe444778c7103320a"
+    },
+    {
+      "source": "application-wallet-v25/tests/composition_funds.rs",
+      "file": "files/application-wallet-v25/tests/composition_funds.rs.gz",
+      "bytes": 6393,
+      "sha256": "792f99e93ba048874d850ca525daf455fac70353c8e340fa45cfade4a563d7e0",
+      "gzipBytes": 1822,
+      "gzipSha256": "2c29ef6ce090d394237759be9da40e4bde7ea9e61a49f94df56add78c7636089"
+    },
+    {
+      "source": "application-wallet-v25/tests/composition_key.rs",
+      "file": "files/application-wallet-v25/tests/composition_key.rs.gz",
+      "bytes": 5637,
+      "sha256": "88975881787edda10785e7d668dc2dbbf16d4902af4d6afecf781fd84d4734c0",
+      "gzipBytes": 2188,
+      "gzipSha256": "e82a3beb4063ba0307f8856c00f010b70e6603e6c9a4c2df6e7c948cb0bc262a"
+    },
+    {
+      "source": "application-wallet-v25/tests/composition_owner.rs",
+      "file": "files/application-wallet-v25/tests/composition_owner.rs.gz",
+      "bytes": 1222,
+      "sha256": "b6f32053fcdb5ba100562fd1353c14e6bb0768b11173c015300bcf51a741873f",
+      "gzipBytes": 692,
+      "gzipSha256": "d646551b9253e28859291b2c1412231aebd3370334e707687940b2e33c25d0e6"
+    },
+    {
+      "source": "application-wallet-v25/tests/composition_reservation.rs",
+      "file": "files/application-wallet-v25/tests/composition_reservation.rs.gz",
+      "bytes": 4649,
+      "sha256": "25137b398d8fbed942d33b02145ca715510f5f97b726bbd1682fb7a9a49ee702",
+      "gzipBytes": 1788,
+      "gzipSha256": "07bb1f41d0138510d3407c8fc29cc5b7f357b2331b08e3fed26161919f19d7e0"
+    },
+    {
+      "source": "application-wallet-v25/tests/fixed_verifier.rs",
+      "file": "files/application-wallet-v25/tests/fixed_verifier.rs.gz",
+      "bytes": 3037,
+      "sha256": "9e62638672ace3b14245f25943a50cf50e18b8f310dd253cf4526768c0f345f8",
+      "gzipBytes": 1355,
+      "gzipSha256": "7aef1d97fc9b96f2a69196f5280b880e990ee6764e32e7e63740ae2485a53894"
+    },
+    {
+      "source": "application-wallet-v25/tests/full_close_circuits.rs",
+      "file": "files/application-wallet-v25/tests/full_close_circuits.rs.gz",
+      "bytes": 1373,
+      "sha256": "52a5aa8e26c3aa683bbb3c4e382b979c75ffd04bc3516c4eaddbada5b42e59b8",
+      "gzipBytes": 739,
+      "gzipSha256": "bb7cad7dd6c8e5dc41b0e3cc2651c3c2fe718a16a0fdb9681cad7385ffed8c9b"
+    },
+    {
+      "source": "application-wallet-v25/tests/live_verifier.rs",
+      "file": "files/application-wallet-v25/tests/live_verifier.rs.gz",
+      "bytes": 3481,
+      "sha256": "56baa0cce348a43766b42a3f176bae4b3009932805e666d6e4eb667796a7e351",
+      "gzipBytes": 1515,
+      "gzipSha256": "51685e065913272b906cea1b5723ecc306f47508e69cc0b3ba534af4a6513450"
+    },
+    {
+      "source": "application-wallet-v25/tests/markets.rs",
+      "file": "files/application-wallet-v25/tests/markets.rs.gz",
+      "bytes": 19389,
+      "sha256": "128b37ccf233ec8822260b68577f3feaefd57db7e1b7729ac5d393a989c21c6c",
+      "gzipBytes": 5391,
+      "gzipSha256": "c3a57e2708854faa17f9656ab387892cf4ccbea986b2a29176fbcd4649998b66"
+    },
+    {
+      "source": "application-wallet-v25/tests/nft_layout.rs",
+      "file": "files/application-wallet-v25/tests/nft_layout.rs.gz",
+      "bytes": 2146,
+      "sha256": "ca0d0593ddace63be5705b03e5143f3af0d1e433cff50595337d85027cf06293",
+      "gzipBytes": 815,
+      "gzipSha256": "bc13e36a66b81425e0a4bbf12f66d64827d808cb79754923912399ca128144b8"
+    },
+    {
+      "source": "application-wallet-v25/tests/nft_market.rs",
+      "file": "files/application-wallet-v25/tests/nft_market.rs.gz",
+      "bytes": 16788,
+      "sha256": "a3e95f29a8871d608d032b71b8afc30c6b2620da0f219ef66fe8d66eeaaccbd2",
+      "gzipBytes": 4904,
+      "gzipSha256": "0b6c9da1aa27268e1c94a608ab76a36fcdbe15ee77dfba748e50e2a4ede72765"
+    },
+    {
+      "source": "application-wallet-v25/tests/nft_sdkey.rs",
+      "file": "files/application-wallet-v25/tests/nft_sdkey.rs.gz",
+      "bytes": 7742,
+      "sha256": "d313b91823637acc693804c994881c962bfbc1f19edd9f5f18dee605d6012b35",
+      "gzipBytes": 2229,
+      "gzipSha256": "2572e7ee863adc73b6a4bc7bf1bb518c851ce2b2c1e9dbb36cfed0a7cdb8a9d0"
+    },
+    {
+      "source": "application-wallet-v25/tests/production_dense.rs",
+      "file": "files/application-wallet-v25/tests/production_dense.rs.gz",
+      "bytes": 11341,
+      "sha256": "817b576171572e0e7ce870451ae473f04a208079897ab9b3c912513048fe2c02",
+      "gzipBytes": 2681,
+      "gzipSha256": "74cdb04382cf65257c1d6b9910c8dd0dc0166546c10f89afff71ea32dd9750f8"
+    },
+    {
+      "source": "application-wallet-v25/tests/runtime.rs",
+      "file": "files/application-wallet-v25/tests/runtime.rs.gz",
+      "bytes": 2486,
+      "sha256": "2a342b63101b2f37813079e9ac6723fc62895600fa46e848eb6ee941492bb9b6",
+      "gzipBytes": 933,
+      "gzipSha256": "6874373edd8753cca1c356a51b7972440a5f085b312e54b09e18d17e30e693bf"
+    },
+    {
+      "source": "application-wallet-v25/tests/sdkey_proof.rs",
+      "file": "files/application-wallet-v25/tests/sdkey_proof.rs.gz",
+      "bytes": 10116,
+      "sha256": "45f460cba1486b47063de9fa7b92d98871684fb6684017348dd18bf076f80d0f",
+      "gzipBytes": 2757,
+      "gzipSha256": "0b01233c90c592743e246e71b142f4b2bba53a0b9b60e792ed6ad6072f2dcddf"
+    },
+    {
+      "source": "application-wallet-v25/tests/support/batch_admission.rs",
+      "file": "files/application-wallet-v25/tests/support/batch_admission.rs.gz",
+      "bytes": 11616,
+      "sha256": "325da445859f8da455b7d3ccfeb3e12bd921741603847fb398babcfca98d515e",
+      "gzipBytes": 3335,
+      "gzipSha256": "ab4f8430cc337035e7bb93dd95da6e2810b145eda69c52a553c2b7bb6604bee7"
+    },
+    {
+      "source": "application-wallet-v25/tests/support/batch_full_ups.rs",
+      "file": "files/application-wallet-v25/tests/support/batch_full_ups.rs.gz",
+      "bytes": 53612,
+      "sha256": "a9ef923d939f108b06e20e3550653a0ea144fc67382a64376f22d5911e4760c5",
+      "gzipBytes": 15664,
+      "gzipSha256": "dac32e0c66a76f911df910b2a52e877e41c83f3e133154e0cd18148bbb849629"
+    },
+    {
+      "source": "application-wallet-v25/tests/support/composition_full_ups.rs",
+      "file": "files/application-wallet-v25/tests/support/composition_full_ups.rs.gz",
+      "bytes": 28702,
+      "sha256": "22a553290a868b745774a8f63c28b22afa2d37098b2f777e7ff09f92f2e455fe",
+      "gzipBytes": 8958,
+      "gzipSha256": "d89fcbdbbf1c03b4fb2d759d5584d4aa9f045bfd99f0a7e2aefd84cb0fa11d38"
+    },
+    {
+      "source": "application-wallet-v25/tests/support/composition_funds_world.rs",
+      "file": "files/application-wallet-v25/tests/support/composition_funds_world.rs.gz",
+      "bytes": 6008,
+      "sha256": "e2fd26f70ab8a9c81663a6795dce8f9a56c50f5a0ebd42f127860590c1ec6809",
+      "gzipBytes": 2431,
+      "gzipSha256": "0978025d08b3fa7fe4beaa61bd3dafaa645046d77ee7d2964ec07cdf27c38d19"
+    },
+    {
+      "source": "application-wallet-v25/tests/support/composition_market_vm.rs",
+      "file": "files/application-wallet-v25/tests/support/composition_market_vm.rs.gz",
+      "bytes": 5860,
+      "sha256": "15e1dcf4def5191b5f4e0b7017ca74d10b3e6567a47fe6a175b4df0023ae9487",
+      "gzipBytes": 2253,
+      "gzipSha256": "eb481a93befc0b8270e5023b6e4f6d49fdf662fcedb2727dbcf668091fe69997"
+    },
+    {
+      "source": "application-wallet-v25/tests/support/composition_vm.rs",
+      "file": "files/application-wallet-v25/tests/support/composition_vm.rs.gz",
+      "bytes": 5441,
+      "sha256": "79403f04aeed1b705d1c195a4ed5762f11f3d0e647b8be36f533a9424da9667a",
+      "gzipBytes": 1989,
+      "gzipSha256": "cd001a583dcbcdc035e186dab928275161b8a8d1ada4dcf59610b488b725704a"
+    },
+    {
+      "source": "application-wallet-v25/tests/support/market_wallet_verification.rs",
+      "file": "files/application-wallet-v25/tests/support/market_wallet_verification.rs.gz",
+      "bytes": 10082,
+      "sha256": "fb461f1fcc9404e57390a5b420cd8e21697b1ca84818a6c94db8a54f51a9183e",
+      "gzipBytes": 3663,
+      "gzipSha256": "f5ca02473c30325602122f3076314eee90aff5edb7f1eab7d8e3760bd00d0e47"
+    },
+    {
+      "source": "application-wallet-v25/tests/support/ordinary_wallet_full_ups.rs",
+      "file": "files/application-wallet-v25/tests/support/ordinary_wallet_full_ups.rs.gz",
+      "bytes": 9229,
+      "sha256": "3eff396cc31e0c54c60caf0178b10b599b5e8984d8607130fbcfa57a27d2a2e5",
+      "gzipBytes": 3559,
+      "gzipSha256": "6edfc6401fe235bf490f1f280cb948fafbc23ba5da5f328ba984f36c7d46ffc2"
+    },
+    {
+      "source": "curve-replacement-preflight-v1.mjs",
+      "file": "files/curve-replacement-preflight-v1.mjs.gz",
+      "bytes": 2919,
+      "sha256": "246f78229b18794b755071ed35f4e9bd042c18085310a39773a8ae37bd30e5b0",
+      "gzipBytes": 1389,
+      "gzipSha256": "12953b6be2902b83fb394f367ed6b1088e687e270e9ae357f7f85508ebfd92d1"
+    },
+    {
+      "source": "curve-replacement-preflight-v2.mjs",
+      "file": "files/curve-replacement-preflight-v2.mjs.gz",
+      "bytes": 2971,
+      "sha256": "11ef0e3217c1c273b91530f31cc540b5da7f3305b68c00a85a1c9b87696285f4",
+      "gzipBytes": 1406,
+      "gzipSha256": "a29c86941922714cf080a502ec671eb66f487a3a11b70f6b776ade64b84f5158"
+    },
+    {
+      "source": "faucet-recovery-v2/config-observation.json",
+      "file": "files/faucet-recovery-v2/config-observation.json.gz",
+      "bytes": 155,
+      "sha256": "4a1d5401d2661d2c574bf010382e47a4a22462d83b66cacc7a3334ea3700bec6",
+      "gzipBytes": 146,
+      "gzipSha256": "6961886dd3f04e525d6274cfa3d093695005420e4cde9d2a7aa4b5515a162f56"
+    },
+    {
+      "source": "faucet-recovery-v2/config-request.json",
+      "file": "files/faucet-recovery-v2/config-request.json.gz",
+      "bytes": 81,
+      "sha256": "44b720d244c6f39d4f5f60eb1b08004cadbc3f562431439a213d3104e168060d",
+      "gzipBytes": 89,
+      "gzipSha256": "6bf3349d96b4a9e2f329c994cc9dd4aee7da7db49ccc9089a5da3e66469e21b9"
+    },
+    {
+      "source": "faucet-recovery-v2/config-response.body",
+      "file": "files/faucet-recovery-v2/config-response.body.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "faucet-recovery-v2/health.body",
+      "file": "files/faucet-recovery-v2/health.body.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "faucet-recovery-v2/health.json",
+      "file": "files/faucet-recovery-v2/health.json.gz",
+      "bytes": 531,
+      "sha256": "7dadba0fb7d6782e89ee9be6b2bf078c91b377e25e2b38742394119dfb61ce80",
+      "gzipBytes": 344,
+      "gzipSha256": "1fe360e847c8403fd894c8dcfb9c81d747fcae8d4eb3ec85cbf85d5461fc1f91"
+    },
+    {
+      "source": "faucet-recovery-v2/published-config-failed.json",
+      "file": "files/faucet-recovery-v2/published-config-failed.json.gz",
+      "bytes": 120,
+      "sha256": "1179a20235ae1beee44bb1feccfa58b741b25645480a85ebbfcd13c94eb8065c",
+      "gzipBytes": 127,
+      "gzipSha256": "e79d2682263259520d2b8f8a4b7ffab63334446b4f40ed7cb8a921e7cc15d081"
+    },
+    {
+      "source": "faucet-recovery-v3/observation.json",
+      "file": "files/faucet-recovery-v3/observation.json.gz",
+      "bytes": 180,
+      "sha256": "5f6f463b91b37a3ece79f7ff0b8d3aa7aa68961b69a11b80682fabb20865424b",
+      "gzipBytes": 163,
+      "gzipSha256": "bef2c83f593311f35897838ed713f3c5da886c6595c43c995ea3f333ec339fc8"
+    },
+    {
+      "source": "faucet-recovery-v3/request.json",
+      "file": "files/faucet-recovery-v3/request.json.gz",
+      "bytes": 81,
+      "sha256": "44b720d244c6f39d4f5f60eb1b08004cadbc3f562431439a213d3104e168060d",
+      "gzipBytes": 89,
+      "gzipSha256": "6bf3349d96b4a9e2f329c994cc9dd4aee7da7db49ccc9089a5da3e66469e21b9"
+    },
+    {
+      "source": "faucet-recovery-v3/response.body",
+      "file": "files/faucet-recovery-v3/response.body.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "faucet-recovery-v4/observation.json",
+      "file": "files/faucet-recovery-v4/observation.json.gz",
+      "bytes": 165,
+      "sha256": "b57a1e3f01340dd6d1aadd19a6ae0acf78ebfb3bb6f183ffaa99b2761a408f59",
+      "gzipBytes": 152,
+      "gzipSha256": "e09a6228d6e5447cbe3bdda5d02af3d658384f0d5728d6b3874fcc4f7bee286a"
+    },
+    {
+      "source": "faucet-recovery-v4/request.json",
+      "file": "files/faucet-recovery-v4/request.json.gz",
+      "bytes": 74,
+      "sha256": "6e9b715550b9704dee99760ae3a147ca0a384d471adf3f2ad193e242f66e802d",
+      "gzipBytes": 88,
+      "gzipSha256": "f5f4baa36304a9556e1cc5f845ebfc7a40005468bb9cda3ad752a93c7d7d94ba"
+    },
+    {
+      "source": "faucet-recovery-v4/response.body",
+      "file": "files/faucet-recovery-v4/response.body.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "public/WALLET-VERIFIER-CLOSED-v1.json",
+      "file": "files/public/WALLET-VERIFIER-CLOSED-v1.json.gz",
+      "bytes": 2007,
+      "sha256": "d1cbbcfd9bb71bd0c1b688275d9126a181b15a0b7fd2396291bd7089a1c2634e",
+      "gzipBytes": 1064,
+      "gzipSha256": "e96a37f6be88ee5611740cef9c670c9aba1175a0586d52b08636866911953ab7"
+    },
+    {
+      "source": "public/curve-replacement-preflight-v1.log",
+      "file": "files/public/curve-replacement-preflight-v1.log.gz",
+      "bytes": 923,
+      "sha256": "1a426e5f635ad612cc0129b24445adbf3658dcaf6ca80582f77a90f1e758a176",
+      "gzipBytes": 405,
+      "gzipSha256": "3e23532f5c39740a4a84820fabf69bb65c57eea111ebf2735a2c782e94c45e2a"
+    },
+    {
+      "source": "public/curve-replacement-preflight-v2.log",
+      "file": "files/public/curve-replacement-preflight-v2.log.gz",
+      "bytes": 1805,
+      "sha256": "6f996ecebb02c909a200eeccd9f8e802fb0ba66ab1176d9a87bf189289b3f4bb",
+      "gzipBytes": 624,
+      "gzipSha256": "04adbffb1cf07b194e9442caf301be219a1be0118d428ba9f14c29fede27c20a"
+    },
+    {
+      "source": "public/wallet-exact-proof-reverified-v1-exit.json",
+      "file": "files/public/wallet-exact-proof-reverified-v1-exit.json.gz",
+      "bytes": 214,
+      "sha256": "19f81cd7eaa0f5e580bb97fa596c7f9056d6f276ede4ceb662b8eeccc9c2384b",
+      "gzipBytes": 179,
+      "gzipSha256": "e834f170ec1fb2eb56a652dc1974f76af34d648e0e8fae197db38fd3bfc5c5f9"
+    },
+    {
+      "source": "public/wallet-exact-proof-reverified-v1.json",
+      "file": "files/public/wallet-exact-proof-reverified-v1.json.gz",
+      "bytes": 1039,
+      "sha256": "77175c91fe64006fba5ab5cc39b8c73a843cc23fdbd100bdeb2f8fedbf151602",
+      "gzipBytes": 620,
+      "gzipSha256": "436636b9fc67a8a07b8d58859c9707cf8574cc8175c04b3e4aeff68313891cd6"
+    },
+    {
+      "source": "public/wallet-full-stack-verifier-v1-exit.json",
+      "file": "files/public/wallet-full-stack-verifier-v1-exit.json.gz",
+      "bytes": 595,
+      "sha256": "a10909a520b3db80630e774811368c9c414fea85e760ee8a55622b9b0775654c",
+      "gzipBytes": 371,
+      "gzipSha256": "b57f66d06ed243b13cdcbb46288e7c00c7979a2ea0f59eb433e28ca4f4913b7f"
+    },
+    {
+      "source": "public/wallet-full-stack-verifier-v1.log",
+      "file": "files/public/wallet-full-stack-verifier-v1.log.gz",
+      "bytes": 48013,
+      "sha256": "7de290759f287d30b3cf88989367d37b8248ab35704f1c6ec85a02c0b8a507c6",
+      "gzipBytes": 8028,
+      "gzipSha256": "2fad04acd32a27a22189a91981cd305b04f6c6a9ed587c45c8cee96d69abc47d"
+    },
+    {
+      "source": "public/wallet-full-stack-verifier-v2-exit.json",
+      "file": "files/public/wallet-full-stack-verifier-v2-exit.json.gz",
+      "bytes": 595,
+      "sha256": "a250fdd0588fb3c8ba8f9ccacb67acaacab0f3c129debdb93186b734c6d7ffca",
+      "gzipBytes": 373,
+      "gzipSha256": "b8ccb84939a5422347afdcae95eb8ff6b3ccaa8c04bf0f70f5fbab7f452e0ef5"
+    },
+    {
+      "source": "public/wallet-full-stack-verifier-v2.log",
+      "file": "files/public/wallet-full-stack-verifier-v2.log.gz",
+      "bytes": 49542,
+      "sha256": "3ff136463a410a6cdf790398125292ffe0a00c1c5e6d4eff9a0735a414e79c8c",
+      "gzipBytes": 8271,
+      "gzipSha256": "639be915ad4c320f5aa6aae611e7e84509c274f01a6a0d66102a2747ad79bebf"
+    },
+    {
+      "source": "public/wallet-full-stack-verifier-v3-exit.json",
+      "file": "files/public/wallet-full-stack-verifier-v3-exit.json.gz",
+      "bytes": 593,
+      "sha256": "085ea169a7fffd79cf605442f4ed36b013fb44ad1a6d3102a5ad0d2e1b71bf20",
+      "gzipBytes": 371,
+      "gzipSha256": "aab6f2c7f1d5967424f85474c6dbec3300eb8482667324f479b08bd532dfcc62"
+    },
+    {
+      "source": "public/wallet-full-stack-verifier-v3.log",
+      "file": "files/public/wallet-full-stack-verifier-v3.log.gz",
+      "bytes": 49792,
+      "sha256": "5eddf250832f001646248652bd74568d9ca5c1362bdbc4622f9f726e88e71cf4",
+      "gzipBytes": 8281,
+      "gzipSha256": "eb904a46fcf41b717bb9c4686554ec41a7deb97f3a15455a11f40b6bc0d9060f"
+    },
+    {
+      "source": "public/wallet-native-client-regressions-v4.log",
+      "file": "files/public/wallet-native-client-regressions-v4.log.gz",
+      "bytes": 4096,
+      "sha256": "a1534119a6c1117909a7e66803d08480e37b759e40a0252998a5c7c9ef8c6c0a",
+      "gzipBytes": 1905,
+      "gzipSha256": "83a9e2f1856c741e7137456c92a8362fcdf237464159a98a38eaf3c9de68074c"
+    },
+    {
+      "source": "public/wallet-native-integration-regressions-v2.log",
+      "file": "files/public/wallet-native-integration-regressions-v2.log.gz",
+      "bytes": 318,
+      "sha256": "c412be27ebe793ee64c0099999f7b94043c1765b911673ab01c74471049ad412",
+      "gzipBytes": 254,
+      "gzipSha256": "c182115ed362fc7575a6c217c139d6765652cd5f100fa8a53075cfae1755c6cc"
+    },
+    {
+      "source": "public/wallet-native-integration-typecheck-v2.log",
+      "file": "files/public/wallet-native-integration-typecheck-v2.log.gz",
+      "bytes": 328,
+      "sha256": "f4591dfd5a7f118952583bbb30d1266ad84e667d8d591dc4c8d24eebb914b761",
+      "gzipBytes": 259,
+      "gzipSha256": "1629361c2610280b3cc68a38b7abaddc536c3beeae10e352b4359cdf1321300d"
+    },
+    {
+      "source": "public/wallet-native-vendor-build-v1.log",
+      "file": "files/public/wallet-native-vendor-build-v1.log.gz",
+      "bytes": 3264,
+      "sha256": "de36e3149fd66063c2f3d762623fcab2b491125abaae8ce5b633193f75a9c036",
+      "gzipBytes": 1348,
+      "gzipSha256": "16b522326712d2b9d2788a071a0d7ac96ef973ad24676850d0b63e0ac5c7d45c"
+    },
+    {
+      "source": "public/wallet-native-vendor-regressions-v1.log",
+      "file": "files/public/wallet-native-vendor-regressions-v1.log.gz",
+      "bytes": 382,
+      "sha256": "11ecbb2f27c8ee4d607b927dff7103c3f059ffac2cc080e2b53e169c184d09e3",
+      "gzipBytes": 297,
+      "gzipSha256": "22705279a4fa249b8f77c9c6979175d9093e641837b4a23acdd59159e2702e66"
+    },
+    {
+      "source": "public/wallet-wasm-acceptance-v1.log",
+      "file": "files/public/wallet-wasm-acceptance-v1.log.gz",
+      "bytes": 1359,
+      "sha256": "edff1b7f7f6d9329e86905443b7f68d627b82064fb3f65dd8a9692218888ce7b",
+      "gzipBytes": 547,
+      "gzipSha256": "75c1d14240ba0becff2bfa82c25e84d9b8de997ebcec23a3923fa71407cba97f"
+    },
+    {
+      "source": "public/wallet-wasm-acceptance-v2.log",
+      "file": "files/public/wallet-wasm-acceptance-v2.log.gz",
+      "bytes": 1355,
+      "sha256": "1355987a1cbbc17f43777badcee5e34217437c3900f4a5e06637117c5b10f3ac",
+      "gzipBytes": 280,
+      "gzipSha256": "82cc8616f8d824835dd4d58775145a8baced827919cacd936883cb7cd2238490"
+    },
+    {
+      "source": "public/wallet-wasm-acceptance-v3.log",
+      "file": "files/public/wallet-wasm-acceptance-v3.log.gz",
+      "bytes": 40576,
+      "sha256": "a6ef2671de516d765f7dd83a3f3a1f3dfa39667331900ad25811160cd6b19218",
+      "gzipBytes": 13613,
+      "gzipSha256": "16e806ed20bae0ba9e3a6e4c13724dfed45bcc8f6b27b947a08c8f3aa66f002a"
+    },
+    {
+      "source": "public/wallet-wasm-acceptance-v4.log",
+      "file": "files/public/wallet-wasm-acceptance-v4.log.gz",
+      "bytes": 112,
+      "sha256": "0ce5b4812cf83d33510f6d419182f7e1c168242a1fa7a5c428861a8ce7ab8720",
+      "gzipBytes": 108,
+      "gzipSha256": "6280ee987d9cf0f2b15e6be5b102d3c778d77e6e908634b37200aaf5960eb0e1"
+    },
+    {
+      "source": "public/wallet-wasm-acceptance-v5.log",
+      "file": "files/public/wallet-wasm-acceptance-v5.log.gz",
+      "bytes": 112,
+      "sha256": "0ce5b4812cf83d33510f6d419182f7e1c168242a1fa7a5c428861a8ce7ab8720",
+      "gzipBytes": 108,
+      "gzipSha256": "6280ee987d9cf0f2b15e6be5b102d3c778d77e6e908634b37200aaf5960eb0e1"
+    },
+    {
+      "source": "public/wallet-wasm-build-v1.log",
+      "file": "files/public/wallet-wasm-build-v1.log.gz",
+      "bytes": 123,
+      "sha256": "ff4fbde7e58e40c3cefc73b18f49ab026b43f16ca697e5828d89522a7a81eead",
+      "gzipBytes": 128,
+      "gzipSha256": "69d73b2987ec10afcdc9f2ba40439f8ba64c2c6015041ae2e6dc0cb337b7de20"
+    },
+    {
+      "source": "public/wallet-wasm-build-v2.log",
+      "file": "files/public/wallet-wasm-build-v2.log.gz",
+      "bytes": 23368,
+      "sha256": "53a0726be58e2a0483f8d604f2c7ba41c3d2ae3b7098516585adf5d9cdce99ae",
+      "gzipBytes": 4025,
+      "gzipSha256": "6419907f2e705179ab9ee5dac9c7e21b0d9cadda285282e421dd8345550ec2be"
+    },
+    {
+      "source": "public/wallet-wasm-build-v3.log",
+      "file": "files/public/wallet-wasm-build-v3.log.gz",
+      "bytes": 38298,
+      "sha256": "3050813fac2736f8631c54fc2f979c3c26100a9a2f8b049dd23a0d38a3707865",
+      "gzipBytes": 6137,
+      "gzipSha256": "15b711fd270a5660d44a28a5cd08898447c2b261fb4bae8c093c034ce805e053"
+    },
+    {
+      "source": "public/wallet-wasm-build-v4.log",
+      "file": "files/public/wallet-wasm-build-v4.log.gz",
+      "bytes": 29314,
+      "sha256": "a828bb34cfbbd232e32fe5fa3c5608fde32e983a9db3d4aae869cb1835dc05a8",
+      "gzipBytes": 4194,
+      "gzipSha256": "213160d7a5bb413bb5f47138c59ea9c7d0f365bd312057499e2637e7090a8ce4"
+    },
+    {
+      "source": "rpc-observation-v1/REPORT.json",
+      "file": "files/rpc-observation-v1/REPORT.json.gz",
+      "bytes": 543,
+      "sha256": "3fdadbb0e47239a53ae558c8569d60ac23a355b9c4328a103afb64bc8f9a0206",
+      "gzipBytes": 247,
+      "gzipSha256": "5468efa9b60f6395030352704fa02a960d583fb37f9a7d9806d555202d87ee06"
+    },
+    {
+      "source": "rpc-observation-v1/coordinator.body",
+      "file": "files/rpc-observation-v1/coordinator.body.gz",
+      "bytes": 43,
+      "sha256": "48caae8035d67e0d831666c96ea8fd5356946df4ae3a6c5c01c55f12250de38b",
+      "gzipBytes": 63,
+      "gzipSha256": "62af4082233aaaa9ebfdb39b55b25a1536480f0417e29d4774e3bbc5412a4526"
+    },
+    {
+      "source": "rpc-observation-v1/request.json",
+      "file": "files/rpc-observation-v1/request.json.gz",
+      "bytes": 78,
+      "sha256": "3f4d92fb01040306e994092a87018d0f18da258efd1cf023f051ddff478a72c9",
+      "gzipBytes": 93,
+      "gzipSha256": "1d8a5a448c94386bb3d5f7ff7f23bf97b7f9ec9f58a09b94589420788d910c2d"
+    },
+    {
+      "source": "wallet-full-stack-verifier-v3/REPORT.json",
+      "file": "files/wallet-full-stack-verifier-v3/REPORT.json.gz",
+      "bytes": 491,
+      "sha256": "aa99261db0111b84440f874e665a02609c9b1797bfe0c4682f9d75d89fe46990",
+      "gzipBytes": 284,
+      "gzipSha256": "8f12be3caaa18041e528572c14eb78584c93c57312ea6550de1dee1cded46000"
+    },
+    {
+      "source": "wallet-full-stack-verifier-v3/approval.json",
+      "file": "files/wallet-full-stack-verifier-v3/approval.json.gz",
+      "bytes": 1138,
+      "sha256": "823d380db8d1d3a634bd9a96e1f0a07f1c3909f7f13a8fc184650514deef0a70",
+      "gzipBytes": 427,
+      "gzipSha256": "7ac452545d8000f41ca7b9a642924ffd619ee3fbdc9d96ee4ad59a066453c2a0"
+    },
+    {
+      "source": "wallet-full-stack-verifier-v3/bundle.json",
+      "file": "files/wallet-full-stack-verifier-v3/bundle.json.gz",
+      "bytes": 1808676,
+      "sha256": "49839dcab9e5c52c4e44b9a4225ecac3f11f32654bcc2cafa3d382b09ef08e97",
+      "gzipBytes": 1312780,
+      "gzipSha256": "013066b77c5c2462758a2c5c1f3810c481177e6bda6b4b1746f3ad9ebbf13592"
+    },
+    {
+      "source": "wallet-full-stack-verifier-v3/request.json",
+      "file": "files/wallet-full-stack-verifier-v3/request.json.gz",
+      "bytes": 502268,
+      "sha256": "59959c185c27db51d18a0fe52f98e091d40ac7760efaffbeb030b716ddbc3e22",
+      "gzipBytes": 170171,
+      "gzipSha256": "05fea486fc42a0871b47243b3c57cc4bf78f1d478384fcfee36f1565457902c1"
+    },
+    {
+      "source": "wallet-full-stack-verifier-v3/verification.json",
+      "file": "files/wallet-full-stack-verifier-v3/verification.json.gz",
+      "bytes": 947,
+      "sha256": "c27a924033139f176309593faf11fa4bc34e5658c22ee45285b072f2f32a61d0",
+      "gzipBytes": 569,
+      "gzipSha256": "5a1f3c8a51190a6a7ab824aef95a5c76682c602955415aafe0c7d37277ddf1d2"
+    },
+    {
+      "source": "wallet-full-stack-verifier-v3/verifiers.json",
+      "file": "files/wallet-full-stack-verifier-v3/verifiers.json.gz",
+      "bytes": 23571,
+      "sha256": "c3d6e93f3d2d340e8ed69f437b1567905f2959ab012851e779f8e2f5b7bcd441",
+      "gzipBytes": 6943,
+      "gzipSha256": "233120b7e70246322fb9c9f25d0cbeaa695ed6e461b2c94519787be630fdf400"
+    },
+    {
+      "source": "wallet-wasm-acceptance-v5/REPORT.json",
+      "file": "files/wallet-wasm-acceptance-v5/REPORT.json.gz",
+      "bytes": 534,
+      "sha256": "52d9c62dcf9139ea173cf78d0e40cb4cc4c8828e99f0fe418362ed8c540aa1aa",
+      "gzipBytes": 362,
+      "gzipSha256": "cbf3b8ba7a035380610629c8848aee95f7e1253b33c68278ca25f1fd3f6fb654"
+    },
+    {
+      "source": "wallet-wasm-verifier-v3/BUILD-INPUTS.json",
+      "file": "files/wallet-wasm-verifier-v3/BUILD-INPUTS.json.gz",
+      "bytes": 589,
+      "sha256": "2aa9399af45c1d2f3497109e3857f250e68ffc8671509b5c30901d29b91a5fa5",
+      "gzipBytes": 394,
+      "gzipSha256": "83f1256c9e5130dab3cd6dae298cf01355d3392b27e7b98b4bcf5f7cf2616db0"
+    },
+    {
+      "source": "wallet-wasm-verifier-v3/BUILD-OUTPUTS.json",
+      "file": "files/wallet-wasm-verifier-v3/BUILD-OUTPUTS.json.gz",
+      "bytes": 478,
+      "sha256": "ddd6d24f58948b50696102ae79baf5689f5f9b88dbd9bd58522e5aa95ffa1ced",
+      "gzipBytes": 332,
+      "gzipSha256": "9a3dde0b8ef72b8be88f0602ad856a42c19c176ad61d13a979a5a1a9147b4c45"
+    },
+    {
+      "source": "wallet-wasm-verifier-v3/Cargo.lock",
+      "file": "files/wallet-wasm-verifier-v3/Cargo.lock.gz",
+      "bytes": 81355,
+      "sha256": "d14f8d646c143f51e08c56be01ce62d0bcddf2ceed10368745c2c9fe7e9e0982",
+      "gzipBytes": 19642,
+      "gzipSha256": "a91205d0ba2486d3b01fe6463a2814f4874947112e2d1ffd29d9a8f8b8a1ab6b"
+    },
+    {
+      "source": "wallet-wasm-verifier-v3/Cargo.toml",
+      "file": "files/wallet-wasm-verifier-v3/Cargo.toml.gz",
+      "bytes": 1975,
+      "sha256": "9d8e571e087b74ce6bc5097bfec3160f7b0a04bdb6b44f34dee1d7c191ca228e",
+      "gzipBytes": 616,
+      "gzipSha256": "1cc9ae97b072f88b94851df89008222ee91a23576f781498510945599d8c5139"
+    },
+    {
+      "source": "wallet-wasm-verifier-v3/DEPENDENCY-CHECK.json",
+      "file": "files/wallet-wasm-verifier-v3/DEPENDENCY-CHECK.json.gz",
+      "bytes": 225,
+      "sha256": "57f277dfac098b2adda22f22c2a5db3e84934477a8c64d5c14b9a337c834d475",
+      "gzipBytes": 187,
+      "gzipSha256": "2e9a48ab2f3381b8a9edb5f9a62c4622107a22f31dd806e902ee46ba3182e7ab"
+    },
+    {
+      "source": "wallet-wasm-verifier-v3/src/lib.rs",
+      "file": "files/wallet-wasm-verifier-v3/src/lib.rs.gz",
+      "bytes": 2806,
+      "sha256": "04893cf18af9e3a8f2b29ceda637ca200bd44f5006f6d105e63459c3a66fc29e",
+      "gzipBytes": 1152,
+      "gzipSha256": "3ddfd194c54bc2fbfc763212306dfd6689ae07d018b71e9f17fbe41f8fa62318"
+    },
+    {
+      "source": "wallet-wasm-verifier-v3/src/verification.rs",
+      "file": "files/wallet-wasm-verifier-v3/src/verification.rs.gz",
+      "bytes": 23669,
+      "sha256": "3c5fd762e5d0fdab7d04550eb6d32a24016270b066a977b35f29d046309626b4",
+      "gzipBytes": 5919,
+      "gzipSha256": "adadef793953014e305232f621f3f021e168fad8e0c34fc87261f167b6c979ce"
+    },
+    {
+      "source": "wallet-wasm-verifier-v3/src/verifiers.json",
+      "file": "files/wallet-wasm-verifier-v3/src/verifiers.json.gz",
+      "bytes": 23571,
+      "sha256": "c3d6e93f3d2d340e8ed69f437b1567905f2959ab012851e779f8e2f5b7bcd441",
+      "gzipBytes": 6943,
+      "gzipSha256": "233120b7e70246322fb9c9f25d0cbeaa695ed6e461b2c94519787be630fdf400"
+    }
+  ]
+}
