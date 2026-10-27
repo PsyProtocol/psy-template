@@ -1,4 +1,4 @@
-import { nativeProfile, MAINNET_BETA_PROFILE } from "../../market-client/nativeProtocol.mjs";
+import { nativeProfile, isMainnetBetaProfile } from "../../market-client/nativeProtocol.mjs";
 // Live readonly diagnostics, never a financial preflight or authorization.
 import assert from "node:assert/strict";
 import { canonical, hashPattern } from "../../market-client/protocol.mjs";
@@ -71,7 +71,7 @@ export function createReadinessReader({
       result.nativeFunctionRoot = leaf.function_tree_root;
       // Select the exact reviewed schema. Do not coerce hash owners to user IDs.
       result.nativeSchemaCompatible =
-        nativeProfile(registry) === MAINNET_BETA_PROFILE
+        isMainnetBetaProfile(nativeProfile(registry))
           ? leaf.deployer === 0
           : typeof leaf.deployer === "string" && hashPattern.test(leaf.deployer);
       result.nativeRootMatchesRegistry =

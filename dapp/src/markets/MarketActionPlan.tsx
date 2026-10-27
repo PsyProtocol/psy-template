@@ -1,3 +1,4 @@
+import {WalletExecution} from "./WalletExecution";
 import { useEffect, useRef, useState } from "react";
 import {
   createMarketActionClient,
@@ -413,9 +414,7 @@ export function MarketActionPlan({
               {JSON.stringify(record, null, 2)}
             </pre>
           </details>
-          <button className="primary-button" disabled>
-            Wallet execution unavailable
-          </button>
+          <WalletExecution key={`${account}:${record.recordId}`} account={account} record={record} expired={Boolean(expired)}/>
         </section>
       )}
     </section>

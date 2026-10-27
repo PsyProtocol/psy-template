@@ -32,3 +32,13 @@ test('no network alias, SDK fallback, ABI fallback or substituted native code', 
   }
   assert.throws(() => nativeMethod({}, 'constructor'));
 });
+test('reset-chain profile binds the same SDK to every current native endpoint without rewriting history',async()=>{
+ const {RESET_BETA_PROFILE,RESET_CHAIN_ROOT,RESET_NATIVE_BINDING}=await import('./nativeProtocol.mjs');
+ const r=await registry();r.nativeProtocol=RESET_BETA_PROFILE;r.network.chainRootAt1=RESET_CHAIN_ROOT;
+ for(const m of r.markets)m.dependencies[m.dependencies.findIndex(d=>d.contract.contractId===0)]=structuredClone(RESET_NATIVE_BINDING);
+ assert.equal(nativeMethod(r,'claim'),'claim');assert.match(nativeManifestPath(r),/mainnet-beta-20261027/);
+ for(const change of [x=>{x.network.chainRootAt1='0'.repeat(64);},x=>{x.markets[0].dependencies.find(d=>d.contract.contractId===0).layoutFieldCount=0;},x=>{x.markets[0].dependencies.find(d=>d.contract.contractId===0).functionTreeRoot='0'.repeat(64);},x=>{x.nativeProtocol=MAINNET_BETA_PROFILE;}]){
+  const wrong=structuredClone(r);change(wrong);assert.throws(()=>nativeManifestPath(wrong));
+ }
+ assert.equal((await registry()).nativeProtocol,MAINNET_BETA_PROFILE);
+});

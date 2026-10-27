@@ -1,3 +1,4 @@
+import {WalletExecution} from "./WalletExecution";
 import { useEffect, useRef, useState } from "react";
 import {
   createPublicMarketClient,
@@ -461,9 +462,7 @@ export function LiveAccess({
               </details>
             </>
           )}
-          <button className="blocked-button" disabled>
-            Financial submission unavailable
-          </button>
+          {plan && <WalletExecution key={`${account}:${plan.recordId}`} account={account} record={plan}/> }
         </Modal>
       )}
     </>

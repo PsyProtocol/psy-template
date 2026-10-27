@@ -82,6 +82,7 @@ export interface PlanRecord {
   registryHash: string;
   snapshot: MarketSnapshot;
   plan: {
+    network: {chainRootAt1: string};
     financialAuthorization: false;
     kind: MarketRequest["kind"];
     marketId: number;

@@ -19,6 +19,8 @@ export interface MarketActionRecord {
   registryHash: string;
   recordId: string;
   plan: {
+    marketId: number;
+    network: {chainRootAt1: string};
     kind: string;
     callCount: number;
     maxNetworkFee: string;
