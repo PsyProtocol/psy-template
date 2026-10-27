@@ -21,6 +21,7 @@ function collect(p) {
     collect(resolve(dirname(p), m[1]));
 }
 collect(resolve(root, "market-client/wallet/prepareService.mjs"));
+collect(resolve(root, "market-client/wallet/native/ownedLoader.mjs"));
 paths.add(resolve(root, "market-client/wallet/prepareService.d.mts"));
 const dir = resolve(
   root,
