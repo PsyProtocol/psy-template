@@ -470,3 +470,12 @@ source pin sets were reverified unchanged. No additional deployment,
 registration, faucet grant or ordinary financial request was sent during this
 wallet milestone. Existing unknown faucet status and all original evidence are
 preserved.
+
+## Reset-chain continuation
+
+The later RPC recovery exposes a different checkpoint-1 root and native layout;
+old IDs and receipts above remain historical. The application now verifies a
+canonical native ABI when present and retains strict reviewed endpoints. Four
+linked corrected-Curve recovery UPSs passed on synthetic checkpoints with the
+new native layout. No new financial operation or real wallet claim occurred.
+See [current gaps, exact scope, measurements and evidence](MARKET_DEEP_VALIDATION_20261027.md).
