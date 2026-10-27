@@ -1,3 +1,4 @@
+import { NetworkReadiness } from "./markets/NetworkReadiness";
 import { MarketAccountRead } from "./markets/MarketAccountRead";
 import { MarketPositions } from "./markets/MarketPositions";
 import { useEditingForm } from "./hooks/useEditingForm";
@@ -281,6 +282,7 @@ export default function App() {
           <p>{VIEW_COPY[view][1]}</p>
         </div>
         <DemoNotice />
+        <NetworkReadiness />
         {!["orderbook", "curve", "nft"].includes(view) && (
           <LiveAccess
             account={wallet.account}

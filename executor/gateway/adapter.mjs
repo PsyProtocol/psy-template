@@ -4,6 +4,7 @@ import assert from "node:assert/strict";
 import { readFile, mkdir, readdir } from "node:fs/promises";
 import { join, resolve } from "node:path";
 import { createHash } from "node:crypto";
+import { createReadinessReader } from "./readiness.mjs";
 import { boundedPublicFetch } from "./boundedFetch.mjs";
 import { publicState } from "../publicState.mjs";
 import { receiptReader } from "../chainReceipts.mjs";
@@ -208,6 +209,19 @@ export async function createGatewayAdapter(
       assert.equal(await readFile(path, "utf8"), data);
     }
   }
+  const readReadiness = createReadinessReader({
+    registry,
+    registryHash: c.registrySha256,
+    rpcConfig: c.rpcConfig,
+    readState,
+    now,
+    fetchImpl: boundedPublicFetch,
+  });
+  const readiness = async () => {
+    await current();
+    if (loaded.positions) await loaded.positions.current();
+    return readReadiness();
+  };
   let finder;
   const status = async () => {
     await current();
@@ -485,6 +499,7 @@ export async function createGatewayAdapter(
     };
   };
   return {
+    readiness,
     status,
     snapshot,
     plan,

@@ -44,6 +44,14 @@ export function createPublicGateway({
       const url = new URL(req.url, "http://127.0.0.1");
       route = url.pathname;
       if (url.search) throw Error("Query parameters are not supported");
+      if (
+        req.method === "GET" &&
+        route === "/v1/readiness" &&
+        typeof adapter.readiness === "function"
+      ) {
+        send(200, await adapter.readiness());
+        return;
+      }
       if (req.method === "GET" && route === "/v1/status") {
         send(200, await adapter.status());
         return;
