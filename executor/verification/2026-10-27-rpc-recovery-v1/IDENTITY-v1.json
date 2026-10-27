@@ -1,0 +1,69 @@
+{
+  "at": "2026-10-27T01:26:01.200Z",
+  "scope": "readonly identity diagnostics, not deployment preflight or financial authorization",
+  "rows": [
+    {
+      "label": "checkpoint-one",
+      "method": "psy_get_checkpoint_leaf_data",
+      "params": {
+        "checkpoint_id": 1
+      },
+      "status": 200,
+      "body": "{\"jsonrpc\":\"2.0\",\"id\":1,\"result\":{\"global_chain_root\":\"24fe11facdc008ad5a6e6408da654217380b798af1ddb7df59845dfecd395942\",\"stats\":{\"guta_fees_collected\":0,\"da_fees_collected\":0,\"user_ops_processed\":0,\"total_transactions\":0,\"slots_modified\":0,\"pm_jobs_completed\":{\"deploy_contracts_completed\":1,\"register_users_completed\":1,\"gutas_completed\":1},\"block_time\":1793030832,\"random_seed\":\"40d35758fc9d331e2bdb2eed24ad195627e2f68a3c1263782157affe5973ba6f\",\"pm_rewards_commitment\":{\"register_users_root\":\"c337353be65b919152982e4dc8cb727f43ec64bc36a6c071145c374e818edc44\",\"gutas_root\":\"c337353be65b919152982e4dc8cb727f43ec64bc36a6c071145c374e818edc44\",\"deploy_contracts_root\":\"c337353be65b919152982e4dc8cb727f43ec64bc36a6c071145c374e818edc44\"},\"da_challenges_claimed\":[0,0,0,0,0,0,0,0,0,0,0,0,0,0]}}}"
+    },
+    {
+      "label": "contract-0",
+      "method": "psy_get_contract_leaf_data",
+      "params": {
+        "contract_id": 0
+      },
+      "status": 200,
+      "body": "{\"jsonrpc\":\"2.0\",\"id\":1,\"result\":{\"deployer\":0,\"function_tree_root\":\"9c64e00be65354f10b2453ceac2d94a790209ae7f8caefe86563a3a199185e8b\",\"code_root\":\"f54490d8ed6ccd5bb06f3c42193a5b11ce7bd252c9eae2c3697f9f3e483e26ee\",\"state_tree_height\":32,\"state_layout_root\":\"0000000000000000000000000000000000000000000000000000000000000000\",\"state_layout_field_count\":0,\"state_layout_slot_count\":0}}"
+    },
+    {
+      "label": "contract-2483",
+      "method": "psy_get_contract_leaf_data",
+      "params": {
+        "contract_id": 2483
+      },
+      "status": 200,
+      "body": "{\"jsonrpc\":\"2.0\",\"id\":1,\"error\":{\"code\":-32001,\"message\":\"Contract leaf not found for contract_id 2483 at checkpoint_id 2752\"}}"
+    },
+    {
+      "label": "contract-2485",
+      "method": "psy_get_contract_leaf_data",
+      "params": {
+        "contract_id": 2485
+      },
+      "status": 200,
+      "body": "{\"jsonrpc\":\"2.0\",\"id\":1,\"error\":{\"code\":-32001,\"message\":\"Contract leaf not found for contract_id 2485 at checkpoint_id 2752\"}}"
+    },
+    {
+      "label": "contract-2497",
+      "method": "psy_get_contract_leaf_data",
+      "params": {
+        "contract_id": 2497
+      },
+      "status": 200,
+      "body": "{\"jsonrpc\":\"2.0\",\"id\":1,\"error\":{\"code\":-32001,\"message\":\"Contract leaf not found for contract_id 2497 at checkpoint_id 2752\"}}"
+    },
+    {
+      "label": "contract-2498",
+      "method": "psy_get_contract_leaf_data",
+      "params": {
+        "contract_id": 2498
+      },
+      "status": 200,
+      "body": "{\"jsonrpc\":\"2.0\",\"id\":1,\"error\":{\"code\":-32001,\"message\":\"Contract leaf not found for contract_id 2498 at checkpoint_id 2752\"}}"
+    },
+    {
+      "label": "contract-2499",
+      "method": "psy_get_contract_leaf_data",
+      "params": {
+        "contract_id": 2499
+      },
+      "status": 200,
+      "body": "{\"jsonrpc\":\"2.0\",\"id\":1,\"error\":{\"code\":-32001,\"message\":\"Contract leaf not found for contract_id 2499 at checkpoint_id 2752\"}}"
+    }
+  ]
+}

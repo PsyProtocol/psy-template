@@ -476,3 +476,21 @@ TypeScript errors and two SDK package-path-blocked queue suites. Nine focused
 wallet checks and 68 application checks pass; neither makes the wallet release
 build accepted. Dependency migration remains separate. Configured RPC probes
 still return 503, with zero financial broadcasts. The heartbeat stays deleted.
+
+## 2026-10-27 RPC recovered; prior deployment identity unavailable
+
+[Readonly recovery evidence and execution order](../../executor/verification/2026-10-27-rpc-recovery-v1/README.md).
+All three configured endpoints now return 200, checkpoint 2746 at first probe.
+However, `next_contract_id=6`; the previous QA FT/AMM/Book/Curve/NFT market IDs
+return explicit not-found errors at checkpoint 2752. Native contract 0 code and
+function roots also differ from the reviewed registry. Treat this as a different
+observed deployment state, consistent with reset/replacement, until chain and
+protocol compatibility are established. No old request was replayed and no
+financial operation, deployment or proof job was started.
+
+Proceed with fresh chain-scoped preflight and a new isolated deployment manifest;
+then rebind real UI reads and close the native wallet-write/approval/SDK release
+gates before enabling finance. Offline contract optimization can proceed alongside
+UI implementation, but accepted UI instances and performance samples remain
+isolated from candidate deployment/build/proof work. No Node or SDK change; current
+branches retained. Deterministic ordering and existing market semantics remain.
