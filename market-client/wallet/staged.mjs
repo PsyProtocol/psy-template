@@ -82,6 +82,8 @@ export function createStagedWallet({
   backend,
   verifyRecord,
   maxRecords = 8,
+  exclusive,
+  confirmBroadcast = async () => { throw Error("Wallet-owned exact approval is not connected"); },
 }) {
   for (const name of ["get", "set"])
     ok(typeof store?.[name] === "function", "Durable wallet store required");
@@ -117,9 +119,7 @@ export function createStagedWallet({
   const locked = async (c, fn) => {
     const key = await keyFor(c),
       previous = tails.get(key) ?? Promise.resolve();
-    const run = previous
-      .catch(() => {})
-      .then(async () => {
+    const work = async () => {
         const state = clone(
           (await store.get(key)) ?? { schema: 1, revision: 0, entries: [] },
         );
@@ -148,7 +148,8 @@ export function createStagedWallet({
           );
         };
         return fn(state, save);
-      });
+      };
+    const run = previous.catch(() => {}).then(() => exclusive ? exclusive(key,work) : work());
     tails.set(key, run);
     try {
       return clone(await run);
@@ -164,7 +165,8 @@ export function createStagedWallet({
         e.context.account === c.account &&
         e.context.userId === c.userId &&
         e.context.networkHash === c.networkHash &&
-        e.context.chainKey === c.chainKey,
+        e.context.chainKey === c.chainKey &&
+        e.context.fingerprint === c.fingerprint,
       "Prepared identity unavailable for this origin/account",
     );
     return e;
@@ -197,7 +199,7 @@ export function createStagedWallet({
     );
     ok(
       p &&
-        p.schema === 1 &&
+        [1, 2].includes(p.schema) &&
         typeof p.requestJson === "string" &&
         p.requestJson.length > 0 &&
         p.requestJson.length <= 6000000,
@@ -245,6 +247,10 @@ export function createStagedWallet({
         ]),
       "Prepared full stack changed",
     );
+    if(p.schema===2){
+      ok(HASH.test(p.contentHash??"")&&HASH.test(p.verifierPackSha256??"")&&HASH.test(p.verificationBundleSha256??"")&&typeof p.verificationBundleJson==="string"&&p.verificationBundleJson.length<=10000000,"Public verification capsule required");
+      ok(await hash(p.verificationBundleJson)===p.verificationBundleSha256,"Public proof bundle changed");
+    }
     const native = await backend.verifyPrepared(clone(e.record), clone(p));
     ok(
       native?.fullProofVerified === true &&
@@ -260,6 +266,7 @@ export function createStagedWallet({
         native.sdkManifestSha256 === p.sdkManifestSha256,
       "Native verification belongs to another artifact/dependency",
     );
+    if(p.schema===2)ok(native.contentHash===p.contentHash,"Native original content hash mismatch");
   };
   return {
     list: async (context) =>
@@ -325,6 +332,7 @@ export function createStagedWallet({
             "validUntilCheckpoint",
             "actualFee",
             "fullCalls",
+            ...(p?.schema===2?["contentHash","verificationBundleJson","verificationBundleSha256","verifierPackSha256"]:[]),
           ];
           ok(
             p && Object.keys(p).sort().join(",") === allowed.sort().join(","),
@@ -377,8 +385,22 @@ export function createStagedWallet({
             (await hash(canon(e.prepared))) === preparedHash,
           "Exact prepared identity required",
         );
+        ok(typeof exclusive === "function", "Authoritative wallet lock is not connected");
         identity(c, e.record);
         await validatePrepared(e, e.prepared);
+        const approvalTerms = {
+          schema: 1, context: c, intentId: e.intentId,
+          recordId: e.record.recordId, preparedHash: e.preparedHash,
+          requestSha256: e.prepared.requestSha256,
+          fullCalls: e.prepared.fullCalls, actualFee: e.prepared.actualFee,
+          maxNetworkFee: e.record.plan.maxNetworkFee,
+          validUntilCheckpoint: e.prepared.validUntilCheckpoint,
+        };
+        const approvalSha256 = await hash(canon(approvalTerms));
+        const confirmation = await confirmBroadcast(clone(approvalTerms));
+        ok(confirmation?.approved === true && confirmation.approvalSha256 === approvalSha256,
+          "Wallet confirmation denied or belongs to another exact transaction");
+        const approvedAt = Date.now();
         const fresh = await backend.recheck(clone(e.record), clone(e.prepared));
         ok(
           fresh?.requestSha256 === e.prepared.requestSha256 &&
@@ -392,6 +414,8 @@ export function createStagedWallet({
         );
         // Persist before the only transport invocation. A thrown/unknown result is
         // never permission to regenerate or resend this or another operation.
+        ok(Date.now() - approvedAt <= 30000, "Fresh approval/recheck expired; confirm again");
+        e.approval = { approvalSha256, approvedAt, preparedHash: e.preparedHash };
         e.phase = "broadcast-intent";
         await save();
         try {
@@ -424,6 +448,7 @@ export function createStagedWallet({
             r.userId === e.context.userId &&
             r.endUserLeafHash === e.prepared.endUserLeafHash &&
             HASH.test(r.contentHash ?? "") &&
+            (e.prepared.schema!==2 || r.contentHash===e.prepared.contentHash) &&
             r.networkHash === e.context.networkHash,
           "Original exact receipt identity mismatch",
         );

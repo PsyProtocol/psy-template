@@ -57,6 +57,17 @@ const bundle = {
   abis,
   networkConfig: net.networks[registry.network.name],
 };
+// AMM uses its independently reviewed registry and ABI; it shares only the
+// exact network domain and the wallet-owned service lifecycle.
+const ammDir=resolve(root,"market-client/reviewed/mainnet-beta-amm-20261027-v2");
+const ammRegistry=JSON.parse(readFileSync(resolve(ammDir,"registry.json"))),ammAbis={};
+for(const m of ammRegistry.markets){
+ ammAbis[m.marketId]=JSON.parse(readFileSync(resolve(ammDir,m.marketId+"-abi.json")));
+ for(const a of m.assets)ammAbis[a.contractId]=JSON.parse(readFileSync(resolve(ammDir,`${m.marketId}-asset-${a.contractId}-abi.json`)));
+}
+const ammNet=JSON.parse(readFileSync(resolve(ammDir,"rpc-config.json")));
+bundle.amm={registry:ammRegistry,registryHash:sha(canonical(ammRegistry)),abis:ammAbis,networkConfig:ammNet.networks[ammRegistry.network.name]};
+if(canonical(bundle.amm.networkConfig)!==canonical(bundle.networkConfig))throw Error("Reviewed wallet bundles use different network domains");
 mkdirSync(dest, { recursive: true });
 const entries = [];
 for (const p of [...paths].sort()) {

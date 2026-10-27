@@ -404,3 +404,5 @@ db.set_contract_leaf_data(cp,cid,&leaf)?;db.set_contract_tree_leaf_hash(cp,cid,l
  let circuit=DapenContractFunctionCircuit::<C,2>::new(def,31,16,false);let proof=circuit.prove_base(&witness)?;circuit.minifier_chain.verify(proof)?;
  println!("ORDINARY_CFC {kind} {name} verified");Ok(())
 }
+
+#[path="market_wallet_verification.rs"] mod wallet_proof;
