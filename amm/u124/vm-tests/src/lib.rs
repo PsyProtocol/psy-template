@@ -160,3 +160,5 @@ pub mod fixed_verifier;
 
 pub mod wallet_verification;
 pub mod wallet_verifier_export;
+
+pub mod contract_layout;

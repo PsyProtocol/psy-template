@@ -640,3 +640,13 @@ and rejects a changed nonce with the same loaded verifier. [Evidence](../../exec
 includes exact bytecode, source closures, public proof and candidate hashes.
 This does not close actual extension installation, confirmation UI, NFT intent
 binding or live financial acceptance. RPC/faucet preconditions remain blocked.
+
+## 27 October: reset-chain correctness continuation
+
+The RPC responds but the chain instance changed; old market/QA registrations are
+absent. New native public-method/layout and service Endcap compatibility checks
+passed without changing Node or the frozen SDK. The corrected Curve completed
+four linked synthetic recovery UPSs; live setup, fills, claims and matched
+performance acceptance remain open. No financial operation occurred. Faucet
+still returns HTTP 503. See the [current review report](MARKET_DEEP_VALIDATION_20261027.md)
+for exact evidence, budget limits and remaining sequence.

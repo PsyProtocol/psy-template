@@ -3,7 +3,7 @@
 use anyhow::{ensure, Result};
 use plonky2::{
     field::goldilocks_field::GoldilocksField as F,
-    hash::{hash_types::HashOut, poseidon::PoseidonHash as H},
+    hash::poseidon::PoseidonHash as H,
     plonk::config::PoseidonGoldilocksConfig as C,
 };
 use psy_client_common::data::qhashout::QHashOut as Q;
@@ -107,29 +107,9 @@ fn main() -> Result<()> {
             code_root.to_string() == expected.contract.code_root,
             "source code root differs from reviewed contract"
         );
-        let (layout, fields, slots) = if cid == 0 {
-            ensure!(height == 32, "native height");
-            (Q::ZERO, 0, 0)
-        } else {
-            let m =
-                psy_data::v1::qdata::contract::canonical_layout_manifest_from_compiler_abi_json::<
-                    parth_core::pgoldilocks::PoseidonHasher,
-                    F,
-                    parth_core::pgoldilocks::QHashOut<F>,
-                >(
-                    &serde_json::to_string(&a["abi"])?,
-                    psy_core::constants::protocol::STATE_LAYOUT_TREE_HEIGHT,
-                    psy_data::v1::qdata::contract::CANONICAL_TYPE_LAYOUT_STRUCT_TREE_HEIGHT,
-                )?;
-            let l = m.layout.contract_layout;
-            (
-                Q(HashOut {
-                    elements: l.state_layout_root.0.elements,
-                }),
-                l.state_layout_field_count,
-                l.state_layout_slot_count,
-            )
-        };
+        let (layout, fields, slots) = psy_template_u124_markets::contract_layout::artifact_layout(
+            cid, height as usize, &a["abi"],
+        )?;
         ensure!(
             layout.to_string() == expected.contract.layout_root
                 && fields == expected.layout_field_count
