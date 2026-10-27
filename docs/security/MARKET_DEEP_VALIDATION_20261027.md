@@ -146,3 +146,25 @@ The existing [composition capability matrix](../../composition/CAPABILITIES.md)
 continues to govern atomicity and deferred-call limits. Book remains whole-order:
 an unresolved order must terminate and release funds, followed by claim, before
 AMM use. No market mechanism or batch capacity changed in this milestone.
+
+## Wallet pre-proof chain guard milestone
+
+The application service now rejects a changed checkpoint-1 chain anchor before
+creating a preparation task, witness or proof. It uses the reviewed coordinator
+endpoint, strict successful JSON-RPC framing and a bounded response. Only an
+identical in-flight read can be shared; no completed observation is cached.
+AMM and other-market bundles must share their exact chain identity as well as
+network configuration. Existing broadcast-time code/layout/key/nonce/fee and
+state checks remain unchanged. A failed observation does not release any existing
+pending intent or authorize a retry of an unknown broadcast.
+
+Ten focused application cases passed, including a reviewed AMM preparation on a
+changed chain that invokes neither prover nor persistence. A separate real RPC
+observation through the vendored wallet module rejects the historical bundle;
+it generated no proof, durable write or financial operation. Wallet integration
+passed seven cases, selected SDK/typecheck guard passed, and staging build passed.
+These checks do not install a live verifier release or enable page writes. The
+19-module vendor output retains exact source hashes; the wallet delivery must
+follow publication of the corresponding application source milestone.
+
+[Guard source snapshot, failed/successful regression logs and selected-cohort build evidence](../../executor/verification/2026-10-27-wallet-chain-guard-v1/manifest.json).

@@ -26,6 +26,7 @@ export interface PreparationService {
   ): Promise<PreparationContext>;
   assertNoPending(account: string, chainKey: string): Promise<unknown>;
   assertNetwork(config: unknown): Promise<void>;
+  assertChain(): Promise<{chainRootAt1: string; scope: string}>;
 }
 export function createPrepareOnlyMarketService(options: {
   store: {
@@ -34,6 +35,7 @@ export function createPrepareOnlyMarketService(options: {
   };
   bundle: unknown;
   provider: unknown;
+  fetcher?: typeof fetch;
   prepareTrace(
     record: PreparationRecord,
     context: PreparationContext,
