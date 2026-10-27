@@ -1,6 +1,6 @@
 //! Export verifier-only resources from the already selected SDK. No proving key,
 //! new circuit definition, wallet material, network action or trust downgrade.
-use crate::wallet_verification::VerifierPack;
+use crate::wallet_verification::{VerifierPack,RegistrationStartVerifier};
 use anyhow::Result;
 use base64::{engine::general_purpose::STANDARD as B64, Engine};
 use plonky2::{
@@ -44,6 +44,10 @@ pub fn export_fixed_verifiers(
         step_fingerprint: cm.ups_cfc_standard_tx.get_fingerprint(),
         endcap_b64,
         start_b64: encode_verifier(&cm.ups_start)?,
+        registration_start: Some(RegistrationStartVerifier {
+            fingerprint:cm.ups_start_register_user.get_fingerprint(),
+            verifier_b64:encode_verifier(&cm.ups_start_register_user)?,
+        }),
         step_b64: encode_verifier(&cm.ups_cfc_standard_tx)?,
         sign_b64: encode_verifier(signature)?,
         sign_fingerprint: signature.get_fingerprint(),

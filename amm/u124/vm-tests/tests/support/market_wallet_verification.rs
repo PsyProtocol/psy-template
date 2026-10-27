@@ -9,7 +9,9 @@ use psy_ups_circuit::session::TraceStandardStepInput;
 async fn session_for(chain:&Chain,db:Store,cp:u64,user:u64,start:psy_client_data::qdata::user::PsyUserLeaf<GF>)->Result<Manager>{
  let mut cache=PsyCmdStoreWithCache::new(cp,db);
  for(cid,code)in &chain.code{for i in 0..code.functions.len(){let index=(i*2)as u32;let path=ContractFunctionTreeStore::<Store>::get_leaf_sfc(&cache.read_store,cp,*cid,index as u64)?;ensure!(path.value==chain.whitelists[cid][i*2],"source function proof");cache.cache.merkle_cmd_cache.insert(QSRMerkleCmd::GetContractFunctionTreeMerkleProof(QSRMerkleCmdGetContractFunctionTreeMerkleProof{checkpoint_id:cp,contract_id:*cid as u32,function_id:index}),path);}}
- let lps=PsyLocalProvingSessionStore::new_at_with_cmd_store(cache,f(cp),f(user),GF::ONE,start.event_index,16);
+ let fresh=cache.read_store.get_user_tree_leaf_hash(cp,user).await?==QHashOut::ZERO;
+ if fresh{ensure!(start==psy_client_data::qstore::controllers::register_helpers::get_new_empty_user_leaf(f(user),start.public_key),"new-user session must start empty");}
+ let mut lps=PsyLocalProvingSessionStore::new_at_with_cmd_store(cache,f(cp),f(user),GF::ONE,start.event_index,16);lps.set_is_new_user(fresh);
  let mut info=SessionCircuitInfoStore::new();chain.cm.register_info(&mut info).await;
  let mut s=Manager::new(lps,info,chain.cm.ups_circuit_whitelist_root).await?;s.prove_ups_start(&chain.cm).await?;Ok(s)
 }
@@ -19,11 +21,18 @@ async fn full_stack_wallet_verifier_and_mutations()->Result<()>{
  let out=std::env::var("MARKET_WALLET_VERIFIER_OUT")?;fs::create_dir(&out)?;
  let kind=std::env::var("MARKET_WALLET_TEST_MARKET").unwrap_or_else(|_|"bondingcurve".into());
  ensure!(["amm","bondingcurve"].contains(&kind.as_str()),"reviewed wallet proof fixture market");
- let mut w=World::new(&kind)?;let user=201;let amount=(1u128<<110)+17;
- let (open,asset)=if kind=="amm"{w.pool(10u128.pow(24))?;(json!({"contract_id":M,"method_name":"open_swap","inputs":args(&[V,0],&[amount,1],&[w.checkpoint+64,1])}),A)}else{w.fee(I)?;w.pay(I,A,2_000_000*10u128.pow(18))?;w.operation_maintenance("initialize",0,0,0,0,0,0)?;(json!({"contract_id":M,"method_name":"open_limit_buy","inputs":args(&[V,1,0],&[amount],&[w.checkpoint+64,1])}),B)};
- let mut calls=vec![open,json!({"contract_id":0,"method_name":"transfer","inputs":[V,ESCROW]}),json!({"contract_id":asset,"method_name":"transfer","inputs":args(&[V],&[amount],&[])})];
+ let first=std::env::var("MARKET_WALLET_FIRST_SESSION").as_deref()==Ok("1");
+ let mut w=World::new(&kind)?;let user=if first{204}else{201};let amount=(1u128<<110)+17;
+ let (open,asset)=if first{ensure!(kind=="amm","native first-session fixture uses AMM world only");w.run(I,0,"transfer",&[user,10*ESCROW])?;(json!({"contract_id":0,"method_name":"claim","inputs":[I]}),0)}else if kind=="amm"{w.pool(10u128.pow(24))?;(json!({"contract_id":M,"method_name":"open_swap","inputs":args(&[V,0],&[amount,1],&[w.checkpoint+64,1])}),A)}else{w.fee(I)?;w.pay(I,A,2_000_000*10u128.pow(18))?;w.operation_maintenance("initialize",0,0,0,0,0,0)?;(json!({"contract_id":M,"method_name":"open_limit_buy","inputs":args(&[V,1,0],&[amount],&[w.checkpoint+64,1])}),B)};
+ let mut calls=if first{vec![open]}else{vec![open,json!({"contract_id":0,"method_name":"transfer","inputs":[V,ESCROW]}),json!({"contract_id":asset,"method_name":"transfer","inputs":args(&[V],&[amount],&[])})]};
  let chain=Chain::new(&w,&calls)?;let signature=PsyBasicZKSignatureCircuit::<C,2>::new();let private=QHashOut::<GF>::rand();let key=SimplePsyPrivateKey::new(private);let pk=key.get_public_key_for_fingerprint::<PoseidonHash>(signature.get_fingerprint());
- let db=chain.seed(&w).await?;let mut start=db.get_user_leaf_data(w.checkpoint,user).await?;start.public_key=pk;start.nonce=GF::ZERO;db.set_user_leaf_data(w.checkpoint,&start)?;db.set_user_tree_leaf_hash(w.checkpoint,user,start.qfhash::<PoseidonHash>())?;
+ let db=chain.seed(&w).await?;
+ let start=if first{
+  UserRegistrationTreeStore::<Store>::set_leaf_fc(&db,w.checkpoint,psy_crypto::common::user_id::get_registration_id_from_user_id(user),pk)?;
+  let leaf=psy_client_data::qstore::controllers::register_helpers::get_new_empty_user_leaf(f(user),pk);
+  db.set_user_leaf_data(w.checkpoint,&leaf)?;
+  ensure!(db.get_user_tree_leaf_hash(w.checkpoint,user).await?==QHashOut::ZERO,"first session requires zero stored leaf");leaf
+ }else{let mut leaf=db.get_user_leaf_data(w.checkpoint,user).await?;leaf.public_key=pk;leaf.nonce=GF::ZERO;db.set_user_leaf_data(w.checkpoint,&leaf)?;db.set_user_tree_leaf_hash(w.checkpoint,user,leaf.qfhash::<PoseidonHash>())?;leaf};
  let roots=db.get_checkpoint_global_state_roots(w.checkpoint).await?;let checkpoint=PsyCheckpointLeaf{global_chain_root:roots.qfhash::<PoseidonHash>(),stats:PsyCheckpointLeafStats::new_empty()};db.set_checkpoint_leaf_data(w.checkpoint,&checkpoint)?;db.set_checkpoint_tree_leaf_hash(w.checkpoint,checkpoint.qfhash::<PoseidonHash>())?;
  let mut trace=session_for(&chain,db.clone(),w.checkpoint,user,start).await?;
  let start_header=*trace.get_current_ups_header();let mut traced=vec![];
@@ -50,20 +59,48 @@ async fn full_stack_wallet_verifier_and_mutations()->Result<()>{
  trace.set_current_ups_header(*prove.get_current_ups_header());let api=trace.get_api_input().await?;validate_endcap_binding(&api.core,&end.public_inputs)?;
  let request=PublicRequest{user_ec_input:api,proof:bincode::serialize(&end)?};let bytes=serde_json::to_vec(&request)?;
  let approved=calls.iter().map(|c|ApprovedCall{contract_id:c["contract_id"].as_u64().unwrap().to_string(),method_id:None,method_name:c["method_name"].as_str().unwrap().into(),inputs:c["inputs"].as_array().unwrap().iter().map(|v|v.as_u64().unwrap().to_string()).collect()}).collect();
- let approval=WalletApproval{user_id:user,public_key:pk,nonce:1,checkpoint_min:w.checkpoint,checkpoint_max:w.checkpoint+64,start_leaf:start.qfhash::<PoseidonHash>(),max_fee:ESCROW,network_magic:PSY_NETWORK_MAGIC,sdk_manifest:pack.sdk_manifest.clone(),calls:approved};
+ let approval=WalletApproval{user_id:user,public_key:pk,nonce:1,checkpoint_min:w.checkpoint,checkpoint_max:w.checkpoint+64,start_leaf:if first{QHashOut::ZERO}else{start.qfhash::<PoseidonHash>()},max_fee:ESCROW,network_magic:PSY_NETWORK_MAGIC,sdk_manifest:pack.sdk_manifest.clone(),calls:approved};
  let checkpoint_state=trace.get_checkpoint_state();
  let bundle=PublicBundle{schema:1,anchor:PublicAnchor{start_checkpoint_id:w.checkpoint,checkpoint_leaf:checkpoint,global_state_roots:roots,ups_step_circuit_whitelist_root:chain.cm.ups_circuit_whitelist_root},start_header,start_proof_b64,steps:public_steps,sign_proof_b64,public_key_param:key.get_public_key_param::<PoseidonHash>(),sig_hash:sighash};
 
  for(name,v)in[("verifiers",serde_json::to_value(&pack)?),("approval",serde_json::to_value(&approval)?),("bundle",serde_json::to_value(&bundle)?)]{fs::write(format!("{out}/{name}.json"),serde_json::to_vec_pretty(&v)?)?;}
  fs::write(format!("{out}/request.json"),&bytes)?;
- let report=verify_market_request(&pack,&bytes,&approval,&bundle)?;fs::write(format!("{out}/verification.json"),serde_json::to_vec_pretty(&report)?)?;
- let av=serde_json::to_value(&approval)?;let bv=serde_json::to_value(&bundle)?;let mut rejected=vec![];
- for case in ["recipient","asset","amount-high-limb","call-order","nonce","network","start-leaf","expiry","fee-cap","cfc-proof","ups-proof","signature-proof","session-root","delta-root","code-root"]{
-  let mut a=av.clone();let mut b=bv.clone();let mut p=serde_json::to_value(&pack)?;
+ verify_and_mutate(&pack,&bytes,&approval,&bundle,&out,&kind)
+}
+#[test]
+#[ignore="preserved public proofs and a fresh verification output are required"]
+fn verify_preserved_wallet_bundle_and_mutations()->Result<()>{
+ let input=std::env::var("MARKET_WALLET_REPLAY_IN")?;
+ let out=std::env::var("MARKET_WALLET_VERIFIER_OUT")?;fs::create_dir(&out)?;
+ let files=["verifiers","approval","bundle","request"].into_iter().map(|name|Ok((name,fs::read(format!("{input}/{name}.json"))?))).collect::<Result<BTreeMap<_,_>>>()?;
+ let pack:VerifierPack=serde_json::from_slice(&files["verifiers"])?;
+ let approval:WalletApproval=serde_json::from_slice(&files["approval"])?;
+ let bundle:PublicBundle=serde_json::from_slice(&files["bundle"])?;
+ let bytes=&files["request"];
+ verify_and_mutate(&pack,bytes,&approval,&bundle,&out,"preserved-public-proof")?;
+ let hashes=files.iter().map(|(name,bytes)|(*name,format!("{:x}",Sha256::digest(bytes)))).collect::<BTreeMap<_,_>>();
+ fs::write(format!("{out}/REPLAY.json"),serde_json::to_vec_pretty(&json!({"inputSha256":hashes,"newProofsGenerated":0,"financialOperations":0}))?)?;Ok(())
+}
+fn verify_and_mutate(pack:&VerifierPack,bytes:&[u8],approval:&WalletApproval,bundle:&PublicBundle,out:&str,kind:&str)->Result<()>{
+ let first=approval.start_leaf==QHashOut::ZERO;
+ let asset=if first{0}else{approval.calls.get(2).context("preserved funding call")?.contract_id.parse::<u64>()?};
+ let report=verify_market_request(pack,bytes,approval,bundle)?;ensure!(report["registrationStartVerified"]==first,"exact start variant");fs::write(format!("{out}/verification.json"),serde_json::to_vec_pretty(&report)?)?;
+ let av=serde_json::to_value(approval)?;let bv=serde_json::to_value(bundle)?;let mut rejected=vec![];
+ let cases=if first{vec!["claim-source","registered-start-leaf","missing-register-start","swapped-register-start","registered-key","user","registered-nonce","registered-fingerprint","nonce","network","expiry","fee-cap","cfc-proof","ups-proof","signature-proof","session-root","delta-root","code-root"]}else{vec!["recipient","asset","amount-high-limb","call-order","nonce","network","start-leaf","expiry","fee-cap","cfc-proof","ups-proof","signature-proof","session-root","delta-root","code-root"]};
+ for case in cases{
+  let mut a=av.clone();let mut b=bv.clone();let mut p=serde_json::to_value(pack)?;
   match case{
-   "recipient"=>a["calls"][1]["inputs"][0]=json!("101"),"asset"=>a["calls"][2]["contract_id"]=json!((if asset==A{B}else{A}).to_string()),"amount-high-limb"=>a["calls"][2]["inputs"][2]=json!("0"),"call-order"=>a["calls"].as_array_mut().unwrap().swap(0,1),"nonce"=>a["nonce"]=json!(2),"network"=>a["network_magic"]=json!(1),"start-leaf"=>a["start_leaf"]=json!(QHashOut::<GF>::ZERO.to_string()),"expiry"=>a["checkpoint_max"]=json!(w.checkpoint-1),"fee-cap"=>a["max_fee"]=json!(1),"cfc-proof"=>b["steps"][0]["cfc_proof_b64"]=json!("AA=="),"ups-proof"=>b["steps"][0]["ups_proof_b64"]=json!("AA=="),"signature-proof"=>b["sign_proof_b64"]=json!("AA=="),"session-root"=>b["steps"][0]["cfc_session_root"]=json!(QHashOut::<GF>::ZERO.to_string()),"delta-root"=>b["steps"][0]["state_delta"]["user_contract_tree_update_proof"]["new_root"]=json!(QHashOut::<GF>::ZERO.to_string()),_=>p["contracts"][0]["code_root"]=json!(QHashOut::<GF>::ZERO.to_string())};
+   "claim-source"=>a["calls"][0]["inputs"][0]=json!((approval.calls[0].inputs[0].parse::<u64>()?+1).to_string()),
+   "registered-start-leaf"=>a["start_leaf"]=json!(bundle.start_header.session_start_context.start_session_user_leaf.qfhash::<PoseidonHash>().to_string()),
+   "missing-register-start"=>{p.as_object_mut().unwrap().remove("registration_start");},
+   "swapped-register-start"=>{p["registration_start"]["verifier_b64"]=p["start_b64"].clone();p["registration_start"]["fingerprint"]=p["start_fingerprint"].clone();},
+   "registered-key"=>b["start_header"]["session_start_context"]["start_session_user_leaf"]["public_key"]=json!(QHashOut::<GF>::ZERO.to_string()),
+   "user"=>a["user_id"]=json!(approval.user_id+1),
+   "registered-nonce"=>b["start_header"]["session_start_context"]["start_session_user_leaf"]["nonce"]=json!(1),
+   "registered-fingerprint"=>p["registration_start"]["fingerprint"]=json!(QHashOut::<GF>::ZERO.to_string()),
+   "recipient"=>a["calls"][1]["inputs"][0]=json!("101"),"asset"=>a["calls"][2]["contract_id"]=json!((if asset==A{B}else{A}).to_string()),"amount-high-limb"=>a["calls"][2]["inputs"][2]=json!("0"),"call-order"=>a["calls"].as_array_mut().unwrap().swap(0,1),"nonce"=>a["nonce"]=json!(2),"network"=>a["network_magic"]=json!(1),"start-leaf"=>a["start_leaf"]=json!(QHashOut::<GF>::ZERO.to_string()),"expiry"=>a["checkpoint_max"]=json!(approval.checkpoint_min-1),"fee-cap"=>a["max_fee"]=json!(1),"cfc-proof"=>b["steps"][0]["cfc_proof_b64"]=json!("AA=="),"ups-proof"=>b["steps"][0]["ups_proof_b64"]=json!("AA=="),"signature-proof"=>b["sign_proof_b64"]=json!("AA=="),"session-root"=>b["steps"][0]["cfc_session_root"]=json!(QHashOut::<GF>::ZERO.to_string()),"delta-root"=>b["steps"][0]["state_delta"]["user_contract_tree_update_proof"]["new_root"]=json!(QHashOut::<GF>::ZERO.to_string()),_=>p["contracts"][0]["code_root"]=json!(QHashOut::<GF>::ZERO.to_string())};
   let a=serde_json::from_value(a)?;let b=serde_json::from_value(b)?;let p=serde_json::from_value(p)?;
-  ensure!(verify_market_request(&p,&bytes,&a,&b).is_err(),"accepted mutation {case}");rejected.push(case);
+  ensure!(verify_market_request(&p,bytes,&a,&b).is_err(),"accepted mutation {case}");rejected.push(case);
  }
- fs::write(format!("{out}/REPORT.json"),serde_json::to_vec_pretty(&json!({"completeProofAndAllCallsVerified":true,"market":kind,"marketId":M,"vaultId":V,"assetA":A,"assetB":B,"calls":approval.calls.len(),"rejected":rejected,"broadcast":false,"scope":"real native proofs on synthetic authenticated state; ephemeral ordinary key; no wallet-extension or live acceptance"}))?)?;Ok(())
+ fs::write(format!("{out}/REPORT.json"),serde_json::to_vec_pretty(&json!({"completeProofAndAllCallsVerified":true,"market":kind,"firstSession":first,"marketId":M,"vaultId":V,"assetA":A,"assetB":B,"calls":approval.calls.len(),"rejected":rejected,"broadcast":false,"scope":"real native proofs on synthetic authenticated state; ephemeral ordinary key; no wallet-extension or live acceptance"}))?)?;Ok(())
 }
