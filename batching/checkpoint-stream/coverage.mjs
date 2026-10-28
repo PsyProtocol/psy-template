@@ -13,6 +13,6 @@ export function requireBlockCoverage(){
  error.code='BLOCK_MARKET_COVERAGE_UNAVAILABLE';throw error;
 }
 export function requireStreamSettlement(){
- const error=Error('Global ordered-root/cursor constraints are not integrated into a market SD-key and complete UPS. Never execute stream pages with independent v4 batch seeds.');
+ const error=Error('This legacy v1 component route has no installed, reviewed source-covered v3 spending driver. Candidate offline UPS evidence cannot enable it. Never execute pages with independent v4 batch seeds.');
  error.code='STREAM_MARKET_UPS_UNAVAILABLE';throw error;
 }

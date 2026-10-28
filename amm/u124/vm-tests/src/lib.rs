@@ -180,3 +180,13 @@ pub mod checkpoint_stream;
 pub mod final_state_coverage;
 
 pub mod final_state_capture;
+
+pub mod stream_source;
+
+pub mod stream_context;
+
+pub mod stream_order;
+
+pub mod stream_policy;
+
+pub mod stream_current;

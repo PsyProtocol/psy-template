@@ -89,14 +89,18 @@ impl Chain{
   let measured=json!({"phase":"cold-circuit-build","elapsedMs":started.elapsed().as_secs_f64()*1000.});println!("FULL_UPS {} {measured}",w.kind);
   Ok(Self{compact,cm,key,code,leaves,whitelists,last_leaf:None,measurements:vec![measured]})
  }
- async fn seed(&self,w:&World)->Result<Store>{let db=Store::new();let cp=w.checkpoint;
+ async fn seed(&self,w:&World)->Result<Store>{self.seed_identity(w,self.key.get_fingerprint()).await}
+ async fn seed_identity(&self,w:&World,fingerprint:QHashOut<GF>)->Result<Store>{self.seed_identity_with_history(w,fingerprint,&[]).await}
+ async fn seed_identity_with_history(&self,w:&World,fingerprint:QHashOut<GF>,history:&[(u64,PsyCheckpointLeaf<GF>)])->Result<Store>{let db=Store::new();let cp=w.checkpoint;
+  let mut previous=0;for(id,leaf)in history{ensure!(*id>previous&&*id<=cp,"chronological synthetic history");previous=*id;db.set_checkpoint_leaf_data(*id,leaf)?;db.set_checkpoint_tree_leaf_hash(*id,leaf.qfhash::<PoseidonHash>())?;}
+
   for(cid,code)in &self.code{db.set_contract_code_definition(cp,*cid,code)?;let mut leaf=self.leaves[cid];leaf.function_tree_root=db.set_contract_function_whitelist(cp,*cid,&self.whitelists[cid])?;db.set_contract_leaf_data(cp,*cid,&leaf)?;db.set_contract_tree_leaf_hash(cp,*cid,leaf.qfhash::<PoseidonHash>())?;}
   for(cid,wl)in &self.whitelists{for(i,want)in wl.iter().enumerate(){let actual=db.get_contract_function_tree_leaf_hash(cp,*cid as u32,i as u32).await?;ensure!(actual==*want,"whitelist seed mismatch {cid}/{i}");}}
   let mut groups:BTreeMap<(u64,u64,u64),[GF;4]>=BTreeMap::new();let mut users=BTreeSet::new();
   for((u,c,o),n)in &w.slots{if !self.code.contains_key(c){continue;}users.insert(*u);groups.entry((*u,*c,*o/4)).or_insert([GF::ZERO;4])[(*o%4)as usize]=f(*n);}
   let mut roots=BTreeMap::new();for((u,c,o),v)in groups{let height=self.code[&c].state_tree_height as u8;let p=db.set_user_state_tree_leaf_hash(cp,u,c as u32,height,o,QHashOut(HashOut{elements:v}))?;roots.insert((u,c),p.new_root);}
   for((u,c),r)in roots{db.set_user_contract_tree_leaf_hash(cp,u,c as u32,r)?;}
-  let param=get_sd_key_public_key_param(&QHashOut(HashOut{elements:[GF::ONE;4]}));let pk=ZKPublicKeyInfo{public_key_param:param,fingerprint:self.key.get_fingerprint()}.qfhash::<PoseidonHash>();users.insert(V);
+  let param=get_sd_key_public_key_param(&QHashOut(HashOut{elements:[GF::ONE;4]}));let pk=ZKPublicKeyInfo{public_key_param:param,fingerprint}.qfhash::<PoseidonHash>();users.insert(V);
   let fresh=self.last_leaf.is_none()&&w.revision==0&&!w.slots.keys().any(|(u,_,_)|*u==V);if fresh{UserRegistrationTreeStore::<Store>::set_leaf_fc(&db,cp,psy_crypto::common::user_id::get_registration_id_from_user_id(V),pk)?;}
   for u in users{if u==V&&fresh{db.set_user_leaf_data(cp,&psy_client_data::qstore::controllers::register_helpers::get_new_empty_user_leaf(f(V),pk))?;continue;}let r=db.get_user_contract_tree_root(cp,u).await?;let leaf=if u==V{if let Some(last)=self.last_leaf{ensure!(last.user_state_tree_root==r,"linked proof endpoint root mismatch");last}else{PsyUserLeaf{public_key:pk,user_id:f(u),user_state_tree_root:r,balance:GF::ZERO,nonce:f(w.revision),last_checkpoint_id:f(cp-1),..Default::default()}}}else{PsyUserLeaf{public_key:QHashOut(HashOut{elements:[GF::ONE;4]}),user_id:f(u),user_state_tree_root:r,balance:GF::ZERO,..Default::default()}};db.set_user_leaf_data(cp,&leaf)?;db.set_user_tree_leaf_hash(cp,u,leaf.qfhash::<PoseidonHash>())?;}
   let roots=db.get_checkpoint_global_state_roots(cp).await?;let mut stats=PsyCheckpointLeafStats::new_empty();if (w.policy["version"]==3||w.policy["version"]==4){use psy_client_common::traits::to_qfelts::ToQFelts;let values=w.state.get_checkpoint_stats(cp)?;if !values.is_empty(){stats=PsyCheckpointLeafStats::from_qfelts(&values.into_iter().map(f).collect::<Vec<_>>());}}let checkpoint=PsyCheckpointLeaf{global_chain_root:roots.qfhash::<PoseidonHash>(),stats};db.set_checkpoint_leaf_data(cp,&checkpoint)?;db.set_checkpoint_tree_leaf_hash(cp,checkpoint.qfhash::<PoseidonHash>())?;let mut block=PsyBlockState::get_genesis_value();block.checkpoint_id=cp;block.next_user_id=1000;block.next_contract_id=1001;db.set_block_state(&block)?;Ok(db)
@@ -425,3 +429,5 @@ db.set_contract_leaf_data(cp,cid,&leaf)?;db.set_contract_tree_leaf_hash(cp,cid,l
 }
 
 #[path="market_wallet_verification.rs"] mod wallet_proof;
+
+#[path="stream_full_ups.rs"]mod stream_full_ups;

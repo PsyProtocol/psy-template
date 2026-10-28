@@ -107,6 +107,17 @@ pub fn fixture(
     invalid_limb: bool,
     cursor_drift: bool,
 ) -> Result<(Review, Snapshot, Q<F>)> {
+    fixture_domain(kind, invalid_limb, cursor_drift, false)
+}
+pub fn fixture_full_width_users(kind: u64) -> Result<(Review, Snapshot, Q<F>)> {
+    fixture_domain(kind, false, false, true)
+}
+fn fixture_domain(
+    kind: u64,
+    invalid_limb: bool,
+    cursor_drift: bool,
+    high_users: bool,
+) -> Result<(Review, Snapshot, Q<F>)> {
     let root = std::env::var("FINAL_STATE_FIXTURES")?;
     let name = if kind == 1 { "amm" } else { "bondingcurve" };
     let artifact: serde_json::Value = serde_json::from_slice(&fs::read(format!(
@@ -235,6 +246,26 @@ pub fn fixture(
                     0
                 },
             );
+        }
+    }
+    if high_users {
+        for owner in [2_139_095_033u64, 2_139_095_034u64, u32::MAX as u64] {
+            let mut fields = BTreeMap::new();
+            for (name, width) in order_fields(kind) {
+                for j in 0..width {
+                    fields.insert(
+                        review.offsets[name] + j as u64,
+                        match (name, j) {
+                            ("kind", 0) | ("nonce", 0) => 1,
+                            ("pool", 0) => v,
+                            ("deadline", 0) => 200,
+                            ("order_checkpoint", 0) => 100,
+                            _ => 0,
+                        },
+                    );
+                }
+            }
+            all.entry(owner).or_default().insert(m, fields);
         }
     }
     let key_param = q(90);

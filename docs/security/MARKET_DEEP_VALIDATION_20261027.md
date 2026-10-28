@@ -1,5 +1,29 @@
 # Market correctness and reset-chain validation — 27 October 2026
 
+## Latest continuation — source-covered stream UPSs (29 October)
+
+The distinct AMM/Curve stream candidates now bind complete authenticated source
+classification, deterministic priority minima, cross-page cursors, refunds and
+actual market transitions into their SD-key and complete UPS. The final-key run
+passed seven UPSs per market (source coverage, 4+1 settlement and two timeout
+forks), exact saved-key replay and coherent signed-stack rejection checks.
+This is synthetic-checkpoint validation, not deployment or wallet/network
+acceptance. No Node, SDK dependency or old contract was changed.
+
+See [the implementation and boundary report](SOURCE_COVERED_STREAM_UPS_20261029.md)
+and [the public evidence bundle](../../executor/verification/2026-10-29-source-covered-stream-ups-v1/README.md).
+The final key differs from the preserved pre-inactive-address-correction trial.
+Do not use that older trial as final-key evidence.
+
+Live authorization stays disabled. The inspected frozen admission path does not
+establish a maximum snapshot age or inclusion-tip foreign-state freshness;
+cancellation, expiry and dependency checks are proven at the signed session
+checkpoint. [The upstream requirements](../../batching/checkpoint-stream/admission-requirements.json)
+list the proposed interface, enforcement and rejection evidence needed. Source
+membership is not finality or qualified randomness. Orderbook/NFT stream and
+real UI/wallet integrations remain separate unfinished work.
+
+
 ## Starting point and execution order
 
 The application started at `5af851ad` on
