@@ -62,6 +62,8 @@ Do not repurpose that field as the missing release proof. The current local
 3. Reject forged/wrong-chain/forked finality, late or fabricated seal openings,
    provider clock/ledger-height drift, root substitution and output known before
    the actual seal boundary. A signed claim of time is not a substitute for proof.
+   Magic and genesis-root equality alone cannot distinguish a reset that reuses
+   both; supply a reviewed unique instance/key-epoch domain and replay rejection.
 4. Fix source/round and set before release. Persist exact original identity and
    support handoff without new draw, new set or deterministic fallback. Provide
    governed timeout refunds, consumed epoch/order protection and fee exhaustion

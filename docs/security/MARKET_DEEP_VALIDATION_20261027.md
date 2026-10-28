@@ -298,3 +298,21 @@ semantics, authenticated finality, qualified beacon uniqueness/unpredictability
 and causal seal-before-release proof remain prerequisites. No random market/key,
 full UPS, live settlement/claim/refund or end-to-end performance claim is made.
 Deterministic execution, current finance stop and old-chain evidence remain intact.
+
+
+## 28 October: local random-candidate recovery
+
+[Candidate request recovery](VERIFIABLE_RANDOM_ORDERING_20261028.md#local-candidate-request-recovery-milestone)
+adds an offline Executor operator interface using the existing durable journal.
+It pins an immutable candidate identity across restart and same-host writers,
+projects unverified evidence to public digests, and refuses replacement sets or
+rounds. A reviewed first-freeze/report-collision defect was reproduced and fixed;
+post-pin report failure retains intent and identifies original versus requested
+identity for reconciliation. Final focused regressions and separate CLI invocations
+are archived, including a SIGKILLed writer and independent-process competition.
+
+These are local persistence and refusal results, not a chain seal, authenticated
+seed, financial recovery or wallet payment. All execution/refund capabilities
+remain false. No new proof, funds, deployment, SDK/Node change or old-contract
+operation occurred. Beacon/finality/causality and actual random market/key/full UPS
+remain unclosed; the source gate and existing financial stop remain intact.
