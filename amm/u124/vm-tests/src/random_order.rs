@@ -42,7 +42,10 @@ pub fn validate_fields(values:&[u64;FIELDS])->Result<()>{
 pub fn frozen_root(values:&[u64;FIELDS])->Result<[u64;4]>{validate_fields(values)?;let mut input=vec![f(FROZEN_TAG)];input.extend(values.iter().map(|n|f(*n)));Ok(PoseidonHash::hash_no_pad(&input).elements.map(|x|x.to_canonical_u64()))}
 pub fn order_keys(values:&[u64;FIELDS],seed:[u64;4])->Result<[[u64;4];4]>{
  ensure!(seed.iter().all(|n|*n<F::ORDER),"canonical seed");let root=frozen_root(values)?;
- Ok(std::array::from_fn(|i|{let mut input=vec![f(ORDER_TAG)];input.extend(root.map(f));input.extend(seed.map(f));input.extend(values[MEMBER+6*i..MEMBER+6*i+6].iter().map(|n|f(*n)));PoseidonHash::hash_no_pad(&input).elements.map(|x|x.to_canonical_u64())}))
+ Ok(order_keys_with_root(values,seed,root))
+}
+pub(crate) fn order_keys_with_root(values:&[u64;FIELDS],seed:[u64;4],root:[u64;4])->[[u64;4];4]{
+ std::array::from_fn(|i|{let mut input=vec![f(ORDER_TAG)];input.extend(root.map(f));input.extend(seed.map(f));input.extend(values[MEMBER+6*i..MEMBER+6*i+6].iter().map(|n|f(*n)));PoseidonHash::hash_no_pad(&input).elements.map(|x|x.to_canonical_u64())})
 }
 pub fn permutation(values:&[u64;FIELDS],seed:[u64;4])->Result<[u64;4]>{
  let keys=order_keys(values,seed)?;let count=values[13]as usize;let mut rank=[0,1,2,3];rank[..count].sort_by_key(|i|(keys[*i as usize],values[MEMBER+6*(*i as usize)],values[MEMBER+6*(*i as usize)+1]));Ok(rank)
@@ -117,6 +120,18 @@ pub fn constrain_frozen_statement(b:&mut CircuitBuilder<F,2>,fields:&[Target;FIE
  let tag=b.constant(f(FROZEN_TAG));let mut all=vec![tag];all.extend(*fields);
  (b.hash_n_to_hash_no_pad::<PoseidonHash>(all),active)
 }
+pub(crate) fn constrain_permutation(b:&mut CircuitBuilder<F,2>,fields:&[Target;FIELDS],root:HashOutTarget,seed:HashOutTarget,rank:[Target;4],active:[BoolTarget;4]){
+ let keys:[HashOutTarget;4]=std::array::from_fn(|i|{
+  let tag=b.constant(f(ORDER_TAG));let mut input=vec![tag];input.extend(root.elements);
+  input.extend(seed.elements);input.extend(&fields[MEMBER+6*i..MEMBER+6*i+6]);
+  b.hash_n_to_hash_no_pad::<PoseidonHash>(input)
+ });
+ let sorted=constrain_rank(b,fields,rank,keys,active);
+ for i in 1..4{
+  let before=total_before(b,sorted[i-1],sorted[i]);let bad=b.not(before);
+  let violation=b.and(active[i],bad);b.assert_zero(violation.target);
+ }
+}
 pub struct PermutationCircuit{pub data:CircuitData<F,C,2>,fields:[Target;FIELDS],seed:HashOutTarget,rank:[Target;4]}
 impl PermutationCircuit{
  pub fn build()->Self{
@@ -124,16 +139,7 @@ impl PermutationCircuit{
   let fields:[Target;FIELDS]=b.add_virtual_targets(FIELDS).try_into().unwrap();
   let seed=b.add_virtual_hash();let rank:[Target;4]=b.add_virtual_targets(4).try_into().unwrap();
   let (root,active)=constrain_frozen_statement(&mut b,&fields);
-  let keys:[HashOutTarget;4]=std::array::from_fn(|i|{
-   let tag=b.constant(f(ORDER_TAG));let mut input=vec![tag];input.extend(root.elements);
-   input.extend(seed.elements);input.extend(&fields[MEMBER+6*i..MEMBER+6*i+6]);
-   b.hash_n_to_hash_no_pad::<PoseidonHash>(input)
-  });
-  let sorted=constrain_rank(&mut b,&fields,rank,keys,active);
-  for i in 1..4{
-   let before=total_before(&mut b,sorted[i-1],sorted[i]);let bad=b.not(before);
-   let violation=b.and(active[i],bad);b.assert_zero(violation.target);
-  }
+  constrain_permutation(&mut b,&fields,root,seed,rank,active);
   b.register_public_inputs(&root.elements);b.register_public_inputs(&seed.elements);
   b.register_public_input(fields[13]);b.register_public_inputs(&rank);
   Self{data:b.build::<C>(),fields,seed,rank}

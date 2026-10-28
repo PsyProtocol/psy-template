@@ -132,3 +132,10 @@ resources and preserves exact compatibility failures. The
 [no-Node audit and U0–U3 delivery list](../../docs/security/NO_NODE_RANDOMNESS_FINALITY_20261028.md)
 separate current RPC capabilities, proof validity, finalized history and qualified
 causal entropy. No new source or finality adapter is enabled.
+
+[Scoped version-2 seal/order binding](../../docs/security/SCOPED_RANDOM_SEAL_20261028.md)
+adds complete-byte instance/source/finality/release identity claims and key epochs
+to a new stored commitment and its permutation. It cannot reinterpret an old
+seal or qualify those claims; deterministic generation and all authorization
+gates stay unchanged. `scope.mjs` is a strict candidate encoder, not an enabled
+Executor market profile or approved beacon adapter.

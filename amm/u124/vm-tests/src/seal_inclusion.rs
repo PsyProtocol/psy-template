@@ -29,6 +29,10 @@ fn member(proof:&MerkleProofCore<Q<F>>,root:Q<F>,index:u64,value:Q<F>,height:u8)
  ensure!(proof.siblings.len()==height as usize&&proof.index==index&&index<(1u64<<height)&&proof.root==root&&proof.value==value&&proof.verify::<H>(),"Merkle membership/root/index/height");Ok(())
 }
 pub fn verify_seal_opening(v:&[u64;FIELDS],layout:SealLayout,checkpoint_root:Q<F>,p:&SealOpening)->Result<()>{
+ let root=Q(HashOut{elements:frozen_root(v)?.map(F::from_canonical_u64)});
+ verify_seal_root(v,layout,checkpoint_root,p,root)
+}
+pub(crate) fn verify_seal_root(v:&[u64;FIELDS],layout:SealLayout,checkpoint_root:Q<F>,p:&SealOpening,root:Q<F>)->Result<()>{
  validate_fields(v)?;layout.validate()?;ensure!(p.schema==1&&checkpoint_root!=Q::ZERO,"seal schema/expected checkpoint root");
  ensure!(p.checkpoint_id>v[6]&&p.checkpoint_id<=v[7]&&p.checkpoint_id<v[8],"seal inclusion checkpoint must precede draw");
  ensure!(p.chain_anchor_leaf.global_chain_root==q(&v[18..22]),"genesis instance");
@@ -36,7 +40,6 @@ pub fn verify_seal_opening(v:&[u64;FIELDS],layout:SealLayout,checkpoint_root:Q<F
  member(&p.checkpoint_proof,checkpoint_root,p.checkpoint_id,p.checkpoint_leaf.qfhash::<H>(),CHECKPOINT_TREE_HEIGHT)?;
  ensure!(p.state_roots.qfhash::<H>()==p.checkpoint_leaf.global_chain_root,"sealed checkpoint state roots");
  verify_contract(v,layout,p)?;verify_user(v,p)?;
- let root=Q(HashOut{elements:frozen_root(v)?.map(F::from_canonical_u64)});
  let indices=layout.word_indices()?;ensure!(p.root_words.len()==indices.len(),"exact root word opening count");
  for (proof,index)in p.root_words.iter().zip(indices){member(proof,p.user_contract_proof.value,index,proof.value,layout.height)?;}
  for i in 0..4{let slot=layout.root_slot+i as u64;let word=&p.root_words[(slot/4-layout.root_slot/4)as usize];ensure!(word.value.0.elements[(slot%4)as usize]==root.0.elements[i],"stored frozen root differs from complete statement");}
