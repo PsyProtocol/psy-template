@@ -1,0 +1,34 @@
+{
+  "schema": 2,
+  "frozenSourcePinsVerifiedAfterBuild": true,
+  "freezeManifestSha256": "06d86a86775bef1f217e61a2192b525d657bc8de2d3687e5c28d93e7abfaec8f",
+  "sdkCommit": "c92880c8b6e2c8d392f19368bc8801a2584fd427",
+  "nodeClientCommit": "b280d714a8f0930c61962c885374ea63ea63d274",
+  "backendCommit": "736572e9dd3ca93566471cf5a2a1cb67a13fe01d",
+  "finalSourceInventoryMatches": true,
+  "cargoArguments": [
+    "release",
+    "locked",
+    "offline"
+  ],
+  "testOnlyTargetProjection": [
+    "verify_scoped_order",
+    "verify_seal_component",
+    "verify_random_order_component"
+  ],
+  "rayonThreads": 2,
+  "cargoJobs": 2,
+  "profile": "mainnet-beta-20261027-v1",
+  "network": "testnet",
+  "networkMagic": "1384803358401154921",
+  "originalV1Evidence": {
+    "sealProofSha256": "58d04b13602618edbb090f39b8a20d6acde24760be953f5a607640d6d131e8d7",
+    "orderProofSha256": "f495273d2219a14e7330b4f820929aa2f325f55d6a816046c651d236516b4fc6"
+  },
+  "verificationBinarySha256": "09ec2bf6832667a85567cf80e2046df932cbf4d6728ef629e1fc56185739d788",
+  "newPositiveSyntheticComponentProofs": 2,
+  "financialOperations": 0,
+  "rpcCalls": 0,
+  "nodeOrSdkPatches": [],
+  "randomAuthorization": false
+}

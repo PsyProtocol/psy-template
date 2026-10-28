@@ -82,3 +82,10 @@ now identifies existing checkpoint RPCs, the failed captured-proof/resource
 compatibility gate, exact U0–U3 owner deliveries and acceptance requirements.
 Checkpoint proof validity and mined bridge receipts do not independently establish
 the finality or causal-release assumptions required here.
+
+The [version-2 scoped component](../../docs/security/SCOPED_RANDOM_SEAL_20261028.md)
+now defines complete-byte instance/source/finality/release commitments and explicit
+key epochs. Any approved adapter must authenticate their exact relationship and
+use the new stored scoped root; an old 74-Felt seal cannot be upgraded by adding
+an unsealed sidecar. These fields are presently unverified claims, not a registry
+or accepted provider. The existing authorization gate remains closed.

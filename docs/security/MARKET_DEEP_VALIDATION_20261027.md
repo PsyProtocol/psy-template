@@ -352,3 +352,18 @@ external deliveries with precise resource digests and acceptance requirements.
 The native diagnostic and rejection/classification regressions are complete;
 checkpoint acceptance, finality and random-mode authorization are not. No Node,
 SDK, old contract, wallet, funds, proof generation or financial operation changed.
+
+## 28 October: explicit scoped random-seal encoding
+
+[Versioned scope/seal/permutation component](SCOPED_RANDOM_SEAL_20261028.md)
+binds complete chain-instance/source/finality/release-policy identity claims and
+epochs into a new stored root, and uses that root for the entire permutation.
+Two synthetic AMM/Curve four-member proofs, saved-proof attack cases,
+client/native roundtrips and original v1 proof compatibility are recorded.
+Failures have typed stages and exact input identities; a crash is not a security
+rejection. Old sealed queues and deployed contracts are unchanged.
+
+This closes a conditional binding gap, not source authentication. Actual instance,
+finality, unpredictability, seal-before-release causality, one-time random market
+state, SD-key/full UPS and financial acceptance remain open. Random authorization
+stays false. No Node/SDK change, financial operation, deployment or RPC occurred.
