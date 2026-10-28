@@ -18,6 +18,7 @@ export function methodSpans(source){const out=[];const re=/#\[contract_method\]\
 const freezeReads=body=>body.replace(/ctx\.users\[([^\]]+)\]\.contract_state::<Self::ABI>\(ctx\.contract_id\)\.([A-Za-z_]\w*(?:\[[^\]]+\])?)/g,(_,u,f)=>['x','y','z','price'].includes(f)?`[self.frozen[self.batch_index[${u}]].${f}_lo,self.frozen[self.batch_index[${u}]].${f}_hi]`:`self.frozen[self.batch_index[${u}]].${f}`).replaceAll('ctx.checkpoint_id','self.batch_cutoff');
 function code(body){return body.text().replace(/\bw_/g,'batch_w_');}
 function wrap(body,market,name,c){const d=new IntegerDsl(),end=new IntegerDsl();
+ d.checkpointGraph=c.checkpointGraph===true;
  if(name==='match_orders'){
   const a=enter(d,'seller_a'),b=enter(d,'seller_b');
   d.emit(`require(${fundingValid(d,a,market,c)} && ${fundingValid(d,b,market,c)}, "invalid cutoff funding");`);
@@ -79,9 +80,11 @@ function finishBatch(market,c){return method('finish_batch','batch: Felt',d=>{
  d.emit('self.batch_phase = 3;');
 });}
 
-export function generateBatch(market,config={}){assertDeterministicOrdering(config);
+export function generateBatch(market,config={}){return generateBatchCore(market,config,false);}
+export function generateProcessorBase(market,config={}){if(!['amm','bondingcurve'].includes(market))throw Error('checkpoint processor supports AMM/Curve');return generateBatchCore(market,config,true);}
+function generateBatchCore(market,config,checkpointGraph){assertDeterministicOrdering(config);
  if(!['amm','orderbook','bondingcurve','nftmarket'].includes(market))throw Error('batch market');
- const c=market==='nftmarket'?{nftId:41,tokenId:42,networkMagic:'1',...config}:{...fixture,networkMagic:'1',...config};
+ const c=market==='nftmarket'?{nftId:41,tokenId:42,networkMagic:'1',...config,checkpointGraph}:{...fixture,networkMagic:'1',...config,checkpointGraph};
  const base=market==='nftmarket'?generateNft({nftId:c.nftId,tokenId:c.tokenId}):({amm:generateAmm,orderbook:generateBook,bondingcurve:generateCurve}[market])(c);
  const spans=methodSpans(base);const settlements=new Set(market==='amm'?['swap_0','swap_1','refund_swap_0','refund_swap_1','add_liquidity','remove_liquidity','refund_add','cancel_remove']:market==='orderbook'?['match_orders','cancel_0','cancel_1']:market==='bondingcurve'?['settle_buy','settle_sell','refund_buy','refund_sell']:['settle_sale','refund_listing','refund_listing_fee','refund_buy','refund_buy_fee']);
  let source=base;

@@ -1,0 +1,81 @@
+{
+  "baseCommit": "03e75e2dfa33b104fef680569ca0f7fb4a121058",
+  "cases": [
+    {
+      "market": "amm",
+      "config": {
+        "assetA": 42,
+        "assetB": 43,
+        "issuer": 5,
+        "target": 400,
+        "cap": 1000000,
+        "liquidity": 1000000,
+        "unit": "1000000000000000000",
+        "base": "1000000000000000000",
+        "step": "100000000000000",
+        "threshold": 1000000,
+        "nftId": 41,
+        "tokenId": 42,
+        "networkMagic": "1384803358401154921"
+      },
+      "sha256": "fdd2d8b236aaff1ad2f9ec7af7e5f46a9af1e7156db4f8525c1dede76c941745"
+    },
+    {
+      "market": "orderbook",
+      "config": {
+        "assetA": 42,
+        "assetB": 43,
+        "issuer": 5,
+        "target": 400,
+        "cap": 1000000,
+        "liquidity": 1000000,
+        "unit": "1000000000000000000",
+        "base": "1000000000000000000",
+        "step": "100000000000000",
+        "threshold": 1000000,
+        "nftId": 41,
+        "tokenId": 42,
+        "networkMagic": "1384803358401154921"
+      },
+      "sha256": "b48f3a94d50a75d7011c52061336a1b81eae28aace376fa6b79875068a673358"
+    },
+    {
+      "market": "bondingcurve",
+      "config": {
+        "assetA": 42,
+        "assetB": 43,
+        "issuer": 5,
+        "target": 400,
+        "cap": 1000000,
+        "liquidity": 1000000,
+        "unit": "1000000000000000000",
+        "base": "1000000000000000000",
+        "step": "100000000000000",
+        "threshold": 1000000,
+        "nftId": 41,
+        "tokenId": 42,
+        "networkMagic": "1384803358401154921"
+      },
+      "sha256": "f78dce39606d2f89eb3ba66679903a4c5c93eadc9bcfd0e7dc3f9fcccff10a64"
+    },
+    {
+      "market": "nftmarket",
+      "config": {
+        "assetA": 42,
+        "assetB": 43,
+        "issuer": 5,
+        "target": 400,
+        "cap": 1000000,
+        "liquidity": 1000000,
+        "unit": "1000000000000000000",
+        "base": "1000000000000000000",
+        "step": "100000000000000",
+        "threshold": 1000000,
+        "nftId": 41,
+        "tokenId": 42,
+        "networkMagic": "1384803358401154921"
+      },
+      "sha256": "9b9ff396ae4198558ad9f840e7d3131431c37d39b27e656923a86b9e53fc4f45"
+    }
+  ]
+}

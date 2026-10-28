@@ -12,23 +12,27 @@ use crate::market_key::{SDKeyCircuitGadget,SDKeySessionContextTargets,SDKeyTrans
 use serde_json::Value;
 
 pub(crate) fn validate(spec:&Value)->Result<()>{
+ if spec["version"]==3{return crate::processor_policy::validate(spec);}
  crate::batch_policy::validate(spec)?;
  let mut descriptors=vec![&spec["begin"],&spec["finish"],&spec["burn"],&spec["expire"]];descriptors.extend(spec["commit"].as_array().unwrap());
  for op in spec["operations"].as_array().unwrap(){descriptors.extend(op["calls"].as_array().unwrap());}
  for call in descriptors{if call["contract_id"]==spec["noop"]["contract_id"]&&call["method_id"]==spec["noop"]["method_id"]{ensure!(call["method_name"]==spec["noop"]["method_name"]&&call["inputs"]==spec["noop"]["inputs"],"ambiguous noop identity");}}
  Ok(())
 }
-pub fn build(spec:&Value)->Result<SDKeyCircuitGadget>{validate(spec)?;crate::batch_policy::build_with_profile(spec,true)}
+pub fn build(spec:&Value)->Result<SDKeyCircuitGadget>{if spec["version"]==3{return crate::processor_policy::build(spec);}validate(spec)?;crate::batch_policy::build_with_profile(spec,true)}
 pub fn calls(spec:&Value,fields:&[u64])->Result<Vec<Value>>{
  let logical=crate::batch_policy::expected_calls(spec,fields)?;
  Ok(logical.into_iter().filter(|c|c["contract_id"]!=spec["noop"]["contract_id"]||c["method_name"]!=spec["noop"]["method_name"]).collect())
 }
 
 pub(crate) fn add_virtual_to(b:&mut CircuitBuilder<F,2>,cfg:&SDKeyConfig,spec:&Value)->Result<SDKeyCircuitGadget>{
+ add_virtual_with_width(b,cfg,spec,crate::batch_policy::WIDTH)
+}
+pub(crate) fn add_virtual_with_width(b:&mut CircuitBuilder<F,2>,cfg:&SDKeyConfig,spec:&Value,width:usize)->Result<SDKeyCircuitGadget>{
  ensure!(cfg.num_introspectable_transactions==40&&!cfg.can_read_state&&!cfg.requires_secp256k1&&cfg.num_secp256k1_slots==0,"compact profile supports stack-only key");
  ensure!(spec["noop"]["inputs"].as_array().is_some_and(|a|a.is_empty())&&spec["noop"]["method_name"]=="noop","canonical zero-input noop required");
  let private_key=b.add_virtual_hash();let sig_hash=b.add_virtual_hash();let checkpoint_id=b.add_virtual_target();let user_id=b.add_virtual_target();
- let circuit_inputs=b.add_virtual_targets(crate::batch_policy::WIDTH);
+ let circuit_inputs=b.add_virtual_targets(width);
  let tx_stack_hash=b.add_virtual_hash();let tx_count=b.add_virtual_target();let mut slots=Vec::new();
  let magic=b.constant(F::from_noncanonical_u64(DEFERRED_CALL_MAGIC));
  let noop_cid=b.constant(F::from_canonical_u64(spec["noop"]["contract_id"].as_u64().unwrap()));

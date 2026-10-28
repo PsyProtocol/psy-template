@@ -1,0 +1,1502 @@
+{
+  "schema": 1,
+  "scope": "offline candidate evidence only; no real funds or broadcasts",
+  "applicationBase": "03e75e2dfa33b104fef680569ca0f7fb4a121058",
+  "summary": "SUMMARY.json",
+  "sourceSha256": {
+    "amm/u124/vm-tests/src/batch_compact.rs": "2606a247cc3022572e899344ceae738e20735371df91022e3d03bb8e55e1eaf4",
+    "amm/u124/vm-tests/src/batch_policy.rs": "67d197037d2a39a207ea43dc5dd9fe52ce6246fa38e3aa99ecc5aa06a17f9f64",
+    "amm/u124/vm-tests/src/bin/compact_market_wallet.rs": "aae85fda704ad5cd1a42997018c2b61c20d1d381e39ee235e08b15f826f64c41",
+    "amm/u124/vm-tests/src/bin/compile_checkpoint_processor.rs": "3a9763a2be76a9f137fbba715b822ffa715c1c0714f18002d8a1e2d14237e6a3",
+    "amm/u124/vm-tests/src/bin/diagnose_processor_fee.rs": "ace8ceed2e827eaa1f28c4790b7cd3fa5a77dfb4ac7bea4490f8485ba5f5a952",
+    "amm/u124/vm-tests/src/checkpoint_processor.rs": "287a6e5eb4c62375de0c905e63197a4166ca7393167019ad19da8d06731d5d22",
+    "amm/u124/vm-tests/src/lib.rs": "d337359cdd0969885c8767b230667711299d0bfcf357a0ae4198e370562e5e57",
+    "amm/u124/vm-tests/src/processor_policy.rs": "fd28490f2b723ad8d18fa48868a0b89a7f201a5842ba84c2e138d646aa6a308c",
+    "amm/u124/vm-tests/tests/batch_lifecycle.rs": "fa919e42bad836880d61b04cddebf82b3b76689bb6ff3b3ed5d000d74a2d6032",
+    "amm/u124/vm-tests/tests/support/batch_full_ups.rs": "fd68b4486cb1c64dbfaca1488afb8c09815c67d869c927376460996b011d80bc",
+    "amm/u124/vm-tests/tests/support/checkpoint_processor.rs": "fd5a58a63e670474346c42f25e1b1812ce23144eda20921d59e87bd654d79247",
+    "batching/checkpoint-processor/build.mjs": "cb3e5faa816055f1ac8c31966174ef11b91e55e0be9352bd43aee60a0b4ec865",
+    "batching/checkpoint-processor/generate.mjs": "8097c458a66c7a21adbc6c58a17d9e33ef7a25dc51ebdc4ebf5ff84d1fc71305",
+    "batching/checkpoint-processor/legacy-golden.json": "0d634062bb1925b610218330cf9e62e9cfc8efe614050347bdb80828460cb7ef",
+    "batching/checkpoint-processor/legacy.test.mjs": "25d9dba958a3fcc5fbc1fd06fd68ba5ae2ff6942a96e51aebf88f5f329af3d1f",
+    "batching/checkpoint-processor/policy.mjs": "a40416c8bd09f987f028953a028f88c067b1447efb3b91717ce5b34bb6c8d3de",
+    "batching/checkpoint-processor/policy.test.mjs": "c5797e3bdebc1a975b4f00ff809bd3fccbbcf753e22fff3509a2a9a0f314fabf",
+    "batching/v2/controller.mjs": "ce469d589fd92b892d44565455057f7b636734efa090be0b4e4a0f180c13e080",
+    "batching/v2/funding.mjs": "84a99d2c0c7a0a38fe44f6470ff6a2d9fa94e30e421d5d2f0192d62ff399399c",
+    "batching/v2/generate.mjs": "ce69245428713790b9d8e72b74e419c2455f05ae70072b8a9103aa187609bee5",
+    "batching/v2/guards.mjs": "12942bfa2f5adafcfcc7518f9fbf8349d1cf9f2bd750e5bb9106abe897e39fe0",
+    "batching/v2/recovery.mjs": "3c8d88548a53538c9b89b84ce13fccb7d2458fa9219f798700736868b7b4505d",
+    "executor/checkpointProcessor.mjs": "286bd133d604a470ad63ece639e1c8eee31ad5075b3188ef69cfcb1d74f8d841"
+  },
+  "binaries": {
+    "proofTest": {
+      "bytes": 26920688,
+      "sha256": "76d7d674d6977a3c9c5109585ef5ab2d02b6d4728ce70d33d2b4d1417ac36aa3"
+    },
+    "ownedCompiler": {
+      "bytes": 18019520,
+      "sha256": "c2861403e084e6186677ad9d637e1d732c76be421344a0dfc69205c6e6631944"
+    }
+  },
+  "frozenSdk": "c92880c8b6e2c8d392f19368bc8801a2584fd427",
+  "currentCompleteUps": 4,
+  "historicalCompleteUps": 4,
+  "standaloneSourceCfcProofs": 1,
+  "failedPositiveEndcapAttempts": 2,
+  "qualification": {
+    "nativeSeedRelativeToUpsTree": true,
+    "unpredictability": false,
+    "lowBias": false,
+    "actualSealBeforeRelease": false,
+    "actualChainInstanceFinality": false,
+    "liveAuthorization": false,
+    "networkSubmissions": 0,
+    "financialOperations": 0,
+    "deployments": 0,
+    "realFees": "0",
+    "globalCompleteness": false,
+    "crossMachineAcceptance": false
+  },
+  "files": [
+    {
+      "file": "files/market-checkpoint-processor-20261028-v1/public/CLOSED.json.gz",
+      "bytes": 311,
+      "sha256": "63962cfe8c270f1cfef6d387e9a246fba09abf44391a160320444f05190175bf",
+      "gzipBytes": 237,
+      "gzipSha256": "8acd7a0bd224390b3d035896c4d9ff683999116f7cc24bd6312b9549977c6c47",
+      "originalSha256": "63962cfe8c270f1cfef6d387e9a246fba09abf44391a160320444f05190175bf",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-processor-20261028-v1/public/PLAN.json.gz",
+      "bytes": 973,
+      "sha256": "acc0c844bb2da6db7bc07bbd1949126c7bae0c9bd8c11a8ae039f6ef1d007309",
+      "gzipBytes": 571,
+      "gzipSha256": "72f6c4f7a11d9ea359e21d60237ebf23d3c773c97ced20ff3d64d44e1280977e",
+      "originalSha256": "acc0c844bb2da6db7bc07bbd1949126c7bae0c9bd8c11a8ae039f6ef1d007309",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-processor-20261028-v1/public/bytecode-v1-result.json.gz",
+      "bytes": 429,
+      "sha256": "442d5ce504ee48fb23bde824e7358895d63887ffd9bdf55c28972a55abd62e4a",
+      "gzipBytes": 267,
+      "gzipSha256": "4f964ec2906ec8bbec92eb55896b729d32adce801067d887711f54ef6b1a9f68",
+      "originalSha256": "442d5ce504ee48fb23bde824e7358895d63887ffd9bdf55c28972a55abd62e4a",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-processor-20261028-v1/public/bytecode-v1.log.gz",
+      "bytes": 361,
+      "sha256": "9adac8b1303ef725ed361b929fb76f6c9972efcb034733a54af32d2fd9a266d2",
+      "gzipBytes": 203,
+      "gzipSha256": "b555eb566a30a55c7f588ca8813df5f59aac07f0dee3fc2e38873b8ab02396c2",
+      "originalSha256": "9adac8b1303ef725ed361b929fb76f6c9972efcb034733a54af32d2fd9a266d2",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-processor-20261028-v1/public/bytecode-v2-result.json.gz",
+      "bytes": 765,
+      "sha256": "439c42c3ac7022a7dae8dcdb885c48b061788818c6f09950134db26f7c6c0678",
+      "gzipBytes": 339,
+      "gzipSha256": "fa77201c64732e552b51e1de3a62c1d0f1ccf308d913339ee3e3911f6581e9c8",
+      "originalSha256": "439c42c3ac7022a7dae8dcdb885c48b061788818c6f09950134db26f7c6c0678",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-processor-20261028-v1/public/bytecode-v2.log.gz",
+      "bytes": 212,
+      "sha256": "d6339410b7f14e1fe9fa4a99cdd7170587d7fe3163c42af8be2b67d207cbc258",
+      "gzipBytes": 162,
+      "gzipSha256": "d0b57af07b34b5403958fa0d1c1d3b7d7dfe4296078fd45f22f1ad944a51e836",
+      "originalSha256": "d6339410b7f14e1fe9fa4a99cdd7170587d7fe3163c42af8be2b67d207cbc258",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-processor-20261028-v1/public/bytecode-v3-result.json.gz",
+      "bytes": 855,
+      "sha256": "7421522c66d662f560c125af9f453c8120d906e5b40e8db73eae105101d490e5",
+      "gzipBytes": 356,
+      "gzipSha256": "722bd30e333124aeb31ec5331e1553f0fa21b9f14b73bdca5e1d1233b4ea2096",
+      "originalSha256": "7421522c66d662f560c125af9f453c8120d906e5b40e8db73eae105101d490e5",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-processor-20261028-v1/public/bytecode-v3.log.gz",
+      "bytes": 469,
+      "sha256": "2274b94ac226769de780f202bb1e3a397fbc9f60c25a4b558c6fe8f3534af292",
+      "gzipBytes": 245,
+      "gzipSha256": "1dec7c7e6bbf8cdebc88c9e6fda31355efcd8ed2e5cca7bcdae414a2ea4e99f3",
+      "originalSha256": "2274b94ac226769de780f202bb1e3a397fbc9f60c25a4b558c6fe8f3534af292",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-processor-20261028-v1/public/bytecode-v4-result.json.gz",
+      "bytes": 853,
+      "sha256": "8e166b7b5489c8f9642599989b19255e0be8c669a95e9af09094fae85536c23c",
+      "gzipBytes": 358,
+      "gzipSha256": "dbee5737e9d4c9c560395beb63395836b0a72ba75ab80baebd938c5c8fdc09b3",
+      "originalSha256": "8e166b7b5489c8f9642599989b19255e0be8c669a95e9af09094fae85536c23c",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-processor-20261028-v1/public/bytecode-v4.log.gz",
+      "bytes": 313,
+      "sha256": "a871f30e5ed93dcc3d6b1313cd0d81adf354404f282f1dc327d4f5a3b93f52df",
+      "gzipBytes": 198,
+      "gzipSha256": "fb2f9e9f3d5b00bd6785a486d9b0f21cc6a2db207f33320f3b5258a5efa184ca",
+      "originalSha256": "a871f30e5ed93dcc3d6b1313cd0d81adf354404f282f1dc327d4f5a3b93f52df",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-processor-20261028-v1/public/candidate-build-v1-result.json.gz",
+      "bytes": 426,
+      "sha256": "20a1d1652f9a468bc0c2a88082c4bf824852c4f89b87c015ecabfde1d5a0784e",
+      "gzipBytes": 266,
+      "gzipSha256": "1653001dc5d8d83346d7c2ed997e1f445332263c0cf920132402458986ae0756",
+      "originalSha256": "20a1d1652f9a468bc0c2a88082c4bf824852c4f89b87c015ecabfde1d5a0784e",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-processor-20261028-v1/public/candidate-build-v1.log.gz",
+      "bytes": 932,
+      "sha256": "a8cd4e8915c57648769ae4a2502c0c56e66ccfb428c4fcf221fc5c0af514537c",
+      "gzipBytes": 411,
+      "gzipSha256": "516c1b890fe7bbece0e9ad7ba44744f88f497535a7d68cec969a2f9eff349d29",
+      "originalSha256": "a8cd4e8915c57648769ae4a2502c0c56e66ccfb428c4fcf221fc5c0af514537c",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-processor-20261028-v1/public/candidate-build-v2-result.json.gz",
+      "bytes": 511,
+      "sha256": "a0c8e0e0ab1110328e9ee5fb16b75225ae86459fb0fa4f6f31afa97907d78c98",
+      "gzipBytes": 286,
+      "gzipSha256": "63e3e278d223112befb7069e86f36d8b5afd9b9837df71fd80ea1e1bfc3e0e4b",
+      "originalSha256": "a0c8e0e0ab1110328e9ee5fb16b75225ae86459fb0fa4f6f31afa97907d78c98",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-processor-20261028-v1/public/candidate-build-v2.log.gz",
+      "bytes": 930,
+      "sha256": "4a6819a6586afda16a2283f3cd69e28e326a711f2e74e348d07b07d6d2c9f314",
+      "gzipBytes": 582,
+      "gzipSha256": "7f8a5f4325bb92ba0667f211273d4cf592723452fb46c6bfdb1308b74f39e17c",
+      "originalSha256": "4a6819a6586afda16a2283f3cd69e28e326a711f2e74e348d07b07d6d2c9f314",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-processor-20261028-v1/public/candidate-build-v3-result.json.gz",
+      "bytes": 510,
+      "sha256": "4c6805301ec802555475c76c2ba193b5c7ce830fd7a921ebf42cf598d1b26029",
+      "gzipBytes": 285,
+      "gzipSha256": "c4ae00d7efa135c12364fe73ef51dc00d637d3122f232e1778802209908fed14",
+      "originalSha256": "4c6805301ec802555475c76c2ba193b5c7ce830fd7a921ebf42cf598d1b26029",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-processor-20261028-v1/public/candidate-build-v3.log.gz",
+      "bytes": 930,
+      "sha256": "9680c64a353b0d117133f0a04116d27d4cb7e559783c2bced951c27c0da8f18b",
+      "gzipBytes": 585,
+      "gzipSha256": "7a05e1f7d5e09ebc9c18c244e5e4ef04175dc97df2b1bed66cd2d17ed01c7e3d",
+      "originalSha256": "9680c64a353b0d117133f0a04116d27d4cb7e559783c2bced951c27c0da8f18b",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-processor-20261028-v1/public/candidate-build-v4-result.json.gz",
+      "bytes": 511,
+      "sha256": "b29a0f1aeb99673f8562d1e5983f8d77da4ea99045f0a881effcc43340ab5272",
+      "gzipBytes": 286,
+      "gzipSha256": "64b83fd6e1cf6d762912d4c8d60e05b527425327bb1457e9c2d6c6ab1162474b",
+      "originalSha256": "b29a0f1aeb99673f8562d1e5983f8d77da4ea99045f0a881effcc43340ab5272",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-processor-20261028-v1/public/candidate-build-v4.log.gz",
+      "bytes": 930,
+      "sha256": "8e1360bbba10a3765c935733903955b5aeefe04a44504323220e84cd418abc76",
+      "gzipBytes": 582,
+      "gzipSha256": "07ae94721a30922e2abdc8f752357e3ff05ef45d635873ad0ff431060a2b7515",
+      "originalSha256": "8e1360bbba10a3765c935733903955b5aeefe04a44504323220e84cd418abc76",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-processor-20261028-v1/public/compiler-build-v1-result.json.gz",
+      "bytes": 3417,
+      "sha256": "f9b64a3587861b5722ba691a9195d84d36b292d65f0d40c7d4d3d005b87dcd71",
+      "gzipBytes": 857,
+      "gzipSha256": "b093463362a1ea9aa9ab772b3626bad5c7bddbe4d3c1f45501a35667be3b6259",
+      "originalSha256": "f9b64a3587861b5722ba691a9195d84d36b292d65f0d40c7d4d3d005b87dcd71",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-processor-20261028-v1/public/compiler-build-v1.log.gz",
+      "bytes": 41667,
+      "sha256": "2804b68dffeca7bef76136b365675ebe04c181243057fd096c412095fa14d3d4",
+      "gzipBytes": 7612,
+      "gzipSha256": "4ada1f9f8bcf6031f8956fe265f6adb9323731e68c475b42678b595554889a96",
+      "originalSha256": "2804b68dffeca7bef76136b365675ebe04c181243057fd096c412095fa14d3d4",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-processor-20261028-v1/public/diagnostic-build-v1-result.json.gz",
+      "bytes": 507,
+      "sha256": "c27eea0d23b46b59fd5882be979a24e6f9b80171c3cc1d7341e1605efc77a1fa",
+      "gzipBytes": 279,
+      "gzipSha256": "43f22dd87eaa8bfafcbae703d51ee57ca6e4f4e646b5030aec20fa81a1b23347",
+      "originalSha256": "c27eea0d23b46b59fd5882be979a24e6f9b80171c3cc1d7341e1605efc77a1fa",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-processor-20261028-v1/public/diagnostic-build-v1.log.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "ac73670af3abed54ac6fb4695131f4099be9fbe39d6076c5d0264a6bbdae9d83",
+      "originalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-processor-20261028-v1/public/fee-stack-diagnosis-v1.json.gz",
+      "bytes": 1932,
+      "sha256": "5fff8809d78d827a510887874a5f6708f1eabf8fe7ae8e0b9383e5230f038767",
+      "gzipBytes": 762,
+      "gzipSha256": "2cc7f34fe8678c10b1462a8681ce7e37ab26c23c5b05ddfaa1f7728e7a0828ca",
+      "originalSha256": "5fff8809d78d827a510887874a5f6708f1eabf8fe7ae8e0b9383e5230f038767",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-processor-20261028-v1/public/full-ups-v1-result.json.gz",
+      "bytes": 24610,
+      "sha256": "8eaa7ccbf2bd986f35107691a7fa83902c38ecd6d6c72bd3cb55135cd2f327ed",
+      "gzipBytes": 4756,
+      "gzipSha256": "03e3109fc8403d25832ef1df80012edd704adaeff8fa6a0a261f953dd2792f6d",
+      "originalSha256": "8eaa7ccbf2bd986f35107691a7fa83902c38ecd6d6c72bd3cb55135cd2f327ed",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-processor-20261028-v1/public/full-ups-v1.log.gz",
+      "bytes": 6966,
+      "sha256": "004c8f7f38e297f501dd1b233cede0b593e9cccbfb7189d76a1efb31ba36152b",
+      "gzipBytes": 1174,
+      "gzipSha256": "8daf9de418210bc34c47145a83f96d99657dba3618411d3f4c0ce3da07e9a1d7",
+      "originalSha256": "004c8f7f38e297f501dd1b233cede0b593e9cccbfb7189d76a1efb31ba36152b",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-processor-20261028-v1/public/full-ups-v2-result.json.gz",
+      "bytes": 21362,
+      "sha256": "b581382dbf90e332e89ed2bad674b30287b457e33c08029e373d9098d38de064",
+      "gzipBytes": 4117,
+      "gzipSha256": "fa8207e7d672f45953d5182f8d68b3374b84f7710ab18d5fff1ee7399e8c0363",
+      "originalSha256": "b581382dbf90e332e89ed2bad674b30287b457e33c08029e373d9098d38de064",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-processor-20261028-v1/public/full-ups-v2.log.gz",
+      "bytes": 5741,
+      "sha256": "7df1e13090eb0a43dcefeebbe13c8b5517ed8a7e419e3b8ed643b049323171e8",
+      "gzipBytes": 1081,
+      "gzipSha256": "c32463eb587dbe7b31a1a2f826c7f6aea6b55fab4b1a06d0f490b2ecf859cda9",
+      "originalSha256": "7df1e13090eb0a43dcefeebbe13c8b5517ed8a7e419e3b8ed643b049323171e8",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-processor-20261028-v1/public/js-policy-v1-result.json.gz",
+      "bytes": 337,
+      "sha256": "5196f533d0d7c890276ea2b07c11fdff2c0d3b8ae178b8f67c09302ffc1da12c",
+      "gzipBytes": 239,
+      "gzipSha256": "378207f75a689b3fb9c460af048c6c8197c5e3a5c0bf22f491785f365210527e",
+      "originalSha256": "5196f533d0d7c890276ea2b07c11fdff2c0d3b8ae178b8f67c09302ffc1da12c",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-processor-20261028-v1/public/js-policy-v1.log.gz",
+      "bytes": 740,
+      "sha256": "04d3d8dd3a618c10322d3f1921f230fff03f1dfada3f7de24bb6226c3ee6193e",
+      "gzipBytes": 387,
+      "gzipSha256": "41e6e1e8e2433ce3e1f68af98677b5aa6752fbd5e29da4b64df40e7da89e978e",
+      "originalSha256": "04d3d8dd3a618c10322d3f1921f230fff03f1dfada3f7de24bb6226c3ee6193e",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-processor-20261028-v1/public/js-policy-v2-result.json.gz",
+      "bytes": 336,
+      "sha256": "29868da5ef93bc441bbb82fb9b34c852c36e3995f2de5851b524212f467bb140",
+      "gzipBytes": 238,
+      "gzipSha256": "4f03de848d23073a402f73e35f083e940db0310f4dc88ee12bb6c27074a2c037",
+      "originalSha256": "29868da5ef93bc441bbb82fb9b34c852c36e3995f2de5851b524212f467bb140",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-processor-20261028-v1/public/js-policy-v2.log.gz",
+      "bytes": 1204,
+      "sha256": "d6496ec331b43af7d2468e32436cc029d6a012969755e34f4d631908eccb90dd",
+      "gzipBytes": 508,
+      "gzipSha256": "e5c5dd9d28af4463dbb9c693a918bcefd19b02a1faeb8f93b883bec8da09c6c3",
+      "originalSha256": "d6496ec331b43af7d2468e32436cc029d6a012969755e34f4d631908eccb90dd",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-processor-20261028-v1/public/key-reproduction-v1-result.json.gz",
+      "bytes": 683,
+      "sha256": "9d8f056e004279ad22854580d897f272acd156ef52da6268f0d9e46ea0a020ff",
+      "gzipBytes": 325,
+      "gzipSha256": "8dca328b0260195648694f78734c776ff286cf5c1b912b830ec80f3ddb5f017a",
+      "originalSha256": "9d8f056e004279ad22854580d897f272acd156ef52da6268f0d9e46ea0a020ff",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-processor-20261028-v1/public/key-reproduction-v1.log.gz",
+      "bytes": 4828,
+      "sha256": "e30913253782d290123d270acc4ac9ec7f5fa7ff48d968b3dfe794c6e69ac5ad",
+      "gzipBytes": 1329,
+      "gzipSha256": "9d9d2817c8eea62302af8e2a6a4bb70c0112a4fb1a15e16695fbfc4341552331",
+      "originalSha256": "e30913253782d290123d270acc4ac9ec7f5fa7ff48d968b3dfe794c6e69ac5ad",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-processor-20261028-v1/public/key-trace-v1-result.json.gz",
+      "bytes": 8501,
+      "sha256": "09db56854d871ef7b0527cfe1c8eac5af87612a1c325a63e97b9a52739302123",
+      "gzipBytes": 1796,
+      "gzipSha256": "5fe4c94f64307b4713537bcc436833eb77ca3881f6fcc6d7397667cb3cd9aa9e",
+      "originalSha256": "09db56854d871ef7b0527cfe1c8eac5af87612a1c325a63e97b9a52739302123",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-processor-20261028-v1/public/key-trace-v1.log.gz",
+      "bytes": 2342,
+      "sha256": "8e328898f3db8f61b67baf877c0565ad6bf2a1443694369939a4b1a0b538bb48",
+      "gzipBytes": 805,
+      "gzipSha256": "948eed86edde6abda4f19e9dbd74628becc2859ad6e31fc11234d4f1ab63ca44",
+      "originalSha256": "8e328898f3db8f61b67baf877c0565ad6bf2a1443694369939a4b1a0b538bb48",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-processor-20261028-v1/public/source-cfc-v1-result.json.gz",
+      "bytes": 8223,
+      "sha256": "49eab294f8ff857ff1afb018e44fec4474e1f4e5af9cf64b2ada1f8c070acfae",
+      "gzipBytes": 1752,
+      "gzipSha256": "e24626a22d6ea4b5147b51506f1e6cacd8a888611457cbc7fbbc4fe75f6adf9a",
+      "originalSha256": "49eab294f8ff857ff1afb018e44fec4474e1f4e5af9cf64b2ada1f8c070acfae",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-processor-20261028-v1/public/source-cfc-v1.log.gz",
+      "bytes": 924,
+      "sha256": "c8619ef334ab2d65748827e239ce79264a653e6cf7c1bec6b9ff866beba0c365",
+      "gzipBytes": 371,
+      "gzipSha256": "aee330b6c8fea261ac3b07eb8c8cd39136ed32d63a6e83502be3bc73a0fd42fb",
+      "originalSha256": "c8619ef334ab2d65748827e239ce79264a653e6cf7c1bec6b9ff866beba0c365",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-processor-20261028-v1/public/test-build-v2-result.json.gz",
+      "bytes": 6737,
+      "sha256": "eab1b20d31a75815b6f8c96c74e79d690056b65616bf712b2ce9fc5af250b64f",
+      "gzipBytes": 1472,
+      "gzipSha256": "97ece88f2f27cd095b500f5242bd598ff082cb3842273b687015e78f7235665d",
+      "originalSha256": "eab1b20d31a75815b6f8c96c74e79d690056b65616bf712b2ce9fc5af250b64f",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-processor-20261028-v1/public/test-build-v2.log.gz",
+      "bytes": 42256,
+      "sha256": "74944f1d7d6964ee08510f7f4175857558916a6030d1cd399eee3062e96ad7e5",
+      "gzipBytes": 7749,
+      "gzipSha256": "0859a73c25a530bfa367fec730a0ac59b7a0509d39c407449353cf74bdd17d93",
+      "originalSha256": "74944f1d7d6964ee08510f7f4175857558916a6030d1cd399eee3062e96ad7e5",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-processor-20261028-v1/public/test-build-v3-result.json.gz",
+      "bytes": 6646,
+      "sha256": "2e002efcf8220f0411a230c227612610e43d38889cb07e777f5edac63076f014",
+      "gzipBytes": 1448,
+      "gzipSha256": "2774fb8e0977e66e5c7ffd70d7c07b8ac73e8b6ab30293b679dfd4d9570f64be",
+      "originalSha256": "2e002efcf8220f0411a230c227612610e43d38889cb07e777f5edac63076f014",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-processor-20261028-v1/public/test-build-v3.log.gz",
+      "bytes": 42256,
+      "sha256": "96f7dbf8dd3d60cd7d05d14de98f563ccd2d7738e36387d7f58bf6a2caa91d3b",
+      "gzipBytes": 7749,
+      "gzipSha256": "9208a4c7b822df82570855fd1316b7c159c3705c2db6ce6b7ca3c9deebef3d59",
+      "originalSha256": "96f7dbf8dd3d60cd7d05d14de98f563ccd2d7738e36387d7f58bf6a2caa91d3b",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-processor-20261028-v1/public/test-build-v4-result.json.gz",
+      "bytes": 6565,
+      "sha256": "33b93dd4486b575ad648804e2a5653bc5cfb22b37a733d14c9c4b16d1847b6e9",
+      "gzipBytes": 1441,
+      "gzipSha256": "60785740fcad9092191bc884f25369e797fc7e6c8796ab89d9f0549f9d84d37a",
+      "originalSha256": "33b93dd4486b575ad648804e2a5653bc5cfb22b37a733d14c9c4b16d1847b6e9",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-processor-20261028-v1/public/test-build-v4.log.gz",
+      "bytes": 42256,
+      "sha256": "fdbcbedab9791ca869d1edbf536cd84b33d03faaeaff4576aca83190ed3a0466",
+      "gzipBytes": 7749,
+      "gzipSha256": "e196fd2779c39435e1f0cd934a24a0755a38b4b8b100110db2cdce4e4c76c8cb",
+      "originalSha256": "fdbcbedab9791ca869d1edbf536cd84b33d03faaeaff4576aca83190ed3a0466",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-processor-20261028-v1/public/test-build-v5-result.json.gz",
+      "bytes": 6492,
+      "sha256": "3a40929c8829bfe533988c9d8f4a7893ca1b74c954a576b3c8f496685bba01fc",
+      "gzipBytes": 1434,
+      "gzipSha256": "2d8bf2326ca606b39ec253720bb84d2bd3a992c4da632a4ba47c56b501d1dc8c",
+      "originalSha256": "3a40929c8829bfe533988c9d8f4a7893ca1b74c954a576b3c8f496685bba01fc",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-processor-20261028-v1/public/test-build-v5.log.gz",
+      "bytes": 42256,
+      "sha256": "d576e72fcb8cb97a70991ffa9620ee99d527e3dc795175c81f2a59536759b491",
+      "gzipBytes": 7749,
+      "gzipSha256": "ae777df13cf68855294a400ec1644cba5295b7ad1d60e07a059f806a69aaef4e",
+      "originalSha256": "d576e72fcb8cb97a70991ffa9620ee99d527e3dc795175c81f2a59536759b491",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-processor-20261028-v1/public/test-build-v6-result.json.gz",
+      "bytes": 6736,
+      "sha256": "d9d1e36c971cbb12a59fc89c18b4ec70fdc231c0c0254102d5d4f579734258f3",
+      "gzipBytes": 1478,
+      "gzipSha256": "0e1ee95085fd0b4c023565c04f1fc9171add99d47c624c03bd9d671dd0813d4a",
+      "originalSha256": "d9d1e36c971cbb12a59fc89c18b4ec70fdc231c0c0254102d5d4f579734258f3",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-processor-20261028-v1/public/test-build-v6.log.gz",
+      "bytes": 42256,
+      "sha256": "4750eecac5ac52d24c94756f7335c93c85956c9980e4ed20d0d3ea7235da07c2",
+      "gzipBytes": 7748,
+      "gzipSha256": "255cfbe3ed2ea635d560e08783df13b609773e0d61b377cc00f909bd1c46bd0f",
+      "originalSha256": "4750eecac5ac52d24c94756f7335c93c85956c9980e4ed20d0d3ea7235da07c2",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-processor-20261028-v1/public/test-build-v7-result.json.gz",
+      "bytes": 3418,
+      "sha256": "a0c002bef85564073bac45a363288da910e5a7fce40a5a833c5182e8c3d8fb9a",
+      "gzipBytes": 851,
+      "gzipSha256": "1266863ba8dfe9087f417e249f911aff083d7badf3cd21a873346338089d487e",
+      "originalSha256": "a0c002bef85564073bac45a363288da910e5a7fce40a5a833c5182e8c3d8fb9a",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-processor-20261028-v1/public/test-build-v7.log.gz",
+      "bytes": 42971,
+      "sha256": "5fea1ed97d8219244d91d436071a135533be13ed4acc13bb2f68de7b3eba97e0",
+      "gzipBytes": 7948,
+      "gzipSha256": "daaffc3a1895893963eb691fd6bff0733ff1f3d61b6b8a96391bc6f4966ec73e",
+      "originalSha256": "5fea1ed97d8219244d91d436071a135533be13ed4acc13bb2f68de7b3eba97e0",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-processor-20261028-v1/public/test-build-v8-result.json.gz",
+      "bytes": 6646,
+      "sha256": "28cab922bcf68ae87d505efda8ed96f8ecbc1cd1c7a23147d9a81ec6b150294b",
+      "gzipBytes": 1448,
+      "gzipSha256": "95c0b0375364bf21e40e2daaba63d66acdd9ffb83dc0cb2a05b51f803515fde5",
+      "originalSha256": "28cab922bcf68ae87d505efda8ed96f8ecbc1cd1c7a23147d9a81ec6b150294b",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-processor-20261028-v1/public/test-build-v8.log.gz",
+      "bytes": 42256,
+      "sha256": "4bfc2051d869b33a21fdadead2f43b70ab9c958fe045259f579f9015874eaa9b",
+      "gzipBytes": 7749,
+      "gzipSha256": "32dd726a3f63a3b2c04a079961df4a3fd82e10f15da20db9cd06a0465625ea74",
+      "originalSha256": "4bfc2051d869b33a21fdadead2f43b70ab9c958fe045259f579f9015874eaa9b",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-processor-20261028-v1/application-v3-manifest.json.gz",
+      "bytes": 11301,
+      "sha256": "b17ef3f1867ec9de91ae8f856c257a85d4571a96f66440fc25f6890dbda2dcf8",
+      "gzipBytes": 5593,
+      "gzipSha256": "ada20e2d2ed1260bea6b7ebfab70ee0cfca8505fb6309da7c598e2e458d1cb6a",
+      "originalSha256": "6020f4456b3b1fee21c085c0d276d2da98866a7c6d8a4e4174ec447ad4ba7595",
+      "pathRedacted": true
+    },
+    {
+      "file": "files/market-checkpoint-processor-20261028-v1/application-v4-manifest.json.gz",
+      "bytes": 11301,
+      "sha256": "c7601c9975bd989d4975a831c42f77393a0c2a00598b53094ecb99e3858ba07a",
+      "gzipBytes": 5597,
+      "gzipSha256": "f1c058ed489123e2950ed5c9dab2ca9ae81f214d9db9f86c0cf928fd588a51c1",
+      "originalSha256": "b308a122ce3804367568a5b767b305e8b18b5113514ba5ae5259c1abb4cf7d18",
+      "pathRedacted": true
+    },
+    {
+      "file": "files/market-checkpoint-processor-20261028-v1/application-v5-manifest.json.gz",
+      "bytes": 11301,
+      "sha256": "17c202fdc8a07e12a267ce261aa5cff8a1fa81ea79cf1cca7e1180206e5ed788",
+      "gzipBytes": 5596,
+      "gzipSha256": "154d7fc6b79d413e7b7a7ef9789240b74a6a837191ea3f19c3098525e8f6a95b",
+      "originalSha256": "27e8b7a0033bf4a708acd73681a6784fec5670b3531c706156ab5bfef5914dfd",
+      "pathRedacted": true
+    },
+    {
+      "file": "files/market-checkpoint-processor-20261028-v1/application-v6-manifest.json.gz",
+      "bytes": 11301,
+      "sha256": "96ac19f9772bd4c8c3e43ccac26d764cd19af8d592d6a111217f2b459a0a2754",
+      "gzipBytes": 5597,
+      "gzipSha256": "b9dba12df2e7063c4bd05f01d50f65c42a32fea47ebbb1313dcde682581043c2",
+      "originalSha256": "2a8c6666e83fc202dc113175d91c55aa6bcbf0636d3ce615aca53fdba47c8e92",
+      "pathRedacted": true
+    },
+    {
+      "file": "files/market-checkpoint-processor-20261028-v1/application-v7-manifest.json.gz",
+      "bytes": 11301,
+      "sha256": "0d5027a36142104e9968ecd38aa5d6e880ccbb5e64a22b04816a0e8e83daf109",
+      "gzipBytes": 5594,
+      "gzipSha256": "679117de79481283ec687f11193ab4e5c0a2c72d139c7e882eb0c1266a9e7d4b",
+      "originalSha256": "2263bab7f071f2bd88e3496b9dca19ae5a607f20c42f374cbc5f958d8ee4b9ef",
+      "pathRedacted": true
+    },
+    {
+      "file": "files/market-checkpoint-processor-20261028-v1/application-v8-manifest.json.gz",
+      "bytes": 11301,
+      "sha256": "2f29cd273f27f767af3a6a5fa766a4ff3872ea3c32b4d172cf24fc051052080c",
+      "gzipBytes": 5593,
+      "gzipSha256": "7f7579c009d57ffb954474b929d80f902075870a9597e9a5aa854e944fc63436",
+      "originalSha256": "fab55d7df8bde31ba44df4d029cce3dfd4b1e7b12e5c7272d26c72255f1794f7",
+      "pathRedacted": true
+    },
+    {
+      "file": "files/market-checkpoint-processor-20261028-v1/diagnostic-compile-command.json.gz",
+      "bytes": 1585,
+      "sha256": "44ca5bc6078532fd33180b21d2a5e01a632cd85da505c19ff9f737854b15866a",
+      "gzipBytes": 434,
+      "gzipSha256": "2531b7ad6e526533dbaba64ec068673a6fd99e51131e670b9675663688e9c333",
+      "originalSha256": "a0c7a3f2cec3d8fbcdb4cd8c2c51f8aceff6b96e98a79ff3d17cdbf2fa05ec96",
+      "pathRedacted": true
+    },
+    {
+      "file": "files/market-checkpoint-processor-20261028-v1/full-ups-v1/amm-1-1-request.json.gz",
+      "bytes": 551504,
+      "sha256": "e686b9c2153497ca345a9af57836af9d46a1123b08436e57c6cdd6e176b292bc",
+      "gzipBytes": 175924,
+      "gzipSha256": "6f61b823ead6444a629d581ef082667400cb74c82885a03f5b5aa99b2b3c44ce",
+      "originalSha256": "e686b9c2153497ca345a9af57836af9d46a1123b08436e57c6cdd6e176b292bc",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-processor-20261028-v1/full-ups-v2/amm-2-public-key-input.json.gz",
+      "bytes": 8596,
+      "sha256": "3b179c7a135cfc1fbd05dd3f495f7c66d4b760cc3992e14158127d7b2b09ea85",
+      "gzipBytes": 1927,
+      "gzipSha256": "09ef667877cd5b0873ec7ba6ee4250e76d1345998e4fa30241ddd9cd2a6b1358",
+      "originalSha256": "3b179c7a135cfc1fbd05dd3f495f7c66d4b760cc3992e14158127d7b2b09ea85",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-processor-20261028-v1/key-trace-v1/amm-2-public-key-input.json.gz",
+      "bytes": 8595,
+      "sha256": "dbee96d782e9c32faf0be8540192940d278e9d390336f38125f9a6aaac3e603a",
+      "gzipBytes": 1927,
+      "gzipSha256": "b48012eb5254892d0b909a3ff6fef1dbc3b4f6fce2c932da497e91c8d0fd5d5c",
+      "originalSha256": "dbee96d782e9c32faf0be8540192940d278e9d390336f38125f9a6aaac3e603a",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-processor-20261028-v1/source-cfc-v1/proof.bin.gz",
+      "bytes": 130568,
+      "sha256": "b0f0b1fbcee80746622e237df6d8bc48ddf37092580f5a1b8404ec469ef8e14a",
+      "gzipBytes": 123890,
+      "gzipSha256": "d88b6c0790d1f904ebdc0a2f78ab11675d1c8a7adf8f01a499697a2621052f14",
+      "originalSha256": "b0f0b1fbcee80746622e237df6d8bc48ddf37092580f5a1b8404ec469ef8e14a",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-processor-20261028-v1/source-cfc-v1/result.json.gz",
+      "bytes": 136,
+      "sha256": "c84ba621797f8743a06e0cf37f501d3e020e82619c0d80e1a00332bba17aa34b",
+      "gzipBytes": 119,
+      "gzipSha256": "b3c8138dbe7ed373cf45f747e8601ac56f8af36f74b973658a0b0d71bfba64d8",
+      "originalSha256": "c84ba621797f8743a06e0cf37f501d3e020e82619c0d80e1a00332bba17aa34b",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-processor-fee-20261028-v1/public/BUILD-SUPPLEMENT-v1.json.gz",
+      "bytes": 346,
+      "sha256": "ef0cd10dc8e4787c342c9291f554b6f1836710e120d5ee4e10dc0fa9e414d247",
+      "gzipBytes": 238,
+      "gzipSha256": "0f712e95680ff19febd934f44031b029c8df884ce1067de9077edaf8583d64f1",
+      "originalSha256": "ef0cd10dc8e4787c342c9291f554b6f1836710e120d5ee4e10dc0fa9e414d247",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-processor-fee-20261028-v1/public/CLOSED.json.gz",
+      "bytes": 319,
+      "sha256": "1e3f2f0d1f50e8cdfb7fc8b9594ffad48a5c61113ba38db0882155cdd79820e4",
+      "gzipBytes": 235,
+      "gzipSha256": "3f79c60f15cb5c156e1436cd926c68dd0d700dd4c163592b27a0c58abe5acd5c",
+      "originalSha256": "1e3f2f0d1f50e8cdfb7fc8b9594ffad48a5c61113ba38db0882155cdd79820e4",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-processor-fee-20261028-v1/public/PLAN.json.gz",
+      "bytes": 733,
+      "sha256": "75a539d83aa3e4dca90cd0e1ec0679b5e3281feed9cb367f9f921ee6527790e7",
+      "gzipBytes": 448,
+      "gzipSha256": "8b2034d0768a2af0d0f1cd9de63dccc2368168ae86c315ad0df5ef7e007b14bc",
+      "originalSha256": "75a539d83aa3e4dca90cd0e1ec0679b5e3281feed9cb367f9f921ee6527790e7",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-processor-fee-20261028-v1/public/bytecode-v1-result.json.gz",
+      "bytes": 852,
+      "sha256": "8df9bfb64e9b81419623d8e79461ef0a10795909652a42339c89c3b6c6c2befc",
+      "gzipBytes": 358,
+      "gzipSha256": "5089e5596d8b47581ecc88f53fd7d98576186dcc6ceae139786325560b0cfaf3",
+      "originalSha256": "8df9bfb64e9b81419623d8e79461ef0a10795909652a42339c89c3b6c6c2befc",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-processor-fee-20261028-v1/public/bytecode-v1.log.gz",
+      "bytes": 409,
+      "sha256": "bcd6a6c50b6d4713308618dd98b61e9a06565a750789865a3725ec2dc4e4b02f",
+      "gzipBytes": 223,
+      "gzipSha256": "c2aaa5f5627ddd48eb510a8a814c35818b23af16a51e1c518786b20add38b41f",
+      "originalSha256": "bcd6a6c50b6d4713308618dd98b61e9a06565a750789865a3725ec2dc4e4b02f",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-processor-fee-20261028-v1/public/full-ups-v1-result.json.gz",
+      "bytes": 47931,
+      "sha256": "db309a8a797348c50c30cb546342c78b29078bf0d35ce487898e98000c33deb9",
+      "gzipBytes": 8861,
+      "gzipSha256": "97620efb95d9a7fa83f81042f13a5d631211f8f6e477f17a81915fd8584c0855",
+      "originalSha256": "db309a8a797348c50c30cb546342c78b29078bf0d35ce487898e98000c33deb9",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-processor-fee-20261028-v1/public/full-ups-v1.log.gz",
+      "bytes": 13975,
+      "sha256": "19091010f2f9e48a7c47bb5608d2507c7384968d20818169eb1586a45899fa35",
+      "gzipBytes": 1620,
+      "gzipSha256": "9376acd0135574236ad0a572d665850395bf50164ce09c79fb587313304e9ca0",
+      "originalSha256": "19091010f2f9e48a7c47bb5608d2507c7384968d20818169eb1586a45899fa35",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-processor-fee-20261028-v1/public/test-build-v1-result.json.gz",
+      "bytes": 6667,
+      "sha256": "4c8dd79c2b21ada4562e1b07c0c226da0f006132e40248caa575b1baad4dcf11",
+      "gzipBytes": 1454,
+      "gzipSha256": "07c6f778a9595dcd887ebbd810ab6bd706eb1858da88f84c57263cf2ad08b6a1",
+      "originalSha256": "4c8dd79c2b21ada4562e1b07c0c226da0f006132e40248caa575b1baad4dcf11",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-processor-fee-20261028-v1/public/test-build-v1.log.gz",
+      "bytes": 42260,
+      "sha256": "10f70599ddfaaa4ad300be1c8467808bb99087b6ff90084ad70c36d09f54e021",
+      "gzipBytes": 7751,
+      "gzipSha256": "d0cdbe88df29266898d65e2794a47d0e5d29bc3b2f7e4e6408587326cadc20bc",
+      "originalSha256": "10f70599ddfaaa4ad300be1c8467808bb99087b6ff90084ad70c36d09f54e021",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-processor-fee-20261028-v1/public/test-build-v2-result.json.gz",
+      "bytes": 6651,
+      "sha256": "7f10f1752980a21a6e11c1686bd8a1c55fbe532459237748db879619084f8a3e",
+      "gzipBytes": 1449,
+      "gzipSha256": "acceb00f8993952f1f92744891872c20bfc1e4a31c2ce1d1e4944adfbf9becd2",
+      "originalSha256": "7f10f1752980a21a6e11c1686bd8a1c55fbe532459237748db879619084f8a3e",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-processor-fee-20261028-v1/public/test-build-v2.log.gz",
+      "bytes": 42260,
+      "sha256": "987697ada4f71a3ebdc19be1f8156d1f493ca9002ffe746f7cd0fa7b916c3ff9",
+      "gzipBytes": 7752,
+      "gzipSha256": "e75a8f38c3d08ea35ab650726d508c3423c5d5ff1001650d570aa8b29aeb998a",
+      "originalSha256": "987697ada4f71a3ebdc19be1f8156d1f493ca9002ffe746f7cd0fa7b916c3ff9",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-processor-fee-20261028-v1/application-v1-manifest.json.gz",
+      "bytes": 11410,
+      "sha256": "1b58ceb83a64f01aa872892e81618be38e5e33d940ce05f6e763ac019b134151",
+      "gzipBytes": 5640,
+      "gzipSha256": "1a78e6c84333771e613b3aab9772d0184127e1cef964180b5657d93a919e0b81",
+      "originalSha256": "3a09950435484ed2eea53bfe2c0c99d41bb7820dfe5addaae842947e2f5b5877",
+      "pathRedacted": true
+    },
+    {
+      "file": "files/market-checkpoint-processor-fee-20261028-v1/application-v2-manifest.json.gz",
+      "bytes": 11410,
+      "sha256": "1886bb0e2c9c4a94601ceab6e4fa319a877cf70f7dd9c3b2fbbe28d3bddea84b",
+      "gzipBytes": 5644,
+      "gzipSha256": "39c455ec505ef25881f7823e3bceffb3ba6d00dd432a76217228e17acafdd7c6",
+      "originalSha256": "085e5c472f848111803e0fa1778a3288ed3078da57f6f65aaf75ed48b3a5e6b8",
+      "pathRedacted": true
+    },
+    {
+      "file": "files/market-checkpoint-processor-fee-20261028-v1/full-ups-v1/amm-2-2-request.json.gz",
+      "bytes": 559682,
+      "sha256": "d393735d2669f35880b674f1987d3d5edbfe77bce2d76d11944b05ce914c7ca4",
+      "gzipBytes": 176750,
+      "gzipSha256": "0270b48d148d82424964d53e21e2e5f91df5bf425759c8ee389e1739ff6ca424",
+      "originalSha256": "d393735d2669f35880b674f1987d3d5edbfe77bce2d76d11944b05ce914c7ca4",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-processor-fee-20261028-v1/full-ups-v1/amm-2-public-key-input.json.gz",
+      "bytes": 8596,
+      "sha256": "1a36a2a37178527ef0284b494388e96071ff935aa540d774f9a655932ed75049",
+      "gzipBytes": 1932,
+      "gzipSha256": "417d7f8fd56a310f72dd6acb92080f377095f39824e24800e5d072c0e52b96d5",
+      "originalSha256": "1a36a2a37178527ef0284b494388e96071ff935aa540d774f9a655932ed75049",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-processor-fee-20261028-v1/full-ups-v1/amm-processor.json.gz",
+      "bytes": 4966,
+      "sha256": "48b12ab9ceb4134bbe8773292f8939e4320f5a554574d301d65fa529c2f6b90c",
+      "gzipBytes": 1407,
+      "gzipSha256": "2caa84945d22de25b69e742ea1a5b1edaa0792bc6fe9b3601aa02fea341a149e",
+      "originalSha256": "48b12ab9ceb4134bbe8773292f8939e4320f5a554574d301d65fa529c2f6b90c",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-processor-fee-20261028-v1/full-ups-v1/bondingcurve-1-1-request.json.gz",
+      "bytes": 558762,
+      "sha256": "de26269dfa73fa69d92cbbc781c3197a9aa4d565d81e327cd0468c94f699c0fd",
+      "gzipBytes": 174626,
+      "gzipSha256": "2f5f602b8b2db5f5732739d94cf28788d67dda8c0522c4cc7dc04f318ddfd0ff",
+      "originalSha256": "de26269dfa73fa69d92cbbc781c3197a9aa4d565d81e327cd0468c94f699c0fd",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-processor-fee-20261028-v1/full-ups-v1/bondingcurve-1-public-key-input.json.gz",
+      "bytes": 8399,
+      "sha256": "85328ca14cf85ddf5eb7f7e71e79e72d109e77e1283468c59392a06ea01de37a",
+      "gzipBytes": 999,
+      "gzipSha256": "fb6fd7202eb7f188247451a264e5f565962408030cccb8afddfa77153843d610",
+      "originalSha256": "85328ca14cf85ddf5eb7f7e71e79e72d109e77e1283468c59392a06ea01de37a",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-processor-fee-20261028-v1/full-ups-v1/bondingcurve-2-2-request.json.gz",
+      "bytes": 562435,
+      "sha256": "8dbb430be3ff551532d70177f5d5acb6a9695c46683fa7a6b0e094eaed279824",
+      "gzipBytes": 178011,
+      "gzipSha256": "aa8b7bfdeb8e06d08abda44480796d64d6ccbbf0c7b6eea10c3c32d5491f11ea",
+      "originalSha256": "8dbb430be3ff551532d70177f5d5acb6a9695c46683fa7a6b0e094eaed279824",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-processor-fee-20261028-v1/full-ups-v1/bondingcurve-2-public-key-input.json.gz",
+      "bytes": 8653,
+      "sha256": "3a039b6b102085a532f9dd76133ce07a70f729a6b029715966eabc6e3cb1054b",
+      "gzipBytes": 2037,
+      "gzipSha256": "0a1ec9fe66c75c7557f02260de02d52c9355fdca0af87230995ef89b33052c08",
+      "originalSha256": "3a039b6b102085a532f9dd76133ce07a70f729a6b029715966eabc6e3cb1054b",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-processor-fee-20261028-v1/full-ups-v1/bondingcurve-processor.json.gz",
+      "bytes": 6889,
+      "sha256": "bb078ce30f2239c9002bf6ed27b266cfa6de872e54dfba6ebb363d6f9394c644",
+      "gzipBytes": 1615,
+      "gzipSha256": "837f670d76427133e1c66c7807caf228bf24ccdc9d7458e72e6d09ac33ea6ce1",
+      "originalSha256": "bb078ce30f2239c9002bf6ed27b266cfa6de872e54dfba6ebb363d6f9394c644",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-retirement-20261028-v1/public/CLOSED.json.gz",
+      "bytes": 343,
+      "sha256": "c5a2d19e19ae01a8fbb85557257062019b0732ec045a7472ee351c03ad008702",
+      "gzipBytes": 259,
+      "gzipSha256": "469e4cb5c092fd8eb2d43a12fa2e6f5762233b89c1aa7881d7eae6ecf2654b90",
+      "originalSha256": "c5a2d19e19ae01a8fbb85557257062019b0732ec045a7472ee351c03ad008702",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-retirement-20261028-v1/public/PLAN.json.gz",
+      "bytes": 718,
+      "sha256": "c776bff3ce924167c038a60f3e3e2bd938aba8810e14d7891f3a4e91575f7028",
+      "gzipBytes": 447,
+      "gzipSha256": "ecbadb06d0069e59e4d59cc7eef8e38417d3a5eb11ad466756e99cbbbb188ddd",
+      "originalSha256": "c776bff3ce924167c038a60f3e3e2bd938aba8810e14d7891f3a4e91575f7028",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-retirement-20261028-v1/public/SUMMARY-WITH-IDENTITIES.json.gz",
+      "bytes": 19605,
+      "sha256": "cf6ea80c3db354565cc46483123e4b05a15c85ecc48f04f36bdf2762b3f8ba44",
+      "gzipBytes": 4166,
+      "gzipSha256": "485f15f2c04a5356f7d13f7b0bb7cc35c229e741bb3f56312b40a4b364023e95",
+      "originalSha256": "cf6ea80c3db354565cc46483123e4b05a15c85ecc48f04f36bdf2762b3f8ba44",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-retirement-20261028-v1/public/SUMMARY.json.gz",
+      "bytes": 19057,
+      "sha256": "b5ba651339bbf68af1578e729336602d1d92f4832ba1d44280ba872cd6cb1eb6",
+      "gzipBytes": 3932,
+      "gzipSha256": "14c7149a4d1c7396be27c002844ac4cb525494f67971479ccd0a7508d7f7ecdf",
+      "originalSha256": "b5ba651339bbf68af1578e729336602d1d92f4832ba1d44280ba872cd6cb1eb6",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-retirement-20261028-v1/public/bytecode-v1-result.json.gz",
+      "bytes": 1021,
+      "sha256": "a4d0e5a5a07cdcbb9c95c44e5d65662df3955cad0ebbaee07c8e8984820ad2e0",
+      "gzipBytes": 394,
+      "gzipSha256": "8ced83b6d19f85cec66d9a0ed397bdbeb3ec3cb30249fa2da2a9e34acf8b599b",
+      "originalSha256": "a4d0e5a5a07cdcbb9c95c44e5d65662df3955cad0ebbaee07c8e8984820ad2e0",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-retirement-20261028-v1/public/bytecode-v1.log.gz",
+      "bytes": 504,
+      "sha256": "02de46f75f52875ed76e439331cfb685f3ff07bb54761bb8da9c84b8dfdec41d",
+      "gzipBytes": 244,
+      "gzipSha256": "b0d5e6a0040acf911caf85fc15fb29c39f5eccd8378e4b49130e64d59fbbbd5c",
+      "originalSha256": "02de46f75f52875ed76e439331cfb685f3ff07bb54761bb8da9c84b8dfdec41d",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-retirement-20261028-v1/public/candidate-build-v1-result.json.gz",
+      "bytes": 512,
+      "sha256": "9de3a2eb9086c0de9038166a9372191699b4b21994d25736f674c994e04e49cc",
+      "gzipBytes": 285,
+      "gzipSha256": "1314eb56b6207b3514816ca8b2ea48815bc5d6f4d53602d714b7848ff5eaaa11",
+      "originalSha256": "9de3a2eb9086c0de9038166a9372191699b4b21994d25736f674c994e04e49cc",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-retirement-20261028-v1/public/candidate-build-v1.log.gz",
+      "bytes": 930,
+      "sha256": "b406a5964bd26f0d3e89975174a75f4531308cf704329d658ee79ac9339b60fd",
+      "gzipBytes": 585,
+      "gzipSha256": "2c93da7d9ad51c2bf4a9fb547f248890daa4d2440573034682707ee6649c0a6c",
+      "originalSha256": "b406a5964bd26f0d3e89975174a75f4531308cf704329d658ee79ac9339b60fd",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-retirement-20261028-v1/public/full-ups-v1-result.json.gz",
+      "bytes": 51453,
+      "sha256": "85369136ab6a15822ee917ebcf27089175fbe2052d5ef2105bc797870df82584",
+      "gzipBytes": 9423,
+      "gzipSha256": "38fc232ae88998ffbec4ba3bd9fd86a5261d4564b4c22fe39172e6641082451a",
+      "originalSha256": "85369136ab6a15822ee917ebcf27089175fbe2052d5ef2105bc797870df82584",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-retirement-20261028-v1/public/full-ups-v1.log.gz",
+      "bytes": 15225,
+      "sha256": "36cf55cd408615535333e28b57d50127a52d3c8a475a04a40aa09b5ccc7127c7",
+      "gzipBytes": 1698,
+      "gzipSha256": "d3173cbd9acfaee1154552a3582e30aded412490c202db88374618d877abff5d",
+      "originalSha256": "36cf55cd408615535333e28b57d50127a52d3c8a475a04a40aa09b5ccc7127c7",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-retirement-20261028-v1/public/identity-amm-v1-result.json.gz",
+      "bytes": 424,
+      "sha256": "7698a528e5e770c2e2dad381999e524d91efa8af464edf1215770456f719929c",
+      "gzipBytes": 262,
+      "gzipSha256": "b34f5e2a75af02bfc574545b2b4c4bb89f212824deef7851e02b02b4dcbac88c",
+      "originalSha256": "7698a528e5e770c2e2dad381999e524d91efa8af464edf1215770456f719929c",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-retirement-20261028-v1/public/identity-amm-v1.log.gz",
+      "bytes": 166,
+      "sha256": "5b797361650341b6cc19cddbc24cffc2991011e2b8742867065f94a9744d5f1d",
+      "gzipBytes": 151,
+      "gzipSha256": "0bac5a94e7c2fed1f9549f98ad7df60dd614c9a3c4d0c985739152916cded64a",
+      "originalSha256": "5b797361650341b6cc19cddbc24cffc2991011e2b8742867065f94a9744d5f1d",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-retirement-20261028-v1/public/identity-bondingcurve-v1-result.json.gz",
+      "bytes": 427,
+      "sha256": "da88be7cfa5ac7b737d10d94c2523bc64246b49496dedc13e198955e2090b4e5",
+      "gzipBytes": 265,
+      "gzipSha256": "11dfb17190e8a4f93a9d4a2c39305633e5851e839f7046ceec8991813e763940",
+      "originalSha256": "da88be7cfa5ac7b737d10d94c2523bc64246b49496dedc13e198955e2090b4e5",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-retirement-20261028-v1/public/identity-bondingcurve-v1.log.gz",
+      "bytes": 166,
+      "sha256": "be1b4715d059464319e7a4b1b3881eb0e6d2d504f718be3607f9b7f0ca342965",
+      "gzipBytes": 151,
+      "gzipSha256": "27ac59465e827ad3d7e28a18ca81e16e842ba3b840117fd8e95a7629666e5505",
+      "originalSha256": "be1b4715d059464319e7a4b1b3881eb0e6d2d504f718be3607f9b7f0ca342965",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-retirement-20261028-v1/public/identity-build-v1-result.json.gz",
+      "bytes": 427,
+      "sha256": "84e9cd0d9840154b3d42165fdee32a5fc1a352d5b057fefd82e7a3bb8bf8049b",
+      "gzipBytes": 264,
+      "gzipSha256": "ca0ce9db8e0dc2c7502b79cf23dd6423a6b4815a9a882fa9e21a86228235b4ad",
+      "originalSha256": "84e9cd0d9840154b3d42165fdee32a5fc1a352d5b057fefd82e7a3bb8bf8049b",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-retirement-20261028-v1/public/identity-build-v1.log.gz",
+      "bytes": 1393,
+      "sha256": "c08237dbfa5228c4fc278672c7d4aa9e3d4d778d578c2747b8c88b78ce14c7a3",
+      "gzipBytes": 553,
+      "gzipSha256": "5599cf07d5cc84ddeb96654ecbf0ca0fd38d8a380428d13b17d78a9080cceeba",
+      "originalSha256": "c08237dbfa5228c4fc278672c7d4aa9e3d4d778d578c2747b8c88b78ce14c7a3",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-retirement-20261028-v1/public/identity-build-v2-result.json.gz",
+      "bytes": 427,
+      "sha256": "fde740d205bc1192d923c236511f47beb3a0caf30096a79b73602ce1ce77c0cd",
+      "gzipBytes": 266,
+      "gzipSha256": "76e78bd69cde4b0ae80e29c2de8b7d1531318d13e4ff35c5616985b96491124e",
+      "originalSha256": "fde740d205bc1192d923c236511f47beb3a0caf30096a79b73602ce1ce77c0cd",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-retirement-20261028-v1/public/identity-build-v2.log.gz",
+      "bytes": 1393,
+      "sha256": "c08237dbfa5228c4fc278672c7d4aa9e3d4d778d578c2747b8c88b78ce14c7a3",
+      "gzipBytes": 553,
+      "gzipSha256": "5599cf07d5cc84ddeb96654ecbf0ca0fd38d8a380428d13b17d78a9080cceeba",
+      "originalSha256": "c08237dbfa5228c4fc278672c7d4aa9e3d4d778d578c2747b8c88b78ce14c7a3",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-retirement-20261028-v1/public/identity-build-v3-result.json.gz",
+      "bytes": 512,
+      "sha256": "ea4a69204ca2375f271bb6f309f9bdb77667229d9ba60996126ae1d23cef2313",
+      "gzipBytes": 285,
+      "gzipSha256": "f2c0ce467d415ca0fa65556a55c0531a26778eed3bc6877b62390169672f3bff",
+      "originalSha256": "ea4a69204ca2375f271bb6f309f9bdb77667229d9ba60996126ae1d23cef2313",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-retirement-20261028-v1/public/identity-build-v3.log.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "ac73670af3abed54ac6fb4695131f4099be9fbe39d6076c5d0264a6bbdae9d83",
+      "originalSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-retirement-20261028-v1/public/identity-source.rs.gz",
+      "bytes": 1094,
+      "sha256": "a6b210aabbe3524037d517d5b26fc37cf790ae4c7dc74a8bf8e358dcf0941443",
+      "gzipBytes": 590,
+      "gzipSha256": "641612b166ae7db94d52a43e80890dcd933a13480dc36b47c3383c00e35fc27a",
+      "originalSha256": "a6b210aabbe3524037d517d5b26fc37cf790ae4c7dc74a8bf8e358dcf0941443",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-retirement-20261028-v1/public/js-policy-v1-result.json.gz",
+      "bytes": 336,
+      "sha256": "bee413f5cc014ddc6c704ea0c974d6ef26221e92e04f7e9719cca5abee794923",
+      "gzipBytes": 238,
+      "gzipSha256": "1afc454ef46b044096df5aacaa2a7447e0b64ba8c761a8293c7af912010c35ad",
+      "originalSha256": "bee413f5cc014ddc6c704ea0c974d6ef26221e92e04f7e9719cca5abee794923",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-retirement-20261028-v1/public/js-policy-v1.log.gz",
+      "bytes": 1200,
+      "sha256": "ca8b85893d513b14399c814c73128699e9b2905a10afa6e64d001ec336bdef08",
+      "gzipBytes": 500,
+      "gzipSha256": "7d09e5ce1890920f8ddddf5431fc074e7af4a2be0a475c6219a45745cba0feff",
+      "originalSha256": "ca8b85893d513b14399c814c73128699e9b2905a10afa6e64d001ec336bdef08",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-retirement-20261028-v1/public/retirement-reproduction-v1-result.json.gz",
+      "bytes": 426,
+      "sha256": "65bcc739d138f558523ca20c85c28ffdd8584544a9c696ca45be24489a560737",
+      "gzipBytes": 264,
+      "gzipSha256": "1709c1e9f171e2aa45fa345e43c5a089dda1eebbbfdeabc444c9534cdf9ed7c5",
+      "originalSha256": "65bcc739d138f558523ca20c85c28ffdd8584544a9c696ca45be24489a560737",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-retirement-20261028-v1/public/retirement-reproduction-v1.log.gz",
+      "bytes": 382,
+      "sha256": "2c980e7b93860a6fcbeedde4c18006e8566ecf19454b17a784a96cf7b290e88e",
+      "gzipBytes": 225,
+      "gzipSha256": "b8de7fb6177f5606773443f25addf82ff11feda19f1f49d5bc1bc48f73d9b44c",
+      "originalSha256": "2c980e7b93860a6fcbeedde4c18006e8566ecf19454b17a784a96cf7b290e88e",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-retirement-20261028-v1/public/roots-amm-v1-result.json.gz",
+      "bytes": 424,
+      "sha256": "bd71565c7c7ba8ade12424747b71380a37222bb85f220ea81f19ffcafe11e2d6",
+      "gzipBytes": 264,
+      "gzipSha256": "e54c9cb4dd264e40c03710111514f9b2fb835240c285989dd425a5a14d81af14",
+      "originalSha256": "bd71565c7c7ba8ade12424747b71380a37222bb85f220ea81f19ffcafe11e2d6",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-retirement-20261028-v1/public/roots-amm-v1.log.gz",
+      "bytes": 5074,
+      "sha256": "b7fe8bf22172bcc00479607967043f77195b80098cd2c5eca18d116b7b568cf7",
+      "gzipBytes": 2057,
+      "gzipSha256": "fd252fc257bebf380c36a4564700702f517ea19ea90886323cf7ffaad53da829",
+      "originalSha256": "b7fe8bf22172bcc00479607967043f77195b80098cd2c5eca18d116b7b568cf7",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-retirement-20261028-v1/public/roots-bondingcurve-v1-result.json.gz",
+      "bytes": 338,
+      "sha256": "6c51f4bef3dfe6e1a0e3bf10d66ab4e8cac673622e7b9d113f4b3a154da3aafe",
+      "gzipBytes": 241,
+      "gzipSha256": "ccf99a506a5ce44fae8044dffe46ce035877c32c09002d045f1afb0231622be5",
+      "originalSha256": "6c51f4bef3dfe6e1a0e3bf10d66ab4e8cac673622e7b9d113f4b3a154da3aafe",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-retirement-20261028-v1/public/roots-bondingcurve-v1.log.gz",
+      "bytes": 4923,
+      "sha256": "fe1314327a4a6f2bc6f48789f7614cb38952c416fbc7900e7c48242958e90881",
+      "gzipBytes": 2005,
+      "gzipSha256": "8dd5a844d3e52ddce4ff40f4731915bbae433ebaae34693800c09389b9e38c50",
+      "originalSha256": "fe1314327a4a6f2bc6f48789f7614cb38952c416fbc7900e7c48242958e90881",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-retirement-20261028-v1/public/test-build-v1-result.json.gz",
+      "bytes": 6834,
+      "sha256": "3f9d390c533a18b43ef4804c58eef2e927a987549817f45578afe9a4d0d521be",
+      "gzipBytes": 1496,
+      "gzipSha256": "b4966b06b7bcae8bf252d4dab62560b1cf3faedfaaabc6d4c9504da8fb838a60",
+      "originalSha256": "3f9d390c533a18b43ef4804c58eef2e927a987549817f45578afe9a4d0d521be",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-retirement-20261028-v1/public/test-build-v1.log.gz",
+      "bytes": 42257,
+      "sha256": "6e4e68bff8db2fb412d45907f776b7f4fec9d77ed3eb5262cf4860c57edfaca5",
+      "gzipBytes": 7748,
+      "gzipSha256": "e498ae9749b9240e01208352762eb9b902f7d104d28070ca4e4d4f4f5e67908b",
+      "originalSha256": "6e4e68bff8db2fb412d45907f776b7f4fec9d77ed3eb5262cf4860c57edfaca5",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-retirement-20261028-v1/application-v1-manifest.json.gz",
+      "bytes": 11407,
+      "sha256": "6b41b6be73ed37552f3f8e84f6d08f8bca1dd1f309354f593b6a2fe19a3e9403",
+      "gzipBytes": 5643,
+      "gzipSha256": "75acf1c9c3b2c6c9d5e42ff382e82f1c10172d6bb8a2a7cb8ea4715cb62dc414",
+      "originalSha256": "368dd71051f126229b511e15b1141e0655fb814f303ac7793eb33efc1e972299",
+      "pathRedacted": true
+    },
+    {
+      "file": "files/market-checkpoint-retirement-20261028-v1/identity-build-command-v2.json.gz",
+      "bytes": 1870,
+      "sha256": "6a9cd27009deac78b6d1bc0f11a373f79463f82ad37ff40b4e11956fd4b67d1f",
+      "gzipBytes": 448,
+      "gzipSha256": "e68b697cb37dd830ffa91a3c3b7dc8bea710f2b9a3c798eb2136869f78f8d499",
+      "originalSha256": "a079afbc7520911998cf63ba1b45acc7f6e720379e817fbcdcb0f1203be47a05",
+      "pathRedacted": true
+    },
+    {
+      "file": "files/market-checkpoint-retirement-20261028-v1/identity-build-command-v3.json.gz",
+      "bytes": 1870,
+      "sha256": "7aecab3e7a56f1dc39f2f2b422e20dbbe2dfea678f9a8eb0fe08cdd385c0b759",
+      "gzipBytes": 447,
+      "gzipSha256": "69b31a64db38b57fcc52f3f0e6c253db5537f6e629e769808dcb6452334f87be",
+      "originalSha256": "b18ec7bd1a367fdea7e0b4fe84eeb9d967b644514c0aae4228a9aa5486bddf13",
+      "pathRedacted": true
+    },
+    {
+      "file": "files/market-checkpoint-retirement-20261028-v1/identity-build-command.json.gz",
+      "bytes": 1870,
+      "sha256": "6a9cd27009deac78b6d1bc0f11a373f79463f82ad37ff40b4e11956fd4b67d1f",
+      "gzipBytes": 448,
+      "gzipSha256": "e68b697cb37dd830ffa91a3c3b7dc8bea710f2b9a3c798eb2136869f78f8d499",
+      "originalSha256": "a079afbc7520911998cf63ba1b45acc7f6e720379e817fbcdcb0f1203be47a05",
+      "pathRedacted": true
+    },
+    {
+      "file": "files/market-checkpoint-retirement-20261028-v1/full-ups-v1/amm-1-1-request.json.gz",
+      "bytes": 551684,
+      "sha256": "2096a63dafe1c216aa117311b1198e74eaf3561b770e0b7254b770c09c1f2140",
+      "gzipBytes": 175879,
+      "gzipSha256": "b0096c5f2c4c4f818e648e6d8bb7c045e3b87186ac679b54b3305535f00e415e",
+      "originalSha256": "2096a63dafe1c216aa117311b1198e74eaf3561b770e0b7254b770c09c1f2140",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-retirement-20261028-v1/full-ups-v1/amm-1-public-key-input.json.gz",
+      "bytes": 8391,
+      "sha256": "edfaf9bb1ea11dc06397a2210511cc8c6b0748e512b257a69f6c665aabf31760",
+      "gzipBytes": 992,
+      "gzipSha256": "e970b6e59699ddae165eea1f4ad2b01a20b06963be5d7d8427247f4079e79737",
+      "originalSha256": "edfaf9bb1ea11dc06397a2210511cc8c6b0748e512b257a69f6c665aabf31760",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-retirement-20261028-v1/full-ups-v1/amm-2-2-request.json.gz",
+      "bytes": 559990,
+      "sha256": "6dab9ed5524db8bd2747f160641e4dd1359d35aa18281b61b39fd43e5c9b2318",
+      "gzipBytes": 176693,
+      "gzipSha256": "19892ca9d32fa7d3d8e245562d4bd6c71914b58f4c0070dfef7976c54e8cf7e7",
+      "originalSha256": "6dab9ed5524db8bd2747f160641e4dd1359d35aa18281b61b39fd43e5c9b2318",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-retirement-20261028-v1/full-ups-v1/amm-2-public-key-input.json.gz",
+      "bytes": 8596,
+      "sha256": "0af6085b327f0bc11280e97332c990d19a5f837337dfad2ef21aa30222fbed14",
+      "gzipBytes": 1932,
+      "gzipSha256": "842211d49ba8910bfb3e02479b6aecd9c17028c1d42777f22de6d9d3141c63a9",
+      "originalSha256": "0af6085b327f0bc11280e97332c990d19a5f837337dfad2ef21aa30222fbed14",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-retirement-20261028-v1/full-ups-v1/amm-processor.json.gz",
+      "bytes": 6299,
+      "sha256": "3e5852e15fee68d9e318beb7b9e54d767309d0b8dd1d0c14ffd268efda069e4b",
+      "gzipBytes": 1546,
+      "gzipSha256": "56d441c7226be12329877d281e7cdc98b83cdc273ffb86ed4079237ca7823d82",
+      "originalSha256": "3e5852e15fee68d9e318beb7b9e54d767309d0b8dd1d0c14ffd268efda069e4b",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-retirement-20261028-v1/full-ups-v1/bondingcurve-1-1-request.json.gz",
+      "bytes": 558822,
+      "sha256": "c76e0ed63b90b81132c0c57c4d49942a8336ea5a1ec17d30bf6b4fba51017529",
+      "gzipBytes": 176046,
+      "gzipSha256": "4ffdd5e1bf6063b47fabf1125c381dbc6df31d67dbde094a7dc9d990eac24c86",
+      "originalSha256": "c76e0ed63b90b81132c0c57c4d49942a8336ea5a1ec17d30bf6b4fba51017529",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-retirement-20261028-v1/full-ups-v1/bondingcurve-1-public-key-input.json.gz",
+      "bytes": 8399,
+      "sha256": "eb8e10778cf49a4691d69fd8474c2c6cb2a1398836f8036562c1df7fab8fd84d",
+      "gzipBytes": 999,
+      "gzipSha256": "36426dd8cb4a1c02e2ff1093b833df922fb83b0a29cc48cba4327c611a746cac",
+      "originalSha256": "eb8e10778cf49a4691d69fd8474c2c6cb2a1398836f8036562c1df7fab8fd84d",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-retirement-20261028-v1/full-ups-v1/bondingcurve-2-2-request.json.gz",
+      "bytes": 562685,
+      "sha256": "6e53150ca59cba0c552e0ddaf91d7448347d121382812db495ec6efac25affe6",
+      "gzipBytes": 178287,
+      "gzipSha256": "2ab4abd26d6835138d636428e7ad7578a46689cd73bdff1e27a5038dd5fd48ba",
+      "originalSha256": "6e53150ca59cba0c552e0ddaf91d7448347d121382812db495ec6efac25affe6",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-retirement-20261028-v1/full-ups-v1/bondingcurve-2-public-key-input.json.gz",
+      "bytes": 8653,
+      "sha256": "9bc1d2befe47a9118a841ad18aae6d2d449adb1dc7dac69aede70ea40c12fcb3",
+      "gzipBytes": 2039,
+      "gzipSha256": "8a983f0f1d53ea291f6fa91b675edf093684c1ea0baabcb97647f1fb0000b12a",
+      "originalSha256": "9bc1d2befe47a9118a841ad18aae6d2d449adb1dc7dac69aede70ea40c12fcb3",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/market-checkpoint-retirement-20261028-v1/full-ups-v1/bondingcurve-processor.json.gz",
+      "bytes": 6878,
+      "sha256": "ef3a02746c3b5197bf136c80e8e5c00de12186741045cc8be9560c1c4981b6c2",
+      "gzipBytes": 1611,
+      "gzipSha256": "a2d4d1cbded9fad455c93916fcb1447d9c62c3d7c9508efa173a7af73f23afd7",
+      "originalSha256": "ef3a02746c3b5197bf136c80e8e5c00de12186741045cc8be9560c1c4981b6c2",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/final/BUILD.json.gz",
+      "bytes": 1058,
+      "sha256": "c99bc7c623cea2d5ed8404c7c2823a24d2e942869fd5204e3131d3ead0e0d62c",
+      "gzipBytes": 609,
+      "gzipSha256": "444c2cbb1043766728d0cef95acb017583ab441a7c48c4ffc085119d7332e0c9",
+      "originalSha256": "c99bc7c623cea2d5ed8404c7c2823a24d2e942869fd5204e3131d3ead0e0d62c",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/final/amm/main.psy.rs.gz",
+      "bytes": 6423546,
+      "sha256": "b30a2818b330572648946a92d473f062ba6d26712a43e1ce02bbd98812eeef01",
+      "gzipBytes": 561194,
+      "gzipSha256": "f1d7c97fd510161c426a68e3728c54368d6bea5072703e4d9627c4d91e25e4f6",
+      "originalSha256": "b30a2818b330572648946a92d473f062ba6d26712a43e1ce02bbd98812eeef01",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/final/amm/policy.json.gz",
+      "bytes": 234489,
+      "sha256": "646035bca40c90a6926efd8af4aceff1bf2b968828822617960f9d4d8639d51b",
+      "gzipBytes": 6274,
+      "gzipSha256": "b36a08c893cc467824f4cd56e79569ac749e507b3e10f9ac5486626741c55f98",
+      "originalSha256": "646035bca40c90a6926efd8af4aceff1bf2b968828822617960f9d4d8639d51b",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/final/amm/config.json.gz",
+      "bytes": 326,
+      "sha256": "0e980883591976f35f89205a25ed75cd7a089cb6f6650da28db5ff6658f4f1a4",
+      "gzipBytes": 189,
+      "gzipSha256": "56d603d8494c252ba4b9feaa0846ff8abec225ff833f3f591ef4018923e16122",
+      "originalSha256": "0e980883591976f35f89205a25ed75cd7a089cb6f6650da28db5ff6658f4f1a4",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/final/amm/compile.log.gz",
+      "bytes": 96,
+      "sha256": "b54152ab3f107596dd2de741806a248c49e5a7bfa9673f36165fcde32cb54d49",
+      "gzipBytes": 103,
+      "gzipSha256": "5caa622cf76c14e9c498270b90819829ca71fa0355b4b569fc8f034d17924442",
+      "originalSha256": "b54152ab3f107596dd2de741806a248c49e5a7bfa9673f36165fcde32cb54d49",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/final/amm/compiled/compilation_artifact.json.gz",
+      "bytes": 26693040,
+      "sha256": "893d12c7383119244af903829d7ad52072f21e547bbfdcd1916b0cee79308385",
+      "gzipBytes": 3099818,
+      "gzipSha256": "620b8e97ef138d5422440cb09bddc877ddd750a8f6d7268cae3df547943f4853",
+      "originalSha256": "893d12c7383119244af903829d7ad52072f21e547bbfdcd1916b0cee79308385",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/final/bondingcurve/main.psy.rs.gz",
+      "bytes": 3828219,
+      "sha256": "3f094628f7e2d234de529cb6a0e6ee8758121a6ac703d1b8f45a06fcb8a1fecd",
+      "gzipBytes": 338090,
+      "gzipSha256": "5f71e282f45f482b812a3409e813a91347247df49bfef1b5ec6acc227bc2304d",
+      "originalSha256": "3f094628f7e2d234de529cb6a0e6ee8758121a6ac703d1b8f45a06fcb8a1fecd",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/final/bondingcurve/policy.json.gz",
+      "bytes": 243108,
+      "sha256": "caba55853039edd422833e6657c649280fd1d642a6bf31ced19700817ac777b9",
+      "gzipBytes": 6638,
+      "gzipSha256": "c4950283cc35e9d77396e0c1c7cd193819eb7351e41a9b968049c1bc029aeda0",
+      "originalSha256": "caba55853039edd422833e6657c649280fd1d642a6bf31ced19700817ac777b9",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/final/bondingcurve/config.json.gz",
+      "bytes": 326,
+      "sha256": "0e980883591976f35f89205a25ed75cd7a089cb6f6650da28db5ff6658f4f1a4",
+      "gzipBytes": 189,
+      "gzipSha256": "56d603d8494c252ba4b9feaa0846ff8abec225ff833f3f591ef4018923e16122",
+      "originalSha256": "0e980883591976f35f89205a25ed75cd7a089cb6f6650da28db5ff6658f4f1a4",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/final/bondingcurve/compile.log.gz",
+      "bytes": 96,
+      "sha256": "b28cbf6df8457a2974ad6cbe89347e276c3890c9890e649b1bd0ffde383849d8",
+      "gzipBytes": 103,
+      "gzipSha256": "e9c8e9cc100ee7f9c8cd09a0894f264770ae03aefce0b9fca0bf355c56e9d875",
+      "originalSha256": "b28cbf6df8457a2974ad6cbe89347e276c3890c9890e649b1bd0ffde383849d8",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/final/bondingcurve/compiled/compilation_artifact.json.gz",
+      "bytes": 14268975,
+      "sha256": "98aa382b6909fe197f6bcdf5ee4843592a56b17b251493b303e2b46eddc4ac97",
+      "gzipBytes": 1663302,
+      "gzipSha256": "682168b36a77f88177054a31dea9cd1679a9048c3ceeb626a68944766d594b89",
+      "originalSha256": "98aa382b6909fe197f6bcdf5ee4843592a56b17b251493b303e2b46eddc4ac97",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/final/token/compilation_artifact.json.gz",
+      "bytes": 4065923,
+      "sha256": "476bc76fcd4b512f585cb1093de41611455cd58df323b8ea4bcc4f71a4163b0f",
+      "gzipBytes": 483321,
+      "gzipSha256": "302e27650e9106315ec1bfeb008ae992473be8646bd2ddf25ebbabeeae31772c",
+      "originalSha256": "476bc76fcd4b512f585cb1093de41611455cd58df323b8ea4bcc4f71a4163b0f",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/final/nft/compilation_artifact.json.gz",
+      "bytes": 61056,
+      "sha256": "f2e07bdfc72503485c3c681a51b5a9722891b0cb6acae6922b88b08f9800541d",
+      "gzipBytes": 7315,
+      "gzipSha256": "aee37209e5d5ebcc3365442cb6ae812839159d59cae2a1c9a10d50fb8e1e0a78",
+      "originalSha256": "f2e07bdfc72503485c3c681a51b5a9722891b0cb6acae6922b88b08f9800541d",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/final/native.json.gz",
+      "bytes": 429498,
+      "sha256": "b68fd259b5e26b72cee9f877f90a129cfab05b9b6203c481d49c26fdb0559b45",
+      "gzipBytes": 26139,
+      "gzipSha256": "608a4af6f1c5f9b566abe588e2a38f60ae4e1674552a6ab32068600ae29b472e",
+      "originalSha256": "b68fd259b5e26b72cee9f877f90a129cfab05b9b6203c481d49c26fdb0559b45",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/prior-fee-candidate/BUILD.json.gz",
+      "bytes": 1058,
+      "sha256": "e2ef6b23af9cd723dfe66ee9a9ae1a0a6f663185a7ad0a2929f96286c9271063",
+      "gzipBytes": 605,
+      "gzipSha256": "446a45943701582f2836bb138c69394e39bc0ec9a8c0d9ac577ac5e3a6b29948",
+      "originalSha256": "e2ef6b23af9cd723dfe66ee9a9ae1a0a6f663185a7ad0a2929f96286c9271063",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/prior-fee-candidate/amm/main.psy.rs.gz",
+      "bytes": 6366023,
+      "sha256": "afb08d50da673ce9e25d4ecf08bfd81f4e64c3638faadfd9ebe90848e63cb423",
+      "gzipBytes": 557256,
+      "gzipSha256": "d9b174f8459fbc869e7cb832ea72f48cb6fa749fe337235f4de7dfeecae0dd2b",
+      "originalSha256": "afb08d50da673ce9e25d4ecf08bfd81f4e64c3638faadfd9ebe90848e63cb423",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/prior-fee-candidate/amm/policy.json.gz",
+      "bytes": 234489,
+      "sha256": "646035bca40c90a6926efd8af4aceff1bf2b968828822617960f9d4d8639d51b",
+      "gzipBytes": 6274,
+      "gzipSha256": "b36a08c893cc467824f4cd56e79569ac749e507b3e10f9ac5486626741c55f98",
+      "originalSha256": "646035bca40c90a6926efd8af4aceff1bf2b968828822617960f9d4d8639d51b",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/prior-fee-candidate/amm/config.json.gz",
+      "bytes": 326,
+      "sha256": "0e980883591976f35f89205a25ed75cd7a089cb6f6650da28db5ff6658f4f1a4",
+      "gzipBytes": 189,
+      "gzipSha256": "56d603d8494c252ba4b9feaa0846ff8abec225ff833f3f591ef4018923e16122",
+      "originalSha256": "0e980883591976f35f89205a25ed75cd7a089cb6f6650da28db5ff6658f4f1a4",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/prior-fee-candidate/amm/compile.log.gz",
+      "bytes": 96,
+      "sha256": "b54152ab3f107596dd2de741806a248c49e5a7bfa9673f36165fcde32cb54d49",
+      "gzipBytes": 103,
+      "gzipSha256": "5caa622cf76c14e9c498270b90819829ca71fa0355b4b569fc8f034d17924442",
+      "originalSha256": "b54152ab3f107596dd2de741806a248c49e5a7bfa9673f36165fcde32cb54d49",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/prior-fee-candidate/amm/compiled/compilation_artifact.json.gz",
+      "bytes": 26507499,
+      "sha256": "db41a482e25c711c2d1ed5e271a989cc9674c39b4dc6fb5777e399697b32985c",
+      "gzipBytes": 3075724,
+      "gzipSha256": "ac3a4e1632e64e89eb5d898d02b1e6f9813e777d8b49044e6d825cd09096ab6c",
+      "originalSha256": "db41a482e25c711c2d1ed5e271a989cc9674c39b4dc6fb5777e399697b32985c",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/prior-fee-candidate/bondingcurve/main.psy.rs.gz",
+      "bytes": 3770696,
+      "sha256": "6cfaab604c9f52fa1c6126037f80ce763b49de1ddcab863d4d8ba20ac3e4ac0c",
+      "gzipBytes": 334064,
+      "gzipSha256": "45231fb5e48059d3819674643f500caaf4e937cbe63b6360dc9220312ee318f0",
+      "originalSha256": "6cfaab604c9f52fa1c6126037f80ce763b49de1ddcab863d4d8ba20ac3e4ac0c",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/prior-fee-candidate/bondingcurve/policy.json.gz",
+      "bytes": 243108,
+      "sha256": "caba55853039edd422833e6657c649280fd1d642a6bf31ced19700817ac777b9",
+      "gzipBytes": 6638,
+      "gzipSha256": "c4950283cc35e9d77396e0c1c7cd193819eb7351e41a9b968049c1bc029aeda0",
+      "originalSha256": "caba55853039edd422833e6657c649280fd1d642a6bf31ced19700817ac777b9",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/prior-fee-candidate/bondingcurve/config.json.gz",
+      "bytes": 326,
+      "sha256": "0e980883591976f35f89205a25ed75cd7a089cb6f6650da28db5ff6658f4f1a4",
+      "gzipBytes": 189,
+      "gzipSha256": "56d603d8494c252ba4b9feaa0846ff8abec225ff833f3f591ef4018923e16122",
+      "originalSha256": "0e980883591976f35f89205a25ed75cd7a089cb6f6650da28db5ff6658f4f1a4",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/prior-fee-candidate/bondingcurve/compile.log.gz",
+      "bytes": 96,
+      "sha256": "b28cbf6df8457a2974ad6cbe89347e276c3890c9890e649b1bd0ffde383849d8",
+      "gzipBytes": 103,
+      "gzipSha256": "e9c8e9cc100ee7f9c8cd09a0894f264770ae03aefce0b9fca0bf355c56e9d875",
+      "originalSha256": "b28cbf6df8457a2974ad6cbe89347e276c3890c9890e649b1bd0ffde383849d8",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/prior-fee-candidate/bondingcurve/compiled/compilation_artifact.json.gz",
+      "bytes": 14083434,
+      "sha256": "36c24bb2603a9d0eeb70f631974062078660275d42bcd82ab7d29697250665ff",
+      "gzipBytes": 1638868,
+      "gzipSha256": "3c14b1cf051684406d122d543b3634b7035670ff7556e7459e03140ae8436f39",
+      "originalSha256": "36c24bb2603a9d0eeb70f631974062078660275d42bcd82ab7d29697250665ff",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/prior-fee-candidate/token/compilation_artifact.json.gz",
+      "bytes": 4065923,
+      "sha256": "476bc76fcd4b512f585cb1093de41611455cd58df323b8ea4bcc4f71a4163b0f",
+      "gzipBytes": 483321,
+      "gzipSha256": "302e27650e9106315ec1bfeb008ae992473be8646bd2ddf25ebbabeeae31772c",
+      "originalSha256": "476bc76fcd4b512f585cb1093de41611455cd58df323b8ea4bcc4f71a4163b0f",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/prior-fee-candidate/nft/compilation_artifact.json.gz",
+      "bytes": 61056,
+      "sha256": "f2e07bdfc72503485c3c681a51b5a9722891b0cb6acae6922b88b08f9800541d",
+      "gzipBytes": 7315,
+      "gzipSha256": "aee37209e5d5ebcc3365442cb6ae812839159d59cae2a1c9a10d50fb8e1e0a78",
+      "originalSha256": "f2e07bdfc72503485c3c681a51b5a9722891b0cb6acae6922b88b08f9800541d",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/prior-fee-candidate/native.json.gz",
+      "bytes": 429498,
+      "sha256": "b68fd259b5e26b72cee9f877f90a129cfab05b9b6203c481d49c26fdb0559b45",
+      "gzipBytes": 26139,
+      "gzipSha256": "608a4af6f1c5f9b566abe588e2a38f60ae4e1674552a6ab32068600ae29b472e",
+      "originalSha256": "b68fd259b5e26b72cee9f877f90a129cfab05b9b6203c481d49c26fdb0559b45",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/source-cfc-resources/amm/main.psy.rs.gz",
+      "bytes": 6360585,
+      "sha256": "1a1a09a1dc566793aaceddbb03458359cc5e6a84f632b865f804ebe5cedf6411",
+      "gzipBytes": 556924,
+      "gzipSha256": "5ae53986a89cc9bd5204c6924e4bff62bdad0dc428781e12da1b8f6f1fc57f83",
+      "originalSha256": "1a1a09a1dc566793aaceddbb03458359cc5e6a84f632b865f804ebe5cedf6411",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/source-cfc-resources/amm/compiled/compilation_artifact.json.gz",
+      "bytes": 26505885,
+      "sha256": "2d6d05eb01eb2fe2a18a068c09493893dd934e3bf04d143201646548d2f652a5",
+      "gzipBytes": 3075338,
+      "gzipSha256": "137416d9d1d7c678b7ddf4beee5b8cf451a778296fe75679c11ef325416c8793",
+      "originalSha256": "2d6d05eb01eb2fe2a18a068c09493893dd934e3bf04d143201646548d2f652a5",
+      "pathRedacted": false
+    },
+    {
+      "file": "files/dependencies/manifest.json.gz",
+      "bytes": 370142,
+      "sha256": "06d86a86775bef1f217e61a2192b525d657bc8de2d3687e5c28d93e7abfaec8f",
+      "gzipBytes": 133796,
+      "gzipSha256": "86ff4d4d48b0479d632ca6bee94aff7de43bc43626f633ff85304b9668f98c1b",
+      "originalSha256": "06d86a86775bef1f217e61a2192b525d657bc8de2d3687e5c28d93e7abfaec8f",
+      "pathRedacted": false
+    }
+  ]
+}

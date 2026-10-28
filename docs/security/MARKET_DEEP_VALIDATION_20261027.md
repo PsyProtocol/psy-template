@@ -367,3 +367,48 @@ This closes a conditional binding gap, not source authentication. Actual instanc
 finality, unpredictability, seal-before-release causality, one-time random market
 state, SD-key/full UPS and financial acceptance remain open. Random authorization
 stays false. No Node/SDK change, financial operation, deployment or RPC occurred.
+
+## 28 October: claims-first checkpoint processor candidate
+
+[Current implementation and boundaries](CHECKPOINT_PROCESSOR_CANDIDATE_20261028.md)
+and [immutable evidence](../../executor/verification/2026-10-28-checkpoint-processor-v1/README.md)
+deliver a new offline AMM/Curve processor following the supplied business diagram:
+fixed members, input claims by user ID, checkpoint-seed-derived complete order,
+sequential pricing/payouts, fee claims, fixed processor reward and exact native burn.
+The owned compiler uses the existing SDK checkpoint-stat state command; its seed
+is authenticated relative to the UPS checkpoint tree, without a Node/SDK patch.
+
+Two application defects were reproduced and corrected. First, exact fee/reward
+conservation restores the native balance word: Endcap correctly charges 30 final
+words where the generic pre-burn estimate counted 31. Both conflicting stack
+hash limbs were reconstructed from preserved public inputs. The candidate now
+proves the exact final-slot burn and checks it again against actual final words.
+Second, phase-only expiry permitted re-sealing the same user nonces for a new
+draw. Candidate expiry now retires all accepted nonces atomically; sender-only
+refund remains available, with separate explicit maintenance sponsorship.
+
+The **final nonce-retiring code**, including its new authenticated function/code
+roots, passed four fresh complete synthetic UPSs: four-member commit/settle for
+AMM and Curve. Exact CM and pinned Endcap resources, signatures, public endpoints,
+exported state deltas and VM final states were checked. Eleven JavaScript and
+four bytecode regressions passed; ordinary four-market generators remain
+byte-identical. Prior failures, corrected prior-code proofs and every budgeted
+run remain preserved. No private/signing witness or wallet recovery file is
+published. Independent read-only source/evidence review accompanies delivery.
+
+One final process took 620.508 seconds, sampled family RSS peak 1,834,768 KiB.
+Current commit/settle proof times were 40.047/171.536 seconds for AMM and
+36.859/189.288 seconds for Curve, with 3/24 and 3/28 actual calls respectively.
+These are offline synthetic measurements, not a matched cold/warm speedup,
+network confirmation, ordinary-wallet receipt or chain TPS. Full timing,
+resource/key identities and caveats are in the report and machine-readable summary.
+
+**Still closed:** qualified entropy/low bias, actual chain-instance/finality
+authentication and actual seal-before-release causality. The native seed is
+producer-controlled; snapshot checkpoint + 1 is not actual inclusion + 1. The
+earlier scoped-seal claims remain a separate conditional component, not an
+approved live source adapter. Native wallet and Executor authorization both
+remain disabled. No live registration/deployment/broadcast, browser acceptance,
+ordinary-wallet claim UPS or timeout/refund UPS was performed. Recovery claims
+here are compiled bytecode evidence. No all-market inclusion, censorship,
+cross-machine coordination or production-readiness conclusion is made.
