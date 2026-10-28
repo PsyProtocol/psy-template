@@ -126,3 +126,9 @@ and cannot enable random execution.
 pinning and projected unverified observations through the existing Executor
 journal. Its operator interface never signs, submits, accepts entropy or refunds;
 local persistence is not a chain seal or a financial terminal state.
+
+[Checkpoint evidence inspection](CHECKPOINT_EVIDENCE.md) uses frozen owned proof
+resources and preserves exact compatibility failures. The
+[no-Node audit and U0–U3 delivery list](../../docs/security/NO_NODE_RANDOMNESS_FINALITY_20261028.md)
+separate current RPC capabilities, proof validity, finalized history and qualified
+causal entropy. No new source or finality adapter is enabled.

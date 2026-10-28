@@ -316,3 +316,21 @@ seed, financial recovery or wallet payment. All execution/refund capabilities
 remain false. No new proof, funds, deployment, SDK/Node change or old-contract
 operation occurred. Beacon/finality/causality and actual random market/key/full UPS
 remain unclosed; the source gate and existing financial stop remain intact.
+
+
+## 28 October: randomness/finality/causal-seal audit without Node changes
+
+[No-Node audit and U0–U3 delivery contract](NO_NODE_RANDOMNESS_FINALITY_20261028.md)
+confirms existing proof/root/path RPCs, separates cumulative checkpoint validity
+from canonical history/finality, and specifies the missing qualified source and
+causal-release evidence. A source-fixed read-only inspector and public proof
+capture are added; no Node/SDK or old-contract change, proof generation or
+financial operation occurred.
+
+The observed 6085/6086 proof bytes do not verify under the frozen cached transition
+resources. Genesis cache/source equality is checked; full transition construction
+and mismatch attribution remain open. Failed compatibility remains failed, not
+converted into an acceptance result. Random mode stays closed. U0 resource/wire/
+public-parameter alignment must precede U1 finality and U2/U3 source/release
+integration, followed by actual new market/key/full UPS and financial acceptance.
+No signature, timestamp, RPC height or mined receipt substitutes for those gates.

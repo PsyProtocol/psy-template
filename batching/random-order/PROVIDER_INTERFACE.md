@@ -76,3 +76,9 @@ This does not guarantee producer publication, relayer service or global inclusio
 A deterministic finite set and unique seed cannot eliminate strategic non-service,
 abort/re-entry or comprehensive MEV by themselves. No adapter is approved by this
 interface document; the runtime gate remains closed.
+
+The [28 October no-Node audit](../../docs/security/NO_NODE_RANDOMNESS_FINALITY_20261028.md)
+now identifies existing checkpoint RPCs, the failed captured-proof/resource
+compatibility gate, exact U0–U3 owner deliveries and acceptance requirements.
+Checkpoint proof validity and mined bridge receipts do not independently establish
+the finality or causal-release assumptions required here.
