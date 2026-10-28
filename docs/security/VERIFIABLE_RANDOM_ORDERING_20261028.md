@@ -562,3 +562,76 @@ matching and NFT unique-sale semantics remain unchanged. No global fairness,
 anti-censorship, comprehensive anti-MEV or production claim follows.
 
 [Public records, commands, failed reproduction, source and regression evidence](../../executor/verification/2026-10-28-random-request-recovery-v1/manifest.json).
+
+
+## No-Node source/finality/causality capability audit
+
+[Detailed capability matrix and exact U0–U3 upstream deliveries](NO_NODE_RANDOMNESS_FINALITY_20261028.md)
+are based on the unchanged frozen source and bounded public observations. The
+SDK already exposes `psy_get_checkpoint_state_transition_proof`, checkpoint roots,
+leaves and membership paths. No new Node RPC is required to collect those bytes.
+The present native random contribution is still coordinator-local sampling;
+monotonic checkpoint time or height order cannot establish qualified entropy or
+causal seal-before-release. An external source/finality adapter is an application
+route, not an installed or qualified implementation.
+
+A new [read-only checkpoint inspector](../../batching/random-order/CHECKPOINT_EVIDENCE.md)
+loads fixed cached verifier/common data, recomputes key fingerprints, compares
+cached genesis against its source constructor, verifies actual proof bytes and
+opens the cumulative PI using the real SDK hash helper. The captured current and
+predecessor proof identities are separately recorded. Membership at a declared
+index is distinguished from numeric predecessor adjacency, latest append, full
+history anchoring, domain authentication and finality; those flags remain false.
+Independent review prompted the explicit adjacency boundary and predecessor-byte
+identity before this interface was published.
+
+Ten read attempts were made: one Python TLS-store failure retained, then nine
+system-curl calls with TLS/hostname validation enabled. The observed head was
+6086. Proofs for 6085 and 6086 were each 130,328 bytes; checkpoint 0 returned an
+empty proof array. Both nonempty proofs independently fail under the frozen
+transition verifier/common data. The compatibility diagnostic exits nonzero and
+its original failure is preserved. This does not identify the chain as invalid
+or prove which running release/format/parameter/resource caused the mismatch.
+No alternate key, SDK, backend, proof generation or chain operation was attempted.
+
+The cached genesis key/common data matches actual frozen source construction,
+with degree 12 and fingerprint `ef362aad8a2686a173a67d7aedc881d203754a105fe8134d82786111a8554208`.
+Full transition resource construction remains unchecked. Its frozen cached final
+fingerprint is `5e4c467c5e5984b52b2ce8a8dc1401ef3d6046ef3b529935e4cc840112e63f06`.
+U0 requires a reproducible fixed-source/public-parameter proof/resource tuple;
+U1 requires canonical finality/lineage and unique domain evidence; U2 a qualified
+unique unpredictable beacon; U3 a release rule causally bound to the finalized
+seal. Publishing existing proof/resource data may require no Node code change.
+Upgrading the quality of the native random field would be a separate upstream
+protocol change, outside this authorized work.
+
+Three offline resource/hash/size unit checks pass; they do not close compatibility.
+The actual captured-proof diagnostic fails and is not counted as a passing test.
+Targeted guards cover declared index/root/leaf, strict input fields, trailing and
+oversized proof data, missing predecessor, exact failed-report predecessor byte
+provenance and create-new report preservation. Provenance checks under a blocked
+compatibility gate are not represented as successful cryptographic substitution
+rejection. No full UPS, random SD-key, market fill, ordinary claim, fee, finality
+certificate or causal beacon release is accepted by these checks.
+
+The evidence archive is verified and extracted fresh. Replaying the exact
+captured-proof inspection retains a nonzero outcome and the same proof byte
+identities. This is reproducible failure evidence, not a manufactured positive.
+No original record is overwritten. Native build/RSS samples and all failed runs
+are provenance only; no full-market speedup, confirmation throughput, p95 or
+production claim follows.
+
+[Public source excerpts, raw observations/proofs, failures, build inventory and guard evidence](../../executor/verification/2026-10-28-random-source-boundary-v1/manifest.json).
+
+
+Final evidence review also repaired the initial replay guard: any generic failed
+inspection could previously be labeled the expected compatibility failure. A
+controlled fresh-copy wrong-membership index reproduces that weak classification;
+the v2 recipe rejects it and requires the exact frozen predecessor-transition
+verification stage, polynomial error and fixed fingerprint. A second review
+identified its relative-input hash check; a same-stage substituted-predecessor
+control reproduced that gap. Current v3 pins the original opening and both proof
+digests before invoking the verifier, then checks exact stage/cause/resources.
+The original v1/v2 recipes/reports/archives remain superseded. The current v3
+archive and fresh-extraction replay reproduce the observed failure without
+accepting a proof, making RPC calls or proving.

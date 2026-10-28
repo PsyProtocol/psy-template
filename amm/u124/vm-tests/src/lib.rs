@@ -170,3 +170,4 @@ pub mod random_order;
 pub mod seal_inclusion;
 pub mod seal_inclusion_circuit;
 pub mod seal_order;
+pub mod checkpoint_evidence;
