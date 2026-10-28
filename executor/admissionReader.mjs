@@ -1,3 +1,4 @@
+import {assertDeterministicOrdering} from '../batching/random-order/sourceGate.mjs';
 // Unaccepted intents are hints, never a claim of market-wide completeness.
 import assert from 'node:assert/strict';
 import {scanBatch} from '../batching/v2/reader.mjs';
@@ -6,6 +7,7 @@ import {losslessJson,parseLosslessJson,FEE_ESCROW as F} from '../amm/u124/client
 import{BULK_ADMISSION,bulkAdmissionRequest}from'../batching/admission/bulk.mjs';
 import {publicState} from './publicState.mjs';
 export function validateAdmissionPlan(p){
+ assertDeterministicOrdering(p);
  assert.ok(p&&typeof p==='object'&&!Array.isArray(p));
  assert.ok(Object.keys(p).every(k=>['version','epoch','cutoff','members'].includes(k)));
  assert.equal(p.version,1);assert.ok(Number.isSafeInteger(p.epoch)&&p.epoch>0&&p.epoch<2**32);

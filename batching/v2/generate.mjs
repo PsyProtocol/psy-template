@@ -1,3 +1,4 @@
+import {assertDeterministicOrdering} from '../random-order/sourceGate.mjs';
 import {bootstrapMethod} from './bootstrap.mjs';
 import {recoveryMethods} from './recovery.mjs';
 import {generateAmm,generateBook,generateCurve,fixture} from '../../amm/u124/generate.mjs';
@@ -78,7 +79,7 @@ function finishBatch(market,c){return method('finish_batch','batch: Felt',d=>{
  d.emit('self.batch_phase = 3;');
 });}
 
-export function generateBatch(market,config={}){
+export function generateBatch(market,config={}){assertDeterministicOrdering(config);
  if(!['amm','orderbook','bondingcurve','nftmarket'].includes(market))throw Error('batch market');
  const c=market==='nftmarket'?{nftId:41,tokenId:42,networkMagic:'1',...config}:{...fixture,networkMagic:'1',...config};
  const base=market==='nftmarket'?generateNft({nftId:c.nftId,tokenId:c.tokenId}):({amm:generateAmm,orderbook:generateBook,bondingcurve:generateCurve}[market])(c);

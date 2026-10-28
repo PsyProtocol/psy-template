@@ -1,8 +1,9 @@
+import {assertDeterministicOrdering} from '../random-order/sourceGate.mjs';
 import assert from 'node:assert/strict';
 export const TX_COUNT=40, WITNESS_LENGTH=74, OP_START=21, OP_WIDTH=13, BURN_INDEX=73;
 const w=witness=>({witness}),k=constant=>({constant:String(constant)});
 const nativeIds={simple_claim:2293029357,simple_transfer:354447671,simple_burn:2923993647};
-export function makeBatchPolicy(market,marketId,c,abi,tokenAbi,nftAbi){
+export function makeBatchPolicy(market,marketId,c,abi,tokenAbi,nftAbi){assertDeterministicOrdering(c);
  const get=(a,name,n)=>{const m=a.contract.methods.find(m=>m.name===name);assert.ok(m,`missing ${name}`);assert.equal(m.input_felt_count,n,`${name} arity`);assert.equal(m.output_felt_count,0,`${name} must have no return values`);assert.ok(m.state_mutability==='external'||(['noop','recover_nft'].includes(name)&&m.state_mutability==='view'),`${name} mutability`);return m;};
  const call=(id,a,name,inputs)=>({contract_id:id,method_id:get(a,name,inputs.length).method_id,method_name:name,inputs});
  const guard=(name,inputs=[])=>call(marketId,abi,name,inputs);

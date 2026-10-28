@@ -163,3 +163,6 @@ pub mod wallet_verification;
 pub mod wallet_verifier_export;
 
 pub mod contract_layout;
+
+// Standalone candidate permutation constraints, not a qualified beacon or UPS.
+pub mod random_order;

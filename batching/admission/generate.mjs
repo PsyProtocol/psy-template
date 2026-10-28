@@ -1,3 +1,4 @@
+import {assertDeterministicOrdering} from '../random-order/sourceGate.mjs';
 // Bounded opt-in admission candidate. Accepted queue, not the market universe.
 // Distinct layout/code roots; never apply to the deployed V2 vault.
 import {generateBatch,methodSpans} from '../v2/generate.mjs';
@@ -13,7 +14,7 @@ pub queue_root: Hash, pub queue_history: Hash,
 pub queue_owner: ContractStateArray<4,Felt>, pub queue_nonce: ContractStateArray<4,Felt>,
 pub queue_hash: ContractStateArray<4,Hash>, pub queue_outcome: ContractStateArray<4,Felt>,
 `;
-export function generateAdmission(market,c){if(c.ordering!==undefined&&c.ordering!=='deterministic')throw Error('authenticated future randomness is unavailable; deterministic only');for(const key of ['seed','randomSeed','randomSource'])if(Object.hasOwn(c,key))throw Error('randomness dependency not attested');let source=generateBatch(market,c);const marker='}\n#[contract_implementation]';if(source.split(marker).length!==2)throw Error('admission struct envelope');source=source.replace(marker,fields+marker);
+export function generateAdmission(market,c){assertDeterministicOrdering(c);let source=generateBatch(market,c);const marker='}\n#[contract_implementation]';if(source.split(marker).length!==2)throw Error('admission struct envelope');source=source.replace(marker,fields+marker);
  // Foreign reads authenticate historical checkpoints, not the latest absence
  // of queue membership. Lock the user's own signed consent immediately; only
  // monotonically terminal epoch evidence can authorize a later mutation.
