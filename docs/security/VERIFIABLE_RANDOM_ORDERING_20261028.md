@@ -466,3 +466,99 @@ cannot enable wallet spending or random execution. It does not prove global
 inclusion, censorship resistance, comprehensive anti-MEV or same-pool parallelism.
 
 [Public inputs/proofs, exact build inventory, commands, rejection results and all samples](../../executor/verification/2026-10-28-seal-order-v1/manifest.json).
+
+
+## Local candidate request recovery milestone
+
+Starting application `0453c75ef8d95f0c0fc7b60dbd5f6ae7056fbed2`, same clean branch
+and frozen mainnet-beta SDK. Process inspection found the existing read-only UI
+gateway, no financial/proof/compiler owner. Root owned the bounded local tests.
+This case authorizes zero proofs, financial RPC, grants, registrations, deployed
+instances, fees, fills or ordinary claims. No SDK, Psy Node, old market or existing
+financial journal is changed.
+
+[Local candidate request recovery](../../batching/random-order/REQUEST_RECOVERY.md)
+adds `RandomRequestJournal` and the offline Executor operator entry
+`executor/randomCandidate.mjs`. It reuses the existing fsynced/create-new journal
+and same-host locking in a separate candidate namespace. A domain-separated
+SHA256 over all 74 canonical field strings pins the complete requested identity;
+this local digest is not the Poseidon frozen root or an on-chain seal. Different
+sets, nonces, epochs, rounds, source, schedule, fees or component identities reject.
+The journal cannot accept a financial terminal event, fix an authenticated draw,
+close an epoch or clear a broadcast lock.
+
+Only projected public claim fields and decoded-proof byte digests are retained.
+Seed claims and checkpoints remain unverified; conflicting claims are diagnostic.
+There is no verifier callback, resource URL, signing, broadcast or refund path.
+At most 32 distinct evidence/timeout observations are retained, with exact
+idempotent duplicates allowed after capacity exhaustion. Full capacity never
+rotates the request, removes members or selects a new draw. This is diagnostic
+backpressure, not an increased or reduced market batch capacity.
+
+### Correctness repair found during review
+
+The first operator implementation mutated the journal before publishing the
+create-new report. An occupied report path could therefore cause an error after
+the first candidate was pinned. Independent review identified this case; the
+existing repeated-pin test did not cover it. A new first-freeze regression
+reproduced the failure before repair. That failed log and pre-repair source remain
+unchanged in the public archive.
+
+The corrected entry reserves the fresh report first, durably writes a separate
+immutable command intent, then performs journal work. Occupied output fails before
+any first pin. A simulated post-pin output write failure retains the intent and
+exact journal identity and returns a typed reconciliation-required error. Changed
+proposals distinguish their requested identity from the validated retained one.
+An empty reserved result is not success; recovery inspects the original journal
+using a fresh output and never chooses a replacement candidate.
+
+### Executed acceptance and scope
+
+- Final focused suite: 15 passes, no skips. Earlier 10-pass and 13/14-pass runs are
+  provenance, not additional independent acceptance. The deliberately failing
+  first-freeze reproduction remains failed.
+- Exact input/output mutation and restart identity checks; changes to set/member,
+  source/round/schedule, scope or epoch reject without replacing the original.
+  Proof-byte aliases deduplicate; different seed claims remain unverified.
+- Two independent same-host operator processes race different sets: exactly one
+  pins, the other rejects. A separate writer is actually killed with SIGKILL
+  after atomic record publication while holding the vault lock; a new instance
+  retains that exact record and complete candidate. No cross-machine result.
+- Forged journal terminal events, digest corruption, duplicate fixed records,
+  foreign domains, injected verifiers/success, premature timeouts and diagnostic
+  capacity overflow reject. Timeout and recovery reports keep all financial
+  capabilities false; `executionPlan` always rejects unavailable randomness.
+- Five separate real CLI processes freeze, inspect after process restart, observe
+  synthetic evidence, observe a timeout and emit a blocked recovery plan. A sixth
+  process attempts a changed round and rejects. These are actual local operator
+  invocations, not network settlement or extension-wallet payment acceptance.
+- The public archive is extracted fresh and an inspection of the copied original
+  ledger and candidate verifies the same request identity and blocked capabilities.
+  No new pin, proof, RPC, draw or financial operation is needed for that replay.
+
+The suite uses Node 24.19.0 with test concurrency one and a 120-second test-invocation
+ceiling. Timing is retained as test-run provenance only; no market proof, network
+confirmation, final asset arrival, cold/warm throughput, fee or RSS performance
+measurement is claimed by these persistence tests. The post-pin ENOSPC-like error
+is a controlled filesystem-write fault, not a claim that the disk actually filled.
+Acquisition-gate crashes still fail closed for inspection under the existing
+journal; the killed-writer result does not establish universal automatic recovery.
+
+### Remaining safety boundary
+
+Local files can be rewritten or a new directory selected by their administrator.
+This operational pin cannot prove on-chain pre-draw sealing, force inclusion,
+prevent selective service or resolve financial state. Magic plus checkpoint-1
+root alone cannot authenticate a unique reset if both values are reused; the
+source/finality certificate domain must supply a reviewed instance/key epoch.
+Existing financial nonce/balance/broadcast locks remain intact and separate.
+
+Random execution remains disabled. Qualified unique future entropy, canonical
+finality and causal pre-release sealing are still missing. Actual new random
+market/key state transitions, U124 ordered fills, cancellation/refund/timeout
+recovery, full UPS, live deployment and ordinary claim are not implemented or
+accepted by this local journal. Existing AMM/Curve pricing, Book price/time
+matching and NFT unique-sale semantics remain unchanged. No global fairness,
+anti-censorship, comprehensive anti-MEV or production claim follows.
+
+[Public records, commands, failed reproduction, source and regression evidence](../../executor/verification/2026-10-28-random-request-recovery-v1/manifest.json).

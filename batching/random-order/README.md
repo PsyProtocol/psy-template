@@ -121,3 +121,8 @@ interfaces; they are not existing methods or accepted adapters.
 components under source-built constant child keys and binds the same frozen root
 inside the circuit. It supplies neither qualified entropy nor canonical finality
 and cannot enable random execution.
+
+[Local candidate request recovery](REQUEST_RECOVERY.md) adds immutable request
+pinning and projected unverified observations through the existing Executor
+journal. Its operator interface never signs, submits, accepts entropy or refunds;
+local persistence is not a chain seal or a financial terminal state.
