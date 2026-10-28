@@ -412,3 +412,46 @@ remain disabled. No live registration/deployment/broadcast, browser acceptance,
 ordinary-wallet claim UPS or timeout/refund UPS was performed. Recovery claims
 here are compiled bytecode evidence. No all-market inclusion, censorship,
 cross-machine coordination or production-readiness conclusion is made.
+
+## 28 October: separate previous-checkpoint producer-seeded execution
+
+Following the user's request to implement the supplied diagram's previous-block
+model, a distinct v4 AMM/Curve contract/key/native Executor profile now fixes the
+source to the checkpoint containing the preceding-context vault commitment.
+The full settlement stack claims inputs by user ID, follows the complete native
+seed-derived permutation, updates shared state sequentially, claims fees and
+pays a fixed processor reward with exact burn conservation. Two/three-member
+padding and the default v3 build selector were corrected during independent
+review; original failure records are preserved.
+
+The formal Executor reuses the existing durable proof/request journal, sealed
+driver, exact one-send broadcast and original-identity reconciliation. Native
+code pins the source context and authenticates dependency identities there,
+retains current-account/code/layout checks and uses a disposable exact-fee trace.
+The v4 domain tag and signed source constraint produce a new key; the old v3
+native guard and qualified future-source gate remain closed. Current deterministic
+deployments, Orderbook priority and NFT winner semantics are unchanged.
+
+Four new complete synthetic UPSs passed (four-member AMM/Curve commit and
+settlement), followed by independent saved-proof verification and native CLI
+rank/key matches. Sixty JavaScript tests, four bytecode tests and isolated-key
+positive/negative proofs passed. Executor restart/lost-result evidence uses
+coordination doubles, not native network receipts. Recipient claims and
+timeout/refunds are bytecode evidence, not ordinary-wallet or recovery UPSs.
+
+The process took 610.763 seconds with sampled family RSS peak 1,977,888 KiB.
+AMM commit/settle paths took 39.681/165.376 seconds; Curve took 35.531/189.081
+seconds, excluding their separately measured resource construction. These are
+single synthetic offline measurements with no matched cold/warm or deterministic
+control and no confirmation/claim latency or throughput conclusion.
+
+Producer influence is explicitly acknowledged in configuration. Authentication
+to the UPS checkpoint root does not establish external chain-instance/finality,
+unpredictability, low bias or actual seal-before-release chronology. This mode
+cannot prove whole-market inclusion or force an executor to serve a batch. No
+RPC, deployment, registration, financial operation, ordinary-wallet or browser
+acceptance occurred. Fresh-instance native source/quote/preflight/broadcast and
+network/claim/refund acceptance remain required before promotion.
+
+See [implementation, trust boundaries and reproduction](PREVIOUS_CHECKPOINT_EXECUTION_20261028.md)
+and [immutable evidence](../../executor/verification/2026-10-28-previous-checkpoint-v1/README.md).

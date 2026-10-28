@@ -4,7 +4,7 @@ import {dirname,resolve} from 'node:path';
 const kinds=['amm','orderbook','bondingcurve','launchamm','nftmarket'];
 const paths=['rpcConfig','wallet','abi','driverConfig','runtimeDirectory','usersFile','policy','dependencyBindings','admissionPlan'];
 const allowed=new Set(['kind','name','network','contractId','vaultId','publicKeyHash','fingerprint','codeRoot','layoutRoot','walletSha256',
-  ...paths,'users','intervalMs','receiptMaxPages','cli','pool','launch','automaticInitialize','automaticGraduation','profile','assetA','assetB','collection','paymentToken','batchSponsorId','batchExpiryCheckpoints','activationPayerId','batchMemberLimit','testnetProfile','proverThreads','proverMode','proverMemoryMode','fixedVerifierMode','admissionMode','performanceMetrics','bulkFallbackRemainingCheckpoints']);
+  ...paths,'users','intervalMs','receiptMaxPages','cli','pool','launch','automaticInitialize','automaticGraduation','profile','assetA','assetB','collection','paymentToken','batchSponsorId','batchExpiryCheckpoints','activationPayerId','batchMemberLimit','testnetProfile','proverThreads','proverMode','proverMemoryMode','fixedVerifierMode','admissionMode','performanceMetrics','bulkFallbackRemainingCheckpoints','producerSeedAcknowledgement']);
 export function validateUsers(users,vaultId){
   if(!Array.isArray(users)||users.length>10000||users.some(x=>!Number.isSafeInteger(x)||x<1||x>=16777216||x===vaultId))throw Error('users must contain at most 10000 valid payer IDs');
   return [...new Set(users)].sort((a,b)=>a-b);
@@ -14,11 +14,11 @@ export function validateOptions(input,base=process.cwd()){
   for(const key of Object.keys(input))if(!allowed.has(key))throw Error(`unknown executor config field: ${key}`);
   const o={...input};
   if(o.performanceMetrics!==undefined&&typeof o.performanceMetrics!=='boolean')throw Error('boolean performanceMetrics required');
-  if(o.performanceMetrics&&o.profile!=='batch-admission-compact-v1')throw Error('phase metrics currently require compact admission');
+  if(o.performanceMetrics&&!['batch-admission-compact-v1','previous-checkpoint-seeded-v1'].includes(o.profile))throw Error('phase metrics require a compact Executor profile');
   if(!kinds.includes(o.kind))throw Error('unsupported executor kind');
-  if(o.profile!==undefined&&!['legacy','u124','nft-v3-u124','batch-v2','batch-admission-compact-v1'].includes(o.profile))throw Error('unsupported amount profile');
+  if(o.profile!==undefined&&!['legacy','u124','nft-v3-u124','batch-v2','batch-admission-compact-v1','previous-checkpoint-seeded-v1'].includes(o.profile))throw Error('unsupported amount profile');
   if(o.kind==='nftmarket'){
-    if(!['nft-v3-u124','batch-v2','batch-admission-compact-v1'].includes(o.profile)||o.assetA||o.assetB)throw Error('NFT marketplace requires nft-v3-u124 profile');
+    if(!['nft-v3-u124','batch-v2','batch-admission-compact-v1','previous-checkpoint-seeded-v1'].includes(o.profile)||o.assetA||o.assetB)throw Error('NFT marketplace requires nft-v3-u124 profile');
     for(const key of ['policy','driverConfig'])if(typeof o[key]!=='string'||!o[key])throw Error(`path required: ${key}`);
     for(const key of ['collection','paymentToken']){
       const a=o[key];if(!a||Object.keys(a).some(k=>!['contractId','codeRoot','layoutRoot','abi'].includes(k)))throw Error(`invalid ${key} binding`);
@@ -29,7 +29,7 @@ export function validateOptions(input,base=process.cwd()){
     if(o.collection.contractId===o.paymentToken.contractId)throw Error('distinct NFT and FT required');
     if(!Number.isSafeInteger(o.contractId)||o.contractId<5||o.contractId>=16777216)throw Error('invalid NFT market contract ID');
   }else if(o.profile==='nft-v3-u124'||o.collection||o.paymentToken)throw Error('NFT bindings require nftmarket');
-  if(o.profile==='u124'||(['batch-v2','batch-admission-compact-v1'].includes(o.profile)&&o.kind!=='nftmarket')){
+  if(o.profile==='u124'||(['batch-v2','batch-admission-compact-v1','previous-checkpoint-seeded-v1'].includes(o.profile)&&o.kind!=='nftmarket')){
     if(!['amm','orderbook','bondingcurve'].includes(o.kind))throw Error('unsupported U124 market');
     for(const key of ['policy','driverConfig'])if(typeof o[key]!=='string'||!o[key])throw Error(`path required: ${key}`);
     for(const key of ['assetA','assetB']){
@@ -43,17 +43,17 @@ export function validateOptions(input,base=process.cwd()){
     if(o.assetA.contractId===o.assetB.contractId)throw Error('distinct U124 assets required');
     if([o.assetA.contractId,o.assetB.contractId].includes(o.contractId))throw Error('market and asset contract IDs must be distinct');
   }else if(o.kind!=='nftmarket'&&(o.policy||o.assetA||o.assetB))throw Error('U124 binding requires profile u124');
-  if(o.profile==='u124'||o.profile==='batch-v2'||o.profile==='batch-admission-compact-v1'||o.kind==='nftmarket')if(typeof o.walletSha256!=='string'||!/^[0-9a-f]{64}$/.test(o.walletSha256))throw Error('explicit reviewed walletSha256 required');
-  if(['batch-v2','batch-admission-compact-v1'].includes(o.profile)){
+  if(o.profile==='u124'||o.profile==='batch-v2'||o.profile==='batch-admission-compact-v1'||o.profile==='previous-checkpoint-seeded-v1'||o.kind==='nftmarket')if(typeof o.walletSha256!=='string'||!/^[0-9a-f]{64}$/.test(o.walletSha256))throw Error('explicit reviewed walletSha256 required');
+  if(['batch-v2','batch-admission-compact-v1','previous-checkpoint-seeded-v1'].includes(o.profile)){
     if(!['amm','orderbook','bondingcurve','nftmarket'].includes(o.kind))throw Error('unsupported batch market');
     if(!Number.isSafeInteger(o.batchSponsorId)||o.batchSponsorId<1||o.batchSponsorId>=16777216||o.batchSponsorId===o.vaultId)throw Error('distinct batchSponsorId required');
     if(o.activationPayerId!==undefined&&(!Number.isSafeInteger(o.activationPayerId)||o.activationPayerId<1||o.activationPayerId>=16777216||o.activationPayerId===o.vaultId))throw Error('invalid activationPayerId');
     o.batchExpiryCheckpoints??=256;if(!Number.isSafeInteger(o.batchExpiryCheckpoints)||o.batchExpiryCheckpoints<1||o.batchExpiryCheckpoints>1024)throw Error('batchExpiryCheckpoints must be 1..1024');
-    const paired=['orderbook','nftmarket'].includes(o.kind);o.batchMemberLimit??=o.profile==='batch-admission-compact-v1'?4:paired?4:2;if(!Number.isSafeInteger(o.batchMemberLimit)||o.batchMemberLimit<(paired?2:1)||o.batchMemberLimit>4)throw Error('invalid batchMemberLimit for market');
+    const paired=['orderbook','nftmarket'].includes(o.kind);o.batchMemberLimit??=['batch-admission-compact-v1','previous-checkpoint-seeded-v1'].includes(o.profile)?4:paired?4:2;if(!Number.isSafeInteger(o.batchMemberLimit)||o.batchMemberLimit<(paired?2:1)||o.batchMemberLimit>4)throw Error('invalid batchMemberLimit for market');
   }else if(o.batchSponsorId!==undefined||o.batchExpiryCheckpoints!==undefined||o.activationPayerId!==undefined||o.batchMemberLimit!==undefined)throw Error('batch fields require batch-v2');
   if(o.bulkFallbackRemainingCheckpoints!==undefined&&(!Number.isSafeInteger(o.bulkFallbackRemainingCheckpoints)||o.bulkFallbackRemainingCheckpoints<1||o.bulkFallbackRemainingCheckpoints>64||o.profile!=='batch-admission-compact-v1'||o.admissionMode!=='all-four-v1'))throw Error('bulk fallback requires all-four-v1 and 1..64 remaining checkpoints');
   if(o.admissionMode!==undefined&&(o.profile!=='batch-admission-compact-v1'||!['single-v1','all-four-v1'].includes(o.admissionMode)))throw Error('explicit supported compact admissionMode required');
-  if(o.profile==='batch-admission-compact-v1'){
+  if(o.profile==='batch-admission-compact-v1'||o.profile==='previous-checkpoint-seeded-v1'){
     for(const key of ['dependencyBindings','admissionPlan'])if(typeof o[key]!=='string'||!o[key])throw Error(`path required: ${key}`);
     if(!(o.network==='testnet'&&o.testnetProfile==='mainnet-beta-20261027-v1')&&(o.network!=='sepolia'||!['sepolia-config-v1','staging-bundled-regtest-20261020-v1'].includes(o.testnetProfile)))throw Error('explicit supported compact testnet profile required');
     if(o.batchMemberLimit!==4)throw Error('compact admission processes the complete four-member capacity');
@@ -62,6 +62,7 @@ export function validateOptions(input,base=process.cwd()){
     if(o.proverMemoryMode!==undefined&&!['retain-v1','release-unused-v1'].includes(o.proverMemoryMode))throw Error('unsupported explicit proverMemoryMode');
     o.proverThreads??=2;if(!Number.isSafeInteger(o.proverThreads)||o.proverThreads<1||o.proverThreads>32)throw Error('proverThreads must be 1..32');
   }else if(o.dependencyBindings!==undefined||o.admissionPlan!==undefined||o.testnetProfile!==undefined||o.proverThreads!==undefined||o.proverMode!==undefined||o.proverMemoryMode!==undefined||o.fixedVerifierMode!==undefined)throw Error('compact admission fields require batch-admission-compact-v1');
+  if(o.profile==='previous-checkpoint-seeded-v1'){if(!['amm','bondingcurve'].includes(o.kind)||o.producerSeedAcknowledgement!=='producer-may-bias-v1'||o.network!=='testnet'||o.testnetProfile!=='mainnet-beta-20261027-v1'||o.batchExpiryCheckpoints<2)throw Error('explicit testnet producer-seeded trust and timing profile required');}else if(o.producerSeedAcknowledgement!==undefined)throw Error('producer acknowledgement requires previous checkpoint profile');
   if(typeof o.network!=='string'||!/^[a-zA-Z0-9_-]+$/.test(o.network))throw Error('explicit network required');
   if(!Number.isSafeInteger(o.contractId)||o.contractId<5||o.contractId>=16777216)throw Error('invalid contract ID');
   if(!Number.isSafeInteger(o.vaultId)||o.vaultId<1||o.vaultId>=16777216)throw Error('invalid vault ID');

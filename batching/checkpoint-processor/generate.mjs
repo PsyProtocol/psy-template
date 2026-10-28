@@ -74,3 +74,8 @@ export function generateCheckpointProcessor(market,config) {
  source=source.slice(0,expiry.end-1)+retire.text().replace(/\bw_/g,'processor_retire_')+'\n'+source.slice(expiry.end-1);
  return source.trimEnd().slice(0,-1)+[begin(c),gather(market,c),finish()].map(lower).join('\n')+'\n}\n';
 }
+export function generatePreviousCheckpointProcessor(market,config){
+ const source=generateCheckpointProcessor(market,config);
+ const old='draw_checkpoint <= ctx.checkpoint_id';assert.equal(source.split(old).length,2);
+ return source.replace(old,'draw_checkpoint == ctx.checkpoint_id');
+}

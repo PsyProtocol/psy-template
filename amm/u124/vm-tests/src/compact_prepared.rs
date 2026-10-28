@@ -46,9 +46,10 @@ pub async fn broadcast(a:&[String],spec:&Value,fp:QHashOut<F>,key:QHashOut<F>,ne
  ensure!(user==g.identity.vault_id&&core.new_user_leaf.public_key==key,"prepared user identity");
  let fee=core.stats.guta_fees_collected.to_canonical_u64().checked_add(core.stats.da_fees_collected.to_canonical_u64()).context("prepared fee overflow")?;
  ensure!(core.stats.guta_fees_collected==f(1_000_000_000)&&Some(core.stats.da_fees_collected.to_canonical_u64())==core.stats.slots_modified.to_canonical_u64().checked_mul(1000)&&(1_000_000_000..=1_000_100_000).contains(&fee),"prepared fee binding");
- let mut fields=data.software_defined_call.inputs.clone();ensure!(fields.len()==74&&(fields[73]==0||fields[73]==fee),"prepared witness fee");fields[73]=fee;
+ let mut fields=data.software_defined_call.inputs.clone();ensure!(fields.len()==spec["witness_length"].as_u64().context("prepared width")?as usize&&(fields[73]==0||fields[73]==fee),"prepared witness fee");fields[73]=fee;
  let expected=batch_compact::calls(spec,&fields)?;ensure!(serde_json::to_value(&data.contract_calls)?==serde_json::to_value(&expected[..expected.len()-1])?&&core.stats.total_transactions==f(expected.len() as u64),"prepared complete call list/count");
  ensure!(g.valid_until_checkpoint<(1u64<<32)&&source_cp<=g.valid_until_checkpoint&&(fields[0]!=1||g.valid_until_checkpoint<=fields[3]),"prepared expiry");
+ if psy_template_u124_markets::processor_policy::previous(spec)&&fields[0]==2{ensure!(source_cp==fields[3]&&data.software_defined_call.inputs[73]==fee&&p["orderingModel"]=="previous-checkpoint-seeded-v1"&&p["producerSourceCheckpoint"]==source_cp&&p["producerInfluence"]==true&&p["qualifiedRandomness"]==false,"producer prepared source, explicit fee and trust model binding");}
  *phase="check-prepared-live-state";let provider=RpcProvider::new_with_config(net)?;g.identity.check_current(&provider).await?;
  psy_template_u124_markets::guard_reads::checked(&g.dependencies,psy_template_u124_markets::guard_reads::concurrency()?,|b|b.check(&provider)).await?;
  let provider=provider.with_user_id_owned(user);let cp=provider.get_latest_block_state().await?.checkpoint_id;
