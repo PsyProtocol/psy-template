@@ -71,3 +71,11 @@ exact predecessor-transition stage/cause and fixed fingerprint, not just a faile
 boolean or hashes relative to arbitrary supplied files. Wrong-membership and
 same-stage substituted-predecessor controls are retained. V1/v2 recipes/reports
 are superseded provenance, never current acceptance.
+## Follow-up: exact 6085/6086 compatibility diagnosis
+
+[Current diagnosis](../../docs/security/CHECKPOINT_PROOF_COMPATIBILITY_20261028.md)
+records official/strict decode equivalence, exact byte roundtrips and independent
+borrowed/owned verifier failures. It also reproduces the separate official
+network-constructor selector failure and records missing injected validators.
+No replacement key or parameter set is selected. Original failed evidence stays
+unchanged; the new diagnostic is offline and does not qualify finality/randomness.

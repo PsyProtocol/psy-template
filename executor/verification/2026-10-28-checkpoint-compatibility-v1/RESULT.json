@@ -1,0 +1,31 @@
+{
+  "schema": 1,
+  "closed": [
+    "exact original inputs reproduced from saved and fresh RPC bytes",
+    "strict/official decoding and byte roundtrips match",
+    "official cached borrowed and application owned paths reject both at same polynomial identity",
+    "all frozen lock backend sources aligned",
+    "official source-construction selector failure reproduced",
+    "diagnostic failure stages and same-byte identity reporting",
+    "real native rejection and report-preservation regressions"
+  ],
+  "unclosed": [
+    "proof/resource tuple validity and runtime mismatch attribution",
+    "source-built transition resources with actual public runtime parameters",
+    "authenticated instance/history/finality",
+    "qualified beacon and causal seal release",
+    "random market/key/full UPS and financial acceptance"
+  ],
+  "acceptedCheckpointProofs": 0,
+  "financialOperations": 0,
+  "proofsGenerated": 0,
+  "deployments": 0,
+  "testPsyFees": "0",
+  "httpRequests": 2,
+  "rpcMethodsCalled": [
+    "psy_get_checkpoint_state_transition_proof"
+  ],
+  "nodeOrSdkPatches": [],
+  "randomAuthorization": false,
+  "originalArtifactsOverwritten": false
+}
