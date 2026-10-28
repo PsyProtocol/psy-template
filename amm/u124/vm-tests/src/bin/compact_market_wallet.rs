@@ -99,6 +99,7 @@ async fn run(phase: &mut &'static str, composition:bool) -> Result<()> {
     ensure!(a.len()>=3,"identity POLICY | register POLICY CONFIG FRESH_OUT | preflight/submit POLICY CONFIG CALLS GUARD FRESH_OUT");
     compact_benchmark::requested(&a[1])?;
     let spec: Value = serde_json::from_slice(&fs::read(&a[2])?)?;
+    ensure!(spec["version"]!=3,"checkpoint processor candidates are offline-only; source qualification and release authorization are unavailable");
     let circuit = if composition {
         psy_template_u124_markets::composition_policy::build(&spec)?
     } else {

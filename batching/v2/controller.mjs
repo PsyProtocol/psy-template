@@ -37,7 +37,10 @@ export function timeBefore(d,a,b){const ca=own(d,`frozen[${a}].order_checkpoint`
 export function pending(d,i){const u=own(d,`frozen[${i}].owner`),done=own(d,`batch_done[${i}]`);return `(${u} != 0 && ${done} == 0)`;}
 export function live(d,i){const cancelled=own(d,`frozen[${i}].cancelled`),deadline=own(d,`frozen[${i}].deadline`);return `(${cancelled} == 0 && self.batch_cutoff <= ${deadline})`;}
 export function enter(d,u,{ordered=false}={}){id(d,u);const i=own(d,`batch_index[${u}]`);d.range(i,2);d.emit(`require(self.batch_phase == 2 && self.frozen[${i}].owner == ${u} && self.batch_done[${i}] == 0, "batch participant unavailable");`);
- if(ordered)for(let j=0;j<4;j++){const before=timeBefore(d,String(j),i);d.emit(`require(!(${pending(d,j)} && ${before}), "deterministic order priority");`);}return i;}
+ if(ordered)for(let j=0;j<4;j++){
+  if(d.checkpointGraph){d.emit(`require(self.frozen[${j}].owner == 0 || self.processor_claimed[${j}] == 1, "complete sorted claims first"); require(!(${pending(d,j)} && self.processor_position[${j}] < self.processor_position[${i}]), "checkpoint order priority");`);}
+  else{const before=timeBefore(d,String(j),i);d.emit(`require(!(${pending(d,j)} && ${before}), "deterministic order priority");`);}
+ }return i;}
 export function mark(d,u){const i=own(d,`batch_index[${u}]`);d.range(i,2);d.emit(`self.batch_done[${i}] = 1;`);}
 export function controller(market,c){const out=[];const fields=members(market),nativeCursor=market==='nftmarket'?'settled_fee':'settled_fee';
  out.push(method('commit_batch','users: [Felt;4], nonces: [Felt;4], count: Felt, batch: Felt, expiry: Felt, sponsor: Felt',d=>{

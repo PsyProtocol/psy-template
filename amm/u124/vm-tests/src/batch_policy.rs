@@ -8,10 +8,10 @@ use psy_common_circuit::builder::hash::core::CircuitBuilderHashCore;
 use crate::market_key::{SDKeyCircuitGadget,SDKeyTransactionInfoTargets};
 use serde_json::{Value,json};
 pub const COUNT:usize=40;pub const WIDTH:usize=74;
-fn eq(b:&mut CircuitBuilder<F,2>,gate:BoolTarget,a:Target,v:Target){let x=b.sub(a,v);let x=b.mul(x,gate.target);let z=b.zero();b.connect(x,z);}
-fn zero(b:&mut CircuitBuilder<F,2>,gate:BoolTarget,t:Target){let z=b.zero();eq(b,gate,t,z);}
-fn chosen(b:&mut CircuitBuilder<F,2>,t:Target,n:u64)->BoolTarget{let k=b.constant(F::from_canonical_u64(n));b.is_equal(t,k)}
-fn bind(b:&mut CircuitBuilder<F,2>,gate:BoolTarget,slot:&SDKeyTransactionInfoTargets,c:&Value,inputs:&[Target])->Result<()>{
+pub(crate) fn eq(b:&mut CircuitBuilder<F,2>,gate:BoolTarget,a:Target,v:Target){let x=b.sub(a,v);let x=b.mul(x,gate.target);let z=b.zero();b.connect(x,z);}
+pub(crate) fn zero(b:&mut CircuitBuilder<F,2>,gate:BoolTarget,t:Target){let z=b.zero();eq(b,gate,t,z);}
+pub(crate) fn chosen(b:&mut CircuitBuilder<F,2>,t:Target,n:u64)->BoolTarget{let k=b.constant(F::from_canonical_u64(n));b.is_equal(t,k)}
+pub(crate) fn bind(b:&mut CircuitBuilder<F,2>,gate:BoolTarget,slot:&SDKeyTransactionInfoTargets,c:&Value,inputs:&[Target])->Result<()>{
  let cid=b.constant(F::from_canonical_u64(c["contract_id"].as_u64().context("contract")?));
  let mid=b.constant(F::from_canonical_u64(c["method_id"].as_u64().context("method")?));
  let caller=b.constant(F::from_canonical_u64(DEFAULT_CALLER_CONTRACT_ID_U64));
@@ -100,7 +100,7 @@ fn build_profile(spec:&Value,compact:bool,composition:bool)->Result<SDKeyCircuit
  g.build_circuit(b)?;Ok(g)
 }
 
-pub fn expected_calls(spec:&Value,fields:&[u64])->Result<Vec<Value>>{validate(spec)?;ensure!(fields.len()==WIDTH,"batch witness length");
+pub fn expected_calls(spec:&Value,fields:&[u64])->Result<Vec<Value>>{if spec["version"]==3{return crate::processor_policy::expected_calls(spec,fields);}validate(spec)?;ensure!(fields.len()==WIDTH,"batch witness length");
  for(i,n)in fields.iter().enumerate(){ensure!(*n<if (13..17).contains(&i){18446744069414584321}else{1u64<<62},"batch witness field range");}
  ensure!((1..=4).contains(&fields[0]),"batch mode");
  ensure!((1_000_000_000..=1_000_100_000).contains(&fields[73])&&fields[73]%1000==0,"batch burn fee");

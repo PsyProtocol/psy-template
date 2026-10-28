@@ -16,7 +16,7 @@ export function fundingValid(d,i,market,c){
 export function fundingUnchanged(d,u,market,c){d.batchMarket=market;const i=memberIndex(u);
  for(const[asset,cursor,name]of[[market==='nftmarket'?c.tokenId:c.assetA,market==='nftmarket'?'settled_payment':'settled_a','paid_a'],...(market==='nftmarket'?[]:[[c.assetB,'settled_b','paid_b']])]){
   const sent=pairSlot(d,u,asset,'33554453+4*ctx.user_id'),claimed=pairSlot(d,'ctx.user_id',asset,`33554455+4*${u}`),base=own(d,`${cursor}[${u}]`),delta=d.sub(sent,base),frozen=own(d,`frozen[${i}].${name}`);
-  d.emit(`require(${d.eq(claimed,base)} && ${d.eq(delta,frozen)}, "funding changed after cutoff");`);
+  d.emit(`require(${d.eq(claimed,c.checkpointGraph?sent:base)} && ${d.eq(delta,frozen)}, "funding changed after cutoff");`);
  }
  if(market==='nftmarket'){const sent=slot(d,u,c.nftId,'1182+35*ctx.user_id+32'),claimed=slot(d,'ctx.user_id',c.nftId,`1182+35*${u}+33`),fs=own(d,`frozen[${i}].nft_sent`),fc=own(d,`frozen[${i}].nft_claimed`);d.emit(`require(${sent} == ${fs} && ${claimed} == ${fc}, "NFT funding changed after cutoff");`);}
  const sent=slot(d,u,0,'3+2*ctx.user_id'),claimed=slot(d,'ctx.user_id',0,`4+2*${u}`),base=own(d,`settled_fee[${u}]`),fs=own(d,`frozen[${i}].fee_sent`),fd=own(d,`frozen[${i}].fee_delta`);for(const v of[sent,claimed,base,fs,fd])d.range(v,62);

@@ -1,7 +1,7 @@
 import {fundingUnchanged,fundingValid} from './funding.mjs';
 import {method,own,read,slot,pairSlot,enter,mark,live,memberIndex} from './controller.mjs';
 const F=1000100000n;
-const view=(d,c)=>{d.batchMarket=c.market;};
+const view=(d,c)=>{d.batchMarket=c.market;d.checkpointGraph=c.checkpointGraph===true;};
 const frozen=(d,i,f)=>own(d,`frozen[${i}].${f}`);
 function order(d,i,kind){const n=frozen(d,i,'nonce'),used=own(d,'consumed[payer]');d.range('nonce',62);d.emit(`require(${n} == nonce && ${d.lessLimb(used,'nonce')} && self.frozen[${i}].kind == ${kind}, "wrong frozen order");`);}
 function pay(d,c,i,which,amount,writes){
@@ -9,7 +9,7 @@ function pay(d,c,i,which,amount,writes){
  const cursor=c.market==='nftmarket'?'settled_payment':`settled_${which}`;
  const sent=pairSlot(d,'payer',asset,'33554453+4*ctx.user_id'),old=own(d,`${cursor}[payer]`),claimed=pairSlot(d,'ctx.user_id',asset,'33554455+4*payer');
  const paid=frozen(d,i,`paid_${which}`),delta=d.sub(sent,old);
- d.emit(`require(${d.eq(old,claimed)} && ${d.eq(delta,paid)} && ${d.eq(paid,amount)}, "frozen funding mismatch");`);
+ d.emit(`require(${d.eq(c.checkpointGraph?sent:old,claimed)} && ${d.eq(delta,paid)} && ${d.eq(paid,amount)}, "frozen funding mismatch");`);
  writes.push(`self.${cursor}[payer] = ${sent};`);
 }
 function fee(d,writes){const sent=slot(d,'payer',0,'3+2*ctx.user_id'),old=own(d,'settled_fee[payer]'),claimed=slot(d,'ctx.user_id',0,'4+2*payer');for(const x of[sent,old,claimed])d.range(x,62);d.emit(`require(${claimed} == ${old} && ${sent} == ${old} + ${F}, "fee funding mismatch");`);writes.push(`self.settled_fee[payer] = ${sent};`);}
