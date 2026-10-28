@@ -334,3 +334,21 @@ converted into an acceptance result. Random mode stays closed. U0 resource/wire/
 public-parameter alignment must precede U1 finality and U2/U3 source/release
 integration, followed by actual new market/key/full UPS and financial acceptance.
 No signature, timestamp, RPC height or mined receipt substitutes for those gates.
+
+## 28 October: exact checkpoint compatibility diagnosis
+
+[6085/6086 diagnosis and upstream handoff](CHECKPOINT_PROOF_COMPATIBILITY_20261028.md)
+compares the original bytes through both the application's strict decoder/owned
+verifier and the official frozen SDK decoder/borrowed verifier. Decoding and
+serialization roundtrips are exact; both verification paths reject both proofs
+at the same polynomial identity. A new read-only RPC batch returns the same bytes.
+All application/SDK/Node locks resolve the same frozen proof backend.
+
+The official full resource constructor separately rejects the runtime `testnet`
+selector for the magic-derived `LocalDevnet` network; the frozen config also lacks
+injected validators. This construction blocker does not by itself explain the
+cached-key proof rejection. Source/cohort and proof-production attribution remain
+external deliveries with precise resource digests and acceptance requirements.
+The native diagnostic and rejection/classification regressions are complete;
+checkpoint acceptance, finality and random-mode authorization are not. No Node,
+SDK, old contract, wallet, funds, proof generation or financial operation changed.
