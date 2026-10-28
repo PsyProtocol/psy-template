@@ -104,7 +104,7 @@ testnet config, two Rayon threads and a fresh output:
 - `verify_random_order_component PUBLIC_INPUT PRESERVED_PROOF FRESH_REPORT`
   re-verifies the exact saved proof, without signing or generating another proof.
 
-All public proof reports explicitly say `qualifiedSource: false`,
+The original permutation proof reports explicitly say `qualifiedSource: false`,
 `sealInclusionVerified: false`, `fullUpsVerified: false`, `broadcast: false`.
 The proof tests use fixed synthetic inputs, never a substitute live random source.
 
@@ -116,3 +116,8 @@ checkpoint root. It still requires independently authenticated finality, reviewe
 slot semantics and the source's unpredictability boundary.
 [Provider delivery requirements](PROVIDER_INTERFACE.md) define those remaining
 interfaces; they are not existing methods or accepted adapters.
+
+[Conditional recursive seal/order linkage](LINKED_PROOF.md) verifies the two
+components under source-built constant child keys and binds the same frozen root
+inside the circuit. It supplies neither qualified entropy nor canonical finality
+and cannot enable random execution.

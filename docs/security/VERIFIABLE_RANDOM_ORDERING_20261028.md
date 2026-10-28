@@ -378,3 +378,91 @@ comprehensive anti-MEV nor same-pool parallel execution.
 The archive's portable replay verifies the preserved native opening and ZK proof
 from a fresh extraction with caller-selected trusted built binaries. It does not
 prove again, install trust, call RPC or broadcast.
+
+
+## Conditional recursive seal/order linkage milestone
+
+Starting application `009421e10462ff89ae42a888f0fe388d0a65bedc`, clean worktree,
+same branch, frozen mainnet-beta SDK and backend. Process inspection found only
+the existing read-only UI gateway, with no active market finance/proof/compiler
+job. Root remained the sole proof/finance owner. Budget: one matching permutation
+proof, one parent proof, three invalid witness attempts, one process, two Rayon
+threads, 300-second per-process and 4 GiB sampled family-RSS ceiling. No business
+UPS, financial RPC, registration, grant, deployment, fee, fill or claim occurred.
+
+[Seal/order linkage implementation and public encoding](../../batching/random-order/LINKED_PROOF.md)
+adds a source-built recursive verifier for both existing component relations. The
+parent embeds constant child verifier data and exact child common data; callers
+cannot select keys or substitute a verifier callback. It verifies both actual
+proofs and connects all four frozen-root limbs **inside the circuit**. Its 19
+public inputs bind relation version, exact frozen set, supplied checkpoint root,
+inclusion checkpoint, seed, count and complete bounded rank. Host verification
+recomputes the full expected endpoints before verifying the parent proof.
+
+### Executed checks and observed results
+
+- Frozen-source verification/materialization and release/locked/offline test and
+  read-only CLI build pass. No SDK/Node patch or dependency change. The no-run
+  invocation is build evidence only, not counted as an executed test suite.
+- The preserved seal proof from the previous milestone is read and verified,
+  without regeneration. A preserved old permutation proof for a different frozen
+  set is separately verified under the same fixed permutation resources before
+  use as the negative witness. This tests two genuinely valid but incompatible
+  children, not just malformed placeholders.
+- One new matching permutation proof and one recursive parent proof pass, using
+  declared synthetic seed `[1,2,3,4]`; rank is `[3,0,1,2]`. That seed is a fixture,
+  not an entropy source. The original seal-proof bytes remain unchanged.
+- Three invalid recursive witness attempts reject: the individually valid
+  different-set children, modified order-rank public input, and modified seal
+  checkpoint public input. There is no host root-equality precheck hiding these
+  circuit checks. Changed expected seed is also rejected by exact parent endpoints.
+- A separate source-built read-only CLI verifies the exact saved parent proof.
+  Thirty-one saved-proof/parser/endpoint rejection cases cover network, genesis,
+  source, round, epoch, market/vault, code/layout/function/key, queue/batch/member,
+  seed, checkpoint/root, reviewed slot/count, fake success/verifier injection,
+  a child substituted for the parent, corrupt/oversized/trailing proof, and output
+  replacement. The original positive report is preserved byte-for-byte.
+- The public archive is hash-checked, extracted fresh, and its preserved parent
+  proof is replayed using a caller-trusted built CLI. No proof regeneration or
+  financial operation is involved in that reproduction.
+
+### Measurements: one synthetic component case
+
+| Measurement | Result |
+| --- | ---: |
+| Release build / build launcher through exit | 38.35 s / 39.240666 s |
+| Sampled family RSS maximum for build invocation | 1001.23 MiB |
+| Both child resources and recursive circuit construction | 0.952116 s |
+| New matching permutation proof | 0.187484 s |
+| Recursive parent proof | 1.503804 s |
+| Expected endpoints plus parent verification | 0.003870 s |
+| Selected proof test including negative attempts | 2.71 s |
+| Cached-build launcher through proof-test exit | 4.125516 s |
+| Full-lifetime 1 Hz sampled family RSS maximum for proof invocation | 549.09 MiB |
+
+Parent degree 13; saved parent 136,080 bytes, matching child 119,456 bytes.
+Resource construction includes the two source-built child resources. This is a
+single conditional synthetic proof-link case, not a same-workload comparison,
+steady-state benchmark or market CFC/signature/Endcap/UPS. No real confirmation,
+ordinary-wallet claim, protocol wait, actual financial fee or final asset arrival
+was measured. RSS can miss short peaks and duplicate shared pages; it is not a
+physical peak. No p95, chain TPS, universal speedup or production claim is made.
+
+### Remaining activation boundary
+
+The parent proves membership and order relative to expected inputs, **not that
+those inputs are authoritative**. Correct reviewed layout/slot semantics,
+canonical/final checkpoint authentication, a qualified unique future beacon and
+seal-before-release causality remain separate unclosed requirements. The same
+checkpoint-height comparison remains insufficient when the ledger stalls while
+an external source releases its round. The inspected frozen source has no new
+adapter that closes these requirements.
+
+No actual random-market admission/seal/draw/recovery state machine, SD-key,
+ordered market call stack, U124 fills/refunds, full UPS, live deployment, ordinary
+claim or random-mode financial fault acceptance is added. The deterministic source
+gate and all four market mechanisms remain unchanged. A linked component report
+cannot enable wallet spending or random execution. It does not prove global
+inclusion, censorship resistance, comprehensive anti-MEV or same-pool parallelism.
+
+[Public inputs/proofs, exact build inventory, commands, rejection results and all samples](../../executor/verification/2026-10-28-seal-order-v1/manifest.json).

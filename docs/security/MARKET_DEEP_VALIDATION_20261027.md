@@ -281,3 +281,20 @@ state these deliveries. Random execution stays closed. No random actual bytecode
 SD-key/full UPS, live settlement, ordinary claim, recovery or matched full-market
 performance acceptance is implied. Existing financial stop and old-chain evidence
 are unchanged.
+
+
+## 28 October: conditional recursive seal/order linkage
+
+[Fixed-resource recursive linkage](VERIFIABLE_RANDOM_ORDERING_20261028.md#conditional-recursive-sealorder-linkage-milestone)
+now verifies both preserved seal-membership and matching permutation relations
+and connects their exact frozen root inside one circuit. A valid other-set order
+proof cannot be combined with the seal proof; changed child rank/checkpoint also
+reject. One matching child and one parent proof, saved-proof verification, 31
+read-only rejection cases and fresh extracted replay are recorded. The prior seal
+proof was not regenerated. No financial operation or business UPS was started.
+
+This closes a component-mixing gap, not random-mode authorization. Reviewed layout
+semantics, authenticated finality, qualified beacon uniqueness/unpredictability
+and causal seal-before-release proof remain prerequisites. No random market/key,
+full UPS, live settlement/claim/refund or end-to-end performance claim is made.
+Deterministic execution, current finance stop and old-chain evidence remain intact.
