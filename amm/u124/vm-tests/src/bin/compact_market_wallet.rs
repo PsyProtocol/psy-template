@@ -41,6 +41,7 @@ mod compact_prepared;
 mod compact_benchmark;
 #[path = "../composition_quote.rs"]
 mod composition_quote;
+#[path = "../processor_runtime.rs"] mod processor_runtime;
 #[derive(Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 struct Guard {
@@ -100,6 +101,8 @@ async fn run(phase: &mut &'static str, composition:bool) -> Result<()> {
     compact_benchmark::requested(&a[1])?;
     let spec: Value = serde_json::from_slice(&fs::read(&a[2])?)?;
     ensure!(spec["version"]!=3,"checkpoint processor candidates are offline-only; source qualification and release authorization are unavailable");
+    let producer=processor_runtime::previous(&spec);
+    if producer{ensure!(compact_benchmark::requested(&a[1])?.is_none(),"producer business source cannot use benchmark override");}
     let circuit = if composition {
         psy_template_u124_markets::composition_policy::build(&spec)?
     } else {
@@ -117,12 +120,16 @@ async fn run(phase: &mut &'static str, composition:bool) -> Result<()> {
         fingerprint: fp,
     };
     let hash = public.qfhash::<PsyHasher>();
+    if producer&&a[1]=="producer-order"{
+        ensure!(a.len()==5,"producer-order POLICY INPUT FRESH_REPORT");let v:Value=serde_json::from_slice(&fs::read(&a[3])?)?;
+        let array=|name:&str|->Result<[u64;4]>{let values=v[name].as_array().context("rank array")?;ensure!(values.len()==4,"rank array width");Ok(values.iter().map(|n|n.as_str().context("canonical rank integer")?.parse::<u64>().map_err(Into::into)).collect::<Result<Vec<_>>>()?.try_into().unwrap())};
+        let rank=psy_template_u124_markets::checkpoint_processor::rank(spec["market_id"].as_u64().unwrap(),v["batch"].as_str().context("batch")?.parse()?,array("root")?,array("seed")?,v["checkpoint"].as_str().context("checkpoint")?.parse()?,array("owners")?,array("nonces")?,v["count"].as_u64().context("count")?as usize)?;
+        save(Path::new(&a[4]),&json!({"profile":"previous-checkpoint-seeded-v1","rank":rank,"qualifiedRandomness":false,"broadcast":false}))?;return Ok(());
+    }
     if a[1] == "identity" {
         ensure!(a.len() == 3, "identity args");
-        println!(
-            "{}",
-            json!({"profile":if composition{"composition-v1"}else{"compact-v1"},"fingerprint":fp.to_string(),"publicKeyHash":hash.to_string(),"publicKeyParam":param.to_string()})
-        );
+        let mut identity=json!({"profile":if composition{"composition-v1"}else{"compact-v1"},"fingerprint":fp.to_string(),"publicKeyHash":hash.to_string(),"publicKeyParam":param.to_string()});
+        if producer{identity["orderingModel"]=json!("previous-checkpoint-seeded-v1");identity["producerInfluence"]=json!(true);identity["qualifiedRandomness"]=json!(false);}println!("{identity}");
         return Ok(());
     }
     if composition && a[1]=="inspect-controller" {
@@ -201,7 +208,7 @@ async fn run(phase: &mut &'static str, composition:bool) -> Result<()> {
         // state across requests. Only circuit resources remain warm.
         for line in std::io::stdin().lock().lines(){
             let job:ResidentJob=serde_json::from_str(&line?)?;
-            ensure!(job.action=="preflight"||(composition&&job.action=="quote"),"resident proof/quote actions only");
+            ensure!(job.action=="preflight"||((composition||producer)&&job.action=="quote"),"resident proof/quote actions only");
             let args=vec![a[0].clone(),job.action,a[2].clone(),a[3].clone(),job.calls,job.guard,job.out.clone()];
             let mut job_phase="resident-preflight-start";
             let result=psy_template_u124_markets::runtime::contain(process_action(&args,&spec,fp,hash,param,private,&net,&mut session,&circuit,0,0,std::time::Instant::now(),&mut job_phase)).await;
@@ -223,7 +230,7 @@ fn preflight_action()->String{"preflight".into()}
 #[allow(clippy::too_many_arguments)]
 async fn process_action(a:&[String],spec:&Value,fp:QHashOut<F>,hash:QHashOut<F>,param:QHashOut<F>,private:QHashOut<F>,net:&psy_config::NetworkConfigGoldilocks,session:&mut WalletSession,circuit:&psy_template_u124_markets::market_key::MarketKeyCircuit,key_ms:u128,session_ms:u128,started:std::time::Instant,phase:&mut &'static str)->Result<()> {
     ensure!(
-        a.len() == 7 && (["preflight", "submit"].contains(&a[1].as_str())||(spec["composition_profile"]=="two-amm-owner-funded-v1"&&a[1]=="quote")),
+        a.len() == 7 && (["preflight", "submit"].contains(&a[1].as_str())||((spec["composition_profile"]=="two-amm-owner-funded-v1"||processor_runtime::previous(spec))&&a[1]=="quote")),
         "explicit compact action args"
     );
     *phase = "verify-compact-request";
@@ -238,7 +245,7 @@ async fn process_action(a:&[String],spec:&Value,fp:QHashOut<F>,hash:QHashOut<F>,
     let bytes = fs::read(&a[4])?;
     let mut data: ContractCallData = serde_json::from_slice(&bytes)?;
     ensure!(
-        data.software_defined_call.inputs.len() == 74,
+        data.software_defined_call.inputs.len() == spec["witness_length"].as_u64().context("witness width")?as usize,
         "compact witness length"
     );
     let mut fields = data.software_defined_call.inputs.clone();
@@ -289,19 +296,19 @@ async fn process_action(a:&[String],spec:&Value,fp:QHashOut<F>,hash:QHashOut<F>,
     *phase = "start-compact-session";
     let key = hash;
     ensure!(key == hash, "compact public identity");
+    let producer=processor_runtime::previous(spec);
     let source_pin=compact_benchmark::requested(&a[1])?;
+    if producer{ensure!(source_pin.is_none(),"producer source cannot be selected by benchmark environment");}
     let pin_started=std::time::Instant::now();
-    if let Some(cp)=source_pin{compact_benchmark::start_at(&session,key,guard.identity.vault_id,cp).await?;}else{session.start_session(key).await?;}
+    if producer&&fields[0]==2{processor_runtime::start(session,key,&guard,fields[3]).await?;}else if let Some(cp)=source_pin{compact_benchmark::start_at(&session,key,guard.identity.vault_id,cp).await?;}else{session.start_session(key).await?;}
     let source_pin_ms=if source_pin.is_some(){pin_started.elapsed().as_millis()}else{0};
     if a[1]=="quote" {
         *phase="composition-fee-quote";
-        return composition_quote::quote(session,key,&data,out).await;
+        if producer{ensure!(fields[0]==2,"producer settlement quote only");return processor_runtime::execute(session,key,spec,&data,true,out).await;}return composition_quote::quote(session,key,&data,out).await;
     }
     *phase = "prove-compact-calls";
     let calls_started = std::time::Instant::now();
-    session
-        .prove_contract_call(key, data.contract_calls)
-        .await?;
+    if producer&&fields[0]==2{ensure!(fields[73]==data.software_defined_call.inputs[73]&&fields[73]>0,"producer exact fee required");processor_runtime::execute(session,key,spec,&data,false,out).await?;}else{session.prove_contract_call(key,data.contract_calls).await?;}
     let calls_ms = calls_started.elapsed().as_millis();
     let mut manager = session
         .user_session_mgrs
@@ -326,13 +333,14 @@ async fn process_action(a:&[String],spec:&Value,fp:QHashOut<F>,hash:QHashOut<F>,
     data.software_defined_call.inputs[73] = burn;
     fields[73] = burn;
     let logical = batch_policy::expected_calls(&spec, &fields)?;
-    let all = spec["branches"]
+    let mut all = spec["branches"]
         .as_array()
         .unwrap()
         .iter()
         .flat_map(|b| b["calls"].as_array().unwrap())
         .chain([&spec["noop"], &spec["expire"]])
         .collect::<Vec<_>>();
+    if producer{all.extend([&spec["begin"],&spec["gather"],&spec["claim_a"],&spec["claim_b"],&spec["fee"],&spec["finish"],&spec["reward"]]);}
     let infos = logical
         .iter()
         .map(|c| {
@@ -454,11 +462,12 @@ async fn process_action(a:&[String],spec:&Value,fp:QHashOut<F>,hash:QHashOut<F>,
     let end = endcap.core.state_transition.end_user_leaf_hash;
     // Persist the full cryptographically verified, exact-stack UPS before any
     // fallible final public read. This is NOT authorization to broadcast.
-    let preflight = json!({"persistenceProfile":"crypto-before-final-guard-v1","liveGuardsPending":true,"fullUpsVerified":true,"compositionProfile":spec["composition_profile"],"benchmarkSourceCheckpoint":source_pin,"timingsMilliseconds":{"keyConstruction":key_ms,"sessionConstruction":session_ms,"benchmarkSourceSetup":source_pin_ms,"callProving":calls_ms,"signatureProving":signature_ms,"recursiveFinalize":finalize_ms,"endCapProving":endcap_ms,"fullProofVerify":verify_ms,"cryptographicPreparationTotal":started.elapsed().as_millis()},"exactStackAndSessionVerified":true,"proofProfile":proof_profile,"profile":"compact-v1","actualCalls":actual.len(),"logicalSlots":40,"fee":burn,"core":endcap.core,"callsSha256":format!("{:x}",Sha256::digest(&bytes)),"guardSha256":format!("{:x}",Sha256::digest(&guard_bytes)),"broadcast":false});
+    let mut preflight = json!({"persistenceProfile":"crypto-before-final-guard-v1","liveGuardsPending":true,"fullUpsVerified":true,"compositionProfile":spec["composition_profile"],"benchmarkSourceCheckpoint":source_pin,"timingsMilliseconds":{"keyConstruction":key_ms,"sessionConstruction":session_ms,"benchmarkSourceSetup":source_pin_ms,"callProving":calls_ms,"signatureProving":signature_ms,"recursiveFinalize":finalize_ms,"endCapProving":endcap_ms,"fullProofVerify":verify_ms,"cryptographicPreparationTotal":started.elapsed().as_millis()},"exactStackAndSessionVerified":true,"proofProfile":proof_profile,"profile":"compact-v1","actualCalls":actual.len(),"logicalSlots":40,"fee":burn,"core":endcap.core,"callsSha256":format!("{:x}",Sha256::digest(&bytes)),"guardSha256":format!("{:x}",Sha256::digest(&guard_bytes)),"broadcast":false});
     let request = QSubmitEndCapRPCRequest {
         user_ec_input: endcap,
         proof: bincode::serialize(&proof)?,
     };
+    if producer{preflight["orderingModel"]=json!("previous-checkpoint-seeded-v1");preflight["producerInfluence"]=json!(true);preflight["qualifiedRandomness"]=json!(false);if fields[0]==2{preflight["producerSourceCheckpoint"]=json!(fields[3]);}}
     save(&out.join("preflight.json"), &preflight)?;
     save(&out.join("request.json"), &request)?;
     let prepared = compact_prepared::manifest(&a[2], &bytes, &guard_bytes, out)?;

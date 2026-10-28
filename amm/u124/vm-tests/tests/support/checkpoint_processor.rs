@@ -5,7 +5,7 @@ use psy_template_u124_markets::checkpoint_processor::rank;
 
 fn setup(kind:&str,count:usize)->Result<(World,Vec<u64>)>{
  ensure!((2..=4).contains(&count),"processor capacity");
- let mut w=World::new(kind)?;ensure!(w.policy["version"]==3,"distinct processor fixtures required");
+ let mut w=World::new(kind)?;ensure!((w.policy["version"]==3||w.policy["version"]==4),"distinct processor fixtures required");
  if kind=="amm"{
   // Explicit synthetic pool prestate, not a liquidity-admission proof.
   let n=10u128.pow(24);for asset in[A,B]{w.pay(I,asset,n)?;w.run(V,asset,"claim",&[I])?;}
@@ -25,7 +25,7 @@ fn setup(kind:&str,count:usize)->Result<(World,Vec<u64>)>{
  w.run(S,M,"authorize_sponsor",&[V,2*ESCROW,w.val(S,"sponsor_nonce",0)+1,1])?;w.run(S,0,"transfer",&[V,2*ESCROW])?;
  Ok((w,users))
 }
-fn commit(w:&World,users:&[u64])->Vec<u64>{let mut f=vec![0;80];f[0]=1;f[1]=w.val(V,"batch_id",0)+1;f[2]=users.len()as u64;f[3]=w.checkpoint+20;f[4]=S;f[73]=ESCROW;for(i,u)in users.iter().enumerate(){f[5+i]=*u;f[9+i]=1;}f}
+fn commit(w:&World,users:&[u64])->Vec<u64>{let mut f=vec![0;80];f[0]=1;f[1]=w.val(V,"batch_id",0)+1;f[2]=users.len()as u64;f[3]=w.checkpoint+20;f[4]=S;f[73]=ESCROW;if w.policy["version"]==4{f[78]=psy_template_u124_markets::processor_policy::PREVIOUS_TAG;}for(i,u)in users.iter().enumerate(){f[5+i]=*u;f[9+i]=1;}f}
 fn source(w:&mut World)->Result<[u64;4]>{
  let draw=w.val(V,"processor_draw",0);ensure!(draw==w.checkpoint,"fixture advances to exact draw");
  let seed=[11,22,33,44];let mut stats=PsyCheckpointLeafStats::new_empty();stats.random_seed=QHashOut(HashOut{elements:seed.map(f)});
@@ -74,12 +74,20 @@ async fn processor_key_stack_reproduction()->Result<()>{
  let data=PsyUserProvingSessionSignatureDataCompact{start_user_leaf_hash:user.qfhash::<PoseidonHash>(),end_user_leaf_hash:end.qfhash::<PoseidonHash>(),checkpoint_leaf_hash:QHashOut::ZERO,tx_stack_hash:stack,tx_count:f(actual.len()as u64)};
  let sig=data.get_sig_action_for_user::<PoseidonHash>(PSY_NETWORK_MAGIC,f(V),GF::ONE,SignContext::new(QHashOut::ZERO,user)).get_qhash::<PoseidonHash>();
  let input=SDKeyCircuitWitnessInput{session_context:SDKeySessionContext{start_user_leaf:user,start_user_leaf_hash:user.qfhash::<PoseidonHash>(),checkpoint_leaf_hash:QHashOut::ZERO,checkpoint_tree_root:QHashOut::ZERO,current_user_leaf:user,nonce:GF::ONE},circuit_inputs:fields.into_iter().map(f).collect(),transaction_infos:logical,tx_stack_hash:stack,tx_count:f(actual.len()as u64),state_reader_results:None,secp256k1_slots:vec![],checkpoint_id:f(w.checkpoint),user_id:f(V)};
- let proof=g.prove(QHashOut(HashOut{elements:[GF::ONE;4]}),&input,sig).await?;g.minifier_chain.as_ref().unwrap().verify(proof)?;Ok(())
+ let proof=g.prove(QHashOut(HashOut{elements:[GF::ONE;4]}),&input,sig).await?;g.minifier_chain.as_ref().unwrap().verify(proof)?;
+ if w.policy["version"]==4{
+  let mut bad=input.clone();bad.circuit_inputs[78]=GF::ZERO;ensure!(g.prove(QHashOut(HashOut{elements:[GF::ONE;4]}),&bad,sig).await.is_err(),"legacy profile tag accepted");
+  let mut bad=input.clone();bad.checkpoint_id+=GF::ONE;bad.session_context.current_user_leaf.last_checkpoint_id+=GF::ONE;let mut end=bad.session_context.current_user_leaf;end.nonce=GF::ONE;
+  let data=PsyUserProvingSessionSignatureDataCompact{start_user_leaf_hash:bad.session_context.start_user_leaf_hash,end_user_leaf_hash:end.qfhash::<PoseidonHash>(),checkpoint_leaf_hash:QHashOut::ZERO,tx_stack_hash:stack,tx_count:f(actual.len()as u64)};
+  let changed=data.get_sig_action_for_user::<PoseidonHash>(PSY_NETWORK_MAGIC,f(V),GF::ONE,SignContext::new(QHashOut::ZERO,bad.session_context.current_user_leaf)).get_qhash::<PoseidonHash>();
+  ensure!(g.prove(QHashOut(HashOut{elements:[GF::ONE;4]}),&bad,changed).await.is_err(),"different signed source checkpoint accepted");
+ }Ok(())
 }
 
 #[test]
 fn processor_bytecode_claims_first_and_checkpoint_binding()->Result<()>{
  for kind in["amm","bondingcurve"]{for count in[2,3,4]{let(mut w,req)=prepared(kind,count)?;let before=w.slots.clone();
+  if w.policy["version"]==4{let mut late=w.clone();late.checkpoint+=1;ensure!(late.execute(&req).is_err()&&late.slots==before,"later source checkpoint changed the fixed block");let mut wrong=req.clone();wrong.swap(17,18);ensure!(w.execute(&wrong).is_err()&&w.slots==before,"incorrect complete permutation accepted");}
   for index in[3,13,17,74,79]{let mut bad=req.clone();bad[index]+=1;ensure!(w.execute(&bad).is_err(),"mutation {index} accepted");ensure!(w.slots==before,"rejected transaction changed state");}
   let mut duplicate=req.clone();duplicate[18]=duplicate[17];ensure!(w.execute(&duplicate).is_err(),"duplicate rank accepted");
   let calls=batch_compact::calls(&w.policy,&req)?;let first_guard=calls.iter().position(|c|c["method_name"]=="swap_0"||c["method_name"]=="settle_limit_buy").context("settlement guard")?;

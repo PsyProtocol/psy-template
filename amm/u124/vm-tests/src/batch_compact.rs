@@ -12,14 +12,14 @@ use crate::market_key::{SDKeyCircuitGadget,SDKeySessionContextTargets,SDKeyTrans
 use serde_json::Value;
 
 pub(crate) fn validate(spec:&Value)->Result<()>{
- if spec["version"]==3{return crate::processor_policy::validate(spec);}
+ if (spec["version"]==3||spec["version"]==4){return crate::processor_policy::validate(spec);}
  crate::batch_policy::validate(spec)?;
  let mut descriptors=vec![&spec["begin"],&spec["finish"],&spec["burn"],&spec["expire"]];descriptors.extend(spec["commit"].as_array().unwrap());
  for op in spec["operations"].as_array().unwrap(){descriptors.extend(op["calls"].as_array().unwrap());}
  for call in descriptors{if call["contract_id"]==spec["noop"]["contract_id"]&&call["method_id"]==spec["noop"]["method_id"]{ensure!(call["method_name"]==spec["noop"]["method_name"]&&call["inputs"]==spec["noop"]["inputs"],"ambiguous noop identity");}}
  Ok(())
 }
-pub fn build(spec:&Value)->Result<SDKeyCircuitGadget>{if spec["version"]==3{return crate::processor_policy::build(spec);}validate(spec)?;crate::batch_policy::build_with_profile(spec,true)}
+pub fn build(spec:&Value)->Result<SDKeyCircuitGadget>{if (spec["version"]==3||spec["version"]==4){return crate::processor_policy::build(spec);}validate(spec)?;crate::batch_policy::build_with_profile(spec,true)}
 pub fn calls(spec:&Value,fields:&[u64])->Result<Vec<Value>>{
  let logical=crate::batch_policy::expected_calls(spec,fields)?;
  Ok(logical.into_iter().filter(|c|c["contract_id"]!=spec["noop"]["contract_id"]||c["method_name"]!=spec["noop"]["method_name"]).collect())

@@ -5,6 +5,8 @@ use plonky2::{field::{goldilocks_field::GoldilocksField as F,types::Field},iop::
 use psy_common_circuit::u32::multiple_comparison::list_lte_circuit;
 use crate::{batch_policy::{bind,eq,zero,chosen},market_key::{SDKeyCircuitGadget,MarketKeyConfig}};
 pub const WIDTH:usize=80;
+pub const PREVIOUS_TAG:u64=0x5053424f54;
+pub fn previous(spec:&Value)->bool{spec["version"]==4}
 const FEE:u64=1_000_100_000;
 pub fn completion_fee(modified_slots:u32,phase_word_modified:bool,native_balance_word_modified:bool,reward_word_modified:bool)->Result<u64>{
  ensure!(phase_word_modified&&native_balance_word_modified,"processor fee prefix must already modify phase and native balance");
@@ -17,7 +19,8 @@ pub fn completion_fee(modified_slots:u32,phase_word_modified:bool,native_balance
 }
 fn allowed(market:&str)->&'static[&'static str]{match market{"amm"=>&["swap_0","swap_1","refund_swap_0","refund_swap_1","add_liquidity","remove_liquidity","refund_add","cancel_remove"],"bondingcurve"=>&["settle_buy","settle_sell","settle_limit_buy_change","settle_limit_buy_exact","settle_limit_sell","refund_buy","refund_sell"],_=>&[]}}
 pub fn validate(spec:&Value)->Result<()>{
- ensure!(spec["version"]==3&&spec["tx_count"]==40&&spec["witness_length"]==WIDTH&&spec["live_authorization"]==false&&spec["source_model"]=="checkpoint-producer-controlled-candidate-v1","processor candidate profile");
+ ensure!(spec["tx_count"]==40&&spec["witness_length"]==WIDTH,"processor shape");
+ if previous(spec){ensure!(spec["execution_profile"]=="previous-checkpoint-seeded-v1"&&spec["source_model"]=="native-producer-seeded-v1"&&spec["producer_influence"]==true&&spec["qualified_randomness"]==false&&spec.get("live_authorization").is_none(),"explicit producer-seeded profile");}else{ensure!(spec["version"]==3&&spec["live_authorization"]==false&&spec["source_model"]=="checkpoint-producer-controlled-candidate-v1","offline candidate profile");}
  crate::batch_compact::validate(&spec["base"])?;
  ensure!(spec["native_protocol"]=="mainnet-beta-20261027"&&spec["native_protocol"]==spec["base"]["native_protocol"],"frozen native processor protocol");
  for key in ["market","market_id","config","operations","commit","noop","burn","expire"]{ensure!(spec[key]==spec["base"][key],"processor base identity {key}");}
@@ -45,8 +48,9 @@ fn used(op:&Value)->std::collections::BTreeSet<usize>{std::iter::once(0).chain(o
 pub fn expected_calls(spec:&Value,f:&[u64])->Result<Vec<Value>>{
  validate(spec)?;ensure!(f.len()==WIDTH,"processor witness width");
  for(i,v)in f.iter().enumerate(){ensure!(*v<if(13..17).contains(&i)||(74..78).contains(&i){18446744069414584321}else{1<<62},"canonical processor field");}
- if f[0]!=2{ensure!(f[74..].iter().all(|n|*n==0),"unused processor fields");return crate::batch_policy::expected_calls(&spec["base"],&f[..74]);}
- ensure!(f[1]>0&&(2..=4).contains(&f[2])&&f[3]>0&&f[3]<1<<32&&f[4..13].iter().all(|v|*v==0)&&f[78]==0,"processor header");
+ let tag=if previous(spec){PREVIOUS_TAG}else{0};ensure!(f[78]==tag,"processor profile domain");
+ if f[0]!=2{ensure!(f[74..].iter().enumerate().all(|(i,n)|*n==if i==4{tag}else{0}),"unused processor fields");return crate::batch_policy::expected_calls(&spec["base"],&f[..74]);}
+ ensure!(f[1]>0&&(2..=4).contains(&f[2])&&f[3]>0&&f[3]<1<<32&&f[4..13].iter().all(|v|*v==0) ,"processor header");
  ensure!((1_000_000_000..=FEE).contains(&f[73])&&f[73]%1000==0&&f[79]+f[73]==f[2]*FEE,"processor fee conservation");
  let count=f[2]as usize;let mut seen=std::collections::BTreeSet::new();for(i,r)in f[17..21].iter().enumerate(){ensure!(*r<4&&seen.insert(*r)&&if i<count{(*r as usize)<count}else{*r==i as u64},"processor permutation");}
  let ops=spec["operations"].as_array().unwrap();let mut last=0;
@@ -66,7 +70,8 @@ pub fn build(spec:&Value)->Result<SDKeyCircuitGadget>{
  let mut g=crate::batch_compact::add_virtual_with_width(&mut b,&cfg,spec,WIDTH)?;let f=g.circuit_inputs.clone();let slots=&g.tx_introspection.tx_info_slots;
  for(i,t)in f.iter().enumerate(){if !(13..17).contains(&i)&&!(74..78).contains(&i){b.range_check(*t,62);}}
  let modes:Vec<_>=(1..=4).map(|n|chosen(&mut b,f[0],n)).collect();let mut valid=b._false();for m in &modes{valid=b.or(valid,*m);}b.assert_one(valid.target);
- for(mi,gate)in modes.iter().enumerate(){let used:std::collections::BTreeSet<usize>=match mi{0=>(0..13).collect(),1=>[0,1,2,3,13,14,15,16,17,18,19,20,74,75,76,77,79].into_iter().collect(),2=>[0,1].into_iter().collect(),_=>[0].into_iter().collect()};for i in (0..21).chain(74..80){if !used.contains(&i){zero(&mut b,*gate,f[i]);}}}
+ if previous(spec){let tag=b.constant(F::from_canonical_u64(PREVIOUS_TAG));b.connect(f[78],tag);eq(&mut b,modes[1],g.checkpoint_id,f[3]);}
+ for(mi,gate)in modes.iter().enumerate(){let mut used:std::collections::BTreeSet<usize>=match mi{0=>(0..13).collect(),1=>[0,1,2,3,13,14,15,16,17,18,19,20,74,75,76,77,79].into_iter().collect(),2=>[0,1].into_iter().collect(),_=>[0].into_iter().collect()};if previous(spec){used.insert(78);}for i in (0..21).chain(74..80){if !used.contains(&i){zero(&mut b,*gate,f[i]);}}}
  for(mi,key)in[(0,"commit"),(2,"expire")]{let list=if mi==0{spec[key].as_array().unwrap().clone()}else{vec![spec[key].clone()]};for i in 0..39{bind(&mut b,modes[mi],&slots[i],list.get(i).unwrap_or(&spec["noop"]),&f)?;}}
  let one=b.one();let zero_t=b.zero();let ops=spec["operations"].as_array().unwrap();
  for row in 0..4{let v=&f[21+13*row..34+13*row];let mut maintenance_valid=b._false();

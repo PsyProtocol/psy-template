@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import {bindNativePolicy,PROFILE} from '../mainnet-beta/native.mjs';
 import {makeBatchPolicy,validateFields as validateBaseFields,operationCalls as baseCalls} from '../v2/policy.mjs';
 export const WIDTH=80,COUNT=40;
+export const PREVIOUS_PROFILE='previous-checkpoint-seeded-v1',PREVIOUS_TAG=0x5053424f54n;
 const F=1000100000n,P=18446744069414584321n,w=witness=>({witness}),k=n=>({constant:String(n)});
 const names={amm:['swap_0','swap_1','refund_swap_0','refund_swap_1','add_liquidity','remove_liquidity','refund_add','cancel_remove'],bondingcurve:['settle_buy','settle_sell','settle_limit_buy_change','settle_limit_buy_exact','settle_limit_sell','refund_buy','refund_sell']};
 export function makeProcessorPolicy(market,marketId,c,abi,tokenAbi,nftAbi){
@@ -22,10 +23,11 @@ export function makeProcessorPolicy(market,marketId,c,abi,tokenAbi,nftAbi){
  return bound;
 }
 export function validateProcessorFields(spec,f){
- assert.equal(spec.version,3);assert.equal(spec.live_authorization,false);assert.equal(f.length,WIDTH);
+ assert.ok([3,4].includes(spec.version));if(spec.version===3)assert.equal(spec.live_authorization,false);else assert.equal(spec.execution_profile,PREVIOUS_PROFILE);assert.equal(f.length,WIDTH);
  f.forEach((n,i)=>assert.ok(typeof n==='bigint'&&n>=0n&&n<((i>=13&&i<17)||(i>=74&&i<78)?P:1n<<62n),'canonical processor input'));
- if(f[0]!==2n){assert.ok(f.slice(74).every(n=>n===0n));validateBaseFields(spec.base,f.slice(0,74));return;}
- assert.ok(f[1]>0n&&f[2]>=2n&&f[2]<=4n&&f[3]>0n&&f[3]<(1n<<32n));assert.ok(f.slice(4,13).every(n=>n===0n));assert.equal(f[78],0n);
+ const tag=spec.version===4?PREVIOUS_TAG:0n;assert.equal(f[78],tag);
+ if(f[0]!==2n){assert.ok(f.slice(74).every((n,i)=>n===(i===4?tag:0n)));validateBaseFields(spec.base,f.slice(0,74));return;}
+ assert.ok(f[1]>0n&&f[2]>=2n&&f[2]<=4n&&f[3]>0n&&f[3]<(1n<<32n));assert.ok(f.slice(4,13).every(n=>n===0n));
  assert.ok(f[73]>=1000000000n&&f[73]<=F&&f[73]%1000n===0n);assert.equal(f[79]+f[73],f[2]*F);
  const rank=f.slice(17,21);assert.equal(new Set(rank.map(String)).size,4);rank.forEach((r,i)=>assert.ok(r>=0n&&r<4n&&(BigInt(i)<f[2]?r<f[2]:r===BigInt(i))));
  let last=0n;
@@ -36,6 +38,15 @@ export function validateProcessorFields(spec,f){
   const op=spec.operations.find(o=>BigInt(o.branch)===v[0]);const used=new Set([0,...op.calls.flatMap(c=>c.inputs.filter(a=>a.witness!==undefined).map(a=>a.witness))]);
   v.forEach((n,i)=>{if(!used.has(i))assert.equal(n,0n);});
  }
+}
+export function makePreviousCheckpointPolicy(...args){
+ const p=makeProcessorPolicy(...args);delete p.live_authorization;
+ return {...p,version:4,execution_profile:PREVIOUS_PROFILE,source_model:'native-producer-seeded-v1',producer_influence:true,qualified_randomness:false};
+}
+export function processorRequest(spec,fields){
+ const f=[...fields];if(f[73]===0n){assert.notEqual(f[0],2n,'settlement requires a final fee quote');f[73]=1000000000n;}
+ const calls=processorCalls(spec,f).filter(c=>c.contract_id!==BigInt(spec.noop.contract_id)||c.method_id!==BigInt(spec.noop.method_id));
+ return {contract_calls:calls.slice(0,-1).map(({contract_id,method_name,inputs})=>({contract_id,method_name,inputs})),software_defined_call:{inputs:[...fields]}};
 }
 export function processorCalls(spec,f){
  validateProcessorFields(spec,f);if(f[0]!==2n)return baseCalls(spec.base,f.slice(0,74));

@@ -100,7 +100,7 @@ fn build_profile(spec:&Value,compact:bool,composition:bool)->Result<SDKeyCircuit
  g.build_circuit(b)?;Ok(g)
 }
 
-pub fn expected_calls(spec:&Value,fields:&[u64])->Result<Vec<Value>>{if spec["version"]==3{return crate::processor_policy::expected_calls(spec,fields);}validate(spec)?;ensure!(fields.len()==WIDTH,"batch witness length");
+pub fn expected_calls(spec:&Value,fields:&[u64])->Result<Vec<Value>>{if (spec["version"]==3||spec["version"]==4){return crate::processor_policy::expected_calls(spec,fields);}validate(spec)?;ensure!(fields.len()==WIDTH,"batch witness length");
  for(i,n)in fields.iter().enumerate(){ensure!(*n<if (13..17).contains(&i){18446744069414584321}else{1u64<<62},"batch witness field range");}
  ensure!((1..=4).contains(&fields[0]),"batch mode");
  ensure!((1_000_000_000..=1_000_100_000).contains(&fields[73])&&fields[73]%1000==0,"batch burn fee");
