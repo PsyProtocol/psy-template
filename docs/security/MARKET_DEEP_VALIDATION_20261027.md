@@ -260,3 +260,24 @@ read-only exact-proof verifier. Two standalone proofs and negative checks pass;
 all eight default market source outputs match the prior committed generators.
 No qualified beacon, on-chain random state machine, random SD-key/full UPS,
 new-instance financial acceptance or end-to-end performance comparison is closed.
+
+
+## 28 October: conditional seal-inclusion evidence
+
+[Historical seal-inclusion component](VERIFIABLE_RANDOM_ORDERING_20261028.md#conditional-historical-seal-inclusion-milestone)
+now binds the frozen set to a supplied checkpoint tree through SDK checkpoint,
+global-state, contract, vault/key and packed-state paths. One synthetic component
+proof, three invalid witness attempts, native AMM/Curve slot-alignment checks,
+47 read-only rejection cases and exact prior permutation-proof replay are recorded.
+The failed initial native build remains archived. No financial task or business
+UPS was started.
+
+This is conditional membership, not certified history or unknown future entropy.
+A reviewed source/ABI must own the exact root slot; an independent finality
+adapter must certify the checkpoint root; a qualified beacon must prove the
+seal-before-unpredictability causal boundary even if the ledger stalls. The new
+[provider interface requirements](../../batching/random-order/PROVIDER_INTERFACE.md)
+state these deliveries. Random execution stays closed. No random actual bytecode,
+SD-key/full UPS, live settlement, ordinary claim, recovery or matched full-market
+performance acceptance is implied. Existing financial stop and old-chain evidence
+are unchanged.

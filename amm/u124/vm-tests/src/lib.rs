@@ -166,3 +166,6 @@ pub mod contract_layout;
 
 // Standalone candidate permutation constraints, not a qualified beacon or UPS.
 pub mod random_order;
+
+pub mod seal_inclusion;
+pub mod seal_inclusion_circuit;
