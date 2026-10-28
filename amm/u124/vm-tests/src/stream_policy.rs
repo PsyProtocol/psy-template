@@ -1,0 +1,968 @@
+//! Spending authorization for distinct stream vaults. Every source/order/market
+//! transition is constrained together with the actual ordered UPS call stack.
+use crate::{
+    batch_policy::{bind, chosen, eq},
+    checkpoint_stream::{Path, State},
+    final_state_coverage::{Review, Snapshot},
+    market_key::{MarketKeyConfig, SDKeyCircuitGadget},
+    stream_context::SourceContextTargets,
+    stream_current::{CurrentOpening, CurrentTargets},
+    stream_order::StateTargets,
+    stream_source::{lt, Progress, ProgressTargets, SourcePage, SourcePageTargets, Tape},
+};
+use anyhow::{ensure, Context, Result};
+use plonky2::{
+    field::{
+        goldilocks_field::GoldilocksField as F,
+        types::{Field, PrimeField64},
+    },
+    hash::{
+        hash_types::{HashOut, HashOutTarget},
+        poseidon::PoseidonHash as H,
+    },
+    iop::{
+        target::{BoolTarget, Target},
+        witness::{PartialWitness, WitnessWrite},
+    },
+    plonk::{circuit_builder::CircuitBuilder, circuit_data::CircuitConfig, config::Hasher},
+};
+use psy_client_common::data::qhashout::QHashOut as Q;
+use psy_common_circuit::hash::merkle::gadgets::merkle_proof::MerkleProofGadget;
+use psy_crypto::hash::{merkle::core::MerkleProofCore, traits::hasher::MerkleZeroHasher};
+use serde_json::{json, Value};
+pub const WIDTH: usize = 80;
+pub const OPEN: u64 = 5;
+pub const COVER: u64 = 6;
+pub const ORDER: u64 = 7;
+pub const SETTLE: u64 = 8;
+pub const ABORT_SOURCE: u64 = 9;
+const METHODS: [(&str, usize); 14] = [
+    ("open_source_stream", 16),
+    ("initialize_stream_roots", 12),
+    ("begin_source_page", 4),
+    ("set_source_users", 6),
+    ("set_source_manifests", 10),
+    ("finish_source_page", 4),
+    ("abort_source_stream", 4),
+    ("begin_order_page", 4),
+    ("set_order_page", 16),
+    ("finish_order_page", 4),
+    ("begin_stream_settlement", 13),
+    ("bind_stream_member", 12),
+    ("claim_stream_member", 2),
+    ("finish_stream_settlement", 7),
+];
+fn f(n: u64) -> F {
+    F::from_canonical_u64(n)
+}
+fn h(v: [u64; 4]) -> HashOut<F> {
+    HashOut { elements: v.map(f) }
+}
+fn hash(v: Vec<u64>) -> [u64; 4] {
+    H::hash_no_pad(&v.into_iter().map(f).collect::<Vec<_>>())
+        .elements
+        .map(|x| x.to_canonical_u64())
+}
+fn gated_hash(b: &mut CircuitBuilder<F, 2>, gate: BoolTarget, a: HashOutTarget, c: HashOutTarget) {
+    for (x, y) in a.elements.into_iter().zip(c.elements) {
+        eq(b, gate, x, y);
+    }
+}
+fn same(b: &mut CircuitBuilder<F, 2>, gate: BoolTarget, a: &[Target], c: &[Target]) {
+    assert_eq!(a.len(), c.len());
+    for (x, y) in a.iter().zip(c) {
+        eq(b, gate, *x, *y);
+    }
+}
+fn invoke(
+    b: &mut CircuitBuilder<F, 2>,
+    gate: BoolTarget,
+    g: &SDKeyCircuitGadget,
+    index: usize,
+    c: &Value,
+    args: &[Target],
+) -> Result<()> {
+    let mut call = c.clone();
+    call["inputs"] = json!((0..args.len())
+        .map(|i| json!({"witness":i}))
+        .collect::<Vec<_>>());
+    bind(
+        b,
+        gate,
+        &g.tx_introspection.tx_info_slots[index],
+        &call,
+        args,
+    )
+}
+fn context(
+    b: &mut CircuitBuilder<F, 2>,
+    mode: u64,
+    scope: &[Target],
+    facts: &[HashOutTarget],
+    source: &ProgressTargets,
+    sort: &StateTargets,
+    settled: Target,
+) -> HashOutTarget {
+    let sh = b.hash_n_to_hash_no_pad::<H>(base_scope(scope));
+    let fh = b.hash_n_to_hash_no_pad::<H>(facts.iter().flat_map(|h| h.elements).collect());
+    let mut v = vec![b.constant(f(0x53545245414d33)), b.constant(f(mode))];
+    v.extend(sh.elements);
+    v.extend(fh.elements);
+    v.extend(facts[0].elements);
+    if mode == 1 {
+        v.extend([b.zero(); 4]);
+    } else {
+        v.extend(&scope[17..21]);
+    }
+    let total = if mode == 1 { b.zero() } else { scope[8] };
+    v.extend([scope[5], scope[6], scope[7], total]);
+    v.extend(source.fields());
+    v.extend(sort.fields());
+    v.push(settled);
+    b.hash_n_to_hash_no_pad::<H>(v)
+}
+pub fn context_value(
+    mode: u64,
+    scope: &[u64],
+    facts: &[[u64; 4]],
+    source: &Progress,
+    sort: &State,
+    settled: u64,
+) -> [u64; 4] {
+    let mut v = vec![0x53545245414d33, mode];
+    v.extend(hash(base_scope(scope)));
+    v.extend(hash(facts.iter().flatten().copied().collect()));
+    v.extend(facts[0]);
+    v.extend(if mode == 1 {
+        vec![0; 4]
+    } else {
+        scope[17..21].to_vec()
+    });
+    v.extend([
+        scope[5],
+        scope[6],
+        scope[7],
+        if mode == 1 { 0 } else { scope[8] },
+    ]);
+    v.extend(source.fields());
+    v.push(sort.cursor);
+    v.extend(sort.seen);
+    v.extend(sort.ordered);
+    v.extend(sort.last);
+    v.push(settled);
+    hash(v)
+}
+fn base_scope<T: Copy>(v: &[T]) -> Vec<T> {
+    v[..8]
+        .iter()
+        .chain(&v[9..17])
+        .chain(&v[21..])
+        .copied()
+        .collect()
+}
+
+struct MemberTargets {
+    index: Target,
+    terms: HashOutTarget,
+    consumed: Target,
+    paid_a: [Target; 2],
+    paid_b: [Target; 2],
+    fee: Target,
+    path: MerkleProofGadget,
+}
+#[derive(Clone, serde::Serialize, serde::Deserialize)]
+pub struct MemberBinding {
+    pub index: u64,
+    pub terms: [u64; 4],
+    pub consumed: u64,
+    pub paid_a: [u64; 2],
+    pub paid_b: [u64; 2],
+    pub fee: u64,
+    pub path: Path,
+}
+#[derive(Clone, serde::Serialize, serde::Deserialize)]
+pub struct Request {
+    pub fields: Vec<u64>,
+    pub source: SourcePage,
+    pub ledger: Progress,
+    pub sort: State,
+    pub settled: u64,
+    pub members: Vec<MemberBinding>,
+}
+pub struct StreamKey {
+    pub g: SDKeyCircuitGadget,
+    pub tape: Tape,
+    source: SourcePageTargets,
+    context: SourceContextTargets,
+    current: CurrentTargets,
+    ledger: ProgressTargets,
+    sort: StateTargets,
+    settled: Target,
+    members: Vec<MemberTargets>,
+}
+fn role<'a>(spec: &'a Value, name: &str) -> &'a Value {
+    &spec["stream"][name]
+}
+pub fn validate(spec: &Value, r: &Review) -> Result<()> {
+    ensure!(
+        spec["version"] == 5
+            && spec["tx_count"] == 40
+            && spec["witness_length"] == 80
+            && spec["live_authorization"] == false,
+        "distinct offline stream profile"
+    );
+    crate::batch_compact::validate(&spec["base"])?;
+    ensure!(
+        spec["base"]["native_protocol"] == "mainnet-beta-20261027"
+            && spec["base"]["config"]["assetA"] == r.assets[1].id
+            && spec["base"]["config"]["assetB"] == r.assets[2].id,
+        "exact reviewed asset and native identities"
+    );
+    ensure!(
+        spec["base"]["market"] == if r.kind == 1 { "amm" } else { "bondingcurve" },
+        "reviewed market kind"
+    );
+    ensure!(
+        spec["base"]["config"]["unit"]
+            .as_str()
+            .context("reviewed unit")?
+            .parse::<u128>()?
+            == r.unit,
+        "reviewed curve unit"
+    );
+    ensure!(
+        spec["base"]["burn"]
+            == json!({"contract_id":0,"method_id":3998182541u32,"method_name":"burn","inputs":[{"witness":73}]}),
+        "frozen native burn role"
+    );
+    ensure!(
+        spec["base"]["market_id"] == r.market && spec["noop"] == spec["base"]["noop"],
+        "source market and noop"
+    );
+    for (name, n) in METHODS {
+        let c = role(spec, name);
+        ensure!(
+            c["contract_id"] == r.market
+                && c["method_name"] == name
+                && c["input_count"] == n
+                && c["method_id"]
+                    .as_u64()
+                    .is_some_and(|n| n <= u32::MAX as u64),
+            "exact stream method role {name}"
+        );
+    }
+    Ok(())
+}
+impl StreamKey {
+    pub fn build(spec: &Value, r: &Review, chain: [u64; 4]) -> Result<Self> {
+        validate(spec, r)?;
+        let mut b = CircuitBuilder::<F, 2>::new(CircuitConfig::standard_recursion_config());
+        let cfg = MarketKeyConfig {
+            num_introspectable_transactions: 40,
+            can_read_state: false,
+            contract_state_tree_height:
+                psy_config::network_constants::MAX_CONTRACT_STATE_TREE_HEIGHT,
+            requires_secp256k1: false,
+            num_secp256k1_slots: 0,
+        };
+        let mut g = crate::batch_compact::add_virtual_with_width(&mut b, &cfg, spec, WIDTH)?;
+        let fields = g.circuit_inputs.clone();
+        let gates = [
+            chosen(&mut b, fields[0], 4),
+            chosen(&mut b, fields[0], OPEN),
+            chosen(&mut b, fields[0], COVER),
+            chosen(&mut b, fields[0], ORDER),
+            chosen(&mut b, fields[0], SETTLE),
+            chosen(&mut b, fields[0], ABORT_SOURCE),
+        ];
+        let mut valid = b._false();
+        b.assert_zero(gates[3].target);
+        for x in [gates[0], gates[1], gates[2], gates[4], gates[5]] {
+            valid = b.or(valid, x);
+        }
+        b.assert_one(valid.target);
+        let source_mode = b.not(gates[0]);
+        let mut tape = Tape::default();
+        let source = SourcePageTargets::add(&mut b, &mut tape, r)?;
+        let current = CurrentTargets::add(&mut b, &mut tape, r, &g, chain)?;
+        let sc = &source.scope;
+        let ctx = SourceContextTargets::add(
+            &mut b,
+            &mut tape,
+            r,
+            &g,
+            sc,
+            &source.facts,
+            chain,
+            source_mode,
+        )?;
+        let ledger = ProgressTargets::create(&mut b, &mut tape);
+        let sort = StateTargets::add(&mut b, &mut tape);
+        let settled = tape.scalar(&mut b);
+        b.range_check(settled, 24);
+        for t in &fields {
+            b.range_check(*t, 62);
+        }
+        let z = b.zero();
+        let one = b.one();
+        let mut members = vec![];
+        let mut remaining = sort.ordered;
+        for i in 0..4 {
+            let v = &fields[21 + 13 * i..34 + 13 * i];
+            let index = tape.scalar(&mut b);
+            let terms = tape.hash(&mut b);
+            let consumed = tape.scalar(&mut b);
+            let pa = [tape.scalar(&mut b), tape.scalar(&mut b)];
+            let pb = [tape.scalar(&mut b), tape.scalar(&mut b)];
+            let fee = tape.scalar(&mut b);
+            let path = tape.proof(&mut b, 56);
+            b.range_check(index, 56);
+            b.range_check(consumed, 62);
+            for x in pa.into_iter().chain(pb).chain([fee]) {
+                b.range_check(x, 62);
+            }
+            let pos = b.constant(f(i as u64));
+            let exists = lt(&mut b, pos, fields[2], 3);
+            let gate = b.and(gates[4], exists);
+            eq(&mut b, gate, path.index, index);
+            gated_hash(&mut b, gate, path.root, remaining);
+            let value = crate::stream_order::member(&mut b, sc, index, v[1], v[10], terms);
+            gated_hash(&mut b, gate, path.value, value);
+            let bits = b.split_le(index, 56);
+            for j in 0..56 {
+                let left = b.and(gate, bits[j]);
+                let empty = b.constant_hash(<H as MerkleZeroHasher<Q<F>>>::get_zero_hash(j).0);
+                gated_hash(&mut b, left, path.siblings[j], empty);
+            }
+            let empty = b.constant_hash(HashOut::ZERO);
+            let next = MerkleProofGadget::compute_root::<H, F, 2>(
+                &mut b,
+                path.index,
+                empty,
+                &path.siblings,
+            );
+            remaining = HashOutTarget {
+                elements: std::array::from_fn(|j| {
+                    b.select(gate, next.elements[j], remaining.elements[j])
+                }),
+            };
+            members.push(MemberTargets {
+                index,
+                terms,
+                consumed,
+                paid_a: pa,
+                paid_b: pb,
+                fee,
+                path,
+            });
+        }
+        let expiry = b.add_const(sc[6], f(32));
+        eq(&mut b, gates[1], sc[7], expiry);
+        let end = b.add(settled, fields[2]);
+        b.range_check(end, 25);
+        let too_many = lt(&mut b, sc[8], end, 25);
+        eq(&mut b, gates[4], too_many.target, z);
+        let terminal = b.is_equal(end, sc[8]);
+        let capacity = b.constant(f(4));
+        let full = b.is_equal(fields[2], capacity);
+        let complete = b.or(terminal, full);
+        eq(&mut b, gates[4], complete.target, one);
+        let final_gate = b.and(gates[4], terminal);
+        let empty = b.constant_hash(<H as MerkleZeroHasher<Q<F>>>::get_zero_hash(56).0);
+        gated_hash(&mut b, final_gate, remaining, empty);
+        b.range_check(fields[2], 3);
+        b.range_check(fields[4], 24);
+        let four = b.constant(f(4));
+        let positive = lt(&mut b, z, fields[2], 3);
+        eq(&mut b, gates[4], positive.target, one);
+        let above = lt(&mut b, four, fields[2], 3);
+        eq(&mut b, gates[4], above.target, z);
+        same(&mut b, gates[2], &ledger.fields(), &source.before.fields());
+
+        eq(&mut b, gates[4], settled, fields[4]);
+        eq(&mut b, gates[4], sort.cursor, sc[8]);
+        eq(&mut b, gates[1], g.checkpoint_id, sc[6]);
+        gated_hash(
+            &mut b,
+            gates[1],
+            g.session_context.start_user_leaf_hash,
+            ctx.vault_hash,
+        );
+        let before_source = context(&mut b, 1, sc, &source.facts, &source.before, &sort, settled);
+        let after_source = context(&mut b, 1, sc, &source.facts, &source.after, &sort, settled);
+        let before_abort = context(&mut b, 1, sc, &source.facts, &ledger, &sort, settled);
+        let before_settle = context(&mut b, 3, sc, &source.facts, &ledger, &sort, settled);
+
+        for i in 0..80 {
+            if i == 0 || i == 73 {
+                continue;
+            }
+            if [2, 4, 17, 18, 19, 20].contains(&i) || (21..73).contains(&i) {
+                crate::batch_policy::zero(&mut b, gates[1], fields[i]);
+                crate::batch_policy::zero(&mut b, gates[2], fields[i]);
+                crate::batch_policy::zero(&mut b, gates[3], fields[i]);
+                crate::batch_policy::zero(&mut b, gates[5], fields[i]);
+            } else {
+                let always = b._true();
+                crate::batch_policy::zero(&mut b, always, fields[i]);
+            }
+        }
+        for i in [2usize, 4, 17, 18, 19, 20].into_iter().chain(34..73) {
+            crate::batch_policy::zero(&mut b, gates[0], fields[i]);
+        }
+        // Maintenance retains the reviewed base policy's full operation binding.
+        let ops = spec["base"]["operations"]
+            .as_array()
+            .context("base operations")?;
+        let mut maintenance = b._false();
+        for op in ops {
+            if op["maintenance"] == true {
+                let selected = chosen(&mut b, fields[21], op["branch"].as_u64().unwrap());
+                maintenance = b.or(maintenance, selected);
+                let gate = b.and(gates[0], selected);
+                let mut used = std::collections::BTreeSet::from([0]);
+                for c in op["calls"].as_array().unwrap() {
+                    for a in c["inputs"].as_array().unwrap() {
+                        if let Some(i) = a["witness"].as_u64() {
+                            used.insert(i as usize);
+                        }
+                    }
+                }
+                for j in 0..13 {
+                    if !used.contains(&j) {
+                        crate::batch_policy::zero(&mut b, gate, fields[21 + j]);
+                    }
+                }
+                for (i, c) in op["calls"].as_array().unwrap().iter().enumerate() {
+                    bind(
+                        &mut b,
+                        gate,
+                        &g.tx_introspection.tx_info_slots[i],
+                        c,
+                        &fields[21..34],
+                    )?;
+                }
+            }
+        }
+        eq(&mut b, gates[0], maintenance.target, one);
+        for i in 9..39 {
+            invoke(&mut b, gates[0], &g, i, &spec["noop"], &[])?;
+        }
+        let noop = |b: &mut CircuitBuilder<F, 2>,
+                    gate: BoolTarget,
+                    start: usize,
+                    end: usize|
+         -> Result<()> {
+            for i in start..end {
+                invoke(b, gate, &g, i, &spec["noop"], &[])?;
+            }
+            Ok(())
+        };
+        let scope_hash = b.hash_n_to_hash_no_pad::<H>(base_scope(sc));
+        let mut open = vec![sc[5], sc[6], sc[7], z];
+        open.extend(scope_hash.elements);
+        open.extend(source.facts[0].elements);
+        open.extend([z; 4]);
+        invoke(
+            &mut b,
+            gates[1],
+            &g,
+            0,
+            role(spec, "open_source_stream"),
+            &open,
+        )?;
+        let facts =
+            b.hash_n_to_hash_no_pad::<H>(source.facts.iter().flat_map(|h| h.elements).collect());
+        let empty_user = b.constant_hash(<H as MerkleZeroHasher<Q<F>>>::get_zero_hash(32).0);
+        let empty_member = b.constant_hash(<H as MerkleZeroHasher<Q<F>>>::get_zero_hash(56).0);
+        let roots = [facts.elements, empty_user.elements, empty_member.elements].concat();
+        invoke(
+            &mut b,
+            gates[1],
+            &g,
+            1,
+            role(spec, "initialize_stream_roots"),
+            &roots,
+        )?;
+        noop(&mut b, gates[1], 2, 39)?;
+        invoke(
+            &mut b,
+            gates[2],
+            &g,
+            0,
+            role(spec, "begin_source_page"),
+            &before_source.elements,
+        )?;
+        let mut args = source.after.users.elements.to_vec();
+        args.extend([source.after.accounts, source.after.last_owner]);
+        invoke(
+            &mut b,
+            gates[2],
+            &g,
+            1,
+            role(spec, "set_source_users"),
+            &args,
+        )?;
+        let args = [
+            source.after.orders.elements.to_vec(),
+            vec![source.after.order_count],
+            source.after.recovery.elements.to_vec(),
+            vec![source.after.recovery_count],
+        ]
+        .concat();
+        invoke(
+            &mut b,
+            gates[2],
+            &g,
+            2,
+            role(spec, "set_source_manifests"),
+            &args,
+        )?;
+        invoke(
+            &mut b,
+            gates[2],
+            &g,
+            3,
+            role(spec, "finish_source_page"),
+            &after_source.elements,
+        )?;
+        noop(&mut b, gates[2], 4, 39)?;
+        invoke(
+            &mut b,
+            gates[5],
+            &g,
+            0,
+            role(spec, "abort_source_stream"),
+            &before_abort.elements,
+        )?;
+        noop(&mut b, gates[5], 1, 39)?;
+        let args = [
+            before_settle.elements.to_vec(),
+            (0..4).map(|i| fields[22 + 13 * i]).collect::<Vec<_>>(),
+            (0..4).map(|i| fields[31 + 13 * i]).collect::<Vec<_>>(),
+            vec![fields[2]],
+        ]
+        .concat();
+        invoke(
+            &mut b,
+            gates[4],
+            &g,
+            0,
+            role(spec, "begin_stream_settlement"),
+            &args,
+        )?;
+        for row in 0..4 {
+            let v = &fields[21 + 13 * row..34 + 13 * row];
+            let idx = b.constant(f(row as u64));
+            let exists = lt(&mut b, idx, fields[2], 3);
+            let active = b.and(gates[4], exists);
+            let not = b.not(exists);
+            let padding = b.and(gates[4], not);
+            for x in v {
+                crate::batch_policy::zero(&mut b, padding, *x);
+            }
+            let m = &members[row];
+            let mut args = vec![v[1], v[10]];
+            args.extend(m.terms.elements);
+            args.push(m.consumed);
+            args.extend(m.paid_a);
+            args.extend(m.paid_b);
+            args.push(m.fee);
+            invoke(
+                &mut b,
+                active,
+                &g,
+                1 + row,
+                role(spec, "bind_stream_member"),
+                &args,
+            )?;
+            invoke(&mut b, padding, &g, 1 + row, &spec["noop"], &[])?;
+            let mut allowed = b._false();
+            for op in ops.iter().filter(|o| o["maintenance"] == false) {
+                let selected = chosen(&mut b, v[0], op["branch"].as_u64().unwrap());
+                allowed = b.or(allowed, selected);
+                let gate = b.and(active, selected);
+                let mut used = std::collections::BTreeSet::from([0]);
+                for c in op["calls"].as_array().unwrap() {
+                    for a in c["inputs"].as_array().unwrap() {
+                        if let Some(i) = a["witness"].as_u64() {
+                            used.insert(i as usize);
+                        }
+                    }
+                }
+                for j in 0..13 {
+                    if !used.contains(&j) {
+                        crate::batch_policy::zero(&mut b, gate, v[j]);
+                    }
+                }
+                let call_list = op["calls"].as_array().unwrap();
+                bind(
+                    &mut b,
+                    gate,
+                    &g.tx_introspection.tx_info_slots[17 + 5 * row],
+                    &call_list[0],
+                    v,
+                )?;
+                let native = call_list
+                    .iter()
+                    .find(|c| c["contract_id"] == 0 && c["method_name"] == "claim");
+                bind(
+                    &mut b,
+                    gate,
+                    &g.tx_introspection.tx_info_slots[18 + 5 * row],
+                    native.unwrap_or(&spec["noop"]),
+                    v,
+                )?;
+                let outputs = call_list
+                    .iter()
+                    .filter(|c| c["method_name"] == "transfer")
+                    .collect::<Vec<_>>();
+                ensure!(outputs.len() <= 3, "stream output capacity");
+                for j in 0..3 {
+                    bind(
+                        &mut b,
+                        gate,
+                        &g.tx_introspection.tx_info_slots[19 + 5 * row + j],
+                        outputs.get(j).copied().unwrap_or(&spec["noop"]),
+                        v,
+                    )?;
+                }
+            }
+            eq(&mut b, active, allowed.target, one);
+            for j in 0..5 {
+                invoke(&mut b, padding, &g, 17 + 5 * row + j, &spec["noop"], &[])?;
+            }
+        }
+        for pos in 0..4 {
+            let rank = fields[17 + pos];
+            b.range_check(rank, 2);
+            for prev in &fields[17..17 + pos] {
+                let equal = b.is_equal(rank, *prev);
+                eq(&mut b, gates[4], equal.target, z);
+            }
+            let idx = b.constant(f(pos as u64));
+            let exists = lt(&mut b, idx, fields[2], 3);
+            let active = b.and(gates[4], exists);
+            let not = b.not(exists);
+            let padding = b.and(gates[4], not);
+            eq(&mut b, padding, rank, idx);
+            let below = lt(&mut b, rank, fields[2], 3);
+            eq(&mut b, active, below.target, one);
+            if pos > 0 {
+                let owners = (0..4).map(|i| fields[22 + 13 * i]).collect::<Vec<_>>();
+                let previous = b.random_access(fields[17 + pos - 1], owners.clone());
+                let current = b.random_access(rank, owners);
+                let less = lt(&mut b, previous, current, 24);
+                eq(&mut b, active, less.target, one);
+            }
+            for row in 0..4 {
+                let selected = chosen(&mut b, rank, row as u64);
+                let gate = b.and(active, selected);
+                let v = &fields[21 + 13 * row..34 + 13 * row];
+                invoke(
+                    &mut b,
+                    gate,
+                    &g,
+                    5 + 3 * pos,
+                    role(spec, "claim_stream_member"),
+                    &[v[1], v[10]],
+                )?;
+                for op in ops.iter().filter(|o| o["maintenance"] == false) {
+                    let selected = chosen(&mut b, v[0], op["branch"].as_u64().unwrap());
+                    let gate = b.and(gate, selected);
+                    for (j, asset) in [(1, "assetA"), (2, "assetB")] {
+                        let claim = op["calls"].as_array().unwrap().iter().find(|c| {
+                            c["method_name"] == "claim"
+                                && c["contract_id"] == spec["base"]["config"][asset]
+                        });
+                        bind(
+                            &mut b,
+                            gate,
+                            &g.tx_introspection.tx_info_slots[5 + 3 * pos + j],
+                            claim.unwrap_or(&spec["noop"]),
+                            v,
+                        )?;
+                    }
+                }
+            }
+            for j in 0..3 {
+                invoke(&mut b, padding, &g, 5 + 3 * pos + j, &spec["noop"], &[])?;
+            }
+        }
+        invoke(
+            &mut b,
+            gates[4],
+            &g,
+            37,
+            role(spec, "finish_stream_settlement"),
+            &[vec![sc[5], settled, fields[2]], remaining.elements.to_vec()].concat(),
+        )?;
+        invoke(&mut b, gates[4], &g, 38, &spec["noop"], &[])?;
+        let always = b._true();
+        bind(
+            &mut b,
+            always,
+            &g.tx_introspection.tx_info_slots[39],
+            &spec["base"]["burn"],
+            &fields,
+        )?;
+        let mut fee_valid = b._false();
+        for n in 0..=100 {
+            let allowed = chosen(&mut b, fields[73], 1_000_000_000 + 1000 * n);
+            fee_valid = b.or(fee_valid, allowed);
+        }
+        b.assert_one(fee_valid.target);
+        g.circuit_inputs.extend(tape.targets.iter().copied());
+        g.build_circuit(b)?;
+        Ok(Self {
+            g,
+            tape,
+            source,
+            context: ctx,
+            current,
+            ledger,
+            sort,
+            settled,
+            members,
+        })
+    }
+    pub fn fields(
+        &self,
+        r: &Review,
+        s: &Snapshot,
+        vault_path: &MerkleProofCore<Q<F>>,
+        current: &CurrentOpening,
+        request: &Request,
+    ) -> Result<Vec<u64>> {
+        ensure!(request.fields.len() == WIDTH, "stream fixed witness");
+        let mut pw = PartialWitness::new();
+        self.source.set(&mut pw, r, s, &request.source)?;
+        self.current.set(&mut pw, r, current)?;
+        if request.fields[0] == 4 {
+            self.context.set_empty(&mut pw)?;
+        } else {
+            self.context.set(&mut pw, r, s, vault_path)?;
+        }
+        self.ledger.set(&mut pw, &request.ledger)?;
+        self.sort.set(&mut pw, &request.sort)?;
+        pw.set_target(self.settled, f(request.settled))?;
+        for (i, t) in self.members.iter().enumerate() {
+            let m = request.members.get(i);
+            pw.set_target(t.index, f(m.map(|x| x.index).unwrap_or(0)))?;
+            pw.set_hash_target(t.terms, h(m.map(|x| x.terms).unwrap_or([0; 4])))?;
+            pw.set_target(t.consumed, f(m.map(|x| x.consumed).unwrap_or(0)))?;
+            for (target, value) in t.paid_a.into_iter().chain(t.paid_b).chain([t.fee]).zip(
+                m.map(|x| vec![x.paid_a[0], x.paid_a[1], x.paid_b[0], x.paid_b[1], x.fee])
+                    .unwrap_or(vec![0; 5]),
+            ) {
+                pw.set_target(target, f(value))?;
+            }
+            let proof = m
+                .map(|x| {
+                    MerkleProofCore::new_from_params::<H>(
+                        x.path.index,
+                        Q(h(x.path.value)),
+                        x.path
+                            .siblings
+                            .iter()
+                            .map(|h| Q(crate::stream_policy::h(*h)))
+                            .collect(),
+                    )
+                })
+                .unwrap_or_else(|| {
+                    MerkleProofCore::new_from_params::<H>(
+                        0,
+                        Q::ZERO,
+                        (0..56)
+                            .map(|i| <H as MerkleZeroHasher<Q<F>>>::get_zero_hash(i))
+                            .collect(),
+                    )
+                });
+            t.path.set_witness_core_proof_q(&mut pw, &proof)?;
+        }
+        let mut fields = request.fields.clone();
+        fields.extend(self.tape.values(&pw));
+        Ok(fields)
+    }
+}
+/// Exact logical call stack. All variable amounts are still independently
+/// constrained by the spending circuit and actual market/token bytecode.
+pub fn calls(spec: &Value, req: &Request, compact: bool) -> Result<Vec<Value>> {
+    let f = &req.fields;
+    ensure!(
+        f.len() == 80 && req.source.scope.len() == 41 && req.source.facts.len() == 5,
+        "stream request shape"
+    );
+    let sc = &req.source.scope;
+    let facts = &req.source.facts;
+    let convert = |c: &Value, values: &[u64]| -> Result<Value> {
+        Ok(
+            json!({"contract_id":c["contract_id"],"method_name":c["method_name"],"inputs":c["inputs"].as_array().context("call inputs")?.iter().map(|a|if let Some(i)=a["witness"].as_u64(){values.get(i as usize).copied().context("call argument index")}else{a["constant"].as_str().context("call constant")?.parse::<u64>().map_err(Into::into)}).collect::<Result<Vec<_>>>()?}),
+        )
+    };
+    let nop = json!({"contract_id":spec["noop"]["contract_id"],"method_name":"noop","inputs":[]});
+    let mut out = vec![nop.clone(); 40];
+    let method = |name: &str, args: Vec<u64>| json!({"contract_id":role(spec,name)["contract_id"],"method_name":name,"inputs":args});
+    match f[0] {
+        4 => {
+            let op = spec["base"]["operations"]
+                .as_array()
+                .unwrap()
+                .iter()
+                .find(|o| o["branch"] == f[21] && o["maintenance"] == true)
+                .context("maintenance branch")?;
+            for (i, c) in op["calls"].as_array().unwrap().iter().enumerate() {
+                out[i] = convert(c, &f[21..34])?;
+            }
+        }
+        OPEN => {
+            let mut args = vec![sc[5], sc[6], sc[7], 0];
+            args.extend(hash(base_scope(sc)));
+            args.extend(facts[0]);
+            args.extend([0; 4]);
+            out[0] = method("open_source_stream", args);
+            let mut args = hash(facts.iter().flatten().copied().collect()).to_vec();
+            args.extend(Progress::empty().users);
+            args.extend(Progress::empty().orders);
+            out[1] = method("initialize_stream_roots", args);
+        }
+        COVER => {
+            out[0] = method(
+                "begin_source_page",
+                context_value(1, sc, facts, &req.source.before, &req.sort, req.settled).to_vec(),
+            );
+            let mut args = req.source.after.users.to_vec();
+            args.extend([req.source.after.accounts, req.source.after.last_owner]);
+            out[1] = method("set_source_users", args);
+            let mut args = req.source.after.orders.to_vec();
+            args.push(req.source.after.order_count);
+            args.extend(req.source.after.recovery);
+            args.push(req.source.after.recovery_count);
+            out[2] = method("set_source_manifests", args);
+            out[3] = method(
+                "finish_source_page",
+                context_value(1, sc, facts, &req.source.after, &req.sort, req.settled).to_vec(),
+            );
+        }
+        ABORT_SOURCE => {
+            out[0] = method(
+                "abort_source_stream",
+                context_value(1, sc, facts, &req.ledger, &req.sort, req.settled).to_vec(),
+            );
+        }
+        SETTLE => {
+            ensure!(
+                (1..=4).contains(&f[2]) && req.members.len() == f[2] as usize,
+                "settlement member count"
+            );
+            let mut args =
+                context_value(3, sc, facts, &req.ledger, &req.sort, req.settled).to_vec();
+            args.extend((0..4).map(|i| f[22 + 13 * i]));
+            args.extend((0..4).map(|i| f[31 + 13 * i]));
+            args.push(f[2]);
+            out[0] = method("begin_stream_settlement", args);
+            for i in 0..f[2] as usize {
+                let v = &f[21 + 13 * i..34 + 13 * i];
+                let m = &req.members[i];
+                let mut args = vec![v[1], v[10]];
+                args.extend(m.terms);
+                args.push(m.consumed);
+                args.extend(m.paid_a);
+                args.extend(m.paid_b);
+                args.push(m.fee);
+                out[1 + i] = method("bind_stream_member", args);
+                let op = spec["base"]["operations"]
+                    .as_array()
+                    .unwrap()
+                    .iter()
+                    .find(|o| o["branch"] == v[0] && o["maintenance"] == false)
+                    .context("settlement branch")?;
+                let c = op["calls"].as_array().unwrap();
+                out[17 + 5 * i] = convert(&c[0], v)?;
+                if let Some(c) = c
+                    .iter()
+                    .find(|c| c["contract_id"] == 0 && c["method_name"] == "claim")
+                {
+                    out[18 + 5 * i] = convert(c, v)?;
+                }
+                for (j, c) in c
+                    .iter()
+                    .filter(|c| c["method_name"] == "transfer")
+                    .enumerate()
+                {
+                    ensure!(j < 3, "stream output capacity");
+                    out[19 + 5 * i + j] = convert(c, v)?;
+                }
+            }
+            for pos in 0..f[2] as usize {
+                let row = f[17 + pos] as usize;
+                ensure!(row < f[2] as usize, "claim rank");
+                let v = &f[21 + 13 * row..34 + 13 * row];
+                out[5 + 3 * pos] = method("claim_stream_member", vec![v[1], v[10]]);
+                let op = spec["base"]["operations"]
+                    .as_array()
+                    .unwrap()
+                    .iter()
+                    .find(|o| o["branch"] == v[0])
+                    .context("claim branch")?;
+                for (j, asset) in [(1, "assetA"), (2, "assetB")] {
+                    if let Some(c) = op["calls"].as_array().unwrap().iter().find(|c| {
+                        c["method_name"] == "claim"
+                            && c["contract_id"] == spec["base"]["config"][asset]
+                    }) {
+                        out[5 + 3 * pos + j] = convert(c, v)?;
+                    }
+                }
+            }
+            let mut remaining = req.sort.ordered;
+            for m in &req.members {
+                let proof = MerkleProofCore::new_from_params::<H>(
+                    m.index,
+                    Q::ZERO,
+                    m.path.siblings.iter().map(|x| Q(h(*x))).collect(),
+                );
+                remaining = proof.root.0.elements.map(|n| n.to_canonical_u64());
+            }
+            let mut args = vec![sc[5], req.settled, f[2]];
+            args.extend(remaining);
+            out[37] = method("finish_stream_settlement", args);
+        }
+        _ => anyhow::bail!("unknown stream mode"),
+    }
+    out[39] = convert(&spec["base"]["burn"], f)?;
+    if compact {
+        out.retain(|c| {
+            c["contract_id"] != spec["noop"]["contract_id"] || c["method_name"] != "noop"
+        });
+    }
+    Ok(out)
+}
+/// Predict the exact FINAL net-word fee, including possible restoration of the
+/// native word. No SDK estimate is treated as authorization or silently raised.
+pub fn completion_fee(
+    prefix_words: u32,
+    prefix_native_changed: bool,
+    start: [u64; 4],
+    current: [u64; 4],
+) -> Result<u64> {
+    let mut valid = vec![];
+    for n in 0..=100u64 {
+        let burn = 1_000_000_000 + 1000 * n;
+        if let Some(balance) = current[0].checked_sub(burn) {
+            let mut after = current;
+            after[0] = balance;
+            let words = (prefix_words as u64)
+                .checked_sub(u64::from(prefix_native_changed))
+                .context("native fee prefix count")?
+                + u64::from(after != start);
+            if burn == psy_config::network_constants::GUTA_FEE + psy_config::DA_FEE * words {
+                valid.push(burn);
+            }
+        }
+    }
+    ensure!(
+        valid.len() == 1,
+        "no unique final-net-word fee within the declared stream budget"
+    );
+    Ok(valid[0])
+}

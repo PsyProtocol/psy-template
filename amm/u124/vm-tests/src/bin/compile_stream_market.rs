@@ -1,0 +1,3 @@
+//! Distinct stream candidate compiler. Does not deploy, update or sign.
+use anyhow::{ensure,Result};
+fn main()->Result<()>{let a=std::env::args().collect::<Vec<_>>();if a.len()==2&&a[1]=="network-magic"{println!("{}",psy_config::PSY_NETWORK_MAGIC);return Ok(());}ensure!(a.len()==5,"SOURCE FRESH_OUT ASSET_A ASSET_B");let output=psy_template_u124_markets::batch_compile::compile(&std::fs::read_to_string(&a[1])?,a[3].parse()?,a[4].parse()?,false)?;std::fs::create_dir(&a[2])?;std::fs::write(std::path::Path::new(&a[2]).join("compilation_artifact.json"),output.to_compilation_artifact_json()?)?;Ok(())}

@@ -353,7 +353,7 @@ fn membership(
             && p.siblings.len() == height as usize
             && index < 1u64 << height
             && p.verify::<H>(),
-        "snapshot Merkle root/index/shape/value"
+        "snapshot Merkle mismatch: expected index {index}/height {height}, actual index {}/height {}, root matches {}, value matches {}", p.index, p.siblings.len(), p.root==root, p.value==value
     );
     Ok(())
 }

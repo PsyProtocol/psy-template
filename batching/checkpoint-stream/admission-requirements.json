@@ -1,0 +1,58 @@
+{
+  "schema": 1,
+  "status": "external-required-not-implemented",
+  "sourceReview": {
+    "clientCommit": "b280d714a8f0930c61962c885374ea63ea63d274",
+    "path": "psy_node_common/src/realm/edge/handler.rs",
+    "lines": "833-905",
+    "runtimeAttestation": false
+  },
+  "liveAuthorizationAllowed": false,
+  "requiredDeliverables": [
+    {
+      "owner": "Realm admission and protocol teams",
+      "capability": "consensus-enforced-ups-snapshot-validity",
+      "requiredBehavior": [
+        "Define accepted snapshot age relative to the gathering/finalized checkpoint and enforce it on every admission and processing path.",
+        "Specify cancellation precedence, foreign-state conflicts and active code/layout/function-version semantics; a submitting-account leaf check alone is insufficient evidence.",
+        "Bind policy version and domain to the actual chain instance and expose the applied rule with an auditable rejection reason and exact request identity."
+      ],
+      "interfaceProposalNotExisting": {
+        "name": "get_ups_admission_policy",
+        "request": ["chainInstance", "realm", "policyVersion"],
+        "response": ["chainInstance", "realm", "policyVersion", "gatheringCheckpoint", "finalizedCheckpoint", "minAcceptedSessionCheckpoint", "foreignStateRule", "contractVersionRule", "authenticatedPolicyCommitment"],
+        "warning": "RPC authentication or a signature alone does not establish enforcement, latestness or finality. Supply the consensus/protocol rule, proof binding and reproducible service configuration."
+      }
+    },
+    {
+      "owner": "SDK and verification-resource maintainers",
+      "capability": "reviewed-policy-and-proof-bindings",
+      "requiredBehavior": [
+        "Document which public proof/receipt fields attest the applied chain instance, checkpoint validity policy and exact request.",
+        "Supply fixed source commits, verifier/common-data digests and executable positive/negative fixtures.",
+        "Keep source-checkpoint membership separate from finality, entropy quality and inclusion-time freshness."
+      ]
+    },
+    {
+      "owner": "Wallet and Executor maintainers",
+      "capability": "fresh-preflight-and-exact-recovery",
+      "requiredBehavior": [
+        "Consume a reviewed policy and recheck identity, state, nonce, fees, validity and active dependency versions before exact broadcast.",
+        "Treat preflight as a client defense, not as permissionless SD-key consensus enforcement.",
+        "Retain exact unknown requests and reconcile original identities; never automatically replace them."
+      ]
+    }
+  ],
+  "acceptanceEvidenceRequired": [
+    "With the vault unchanged, advance beyond the accepted snapshot age and reject the preserved old request without charging or mutating it.",
+    "Exercise a later foreign cancellation and a later dependency upgrade; demonstrate the specified precedence/version rule rather than assuming latestness.",
+    "Reject forged policy, wrong chain/realm, policy replay and conflicting policy commitments.",
+    "Exercise direct edge, alternative admission and processor paths with the same exact request.",
+    "Archive request hashes, proof/resource identities, rejection receipts, source/config commits and before/after roots; no keys or signing witnesses."
+  ],
+  "unchangedBoundaries": [
+    "Deterministic fixed-set ordering only.",
+    "No qualified random source or finality claim.",
+    "No Node or SDK changes in this candidate."
+  ]
+}
