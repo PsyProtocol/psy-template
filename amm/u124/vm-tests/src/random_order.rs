@@ -13,13 +13,17 @@ fn less(a:&[u64;4],b:&[u64;4],owner_a:u64,owner_b:u64,nonce_a:u64,nonce_b:u64)->
 #[derive(serde::Deserialize)]
 #[serde(deny_unknown_fields)]
 struct CandidateInput{fields:Vec<String>,seed:[String;4]}
+fn canonical_integer(s:&str)->Result<u64>{ensure!(!s.is_empty()&&(s=="0"||!s.starts_with('0'))&&s.bytes().all(|b|b.is_ascii_digit()),"canonical decimal integer");Ok(s.parse()?)}
+fn decode_fields(values:&[String])->Result<[u64;FIELDS]>{ensure!(values.len()==FIELDS,"fixed statement width");let fields=values.iter().map(|s|canonical_integer(s)).collect::<Result<Vec<_>>>()?.try_into().map_err(|_|anyhow::anyhow!("statement width"))?;validate_fields(&fields)?;Ok(fields)}
+pub fn decode_frozen_fields(bytes:&[u8])->Result<[u64;FIELDS]>{
+ #[derive(serde::Deserialize)]#[serde(deny_unknown_fields)]struct FrozenInput{fields:Vec<String>}
+ ensure!(bytes.len()<=16384,"bounded frozen statement input");let input:FrozenInput=serde_json::from_slice(bytes)?;decode_fields(&input.fields)
+}
 pub fn decode_candidate_input(bytes:&[u8])->Result<([u64;FIELDS],[u64;4])>{
  ensure!(bytes.len()<=16384,"bounded statement input");let input:CandidateInput=serde_json::from_slice(bytes)?;
- ensure!(input.fields.len()==FIELDS,"fixed statement width");
- fn integer(s:&str)->Result<u64>{ensure!(!s.is_empty()&&(s=="0"||!s.starts_with('0'))&&s.bytes().all(|b|b.is_ascii_digit()),"canonical decimal integer");Ok(s.parse()?)}
- let fields:[u64;FIELDS]=input.fields.iter().map(|s|integer(s)).collect::<Result<Vec<_>>>()?.try_into().map_err(|_|anyhow::anyhow!("statement width"))?;
- let seed:[u64;4]=input.seed.iter().map(|s|integer(s)).collect::<Result<Vec<_>>>()?.try_into().map_err(|_|anyhow::anyhow!("seed width"))?;
- validate_fields(&fields)?;ensure!(seed.iter().all(|n|*n<F::ORDER),"canonical seed");Ok((fields,seed))
+ let fields=decode_fields(&input.fields)?;
+ let seed:[u64;4]=input.seed.iter().map(|s|canonical_integer(s)).collect::<Result<Vec<_>>>()?.try_into().map_err(|_|anyhow::anyhow!("seed width"))?;
+ ensure!(seed.iter().all(|n|*n<F::ORDER),"canonical seed");Ok((fields,seed))
 }
 pub fn validate_fields(values:&[u64;FIELDS])->Result<()>{
  ensure!(values.iter().all(|n|*n<F::ORDER),"noncanonical Felt");
@@ -108,15 +112,18 @@ fn constrain_rank(b:&mut CircuitBuilder<F,2>,v:&[Target;FIELDS],rank:[Target;4],
  }
  sorted
 }
+pub fn constrain_frozen_statement(b:&mut CircuitBuilder<F,2>,fields:&[Target;FIELDS])->(HashOutTarget,[BoolTarget;4]){
+ let active=constrain_scope(b,fields);constrain_members(b,fields,active);
+ let tag=b.constant(f(FROZEN_TAG));let mut all=vec![tag];all.extend(*fields);
+ (b.hash_n_to_hash_no_pad::<PoseidonHash>(all),active)
+}
 pub struct PermutationCircuit{pub data:CircuitData<F,C,2>,fields:[Target;FIELDS],seed:HashOutTarget,rank:[Target;4]}
 impl PermutationCircuit{
  pub fn build()->Self{
   let mut b=CircuitBuilder::<F,2>::new(CircuitConfig::standard_recursion_config());
   let fields:[Target;FIELDS]=b.add_virtual_targets(FIELDS).try_into().unwrap();
   let seed=b.add_virtual_hash();let rank:[Target;4]=b.add_virtual_targets(4).try_into().unwrap();
-  let active=constrain_scope(&mut b,&fields);constrain_members(&mut b,&fields,active);
-  let tag=b.constant(f(FROZEN_TAG));let mut all=vec![tag];all.extend(fields);
-  let root=b.hash_n_to_hash_no_pad::<PoseidonHash>(all);
+  let (root,active)=constrain_frozen_statement(&mut b,&fields);
   let keys:[HashOutTarget;4]=std::array::from_fn(|i|{
    let tag=b.constant(f(ORDER_TAG));let mut input=vec![tag];input.extend(root.elements);
    input.extend(seed.elements);input.extend(&fields[MEMBER+6*i..MEMBER+6*i+6]);

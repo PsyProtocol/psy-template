@@ -282,3 +282,99 @@ Other archived launchers retain their original case-root paths as provenance;
 they are not claimed to run unchanged after extraction. Rebuild from the reviewed
 application and frozen SDK, using the recorded target projection and exact inputs.
 No runtime/website may provide the trusted verifier binary or its resources.
+
+
+## Conditional historical seal-inclusion milestone
+
+Starting application `c7a5203000fc62145dc2d0a6914b2c0814a6346e`, same branch and
+frozen SDK/backend. The root owner found no active financial/compiler/proof task
+before starting this bounded offline case. Budget: one successful seal-component
+proof, three invalid witness attempts, one process, two Rayon threads, 300 seconds
+and 4 GiB sampled process-family RSS ceiling. No financial operations, business
+UPS, RPC, registrations, grants, deployments, settlements, claims or fees.
+
+### Implemented and checked
+
+- [Conditional seal inclusion](../../batching/random-order/SEAL_INCLUSION.md):
+  strict seed-free frozen input; native and circuit openings link checkpoint 1
+  and the seal checkpoint to one caller-owned checkpoint tree root. The chain
+  instance, global roots, vault/key/fingerprint/public parameter, contract
+  code/layout/function roots and packed frozen root are bound. The four root
+  Felts may cross a packed-word boundary; exact path count/index/height and all
+  root limbs are checked.
+- The reviewed layout descriptor is a trusted resource input, not supplied by
+  an opening. Its correct named field/slot must independently match approved
+  source/ABI/layout-root semantics. The circuit embeds these constants; changing
+  them constructs different verifier resources. Merkle membership alone does
+  not certify the admission, sealing, immutability or refund method semantics.
+- The frozen set and `cutoff < inclusion <= sealBy < draw` are circuit-constrained.
+  Native positives cover both AMM and Curve and all four root-slot alignments;
+  23 native mutation cases reject. Exactly one synthetic membership proof passes;
+  three deliberately invalid witness prover attempts reject (late checkpoint,
+  wrong stored root and wrong key). They reach the circuit instead of relying
+  on the full native opening validator to reject them first.
+- Separate source-built read-only CLIs verify the saved opening and saved proof,
+  cap reads before deserialization and create/sync a new report. Forty-seven
+  negative CLI cases reject wrong scope, history, identities, paths, reviewed
+  slot, seed injection, noncanonical inputs, oversized/trailing bodies and output
+  replacement. Existing positive reports remain byte-identical.
+- The exact previous `c7a52030` permutation proof verifies against the extracted
+  shared frozen-statement gadget, without generating a replacement. No market
+  generator, deterministic source gate, runtime policy, wallet trust installation,
+  Node or SDK dependency is changed by this milestone.
+
+The first native build failed because the fixture exporter tried to serialize a
+74-element array with the selected serde version. The corrected exporter uses a
+vector. That failed log remains failed; corrected native builds and the bounded
+component run are separate records. No failed or slow sample is discarded.
+
+### Measurements: synthetic standalone component only
+
+| Measurement | Result |
+| --- | ---: |
+| Circuit construction | 0.077178 s |
+| Proof generation | 0.208789 s |
+| Exact endpoints and proof verification | 0.003353 s |
+| Selected test, including negative witness attempts | 0.30 s |
+| Cargo launcher through exit, cached build included | 2.080936 s |
+| Full-launch-to-exit 1 Hz sampled process-family RSS maximum | 144.23 MiB |
+| Final native build / launcher through exit | 39.82 s / 40.359630 s |
+
+Degree 10. One successful synthetic checkpoint-105 proof, four members, root
+slot 3 and two packed-word openings. Checkpoint/code/key identities are test
+fixtures, not a deployed market or certified history. RSS sampling covers the
+process lifetime but can miss short peaks and double-count shared pages; it is
+not physical peak memory. There is no random-mode CFC, SD-key, recursion/Endcap,
+full UPS, network confirmation, ordinary claim or financial cost measurement.
+This is neither an end-to-end comparison nor evidence of faster market settlement.
+
+### Unclosed dependencies and activation refusal
+
+1. The expected checkpoint root is independently supplied. Including the expected
+   genesis in a fabricated tree does not establish canonical history or finality.
+   No finality verifier/certificate adapter is installed.
+2. A qualified unique-output beacon, fixed source/key/round domain and authenticated
+   unpredictability/release boundary remain absent. Checkpoint `random_seed` is
+   still producer-controlled sampling, not an accepted substitute.
+3. **Checkpoint order is not trusted wall-clock order.** An external round can
+   become public while this chain stalls. Even a finalized seal checkpoint below
+   a future draw height does not by itself show that the seed was unknown when
+   that seal was included. The source/finality protocol must establish the causal
+   seal-before-release boundary. The inspected `block_time` witness is only
+   monotonic, not a trusted clock certificate.
+4. Actual new market/key admission, immutable seal, authenticated draw, complete
+   call stack, sequential U124 fills/refunds, timeout recovery and full UPS/live
+   settlement remain unimplemented and unaccepted for random mode. A component
+   proof is not an SD-key, Endcap, spending approval or market admission proof.
+
+[Concrete upstream statements, proof formats and acceptance requirements](../../batching/random-order/PROVIDER_INTERFACE.md)
+identify source-provider and finality-maintainer deliverables. No qualified source
+adapter exists, and `authorizeRandomBatch` continues to reject every request.
+Deterministic mode remains unchanged. This seals only a finite set relative to
+trusted inputs; it proves neither global inclusion, censorship resistance,
+comprehensive anti-MEV nor same-pool parallel execution.
+
+[Public proof, inputs, source hashes, failed builds, replay and all samples](../../executor/verification/2026-10-28-seal-inclusion-v1/manifest.json).
+The archive's portable replay verifies the preserved native opening and ZK proof
+from a fresh extraction with caller-selected trusted built binaries. It does not
+prove again, install trust, call RPC or broadcast.

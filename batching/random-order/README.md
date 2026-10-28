@@ -109,3 +109,10 @@ All public proof reports explicitly say `qualifiedSource: false`,
 The proof tests use fixed synthetic inputs, never a substitute live random source.
 
 [Source assessment, results, costs and missing market integration](../../docs/security/VERIFIABLE_RANDOM_ORDERING_20261028.md).
+
+[Conditional historical sealed-state inclusion](SEAL_INCLUSION.md) adds the
+separate native/circuit relation needed to bind an actually included state to a
+checkpoint root. It still requires independently authenticated finality, reviewed
+slot semantics and the source's unpredictability boundary.
+[Provider delivery requirements](PROVIDER_INTERFACE.md) define those remaining
+interfaces; they are not existing methods or accepted adapters.
