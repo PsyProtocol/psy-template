@@ -160,3 +160,125 @@ No new proof, full UPS, settlement, claim, confirmation, fee or cold/warm sample
 has been run at this preflight stage. Random-versus-deterministic full-market
 cost and protocol waiting comparisons are **not measured**. Upcoming component
 proof timings must not be labeled live market throughput or chain TPS.
+
+## Implemented conditional component milestone
+
+The preflight is published as `85939feb`. The follow-up implements
+[`batching/random-order`](../../batching/random-order/README.md) and the native
+`random_order` module. This is an independent conditional-permutation component
+and an active refusal boundary; it is not an activated random market protocol.
+
+The strict 74-Felt candidate binds the complete scope, roots and fixed schedule
+from the preflight, up to four canonical members and their full terms hashes.
+The source ID identifies the intended source definition/type; no qualified
+source registry exists. Native Poseidon derives a domain-separated frozen root
+and each full four-limb order key. The circuit verifies a complete unique active
+permutation, canonical unused positions and full unsigned hash comparison with
+owner/nonce tie rules. Goldilocks decomposition is constrained to `<= p-1`.
+Its expected public root, seed, count and rank are independently checked by a
+read-only saved-proof verifier built from the fixed application/SDK source.
+
+The client parses a future envelope with **separate** beacon, sealed-state
+inclusion and finality proof blobs. Parsing explicitly remains unverified;
+authorization always rejects because no approved adapter is installed. No
+caller callback, resource URL or boolean can enable it. Existing V2 and admission
+source generators, policy construction and Executor admission plan validation now
+share deterministic-only refusal. All eight AMM/Curve/Book/NFT generated source
+outputs match the published `85939feb` baseline byte-for-byte for valid inputs.
+This compares generated source, not a newly compiled market bytecode or UPS.
+Book/NFT semantics are unchanged and are rejected by the random candidate codec.
+
+### Executed checks
+
+- Final JS suite: 29 passes, no skips, with existing reader fixtures explicitly
+  selected. The first invocation omitted `BATCH_BUILD` and failed that suite's
+  environment gate; it remains failed. Parser tests call the parser directly,
+  separately from authorization rejection, so the closed source gate cannot mask
+  malformed/missing proof acceptance.
+- Rust host statement test and library full-key/owner/nonce tie test pass in
+  release mode. An initial compile omitted the `Field64` trait import; its failed
+  log is preserved. Corrected builds use actual frozen SDK APIs.
+- Exactly two successful standalone component proofs: maximum four-member
+  permutation and public-input full-key tie comparator. Four deliberately invalid
+  witness attempts reject: wrong rank, duplicate rank, duplicate member, and an
+  alternate field-zero decomposition `low=1, high=0xffffffff` reconstructing `p`.
+  The last test calls the same canonical-limb constraint used by the real comparator.
+- The circuit consumes the exact file emitted by the JS candidate encoder. Native
+  inspection and the proof report agree on all root/key/rank values. The resulting
+  synthetic order is `[3,2,0,1]`; it is not a market execution or a certified draw.
+- A separate fixed-source CLI verifies the preserved proof and exact endpoints
+  without regenerating it. Its 18 negative parser/endpoint/proof cases reject
+  changed network, chain, source, round, draw, cutoff, queue/batch roots, nonce,
+  member, seed, noncanonical/leading-zero fields, injected success, extra fields,
+  oversized inputs/proofs and trailing proof bytes. Create-new output preserves
+  an existing positive report. A metadata-hash relative-path error is separately
+  recorded; the Native inspection itself had already succeeded and was not rerun.
+
+The source-level independent review also corrected a false-positive test pattern:
+calling authorization (which always throws) could not establish parser rejection.
+The final tests invoke `validateBeaconEnvelope` for malformed inputs and reserve
+`RANDOM_SOURCE_UNAVAILABLE` assertions for shape-valid unauthorized envelopes.
+This review/test repair is not a discovered live authorization bypass.
+
+### Measurement scope
+
+| Measured component scope | Value |
+| --- | ---: |
+| Permutation circuit cold construction | 0.080766 s |
+| Permutation proof generation | 0.190438 s |
+| Expected endpoints plus proof verification | 0.003121 s |
+| Whole selected component test, including tie and negative attempts | 0.33 s |
+| Cargo launcher through component-test exit, cached build included | 2.073365 s |
+| One-second sampled process-family RSS peak for that invocation | 155.08 MiB |
+| Corrected host test build / launcher through exit | 43.05 s / 44.449722 s |
+| Read-only verifier/inspection binary build / launcher through exit | 36.17 s / 37.128198 s |
+
+Selected SDK, source, two Rayon threads, fixed inputs, commands and all samples
+are archived. The circuit has degree 10. This is not a market CFC, recursive
+SD-key signature or Endcap, and its timing must not be substituted for their
+cost. No actual confirmation, wallet claim, asset conservation, fee or protocol
+waiting measurement exists for random mode. There is no matched deterministic/
+random full-market cold/warm comparison, p95, steady throughput or speedup claim.
+The short test may occur between RSS samples; shared pages may be counted more
+than once and actual peaks may be missed. Sampled RSS is not physical peak memory.
+
+### Acceptance matrix and remaining work
+
+| Requirement | Current status |
+| --- | --- |
+| Exact candidate binding and unique bounded permutation | Native/JS codec and conditional component proofs executed |
+| Fake envelope / wrong domain / substitution / seed alternatives | Strict parsing and disabled authorization checks executed; not a real beacon-proof rejection suite |
+| Random-mode actual contract state/seal, new layout and SD-key | Not implemented or deployed; blocked pending qualified source and pre-draw sealed-state inclusion delivery |
+| Actual ordered market call stack, pricing, U124 fills, fees and refund terminal states | Existing deterministic semantics preserved; not verified with random CFC/key/full UPS |
+| Random cancellation/timeout/source delay/selection-abort recovery | Protocol requirements specified; no on-chain random state machine or full-UPS acceptance |
+| Restart, lost receipts, two Executor competition | Existing deterministic reader/journal regressions run; not random-mode or multi-host acceptance |
+| Real settlement, ordinary claim, failed-stage asset recovery | Not performed; no new funds or chain operation |
+| End-to-end performance and protocol wait comparison | Not measured; component data is not a substitute |
+
+The build refusal prevents creating a funded random queue with no implemented
+exit. No existing sealed queue is reinterpreted or sent through this candidate.
+The future new contract/key must authenticate source and actual seal inclusion,
+store the original request/seed/permutation once, enforce stage-specific timeout
+refunds and consumed epochs, and bind the complete real UPS stack and resources.
+Full actual bytecode, signature/Endcap, U124 asset/fee conservation, ordinary claim
+and all financial fault scenarios remain prerequisites to enabling a new instance.
+Upstream proof formats/security guarantees and finality openings remain the
+concrete external deliverables listed above. No financial authorization is inferred
+from these component proofs. Random order would still cover only the fixed set,
+not global inclusion, comprehensive anti-MEV or same-pool parallel execution.
+
+[Public conditional proofs, failed runs, frozen build inputs, exact verification and samples](../../executor/verification/2026-10-28-random-order-components-v1/manifest.json).
+
+The public archive was extracted into a fresh directory and the exact preserved
+permutation proof was verified from that extraction by the trusted read-only CLI.
+`extracted-replay.json` is a separately hashed report. The portable command is:
+
+```sh
+python3 original-case-recipes/replay-extracted-v1.py \
+  "$EXTRACTED_CASE" "$TRUSTED_BUILT_COMPONENT_VERIFIER" "$FRESH_REPORT"
+```
+
+Other archived launchers retain their original case-root paths as provenance;
+they are not claimed to run unchanged after extraction. Rebuild from the reviewed
+application and frozen SDK, using the recorded target projection and exact inputs.
+No runtime/website may provide the trusted verifier binary or its resources.

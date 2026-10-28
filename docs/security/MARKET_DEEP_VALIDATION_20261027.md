@@ -252,3 +252,11 @@ finds coordinator-local seed sampling and checkpoint membership, but no qualifie
 unique/unpredictable/unbiased beacon or pre-draw seal-inclusion protocol. Random
 execution remains disabled. Independent statement/permutation and refusal tests
 may proceed; no random-market deployment, full UPS or live acceptance is implied.
+
+The follow-up [conditional component milestone](VERIFIABLE_RANDOM_ORDERING_20261028.md#implemented-conditional-component-milestone)
+adds a strict candidate encoder, domain-separated full-permutation circuit,
+three-proof envelope refusal, shared deterministic build/plan guards and a
+read-only exact-proof verifier. Two standalone proofs and negative checks pass;
+all eight default market source outputs match the prior committed generators.
+No qualified beacon, on-chain random state machine, random SD-key/full UPS,
+new-instance financial acceptance or end-to-end performance comparison is closed.
