@@ -244,3 +244,11 @@ runs remain failed in the archive. No proof or financial operation is regenerate
 to obtain these replay results. Fresh first-session transport, installed wallet
 release, extension approval and live financial acceptance remain open. The original
 faucet request is unresolved, and the existing financial stop is unchanged.
+
+## 28 October: random-order source preflight
+
+[Random-order source and threat assessment](VERIFIABLE_RANDOM_ORDERING_20261028.md)
+finds coordinator-local seed sampling and checkpoint membership, but no qualified
+unique/unpredictable/unbiased beacon or pre-draw seal-inclusion protocol. Random
+execution remains disabled. Independent statement/permutation and refusal tests
+may proceed; no random-market deployment, full UPS or live acceptance is implied.
