@@ -455,3 +455,40 @@ network/claim/refund acceptance remain required before promotion.
 
 See [implementation, trust boundaries and reproduction](PREVIOUS_CHECKPOINT_EXECUTION_20261028.md)
 and [immutable evidence](../../executor/verification/2026-10-28-previous-checkpoint-v1/README.md).
+
+## 28 October: continuous ordering preparation beyond four members
+
+The new conditional stream component fixes one full manifest/seed and proves
+globally ordered pages with source membership, cross-page deduplication,
+append-only ordered roots and exact cursor/key endpoint continuity. Three
+standalone page proofs cover nine members (4 + 4 + 1). Complete-bundle verification
+rejects omitted/duplicate pages, early completion and substituted scope/seed;
+actual invalid membership/order witnesses fail the prover. These are component
+proofs, not market CFC/key/Endcap or settlement proofs.
+
+An offline Executor route seals the native binary and input, persists exact
+preparation digests, and uses a separate component journal plus native ownership
+file. Actual native integration reused two proofs and generated only the missing
+tail. Restart and final contention tests reverified/reused all pages. Trailing
+proof bytes reject. All existing financial paths remain unchanged and disabled
+for streams. Preparation cursor nine is never shown as settlement cursor nine:
+the settlement cursor remains zero.
+
+The whole-block scope still needs a business definition and authenticated
+coverage. Final current-order state can potentially use an application-owned
+complete authenticated state traversal; every intermediate order/cancel event
+instead needs a complete committed event/transaction transcript. Neither is
+supplied by a scanned list, checkpoint transaction count or this finite-set
+manifest. A subset with a new manifest is explicitly demonstrated to be another
+valid finite set, not evidence of complete block inclusion. Coverage and
+stream-aware market/SD-key/UPS gates reject claimed success flags.
+
+Three final host tests, three actual-native integration tests and 47 existing
+JavaScript route/config regressions passed. The standalone proof process took
+2.077 seconds (sampled family RSS 141,008 KiB); original page prove/verify times
+were 0.370/0.347/0.411 seconds. These are tiny ordering components, not a speedup
+over complete market proving, confirmation or ordinary-wallet claims. No RPC,
+deployment, financial execution or real fees occurred. Node and SDK are unchanged.
+
+See [remaining application work and source delivery requirements](CHECKPOINT_STREAM_20261028.md)
+and [component evidence](../../executor/verification/2026-10-28-checkpoint-stream-v1/README.md).

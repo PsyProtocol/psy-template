@@ -1,0 +1,168 @@
+{
+  "schema": 1,
+  "base": "78a51cd32d3c6736ae1889822997f41e7a4d90e0",
+  "sdk": "c92880c8b6e2c8d392f19368bc8801a2584fd427",
+  "nodeClient": "b280d714a8f0930c61962c885374ea63ea63d274",
+  "backend": "736572e9dd3ca93566471cf5a2a1cb67a13fe01d",
+  "scope": "conditional finite-set ordering and native component proof recovery only; no whole-block authentication or financial execution",
+  "status": {
+    "finiteSetManifestAndGlobalOrderPages": true,
+    "nativeExecutorPreparationAndProofResume": true,
+    "rawBlockCoverage": false,
+    "marketContractAndSdKeyIntegration": false,
+    "fullUpsVerified": false,
+    "canSign": false,
+    "canBroadcast": false,
+    "settlementCursor": 0,
+    "ordinaryWalletClaims": false,
+    "realNetworkAcceptance": false
+  },
+  "members": 9,
+  "pages": 3,
+  "pageSizes": [
+    4,
+    4,
+    1
+  ],
+  "successfulComponentProofConstructions": 4,
+  "distinctPageStatements": 3,
+  "financialOperations": 0,
+  "rpcCalls": 0,
+  "deployments": 0,
+  "realFees": "0",
+  "host": {
+    "model": "MacBookPro18,2",
+    "cpu": "Apple M1 Max",
+    "physicalMemoryGiB": 32,
+    "os": "Darwin arm64",
+    "rayonThreads": 2,
+    "cargoJobs": 2
+  },
+  "tests": {
+    "finalHost": 3,
+    "newActualNativeJavascriptIntegration": 3,
+    "existingJavascriptRegressions": 47
+  },
+  "component": {
+    "allConditionalPagesVerified": true,
+    "buildSeconds": 0.167291625,
+    "canBroadcast": false,
+    "degreeBits": 11,
+    "financialOperations": 0,
+    "fullUpsVerified": false,
+    "marketOrSdKeyIntegrated": false,
+    "members": 9,
+    "networkAcceptance": false,
+    "pageCapacity": 4,
+    "pages": 3,
+    "proveAndVerifySeconds": [
+      0.370287875,
+      0.347179,
+      0.410725667
+    ],
+    "rawBlockCoverageAuthenticated": false,
+    "rejected": [
+      "network",
+      "market",
+      "instance",
+      "checkpoint",
+      "root",
+      "seed",
+      "key",
+      "omitted-page",
+      "duplicate-page",
+      "early-completion",
+      "forged-membership-circuit",
+      "reordered-circuit"
+    ],
+    "scope": "complete finite-set order proof chain only; terms hashes, initial roots and producer seed synthetic"
+  },
+  "componentProcessWallSeconds": 2.076894583995454,
+  "componentSampledFamilyRssPeakKiB": 141008,
+  "memoryScope": "one-second process-family RSS sampling; shared pages included, short peaks may be missed; not physical peak; host-only 32 KiB sample is not meaningful",
+  "performanceScope": "tiny conditional ordering circuits only; not market CFC/signature/Endcap/UPS/confirmation/claim speed or a matched performance comparison",
+  "integration": [
+    {
+      "scope": "actual offline native component preparation, proof resume and strict independent verification; no market/key/UPS or network acceptance",
+      "members": 9,
+      "pages": 3,
+      "newComponentProofs": 1,
+      "reusedFirstRun": 2,
+      "reusedRestart": 3,
+      "sourceGateClosed": true,
+      "settlementGateClosed": true,
+      "settlementCursor": 0,
+      "proofSha256": [
+        "2b6b5de6e394c4ad07f943403d3c4e1322094e0d5898611cf2b150c62afbbdb7",
+        "acb00f0486b97d6b50b965f448f67ccea45afaf96b0f9abd9e3045f9f9ed1e63",
+        "40f8cfa890c0567d57145a19d2d079938b013445312be5f5113ee5e7fb123a3b"
+      ],
+      "actions": [
+        {
+          "action": "prepare",
+          "stdout": ""
+        },
+        {
+          "action": "prove",
+          "stdout": "{\"canBroadcast\":false,\"proofsGenerated\":1,\"proofsReused\":2,\"rawBlockCoverageAuthenticated\":false}\n"
+        },
+        {
+          "action": "prove",
+          "stdout": "{\"canBroadcast\":false,\"proofsGenerated\":0,\"proofsReused\":3,\"rawBlockCoverageAuthenticated\":false}\n"
+        }
+      ],
+      "financialOperations": 0
+    },
+    {
+      "scope": "actual offline native component preparation, proof resume and strict independent verification; no market/key/UPS or network acceptance",
+      "members": 9,
+      "pages": 3,
+      "newComponentProofs": 0,
+      "reusedFirstRun": 3,
+      "reusedRestart": 3,
+      "sameMachineCompetitors": 2,
+      "sameMachineWinners": 1,
+      "sourceGateClosed": true,
+      "settlementGateClosed": true,
+      "settlementCursor": 0,
+      "proofSha256": [
+        "2b6b5de6e394c4ad07f943403d3c4e1322094e0d5898611cf2b150c62afbbdb7",
+        "acb00f0486b97d6b50b965f448f67ccea45afaf96b0f9abd9e3045f9f9ed1e63",
+        "26ca22b3d97314c63ce48050f90327a9840f15a4f096ea0829a0a8e3d417c433"
+      ],
+      "actions": [
+        {
+          "action": "prepare",
+          "stdout": ""
+        },
+        {
+          "action": "prove",
+          "stdout": "{\"canBroadcast\":false,\"proofsGenerated\":0,\"proofsReused\":3,\"rawBlockCoverageAuthenticated\":false}\n"
+        },
+        {
+          "action": "prove",
+          "stdout": "{\"canBroadcast\":false,\"proofsGenerated\":0,\"proofsReused\":3,\"rawBlockCoverageAuthenticated\":false}\n"
+        },
+        {
+          "action": "prove",
+          "stdout": "{\"canBroadcast\":false,\"proofsGenerated\":0,\"proofsReused\":3,\"rawBlockCoverageAuthenticated\":false}\n"
+        },
+        {
+          "action": "prove",
+          "failure": "Error: File exists (os error 17)\n"
+        }
+      ],
+      "financialOperations": 0
+    }
+  ],
+  "applicationWorkRemaining": [
+    "scope-dependent authenticated complete state traversal/classification or operation transcript verifier",
+    "stream-aware market and SD-key with global root/seed/cursor bound to actual calls",
+    "complete multi-page UPS, cancellation/timeout/refund and live ordinary-wallet acceptance"
+  ],
+  "externalDeliveryIfEventHistorySelected": [
+    "complete committed operation/event transcript and count/index proof",
+    "source-instance/checkpoint authentication and reviewed classifier inputs/resources"
+  ],
+  "businessScopeDecision": "pending: final current-order state versus every intermediate order/change/cancel event"
+}
