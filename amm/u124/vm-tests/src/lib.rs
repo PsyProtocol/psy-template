@@ -174,3 +174,5 @@ pub mod checkpoint_evidence;
 pub mod scoped_order;
 pub mod checkpoint_processor;
 pub mod processor_policy;
+
+pub mod checkpoint_stream;
