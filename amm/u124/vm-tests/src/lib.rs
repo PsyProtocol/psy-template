@@ -176,3 +176,7 @@ pub mod checkpoint_processor;
 pub mod processor_policy;
 
 pub mod checkpoint_stream;
+
+pub mod final_state_coverage;
+
+pub mod final_state_capture;

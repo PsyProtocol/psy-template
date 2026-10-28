@@ -1,5 +1,11 @@
 # Whole-checkpoint inclusion and continuous processing: component milestone
 
+> 29 October update: the user approved final current-order state at a source
+> checkpoint. Conditional authenticated state coverage is now implemented for
+> AMM/Curve; see [the new milestone](FINAL_STATE_COVERAGE_20261029.md). The text
+> below records the original 28 October component boundary. Financial stream
+> settlement remains disabled.
+
 ## Current status
 
 This milestone removes the four-member limit from **conditional ordering
