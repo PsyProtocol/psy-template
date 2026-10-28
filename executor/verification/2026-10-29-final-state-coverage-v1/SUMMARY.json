@@ -1,0 +1,77 @@
+{
+  "schema": 1,
+  "base": "08c660235c375c55db9923261ff3e9df6ef599bc",
+  "sdkCommit": "c92880c8b6e2c8d392f19368bc8801a2584fd427",
+  "scope": "complete final-order coverage relative to pinned history root; AMM and Bonding Curve only",
+  "nativeHostPassed": 8,
+  "nativeIntegrationPassed": 3,
+  "existingRegressionsPassed": 45,
+  "newOrderingComponentProofs": 6,
+  "markets": {
+    "amm": {
+      "accounts": 18,
+      "eligible": 9,
+      "recoveryCandidates": 3,
+      "pages": [
+        4,
+        4,
+        1
+      ]
+    },
+    "bondingcurve": {
+      "accounts": 18,
+      "eligible": 9,
+      "recoveryCandidates": 3,
+      "pages": [
+        4,
+        4,
+        1
+      ]
+    }
+  },
+  "finalityVerified": false,
+  "qualifiedEntropy": false,
+  "coverageCircuitInUps": false,
+  "fullUpsVerified": false,
+  "networkAcceptance": false,
+  "ordinaryWalletClaimAcceptance": false,
+  "financialSettlementCursor": 0,
+  "financialOperations": 0,
+  "wireRpcCalls": 0,
+  "deployments": 0,
+  "fees": "0",
+  "failedRunsRetained": [
+    "source-build-v1",
+    "source-build-v3",
+    "source-build-v4",
+    "source-tests-v2",
+    "existing-routes-v1",
+    "processor-policy-v2"
+  ],
+  "measurements": {
+    "source-build-v5": {
+      "exitCode": 0,
+      "elapsedSeconds": 48.67671245895326,
+      "sampledFamilyRssPeakKiB": 1024032,
+      "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak"
+    },
+    "source-tests-v5": {
+      "exitCode": 0,
+      "elapsedSeconds": 8.303346208005678,
+      "sampledFamilyRssPeakKiB": 1362576,
+      "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak"
+    },
+    "source-export-v1": {
+      "exitCode": 0,
+      "elapsedSeconds": 3.092661542003043,
+      "sampledFamilyRssPeakKiB": 592736,
+      "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak"
+    },
+    "native-integration-v1": {
+      "exitCode": 0,
+      "elapsedSeconds": 17.681759500002954,
+      "sampledFamilyRssPeakKiB": 1030336,
+      "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak"
+    }
+  }
+}

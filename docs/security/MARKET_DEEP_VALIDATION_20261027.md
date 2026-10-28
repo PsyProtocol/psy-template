@@ -492,3 +492,24 @@ deployment, financial execution or real fees occurred. Node and SDK are unchange
 
 See [remaining application work and source delivery requirements](CHECKPOINT_STREAM_20261028.md)
 and [component evidence](../../executor/verification/2026-10-28-checkpoint-stream-v1/README.md).
+
+## 29 October: approved final-order scope and authenticated state coverage
+
+The user selected the recommended scope: every final eligible current order at
+one source checkpoint, including still-active prior orders. Intermediate replaced
+versions/cancel commands remain audit history, not extra trades. AMM/Curve now
+have complete account-tree discovery and source state/funding classification
+relative to an independently pinned history root. Missing even an unrelated
+account fails reconstruction. Actual native Executor integration derives nine
+eligible orders from 18 synthetic accounts and generates linked 4 + 4 + 1 pages
+for each market. Exact restart reuse and omission/substitution rejection passed.
+
+This closes the conditional **input discovery/classification and ordering
+preparation** gap; it does not supply a financial coverage circuit, finality,
+qualified entropy or live continuous market settlement. Market/SD-key/UPS and
+ordinary-wallet claim/refund acceptance remain pending, spending gates stay
+closed, and recovery candidates are not reported as refunded. No Node/SDK,
+old contract, wallet/UI or financial account was changed. All build/test failures
+and one-second process-memory samples are retained. Read the
+[scope, trust boundary, measurements and next gate](FINAL_STATE_COVERAGE_20261029.md)
+and [public evidence](../../executor/verification/2026-10-29-final-state-coverage-v1/README.md).
