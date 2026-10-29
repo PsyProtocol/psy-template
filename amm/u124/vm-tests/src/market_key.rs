@@ -389,16 +389,117 @@ impl MarketKeyCircuit {
             s.checkpoint_tree_root.0,
         )?;
         pw.set_target(self.session_context.nonce, s.nonce)?;
-        let proof = self
+        let data = self
             .circuit_data
             .as_ref()
-            .context("market circuit not built")?
-            .prove(pw)?;
+            .context("market circuit not built")?;
+        if std::env::var("PSY_MARKET_SYNTHETIC_WITNESS_AUDIT").as_deref() == Ok("1") {
+            ensure!(
+                private.0.elements == [F::ONE; 4],
+                "synthetic-only witness audit"
+            );
+            audit_synthetic_witness(data, pw.clone())?;
+        }
+        let proof = data
+            .prove(pw)
+            .context("market base witness/proof generation")?;
+        // Do not infer base-circuit validity from witness generation or a later
+        // recursive failure. Verify with the exact built resources first.
+        data.verify(proof.clone())
+            .context("market base proof verification")?;
         self.minifier_chain
             .as_ref()
             .context("market minifier not built")?
             .prove(&proof)
+            .context("market signature proof minification")
     }
+}
+
+// Read-only debugging of an explicitly synthetic fixture. Publish gate/row
+// metadata only, never witness values. Uses public frozen-backend APIs without
+// modifying its generators, constraints, configuration or verification result.
+fn audit_synthetic_witness(data: &CircuitData<F, C, 2>, pw: PartialWitness<F>) -> Result<()> {
+    use plonky2::{
+        iop::{generator::generate_partial_witness, witness::Witness},
+        plonk::{prover::set_lookup_wires, vars::EvaluationVarsBaseBatch},
+    };
+    let mut generated = generate_partial_witness(pw, &data.prover_only, &data.common)?;
+    set_lookup_wires(&data.prover_only, &data.common, &mut generated)?;
+    let public = data
+        .prover_only
+        .public_inputs
+        .iter()
+        .map(|t| generated.get_target(*t))
+        .collect::<Vec<_>>();
+    let public_hash = PoseidonHash::hash_no_pad(&public);
+    let matrix = generated.full_witness();
+    let constants = data
+        .prover_only
+        .constants_sigmas_commitment
+        .polynomials
+        .iter()
+        .take(data.common.num_constants)
+        .map(|p| p.clone().fft().values)
+        .collect::<Vec<_>>();
+    // SelectorsInfo exposes serialization but not direct field access. Decode
+    // only its published metadata, with explicit shape/range validation.
+    let metadata = serde_json::to_value(&data.common.selectors_info)?;
+    let indices = metadata["selector_indices"]
+        .as_array()
+        .context("selector metadata")?
+        .iter()
+        .map(|n| n.as_u64().map(|v| v as usize).context("selector index"))
+        .collect::<Result<Vec<_>>>()?;
+    let groups = metadata["groups"].as_array().context("selector groups")?;
+    ensure!(
+        indices.len() == data.common.gates.len()
+            && groups.len() == data.common.selectors_info.num_selectors(),
+        "exact gate selector metadata"
+    );
+    let mut failures = vec![];
+    for row in 0..data.common.degree() {
+        let local_constants = constants.iter().map(|p| p[row]).collect::<Vec<_>>();
+        let local_wires = (0..data.common.config.num_wires)
+            .map(|i| matrix.get_wire(row, i))
+            .collect::<Vec<_>>();
+        for (selector, group) in groups.iter().enumerate() {
+            let gate = local_constants[selector].to_canonical_u64() as usize;
+            if gate >= indices.len() || indices[gate] != selector {
+                continue;
+            }
+            let start = group["start"].as_u64().context("group start")? as usize;
+            let end = group["end"].as_u64().context("group end")? as usize;
+            ensure!((start..end).contains(&gate), "selected gate range");
+            let vars =
+                EvaluationVarsBaseBatch::new(1, &local_constants, &local_wires, &public_hash);
+            let values = data.common.gates[gate].0.eval_filtered_base_batch(
+                vars,
+                gate,
+                selector,
+                start..end,
+                groups.len(),
+                data.common.num_lookup_selectors,
+            );
+            let bad = values
+                .iter()
+                .enumerate()
+                .filter(|(_, v)| **v != F::ZERO)
+                .map(|(i, _)| i)
+                .collect::<Vec<_>>();
+            if !bad.is_empty() {
+                failures.push(serde_json::json!({"row":row,"gate":data.common.gates[gate].0.id(),"constraintIndices":bad}));
+            }
+        }
+        if failures.len() >= 12 {
+            break;
+        }
+    }
+    ensure!(
+        failures.is_empty(),
+        "synthetic witness constraint metadata: {}",
+        serde_json::to_string(&failures)?
+    );
+    Ok(())
 }
 
 // Local policy-source aliases; these are application types, not SDK modes.

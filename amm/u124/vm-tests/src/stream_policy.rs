@@ -192,6 +192,10 @@ pub struct Request {
     pub frontier: Option<crate::pair_frontier::Page>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub random: Option<crate::random_stream::Page>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub minimum: Option<crate::random_minimum::Page>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub registered_key: Option<[u64; 4]>,
 }
 pub struct StreamKey {
     pub g: SDKeyCircuitGadget,
@@ -205,6 +209,7 @@ pub struct StreamKey {
     members: Vec<MemberTargets>,
     frontier: Option<crate::pair_frontier::Targets>,
     random: Option<crate::random_stream::Targets>,
+    minimum: Option<crate::random_minimum::PageTargets>,
 }
 fn role<'a>(spec: &'a Value, name: &str) -> &'a Value {
     &spec["stream"][name]
@@ -214,13 +219,71 @@ pub fn validate(spec: &Value, r: &Review) -> Result<()> {
         (if r.kind >= 3 {
             spec["version"] == 7 || spec["version"] == 8 || spec["version"] == 9
         } else {
-            spec["version"] == 5 || spec["version"] == 10
+            spec["version"] == 5 || spec["version"] == 10 || spec["version"] == 11
         }) && spec["tx_count"] == 40
             && spec["witness_length"] == 80
             && spec["live_authorization"] == false,
         "distinct offline stream profile"
     );
-    if spec["version"]==10 {ensure!(r.kind<=2&&spec["profile"]=="source-covered-producer-random-stream-v1"&&spec["producer_influence"]==true&&spec["qualified_randomness"]==false&&spec["source_window_checkpoints"].as_u64().is_some_and(|n|(32..=65536).contains(&n)),"explicit producer random stream profile");for name in ["expire_unseeded_stream","restart_expired_random_order"]{let c=role(spec,name);ensure!(c["contract_id"]==r.market&&c["method_name"]==name&&c["input_count"]==8&&c["method_id"].as_u64().is_some_and(|n|n<=u32::MAX as u64),"refund-only exit role");}}
+    if spec["version"] == 10 {
+        ensure!(
+            r.kind <= 2
+                && spec["profile"] == "source-covered-producer-random-stream-v1"
+                && spec["producer_influence"] == true
+                && spec["qualified_randomness"] == false
+                && spec["source_window_checkpoints"]
+                    .as_u64()
+                    .is_some_and(|n| (32..=65536).contains(&n)),
+            "explicit producer random stream profile"
+        );
+        for name in ["expire_unseeded_stream", "restart_expired_random_order"] {
+            let c = role(spec, name);
+            ensure!(
+                c["contract_id"] == r.market
+                    && c["method_name"] == name
+                    && c["input_count"] == 8
+                    && c["method_id"]
+                        .as_u64()
+                        .is_some_and(|n| n <= u32::MAX as u64),
+                "refund-only exit role"
+            );
+        }
+    }
+    if spec["version"] == 11 {
+        ensure!(
+            r.kind <= 2
+                && spec["profile"] == "source-covered-producer-minimum-stream-v1"
+                && spec["producer_influence"] == true
+                && spec["qualified_randomness"] == false
+                && spec["source_window_checkpoints"] == 8192,
+            "distinct bounded minimum profile"
+        );
+        let owner = spec["fee_owner"].as_u64().context("ordinary fee owner")?;
+        ensure!(owner > 0 && owner < 1 << 24, "ordinary fee owner range");
+        ensure!(
+            spec["owner_fee_claim"]
+                == json!({"contract_id":0,"method_name":"claim","method_id":3824212239u32,"inputs":[{"constant":owner.to_string()}]}),
+            "exact funding-owner native claim"
+        );
+        for (name, n) in [
+            ("advance_minimum_stream", 15),
+            ("authorize_fee_budget", 7),
+            ("apply_fee_grant", 8),
+            ("account_executor_fee", 5),
+            ("expire_unseeded_stream", 8),
+        ] {
+            let c = role(spec, name);
+            ensure!(
+                c["contract_id"] == r.market
+                    && c["method_name"] == name
+                    && c["input_count"] == n
+                    && c["method_id"]
+                        .as_u64()
+                        .is_some_and(|n| n <= u32::MAX as u64),
+                "minimum and fee role ABI"
+            );
+        }
+    }
     crate::batch_compact::validate(&spec["base"])?;
     ensure!(
         spec["base"]["native_protocol"] == "mainnet-beta-20261027"
@@ -285,7 +348,14 @@ pub fn validate(spec: &Value, r: &Review) -> Result<()> {
         ensure!(
             c["contract_id"] == r.market
                 && c["method_name"] == name
-                && c["input_count"] == if spec["version"]==10&&name=="begin_order_page"{9}else{n}
+                && c["input_count"]
+                    == if (spec["version"] == 10 || spec["version"] == 11)
+                        && name == "begin_order_page"
+                    {
+                        9
+                    } else {
+                        n
+                    }
                 && c["method_id"]
                     .as_u64()
                     .is_some_and(|n| n <= u32::MAX as u64),
@@ -295,9 +365,19 @@ pub fn validate(spec: &Value, r: &Review) -> Result<()> {
     Ok(())
 }
 impl StreamKey {
+    /// Labels for synthetic public-session diagnostics, never witness values.
+    pub fn public_input_labels(&self, index: usize) -> Result<Vec<String>> {
+        let target = self
+            .g
+            .circuit_inputs
+            .get(index)
+            .context("public input index")?;
+        Ok(self.source.target_labels(*target))
+    }
     pub fn build(spec: &Value, r: &Review, chain: [u64; 4]) -> Result<Self> {
         validate(spec, r)?;
-        let random_mode = spec["version"]==10;
+        let minimum_mode = spec["version"] == 11;
+        let random_mode = spec["version"] == 10 || minimum_mode;
         let paired = r.kind >= 3;
         let optimized = spec["version"] == 9;
         let global = spec["version"] == 8 || optimized;
@@ -322,11 +402,37 @@ impl StreamKey {
             chosen(&mut b, fields[0], ABORT_SOURCE),
         ];
         let mut valid = b._false();
-        if !random_mode{b.assert_zero(gates[3].target);}else{b.assert_zero(gates[5].target);}
+        if !random_mode {
+            b.assert_zero(gates[3].target);
+        } else {
+            b.assert_zero(gates[5].target);
+        }
         for x in [gates[0], gates[1], gates[2], gates[4], gates[5]] {
             valid = b.or(valid, x);
         }
-        let random_exit=if random_mode{let exit=chosen(&mut b,fields[0],crate::random_stream::EXPIRE);valid=b.or(valid,exit);valid=b.or(valid,gates[3]);let restore=chosen(&mut b,fields[0],crate::random_stream::RESTORE);valid=b.or(valid,restore);Some(exit)}else{None};
+        let minimum_gates = if minimum_mode {
+            Some([
+                chosen(&mut b, fields[0], crate::random_minimum::EXTRACT_MODE),
+                chosen(&mut b, fields[0], crate::random_minimum::GRANT_MODE),
+            ])
+        } else {
+            None
+        };
+        let random_exit = if random_mode {
+            let exit = chosen(&mut b, fields[0], crate::random_stream::EXPIRE);
+            valid = b.or(valid, exit);
+            valid = b.or(valid, gates[3]);
+            if let Some([pop, grant]) = minimum_gates {
+                valid = b.or(valid, pop);
+                valid = b.or(valid, grant);
+            } else {
+                let restore = chosen(&mut b, fields[0], crate::random_stream::RESTORE);
+                valid = b.or(valid, restore);
+            }
+            Some(exit)
+        } else {
+            None
+        };
         if global {
             for mode in [crate::pair_frontier::SCAN, crate::pair_frontier::CARRY] {
                 let g = chosen(&mut b, fields[0], mode);
@@ -341,7 +447,12 @@ impl StreamKey {
         } else {
             None
         };
-        let source_mode = b.not(gates[0]);
+        let maintenance_source = if let Some([_, grant]) = minimum_gates {
+            b.or(gates[0], grant)
+        } else {
+            gates[0]
+        };
+        let source_mode = b.not(maintenance_source);
         let mut tape = Tape::default();
         let source = SourcePageTargets::add(&mut b, &mut tape, r)?;
         let current = CurrentTargets::add(&mut b, &mut tape, r, &g, chain)?;
@@ -358,7 +469,20 @@ impl StreamKey {
         )?;
         let ledger = ProgressTargets::create(&mut b, &mut tape);
         let sort = StateTargets::add(&mut b, &mut tape);
-        let random=if random_mode{Some(crate::random_stream::Targets::add(&mut b,&mut tape,sc,&sort,gates[3]))}else{None};
+        let random = if random_mode && !minimum_mode {
+            Some(crate::random_stream::Targets::add(
+                &mut b, &mut tape, sc, &sort, gates[3],
+            ))
+        } else {
+            None
+        };
+        let minimum = if let Some([pop, _]) = minimum_gates {
+            Some(crate::random_minimum::PageTargets::add(
+                &mut b, &mut tape, sc, gates[3], pop,
+            ))
+        } else {
+            None
+        };
         let settled = tape.scalar(&mut b);
         b.range_check(settled, 24);
         for t in &fields {
@@ -452,7 +576,14 @@ impl StreamKey {
                 path,
             });
         }
-        let expiry = b.add_const(sc[6], f(if random_mode{spec["source_window_checkpoints"].as_u64().unwrap()}else{32}));
+        let expiry = b.add_const(
+            sc[6],
+            f(if random_mode {
+                spec["source_window_checkpoints"].as_u64().unwrap()
+            } else {
+                32
+            }),
+        );
         eq(&mut b, gates[1], sc[7], expiry);
         let end = b.add(settled, fields[2]);
         b.range_check(end, 25);
@@ -495,28 +626,308 @@ impl StreamKey {
         let after_source = context(&mut b, 1, sc, &source.facts, &source.after, &sort, settled);
         let before_abort = context(&mut b, 1, sc, &source.facts, &ledger, &sort, settled);
         let mut before_settle = context(&mut b, 3, sc, &source.facts, &ledger, &sort, settled);
-        if let Some(random)=&random {
-            let expired=lt(&mut b,sc[7],g.checkpoint_id,32);let consuming=b.or(gates[4],gates[3]);let only=b.and(consuming,random.refund);eq(&mut b,only,expired.target,one);
-            before_settle=crate::random_stream::wrap_target(&mut b,before_settle,sc[6],random.seed,random.refund.target);
-            let zero_hash=b.constant_hash(HashOut::ZERO);let at_start=b.is_equal(sort.cursor,z);let no_refund=b.not(random.refund);let first=b.and(at_start,no_refund);let old_seed=HashOutTarget{elements:std::array::from_fn(|i|b.select(first,zero_hash.elements[i],random.seed.elements[i]))};
-            let base=context(&mut b,2,sc,&source.facts,&ledger,&sort,settled);
-            let before=crate::random_stream::wrap_target(&mut b,base,sc[6],old_seed,random.refund.target);
-            let draw=b.add_const(sc[6],F::ONE);let args=[before.elements.to_vec(),vec![draw],random.seed.elements.to_vec()].concat();
-            invoke(&mut b,gates[3],&g,0,role(spec,"begin_order_page"),&args)?;
-            let args=[random.after.seen.elements.to_vec(),random.after.ordered.elements.to_vec(),vec![random.after.cursor],random.after.last.to_vec()].concat();
-            invoke(&mut b,gates[3],&g,1,role(spec,"set_order_page"),&args)?;
-            let after=context(&mut b,2,sc,&source.facts,&ledger,&random.after,settled);let after=crate::random_stream::wrap_target(&mut b,after,sc[6],random.seed,random.refund.target);
-            invoke(&mut b,gates[3],&g,2,role(spec,"finish_order_page"),&after.elements)?;
-            for i in 3..39{invoke(&mut b,gates[3],&g,i,&spec["noop"],&[])?;}
-            let exit=random_exit.unwrap();eq(&mut b,exit,sort.cursor,z);eq(&mut b,exit,random.refund.target,z);gated_hash(&mut b,exit,random.seed,zero_hash);eq(&mut b,exit,expired.target,one);
-            let manifest=HashOutTarget{elements:sc[17..21].try_into().unwrap()};gated_hash(&mut b,exit,sort.seen,manifest);let empty=b.constant_hash(h(crate::random_stream::empty()));gated_hash(&mut b,exit,sort.ordered,empty);
-            let before=crate::random_stream::wrap_target(&mut b,base,sc[6],zero_hash,z);let args=[before.elements.to_vec(),empty.elements.to_vec()].concat();invoke(&mut b,exit,&g,0,role(spec,"expire_unseeded_stream"),&args)?;
-            for i in 1..39{invoke(&mut b,exit,&g,i,&spec["noop"],&[])?;}
-            for i in 1..80{if i!=73{crate::batch_policy::zero(&mut b,exit,fields[i]);}}
-            let restore=chosen(&mut b,fields[0],crate::random_stream::RESTORE);let positive=lt(&mut b,z,sort.cursor,24);eq(&mut b,restore,positive.target,one);eq(&mut b,restore,expired.target,one);
-            let before=crate::random_stream::wrap_target(&mut b,base,sc[6],random.seed,random.refund.target);let args=[before.elements.to_vec(),empty.elements.to_vec()].concat();invoke(&mut b,restore,&g,0,role(spec,"restart_expired_random_order"),&args)?;
-            for i in 1..39{invoke(&mut b,restore,&g,i,&spec["noop"],&[])?;}for i in 1..80{if i!=73{crate::batch_policy::zero(&mut b,restore,fields[i]);}}
+        if let Some(random) = &random {
+            let expired = lt(&mut b, sc[7], g.checkpoint_id, 32);
+            let consuming = b.or(gates[4], gates[3]);
+            let only = b.and(consuming, random.refund);
+            eq(&mut b, only, expired.target, one);
+            before_settle = crate::random_stream::wrap_target(
+                &mut b,
+                before_settle,
+                sc[6],
+                random.seed,
+                random.refund.target,
+            );
+            let zero_hash = b.constant_hash(HashOut::ZERO);
+            let at_start = b.is_equal(sort.cursor, z);
+            let no_refund = b.not(random.refund);
+            let first = b.and(at_start, no_refund);
+            let old_seed = HashOutTarget {
+                elements: std::array::from_fn(|i| {
+                    b.select(first, zero_hash.elements[i], random.seed.elements[i])
+                }),
+            };
+            let base = context(&mut b, 2, sc, &source.facts, &ledger, &sort, settled);
+            let before = crate::random_stream::wrap_target(
+                &mut b,
+                base,
+                sc[6],
+                old_seed,
+                random.refund.target,
+            );
+            let draw = b.add_const(sc[6], F::ONE);
+            let args = [
+                before.elements.to_vec(),
+                vec![draw],
+                random.seed.elements.to_vec(),
+            ]
+            .concat();
+            invoke(
+                &mut b,
+                gates[3],
+                &g,
+                0,
+                role(spec, "begin_order_page"),
+                &args,
+            )?;
+            let args = [
+                random.after.seen.elements.to_vec(),
+                random.after.ordered.elements.to_vec(),
+                vec![random.after.cursor],
+                random.after.last.to_vec(),
+            ]
+            .concat();
+            invoke(&mut b, gates[3], &g, 1, role(spec, "set_order_page"), &args)?;
+            let after = context(
+                &mut b,
+                2,
+                sc,
+                &source.facts,
+                &ledger,
+                &random.after,
+                settled,
+            );
+            let after = crate::random_stream::wrap_target(
+                &mut b,
+                after,
+                sc[6],
+                random.seed,
+                random.refund.target,
+            );
+            invoke(
+                &mut b,
+                gates[3],
+                &g,
+                2,
+                role(spec, "finish_order_page"),
+                &after.elements,
+            )?;
+            for i in 3..39 {
+                invoke(&mut b, gates[3], &g, i, &spec["noop"], &[])?;
+            }
+            let exit = random_exit.unwrap();
+            eq(&mut b, exit, sort.cursor, z);
+            eq(&mut b, exit, random.refund.target, z);
+            gated_hash(&mut b, exit, random.seed, zero_hash);
+            eq(&mut b, exit, expired.target, one);
+            let manifest = HashOutTarget {
+                elements: sc[17..21].try_into().unwrap(),
+            };
+            gated_hash(&mut b, exit, sort.seen, manifest);
+            let empty = b.constant_hash(h(crate::random_stream::empty()));
+            gated_hash(&mut b, exit, sort.ordered, empty);
+            let before = crate::random_stream::wrap_target(&mut b, base, sc[6], zero_hash, z);
+            let args = [before.elements.to_vec(), empty.elements.to_vec()].concat();
+            invoke(
+                &mut b,
+                exit,
+                &g,
+                0,
+                role(spec, "expire_unseeded_stream"),
+                &args,
+            )?;
+            for i in 1..39 {
+                invoke(&mut b, exit, &g, i, &spec["noop"], &[])?;
+            }
+            for i in 1..80 {
+                if i != 73 {
+                    crate::batch_policy::zero(&mut b, exit, fields[i]);
+                }
+            }
+            let restore = chosen(&mut b, fields[0], crate::random_stream::RESTORE);
+            let positive = lt(&mut b, z, sort.cursor, 24);
+            eq(&mut b, restore, positive.target, one);
+            eq(&mut b, restore, expired.target, one);
+            let before = crate::random_stream::wrap_target(
+                &mut b,
+                base,
+                sc[6],
+                random.seed,
+                random.refund.target,
+            );
+            let args = [before.elements.to_vec(), empty.elements.to_vec()].concat();
+            invoke(
+                &mut b,
+                restore,
+                &g,
+                0,
+                role(spec, "restart_expired_random_order"),
+                &args,
+            )?;
+            for i in 1..39 {
+                invoke(&mut b, restore, &g, i, &spec["noop"], &[])?;
+            }
+            for i in 1..80 {
+                if i != 73 {
+                    crate::batch_policy::zero(&mut b, restore, fields[i]);
+                }
+            }
+        }
 
+        if let Some(minimum) = &minimum {
+            let [pop, grant] = minimum_gates.unwrap();
+            let advance = b.or(gates[3], pop);
+            let expired = lt(&mut b, sc[7], g.checkpoint_id, 32);
+            let refund = b.and(gates[4], minimum.refund);
+            eq(&mut b, refund, expired.target, one);
+            before_settle =
+                crate::random_minimum::context_target(&mut b, before_settle, sc[6], minimum);
+            let current = minimum.public_current();
+            let after = minimum.public_after();
+            let current_root = crate::random_minimum::state_hash_target(&mut b, &minimum.current);
+            let next_root = crate::random_minimum::state_hash_target(&mut b, &minimum.after);
+            let first = b.is_equal(current[0], z);
+            let first = b.and(gates[3], first);
+            let no_refund = b.not(minimum.refund);
+            let first = b.and(first, no_refund);
+            let zero_hash = b.constant_hash(HashOut::ZERO);
+            let old_seed = HashOutTarget {
+                elements: std::array::from_fn(|i| {
+                    b.select(first, zero_hash.elements[i], minimum.seed.elements[i])
+                }),
+            };
+            let base = context(&mut b, 2, sc, &source.facts, &ledger, &sort, settled);
+            let wrapped = crate::random_stream::wrap_target(
+                &mut b,
+                base,
+                sc[6],
+                old_seed,
+                minimum.refund.target,
+            );
+            let tag = b.constant(f(crate::random_minimum::CONTEXT_TAG));
+            let before = b.hash_n_to_hash_no_pad::<H>(
+                [
+                    vec![tag],
+                    wrapped.elements.to_vec(),
+                    current_root.elements.to_vec(),
+                ]
+                .concat(),
+            );
+            let draw = b.add_const(sc[6], F::ONE);
+            invoke(
+                &mut b,
+                advance,
+                &g,
+                0,
+                role(spec, "begin_order_page"),
+                &[
+                    before.elements.to_vec(),
+                    vec![draw],
+                    minimum.seed.elements.to_vec(),
+                ]
+                .concat(),
+            )?;
+            let built = b.is_equal(after[0], sc[8]);
+            let extracted = b.is_equal(after[11], sc[8]);
+            let terminal = b.and(built, extracted);
+            invoke(
+                &mut b,
+                advance,
+                &g,
+                1,
+                role(spec, "advance_minimum_stream"),
+                &[
+                    current_root.elements.to_vec(),
+                    next_root.elements.to_vec(),
+                    vec![after[0], after[11]],
+                    after[12..16].to_vec(),
+                    vec![terminal.target],
+                ]
+                .concat(),
+            )?;
+            for i in 2..38 {
+                invoke(&mut b, advance, &g, i, &spec["noop"], &[])?;
+            }
+            for i in 1..80 {
+                if i != 73 {
+                    crate::batch_policy::zero(&mut b, advance, fields[i]);
+                }
+            }
+            let exit = random_exit.unwrap();
+            eq(&mut b, exit, expired.target, one);
+            eq(&mut b, exit, minimum.refund.target, z);
+            gated_hash(&mut b, exit, minimum.seed, zero_hash);
+            let e24 = b.constant_hash(<H as MerkleZeroHasher<Q<F>>>::get_zero_hash(24).0);
+            let e56 = b.constant_hash(<H as MerkleZeroHasher<Q<F>>>::get_zero_hash(56).0);
+            let initial = [
+                vec![z],
+                sc[17..21].to_vec(),
+                e24.elements.to_vec(),
+                vec![z, z, z],
+                e56.elements.to_vec(),
+                vec![z],
+            ]
+            .concat();
+            same(&mut b, exit, &current, &initial);
+            let before = crate::random_minimum::context_target(&mut b, base, sc[6], minimum);
+            invoke(
+                &mut b,
+                exit,
+                &g,
+                0,
+                role(spec, "expire_unseeded_stream"),
+                &[before.elements.to_vec(), e56.elements.to_vec()].concat(),
+            )?;
+            for i in 1..38 {
+                invoke(&mut b, exit, &g, i, &spec["noop"], &[])?;
+            }
+            for i in 1..80 {
+                if i != 73 {
+                    crate::batch_policy::zero(&mut b, exit, fields[i]);
+                }
+            }
+            // An OPEN must authenticate at least one genuinely eligible source
+            // order. This is a witness sample, not a committed coverage page.
+            let positive = lt(
+                &mut b,
+                source.before.order_count,
+                source.after.order_count,
+                24,
+            );
+            eq(&mut b, gates[1], positive.target, one);
+            let owner = b.constant(f(spec["fee_owner"].as_u64().unwrap()));
+            let own = b.is_equal(g.user_id, owner);
+            b.assert_zero(own.target);
+            let key = g.session_context.start_user_leaf.public_key;
+            let n = b.mul(grant.target, fields[21]);
+            let cap = b.mul(grant.target, fields[22]);
+            let funding = b.mul(grant.target, fields[23]);
+            b.range_check(n, 62);
+            b.range_check(cap, 62);
+            b.range_check(funding, 1);
+            invoke(
+                &mut b,
+                grant,
+                &g,
+                0,
+                role(spec, "apply_fee_grant"),
+                &[
+                    vec![fields[21], fields[22]],
+                    key.elements.to_vec(),
+                    vec![owner, fields[23]],
+                ]
+                .concat(),
+            )?;
+            let flag = chosen(&mut b, fields[23], 1);
+            let claim = b.and(grant, flag);
+            let not_flag = b.not(flag);
+            let skip = b.and(grant, not_flag);
+            bind(
+                &mut b,
+                claim,
+                &g.tx_introspection.tx_info_slots[1],
+                &spec["owner_fee_claim"],
+                &[],
+            )?;
+            invoke(&mut b, skip, &g, 1, &spec["noop"], &[])?;
+            for i in 2..38 {
+                invoke(&mut b, grant, &g, i, &spec["noop"], &[])?;
+            }
+            for i in 1..80 {
+                if ![21, 22, 23, 73].contains(&i) {
+                    crate::batch_policy::zero(&mut b, grant, fields[i]);
+                }
+            }
         }
 
         for i in 0..80 {
@@ -577,7 +988,7 @@ impl StreamKey {
             }
         }
         eq(&mut b, gates[0], maintenance.target, one);
-        for i in 9..39 {
+        for i in 9..(if minimum_mode { 38 } else { 39 }) {
             invoke(&mut b, gates[0], &g, i, &spec["noop"], &[])?;
         }
         let noop = |b: &mut CircuitBuilder<F, 2>,
@@ -616,7 +1027,7 @@ impl StreamKey {
             role(spec, "initialize_stream_roots"),
             &roots,
         )?;
-        noop(&mut b, gates[1], 2, 39)?;
+        noop(&mut b, gates[1], 2, if minimum_mode { 38 } else { 39 })?;
         invoke(
             &mut b,
             gates[2],
@@ -658,7 +1069,7 @@ impl StreamKey {
             role(spec, "finish_source_page"),
             &after_source.elements,
         )?;
-        noop(&mut b, gates[2], 4, 39)?;
+        noop(&mut b, gates[2], 4, if minimum_mode { 38 } else { 39 })?;
         invoke(
             &mut b,
             gates[5],
@@ -667,7 +1078,7 @@ impl StreamKey {
             role(spec, "abort_source_stream"),
             &before_abort.elements,
         )?;
-        noop(&mut b, gates[5], 1, 39)?;
+        noop(&mut b, gates[5], 1, if minimum_mode { 38 } else { 39 })?;
         let args = [
             before_settle.elements.to_vec(),
             (0..4).map(|i| fields[22 + 13 * i]).collect::<Vec<_>>(),
@@ -853,6 +1264,18 @@ impl StreamKey {
                     let owners = (0..4).map(|i| fields[22 + 13 * i]).collect::<Vec<_>>();
                     let previous = b.random_access(fields[17 + pos - 1], owners.clone());
                     let current = b.random_access(rank, owners);
+                    // GRANT reuses field 22 for a 62-bit fee cap. Selecting the
+                    // operands before the narrow comparison avoids imposing a
+                    // 24-bit trader bound on an inactive grant/maintenance row.
+                    // Active settlement still compares the actual full owners.
+                    let (previous, current) = if minimum_mode {
+                        (
+                            b.select(gates[4], previous, z),
+                            b.select(gates[4], current, z),
+                        )
+                    } else {
+                        (previous, current)
+                    };
                     let less = lt(&mut b, previous, current, 24);
                     eq(&mut b, active, less.target, one);
                 }
@@ -899,7 +1322,9 @@ impl StreamKey {
             role(spec, "finish_stream_settlement"),
             &[vec![sc[5], settled, fields[2]], remaining.elements.to_vec()].concat(),
         )?;
-        invoke(&mut b, gates[4], &g, 38, &spec["noop"], &[])?;
+        if !minimum_mode {
+            invoke(&mut b, gates[4], &g, 38, &spec["noop"], &[])?;
+        }
         let frontier = if global {
             let [scan, carry] = frontier_gates.unwrap();
             for gate in [scan, carry] {
@@ -1046,6 +1471,18 @@ impl StreamKey {
             &spec["base"]["burn"],
             &fields,
         )?;
+        if minimum_mode {
+            let key = g.session_context.start_user_leaf.public_key;
+            invoke(
+                &mut b,
+                always,
+                &g,
+                38,
+                role(spec, "account_executor_fee"),
+                &[vec![fields[73]], key.elements.to_vec()].concat(),
+            )?;
+        }
+
         let mut fee_valid = b._false();
         for n in 0..=100 {
             let allowed = chosen(&mut b, fields[73], 1_000_000_000 + 1000 * n);
@@ -1066,6 +1503,7 @@ impl StreamKey {
             members,
             frontier,
             random,
+            minimum,
         })
     }
     pub fn fields(
@@ -1080,7 +1518,9 @@ impl StreamKey {
         let mut pw = PartialWitness::new();
         self.source.set(&mut pw, r, s, &request.source)?;
         self.current.set(&mut pw, r, current)?;
-        if request.fields[0] == 4 {
+        if request.fields[0] == 4
+            || (self.minimum.is_some() && request.fields[0] == crate::random_minimum::GRANT_MODE)
+        {
             self.context.set_empty(&mut pw)?;
         } else {
             self.context.set(&mut pw, r, s, vault_path)?;
@@ -1130,7 +1570,36 @@ impl StreamKey {
                 request.frontier.as_ref(),
             )?;
         }
-        if let Some(t)=&self.random{t.set(&mut pw,request.random.as_ref())?;}else{ensure!(request.random.is_none(),"random witness requires distinct key");}
+        if let Some(t) = &self.random {
+            t.set(&mut pw, request.random.as_ref())?;
+        } else {
+            ensure!(
+                request.random.is_none(),
+                "random witness requires distinct key"
+            );
+        }
+        if let Some(t) = &self.minimum {
+            t.set(&mut pw, request.minimum.as_ref())?;
+        } else {
+            ensure!(
+                request.minimum.is_none(),
+                "minimum witness requires replacement key"
+            );
+        }
+        if self.minimum.is_some() {
+            let public = H::two_to_one(self.g.get_fingerprint().0, s.key_public_param.0)
+                .elements
+                .map(|n| n.to_canonical_u64());
+            ensure!(
+                request.registered_key == Some(public),
+                "exact registered key declaration"
+            );
+        } else {
+            ensure!(
+                request.registered_key.is_none(),
+                "minimum registered key declaration requires replacement profile"
+            );
+        }
         let mut fields = request.fields.clone();
         fields.extend(self.tape.values(&pw));
         Ok(fields)
@@ -1146,8 +1615,27 @@ pub fn calls(spec: &Value, req: &Request, compact: bool) -> Result<Vec<Value>> {
     );
     let sc = &req.source.scope;
     let facts = &req.source.facts;
-    let random_mode=spec["version"]==10;
-    let random_context=|base:[u64;4]|->Result<[u64;4]>{if random_mode{let p=req.random.as_ref().context("fixed random stream context")?;Ok(crate::random_stream::wrap(base,sc[6],p.seed,p.refund_only))}else{Ok(base)}};
+    let minimum_mode = spec["version"] == 11;
+    let random_mode = spec["version"] == 10;
+    let random_context = |base: [u64; 4]| -> Result<[u64; 4]> {
+        if minimum_mode {
+            Ok(crate::random_minimum::context_value(
+                base,
+                sc[6],
+                req.minimum.as_ref().context("minimum context")?,
+            ))
+        } else if random_mode {
+            let p = req.random.as_ref().context("fixed random stream context")?;
+            Ok(crate::random_stream::wrap(
+                base,
+                sc[6],
+                p.seed,
+                p.refund_only,
+            ))
+        } else {
+            Ok(base)
+        }
+    };
     let convert = |c: &Value, values: &[u64]| -> Result<Value> {
         Ok(
             json!({"contract_id":c["contract_id"],"method_name":c["method_name"],"inputs":c["inputs"].as_array().context("call inputs")?.iter().map(|a|if let Some(i)=a["witness"].as_u64(){values.get(i as usize).copied().context("call argument index")}else{a["constant"].as_str().context("call constant")?.parse::<u64>().map_err(Into::into)}).collect::<Result<Vec<_>>>()?}),
@@ -1157,22 +1645,131 @@ pub fn calls(spec: &Value, req: &Request, compact: bool) -> Result<Vec<Value>> {
     let mut out = vec![nop.clone(); 40];
     let method = |name: &str, args: Vec<u64>| json!({"contract_id":role(spec,name)["contract_id"],"method_name":name,"inputs":args});
     match f[0] {
-        ORDER if random_mode=>{
-            let p=req.random.as_ref().context("random ordering page")?;ensure!(!p.rows.is_empty()&&p.rows.len()<=4,"bounded random page");
-            let old=if req.sort.cursor==0&&!p.refund_only{[0;4]}else{p.seed};let base=context_value(2,sc,facts,&req.ledger,&req.sort,req.settled);let before=crate::random_stream::wrap(base,sc[6],old,p.refund_only);
-            let args=[before.to_vec(),vec![sc[6]+1],p.seed.to_vec()].concat();out[0]=method("begin_order_page",args);
-            let after=crate::random_stream::after(sc,&req.sort,p)?;
-            out[1]=method("set_order_page",[after.seen.to_vec(),after.ordered.to_vec(),vec![after.cursor],after.last.to_vec()].concat());
-            out[2]=method("finish_order_page",crate::random_stream::wrap(context_value(2,sc,facts,&req.ledger,&after,req.settled),sc[6],p.seed,p.refund_only).to_vec());
+        ORDER | crate::random_minimum::EXTRACT_MODE if minimum_mode => {
+            let page = req.minimum.as_ref().context("minimum page")?;
+            let after = page.after(sc)?;
+            ensure!(
+                page.rows[0].extract == (f[0] == crate::random_minimum::EXTRACT_MODE),
+                "minimum page operation"
+            );
+            let mut prior = page.clone();
+            if f[0] == ORDER && page.current.built == 0 && !page.refund_only {
+                prior.seed = [0; 4];
+            }
+            let before = crate::random_minimum::context_value(
+                context_value(2, sc, facts, &req.ledger, &req.sort, req.settled),
+                sc[6],
+                &prior,
+            );
+            out[0] = method(
+                "begin_order_page",
+                [before.to_vec(), vec![sc[6] + 1], page.seed.to_vec()].concat(),
+            );
+            let terminal = u64::from(after.built == sc[8] && after.extracted == sc[8]);
+            out[1] = method(
+                "advance_minimum_stream",
+                [
+                    crate::random_minimum::state_hash(&page.current).to_vec(),
+                    crate::random_minimum::state_hash(&after).to_vec(),
+                    vec![after.built, after.extracted],
+                    after.queue.to_vec(),
+                    vec![terminal],
+                ]
+                .concat(),
+            );
         }
-        crate::random_stream::RESTORE if random_mode=>{
-            let p=req.random.as_ref().context("original seed required for timeout recovery")?;
-            let before=crate::random_stream::wrap(context_value(2,sc,facts,&req.ledger,&req.sort,req.settled),sc[6],p.seed,p.refund_only);
-            out[0]=method("restart_expired_random_order",[before.to_vec(),crate::random_stream::empty().to_vec()].concat());
+        crate::random_minimum::GRANT_MODE if minimum_mode => {
+            let key = req.registered_key.context("registered key")?;
+            ensure!(f[23] <= 1, "optional funding claim flag");
+            out[0] = method(
+                "apply_fee_grant",
+                [
+                    vec![f[21], f[22]],
+                    key.to_vec(),
+                    vec![spec["fee_owner"].as_u64().context("funding owner")?, f[23]],
+                ]
+                .concat(),
+            );
+            if f[23] == 1 {
+                out[1] = convert(&spec["owner_fee_claim"], &[])?;
+            }
         }
-        crate::random_stream::EXPIRE if random_mode=>{
-            let before=crate::random_stream::wrap(context_value(2,sc,facts,&req.ledger,&req.sort,req.settled),sc[6],[0;4],false);
-            out[0]=method("expire_unseeded_stream",[before.to_vec(),crate::random_stream::empty().to_vec()].concat());
+        crate::random_stream::EXPIRE if minimum_mode => {
+            let page = req.minimum.as_ref().context("unseeded minimum context")?;
+            let before = crate::random_minimum::context_value(
+                context_value(2, sc, facts, &req.ledger, &req.sort, req.settled),
+                sc[6],
+                page,
+            );
+            out[0] = method(
+                "expire_unseeded_stream",
+                [before.to_vec(), crate::random_stream::empty().to_vec()].concat(),
+            );
+        }
+        ORDER if random_mode => {
+            let p = req.random.as_ref().context("random ordering page")?;
+            ensure!(
+                !p.rows.is_empty() && p.rows.len() <= 4,
+                "bounded random page"
+            );
+            let old = if req.sort.cursor == 0 && !p.refund_only {
+                [0; 4]
+            } else {
+                p.seed
+            };
+            let base = context_value(2, sc, facts, &req.ledger, &req.sort, req.settled);
+            let before = crate::random_stream::wrap(base, sc[6], old, p.refund_only);
+            let args = [before.to_vec(), vec![sc[6] + 1], p.seed.to_vec()].concat();
+            out[0] = method("begin_order_page", args);
+            let after = crate::random_stream::after(sc, &req.sort, p)?;
+            out[1] = method(
+                "set_order_page",
+                [
+                    after.seen.to_vec(),
+                    after.ordered.to_vec(),
+                    vec![after.cursor],
+                    after.last.to_vec(),
+                ]
+                .concat(),
+            );
+            out[2] = method(
+                "finish_order_page",
+                crate::random_stream::wrap(
+                    context_value(2, sc, facts, &req.ledger, &after, req.settled),
+                    sc[6],
+                    p.seed,
+                    p.refund_only,
+                )
+                .to_vec(),
+            );
+        }
+        crate::random_stream::RESTORE if random_mode => {
+            let p = req
+                .random
+                .as_ref()
+                .context("original seed required for timeout recovery")?;
+            let before = crate::random_stream::wrap(
+                context_value(2, sc, facts, &req.ledger, &req.sort, req.settled),
+                sc[6],
+                p.seed,
+                p.refund_only,
+            );
+            out[0] = method(
+                "restart_expired_random_order",
+                [before.to_vec(), crate::random_stream::empty().to_vec()].concat(),
+            );
+        }
+        crate::random_stream::EXPIRE if random_mode => {
+            let before = crate::random_stream::wrap(
+                context_value(2, sc, facts, &req.ledger, &req.sort, req.settled),
+                sc[6],
+                [0; 4],
+                false,
+            );
+            out[0] = method(
+                "expire_unseeded_stream",
+                [before.to_vec(), crate::random_stream::empty().to_vec()].concat(),
+            );
         }
         crate::pair_frontier::SCAN | crate::pair_frontier::CARRY => {
             ensure!(
@@ -1242,8 +1839,15 @@ pub fn calls(spec: &Value, req: &Request, compact: bool) -> Result<Vec<Value>> {
                 (1..=4).contains(&f[2]) && req.members.len() == f[2] as usize,
                 "settlement member count"
             );
-            let mut args =
-                random_context(context_value(3, sc, facts, &req.ledger, &req.sort, req.settled))?.to_vec();
+            let mut args = random_context(context_value(
+                3,
+                sc,
+                facts,
+                &req.ledger,
+                &req.sort,
+                req.settled,
+            ))?
+            .to_vec();
             args.extend((0..4).map(|i| f[22 + 13 * i]));
             args.extend((0..4).map(|i| f[31 + 13 * i]));
             args.push(f[2]);
@@ -1361,6 +1965,10 @@ pub fn calls(spec: &Value, req: &Request, compact: bool) -> Result<Vec<Value>> {
             out[37] = method("finish_stream_settlement", args);
         }
         _ => anyhow::bail!("unknown stream mode"),
+    }
+    if minimum_mode {
+        let key = req.registered_key.context("registered key")?;
+        out[38] = method("account_executor_fee", [vec![f[73]], key.to_vec()].concat());
     }
     out[39] = convert(&spec["base"]["burn"], f)?;
     if compact {

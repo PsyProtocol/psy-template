@@ -579,11 +579,24 @@ pub struct Targets {
 }
 impl Targets {
     pub fn add(b: &mut CircuitBuilder<F, 2>, t: &mut Tape) -> Self {
+        Self::add_gated(b, t, None)
+    }
+    pub fn add_gated(
+        b: &mut CircuitBuilder<F, 2>,
+        t: &mut Tape,
+        enabled: Option<BoolTarget>,
+    ) -> Self {
         let s = (0..41).map(|_| t.scalar(b)).collect::<Vec<_>>();
         let seed = t.hash(b);
         let extract = b.add_virtual_bool_target_safe();
         t.targets.push(extract.target);
+        let raw_extract = extract;
         let build = b.not(extract);
+        let (build, extract) = if let Some(gate) = enabled {
+            (b.and(gate, build), b.and(gate, extract))
+        } else {
+            (build, extract)
+        };
         let before = StateTargets::add(b, t);
         let after = StateTargets::add(b, t);
         let n = NodeTargets::add(b, t);
@@ -596,7 +609,11 @@ impl Targets {
         let append = t.proof(b, 56);
         let z = b.zero();
         let one = b.one();
-        let yes = b._true();
+        let yes = if let Some(gate) = enabled {
+            gate
+        } else {
+            b._true()
+        };
         for (i, x) in [(0, 3), (1, psy_config::PSY_NETWORK_MAGIC)] {
             let c = b.constant(f(x));
             b.connect(s[i], c);
@@ -608,7 +625,11 @@ impl Targets {
         b.assert_one(kinds.target);
         b.range_check(s[8], 24);
         let bad = b.is_equal(s[8], z);
-        b.assert_zero(bad.target);
+        if enabled.is_some() {
+            eq(b, yes, bad.target, z);
+        } else {
+            b.assert_zero(bad.target);
+        }
         let bld = before.v[0];
         let done = before.v[11];
         let count_ok = lt(b, bld, s[8], 24);
@@ -742,7 +763,7 @@ impl Targets {
         Self {
             scope: s,
             seed,
-            extract,
+            extract: raw_extract,
             before,
             after,
             node: n,
@@ -834,4 +855,214 @@ impl Circuit {
         );
         Ok(self.data.verify(proof)?)
     }
+}
+
+pub const STATE_TAG: u64 = 0x4d494e5354415431;
+pub const EXTRACT_MODE: u64 = 12;
+pub const GRANT_MODE: u64 = 13;
+pub fn state_hash(state: &State) -> Hash {
+    hash([vec![STATE_TAG], state.fields()].concat())
+}
+pub fn state_hash_target(b: &mut CircuitBuilder<F, 2>, state: &StateTargets) -> HashOutTarget {
+    let tag = b.constant(f(STATE_TAG));
+    b.hash_n_to_hash_no_pad::<H>([vec![tag], state.v.clone()].concat())
+}
+#[derive(Clone, Debug, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct Page {
+    pub seed: Hash,
+    pub refund_only: bool,
+    pub current: State,
+    pub rows: Vec<Step>,
+}
+impl Page {
+    pub fn context(seed: Hash, refund_only: bool, current: State) -> Self {
+        Self {
+            seed,
+            refund_only,
+            current,
+            rows: vec![],
+        }
+    }
+    pub fn after(&self, s: &[u64]) -> Result<State> {
+        ensure!(
+            !self.refund_only && !self.rows.is_empty() && self.rows.len() <= 4,
+            "bounded minimum progress page"
+        );
+        let mode = self.rows[0].extract;
+        let mut state = self.current.clone();
+        for row in &self.rows {
+            ensure!(
+                row.scope == s
+                    && row.seed == self.seed
+                    && row.extract == mode
+                    && row.before == state,
+                "one source, seed, operation and state chain"
+            );
+            state = after(row)?;
+            ensure!(state == row.after, "exact minimum page endpoint");
+        }
+        let end = if mode { state.extracted } else { state.built };
+        ensure!(
+            self.rows.len() == 4 || end == s[8],
+            "complete minimum page or terminal remainder"
+        );
+        Ok(state)
+    }
+}
+fn inactive_step() -> Step {
+    let mut s = vec![0; 41];
+    s[0] = 3;
+    s[1] = psy_config::PSY_NETWORK_MAGIC;
+    s[2] = 1;
+    s[8] = 1;
+    let state = State {
+        built: 0,
+        seen: [0; 4],
+        list: [0; 4],
+        head: 0,
+        tail: 0,
+        extracted: 0,
+        queue: [0; 4],
+        front: 0,
+    };
+    Step {
+        scope: s,
+        seed: [0; 4],
+        extract: false,
+        before: state.clone(),
+        after: state,
+        node: Node::default(),
+        previous: Node::default(),
+        following: Node::default(),
+        source: blank(56),
+        previous_path: blank(24),
+        following_path: blank(24),
+        node_path: blank(24),
+        append: blank(56),
+    }
+}
+pub struct PageTargets {
+    pub seed: HashOutTarget,
+    pub refund: BoolTarget,
+    pub current: StateTargets,
+    pub after: StateTargets,
+    pub len: Target,
+    rows: Vec<Targets>,
+}
+impl PageTargets {
+    pub fn add(
+        b: &mut CircuitBuilder<F, 2>,
+        t: &mut Tape,
+        s: &[Target],
+        build: BoolTarget,
+        pop: BoolTarget,
+    ) -> Self {
+        let active = b.or(build, pop);
+        let z = b.zero();
+        let one = b.one();
+        let both = b.and(build, pop);
+        b.assert_zero(both.target);
+        let seed = t.hash(b);
+        let refund = b.add_virtual_bool_target_safe();
+        t.targets.push(refund.target);
+        eq(b, active, refund.target, z);
+        let len = t.scalar(b);
+        b.range_check(len, 3);
+        let positive = lt(b, z, len, 3);
+        eq(b, active, positive.target, one);
+        let four = b.constant(f(4));
+        let above = lt(b, four, len, 3);
+        b.assert_zero(above.target);
+        let inactive = b.not(active);
+        eq(b, inactive, len, z);
+        let current = StateTargets::add(b, t);
+        let mut state = current.v.clone();
+        let mut rows = vec![];
+        for i in 0..4 {
+            let at = b.constant(f(i));
+            let exists = lt(b, at, len, 3);
+            let gate = b.and(active, exists);
+            let row = Targets::add_gated(b, t, Some(gate));
+            for (x, y) in row.scope.iter().zip(s) {
+                eq(b, gate, *x, *y);
+            }
+            gh(b, gate, row.seed, seed);
+            eq(b, gate, row.extract.target, pop.target);
+            for (x, y) in row.before.v.iter().zip(&state) {
+                eq(b, gate, *x, *y);
+            }
+            state = state
+                .iter()
+                .zip(&row.after.v)
+                .map(|(old, new)| b.select(gate, *new, *old))
+                .collect();
+            rows.push(row);
+        }
+        let after = StateTargets { v: state };
+        let end = b.select(pop, after.v[11], after.v[0]);
+        let full = b.is_equal(len, four);
+        let last = b.is_equal(end, s[8]);
+        let complete = b.or(full, last);
+        eq(b, active, complete.target, one);
+        Self {
+            seed,
+            refund,
+            current,
+            after,
+            len,
+            rows,
+        }
+    }
+    pub fn set(&self, pw: &mut PartialWitness<F>, page: Option<&Page>) -> Result<()> {
+        let dummy = inactive_step();
+        let blank = Page::context([0; 4], false, dummy.before.clone());
+        let page = page.unwrap_or(&blank);
+        ensure!(page.rows.len() <= 4, "minimum page capacity");
+        pw.set_hash_target(self.seed, h(page.seed))?;
+        pw.set_bool_target(self.refund, page.refund_only)?;
+        pw.set_target(self.len, f(page.rows.len() as u64))?;
+        self.current.set(pw, &page.current)?;
+        for (i, row) in self.rows.iter().enumerate() {
+            row.set(pw, page.rows.get(i).unwrap_or(&dummy))?;
+        }
+        Ok(())
+    }
+    pub fn public_current(&self) -> Vec<Target> {
+        self.current.v.clone()
+    }
+    pub fn public_after(&self) -> Vec<Target> {
+        self.after.v.clone()
+    }
+}
+
+pub const CONTEXT_TAG: u64 = 0x4d494e43545831;
+pub fn context_value(base: Hash, source: u64, page: &Page) -> Hash {
+    let original = rank::wrap(base, source, page.seed, page.refund_only);
+    hash(
+        [
+            vec![CONTEXT_TAG],
+            original.to_vec(),
+            state_hash(&page.current).to_vec(),
+        ]
+        .concat(),
+    )
+}
+pub fn context_target(
+    b: &mut CircuitBuilder<F, 2>,
+    base: HashOutTarget,
+    source: Target,
+    page: &PageTargets,
+) -> HashOutTarget {
+    let original = rank::wrap_target(b, base, source, page.seed, page.refund.target);
+    let state = state_hash_target(b, &page.current);
+    let tag = b.constant(f(CONTEXT_TAG));
+    b.hash_n_to_hash_no_pad::<H>(
+        [
+            vec![tag],
+            original.elements.to_vec(),
+            state.elements.to_vec(),
+        ]
+        .concat(),
+    )
 }
