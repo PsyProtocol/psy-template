@@ -221,7 +221,7 @@ async fn snapshot(db: Store, w: &World, r: &Review, fingerprint: Q<GF>) -> Resul
         V,
         w.val(V, "stream_id", 0) + 1,
         cp,
-        cp + 32,
+        cp + if w.methods.contains_key(&(M,"expire_unseeded_stream".into())){read_spec(&w.kind)?["source_window_checkpoints"].as_u64().unwrap()}else{32},
         0,
     ]);
     for (start, h) in [
@@ -287,6 +287,7 @@ fn basic(mode: u64, page: &SourcePage, w: &World) -> Request {
         settled: w.val(V, "stream_settled", 0),
         members: vec![],
         frontier: None,
+        random: None,
     }
 }
 fn sent(w: &World, u: u64, asset: u64) -> u128 {
@@ -758,6 +759,7 @@ struct StreamChain {
     source: Snapshot,
     source_checkpoint: u64,
     measurements: Vec<Value>,
+    random_draw: std::cell::RefCell<Option<(u64,PsyCheckpointLeaf<GF>,World,PsyUserLeaf<GF>)>>,
 }
 impl StreamChain {
     async fn new(w: &World) -> Result<Self> {
@@ -777,13 +779,14 @@ impl StreamChain {
             spec,
             source,
             source_checkpoint: w.checkpoint,
+            random_draw: std::cell::RefCell::new(None),
             measurements: vec![
                 json!({"phase":"cold-stream-resource-build","seconds":started.elapsed().as_secs_f64()}),
             ],
         })
     }
     async fn seed(&self, w: &World) -> Result<(Store, Snapshot, MerkleProofCore<Q<GF>>)> {
-        let history = if w.checkpoint == self.source_checkpoint {
+        let mut history = if w.checkpoint == self.source_checkpoint {
             vec![(1, anchor_leaf())]
         } else {
             vec![
@@ -791,10 +794,19 @@ impl StreamChain {
                 (self.source_checkpoint, self.source.history.checkpoint),
             ]
         };
-        let db = self
-            .base
-            .seed_identity_with_history(w, self.key.g.get_fingerprint(), &history)
-            .await?;
+        if self.spec["version"]==10 {if let Some((cp,leaf,_,_))=&*self.random_draw.borrow(){if *cp<w.checkpoint{history.push((*cp,*leaf));}}}
+        // Rebuild the exact historical draw tree state before adding the current
+        // checkpoint. A checkpoint leaf alone does not authenticate missing old
+        // state-root preimages required by GetCheckpointLeafStats.
+        let draw=self.random_draw.borrow().clone();
+        let db=if let Some((cp,leaf,old,vault))=draw {
+            if cp<w.checkpoint{
+                let base=self.base.seed_identity_into(&old,self.key.g.get_fingerprint(),&[(1,anchor_leaf()),(self.source_checkpoint,self.source.history.checkpoint)],Store::new(),Some(vault)).await?;
+                ensure!(base.get_checkpoint_global_state_roots(cp).await?.qfhash::<PoseidonHash>()==leaf.global_chain_root,"exact draw global state roots");
+                self.base.seed_identity_into(w,self.key.g.get_fingerprint(),&history,base,self.base.last_leaf).await?
+            }else{self.base.seed_identity_with_history(w,self.key.g.get_fingerprint(),&history).await?}
+        }else{self.base.seed_identity_with_history(w,self.key.g.get_fingerprint(),&history).await?};
+        if self.spec["version"]==10&&w.checkpoint==self.source_checkpoint+1&&self.random_draw.borrow().is_none(){*self.random_draw.borrow_mut()=Some((w.checkpoint,db.get_checkpoint_leaf_data(w.checkpoint).await?,w.clone(),db.get_user_leaf_data(w.checkpoint,V).await?));}
         let mut source = self.source.clone();
         source.history.anchor_path = db.get_checkpoint_tree_merkle_proof(w.checkpoint, 1).await?;
         source.history.checkpoint_path = db
@@ -1413,7 +1425,8 @@ async fn stream_key_exact_replay_and_coherent_priority_attacks() -> Result<()> {
         );
         let context: SDKeySessionContext = serde_json::from_value(public["session"].clone())?;
         let path = source_vault_path(&source)?;
-        let queue = stream_source::priority(&r, &source, source.history.checkpoint_path.root)?;
+        let original = stream_source::priority(&r, &source, source.history.checkpoint_path.root)?;
+        let queue=if spec["version"]==10&&!request.random.as_ref().context("fixed random context")?.refund_only{psy_template_u124_markets::random_stream::prepare(&request.source.scope,&original,request.random.as_ref().unwrap().seed)?.1}else{original};
         let w = World::new(kind)?;
         let mut rejected = vec![];
         let optimized = spec["version"] == 9;
@@ -1566,3 +1579,6 @@ mod pair_trade;
 
 #[path = "pair_optimized_full_ups.rs"]
 mod pair_optimized;
+
+#[path="random_stream_full_ups.rs"]
+mod random_stream_full_ups;

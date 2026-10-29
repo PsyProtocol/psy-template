@@ -1,6 +1,6 @@
 # Checkpoint stream profiles
 
-Five profiles intentionally coexist. Their commitments and keys are not
+Six profiles intentionally coexist. Their commitments and keys are not
 interchangeable.
 
 | Profile | Entry points | Financial authority |
@@ -10,6 +10,7 @@ interchangeable.
 | paired global frontier (policy version 8) | `pair-trade-generate.mjs`, `pair-trade-build-policy.mjs`, `pair_frontier.rs`, shared `stream_*.rs` | Distinct offline Orderbook/NFT trading candidates; complete-source scan and actual fills/refunds proved; live authorization remains disabled |
 | paired triangular frontier and early recovery (policy version 9) | `pair-optimized-generate.mjs`, `pair-optimized-build-policy.mjs`, conditional triangular builder in `pair_frontier.rs` | Distinct offline candidate: exact unordered-pair coverage and current-invalid winner refunds; live authorization remains disabled |
 | v3 source-covered deterministic priority stream | `generate.mjs`, `build-policy.mjs`, `stream_{source,context,current,order,policy}.rs` | Distinct undeployed candidates; complete synthetic-checkpoint UPS validation is tracked in the report below; live driver remains disabled |
+| source-covered producer random stream (policy version 10) | `random-generate.mjs`, `random-build.mjs`, `random_stream.rs`, `random_stream_plan.rs`, `executor/randomSourceStream.mjs` | Separate AMM/Curve candidate: complete source, one future native producer seed, full-hash ordering across pages and refund-only recovery; live spending remains disabled |
 
 For v3, use `prepare-fixtures.mjs REVIEWED_INPUT FRESH_OUTPUT`, the frozen
 application-owned `compile_stream_market` compiler wrapper, and
@@ -27,8 +28,27 @@ Felt values; all comparisons and commitments are retained.
 
 See [the source-covered UPS report](../../docs/security/SOURCE_COVERED_STREAM_UPS_20261029.md)
 for the source-set definition, state machine, priority/minimum proofs, current
-identity checks, timeout/refund boundaries and evidence. Random ordering remains
-disabled. Orderbook price/time priority and NFT winner semantics are unchanged.
+identity checks, timeout/refund boundaries and evidence. That deterministic
+profile does not enable random ordering. Orderbook price/time priority and NFT
+winner semantics are unchanged.
+
+The [v10 continuation](../../docs/security/SOURCE_RANDOM_STREAM_UPS_20261029.md)
+uses `random-build.mjs REVIEWED_COMPILE_RANDOM_STREAM REVIEWED_INPUT FRESH_OUTPUT`.
+The owned `compile_random_stream` wrapper lowers the actual authenticated
+historical checkpoint-stat read; using the generic compiler alone leaves the
+rejecting intrinsic placeholder. The build copies reviewed funding artifacts,
+generates only new AMM/Curve candidates and emits a new policy/key identity. It
+does not change an old contract, window, queue or evidence directory.
+
+`random_stream_plan REVIEW SNAPSHOT PINNED_HISTORY_ROOT DRAW_OPENING POLICY
+FRESH_OUTPUT` authenticates a complete finite source plus exact S+1 draw under
+the same pinned history root. `prepareRandomSourceStream` seals the binary and
+inputs and preserves one plan across restarts/pages. It cannot sign or broadcast.
+The fixed window is S+256; source coverage, order-page, refund and ordinary-claim
+budgets must fit before any live admission. Native producer influence and missing
+causal seal-before-release/finality guarantees are explicit; this is not a
+qualified unbiased future-beacon implementation. `audit-random-evidence.mjs`
+checks public evidence consistency, not cryptographic validity or live acceptance.
 
 See [the paired-market boundary report](../../docs/security/PAIR_SOURCE_STREAM_UPS_20261029.md)
 for authenticated NFT FIFO/source terms and two-member terminal refund pages.

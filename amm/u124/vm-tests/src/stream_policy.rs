@@ -190,6 +190,8 @@ pub struct Request {
     pub members: Vec<MemberBinding>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub frontier: Option<crate::pair_frontier::Page>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub random: Option<crate::random_stream::Page>,
 }
 pub struct StreamKey {
     pub g: SDKeyCircuitGadget,
@@ -202,6 +204,7 @@ pub struct StreamKey {
     settled: Target,
     members: Vec<MemberTargets>,
     frontier: Option<crate::pair_frontier::Targets>,
+    random: Option<crate::random_stream::Targets>,
 }
 fn role<'a>(spec: &'a Value, name: &str) -> &'a Value {
     &spec["stream"][name]
@@ -211,12 +214,13 @@ pub fn validate(spec: &Value, r: &Review) -> Result<()> {
         (if r.kind >= 3 {
             spec["version"] == 7 || spec["version"] == 8 || spec["version"] == 9
         } else {
-            spec["version"] == 5
+            spec["version"] == 5 || spec["version"] == 10
         }) && spec["tx_count"] == 40
             && spec["witness_length"] == 80
             && spec["live_authorization"] == false,
         "distinct offline stream profile"
     );
+    if spec["version"]==10 {ensure!(r.kind<=2&&spec["profile"]=="source-covered-producer-random-stream-v1"&&spec["producer_influence"]==true&&spec["qualified_randomness"]==false&&spec["source_window_checkpoints"].as_u64().is_some_and(|n|(32..=65536).contains(&n)),"explicit producer random stream profile");for name in ["expire_unseeded_stream","restart_expired_random_order"]{let c=role(spec,name);ensure!(c["contract_id"]==r.market&&c["method_name"]==name&&c["input_count"]==8&&c["method_id"].as_u64().is_some_and(|n|n<=u32::MAX as u64),"refund-only exit role");}}
     crate::batch_compact::validate(&spec["base"])?;
     ensure!(
         spec["base"]["native_protocol"] == "mainnet-beta-20261027"
@@ -281,7 +285,7 @@ pub fn validate(spec: &Value, r: &Review) -> Result<()> {
         ensure!(
             c["contract_id"] == r.market
                 && c["method_name"] == name
-                && c["input_count"] == n
+                && c["input_count"] == if spec["version"]==10&&name=="begin_order_page"{9}else{n}
                 && c["method_id"]
                     .as_u64()
                     .is_some_and(|n| n <= u32::MAX as u64),
@@ -293,6 +297,7 @@ pub fn validate(spec: &Value, r: &Review) -> Result<()> {
 impl StreamKey {
     pub fn build(spec: &Value, r: &Review, chain: [u64; 4]) -> Result<Self> {
         validate(spec, r)?;
+        let random_mode = spec["version"]==10;
         let paired = r.kind >= 3;
         let optimized = spec["version"] == 9;
         let global = spec["version"] == 8 || optimized;
@@ -317,10 +322,11 @@ impl StreamKey {
             chosen(&mut b, fields[0], ABORT_SOURCE),
         ];
         let mut valid = b._false();
-        b.assert_zero(gates[3].target);
+        if !random_mode{b.assert_zero(gates[3].target);}else{b.assert_zero(gates[5].target);}
         for x in [gates[0], gates[1], gates[2], gates[4], gates[5]] {
             valid = b.or(valid, x);
         }
+        let random_exit=if random_mode{let exit=chosen(&mut b,fields[0],crate::random_stream::EXPIRE);valid=b.or(valid,exit);valid=b.or(valid,gates[3]);let restore=chosen(&mut b,fields[0],crate::random_stream::RESTORE);valid=b.or(valid,restore);Some(exit)}else{None};
         if global {
             for mode in [crate::pair_frontier::SCAN, crate::pair_frontier::CARRY] {
                 let g = chosen(&mut b, fields[0], mode);
@@ -352,6 +358,7 @@ impl StreamKey {
         )?;
         let ledger = ProgressTargets::create(&mut b, &mut tape);
         let sort = StateTargets::add(&mut b, &mut tape);
+        let random=if random_mode{Some(crate::random_stream::Targets::add(&mut b,&mut tape,sc,&sort,gates[3]))}else{None};
         let settled = tape.scalar(&mut b);
         b.range_check(settled, 24);
         for t in &fields {
@@ -445,7 +452,7 @@ impl StreamKey {
                 path,
             });
         }
-        let expiry = b.add_const(sc[6], f(32));
+        let expiry = b.add_const(sc[6], f(if random_mode{spec["source_window_checkpoints"].as_u64().unwrap()}else{32}));
         eq(&mut b, gates[1], sc[7], expiry);
         let end = b.add(settled, fields[2]);
         b.range_check(end, 25);
@@ -487,7 +494,30 @@ impl StreamKey {
         let before_source = context(&mut b, 1, sc, &source.facts, &source.before, &sort, settled);
         let after_source = context(&mut b, 1, sc, &source.facts, &source.after, &sort, settled);
         let before_abort = context(&mut b, 1, sc, &source.facts, &ledger, &sort, settled);
-        let before_settle = context(&mut b, 3, sc, &source.facts, &ledger, &sort, settled);
+        let mut before_settle = context(&mut b, 3, sc, &source.facts, &ledger, &sort, settled);
+        if let Some(random)=&random {
+            let expired=lt(&mut b,sc[7],g.checkpoint_id,32);let consuming=b.or(gates[4],gates[3]);let only=b.and(consuming,random.refund);eq(&mut b,only,expired.target,one);
+            before_settle=crate::random_stream::wrap_target(&mut b,before_settle,sc[6],random.seed,random.refund.target);
+            let zero_hash=b.constant_hash(HashOut::ZERO);let at_start=b.is_equal(sort.cursor,z);let no_refund=b.not(random.refund);let first=b.and(at_start,no_refund);let old_seed=HashOutTarget{elements:std::array::from_fn(|i|b.select(first,zero_hash.elements[i],random.seed.elements[i]))};
+            let base=context(&mut b,2,sc,&source.facts,&ledger,&sort,settled);
+            let before=crate::random_stream::wrap_target(&mut b,base,sc[6],old_seed,random.refund.target);
+            let draw=b.add_const(sc[6],F::ONE);let args=[before.elements.to_vec(),vec![draw],random.seed.elements.to_vec()].concat();
+            invoke(&mut b,gates[3],&g,0,role(spec,"begin_order_page"),&args)?;
+            let args=[random.after.seen.elements.to_vec(),random.after.ordered.elements.to_vec(),vec![random.after.cursor],random.after.last.to_vec()].concat();
+            invoke(&mut b,gates[3],&g,1,role(spec,"set_order_page"),&args)?;
+            let after=context(&mut b,2,sc,&source.facts,&ledger,&random.after,settled);let after=crate::random_stream::wrap_target(&mut b,after,sc[6],random.seed,random.refund.target);
+            invoke(&mut b,gates[3],&g,2,role(spec,"finish_order_page"),&after.elements)?;
+            for i in 3..39{invoke(&mut b,gates[3],&g,i,&spec["noop"],&[])?;}
+            let exit=random_exit.unwrap();eq(&mut b,exit,sort.cursor,z);eq(&mut b,exit,random.refund.target,z);gated_hash(&mut b,exit,random.seed,zero_hash);eq(&mut b,exit,expired.target,one);
+            let manifest=HashOutTarget{elements:sc[17..21].try_into().unwrap()};gated_hash(&mut b,exit,sort.seen,manifest);let empty=b.constant_hash(h(crate::random_stream::empty()));gated_hash(&mut b,exit,sort.ordered,empty);
+            let before=crate::random_stream::wrap_target(&mut b,base,sc[6],zero_hash,z);let args=[before.elements.to_vec(),empty.elements.to_vec()].concat();invoke(&mut b,exit,&g,0,role(spec,"expire_unseeded_stream"),&args)?;
+            for i in 1..39{invoke(&mut b,exit,&g,i,&spec["noop"],&[])?;}
+            for i in 1..80{if i!=73{crate::batch_policy::zero(&mut b,exit,fields[i]);}}
+            let restore=chosen(&mut b,fields[0],crate::random_stream::RESTORE);let positive=lt(&mut b,z,sort.cursor,24);eq(&mut b,restore,positive.target,one);eq(&mut b,restore,expired.target,one);
+            let before=crate::random_stream::wrap_target(&mut b,base,sc[6],random.seed,random.refund.target);let args=[before.elements.to_vec(),empty.elements.to_vec()].concat();invoke(&mut b,restore,&g,0,role(spec,"restart_expired_random_order"),&args)?;
+            for i in 1..39{invoke(&mut b,restore,&g,i,&spec["noop"],&[])?;}for i in 1..80{if i!=73{crate::batch_policy::zero(&mut b,restore,fields[i]);}}
+
+        }
 
         for i in 0..80 {
             if optimized && i == 1 {
@@ -1035,6 +1065,7 @@ impl StreamKey {
             settled,
             members,
             frontier,
+            random,
         })
     }
     pub fn fields(
@@ -1099,6 +1130,7 @@ impl StreamKey {
                 request.frontier.as_ref(),
             )?;
         }
+        if let Some(t)=&self.random{t.set(&mut pw,request.random.as_ref())?;}else{ensure!(request.random.is_none(),"random witness requires distinct key");}
         let mut fields = request.fields.clone();
         fields.extend(self.tape.values(&pw));
         Ok(fields)
@@ -1114,6 +1146,8 @@ pub fn calls(spec: &Value, req: &Request, compact: bool) -> Result<Vec<Value>> {
     );
     let sc = &req.source.scope;
     let facts = &req.source.facts;
+    let random_mode=spec["version"]==10;
+    let random_context=|base:[u64;4]|->Result<[u64;4]>{if random_mode{let p=req.random.as_ref().context("fixed random stream context")?;Ok(crate::random_stream::wrap(base,sc[6],p.seed,p.refund_only))}else{Ok(base)}};
     let convert = |c: &Value, values: &[u64]| -> Result<Value> {
         Ok(
             json!({"contract_id":c["contract_id"],"method_name":c["method_name"],"inputs":c["inputs"].as_array().context("call inputs")?.iter().map(|a|if let Some(i)=a["witness"].as_u64(){values.get(i as usize).copied().context("call argument index")}else{a["constant"].as_str().context("call constant")?.parse::<u64>().map_err(Into::into)}).collect::<Result<Vec<_>>>()?}),
@@ -1123,6 +1157,23 @@ pub fn calls(spec: &Value, req: &Request, compact: bool) -> Result<Vec<Value>> {
     let mut out = vec![nop.clone(); 40];
     let method = |name: &str, args: Vec<u64>| json!({"contract_id":role(spec,name)["contract_id"],"method_name":name,"inputs":args});
     match f[0] {
+        ORDER if random_mode=>{
+            let p=req.random.as_ref().context("random ordering page")?;ensure!(!p.rows.is_empty()&&p.rows.len()<=4,"bounded random page");
+            let old=if req.sort.cursor==0&&!p.refund_only{[0;4]}else{p.seed};let base=context_value(2,sc,facts,&req.ledger,&req.sort,req.settled);let before=crate::random_stream::wrap(base,sc[6],old,p.refund_only);
+            let args=[before.to_vec(),vec![sc[6]+1],p.seed.to_vec()].concat();out[0]=method("begin_order_page",args);
+            let after=crate::random_stream::after(sc,&req.sort,p)?;
+            out[1]=method("set_order_page",[after.seen.to_vec(),after.ordered.to_vec(),vec![after.cursor],after.last.to_vec()].concat());
+            out[2]=method("finish_order_page",crate::random_stream::wrap(context_value(2,sc,facts,&req.ledger,&after,req.settled),sc[6],p.seed,p.refund_only).to_vec());
+        }
+        crate::random_stream::RESTORE if random_mode=>{
+            let p=req.random.as_ref().context("original seed required for timeout recovery")?;
+            let before=crate::random_stream::wrap(context_value(2,sc,facts,&req.ledger,&req.sort,req.settled),sc[6],p.seed,p.refund_only);
+            out[0]=method("restart_expired_random_order",[before.to_vec(),crate::random_stream::empty().to_vec()].concat());
+        }
+        crate::random_stream::EXPIRE if random_mode=>{
+            let before=crate::random_stream::wrap(context_value(2,sc,facts,&req.ledger,&req.sort,req.settled),sc[6],[0;4],false);
+            out[0]=method("expire_unseeded_stream",[before.to_vec(),crate::random_stream::empty().to_vec()].concat());
+        }
         crate::pair_frontier::SCAN | crate::pair_frontier::CARRY => {
             ensure!(
                 spec["version"] == 8 || spec["version"] == 9,
@@ -1192,7 +1243,7 @@ pub fn calls(spec: &Value, req: &Request, compact: bool) -> Result<Vec<Value>> {
                 "settlement member count"
             );
             let mut args =
-                context_value(3, sc, facts, &req.ledger, &req.sort, req.settled).to_vec();
+                random_context(context_value(3, sc, facts, &req.ledger, &req.sort, req.settled))?.to_vec();
             args.extend((0..4).map(|i| f[22 + 13 * i]));
             args.extend((0..4).map(|i| f[31 + 13 * i]));
             args.push(f[2]);

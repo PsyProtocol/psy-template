@@ -13,32 +13,13 @@ use psy_template_u124_markets::{
     },
 };
 use serde::{Deserialize, Serialize};
+use psy_template_u124_markets::source_review::review;
 use sha2::{Digest, Sha256};
 use std::{
     fs,
     io::{Read, Write},
     path::Path,
 };
-#[derive(Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-struct AssetConfig {
-    id: u64,
-    artifact: String,
-    artifact_sha256: String,
-    function_root: QHashOut<F>,
-}
-#[derive(Serialize, Deserialize)]
-#[serde(deny_unknown_fields)]
-struct Config {
-    schema: u32,
-    artifact: String,
-    artifact_sha256: String,
-    market: u64,
-    kind: u64,
-    function_root: QHashOut<F>,
-    assets: [AssetConfig; 3],
-    unit: String,
-}
 #[derive(Deserialize)]
 #[serde(deny_unknown_fields)]
 struct Capture {
@@ -76,43 +57,6 @@ fn json(path: &Path, v: &impl Serialize) -> Result<()> {
 }
 fn digest(b: &[u8]) -> String {
     format!("{:x}", Sha256::digest(b))
-}
-fn review(path: &Path) -> Result<(Review, Config, Vec<u8>)> {
-    let raw = bounded(path, 1024 * 1024)?;
-    let c: Config = serde_json::from_slice(&raw)?;
-    ensure!(c.schema == 1, "source review version");
-    let base = path.parent().context("config directory")?;
-    let artifact = bounded(&base.join(&c.artifact), 128 * 1024 * 1024)?;
-    ensure!(
-        digest(&artifact) == c.artifact_sha256,
-        "reviewed source artifact digest"
-    );
-    let unit = c.unit.parse::<u128>()?;
-    ensure!(unit.to_string() == c.unit, "canonical reviewed unit");
-    let mut assets = vec![];
-    for a in &c.assets {
-        let bytes = bounded(&base.join(&a.artifact), 128 * 1024 * 1024)?;
-        ensure!(
-            digest(&bytes) == a.artifact_sha256,
-            "reviewed funding artifact digest"
-        );
-        assets.push(AssetBinding::from_artifact(
-            a.id,
-            &serde_json::from_slice(&bytes)?,
-            a.function_root,
-        )?);
-    }
-    let r = Review::from_artifact(
-        c.market,
-        c.kind,
-        &serde_json::from_slice(&artifact)?,
-        c.function_root,
-        assets
-            .try_into()
-            .map_err(|_| anyhow::anyhow!("three source assets"))?,
-        unit,
-    )?;
-    Ok((r, c, raw))
 }
 #[tokio::main(flavor = "current_thread")]
 async fn main() -> Result<()> {
