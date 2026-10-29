@@ -4,6 +4,9 @@ use psy_template_u124_markets::pair_frontier::{
     self as frontier, Page as FrontierPage, Record, State as FrontierState,
 };
 fn world(kind: &str) -> Result<World> {
+    world_with_deadline(kind, 200)
+}
+pub(super) fn world_with_deadline(kind: &str, deadline: u64) -> Result<World> {
     let mut w = World::new(kind)?;
     for asset in [A, B] {
         w.run(
@@ -35,7 +38,12 @@ fn world(kind: &str) -> Result<World> {
             (204, 0, n, 4 * n, 96),
         ] {
             w.checkpoint = cp;
-            w.run(u, M, "open_sell", &args(&[V, side], &[x, y], &[200, 1]))?;
+            w.run(
+                u,
+                M,
+                "open_sell",
+                &args(&[V, side], &[x, y], &[deadline, 1]),
+            )?;
             w.pay(u, if side == 0 { A } else { B }, x)?;
             w.fee(u)?;
         }
@@ -43,14 +51,14 @@ fn world(kind: &str) -> Result<World> {
         for u in [200, 202] {
             w.checkpoint = 90;
             w.run(u, NFT, "acknowledge", &[V])?;
-            w.run(u, M, "open_listing", &args(&[V, 0], &[n], &[200, 1]))?;
+            w.run(u, M, "open_listing", &args(&[V, 0], &[n], &[deadline, 1]))?;
             w.fee(u)?;
             w.run(u, NFT, "transfer", &[0, V])?;
         }
         for (u, s, cp) in [(203, 200, 92), (201, 200, 93), (204, 202, 94)] {
             w.checkpoint = cp;
             w.run(u, NFT, "acknowledge", &[V])?;
-            w.run(u, M, "open_buy", &args(&[V, s, 1], &[n], &[200, 1]))?;
+            w.run(u, M, "open_buy", &args(&[V, s, 1], &[n], &[deadline, 1]))?;
             w.pay(u, A, n)?;
             w.fee(u)?;
         }
@@ -73,7 +81,7 @@ fn request_scan(w: &World, p: &SourcePage, page: FrontierPage) -> Request {
     r.frontier = Some(page);
     r
 }
-fn request_trade(
+pub(super) fn request_trade(
     w: &World,
     r: &Review,
     s: &Snapshot,
@@ -126,10 +134,11 @@ fn request_trade(
         before: state.clone(),
         after: state.clone(),
         rows: vec![],
+        head: None,
     });
     Ok(req)
 }
-fn claim_all(w: &mut World) -> Result<Vec<Value>> {
+pub(super) fn claim_all(w: &mut World) -> Result<Vec<Value>> {
     let n = (1u128 << 62) + 17;
     let mut rows = vec![];
     for u in 200..205 {
@@ -403,6 +412,7 @@ async fn pair_global_continuous_fills_ups() -> Result<()> {
             before: page.after.clone(),
             after: page.after,
             rows: vec![],
+            head: None,
         });
         step(&mut chain, &mut w, req, &out, "no-match-carry", vm_only).await?;
         ensure!(

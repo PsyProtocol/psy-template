@@ -232,12 +232,16 @@ pub struct Row {
     pub b: Record,
     pub outer: Path,
     pub inner: Path,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub next: Option<Path>,
 }
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct Page {
     pub before: State,
     pub after: State,
     pub rows: Vec<Row>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub head: Option<Path>,
 }
 pub fn next_page(
     kind: u64,
@@ -281,6 +285,7 @@ pub fn next_page(
             inner: inner.proof(b.index),
             a: a.clone(),
             b: b.clone(),
+            next: None,
         });
         if compatible(kind, &a, &b)
             && state
@@ -311,10 +316,161 @@ pub fn next_page(
         before: before.clone(),
         after: state,
         rows,
+        head: None,
     })
 }
 fn before_pair(kind: u64, a: &Record, b: &Record, c: &Best) -> bool {
     before(kind, a, b, &c.a, &c.b)
+}
+/// Visit every unordered pair once. Orientation is derived from the authenticated
+/// side/kind, never chosen by the Executor. The old Cartesian builder is intact.
+pub fn next_triangular_page(
+    kind: u64,
+    scope: &[u64],
+    q: &PriorityTree,
+    records: &[Record],
+    before: &State,
+) -> Result<Page> {
+    ensure!(
+        !records.is_empty() && !before.complete,
+        "unfinished nonempty triangle"
+    );
+    ensure!(
+        records.windows(2).all(|w| w[0].index < w[1].index),
+        "canonical source order"
+    );
+    let n = records.len();
+    let mut oi = 0;
+    let mut skip = before.cursor as usize;
+    while oi + 1 < n && skip >= n - oi - 1 {
+        skip -= n - oi - 1;
+        oi += 1;
+    }
+    ensure!(
+        oi + 1 < n || (n == 1 && before.cursor == 0),
+        "triangle cursor"
+    );
+    let mut ii = oi + 1 + skip;
+    let mut outer = q.clone();
+    for r in &records[..oi] {
+        outer.remove(r.index);
+    }
+    let mut inner = outer.clone();
+    let head = if before.cursor == 0 {
+        Some(outer.proof(records[oi].index))
+    } else {
+        None
+    };
+    inner.remove(records[oi].index);
+    for r in &records[oi + 1..ii] {
+        inner.remove(r.index);
+    }
+    ensure!(
+        outer.root() == before.outer
+            && (before.cursor == 0 && before.inner == q.root()
+                || before.cursor > 0 && inner.root() == before.inner),
+        "exact triangular roots"
+    );
+    let mut state = before.clone();
+    let mut rows = vec![];
+    if n == 1 {
+        state.outer = empty();
+        state.inner = empty();
+        state.complete = true;
+    }
+    while rows.len() < PAGE && !state.complete {
+        let a = records[oi].clone();
+        let b = records[ii].clone();
+        let mut row = Row {
+            outer: outer.proof(a.index),
+            inner: inner.proof(b.index),
+            a: a.clone(),
+            b: b.clone(),
+            next: None,
+        };
+        let (left, right) = if compatible(kind, &b, &a) {
+            (&b, &a)
+        } else {
+            (&a, &b)
+        };
+        if compatible(kind, left, right)
+            && state
+                .best
+                .as_ref()
+                .map(|v| before_pair(kind, left, right, v))
+                .unwrap_or(true)
+        {
+            state.best = Some(Best {
+                a: left.clone(),
+                b: right.clone(),
+            });
+        }
+        inner.remove(b.index);
+        state.cursor += 1;
+        ii += 1;
+        if ii == n {
+            outer.remove(a.index);
+            oi += 1;
+            ii = oi + 1;
+            row.next = Some(outer.proof(records[oi].index));
+            inner = outer.clone();
+            inner.remove(records[oi].index);
+            if oi + 1 == n {
+                outer.remove(records[oi].index);
+                state.complete = true;
+            }
+        }
+        state.outer = outer.root();
+        state.inner = inner.root();
+        rows.push(row);
+    }
+    Ok(Page {
+        before: before.clone(),
+        after: state,
+        rows,
+        head,
+    })
+}
+fn set_path(
+    pw: &mut PartialWitness<F>,
+    target: &MerkleProofGadget,
+    path: Option<&Path>,
+) -> Result<()> {
+    let p = path
+        .map(|p| {
+            MerkleProofCore::new_from_params::<H>(
+                p.index,
+                Q(h(p.value)),
+                p.siblings.iter().map(|s| Q(h(*s))).collect(),
+            )
+        })
+        .unwrap_or_else(|| {
+            MerkleProofCore::new_from_params::<H>(
+                0,
+                Q::ZERO,
+                (0..56).map(H::get_zero_hash).collect(),
+            )
+        });
+    target.set_witness_core_proof_q(pw, &p)?;
+    Ok(())
+}
+fn minimum(
+    b: &mut CircuitBuilder<F, 2>,
+    gate: BoolTarget,
+    p: &MerkleProofGadget,
+    root: HashOutTarget,
+) {
+    gh(b, gate, p.root, root);
+    let zero = b.constant_hash(HashOut::ZERO);
+    let absent = eq_hash(b, p.value, zero);
+    let z = b.zero();
+    eq(b, gate, absent.target, z);
+    let bits = b.split_le(p.index, 56);
+    for j in 0..56 {
+        let g = b.and(gate, bits[j]);
+        let e = b.constant_hash(<H as MerkleZeroHasher<Q<F>>>::get_zero_hash(j).0);
+        gh(b, g, p.siblings[j], e);
+    }
 }
 trait RemoveAll {
     fn remove_all(&mut self, r: &[Record]);
@@ -693,6 +849,7 @@ struct RowTargets {
     b: RecordTargets,
     outer: MerkleProofGadget,
     inner: MerkleProofGadget,
+    next: Option<MerkleProofGadget>,
 }
 pub struct Targets {
     pub before: StateTargets,
@@ -702,6 +859,7 @@ pub struct Targets {
     pub prev_b: RecordTargets,
     len: Target,
     rows: Vec<RowTargets>,
+    head: Option<MerkleProofGadget>,
 }
 impl Targets {
     pub fn add(
@@ -800,6 +958,7 @@ impl Targets {
                 b: c,
                 outer: op,
                 inner: ip,
+                next: None,
             });
         }
         let best = best_hash(b, scope, kind, exists, &best_a, &best_b);
@@ -826,6 +985,150 @@ impl Targets {
             prev_b,
             len,
             rows,
+            head: None,
+        })
+    }
+    pub fn add_triangular(
+        b: &mut CircuitBuilder<F, 2>,
+        t: &mut Tape,
+        kind: u64,
+        scope: &[Target],
+        remaining: HashOutTarget,
+        total: Target,
+        settled: Target,
+        scan: BoolTarget,
+    ) -> Result<Self> {
+        let before = StateTargets::add(b, t);
+        let after = StateTargets::add(b, t);
+        let prev_exists = BoolTarget::new_unsafe(t.scalar(b));
+        b.assert_bool(prev_exists);
+        let prev_a = RecordTargets::add(b, t, kind);
+        let prev_b = RecordTargets::add(b, t, kind);
+        let prior = best_hash(b, scope, kind, prev_exists, &prev_a, &prev_b);
+        let always = b._true();
+        gh(b, always, before.best, prior);
+        let len = t.scalar(b);
+        b.range_check(len, 3);
+        let z = b.zero();
+        let one = b.one();
+        let four = b.constant(f(4));
+        let above = lt(b, four, len, 3);
+        eq(b, scan, above.target, z);
+        eq(b, scan, before.complete.target, z);
+        let empty = b.constant_hash(h(empty()));
+        let zero = b.constant_hash(HashOut::ZERO);
+        let start = b.is_equal(before.cursor, z);
+        let first = b.and(scan, start);
+        gh(b, first, before.outer, remaining);
+        gh(b, first, before.inner, remaining);
+        eq(b, first, prev_exists.target, z);
+        let head = t.proof(b, 56);
+        minimum(b, first, &head, remaining);
+        let suffix =
+            MerkleProofGadget::compute_root::<H, F, 2>(b, head.index, zero, &head.siblings);
+        let mut inner = select_hash(b, start, suffix, before.inner);
+        let mut outer = before.outer;
+        let singleton = eq_hash(b, inner, empty);
+        let singleton = b.and(start, singleton);
+        outer = select_hash(b, singleton, empty, outer);
+        let mut best_a = prev_a.clone();
+        let mut best_b = prev_b.clone();
+        let mut exists = prev_exists;
+        let mut rows = vec![];
+        for i in 0..PAGE {
+            let a = RecordTargets::add(b, t, kind);
+            let c = RecordTargets::add(b, t, kind);
+            let op = t.proof(b, 56);
+            let ip = t.proof(b, 56);
+            let next = t.proof(b, 56);
+            let idx = b.constant(f(i as u64));
+            let used = lt(b, idx, len, 3);
+            let active = b.and(scan, used);
+            let not_used = b.not(used);
+            let pad = b.and(scan, not_used);
+            for v in a.targets().into_iter().chain(c.targets()) {
+                eq(b, pad, v, z);
+            }
+            for (rec, p, root) in [(&a, &op, outer), (&c, &ip, inner)] {
+                let index =
+                    b.mul_const_add(f(1 << 24), rec.val(kind, "order_checkpoint"), rec.owner);
+                eq(b, active, rec.index, index);
+                eq(b, active, p.index, rec.index);
+                let leaf = rec.leaf(b, scope, kind);
+                gh(b, active, p.value, leaf);
+                minimum(b, active, p, root);
+            }
+            let ordered = lt(b, a.index, c.index, 56);
+            eq(b, active, ordered.target, one);
+            let reverse = if kind == 3 {
+                let v = a.val(kind, "side");
+                b.is_equal(v, one)
+            } else {
+                let two = b.constant(f(2));
+                let v = a.val(kind, "kind");
+                b.is_equal(v, two)
+            };
+            let left = RecordTargets::select(b, reverse, &c, &a);
+            let right = RecordTargets::select(b, reverse, &a, &c);
+            let compatible = compatible_t(b, kind, &left, &right);
+            let better = better_t(b, kind, &left, &right, &best_a, &best_b);
+            let absent = b.not(exists);
+            let better_or_first = b.or(absent, better);
+            let update = and(b, &[active, compatible, better_or_first]);
+            best_a = RecordTargets::select(b, update, &left, &best_a);
+            best_b = RecordTargets::select(b, update, &right, &best_b);
+            exists = b.or(exists, update);
+            let ir = MerkleProofGadget::compute_root::<H, F, 2>(b, ip.index, zero, &ip.siblings);
+            let inner_done = eq_hash(b, ir, empty);
+            let or = MerkleProofGadget::compute_root::<H, F, 2>(b, op.index, zero, &op.siblings);
+            let resetting = b.and(active, inner_done);
+            minimum(b, resetting, &next, or);
+            let nr =
+                MerkleProofGadget::compute_root::<H, F, 2>(b, next.index, zero, &next.siblings);
+            let finished = eq_hash(b, nr, empty);
+            let next_outer = select_hash(b, finished, empty, or);
+            let next_inner = select_hash(b, inner_done, nr, ir);
+            let next_outer = select_hash(b, inner_done, next_outer, outer);
+            outer = select_hash(b, active, next_outer, outer);
+            inner = select_hash(b, active, next_inner, inner);
+            rows.push(RowTargets {
+                a,
+                b: c,
+                outer: op,
+                inner: ip,
+                next: Some(next),
+            });
+        }
+        let best = best_hash(b, scope, kind, exists, &best_a, &best_b);
+        gh(b, scan, after.outer, outer);
+        gh(b, scan, after.inner, inner);
+        gh(b, scan, after.best, best);
+        let cursor = b.add(before.cursor, len);
+        eq(b, scan, after.cursor, cursor);
+        let done = eq_hash(b, outer, empty);
+        eq(b, scan, after.complete.target, done.target);
+        let full = b.is_equal(len, four);
+        let full_or_done = b.or(full, done);
+        eq(b, scan, full_or_done.target, one);
+        let positive = lt(b, z, len, 3);
+        let positive_or_done = b.or(positive, done);
+        eq(b, scan, positive_or_done.target, one);
+        let n = b.sub(total, settled);
+        b.range_check(n, 24);
+        let nm = b.sub(n, one);
+        let product = b.mul(n, nm);
+        let count = b.mul_const(f(2).inverse(), product);
+        let finish = b.and(scan, done);
+        eq(b, finish, cursor, count);
+        Ok(Self {
+            before,
+            after,
+            prev_exists,
+            prev_a,
+            prev_b,
+            len,
+            rows,
+            head: Some(head),
         })
     }
     pub fn set(
@@ -842,10 +1145,16 @@ impl Targets {
         self.prev_a.set(pw, best.map(|b| &b.a))?;
         self.prev_b.set(pw, best.map(|b| &b.b))?;
         pw.set_target(self.len, f(page.map(|p| p.rows.len() as u64).unwrap_or(0)))?;
+        if let Some(head) = &self.head {
+            set_path(pw, head, page.and_then(|p| p.head.as_ref()))?;
+        }
         for (i, t) in self.rows.iter().enumerate() {
             let row = page.and_then(|p| p.rows.get(i));
             t.a.set(pw, row.map(|r| &r.a))?;
             t.b.set(pw, row.map(|r| &r.b))?;
+            if let Some(next) = &t.next {
+                set_path(pw, next, row.and_then(|r| r.next.as_ref()))?;
+            }
             for (target, path) in [
                 (&t.outer, row.map(|r| &r.outer)),
                 (&t.inner, row.map(|r| &r.inner)),
@@ -1075,5 +1384,148 @@ mod tests {
             )?;
         }
         Ok(())
+    }
+    #[test]
+    #[ignore = "offline conditional triangular completeness proofs"]
+    fn triangular_frontier_components() -> Result<()> {
+        let out = std::env::var("PAIR_TRIANGLE_COMPONENT_OUT")?;
+        std::fs::create_dir(&out)?;
+        for kind in [3, 4] {
+            let all = records(kind);
+            let mut evidence = vec![];
+            for n in [1, 2, 5] {
+                let records = &all[..n];
+                let mut scope = vec![1; 41];
+                scope[..9].copy_from_slice(&[
+                    3,
+                    psy_config::PSY_NETWORK_MAGIC,
+                    kind,
+                    1000,
+                    100,
+                    1,
+                    100,
+                    132,
+                    n as u64,
+                ]);
+                let q = PriorityTree::from_committed(
+                    &scope,
+                    records
+                        .iter()
+                        .map(|r| PriorityMember {
+                            index: r.index,
+                            member: crate::checkpoint_stream::Member {
+                                owner: r.owner,
+                                nonce: r.value(kind, "nonce"),
+                                terms: r.terms(&scope),
+                            },
+                        })
+                        .collect(),
+                )?;
+                let mut b = CircuitBuilder::<F, 2>::new(CircuitConfig::standard_recursion_config());
+                let mut tape = Tape::default();
+                let s = scope.iter().map(|n| b.constant(f(*n))).collect::<Vec<_>>();
+                let root = tape.hash(&mut b);
+                let count = b.constant(f(n as u64));
+                let zero = b.zero();
+                let scan = b._true();
+                let target =
+                    Targets::add_triangular(&mut b, &mut tape, kind, &s, root, count, zero, scan)?;
+                let data = b.build::<C>();
+                let prove = |p: &Page| -> Result<_> {
+                    let mut pw = PartialWitness::new();
+                    pw.set_hash_target(root, h(q.root()))?;
+                    target.set(&mut pw, kind, &scope, Some(p))?;
+                    Ok(data.prove(pw)?)
+                };
+                let mut state = State::initial(q.root());
+                let mut pages = 0;
+                let mut attacks = vec![];
+                while !state.complete {
+                    let page = next_triangular_page(kind, &scope, &q, records, &state)?;
+                    if n == 5 && pages == 0 {
+                        for name in [
+                            "head-omission",
+                            "duplicate",
+                            "wrong-suffix",
+                            "omitted-pair",
+                            "best-substitution",
+                            "cursor",
+                        ] {
+                            let mut bad = page.clone();
+                            match name {
+                                "head-omission" => bad.head = None,
+                                "duplicate" => {
+                                    bad.rows[1] = bad.rows[0].clone();
+                                }
+                                "wrong-suffix" => {
+                                    bad.rows[3].next = Some(q.proof(records[0].index))
+                                }
+                                "omitted-pair" => {
+                                    bad.rows.remove(0);
+                                }
+                                "best-substitution" => {
+                                    bad.after.best = Some(Best {
+                                        a: all[0].clone(),
+                                        b: all[1].clone(),
+                                    })
+                                }
+                                "cursor" => bad.after.cursor += 1,
+                                _ => unreachable!(),
+                            }
+                            ensure!(prove(&bad).is_err(), "accepted triangular attack {name}");
+                            attacks.push(name);
+                        }
+                    }
+                    let proof = prove(&page)?;
+                    data.verify(proof.clone())?;
+                    std::fs::write(
+                        format!("{out}/{kind}-{n}-{pages}.bin"),
+                        bincode::serialize(&proof)?,
+                    )?;
+                    std::fs::write(
+                        format!("{out}/{kind}-{n}-{pages}.json"),
+                        serde_json::to_vec_pretty(&page)?,
+                    )?;
+                    state = page.after;
+                    pages += 1;
+                }
+                let mut expected: Option<Best> = None;
+                for a in records {
+                    for c in records {
+                        if compatible(kind, a, c)
+                            && expected
+                                .as_ref()
+                                .map(|v| before_pair(kind, a, c, v))
+                                .unwrap_or(true)
+                        {
+                            expected = Some(Best {
+                                a: a.clone(),
+                                b: c.clone(),
+                            });
+                        }
+                    }
+                }
+                ensure!(
+                    state.best == expected && state.cursor == (n * (n - 1) / 2) as u64,
+                    "exact Cartesian reference winner and triangle count"
+                );
+                evidence.push(serde_json::json!({"members":n,"pages":pages,"comparisons":state.cursor,"attacks":attacks,"degreeBits":data.common.degree_bits()}));
+            }
+            std::fs::write(
+                format!("{out}/{kind}-REPORT.json"),
+                serde_json::to_vec_pretty(
+                    &serde_json::json!({"scope":"conditional triangle proofs only, no signature/UPS/network","cases":evidence}),
+                )?,
+            )?;
+        }
+        Ok(())
+    }
+    #[test]
+    fn planner_rejects_raw_snapshot_domain_before_proving() {
+        let mut scope = vec![1; 41];
+        assert!(PriorityTree::from_committed(&scope, vec![]).is_err());
+        scope[0] = 3;
+        assert!(PriorityTree::from_committed(&scope, vec![]).is_ok());
+        assert!(PriorityTree::from_committed(&scope[..40], vec![]).is_err());
     }
 }

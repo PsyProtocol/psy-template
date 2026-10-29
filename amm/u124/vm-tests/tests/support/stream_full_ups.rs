@@ -583,9 +583,10 @@ fn needed(spec: &Value) -> Vec<Value> {
                 "refund_buy",
             ]
             .contains(&o["name"].as_str().unwrap())
-                || (spec["version"] == 8 && ["match_orders","settle_sale"].contains(&o["name"].as_str().unwrap_or("")))
+                || ((spec["version"] == 8 || spec["version"] == 9)
+                    && ["match_orders", "settle_sale"].contains(&o["name"].as_str().unwrap_or("")))
                 || o["name"].as_str().unwrap().starts_with("refund_funding_")
-                || ((spec["version"] == 7 || spec["version"] == 8)
+                || ((spec["version"] == 7 || spec["version"] == 8 || spec["version"] == 9)
                     && (o["name"].as_str().unwrap().starts_with("recover_funding_")
                         || o["name"] == "recover_nft"))
         })
@@ -1337,7 +1338,8 @@ async fn stream_key_exact_replay_and_coherent_priority_attacks() -> Result<()> {
             ["amm", "bondingcurve", "orderbook", "nftmarket"].contains(&kind),
             "reviewed replay market"
         );
-        let label = if paired { "refund-0" } else { "settle-0" };
+        let label = std::env::var("STREAM_KEY_REPLAY_LABEL")
+            .unwrap_or_else(|_| if paired { "refund-0" } else { "settle-0" }.into());
         let dir = std::path::Path::new(&input_root).join(format!("{kind}-{label}"));
         let read = |name: &str| -> Result<Value> {
             Ok(serde_json::from_slice(&fs::read(dir.join(name))?)?)
@@ -1414,7 +1416,21 @@ async fn stream_key_exact_replay_and_coherent_priority_attacks() -> Result<()> {
         let queue = stream_source::priority(&r, &source, source.history.checkpoint_path.root)?;
         let w = World::new(kind)?;
         let mut rejected = vec![];
-        let schedules = if paired {
+        let optimized = spec["version"] == 9;
+        let schedules = if optimized {
+            let position = |owner: u64| {
+                queue
+                    .members
+                    .iter()
+                    .position(|m| m.member.owner == owner)
+                    .unwrap()
+            };
+            vec![
+                ("non-winning-buyer", vec![position(201)]),
+                ("rejection-nonce", vec![position(203)]),
+                ("disabled-rejection-bit", vec![position(203)]),
+            ]
+        } else if paired {
             vec![
                 ("later-member-first", vec![1, 0]),
                 ("omitted-minimum", vec![1, 2]),
@@ -1429,6 +1445,12 @@ async fn stream_key_exact_replay_and_coherent_priority_attacks() -> Result<()> {
         };
         for (name, schedule) in schedules {
             let mut altered = request.clone();
+            if optimized {
+                altered.fields[2] = schedule.len() as u64;
+                if name == "disabled-rejection-bit" {
+                    altered.fields[1] = 0;
+                }
+            }
             let mut remaining = queue.clone();
             altered.members.clear();
             for (i, index) in schedule.iter().copied().enumerate() {
@@ -1436,9 +1458,16 @@ async fn stream_key_exact_replay_and_coherent_priority_attacks() -> Result<()> {
                 // The last source member is a different refund branch. Use its
                 // original payer row when present; synthetic row values remain
                 // explicitly bound in the recomputed full call stack below.
-                let old = (0..4)
-                    .find(|j| request.fields[22 + 13 * j] == u)
-                    .unwrap_or(if paired { 1 } else { 3 });
+                let old =
+                    (0..4)
+                        .find(|j| request.fields[22 + 13 * j] == u)
+                        .unwrap_or(if optimized {
+                            0
+                        } else if paired {
+                            1
+                        } else {
+                            3
+                        });
                 altered.fields[21 + 13 * i..34 + 13 * i]
                     .copy_from_slice(&request.fields[21 + 13 * old..34 + 13 * old]);
                 altered.fields[22 + 13 * i] = u;
@@ -1450,6 +1479,9 @@ async fn stream_key_exact_replay_and_coherent_priority_attacks() -> Result<()> {
                     remaining.proof(queue.members[index].index),
                 )?);
                 remaining.remove(queue.members[index].index);
+            }
+            if optimized && name == "rejection-nonce" {
+                altered.fields[31] += 1;
             }
             if !paired {
                 let mut ranks = (0..4).collect::<Vec<_>>();
@@ -1529,5 +1561,8 @@ async fn stream_key_exact_replay_and_coherent_priority_attacks() -> Result<()> {
 #[path = "pair_stream_full_ups.rs"]
 mod pair_stream;
 
-#[path="pair_trade_full_ups.rs"]
+#[path = "pair_trade_full_ups.rs"]
 mod pair_trade;
+
+#[path = "pair_optimized_full_ups.rs"]
+mod pair_optimized;
