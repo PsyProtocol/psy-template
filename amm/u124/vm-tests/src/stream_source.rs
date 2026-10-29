@@ -1176,6 +1176,7 @@ impl Word {
     }
 }
 #[derive(Clone, Debug, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
 pub struct PriorityMember {
     pub index: u64,
     pub member: Member,

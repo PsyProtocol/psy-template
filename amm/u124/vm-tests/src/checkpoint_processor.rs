@@ -63,3 +63,30 @@ pub fn producer_order_proposal(spec:&serde_json::Value,input:&serde_json::Value)
     ensure!((2..=4).contains(&v.count),"producer batch requires two to four members");
     rank(spec["market_id"].as_u64().unwrap(),integer(&v.batch)?,array(&v.root)?,array(&v.seed)?,integer(&v.checkpoint)?,array(&v.owners)?,array(&v.nonces)?,v.count)
 }
+
+pub fn lower_stream_seed(def: &mut DPNFunctionCircuitDefinition) -> Result<()> {
+    ensure!(def.name == "begin_order_page" && def.circuit_inputs.len() == 9 && def.circuit_outputs.is_empty(), "checkpoint intrinsic exact method ABI");
+    ensure!(def.assertions.iter().filter(|a|a.message == "stream_seed_intrinsic").count() == 1, "one fail-closed source intrinsic required");
+    ensure!(!def.state_commands.iter().any(|c|matches!(c,DPNStateCmd::GetCheckpointLeafStats(_))), "checkpoint intrinsic already lowered");
+    def.assertions.retain(|a|a.message != "stream_seed_intrinsic");
+    let command = def.state_commands.len();
+    def.state_commands.push(DPNStateCmd::get_checkpoint_leaf_stats(def.circuit_inputs[4]));
+    def.state_command_resolution_indices.push(def.definitions.len());
+    let array = def.definitions.iter().filter(|n|n.data_type==Type::TargetArray).map(|n|n.index+1).max().unwrap_or(0);
+    def.definitions.push(Node{data_type:Type::TargetArray,index:array,op_type:Op::GetStateCommandResultArray,inputs:vec![command as u64]});
+    let array_id = ((Type::TargetArray as u64)<<32)|array as u64;
+    let mut next = def.definitions.iter().filter(|n|n.data_type==Type::Target).map(|n|n.index+1).max().unwrap_or(0);
+    for limb in 0..4 {
+        let offset = 5 + PMJobsCompletedStats::<F>::q_felt_size() + 1 + limb;
+        let constant = next; next+=1;
+        def.definitions.push(Node{data_type:Type::Target,index:constant,op_type:Op::Constant,inputs:vec![offset as u64]});
+        let value = next; next+=1;
+        def.definitions.push(Node{data_type:Type::Target,index:value,op_type:Op::TargetAt,inputs:vec![array_id,constant as u64]});
+        def.assertions.push(DPNAssertEqInfoIndexed{left:def.circuit_inputs[5+limb],right:value as u64,message:"checkpoint seed limb mismatch".into()});
+    }
+    psy_vm::dpn::vm::validate::validate_function_definition(def)?;
+    Ok(())
+}
+pub fn compile_random_stream(source:&str,a:u64,b:u64)->Result<psy_compiler::output::serialize::ContractOutput>{
+ let mut out=crate::batch_compile::compile(source,a,b,false)?;let mut n=0;for d in &mut out.circuit_definitions{if d.name=="begin_order_page"{lower_stream_seed(d)?;n+=1;}}ensure!(n==1,"one random stream entry required");out.contract_code.functions=out.circuit_definitions.iter().map(psy_vm::dpn::contract::dapen_fc_to_cfc_code_definition).collect();Ok(out)
+}

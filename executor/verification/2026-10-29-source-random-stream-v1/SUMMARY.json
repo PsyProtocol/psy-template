@@ -1,0 +1,130 @@
+{
+  "schema": 1,
+  "applicationBase": "67476da2c0b791d6bd7522aea8a6df236c2c4a81",
+  "branch": "markets-batch-capacity-recovery-20261020",
+  "profile": "source-covered-producer-random-stream-v1",
+  "finalFixtures": "fixtures-v4",
+  "finalApplication": "application-v4",
+  "finalCompleteUps": 32,
+  "acceptedPrototypeUps": 6,
+  "acceptedCompleteUpsTotal": 38,
+  "finalProofCap": 34,
+  "totalProofCap": 40,
+  "historicalCfcProbes": 1,
+  "sourceAccountsPerMarket": 8,
+  "eligibleMembersPerMarket": 5,
+  "orderingPageSizes": [
+    4,
+    1
+  ],
+  "settlementPageSizes": [
+    4,
+    1
+  ],
+  "markets": {
+    "amm": {
+      "keyFingerprint": "ddafb5924517b42618c1fecfc327126fc8150e555c033f1c52932d9fef5f5963",
+      "completeUps": 16,
+      "normalUps": 7,
+      "normalUpsSeconds": 540.215040209,
+      "coldResources": [
+        {
+          "phase": "cold-stream-resource-build",
+          "seconds": 114.82860325
+        }
+      ],
+      "normalSyntheticNativeFeeBaseUnits": "7000128000",
+      "normalSyntheticTrades": 3,
+      "permutationOwners": [
+        204,
+        202,
+        203,
+        200,
+        201
+      ],
+      "assetConservation": true,
+      "sameSeedPrefixRecovery": true,
+      "ordinaryWalletUps": false
+    },
+    "bondingcurve": {
+      "keyFingerprint": "1684ff41693a824a04c71b767ac00438cc04969219069ca998dd2311bd0d4ff5",
+      "completeUps": 16,
+      "normalUps": 7,
+      "normalUpsSeconds": 526.612428834,
+      "coldResources": [
+        {
+          "phase": "cold-stream-resource-build",
+          "seconds": 106.49505425
+        }
+      ],
+      "normalSyntheticNativeFeeBaseUnits": "7000114000",
+      "normalSyntheticTrades": 3,
+      "permutationOwners": [
+        201,
+        202,
+        204,
+        200,
+        203
+      ],
+      "assetConservation": true,
+      "sameSeedPrefixRecovery": true,
+      "ordinaryWalletUps": false
+    }
+  },
+  "finalRun": {
+    "exitCode": 0,
+    "elapsedSeconds": 3165.231209791964,
+    "stopReason": null,
+    "sampledFamilyRssPeakKiB": 1622832,
+    "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak"
+  },
+  "targetedJsTests": {
+    "pass": 10,
+    "fail": 0,
+    "skip": 0,
+    "result": "public/js-final-v6-result.json"
+  },
+  "nativeInputRejections": 7,
+  "newAndLegacySavedKeyProofsVerified": 4,
+  "coherentKeyAttackRejections": 12,
+  "qualifiedRandomness": false,
+  "causalSealBeforeReleaseAuthenticated": false,
+  "finalityVerified": false,
+  "liveDriverInstalled": false,
+  "liveGate": "closed",
+  "financialOperations": 0,
+  "newLiveInstances": 0,
+  "networkTrades": 0,
+  "ordinaryWalletUps": false,
+  "ordinaryClaimBytecode": true,
+  "rpc": {
+    "utc": "2026-10-29T14:05:58.566208+00:00",
+    "successfulReads": 7,
+    "heads": {
+      "head-0": 14627,
+      "head-1": 14627,
+      "head-2": 14627
+    },
+    "checkpointOneAgreed": true,
+    "nativeLeaf": {
+      "deployer": 0,
+      "function_tree_root": "1ad1a069434cf058a419f4d874615c6fc47170471069f5d232874099ef13c5b1",
+      "code_root": "5df4b10ccf59e25f3c44b4164edb9597455da33b925c3981881c280f2636ebd1",
+      "state_tree_height": 32,
+      "state_layout_root": "cd6931e5422fb07be012e3d0642bbffd0880bf499ecc87bcb822276d7426771c",
+      "state_layout_field_count": 8,
+      "state_layout_slot_count": 8594128984
+    },
+    "finalityAuthenticated": false,
+    "financialOperations": 0,
+    "deploymentOrFundingEnabled": false
+  },
+  "remaining": [
+    "Application: atomic complete-permutation installation or per-page minimum certification to address poisoned-prefix/fee griefing; current honest-prefix refund recovery is not a forced-service guarantee",
+    "Application: owned v10 live spending/fresh preflight/exact request and receipt integration",
+    "Application: fresh complete source, actual new-instance bindings, bounded fee and deadline fit; do not open an unfit S+256 epoch",
+    "External: reviewed upgrade/version/foreign-state and inclusion-time cancellation semantics",
+    "External only for stronger mode: qualified unpredictable low-bias unique finalized seed and seal-before-release authentication",
+    "Unverified: actual isolated registration, settlement, signed ordinary-wallet claims and network recovery"
+  ]
+}

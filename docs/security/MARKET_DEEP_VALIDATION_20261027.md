@@ -681,3 +681,36 @@ PSY/pUSDT/NFT was spent or moved on the network.
 
 See [the full report and remaining requirements](TRIANGULAR_PAIR_RECOVERY_20261029.md)
 and [public evidence and reproduction](../../executor/verification/2026-10-29-pair-triangular-recovery-v1/README.md).
+
+## 29 October: complete-source producer random stream candidate
+
+New AMM/Curve v10 `source-covered-producer-random-stream-v1` binds the complete
+finite source manifest, exact S+1 native seed, full canonical hash permutation,
+cursor, shared-state execution, terminal refunds and same-seed timeout recovery
+across pages. Existing deterministic keys and Book/NFT priority are unchanged.
+Both markets classify all eight synthetic accounts/five eligible members,
+order 4+1 and settle 4+1. All 32 final complete UPSs passed; six earlier accepted
+prototype prefixes and all failed runs remain historical evidence. Fixed
+verification, exact signature/session/call binding, U124 amounts, fees and state
+endpoints are preserved. Four new/legacy saved key proofs and twelve coherent
+forged-priority contexts were checked without re-proving CFCs/Endcaps.
+
+The owned native public-planning Executor route retains one source/seed/plan,
+recovers interrupted planning without overwriting outputs, checks copied
+artifacts and rejects reselection. It does not sign or broadcast. Native producer
+influence, missing finality/causal release authentication and cancellation-tip
+boundaries remain explicit. A sorted partial prefix can poison completion;
+same-seed honest recovery passed, but hostile fee/service griefing is not closed.
+An atomic whole-permutation install or minimum certificate remains application
+work before financial promotion. Current-network inventory/window/budget fit and
+the owned live v10 spending driver are also incomplete.
+
+Normal offline seven-UPS intervals were 540.215 s AMM and 526.612 s Curve,
+excluding cold resource builds of 114.829 s / 106.495 s. The full final process
+with recovery forks took 3,165.231 s; sampled process-family RSS peaked at
+1,622,832 KiB (not physical footprint). Ordinary claims are actual VM bytecode
+only; network trades and signed ordinary-wallet claims remain zero. No matched
+speedup, chain TPS, cross-machine or production conclusion follows.
+
+See [the protocol, costs and remaining gates](SOURCE_RANDOM_STREAM_UPS_20261029.md)
+and [public proofs, failures and reproduction](../../executor/verification/2026-10-29-source-random-stream-v1/README.md).
