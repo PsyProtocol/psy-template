@@ -60,3 +60,26 @@ oriented by its committed side/kind; exact price/time and NFT priorities remain.
 An early one-member refund requires both the stored best certificate and actual
 current invalidity. Normal expiry refunds still require canonical minima.
 `audit-optimized-pair-evidence.mjs` is a structural/BigInt reference audit only.
+
+## Dependency, source and budget readiness
+
+See [the current readiness report](../../docs/security/PAIR_LIVE_READINESS_20261029.md).
+`collect-source-inventory.py REVIEWED_NATIVE_DRIVER FRESH_OUTPUT` captures bounded
+read-only account proofs and invokes the frozen native verifier after each path.
+`--resume OLD_DIRECTORY` revalidates the exact transcript at the same checkpoint
+and root into a fresh directory; it never changes the source after observing it.
+Transport recovery is opt-in, exact-read-only and bounded (one retry per request,
+sixteen total); semantic RPC, route, root, proof and budget failures stop capture.
+Incomplete prefixes
+are not complete source sets or authorizations. The library is shared with the
+existing `final_state_capture` collector, including its unchanged eligibility and
+funding checks.
+
+`bind_native_artifact` reconstructs full native bytecode, canonical layout and
+all function fingerprints, and verifies its leaf membership under a pinned
+contract root. This does not authenticate checkpoint finality or a future upgrade.
+The source verifier exports `earliestEligibleDeadline`; the Executor's
+`planPairBudget()` obtains counts/deadline from that verified output. Caller
+cost assumptions cannot substitute a smaller eligible set. Planning readiness
+cannot sign, broadcast or remove the offline-only key gate. The v9 window is
+still C+32; an unfit plan stops, rather than changing a sealed epoch or key.

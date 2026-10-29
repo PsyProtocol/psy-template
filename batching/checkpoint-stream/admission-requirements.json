@@ -5,7 +5,12 @@
     "clientCommit": "b280d714a8f0930c61962c885374ea63ea63d274",
     "path": "psy_node_common/src/realm/edge/handler.rs",
     "lines": "833-905",
-    "runtimeAttestation": false
+    "runtimeAttestation": false,
+    "additionalPaths": [
+      "psy_node_common/src/guta_planner/realm_guta_planner.rs:350-388,610-627",
+      "psy_node_common/src/coordinator/edge/handler.rs:659-706",
+      "psy_data/src/v1/qdata/contract/aux.rs:450-468"
+    ]
   },
   "liveAuthorizationAllowed": false,
   "requiredDeliverables": [
@@ -19,8 +24,22 @@
       ],
       "interfaceProposalNotExisting": {
         "name": "get_ups_admission_policy",
-        "request": ["chainInstance", "realm", "policyVersion"],
-        "response": ["chainInstance", "realm", "policyVersion", "gatheringCheckpoint", "finalizedCheckpoint", "minAcceptedSessionCheckpoint", "foreignStateRule", "contractVersionRule", "authenticatedPolicyCommitment"],
+        "request": [
+          "chainInstance",
+          "realm",
+          "policyVersion"
+        ],
+        "response": [
+          "chainInstance",
+          "realm",
+          "policyVersion",
+          "gatheringCheckpoint",
+          "finalizedCheckpoint",
+          "minAcceptedSessionCheckpoint",
+          "foreignStateRule",
+          "contractVersionRule",
+          "authenticatedPolicyCommitment"
+        ],
         "warning": "RPC authentication or a signature alone does not establish enforcement, latestness or finality. Supply the consensus/protocol rule, proof binding and reproducible service configuration."
       }
     },
@@ -54,5 +73,19 @@
     "Deterministic fixed-set ordering only.",
     "No qualified random source or finality claim.",
     "No Node or SDK changes in this candidate."
+  ],
+  "reviewedFrozenBehavior": [
+    "The edge rejects future session checkpoints, a submitting-account checkpoint behind its current leaf, a mismatched submitting-account start leaf, and an invalid historical checkpoint prefix.",
+    "The normal and deferred processor paths compare the submitting account old leaf; this is not a recheck of every foreign cancellation at inclusion.",
+    "A confirmed user-account cancel request is distinct from a confirmed same-vault refund; a trade and refund consuming the same vault start state must be reconciled by the actual winning state/receipt.",
+    "The reviewed path does not establish a fixed maximum historical snapshot age. ctx.checkpoint_id deadlines are signed-session checks, not proven inclusion-tip deadlines.",
+    "The inspected update handler compares a request-supplied numeric deployer with the stored deployer. The request type has no owner signature field; authentication outside this handler remains unverified. No unauthorized update probe was submitted."
+  ],
+  "applicationMitigations": [
+    "Pinned complete dependency membership including deployer and all code/layout/function/count fields.",
+    "Native reconstruction of every captured function, not only transfer/claim/burn method equivalence.",
+    "Complete sparse account inventory with authenticated zero-subtree pruning; incomplete/budget-exhausted captures cannot authorize source coverage.",
+    "Source-derived member counts and minimum eligible deadline for non-authorizing Executor budget planning; unchanged v9 C+32 profile fails closed when it does not fit.",
+    "Preserve unknown request identity/account lock; cancel acknowledgement or wall-clock expiry alone cannot resolve an unknown vault request."
   ]
 }

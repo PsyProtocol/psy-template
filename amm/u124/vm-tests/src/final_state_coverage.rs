@@ -289,6 +289,8 @@ pub struct Coverage {
     pub source_user_root: Q<F>,
     pub audit_root: Hash,
     pub accounts: u64,
+    #[serde(default)]
+    pub earliest_eligible_deadline: Option<u64>,
     pub trading_manifest: Option<Manifest>,
     pub recovery_members: Vec<Member>,
     pub audit: Vec<Audit>,
@@ -799,6 +801,7 @@ pub fn verify_snapshot(review: &Review, s: &Snapshot, expected_history: Q<F>) ->
         "source vault must be initialized and idle"
     );
     let (mut members, mut recovery, mut audit) = (vec![], vec![], vec![]);
+    let mut earliest_eligible_deadline: Option<u64> = None;
     for a in &s.accounts {
         let owner = a.leaf.user_id.to_canonical_u64();
         let words = Words::open(&a.leaf, review.market, &a.market, 31)?;
@@ -909,6 +912,8 @@ pub fn verify_snapshot(review: &Review, s: &Snapshot, expected_history: Q<F>) ->
             }
         };
         if reason == "eligible" {
+            let deadline=words.read(review.offsets["deadline"])?;
+            earliest_eligible_deadline=Some(earliest_eligible_deadline.map_or(deadline,|old|old.min(deadline)));
             members.push(Member {
                 owner,
                 nonce,
@@ -981,6 +986,7 @@ pub fn verify_snapshot(review: &Review, s: &Snapshot, expected_history: Q<F>) ->
         source_user_root: root,
         audit_root: hash(&values),
         accounts: audit.len() as u64,
+        earliest_eligible_deadline,
         trading_manifest,
         recovery_members: recovery,
         audit,

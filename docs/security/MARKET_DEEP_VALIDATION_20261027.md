@@ -1,5 +1,11 @@
 # Market correctness and reset-chain validation — 27 October 2026
 
+Latest readiness continuation: [complete native identity, sparse-source capture,
+deadline/fee budgeting and checkpoint/cancellation review](PAIR_LIVE_READINESS_20261029.md).
+This adds full native identity checks, two synthetic full UPSs and complete
+312-account enumeration relative to an observed root. The deadline/funding plan,
+new-market eligibility and admission/version semantics do not yet enable funding.
+
 Latest paired-market result: the [triangular scan and authenticated early refund
 report](TRIANGULAR_PAIR_RECOVERY_20261029.md) supersedes the v8 scan-cost and
 supported current-invalid winner-stall gaps below. It is offline proof evidence;

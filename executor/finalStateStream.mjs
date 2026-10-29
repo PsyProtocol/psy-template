@@ -10,6 +10,7 @@ import {publishFile} from './durableFile.mjs';
 import {sealDriver} from './sealedDriver.mjs';
 import {ExecutionJournal} from './journal.mjs';
 import {prepareCheckpointStream} from './checkpointStream.mjs';
+import {planReadiness} from '../batching/checkpoint-stream/readiness-budget.mjs';
 import {parseLosslessJson} from '../amm/u124/client.mjs';
 const run=promisify(execFile);
 const read=async p=>parseLosslessJson(await readFile(p,'utf8'));
@@ -37,13 +38,26 @@ export async function prepareFinalStateStream(options){
   if(!(await journal.records()).some(r=>r.status==='final-state-source-verified')){
    await run(driver.file,[join(inputDir,'review.json'),join(inputDir,'snapshot.json'),historyRoot,resultDir],{env,timeout:300000,maxBuffer:2000000});
    const report=await read(join(resultDir,'source.json'));assert.equal(report.historyRoot,historyRoot);assert.equal(report.snapshotSha256,sha256(source));assert.equal(report.reviewSha256,reviewSha256);assert.equal(report.canBroadcast,false);assert.equal(report.fullUpsVerified,false);
-   const names=['source.json','coverage.json','snapshot.json','review.json',...(Number(report.eligible)>0?['manifest.json','pages.json']:[])];const outputs={};for(const name of names)outputs[name]=sha256(await readFile(join(resultDir,name)));
+   const names=['source.json','coverage.json','snapshot.json','review.json',...(Number(report.eligible)>0?['manifest.json',...(report.orderingPlanAvailable!==false?['pages.json']:[])]:[])];const outputs={};for(const name of names)outputs[name]=sha256(await readFile(join(resultDir,name)));
    await journal.append({status:'final-state-source-verified',historyRoot,reviewSha256,snapshotSha256:sha256(source),outputs,financialOperations:0});
   }
  });
  const check=async()=>{await driver.check();const record=(await journal.records()).find(r=>r.status==='final-state-source-verified');assert.ok(record);assert.equal(record.historyRoot,historyRoot);assert.equal(record.reviewSha256,reviewSha256);assert.equal(record.snapshotSha256,sha256(source));for(const [name,pin]of pins)assert.equal(sha256(await readFile(join(inputDir,name))),pin,'captured source changed');for(const [name,pin]of Object.entries(record.outputs))assert.equal(sha256(await readFile(join(resultDir,name))),pin,'verified source changed');return read(join(resultDir,'source.json'));};
  const report=await check();
- const ordering=Number(report.eligible)>0?await prepareCheckpointStream({wallet:streamWallet,walletSha256:streamWalletSha256,input:join(resultDir,'manifest.json'),runtimeDirectory:join(dir,'ordering')}):null;
+ const ordering=Number(report.eligible)>0&&Number(cfg.kind)<=2?await prepareCheckpointStream({wallet:streamWallet,walletSha256:streamWalletSha256,input:join(resultDir,'manifest.json'),runtimeDirectory:join(dir,'ordering')}):null;
  const status=async()=>{await check();return {scope:'complete final eligible orders at pinned source checkpoint; not transaction history',sourceHistoryRoot:historyRoot,accounts:report.accounts,eligible:report.eligible,fundedRecoveryCandidates:report.fundedRecoveryCandidates,finalStateCoverageRelativeToPinnedRoot:true,finalityVerified:false,fullUpsVerified:false,canSign:false,canBroadcast:false,ordering:ordering?await ordering.status():null};};
- return {directory:dir,sourceDirectory:resultDir,status,prove:async()=>{await check();const proofs=ordering?await ordering.prove():null;await check();return {source:await status(),proofs,settlementCursor:0,canBroadcast:false};},authorizeSettlement:()=>{const e=Error('This legacy preparation route has no installed, reviewed source-covered v3 spending driver. Financial stream execution remains disabled.');e.code='STREAM_MARKET_UPS_UNAVAILABLE';throw e;}};
+ const planPairBudget=costs=>journal.locked(async()=>{
+  const verified=await check();assert.ok([3,4].includes(Number(cfg.kind)),'paired source budget requires Book/NFT review');
+  const artifact=await read(join(inputDir,relativeArtifact(cfg.artifact)));
+  assert.ok(artifact.circuit_definitions.some(d=>d.name==='bind_pair_rejection'),'v9 recovery artifact required for triangular budget');
+  assert.ok(Object.hasOwn(verified,'earliestEligibleDeadline'),'rebuild the frozen native source driver to expose authenticated deadlines');
+  const plan=planReadiness({...costs,profile:'source-covered-pair-triangular-recovery-v1',market:Number(cfg.kind)===3?'orderbook':'nftmarket',
+   occupiedAccounts:Number(verified.accounts),eligibleMembers:Number(verified.eligible),recoveryMembers:Number(verified.fundedRecoveryCandidates),
+   sourceCheckpoint:Number(verified.sourceCheckpoint),earliestOrderDeadline:verified.earliestEligibleDeadline===null?Number(verified.sourceCheckpoint)+32:Number(verified.earliestEligibleDeadline),
+   sourceInventoryVerified:true,eligibilityCoverageVerified:true,actualDependenciesVerified:true});
+  const name=`readiness-budget-${plan.inputSha256}.json`;await publish(join(dir,name),JSON.stringify(plan,null,2)+'\n');
+  await journal.append({status:'pair-source-budget-reviewed',sourceOutputsSha256:sha256(await readFile(join(resultDir,'source.json'))),planSha256:sha256(await readFile(join(dir,name))),planningConditionsFit:plan.planningConditionsFit,canBroadcast:false});
+  return {...plan,sourceReviewSha256:reviewSha256,sourceHistoryRoot:historyRoot};
+ });
+ return {directory:dir,sourceDirectory:resultDir,status,planPairBudget,prove:async()=>{await check();const proofs=ordering?await ordering.prove():null;await check();return {source:await status(),proofs,settlementCursor:0,canBroadcast:false};},authorizeSettlement:()=>{const e=Error('This legacy preparation route has no installed, reviewed source-covered v3 spending driver. Financial stream execution remains disabled.');e.code='STREAM_MARKET_UPS_UNAVAILABLE';throw e;}};
 }
