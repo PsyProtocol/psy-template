@@ -1,12 +1,13 @@
 # Checkpoint stream profiles
 
-Three profiles intentionally coexist. Their commitments and keys are not
+Four profiles intentionally coexist. Their commitments and keys are not
 interchangeable.
 
 | Profile | Entry points | Financial authority |
 | --- | --- | --- |
 | v1 component preparation | `executor/checkpointStream.mjs`, `executor/finalStateStream.mjs`, original `checkpoint_stream.rs` | Disabled; standalone source/ordering evidence is not a spending authorization |
 | paired terminal refund stream (policy version 7) | `pair-generate.mjs`, `pair-build-policy.mjs`, shared `stream_*.rs` | Distinct offline Orderbook/NFT candidates; trading and live authorization disabled pending global paired trading frontier |
+| paired global frontier (policy version 8) | `pair-trade-generate.mjs`, `pair-trade-build-policy.mjs`, `pair_frontier.rs`, shared `stream_*.rs` | Distinct offline Orderbook/NFT trading candidates; complete-source scan and actual fills/refunds proved; live authorization remains disabled |
 | v3 source-covered deterministic priority stream | `generate.mjs`, `build-policy.mjs`, `stream_{source,context,current,order,policy}.rs` | Distinct undeployed candidates; complete synthetic-checkpoint UPS validation is tracked in the report below; live driver remains disabled |
 
 For v3, use `prepare-fixtures.mjs REVIEWED_INPUT FRESH_OUTPUT`, the frozen
@@ -29,6 +30,22 @@ identity checks, timeout/refund boundaries and evidence. Random ordering remains
 disabled. Orderbook price/time priority and NFT winner semantics are unchanged.
 
 See [the paired-market boundary report](../../docs/security/PAIR_SOURCE_STREAM_UPS_20261029.md)
-for authenticated NFT FIFO/source terms, two-member terminal refund pages and
-the unresolved global trading frontier. A source-time refund queue must not be
+for authenticated NFT FIFO/source terms and two-member terminal refund pages.
+It describes the earlier v7 boundary; v8 does not change its keys or enable v7
+trading. A source-time refund queue must not be
 used as Orderbook price priority or NFT winner selection.
+
+See [the global paired frontier report](../../docs/security/GLOBAL_PAIR_FRONTIER_20261029.md)
+for the v8 continuation. `pair-trade-prepare-fixtures.mjs REVIEWED_INPUT FRESH_OUTPUT`
+creates new candidate source; compile it with the frozen `compile_stream_market`
+wrapper, then run `pair-trade-build-policy.mjs FRESH_OUTPUT`. All outputs must be
+fresh. Source checkpoint scope and remaining-root commitments are preserved.
+Four comparisons per SCAN UPS are a page bound, not an epoch order-count cap.
+The complete Cartesian scan is O(N²) per fill and may outlast the fixed source
+window. This is not a scalable live-service claim or admission/finality proof.
+
+`pair-frontier-reference.mjs` is an independent BigInt reference, and
+`audit-global-pair-evidence.mjs` checks archived structure and reference winners.
+Neither authenticates a source snapshot, verifies a cryptographic proof, signs,
+broadcasts, or authorizes the financial Executor. Use the native full-UPS tests
+and fixed verification resources described in the report for proof acceptance.

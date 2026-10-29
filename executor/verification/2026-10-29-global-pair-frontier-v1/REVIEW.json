@@ -1,0 +1,31 @@
+{
+  "schema": 1,
+  "scope": "Read-only independent source review plus root-owned native validation; no other financial or proving owner",
+  "sourceReview": {
+    "reviewer": "final_source_boundary_review",
+    "executionPerformed": false,
+    "blockingFindings": [],
+    "reviewedProperties": [
+      "complete Cartesian traversal, persisted exact frontier and count-squared completion",
+      "actual bind_pair_choice against stored contract state",
+      "selected source terms/owner/nonce/calls/removals",
+      "exact unsigned U248 comparison with columns below Goldilocks"
+    ],
+    "requiredBoundary": "A later-invalidated frozen-source winner can stall trading until expiry refund. Current-state global reranking is not claimed."
+  },
+  "validationEvidence": [
+    "full-ups-v1",
+    "components-v1",
+    "js-regressions-v1",
+    "FULL-AUDIT-v2.json",
+    "reuse-v1",
+    "EXACT-REPLAY-AUDIT-v1.json",
+    "legacy-pair-key-v1",
+    "legacy-amm-curve-key-v1"
+  ],
+  "limitations": [
+    "No live acceptance or ordinary-wallet signature acceptance",
+    "Structural reference audit is not cryptographic verification",
+    "Old-key compatibility and strict exact revalidation are recorded separately"
+  ]
+}

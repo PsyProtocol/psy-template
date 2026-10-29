@@ -1,0 +1,196 @@
+{
+  "schema": 1,
+  "baseline": "de42f3eafd45d476fdf4ad69393dcc0f17eff059",
+  "branch": "markets-batch-capacity-recovery-20261020",
+  "sdkCommit": "c92880c8b6e2c8d392f19368bc8801a2584fd427",
+  "profile": "source-covered-pair-global-frontier-v1",
+  "policyVersion": 8,
+  "canBroadcast": false,
+  "randomnessEnabled": false,
+  "scope": "real bytecode and complete UPS proofs over synthetic authenticated checkpoints; recipient claims VM-only",
+  "fullUps": 42,
+  "actualBytecodeFills": 4,
+  "ordinaryWalletSignedClaims": 0,
+  "liveDeployments": 0,
+  "liveBroadcasts": 0,
+  "realFees": 0,
+  "sourceAccountsPerMarket": 9,
+  "membersPerMarket": 5,
+  "conditionalComponentProofs": 14,
+  "componentRejections": 12,
+  "javascriptRegressions": 18,
+  "proofGeneration": {
+    "applicationSnapshot": "application-v5",
+    "binaryHashManifest": "bin-v5/HASHES.json",
+    "wallSeconds": 1947.0936127500026,
+    "sampledFamilyRssPeakKiB": 3238944,
+    "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak",
+    "independentPerPhaseSamples": 1,
+    "matchedBeforeAfterExperiment": false
+  },
+  "markets": {
+    "orderbook": {
+      "keyFingerprint": "9cfea3767a6d3e442d8a10e3ed7fd40fe083385ec8c91752011196dcaacba2b1",
+      "fullUps": 21,
+      "winners": [
+        [
+          "202",
+          "203"
+        ],
+        [
+          "200",
+          "201"
+        ]
+      ],
+      "normalPhases": [
+        "open",
+        "cover-0",
+        "cover-1",
+        "cover-2",
+        "scan-0-0",
+        "scan-0-1",
+        "scan-0-2",
+        "scan-0-3",
+        "scan-0-4",
+        "scan-0-5",
+        "scan-0-6",
+        "trade-0",
+        "scan-1-0",
+        "scan-1-1",
+        "scan-1-2",
+        "trade-1",
+        "refund-tail",
+        "enrolled-recovery"
+      ],
+      "normalOriginalIntervalSeconds": 789.876698377,
+      "normalSyntheticNativeFee": "18000200000",
+      "scanComparisons": [
+        25,
+        9
+      ]
+    },
+    "nftmarket": {
+      "keyFingerprint": "528a308664e60f356cea9d04620b87d06280587952bb1eb27612acdff487a8cf",
+      "fullUps": 21,
+      "winners": [
+        [
+          "200",
+          "203"
+        ],
+        [
+          "202",
+          "204"
+        ]
+      ],
+      "normalPhases": [
+        "open",
+        "cover-0",
+        "cover-1",
+        "cover-2",
+        "scan-0-0",
+        "scan-0-1",
+        "scan-0-2",
+        "scan-0-3",
+        "scan-0-4",
+        "scan-0-5",
+        "scan-0-6",
+        "trade-0",
+        "scan-1-0",
+        "scan-1-1",
+        "scan-1-2",
+        "trade-1",
+        "refund-tail",
+        "enrolled-recovery"
+      ],
+      "normalOriginalIntervalSeconds": 785.2356135809999,
+      "normalSyntheticNativeFee": "18000250000",
+      "scanComparisons": [
+        25,
+        9
+      ]
+    }
+  },
+  "openBoundaries": [
+    "source-checkpoint priority is not market admission completeness or fresh all-state reranking",
+    "later-invalidated best can stall until canonical expiry refund",
+    "O(N^2) comparisons per fill; no practical large-epoch guarantee within C+32",
+    "finality, inclusion-tip foreign freshness and qualified entropy remain external",
+    "live Executor, ordinary-wallet and network acceptance not performed",
+    "individually atomic UPSs are not an atomic epoch or cross-vault transaction",
+    "no real TPS, p95, production or speedup conclusion"
+  ],
+  "exactReplay": {
+    "schema": 1,
+    "originalFilesUnchanged": 338,
+    "exactOriginalFullUpsReverified": 42,
+    "fallbackProofGenerationAllowed": false,
+    "allRequestsAndPublicKeyProofsByteIdentical": true,
+    "expiredTradeRejectedWithUnchangedState": true,
+    "exactOriginalNftClaimPayloadChecked": true,
+    "vmOnlyOrdinaryClaims": true,
+    "liveFinancialOperations": 0,
+    "wallSeconds": 222.99289816699456,
+    "sampledFamilyRssPeakKiB": 3997632,
+    "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak"
+  },
+  "legacyCompatibility": {
+    "paired": {
+      "wallSeconds": 8.25857000000542,
+      "sampledFamilyRssPeakKiB": 894160,
+      "profiles": {
+        "nftmarket": {
+          "broadcast": false,
+          "coherentAttackRejections": [
+            "later-member-first",
+            "omitted-minimum",
+            "duplicate-member"
+          ],
+          "exactProofReused": true,
+          "keyFingerprint": "ce6f3988d252ecf70beab02206a251a864f26c7ed2c68ef9a49dd912cef6c657",
+          "scope": "verify exact existing key proof; reject coherent forged alternative stack/signature preimages, not new CFC/UPS proofs"
+        },
+        "orderbook": {
+          "broadcast": false,
+          "coherentAttackRejections": [
+            "later-member-first",
+            "omitted-minimum",
+            "duplicate-member"
+          ],
+          "exactProofReused": true,
+          "keyFingerprint": "fc8db09ae1e9b76aec15a971b76870d9cedd911243ea0269496a071373a1ab0e",
+          "scope": "verify exact existing key proof; reject coherent forged alternative stack/signature preimages, not new CFC/UPS proofs"
+        }
+      },
+      "positiveCfcUpsProofsRegenerated": false
+    },
+    "ammCurve": {
+      "wallSeconds": 10.332062042027246,
+      "sampledFamilyRssPeakKiB": 1162976,
+      "profiles": {
+        "amm": {
+          "broadcast": false,
+          "coherentAttackRejections": [
+            "later-member-first",
+            "omitted-minimum",
+            "duplicate-member"
+          ],
+          "exactProofReused": true,
+          "keyFingerprint": "a444b313c74de178f65ffef36bc6a330b360debabf4b615abe076d7e6910bf65",
+          "scope": "verify exact existing key proof; reject coherent forged alternative stack/signature preimages, not new CFC/UPS proofs"
+        },
+        "bondingcurve": {
+          "broadcast": false,
+          "coherentAttackRejections": [
+            "later-member-first",
+            "omitted-minimum",
+            "duplicate-member"
+          ],
+          "exactProofReused": true,
+          "keyFingerprint": "24a941149b74033f948c0d32eebf65aed95d8660c7a8252e2cd7aedb0d604180",
+          "scope": "verify exact existing key proof; reject coherent forged alternative stack/signature preimages, not new CFC/UPS proofs"
+        }
+      },
+      "positiveCfcUpsProofsRegenerated": false
+    }
+  }
+}
