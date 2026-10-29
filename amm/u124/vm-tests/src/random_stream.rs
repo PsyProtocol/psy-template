@@ -20,7 +20,7 @@ pub fn wrap_target(b:&mut CircuitBuilder<F,2>,base:HashOutTarget,source:Target,s
  let tag=b.constant(f(TAG));let draw=b.add_const(source,F::ONE);
  b.hash_n_to_hash_no_pad::<H>([vec![tag],base.elements.to_vec(),vec![draw],seed.elements.to_vec(),vec![refund]].concat())
 }
-fn key(scope:&[u64],seed:Hash,row:&PriorityMember)->[u64;7]{let mut v=vec![RANK];v.extend(scope);v.push(scope[6]+1);v.extend(seed);v.extend([row.index,row.member.owner,row.member.nonce]);v.extend(row.member.terms);let k=hash(v);[k[0],k[1],k[2],k[3],row.member.owner,row.member.nonce,row.index]}
+pub(crate) fn key(scope:&[u64],seed:Hash,row:&PriorityMember)->[u64;7]{let mut v=vec![RANK];v.extend(scope);v.push(scope[6]+1);v.extend(seed);v.extend([row.index,row.member.owner,row.member.nonce]);v.extend(row.member.terms);let k=hash(v);[k[0],k[1],k[2],k[3],row.member.owner,row.member.nonce,row.index]}
 #[derive(Clone,Serialize,Deserialize)]#[serde(deny_unknown_fields)]
 pub struct Row{pub origin:PriorityMember,pub source:Path,pub append:Path}
 #[derive(Clone,Serialize,Deserialize)]#[serde(deny_unknown_fields)]
@@ -42,7 +42,7 @@ pub fn prepare(scope:&[u64],source:&PriorityTree,seed:Hash)->Result<(Vec<Orderin
  }
  ensure!(state.cursor==scope[8]&&state.seen==empty(),"complete permutation");Ok((pages,queue))
 }
-fn value(scope:&[u64],index:u64,m:&Member)->Hash{let mut raw=vec![0x5354524d454d33];raw.extend(&scope[..8]);raw.extend(&scope[9..17]);raw.extend(&scope[25..]);raw.extend([index,m.owner,m.nonce]);raw.extend(m.terms);hash(raw)}
+pub(crate) fn value(scope:&[u64],index:u64,m:&Member)->Hash{let mut raw=vec![0x5354524d454d33];raw.extend(&scope[..8]);raw.extend(&scope[9..17]);raw.extend(&scope[25..]);raw.extend([index,m.owner,m.nonce]);raw.extend(m.terms);hash(raw)}
 fn path(p:&Path,value:Hash)->Result<Hash>{ensure!(p.index<1<<56&&p.siblings.len()==56,"exact order path");let proof=MerkleProofCore::new_from_params::<H>(p.index,Q(h(value)),p.siblings.iter().map(|v|Q(h(*v))).collect());Ok(proof.root.0.elements.map(|n|n.to_canonical_u64()))}
 pub fn after(scope:&[u64],before:&State,p:&Page)->Result<State>{
  ensure!(!p.rows.is_empty()&&p.rows.len()<=4&&before.cursor+p.rows.len()as u64<=scope[8],"random page bounds");
@@ -58,7 +58,7 @@ pub fn after(scope:&[u64],before:&State,p:&Page)->Result<State>{
 }
 fn ge(b:&mut CircuitBuilder<F,2>,g:BoolTarget,a:Target,c:Target){crate::batch_policy::eq(b,g,a,c)}
 fn gh(b:&mut CircuitBuilder<F,2>,g:BoolTarget,a:HashOutTarget,c:HashOutTarget){for(x,y)in a.elements.into_iter().zip(c.elements){ge(b,g,x,y)}}
-fn before(b:&mut CircuitBuilder<F,2>,a:[Target;7],c:[Target;7])->BoolTarget{
+pub(crate) fn before(b:&mut CircuitBuilder<F,2>,a:[Target;7],c:[Target;7])->BoolTarget{
  let primary=crate::random_order::total_before(b,a[..6].try_into().unwrap(),c[..6].try_into().unwrap());
  let mut same=b._true();for i in 0..6{let eq=b.is_equal(a[i],c[i]);same=b.and(same,eq);}let index=lt(b,a[6],c[6],56);let tie=b.and(same,index);b.or(primary,tie)
 }
