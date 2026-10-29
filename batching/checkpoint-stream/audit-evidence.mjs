@@ -1,7 +1,7 @@
 // Read-only evidence consistency audit. This does NOT verify ZK proofs, install
 // a wallet verifier, authorize a broadcast or promote a candidate to production.
 import assert from 'node:assert/strict';
-import {readFile} from 'node:fs/promises';import {join} from 'node:path';
+import {readFile} from 'node:fs/promises';import {join,resolve} from 'node:path';import {fileURLToPath} from 'node:url';
 import {createHash} from 'node:crypto';
 import {parseLosslessJson} from '../../amm/u124/client.mjs';
 const digest=b=>createHash('sha256').update(b).digest('hex');
@@ -39,4 +39,4 @@ export async function auditStreamEvidence(root){
  }
  return {schema:1,scope:'structural consistency of saved native-verified synthetic UPS evidence; not independent cryptographic verification or network acceptance',cryptographicVerificationPerformed:false,canBroadcast:false,markets:reports};
 }
-if(process.argv.length===3)process.stdout.write(JSON.stringify(await auditStreamEvidence(process.argv[2]),null,2)+'\n');
+if(process.argv.length===3&&resolve(process.argv[1])===fileURLToPath(import.meta.url))process.stdout.write(JSON.stringify(await auditStreamEvidence(process.argv[2]),null,2)+'\n');

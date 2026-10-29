@@ -344,6 +344,7 @@ struct Row {
     consumed: Word,
     append: MerkleProofGadget,
     recover: MerkleProofGadget,
+    nft_words: Vec<Word>,
 }
 pub struct SourcePageTargets {
     pub scope: Vec<Target>,
@@ -507,6 +508,9 @@ impl SourcePageTargets {
             let mut baseline = vec![];
             let mut paid = vec![];
             let mut fee = z;
+            let mut nft_words = vec![];
+            let mut nft_ok = b._true();
+            let mut paired_present = vec![];
             for i in 0..3 {
                 let path = t.proof(b, 24);
                 let cid = b.constant(f(r.assets[i].id));
@@ -514,7 +518,45 @@ impl SourcePageTargets {
                 gh(b, candidate, path.root, leaf.user_state_tree_root);
                 let empty_contract = eqhash(b, path.value, empty);
                 let present = b.not(empty_contract);
+                if r.kind >= 3 { paired_present.push(present); }
                 let sender_gate = b.and(candidate, present);
+                if r.kind == 4 && i == 2 {
+                    let origin = b.constant(f(1214));
+                    let ss = b.mul_const_add(f(35), scope[4], origin);
+                    let sw = Word::create(b, t, path.value, ss, sender_gate, 30);
+                    let origin = b.constant(f(1215));
+                    let cs = b.mul_const_add(f(35), leaf.user_id, origin);
+                    let cw = Word::create(b, t, facts[3], cs, candidate, 30);
+                    b.range_check(sw.value, 62);
+                    b.range_check(cw.value, 62);
+                    let delta = b.sub(sw.value, cw.value);
+                    b.range_check(delta, 62);
+                    paid.push([delta, z]);
+                    let bits = b.split_le(cw.value, 62);
+                    let q = b.le_sum(bits[..2].iter());
+                    let base = b.constant(f(1182));
+                    let base = b.mul_const_add(f(35), scope[4], base);
+                    let base = b.mul_const_add(f(8), q, base);
+                    // Existing NFT v3 stores the pre-deposit FIFO baseline.
+                    let seq = b.is_equal(cw.value, values["nft_sequence"][0]);
+                    let mut checks = vec![seq];
+                    nft_words.push(sw);
+                    nft_words.push(cw);
+                    for j in 0..8 {
+                        let slot = b.add_const(base, f(j));
+                        let w = Word::create(b, t, path.value, slot, sender_gate, 30);
+                        let name = if j < 4 {
+                            format!("token_id_{j}")
+                        } else {
+                            format!("metadata_hash_{}", j - 4)
+                        };
+                        checks.push(b.is_equal(w.value, values[&name][0]));
+                        nft_words.push(w);
+                    }
+                    nft_ok = and(b, &checks);
+                    funding_paths.push(path);
+                    continue;
+                }
                 let native = i == 0;
                 let width = if native { 1 } else { 2 };
                 let mut sent = vec![];
@@ -583,7 +625,11 @@ impl SourcePageTargets {
             let b0 = b.is_equal(pb[0], z);
             let b1 = b.is_equal(pb[1], z);
             let b_zero = b.and(b0, b1);
-            let x = [values["x"][0], values["x"][1]];
+            let x = if r.kind == 4 {
+                [values["price"][0], values["price"][1]]
+            } else {
+                [values["x"][0], values["x"][1]]
+            };
             let same = |b: &mut CircuitBuilder<F, 2>, a: [Target; 2], c: [Target; 2]| {
                 let x = b.is_equal(a[0], c[0]);
                 let y = b.is_equal(a[1], c[1]);
@@ -594,7 +640,12 @@ impl SourcePageTargets {
             let kind2 = b.is_equal(k, two);
             let a_x = same(b, pa, x);
             let b_x = same(b, pb, x);
-            let funded = if r.kind == 1 {
+            let funded = if r.kind == 4 {
+                let one_nft = b.is_equal(pb[0], one);
+                let listing = and(b, &[kind1, a_zero, one_nft, nft_ok]);
+                let buy = and(b, &[kind2, a_x, b_zero]);
+                b.or(listing, buy)
+            } else if r.kind == 1 || r.kind == 3 {
                 let side0 = b.is_equal(values["side"][0], z);
                 let side1 = b.is_equal(values["side"][0], one);
                 let swap0 = and(b, &[side0, a_x, b_zero]);
@@ -607,8 +658,12 @@ impl SourcePageTargets {
                 let three = b.constant(f(3));
                 let kind3 = b.is_equal(k, three);
                 let remove = and(b, &[kind3, a_zero, b_zero]);
-                let p = b.or(swap, add);
-                b.or(p, remove)
+                if r.kind == 3 {
+                    swap
+                } else {
+                    let p = b.or(swap, add);
+                    b.or(p, remove)
+                }
             } else {
                 let buy = and(b, &[kind1, a_zero, b_x]);
                 let qty = quantity(b, r.unit, values["lots"][0], pa);
@@ -620,6 +675,10 @@ impl SourcePageTargets {
             let not_cancelled = b.is_equal(values["cancelled"][0], z);
             let live = list_lte_circuit(b, vec![scope[6]], vec![values["deadline"][0]], 32);
             let eligible = and(b, &[candidate, funded, fee_valid, not_cancelled, live]);
+            // Paired CFC snapshots require prepared foreign funding subtrees.
+            // Absent subtrees stay explicitly recoverable, never silently read
+            // as registered empty contracts or admitted into a stuck page.
+            let eligible = if r.kind >= 3 { let prepared = and(b, &paired_present); b.and(eligible, prepared) } else { eligible };
             let has_asset = b.and(a_zero, b_zero);
             let nofee = b.is_equal(fee, z);
             let nofunds = b.and(has_asset, nofee);
@@ -681,6 +740,7 @@ impl SourcePageTargets {
                 consumed,
                 append,
                 recover,
+                nft_words,
             });
         }
         let full = b.is_equal(len, four);
@@ -1015,6 +1075,39 @@ impl SourcePageTargets {
                 };
                 t.funding_paths[i].set_witness_core_proof_q(pw, &path)?;
                 let sender_gate = candidate && path.value != Q::ZERO;
+                if r.kind == 4 && i == 2 {
+                    let sent_slot = 1214 + 35 * vault_id;
+                    let claim_slot = 1215 + 35 * owner;
+                    t.nft_words[0].proof.set_witness_core_proof_q(
+                        pw,
+                        &if sender_gate {
+                            proof_at(actual.unwrap(), sent_slot, true, 30)?
+                        } else {
+                            empty_proof(0, 30)
+                        },
+                    )?;
+                    t.nft_words[1].proof.set_witness_core_proof_q(
+                        pw,
+                        &proof_at(va[2], claim_slot, candidate, 30)?,
+                    )?;
+                    let claimed = if candidate {
+                        read(va[2], claim_slot)?
+                    } else {
+                        0
+                    };
+                    let payload = 1182 + 35 * vault_id + 8 * (claimed % 4);
+                    for j in 0..8 {
+                        t.nft_words[2 + j].proof.set_witness_core_proof_q(
+                            pw,
+                            &if sender_gate {
+                                proof_at(actual.unwrap(), payload + j as u64, true, 30)?
+                            } else {
+                                empty_proof(0, 30)
+                            },
+                        )?;
+                    }
+                    continue;
+                }
                 let width = if i == 0 { 1 } else { 2 };
                 for j in 0..width {
                     let send = (if i == 0 {

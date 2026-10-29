@@ -537,3 +537,41 @@ old contract, wallet/UI or financial account was changed. All build/test failure
 and one-second process-memory samples are retained. Read the
 [scope, trust boundary, measurements and next gate](FINAL_STATE_COVERAGE_20261029.md)
 and [public evidence](../../executor/verification/2026-10-29-final-state-coverage-v1/README.md).
+
+## 29 October: source-covered spending and paired terminal-refund candidates
+
+The previous AMM/Curve source-covered UPS milestone at `d871e6c7` is documented
+in [SOURCE_COVERED_STREAM_UPS_20261029.md](SOURCE_COVERED_STREAM_UPS_20261029.md);
+it supersedes the earlier preparation-only status above. Its saved key proofs
+remain valid under this continuation; their positive CFC/UPS proofs were not
+regenerated.
+
+New distinct Orderbook/NFT candidates now bind complete source account coverage,
+remaining roots, exact cross-page cursor and terminal refunds into SD-key and
+complete UPS authorization. Each fixture covers nine accounts, five admitted
+orders and one separate funded recovery record, then processes 2 + 2 + 1 members.
+All 18 final-key UPSs passed native SDK plus fixed verification. Exact reuse-only
+revalidation, changed-global-context rejection, coherent alternative call-stack
+attacks and sender-enrolled selected-component/NFT-only recovery passed.
+
+Application corrections include audited FT/NFT foreign read heights, the actual
+pre-deposit NFT sequence, unused absent funding-state reads in recovery, legal
+inactive historical leaf-height witnesses, and evidence CLI import side effects.
+Source classifier and circuit explicitly retain unprepared accounts in recovery;
+they do not fabricate registered empty contracts or silently require deposits.
+All failures and non-final fingerprints are archived separately. SDK/Node and old
+contracts are unchanged. Code/comments/docs/commits are English. Real fees,
+registrations, deployments and broadcasts are zero.
+
+**Not closed:** global Orderbook price/time and NFT buyer/listing selection
+frontiers, admission-tip foreign-state freshness, finality/qualified randomness,
+actual-wallet signatures, live network/UI acceptance and real trading throughput.
+The new paired profile is expired terminal-refund-only; trading and financial
+Executor broadcast gates remain disabled. No real Executor or cross-machine
+concurrency claim is made. Ordinary claims execute actual bytecode in VM only.
+
+Original successful normal proof intervals total 519.594 s (Orderbook) and
+526.804 s (NFT), excluding separately reported resource builds and preserving
+failed/restarted process costs. These are not confirmation time or TPS.
+See [scope, capability matrix, costs and reproduction](PAIR_SOURCE_STREAM_UPS_20261029.md)
+and [public proofs and retained evidence](../../executor/verification/2026-10-29-paired-source-refunds-v1/README.md).

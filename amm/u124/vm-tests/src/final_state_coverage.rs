@@ -101,6 +101,95 @@ pub struct AssetBinding {
     pub slots: u64,
 }
 impl AssetBinding {
+    pub fn collection(id: u64, artifact: &Value, function_root: Q<F>) -> Result<Self> {
+        ensure!(
+            id >= 5 && artifact["state_tree_height"] == 30,
+            "reviewed collection height"
+        );
+        let abi = &artifact["abi"];
+        let state = abi["contract"]["state"]
+            .as_array()
+            .context("collection ABI state")?;
+        let outbox = state
+            .iter()
+            .find(|v| v["name"] == "outbox")
+            .context("collection FIFO")?;
+        ensure!(outbox["offset"] == 1182, "reviewed collection FIFO offset");
+        let layout = abi["contract"]["state_layout"]["fields"]
+            .as_array()
+            .context("collection layout")?;
+        let fifo = layout
+            .iter()
+            .find(|v| v["name"] == "outbox")
+            .context("collection FIFO layout")?;
+        ensure!(
+            fifo["start_slot"] == 1182
+                && fifo["type"]["length"] == 16777216
+                && fifo["type"]["item_felt_size"] == 35,
+            "collection FIFO stride and bound"
+        );
+        let ty = abi["types"]
+            .as_array()
+            .context("collection types")?
+            .iter()
+            .find(|v| v["name"] == "NFTOutbox")
+            .context("NFT FIFO type")?;
+        ensure!(ty["felt_size"] == 35, "NFT FIFO field count");
+        let fields = ty["fields"].as_array().context("NFT FIFO fields")?;
+        ensure!(fields.len() == 11, "exact NFT FIFO structure");
+        for (i, field) in fields.iter().enumerate() {
+            let (name, offset, size, kind) = if i < 8 {
+                (
+                    format!(
+                        "{}_{}",
+                        if i % 2 == 0 {
+                            "token_id"
+                        } else {
+                            "metadata_hash"
+                        },
+                        i / 2
+                    ),
+                    4 * i,
+                    4,
+                    "Hash",
+                )
+            } else {
+                (
+                    ["nonce_sent", "nonce_claimed", "nonce_acked"][i - 8].into(),
+                    i + 24,
+                    1,
+                    "Felt",
+                )
+            };
+            ensure!(
+                field["name"] == name
+                    && field["offset_within_parent"] == offset
+                    && field["felt_size"] == size
+                    && field["type"] == serde_json::json!({"kind":"primitive","name":kind}),
+                "exact NFT FIFO field {i}"
+            );
+        }
+        let defs: Vec<DPNFunctionCircuitDefinition> =
+            serde_json::from_value(artifact["circuit_definitions"].clone())?;
+        ensure!(
+            !defs.is_empty() && defs.len() <= 1usize << (CONTRACT_FUNCTION_TREE_HEIGHT - 1),
+            "collection methods"
+        );
+        let code_root = get_code_root_by_code_hashes::<F, H>(
+            &defs.iter().map(hash_dpn_function::<F>).collect::<Vec<_>>(),
+            CONTRACT_FUNCTION_TREE_HEIGHT - 1,
+        );
+        let (layout_root, fields, slots) = crate::contract_layout::artifact_layout(id, 30, abi)?;
+        Ok(Self {
+            id,
+            code_root,
+            layout_root,
+            function_root,
+            height: 30,
+            fields,
+            slots,
+        })
+    }
     pub fn from_artifact(id: u64, artifact: &Value, function_root: Q<F>) -> Result<Self> {
         let height = artifact["state_tree_height"]
             .as_u64()
@@ -221,7 +310,7 @@ impl Review {
         ensure!(
             market >= 5
                 && market < 1 << 24
-                && [1, 2].contains(&kind)
+                && [1, 2, 3, 4].contains(&kind)
                 && artifact["state_tree_height"] == 31,
             "reviewed market profile"
         );
@@ -253,6 +342,15 @@ impl Review {
                 "duplicate ABI name"
             );
         }
+        // NFT funding has one U124 payment asset and one collection FIFO.
+        // These aliases describe the generic payment/baseline interfaces only.
+        if kind == 4 {
+            let payment = *offsets
+                .get("settled_payment")
+                .context("NFT payment cursor")?;
+            offsets.insert("settled_a".into(), payment);
+            offsets.insert("settled_b".into(), payment);
+        }
         for name in order_fields(kind).iter().map(|(n, _)| *n).chain([
             "consumed",
             "settled_a",
@@ -272,7 +370,8 @@ impl Review {
                 && assets[1].id >= 5
                 && assets[2].id >= 5
                 && assets[1].id != assets[2].id
-                && assets[1..].iter().all(|a| a.height == 31),
+                && assets[1].height == 31
+                && assets[2].height == if kind == 4 { 30 } else { 31 },
             "frozen native and distinct U124 assets"
         );
         ensure!(
@@ -295,6 +394,28 @@ impl Review {
     }
 }
 pub fn order_fields(kind: u64) -> Vec<(&'static str, usize)> {
+    if kind == 4 {
+        return vec![
+            ("kind", 1),
+            ("pool", 1),
+            ("nonce", 1),
+            ("deadline", 1),
+            ("cancelled", 1),
+            ("order_checkpoint", 1),
+            ("price", 2),
+            ("seller", 1),
+            ("listing_nonce", 1),
+            ("nft_sequence", 1),
+            ("token_id_0", 1),
+            ("token_id_1", 1),
+            ("token_id_2", 1),
+            ("token_id_3", 1),
+            ("metadata_hash_0", 1),
+            ("metadata_hash_1", 1),
+            ("metadata_hash_2", 1),
+            ("metadata_hash_3", 1),
+        ];
+    }
     let mut v = vec![
         ("kind", 1),
         ("pool", 1),
@@ -432,6 +553,12 @@ fn funding(
             fee = sent
                 .checked_sub(base)
                 .context("source fee cursor regression")?;
+        } else if review.kind == 4 && i == 2 {
+            let sent = checked_fee(words.read(1182 + 35 * vault + 32)?)?;
+            let claimed = checked_fee(vault_words[i].read(1182 + 35 * owner + 33)?)?;
+            paid[1] = sent
+                .checked_sub(claimed)
+                .context("NFT source cursor regression")? as u128;
         } else {
             let sent = words.wide(33554453 + 4 * vault)?;
             let claimed = vault_words[i].wide(33554455 + 4 * owner)?;
@@ -455,17 +582,25 @@ fn funded(
 ) -> Result<bool> {
     let scalar = |n: &str| values[n][0];
     let wide = |n: &str| values[n][0] as u128 + LIMB * values[n][1] as u128;
+    if kind == 4 {
+        return Ok(fee == FEE
+            && match scalar("kind") {
+                1 => a == 0 && b == 1,
+                2 => a == wide("price") && b == 0,
+                _ => false,
+            });
+    }
     let x = wide("x");
     let k = scalar("kind");
-    let yes = if kind == 1 {
+    let yes = if kind == 1 || kind == 3 {
         match k {
             1 => match scalar("side") {
                 0 => a == x && b == 0,
                 1 => b == x && a == 0,
                 _ => false,
             },
-            2 => a == x && b == wide("y"),
-            3 => a == 0 && b == 0,
+            2 if kind == 1 => a == x && b == wide("y"),
+            3 if kind == 1 => a == 0 && b == 0,
             _ => false,
         }
     } else {
@@ -654,7 +789,7 @@ pub fn verify_snapshot(review: &Review, s: &Snapshot, expected_history: Q<F>) ->
             &va.leaf,
             review.assets[2].id,
             va.asset_b.as_ref().context("vault asset B proof")?,
-            31,
+            review.assets[2].height,
         )?,
         Words::open(&va.leaf, review.market, &va.market, 31)?,
     ];
@@ -734,11 +869,38 @@ pub fn verify_snapshot(review: &Review, s: &Snapshot, expected_history: Q<F>) ->
                         fee,
                     ]);
                     terms = hash(&raw);
+                    let nft_valid = if review.kind == 4 && values["kind"][0] == 1 && pb == 1 {
+                        let nft = Words::open(
+                            &a.leaf,
+                            review.assets[2].id,
+                            a.asset_b.as_ref().context("listing collection")?,
+                            30,
+                        )?;
+                        let claimed = vault_words[2].read(1182 + 35 * owner + 33)?;
+                        let payload = 1182 + 35 * vault + 8 * (claimed % 4);
+                        values["nft_sequence"][0] == claimed
+                            && (0..8).all(|i| {
+                                let name = if i < 4 {
+                                    format!("token_id_{i}")
+                                } else {
+                                    format!("metadata_hash_{}", i - 4)
+                                };
+                                nft.read(payload + i).is_ok_and(|n| n == values[&name][0])
+                            })
+                    } else {
+                        true
+                    };
+                    let prepared = if review.kind >= 3 {
+                        [a.native.as_ref(), a.asset_a.as_ref(), a.asset_b.as_ref()].into_iter().enumerate().map(|(i,p)| Words::open(&a.leaf,review.assets[i].id,p.context("funding contract proof")?,review.assets[i].height).map(|w| !w.absent)).collect::<Result<Vec<_>>>()?.into_iter().all(|v|v)
+                    } else { true };
                     if cancelled == 1 {
                         "cancelled"
                     } else if deadline < v[6] {
                         "expired"
-                    } else if !funded(review.kind, &values, pa, pb, fee, review.unit)? {
+                    } else if !prepared {
+                        "state-unprepared"
+                    } else if !nft_valid || !funded(review.kind, &values, pa, pb, fee, review.unit)?
+                    {
                         "funding-ineligible"
                     } else {
                         "eligible"
@@ -788,6 +950,7 @@ pub fn verify_snapshot(review: &Review, s: &Snapshot, expected_history: Q<F>) ->
             "expired" => 8,
             "funding-ineligible" => 9,
             "eligible" => 10,
+            "state-unprepared" => 11,
             _ => unreachable!(),
         };
         values.extend([row.owner, row.nonce, status]);
@@ -806,7 +969,12 @@ pub fn verify_snapshot(review: &Review, s: &Snapshot, expected_history: Q<F>) ->
         );
         let mut fields = v.clone();
         fields[8] = members.len() as u64;
-        Some(crate::checkpoint_stream::prepare(Manifest { fields, members })?.0)
+        if review.kind >= 3 {
+            ensure!(v[17..21] == [0; 4], "unsealed paired source manifest only");
+            Some(Manifest { fields, members })
+        } else {
+            Some(crate::checkpoint_stream::prepare(Manifest { fields, members })?.0)
+        }
     };
     Ok(Coverage {
         source_history_root: expected_history,

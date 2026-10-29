@@ -336,11 +336,19 @@ impl SourceContextTargets {
     pub fn set_empty(&self, pw: &mut PartialWitness<F>) -> Result<()> {
         let mut excluded = self.ready.inputs();
         excluded.extend(self.phase.inputs());
+        // Dependency gadgets always constrain their height to 1..=32, even
+        // when historical source authentication is disabled for maintenance.
+        // Zeroing those virtual heights violates the gadget itself. Use the
+        // canonical legal dummy height, without changing any circuit gate.
+        // CurrentTargets still authenticates every actual reviewed dependency.
+        let heights = self.dependencies.iter().map(|d| d.leaf.state_tree_height).collect::<Vec<_>>();
+        excluded.extend(&heights);
         for t in &self.owned {
             if !excluded.contains(t) {
                 pw.set_target(*t, F::ZERO)?;
             }
         }
+        for t in heights { pw.set_target(t, F::ONE)?; }
         self.ready.empty(pw, self.ready_offset)?;
         self.phase.empty(pw, self.phase_offset)?;
         Ok(())

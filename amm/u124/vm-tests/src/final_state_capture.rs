@@ -210,7 +210,9 @@ pub async fn collect_snapshot<R: SourceReader>(
                     ("settled_b", 2),
                     ("settled_fee", 1),
                 ] {
-                    slots.push((review.offsets[name] + *id * width as u64, width));
+                    if !(review.kind == 4 && name == "settled_b") {
+                        slots.push((review.offsets[name] + *id * width as u64, width));
+                    }
                 }
             }
             indices(slots)
@@ -226,12 +228,16 @@ pub async fn collect_snapshot<R: SourceReader>(
         for i in 0..3 {
             let slots = if owner == vault {
                 indices(eligible_ids.iter().map(|u| {
-                    if i == 0 {
+                    if review.kind == 4 && i == 2 {
+                        (1182 + 35 * u + 33, 1)
+                    } else if i == 0 {
                         (4 + 2 * u, 1)
                     } else {
                         (33554455 + 4 * u, 2)
                     }
                 }))
+            } else if review.kind == 4 && i == 2 {
+                indices([(1182 + 35 * vault, 34)])
             } else if i == 0 {
                 indices([(3 + 2 * vault, 1)])
             } else {
