@@ -735,3 +735,29 @@ matching checkpoint-1 roots and the reviewed native identity; these do not prove
 finality or deployment readiness. SDK/Node/deployed contracts remain unchanged.
 See [promotion scope and gates](RANDOM_PROMOTION_20261029.md) and
 [public component evidence](../../executor/verification/2026-10-29-random-minimum-promotion-v1/README.md).
+
+## 30 October: minimum-frontier spending-key integration
+
+The v11 AMM/Curve replacement embeds canonical source insertion and exact-head
+extraction in the contract and spending key, with one immutable source/seed over
+all pages. Funding uses an ordinary fees-only owner's nonce/key-bound lifetime
+cap and an exact Native claim; fee accounting cannot reset on OPEN. Two genuine
+application bugs were fixed: disabled GRANT witness assignment and inactive
+24-bit owner comparisons reading the reused 62-bit cap. Original failures remain
+retained. No Node or frozen SDK change was made.
+
+Thirty-eight synthetic complete UPSs passed (19 per market), including three
+fills per market, cancellation/slippage refunds, cross-page continuation after
+expiry, post-fill tail refunds and unseeded exits. Assets and exact fee burns
+conserved. Ordinary setup/claims are VM bytecode checks, not wallet signatures
+or network receipts. The process took 3,336.860 s with sampled process-family RSS
+peak 1,977,552 KiB; this is not a matched performance comparison.
+
+No live deployment or UI write was enabled. Fresh empty-instance bootstrap,
+owned signing/broadcast/admission, real budget fit and ordinary-wallet arrival
+remain pending. Producer-controlled checkpoint randomness is not a qualified
+beacon or authenticated causal seal-before-release/finality evidence. Existing
+Orderbook/NFT priority semantics remain unchanged.
+
+See [implementation, timings and release gates](MINIMUM_STREAM_INTEGRATION_20261030.md)
+and [public evidence](../../executor/verification/2026-10-30-minimum-stream-integration-v1/README.md).

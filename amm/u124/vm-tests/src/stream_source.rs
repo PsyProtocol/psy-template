@@ -374,6 +374,36 @@ impl SourcePageCircuit {
     }
 }
 impl SourcePageTargets {
+    /// Circuit metadata only: identify public proof-opening targets without
+    /// exposing witness values or changing any gate/fingerprint.
+    pub(crate) fn target_labels(&self, target: Target) -> Vec<String> {
+        let mut out = vec![];
+        let mut note = |name: String, values: Vec<Target>| {
+            for (i, t) in values.into_iter().enumerate() {
+                if t == target {
+                    out.push(format!("{name}:{i}"));
+                }
+            }
+        };
+        for (i, row) in self.rows.iter().enumerate() {
+            note(format!("source-row-{i}-user"), row.leaf.to_targets());
+            for (offset, w) in &row.order_words {
+                note(format!("source-row-{i}-order-word-{offset}"), w.inputs());
+            }
+            for (kind, words) in [
+                ("sender", &row.sender),
+                ("claimed", &row.claimed),
+                ("baseline", &row.baseline),
+                ("nft", &row.nft_words),
+            ] {
+                for (j, w) in words.iter().enumerate() {
+                    note(format!("source-row-{i}-{kind}-{j}"), w.inputs());
+                }
+            }
+            note(format!("source-row-{i}-consumed"), row.consumed.inputs());
+        }
+        out
+    }
     pub fn public(&self) -> Vec<Target> {
         let mut v = self.scope.clone();
         for h in &self.facts {

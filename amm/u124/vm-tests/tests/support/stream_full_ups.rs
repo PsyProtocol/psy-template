@@ -88,8 +88,29 @@ fn execute(w: &mut World, spec: &Value, req: &Request) -> Result<()> {
     *w = next;
     Ok(())
 }
-fn setup(kind: &str) -> Result<World> {
-    let mut w = World::new(kind)?;
+// Local preparation only. The CFC trace, actual net words and endcap statistics
+// must independently agree; no estimated fee can replace that final check.
+fn minimum_exact_fee(w: &World, spec: &Value, mut req: Request) -> Result<Request> {
+    for _ in 0..4 {
+        let mut preview = w.clone();
+        execute(&mut preview, spec, &req)?;
+        let words = w.slots.keys().chain(preview.slots.keys())
+            .filter(|(u, _, _)| *u == V)
+            .map(|(_, c, o)| (*c, *o / 4))
+            .collect::<std::collections::BTreeSet<_>>();
+        let changed = words.into_iter().filter(|(c, o)| (0..4).any(|i|
+            w.state.get_contract_slot(V, *c, o*4+i).unwrap()
+            != preview.state.get_contract_slot(V, *c, o*4+i).unwrap())).count();
+        let fee = GUTA_FEE + DA_FEE * changed as u64;
+        ensure!(fee <= 1_000_100_000, "declared stream per-UPS fee budget");
+        if req.fields[73] == fee { return Ok(req); }
+        req.fields[73] = fee;
+    }
+    anyhow::bail!("minimum exact fee preparation did not converge")
+}
+fn setup(kind: &str) -> Result<World> { setup_with_sponsor(kind, true) }
+fn setup_with_sponsor(kind: &str, legacy_sponsor: bool) -> Result<World> {
+    let mut w = World::new_fixture(kind, true, legacy_sponsor)?;
     for asset in [A, B] {
         w.run(
             I,
@@ -123,7 +144,8 @@ fn setup(kind: &str) -> Result<World> {
     }
     // Fourteen explicit, independently authorized fixture gas grants. Each grants
     // 2 F and the VM setup burns F; total synthetic grant budget is 28 F.
-    for _ in 0..14 {
+    let sponsor_rounds = if legacy_sponsor {14} else {0};
+    for _ in 0..sponsor_rounds {
         w.run(
             S,
             M,
@@ -288,6 +310,8 @@ fn basic(mode: u64, page: &SourcePage, w: &World) -> Request {
         members: vec![],
         frontier: None,
         random: None,
+        minimum: None,
+        registered_key: None,
     }
 }
 fn sent(w: &World, u: u64, asset: u64) -> u128 {
@@ -794,7 +818,7 @@ impl StreamChain {
                 (self.source_checkpoint, self.source.history.checkpoint),
             ]
         };
-        if self.spec["version"]==10 {if let Some((cp,leaf,_,_))=&*self.random_draw.borrow(){if *cp<w.checkpoint{history.push((*cp,*leaf));}}}
+        if self.spec["version"]==10||self.spec["version"]==11 {if let Some((cp,leaf,_,_))=&*self.random_draw.borrow(){if *cp<w.checkpoint{history.push((*cp,*leaf));}}}
         // Rebuild the exact historical draw tree state before adding the current
         // checkpoint. A checkpoint leaf alone does not authenticate missing old
         // state-root preimages required by GetCheckpointLeafStats.
@@ -806,7 +830,7 @@ impl StreamChain {
                 self.base.seed_identity_into(w,self.key.g.get_fingerprint(),&history,base,self.base.last_leaf).await?
             }else{self.base.seed_identity_with_history(w,self.key.g.get_fingerprint(),&history).await?}
         }else{self.base.seed_identity_with_history(w,self.key.g.get_fingerprint(),&history).await?};
-        if self.spec["version"]==10&&w.checkpoint==self.source_checkpoint+1&&self.random_draw.borrow().is_none(){*self.random_draw.borrow_mut()=Some((w.checkpoint,db.get_checkpoint_leaf_data(w.checkpoint).await?,w.clone(),db.get_user_leaf_data(w.checkpoint,V).await?));}
+        if (self.spec["version"]==10||self.spec["version"]==11)&&w.checkpoint==self.source_checkpoint+1&&self.random_draw.borrow().is_none(){*self.random_draw.borrow_mut()=Some((w.checkpoint,db.get_checkpoint_leaf_data(w.checkpoint).await?,w.clone(),db.get_user_leaf_data(w.checkpoint,V).await?));}
         let mut source = self.source.clone();
         source.history.anchor_path = db.get_checkpoint_tree_merkle_proof(w.checkpoint, 1).await?;
         source.history.checkpoint_path = db
@@ -825,6 +849,9 @@ impl StreamChain {
         label: &str,
     ) -> Result<()> {
         let start = Instant::now();
+        if self.spec["version"] == 11 {
+            req = minimum_exact_fee(w, &self.spec, req)?;
+        }
         let (db, source, vault_path) = self.seed(w).await?;
         let start_leaf = db.get_user_leaf_data(w.checkpoint, V).await?;
         let mut current_contracts = vec![];
@@ -934,6 +961,9 @@ impl StreamChain {
             .map(|n| n.to_canonical_u64());
         let initial = std::array::from_fn(|i| w.state.get_contract_slot(V, 0, i as u64).unwrap());
         let burn = stream_policy::completion_fee(prefix, native_changed, initial, native_current)?;
+        if self.spec["version"] == 11 {
+            ensure!(req.fields[73] == burn, "prebound fee differs from actual CFC fee");
+        }
         req.fields[73] = burn;
         let (index, def) = self
             .base
@@ -989,6 +1019,12 @@ impl StreamChain {
             user_id: f(V),
         };
         let sig_hash = session.get_sighash(PSY_NETWORK_MAGIC, f(w.revision + 1));
+        fs::write(
+            dir.join("public-session.json"),
+            serde_json::to_vec_pretty(
+                &json!({"projection":"public fields only: no private key or signing witness","session":input.session_context,"stack":input.transaction_infos,"txStackHash":input.tx_stack_hash,"txCount":input.tx_count,"checkpoint":input.checkpoint_id,"user":input.user_id,"sigHash":sig_hash,"actualCalls":stream_policy::calls(&self.spec,&req,true)?,"keyFingerprint":self.key.g.get_fingerprint()}),
+            )?,
+        )?;
         let key_started = Instant::now();
         let signature = self
             .key
@@ -1097,12 +1133,6 @@ impl StreamChain {
             }
         }
         fs::write(dir.join("key-proof.bin"), bincode::serialize(&signature)?)?;
-        fs::write(
-            dir.join("public-session.json"),
-            serde_json::to_vec_pretty(
-                &json!({"projection":"public fields only: no private key or signing witness","session":input.session_context,"stack":input.transaction_infos,"txStackHash":input.tx_stack_hash,"txCount":input.tx_count,"checkpoint":input.checkpoint_id,"user":input.user_id,"sigHash":sig_hash,"actualCalls":stream_policy::calls(&self.spec,&req,true)?,"keyFingerprint":self.key.g.get_fingerprint()}),
-            )?,
-        )?;
         let t = Instant::now();
         let param = get_sd_key_public_key_param(&Q(HashOut {
             elements: [GF::ONE; 4],
@@ -1582,3 +1612,5 @@ mod pair_optimized;
 
 #[path="random_stream_full_ups.rs"]
 mod random_stream_full_ups;
+#[path = "minimum_stream_full_ups.rs"]
+mod minimum_stream_full_ups;

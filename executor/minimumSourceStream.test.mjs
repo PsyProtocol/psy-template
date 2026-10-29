@@ -1,0 +1,27 @@
+// Coordination/structure doubles. Real native planning/UPS evidence is separate.
+import test from 'node:test';import assert from 'node:assert/strict';
+import {mkdtemp,mkdir,writeFile,readFile,rm} from 'node:fs/promises';import{join}from'node:path';import{tmpdir}from'node:os';
+import{prepareMinimumSourceStream}from'./randomSourceStream.mjs';import{validateMinimumStreamPlan}from'./minimumSourcePlan.mjs';
+import{losslessJson,parseLosslessJson}from'../amm/u124/client.mjs';import{sha256}from'./requestBinding.mjs';
+function fixture(){const H=[1n,2n,3n,4n],E=[5n,6n,7n,8n],Q=[9n,10n,11n,12n],seed=[51n,62n,73n,84n],scope=Array(41).fill(1n);scope[0]=3n;scope[1]=1384803358401154921n;scope[3]=1000n;scope[4]=100n;scope[5]=1n;scope[6]=100n;scope[7]=8292n;scope[8]=1n;
+ const plan={profile:'source-covered-producer-minimum-stream-v1',authenticatedSeedRelativeToHistory:true,canSign:false,canBroadcast:false,fullUpsVerified:false,qualifiedRandomness:false,finalityVerified:false,causalSealBeforeReleaseAuthenticated:false,producerInfluence:true,noReset:true,sourceCheckpoint:100n,drawCheckpoint:101n,expiry:8292n,earliestEligibleDeadline:200n,recoveryMembers:0n,members:1n,sourcePages:1n,accounts:1n,minimumBuildPages:1n,minimumExtractionPages:1n,minimumPages:2n,scope,seed,sourceSetRoot:H,orderedRoot:Q};
+ const source=[{scope,facts:[H],before:{accounts:0n},after:{accounts:1n,order_count:1n,orders:H,users:H},rows:[{}]}];
+ const zero={built:0n,extracted:0n,seen:H,list:E,head:0n,tail:0n,front:0n,queue:E},built={...zero,built:1n,seen:E,list:H,head:10n,tail:10n,front:10n},done={...built,extracted:1n,queue:Q,front:0n},node={owner:10n,index:100n,nonce:1n,terms:H,prev:0n,next:0n};
+ const step=(extract,before,after)=>({scope,seed,extract,before,after,node});const pages=[{seed,refund_only:false,current:zero,rows:[step(false,zero,built)]},{seed,refund_only:false,current:built,rows:[step(true,built,done)]}],queue=[{index:0n,member:{owner:10n,nonce:1n,terms:H}}];return{plan,source,pages,queue};}
+test('exact source, canonical build and head extraction remain one seed and never authorize writes',()=>{
+ const d=parseLosslessJson(losslessJson(fixture()));assert.equal(validateMinimumStreamPlan(d.plan,d.source,d.pages,d.queue).canBroadcast,false);
+ for(const change of [d=>d.pages[1].current=d.pages[0].current,d=>d.pages[1].seed=[0n,0n,0n,0n],d=>d.pages[1].rows[0].node.owner=11n,d=>d.queue[0].member.terms=[0n,0n,0n,0n],d=>d.plan.canSign=true,d=>d.plan.drawCheckpoint=102n,d=>d.pages.pop()]){const x=parseLosslessJson(losslessJson(fixture()));change(x);assert.throws(()=>validateMinimumStreamPlan(x.plan,x.source,x.pages,x.queue));}
+});
+test('replacement route reuses durable native preparation and rejects same-epoch reselection',async()=>{
+ const dir=await mkdtemp(join(tmpdir(),'psy-minimum-route-'));try{
+  const d=fixture(),artifact=Buffer.from('{}\n'),put=(p,v)=>writeFile(p,losslessJson(v)+'\n',{flag:'wx'}),asset=id=>({id,artifact:id+'.json',artifact_sha256:sha256(artifact)}),cfg={kind:1,market:1000,artifact:'market.json',artifact_sha256:sha256(artifact),assets:[asset(0),asset(42),asset(43)]};
+  for(const n of ['market.json','0.json','42.json','43.json'])await writeFile(join(dir,n),artifact);
+  const o={historyRoot:'a'.repeat(64),wallet:join(dir,'driver'),walletSha256:sha256('minimum planning double'),runtimeDirectory:join(dir,'runtime')};await writeFile(o.wallet,'minimum planning double');
+  for(const[n,v]of Object.entries({review:cfg,snapshot:{fields:[1n,...d.plan.scope.slice(1)]},draw:{coordinationDouble:true},policy:{version:11}})){o[n]=join(dir,n+'.json');await put(o[n],v);o[n+'Sha256']=sha256(await readFile(o[n]));}
+  let count=0;const runNative=async(_bin,args)=>{count++;await mkdir(args[5]);const plan={...d.plan,historyRoot:o.historyRoot};for(const n of ['review','snapshot','draw','policy'])plan[n+'Sha256']=o[n+'Sha256'];for(const[n,v]of Object.entries({'plan.json':plan,'source-pages.json':d.source,'minimum-pages.json':d.pages,'queue.json':d.queue}))await put(join(args[5],n),v);};
+  const a=await prepareMinimumSourceStream(o,{runNative});assert.equal((await a.status()).minimumExtractionPages,1);assert.throws(()=>a.authorizeSettlement(),/cannot enable writes/);await prepareMinimumSourceStream(o,{runNative});assert.equal(count,1);
+  await assert.rejects(prepareMinimumSourceStream({...o,historyRoot:'b'.repeat(64)},{runNative}),/immutable random source input changed/);
+  const budget=await a.planBudget({availableFeeBudgetBaseUnits:'50000000000',maxFeePerUpsBaseUnits:'1000100000',recoveryUpsReserve:2,secondsPerUpsBound:1,checkpointSecondsLowerBound:10,checkpointReserve:3});assert.equal(budget.canSign,false);assert.equal(budget.normalVaultUps,6);
+  const copied=join(a.directory,'input/market.json');await writeFile(copied,'{}\n\n');await assert.rejects(a.status(),/copied reviewed artifact changed/);
+ }finally{await rm(dir,{recursive:true,force:true});}
+});
