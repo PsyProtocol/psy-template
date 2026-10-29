@@ -1,0 +1,51 @@
+{
+  "scope": "read-only independent source and public artifact review; no independent cryptoverifier rerun by reviewer",
+  "reviewer": "final_source_boundary_review",
+  "buildsRunByReviewer": 0,
+  "proofJobsRunByReviewer": 0,
+  "networkOperationsRunByReviewer": 0,
+  "newActionableBlockers": [],
+  "resolvedFindings": [
+    "exact replay compares full checkpoint-history root before VM, not only vault leaf",
+    "reuse-only mode has no proving fallback for missing artifacts",
+    "selected-component recovery never reads unselected absent asset contract and preserves other residual cursors",
+    "inactive historical leaf heights use legal dummy1 without changing circuit construction or current dependency authentication"
+  ],
+  "independentlyCheckedHashes": {
+    "provenanceOriginalsAndCopies": 139,
+    "finalImmutabilityRecords": 139,
+    "mismatches": 0
+  },
+  "reviewedBoundaries": [
+    "trading/live gate disabled; no global paired trading-frontier claim",
+    "source scope is current eligible orders; nontraders covered, stray deposits not inventoried as orders",
+    "ordinary claims VM-only and no network acceptance",
+    "signed-checkpoint dependency freshness is not inclusion-tip freshness",
+    "no more NFT inventory recovery acceptance than documented"
+  ],
+  "baselineSavedKeys": {
+    "amm": {
+      "broadcast": false,
+      "coherentAttackRejections": [
+        "later-member-first",
+        "omitted-minimum",
+        "duplicate-member"
+      ],
+      "exactProofReused": true,
+      "keyFingerprint": "a444b313c74de178f65ffef36bc6a330b360debabf4b615abe076d7e6910bf65",
+      "scope": "verify exact existing key proof; reject coherent forged alternative stack/signature preimages, not new CFC/UPS proofs"
+    },
+    "bondingcurve": {
+      "broadcast": false,
+      "coherentAttackRejections": [
+        "later-member-first",
+        "omitted-minimum",
+        "duplicate-member"
+      ],
+      "exactProofReused": true,
+      "keyFingerprint": "24a941149b74033f948c0d32eebf65aed95d8660c7a8252e2cd7aedb0d604180",
+      "scope": "verify exact existing key proof; reject coherent forged alternative stack/signature preimages, not new CFC/UPS proofs"
+    }
+  },
+  "broadcast": false
+}

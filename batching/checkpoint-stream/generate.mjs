@@ -63,3 +63,6 @@ export function generateStream(market,config){assert.ok(['amm','bondingcurve'].i
  s=s.replace(/self\.stream_(scope|facts|target_users|manifest|users|orders|recovery|empty|remaining)\s*=\s*([^;]+);/g,(_,name,value)=>Array.from({length:4},(_,i)=>`self.stream_${name}[${i}] = ${value.trim()==='[0,0,0,0]'?'0':`${value.trim()}[${i}]`};`).join(' '));
  return s;
 }
+
+// Shared source protocol, reused by separately gated paired-market candidates.
+export {open,initialize,beginCoverage,setUsers,setOrders,finishCoverage,abortSource,beginOrder,orderState,finishOrder};

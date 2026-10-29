@@ -161,16 +161,22 @@ async fn review(base: &Chain, w: &World) -> Result<Review> {
     let root = std::env::var("BATCH_BUILD")?;
     let store = Store::new();
     let mut assets = vec![];
-    for id in [0, A, B] {
+    for id in [0, A, if w.kind == "nftmarket" { NFT } else { B }] {
         let path = if id == 0 {
             "native.json".to_string()
+        } else if id == NFT {
+            "nft/compilation_artifact.json".to_string()
         } else {
             super::super::token_artifact(id)
         };
         let a: Value = serde_json::from_slice(&fs::read(format!("{root}/{path}"))?)?;
         let functions =
             store.set_contract_function_whitelist(w.checkpoint, id, &base.whitelists[&id])?;
-        assets.push(AssetBinding::from_artifact(id, &a, functions)?);
+        assets.push(if id == NFT {
+            AssetBinding::collection(id, &a, functions)?
+        } else {
+            AssetBinding::from_artifact(id, &a, functions)?
+        });
     }
     let a: Value = serde_json::from_slice(&fs::read(format!(
         "{root}/{}/compiled/compilation_artifact.json",
@@ -179,7 +185,13 @@ async fn review(base: &Chain, w: &World) -> Result<Review> {
     let functions = store.set_contract_function_whitelist(w.checkpoint, M, &base.whitelists[&M])?;
     Review::from_artifact(
         M,
-        if w.kind == "amm" { 1 } else { 2 },
+        match w.kind.as_str() {
+            "amm" => 1,
+            "bondingcurve" => 2,
+            "orderbook" => 3,
+            "nftmarket" => 4,
+            _ => unreachable!(),
+        },
         &a,
         functions,
         assets
@@ -229,7 +241,7 @@ async fn snapshot(db: Store, w: &World, r: &Review, fingerprint: Q<GF>) -> Resul
         fields[start..start + 4].copy_from_slice(&h.0.elements.map(|n| n.to_canonical_u64()));
     }
     let mut contracts = vec![];
-    for id in [0, A, B, M] {
+    for id in [0, A, if w.kind == "nftmarket" { NFT } else { B }, M] {
         contracts.push(ContractOpening {
             id,
             leaf: db.get_contract_leaf_data(id).await?,
@@ -388,6 +400,26 @@ fn original_binding(
         .find(|a| a.leaf.user_id == f(member.member.owner))
         .unwrap();
     let paid = |asset: usize| -> Result<[u64; 2]> {
+        if r.kind == 4 && asset == 1 {
+            let send = row.asset_b.as_ref().unwrap();
+            let receive = vault.asset_b.as_ref().unwrap();
+            let value = |p: &psy_template_u124_markets::final_state_coverage::StateOpening,
+                         offset: u64|
+             -> Result<u64> {
+                let proof = p
+                    .words
+                    .iter()
+                    .find(|p| p.index == offset / 4)
+                    .context("NFT source cursor")?;
+                Ok(proof.value.0.elements[(offset % 4) as usize].to_canonical_u64())
+            };
+            let sent = if send.contract_path.value == Q::ZERO {
+                0
+            } else {
+                value(send, 1214 + 35 * V)?
+            };
+            return Ok([sent - value(receive, 1215 + 35 * member.member.owner)?, 0]);
+        }
         let opening = if asset == 0 {
             row.asset_a.as_ref().unwrap()
         } else {
@@ -551,6 +583,9 @@ fn needed(spec: &Value) -> Vec<Value> {
             ]
             .contains(&o["name"].as_str().unwrap())
                 || o["name"].as_str().unwrap().starts_with("refund_funding_")
+                || (spec["version"] == 7
+                    && (o["name"].as_str().unwrap().starts_with("recover_funding_")
+                        || o["name"] == "recover_nft"))
         })
     {
         out.extend(op["calls"].as_array().unwrap().iter().cloned());
@@ -778,7 +813,7 @@ impl StreamChain {
         let (db, source, vault_path) = self.seed(w).await?;
         let start_leaf = db.get_user_leaf_data(w.checkpoint, V).await?;
         let mut current_contracts = vec![];
-        for id in [0, A, B, M] {
+        for id in [0, A, if w.kind == "nftmarket" { NFT } else { B }, M] {
             current_contracts.push(ContractOpening {
                 id,
                 leaf: db.get_contract_leaf_data(id).await?,
@@ -956,7 +991,7 @@ impl StreamChain {
         // Alter actual circuit witnesses while retaining the genuine signed
         // session and stack. Rejection must come from the compiled key.
         let mut rejections = vec![];
-        if label == "open" || label == "settle-0" {
+        if label == "open" || label == "settle-0" || label == "refund-0" {
             let mut cases = vec![];
             let mut changed = input.clone();
             changed.circuit_inputs[80 + 9] += GF::ONE;
@@ -973,7 +1008,7 @@ impl StreamChain {
             let mut changed = input.clone();
             changed.circuit_inputs[73] += f(1000);
             cases.push(("unapproved-fee", changed));
-            if label == "settle-0" {
+            if label == "settle-0" || label == "refund-0" {
                 for (name, index, value) in [
                     ("cursor", 4, input.circuit_inputs[4] + GF::ONE),
                     ("omitted-member", 2, f(3)),
@@ -1292,8 +1327,16 @@ async fn stream_key_exact_replay_and_coherent_priority_attacks() -> Result<()> {
     let input_root = std::env::var("STREAM_KEY_EVIDENCE")?;
     let out = std::env::var("STREAM_KEY_REPLAY_OUT")?;
     fs::create_dir(&out)?;
-    for kind in ["amm", "bondingcurve"] {
-        let dir = std::path::Path::new(&input_root).join(format!("{kind}-settle-0"));
+    let selected =
+        std::env::var("STREAM_KEY_REPLAY_MARKETS").unwrap_or_else(|_| "amm,bondingcurve".into());
+    for kind in selected.split(',') {
+        let paired = ["orderbook", "nftmarket"].contains(&kind);
+        ensure!(
+            ["amm", "bondingcurve", "orderbook", "nftmarket"].contains(&kind),
+            "reviewed replay market"
+        );
+        let label = if paired { "refund-0" } else { "settle-0" };
+        let dir = std::path::Path::new(&input_root).join(format!("{kind}-{label}"));
         let read = |name: &str| -> Result<Value> {
             Ok(serde_json::from_slice(&fs::read(dir.join(name))?)?)
         };
@@ -1310,21 +1353,31 @@ async fn stream_key_exact_replay_and_coherent_priority_attacks() -> Result<()> {
             ))?)?)
         };
         let mut assets = vec![];
-        for id in [0, A, B] {
+        for id in [0, A, if kind == "nftmarket" { NFT } else { B }] {
             let c = current.contracts.iter().find(|c| c.id == id).unwrap();
-            assets.push(AssetBinding::from_artifact(
-                id,
-                &artifact(&if id == 0 {
-                    "native.json".into()
-                } else {
-                    super::super::token_artifact(id)
-                })?,
-                c.leaf.function_tree_root,
-            )?);
+            let path = if id == 0 {
+                "native.json".into()
+            } else if id == NFT {
+                "nft/compilation_artifact.json".into()
+            } else {
+                super::super::token_artifact(id)
+            };
+            let a = artifact(&path)?;
+            assets.push(if id == NFT {
+                AssetBinding::collection(id, &a, c.leaf.function_tree_root)?
+            } else {
+                AssetBinding::from_artifact(id, &a, c.leaf.function_tree_root)?
+            });
         }
         let r = Review::from_artifact(
             M,
-            if kind == "amm" { 1 } else { 2 },
+            match kind {
+                "amm" => 1,
+                "bondingcurve" => 2,
+                "orderbook" => 3,
+                "nftmarket" => 4,
+                _ => unreachable!(),
+            },
             &artifact(&format!("{kind}/compiled/compilation_artifact.json"))?,
             current
                 .contracts
@@ -1359,11 +1412,20 @@ async fn stream_key_exact_replay_and_coherent_priority_attacks() -> Result<()> {
         let queue = stream_source::priority(&r, &source, source.history.checkpoint_path.root)?;
         let w = World::new(kind)?;
         let mut rejected = vec![];
-        for (name, schedule) in [
-            ("later-member-first", vec![1, 0, 2, 3]),
-            ("omitted-minimum", vec![1, 2, 3, 4]),
-            ("duplicate-member", vec![0, 0, 2, 3]),
-        ] {
+        let schedules = if paired {
+            vec![
+                ("later-member-first", vec![1, 0]),
+                ("omitted-minimum", vec![1, 2]),
+                ("duplicate-member", vec![0, 0]),
+            ]
+        } else {
+            vec![
+                ("later-member-first", vec![1, 0, 2, 3]),
+                ("omitted-minimum", vec![1, 2, 3, 4]),
+                ("duplicate-member", vec![0, 0, 2, 3]),
+            ]
+        };
+        for (name, schedule) in schedules {
             let mut altered = request.clone();
             let mut remaining = queue.clone();
             altered.members.clear();
@@ -1374,7 +1436,7 @@ async fn stream_key_exact_replay_and_coherent_priority_attacks() -> Result<()> {
                 // explicitly bound in the recomputed full call stack below.
                 let old = (0..4)
                     .find(|j| request.fields[22 + 13 * j] == u)
-                    .unwrap_or(3);
+                    .unwrap_or(if paired { 1 } else { 3 });
                 altered.fields[21 + 13 * i..34 + 13 * i]
                     .copy_from_slice(&request.fields[21 + 13 * old..34 + 13 * old]);
                 altered.fields[22 + 13 * i] = u;
@@ -1387,10 +1449,12 @@ async fn stream_key_exact_replay_and_coherent_priority_attacks() -> Result<()> {
                 )?);
                 remaining.remove(queue.members[index].index);
             }
-            let mut ranks = (0..4).collect::<Vec<_>>();
-            ranks.sort_by_key(|i| altered.fields[22 + 13 * i]);
-            for (i, rank) in ranks.into_iter().enumerate() {
-                altered.fields[17 + i] = rank as u64;
+            if !paired {
+                let mut ranks = (0..4).collect::<Vec<_>>();
+                ranks.sort_by_key(|i| altered.fields[22 + 13 * i]);
+                for (i, rank) in ranks.into_iter().enumerate() {
+                    altered.fields[17 + i] = rank as u64;
+                }
             }
             let logical = stream_policy::calls(&spec, &altered, false)?;
             let infos=logical.iter().map(|c|{let cid=c["contract_id"].as_u64().unwrap();let d=&w.methods[&(cid,c["method_name"].as_str().unwrap().into())];psy_client_data::dpn::proving_session::DPNProvingSessionCompactMethodCall::new_from_inputs::<PoseidonHash>(f(psy_config::network_constants::DEFAULT_CALLER_CONTRACT_ID_U64),f(cid),f(d.method_id as u64),&c["inputs"].as_array().unwrap().iter().map(|v|f(v.as_u64().unwrap())).collect::<Vec<_>>()).into()}).collect::<Vec<psy_client_data::dpn::sd_key::SDKeyTransactionInfo<GF>>>();
@@ -1459,3 +1523,6 @@ async fn stream_key_exact_replay_and_coherent_priority_attacks() -> Result<()> {
     }
     Ok(())
 }
+
+#[path = "pair_stream_full_ups.rs"]
+mod pair_stream;

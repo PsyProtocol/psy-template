@@ -205,7 +205,7 @@ fn role<'a>(spec: &'a Value, name: &str) -> &'a Value {
 }
 pub fn validate(spec: &Value, r: &Review) -> Result<()> {
     ensure!(
-        spec["version"] == 5
+        spec["version"] == if r.kind >= 3 { 7 } else { 5 }
             && spec["tx_count"] == 40
             && spec["witness_length"] == 80
             && spec["live_authorization"] == false,
@@ -214,22 +214,44 @@ pub fn validate(spec: &Value, r: &Review) -> Result<()> {
     crate::batch_compact::validate(&spec["base"])?;
     ensure!(
         spec["base"]["native_protocol"] == "mainnet-beta-20261027"
-            && spec["base"]["config"]["assetA"] == r.assets[1].id
-            && spec["base"]["config"]["assetB"] == r.assets[2].id,
+            && if r.kind == 4 {
+                spec["base"]["config"]["tokenId"] == r.assets[1].id
+                    && spec["base"]["config"]["nftId"] == r.assets[2].id
+            } else {
+                spec["base"]["config"]["assetA"] == r.assets[1].id
+                    && spec["base"]["config"]["assetB"] == r.assets[2].id
+            },
         "exact reviewed asset and native identities"
     );
     ensure!(
-        spec["base"]["market"] == if r.kind == 1 { "amm" } else { "bondingcurve" },
+        spec["base"]["market"]
+            == match r.kind {
+                1 => "amm",
+                2 => "bondingcurve",
+                3 => "orderbook",
+                4 => "nftmarket",
+                _ => "invalid",
+            },
         "reviewed market kind"
     );
-    ensure!(
-        spec["base"]["config"]["unit"]
-            .as_str()
-            .context("reviewed unit")?
-            .parse::<u128>()?
-            == r.unit,
-        "reviewed curve unit"
-    );
+    if r.kind <= 2 {
+        ensure!(
+            spec["base"]["config"]["unit"]
+                .as_str()
+                .context("reviewed unit")?
+                .parse::<u128>()?
+                == r.unit,
+            "reviewed curve unit"
+        );
+    }
+    if r.kind >= 3 {
+        ensure!(
+            spec["profile"] == "source-covered-pair-terminal-refund-v2"
+                && spec["page_capacity"] == 2
+                && spec["trading_enabled"] == false,
+            "paired refunds only"
+        );
+    }
     ensure!(
         spec["base"]["burn"]
             == json!({"contract_id":0,"method_id":3998182541u32,"method_name":"burn","inputs":[{"witness":73}]}),
@@ -256,6 +278,8 @@ pub fn validate(spec: &Value, r: &Review) -> Result<()> {
 impl StreamKey {
     pub fn build(spec: &Value, r: &Review, chain: [u64; 4]) -> Result<Self> {
         validate(spec, r)?;
+        let paired = r.kind >= 3;
+        let capacity = if paired { 2 } else { 4 };
         let mut b = CircuitBuilder::<F, 2>::new(CircuitConfig::standard_recursion_config());
         let cfg = MarketKeyConfig {
             num_introspectable_transactions: 40,
@@ -363,8 +387,8 @@ impl StreamKey {
         let too_many = lt(&mut b, sc[8], end, 25);
         eq(&mut b, gates[4], too_many.target, z);
         let terminal = b.is_equal(end, sc[8]);
-        let capacity = b.constant(f(4));
-        let full = b.is_equal(fields[2], capacity);
+        let capacity_t = b.constant(f(capacity));
+        let full = b.is_equal(fields[2], capacity_t);
         let complete = b.or(terminal, full);
         eq(&mut b, gates[4], complete.target, one);
         let final_gate = b.and(gates[4], terminal);
@@ -372,7 +396,11 @@ impl StreamKey {
         gated_hash(&mut b, final_gate, remaining, empty);
         b.range_check(fields[2], 3);
         b.range_check(fields[4], 24);
-        let four = b.constant(f(4));
+        let four = b.constant(f(capacity));
+        if paired {
+            let expired = lt(&mut b, sc[7], g.checkpoint_id, 32);
+            eq(&mut b, gates[4], expired.target, one);
+        }
         let positive = lt(&mut b, z, fields[2], 3);
         eq(&mut b, gates[4], positive.target, one);
         let above = lt(&mut b, four, fields[2], 3);
@@ -595,98 +623,133 @@ impl StreamKey {
                         crate::batch_policy::zero(&mut b, gate, v[j]);
                     }
                 }
-                let call_list = op["calls"].as_array().unwrap();
-                bind(
-                    &mut b,
-                    gate,
-                    &g.tx_introspection.tx_info_slots[17 + 5 * row],
-                    &call_list[0],
-                    v,
-                )?;
-                let native = call_list
-                    .iter()
-                    .find(|c| c["contract_id"] == 0 && c["method_name"] == "claim");
-                bind(
-                    &mut b,
-                    gate,
-                    &g.tx_introspection.tx_info_slots[18 + 5 * row],
-                    native.unwrap_or(&spec["noop"]),
-                    v,
-                )?;
-                let outputs = call_list
-                    .iter()
-                    .filter(|c| c["method_name"] == "transfer")
-                    .collect::<Vec<_>>();
-                ensure!(outputs.len() <= 3, "stream output capacity");
-                for j in 0..3 {
+                if paired {
+                    let is_refund = op["name"]
+                        .as_str()
+                        .is_some_and(|n| n.starts_with("refund_funding_"));
+                    if !is_refund {
+                        eq(&mut b, gate, one, z);
+                    }
+                    if row < 2 {
+                        for (j, c) in op["calls"].as_array().unwrap().iter().enumerate() {
+                            bind(
+                                &mut b,
+                                gate,
+                                &g.tx_introspection.tx_info_slots[5 + 9 * row + j],
+                                c,
+                                v,
+                            )?;
+                        }
+                    }
+                } else {
+                    let call_list = op["calls"].as_array().unwrap();
                     bind(
                         &mut b,
                         gate,
-                        &g.tx_introspection.tx_info_slots[19 + 5 * row + j],
-                        outputs.get(j).copied().unwrap_or(&spec["noop"]),
+                        &g.tx_introspection.tx_info_slots[17 + 5 * row],
+                        &call_list[0],
                         v,
                     )?;
-                }
-            }
-            eq(&mut b, active, allowed.target, one);
-            for j in 0..5 {
-                invoke(&mut b, padding, &g, 17 + 5 * row + j, &spec["noop"], &[])?;
-            }
-        }
-        for pos in 0..4 {
-            let rank = fields[17 + pos];
-            b.range_check(rank, 2);
-            for prev in &fields[17..17 + pos] {
-                let equal = b.is_equal(rank, *prev);
-                eq(&mut b, gates[4], equal.target, z);
-            }
-            let idx = b.constant(f(pos as u64));
-            let exists = lt(&mut b, idx, fields[2], 3);
-            let active = b.and(gates[4], exists);
-            let not = b.not(exists);
-            let padding = b.and(gates[4], not);
-            eq(&mut b, padding, rank, idx);
-            let below = lt(&mut b, rank, fields[2], 3);
-            eq(&mut b, active, below.target, one);
-            if pos > 0 {
-                let owners = (0..4).map(|i| fields[22 + 13 * i]).collect::<Vec<_>>();
-                let previous = b.random_access(fields[17 + pos - 1], owners.clone());
-                let current = b.random_access(rank, owners);
-                let less = lt(&mut b, previous, current, 24);
-                eq(&mut b, active, less.target, one);
-            }
-            for row in 0..4 {
-                let selected = chosen(&mut b, rank, row as u64);
-                let gate = b.and(active, selected);
-                let v = &fields[21 + 13 * row..34 + 13 * row];
-                invoke(
-                    &mut b,
-                    gate,
-                    &g,
-                    5 + 3 * pos,
-                    role(spec, "claim_stream_member"),
-                    &[v[1], v[10]],
-                )?;
-                for op in ops.iter().filter(|o| o["maintenance"] == false) {
-                    let selected = chosen(&mut b, v[0], op["branch"].as_u64().unwrap());
-                    let gate = b.and(gate, selected);
-                    for (j, asset) in [(1, "assetA"), (2, "assetB")] {
-                        let claim = op["calls"].as_array().unwrap().iter().find(|c| {
-                            c["method_name"] == "claim"
-                                && c["contract_id"] == spec["base"]["config"][asset]
-                        });
+                    let native = call_list
+                        .iter()
+                        .find(|c| c["contract_id"] == 0 && c["method_name"] == "claim");
+                    bind(
+                        &mut b,
+                        gate,
+                        &g.tx_introspection.tx_info_slots[18 + 5 * row],
+                        native.unwrap_or(&spec["noop"]),
+                        v,
+                    )?;
+                    let outputs = call_list
+                        .iter()
+                        .filter(|c| c["method_name"] == "transfer")
+                        .collect::<Vec<_>>();
+                    ensure!(outputs.len() <= 3, "stream output capacity");
+                    for j in 0..3 {
                         bind(
                             &mut b,
                             gate,
-                            &g.tx_introspection.tx_info_slots[5 + 3 * pos + j],
-                            claim.unwrap_or(&spec["noop"]),
+                            &g.tx_introspection.tx_info_slots[19 + 5 * row + j],
+                            outputs.get(j).copied().unwrap_or(&spec["noop"]),
                             v,
                         )?;
                     }
                 }
             }
-            for j in 0..3 {
-                invoke(&mut b, padding, &g, 5 + 3 * pos + j, &spec["noop"], &[])?;
+            eq(&mut b, active, allowed.target, one);
+            if paired {
+                if row < 2 {
+                    for j in 0..9 {
+                        invoke(&mut b, padding, &g, 5 + 9 * row + j, &spec["noop"], &[])?;
+                    }
+                }
+            } else {
+                for j in 0..5 {
+                    invoke(&mut b, padding, &g, 17 + 5 * row + j, &spec["noop"], &[])?;
+                }
+            }
+        }
+        if paired {
+            for i in 17..21 {
+                crate::batch_policy::zero(&mut b, gates[4], fields[i]);
+            }
+            noop(&mut b, gates[4], 23, 37)?;
+        } else {
+            for pos in 0..4 {
+                let rank = fields[17 + pos];
+                b.range_check(rank, 2);
+                for prev in &fields[17..17 + pos] {
+                    let equal = b.is_equal(rank, *prev);
+                    eq(&mut b, gates[4], equal.target, z);
+                }
+                let idx = b.constant(f(pos as u64));
+                let exists = lt(&mut b, idx, fields[2], 3);
+                let active = b.and(gates[4], exists);
+                let not = b.not(exists);
+                let padding = b.and(gates[4], not);
+                eq(&mut b, padding, rank, idx);
+                let below = lt(&mut b, rank, fields[2], 3);
+                eq(&mut b, active, below.target, one);
+                if pos > 0 {
+                    let owners = (0..4).map(|i| fields[22 + 13 * i]).collect::<Vec<_>>();
+                    let previous = b.random_access(fields[17 + pos - 1], owners.clone());
+                    let current = b.random_access(rank, owners);
+                    let less = lt(&mut b, previous, current, 24);
+                    eq(&mut b, active, less.target, one);
+                }
+                for row in 0..4 {
+                    let selected = chosen(&mut b, rank, row as u64);
+                    let gate = b.and(active, selected);
+                    let v = &fields[21 + 13 * row..34 + 13 * row];
+                    invoke(
+                        &mut b,
+                        gate,
+                        &g,
+                        5 + 3 * pos,
+                        role(spec, "claim_stream_member"),
+                        &[v[1], v[10]],
+                    )?;
+                    for op in ops.iter().filter(|o| o["maintenance"] == false) {
+                        let selected = chosen(&mut b, v[0], op["branch"].as_u64().unwrap());
+                        let gate = b.and(gate, selected);
+                        for (j, asset) in [(1, "assetA"), (2, "assetB")] {
+                            let claim = op["calls"].as_array().unwrap().iter().find(|c| {
+                                c["method_name"] == "claim"
+                                    && c["contract_id"] == spec["base"]["config"][asset]
+                            });
+                            bind(
+                                &mut b,
+                                gate,
+                                &g.tx_introspection.tx_info_slots[5 + 3 * pos + j],
+                                claim.unwrap_or(&spec["noop"]),
+                                v,
+                            )?;
+                        }
+                    }
+                }
+                for j in 0..3 {
+                    invoke(&mut b, padding, &g, 5 + 3 * pos + j, &spec["noop"], &[])?;
+                }
             }
         }
         invoke(
@@ -861,6 +924,8 @@ pub fn calls(spec: &Value, req: &Request, compact: bool) -> Result<Vec<Value>> {
             args.extend((0..4).map(|i| f[31 + 13 * i]));
             args.push(f[2]);
             out[0] = method("begin_stream_settlement", args);
+            let paired = spec["version"] == 7;
+            ensure!(!paired || f[2] <= 2, "paired page capacity");
             for i in 0..f[2] as usize {
                 let v = &f[21 + 13 * i..34 + 13 * i];
                 let m = &req.members[i];
@@ -878,6 +943,18 @@ pub fn calls(spec: &Value, req: &Request, compact: bool) -> Result<Vec<Value>> {
                     .find(|o| o["branch"] == v[0] && o["maintenance"] == false)
                     .context("settlement branch")?;
                 let c = op["calls"].as_array().unwrap();
+                if paired {
+                    ensure!(
+                        op["name"]
+                            .as_str()
+                            .is_some_and(|n| n.starts_with("refund_funding_")),
+                        "paired trading frontier not installed"
+                    );
+                    for (j, c) in c.iter().enumerate() {
+                        out[5 + 9 * i + j] = convert(c, v)?;
+                    }
+                    continue;
+                }
                 out[17 + 5 * i] = convert(&c[0], v)?;
                 if let Some(c) = c
                     .iter()
@@ -894,23 +971,25 @@ pub fn calls(spec: &Value, req: &Request, compact: bool) -> Result<Vec<Value>> {
                     out[19 + 5 * i + j] = convert(c, v)?;
                 }
             }
-            for pos in 0..f[2] as usize {
-                let row = f[17 + pos] as usize;
-                ensure!(row < f[2] as usize, "claim rank");
-                let v = &f[21 + 13 * row..34 + 13 * row];
-                out[5 + 3 * pos] = method("claim_stream_member", vec![v[1], v[10]]);
-                let op = spec["base"]["operations"]
-                    .as_array()
-                    .unwrap()
-                    .iter()
-                    .find(|o| o["branch"] == v[0])
-                    .context("claim branch")?;
-                for (j, asset) in [(1, "assetA"), (2, "assetB")] {
-                    if let Some(c) = op["calls"].as_array().unwrap().iter().find(|c| {
-                        c["method_name"] == "claim"
-                            && c["contract_id"] == spec["base"]["config"][asset]
-                    }) {
-                        out[5 + 3 * pos + j] = convert(c, v)?;
+            if !paired {
+                for pos in 0..f[2] as usize {
+                    let row = f[17 + pos] as usize;
+                    ensure!(row < f[2] as usize, "claim rank");
+                    let v = &f[21 + 13 * row..34 + 13 * row];
+                    out[5 + 3 * pos] = method("claim_stream_member", vec![v[1], v[10]]);
+                    let op = spec["base"]["operations"]
+                        .as_array()
+                        .unwrap()
+                        .iter()
+                        .find(|o| o["branch"] == v[0])
+                        .context("claim branch")?;
+                    for (j, asset) in [(1, "assetA"), (2, "assetB")] {
+                        if let Some(c) = op["calls"].as_array().unwrap().iter().find(|c| {
+                            c["method_name"] == "claim"
+                                && c["contract_id"] == spec["base"]["config"][asset]
+                        }) {
+                            out[5 + 3 * pos + j] = convert(c, v)?;
+                        }
                     }
                 }
             }

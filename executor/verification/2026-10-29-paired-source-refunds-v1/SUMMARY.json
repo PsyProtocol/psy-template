@@ -1,0 +1,575 @@
+{
+  "schema": 1,
+  "scope": "Offline synthetic authenticated source coverage, exact page authorization and terminal refunds; zero market fills and no live acceptance",
+  "branch": "markets-batch-capacity-recovery-20261020",
+  "baseCommit": "d871e6c7ab2ec15184206f0a65ce06531050bf17",
+  "sdkCommit": "c92880c8b6e2c8d392f19368bc8801a2584fd427",
+  "clientCommit": "b280d714a8f0930c61962c885374ea63ea63d274",
+  "backendCommit": "736572e9dd3ca93566471cf5a2a1cb67a13fe01d",
+  "profile": "source-covered-pair-terminal-refund-v2",
+  "policyVersion": 7,
+  "realFees": 0,
+  "newDeployments": 0,
+  "broadcasts": 0,
+  "actualFills": 0,
+  "canBroadcast": false,
+  "qualifiedRandomness": false,
+  "globalTradingFrontierVerified": false,
+  "ordinaryWalletSignaturesVerified": false,
+  "markets": {
+    "orderbook": {
+      "sourceAccounts": 9,
+      "admittedMembers": 5,
+      "sourceRecoveryMembers": 1,
+      "sourcePages": [
+        4,
+        4,
+        1
+      ],
+      "refundPages": [
+        2,
+        2,
+        1
+      ],
+      "pageCapacity": 2,
+      "uniqueFinalKeyFullUps": 9,
+      "originalGenerationIntervalSeconds": 545.8241132909999,
+      "normalEightOriginalGenerationIntervalSeconds": 519.5941413319999,
+      "normalEightSyntheticNativeFeeBaseUnits": "8000126000",
+      "resourceBuildSeconds": [
+        88.987092833
+      ],
+      "rowProofSeconds": {
+        "open": 35.563973042,
+        "cover-0": 44.61953675,
+        "cover-1": 44.988786458,
+        "cover-2": 46.658295833,
+        "refund-0": 111.401549666,
+        "refund-2": 109.746359083,
+        "refund-4": 76.67077375,
+        "enrolled-recovery": 49.94486675,
+        "abort-unaccepted": 26.229971959
+      },
+      "keySeconds": {
+        "open": 5.48769975,
+        "cover-0": 5.659146,
+        "cover-1": 5.6431580409999995,
+        "cover-2": 5.763072583,
+        "refund-0": 5.424853708,
+        "refund-2": 5.483692042,
+        "refund-4": 5.591132333,
+        "enrolled-recovery": 5.443253458,
+        "abort-unaccepted": 5.414264833
+      },
+      "endcapAndAuditSeconds": {
+        "open": 19.760848125,
+        "cover-0": 22.896142167,
+        "cover-1": 23.22742225,
+        "cover-2": 23.536838917,
+        "refund-0": 52.672512,
+        "refund-2": 52.296509166,
+        "refund-4": 35.487660334,
+        "enrolled-recovery": 25.393000959,
+        "abort-unaccepted": 14.032682625
+      },
+      "keyFingerprint": "fc8db09ae1e9b76aec15a971b76870d9cedd911243ea0269496a071373a1ab0e",
+      "allExactFullUpsReverifiedWithoutProvingFallback": true,
+      "differentGlobalContextRejected": true,
+      "coherentKeyAttacksRejected": [
+        "later-member-first",
+        "omitted-minimum",
+        "duplicate-member"
+      ],
+      "ordinaryClaimBytecodeOnly": true,
+      "enrolledRecovery": {
+        "amount": "4611686018427387921",
+        "asset": 42,
+        "fullUpsVerified": true,
+        "nativeReturned": 17,
+        "ordinaryClaimSignature": false,
+        "owner": 205
+      },
+      "conservationScope": "both fixture FT ledgers/Outboxes; exact native recipient deltas and proven per-request fees; actual NFT token/metadata ownership. No independent chain-wide native supply audit.",
+      "broadcast": false
+    },
+    "nftmarket": {
+      "sourceAccounts": 9,
+      "admittedMembers": 5,
+      "sourceRecoveryMembers": 1,
+      "sourcePages": [
+        4,
+        4,
+        1
+      ],
+      "refundPages": [
+        2,
+        2,
+        1
+      ],
+      "pageCapacity": 2,
+      "uniqueFinalKeyFullUps": 9,
+      "originalGenerationIntervalSeconds": 553.189535125,
+      "normalEightOriginalGenerationIntervalSeconds": 526.804090333,
+      "normalEightSyntheticNativeFeeBaseUnits": "8000165000",
+      "resourceBuildSeconds": [
+        101.48028425
+      ],
+      "rowProofSeconds": {
+        "open": 35.36958375,
+        "cover-0": 44.731027666,
+        "cover-1": 43.758247792,
+        "cover-2": 43.550596958,
+        "refund-0": 120.190295042,
+        "refund-2": 119.007069542,
+        "refund-4": 76.092243958,
+        "enrolled-recovery": 44.105025625,
+        "abort-unaccepted": 26.385444792
+      },
+      "keySeconds": {
+        "open": 5.601542667,
+        "cover-0": 5.52683075,
+        "cover-1": 5.4570505,
+        "cover-2": 5.378177708,
+        "refund-0": 5.54798375,
+        "refund-2": 5.710762625,
+        "refund-4": 5.723555208,
+        "enrolled-recovery": 5.468242042,
+        "abort-unaccepted": 5.430188334
+      },
+      "endcapAndAuditSeconds": {
+        "open": 19.865470333,
+        "cover-0": 22.810440167,
+        "cover-1": 22.550885625,
+        "cover-2": 22.347069,
+        "refund-0": 55.841888833,
+        "refund-2": 54.828392708,
+        "refund-4": 34.503109875,
+        "enrolled-recovery": 22.788096625,
+        "abort-unaccepted": 13.388300416
+      },
+      "keyFingerprint": "ce6f3988d252ecf70beab02206a251a864f26c7ed2c68ef9a49dd912cef6c657",
+      "allExactFullUpsReverifiedWithoutProvingFallback": true,
+      "differentGlobalContextRejected": true,
+      "coherentKeyAttacksRejected": [
+        "later-member-first",
+        "omitted-minimum",
+        "duplicate-member"
+      ],
+      "ordinaryClaimBytecodeOnly": true,
+      "enrolledRecovery": {
+        "collection": 41,
+        "fullUpsVerified": true,
+        "nftOnlyNoIncomingFee": true,
+        "ordinaryClaimSignature": false,
+        "owner": 205,
+        "payload": [
+          13073159812342508578,
+          1556630064247850435,
+          3729948672358694591,
+          18424093720626900389,
+          11,
+          4,
+          33,
+          44
+        ]
+      },
+      "conservationScope": "both fixture FT ledgers/Outboxes; exact native recipient deltas and proven per-request fees; actual NFT token/metadata ownership. No independent chain-wide native supply audit.",
+      "broadcast": false
+    }
+  },
+  "processResults": {
+    "baseline-key-replay-v1-result.json": {
+      "exitCode": 0,
+      "elapsedSeconds": 10.327902749995701,
+      "stopReason": null,
+      "sampledFamilyRssPeakKiB": 1008336,
+      "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak",
+      "financialOperations": 0
+    },
+    "compile-book-v1-result.json": {
+      "exitCode": 0,
+      "elapsedSeconds": 1.039716417028103,
+      "stopReason": null,
+      "sampledFamilyRssPeakKiB": 32,
+      "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak",
+      "financialOperations": 0
+    },
+    "compile-book-v2-result.json": {
+      "exitCode": 0,
+      "elapsedSeconds": 1.0351756670279428,
+      "stopReason": null,
+      "sampledFamilyRssPeakKiB": 544,
+      "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak",
+      "financialOperations": 0
+    },
+    "compile-book-v3-result.json": {
+      "exitCode": 0,
+      "elapsedSeconds": 1.0273347499896772,
+      "stopReason": null,
+      "sampledFamilyRssPeakKiB": 32,
+      "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak",
+      "financialOperations": 0
+    },
+    "compile-book-v4-result.json": {
+      "exitCode": 1,
+      "elapsedSeconds": 1.0358481669682078,
+      "stopReason": null,
+      "sampledFamilyRssPeakKiB": 432,
+      "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak",
+      "financialOperations": 0
+    },
+    "compile-book-v5-result.json": {
+      "exitCode": 0,
+      "elapsedSeconds": 1.035995417041704,
+      "stopReason": null,
+      "sampledFamilyRssPeakKiB": 432,
+      "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak",
+      "financialOperations": 0
+    },
+    "compile-book-v6-result.json": {
+      "exitCode": 0,
+      "elapsedSeconds": 1.0344487080001272,
+      "stopReason": null,
+      "sampledFamilyRssPeakKiB": 640,
+      "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak",
+      "financialOperations": 0
+    },
+    "compile-book-v7-result.json": {
+      "exitCode": 0,
+      "elapsedSeconds": 1.0379241250338964,
+      "stopReason": null,
+      "sampledFamilyRssPeakKiB": 32,
+      "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak",
+      "financialOperations": 0
+    },
+    "compile-nft-v1-result.json": {
+      "exitCode": 0,
+      "elapsedSeconds": 1.0399286250467412,
+      "stopReason": null,
+      "sampledFamilyRssPeakKiB": 1024,
+      "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak",
+      "financialOperations": 0
+    },
+    "compile-nft-v2-result.json": {
+      "exitCode": 0,
+      "elapsedSeconds": 1.040593333018478,
+      "stopReason": null,
+      "sampledFamilyRssPeakKiB": 2608,
+      "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak",
+      "financialOperations": 0
+    },
+    "compile-nft-v3-result.json": {
+      "exitCode": 0,
+      "elapsedSeconds": 1.0392471670056693,
+      "stopReason": null,
+      "sampledFamilyRssPeakKiB": 2352,
+      "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak",
+      "financialOperations": 0
+    },
+    "compile-nft-v4-result.json": {
+      "exitCode": 0,
+      "elapsedSeconds": 1.0297072909888811,
+      "stopReason": null,
+      "sampledFamilyRssPeakKiB": 2416,
+      "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak",
+      "financialOperations": 0
+    },
+    "compile-nft-v6-result.json": {
+      "exitCode": 0,
+      "elapsedSeconds": 1.0371045419597067,
+      "stopReason": null,
+      "sampledFamilyRssPeakKiB": 2304,
+      "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak",
+      "financialOperations": 0
+    },
+    "compile-nft-v7-result.json": {
+      "exitCode": 0,
+      "elapsedSeconds": 1.0540217499947175,
+      "stopReason": null,
+      "sampledFamilyRssPeakKiB": 3104,
+      "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak",
+      "financialOperations": 0
+    },
+    "compiler-build-v1-result.json": {
+      "exitCode": 0,
+      "elapsedSeconds": 41.41035558300791,
+      "stopReason": null,
+      "sampledFamilyRssPeakKiB": 1114256,
+      "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak",
+      "financialOperations": 0
+    },
+    "compiler-build-v2-result.json": {
+      "exitCode": 0,
+      "elapsedSeconds": 41.31524625001475,
+      "stopReason": null,
+      "sampledFamilyRssPeakKiB": 1133632,
+      "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak",
+      "financialOperations": 0
+    },
+    "diagnostic-build-v1-result.json": {
+      "exitCode": 0,
+      "elapsedSeconds": 90.85957979102386,
+      "stopReason": null,
+      "sampledFamilyRssPeakKiB": 1121520,
+      "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak",
+      "financialOperations": 0
+    },
+    "full-ups-v1-result.json": {
+      "exitCode": 101,
+      "elapsedSeconds": 1.046164667000994,
+      "stopReason": null,
+      "sampledFamilyRssPeakKiB": 32,
+      "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak",
+      "financialOperations": 0
+    },
+    "full-ups-v10-result.json": {
+      "exitCode": 0,
+      "elapsedSeconds": 658.7989970410126,
+      "stopReason": null,
+      "sampledFamilyRssPeakKiB": 3455152,
+      "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak",
+      "financialOperations": 0
+    },
+    "full-ups-v2-result.json": {
+      "exitCode": 101,
+      "elapsedSeconds": 495.5846599159995,
+      "stopReason": null,
+      "sampledFamilyRssPeakKiB": 2741360,
+      "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak",
+      "financialOperations": 0
+    },
+    "full-ups-v3-result.json": {
+      "exitCode": 101,
+      "elapsedSeconds": 206.78510774997994,
+      "stopReason": null,
+      "sampledFamilyRssPeakKiB": 3407728,
+      "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak",
+      "financialOperations": 0
+    },
+    "full-ups-v4-result.json": {
+      "exitCode": 101,
+      "elapsedSeconds": 303.2590828749817,
+      "stopReason": null,
+      "sampledFamilyRssPeakKiB": 3137456,
+      "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak",
+      "financialOperations": 0
+    },
+    "full-ups-v5-result.json": {
+      "exitCode": 0,
+      "elapsedSeconds": 558.0859392079874,
+      "stopReason": null,
+      "sampledFamilyRssPeakKiB": 2652544,
+      "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak",
+      "financialOperations": 0
+    },
+    "full-ups-v6-result.json": {
+      "exitCode": 101,
+      "elapsedSeconds": 555.5399147500284,
+      "stopReason": null,
+      "sampledFamilyRssPeakKiB": 1843024,
+      "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak",
+      "financialOperations": 0
+    },
+    "full-ups-v7-result.json": {
+      "exitCode": 101,
+      "elapsedSeconds": 1.0360799159971066,
+      "stopReason": null,
+      "sampledFamilyRssPeakKiB": 2352,
+      "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak",
+      "financialOperations": 0
+    },
+    "full-ups-v8-result.json": {
+      "exitCode": 101,
+      "elapsedSeconds": 581.816941041965,
+      "stopReason": null,
+      "sampledFamilyRssPeakKiB": 2559792,
+      "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak",
+      "financialOperations": 0
+    },
+    "full-ups-v9-result.json": {
+      "exitCode": 101,
+      "elapsedSeconds": 173.11777912499383,
+      "stopReason": null,
+      "sampledFamilyRssPeakKiB": 2626720,
+      "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak",
+      "financialOperations": 0
+    },
+    "js-regression-v1-result.json": {
+      "exitCode": 0,
+      "elapsedSeconds": 1.0292978329816833,
+      "stopReason": null,
+      "sampledFamilyRssPeakKiB": 880,
+      "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak",
+      "financialOperations": 0
+    },
+    "js-regression-v2-result.json": {
+      "exitCode": 0,
+      "elapsedSeconds": 1.0375339169986546,
+      "stopReason": null,
+      "sampledFamilyRssPeakKiB": 896,
+      "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak",
+      "financialOperations": 0
+    },
+    "js-regression-v3-result.json": {
+      "exitCode": 0,
+      "elapsedSeconds": 1.0341662080027163,
+      "stopReason": null,
+      "sampledFamilyRssPeakKiB": 512,
+      "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak",
+      "financialOperations": 0
+    },
+    "js-regression-v5-result.json": {
+      "exitCode": 0,
+      "elapsedSeconds": 1.0338335830019787,
+      "stopReason": null,
+      "sampledFamilyRssPeakKiB": 880,
+      "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak",
+      "financialOperations": 0
+    },
+    "js-regression-v6-result.json": {
+      "exitCode": 0,
+      "elapsedSeconds": 1.0379859160166234,
+      "stopReason": null,
+      "sampledFamilyRssPeakKiB": 928,
+      "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak",
+      "financialOperations": 0
+    },
+    "pair-key-replay-v1-result.json": {
+      "exitCode": 0,
+      "elapsedSeconds": 8.251114375016186,
+      "stopReason": null,
+      "sampledFamilyRssPeakKiB": 655680,
+      "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak",
+      "financialOperations": 0
+    },
+    "pair-reuse-v1-result.json": {
+      "exitCode": 0,
+      "elapsedSeconds": 202.75015645800158,
+      "stopReason": null,
+      "sampledFamilyRssPeakKiB": 3619440,
+      "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak",
+      "financialOperations": 0
+    },
+    "recovery-cfc-v1-result.json": {
+      "exitCode": 0,
+      "elapsedSeconds": 80.58450429199729,
+      "stopReason": null,
+      "sampledFamilyRssPeakKiB": 1914272,
+      "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak",
+      "financialOperations": 0
+    },
+    "recovery-cfc-v2-result.json": {
+      "exitCode": 0,
+      "elapsedSeconds": 95.08495604200289,
+      "stopReason": null,
+      "sampledFamilyRssPeakKiB": 1209120,
+      "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak",
+      "financialOperations": 0
+    },
+    "split-recovery-v1-result.json": {
+      "exitCode": 0,
+      "elapsedSeconds": 2.065317667031195,
+      "stopReason": null,
+      "sampledFamilyRssPeakKiB": 221072,
+      "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak",
+      "financialOperations": 0
+    },
+    "test-build-v1-result.json": {
+      "exitCode": 101,
+      "elapsedSeconds": 42.41811420797603,
+      "stopReason": null,
+      "sampledFamilyRssPeakKiB": 1124960,
+      "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak",
+      "financialOperations": 0
+    },
+    "test-build-v10-result.json": {
+      "exitCode": 0,
+      "elapsedSeconds": 89.98320499999681,
+      "stopReason": null,
+      "sampledFamilyRssPeakKiB": 1147648,
+      "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak",
+      "financialOperations": 0
+    },
+    "test-build-v2-result.json": {
+      "exitCode": 0,
+      "elapsedSeconds": 84.8140782500268,
+      "stopReason": null,
+      "sampledFamilyRssPeakKiB": 1182720,
+      "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak",
+      "financialOperations": 0
+    },
+    "test-build-v3-result.json": {
+      "exitCode": 0,
+      "elapsedSeconds": 84.70806666702265,
+      "stopReason": null,
+      "sampledFamilyRssPeakKiB": 1200176,
+      "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak",
+      "financialOperations": 0
+    },
+    "test-build-v4-result.json": {
+      "exitCode": 0,
+      "elapsedSeconds": 86.82954445900396,
+      "stopReason": null,
+      "sampledFamilyRssPeakKiB": 1206160,
+      "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak",
+      "financialOperations": 0
+    },
+    "test-build-v5-result.json": {
+      "exitCode": 0,
+      "elapsedSeconds": 85.86964637500932,
+      "stopReason": null,
+      "sampledFamilyRssPeakKiB": 1217072,
+      "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak",
+      "financialOperations": 0
+    },
+    "test-build-v6-result.json": {
+      "exitCode": 0,
+      "elapsedSeconds": 93.59669283300173,
+      "stopReason": null,
+      "sampledFamilyRssPeakKiB": 1118192,
+      "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak",
+      "financialOperations": 0
+    },
+    "test-build-v7-result.json": {
+      "exitCode": 0,
+      "elapsedSeconds": 91.95446691696998,
+      "stopReason": null,
+      "sampledFamilyRssPeakKiB": 1130752,
+      "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak",
+      "financialOperations": 0
+    },
+    "test-build-v8-result.json": {
+      "exitCode": 0,
+      "elapsedSeconds": 93.08426179102389,
+      "stopReason": null,
+      "sampledFamilyRssPeakKiB": 1086208,
+      "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak",
+      "financialOperations": 0
+    },
+    "test-build-v9-result.json": {
+      "exitCode": 0,
+      "elapsedSeconds": 89.8919114160235,
+      "stopReason": null,
+      "sampledFamilyRssPeakKiB": 1164656,
+      "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak",
+      "financialOperations": 0
+    }
+  },
+  "limitations": [
+    "Trading remains disabled until complete global Orderbook price/time and NFT buyer/listing frontier verification",
+    "Paired accounts without prepared funding subtrees are explicitly recoverable, not admitted for trading; authenticated absent/current-funding bridge remains application work",
+    "Current dependency and cancellation checks bind the signed checkpoint, not inclusion-tip foreign freshness",
+    "Ordinary claims execute actual bytecode only in the VM, without ordinary-wallet signatures or network receipts",
+    "Separate UPS pages are not one atomic epoch or cross-vault workflow",
+    "No real Executor concurrency, cross-machine, sustained performance, p95, confirmation latency, TPS or speedup evidence",
+    "Source completeness covers eligible current orders at C, not historical transaction enumeration or admission/censorship completeness",
+    "Source recovery count is a historical classification, not a live pending-balance counter; stray deposits are separate sender-enrolled recovery"
+  ],
+  "measurementRules": [
+    "Original successful proof intervals are distinct from resumed process wall time, and preserve costs from their actual originating runs",
+    "Book generation spans full-ups-v8 plus resumed v9; NFT generation is separate full-ups-v10. final-ups-v1 is a byte-exact derived union",
+    "Cold market-resource builds are not SDK/application compilation; no same-market warm-task or matched speedup experiment was performed",
+    "Do not add nested CFC/key/endcap phase times to the containing total; all failures, protocol-independent waits and slow samples remain retained",
+    "One-second sampled process-family RSS includes shared pages and is not a physical peak or a sustained-memory conclusion"
+  ]
+}
