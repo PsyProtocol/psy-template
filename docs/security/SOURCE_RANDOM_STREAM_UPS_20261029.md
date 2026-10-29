@@ -203,7 +203,7 @@ policy byte equality and exact original key identities are preserved.
 
 | Offline measurement | AMM | Bonding Curve |
 |---|---:|---:|
-| Cold CM/key/source resource construction | 114.829 s | 106.495 s |
+| New per-market CM/key/source resources | 114.829 s | 106.495 s |
 | Normal seven complete UPS intervals, excluding above cold construction | 540.215 s | 526.612 s |
 | Synthetic normal native fee, 9 decimals | 7.000128 PSY | 7.000114 PSY |
 | Normal synthetic VM trades / eligible members | 3 / 5 | 3 / 5 |
@@ -224,3 +224,9 @@ whole-source deadline/funding fit. Honest recovery proofs do not close the
 hostile-service boundary. Prefer a separately proved atomic full-permutation
 installation (or per-page minimum certificate) before enabling financial writes;
 that is application candidate work, not an excuse to substitute weaker entropy.
+
+Measurement scope: both markets run in one process. AMM constructs resources
+first; Curve constructs new CM/key/source resources later and may reuse global
+immutable caches. The recorded `cold-stream-resource-build` phase name does not
+make Curve a separate new-process cold-start sample. These values are not a
+controlled cold-versus-warm comparison. Original phase labels/samples stay intact.

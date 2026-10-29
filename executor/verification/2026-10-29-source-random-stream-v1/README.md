@@ -112,3 +112,9 @@ shared pages and can miss short peaks; it is not physical footprint. Compilation
 network confirmation, ordinary-wallet arrival and matched deterministic/random
 performance comparison are separate. No chain TPS, p95, general speedup or
 production-readiness conclusion is supported.
+
+Both market resource constructions occur in the same process, AMM first and
+Curve later. The raw phase label `cold-stream-resource-build` denotes new
+per-market CM/key/source resources, not two independent new-process cold starts.
+Global immutable caches can already be warm for Curve. No controlled cold/warm
+comparison is claimed; the raw samples and phase labels are preserved unchanged.
