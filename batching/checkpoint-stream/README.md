@@ -1,6 +1,6 @@
 # Checkpoint stream profiles
 
-Four profiles intentionally coexist. Their commitments and keys are not
+Five profiles intentionally coexist. Their commitments and keys are not
 interchangeable.
 
 | Profile | Entry points | Financial authority |
@@ -8,6 +8,7 @@ interchangeable.
 | v1 component preparation | `executor/checkpointStream.mjs`, `executor/finalStateStream.mjs`, original `checkpoint_stream.rs` | Disabled; standalone source/ordering evidence is not a spending authorization |
 | paired terminal refund stream (policy version 7) | `pair-generate.mjs`, `pair-build-policy.mjs`, shared `stream_*.rs` | Distinct offline Orderbook/NFT candidates; trading and live authorization disabled pending global paired trading frontier |
 | paired global frontier (policy version 8) | `pair-trade-generate.mjs`, `pair-trade-build-policy.mjs`, `pair_frontier.rs`, shared `stream_*.rs` | Distinct offline Orderbook/NFT trading candidates; complete-source scan and actual fills/refunds proved; live authorization remains disabled |
+| paired triangular frontier and early recovery (policy version 9) | `pair-optimized-generate.mjs`, `pair-optimized-build-policy.mjs`, conditional triangular builder in `pair_frontier.rs` | Distinct offline candidate: exact unordered-pair coverage and current-invalid winner refunds; live authorization remains disabled |
 | v3 source-covered deterministic priority stream | `generate.mjs`, `build-policy.mjs`, `stream_{source,context,current,order,policy}.rs` | Distinct undeployed candidates; complete synthetic-checkpoint UPS validation is tracked in the report below; live driver remains disabled |
 
 For v3, use `prepare-fixtures.mjs REVIEWED_INPUT FRESH_OUTPUT`, the frozen
@@ -49,3 +50,13 @@ window. This is not a scalable live-service claim or admission/finality proof.
 Neither authenticates a source snapshot, verifies a cryptographic proof, signs,
 broadcasts, or authorizes the financial Executor. Use the native full-UPS tests
 and fixed verification resources described in the report for proof acceptance.
+
+The [v9 continuation](../../docs/security/TRIANGULAR_PAIR_RECOVERY_20261029.md)
+uses `pair-optimized-prepare-fixtures.mjs REVIEWED_INPUT FRESH_OUTPUT`, the
+existing audited `compile_pair_stream_market` wrapper (payment/collection order
+for NFT), then `pair-optimized-build-policy.mjs FRESH_OUTPUT`. It does not change
+the v8 compiler output or key. Every unordered pair is authenticated once and
+oriented by its committed side/kind; exact price/time and NFT priorities remain.
+An early one-member refund requires both the stored best certificate and actual
+current invalidity. Normal expiry refunds still require canonical minima.
+`audit-optimized-pair-evidence.mjs` is a structural/BigInt reference audit only.

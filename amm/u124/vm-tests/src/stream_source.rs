@@ -518,7 +518,9 @@ impl SourcePageTargets {
                 gh(b, candidate, path.root, leaf.user_state_tree_root);
                 let empty_contract = eqhash(b, path.value, empty);
                 let present = b.not(empty_contract);
-                if r.kind >= 3 { paired_present.push(present); }
+                if r.kind >= 3 {
+                    paired_present.push(present);
+                }
                 let sender_gate = b.and(candidate, present);
                 if r.kind == 4 && i == 2 {
                     let origin = b.constant(f(1214));
@@ -678,7 +680,12 @@ impl SourcePageTargets {
             // Paired CFC snapshots require prepared foreign funding subtrees.
             // Absent subtrees stay explicitly recoverable, never silently read
             // as registered empty contracts or admitted into a stuck page.
-            let eligible = if r.kind >= 3 { let prepared = and(b, &paired_present); b.and(eligible, prepared) } else { eligible };
+            let eligible = if r.kind >= 3 {
+                let prepared = and(b, &paired_present);
+                b.and(eligible, prepared)
+            } else {
+                eligible
+            };
             let has_asset = b.and(a_zero, b_zero);
             let nofee = b.is_equal(fee, z);
             let nofunds = b.and(has_asset, nofee);
@@ -1181,8 +1188,15 @@ pub struct PriorityTree {
 impl PriorityTree {
     /// Untrusted planner helper; only source coverage authenticates this root.
     pub fn from_committed(scope: &[u64], mut members: Vec<PriorityMember>) -> Result<Self> {
+        ensure!(
+            scope.len() == 41 && scope[0] == 3,
+            "planner requires authenticated source-page v3 domain, not raw snapshot fields"
+        );
         members.sort_by_key(|m| m.index);
-        ensure!(members.windows(2).all(|w| w[0].index < w[1].index), "unique planner members");
+        ensure!(
+            members.windows(2).all(|w| w[0].index < w[1].index),
+            "unique planner members"
+        );
         let mut tree = Sparse::new(56);
         for m in &members {
             ensure!(m.index < 1 << 56, "priority index");

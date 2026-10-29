@@ -1,5 +1,10 @@
 # Market correctness and reset-chain validation — 27 October 2026
 
+Latest paired-market result: the [triangular scan and authenticated early refund
+report](TRIANGULAR_PAIR_RECOVERY_20261029.md) supersedes the v8 scan-cost and
+supported current-invalid winner-stall gaps below. It is offline proof evidence;
+real network, ordinary-wallet and inclusion-time precedence gates remain open.
+
 ## Latest continuation — source-covered stream UPSs (29 October)
 
 The distinct AMM/Curve stream candidates now bind complete authenticated source
@@ -615,3 +620,51 @@ Source completeness does not prove market-wide admission or censorship resistanc
 
 Read [the rules, scope, costs and evidence](GLOBAL_PAIR_FRONTIER_20261029.md)
 and [the new public bundle](../../executor/verification/2026-10-29-global-pair-frontier-v1/README.md).
+
+
+## 29 October: reduced paired scan and current-invalid winner recovery
+
+Distinct v9 `source-covered-pair-triangular-recovery-v1` now proves every
+unordered source pair exactly once, with authenticated suffix minima and a
+strict N(N-1)/2 count. Source side/kind determines orientation, preserving the
+original whole-order price/time comparator and per-listing NFT buyer priority.
+Five-member and three-member scans use 3 + 1 UPSs instead of 7 + 3. Complexity
+remains quadratic; epoch capacity and live scalability are not increased.
+
+A one-member early refund must bind the stored completed best certificate,
+original source terms/nonce, current cancellation/deadline/funding invalidity,
+actual refund CFC, exact call stack/session/sig_hash, fees and state endpoints.
+The remaining root is updated by one authenticated removal, then rescanned.
+Valid priority orders cannot be arbitrarily skipped. Normal expiry minimum and
+complete-page/tail refunds remain mandatory. Post-signing foreign changes,
+identity/integrity failures and out-of-domain counters do not gain a bypass.
+
+All 44 unique complete UPSs passed SDK and fixed verification, 22 per market,
+including normal two-fill paths and separate cancellation/recovery forks. The
+initial run accepted eleven proofs then rejected a planner using raw snapshot
+scope v1 instead of sealed source scope v3. The corrected continuation reused
+those exact accepted identities and generated the remaining 33; it removed no
+constraint. A common host planner guard now rejects that domain mistake early.
+All originals are retained. Final v5 source reverified all 44 complete proofs
+without proving fallback. Old v7/AMM/Curve key proofs and all 42 saved v8 paired
+full UPSs remain valid. Independent BigInt/reference audits, component and
+coherent signature attacks passed; no separate human security audit is claimed.
+
+Normal original intervals total 643.609 s (Book) and 699.210 s (NFT), with
+synthetic native fees 12,000,172,000 and 12,000,222,000 base units. Different
+deadlines, fork warming and proof provenance prevent a matched before/after
+speedup conclusion. The failed original process, continuation and exact replay
+are measured separately, with full sampled family RSS and all retained failures.
+Ordinary recipient claims execute bytecode in VM only; real signatures, receipts,
+confirmation/claim latency, sustained TPS and p95 remain unmeasured.
+
+RPC heads respond and the current full native code decodes/reconstructs under
+the frozen SDK. The synthetic native fixture has different identities and is not
+a live resource binding. Complete source-account inventory, C+32 feasibility,
+actual instance resources, bounded funding and reviewed admission/cancellation/
+version enforcement still gate real isolated acceptance. Node/SDK source, old contracts and wallet/UI code are unchanged. No real
+registration, deployment, faucet call or financial broadcast occurred, and no
+PSY/pUSDT/NFT was spent or moved on the network.
+
+See [the full report and remaining requirements](TRIANGULAR_PAIR_RECOVERY_20261029.md)
+and [public evidence and reproduction](../../executor/verification/2026-10-29-pair-triangular-recovery-v1/README.md).

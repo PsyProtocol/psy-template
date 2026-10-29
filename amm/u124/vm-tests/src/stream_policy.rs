@@ -209,7 +209,7 @@ fn role<'a>(spec: &'a Value, name: &str) -> &'a Value {
 pub fn validate(spec: &Value, r: &Review) -> Result<()> {
     ensure!(
         (if r.kind >= 3 {
-            spec["version"] == 7 || spec["version"] == 8
+            spec["version"] == 7 || spec["version"] == 8 || spec["version"] == 9
         } else {
             spec["version"] == 5
         }) && spec["tx_count"] == 40
@@ -258,6 +258,10 @@ pub fn validate(spec: &Value, r: &Review) -> Result<()> {
                 || (spec["version"] == 8
                     && spec["profile"] == "source-covered-pair-global-frontier-v1"
                     && spec["trading_enabled"] == true
+                    && spec["scan_capacity"] == 4)
+                || (spec["version"] == 9
+                    && spec["profile"] == "source-covered-pair-triangular-recovery-v1"
+                    && spec["trading_enabled"] == true
                     && spec["scan_capacity"] == 4))
                 && spec["page_capacity"] == 2,
             "paired refunds only"
@@ -290,7 +294,8 @@ impl StreamKey {
     pub fn build(spec: &Value, r: &Review, chain: [u64; 4]) -> Result<Self> {
         validate(spec, r)?;
         let paired = r.kind >= 3;
-        let global = spec["version"] == 8;
+        let optimized = spec["version"] == 9;
+        let global = spec["version"] == 8 || optimized;
         let capacity = if paired { 2 } else { 4 };
         let mut b = CircuitBuilder::<F, 2>::new(CircuitConfig::standard_recursion_config());
         let cfg = MarketKeyConfig {
@@ -373,6 +378,12 @@ impl StreamKey {
         } else {
             None
         };
+        let reject = if optimized {
+            let selected = chosen(&mut b, fields[1], 1);
+            Some(b.and(gates[4], selected))
+        } else {
+            None
+        };
         let mut members = vec![];
         let mut remaining = sort.ordered;
         for i in 0..4 {
@@ -399,7 +410,11 @@ impl StreamKey {
             let bits = b.split_le(index, 56);
             for j in 0..56 {
                 let minimum_gate = if let Some(trade) = trade {
-                    let refund = b.not(trade);
+                    let mut refund = b.not(trade);
+                    if let Some(reject) = reject {
+                        let not = b.not(reject);
+                        refund = b.and(refund, not);
+                    }
                     b.and(gate, refund)
                 } else {
                     gate
@@ -439,7 +454,10 @@ impl StreamKey {
         let terminal = b.is_equal(end, sc[8]);
         let capacity_t = b.constant(f(capacity));
         let full = b.is_equal(fields[2], capacity_t);
-        let complete = b.or(terminal, full);
+        let mut complete = b.or(terminal, full);
+        if let Some(reject) = reject {
+            complete = b.or(complete, reject);
+        }
         eq(&mut b, gates[4], complete.target, one);
         let final_gate = b.and(gates[4], terminal);
         let empty = b.constant_hash(<H as MerkleZeroHasher<Q<F>>>::get_zero_hash(56).0);
@@ -472,6 +490,12 @@ impl StreamKey {
         let before_settle = context(&mut b, 3, sc, &source.facts, &ledger, &sort, settled);
 
         for i in 0..80 {
+            if optimized && i == 1 {
+                b.range_check(fields[i], 1);
+                let not = b.not(gates[4]);
+                crate::batch_policy::zero(&mut b, not, fields[i]);
+                continue;
+            }
             if i == 0 || i == 73 {
                 continue;
             }
@@ -655,8 +679,12 @@ impl StreamKey {
                 &args,
             )?;
             let bind_padding = if global && row == 2 {
-                let not_trade = b.not(trade.unwrap());
-                b.and(padding, not_trade)
+                let mut reserved = trade.unwrap();
+                if let Some(reject) = reject {
+                    reserved = b.or(reserved, reject);
+                }
+                let not_reserved = b.not(reserved);
+                b.and(padding, not_reserved)
             } else {
                 padding
             };
@@ -851,7 +879,12 @@ impl StreamKey {
                     }
                 }
             }
-            let t = crate::pair_frontier::Targets::add(
+            let add = if optimized {
+                crate::pair_frontier::Targets::add_triangular
+            } else {
+                crate::pair_frontier::Targets::add
+            };
+            let t = add(
                 &mut b,
                 &mut tape,
                 r.kind,
@@ -884,7 +917,13 @@ impl StreamKey {
             }
             eq(&mut b, carry, t.before.complete.target, one);
             eq(&mut b, carry, t.prev_exists.target, z);
-            let n2 = b.mul(count, count);
+            let n2 = if optimized {
+                let nm = b.sub(count, one);
+                let p = b.mul(count, nm);
+                b.mul_const(f(2).inverse(), p)
+            } else {
+                b.mul(count, count)
+            };
             eq(&mut b, carry, t.before.cursor, n2);
             let empty = b.constant_hash(h(crate::pair_frontier::empty()));
             gated_hash(&mut b, carry, t.before.outer, empty);
@@ -907,7 +946,39 @@ impl StreamKey {
             eq(&mut b, trade, expired.target, z);
             let refund = b.not(trade);
             let refund = b.and(gates[4], refund);
-            eq(&mut b, refund, expired.target, one);
+            let normal_refund = if let Some(reject) = reject {
+                let not = b.not(reject);
+                b.and(refund, not)
+            } else {
+                refund
+            };
+            eq(&mut b, normal_refund, expired.target, one);
+            if let Some(reject) = reject {
+                eq(&mut b, reject, fields[2], one);
+                eq(&mut b, reject, t.before.complete.target, one);
+                eq(&mut b, reject, t.prev_exists.target, one);
+                eq(&mut b, reject, expired.target, z);
+                let a = b.is_equal(fields[22], t.prev_a.owner);
+                let c = b.is_equal(fields[22], t.prev_b.owner);
+                let selected = b.or(a, c);
+                eq(&mut b, reject, selected.target, one);
+                for (is, record) in [(a, &t.prev_a), (c, &t.prev_b)] {
+                    let gate = b.and(reject, is);
+                    eq(&mut b, gate, fields[31], record.nonce(r.kind));
+                    let terms = record.terms(&mut b, sc);
+                    gated_hash(&mut b, gate, terms, members[0].terms);
+                }
+                let mut args = choice_args.clone();
+                args.push(fields[22]);
+                invoke(
+                    &mut b,
+                    reject,
+                    &g,
+                    3,
+                    role(spec, "bind_pair_rejection"),
+                    &args,
+                )?;
+            }
             for (row, record) in [(0, &t.prev_a), (1, &t.prev_b)] {
                 let v = &fields[21 + 13 * row..34 + 13 * row];
                 eq(&mut b, trade, record.owner, v[1]);
@@ -1053,7 +1124,10 @@ pub fn calls(spec: &Value, req: &Request, compact: bool) -> Result<Vec<Value>> {
     let method = |name: &str, args: Vec<u64>| json!({"contract_id":role(spec,name)["contract_id"],"method_name":name,"inputs":args});
     match f[0] {
         crate::pair_frontier::SCAN | crate::pair_frontier::CARRY => {
-            ensure!(spec["version"] == 8, "global frontier profile");
+            ensure!(
+                spec["version"] == 8 || spec["version"] == 9,
+                "global frontier profile"
+            );
             let page = req.frontier.as_ref().context("frontier witness")?;
             let stream = context_value(3, sc, facts, &req.ledger, &req.sort, req.settled);
             let mut args =
@@ -1123,8 +1197,9 @@ pub fn calls(spec: &Value, req: &Request, compact: bool) -> Result<Vec<Value>> {
             args.extend((0..4).map(|i| f[31 + 13 * i]));
             args.push(f[2]);
             out[0] = method("begin_stream_settlement", args);
-            let paired = spec["version"] == 7 || spec["version"] == 8;
-            let global = spec["version"] == 8;
+            let paired = spec["version"] == 7 || spec["version"] == 8 || spec["version"] == 9;
+            let optimized = spec["version"] == 9;
+            let global = spec["version"] == 8 || optimized;
             let trade = global
                 && spec["base"]["operations"]
                     .as_array()
@@ -1185,13 +1260,19 @@ pub fn calls(spec: &Value, req: &Request, compact: bool) -> Result<Vec<Value>> {
                     out[19 + 5 * i + j] = convert(c, v)?;
                 }
             }
-            if trade {
+            if trade || (optimized && f[1] == 1) {
                 let p = req.frontier.as_ref().context("completed frontier")?;
                 let stream = context_value(3, sc, facts, &req.ledger, &req.sort, req.settled);
                 let mut args =
                     crate::pair_frontier::context_value(stream, &p.before, sc, sc[2]).to_vec();
                 args.extend(p.before.best.as_ref().context("winner")?.hash(sc, sc[2]));
-                out[3] = method("bind_pair_choice", args);
+                if optimized && f[1] == 1 {
+                    ensure!(!trade && f[2] == 1, "one invalid winner only");
+                    args.push(f[22]);
+                    out[3] = method("bind_pair_rejection", args);
+                } else {
+                    out[3] = method("bind_pair_choice", args);
+                }
             }
             if !paired {
                 for pos in 0..f[2] as usize {
