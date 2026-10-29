@@ -1,0 +1,7 @@
+import test from 'node:test';import assert from 'node:assert/strict';import{referenceWinner,compatiblePair}from'./pair-frontier-reference.mjs';
+const B=1n<<62n,MAX=(1n<<124n)-1n;
+function book(owner,side,x,y,cp){return{owner,values:[1,100,side,200,1,x%B,x/B,y%B,y/B,0,0,cp,0]};}
+test('full U124 cross products choose price before time and compatible whole orders',()=>{const r=[book(200,0,MAX-10n,MAX-25n,93),book(201,1,MAX-15n,MAX-30n,95),book(202,0,MAX-5n,MAX-29n,92),book(203,1,MAX-12n,MAX-31n,94),book(204,0,MAX-40n,MAX-1n,96)];const w=referenceWinner(3,r);assert.deepEqual([w.best.a.owner,w.best.b.owner],[202,203]);assert.equal(w.comparisons,25);assert.equal(w.canBroadcast,false);assert.equal(compatiblePair(3,r[4],r[3]),false);});
+test('equal prices use checkpoint then owner, without float division',()=>{const r=[book(200,0,B+17n,B+17n,90),book(201,1,3n*(B+17n),B+17n,95),book(202,1,3n*(B+17n),B+17n,94),book(203,1,3n*(B+17n),B+17n,94)];assert.equal(referenceWinner(3,r).best.b.owner,202);});
+function nft(owner,kind,seller,cp){return{owner,values:[kind,100,1,200,0,cp,17,1,seller,1,0,0,0,0,0,0,0,0,0]};}
+test('NFT winner is earliest buyer for exact seller/listing nonce and full price',()=>{const r=[nft(200,1,0,90),nft(201,2,200,93),nft(203,2,200,92)];assert.equal(referenceWinner(4,r).best.b.owner,203);r[2].values[9]=2;assert.equal(referenceWinner(4,r).best.b.owner,201);r[1].values[7]=0;assert.equal(referenceWinner(4,r).best,null);});

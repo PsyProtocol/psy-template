@@ -286,6 +286,7 @@ fn basic(mode: u64, page: &SourcePage, w: &World) -> Request {
         },
         settled: w.val(V, "stream_settled", 0),
         members: vec![],
+        frontier: None,
     }
 }
 fn sent(w: &World, u: u64, asset: u64) -> u128 {
@@ -582,8 +583,9 @@ fn needed(spec: &Value) -> Vec<Value> {
                 "refund_buy",
             ]
             .contains(&o["name"].as_str().unwrap())
+                || (spec["version"] == 8 && ["match_orders","settle_sale"].contains(&o["name"].as_str().unwrap_or("")))
                 || o["name"].as_str().unwrap().starts_with("refund_funding_")
-                || (spec["version"] == 7
+                || ((spec["version"] == 7 || spec["version"] == 8)
                     && (o["name"].as_str().unwrap().starts_with("recover_funding_")
                         || o["name"] == "recover_nft"))
         })
@@ -1526,3 +1528,6 @@ async fn stream_key_exact_replay_and_coherent_priority_attacks() -> Result<()> {
 
 #[path = "pair_stream_full_ups.rs"]
 mod pair_stream;
+
+#[path="pair_trade_full_ups.rs"]
+mod pair_trade;

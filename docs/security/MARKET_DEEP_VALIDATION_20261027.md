@@ -575,3 +575,43 @@ Original successful normal proof intervals total 519.594 s (Orderbook) and
 failed/restarted process costs. These are not confirmation time or TPS.
 See [scope, capability matrix, costs and reproduction](PAIR_SOURCE_STREAM_UPS_20261029.md)
 and [public proofs and retained evidence](../../executor/verification/2026-10-29-paired-source-refunds-v1/README.md).
+
+## 29 October: global paired frontier and continuous actual fills
+
+The distinct v8 `source-covered-pair-global-frontier-v1` candidate supersedes
+the global-trading gap of the preceding v7 report without changing its refund
+keys. Complete authenticated Cartesian traversal now derives the first compatible
+Orderbook pair in existing whole-order price/checkpoint/owner order, and each
+NFT listing's earliest exact buyer. Four comparisons per scan UPS are a page
+bound, not a whole-source order limit. The actual `bind_pair_choice` CFC checks
+the persisted completed frontier before original match/sale bytecode executes.
+Both consumed members, full U124 terms, nonces, actual ordered calls, session,
+sig_hash, current identities, exact fees and final endpoints remain bound.
+
+Each nine-account synthetic world covers five eligible orders, scans 25 then
+nine comparisons across seven then three pages, and executes two actual fills.
+All 42 full UPSs (21 per market), including unmatched-tail refund, enrolled
+partial-funding/NFT-only recovery, no-match carry and unaccepted timeout, passed
+SDK plus fixed verification. Recipient claims use actual VM bytecode only,
+without ordinary-wallet signatures or network receipts. Conditional U124-boundary
+frontier proofs and negative witnesses, independent BigInt priorities, current
+cancellation, cursor/certificate substitution and exact-replay checks support
+the new selection logic. English source/docs and all preparation failures are
+retained with immutable original proof provenance.
+
+Normal-path original UPS intervals total 789.877 s for Orderbook and 785.236 s
+for NFT, 18 phases each. The complete original run, including resource builds,
+all forks and VM claims, took 1,947.094 s; one-second family RSS peaked at
+3,238,944 KiB (includes shared pages, not physical peak). There is no matched
+before/after experiment, live confirmation timing or throughput claim.
+
+**Still open:** O(N²) per-fill scan cost, practicality within fixed C+32 expiry,
+fresh global reranking when a source winner later invalidates, authenticated
+admission/finality/qualified randomness, real ordinary-wallet/UI acceptance and
+live financial Executor integration. A later-invalidated winner may stall until
+canonical expiry refund; it is not silently skipped. Live authorization stays
+false, with no Node/SDK or old contract changes and zero live financial actions.
+Source completeness does not prove market-wide admission or censorship resistance.
+
+Read [the rules, scope, costs and evidence](GLOBAL_PAIR_FRONTIER_20261029.md)
+and [the new public bundle](../../executor/verification/2026-10-29-global-pair-frontier-v1/README.md).

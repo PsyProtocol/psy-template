@@ -1179,6 +1179,17 @@ pub struct PriorityTree {
     pub members: Vec<PriorityMember>,
 }
 impl PriorityTree {
+    /// Untrusted planner helper; only source coverage authenticates this root.
+    pub fn from_committed(scope: &[u64], mut members: Vec<PriorityMember>) -> Result<Self> {
+        members.sort_by_key(|m| m.index);
+        ensure!(members.windows(2).all(|w| w[0].index < w[1].index), "unique planner members");
+        let mut tree = Sparse::new(56);
+        for m in &members {
+            ensure!(m.index < 1 << 56, "priority index");
+            tree.set(m.index, member(scope, m.index, &m.member));
+        }
+        Ok(Self { tree, members })
+    }
     pub fn root(&self) -> Hash {
         self.tree.root()
     }

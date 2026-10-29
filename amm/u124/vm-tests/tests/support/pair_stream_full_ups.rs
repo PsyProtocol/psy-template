@@ -60,7 +60,7 @@ fn setup_pair(kind: &str) -> Result<World> {
     create_ineligible(&mut w)?;
     Ok(w)
 }
-fn refund_page(
+pub(super) fn refund_page(
     w: &World,
     r: &Review,
     s: &Snapshot,
@@ -121,7 +121,7 @@ fn refund_page(
     }
     Ok(req)
 }
-fn nft_payload(w: &World, u: u64) -> Result<[u64; 8]> {
+pub(super) fn nft_payload(w: &World, u: u64) -> Result<[u64; 8]> {
     let mut v = [0; 8];
     for j in 0..8 {
         v[j] =
@@ -178,7 +178,7 @@ fn claims(w: &mut World) -> Result<Vec<Value>> {
 }
 // A funded ineligible source order must have an executable, sender-enrolled
 // cancellation recovery path even when only an NFT (and no fee) was deposited.
-fn create_ineligible(w: &mut World) -> Result<(Vec<u64>, Option<[u64; 8]>)> {
+pub(super) fn create_ineligible(w: &mut World) -> Result<(Vec<u64>, Option<[u64; 8]>)> {
     let u = 205;
     let n = (1u128 << 62) + 17;
     w.set(u, 0, 0, 100 * ESCROW);
@@ -214,7 +214,7 @@ fn create_ineligible(w: &mut World) -> Result<(Vec<u64>, Option<[u64; 8]>)> {
     }
     Ok((op, payload))
 }
-fn prepare_ineligible_recovery(w: &mut World) -> Result<(Vec<u64>, Option<[u64; 8]>)> {
+pub(super) fn prepare_ineligible_recovery(w: &mut World) -> Result<(Vec<u64>, Option<[u64; 8]>)> {
     let u = 205;
     let n = (1u128 << 62) + 17;
     ensure!(
@@ -245,7 +245,7 @@ fn prepare_ineligible_recovery(w: &mut World) -> Result<(Vec<u64>, Option<[u64; 
 // Offline test continuation, never a broadcast retry. Verify the exact saved
 // end-cap, expected starting leaf, signature identity, plan and VM endpoints.
 // An incomplete/mismatched saved artifact is an error, not a reproving fallback.
-async fn step(
+pub(super) async fn step(
     chain: &mut StreamChain,
     w: &mut World,
     mut req: Request,
