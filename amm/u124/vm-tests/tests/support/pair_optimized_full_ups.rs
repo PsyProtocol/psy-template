@@ -1,5 +1,6 @@
 //! Triangular priority and authenticated early exits. No RPC or broadcast.
 use super::*;
+use sha2::{Digest,Sha256};
 use psy_template_u124_markets::pair_frontier::{
     self as frontier, Page as FrontierPage, Record, State as FrontierState,
 };
@@ -680,6 +681,47 @@ async fn pair_triangular_recovery_ups() -> Result<()> {
             )?,
         )?;
     }
+    Ok(())
+}
+
+#[tokio::test]
+#[ignore = "two offline full UPSs with the complete captured native dependency; no RPC or funds"]
+async fn pair_captured_native_binding_ups() -> Result<()> {
+    let out=std::env::var("PAIR_CAPTURED_NATIVE_OUT")?;
+    fs::create_dir(&out)?;
+    let captured:Value=serde_json::from_slice(&fs::read(std::env::var("PAIR_CAPTURED_NATIVE_BINDING")?)?)?;
+    ensure!(captured["entireFunctionWhitelistVerified"]==true&&captured["contractMembershipVerifiedRelativeToRoot"]==true,"full captured native binding required");
+    let mut w=world_with_deadline("orderbook",112)?;
+    let mut chain=StreamChain::new(&w).await?;
+    let actual=chain.source.contracts.iter().find(|c|c.id==0).context("authenticated source native leaf")?.leaf;
+    ensure!(serde_json::to_value(actual)?==captured["leaf"],"synthetic UPS must retain the entire captured native leaf, not selected method equivalence");
+    let s=chain.source.clone();
+    let source_dir=std::path::Path::new(&out).join("readiness-input");
+    fs::create_dir(&source_dir)?;
+    let build=std::env::var("BATCH_BUILD")?;
+    let mut assets=vec![];
+    for (id,path,name) in [(0,"native.json".to_string(),"native.json"),(A,"token/compilation_artifact.json".to_string(),"token-a.json"),(B,crate::token_artifact(B),"token-b.json")] {
+        let bytes=fs::read(format!("{build}/{path}"))?;
+        fs::write(source_dir.join(name),&bytes)?;
+        let function_root=chain.review.assets.iter().find(|a|a.id==id).context("reviewed asset")?.function_root;
+        assets.push(json!({"id":id,"artifact":name,"artifact_sha256":format!("{:x}",Sha256::digest(&bytes)),"function_root":function_root}));
+    }
+    let bytes=fs::read(format!("{build}/orderbook/compiled/compilation_artifact.json"))?;
+    fs::write(source_dir.join("market.json"),&bytes)?;
+    fs::write(source_dir.join("review.json"),serde_json::to_vec_pretty(&json!({"schema":1,"artifact":"market.json","artifact_sha256":format!("{:x}",Sha256::digest(&bytes)),"market":M,"kind":3,"function_root":chain.review.function_root,"assets":assets,"unit":chain.review.unit.to_string()}))?)?;
+    fs::write(source_dir.join("snapshot.json"),serde_json::to_vec_pretty(&s)?)?;
+    fs::write(source_dir.join("history.json"),serde_json::to_vec_pretty(&json!({"root":s.history.checkpoint_path.root.to_string()}))?)?;
+    let pages=stream_source::prepare(&chain.review,&s,s.history.checkpoint_path.root)?;
+    ensure!(pages.len()==3,"unchanged nine-account source fixture");
+    let request=basic(OPEN,&pages[0],&w);
+    step(&mut chain,&mut w,request,&out,"captured-native-open",false).await?;
+    let request=basic(COVER,&pages[0],&w);
+    step(&mut chain,&mut w,request,&out,"captured-native-cover",false).await?;
+    fs::write(format!("{out}/SUMMARY.json"),serde_json::to_vec_pretty(&json!({
+        "scope":"Synthetic account/checkpoint history with entire captured native code/layout/function leaf; not current-chain deployment or ordinary signed claim",
+        "fullUps":2,"nativeLeaf":actual,"sourceAccounts":9,"sourcePagesCompleted":1,
+        "allSourcePagesCompleted":false,"liveAuthorization":false,"financialOperations":0
+    }))?)?;
     Ok(())
 }
 

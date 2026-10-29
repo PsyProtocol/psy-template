@@ -1,0 +1,57 @@
+{
+  "schema": 1,
+  "startingCommit": "ed61047faffdb19f88700d3f725e5f676a3d988c",
+  "branch": "markets-batch-capacity-recovery-20261020",
+  "sdkCommit": "c92880c8b6e2c8d392f19368bc8801a2584fd427",
+  "sdkFrozenSourcesVerifiedAfterRun": true,
+  "nodeChanged": false,
+  "dependenciesChanged": false,
+  "newLiveInstances": 0,
+  "financialOperations": 0,
+  "realTrades": 0,
+  "ordinarySignedClaims": 0,
+  "realFeesBaseUnits": "0",
+  "checkpoint": 12428,
+  "inventory": {
+    "accounts": 312,
+    "proofs": 575,
+    "independentSdkRootReconstruction": true,
+    "legacyLogicalDiscoveryReads": 4103,
+    "completeRelativeToObservedRoot": true,
+    "finalityVerified": false,
+    "marketEligibilityForNewInstancesVerified": false
+  },
+  "nativeDependency": {
+    "methods": 10,
+    "codeLayoutFunctionAndMembershipVerified": true,
+    "mutationRejections": 7
+  },
+  "fullUps": {
+    "market": "orderbook",
+    "phases": [
+      "captured-native-open",
+      "captured-native-cover"
+    ],
+    "count": 2,
+    "syntheticHistory": true,
+    "liveAcceptance": false,
+    "keyFingerprint": "80de0ebb5b045f739374f2fbcd06a17df44a91144af0552f97c80224cc310288"
+  },
+  "unclosedApplicationWork": [
+    "New separately versioned finite source window or coverage aggregation with full contract/key/UPS validation; unchanged C+32 and illustrative funding budget do not fit 312 accounts.",
+    "Fresh new-instance market/asset/vault/key bindings and ordinary signed claim/recovery acceptance."
+  ],
+  "externalEvidence": [
+    "Actual enforced inclusion-age, foreign-cancel and active dependency-version rules across admission/processor paths.",
+    "Authenticated upgrade authorization or immutable deployment semantics; inspected numeric-deployer equality is insufficient evidence of caller authentication.",
+    "Proof/resource and runtime provenance for the applied rules; checkpoint finality remains unverified."
+  ],
+  "performanceClaims": [
+    "575 versus 4103 logical discovery operations over same reconstructed tree; no matched network speedup or TPS conclusion.",
+    "Two different synthetic UPS operations are not a matched cold/warm comparison."
+  ],
+  "observedBaseCircuitBuild": {
+    "elapsedMs": 98898.268417,
+    "phase": "cold-circuit-build"
+  }
+}

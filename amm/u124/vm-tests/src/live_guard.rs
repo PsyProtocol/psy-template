@@ -14,6 +14,31 @@ pub struct LiveBinding {
     pub layout_slot_count: u64,
 }
 impl LiveBinding {
+    /// Authenticate the complete leaf at a pinned checkpoint root. The caller
+    /// must authenticate the checkpoint/domain separately; latest RPC metadata
+    /// and matching ABI alone cannot substitute for this membership proof.
+    pub fn check_membership(
+        &self, leaf: &psy_client_data::qdata::contract::PsyContractLeaf<F>,
+        proof: &psy_crypto::hash::merkle::core::MerkleProofCore<QHashOut<F>>,
+        contract_root: QHashOut<F>, deployer: u64,
+    ) -> Result<()> {
+        use plonky2::hash::poseidon::PoseidonHash;
+        use psy_crypto::hash::traits::qhashable::QFieldHashable;
+        ensure!(self.contract.contract_id < (1u64 << psy_config::network_constants::GLOBAL_CONTRACT_TREE_HEIGHT), "dependency ID range");
+        ensure!(if self.contract.contract_id==0 {self.contract.state_tree_height==32}
+            else {[30,31].contains(&self.contract.state_tree_height)}, "reviewed dependency height");
+        self.contract.check_leaf(leaf)?;
+        ensure!(leaf.deployer.to_canonical_u64() == deployer
+            && leaf.function_tree_root.to_string() == self.function_tree_root
+            && leaf.state_layout_field_count.to_canonical_u64() == self.layout_field_count
+            && leaf.state_layout_slot_count.to_canonical_u64() == self.layout_slot_count,
+            "complete dependency leaf differs");
+        ensure!(proof.index == self.contract.contract_id
+            && proof.siblings.len() == psy_config::network_constants::GLOBAL_CONTRACT_TREE_HEIGHT as usize
+            && proof.value == leaf.qfhash::<PoseidonHash>()
+            && proof.root == contract_root && proof.verify::<PoseidonHash>(), "dependency checkpoint membership differs");
+        Ok(())
+    }
     pub async fn check(&self, p: &RpcProvider) -> Result<()> {
         ensure!(
             self.contract.contract_id < 16777216,
@@ -196,8 +221,27 @@ pub async fn verify_ups_with_session_manager(
 mod tests {
     use super::*;
     #[test]
+    fn pinned_dependency_membership_covers_owner_and_all_roots() -> Result<()> {
+        use plonky2::{field::types::Field,hash::poseidon::PoseidonHash as H};
+        use psy_crypto::hash::{merkle::core::MerkleProofCore,traits::{hasher::MerkleZeroHasher,qhashable::QFieldHashable}};
+        let leaf=psy_client_data::qdata::contract::PsyContractLeaf::<F>{deployer:F::from_canonical_u64(7),state_tree_height:F::from_canonical_u64(31),..Default::default()};
+        let binding=LiveBinding{contract:crate::submission_guard::ContractBinding{contract_id:5,code_root:leaf.code_root.to_string(),layout_root:leaf.state_layout_root.to_string(),state_tree_height:31},function_tree_root:leaf.function_tree_root.to_string(),layout_field_count:0,layout_slot_count:0};
+        let p=MerkleProofCore::new_from_params::<H>(5,leaf.qfhash::<H>(),(0..psy_config::network_constants::GLOBAL_CONTRACT_TREE_HEIGHT as usize).map(H::get_zero_hash).collect());
+        binding.check_membership(&leaf,&p,p.root,7)?;
+        assert!(binding.check_membership(&leaf,&p,p.root,8).is_err());
+        assert!(binding.check_membership(&leaf,&p,QHashOut::from_values(1,0,0,0),7).is_err());
+        for field in ["code_root","function_tree_root","state_layout_root","state_layout_field_count","state_layout_slot_count","state_tree_height","deployer"] {
+            let mut v=serde_json::to_value(leaf)?;v[field]=if field.ends_with("root"){serde_json::json!(QHashOut::<F>::from_values(1,0,0,0).to_string())}else{serde_json::json!(9)};
+            let wrong=serde_json::from_value(v)?;assert!(binding.check_membership(&wrong,&p,p.root,7).is_err(),"{field}");
+        }
+        let mut short=p.clone();short.siblings.pop();assert!(binding.check_membership(&leaf,&short,p.root,7).is_err());
+        let mut index=p.clone();index.index=6;assert!(binding.check_membership(&leaf,&index,p.root,7).is_err());
+        Ok(())
+    }
+    #[test]
     fn staging_guard_rejects_domain_or_endpoint_substitution() -> Result<()> {
-        let config = psy_config::PsyConfigGoldilocks::from_file(&std::env::var("PSY_CONFIG_PATH")?)?;
+        let mut config = psy_config::PsyConfigGoldilocks::from_file(&std::env::var("PSY_CONFIG_PATH")?)?;
+        config.use_network("testnet")?;
         let selected = config.get_current_network()?.clone();
         staging_config(&selected, profile_magic(MAINNET_BETA_PROFILE)?)?;
         require_staging(&selected)?;

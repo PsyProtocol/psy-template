@@ -177,12 +177,16 @@ pub async fn collect_snapshot<R: SourceReader>(
     verify_source_context(review, &header, root)?;
     let c = header.fields[6];
     let vault = header.fields[4];
-    let mut tree =
-        UserTraversal::new(header.history.roots.user_tree_root, 2_000_000, max_accounts)?;
-    while let Some((d, i)) = tree.next_request()? {
-        tree.accept(budget.read(reader.subtree(c, d, i)).await?)?;
+    // One authenticated leaf path partitions an entire pending subtree. Reuse
+    // its nonzero siblings instead of requesting every binary prefix again.
+    // The complete source predicate and all per-account state reads are unchanged.
+    let mut tree = crate::source_inventory::Inventory::new(header.history.roots.user_tree_root,32)?;
+    while let Some(i) = tree.next() {
+        tree.consume(&budget.read(reader.subtree(c,32,i)).await?)?;
+        ensure!(tree.leaves().len()<=max_accounts,"source account budget exhausted; incomplete inventory");
     }
-    let users = tree.finish()?;
+    ensure!(tree.complete(),"complete source inventory required");
+    let users=tree.leaves().iter().map(|(&id,&hash)|(id,hash)).collect::<Vec<_>>();
     ensure!(
         users.iter().any(|(id, _)| *id == vault),
         "source vault absent"

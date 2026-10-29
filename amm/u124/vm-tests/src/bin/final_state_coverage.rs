@@ -221,17 +221,23 @@ async fn main() -> Result<()> {
         save(&out.join("capture-request.json"), &raw)?;
     }
     if let Some(manifest) = &verified.trading_manifest {
-        let (m, pages) = psy_template_u124_markets::checkpoint_stream::prepare(manifest.clone())?;
-        json(&out.join("manifest.json"), &m)?;
-        json(&out.join("pages.json"), &pages)?;
+        if r.kind<=2 {
+            let (m, pages) = psy_template_u124_markets::checkpoint_stream::prepare(manifest.clone())?;
+            json(&out.join("manifest.json"), &m)?;
+            json(&out.join("pages.json"), &pages)?;
+        } else {
+            // Paired markets retain their global price/time or buyer frontier.
+            // Never send this manifest through the legacy AMM permutation route.
+            json(&out.join("manifest.json"),manifest)?;
+        }
     }
     json(
         &out.join("source.json"),
-        &serde_json::json!({"schema":1,"scope":"complete final-order/funding snapshot relative to pinned history; not finality or financial UPS authority","mode":if capture{"rpc-capture"}else{"offline-verification"},"logicalReads":reads,"logicalReadScope":"SDK operations; one operation can issue multiple wire RPCs; hard wall-clock budget applies","snapshotSha256":digest(&source_bytes),"reviewSha256":digest(&config_bytes),"artifactSha256":c.artifact_sha256,"historyRoot":history.to_string(),"accounts":verified.accounts,"eligible":verified.trading_manifest.as_ref().map(|m|m.members.len()).unwrap_or(0),"fundedRecoveryCandidates":verified.recovery_members.len(),"finalStateCoverageRelativeToPinnedRoot":true,"canSign":false,"canBroadcast":false,"fullUpsVerified":false}),
+        &serde_json::json!({"schema":1,"scope":"complete final-order/funding snapshot relative to pinned history; not finality or financial UPS authority","mode":if capture{"rpc-capture"}else{"offline-verification"},"logicalReads":reads,"logicalReadScope":"SDK operations; one operation can issue multiple wire RPCs; hard wall-clock budget applies","snapshotSha256":digest(&source_bytes),"reviewSha256":digest(&config_bytes),"artifactSha256":c.artifact_sha256,"historyRoot":history.to_string(),"orderingPlanAvailable":r.kind<=2,"sourceCheckpoint":s.fields[6],"earliestEligibleDeadline":verified.earliest_eligible_deadline,"accounts":verified.accounts,"eligible":verified.trading_manifest.as_ref().map(|m|m.members.len()).unwrap_or(0),"fundedRecoveryCandidates":verified.recovery_members.len(),"finalStateCoverageRelativeToPinnedRoot":true,"canSign":false,"canBroadcast":false,"fullUpsVerified":false}),
     )?;
     println!(
         "{}",
-        serde_json::json!({"accounts":verified.accounts,"eligible":verified.trading_manifest.as_ref().map(|m|m.members.len()).unwrap_or(0),"canBroadcast":false})
+        serde_json::json!({"orderingPlanAvailable":r.kind<=2,"sourceCheckpoint":s.fields[6],"earliestEligibleDeadline":verified.earliest_eligible_deadline,"accounts":verified.accounts,"eligible":verified.trading_manifest.as_ref().map(|m|m.members.len()).unwrap_or(0),"canBroadcast":false})
     );
     Ok(())
 }

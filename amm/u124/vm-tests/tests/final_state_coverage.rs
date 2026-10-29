@@ -5,6 +5,20 @@ use psy_template_u124_markets::final_state_coverage::*;
 mod fixture;
 use plonky2::field::types::{Field, PrimeField64};
 #[test]
+fn leaf_path_inventory_matches_legacy_scope_with_fewer_discovery_reads() -> Result<()> {
+    for kind in [1,2] {
+        let (_,snapshot,_)=fixture::fixture(kind,false,false)?;
+        let root=snapshot.history.roots.user_tree_root;
+        let mut reads=0;
+        let expected=discover_users(|d,i|{reads+=1;fixture::discovery_reader(&snapshot)?(d,i)},root,10000,64)?;
+        let mut inv=psy_template_u124_markets::source_inventory::Inventory::new(root,32)?;
+        while let Some(i)=inv.next(){inv.consume(&fixture::discovery_reader(&snapshot)?(32,i)?)?;}
+        ensure!(inv.complete()&&inv.leaves().iter().map(|(&i,&h)|(i,h)).collect::<Vec<_>>()==expected,"same complete account universe");
+        ensure!(inv.proofs()<reads,"fewer discovery operations; not a proving/TPS claim");
+    }
+    Ok(())
+}
+#[test]
 fn complete_final_orders_and_authenticated_exclusions() -> Result<()> {
     for kind in [1, 2] {
         let (r, s, root) = fixture::fixture(kind, false, false)?;
