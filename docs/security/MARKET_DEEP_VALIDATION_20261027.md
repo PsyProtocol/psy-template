@@ -714,3 +714,24 @@ speedup, chain TPS, cross-machine or production conclusion follows.
 
 See [the protocol, costs and remaining gates](SOURCE_RANDOM_STREAM_UPS_20261029.md)
 and [public proofs, failures and reproduction](../../executor/verification/2026-10-29-source-random-stream-v1/README.md).
+
+## 29 October: promotion prerequisite for producer random execution
+
+Promotion remains gated while replacing the poisoned-prefix primitive. The new
+`random_minimum.rs` component proves canonical source-minimum consumption into
+an authenticated sorted linked list, then exact head-only extraction. It reuses
+the full v10 rank and complete source identity, has finite forward transitions
+and no reset. Ten standalone proofs for five members passed, and final source
+reverified those exact proof bytes. Fourteen raw-circuit negative attempts
+rejected coherent skipped minima, head substitution, duplicate/early extraction,
+seed replacement and extra progress. No new CFC, signature, Endcap or financial
+UPS is represented by these component results.
+
+The replacement contract/key binding, sponsor-approved total fee/admission
+boundary, whole-source deadline/funding fit, owned native broadcast path and
+actual isolated settlement/ordinary claims remain pending. No new instance or
+financial request was created. Seven fresh RPC observations succeeded, with
+matching checkpoint-1 roots and the reviewed native identity; these do not prove
+finality or deployment readiness. SDK/Node/deployed contracts remain unchanged.
+See [promotion scope and gates](RANDOM_PROMOTION_20261029.md) and
+[public component evidence](../../executor/verification/2026-10-29-random-minimum-promotion-v1/README.md).

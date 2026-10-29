@@ -1,0 +1,57 @@
+{
+  "schema": 1,
+  "applicationBase": "416332b6",
+  "sdkCommit": "c92880c8b6e2c8d392f19368bc8801a2584fd427",
+  "generatedUniqueComponentProofs": 10,
+  "reusedComponentProofsVerified": 10,
+  "componentAttackRejections": 14,
+  "unchangedV10KeyProofsVerified": 2,
+  "coherentLegacyAttackRejections": 6,
+  "circuitDigest": "50a4065a9ce5fbae0d372252c90e6a989e85fde01cc9922b0d897c8513f4ef5b",
+  "fixedPublicInputs": 80,
+  "sameRankAsV10": true,
+  "conditionalOnly": true,
+  "replacementContractAndKeyInstalled": false,
+  "fullUpsVerified": false,
+  "financialOperations": 0,
+  "newLiveInstances": 0,
+  "liveWrites": "disabled",
+  "rpc": {
+    "utc": "2026-10-29T15:54:17.759422+00:00",
+    "successfulReads": 7,
+    "heads": {
+      "head-0": 15168,
+      "head-1": 15168,
+      "head-2": 15169
+    },
+    "checkpointOneAgreed": true,
+    "nativeLeaf": {
+      "deployer": 0,
+      "function_tree_root": "1ad1a069434cf058a419f4d874615c6fc47170471069f5d232874099ef13c5b1",
+      "code_root": "5df4b10ccf59e25f3c44b4164edb9597455da33b925c3981881c280f2636ebd1",
+      "state_tree_height": 32,
+      "state_layout_root": "cd6931e5422fb07be012e3d0642bbffd0880bf499ecc87bcb822276d7426771c",
+      "state_layout_field_count": 8,
+      "state_layout_slot_count": 8594128984
+    },
+    "financialOperations": 0,
+    "finalityAuthenticated": false,
+    "deploymentEnabled": false
+  },
+  "priorPublicFixture": "2026-10-29-source-random-stream-v1/files/native-planner-v1",
+  "fixtureOriginalSha256": {
+    "review.json": "c2c0bf3debfd76c43cfe357975071172e79d0f4cf6827ce70b965c350de6ec35",
+    "source.json": "1e53d86835b0b6c13a4f7937a4e23eb1a617456f2a7e41f54b0225f8b2744dc6",
+    "0.json": "c6cf92a87aec4f3d10dc29848eb20b5ebac33cc61c52c8daba78b24fa02b6119",
+    "42.json": "476bc76fcd4b512f585cb1093de41611455cd58df323b8ea4bcc4f71a4163b0f",
+    "43.json": "476bc76fcd4b512f585cb1093de41611455cd58df323b8ea4bcc4f71a4163b0f",
+    "1000.json": "7700b7dc68b4baee7fe989cd5db6ec4108ec3b05b9101e124b6c3843f5366808"
+  },
+  "remaining": [
+    "embed minimum targets and continuity into replacement contract and SD-key",
+    "key-level epoch/maintenance/total-fee admission review",
+    "replacement actual bytecode and complete UPS acceptance",
+    "fresh identities/deadline/funding fit and owned precise broadcast driver",
+    "new isolated registration, real settlement, signed ordinary claims and recovery"
+  ]
+}
