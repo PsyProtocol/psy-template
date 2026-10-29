@@ -45,3 +45,21 @@ pub fn rank(market:u64,batch:u64,root:[u64;4],seed:[u64;4],draw:u64,owners:[u64;
     let keys:[_;4]=std::array::from_fn(|i|PoseidonHash::two_to_one(prefix,h([owners[i],nonces[i],draw,0])).elements.map(|n|n.to_canonical_u64()));
     let mut rank=[0,1,2,3];rank[..count].sort_by_key(|i|(keys[*i as usize],owners[*i as usize],nonces[*i as usize]));Ok(rank)
 }
+
+/// Exact public planning input. The result is independently constrained by the
+/// actual settlement CFC and complete SD-key; this helper cannot authorize it.
+pub fn producer_order_proposal(spec:&serde_json::Value,input:&serde_json::Value)->Result<[u64;4]>{
+    #[derive(serde::Deserialize)]
+    #[serde(deny_unknown_fields)]
+    struct Proposal { batch:String,checkpoint:String,root:[String;4],seed:[String;4],owners:[String;4],nonces:[String;4],count:usize }
+    fn integer(s:&str)->Result<u64>{
+        ensure!(!s.is_empty()&&(s=="0"||!s.starts_with('0'))&&s.bytes().all(|b|b.is_ascii_digit()),"canonical public rank integer");
+        Ok(s.parse()?)
+    }
+    fn array(v:&[String;4])->Result<[u64;4]>{Ok(v.iter().map(|s|integer(s)).collect::<Result<Vec<_>>>()?.try_into().unwrap())}
+    crate::processor_policy::validate(spec)?;
+    ensure!(crate::processor_policy::previous(spec),"producer order requires explicit v4 profile");
+    let v:Proposal=serde_json::from_value(input.clone())?;
+    ensure!((2..=4).contains(&v.count),"producer batch requires two to four members");
+    rank(spec["market_id"].as_u64().unwrap(),integer(&v.batch)?,array(&v.root)?,array(&v.seed)?,integer(&v.checkpoint)?,array(&v.owners)?,array(&v.nonces)?,v.count)
+}

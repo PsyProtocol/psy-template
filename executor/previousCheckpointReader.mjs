@@ -41,6 +41,7 @@ export async function scanPrevious(o,readState,files,{deriveOrder,quote}){
   const f=pad(parseLosslessJson(base.action.submission).software_defined_call.inputs);if(f[0]===1n){assert.equal(Number(f[2]),users.length,'whole declared plan required');assert.deepEqual(f.slice(5,5+users.length),users.map(BigInt));}
   return {...base,action:previousTask(policy,f,f[0]===1n?f[3]:BigInt(s.checkpoint)+64n)};
  }
+ assert.ok(draw===cutoff+1n&&draw>0n&&draw<expiry&&expiry<1n<<32n,'fixed source must follow the original commit context and precede expiry');
  if(BigInt(s.checkpoint)>expiry){const f=pad(Array(74).fill(0n));f[0]=3n;f[1]=batch;return {checkpoint:s.checkpoint,action:previousTask(policy,f,BigInt(s.checkpoint)+64n)};}
  if(BigInt(s.checkpoint)<draw)return {checkpoint:s.checkpoint,action:null,reason:'awaiting-fixed-previous-checkpoint'};
  const count=Number(await at(V,'batch_count'));assert.ok(count>=2&&count<=4);

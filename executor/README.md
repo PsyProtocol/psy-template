@@ -5,6 +5,14 @@ It discovers eligible requests for configured users, constructs an authorized
 UPS, runs a proof-only preflight, revalidates chain state, submits once, and
 reconciles the deterministic leaf against an included receipt.
 
+The supplied QED diagram's previous-checkpoint producer-seeded AMM/Curve flow is
+available as the separate `previous-checkpoint-seeded-v1` profile. Its full UPS
+checks are distinct from qualified unbiased randomness and from the current
+complete-source deterministic stream. It requires new reviewed instances and
+explicit producer-influence acknowledgement. See the
+[current implementation and recovery boundaries](../docs/security/DIAGRAM_PRODUCER_RECOVERY_20261029.md)
+before using it; historical IDs below are not current-chain deployment pins.
+
 The new [NFT Marketplace](../nft-marketplace/README.md) uses `kind: "nftmarket"`
 and `profile: "nft-v3-u124"`, separate NFT/FT code and layout bindings, and
 the same persistent submission and receipt recovery. Its public driver binds

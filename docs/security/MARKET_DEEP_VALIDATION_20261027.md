@@ -1,5 +1,12 @@
 # Market correctness and reset-chain validation — 27 October 2026
 
+Diagram-mode continuation: [producer-seeded implementation, immutable recovery
+binding and measured public-rank startup](DIAGRAM_PRODUCER_RECOVERY_20261029.md).
+The separate v4 AMM/Curve profile already implements the supplied previous-block
+model; it is distinct from qualified unbiased randomness and the current
+complete-source deterministic stream. This continuation preserves both keys,
+rechecks four historical synthetic UPSs, and adds no current-chain acceptance.
+
 Latest readiness continuation: [complete native identity, sparse-source capture,
 deadline/fee budgeting and checkpoint/cancellation review](PAIR_LIVE_READINESS_20261029.md).
 This adds full native identity checks, two synthetic full UPSs and complete

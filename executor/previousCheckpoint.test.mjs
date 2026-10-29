@@ -33,6 +33,9 @@ for(const market of ['amm','bondingcurve'])for(const count of [2,3,4])test(`${ma
  state.checkpoint=100;assert.equal((await scanPrevious(options,async()=>state,files,hooks)).reason,'awaiting-fixed-previous-checkpoint');
  state.checkpoint=201;const expired=await scanPrevious(options,async()=>state,files,hooks);assert.equal(parseLosslessJson(expired.action.submission).software_defined_call.inputs[0],3n);assert.equal(quotes,1);
  const wrong=[...f];wrong[78]=0n;assert.throws(()=>processorRequest(policy,wrong));
+ state.checkpoint=110;set('processor_draw',0,102);
+ await assert.rejects(scanPrevious(options,async()=>state,files,hooks),/original commit context/);
+ assert.equal(quotes,1,'inconsistent source stops before quote');
 });
 test('native producer mode requires explicit local trust acknowledgement',()=>{
  const asset=id=>({contractId:id,codeRoot:'a'.repeat(64),layoutRoot:'b'.repeat(64),abi:'abi.json'});

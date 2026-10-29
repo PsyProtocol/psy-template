@@ -103,6 +103,17 @@ async fn run(phase: &mut &'static str, composition:bool) -> Result<()> {
     ensure!(spec["version"]!=3,"checkpoint processor candidates are offline-only; source qualification and release authorization are unavailable");
     let producer=processor_runtime::previous(&spec);
     if producer{ensure!(compact_benchmark::requested(&a[1])?.is_none(),"producer business source cannot use benchmark override");}
+    if producer&&a[1]=="producer-order"{
+        // This is a public planning proposal, not a signature or verification
+        // resource. Validate the same policy without constructing the SD-key.
+        // All proof/identity/broadcast actions retain the complete build below.
+        *phase="derive-producer-order";
+        ensure!(!composition&&spec.get("composition_profile").is_none(),"producer ordering requires its dedicated market policy");
+        ensure!(a.len()==5,"producer-order POLICY INPUT FRESH_REPORT");
+        let v:Value=serde_json::from_slice(&fs::read(&a[3])?)?;
+        let rank=psy_template_u124_markets::checkpoint_processor::producer_order_proposal(&spec,&v)?;
+        save(Path::new(&a[4]),&json!({"profile":"previous-checkpoint-seeded-v1","rank":rank,"qualifiedRandomness":false,"proofVerified":false,"broadcast":false}))?;return Ok(());
+    }
     let circuit = if composition {
         psy_template_u124_markets::composition_policy::build(&spec)?
     } else {
@@ -120,12 +131,6 @@ async fn run(phase: &mut &'static str, composition:bool) -> Result<()> {
         fingerprint: fp,
     };
     let hash = public.qfhash::<PsyHasher>();
-    if producer&&a[1]=="producer-order"{
-        ensure!(a.len()==5,"producer-order POLICY INPUT FRESH_REPORT");let v:Value=serde_json::from_slice(&fs::read(&a[3])?)?;
-        let array=|name:&str|->Result<[u64;4]>{let values=v[name].as_array().context("rank array")?;ensure!(values.len()==4,"rank array width");Ok(values.iter().map(|n|n.as_str().context("canonical rank integer")?.parse::<u64>().map_err(Into::into)).collect::<Result<Vec<_>>>()?.try_into().unwrap())};
-        let rank=psy_template_u124_markets::checkpoint_processor::rank(spec["market_id"].as_u64().unwrap(),v["batch"].as_str().context("batch")?.parse()?,array("root")?,array("seed")?,v["checkpoint"].as_str().context("checkpoint")?.parse()?,array("owners")?,array("nonces")?,v["count"].as_u64().context("count")?as usize)?;
-        save(Path::new(&a[4]),&json!({"profile":"previous-checkpoint-seeded-v1","rank":rank,"qualifiedRandomness":false,"broadcast":false}))?;return Ok(());
-    }
     if a[1] == "identity" {
         ensure!(a.len() == 3, "identity args");
         let mut identity=json!({"profile":if composition{"composition-v1"}else{"compact-v1"},"fingerprint":fp.to_string(),"publicKeyHash":hash.to_string(),"publicKeyParam":param.to_string()});
