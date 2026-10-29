@@ -1,0 +1,187 @@
+{
+  "schema": 1,
+  "applicationBase": "6b469ab9621e32be80a5d330c7b3c88d43dd3f9e",
+  "branch": "markets-batch-capacity-recovery-20261020",
+  "sdkCommit": "c92880c8b6e2c8d392f19368bc8801a2584fd427",
+  "implemented": [
+    "formal v4 immutable local verified-set/draw/seed/permutation/deadline recovery binding",
+    "pre-quote conflict rejection after restart",
+    "original commit/draw timing observation guard",
+    "canonical public rank proposal without unused key construction"
+  ],
+  "preexistingEvidence": {
+    "profile": "previous-checkpoint-seeded-v1",
+    "fourCompleteSyntheticUpsReverified": true,
+    "newProofsGenerated": 0,
+    "unchangedKeyFingerprints": {
+      "amm": "82a2c7ee67a75f4b05ebccd79f3e4ee2bf4fedd7d0e3a91f4506c27db8f90411",
+      "bondingcurve": "5ea535c58f2691f04dfc1f93c8efa8a12ce6c370896d0e167630093203edd03a"
+    }
+  },
+  "tests": {
+    "javascript": {
+      "passed": 62,
+      "failed": 0,
+      "coordinationDoublesNotNetworkAcceptance": true
+    },
+    "rust": {
+      "testFunctionsPassed": 1,
+      "markets": 2,
+      "memberCounts": [
+        2,
+        3,
+        4
+      ],
+      "scope": "public rank equality and policy/input mutations; no UPS"
+    },
+    "nativeRankSamples": 8,
+    "preservedEndcapsReverified": 4
+  },
+  "failuresRetained": [
+    {
+      "run": "js-recovery-v1",
+      "failures": 4,
+      "reason": "prototype pin validation missed non-settlement fee normalization; new batch-ID guard also affected unrelated admission maintenance"
+    },
+    {
+      "run": "js-recovery-v2",
+      "failures": 2,
+      "reason": "remaining batch-ID scope regression; fixed by applying v4 metadata requirement only to producer tasks"
+    }
+  ],
+  "samples": [
+    {
+      "label": "amm-baseline-1",
+      "exitCode": 0,
+      "wallSeconds": 1.9085949169821106,
+      "kernelMaxResidentBytes": 260833280,
+      "memoryScope": "macOS child rusage maximum resident set size, not physical footprint; parent observer samples are separate",
+      "market": "amm",
+      "version": "baseline",
+      "sample": 1,
+      "rankMatchedPriorCompleteUps": true,
+      "binarySha256": "be653b82aa9a9fe9de701cfabdfdda3b8fd6777d077c7bd17f3fd7d8885b3da4",
+      "policySha256": "a9fbc9bd4b4c3afd04a1400178f35d6f80c2e0ea8e888472bafa9ba5682de01a",
+      "inputSha256": "55896fecbd55cb32a0e49e407846dca0dc39c549ca7c4d2e939730f787afd321"
+    },
+    {
+      "label": "amm-candidate-1",
+      "exitCode": 0,
+      "wallSeconds": 0.6652687920141034,
+      "kernelMaxResidentBytes": 18579456,
+      "memoryScope": "macOS child rusage maximum resident set size, not physical footprint; parent observer samples are separate",
+      "market": "amm",
+      "version": "candidate",
+      "sample": 1,
+      "rankMatchedPriorCompleteUps": true,
+      "binarySha256": "f3fc949a6fb4fad5b8de5637034fffcf978a7eb7dab27d187e1c69733fbb334a",
+      "policySha256": "a9fbc9bd4b4c3afd04a1400178f35d6f80c2e0ea8e888472bafa9ba5682de01a",
+      "inputSha256": "55896fecbd55cb32a0e49e407846dca0dc39c549ca7c4d2e939730f787afd321"
+    },
+    {
+      "label": "bondingcurve-baseline-1",
+      "exitCode": 0,
+      "wallSeconds": 1.2093044159701094,
+      "kernelMaxResidentBytes": 263110656,
+      "memoryScope": "macOS child rusage maximum resident set size, not physical footprint; parent observer samples are separate",
+      "market": "bondingcurve",
+      "version": "baseline",
+      "sample": 1,
+      "rankMatchedPriorCompleteUps": true,
+      "binarySha256": "be653b82aa9a9fe9de701cfabdfdda3b8fd6777d077c7bd17f3fd7d8885b3da4",
+      "policySha256": "6fb18035ac101b64ceaa6edd6b0e5ddcc95d13f065432ee801ae963372a06566",
+      "inputSha256": "3b2968eb3d5559ccfe99d80b52315f5e32b0001801e6b65d0ea8003cfece4172"
+    },
+    {
+      "label": "bondingcurve-candidate-1",
+      "exitCode": 0,
+      "wallSeconds": 0.016474375035613775,
+      "kernelMaxResidentBytes": 18546688,
+      "memoryScope": "macOS child rusage maximum resident set size, not physical footprint; parent observer samples are separate",
+      "market": "bondingcurve",
+      "version": "candidate",
+      "sample": 1,
+      "rankMatchedPriorCompleteUps": true,
+      "binarySha256": "f3fc949a6fb4fad5b8de5637034fffcf978a7eb7dab27d187e1c69733fbb334a",
+      "policySha256": "6fb18035ac101b64ceaa6edd6b0e5ddcc95d13f065432ee801ae963372a06566",
+      "inputSha256": "3b2968eb3d5559ccfe99d80b52315f5e32b0001801e6b65d0ea8003cfece4172"
+    },
+    {
+      "label": "amm-candidate-2",
+      "exitCode": 0,
+      "wallSeconds": 0.015796166961081326,
+      "kernelMaxResidentBytes": 18464768,
+      "memoryScope": "macOS child rusage maximum resident set size, not physical footprint; parent observer samples are separate",
+      "market": "amm",
+      "version": "candidate",
+      "sample": 2,
+      "rankMatchedPriorCompleteUps": true,
+      "binarySha256": "f3fc949a6fb4fad5b8de5637034fffcf978a7eb7dab27d187e1c69733fbb334a",
+      "policySha256": "a9fbc9bd4b4c3afd04a1400178f35d6f80c2e0ea8e888472bafa9ba5682de01a",
+      "inputSha256": "55896fecbd55cb32a0e49e407846dca0dc39c549ca7c4d2e939730f787afd321"
+    },
+    {
+      "label": "amm-baseline-2",
+      "exitCode": 0,
+      "wallSeconds": 1.156966749986168,
+      "kernelMaxResidentBytes": 261570560,
+      "memoryScope": "macOS child rusage maximum resident set size, not physical footprint; parent observer samples are separate",
+      "market": "amm",
+      "version": "baseline",
+      "sample": 2,
+      "rankMatchedPriorCompleteUps": true,
+      "binarySha256": "be653b82aa9a9fe9de701cfabdfdda3b8fd6777d077c7bd17f3fd7d8885b3da4",
+      "policySha256": "a9fbc9bd4b4c3afd04a1400178f35d6f80c2e0ea8e888472bafa9ba5682de01a",
+      "inputSha256": "55896fecbd55cb32a0e49e407846dca0dc39c549ca7c4d2e939730f787afd321"
+    },
+    {
+      "label": "bondingcurve-candidate-2",
+      "exitCode": 0,
+      "wallSeconds": 0.01671870896825567,
+      "kernelMaxResidentBytes": 18595840,
+      "memoryScope": "macOS child rusage maximum resident set size, not physical footprint; parent observer samples are separate",
+      "market": "bondingcurve",
+      "version": "candidate",
+      "sample": 2,
+      "rankMatchedPriorCompleteUps": true,
+      "binarySha256": "f3fc949a6fb4fad5b8de5637034fffcf978a7eb7dab27d187e1c69733fbb334a",
+      "policySha256": "6fb18035ac101b64ceaa6edd6b0e5ddcc95d13f065432ee801ae963372a06566",
+      "inputSha256": "3b2968eb3d5559ccfe99d80b52315f5e32b0001801e6b65d0ea8003cfece4172"
+    },
+    {
+      "label": "bondingcurve-baseline-2",
+      "exitCode": 0,
+      "wallSeconds": 1.190432083036285,
+      "kernelMaxResidentBytes": 263192576,
+      "memoryScope": "macOS child rusage maximum resident set size, not physical footprint; parent observer samples are separate",
+      "market": "bondingcurve",
+      "version": "baseline",
+      "sample": 2,
+      "rankMatchedPriorCompleteUps": true,
+      "binarySha256": "be653b82aa9a9fe9de701cfabdfdda3b8fd6777d077c7bd17f3fd7d8885b3da4",
+      "policySha256": "6fb18035ac101b64ceaa6edd6b0e5ddcc95d13f065432ee801ae963372a06566",
+      "inputSha256": "3b2968eb3d5559ccfe99d80b52315f5e32b0001801e6b65d0ea8003cfece4172"
+    }
+  ],
+  "scope": {
+    "rpcCalls": 0,
+    "financialOperations": 0,
+    "deployments": 0,
+    "newInstances": 0,
+    "realFees": 0,
+    "currentNetworkAcceptance": false,
+    "ordinaryWalletClaims": false,
+    "qualifiedRandomness": false,
+    "sealBeforeReleaseAuthenticated": false,
+    "finalityVerified": false,
+    "wholeSourceRandomContinuousSpending": false
+  },
+  "remaining": [
+    "review current-chain full native dependencies and resource identities for new v4 instances",
+    "budget and current-chain isolated settlement/claim/recovery acceptance",
+    "new version/key for whole-source global randomized streaming with adequate source coverage window",
+    "qualified unbiased future randomness/finality and causal seal-before-release certification"
+  ],
+  "memoryScope": "all per-command samples preserved; child rusage maximum RSS != process-family sampled RSS != physical footprint",
+  "performanceClaim": "rank-proposal startup only; no full settlement, resident warm-state, fees, confirmations, claims, TPS or p95 claim"
+}
