@@ -1,0 +1,44 @@
+[
+  {
+    "name": "public-client-gateway",
+    "exitCode": 0,
+    "command": [
+      "/Users/geir/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+      "--test",
+      "market-client/accountProjection.test.mjs",
+      "market-client/ammPlan.test.mjs",
+      "market-client/marketWallet.test.mjs",
+      "market-client/nativeProtocol.test.mjs",
+      "market-client/readWallet.test.mjs",
+      "market-client/stagedWallet.test.mjs",
+      "market-client/walletHistory.test.mjs",
+      "executor/gateway/boundedFetch.test.mjs",
+      "executor/gateway/gateway.test.mjs",
+      "executor/gateway/marketActions.test.mjs",
+      "executor/gateway/positions.test.mjs",
+      "executor/gateway/readiness.test.mjs",
+      "executor/gateway/workflow.test.mjs"
+    ],
+    "financialOperations": 0
+  },
+  {
+    "name": "ui-regression",
+    "exitCode": 0,
+    "command": [
+      "npm",
+      "run",
+      "test:markets"
+    ],
+    "financialOperations": 0
+  },
+  {
+    "name": "application-build",
+    "exitCode": 0,
+    "command": [
+      "npm",
+      "run",
+      "build"
+    ],
+    "financialOperations": 0
+  }
+]

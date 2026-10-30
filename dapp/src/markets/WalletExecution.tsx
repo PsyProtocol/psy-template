@@ -18,6 +18,24 @@ export function WalletExecution({
   record: RecordForWallet;
   expired?: boolean;
 }) {
+  return (
+    <WalletExecutionScope
+      key={`${account}:${record.recordId}:${record.registryHash}`}
+      account={account}
+      record={record}
+      expired={expired}
+    />
+  );
+}
+function WalletExecutionScope({
+  account,
+  record,
+  expired = false,
+}: {
+  account: string | null;
+  record: RecordForWallet;
+  expired?: boolean;
+}) {
   const [entry, setEntry] = useState<MarketWalletEntry | null>(null),
     [available, setAvailable] = useState(false),
     [checked, setChecked] = useState(false),
@@ -103,6 +121,7 @@ export function WalletExecution({
         {status ||
           "A generated plan is unsigned. Check the wallet release before preparing a transaction."}
       </p>
+      <a href="#orders">Open original wallet requests and recovery</a>
       <button
         className="secondary-button"
         disabled={busy || !account}

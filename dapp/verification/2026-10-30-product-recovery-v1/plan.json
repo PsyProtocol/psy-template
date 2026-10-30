@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "milestone": "Product recovery and owned read-only workspace",
+  "startedAt": "2026-10-30T13:48:31.493342+00:00",
+  "owner": "current root agent",
+  "templateBase": "4b3dfbc45173e67778234219840cfafe1cc01955",
+  "walletObserved": "5c15a9d",
+  "sdkCommit": "c92880c8b6e2c8d392f19368bc8801a2584fd427",
+  "financialInstances": 0,
+  "feeBudgetPsyBaseUnits": "0",
+  "proofJobs": 0,
+  "newDeployments": 0,
+  "faucetSubmissions": 0,
+  "browserScope": "UI and synthetic component regression only; no extension payment acceptance",
+  "stopConditions": [
+    "Occupied UI or gateway port: do not take over existing owner",
+    "Wallet unlock required: do not request credentials or reset history",
+    "No financial, proving, retry or replacement operation authorized by this run plan"
+  ],
+  "evidencePolicy": "Create new files; preserve all previous evidence; publish no wallet secrets"
+}

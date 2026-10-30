@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "scope": "Preserved tooling and harness failures; no financial action",
+  "failures": [
+    {
+      "step": "Initial dedicated browser navigation",
+      "result": "ERR_CONNECTION_REFUSED before starting the owned UI server"
+    },
+    {
+      "step": "Initial test command",
+      "result": "Test files were addressed relative to dapp rather than the repository root; no test executed. Corrected root invocation passed."
+    },
+    {
+      "step": "Snapshot subtree inspection",
+      "result": "Ego snapshot requires a snapshot reference, not a CSS root. No application change or financial action."
+    },
+    {
+      "step": "Mobile navigation",
+      "result": "CDP viewport override expired between CLI rounds. The hidden desktop mobile-select could not receive input. Same-round mobile navigation passed."
+    },
+    {
+      "step": "Synthetic component harness v1",
+      "result": "Direct Vite CJS dependency exposes createRoot through default, not a named export. Failed harness and result preserved; corrected v2 passed."
+    }
+  ]
+}

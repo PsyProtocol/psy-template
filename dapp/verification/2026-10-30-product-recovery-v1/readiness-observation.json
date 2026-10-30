@@ -1,0 +1,31 @@
+{
+  "httpStatus": 200,
+  "body": {
+    "schema": 1,
+    "registryHash": "f68a46a8229e2f375a285ed9b55eb71264eda7f71e69b4fbdcf746aacafd204c",
+    "network": {
+      "chainRootAt1": "24fe11facdc008ad5a6e6408da654217380b798af1ddb7df59845dfecd395942",
+      "label": "Psy testnet",
+      "magic": "0x1337CF514544CF69",
+      "name": "testnet",
+      "rpcConfigSha256": "da7f676f47ab78f14d930def7d2019a3a56ac10ce2d097e3594425f11681b0eb",
+      "usersPerRealm": 1048576
+    },
+    "observedAt": 1793368430247,
+    "assurance": "rpc-observed",
+    "financialAuthorization": false,
+    "financialSubmission": false,
+    "state": "protocol-incompatible",
+    "checkpoint": 21744,
+    "chainRoot": "919896e18690246e20307f68cf2e5725aee496755366bbafff88eccaea975f12",
+    "nativeCodeRoot": "5df4b10ccf59e25f3c44b4164edb9597455da33b925c3981881c280f2636ebd1",
+    "nativeFunctionRoot": "1ad1a069434cf058a419f4d874615c6fc47170471069f5d232874099ef13c5b1",
+    "nativeSchemaCompatible": true,
+    "nativeRootMatchesRegistry": false,
+    "checkedDependencies": 0,
+    "issues": [
+      "The current chain does not match the reviewed wallet protocol and deployment identity."
+    ]
+  },
+  "scope": "RPC observation only; not an authenticated state or finality proof"
+}

@@ -158,7 +158,8 @@ export function MarketAccountRead({
       <details ref={panelRef} open={page !== "assets"}>
         <summary>Read {labels[m.kind]} account · read-only</summary>
         <p className="small-note">
-          Existing isolated QA instances. Code, layout, function roots, vault
+          Reviewed candidate identities, not automatic current-chain acceptance.
+          Code, layout, function roots, vault
           key mapping and asset metadata are rechecked. RPC observations are not
           cryptographic state proofs or wallet authorization. Local fixture
           forms below remain separate.
@@ -358,10 +359,10 @@ export function MarketAccountRead({
           </section>
         )}
         <p className="market-boundary">
-          Wallet execution is not accepted in this candidate: complete proof
-          preparation without broadcasting, independent verification, exact
-          one-shot broadcast and original-identity recovery must be connected
-          and tested first. No direct signing fallback.
+          Wallet-owned preparation, complete verification and exact transport
+          interfaces exist. Current-instance live settlement and ordinary claim
+          acceptance remain incomplete. A matching reviewed release and fresh
+          identity checks are required; no direct signing fallback is available.
         </p>
         <details onToggle={(e) => setPlanOpen(e.currentTarget.open)}>
           <summary>Plan a real unsigned action</summary>
