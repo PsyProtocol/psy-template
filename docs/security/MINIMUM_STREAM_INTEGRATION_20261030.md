@@ -198,3 +198,11 @@ immutable source snapshots, tool results and a digest index. No private key,
 raw signing witness or wallet recovery file is included. The actual native
 Executor preparation replays the same four minimum pages and output queue as
 the accepted proofs; it remains prepare-only. No UI write gate was enabled.
+
+## Subsequent startup continuation
+
+The [separate v12 first-use report](MINIMUM_VAULT_BOOTSTRAP_20261030.md) closes
+synthetic register-user start, exact activation-before-treasury order and Curve
+inventory initialization under new keys. It retains the unchanged v11 bytecode
+and all historical evidence. Signed ordinary prerequisites, excess preactivation
+recovery, normal final-key settlement and live acceptance remain open.

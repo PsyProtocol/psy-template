@@ -1013,6 +1013,70 @@ fn read(opening: &StateOpening, offset: u64) -> Result<u64> {
     Ok(p.value.0.elements[(offset % 4) as usize].to_canonical_u64())
 }
 impl SourcePage {
+    /// Canonical inactive coverage tape for v12 maintenance only. These dummy
+    /// facts authenticate no inventory. CurrentTargets still authenticates the
+    /// real session, chain and dependencies, and the key binds every call.
+    /// Active trading continues to require prepare()/verify_snapshot().
+    pub fn inactive_maintenance(r: &Review, header: &Snapshot) -> Result<(Snapshot, Self)> {
+        ensure!(header.fields.len() == 41, "maintenance scope shape");
+        let mut scope = header.fields.clone();
+        let vault = scope[4];
+        ensure!(
+            vault > 0 && vault < 1 << 24 && scope[3] == r.market && scope[2] == r.kind,
+            "maintenance declared instance"
+        );
+        scope[0] = 3;
+        scope[8] = 0;
+        let before = Progress::empty();
+        scope[17..21].copy_from_slice(&before.orders);
+        let opening = |id| StateOpening {
+            contract_path: empty_proof(
+                id,
+                psy_config::network_constants::GLOBAL_CONTRACT_TREE_HEIGHT as usize,
+            ),
+            words: vec![],
+        };
+        let leaf = PsyUserLeaf {
+            user_id: f(vault),
+            user_state_tree_root: H::get_zero_hash(
+                psy_config::network_constants::GLOBAL_CONTRACT_TREE_HEIGHT as usize,
+            ),
+            ..Default::default()
+        };
+        let account = Account {
+            leaf,
+            market: opening(r.market),
+            native: Some(opening(0)),
+            asset_a: Some(opening(r.assets[1].id)),
+            asset_b: Some(opening(r.assets[2].id)),
+        };
+        let mut users = Sparse::new(32);
+        let insert = users.proof(vault);
+        users.set(vault, arr(account.leaf.qfhash::<H>()));
+        let after = Progress {
+            accounts: 1,
+            last_owner: vault,
+            users: users.root(),
+            ..before.clone()
+        };
+        let row = SourceRow {
+            account: account.clone(),
+            insert,
+            original: users.proof(vault),
+            append: empty_proof(0, 56),
+            recover: empty_proof(0, 56),
+        };
+        let page = Self {
+            scope,
+            facts: vec![users.root(), [0; 4], [0; 4], [0; 4], [0; 4]],
+            before,
+            after,
+            rows: vec![row],
+        };
+        let mut dummy = header.clone();
+        dummy.accounts = vec![account];
+        Ok((dummy, page))
+    }
     pub fn public(&self) -> Vec<u64> {
         let mut p = self.scope.clone();
         for h in &self.facts {
