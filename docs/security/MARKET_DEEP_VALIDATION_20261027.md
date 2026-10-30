@@ -1,5 +1,15 @@
 # Market correctness and reset-chain validation — 27 October 2026
 
+Latest accepted-seal continuation (30 October): [v13 fixed delayed draw,
+conditional historical seal authentication and current proof failures](ACCEPTED_SEAL_DELAYED_DRAW_20261030.md).
+AMM/Curve pass 23 synthetic complete UPSs with S < C < D, immutable cross-page
+source/seed binding, continuous settlement and unseeded refunds. Owned native
+planning, durable Executor preparation and explicit-checkpoint key replay are
+verified offline. Qualified entropy, seal-before-release causality, canonical
+finality and live wallet claims remain unverified. Current proofs 18504/18505
+still fail both frozen verification paths; no financial request was sent.
+This does not promote prior bootstrap evidence to the new v13 key/layout.
+
 Latest continuation (30 October): [fresh minimum-stream registration/startup,
 ordinary-owner treasury ordering and current-network blockers](MINIMUM_VAULT_BOOTSTRAP_20261030.md).
 Three synthetic full UPSs pass with the new v12 key, including register-user

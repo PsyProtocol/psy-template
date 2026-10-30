@@ -1,0 +1,24 @@
+{
+  "command": [
+    "node",
+    "--test",
+    "batching/checkpoint-stream/sealed-generate.test.mjs",
+    "batching/checkpoint-stream/minimum-generate.test.mjs",
+    "batching/checkpoint-stream/minimum-bootstrap-policy.test.mjs",
+    "executor/sealedMinimumSourceStream.test.mjs",
+    "executor/minimumSourceStream.test.mjs",
+    "executor/randomSourceStream.test.mjs"
+  ],
+  "exitCode": 0,
+  "stdout": "\u2714 amm: fresh bootstrap is an explicit new key profile (216.476416ms)\n\u2714 bondingcurve: fresh bootstrap is an explicit new key profile (69.859584ms)\n\u2714 amm: minimum candidate preserves seed and forbids fee/reset bypasses (619.38925ms)\n\u2714 bondingcurve: minimum candidate preserves seed and forbids fee/reset bypasses (280.104084ms)\n\u2714 amm: accepted seal is immutable and precedes one fixed delayed draw (662.245959ms)\n\u2714 amm: profile binds new ABI without claiming secrecy or finality (154.128208ms)\n\u2714 bondingcurve: accepted seal is immutable and precedes one fixed delayed draw (314.373667ms)\n\u2714 bondingcurve: profile binds new ABI without claiming secrecy or finality (61.364375ms)\n\u2714 exact source, canonical build and head extraction remain one seed and never authorize writes (13.333417ms)\n\u2714 replacement route reuses durable native preparation and rejects same-epoch reselection (653.489666ms)\n\u2714 one complete source/seed/permutation spans all pages; substitutions fail (7.396166ms)\n\u2714 owned native preparation is durable, restarts once, rejects reselection and never enables spending (750.211667ms)\n\u2714 interrupted native planning replays exact inputs without overwriting partial output (508.760334ms)\n\u2714 exact source, canonical build and head extraction remain one seed and never authorize writes (15.181709ms)\n\u2714 replacement route persists accepted seal with durable native preparation and rejects same-epoch reselection (718.789042ms)\n\u2139 tests 15\n\u2139 suites 0\n\u2139 pass 15\n\u2139 fail 0\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 1398.63125\n",
+  "testSourceSha256": {
+    "batching/checkpoint-stream/sealed-generate.test.mjs": "2ddc236bfbb081ddde72bc768d56ed6a7e11491edca6719721392db9055fc0bb",
+    "batching/checkpoint-stream/minimum-generate.test.mjs": "84ed4cdd229752b2083b3b7a16b3ac2ef730ab81baa81eec3976c06ac7cb3f5c",
+    "batching/checkpoint-stream/minimum-bootstrap-policy.test.mjs": "0380ee800f6c5c47e1b912bc33ad81fdd02ccd8e43e25ad2e033e7bf25ef7ccb",
+    "executor/sealedMinimumSourceStream.test.mjs": "88aea47e9b696ccadc9d7bd9bf21aa3cacf213cb8e74c6e11fef2619fa987948",
+    "executor/minimumSourceStream.test.mjs": "d889e54aba0e5abd67e133607eaa116b07a29ba867639d6cf03ac4577785eac0",
+    "executor/randomSourceStream.test.mjs": "83fc80b0b6cf6d74bf8bf3cab388e4dd259aaca57d5e81e9d3963ac7ab31581b"
+  },
+  "financialOperations": 0,
+  "scope": "JavaScript generation/structural/persistence checks; native proof and real-network acceptance are separate"
+}

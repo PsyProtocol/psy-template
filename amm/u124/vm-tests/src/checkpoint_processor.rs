@@ -65,7 +65,7 @@ pub fn producer_order_proposal(spec:&serde_json::Value,input:&serde_json::Value)
 }
 
 pub fn lower_stream_seed(def: &mut DPNFunctionCircuitDefinition) -> Result<()> {
-    ensure!(def.name == "begin_order_page" && def.circuit_inputs.len() == 9 && def.circuit_outputs.is_empty(), "checkpoint intrinsic exact method ABI");
+    ensure!(def.name == "begin_order_page" && [9,10].contains(&def.circuit_inputs.len()) && def.circuit_outputs.is_empty(), "checkpoint intrinsic exact method ABI");
     ensure!(def.assertions.iter().filter(|a|a.message == "stream_seed_intrinsic").count() == 1, "one fail-closed source intrinsic required");
     ensure!(!def.state_commands.iter().any(|c|matches!(c,DPNStateCmd::GetCheckpointLeafStats(_))), "checkpoint intrinsic already lowered");
     def.assertions.retain(|a|a.message != "stream_seed_intrinsic");

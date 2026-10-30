@@ -1,0 +1,7821 @@
+{
+  "schema": 1,
+  "branch": "markets-batch-capacity-recovery-20261020",
+  "parentCommit": "5cfd4881386fca81c2e235abfff970c4a9f0ff99",
+  "sdkCommit": "c92880c8b6e2c8d392f19368bc8801a2584fd427",
+  "profile": "source-covered-producer-sealed-minimum-v1",
+  "completeSyntheticUps": 23,
+  "syntheticFills": 6,
+  "normalRefunds": 4,
+  "extraAmmUnseededRecoveryUps": 3,
+  "sourceAccountsPerMarket": 8,
+  "membersPerMarket": 5,
+  "source": 101,
+  "acceptedSeal": 102,
+  "fixedDraw": 133,
+  "orderingPagesPerMarket": [
+    4,
+    1,
+    4,
+    1
+  ],
+  "settlementPagesPerMarket": [
+    4,
+    1
+  ],
+  "ordinaryClaimChecks": 30,
+  "ordinaryWalletSignedClaims": 0,
+  "networkBroadcasts": 0,
+  "networkFeesBaseUnits": "0",
+  "qualifiedRandomness": false,
+  "canonicalFinalityVerified": false,
+  "seedSecrecyVerified": false,
+  "sealedHistoryOrderVerified": true,
+  "legacyPolicyUnchanged": true,
+  "keyPositiveControlAndSixCoherentPriorityAttacksPassed": true,
+  "proofCase": {
+    "exitCode": 0,
+    "elapsedSeconds": 2033.3529700000072,
+    "stopReason": null,
+    "samples": [
+      {
+        "elapsedSeconds": 0.04948975006118417,
+        "familyRssKiB": 32
+      },
+      {
+        "elapsedSeconds": 1.1425455419812351,
+        "familyRssKiB": 1053600
+      },
+      {
+        "elapsedSeconds": 2.1829370830673724,
+        "familyRssKiB": 389664
+      },
+      {
+        "elapsedSeconds": 3.2292295830557123,
+        "familyRssKiB": 429840
+      },
+      {
+        "elapsedSeconds": 4.274127083015628,
+        "familyRssKiB": 551616
+      },
+      {
+        "elapsedSeconds": 5.323440167005174,
+        "familyRssKiB": 653664
+      },
+      {
+        "elapsedSeconds": 6.3678074170602486,
+        "familyRssKiB": 736000
+      },
+      {
+        "elapsedSeconds": 7.410445083049126,
+        "familyRssKiB": 801456
+      },
+      {
+        "elapsedSeconds": 8.791080375085585,
+        "familyRssKiB": 836048
+      },
+      {
+        "elapsedSeconds": 9.841177207999863,
+        "familyRssKiB": 821248
+      },
+      {
+        "elapsedSeconds": 10.944770707981661,
+        "familyRssKiB": 902208
+      },
+      {
+        "elapsedSeconds": 11.987318875035271,
+        "familyRssKiB": 1509392
+      },
+      {
+        "elapsedSeconds": 13.034254458034411,
+        "familyRssKiB": 1550192
+      },
+      {
+        "elapsedSeconds": 14.075114708044566,
+        "familyRssKiB": 1584704
+      },
+      {
+        "elapsedSeconds": 15.20924283307977,
+        "familyRssKiB": 1565904
+      },
+      {
+        "elapsedSeconds": 16.272513833013363,
+        "familyRssKiB": 1579840
+      },
+      {
+        "elapsedSeconds": 17.32839220808819,
+        "familyRssKiB": 1594672
+      },
+      {
+        "elapsedSeconds": 18.37056933308486,
+        "familyRssKiB": 1627168
+      },
+      {
+        "elapsedSeconds": 19.41565358301159,
+        "familyRssKiB": 1643952
+      },
+      {
+        "elapsedSeconds": 20.458527000038885,
+        "familyRssKiB": 1626864
+      },
+      {
+        "elapsedSeconds": 21.505945458076894,
+        "familyRssKiB": 1610400
+      },
+      {
+        "elapsedSeconds": 22.54483891709242,
+        "familyRssKiB": 1608016
+      },
+      {
+        "elapsedSeconds": 23.598123167059384,
+        "familyRssKiB": 1650704
+      },
+      {
+        "elapsedSeconds": 24.649467042065226,
+        "familyRssKiB": 1559760
+      },
+      {
+        "elapsedSeconds": 25.69615104200784,
+        "familyRssKiB": 1537920
+      },
+      {
+        "elapsedSeconds": 26.756461167009547,
+        "familyRssKiB": 1292192
+      },
+      {
+        "elapsedSeconds": 27.79982766706962,
+        "familyRssKiB": 1247728
+      },
+      {
+        "elapsedSeconds": 28.837471083039418,
+        "familyRssKiB": 1118304
+      },
+      {
+        "elapsedSeconds": 29.882362750009634,
+        "familyRssKiB": 1074528
+      },
+      {
+        "elapsedSeconds": 30.93447500001639,
+        "familyRssKiB": 849584
+      },
+      {
+        "elapsedSeconds": 31.97780595801305,
+        "familyRssKiB": 777712
+      },
+      {
+        "elapsedSeconds": 33.03928883303888,
+        "familyRssKiB": 648784
+      },
+      {
+        "elapsedSeconds": 34.10630099999253,
+        "familyRssKiB": 608064
+      },
+      {
+        "elapsedSeconds": 35.152694625081494,
+        "familyRssKiB": 592016
+      },
+      {
+        "elapsedSeconds": 36.20540316705592,
+        "familyRssKiB": 578608
+      },
+      {
+        "elapsedSeconds": 37.259319167002104,
+        "familyRssKiB": 620640
+      },
+      {
+        "elapsedSeconds": 38.30758787505329,
+        "familyRssKiB": 621360
+      },
+      {
+        "elapsedSeconds": 39.348350750049576,
+        "familyRssKiB": 603952
+      },
+      {
+        "elapsedSeconds": 40.39174458303023,
+        "familyRssKiB": 648288
+      },
+      {
+        "elapsedSeconds": 41.4659828330623,
+        "familyRssKiB": 703760
+      },
+      {
+        "elapsedSeconds": 42.50785250007175,
+        "familyRssKiB": 714208
+      },
+      {
+        "elapsedSeconds": 43.554685916984454,
+        "familyRssKiB": 760816
+      },
+      {
+        "elapsedSeconds": 44.605458292062394,
+        "familyRssKiB": 773200
+      },
+      {
+        "elapsedSeconds": 45.65637149999384,
+        "familyRssKiB": 696608
+      },
+      {
+        "elapsedSeconds": 46.70035304198973,
+        "familyRssKiB": 693232
+      },
+      {
+        "elapsedSeconds": 47.73859825008549,
+        "familyRssKiB": 580704
+      },
+      {
+        "elapsedSeconds": 48.78644662501756,
+        "familyRssKiB": 587072
+      },
+      {
+        "elapsedSeconds": 49.82891554199159,
+        "familyRssKiB": 591536
+      },
+      {
+        "elapsedSeconds": 50.886134875006974,
+        "familyRssKiB": 532048
+      },
+      {
+        "elapsedSeconds": 51.930838875006884,
+        "familyRssKiB": 538768
+      },
+      {
+        "elapsedSeconds": 52.97423537506256,
+        "familyRssKiB": 558304
+      },
+      {
+        "elapsedSeconds": 54.083218250074424,
+        "familyRssKiB": 560720
+      },
+      {
+        "elapsedSeconds": 55.125287000089884,
+        "familyRssKiB": 560912
+      },
+      {
+        "elapsedSeconds": 56.181346417055465,
+        "familyRssKiB": 545440
+      },
+      {
+        "elapsedSeconds": 57.22806437499821,
+        "familyRssKiB": 557152
+      },
+      {
+        "elapsedSeconds": 58.28133404208347,
+        "familyRssKiB": 573648
+      },
+      {
+        "elapsedSeconds": 59.32466366700828,
+        "familyRssKiB": 652512
+      },
+      {
+        "elapsedSeconds": 60.37633579201065,
+        "familyRssKiB": 717776
+      },
+      {
+        "elapsedSeconds": 61.4136039580917,
+        "familyRssKiB": 804800
+      },
+      {
+        "elapsedSeconds": 62.45709345804062,
+        "familyRssKiB": 759968
+      },
+      {
+        "elapsedSeconds": 63.50809250003658,
+        "familyRssKiB": 790768
+      },
+      {
+        "elapsedSeconds": 64.55492320808116,
+        "familyRssKiB": 887648
+      },
+      {
+        "elapsedSeconds": 65.6192305830773,
+        "familyRssKiB": 875760
+      },
+      {
+        "elapsedSeconds": 66.65950116701424,
+        "familyRssKiB": 937648
+      },
+      {
+        "elapsedSeconds": 67.70225904206745,
+        "familyRssKiB": 1046080
+      },
+      {
+        "elapsedSeconds": 68.75016562500969,
+        "familyRssKiB": 1087856
+      },
+      {
+        "elapsedSeconds": 69.79022666707169,
+        "familyRssKiB": 1150048
+      },
+      {
+        "elapsedSeconds": 70.8348477500258,
+        "familyRssKiB": 1451184
+      },
+      {
+        "elapsedSeconds": 71.87628958304413,
+        "familyRssKiB": 1460768
+      },
+      {
+        "elapsedSeconds": 72.92129229207058,
+        "familyRssKiB": 1143200
+      },
+      {
+        "elapsedSeconds": 73.96375195798464,
+        "familyRssKiB": 1224384
+      },
+      {
+        "elapsedSeconds": 75.02121008303948,
+        "familyRssKiB": 1150608
+      },
+      {
+        "elapsedSeconds": 76.09535920806229,
+        "familyRssKiB": 1042688
+      },
+      {
+        "elapsedSeconds": 77.1497596250847,
+        "familyRssKiB": 909088
+      },
+      {
+        "elapsedSeconds": 78.19580495799892,
+        "familyRssKiB": 832032
+      },
+      {
+        "elapsedSeconds": 79.24104412505403,
+        "familyRssKiB": 913728
+      },
+      {
+        "elapsedSeconds": 80.28249845805112,
+        "familyRssKiB": 999296
+      },
+      {
+        "elapsedSeconds": 81.32250570808537,
+        "familyRssKiB": 1085328
+      },
+      {
+        "elapsedSeconds": 82.3769898749888,
+        "familyRssKiB": 1066416
+      },
+      {
+        "elapsedSeconds": 83.41982512502,
+        "familyRssKiB": 1142560
+      },
+      {
+        "elapsedSeconds": 84.47118145809509,
+        "familyRssKiB": 1125424
+      },
+      {
+        "elapsedSeconds": 85.50973375001922,
+        "familyRssKiB": 1191216
+      },
+      {
+        "elapsedSeconds": 86.57596008304972,
+        "familyRssKiB": 957024
+      },
+      {
+        "elapsedSeconds": 87.6383657080587,
+        "familyRssKiB": 1228576
+      },
+      {
+        "elapsedSeconds": 88.71502141701058,
+        "familyRssKiB": 941904
+      },
+      {
+        "elapsedSeconds": 89.75963829201646,
+        "familyRssKiB": 913728
+      },
+      {
+        "elapsedSeconds": 90.79801916703582,
+        "familyRssKiB": 864544
+      },
+      {
+        "elapsedSeconds": 91.83550325001124,
+        "familyRssKiB": 763280
+      },
+      {
+        "elapsedSeconds": 92.87808204209432,
+        "familyRssKiB": 726192
+      },
+      {
+        "elapsedSeconds": 93.94974687509239,
+        "familyRssKiB": 498704
+      },
+      {
+        "elapsedSeconds": 94.99911604204681,
+        "familyRssKiB": 417568
+      },
+      {
+        "elapsedSeconds": 96.03645100002177,
+        "familyRssKiB": 456048
+      },
+      {
+        "elapsedSeconds": 97.13460391701665,
+        "familyRssKiB": 500384
+      },
+      {
+        "elapsedSeconds": 98.1820050420938,
+        "familyRssKiB": 558304
+      },
+      {
+        "elapsedSeconds": 99.22423150006216,
+        "familyRssKiB": 572592
+      },
+      {
+        "elapsedSeconds": 100.27049908298068,
+        "familyRssKiB": 561600
+      },
+      {
+        "elapsedSeconds": 101.3164113330422,
+        "familyRssKiB": 587552
+      },
+      {
+        "elapsedSeconds": 102.4099668749841,
+        "familyRssKiB": 612336
+      },
+      {
+        "elapsedSeconds": 103.46823229198344,
+        "familyRssKiB": 581904
+      },
+      {
+        "elapsedSeconds": 104.5098157080356,
+        "familyRssKiB": 599248
+      },
+      {
+        "elapsedSeconds": 105.56498195801396,
+        "familyRssKiB": 576720
+      },
+      {
+        "elapsedSeconds": 106.6110221670242,
+        "familyRssKiB": 553424
+      },
+      {
+        "elapsedSeconds": 107.65689325006679,
+        "familyRssKiB": 543792
+      },
+      {
+        "elapsedSeconds": 108.70255258306861,
+        "familyRssKiB": 518512
+      },
+      {
+        "elapsedSeconds": 109.75099458300974,
+        "familyRssKiB": 483680
+      },
+      {
+        "elapsedSeconds": 110.79444775008596,
+        "familyRssKiB": 437984
+      },
+      {
+        "elapsedSeconds": 111.84274879202712,
+        "familyRssKiB": 410560
+      },
+      {
+        "elapsedSeconds": 112.96238045801874,
+        "familyRssKiB": 370896
+      },
+      {
+        "elapsedSeconds": 114.017074125004,
+        "familyRssKiB": 363696
+      },
+      {
+        "elapsedSeconds": 115.0633345420938,
+        "familyRssKiB": 550032
+      },
+      {
+        "elapsedSeconds": 116.10561754205264,
+        "familyRssKiB": 574960
+      },
+      {
+        "elapsedSeconds": 117.15220066707116,
+        "familyRssKiB": 630112
+      },
+      {
+        "elapsedSeconds": 118.19556412508246,
+        "familyRssKiB": 631984
+      },
+      {
+        "elapsedSeconds": 119.24487166700419,
+        "familyRssKiB": 583472
+      },
+      {
+        "elapsedSeconds": 120.29195575008634,
+        "familyRssKiB": 568288
+      },
+      {
+        "elapsedSeconds": 121.33298720803577,
+        "familyRssKiB": 605456
+      },
+      {
+        "elapsedSeconds": 122.3729668330634,
+        "familyRssKiB": 681888
+      },
+      {
+        "elapsedSeconds": 123.4162332500564,
+        "familyRssKiB": 457728
+      },
+      {
+        "elapsedSeconds": 124.46050987509079,
+        "familyRssKiB": 490368
+      },
+      {
+        "elapsedSeconds": 125.50915258307941,
+        "familyRssKiB": 573920
+      },
+      {
+        "elapsedSeconds": 126.55267000000458,
+        "familyRssKiB": 641568
+      },
+      {
+        "elapsedSeconds": 127.59200654202141,
+        "familyRssKiB": 695920
+      },
+      {
+        "elapsedSeconds": 128.64728812500834,
+        "familyRssKiB": 687376
+      },
+      {
+        "elapsedSeconds": 129.7325935830595,
+        "familyRssKiB": 1007392
+      },
+      {
+        "elapsedSeconds": 130.7795469170669,
+        "familyRssKiB": 1234368
+      },
+      {
+        "elapsedSeconds": 132.14661845809314,
+        "familyRssKiB": 1406944
+      },
+      {
+        "elapsedSeconds": 133.18714387505315,
+        "familyRssKiB": 951552
+      },
+      {
+        "elapsedSeconds": 134.2299392920686,
+        "familyRssKiB": 1021328
+      },
+      {
+        "elapsedSeconds": 135.27069429203402,
+        "familyRssKiB": 1021328
+      },
+      {
+        "elapsedSeconds": 136.32673829200212,
+        "familyRssKiB": 1047344
+      },
+      {
+        "elapsedSeconds": 137.36647420807276,
+        "familyRssKiB": 1029952
+      },
+      {
+        "elapsedSeconds": 138.41366700001527,
+        "familyRssKiB": 938720
+      },
+      {
+        "elapsedSeconds": 139.45353958301712,
+        "familyRssKiB": 897712
+      },
+      {
+        "elapsedSeconds": 140.4969343750272,
+        "familyRssKiB": 919360
+      },
+      {
+        "elapsedSeconds": 141.53870854200795,
+        "familyRssKiB": 968304
+      },
+      {
+        "elapsedSeconds": 142.58137483301107,
+        "familyRssKiB": 985040
+      },
+      {
+        "elapsedSeconds": 143.6264531670604,
+        "familyRssKiB": 993136
+      },
+      {
+        "elapsedSeconds": 144.66797541698907,
+        "familyRssKiB": 1020832
+      },
+      {
+        "elapsedSeconds": 145.83939079206903,
+        "familyRssKiB": 1059904
+      },
+      {
+        "elapsedSeconds": 146.88381045800634,
+        "familyRssKiB": 999056
+      },
+      {
+        "elapsedSeconds": 147.92762883298565,
+        "familyRssKiB": 793664
+      },
+      {
+        "elapsedSeconds": 148.98608491709456,
+        "familyRssKiB": 784432
+      },
+      {
+        "elapsedSeconds": 150.0263507500058,
+        "familyRssKiB": 768128
+      },
+      {
+        "elapsedSeconds": 151.06988070800435,
+        "familyRssKiB": 954128
+      },
+      {
+        "elapsedSeconds": 152.11516845808364,
+        "familyRssKiB": 685488
+      },
+      {
+        "elapsedSeconds": 153.28940429200884,
+        "familyRssKiB": 708416
+      },
+      {
+        "elapsedSeconds": 154.33697745809332,
+        "familyRssKiB": 767504
+      },
+      {
+        "elapsedSeconds": 155.3986795829842,
+        "familyRssKiB": 767584
+      },
+      {
+        "elapsedSeconds": 156.44044191704597,
+        "familyRssKiB": 769776
+      },
+      {
+        "elapsedSeconds": 157.4843402080005,
+        "familyRssKiB": 690976
+      },
+      {
+        "elapsedSeconds": 158.5522683330346,
+        "familyRssKiB": 735088
+      },
+      {
+        "elapsedSeconds": 159.59729412500747,
+        "familyRssKiB": 747056
+      },
+      {
+        "elapsedSeconds": 160.63613020803314,
+        "familyRssKiB": 751568
+      },
+      {
+        "elapsedSeconds": 161.68199599999934,
+        "familyRssKiB": 756336
+      },
+      {
+        "elapsedSeconds": 162.7269794580061,
+        "familyRssKiB": 766608
+      },
+      {
+        "elapsedSeconds": 163.7849719580263,
+        "familyRssKiB": 738176
+      },
+      {
+        "elapsedSeconds": 164.8257239999948,
+        "familyRssKiB": 659616
+      },
+      {
+        "elapsedSeconds": 165.87330433307216,
+        "familyRssKiB": 623360
+      },
+      {
+        "elapsedSeconds": 166.91898050007876,
+        "familyRssKiB": 672432
+      },
+      {
+        "elapsedSeconds": 167.9619249170646,
+        "familyRssKiB": 712192
+      },
+      {
+        "elapsedSeconds": 169.02787874999922,
+        "familyRssKiB": 647520
+      },
+      {
+        "elapsedSeconds": 170.12234050000552,
+        "familyRssKiB": 608192
+      },
+      {
+        "elapsedSeconds": 171.2077604579972,
+        "familyRssKiB": 445360
+      },
+      {
+        "elapsedSeconds": 172.26092995807994,
+        "familyRssKiB": 443872
+      },
+      {
+        "elapsedSeconds": 173.30114454205614,
+        "familyRssKiB": 530784
+      },
+      {
+        "elapsedSeconds": 174.34541929198895,
+        "familyRssKiB": 533840
+      },
+      {
+        "elapsedSeconds": 175.3868244170444,
+        "familyRssKiB": 509296
+      },
+      {
+        "elapsedSeconds": 176.56355887500104,
+        "familyRssKiB": 491632
+      },
+      {
+        "elapsedSeconds": 177.60777770809364,
+        "familyRssKiB": 609040
+      },
+      {
+        "elapsedSeconds": 178.6491110000061,
+        "familyRssKiB": 637488
+      },
+      {
+        "elapsedSeconds": 179.73228133306839,
+        "familyRssKiB": 743952
+      },
+      {
+        "elapsedSeconds": 180.77680895803496,
+        "familyRssKiB": 761600
+      },
+      {
+        "elapsedSeconds": 181.820898917038,
+        "familyRssKiB": 692592
+      },
+      {
+        "elapsedSeconds": 182.8677703749854,
+        "familyRssKiB": 746960
+      },
+      {
+        "elapsedSeconds": 183.90920316707343,
+        "familyRssKiB": 675808
+      },
+      {
+        "elapsedSeconds": 184.95058308308944,
+        "familyRssKiB": 806128
+      },
+      {
+        "elapsedSeconds": 185.99219433299731,
+        "familyRssKiB": 741312
+      },
+      {
+        "elapsedSeconds": 187.03306462499313,
+        "familyRssKiB": 724512
+      },
+      {
+        "elapsedSeconds": 188.07679370802362,
+        "familyRssKiB": 741008
+      },
+      {
+        "elapsedSeconds": 189.1180107500404,
+        "familyRssKiB": 785040
+      },
+      {
+        "elapsedSeconds": 190.15920837502927,
+        "familyRssKiB": 806144
+      },
+      {
+        "elapsedSeconds": 191.19907708303072,
+        "familyRssKiB": 858992
+      },
+      {
+        "elapsedSeconds": 192.29315275000408,
+        "familyRssKiB": 737888
+      },
+      {
+        "elapsedSeconds": 193.34049270802643,
+        "familyRssKiB": 767152
+      },
+      {
+        "elapsedSeconds": 194.38727091706824,
+        "familyRssKiB": 830704
+      },
+      {
+        "elapsedSeconds": 195.43003554199822,
+        "familyRssKiB": 851344
+      },
+      {
+        "elapsedSeconds": 196.4722257499816,
+        "familyRssKiB": 873584
+      },
+      {
+        "elapsedSeconds": 197.52432349999435,
+        "familyRssKiB": 935968
+      },
+      {
+        "elapsedSeconds": 198.5630731669953,
+        "familyRssKiB": 963888
+      },
+      {
+        "elapsedSeconds": 199.60307083302177,
+        "familyRssKiB": 1111328
+      },
+      {
+        "elapsedSeconds": 200.6431394580286,
+        "familyRssKiB": 1114864
+      },
+      {
+        "elapsedSeconds": 201.68629545799922,
+        "familyRssKiB": 1151264
+      },
+      {
+        "elapsedSeconds": 202.73165387508925,
+        "familyRssKiB": 1113104
+      },
+      {
+        "elapsedSeconds": 203.7803732920438,
+        "familyRssKiB": 1022448
+      },
+      {
+        "elapsedSeconds": 204.82136320800055,
+        "familyRssKiB": 958368
+      },
+      {
+        "elapsedSeconds": 205.9064608750632,
+        "familyRssKiB": 1010912
+      },
+      {
+        "elapsedSeconds": 206.9738838330377,
+        "familyRssKiB": 818176
+      },
+      {
+        "elapsedSeconds": 208.02777062507812,
+        "familyRssKiB": 748864
+      },
+      {
+        "elapsedSeconds": 209.07712675002404,
+        "familyRssKiB": 708432
+      },
+      {
+        "elapsedSeconds": 210.14260412508156,
+        "familyRssKiB": 511408
+      },
+      {
+        "elapsedSeconds": 211.19281462498475,
+        "familyRssKiB": 487840
+      },
+      {
+        "elapsedSeconds": 212.23852200002875,
+        "familyRssKiB": 454864
+      },
+      {
+        "elapsedSeconds": 213.28758787503466,
+        "familyRssKiB": 444832
+      },
+      {
+        "elapsedSeconds": 214.3965339170536,
+        "familyRssKiB": 470048
+      },
+      {
+        "elapsedSeconds": 215.44537866709288,
+        "familyRssKiB": 443168
+      },
+      {
+        "elapsedSeconds": 216.49131287506316,
+        "familyRssKiB": 499360
+      },
+      {
+        "elapsedSeconds": 217.53323250007816,
+        "familyRssKiB": 539104
+      },
+      {
+        "elapsedSeconds": 218.57999600004405,
+        "familyRssKiB": 556080
+      },
+      {
+        "elapsedSeconds": 219.62597450008616,
+        "familyRssKiB": 562688
+      },
+      {
+        "elapsedSeconds": 220.66655354201794,
+        "familyRssKiB": 538704
+      },
+      {
+        "elapsedSeconds": 221.7098597920267,
+        "familyRssKiB": 563072
+      },
+      {
+        "elapsedSeconds": 222.7494851250667,
+        "familyRssKiB": 550000
+      },
+      {
+        "elapsedSeconds": 223.80046483303886,
+        "familyRssKiB": 560896
+      },
+      {
+        "elapsedSeconds": 224.84313962503802,
+        "familyRssKiB": 613072
+      },
+      {
+        "elapsedSeconds": 225.88723204203416,
+        "familyRssKiB": 653392
+      },
+      {
+        "elapsedSeconds": 226.93606958305463,
+        "familyRssKiB": 731056
+      },
+      {
+        "elapsedSeconds": 227.99060650006868,
+        "familyRssKiB": 684896
+      },
+      {
+        "elapsedSeconds": 229.03369729209226,
+        "familyRssKiB": 799904
+      },
+      {
+        "elapsedSeconds": 230.18347950000316,
+        "familyRssKiB": 829584
+      },
+      {
+        "elapsedSeconds": 231.24276687507518,
+        "familyRssKiB": 726880
+      },
+      {
+        "elapsedSeconds": 232.2937878750963,
+        "familyRssKiB": 700560
+      },
+      {
+        "elapsedSeconds": 233.34073316701688,
+        "familyRssKiB": 666304
+      },
+      {
+        "elapsedSeconds": 234.3884464170551,
+        "familyRssKiB": 711072
+      },
+      {
+        "elapsedSeconds": 235.43232025008183,
+        "familyRssKiB": 656016
+      },
+      {
+        "elapsedSeconds": 236.53063033299986,
+        "familyRssKiB": 607264
+      },
+      {
+        "elapsedSeconds": 237.5830806250451,
+        "familyRssKiB": 606272
+      },
+      {
+        "elapsedSeconds": 238.6246604580665,
+        "familyRssKiB": 600160
+      },
+      {
+        "elapsedSeconds": 239.66877704206854,
+        "familyRssKiB": 657872
+      },
+      {
+        "elapsedSeconds": 240.71023450000212,
+        "familyRssKiB": 711456
+      },
+      {
+        "elapsedSeconds": 241.7526060830569,
+        "familyRssKiB": 734640
+      },
+      {
+        "elapsedSeconds": 242.82190683309454,
+        "familyRssKiB": 681712
+      },
+      {
+        "elapsedSeconds": 243.87410620809533,
+        "familyRssKiB": 549136
+      },
+      {
+        "elapsedSeconds": 244.97400091704912,
+        "familyRssKiB": 612192
+      },
+      {
+        "elapsedSeconds": 246.0246810830431,
+        "familyRssKiB": 625568
+      },
+      {
+        "elapsedSeconds": 247.0798477079952,
+        "familyRssKiB": 653136
+      },
+      {
+        "elapsedSeconds": 248.1187488330761,
+        "familyRssKiB": 616976
+      },
+      {
+        "elapsedSeconds": 249.15885083307512,
+        "familyRssKiB": 681840
+      },
+      {
+        "elapsedSeconds": 250.20369941706304,
+        "familyRssKiB": 713392
+      },
+      {
+        "elapsedSeconds": 251.26426066702697,
+        "familyRssKiB": 731616
+      },
+      {
+        "elapsedSeconds": 252.30408254207578,
+        "familyRssKiB": 746192
+      },
+      {
+        "elapsedSeconds": 253.38216283300426,
+        "familyRssKiB": 794752
+      },
+      {
+        "elapsedSeconds": 254.4311770000495,
+        "familyRssKiB": 786032
+      },
+      {
+        "elapsedSeconds": 255.4870526670711,
+        "familyRssKiB": 884528
+      },
+      {
+        "elapsedSeconds": 256.53302262502257,
+        "familyRssKiB": 992848
+      },
+      {
+        "elapsedSeconds": 257.5748605420813,
+        "familyRssKiB": 954144
+      },
+      {
+        "elapsedSeconds": 258.6475929170847,
+        "familyRssKiB": 791504
+      },
+      {
+        "elapsedSeconds": 259.6909302920103,
+        "familyRssKiB": 812656
+      },
+      {
+        "elapsedSeconds": 260.7372364579933,
+        "familyRssKiB": 868400
+      },
+      {
+        "elapsedSeconds": 261.7773727920139,
+        "familyRssKiB": 892576
+      },
+      {
+        "elapsedSeconds": 262.82152204203885,
+        "familyRssKiB": 934928
+      },
+      {
+        "elapsedSeconds": 263.8647293749964,
+        "familyRssKiB": 853024
+      },
+      {
+        "elapsedSeconds": 264.90814133302774,
+        "familyRssKiB": 847280
+      },
+      {
+        "elapsedSeconds": 265.9491887080949,
+        "familyRssKiB": 824928
+      },
+      {
+        "elapsedSeconds": 266.99433729203884,
+        "familyRssKiB": 770880
+      },
+      {
+        "elapsedSeconds": 268.0349224170204,
+        "familyRssKiB": 766176
+      },
+      {
+        "elapsedSeconds": 269.0823045000434,
+        "familyRssKiB": 695088
+      },
+      {
+        "elapsedSeconds": 270.1250048329821,
+        "familyRssKiB": 613088
+      },
+      {
+        "elapsedSeconds": 271.1663050419884,
+        "familyRssKiB": 605904
+      },
+      {
+        "elapsedSeconds": 272.22531904198695,
+        "familyRssKiB": 448944
+      },
+      {
+        "elapsedSeconds": 273.26855716702994,
+        "familyRssKiB": 448800
+      },
+      {
+        "elapsedSeconds": 274.3170580000151,
+        "familyRssKiB": 524096
+      },
+      {
+        "elapsedSeconds": 275.36691525008064,
+        "familyRssKiB": 569856
+      },
+      {
+        "elapsedSeconds": 276.42324687505607,
+        "familyRssKiB": 588288
+      },
+      {
+        "elapsedSeconds": 277.4676172080217,
+        "familyRssKiB": 559648
+      },
+      {
+        "elapsedSeconds": 278.50935758301057,
+        "familyRssKiB": 584784
+      },
+      {
+        "elapsedSeconds": 279.5538770420244,
+        "familyRssKiB": 572368
+      },
+      {
+        "elapsedSeconds": 280.5980559170712,
+        "familyRssKiB": 542464
+      },
+      {
+        "elapsedSeconds": 281.65010004199576,
+        "familyRssKiB": 573248
+      },
+      {
+        "elapsedSeconds": 282.6900949580595,
+        "familyRssKiB": 499632
+      },
+      {
+        "elapsedSeconds": 283.73240458301734,
+        "familyRssKiB": 470560
+      },
+      {
+        "elapsedSeconds": 284.80800179205835,
+        "familyRssKiB": 522672
+      },
+      {
+        "elapsedSeconds": 285.85084479209036,
+        "familyRssKiB": 539664
+      },
+      {
+        "elapsedSeconds": 286.8991200000746,
+        "familyRssKiB": 606112
+      },
+      {
+        "elapsedSeconds": 287.9433203750523,
+        "familyRssKiB": 714512
+      },
+      {
+        "elapsedSeconds": 289.0052463330794,
+        "familyRssKiB": 748816
+      },
+      {
+        "elapsedSeconds": 290.1496476250468,
+        "familyRssKiB": 857136
+      },
+      {
+        "elapsedSeconds": 291.1995720000705,
+        "familyRssKiB": 711088
+      },
+      {
+        "elapsedSeconds": 292.25646658299956,
+        "familyRssKiB": 780064
+      },
+      {
+        "elapsedSeconds": 293.4023615830811,
+        "familyRssKiB": 696656
+      },
+      {
+        "elapsedSeconds": 294.4446072920691,
+        "familyRssKiB": 482336
+      },
+      {
+        "elapsedSeconds": 295.50375333300326,
+        "familyRssKiB": 521136
+      },
+      {
+        "elapsedSeconds": 296.5452606250765,
+        "familyRssKiB": 542048
+      },
+      {
+        "elapsedSeconds": 297.5891977500869,
+        "familyRssKiB": 591744
+      },
+      {
+        "elapsedSeconds": 298.63136062503327,
+        "familyRssKiB": 639616
+      },
+      {
+        "elapsedSeconds": 299.6668778330786,
+        "familyRssKiB": 698672
+      },
+      {
+        "elapsedSeconds": 300.70839262509253,
+        "familyRssKiB": 735792
+      },
+      {
+        "elapsedSeconds": 301.7477587920148,
+        "familyRssKiB": 723472
+      },
+      {
+        "elapsedSeconds": 302.7903687499929,
+        "familyRssKiB": 745808
+      },
+      {
+        "elapsedSeconds": 303.83717920805793,
+        "familyRssKiB": 707664
+      },
+      {
+        "elapsedSeconds": 304.9030259579886,
+        "familyRssKiB": 800848
+      },
+      {
+        "elapsedSeconds": 305.948321999982,
+        "familyRssKiB": 832960
+      },
+      {
+        "elapsedSeconds": 307.01643429207616,
+        "familyRssKiB": 842752
+      },
+      {
+        "elapsedSeconds": 308.059956583078,
+        "familyRssKiB": 821920
+      },
+      {
+        "elapsedSeconds": 309.1067180830287,
+        "familyRssKiB": 751200
+      },
+      {
+        "elapsedSeconds": 310.15258525009267,
+        "familyRssKiB": 754912
+      },
+      {
+        "elapsedSeconds": 311.19668550009374,
+        "familyRssKiB": 800784
+      },
+      {
+        "elapsedSeconds": 312.2382627920015,
+        "familyRssKiB": 790832
+      },
+      {
+        "elapsedSeconds": 313.2851141249994,
+        "familyRssKiB": 824912
+      },
+      {
+        "elapsedSeconds": 314.33256200002506,
+        "familyRssKiB": 798448
+      },
+      {
+        "elapsedSeconds": 315.3785671670921,
+        "familyRssKiB": 844400
+      },
+      {
+        "elapsedSeconds": 316.4277701670071,
+        "familyRssKiB": 1084816
+      },
+      {
+        "elapsedSeconds": 317.4856608330738,
+        "familyRssKiB": 1033104
+      },
+      {
+        "elapsedSeconds": 318.5291016669944,
+        "familyRssKiB": 1030608
+      },
+      {
+        "elapsedSeconds": 319.56655941705685,
+        "familyRssKiB": 1046416
+      },
+      {
+        "elapsedSeconds": 320.63155937509146,
+        "familyRssKiB": 959040
+      },
+      {
+        "elapsedSeconds": 321.6812436670298,
+        "familyRssKiB": 992064
+      },
+      {
+        "elapsedSeconds": 322.7273390420014,
+        "familyRssKiB": 1049232
+      },
+      {
+        "elapsedSeconds": 323.78287454205565,
+        "familyRssKiB": 985088
+      },
+      {
+        "elapsedSeconds": 324.8196603329852,
+        "familyRssKiB": 952656
+      },
+      {
+        "elapsedSeconds": 325.8709415830672,
+        "familyRssKiB": 914096
+      },
+      {
+        "elapsedSeconds": 326.9131200830452,
+        "familyRssKiB": 771536
+      },
+      {
+        "elapsedSeconds": 327.96205825009383,
+        "familyRssKiB": 703936
+      },
+      {
+        "elapsedSeconds": 329.02020150003955,
+        "familyRssKiB": 585520
+      },
+      {
+        "elapsedSeconds": 330.06557029206306,
+        "familyRssKiB": 558160
+      },
+      {
+        "elapsedSeconds": 331.10735933308024,
+        "familyRssKiB": 503840
+      },
+      {
+        "elapsedSeconds": 332.1497421670938,
+        "familyRssKiB": 447616
+      },
+      {
+        "elapsedSeconds": 333.19993545801844,
+        "familyRssKiB": 453472
+      },
+      {
+        "elapsedSeconds": 334.2524398750393,
+        "familyRssKiB": 415936
+      },
+      {
+        "elapsedSeconds": 335.3399753749836,
+        "familyRssKiB": 478304
+      },
+      {
+        "elapsedSeconds": 336.38734179199673,
+        "familyRssKiB": 514448
+      },
+      {
+        "elapsedSeconds": 337.4569645830197,
+        "familyRssKiB": 509168
+      },
+      {
+        "elapsedSeconds": 338.4984185420908,
+        "familyRssKiB": 531552
+      },
+      {
+        "elapsedSeconds": 339.55889183306135,
+        "familyRssKiB": 490816
+      },
+      {
+        "elapsedSeconds": 340.5982407920528,
+        "familyRssKiB": 447680
+      },
+      {
+        "elapsedSeconds": 341.6378657920286,
+        "familyRssKiB": 475760
+      },
+      {
+        "elapsedSeconds": 342.6779808329884,
+        "familyRssKiB": 459472
+      },
+      {
+        "elapsedSeconds": 343.7221873330418,
+        "familyRssKiB": 482160
+      },
+      {
+        "elapsedSeconds": 344.8159554580925,
+        "familyRssKiB": 485696
+      },
+      {
+        "elapsedSeconds": 345.86002445803024,
+        "familyRssKiB": 451152
+      },
+      {
+        "elapsedSeconds": 346.90272479201667,
+        "familyRssKiB": 497184
+      },
+      {
+        "elapsedSeconds": 347.9545061670942,
+        "familyRssKiB": 579984
+      },
+      {
+        "elapsedSeconds": 348.9997287080623,
+        "familyRssKiB": 580144
+      },
+      {
+        "elapsedSeconds": 350.12589975004084,
+        "familyRssKiB": 701664
+      },
+      {
+        "elapsedSeconds": 351.17339120805264,
+        "familyRssKiB": 627696
+      },
+      {
+        "elapsedSeconds": 352.27094975009095,
+        "familyRssKiB": 720048
+      },
+      {
+        "elapsedSeconds": 353.3287799170939,
+        "familyRssKiB": 717552
+      },
+      {
+        "elapsedSeconds": 354.3820934999967,
+        "familyRssKiB": 705744
+      },
+      {
+        "elapsedSeconds": 355.4379827500088,
+        "familyRssKiB": 638528
+      },
+      {
+        "elapsedSeconds": 356.6055417500902,
+        "familyRssKiB": 529120
+      },
+      {
+        "elapsedSeconds": 357.65059316705447,
+        "familyRssKiB": 579680
+      },
+      {
+        "elapsedSeconds": 358.94262912508566,
+        "familyRssKiB": 610096
+      },
+      {
+        "elapsedSeconds": 359.9878108750563,
+        "familyRssKiB": 671424
+      },
+      {
+        "elapsedSeconds": 361.03247987502255,
+        "familyRssKiB": 732592
+      },
+      {
+        "elapsedSeconds": 362.0763409170322,
+        "familyRssKiB": 759456
+      },
+      {
+        "elapsedSeconds": 363.1243502080906,
+        "familyRssKiB": 753296
+      },
+      {
+        "elapsedSeconds": 364.1734272920294,
+        "familyRssKiB": 778416
+      },
+      {
+        "elapsedSeconds": 365.2212047079811,
+        "familyRssKiB": 789408
+      },
+      {
+        "elapsedSeconds": 366.27587925002445,
+        "familyRssKiB": 741088
+      },
+      {
+        "elapsedSeconds": 367.31491904205177,
+        "familyRssKiB": 744032
+      },
+      {
+        "elapsedSeconds": 368.3624945420306,
+        "familyRssKiB": 718400
+      },
+      {
+        "elapsedSeconds": 369.413927000016,
+        "familyRssKiB": 744448
+      },
+      {
+        "elapsedSeconds": 370.45383658306673,
+        "familyRssKiB": 1045952
+      },
+      {
+        "elapsedSeconds": 371.49592304206453,
+        "familyRssKiB": 1038048
+      },
+      {
+        "elapsedSeconds": 372.58443362498656,
+        "familyRssKiB": 926656
+      },
+      {
+        "elapsedSeconds": 373.6326954580145,
+        "familyRssKiB": 1041200
+      },
+      {
+        "elapsedSeconds": 374.6862862500129,
+        "familyRssKiB": 1050208
+      },
+      {
+        "elapsedSeconds": 375.7363464169903,
+        "familyRssKiB": 1023296
+      },
+      {
+        "elapsedSeconds": 376.777702792082,
+        "familyRssKiB": 1003888
+      },
+      {
+        "elapsedSeconds": 377.82366912509315,
+        "familyRssKiB": 1037088
+      },
+      {
+        "elapsedSeconds": 378.86489425005857,
+        "familyRssKiB": 1024912
+      },
+      {
+        "elapsedSeconds": 379.90981920808554,
+        "familyRssKiB": 973680
+      },
+      {
+        "elapsedSeconds": 380.953767750063,
+        "familyRssKiB": 924480
+      },
+      {
+        "elapsedSeconds": 381.9940898329951,
+        "familyRssKiB": 888192
+      },
+      {
+        "elapsedSeconds": 383.0386172500439,
+        "familyRssKiB": 888544
+      },
+      {
+        "elapsedSeconds": 384.0865684580058,
+        "familyRssKiB": 880736
+      },
+      {
+        "elapsedSeconds": 385.1335148330545,
+        "familyRssKiB": 789600
+      },
+      {
+        "elapsedSeconds": 386.186872792081,
+        "familyRssKiB": 838432
+      },
+      {
+        "elapsedSeconds": 387.2314634580398,
+        "familyRssKiB": 678016
+      },
+      {
+        "elapsedSeconds": 388.31428629206493,
+        "familyRssKiB": 686992
+      },
+      {
+        "elapsedSeconds": 389.364260250004,
+        "familyRssKiB": 566336
+      },
+      {
+        "elapsedSeconds": 390.4126388330478,
+        "familyRssKiB": 461216
+      },
+      {
+        "elapsedSeconds": 391.46685991704,
+        "familyRssKiB": 452864
+      },
+      {
+        "elapsedSeconds": 392.5853262920864,
+        "familyRssKiB": 530928
+      },
+      {
+        "elapsedSeconds": 393.6368467080174,
+        "familyRssKiB": 606272
+      },
+      {
+        "elapsedSeconds": 394.6894475000445,
+        "familyRssKiB": 602576
+      },
+      {
+        "elapsedSeconds": 395.73144837503787,
+        "familyRssKiB": 653744
+      },
+      {
+        "elapsedSeconds": 396.77803312498145,
+        "familyRssKiB": 649552
+      },
+      {
+        "elapsedSeconds": 397.82721025007777,
+        "familyRssKiB": 722480
+      },
+      {
+        "elapsedSeconds": 398.8864140830701,
+        "familyRssKiB": 710848
+      },
+      {
+        "elapsedSeconds": 399.9448677500477,
+        "familyRssKiB": 730848
+      },
+      {
+        "elapsedSeconds": 401.0426396250259,
+        "familyRssKiB": 723984
+      },
+      {
+        "elapsedSeconds": 402.09555716707837,
+        "familyRssKiB": 689360
+      },
+      {
+        "elapsedSeconds": 403.1474679580424,
+        "familyRssKiB": 734480
+      },
+      {
+        "elapsedSeconds": 404.19892895803787,
+        "familyRssKiB": 803392
+      },
+      {
+        "elapsedSeconds": 405.24285270809196,
+        "familyRssKiB": 858240
+      },
+      {
+        "elapsedSeconds": 406.2836197920842,
+        "familyRssKiB": 849920
+      },
+      {
+        "elapsedSeconds": 407.3252998330863,
+        "familyRssKiB": 814880
+      },
+      {
+        "elapsedSeconds": 408.36725816701073,
+        "familyRssKiB": 864928
+      },
+      {
+        "elapsedSeconds": 409.4110000419896,
+        "familyRssKiB": 900928
+      },
+      {
+        "elapsedSeconds": 410.4719575420022,
+        "familyRssKiB": 835712
+      },
+      {
+        "elapsedSeconds": 411.513124542078,
+        "familyRssKiB": 710688
+      },
+      {
+        "elapsedSeconds": 412.55743829207495,
+        "familyRssKiB": 643760
+      },
+      {
+        "elapsedSeconds": 413.6022338750772,
+        "familyRssKiB": 538976
+      },
+      {
+        "elapsedSeconds": 414.6575295830844,
+        "familyRssKiB": 540144
+      },
+      {
+        "elapsedSeconds": 415.7016137500759,
+        "familyRssKiB": 739520
+      },
+      {
+        "elapsedSeconds": 416.7418460419867,
+        "familyRssKiB": 731120
+      },
+      {
+        "elapsedSeconds": 417.7846002500737,
+        "familyRssKiB": 766672
+      },
+      {
+        "elapsedSeconds": 418.82658579200506,
+        "familyRssKiB": 833376
+      },
+      {
+        "elapsedSeconds": 419.86577816703357,
+        "familyRssKiB": 886480
+      },
+      {
+        "elapsedSeconds": 420.9069412080571,
+        "familyRssKiB": 946864
+      },
+      {
+        "elapsedSeconds": 421.94754237507004,
+        "familyRssKiB": 984000
+      },
+      {
+        "elapsedSeconds": 423.0113612919813,
+        "familyRssKiB": 1021664
+      },
+      {
+        "elapsedSeconds": 424.058809167007,
+        "familyRssKiB": 966176
+      },
+      {
+        "elapsedSeconds": 425.1069336250657,
+        "familyRssKiB": 965264
+      },
+      {
+        "elapsedSeconds": 426.14405495801475,
+        "familyRssKiB": 939920
+      },
+      {
+        "elapsedSeconds": 427.1854792080121,
+        "familyRssKiB": 867776
+      },
+      {
+        "elapsedSeconds": 428.24333058309276,
+        "familyRssKiB": 781696
+      },
+      {
+        "elapsedSeconds": 429.3675164170563,
+        "familyRssKiB": 741424
+      },
+      {
+        "elapsedSeconds": 430.43110962503124,
+        "familyRssKiB": 612912
+      },
+      {
+        "elapsedSeconds": 431.4731074580923,
+        "familyRssKiB": 659136
+      },
+      {
+        "elapsedSeconds": 432.68199895799626,
+        "familyRssKiB": 427600
+      },
+      {
+        "elapsedSeconds": 433.7404742500512,
+        "familyRssKiB": 465968
+      },
+      {
+        "elapsedSeconds": 434.7880491249962,
+        "familyRssKiB": 465168
+      },
+      {
+        "elapsedSeconds": 435.84090599999763,
+        "familyRssKiB": 487520
+      },
+      {
+        "elapsedSeconds": 436.886614750023,
+        "familyRssKiB": 512800
+      },
+      {
+        "elapsedSeconds": 437.93060591700487,
+        "familyRssKiB": 543808
+      },
+      {
+        "elapsedSeconds": 438.96924858307466,
+        "familyRssKiB": 598096
+      },
+      {
+        "elapsedSeconds": 440.01155437505804,
+        "familyRssKiB": 713840
+      },
+      {
+        "elapsedSeconds": 441.0749418750638,
+        "familyRssKiB": 734560
+      },
+      {
+        "elapsedSeconds": 442.1193002080545,
+        "familyRssKiB": 847088
+      },
+      {
+        "elapsedSeconds": 443.161477958085,
+        "familyRssKiB": 644000
+      },
+      {
+        "elapsedSeconds": 444.21515633305535,
+        "familyRssKiB": 774432
+      },
+      {
+        "elapsedSeconds": 445.2581924580736,
+        "familyRssKiB": 821152
+      },
+      {
+        "elapsedSeconds": 446.34123037499376,
+        "familyRssKiB": 795840
+      },
+      {
+        "elapsedSeconds": 447.3863512920216,
+        "familyRssKiB": 686064
+      },
+      {
+        "elapsedSeconds": 448.43292425002437,
+        "familyRssKiB": 523680
+      },
+      {
+        "elapsedSeconds": 449.51686841703486,
+        "familyRssKiB": 596832
+      },
+      {
+        "elapsedSeconds": 450.5663847500691,
+        "familyRssKiB": 566000
+      },
+      {
+        "elapsedSeconds": 451.62322720803786,
+        "familyRssKiB": 527456
+      },
+      {
+        "elapsedSeconds": 452.66474141704384,
+        "familyRssKiB": 547216
+      },
+      {
+        "elapsedSeconds": 453.7119489170145,
+        "familyRssKiB": 574144
+      },
+      {
+        "elapsedSeconds": 454.76014466700144,
+        "familyRssKiB": 626128
+      },
+      {
+        "elapsedSeconds": 455.8052555830218,
+        "familyRssKiB": 696576
+      },
+      {
+        "elapsedSeconds": 456.8669377079932,
+        "familyRssKiB": 624304
+      },
+      {
+        "elapsedSeconds": 457.9131379170576,
+        "familyRssKiB": 528496
+      },
+      {
+        "elapsedSeconds": 458.9546919170534,
+        "familyRssKiB": 610336
+      },
+      {
+        "elapsedSeconds": 460.01169366703834,
+        "familyRssKiB": 638112
+      },
+      {
+        "elapsedSeconds": 461.07616466702893,
+        "familyRssKiB": 729584
+      },
+      {
+        "elapsedSeconds": 462.32184662506916,
+        "familyRssKiB": 677792
+      },
+      {
+        "elapsedSeconds": 463.38234804198146,
+        "familyRssKiB": 688864
+      },
+      {
+        "elapsedSeconds": 464.4269038330531,
+        "familyRssKiB": 724240
+      },
+      {
+        "elapsedSeconds": 465.46845799998846,
+        "familyRssKiB": 814704
+      },
+      {
+        "elapsedSeconds": 466.52027650002856,
+        "familyRssKiB": 842832
+      },
+      {
+        "elapsedSeconds": 467.5607128330739,
+        "familyRssKiB": 860672
+      },
+      {
+        "elapsedSeconds": 468.61079516704194,
+        "familyRssKiB": 779184
+      },
+      {
+        "elapsedSeconds": 469.65490641701035,
+        "familyRssKiB": 813264
+      },
+      {
+        "elapsedSeconds": 470.71317900007125,
+        "familyRssKiB": 784704
+      },
+      {
+        "elapsedSeconds": 471.75532600004226,
+        "familyRssKiB": 690416
+      },
+      {
+        "elapsedSeconds": 472.7936017920729,
+        "familyRssKiB": 704704
+      },
+      {
+        "elapsedSeconds": 473.8818719170522,
+        "familyRssKiB": 594416
+      },
+      {
+        "elapsedSeconds": 474.9510234580375,
+        "familyRssKiB": 499456
+      },
+      {
+        "elapsedSeconds": 476.0009973330889,
+        "familyRssKiB": 435232
+      },
+      {
+        "elapsedSeconds": 477.06085708306637,
+        "familyRssKiB": 376416
+      },
+      {
+        "elapsedSeconds": 478.100232042023,
+        "familyRssKiB": 474832
+      },
+      {
+        "elapsedSeconds": 479.1440530420514,
+        "familyRssKiB": 511984
+      },
+      {
+        "elapsedSeconds": 480.1833378750598,
+        "familyRssKiB": 546144
+      },
+      {
+        "elapsedSeconds": 481.2371367920423,
+        "familyRssKiB": 572448
+      },
+      {
+        "elapsedSeconds": 482.5999283749843,
+        "familyRssKiB": 472272
+      },
+      {
+        "elapsedSeconds": 483.6473600420868,
+        "familyRssKiB": 506128
+      },
+      {
+        "elapsedSeconds": 484.7175074170809,
+        "familyRssKiB": 502320
+      },
+      {
+        "elapsedSeconds": 485.77189275005367,
+        "familyRssKiB": 456624
+      },
+      {
+        "elapsedSeconds": 486.8168410420185,
+        "familyRssKiB": 502416
+      },
+      {
+        "elapsedSeconds": 487.85672425001394,
+        "familyRssKiB": 570208
+      },
+      {
+        "elapsedSeconds": 488.91495458304416,
+        "familyRssKiB": 691184
+      },
+      {
+        "elapsedSeconds": 490.0014559170231,
+        "familyRssKiB": 704192
+      },
+      {
+        "elapsedSeconds": 491.042882458074,
+        "familyRssKiB": 760080
+      },
+      {
+        "elapsedSeconds": 492.20385625003837,
+        "familyRssKiB": 736672
+      },
+      {
+        "elapsedSeconds": 493.2649792920565,
+        "familyRssKiB": 844064
+      },
+      {
+        "elapsedSeconds": 494.30659095803276,
+        "familyRssKiB": 935440
+      },
+      {
+        "elapsedSeconds": 495.3565454999916,
+        "familyRssKiB": 983520
+      },
+      {
+        "elapsedSeconds": 496.4174112500623,
+        "familyRssKiB": 941200
+      },
+      {
+        "elapsedSeconds": 497.4752088750247,
+        "familyRssKiB": 865200
+      },
+      {
+        "elapsedSeconds": 498.52639966702554,
+        "familyRssKiB": 842992
+      },
+      {
+        "elapsedSeconds": 499.5681574170012,
+        "familyRssKiB": 719232
+      },
+      {
+        "elapsedSeconds": 500.61087895801757,
+        "familyRssKiB": 737376
+      },
+      {
+        "elapsedSeconds": 501.64898662501946,
+        "familyRssKiB": 786400
+      },
+      {
+        "elapsedSeconds": 502.70149537501857,
+        "familyRssKiB": 841216
+      },
+      {
+        "elapsedSeconds": 503.74180837499443,
+        "familyRssKiB": 874816
+      },
+      {
+        "elapsedSeconds": 504.7796154579846,
+        "familyRssKiB": 832304
+      },
+      {
+        "elapsedSeconds": 505.8417149580782,
+        "familyRssKiB": 849824
+      },
+      {
+        "elapsedSeconds": 506.89533954206854,
+        "familyRssKiB": 686320
+      },
+      {
+        "elapsedSeconds": 507.9372737919912,
+        "familyRssKiB": 665632
+      },
+      {
+        "elapsedSeconds": 508.978266332997,
+        "familyRssKiB": 963168
+      },
+      {
+        "elapsedSeconds": 510.02722899999935,
+        "familyRssKiB": 968544
+      },
+      {
+        "elapsedSeconds": 511.0672442500945,
+        "familyRssKiB": 1014272
+      },
+      {
+        "elapsedSeconds": 512.1075398750836,
+        "familyRssKiB": 1123952
+      },
+      {
+        "elapsedSeconds": 513.1506458329968,
+        "familyRssKiB": 963328
+      },
+      {
+        "elapsedSeconds": 514.190667457995,
+        "familyRssKiB": 1015760
+      },
+      {
+        "elapsedSeconds": 515.2326158330543,
+        "familyRssKiB": 1031664
+      },
+      {
+        "elapsedSeconds": 516.2845225000056,
+        "familyRssKiB": 1055328
+      },
+      {
+        "elapsedSeconds": 517.3297672920162,
+        "familyRssKiB": 963776
+      },
+      {
+        "elapsedSeconds": 518.3737273750594,
+        "familyRssKiB": 954560
+      },
+      {
+        "elapsedSeconds": 519.4310252080904,
+        "familyRssKiB": 936784
+      },
+      {
+        "elapsedSeconds": 520.4872825420462,
+        "familyRssKiB": 904976
+      },
+      {
+        "elapsedSeconds": 521.5337685419945,
+        "familyRssKiB": 915408
+      },
+      {
+        "elapsedSeconds": 522.582334625069,
+        "familyRssKiB": 882288
+      },
+      {
+        "elapsedSeconds": 523.6213177080499,
+        "familyRssKiB": 818368
+      },
+      {
+        "elapsedSeconds": 524.7868487080559,
+        "familyRssKiB": 796160
+      },
+      {
+        "elapsedSeconds": 525.8955575830769,
+        "familyRssKiB": 699840
+      },
+      {
+        "elapsedSeconds": 526.9370970830787,
+        "familyRssKiB": 653424
+      },
+      {
+        "elapsedSeconds": 527.9900502919918,
+        "familyRssKiB": 587984
+      },
+      {
+        "elapsedSeconds": 529.0420720420079,
+        "familyRssKiB": 547824
+      },
+      {
+        "elapsedSeconds": 530.5234076250345,
+        "familyRssKiB": 496480
+      },
+      {
+        "elapsedSeconds": 531.5741071670782,
+        "familyRssKiB": 466944
+      },
+      {
+        "elapsedSeconds": 532.6926643330371,
+        "familyRssKiB": 392208
+      },
+      {
+        "elapsedSeconds": 533.7362624580273,
+        "familyRssKiB": 401680
+      },
+      {
+        "elapsedSeconds": 534.7809501669835,
+        "familyRssKiB": 536000
+      },
+      {
+        "elapsedSeconds": 535.8284782500705,
+        "familyRssKiB": 562736
+      },
+      {
+        "elapsedSeconds": 536.8846797080478,
+        "familyRssKiB": 599776
+      },
+      {
+        "elapsedSeconds": 537.9265647920547,
+        "familyRssKiB": 599616
+      },
+      {
+        "elapsedSeconds": 538.9709125000518,
+        "familyRssKiB": 726528
+      },
+      {
+        "elapsedSeconds": 540.0269921669969,
+        "familyRssKiB": 1035248
+      },
+      {
+        "elapsedSeconds": 541.0706038750941,
+        "familyRssKiB": 1290896
+      },
+      {
+        "elapsedSeconds": 542.1297927499982,
+        "familyRssKiB": 1228528
+      },
+      {
+        "elapsedSeconds": 543.1897302920697,
+        "familyRssKiB": 1116928
+      },
+      {
+        "elapsedSeconds": 544.2327847500565,
+        "familyRssKiB": 1175616
+      },
+      {
+        "elapsedSeconds": 545.2749234579969,
+        "familyRssKiB": 1256016
+      },
+      {
+        "elapsedSeconds": 546.3153956250753,
+        "familyRssKiB": 1254336
+      },
+      {
+        "elapsedSeconds": 547.3674055420561,
+        "familyRssKiB": 1255616
+      },
+      {
+        "elapsedSeconds": 548.4088225000305,
+        "familyRssKiB": 1282672
+      },
+      {
+        "elapsedSeconds": 549.4679672920611,
+        "familyRssKiB": 1121680
+      },
+      {
+        "elapsedSeconds": 550.5162382500712,
+        "familyRssKiB": 1140464
+      },
+      {
+        "elapsedSeconds": 551.5529562080046,
+        "familyRssKiB": 1136480
+      },
+      {
+        "elapsedSeconds": 552.5974779999815,
+        "familyRssKiB": 994512
+      },
+      {
+        "elapsedSeconds": 553.649638208095,
+        "familyRssKiB": 968048
+      },
+      {
+        "elapsedSeconds": 554.7064184580231,
+        "familyRssKiB": 965280
+      },
+      {
+        "elapsedSeconds": 555.753153833095,
+        "familyRssKiB": 959584
+      },
+      {
+        "elapsedSeconds": 556.7990490830271,
+        "familyRssKiB": 914480
+      },
+      {
+        "elapsedSeconds": 557.8425396670355,
+        "familyRssKiB": 913872
+      },
+      {
+        "elapsedSeconds": 558.8890372080496,
+        "familyRssKiB": 874624
+      },
+      {
+        "elapsedSeconds": 559.9332226250554,
+        "familyRssKiB": 842720
+      },
+      {
+        "elapsedSeconds": 560.9776855420787,
+        "familyRssKiB": 751056
+      },
+      {
+        "elapsedSeconds": 562.0565621670103,
+        "familyRssKiB": 726304
+      },
+      {
+        "elapsedSeconds": 563.1089908330468,
+        "familyRssKiB": 699184
+      },
+      {
+        "elapsedSeconds": 564.1537474580109,
+        "familyRssKiB": 672080
+      },
+      {
+        "elapsedSeconds": 565.1974577080691,
+        "familyRssKiB": 640672
+      },
+      {
+        "elapsedSeconds": 566.2476219170494,
+        "familyRssKiB": 628240
+      },
+      {
+        "elapsedSeconds": 567.2889086670475,
+        "familyRssKiB": 395040
+      },
+      {
+        "elapsedSeconds": 568.3308076669928,
+        "familyRssKiB": 457840
+      },
+      {
+        "elapsedSeconds": 569.380104458076,
+        "familyRssKiB": 544144
+      },
+      {
+        "elapsedSeconds": 570.4205182500882,
+        "familyRssKiB": 594912
+      },
+      {
+        "elapsedSeconds": 571.4840708749834,
+        "familyRssKiB": 613264
+      },
+      {
+        "elapsedSeconds": 572.5228041250957,
+        "familyRssKiB": 669184
+      },
+      {
+        "elapsedSeconds": 573.5758887500269,
+        "familyRssKiB": 664000
+      },
+      {
+        "elapsedSeconds": 574.6134925830411,
+        "familyRssKiB": 675568
+      },
+      {
+        "elapsedSeconds": 575.6552615830442,
+        "familyRssKiB": 663088
+      },
+      {
+        "elapsedSeconds": 576.6952694579959,
+        "familyRssKiB": 658768
+      },
+      {
+        "elapsedSeconds": 577.7390848750947,
+        "familyRssKiB": 651632
+      },
+      {
+        "elapsedSeconds": 578.7948730830103,
+        "familyRssKiB": 638560
+      },
+      {
+        "elapsedSeconds": 579.832965083071,
+        "familyRssKiB": 665424
+      },
+      {
+        "elapsedSeconds": 580.8691518750275,
+        "familyRssKiB": 668672
+      },
+      {
+        "elapsedSeconds": 581.9090380830457,
+        "familyRssKiB": 663824
+      },
+      {
+        "elapsedSeconds": 582.963438292034,
+        "familyRssKiB": 632576
+      },
+      {
+        "elapsedSeconds": 584.0074446250219,
+        "familyRssKiB": 642112
+      },
+      {
+        "elapsedSeconds": 585.0466195830377,
+        "familyRssKiB": 652048
+      },
+      {
+        "elapsedSeconds": 586.0888790420722,
+        "familyRssKiB": 661952
+      },
+      {
+        "elapsedSeconds": 587.1275871670805,
+        "familyRssKiB": 659776
+      },
+      {
+        "elapsedSeconds": 588.1795775420032,
+        "familyRssKiB": 669440
+      },
+      {
+        "elapsedSeconds": 589.2262807079824,
+        "familyRssKiB": 671648
+      },
+      {
+        "elapsedSeconds": 590.2737677920377,
+        "familyRssKiB": 656240
+      },
+      {
+        "elapsedSeconds": 591.3155928750057,
+        "familyRssKiB": 601104
+      },
+      {
+        "elapsedSeconds": 592.4841119170887,
+        "familyRssKiB": 515280
+      },
+      {
+        "elapsedSeconds": 593.5237356250873,
+        "familyRssKiB": 504656
+      },
+      {
+        "elapsedSeconds": 594.5700642080046,
+        "familyRssKiB": 470144
+      },
+      {
+        "elapsedSeconds": 595.621954292059,
+        "familyRssKiB": 422288
+      },
+      {
+        "elapsedSeconds": 596.6639338750392,
+        "familyRssKiB": 450896
+      },
+      {
+        "elapsedSeconds": 597.7667000830406,
+        "familyRssKiB": 448464
+      },
+      {
+        "elapsedSeconds": 598.8034912500298,
+        "familyRssKiB": 490864
+      },
+      {
+        "elapsedSeconds": 599.8503024170641,
+        "familyRssKiB": 549472
+      },
+      {
+        "elapsedSeconds": 600.8931681250688,
+        "familyRssKiB": 580976
+      },
+      {
+        "elapsedSeconds": 601.9430243329844,
+        "familyRssKiB": 621664
+      },
+      {
+        "elapsedSeconds": 602.9945615000324,
+        "familyRssKiB": 674944
+      },
+      {
+        "elapsedSeconds": 604.0364428750472,
+        "familyRssKiB": 622448
+      },
+      {
+        "elapsedSeconds": 605.0788484170334,
+        "familyRssKiB": 604864
+      },
+      {
+        "elapsedSeconds": 606.124499208061,
+        "familyRssKiB": 617648
+      },
+      {
+        "elapsedSeconds": 607.1681586250197,
+        "familyRssKiB": 658704
+      },
+      {
+        "elapsedSeconds": 608.2162174170371,
+        "familyRssKiB": 684272
+      },
+      {
+        "elapsedSeconds": 609.2627079579979,
+        "familyRssKiB": 789856
+      },
+      {
+        "elapsedSeconds": 610.3101020000177,
+        "familyRssKiB": 853856
+      },
+      {
+        "elapsedSeconds": 611.37376950006,
+        "familyRssKiB": 846576
+      },
+      {
+        "elapsedSeconds": 612.4127148750704,
+        "familyRssKiB": 833024
+      },
+      {
+        "elapsedSeconds": 613.45472470799,
+        "familyRssKiB": 736912
+      },
+      {
+        "elapsedSeconds": 614.5159736670321,
+        "familyRssKiB": 786528
+      },
+      {
+        "elapsedSeconds": 615.5617729580263,
+        "familyRssKiB": 842304
+      },
+      {
+        "elapsedSeconds": 616.6095825000666,
+        "familyRssKiB": 883744
+      },
+      {
+        "elapsedSeconds": 617.6572040000465,
+        "familyRssKiB": 828000
+      },
+      {
+        "elapsedSeconds": 618.7211705830414,
+        "familyRssKiB": 866688
+      },
+      {
+        "elapsedSeconds": 619.7641273750924,
+        "familyRssKiB": 876256
+      },
+      {
+        "elapsedSeconds": 620.8085740000242,
+        "familyRssKiB": 886112
+      },
+      {
+        "elapsedSeconds": 621.8534713330446,
+        "familyRssKiB": 938224
+      },
+      {
+        "elapsedSeconds": 622.9116915829945,
+        "familyRssKiB": 985168
+      },
+      {
+        "elapsedSeconds": 623.9520242500585,
+        "familyRssKiB": 1029632
+      },
+      {
+        "elapsedSeconds": 625.0018309170846,
+        "familyRssKiB": 1090768
+      },
+      {
+        "elapsedSeconds": 626.0467565420549,
+        "familyRssKiB": 977536
+      },
+      {
+        "elapsedSeconds": 627.0873064170592,
+        "familyRssKiB": 836032
+      },
+      {
+        "elapsedSeconds": 628.1337247920455,
+        "familyRssKiB": 856144
+      },
+      {
+        "elapsedSeconds": 629.1826873330865,
+        "familyRssKiB": 818000
+      },
+      {
+        "elapsedSeconds": 630.2307896250859,
+        "familyRssKiB": 856448
+      },
+      {
+        "elapsedSeconds": 631.2883650420699,
+        "familyRssKiB": 811088
+      },
+      {
+        "elapsedSeconds": 632.334573708009,
+        "familyRssKiB": 804096
+      },
+      {
+        "elapsedSeconds": 633.3854003330925,
+        "familyRssKiB": 746992
+      },
+      {
+        "elapsedSeconds": 634.4299714170629,
+        "familyRssKiB": 821648
+      },
+      {
+        "elapsedSeconds": 635.4770610000705,
+        "familyRssKiB": 844704
+      },
+      {
+        "elapsedSeconds": 636.5206677500391,
+        "familyRssKiB": 840096
+      },
+      {
+        "elapsedSeconds": 637.5600892080693,
+        "familyRssKiB": 754640
+      },
+      {
+        "elapsedSeconds": 638.6073992080055,
+        "familyRssKiB": 758544
+      },
+      {
+        "elapsedSeconds": 639.6501796250232,
+        "familyRssKiB": 756256
+      },
+      {
+        "elapsedSeconds": 640.7069355830317,
+        "familyRssKiB": 793184
+      },
+      {
+        "elapsedSeconds": 641.7458406670485,
+        "familyRssKiB": 812336
+      },
+      {
+        "elapsedSeconds": 642.8647123330738,
+        "familyRssKiB": 776976
+      },
+      {
+        "elapsedSeconds": 643.9199860420777,
+        "familyRssKiB": 761600
+      },
+      {
+        "elapsedSeconds": 644.9812399580842,
+        "familyRssKiB": 728224
+      },
+      {
+        "elapsedSeconds": 646.0208600420738,
+        "familyRssKiB": 610720
+      },
+      {
+        "elapsedSeconds": 647.0583930830471,
+        "familyRssKiB": 609360
+      },
+      {
+        "elapsedSeconds": 648.1090233330615,
+        "familyRssKiB": 673696
+      },
+      {
+        "elapsedSeconds": 649.1569519580808,
+        "familyRssKiB": 689472
+      },
+      {
+        "elapsedSeconds": 650.2495562080294,
+        "familyRssKiB": 727200
+      },
+      {
+        "elapsedSeconds": 651.3258537499933,
+        "familyRssKiB": 608096
+      },
+      {
+        "elapsedSeconds": 652.3813734169817,
+        "familyRssKiB": 678608
+      },
+      {
+        "elapsedSeconds": 653.421291125007,
+        "familyRssKiB": 718256
+      },
+      {
+        "elapsedSeconds": 654.4916615000693,
+        "familyRssKiB": 679200
+      },
+      {
+        "elapsedSeconds": 655.5318142920732,
+        "familyRssKiB": 749312
+      },
+      {
+        "elapsedSeconds": 656.7373020000523,
+        "familyRssKiB": 681712
+      },
+      {
+        "elapsedSeconds": 657.7844899580814,
+        "familyRssKiB": 810736
+      },
+      {
+        "elapsedSeconds": 658.8276998330839,
+        "familyRssKiB": 822032
+      },
+      {
+        "elapsedSeconds": 659.8674695830559,
+        "familyRssKiB": 823440
+      },
+      {
+        "elapsedSeconds": 660.9094037500909,
+        "familyRssKiB": 905328
+      },
+      {
+        "elapsedSeconds": 661.9632784170099,
+        "familyRssKiB": 924144
+      },
+      {
+        "elapsedSeconds": 663.0297748330049,
+        "familyRssKiB": 921168
+      },
+      {
+        "elapsedSeconds": 664.0755710420199,
+        "familyRssKiB": 884656
+      },
+      {
+        "elapsedSeconds": 665.1215111250058,
+        "familyRssKiB": 954656
+      },
+      {
+        "elapsedSeconds": 666.1595777920447,
+        "familyRssKiB": 874768
+      },
+      {
+        "elapsedSeconds": 667.2034827080788,
+        "familyRssKiB": 887536
+      },
+      {
+        "elapsedSeconds": 668.2487726249965,
+        "familyRssKiB": 877888
+      },
+      {
+        "elapsedSeconds": 669.29477258306,
+        "familyRssKiB": 871488
+      },
+      {
+        "elapsedSeconds": 670.346166125033,
+        "familyRssKiB": 827776
+      },
+      {
+        "elapsedSeconds": 671.3875326670241,
+        "familyRssKiB": 772832
+      },
+      {
+        "elapsedSeconds": 672.4290808750084,
+        "familyRssKiB": 565712
+      },
+      {
+        "elapsedSeconds": 673.5043920420576,
+        "familyRssKiB": 573296
+      },
+      {
+        "elapsedSeconds": 674.5489852920873,
+        "familyRssKiB": 596512
+      },
+      {
+        "elapsedSeconds": 675.6009707080666,
+        "familyRssKiB": 545376
+      },
+      {
+        "elapsedSeconds": 676.6421091670636,
+        "familyRssKiB": 482336
+      },
+      {
+        "elapsedSeconds": 677.6860208330909,
+        "familyRssKiB": 488304
+      },
+      {
+        "elapsedSeconds": 678.7340649580583,
+        "familyRssKiB": 463792
+      },
+      {
+        "elapsedSeconds": 679.7948769170325,
+        "familyRssKiB": 486240
+      },
+      {
+        "elapsedSeconds": 680.8396637500264,
+        "familyRssKiB": 503552
+      },
+      {
+        "elapsedSeconds": 681.8874744999921,
+        "familyRssKiB": 497904
+      },
+      {
+        "elapsedSeconds": 682.9342172080651,
+        "familyRssKiB": 504448
+      },
+      {
+        "elapsedSeconds": 683.9753354580607,
+        "familyRssKiB": 517904
+      },
+      {
+        "elapsedSeconds": 685.0192467920715,
+        "familyRssKiB": 521840
+      },
+      {
+        "elapsedSeconds": 686.0604019580642,
+        "familyRssKiB": 517264
+      },
+      {
+        "elapsedSeconds": 687.1033644999843,
+        "familyRssKiB": 431776
+      },
+      {
+        "elapsedSeconds": 688.1448944170261,
+        "familyRssKiB": 477152
+      },
+      {
+        "elapsedSeconds": 689.1850225829985,
+        "familyRssKiB": 468416
+      },
+      {
+        "elapsedSeconds": 690.2270916670095,
+        "familyRssKiB": 467600
+      },
+      {
+        "elapsedSeconds": 691.295569207985,
+        "familyRssKiB": 456528
+      },
+      {
+        "elapsedSeconds": 692.3475120830117,
+        "familyRssKiB": 453632
+      },
+      {
+        "elapsedSeconds": 693.38974791707,
+        "familyRssKiB": 458912
+      },
+      {
+        "elapsedSeconds": 694.4491207080428,
+        "familyRssKiB": 485744
+      },
+      {
+        "elapsedSeconds": 695.498854125035,
+        "familyRssKiB": 488720
+      },
+      {
+        "elapsedSeconds": 696.5408488330431,
+        "familyRssKiB": 503216
+      },
+      {
+        "elapsedSeconds": 697.5778220830252,
+        "familyRssKiB": 508400
+      },
+      {
+        "elapsedSeconds": 698.6192715000361,
+        "familyRssKiB": 505296
+      },
+      {
+        "elapsedSeconds": 699.6698954580352,
+        "familyRssKiB": 491936
+      },
+      {
+        "elapsedSeconds": 700.7231362500461,
+        "familyRssKiB": 445104
+      },
+      {
+        "elapsedSeconds": 701.7737121250248,
+        "familyRssKiB": 394752
+      },
+      {
+        "elapsedSeconds": 702.8279138749931,
+        "familyRssKiB": 383248
+      },
+      {
+        "elapsedSeconds": 703.966014625039,
+        "familyRssKiB": 434560
+      },
+      {
+        "elapsedSeconds": 705.0202420420246,
+        "familyRssKiB": 442848
+      },
+      {
+        "elapsedSeconds": 706.0749793750001,
+        "familyRssKiB": 446704
+      },
+      {
+        "elapsedSeconds": 707.1131465000799,
+        "familyRssKiB": 461296
+      },
+      {
+        "elapsedSeconds": 708.1630137920147,
+        "familyRssKiB": 445248
+      },
+      {
+        "elapsedSeconds": 709.208081083023,
+        "familyRssKiB": 458768
+      },
+      {
+        "elapsedSeconds": 710.3905180830043,
+        "familyRssKiB": 429936
+      },
+      {
+        "elapsedSeconds": 711.509322708007,
+        "familyRssKiB": 397552
+      },
+      {
+        "elapsedSeconds": 712.560820291983,
+        "familyRssKiB": 359824
+      },
+      {
+        "elapsedSeconds": 713.6135182080325,
+        "familyRssKiB": 427904
+      },
+      {
+        "elapsedSeconds": 714.6991980830207,
+        "familyRssKiB": 392544
+      },
+      {
+        "elapsedSeconds": 715.7763829170726,
+        "familyRssKiB": 413216
+      },
+      {
+        "elapsedSeconds": 716.8275155000156,
+        "familyRssKiB": 402464
+      },
+      {
+        "elapsedSeconds": 717.867844042019,
+        "familyRssKiB": 493008
+      },
+      {
+        "elapsedSeconds": 718.9097784580663,
+        "familyRssKiB": 559152
+      },
+      {
+        "elapsedSeconds": 719.9544682500418,
+        "familyRssKiB": 544016
+      },
+      {
+        "elapsedSeconds": 720.9934561670525,
+        "familyRssKiB": 544336
+      },
+      {
+        "elapsedSeconds": 722.0472369170748,
+        "familyRssKiB": 548448
+      },
+      {
+        "elapsedSeconds": 723.3743335830513,
+        "familyRssKiB": 429360
+      },
+      {
+        "elapsedSeconds": 724.4198285830207,
+        "familyRssKiB": 471984
+      },
+      {
+        "elapsedSeconds": 725.4621287500486,
+        "familyRssKiB": 463776
+      },
+      {
+        "elapsedSeconds": 726.50241379207,
+        "familyRssKiB": 442960
+      },
+      {
+        "elapsedSeconds": 727.5600806250004,
+        "familyRssKiB": 449888
+      },
+      {
+        "elapsedSeconds": 728.6414859170327,
+        "familyRssKiB": 475008
+      },
+      {
+        "elapsedSeconds": 729.686669207993,
+        "familyRssKiB": 488912
+      },
+      {
+        "elapsedSeconds": 730.7281701250467,
+        "familyRssKiB": 471472
+      },
+      {
+        "elapsedSeconds": 731.7701839579968,
+        "familyRssKiB": 454048
+      },
+      {
+        "elapsedSeconds": 732.8191013330361,
+        "familyRssKiB": 427120
+      },
+      {
+        "elapsedSeconds": 733.8918526250636,
+        "familyRssKiB": 463968
+      },
+      {
+        "elapsedSeconds": 734.9531432500808,
+        "familyRssKiB": 477408
+      },
+      {
+        "elapsedSeconds": 736.01862991706,
+        "familyRssKiB": 465872
+      },
+      {
+        "elapsedSeconds": 737.0757485420909,
+        "familyRssKiB": 470688
+      },
+      {
+        "elapsedSeconds": 738.1242051250301,
+        "familyRssKiB": 469936
+      },
+      {
+        "elapsedSeconds": 739.191319417092,
+        "familyRssKiB": 444128
+      },
+      {
+        "elapsedSeconds": 740.2589396670228,
+        "familyRssKiB": 448832
+      },
+      {
+        "elapsedSeconds": 741.3235080830054,
+        "familyRssKiB": 463728
+      },
+      {
+        "elapsedSeconds": 742.3843952920288,
+        "familyRssKiB": 462912
+      },
+      {
+        "elapsedSeconds": 743.4765015000012,
+        "familyRssKiB": 461840
+      },
+      {
+        "elapsedSeconds": 744.5345116250683,
+        "familyRssKiB": 496544
+      },
+      {
+        "elapsedSeconds": 745.6110088330461,
+        "familyRssKiB": 488832
+      },
+      {
+        "elapsedSeconds": 746.8755389580037,
+        "familyRssKiB": 386192
+      },
+      {
+        "elapsedSeconds": 747.9493106669979,
+        "familyRssKiB": 369376
+      },
+      {
+        "elapsedSeconds": 749.0097410830203,
+        "familyRssKiB": 448944
+      },
+      {
+        "elapsedSeconds": 750.0567578750197,
+        "familyRssKiB": 450032
+      },
+      {
+        "elapsedSeconds": 751.1475047500571,
+        "familyRssKiB": 425648
+      },
+      {
+        "elapsedSeconds": 752.2318765420932,
+        "familyRssKiB": 414336
+      },
+      {
+        "elapsedSeconds": 753.3211635830812,
+        "familyRssKiB": 446512
+      },
+      {
+        "elapsedSeconds": 754.5773148750886,
+        "familyRssKiB": 414464
+      },
+      {
+        "elapsedSeconds": 755.6246837080689,
+        "familyRssKiB": 366896
+      },
+      {
+        "elapsedSeconds": 756.736173958052,
+        "familyRssKiB": 374240
+      },
+      {
+        "elapsedSeconds": 757.7793465000577,
+        "familyRssKiB": 442032
+      },
+      {
+        "elapsedSeconds": 758.8389760419959,
+        "familyRssKiB": 447088
+      },
+      {
+        "elapsedSeconds": 759.8899540830171,
+        "familyRssKiB": 463408
+      },
+      {
+        "elapsedSeconds": 760.9437156670028,
+        "familyRssKiB": 470288
+      },
+      {
+        "elapsedSeconds": 762.2041623330442,
+        "familyRssKiB": 450784
+      },
+      {
+        "elapsedSeconds": 763.2568944580853,
+        "familyRssKiB": 466016
+      },
+      {
+        "elapsedSeconds": 764.3348025000887,
+        "familyRssKiB": 458960
+      },
+      {
+        "elapsedSeconds": 765.391404916998,
+        "familyRssKiB": 463424
+      },
+      {
+        "elapsedSeconds": 766.4324093750911,
+        "familyRssKiB": 481552
+      },
+      {
+        "elapsedSeconds": 767.5114260830451,
+        "familyRssKiB": 463504
+      },
+      {
+        "elapsedSeconds": 768.5620012920117,
+        "familyRssKiB": 487008
+      },
+      {
+        "elapsedSeconds": 769.6067835830618,
+        "familyRssKiB": 493040
+      },
+      {
+        "elapsedSeconds": 770.6672150000231,
+        "familyRssKiB": 469648
+      },
+      {
+        "elapsedSeconds": 771.7138924580067,
+        "familyRssKiB": 502240
+      },
+      {
+        "elapsedSeconds": 772.7675552500878,
+        "familyRssKiB": 522880
+      },
+      {
+        "elapsedSeconds": 773.8163222920848,
+        "familyRssKiB": 588448
+      },
+      {
+        "elapsedSeconds": 774.8701200000942,
+        "familyRssKiB": 643184
+      },
+      {
+        "elapsedSeconds": 775.912412792095,
+        "familyRssKiB": 715600
+      },
+      {
+        "elapsedSeconds": 776.9644135830458,
+        "familyRssKiB": 614176
+      },
+      {
+        "elapsedSeconds": 778.0104790420737,
+        "familyRssKiB": 753888
+      },
+      {
+        "elapsedSeconds": 779.0583999170922,
+        "familyRssKiB": 904880
+      },
+      {
+        "elapsedSeconds": 780.1152870000806,
+        "familyRssKiB": 1066464
+      },
+      {
+        "elapsedSeconds": 781.1635409999872,
+        "familyRssKiB": 1448672
+      },
+      {
+        "elapsedSeconds": 782.2087814169936,
+        "familyRssKiB": 1411744
+      },
+      {
+        "elapsedSeconds": 783.2534022080945,
+        "familyRssKiB": 1253120
+      },
+      {
+        "elapsedSeconds": 784.3018136250321,
+        "familyRssKiB": 1155344
+      },
+      {
+        "elapsedSeconds": 785.3605478750542,
+        "familyRssKiB": 1178800
+      },
+      {
+        "elapsedSeconds": 786.4142357080709,
+        "familyRssKiB": 1095136
+      },
+      {
+        "elapsedSeconds": 787.4753132080659,
+        "familyRssKiB": 1121760
+      },
+      {
+        "elapsedSeconds": 788.523467208026,
+        "familyRssKiB": 1140688
+      },
+      {
+        "elapsedSeconds": 789.578202667064,
+        "familyRssKiB": 1002352
+      },
+      {
+        "elapsedSeconds": 790.6218262080802,
+        "familyRssKiB": 1038896
+      },
+      {
+        "elapsedSeconds": 791.6611696670298,
+        "familyRssKiB": 1162608
+      },
+      {
+        "elapsedSeconds": 792.7026197500527,
+        "familyRssKiB": 1072320
+      },
+      {
+        "elapsedSeconds": 793.7416922500124,
+        "familyRssKiB": 1058176
+      },
+      {
+        "elapsedSeconds": 794.7829871249851,
+        "familyRssKiB": 1066480
+      },
+      {
+        "elapsedSeconds": 795.825226917048,
+        "familyRssKiB": 1103280
+      },
+      {
+        "elapsedSeconds": 796.8649048330262,
+        "familyRssKiB": 1162480
+      },
+      {
+        "elapsedSeconds": 797.906637875014,
+        "familyRssKiB": 1184912
+      },
+      {
+        "elapsedSeconds": 798.9506293750601,
+        "familyRssKiB": 1222432
+      },
+      {
+        "elapsedSeconds": 800.0040076250443,
+        "familyRssKiB": 1291488
+      },
+      {
+        "elapsedSeconds": 801.0454059580807,
+        "familyRssKiB": 1392992
+      },
+      {
+        "elapsedSeconds": 802.0828569170553,
+        "familyRssKiB": 1420576
+      },
+      {
+        "elapsedSeconds": 803.1233546669828,
+        "familyRssKiB": 1476592
+      },
+      {
+        "elapsedSeconds": 804.1640862920322,
+        "familyRssKiB": 1552224
+      },
+      {
+        "elapsedSeconds": 805.2059010420926,
+        "familyRssKiB": 1582080
+      },
+      {
+        "elapsedSeconds": 806.2456709999824,
+        "familyRssKiB": 1600352
+      },
+      {
+        "elapsedSeconds": 807.2871259170352,
+        "familyRssKiB": 1663680
+      },
+      {
+        "elapsedSeconds": 808.3239494580775,
+        "familyRssKiB": 1677168
+      },
+      {
+        "elapsedSeconds": 809.359254833078,
+        "familyRssKiB": 1673824
+      },
+      {
+        "elapsedSeconds": 810.3998467500787,
+        "familyRssKiB": 1716240
+      },
+      {
+        "elapsedSeconds": 811.4451377079822,
+        "familyRssKiB": 1749664
+      },
+      {
+        "elapsedSeconds": 812.4849782080855,
+        "familyRssKiB": 1713296
+      },
+      {
+        "elapsedSeconds": 813.5499579580501,
+        "familyRssKiB": 1665360
+      },
+      {
+        "elapsedSeconds": 814.5961993330857,
+        "familyRssKiB": 1566896
+      },
+      {
+        "elapsedSeconds": 815.6430940830614,
+        "familyRssKiB": 1492256
+      },
+      {
+        "elapsedSeconds": 816.6851525830571,
+        "familyRssKiB": 1502448
+      },
+      {
+        "elapsedSeconds": 817.7280763750896,
+        "familyRssKiB": 1463056
+      },
+      {
+        "elapsedSeconds": 818.7673032080056,
+        "familyRssKiB": 1273568
+      },
+      {
+        "elapsedSeconds": 819.81691516703,
+        "familyRssKiB": 1234256
+      },
+      {
+        "elapsedSeconds": 820.8640165000688,
+        "familyRssKiB": 1233184
+      },
+      {
+        "elapsedSeconds": 821.9077286670217,
+        "familyRssKiB": 1233136
+      },
+      {
+        "elapsedSeconds": 822.9509740000358,
+        "familyRssKiB": 1176016
+      },
+      {
+        "elapsedSeconds": 823.9954547079979,
+        "familyRssKiB": 1189040
+      },
+      {
+        "elapsedSeconds": 825.0446517920354,
+        "familyRssKiB": 1218768
+      },
+      {
+        "elapsedSeconds": 826.1213357500965,
+        "familyRssKiB": 1243376
+      },
+      {
+        "elapsedSeconds": 827.1767822080292,
+        "familyRssKiB": 1011536
+      },
+      {
+        "elapsedSeconds": 828.2279701670632,
+        "familyRssKiB": 959616
+      },
+      {
+        "elapsedSeconds": 829.2688506670529,
+        "familyRssKiB": 986176
+      },
+      {
+        "elapsedSeconds": 830.494540750049,
+        "familyRssKiB": 651040
+      },
+      {
+        "elapsedSeconds": 831.5767332500545,
+        "familyRssKiB": 647248
+      },
+      {
+        "elapsedSeconds": 832.6580340419896,
+        "familyRssKiB": 541472
+      },
+      {
+        "elapsedSeconds": 833.7083930830704,
+        "familyRssKiB": 555920
+      },
+      {
+        "elapsedSeconds": 834.7587515000487,
+        "familyRssKiB": 391664
+      },
+      {
+        "elapsedSeconds": 835.811495208065,
+        "familyRssKiB": 434080
+      },
+      {
+        "elapsedSeconds": 836.8658686249983,
+        "familyRssKiB": 357088
+      },
+      {
+        "elapsedSeconds": 837.9611242080573,
+        "familyRssKiB": 419632
+      },
+      {
+        "elapsedSeconds": 839.0093952080933,
+        "familyRssKiB": 427632
+      },
+      {
+        "elapsedSeconds": 840.061421166989,
+        "familyRssKiB": 454480
+      },
+      {
+        "elapsedSeconds": 841.1133666250389,
+        "familyRssKiB": 459008
+      },
+      {
+        "elapsedSeconds": 842.1577465420123,
+        "familyRssKiB": 460512
+      },
+      {
+        "elapsedSeconds": 843.2030400830554,
+        "familyRssKiB": 465600
+      },
+      {
+        "elapsedSeconds": 844.2472125000786,
+        "familyRssKiB": 443888
+      },
+      {
+        "elapsedSeconds": 845.3005025420571,
+        "familyRssKiB": 469760
+      },
+      {
+        "elapsedSeconds": 846.3420317079872,
+        "familyRssKiB": 465872
+      },
+      {
+        "elapsedSeconds": 847.38045770803,
+        "familyRssKiB": 471008
+      },
+      {
+        "elapsedSeconds": 848.421535542002,
+        "familyRssKiB": 484496
+      },
+      {
+        "elapsedSeconds": 849.4630931670545,
+        "familyRssKiB": 535792
+      },
+      {
+        "elapsedSeconds": 850.7474910420133,
+        "familyRssKiB": 524784
+      },
+      {
+        "elapsedSeconds": 851.8030216670595,
+        "familyRssKiB": 510608
+      },
+      {
+        "elapsedSeconds": 852.857257333002,
+        "familyRssKiB": 472128
+      },
+      {
+        "elapsedSeconds": 853.9093354580691,
+        "familyRssKiB": 504480
+      },
+      {
+        "elapsedSeconds": 854.9697572920704,
+        "familyRssKiB": 503616
+      },
+      {
+        "elapsedSeconds": 856.0181992080761,
+        "familyRssKiB": 440144
+      },
+      {
+        "elapsedSeconds": 857.124617583002,
+        "familyRssKiB": 297200
+      },
+      {
+        "elapsedSeconds": 860.8326339580817,
+        "familyRssKiB": 206816
+      },
+      {
+        "elapsedSeconds": 862.4882590000052,
+        "familyRssKiB": 109792
+      },
+      {
+        "elapsedSeconds": 863.5675082079833,
+        "familyRssKiB": 251792
+      },
+      {
+        "elapsedSeconds": 864.6150615420192,
+        "familyRssKiB": 418608
+      },
+      {
+        "elapsedSeconds": 865.669347624993,
+        "familyRssKiB": 431312
+      },
+      {
+        "elapsedSeconds": 866.7140889170114,
+        "familyRssKiB": 432448
+      },
+      {
+        "elapsedSeconds": 867.7605839580065,
+        "familyRssKiB": 437024
+      },
+      {
+        "elapsedSeconds": 868.8061155420728,
+        "familyRssKiB": 454272
+      },
+      {
+        "elapsedSeconds": 869.8468151250854,
+        "familyRssKiB": 462464
+      },
+      {
+        "elapsedSeconds": 870.8911167500773,
+        "familyRssKiB": 461600
+      },
+      {
+        "elapsedSeconds": 871.9435688330559,
+        "familyRssKiB": 480432
+      },
+      {
+        "elapsedSeconds": 872.9871706670383,
+        "familyRssKiB": 519088
+      },
+      {
+        "elapsedSeconds": 874.0413005420705,
+        "familyRssKiB": 521664
+      },
+      {
+        "elapsedSeconds": 875.090590332984,
+        "familyRssKiB": 572304
+      },
+      {
+        "elapsedSeconds": 876.1396667920053,
+        "familyRssKiB": 613264
+      },
+      {
+        "elapsedSeconds": 877.1888053329894,
+        "familyRssKiB": 672320
+      },
+      {
+        "elapsedSeconds": 878.2419798750198,
+        "familyRssKiB": 693392
+      },
+      {
+        "elapsedSeconds": 879.2883806669852,
+        "familyRssKiB": 819520
+      },
+      {
+        "elapsedSeconds": 880.3322677080287,
+        "familyRssKiB": 901872
+      },
+      {
+        "elapsedSeconds": 881.377241707989,
+        "familyRssKiB": 905936
+      },
+      {
+        "elapsedSeconds": 882.4203153750859,
+        "familyRssKiB": 893856
+      },
+      {
+        "elapsedSeconds": 883.469512916985,
+        "familyRssKiB": 895808
+      },
+      {
+        "elapsedSeconds": 884.53914979205,
+        "familyRssKiB": 948512
+      },
+      {
+        "elapsedSeconds": 885.583170875092,
+        "familyRssKiB": 959504
+      },
+      {
+        "elapsedSeconds": 886.6468060830375,
+        "familyRssKiB": 1029936
+      },
+      {
+        "elapsedSeconds": 889.4033521669917,
+        "familyRssKiB": 391792
+      },
+      {
+        "elapsedSeconds": 890.4792687080335,
+        "familyRssKiB": 121792
+      },
+      {
+        "elapsedSeconds": 891.5232257919852,
+        "familyRssKiB": 280016
+      },
+      {
+        "elapsedSeconds": 892.6733537079999,
+        "familyRssKiB": 345424
+      },
+      {
+        "elapsedSeconds": 893.7135172500275,
+        "familyRssKiB": 391600
+      },
+      {
+        "elapsedSeconds": 894.7653451670194,
+        "familyRssKiB": 457328
+      },
+      {
+        "elapsedSeconds": 895.8176032080082,
+        "familyRssKiB": 617072
+      },
+      {
+        "elapsedSeconds": 896.8605025830911,
+        "familyRssKiB": 756080
+      },
+      {
+        "elapsedSeconds": 897.9028945830651,
+        "familyRssKiB": 807664
+      },
+      {
+        "elapsedSeconds": 898.9464309579926,
+        "familyRssKiB": 914560
+      },
+      {
+        "elapsedSeconds": 899.9914187079994,
+        "familyRssKiB": 986080
+      },
+      {
+        "elapsedSeconds": 901.0296621250454,
+        "familyRssKiB": 1047408
+      },
+      {
+        "elapsedSeconds": 902.0712890829891,
+        "familyRssKiB": 1111856
+      },
+      {
+        "elapsedSeconds": 903.1261777920881,
+        "familyRssKiB": 1178784
+      },
+      {
+        "elapsedSeconds": 904.1696431670571,
+        "familyRssKiB": 1146384
+      },
+      {
+        "elapsedSeconds": 905.2159855000209,
+        "familyRssKiB": 1098448
+      },
+      {
+        "elapsedSeconds": 906.2750555420062,
+        "familyRssKiB": 1054416
+      },
+      {
+        "elapsedSeconds": 907.3182420420926,
+        "familyRssKiB": 1038928
+      },
+      {
+        "elapsedSeconds": 908.3582208750304,
+        "familyRssKiB": 1047936
+      },
+      {
+        "elapsedSeconds": 909.4038651670562,
+        "familyRssKiB": 1071264
+      },
+      {
+        "elapsedSeconds": 910.4529350830708,
+        "familyRssKiB": 1035984
+      },
+      {
+        "elapsedSeconds": 911.5057127920445,
+        "familyRssKiB": 1046160
+      },
+      {
+        "elapsedSeconds": 912.5620404169895,
+        "familyRssKiB": 1023520
+      },
+      {
+        "elapsedSeconds": 913.6103418330895,
+        "familyRssKiB": 1044144
+      },
+      {
+        "elapsedSeconds": 914.6597186250146,
+        "familyRssKiB": 1043808
+      },
+      {
+        "elapsedSeconds": 915.7105483330088,
+        "familyRssKiB": 1148960
+      },
+      {
+        "elapsedSeconds": 916.7781232080888,
+        "familyRssKiB": 1087680
+      },
+      {
+        "elapsedSeconds": 917.8220208330313,
+        "familyRssKiB": 1177856
+      },
+      {
+        "elapsedSeconds": 918.8663981669815,
+        "familyRssKiB": 1075504
+      },
+      {
+        "elapsedSeconds": 919.9418914170237,
+        "familyRssKiB": 1104384
+      },
+      {
+        "elapsedSeconds": 920.9882824580418,
+        "familyRssKiB": 1522240
+      },
+      {
+        "elapsedSeconds": 922.0353179170052,
+        "familyRssKiB": 1485456
+      },
+      {
+        "elapsedSeconds": 923.0889040420298,
+        "familyRssKiB": 1377520
+      },
+      {
+        "elapsedSeconds": 924.1352150000166,
+        "familyRssKiB": 1379152
+      },
+      {
+        "elapsedSeconds": 925.1852266250644,
+        "familyRssKiB": 1448352
+      },
+      {
+        "elapsedSeconds": 926.2437194579979,
+        "familyRssKiB": 1500736
+      },
+      {
+        "elapsedSeconds": 927.2943260830361,
+        "familyRssKiB": 1501056
+      },
+      {
+        "elapsedSeconds": 928.3540879170178,
+        "familyRssKiB": 1453760
+      },
+      {
+        "elapsedSeconds": 929.3976691249991,
+        "familyRssKiB": 1427504
+      },
+      {
+        "elapsedSeconds": 930.4476410000352,
+        "familyRssKiB": 1440384
+      },
+      {
+        "elapsedSeconds": 931.4915620000102,
+        "familyRssKiB": 1493456
+      },
+      {
+        "elapsedSeconds": 932.5326309170341,
+        "familyRssKiB": 1519456
+      },
+      {
+        "elapsedSeconds": 933.5865089170402,
+        "familyRssKiB": 1532112
+      },
+      {
+        "elapsedSeconds": 934.6282562920824,
+        "familyRssKiB": 1540064
+      },
+      {
+        "elapsedSeconds": 935.6929393750615,
+        "familyRssKiB": 1489504
+      },
+      {
+        "elapsedSeconds": 936.7331374579808,
+        "familyRssKiB": 1427088
+      },
+      {
+        "elapsedSeconds": 937.776746083051,
+        "familyRssKiB": 1391888
+      },
+      {
+        "elapsedSeconds": 938.8224978750804,
+        "familyRssKiB": 1364640
+      },
+      {
+        "elapsedSeconds": 939.8724425000837,
+        "familyRssKiB": 1308480
+      },
+      {
+        "elapsedSeconds": 940.9297695830464,
+        "familyRssKiB": 1219104
+      },
+      {
+        "elapsedSeconds": 941.9785832500784,
+        "familyRssKiB": 1191328
+      },
+      {
+        "elapsedSeconds": 943.0289957080968,
+        "familyRssKiB": 1129504
+      },
+      {
+        "elapsedSeconds": 944.0890962079866,
+        "familyRssKiB": 1095104
+      },
+      {
+        "elapsedSeconds": 945.148105958011,
+        "familyRssKiB": 774256
+      },
+      {
+        "elapsedSeconds": 946.2134412500309,
+        "familyRssKiB": 785440
+      },
+      {
+        "elapsedSeconds": 947.2721354170935,
+        "familyRssKiB": 821088
+      },
+      {
+        "elapsedSeconds": 948.3157141250558,
+        "familyRssKiB": 838640
+      },
+      {
+        "elapsedSeconds": 949.3610006670933,
+        "familyRssKiB": 831824
+      },
+      {
+        "elapsedSeconds": 950.4393222500803,
+        "familyRssKiB": 833440
+      },
+      {
+        "elapsedSeconds": 951.4948436670238,
+        "familyRssKiB": 722768
+      },
+      {
+        "elapsedSeconds": 952.547037124983,
+        "familyRssKiB": 675184
+      },
+      {
+        "elapsedSeconds": 953.6173433749937,
+        "familyRssKiB": 651104
+      },
+      {
+        "elapsedSeconds": 954.6843642500462,
+        "familyRssKiB": 631696
+      },
+      {
+        "elapsedSeconds": 955.7320579580264,
+        "familyRssKiB": 642912
+      },
+      {
+        "elapsedSeconds": 956.8817161670886,
+        "familyRssKiB": 586736
+      },
+      {
+        "elapsedSeconds": 957.9245784170926,
+        "familyRssKiB": 448272
+      },
+      {
+        "elapsedSeconds": 958.9607238330645,
+        "familyRssKiB": 461616
+      },
+      {
+        "elapsedSeconds": 960.0008697500452,
+        "familyRssKiB": 566960
+      },
+      {
+        "elapsedSeconds": 961.0487633750308,
+        "familyRssKiB": 607456
+      },
+      {
+        "elapsedSeconds": 962.0907495000865,
+        "familyRssKiB": 642720
+      },
+      {
+        "elapsedSeconds": 963.1684452920454,
+        "familyRssKiB": 701360
+      },
+      {
+        "elapsedSeconds": 964.2097064170521,
+        "familyRssKiB": 706720
+      },
+      {
+        "elapsedSeconds": 965.2491191669833,
+        "familyRssKiB": 706288
+      },
+      {
+        "elapsedSeconds": 966.2877122500213,
+        "familyRssKiB": 717136
+      },
+      {
+        "elapsedSeconds": 967.3280302500352,
+        "familyRssKiB": 707584
+      },
+      {
+        "elapsedSeconds": 968.3689639170188,
+        "familyRssKiB": 712240
+      },
+      {
+        "elapsedSeconds": 969.4100024580257,
+        "familyRssKiB": 719792
+      },
+      {
+        "elapsedSeconds": 970.4510615000036,
+        "familyRssKiB": 722384
+      },
+      {
+        "elapsedSeconds": 971.492927125073,
+        "familyRssKiB": 717264
+      },
+      {
+        "elapsedSeconds": 972.5380290830508,
+        "familyRssKiB": 773520
+      },
+      {
+        "elapsedSeconds": 973.5777650420787,
+        "familyRssKiB": 826784
+      },
+      {
+        "elapsedSeconds": 974.6214838330634,
+        "familyRssKiB": 842496
+      },
+      {
+        "elapsedSeconds": 975.6608477920527,
+        "familyRssKiB": 864928
+      },
+      {
+        "elapsedSeconds": 976.7028932500398,
+        "familyRssKiB": 905104
+      },
+      {
+        "elapsedSeconds": 977.7419324580114,
+        "familyRssKiB": 956720
+      },
+      {
+        "elapsedSeconds": 978.7885726670502,
+        "familyRssKiB": 977792
+      },
+      {
+        "elapsedSeconds": 979.8249131250195,
+        "familyRssKiB": 1017200
+      },
+      {
+        "elapsedSeconds": 980.8711969170254,
+        "familyRssKiB": 1069328
+      },
+      {
+        "elapsedSeconds": 981.9193129580235,
+        "familyRssKiB": 1086016
+      },
+      {
+        "elapsedSeconds": 982.9611804169836,
+        "familyRssKiB": 1058080
+      },
+      {
+        "elapsedSeconds": 984.0043519580504,
+        "familyRssKiB": 1023696
+      },
+      {
+        "elapsedSeconds": 985.0567197500495,
+        "familyRssKiB": 1028848
+      },
+      {
+        "elapsedSeconds": 986.0995254170848,
+        "familyRssKiB": 983152
+      },
+      {
+        "elapsedSeconds": 987.1549973750953,
+        "familyRssKiB": 946576
+      },
+      {
+        "elapsedSeconds": 988.1988829580368,
+        "familyRssKiB": 940944
+      },
+      {
+        "elapsedSeconds": 989.2384448749945,
+        "familyRssKiB": 946736
+      },
+      {
+        "elapsedSeconds": 990.2764396669809,
+        "familyRssKiB": 930304
+      },
+      {
+        "elapsedSeconds": 991.33666970802,
+        "familyRssKiB": 819792
+      },
+      {
+        "elapsedSeconds": 992.3799400000134,
+        "familyRssKiB": 758064
+      },
+      {
+        "elapsedSeconds": 993.4215108330827,
+        "familyRssKiB": 729856
+      },
+      {
+        "elapsedSeconds": 994.4870667080395,
+        "familyRssKiB": 590720
+      },
+      {
+        "elapsedSeconds": 995.5387636250816,
+        "familyRssKiB": 557040
+      },
+      {
+        "elapsedSeconds": 996.5820703750942,
+        "familyRssKiB": 645808
+      },
+      {
+        "elapsedSeconds": 997.6229517920874,
+        "familyRssKiB": 687824
+      },
+      {
+        "elapsedSeconds": 998.6682748330059,
+        "familyRssKiB": 710272
+      },
+      {
+        "elapsedSeconds": 999.7097499580123,
+        "familyRssKiB": 826080
+      },
+      {
+        "elapsedSeconds": 1000.7515557080042,
+        "familyRssKiB": 862064
+      },
+      {
+        "elapsedSeconds": 1001.7995358750923,
+        "familyRssKiB": 852192
+      },
+      {
+        "elapsedSeconds": 1002.8482057080837,
+        "familyRssKiB": 868032
+      },
+      {
+        "elapsedSeconds": 1003.9002691670321,
+        "familyRssKiB": 919568
+      },
+      {
+        "elapsedSeconds": 1004.9418078330345,
+        "familyRssKiB": 923728
+      },
+      {
+        "elapsedSeconds": 1005.9819104170892,
+        "familyRssKiB": 915200
+      },
+      {
+        "elapsedSeconds": 1007.0262306249933,
+        "familyRssKiB": 923040
+      },
+      {
+        "elapsedSeconds": 1008.0732724580448,
+        "familyRssKiB": 923376
+      },
+      {
+        "elapsedSeconds": 1009.1149099580944,
+        "familyRssKiB": 921632
+      },
+      {
+        "elapsedSeconds": 1010.3764449170558,
+        "familyRssKiB": 832320
+      },
+      {
+        "elapsedSeconds": 1011.4976266250014,
+        "familyRssKiB": 715824
+      },
+      {
+        "elapsedSeconds": 1012.7154974170262,
+        "familyRssKiB": 521680
+      },
+      {
+        "elapsedSeconds": 1013.7578261250164,
+        "familyRssKiB": 494064
+      },
+      {
+        "elapsedSeconds": 1014.8026947500184,
+        "familyRssKiB": 455216
+      },
+      {
+        "elapsedSeconds": 1015.8556088330224,
+        "familyRssKiB": 491824
+      },
+      {
+        "elapsedSeconds": 1016.8975718329893,
+        "familyRssKiB": 484208
+      },
+      {
+        "elapsedSeconds": 1017.9837681670906,
+        "familyRssKiB": 541328
+      },
+      {
+        "elapsedSeconds": 1019.030482375063,
+        "familyRssKiB": 607568
+      },
+      {
+        "elapsedSeconds": 1020.0694422500674,
+        "familyRssKiB": 636592
+      },
+      {
+        "elapsedSeconds": 1021.1095756670693,
+        "familyRssKiB": 695040
+      },
+      {
+        "elapsedSeconds": 1022.1529850000516,
+        "familyRssKiB": 770064
+      },
+      {
+        "elapsedSeconds": 1023.3035528330365,
+        "familyRssKiB": 674960
+      },
+      {
+        "elapsedSeconds": 1024.3424355830066,
+        "familyRssKiB": 716848
+      },
+      {
+        "elapsedSeconds": 1025.385381167056,
+        "familyRssKiB": 720592
+      },
+      {
+        "elapsedSeconds": 1026.4291846670676,
+        "familyRssKiB": 737552
+      },
+      {
+        "elapsedSeconds": 1027.4724587920355,
+        "familyRssKiB": 827184
+      },
+      {
+        "elapsedSeconds": 1028.5142571250908,
+        "familyRssKiB": 847616
+      },
+      {
+        "elapsedSeconds": 1029.5603371250909,
+        "familyRssKiB": 750512
+      },
+      {
+        "elapsedSeconds": 1030.600382042001,
+        "familyRssKiB": 756224
+      },
+      {
+        "elapsedSeconds": 1031.6461063330062,
+        "familyRssKiB": 822272
+      },
+      {
+        "elapsedSeconds": 1032.6860780420247,
+        "familyRssKiB": 741152
+      },
+      {
+        "elapsedSeconds": 1033.7284523330163,
+        "familyRssKiB": 732160
+      },
+      {
+        "elapsedSeconds": 1034.7702443330782,
+        "familyRssKiB": 721488
+      },
+      {
+        "elapsedSeconds": 1035.8119256669888,
+        "familyRssKiB": 795536
+      },
+      {
+        "elapsedSeconds": 1036.852582750027,
+        "familyRssKiB": 743328
+      },
+      {
+        "elapsedSeconds": 1037.9148810000625,
+        "familyRssKiB": 934608
+      },
+      {
+        "elapsedSeconds": 1038.9969621250639,
+        "familyRssKiB": 819200
+      },
+      {
+        "elapsedSeconds": 1040.0438435419928,
+        "familyRssKiB": 857456
+      },
+      {
+        "elapsedSeconds": 1041.0964163750177,
+        "familyRssKiB": 881040
+      },
+      {
+        "elapsedSeconds": 1042.1383101670071,
+        "familyRssKiB": 856528
+      },
+      {
+        "elapsedSeconds": 1043.1978753330186,
+        "familyRssKiB": 846560
+      },
+      {
+        "elapsedSeconds": 1044.2427830420202,
+        "familyRssKiB": 832944
+      },
+      {
+        "elapsedSeconds": 1045.2821899580304,
+        "familyRssKiB": 908368
+      },
+      {
+        "elapsedSeconds": 1046.3311354999896,
+        "familyRssKiB": 801536
+      },
+      {
+        "elapsedSeconds": 1047.3875979580916,
+        "familyRssKiB": 537840
+      },
+      {
+        "elapsedSeconds": 1048.4814887500834,
+        "familyRssKiB": 393744
+      },
+      {
+        "elapsedSeconds": 1049.5287434170023,
+        "familyRssKiB": 317088
+      },
+      {
+        "elapsedSeconds": 1050.5719133330276,
+        "familyRssKiB": 441552
+      },
+      {
+        "elapsedSeconds": 1051.60911304201,
+        "familyRssKiB": 429264
+      },
+      {
+        "elapsedSeconds": 1052.670656625065,
+        "familyRssKiB": 423280
+      },
+      {
+        "elapsedSeconds": 1053.7122767079854,
+        "familyRssKiB": 407008
+      },
+      {
+        "elapsedSeconds": 1054.7596022500657,
+        "familyRssKiB": 423360
+      },
+      {
+        "elapsedSeconds": 1055.8045479999855,
+        "familyRssKiB": 449408
+      },
+      {
+        "elapsedSeconds": 1056.8513199579902,
+        "familyRssKiB": 450960
+      },
+      {
+        "elapsedSeconds": 1057.897924708086,
+        "familyRssKiB": 444464
+      },
+      {
+        "elapsedSeconds": 1058.939901500009,
+        "familyRssKiB": 460592
+      },
+      {
+        "elapsedSeconds": 1059.9799767080694,
+        "familyRssKiB": 480880
+      },
+      {
+        "elapsedSeconds": 1061.0326482080854,
+        "familyRssKiB": 445888
+      },
+      {
+        "elapsedSeconds": 1062.226218542084,
+        "familyRssKiB": 436336
+      },
+      {
+        "elapsedSeconds": 1063.296851708088,
+        "familyRssKiB": 456064
+      },
+      {
+        "elapsedSeconds": 1064.3372263750061,
+        "familyRssKiB": 461904
+      },
+      {
+        "elapsedSeconds": 1065.3859168750932,
+        "familyRssKiB": 446256
+      },
+      {
+        "elapsedSeconds": 1066.4302806670312,
+        "familyRssKiB": 479024
+      },
+      {
+        "elapsedSeconds": 1067.47613683308,
+        "familyRssKiB": 443664
+      },
+      {
+        "elapsedSeconds": 1068.51475320803,
+        "familyRssKiB": 442736
+      },
+      {
+        "elapsedSeconds": 1069.5577735420084,
+        "familyRssKiB": 468800
+      },
+      {
+        "elapsedSeconds": 1070.6133385830326,
+        "familyRssKiB": 453552
+      },
+      {
+        "elapsedSeconds": 1071.6516432500212,
+        "familyRssKiB": 415104
+      },
+      {
+        "elapsedSeconds": 1072.7066635420779,
+        "familyRssKiB": 458448
+      },
+      {
+        "elapsedSeconds": 1073.7617166669806,
+        "familyRssKiB": 462528
+      },
+      {
+        "elapsedSeconds": 1074.806968000019,
+        "familyRssKiB": 442096
+      },
+      {
+        "elapsedSeconds": 1075.8446893329965,
+        "familyRssKiB": 464656
+      },
+      {
+        "elapsedSeconds": 1076.8881713330047,
+        "familyRssKiB": 437904
+      },
+      {
+        "elapsedSeconds": 1077.9329625000246,
+        "familyRssKiB": 427344
+      },
+      {
+        "elapsedSeconds": 1078.9730575830908,
+        "familyRssKiB": 408848
+      },
+      {
+        "elapsedSeconds": 1080.0165156250587,
+        "familyRssKiB": 441136
+      },
+      {
+        "elapsedSeconds": 1081.0586980830412,
+        "familyRssKiB": 459104
+      },
+      {
+        "elapsedSeconds": 1082.1026294170879,
+        "familyRssKiB": 410400
+      },
+      {
+        "elapsedSeconds": 1083.2892159170005,
+        "familyRssKiB": 443584
+      },
+      {
+        "elapsedSeconds": 1084.332930958015,
+        "familyRssKiB": 461584
+      },
+      {
+        "elapsedSeconds": 1085.3742937080096,
+        "familyRssKiB": 463408
+      },
+      {
+        "elapsedSeconds": 1086.4168123330455,
+        "familyRssKiB": 479552
+      },
+      {
+        "elapsedSeconds": 1087.4575091250008,
+        "familyRssKiB": 484432
+      },
+      {
+        "elapsedSeconds": 1088.4957152500283,
+        "familyRssKiB": 481328
+      },
+      {
+        "elapsedSeconds": 1089.5406125000445,
+        "familyRssKiB": 448240
+      },
+      {
+        "elapsedSeconds": 1090.5878884580452,
+        "familyRssKiB": 462000
+      },
+      {
+        "elapsedSeconds": 1091.629522250034,
+        "familyRssKiB": 459568
+      },
+      {
+        "elapsedSeconds": 1092.6725575830787,
+        "familyRssKiB": 462528
+      },
+      {
+        "elapsedSeconds": 1093.7181672920706,
+        "familyRssKiB": 491664
+      },
+      {
+        "elapsedSeconds": 1094.7608652920462,
+        "familyRssKiB": 484320
+      },
+      {
+        "elapsedSeconds": 1095.8206028330605,
+        "familyRssKiB": 515440
+      },
+      {
+        "elapsedSeconds": 1096.862232292071,
+        "familyRssKiB": 506320
+      },
+      {
+        "elapsedSeconds": 1097.905256750062,
+        "familyRssKiB": 487232
+      },
+      {
+        "elapsedSeconds": 1098.9587791250087,
+        "familyRssKiB": 531056
+      },
+      {
+        "elapsedSeconds": 1100.0047974170884,
+        "familyRssKiB": 583984
+      },
+      {
+        "elapsedSeconds": 1101.0474423749838,
+        "familyRssKiB": 549056
+      },
+      {
+        "elapsedSeconds": 1102.0877208750462,
+        "familyRssKiB": 561408
+      },
+      {
+        "elapsedSeconds": 1103.1314890000504,
+        "familyRssKiB": 566976
+      },
+      {
+        "elapsedSeconds": 1104.1726618750254,
+        "familyRssKiB": 563392
+      },
+      {
+        "elapsedSeconds": 1105.2353802080033,
+        "familyRssKiB": 564416
+      },
+      {
+        "elapsedSeconds": 1106.2769940830767,
+        "familyRssKiB": 563632
+      },
+      {
+        "elapsedSeconds": 1107.3213272080757,
+        "familyRssKiB": 517296
+      },
+      {
+        "elapsedSeconds": 1108.3664382920833,
+        "familyRssKiB": 527728
+      },
+      {
+        "elapsedSeconds": 1109.4083638330922,
+        "familyRssKiB": 529376
+      },
+      {
+        "elapsedSeconds": 1110.4504056250444,
+        "familyRssKiB": 527520
+      },
+      {
+        "elapsedSeconds": 1111.4942900830647,
+        "familyRssKiB": 513216
+      },
+      {
+        "elapsedSeconds": 1112.5378881250508,
+        "familyRssKiB": 489056
+      },
+      {
+        "elapsedSeconds": 1113.5830649170093,
+        "familyRssKiB": 474992
+      },
+      {
+        "elapsedSeconds": 1114.6213712500175,
+        "familyRssKiB": 487312
+      },
+      {
+        "elapsedSeconds": 1115.6644403750543,
+        "familyRssKiB": 491088
+      },
+      {
+        "elapsedSeconds": 1116.708291042014,
+        "familyRssKiB": 489328
+      },
+      {
+        "elapsedSeconds": 1117.7508522080025,
+        "familyRssKiB": 482832
+      },
+      {
+        "elapsedSeconds": 1118.7913225420052,
+        "familyRssKiB": 497840
+      },
+      {
+        "elapsedSeconds": 1119.841639499995,
+        "familyRssKiB": 470512
+      },
+      {
+        "elapsedSeconds": 1120.8825672500534,
+        "familyRssKiB": 482320
+      },
+      {
+        "elapsedSeconds": 1121.9215076670516,
+        "familyRssKiB": 376528
+      },
+      {
+        "elapsedSeconds": 1122.9585892080795,
+        "familyRssKiB": 445824
+      },
+      {
+        "elapsedSeconds": 1124.0045140000293,
+        "familyRssKiB": 477424
+      },
+      {
+        "elapsedSeconds": 1125.0511251250282,
+        "familyRssKiB": 461808
+      },
+      {
+        "elapsedSeconds": 1126.1013502919814,
+        "familyRssKiB": 474544
+      },
+      {
+        "elapsedSeconds": 1127.1423786249943,
+        "familyRssKiB": 476784
+      },
+      {
+        "elapsedSeconds": 1128.1807242920622,
+        "familyRssKiB": 480624
+      },
+      {
+        "elapsedSeconds": 1129.222203167039,
+        "familyRssKiB": 479408
+      },
+      {
+        "elapsedSeconds": 1130.2653939999873,
+        "familyRssKiB": 490224
+      },
+      {
+        "elapsedSeconds": 1131.3204779580701,
+        "familyRssKiB": 481232
+      },
+      {
+        "elapsedSeconds": 1132.3697720000055,
+        "familyRssKiB": 487440
+      },
+      {
+        "elapsedSeconds": 1133.4162707499927,
+        "familyRssKiB": 450128
+      },
+      {
+        "elapsedSeconds": 1134.4565751249902,
+        "familyRssKiB": 477728
+      },
+      {
+        "elapsedSeconds": 1135.5134344170801,
+        "familyRssKiB": 466240
+      },
+      {
+        "elapsedSeconds": 1136.6791971250204,
+        "familyRssKiB": 457568
+      },
+      {
+        "elapsedSeconds": 1137.723156333086,
+        "familyRssKiB": 475328
+      },
+      {
+        "elapsedSeconds": 1138.7659897920676,
+        "familyRssKiB": 486512
+      },
+      {
+        "elapsedSeconds": 1139.8124689580873,
+        "familyRssKiB": 449376
+      },
+      {
+        "elapsedSeconds": 1140.8566078750882,
+        "familyRssKiB": 473904
+      },
+      {
+        "elapsedSeconds": 1141.8971098330803,
+        "familyRssKiB": 490720
+      },
+      {
+        "elapsedSeconds": 1142.9340915420325,
+        "familyRssKiB": 494496
+      },
+      {
+        "elapsedSeconds": 1143.9756652080687,
+        "familyRssKiB": 508000
+      },
+      {
+        "elapsedSeconds": 1145.0311845000833,
+        "familyRssKiB": 504592
+      },
+      {
+        "elapsedSeconds": 1146.07475733303,
+        "familyRssKiB": 492192
+      },
+      {
+        "elapsedSeconds": 1147.122289000079,
+        "familyRssKiB": 482496
+      },
+      {
+        "elapsedSeconds": 1148.1646841249894,
+        "familyRssKiB": 483376
+      },
+      {
+        "elapsedSeconds": 1149.2126167500392,
+        "familyRssKiB": 498160
+      },
+      {
+        "elapsedSeconds": 1150.2588625419885,
+        "familyRssKiB": 540688
+      },
+      {
+        "elapsedSeconds": 1151.3006919580512,
+        "familyRssKiB": 622256
+      },
+      {
+        "elapsedSeconds": 1152.3446328750579,
+        "familyRssKiB": 576960
+      },
+      {
+        "elapsedSeconds": 1153.386069583008,
+        "familyRssKiB": 692000
+      },
+      {
+        "elapsedSeconds": 1154.4270486250753,
+        "familyRssKiB": 656144
+      },
+      {
+        "elapsedSeconds": 1155.513274958008,
+        "familyRssKiB": 818720
+      },
+      {
+        "elapsedSeconds": 1156.5537562500685,
+        "familyRssKiB": 853056
+      },
+      {
+        "elapsedSeconds": 1157.5984336670954,
+        "familyRssKiB": 973456
+      },
+      {
+        "elapsedSeconds": 1158.6428145420505,
+        "familyRssKiB": 1410896
+      },
+      {
+        "elapsedSeconds": 1159.6860779580893,
+        "familyRssKiB": 1339776
+      },
+      {
+        "elapsedSeconds": 1160.7237157920608,
+        "familyRssKiB": 1247392
+      },
+      {
+        "elapsedSeconds": 1161.7662499580765,
+        "familyRssKiB": 1339360
+      },
+      {
+        "elapsedSeconds": 1162.8121912920615,
+        "familyRssKiB": 1433056
+      },
+      {
+        "elapsedSeconds": 1163.8538954580436,
+        "familyRssKiB": 1519360
+      },
+      {
+        "elapsedSeconds": 1164.895207417081,
+        "familyRssKiB": 1466144
+      },
+      {
+        "elapsedSeconds": 1165.9612152919872,
+        "familyRssKiB": 1484272
+      },
+      {
+        "elapsedSeconds": 1167.021094708005,
+        "familyRssKiB": 1236656
+      },
+      {
+        "elapsedSeconds": 1168.0746107080486,
+        "familyRssKiB": 1256400
+      },
+      {
+        "elapsedSeconds": 1169.1213264170801,
+        "familyRssKiB": 1176096
+      },
+      {
+        "elapsedSeconds": 1170.1668365000514,
+        "familyRssKiB": 1135792
+      },
+      {
+        "elapsedSeconds": 1171.207722250023,
+        "familyRssKiB": 1070368
+      },
+      {
+        "elapsedSeconds": 1172.2493915420491,
+        "familyRssKiB": 1076912
+      },
+      {
+        "elapsedSeconds": 1173.2968238750473,
+        "familyRssKiB": 975584
+      },
+      {
+        "elapsedSeconds": 1174.3501664170763,
+        "familyRssKiB": 795760
+      },
+      {
+        "elapsedSeconds": 1175.3944036670728,
+        "familyRssKiB": 780704
+      },
+      {
+        "elapsedSeconds": 1176.436669500079,
+        "familyRssKiB": 801536
+      },
+      {
+        "elapsedSeconds": 1177.4807037080172,
+        "familyRssKiB": 818528
+      },
+      {
+        "elapsedSeconds": 1178.527022083057,
+        "familyRssKiB": 840912
+      },
+      {
+        "elapsedSeconds": 1179.5685472500045,
+        "familyRssKiB": 817840
+      },
+      {
+        "elapsedSeconds": 1180.6139067080803,
+        "familyRssKiB": 806992
+      },
+      {
+        "elapsedSeconds": 1181.6546762500657,
+        "familyRssKiB": 787072
+      },
+      {
+        "elapsedSeconds": 1182.6956289580557,
+        "familyRssKiB": 806048
+      },
+      {
+        "elapsedSeconds": 1183.7365882080048,
+        "familyRssKiB": 802960
+      },
+      {
+        "elapsedSeconds": 1184.7762291670078,
+        "familyRssKiB": 851376
+      },
+      {
+        "elapsedSeconds": 1185.8201936670812,
+        "familyRssKiB": 871824
+      },
+      {
+        "elapsedSeconds": 1186.8637317920802,
+        "familyRssKiB": 852224
+      },
+      {
+        "elapsedSeconds": 1187.9106467500096,
+        "familyRssKiB": 865984
+      },
+      {
+        "elapsedSeconds": 1188.952431624988,
+        "familyRssKiB": 873024
+      },
+      {
+        "elapsedSeconds": 1190.093125833082,
+        "familyRssKiB": 905120
+      },
+      {
+        "elapsedSeconds": 1191.1516496670665,
+        "familyRssKiB": 756912
+      },
+      {
+        "elapsedSeconds": 1192.2036598330596,
+        "familyRssKiB": 595328
+      },
+      {
+        "elapsedSeconds": 1193.3031767500797,
+        "familyRssKiB": 391040
+      },
+      {
+        "elapsedSeconds": 1194.3582298749825,
+        "familyRssKiB": 435664
+      },
+      {
+        "elapsedSeconds": 1195.4013205830706,
+        "familyRssKiB": 503296
+      },
+      {
+        "elapsedSeconds": 1196.440996792051,
+        "familyRssKiB": 571968
+      },
+      {
+        "elapsedSeconds": 1197.4822322500404,
+        "familyRssKiB": 607056
+      },
+      {
+        "elapsedSeconds": 1198.5224181670928,
+        "familyRssKiB": 627152
+      },
+      {
+        "elapsedSeconds": 1199.5871560830856,
+        "familyRssKiB": 692992
+      },
+      {
+        "elapsedSeconds": 1200.6274656670867,
+        "familyRssKiB": 727840
+      },
+      {
+        "elapsedSeconds": 1201.667828332982,
+        "familyRssKiB": 983904
+      },
+      {
+        "elapsedSeconds": 1202.7047770420322,
+        "familyRssKiB": 967536
+      },
+      {
+        "elapsedSeconds": 1203.747104124981,
+        "familyRssKiB": 908928
+      },
+      {
+        "elapsedSeconds": 1204.7879784170073,
+        "familyRssKiB": 1027536
+      },
+      {
+        "elapsedSeconds": 1205.8331719170092,
+        "familyRssKiB": 1010896
+      },
+      {
+        "elapsedSeconds": 1206.8789858330274,
+        "familyRssKiB": 977488
+      },
+      {
+        "elapsedSeconds": 1207.917082042084,
+        "familyRssKiB": 949488
+      },
+      {
+        "elapsedSeconds": 1208.9562597920885,
+        "familyRssKiB": 992160
+      },
+      {
+        "elapsedSeconds": 1209.9926876670215,
+        "familyRssKiB": 928048
+      },
+      {
+        "elapsedSeconds": 1211.062754750019,
+        "familyRssKiB": 881024
+      },
+      {
+        "elapsedSeconds": 1212.1506315000588,
+        "familyRssKiB": 788224
+      },
+      {
+        "elapsedSeconds": 1213.1893874580273,
+        "familyRssKiB": 785440
+      },
+      {
+        "elapsedSeconds": 1214.2509263750399,
+        "familyRssKiB": 759200
+      },
+      {
+        "elapsedSeconds": 1215.2931273750728,
+        "familyRssKiB": 695296
+      },
+      {
+        "elapsedSeconds": 1216.333082291996,
+        "familyRssKiB": 574768
+      },
+      {
+        "elapsedSeconds": 1217.3724077920197,
+        "familyRssKiB": 563904
+      },
+      {
+        "elapsedSeconds": 1218.4111179170432,
+        "familyRssKiB": 544784
+      },
+      {
+        "elapsedSeconds": 1219.4526395420544,
+        "familyRssKiB": 480864
+      },
+      {
+        "elapsedSeconds": 1220.4953524169978,
+        "familyRssKiB": 492912
+      },
+      {
+        "elapsedSeconds": 1221.5361750420416,
+        "familyRssKiB": 521552
+      },
+      {
+        "elapsedSeconds": 1222.5827671670122,
+        "familyRssKiB": 519600
+      },
+      {
+        "elapsedSeconds": 1223.625037708087,
+        "familyRssKiB": 489408
+      },
+      {
+        "elapsedSeconds": 1224.6661172080785,
+        "familyRssKiB": 500096
+      },
+      {
+        "elapsedSeconds": 1225.7359976670705,
+        "familyRssKiB": 541984
+      },
+      {
+        "elapsedSeconds": 1226.7813895830186,
+        "familyRssKiB": 542448
+      },
+      {
+        "elapsedSeconds": 1227.8205720420228,
+        "familyRssKiB": 596000
+      },
+      {
+        "elapsedSeconds": 1228.8630391670158,
+        "familyRssKiB": 573872
+      },
+      {
+        "elapsedSeconds": 1229.9273445830913,
+        "familyRssKiB": 585952
+      },
+      {
+        "elapsedSeconds": 1230.971912167035,
+        "familyRssKiB": 589600
+      },
+      {
+        "elapsedSeconds": 1232.0089317500824,
+        "familyRssKiB": 543328
+      },
+      {
+        "elapsedSeconds": 1233.0511315000476,
+        "familyRssKiB": 477104
+      },
+      {
+        "elapsedSeconds": 1234.0992740420625,
+        "familyRssKiB": 492448
+      },
+      {
+        "elapsedSeconds": 1235.139111333061,
+        "familyRssKiB": 498912
+      },
+      {
+        "elapsedSeconds": 1236.182872000034,
+        "familyRssKiB": 495328
+      },
+      {
+        "elapsedSeconds": 1237.2241480830126,
+        "familyRssKiB": 484624
+      },
+      {
+        "elapsedSeconds": 1238.2697326670168,
+        "familyRssKiB": 502864
+      },
+      {
+        "elapsedSeconds": 1239.3221892080037,
+        "familyRssKiB": 503200
+      },
+      {
+        "elapsedSeconds": 1240.370158542064,
+        "familyRssKiB": 505392
+      },
+      {
+        "elapsedSeconds": 1241.4127081250772,
+        "familyRssKiB": 505552
+      },
+      {
+        "elapsedSeconds": 1242.4528463750612,
+        "familyRssKiB": 465200
+      },
+      {
+        "elapsedSeconds": 1243.4919049580349,
+        "familyRssKiB": 525408
+      },
+      {
+        "elapsedSeconds": 1244.5366471250309,
+        "familyRssKiB": 518720
+      },
+      {
+        "elapsedSeconds": 1245.582116708043,
+        "familyRssKiB": 521744
+      },
+      {
+        "elapsedSeconds": 1246.6280076249968,
+        "familyRssKiB": 625440
+      },
+      {
+        "elapsedSeconds": 1247.6688937920844,
+        "familyRssKiB": 635664
+      },
+      {
+        "elapsedSeconds": 1248.7132482080488,
+        "familyRssKiB": 779856
+      },
+      {
+        "elapsedSeconds": 1249.7574075830635,
+        "familyRssKiB": 941264
+      },
+      {
+        "elapsedSeconds": 1250.8265070000198,
+        "familyRssKiB": 1119088
+      },
+      {
+        "elapsedSeconds": 1251.8731489999918,
+        "familyRssKiB": 1431408
+      },
+      {
+        "elapsedSeconds": 1252.918334875023,
+        "familyRssKiB": 1768784
+      },
+      {
+        "elapsedSeconds": 1253.959108500043,
+        "familyRssKiB": 1476928
+      },
+      {
+        "elapsedSeconds": 1255.0056783329928,
+        "familyRssKiB": 713040
+      },
+      {
+        "elapsedSeconds": 1256.0458729580278,
+        "familyRssKiB": 582304
+      },
+      {
+        "elapsedSeconds": 1257.085990917054,
+        "familyRssKiB": 626128
+      },
+      {
+        "elapsedSeconds": 1258.1261297920719,
+        "familyRssKiB": 834416
+      },
+      {
+        "elapsedSeconds": 1259.1624820000725,
+        "familyRssKiB": 942784
+      },
+      {
+        "elapsedSeconds": 1260.2032868330134,
+        "familyRssKiB": 1041472
+      },
+      {
+        "elapsedSeconds": 1261.2716791250277,
+        "familyRssKiB": 1143744
+      },
+      {
+        "elapsedSeconds": 1262.3112680830527,
+        "familyRssKiB": 1211664
+      },
+      {
+        "elapsedSeconds": 1263.3536433749832,
+        "familyRssKiB": 1327568
+      },
+      {
+        "elapsedSeconds": 1264.3945371250156,
+        "familyRssKiB": 1673392
+      },
+      {
+        "elapsedSeconds": 1265.432093875017,
+        "familyRssKiB": 1742672
+      },
+      {
+        "elapsedSeconds": 1266.4724425830645,
+        "familyRssKiB": 1812528
+      },
+      {
+        "elapsedSeconds": 1267.514700083062,
+        "familyRssKiB": 1834624
+      },
+      {
+        "elapsedSeconds": 1268.5545717499917,
+        "familyRssKiB": 1872288
+      },
+      {
+        "elapsedSeconds": 1269.5964166669874,
+        "familyRssKiB": 1885088
+      },
+      {
+        "elapsedSeconds": 1270.6345462499885,
+        "familyRssKiB": 1900656
+      },
+      {
+        "elapsedSeconds": 1271.680114250048,
+        "familyRssKiB": 1927728
+      },
+      {
+        "elapsedSeconds": 1272.7230563330231,
+        "familyRssKiB": 1957744
+      },
+      {
+        "elapsedSeconds": 1273.7632017080905,
+        "familyRssKiB": 1907584
+      },
+      {
+        "elapsedSeconds": 1274.804414083017,
+        "familyRssKiB": 1941936
+      },
+      {
+        "elapsedSeconds": 1275.8495111670345,
+        "familyRssKiB": 1948928
+      },
+      {
+        "elapsedSeconds": 1276.8871087500593,
+        "familyRssKiB": 1941600
+      },
+      {
+        "elapsedSeconds": 1277.925391167053,
+        "familyRssKiB": 1921056
+      },
+      {
+        "elapsedSeconds": 1278.9712423330639,
+        "familyRssKiB": 1905376
+      },
+      {
+        "elapsedSeconds": 1280.0165165000362,
+        "familyRssKiB": 1816224
+      },
+      {
+        "elapsedSeconds": 1281.055973917013,
+        "familyRssKiB": 1779600
+      },
+      {
+        "elapsedSeconds": 1282.110926333,
+        "familyRssKiB": 1546272
+      },
+      {
+        "elapsedSeconds": 1283.146019125008,
+        "familyRssKiB": 1391264
+      },
+      {
+        "elapsedSeconds": 1284.1869037500583,
+        "familyRssKiB": 1433248
+      },
+      {
+        "elapsedSeconds": 1285.2239895830862,
+        "familyRssKiB": 1483648
+      },
+      {
+        "elapsedSeconds": 1286.2606192500098,
+        "familyRssKiB": 1480352
+      },
+      {
+        "elapsedSeconds": 1287.2962459170958,
+        "familyRssKiB": 1421568
+      },
+      {
+        "elapsedSeconds": 1288.346617500065,
+        "familyRssKiB": 1505488
+      },
+      {
+        "elapsedSeconds": 1289.3852410420077,
+        "familyRssKiB": 1503200
+      },
+      {
+        "elapsedSeconds": 1290.4256230000174,
+        "familyRssKiB": 1521392
+      },
+      {
+        "elapsedSeconds": 1291.4654507500818,
+        "familyRssKiB": 1511040
+      },
+      {
+        "elapsedSeconds": 1292.5046867920319,
+        "familyRssKiB": 1517936
+      },
+      {
+        "elapsedSeconds": 1293.5458199169952,
+        "familyRssKiB": 1442016
+      },
+      {
+        "elapsedSeconds": 1294.5867566670058,
+        "familyRssKiB": 1417888
+      },
+      {
+        "elapsedSeconds": 1295.6264447499998,
+        "familyRssKiB": 1431248
+      },
+      {
+        "elapsedSeconds": 1296.6682460000739,
+        "familyRssKiB": 1433760
+      },
+      {
+        "elapsedSeconds": 1297.7085768330144,
+        "familyRssKiB": 1428992
+      },
+      {
+        "elapsedSeconds": 1298.748461542069,
+        "familyRssKiB": 1439472
+      },
+      {
+        "elapsedSeconds": 1299.7906168330228,
+        "familyRssKiB": 1444080
+      },
+      {
+        "elapsedSeconds": 1300.8381794580491,
+        "familyRssKiB": 1404576
+      },
+      {
+        "elapsedSeconds": 1301.8811079170555,
+        "familyRssKiB": 1178704
+      },
+      {
+        "elapsedSeconds": 1302.9224326250842,
+        "familyRssKiB": 1073152
+      },
+      {
+        "elapsedSeconds": 1303.9690552500542,
+        "familyRssKiB": 1062160
+      },
+      {
+        "elapsedSeconds": 1305.0120407500071,
+        "familyRssKiB": 1167904
+      },
+      {
+        "elapsedSeconds": 1306.0621266250964,
+        "familyRssKiB": 1192192
+      },
+      {
+        "elapsedSeconds": 1307.1012770420639,
+        "familyRssKiB": 1306128
+      },
+      {
+        "elapsedSeconds": 1308.186167125008,
+        "familyRssKiB": 1405104
+      },
+      {
+        "elapsedSeconds": 1309.2269707500236,
+        "familyRssKiB": 1507024
+      },
+      {
+        "elapsedSeconds": 1310.2761738330591,
+        "familyRssKiB": 1477696
+      },
+      {
+        "elapsedSeconds": 1311.3259710420389,
+        "familyRssKiB": 1403648
+      },
+      {
+        "elapsedSeconds": 1312.5559616670944,
+        "familyRssKiB": 1594800
+      },
+      {
+        "elapsedSeconds": 1313.5930222920142,
+        "familyRssKiB": 1533568
+      },
+      {
+        "elapsedSeconds": 1314.6353726250818,
+        "familyRssKiB": 1424848
+      },
+      {
+        "elapsedSeconds": 1315.6820933329873,
+        "familyRssKiB": 1453184
+      },
+      {
+        "elapsedSeconds": 1316.7224534170236,
+        "familyRssKiB": 1373648
+      },
+      {
+        "elapsedSeconds": 1317.766771583003,
+        "familyRssKiB": 1212560
+      },
+      {
+        "elapsedSeconds": 1318.8095810830127,
+        "familyRssKiB": 1218816
+      },
+      {
+        "elapsedSeconds": 1319.8488353330176,
+        "familyRssKiB": 1211360
+      },
+      {
+        "elapsedSeconds": 1320.9028212080011,
+        "familyRssKiB": 1126544
+      },
+      {
+        "elapsedSeconds": 1321.9477834170684,
+        "familyRssKiB": 857008
+      },
+      {
+        "elapsedSeconds": 1323.0293199580628,
+        "familyRssKiB": 999536
+      },
+      {
+        "elapsedSeconds": 1324.0700566250598,
+        "familyRssKiB": 921904
+      },
+      {
+        "elapsedSeconds": 1325.1145661670016,
+        "familyRssKiB": 847792
+      },
+      {
+        "elapsedSeconds": 1326.157343042083,
+        "familyRssKiB": 877136
+      },
+      {
+        "elapsedSeconds": 1327.2058485830203,
+        "familyRssKiB": 1074336
+      },
+      {
+        "elapsedSeconds": 1328.2478143750923,
+        "familyRssKiB": 1117744
+      },
+      {
+        "elapsedSeconds": 1329.2997642920818,
+        "familyRssKiB": 1092816
+      },
+      {
+        "elapsedSeconds": 1330.3499709999887,
+        "familyRssKiB": 1076608
+      },
+      {
+        "elapsedSeconds": 1331.3908754580189,
+        "familyRssKiB": 1081216
+      },
+      {
+        "elapsedSeconds": 1332.4453080419917,
+        "familyRssKiB": 1030416
+      },
+      {
+        "elapsedSeconds": 1333.4860727920895,
+        "familyRssKiB": 1043888
+      },
+      {
+        "elapsedSeconds": 1334.5249531670706,
+        "familyRssKiB": 1078608
+      },
+      {
+        "elapsedSeconds": 1335.5656042920891,
+        "familyRssKiB": 1107296
+      },
+      {
+        "elapsedSeconds": 1336.6023950830568,
+        "familyRssKiB": 1065616
+      },
+      {
+        "elapsedSeconds": 1337.642275625025,
+        "familyRssKiB": 1051056
+      },
+      {
+        "elapsedSeconds": 1338.683058958035,
+        "familyRssKiB": 1055136
+      },
+      {
+        "elapsedSeconds": 1339.728467207984,
+        "familyRssKiB": 1074592
+      },
+      {
+        "elapsedSeconds": 1340.7751500420272,
+        "familyRssKiB": 1126224
+      },
+      {
+        "elapsedSeconds": 1341.8164067920297,
+        "familyRssKiB": 1141888
+      },
+      {
+        "elapsedSeconds": 1342.8579335830873,
+        "familyRssKiB": 1085008
+      },
+      {
+        "elapsedSeconds": 1343.8994937920943,
+        "familyRssKiB": 867504
+      },
+      {
+        "elapsedSeconds": 1344.9395977919921,
+        "familyRssKiB": 853392
+      },
+      {
+        "elapsedSeconds": 1345.9832773330854,
+        "familyRssKiB": 856352
+      },
+      {
+        "elapsedSeconds": 1347.043911667075,
+        "familyRssKiB": 820256
+      },
+      {
+        "elapsedSeconds": 1348.0903183750343,
+        "familyRssKiB": 734400
+      },
+      {
+        "elapsedSeconds": 1349.1361492919968,
+        "familyRssKiB": 719648
+      },
+      {
+        "elapsedSeconds": 1350.1807686249958,
+        "familyRssKiB": 717280
+      },
+      {
+        "elapsedSeconds": 1351.2379388749832,
+        "familyRssKiB": 832560
+      },
+      {
+        "elapsedSeconds": 1352.2915095000062,
+        "familyRssKiB": 840368
+      },
+      {
+        "elapsedSeconds": 1353.343323417008,
+        "familyRssKiB": 811648
+      },
+      {
+        "elapsedSeconds": 1354.3899487080052,
+        "familyRssKiB": 794000
+      },
+      {
+        "elapsedSeconds": 1355.4344030830543,
+        "familyRssKiB": 768048
+      },
+      {
+        "elapsedSeconds": 1356.4809067080496,
+        "familyRssKiB": 754464
+      },
+      {
+        "elapsedSeconds": 1357.5211050420767,
+        "familyRssKiB": 756928
+      },
+      {
+        "elapsedSeconds": 1358.5607759580016,
+        "familyRssKiB": 729344
+      },
+      {
+        "elapsedSeconds": 1359.598158583045,
+        "familyRssKiB": 687248
+      },
+      {
+        "elapsedSeconds": 1360.638126750011,
+        "familyRssKiB": 730096
+      },
+      {
+        "elapsedSeconds": 1361.6788004580885,
+        "familyRssKiB": 821904
+      },
+      {
+        "elapsedSeconds": 1362.7177920420654,
+        "familyRssKiB": 648480
+      },
+      {
+        "elapsedSeconds": 1363.7606874170015,
+        "familyRssKiB": 700256
+      },
+      {
+        "elapsedSeconds": 1364.8078581669834,
+        "familyRssKiB": 1019504
+      },
+      {
+        "elapsedSeconds": 1365.855871375068,
+        "familyRssKiB": 1044368
+      },
+      {
+        "elapsedSeconds": 1366.9003239580197,
+        "familyRssKiB": 1037664
+      },
+      {
+        "elapsedSeconds": 1367.9413024580572,
+        "familyRssKiB": 1054944
+      },
+      {
+        "elapsedSeconds": 1368.98755470803,
+        "familyRssKiB": 1143104
+      },
+      {
+        "elapsedSeconds": 1370.13933575002,
+        "familyRssKiB": 1113520
+      },
+      {
+        "elapsedSeconds": 1371.1874006250873,
+        "familyRssKiB": 884544
+      },
+      {
+        "elapsedSeconds": 1372.2352650420507,
+        "familyRssKiB": 759984
+      },
+      {
+        "elapsedSeconds": 1373.286768333055,
+        "familyRssKiB": 765072
+      },
+      {
+        "elapsedSeconds": 1374.3303341669962,
+        "familyRssKiB": 710080
+      },
+      {
+        "elapsedSeconds": 1375.372392833,
+        "familyRssKiB": 753664
+      },
+      {
+        "elapsedSeconds": 1376.410231958027,
+        "familyRssKiB": 769104
+      },
+      {
+        "elapsedSeconds": 1377.4478442920372,
+        "familyRssKiB": 639264
+      },
+      {
+        "elapsedSeconds": 1378.4886419579852,
+        "familyRssKiB": 653168
+      },
+      {
+        "elapsedSeconds": 1379.5332255000249,
+        "familyRssKiB": 683008
+      },
+      {
+        "elapsedSeconds": 1380.5796929580392,
+        "familyRssKiB": 736192
+      },
+      {
+        "elapsedSeconds": 1381.6304592080414,
+        "familyRssKiB": 744736
+      },
+      {
+        "elapsedSeconds": 1382.6709117500577,
+        "familyRssKiB": 997728
+      },
+      {
+        "elapsedSeconds": 1383.7144059169805,
+        "familyRssKiB": 990144
+      },
+      {
+        "elapsedSeconds": 1384.7577386250487,
+        "familyRssKiB": 1005968
+      },
+      {
+        "elapsedSeconds": 1385.798854166991,
+        "familyRssKiB": 1033024
+      },
+      {
+        "elapsedSeconds": 1386.842267042026,
+        "familyRssKiB": 1010400
+      },
+      {
+        "elapsedSeconds": 1387.8842759580584,
+        "familyRssKiB": 1048960
+      },
+      {
+        "elapsedSeconds": 1388.9271040830063,
+        "familyRssKiB": 1070224
+      },
+      {
+        "elapsedSeconds": 1389.9686834580498,
+        "familyRssKiB": 1079824
+      },
+      {
+        "elapsedSeconds": 1391.0218290420016,
+        "familyRssKiB": 1038496
+      },
+      {
+        "elapsedSeconds": 1392.2105703330599,
+        "familyRssKiB": 915152
+      },
+      {
+        "elapsedSeconds": 1393.2474906250136,
+        "familyRssKiB": 933824
+      },
+      {
+        "elapsedSeconds": 1394.2988367500948,
+        "familyRssKiB": 892896
+      },
+      {
+        "elapsedSeconds": 1395.3415788750863,
+        "familyRssKiB": 833616
+      },
+      {
+        "elapsedSeconds": 1396.3841677500168,
+        "familyRssKiB": 663760
+      },
+      {
+        "elapsedSeconds": 1397.4263397080358,
+        "familyRssKiB": 729520
+      },
+      {
+        "elapsedSeconds": 1398.4735735000577,
+        "familyRssKiB": 695232
+      },
+      {
+        "elapsedSeconds": 1399.5169203330297,
+        "familyRssKiB": 554848
+      },
+      {
+        "elapsedSeconds": 1400.559713833034,
+        "familyRssKiB": 531792
+      },
+      {
+        "elapsedSeconds": 1401.5997976250947,
+        "familyRssKiB": 522032
+      },
+      {
+        "elapsedSeconds": 1402.6428800000576,
+        "familyRssKiB": 558928
+      },
+      {
+        "elapsedSeconds": 1403.682198000024,
+        "familyRssKiB": 638912
+      },
+      {
+        "elapsedSeconds": 1404.7227928750217,
+        "familyRssKiB": 698752
+      },
+      {
+        "elapsedSeconds": 1405.7616976670688,
+        "familyRssKiB": 771872
+      },
+      {
+        "elapsedSeconds": 1407.0168262500083,
+        "familyRssKiB": 714240
+      },
+      {
+        "elapsedSeconds": 1408.0625272920588,
+        "familyRssKiB": 837744
+      },
+      {
+        "elapsedSeconds": 1409.1075497920392,
+        "familyRssKiB": 817984
+      },
+      {
+        "elapsedSeconds": 1410.1500847080024,
+        "familyRssKiB": 738960
+      },
+      {
+        "elapsedSeconds": 1411.1968025830574,
+        "familyRssKiB": 800384
+      },
+      {
+        "elapsedSeconds": 1412.2523125420557,
+        "familyRssKiB": 823504
+      },
+      {
+        "elapsedSeconds": 1413.3105222079903,
+        "familyRssKiB": 718032
+      },
+      {
+        "elapsedSeconds": 1414.356988292071,
+        "familyRssKiB": 768000
+      },
+      {
+        "elapsedSeconds": 1415.4038868750213,
+        "familyRssKiB": 783920
+      },
+      {
+        "elapsedSeconds": 1416.4521198330913,
+        "familyRssKiB": 804480
+      },
+      {
+        "elapsedSeconds": 1417.497080583009,
+        "familyRssKiB": 788352
+      },
+      {
+        "elapsedSeconds": 1418.5359307080507,
+        "familyRssKiB": 849024
+      },
+      {
+        "elapsedSeconds": 1419.5744646249805,
+        "familyRssKiB": 812352
+      },
+      {
+        "elapsedSeconds": 1420.6286871670745,
+        "familyRssKiB": 808592
+      },
+      {
+        "elapsedSeconds": 1421.6735441250494,
+        "familyRssKiB": 780960
+      },
+      {
+        "elapsedSeconds": 1422.7247591670603,
+        "familyRssKiB": 875984
+      },
+      {
+        "elapsedSeconds": 1423.7708895830438,
+        "familyRssKiB": 982544
+      },
+      {
+        "elapsedSeconds": 1424.80614624999,
+        "familyRssKiB": 961024
+      },
+      {
+        "elapsedSeconds": 1425.8487621250097,
+        "familyRssKiB": 1007040
+      },
+      {
+        "elapsedSeconds": 1426.9003186250338,
+        "familyRssKiB": 969968
+      },
+      {
+        "elapsedSeconds": 1427.9442575830035,
+        "familyRssKiB": 959200
+      },
+      {
+        "elapsedSeconds": 1428.9919776250608,
+        "familyRssKiB": 1055744
+      },
+      {
+        "elapsedSeconds": 1430.1557905420195,
+        "familyRssKiB": 1075600
+      },
+      {
+        "elapsedSeconds": 1431.2141717080958,
+        "familyRssKiB": 899088
+      },
+      {
+        "elapsedSeconds": 1432.2807790830266,
+        "familyRssKiB": 796768
+      },
+      {
+        "elapsedSeconds": 1433.3291855420684,
+        "familyRssKiB": 585088
+      },
+      {
+        "elapsedSeconds": 1434.3776283330517,
+        "familyRssKiB": 539424
+      },
+      {
+        "elapsedSeconds": 1435.4297291249968,
+        "familyRssKiB": 530704
+      },
+      {
+        "elapsedSeconds": 1436.4717292080168,
+        "familyRssKiB": 497968
+      },
+      {
+        "elapsedSeconds": 1437.518385417061,
+        "familyRssKiB": 536688
+      },
+      {
+        "elapsedSeconds": 1438.5682927080197,
+        "familyRssKiB": 590256
+      },
+      {
+        "elapsedSeconds": 1439.6137790830107,
+        "familyRssKiB": 596112
+      },
+      {
+        "elapsedSeconds": 1440.6498395000817,
+        "familyRssKiB": 614400
+      },
+      {
+        "elapsedSeconds": 1441.6900266250595,
+        "familyRssKiB": 632336
+      },
+      {
+        "elapsedSeconds": 1442.7417748330627,
+        "familyRssKiB": 583824
+      },
+      {
+        "elapsedSeconds": 1443.7910462500295,
+        "familyRssKiB": 628000
+      },
+      {
+        "elapsedSeconds": 1444.8359538750956,
+        "familyRssKiB": 701632
+      },
+      {
+        "elapsedSeconds": 1445.883527750033,
+        "familyRssKiB": 704528
+      },
+      {
+        "elapsedSeconds": 1446.9286527500954,
+        "familyRssKiB": 766064
+      },
+      {
+        "elapsedSeconds": 1447.9744219169952,
+        "familyRssKiB": 738224
+      },
+      {
+        "elapsedSeconds": 1449.0326391670387,
+        "familyRssKiB": 897408
+      },
+      {
+        "elapsedSeconds": 1450.0804767500376,
+        "familyRssKiB": 971088
+      },
+      {
+        "elapsedSeconds": 1451.1285754170967,
+        "familyRssKiB": 946048
+      },
+      {
+        "elapsedSeconds": 1452.2554954170482,
+        "familyRssKiB": 751680
+      },
+      {
+        "elapsedSeconds": 1453.2996748749865,
+        "familyRssKiB": 803600
+      },
+      {
+        "elapsedSeconds": 1454.3495025000302,
+        "familyRssKiB": 835136
+      },
+      {
+        "elapsedSeconds": 1455.3959626250435,
+        "familyRssKiB": 846192
+      },
+      {
+        "elapsedSeconds": 1456.4639366670744,
+        "familyRssKiB": 891136
+      },
+      {
+        "elapsedSeconds": 1457.5125858749961,
+        "familyRssKiB": 750080
+      },
+      {
+        "elapsedSeconds": 1458.5542680830695,
+        "familyRssKiB": 725232
+      },
+      {
+        "elapsedSeconds": 1459.5927627920173,
+        "familyRssKiB": 596272
+      },
+      {
+        "elapsedSeconds": 1460.63475187507,
+        "familyRssKiB": 617200
+      },
+      {
+        "elapsedSeconds": 1461.8394717919873,
+        "familyRssKiB": 669968
+      },
+      {
+        "elapsedSeconds": 1462.9033921670634,
+        "familyRssKiB": 705248
+      },
+      {
+        "elapsedSeconds": 1463.9547068329994,
+        "familyRssKiB": 683552
+      },
+      {
+        "elapsedSeconds": 1465.0164113750216,
+        "familyRssKiB": 751312
+      },
+      {
+        "elapsedSeconds": 1466.059396708035,
+        "familyRssKiB": 733856
+      },
+      {
+        "elapsedSeconds": 1467.1194735000608,
+        "familyRssKiB": 688912
+      },
+      {
+        "elapsedSeconds": 1468.172774208011,
+        "familyRssKiB": 633472
+      },
+      {
+        "elapsedSeconds": 1469.2260365830734,
+        "familyRssKiB": 629376
+      },
+      {
+        "elapsedSeconds": 1470.2730560830096,
+        "familyRssKiB": 644320
+      },
+      {
+        "elapsedSeconds": 1471.329734667088,
+        "familyRssKiB": 657392
+      },
+      {
+        "elapsedSeconds": 1472.3706863330444,
+        "familyRssKiB": 669312
+      },
+      {
+        "elapsedSeconds": 1473.4212326250272,
+        "familyRssKiB": 617568
+      },
+      {
+        "elapsedSeconds": 1474.4761255000485,
+        "familyRssKiB": 796400
+      },
+      {
+        "elapsedSeconds": 1475.5222912500612,
+        "familyRssKiB": 797344
+      },
+      {
+        "elapsedSeconds": 1476.569190624985,
+        "familyRssKiB": 866128
+      },
+      {
+        "elapsedSeconds": 1477.6188821670366,
+        "familyRssKiB": 836336
+      },
+      {
+        "elapsedSeconds": 1478.6823667919962,
+        "familyRssKiB": 857264
+      },
+      {
+        "elapsedSeconds": 1479.7403472920414,
+        "familyRssKiB": 903392
+      },
+      {
+        "elapsedSeconds": 1480.7864270000719,
+        "familyRssKiB": 894608
+      },
+      {
+        "elapsedSeconds": 1481.861033000052,
+        "familyRssKiB": 892736
+      },
+      {
+        "elapsedSeconds": 1482.9025371250464,
+        "familyRssKiB": 889328
+      },
+      {
+        "elapsedSeconds": 1483.9608567079995,
+        "familyRssKiB": 827904
+      },
+      {
+        "elapsedSeconds": 1485.0028497920139,
+        "familyRssKiB": 847040
+      },
+      {
+        "elapsedSeconds": 1486.0563577080611,
+        "familyRssKiB": 599216
+      },
+      {
+        "elapsedSeconds": 1487.1053489170736,
+        "familyRssKiB": 588032
+      },
+      {
+        "elapsedSeconds": 1488.1588922080118,
+        "familyRssKiB": 614896
+      },
+      {
+        "elapsedSeconds": 1489.2066252500517,
+        "familyRssKiB": 606256
+      },
+      {
+        "elapsedSeconds": 1490.2705368330935,
+        "familyRssKiB": 610192
+      },
+      {
+        "elapsedSeconds": 1491.3288783750031,
+        "familyRssKiB": 532752
+      },
+      {
+        "elapsedSeconds": 1492.3877962500555,
+        "familyRssKiB": 499088
+      },
+      {
+        "elapsedSeconds": 1493.4434415000724,
+        "familyRssKiB": 581824
+      },
+      {
+        "elapsedSeconds": 1494.4863781670574,
+        "familyRssKiB": 576640
+      },
+      {
+        "elapsedSeconds": 1495.5389627080876,
+        "familyRssKiB": 592064
+      },
+      {
+        "elapsedSeconds": 1496.5944850830128,
+        "familyRssKiB": 592080
+      },
+      {
+        "elapsedSeconds": 1497.644005374983,
+        "familyRssKiB": 552160
+      },
+      {
+        "elapsedSeconds": 1498.6939070830122,
+        "familyRssKiB": 584336
+      },
+      {
+        "elapsedSeconds": 1499.7343598750886,
+        "familyRssKiB": 599936
+      },
+      {
+        "elapsedSeconds": 1500.779893458006,
+        "familyRssKiB": 601136
+      },
+      {
+        "elapsedSeconds": 1501.8174932079855,
+        "familyRssKiB": 607232
+      },
+      {
+        "elapsedSeconds": 1502.8653335830895,
+        "familyRssKiB": 645472
+      },
+      {
+        "elapsedSeconds": 1503.911370708025,
+        "familyRssKiB": 612816
+      },
+      {
+        "elapsedSeconds": 1504.963048750069,
+        "familyRssKiB": 720080
+      },
+      {
+        "elapsedSeconds": 1506.0129052500706,
+        "familyRssKiB": 752912
+      },
+      {
+        "elapsedSeconds": 1507.0519307079958,
+        "familyRssKiB": 814176
+      },
+      {
+        "elapsedSeconds": 1508.1036782080773,
+        "familyRssKiB": 861152
+      },
+      {
+        "elapsedSeconds": 1509.151004082989,
+        "familyRssKiB": 782400
+      },
+      {
+        "elapsedSeconds": 1510.1963840000099,
+        "familyRssKiB": 837072
+      },
+      {
+        "elapsedSeconds": 1511.2425286250655,
+        "familyRssKiB": 874368
+      },
+      {
+        "elapsedSeconds": 1512.29229058302,
+        "familyRssKiB": 879872
+      },
+      {
+        "elapsedSeconds": 1513.3420627079904,
+        "familyRssKiB": 934224
+      },
+      {
+        "elapsedSeconds": 1514.3864299170673,
+        "familyRssKiB": 896960
+      },
+      {
+        "elapsedSeconds": 1515.4362876249943,
+        "familyRssKiB": 932080
+      },
+      {
+        "elapsedSeconds": 1516.4798602500232,
+        "familyRssKiB": 884048
+      },
+      {
+        "elapsedSeconds": 1517.5272994170664,
+        "familyRssKiB": 878848
+      },
+      {
+        "elapsedSeconds": 1518.5709953330224,
+        "familyRssKiB": 942304
+      },
+      {
+        "elapsedSeconds": 1519.6348040000303,
+        "familyRssKiB": 960528
+      },
+      {
+        "elapsedSeconds": 1520.6852333750576,
+        "familyRssKiB": 935984
+      },
+      {
+        "elapsedSeconds": 1521.7317019579932,
+        "familyRssKiB": 981936
+      },
+      {
+        "elapsedSeconds": 1522.7980601250893,
+        "familyRssKiB": 951872
+      },
+      {
+        "elapsedSeconds": 1523.837627125089,
+        "familyRssKiB": 938272
+      },
+      {
+        "elapsedSeconds": 1524.87733079202,
+        "familyRssKiB": 980800
+      },
+      {
+        "elapsedSeconds": 1525.93472333299,
+        "familyRssKiB": 969664
+      },
+      {
+        "elapsedSeconds": 1527.003213042044,
+        "familyRssKiB": 940176
+      },
+      {
+        "elapsedSeconds": 1528.0529879580718,
+        "familyRssKiB": 912096
+      },
+      {
+        "elapsedSeconds": 1529.102753458079,
+        "familyRssKiB": 842576
+      },
+      {
+        "elapsedSeconds": 1530.1666226669913,
+        "familyRssKiB": 1071456
+      },
+      {
+        "elapsedSeconds": 1531.211691583041,
+        "familyRssKiB": 818320
+      },
+      {
+        "elapsedSeconds": 1532.2610907499911,
+        "familyRssKiB": 797952
+      },
+      {
+        "elapsedSeconds": 1533.316803292022,
+        "familyRssKiB": 767136
+      },
+      {
+        "elapsedSeconds": 1534.3700230830582,
+        "familyRssKiB": 828400
+      },
+      {
+        "elapsedSeconds": 1535.4207057920285,
+        "familyRssKiB": 815200
+      },
+      {
+        "elapsedSeconds": 1536.4644755830523,
+        "familyRssKiB": 870768
+      },
+      {
+        "elapsedSeconds": 1537.5077338330448,
+        "familyRssKiB": 797136
+      },
+      {
+        "elapsedSeconds": 1538.5662534170551,
+        "familyRssKiB": 834640
+      },
+      {
+        "elapsedSeconds": 1539.6123845829861,
+        "familyRssKiB": 730416
+      },
+      {
+        "elapsedSeconds": 1540.6535344170406,
+        "familyRssKiB": 746832
+      },
+      {
+        "elapsedSeconds": 1541.6965630830964,
+        "familyRssKiB": 774304
+      },
+      {
+        "elapsedSeconds": 1542.7437573750503,
+        "familyRssKiB": 714848
+      },
+      {
+        "elapsedSeconds": 1543.7915496670175,
+        "familyRssKiB": 670528
+      },
+      {
+        "elapsedSeconds": 1544.8385245830286,
+        "familyRssKiB": 695008
+      },
+      {
+        "elapsedSeconds": 1545.8852726670448,
+        "familyRssKiB": 652256
+      },
+      {
+        "elapsedSeconds": 1546.9384471670492,
+        "familyRssKiB": 659072
+      },
+      {
+        "elapsedSeconds": 1547.9927433329867,
+        "familyRssKiB": 701328
+      },
+      {
+        "elapsedSeconds": 1549.0443377500633,
+        "familyRssKiB": 742640
+      },
+      {
+        "elapsedSeconds": 1550.1550407500472,
+        "familyRssKiB": 729696
+      },
+      {
+        "elapsedSeconds": 1551.2086975830607,
+        "familyRssKiB": 568496
+      },
+      {
+        "elapsedSeconds": 1552.2689999580616,
+        "familyRssKiB": 455776
+      },
+      {
+        "elapsedSeconds": 1553.3421061250847,
+        "familyRssKiB": 485440
+      },
+      {
+        "elapsedSeconds": 1554.408041708055,
+        "familyRssKiB": 440032
+      },
+      {
+        "elapsedSeconds": 1555.4734624580014,
+        "familyRssKiB": 433696
+      },
+      {
+        "elapsedSeconds": 1556.5373288750416,
+        "familyRssKiB": 492496
+      },
+      {
+        "elapsedSeconds": 1557.589625417022,
+        "familyRssKiB": 463648
+      },
+      {
+        "elapsedSeconds": 1558.6482502080034,
+        "familyRssKiB": 506960
+      },
+      {
+        "elapsedSeconds": 1559.687594374991,
+        "familyRssKiB": 547456
+      },
+      {
+        "elapsedSeconds": 1560.7394091250608,
+        "familyRssKiB": 623904
+      },
+      {
+        "elapsedSeconds": 1561.7846304170089,
+        "familyRssKiB": 667280
+      },
+      {
+        "elapsedSeconds": 1562.83722270804,
+        "familyRssKiB": 719872
+      },
+      {
+        "elapsedSeconds": 1563.8958954580594,
+        "familyRssKiB": 831488
+      },
+      {
+        "elapsedSeconds": 1564.944389375043,
+        "familyRssKiB": 874768
+      },
+      {
+        "elapsedSeconds": 1565.996721958043,
+        "familyRssKiB": 949552
+      },
+      {
+        "elapsedSeconds": 1567.048180917045,
+        "familyRssKiB": 927424
+      },
+      {
+        "elapsedSeconds": 1568.1186913750134,
+        "familyRssKiB": 815200
+      },
+      {
+        "elapsedSeconds": 1569.1631435829913,
+        "familyRssKiB": 834672
+      },
+      {
+        "elapsedSeconds": 1570.216363833053,
+        "familyRssKiB": 894480
+      },
+      {
+        "elapsedSeconds": 1571.260111792013,
+        "familyRssKiB": 945184
+      },
+      {
+        "elapsedSeconds": 1572.3171241669916,
+        "familyRssKiB": 856800
+      },
+      {
+        "elapsedSeconds": 1573.3776052080793,
+        "familyRssKiB": 861152
+      },
+      {
+        "elapsedSeconds": 1574.4323951670667,
+        "familyRssKiB": 886704
+      },
+      {
+        "elapsedSeconds": 1575.4874090830563,
+        "familyRssKiB": 877200
+      },
+      {
+        "elapsedSeconds": 1576.536297542043,
+        "familyRssKiB": 884208
+      },
+      {
+        "elapsedSeconds": 1577.5894852500642,
+        "familyRssKiB": 912128
+      },
+      {
+        "elapsedSeconds": 1578.7580918330932,
+        "familyRssKiB": 942336
+      },
+      {
+        "elapsedSeconds": 1579.803721500095,
+        "familyRssKiB": 831728
+      },
+      {
+        "elapsedSeconds": 1580.8417592080077,
+        "familyRssKiB": 882928
+      },
+      {
+        "elapsedSeconds": 1581.8863030000357,
+        "familyRssKiB": 910352
+      },
+      {
+        "elapsedSeconds": 1582.9339905420784,
+        "familyRssKiB": 1006208
+      },
+      {
+        "elapsedSeconds": 1583.9728695830563,
+        "familyRssKiB": 1104432
+      },
+      {
+        "elapsedSeconds": 1585.0120769999921,
+        "familyRssKiB": 1180272
+      },
+      {
+        "elapsedSeconds": 1586.0577355000423,
+        "familyRssKiB": 1257536
+      },
+      {
+        "elapsedSeconds": 1587.1097932080738,
+        "familyRssKiB": 1232928
+      },
+      {
+        "elapsedSeconds": 1588.1464122500038,
+        "familyRssKiB": 1166880
+      },
+      {
+        "elapsedSeconds": 1589.1926209169906,
+        "familyRssKiB": 1170688
+      },
+      {
+        "elapsedSeconds": 1590.2365042500896,
+        "familyRssKiB": 1082560
+      },
+      {
+        "elapsedSeconds": 1591.2874824580504,
+        "familyRssKiB": 1122240
+      },
+      {
+        "elapsedSeconds": 1592.3404950420372,
+        "familyRssKiB": 1035168
+      },
+      {
+        "elapsedSeconds": 1593.3909657080658,
+        "familyRssKiB": 1026480
+      },
+      {
+        "elapsedSeconds": 1594.4436065830523,
+        "familyRssKiB": 1017936
+      },
+      {
+        "elapsedSeconds": 1595.4890167920385,
+        "familyRssKiB": 1075520
+      },
+      {
+        "elapsedSeconds": 1596.5270553330192,
+        "familyRssKiB": 1082928
+      },
+      {
+        "elapsedSeconds": 1597.5740885420237,
+        "familyRssKiB": 1070208
+      },
+      {
+        "elapsedSeconds": 1598.623682958074,
+        "familyRssKiB": 991024
+      },
+      {
+        "elapsedSeconds": 1599.674889417016,
+        "familyRssKiB": 760496
+      },
+      {
+        "elapsedSeconds": 1600.7117121670162,
+        "familyRssKiB": 616608
+      },
+      {
+        "elapsedSeconds": 1601.7523997500539,
+        "familyRssKiB": 642288
+      },
+      {
+        "elapsedSeconds": 1602.8015727500897,
+        "familyRssKiB": 581200
+      },
+      {
+        "elapsedSeconds": 1603.8445159170078,
+        "familyRssKiB": 690128
+      },
+      {
+        "elapsedSeconds": 1604.891566083068,
+        "familyRssKiB": 748192
+      },
+      {
+        "elapsedSeconds": 1605.9271135000745,
+        "familyRssKiB": 887504
+      },
+      {
+        "elapsedSeconds": 1606.9687685830286,
+        "familyRssKiB": 1000176
+      },
+      {
+        "elapsedSeconds": 1608.0210042080143,
+        "familyRssKiB": 1038288
+      },
+      {
+        "elapsedSeconds": 1609.0596845420077,
+        "familyRssKiB": 1106768
+      },
+      {
+        "elapsedSeconds": 1610.1188685829984,
+        "familyRssKiB": 1120528
+      },
+      {
+        "elapsedSeconds": 1611.1651881249854,
+        "familyRssKiB": 911696
+      },
+      {
+        "elapsedSeconds": 1612.2082229170483,
+        "familyRssKiB": 965760
+      },
+      {
+        "elapsedSeconds": 1613.2448422920424,
+        "familyRssKiB": 970832
+      },
+      {
+        "elapsedSeconds": 1614.2840720830718,
+        "familyRssKiB": 959296
+      },
+      {
+        "elapsedSeconds": 1615.3313977080397,
+        "familyRssKiB": 960496
+      },
+      {
+        "elapsedSeconds": 1616.3807099170517,
+        "familyRssKiB": 899792
+      },
+      {
+        "elapsedSeconds": 1617.4307255829917,
+        "familyRssKiB": 900368
+      },
+      {
+        "elapsedSeconds": 1618.4690152499825,
+        "familyRssKiB": 951840
+      },
+      {
+        "elapsedSeconds": 1619.5148216250818,
+        "familyRssKiB": 971776
+      },
+      {
+        "elapsedSeconds": 1620.5607610420557,
+        "familyRssKiB": 1043680
+      },
+      {
+        "elapsedSeconds": 1621.6104126670398,
+        "familyRssKiB": 1064800
+      },
+      {
+        "elapsedSeconds": 1622.6515486250864,
+        "familyRssKiB": 1155104
+      },
+      {
+        "elapsedSeconds": 1623.6974712080555,
+        "familyRssKiB": 1227696
+      },
+      {
+        "elapsedSeconds": 1624.7410482499981,
+        "familyRssKiB": 1302960
+      },
+      {
+        "elapsedSeconds": 1625.8003878330346,
+        "familyRssKiB": 1344864
+      },
+      {
+        "elapsedSeconds": 1626.8449292919831,
+        "familyRssKiB": 1354816
+      },
+      {
+        "elapsedSeconds": 1627.8836330419872,
+        "familyRssKiB": 1336384
+      },
+      {
+        "elapsedSeconds": 1628.9226431250572,
+        "familyRssKiB": 1292944
+      },
+      {
+        "elapsedSeconds": 1629.9700617500348,
+        "familyRssKiB": 1224688
+      },
+      {
+        "elapsedSeconds": 1631.01386145805,
+        "familyRssKiB": 1195552
+      },
+      {
+        "elapsedSeconds": 1632.0603800830431,
+        "familyRssKiB": 1191088
+      },
+      {
+        "elapsedSeconds": 1633.1063680830412,
+        "familyRssKiB": 1148112
+      },
+      {
+        "elapsedSeconds": 1634.1485222080955,
+        "familyRssKiB": 1194784
+      },
+      {
+        "elapsedSeconds": 1635.1942106250208,
+        "familyRssKiB": 1210512
+      },
+      {
+        "elapsedSeconds": 1636.234430917073,
+        "familyRssKiB": 1196096
+      },
+      {
+        "elapsedSeconds": 1637.2815086250193,
+        "familyRssKiB": 1154128
+      },
+      {
+        "elapsedSeconds": 1638.323990792036,
+        "familyRssKiB": 1142016
+      },
+      {
+        "elapsedSeconds": 1639.37942904199,
+        "familyRssKiB": 1109824
+      },
+      {
+        "elapsedSeconds": 1640.428205333068,
+        "familyRssKiB": 1185856
+      },
+      {
+        "elapsedSeconds": 1641.4801315830555,
+        "familyRssKiB": 1194912
+      },
+      {
+        "elapsedSeconds": 1642.5269603329943,
+        "familyRssKiB": 1299296
+      },
+      {
+        "elapsedSeconds": 1643.5741530420491,
+        "familyRssKiB": 1411648
+      },
+      {
+        "elapsedSeconds": 1644.6161009999923,
+        "familyRssKiB": 1441120
+      },
+      {
+        "elapsedSeconds": 1645.6623117499985,
+        "familyRssKiB": 1490208
+      },
+      {
+        "elapsedSeconds": 1646.8146194170695,
+        "familyRssKiB": 1405952
+      },
+      {
+        "elapsedSeconds": 1647.8631122080842,
+        "familyRssKiB": 1326480
+      },
+      {
+        "elapsedSeconds": 1648.9088021250209,
+        "familyRssKiB": 1191440
+      },
+      {
+        "elapsedSeconds": 1649.9500997080468,
+        "familyRssKiB": 1230864
+      },
+      {
+        "elapsedSeconds": 1651.0031890830724,
+        "familyRssKiB": 1143792
+      },
+      {
+        "elapsedSeconds": 1652.0889177920762,
+        "familyRssKiB": 1112336
+      },
+      {
+        "elapsedSeconds": 1653.1344813330797,
+        "familyRssKiB": 1111936
+      },
+      {
+        "elapsedSeconds": 1654.175711167045,
+        "familyRssKiB": 1096592
+      },
+      {
+        "elapsedSeconds": 1655.2150836250512,
+        "familyRssKiB": 1105600
+      },
+      {
+        "elapsedSeconds": 1656.2525030830875,
+        "familyRssKiB": 1131104
+      },
+      {
+        "elapsedSeconds": 1657.3044370419811,
+        "familyRssKiB": 968160
+      },
+      {
+        "elapsedSeconds": 1658.3518667080207,
+        "familyRssKiB": 1002288
+      },
+      {
+        "elapsedSeconds": 1659.4006305420771,
+        "familyRssKiB": 1039744
+      },
+      {
+        "elapsedSeconds": 1660.4430172920693,
+        "familyRssKiB": 838832
+      },
+      {
+        "elapsedSeconds": 1661.490712042083,
+        "familyRssKiB": 905120
+      },
+      {
+        "elapsedSeconds": 1662.5378613750217,
+        "familyRssKiB": 918480
+      },
+      {
+        "elapsedSeconds": 1663.598616000032,
+        "familyRssKiB": 924048
+      },
+      {
+        "elapsedSeconds": 1664.6475062920945,
+        "familyRssKiB": 986656
+      },
+      {
+        "elapsedSeconds": 1665.7107127080671,
+        "familyRssKiB": 943040
+      },
+      {
+        "elapsedSeconds": 1666.751326458063,
+        "familyRssKiB": 886160
+      },
+      {
+        "elapsedSeconds": 1667.7950400420232,
+        "familyRssKiB": 863776
+      },
+      {
+        "elapsedSeconds": 1668.9729325000662,
+        "familyRssKiB": 827312
+      },
+      {
+        "elapsedSeconds": 1670.079148458084,
+        "familyRssKiB": 868288
+      },
+      {
+        "elapsedSeconds": 1671.1471886670915,
+        "familyRssKiB": 500880
+      },
+      {
+        "elapsedSeconds": 1672.1951101670275,
+        "familyRssKiB": 398064
+      },
+      {
+        "elapsedSeconds": 1673.2462408749852,
+        "familyRssKiB": 428752
+      },
+      {
+        "elapsedSeconds": 1674.2918192080688,
+        "familyRssKiB": 483456
+      },
+      {
+        "elapsedSeconds": 1675.3473873330513,
+        "familyRssKiB": 556464
+      },
+      {
+        "elapsedSeconds": 1676.4013957920251,
+        "familyRssKiB": 560064
+      },
+      {
+        "elapsedSeconds": 1677.446449042065,
+        "familyRssKiB": 533888
+      },
+      {
+        "elapsedSeconds": 1678.4860075420002,
+        "familyRssKiB": 557968
+      },
+      {
+        "elapsedSeconds": 1679.5327987500932,
+        "familyRssKiB": 572608
+      },
+      {
+        "elapsedSeconds": 1680.5776964999968,
+        "familyRssKiB": 615504
+      },
+      {
+        "elapsedSeconds": 1681.623875417048,
+        "familyRssKiB": 696032
+      },
+      {
+        "elapsedSeconds": 1682.6658502080245,
+        "familyRssKiB": 709600
+      },
+      {
+        "elapsedSeconds": 1683.714249541983,
+        "familyRssKiB": 831376
+      },
+      {
+        "elapsedSeconds": 1684.764886417077,
+        "familyRssKiB": 957712
+      },
+      {
+        "elapsedSeconds": 1685.811254166998,
+        "familyRssKiB": 1003312
+      },
+      {
+        "elapsedSeconds": 1686.8617553750519,
+        "familyRssKiB": 1160352
+      },
+      {
+        "elapsedSeconds": 1687.8979266249808,
+        "familyRssKiB": 1207392
+      },
+      {
+        "elapsedSeconds": 1688.948257207987,
+        "familyRssKiB": 1231696
+      },
+      {
+        "elapsedSeconds": 1690.0049885420594,
+        "familyRssKiB": 1104960
+      },
+      {
+        "elapsedSeconds": 1691.0502954170806,
+        "familyRssKiB": 1081920
+      },
+      {
+        "elapsedSeconds": 1692.0943829170428,
+        "familyRssKiB": 1135840
+      },
+      {
+        "elapsedSeconds": 1693.1404367079958,
+        "familyRssKiB": 1172112
+      },
+      {
+        "elapsedSeconds": 1694.2132176670711,
+        "familyRssKiB": 1165456
+      },
+      {
+        "elapsedSeconds": 1695.2643892080523,
+        "familyRssKiB": 1214560
+      },
+      {
+        "elapsedSeconds": 1696.3025805420475,
+        "familyRssKiB": 1241248
+      },
+      {
+        "elapsedSeconds": 1697.3512870420236,
+        "familyRssKiB": 1193872
+      },
+      {
+        "elapsedSeconds": 1698.388543708017,
+        "familyRssKiB": 1257776
+      },
+      {
+        "elapsedSeconds": 1699.4475286250236,
+        "familyRssKiB": 1403360
+      },
+      {
+        "elapsedSeconds": 1700.4944420420798,
+        "familyRssKiB": 1483120
+      },
+      {
+        "elapsedSeconds": 1701.5345126250759,
+        "familyRssKiB": 1537888
+      },
+      {
+        "elapsedSeconds": 1702.5722831250168,
+        "familyRssKiB": 1641040
+      },
+      {
+        "elapsedSeconds": 1703.6207102499902,
+        "familyRssKiB": 1678544
+      },
+      {
+        "elapsedSeconds": 1704.668092875043,
+        "familyRssKiB": 1764224
+      },
+      {
+        "elapsedSeconds": 1705.7326928750845,
+        "familyRssKiB": 1778048
+      },
+      {
+        "elapsedSeconds": 1706.8206700420706,
+        "familyRssKiB": 1584768
+      },
+      {
+        "elapsedSeconds": 1707.8663542080903,
+        "familyRssKiB": 1553056
+      },
+      {
+        "elapsedSeconds": 1708.9096228330163,
+        "familyRssKiB": 1530048
+      },
+      {
+        "elapsedSeconds": 1709.9449652500916,
+        "familyRssKiB": 1569120
+      },
+      {
+        "elapsedSeconds": 1711.0081437079934,
+        "familyRssKiB": 1563808
+      },
+      {
+        "elapsedSeconds": 1712.0599712079857,
+        "familyRssKiB": 1312528
+      },
+      {
+        "elapsedSeconds": 1713.1032085419865,
+        "familyRssKiB": 1285872
+      },
+      {
+        "elapsedSeconds": 1714.1494283750653,
+        "familyRssKiB": 1231008
+      },
+      {
+        "elapsedSeconds": 1715.1957750000292,
+        "familyRssKiB": 1194784
+      },
+      {
+        "elapsedSeconds": 1716.2364787920378,
+        "familyRssKiB": 1213584
+      },
+      {
+        "elapsedSeconds": 1717.2830212500412,
+        "familyRssKiB": 1108256
+      },
+      {
+        "elapsedSeconds": 1718.3200376670575,
+        "familyRssKiB": 1040496
+      },
+      {
+        "elapsedSeconds": 1719.3636099580908,
+        "familyRssKiB": 1066224
+      },
+      {
+        "elapsedSeconds": 1720.4097342500463,
+        "familyRssKiB": 1139024
+      },
+      {
+        "elapsedSeconds": 1721.4565990830306,
+        "familyRssKiB": 1169584
+      },
+      {
+        "elapsedSeconds": 1722.4972206250532,
+        "familyRssKiB": 703760
+      },
+      {
+        "elapsedSeconds": 1723.5326620000415,
+        "familyRssKiB": 861936
+      },
+      {
+        "elapsedSeconds": 1724.577245833003,
+        "familyRssKiB": 924320
+      },
+      {
+        "elapsedSeconds": 1725.62190354208,
+        "familyRssKiB": 1082880
+      },
+      {
+        "elapsedSeconds": 1726.662145624985,
+        "familyRssKiB": 1686784
+      },
+      {
+        "elapsedSeconds": 1727.7086516250856,
+        "familyRssKiB": 1656672
+      },
+      {
+        "elapsedSeconds": 1728.7539622500772,
+        "familyRssKiB": 1654480
+      },
+      {
+        "elapsedSeconds": 1729.7996151250554,
+        "familyRssKiB": 1679328
+      },
+      {
+        "elapsedSeconds": 1730.891808125074,
+        "familyRssKiB": 1404000
+      },
+      {
+        "elapsedSeconds": 1731.9494453329826,
+        "familyRssKiB": 1379024
+      },
+      {
+        "elapsedSeconds": 1733.0052715420024,
+        "familyRssKiB": 1299536
+      },
+      {
+        "elapsedSeconds": 1734.0712204170413,
+        "familyRssKiB": 1295056
+      },
+      {
+        "elapsedSeconds": 1735.1082807499915,
+        "familyRssKiB": 1322416
+      },
+      {
+        "elapsedSeconds": 1736.1529652500758,
+        "familyRssKiB": 1384560
+      },
+      {
+        "elapsedSeconds": 1737.1986742500449,
+        "familyRssKiB": 1428144
+      },
+      {
+        "elapsedSeconds": 1738.2363811670803,
+        "familyRssKiB": 1343696
+      },
+      {
+        "elapsedSeconds": 1739.2708498330321,
+        "familyRssKiB": 1301280
+      },
+      {
+        "elapsedSeconds": 1740.3165872080717,
+        "familyRssKiB": 1302000
+      },
+      {
+        "elapsedSeconds": 1741.3662832500413,
+        "familyRssKiB": 1280416
+      },
+      {
+        "elapsedSeconds": 1742.411825541989,
+        "familyRssKiB": 1284688
+      },
+      {
+        "elapsedSeconds": 1743.454724167008,
+        "familyRssKiB": 1292064
+      },
+      {
+        "elapsedSeconds": 1744.5008617920103,
+        "familyRssKiB": 1296896
+      },
+      {
+        "elapsedSeconds": 1745.54642495804,
+        "familyRssKiB": 1297344
+      },
+      {
+        "elapsedSeconds": 1746.5969059170457,
+        "familyRssKiB": 1298624
+      },
+      {
+        "elapsedSeconds": 1747.6385024170158,
+        "familyRssKiB": 1312768
+      },
+      {
+        "elapsedSeconds": 1748.6854564170353,
+        "familyRssKiB": 1366976
+      },
+      {
+        "elapsedSeconds": 1749.730335625005,
+        "familyRssKiB": 1333408
+      },
+      {
+        "elapsedSeconds": 1750.7881043329835,
+        "familyRssKiB": 1225664
+      },
+      {
+        "elapsedSeconds": 1751.8369704170618,
+        "familyRssKiB": 1225584
+      },
+      {
+        "elapsedSeconds": 1752.8820846669842,
+        "familyRssKiB": 1226080
+      },
+      {
+        "elapsedSeconds": 1753.9269046250265,
+        "familyRssKiB": 1228848
+      },
+      {
+        "elapsedSeconds": 1754.9731065829983,
+        "familyRssKiB": 1233776
+      },
+      {
+        "elapsedSeconds": 1756.0316138330381,
+        "familyRssKiB": 1183488
+      },
+      {
+        "elapsedSeconds": 1757.0804089580197,
+        "familyRssKiB": 1127936
+      },
+      {
+        "elapsedSeconds": 1758.1264991670614,
+        "familyRssKiB": 1102816
+      },
+      {
+        "elapsedSeconds": 1759.1720145420404,
+        "familyRssKiB": 957520
+      },
+      {
+        "elapsedSeconds": 1760.2159320830833,
+        "familyRssKiB": 917552
+      },
+      {
+        "elapsedSeconds": 1761.2513481670758,
+        "familyRssKiB": 927120
+      },
+      {
+        "elapsedSeconds": 1762.2896865829825,
+        "familyRssKiB": 936512
+      },
+      {
+        "elapsedSeconds": 1763.3333381250268,
+        "familyRssKiB": 937424
+      },
+      {
+        "elapsedSeconds": 1764.3777589580277,
+        "familyRssKiB": 935600
+      },
+      {
+        "elapsedSeconds": 1765.422861833009,
+        "familyRssKiB": 936016
+      },
+      {
+        "elapsedSeconds": 1766.4674626670312,
+        "familyRssKiB": 938272
+      },
+      {
+        "elapsedSeconds": 1767.5125190829858,
+        "familyRssKiB": 839840
+      },
+      {
+        "elapsedSeconds": 1768.5576613750309,
+        "familyRssKiB": 847440
+      },
+      {
+        "elapsedSeconds": 1769.6026992499828,
+        "familyRssKiB": 807424
+      },
+      {
+        "elapsedSeconds": 1770.650161000085,
+        "familyRssKiB": 731488
+      },
+      {
+        "elapsedSeconds": 1771.7020900000352,
+        "familyRssKiB": 737344
+      },
+      {
+        "elapsedSeconds": 1772.7435059170239,
+        "familyRssKiB": 795568
+      },
+      {
+        "elapsedSeconds": 1773.7833250419935,
+        "familyRssKiB": 879248
+      },
+      {
+        "elapsedSeconds": 1774.8336776250508,
+        "familyRssKiB": 951712
+      },
+      {
+        "elapsedSeconds": 1775.8700985000469,
+        "familyRssKiB": 993296
+      },
+      {
+        "elapsedSeconds": 1776.914620458032,
+        "familyRssKiB": 936384
+      },
+      {
+        "elapsedSeconds": 1777.959664083086,
+        "familyRssKiB": 994272
+      },
+      {
+        "elapsedSeconds": 1779.0016165000852,
+        "familyRssKiB": 994320
+      },
+      {
+        "elapsedSeconds": 1780.0386926670326,
+        "familyRssKiB": 963952
+      },
+      {
+        "elapsedSeconds": 1781.0993130420102,
+        "familyRssKiB": 930112
+      },
+      {
+        "elapsedSeconds": 1782.1606489170808,
+        "familyRssKiB": 872848
+      },
+      {
+        "elapsedSeconds": 1783.2082394580357,
+        "familyRssKiB": 873520
+      },
+      {
+        "elapsedSeconds": 1784.2545621250756,
+        "familyRssKiB": 874240
+      },
+      {
+        "elapsedSeconds": 1785.3017378750956,
+        "familyRssKiB": 866464
+      },
+      {
+        "elapsedSeconds": 1786.3496706670849,
+        "familyRssKiB": 896048
+      },
+      {
+        "elapsedSeconds": 1787.388887375011,
+        "familyRssKiB": 970576
+      },
+      {
+        "elapsedSeconds": 1788.4331223330228,
+        "familyRssKiB": 1029168
+      },
+      {
+        "elapsedSeconds": 1789.4790241670562,
+        "familyRssKiB": 1023792
+      },
+      {
+        "elapsedSeconds": 1790.5308908330044,
+        "familyRssKiB": 1008432
+      },
+      {
+        "elapsedSeconds": 1791.5739572080784,
+        "familyRssKiB": 986528
+      },
+      {
+        "elapsedSeconds": 1792.6202978329966,
+        "familyRssKiB": 883280
+      },
+      {
+        "elapsedSeconds": 1793.6618108330294,
+        "familyRssKiB": 743824
+      },
+      {
+        "elapsedSeconds": 1794.7097654170357,
+        "familyRssKiB": 683728
+      },
+      {
+        "elapsedSeconds": 1795.7587585829897,
+        "familyRssKiB": 771744
+      },
+      {
+        "elapsedSeconds": 1796.8045220000204,
+        "familyRssKiB": 818688
+      },
+      {
+        "elapsedSeconds": 1797.8460793750128,
+        "familyRssKiB": 840080
+      },
+      {
+        "elapsedSeconds": 1798.897931082989,
+        "familyRssKiB": 906800
+      },
+      {
+        "elapsedSeconds": 1799.946380916983,
+        "familyRssKiB": 895008
+      },
+      {
+        "elapsedSeconds": 1800.9930150000146,
+        "familyRssKiB": 924208
+      },
+      {
+        "elapsedSeconds": 1802.0333173749968,
+        "familyRssKiB": 826288
+      },
+      {
+        "elapsedSeconds": 1803.090992124984,
+        "familyRssKiB": 846800
+      },
+      {
+        "elapsedSeconds": 1804.1345384999877,
+        "familyRssKiB": 844352
+      },
+      {
+        "elapsedSeconds": 1805.1808266669977,
+        "familyRssKiB": 847264
+      },
+      {
+        "elapsedSeconds": 1806.2207530420274,
+        "familyRssKiB": 855328
+      },
+      {
+        "elapsedSeconds": 1807.2641699999804,
+        "familyRssKiB": 782288
+      },
+      {
+        "elapsedSeconds": 1808.312296833028,
+        "familyRssKiB": 766816
+      },
+      {
+        "elapsedSeconds": 1809.351322958013,
+        "familyRssKiB": 715120
+      },
+      {
+        "elapsedSeconds": 1810.3930864580907,
+        "familyRssKiB": 821856
+      },
+      {
+        "elapsedSeconds": 1811.4345867920201,
+        "familyRssKiB": 863968
+      },
+      {
+        "elapsedSeconds": 1812.4810410420178,
+        "familyRssKiB": 835552
+      },
+      {
+        "elapsedSeconds": 1813.527213875088,
+        "familyRssKiB": 898064
+      },
+      {
+        "elapsedSeconds": 1814.5672342500184,
+        "familyRssKiB": 900416
+      },
+      {
+        "elapsedSeconds": 1815.6038890830241,
+        "familyRssKiB": 901424
+      },
+      {
+        "elapsedSeconds": 1816.6568237080937,
+        "familyRssKiB": 892368
+      },
+      {
+        "elapsedSeconds": 1817.7050868750084,
+        "familyRssKiB": 887856
+      },
+      {
+        "elapsedSeconds": 1818.7513480420457,
+        "familyRssKiB": 880288
+      },
+      {
+        "elapsedSeconds": 1819.7983237500302,
+        "familyRssKiB": 886112
+      },
+      {
+        "elapsedSeconds": 1820.843544958043,
+        "familyRssKiB": 890944
+      },
+      {
+        "elapsedSeconds": 1821.8864843749907,
+        "familyRssKiB": 861520
+      },
+      {
+        "elapsedSeconds": 1822.9375133330468,
+        "familyRssKiB": 874112
+      },
+      {
+        "elapsedSeconds": 1823.9828425000887,
+        "familyRssKiB": 908512
+      },
+      {
+        "elapsedSeconds": 1825.0302854169859,
+        "familyRssKiB": 983984
+      },
+      {
+        "elapsedSeconds": 1826.067991750082,
+        "familyRssKiB": 1033712
+      },
+      {
+        "elapsedSeconds": 1827.1356470000464,
+        "familyRssKiB": 1041360
+      },
+      {
+        "elapsedSeconds": 1828.2429104170296,
+        "familyRssKiB": 796672
+      },
+      {
+        "elapsedSeconds": 1829.2924699580763,
+        "familyRssKiB": 800224
+      },
+      {
+        "elapsedSeconds": 1830.339494667016,
+        "familyRssKiB": 750736
+      },
+      {
+        "elapsedSeconds": 1831.3870158330537,
+        "familyRssKiB": 791792
+      },
+      {
+        "elapsedSeconds": 1832.4456510830205,
+        "familyRssKiB": 846992
+      },
+      {
+        "elapsedSeconds": 1833.4886919170385,
+        "familyRssKiB": 828192
+      },
+      {
+        "elapsedSeconds": 1834.5466885000933,
+        "familyRssKiB": 1005664
+      },
+      {
+        "elapsedSeconds": 1835.5922617500182,
+        "familyRssKiB": 1055024
+      },
+      {
+        "elapsedSeconds": 1836.6279220830183,
+        "familyRssKiB": 1033824
+      },
+      {
+        "elapsedSeconds": 1837.6656451669987,
+        "familyRssKiB": 905088
+      },
+      {
+        "elapsedSeconds": 1838.7125324170338,
+        "familyRssKiB": 983648
+      },
+      {
+        "elapsedSeconds": 1839.7584094170015,
+        "familyRssKiB": 1053136
+      },
+      {
+        "elapsedSeconds": 1840.802664958057,
+        "familyRssKiB": 1076800
+      },
+      {
+        "elapsedSeconds": 1841.8440494170645,
+        "familyRssKiB": 1069536
+      },
+      {
+        "elapsedSeconds": 1842.8908890830353,
+        "familyRssKiB": 1044176
+      },
+      {
+        "elapsedSeconds": 1843.9358909170842,
+        "familyRssKiB": 1056432
+      },
+      {
+        "elapsedSeconds": 1844.9844127499964,
+        "familyRssKiB": 1030432
+      },
+      {
+        "elapsedSeconds": 1846.030492042075,
+        "familyRssKiB": 981872
+      },
+      {
+        "elapsedSeconds": 1847.0729133330751,
+        "familyRssKiB": 1001568
+      },
+      {
+        "elapsedSeconds": 1848.120875542052,
+        "familyRssKiB": 979872
+      },
+      {
+        "elapsedSeconds": 1849.163389708032,
+        "familyRssKiB": 982912
+      },
+      {
+        "elapsedSeconds": 1850.2093873750418,
+        "familyRssKiB": 879088
+      },
+      {
+        "elapsedSeconds": 1851.2666825830238,
+        "familyRssKiB": 667840
+      },
+      {
+        "elapsedSeconds": 1852.3107645420823,
+        "familyRssKiB": 592064
+      },
+      {
+        "elapsedSeconds": 1853.3565751250135,
+        "familyRssKiB": 600304
+      },
+      {
+        "elapsedSeconds": 1854.4024269999936,
+        "familyRssKiB": 603568
+      },
+      {
+        "elapsedSeconds": 1855.4456152920611,
+        "familyRssKiB": 612912
+      },
+      {
+        "elapsedSeconds": 1856.4908462080639,
+        "familyRssKiB": 611824
+      },
+      {
+        "elapsedSeconds": 1857.5388353749877,
+        "familyRssKiB": 521808
+      },
+      {
+        "elapsedSeconds": 1858.576174292015,
+        "familyRssKiB": 518864
+      },
+      {
+        "elapsedSeconds": 1859.6213636670727,
+        "familyRssKiB": 546192
+      },
+      {
+        "elapsedSeconds": 1860.667380167055,
+        "familyRssKiB": 550336
+      },
+      {
+        "elapsedSeconds": 1861.7110815830529,
+        "familyRssKiB": 545200
+      },
+      {
+        "elapsedSeconds": 1862.77131095808,
+        "familyRssKiB": 549696
+      },
+      {
+        "elapsedSeconds": 1863.8187384170014,
+        "familyRssKiB": 555552
+      },
+      {
+        "elapsedSeconds": 1864.8582753750961,
+        "familyRssKiB": 546480
+      },
+      {
+        "elapsedSeconds": 1865.9049527919851,
+        "familyRssKiB": 545904
+      },
+      {
+        "elapsedSeconds": 1866.9501974580344,
+        "familyRssKiB": 543552
+      },
+      {
+        "elapsedSeconds": 1867.989789333078,
+        "familyRssKiB": 516816
+      },
+      {
+        "elapsedSeconds": 1869.0317964580609,
+        "familyRssKiB": 535296
+      },
+      {
+        "elapsedSeconds": 1870.081689667073,
+        "familyRssKiB": 561328
+      },
+      {
+        "elapsedSeconds": 1871.122952542035,
+        "familyRssKiB": 559680
+      },
+      {
+        "elapsedSeconds": 1872.1708440420916,
+        "familyRssKiB": 570272
+      },
+      {
+        "elapsedSeconds": 1873.2172330830945,
+        "familyRssKiB": 556944
+      },
+      {
+        "elapsedSeconds": 1874.2624797919998,
+        "familyRssKiB": 559888
+      },
+      {
+        "elapsedSeconds": 1875.3070663330145,
+        "familyRssKiB": 540848
+      },
+      {
+        "elapsedSeconds": 1876.3447561670328,
+        "familyRssKiB": 547152
+      },
+      {
+        "elapsedSeconds": 1877.388796708081,
+        "familyRssKiB": 557088
+      },
+      {
+        "elapsedSeconds": 1878.435205125017,
+        "familyRssKiB": 530000
+      },
+      {
+        "elapsedSeconds": 1879.4735276250867,
+        "familyRssKiB": 506784
+      },
+      {
+        "elapsedSeconds": 1880.5089795830427,
+        "familyRssKiB": 533808
+      },
+      {
+        "elapsedSeconds": 1881.5581119580893,
+        "familyRssKiB": 536832
+      },
+      {
+        "elapsedSeconds": 1882.6022427080898,
+        "familyRssKiB": 538064
+      },
+      {
+        "elapsedSeconds": 1883.6503512080526,
+        "familyRssKiB": 543936
+      },
+      {
+        "elapsedSeconds": 1884.6862844580319,
+        "familyRssKiB": 556736
+      },
+      {
+        "elapsedSeconds": 1885.720783875091,
+        "familyRssKiB": 557584
+      },
+      {
+        "elapsedSeconds": 1886.8690307500074,
+        "familyRssKiB": 558944
+      },
+      {
+        "elapsedSeconds": 1887.915247417055,
+        "familyRssKiB": 594656
+      },
+      {
+        "elapsedSeconds": 1888.9504680000246,
+        "familyRssKiB": 646464
+      },
+      {
+        "elapsedSeconds": 1889.9897065830883,
+        "familyRssKiB": 647824
+      },
+      {
+        "elapsedSeconds": 1891.0321817920776,
+        "familyRssKiB": 650608
+      },
+      {
+        "elapsedSeconds": 1892.0827187499963,
+        "familyRssKiB": 634816
+      },
+      {
+        "elapsedSeconds": 1893.1240317920456,
+        "familyRssKiB": 632544
+      },
+      {
+        "elapsedSeconds": 1894.1704625830753,
+        "familyRssKiB": 649680
+      },
+      {
+        "elapsedSeconds": 1895.2122644170886,
+        "familyRssKiB": 649248
+      },
+      {
+        "elapsedSeconds": 1896.2497796249809,
+        "familyRssKiB": 651168
+      },
+      {
+        "elapsedSeconds": 1897.2953958750004,
+        "familyRssKiB": 657600
+      },
+      {
+        "elapsedSeconds": 1898.3398402919993,
+        "familyRssKiB": 637104
+      },
+      {
+        "elapsedSeconds": 1899.3769487080863,
+        "familyRssKiB": 608848
+      },
+      {
+        "elapsedSeconds": 1900.4261293330928,
+        "familyRssKiB": 562672
+      },
+      {
+        "elapsedSeconds": 1901.4726090000477,
+        "familyRssKiB": 533488
+      },
+      {
+        "elapsedSeconds": 1902.5135742920684,
+        "familyRssKiB": 527072
+      },
+      {
+        "elapsedSeconds": 1903.5580961250234,
+        "familyRssKiB": 541440
+      },
+      {
+        "elapsedSeconds": 1904.6048456249991,
+        "familyRssKiB": 543984
+      },
+      {
+        "elapsedSeconds": 1905.6469484170666,
+        "familyRssKiB": 545824
+      },
+      {
+        "elapsedSeconds": 1906.6948427500902,
+        "familyRssKiB": 547024
+      },
+      {
+        "elapsedSeconds": 1907.7404961250722,
+        "familyRssKiB": 559056
+      },
+      {
+        "elapsedSeconds": 1908.7803922500461,
+        "familyRssKiB": 569584
+      },
+      {
+        "elapsedSeconds": 1909.8280062919948,
+        "familyRssKiB": 568160
+      },
+      {
+        "elapsedSeconds": 1910.8676257920451,
+        "familyRssKiB": 504848
+      },
+      {
+        "elapsedSeconds": 1911.9067455000477,
+        "familyRssKiB": 511424
+      },
+      {
+        "elapsedSeconds": 1912.9490830419818,
+        "familyRssKiB": 496592
+      },
+      {
+        "elapsedSeconds": 1913.9905572080752,
+        "familyRssKiB": 514336
+      },
+      {
+        "elapsedSeconds": 1915.035861167009,
+        "familyRssKiB": 529472
+      },
+      {
+        "elapsedSeconds": 1916.083768874989,
+        "familyRssKiB": 522288
+      },
+      {
+        "elapsedSeconds": 1917.1295415420318,
+        "familyRssKiB": 515760
+      },
+      {
+        "elapsedSeconds": 1918.1741854579886,
+        "familyRssKiB": 531488
+      },
+      {
+        "elapsedSeconds": 1919.2235155000817,
+        "familyRssKiB": 528064
+      },
+      {
+        "elapsedSeconds": 1920.2724163330859,
+        "familyRssKiB": 518960
+      },
+      {
+        "elapsedSeconds": 1921.318081000005,
+        "familyRssKiB": 523776
+      },
+      {
+        "elapsedSeconds": 1922.364427833003,
+        "familyRssKiB": 527120
+      },
+      {
+        "elapsedSeconds": 1923.409737750073,
+        "familyRssKiB": 503360
+      },
+      {
+        "elapsedSeconds": 1924.4563166670268,
+        "familyRssKiB": 511424
+      },
+      {
+        "elapsedSeconds": 1925.4925455420744,
+        "familyRssKiB": 514128
+      },
+      {
+        "elapsedSeconds": 1926.5472036250867,
+        "familyRssKiB": 508912
+      },
+      {
+        "elapsedSeconds": 1927.5934577500448,
+        "familyRssKiB": 501552
+      },
+      {
+        "elapsedSeconds": 1928.640206458047,
+        "familyRssKiB": 517824
+      },
+      {
+        "elapsedSeconds": 1929.6777957919985,
+        "familyRssKiB": 508032
+      },
+      {
+        "elapsedSeconds": 1930.723937792005,
+        "familyRssKiB": 525008
+      },
+      {
+        "elapsedSeconds": 1931.7667704580817,
+        "familyRssKiB": 529664
+      },
+      {
+        "elapsedSeconds": 1932.8122370829806,
+        "familyRssKiB": 524368
+      },
+      {
+        "elapsedSeconds": 1933.8574906670256,
+        "familyRssKiB": 500720
+      },
+      {
+        "elapsedSeconds": 1934.9008218330564,
+        "familyRssKiB": 532720
+      },
+      {
+        "elapsedSeconds": 1935.9478420830565,
+        "familyRssKiB": 620048
+      },
+      {
+        "elapsedSeconds": 1936.9964948750567,
+        "familyRssKiB": 649024
+      },
+      {
+        "elapsedSeconds": 1938.0442222499987,
+        "familyRssKiB": 752400
+      },
+      {
+        "elapsedSeconds": 1939.1088671250036,
+        "familyRssKiB": 852528
+      },
+      {
+        "elapsedSeconds": 1940.1591843750793,
+        "familyRssKiB": 864480
+      },
+      {
+        "elapsedSeconds": 1941.2043601670302,
+        "familyRssKiB": 1003408
+      },
+      {
+        "elapsedSeconds": 1942.2453286669916,
+        "familyRssKiB": 1460496
+      },
+      {
+        "elapsedSeconds": 1943.2870195000432,
+        "familyRssKiB": 1346976
+      },
+      {
+        "elapsedSeconds": 1944.3252381670754,
+        "familyRssKiB": 1341040
+      },
+      {
+        "elapsedSeconds": 1945.361612167093,
+        "familyRssKiB": 1404192
+      },
+      {
+        "elapsedSeconds": 1946.4075694170315,
+        "familyRssKiB": 1518240
+      },
+      {
+        "elapsedSeconds": 1947.4442588330712,
+        "familyRssKiB": 1347488
+      },
+      {
+        "elapsedSeconds": 1948.4902735420037,
+        "familyRssKiB": 1432288
+      },
+      {
+        "elapsedSeconds": 1949.5390948749846,
+        "familyRssKiB": 1476080
+      },
+      {
+        "elapsedSeconds": 1950.5817890830804,
+        "familyRssKiB": 1333920
+      },
+      {
+        "elapsedSeconds": 1951.6353402920067,
+        "familyRssKiB": 1355888
+      },
+      {
+        "elapsedSeconds": 1952.6814172080485,
+        "familyRssKiB": 1338208
+      },
+      {
+        "elapsedSeconds": 1953.731692250003,
+        "familyRssKiB": 1297168
+      },
+      {
+        "elapsedSeconds": 1954.7730247500585,
+        "familyRssKiB": 1201440
+      },
+      {
+        "elapsedSeconds": 1955.8204872499919,
+        "familyRssKiB": 1111952
+      },
+      {
+        "elapsedSeconds": 1956.8640120000346,
+        "familyRssKiB": 1110640
+      },
+      {
+        "elapsedSeconds": 1957.9128502079984,
+        "familyRssKiB": 1126992
+      },
+      {
+        "elapsedSeconds": 1958.9574806670425,
+        "familyRssKiB": 1064592
+      },
+      {
+        "elapsedSeconds": 1960.0102100420045,
+        "familyRssKiB": 971984
+      },
+      {
+        "elapsedSeconds": 1961.0517562919995,
+        "familyRssKiB": 1016384
+      },
+      {
+        "elapsedSeconds": 1962.2608285420574,
+        "familyRssKiB": 963088
+      },
+      {
+        "elapsedSeconds": 1963.3059556670487,
+        "familyRssKiB": 1007312
+      },
+      {
+        "elapsedSeconds": 1964.3480907500489,
+        "familyRssKiB": 1018784
+      },
+      {
+        "elapsedSeconds": 1965.397102041985,
+        "familyRssKiB": 926384
+      },
+      {
+        "elapsedSeconds": 1966.4455296670785,
+        "familyRssKiB": 968144
+      },
+      {
+        "elapsedSeconds": 1967.4948132080026,
+        "familyRssKiB": 961200
+      },
+      {
+        "elapsedSeconds": 1968.5427463330561,
+        "familyRssKiB": 877600
+      },
+      {
+        "elapsedSeconds": 1969.591798666981,
+        "familyRssKiB": 868384
+      },
+      {
+        "elapsedSeconds": 1970.6386950000888,
+        "familyRssKiB": 767648
+      },
+      {
+        "elapsedSeconds": 1971.6854313750518,
+        "familyRssKiB": 664096
+      },
+      {
+        "elapsedSeconds": 1972.7329659580719,
+        "familyRssKiB": 703472
+      },
+      {
+        "elapsedSeconds": 1973.7804269579938,
+        "familyRssKiB": 691760
+      },
+      {
+        "elapsedSeconds": 1974.846226667054,
+        "familyRssKiB": 656960
+      },
+      {
+        "elapsedSeconds": 1975.8961024170276,
+        "familyRssKiB": 655712
+      },
+      {
+        "elapsedSeconds": 1976.9438140830025,
+        "familyRssKiB": 647408
+      },
+      {
+        "elapsedSeconds": 1977.9976882080082,
+        "familyRssKiB": 668656
+      },
+      {
+        "elapsedSeconds": 1979.0506688330788,
+        "familyRssKiB": 729648
+      },
+      {
+        "elapsedSeconds": 1980.10315262503,
+        "familyRssKiB": 744720
+      },
+      {
+        "elapsedSeconds": 1981.1491629170487,
+        "familyRssKiB": 788992
+      },
+      {
+        "elapsedSeconds": 1982.1934900830965,
+        "familyRssKiB": 774992
+      },
+      {
+        "elapsedSeconds": 1983.2431934580673,
+        "familyRssKiB": 844944
+      },
+      {
+        "elapsedSeconds": 1984.2867573330877,
+        "familyRssKiB": 983312
+      },
+      {
+        "elapsedSeconds": 1985.3294542080257,
+        "familyRssKiB": 927856
+      },
+      {
+        "elapsedSeconds": 1986.3774656670867,
+        "familyRssKiB": 944992
+      },
+      {
+        "elapsedSeconds": 1987.4267903330037,
+        "familyRssKiB": 962000
+      },
+      {
+        "elapsedSeconds": 1988.475697249989,
+        "familyRssKiB": 980672
+      },
+      {
+        "elapsedSeconds": 1989.5298076249892,
+        "familyRssKiB": 1043264
+      },
+      {
+        "elapsedSeconds": 1990.5678212500643,
+        "familyRssKiB": 1126048
+      },
+      {
+        "elapsedSeconds": 1991.6113226250745,
+        "familyRssKiB": 1079824
+      },
+      {
+        "elapsedSeconds": 1992.6572490000399,
+        "familyRssKiB": 903040
+      },
+      {
+        "elapsedSeconds": 1993.7040262500523,
+        "familyRssKiB": 940336
+      },
+      {
+        "elapsedSeconds": 1994.743324375013,
+        "familyRssKiB": 940208
+      },
+      {
+        "elapsedSeconds": 1995.7851560000563,
+        "familyRssKiB": 937936
+      },
+      {
+        "elapsedSeconds": 1996.8359751250828,
+        "familyRssKiB": 913776
+      },
+      {
+        "elapsedSeconds": 1997.8816584170563,
+        "familyRssKiB": 811552
+      },
+      {
+        "elapsedSeconds": 1998.9204897499876,
+        "familyRssKiB": 840384
+      },
+      {
+        "elapsedSeconds": 1999.9562518330058,
+        "familyRssKiB": 837104
+      },
+      {
+        "elapsedSeconds": 2000.9937857500045,
+        "familyRssKiB": 838384
+      },
+      {
+        "elapsedSeconds": 2002.038997124997,
+        "familyRssKiB": 825568
+      },
+      {
+        "elapsedSeconds": 2003.080778875039,
+        "familyRssKiB": 839360
+      },
+      {
+        "elapsedSeconds": 2004.1292925419984,
+        "familyRssKiB": 780976
+      },
+      {
+        "elapsedSeconds": 2005.1666264580563,
+        "familyRssKiB": 755696
+      },
+      {
+        "elapsedSeconds": 2006.2117799579864,
+        "familyRssKiB": 731760
+      },
+      {
+        "elapsedSeconds": 2007.2551853330806,
+        "familyRssKiB": 686000
+      },
+      {
+        "elapsedSeconds": 2008.297774375067,
+        "familyRssKiB": 718160
+      },
+      {
+        "elapsedSeconds": 2009.3482403330272,
+        "familyRssKiB": 652896
+      },
+      {
+        "elapsedSeconds": 2010.3899557500845,
+        "familyRssKiB": 604384
+      },
+      {
+        "elapsedSeconds": 2011.4402131669922,
+        "familyRssKiB": 531440
+      },
+      {
+        "elapsedSeconds": 2012.486638750066,
+        "familyRssKiB": 536016
+      },
+      {
+        "elapsedSeconds": 2013.5267830420053,
+        "familyRssKiB": 529824
+      },
+      {
+        "elapsedSeconds": 2014.563580041984,
+        "familyRssKiB": 530160
+      },
+      {
+        "elapsedSeconds": 2015.613841167069,
+        "familyRssKiB": 491008
+      },
+      {
+        "elapsedSeconds": 2016.6581098750466,
+        "familyRssKiB": 519216
+      },
+      {
+        "elapsedSeconds": 2017.7035477079917,
+        "familyRssKiB": 514400
+      },
+      {
+        "elapsedSeconds": 2018.7494008750655,
+        "familyRssKiB": 485296
+      },
+      {
+        "elapsedSeconds": 2019.8100738329813,
+        "familyRssKiB": 528512
+      },
+      {
+        "elapsedSeconds": 2020.8496825420298,
+        "familyRssKiB": 529408
+      },
+      {
+        "elapsedSeconds": 2021.903261667001,
+        "familyRssKiB": 532160
+      },
+      {
+        "elapsedSeconds": 2022.9495488749817,
+        "familyRssKiB": 509824
+      },
+      {
+        "elapsedSeconds": 2023.9887561670039,
+        "familyRssKiB": 544848
+      },
+      {
+        "elapsedSeconds": 2025.0315422500717,
+        "familyRssKiB": 584176
+      },
+      {
+        "elapsedSeconds": 2026.0711064999923,
+        "familyRssKiB": 645232
+      },
+      {
+        "elapsedSeconds": 2027.115746333031,
+        "familyRssKiB": 731600
+      },
+      {
+        "elapsedSeconds": 2028.1608736250782,
+        "familyRssKiB": 719760
+      },
+      {
+        "elapsedSeconds": 2029.2088425420225,
+        "familyRssKiB": 858272
+      },
+      {
+        "elapsedSeconds": 2030.2625835000072,
+        "familyRssKiB": 1106128
+      },
+      {
+        "elapsedSeconds": 2031.31489483302,
+        "familyRssKiB": 1819328
+      },
+      {
+        "elapsedSeconds": 2032.3512079580687,
+        "familyRssKiB": 1827696
+      }
+    ],
+    "sampledFamilyRssPeakKiB": 1957744,
+    "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak",
+    "financialOperations": 0
+  },
+  "markets": [
+    {
+      "market": "amm",
+      "syntheticFills": 3,
+      "normalRefunds": 2,
+      "members": 5,
+      "sourceAccounts": 8,
+      "source": 101,
+      "seal": 102,
+      "draw": 133,
+      "fullUps": 13,
+      "aggregateSyntheticFeesAcrossBranchesBaseUnits": "13000230000",
+      "ordinaryClaimCheckRows": 15,
+      "nonzeroOrdinaryVmClaims": 6,
+      "networkClaims": 0,
+      "keyFingerprint": "6aa163a6b40e8d990c1a7d2c7cda32bfe12d49e799d259782413ba69b58e7ac7"
+    },
+    {
+      "market": "bondingcurve",
+      "syntheticFills": 3,
+      "normalRefunds": 2,
+      "members": 5,
+      "sourceAccounts": 8,
+      "source": 101,
+      "seal": 102,
+      "draw": 133,
+      "fullUps": 10,
+      "aggregateSyntheticFeesAcrossBranchesBaseUnits": "10000129000",
+      "ordinaryClaimCheckRows": 15,
+      "nonzeroOrdinaryVmClaims": 9,
+      "networkClaims": 0,
+      "keyFingerprint": "a7d79c64d9d9736ebf81417cbe5d62deb5e5fc75f75755fafac0da57b613dc93"
+    }
+  ],
+  "applicationSnapshots": {
+    "compiler": "application-v2",
+    "fullUps": "application-v6",
+    "nativePlanner": "application-v8",
+    "replayAndBytecode": "application-v9"
+  },
+  "binarySha256": {
+    "bin-v2/compile_minimum_stream": "47eed40e80cd6f1c7fbc7ede428158cd78e7ffe8a6eed153f54a15ef16d74d87",
+    "bin-v6/batch_lifecycle": "a7943bd87d90feb607cec909c389b9ddf7ebfb2efc0bbe5c96105eba3611cdab",
+    "bin-v8/minimum_stream_plan": "516e480ae50d0aa342e348a0d15eb8b20361806c70678db32af6dc0ea6fc5c43",
+    "bin-v9/batch_lifecycle": "cd7f666707623f7c332420af31aa3e51ea1f649ddf61ba92729f515df0a3d471"
+  },
+  "open": [
+    "Seed unpredictability/low bias and seal-before-release protocol",
+    "Canonical finality/admission evidence",
+    "18504/18505 proof compatibility with frozen resources",
+    "Original faucet disposition and approved current-chain funding",
+    "Fresh v13 registration/initialization and live settlement/wallet claims",
+    "Same-condition deterministic/random performance comparison",
+    "Cross-machine service/failover and global admission fairness"
+  ],
+  "failedTrialsRetained": [
+    "v1 build missing ORDER import",
+    "v1 fixture generation wrapper mismatch",
+    "v2 fixture recipe syntax error",
+    "v1 UPS test filter matched zero tests, not acceptance",
+    "v2 UPS run stopped at root-metadata oracle after four accepted prefix proofs",
+    "v3 build used absent snapshot",
+    "v4 build had shadowed borrow in coherent attack",
+    "native v1/v2 synthetic derivation failed exact-root guard; fixed chronological insertion in v3",
+    "two current proof download timeouts",
+    "first saved-proof diagnostic lacked required profile and stopped before verification"
+  ]
+}
