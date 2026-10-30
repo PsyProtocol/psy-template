@@ -1,5 +1,18 @@
 # Market correctness and reset-chain validation — 27 October 2026
 
+Latest public-resource acquisition (30 October): [actual runtime client-key
+comparison and fixed L1 anchor observations](RUNTIME_PUBLIC_RESOURCES_20261030.md).
+The source-declared proof proxy returns an Endcap verifier that matches the
+frozen SDK byte-for-byte with a recomputed fingerprint. It does not export CST
+resources. L1 StateManager checkpoint 20724 and the coordinator's historical
+root agree at one RPC-observed finalized block; EIP-1186 retrieval at that fixed
+hash fails with a proof-window error. This is not authenticated finality. Four
+archived failing CST captures also reject the one acquired fixed client-role
+key; no replacement key is adopted. Two metadata tests pass. Actual CST
+resource/record correspondence, canonical finality and causal seed release stay
+open. No Node/SDK/old contract change, new proof or financial operation occurred;
+real fills and ordinary-wallet claims remain zero for this continuation.
+
 Latest application continuation (30 October): [owned native source-plan byte
 receipts and exact restart/recovery](SOURCE_STREAM_NATIVE_RECEIPT_20261030.md).
 The Executor pins the same bytes the native planner emitted, including the

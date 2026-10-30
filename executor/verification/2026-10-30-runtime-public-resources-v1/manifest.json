@@ -1,0 +1,443 @@
+{
+  "schema": 1,
+  "sourceDirectory": "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-market-recovery-20261023/runtime-resource-acquisition-20261030-v1",
+  "machine": "gewenbo.local",
+  "host": "macOS-15.7.3-arm64-arm-64bit",
+  "scope": "public formal Executor run including failures; success requires exact included receipt",
+  "walletFilesIncluded": false,
+  "sealedBinariesIncluded": false,
+  "records": [
+    {
+      "source": "application-v2/APPLICATION.json",
+      "file": "files/application-v2/APPLICATION.json.gz",
+      "bytes": 17294,
+      "sha256": "af47637c7655e47ea8ce0bfa4623c73fadd7164115fca1a3d1e8a8bbc55e1780",
+      "gzipBytes": 8098,
+      "gzipSha256": "90f784d6442355e36762ba370f0cc2e08c4ec0d66b6ff038116ae864ecc2ee34"
+    },
+    {
+      "source": "application-v2/Cargo.lock",
+      "file": "files/application-v2/Cargo.lock.gz",
+      "bytes": 217301,
+      "sha256": "d12d86f486408d3b88f496dde27e6494839511489a1202e778f09f0eca3c1183",
+      "gzipBytes": 50781,
+      "gzipSha256": "a4627f8f09ad4cdee75968b5fb6380925b321a4e7c5476fd485d38abe2d47015"
+    },
+    {
+      "source": "application-v2/Cargo.toml",
+      "file": "files/application-v2/Cargo.toml.gz",
+      "bytes": 4680,
+      "sha256": "c85cdfdc3912a609f857f073b555969a000870e6579d755d433f45e91997b4ab",
+      "gzipBytes": 978,
+      "gzipSha256": "9040fe6e30865b8e367db4a0ff85b2a046f1af17b26ffac49da39409503a0874"
+    },
+    {
+      "source": "application-v2/src/bin/diagnose_checkpoint_as_client_endcap.rs",
+      "file": "files/application-v2/src/bin/diagnose_checkpoint_as_client_endcap.rs.gz",
+      "bytes": 2478,
+      "sha256": "61ff898d6ebf697d608d48a6bf6e4751e52d1ca94876078b1661b4ae6b0bf97b",
+      "gzipBytes": 1210,
+      "gzipSha256": "fea3c2d9d51726deea9badc7f5f3ef3db16cbabcf8ad526d56835c69a2101146"
+    },
+    {
+      "source": "application-v2/src/bin/inspect_public_runtime_resources.rs",
+      "file": "files/application-v2/src/bin/inspect_public_runtime_resources.rs.gz",
+      "bytes": 908,
+      "sha256": "da29fc3ae39fdf337aae02803eae923dfbf1dbc31318097de4070b589689edd4",
+      "gzipBytes": 514,
+      "gzipSha256": "74f4d27526bcd517c4a6005bf173bbc9b26aff24bb3986794bbfcce6754bbdeb"
+    },
+    {
+      "source": "application-v2/src/public_runtime_resources.rs",
+      "file": "files/application-v2/src/public_runtime_resources.rs.gz",
+      "bytes": 5925,
+      "sha256": "9f47f4616a28743e966288d4f79f4bc1e8a5a054ed4214a84967cbdef48a5c2b",
+      "gzipBytes": 2099,
+      "gzipSha256": "62dd7ce495164549b944f8b264c97a4c579f2732526d0ab5ad8fac7a7b337d8a"
+    },
+    {
+      "source": "observe_anchor_followup.py",
+      "file": "files/observe_anchor_followup.py.gz",
+      "bytes": 3021,
+      "sha256": "5f875f2fbc6dc64e433ffd2727b1c70818fa0b26f018722afa38594c4576ef2b",
+      "gzipBytes": 1430,
+      "gzipSha256": "f11fee1898fe4d23fa2cd03bbd6bb5777fc21ff7fb15e3c4c6856249efc29006"
+    },
+    {
+      "source": "observe_coordinator_anchor.py",
+      "file": "files/observe_coordinator_anchor.py.gz",
+      "bytes": 2142,
+      "sha256": "0b1fd52f84fc1a2459fcae05a455a4e282972dfc8d9328ca57ac81864a80a85e",
+      "gzipBytes": 1075,
+      "gzipSha256": "55eb799654c9eb6099e60f9c12efe8353b21feb0fb4f9218ad4b73b57b5ba406"
+    },
+    {
+      "source": "observe_l1.py",
+      "file": "files/observe_l1.py.gz",
+      "bytes": 3527,
+      "sha256": "0e37b76ea5d0454d2d59b6a955cac64266b96af97058b5d7103cb159113a1fd3",
+      "gzipBytes": 1556,
+      "gzipSha256": "0b7e00ccf4aa0c3168ed6cb388faab4774910bc2c7bead30e27ec97a3ab570e1"
+    },
+    {
+      "source": "public/PLAN.json",
+      "file": "files/public/PLAN.json.gz",
+      "bytes": 1084,
+      "sha256": "4484fc239fb6c110d6f6d0965e3ac65d2e9a6e4aac5f95d928028fdd0a7687b9",
+      "gzipBytes": 621,
+      "gzipSha256": "89614178b4fb19e7c6e4b9b072b37b0c1747f1c242114813afa265d0698c153e"
+    },
+    {
+      "source": "public/closing-source-check.json",
+      "file": "files/public/closing-source-check.json.gz",
+      "bytes": 233,
+      "sha256": "1ec1e85a6fbffaaa6cbf2d1257a3987af2193aef7121f68db7713546b69d27a1",
+      "gzipBytes": 183,
+      "gzipSha256": "692729d4c172bc6ebdc0767e5508385015ae15cf60bffe45542f40f037c30afa"
+    },
+    {
+      "source": "public/coordinator-l1-anchor-root-result.json",
+      "file": "files/public/coordinator-l1-anchor-root-result.json.gz",
+      "bytes": 272,
+      "sha256": "58beadf658bf6e09dec518cba2a35a7934d41404c0aeb802d30fc6de5279d0b7",
+      "gzipBytes": 178,
+      "gzipSha256": "d118f49a05fc8ab9dd0fa85a8d234461761d32832260ba09a2d4f6f9a0334646"
+    },
+    {
+      "source": "public/coordinator-l1-anchor-root-transport.json",
+      "file": "files/public/coordinator-l1-anchor-root-transport.json.gz",
+      "bytes": 557,
+      "sha256": "7b72aa95984736ae02315c193d055cdd562c767ea9a3654e35faa104a3a3f90a",
+      "gzipBytes": 377,
+      "gzipSha256": "b24c118b22be5a0d25f5c42db41247d8af6e63cb8e3b18dd346aa93c75c0ef4a"
+    },
+    {
+      "source": "public/cross-rpc-anchor-observation.json",
+      "file": "files/public/cross-rpc-anchor-observation.json.gz",
+      "bytes": 1141,
+      "sha256": "da485318cb4561ef20a59a500b1aad0e7e0db8b963d6befc372152dcfea3d6ac",
+      "gzipBytes": 642,
+      "gzipSha256": "acc42ba1812732c236bb35deb5fe6e30695b20cb0fa2f3b66bb402e06e607469"
+    },
+    {
+      "source": "public/current-checkpoint-client-role.json",
+      "file": "files/public/current-checkpoint-client-role.json.gz",
+      "bytes": 1376,
+      "sha256": "dce8a86e73e9c4d66feb23e80e433e6ab843175d69411dd088f361a94bf69feb",
+      "gzipBytes": 666,
+      "gzipSha256": "63d222d630c56f1af957c31bdad1eb99179973d560ecd4946ffd2ed80f10bbf6"
+    },
+    {
+      "source": "public/current-role-diagnostic-v2-result.json",
+      "file": "files/public/current-role-diagnostic-v2-result.json.gz",
+      "bytes": 592,
+      "sha256": "2bb87394447121d3bab36845f11a141387967e9ea3edc78e0bce8e01e5097578",
+      "gzipBytes": 302,
+      "gzipSha256": "69dbd1d8730abed99e41a17a17c12a230dbdf695b4b71b705f2361c769300443"
+    },
+    {
+      "source": "public/current-role-diagnostic-v2.log",
+      "file": "files/public/current-role-diagnostic-v2.log.gz",
+      "bytes": 2082,
+      "sha256": "74ab7a76ab59a1197908f9e63c250b825326def9788f66ab8c009c500adb4789",
+      "gzipBytes": 845,
+      "gzipSha256": "7730a5b9313da4dcf3852513ff19097282c16890c836d828ea296ca6684a3b65"
+    },
+    {
+      "source": "public/endcap-circuits-projection.json",
+      "file": "files/public/endcap-circuits-projection.json.gz",
+      "bytes": 1382,
+      "sha256": "3f17ec40534a6dff2c529ffbfdca8651e160ab2bc0db4d8faf4010f6cb6c57aa",
+      "gzipBytes": 840,
+      "gzipSha256": "d8214e8fb21ba02af0496c4e620aa8dea805fd9ba4917fcb04c1c7ddc237eb9f"
+    },
+    {
+      "source": "public/github-release-resource-inventory.json",
+      "file": "files/public/github-release-resource-inventory.json.gz",
+      "bytes": 2669,
+      "sha256": "1e90380b8a05d72837d3ed637f9d14fef22ef048ff8dd71694dd9a12fc88b63a",
+      "gzipBytes": 917,
+      "gzipSha256": "fe40be49003ebd77bf6baf21292aafbe7eae67a34895381af2ea532d0e3608d3"
+    },
+    {
+      "source": "public/l1-chain-id-transport.json",
+      "file": "files/public/l1-chain-id-transport.json.gz",
+      "bytes": 501,
+      "sha256": "172f186bcd1b6c7e195b9bbe02e60d85a98a00db2d060a58ffdb277b77958748",
+      "gzipBytes": 352,
+      "gzipSha256": "97a2081322c1b6bf139f9841969222b69f0dc226b1dd61e71958a5bcb43aa34b"
+    },
+    {
+      "source": "public/l1-finalized-observation-transport.json",
+      "file": "files/public/l1-finalized-observation-transport.json.gz",
+      "bytes": 549,
+      "sha256": "db5d924af3950b3de51be1f7c16ff6f7e8113352d1c02aa811ee1d48d36f5902",
+      "gzipBytes": 376,
+      "gzipSha256": "00f48df64d35a6bc5f72c0a5048307ee54ef7584e19538daa23757fe00652e4a"
+    },
+    {
+      "source": "public/l1-header-projection.json",
+      "file": "files/public/l1-header-projection.json.gz",
+      "bytes": 1984,
+      "sha256": "5eee26a2f449f4cada5400ac83e66650013128bc835f10e5e3629211aa692289",
+      "gzipBytes": 1119,
+      "gzipSha256": "cd71e411658696a408293e10d3a3489e6841d0bceeb81863a51436a091d683a1"
+    },
+    {
+      "source": "public/l1-implementation-code-transport.json",
+      "file": "files/public/l1-implementation-code-transport.json.gz",
+      "bytes": 700,
+      "sha256": "52b706d7908bbb2237fe62c3f9a49e63d5f000d857acf727ac957c37d6f59dd3",
+      "gzipBytes": 464,
+      "gzipSha256": "b0d4c72fd5d731fc0ec841eacf7d9e88ff03059df21b4a2660fd8edbc4dc4a7a"
+    },
+    {
+      "source": "public/l1-implementation-code.json",
+      "file": "files/public/l1-implementation-code.json.gz",
+      "bytes": 13756,
+      "sha256": "dcc12854608ff9d7521a96fd78b66b1b139a2b7946abbe8d06aa4cdf63ff7f1a",
+      "gzipBytes": 4142,
+      "gzipSha256": "3ab36656c2efe1e6485b97acea8efddf2d532e1058f023fbbc655663e16cd192"
+    },
+    {
+      "source": "public/l1-proxy-account-proof-transport.json",
+      "file": "files/public/l1-proxy-account-proof-transport.json.gz",
+      "bytes": 792,
+      "sha256": "c5a61a7e8dbfdc4f946ae74f7b954a313edc9064d3d3e43c82261c0e5a6c309e",
+      "gzipBytes": 520,
+      "gzipSha256": "bca76405592311a6d196fb4adc300a3be8394360c3376ef7c733bbf52ceb9fb7"
+    },
+    {
+      "source": "public/l1-proxy-code.json",
+      "file": "files/public/l1-proxy-code.json.gz",
+      "bytes": 5530,
+      "sha256": "042381684adef981acf7323fb4f2d9de7baeaa4b205b298426e9f5634f5f662f",
+      "gzipBytes": 1545,
+      "gzipSha256": "ab1fe2cce0a72cf79f04ef66fd788d430abf354b23379a6d0df8fb4fc300b72e"
+    },
+    {
+      "source": "public/l1-state-manager-checkpoint-transport.json",
+      "file": "files/public/l1-state-manager-checkpoint-transport.json.gz",
+      "bytes": 750,
+      "sha256": "496b012e1061c759d3edf2e645038155052f0ff3739ed7c2be1ff40c27d7e165",
+      "gzipBytes": 484,
+      "gzipSha256": "51439092b4607910f75411be444f9dc81ae3b84c34a6d69d6ff2b5b49a75c36c"
+    },
+    {
+      "source": "public/l1-state-manager-code-transport.json",
+      "file": "files/public/l1-state-manager-code-transport.json.gz",
+      "bytes": 700,
+      "sha256": "9f51eaec47892b18f696fa67fa2d2a473525a11529196c0da1cff9ce58582f73",
+      "gzipBytes": 469,
+      "gzipSha256": "8479dd944efb5a1ff92113ff45cb0368addab49ae9e9e8b1c53a4ee9342b8d3b"
+    },
+    {
+      "source": "public/l1-state-manager-implementation-transport.json",
+      "file": "files/public/l1-state-manager-implementation-transport.json.gz",
+      "bytes": 780,
+      "sha256": "0cc9b36df8ab0efa828dd7b2ea9b8f4e2e35c19ed6ea2ff51d6133602fcf9f75",
+      "gzipBytes": 516,
+      "gzipSha256": "e5a3685e44e34f9c209fbb5c11ca80f19b55c31887a5e977c59f8507970df1e1"
+    },
+    {
+      "source": "public/l1-state-manager-observation.json",
+      "file": "files/public/l1-state-manager-observation.json.gz",
+      "bytes": 1016,
+      "sha256": "2b12cf1356347c33c85f4ceb3a2d87cafcc129d3b7d5523eead6b4d15268a05c",
+      "gzipBytes": 598,
+      "gzipSha256": "020ac2724bbec7a93dce226537bb1e2174afa79484c0eccdd1fe4c2c66c145d4"
+    },
+    {
+      "source": "public/l1-state-manager-root-transport.json",
+      "file": "files/public/l1-state-manager-root-transport.json.gz",
+      "bytes": 750,
+      "sha256": "374fac72219760119d20969938858a1549ce69a3aaf9b06aa7e01cb169cafaea",
+      "gzipBytes": 485,
+      "gzipSha256": "67f60d572999a61b22ddbc5c24e85d8903543ebcdaa6f3f7d0b8dcbb2a0a087c"
+    },
+    {
+      "source": "public/native-binaries-v2.json",
+      "file": "files/public/native-binaries-v2.json.gz",
+      "bytes": 483,
+      "sha256": "c0469de3bd6dc0d4e497ba7589d4262fd0a59f9a8c7d91f5a5c595461678a4b1",
+      "gzipBytes": 311,
+      "gzipSha256": "1a4c032d197053b272e25fdbd0a169970bc1d19faf9674e987c016a275730c14"
+    },
+    {
+      "source": "public/native-binary-v1.json",
+      "file": "files/public/native-binary-v1.json.gz",
+      "bytes": 257,
+      "sha256": "e6d05fd2f77fe3c2cc1f09e42c2970fab2d6ffc6eae5eec44a5e0875bb3c5063",
+      "gzipBytes": 203,
+      "gzipSha256": "70e625ef5045c354a0601e22df31ed5a440de99da4fab5d790a62befff7a0bd8"
+    },
+    {
+      "source": "public/native-projection-compare-v1-result.json",
+      "file": "files/public/native-projection-compare-v1-result.json.gz",
+      "bytes": 595,
+      "sha256": "6f284bbfdae2795031fe2ced2afe6b0934f84ebef1d9832dcd2ebbcd85e625c1",
+      "gzipBytes": 302,
+      "gzipSha256": "9a380c396f4943f72fba1c36fdea28413229d07e971655a1ef08a181a18623a2"
+    },
+    {
+      "source": "public/native-projection-compare-v1.log",
+      "file": "files/public/native-projection-compare-v1.log.gz",
+      "bytes": 1275,
+      "sha256": "3c654b4c0f4d7295157af45f3d95aaaddffb582f09a67684d369b824294b6a55",
+      "gzipBytes": 757,
+      "gzipSha256": "6ca98598024da2a12a24494c8d1a4eec29bef852ced9fbc14255926604446212"
+    },
+    {
+      "source": "public/native-projection-comparison.json",
+      "file": "files/public/native-projection-comparison.json.gz",
+      "bytes": 1082,
+      "sha256": "024dc60ca90a6bf6de04084de8354ff05504718790a25fc5206fed5f82ee7741",
+      "gzipBytes": 606,
+      "gzipSha256": "2ff54902effdee7081a8eecdbcbe7cc71a4eeda267ca3664823cf84d59418c0d"
+    },
+    {
+      "source": "public/native-resource-build-v1-result.json",
+      "file": "files/public/native-resource-build-v1-result.json.gz",
+      "bytes": 4198,
+      "sha256": "2d7a5b3e98a29d60026647f516d44a9ed48de8ced2ae1f73cccc287dc2c78e1c",
+      "gzipBytes": 977,
+      "gzipSha256": "5a5d73afeb2f53dcdf6da2c8740c25fc45a552cd876485a730537ddf8bd0b4eb"
+    },
+    {
+      "source": "public/native-resource-build-v1.log",
+      "file": "files/public/native-resource-build-v1.log.gz",
+      "bytes": 46198,
+      "sha256": "0c0c9e741dc1f0cd94a554395c02ada2cd21f2a4fc892b65525d8c45cc1f2356",
+      "gzipBytes": 8323,
+      "gzipSha256": "a44b0677d882568833be66c7abd99191e1f46e0b6dbf2ec2504b82f2c4689601"
+    },
+    {
+      "source": "public/native-resource-unit-v1-result.json",
+      "file": "files/public/native-resource-unit-v1-result.json.gz",
+      "bytes": 4461,
+      "sha256": "0647a570f553b22a0dd8ade23bac05c8f2cb5a0bcefd8373097711b8b72e1ae1",
+      "gzipBytes": 1042,
+      "gzipSha256": "61cf408db5456d5189584df9594cf7c408fab5963f4741c69816e3ceb9ec8af2"
+    },
+    {
+      "source": "public/native-resource-unit-v1.log",
+      "file": "files/public/native-resource-unit-v1.log.gz",
+      "bytes": 47570,
+      "sha256": "8c3d0a464bc28b8acdbe2823d4f87d0ef5a9d1883890459c85dce47db9a09e31",
+      "gzipBytes": 8751,
+      "gzipSha256": "795ea23f6bbe959afa2fc8347be49c017813cba3ca7f954ce52a031879f86bf9"
+    },
+    {
+      "source": "public/native-role-build-v2-result.json",
+      "file": "files/public/native-role-build-v2-result.json.gz",
+      "bytes": 4285,
+      "sha256": "24ad91fead85ef89d463cff0e636d44b7012b00a3c85a88c5408c56d6819b78d",
+      "gzipBytes": 1015,
+      "gzipSha256": "3a6b5751bef4cb4b9dfb5452a11a79ab8cfc1052243ea2aa2da6bd25c5aee0cb"
+    },
+    {
+      "source": "public/native-role-build-v2.log",
+      "file": "files/public/native-role-build-v2.log.gz",
+      "bytes": 46198,
+      "sha256": "c8cd0b29db9b0501c2b9f5d202129002326eb6f52f834a63eabbf1d79c9bf348",
+      "gzipBytes": 8324,
+      "gzipSha256": "ebfbed0dbc8a9778d26f6f8ad68fb4aa0090ba0e113b6674b1d1a167502fdaa7"
+    },
+    {
+      "source": "public/native-runtime-compare-v1-result.json",
+      "file": "files/public/native-runtime-compare-v1-result.json.gz",
+      "bytes": 595,
+      "sha256": "1b5d5c5e143a684c06890487ed5f1ac0101c32074c3f6327be0d42b300768174",
+      "gzipBytes": 304,
+      "gzipSha256": "20d06897a8198c58e2a476187a4d41fb9597d88aee1d1a47fb686bbdfac837ad"
+    },
+    {
+      "source": "public/native-runtime-compare-v1.log",
+      "file": "files/public/native-runtime-compare-v1.log.gz",
+      "bytes": 1896,
+      "sha256": "a0a4c7cceec3971487b1662527d0049cd261f9c19ca3cb3fa70de7377b30a1a8",
+      "gzipBytes": 961,
+      "gzipSha256": "8e1b3c9f558eea86b7620cc4e5e0a1a5d8afd8f51d309de2aa218efd6ba4da80"
+    },
+    {
+      "source": "public/native-runtime-comparison.json",
+      "file": "files/public/native-runtime-comparison.json.gz",
+      "bytes": 1811,
+      "sha256": "168729a3844dfb213d3b4cd841595d3cf21ac433e537114e4c4cf451f30287c2",
+      "gzipBytes": 819,
+      "gzipSha256": "6bcf4703734d98120edaded1c6863130a3165c0f0648476d4be6081f8f6963d3"
+    },
+    {
+      "source": "public/original-checkpoint-client-role.json",
+      "file": "files/public/original-checkpoint-client-role.json.gz",
+      "bytes": 1376,
+      "sha256": "061fa79ae458fdde74c30c13f555be5bc72be5d2bf160df2843432d967e27812",
+      "gzipBytes": 663,
+      "gzipSha256": "119c6f5e4607818c4b5774bb1772fd5d2dd4e8b3945ddcc66a7a76aa4b330a88"
+    },
+    {
+      "source": "public/original-role-diagnostic-v2-result.json",
+      "file": "files/public/original-role-diagnostic-v2-result.json.gz",
+      "bytes": 595,
+      "sha256": "8f0f39602ab1810f202ed4781cd768b0b016ff46fb85ea641a2e52091c17b5ea",
+      "gzipBytes": 300,
+      "gzipSha256": "d658647cc5e11817dcb3fbdc8f3ed372dfa38cd0954801281acee2a1167d041f"
+    },
+    {
+      "source": "public/original-role-diagnostic-v2.log",
+      "file": "files/public/original-role-diagnostic-v2.log.gz",
+      "bytes": 2082,
+      "sha256": "5188288c055c4d5444c05d952febfadb6e3505d32b584c49e1b46a0a837d27e8",
+      "gzipBytes": 842,
+      "gzipSha256": "775b1ea1731450acc1c72ba0ec2c3cebe07dc431dcbd199c0a1f250708e019f2"
+    },
+    {
+      "source": "public/prove-circuit-resources-transport.json",
+      "file": "files/public/prove-circuit-resources-transport.json.gz",
+      "bytes": 419,
+      "sha256": "32750fb5509b222afc153f091d4e767ce8bac7bd2cfe41d1bd71b1286213e68e",
+      "gzipBytes": 300,
+      "gzipSha256": "341add3fc1f0898fe753b27179c712733c010130fec97e9a00b2e5b21642a461"
+    },
+    {
+      "source": "public/public-l1-config-projection.json",
+      "file": "files/public/public-l1-config-projection.json.gz",
+      "bytes": 984,
+      "sha256": "4214ffa54a694e63f9f9de5381e0a328798865efd34978294fa17ed03a1355fd",
+      "gzipBytes": 533,
+      "gzipSha256": "1f737a841abbb910e0be84dda0d8f166ad8487ff158d65975fc243dcb6054776"
+    },
+    {
+      "source": "public/public-l1-config-transport.json",
+      "file": "files/public/public-l1-config-transport.json.gz",
+      "bytes": 335,
+      "sha256": "cd99783995c4b138b3a5dd6ebcce9299019611cd5099d2c481370e24972ac193",
+      "gzipBytes": 254,
+      "gzipSha256": "077a2339977422d9de7131f8fe8201c2792d9ec650fac13f9170498d7adb6e1d"
+    },
+    {
+      "source": "public/trust-setup-archive-head.json",
+      "file": "files/public/trust-setup-archive-head.json.gz",
+      "bytes": 739,
+      "sha256": "aa402453b5ad8fc7b2941b3aa2fd76b82f8f086cc195b8d1fc634d7bd56c7b2f",
+      "gzipBytes": 486,
+      "gzipSha256": "045f570225c8ca9ffcbe5b5c7d2713e19cfe70c002f84a2715262b2b276a30ce"
+    },
+    {
+      "source": "public/trust-setup-script-transport.json",
+      "file": "files/public/trust-setup-script-transport.json.gz",
+      "bytes": 301,
+      "sha256": "0b12c06ea52e67c480311cefa150f0b7818dfa578358e0a7d1d6df4aeec05496",
+      "gzipBytes": 239,
+      "gzipSha256": "7e3c533649003eb438ac6febbcfdf218f9b1116371db1acc3574f63cfe3e3075"
+    },
+    {
+      "source": "run.py",
+      "file": "files/run.py.gz",
+      "bytes": 2134,
+      "sha256": "0fea68dd6af50ff178697c15bb64ed870f0ca2a242878ef3aa84b8b4a7781688",
+      "gzipBytes": 1176,
+      "gzipSha256": "19f4a25d4b5e6335b3601da499c1d53b6df5b14d77449593438850fca907ab88"
+    }
+  ]
+}

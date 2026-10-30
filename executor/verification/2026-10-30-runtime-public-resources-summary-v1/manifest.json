@@ -1,0 +1,43 @@
+{
+  "schema": 1,
+  "sourceDirectory": "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-market-recovery-20261023/runtime-resource-acquisition-20261030-v1",
+  "machine": "gewenbo.local",
+  "host": "macOS-15.7.3-arm64-arm-64bit",
+  "scope": "public formal Executor run including failures; success requires exact included receipt",
+  "walletFilesIncluded": false,
+  "sealedBinariesIncluded": false,
+  "records": [
+    {
+      "source": "finalize_public_summary.py",
+      "file": "files/finalize_public_summary.py.gz",
+      "bytes": 3648,
+      "sha256": "1f64cc17d81314c86c02e36b5036d234f76a50a381b2b95415804fdcb81dd378",
+      "gzipBytes": 1747,
+      "gzipSha256": "8548da31e05e337db581228ce49ba2a32651e784b26f65ca553e53870a8aa1ee"
+    },
+    {
+      "source": "public/REPRODUCTION.json",
+      "file": "files/public/REPRODUCTION.json.gz",
+      "bytes": 5933,
+      "sha256": "3f2cbbe2b8c3a4c568968ed114cbdc46b3b4be103a353331d28972b0f104b0b3",
+      "gzipBytes": 1571,
+      "gzipSha256": "260f37b520e9980f653e04e3a392c0de4cda91f3c919282a97927ce6d8e681f1"
+    },
+    {
+      "source": "public/SUMMARY.json",
+      "file": "files/public/SUMMARY.json.gz",
+      "bytes": 3252,
+      "sha256": "a762c623b78e12b62ac75d5498c0a6bc4012b0d775bd96a63aaef2cc0d6a050f",
+      "gzipBytes": 1090,
+      "gzipSha256": "42792405c94cfb0509468124254b98339f9d2b1a5b4b4a27be965a5160a946f1"
+    },
+    {
+      "source": "public/packaging-observation.json",
+      "file": "files/public/packaging-observation.json.gz",
+      "bytes": 515,
+      "sha256": "7e2cff215bcc6790910988c9202a4725bcb6b901a81734e6853c7c00e27d1c2c",
+      "gzipBytes": 324,
+      "gzipSha256": "e0924794d1b335e64b3ad5f5bb6c6403d8afb80c78a40a83a188f89540fb09e2"
+    }
+  ]
+}
