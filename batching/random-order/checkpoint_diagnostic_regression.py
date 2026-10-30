@@ -11,10 +11,10 @@ FINGERPRINT = '5e4c467c5e5984b52b2ce8a8dc1401ef3d6046ef3b529935e4cc840112e63f06'
 ERROR = 'Condition failed: `vanishing_polys_zeta[i] == z_h_zeta * reduce_with_powers(chunk, zeta_pow_deg)`'
 
 
-def check_original_failure(report):
+def check_original_failure(report, expected=(PREVIOUS, CURRENT)):
     assert report['resourcesConstructed'] is True and report['stage'] == 'proofComparison'
-    assert [row['sha256'] for row in report['inputIdentities']] == [PREVIOUS, CURRENT]
-    assert [row['proofSha256'] for row in report['proofs']] == [PREVIOUS, CURRENT]
+    assert [row['sha256'] for row in report['inputIdentities']] == list(expected)
+    assert [row['proofSha256'] for row in report['proofs']] == list(expected)
     for row in report['proofs']:
         assert row['strictAndSdkDecodeEqual'] and row['strictRoundtripExact'] and row['sdkRoundtripExact']
         assert row['fingerprint'] == FINGERPRINT
@@ -30,10 +30,22 @@ def main():
     parser.add_argument('--binary', type=Path, required=True)
     parser.add_argument('--evidence', type=Path, required=True)
     parser.add_argument('--out', type=Path, required=True)
+    parser.add_argument('--manifest', type=Path, help='explicit original pair; never a replacement verifier')
+    parser.add_argument('--with-control', action='store_true', help='one synthetic cached-genesis proof; real pair must remain rejected')
     args = parser.parse_args()
     args.out.mkdir()
-    previous, current = [args.evidence / (name + '.bin') for name in ['previous-proof', 'current-proof']]
-    assert [hashlib.sha256(p.read_bytes()).hexdigest() for p in [previous, current]] == [PREVIOUS, CURRENT]
+    expected=(PREVIOUS,CURRENT)
+    if args.manifest:
+        manifest=json.loads(args.manifest.read_text())
+        assert manifest['schema']==1 and len(manifest['proofs'])==2
+        rows=manifest['proofs'];assert all(type(r['checkpoint'])is int and 0<r['checkpoint']<2**32 for r in rows)
+        assert rows[1]['checkpoint']==rows[0]['checkpoint']+1
+        expected=tuple(r['sha256']for r in rows)
+        assert all(len(h)==64 and all(c in '0123456789abcdef'for c in h)for h in expected)
+        previous,current=[args.evidence/(str(r['checkpoint'])+'.bin')for r in rows]
+    else:
+        previous,current=[args.evidence/(name+'.bin')for name in ['previous-proof','current-proof']]
+    assert [hashlib.sha256(p.read_bytes()).hexdigest() for p in [previous, current]] == list(expected)
     runs = []
 
     def run(label, mode, before=previous, now=current):
@@ -47,7 +59,7 @@ def main():
         return report
 
     cached = run('cached', 'cached')
-    check_original_failure(cached)
+    check_original_failure(cached,expected)
     constructed = run('constructed', 'constructed')
     assert constructed['stage'] == 'resourceConstruction' and constructed['resourcesConstructed'] is False
     assert constructed['error'] == 'official frozen network resource construction: PSY_NETWORK testnet does not match localhost'
@@ -60,7 +72,7 @@ def main():
     assert bad['resourcesConstructed'] is True and bad['stage'] == 'proofReadDecodeOrComparison'
     assert bad['error'].startswith('strict proof decode:')
     try:
-        check_original_failure(bad)
+        check_original_failure(bad,expected)
         raise RuntimeError('Malformed input was mislabeled as the original crypto failure')
     except (AssertionError, KeyError):
         pass
@@ -73,11 +85,26 @@ def main():
 
     substituted = run('substituted', 'cached', current)
     try:
-        check_original_failure(substituted)
+        check_original_failure(substituted,expected)
         raise RuntimeError('Substituted input was mislabeled as the original crypto failure')
     except AssertionError:
         pass
 
+    control = None
+    if args.with_control:
+        controlled=run('selfcheck','cached-with-control')
+        check_original_failure(controlled,expected)
+        control=controlled['fixedResourceControl']
+        for name in ['genesisCachedAndSourceResourcesEqual','genesisNativeVerified','genesisSdkBorrowedVerified','genesisApplicationOwnedVerified','mutatedPublicInputsRejected']:
+            assert control[name]is True,name
+        assert control['proofsGenerated']==1 and controlled['proofsGenerated']==1
+        assert control['canonicalGenesisVerified']is False and control['realTransitionProofsAccepted']==0
+        assert all(row['fingerprintRecomputed']for row in control['inventory'])
+        proof=args.out/'selfcheck.genesis-control.bin'
+        assert hashlib.sha256(proof.read_bytes()).hexdigest()==control['proofSha256']
+        report_before=(args.out/'selfcheck.json').read_bytes();proof_before=proof.read_bytes()
+        collision=subprocess.run([str(args.binary),'cached-with-control',str(previous),str(current),str(args.out/'selfcheck.json')],capture_output=True,timeout=120)
+        assert collision.returncode!=0 and report_before==(args.out/'selfcheck.json').read_bytes() and proof_before==proof.read_bytes()
     target = args.out / 'cached.json'
     before = target.read_bytes()
     result = subprocess.run([str(args.binary), 'cached', str(previous), str(current), str(target)],
@@ -85,9 +112,9 @@ def main():
     assert result.returncode != 0 and target.read_bytes() == before
     (args.out / 'REGRESSION.json').write_text(json.dumps({
         'schema': 1, 'scope': 'real offline diagnostic and evidence-classification regressions; zero accepted checkpoint proofs',
-        'runs': runs, 'outputCollisionPreserved': True, 'decodeFailuresNotCryptoFailures': True,
+        'expectedProofSha256':list(expected),'syntheticControl':control,'runs': runs, 'outputCollisionPreserved': True, 'decodeFailuresNotCryptoFailures': True,
         'substituteNotOriginalFailure': True, 'acceptedCheckpointProofs': 0,
-        'financialOperations': 0, 'proofsGenerated': 0, 'randomAuthorization': False,
+        'financialOperations': 0, 'proofsGenerated': 1 if args.with_control else 0, 'randomAuthorization': False,
     }, indent=2) + '\n')
 
 

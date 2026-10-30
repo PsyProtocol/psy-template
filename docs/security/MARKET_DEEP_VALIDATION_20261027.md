@@ -1,5 +1,14 @@
 # Market correctness and reset-chain validation — 27 October 2026
 
+Latest checkpoint diagnosis (30 October): [18504/18505 resource, stored-data and
+current-cohort audit](CHECKPOINT_18504_18505_RESOURCE_AUDIT_20261030.md).
+Original bytes re-fetch identically; 25 cache fingerprints and a synthetic
+genesis positive control check correctly; the source final wrapper exactly
+matches the frozen cache. An observed 18505 cumulative PI/opening inconsistency
+is recorded, without claiming authenticated history. New captures 19321/19322
+also fail both frozen proof paths. Exact upstream record/resource/log delivery
+is listed; real settlement and wallet claims stay closed, with zero live fees.
+
 Latest accepted-seal continuation (30 October): [v13 fixed delayed draw,
 conditional historical seal authentication and current proof failures](ACCEPTED_SEAL_DELAYED_DRAW_20261030.md).
 AMM/Curve pass 23 synthetic complete UPSs with S < C < D, immutable cross-page
