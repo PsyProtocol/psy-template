@@ -1,5 +1,14 @@
 # Market correctness and reset-chain validation — 27 October 2026
 
+Latest application handoff continuation (30 October): [fixed checkpoint resource
+export, strict runtime-record import and owned Executor inspection](CHECKPOINT_PUBLIC_DELIVERY_20261030.md).
+This implements the consumer side of the preceding audit checklist without
+changing Node or the frozen SDK. Imported claims cannot authenticate runtime
+identity, finality or seal-before-seed-release timing, and cannot enable writes.
+No genuine compatible runtime bundle, real settlement or ordinary-wallet claim
+is added by these diagnostic checks. The original 18504/18505 failures and
+unknown faucet request remain unchanged.
+
 Latest checkpoint diagnosis (30 October): [18504/18505 resource, stored-data and
 current-cohort audit](CHECKPOINT_18504_18505_RESOURCE_AUDIT_20261030.md).
 Original bytes re-fetch identically; 25 cache fingerprints and a synthetic

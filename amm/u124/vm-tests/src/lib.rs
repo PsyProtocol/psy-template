@@ -172,6 +172,7 @@ pub mod seal_inclusion;
 pub mod seal_inclusion_circuit;
 pub mod seal_order;
 pub mod checkpoint_evidence;
+pub mod checkpoint_delivery;
 pub mod scoped_order;
 pub mod checkpoint_processor;
 pub mod processor_policy;

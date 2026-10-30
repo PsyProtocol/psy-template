@@ -1,9 +1,16 @@
 # Conditional random-order components
 
-This directory is **not an enabled random market profile**. The frozen source
-has no accepted entropy or pre-draw seal-inclusion adapter. Existing builders,
-policies and Executor admission plans retain deterministic mode and reject random
-parameters. A valid-looking certificate cannot activate them.
+The **qualified entropy gate remains closed**. Separate producer-seeded market
+profiles and the delayed accepted-seal stream have synthetic complete UPS
+evidence; their [current capabilities and limits](../../docs/security/ACCEPTED_SEAL_DELAYED_DRAW_20261030.md)
+do not establish unbiased randomness, canonical finality or live settlement.
+Default deterministic builders, policies and admission continue to reject random
+parameters. A valid-looking certificate cannot activate the qualified gate.
+
+The new [public checkpoint delivery interface](../../docs/security/CHECKPOINT_PUBLIC_DELIVERY_20261030.md)
+exports fixed local resources and verifies supplied stored records through the
+owned native verifier and Executor. Import success remains conditional proof
+consistency; it cannot install a foreign key or authenticate seed-release timing.
 
 ## Modules and trust boundary
 

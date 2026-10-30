@@ -40,6 +40,45 @@ pub fn inspect(opening:&CheckpointOpening,proof:Proof,previous:Option<Proof>)->R
  Ok(serde_json::json!({"schema":1,"scope":"source-fixed proof validity and conditional root/leaf opening; no canonical history, instance, finality or randomness authentication","checkpointId":opening.checkpoint_id,"checkpointRoot":opening.checkpoint_root.to_string(),"checkpointLeafHash":opening.checkpoint_leaf_hash.to_string(),"verifiedProofPublicInputs":actual.to_string(),"checkpointCircuitProofVerified":true,"rootAndLeafOpeningVerified":true,"predecessorProofVerified":opening.checkpoint_id>0,"declaredCheckpointMembershipVerified":true,"numericPredecessorAdjacencyVerified":false,"latestPositionVerified":false,"historyPrefixAnchored":false,"genesisFingerprint":r.genesis_fingerprint.to_string(),"transitionFingerprint":r.transition_fingerprint.to_string(),"canonicalGenesisVerified":false,"chainDomainAuthenticated":false,"finalityVerified":false,"qualifiedSource":false,"causalSealVerified":false,"randomAuthorization":false,"financialOperations":0,"proofsGenerated":0,"broadcast":false}))
 }
 pub fn resource_inventory()->Result<serde_json::Value>{let r=resources()?;Ok(serde_json::json!({"genesisFingerprint":r.genesis_fingerprint.to_string(),"transitionFingerprint":r.transition_fingerprint.to_string(),"genesisDegreeBits":r.genesis.common.degree_bits(),"transitionDegreeBits":r.transition.common.degree_bits(),"constructedGenesisFingerprint":r.constructed_genesis_fingerprint.to_string(),"constructedGenesisDegreeBits":r.constructed_genesis_degree,"cacheMatchesConstructedGenesis":r.cache_matches_constructed_genesis,"transitionSourceConstructionChecked":false,"publicInputCount":4,"source":"frozen cached key/common libraries compared with frozen genesis constructor; no replacement keys adopted","finalityVerified":false,"randomAuthorization":false}))}
+
+/// Export only locally approved immutable resources. Foreign bytes are compared
+/// with these bytes, never deserialized as a replacement verifier.
+pub fn reference_resources()->Result<(Vec<u8>,Vec<u8>,serde_json::Value)>{
+ crate::live_guard::require_compiled_verifier_domain()?;
+ let r=resources()?;ensure!(r.cache_matches_constructed_genesis,"fixed resource release mismatch");
+ Ok((bincode::serialize(&r.transition.verifier_only)?,bincode::serialize(&r.transition.common)?,resource_inventory()?))
+}
+
+pub type PublicCheckpointRecord=psy_data::protocol::verifiable_checkpoint_transition::PsyVerifiableCheckpointTransitionWithProof<F,Q<F>>;
+
+/// Verify two delivered database records conditionally. Snapshot provenance,
+/// canonical genesis, the earlier history prefix and finality remain external.
+pub fn inspect_runtime_pair(openings:&[CheckpointOpening;2],records:&[PublicCheckpointRecord;2],boundary_prior:Q<F>)->Result<serde_json::Value>{
+ use parth_core::crypto::hash::{traits::QFieldHashable,merkle_proof::compute_root_merkle_proof_generic};
+ let r=resources()?;
+ ensure!(openings[0].checkpoint_id>0&&openings[0].checkpoint_id.checked_add(1)==Some(openings[1].checkpoint_id),"ordered non-genesis pair required");
+ let mut decoded=Vec::new();let mut prior=boundary_prior;
+ for (opening,record) in openings.iter().zip(records){
+  ensure!(record.circuit_type==Kind::GenerateRollupStateTransitionProof as u32,"delivered circuit kind differs from approved transition kind");
+  let s=&record.info.state_transition;let t=&s.checkpoint_transition;
+  ensure!(s.checkpoint_state_transition_circuit_fingerprint==r.transition_fingerprint,"record fingerprint differs from approved resources");
+  ensure!(record.info.checkpoint_leaf.qfhash::<PoseidonHasher>()==opening.checkpoint_leaf_hash&&t.new_checkpoint_tree_root==opening.checkpoint_root&&t.new_checkpoint_leaf_hash==opening.checkpoint_leaf_hash,"populated leaf and transition endpoints differ from opening");
+  let p=&opening.checkpoint_path;
+  ensure!(opening.schema==1&&opening.checkpoint_id<=u32::MAX as u64&&p.siblings.len()==32&&p.index==opening.checkpoint_id&&p.root==opening.checkpoint_root&&p.value==opening.checkpoint_leaf_hash&&p.verify::<PoseidonHasher>(),"delivered checkpoint membership differs");
+  ensure!(compute_root_merkle_proof_generic::<_,PoseidonHasher>(Q::default(),p.index,&p.siblings)==t.old_checkpoint_tree_root,"transition does not append to a previously empty declared checkpoint position");
+  let proof=decode_proof(&record.zk_proof)?;let actual=public_hash(&proof)?;
+  ensure!(actual==s.get_chain_hash_from_previous::<PoseidonHasher>(&prior),"delivered record cumulative PI differs from claimed predecessor");
+  prior=actual;decoded.push(proof);
+ }
+ let a=&records[0].info.state_transition;let b=&records[1].info.state_transition;
+ ensure!(b.checkpoint_transition.old_checkpoint_tree_root==a.checkpoint_transition.new_checkpoint_tree_root&&b.checkpoint_transition.old_checkpoint_leaf_hash==a.checkpoint_transition.new_checkpoint_leaf_hash&&a.genesis_checkpoint_state_transition_hash==b.genesis_checkpoint_state_transition_hash,"delivered records do not form a consistent transition pair");
+ let current=decoded.pop().unwrap();let previous=decoded.pop().unwrap();
+ let mut report=inspect(&openings[1],current,Some(previous))?;
+ report["deliveredRecordsAndAppendEndpointsVerified"]=true.into();
+ report["boundaryPriorChainHashAuthenticated"]=false.into();
+ report["runtimeIdentityAuthenticated"]=false.into();report["snapshotProvenanceAuthenticated"]=false.into();
+ Ok(report)
+}
 #[cfg(test)]mod tests{
  use super::*;
  #[test]fn frozen_resources_have_checked_fingerprints_and_exact_cumulative_width()->Result<()>{let r=resource_inventory()?;ensure!(r["publicInputCount"]==4&&r["finalityVerified"]==false,"resource scope");Ok(())}

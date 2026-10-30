@@ -1,5 +1,11 @@
 # Psy Executor
 
+The operator-owned [checkpoint delivery route](checkpointDelivery.mjs) verifies
+public runtime handoffs using the existing frozen native verifier. It exports
+local reference resources and rejects incompatible or incomplete deliveries;
+it never installs a foreign key or enables signing/broadcast. See the
+[delivery format, commands and remaining authentication boundaries](../docs/security/CHECKPOINT_PUBLIC_DELIVERY_20261030.md).
+
 A chain observer and public SD-key execution service inside `psy-template`.
 It discovers eligible requests for configured users, constructs an authorized
 UPS, runs a proof-only preflight, revalidates chain state, submits once, and
