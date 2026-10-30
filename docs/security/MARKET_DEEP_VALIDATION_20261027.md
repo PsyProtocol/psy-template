@@ -1,5 +1,13 @@
 # Market correctness and reset-chain validation — 27 October 2026
 
+Latest continuation (30 October): [fresh minimum-stream registration/startup,
+ordinary-owner treasury ordering and current-network blockers](MINIMUM_VAULT_BOOTSTRAP_20261030.md).
+Three synthetic full UPSs pass with the new v12 key, including register-user
+start and Curve inventory initialization. Real deployment/claim stays closed;
+new current checkpoint proofs still fail the fixed verifier, and original faucet
+funding remains unresolved. This does not promote v11 evidence into v12 or make
+inactive maintenance tape an authenticated source inventory.
+
 Diagram-mode continuation: [producer-seeded implementation, immutable recovery
 binding and measured public-rank startup](DIAGRAM_PRODUCER_RECOVERY_20261029.md).
 The separate v4 AMM/Curve profile already implements the supplied previous-block

@@ -210,6 +210,7 @@ pub struct StreamKey {
     frontier: Option<crate::pair_frontier::Targets>,
     random: Option<crate::random_stream::Targets>,
     minimum: Option<crate::random_minimum::PageTargets>,
+    bootstrap_profile: bool,
 }
 fn role<'a>(spec: &'a Value, name: &str) -> &'a Value {
     &spec["stream"][name]
@@ -219,7 +220,10 @@ pub fn validate(spec: &Value, r: &Review) -> Result<()> {
         (if r.kind >= 3 {
             spec["version"] == 7 || spec["version"] == 8 || spec["version"] == 9
         } else {
-            spec["version"] == 5 || spec["version"] == 10 || spec["version"] == 11
+            spec["version"] == 5
+                || spec["version"] == 10
+                || spec["version"] == 11
+                || spec["version"] == 12
         }) && spec["tx_count"] == 40
             && spec["witness_length"] == 80
             && spec["live_authorization"] == false,
@@ -249,10 +253,15 @@ pub fn validate(spec: &Value, r: &Review) -> Result<()> {
             );
         }
     }
-    if spec["version"] == 11 {
+    if spec["version"] == 11 || spec["version"] == 12 {
         ensure!(
             r.kind <= 2
-                && spec["profile"] == "source-covered-producer-minimum-stream-v1"
+                && spec["profile"]
+                    == if spec["version"] == 12 {
+                        "source-covered-producer-minimum-bootstrap-v1"
+                    } else {
+                        "source-covered-producer-minimum-stream-v1"
+                    }
                 && spec["producer_influence"] == true
                 && spec["qualified_randomness"] == false
                 && spec["source_window_checkpoints"] == 8192,
@@ -349,7 +358,7 @@ pub fn validate(spec: &Value, r: &Review) -> Result<()> {
             c["contract_id"] == r.market
                 && c["method_name"] == name
                 && c["input_count"]
-                    == if (spec["version"] == 10 || spec["version"] == 11)
+                    == if (spec["version"] == 10 || spec["version"] == 11 || spec["version"] == 12)
                         && name == "begin_order_page"
                     {
                         9
@@ -376,7 +385,8 @@ impl StreamKey {
     }
     pub fn build(spec: &Value, r: &Review, chain: [u64; 4]) -> Result<Self> {
         validate(spec, r)?;
-        let minimum_mode = spec["version"] == 11;
+        let minimum_mode = spec["version"] == 11 || spec["version"] == 12;
+        let bootstrap_mode = spec["version"] == 12;
         let random_mode = spec["version"] == 10 || minimum_mode;
         let paired = r.kind >= 3;
         let optimized = spec["version"] == 9;
@@ -409,6 +419,14 @@ impl StreamKey {
         }
         for x in [gates[0], gates[1], gates[2], gates[4], gates[5]] {
             valid = b.or(valid, x);
+        }
+        let bootstrap = if bootstrap_mode {
+            Some(chosen(&mut b, fields[0], 14))
+        } else {
+            None
+        };
+        if let Some(gate) = bootstrap {
+            valid = b.or(valid, gate);
         }
         let minimum_gates = if minimum_mode {
             Some([
@@ -451,6 +469,11 @@ impl StreamKey {
             b.or(gates[0], grant)
         } else {
             gates[0]
+        };
+        let maintenance_source = if let Some(gate) = bootstrap {
+            b.or(maintenance_source, gate)
+        } else {
+            maintenance_source
         };
         let source_mode = b.not(maintenance_source);
         let mut tape = Tape::default();
@@ -889,6 +912,12 @@ impl StreamKey {
             let own = b.is_equal(g.user_id, owner);
             b.assert_zero(own.target);
             let key = g.session_context.start_user_leaf.public_key;
+            if bootstrap_mode {
+                // A public executor must not preempt first-use activation with
+                // a grant-only UPS that leaves the exact seed check unusable.
+                let started = lt(&mut b, z, g.session_context.start_user_leaf.nonce, 62);
+                eq(&mut b, grant, started.target, one);
+            }
             let n = b.mul(grant.target, fields[21]);
             let cap = b.mul(grant.target, fields[22]);
             let funding = b.mul(grant.target, fields[23]);
@@ -926,6 +955,85 @@ impl StreamKey {
             for i in 1..80 {
                 if ![21, 22, 23, 73].contains(&i) {
                     crate::batch_policy::zero(&mut b, grant, fields[i]);
+                }
+            }
+        }
+
+        if let Some(gate) = bootstrap {
+            eq(&mut b, gate, g.session_context.start_user_leaf.nonce, z);
+            eq(&mut b, gate, g.session_context.nonce, one);
+            let empty_state = b.constant_hash(
+                <H as MerkleZeroHasher<Q<F>>>::get_zero_hash(
+                    psy_config::network_constants::GLOBAL_CONTRACT_TREE_HEIGHT as usize,
+                )
+                .0,
+            );
+            gated_hash(
+                &mut b,
+                gate,
+                g.session_context.start_user_leaf.user_state_tree_root,
+                empty_state,
+            );
+            let own_payer = b.is_equal(g.user_id, fields[24]);
+            eq(&mut b, gate, own_payer.target, z);
+            // Activation observes exactly its original one-fee Native seed.
+            // Only after returning both FT seeds do we apply/claim treasury
+            // funding. Exact fee accounting and burn end the same first UPS.
+            let op = spec["base"]["operations"]
+                .as_array()
+                .context("operations")?
+                .iter()
+                .find(|o| o["name"] == "activate_batch_vault" && o["maintenance"] == true)
+                .context("reviewed activation")?;
+            let mut values = vec![z; 13];
+            values[1] = fields[24];
+            for (i, call) in op["calls"]
+                .as_array()
+                .context("activation calls")?
+                .iter()
+                .enumerate()
+            {
+                bind(
+                    &mut b,
+                    gate,
+                    &g.tx_introspection.tx_info_slots[i],
+                    call,
+                    &values,
+                )?;
+            }
+            let key = g.session_context.start_user_leaf.public_key;
+            let owner = b.constant(f(spec["fee_owner"].as_u64().unwrap()));
+            eq(&mut b, gate, fields[23], one);
+            let payer = b.mul(gate.target, fields[24]);
+            b.range_check(payer, 24);
+            let same = b.is_equal(payer, owner);
+            eq(&mut b, gate, same.target, z);
+            invoke(
+                &mut b,
+                gate,
+                &g,
+                9,
+                role(spec, "apply_fee_grant"),
+                &[
+                    vec![fields[21], fields[22]],
+                    key.elements.to_vec(),
+                    vec![owner, one],
+                ]
+                .concat(),
+            )?;
+            bind(
+                &mut b,
+                gate,
+                &g.tx_introspection.tx_info_slots[10],
+                &spec["owner_fee_claim"],
+                &[],
+            )?;
+            for i in 11..38 {
+                invoke(&mut b, gate, &g, i, &spec["noop"], &[])?;
+            }
+            for i in 1..80 {
+                if ![21, 22, 23, 24, 73].contains(&i) {
+                    crate::batch_policy::zero(&mut b, gate, fields[i]);
                 }
             }
         }
@@ -1504,6 +1612,7 @@ impl StreamKey {
             frontier,
             random,
             minimum,
+            bootstrap_profile: bootstrap_mode,
         })
     }
     pub fn fields(
@@ -1516,10 +1625,22 @@ impl StreamKey {
     ) -> Result<Vec<u64>> {
         ensure!(request.fields.len() == WIDTH, "stream fixed witness");
         let mut pw = PartialWitness::new();
-        self.source.set(&mut pw, r, s, &request.source)?;
+        // V12 maintenance has no historical inventory statement. Use one
+        // canonical dummy tape, never a fabricated authenticated source claim.
+        if self.bootstrap_profile && [4, 13, 14].contains(&request.fields[0]) {
+            let (dummy, page) = crate::stream_source::SourcePage::inactive_maintenance(r, s)?;
+            ensure!(
+                serde_json::to_value(&request.source)? == serde_json::to_value(&page)?,
+                "canonical inactive maintenance tape"
+            );
+            self.source.set(&mut pw, r, &dummy, &page)?;
+        } else {
+            self.source.set(&mut pw, r, s, &request.source)?;
+        }
         self.current.set(&mut pw, r, current)?;
         if request.fields[0] == 4
-            || (self.minimum.is_some() && request.fields[0] == crate::random_minimum::GRANT_MODE)
+            || (self.minimum.is_some()
+                && [crate::random_minimum::GRANT_MODE, 14].contains(&request.fields[0]))
         {
             self.context.set_empty(&mut pw)?;
         } else {
@@ -1615,7 +1736,7 @@ pub fn calls(spec: &Value, req: &Request, compact: bool) -> Result<Vec<Value>> {
     );
     let sc = &req.source.scope;
     let facts = &req.source.facts;
-    let minimum_mode = spec["version"] == 11;
+    let minimum_mode = spec["version"] == 11 || spec["version"] == 12;
     let random_mode = spec["version"] == 10;
     let random_context = |base: [u64; 4]| -> Result<[u64; 4]> {
         if minimum_mode {
@@ -1677,6 +1798,37 @@ pub fn calls(spec: &Value, req: &Request, compact: bool) -> Result<Vec<Value>> {
                 ]
                 .concat(),
             );
+        }
+        14 if spec["version"] == 12 => {
+            let key = req.registered_key.context("registered key")?;
+            ensure!(
+                f[23] == 1
+                    && f[24] > 0
+                    && f[24] < 1 << 24
+                    && f[24] != spec["fee_owner"].as_u64().unwrap(),
+                "exact bootstrap payer/funding"
+            );
+            let op = spec["base"]["operations"]
+                .as_array()
+                .context("operations")?
+                .iter()
+                .find(|o| o["name"] == "activate_batch_vault" && o["maintenance"] == true)
+                .context("activation")?;
+            let mut values = vec![0; 13];
+            values[1] = f[24];
+            for (i, c) in op["calls"].as_array().unwrap().iter().enumerate() {
+                out[i] = convert(c, &values)?;
+            }
+            out[9] = method(
+                "apply_fee_grant",
+                [
+                    vec![f[21], f[22]],
+                    key.to_vec(),
+                    vec![spec["fee_owner"].as_u64().unwrap(), 1],
+                ]
+                .concat(),
+            );
+            out[10] = convert(&spec["owner_fee_claim"], &[])?;
         }
         crate::random_minimum::GRANT_MODE if minimum_mode => {
             let key = req.registered_key.context("registered key")?;

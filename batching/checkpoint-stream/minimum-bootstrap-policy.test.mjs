@@ -1,0 +1,20 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {readFile} from 'node:fs/promises';
+import {makeStreamPolicy} from './build-policy.mjs';
+const root=process.env.MINIMUM_FIXTURES;
+for(const market of ['amm','bondingcurve'])test(`${market}: fresh bootstrap is an explicit new key profile`,{skip:!root},async()=>{
+ const read=async p=>JSON.parse(await readFile(root+'/'+p,'utf8'));
+ const args=[market,1000,await read(market+'/config.json'),await read(market+'/compiled/compilation_artifact.json'),await read('token/compilation_artifact.json'),await read('nft/compilation_artifact.json')];
+ const prior=makeStreamPolicy(...args,{random:true,minimum:true,window:8192});
+ const next=makeStreamPolicy(...args,{random:true,minimum:true,bootstrap:true,window:8192});
+ assert.equal(prior.version,11);assert.equal(next.version,12);
+ assert.equal(next.profile,'source-covered-producer-minimum-bootstrap-v1');
+ assert.equal(next.live_authorization,false);assert.equal(next.qualified_randomness,false);
+ assert.deepEqual(next.base,prior.base);assert.deepEqual(next.stream,prior.stream);
+ const activate=next.base.operations.find(o=>o.name==='activate_batch_vault');
+ assert.ok(activate.maintenance);assert.equal(activate.calls.length,9);
+ assert.deepEqual(activate.calls.slice(0,7).map(c=>c.method_name),['noop','claim','claim','claim','activate_batch_vault','transfer','transfer']);
+ assert.equal(activate.calls[1].contract_id,0);
+ assert.throws(()=>makeStreamPolicy(...args,{bootstrap:true}),/requires minimum/);
+});

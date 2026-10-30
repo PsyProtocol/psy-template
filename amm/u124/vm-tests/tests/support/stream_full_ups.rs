@@ -230,7 +230,7 @@ fn anchor_leaf() -> PsyCheckpointLeaf<GF> {
         stats: PsyCheckpointLeafStats::new_empty(),
     }
 }
-async fn snapshot(db: Store, w: &World, r: &Review, fingerprint: Q<GF>) -> Result<Snapshot> {
+async fn snapshot_header(db: Store, w: &World, r: &Review, fingerprint: Q<GF>) -> Result<Snapshot> {
     let cp = w.checkpoint;
     let checkpoint = db.get_checkpoint_leaf_data(cp).await?;
     let roots = db.get_checkpoint_global_state_roots(cp).await?;
@@ -286,6 +286,12 @@ async fn snapshot(db: Store, w: &World, r: &Review, fingerprint: Q<GF>) -> Resul
             elements: [GF::ONE; 4],
         })),
     };
+    let _ = root;
+    Ok(header)
+}
+async fn snapshot(db: Store, w: &World, r: &Review, fingerprint: Q<GF>) -> Result<Snapshot> {
+    let header = snapshot_header(db.clone(), w, r, fingerprint).await?;
+    let root = header.history.checkpoint_path.root;
     let mut budget = ReadBudget::new(60, 8192)?;
     collect_snapshot(r, header, root, &mut Reader(db), &mut budget, 64).await
 }
@@ -608,6 +614,7 @@ fn needed(spec: &Value) -> Vec<Value> {
                 "refund_buy",
             ]
             .contains(&o["name"].as_str().unwrap())
+                || (spec["version"] == 12 && o["maintenance"] == true)
                 || ((spec["version"] == 8 || spec["version"] == 9)
                     && ["match_orders", "settle_sale"].contains(&o["name"].as_str().unwrap_or("")))
                 || o["name"].as_str().unwrap().starts_with("refund_funding_")
@@ -786,7 +793,8 @@ struct StreamChain {
     random_draw: std::cell::RefCell<Option<(u64,PsyCheckpointLeaf<GF>,World,PsyUserLeaf<GF>)>>,
 }
 impl StreamChain {
-    async fn new(w: &World) -> Result<Self> {
+    async fn new(w: &World) -> Result<Self> { Self::new_with_maintenance(w, false).await }
+    async fn new_with_maintenance(w: &World, maintenance: bool) -> Result<Self> {
         let started = Instant::now();
         let spec = read_spec(&w.kind)?;
         let base = Chain::new(w, &needed(&spec))?;
@@ -795,7 +803,11 @@ impl StreamChain {
         let db = base
             .seed_identity_with_history(w, key.g.get_fingerprint(), &[(1, anchor_leaf())])
             .await?;
-        let source = snapshot(db, w, &review, key.g.get_fingerprint()).await?;
+        let source = if maintenance {
+            ensure!(spec["version"] == 12, "distinct bootstrap profile");
+            let header = snapshot_header(db, w, &review, key.g.get_fingerprint()).await?;
+            stream_source::SourcePage::inactive_maintenance(&review, &header)?.0
+        } else { snapshot(db, w, &review, key.g.get_fingerprint()).await? };
         Ok(Self {
             base,
             key,
@@ -809,7 +821,8 @@ impl StreamChain {
             ],
         })
     }
-    async fn seed(&self, w: &World) -> Result<(Store, Snapshot, MerkleProofCore<Q<GF>>)> {
+    async fn seed(&self, w: &World) -> Result<(Store, Snapshot, MerkleProofCore<Q<GF>>)> { self.seed_for_request(w, false).await }
+    async fn seed_for_request(&self, w: &World, inactive_maintenance: bool) -> Result<(Store, Snapshot, MerkleProofCore<Q<GF>>)> {
         let mut history = if w.checkpoint == self.source_checkpoint {
             vec![(1, anchor_leaf())]
         } else {
@@ -818,7 +831,7 @@ impl StreamChain {
                 (self.source_checkpoint, self.source.history.checkpoint),
             ]
         };
-        if self.spec["version"]==10||self.spec["version"]==11 {if let Some((cp,leaf,_,_))=&*self.random_draw.borrow(){if *cp<w.checkpoint{history.push((*cp,*leaf));}}}
+        if self.spec["version"]==10||self.spec["version"]==11||self.spec["version"]==12 {if let Some((cp,leaf,_,_))=&*self.random_draw.borrow(){if *cp<w.checkpoint{history.push((*cp,*leaf));}}}
         // Rebuild the exact historical draw tree state before adding the current
         // checkpoint. A checkpoint leaf alone does not authenticate missing old
         // state-root preimages required by GetCheckpointLeafStats.
@@ -830,7 +843,7 @@ impl StreamChain {
                 self.base.seed_identity_into(w,self.key.g.get_fingerprint(),&history,base,self.base.last_leaf).await?
             }else{self.base.seed_identity_with_history(w,self.key.g.get_fingerprint(),&history).await?}
         }else{self.base.seed_identity_with_history(w,self.key.g.get_fingerprint(),&history).await?};
-        if (self.spec["version"]==10||self.spec["version"]==11)&&w.checkpoint==self.source_checkpoint+1&&self.random_draw.borrow().is_none(){*self.random_draw.borrow_mut()=Some((w.checkpoint,db.get_checkpoint_leaf_data(w.checkpoint).await?,w.clone(),db.get_user_leaf_data(w.checkpoint,V).await?));}
+        if (self.spec["version"]==10||self.spec["version"]==11||self.spec["version"]==12)&&w.checkpoint==self.source_checkpoint+1&&self.random_draw.borrow().is_none(){*self.random_draw.borrow_mut()=Some((w.checkpoint,db.get_checkpoint_leaf_data(w.checkpoint).await?,w.clone(),db.get_user_leaf_data(w.checkpoint,V).await?));}
         let mut source = self.source.clone();
         source.history.anchor_path = db.get_checkpoint_tree_merkle_proof(w.checkpoint, 1).await?;
         source.history.checkpoint_path = db
@@ -838,7 +851,12 @@ impl StreamChain {
             .await?;
         // Reconstruct original source metadata in an independent temporary database
         // for its exact user membership path; never substitute current state.
-        let proof = source_vault_path(&source)?;
+        let proof = if inactive_maintenance {
+            ensure!(self.spec["version"] == 12, "maintenance tape requires distinct key");
+            // Not a historical membership claim. SourceContext is disabled by
+            // this mode's circuit; CurrentTargets remains fully authenticated.
+            stream_source::SourcePage::inactive_maintenance(&self.review, &source)?.1.rows[0].original.clone()
+        } else { source_vault_path(&source)? };
         Ok((db, source, proof))
     }
     async fn prove(
@@ -849,10 +867,11 @@ impl StreamChain {
         label: &str,
     ) -> Result<()> {
         let start = Instant::now();
-        if self.spec["version"] == 11 {
+        if self.spec["version"] == 11 || self.spec["version"] == 12 {
             req = minimum_exact_fee(w, &self.spec, req)?;
         }
-        let (db, source, vault_path) = self.seed(w).await?;
+        let inactive_maintenance = self.spec["version"] == 12 && [4,13,14].contains(&req.fields[0]);
+        let (db, source, vault_path) = self.seed_for_request(w, inactive_maintenance).await?;
         let start_leaf = db.get_user_leaf_data(w.checkpoint, V).await?;
         let mut current_contracts = vec![];
         for id in [0, A, if w.kind == "nftmarket" { NFT } else { B }, M] {
@@ -908,7 +927,8 @@ impl StreamChain {
                 );
             }
         }
-        let lps = PsyLocalProvingSessionStore::new_at_with_cmd_store(
+        let fresh = self.base.last_leaf.is_none() && w.revision == 0 && !w.slots.keys().any(|(u,_,_)| *u == V);
+        let mut lps = PsyLocalProvingSessionStore::new_at_with_cmd_store(
             cache,
             f(w.checkpoint),
             f(V),
@@ -916,6 +936,7 @@ impl StreamChain {
             start_leaf.event_index,
             16,
         );
+        lps.set_is_new_user(fresh);
         let mut info = SessionCircuitInfoStore::new();
         self.base.cm.register_info(&mut info).await;
         let mut session = Manager::new(lps, info, self.base.cm.ups_circuit_whitelist_root).await?;
@@ -1042,14 +1063,46 @@ impl StreamChain {
         // Alter actual circuit witnesses while retaining the genuine signed
         // session and stack. Rejection must come from the compiled key.
         let mut rejections = vec![];
-        if label == "open" || label == "settle-0" || label == "refund-0" {
+        if fresh && self.spec["version"] == 12 {
+            use psy_client_data::qdata::{ups_signature::PsyUserProvingSessionSignatureDataCompact, user_contract_state::SignContext};
+            use psy_template_u124_markets::market_key::compute_tx_stack_hash;
+            let mut alternative = req.clone(); alternative.fields[0]=13; alternative.fields[24]=0;
+            let calls = stream_policy::calls(&self.spec,&alternative,false)?;
+            let infos = calls.iter().map(|c| {
+                let cid=c["contract_id"].as_u64().unwrap(); let d=&w.methods[&(cid,c["method_name"].as_str().unwrap().into())];
+                psy_client_data::dpn::proving_session::DPNProvingSessionCompactMethodCall::new_from_inputs::<PoseidonHash>(
+                    f(psy_config::network_constants::DEFAULT_CALLER_CONTRACT_ID_U64),f(cid),f(d.method_id as u64),
+                    &c["inputs"].as_array().unwrap().iter().map(|v|f(v.as_u64().unwrap())).collect::<Vec<_>>()).into()
+            }).collect::<Vec<psy_client_data::dpn::sd_key::SDKeyTransactionInfo<GF>>>();
+            let active=infos.iter().filter(|i| i.contract_id!=f(M)||i.method_id!=f(self.spec["noop"]["method_id"].as_u64().unwrap())).copied().collect::<Vec<_>>();
+            let stack=compute_tx_stack_hash(&active); let count=f(active.len()as u64);
+            let context=input.session_context.clone(); let mut end=context.current_user_leaf; end.nonce=context.nonce;
+            let action=PsyUserProvingSessionSignatureDataCompact{start_user_leaf_hash:context.start_user_leaf_hash,
+                end_user_leaf_hash:end.qfhash::<PoseidonHash>(),checkpoint_leaf_hash:context.checkpoint_leaf_hash,
+                tx_stack_hash:stack,tx_count:count}.get_sig_action_for_user::<PoseidonHash>(PSY_NETWORK_MAGIC,
+                context.start_user_leaf.user_id,context.nonce,SignContext{checkpoint_tree_root:context.checkpoint_tree_root,user_leaf:context.current_user_leaf}).get_qhash::<PoseidonHash>();
+            let mut attack=input.clone(); attack.circuit_inputs=self.key.fields(&self.review,&source,&vault_path,&current,&alternative)?.into_iter().map(f).collect();
+            attack.transaction_infos=infos;attack.tx_stack_hash=stack;attack.tx_count=count;
+            ensure!(self.key.g.prove(Q(HashOut{elements:[GF::ONE;4]}),&attack,action).await.is_err(),"coherent first-use grant-only preemption accepted");
+            rejections.push("first-use-grant-only-preemption");
+        }
+
+        if label == "open" || label == "settle-0" || label == "refund-0" || label == "fresh-bootstrap" {
             let mut cases = vec![];
-            let mut changed = input.clone();
-            changed.circuit_inputs[80 + 9] += GF::ONE;
-            cases.push(("chain-instance", changed));
-            let mut changed = input.clone();
-            changed.circuit_inputs[80 + 1] += GF::ONE;
-            cases.push(("network-domain", changed));
+            // Inactive maintenance has no authenticated historical source.
+            // Mutate CurrentTargets/the actual signature domain instead.
+            if !inactive_maintenance {
+                let mut changed = input.clone();
+                changed.circuit_inputs[80 + 9] += GF::ONE;
+                cases.push(("chain-instance", changed));
+                let mut changed = input.clone();
+                changed.circuit_inputs[80 + 1] += GF::ONE;
+                cases.push(("network-domain", changed));
+            } else {
+                ensure!(self.key.g.prove(Q(HashOut{elements:[GF::ONE;4]}),&input,
+                    session.get_sighash(PSY_NETWORK_MAGIC+1,f(w.revision+1))).await.is_err(),"wrong signature network accepted");
+                rejections.push("signature-network-domain");
+            }
             let mut changed = input.clone();
             changed.session_context.nonce += GF::ONE;
             cases.push(("session-nonce", changed));
@@ -1077,6 +1130,7 @@ impl StreamChain {
                 "current-layout-root",
                 "current-function-root",
                 "current-checkpoint",
+                "current-chain-anchor",
             ] {
                 let mut changed = current.clone();
                 match name {
@@ -1089,6 +1143,7 @@ impl StreamChain {
                     "current-function-root" => {
                         changed.contracts[3].leaf.function_tree_root.0.elements[0] += GF::ONE
                     }
+                    "current-chain-anchor" => changed.anchor.global_chain_root.0.elements[0] += GF::ONE,
                     _ => changed.checkpoint.global_chain_root.0.elements[0] += GF::ONE,
                 };
                 let assignment =
@@ -1164,6 +1219,7 @@ impl StreamChain {
         let api = session.get_api_input().await?;
         validate_endcap_binding(&api.core, &proof.public_inputs)?;
         let end = session.get_current_ups_header().current_state.user_leaf;
+        ensure!(api.core.state_transition.start_user_leaf_hash == if fresh { Q::ZERO } else { start_leaf.qfhash::<PoseidonHash>() }, "stored start endpoint differs from virtual first-use signature leaf");
         ensure!(
             api.core.new_user_leaf == end && end.nonce == f(w.revision + 1),
             "exact final identity and nonce"
@@ -1215,7 +1271,7 @@ impl StreamChain {
             }
         }
         ensure!(root == end.user_state_tree_root, "exported final root");
-        let row = json!({"phase":label,"seconds":start.elapsed().as_secs_f64(),"keySeconds":key_seconds,"endcapAndAuditSeconds":t.elapsed().as_secs_f64(),"calls":actual.len(),"logicalSlots":40,"fee":burn,"slots":slots.to_canonical_u64(),"startLeaf":start_leaf.qfhash::<PoseidonHash>().to_string(),"endLeaf":end.qfhash::<PoseidonHash>().to_string(),"sourceCheckpoint":self.source_checkpoint,"sourceRoot":self.source.history.checkpoint.global_chain_root.to_string(),"keyFingerprint":self.key.g.get_fingerprint().to_string(),"fullUpsVerified":true,"fixedVerifier":true,"keyAttackRejections":rejections,"steps":steps,"broadcast":false});
+        let row = json!({"phase":label,"seconds":start.elapsed().as_secs_f64(),"keySeconds":key_seconds,"endcapAndAuditSeconds":t.elapsed().as_secs_f64(),"calls":actual.len(),"logicalSlots":40,"fee":burn,"slots":slots.to_canonical_u64(),"startLeaf":start_leaf.qfhash::<PoseidonHash>().to_string(),"firstUse":fresh,"storedStartLeaf":api.core.state_transition.start_user_leaf_hash.to_string(),"signatureStartLeaf":start_leaf.qfhash::<PoseidonHash>().to_string(),"endLeaf":end.qfhash::<PoseidonHash>().to_string(),"sourceCheckpoint":self.source_checkpoint,"sourceRoot":self.source.history.checkpoint.global_chain_root.to_string(),"keyFingerprint":self.key.g.get_fingerprint().to_string(),"fullUpsVerified":true,"fixedVerifier":true,"keyAttackRejections":rejections,"steps":steps,"broadcast":false});
         fs::write(
             dir.join("verification.json"),
             serde_json::to_vec_pretty(&row)?,
@@ -1614,3 +1670,6 @@ mod pair_optimized;
 mod random_stream_full_ups;
 #[path = "minimum_stream_full_ups.rs"]
 mod minimum_stream_full_ups;
+
+#[path="minimum_bootstrap_full_ups.rs"]
+mod minimum_bootstrap_full_ups;
