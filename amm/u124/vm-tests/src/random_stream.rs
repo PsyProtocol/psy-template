@@ -10,6 +10,8 @@ use serde::{Serialize,Deserialize};
 pub const EXPIRE:u64=10;
 pub const RESTORE:u64=11;
 pub const TAG:u64=91647816651058;
+// Rank-v1 uses source+1 as a legacy domain word. The selected code/key separately
+// binds the actual draw index (S+1 legacy; S+32 in the accepted-seal profile).
 const RANK:u64=0x53545252414e4b;
 fn f(n:u64)->F{F::from_canonical_u64(n)}
 fn h(v:Hash)->HashOut<F>{HashOut{elements:v.map(f)}}

@@ -5,7 +5,7 @@ use psy_template_u124_markets::{random_minimum as minimum, random_stream};
 const SEED: [u64; 4] = [51, 62, 73, 84];
 const OWNER: u64 = 600;
 const CAP: u64 = 100_000_000_000;
-fn native_total(w: &World) -> Result<u128> {
+pub(super) fn native_total(w: &World) -> Result<u128> {
     let users = w
         .slots
         .keys()
@@ -27,7 +27,7 @@ fn native_total(w: &World) -> Result<u128> {
     }
     Ok(total)
 }
-fn conservation(w: &World, totals: [u128; 2], native: u128) -> Result<()> {
+pub(super) fn conservation(w: &World, totals: [u128; 2], native: u128) -> Result<()> {
     ensure!(
         totals == [asset_total(w, A)?, asset_total(w, B)?],
         "complete FT balance plus Outbox conservation"

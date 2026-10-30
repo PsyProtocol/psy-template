@@ -199,3 +199,5 @@ pub mod random_stream;
 pub mod source_review;
 
 pub mod random_minimum;
+
+pub mod stream_seal;

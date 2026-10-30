@@ -196,6 +196,8 @@ pub struct Request {
     pub minimum: Option<crate::random_minimum::Page>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub registered_key: Option<[u64; 4]>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub accepted_seal: Option<crate::stream_seal::AcceptedSeal>,
 }
 pub struct StreamKey {
     pub g: SDKeyCircuitGadget,
@@ -211,6 +213,7 @@ pub struct StreamKey {
     random: Option<crate::random_stream::Targets>,
     minimum: Option<crate::random_minimum::PageTargets>,
     bootstrap_profile: bool,
+    accepted_seal: Option<crate::stream_seal::Targets>,
 }
 fn role<'a>(spec: &'a Value, name: &str) -> &'a Value {
     &spec["stream"][name]
@@ -224,6 +227,7 @@ pub fn validate(spec: &Value, r: &Review) -> Result<()> {
                 || spec["version"] == 10
                 || spec["version"] == 11
                 || spec["version"] == 12
+                || spec["version"] == 13
         }) && spec["tx_count"] == 40
             && spec["witness_length"] == 80
             && spec["live_authorization"] == false,
@@ -253,11 +257,13 @@ pub fn validate(spec: &Value, r: &Review) -> Result<()> {
             );
         }
     }
-    if spec["version"] == 11 || spec["version"] == 12 {
+    if spec["version"] == 11 || spec["version"] == 12 || spec["version"] == 13 {
         ensure!(
             r.kind <= 2
                 && spec["profile"]
-                    == if spec["version"] == 12 {
+                    == if spec["version"] == 13 {
+                        "source-covered-producer-sealed-minimum-v1"
+                    } else if spec["version"] == 12 {
                         "source-covered-producer-minimum-bootstrap-v1"
                     } else {
                         "source-covered-producer-minimum-stream-v1"
@@ -292,6 +298,14 @@ pub fn validate(spec: &Value, r: &Review) -> Result<()> {
                 "minimum and fee role ABI"
             );
         }
+    }
+    if spec["version"] == 13 {
+        ensure!(
+            spec["draw_delay_checkpoints"] == crate::stream_seal::DRAW_DELAY
+                && spec["accepted_seal_history_binding"] == true
+                && spec["seed_unpredictability_authenticated"] == false,
+            "fixed delayed draw, conditional accepted-history semantics"
+        );
     }
     crate::batch_compact::validate(&spec["base"])?;
     ensure!(
@@ -358,7 +372,12 @@ pub fn validate(spec: &Value, r: &Review) -> Result<()> {
             c["contract_id"] == r.market
                 && c["method_name"] == name
                 && c["input_count"]
-                    == if (spec["version"] == 10 || spec["version"] == 11 || spec["version"] == 12)
+                    == if spec["version"] == 13 && name == "begin_order_page" {
+                        10
+                    } else if (spec["version"] == 10
+                        || spec["version"] == 11
+                        || spec["version"] == 12
+                        || spec["version"] == 13)
                         && name == "begin_order_page"
                     {
                         9
@@ -385,8 +404,8 @@ impl StreamKey {
     }
     pub fn build(spec: &Value, r: &Review, chain: [u64; 4]) -> Result<Self> {
         validate(spec, r)?;
-        let minimum_mode = spec["version"] == 11 || spec["version"] == 12;
-        let bootstrap_mode = spec["version"] == 12;
+        let minimum_mode = spec["version"] == 11 || spec["version"] == 12 || spec["version"] == 13;
+        let bootstrap_mode = spec["version"] == 12 || spec["version"] == 13;
         let random_mode = spec["version"] == 10 || minimum_mode;
         let paired = r.kind >= 3;
         let optimized = spec["version"] == 9;
@@ -476,6 +495,11 @@ impl StreamKey {
             maintenance_source
         };
         let source_mode = b.not(maintenance_source);
+        let draw_delay = if spec["version"] == 13 {
+            crate::stream_seal::DRAW_DELAY
+        } else {
+            1
+        };
         let mut tape = Tape::default();
         let source = SourcePageTargets::add(&mut b, &mut tape, r)?;
         let current = CurrentTargets::add(&mut b, &mut tape, r, &g, chain)?;
@@ -503,6 +527,23 @@ impl StreamKey {
             Some(crate::random_minimum::PageTargets::add(
                 &mut b, &mut tape, sc, gates[3], pop,
             ))
+        } else {
+            None
+        };
+        let accepted_seal = if spec["version"] == 13 {
+            let advance = b.or(gates[3], minimum_gates.unwrap()[0]);
+            let scope_hash = b.hash_n_to_hash_no_pad::<H>(base_scope(sc));
+            Some(crate::stream_seal::Targets::add(
+                &mut b,
+                &mut tape,
+                r,
+                &g,
+                sc,
+                source.facts[0],
+                scope_hash,
+                chain,
+                advance,
+            )?)
         } else {
             None
         };
@@ -678,7 +719,7 @@ impl StreamKey {
                 old_seed,
                 random.refund.target,
             );
-            let draw = b.add_const(sc[6], F::ONE);
+            let draw = b.add_const(sc[6], f(draw_delay));
             let args = [
                 before.elements.to_vec(),
                 vec![draw],
@@ -826,7 +867,7 @@ impl StreamKey {
                 ]
                 .concat(),
             );
-            let draw = b.add_const(sc[6], F::ONE);
+            let draw = b.add_const(sc[6], f(draw_delay));
             invoke(
                 &mut b,
                 advance,
@@ -837,6 +878,10 @@ impl StreamKey {
                     before.elements.to_vec(),
                     vec![draw],
                     minimum.seed.elements.to_vec(),
+                    accepted_seal
+                        .as_ref()
+                        .map(|p| vec![p.checkpoint])
+                        .unwrap_or_default(),
                 ]
                 .concat(),
             )?;
@@ -1613,6 +1658,7 @@ impl StreamKey {
             random,
             minimum,
             bootstrap_profile: bootstrap_mode,
+            accepted_seal,
         })
     }
     pub fn fields(
@@ -1638,6 +1684,24 @@ impl StreamKey {
             self.source.set(&mut pw, r, s, &request.source)?;
         }
         self.current.set(&mut pw, r, current)?;
+        if let Some(t) = &self.accepted_seal {
+            let active = [ORDER, crate::random_minimum::EXTRACT_MODE].contains(&request.fields[0]);
+            ensure!(
+                request.accepted_seal.is_some() == active,
+                "accepted seal required exactly on ordering pages"
+            );
+            t.set(
+                &mut pw,
+                r,
+                request.accepted_seal.as_ref(),
+                &request.source.scope,
+            )?;
+        } else {
+            ensure!(
+                request.accepted_seal.is_none(),
+                "accepted seal needs distinct delayed-draw key"
+            );
+        }
         if request.fields[0] == 4
             || (self.minimum.is_some()
                 && [crate::random_minimum::GRANT_MODE, 14].contains(&request.fields[0]))
@@ -1736,8 +1800,13 @@ pub fn calls(spec: &Value, req: &Request, compact: bool) -> Result<Vec<Value>> {
     );
     let sc = &req.source.scope;
     let facts = &req.source.facts;
-    let minimum_mode = spec["version"] == 11 || spec["version"] == 12;
+    let minimum_mode = spec["version"] == 11 || spec["version"] == 12 || spec["version"] == 13;
     let random_mode = spec["version"] == 10;
+    let draw_delay = if spec["version"] == 13 {
+        crate::stream_seal::DRAW_DELAY
+    } else {
+        1
+    };
     let random_context = |base: [u64; 4]| -> Result<[u64; 4]> {
         if minimum_mode {
             Ok(crate::random_minimum::context_value(
@@ -1784,7 +1853,23 @@ pub fn calls(spec: &Value, req: &Request, compact: bool) -> Result<Vec<Value>> {
             );
             out[0] = method(
                 "begin_order_page",
-                [before.to_vec(), vec![sc[6] + 1], page.seed.to_vec()].concat(),
+                [
+                    before.to_vec(),
+                    vec![sc[6] + draw_delay],
+                    page.seed.to_vec(),
+                    if spec["version"] == 13 {
+                        vec![
+                            req.accepted_seal
+                                .as_ref()
+                                .context("accepted seal")?
+                                .snapshot
+                                .fields[6],
+                        ]
+                    } else {
+                        vec![]
+                    },
+                ]
+                .concat(),
             );
             let terminal = u64::from(after.built == sc[8] && after.extracted == sc[8]);
             out[1] = method(
@@ -1799,7 +1884,7 @@ pub fn calls(spec: &Value, req: &Request, compact: bool) -> Result<Vec<Value>> {
                 .concat(),
             );
         }
-        14 if spec["version"] == 12 => {
+        14 if spec["version"] == 12 || spec["version"] == 13 => {
             let key = req.registered_key.context("registered key")?;
             ensure!(
                 f[23] == 1

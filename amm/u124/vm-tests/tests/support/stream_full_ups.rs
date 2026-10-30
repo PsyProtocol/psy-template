@@ -318,6 +318,7 @@ fn basic(mode: u64, page: &SourcePage, w: &World) -> Request {
         random: None,
         minimum: None,
         registered_key: None,
+        accepted_seal: None,
     }
 }
 fn sent(w: &World, u: u64, asset: u64) -> u128 {
@@ -782,6 +783,7 @@ async fn stream_bytecode_continuation_and_refunds() -> Result<()> {
     }
     Ok(())
 }
+struct SealCache { opening:psy_template_u124_markets::stream_seal::AcceptedSeal, world:World, vault:PsyUserLeaf<GF> }
 struct StreamChain {
     base: Chain,
     key: StreamKey,
@@ -789,6 +791,7 @@ struct StreamChain {
     spec: Value,
     source: Snapshot,
     source_checkpoint: u64,
+    sealed:Option<SealCache>,
     measurements: Vec<Value>,
     random_draw: std::cell::RefCell<Option<(u64,PsyCheckpointLeaf<GF>,World,PsyUserLeaf<GF>)>>,
 }
@@ -815,6 +818,7 @@ impl StreamChain {
             spec,
             source,
             source_checkpoint: w.checkpoint,
+            sealed:None,
             random_draw: std::cell::RefCell::new(None),
             measurements: vec![
                 json!({"phase":"cold-stream-resource-build","seconds":started.elapsed().as_secs_f64()}),
@@ -823,6 +827,7 @@ impl StreamChain {
     }
     async fn seed(&self, w: &World) -> Result<(Store, Snapshot, MerkleProofCore<Q<GF>>)> { self.seed_for_request(w, false).await }
     async fn seed_for_request(&self, w: &World, inactive_maintenance: bool) -> Result<(Store, Snapshot, MerkleProofCore<Q<GF>>)> {
+        if self.spec["version"] == 13 { return self.seed_delayed(w,inactive_maintenance).await; }
         let mut history = if w.checkpoint == self.source_checkpoint {
             vec![(1, anchor_leaf())]
         } else {
@@ -867,11 +872,15 @@ impl StreamChain {
         label: &str,
     ) -> Result<()> {
         let start = Instant::now();
-        if self.spec["version"] == 11 || self.spec["version"] == 12 {
+        if self.spec["version"] == 11 || self.spec["version"] == 12 || self.spec["version"] == 13 {
             req = minimum_exact_fee(w, &self.spec, req)?;
         }
-        let inactive_maintenance = self.spec["version"] == 12 && [4,13,14].contains(&req.fields[0]);
+        let inactive_maintenance = (self.spec["version"] == 12 || self.spec["version"] == 13) && [4,13,14].contains(&req.fields[0]);
         let (db, source, vault_path) = self.seed_for_request(w, inactive_maintenance).await?;
+        if let Some(p)=&mut req.accepted_seal {
+            p.snapshot.history.anchor_path=db.get_checkpoint_tree_merkle_proof(w.checkpoint,1).await?;
+            p.snapshot.history.checkpoint_path=db.get_checkpoint_tree_merkle_proof(w.checkpoint,p.snapshot.fields[6]).await?;
+        }
         let start_leaf = db.get_user_leaf_data(w.checkpoint, V).await?;
         let mut current_contracts = vec![];
         for id in [0, A, if w.kind == "nftmarket" { NFT } else { B }, M] {
@@ -898,6 +907,7 @@ impl StreamChain {
             serde_json::to_vec_pretty(&current)?,
         )?;
         fs::write(dir.join("intent.json"), serde_json::to_vec_pretty(&req)?)?;
+        let seal_attack_db=db.clone();
         let mut cache = PsyCmdStoreWithCache::new(w.checkpoint, db);
         for (cid, code) in &self.base.code {
             let wl = &self.base.whitelists[cid];
@@ -1063,6 +1073,7 @@ impl StreamChain {
         // Alter actual circuit witnesses while retaining the genuine signed
         // session and stack. Rejection must come from the compiled key.
         let mut rejections = vec![];
+        if self.spec["version"]==13 && label=="sealed-minimum-0" {rejections.extend(self.reject_seal_attacks(w,seal_attack_db,&source,&vault_path,&current,&req,&input).await?);}
         if fresh && self.spec["version"] == 12 {
             use psy_client_data::qdata::{ups_signature::PsyUserProvingSessionSignatureDataCompact, user_contract_state::SignContext};
             use psy_template_u124_markets::market_key::compute_tx_stack_hash;
@@ -1512,7 +1523,18 @@ async fn stream_key_exact_replay_and_coherent_priority_attacks() -> Result<()> {
         let context: SDKeySessionContext = serde_json::from_value(public["session"].clone())?;
         let path = source_vault_path(&source)?;
         let original = stream_source::priority(&r, &source, source.history.checkpoint_path.root)?;
-        let queue=if spec["version"]==10&&!request.random.as_ref().context("fixed random context")?.refund_only{psy_template_u124_markets::random_stream::prepare(&request.source.scope,&original,request.random.as_ref().unwrap().seed)?.1}else{original};
+        let queue=if [11,12,13].iter().any(|v|spec["version"]==*v) && !request.minimum.as_ref().context("minimum context")?.refund_only {
+            let steps=psy_template_u124_markets::random_minimum::prepare(&request.source.scope,&original,request.minimum.as_ref().unwrap().seed)?;
+            let members=steps[original.members.len()..].iter().map(|row|stream_source::PriorityMember{index:row.append.index,member:psy_template_u124_markets::checkpoint_stream::Member{owner:row.node.owner,nonce:row.node.nonce,terms:row.node.terms}}).collect();
+            stream_source::PriorityTree::from_committed(&request.source.scope,members)?
+        } else if spec["version"]==10&&!request.random.as_ref().context("fixed random context")?.refund_only{psy_template_u124_markets::random_stream::prepare(&request.source.scope,&original,request.random.as_ref().unwrap().seed)?.1}else{original};
+        let replay_checkpoint:GF=serde_json::from_value(public["checkpoint"].clone())?;
+        let exact=SDKeyCircuitWitnessInput{session_context:context.clone(),circuit_inputs:key.fields(&r,&source,&path,&current,&request)?.into_iter().map(f).collect(),transaction_infos:serde_json::from_value(public["stack"].clone())?,tx_stack_hash:serde_json::from_value(public["txStackHash"].clone())?,tx_count:serde_json::from_value(public["txCount"].clone())?,state_reader_results:None,secp256k1_slots:vec![],checkpoint_id:replay_checkpoint,user_id:context.start_user_leaf.user_id};
+        // A positive control prevents stale checkpoint/context reconstruction from
+        // making every negative test pass for an unrelated reason.
+        let control=key.g.prove(Q(HashOut{elements:[GF::ONE;4]}),&exact,sig_hash).await?;
+        key.g.minifier_chain.as_ref().unwrap().verify(control.clone())?;
+        ensure!(control.public_inputs==signature.public_inputs,"exact replay witness/signature context");
         let w = World::new(kind)?;
         let mut rejected = vec![];
         let optimized = spec["version"] == 9;
@@ -1629,7 +1651,7 @@ async fn stream_key_exact_replay_and_coherent_priority_attacks() -> Result<()> {
                 tx_count: count,
                 state_reader_results: None,
                 secp256k1_slots: vec![],
-                checkpoint_id: context.current_user_leaf.last_checkpoint_id,
+                checkpoint_id: replay_checkpoint,
                 user_id: context.start_user_leaf.user_id,
             };
             ensure!(
@@ -1650,7 +1672,7 @@ async fn stream_key_exact_replay_and_coherent_priority_attacks() -> Result<()> {
         fs::write(
             format!("{out}/{kind}.json"),
             serde_json::to_vec_pretty(
-                &json!({"scope":"verify exact existing key proof; reject coherent forged alternative stack/signature preimages, not new CFC/UPS proofs","keyFingerprint":key.g.get_fingerprint(),"exactProofReused":true,"coherentAttackRejections":rejected,"broadcast":false}),
+                &json!({"scope":"verify exact existing key proof; reject coherent forged alternative stack/signature preimages, not new CFC/UPS proofs","keyFingerprint":key.g.get_fingerprint(),"exactProofReused":true,"positiveWitnessReproved":true,"exactCheckpointContextVerified":true,"coherentAttackRejections":rejected,"broadcast":false}),
             )?,
         )?;
     }
@@ -1673,3 +1695,6 @@ mod minimum_stream_full_ups;
 
 #[path="minimum_bootstrap_full_ups.rs"]
 mod minimum_bootstrap_full_ups;
+
+#[path="sealed_stream_full_ups.rs"]
+mod sealed_stream_full_ups;

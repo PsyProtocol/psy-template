@@ -1,4 +1,4 @@
-//! Public minimum-frontier planning for new v11 instances only. No signing, RPC
+//! Public minimum-frontier planning for explicit v11/v13 instances only. No signing, RPC
 //! or broadcast command; a pinned history root is not a finality certificate.
 use anyhow::{ensure, Context, Result};
 use plonky2::field::{goldilocks_field::GoldilocksField as F, types::PrimeField64};
@@ -54,8 +54,8 @@ async fn main() -> Result<()> {
         return derive_synthetic_draw(Path::new(&a[2]), Path::new(&a[3]), Path::new(&a[4])).await;
     }
     ensure!(
-        a.len() == 7,
-        "REVIEW SNAPSHOT PINNED_HISTORY_ROOT DRAW_OPENING POLICY FRESH_OUT"
+        a.len() == 7 || a.len() == 8,
+        "REVIEW SNAPSHOT PINNED_HISTORY_ROOT DRAW_OPENING POLICY FRESH_OUT [ACCEPTED_SEAL]"
     );
     let (r, _, rb) = review(Path::new(&a[1]))?;
     ensure!(r.kind <= 2, "random ordering is AMM/Curve only");
@@ -72,13 +72,16 @@ async fn main() -> Result<()> {
     let policy: Value = serde_json::from_slice(&pb)?;
     stream_policy::validate(&policy, &r)?;
     ensure!(
-        policy["version"] == 11
+        (policy["version"] == 11 || policy["version"] == 13)
             && s.fields[7] == s.fields[6] + policy["source_window_checkpoints"].as_u64().unwrap(),
         "reviewed random profile and exact window"
     );
+    let sealed = policy["version"] == 13;
+    ensure!(a.len() == if sealed {8} else {7}, "explicit accepted-seal input for v13 only");
+    let delay = if sealed {psy_template_u124_markets::stream_seal::DRAW_DELAY} else {1};
     let covered = verify_snapshot(&r, &s, history)?;
     ensure!(
-        draw.path.index == s.fields[6] + 1
+        draw.path.index == s.fields[6] + delay
             && draw.path.root == history
             && draw.path.value == draw.checkpoint.qfhash::<H>()
             && draw.path.siblings.len() == 32
@@ -87,6 +90,9 @@ async fn main() -> Result<()> {
     );
     let source = stream_source::prepare(&r, &s, history)?;
     let scope = &source[0].scope;
+    let seal_bytes = if sealed {Some(bytes(&a[7],64*1024*1024)?)} else {None};
+    let accepted = seal_bytes.as_ref().map(|b|serde_json::from_slice::<psy_template_u124_markets::stream_seal::AcceptedSeal>(b)).transpose()?;
+    if let Some(p)=&accepted {psy_template_u124_markets::stream_seal::verify_accepted_seal(&r,&s,scope,history,p)?;}
     let original = stream_source::priority(&r, &s, history)?;
     let seed = draw
         .checkpoint
@@ -137,7 +143,7 @@ async fn main() -> Result<()> {
     save(&out.join("queue.json"), &queue.members)?;
     save(
         &out.join("plan.json"),
-        &json!({"schema":1,"profile":"source-covered-producer-minimum-stream-v1","reviewSha256":sha(&rb),"snapshotSha256":sha(&sb),"drawSha256":sha(&db),"policySha256":sha(&pb),"historyRoot":history,"scope":scope,"sourceCheckpoint":scope[6],"drawCheckpoint":scope[6]+1,"expiry":scope[7],"accounts":covered.accounts,"earliestEligibleDeadline":covered.earliest_eligible_deadline,"recoveryMembers":covered.recovery_members.len(),"members":queue.members.len(),"sourcePages":source.len(),"minimumBuildPages":count.div_ceil(4),"minimumExtractionPages":count.div_ceil(4),"minimumPages":pages.len(),"noReset":true,"feeOwner":policy["fee_owner"],"seed":seed,"sourceSetRoot":original.root(),"orderedRoot":queue.root(),"authenticatedSeedRelativeToHistory":true,"finalityVerified":false,"causalSealBeforeReleaseAuthenticated":false,"producerInfluence":true,"qualifiedRandomness":false,"fullUpsVerified":false,"canSign":false,"canBroadcast":false}),
+        &json!({"schema":1,"profile":policy["profile"],"acceptedSealSha256":seal_bytes.as_ref().map(|b|sha(b)),"acceptedSealCheckpoint":accepted.as_ref().map(|p|p.snapshot.fields[6]),"sealedHistoryOrderVerified":sealed,"seedSecrecyAuthenticated":false,"reviewSha256":sha(&rb),"snapshotSha256":sha(&sb),"drawSha256":sha(&db),"policySha256":sha(&pb),"historyRoot":history,"scope":scope,"sourceCheckpoint":scope[6],"drawCheckpoint":scope[6]+delay,"expiry":scope[7],"accounts":covered.accounts,"earliestEligibleDeadline":covered.earliest_eligible_deadline,"recoveryMembers":covered.recovery_members.len(),"members":queue.members.len(),"sourcePages":source.len(),"minimumBuildPages":count.div_ceil(4),"minimumExtractionPages":count.div_ceil(4),"minimumPages":pages.len(),"noReset":true,"feeOwner":policy["fee_owner"],"seed":seed,"sourceSetRoot":original.root(),"orderedRoot":queue.root(),"authenticatedSeedRelativeToHistory":true,"finalityVerified":false,"causalSealBeforeReleaseAuthenticated":false,"producerInfluence":true,"qualifiedRandomness":false,"fullUpsVerified":false,"canSign":false,"canBroadcast":false}),
     )?;
     Ok(())
 }
@@ -165,20 +171,25 @@ async fn derive_synthetic_draw(head_dir: &Path, draw_dir: &Path, out: &Path) -> 
     let hp = read(&head_dir.join("public-session.json"))?["checkpoint"]
         .as_u64()
         .context("head checkpoint")?;
+    let intent=read(&head_dir.join("intent.json"))?;
+    let accepted=intent.get("accepted_seal").filter(|v|!v.is_null()).map(|v|serde_json::from_value::<psy_template_u124_markets::stream_seal::AcceptedSeal>(v.clone())).transpose()?;
+    let delay=if accepted.is_some(){psy_template_u124_markets::stream_seal::DRAW_DELAY}else{1};
     let dp = read(&draw_dir.join("public-session.json"))?["checkpoint"]
         .as_u64()
         .context("draw checkpoint")?;
     ensure!(
-        dp == s.fields[6] + 1 && hp > dp,
+        dp == s.fields[6] + delay && hp > dp,
         "fixed synthetic source/draw/head"
     );
     let db = Store::new();
-    for (cp, leaf) in [
-        (1, s.history.anchor),
-        (s.fields[6], s.history.checkpoint),
-        (dp, draw.checkpoint),
-        (hp, head.checkpoint),
-    ] {
+    // The versioned store must receive checkpoint leaves chronologically.
+    let mut leaves=vec![(1,s.history.anchor),(s.fields[6],s.history.checkpoint)];
+    if let Some(p)=&accepted {leaves.push((p.snapshot.fields[6],p.snapshot.history.checkpoint));}
+    leaves.extend([(dp,draw.checkpoint),(hp,head.checkpoint)]);
+    leaves.sort_by_key(|(cp,_)|*cp);
+    for pair in leaves.windows(2) {ensure!(pair[0].0!=pair[1].0 || pair[0].1==pair[1].1,"conflicting synthetic checkpoint leaf");}
+    leaves.dedup_by_key(|(cp,_)|*cp);
+    for (cp, leaf) in leaves {
         db.set_checkpoint_leaf_data(cp, &leaf)?;
         db.set_checkpoint_tree_leaf_hash(cp, leaf.qfhash::<H>())?;
     }
@@ -193,6 +204,7 @@ async fn derive_synthetic_draw(head_dir: &Path, draw_dir: &Path, out: &Path) -> 
         &out.join("draw.json"),
         &json!({"checkpoint":draw.checkpoint,"path":path}),
     )?;
+    if let Some(p)=&accepted {save(&out.join("acceptedSeal.json"),p)?;}
     save(
         &out.join("DERIVATION.json"),
         &json!({"syntheticOnly":true,"checkpointIds":[1,s.fields[6],dp,hp],"historyRoot":source.root,"sameOriginalSourcePath":true,"finalityVerified":false,"canBroadcast":false}),
