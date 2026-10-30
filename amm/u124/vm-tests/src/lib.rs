@@ -1,4 +1,5 @@
 pub mod registration_checkpoint;
+pub mod public_runtime_resources;
 pub mod source_inventory;
 pub mod market_key;
 pub mod proof_binding;
