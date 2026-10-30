@@ -1,0 +1,64 @@
+
+> psy-dapp-template@0.1.0 test:markets
+> node --test tests/*.test.mjs
+
+✔ pending intermediate/final/refund outputs and unknown receipts are never in-progress or completed (4.136708ms)
+✔ draft expiry is inclusive, cancellation takes precedence and filtering never mutates originals (0.6425ms)
+✔ draft searches combine market/status/words and exact NFT references without granting authority (0.819542ms)
+✔ AMM search matches original identities and exact decimal amounts without numeric conversion (0.171875ms)
+✔ intermediate pending totals use actual middle asset and stop counting after claim (0.212416ms)
+✔ official Psy assets are unchanged and used instead of a generic glyph (8.783625ms)
+✔ active market UI, validation and metadata are English (10.920708ms)
+✔ editing record preserves exact unfinished strings without a quote or authorization (1.193042ms)
+✔ editing scopes, versions, unsafe fields, shape and resource limits fail closed (1.183542ms)
+✔ each form has an independent versioned key and schema (0.125833ms)
+✔ token/fee precision, positive values and user IDs have field-specific errors (1.247417ms)
+✔ example ratio, raw shares and integer lots map to their own fields (0.189083ms)
+✔ NFT and book feedback cannot weaken original domain bounds (1.770209ms)
+✔ example deposit linking preserves two-limb precision and refuses arbitrary pool identities (1.15375ms)
+✔ raw share shortcuts floor exact U124 integers without Number conversion (0.261959ms)
+✔ liquidity preview matches exact existing share arithmetic and stays non-authorizing (1.028958ms)
+✔ liquidity U124 limbs preserve both nonzero limbs (0.613167ms)
+✔ liquidity requires exact balanced deposits, not a min or silent excess refund (0.240958ms)
+✔ liquidity rejects unsupported pool, owner, fee, precision and extra fields (0.1685ms)
+✔ liquidity checks resulting reserve/share overflow and dust minimum (0.138292ms)
+✔ local IDs cannot roll beyond persisted identity bounds (2.464167ms)
+✔ aggregated demo refunds report U124 overflow instead of crashing asset view (0.573209ms)
+✔ full U124 input uses existing limbs/AMM arithmetic and PSY has separate 9 decimals (0.508083ms)
+✔ nonzero dust is never displayed as a zero output (0.197ms)
+✔ wrong amount, identity, asset/path, decimals, fee, extra args and overflow reject (0.256541ms)
+✔ preview tampering and changed persisted quantities/dependencies cannot be silently restored (1.293291ms)
+✔ two-hop route cannot consume middle Outbox; first claim and second admission are explicit (1.034833ms)
+✔ before-fill cancellation returns input; after first-hop exit returns actual middle, never original price (0.405041ms)
+✔ frozen set cannot be cancelled; original refund disposition can close expired/failing batch (0.588666ms)
+✔ unknown original only reconciles with same identity; no advance, replacement or duplicate credits (0.532291ms)
+✔ live gateway is unconditionally closed; npm SDK and signing path are absent from browser bundle (3.096084ms)
+✔ missing position feeds remain unknown rather than zero or inferred from local drafts (2.987458ms)
+✔ book previews whole offers with exact U124 limbs and no implied partial fill (3.198083ms)
+✔ book price conversion rounds required quote upward rather than weakening the bound (0.538958ms)
+✔ book display ranks exact price, then checkpoint and owner ID, on each side (0.179917ms)
+✔ curve uses progressive integer lots and distinct buy-cap/sell-minimum rounding (0.328333ms)
+✔ curve rejects fractional/zero lots, capacity and fixture ownership violations (0.133292ms)
+✔ NFT purchase binds exact collection, token/metadata words, seller and listing nonce (0.227209ms)
+✔ NFT listing binds only the selected fixture owner and slot; prices are U124 (0.194667ms)
+✔ all previews reject unknown caller/fee/identity fields and do not assign chain identity (1.207417ms)
+✔ local drafts roundtrip with exact quantities and local-only cancellation (1.696ms)
+✔ persisted amount, metadata, listing nonce and source tampering fail revalidation (1.466458ms)
+✔ duplicate active NFT drafts block locally but never reserve an on-chain listing (0.679ms)
+✔ local IDs and record limits cannot silently alias, wrap or accept fake terminal states (0.406292ms)
+✔ account normalization accepts documented wrappers and rejects malformed provider data (0.851542ms)
+✔ delayed wallet detection clears its timeout, poll and event listener (6.909209ms)
+✔ missing wallet rejects once and leaves no detection resources (5.723917ms)
+✔ connection requests public accounts only, never sends a transaction (0.252917ms)
+✔ withdrawal uses raw LP units and complete dual Felt amounts without token decimal assumptions (1.6835ms)
+✔ withdrawal rejects insufficient ownership, decimal LP input, dust, wrong identity and fee precision (0.29825ms)
+✔ durable unsigned-plan directories are configuration-scoped without replacing an explicit directory (1.005875ms)
+✔ an occupied port rejects without taking ownership or stopping its server (9.029666ms)
+ℹ tests 52
+ℹ suites 0
+ℹ pass 52
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 363.321125
