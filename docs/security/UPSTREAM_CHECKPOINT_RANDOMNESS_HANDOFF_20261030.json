@@ -1,0 +1,47 @@
+{
+  "schema": 1,
+  "kind": "required-public-checkpoint-finality-entropy-deliveries-v1",
+  "status": "required-not-received-or-approved",
+  "sdkCommit": "c92880c8b6e2c8d392f19368bc8801a2584fd427",
+  "clientCommit": "b280d714a8f0930c61962c885374ea63ea63d274",
+  "backendCommit": "736572e9dd3ca93566471cf5a2a1cb67a13fe01d",
+  "nodeSourceChangeAssumed": false,
+  "noSecretsRequired": true,
+  "checkpointDelivery": {
+    "format": "checkpoint-runtime-delivery-v1",
+    "formatDocumentation": "CHECKPOINT_PUBLIC_DELIVERY_20261030.md",
+    "publicFiles": ["delivery.json", "transition-verifier.bin", "transition-common.bin", "18504-record.json", "18504-opening.json", "18505-record.json", "18505-opening.json"],
+    "kind": 32,
+    "circuit": "GenerateRollupStateTransitionProof",
+    "originalProofSha256": {
+      "18504": "caf28f81044ec8a7ae1bb842f4225ca2e0c9fe2dc55cf9707f08940292712f9e",
+      "18505": "19b69db6ffe0d2d09c1e60e14a692cbda90d8e8afa2a8080f4f85c4fe2ad5b0c"
+    },
+    "expectedLocalReferenceFingerprintNotRuntimeAttestation": "5e4c467c5e5984b52b2ce8a8dc1401ef3d6046ef3b529935e4cc840112e63f06",
+    "requirements": ["Actual running verifier/common bytes and recomputed fingerprint", "Consistent original typed records and job references from one identified snapshot", "Public runtime build/config/domain/rotation identities and child/genesis mapping", "Exact crypto and cumulative public-input/root/leaf verification", "Mismatch requires explicit review, not key guessing, relabeling or automatic adoption"]
+  },
+  "beaconAnchor": {
+    "status": "independent-trust-anchor-not-approved",
+    "network": "sepolia",
+    "genesisValidatorsRoot": "0xd8ea171f3c94aea21ebc42a1ed61052acf3f9209c00e4efbaaddac09ed9b8078",
+    "capturedCandidateOnly": "0x01c0f75510dc725f37c689cce0711b4810e29e47c8b1ae9fd7a85dcda1734c47",
+    "candidateSlot": "11469059",
+    "candidateSource": "same-provider attested bootstrap; not independently authenticated or approved",
+    "requirements": ["Independently verified finalized root within the weak-subjectivity period", "Documented review authority, provenance, chain/fork/domain and freshness", "Matching bootstrap committee witness; transitions require actual update witnesses and verification"]
+  },
+  "executionInclusion": {
+    "requiredExactExecutionHash": "0x24d4e500db37e7546b055c816587dbed1e396ab5fac3dcd30258700b8e63e724",
+    "stateManager": "0x4eC67bA22A3F7a9Af1f19F480e5Df33bFD7B06F1",
+    "implementation": "0xd1ca5e95e2b58461343f9d55c61fbb4b6662fb04",
+    "requirements": ["Archive EIP-1186 proofs at this exact header for proxy and implementation", "Complete execution-header hash and account/storage/runtime-code checks", "Source/build/layout/delegation/upgrade authorization review", "No substitution with latest, lower-height-only comparison or different public deployment manifest"]
+  },
+  "entropyAndPublication": {
+    "status": "missing-qualified-source-and-causal-spending-binding",
+    "requirements": ["Fixed source type, public verification key, future round and unique output proof", "Explicit unpredictability, withholding and bias assumptions", "Authenticated immutable batch set/count/identity/cutoff accepted before the fixed release boundary", "Circuit-consumable binding of acceptance, round, seed, permutation and recovery into SD-key/full UPS", "Original set/round/seed preserved on failure; no redraw or selective set replacement"],
+    "notSubstitutes": ["Psy producer-local random witness membership", "Executor RNG, timestamp or signature", "Sync-committee aggregate signature or participant bitmap", "Selectable block hash", "Native verification report without spending-circuit binding"]
+  },
+  "canonicalFinalityVerified": false,
+  "qualifiedRandomness": false,
+  "canSign": false,
+  "canBroadcast": false
+}
