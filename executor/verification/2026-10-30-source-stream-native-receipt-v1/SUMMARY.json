@@ -1,0 +1,114 @@
+{
+  "schema": 1,
+  "scope": "owned native source-plan byte integrity and local planning recovery on archived public synthetic fixtures",
+  "baseCommit": "9d88051f2ca6c241cab59377edb4ed1ccbd70407",
+  "sdkCommit": "c92880c8b6e2c8d392f19368bc8801a2584fd427",
+  "nativeBinaries": [
+    {
+      "binary": "minimum_stream_plan",
+      "sha256": "a0ec3341405a235b3746f8e1ed7e5b058b9aa578c7dea308a83b0d637929ca59",
+      "bytes": 18813984,
+      "snapshot": "application-v2"
+    },
+    {
+      "binary": "random_stream_plan",
+      "sha256": "97009c48f01ca935aba6bcd5b673f56a367f8116153c8f3b4c65a2cb073b270f",
+      "bytes": 18110224,
+      "snapshot": "application-v2"
+    }
+  ],
+  "nativePlanningRuns": 6,
+  "maximumNativePlanningRuns": 6,
+  "actualNativeV13Markets": [
+    "amm",
+    "bondingcurve"
+  ],
+  "actualNativeV10Planning": true,
+  "newActualNativeV11Run": false,
+  "finalFocusedExecutorTestsPassed": 9,
+  "nativeReceiptUnitTestsPassed": 1,
+  "nativeReceiptProfilesUnitCovered": 3,
+  "initialDevelopmentTestsFailed": 4,
+  "initialRawLogSaved": false,
+  "allFourOriginalArtifactsByteIdenticalBothMarkets": true,
+  "freshProcessReuseVerified": true,
+  "sameHostPreparationCompetitionVerified": true,
+  "crossMachineCoordinationVerified": false,
+  "structurallyCoherentSeedCopyReplacementRejected": true,
+  "lostPlanningResponseRecoveredWithExactInputs": true,
+  "unknownFinancialBroadcastRetried": false,
+  "legacyPreparedCopyRejectedWithoutReplay": true,
+  "oldArtifactsOrJournalsOverwritten": false,
+  "nodeChanged": false,
+  "sdkChanged": false,
+  "contractOrKeyChanged": false,
+  "newFullUpsVerified": 0,
+  "proofsGenerated": 0,
+  "financialOperations": 0,
+  "rpcRequests": 0,
+  "feesBaseUnits": "0",
+  "realFills": 0,
+  "ordinaryWalletClaims": 0,
+  "finalityVerified": false,
+  "qualifiedRandomness": false,
+  "seedSecrecyAuthenticated": false,
+  "canSign": false,
+  "canBroadcast": false,
+  "measurementScope": "offline source planning/build/test only; no market cold/warm proof, confirmation, claim, speedup or TPS conclusion",
+  "measurements": [
+    {
+      "label": "build-v1",
+      "elapsedSeconds": 53.05406475008931,
+      "sampledFamilyRssPeakKiB": 1186128,
+      "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak"
+    },
+    {
+      "label": "build-v2",
+      "elapsedSeconds": 53.0057555839885,
+      "sampledFamilyRssPeakKiB": 1201504,
+      "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak"
+    },
+    {
+      "label": "executor-regression-v2",
+      "elapsedSeconds": 2.0830766670405865,
+      "sampledFamilyRssPeakKiB": 123008,
+      "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak"
+    },
+    {
+      "label": "executor-regression-v3",
+      "elapsedSeconds": 2.112760625081137,
+      "sampledFamilyRssPeakKiB": 120496,
+      "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak"
+    },
+    {
+      "label": "native-integration-v1",
+      "elapsedSeconds": 11.446758416946977,
+      "sampledFamilyRssPeakKiB": 943920,
+      "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak"
+    },
+    {
+      "label": "final-reuse-and-v10-v1",
+      "elapsedSeconds": 4.192634292063303,
+      "sampledFamilyRssPeakKiB": 778480,
+      "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak"
+    },
+    {
+      "label": "native-receipt-unit-v2",
+      "elapsedSeconds": 47.8752597499406,
+      "sampledFamilyRssPeakKiB": 1201696,
+      "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak"
+    },
+    {
+      "label": "executor-final-regression-v4",
+      "elapsedSeconds": 2.0764099579537287,
+      "sampledFamilyRssPeakKiB": 199936,
+      "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak"
+    }
+  ],
+  "externalDependencies": [
+    "actual runtime checkpoint verification resources/record correspondence",
+    "authenticated canonical history/finality",
+    "seal acceptance before certified future seed public release",
+    "original funding-request identity reconciliation before financial execution"
+  ]
+}

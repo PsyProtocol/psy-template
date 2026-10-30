@@ -1,4 +1,5 @@
 // Coordination/structure doubles. Real native planning/UPS evidence is separate.
+import {sourcePlanReceiptDouble} from './fixtures/sourcePlanReceiptDouble.mjs';
 import test from 'node:test';import assert from 'node:assert/strict';
 import {mkdtemp,mkdir,writeFile,readFile,rm} from 'node:fs/promises';import{join}from'node:path';import{tmpdir}from'node:os';
 import{prepareMinimumSourceStream}from'./randomSourceStream.mjs';import{validateMinimumStreamPlan}from'./minimumSourcePlan.mjs';
@@ -18,7 +19,7 @@ test('replacement route reuses durable native preparation and rejects same-epoch
   for(const n of ['market.json','0.json','42.json','43.json'])await writeFile(join(dir,n),artifact);
   const o={historyRoot:'a'.repeat(64),wallet:join(dir,'driver'),walletSha256:sha256('minimum planning double'),runtimeDirectory:join(dir,'runtime')};await writeFile(o.wallet,'minimum planning double');
   for(const[n,v]of Object.entries({review:cfg,snapshot:{fields:[1n,...d.plan.scope.slice(1)]},draw:{coordinationDouble:true},policy:{version:11}})){o[n]=join(dir,n+'.json');await put(o[n],v);o[n+'Sha256']=sha256(await readFile(o[n]));}
-  let count=0;const runNative=async(_bin,args)=>{count++;await mkdir(args[5]);const plan={...d.plan,historyRoot:o.historyRoot};for(const n of ['review','snapshot','draw','policy'])plan[n+'Sha256']=o[n+'Sha256'];for(const[n,v]of Object.entries({'plan.json':plan,'source-pages.json':d.source,'minimum-pages.json':d.pages,'queue.json':d.queue}))await put(join(args[5],n),v);};
+  let count=0;const runNative=async(_bin,args)=>{count++;await mkdir(args[5]);const plan={...d.plan,historyRoot:o.historyRoot};for(const n of ['review','snapshot','draw','policy'])plan[n+'Sha256']=o[n+'Sha256'];for(const[n,v]of Object.entries({'plan.json':plan,'source-pages.json':d.source,'minimum-pages.json':d.pages,'queue.json':d.queue}))await put(join(args[5],n),v);return sourcePlanReceiptDouble(args,['plan','source-pages','minimum-pages','queue']);};
   const a=await prepareMinimumSourceStream(o,{runNative});assert.equal((await a.status()).minimumExtractionPages,1);assert.throws(()=>a.authorizeSettlement(),/cannot enable writes/);await prepareMinimumSourceStream(o,{runNative});assert.equal(count,1);
   await assert.rejects(prepareMinimumSourceStream({...o,historyRoot:'b'.repeat(64)},{runNative}),/immutable random source input changed/);
   const budget=await a.planBudget({availableFeeBudgetBaseUnits:'50000000000',maxFeePerUpsBaseUnits:'1000100000',recoveryUpsReserve:2,secondsPerUpsBound:1,checkpointSecondsLowerBound:10,checkpointReserve:3});assert.equal(budget.canSign,false);assert.equal(budget.normalVaultUps,6);

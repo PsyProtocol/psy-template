@@ -1,6 +1,8 @@
 // Persistence/coordination doubles only. Native Merkle/CFC/UPS evidence is separate.
+import {sourcePlanReceiptDouble} from './fixtures/sourcePlanReceiptDouble.mjs';
 import test from 'node:test';import assert from 'node:assert/strict';
-import {mkdtemp,mkdir,writeFile,readFile,rm} from 'node:fs/promises';import{join}from'node:path';import{tmpdir}from'node:os';
+import {mkdtemp,mkdir,writeFile,readFile,rm,readdir} from 'node:fs/promises';import{join}from'node:path';import{tmpdir}from'node:os';
+import {ExecutionJournal} from './journal.mjs';
 import{prepareRandomSourceStream,validateRandomStreamPlan}from'./randomSourceStream.mjs';
 import{losslessJson}from'../amm/u124/client.mjs';import{sha256}from'./requestBinding.mjs';
 const H=[1n,2n,3n,4n],EMPTY=[5n,6n,7n,8n];
@@ -22,9 +24,16 @@ test('owned native preparation is durable, restarts once, rejects reselection an
   const values={review:cfg,snapshot:{fields:[1n,...d.plan.scope.slice(1)]},draw:{coordinationDouble:true},policy:{version:10}};
   const o={historyRoot:'a'.repeat(64),wallet:join(dir,'driver'),walletSha256:sha256('native plan double'),runtimeDirectory:join(dir,'runtime')};await writeFile(o.wallet,'native plan double');
   for(const[n,v]of Object.entries(values)){o[n]=join(dir,n+'.json');await put(o[n],v);o[n+'Sha256']=sha256(await readFile(o[n]));}
-  let calls=0;const runNative=async(_bin,args)=>{calls++;await mkdir(args[5]);const plan={...d.plan,historyRoot:o.historyRoot};for(const n of ['review','snapshot','draw','policy'])plan[n+'Sha256']=o[n+'Sha256'];for(const[n,v]of Object.entries({'plan.json':plan,'source-pages.json':d.source,'ordering-pages.json':d.pages,'queue.json':d.queue}))await put(join(args[5],n),v);};
+  let calls=0;const runNative=async(_bin,args)=>{calls++;await mkdir(args[5]);const plan={...d.plan,historyRoot:o.historyRoot};for(const n of ['review','snapshot','draw','policy'])plan[n+'Sha256']=o[n+'Sha256'];for(const[n,v]of Object.entries({'plan.json':plan,'source-pages.json':d.source,'ordering-pages.json':d.pages,'queue.json':d.queue}))await put(join(args[5],n),v);return sourcePlanReceiptDouble(args,['plan','source-pages','ordering-pages','queue']);};
   const a=await prepareRandomSourceStream(o,{runNative});assert.equal((await a.status()).members,5);assert.throws(()=>a.authorizeSettlement(),/cannot enable writes/);
   const b=await prepareRandomSourceStream(o,{runNative});assert.equal(calls,1);assert.equal((await b.status()).canSign,false);
+  const receiptPath=join(a.directory,'prepared/native-receipt.json'),receiptBytes=await readFile(receiptPath);await writeFile(receiptPath,'{}\n');
+  await assert.rejects(a.status(),/native receipt changed/);await assert.rejects(prepareRandomSourceStream(o,{runNative}),/native receipt changed/);assert.equal(calls,1);await writeFile(receiptPath,receiptBytes);
+  // Deliberately edit a temporary coordination fixture to model the old format.
+  // A real legacy journal is retained and never silently upgraded or cleared.
+  const journal=new ExecutionJournal({directory:a.directory,network:'offline-producer-stream',vaultId:100,fingerprint:o.walletSha256});
+  const recordPath=join(journal.directory,(await readdir(journal.directory)).find(n=>n.endsWith('-random-stream-prepared.json'))),recordBytes=await readFile(recordPath),legacy=JSON.parse(recordBytes);delete legacy.nativeReceiptSha256;await writeFile(recordPath,JSON.stringify(legacy));
+  await assert.rejects(prepareRandomSourceStream(o,{runNative}),/legacy prepared plan has no native byte receipt/);assert.equal(calls,1);await writeFile(recordPath,recordBytes);
   const race=await Promise.allSettled([prepareRandomSourceStream(o,{runNative}),prepareRandomSourceStream(o,{runNative})]);
   assert.ok(race.some(r=>r.status==='fulfilled'));for(const r of race){if(r.status==='rejected')assert.equal(r.reason.name,'VaultBusy');else assert.equal((await r.value.status()).members,5);}assert.equal(calls,1,'local competitors cannot create a second native plan');
   await assert.rejects(prepareRandomSourceStream({...o,historyRoot:'b'.repeat(64)},{runNative}),/immutable random source input changed/);assert.equal(calls,1);
@@ -48,6 +57,7 @@ test('interrupted native planning replays exact inputs without overwriting parti
     await put(join(args[5],'plan.json'),plan);
     if(calls===1){original=join(args[5],'plan.json');originalBytes=await readFile(original);throw Error('simulated native crash after first public file');}
     for(const[n,v]of Object.entries({'source-pages.json':d.source,'ordering-pages.json':d.pages,'queue.json':d.queue}))await put(join(args[5],n),v);
+    return sourcePlanReceiptDouble(args,['plan','source-pages','ordering-pages','queue']);
    };
    await assert.rejects(prepareRandomSourceStream(o,{runNative}),/native crash/);
    if(corrupt){await writeFile(original,'{}\n');await assert.rejects(prepareRandomSourceStream(o,{runNative}),/conflicts with exact replay/);assert.equal(await readFile(original,'utf8'),'{}\n');}

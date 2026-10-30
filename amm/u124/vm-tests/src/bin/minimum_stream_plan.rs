@@ -18,7 +18,7 @@ use serde_json::{json, Value};
 use sha2::{Digest, Sha256};
 use std::{
     fs,
-    io::{Read, Write},
+    io::Read,
     path::Path,
 };
 #[derive(Deserialize)]
@@ -36,16 +36,8 @@ fn bytes(path: &str, limit: u64) -> Result<Vec<u8>> {
 fn sha(b: &[u8]) -> String {
     format!("{:x}", Sha256::digest(b))
 }
-fn save(p: &Path, v: &impl Serialize) -> Result<()> {
-    let mut f = fs::OpenOptions::new()
-        .write(true)
-        .create_new(true)
-        .open(p)?;
-    f.write_all(&serde_json::to_vec_pretty(v)?)?;
-    f.write_all(b"\n")?;
-    f.sync_all()?;
-    fs::File::open(p.parent().unwrap())?.sync_all()?;
-    Ok(())
+fn save(p: &Path, v: &impl Serialize) -> Result<String> {
+    psy_template_u124_markets::source_plan_receipt::save(p,v)
 }
 #[tokio::main]
 async fn main() -> Result<()> {
@@ -138,13 +130,17 @@ async fn main() -> Result<()> {
     );
     let out = Path::new(&a[6]);
     fs::create_dir(out)?;
-    save(&out.join("source-pages.json"), &source)?;
-    save(&out.join("minimum-pages.json"), &pages)?;
-    save(&out.join("queue.json"), &queue.members)?;
-    save(
+    let mut output_hashes=std::collections::BTreeMap::new();
+    output_hashes.insert("source-pages".into(),save(&out.join("source-pages.json"), &source)?);
+    output_hashes.insert("minimum-pages".into(),save(&out.join("minimum-pages.json"), &pages)?);
+    output_hashes.insert("queue".into(),save(&out.join("queue.json"), &queue.members)?);
+    output_hashes.insert("plan".into(),save(
         &out.join("plan.json"),
         &json!({"schema":1,"profile":policy["profile"],"acceptedSealSha256":seal_bytes.as_ref().map(|b|sha(b)),"acceptedSealCheckpoint":accepted.as_ref().map(|p|p.snapshot.fields[6]),"sealedHistoryOrderVerified":sealed,"seedSecrecyAuthenticated":false,"reviewSha256":sha(&rb),"snapshotSha256":sha(&sb),"drawSha256":sha(&db),"policySha256":sha(&pb),"historyRoot":history,"scope":scope,"sourceCheckpoint":scope[6],"drawCheckpoint":scope[6]+delay,"expiry":scope[7],"accounts":covered.accounts,"earliestEligibleDeadline":covered.earliest_eligible_deadline,"recoveryMembers":covered.recovery_members.len(),"members":queue.members.len(),"sourcePages":source.len(),"minimumBuildPages":count.div_ceil(4),"minimumExtractionPages":count.div_ceil(4),"minimumPages":pages.len(),"noReset":true,"feeOwner":policy["fee_owner"],"seed":seed,"sourceSetRoot":original.root(),"orderedRoot":queue.root(),"authenticatedSeedRelativeToHistory":true,"finalityVerified":false,"causalSealBeforeReleaseAuthenticated":false,"producerInfluence":true,"qualifiedRandomness":false,"fullUpsVerified":false,"canSign":false,"canBroadcast":false}),
-    )?;
+    )?);
+    let mut input_hashes=[("review".into(),sha(&rb)),("snapshot".into(),sha(&sb)),("draw".into(),sha(&db)),("policy".into(),sha(&pb))].into_iter().collect::<std::collections::BTreeMap<_,_>>();
+    if let Some(b)=&seal_bytes{input_hashes.insert("acceptedSeal".into(),sha(b));}
+    psy_template_u124_markets::source_plan_receipt::emit(policy["profile"].as_str().context("profile")?,&history.to_string(),input_hashes,output_hashes)?;
     Ok(())
 }
 

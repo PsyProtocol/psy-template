@@ -7,12 +7,12 @@ use psy_crypto::hash::{merkle::core::MerkleProofCore,traits::qhashable::QFieldHa
 use psy_template_u124_markets::{final_state_coverage::{Snapshot,verify_snapshot},source_review::review,stream_source,stream_policy,random_stream};
 use plonky2::hash::poseidon::PoseidonHash as H;
 use serde::{Serialize,Deserialize};use serde_json::{Value,json};
-use sha2::{Digest,Sha256};use std::{fs,io::{Read,Write},path::Path};
+use sha2::{Digest,Sha256};use std::{fs,io::Read,path::Path};
 #[derive(Deserialize)]#[serde(deny_unknown_fields)]
 struct Draw{checkpoint:PsyCheckpointLeaf<F>,path:MerkleProofCore<Q<F>>}
 fn bytes(path:&str,limit:u64)->Result<Vec<u8>>{let mut b=vec![];fs::File::open(path)?.take(limit+1).read_to_end(&mut b)?;ensure!(b.len()as u64<=limit,"bounded planner input");Ok(b)}
 fn sha(b:&[u8])->String{format!("{:x}",Sha256::digest(b))}
-fn save(p:&Path,v:&impl Serialize)->Result<()>{let mut f=fs::OpenOptions::new().write(true).create_new(true).open(p)?;f.write_all(&serde_json::to_vec_pretty(v)?)?;f.write_all(b"\n")?;f.sync_all()?;fs::File::open(p.parent().unwrap())?.sync_all()?;Ok(())}
+fn save(p:&Path,v:&impl Serialize)->Result<String>{psy_template_u124_markets::source_plan_receipt::save(p,v)}
 fn main()->Result<()>{
  let a=std::env::args().collect::<Vec<_>>();ensure!(a.len()==7,"REVIEW SNAPSHOT PINNED_HISTORY_ROOT DRAW_OPENING POLICY FRESH_OUT");
  let (r,_,rb)=review(Path::new(&a[1]))?;ensure!(r.kind<=2,"random ordering is AMM/Curve only");
@@ -26,6 +26,9 @@ fn main()->Result<()>{
  let original=stream_source::priority(&r,&s,history)?;let seed=draw.checkpoint.stats.random_seed.0.elements.map(|n|n.to_canonical_u64());
  let (pages,queue)=random_stream::prepare(scope,&original,seed)?;
  let out=Path::new(&a[6]);fs::create_dir(out)?;
- save(&out.join("source-pages.json"),&source)?;save(&out.join("ordering-pages.json"),&pages)?;save(&out.join("queue.json"),&queue.members)?;
- save(&out.join("plan.json"),&json!({"schema":1,"profile":"source-covered-producer-random-stream-v1","reviewSha256":sha(&rb),"snapshotSha256":sha(&sb),"drawSha256":sha(&db),"policySha256":sha(&pb),"historyRoot":history,"scope":scope,"sourceCheckpoint":scope[6],"drawCheckpoint":scope[6]+1,"expiry":scope[7],"accounts":covered.accounts,"earliestEligibleDeadline":covered.earliest_eligible_deadline,"recoveryMembers":covered.recovery_members.len(),"members":queue.members.len(),"sourcePages":source.len(),"orderingPages":pages.len(),"seed":seed,"sourceSetRoot":original.root(),"orderedRoot":queue.root(),"authenticatedSeedRelativeToHistory":true,"finalityVerified":false,"causalSealBeforeReleaseAuthenticated":false,"producerInfluence":true,"qualifiedRandomness":false,"fullUpsVerified":false,"canSign":false,"canBroadcast":false}))?;Ok(())
+ let mut outputs=std::collections::BTreeMap::new();
+ outputs.insert("source-pages".into(),save(&out.join("source-pages.json"),&source)?);outputs.insert("ordering-pages".into(),save(&out.join("ordering-pages.json"),&pages)?);outputs.insert("queue".into(),save(&out.join("queue.json"),&queue.members)?);
+ outputs.insert("plan".into(),save(&out.join("plan.json"),&json!({"schema":1,"profile":"source-covered-producer-random-stream-v1","reviewSha256":sha(&rb),"snapshotSha256":sha(&sb),"drawSha256":sha(&db),"policySha256":sha(&pb),"historyRoot":history,"scope":scope,"sourceCheckpoint":scope[6],"drawCheckpoint":scope[6]+1,"expiry":scope[7],"accounts":covered.accounts,"earliestEligibleDeadline":covered.earliest_eligible_deadline,"recoveryMembers":covered.recovery_members.len(),"members":queue.members.len(),"sourcePages":source.len(),"orderingPages":pages.len(),"seed":seed,"sourceSetRoot":original.root(),"orderedRoot":queue.root(),"authenticatedSeedRelativeToHistory":true,"finalityVerified":false,"causalSealBeforeReleaseAuthenticated":false,"producerInfluence":true,"qualifiedRandomness":false,"fullUpsVerified":false,"canSign":false,"canBroadcast":false}))?);
+ let inputs=[("review".into(),sha(&rb)),("snapshot".into(),sha(&sb)),("draw".into(),sha(&db)),("policy".into(),sha(&pb))].into_iter().collect();
+ psy_template_u124_markets::source_plan_receipt::emit("source-covered-producer-random-stream-v1",&history.to_string(),inputs,outputs)?;Ok(())
 }

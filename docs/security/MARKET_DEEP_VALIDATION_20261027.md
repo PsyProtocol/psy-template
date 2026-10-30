@@ -1,5 +1,15 @@
 # Market correctness and reset-chain validation — 27 October 2026
 
+Latest application continuation (30 October): [owned native source-plan byte
+receipts and exact restart/recovery](SOURCE_STREAM_NATIVE_RECEIPT_20261030.md).
+The Executor pins the same bytes the native planner emitted, including the
+complete finite source, all pages and seed. Actual owned-native AMM/Curve
+planning, fresh-process reuse, same-host preparation competition, coherent seed
+replacement rejection and lost-planning-response recovery pass on archived
+synthetic fixtures. All four original artifacts remain byte-identical. This adds
+no new full UPS, current-chain acceptance, qualified entropy or financial write.
+Runtime verification resources and pre-release/finality authentication remain open.
+
 Latest bounded investigation (30 October): [named checkpoint cohort exclusions,
 current 20171/20172 failures and exact producer-local seed provenance](CHECKPOINT_RANDOM_SOURCE_CAUSE_REVIEW_20261030.md).
 Both captured pairs fail the approved key and two finite source-labelled

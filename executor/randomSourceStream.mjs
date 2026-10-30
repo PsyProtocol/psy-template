@@ -2,7 +2,7 @@
 // and persists one complete plan; it cannot sign, broadcast or certify finality.
 import assert from 'node:assert/strict';
 import {execFile} from 'node:child_process';import {promisify} from 'node:util';
-import {readFile,mkdir,lstat} from 'node:fs/promises';import {resolve,join,dirname,isAbsolute} from 'node:path';
+import {mkdir} from 'node:fs/promises';import {resolve,join,dirname,isAbsolute} from 'node:path';
 import {sealDriver} from './sealedDriver.mjs';import {sha256} from './requestBinding.mjs';
 import {ExecutionJournal} from './journal.mjs';import {publishFile} from './durableFile.mjs';
 import {planRandomBudget} from '../batching/checkpoint-stream/random-budget.mjs';
@@ -10,10 +10,10 @@ import {planMinimumBudget} from '../batching/checkpoint-stream/minimum-budget.mj
 import {validateMinimumStreamPlan} from './minimumSourcePlan.mjs';
 import {validateSealedMinimumStreamPlan,planSealedMinimumBudget,SEALED_MINIMUM_PROFILE} from './sealedMinimumSourcePlan.mjs';
 import {parseLosslessJson,losslessJson} from '../amm/u124/client.mjs';
+import {readPublicBytes,receiptFromNativeOutput,validateSourcePlanReceipt,readReceiptBoundOutputs} from './sourcePlanReceipt.mjs';
 const run=promisify(execFile),profile='source-covered-producer-random-stream-v1';
 const outputNames=['plan','source-pages','ordering-pages','queue'];
-const read=async p=>parseLosslessJson(await readFile(p,'utf8'));
-async function put(p,b){try{await publishFile(p,b);}catch(e){if(e.code!=='EEXIST')throw e;assert.deepEqual(await readFile(p),Buffer.from(b),'immutable random source input changed');}}
+async function put(p,b){try{await publishFile(p,b);}catch(e){if(e.code!=='EEXIST')throw e;assert.deepEqual(await readPublicBytes(p,Buffer.byteLength(b)),Buffer.from(b),'immutable random source input changed');}}
 export function validateRandomStreamPlan(plan,source,pages,queue){
  assert.equal(plan.profile,profile);assert.equal(plan.authenticatedSeedRelativeToHistory,true);
  for(const k of ['canSign','canBroadcast','fullUpsVerified','qualifiedRandomness','finalityVerified','causalSealBeforeReleaseAuthenticated'])assert.equal(plan[k],false);
@@ -40,7 +40,7 @@ async function prepareSourceStream(o,{runNative=run}={},protocol){
  keys.push(...extraInputs.flatMap(n=>[n,n+'Sha256']));
  assert.deepEqual(Object.keys(o).sort(),keys.sort(),'explicit reviewed preparation inputs only; no operator seed/round overrides');
  for(const k of ['reviewSha256','snapshotSha256','drawSha256','policySha256','historyRoot','walletSha256'])assert.match(o[k],/^[a-f0-9]{64}$/);
- const inputs={};for(const name of ['review','snapshot','draw','policy',...extraInputs]){const b=await readFile(o[name]);assert.ok(b.length<=({review:1048576,snapshot:67108864,draw:65536,policy:4194304,acceptedSeal:67108864}[name]));assert.equal(sha256(b),o[name+'Sha256']);inputs[name]=b;}
+ const inputs={};for(const name of ['review','snapshot','draw','policy',...extraInputs]){const b=await readPublicBytes(o[name],({review:1048576,snapshot:67108864,draw:65536,policy:4194304,acceptedSeal:67108864}[name]));assert.equal(sha256(b),o[name+'Sha256']);inputs[name]=b;}
  for(const n of extraInputs)assert.match(o[n+'Sha256'],/^[a-f0-9]{64}$/);
  const initial=parseLosslessJson(inputs.snapshot.toString()),cfg=parseLosslessJson(inputs.review.toString());assert.ok([1,2].includes(Number(cfg.kind)));
  const f=initial.fields;assert.equal(f.length,41);const vault=Number(f[4]);assert.ok(Number.isSafeInteger(vault)&&vault>0&&vault<2**24);
@@ -53,25 +53,33 @@ async function prepareSourceStream(o,{runNative=run}={},protocol){
  const journal=new ExecutionJournal({directory:dir,network:'offline-producer-stream',vaultId:vault,fingerprint:o.walletSha256});
  const input=join(dir,'input');
  const binding={scope,historyRoot:o.historyRoot,driverSha256:o.walletSha256,inputs:Object.fromEntries(Object.entries(inputs).map(([n,b])=>[n,sha256(b)]))};
- const load=async output=>{const plan=await read(join(output,'plan.json')),source=await read(join(output,'source-pages.json')),pages=await read(join(output,outputNames[2]+'.json')),queue=await read(join(output,'queue.json'));assert.equal(plan.historyRoot,o.historyRoot);for(const n of Object.keys(inputs))assert.equal(plan[n==='review'?'reviewSha256':n+'Sha256'],binding.inputs[n]);return {plan,source,pages,queue,status:validate(plan,source,pages,queue)};};
+ const expected={profile,binding,outputNames};
+ const load=async(output,receipt)=>{const {values,outputs}=await readReceiptBoundOutputs(output,receipt,expected),plan=values.plan,source=values['source-pages'],pages=values[outputNames[2]],queue=values.queue;assert.equal(plan.historyRoot,o.historyRoot);for(const n of Object.keys(inputs))assert.equal(plan[n+'Sha256'],binding.inputs[n]);return {plan,source,pages,queue,outputs,status:validate(plan,source,pages,queue)};};
  await journal.locked(async()=>{
   await put(join(dir,'binding.json'),losslessJson(binding)+'\n');await mkdir(input,{recursive:true,mode:0o700});
   for(const[n,b]of Object.entries(inputs))await put(join(input,n+'.json'),b);
-  for(const a of [cfg,...cfg.assets]){assert.ok(typeof a.artifact==='string'&&!isAbsolute(a.artifact)&&a.artifact.split(/[\\/]/).every(p=>p&&p!=='.'&&p!=='..'),'confined artifact');assert.ok(!['review.json','snapshot.json','draw.json','policy.json','acceptedSeal.json'].includes(a.artifact));const b=await readFile(join(dirname(resolve(o.review)),a.artifact));assert.equal(sha256(b),a.artifact_sha256);await mkdir(dirname(join(input,a.artifact)),{recursive:true,mode:0o700});await put(join(input,a.artifact),b);}
+  for(const a of [cfg,...cfg.assets]){assert.ok(typeof a.artifact==='string'&&!isAbsolute(a.artifact)&&a.artifact.split(/[\\/]/).every(p=>p&&p!=='.'&&p!=='..'),'confined artifact');assert.ok(!['review.json','snapshot.json','draw.json','policy.json','acceptedSeal.json'].includes(a.artifact));const b=await readPublicBytes(join(dirname(resolve(o.review)),a.artifact),67108864);assert.equal(sha256(b),a.artifact_sha256);await mkdir(dirname(join(input,a.artifact)),{recursive:true,mode:0o700});await put(join(input,a.artifact),b);}
   await driver.check();const records=await journal.records();
-  if(!records.some(r=>r.status===prefix+'-prepared')){
+  const prepared=records.filter(r=>r.status===prefix+'-prepared');assert.ok(prepared.length<=1,'duplicate prepared records require inspection');
+  if(!prepared.length){
    // A planning crash may leave public partial output. Never overwrite it or
    // trust its JSON as a native verification result. Replay the same pinned
    // inputs in a fresh directory; this cannot prove, sign or send a transaction.
    const name=records.length?'prepared-recovery-'+records.length:'prepared',output=join(dir,name);
    const previous=records.filter(r=>r.status===prefix+'-native-intent');
-   await journal.append({status:prefix+'-native-intent',outputDirectory:name,bindingSha256:sha256(await readFile(join(dir,'binding.json'))),financialOperations:0});
-   await runNative(driver.file,[join(input,'review.json'),join(input,'snapshot.json'),o.historyRoot,join(input,'draw.json'),join(input,'policy.json'),output,...extraInputs.map(n=>join(input,n+'.json'))],{env:{...process.env,PSY_NETWORK:'testnet',PSY_MARKET_TESTNET_PROFILE:'mainnet-beta-20261027-v1',RAYON_NUM_THREADS:'2'},timeout:300000,maxBuffer:2000000});
-   const p=await load(output),outputs={};for(const name of outputNames)outputs[name]=sha256(await readFile(join(output,name+'.json')));
-   for(const prior of previous){assert.match(prior.outputDirectory,/^prepared(?:-recovery-\d+)?$/);for(const name of outputNames){const path=join(dir,prior.outputDirectory,name+'.json');try{assert.ok((await lstat(path)).isFile(),'interrupted output must remain a regular file');assert.equal(sha256(await readFile(path)),outputs[name],'interrupted native output conflicts with exact replay');}catch(e){if(e.code!=='ENOENT')throw e;}}}
-   await journal.append({status:prefix+'-prepared',outputDirectory:name,bindingSha256:sha256(await readFile(join(dir,'binding.json'))),outputs,summary:p.status,financialOperations:0});
+   await journal.append({status:prefix+'-native-intent',outputDirectory:name,bindingSha256:sha256(await readPublicBytes(join(dir,'binding.json'),1048576)),financialOperations:0});
+   const result=await runNative(driver.file,[join(input,'review.json'),join(input,'snapshot.json'),o.historyRoot,join(input,'draw.json'),join(input,'policy.json'),output,...extraInputs.map(n=>join(input,n+'.json'))],{env:{...process.env,PSY_NETWORK:'testnet',PSY_MARKET_TESTNET_PROFILE:'mainnet-beta-20261027-v1',RAYON_NUM_THREADS:'2'},timeout:300000,maxBuffer:2000000});
+   await driver.check();const native=receiptFromNativeOutput(result?.stdout,expected),p=await load(output,native.receipt),outputs=p.outputs;
+   await put(join(output,'native-receipt.json'),native.text);
+   for(const prior of previous){assert.match(prior.outputDirectory,/^prepared(?:-recovery-\d+)?$/);for(const name of [...outputNames,'native-receipt']){const path=join(dir,prior.outputDirectory,name+'.json');try{const b=await readPublicBytes(path,name==='native-receipt'?16385:67108864);assert.equal(sha256(b),name==='native-receipt'?sha256(native.text):outputs[name],'interrupted native output conflicts with exact replay');}catch(e){if(e.code!=='ENOENT')throw e;}}}
+   await journal.append({status:prefix+'-prepared',outputDirectory:name,bindingSha256:sha256(await readPublicBytes(join(dir,'binding.json'),1048576)),outputs,nativeReceiptSha256:sha256(native.text),summary:p.status,financialOperations:0});
+  }else{
+   const r=prepared[0];assert.match(r.nativeReceiptSha256??'',/^[a-f0-9]{64}$/,'legacy prepared plan has no native byte receipt; preserve original journal and review separately');assert.match(r.outputDirectory,/^prepared(?:-recovery-\d+)?$/);
+   assert.equal(sha256(await readPublicBytes(join(dir,'binding.json'),1048576)),r.bindingSha256,'prepared input binding changed');
+   const output=join(dir,r.outputDirectory),bytes=await readPublicBytes(join(output,'native-receipt.json'),16385);assert.equal(sha256(bytes),r.nativeReceiptSha256,'native receipt changed');
+   const receipt=validateSourcePlanReceipt(parseLosslessJson(bytes.toString('utf8')),expected);assert.deepEqual(r.outputs,{...receipt.outputs},'journal output binding differs from native receipt');await load(output,receipt);
   }
  });
- const check=async()=>{await driver.check();assert.deepEqual(await read(join(dir,'binding.json')),parseLosslessJson(losslessJson(binding)));const r=(await journal.records()).find(r=>r.status===prefix+'-prepared');assert.ok(r);assert.match(r.outputDirectory,/^prepared(?:-recovery-\d+)?$/);const output=join(dir,r.outputDirectory);assert.equal(sha256(await readFile(join(dir,'binding.json'))),r.bindingSha256);for(const[n,h]of Object.entries(binding.inputs))assert.equal(sha256(await readFile(join(input,n+'.json'))),h,'copied source input changed');for(const a of [cfg,...cfg.assets]){const path=join(input,a.artifact);assert.ok((await lstat(path)).isFile(),'copied artifact must remain a regular file');assert.equal(sha256(await readFile(path)),a.artifact_sha256,'copied reviewed artifact changed');}for(const[n,h]of Object.entries(r.outputs))assert.equal(sha256(await readFile(join(output,n+'.json'))),h,'prepared plan changed');return load(output);};
+ const check=async()=>{await driver.check();const bindingBytes=await readPublicBytes(join(dir,'binding.json'),1048576);assert.deepEqual(parseLosslessJson(bindingBytes.toString('utf8')),parseLosslessJson(losslessJson(binding)));const records=(await journal.records()).filter(r=>r.status===prefix+'-prepared');assert.equal(records.length,1,'one prepared record required');const r=records[0];assert.match(r.nativeReceiptSha256??'',/^[a-f0-9]{64}$/,'legacy prepared plan has no native byte receipt; preserve original journal and review separately');assert.match(r.outputDirectory,/^prepared(?:-recovery-\d+)?$/);const output=join(dir,r.outputDirectory);assert.equal(sha256(bindingBytes),r.bindingSha256);for(const[n,h]of Object.entries(binding.inputs))assert.equal(sha256(await readPublicBytes(join(input,n+'.json'),67108864)),h,'copied source input changed');for(const a of [cfg,...cfg.assets]){const path=join(input,a.artifact);assert.equal(sha256(await readPublicBytes(path,67108864)),a.artifact_sha256,'copied reviewed artifact changed');}const bytes=await readPublicBytes(join(output,'native-receipt.json'),16385);assert.equal(sha256(bytes),r.nativeReceiptSha256,'native receipt changed');const receipt=validateSourcePlanReceipt(parseLosslessJson(bytes.toString('utf8')),expected);assert.deepEqual(r.outputs,{...receipt.outputs},'journal output binding differs from native receipt');return load(output,receipt);};
  return {directory:dir,status:async()=>(await check()).status,plan:check,planBudget:async costs=>{const {plan}=await check();return budget(plan,costs);},authorizeSettlement:()=>{throw Error('A reviewed live source-stream spending driver and fresh instance admission are required; preparation cannot enable writes.');}};
 }
