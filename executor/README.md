@@ -1,5 +1,11 @@
 # Psy Executor
 
+Source-stream preparation now requires an
+[owned native byte receipt](../docs/security/SOURCE_STREAM_NATIVE_RECEIPT_20261030.md).
+Missing/old receipts fail closed; source, seed, every page and immutable input
+binding are checked together on preparation and restart. A receipt is local
+artifact integrity, not a chain proof, finality certificate or authority to sign.
+
 The operator-owned [checkpoint delivery route](checkpointDelivery.mjs) verifies
 public runtime handoffs using the existing frozen native verifier. It exports
 local reference resources and rejects incompatible or incomplete deliveries;
