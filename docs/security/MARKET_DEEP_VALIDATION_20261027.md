@@ -1,5 +1,18 @@
 # Market correctness and reset-chain validation — 27 October 2026
 
+Latest proof-window continuation (30 October): [immutable prospective L1
+inclusion packets and actual paired account verification](L1_PROOF_WINDOW_CONTINUATION_20261030.md).
+Recent-header prefetch obtains real public EIP-1186 data before pruning; the new
+23-field execution-header adapter, MPT/storage/code checks, owned Executor
+integration and fresh-process reinspection pass. Paired proxy/implementation
+accounts bind to one header; mixed-header pairing rejects. The original
+historical anchor is unchanged and still lacks an archive proof. Three native
+tests, 26 mutation rejections and two Executor tests support only this inclusion
+milestone. Running CST resources remain unavailable through the examined user
+prover/CI paths, and the public Beacon feed reports no finality update. No
+consensus finality, qualified randomness, market UPS, live fill or ordinary
+wallet arrival is added; Node/SDK/dependency versions remain unchanged.
+
 Latest public-resource acquisition (30 October): [actual runtime client-key
 comparison and fixed L1 anchor observations](RUNTIME_PUBLIC_RESOURCES_20261030.md).
 The source-declared proof proxy returns an Endcap verifier that matches the
