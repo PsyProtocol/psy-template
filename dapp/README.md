@@ -14,13 +14,28 @@ cd dapp
 npm ci --ignore-scripts
 npm run build
 npm run test:markets
-npm run dev
+npm run dev:markets
 ```
 
 Open http://127.0.0.1:5273. The development server binds to loopback, restricts
 readable directories and denies `.secrets`, environment files, keystores and Git
 contents. Do not expose it as a public trading service. `package-lock.json` pins
 frontend dependencies; the chain Executor/Rust SDK has not been replaced.
+
+`dev:markets` starts the UI and its existing read-only gateway together. It
+checks both loopback ports first and refuses to take over an existing owner.
+It does not start an Executor, prover, faucet or financial task. Unsigned plans
+are retained under `~/.local/state/psy-markets/unsigned-plans/<config-sha256>`;
+an explicit absolute directory can be passed after `--`. Stopping the launcher
+stops only its own children. `npm run dev` remains the UI-only command.
+
+The Orders page separately reads extension-owned preparations for the connected
+account, page origin and wallet-configured chain. Its recovery client can only
+list original records, reconcile an original receipt or explicitly cancel a
+wholly unbroadcast preparation. It cannot prepare, sign, resend or broadcast.
+Receipt inclusion is not market completion or an asset claim. A failed refresh
+preserves the preceding observation and disables recovery until refreshed.
+No wallet history or proof is copied into local demo storage.
 
 ## Implemented
 
@@ -50,10 +65,12 @@ financial journal. Corruption preserves the original value and pauses autosave.
 There is no financial coordination across browser tabs.
 
 Live submission is disabled in this version, without an environment-variable
-switch. The active UI has no signing/broadcast calls; the legacy TokenPanel is
-not an application entry point. Future integration must use the formal
-Executor/client adapters and verify network, user, nonce, expiry, contract/asset/
-vault/SD-key identities, full call stack, sig_hash, fees and state endpoints.
+switch. The plan-specific UI requests the existing wallet-owned execution API,
+but only a matching reviewed wallet release can expose it; the page cannot
+install verification or transport resources. The legacy TokenPanel is not an
+application entry point. Formal Executor/client adapters must verify network,
+user, nonce, expiry, contract/asset/vault/SD-key identities, full call stack,
+sig_hash, fees and state endpoints.
 Unknown broadcasts require original-request reconciliation. HTTP availability
 and a connected wallet do not replace these gates.
 

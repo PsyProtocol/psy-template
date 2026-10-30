@@ -114,8 +114,8 @@ export function readinessPresentation(state) {
         "The current network or deployment could not be validated. Live trading remains disabled.",
       ],
       "protocol-incompatible": [
-        "Wallet compatibility update required",
-        "RPC is online, but this chain differs from the reviewed wallet and deployment. Live balances, quotes and trading remain unavailable.",
+        "Reviewed chain identities do not match",
+        "RPC is online, but native protocol or deployment identities differ from the reviewed instance. Fresh identity and compatibility review is required; trading remains disabled. This does not authorize an SDK change.",
       ],
       "deployment-required": [
         "Accepted deployment required",

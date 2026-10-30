@@ -1,4 +1,5 @@
 import { NetworkReadiness } from "./markets/NetworkReadiness";
+import { WalletActivity } from "./markets/WalletActivity";
 import { MarketAccountRead } from "./markets/MarketAccountRead";
 import { MarketPositions } from "./markets/MarketPositions";
 import { useEditingForm } from "./hooks/useEditingForm";
@@ -77,7 +78,7 @@ const VIEW_COPY: Record<View, [string, string]> = {
   nft: ["NFT Market", "Review exact NFT listings or prepare a listing draft."],
   orders: [
     "Orders",
-    "Review local drafts and clearly labelled AMM demo activity.",
+    "Recover original wallet requests and review separately labelled local drafts.",
   ],
   assets: [
     "Assets & claims",
@@ -366,6 +367,7 @@ export default function App() {
           </>
         ) : view === "orders" ? (
           <>
+            <WalletActivity account={wallet.account} />
             <ActivitySummary
               drafts={products.records}
               orders={orders}

@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:markets": "node scripts/run_markets.mjs",
     "configure": "node scripts/configure_issuer.mjs",
     "check:config": "node scripts/configure_issuer.mjs --check",
     "check:preflight": "node scripts/configure_issuer.mjs --check --strict",

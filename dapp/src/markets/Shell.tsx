@@ -123,7 +123,7 @@ export function DemoNotice() {
   return (
     <div className="demo-notice" role="status">
       <Icon name="info" size={18} />
-      <span>Demo mode: local data. Live submission is paused.</span>
+      <span>Preview forms use demo data. RPC observations and wallet records are labelled separately. Live trading is paused.</span>
     </div>
   );
 }

@@ -1,0 +1,24 @@
+{
+  "schema": 1,
+  "browser": "ego-browser 0.6.1.13, dedicated task space 24",
+  "desktop": {
+    "url": "http://127.0.0.1:5273/#orders",
+    "title": "Orders · Psy Markets",
+    "width": 1480,
+    "height": 771,
+    "blank": false,
+    "overlay": false,
+    "horizontalOverflow": false,
+    "readiness": "Reviewed chain identities do not match",
+    "recoveryDisabled": true
+  },
+  "mobile": {
+    "width": 390,
+    "height": 844,
+    "horizontalOverflow": false,
+    "overlay": false
+  },
+  "observedErrorEvents": [],
+  "financialOperations": 0,
+  "scope": "Navigation, disconnected recovery gate, synthetic component checks; not extension payment or chain acceptance"
+}

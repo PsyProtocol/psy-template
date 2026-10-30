@@ -1,5 +1,15 @@
 # Market correctness and reset-chain validation — 27 October 2026
 
+Latest product continuation (30 October): [original wallet recovery center,
+owned read-only workspace launcher and fresh chain mismatch](PRODUCT_RECOVERY_INTEGRATION_20261030.md).
+Orders can discover extension-owned original requests separately from local
+drafts, retain unknown outcomes and reject stale cancellation/identity changes.
+Actual rendered account/plan race checks and desktop/mobile navigation pass;
+an occupied workspace refuses a second launch without replacing either owner.
+The current checkpoint-one/native roots differ from the reviewed instance.
+Wallet writes, new deployment and settlement/claim acceptance remain closed;
+this run generated no proof or financial operation and changed no Node/SDK pin.
+
 Latest certificate acquisition (30 October): [real Gloas BLS/SSZ verification,
 owned Executor inspection and remaining trust/spending boundaries](GLOAS_CERTIFICATE_CONTINUATION_20261030.md).
 An actual 512-of-512 committee signature, committee inclusion, finality and
