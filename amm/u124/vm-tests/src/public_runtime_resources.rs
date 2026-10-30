@@ -56,6 +56,57 @@ pub fn inspect(bytes: &[u8]) -> Result<Value> {
     })
 }
 
+fn compare_resource(name: &str, fingerprint: psy_client_common::data::qhashout::QHashOut<F>,
+    verifier: &plonky2::plonk::circuit_data::VerifierOnlyCircuitData<C,2>, remote: &QCommonCircuitData<F>) -> Result<Value> {
+    let actual = remote.verifier_config.to_verifier_data::<C,2>();
+    ensure!(get_circuit_fingerprint_generic_q::<2,F,C>(&actual).0 == remote.fingerprint.0, "{name}: advertised fingerprint differs from key");
+    ensure!(actual == *verifier && fingerprint == remote.fingerprint, "{name}: runtime resource differs from frozen SDK");
+    Ok(json!({"role":name,"fingerprint":fingerprint.to_string(),"verifierBytesMatch":true,"advertisedFingerprintRecomputed":true}))
+}
+
+/// Compare the entire ordinary-ZK UPS chain and aggregation resources. Endcap
+/// equality alone does not establish start/registration/deferred compatibility.
+/// This constructs immutable circuits only; it never proves or calls RPC.
+pub async fn inspect_ordinary_ups(bytes: &[u8]) -> Result<Value> {
+    use psy_common_circuit::circuits::traits::qstandard::QStandardCircuit;
+    use psy_vm::ups::circuit_manager::UPSCircuitManager;
+    crate::live_guard::require_compiled_verifier_domain()?;
+    let mut report = inspect(bytes)?;
+    let envelope: Envelope = serde_json::from_slice(bytes)?;
+    let remote: psy_provider::provider::LocalCommonCircuitsData<F> = serde_json::from_str(&envelope.result)?;
+    let manager = psy_ups_circuit::circuit_manager::core::PsyUPSStepCircuitManager::<C,2>::new_with_config(psy_config::PSY_NETWORK_MAGIC);
+    let mut roles = vec![];
+    macro_rules! check {($name:ident) => {roles.push(compare_resource(stringify!($name), manager.$name.get_fingerprint(), manager.$name.get_verifier_config_ref(), &remote.$name)?)};}
+    check!(ups_start); check!(ups_start_register_user); check!(ups_cfc_standard_tx);
+    check!(ups_cfc_deferred_tx); check!(ups_end_cap);
+    let aggregate = &manager.proof_tree_agg_circuits.circuit_set;
+    macro_rules! agg {($name:ident) => {roles.push(compare_resource(stringify!($name), aggregate.$name.get_fingerprint(), aggregate.$name.get_verifier_config_ref(), &remote.$name)?)};}
+    agg!(single_leaf_circuit); agg!(two_leaf_circuit); agg!(two_agg_circuit);
+    agg!(left_leaf_right_agg_circuit); agg!(left_agg_right_leaf_circuit);
+    let zk = manager.zk_signature_minifier_verifier_config().await?;
+    roles.push(compare_resource("zk_circuit", manager.zk_signature_minifier_fingerprint().await?, &zk, &remote.zk_circuit)?);
+    ensure!(remote.ups_circuit_whitelist_root == manager.ups_circuit_whitelist_root, "ordinary UPS whitelist root differs");
+    for (name, actual, expected) in [
+        ("ups_start", &remote.ups_start_whitelist_proof, &manager.ups_start_whitelist_proof),
+        ("ups_start_register_user", &remote.ups_start_register_user_whitelist_proof, &manager.ups_start_register_user_whitelist_proof),
+        ("ups_cfc_standard_tx", &remote.ups_cfc_standard_tx_whitelist_proof, &manager.ups_cfc_standard_tx_whitelist_proof),
+        ("ups_cfc_deferred_tx", &remote.ups_cfc_deferred_tx_whitelist_proof, &manager.ups_cfc_deferred_tx_whitelist_proof),
+    ] {
+        ensure!(serde_json::to_value(actual)? == serde_json::to_value(expected)?, "{name}: ordinary UPS whitelist path differs");
+    }
+    let recursion = &manager.proof_tree_agg_circuits;
+    ensure!(remote.leaf_circuit_config_id == recursion.circuit_set.leaf_circuit_config_id
+        && remote.leaf_verifier_data_cap_height == recursion.circuit_set.leaf_verifier_data_cap_height
+        && remote.agg_verifier_data_cap_height == recursion.circuit_set.agg_verifier_data_cap_height
+        && serde_json::to_value(&remote.circuit_inclusion_proofs)? == serde_json::to_value(&recursion.circuit_inclusion_proofs)?, "ordinary UPS aggregation inclusion/config differs");
+    report["kind"] = json!("compiled-ordinary-ups-resource-comparison-v1");
+    report["ordinaryUpsResources"] = json!(roles);
+    report["ordinaryUpsWhitelistAndAggregationMatch"] = json!(true);
+    report["uncomparedRoles"] = json!(["secp_circuit","eth_personal_secp_circuit","private_note_inclusion_minifier","shield_deposit_claim_minifier"]);
+    report["completeTransactionProofVerified"] = json!(false);
+    Ok(report)
+}
+
 #[cfg(test)] mod tests {
     use super::*;
     fn captured() -> Result<Value> {
@@ -68,6 +119,19 @@ pub fn inspect(bytes: &[u8]) -> Result<Value> {
     }
     fn response(value: &Value) -> Result<Vec<u8>> {
         Ok(serde_json::to_vec(&json!({"jsonrpc":"2.0","id":1,"result":serde_json::to_string(value)?}))?)
+    }
+    #[test] fn application_runtime_binding_rejects_substituted_resource() -> Result<()> {
+        let remote: QCommonCircuitData<F> = serde_json::from_value(captured()?["ups_end_cap"].clone())?;
+        crate::fixed_verifier::with_verifier(|fixed| {
+            let fp = psy_client_common::data::qhashout::QHashOut(get_circuit_fingerprint_generic_q::<2,F,C>(&fixed.verifier_only).0);
+            compare_resource("endcap",fp,&fixed.verifier_only,&remote)?;
+            let mut wrong = remote.clone();wrong.fingerprint = psy_client_common::data::qhashout::QHashOut::ZERO;
+            assert!(compare_resource("endcap",fp,&fixed.verifier_only,&wrong).is_err());
+            let mut value=serde_json::to_value(&remote)?;value["verifier_config"]["circuit_digest"]=json!("0".repeat(64));
+            let wrong: QCommonCircuitData<F> = serde_json::from_value(value)?;
+            assert!(compare_resource("endcap",fp,&fixed.verifier_only,&wrong).is_err());
+            Ok(())
+        })
     }
     #[test] fn compares_exact_compiled_resources_without_promoting_authority() -> Result<()> {
         let mut v = captured()?;

@@ -1,4 +1,10 @@
-import { nativeProfile, isMainnetBetaProfile } from "../../market-client/nativeProtocol.mjs";
+import {
+  nativeProfile,
+  isMainnetBetaProfile,
+  MAINNET_BETA_PROFILE,
+  RESET_CHAIN_ROOT,
+  RESET_NATIVE_BINDING,
+} from "../../market-client/nativeProtocol.mjs";
 // Live readonly diagnostics, never a financial preflight or authorization.
 import assert from "node:assert/strict";
 import { canonical, hashPattern } from "../../market-client/protocol.mjs";
@@ -70,10 +76,11 @@ export function createReadinessReader({
       result.nativeCodeRoot = leaf.code_root;
       result.nativeFunctionRoot = leaf.function_tree_root;
       // Select the exact reviewed schema. Do not coerce hash owners to user IDs.
-      result.nativeSchemaCompatible =
-        isMainnetBetaProfile(nativeProfile(registry))
-          ? leaf.deployer === 0
-          : typeof leaf.deployer === "string" && hashPattern.test(leaf.deployer);
+      result.nativeSchemaCompatible = isMainnetBetaProfile(
+        nativeProfile(registry),
+      )
+        ? leaf.deployer === 0
+        : typeof leaf.deployer === "string" && hashPattern.test(leaf.deployer);
       result.nativeRootMatchesRegistry =
         leaf.code_root === native.contract.codeRoot &&
         leaf.function_tree_root === native.functionTreeRoot &&
@@ -82,6 +89,32 @@ export function createReadinessReader({
         leaf.state_layout_field_count === native.layoutFieldCount &&
         leaf.state_layout_slot_count === native.layoutSlotCount;
       if (!result.nativeSchemaCompatible || !result.nativeRootMatchesRegistry) {
+        // Classification only: recognize the already pinned reset Native
+        // identity, but keep the historical market registry unusable. Never
+        // change a plan's profile, probe its old market IDs or enable writes.
+        const observed = {
+          contract: {
+            contractId: 0,
+            codeRoot: leaf.code_root,
+            layoutRoot: leaf.state_layout_root,
+            stateTreeHeight: leaf.state_tree_height,
+          },
+          functionTreeRoot: leaf.function_tree_root,
+          layoutFieldCount: leaf.state_layout_field_count,
+          layoutSlotCount: leaf.state_layout_slot_count,
+        };
+        if (
+          nativeProfile(registry) === MAINNET_BETA_PROFILE &&
+          result.nativeSchemaCompatible &&
+          result.chainRoot === RESET_CHAIN_ROOT &&
+          canonical(observed) === canonical(RESET_NATIVE_BINDING)
+        ) {
+          result.state = "deployment-required";
+          result.issues = [
+            "The explicitly reviewed reset-chain Native identity matches. The historical market registry is not valid here; a new isolated deployment and wallet resource release are still required.",
+          ];
+          return result;
+        }
         result.state = "protocol-incompatible";
         result.issues = [
           "The current chain does not match the reviewed wallet protocol and deployment identity.",

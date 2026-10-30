@@ -1,0 +1,2654 @@
+{
+  "schema": 1,
+  "scope": "Native/current-checkpoint and ordinary UPS verifier preflight; no financial acceptance",
+  "archiveSha256": "d2c5091615b322e8877c9c67ef4a54a136fa30750bdabb58240316a9db2cefac",
+  "members": [
+    {
+      "file": "public/BROWSER-v1.json",
+      "bytes": 1064,
+      "sha256": "1577f49d723135e0aae92564ad5e07ab24bea6bc7cb4dbc584a4c5856e42d077"
+    },
+    {
+      "file": "public/CAPTURE-SUMMARY-v2.json",
+      "bytes": 237,
+      "sha256": "57c26685bea088013d7f7391e8bb96a42ff7fb55d0a04d27f493a82b556afbe3"
+    },
+    {
+      "file": "public/CAPTURE-SUMMARY.json",
+      "bytes": 212,
+      "sha256": "6d425d4c7d8d3416cf671a4b43b9be414b8101bfaf5f3fe59deec285771ea138"
+    },
+    {
+      "file": "public/CLOSING-v1.json",
+      "bytes": 547,
+      "sha256": "c1241e2a8ee5887bab5627ad53208a283d26d18b9846077ff6a91de949251e04"
+    },
+    {
+      "file": "public/CORRECTIVE-BUILD-PLAN-v4.json",
+      "bytes": 350,
+      "sha256": "cdfea907460277395146a5b904ce2b46e756230771c0d4a0ceabf7032e63d63a"
+    },
+    {
+      "file": "public/ENDCAP-RESOURCES-v2.json",
+      "bytes": 1082,
+      "sha256": "024dc60ca90a6bf6de04084de8354ff05504718790a25fc5206fed5f82ee7741"
+    },
+    {
+      "file": "public/EXECUTION-ACCOUNTING.json",
+      "bytes": 912,
+      "sha256": "4bb93959943c02f121d375372db57310a0e49b193fe3d93f974ec84a746de0dc"
+    },
+    {
+      "file": "public/FUNDING-RECONCILIATION.json",
+      "bytes": 617,
+      "sha256": "e960934981f0a1d62fd15150efe0426769efaa874d36dd27229abac052b8c767"
+    },
+    {
+      "file": "public/INDEPENDENT-REVIEW.json",
+      "bytes": 1095,
+      "sha256": "939a2d06a912f3b626d8c5abc414bea3f14f193cf4ff7adcdc1acc5e2e70fe58"
+    },
+    {
+      "file": "public/NATIVE-PROTOCOL-v2.json",
+      "bytes": 2206,
+      "sha256": "d098af7566a3cd40e3c9acbc4426e4da2e28633214b5f0a6f62098b307c25ae5"
+    },
+    {
+      "file": "public/NODE-TRANSPORT.json",
+      "bytes": 68,
+      "sha256": "b03ae14652dd80463e564049b99b42c1f75e19449cd35878e8c5cfd22f1664d4"
+    },
+    {
+      "file": "public/ORDINARY-RESOURCE-PLAN-v3.json",
+      "bytes": 483,
+      "sha256": "d181d282da2779d7d8b21d274f0bf66e2f4fff347ab7679ec078a8b5ae590f59"
+    },
+    {
+      "file": "public/ORDINARY-RESOURCES-SEALED-v4.json",
+      "bytes": 4496,
+      "sha256": "d6c452f5c49e3637b5782d9da0dccb021775bb9bc4675273f8f56fed060350e5"
+    },
+    {
+      "file": "public/ORDINARY-RESOURCES-v4.json",
+      "bytes": 4496,
+      "sha256": "d6c452f5c49e3637b5782d9da0dccb021775bb9bc4675273f8f56fed060350e5"
+    },
+    {
+      "file": "public/PACKAGING-FAILURE-v1.json",
+      "bytes": 506,
+      "sha256": "449f12a0eac2086b07fa9686fe0008aaa01a66cdf8f2512effefab6f0705571d"
+    },
+    {
+      "file": "public/PLAN.json",
+      "bytes": 1130,
+      "sha256": "9ea51c03be9ee8cee84491976d831b19c3007d62963e33454297ed1f7848a417"
+    },
+    {
+      "file": "public/RECONCILIATION-PLAN.json",
+      "bytes": 956,
+      "sha256": "bd1acf7b04262e23fba9a12f85ade682f5a6537fbd9483a282100e5b54028a57"
+    },
+    {
+      "file": "public/REGISTRATION-v1.json",
+      "bytes": 711,
+      "sha256": "a754fd7f39aebb006cacd55dd65ef64b96cb68e66ff762bfff32bd8e9770ea8d"
+    },
+    {
+      "file": "public/SEALED-REPLAY-PLAN-v4.json",
+      "bytes": 792,
+      "sha256": "7ac25202c59caae273069433eb092394732fe507eb249fd276111706b5e7c418"
+    },
+    {
+      "file": "public/TRANSPORT-PLAN-v2.json",
+      "bytes": 494,
+      "sha256": "553cafcecb2a58a6f2e92d647234bb33de1fcbc4813d76a0f365183cbfe479a2"
+    },
+    {
+      "file": "public/UI-CHECK-PLAN.json",
+      "bytes": 563,
+      "sha256": "273263c1f4383945055ba7ffd2c159f5d2e33fcfd581693d3580bef5a4d04c6b"
+    },
+    {
+      "file": "public/application-runtime-binding-tests-v4-result.json",
+      "bytes": 4958,
+      "sha256": "25fc81edf850056191bc537778eca3a5aecbb2803a2c96eb59fbdd821c2a9c0e"
+    },
+    {
+      "file": "public/application-runtime-binding-tests-v4.log",
+      "bytes": 47358,
+      "sha256": "1a76f4b48e7dc02d9d179367b47df15667acee3f7611609146c654e6011e6d6d"
+    },
+    {
+      "file": "public/capture-tests-v1.log",
+      "bytes": 674,
+      "sha256": "dc54f32d08b270ac1304bc1bda6d39bc5b58d481f4cca07c89caa6a38028ef3b"
+    },
+    {
+      "file": "public/current-chain-desktop.png",
+      "bytes": 115512,
+      "sha256": "41639a3329f1cbf3a0bc9894554845bac7cf8de24c18c54729575d1cd1106665"
+    },
+    {
+      "file": "public/current-chain-mobile.png",
+      "bytes": 65873,
+      "sha256": "2185690c09583c08d83ff800338c9cbfe75bbb31e079b12c8100d34bbed2eb44"
+    },
+    {
+      "file": "public/gateway-regressions-v1.log",
+      "bytes": 9376,
+      "sha256": "2ce1a39bdfff7bd4301aef0bd994c992a933734b8327ab8c2c0ff08213ffbb9f"
+    },
+    {
+      "file": "public/native-binding-build-v2-result.json",
+      "bytes": 5227,
+      "sha256": "e7d54d89c1efc1da9b98bd9cef8c052c5ea5f2cbc9b7746bb80bf3d693d6a04f"
+    },
+    {
+      "file": "public/native-binding-build-v2.log",
+      "bytes": 46194,
+      "sha256": "1d6b2f3df9d1ba14c57975f6b059cce7365250a01ab26cc30ac74c5bdd2d30f7"
+    },
+    {
+      "file": "public/native-binding-sealed-v4-result.json",
+      "bytes": 1360,
+      "sha256": "24bbbbcbe5eb9d850535849b74b808e9ea160e1361cfe3f7299c462b44615c46"
+    },
+    {
+      "file": "public/native-binding-sealed-v4.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "public/native-checkpoint-binding-v2-result.json",
+      "bytes": 1450,
+      "sha256": "2599e7862870186bc3b05000ce69c0c49bde3f30b3637e056c10be14e823cde2"
+    },
+    {
+      "file": "public/native-checkpoint-binding-v2.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "public/native-protocol-v2-result.json",
+      "bytes": 334,
+      "sha256": "28ae01dc790358e27d50624f8b57af98352f81367e6cce49c965e76ea3107e6b"
+    },
+    {
+      "file": "public/native-protocol-v2.log",
+      "bytes": 67,
+      "sha256": "5c8aac328d53cbe0a87b2332747999289411c0ab5c1d534563df91f36d6fa8b9"
+    },
+    {
+      "file": "public/ordinary-resource-compare-v4-result.json",
+      "bytes": 1444,
+      "sha256": "574f2d51abaa2fd2add93036688c31dd8712148de49d6e4a6f210120d7775967"
+    },
+    {
+      "file": "public/ordinary-resource-compare-v4.log",
+      "bytes": 4444,
+      "sha256": "2c9b95dcdbc3ce09d2d9af73a034e4be835a10ac0d70558ffc187b0d005c3060"
+    },
+    {
+      "file": "public/ordinary-resources-sealed-v4-result.json",
+      "bytes": 1192,
+      "sha256": "df3ed17eee758722e798d2234da549f70e18b360dffabe72774a504c1af3f26e"
+    },
+    {
+      "file": "public/ordinary-resources-sealed-v4.log",
+      "bytes": 4452,
+      "sha256": "88079a3cf34ae04de5c825c837f8867594370e557ef298607136ad136cc7380c"
+    },
+    {
+      "file": "public/readiness-and-capture-tests-v2.log",
+      "bytes": 1486,
+      "sha256": "61b5f139792910c65f2f4d4188a0c9bd2a96a5c79351021ff4f37b523fd3615c"
+    },
+    {
+      "file": "public/registration-input.json",
+      "bytes": 9256,
+      "sha256": "56e0dfcd988165d5d36aac5de83eeb1467a6c21ff1a9ae03eeb2b2b886a282d6"
+    },
+    {
+      "file": "public/registration-replay-v1-result.json",
+      "bytes": 333,
+      "sha256": "9f2aa6e47f2d157587e13b844fb6e77e4fe623e8d2ac591825f9c93e25d61070"
+    },
+    {
+      "file": "public/registration-replay-v1.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "public/resource-and-context-build-v3-result.json",
+      "bytes": 852,
+      "sha256": "0baa190462a8313aed4a4783fc519099ba077d472eab0aed84c6102cb52c1bd0"
+    },
+    {
+      "file": "public/resource-and-context-build-v3.log",
+      "bytes": 46941,
+      "sha256": "7a0f69400158629c3151c0f9ea9a19db674751c485f47be76b90d4cb35638fd5"
+    },
+    {
+      "file": "public/resource-and-context-build-v4-result.json",
+      "bytes": 6819,
+      "sha256": "3dd41089038c3ef4ba1ccb9917764be6d28b0ce59d93acf9f212a468f0a9e284"
+    },
+    {
+      "file": "public/resource-and-context-build-v4.log",
+      "bytes": 46194,
+      "sha256": "85f81d519785c31b8105dec170c239c096427d29b8b64db3a623f8a0233ec71e"
+    },
+    {
+      "file": "public/runtime-endcap-v2-result.json",
+      "bytes": 594,
+      "sha256": "407b47b89af914f373119913cddd930fc47e78022a0e02f8bb1978f470ae9f58"
+    },
+    {
+      "file": "public/runtime-endcap-v2.log",
+      "bytes": 1275,
+      "sha256": "d3f0cefcf977f3f193fce72dcc8467f937e89ef116615fbb6dc90f2e056cea64"
+    },
+    {
+      "file": "capture/node-anchor-request.json",
+      "bytes": 94,
+      "sha256": "8e5ab01b5c7f54dccf9dbcce501bf9fac4fd437185cc376c2d066ce96802c965"
+    },
+    {
+      "file": "capture/node-anchor-response.json",
+      "bytes": 790,
+      "sha256": "0dc1329cb8229f9bccd034c8812e60558326da2c17cc8907b089e694f301d8be"
+    },
+    {
+      "file": "capture/realm0-head-failure.json",
+      "bytes": 217,
+      "sha256": "05fbb56558021d513b0b1d8e361948ea306f1d239864f6b5c8eb8c9a3fc84b2a"
+    },
+    {
+      "file": "capture/realm0-head-request.json",
+      "bytes": 95,
+      "sha256": "329e8f582593d36ddf81e8f408a1ccf846d2c99c5a64c4fed5f5cf5198d28f28"
+    },
+    {
+      "file": "capture-v2/realm0-head-failure.json",
+      "bytes": 242,
+      "sha256": "b661449754a231e942f037e47373c6e6baae0e4ec3b8ea37c811f031bae24f0d"
+    },
+    {
+      "file": "capture-v2/realm0-head-request.json",
+      "bytes": 95,
+      "sha256": "329e8f582593d36ddf81e8f408a1ccf846d2c99c5a64c4fed5f5cf5198d28f28"
+    },
+    {
+      "file": "capture-v3/PLAN.json",
+      "bytes": 153,
+      "sha256": "ef39e445cfe8098aaab265257b7bbde8dbd8711b9ae9167d0fec93cf9a53102d"
+    },
+    {
+      "file": "capture-v3/SUMMARY.json",
+      "bytes": 1425,
+      "sha256": "083b4658cc690bfd4629575a89db3c8c87f6ade23d95783ef064b622d163cf2b"
+    },
+    {
+      "file": "capture-v3/anchor-0-request.json",
+      "bytes": 94,
+      "sha256": "8e5ab01b5c7f54dccf9dbcce501bf9fac4fd437185cc376c2d066ce96802c965"
+    },
+    {
+      "file": "capture-v3/anchor-0-transport.json",
+      "bytes": 169,
+      "sha256": "cb22816d732d186bad88121e15ed79f43041e617c4abc58a0706e5de4b0da43a"
+    },
+    {
+      "file": "capture-v3/anchor-0.json",
+      "bytes": 790,
+      "sha256": "0dc1329cb8229f9bccd034c8812e60558326da2c17cc8907b089e694f301d8be"
+    },
+    {
+      "file": "capture-v3/anchor-1-request.json",
+      "bytes": 94,
+      "sha256": "8e5ab01b5c7f54dccf9dbcce501bf9fac4fd437185cc376c2d066ce96802c965"
+    },
+    {
+      "file": "capture-v3/anchor-1-transport.json",
+      "bytes": 169,
+      "sha256": "76a49f7e7be5f98df290b5293264f935457c143de3576aa4d17da9b741c3ba27"
+    },
+    {
+      "file": "capture-v3/anchor-1.json",
+      "bytes": 790,
+      "sha256": "0dc1329cb8229f9bccd034c8812e60558326da2c17cc8907b089e694f301d8be"
+    },
+    {
+      "file": "capture-v3/anchor-2-request.json",
+      "bytes": 94,
+      "sha256": "8e5ab01b5c7f54dccf9dbcce501bf9fac4fd437185cc376c2d066ce96802c965"
+    },
+    {
+      "file": "capture-v3/anchor-2-transport.json",
+      "bytes": 174,
+      "sha256": "89f2b9ec85d530d315bd80b1909b7f8e218f9ecc514ad5678c832c1e194430cc"
+    },
+    {
+      "file": "capture-v3/anchor-2.json",
+      "bytes": 790,
+      "sha256": "0dc1329cb8229f9bccd034c8812e60558326da2c17cc8907b089e694f301d8be"
+    },
+    {
+      "file": "capture-v3/anchor-path-request.json",
+      "bytes": 129,
+      "sha256": "ac29975e86e759a6dbd567b214f6269cfe147a0cbe6b268fff6350f350553caa"
+    },
+    {
+      "file": "capture-v3/anchor-path-transport.json",
+      "bytes": 175,
+      "sha256": "2823efb8fae759ebb093c8d927af655ae3cf8c0f8830e583c54286965fa30176"
+    },
+    {
+      "file": "capture-v3/anchor-path.json",
+      "bytes": 2351,
+      "sha256": "db6906603759ff23ec8460855deee66af7e1c594d6993c52aea0f956c4847588"
+    },
+    {
+      "file": "capture-v3/checkpoint-context.json",
+      "bytes": 6436,
+      "sha256": "b148d0395616dbf3097e9d25919bd8169ca42cb6c78745f63acf1bcd9a8204e6"
+    },
+    {
+      "file": "capture-v3/checkpoint-tree-root-request.json",
+      "bytes": 98,
+      "sha256": "5a552642b1434ddbd76a30a8dba73be90e4e64b0acf94ca66d379a9a7a79840e"
+    },
+    {
+      "file": "capture-v3/checkpoint-tree-root-transport.json",
+      "bytes": 174,
+      "sha256": "9f07f6e84118a8c1e6cd6aa6b24a2a63acdc74968c2c6b244a9923ea0c1615d9"
+    },
+    {
+      "file": "capture-v3/checkpoint-tree-root.json",
+      "bytes": 100,
+      "sha256": "c500577c906d7f5ab58e314e3dd1d64d1cdc5aa893827bf4f08ea867664b54e9"
+    },
+    {
+      "file": "capture-v3/faucet-config-request.json",
+      "bytes": 74,
+      "sha256": "6e9b715550b9704dee99760ae3a147ca0a384d471adf3f2ad193e242f66e802d"
+    },
+    {
+      "file": "capture-v3/faucet-config.json",
+      "bytes": 947,
+      "sha256": "b12e2673ca962597d2fd40f518047de25e5d50cc5861ba246c94a9ab09cbf4af"
+    },
+    {
+      "file": "capture-v3/funding-user-request.json",
+      "bytes": 109,
+      "sha256": "711abf3b6aba5f0a3839dd05332f39cf7c4825ba0083d350ffa98e22aca7d5c7"
+    },
+    {
+      "file": "capture-v3/funding-user-transport.json",
+      "bytes": 169,
+      "sha256": "31b492396ccaa6a8ef0f2cea244d969eb1d69729503081e52d19221429339d2b"
+    },
+    {
+      "file": "capture-v3/funding-user.json",
+      "bytes": 283,
+      "sha256": "be014dcef13dfe6bfb45f4577fcec0d5be10a609d1ab49c44d9d33d3fa4ba113"
+    },
+    {
+      "file": "capture-v3/native-code-request.json",
+      "bytes": 96,
+      "sha256": "245aa0196d0b9942b49c4f43d8b247116055e84a9e9d754c1224c1c347fdfae3"
+    },
+    {
+      "file": "capture-v3/native-code-transport.json",
+      "bytes": 177,
+      "sha256": "0a1afaf9704a4008b662e795a53985487453ab9eea7272b38b17b912485dc062"
+    },
+    {
+      "file": "capture-v3/native-code.json",
+      "bytes": 431278,
+      "sha256": "657122faa1c80a643c7851a570921ac8cd22aaf49c928801c6d76d83745ee6a6"
+    },
+    {
+      "file": "capture-v3/native-leaf-after-request.json",
+      "bytes": 90,
+      "sha256": "3a5107148db35961a95591bac17da5b45a3f753031cdf6cf121ba82e8b67e7c6"
+    },
+    {
+      "file": "capture-v3/native-leaf-after-transport.json",
+      "bytes": 174,
+      "sha256": "c0e1c5434a7d92eaceb1c08c203a3f929bcacf9c27b6c7fdd30db86d4e149190"
+    },
+    {
+      "file": "capture-v3/native-leaf-after.json",
+      "bytes": 391,
+      "sha256": "62eb9e61f3c60cbf3e07e23a121d0afaed83ae6c6067c7a8af18b9e7cb8a6e64"
+    },
+    {
+      "file": "capture-v3/native-leaf-request.json",
+      "bytes": 90,
+      "sha256": "3a5107148db35961a95591bac17da5b45a3f753031cdf6cf121ba82e8b67e7c6"
+    },
+    {
+      "file": "capture-v3/native-leaf-transport.json",
+      "bytes": 174,
+      "sha256": "c0e1c5434a7d92eaceb1c08c203a3f929bcacf9c27b6c7fdd30db86d4e149190"
+    },
+    {
+      "file": "capture-v3/native-leaf.json",
+      "bytes": 391,
+      "sha256": "62eb9e61f3c60cbf3e07e23a121d0afaed83ae6c6067c7a8af18b9e7cb8a6e64"
+    },
+    {
+      "file": "capture-v3/native-membership-request.json",
+      "bytes": 120,
+      "sha256": "3ef4e840eb6baa6e389df2afee2a07ded34cd87839edecd74b9a15038cb06d2b"
+    },
+    {
+      "file": "capture-v3/native-membership-transport.json",
+      "bytes": 175,
+      "sha256": "afbeeee04cbb5ec2bfe4825f3e6693b6a90dd4b2b68af98e0cda196326be985b"
+    },
+    {
+      "file": "capture-v3/native-membership.json",
+      "bytes": 1815,
+      "sha256": "babc824ae66f7941dde0974c9227b6b63f3ebadf316f582c24e201071a9c46ce"
+    },
+    {
+      "file": "capture-v3/realm0-head-request.json",
+      "bytes": 78,
+      "sha256": "3f4d92fb01040306e994092a87018d0f18da258efd1cf023f051ddff478a72c9"
+    },
+    {
+      "file": "capture-v3/realm0-head-transport.json",
+      "bytes": 169,
+      "sha256": "a3908d883c8d41560485250832666688b9905b8997a0816bf2d0e753c077d0e7"
+    },
+    {
+      "file": "capture-v3/realm0-head.json",
+      "bytes": 225,
+      "sha256": "43c24db39a53a513eebcc984df3b437fa082d984c776e27987e65aaaef563257"
+    },
+    {
+      "file": "capture-v3/realm1-head-request.json",
+      "bytes": 78,
+      "sha256": "3f4d92fb01040306e994092a87018d0f18da258efd1cf023f051ddff478a72c9"
+    },
+    {
+      "file": "capture-v3/realm1-head-transport.json",
+      "bytes": 169,
+      "sha256": "23b70df6b57108571eaf92a4922925dce8bdd5bfd89ff83154ccb6306f788e79"
+    },
+    {
+      "file": "capture-v3/realm1-head.json",
+      "bytes": 225,
+      "sha256": "43c24db39a53a513eebcc984df3b437fa082d984c776e27987e65aaaef563257"
+    },
+    {
+      "file": "capture-v3/registration-ids-request.json",
+      "bytes": 188,
+      "sha256": "e48cf36a03f81c365577d2ef9de005341b23e157abf1af6bc70bdfe5233ef80d"
+    },
+    {
+      "file": "capture-v3/registration-ids.json",
+      "bytes": 42,
+      "sha256": "4d250cabf82627cf19428d5d7470369b018c5ffa700eb21de98dadcf7c33b115"
+    },
+    {
+      "file": "capture-v3/registration-proof-request.json",
+      "bytes": 130,
+      "sha256": "60617e229513274719729c1c839a4fde522bfb811fbfa1ad50ae2a31aed26ba1"
+    },
+    {
+      "file": "capture-v3/registration-proof.json",
+      "bytes": 2353,
+      "sha256": "9495fd76e290ffa1d97cb89e5c0b37c34eabc873b69dc4ff4753f83bcbe0792f"
+    },
+    {
+      "file": "capture-v3/registration-public-request.json",
+      "bytes": 95,
+      "sha256": "2322a478d1b41565640b80de78e68914bb424256f5fd07649eed3cd668ccd0fd"
+    },
+    {
+      "file": "capture-v3/registration-public.json",
+      "bytes": 140,
+      "sha256": "2f1bc09a9d8292c3ce1b1a299799395173ff0fc08488543f0995c8d349685e55"
+    },
+    {
+      "file": "capture-v3/runtime-client-resources-request.json",
+      "bytes": 70,
+      "sha256": "41b4877f003693262ea52a121873cce3902040ab5f0fc79ce3553a3af76d2452"
+    },
+    {
+      "file": "capture-v3/runtime-client-resources-transport.json",
+      "bytes": 170,
+      "sha256": "23ed1acc8c73b4781891f266149a3e53a3de8dbcb0c1b6ac98828ad3200b72a3"
+    },
+    {
+      "file": "capture-v3/runtime-client-resources.json",
+      "bytes": 25921,
+      "sha256": "c1fc6f72975e62ed87c63593b43e08f7e26fe2aacddae5b96272021ab35726bb"
+    },
+    {
+      "file": "capture-v3/runtime-endcap-envelope.json",
+      "bytes": 1382,
+      "sha256": "3f17ec40534a6dff2c529ffbfdca8651e160ab2bc0db4d8faf4010f6cb6c57aa"
+    },
+    {
+      "file": "capture-v3/source-leaf-request.json",
+      "bytes": 98,
+      "sha256": "ec0642950d22463cd236e0aca637583982cb7f0f89812cd30d4b0b2d2fc6107e"
+    },
+    {
+      "file": "capture-v3/source-leaf-transport.json",
+      "bytes": 174,
+      "sha256": "f90a80e85800c83c7039b6bbd1b3ef6d4f280cf0ce2e7dfdaa9fb591756d5a1e"
+    },
+    {
+      "file": "capture-v3/source-leaf.json",
+      "bytes": 790,
+      "sha256": "30ce21fd6116fcce7b6336c02947e1d23896e8cd73603697eaa2d4b3bcdaf6ff"
+    },
+    {
+      "file": "capture-v3/source-path-request.json",
+      "bytes": 133,
+      "sha256": "550da6cefc88a7df45370df32e5bcc89fbb7f322e73576382f748a29407da37b"
+    },
+    {
+      "file": "capture-v3/source-path-transport.json",
+      "bytes": 175,
+      "sha256": "c82872a4cc366c99466f9639055f6372f7a1cb64b52760d37d1948b12d292caa"
+    },
+    {
+      "file": "capture-v3/source-path.json",
+      "bytes": 2355,
+      "sha256": "d2a954f24779a65bc19278c0286e825ba6f7897e0489d91ff991619f7e69e82a"
+    },
+    {
+      "file": "capture-v3/source-roots-request.json",
+      "bytes": 107,
+      "sha256": "64ea2cf94547b1126e8ce3d42acd71ec229828003a1ff0e28404b7f73db13b7e"
+    },
+    {
+      "file": "capture-v3/source-roots-transport.json",
+      "bytes": 174,
+      "sha256": "e6f13a02681d5aa79cc17670aafa8deadce9ff1b3a0e767913316a85855baceb"
+    },
+    {
+      "file": "capture-v3/source-roots.json",
+      "bytes": 570,
+      "sha256": "481a2151098e7a909d0ce04fa165a1c0cd4dbb6c43f1c5f8932a8f4b665d31b5"
+    },
+    {
+      "file": "native-bound-v2/BINDING.json",
+      "bytes": 4164,
+      "sha256": "719342ff8a8d5e68dab29e121dfa561d9a811b1f8f605c4af2479a6f96b021ea"
+    },
+    {
+      "file": "native-bound-v2/native.json",
+      "bytes": 451393,
+      "sha256": "c6cf92a87aec4f3d10dc29848eb20b5ebac33cc61c52c8daba78b24fa02b6119"
+    },
+    {
+      "file": "native-bound-sealed-v4/BINDING.json",
+      "bytes": 4164,
+      "sha256": "719342ff8a8d5e68dab29e121dfa561d9a811b1f8f605c4af2479a6f96b021ea"
+    },
+    {
+      "file": "native-bound-sealed-v4/native.json",
+      "bytes": 451393,
+      "sha256": "c6cf92a87aec4f3d10dc29848eb20b5ebac33cc61c52c8daba78b24fa02b6119"
+    },
+    {
+      "file": "funding-reconciliation-v1/0-request.json",
+      "bytes": 161,
+      "sha256": "6315ecde20b047c4c8bb947516f1461ce853b9741a0423a6bdb81ecd7da6350a"
+    },
+    {
+      "file": "funding-reconciliation-v1/0-response.json",
+      "bytes": 100,
+      "sha256": "70b0aa152b5b3be7a3b60f7def8ae734c8898fc6c933f43a5aef196deffe4e87"
+    },
+    {
+      "file": "funding-reconciliation-v1/1-request.json",
+      "bytes": 160,
+      "sha256": "681af92923c59e5383b17d55a71852d96b4d425605ddc4cc320785fac59f31c1"
+    },
+    {
+      "file": "funding-reconciliation-v1/1-response.json",
+      "bytes": 100,
+      "sha256": "9505376d5aa7696fff07d8ce6a5c86ccdeff7a39971e87d97e463a41c0c6192f"
+    },
+    {
+      "file": "funding-reconciliation-v1/10-request.json",
+      "bytes": 162,
+      "sha256": "629fe64018a9a291872e4b6f54b4c370923870106ca18247920f28eea82b8022"
+    },
+    {
+      "file": "funding-reconciliation-v1/10-response.json",
+      "bytes": 101,
+      "sha256": "99b1be850c1513921e6feab12a9d244c2744f598eb4d036fdedbf47c1f3ff3e5"
+    },
+    {
+      "file": "funding-reconciliation-v1/100-request.json",
+      "bytes": 165,
+      "sha256": "0ba63440c5fca08427402af75cb12648071a22c705e4b8dfba9f283ec46f9e63"
+    },
+    {
+      "file": "funding-reconciliation-v1/100-response.json",
+      "bytes": 102,
+      "sha256": "ed570942097e02448921b3acb2aa3901150dcf746dd9810c362c2decdfaf19df"
+    },
+    {
+      "file": "funding-reconciliation-v1/101-request.json",
+      "bytes": 164,
+      "sha256": "278dd107d37c2542f314825e9fad7748d7d15d0e656da99bea58cc3c8af258c1"
+    },
+    {
+      "file": "funding-reconciliation-v1/101-response.json",
+      "bytes": 102,
+      "sha256": "0af3dd68ea919096950e653f01367aafb13c392e669d0340d244639bac02f783"
+    },
+    {
+      "file": "funding-reconciliation-v1/102-request.json",
+      "bytes": 165,
+      "sha256": "53ae49c99c2936fedc9d26d997126e0c1639bc9c2e9ad754bf61277546b0b95c"
+    },
+    {
+      "file": "funding-reconciliation-v1/102-response.json",
+      "bytes": 102,
+      "sha256": "0de3cc066895480fb56d9155e856af9a8ae22664da55bb3cc27658414fd7481f"
+    },
+    {
+      "file": "funding-reconciliation-v1/103-request.json",
+      "bytes": 164,
+      "sha256": "efb80689df1d2b7be65e21d6b44a48855c4f5c659beb0c35a24eb7d0946a2d75"
+    },
+    {
+      "file": "funding-reconciliation-v1/103-response.json",
+      "bytes": 102,
+      "sha256": "134d07930bd3fccf6743e18b7ed8fdd0a6cb979bfc5bb071b73de106aaff03a5"
+    },
+    {
+      "file": "funding-reconciliation-v1/104-request.json",
+      "bytes": 165,
+      "sha256": "82e2faa49e1c278996bf160cb6f77a0f2cc4590cb63d9dd21faee19a80583df1"
+    },
+    {
+      "file": "funding-reconciliation-v1/104-response.json",
+      "bytes": 102,
+      "sha256": "8e36efe2c6b3661b0f41659d1fd65ea41226f878f4376e44ad784570358a0b84"
+    },
+    {
+      "file": "funding-reconciliation-v1/105-request.json",
+      "bytes": 164,
+      "sha256": "f396b855fd04cf1ca3f63f8bfb26a1e50baf993e0070ee01551a43c9ba017511"
+    },
+    {
+      "file": "funding-reconciliation-v1/105-response.json",
+      "bytes": 102,
+      "sha256": "18fda42b122c5c6c3c1238d7f13e3d064bf6d2aaa53266f88e9455447aa2dfe6"
+    },
+    {
+      "file": "funding-reconciliation-v1/106-request.json",
+      "bytes": 165,
+      "sha256": "968b823a3813f023b143f7492ead41279706f6e8f056961a42a1efd57ea30d81"
+    },
+    {
+      "file": "funding-reconciliation-v1/106-response.json",
+      "bytes": 102,
+      "sha256": "6a0b7f14629c00752c22a8d762b633f0a39c7b97a4bec00626f3636fe510f139"
+    },
+    {
+      "file": "funding-reconciliation-v1/107-request.json",
+      "bytes": 164,
+      "sha256": "ccc27e781c5bc91645db455f7ec8bfcb8780ef601dc0aaa3e298bbed3a04048d"
+    },
+    {
+      "file": "funding-reconciliation-v1/107-response.json",
+      "bytes": 102,
+      "sha256": "9ce85ed807924961ae43ec9a2c2cd71a4064d6796b76feb8c9223d317cf15035"
+    },
+    {
+      "file": "funding-reconciliation-v1/108-request.json",
+      "bytes": 165,
+      "sha256": "b8845e637fb5cc9c8cab109806de39c6e12ace5b25e19953d265982fd9d217dc"
+    },
+    {
+      "file": "funding-reconciliation-v1/108-response.json",
+      "bytes": 102,
+      "sha256": "99f55ebb1304e3e903cd81d82e9b2020288fbfc93ec00453c0817152ce0ba1a5"
+    },
+    {
+      "file": "funding-reconciliation-v1/109-request.json",
+      "bytes": 164,
+      "sha256": "1584671be340c6e068c34e5a1c6b4c0326e36bb7b8f72e2cdcb789be527b6f7e"
+    },
+    {
+      "file": "funding-reconciliation-v1/109-response.json",
+      "bytes": 102,
+      "sha256": "64187ba99f60534368ee7bd0ae1d686a898db4f00a9bcec2483c716403619b01"
+    },
+    {
+      "file": "funding-reconciliation-v1/11-request.json",
+      "bytes": 162,
+      "sha256": "af8f33ef579914ed055e67f912c3e76349e68229e1099a3bc28a72b206c9d88a"
+    },
+    {
+      "file": "funding-reconciliation-v1/11-response.json",
+      "bytes": 101,
+      "sha256": "b7e7cceb25c50c7d6633e7fc64b2cbba204844584df91b578d2b6489e8d821fa"
+    },
+    {
+      "file": "funding-reconciliation-v1/110-request.json",
+      "bytes": 165,
+      "sha256": "a634920b6dacb5dc4e1d2057a7e07ecfba0230a72ff28efcdf732611dff28b6a"
+    },
+    {
+      "file": "funding-reconciliation-v1/110-response.json",
+      "bytes": 102,
+      "sha256": "c29976428780b0a2d17d60ce0b7fe74075a2ea42b8b289a56ba3014a5d02f1bb"
+    },
+    {
+      "file": "funding-reconciliation-v1/111-request.json",
+      "bytes": 164,
+      "sha256": "06bf121818d4cdf9ef950595d3484de8c32896c1f3b3d2cd5f6a01a6b9840794"
+    },
+    {
+      "file": "funding-reconciliation-v1/111-response.json",
+      "bytes": 102,
+      "sha256": "413ba64e45b39c13b3895f6c2e127a011880b99b1cf0ab8c204a5190a7072e7f"
+    },
+    {
+      "file": "funding-reconciliation-v1/112-request.json",
+      "bytes": 165,
+      "sha256": "5607f617cef0006fb36b9629b3561b2513a3b28e86ab3d4067686bd5a040026b"
+    },
+    {
+      "file": "funding-reconciliation-v1/112-response.json",
+      "bytes": 102,
+      "sha256": "c59dfaee0ee00894a371740f81172c5fef448d314e26435bd06e560cc2ccf264"
+    },
+    {
+      "file": "funding-reconciliation-v1/113-request.json",
+      "bytes": 164,
+      "sha256": "d9156000522ee0bc4aaa85eee36c3cb05f5262712a2cdf0a224415b590d1b09e"
+    },
+    {
+      "file": "funding-reconciliation-v1/113-response.json",
+      "bytes": 102,
+      "sha256": "75abaf847c518742ebcd59d31f52b9f11861c342f2a154ce52c549f82b3ccc88"
+    },
+    {
+      "file": "funding-reconciliation-v1/114-request.json",
+      "bytes": 165,
+      "sha256": "3166a7640a5d6975d51754da55c2ce0db1cbd1a204cf9563cfe0b16d6545c1a0"
+    },
+    {
+      "file": "funding-reconciliation-v1/114-response.json",
+      "bytes": 102,
+      "sha256": "cc0fcfd436cd27eed39c06c7abbfb347ee7358fa0705cacc5f6db8bb6120890b"
+    },
+    {
+      "file": "funding-reconciliation-v1/115-request.json",
+      "bytes": 164,
+      "sha256": "b3a3ecd8e705bb47e2378dc4c7037cb2e3883a83615ffd33fb4be0045d3d3a72"
+    },
+    {
+      "file": "funding-reconciliation-v1/115-response.json",
+      "bytes": 102,
+      "sha256": "88ed5844e3883611e9dcf65fa0e55379cbba2659d2ea72fba9f47a96cbd894d0"
+    },
+    {
+      "file": "funding-reconciliation-v1/116-request.json",
+      "bytes": 165,
+      "sha256": "33e2d74eb8fc475482d3fb16dd3ee63905025109b7da8b6a4a81cb7f1c5b3a0c"
+    },
+    {
+      "file": "funding-reconciliation-v1/116-response.json",
+      "bytes": 102,
+      "sha256": "b5b7f4ee93684196dc647583e3f1095e82ea240c32bfe59a5583476849d23cbc"
+    },
+    {
+      "file": "funding-reconciliation-v1/117-request.json",
+      "bytes": 164,
+      "sha256": "519e918fde2d3935fdb2928367125e90be31019387418ae3753afc6340062b62"
+    },
+    {
+      "file": "funding-reconciliation-v1/117-response.json",
+      "bytes": 102,
+      "sha256": "33abed5fd8d4ecbec4b49271da9ee1e2ca4336db177664b79fb14aa5e3b3ccf5"
+    },
+    {
+      "file": "funding-reconciliation-v1/118-request.json",
+      "bytes": 165,
+      "sha256": "20a29caf513d7dfaeb8854c60ceb5c227e0a9549608c322a3aad1e076f3e8701"
+    },
+    {
+      "file": "funding-reconciliation-v1/118-response.json",
+      "bytes": 102,
+      "sha256": "a0497fadf97582d230823a6c596a1cc2ae9d1445fa3e2ef7b89bc4f5cd0e75d4"
+    },
+    {
+      "file": "funding-reconciliation-v1/119-request.json",
+      "bytes": 164,
+      "sha256": "cc84a717f553d802ac338032374803ae98c36eda04a2c7e271938b9577920ba9"
+    },
+    {
+      "file": "funding-reconciliation-v1/119-response.json",
+      "bytes": 102,
+      "sha256": "bed426a4af38710366dfdec582f938651e7925d81ab6b300742108479cd68c3f"
+    },
+    {
+      "file": "funding-reconciliation-v1/12-request.json",
+      "bytes": 163,
+      "sha256": "4d1b9cac9e02a68ec130d90ecd7e8f73488bf2d76ca892dc243d443e60f142d4"
+    },
+    {
+      "file": "funding-reconciliation-v1/12-response.json",
+      "bytes": 101,
+      "sha256": "d2863c222a9a5d92be9e629048cf559c76198a8cb810e7ca3a2907b1c209d6f8"
+    },
+    {
+      "file": "funding-reconciliation-v1/120-request.json",
+      "bytes": 165,
+      "sha256": "83b4fd2635388862e0774ca5e3edad8e725f54e3b6d4100b1479eec2e8bb314a"
+    },
+    {
+      "file": "funding-reconciliation-v1/120-response.json",
+      "bytes": 102,
+      "sha256": "e7a82e486e6c05f10311b381e9a989eac88342c88a4e4b07e0dfd9af42f09eb4"
+    },
+    {
+      "file": "funding-reconciliation-v1/121-request.json",
+      "bytes": 164,
+      "sha256": "6182607c41ebe34af2ddac626437c2ea8fa853a752d249dd18a7d5cd942d2b76"
+    },
+    {
+      "file": "funding-reconciliation-v1/121-response.json",
+      "bytes": 102,
+      "sha256": "37848c0151314b6cbcfb3ac5a233c299004335fa1a06649fdb2fb449964e4ed9"
+    },
+    {
+      "file": "funding-reconciliation-v1/122-request.json",
+      "bytes": 165,
+      "sha256": "9be9ce7968f57bc61c4c6183507dfee3a0de6c4c076f68aceb111c83be9082bc"
+    },
+    {
+      "file": "funding-reconciliation-v1/122-response.json",
+      "bytes": 102,
+      "sha256": "e88f254f2e9c4da3a030c6453da182b47711cf318993d8b7dcb990b609803c45"
+    },
+    {
+      "file": "funding-reconciliation-v1/123-request.json",
+      "bytes": 164,
+      "sha256": "4c3a5641c16bdb7995f231aa129276eea7947e4104fd57d32d22b8ffb280717e"
+    },
+    {
+      "file": "funding-reconciliation-v1/123-response.json",
+      "bytes": 102,
+      "sha256": "3b54171c31475a67c5f0113bef187bc7a87fb7a015576ab32c54065e69ea85ac"
+    },
+    {
+      "file": "funding-reconciliation-v1/124-request.json",
+      "bytes": 165,
+      "sha256": "5b996fa12a16283192d57ffbadf9592cb787c45e96f1fdb16635a9d2bb467acd"
+    },
+    {
+      "file": "funding-reconciliation-v1/124-response.json",
+      "bytes": 102,
+      "sha256": "75370a1fac803f3f3cc9ed651efd281e5d18f455b9dc5c48d740e32ecf2aefef"
+    },
+    {
+      "file": "funding-reconciliation-v1/125-request.json",
+      "bytes": 164,
+      "sha256": "b82de8693acc392ca718d4825eb3685b98e8e4a229bac1194f6a28106a3b7e3f"
+    },
+    {
+      "file": "funding-reconciliation-v1/125-response.json",
+      "bytes": 102,
+      "sha256": "be2b8782ef410ae782b38b70c3fe5ae7c40bdaaebb572f5d52b84e7d519b6ae6"
+    },
+    {
+      "file": "funding-reconciliation-v1/126-request.json",
+      "bytes": 165,
+      "sha256": "bc84dbd21637afa954bc3107c9bd4f7cf7587d54e02832bd86e9a24c203e010b"
+    },
+    {
+      "file": "funding-reconciliation-v1/126-response.json",
+      "bytes": 102,
+      "sha256": "35f352c06af61188dec66b797072c5b77b0b394f33a478c2a18c45abcae96a63"
+    },
+    {
+      "file": "funding-reconciliation-v1/127-request.json",
+      "bytes": 164,
+      "sha256": "364ee478a43a1c4327ae08689a082e4a9b869597d890214009a361cec89b5e5b"
+    },
+    {
+      "file": "funding-reconciliation-v1/127-response.json",
+      "bytes": 102,
+      "sha256": "4904fc69a6610173e6fc5c1b1fc6104a514d899eb59f6ae9569ecef6e0dd54fc"
+    },
+    {
+      "file": "funding-reconciliation-v1/128-request.json",
+      "bytes": 165,
+      "sha256": "a424a4cb6255b2ed8093589813aa62d851e26765ee1f7289dab129e94db5377c"
+    },
+    {
+      "file": "funding-reconciliation-v1/128-response.json",
+      "bytes": 102,
+      "sha256": "f5df539b38b8456096f60f7bc9a16e52d5c6ca7fde466358ebd4bc2889429426"
+    },
+    {
+      "file": "funding-reconciliation-v1/129-request.json",
+      "bytes": 164,
+      "sha256": "97ac8919ccfde19e4e3dafcb348efea69d7db62e0a64ebd478ca629065480d8e"
+    },
+    {
+      "file": "funding-reconciliation-v1/129-response.json",
+      "bytes": 102,
+      "sha256": "d107aa32528084c7bd3b51f92581d1ea2d27ecd7703ae1e62a77a97aa307d2b5"
+    },
+    {
+      "file": "funding-reconciliation-v1/13-request.json",
+      "bytes": 162,
+      "sha256": "1fa1818466b1acbb2c11bae836b9d705585795ec462a83921eda1a0d5050c159"
+    },
+    {
+      "file": "funding-reconciliation-v1/13-response.json",
+      "bytes": 101,
+      "sha256": "7df9ef497c7960de2c95d8694dbfc7cf44849b465cbd6c0c1537ec7cd64f0c26"
+    },
+    {
+      "file": "funding-reconciliation-v1/130-request.json",
+      "bytes": 165,
+      "sha256": "f854eb82136a3480da6a872e42c3f9dd0bd0fa0669946b340c88fadc998362cf"
+    },
+    {
+      "file": "funding-reconciliation-v1/130-response.json",
+      "bytes": 102,
+      "sha256": "b986f0068d0b750f2378677864d2e2211fc0f4bb5d8bd3c3745e43ced4a138d0"
+    },
+    {
+      "file": "funding-reconciliation-v1/131-request.json",
+      "bytes": 164,
+      "sha256": "71529f434c31d53fdd5b461a8bcf694f9aa37f90fdcfb97b6833e5b2a6e9093e"
+    },
+    {
+      "file": "funding-reconciliation-v1/131-response.json",
+      "bytes": 102,
+      "sha256": "6861f745ff99543298c609cf67f3558e48c6472ee8c8914d6d61bc825520a8f1"
+    },
+    {
+      "file": "funding-reconciliation-v1/132-request.json",
+      "bytes": 165,
+      "sha256": "10920f73604ceec8bf84ed99ac8cb9246cd06080c8750e7acced85e301a31e22"
+    },
+    {
+      "file": "funding-reconciliation-v1/132-response.json",
+      "bytes": 102,
+      "sha256": "eecfe151f1bd40f2533a3346edd4d2a300b92a83157bee6cb4527816aaa7ee74"
+    },
+    {
+      "file": "funding-reconciliation-v1/133-request.json",
+      "bytes": 164,
+      "sha256": "87b37acd7323d6176c18f8a0a6c5191a0244bd5c7cd8fec9b9a2cca562741563"
+    },
+    {
+      "file": "funding-reconciliation-v1/133-response.json",
+      "bytes": 102,
+      "sha256": "2e913de5080390a5f406e1ee10d5b60a5cf29122c0a6e92e530b8102f090a00b"
+    },
+    {
+      "file": "funding-reconciliation-v1/134-request.json",
+      "bytes": 165,
+      "sha256": "6aa6b5c40431e566b45835e2a456a22dae100efb5de9cd278b521b58f6fa4b81"
+    },
+    {
+      "file": "funding-reconciliation-v1/134-response.json",
+      "bytes": 102,
+      "sha256": "d636a70612b95fcebed8b098f4ea852ca0fbf6af8fcf51dbf6dd775c44af8665"
+    },
+    {
+      "file": "funding-reconciliation-v1/135-request.json",
+      "bytes": 164,
+      "sha256": "4b338aeb9eecabe52d77517f681caf64ebc0d429fa9cdd50662b6799b996c96b"
+    },
+    {
+      "file": "funding-reconciliation-v1/135-response.json",
+      "bytes": 102,
+      "sha256": "137f4826ecbbc7deb7779dbb88aeca80140182c425b536bdff2066e957002ed8"
+    },
+    {
+      "file": "funding-reconciliation-v1/136-request.json",
+      "bytes": 165,
+      "sha256": "6bce8f626498bb55927f0d39729ffb2af606db1cce74f59011e832561abdb502"
+    },
+    {
+      "file": "funding-reconciliation-v1/136-response.json",
+      "bytes": 102,
+      "sha256": "2fe78c4049b5b11ac410455e37511f5f19120b1b475c63ad978b8260af6945e3"
+    },
+    {
+      "file": "funding-reconciliation-v1/137-request.json",
+      "bytes": 164,
+      "sha256": "88437012ead32e1812c442990d2e02e8ca8e3eba0a97f7a051b4cd551c44f2ee"
+    },
+    {
+      "file": "funding-reconciliation-v1/137-response.json",
+      "bytes": 102,
+      "sha256": "751b6c426a1e09a49edf78de2905dc4d30480cb5d7c18144c6036a1ec855c295"
+    },
+    {
+      "file": "funding-reconciliation-v1/138-request.json",
+      "bytes": 165,
+      "sha256": "5712f3dc7c495465edf6ecc9ec8fb786719d5f8feee03176cfc198aaf6d604f5"
+    },
+    {
+      "file": "funding-reconciliation-v1/138-response.json",
+      "bytes": 102,
+      "sha256": "0ed14080ff8a4fcc68947e831b6c9b160fd95525d02234127e813743f8cecd2e"
+    },
+    {
+      "file": "funding-reconciliation-v1/139-request.json",
+      "bytes": 164,
+      "sha256": "deab5134e37e649d8728a14e17f66b7bc2b7ed43e22293ac8234013f74c36377"
+    },
+    {
+      "file": "funding-reconciliation-v1/139-response.json",
+      "bytes": 102,
+      "sha256": "74c8266bc064e2c5086edcc0a4c3a09d6a4bd47b2c4cdfd4e9c13121279d3486"
+    },
+    {
+      "file": "funding-reconciliation-v1/14-request.json",
+      "bytes": 163,
+      "sha256": "c5beb44c21b9ff0422f68eb80934fa849000cfe3d939a04d76563af4673f7d8f"
+    },
+    {
+      "file": "funding-reconciliation-v1/14-response.json",
+      "bytes": 101,
+      "sha256": "adf8a49d95922f234f58b60670c305b2c258c1b75c67bc85e1a6110b7fe105b2"
+    },
+    {
+      "file": "funding-reconciliation-v1/140-request.json",
+      "bytes": 165,
+      "sha256": "f35d3d2815032f5f5b744feaa0a7fdcc5026d2f9cf33434f69634d2a33b7891b"
+    },
+    {
+      "file": "funding-reconciliation-v1/140-response.json",
+      "bytes": 102,
+      "sha256": "31dd261308c7f35d9a97ee3f562995d3c37c088a6b07fef79d114a0aa30888d9"
+    },
+    {
+      "file": "funding-reconciliation-v1/141-request.json",
+      "bytes": 164,
+      "sha256": "a0a153e5e171179d5d9f2d281d5fadf3cc5b90bda7ccec177fe9f1375627e6ff"
+    },
+    {
+      "file": "funding-reconciliation-v1/141-response.json",
+      "bytes": 102,
+      "sha256": "30b9aeb51e0570affb377371ddf21c4dd2dff386e1ae44460f1fb092c391879e"
+    },
+    {
+      "file": "funding-reconciliation-v1/142-request.json",
+      "bytes": 165,
+      "sha256": "d009c9c338a01b942f116c5e9a423ef18be3213dca0bf89ba99b63e6fe8593cb"
+    },
+    {
+      "file": "funding-reconciliation-v1/142-response.json",
+      "bytes": 102,
+      "sha256": "f6595c65c6ca1e53e77fe6eed2b9028cd31cb0ee02d26518bb29fd250d3f31c4"
+    },
+    {
+      "file": "funding-reconciliation-v1/143-request.json",
+      "bytes": 164,
+      "sha256": "0b376f838dc694d568771366d97f8578a352d6aae1fa01fb23efed8619371e6a"
+    },
+    {
+      "file": "funding-reconciliation-v1/143-response.json",
+      "bytes": 102,
+      "sha256": "9884028294d752af1c158d0b12e8a2e663a2c301e70ccd15c88d02a81464a8db"
+    },
+    {
+      "file": "funding-reconciliation-v1/144-request.json",
+      "bytes": 165,
+      "sha256": "aece329c9b243591aca6b73526ed62cf3b40b964e5e940cb7bac14f90f52e23e"
+    },
+    {
+      "file": "funding-reconciliation-v1/144-response.json",
+      "bytes": 102,
+      "sha256": "324a49a455243635096365918a85f95fe520b24b7e3505fb870291d9c8fef375"
+    },
+    {
+      "file": "funding-reconciliation-v1/145-request.json",
+      "bytes": 164,
+      "sha256": "0da7f22af8fdc04a3ddad1374035a368ac03ebf00202698d7e11b4b8a406534f"
+    },
+    {
+      "file": "funding-reconciliation-v1/145-response.json",
+      "bytes": 102,
+      "sha256": "d055bd64806e09aa4e7034c6e60487f103b832af7fb7c67bdbbb1ae67e4f010a"
+    },
+    {
+      "file": "funding-reconciliation-v1/146-request.json",
+      "bytes": 165,
+      "sha256": "f129f58493c8bd2c3ffafb6dccc4b287c6d27b5d8741f07e24f1af4350d148c6"
+    },
+    {
+      "file": "funding-reconciliation-v1/146-response.json",
+      "bytes": 102,
+      "sha256": "e48a27bc0876505c2b5102275349fb8c3159312ad2b2a85f4af1bd5752c817ed"
+    },
+    {
+      "file": "funding-reconciliation-v1/147-request.json",
+      "bytes": 164,
+      "sha256": "f3f2c231ce0ba3cc3a3ffa63a5b033b147a353b14c6f5d3d6ceea5805e4e4239"
+    },
+    {
+      "file": "funding-reconciliation-v1/147-response.json",
+      "bytes": 102,
+      "sha256": "69024820d3b8bb61766a646f4f571804e59fd670c9609dd8d71a1df64c3a3fbd"
+    },
+    {
+      "file": "funding-reconciliation-v1/148-request.json",
+      "bytes": 165,
+      "sha256": "dfc495b6f4eca61d61109711a8029b6ab70653c346088599e8808cb2b51a2051"
+    },
+    {
+      "file": "funding-reconciliation-v1/148-response.json",
+      "bytes": 102,
+      "sha256": "c288d19fae453e8504aeaf702e4142f684cbb1be505823ed94e3cc81240fe478"
+    },
+    {
+      "file": "funding-reconciliation-v1/149-request.json",
+      "bytes": 164,
+      "sha256": "30da912ae2cc7588071c32b464f9347ff5281e4b71796fc1af32e045a35e16c4"
+    },
+    {
+      "file": "funding-reconciliation-v1/149-response.json",
+      "bytes": 102,
+      "sha256": "82a7ba74db36a901b9d99ec8563262eb4cd11fd751c94d31252856bbe91f6a38"
+    },
+    {
+      "file": "funding-reconciliation-v1/15-request.json",
+      "bytes": 162,
+      "sha256": "b4427c01528594749e4704bd566e56b1c792b27678ffb9ae07273ef3ea041d91"
+    },
+    {
+      "file": "funding-reconciliation-v1/15-response.json",
+      "bytes": 101,
+      "sha256": "52c997d3568f5c181100a0801ff945d5fcdac4ee1b68c5e4a8793613553ba7dd"
+    },
+    {
+      "file": "funding-reconciliation-v1/150-request.json",
+      "bytes": 165,
+      "sha256": "57a4cd965a63c77fe9b582386650360d68d9c02e927e2c78136c7a3391d141b5"
+    },
+    {
+      "file": "funding-reconciliation-v1/150-response.json",
+      "bytes": 102,
+      "sha256": "56c846d08283914d3537e81fc17ac5b455b2f13995d94d9e55768e32fb2903df"
+    },
+    {
+      "file": "funding-reconciliation-v1/151-request.json",
+      "bytes": 164,
+      "sha256": "a616d23532d596935ac96a9c938998011e10e2512165966dfe1fe89f808111df"
+    },
+    {
+      "file": "funding-reconciliation-v1/151-response.json",
+      "bytes": 102,
+      "sha256": "8ea7e17b2adfe41ae0ea550a4b3d31743a0a04c7bc8728993053ba4d511015d5"
+    },
+    {
+      "file": "funding-reconciliation-v1/152-request.json",
+      "bytes": 165,
+      "sha256": "29fbc3286eb5161bcf5383dbcb4b7ce510d9062eedfcbbb432dacc280a69b65e"
+    },
+    {
+      "file": "funding-reconciliation-v1/152-response.json",
+      "bytes": 102,
+      "sha256": "762a8fbe1a183240bb4bd0e62ad27af147985d312ad75c30808feecc6aee9adc"
+    },
+    {
+      "file": "funding-reconciliation-v1/153-request.json",
+      "bytes": 164,
+      "sha256": "5d9ca7c93e57903084dcadea10e70a5831b6921ea8ebb66ad54a245499378381"
+    },
+    {
+      "file": "funding-reconciliation-v1/153-response.json",
+      "bytes": 102,
+      "sha256": "db689007b2dfe59924178393a68a570c33a2ae8c79d34ef4dbb47639da0ee8a8"
+    },
+    {
+      "file": "funding-reconciliation-v1/154-request.json",
+      "bytes": 165,
+      "sha256": "97de4a5190226095ba66adf648439ea248f4692de870ac5fbd14cdaaf031dacd"
+    },
+    {
+      "file": "funding-reconciliation-v1/154-response.json",
+      "bytes": 102,
+      "sha256": "f0f1bc8d585487c5561da58ce1ea9399d74a0ffa53f0edc87154a8649565e68c"
+    },
+    {
+      "file": "funding-reconciliation-v1/155-request.json",
+      "bytes": 164,
+      "sha256": "5cf95579f28053a5d38b4164d5b152440f63d3968f6d5856da095b113350e6fd"
+    },
+    {
+      "file": "funding-reconciliation-v1/155-response.json",
+      "bytes": 102,
+      "sha256": "30f4dc8b8897609c53089ef9b0d7c0f120856036eec02138ac2debbba3e117f9"
+    },
+    {
+      "file": "funding-reconciliation-v1/156-request.json",
+      "bytes": 165,
+      "sha256": "59cca8e493a6b187f7d3852c77dbf9822ff03f38aa72c9c10ff6587d2fc90aa5"
+    },
+    {
+      "file": "funding-reconciliation-v1/156-response.json",
+      "bytes": 102,
+      "sha256": "9c1fef46b300eb26de46348820202042cc75f5b39de9af065bdc3f3aab2ca83d"
+    },
+    {
+      "file": "funding-reconciliation-v1/157-request.json",
+      "bytes": 164,
+      "sha256": "e98ed560728d428b83de20fc20319dcb962e41e4db8fbf3d135133ba23660805"
+    },
+    {
+      "file": "funding-reconciliation-v1/157-response.json",
+      "bytes": 102,
+      "sha256": "9c33e11d9999e92f5cfd4ad2e35a8358c577c58547395e7c003ef407d01f6dcc"
+    },
+    {
+      "file": "funding-reconciliation-v1/158-request.json",
+      "bytes": 165,
+      "sha256": "67508ba2887f6e742215e8da57623fe607fe5c11d1f66014bf3ebce443261849"
+    },
+    {
+      "file": "funding-reconciliation-v1/158-response.json",
+      "bytes": 102,
+      "sha256": "364131100dbdf438bdaffb8643c09e83a4dbbb86a59a2f90dc485e4667794069"
+    },
+    {
+      "file": "funding-reconciliation-v1/159-request.json",
+      "bytes": 164,
+      "sha256": "f35235c9ffe7c962cbf447c93aa952a2fd5a40441c1a0d055a5ab77c84d2347d"
+    },
+    {
+      "file": "funding-reconciliation-v1/159-response.json",
+      "bytes": 102,
+      "sha256": "d228ae2b9cf8a9f18c12bc51117bf4f2730d7b336e0545e35fafaa5b17660b80"
+    },
+    {
+      "file": "funding-reconciliation-v1/16-request.json",
+      "bytes": 163,
+      "sha256": "2989467b30b2e1b1cf648de739bfb993970f69962863a503bd1105cfa1c9b02d"
+    },
+    {
+      "file": "funding-reconciliation-v1/16-response.json",
+      "bytes": 101,
+      "sha256": "f62e2b1fd9172e0d711daf3aab6b2e53b112f55c33ffe0bf10022eb39897edef"
+    },
+    {
+      "file": "funding-reconciliation-v1/160-request.json",
+      "bytes": 165,
+      "sha256": "bd336596f4aedc4ebc1b835c430cf7b4b67552c33fcf4744f71325a6eb64dd0b"
+    },
+    {
+      "file": "funding-reconciliation-v1/160-response.json",
+      "bytes": 102,
+      "sha256": "a43ec1fdf9dfd8628e87bcbad26f9bf1fa1564346f7c047dbd49bbfefa0815f5"
+    },
+    {
+      "file": "funding-reconciliation-v1/161-request.json",
+      "bytes": 164,
+      "sha256": "c0bff87b2face9ef4ca1a6daf11148ff03c47ce5747ba16196269ae9a22bec5f"
+    },
+    {
+      "file": "funding-reconciliation-v1/161-response.json",
+      "bytes": 102,
+      "sha256": "426077868128664a8858a8f0d8b7e90a719d08ea985643d27ce9cb43a63e877b"
+    },
+    {
+      "file": "funding-reconciliation-v1/162-request.json",
+      "bytes": 165,
+      "sha256": "95678a3fc7d7fdb6e842992a8cb60eb9e62ee00c5f44581c0482c5a41aebb233"
+    },
+    {
+      "file": "funding-reconciliation-v1/162-response.json",
+      "bytes": 102,
+      "sha256": "93b727d879506f486c449a1594a7e908051692a53879f4254bdd23cd23003931"
+    },
+    {
+      "file": "funding-reconciliation-v1/163-request.json",
+      "bytes": 164,
+      "sha256": "38d95e942f9702ff84629e7be550b6dc617432d81447c16afc54873240c40bd1"
+    },
+    {
+      "file": "funding-reconciliation-v1/163-response.json",
+      "bytes": 102,
+      "sha256": "aea6aa5499e6e7c0d516fe0f1d74b074eb3b07f13680f40c2f8e980af3bc6def"
+    },
+    {
+      "file": "funding-reconciliation-v1/164-request.json",
+      "bytes": 165,
+      "sha256": "cdbfbb7ea58ef9f23cec862024bac3f00c82e7cf29062e73993d093eeba909c8"
+    },
+    {
+      "file": "funding-reconciliation-v1/164-response.json",
+      "bytes": 102,
+      "sha256": "5da11a81a221061f136e0b6beedff77f589c269b189e508f66a2f884d2237421"
+    },
+    {
+      "file": "funding-reconciliation-v1/165-request.json",
+      "bytes": 164,
+      "sha256": "b1edfb2a651308c3a9b3caa6d42357904a360489f4ede917b6cd1c886eefd8fd"
+    },
+    {
+      "file": "funding-reconciliation-v1/165-response.json",
+      "bytes": 102,
+      "sha256": "6d31a7cc8d558220d5b899d6c7a992be4b5ccad91e118648cfa14ef83f345748"
+    },
+    {
+      "file": "funding-reconciliation-v1/166-request.json",
+      "bytes": 165,
+      "sha256": "158ad9029090b23a4fd03375a99aa54c292b9fcbcc1f218ee6cfaa81538c7227"
+    },
+    {
+      "file": "funding-reconciliation-v1/166-response.json",
+      "bytes": 102,
+      "sha256": "284a18aeeb2714e6e1110653fceb1bbf8fe4b720fe91456823a30b1bec28bbbf"
+    },
+    {
+      "file": "funding-reconciliation-v1/167-request.json",
+      "bytes": 164,
+      "sha256": "51909bd720a23be4cec54ba57491bc789ee53797a627a42a2298c0d9a6806f90"
+    },
+    {
+      "file": "funding-reconciliation-v1/167-response.json",
+      "bytes": 102,
+      "sha256": "1453f17eb55b3de7b7466d127ed38e3ebc3db45001c7e2323452ef5f931b6683"
+    },
+    {
+      "file": "funding-reconciliation-v1/168-request.json",
+      "bytes": 165,
+      "sha256": "f848ff20c4711338cd650ee1a036135587c41f4ba9f76b8218077623a41e962c"
+    },
+    {
+      "file": "funding-reconciliation-v1/168-response.json",
+      "bytes": 102,
+      "sha256": "a52951899090e5efc5447d20b563d719af865fdad00d9ee24f00409dcf11ea96"
+    },
+    {
+      "file": "funding-reconciliation-v1/169-request.json",
+      "bytes": 164,
+      "sha256": "50b6b9f8a45ea026ebf53ef869f27f943504222c891c5ae60756c0080061c4a5"
+    },
+    {
+      "file": "funding-reconciliation-v1/169-response.json",
+      "bytes": 102,
+      "sha256": "b7b4791678f20b9b4986b7f518f7d5ad5cdf906cc9e2ddb3a89690844e1fa3ef"
+    },
+    {
+      "file": "funding-reconciliation-v1/17-request.json",
+      "bytes": 162,
+      "sha256": "d28dc3e68d13da51e6be8e0dd77539f9365209d812c06100f02a783a42c0bd0a"
+    },
+    {
+      "file": "funding-reconciliation-v1/17-response.json",
+      "bytes": 101,
+      "sha256": "ba1c5277de179e42ff9910b7f3e2c07895d77d3420277225af3720bc245d9a39"
+    },
+    {
+      "file": "funding-reconciliation-v1/170-request.json",
+      "bytes": 165,
+      "sha256": "ba77f6f1b4b8aab6e7d5ad7684cea6f4f104a3e66e29c40db93e97dc6dc8c575"
+    },
+    {
+      "file": "funding-reconciliation-v1/170-response.json",
+      "bytes": 102,
+      "sha256": "0b46e33b68b2562f7307a83d26732a09fb174a950ac353a975d092dcde4e5878"
+    },
+    {
+      "file": "funding-reconciliation-v1/171-request.json",
+      "bytes": 164,
+      "sha256": "f8a8e234223411803596344cd5bb78d5ec0d48b20e2705fda79f97259a74aa96"
+    },
+    {
+      "file": "funding-reconciliation-v1/171-response.json",
+      "bytes": 102,
+      "sha256": "6c9e417fdbf72e7dd570cc3e270f2725148b665d0974e554005c95e1797076ea"
+    },
+    {
+      "file": "funding-reconciliation-v1/172-request.json",
+      "bytes": 165,
+      "sha256": "b1ce8fbb914df0ff03e2ba43375cc8a1776e6174df894bfae80e56db29b433fe"
+    },
+    {
+      "file": "funding-reconciliation-v1/172-response.json",
+      "bytes": 102,
+      "sha256": "f3f08d6ceb363afbd87c772e14b50f2fef8ee3cb1b64191b7b3341826b04bae7"
+    },
+    {
+      "file": "funding-reconciliation-v1/173-request.json",
+      "bytes": 164,
+      "sha256": "14c8f2ed588e7e0f32db26824cbab002f1861f2f87cdaf508e5b83d4f2820d20"
+    },
+    {
+      "file": "funding-reconciliation-v1/173-response.json",
+      "bytes": 102,
+      "sha256": "01be7652d65717b458c5b1a65b14a4c41ec3e2c7ba22bf6e7b106f3d90e4e973"
+    },
+    {
+      "file": "funding-reconciliation-v1/174-request.json",
+      "bytes": 165,
+      "sha256": "dc8bd47c2203da1a96ebac526619d5190a96ff9e4c9842671eb6102492ef800d"
+    },
+    {
+      "file": "funding-reconciliation-v1/174-response.json",
+      "bytes": 102,
+      "sha256": "275e213a77fa5762c317342593e54f6a4b4479ff0bec17f9b136545b27488ace"
+    },
+    {
+      "file": "funding-reconciliation-v1/175-request.json",
+      "bytes": 164,
+      "sha256": "3dcea2286b972b7a57bd701593d370dd127f3e44793c10ac21dd859e5a0f4f18"
+    },
+    {
+      "file": "funding-reconciliation-v1/175-response.json",
+      "bytes": 102,
+      "sha256": "99f13b80939891217294fa6914eb9f5f01eb00fdd5ba5a5e61b122707e4d26f6"
+    },
+    {
+      "file": "funding-reconciliation-v1/176-request.json",
+      "bytes": 165,
+      "sha256": "fd9d79dd398c8876737c030fa5a4909d90108fcdfc999cae02bb8e546ddc2bb8"
+    },
+    {
+      "file": "funding-reconciliation-v1/176-response.json",
+      "bytes": 102,
+      "sha256": "eef7cbb8b3b927be26a5fceb86648d03aabc8a470dfbb2fb018893495772eccc"
+    },
+    {
+      "file": "funding-reconciliation-v1/177-request.json",
+      "bytes": 164,
+      "sha256": "e67aa35e08e17c55eaa5fc4e8b4e3ff893e11ea7396f7f9bcb3d93712d32e1ba"
+    },
+    {
+      "file": "funding-reconciliation-v1/177-response.json",
+      "bytes": 102,
+      "sha256": "8c7b89cecfe9e7b7a14870d7d4c05e115edc94da0bcce93bbd540593a7bb981d"
+    },
+    {
+      "file": "funding-reconciliation-v1/178-request.json",
+      "bytes": 165,
+      "sha256": "31a47886c8d9179b017a5fe1c42a5b7be6aefc23c17749ac74ec95acabbad203"
+    },
+    {
+      "file": "funding-reconciliation-v1/178-response.json",
+      "bytes": 102,
+      "sha256": "cafbc3ffb52457de897949e950e72db368e35aae5c9f7ac2303965a038c6c023"
+    },
+    {
+      "file": "funding-reconciliation-v1/179-request.json",
+      "bytes": 164,
+      "sha256": "e59c20d117636c029970b05d1e0e6f1fd5a00e3a1d0cc8a9dce759a0f8189cfd"
+    },
+    {
+      "file": "funding-reconciliation-v1/179-response.json",
+      "bytes": 102,
+      "sha256": "b6304ffc43779dfd2f24669a3e50b2aa77e485825706b97e758ced1a391fc8ed"
+    },
+    {
+      "file": "funding-reconciliation-v1/18-request.json",
+      "bytes": 163,
+      "sha256": "1964005013cf8560cfdfc449c3e3f5e616d59877a6ef67430af69c4952dc97f4"
+    },
+    {
+      "file": "funding-reconciliation-v1/18-response.json",
+      "bytes": 101,
+      "sha256": "4802e905d39e817f9d3de18d12a4ed414ac7838b0c4fdc3b9853cca25dda1810"
+    },
+    {
+      "file": "funding-reconciliation-v1/180-request.json",
+      "bytes": 165,
+      "sha256": "c9c709535c08b2b580d08f60673e1b4cffdc2a810a03786cca2c9ecc74cffcdf"
+    },
+    {
+      "file": "funding-reconciliation-v1/180-response.json",
+      "bytes": 102,
+      "sha256": "3d09cba2defc24a5b7cbea12f1dec728552d2b74b98c4cd99628bf0bc123abfa"
+    },
+    {
+      "file": "funding-reconciliation-v1/181-request.json",
+      "bytes": 164,
+      "sha256": "188296c32142c28587065511846e0754782c8093028e1c16bd6ab976272eb1c0"
+    },
+    {
+      "file": "funding-reconciliation-v1/181-response.json",
+      "bytes": 102,
+      "sha256": "d2dc0b21009cd90a8425c33977076f863c1f5b52c9ee1edeca8aafe123c05612"
+    },
+    {
+      "file": "funding-reconciliation-v1/182-request.json",
+      "bytes": 165,
+      "sha256": "abd4821d8ac1914ab43a6adce4b116be27642bd2e3ef4b05a9710ce166a7495c"
+    },
+    {
+      "file": "funding-reconciliation-v1/182-response.json",
+      "bytes": 102,
+      "sha256": "62160d0873e92f0f7213fd4d0f1c00f0f6fe6c688d1aa2015209dfd2fe18009c"
+    },
+    {
+      "file": "funding-reconciliation-v1/183-request.json",
+      "bytes": 164,
+      "sha256": "fee1710125b7fe1d152780535771af57e9497701fd999fa10ce493f076470947"
+    },
+    {
+      "file": "funding-reconciliation-v1/183-response.json",
+      "bytes": 102,
+      "sha256": "7153d1b303c12cd61816886681d57deaf73096fd5efa0b9f29ffdbe42b9975b9"
+    },
+    {
+      "file": "funding-reconciliation-v1/184-request.json",
+      "bytes": 165,
+      "sha256": "61696760f59635ff79ee40fb83f9573ca31f029a3d8a5ffdaeaf2ebd1ce28066"
+    },
+    {
+      "file": "funding-reconciliation-v1/184-response.json",
+      "bytes": 102,
+      "sha256": "04c35dde14c3a0bfab887352fed0720a82a12ad575dc3f8d85feef75d04c86a6"
+    },
+    {
+      "file": "funding-reconciliation-v1/185-request.json",
+      "bytes": 164,
+      "sha256": "688e0c003b9e548e1943262d79e2c8ebf656035a7f2a77edf5ed9cbd6781ff1f"
+    },
+    {
+      "file": "funding-reconciliation-v1/185-response.json",
+      "bytes": 102,
+      "sha256": "634cce80d40e8cbca443177d2a0744fac3d29cfb245d06a381e4a8740add02f1"
+    },
+    {
+      "file": "funding-reconciliation-v1/186-request.json",
+      "bytes": 165,
+      "sha256": "1373f8cf1670bef706825968c5dd9eb72e7092a55f50465dfb108bba0f48c817"
+    },
+    {
+      "file": "funding-reconciliation-v1/186-response.json",
+      "bytes": 102,
+      "sha256": "658b9aac3a64db99e0cad229343fb7e9693117a472bf489601300f56f00b89f3"
+    },
+    {
+      "file": "funding-reconciliation-v1/187-request.json",
+      "bytes": 164,
+      "sha256": "a8bc7f181fff613f95f5d86ac51df7ff9d306412ef6c50590a90ace862d7845a"
+    },
+    {
+      "file": "funding-reconciliation-v1/187-response.json",
+      "bytes": 102,
+      "sha256": "de219b207a258f5589564369f2e5e8a19452c7074660b75db4eeecea33003829"
+    },
+    {
+      "file": "funding-reconciliation-v1/188-request.json",
+      "bytes": 165,
+      "sha256": "2f0fbd8d425e40ba2045e4412374719d765d88968044fe53a5ffaa47870ff286"
+    },
+    {
+      "file": "funding-reconciliation-v1/188-response.json",
+      "bytes": 102,
+      "sha256": "0dc0223358c2f7ddc2506e2f6521e4532e7ac695e66c225b71791e2028c1ec5b"
+    },
+    {
+      "file": "funding-reconciliation-v1/189-request.json",
+      "bytes": 164,
+      "sha256": "ac7c1d7c4e0d7bf1cbf9156ee0b59e163a1ee4b7a3219f60f49de3c70722f451"
+    },
+    {
+      "file": "funding-reconciliation-v1/189-response.json",
+      "bytes": 102,
+      "sha256": "711fe8bf58e9080d36d55ab190b5a57ef698f8eca6d2fe6abf712d9f76b794e2"
+    },
+    {
+      "file": "funding-reconciliation-v1/19-request.json",
+      "bytes": 162,
+      "sha256": "e12299d9ac608df4bad9fada4615fe0c8eb4b536abe2c29a902a03fb0e4e3019"
+    },
+    {
+      "file": "funding-reconciliation-v1/19-response.json",
+      "bytes": 101,
+      "sha256": "273287cff686508921811c212a0d7387c848ab2b9e8851aee535445bf11a0533"
+    },
+    {
+      "file": "funding-reconciliation-v1/190-request.json",
+      "bytes": 165,
+      "sha256": "aac26ca3d9ba7b524fe0c78bfc9c4d5a982301aa2c34768fa945a35d7cbba278"
+    },
+    {
+      "file": "funding-reconciliation-v1/190-response.json",
+      "bytes": 102,
+      "sha256": "85aa626f2fd0a2d20ef92fc39817a2e36e3237ae24b7bac0877f24abcddcd8ad"
+    },
+    {
+      "file": "funding-reconciliation-v1/191-request.json",
+      "bytes": 164,
+      "sha256": "d0c0d6bd59f59a4f427c36317826a6825f75d968c9172b9471d0d96a1e9eb1ef"
+    },
+    {
+      "file": "funding-reconciliation-v1/191-response.json",
+      "bytes": 102,
+      "sha256": "891c096afeda1dee7e2149196565768f09bfa39180c4b00662600be5b6175f33"
+    },
+    {
+      "file": "funding-reconciliation-v1/192-request.json",
+      "bytes": 165,
+      "sha256": "7f78b67a5ebc0aa1826926c3a85b2b792608316037e2438f3aafc277d50f832a"
+    },
+    {
+      "file": "funding-reconciliation-v1/192-response.json",
+      "bytes": 102,
+      "sha256": "fe176915daaa686c8645b397d3e23f17ff809b04b419928544ad660d6c75fa37"
+    },
+    {
+      "file": "funding-reconciliation-v1/193-request.json",
+      "bytes": 164,
+      "sha256": "8c9358d9785baee2c0f7a1b3e2ee1a40d0a57af59d282992400e941382ba8b49"
+    },
+    {
+      "file": "funding-reconciliation-v1/193-response.json",
+      "bytes": 102,
+      "sha256": "beae73a2c1eae7bcec72b59c55aae0b44da4e9a498a598b1e698ed4d22f5ad30"
+    },
+    {
+      "file": "funding-reconciliation-v1/194-request.json",
+      "bytes": 165,
+      "sha256": "1ef24188480f150d3d82e5a12174fc5684004e338669de6f226dba5d45cbd158"
+    },
+    {
+      "file": "funding-reconciliation-v1/194-response.json",
+      "bytes": 102,
+      "sha256": "c7e6075bb76ba66befb5f1977c41d25bd79129dcc31b8f1945af48f8c23c9e5b"
+    },
+    {
+      "file": "funding-reconciliation-v1/195-request.json",
+      "bytes": 165,
+      "sha256": "b5bad35e4a8e1d98318b1ca275038c391b1b81841dc27a26dc44419f05b7246e"
+    },
+    {
+      "file": "funding-reconciliation-v1/195-response.json",
+      "bytes": 102,
+      "sha256": "f0f765f813dbb1e2f3a8cfe801e77e20972cf7e46d7d7b695024ce570f40ec3b"
+    },
+    {
+      "file": "funding-reconciliation-v1/196-request.json",
+      "bytes": 165,
+      "sha256": "9230d5b2c6db1efb40708166aec99bc4c85294222b5116fa5da7ede6c0a6373e"
+    },
+    {
+      "file": "funding-reconciliation-v1/196-response.json",
+      "bytes": 102,
+      "sha256": "1c70a664d9ab47ada2ec86c7d9ad36ebcd19575ce7a8ce71990dfbc53f385663"
+    },
+    {
+      "file": "funding-reconciliation-v1/197-request.json",
+      "bytes": 165,
+      "sha256": "2edc0d4272e2b640b1b34cc35eec58f2d5e7a6ae7ce64f77ba719a9e95073bba"
+    },
+    {
+      "file": "funding-reconciliation-v1/197-response.json",
+      "bytes": 102,
+      "sha256": "996c67b9e37759707c5ae2fbbd4f96100b9b50e392d715cd73ed049c62d66b98"
+    },
+    {
+      "file": "funding-reconciliation-v1/198-request.json",
+      "bytes": 165,
+      "sha256": "810bb122a1a5bf27257d2ab36d80f0e6b362620e848736440d3577424389dd0b"
+    },
+    {
+      "file": "funding-reconciliation-v1/198-response.json",
+      "bytes": 102,
+      "sha256": "731c11b6ad2e6de7a1de151719d4a0182c45dc18876abc3599aa74b56d421c8e"
+    },
+    {
+      "file": "funding-reconciliation-v1/199-request.json",
+      "bytes": 165,
+      "sha256": "2dbbb83736ef316165e7e7249179808bfd97df86afab37b30b1f452df3d84827"
+    },
+    {
+      "file": "funding-reconciliation-v1/199-response.json",
+      "bytes": 102,
+      "sha256": "cb8c12f2ce2af402676fad017941302027f675a03648da3e067912007e861d56"
+    },
+    {
+      "file": "funding-reconciliation-v1/2-request.json",
+      "bytes": 161,
+      "sha256": "dace2a259c9e13729336058ddf0e879cc7a1554d7f5842b9e846eee0a1b28af9"
+    },
+    {
+      "file": "funding-reconciliation-v1/2-response.json",
+      "bytes": 100,
+      "sha256": "ef02358d0a46cc3ed3d5b473e113f21cfa27fb8f7152f16fa0de69cac093ffae"
+    },
+    {
+      "file": "funding-reconciliation-v1/20-request.json",
+      "bytes": 163,
+      "sha256": "2c9d4780f960df09327e5c639c711a2ccba0398dbdc84a649ec45bb25a62c750"
+    },
+    {
+      "file": "funding-reconciliation-v1/20-response.json",
+      "bytes": 101,
+      "sha256": "0e0f188637464d3fc31533fa33207bb3988359761ce44fed28d6d59d1bc1f59c"
+    },
+    {
+      "file": "funding-reconciliation-v1/21-request.json",
+      "bytes": 162,
+      "sha256": "240e31012a67edc626167f98b9d95a4fade457e381c2dcfb055e910d95696851"
+    },
+    {
+      "file": "funding-reconciliation-v1/21-response.json",
+      "bytes": 101,
+      "sha256": "c61e66aacd2210105d97f07d969983a6b3e3d32496cdec71c87179776acaff37"
+    },
+    {
+      "file": "funding-reconciliation-v1/22-request.json",
+      "bytes": 163,
+      "sha256": "9f934d0ede77e6461f81c61812e37d94897d331c61160e06ee052802feaa4cbe"
+    },
+    {
+      "file": "funding-reconciliation-v1/22-response.json",
+      "bytes": 101,
+      "sha256": "36b1edcb5a34396ef4e1f7065fba9d0f131eb7e3e81e3c54d4d794303041fd9d"
+    },
+    {
+      "file": "funding-reconciliation-v1/23-request.json",
+      "bytes": 163,
+      "sha256": "af5d83e65659040a6fb8459459a1a87c38b3e6ef33f2edbff68a9947c2d84718"
+    },
+    {
+      "file": "funding-reconciliation-v1/23-response.json",
+      "bytes": 101,
+      "sha256": "7df3bbcd96de7eb0eb43da8aec0b754f097b3d9615086f64e18b0b5eea7737bb"
+    },
+    {
+      "file": "funding-reconciliation-v1/24-request.json",
+      "bytes": 163,
+      "sha256": "28300dc2b11ac67ea5079d35ce805d741ed1eef3dc563e15f8670863d3961f84"
+    },
+    {
+      "file": "funding-reconciliation-v1/24-response.json",
+      "bytes": 101,
+      "sha256": "408b4a043b7cf0bfabff9c8702a4c91c30e82866426b0e0d70f9da20d313fcf6"
+    },
+    {
+      "file": "funding-reconciliation-v1/25-request.json",
+      "bytes": 163,
+      "sha256": "0a297f0eed57c9c633d3332919dbab7d59f35df5a1df9e8d5b6df867c8fc6c54"
+    },
+    {
+      "file": "funding-reconciliation-v1/25-response.json",
+      "bytes": 101,
+      "sha256": "7399a04cb23f9bccc828afcf7da11b32152ebfa486870a6c2e5a5c1e2b6dd9d4"
+    },
+    {
+      "file": "funding-reconciliation-v1/26-request.json",
+      "bytes": 163,
+      "sha256": "7c997100a48a2b595f814ca19754bd3072fdcc189b552edb7f51b6a594df4940"
+    },
+    {
+      "file": "funding-reconciliation-v1/26-response.json",
+      "bytes": 101,
+      "sha256": "106824762c907548e55fb520731e6dfa5611e380054803b78b89ad65555bb0f6"
+    },
+    {
+      "file": "funding-reconciliation-v1/27-request.json",
+      "bytes": 163,
+      "sha256": "947cf2a7b7b2bfaaf32f797e6b8428c09c8753434dba22cdb831d490d7adae41"
+    },
+    {
+      "file": "funding-reconciliation-v1/27-response.json",
+      "bytes": 101,
+      "sha256": "c38030497ca074a1049520bb7fabb42c1bf471059b69ee5ef9ed93a7d50e31c9"
+    },
+    {
+      "file": "funding-reconciliation-v1/28-request.json",
+      "bytes": 163,
+      "sha256": "08063fc013a3bda87e27ffdbe9dc5cf3cc4ab17432a4a240edf2ce3b86de3f1a"
+    },
+    {
+      "file": "funding-reconciliation-v1/28-response.json",
+      "bytes": 101,
+      "sha256": "a1789e5316c90267338cad41823c7b3a216a921a1b75a8aea500cff94a9f4394"
+    },
+    {
+      "file": "funding-reconciliation-v1/29-request.json",
+      "bytes": 163,
+      "sha256": "2c6342ddd2dee4ab5fe96159bcf7aa12dda705226f859fcc15837311414cc2c4"
+    },
+    {
+      "file": "funding-reconciliation-v1/29-response.json",
+      "bytes": 101,
+      "sha256": "c76fa4d16fbc857f89d27f3a34ec374c5c99c392fb6a12f4645bb34426978336"
+    },
+    {
+      "file": "funding-reconciliation-v1/3-request.json",
+      "bytes": 161,
+      "sha256": "5da539c40f9118c578ead5d5f28bd74349a5288a6f1e8558fb33a3e87f66ceca"
+    },
+    {
+      "file": "funding-reconciliation-v1/3-response.json",
+      "bytes": 100,
+      "sha256": "df14ca23b5785acf61652fd91cb258407a11581b1a409956610c14f94f3f7724"
+    },
+    {
+      "file": "funding-reconciliation-v1/30-request.json",
+      "bytes": 163,
+      "sha256": "f5abfd02a843ab4b20d361372f98cf438a7d26b3a96f70d46fde50889098298a"
+    },
+    {
+      "file": "funding-reconciliation-v1/30-response.json",
+      "bytes": 101,
+      "sha256": "e19e611b644593e52b86795a5a6d88d3f3032fc9ce50b5a9f35ee487bae10207"
+    },
+    {
+      "file": "funding-reconciliation-v1/31-request.json",
+      "bytes": 163,
+      "sha256": "6811070366fc03e98d9182932bc979592bcc7d20d49a6c36e5f089ce6f0059f9"
+    },
+    {
+      "file": "funding-reconciliation-v1/31-response.json",
+      "bytes": 101,
+      "sha256": "836013ce87a497dfba4fa0d1f31059e09b27ebac0fa1b0b000749a952ed9c557"
+    },
+    {
+      "file": "funding-reconciliation-v1/32-request.json",
+      "bytes": 163,
+      "sha256": "f859089293f760964e573e554761154133cfc67a66a024d75e4410cc6ea02972"
+    },
+    {
+      "file": "funding-reconciliation-v1/32-response.json",
+      "bytes": 101,
+      "sha256": "7d40612f390e99a1a91f70152d145dc511a49cce12e74e4a2cadeffe6b097528"
+    },
+    {
+      "file": "funding-reconciliation-v1/33-request.json",
+      "bytes": 163,
+      "sha256": "f9ca27d306dbd5c05446f5f3a767f6b7b68add1cb99acdf37c68f35998f4733f"
+    },
+    {
+      "file": "funding-reconciliation-v1/33-response.json",
+      "bytes": 101,
+      "sha256": "ee03eb4e9301ce99c32b042467e28c0dfc03ffffe79f762220c466158f1f2737"
+    },
+    {
+      "file": "funding-reconciliation-v1/34-request.json",
+      "bytes": 163,
+      "sha256": "87e2bd4ace16118a7c1676b9a9b9d03e1be24b05a4742eb049846c82a67c73c9"
+    },
+    {
+      "file": "funding-reconciliation-v1/34-response.json",
+      "bytes": 101,
+      "sha256": "420badb1029f154a347522d2adcac5e5da2581c4ef74b356551d7f6cf1cf4868"
+    },
+    {
+      "file": "funding-reconciliation-v1/35-request.json",
+      "bytes": 163,
+      "sha256": "a0c1dc0129b3414ea13e68e2cf9e70816727aeae14744cafb4219fc76e5254af"
+    },
+    {
+      "file": "funding-reconciliation-v1/35-response.json",
+      "bytes": 101,
+      "sha256": "fd452d21c481ab66847afff16fdace75cf9a308772d13208db2b3cdd17db7466"
+    },
+    {
+      "file": "funding-reconciliation-v1/36-request.json",
+      "bytes": 163,
+      "sha256": "7bcd1a8eb21d820e511fd4d424cc45cf27119bc303d182991006247e41828f13"
+    },
+    {
+      "file": "funding-reconciliation-v1/36-response.json",
+      "bytes": 101,
+      "sha256": "b6586b15311e021a71bbcdbd30b9201530c6c3d93b14522d18ef1d457f6bbd06"
+    },
+    {
+      "file": "funding-reconciliation-v1/37-request.json",
+      "bytes": 163,
+      "sha256": "793a7c24ada196408b721375608f2d4ebf8ad5abbd9d07c067fb8581101b87a3"
+    },
+    {
+      "file": "funding-reconciliation-v1/37-response.json",
+      "bytes": 101,
+      "sha256": "590031b13232de1bfb28f97cc9616aebb5e26809b1e3c26a9cd746bcfc6b705c"
+    },
+    {
+      "file": "funding-reconciliation-v1/38-request.json",
+      "bytes": 163,
+      "sha256": "6ac288bfc5389736e17e97bafe60e9d0a65c2764adf77fa5238ab6b9be852e3d"
+    },
+    {
+      "file": "funding-reconciliation-v1/38-response.json",
+      "bytes": 101,
+      "sha256": "368c7599c616913fbc5cf06e47cfa2c34ce0e519bcac0096589555f398c16a59"
+    },
+    {
+      "file": "funding-reconciliation-v1/39-request.json",
+      "bytes": 163,
+      "sha256": "b3ca37f7395de8d16e24e9517dcae1b8a324df7cc1a127277971f1d22b9ab252"
+    },
+    {
+      "file": "funding-reconciliation-v1/39-response.json",
+      "bytes": 101,
+      "sha256": "17a202322cec85f772bcfb5d5a16642dfcff53821d187630ff3436a5272d25f7"
+    },
+    {
+      "file": "funding-reconciliation-v1/4-request.json",
+      "bytes": 161,
+      "sha256": "54ab5f56bb3a1506fc5b1543c2a8b4968b66133096cf9b991c4372068b16ddce"
+    },
+    {
+      "file": "funding-reconciliation-v1/4-response.json",
+      "bytes": 100,
+      "sha256": "9761853ef281010c0af3770e45f3f1caff1d876009002f03040a81028bb40a75"
+    },
+    {
+      "file": "funding-reconciliation-v1/40-request.json",
+      "bytes": 163,
+      "sha256": "e61365cb456568a76aa6bc40ee072520bd5f286bd9d53105ca78d393c86c5500"
+    },
+    {
+      "file": "funding-reconciliation-v1/40-response.json",
+      "bytes": 101,
+      "sha256": "5170f12a0f0967f6a2efb58dadfad090b47c4de3d539d6a1d94ebe30a3a5fedb"
+    },
+    {
+      "file": "funding-reconciliation-v1/41-request.json",
+      "bytes": 163,
+      "sha256": "d17f6e6651c53de58adeb75bbbaf7be9d5995ba330f2d0331cce90acacb31758"
+    },
+    {
+      "file": "funding-reconciliation-v1/41-response.json",
+      "bytes": 101,
+      "sha256": "bb1b570f6e5cc4986fa973cb9ca0c2c2845d465ede577787fdc8292554ce5d30"
+    },
+    {
+      "file": "funding-reconciliation-v1/42-request.json",
+      "bytes": 163,
+      "sha256": "506648aea6aa93a21d53052294b7ae374d6316cfefe55c5c68cc0a72230c95e1"
+    },
+    {
+      "file": "funding-reconciliation-v1/42-response.json",
+      "bytes": 101,
+      "sha256": "50ee9f25c22fdc0876a0a530122553a4a469d0b56bab2e4215c795812a32ef5d"
+    },
+    {
+      "file": "funding-reconciliation-v1/43-request.json",
+      "bytes": 163,
+      "sha256": "b1d50c32b1abc7da7a13be3a1a381b927630fd6a47fb452a034c39c8546e6fde"
+    },
+    {
+      "file": "funding-reconciliation-v1/43-response.json",
+      "bytes": 101,
+      "sha256": "b1847735f4d3ed2596cec8f2976bc278adf119ca3662ba61bd9326ea1582ad80"
+    },
+    {
+      "file": "funding-reconciliation-v1/44-request.json",
+      "bytes": 163,
+      "sha256": "a9a39f0080d49dfe3d4c82439ba52dbe1b2f41e61e019ba5c861fe8fca319702"
+    },
+    {
+      "file": "funding-reconciliation-v1/44-response.json",
+      "bytes": 101,
+      "sha256": "9ae34a9cefb1b13a98a5b9c92410e2d597ca7f1b34c0e20c1f796848f55d8c0c"
+    },
+    {
+      "file": "funding-reconciliation-v1/45-request.json",
+      "bytes": 163,
+      "sha256": "b31ea3ad4a09b964fa2fd047845cb096ecb543fa25c2a4198b0515f6bebeb5ae"
+    },
+    {
+      "file": "funding-reconciliation-v1/45-response.json",
+      "bytes": 101,
+      "sha256": "3cd03a25eb8c1beecf0d0ef60d7f14d9ed55d0760c9d7007f4b4ac75432a4eda"
+    },
+    {
+      "file": "funding-reconciliation-v1/46-request.json",
+      "bytes": 163,
+      "sha256": "ed912b18b016d17e7c97a20de41c1d14d03e40537353973b098e57444a604d07"
+    },
+    {
+      "file": "funding-reconciliation-v1/46-response.json",
+      "bytes": 101,
+      "sha256": "e144db7d833b07d8628270ef4b9294b4dfb491c013ace1cc88d1e4c1b8fe4d22"
+    },
+    {
+      "file": "funding-reconciliation-v1/47-request.json",
+      "bytes": 163,
+      "sha256": "1fd21f826fed771227b17ab630a3e6a1865334cc3d1996f8b66d15326f3c747d"
+    },
+    {
+      "file": "funding-reconciliation-v1/47-response.json",
+      "bytes": 101,
+      "sha256": "397b05b1b67149b8a964766559059b1b09bde1c7832ef4f65e3765d249f57345"
+    },
+    {
+      "file": "funding-reconciliation-v1/48-request.json",
+      "bytes": 163,
+      "sha256": "2fcb6defbfc21a84fbe7cb6e62fc55d6fa9ed9cc1413f3eb0b69c87c4e8f3dad"
+    },
+    {
+      "file": "funding-reconciliation-v1/48-response.json",
+      "bytes": 101,
+      "sha256": "e5ae0c11707db42869bf902a7ee4663310fe886200daa8606cb4a960f64ec472"
+    },
+    {
+      "file": "funding-reconciliation-v1/49-request.json",
+      "bytes": 163,
+      "sha256": "bff9e7c84b05fa033d4ee866fe747a64a26a1dbdefc92e26afbf580645690437"
+    },
+    {
+      "file": "funding-reconciliation-v1/49-response.json",
+      "bytes": 101,
+      "sha256": "f5fbee6469af528967d3fabba1838b90d739efdbf4931960076a25799e36a90d"
+    },
+    {
+      "file": "funding-reconciliation-v1/5-request.json",
+      "bytes": 161,
+      "sha256": "01d5fb45dab139d38bd4b360412021828859833480d8813050c01b1499e5f241"
+    },
+    {
+      "file": "funding-reconciliation-v1/5-response.json",
+      "bytes": 100,
+      "sha256": "74f93fb5d8a63c6f6cc18027ef0c7e3446f7dc8e8db6ca11fddcc29a6f8cf852"
+    },
+    {
+      "file": "funding-reconciliation-v1/50-request.json",
+      "bytes": 163,
+      "sha256": "650945e1875ce7503827709bc1c998436762d703375822c3a7ef7f939e8dab2a"
+    },
+    {
+      "file": "funding-reconciliation-v1/50-response.json",
+      "bytes": 101,
+      "sha256": "09bd928614d5c757896206a5a65e0f69c0604465c6505d72896768b4079a3c8f"
+    },
+    {
+      "file": "funding-reconciliation-v1/51-request.json",
+      "bytes": 163,
+      "sha256": "9d868f9fab926a9b81e6399b9e97e30bde38c9ff803307c089e4d8156559090b"
+    },
+    {
+      "file": "funding-reconciliation-v1/51-response.json",
+      "bytes": 101,
+      "sha256": "a39fcc42b2dd0ca369ce7630736cde2276dea9540319fc6359a55a7e58072633"
+    },
+    {
+      "file": "funding-reconciliation-v1/52-request.json",
+      "bytes": 163,
+      "sha256": "318c3ececedad74c6095a94da7bac673dca045670e43f32bd86beaaabc7106e8"
+    },
+    {
+      "file": "funding-reconciliation-v1/52-response.json",
+      "bytes": 101,
+      "sha256": "f37021780d09066ebc38e0ab4bbfd1c527e62f68b24bd3ed4f6e9248ffb1eee2"
+    },
+    {
+      "file": "funding-reconciliation-v1/53-request.json",
+      "bytes": 163,
+      "sha256": "aa6e75f44991798c045bad8577013558995a5f653cae16984e076491f2792082"
+    },
+    {
+      "file": "funding-reconciliation-v1/53-response.json",
+      "bytes": 101,
+      "sha256": "4a12bc7f09f7bc6dea42199b59d5254277cb3d693f968e230a841e072053ba95"
+    },
+    {
+      "file": "funding-reconciliation-v1/54-request.json",
+      "bytes": 163,
+      "sha256": "2b0bd58f325314daa2d5c196171b4a8524c153084b7870fa486a4115f1fc3a9c"
+    },
+    {
+      "file": "funding-reconciliation-v1/54-response.json",
+      "bytes": 101,
+      "sha256": "e2a6c63bf67d0f9378450a3b205641cb03f95ba6e0c028e7d482b9a67d1e5202"
+    },
+    {
+      "file": "funding-reconciliation-v1/55-request.json",
+      "bytes": 163,
+      "sha256": "59c8e8bf0de5f6ced98c31618b36e8e9fb2fc36b0cb6e5aa3793b09cb3208eac"
+    },
+    {
+      "file": "funding-reconciliation-v1/55-response.json",
+      "bytes": 101,
+      "sha256": "9cc0e81c47c1adb8ba8d4843f4c6493b051b5be3554114e02afce6aea0cff8fc"
+    },
+    {
+      "file": "funding-reconciliation-v1/56-request.json",
+      "bytes": 163,
+      "sha256": "b3c36f031e256575c6d59deca7dba20eb7eded458545a0ae92f8fa6a6ddbc7ff"
+    },
+    {
+      "file": "funding-reconciliation-v1/56-response.json",
+      "bytes": 101,
+      "sha256": "b36162686b14b937e4a4081024a3ccc9ea54323baed46b0124d0cfd6d7bebf18"
+    },
+    {
+      "file": "funding-reconciliation-v1/57-request.json",
+      "bytes": 163,
+      "sha256": "79654145c4d6c348f755a58d3a68e154a4695d9cc8086b12f6960bf4d3522440"
+    },
+    {
+      "file": "funding-reconciliation-v1/57-response.json",
+      "bytes": 101,
+      "sha256": "87ddb8326bee284477b4f83be7105c587e7aea6c82fcb97091eefddd46a30d00"
+    },
+    {
+      "file": "funding-reconciliation-v1/58-request.json",
+      "bytes": 163,
+      "sha256": "75e01c2894e8dfc9f1865f3241446abbca9de219e7524d1c858ac782a558c026"
+    },
+    {
+      "file": "funding-reconciliation-v1/58-response.json",
+      "bytes": 101,
+      "sha256": "9315802664b4a8ac7e0cb5816506c6a785cebc9c3ade0b6072b503f5bebc888b"
+    },
+    {
+      "file": "funding-reconciliation-v1/59-request.json",
+      "bytes": 163,
+      "sha256": "48a49a5474e198deec80955ee63e3d18831b80186f94475cbcac4f895d705a4c"
+    },
+    {
+      "file": "funding-reconciliation-v1/59-response.json",
+      "bytes": 101,
+      "sha256": "8929251db04761743346f341c4c9311cdccad03132c36e7ddffbdee31af0e1d8"
+    },
+    {
+      "file": "funding-reconciliation-v1/6-request.json",
+      "bytes": 161,
+      "sha256": "535dd154bcc19b84d9d64d4ab1f501cdb231d46811dba19a97951c175d215526"
+    },
+    {
+      "file": "funding-reconciliation-v1/6-response.json",
+      "bytes": 100,
+      "sha256": "80930307a76560331f51a6cec3b8bfd010c59909ffa0186a0934341622f19108"
+    },
+    {
+      "file": "funding-reconciliation-v1/60-request.json",
+      "bytes": 163,
+      "sha256": "f97d6fff3b20a6e2b2f381ada4ff8742121af4e155feae03a12ecfba24f25c36"
+    },
+    {
+      "file": "funding-reconciliation-v1/60-response.json",
+      "bytes": 101,
+      "sha256": "fcc34cac4a5b7f530fd221bf2fecf962fcb95192b5b86cf67ee9dd30d3acac78"
+    },
+    {
+      "file": "funding-reconciliation-v1/61-request.json",
+      "bytes": 163,
+      "sha256": "220cda37ba21031917c4e733ef7cbd1a582de99812f966b3cd436369c324f36c"
+    },
+    {
+      "file": "funding-reconciliation-v1/61-response.json",
+      "bytes": 101,
+      "sha256": "07c67e73b51ce4de1ebf8ad5bc1a370958bc145f4e7d74ca777a7526fbda6a91"
+    },
+    {
+      "file": "funding-reconciliation-v1/62-request.json",
+      "bytes": 163,
+      "sha256": "198bc78d07479d073b2451ef32e5244dafa26bf713f8339ce12317ce72d8015a"
+    },
+    {
+      "file": "funding-reconciliation-v1/62-response.json",
+      "bytes": 101,
+      "sha256": "68ea1696ab4e74d2dcd7406fbdd50da8b401e97590c4bd763186e73d5f1cc2aa"
+    },
+    {
+      "file": "funding-reconciliation-v1/63-request.json",
+      "bytes": 163,
+      "sha256": "e396a20b3c0b0d9d59e744c883df9fd75612846ef13ed3ae4d5e0b13f8f5f9fc"
+    },
+    {
+      "file": "funding-reconciliation-v1/63-response.json",
+      "bytes": 101,
+      "sha256": "9a2584772bdf977381134552ef4b32ae9a523636de415e026ea150f87473776d"
+    },
+    {
+      "file": "funding-reconciliation-v1/64-request.json",
+      "bytes": 163,
+      "sha256": "bb162c3291db55080c61cc92ce2be717ff49c1e8d6533e2fc386c3b51629abb7"
+    },
+    {
+      "file": "funding-reconciliation-v1/64-response.json",
+      "bytes": 101,
+      "sha256": "b0dafe5c20381fd6f531500b3d5c9164a63801aa4231db177d2fa80b0c61e660"
+    },
+    {
+      "file": "funding-reconciliation-v1/65-request.json",
+      "bytes": 163,
+      "sha256": "ef576fb474e0393580c26a543f4356ca3809333788232a6a804a7237a87c5cb1"
+    },
+    {
+      "file": "funding-reconciliation-v1/65-response.json",
+      "bytes": 101,
+      "sha256": "da0f676286a002c483c09b09f04011d9d7bc1006e8b46b2c22a4ee4f06e511a9"
+    },
+    {
+      "file": "funding-reconciliation-v1/66-request.json",
+      "bytes": 163,
+      "sha256": "24c5073ec737cc044bb445c07d42645f41af18d38ece35c5b1b0dc47d274c892"
+    },
+    {
+      "file": "funding-reconciliation-v1/66-response.json",
+      "bytes": 101,
+      "sha256": "87bd85f64aac29c1c11dedefd36554424e44fa1c086e3a6b7cec9bf6baad0f7e"
+    },
+    {
+      "file": "funding-reconciliation-v1/67-request.json",
+      "bytes": 163,
+      "sha256": "430eb5f220344c351a8bc972e1cd2bcfd9b610620195ac2210909de6b369b49b"
+    },
+    {
+      "file": "funding-reconciliation-v1/67-response.json",
+      "bytes": 101,
+      "sha256": "9cfb5ae9abc488c2f34d7ef5ccda46db339f9f3a587b39a102062a87be49eb25"
+    },
+    {
+      "file": "funding-reconciliation-v1/68-request.json",
+      "bytes": 163,
+      "sha256": "35aa899969493c9e393886a1a81f2d13e265dc71775ad1ea4589c175fdeaddc4"
+    },
+    {
+      "file": "funding-reconciliation-v1/68-response.json",
+      "bytes": 101,
+      "sha256": "0ad3a5e2d20d2e3599f519a07d36da9df71dfa7fd32fb76be31304accf06894c"
+    },
+    {
+      "file": "funding-reconciliation-v1/69-request.json",
+      "bytes": 163,
+      "sha256": "4330e98717e6aa0770c553051fb42a6a041d3e20dd515cf68ad4fe7a14b44430"
+    },
+    {
+      "file": "funding-reconciliation-v1/69-response.json",
+      "bytes": 101,
+      "sha256": "d24bdd8e4fccb22e3cfad94100bb2223e5e9427f15cb7d0a9b70bc502adddc66"
+    },
+    {
+      "file": "funding-reconciliation-v1/7-request.json",
+      "bytes": 161,
+      "sha256": "c08ca9432e40edd399b2988985763da857233a1e4174c939388ae454d9bb6ee0"
+    },
+    {
+      "file": "funding-reconciliation-v1/7-response.json",
+      "bytes": 100,
+      "sha256": "2b15372d33319d97221ed166afdcb1043eac5d91f4ff7dfa3895776563948440"
+    },
+    {
+      "file": "funding-reconciliation-v1/70-request.json",
+      "bytes": 163,
+      "sha256": "f10ddf860bec87ebd35c03fdc913bcbe0f56daa7113d59b2f0cd25ab96e8d3c0"
+    },
+    {
+      "file": "funding-reconciliation-v1/70-response.json",
+      "bytes": 101,
+      "sha256": "15f1b62cbe1d1460fde2f60cfe28294624bcea4eeb23cb5472676ce5cd90b66e"
+    },
+    {
+      "file": "funding-reconciliation-v1/71-request.json",
+      "bytes": 163,
+      "sha256": "e5fd0da16b8b8c303729ea5e51d359a60e7986d1a43252d7b4c37d7bfe54fe46"
+    },
+    {
+      "file": "funding-reconciliation-v1/71-response.json",
+      "bytes": 101,
+      "sha256": "a5cd871804c64351df235a8a07cdbc0899c5dd54d5d522cd0d000ce200961f3e"
+    },
+    {
+      "file": "funding-reconciliation-v1/72-request.json",
+      "bytes": 163,
+      "sha256": "f98b0b4d89b0aecfdfc491c325685c19ce038588d58465e5462ee2637394d3c5"
+    },
+    {
+      "file": "funding-reconciliation-v1/72-response.json",
+      "bytes": 101,
+      "sha256": "5f304bbca401b72ed9f1370a78133598e87ab6ad733852da6fc8f94e958a66c2"
+    },
+    {
+      "file": "funding-reconciliation-v1/73-request.json",
+      "bytes": 163,
+      "sha256": "2e471c10fe8ab01356014af8ae95f74766d4e451cb69ac9c5776df589498eb0d"
+    },
+    {
+      "file": "funding-reconciliation-v1/73-response.json",
+      "bytes": 101,
+      "sha256": "2527538aeb2c81e5b8ae65d59927de6c5910e08c8897d6aa4d174634030e7ff3"
+    },
+    {
+      "file": "funding-reconciliation-v1/74-request.json",
+      "bytes": 163,
+      "sha256": "ff9f708698d917a101fef099848eb1f390b4a722b5186be1c513c23fb41ea505"
+    },
+    {
+      "file": "funding-reconciliation-v1/74-response.json",
+      "bytes": 101,
+      "sha256": "78005b4b221f28709908b6bf846cbfe1efc17c7685a89f54b2e715d4943e90dc"
+    },
+    {
+      "file": "funding-reconciliation-v1/75-request.json",
+      "bytes": 163,
+      "sha256": "c26ab70213669fa3ef88c1e9d8581dee0659b0122e4b7c9b514da112fa86c982"
+    },
+    {
+      "file": "funding-reconciliation-v1/75-response.json",
+      "bytes": 101,
+      "sha256": "f62c64620ff6e76af17d932b245c3b55d991752ca18b930c20daf5dadbffe994"
+    },
+    {
+      "file": "funding-reconciliation-v1/76-request.json",
+      "bytes": 163,
+      "sha256": "d160173b5b0895b8cb9fcebb0a2200f4905d5ebc031aa2604cdb9a5740cd565d"
+    },
+    {
+      "file": "funding-reconciliation-v1/76-response.json",
+      "bytes": 101,
+      "sha256": "443e57a7c081d24efd89581d19104de848ff1e758c697e4fb8b31af97120c74f"
+    },
+    {
+      "file": "funding-reconciliation-v1/77-request.json",
+      "bytes": 163,
+      "sha256": "2228f7e847b12aa65f911384ccd94bee287868fd3ff34c89788ce3e823bf4376"
+    },
+    {
+      "file": "funding-reconciliation-v1/77-response.json",
+      "bytes": 101,
+      "sha256": "637000fac17465764932c392864a763ee750bc15a10312e8a1b0fa026bf864c8"
+    },
+    {
+      "file": "funding-reconciliation-v1/78-request.json",
+      "bytes": 163,
+      "sha256": "5182eb00d8e3967f3c95dbb863cd91f288c3bd5f47dcd0ab2ae6f6bce4cea9fe"
+    },
+    {
+      "file": "funding-reconciliation-v1/78-response.json",
+      "bytes": 101,
+      "sha256": "e7597a8b9fb7b2d2eefaf83278b8ddd6f22afba3a61cb66ecc71f9d4bb88ed92"
+    },
+    {
+      "file": "funding-reconciliation-v1/79-request.json",
+      "bytes": 163,
+      "sha256": "c3a99b4e4eb437543c56d01326d458195fc825796ab9b26d0540dfc851168ff6"
+    },
+    {
+      "file": "funding-reconciliation-v1/79-response.json",
+      "bytes": 101,
+      "sha256": "a8712679020461c93fff7d0f3928111e12247ab464704cfb75ab92e0fdac8882"
+    },
+    {
+      "file": "funding-reconciliation-v1/8-request.json",
+      "bytes": 161,
+      "sha256": "27199759307a2ac43e62b5570fae75fd1e649a59479b04da03c49ed395c30962"
+    },
+    {
+      "file": "funding-reconciliation-v1/8-response.json",
+      "bytes": 100,
+      "sha256": "75c57cb79a7e4a5b530904127e002e5beb61e4fcaf7b0369985b1b539551d7be"
+    },
+    {
+      "file": "funding-reconciliation-v1/80-request.json",
+      "bytes": 163,
+      "sha256": "b5ab64b3a40137d82e2025d19ed6a5037c489a0632b72d277af78c01a4df6340"
+    },
+    {
+      "file": "funding-reconciliation-v1/80-response.json",
+      "bytes": 101,
+      "sha256": "457259c7637e01c941ea0ff0d18458004a47c04ead24f3cf1497c4d70069ed60"
+    },
+    {
+      "file": "funding-reconciliation-v1/81-request.json",
+      "bytes": 163,
+      "sha256": "a614e1aa59da395efd8bc72ddb8376cf73e60234665ae2d6cef1a43dcfe4c833"
+    },
+    {
+      "file": "funding-reconciliation-v1/81-response.json",
+      "bytes": 101,
+      "sha256": "edf676d95204e55dce974253d46f2cb1cfe7f11915c4925c2240a85a5bfea597"
+    },
+    {
+      "file": "funding-reconciliation-v1/82-request.json",
+      "bytes": 163,
+      "sha256": "6dc0b897c81b63421a79fd1caf15573d3d649376a5191ee1ad1d5f9a6c7f8d36"
+    },
+    {
+      "file": "funding-reconciliation-v1/82-response.json",
+      "bytes": 101,
+      "sha256": "e959fa88140fa7a00e1ec750b32f31b8c24e6a9bf41b661494b46e74a2733874"
+    },
+    {
+      "file": "funding-reconciliation-v1/83-request.json",
+      "bytes": 163,
+      "sha256": "8c02b4381ddb83a7fd13c029e0adf02807f56ad3e08bac680ea579e42379c9b5"
+    },
+    {
+      "file": "funding-reconciliation-v1/83-response.json",
+      "bytes": 101,
+      "sha256": "daa781754c06a0f42cd3f68636586622d35bfb63d07d00f8171bf1ec29977a9c"
+    },
+    {
+      "file": "funding-reconciliation-v1/84-request.json",
+      "bytes": 163,
+      "sha256": "25aba129f4e864529486913b9069284bda4ee3536bd1b983112c7d3c01551ab7"
+    },
+    {
+      "file": "funding-reconciliation-v1/84-response.json",
+      "bytes": 101,
+      "sha256": "5557cbfc106e92ea5fbbdcd7b3f3bf403aa92d7a0cc375fd0c3873b5cf8c8946"
+    },
+    {
+      "file": "funding-reconciliation-v1/85-request.json",
+      "bytes": 163,
+      "sha256": "b4959c84f3cfa0d5883986c156e1feda2a35d960b02e7b9b6c86ad1bf01de43e"
+    },
+    {
+      "file": "funding-reconciliation-v1/85-response.json",
+      "bytes": 101,
+      "sha256": "37f622136093d9029444551f506fea31ccd69b706e448fb2a711d61d4b7dd824"
+    },
+    {
+      "file": "funding-reconciliation-v1/86-request.json",
+      "bytes": 163,
+      "sha256": "347440128707cfa7aa704ccc1698529e9c50000e5f5f402b7a4c8b6355732c39"
+    },
+    {
+      "file": "funding-reconciliation-v1/86-response.json",
+      "bytes": 101,
+      "sha256": "a3ad55815bab6ccd8164f7e8d96da194f69d8a022ba82235ea7b13588fc257b6"
+    },
+    {
+      "file": "funding-reconciliation-v1/87-request.json",
+      "bytes": 163,
+      "sha256": "429bc60ab707222a95028efeb4eab0840abed7beb9e0e41c16ef80226e970a12"
+    },
+    {
+      "file": "funding-reconciliation-v1/87-response.json",
+      "bytes": 101,
+      "sha256": "1b4fdd67db63f5d0adf76fe093d620bb95e4adfb5a23607b1729a694c57492ea"
+    },
+    {
+      "file": "funding-reconciliation-v1/88-request.json",
+      "bytes": 163,
+      "sha256": "e075c1214b3c83401fc6dea387def71a5619bff5caeac9fc39ee9eeee60887f0"
+    },
+    {
+      "file": "funding-reconciliation-v1/88-response.json",
+      "bytes": 101,
+      "sha256": "15b27e34a13c68a1394907445f2607d2eb84bbb48f14b6ebd1d921cb99eb661b"
+    },
+    {
+      "file": "funding-reconciliation-v1/89-request.json",
+      "bytes": 163,
+      "sha256": "1e9e097a34e23ff66e33d3b0b2c035d40a072d9980238f9fa34e988ef2e74f36"
+    },
+    {
+      "file": "funding-reconciliation-v1/89-response.json",
+      "bytes": 101,
+      "sha256": "c56fb94189a5ee811e296fb53e8664d135d7347bd1df7122c325316c9a384bde"
+    },
+    {
+      "file": "funding-reconciliation-v1/9-request.json",
+      "bytes": 162,
+      "sha256": "71582a510f3a59a01a9a7d84cd33ea0aa979aaedc5f320e28a33bdc481dcc98d"
+    },
+    {
+      "file": "funding-reconciliation-v1/9-response.json",
+      "bytes": 101,
+      "sha256": "f398d47d3e1b3428d3431202d556051db280036f757a14cc5861e22d1dd77417"
+    },
+    {
+      "file": "funding-reconciliation-v1/90-request.json",
+      "bytes": 163,
+      "sha256": "ddacbe156843dc6a0978a51ffbd9ac313e83b510a27e1dd2551fa72205b27703"
+    },
+    {
+      "file": "funding-reconciliation-v1/90-response.json",
+      "bytes": 101,
+      "sha256": "61b6756d962bda86d918ea12f1a97f73a28348ad40c17ee49c985cd3efeaaad5"
+    },
+    {
+      "file": "funding-reconciliation-v1/91-request.json",
+      "bytes": 163,
+      "sha256": "8cd5efd8c9a859b5fb6d5ff1c3a5cba2d06b21da9c6d72829d9bac4424c53419"
+    },
+    {
+      "file": "funding-reconciliation-v1/91-response.json",
+      "bytes": 101,
+      "sha256": "f6bb53fb668e0f6734ab26dc94072e26e54e5f0b407e6db864d809fb843359ca"
+    },
+    {
+      "file": "funding-reconciliation-v1/92-request.json",
+      "bytes": 163,
+      "sha256": "b842630bd187ce19771e3882b8814f3031cba631d9b6994bc8b1eb293167ded0"
+    },
+    {
+      "file": "funding-reconciliation-v1/92-response.json",
+      "bytes": 101,
+      "sha256": "85ac0751c6bcedef419d91be6b4a05a69995ebd6ae908e14fc6568305ffb7dd6"
+    },
+    {
+      "file": "funding-reconciliation-v1/93-request.json",
+      "bytes": 163,
+      "sha256": "b58cb632262a6349bddc595ab79674c915f48836495753a9581b5a6974635b06"
+    },
+    {
+      "file": "funding-reconciliation-v1/93-response.json",
+      "bytes": 101,
+      "sha256": "e3758118a16a0337d9bda2fbe0f8e9aa47892a895eee3a6d03c0388920f16158"
+    },
+    {
+      "file": "funding-reconciliation-v1/94-request.json",
+      "bytes": 163,
+      "sha256": "42f1c7d26a6d1921bb2071921fb424fb47dbea86cd0b238b252f61ca888068c1"
+    },
+    {
+      "file": "funding-reconciliation-v1/94-response.json",
+      "bytes": 101,
+      "sha256": "81c889275f6178188b5ed7d03528713eb16a43f519dcaf5533398a11dddc35b4"
+    },
+    {
+      "file": "funding-reconciliation-v1/95-request.json",
+      "bytes": 163,
+      "sha256": "b1c7fa87736091f50e2793063fdca606ff4a1ebfd3333b398021c549c53209bb"
+    },
+    {
+      "file": "funding-reconciliation-v1/95-response.json",
+      "bytes": 101,
+      "sha256": "4983b600ca55ae5ea2aa68625c79752068ae5ccadbc12a4538d4c834656fb757"
+    },
+    {
+      "file": "funding-reconciliation-v1/96-request.json",
+      "bytes": 163,
+      "sha256": "dee6c7df6aa765dc9436b38dba8889fab5096cb19dde874607e0023a39ec20f6"
+    },
+    {
+      "file": "funding-reconciliation-v1/96-response.json",
+      "bytes": 101,
+      "sha256": "ed6820fb573773348bc56997d220891e794570dcfef5e0c40d17406adff3be86"
+    },
+    {
+      "file": "funding-reconciliation-v1/97-request.json",
+      "bytes": 163,
+      "sha256": "990ada11221e99dca6f584aaa372c7ab49f4b28e3ec5a57584c394cc0c5f2288"
+    },
+    {
+      "file": "funding-reconciliation-v1/97-response.json",
+      "bytes": 101,
+      "sha256": "af40e00cf31d2acc7d18e824062defd1ead0b85c545d34480441ccbd1e3b1cb4"
+    },
+    {
+      "file": "funding-reconciliation-v1/98-request.json",
+      "bytes": 164,
+      "sha256": "d971d9883b2063062c4b30848ca1adc8635b637fa78e57b30c6defac28b6a77f"
+    },
+    {
+      "file": "funding-reconciliation-v1/98-response.json",
+      "bytes": 101,
+      "sha256": "aa92cf5d3dc9c78df656f199bec9f7c04f78641eec87227fe664a17445962a72"
+    },
+    {
+      "file": "funding-reconciliation-v1/99-request.json",
+      "bytes": 164,
+      "sha256": "268016514dab5d15e63650e1f1b25ddc2a3738a611c65f555ca5207bb473bdd3"
+    },
+    {
+      "file": "funding-reconciliation-v1/99-response.json",
+      "bytes": 102,
+      "sha256": "dce63f0017b46ce4cfe0c2a22fb6b908f7b82387c6486babe7bf2799ef231a7a"
+    },
+    {
+      "file": "funding-reconciliation-v1/PLAN.json",
+      "bytes": 163,
+      "sha256": "a22649ada62813598e792badce24d8e49994eddf508d3717aa0f5989ab2923e3"
+    },
+    {
+      "file": "funding-reconciliation-v1/SUMMARY.json",
+      "bytes": 5548,
+      "sha256": "74639e7d3fb6e86d401c5d75cc39ac92b4533a9e05dbb0cb9abb0280ca42a346"
+    },
+    {
+      "file": "application-v2/APPLICATION.json",
+      "bytes": 17290,
+      "sha256": "15bc045dc9a2bc24c185609baf1b21a622be6ddb7faef617515dce52d68dfb3a"
+    },
+    {
+      "file": "application-v4/APPLICATION.json",
+      "bytes": 17290,
+      "sha256": "e1658fe1108890e1131e85b3a9df643927443ffe6c088b82a53ffe4b00ecee8c"
+    },
+    {
+      "file": "inputs/candidate-layout-abi.json",
+      "bytes": 20168,
+      "sha256": "070a09a10f36c742e03e22064cfe141ed19b43ed3934cee71d8fa78e5c026fe9"
+    },
+    {
+      "file": "capture-tools/capture.py",
+      "bytes": 5629,
+      "sha256": "f949dd8c51ba57aad6dce57fb431aff076eb1f8eb2f1b77b72bd4e13969e6079"
+    },
+    {
+      "file": "capture-tools/capture-v2.py",
+      "bytes": 6016,
+      "sha256": "4f37ca664a3e228104b2aa55674d109182dbd4b969479c7363f7ab2f015658f4"
+    },
+    {
+      "file": "capture-tools/reconcile-funding.mjs",
+      "bytes": 3787,
+      "sha256": "c4907ad0373dd93f6ec5d69f737865874eb50aafd1b2ae762f0a9cebdfe14196"
+    },
+    {
+      "file": "capture-tools/package_public.py",
+      "bytes": 4777,
+      "sha256": "e8856a51b2f05f7bb654b7ea7a0da785737d61689248a192f21da4b063228043"
+    },
+    {
+      "file": "capture-tools/package_public-v2.py",
+      "bytes": 4990,
+      "sha256": "f9d4d96bc273280b8bcf825f1118202bf1a78d7dd63042634e5af769dd2ddcbf"
+    }
+  ],
+  "publication": "All exact circuit registry fields were explicitly checked as public verifier hashes, caps, paths and numeric configuration; no signing witness or wallet file is included",
+  "financialOperations": 0
+}
