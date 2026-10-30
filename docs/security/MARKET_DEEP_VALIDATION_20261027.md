@@ -1,5 +1,18 @@
 # Market correctness and reset-chain validation — 27 October 2026
 
+Latest funding continuation (31 October): [original faucet identity,
+current pending-cursor inventory and precise operator delivery](FAUCET_FUNDING_CONTINUATION_20261031.md).
+At checkpoint 22654, recipient 223232 still has zero observed balance and zero
+pending cursors across the same 100 faucet operators. Public claim/activity
+indexes are empty; the only indexed transaction is registration. Native and
+public user-verifier payloads equal the accepted prior captures, and all 2,756
+frozen source hashes match; no business proof was repeated. A repository-owned
+bounded read-only reconciler preserves the original request/send lock, fails
+closed on incomplete reads and never authorizes retries or spending. Twenty-three
+focused tests pass. There is no read-only original-request status method in the
+inspected frozen faucet API. Funding/disposition delivery remains external;
+new deployment, real UI fills and ordinary claims remain unaccepted.
+
 Latest current-chain preflight (30 October): [full reset Native binding,
 eleven ordinary UPS resources, current registration and exact funding scan](CURRENT_CHAIN_USER_UPS_PREFLIGHT_20261030.md).
 The actual Native code/layout/full function whitelist and checkpoint paths pass
