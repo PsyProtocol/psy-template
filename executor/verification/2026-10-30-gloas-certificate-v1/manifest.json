@@ -1,0 +1,1451 @@
+{
+  "schema": 1,
+  "sourceDirectory": "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-market-recovery-20261023/checkpoint-certificate-acquisition-20261030-v1",
+  "machine": "gewenbo.local",
+  "host": "macOS-15.7.3-arm64-arm-64bit",
+  "scope": "public formal Executor run including failures; success requires exact included receipt",
+  "walletFilesIncluded": false,
+  "sealedBinariesIncluded": false,
+  "records": [
+    {
+      "source": "acquire_consensus.py",
+      "file": "files/acquire_consensus.py.gz",
+      "bytes": 1572,
+      "sha256": "458f4613fb30b69439f273341e1bf619ee0e60a333f062ebd2ebd7aea2f6c8bd",
+      "gzipBytes": 837,
+      "gzipSha256": "05f50d2724832f0081f8d6dc85f9a738c0ba7cba5bb17cdf6d6f3cca5a7de3f8"
+    },
+    {
+      "source": "application-v1/APPLICATION.json",
+      "file": "files/application-v1/APPLICATION.json.gz",
+      "bytes": 17300,
+      "sha256": "8a8547bef59082c508ec7523d4e9cd4a75a9f0b23c21078a7af9b91f93c52887",
+      "gzipBytes": 8096,
+      "gzipSha256": "b33e11a99a010c81fa305f49dafbfdc22363f468ffc95ef5d1d9ba1a0c325128"
+    },
+    {
+      "source": "application-v1/Cargo.lock",
+      "file": "files/application-v1/Cargo.lock.gz",
+      "bytes": 217301,
+      "sha256": "d12d86f486408d3b88f496dde27e6494839511489a1202e778f09f0eca3c1183",
+      "gzipBytes": 50781,
+      "gzipSha256": "a4627f8f09ad4cdee75968b5fb6380925b321a4e7c5476fd485d38abe2d47015"
+    },
+    {
+      "source": "application-v1/Cargo.toml",
+      "file": "files/application-v1/Cargo.toml.gz",
+      "bytes": 4680,
+      "sha256": "c85cdfdc3912a609f857f073b555969a000870e6579d755d433f45e91997b4ab",
+      "gzipBytes": 978,
+      "gzipSha256": "9040fe6e30865b8e367db4a0ff85b2a046f1af17b26ffac49da39409503a0874"
+    },
+    {
+      "source": "capture_certificate_l1.py",
+      "file": "files/capture_certificate_l1.py.gz",
+      "bytes": 3986,
+      "sha256": "edc0e9753dc806faa070c03dd3d6676e3880367c8ca165beac86d583833e7411",
+      "gzipBytes": 1904,
+      "gzipSha256": "61e91571c994763270375fdcb99f18aff98312352b8598fc430712f2db720482"
+    },
+    {
+      "source": "certificate_regressions.py",
+      "file": "files/certificate_regressions.py.gz",
+      "bytes": 3976,
+      "sha256": "e615c0765e5ee148964a9b565253f2cb06254cb86ef93d2fb50c77ce4efda960",
+      "gzipBytes": 1355,
+      "gzipSha256": "198b5bca725e79c91caaaf72132107c74ac21f18b9514b09966b4ca0eda88a82"
+    },
+    {
+      "source": "executor_certificate_integration.mjs",
+      "file": "files/executor_certificate_integration.mjs.gz",
+      "bytes": 3356,
+      "sha256": "17065347abc61357aa800125eab80e9b8897f06e16c72c00533f3784058fec69",
+      "gzipBytes": 1230,
+      "gzipSha256": "6378b1e197b6c55c37077256701b24ed937caef084eb96a8d3d11a38c496ec2b"
+    },
+    {
+      "source": "gloas-build-v1/BUILD.json",
+      "file": "files/gloas-build-v1/BUILD.json.gz",
+      "bytes": 2947,
+      "sha256": "d5f5e26eff083c758eaa3b4b77c66b4fd1b5cab8a380205004267f12f1b05ab1",
+      "gzipBytes": 1109,
+      "gzipSha256": "a69c0be4f60311925932c3d6fd260d899b492fd76453ec16835349d7a3a04ae9"
+    },
+    {
+      "source": "gloas-build-v1/gloas-certificate-inspector-compiler.log",
+      "file": "files/gloas-build-v1/gloas-certificate-inspector-compiler.log.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "gloas-build-v1/gloas-certificate-inspector-tests-compiler.log",
+      "file": "files/gloas-build-v1/gloas-certificate-inspector-tests-compiler.log.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "public/PLAN.json",
+      "file": "files/public/PLAN.json.gz",
+      "bytes": 1107,
+      "sha256": "ccab6e49bf9adfa926cf5a49f4da9d7f9159b031730ccde4231cefda23c98191",
+      "gzipBytes": 661,
+      "gzipSha256": "e2759b24622afc3ac7aa44f6fd088e1c5903bc7128c928685d358b586f18ee72"
+    },
+    {
+      "source": "public/SUMMARY.json",
+      "file": "files/public/SUMMARY.json.gz",
+      "bytes": 3179,
+      "sha256": "1767dff3b975b08184f87700daf531df583657340e9dac2ab9d3657980d5a757",
+      "gzipBytes": 1099,
+      "gzipSha256": "0250124f780c5587f82f90d75c6bf594e426f4bc1235f567e70c78b3e30a2b98"
+    },
+    {
+      "source": "public/UPSTREAM_HANDOFF.json",
+      "file": "files/public/UPSTREAM_HANDOFF.json.gz",
+      "bytes": 3787,
+      "sha256": "cbc9028e30392c0f6f1c24dad085a2dd2369989f803a33772333b4e5c933aea5",
+      "gzipBytes": 1988,
+      "gzipSha256": "d45d735cd97c58a246483c366fbc66282e49496fe6cb430b0bb2fa5a8dab3843"
+    },
+    {
+      "source": "public/acquisition-notes.json",
+      "file": "files/public/acquisition-notes.json.gz",
+      "bytes": 548,
+      "sha256": "0d91637e7a1a5063776ca60c9909f34691e690fe8d13025ce6e308b5ecee7152",
+      "gzipBytes": 354,
+      "gzipSha256": "d235ab25056d5170d37353bbaf8928267e58c3b583e724f396389441c9897468"
+    },
+    {
+      "source": "public/bootstrap.json",
+      "file": "files/public/bootstrap.json.gz",
+      "bytes": 53874,
+      "sha256": "3ad1ce3befb1e8f7c06d94a087315d2955e1138549a7a20c074de349b6c2ec5e",
+      "gzipBytes": 27351,
+      "gzipSha256": "4b26f95e3f734ba25f3b275f4cecb2313526d4d478d469d4e7dceecdd67e1afd"
+    },
+    {
+      "source": "public/certificate-chain-id-transport.json",
+      "file": "files/public/certificate-chain-id-transport.json.gz",
+      "bytes": 449,
+      "sha256": "2200b01b43178f713374bacfa612676de4254d237a3374e4ab2f7b053b17e4c4",
+      "gzipBytes": 322,
+      "gzipSha256": "2cb0fcf3a69a8a06de09cffdb1744f638ae592cfde441d89e74d538baf37537b"
+    },
+    {
+      "source": "public/certificate-execution-header-transport.json",
+      "file": "files/public/certificate-execution-header-transport.json.gz",
+      "bytes": 552,
+      "sha256": "7e14a6ce5f55b804c5c54b308a648dd86a37ef36a95458e05e2638d723dd0bea",
+      "gzipBytes": 383,
+      "gzipSha256": "10d25dd5f6fbe9dfc4f08effa3338b18cd1b612ad8504b2dbb6a86806ce8d28b"
+    },
+    {
+      "source": "public/certificate-header-projection.json",
+      "file": "files/public/certificate-header-projection.json.gz",
+      "bytes": 1985,
+      "sha256": "e1cd75b7623b46987502d0a7b80726c635ccbc17e2b8da9141b7494d823754fc",
+      "gzipBytes": 1106,
+      "gzipSha256": "13405dd8459daeae947da725a6187444574ea27546900d7dfd8f8fad3744fa62"
+    },
+    {
+      "source": "public/certificate-implementation-proof-error.json",
+      "file": "files/public/certificate-implementation-proof-error.json.gz",
+      "bytes": 156,
+      "sha256": "c641496c1c67facad77528b695ead9b416732ea049eb145ad391ee7b06d65166",
+      "gzipBytes": 142,
+      "gzipSha256": "ee783d7bc9b57eb8a38c026ed4d309e528324a869ec287af793ef73920ef5570"
+    },
+    {
+      "source": "public/certificate-implementation-proof-transport.json",
+      "file": "files/public/certificate-implementation-proof-transport.json.gz",
+      "bytes": 679,
+      "sha256": "fc865957ffef1c105753b85b26f5f227cc2f3b69141bd8c56cb6c2b7d39aa5da",
+      "gzipBytes": 443,
+      "gzipSha256": "754f3ff5ea86a8cfa4f4c68cceb4b21e2c9a5ca1cbae65ea27b4830d6a4a01d3"
+    },
+    {
+      "source": "public/certificate-native-report.json",
+      "file": "files/public/certificate-native-report.json.gz",
+      "bytes": 1813,
+      "sha256": "3dc7a71c1b7875218d21a8157cd5002ae7bbba559edf3750b729e90a379b5452",
+      "gzipBytes": 903,
+      "gzipSha256": "970ed2d8fced960c8052fca79923c6d25ce5a31e8a0da45c240ab2139e683a86"
+    },
+    {
+      "source": "public/certificate-native-v1-result.json",
+      "file": "files/public/certificate-native-v1-result.json.gz",
+      "bytes": 334,
+      "sha256": "369902d05050a433de5fe418796e30adc01f6e5c322d84daba5da1652312ae06",
+      "gzipBytes": 237,
+      "gzipSha256": "3f31394286c8b6825ea69e9a3802a8bfb0f22c56b79fb667f78835540fd6b6f7"
+    },
+    {
+      "source": "public/certificate-native-v1.log",
+      "file": "files/public/certificate-native-v1.log.gz",
+      "bytes": 1672,
+      "sha256": "32926f3ec6d5c7506608565606dc0fcc6e7f7a83b6ffe5aa1df8ed5fc30e9cd3",
+      "gzipBytes": 891,
+      "gzipSha256": "bad32970cf396e968d6c1985f35eae577920bfee56d60f31eebc8eeedb955cc6"
+    },
+    {
+      "source": "public/certificate-negative-results.json",
+      "file": "files/public/certificate-negative-results.json.gz",
+      "bytes": 3515,
+      "sha256": "8a9e039a0bb2b86f5cb077a6f9038b5ce567454e3eb77e95fe16c4bbf1dfef95",
+      "gzipBytes": 1256,
+      "gzipSha256": "3b7e673156b9fe6b3e7f547c3a831e85c0c699e0d74ee9e9dc3be973e734973b"
+    },
+    {
+      "source": "public/certificate-negative-v1-result.json",
+      "file": "files/public/certificate-negative-v1-result.json.gz",
+      "bytes": 339,
+      "sha256": "fefbd4a67e4c42158f3ab83b2b76a828b31617c71f8f188a4c5feb250fc003d1",
+      "gzipBytes": 240,
+      "gzipSha256": "6c4cc97af4f12953759912051c9140ae88665d03f5758b69eb70b5d735e51bf9"
+    },
+    {
+      "source": "public/certificate-negative-v1.log",
+      "file": "files/public/certificate-negative-v1.log.gz",
+      "bytes": 43,
+      "sha256": "0d3df170702b5e6d311fe1784a456a64422f525000e728211ea8a2e9bd71030a",
+      "gzipBytes": 62,
+      "gzipSha256": "3d3088f4e3146b14bb6c72491a3748e7d0ad6c7aff393d8ac0d169246555896d"
+    },
+    {
+      "source": "public/certificate-proxy-proof-error.json",
+      "file": "files/public/certificate-proxy-proof-error.json.gz",
+      "bytes": 156,
+      "sha256": "c641496c1c67facad77528b695ead9b416732ea049eb145ad391ee7b06d65166",
+      "gzipBytes": 142,
+      "gzipSha256": "ee783d7bc9b57eb8a38c026ed4d309e528324a869ec287af793ef73920ef5570"
+    },
+    {
+      "source": "public/certificate-proxy-proof-transport.json",
+      "file": "files/public/certificate-proxy-proof-transport.json.gz",
+      "bytes": 772,
+      "sha256": "830a6f39115c11073622effdd64ea7c152353a884add14e507bd565aaf6dab59",
+      "gzipBytes": 497,
+      "gzipSha256": "a23c11a20275ebd70a192324972f33452beffc6ad0cd437527696d786c27cb8a"
+    },
+    {
+      "source": "public/certificate-units-v1-result.json",
+      "file": "files/public/certificate-units-v1-result.json.gz",
+      "bytes": 334,
+      "sha256": "de0b471c340e628685038add90a92830ac6ba9e39881db1b40402dc53b593985",
+      "gzipBytes": 237,
+      "gzipSha256": "ec415e915cccd756ef1305a82fdb638d7e074ab0b6af020f98ab39f80788a097"
+    },
+    {
+      "source": "public/certificate-units-v1.log",
+      "file": "files/public/certificate-units-v1.log.gz",
+      "bytes": 283,
+      "sha256": "442d90602e7d21eebaf588763a5ad6ce366436597a8e789380977b997852ec09",
+      "gzipBytes": 192,
+      "gzipSha256": "cee4738e9f7faf2ae8dac4522c98e622cffe2585acba12cad38ac7cfa04918ba"
+    },
+    {
+      "source": "public/chainsafe-finality-transport.json",
+      "file": "files/public/chainsafe-finality-transport.json.gz",
+      "bytes": 405,
+      "sha256": "700e8665ecac9e027e40432a021e3d5bf81cfec0e9306e9b0e91b258a349f10f",
+      "gzipBytes": 290,
+      "gzipSha256": "f9caa53ca9a350a5c93cee90815049cf640eafacaa5c685a0fe724beb8c3c0c6"
+    },
+    {
+      "source": "public/closing-source-check.json",
+      "file": "files/public/closing-source-check.json.gz",
+      "bytes": 748,
+      "sha256": "1812276e2a671f0ebc177ec8354a4bde1c01e73a5703fb03405106dfca7ed8b8",
+      "gzipBytes": 450,
+      "gzipSha256": "ba9da6e8a9b1175961d6976ba54eb4eb536adae40e1a5ea5a66c546bd39fb68a"
+    },
+    {
+      "source": "public/exact-execution-binding-rejection.json",
+      "file": "files/public/exact-execution-binding-rejection.json.gz",
+      "bytes": 411,
+      "sha256": "33b951342d782e4afa2a01363a2e640d076fddd7f77976400a52ba713777af13",
+      "gzipBytes": 308,
+      "gzipSha256": "33773747be0092768fd663cb3841da247b7ec7a3d50c723b76d2a022d14545fd"
+    },
+    {
+      "source": "public/executor-certificate-first.json",
+      "file": "files/public/executor-certificate-first.json.gz",
+      "bytes": 1813,
+      "sha256": "3dc7a71c1b7875218d21a8157cd5002ae7bbba559edf3750b729e90a379b5452",
+      "gzipBytes": 903,
+      "gzipSha256": "970ed2d8fced960c8052fca79923c6d25ce5a31e8a0da45c240ab2139e683a86"
+    },
+    {
+      "source": "public/executor-certificate-first.json.intent.json",
+      "file": "files/public/executor-certificate-first.json.intent.json.gz",
+      "bytes": 471,
+      "sha256": "55a9358a9ef8ed59903e569f932d06aa462e0cdb5fb0c84df9a5a5ba538e4578",
+      "gzipBytes": 346,
+      "gzipSha256": "926c75cf620f9bfcd41c4c4cea74b869fd1f8818212d4763e952ceaf23427eec"
+    },
+    {
+      "source": "public/executor-certificate-first.json.native.log",
+      "file": "files/public/executor-certificate-first.json.native.log.gz",
+      "bytes": 1672,
+      "sha256": "32926f3ec6d5c7506608565606dc0fcc6e7f7a83b6ffe5aa1df8ed5fc30e9cd3",
+      "gzipBytes": 891,
+      "gzipSha256": "bad32970cf396e968d6c1985f35eae577920bfee56d60f31eebc8eeedb955cc6"
+    },
+    {
+      "source": "public/executor-certificate-first.json.receipt.json",
+      "file": "files/public/executor-certificate-first.json.receipt.json.gz",
+      "bytes": 562,
+      "sha256": "debd7339722ea160685629c8909a437254d5d9f48e1ff3fb04ab1ae538dfef7c",
+      "gzipBytes": 388,
+      "gzipSha256": "f8205dde13a1778cd6bb500a0dd74249a97d6669bb0be0864957e3639e27cf4b"
+    },
+    {
+      "source": "public/executor-certificate-restart-console.log",
+      "file": "files/public/executor-certificate-restart-console.log.gz",
+      "bytes": 1672,
+      "sha256": "32926f3ec6d5c7506608565606dc0fcc6e7f7a83b6ffe5aa1df8ed5fc30e9cd3",
+      "gzipBytes": 891,
+      "gzipSha256": "bad32970cf396e968d6c1985f35eae577920bfee56d60f31eebc8eeedb955cc6"
+    },
+    {
+      "source": "public/executor-certificate-restart.json",
+      "file": "files/public/executor-certificate-restart.json.gz",
+      "bytes": 1813,
+      "sha256": "3dc7a71c1b7875218d21a8157cd5002ae7bbba559edf3750b729e90a379b5452",
+      "gzipBytes": 903,
+      "gzipSha256": "970ed2d8fced960c8052fca79923c6d25ce5a31e8a0da45c240ab2139e683a86"
+    },
+    {
+      "source": "public/executor-certificate-restart.json.intent.json",
+      "file": "files/public/executor-certificate-restart.json.intent.json.gz",
+      "bytes": 471,
+      "sha256": "55a9358a9ef8ed59903e569f932d06aa462e0cdb5fb0c84df9a5a5ba538e4578",
+      "gzipBytes": 346,
+      "gzipSha256": "926c75cf620f9bfcd41c4c4cea74b869fd1f8818212d4763e952ceaf23427eec"
+    },
+    {
+      "source": "public/executor-certificate-restart.json.native.log",
+      "file": "files/public/executor-certificate-restart.json.native.log.gz",
+      "bytes": 1672,
+      "sha256": "32926f3ec6d5c7506608565606dc0fcc6e7f7a83b6ffe5aa1df8ed5fc30e9cd3",
+      "gzipBytes": 891,
+      "gzipSha256": "bad32970cf396e968d6c1985f35eae577920bfee56d60f31eebc8eeedb955cc6"
+    },
+    {
+      "source": "public/executor-certificate-restart.json.receipt.json",
+      "file": "files/public/executor-certificate-restart.json.receipt.json.gz",
+      "bytes": 562,
+      "sha256": "debd7339722ea160685629c8909a437254d5d9f48e1ff3fb04ab1ae538dfef7c",
+      "gzipBytes": 388,
+      "gzipSha256": "f8205dde13a1778cd6bb500a0dd74249a97d6669bb0be0864957e3639e27cf4b"
+    },
+    {
+      "source": "public/executor-certificate-summary.json",
+      "file": "files/public/executor-certificate-summary.json.gz",
+      "bytes": 396,
+      "sha256": "95ead431450c409c47268542f181699f96b08cf884417f9c3f6e1d02d00a4a57",
+      "gzipBytes": 246,
+      "gzipSha256": "2d3ea7720d483bcacb574ba90f56577408c74fd069769007d5897c79857e2777"
+    },
+    {
+      "source": "public/executor-certificate-unit-v1-result.json",
+      "file": "files/public/executor-certificate-unit-v1-result.json.gz",
+      "bytes": 336,
+      "sha256": "21493fa7ae87f836e01221e5f6d10c3be646cc507830835b3923880aaa199bf6",
+      "gzipBytes": 239,
+      "gzipSha256": "4c68a624c4f8c5180dce8e806eb86b5ab79d369a2c717cbba7cbd8049eccf50a"
+    },
+    {
+      "source": "public/executor-certificate-unit-v1.log",
+      "file": "files/public/executor-certificate-unit-v1.log.gz",
+      "bytes": 399,
+      "sha256": "82c28ed88a57da6ac32e7760d77b8e09b3c33341dea7822b6680f6aa3ddb3a0d",
+      "gzipBytes": 275,
+      "gzipSha256": "c9d586b185d9efcc28e2735a080a83ec0553910bf0564fe80b73e2c6441beb11"
+    },
+    {
+      "source": "public/executor-certificate-v1-result.json",
+      "file": "files/public/executor-certificate-v1-result.json.gz",
+      "bytes": 423,
+      "sha256": "02e7432118cb176cc973d12a3c9b11d67a6fda3687a58c914cc320e2df6a9f11",
+      "gzipBytes": 265,
+      "gzipSha256": "437fca43584e372bd325c0d73c42442e35205b96fc0458c0ae6c0d4a6f262737"
+    },
+    {
+      "source": "public/executor-certificate-v1.log",
+      "file": "files/public/executor-certificate-v1.log.gz",
+      "bytes": 99,
+      "sha256": "8ad4e89e34e2f89a441a749c4130a552e1dc0fc4498b989e3f0d5419d6f6fd89",
+      "gzipBytes": 100,
+      "gzipSha256": "aa64bac11dd7bb8a778161fea06bb56dc6844be2d1d24a620e4014c2332214b2"
+    },
+    {
+      "source": "public/finality-update.json",
+      "file": "files/public/finality-update.json.gz",
+      "bytes": 3477,
+      "sha256": "09dd81ed22bcd4b425017cb40e1b148a7de67c2cea58796ee51dfde628cc8f64",
+      "gzipBytes": 1518,
+      "gzipSha256": "948d9f4b22a79bf3462754472c40ec514b28e20aef83e9ea5404690a58346c3d"
+    },
+    {
+      "source": "public/gloas-build-v1-result.json",
+      "file": "files/public/gloas-build-v1-result.json.gz",
+      "bytes": 510,
+      "sha256": "51e4374b53e253b5f42f05f31099f2c595161f10bac30284d1d2abdf0075fc43",
+      "gzipBytes": 285,
+      "gzipSha256": "7312df0d76ccbdd28dd891fe834453c9d6cd202619b09c5ebd1912cc914efde6"
+    },
+    {
+      "source": "public/gloas-build-v1.log",
+      "file": "files/public/gloas-build-v1.log.gz",
+      "bytes": 235,
+      "sha256": "18788cc0b0cf3775974ed482e8223683642a98d1dc199647c0ad59f895606419",
+      "gzipBytes": 194,
+      "gzipSha256": "ee0b3e4d38e5e570f585392c74ad9af7a6ec8f767e03d731d400130bb3123c9b"
+    },
+    {
+      "source": "public/gloas-spec-reference-transport.json",
+      "file": "files/public/gloas-spec-reference-transport.json.gz",
+      "bytes": 470,
+      "sha256": "43ee050eb98cb36004fa5a18d7623248ae57f1aa1cd4d440926aec7db57ce75b",
+      "gzipBytes": 333,
+      "gzipSha256": "0e8d30921aa72848435ca12187c47e2ba45ca08cad061a1c46b5551da885c1ea"
+    },
+    {
+      "source": "public/inspection-policy.json",
+      "file": "files/public/inspection-policy.json.gz",
+      "bytes": 542,
+      "sha256": "7d49df80c52f32a7133f0f70da3d07435544a614517b139233e7f5e8b89a3671",
+      "gzipBytes": 362,
+      "gzipSha256": "aa8d0b82ac2b1e6cbe904b9a2f55804abf5bcfd794022e68d2e10decb5bfe8c6"
+    },
+    {
+      "source": "public/lightclient-finality-transport.json",
+      "file": "files/public/lightclient-finality-transport.json.gz",
+      "bytes": 491,
+      "sha256": "07088022b2269781a3561a1be2c4491fa405e51fc0607d5cc4b4db56ca7a6c6f",
+      "gzipBytes": 341,
+      "gzipSha256": "f34d4f89485147bb35bd5f415024777af38b60e81d2f2427f26084bcc60dba08"
+    },
+    {
+      "source": "public/lodestar-attested-bootstrap-transport.json",
+      "file": "files/public/lodestar-attested-bootstrap-transport.json.gz",
+      "bytes": 611,
+      "sha256": "9515e81e128f2e1a4dde656befe19a5a7b901ab42ee66473a0fa57b23337f474",
+      "gzipBytes": 402,
+      "gzipSha256": "8903f33c6e9f6f2bcca90fbbbfba369f2a3c913e031e1a1aa715853f6a8b3e64"
+    },
+    {
+      "source": "public/lodestar-bootstrap-transport.json",
+      "file": "files/public/lodestar-bootstrap-transport.json.gz",
+      "bytes": 770,
+      "sha256": "7c1624be6d82d1774e89fb0eb1ae97f515a42d273a383e09b34325613e976ff0",
+      "gzipBytes": 428,
+      "gzipSha256": "cdced69635f26d466fa4494cf4a0d6b4d5181bfd33789195f65e8f4af2201df2"
+    },
+    {
+      "source": "public/lodestar-finality-transport.json",
+      "file": "files/public/lodestar-finality-transport.json.gz",
+      "bytes": 606,
+      "sha256": "055fb90e45ac1d9af775717aa73086a59ca5a06d003b90eeb9934343ff119ac5",
+      "gzipBytes": 376,
+      "gzipSha256": "d2d524a82bbc60d3cbe96bb040fbd5ed7d2360ce18e03c2f42f281a7d192ebc9"
+    },
+    {
+      "source": "public/lodestar-genesis-transport.json",
+      "file": "files/public/lodestar-genesis-transport.json.gz",
+      "bytes": 566,
+      "sha256": "9d8752949a1965fdbae14b7319b89bfde4298d7d29140b91519145479d8af9d6",
+      "gzipBytes": 360,
+      "gzipSha256": "589e62e489d9709e18bef345fbfa7da81f82c980ed911f36efb868f7b3139160"
+    },
+    {
+      "source": "public/lodestar-previous-update-transport.json",
+      "file": "files/public/lodestar-previous-update-transport.json.gz",
+      "bytes": 662,
+      "sha256": "599f03864fe5349464487c006e638f7012d57ff23e388b5d123a26f4affa345a",
+      "gzipBytes": 416,
+      "gzipSha256": "547465d606be88229f526d98b0f11322b93c241398a6fde487861f4c250b6bf8"
+    },
+    {
+      "source": "public/mixed-certificate-native.json",
+      "file": "files/public/mixed-certificate-native.json.gz",
+      "bytes": 1813,
+      "sha256": "3dc7a71c1b7875218d21a8157cd5002ae7bbba559edf3750b729e90a379b5452",
+      "gzipBytes": 903,
+      "gzipSha256": "970ed2d8fced960c8052fca79923c6d25ce5a31e8a0da45c240ab2139e683a86"
+    },
+    {
+      "source": "public/mixed-certificate-native.json.intent.json",
+      "file": "files/public/mixed-certificate-native.json.intent.json.gz",
+      "bytes": 471,
+      "sha256": "55a9358a9ef8ed59903e569f932d06aa462e0cdb5fb0c84df9a5a5ba538e4578",
+      "gzipBytes": 346,
+      "gzipSha256": "926c75cf620f9bfcd41c4c4cea74b869fd1f8818212d4763e952ceaf23427eec"
+    },
+    {
+      "source": "public/mixed-certificate-native.json.native.log",
+      "file": "files/public/mixed-certificate-native.json.native.log.gz",
+      "bytes": 1672,
+      "sha256": "32926f3ec6d5c7506608565606dc0fcc6e7f7a83b6ffe5aa1df8ed5fc30e9cd3",
+      "gzipBytes": 891,
+      "gzipSha256": "bad32970cf396e968d6c1985f35eae577920bfee56d60f31eebc8eeedb955cc6"
+    },
+    {
+      "source": "public/mixed-certificate-native.json.receipt.json",
+      "file": "files/public/mixed-certificate-native.json.receipt.json.gz",
+      "bytes": 562,
+      "sha256": "debd7339722ea160685629c8909a437254d5d9f48e1ff3fb04ab1ae538dfef7c",
+      "gzipBytes": 388,
+      "gzipSha256": "f8205dde13a1778cd6bb500a0dd74249a97d6669bb0be0864957e3639e27cf4b"
+    },
+    {
+      "source": "public/mixed-inclusion-native.json",
+      "file": "files/public/mixed-inclusion-native.json.gz",
+      "bytes": 2266,
+      "sha256": "290c389033ebd0ab725eeec9b4df24952c62e610765e88158707078fd339e899",
+      "gzipBytes": 1038,
+      "gzipSha256": "deba28e757e21b457a749d2cf2a9d0242bee5b596d31e43b8bf1e6f6e8e16575"
+    },
+    {
+      "source": "public/mixed-inclusion-native.json.intent.json",
+      "file": "files/public/mixed-inclusion-native.json.intent.json.gz",
+      "bytes": 275,
+      "sha256": "bfa4a099999214154397a083ddf7760ae3e497d6d4b8149a3483162487659e18",
+      "gzipBytes": 225,
+      "gzipSha256": "bde534f57b805c06278256b5fa3928fc161a27ebc1eccdaa43eacc14f48b85ce"
+    },
+    {
+      "source": "public/mixed-inclusion-native.json.native.log",
+      "file": "files/public/mixed-inclusion-native.json.native.log.gz",
+      "bytes": 2008,
+      "sha256": "454d171d19a728667cc89295e3f2fc3a445d6cda2b805ffa08068f33166d9ef6",
+      "gzipBytes": 1005,
+      "gzipSha256": "03fcd80ed645ced68842c53687b64c63f93d296122a0ebe0e244a4ca081683bc"
+    },
+    {
+      "source": "public/mixed-inclusion-native.json.receipt.json",
+      "file": "files/public/mixed-inclusion-native.json.receipt.json.gz",
+      "bytes": 392,
+      "sha256": "8499017f637cea9ed9400916bdfcb446970b2f97617a71cd26ebd75f1f784d70",
+      "gzipBytes": 283,
+      "gzipSha256": "93a62500bc4c02b9fefea7992197661574406b0be60f0e26a3620cfedc4f063e"
+    },
+    {
+      "source": "public/negative-certificates-v1/changed-aggregate-key/bootstrap.json",
+      "file": "files/public/negative-certificates-v1/changed-aggregate-key/bootstrap.json.gz",
+      "bytes": 58815,
+      "sha256": "16f743c051d5bb34d27806fd46e3695b6b656b3eb2f72ec821e3560a833ca395",
+      "gzipBytes": 27688,
+      "gzipSha256": "a1ad444413125c0c8e85095af4654f4da6e5f3d793e8dc2a7a869c8d350c7526"
+    },
+    {
+      "source": "public/negative-certificates-v1/changed-aggregate-key/console.log",
+      "file": "files/public/negative-certificates-v1/changed-aggregate-key/console.log.gz",
+      "bytes": 693,
+      "sha256": "657b14a7acb485103ae69f3922f2b1752aabe4309258cbfeb90da73c7d308997",
+      "gzipBytes": 437,
+      "gzipSha256": "3e78f1fa881a52ab64f383b7a8c2258d7b528314a40cb94e66fcafe59dde84a9"
+    },
+    {
+      "source": "public/negative-certificates-v1/changed-aggregate-key/policy.json",
+      "file": "files/public/negative-certificates-v1/changed-aggregate-key/policy.json.gz",
+      "bytes": 542,
+      "sha256": "480a3a0b59c4223f3f6c9a704b57fba342360876e148b0c998528ad1d1626894",
+      "gzipBytes": 364,
+      "gzipSha256": "aa8f89beee10c4fe8db1843affc9a86fadce7aca06a0f801e40dec5d7512c6e3"
+    },
+    {
+      "source": "public/negative-certificates-v1/changed-aggregate-key/report.json",
+      "file": "files/public/negative-certificates-v1/changed-aggregate-key/report.json.gz",
+      "bytes": 729,
+      "sha256": "c46f28f176527639263c3b433525d94e25fad5937bfa97814e6a28140a602836",
+      "gzipBytes": 435,
+      "gzipSha256": "e800837cadfd8cb84b9b66f37a27cab8d2e64522f77c43732b7c585cef31c30f"
+    },
+    {
+      "source": "public/negative-certificates-v1/changed-aggregate-key/update.json",
+      "file": "files/public/negative-certificates-v1/changed-aggregate-key/update.json.gz",
+      "bytes": 3993,
+      "sha256": "23b1ce0d36c93e91b4056028b83b2ce78a0bcfefb2e87570dde1a209a7059764",
+      "gzipBytes": 1575,
+      "gzipSha256": "043a1be71b52b93263e6cc2b0ea5ad8647bb347ac43ede0bbcb70755a3b4b1b1"
+    },
+    {
+      "source": "public/negative-certificates-v1/changed-committee-member/bootstrap.json",
+      "file": "files/public/negative-certificates-v1/changed-committee-member/bootstrap.json.gz",
+      "bytes": 58815,
+      "sha256": "0abd3b1c5eabc817c5f78a4d1027a0d1d5b95037a50e815e352dded5e073b201",
+      "gzipBytes": 27683,
+      "gzipSha256": "eff125a3b6843d7af004718aee7a4efbbc4cf3c84bc4eee0314d1cba1e7ddff4"
+    },
+    {
+      "source": "public/negative-certificates-v1/changed-committee-member/console.log",
+      "file": "files/public/negative-certificates-v1/changed-committee-member/console.log.gz",
+      "bytes": 693,
+      "sha256": "b5b8c4189ffdf5f57b1e04e65c39ebe686e6397314c731d12403d4a00a0e6bd7",
+      "gzipBytes": 436,
+      "gzipSha256": "797361e62833f6cd4060a7700d9523f067ed17f778d8b4431fa414597a29aef4"
+    },
+    {
+      "source": "public/negative-certificates-v1/changed-committee-member/policy.json",
+      "file": "files/public/negative-certificates-v1/changed-committee-member/policy.json.gz",
+      "bytes": 542,
+      "sha256": "bff93d00494d0d8190998d2d75ff64e1a882904874f0d5dbb86e42cb82223751",
+      "gzipBytes": 361,
+      "gzipSha256": "d30c234b850978c376c4a0f5b8ad8f309e1746c1ccb8dcb0ceb708bfc825ee58"
+    },
+    {
+      "source": "public/negative-certificates-v1/changed-committee-member/report.json",
+      "file": "files/public/negative-certificates-v1/changed-committee-member/report.json.gz",
+      "bytes": 729,
+      "sha256": "7c820c14bd54251a76206024cc95877b590b32bcea201e99c3ed8c2b4a27600d",
+      "gzipBytes": 437,
+      "gzipSha256": "ac468dc7e77dcf8bbb4af52598b2bcc3588b65266deb7fcf5765cf1648d98445"
+    },
+    {
+      "source": "public/negative-certificates-v1/changed-committee-member/update.json",
+      "file": "files/public/negative-certificates-v1/changed-committee-member/update.json.gz",
+      "bytes": 3993,
+      "sha256": "23b1ce0d36c93e91b4056028b83b2ce78a0bcfefb2e87570dde1a209a7059764",
+      "gzipBytes": 1575,
+      "gzipSha256": "043a1be71b52b93263e6cc2b0ea5ad8647bb347ac43ede0bbcb70755a3b4b1b1"
+    },
+    {
+      "source": "public/negative-certificates-v1/changed-execution-hash/bootstrap.json",
+      "file": "files/public/negative-certificates-v1/changed-execution-hash/bootstrap.json.gz",
+      "bytes": 58815,
+      "sha256": "a128b594844bdaaf120bdae742ecb0328deaffbd15dcd70d2e62cbec32fc0f04",
+      "gzipBytes": 27740,
+      "gzipSha256": "80410c97d14904a405f195c13ab8dd3ef90591399fef1860dd6548938d448c67"
+    },
+    {
+      "source": "public/negative-certificates-v1/changed-execution-hash/console.log",
+      "file": "files/public/negative-certificates-v1/changed-execution-hash/console.log.gz",
+      "bytes": 693,
+      "sha256": "005288fd3319a23d673ffedefb7672f7698215b794f90ac7d61f61c345370239",
+      "gzipBytes": 433,
+      "gzipSha256": "ccff28e242643b182a448d570aea41a0459737efd0d221dc165556365ca6c250"
+    },
+    {
+      "source": "public/negative-certificates-v1/changed-execution-hash/policy.json",
+      "file": "files/public/negative-certificates-v1/changed-execution-hash/policy.json.gz",
+      "bytes": 542,
+      "sha256": "4abb780bc8ace97c54d0cdbae6d81f5a0e809b643a0369f5ca9432d5dca4ecf4",
+      "gzipBytes": 361,
+      "gzipSha256": "b53d0fed8957814442e1f9448362adc710e822a10d350e9d75b127ff28c9d563"
+    },
+    {
+      "source": "public/negative-certificates-v1/changed-execution-hash/report.json",
+      "file": "files/public/negative-certificates-v1/changed-execution-hash/report.json.gz",
+      "bytes": 729,
+      "sha256": "ddb611786dbb5db6c0fea13d8c0e90145b7d905dda46a99a0bf6512b23619e89",
+      "gzipBytes": 433,
+      "gzipSha256": "93e8a966b0e2e13ac3eedcb35f69579bdfe0dab6ce6395a396d9a47a90961a10"
+    },
+    {
+      "source": "public/negative-certificates-v1/changed-execution-hash/update.json",
+      "file": "files/public/negative-certificates-v1/changed-execution-hash/update.json.gz",
+      "bytes": 3993,
+      "sha256": "e41d991d85b73aaa5e3a1ab3d6d0d95d28e5751c6f7edc1f060cf63687aead1f",
+      "gzipBytes": 1541,
+      "gzipSha256": "16a8c1c2b72fc117e3aab583a9802961cb902776c4cbffdf5ff7bcdedb078a2a"
+    },
+    {
+      "source": "public/negative-certificates-v1/changed-finality-branch/bootstrap.json",
+      "file": "files/public/negative-certificates-v1/changed-finality-branch/bootstrap.json.gz",
+      "bytes": 58815,
+      "sha256": "a128b594844bdaaf120bdae742ecb0328deaffbd15dcd70d2e62cbec32fc0f04",
+      "gzipBytes": 27740,
+      "gzipSha256": "80410c97d14904a405f195c13ab8dd3ef90591399fef1860dd6548938d448c67"
+    },
+    {
+      "source": "public/negative-certificates-v1/changed-finality-branch/console.log",
+      "file": "files/public/negative-certificates-v1/changed-finality-branch/console.log.gz",
+      "bytes": 693,
+      "sha256": "13b6bff7be09249a61e078dfe36825c094f14b14f964ccf067527da72b2df45f",
+      "gzipBytes": 434,
+      "gzipSha256": "fb0b7762d9ad6c0f05d371ccbfc06c650083eb1189f5b1a5ced5626b2b2a57d9"
+    },
+    {
+      "source": "public/negative-certificates-v1/changed-finality-branch/policy.json",
+      "file": "files/public/negative-certificates-v1/changed-finality-branch/policy.json.gz",
+      "bytes": 542,
+      "sha256": "df5a67cc08d72b4e3a80da724cfa3c84f18531c63fe39523e8156fa223d7d0c3",
+      "gzipBytes": 361,
+      "gzipSha256": "f09055d2fd62dbc228bb6c687c1d4c263650cb74bc48d8e36410c2567daad461"
+    },
+    {
+      "source": "public/negative-certificates-v1/changed-finality-branch/report.json",
+      "file": "files/public/negative-certificates-v1/changed-finality-branch/report.json.gz",
+      "bytes": 729,
+      "sha256": "48d7fefca49299ed5581523df198060f929b0c2d599ff010412ce571cff1d3c6",
+      "gzipBytes": 433,
+      "gzipSha256": "7012f4f135381030ebcfca5445a4c10f69c2be9211a9e7ca1c87c55a16f42de5"
+    },
+    {
+      "source": "public/negative-certificates-v1/changed-finality-branch/update.json",
+      "file": "files/public/negative-certificates-v1/changed-finality-branch/update.json.gz",
+      "bytes": 3993,
+      "sha256": "9f9b6302605b3d0ed5dd7da201e5ca5be466866eb2b765d5a69bcf5badbcd96b",
+      "gzipBytes": 1570,
+      "gzipSha256": "65bf884959e8fc9ccc8af907191d30cd74d832ccbd38d4cc399100ad2840fa06"
+    },
+    {
+      "source": "public/negative-certificates-v1/changed-finalized-root/bootstrap.json",
+      "file": "files/public/negative-certificates-v1/changed-finalized-root/bootstrap.json.gz",
+      "bytes": 58815,
+      "sha256": "a128b594844bdaaf120bdae742ecb0328deaffbd15dcd70d2e62cbec32fc0f04",
+      "gzipBytes": 27740,
+      "gzipSha256": "80410c97d14904a405f195c13ab8dd3ef90591399fef1860dd6548938d448c67"
+    },
+    {
+      "source": "public/negative-certificates-v1/changed-finalized-root/console.log",
+      "file": "files/public/negative-certificates-v1/changed-finalized-root/console.log.gz",
+      "bytes": 693,
+      "sha256": "cdefa94d8e3c26a39d7faf67822666461682e4838f99313b0cd0c881bd876a73",
+      "gzipBytes": 434,
+      "gzipSha256": "dca6a6f76e67ba16eadd543053b6299751614811aef611c8ab977cb095e309dc"
+    },
+    {
+      "source": "public/negative-certificates-v1/changed-finalized-root/policy.json",
+      "file": "files/public/negative-certificates-v1/changed-finalized-root/policy.json.gz",
+      "bytes": 542,
+      "sha256": "d8930553a50dd2e18ccbe1fea6136d20eb4d0d12f6373a04f692d84137304726",
+      "gzipBytes": 361,
+      "gzipSha256": "7da7ecf6af80745daae4bdd130eba63565bbaa428616487349da70ea3dacec27"
+    },
+    {
+      "source": "public/negative-certificates-v1/changed-finalized-root/report.json",
+      "file": "files/public/negative-certificates-v1/changed-finalized-root/report.json.gz",
+      "bytes": 729,
+      "sha256": "04b9bbb436b7fd172acccac62154e98e081f70037fcda5a4479f1f4f9fa1a033",
+      "gzipBytes": 433,
+      "gzipSha256": "f39f31f380e908850a705a62dd96becad96db343f90d8c264f0aaa8842eff9f3"
+    },
+    {
+      "source": "public/negative-certificates-v1/changed-finalized-root/update.json",
+      "file": "files/public/negative-certificates-v1/changed-finalized-root/update.json.gz",
+      "bytes": 3991,
+      "sha256": "913a2c2408adb4328562d625a63f0917c5ecf66fc5064ccd583ce3e79aee31fa",
+      "gzipBytes": 1574,
+      "gzipSha256": "cd739d2804879da64634275238fe972d5d221bef451cceef3e2b305cd7b1efa8"
+    },
+    {
+      "source": "public/negative-certificates-v1/changed-participant-set/bootstrap.json",
+      "file": "files/public/negative-certificates-v1/changed-participant-set/bootstrap.json.gz",
+      "bytes": 58815,
+      "sha256": "a128b594844bdaaf120bdae742ecb0328deaffbd15dcd70d2e62cbec32fc0f04",
+      "gzipBytes": 27740,
+      "gzipSha256": "80410c97d14904a405f195c13ab8dd3ef90591399fef1860dd6548938d448c67"
+    },
+    {
+      "source": "public/negative-certificates-v1/changed-participant-set/console.log",
+      "file": "files/public/negative-certificates-v1/changed-participant-set/console.log.gz",
+      "bytes": 709,
+      "sha256": "d2904ea1c2e35de5c667c03ef644afb958209bf076b71e99fc77d9f033248b02",
+      "gzipBytes": 438,
+      "gzipSha256": "d95d412f405171517f37ffa036fa911482dcb2f90d795d6c62311624b5d32a95"
+    },
+    {
+      "source": "public/negative-certificates-v1/changed-participant-set/policy.json",
+      "file": "files/public/negative-certificates-v1/changed-participant-set/policy.json.gz",
+      "bytes": 542,
+      "sha256": "02b5d0a37649bbdc9b07000c74db6e0bd9a963dc0a7cd355d07c6db5bff2bb5d",
+      "gzipBytes": 362,
+      "gzipSha256": "19a6aeea34f43f85fcf6e49b424282bbc63f1b3c55c4ff23a7dca92a17ab8537"
+    },
+    {
+      "source": "public/negative-certificates-v1/changed-participant-set/report.json",
+      "file": "files/public/negative-certificates-v1/changed-participant-set/report.json.gz",
+      "bytes": 737,
+      "sha256": "93a910378610c06273eed315acfae6ce1fad90dcc98198f9a2ebc7e86dea5cac",
+      "gzipBytes": 438,
+      "gzipSha256": "b30808ff1ea6448fad472216fbfcd25ae67a1d960fcefe5948ccc5fabb6062c7"
+    },
+    {
+      "source": "public/negative-certificates-v1/changed-participant-set/update.json",
+      "file": "files/public/negative-certificates-v1/changed-participant-set/update.json.gz",
+      "bytes": 3993,
+      "sha256": "968528645e02527ca422b7e034903d801b0c875017546801f83502ce21c3a62d",
+      "gzipBytes": 1576,
+      "gzipSha256": "64744bcc39cd1b444f5a2648e1798410feb63518b08b81d81bb89764f325cbb4"
+    },
+    {
+      "source": "public/negative-certificates-v1/claimed-broadcast/bootstrap.json",
+      "file": "files/public/negative-certificates-v1/claimed-broadcast/bootstrap.json.gz",
+      "bytes": 58815,
+      "sha256": "a128b594844bdaaf120bdae742ecb0328deaffbd15dcd70d2e62cbec32fc0f04",
+      "gzipBytes": 27740,
+      "gzipSha256": "80410c97d14904a405f195c13ab8dd3ef90591399fef1860dd6548938d448c67"
+    },
+    {
+      "source": "public/negative-certificates-v1/claimed-broadcast/console.log",
+      "file": "files/public/negative-certificates-v1/claimed-broadcast/console.log.gz",
+      "bytes": 759,
+      "sha256": "ec9a61f02e8932496e27504a21b7d820c806f911ad6469bb756e19d77f572120",
+      "gzipBytes": 448,
+      "gzipSha256": "ed5dcea3a82f94dbd1bc742ed4a9a790be703b35e8e5192f72164ca77283f9b2"
+    },
+    {
+      "source": "public/negative-certificates-v1/claimed-broadcast/policy.json",
+      "file": "files/public/negative-certificates-v1/claimed-broadcast/policy.json.gz",
+      "bytes": 541,
+      "sha256": "04ae9f3244b8b60cb20e6f67d4b4c502cca8da757a15fdceb97adb554bc429b2",
+      "gzipBytes": 365,
+      "gzipSha256": "930b74ed2c34bf0d88a0255cdc39e1e2b16ba4d95579cc79aef32b1c04a387a4"
+    },
+    {
+      "source": "public/negative-certificates-v1/claimed-broadcast/report.json",
+      "file": "files/public/negative-certificates-v1/claimed-broadcast/report.json.gz",
+      "bytes": 762,
+      "sha256": "b940740fd9683c998be17fd121fd4122d282adb62805a79268c1683030bff2b6",
+      "gzipBytes": 448,
+      "gzipSha256": "c3bed21055469d7678d9c27b39591fff62bfccc4e006ddb88f69d5b8add62625"
+    },
+    {
+      "source": "public/negative-certificates-v1/claimed-broadcast/update.json",
+      "file": "files/public/negative-certificates-v1/claimed-broadcast/update.json.gz",
+      "bytes": 3993,
+      "sha256": "23b1ce0d36c93e91b4056028b83b2ce78a0bcfefb2e87570dde1a209a7059764",
+      "gzipBytes": 1575,
+      "gzipSha256": "043a1be71b52b93263e6cc2b0ea5ad8647bb347ac43ede0bbcb70755a3b4b1b1"
+    },
+    {
+      "source": "public/negative-certificates-v1/claimed-independent-review/bootstrap.json",
+      "file": "files/public/negative-certificates-v1/claimed-independent-review/bootstrap.json.gz",
+      "bytes": 58815,
+      "sha256": "a128b594844bdaaf120bdae742ecb0328deaffbd15dcd70d2e62cbec32fc0f04",
+      "gzipBytes": 27740,
+      "gzipSha256": "80410c97d14904a405f195c13ab8dd3ef90591399fef1860dd6548938d448c67"
+    },
+    {
+      "source": "public/negative-certificates-v1/claimed-independent-review/console.log",
+      "file": "files/public/negative-certificates-v1/claimed-independent-review/console.log.gz",
+      "bytes": 759,
+      "sha256": "e1c4e1e0d9805c3328c10d0f1d8f223c4006b436537272261bb007593fa264ed",
+      "gzipBytes": 449,
+      "gzipSha256": "c39cd7156881bf1a6b8503d96ec6141f38b2cc470368194de453022e944b8748"
+    },
+    {
+      "source": "public/negative-certificates-v1/claimed-independent-review/policy.json",
+      "file": "files/public/negative-certificates-v1/claimed-independent-review/policy.json.gz",
+      "bytes": 541,
+      "sha256": "0d66839efc90c582188d73d13fb591a30d3ba3d3d72329b5ff40af4bb35b2534",
+      "gzipBytes": 365,
+      "gzipSha256": "4f980e2ca20e260b264feb63a52d756f87171fec75879cb19ceba301fa67cc0c"
+    },
+    {
+      "source": "public/negative-certificates-v1/claimed-independent-review/report.json",
+      "file": "files/public/negative-certificates-v1/claimed-independent-review/report.json.gz",
+      "bytes": 762,
+      "sha256": "965001f193d41bef469648d39d92f0190ee81388d739c1b50cf7847cdd0f4b79",
+      "gzipBytes": 449,
+      "gzipSha256": "82561b540a1990a45ff7970acc1d9f1fd03a48eaaa9fe8574f00cf24212ff507"
+    },
+    {
+      "source": "public/negative-certificates-v1/claimed-independent-review/update.json",
+      "file": "files/public/negative-certificates-v1/claimed-independent-review/update.json.gz",
+      "bytes": 3993,
+      "sha256": "23b1ce0d36c93e91b4056028b83b2ce78a0bcfefb2e87570dde1a209a7059764",
+      "gzipBytes": 1575,
+      "gzipSha256": "043a1be71b52b93263e6cc2b0ea5ad8647bb347ac43ede0bbcb70755a3b4b1b1"
+    },
+    {
+      "source": "public/negative-certificates-v1/extra-approval-report/bootstrap.json",
+      "file": "files/public/negative-certificates-v1/extra-approval-report/bootstrap.json.gz",
+      "bytes": 58815,
+      "sha256": "a128b594844bdaaf120bdae742ecb0328deaffbd15dcd70d2e62cbec32fc0f04",
+      "gzipBytes": 27740,
+      "gzipSha256": "80410c97d14904a405f195c13ab8dd3ef90591399fef1860dd6548938d448c67"
+    },
+    {
+      "source": "public/negative-certificates-v1/extra-approval-report/console.log",
+      "file": "files/public/negative-certificates-v1/extra-approval-report/console.log.gz",
+      "bytes": 793,
+      "sha256": "bd0ba550c2d5a83a268304c332d9a853a3a57bbb6b7f7853d5f05e69668b1992",
+      "gzipBytes": 468,
+      "gzipSha256": "32307e77b516437ce01ac1982f1c4346c4b386473f4372452e43de785ffe5b5c"
+    },
+    {
+      "source": "public/negative-certificates-v1/extra-approval-report/policy.json",
+      "file": "files/public/negative-certificates-v1/extra-approval-report/policy.json.gz",
+      "bytes": 542,
+      "sha256": "7c01869a5a7b920c585fa0cee7459238a5df9060b640d55172c671d1fb9df2b6",
+      "gzipBytes": 363,
+      "gzipSha256": "1e14df99ea19ef30231123637ca0907896d4162a636c5157d83bd5df9bd07e93"
+    },
+    {
+      "source": "public/negative-certificates-v1/extra-approval-report/report.json",
+      "file": "files/public/negative-certificates-v1/extra-approval-report/report.json.gz",
+      "bytes": 779,
+      "sha256": "6a9773ab5588723ea4357bd9949178de530c9fb8b5009fa5498a12cb277eec76",
+      "gzipBytes": 466,
+      "gzipSha256": "bc81127baaa398e3b824af0d4972206aaa941ad63248c1a569fb2fd515e0306b"
+    },
+    {
+      "source": "public/negative-certificates-v1/extra-approval-report/update.json",
+      "file": "files/public/negative-certificates-v1/extra-approval-report/update.json.gz",
+      "bytes": 4013,
+      "sha256": "5ad1eb8dad4c767941a43c530117494ddd917f1e682f4fe4a398d6240889144a",
+      "gzipBytes": 1586,
+      "gzipSha256": "9cfb98e9c54898d40cd14ce679d9da7ee93760c65f278d586101d359492add77"
+    },
+    {
+      "source": "public/negative-certificates-v1/insufficient-participants/bootstrap.json",
+      "file": "files/public/negative-certificates-v1/insufficient-participants/bootstrap.json.gz",
+      "bytes": 58815,
+      "sha256": "a128b594844bdaaf120bdae742ecb0328deaffbd15dcd70d2e62cbec32fc0f04",
+      "gzipBytes": 27740,
+      "gzipSha256": "80410c97d14904a405f195c13ab8dd3ef90591399fef1860dd6548938d448c67"
+    },
+    {
+      "source": "public/negative-certificates-v1/insufficient-participants/console.log",
+      "file": "files/public/negative-certificates-v1/insufficient-participants/console.log.gz",
+      "bytes": 717,
+      "sha256": "f0d66ebcfcd2b8cb5ab9de2f6af6c4878a0ccb8ead44811040328719189a719b",
+      "gzipBytes": 443,
+      "gzipSha256": "2f5529272e6ac59da72b2bb834913a62c4c50ced53e23a4c2bcc6dd109f253fd"
+    },
+    {
+      "source": "public/negative-certificates-v1/insufficient-participants/policy.json",
+      "file": "files/public/negative-certificates-v1/insufficient-participants/policy.json.gz",
+      "bytes": 542,
+      "sha256": "260b404b10867c3c98be057fae90558ff8eeafb05e64f7f1f00208eca44f54d9",
+      "gzipBytes": 361,
+      "gzipSha256": "165f14a78ad75ba1a0efceab638f72e7a75f9236cb605b55894369a6350c4e4b"
+    },
+    {
+      "source": "public/negative-certificates-v1/insufficient-participants/report.json",
+      "file": "files/public/negative-certificates-v1/insufficient-participants/report.json.gz",
+      "bytes": 741,
+      "sha256": "8654a7c4c0973e1b28f9bc9cb270afcc1c1b8b9869f628df0706d9b3e3feff94",
+      "gzipBytes": 442,
+      "gzipSha256": "8af54ee1ec012d832e2284b96c3ed6a7c15ce0a800ed500e4250dc440ddbdb79"
+    },
+    {
+      "source": "public/negative-certificates-v1/insufficient-participants/update.json",
+      "file": "files/public/negative-certificates-v1/insufficient-participants/update.json.gz",
+      "bytes": 3993,
+      "sha256": "a12523d2499e98d78d3782c18c1927662850effdf9656564480f8d6bad69fe50",
+      "gzipBytes": 1576,
+      "gzipSha256": "a2758268aa8edcfc1b4e95d7f2f0b17023888bcc783443f88b5104415d149224"
+    },
+    {
+      "source": "public/negative-certificates-v1/missing-committee-branch/bootstrap.json",
+      "file": "files/public/negative-certificates-v1/missing-committee-branch/bootstrap.json.gz",
+      "bytes": 58739,
+      "sha256": "00c88cd163aba63ec73d140db7de3bee727ea1d545bcfa95f5eb06d68a3432cd",
+      "gzipBytes": 27731,
+      "gzipSha256": "9bc56e843256bcc3a7edfc111907c9825bf7c8f709050cf14d18318a28bfc695"
+    },
+    {
+      "source": "public/negative-certificates-v1/missing-committee-branch/console.log",
+      "file": "files/public/negative-certificates-v1/missing-committee-branch/console.log.gz",
+      "bytes": 733,
+      "sha256": "4bba58203b425337dad8a5a2ccb9ae47d901ccade12b32805a1879fd85724954",
+      "gzipBytes": 448,
+      "gzipSha256": "4916d62ebe47793955a1bcfbd66dfae558a29fa9ba2f54bf3730b0f5796d2566"
+    },
+    {
+      "source": "public/negative-certificates-v1/missing-committee-branch/policy.json",
+      "file": "files/public/negative-certificates-v1/missing-committee-branch/policy.json.gz",
+      "bytes": 542,
+      "sha256": "26a83615b3efb691d427e9f5c541ff43ba0d6a27d74712a56259d95c29d9ebbf",
+      "gzipBytes": 362,
+      "gzipSha256": "9660cabae63a15247a3f183f0f87883788ed83dd578be725588c30719a0eedee"
+    },
+    {
+      "source": "public/negative-certificates-v1/missing-committee-branch/report.json",
+      "file": "files/public/negative-certificates-v1/missing-committee-branch/report.json.gz",
+      "bytes": 749,
+      "sha256": "ec29137ba3a3329c756638bfd5512691e89ee973d3a3c61b47b06e87b4e3db15",
+      "gzipBytes": 447,
+      "gzipSha256": "d191b0b801f17e4198bed6a0007f849c7d689e344b05e811aa44f7fa2cbc9dfc"
+    },
+    {
+      "source": "public/negative-certificates-v1/missing-committee-branch/update.json",
+      "file": "files/public/negative-certificates-v1/missing-committee-branch/update.json.gz",
+      "bytes": 3993,
+      "sha256": "23b1ce0d36c93e91b4056028b83b2ce78a0bcfefb2e87570dde1a209a7059764",
+      "gzipBytes": 1575,
+      "gzipSha256": "043a1be71b52b93263e6cc2b0ea5ad8647bb347ac43ede0bbcb70755a3b4b1b1"
+    },
+    {
+      "source": "public/negative-certificates-v1/missing-committee-member/bootstrap.json",
+      "file": "files/public/negative-certificates-v1/missing-committee-member/bootstrap.json.gz",
+      "bytes": 58705,
+      "sha256": "3d23a8cc3f38ab39c9897f11f942f1c93ef19579c3bc732bf206001db35ed279",
+      "gzipBytes": 27685,
+      "gzipSha256": "8c11a8363b2dff99f5c65ba10f7d8641a7d84176c5e9b29e58de7285131a1ccd"
+    },
+    {
+      "source": "public/negative-certificates-v1/missing-committee-member/console.log",
+      "file": "files/public/negative-certificates-v1/missing-committee-member/console.log.gz",
+      "bytes": 723,
+      "sha256": "7dba32bc4a8d99fb237e79380960e156aa202fc368ef050e65e10c079fb6e15e",
+      "gzipBytes": 446,
+      "gzipSha256": "6e8f805ce78662fc56f7a5a34c5b3cb1fd4a62553688edfa3a381fedd27ef76b"
+    },
+    {
+      "source": "public/negative-certificates-v1/missing-committee-member/policy.json",
+      "file": "files/public/negative-certificates-v1/missing-committee-member/policy.json.gz",
+      "bytes": 542,
+      "sha256": "89f1a442cac1ac52536e7ae4200dd33d7868624b54c81430de7c480767cf7183",
+      "gzipBytes": 363,
+      "gzipSha256": "4214b20204d57403d4933893c14f1d243cfd2a30cc2be91a8fce2c616d0c3559"
+    },
+    {
+      "source": "public/negative-certificates-v1/missing-committee-member/report.json",
+      "file": "files/public/negative-certificates-v1/missing-committee-member/report.json.gz",
+      "bytes": 744,
+      "sha256": "16802fae5b9d56a30cecbb2678c34649d78894344dc722532b1c279bc9ee9ea8",
+      "gzipBytes": 445,
+      "gzipSha256": "41eb852ed76dffc7b2cc87ea78160e6187cd05f81da4c00f7b2790c20b4ef6bf"
+    },
+    {
+      "source": "public/negative-certificates-v1/missing-committee-member/update.json",
+      "file": "files/public/negative-certificates-v1/missing-committee-member/update.json.gz",
+      "bytes": 3993,
+      "sha256": "23b1ce0d36c93e91b4056028b83b2ce78a0bcfefb2e87570dde1a209a7059764",
+      "gzipBytes": 1575,
+      "gzipSha256": "043a1be71b52b93263e6cc2b0ea5ad8647bb347ac43ede0bbcb70755a3b4b1b1"
+    },
+    {
+      "source": "public/negative-certificates-v1/missing-execution-branch/bootstrap.json",
+      "file": "files/public/negative-certificates-v1/missing-execution-branch/bootstrap.json.gz",
+      "bytes": 58815,
+      "sha256": "a128b594844bdaaf120bdae742ecb0328deaffbd15dcd70d2e62cbec32fc0f04",
+      "gzipBytes": 27740,
+      "gzipSha256": "80410c97d14904a405f195c13ab8dd3ef90591399fef1860dd6548938d448c67"
+    },
+    {
+      "source": "public/negative-certificates-v1/missing-execution-branch/console.log",
+      "file": "files/public/negative-certificates-v1/missing-execution-branch/console.log.gz",
+      "bytes": 733,
+      "sha256": "29fe33e2573c836002cbab3f98d6ce54b3b1d61f68dc6c08699f4b9834138a9b",
+      "gzipBytes": 447,
+      "gzipSha256": "719ca83ff51cfa286e57b8c31a3138d9d02792df2ec73b9c4aab296df6c6bf3a"
+    },
+    {
+      "source": "public/negative-certificates-v1/missing-execution-branch/policy.json",
+      "file": "files/public/negative-certificates-v1/missing-execution-branch/policy.json.gz",
+      "bytes": 542,
+      "sha256": "030f93457d3bde923bbbae94d810cca459d448c1f35cc6944e1e57dc0c0b01ba",
+      "gzipBytes": 363,
+      "gzipSha256": "261970ec30ef474d1fa6a03eb8aae68c571a7a5a42f5a791f35698e291b75da0"
+    },
+    {
+      "source": "public/negative-certificates-v1/missing-execution-branch/report.json",
+      "file": "files/public/negative-certificates-v1/missing-execution-branch/report.json.gz",
+      "bytes": 749,
+      "sha256": "58c50b79cfc5a8f6f45d28afdea51cf7ca6258ced789a1535d000a405c367cd6",
+      "gzipBytes": 446,
+      "gzipSha256": "64b1b3117458a74a4494d7972544527d5e4f43677207ee7ffb16323b4a032b8e"
+    },
+    {
+      "source": "public/negative-certificates-v1/missing-execution-branch/update.json",
+      "file": "files/public/negative-certificates-v1/missing-execution-branch/update.json.gz",
+      "bytes": 3915,
+      "sha256": "279bd9f9f387b3adf87a00086a118b001781d2e3f10230746a27d3d3fa5b3392",
+      "gzipBytes": 1574,
+      "gzipSha256": "0482e8b372e73800b6742d67fd442eadf3c28b944a698ef03d5ef5a74ba213e8"
+    },
+    {
+      "source": "public/negative-certificates-v1/missing-finality-branch/bootstrap.json",
+      "file": "files/public/negative-certificates-v1/missing-finality-branch/bootstrap.json.gz",
+      "bytes": 58815,
+      "sha256": "a128b594844bdaaf120bdae742ecb0328deaffbd15dcd70d2e62cbec32fc0f04",
+      "gzipBytes": 27740,
+      "gzipSha256": "80410c97d14904a405f195c13ab8dd3ef90591399fef1860dd6548938d448c67"
+    },
+    {
+      "source": "public/negative-certificates-v1/missing-finality-branch/console.log",
+      "file": "files/public/negative-certificates-v1/missing-finality-branch/console.log.gz",
+      "bytes": 733,
+      "sha256": "b5ed03fba52d75d9f10af8d3cd38a24f8eaf2ac8e55ce4cc231a27c8ffcee88b",
+      "gzipBytes": 448,
+      "gzipSha256": "d3d79df024e031ae253d90a276f3a62370e347ef4bdaabfe6c5e7b4f40d0b2de"
+    },
+    {
+      "source": "public/negative-certificates-v1/missing-finality-branch/policy.json",
+      "file": "files/public/negative-certificates-v1/missing-finality-branch/policy.json.gz",
+      "bytes": 542,
+      "sha256": "bec91caed78ff9c645e623c5f38670cf1b1262b5d3a899cc12b603d65cfeb962",
+      "gzipBytes": 361,
+      "gzipSha256": "03d54539f8738f837bfb32e8e06adfb4fb82bbf078c0c19e03620c3fc3b3c6e2"
+    },
+    {
+      "source": "public/negative-certificates-v1/missing-finality-branch/report.json",
+      "file": "files/public/negative-certificates-v1/missing-finality-branch/report.json.gz",
+      "bytes": 749,
+      "sha256": "a88d5eeaa71959138ec0fe3981e4c8cddb91376a55d3f134d1645602c775907c",
+      "gzipBytes": 447,
+      "gzipSha256": "680cb4849565014baf32093cbf392020f85a4e919499f39aeee8eff30df8f440"
+    },
+    {
+      "source": "public/negative-certificates-v1/missing-finality-branch/update.json",
+      "file": "files/public/negative-certificates-v1/missing-finality-branch/update.json.gz",
+      "bytes": 3917,
+      "sha256": "f2b1f21369b315d1d1191275b194daee640be3860d22ad0906966c8c5ece6ac4",
+      "gzipBytes": 1568,
+      "gzipSha256": "dc3cf4f3511500a007e74a133538f940eee8e36bd69794945b9c249a7f4f17b4"
+    },
+    {
+      "source": "public/negative-certificates-v1/signature-before-attestation/bootstrap.json",
+      "file": "files/public/negative-certificates-v1/signature-before-attestation/bootstrap.json.gz",
+      "bytes": 58815,
+      "sha256": "a128b594844bdaaf120bdae742ecb0328deaffbd15dcd70d2e62cbec32fc0f04",
+      "gzipBytes": 27740,
+      "gzipSha256": "80410c97d14904a405f195c13ab8dd3ef90591399fef1860dd6548938d448c67"
+    },
+    {
+      "source": "public/negative-certificates-v1/signature-before-attestation/console.log",
+      "file": "files/public/negative-certificates-v1/signature-before-attestation/console.log.gz",
+      "bytes": 713,
+      "sha256": "e131693b234f6adee7ccfbd9707bb57097c9466a3a50f42737309506908dc97f",
+      "gzipBytes": 436,
+      "gzipSha256": "f2018fa75acc7cd0845d190aa5c7e197f6deb0b4eb5e3d7d81a6bb5a62fe3efa"
+    },
+    {
+      "source": "public/negative-certificates-v1/signature-before-attestation/policy.json",
+      "file": "files/public/negative-certificates-v1/signature-before-attestation/policy.json.gz",
+      "bytes": 542,
+      "sha256": "4ea6c0d77bc29b4af9bcb85c12278339e32bc7dd96975e2d0499ca51d8ae6e72",
+      "gzipBytes": 363,
+      "gzipSha256": "04acab6c5934b736aba34b2e8c13ac4c4815196276440d57f3d6d5e9514585f5"
+    },
+    {
+      "source": "public/negative-certificates-v1/signature-before-attestation/report.json",
+      "file": "files/public/negative-certificates-v1/signature-before-attestation/report.json.gz",
+      "bytes": 739,
+      "sha256": "255b08fb5c522b9cc6fcbb071f35041384a3de4da69efd0dc1edca8ca7bbd77d",
+      "gzipBytes": 435,
+      "gzipSha256": "ebc49b68858c6553c289aaf3efde27354f1f35dda7aa360531692d963c832483"
+    },
+    {
+      "source": "public/negative-certificates-v1/signature-before-attestation/update.json",
+      "file": "files/public/negative-certificates-v1/signature-before-attestation/update.json.gz",
+      "bytes": 3993,
+      "sha256": "cad623c636eeec3f0e6b20d472ab7a329d940fefb62288c7613765d8f7206791",
+      "gzipBytes": 1573,
+      "gzipSha256": "ac18c1c71b7264f1f5185961a7dd7da9329b60c149bf7f076d4d9948b74c0308"
+    },
+    {
+      "source": "public/negative-certificates-v1/wrong-bootstrap-root/bootstrap.json",
+      "file": "files/public/negative-certificates-v1/wrong-bootstrap-root/bootstrap.json.gz",
+      "bytes": 58815,
+      "sha256": "a128b594844bdaaf120bdae742ecb0328deaffbd15dcd70d2e62cbec32fc0f04",
+      "gzipBytes": 27740,
+      "gzipSha256": "80410c97d14904a405f195c13ab8dd3ef90591399fef1860dd6548938d448c67"
+    },
+    {
+      "source": "public/negative-certificates-v1/wrong-bootstrap-root/console.log",
+      "file": "files/public/negative-certificates-v1/wrong-bootstrap-root/console.log.gz",
+      "bytes": 695,
+      "sha256": "1f65a102d7f1b0ebda3522a667097ca973bf7c083a69d6e2bcd0338c75bb119a",
+      "gzipBytes": 431,
+      "gzipSha256": "dcbf435ce982033bcd85d13f9d8fc0a636f9a33e67b73a3fb99325d7ae0e9ec3"
+    },
+    {
+      "source": "public/negative-certificates-v1/wrong-bootstrap-root/policy.json",
+      "file": "files/public/negative-certificates-v1/wrong-bootstrap-root/policy.json.gz",
+      "bytes": 542,
+      "sha256": "3e017c355feb796df7b34926a00e8b0778717703428afd1167c5b906e1216733",
+      "gzipBytes": 328,
+      "gzipSha256": "d000e3b9c4d0a964b52b52c8fedbd69ee749a55a8db6edda72e0af6a97756f17"
+    },
+    {
+      "source": "public/negative-certificates-v1/wrong-bootstrap-root/report.json",
+      "file": "files/public/negative-certificates-v1/wrong-bootstrap-root/report.json.gz",
+      "bytes": 730,
+      "sha256": "224561937c1ba30d3774dc3080f867d97f0d45c4a3d5d3b2f913ae9eac73d688",
+      "gzipBytes": 431,
+      "gzipSha256": "2fc2acca44186a11578a68e60aff1ec9c495e2fd83370363ef0c5391270a85e8"
+    },
+    {
+      "source": "public/negative-certificates-v1/wrong-bootstrap-root/update.json",
+      "file": "files/public/negative-certificates-v1/wrong-bootstrap-root/update.json.gz",
+      "bytes": 3993,
+      "sha256": "23b1ce0d36c93e91b4056028b83b2ce78a0bcfefb2e87570dde1a209a7059764",
+      "gzipBytes": 1575,
+      "gzipSha256": "043a1be71b52b93263e6cc2b0ea5ad8647bb347ac43ede0bbcb70755a3b4b1b1"
+    },
+    {
+      "source": "public/negative-certificates-v1/wrong-fork-domain/bootstrap.json",
+      "file": "files/public/negative-certificates-v1/wrong-fork-domain/bootstrap.json.gz",
+      "bytes": 58815,
+      "sha256": "a128b594844bdaaf120bdae742ecb0328deaffbd15dcd70d2e62cbec32fc0f04",
+      "gzipBytes": 27740,
+      "gzipSha256": "80410c97d14904a405f195c13ab8dd3ef90591399fef1860dd6548938d448c67"
+    },
+    {
+      "source": "public/negative-certificates-v1/wrong-fork-domain/console.log",
+      "file": "files/public/negative-certificates-v1/wrong-fork-domain/console.log.gz",
+      "bytes": 735,
+      "sha256": "2da46027d4c7c819f9f1c69a97ed45850d9464ac3fd92b512fc06e170643bed6",
+      "gzipBytes": 448,
+      "gzipSha256": "841a8c29999d210c4102ce93656710ea6fc3646ab2ae6195b2179950ef70c9b1"
+    },
+    {
+      "source": "public/negative-certificates-v1/wrong-fork-domain/policy.json",
+      "file": "files/public/negative-certificates-v1/wrong-fork-domain/policy.json.gz",
+      "bytes": 542,
+      "sha256": "66fde09ae6fae66c51e15310208d3dd5114965d98e921bb16e2e0cd6b09ff993",
+      "gzipBytes": 362,
+      "gzipSha256": "415291a98de52e42e64cddc4f6fcf9205390aea8f0b86c970991f582b507f1f8"
+    },
+    {
+      "source": "public/negative-certificates-v1/wrong-fork-domain/report.json",
+      "file": "files/public/negative-certificates-v1/wrong-fork-domain/report.json.gz",
+      "bytes": 750,
+      "sha256": "6f321d11e9298e64c19e0992c48e9583b75e3f24a1e44d46709fef30b73a4a94",
+      "gzipBytes": 446,
+      "gzipSha256": "f63cd0055965c0829113f88d22143fa7d2888fb93a9e968c2a0a0d4627f1c1c2"
+    },
+    {
+      "source": "public/negative-certificates-v1/wrong-fork-domain/update.json",
+      "file": "files/public/negative-certificates-v1/wrong-fork-domain/update.json.gz",
+      "bytes": 3993,
+      "sha256": "23b1ce0d36c93e91b4056028b83b2ce78a0bcfefb2e87570dde1a209a7059764",
+      "gzipBytes": 1575,
+      "gzipSha256": "043a1be71b52b93263e6cc2b0ea5ad8647bb347ac43ede0bbcb70755a3b4b1b1"
+    },
+    {
+      "source": "public/negative-certificates-v1/wrong-genesis-domain/bootstrap.json",
+      "file": "files/public/negative-certificates-v1/wrong-genesis-domain/bootstrap.json.gz",
+      "bytes": 58815,
+      "sha256": "a128b594844bdaaf120bdae742ecb0328deaffbd15dcd70d2e62cbec32fc0f04",
+      "gzipBytes": 27740,
+      "gzipSha256": "80410c97d14904a405f195c13ab8dd3ef90591399fef1860dd6548938d448c67"
+    },
+    {
+      "source": "public/negative-certificates-v1/wrong-genesis-domain/console.log",
+      "file": "files/public/negative-certificates-v1/wrong-genesis-domain/console.log.gz",
+      "bytes": 735,
+      "sha256": "f83e64925904bcd6b97b3c29c2815678ed945c08653b2d2d97d49c7081d6756e",
+      "gzipBytes": 447,
+      "gzipSha256": "0f7adc198554f0e92d14290390dbc3f17af28ff51d24f6ed62249d107bae8419"
+    },
+    {
+      "source": "public/negative-certificates-v1/wrong-genesis-domain/policy.json",
+      "file": "files/public/negative-certificates-v1/wrong-genesis-domain/policy.json.gz",
+      "bytes": 542,
+      "sha256": "073d140354440ffd040fd8fcef7f3a490dda1c13e200040915b960df07458967",
+      "gzipBytes": 327,
+      "gzipSha256": "111ad1e4dcdab36574941e309ef3fd2dbd9041cdd88eef02244ad65c7f97ad1c"
+    },
+    {
+      "source": "public/negative-certificates-v1/wrong-genesis-domain/report.json",
+      "file": "files/public/negative-certificates-v1/wrong-genesis-domain/report.json.gz",
+      "bytes": 750,
+      "sha256": "709dac0f703e6ba165450cca03d487ec92c56ceb0ca0422dbec9102d743deeee",
+      "gzipBytes": 445,
+      "gzipSha256": "e726ead156be1c555f63bb468d964019bc12a11e18b6b481144ace5647a3e3bc"
+    },
+    {
+      "source": "public/negative-certificates-v1/wrong-genesis-domain/update.json",
+      "file": "files/public/negative-certificates-v1/wrong-genesis-domain/update.json.gz",
+      "bytes": 3993,
+      "sha256": "23b1ce0d36c93e91b4056028b83b2ce78a0bcfefb2e87570dde1a209a7059764",
+      "gzipBytes": 1575,
+      "gzipSha256": "043a1be71b52b93263e6cc2b0ea5ad8647bb347ac43ede0bbcb70755a3b4b1b1"
+    },
+    {
+      "source": "public/negative-certificates-v1/wrong-signature-period/bootstrap.json",
+      "file": "files/public/negative-certificates-v1/wrong-signature-period/bootstrap.json.gz",
+      "bytes": 58815,
+      "sha256": "a128b594844bdaaf120bdae742ecb0328deaffbd15dcd70d2e62cbec32fc0f04",
+      "gzipBytes": 27740,
+      "gzipSha256": "80410c97d14904a405f195c13ab8dd3ef90591399fef1860dd6548938d448c67"
+    },
+    {
+      "source": "public/negative-certificates-v1/wrong-signature-period/console.log",
+      "file": "files/public/negative-certificates-v1/wrong-signature-period/console.log.gz",
+      "bytes": 777,
+      "sha256": "606236a1d2dc29e211e60d025d2f6f99c64c7ea0d5f1373cb58a2a30b114a810",
+      "gzipBytes": 458,
+      "gzipSha256": "406549573ac4eca3d136adfc2318e20b309b8734d85ea1d87191c76bec769051"
+    },
+    {
+      "source": "public/negative-certificates-v1/wrong-signature-period/policy.json",
+      "file": "files/public/negative-certificates-v1/wrong-signature-period/policy.json.gz",
+      "bytes": 542,
+      "sha256": "2ff78afe8d3e40abcf38afed9427ef532c9e4f17c8fd7f4d33157daebeb1a158",
+      "gzipBytes": 363,
+      "gzipSha256": "494c3fa87bcd255c491b140256ebef446d0a513cf5cb938bdb427d5a0226f952"
+    },
+    {
+      "source": "public/negative-certificates-v1/wrong-signature-period/report.json",
+      "file": "files/public/negative-certificates-v1/wrong-signature-period/report.json.gz",
+      "bytes": 771,
+      "sha256": "17060fe7e59532033e26919d3b54f784e060086b129618c7fcc579e4ba144f0f",
+      "gzipBytes": 456,
+      "gzipSha256": "1aef9c9bf725b8078e309c651d68945859a0bafa3438a5c21325197efdcfa501"
+    },
+    {
+      "source": "public/negative-certificates-v1/wrong-signature-period/update.json",
+      "file": "files/public/negative-certificates-v1/wrong-signature-period/update.json.gz",
+      "bytes": 3993,
+      "sha256": "7363d02eb1f06b2ca7c03daeff3f2baaa2913dc47284b72f6f25b1c0744029fb",
+      "gzipBytes": 1576,
+      "gzipSha256": "d157e549622534a45de70ed2845a749f303d7c86179cd072798734bbabe9976f"
+    },
+    {
+      "source": "public/negative-certificates-v1/wrong-ssz-version/bootstrap.json",
+      "file": "files/public/negative-certificates-v1/wrong-ssz-version/bootstrap.json.gz",
+      "bytes": 58815,
+      "sha256": "a128b594844bdaaf120bdae742ecb0328deaffbd15dcd70d2e62cbec32fc0f04",
+      "gzipBytes": 27740,
+      "gzipSha256": "80410c97d14904a405f195c13ab8dd3ef90591399fef1860dd6548938d448c67"
+    },
+    {
+      "source": "public/negative-certificates-v1/wrong-ssz-version/console.log",
+      "file": "files/public/negative-certificates-v1/wrong-ssz-version/console.log.gz",
+      "bytes": 707,
+      "sha256": "eadccae87403648b7c579d01fdd8be7beb63ae8d50734878f267bef42bbcf540",
+      "gzipBytes": 437,
+      "gzipSha256": "e662a5d3225f94921e821748610c50b64cc8e581da058bf90dcfe9ba3b9d5655"
+    },
+    {
+      "source": "public/negative-certificates-v1/wrong-ssz-version/policy.json",
+      "file": "files/public/negative-certificates-v1/wrong-ssz-version/policy.json.gz",
+      "bytes": 542,
+      "sha256": "185801a69a02c88cfacfeec93778666caf70a62f54dc27358ee18e1ee53d3062",
+      "gzipBytes": 360,
+      "gzipSha256": "8f49dd92f26300da56ac45553b3cc9507a3eed830259a6c33d66f2d21b3180b9"
+    },
+    {
+      "source": "public/negative-certificates-v1/wrong-ssz-version/report.json",
+      "file": "files/public/negative-certificates-v1/wrong-ssz-version/report.json.gz",
+      "bytes": 736,
+      "sha256": "112cefa654121fa2b500f1931c2972d6ffad1c6e6409efd380546309bb51b204",
+      "gzipBytes": 435,
+      "gzipSha256": "5660f9ba2fa76523742696925060ca8883940f2864814c1bad145f295c2f79ee"
+    },
+    {
+      "source": "public/negative-certificates-v1/wrong-ssz-version/update.json",
+      "file": "files/public/negative-certificates-v1/wrong-ssz-version/update.json.gz",
+      "bytes": 3995,
+      "sha256": "b5317c7c0c23f5ac6ab3818c4c820daba1d6a8d9d7f26317ea631aeb53a86ccd",
+      "gzipBytes": 1575,
+      "gzipSha256": "c5676514e2cd9129d630d663b6fc26349b5057fc7a2bd4c6b29289a7977a8d17"
+    },
+    {
+      "source": "public/negative-certificates-v1/zero-signature/bootstrap.json",
+      "file": "files/public/negative-certificates-v1/zero-signature/bootstrap.json.gz",
+      "bytes": 58815,
+      "sha256": "a128b594844bdaaf120bdae742ecb0328deaffbd15dcd70d2e62cbec32fc0f04",
+      "gzipBytes": 27740,
+      "gzipSha256": "80410c97d14904a405f195c13ab8dd3ef90591399fef1860dd6548938d448c67"
+    },
+    {
+      "source": "public/negative-certificates-v1/zero-signature/console.log",
+      "file": "files/public/negative-certificates-v1/zero-signature/console.log.gz",
+      "bytes": 727,
+      "sha256": "57628a8ae773d29e30dd669a965d0e2a635d24016441723984214b2aae17e788",
+      "gzipBytes": 455,
+      "gzipSha256": "41403d87689f431f8ac63473a679f1a1bd3462a1b4fb45975749cd62d51181f0"
+    },
+    {
+      "source": "public/negative-certificates-v1/zero-signature/policy.json",
+      "file": "files/public/negative-certificates-v1/zero-signature/policy.json.gz",
+      "bytes": 542,
+      "sha256": "e6d41b6fe6938f0489299c45dac0567927aa461471a3523f3d38382e199f32b6",
+      "gzipBytes": 361,
+      "gzipSha256": "7a7762a45a9117ee61980cb752324e1f293cfad12d6d766298fbfe05317fca61"
+    },
+    {
+      "source": "public/negative-certificates-v1/zero-signature/report.json",
+      "file": "files/public/negative-certificates-v1/zero-signature/report.json.gz",
+      "bytes": 746,
+      "sha256": "7e0862edde60fac80397277dcf7b167845c58d58639f21ae952c9e7ec80da019",
+      "gzipBytes": 455,
+      "gzipSha256": "83d22b8ac4512f60a5b887f066323f59f46a2c51949f50a179202b16090adb2e"
+    },
+    {
+      "source": "public/negative-certificates-v1/zero-signature/update.json",
+      "file": "files/public/negative-certificates-v1/zero-signature/update.json.gz",
+      "bytes": 3993,
+      "sha256": "22210354f4d0a0a7b292377d2a133c70a2ca915d015ad81ba7d2bc5fa333a8c2",
+      "gzipBytes": 1464,
+      "gzipSha256": "b5c518f7d06eceae1d9af9f0b36c60b81d69d5aa0aba54711a9d82f875ef34fa"
+    },
+    {
+      "source": "public/public-contract-deployment-reference.json",
+      "file": "files/public/public-contract-deployment-reference.json.gz",
+      "bytes": 2900,
+      "sha256": "a8259f298b574886f4bd6ffd72b329271926c13ba817cae98a5b6f45ff809e3a",
+      "gzipBytes": 986,
+      "gzipSha256": "e269430b11863716f9e840e299816541ba78702249911a555aba551ee5f237b7"
+    },
+    {
+      "source": "public/public-contract-resource-inventory.json",
+      "file": "files/public/public-contract-resource-inventory.json.gz",
+      "bytes": 2673,
+      "sha256": "d1e7d487ffd14af0c3862c15006fbaf76b9de937dfd95b2e10dd68a3e2e8fbb5",
+      "gzipBytes": 1048,
+      "gzipSha256": "c3c65128af5942ddd5d255d2a845901fb4b746f4875df2b964792263106c3012"
+    },
+    {
+      "source": "public/sepolia-genesis-reference-transport.json",
+      "file": "files/public/sepolia-genesis-reference-transport.json.gz",
+      "bytes": 476,
+      "sha256": "f02f35829f14eedf73fb75b7c4f231d45d4d8acaa19b8be9f6c17f4f32ad282b",
+      "gzipBytes": 320,
+      "gzipSha256": "81e814592170101ccccd32e4b23ca67d11396ef7bbe4d6ef54ea5db70f2547d7"
+    },
+    {
+      "source": "public/sepolia-network-config-transport.json",
+      "file": "files/public/sepolia-network-config-transport.json.gz",
+      "bytes": 480,
+      "sha256": "91d959108f9ed0595528dec0c410ca7dcaa9bacd1ea2e4c1255a14d69a02aaae",
+      "gzipBytes": 319,
+      "gzipSha256": "3f9ebad8583e154533cb5c199538d48e8054e4d383523ec31d1567890abe4540"
+    },
+    {
+      "source": "run.py",
+      "file": "files/run.py.gz",
+      "bytes": 2134,
+      "sha256": "0fea68dd6af50ff178697c15bb64ed870f0ca2a242878ef3aa84b8b4a7781688",
+      "gzipBytes": 1176,
+      "gzipSha256": "19f4a25d4b5e6335b3601da499c1d53b6df5b14d77449593438850fca907ab88"
+    },
+    {
+      "source": "source-final-v1/executor/acceptance/buildL1ProofInspector.py",
+      "file": "files/source-final-v1/executor/acceptance/buildL1ProofInspector.py.gz",
+      "bytes": 6044,
+      "sha256": "8e9407e15ce69c705ec7f8ac406b31e301155731b734cd8db005009ab418c568",
+      "gzipBytes": 2424,
+      "gzipSha256": "2cce62525bff8b27b1ed79f208ca1370e14f5763b0130da8cc88ebaf4897b58f"
+    },
+    {
+      "source": "source-final-v1/executor/acceptance/gloasCertificateInspector.rs",
+      "file": "files/source-final-v1/executor/acceptance/gloasCertificateInspector.rs.gz",
+      "bytes": 10963,
+      "sha256": "ac4f12a0020eb147ad1c638d761daf0b57570d0f02b4ab92680d96832a22732f",
+      "gzipBytes": 4210,
+      "gzipSha256": "484f44e42dde8163da13616629ed357eb5c8b29370a5780ab36e71233168b6bd"
+    },
+    {
+      "source": "source-final-v1/executor/consensusEvidence.mjs",
+      "file": "files/source-final-v1/executor/consensusEvidence.mjs.gz",
+      "bytes": 5950,
+      "sha256": "e1fa6a798431d50f31a38e037c78599e53e3884ce2b09c0bf6e2419fa2dca387",
+      "gzipBytes": 2110,
+      "gzipSha256": "e7e68eb7be9226fce554cc3faf417784aa279140f1ac721185d582d9c7ef0a39"
+    },
+    {
+      "source": "source-final-v1/executor/consensusEvidence.test.mjs",
+      "file": "files/source-final-v1/executor/consensusEvidence.test.mjs.gz",
+      "bytes": 2056,
+      "sha256": "d8b6fda566e336c71465d51a118507298714282cc4a4f7690848ae5adf940c21",
+      "gzipBytes": 903,
+      "gzipSha256": "30e778ca99288680ccc803d15ec2ea6ec3d6f3baaccafb011f9093723448c642"
+    }
+  ]
+}

@@ -1,5 +1,18 @@
 # Market correctness and reset-chain validation — 27 October 2026
 
+Latest certificate acquisition (30 October): [real Gloas BLS/SSZ verification,
+owned Executor inspection and remaining trust/spending boundaries](GLOAS_CERTIFICATE_CONTINUATION_20261030.md).
+An actual 512-of-512 committee signature, committee inclusion, finality and
+execution-parent branches verify relative to a captured same-provider bootstrap.
+Independent anchor review is absent, so canonical finality and financial
+authority stay false. Exact certificate/L1 execution-hash matching rejects the
+older saved packet; matching state-proof retrieval hits the provider window.
+The public contracts deployment identity differs from the current instance,
+and no running kind-32 resource bundle is acquired. Native verification is not
+a new SD-key/full UPS constraint or seed-release proof. No Node/SDK/dependency
+version change, new ZK proof, transaction, fill or ordinary-wallet claim occurred.
+See [the exact public upstream handoff](UPSTREAM_CHECKPOINT_RANDOMNESS_HANDOFF_20261030.json).
+
 Latest proof-window continuation (30 October): [immutable prospective L1
 inclusion packets and actual paired account verification](L1_PROOF_WINDOW_CONTINUATION_20261030.md).
 Recent-header prefetch obtains real public EIP-1186 data before pruning; the new
