@@ -1,5 +1,17 @@
 # Market correctness and reset-chain validation — 27 October 2026
 
+Latest current-chain preflight (30 October): [full reset Native binding,
+eleven ordinary UPS resources, current registration and exact funding scan](CURRENT_CHAIN_USER_UPS_PREFLIGHT_20261030.md).
+The actual Native code/layout/full function whitelist and checkpoint paths pass
+the frozen SDK checks. Ordinary start/registration/CFC/Endcap/aggregation/ZK keys
+and whitelist metadata match the captured user proving registry; this is not a
+new business proof or CST/finality authentication. Readiness now correctly labels
+the exact known reset identity as requiring a new deployment, preserving the old
+registry and closed writers. User 223232 has verified URT membership despite a
+zero stored leaf. At checkpoint 21882 its balance and all 100 known-faucet
+operator pending cursors are zero; the original grant request remains unresolved
+and was not resent. New deployments, transactions, fills and claims remain zero.
+
 Latest product continuation (30 October): [original wallet recovery center,
 owned read-only workspace launcher and fresh chain mismatch](PRODUCT_RECOVERY_INTEGRATION_20261030.md).
 Orders can discover extension-owned original requests separately from local

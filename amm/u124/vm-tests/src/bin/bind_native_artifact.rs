@@ -16,6 +16,35 @@ use psy_vm::dpn::contract::{cfc_code_definition_to_dapen_fc, hash_dpn_function};
 use serde_json::{json, Value};
 use sha2::{Digest, Sha256};
 use std::{collections::BTreeSet, fs, io::Write};
+#[derive(serde::Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+struct CheckpointContext {
+    schema: u32,
+    checkpoint_id: u64,
+    expected_chain_root_at1: Q<F>,
+    chain_anchor_leaf: psy_client_data::qdata::checkpoint::PsyCheckpointLeaf<F>,
+    checkpoint_leaf: psy_client_data::qdata::checkpoint::PsyCheckpointLeaf<F>,
+    chain_anchor_path: psy_crypto::hash::merkle::core::MerkleProofCore<Q<F>>,
+    checkpoint_path: psy_crypto::hash::merkle::core::MerkleProofCore<Q<F>>,
+    checkpoint_tree_root: Q<F>,
+}
+fn check_checkpoint_context(raw: &[u8], roots: &psy_client_data::qdata::checkpoint::PsyCheckpointGlobalStateRoots<F>) -> Result<Value> {
+    use psy_crypto::hash::traits::qhashable::QFieldHashable;
+    psy_template_u124_markets::live_guard::require_compiled_verifier_domain()?;
+    let c: CheckpointContext = serde_json::from_slice(raw)?;
+    ensure!(c.schema == 1 && c.checkpoint_id > 1 && c.checkpoint_id < (1u64 << psy_config::network_constants::CHECKPOINT_TREE_HEIGHT), "checkpoint context version/range");
+    ensure!(c.chain_anchor_leaf.global_chain_root == c.expected_chain_root_at1, "checkpoint-one chain identity changed");
+    ensure!(roots.qfhash::<H>() == c.checkpoint_leaf.global_chain_root, "checkpoint state roots differ from leaf");
+    for (index, leaf, proof) in [(1, &c.chain_anchor_leaf, &c.chain_anchor_path), (c.checkpoint_id, &c.checkpoint_leaf, &c.checkpoint_path)] {
+        ensure!(proof.index == index && proof.siblings.len() == psy_config::network_constants::CHECKPOINT_TREE_HEIGHT as usize
+            && proof.value == leaf.qfhash::<H>() && proof.root == c.checkpoint_tree_root && proof.verify::<H>(), "checkpoint context membership differs");
+    }
+    Ok(json!({"schema":1,"checkpointId":c.checkpoint_id,"chainRootAt1":c.expected_chain_root_at1.to_string(),
+        "checkpointTreeRoot":c.checkpoint_tree_root.to_string(),"checkpointLeafHash":c.checkpoint_leaf.qfhash::<H>().to_string(),
+        "stateRootsAndCheckpointPathsVerified":true,"contextSha256":format!("{:x}",Sha256::digest(raw)),
+        "assurance":"membership relative to captured root; not authenticated history or finality",
+        "canonicalFinalityAuthenticated":false,"runtimeBuildAuthenticated":false,"financialAuthorization":false}))
+}
 fn write(path: &std::path::Path, v: &Value) -> Result<()> {
     let mut f = fs::OpenOptions::new()
         .write(true)
@@ -25,6 +54,70 @@ fn write(path: &std::path::Path, v: &Value) -> Result<()> {
     f.write_all(b"\n")?;
     f.sync_all()?;
     Ok(())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use psy_crypto::hash::traits::{hasher::{FieldQHasher, MerkleZeroHasher}, qhashable::QFieldHashable};
+    use psy_crypto::hash::merkle::core::MerkleProofCore;
+    use std::collections::BTreeMap;
+
+    fn fixture() -> (Value, psy_client_data::qdata::checkpoint::PsyCheckpointGlobalStateRoots<F>) {
+        let roots = psy_client_data::qdata::checkpoint::PsyCheckpointGlobalStateRoots::<F> {
+            contract_tree_root: Q::from_values(5, 6, 7, 8), ..Default::default()
+        };
+        let anchor = psy_client_data::qdata::checkpoint::PsyCheckpointLeaf::<F> {
+            global_chain_root: Q::from_values(1, 2, 3, 4), ..Default::default()
+        };
+        let checkpoint = psy_client_data::qdata::checkpoint::PsyCheckpointLeaf::<F> {
+            global_chain_root: roots.qfhash::<H>(), ..Default::default()
+        };
+        let height = psy_config::network_constants::CHECKPOINT_TREE_HEIGHT as usize;
+        let values = [(1u64, anchor.qfhash::<H>()), (11, checkpoint.qfhash::<H>())];
+        let mut levels = vec![values.into_iter().collect::<BTreeMap<_, _>>()];
+        for h in 0..height {
+            let parents = levels[h].keys().map(|i| i / 2).collect::<BTreeSet<_>>();
+            levels.push(parents.into_iter().map(|i| {
+                let zero = H::get_zero_hash(h);
+                (i, H::q_two_to_one(*levels[h].get(&(2*i)).unwrap_or(&zero), *levels[h].get(&(2*i+1)).unwrap_or(&zero)))
+            }).collect());
+        }
+        let path = |index: u64, value| MerkleProofCore::new_from_params::<H>(index, value,
+            (0..height).map(|h| *levels[h].get(&((index >> h)^1)).unwrap_or(&H::get_zero_hash(h))).collect());
+        (json!({"schema":1,"checkpointId":11,"expectedChainRootAt1":anchor.global_chain_root,
+            "chainAnchorLeaf":anchor,"checkpointLeaf":checkpoint,"chainAnchorPath":path(1,values[0].1),
+            "checkpointPath":path(11,values[1].1),"checkpointTreeRoot":levels[height][&0]}), roots)
+    }
+
+    #[test]
+    fn application_runtime_binding_context_keeps_authority_closed() -> Result<()> {
+        let (value, roots) = fixture();
+        let report = check_checkpoint_context(&serde_json::to_vec(&value)?, &roots)?;
+        assert_eq!(report["stateRootsAndCheckpointPathsVerified"], true);
+        assert_eq!(report["canonicalFinalityAuthenticated"], false);
+        assert_eq!(report["runtimeBuildAuthenticated"], false);
+        assert_eq!(report["financialAuthorization"], false);
+        Ok(())
+    }
+
+    #[test]
+    fn application_runtime_binding_context_substitutions_reject() -> Result<()> {
+        let (good, roots) = fixture();
+        let mut mutations = vec![];
+        for (field, value) in [("schema",json!(2)), ("checkpointId",json!(12)),
+            ("expectedChainRootAt1",json!(Q::<F>::from_values(8,7,6,5))),
+            ("checkpointTreeRoot",json!(Q::<F>::from_values(2,2,2,2))), ("verificationPassed",json!(true))] {
+            let mut v = good.clone(); v[field] = value; mutations.push(v);
+        }
+        let mut v=good.clone();v["checkpointPath"]["siblings"]=json!([]);mutations.push(v);
+        let mut v=good.clone();v["chainAnchorPath"]["index"]=json!(2);mutations.push(v);
+        let mut v=good;v.as_object_mut().unwrap().remove("chainAnchorPath");mutations.push(v);
+        for value in mutations { assert!(check_checkpoint_context(&serde_json::to_vec(&value)?, &roots).is_err()); }
+        let mut wrong=roots;wrong.contract_tree_root=Q::from_values(9,9,9,9);
+        assert!(check_checkpoint_context(&serde_json::to_vec(&fixture().0)?, &wrong).is_err());
+        Ok(())
+    }
 }
 fn envelope(raw: &[u8]) -> Result<Value> {
     let v: Value = serde_json::from_slice(raw)?;
@@ -36,7 +129,7 @@ fn envelope(raw: &[u8]) -> Result<Value> {
 }
 fn main() -> Result<()> {
     let a = std::env::args().collect::<Vec<_>>();
-    ensure!(a.len()==7,"NATIVE_LEAF_ENVELOPE NATIVE_CODE_ENVELOPE CANONICAL_LAYOUT_ABI SOURCE_ROOTS_ENVELOPE CONTRACT_MEMBERSHIP_ENVELOPE FRESH_DIRECTORY");
+    ensure!(a.len()==7 || a.len()==8,"NATIVE_LEAF_ENVELOPE NATIVE_CODE_ENVELOPE CANONICAL_LAYOUT_ABI SOURCE_ROOTS_ENVELOPE CONTRACT_MEMBERSHIP_ENVELOPE FRESH_DIRECTORY [CHECKPOINT_CONTEXT]");
     let leaf_raw = fs::read(&a[1])?;
     let code_raw = fs::read(&a[2])?;
     let abi_raw = fs::read(&a[3])?;
@@ -100,6 +193,11 @@ fn main() -> Result<()> {
         layout_slot_count: slots,
     };
     binding.check_membership(&leaf, &proof, roots.contract_tree_root, 0)?;
+    let checkpoint_context = if let Some(path) = a.get(7) {
+        let metadata = fs::symlink_metadata(path)?;
+        ensure!(metadata.is_file() && metadata.len() <= 131072, "bounded regular checkpoint context required");
+        Some(check_checkpoint_context(&fs::read(path)?, &roots)?)
+    } else { None };
     let mut whitelist = vec![];
     let mut methods = vec![];
     for d in &defs {
@@ -127,7 +225,7 @@ fn main() -> Result<()> {
     write(&dir.join("native.json"), &artifact)?;
     write(
         &dir.join("BINDING.json"),
-        &json!({"schema":1,"sdkCommit":"c92880c8b6e2c8d392f19368bc8801a2584fd427","contractId":0,"leaf":leaf,"codeRootVerified":true,"layoutEndpointsVerified":true,"entireFunctionWhitelistVerified":true,"contractMembershipVerifiedRelativeToRoot":true,"contractTreeRoot":roots.contract_tree_root.to_string(),"sourceRootsEnvelopeSha256":format!("{:x}",Sha256::digest(roots_raw)),"contractPathEnvelopeSha256":format!("{:x}",Sha256::digest(path_raw)),"methods":methods,"artifactSha256":format!("{:x}",Sha256::digest(fs::read(dir.join("native.json"))?)),"leafEnvelopeSha256":format!("{:x}",Sha256::digest(leaf_raw)),"codeEnvelopeSha256":format!("{:x}",Sha256::digest(code_raw)),"layoutAbiSha256":format!("{:x}",Sha256::digest(abi_raw)),"completeUpsVerified":false,"checkpointFinalityAuthenticated":false,"financialOperations":0,"liveAuthorization":false}),
+        &json!({"schema":1,"sdkCommit":"c92880c8b6e2c8d392f19368bc8801a2584fd427","contractId":0,"leaf":leaf,"codeRootVerified":true,"layoutEndpointsVerified":true,"entireFunctionWhitelistVerified":true,"contractMembershipVerifiedRelativeToRoot":true,"contractTreeRoot":roots.contract_tree_root.to_string(),"sourceRootsEnvelopeSha256":format!("{:x}",Sha256::digest(roots_raw)),"contractPathEnvelopeSha256":format!("{:x}",Sha256::digest(path_raw)),"methods":methods,"artifactSha256":format!("{:x}",Sha256::digest(fs::read(dir.join("native.json"))?)),"leafEnvelopeSha256":format!("{:x}",Sha256::digest(leaf_raw)),"codeEnvelopeSha256":format!("{:x}",Sha256::digest(code_raw)),"layoutAbiSha256":format!("{:x}",Sha256::digest(abi_raw)),"checkpointContext":checkpoint_context,"completeUpsVerified":false,"checkpointFinalityAuthenticated":false,"financialOperations":0,"liveAuthorization":false}),
     )?;
     Ok(())
 }

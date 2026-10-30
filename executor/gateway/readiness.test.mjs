@@ -3,7 +3,13 @@ import assert from "node:assert/strict";
 import { createReadinessReader } from "./readiness.mjs";
 import { fixtureRegistry, H, NOW } from "./fixtures.mjs";
 import { validateReadiness } from "../../market-client/readiness.mjs";
-import { MAINNET_BETA_PROFILE, MAINNET_BETA_MANIFEST, MAINNET_BETA_NATIVE_ROOT } from "../../market-client/nativeProtocol.mjs";
+import {
+  MAINNET_BETA_PROFILE,
+  MAINNET_BETA_MANIFEST,
+  MAINNET_BETA_NATIVE_ROOT,
+  RESET_CHAIN_ROOT,
+  RESET_NATIVE_BINDING,
+} from "../../market-client/nativeProtocol.mjs";
 async function setup() {
   const registry = await fixtureRegistry();
   registry.network.chainRootAt1 = H("chain");
@@ -90,10 +96,14 @@ test("selected SDK accepts its exact numeric native owner and rejects legacy coe
   f.registry.sdkManifestSha256 = MAINNET_BETA_MANIFEST;
   f.registry.network.name = f.state.networkName = "testnet";
   for (const m of f.registry.markets)
-    m.dependencies.find(d => d.contract.contractId === 0).contract.codeRoot = MAINNET_BETA_NATIVE_ROOT;
+    m.dependencies.find((d) => d.contract.contractId === 0).contract.codeRoot =
+      MAINNET_BETA_NATIVE_ROOT;
   const leaf = f.state.contractLeaf;
   let owner = 0;
-  f.state.contractLeaf = async id => ({ ...(await leaf(id)), deployer: id === 0 ? owner : 1 });
+  f.state.contractLeaf = async (id) => ({
+    ...(await leaf(id)),
+    deployer: id === 0 ? owner : 1,
+  });
   assert.equal((await f.reader()()).state, "registry-matches");
   for (const bad of ["0", H("owner"), -1, 4294967296]) {
     owner = bad;
@@ -108,6 +118,48 @@ test("missing or changed checkpoint-one identity cannot accept matching contract
     const s = await f.reader()();
     assert.equal(s.state, "deployment-required");
     assert.equal(s.checkedDependencies, 0);
+  }
+});
+test("known reset Native is classified as undeployed without reinterpreting the old registry or reading old market IDs", async () => {
+  const f = await setup();
+  f.registry.nativeProtocol = MAINNET_BETA_PROFILE;
+  f.registry.sdkManifestSha256 = MAINNET_BETA_MANIFEST;
+  f.registry.network.name = f.state.networkName = "testnet";
+  f.state.rpc = async () => ({ global_chain_root: RESET_CHAIN_ROOT });
+  const b = RESET_NATIVE_BINDING;
+  const leaf = {
+    deployer: 0,
+    code_root: b.contract.codeRoot,
+    state_layout_root: b.contract.layoutRoot,
+    state_tree_height: b.contract.stateTreeHeight,
+    function_tree_root: b.functionTreeRoot,
+    state_layout_field_count: b.layoutFieldCount,
+    state_layout_slot_count: b.layoutSlotCount,
+  };
+  f.state.contractLeaf = async (id) => {
+    f.checked.push(id);
+    assert.equal(id, 0);
+    return structuredClone(leaf);
+  };
+  const original = structuredClone(f.registry);
+  const result = await f.reader()();
+  assert.equal(result.state, "deployment-required");
+  assert.equal(result.nativeRootMatchesRegistry, false);
+  assert.equal(result.checkedDependencies, 0);
+  assert.equal(result.financialSubmission, false);
+  assert.deepEqual(f.registry, original);
+  validateReadiness(result, f.registry, H("registry"), NOW);
+  for (const [field, value] of [
+    ["state_layout_slot_count", 1],
+    ["function_tree_root", H("wrong")],
+    ["deployer", "0"],
+  ]) {
+    const changed = { ...leaf, [field]: value };
+    f.state.contractLeaf = async (id) => {
+      assert.equal(id, 0);
+      return changed;
+    };
+    assert.equal((await f.reader()()).state, "protocol-incompatible");
   }
 });
 test("readiness coalesces only simultaneous reads and returns independent results", async () => {
