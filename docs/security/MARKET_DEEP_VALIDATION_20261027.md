@@ -1,5 +1,15 @@
 # Market correctness and reset-chain validation — 27 October 2026
 
+Latest bounded investigation (30 October): [named checkpoint cohort exclusions,
+current 20171/20172 failures and exact producer-local seed provenance](CHECKPOINT_RANDOM_SOURCE_CAUSE_REVIEW_20261030.md).
+Both captured pairs fail the approved key and two finite source-labelled
+diagnostic comparisons; those comparisons are not adopted. Portable public hash
+vectors and field-boundary checks pass locally. Proof failure attribution still
+needs actual running verification resources/record correspondence. The frozen
+seed path commits a coordinator-local random witness without certifying its
+generation or release timing. Real settlement/claims and qualified randomness
+remain closed; no Node/dependency/old contract change or financial request occurred.
+
 Latest application handoff continuation (30 October): [fixed checkpoint resource
 export, strict runtime-record import and owned Executor inspection](CHECKPOINT_PUBLIC_DELIVERY_20261030.md).
 This implements the consumer side of the preceding audit checklist without
