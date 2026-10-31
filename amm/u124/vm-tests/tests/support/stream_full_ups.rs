@@ -1701,3 +1701,6 @@ mod sealed_stream_full_ups;
 
 #[path="funded_bootstrap_full_ups.rs"]
 mod funded_bootstrap_full_ups;
+
+#[path="funded_stream_full_ups.rs"]
+mod funded_stream_full_ups;
