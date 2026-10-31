@@ -1,8 +1,11 @@
 import assert from 'node:assert/strict';
 import {readFileSync,writeFileSync} from 'node:fs';
+import {fileURLToPath} from 'node:url';
 import {makeBatchPolicy} from '../v2/policy.mjs';
 import {bindNativePolicy,PROFILE} from '../mainnet-beta/native.mjs';
 export function makeStreamPolicy(market,marketId,config,artifact,token,nft,{random=false,minimum=false,bootstrap=false,sealed=false,window=256}={}){
+ assert.ok(['amm','bondingcurve'].includes(market),'stream market kind');
+ assert.ok(Number.isSafeInteger(marketId)&&marketId>=5&&marketId<16777216&&![config.assetA,config.assetB].includes(marketId),'distinct bounded market ID');
  assert.ok(!sealed||(bootstrap&&minimum&&random),"sealed profile requires minimum bootstrap");
  assert.ok(!bootstrap||minimum,"bootstrap requires minimum profile");
  const base=bindNativePolicy(makeBatchPolicy(market,marketId,config,artifact.abi,token.abi,nft.abi),PROFILE),stream={};
@@ -13,4 +16,4 @@ export function makeStreamPolicy(market,marketId,config,artifact,token,nft,{rand
  if(random)assert.ok(Number.isSafeInteger(window)&&window>=32&&window<=65536);
  return {version:sealed?13:bootstrap?12:minimum?11:random?10:5,profile:sealed?'source-covered-producer-sealed-minimum-v1':bootstrap?'source-covered-producer-minimum-bootstrap-v1':minimum?'source-covered-producer-minimum-stream-v1':random?'source-covered-producer-random-stream-v1':'source-covered-priority-stream-v3',...(random?{producer_influence:true,source_window_checkpoints:window}:{}),...(sealed?{draw_delay_checkpoints:32,accepted_seal_history_binding:true,seed_unpredictability_authenticated:false}:{}),market,market_id:marketId,...(minimum?{fee_owner:config.feeOwner,owner_fee_claim:{contract_id:0,method_name:"claim",method_id:3824212239,inputs:[{constant:String(config.feeOwner)}]}}:{}),tx_count:40,witness_length:80,live_authorization:false,qualified_randomness:false,base,noop:base.noop,stream};
 }
-if(process.argv.length===3){const root=process.argv[2],read=p=>JSON.parse(readFileSync(root+'/'+p));for(const market of ['amm','bondingcurve']){const c=read(market+'/config.json'),s=makeStreamPolicy(market,1000,c,read(market+'/compiled/compilation_artifact.json'),read('token/compilation_artifact.json'),read('nft/compilation_artifact.json'));for(const [name,v]of [['policy.json',s.base],['stream-policy.json',s]])writeFileSync(root+'/'+market+'/'+name,JSON.stringify(v,null,2)+'\n',{flag:'wx'});}}
+if(process.argv[1]===fileURLToPath(import.meta.url)){assert.equal(process.argv.length,3,'fixture root required');const root=process.argv[2],read=p=>JSON.parse(readFileSync(root+'/'+p));for(const market of ['amm','bondingcurve']){const c=read(market+'/config.json'),s=makeStreamPolicy(market,1000,c,read(market+'/compiled/compilation_artifact.json'),read('token/compilation_artifact.json'),read('nft/compilation_artifact.json'));for(const [name,v]of [['policy.json',s.base],['stream-policy.json',s]])writeFileSync(root+'/'+market+'/'+name,JSON.stringify(v,null,2)+'\n',{flag:'wx'});}}

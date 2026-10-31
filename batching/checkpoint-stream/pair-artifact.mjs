@@ -2,7 +2,10 @@
 // supplied by the compiler. Actual full UPS verification remains mandatory.
 import assert from 'node:assert/strict';
 export function auditPairArtifact(market,config,artifact){
- assert.ok(['orderbook','nftmarket'].includes(market));assert.equal(artifact.state_tree_height,31);
+ assert.ok(['orderbook','nftmarket'].includes(market));return auditStreamArtifact(market,config,artifact);
+}
+export function auditStreamArtifact(market,config,artifact){
+ assert.ok(['amm','bondingcurve','orderbook','nftmarket'].includes(market));assert.equal(artifact.state_tree_height,31);
  const heights=new Map([[0,32],[market==='nftmarket'?config.tokenId:config.assetA,31],[market==='nftmarket'?config.nftId:config.assetB,market==='nftmarket'?30:31]]);assert.equal(heights.size,3);
  assert.ok(Array.isArray(artifact.circuit_definitions)&&artifact.circuit_definitions.length>0);let reads=0;
  const foreign=new Set(['GetOtherUserContractStateSlotSingle','GetOtherUserContractStateSlotRange','GetSelfUserExternalContractStateSlotSingle','GetSelfUserExternalContractStateSlotRange']);

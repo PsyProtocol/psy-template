@@ -8,6 +8,7 @@ use psy_vm::dpn::ops::{
 };
 fn main() -> Result<()> {
     let args = std::env::args().collect::<Vec<_>>();
+    if args.len()==2 && args[1]=="network-magic" {println!("{}",psy_config::PSY_NETWORK_MAGIC);return Ok(());}
     ensure!(
         args.len() == 6,
         "SOURCE FRESH_OUT PAYMENT_OR_ASSET_A COLLECTION_OR_ASSET_B IS_NFT"
