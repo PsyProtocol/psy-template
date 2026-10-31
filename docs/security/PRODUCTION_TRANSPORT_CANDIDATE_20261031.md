@@ -157,5 +157,31 @@ not establish cross-machine coordination. No Node change, invoke_sync, market
 mechanism change or UI demonstration is used to bypass these boundaries.
 
 This is a hardened **production candidate**, not completed production acceptance.
-Review [the public evidence](../../executor/verification/2026-10-31-production-transport-v1/README.md)
+Review [the final public evidence](../../executor/verification/2026-10-31-production-transport-v2/README.md)
 and the corresponding wallet report before enabling any financial release.
+
+## Final wallet commit-hook correction
+
+The first local wallet commit `1e57e1e` ran its pre-existing whole-workspace
+formatter after verification. This changed generated module bytes and created
+71 unrelated unstaged path changes plus nine Genesis changes. The initial
+wallet/submodule were clean. Only those owned formatter side effects were
+restored, and the intermediate commit/incident record retained; no user edits,
+SDK pin, evidence or historical request was discarded.
+
+The corrected wallet commit is
+[`f6b3b81`](https://github.com/PsyProtocol/psy-wallet/commit/f6b3b81).
+All 26 generated members again match the validated application bytes, and all
+non-test production `src` files exactly match the successful isolated build.
+The hook now verifies the complete generated inventory and bundle before/after
+formatting only staged authored files. Generated modules, frozen SDK data and
+Genesis are protected from formatter rewriting. Two additional script tests
+pass for byte/bundle/inventory corruption and staged-file selection. The real
+commit hook passes with **no further fixes**, leaving the wallet tree clean.
+Post-hook SDK/typecheck and the full wallet suite pass again (730/one existing
+skip). No full proof, browser approval, financial send or new live read follows.
+
+The first evidence pack remains a pre-hook source snapshot. The final v2 pack
+retains it as history, adds the incident/correction and committed wallet source,
+and identifies the authoritative post-hook records. It does not overwrite v1
+or treat the invalid intermediate vendor formatting as accepted release bytes.
