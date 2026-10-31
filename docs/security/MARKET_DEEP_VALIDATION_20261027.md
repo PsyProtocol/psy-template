@@ -1,5 +1,20 @@
 # Market correctness and reset-chain validation — 27 October 2026
 
+Latest adversarial continuation (31 October): [preserved actual-bytecode review,
+manifest completeness and unambiguous function binding](FOUR_MARKET_ADVERSARIAL_20261031.md).
+Two new regressions reproduced acceptance gaps in the old builder; exact manifest
+inventory/cross-links, complete dependency function identity and hash-checked byte
+snapshots now close them. Nineteen final offline tests pass, including four exact
+bytecode reuses with zero compiles, partial-output recovery and two real local
+binding processes. This is not live financial or cross-machine acceptance.
+At checkpoint 26855 fixed height queries return 31, but Realm 0 state reads still
+fail and an exact i64::MAX height query returns 0. The updated
+[runtime handoff](UPSTREAM_REALM_LATEST_HEIGHT_HANDOFF_20261031.json) narrows the
+latest-metadata/cache path; the running cause remains unverified. No new source
+compile, proof, financial operation, deployment, fill or ordinary claim occurred.
+Node, frozen SDK, original evidence, budget ceilings and all live gates remain
+unchanged. Current-chain metadata/full-UPS/market/UI acceptance is still pending.
+
 Latest four-market continuation (31 October): [unified actual-bytecode suite,
 late policy identity, safe compile reuse and original QA registration](FOUR_MARKET_SUITE_20261031.md).
 All four deterministic candidates compile and retain source/cursor/priority/
