@@ -42,6 +42,20 @@ node batching/market-suite/build.mjs compile --spec /reviewed/spec.json --out /f
 node batching/market-suite/build.mjs bind --build /fresh/candidates --market-ids /reviewed/assigned-ids.json --out /fresh/policies
 ```
 
+For a reviewed build, add `--build-sha256 HASH` to `bind`. The hash must come
+from the reviewer, not from the executor presenting the artifacts. Binding
+without this optional pin remains an offline inspection operation and records
+`expectedBuildDigestMatched: false`. Even a matching pin grants no live rights.
+
+The manifest requires the exact 21-file inventory, four market records and six
+frozen input roles. Source/artifact records and copied dependency digests must
+agree with that inventory. Missing entries, extra paths, failed-build markers
+and contradictory readiness flags reject. The manifest and members are read
+into one hash-checked byte snapshot; policy parsing and cache copies use those
+same bytes rather than reopening paths after checking them. This is integrity
+relative to the reviewed manifest, not proof of a trusted compilation or chain
+deployment. Normal bytecode, key and full-UPS verification remains mandatory.
+
 The ID file must contain exactly `amm`, `bondingcurve`, `orderbook`, `nftmarket`,
 with four unique bounded IDs distinct from the dependency contracts. Those
 numbers are inputs to policy generation, **not proof of deployment**.
@@ -55,6 +69,11 @@ selector agreement, compiler pin/domain, all foreign state read dimensions
 original bytecode bytes are copied without reserializing its integers through
 JavaScript Number. Layout proofs and full UPS are deliberately not inferred
 from an ABI, compiler report, audit count or host success flag.
+
+All Native/FT/NFT actual function names and selectors must be unique. Every
+FT/NFT actual function must have exactly one ABI entry with matching selector,
+input count and output count. Native retains its explicit frozen code-definition
+checks: its reviewed artifact has a layout-only ABI, not a method table.
 
 ## Optional exact artifact reuse
 
@@ -91,3 +110,4 @@ atomic ranges; intermediate Outbox assets require a confirmed claim. This entry
 point adds no invoke_sync, price-mechanism change, shard or cross-vault atomicity.
 
 See [current code/evidence and remaining gates](../../docs/security/FOUR_MARKET_SUITE_20261031.md).
+See also [adversarial review and preserved-bytecode reproduction](../../docs/security/FOUR_MARKET_ADVERSARIAL_20261031.md).

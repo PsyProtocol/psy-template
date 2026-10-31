@@ -1,0 +1,380 @@
+{
+  "schema": 1,
+  "baseCommit": "52888d2727e183ba8f5ef6585fd61bd0e0e6b339",
+  "sdkCommit": "c92880c8b6e2c8d392f19368bc8801a2584fd427",
+  "archive": {
+    "name": "evidence.tar.gz",
+    "bytes": 98195,
+    "sha256": "14c42a9376f42e4a4865f0824ba708367c06112065f23720b63d789a0c452f81"
+  },
+  "members": {
+    "case/adversarial-final-v1/contended-bound/BOUND.json": {
+      "bytes": 1446,
+      "sha256": "88ca3f06620ef1081a486089f36236d76075ee1f775d2d35e253aece20085c50"
+    },
+    "case/adversarial-final-v1/contended-bound/amm/policy.json": {
+      "bytes": 109854,
+      "sha256": "c04db1e2217ec08d995916408854e4ff910bc980308d76ae9d754a52359cc3f0"
+    },
+    "case/adversarial-final-v1/contended-bound/amm/stream-policy.json": {
+      "bytes": 123020,
+      "sha256": "18cdd0e5cfcc5ab6500d0a22471e49144c7c2be73fe326db627df668cc78c459"
+    },
+    "case/adversarial-final-v1/contended-bound/bondingcurve/policy.json": {
+      "bytes": 114040,
+      "sha256": "dbe998a4b1568aa571d7eb8fa71c8c1530440f5888038f6bd5546fb051e18925"
+    },
+    "case/adversarial-final-v1/contended-bound/bondingcurve/stream-policy.json": {
+      "bytes": 127596,
+      "sha256": "13be79827976854fd325123b59e7ebbf1cc4c89d9aab7e3386fecb0590e85dcf"
+    },
+    "case/adversarial-final-v1/contended-bound/nftmarket/policy.json": {
+      "bytes": 70913,
+      "sha256": "278ad65fac9a304c0d896870d374beb2e65b8289a6ecca973585ed14e0d9cb74"
+    },
+    "case/adversarial-final-v1/contended-bound/nftmarket/stream-policy.json": {
+      "bytes": 81065,
+      "sha256": "f2c084ff15e807d2af5c8d9ed441778d735989fe3c483ec481f3ea392ca2d376"
+    },
+    "case/adversarial-final-v1/contended-bound/orderbook/policy.json": {
+      "bytes": 82318,
+      "sha256": "e674ab55f1adbf64655c1badd3b70ce01151ce1c748e4911857f29d62164b295"
+    },
+    "case/adversarial-final-v1/contended-bound/orderbook/stream-policy.json": {
+      "bytes": 93601,
+      "sha256": "347650a3f7b9826aa3cf230c4ab2f57145551e12597704116b46c7f0b0d1d19e"
+    },
+    "case/adversarial-final-v1/exact-reuse/BUILD.json": {
+      "bytes": 6905,
+      "sha256": "5f91d0c515f5a7863336cb3fd78450f932d5966b6b0c0e391002eb272813a132"
+    },
+    "case/adversarial-final-v1/exact-reuse/amm/FOREIGN_READ_AUDIT.json": {
+      "bytes": 133,
+      "sha256": "5f31503881d34fb4438ce2cb8d61d1659e5c71e3ec01aea40635c828bd04eb16"
+    },
+    "case/adversarial-final-v1/exact-reuse/amm/compile.log": {
+      "bytes": 114,
+      "sha256": "20e1a2c38b23058cf80e791a63ecff06e756424be31a9c44dfbb6740cd444a24"
+    },
+    "case/adversarial-final-v1/exact-reuse/bondingcurve/FOREIGN_READ_AUDIT.json": {
+      "bytes": 133,
+      "sha256": "2226822afef132f947ea1d40ae5deb8bde40b35c241d798a6ea30e49380da1a6"
+    },
+    "case/adversarial-final-v1/exact-reuse/bondingcurve/compile.log": {
+      "bytes": 114,
+      "sha256": "20e1a2c38b23058cf80e791a63ecff06e756424be31a9c44dfbb6740cd444a24"
+    },
+    "case/adversarial-final-v1/exact-reuse/nftmarket/FOREIGN_READ_AUDIT.json": {
+      "bytes": 133,
+      "sha256": "8acb3d7f69a158a4fdd0c51ed4e89aa64879fd5438a196e99948c5e44ff7f5a0"
+    },
+    "case/adversarial-final-v1/exact-reuse/nftmarket/compile.log": {
+      "bytes": 114,
+      "sha256": "20e1a2c38b23058cf80e791a63ecff06e756424be31a9c44dfbb6740cd444a24"
+    },
+    "case/adversarial-final-v1/exact-reuse/orderbook/FOREIGN_READ_AUDIT.json": {
+      "bytes": 133,
+      "sha256": "d269777a9c8d4a8b0a4d8a4c1f0cfd4c5fe4b520e6d73c97cb707c406fe1630c"
+    },
+    "case/adversarial-final-v1/exact-reuse/orderbook/compile.log": {
+      "bytes": 114,
+      "sha256": "20e1a2c38b23058cf80e791a63ecff06e756424be31a9c44dfbb6740cd444a24"
+    },
+    "case/adversarial-final-v1/interrupted-bound/original-partial.txt": {
+      "bytes": 29,
+      "sha256": "ee033ff8a23afb13cba45810bcfe53daeced0420413d5a9ce27714c515d175bb"
+    },
+    "case/adversarial-final-v1/local-bind-results.json": {
+      "bytes": 1645,
+      "sha256": "565a0645507f028a3ebd56abe3cbe1c5b9178ede29b7d60ac2ddb1b2ec9fd85f"
+    },
+    "case/adversarial-final-v1/recovered-bound/BOUND.json": {
+      "bytes": 1446,
+      "sha256": "337dc47e4d5a1864b8a479e28f13f4e54c8ecb92f601db362935682b8882c6d9"
+    },
+    "case/adversarial-final-v1/recovered-bound/amm/policy.json": {
+      "bytes": 109854,
+      "sha256": "86ab08117589bd921faca7277db7816e79ee85f28bcb2f9d372e3c20727b31a7"
+    },
+    "case/adversarial-final-v1/recovered-bound/amm/stream-policy.json": {
+      "bytes": 123020,
+      "sha256": "9ae578983e34744c35efc6593a7744f7259fcde4f236e3e11a2b90a434e6fbf4"
+    },
+    "case/adversarial-final-v1/recovered-bound/bondingcurve/policy.json": {
+      "bytes": 114040,
+      "sha256": "10a157e26ffceb216bea22bd062e21ef79fd76393c74dac5e8f5d29917cca84a"
+    },
+    "case/adversarial-final-v1/recovered-bound/bondingcurve/stream-policy.json": {
+      "bytes": 127596,
+      "sha256": "a9b360be27eea35d7ae9b050fd3a20a08eede536903831a12706d29456212a3c"
+    },
+    "case/adversarial-final-v1/recovered-bound/nftmarket/policy.json": {
+      "bytes": 70913,
+      "sha256": "bfee27e278673f6da9ad8a9d42e831c65e5f46f7d06211684c5efcd2d821e6b5"
+    },
+    "case/adversarial-final-v1/recovered-bound/nftmarket/stream-policy.json": {
+      "bytes": 81065,
+      "sha256": "af9dbe6e0430ea7a21ef8598ce1f9c6008355a5f8d87036f8bdbfd87ae07645d"
+    },
+    "case/adversarial-final-v1/recovered-bound/orderbook/policy.json": {
+      "bytes": 82318,
+      "sha256": "bd281c74c47906c10c0c98acfa7aedfdc5b76cd4f5a7395f0c64084fb22cb32c"
+    },
+    "case/adversarial-final-v1/recovered-bound/orderbook/stream-policy.json": {
+      "bytes": 93601,
+      "sha256": "f5e2e3bb798a36f3815dfe21e5dcd1d7e340e30b8cb6a519eddbe6e26b4d5e6b"
+    },
+    "case/current-v1/1-request.json": {
+      "bytes": 138,
+      "sha256": "31664cd69eea9936c2a8dccd70e16737012661babe14707dfe0f841cb4caf853"
+    },
+    "case/current-v1/1-response.json": {
+      "bytes": 225,
+      "sha256": "32f5b139ddd1a8063fffbd572622c3fba5e9921fd08e26bd49e61cc9f39178fd"
+    },
+    "case/current-v1/10-request.json": {
+      "bytes": 218,
+      "sha256": "1a40e0b45110eef7df788e8bc815867c3e66c0d054684678ff44dfa5636fa478"
+    },
+    "case/current-v1/10-response.json": {
+      "bytes": 132,
+      "sha256": "56a7c23540b4221a77e7fd98c6dbe8a06107aa464435f81813f46af9958ecdd8"
+    },
+    "case/current-v1/11-request.json": {
+      "bytes": 170,
+      "sha256": "78976bd0c5286e7b1cbf6c247caa40fbff4701d030ca2a6fb1cd8033344cbd94"
+    },
+    "case/current-v1/11-response.json": {
+      "bytes": 288,
+      "sha256": "b285a878b689bbb48be86b195066cb94624763d05177bfec08e31295750929f3"
+    },
+    "case/current-v1/12-request.json": {
+      "bytes": 218,
+      "sha256": "c6bda29abf29da93c85eba7040876ab2de1b5f955b302ceaec5028582e4b9a92"
+    },
+    "case/current-v1/12-response.json": {
+      "bytes": 101,
+      "sha256": "95454b828addc8e71e3e90066c75f28af8d5ba87a056518db642a01486dcb839"
+    },
+    "case/current-v1/2-request.json": {
+      "bytes": 138,
+      "sha256": "394525d83108a09bcbe41c160522fecaaf90e17e41a79d7a9f8f9baf31cdd802"
+    },
+    "case/current-v1/2-response.json": {
+      "bytes": 225,
+      "sha256": "5fca009335c63e6e8eb31fd9948bbb7eaa37cd98c0f60ca8d2d1cbb217439e9f"
+    },
+    "case/current-v1/3-request.json": {
+      "bytes": 159,
+      "sha256": "ad3632bad544c7f3acc438558f9067ecb76c14e7c512967a851ada2c1c80923e"
+    },
+    "case/current-v1/3-response.json": {
+      "bytes": 790,
+      "sha256": "895697b08e98790c40eb1623838e4e4066e36bad3b5e3514475484dd0f5cff5f"
+    },
+    "case/current-v1/4-request.json": {
+      "bytes": 155,
+      "sha256": "38b99240dbe63b7562dec4aaa424acb945a3bccb8af90f9b17d3fb192c667a99"
+    },
+    "case/current-v1/4-response.json": {
+      "bytes": 397,
+      "sha256": "c1ed295fc1f674adc09e5b7c85d020f6a59ccac1c71cb99736d9635e09749d13"
+    },
+    "case/current-v1/5-request.json": {
+      "bytes": 184,
+      "sha256": "390d6ce4a1cd0d2d116c0e23a80eef0bec37a900192713d186f7de22cdbd2cfc"
+    },
+    "case/current-v1/5-response.json": {
+      "bytes": 38,
+      "sha256": "5fb4a3e236e1fb5fa3d4166ee044f8e03fc96947bc7857cebd8abd7eb7d673c0"
+    },
+    "case/current-v1/6-request.json": {
+      "bytes": 184,
+      "sha256": "20de9442ecc44eaa679ce00ffabec6bd197d345fd91ca92b3fee1ceae5fcf298"
+    },
+    "case/current-v1/6-response.json": {
+      "bytes": 38,
+      "sha256": "37a66575945b585224ca667957c04adeda452f13b780da430b6c026fc78c0607"
+    },
+    "case/current-v1/7-request.json": {
+      "bytes": 184,
+      "sha256": "643635e4d2445407ba67cb359604583d5864f028073f1215f5719893aa1f0094"
+    },
+    "case/current-v1/7-response.json": {
+      "bytes": 38,
+      "sha256": "04c50fcc12dcc0de7e0a718f6d5dafaf346682f9203d80cb2b7b66c4e470f842"
+    },
+    "case/current-v1/8-request.json": {
+      "bytes": 184,
+      "sha256": "6b263a2a082307f2b60a35c775a688796a6a508d077538fc3e5754b5b02392a3"
+    },
+    "case/current-v1/8-response.json": {
+      "bytes": 38,
+      "sha256": "ede113f17cf562281204e57300093a3543d4aacde68482c3017165c21907f92a"
+    },
+    "case/current-v1/9-request.json": {
+      "bytes": 217,
+      "sha256": "c127db42b8d4b09bbe29c8a86cd6ed35a8e9a0e87473678e07efe88536bdba11"
+    },
+    "case/current-v1/9-response.json": {
+      "bytes": 131,
+      "sha256": "30658da88bd8e562d9879ffe3f49ecf2aedac859e4b1fe85bbbb63b4fc7b6eda"
+    },
+    "case/current-v1/SUMMARY.json": {
+      "bytes": 1762,
+      "sha256": "c55b3e6ca743eead382db53fdbdf9bdc6ccb73b981526691f04ed441521b2ff6"
+    },
+    "case/height-sentinel-v1/1-request.json": {
+      "bytes": 137,
+      "sha256": "6abd00f9786393684db726468953797948a265d00c8bf0cd457fdc8b603af789"
+    },
+    "case/height-sentinel-v1/1-response.json": {
+      "bytes": 37,
+      "sha256": "718dab487cc0987a52ad6886425f15676118b870e55970e52c4bb30b00733874"
+    },
+    "case/height-sentinel-v1/2-request.json": {
+      "bytes": 137,
+      "sha256": "594ce9c9c4c7d43bb6ae8d33dfcf38e0e07b29ea61397646be9c9ce6f676b376"
+    },
+    "case/height-sentinel-v1/2-response.json": {
+      "bytes": 38,
+      "sha256": "4a36a5ed0a1e65f5db47b0e8c6ff15edc17052d4cd7e6dd43e69c799a8520ef6"
+    },
+    "case/height-sentinel-v1/3-request.json": {
+      "bytes": 137,
+      "sha256": "8fffcb903a0cccf664b6d8f7847c39afe02f2ff6b1f3dc3e164c8215d44766c7"
+    },
+    "case/height-sentinel-v1/3-response.json": {
+      "bytes": 38,
+      "sha256": "be36b0e28901083b07730d41babf08328dd3e92349fabe7b4b47bab35928ad88"
+    },
+    "case/height-sentinel-v1/4-request.json": {
+      "bytes": 123,
+      "sha256": "7d6f0c6e3512d40544979b2c6b78cdc4d0fdc87ce1cf4a50e909a6d9b3a5dba7"
+    },
+    "case/height-sentinel-v1/4-response.json": {
+      "bytes": 38,
+      "sha256": "4412322c4dc1d6edd749f71f7937677d384389d982322d01bca8cf24a3dc2826"
+    },
+    "case/height-sentinel-v1/SUMMARY.json": {
+      "bytes": 706,
+      "sha256": "08578e6fd5628bb0c2678ab5440ba81b7cc01152113a8d40b7922bdac44fecff"
+    },
+    "case/inspect-latest-height-v1.mjs": {
+      "bytes": 1550,
+      "sha256": "4a32bc9483dd4535169ebbcd73a1a64e9873ff5fe588e64cd14a8225a7bd8168"
+    },
+    "case/observe-current-v1.mjs": {
+      "bytes": 2991,
+      "sha256": "cdc053020c689db25a5c9a9036554f1063723d185083bb8c855de7bbf38bc066"
+    },
+    "case/public/FROZEN-SOURCE-CHECK.json": {
+      "bytes": 380,
+      "sha256": "9d5b3aace416e8132acccb5cfae8dc2e279e22d505af03baaa87ce485d33b55f"
+    },
+    "case/public/INITIAL-DIAGNOSTIC.json": {
+      "bytes": 392,
+      "sha256": "d2d31c02cbb63120d70a4c638bcdd40ea9dfd9821b7e917e4fb4c71026917e57"
+    },
+    "case/public/PLAN.json": {
+      "bytes": 630,
+      "sha256": "869c92be523fdfff904683ebdb6bbd6e9c93271489148c2272aa8064179078fc"
+    },
+    "case/public/PRESERVED-BYTECODE-CHECK.json": {
+      "bytes": 2542,
+      "sha256": "9100770c5ee7f597f52f8c2d8ac7cec7b285508e56b727a11711045aecdf3393"
+    },
+    "case/public/TEST-RUNS-final-v1.json": {
+      "bytes": 3822,
+      "sha256": "653e0dc5361443dfae9cac66a4ae21239b94b4d1518af0e42c333d53c7e49ffa"
+    },
+    "case/public/adversarial-final-v1.log": {
+      "bytes": 1919,
+      "sha256": "2c3211fe60827a8dc41d3a15daef2f6138c9dc84a50f5e4368c3a1ce9aec0c44"
+    },
+    "case/public/adversarial-v1.log": {
+      "bytes": 877,
+      "sha256": "b0892acd18fa0cccc05afd0ffb541a12284d5d14733455522240a706a084b279"
+    },
+    "case/public/green-v1.log": {
+      "bytes": 575,
+      "sha256": "68b0c933e778502107eef0c3e73bcdef3b75792e0cbae74d70c6f3b966ffb489"
+    },
+    "case/public/green-v2.log": {
+      "bytes": 575,
+      "sha256": "171af1eb468b89490e930d11a4fe75ef7d0699c2de60a796b9c4081ea7f97bbb"
+    },
+    "case/public/prior-regressions-final-v1.log": {
+      "bytes": 2116,
+      "sha256": "b2c5e9c08b23c8cb6cff73bef20a00add515756dda633d9ebb1f0530886f63e1"
+    },
+    "case/public/prior-regressions-final-v2.log": {
+      "bytes": 2115,
+      "sha256": "0de95725aa478eb8b9e75071a4f37c11bdf78e6f25aff94b666c44bb942a665f"
+    },
+    "case/public/red-v1.log": {
+      "bytes": 1819,
+      "sha256": "0ec95dc674d89ebdb3c96de0e8e594a4fc836bcfcb6f0f044b3810eafcdbc869"
+    },
+    "case/public/regression-final-v1.log": {
+      "bytes": 616,
+      "sha256": "4359b412b8661d64d9db7478859829a290c275e78269ecfdc1a255e210aac068"
+    },
+    "case/source-before-v1/build.mjs": {
+      "bytes": 13019,
+      "sha256": "039d8e7d4c096301da2fadc21a42fa35e21fdab4c2f6920d7bc6611233070280"
+    },
+    "source/batching/market-suite/README.md": {
+      "bytes": 7277,
+      "sha256": "169624a40a80562180f5893954f6e0cda6698e95f8e2906a168a86444ae42e85"
+    },
+    "source/batching/market-suite/adversarial.test.mjs": {
+      "bytes": 10277,
+      "sha256": "5f58b142a50798c387405a4e951ccc8df36ab210badc0ccd6774407bc94f1933"
+    },
+    "source/batching/market-suite/build.mjs": {
+      "bytes": 12988,
+      "sha256": "7b025e562212cb8ab214b4374847d2ffa936677b7fa84b3bbedaa73b9d40f3ec"
+    },
+    "source/batching/market-suite/import.test.mjs": {
+      "bytes": 911,
+      "sha256": "b3616b7949cba61c793b08d83d792b8d99d0aaf16d29376269ad5d586acfb64b"
+    },
+    "source/batching/market-suite/manifest-regression.test.mjs": {
+      "bytes": 1639,
+      "sha256": "f4b7f9cdff3e40ec948dbd75d3bad2c4000360a8c4bc4ed42a42c6121951d596"
+    },
+    "source/batching/market-suite/manifest.mjs": {
+      "bytes": 4792,
+      "sha256": "e5bf749f39c37499ef2a5206b9ecf0541cac484e43278f80e95c5700cf39fff0"
+    },
+    "source/batching/market-suite/reuse.test.mjs": {
+      "bytes": 1818,
+      "sha256": "a77084f4406d22f19cd0edfb944439c49dc34f1a465b31bff9f184274a6dbe62"
+    },
+    "source/batching/market-suite/review.test.mjs": {
+      "bytes": 4024,
+      "sha256": "ecc10b92cae80f9356bcd42b43835d039d9d1be93d99c99fcc397853c13c7cdc"
+    },
+    "source/docs/security/FOUR_MARKET_ADVERSARIAL_20261031.md": {
+      "bytes": 9774,
+      "sha256": "5bff66d6c3bdcd4904ff8d841c14649ab12a54c1a624d4dccaee26969ce22b04"
+    },
+    "source/docs/security/MARKET_DEEP_VALIDATION_20261027.md": {
+      "bytes": 62710,
+      "sha256": "9df4bf4814b86fe443fb0bdae33c87cb8e3a309741b79a416009df81d5d6c8b6"
+    },
+    "source/docs/security/UPSTREAM_REALM_LATEST_HEIGHT_HANDOFF_20261031.json": {
+      "bytes": 4908,
+      "sha256": "986d9a5c3c1b75055e1fd8ec04fcfb09cb509c65c25b56955f541abbb9899613"
+    }
+  },
+  "secretPatternScanPassed": true,
+  "readBackVerified": true,
+  "excluded": "Executables, all secrets/witnesses, large negative clones and byte-identical original/cache payloads. Original public candidates remain in four-market-suite-v2.",
+  "newSourceCompilations": 0,
+  "newProofs": 0,
+  "financialOperations": 0,
+  "actualMarketFills": 0,
+  "liveAuthorization": false
+}

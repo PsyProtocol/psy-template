@@ -1,0 +1,148 @@
+{
+  "schema": 1,
+  "scope": "Read-only runtime metadata handoff; no Node/SDK changes or financial authority",
+  "chainRootAt1": "919896e18690246e20307f68cf2e5725aee496755366bbafff88eccaea975f12",
+  "sdkCommit": "c92880c8b6e2c8d392f19368bc8801a2584fd427",
+  "contractId": 8,
+  "includedDeploymentCheckpoint": 25363,
+  "observedCheckpoint": 26855,
+  "fixedCheckpointHeight": {
+    "realm0": [
+      [
+        31
+      ],
+      [
+        31
+      ],
+      [
+        31
+      ]
+    ],
+    "realm1": [
+      [
+        31
+      ],
+      [
+        31
+      ]
+    ]
+  },
+  "stateReadErrors": [
+    {
+      "jsonrpc": "2.0",
+      "id": 9,
+      "error": {
+        "code": -32001,
+        "message": "contract 8 state tree height metadata is not available in Realm DB yet"
+      }
+    },
+    {
+      "jsonrpc": "2.0",
+      "id": 10,
+      "error": {
+        "code": -32001,
+        "message": "contract 8 state tree height metadata is not available in Realm DB yet"
+      }
+    }
+  ],
+  "latestSentinelObservations": [
+    {
+      "endpoint": "https://realm0-stg.psy-protocol.xyz",
+      "checkpoint": 9223372036854775807,
+      "httpStatus": 200,
+      "result": [
+        0
+      ],
+      "error": null
+    },
+    {
+      "endpoint": "https://realm1-stg.psy-protocol.xyz",
+      "checkpoint": 9223372036854775807,
+      "httpStatus": 200,
+      "result": [
+        31
+      ],
+      "error": null
+    },
+    {
+      "endpoint": "https://coordinator-stg.psy-protocol.xyz",
+      "checkpoint": 9223372036854775807,
+      "httpStatus": 200,
+      "result": [
+        31
+      ],
+      "error": null
+    },
+    {
+      "endpoint": "https://realm0-stg.psy-protocol.xyz",
+      "checkpoint": 26855,
+      "httpStatus": 200,
+      "result": [
+        31
+      ],
+      "error": null
+    }
+  ],
+  "frozenSource": [
+    {
+      "path": "psy_node_common/src/realm/edge/handler.rs",
+      "sha256": "1c903a49b4840f16cf4463d6c0e7bb6f509213598b59053f5d035a42db84232a",
+      "relevantLines": [
+        698,
+        732,
+        1186,
+        1226,
+        1377
+      ]
+    },
+    {
+      "path": "psy_node_core/src/psy_core_db/v3_implementation/full.rs",
+      "sha256": "183e9c6b50da1a3808ca66e5d9b4dda93bc9be905cf637c1f0ff981c16dfbe04",
+      "relevantLines": [
+        3066,
+        3073
+      ]
+    },
+    {
+      "path": "psy_node_scylla/src/tables/object/single.rs",
+      "sha256": "36acc27c1a6a9b8a01e80cf8b7a4cf1f998b5fff2916b56b1abe4b32d9145771",
+      "relevantLines": [
+        75,
+        712,
+        740
+      ]
+    },
+    {
+      "path": "psy_node_scylla/src/utils.rs",
+      "sha256": "b9b7bdb66918ae46bc459846ffd1e5d844a2c5452388eb1ae29fe1b433a2c628",
+      "relevantLines": [
+        18,
+        24
+      ]
+    }
+  ],
+  "interpretation": "Fixed-checkpoint height success does not imply latest-sentinel metadata or state/proof availability. Frozen handler uses i64::MAX for state height-cache population and rejects zero. Source correlation only; running build/serving-instance identity and persisted cause remain unverified. No signed-overflow cause established.",
+  "requiredDelivery": [
+    {
+      "owner": "Realm 0 runtime / routing / database operators",
+      "requirement": "For the included contract 8 and same chain, capture actual serving-instance/build identity, state-read error traces, height-cache inputs and persisted contract_state_tree_height rows for checkpoint 26855 and the i64::MAX bound. Explain why fixed height is 31 while latest-bound height is zero; inspect synchronization/cursor and routing consistency. Preserve failures."
+    },
+    {
+      "owner": "Runtime RPC / proof service owners",
+      "requirement": "Demonstrate reliable [31] on every serving path for both a fresh explicit checkpoint and exact integer 9223372036854775807, followed by state leaf, root and Merkle proof queries for issuer 223232 / contract 8 at that same fresh checkpoint. Supply public request/response, checkpoint and build identity; no secrets."
+    }
+  ],
+  "acceptance": [
+    "Re-run complete fresh chain/Native/resources/identity/nonce/balance preflight; do not rely on this old observation.",
+    "Verify all state/Merkle proofs against authenticated declared endpoints; metadata success alone is insufficient.",
+    "Preserve exact included QA FT 8 identity; no redeploy/update or replay of old writes.",
+    "Resume only separately budgeted new-instance actual-ID full UPS, authorization and wallet approval gates."
+  ],
+  "applicationBoundaries": [
+    "No injected height, unavailable-to-zero substitution or opposite-Realm state routing.",
+    "No financial proof or write in this round; read ceiling 16/16 exhausted.",
+    "No Node or dependency modification.",
+    "Runtime observations are not independent consensus finality or qualified randomness."
+  ],
+  "evidence": "executor/verification/2026-10-31-four-market-adversarial-v1/evidence.tar.gz: current-v1 and height-sentinel-v1"
+}
