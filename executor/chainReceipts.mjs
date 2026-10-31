@@ -4,11 +4,12 @@ import {retryRead,ReadUnavailable} from './readRetry.mjs';
 import {withReadSlot} from './readConcurrency.mjs';
 // A submission returns an end-user leaf, not a services transaction hash.
 // Confirm both the historical leaf and the indexed content-hash receipt.
-export async function receiptReader(rpcConfig,{fetchImpl=fetch,maxPages=20,historyConcurrency=4,observeRead}={}) {
+export async function receiptReader(rpcConfig,{fetchImpl=fetch,maxPages=20,historyConcurrency=4,observeRead,expectedNetwork}={}) {
  if(!Number.isSafeInteger(maxPages)||maxPages<1||maxPages>100)throw Error('receipt maxPages must be 1..100');
  if(![1,4].includes(historyConcurrency))throw Error('reviewed receipt history concurrency is 1 or 4');
  if(observeRead!==undefined&&typeof observeRead!=='function')throw Error('invalid receipt observer');
  const c=JSON.parse(await readFile(rpcConfig,'utf8'));
+ if(expectedNetwork!==undefined && (typeof expectedNetwork!=='string'||!expectedNetwork||c.defaultNetwork!==expectedNetwork))throw Error('receipt configuration selected an unexpected network');
  const network=c.networks[c.defaultNetwork];
  if(!network?.api_services_url?.[0])throw Error('services URL missing');
  const get=(url,body)=>retryRead(async()=>withReadSlot(async()=>{const start=performance.now();let failed=true;try{const r=await fetchImpl(url,body?{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(body),signal:AbortSignal.timeout(15000)}:{signal:AbortSignal.timeout(15000)});if(!r.ok){const error=Error(`HTTP ${r.status}`);error.status=r.status;throw error;}const v=await r.json();if(v.error)throw Error(JSON.stringify(v.error));failed=false;return v;}finally{if(observeRead)await observeRead({at:new Date().toISOString(),method:body?.method??(url.includes('/get/user/transactions')?'services-list':'services-receipt'),milliseconds:performance.now()-start,failed});}}));

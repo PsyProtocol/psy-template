@@ -4,6 +4,7 @@ import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { createHash } from "node:crypto";
 import { parseLosslessJson, losslessJson } from "../../amm/u124/client.mjs";
+import { decodeFeltSlot } from "../../orderbook/matcherCore.mjs";
 const COORDINATOR = "https://coordinator-stg.psy-protocol.xyz";
 const REALMS = [
   "https://realm0-stg.psy-protocol.xyz",
@@ -252,6 +253,17 @@ export async function captureNativeBinding(
       funding.nonce < 0n
     )
       throw Error("Funding observation identity/amount rejected");
+    // The account leaf's balance is a system field. Spendable test PSY lives
+    // in Native contract 0, slot 0; claiming can leave the system field zero.
+    const nativeBalanceLeaf = await read(
+      "funding-native-balance",
+      REALMS[0],
+      "psy_get_user_contract_state_tree_leaf_hash",
+      { checkpoint_id: checkpoint, user_id: 223232, contract_id: 0, leaf_id: 0 },
+    );
+    const nativeBalance = decodeFeltSlot(nativeBalanceLeaf, 0);
+    if (nativeBalance >= 18446744069414584321n)
+      throw Error("Noncanonical Native balance");
     const registry = await read(
       "runtime-client-resources",
       PROVER,
@@ -278,7 +290,9 @@ export async function captureNativeBinding(
         storedPublicKeyHash: funding.public_key,
         userStateInitialized: funding.public_key !== "0".repeat(64),
         registrationStatus: "not-queried",
-        nativeBalance: String(funding.balance),
+        storedUserLeafSystemBalance: String(funding.balance),
+        nativeBalance: String(nativeBalance),
+        nativeBalanceSource: "contract-0-slot-0-at-captured-checkpoint",
         nonce: String(funding.nonce),
       },
       resourceRoles: Object.keys(resources),
