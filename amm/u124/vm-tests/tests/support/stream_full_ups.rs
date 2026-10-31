@@ -615,7 +615,7 @@ fn needed(spec: &Value) -> Vec<Value> {
                 "refund_buy",
             ]
             .contains(&o["name"].as_str().unwrap())
-                || (spec["version"] == 12 && o["maintenance"] == true)
+                || ((spec["version"] == 12 || spec["version"] == 14) && o["maintenance"] == true)
                 || ((spec["version"] == 8 || spec["version"] == 9)
                     && ["match_orders", "settle_sale"].contains(&o["name"].as_str().unwrap_or("")))
                 || o["name"].as_str().unwrap().starts_with("refund_funding_")
@@ -807,7 +807,7 @@ impl StreamChain {
             .seed_identity_with_history(w, key.g.get_fingerprint(), &[(1, anchor_leaf())])
             .await?;
         let source = if maintenance {
-            ensure!(spec["version"] == 12, "distinct bootstrap profile");
+            ensure!(spec["version"] == 12 || spec["version"] == 14, "distinct bootstrap profile");
             let header = snapshot_header(db, w, &review, key.g.get_fingerprint()).await?;
             stream_source::SourcePage::inactive_maintenance(&review, &header)?.0
         } else { snapshot(db, w, &review, key.g.get_fingerprint()).await? };
@@ -857,7 +857,7 @@ impl StreamChain {
         // Reconstruct original source metadata in an independent temporary database
         // for its exact user membership path; never substitute current state.
         let proof = if inactive_maintenance {
-            ensure!(self.spec["version"] == 12, "maintenance tape requires distinct key");
+            ensure!(self.spec["version"] == 12 || self.spec["version"] == 14, "maintenance tape requires distinct key");
             // Not a historical membership claim. SourceContext is disabled by
             // this mode's circuit; CurrentTargets remains fully authenticated.
             stream_source::SourcePage::inactive_maintenance(&self.review, &source)?.1.rows[0].original.clone()
@@ -872,10 +872,10 @@ impl StreamChain {
         label: &str,
     ) -> Result<()> {
         let start = Instant::now();
-        if self.spec["version"] == 11 || self.spec["version"] == 12 || self.spec["version"] == 13 {
+        if self.spec["version"] == 11 || self.spec["version"] == 12 || self.spec["version"] == 13 || self.spec["version"] == 14 {
             req = minimum_exact_fee(w, &self.spec, req)?;
         }
-        let inactive_maintenance = (self.spec["version"] == 12 || self.spec["version"] == 13) && [4,13,14].contains(&req.fields[0]);
+        let inactive_maintenance = (self.spec["version"] == 12 || self.spec["version"] == 13 || self.spec["version"] == 14) && [4,13,14].contains(&req.fields[0]);
         let (db, source, vault_path) = self.seed_for_request(w, inactive_maintenance).await?;
         if let Some(p)=&mut req.accepted_seal {
             p.snapshot.history.anchor_path=db.get_checkpoint_tree_merkle_proof(w.checkpoint,1).await?;
@@ -992,7 +992,7 @@ impl StreamChain {
             .map(|n| n.to_canonical_u64());
         let initial = std::array::from_fn(|i| w.state.get_contract_slot(V, 0, i as u64).unwrap());
         let burn = stream_policy::completion_fee(prefix, native_changed, initial, native_current)?;
-        if self.spec["version"] == 11 {
+        if self.spec["version"] == 11 || self.spec["version"] == 14 {
             ensure!(req.fields[73] == burn, "prebound fee differs from actual CFC fee");
         }
         req.fields[73] = burn;
@@ -1074,7 +1074,7 @@ impl StreamChain {
         // session and stack. Rejection must come from the compiled key.
         let mut rejections = vec![];
         if self.spec["version"]==13 && label=="sealed-minimum-0" {rejections.extend(self.reject_seal_attacks(w,seal_attack_db,&source,&vault_path,&current,&req,&input).await?);}
-        if fresh && self.spec["version"] == 12 {
+        if fresh && (self.spec["version"] == 12 || self.spec["version"] == 14) {
             use psy_client_data::qdata::{ups_signature::PsyUserProvingSessionSignatureDataCompact, user_contract_state::SignContext};
             use psy_template_u124_markets::market_key::compute_tx_stack_hash;
             let mut alternative = req.clone(); alternative.fields[0]=13; alternative.fields[24]=0;
@@ -1698,3 +1698,6 @@ mod minimum_bootstrap_full_ups;
 
 #[path="sealed_stream_full_ups.rs"]
 mod sealed_stream_full_ups;
+
+#[path="funded_bootstrap_full_ups.rs"]
+mod funded_bootstrap_full_ups;

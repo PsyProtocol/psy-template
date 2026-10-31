@@ -213,6 +213,7 @@ pub struct StreamKey {
     random: Option<crate::random_stream::Targets>,
     minimum: Option<crate::random_minimum::PageTargets>,
     bootstrap_profile: bool,
+    funded_profile: bool,
     accepted_seal: Option<crate::stream_seal::Targets>,
 }
 fn role<'a>(spec: &'a Value, name: &str) -> &'a Value {
@@ -228,6 +229,7 @@ pub fn validate(spec: &Value, r: &Review) -> Result<()> {
                 || spec["version"] == 11
                 || spec["version"] == 12
                 || spec["version"] == 13
+                || spec["version"] == 14
         }) && spec["tx_count"] == 40
             && spec["witness_length"] == 80
             && spec["live_authorization"] == false,
@@ -297,6 +299,22 @@ pub fn validate(spec: &Value, r: &Review) -> Result<()> {
                         .is_some_and(|n| n <= u32::MAX as u64),
                 "minimum and fee role ABI"
             );
+        }
+    }
+    if spec["version"] == 14 {
+        ensure!(r.kind <= 2 && spec["profile"] == "source-covered-deterministic-funded-bootstrap-v1"
+            && spec["source_window_checkpoints"] == 32 && spec["qualified_randomness"] == false,
+            "distinct deterministic funded profile");
+        let owner = spec["fee_owner"].as_u64().context("ordinary fee owner")?;
+        ensure!(owner > 0 && owner < 1 << 24 && spec["base"]["config"]["feeOwner"] == owner,
+            "exact ordinary funding owner");
+        ensure!(spec["base"]["config"]["issuer"] != owner && spec["base"]["config"]["target"] != owner,
+            "separate fees-only owner");
+        ensure!(spec["owner_fee_claim"] == json!({"contract_id":0,"method_name":"claim","method_id":3824212239u32,"inputs":[{"constant":owner.to_string()}]}),
+            "exact deterministic owner claim");
+        for (name,n) in [("authorize_fee_budget",7),("apply_fee_grant",8),("account_executor_fee",5)] {
+            let c=role(spec,name); ensure!(c["contract_id"]==r.market && c["method_name"]==name && c["input_count"]==n
+                && c["method_id"].as_u64().is_some_and(|v|v<=u32::MAX as u64),"exact deterministic fee role");
         }
     }
     if spec["version"] == 13 {
@@ -405,7 +423,8 @@ impl StreamKey {
     pub fn build(spec: &Value, r: &Review, chain: [u64; 4]) -> Result<Self> {
         validate(spec, r)?;
         let minimum_mode = spec["version"] == 11 || spec["version"] == 12 || spec["version"] == 13;
-        let bootstrap_mode = spec["version"] == 12 || spec["version"] == 13;
+        let funded_mode = minimum_mode || spec["version"] == 14;
+        let bootstrap_mode = spec["version"] == 12 || spec["version"] == 13 || spec["version"] == 14;
         let random_mode = spec["version"] == 10 || minimum_mode;
         let paired = r.kind >= 3;
         let optimized = spec["version"] == 9;
@@ -455,6 +474,10 @@ impl StreamKey {
         } else {
             None
         };
+        let deterministic_grant = if spec["version"] == 14 {
+            let grant=chosen(&mut b,fields[0],crate::random_minimum::GRANT_MODE);
+            valid=b.or(valid,grant); Some(grant)
+        } else {None};
         let random_exit = if random_mode {
             let exit = chosen(&mut b, fields[0], crate::random_stream::EXPIRE);
             valid = b.or(valid, exit);
@@ -489,6 +512,9 @@ impl StreamKey {
         } else {
             gates[0]
         };
+        let maintenance_source = if let Some(grant) = deterministic_grant {
+            b.or(maintenance_source,grant)
+        } else {maintenance_source};
         let maintenance_source = if let Some(gate) = bootstrap {
             b.or(maintenance_source, gate)
         } else {
@@ -1004,6 +1030,25 @@ impl StreamKey {
             }
         }
 
+        if let Some(grant) = deterministic_grant {
+            let owner=b.constant(f(spec["fee_owner"].as_u64().unwrap()));
+            let own=b.is_equal(g.user_id,owner); b.assert_zero(own.target);
+            let started=lt(&mut b,z,g.session_context.start_user_leaf.nonce,62);
+            eq(&mut b,grant,started.target,one);
+            for (target,bits) in [(fields[21],62),(fields[22],62),(fields[23],1)] {
+                let value=b.mul(grant.target,target);b.range_check(value,bits);
+            }
+            let key=g.session_context.start_user_leaf.public_key;
+            invoke(&mut b,grant,&g,0,role(spec,"apply_fee_grant"),
+                &[vec![fields[21],fields[22]],key.elements.to_vec(),vec![owner,fields[23]]].concat())?;
+            let flag=chosen(&mut b,fields[23],1);let claim=b.and(grant,flag);
+            let no_flag=b.not(flag);let skip=b.and(grant,no_flag);
+            bind(&mut b,claim,&g.tx_introspection.tx_info_slots[1],&spec["owner_fee_claim"],&[])?;
+            invoke(&mut b,skip,&g,1,&spec["noop"],&[])?;
+            for i in 2..38 {invoke(&mut b,grant,&g,i,&spec["noop"],&[])?;}
+            for i in 1..80 {if ![21,22,23,73].contains(&i){crate::batch_policy::zero(&mut b,grant,fields[i]);}}
+        }
+
         if let Some(gate) = bootstrap {
             eq(&mut b, gate, g.session_context.start_user_leaf.nonce, z);
             eq(&mut b, gate, g.session_context.nonce, one);
@@ -1141,7 +1186,7 @@ impl StreamKey {
             }
         }
         eq(&mut b, gates[0], maintenance.target, one);
-        for i in 9..(if minimum_mode { 38 } else { 39 }) {
+        for i in 9..(if funded_mode { 38 } else { 39 }) {
             invoke(&mut b, gates[0], &g, i, &spec["noop"], &[])?;
         }
         let noop = |b: &mut CircuitBuilder<F, 2>,
@@ -1180,7 +1225,7 @@ impl StreamKey {
             role(spec, "initialize_stream_roots"),
             &roots,
         )?;
-        noop(&mut b, gates[1], 2, if minimum_mode { 38 } else { 39 })?;
+        noop(&mut b, gates[1], 2, if funded_mode { 38 } else { 39 })?;
         invoke(
             &mut b,
             gates[2],
@@ -1222,7 +1267,7 @@ impl StreamKey {
             role(spec, "finish_source_page"),
             &after_source.elements,
         )?;
-        noop(&mut b, gates[2], 4, if minimum_mode { 38 } else { 39 })?;
+        noop(&mut b, gates[2], 4, if funded_mode { 38 } else { 39 })?;
         invoke(
             &mut b,
             gates[5],
@@ -1231,7 +1276,7 @@ impl StreamKey {
             role(spec, "abort_source_stream"),
             &before_abort.elements,
         )?;
-        noop(&mut b, gates[5], 1, if minimum_mode { 38 } else { 39 })?;
+        noop(&mut b, gates[5], 1, if funded_mode { 38 } else { 39 })?;
         let args = [
             before_settle.elements.to_vec(),
             (0..4).map(|i| fields[22 + 13 * i]).collect::<Vec<_>>(),
@@ -1421,7 +1466,7 @@ impl StreamKey {
                     // operands before the narrow comparison avoids imposing a
                     // 24-bit trader bound on an inactive grant/maintenance row.
                     // Active settlement still compares the actual full owners.
-                    let (previous, current) = if minimum_mode {
+                    let (previous, current) = if funded_mode {
                         (
                             b.select(gates[4], previous, z),
                             b.select(gates[4], current, z),
@@ -1475,7 +1520,7 @@ impl StreamKey {
             role(spec, "finish_stream_settlement"),
             &[vec![sc[5], settled, fields[2]], remaining.elements.to_vec()].concat(),
         )?;
-        if !minimum_mode {
+        if !funded_mode {
             invoke(&mut b, gates[4], &g, 38, &spec["noop"], &[])?;
         }
         let frontier = if global {
@@ -1624,7 +1669,7 @@ impl StreamKey {
             &spec["base"]["burn"],
             &fields,
         )?;
-        if minimum_mode {
+        if funded_mode {
             let key = g.session_context.start_user_leaf.public_key;
             invoke(
                 &mut b,
@@ -1658,6 +1703,7 @@ impl StreamKey {
             random,
             minimum,
             bootstrap_profile: bootstrap_mode,
+            funded_profile: funded_mode,
             accepted_seal,
         })
     }
@@ -1703,7 +1749,7 @@ impl StreamKey {
             );
         }
         if request.fields[0] == 4
-            || (self.minimum.is_some()
+            || (self.funded_profile
                 && [crate::random_minimum::GRANT_MODE, 14].contains(&request.fields[0]))
         {
             self.context.set_empty(&mut pw)?;
@@ -1771,7 +1817,7 @@ impl StreamKey {
                 "minimum witness requires replacement key"
             );
         }
-        if self.minimum.is_some() {
+        if self.funded_profile {
             let public = H::two_to_one(self.g.get_fingerprint().0, s.key_public_param.0)
                 .elements
                 .map(|n| n.to_canonical_u64());
@@ -1801,6 +1847,7 @@ pub fn calls(spec: &Value, req: &Request, compact: bool) -> Result<Vec<Value>> {
     let sc = &req.source.scope;
     let facts = &req.source.facts;
     let minimum_mode = spec["version"] == 11 || spec["version"] == 12 || spec["version"] == 13;
+    let funded_mode = minimum_mode || spec["version"] == 14;
     let random_mode = spec["version"] == 10;
     let draw_delay = if spec["version"] == 13 {
         crate::stream_seal::DRAW_DELAY
@@ -1884,7 +1931,7 @@ pub fn calls(spec: &Value, req: &Request, compact: bool) -> Result<Vec<Value>> {
                 .concat(),
             );
         }
-        14 if spec["version"] == 12 || spec["version"] == 13 => {
+        14 if spec["version"] == 12 || spec["version"] == 13 || spec["version"] == 14 => {
             let key = req.registered_key.context("registered key")?;
             ensure!(
                 f[23] == 1
@@ -1915,7 +1962,7 @@ pub fn calls(spec: &Value, req: &Request, compact: bool) -> Result<Vec<Value>> {
             );
             out[10] = convert(&spec["owner_fee_claim"], &[])?;
         }
-        crate::random_minimum::GRANT_MODE if minimum_mode => {
+        crate::random_minimum::GRANT_MODE if funded_mode => {
             let key = req.registered_key.context("registered key")?;
             ensure!(f[23] <= 1, "optional funding claim flag");
             out[0] = method(
@@ -2203,7 +2250,7 @@ pub fn calls(spec: &Value, req: &Request, compact: bool) -> Result<Vec<Value>> {
         }
         _ => anyhow::bail!("unknown stream mode"),
     }
-    if minimum_mode {
+    if funded_mode {
         let key = req.registered_key.context("registered key")?;
         out[38] = method("account_executor_fee", [vec![f[73]], key.to_vec()].concat());
     }
