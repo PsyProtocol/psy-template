@@ -1,5 +1,23 @@
 # Market correctness and reset-chain validation — 27 October 2026
 
+Latest deterministic bootstrap continuation (31 October): [new funded AMM/Curve
+key, actual bytecode and complete first-use UPSs](DETERMINISTIC_FUNDED_BOOTSTRAP_20261031.md).
+The distinct v14 candidate binds empty-vault activation before fee funding,
+an ordinary owner's nonce/key-bound lifetime cap and exact cumulative burns.
+Four complete synthetic UPSs pass, as do separate saved-Endcap re-verification
+and changed-public-fee rejection. The original failed proof is preserved: an
+inactive 24-bit owner comparison read the reused 62-bit cap; inactive masking
+fixes it while active settlement ordering remains intact. Two bytecode tests
+cover seed/cap/key/grant rollback and conservation; public consistency checks
+are explicitly separate from cryptographic verification.
+The successful process took 428.391 s with sampled child RSS peak 5,502,096 KiB;
+no matched performance, live trade, ordinary wallet claim or production result
+is implied. No live reads or financial operations occurred. Legacy profiles,
+Node, frozen SDK, original artifacts and UI resource installation are unchanged.
+Continuous settlement under the new key, deterministic Book/NFT bootstrap,
+real source-window/budget fit, unused treasury exit and current-chain/browser
+acceptance remain open. See [public evidence and reproduction](../../executor/verification/2026-10-31-deterministic-funded-bootstrap-v1/README.md).
+
 Latest production-candidate hardening (31 October): [formal Executor/wallet
 wire integrity, bounded streams and exact unknown recovery](PRODUCTION_TRANSPORT_CANDIDATE_20261031.md).
 Three baseline rejection gaps are reproduced and fixed. Generic framing checks
