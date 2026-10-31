@@ -877,6 +877,7 @@ impl StreamChain {
         }
         let inactive_maintenance = (self.spec["version"] == 12 || self.spec["version"] == 13 || self.spec["version"] == 14) && [4,13,14].contains(&req.fields[0]);
         let (db, source, vault_path) = self.seed_for_request(w, inactive_maintenance).await?;
+        if self.spec["version"]==14{psy_template_u124_markets::stream_execution::validate_request(&self.review,&source,&req)?;}
         if let Some(p)=&mut req.accepted_seal {
             p.snapshot.history.anchor_path=db.get_checkpoint_tree_merkle_proof(w.checkpoint,1).await?;
             p.snapshot.history.checkpoint_path=db.get_checkpoint_tree_merkle_proof(w.checkpoint,p.snapshot.fields[6]).await?;
@@ -1025,30 +1026,18 @@ impl StreamChain {
                 && header.current_state.tx_count == f(actual.len() as u64),
             "actual full ordered call stack"
         );
-        let fields = self
-            .key
-            .fields(&self.review, &source, &vault_path, &current, &req)?;
-        let input = SDKeyCircuitWitnessInput {
-            session_context: SDKeySessionContext {
+        let input = psy_template_u124_markets::stream_execution::bind_session(
+            &self.key, &self.spec, &self.review, &source, &vault_path, &current, &req,
+            SDKeySessionContext {
                 start_user_leaf: header.session_start_context.start_session_user_leaf,
-                start_user_leaf_hash: header
-                    .session_start_context
-                    .start_session_user_leaf
-                    .qfhash::<PoseidonHash>(),
+                start_user_leaf_hash: header.session_start_context.start_session_user_leaf.qfhash::<PoseidonHash>(),
                 checkpoint_leaf_hash: header.session_start_context.checkpoint_leaf_hash,
                 checkpoint_tree_root: header.session_start_context.checkpoint_tree_root,
                 current_user_leaf: header.current_state.user_leaf,
                 nonce: f(w.revision + 1),
-            },
-            circuit_inputs: fields.iter().copied().map(f).collect(),
-            transaction_infos: infos,
-            tx_stack_hash: header.current_state.tx_hash_stack,
-            tx_count: header.current_state.tx_count,
-            state_reader_results: None,
-            secp256k1_slots: vec![],
-            checkpoint_id: f(w.checkpoint),
-            user_id: f(V),
-        };
+            }, &session.sd_key_transaction_infos(), header.current_state.tx_hash_stack,
+            header.current_state.tx_count, f(w.checkpoint),
+        )?;
         let sig_hash = session.get_sighash(PSY_NETWORK_MAGIC, f(w.revision + 1));
         fs::write(
             dir.join("public-session.json"),
@@ -1288,6 +1277,7 @@ impl StreamChain {
             serde_json::to_vec_pretty(&row)?,
         )?;
         self.measurements.push(row);
+        if self.base.keep_history { self.base.retained_history.insert(w.checkpoint,current.checkpoint); }
         self.base.last_leaf = Some(end);
         expected.checkpoint += 1;
         *w = expected;
@@ -1295,56 +1285,7 @@ impl StreamChain {
     }
 }
 fn source_vault_path(s: &Snapshot) -> Result<MerkleProofCore<Q<GF>>> {
-    // All original account leaves are present; reconstruct the complete source
-    // tree independently, without asking the current checkpoint for old metadata.
-    use psy_crypto::hash::traits::hasher::{FieldQHasher, MerkleZeroHasher};
-    let mut levels = vec![s
-        .accounts
-        .iter()
-        .map(|a| {
-            (
-                a.leaf.user_id.to_canonical_u64(),
-                a.leaf.qfhash::<PoseidonHash>(),
-            )
-        })
-        .collect::<BTreeMap<_, _>>()];
-    for h in 0..32 {
-        let mut next = BTreeMap::new();
-        for index in levels[h].keys() {
-            let p = index / 2;
-            let z = PoseidonHash::get_zero_hash(h);
-            next.entry(p).or_insert_with(|| {
-                PoseidonHash::q_two_to_one(
-                    *levels[h].get(&(2 * p)).unwrap_or(&z),
-                    *levels[h].get(&(2 * p + 1)).unwrap_or(&z),
-                )
-            });
-        }
-        levels.push(next);
-    }
-    let vault = s.fields[4];
-    let leaf = s
-        .accounts
-        .iter()
-        .find(|a| a.leaf.user_id == f(vault))
-        .unwrap()
-        .leaf;
-    let path = MerkleProofCore::new_from_params::<PoseidonHash>(
-        vault,
-        leaf.qfhash::<PoseidonHash>(),
-        (0..32)
-            .map(|h| {
-                *levels[h]
-                    .get(&((vault >> h) ^ 1))
-                    .unwrap_or(&PoseidonHash::get_zero_hash(h))
-            })
-            .collect(),
-    );
-    ensure!(
-        path.root == s.history.roots.user_tree_root,
-        "complete original source user root"
-    );
-    Ok(path)
+    psy_template_u124_markets::stream_execution::source_vault_path(s)
 }
 #[tokio::test]
 #[ignore = "bounded full stream UPSs; explicit synthetic fee budget and fresh output"]
@@ -1704,3 +1645,6 @@ mod funded_bootstrap_full_ups;
 
 #[path="funded_stream_full_ups.rs"]
 mod funded_stream_full_ups;
+
+#[path="funded_lifecycle_full_ups.rs"]
+mod funded_lifecycle_full_ups;

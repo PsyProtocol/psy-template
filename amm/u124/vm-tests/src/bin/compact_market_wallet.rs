@@ -13,7 +13,7 @@ use psy_client_data::{
     config::store_config::PsyHasher,
     dpn::{proving_session::DPNProvingSessionCompactMethodCall, sd_key::SDKeyTransactionInfo},
     qstore::controllers::proving_session::PsyReadLocalProvingSessionStore,
-    traits::qdatastore::qmetadata::QMetaDataStoreReaderSync,
+    traits::qdatastore::{qmetadata::QMetaDataStoreReaderSync,qtreedata::QTreeDataStoreReaderSync},
 };
 use psy_config::{PsyConfigGoldilocks, PSY_NETWORK_MAGIC};
 use psy_crypto::{hash::traits::qhashable::QFieldHashable, signature::zk::data::ZKPublicKeyInfo};
@@ -42,12 +42,15 @@ mod compact_benchmark;
 #[path = "../composition_quote.rs"]
 mod composition_quote;
 #[path = "../processor_runtime.rs"] mod processor_runtime;
+#[path = "../stream_runtime.rs"] mod stream_runtime;
 #[derive(Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 struct Guard {
     pub identity: SubmissionGuard,
     pub dependencies: Vec<LiveBinding>,
     pub valid_until_checkpoint: u64,
+    #[serde(default)]
+    pub stream: Option<stream_runtime::ContextInput>,
 }
 fn f(n: u64) -> F {
     F::from_canonical_u64(n)
@@ -92,12 +95,13 @@ async fn check(guard: &Guard, s: &WalletSession) -> Result<()> {
     }
     unreachable!("bounded read guard retry returns on its last attempt")
 }
-async fn run(phase: &mut &'static str, composition:bool) -> Result<()> {
+async fn run(phase: &mut &'static str, composition:bool, stream:bool) -> Result<()> {
     let memory_mode=psy_template_u124_markets::prover_resources::MemoryMode::selected()?;
     let started = std::time::Instant::now();
     *phase = "build-compact-key";
     let a = env::args().collect::<Vec<_>>();
     ensure!(a.len()>=3,"identity POLICY | register POLICY CONFIG FRESH_OUT | preflight/submit POLICY CONFIG CALLS GUARD FRESH_OUT");
+    if stream{psy_template_u124_markets::stream_execution::validate_action(&a[1])?;}
     compact_benchmark::requested(&a[1])?;
     let spec: Value = serde_json::from_slice(&fs::read(&a[2])?)?;
     ensure!(spec["version"]!=3,"checkpoint processor candidates are offline-only; source qualification and release authorization are unavailable");
@@ -114,14 +118,20 @@ async fn run(phase: &mut &'static str, composition:bool) -> Result<()> {
         let rank=psy_template_u124_markets::checkpoint_processor::producer_order_proposal(&spec,&v)?;
         save(Path::new(&a[4]),&json!({"profile":"previous-checkpoint-seeded-v1","rank":rank,"qualifiedRandomness":false,"proofVerified":false,"broadcast":false}))?;return Ok(());
     }
-    let circuit = if composition {
-        psy_template_u124_markets::composition_policy::build(&spec)?
+    let circuit = if stream {
+        ensure!(!composition, "separate stream driver required");
+        stream_runtime::Circuit::Stream(stream_runtime::load(Path::new(&a[2]), &spec)?)
     } else {
-        ensure!(spec.get("composition_profile").is_none(),"funded composition requires its dedicated driver/key");
-        batch_compact::build(&spec)?
+        ensure!(spec["version"]!=14,"v14 requires its dedicated native driver");
+        stream_runtime::Circuit::Batch(if composition {
+            psy_template_u124_markets::composition_policy::build(&spec)?
+        } else {
+            ensure!(spec.get("composition_profile").is_none(),"funded composition requires its dedicated driver/key");
+            batch_compact::build(&spec)?
+        })
     };
     let key_ms = started.elapsed().as_millis();
-    let fp = circuit.get_fingerprint();
+    let fp = circuit.g().get_fingerprint();
     let private = QHashOut(HashOut {
         elements: [F::ONE; 4],
     });
@@ -133,7 +143,7 @@ async fn run(phase: &mut &'static str, composition:bool) -> Result<()> {
     let hash = public.qfhash::<PsyHasher>();
     if a[1] == "identity" {
         ensure!(a.len() == 3, "identity args");
-        let mut identity=json!({"profile":if composition{"composition-v1"}else{"compact-v1"},"fingerprint":fp.to_string(),"publicKeyHash":hash.to_string(),"publicKeyParam":param.to_string()});
+        let mut identity=json!({"profile":if stream{"source-funded-v14"}else if composition{"composition-v1"}else{"compact-v1"},"fingerprint":fp.to_string(),"publicKeyHash":hash.to_string(),"publicKeyParam":param.to_string()});
         if producer{identity["orderingModel"]=json!("previous-checkpoint-seeded-v1");identity["producerInfluence"]=json!(true);identity["qualifiedRandomness"]=json!(false);}println!("{identity}");
         return Ok(());
     }
@@ -156,7 +166,7 @@ async fn run(phase: &mut &'static str, composition:bool) -> Result<()> {
     let mut net = config.get_current_network()?.clone();
     require_staging(&net)?;
     ensure!(
-        spec["config"]["networkMagic"]
+        (if stream{&spec["base"]}else{&spec})["config"]["networkMagic"]
             .as_str()
             .context("policy network magic")?
             .parse::<u64>()?
@@ -165,7 +175,7 @@ async fn run(phase: &mut &'static str, composition:bool) -> Result<()> {
     );
     net.prove_proxy_url.clear();
     if ["broadcast-prepared", "verify-prepared"].contains(&a[1].as_str()) {
-        return compact_prepared::broadcast(&a, &spec, fp, hash, &net, phase).await;
+        return compact_prepared::broadcast(&a, &spec, fp, hash, &net, phase, circuit.stream()).await;
     }
     *phase = "initialize-staging-session";
     let session_started = std::time::Instant::now();
@@ -174,8 +184,27 @@ async fn run(phase: &mut &'static str, composition:bool) -> Result<()> {
     let circuit=std::sync::Arc::new(circuit);
     eprintln!("PSY_PROVER_LIFECYCLE {}",json!({"event":"session-built","pid":std::process::id(),"keyConstructionMilliseconds":key_ms,"sessionConstructionMilliseconds":session_ms,"memoryMode":memory_mode.name()}));
     psy_template_u124_markets::prover_resources::checkpoint(memory_mode,"compact-circuits-built");
+    if a[1]=="check-registration" {
+        ensure!(a.len()==6,"check-registration POLICY CONFIG USER FRESH_OUT");
+        let runtime=circuit.stream().context("registration certificate requires dedicated v14 driver")?;
+        runtime.check_instance(&spec,&session.st_provider).await?;
+        let user=a[4].parse::<u64>()?;ensure!(user>0&&user<(1<<24),"registration user range");
+        ensure!(session.st_provider.get_user_ids_for_public_key(hash).await?==vec![user],"unique exact public registration identity");
+        let provider=session.st_provider.with_user_id_owned(user);
+        let cp=provider.get_latest_block_state().await?.checkpoint_id;
+        let index=psy_crypto::common::user_id::get_registration_id_from_user_id(user);
+        let proof=provider.get_user_registration_tree_merkle_proof(cp,index).await?;
+        let roots=provider.get_checkpoint_global_state_roots(cp).await?;
+        let checkpoint=provider.get_checkpoint_leaf_data(cp).await?;
+        ensure!(proof.index==index&&proof.value==hash&&proof.root==roots.user_registration_tree_root
+            &&proof.verify::<PsyHasher>()&&roots.qfhash::<PsyHasher>()==checkpoint.global_chain_root,"registration Merkle/checkpoint identity");
+        let out=Path::new(&a[5]);fs::create_dir(out)?;
+        save(&out.join("verification.json"),&json!({"profile":"source-funded-v14","registered":true,"userId":user,"publicKeyHash":hash.to_string(),"fingerprint":fp.to_string(),"checkpoint":cp,"chainRoot":spec["executor_binding"]["chain_root"],"proof":proof,"roots":roots,"checkpointLeaf":checkpoint,"broadcast":false,"scope":"Authenticated registration membership relative to the pinned current chain; not consensus finality or a financial UPS"}))?;
+        return Ok(());
+    }
     if a[1] == "register" {
         ensure!(a.len() == 5, "register POLICY CONFIG FRESH_OUT");
+        if stream{ensure!(spec["executor_binding"]["allow_broadcast"]==true,"instance-specific release is not enabled for registration");}
         let out = Path::new(&a[4]);
         fs::create_dir(out)?;
         fs::File::open(
@@ -184,6 +213,7 @@ async fn run(phase: &mut &'static str, composition:bool) -> Result<()> {
                 .unwrap_or(Path::new(".")),
         )?
         .sync_all()?;
+        if let Some(runtime)=circuit.stream(){runtime.check_instance(&spec,&session.st_provider).await?;}
         let existing = session
             .st_provider
             .get_user_ids_for_public_key(hash)
@@ -196,9 +226,10 @@ async fn run(phase: &mut &'static str, composition:bool) -> Result<()> {
         save(&out.join("request.json"), &request)?;
         save(
             &out.join("intent.json"),
-            &json!({"profile":"compact-v1","publicKey":public,"publicKeyHash":hash.to_string()}),
+            &json!({"profile":if stream{"source-funded-v14"}else{"compact-v1"},"publicKey":public,"publicKeyHash":hash.to_string()}),
         )?;
-        let receipt = session.st_provider.register_user(request).await?;
+        *phase="broadcast-compact-ups";
+        let receipt = if stream{psy_template_u124_markets::live_rpc::register(&net,request,out).await?}else{serde_json::to_value(session.st_provider.register_user(request).await?)?};
         save(
             &out.join("receipt.json"),
             &json!({"publicKeyHash":hash.to_string(),"receipt":receipt,"submitted":true,"included":false}),
@@ -213,7 +244,7 @@ async fn run(phase: &mut &'static str, composition:bool) -> Result<()> {
         // state across requests. Only circuit resources remain warm.
         for line in std::io::stdin().lock().lines(){
             let job:ResidentJob=serde_json::from_str(&line?)?;
-            ensure!(job.action=="preflight"||((composition||producer)&&job.action=="quote"),"resident proof/quote actions only");
+            ensure!(job.action=="preflight"||((composition||producer||stream)&&job.action=="quote"),"resident proof/quote actions only");
             let args=vec![a[0].clone(),job.action,a[2].clone(),a[3].clone(),job.calls,job.guard,job.out.clone()];
             let mut job_phase="resident-preflight-start";
             let result=psy_template_u124_markets::runtime::contain(process_action(&args,&spec,fp,hash,param,private,&net,&mut session,&circuit,0,0,std::time::Instant::now(),&mut job_phase)).await;
@@ -233,9 +264,9 @@ async fn run(phase: &mut &'static str, composition:bool) -> Result<()> {
 struct ResidentJob {id:String,calls:String,guard:String,out:String,#[serde(default="preflight_action")]action:String}
 fn preflight_action()->String{"preflight".into()}
 #[allow(clippy::too_many_arguments)]
-async fn process_action(a:&[String],spec:&Value,fp:QHashOut<F>,hash:QHashOut<F>,param:QHashOut<F>,private:QHashOut<F>,net:&psy_config::NetworkConfigGoldilocks,session:&mut WalletSession,circuit:&psy_template_u124_markets::market_key::MarketKeyCircuit,key_ms:u128,session_ms:u128,started:std::time::Instant,phase:&mut &'static str)->Result<()> {
+async fn process_action(a:&[String],spec:&Value,fp:QHashOut<F>,hash:QHashOut<F>,param:QHashOut<F>,private:QHashOut<F>,net:&psy_config::NetworkConfigGoldilocks,session:&mut WalletSession,circuit:&stream_runtime::Circuit,key_ms:u128,session_ms:u128,started:std::time::Instant,phase:&mut &'static str)->Result<()> {
     ensure!(
-        a.len() == 7 && (["preflight", "submit"].contains(&a[1].as_str())||((spec["composition_profile"]=="two-amm-owner-funded-v1"||processor_runtime::previous(spec))&&a[1]=="quote")),
+        a.len() == 7 && (["preflight", "submit"].contains(&a[1].as_str())||((spec["composition_profile"]=="two-amm-owner-funded-v1"||processor_runtime::previous(spec)||spec["version"]==14)&&a[1]=="quote")),
         "explicit compact action args"
     );
     *phase = "verify-compact-request";
@@ -257,14 +288,15 @@ async fn process_action(a:&[String],spec:&Value,fp:QHashOut<F>,hash:QHashOut<F>,
     if fields[73] == 0 {
         fields[73] = 1_000_000_000;
     }
-    let expected = batch_compact::calls(&spec, &fields)?;
+    let guard_bytes = fs::read(&a[5])?;
+    let guard: Guard = serde_json::from_slice(&guard_bytes)?;
+    ensure!(circuit.stream().is_some()==guard.stream.is_some(),"dedicated stream context boundary");
+    let expected = stream_runtime::calls(&spec, &fields, &guard)?;
     ensure!(
         serde_json::to_value(&data.contract_calls)?
             == serde_json::to_value(&expected[..expected.len() - 1])?,
         "complete canonical compact call list"
     );
-    let guard_bytes = fs::read(&a[5])?;
-    let guard: Guard = serde_json::from_slice(&guard_bytes)?;
     ensure!(
         guard.valid_until_checkpoint < (1u64 << 32),
         "live checkpoint bound"
@@ -275,8 +307,9 @@ async fn process_action(a:&[String],spec:&Value,fp:QHashOut<F>,hash:QHashOut<F>,
             "commit broadcast after declared expiry"
         );
     }
+    if let Some(runtime)=circuit.stream(){let c=guard.stream.as_ref().context("stream context")?;psy_template_u124_markets::stream_execution::validate_request(&runtime.review,&c.source,&c.request)?;}
     guard.identity.validate(
-        &spec,
+        if spec["version"]==14{&spec["base"]}else{&spec},
         "testnet",
         &fp.to_string(),
         &hash.to_string(),
@@ -305,15 +338,15 @@ async fn process_action(a:&[String],spec:&Value,fp:QHashOut<F>,hash:QHashOut<F>,
     let source_pin=compact_benchmark::requested(&a[1])?;
     if producer{ensure!(source_pin.is_none(),"producer source cannot be selected by benchmark environment");}
     let pin_started=std::time::Instant::now();
-    if producer&&fields[0]==2{processor_runtime::start(session,key,&guard,fields[3]).await?;}else if let Some(cp)=source_pin{compact_benchmark::start_at(&session,key,guard.identity.vault_id,cp).await?;}else{session.start_session(key).await?;}
+    if circuit.stream().is_some(){stream_runtime::start(session,key,&guard).await?;}else if producer&&fields[0]==2{processor_runtime::start(session,key,&guard,fields[3]).await?;}else if let Some(cp)=source_pin{compact_benchmark::start_at(&session,key,guard.identity.vault_id,cp).await?;}else{session.start_session(key).await?;}
     let source_pin_ms=if source_pin.is_some(){pin_started.elapsed().as_millis()}else{0};
     if a[1]=="quote" {
         *phase="composition-fee-quote";
-        if producer{ensure!(fields[0]==2,"producer settlement quote only");return processor_runtime::execute(session,key,spec,&data,true,out).await;}return composition_quote::quote(session,key,&data,out).await;
+        if circuit.stream().is_some(){return stream_runtime::execute(session,key,spec,&guard,true,out).await;}if producer{ensure!(fields[0]==2,"producer settlement quote only");return processor_runtime::execute(session,key,spec,&data,true,out).await;}return composition_quote::quote(session,key,&data,out).await;
     }
     *phase = "prove-compact-calls";
     let calls_started = std::time::Instant::now();
-    if producer&&fields[0]==2{ensure!(fields[73]==data.software_defined_call.inputs[73]&&fields[73]>0,"producer exact fee required");processor_runtime::execute(session,key,spec,&data,false,out).await?;}else{session.prove_contract_call(key,data.contract_calls).await?;}
+    if circuit.stream().is_some(){stream_runtime::execute(session,key,spec,&guard,false,out).await?;}else if producer&&fields[0]==2{ensure!(fields[73]==data.software_defined_call.inputs[73]&&fields[73]>0,"producer exact fee required");processor_runtime::execute(session,key,spec,&data,false,out).await?;}else{session.prove_contract_call(key,data.contract_calls).await?;}
     let calls_ms = calls_started.elapsed().as_millis();
     let mut manager = session
         .user_session_mgrs
@@ -337,16 +370,16 @@ async fn process_action(a:&[String],spec:&Value,fp:QHashOut<F>,hash:QHashOut<F>,
     );
     data.software_defined_call.inputs[73] = burn;
     fields[73] = burn;
-    let logical = batch_policy::expected_calls(&spec, &fields)?;
-    let mut all = spec["branches"]
+    let logical = if spec["version"]==14{vec![]}else{batch_policy::expected_calls(&spec, &fields)?};
+    let mut all = if spec["version"]==14{vec![]}else{spec["branches"]
         .as_array()
         .unwrap()
         .iter()
         .flat_map(|b| b["calls"].as_array().unwrap())
         .chain([&spec["noop"], &spec["expire"]])
-        .collect::<Vec<_>>();
+        .collect::<Vec<_>>()};
     if producer{all.extend([&spec["begin"],&spec["gather"],&spec["claim_a"],&spec["claim_b"],&spec["fee"],&spec["finish"],&spec["reward"]]);}
-    let infos = logical
+    let infos = if spec["version"]==14{psy_template_u124_markets::stream_execution::logical_infos(spec,&guard.stream.as_ref().unwrap().request)?}else{logical
         .iter()
         .map(|c| {
             let d = all
@@ -370,7 +403,7 @@ async fn process_action(a:&[String],spec:&Value,fp:QHashOut<F>,hash:QHashOut<F>,
                 .into(),
             )
         })
-        .collect::<Result<Vec<SDKeyTransactionInfo<F>>>>()?;
+        .collect::<Result<Vec<SDKeyTransactionInfo<F>>>>()?};
     let selected = infos
         .iter()
         .filter(|c| {
@@ -388,7 +421,7 @@ async fn process_action(a:&[String],spec:&Value,fp:QHashOut<F>,hash:QHashOut<F>,
             && compute_tx_stack_hash(&actual) == h.current_state.tx_hash_stack,
         "exact authenticated actual stack"
     );
-    let input = SDKeyCircuitWitnessInput {
+    let mut input = SDKeyCircuitWitnessInput {
         session_context: SDKeySessionContext {
             start_user_leaf: h.session_start_context.start_session_user_leaf,
             start_user_leaf_hash: h
@@ -409,7 +442,11 @@ async fn process_action(a:&[String],spec:&Value,fp:QHashOut<F>,hash:QHashOut<F>,
         checkpoint_id: h.session_start_context.checkpoint_id,
         user_id: h.session_start_context.start_session_user_leaf.user_id,
     };
-    let key_circuit = circuit;
+    if let Some(runtime)=circuit.stream(){
+        input=runtime.bind(session,key,spec,&guard,input.session_context.clone(),&actual,
+            input.tx_stack_hash,input.tx_count,input.checkpoint_id,out).await?;
+    }
+    let key_circuit = circuit.g();
     *phase = "prove-compact-session-signature";
     let signature_started = std::time::Instant::now();
     let signature = key_circuit
@@ -419,6 +456,7 @@ async fn process_action(a:&[String],spec:&Value,fp:QHashOut<F>,hash:QHashOut<F>,
             manager.get_sighash(PSY_NETWORK_MAGIC, nonce),
         )
         .await?;
+    if circuit.stream().is_some(){let bytes=bincode::serialize(&signature)?;let mut file=fs::OpenOptions::new().create_new(true).write(true).open(out.join("stream-sign-proof.bin"))?;file.write_all(&bytes)?;file.sync_all()?;}
     let signature_ms = signature_started.elapsed().as_millis();
     let finalize_started = std::time::Instant::now();
     let cm = session.wallet.random_circuit_manager();
@@ -447,7 +485,6 @@ async fn process_action(a:&[String],spec:&Value,fp:QHashOut<F>,hash:QHashOut<F>,
     let endcap_ms = endcap_started.elapsed().as_millis();
     let endcap = manager.get_api_input().await?;
     drop(manager);
-    drop(key_circuit);
     let memory_mode=psy_template_u124_markets::prover_resources::MemoryMode::selected()?;
     if memory_mode.release() { session.user_session_mgrs.remove(&key); }
     psy_template_u124_markets::prover_resources::checkpoint(memory_mode,"compact-endcap-proved");
@@ -473,6 +510,7 @@ async fn process_action(a:&[String],spec:&Value,fp:QHashOut<F>,hash:QHashOut<F>,
         proof: bincode::serialize(&proof)?,
     };
     if producer{preflight["orderingModel"]=json!("previous-checkpoint-seeded-v1");preflight["producerInfluence"]=json!(true);preflight["qualifiedRandomness"]=json!(false);if fields[0]==2{preflight["producerSourceCheckpoint"]=json!(fields[3]);}}
+    if circuit.stream().is_some(){preflight["streamContextSha256"]=json!(compact_prepared::sha(&fs::read(out.join("stream-context.json"))?));preflight["profile"]=json!("source-funded-v14");}
     save(&out.join("preflight.json"), &preflight)?;
     save(&out.join("request.json"), &request)?;
     let prepared = compact_prepared::manifest(&a[2], &bytes, &guard_bytes, out)?;
@@ -524,20 +562,21 @@ async fn process_action(a:&[String],spec:&Value,fp:QHashOut<F>,hash:QHashOut<F>,
 }
 #[tokio::main]
 async fn main() -> std::process::ExitCode {
-    execute_profile(false).await
+    execute_profile(false,false).await
 }
-pub async fn execute_composition()->std::process::ExitCode{execute_profile(true).await}
-async fn execute_profile(composition:bool) -> std::process::ExitCode {
+pub async fn execute_composition()->std::process::ExitCode{execute_profile(true,false).await}
+pub async fn execute_stream()->std::process::ExitCode{execute_profile(false,true).await}
+async fn execute_profile(composition:bool,stream:bool) -> std::process::ExitCode {
     std::panic::set_hook(Box::new(|_| {}));
     let mut phase = "start";
-    match psy_template_u124_markets::runtime::contain(run(&mut phase,composition)).await {
+    match psy_template_u124_markets::runtime::contain(run(&mut phase,composition,stream)).await {
         Ok(()) => std::process::ExitCode::SUCCESS,
         Err(failure) => {
             // This client has only a deliberately public SD-key witness. Keep
             // RPC/guard diagnostics, without logging any ordinary wallet file.
             let reason=match failure{psy_template_u124_markets::runtime::Failure::Rejected(e)=>format!("{e:#}"),psy_template_u124_markets::runtime::Failure::Panic(code)=>code.to_owned()};
             let report=json!({"ok":false,"phase":phase,"reason":reason,"broadcastMayHaveBeenAttempted":phase=="broadcast-compact-ups","automaticRetry":false});
-            let a=env::args().collect::<Vec<_>>();let index=if a.get(1).map(String::as_str)==Some("register"){4}else if matches!(a.get(1).map(String::as_str),Some("broadcast-prepared")|Some("verify-prepared")){8}else{6};
+            let a=env::args().collect::<Vec<_>>();let index=if a.get(1).map(String::as_str)==Some("check-registration"){5}else if a.get(1).map(String::as_str)==Some("register"){4}else if matches!(a.get(1).map(String::as_str),Some("broadcast-prepared")|Some("verify-prepared")){8}else{6};
             if let Some(out)=a.get(index){let dir=Path::new(out);if dir.is_dir(){let _=save(&dir.join("failure.json"),&report);}}
             eprintln!("{report}");
             std::process::ExitCode::FAILURE

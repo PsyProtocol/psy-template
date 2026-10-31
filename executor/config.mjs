@@ -1,5 +1,6 @@
 import {readFile} from 'node:fs/promises';
 import {dirname,resolve} from 'node:path';
+import {validateFundedOptions} from './fundedOptions.mjs';
 
 const kinds=['amm','orderbook','bondingcurve','launchamm','nftmarket'];
 const paths=['rpcConfig','wallet','abi','driverConfig','runtimeDirectory','usersFile','policy','dependencyBindings','admissionPlan'];
@@ -11,6 +12,7 @@ export function validateUsers(users,vaultId){
 }
 export function validateOptions(input,base=process.cwd()){
   if(!input||typeof input!=='object'||Array.isArray(input))throw Error('executor config must be an object');
+  if(input.profile==='source-funded-v14')return validateFundedOptions(input,base);
   for(const key of Object.keys(input))if(!allowed.has(key))throw Error(`unknown executor config field: ${key}`);
   const o={...input};
   if(o.performanceMetrics!==undefined&&typeof o.performanceMetrics!=='boolean')throw Error('boolean performanceMetrics required');

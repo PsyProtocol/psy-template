@@ -1,5 +1,28 @@
 # Market correctness and reset-chain validation — 27 October 2026
 
+Latest formal Executor continuation (31 October): [funded native route, durable
+lifecycle and reachable ordinary-wallet claims](FORMAL_FUNDED_EXECUTOR_20261031.md).
+The distinct v14 AMM/Curve route now uses the existing formal factory/journal,
+actual SDK stack/session binding, native complete verification, exact prepared
+broadcast and chain-bound recovery. New registration is once-only with native
+membership checks; candidate broadcast remains disabled. A corrected synthetic
+chain passes 12 complete UPSs (six ordinary/six SDK), from empty registered vault
+through Curve initialization, fee exhaustion/explicit recovery, settlement and
+signed ordinary claims, with full asset/fee conservation. Eight earlier accepted
+UPSs and a stale maintenance-tape rejection are retained. The planning correction
+preserves the frozen header and rejects stale tapes before CFC proving.
+Independent fixed-resource verification passes all 20 saved Endcaps, while
+changed public fees reject; approved-stack binding remains the producer/key's
+separate responsibility. There are 87 scoped JS passes and four transport unit
+passes. Whole final test: 596.735 s, sampled family RSS 4,050,368 KiB; this is not
+a matched performance or real-network result. A bounded fresh read obtains the
+expected Realm 0 root/head 29242 and a successful QA-8 slot read; Realm 1 and
+coordinator TLS fail, so full live preflight and financial promotion remain
+closed. No new deployment, registration, payment, network fill, claim or UI write
+occurs. Privileged wallet wiring, real instance acceptance, owner-independent
+fee recovery/treasury exit and distinct Book/NFT bootstrap still remain open.
+See [public evidence](../../executor/verification/2026-10-31-formal-funded-executor-v3/README.md).
+
 Latest conditional v14 continuation (31 October): [complete-source settlement,
 post-funding source barrier and exact-proof replay controls](DETERMINISTIC_FUNDED_CONTINUATION_20261031.md).
 Sixteen complete synthetic UPSs pass (15 new, one exact reused grant), with three

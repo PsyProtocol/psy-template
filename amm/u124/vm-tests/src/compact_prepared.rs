@@ -7,7 +7,7 @@ use psy_client_common::{args::ContractCallData,data::qhashout::QHashOut};
 use psy_client_data::{config::store_config::{C,D,PsyHasher},traits::qdatastore::{qmetadata::QMetaDataStoreReaderSync,qtreedata::QTreeDataStoreReaderSync}};
 use psy_crypto::hash::traits::qhashable::QFieldHashable;
 use psy_provider::{provider::RpcProvider,request::QSubmitEndCapRPCRequest,session::TxStatus};
-use psy_template_u124_markets::{batch_compact,proof_binding::validate_endcap_binding};
+use psy_template_u124_markets::proof_binding::validate_endcap_binding;
 use serde::{Deserialize,Serialize};
 use serde_json::{json,Value};
 use sha2::{Digest,Sha256};
@@ -15,15 +15,15 @@ use std::{fs,io::Write,path::Path};
 pub fn sha(bytes: &[u8])->String {format!("{:x}",Sha256::digest(bytes))}
 #[derive(Serialize,Deserialize)]
 #[serde(rename_all="camelCase",deny_unknown_fields)]
-pub struct Manifest {version:u8,policy_sha256:String,calls_sha256:String,guard_sha256:String,preflight_sha256:String,request_sha256:String}
+pub struct Manifest {version:u8,policy_sha256:String,calls_sha256:String,guard_sha256:String,preflight_sha256:String,request_sha256:String,#[serde(default,skip_serializing_if="Option::is_none")]stream_context_sha256:Option<String>,#[serde(default,skip_serializing_if="Option::is_none")]stream_key_proof_sha256:Option<String>}
 pub fn manifest(policy:&str,calls:&[u8],guard:&[u8],out:&Path)->Result<Manifest>{
- Ok(Manifest{version:1,policy_sha256:sha(&fs::read(policy)?),calls_sha256:sha(calls),guard_sha256:sha(guard),preflight_sha256:sha(&fs::read(out.join("preflight.json"))?),request_sha256:sha(&fs::read(out.join("request.json"))?)})
+ Ok(Manifest{version:1,policy_sha256:sha(&fs::read(policy)?),calls_sha256:sha(calls),guard_sha256:sha(guard),preflight_sha256:sha(&fs::read(out.join("preflight.json"))?),request_sha256:sha(&fs::read(out.join("request.json"))?),stream_context_sha256:if out.join("stream-context.json").exists(){Some(sha(&fs::read(out.join("stream-context.json"))?))}else{None},stream_key_proof_sha256:if out.join("stream-sign-proof.bin").exists(){Some(sha(&fs::read(out.join("stream-sign-proof.bin"))?))}else{None}})
 }
 fn validate_anchor(actual:QHashOut<F>,old_key:QHashOut<F>,old_nonce:u64,start:QHashOut<F>,next_nonce:u64,key:QHashOut<F>,registered_fresh:bool)->Result<()>{
  if start==QHashOut::ZERO{ensure!(actual==QHashOut::ZERO&&old_nonce==0&&next_nonce==1&&(old_key==QHashOut::ZERO||old_key==key)&&registered_fresh,"fresh prepared account requires absent tree and authenticated registration");}
  else{ensure!(actual==start&&old_key==key&&old_nonce.checked_add(1)==Some(next_nonce),"prepared existing account anchor/nonce/key mismatch");}Ok(())
 }
-pub async fn broadcast(a:&[String],spec:&Value,fp:QHashOut<F>,key:QHashOut<F>,net:&psy_config::NetworkConfigGoldilocks,phase:&mut &'static str)->Result<()> {
+pub async fn broadcast(a:&[String],spec:&Value,fp:QHashOut<F>,key:QHashOut<F>,net:&psy_config::NetworkConfigGoldilocks,phase:&mut &'static str,stream:Option<&super::stream_runtime::Runtime>)->Result<()> {
  ensure!(a.len()==9,"broadcast-prepared POLICY CONFIG CALLS GUARD PREPARED EXPECTED_MANIFEST_SHA FRESH_OUT");
  *phase="verify-prepared-files";
  let source=Path::new(&a[6]);let out=Path::new(&a[8]);fs::create_dir(out)?;fs::File::open(out.parent().context("output parent")?)?.sync_all()?;
@@ -31,7 +31,7 @@ pub async fn broadcast(a:&[String],spec:&Value,fp:QHashOut<F>,key:QHashOut<F>,ne
  let m:Manifest=serde_json::from_slice(&mb)?;ensure!(m.version==1,"prepared format");
  let calls=fs::read(&a[4])?;let gb=fs::read(&a[5])?;let pb=fs::read(source.join("preflight.json"))?;let rb=fs::read(source.join("request.json"))?;
  ensure!(m.policy_sha256==sha(&fs::read(&a[2])?)&&m.calls_sha256==sha(&calls)&&m.guard_sha256==sha(&gb)&&m.preflight_sha256==sha(&pb)&&m.request_sha256==sha(&rb),"prepared file substitution");
- let g:Guard=serde_json::from_slice(&gb)?;g.identity.validate(spec,"testnet",&fp.to_string(),&key.to_string())?;
+ let g:Guard=serde_json::from_slice(&gb)?;g.identity.validate(if stream.is_some(){&spec["base"]}else{spec},"testnet",&fp.to_string(),&key.to_string())?;
  let required=g.identity.contracts.iter().map(|x|x.contract_id).collect::<std::collections::BTreeSet<_>>();let bound=g.dependencies.iter().map(|x|x.contract.contract_id).collect::<std::collections::BTreeSet<_>>();ensure!(required==bound&&bound.len()==g.dependencies.len(),"complete prepared dependency bindings");
  let p:Value=serde_json::from_slice(&pb)?;let data:ContractCallData=serde_json::from_slice(&calls)?;
  ensure!(p["benchmarkSourceCheckpoint"].is_null(),"historical source calibration proofs must never be broadcast");
@@ -47,10 +47,18 @@ pub async fn broadcast(a:&[String],spec:&Value,fp:QHashOut<F>,key:QHashOut<F>,ne
  let fee=core.stats.guta_fees_collected.to_canonical_u64().checked_add(core.stats.da_fees_collected.to_canonical_u64()).context("prepared fee overflow")?;
  ensure!(core.stats.guta_fees_collected==f(1_000_000_000)&&Some(core.stats.da_fees_collected.to_canonical_u64())==core.stats.slots_modified.to_canonical_u64().checked_mul(1000)&&(1_000_000_000..=1_000_100_000).contains(&fee),"prepared fee binding");
  let mut fields=data.software_defined_call.inputs.clone();ensure!(fields.len()==spec["witness_length"].as_u64().context("prepared width")?as usize&&(fields[73]==0||fields[73]==fee),"prepared witness fee");fields[73]=fee;
- let expected=batch_compact::calls(spec,&fields)?;ensure!(serde_json::to_value(&data.contract_calls)?==serde_json::to_value(&expected[..expected.len()-1])?&&core.stats.total_transactions==f(expected.len() as u64),"prepared complete call list/count");
+ let expected=super::stream_runtime::calls(spec,&fields,&g)?;ensure!(serde_json::to_value(&data.contract_calls)?==serde_json::to_value(&expected[..expected.len()-1])?&&core.stats.total_transactions==f(expected.len() as u64),"prepared complete call list/count");
  ensure!(g.valid_until_checkpoint<(1u64<<32)&&source_cp<=g.valid_until_checkpoint&&(fields[0]!=1||g.valid_until_checkpoint<=fields[3]),"prepared expiry");
  if psy_template_u124_markets::processor_policy::previous(spec)&&fields[0]==2{ensure!(source_cp==fields[3]&&data.software_defined_call.inputs[73]==fee&&p["orderingModel"]=="previous-checkpoint-seeded-v1"&&p["producerSourceCheckpoint"]==source_cp&&p["producerInfluence"]==true&&p["qualifiedRandomness"]==false,"producer prepared source, explicit fee and trust model binding");}
- *phase="check-prepared-live-state";let provider=RpcProvider::new_with_config(net)?;g.identity.check_current(&provider).await?;
+ if let Some(runtime)=stream{
+  let context_digest=sha(&fs::read(source.join("stream-context.json"))?);
+  let key_digest=sha(&fs::read(source.join("stream-sign-proof.bin"))?);
+  ensure!(g.stream.is_some()&&m.stream_context_sha256.as_ref()==Some(&context_digest)
+   &&m.stream_key_proof_sha256.as_ref()==Some(&key_digest),"saved stream public binding changed");
+  ensure!(p["streamContextSha256"]==m.stream_context_sha256.clone().unwrap(),"stream producer binding changed");
+  runtime.verify_saved(spec,&g,core,source)?;
+ }else{ensure!(g.stream.is_none()&&m.stream_context_sha256.is_none()&&m.stream_key_proof_sha256.is_none(),"stream material requires dedicated driver");}
+ *phase="check-prepared-live-state";let provider=RpcProvider::new_with_config(net)?;if let Some(runtime)=stream{runtime.check_instance(spec,&provider).await?;}g.identity.check_current(&provider).await?;
  psy_template_u124_markets::guard_reads::checked(&g.dependencies,psy_template_u124_markets::guard_reads::concurrency()?,|b|b.check(&provider)).await?;
  let provider=provider.with_user_id_owned(user);let cp=provider.get_latest_block_state().await?.checkpoint_id;
  ensure!(source_cp<=cp&&cp<=g.valid_until_checkpoint,"prepared broadcast window expired");
@@ -71,6 +79,7 @@ pub async fn broadcast(a:&[String],spec:&Value,fp:QHashOut<F>,key:QHashOut<F>,ne
  let end=core.state_transition.end_user_leaf_hash;
  save(&out.join("verification.json"),&json!({"fullUpsVerified":true,"exactStackAndSessionVerified":true,"preparedManifestSha256":a[7],"requestSha256":m.request_sha256,"callsSha256":m.calls_sha256,"guardSha256":m.guard_sha256,"endUserLeafHash":end.to_string(),"userId":user,"nonce":nonce,"sourceCheckpoint":source_cp,"actualCalls":expected.len(),"freshRegistration":registration,"fee":fee,"reproved":false,"broadcast":false}))?;
  if a[1] == "verify-prepared" {println!("{}",json!({"preparedVerified":true,"submitted":false,"broadcast":false}));return Ok(());}
+ if stream.is_some(){ensure!(spec["executor_binding"]["allow_broadcast"]==true,"instance-specific release is not enabled for financial broadcast");}
  // No signing, new nonce or new business operation. One transmission only.
  let mut original=fs::OpenOptions::new().write(true).create_new(true).open(out.join("request.json"))?;original.write_all(&rb)?;original.sync_all()?;fs::File::open(out)?.sync_all()?;save(&out.join("intent.json"),&json!({"status":"broadcast_intent","userId":user,"nonce":nonce,"endUserLeafHash":end.to_string(),"requestSha256":m.request_sha256,"retryAllowed":false}))?;
  *phase="broadcast-compact-ups";let receipt=psy_template_u124_markets::live_rpc::submit(net,request,out).await?;
