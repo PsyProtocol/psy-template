@@ -13,6 +13,17 @@ async function fixture(fn){
  try{await fn(config);}finally{await rm(directory,{recursive:true,force:true});}
 }
 const response=data=>({ok:true,json:async()=>data});
+test('explicit expected network rejects a different config default before any receipt read',()=>fixture(async config=>{
+ let calls=0;const fetchImpl=async()=>{calls++;assert.fail('wrong network must not issue a request');};
+ await assert.rejects(receiptReader(config,{fetchImpl,expectedNetwork:'testnet'}),/unexpected network/);
+ await assert.rejects(receiptReader(config,{fetchImpl,expectedNetwork:''}),/unexpected network/);
+ assert.equal(calls,0);
+}));
+test('matching explicit network preserves exact receipt reconciliation',()=>fixture(async config=>{
+ const io=fetcher({pages:()=>({items:[event(101)],has_next:false})});
+ const result=await(await receiptReader(config,{...io,expectedNetwork:'test'}))({userId,endUserLeafHash:leaf,minCheckpoint:101});
+ assert.equal(result.status,'included');assert.equal(result.endUserLeafHash,leaf);assert.equal(result.contentHash,event(101).content_hash);
+}));
 test('bounded services outage stays unresolved; next poll recovers the original exact identity',()=>fixture(async config=>{
  let failing=true,requests=0;const io=fetcher({pages:()=>({items:[event(101)],has_next:false})});
  const read=await receiptReader(config,{fetchImpl:async(...args)=>{requests++;return failing?{ok:false,status:500}:io.fetchImpl(...args);}});

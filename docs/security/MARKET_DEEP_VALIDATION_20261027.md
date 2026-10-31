@@ -1,5 +1,17 @@
 # Market correctness and reset-chain validation — 27 October 2026
 
+Latest actual funding milestone (31 October): [one explicitly authorized grant,
+confirmed ordinary claim and application balance/network fixes](FAUCET_FUNDED_CLAIM_20261031.md).
+The 1,000 test PSY grant is independently included at 25190; one exact ordinary
+claim is included at 25246. Native contract 0 balance is 998.999998 PSY after
+1.000002 PSY recipient fee, with conservation and zero known-source pending.
+The original faucet unknown remains preserved; the two-request faucet ceiling
+is exhausted. Full saved proof was reused for one compact first broadcast.
+Receipt lookup now supports explicit network expectations, and funding capture
+reads the real Native word separately from the user leaf's zero system balance.
+No new AMM contract, fill or browser-wallet approval is claimed by this funding
+milestone. Continue the separately bounded new-instance/UI acceptance next.
+
 Latest faucet cause investigation (31 October): [frozen ordinary-start wire map,
 adjacent-checkpoint root correlation and application mixed-root guard](FAUCET_START_ROOT_CAUSE_20261031.md).
 The reported row 46/column 12 joins session/path checkpoint-tree root element 0.

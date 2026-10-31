@@ -32,7 +32,7 @@ export function contractBinding(id,l){return {contract:{contractId:id,codeRoot:l
 export async function binding(state,id){return contractBinding(id,await state.contractLeaf(id));}
 export async function confirmUps(config,attempt,{polls=120,intervalMs=10000,findReceipt,historyConcurrency=4}={}){
  const {preflight:p,userId,endUserLeafHash,minCheckpoint}=ordinaryPreflight(readFileSync(join(attempt,'preflight.json'),'utf8'));
- const find=findReceipt??await receiptReader(config,{maxPages:20,historyConcurrency});
+ const find=findReceipt??await receiptReader(config,{maxPages:20,historyConcurrency,expectedNetwork:'testnet'});
  const startedAt=new Date().toISOString(),start=performance.now();let observations=0,commonObservations=0;
  for(let i=0;i<polls;i++){observations++;const result=await find({userId,endUserLeafHash,minCheckpoint});if(result.status==='included'){
   // A later cross-realm reader must not plan from an earlier common snapshot.

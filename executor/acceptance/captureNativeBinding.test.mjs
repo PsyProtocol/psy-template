@@ -32,6 +32,8 @@ function transport(change = () => null) {
     else if (q.method === "psy_get_contract_leaf_data")
       result = { code_root: hash("2") };
     else if (q.method === "psy_get_checkpoint_tree_root") result = hash("3");
+    else if (q.method === "psy_get_user_contract_state_tree_leaf_hash")
+      result = (9007199254740995n).toString(16).padStart(64, "0");
     else if (q.method === "psy_get_checkpoint_tree_merkle_proof")
       result = {
         root: hash("3"),
@@ -68,7 +70,7 @@ test("capture keeps full integers and projects public resources without financia
     assert.equal(s.financialReady, false);
     assert.equal(s.proofsGenerated, 0);
     assert.equal(s.canonicalFinalityAuthenticated, false);
-    assert.equal(t.calls.length, 16);
+    assert.equal(t.calls.length, 17);
     assert.ok(
       t.calls.every(
         (c) => c.method.startsWith("psy_get_") && c.redirect === "manual",
@@ -208,6 +210,9 @@ test("an empty stored leaf is not classified as an unregistered identity", async
     const s = await captureNativeBinding(out, t);
     assert.equal(s.fundingUser.userStateInitialized, false);
     assert.equal(s.fundingUser.registrationStatus, "not-queried");
+    assert.equal(s.fundingUser.storedUserLeafSystemBalance, "0");
+    assert.equal(s.fundingUser.nativeBalance, "9007199254740995");
+    assert.equal(s.fundingUser.nativeBalanceSource, "contract-0-slot-0-at-captured-checkpoint");
   }));
 test("transport failure is retained once and an existing capture cannot be replaced", async () =>
   scenario(async (out) => {
