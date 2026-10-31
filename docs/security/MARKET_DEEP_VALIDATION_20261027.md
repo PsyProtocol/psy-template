@@ -1,5 +1,17 @@
 # Market correctness and reset-chain validation — 27 October 2026
 
+Latest funded candidate continuation (31 October): [exact new QA bytecode,
+full ordinary UPS and one independently confirmed initial deployment](FUNDED_QA_DEPLOYMENT_20261031.md).
+QA A is contract 8, included at 25363 with saved initial-layout and checkpoint
+membership verification. QA B is compiled/proved but unsent; QA minting is zero.
+At checkpoint 25397 Realm 0 returns height [0] while Realm 1 returns [31], despite
+Realm 0 allocation cursor 9. Exact scoped public-read retries remain bounded and
+exhaustion stays closed. No deployment was resent, no new UPS was sent and the
+funded Native balance/nonce remain 998.999998 PSY / 1. Current AMM/key/UI activation
+is pending reliable metadata, fresh live-ID proofs and normal wallet approval.
+See [the precise runtime delivery](UPSTREAM_REALM_METADATA_HANDOFF_20261031.json).
+Node, SDK, old contracts and original artifacts are unchanged.
+
 Latest actual funding milestone (31 October): [one explicitly authorized grant,
 confirmed ordinary claim and application balance/network fixes](FAUCET_FUNDED_CLAIM_20261031.md).
 The 1,000 test PSY grant is independently included at 25190; one exact ordinary

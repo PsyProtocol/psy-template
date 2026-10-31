@@ -6,6 +6,7 @@ import {parseLosslessJson,losslessJson} from '../amm/u124/client.mjs';
 import {retryRead} from './readRetry.mjs';
 import {withReadSlot,readTogether} from './readConcurrency.mjs';
 import {checkpointHeads} from './checkpointHeads.mjs';
+import {pendingContractMetadata} from './contractMetadataRead.mjs';
 export async function publicState(rpcConfig,{observeRead,coalesceRead=true,fetchImpl=fetch}={}) {
  if(observeRead!==undefined&&typeof observeRead!=='function')throw Error('invalid read observer');
  if(typeof fetchImpl!=='function')throw Error('invalid public read transport');
@@ -23,7 +24,7 @@ export async function publicState(rpcConfig,{observeRead,coalesceRead=true,fetch
     flight=publicReadFlight(fetcher,{domain,endpoint:url,method,params},timing=>withReadSlot(async()=>{timing.activeAt=performance.now();try{const response=await fetcher(url,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({jsonrpc:'2.0',id:1,method,params}),signal:AbortSignal.timeout(20000)});if(!response.ok){const error=Error(`HTTP ${response.status}`);error.status=response.status;throw error;}return await response.text();}finally{timing.endedAt=performance.now();}}),{enabled:coalesceRead});
     // Each consumer parses its own value. Amounts/metadata never share a
     // mutable object; exact-integer callers keep the lossless parser.
-    const raw=await flight.promise,v=exactIntegers?parseLosslessJson(raw):JSON.parse(raw);if(v.error)throw Error(losslessJson(v.error));return v.result;
+    const raw=await flight.promise,v=exactIntegers?parseLosslessJson(raw):JSON.parse(raw);if(v.error)throw pendingContractMetadata(method,params,v.error)??Error(losslessJson(v.error));return v.result;
    }catch(error){failed=true;throw error;}
    finally{if(observeRead)try{const activeAt=flight?.timing.activeAt,now=performance.now();await observeRead({schema:1,phase:'public-rpc-read',queuedAt,endpointHost:new URL(url).host,method,failed,coalesced:flight?.coalesced??false,physicalReadOwner:flight?!flight.coalesced:null,queueMilliseconds:activeAt===null||activeAt===undefined?null:Math.max(0,activeAt-started),rpcAndParseMilliseconds:activeAt===null||activeAt===undefined?null:now-Math.max(started,activeAt),phaseScope:'one logical public read attempt; identical simultaneous reads may share one physical transport. Completed reads are evicted; each consumer parses and validates independently. Includes queue/parse and excludes observer writes, not proof/confirmation time'});}catch{readMetricFailures++;}}
 

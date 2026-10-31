@@ -1,0 +1,87 @@
+{
+  "schema": 1,
+  "scope": "Operational metadata handoff; no Node/SDK modification or new financial authority",
+  "network": "testnet",
+  "chainRootAt1": "919896e18690246e20307f68cf2e5725aee496755366bbafff88eccaea975f12",
+  "frozenSdkCommit": "c92880c8b6e2c8d392f19368bc8801a2584fd427",
+  "contract": {
+    "id": 8,
+    "deployer": 223232,
+    "codeRoot": "5627c4d45104b2b5f19f72cbd42c82b818077f06e9018ea0e6115dbbaa129190",
+    "layoutRoot": "62224d708fde9cd6df9a304c2fc5eab0a376a30c13766a39407fcd8587a56724",
+    "functionTreeRoot": "90e9e91f134ce4e887f8c9d173700c6ecf44cb88e31d4a6f7b9709cbfe916e40",
+    "height": 31,
+    "includedCheckpoint": 25363,
+    "contentHash": "cd3f556a361b75d4bd58fb385d916fb74818d741c8f44899b75030ddfefc084a"
+  },
+  "observedAtCheckpoint": 25397,
+  "realm0MetadataResults": [
+    [
+      0
+    ],
+    [
+      0
+    ]
+  ],
+  "realm1MetadataResults": [
+    [
+      31
+    ],
+    [
+      31
+    ]
+  ],
+  "realm0NextContractId": 9,
+  "sameCheckpoint25379": {
+    "realm0StateReadResults": [
+      "exact missing-height RPC error",
+      "zero leaf success"
+    ],
+    "meaning": "Availability/metadata inconsistency observed; no proof of deployment rejection, no attribution to a particular process/database without logs"
+  },
+  "requiredDelivery": [
+    {
+      "owner": "Realm 0 operations / synchronization service",
+      "requirement": "Restore contract 8 height 31 through the reviewed coordinator-to-Realm metadata synchronization path. Bind it to the included contract leaf/code/layout endpoints, rather than an unauthenticated client-provided height."
+    },
+    {
+      "owner": "Realm/DB service owners",
+      "requirement": "Explain the cursor/metadata divergence: next_contract_id 9 while contract 8 height reads zero at checkpoint 25397. Preserve sync range, checkpoint, coordinator height response, persisted mapping and per-serving-instance public traces; no secrets."
+    },
+    {
+      "owner": "Runtime public RPC owner",
+      "requirement": "At an explicitly fixed fresh checkpoint, all serving Realm 0 paths return [31] for psy_get_contract_tree_state_heights(checkpoint_id, [8]); state word/proof reads must be reliable and verify against the correct user-contract root. Retain zero/missing observations as failures."
+    }
+  ],
+  "frozenSourceEvidence": [
+    {
+      "path": "psy_node_common/src/realm/edge/handler.rs",
+      "lines": [
+        698,
+        732
+      ],
+      "observation": "Missing height cache fetches Realm DB at MAX_CHECKPOINT_ID and rejects zero."
+    },
+    {
+      "path": "psy_node_common/src/realm/processor/db/sync.rs",
+      "lines": [
+        551,
+        617
+      ],
+      "observation": "Synchronization returns when start_id equals end_id; fetch_and_set validates response length but not positivity before storing heights. A persisted zero followed by cursor advance could remain unfilled; this is a source-based hypothesis, not a verified running failure cause."
+    }
+  ],
+  "acceptanceAfterDelivery": [
+    "Fresh same-chain, Native/resource and issuer nonce/balance preflight",
+    "Verify complete new-contract state proofs, never default an unavailable read to zero",
+    "Keep QA A original request identity and included receipt; never redeploy it",
+    "Only then send the prepared QA B once, verify actual assigned ID and build the new AMM/key/resources",
+    "Fresh current-state full ordinary UPS before any mint, seed, trade or claim; preserve budget and wallet approval gates"
+  ],
+  "applicationBoundaries": [
+    "Exact metadata-only read retries are bounded at three and keep checkpoint/parameters",
+    "No changed Node or SDK, no injected height, no opposite-Realm routing for the issuer",
+    "No new financial proof/signature/payment after this availability stop",
+    "Browser writes and random mode remain disabled"
+  ]
+}

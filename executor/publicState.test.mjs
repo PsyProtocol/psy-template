@@ -110,3 +110,13 @@ test('in-flight snapshots share raw bytes but parse independent exact results an
  const [x,y]=await Promise.all([a.rpc('https://r0.test','psy_get_user_leaf_data',{checkpoint_id:100,user_id:10},{exactIntegers:true}),b.rpc('https://r0.test','psy_get_user_leaf_data',{checkpoint_id:100,user_id:10},{exactIntegers:true})]);assert.equal(calls,3);assert.equal(x.nonce,9007199254740993n);x.nonce=0n;assert.equal(y.nonce,9007199254740993n);assert.equal(rows.filter(r=>r.coalesced).length,3);assert.equal(rows.filter(r=>r.physicalReadOwner).length,3);
  await publicState(config);assert.equal(calls,5);await assert.rejects(publicState(config,{coalesceRead:'yes'}),/coalescing/);
 }));
+
+test('new contract metadata propagation retries only the same fixed-checkpoint read and returns observed words',()=>fixture(async config=>{
+ const requests=[],observations=[];let attempts=0;
+ globalThis.fetch=async(_url,options)=>{const q=JSON.parse(options.body);if(q.method==='psy_get_latest_l2_block_state')return new Response(JSON.stringify({result:{checkpoint_id:25379}}));requests.push(q);return new Response(JSON.stringify(++attempts===1?{error:{code:-32001,message:'contract 8 state tree height metadata is not available in Realm DB yet'}}:{result:leaf(9007199254740993n,22,33,44)}));};
+ const s=await publicState(config,{observeRead:r=>observations.push(r)});
+ assert.equal(await s.slot(10,8,0),9007199254740993n);assert.equal(await s.slot(10,8,1),22n);
+ assert.equal(requests.length,2);assert.deepEqual(requests[1],requests[0]);assert.equal(requests[0].params.checkpoint_id,25379);
+ assert.deepEqual(observations.map(r=>r.failed),[false,false,true,false]);
+ await assert.rejects(s.rpc('https://r0.test','psy_submit_user_end_cap',{}),/read RPC/);assert.equal(requests.length,2);
+}));
