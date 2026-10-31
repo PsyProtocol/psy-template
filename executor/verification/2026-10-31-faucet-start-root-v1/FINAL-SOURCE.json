@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "purpose": "Restore surrounding two-space indentation without replacing the original archived snapshots",
+  "files": [
+    {
+      "file": "executor/acceptance/captureNativeBinding.mjs",
+      "archivedSha256": "e1e7999c7b1ef904fa7f3ab5ba07d9892a9d107209c9493960f7bf13df6af25f",
+      "finalSha256": "7f862d33473d691bb54f329525126e6fb0b76556dac1d53f689adc99e2ce4781",
+      "onlyTransformation": "Each leading indentation tab replaced by two spaces; remaining bytes unchanged"
+    },
+    {
+      "file": "executor/acceptance/captureNativeBinding.test.mjs",
+      "archivedSha256": "57c416d367d3e38feec77ed32984195dc2f717a446df237493a614b40f497634",
+      "finalSha256": "21b7247de9824e199f59f8de441b6383f4d64a6daf4776c00b0b098446e42b25",
+      "onlyTransformation": "Each leading indentation tab replaced by two spaces; remaining bytes unchanged"
+    },
+    {
+      "file": "executor/acceptance/upsStartWire.test.mjs",
+      "archivedSha256": "e63128a3c8a59d2f7a9848ec6245625c40831206e86308e01d83bce9a608fe6b",
+      "finalSha256": "9c29a86264c00c62e4194081809047c6c1807b5edd811b97d2e8557b48fadb94",
+      "onlyTransformation": "Each leading indentation tab replaced by two spaces; remaining bytes unchanged"
+    }
+  ],
+  "runtimeCodeOrStringContentChanged": false,
+  "newProofs": 0,
+  "financialOperations": 0
+}
