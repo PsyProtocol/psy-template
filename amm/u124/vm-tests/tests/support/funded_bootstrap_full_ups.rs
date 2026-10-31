@@ -1,8 +1,8 @@
 //! New deterministic key/bytecode. Synthetic checkpoint actor prerequisites only.
 use super::*;
-const OWNER:u64=600;
-const CAP:u64=100_000_000_000;
-fn registered(chain:&StreamChain)->[u64;4]{
+pub(super) const OWNER:u64=600;
+pub(super) const CAP:u64=100_000_000_000;
+pub(super) fn registered(chain:&StreamChain)->[u64;4]{
     PoseidonHash::two_to_one(chain.key.g.get_fingerprint().0,chain.source.key_public_param.0)
         .elements.map(|n|n.to_canonical_u64())
 }

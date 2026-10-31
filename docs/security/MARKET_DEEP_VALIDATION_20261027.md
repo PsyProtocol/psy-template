@@ -1,5 +1,27 @@
 # Market correctness and reset-chain validation — 27 October 2026
 
+Latest conditional v14 continuation (31 October): [complete-source settlement,
+post-funding source barrier and exact-proof replay controls](DETERMINISTIC_FUNDED_CONTINUATION_20261031.md).
+Sixteen complete synthetic UPSs pass (15 new, one exact reused grant), with three
+simulated fills/two terminal refunds per market and alternative timeout/abort
+branches. All source/state edges, fee burns and asset conservation reconcile.
+An earlier OPEN correctly rejected its pre-funding checkpoint; the acceptance
+driver now recaptures the full source after funding and checks its vault leaf
+against the accepted endpoint. Saved-proof controls reject changed checkpoint,
+nonce, balance/key and publication collision without advancing state. Separate
+fixed-resource re-verification passes all 16 saved Endcaps; public-audit checks
+do not substitute for call/approval proof binding.
+Initial activation/pool/inventory/order funding remain VM preconditions; the
+zero-cap/nonzero-nonce starting fixture is not proven reachable from the fresh
+v14 bootstrap. These independent cohorts are not one empty-vault-to-trade chain.
+The successful process took 1,303.852 s with sampled child RSS peak 5,933,872 KiB;
+all 1,264 RSS samples and original failures remain. No matched speedup, confirmed
+trade, ordinary-wallet UPS, live read or financial operation is added.
+Formal v14 signing/Executor integration, bootstrap-to-trade linkage, cap/service
+liveness, unused treasury exit, Book/NFT bootstrap and current-chain/browser
+acceptance remain open. Node, SDK, compiled market bytes, wallet and UI gates are
+unchanged. See [public evidence and reproduction](../../executor/verification/2026-10-31-deterministic-funded-continuation-v1/README.md).
+
 Latest deterministic bootstrap continuation (31 October): [new funded AMM/Curve
 key, actual bytecode and complete first-use UPSs](DETERMINISTIC_FUNDED_BOOTSTRAP_20261031.md).
 The distinct v14 candidate binds empty-vault activation before fee funding,
