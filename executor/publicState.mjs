@@ -7,6 +7,7 @@ import {retryRead} from './readRetry.mjs';
 import {withReadSlot,readTogether} from './readConcurrency.mjs';
 import {checkpointHeads} from './checkpointHeads.mjs';
 import {pendingContractMetadata} from './contractMetadataRead.mjs';
+import {readBoundedUtf8,rpcEnvelope,discardResponse,RpcProtocolError} from '../market-client/rpcWire.mjs';
 export async function publicState(rpcConfig,{observeRead,coalesceRead=true,fetchImpl=fetch}={}) {
  if(observeRead!==undefined&&typeof observeRead!=='function')throw Error('invalid read observer');
  if(typeof fetchImpl!=='function')throw Error('invalid public read transport');
@@ -14,17 +15,20 @@ export async function publicState(rpcConfig,{observeRead,coalesceRead=true,fetch
  const configBytes=await readFile(rpcConfig,'utf8'),domain=createHash('sha256').update(configBytes).digest('hex'),fetcher=fetchImpl,config=JSON.parse(configBytes),network=config.networks[config.defaultNetwork];
  if(!network||!Number.isSafeInteger(network.users_per_realm)||network.users_per_realm<1||!Array.isArray(network.realm_configs)||!network.realm_configs.length||!Array.isArray(network.coordinator_configs)||!network.coordinator_configs.length)throw Error('invalid public state network configuration');
  const realmIds=network.realm_configs.map(x=>x.id);if(realmIds.some(x=>!Number.isSafeInteger(x)||x<0)||new Set(realmIds).size!==realmIds.length)throw Error('invalid or duplicate realm ID');
+ const endpoints=new Set([...network.realm_configs,...network.coordinator_configs].flatMap(x=>x.rpc_url));
  const bounded=(n,label,min=0)=>{if(!Number.isSafeInteger(n)||n<min||n>4294967295)throw Error('invalid '+label);return n;};
  let readMetricFailures=0;
  const rpc=async(url,method,params,{exactIntegers=false}={})=>{
   if(!method.startsWith('psy_get_'))throw Error('read RPC methods only');
+  if(!endpoints.has(url))throw new RpcProtocolError('Unconfigured public RPC endpoint');
+  const wireParams=structuredClone(params),body=losslessJson({jsonrpc:'2.0',id:1,method,params:wireParams});
   return retryRead(async()=>{
    const started=observeRead?performance.now():null,queuedAt=observeRead?new Date().toISOString():null;let failed=false,flight;
    try{
-    flight=publicReadFlight(fetcher,{domain,endpoint:url,method,params},timing=>withReadSlot(async()=>{timing.activeAt=performance.now();try{const response=await fetcher(url,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({jsonrpc:'2.0',id:1,method,params}),signal:AbortSignal.timeout(20000)});if(!response.ok){const error=Error(`HTTP ${response.status}`);error.status=response.status;throw error;}return await response.text();}finally{timing.endedAt=performance.now();}}),{enabled:coalesceRead});
+    flight=publicReadFlight(fetcher,{domain,endpoint:url,method,params:wireParams},timing=>withReadSlot(async()=>{timing.activeAt=performance.now();try{const response=await fetcher(url,{method:'POST',headers:{'content-type':'application/json'},body,redirect:'manual',cache:'no-store',signal:AbortSignal.timeout(20000)});if(response.status>=300&&response.status<400){discardResponse(response);throw new RpcProtocolError('Public read redirect rejected');}if(!response.ok){discardResponse(response);const error=Error(`HTTP ${response.status}`);error.status=response.status;throw error;}return await readBoundedUtf8(response,1048576);}finally{timing.endedAt=performance.now();}}),{enabled:coalesceRead});
     // Each consumer parses its own value. Amounts/metadata never share a
     // mutable object; exact-integer callers keep the lossless parser.
-    const raw=await flight.promise,v=exactIntegers?parseLosslessJson(raw):JSON.parse(raw);if(v.error)throw pendingContractMetadata(method,params,v.error)??Error(losslessJson(v.error));return v.result;
+    const raw=await flight.promise,v=rpcEnvelope(exactIntegers?parseLosslessJson(raw):JSON.parse(raw));if(v.error)throw pendingContractMetadata(method,wireParams,v.error)??Error(losslessJson(v.error));return v.result;
    }catch(error){failed=true;throw error;}
    finally{if(observeRead)try{const activeAt=flight?.timing.activeAt,now=performance.now();await observeRead({schema:1,phase:'public-rpc-read',queuedAt,endpointHost:new URL(url).host,method,failed,coalesced:flight?.coalesced??false,physicalReadOwner:flight?!flight.coalesced:null,queueMilliseconds:activeAt===null||activeAt===undefined?null:Math.max(0,activeAt-started),rpcAndParseMilliseconds:activeAt===null||activeAt===undefined?null:now-Math.max(started,activeAt),phaseScope:'one logical public read attempt; identical simultaneous reads may share one physical transport. Completed reads are evicted; each consumer parses and validates independently. Includes queue/parse and excludes observer writes, not proof/confirmation time'});}catch{readMetricFailures++;}}
 

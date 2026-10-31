@@ -2,6 +2,7 @@
 // reserialization of a prepared request, automatic send retry or ACK-as-finality.
 import {nativeProfile,nativeManifestPath,isMainnetBetaProfile,RESET_BETA_PROFILE} from "../nativeProtocol.mjs";
 import { digest, canonical, hashPattern } from "../protocol.mjs";
+import {readBoundedUtf8,rpcEnvelope,discardResponse} from '../rpcWire.mjs';
 const ok = (v, text) => { if (!v) throw Error(text); };
 const hashBytes = async (text) => [...new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text)))].map(x => x.toString(16).padStart(2, "0")).join("");
 function bounded(v, max = 4294967295) {
@@ -28,14 +29,14 @@ export function createExactMarketTransport({ bundle, fetcher = fetch, parse, max
     else active++;
     try {
       const r = await fetcher(url, { ...options, redirect: "error", cache: "no-store", signal: AbortSignal.timeout(20000) });
-      ok(r.ok, "Configured network read unavailable");
-      const raw = await r.text(); ok(raw.length <= 4_000_000, "Public response limit");
+      if(!r.ok){discardResponse(r);throw Error("Configured network read unavailable");}
+      const raw = await readBoundedUtf8(r,4_000_000);
       const v = parse(raw); ok(!v.error, "Public RPC rejected"); return v;
     } finally { const next = queue.shift(); if (next) next(); else active--; }
   }
   const rpc = async (url, method, params) => {
     ok(method.startsWith("psy_get_"), "Read RPC only");
-    return (await read(url, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ jsonrpc: "2.0", id: 1, method, params }) })).result;
+    return rpcEnvelope(await read(url, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ jsonrpc: "2.0", id: 1, method, params }) })).result;
   };
   async function commonCheckpoint() {
     const heads = await Promise.all(network.realm_configs.map(r => rpc(r.rpc_url[0], "psy_get_latest_l2_block_state", {})));
@@ -96,9 +97,9 @@ export function createExactMarketTransport({ bundle, fetcher = fetch, parse, max
       // transport framing; parsing is only for endpoint/response validation.
       const body = '{"jsonrpc":"2.0","id":1,"method":"psy_submit_user_end_cap","params":' + requestJson + '}';
       const r = await fetcher(realm(user), { method: "POST", headers: { "content-type": "application/json" }, body, redirect: "error", signal: AbortSignal.timeout(30000) });
-      ok(r.ok, "Exact broadcast response unavailable; reconcile original identity");
-      const raw = await r.text(); ok(raw.length <= 262144, "Broadcast response limit");
-      const response = parse(raw);
+      if(!r.ok){discardResponse(r);throw Error("Exact broadcast response unavailable; reconcile original identity");}
+      const raw = await readBoundedUtf8(r,262144);
+      const response = rpcEnvelope(parse(raw));
       ok(!response.error && response.result === core.state_transition.end_user_leaf_hash, "Broadcast ACK differs; reconcile original identity");
       return { accepted: true, confirmed: false, requestSha256, endUserLeafHash: response.result };
     },

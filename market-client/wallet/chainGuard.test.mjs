@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createMarketChainGuard} from './chainGuard.mjs';
 const root='a'.repeat(64),bundle={registry:{network:{chainRootAt1:root}},networkConfig:{coordinator_configs:[{rpc_url:['https://coordinator.invalid']}]} };
-const response=(value,ok=true)=>({ok,text:async()=>JSON.stringify(value)});
+const response=(value,ok=true)=>new Response(JSON.stringify(value),{status:ok?200:503});
 const observed=(value=root)=>({jsonrpc:'2.0',id:1,result:{global_chain_root:value}});
 test('fresh anchor checks coalesce only in-flight reads and stop after a reset',async()=>{
  let calls=0,release;let value=root;
@@ -18,7 +18,7 @@ test('fresh anchor checks coalesce only in-flight reads and stop after a reset',
  value=root;await guard();assert.equal(calls,4);
 });
 test('malformed, unavailable, oversized and failed reads never authorize preparation',async()=>{
- for(const reply of [response(observed(),false),response({...observed(),id:2}),response({...observed(),error:{code:-1}}),response({result:observed().result}),response(observed('BAD')), {ok:true,text:async()=>' '.repeat(65537)}]){
+ for(const reply of [response(observed(),false),response({...observed(),id:2}),response({...observed(),error:{code:-1}}),response({result:observed().result}),response(observed('BAD')), new Response(' '.repeat(65537))]){
   await assert.rejects(createMarketChainGuard({bundle,fetcher:async()=>reply})());
  }
  const guard=createMarketChainGuard({bundle,fetcher:async()=>{throw Error('offline');}});await assert.rejects(guard());await assert.rejects(guard());

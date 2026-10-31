@@ -16,7 +16,7 @@ async function fixture(reset=false){
  const p={schema:2,userId:201,publicKeyHash:H("user"),startUserLeafHash:H("start"),walletNonce:"1",validUntilCheckpoint:164,actualFee:"1000000",requestJson,requestSha256:H(requestJson),contentHash:H("content"),registryHash:bundle.registryHash,networkHash:await digest(registry.network),sdkManifestSha256:registry.sdkManifestSha256,endUserLeafHash:H("end")};
  const record={registryHash:bundle.registryHash,plan:{marketId:1000,startCheckpoint:100,anchors:[{userId:201,contractId:0,root:H("state")}],sellerAnchors:[],debits:[{contractId:0,amount:"100"}],maxNetworkFee:"2000000"}};
  const state={sent:[],calls:[],included:false,drop:false,mutation:null};
- const respond=value=>({ok:true,text:async()=>losslessJson(value)});
+ const respond=value=>new Response(losslessJson({jsonrpc:state.responseVersion??"2.0",id:state.responseId??1,...value,...(state.dualEnvelope?{error:{code:-32000,message:"conflicting error"}}:{})}));
  const fetcher=async(url,options={})=>{
   state.calls.push({url,options});
   if(options.body){const q=JSON.parse(options.body);if(q.method==="psy_submit_user_end_cap"){state.sent.push(options.body);if(state.drop)throw Error("connection lost after receive");return respond({result:p.endUserLeafHash});}
@@ -62,4 +62,14 @@ test("reset transport accepts exact native slot count without relaxing checkpoin
  for(const slots of [8594128985,9007199254740992,"9007199254740993",18446744073709551616n]){f.state.slots=slots;await assert.rejects(f.transport.recheck(f.record,f.p));}
  f.state.slots=8594128984;f.state.checkpoint=4294967296;await assert.rejects(f.transport.recheck(f.record,f.p));f.state.checkpoint=110;f.state.height=4294967296;await assert.rejects(f.transport.recheck(f.record,f.p));
  assert.equal(f.state.sent.length,0);
+});
+
+test("wrong RPC identities and contradictory replies cannot satisfy wallet preflight or a broadcast ACK",async()=>{
+ for(const mode of ["responseId","responseVersion","dualEnvelope"]){
+  const f=await fixture();f.state[mode]=mode==="responseId"?2:mode==="responseVersion"?"1.0":true;
+  await assert.rejects(f.transport.recheck(f.record,f.p));
+  assert.equal(f.state.sent.length,0);
+  await assert.rejects(f.transport.broadcastExact(f.p.requestJson,f.p.requestSha256));
+  assert.equal(f.state.sent.length,1,"a malformed ACK must never trigger another send");
+ }
 });

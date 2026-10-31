@@ -1,52 +1,20 @@
-// Additional gateway-only bounds. Existing SDK and core Executor transports are
-// unchanged unless this explicit public-read fetch implementation is supplied.
+// Gateway adapter around the shared bounded wire checks. No SDK transport changes.
+import {readBoundedUtf8,rpcEnvelope,discardResponse} from "../../market-client/rpcWire.mjs";
 export function publicFetchWith(fetcher, limit = 1048576) {
   return async (url, options = {}) => {
     const response = await fetcher(url, { ...options, redirect: "manual" });
     if (response.status >= 300 && response.status < 400) {
-      await response.body?.cancel();
+      discardResponse(response);
       throw Error("Public read redirect rejected");
     }
-    const declared = response.headers.get("content-length");
-    if (
-      declared &&
-      (!/^\d+$/.test(declared) || BigInt(declared) > BigInt(limit))
-    ) {
-      await response.body?.cancel();
-      throw Error("Public read response exceeds limit");
-    }
-    const reader = response.body?.getReader(),
-      chunks = [];
-    let bytes = 0;
-    if (reader)
-      try {
-        while (true) {
-          const { done, value } = await reader.read();
-          if (done) break;
-          bytes += value.length;
-          if (bytes > limit) {
-            await reader.cancel();
-            throw Error("Public read response exceeds limit");
-          }
-          chunks.push(value);
-        }
-      } finally {
-        reader.releaseLock();
-      }
-    const raw = Buffer.concat(chunks);
+    const raw = await readBoundedUtf8(response, limit);
     if (response.ok && options.method === "POST" && options.body) {
-      const request = JSON.parse(options.body),
-        envelope = JSON.parse(raw.toString("utf8"));
-      if (
-        request.jsonrpc !== "2.0" ||
-        typeof request.method !== "string" ||
-        !request.method.startsWith("psy_get_") ||
-        envelope.jsonrpc !== "2.0" ||
-        envelope.id !== request.id
-      )
+      const request = JSON.parse(options.body);
+      if (request.jsonrpc !== "2.0" || !Number.isSafeInteger(request.id) || typeof request.method !== "string" || !request.method.startsWith("psy_get_"))
         throw Error("Public RPC envelope mismatch");
+      rpcEnvelope(JSON.parse(raw), request.id);
     }
-    return new Response(raw, {
+    return new Response([204,205,304].includes(response.status)?null:raw, {
       status: response.status,
       statusText: response.statusText,
       headers: response.headers,

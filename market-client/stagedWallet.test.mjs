@@ -5,6 +5,7 @@ import { createHash } from "node:crypto";
 import { createStagedWallet } from "./wallet/staged.mjs";
 import { prepareOnlyMarketJobs } from "./wallet/prepareOnly.mjs";
 import { canonical } from "./protocol.mjs";
+import { rpcEnvelope } from "./rpcWire.mjs";
 const H = (s) => createHash("sha256").update(s).digest("hex");
 // Synthetic shared lock authority. It models the Browser LockManager contract;
 // it is not a browser-worker or cross-machine acceptance claim.
@@ -191,6 +192,26 @@ test("wallet persists exact preparation, sends once and reconciles original acro
   );
   assert.equal(await f.make().assertNoPending(f.context), true);
   assert.equal(f.prepares, 1);
+});
+
+test("a malformed ACK retains the original account hold across restart until exact reconciliation", async () => {
+  const f = fixture(); let sends = 0;
+  f.backend.broadcastExact = async () => {
+    sends++;
+    return rpcEnvelope({ jsonrpc: "2.0", id: 2, result: "unrelated response" });
+  };
+  const service = f.make(), prepared = await service.prepare(f.context, f.record);
+  assert.equal((await service.broadcast(f.context, prepared.intentId, prepared.preparedHash)).phase, "unresolved");
+  const restarted = f.make();
+  await restarted.broadcast(f.context, prepared.intentId, prepared.preparedHash);
+  await assert.rejects(restarted.cancelPreparation(f.context, prepared.intentId));
+  await assert.rejects(restarted.assertNoPending(f.context));
+  await assert.rejects(restarted.prepare({ ...f.context, origin: "https://other.example" }, f.record), /nonce reserved/);
+  assert.equal(sends, 1); assert.equal(f.prepares, 1);
+  f.known = true;
+  assert.equal((await restarted.reconcile(f.context, prepared.intentId)).phase, "included");
+  assert.equal(await restarted.assertNoPending(f.context), true);
+  assert.equal(sends, 1);
 });
 test("failed native verification preserves completed exact proof for verification without another proof", async () => {
   const f = fixture();

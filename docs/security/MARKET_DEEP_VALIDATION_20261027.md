@@ -1,5 +1,18 @@
 # Market correctness and reset-chain validation — 27 October 2026
 
+Latest production-candidate hardening (31 October): [formal Executor/wallet
+wire integrity, bounded streams and exact unknown recovery](PRODUCTION_TRANSPORT_CANDIDATE_20261031.md).
+Three baseline rejection gaps are reproduced and fixed. Generic framing checks
+are shared by the gateway, core Executor and formal wallet module; queued read
+parameters/wire identity are captured before scheduling. Scoped application
+regressions have 355 passes/one existing skip, and the wallet has 730 passes/one
+existing skip with exact SDK distribution/typecheck and a fresh staging build.
+The wider attempted application run retains six missing-prerequisite failures;
+it is not reported as complete UPS acceptance. Current metadata remains
+intermittent at 27044; no contract, new proof, financial send, fill or claim is
+added. Formal release resources remain uninstalled and real UI writes closed.
+This is candidate hardening, not production completion or a performance claim.
+
 Latest adversarial continuation (31 October): [preserved actual-bytecode review,
 manifest completeness and unambiguous function binding](FOUR_MARKET_ADVERSARIAL_20261031.md).
 Two new regressions reproduced acceptance gaps in the old builder; exact manifest
