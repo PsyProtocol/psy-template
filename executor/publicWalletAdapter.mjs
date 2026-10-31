@@ -14,10 +14,12 @@ import {runDurableSubmission,submissionLeaf} from './driverProcess.mjs';
 import {publishFile} from './durableFile.mjs';
 import {createU124WalletAdapter} from './u124Adapter.mjs';
 import {createCompactAdmissionAdapter} from './compactAdmissionAdapter.mjs';
+import {createFundedStreamAdapter} from './fundedStreamAdapter.mjs';
 import {withPhaseMetrics,readMetricObserver} from './phaseMetrics.mjs';
 const execFile=promisify(execFileCallback);
 const padded=x=>x.toLowerCase().padStart(64,'0');
 export async function createPublicWalletAdapter(options,{readState=publicState,readReceipts=receiptReader,runDriver=execFile,submitDriver=runDurableSubmission,residentScope}={}){
+ if(options.profile==='source-funded-v14')return createFundedStreamAdapter(options,{readState,readReceipts,runDriver,submitDriver});
  if(['batch-admission-compact-v1','previous-checkpoint-seeded-v1'].includes(options.profile)){
   const observeRead=readMetricObserver(options),measuredRead=observeRead?path=>readState(path,{observeRead}):readState;
   const factory=withPhaseMetrics(options,{initialize:()=>createCompactAdmissionAdapter(options,{readState:measuredRead,readReceipts,runDriver,submitDriver,residentScope})});

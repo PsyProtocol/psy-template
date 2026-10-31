@@ -37,15 +37,17 @@ impl World{
   let mut methods=HashMap::new();for(cid,a)in[(M,market.clone()),(A,read("token/compilation_artifact.json")?),(B,read(&token_artifact(B))?),(NFT,read("nft/compilation_artifact.json")?),(0,read("native.json")?)]{let defs:Vec<DPNFunctionCircuitDefinition>=serde_json::from_value(a["circuit_definitions"].clone())?;for d in defs{methods.insert((cid,d.name.clone()),d);}}
   let fields=market["abi"]["contract"]["state"].as_array().unwrap().iter().map(|f|(f["name"].as_str().unwrap().to_owned(),f["offset"].as_u64().unwrap())).collect();
   let mut w=Self{state:InMemoryStateBackend::new(),methods:Arc::new(methods),fields:Arc::new(fields),policy,checkpoint:100,slots:BTreeMap::new(),revision:0,kind:kind.into(),vault:V};
-  for u in[I,S,200,201,202,203]{if u!=S||legacy_sponsor{w.set(u,0,0,1000*F);}}
-  for c in[A,B]{w.run(I,c,"set_metadata",&[if c==A{SYMBOL_A}else{SYMBOL_B},18])?;w.run(I,c,"mint",&pair(MAX/2))?;for u in[200,201,202,203]{w.run(I,c,"transfer",&args(&[u],&[MAX/16],&[]))?;w.run(u,c,"claim",&[I])?;}}
+  let minimal=std::env::var("BATCH_MINIMAL_GENESIS").as_deref()==Ok("1");
+  for u in[I,S,200,201,202,203]{if (u!=S||legacy_sponsor)&&(!minimal||u==I||u==200){w.set(u,0,0,1000*F);}}
+  for c in[A,B]{w.run(I,c,"set_metadata",&[if c==A{SYMBOL_A}else{SYMBOL_B},18])?;w.run(I,c,"mint",&pair(MAX/2))?;for u in if minimal{vec![200]}else{vec![200,201,202,203]}{w.run(I,c,"transfer",&args(&[u],&[MAX/16],&[]))?;w.run(u,c,"claim",&[I])?;}}
   if kind!="nftmarket"&&bootstrap{w.fee(I)?;w.pay(I,A,1)?;w.pay(I,B,1)?;w.operation_maintenance("activate_batch_vault",I,0,0,0,0,0)?;}
   if kind=="nftmarket"{w.run(I,NFT,"set_collection_metadata",&[123,0,0,0,0])?;w.give_nft(200,0,1)?;w.give_nft(202,0,2)?;w.run(I,NFT,"mint",&[0,3,0,0,0,0])?;if bootstrap{w.fee(I)?;w.pay(I,A,1)?;w.operation_maintenance("activate",I,0,0,0,0,0)?;for u in[200,201,202,203]{w.run(u,NFT,"acknowledge",&[V])?;}}}
   Ok(w)
  }
  fn set(&mut self,u:u64,c:u64,o:u64,n:u64){self.state.set_slot(u,c,o,n);self.slots.insert((u,c,o),n);}
  fn run(&mut self,u:u64,c:u64,name:&str,input:&[u64])->Result<()>{self.run_traced(u,c,name,input).map(|_|())}
- fn run_traced(&mut self,u:u64,c:u64,name:&str,input:&[u64])->Result<Vec<(u64,u64,u64)>>{let mut vm=VmExecutor::new(self.state.clone());let d=self.methods.get(&(c,name.into())).ok_or_else(||anyhow::anyhow!("missing {name}"))?;let r=vm.execute(d,&ExecutionContext{user_id:u,contract_id:c,caller_contract_id:DEFAULT_CALLER_CONTRACT_ID_U64,checkpoint_id:self.checkpoint,nonce:self.revision+1,user_public_key_hash:[0;4],session_proof_tree_root:[0;4],transaction_log:vec![],transaction_stack_hash:[0;4]},input)?;if !r.success{bail!("{name}: {}",r.failure.unwrap().message);}let writes=vm.write_overlay();self.state.apply_overlay(writes);self.slots.extend(writes.iter().map(|(k,v)|(*k,*v)));self.state.apply_imt_overlay(vm.imt_write_overlay());Ok(writes.keys().copied().collect())}
+ fn run_traced(&mut self,u:u64,c:u64,name:&str,input:&[u64])->Result<Vec<(u64,u64,u64)>>{self.run_traced_at(u,c,name,input,self.revision+1)}
+ fn run_traced_at(&mut self,u:u64,c:u64,name:&str,input:&[u64],nonce:u64)->Result<Vec<(u64,u64,u64)>>{let mut vm=VmExecutor::new(self.state.clone());let d=self.methods.get(&(c,name.into())).ok_or_else(||anyhow::anyhow!("missing {name}"))?;let r=vm.execute(d,&ExecutionContext{user_id:u,contract_id:c,caller_contract_id:DEFAULT_CALLER_CONTRACT_ID_U64,checkpoint_id:self.checkpoint,nonce,user_public_key_hash:[0;4],session_proof_tree_root:[0;4],transaction_log:vec![],transaction_stack_hash:[0;4]},input)?;if !r.success{bail!("{name}: {}",r.failure.unwrap().message);}let writes=vm.write_overlay();self.state.apply_overlay(writes);self.slots.extend(writes.iter().map(|(k,v)|(*k,*v)));self.state.apply_imt_overlay(vm.imt_write_overlay());Ok(writes.keys().copied().collect())}
  fn val(&self,u:u64,f:&str,i:u64)->u64{self.state.get_contract_slot(u,M,self.fields[f]+i).unwrap()}
  fn wide(&self,u:u64,f:&str)->u128{self.val(u,f,0)as u128+R*self.val(u,f,1)as u128}
  fn balance(&self,u:u64,c:u64)->u128{self.state.get_contract_slot(u,c,0).unwrap()as u128+R*self.state.get_contract_slot(u,c,1).unwrap()as u128}
