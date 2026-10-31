@@ -1,5 +1,19 @@
 # Market correctness and reset-chain validation — 27 October 2026
 
+Latest four-market continuation (31 October): [unified actual-bytecode suite,
+late policy identity, safe compile reuse and original QA registration](FOUR_MARKET_SUITE_20261031.md).
+All four deterministic candidates compile and retain source/cursor/priority/
+refund logic. Pair policies now support explicit late-bound IDs while old v9
+fixture bytes stay identical. QA user 1639168 is included at 25962 with complete
+registration membership; the Curve candidate uses that real recipient ID,
+without funding/graduation authorization. Only changed Curve source recompiles;
+three exact immutable artifacts are reused, never transaction state or proofs.
+Realm 0 still returns inconsistent contract-8 heights at 25863 and 26033. No new market
+or QA B deployment, fill, full financial UPS or browser acceptance occurred.
+Parent registration use is 2/3; Native balance/nonce remain 998.999998 PSY / 1.
+Node, frozen SDK, old contracts and original records are unchanged. Current
+instance/bootstrap/full-UPS/live UI and an expanded bounded live plan remain open.
+
 Latest funded candidate continuation (31 October): [exact new QA bytecode,
 full ordinary UPS and one independently confirmed initial deployment](FUNDED_QA_DEPLOYMENT_20261031.md).
 QA A is contract 8, included at 25363 with saved initial-layout and checkpoint
