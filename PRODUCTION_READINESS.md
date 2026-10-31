@@ -1,3 +1,16 @@
+# 2026-10-31: current production candidate
+
+The current release remains gated. See the [formal Executor and wallet transport
+report](docs/security/PRODUCTION_TRANSPORT_CANDIDATE_20261031.md) and
+[chronological evidence entry](docs/security/MARKET_DEEP_VALIDATION_20261027.md).
+Strict RPC identity/outcome and streaming limits, immutable queued-read inputs
+and exact unknown-send recovery are integrated into the formal consumers.
+Current-chain metadata consistency, fresh actual-ID/key/bootstrap full UPS,
+real user settlement/claim, protocol authority/freshness and live fault
+acceptance still need evidence. Historical deployments, test counts and a
+successful wallet build do not close these gates. Node and the frozen SDK are
+unchanged; no old contract is updated or financial protection removed.
+
 # 2026-10-19: frozen driver, request evidence and UPS metadata binding
 
 This milestone changes only the application repository, not Node, protocol circuits, six contract sources or registered SD-key policies. No deployment or broadcast occurred. Contract code/layout roots and fingerprints are unchanged.

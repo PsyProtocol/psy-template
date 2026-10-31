@@ -16,7 +16,7 @@ test('concurrent vault snapshots share one RPC bound; coalesced leaves decode al
  globalThis.fetch=async(url,options)=>{
   const request=JSON.parse(options.body);active++;peak=Math.max(peak,active);
   await new Promise(r=>setTimeout(r,2));active--;reads.push(request);
-  return {ok:true,text:async()=>JSON.stringify({result:request.method==='psy_get_latest_l2_block_state'?{checkpoint_id:url.includes('r0')?90:100}:leaf(11,22,33,44)})};
+  return new Response(JSON.stringify({jsonrpc:'2.0',id:1,result:request.method==='psy_get_latest_l2_block_state'?{checkpoint_id:url.includes('r0')?90:100}:leaf(11,22,33,44)}));
  };
  const snapshots=await Promise.all([publicState(config),publicState(config),publicState(config)]);
  const outputs=await Promise.all(snapshots.map(s=>Promise.all(Array.from({length:20},(_,i)=>Promise.all([0,1,2,3].map(slot=>s.slot(10+i,64,slot)))))));
@@ -30,9 +30,9 @@ test('leaf cache isolates contract, user and fresh snapshots; failed reads relea
  let head=100,calls=0,fail=true;
  globalThis.fetch=async(_url,options)=>{
   const request=JSON.parse(options.body);
-  if(request.method==='psy_get_latest_l2_block_state')return {ok:true,text:async()=>JSON.stringify({result:{checkpoint_id:head}})};
+  if(request.method==='psy_get_latest_l2_block_state')return new Response(JSON.stringify({jsonrpc:'2.0',id:1,result:{checkpoint_id:head}}));
   calls++;if(fail)throw Error('invalid leaf');
-  return {ok:true,text:async()=>JSON.stringify({result:leaf(request.params.checkpoint_id,request.params.user_id,request.params.contract_id,4)})};
+  return new Response(JSON.stringify({jsonrpc:'2.0',id:1,result:leaf(request.params.checkpoint_id,request.params.user_id,request.params.contract_id,4)}));
  };
  const s=await publicState(config);
  await assert.rejects(s.slot(10,64,0),/invalid leaf/);fail=false;
@@ -48,9 +48,9 @@ test('a field read failure drains sibling RPCs before the scan can be retried',(
  let active=0,finished=0;
  globalThis.fetch=async(_url,options)=>{
   const request=JSON.parse(options.body);
-  if(request.method==='psy_get_latest_l2_block_state')return {ok:true,text:async()=>JSON.stringify({result:{checkpoint_id:100}})};
+  if(request.method==='psy_get_latest_l2_block_state')return new Response(JSON.stringify({jsonrpc:'2.0',id:1,result:{checkpoint_id:100}}));
   active++;
-  try{await new Promise(r=>setTimeout(r,request.params.leaf_id===0?1:10));if(request.params.leaf_id===0)throw Error('bad leaf');return {ok:true,text:async()=>JSON.stringify({result:leaf(1,2,3,4)})};}
+  try{await new Promise(r=>setTimeout(r,request.params.leaf_id===0?1:10));if(request.params.leaf_id===0)throw Error('bad leaf');return new Response(JSON.stringify({jsonrpc:'2.0',id:1,result:leaf(1,2,3,4)}));}
   finally{active--;finished++;}
  };
  const s=await publicState(config),abi={contract:{state:[0,4,8,12].map((offset,i)=>({name:'f'+i,offset}))}};
@@ -58,12 +58,12 @@ test('a field read failure drains sibling RPCs before the scan can be retried',(
 }));
 test('malformed realm heads are rejected even if another valid head would hide them in the minimum',()=>fixture(async config=>{
  for(const bad of [100.5,Number.MAX_SAFE_INTEGER+1,0,null]){
-  globalThis.fetch=async url=>({ok:true,text:async()=>JSON.stringify({result:{checkpoint_id:url.includes('r0')?90:bad}})});
+  globalThis.fetch=async url=>new Response(JSON.stringify({jsonrpc:'2.0',id:1,result:{checkpoint_id:url.includes('r0')?90:bad}}));
   await assert.rejects(publicState(config),/realm checkpoint/);
  }
 }));
 test('invalid identifiers, slot indices and key hashes fail before issuing additional RPCs',()=>fixture(async config=>{
- let calls=0;globalThis.fetch=async()=>{calls++;return {ok:true,text:async()=>JSON.stringify({result:{checkpoint_id:100}})};};
+ let calls=0;globalThis.fetch=async()=>{calls++;return new Response(JSON.stringify({jsonrpc:'2.0',id:1,result:{checkpoint_id:100}}));};
  const s=await publicState(config),before=calls;
  for(const [u,c,o]of [[0,64,0],[-1,64,0],[10,-1,0],[10,64,-1],[10,64,0.5],[10,64,4294967296],[10,Number.MAX_SAFE_INTEGER+1,0]])await assert.rejects(s.slot(u,c,o),/invalid/);
  await assert.rejects(s.contractLeaf(-1),/contract ID/);await assert.rejects(s.userIds('not-a-key'),/public key hash/);
@@ -72,23 +72,23 @@ test('invalid identifiers, slot indices and key hashes fail before issuing addit
 }));
 
 test('asset initialization reads coalesce authenticated-root candidates at the fixed checkpoint and reject malformed hashes',()=>fixture(async config=>{
- const reads=[];globalThis.fetch=async(url,options)=>{const q=JSON.parse(options.body);reads.push({url,...q});return {ok:true,text:async()=>JSON.stringify({result:q.method==='psy_get_latest_l2_block_state'?{checkpoint_id:100}:q.params.contract_id===43?'invalid':'AB'.repeat(32)})};};
+ const reads=[];globalThis.fetch=async(url,options)=>{const q=JSON.parse(options.body);reads.push({url,...q});return new Response(JSON.stringify({jsonrpc:'2.0',id:1,result:q.method==='psy_get_latest_l2_block_state'?{checkpoint_id:100}:q.params.contract_id===43?'invalid':'AB'.repeat(32)}));};
  const s=await publicState(config);const values=await Promise.all([s.contractStateRoot(1010,42),s.contractStateRoot(1010,42)]);assert.deepEqual(values,['ab'.repeat(32),'ab'.repeat(32)]);
  const rootReads=reads.filter(q=>q.method==='psy_get_user_contract_tree_leaf_hash');assert.equal(rootReads.length,1);assert.equal(rootReads[0].url,'https://r1.test');assert.deepEqual(rootReads[0].params,{checkpoint_id:100,user_id:1010,contract_id:42});
  await assert.rejects(s.contractStateRoot(1010,43),/invalid user contract root/);const before=reads.length;await assert.rejects(s.contractStateRoot(0,42),/user ID/);assert.equal(reads.length,before);
 }));
 
 test('explicit exact-integer RPC mode preserves a large nonce without changing legacy control reads',()=>fixture(async config=>{
- globalThis.fetch=async(_url,options)=>{const q=JSON.parse(options.body);if(q.method==='psy_get_latest_l2_block_state')return{ok:true,text:async()=>JSON.stringify({result:{checkpoint_id:100}})};return{ok:true,text:async()=>'{"jsonrpc":"2.0","id":1,"result":{"nonce":9007199254740993,"user_id":10}}',json:async()=>assert.fail('unsafe JSON integer conversion')};};
+ globalThis.fetch=async(_url,options)=>{const q=JSON.parse(options.body);return new Response(q.method==='psy_get_latest_l2_block_state'?JSON.stringify({jsonrpc:'2.0',id:1,result:{checkpoint_id:100}}):'{"jsonrpc":"2.0","id":1,"result":{"nonce":9007199254740993,"user_id":10}}');};
  const s=await publicState(config),leaf=await s.rpc('https://r0.test','psy_get_user_leaf_data',{checkpoint_id:100,user_id:10},{exactIntegers:true});assert.equal(leaf.nonce,9007199254740993n);assert.equal(leaf.user_id,10n);assert.equal(s.checkpoint,100);
 }));
 
 test('read observations label logical attempts and physical owners without recording parameters',()=>fixture(async config=>{
  const rows=[];let attempts=0;
  globalThis.fetch=async(_url,options)=>{const q=JSON.parse(options.body);
-  if(q.method==='psy_get_latest_l2_block_state')return{ok:true,text:async()=>JSON.stringify({result:{checkpoint_id:100}})};
-  if(++attempts===1)return{ok:false,status:503};
-  return{ok:true,text:async()=>JSON.stringify({result:leaf(1,2,3,4)})};
+  if(q.method==='psy_get_latest_l2_block_state')return new Response(JSON.stringify({jsonrpc:'2.0',id:1,result:{checkpoint_id:100}}));
+  if(++attempts===1)return new Response(null,{status:503});
+  return new Response(JSON.stringify({jsonrpc:'2.0',id:1,result:leaf(1,2,3,4)}));
  };
  const s=await publicState(config,{observeRead:r=>rows.push(r)});
  assert.deepEqual(await Promise.all([s.slot(10,64,0),s.slot(10,64,1)]),[1n,2n]);
@@ -98,14 +98,14 @@ test('read observations label logical attempts and physical owners without recor
  await assert.rejects(s.rpc('https://r0.test','psy_submit_transaction',{}),/read RPC/);assert.equal(rows.length,4);
 }));
 test('failed read telemetry neither changes exact result nor retries a successful read',()=>fixture(async config=>{
- let requests=0;globalThis.fetch=async(_url,options)=>{requests++;const q=JSON.parse(options.body);return{ok:true,text:async()=>JSON.stringify({result:q.method==='psy_get_latest_l2_block_state'?{checkpoint_id:100}:leaf(7,8,9,10)})};};
+ let requests=0;globalThis.fetch=async(_url,options)=>{requests++;const q=JSON.parse(options.body);return new Response(JSON.stringify({jsonrpc:'2.0',id:1,result:q.method==='psy_get_latest_l2_block_state'?{checkpoint_id:100}:leaf(7,8,9,10)}));};
  const s=await publicState(config,{observeRead:()=>{throw Error('telemetry disk full');}});
  assert.equal(await s.slot(10,64,0),7n);assert.equal(requests,3);assert.equal(s.readMetricFailures,3);
  await assert.rejects(publicState(config,{observeRead:true}),/invalid read observer/);assert.equal(requests,3);
 }));
 
 test('in-flight snapshots share raw bytes but parse independent exact results and re-read completed heads',()=>fixture(async config=>{
- const rows=[];let calls=0;globalThis.fetch=async(_url,options)=>{calls++;const q=JSON.parse(options.body);await new Promise(r=>setTimeout(r,5));return new Response(q.method==='psy_get_latest_l2_block_state'?JSON.stringify({result:{checkpoint_id:100}}):'{"result":{"nonce":9007199254740993}}');};
+ const rows=[];let calls=0;globalThis.fetch=async(_url,options)=>{calls++;const q=JSON.parse(options.body);await new Promise(r=>setTimeout(r,5));return new Response(q.method==='psy_get_latest_l2_block_state'?JSON.stringify({jsonrpc:'2.0',id:1,result:{checkpoint_id:100}}):'{"jsonrpc":"2.0","id":1,"result":{"nonce":9007199254740993}}');};
  const [a,b]=await Promise.all([publicState(config,{observeRead:r=>rows.push(r)}),publicState(config,{observeRead:r=>rows.push(r)})]);assert.equal(calls,2);
  const [x,y]=await Promise.all([a.rpc('https://r0.test','psy_get_user_leaf_data',{checkpoint_id:100,user_id:10},{exactIntegers:true}),b.rpc('https://r0.test','psy_get_user_leaf_data',{checkpoint_id:100,user_id:10},{exactIntegers:true})]);assert.equal(calls,3);assert.equal(x.nonce,9007199254740993n);x.nonce=0n;assert.equal(y.nonce,9007199254740993n);assert.equal(rows.filter(r=>r.coalesced).length,3);assert.equal(rows.filter(r=>r.physicalReadOwner).length,3);
  await publicState(config);assert.equal(calls,5);await assert.rejects(publicState(config,{coalesceRead:'yes'}),/coalescing/);
@@ -113,7 +113,7 @@ test('in-flight snapshots share raw bytes but parse independent exact results an
 
 test('new contract metadata propagation retries only the same fixed-checkpoint read and returns observed words',()=>fixture(async config=>{
  const requests=[],observations=[];let attempts=0;
- globalThis.fetch=async(_url,options)=>{const q=JSON.parse(options.body);if(q.method==='psy_get_latest_l2_block_state')return new Response(JSON.stringify({result:{checkpoint_id:25379}}));requests.push(q);return new Response(JSON.stringify(++attempts===1?{error:{code:-32001,message:'contract 8 state tree height metadata is not available in Realm DB yet'}}:{result:leaf(9007199254740993n,22,33,44)}));};
+ globalThis.fetch=async(_url,options)=>{const q=JSON.parse(options.body);if(q.method==='psy_get_latest_l2_block_state')return new Response(JSON.stringify({jsonrpc:'2.0',id:1,result:{checkpoint_id:25379}}));requests.push(q);return new Response(JSON.stringify({jsonrpc:'2.0',id:1,...(++attempts===1?{error:{code:-32001,message:'contract 8 state tree height metadata is not available in Realm DB yet'}}:{result:leaf(9007199254740993n,22,33,44)})}));};
  const s=await publicState(config,{observeRead:r=>observations.push(r)});
  assert.equal(await s.slot(10,8,0),9007199254740993n);assert.equal(await s.slot(10,8,1),22n);
  assert.equal(requests.length,2);assert.deepEqual(requests[1],requests[0]);assert.equal(requests[0].params.checkpoint_id,25379);

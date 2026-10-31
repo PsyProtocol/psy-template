@@ -28,6 +28,7 @@ paths.add(resolve(root, "market-client/wallet/approvalPolicy.d.mts"));
 paths.add(resolve(root, "market-client/wallet/prepareService.d.mts"));
 paths.add(resolve(root, "market-client/wallet/native/ownedLoader.d.mts"));
 paths.add(resolve(root, "market-client/protocol.d.mts"));
+paths.add(resolve(root, "market-client/rpcWire.d.mts"));
 paths.add(resolve(root, "token/wide/arithmetic.d.mts"));
 // Optional reviewed-directory pair is explicit; no search or protocol fallback.
 if(Boolean(process.argv[3])!==Boolean(process.argv[4])||process.argv.length>5)
