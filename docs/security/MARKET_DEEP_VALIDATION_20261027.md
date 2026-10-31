@@ -1,5 +1,17 @@
 # Market correctness and reset-chain validation — 27 October 2026
 
+Latest faucet cause investigation (31 October): [frozen ordinary-start wire map,
+adjacent-checkpoint root correlation and application mixed-root guard](FAUCET_START_ROOT_CAUSE_20261031.md).
+The reported row 46/column 12 joins session/path checkpoint-tree root element 0.
+The two preserved conflicting assignments correlate with historical roots
+1758/1759 within a bounded 15-root inventory; the full historical witness and
+running resource identity remain unavailable. Current views at 25091 agree.
+Application acquisition now rejects mixed root/path metadata before continuing,
+while full Merkle/UPS/session checks remain mandatory. A sealed inspector and
+negative tests pass without witness loading or proof generation. Current
+balance/pending are still zero; the original faucet request is not resolved or
+resent. Deployment, real UI settlement and ordinary claims remain unaccepted.
+
 Latest funding continuation (31 October): [original faucet identity,
 current pending-cursor inventory and precise operator delivery](FAUCET_FUNDING_CONTINUATION_20261031.md).
 At checkpoint 22654, recipient 223232 still has zero observed balance and zero

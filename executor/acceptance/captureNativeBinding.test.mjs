@@ -3,8 +3,11 @@ import assert from "node:assert/strict";
 import { mkdtemp, readFile, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { captureNativeBinding } from "./captureNativeBinding.mjs";
-import { losslessJson } from "../../amm/u124/client.mjs";
+import {
+  captureNativeBinding,
+  validateCheckpointRootContext,
+} from "./captureNativeBinding.mjs";
+import { losslessJson, parseLosslessJson } from "../../amm/u124/client.mjs";
 const hash = (n) => n.repeat(64);
 async function scenario(fn) {
   const parent = await mkdtemp(join(tmpdir(), "psy-native-read-test-"));
@@ -29,6 +32,13 @@ function transport(change = () => null) {
     else if (q.method === "psy_get_contract_leaf_data")
       result = { code_root: hash("2") };
     else if (q.method === "psy_get_checkpoint_tree_root") result = hash("3");
+    else if (q.method === "psy_get_checkpoint_tree_merkle_proof")
+      result = {
+        root: hash("3"),
+        value: hash("6"),
+        index: q.params.leaf_checkpoint_id,
+        siblings: Array(32).fill(hash("7")),
+      };
     else if (q.method === "psy_get_user_leaf_data")
       result = {
         user_id: 223232,
@@ -72,6 +82,111 @@ test("capture keeps full integers and projects public resources without financia
     ]);
     assert.equal(s.fundingUser.registrationStatus, "not-queried");
   }));
+test("mixed roots, replaced indices and malformed checkpoint paths stop before funding or resource reads", async () => {
+  for (const mutate of [
+    (p) => {
+      p.root = hash("8");
+    },
+    (p) => {
+      p.index++;
+    },
+    (p) => {
+      p.siblings.pop();
+    },
+    (p) => {
+      p.siblings[0] = "invalid";
+    },
+    (p) => {
+      p.value = null;
+    },
+  ])
+    await scenario(async (out) => {
+      const t = transport((q) => {
+        if (
+          q.method !== "psy_get_checkpoint_tree_merkle_proof" ||
+          q.params.leaf_checkpoint_id !== 11
+        )
+          return null;
+        const path = {
+          root: hash("3"),
+          value: hash("6"),
+          index: 11,
+          siblings: Array(32).fill(hash("7")),
+        };
+        mutate(path);
+        return new Response(
+          losslessJson({ jsonrpc: "2.0", id: 1, result: path }),
+        );
+      });
+      await assert.rejects(
+        captureNativeBinding(out, t),
+        /root\/path context mismatch/,
+      );
+      assert.ok(
+        !t.calls.some((q) =>
+          ["psy_get_user_leaf_data", "psy_get_circuits_data"].includes(
+            q.method,
+          ),
+        ),
+      );
+      assert.equal(
+        JSON.parse(await readFile(join(out, "SUMMARY.json"))).complete,
+        false,
+      );
+    });
+});
+test("root-context checks retain their metadata-only boundary", () => {
+  const path = (index) => ({
+    root: hash("3"),
+    value: hash("6"),
+    index,
+    siblings: Array(32).fill(hash("7")),
+  });
+  const context = {
+    checkpointId: 11,
+    checkpointTreeRoot: hash("3"),
+    chainAnchorPath: path(1n),
+    checkpointPath: path(11n),
+  };
+  const r = validateCheckpointRootContext(context);
+  assert.equal(r.membershipVerified, false);
+  assert.equal(r.canonicalFinalityAuthenticated, false);
+  assert.throws(() =>
+    validateCheckpointRootContext({
+      ...context,
+      checkpointTreeRoot: hash("8"),
+    }),
+  );
+  for (const cp of [0, -1, "11", 4294967296n])
+    assert.throws(() =>
+      validateCheckpointRootContext({ ...context, checkpointId: cp }),
+    );
+});
+test(
+  "saved live context replays without another RPC or financial authority",
+  { skip: !process.env.UPS_START_WIRE_CASE },
+  async () => {
+    const context = parseLosslessJson(
+      await readFile(
+        join(
+          process.env.UPS_START_WIRE_CASE,
+          "capture-v1/checkpoint-context.json",
+        ),
+        "utf8",
+      ),
+    );
+    assert.equal(
+      validateCheckpointRootContext(context).membershipVerified,
+      false,
+    );
+    const broken = structuredClone(context);
+    broken.checkpointPath.root = hash("8");
+    assert.throws(
+      () => validateCheckpointRootContext(broken),
+      /root\/path context mismatch/,
+    );
+  },
+);
 test("an empty stored leaf is not classified as an unregistered identity", async () =>
   scenario(async (out) => {
     const t = transport((q) =>

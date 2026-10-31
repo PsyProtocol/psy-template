@@ -11,6 +11,41 @@ const REALMS = [
 ];
 const PROVER = "https://prove-stg.psy-protocol.xyz";
 const sha = (value) => createHash("sha256").update(value).digest("hex");
+// Reject mixed checkpoint roots before resource construction/proving. This
+// joins declared roots and path metadata only; the frozen Rust verifier must
+// still authenticate each complete Merkle path and checkpoint leaf.
+export function validateCheckpointRootContext(context) {
+  const hash = (value) =>
+    typeof value === "string" && /^[0-9a-f]{64}$/.test(value);
+  const cp = context.checkpointId;
+  if (
+    !(typeof cp === "bigint" || (Number.isSafeInteger(cp) && cp > 0)) ||
+    BigInt(cp) < 1n ||
+    BigInt(cp) >= 4294967296n ||
+    !hash(context.checkpointTreeRoot)
+  )
+    throw Error("Invalid checkpoint root context");
+  for (const [path, index] of [
+    [context.chainAnchorPath, 1n],
+    [context.checkpointPath, BigInt(cp)],
+  ]) {
+    if (
+      !path ||
+      path.root !== context.checkpointTreeRoot ||
+      path.index !== index ||
+      !hash(path.value) ||
+      !Array.isArray(path.siblings) ||
+      path.siblings.length !== 32 ||
+      !path.siblings.every(hash)
+    )
+      throw Error("Checkpoint root/path context mismatch");
+  }
+  return {
+    declaredRootsAndPathMetadataMatch: true,
+    membershipVerified: false,
+    canonicalFinalityAuthenticated: false,
+  };
+}
 export async function captureNativeBinding(
   directory,
   { fetcher = fetch } = {},
@@ -190,7 +225,7 @@ export async function captureNativeBinding(
     );
     if (losslessJson(after) !== losslessJson(nativeLeaf))
       throw Error("Native identity changed during capture");
-    await save("checkpoint-context.json", {
+    const context = {
       schema: 1,
       checkpointId: checkpoint,
       expectedChainRootAt1: anchors[0].global_chain_root,
@@ -199,7 +234,9 @@ export async function captureNativeBinding(
       chainAnchorPath: anchorPath,
       checkpointPath: path,
       checkpointTreeRoot: tree,
-    });
+    };
+    validateCheckpointRootContext(context);
+    await save("checkpoint-context.json", context);
     const funding = await read(
       "funding-user",
       REALMS[0],
