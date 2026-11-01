@@ -1,4 +1,4 @@
-//! Native v14 backend for the formal Executor. Source/approval data are public
+//! Native deterministic funded backend for the formal Executor. Source/approval data are public
 //! projections only; SDK session state, witnesses and nonces are never cached.
 use super::{f, save, Guard};
 use anyhow::{ensure, Context, Result};
@@ -78,8 +78,8 @@ impl Circuit {
     }
 }
 
-pub fn is_stream(spec:&Value)->bool{spec["version"]==14||spec["version"]==15}
-pub fn profile(spec:&Value)->&'static str{if spec["version"]==15{"source-funded-pair-v15"}else{"source-funded-v14"}}
+pub fn is_stream(spec:&Value)->bool{spec["version"]==14||spec["version"]==15||psy_template_u124_markets::stream_exit::enabled(spec)}
+pub fn profile(spec:&Value)->&'static str{match spec["version"].as_u64(){Some(19)=>"source-pair-authorized-exit-v19",Some(18)=>"source-authorized-exit-v18",Some(15)=>"source-funded-pair-v15",_=>"source-funded-v14"}}
 pub fn load(path: &Path, spec: &Value) -> Result<Runtime> {
     ensure!(is_stream(spec), "reviewed deterministic funded stream only");
     let binding = &spec["executor_binding"];
@@ -377,7 +377,7 @@ impl Runtime {
                 list
             },
         };
-        let vault = if [4, 13, 14].contains(&input.request.fields[0]) {
+        let vault = if stream_execution::uses_inactive_tape(input.request.fields[0]) {
             MerkleProofCore::new_from_params::<H>(
                 0,
                 Q::ZERO,
@@ -448,7 +448,7 @@ impl Runtime {
             .collect::<Vec<_>>();
         let stack = compute_tx_stack_hash(&active);
         let count = f(active.len() as u64);
-        let vault = if [4, 13, 14].contains(&request.fields[0]) {
+        let vault = if stream_execution::uses_inactive_tape(request.fields[0]) {
             MerkleProofCore::new_from_params::<H>(
                 0,
                 Q::ZERO,
@@ -538,4 +538,70 @@ impl Runtime {
         );
         Ok(())
     }
+}
+
+#[cfg(test)]
+mod exit_saved_tests {
+ use super::*;
+ #[test]
+ #[ignore="explicit owned synthetic cohort and fresh public output; no RPC"]
+ fn native_saved_exit_request_verifies_real_key_and_exact_context()->Result<()> {
+  let root=std::path::PathBuf::from(std::env::var("EXIT_NATIVE_FIXTURE")?);
+  let input=std::path::PathBuf::from(std::env::var("EXIT_NATIVE_EVIDENCE")?);
+  let out=std::path::PathBuf::from(std::env::var("EXIT_NATIVE_OUT")?);fs::create_dir(&out)?;let mut rows=vec![];
+  for kind in["amm","bondingcurve","orderbook","nftmarket"]{
+   let path=root.join(format!("{kind}-policy.json"));let spec:Value=serde_json::from_slice(&fs::read(&path)?)?;let runtime=load(&path,&spec)?;
+   for label in["bootstrap","owner-return","independent-grant","original-user-refund","last-sponsor-return"]{
+    let name=format!("{kind}-{label}");let dir=input.join(&name);let public:Value=serde_json::from_slice(&fs::read(dir.join("public-session.json"))?)?;
+    ensure!(public["keyFingerprint"]==runtime.key.g.get_fingerprint().to_string(),"actual native key matches cohort");
+    let wire:psy_provider::request::QSubmitEndCapRPCRequest<F>=serde_json::from_slice(&fs::read(dir.join("request.json"))?)?;let core=wire.user_ec_input.core;
+    let request:Request=serde_json::from_slice(&fs::read(dir.join("plan.json"))?)?;let source:Snapshot=serde_json::from_slice(&fs::read(dir.join("source.json"))?)?;
+    let current:CurrentOpening=serde_json::from_slice(&fs::read(dir.join("current.json"))?)?;
+    let context=ContextInput{source:source.clone(),request:request.clone(),execution_checkpoint:core.checkpoint_id.to_canonical_u64(),expected_nonce:core.new_user_leaf.nonce.to_canonical_u64(),expected_start_leaf:core.state_transition.start_user_leaf_hash};
+    let identity=serde_json::from_value(json!({"version":1,"network":"testnet","marketId":runtime.review.market,"vaultId":core.new_user_leaf.user_id.to_canonical_u64(),"fingerprint":runtime.key.g.get_fingerprint().to_string(),"publicKeyHash":core.new_user_leaf.public_key.to_string(),"contracts":[]}))?;
+    let mut guard=Guard{identity,dependencies:vec![],valid_until_checkpoint:context.execution_checkpoint+1,stream:Some(context)};
+    let target=out.join(&name);fs::create_dir(&target)?;
+    save(&target.join("stream-context.json"),&json!({"source":source,"current":current,"request":request,"publicSession":public["session"],"stack":public["stack"],"txStackHash":public["txStackHash"],"txCount":public["txCount"],"checkpoint":public["checkpoint"],"scope":"Explicit public projection for native saved-crypto unit verification; no signing witness"}))?;
+    fs::copy(dir.join("key-proof.bin"),target.join("stream-sign-proof.bin"))?;
+    runtime.verify_saved(&spec,&guard,&core,&target)?;
+    guard.stream.as_mut().unwrap().expected_nonce+=1;ensure!(runtime.verify_saved(&spec,&guard,&core,&target).is_err(),"stale approved nonce accepted");guard.stream.as_mut().unwrap().expected_nonce-=1;
+    guard.stream.as_mut().unwrap().request.fields[21]+=1;ensure!(runtime.verify_saved(&spec,&guard,&core,&target).is_err(),"request substitution accepted");guard.stream.as_mut().unwrap().request.fields[21]-=1;
+    rows.push(json!({"stage":name,"nativeKeyMatchesActualUps":true,"exactSavedKeyContextVerified":true,"wrongNonceRejected":true,"changedApprovedRequestRejected":true}));
+   }
+  }
+  save(&out.join("REPORT.json"),&json!({"scope":"Actual formal native Runtime::verify_saved over public synthetic cohort; not outer live guards, broadcast, finality or extension acceptance","rows":rows,"rpcRequests":0,"newFullUps":0,"financialOperations":0}))?;Ok(())
+ }
+ #[test]
+ #[ignore="explicit additional synthetic cohort; no RPC or new proof"]
+ fn native_saved_active_exit_binds_the_original_source_and_owner_permit()->Result<()> {
+  let root=std::path::PathBuf::from(std::env::var("EXIT_NATIVE_FIXTURE")?);
+  let case=std::path::PathBuf::from(std::env::var("EXIT_NATIVE_EXTRA_CASE")?);
+  let out=std::path::PathBuf::from(std::env::var("EXIT_NATIVE_EXTRA_OUT")?);fs::create_dir(&out)?;let mut rows=vec![];
+  for kind in["amm"]{
+   let path=root.join(format!("{kind}-policy.json"));let spec:Value=serde_json::from_slice(&fs::read(&path)?)?;let runtime=load(&path,&spec)?;
+   let mut jobs=vec![];
+   for cohort in["full-safe-active-v1","full-safe-permit-v1"]{
+    for entry in fs::read_dir(case.join(cohort))?{let dir=entry?.path();if dir.join("key-proof.bin").is_file(){jobs.push((format!("{cohort}--{}",dir.file_name().unwrap().to_string_lossy()),dir));}}
+   }
+   jobs.sort_by(|a,b|a.0.cmp(&b.0));ensure!(jobs.len()==11,"nine active-source and two owner-permit vault UPSs");
+   for (name,dir) in jobs{let public:Value=serde_json::from_slice(&fs::read(dir.join("public-session.json"))?)?;
+    ensure!(public["keyFingerprint"]==runtime.key.g.get_fingerprint().to_string(),"actual native key matches cohort");
+    let wire:psy_provider::request::QSubmitEndCapRPCRequest<F>=serde_json::from_slice(&fs::read(dir.join("request.json"))?)?;let core=wire.user_ec_input.core;
+    let request:Request=serde_json::from_slice(&fs::read(dir.join("plan.json"))?)?;let source:Snapshot=serde_json::from_slice(&fs::read(dir.join("source.json"))?)?;
+    let current:CurrentOpening=serde_json::from_slice(&fs::read(dir.join("current.json"))?)?;
+    let context=ContextInput{source:source.clone(),request:request.clone(),execution_checkpoint:core.checkpoint_id.to_canonical_u64(),expected_nonce:core.new_user_leaf.nonce.to_canonical_u64(),expected_start_leaf:core.state_transition.start_user_leaf_hash};
+    let identity=serde_json::from_value(json!({"version":1,"network":"testnet","marketId":runtime.review.market,"vaultId":core.new_user_leaf.user_id.to_canonical_u64(),"fingerprint":runtime.key.g.get_fingerprint().to_string(),"publicKeyHash":core.new_user_leaf.public_key.to_string(),"contracts":[]}))?;
+    let mut guard=Guard{identity,dependencies:vec![],valid_until_checkpoint:context.execution_checkpoint+1,stream:Some(context)};
+    let target=out.join(&name);fs::create_dir(&target)?;
+    save(&target.join("stream-context.json"),&json!({"source":source,"current":current,"request":request,"publicSession":public["session"],"stack":public["stack"],"txStackHash":public["txStackHash"],"txCount":public["txCount"],"checkpoint":public["checkpoint"],"scope":"Explicit public projection for native saved-crypto unit verification; no signing witness"}))?;
+    fs::copy(dir.join("key-proof.bin"),target.join("stream-sign-proof.bin"))?;
+    runtime.verify_saved(&spec,&guard,&core,&target)?;
+    guard.stream.as_mut().unwrap().expected_nonce+=1;ensure!(runtime.verify_saved(&spec,&guard,&core,&target).is_err(),"stale approved nonce accepted");guard.stream.as_mut().unwrap().expected_nonce-=1;
+    guard.stream.as_mut().unwrap().request.fields[21]+=1;ensure!(runtime.verify_saved(&spec,&guard,&core,&target).is_err(),"request substitution accepted");guard.stream.as_mut().unwrap().request.fields[21]-=1;
+    rows.push(json!({"stage":name,"nativeKeyMatchesActualUps":true,"exactSavedKeyContextVerified":true,"wrongNonceRejected":true,"changedApprovedRequestRejected":true}));
+   }
+  }
+  ensure!(rows.len()==11,"complete additional context cohort");
+  save(&out.join("REPORT.json"),&json!({"scope":"Actual formal native active-source COVER/refund/ABORT and original-owner permit verification; not outer live guards, broadcast, finality or extension acceptance","rows":rows,"rpcRequests":0,"newFullUps":0,"financialOperations":0}))?;Ok(())
+ }
 }

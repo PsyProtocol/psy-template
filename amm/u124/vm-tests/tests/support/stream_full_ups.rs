@@ -92,6 +92,10 @@ fn execute(w: &mut World, spec: &Value, req: &Request) -> Result<()> {
 // must independently agree; no estimated fee can replace that final check.
 fn minimum_exact_fee(w: &World, spec: &Value, mut req: Request) -> Result<Request> {
     for _ in 0..4 {
+        if psy_template_u124_markets::stream_exit::enabled(spec){
+            if req.fields[0]==16{req.fields[21]=w.val(V,"treasury_credit",0).checked_sub(if req.fields[74]==0{req.fields[73]}else{0}).context("owner return fee deficit")?;}
+            if req.fields[0]==17{req.fields[22]=w.val(V,"exit_credit",req.fields[21]).checked_sub(if req.fields[74]==req.fields[21]{req.fields[73]}else{0}).context("sponsor return fee deficit")?;}
+        }
         let mut preview = w.clone();
         execute(&mut preview, spec, &req)?;
         let words = w.slots.keys().chain(preview.slots.keys())
@@ -314,7 +318,7 @@ fn basic(mode: u64, page: &SourcePage, w: &World) -> Request {
         },
         // These modes start a new batch or carry no historical frontier. A
         // previous batch's terminal cursor is not the new queue's cursor.
-        settled: if [OPEN,4,13,14].contains(&mode){0}else{w.val(V, "stream_settled", 0)},
+        settled: if [OPEN,4,13,14,15,16,17].contains(&mode){0}else{w.val(V, "stream_settled", 0)},
         members: vec![],
         frontier: None,
         random: None,
@@ -617,17 +621,18 @@ fn needed(spec: &Value) -> Vec<Value> {
                 "refund_buy",
             ]
             .contains(&o["name"].as_str().unwrap())
-                || ((spec["version"] == 12 || spec["version"] == 14 || spec["version"] == 15) && o["maintenance"] == true)
-                || ((spec["version"] == 8 || spec["version"] == 9 || spec["version"] == 15)
+                || ((spec["version"] == 12 || spec["version"] == 14 || spec["version"] == 18 || spec["version"] == 15 || spec["version"] == 19) && o["maintenance"] == true)
+                || ((spec["version"] == 8 || spec["version"] == 9 || spec["version"] == 15 || spec["version"] == 19)
                     && ["match_orders", "settle_sale"].contains(&o["name"].as_str().unwrap_or("")))
                 || o["name"].as_str().unwrap().starts_with("refund_funding_")
-                || ((spec["version"] == 7 || spec["version"] == 8 || spec["version"] == 9 || spec["version"] == 15)
+                || ((spec["version"] == 7 || spec["version"] == 8 || spec["version"] == 9 || spec["version"] == 15 || spec["version"] == 19)
                     && (o["name"].as_str().unwrap().starts_with("recover_funding_")
                         || o["name"] == "recover_nft"))
         })
     {
         out.extend(op["calls"].as_array().unwrap().iter().cloned());
     }
+    if psy_template_u124_markets::stream_exit::enabled(spec){out.push(spec["exit_policy"]["native_transfer"].clone());}
     out.push(spec["base"]["burn"].clone());
     out
 }
@@ -809,7 +814,7 @@ impl StreamChain {
             .seed_identity_with_history(w, key.g.get_fingerprint(), &[(1, anchor_leaf())])
             .await?;
         let source = if maintenance {
-            ensure!(spec["version"] == 12 || spec["version"] == 14 || spec["version"] == 15, "distinct bootstrap profile");
+            ensure!(spec["version"] == 12 || spec["version"] == 14 || spec["version"] == 18 || spec["version"] == 15 || spec["version"] == 19, "distinct bootstrap profile");
             let header = snapshot_header(db, w, &review, key.g.get_fingerprint()).await?;
             stream_source::SourcePage::inactive_maintenance(&review, &header)?.0
         } else { snapshot(db, w, &review, key.g.get_fingerprint()).await? };
@@ -859,7 +864,7 @@ impl StreamChain {
         // Reconstruct original source metadata in an independent temporary database
         // for its exact user membership path; never substitute current state.
         let proof = if inactive_maintenance {
-            ensure!(self.spec["version"] == 12 || self.spec["version"] == 14 || self.spec["version"] == 15, "maintenance tape requires distinct key");
+            ensure!(self.spec["version"] == 12 || self.spec["version"] == 14 || self.spec["version"] == 18 || self.spec["version"] == 15 || self.spec["version"] == 19, "maintenance tape requires distinct key");
             // Not a historical membership claim. SourceContext is disabled by
             // this mode's circuit; CurrentTargets remains fully authenticated.
             stream_source::SourcePage::inactive_maintenance(&self.review, &source)?.1.rows[0].original.clone()
@@ -874,12 +879,12 @@ impl StreamChain {
         label: &str,
     ) -> Result<()> {
         let start = Instant::now();
-        if self.spec["version"] == 11 || self.spec["version"] == 12 || self.spec["version"] == 13 || self.spec["version"] == 14 || self.spec["version"] == 15 {
+        if self.spec["version"] == 11 || self.spec["version"] == 12 || self.spec["version"] == 13 || self.spec["version"] == 14 || self.spec["version"] == 18 || self.spec["version"] == 15 || self.spec["version"] == 19 {
             req = minimum_exact_fee(w, &self.spec, req)?;
         }
-        let inactive_maintenance = (self.spec["version"] == 12 || self.spec["version"] == 13 || self.spec["version"] == 14 || self.spec["version"] == 15) && [4,13,14].contains(&req.fields[0]);
+        let inactive_maintenance = (self.spec["version"] == 12 || self.spec["version"] == 13 || self.spec["version"] == 14 || self.spec["version"] == 18 || self.spec["version"] == 15 || self.spec["version"] == 19) && [4,13,14,15,16,17].contains(&req.fields[0]);
         let (db, source, vault_path) = self.seed_for_request(w, inactive_maintenance).await?;
-        if self.spec["version"]==14||self.spec["version"]==15{psy_template_u124_markets::stream_execution::validate_request(&self.review,&source,&req)?;}
+        if self.spec["version"]==14||self.spec["version"]==15||psy_template_u124_markets::stream_exit::enabled(&self.spec){psy_template_u124_markets::stream_execution::validate_request(&self.review,&source,&req)?;}
         if let Some(p)=&mut req.accepted_seal {
             p.snapshot.history.anchor_path=db.get_checkpoint_tree_merkle_proof(w.checkpoint,1).await?;
             p.snapshot.history.checkpoint_path=db.get_checkpoint_tree_merkle_proof(w.checkpoint,p.snapshot.fields[6]).await?;
@@ -995,7 +1000,7 @@ impl StreamChain {
             .map(|n| n.to_canonical_u64());
         let initial = std::array::from_fn(|i| w.state.get_contract_slot(V, 0, i as u64).unwrap());
         let burn = stream_policy::completion_fee(prefix, native_changed, initial, native_current)?;
-        if self.spec["version"] == 11 || self.spec["version"] == 14 {
+        if self.spec["version"] == 11 || self.spec["version"] == 14 || self.spec["version"] == 18 {
             ensure!(req.fields[73] == burn, "prebound fee differs from actual CFC fee");
         }
         req.fields[73] = burn;
@@ -1065,7 +1070,7 @@ impl StreamChain {
         // session and stack. Rejection must come from the compiled key.
         let mut rejections = vec![];
         if self.spec["version"]==13 && label=="sealed-minimum-0" {rejections.extend(self.reject_seal_attacks(w,seal_attack_db,&source,&vault_path,&current,&req,&input).await?);}
-        if fresh && (self.spec["version"] == 12 || self.spec["version"] == 14 || self.spec["version"] == 15) {
+        if fresh && (self.spec["version"] == 12 || self.spec["version"] == 14 || self.spec["version"] == 18 || self.spec["version"] == 15 || self.spec["version"] == 19) {
             use psy_client_data::qdata::{ups_signature::PsyUserProvingSessionSignatureDataCompact, user_contract_state::SignContext};
             use psy_template_u124_markets::market_key::compute_tx_stack_hash;
             let mut alternative = req.clone(); alternative.fields[0]=13; alternative.fields[24]=0;
@@ -1089,6 +1094,27 @@ impl StreamChain {
             rejections.push("first-use-grant-only-preemption");
         }
 
+        if psy_template_u124_markets::stream_exit::enabled(&self.spec) && ["owner-return","independent-grant","first-sponsor-return","original-user-refund"].contains(&label) {
+            use psy_client_data::qdata::{ups_signature::PsyUserProvingSessionSignatureDataCompact, user_contract_state::SignContext};
+            use psy_template_u124_markets::market_key::compute_tx_stack_hash;
+            for case in ["coherent-redirected-return","coherent-wrong-caller","coherent-unapproved-amount"] {
+                let mut changed_calls=stream_policy::calls(&self.spec,&req,false)?;
+                if case=="coherent-redirected-return" && ![16,17].contains(&req.fields[0]) {continue;}
+                let index=if [16,17].contains(&req.fields[0]){1}else{0};
+                if case=="coherent-redirected-return" {changed_calls[index]["inputs"][0]=json!(603);}
+                if case=="coherent-unapproved-amount" {let n=changed_calls[index]["inputs"][0].as_u64().unwrap();changed_calls[index]["inputs"][0]=json!(n+1);}
+                let infos=changed_calls.iter().enumerate().map(|(i,c)|{let cid=c["contract_id"].as_u64().unwrap();let d=&w.methods[&(cid,c["method_name"].as_str().unwrap().into())];
+                    psy_client_data::dpn::proving_session::DPNProvingSessionCompactMethodCall::new_from_inputs::<PoseidonHash>(
+                        f(if case=="coherent-wrong-caller"&&i==index{M}else{psy_config::network_constants::DEFAULT_CALLER_CONTRACT_ID_U64}),f(cid),f(d.method_id as u64),
+                        &c["inputs"].as_array().unwrap().iter().map(|v|f(v.as_u64().unwrap())).collect::<Vec<_>>()).into()
+                }).collect::<Vec<psy_client_data::dpn::sd_key::SDKeyTransactionInfo<GF>>>();
+                let active=infos.iter().filter(|i|i.contract_id!=f(M)||i.method_id!=f(self.spec["noop"]["method_id"].as_u64().unwrap())).copied().collect::<Vec<_>>();
+                let stack=compute_tx_stack_hash(&active);let count=f(active.len()as u64);let ctx=input.session_context.clone();let mut end=ctx.current_user_leaf;end.nonce=ctx.nonce;
+                let action=PsyUserProvingSessionSignatureDataCompact{start_user_leaf_hash:ctx.start_user_leaf_hash,end_user_leaf_hash:end.qfhash::<PoseidonHash>(),checkpoint_leaf_hash:ctx.checkpoint_leaf_hash,tx_stack_hash:stack,tx_count:count}.get_sig_action_for_user::<PoseidonHash>(PSY_NETWORK_MAGIC,ctx.start_user_leaf.user_id,ctx.nonce,SignContext{checkpoint_tree_root:ctx.checkpoint_tree_root,user_leaf:ctx.current_user_leaf}).get_qhash::<PoseidonHash>();
+                let mut attack=input.clone();attack.transaction_infos=infos;attack.tx_stack_hash=stack;attack.tx_count=count;
+                ensure!(self.key.g.prove(Q(HashOut{elements:[GF::ONE;4]}),&attack,action).await.is_err(),"new key accepted {case}");rejections.push(case);
+            }
+        }
         if label == "open" || label == "settle-0" || label == "refund-0" || label == "fresh-bootstrap" {
             let mut cases = vec![];
             // Inactive maintenance has no authenticated historical source.
@@ -1653,3 +1679,5 @@ mod funded_lifecycle_full_ups;
 
 #[path="funded_pair_full_ups.rs"]
 mod funded_pair_full_ups;
+#[path="fee_exit_full_ups.rs"]
+mod fee_exit_full_ups;

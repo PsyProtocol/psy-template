@@ -39,19 +39,21 @@ pub fn validate_action(action:&str)->Result<()> {
     Ok(())
 }
 
+pub fn uses_inactive_tape(mode:u64)->bool{matches!(mode,4|13|14|15|16|17)}
+
 pub fn validate_request(review: &Review, source: &Snapshot, request: &Request) -> Result<()> {
     ensure!(
         source.fields.len() == 41 && request.fields.len() == 80,
         "complete source/request widths"
     );
-    if [4, 13, 14].contains(&request.fields[0]) {
+    if uses_inactive_tape(request.fields[0]) {
         let (_, page) = crate::stream_source::SourcePage::inactive_maintenance(review, source)?;
         ensure!(
             serde_json::to_value(&page)? == serde_json::to_value(&request.source)?,
             "canonical inactive maintenance tape"
         );
     }
-    if [stream_policy::OPEN,4,13,14].contains(&request.fields[0]) {
+    if [stream_policy::OPEN,4,13,14,15,16,17].contains(&request.fields[0]) {
         ensure!(request.settled==0,"new or inactive frontier requires a zero settlement cursor");
     }
     Ok(())
@@ -122,6 +124,7 @@ pub fn logical_infos(spec: &Value, request: &Request) -> Result<Vec<SDKeyTransac
     {
         descriptors.extend(op["calls"].as_array().context("operation calls")?);
     }
+    if crate::stream_exit::enabled(spec){descriptors.push(&spec["exit_policy"]["native_transfer"]);}
     descriptors.extend([
         &spec["noop"],
         &spec["base"]["burn"],
@@ -176,7 +179,7 @@ pub fn bind_session(
 ) -> Result<SDKeyCircuitWitnessInput> {
     stream_policy::validate(spec, review)?;
     ensure!(source.fields.len() == 41, "complete source header");
-    if spec["version"] == 14 || spec["version"] == 15 {
+    if spec["version"] == 14 || spec["version"] == 15 || crate::stream_exit::enabled(spec) {
         validate_request(review, source, request)?;
     }
     ensure!(

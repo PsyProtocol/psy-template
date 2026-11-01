@@ -206,3 +206,5 @@ pub mod random_minimum;
 pub mod stream_seal;
 
 pub mod stream_execution;
+
+pub mod stream_exit;

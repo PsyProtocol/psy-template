@@ -13,7 +13,7 @@ import {createPublicWalletAdapter} from './publicWalletAdapter.mjs';
 import {assertDurableRuntimeDirectory} from './runtimeStorage.mjs';
 import {fundedProfile} from './fundedProfiles.mjs';
 import {continueFundedRegistration} from './fundedRegistration.mjs';
-const allowed=new Set(['register','bootstrap','initialize','order','open','cover','settle','claim','refund','fee-grant','scan','carry','ack-delivery']);
+const allowed=new Set(['register','bootstrap','initialize','order','open','cover','settle','claim','refund','fee-grant','scan','carry','ack-delivery','recover','exit-grant','treasury-return','exit-credit-return']);
 export function validateFundedLifecycle(plan){
  assert.equal(plan.schema,1);assert.equal(plan.network,'testnet');assert.equal(plan.sdkCommit,'c92880c8b6e2c8d392f19368bc8801a2584fd427');
  assert.match(plan.chainRoot,/^[a-f0-9]{64}$/);assert.match(plan.policySha256,/^[a-f0-9]{64}$/);
@@ -62,8 +62,8 @@ export async function continueFundedLifecycle({planFile,runtimeDirectory,createN
      await publishFile(completed,JSON.stringify({planSha256:pin,stageId:stage.id,userId:stage.userId,...result})+'\n');continue;
     }
     const input=parseLosslessJson(await readFile(options.streamTask,'utf8'));assert.equal(input.stageId,stage.id);assert.ok(input.maximumFee<=BigInt(stage.maximumFee));
-    let operation=new Map([[14n,'bootstrap'],[4n,'initialize'],[5n,'open'],[6n,'cover'],[8n,'settle'],[9n,'refund'],[13n,'fee-grant'],[10n,'scan'],[11n,'carry']]).get(input.context.request.fields[0]);
-    if(input.context.request.fields[0]===4n){const op=policy.base.operations.find(op=>op.branch===input.context.request.fields[21]);operation=op?.name==='ack_delivery'?'ack-delivery':op?.name==='initialize'?'initialize':undefined;}
+    let operation=new Map([[14n,'bootstrap'],[4n,'initialize'],[5n,'open'],[6n,'cover'],[8n,'settle'],[9n,'refund'],[13n,'fee-grant'],[10n,'scan'],[11n,'carry'],[15n,'exit-grant'],[16n,'treasury-return'],[17n,'exit-credit-return']]).get(input.context.request.fields[0]);
+    if(input.context.request.fields[0]===4n){const op=policy.base.operations.find(op=>op.branch===input.context.request.fields[21]);operation=op?.maintenance===true&&(op.name.startsWith('recover_funding')||op.name==='recover_nft')?'recover':op?.name==='ack_delivery'?'ack-delivery':op?.name==='initialize'?'initialize':undefined;}
     assert.equal(operation,stage.operation,'approved lifecycle operation changed');
     if(operation==='ack-delivery')assert.equal(options.kind,'nftmarket');
     if(operation==='initialize')assert.ok(options.kind==='bondingcurve'&&policy.base.operations.some(op=>op.branch===input.context.request.fields[21]&&op.name==='initialize'&&op.maintenance===true),'only reviewed Curve initialization; AMM initialization uses its liquidity batch');

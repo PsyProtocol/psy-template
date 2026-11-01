@@ -75,3 +75,9 @@ fn native_identity_uses_market_height_31_and_all_reviewed_metadata()->Result<()>
         binding.check_leaf(&leaf)?;
     }Ok(())
 }
+
+#[test]
+fn independent_exit_uses_the_same_canonical_inactive_path_in_prepare_and_recovery(){
+    for mode in [4,13,14,15,16,17]{assert!(psy_template_u124_markets::stream_execution::uses_inactive_tape(mode));}
+    for mode in [0,5,6,7,8,9,10,11,12,18]{assert!(!psy_template_u124_markets::stream_execution::uses_inactive_tape(mode));}
+}

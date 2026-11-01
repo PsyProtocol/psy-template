@@ -1,6 +1,7 @@
 // Formal single-stage funded adapter. It uses the existing journal/worker and
 // trusted native producer; a webpage cannot supply verification or send hooks.
 import assert from 'node:assert/strict';
+import {validateExitStage} from './fundedExit.mjs';
 import {fundedProfile} from './fundedProfiles.mjs';
 import {execFile} from 'node:child_process';
 import {promisify} from 'node:util';
@@ -19,20 +20,20 @@ import {pendingPreflight,recheckSavedPreflight,savedPreflightCandidate} from './
 import {driverRecords} from './driverProcess.mjs';
 const read = async path => parseLosslessJson(await readFile(path,'utf8'));
 const fresh = async(path,value)=>{await mkdir(dirname(path),{recursive:true,mode:0o700});const bytes=typeof value==='string'?value:losslessJson(value);try{await publishFile(path,bytes);}catch(e){if(e.code!=='EEXIST')throw e;assert.equal(await readFile(path,'utf8'),bytes,'immutable stream task changed');}};
-const stageNames=new Map([[4n,'maintenance'],[5n,'open'],[6n,'cover'],[8n,'settle'],[9n,'abort'],[10n,'scan'],[11n,'carry'],[13n,'fee-grant'],[14n,'bootstrap']]);
+const stageNames=new Map([[4n,'maintenance'],[5n,'open'],[6n,'cover'],[8n,'settle'],[9n,'abort'],[10n,'scan'],[11n,'carry'],[13n,'fee-grant'],[14n,'bootstrap'],[15n,'exit-grant'],[16n,'treasury-return'],[17n,'exit-credit-return']]);
 export function validateFundedStage(stage,policy,o){
  const model=fundedProfile(o.profile,o.kind);assert.equal(stage.schema,1n);assert.equal(stage.profile,o.profile);assert.equal(policy.version,model.version);
  assert.equal(policy.profile,model.policy);assert.equal(policy.qualified_randomness,false);
  assert.equal(policy.market,o.kind,'reviewed market kind must match the route');
  assert.equal(policy.market_id,BigInt(o.contractId));assert.equal(policy.executor_binding.sdk_commit,'c92880c8b6e2c8d392f19368bc8801a2584fd427');
  assert.match(stage.stageId,/^[a-zA-Z0-9_-]{1,100}$/);assert.equal(stage.actor,BigInt(o.vaultId));
- const c=stage.context,f=c.request.fields;assert.equal(f.length,80);assert.ok(stageNames.has(f[0]),'reviewed deterministic stage');if([10n,11n].includes(f[0]))assert.equal(model.version,15n,'pair frontier requires its distinct funded key');
+ const c=stage.context,f=c.request.fields;validateExitStage(policy,c.request);assert.equal(f.length,80);assert.ok(stageNames.has(f[0]),'reviewed deterministic stage');if([10n,11n].includes(f[0]))assert.ok([15n,17n].includes(model.version),'pair frontier requires its distinct funded key');
  assert.equal(c.source.fields.length,41);assert.equal(c.source.fields[3],BigInt(o.contractId));assert.equal(c.source.fields[4],BigInt(o.vaultId));
  assert.equal(c.expected_nonce,stage.expectedNonce);assert.ok(c.expected_nonce>0n&&c.expected_nonce<2n**62n);assert.match(c.expected_start_leaf,/^[a-f0-9]{64}$/);
  assert.ok(c.execution_checkpoint>0n&&c.execution_checkpoint<=stage.validUntilCheckpoint&&stage.validUntilCheckpoint<2n**32n);
  assert.ok(f[73]>=1_000_000_000n&&f[73]<=1_000_100_000n&&f[73]<=stage.maximumFee,'approved exact bounded fee');
  if(f[0]===5n)assert.equal(c.execution_checkpoint,c.source.fields[6],'post-funding source checkpoint must be fresh');
- if([4n,5n,13n,14n].includes(f[0]))assert.equal(c.request.settled,0n,'new or inactive frontier requires a zero settlement cursor');
+ if([4n,5n,13n,14n,15n,16n,17n].includes(f[0]))assert.equal(c.request.settled,0n,'new or inactive frontier requires a zero settlement cursor');
  if(f[0]===14n){assert.equal(c.expected_start_leaf,'0'.repeat(64));assert.equal(c.expected_nonce,1n);}
  for(const name of ['minimum','random','accepted_seal'])assert.ok(c.request[name]===undefined||c.request[name]===null,'deterministic-only stage');
  assert.equal(policy.base.config.feeOwner,policy.fee_owner);assert.ok(policy.fee_owner!==BigInt(o.vaultId));

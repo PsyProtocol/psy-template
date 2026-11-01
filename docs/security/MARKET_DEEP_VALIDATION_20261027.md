@@ -1,5 +1,32 @@
 # Market correctness and reset-chain validation — 27 October 2026
 
+Latest authorized fee-exit continuation (1 November): [v18/v19 authority,
+exact native verification, wallet build and remaining gates](INDEPENDENT_FEE_EXIT_20261101.md).
+Unrestricted public return was found to permit live-service disruption; the
+first v16/v17 artifacts and 37 valid synthetic proofs are quarantined. The
+replacement allows only exhausted service caps or an ordinary owner's exact
+grant-epoch/key permit, keeps original-credit recipients, and supports separately
+authorized exit-only sponsors. Forty-six corrected complete synthetic UPSs pass,
+including four ordinary signed user claims, an ordinary owner permit, source
+coverage, expiry/abort refunds and full tagged returns. All 83 saved Endcaps and
+changed-fee rejections separately verify; 31 actual native saved contexts and
+four new CLI identities match. Three old identity checks retain fingerprints.
+The active cohort has one order, not maximum-capacity or new-key market-fill
+acceptance. Funding/authorizations and some claims remain VM prerequisites.
+
+The frozen 472-file wallet SDK distribution was recovered byte-for-byte in a
+separate workspace after shared-package drift was rejected. An isolated wallet
+build passes without source/dependency changes; the empty user-authorized QA
+profile does not share the other task's wallet registration/history. Native
+installation awaits user action, no account is created, and the market release
+remains uninstalled. No network fill/claim or new test-PSY expense occurs. The
+three corrected proving processes take 1900.823 / 574.220 / 249.644 seconds with
+sampled family RSS peaks 7,082,336 / 6,247,488 / 5,866,016 KiB. These are synthetic
+correctness costs, not a matched speedup, finality, throughput or production
+result. Unapplied funding, checkpoint/inclusion-time semantics, actual new
+instances, real wallet resources/approvals and network acceptance stay explicit.
+See [public proofs and original failures](../../executor/verification/2026-11-01-authorized-fee-exit-v1/README.md).
+
 Latest funded pair continuation: [Book/NFT candidate, native metadata correction,
 complete conditional UPSs and remaining release gates](FUNDED_PAIR_CANDIDATE_20261031.md).
 The formal route now has distinct v15 Book/NFT keys; v14 AMM/Curve identities

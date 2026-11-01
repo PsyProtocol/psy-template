@@ -6,17 +6,19 @@ import {mkdtemp,mkdir,writeFile,readFile,rm} from 'node:fs/promises';
 import {join} from 'node:path';
 import {tmpdir} from 'node:os';
 import {createPublicWalletAdapter} from './publicWalletAdapter.mjs';
+import {fundedProfile} from './fundedProfiles.mjs';
 import {validateOptions} from './config.mjs';
 import {ExecutionJournal} from './journal.mjs';
 import {executeCycle} from './worker.mjs';
 import {sha256} from './requestBinding.mjs';
 import {losslessJson,parseLosslessJson} from '../amm/u124/client.mjs';
 const h='a'.repeat(64),e='b'.repeat(64),z='0'.repeat(64),sdk='c92880c8b6e2c8d392f19368bc8801a2584fd427';
-async function fixture(fn,{kind='bondingcurve',profile='source-funded-v14'}={}){const d=await mkdtemp(join(tmpdir(),'funded-adapter-'));try{
- const paired=profile==='source-funded-pair-v15',otherAsset=kind==='nftmarket'?41:43;
- const put=(file,value)=>writeFile(join(d,file),losslessJson(value),{flag:'wx'}),policy={market:kind,version:paired?15:14,profile:paired?'source-covered-pair-funded-bootstrap-v1':'source-covered-deterministic-funded-bootstrap-v1',qualified_randomness:false,market_id:1000,fee_owner:600,base:{config:{...(kind==='nftmarket'?{tokenId:42,nftId:41}:{assetA:42,assetB:43}),feeOwner:600,networkMagic:'1384803358401154921'}},executor_binding:{allow_broadcast:true,sdk_commit:sdk,review:'review.json',review_sha256:null,chain_root:h}};
+async function fixture(fn,{kind='bondingcurve',profile='source-funded-v14',mode=14,payer=0}={}){const d=await mkdtemp(join(tmpdir(),'funded-adapter-'));try{
+ const model=fundedProfile(profile,kind),exit=[18n,19n].includes(model.version),otherAsset=kind==='nftmarket'?41:43;
+ const put=(file,value)=>writeFile(join(d,file),losslessJson(value),{flag:'wx'}),policy={market:kind,version:model.version,profile:model.policy,qualified_randomness:false,market_id:1000,fee_owner:600,base:{config:{...(kind==='nftmarket'?{tokenId:42,nftId:41}:{assetA:42,assetB:43}),feeOwner:600,networkMagic:'1384803358401154921'}},executor_binding:{allow_broadcast:true,sdk_commit:sdk,review:'review.json',review_sha256:null,chain_root:h}};
+ if(exit)policy.exit_policy={auxiliary_fee_field:74n,only_original_credit_returns:true,owner_return_fee_separate_from_service_cap:true,owner_return_authority:'exhausted-or-explicit-owner-v1'};
  await writeFile(join(d,'artifact'),'public artifact double');const review={artifact:'artifact',artifact_sha256:sha256('public artifact double'),assets:[{artifact:'artifact',artifact_sha256:sha256('public artifact double')},{artifact:'artifact',artifact_sha256:sha256('public artifact double')},{artifact:'artifact',artifact_sha256:sha256('public artifact double')}]};await put('review.json',review);policy.executor_binding.review_sha256=sha256(await readFile(join(d,'review.json')));await put('policy.json',policy);
- const fields=Array(80).fill(0);fields[0]=14;fields[73]=1_000_010_000;const source=Array(41).fill(0);source[1]=1384803358401154921n;source[3]=1000;source[4]=100;
+ const fields=Array(80).fill(0);fields[0]=mode;fields[74]=payer;if(mode===15)fields[21]=payer;fields[73]=1_000_010_000;const source=Array(41).fill(0);source[1]=1384803358401154921n;source[3]=1000;source[4]=100;
  const stage={schema:1,profile,stageId:'boot',actor:100,expectedNonce:1,maximumFee:1_000_100_000,validUntilCheckpoint:150,context:{source:{fields:source},request:{fields,settled:0},execution_checkpoint:100,expected_nonce:1,expected_start_leaf:z},calls:{software_defined_call:{inputs:fields},contract_calls:[]}};await put('stage.json',stage);
  const deps=[0,42,otherAsset,1000].map(id=>({contract:{contractId:id,codeRoot:h,layoutRoot:h,stateTreeHeight:id===0?32:id===41?30:31},functionTreeRoot:h,layoutFieldCount:20,layoutSlotCount:40}));await put('deps.json',deps);
  for(const f of ['rpc.json','abi.json','driver.json','a.json','b.json'])await put(f,{});await writeFile(join(d,'driver'),'native release double');
@@ -77,3 +79,9 @@ for(const kind of ['bondingcurve','orderbook','nftmarket'])test(kind+': route la
  x.o.kind=kind==='bondingcurve'?'amm':kind==='orderbook'?'nftmarket':'orderbook';
  await assert.rejects(x.create(),/reviewed market kind/);assert.deepEqual(x.counts(),{proofs:0,sends:0,checks:0});
 },{kind,profile:kind==='bondingcurve'?'source-funded-v14':'source-funded-pair-v15'}));
+
+for(const [kind,profile] of [['amm','source-authorized-exit-v18'],['bondingcurve','source-authorized-exit-v18'],['orderbook','source-pair-authorized-exit-v19'],['nftmarket','source-pair-authorized-exit-v19']])test(kind+': new exit route persists the exact unknown return without another proof/payment',()=>fixture(async x=>{
+ const a=await x.create();assert.equal((await executeCycle({adapter:a,journal:x.journal()})).status,'unresolved');
+ assert.equal((await executeCycle({adapter:await x.create(),journal:x.journal()})).status,'unresolved');assert.deepEqual(x.counts(),{proofs:1,sends:1,checks:0});
+ x.confirm();x.head(101);assert.equal((await x.journal().reconcile(a.reconcile))[0].result.status,'included');assert.equal(x.counts().sends,1);
+},{kind,profile,mode:16}));

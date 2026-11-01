@@ -5,7 +5,7 @@ use psy_common_circuit::circuits::zk_signature3::core::PsyBasicZKSignatureCircui
 use psy_crypto::signature::zk::wallet::SimplePsyPrivateKey;
 const OWNER: u64 = 600;
 
-async fn ordinary(
+pub(super) async fn ordinary(
     chain: &mut StreamChain,
     w: &mut World,
     signature: &PsyBasicZKSignatureCircuit<C, 2>,

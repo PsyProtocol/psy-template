@@ -118,3 +118,9 @@ test('pair carry cannot replace a sealed source set even before proving',()=>fix
  let proved=0;const createNative=async o=>{const id=JSON.parse(await readFile(o.streamTask,'utf8')).stageId;proved++;return backend(100,{kind:'stream_'+id,submission:id},{proofs:0,sends:0,included:true});};
  await assert.rejects(continueFundedLifecycle({...args,createNative}),/original frozen set/);assert.equal(proved,2);
 },{kind:'orderbook'}));
+
+test('tagged fee recovery cannot use unrelated Native or request a duplicate pending payment',()=>{
+ for(const version of [18,19]){const x=fee({feeCap:5n*F,nativeBalance:100n*F,ownerPending:0n});x.policy.version=version;x.state.treasuryCredit=0n;assert.equal(planFundedFeeRecovery(x).status,'needs-owner-funding');}
+ const old=fee({ownerGrantNonce:1n});assert.equal(planFundedFeeRecovery(old).nativeFundingRequired,'0');
+ const x=fee({nativeBalance:2n**62n-1n});x.policy.version=18;x.state.treasuryCredit=0n;assert.throws(()=>planFundedFeeRecovery(x),/overflow/);
+});

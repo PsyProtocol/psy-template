@@ -74,7 +74,7 @@ fn same(b: &mut CircuitBuilder<F, 2>, gate: BoolTarget, a: &[Target], c: &[Targe
         eq(b, gate, *x, *y);
     }
 }
-fn invoke(
+pub(crate) fn invoke(
     b: &mut CircuitBuilder<F, 2>,
     gate: BoolTarget,
     g: &SDKeyCircuitGadget,
@@ -222,14 +222,14 @@ fn role<'a>(spec: &'a Value, name: &str) -> &'a Value {
 pub fn validate(spec: &Value, r: &Review) -> Result<()> {
     ensure!(
         (if r.kind >= 3 {
-            spec["version"] == 7 || spec["version"] == 8 || spec["version"] == 9 || spec["version"] == 15
+            spec["version"] == 7 || spec["version"] == 8 || spec["version"] == 9 || spec["version"] == 15 || spec["version"] == 19
         } else {
             spec["version"] == 5
                 || spec["version"] == 10
                 || spec["version"] == 11
                 || spec["version"] == 12
                 || spec["version"] == 13
-                || spec["version"] == 14
+                || spec["version"] == 14 || spec["version"] == 18
         }) && spec["tx_count"] == 40
             && spec["witness_length"] == 80
             && spec["live_authorization"] == false,
@@ -301,9 +301,9 @@ pub fn validate(spec: &Value, r: &Review) -> Result<()> {
             );
         }
     }
-    if spec["version"] == 14 || spec["version"] == 15 {
-        let paired=spec["version"]==15;
-        ensure!((if paired{r.kind>=3 && spec["profile"]=="source-covered-pair-funded-bootstrap-v1"}else{r.kind<=2 && spec["profile"]=="source-covered-deterministic-funded-bootstrap-v1"})
+    if spec["version"] == 14 || spec["version"] == 18 || spec["version"] == 15 || spec["version"] == 19 {
+        let paired=spec["version"]==15||spec["version"]==19;
+        ensure!((if paired{r.kind>=3 && spec["profile"]==(if spec["version"]==19{"source-covered-pair-authorized-exit-v1"}else{"source-covered-pair-funded-bootstrap-v1"})}else{r.kind<=2 && spec["profile"]==(if spec["version"]==18{"source-covered-authorized-exit-v1"}else{"source-covered-deterministic-funded-bootstrap-v1"})})
             && spec["source_window_checkpoints"] == 32 && spec["qualified_randomness"] == false,
             "distinct deterministic funded profile");
         let owner = spec["fee_owner"].as_u64().context("ordinary fee owner")?;
@@ -326,6 +326,7 @@ pub fn validate(spec: &Value, r: &Review) -> Result<()> {
             "fixed delayed draw, conditional accepted-history semantics"
         );
     }
+    if crate::stream_exit::enabled(spec){crate::stream_exit::validate(spec)?;}
     crate::batch_compact::validate(&spec["base"])?;
     ensure!(
         spec["base"]["native_protocol"] == "mainnet-beta-20261027"
@@ -372,8 +373,8 @@ pub fn validate(spec: &Value, r: &Review) -> Result<()> {
                     && spec["profile"] == "source-covered-pair-triangular-recovery-v1"
                     && spec["trading_enabled"] == true
                     && spec["scan_capacity"] == 4)
-                || (spec["version"] == 15
-                    && spec["profile"] == "source-covered-pair-funded-bootstrap-v1"
+                || ((spec["version"] == 15 || spec["version"] == 19)
+                    && spec["profile"] == if spec["version"]==19{"source-covered-pair-authorized-exit-v1"}else{"source-covered-pair-funded-bootstrap-v1"}
                     && spec["trading_enabled"] == true && spec["scan_capacity"] == 4))
                 && spec["page_capacity"] == 2,
             "paired refunds only"
@@ -426,12 +427,13 @@ impl StreamKey {
     }
     pub fn build(spec: &Value, r: &Review, chain: [u64; 4]) -> Result<Self> {
         validate(spec, r)?;
+        let exit_mode=crate::stream_exit::enabled(spec);
         let minimum_mode = spec["version"] == 11 || spec["version"] == 12 || spec["version"] == 13;
-        let funded_mode = minimum_mode || spec["version"] == 14 || spec["version"] == 15;
-        let bootstrap_mode = spec["version"] == 12 || spec["version"] == 13 || spec["version"] == 14 || spec["version"] == 15;
+        let funded_mode = minimum_mode || spec["version"] == 14 || spec["version"] == 18 || spec["version"] == 15 || spec["version"] == 19;
+        let bootstrap_mode = spec["version"] == 12 || spec["version"] == 13 || spec["version"] == 14 || spec["version"] == 18 || spec["version"] == 15 || spec["version"] == 19;
         let random_mode = spec["version"] == 10 || minimum_mode;
         let paired = r.kind >= 3;
-        let optimized = spec["version"] == 9 || spec["version"] == 15;
+        let optimized = spec["version"] == 9 || spec["version"] == 15 || spec["version"] == 19;
         let global = spec["version"] == 8 || optimized;
         let capacity = if paired { 2 } else { 4 };
         let mut b = CircuitBuilder::<F, 2>::new(CircuitConfig::standard_recursion_config());
@@ -453,7 +455,9 @@ impl StreamKey {
             chosen(&mut b, fields[0], SETTLE),
             chosen(&mut b, fields[0], ABORT_SOURCE),
         ];
+        let exit=if exit_mode{Some(crate::stream_exit::Gates::new(&mut b,&fields))}else{None};
         let mut valid = b._false();
+        if let Some(x)=&exit{for gate in [x.grant,x.owner,x.sponsor]{valid=b.or(valid,gate);}}
         if !random_mode {
             b.assert_zero(gates[3].target);
         } else {
@@ -478,7 +482,7 @@ impl StreamKey {
         } else {
             None
         };
-        let deterministic_grant = if spec["version"] == 14 || spec["version"] == 15 {
+        let deterministic_grant = if spec["version"] == 14 || spec["version"] == 18 || spec["version"] == 15 || spec["version"] == 19 {
             let grant=chosen(&mut b,fields[0],crate::random_minimum::GRANT_MODE);
             valid=b.or(valid,grant); Some(grant)
         } else {None};
@@ -524,6 +528,7 @@ impl StreamKey {
         } else {
             maintenance_source
         };
+        let maintenance_source=if let Some(x)=&exit{let mut gate=maintenance_source;for extra in [x.grant,x.owner,x.sponsor]{gate=b.or(gate,extra);}gate}else{maintenance_source};
         let source_mode = b.not(maintenance_source);
         let draw_delay = if spec["version"] == 13 {
             crate::stream_seal::DRAW_DELAY
@@ -1133,6 +1138,7 @@ impl StreamKey {
         }
 
         for i in 0..80 {
+            if exit_mode&&i==74{continue;}
             if optimized && i == 1 {
                 b.range_check(fields[i], 1);
                 let not = b.not(gates[4]);
@@ -1673,7 +1679,8 @@ impl StreamKey {
             &spec["base"]["burn"],
             &fields,
         )?;
-        if funded_mode {
+        if let Some(x)=&exit{x.bind(&mut b,&g,spec,&fields,gates[0],gates[2],gates[4],gates[5])?;}
+        else if funded_mode {
             let key = g.session_context.start_user_leaf.public_key;
             invoke(
                 &mut b,
@@ -1723,7 +1730,7 @@ impl StreamKey {
         let mut pw = PartialWitness::new();
         // V12 maintenance has no historical inventory statement. Use one
         // canonical dummy tape, never a fabricated authenticated source claim.
-        if self.bootstrap_profile && [4, 13, 14].contains(&request.fields[0]) {
+        if self.bootstrap_profile && [4,13,14,15,16,17].contains(&request.fields[0]) {
             let (dummy, page) = crate::stream_source::SourcePage::inactive_maintenance(r, s)?;
             ensure!(
                 serde_json::to_value(&request.source)? == serde_json::to_value(&page)?,
@@ -1754,7 +1761,7 @@ impl StreamKey {
         }
         if request.fields[0] == 4
             || (self.funded_profile
-                && [crate::random_minimum::GRANT_MODE, 14].contains(&request.fields[0]))
+                && [crate::random_minimum::GRANT_MODE,14,15,16,17].contains(&request.fields[0]))
         {
             self.context.set_empty(&mut pw)?;
         } else {
@@ -1851,7 +1858,7 @@ pub fn calls(spec: &Value, req: &Request, compact: bool) -> Result<Vec<Value>> {
     let sc = &req.source.scope;
     let facts = &req.source.facts;
     let minimum_mode = spec["version"] == 11 || spec["version"] == 12 || spec["version"] == 13;
-    let funded_mode = minimum_mode || spec["version"] == 14 || spec["version"] == 15;
+    let funded_mode = minimum_mode || spec["version"] == 14 || spec["version"] == 18 || spec["version"] == 15 || spec["version"] == 19;
     let random_mode = spec["version"] == 10;
     let draw_delay = if spec["version"] == 13 {
         crate::stream_seal::DRAW_DELAY
@@ -1886,6 +1893,7 @@ pub fn calls(spec: &Value, req: &Request, compact: bool) -> Result<Vec<Value>> {
     let mut out = vec![nop.clone(); 40];
     let method = |name: &str, args: Vec<u64>| json!({"contract_id":role(spec,name)["contract_id"],"method_name":name,"inputs":args});
     match f[0] {
+        15|16|17 if crate::stream_exit::enabled(spec)=>{},
         ORDER | crate::random_minimum::EXTRACT_MODE if minimum_mode => {
             let page = req.minimum.as_ref().context("minimum page")?;
             let after = page.after(sc)?;
@@ -1935,7 +1943,7 @@ pub fn calls(spec: &Value, req: &Request, compact: bool) -> Result<Vec<Value>> {
                 .concat(),
             );
         }
-        14 if spec["version"] == 12 || spec["version"] == 13 || spec["version"] == 14 || spec["version"] == 15 => {
+        14 if spec["version"] == 12 || spec["version"] == 13 || spec["version"] == 14 || spec["version"] == 18 || spec["version"] == 15 || spec["version"] == 19 => {
             let key = req.registered_key.context("registered key")?;
             ensure!(
                 f[23] == 1
@@ -2061,7 +2069,7 @@ pub fn calls(spec: &Value, req: &Request, compact: bool) -> Result<Vec<Value>> {
         }
         crate::pair_frontier::SCAN | crate::pair_frontier::CARRY => {
             ensure!(
-                spec["version"] == 8 || spec["version"] == 9 || spec["version"] == 15,
+                spec["version"] == 8 || spec["version"] == 9 || spec["version"] == 15 || spec["version"] == 19,
                 "global frontier profile"
             );
             let page = req.frontier.as_ref().context("frontier witness")?;
@@ -2140,8 +2148,8 @@ pub fn calls(spec: &Value, req: &Request, compact: bool) -> Result<Vec<Value>> {
             args.extend((0..4).map(|i| f[31 + 13 * i]));
             args.push(f[2]);
             out[0] = method("begin_stream_settlement", args);
-            let paired = spec["version"] == 7 || spec["version"] == 8 || spec["version"] == 9 || spec["version"] == 15;
-            let optimized = spec["version"] == 9 || spec["version"] == 15;
+            let paired = spec["version"] == 7 || spec["version"] == 8 || spec["version"] == 9 || spec["version"] == 15 || spec["version"] == 19;
+            let optimized = spec["version"] == 9 || spec["version"] == 15 || spec["version"] == 19;
             let global = spec["version"] == 8 || optimized;
             let trade = global
                 && spec["base"]["operations"]
@@ -2259,6 +2267,7 @@ pub fn calls(spec: &Value, req: &Request, compact: bool) -> Result<Vec<Value>> {
         out[38] = method("account_executor_fee", [vec![f[73]], key.to_vec()].concat());
     }
     out[39] = convert(&spec["base"]["burn"], f)?;
+    crate::stream_exit::calls(spec,req,&mut out)?;
     if compact {
         out.retain(|c| {
             c["contract_id"] != spec["noop"]["contract_id"] || c["method_name"] != "noop"
