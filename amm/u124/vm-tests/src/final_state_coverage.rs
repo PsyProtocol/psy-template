@@ -101,6 +101,14 @@ pub struct AssetBinding {
     pub slots: u64,
 }
 impl AssetBinding {
+    pub fn check_leaf(&self,leaf:&PsyContractLeaf<F>)->Result<()> {
+        ensure!(leaf.code_root==self.code_root&&leaf.state_layout_root==self.layout_root
+            &&leaf.function_tree_root==self.function_root
+            &&leaf.state_tree_height.to_canonical_u64()==self.height as u64
+            &&leaf.state_layout_field_count.to_canonical_u64()==self.fields
+            &&leaf.state_layout_slot_count.to_canonical_u64()==self.slots,
+            "reviewed dependency identity changed");Ok(())
+    }
     pub fn collection(id: u64, artifact: &Value, function_root: Q<F>) -> Result<Self> {
         ensure!(
             id >= 5 && artifact["state_tree_height"] == 30,
@@ -301,6 +309,10 @@ pub struct Coverage {
     pub can_broadcast: bool,
 }
 impl Review {
+    pub fn market_binding(&self)->AssetBinding {
+        AssetBinding{id:self.market,code_root:self.code_root,layout_root:self.layout_root,
+            function_root:self.function_root,height:31,fields:self.layout_fields,slots:self.layout_slots}
+    }
     pub fn from_artifact(
         market: u64,
         kind: u64,

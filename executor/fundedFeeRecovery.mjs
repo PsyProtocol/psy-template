@@ -3,7 +3,7 @@
 import assert from 'node:assert/strict';
 const n=(x,label)=>{assert.ok(typeof x==='bigint'||Number.isSafeInteger(x),label);const v=BigInt(x);assert.ok(v>=0n&&v<2n**62n,label);return v;};
 export function planFundedFeeRecovery({policy,state,approvedLifetimeCap,requiredFee,recoveryGrantFee=1_000_100_000n,frozenSetSha256=null}){
- assert.equal(BigInt(policy.version),14n);assert.equal(policy.qualified_randomness,false);
+ assert.ok([14n,15n].includes(BigInt(policy.version)));assert.equal(policy.qualified_randomness,false);
  const owner=n(policy.fee_owner,'reviewed fee owner'),used=n(state.feeUsed,'spent'),cap=n(state.feeCap,'cap');
  const fee=n(requiredFee,'fee');assert.ok(fee>=1_000_000_000n&&fee<=1_000_100_000n);assert.ok(used<=cap);
  if(frozenSetSha256!==null)assert.match(frozenSetSha256,/^[a-f0-9]{64}$/);

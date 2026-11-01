@@ -11,8 +11,9 @@ import {parseLosslessJson,losslessJson} from '../amm/u124/client.mjs';
 import {loadOptions} from './config.mjs';
 import {createPublicWalletAdapter} from './publicWalletAdapter.mjs';
 import {assertDurableRuntimeDirectory} from './runtimeStorage.mjs';
+import {fundedProfile} from './fundedProfiles.mjs';
 import {continueFundedRegistration} from './fundedRegistration.mjs';
-const allowed=new Set(['register','bootstrap','initialize','order','open','cover','settle','claim','refund','fee-grant']);
+const allowed=new Set(['register','bootstrap','initialize','order','open','cover','settle','claim','refund','fee-grant','scan','carry','ack-delivery']);
 export function validateFundedLifecycle(plan){
  assert.equal(plan.schema,1);assert.equal(plan.network,'testnet');assert.equal(plan.sdkCommit,'c92880c8b6e2c8d392f19368bc8801a2584fd427');
  assert.match(plan.chainRoot,/^[a-f0-9]{64}$/);assert.match(plan.policySha256,/^[a-f0-9]{64}$/);
@@ -22,7 +23,7 @@ export function validateFundedLifecycle(plan){
   assert.match(stage.id,/^[a-zA-Z0-9_-]{1,100}$/);assert.ok(!ids.has(stage.id));ids.add(stage.id);assert.ok(allowed.has(stage.operation));
   assert.equal(stage.predecessor,i===0?null:plan.stages[i-1].id);assert.ok(['native','wallet'].includes(stage.actor));
   if(stage.actor==='wallet')assert.match(stage.approvedTaskSha256??'',/^[a-f0-9]{64}$/,'wallet-owned approved task required');
-  if(['open','cover','settle','refund'].includes(stage.operation))assert.match(stage.batch??'',/^[a-zA-Z0-9_-]{1,100}$/,'explicit immutable batch identity');
+  if(['open','cover','settle','refund','scan','carry'].includes(stage.operation))assert.match(stage.batch??'',/^[a-zA-Z0-9_-]{1,100}$/,'explicit immutable batch identity');
   assert.ok(Number.isSafeInteger(stage.userId)&&stage.userId>0&&stage.userId<2**24);if(stage.actor==='native')assert.equal(stage.userId,plan.vaultId);
   assert.ok(typeof stage.config==='string'&&stage.config&&!stage.config.startsWith('/')&&!stage.config.split(/[\\/]/).some(x=>!x||x==='.'||x==='..'));
   const maximum=BigInt(stage.maximumFee);assert.ok(stage.operation==='register'?stage.actor==='native'&&maximum===0n:maximum>=1_000_000_000n&&maximum<=1_000_100_000n);fee+=maximum;
@@ -53,7 +54,7 @@ export async function continueFundedLifecycle({planFile,runtimeDirectory,createN
    assert.equal(options.network,plan.network);assert.equal(options.vaultId,stage.userId);
    assertDurableRuntimeDirectory(options.runtimeDirectory);
    if(stage.actor==='native'){
-    assert.equal(options.profile,'source-funded-v14');assert.equal(options.fingerprint,plan.fingerprint);
+    fundedProfile(options.profile,options.kind);assert.equal(options.fingerprint,plan.fingerprint);
     assert.equal(sha256(await readFile(options.policy)),plan.policySha256);const policy=parseLosslessJson(await readFile(options.policy,'utf8'));assert.equal(policy.executor_binding.chain_root,plan.chainRoot);
     if(stage.operation==='register'){
      const result=await register(options);if(result.status!=='registered')return{...result,stage:stage.id,complete:false};
@@ -61,10 +62,12 @@ export async function continueFundedLifecycle({planFile,runtimeDirectory,createN
      await publishFile(completed,JSON.stringify({planSha256:pin,stageId:stage.id,userId:stage.userId,...result})+'\n');continue;
     }
     const input=parseLosslessJson(await readFile(options.streamTask,'utf8'));assert.equal(input.stageId,stage.id);assert.ok(input.maximumFee<=BigInt(stage.maximumFee));
-    const operation=new Map([[14n,'bootstrap'],[4n,'initialize'],[5n,'open'],[6n,'cover'],[8n,'settle'],[9n,'refund'],[13n,'fee-grant']]).get(input.context.request.fields[0]);
+    let operation=new Map([[14n,'bootstrap'],[4n,'initialize'],[5n,'open'],[6n,'cover'],[8n,'settle'],[9n,'refund'],[13n,'fee-grant'],[10n,'scan'],[11n,'carry']]).get(input.context.request.fields[0]);
+    if(input.context.request.fields[0]===4n){const op=policy.base.operations.find(op=>op.branch===input.context.request.fields[21]);operation=op?.name==='ack_delivery'?'ack-delivery':op?.name==='initialize'?'initialize':undefined;}
     assert.equal(operation,stage.operation,'approved lifecycle operation changed');
+    if(operation==='ack-delivery')assert.equal(options.kind,'nftmarket');
     if(operation==='initialize')assert.ok(options.kind==='bondingcurve'&&policy.base.operations.some(op=>op.branch===input.context.request.fields[21]&&op.name==='initialize'&&op.maintenance===true),'only reviewed Curve initialization; AMM initialization uses its liquidity batch');
-    if([5n,6n,8n,9n].includes(input.context.request.fields[0])){
+    if([5n,6n,8n,9n,10n,11n].includes(input.context.request.fields[0])){
      await mkdir(join(root,'batches'),{recursive:true,mode:0o700});
      const scope=losslessJson({scope:input.context.request.source.scope,facts:input.context.request.source.facts}),path=join(root,'batches',stage.batch+'.json');
      if(input.context.request.fields[0]===5n){try{await publishFile(path,scope);}catch(e){if(e.code!=='EEXIST')throw e;assert.equal(await readFile(path,'utf8'),scope);}}

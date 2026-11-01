@@ -1,5 +1,26 @@
 # Market correctness and reset-chain validation — 27 October 2026
 
+Latest funded pair continuation: [Book/NFT candidate, native metadata correction,
+complete conditional UPSs and remaining release gates](FUNDED_PAIR_CANDIDATE_20261031.md).
+The formal route now has distinct v15 Book/NFT keys; v14 AMM/Curve identities
+and generated source remain unchanged. Actual market height 31 and collection
+height 30 are handled separately with all roots/counts retained. The corrected
+cohort passes 28 unique synthetic vault UPSs (seven exact originals reverified
+and replayed, 21 new; 24 normal-history/four alternative-history transitions).
+Book/NFT each execute one synthetic match/sale and one timeout refund, including
+fee exhaustion/explicit recovery and VM claims. Their worlds are separate;
+ordinary actors are VM prerequisites, not signed ordinary UPSs or live receipts.
+A stale prior-batch cursor rejection and earlier compile/VM failures are retained.
+All 28 fixed-resource Endcaps/metadata separately re-verify; changed fees reject.
+Actual native key/public identities match the cohorts; direct submit and legacy
+pair selection reject before RPC. Final scoped host checks have 94 passes/two
+skips, including immutable profile lists and reviewed market-kind isolation.
+Final process: 1,243.226 s, sampled family RSS peak 8,104,208 KiB; no matched
+speedup or throughput is implied. No live reads or financial operations occur,
+and candidate broadcasting/UI writes remain closed. Privileged wallet wiring,
+real-instance acceptance, source-window/fee fit, owner-independent recovery and
+unused-treasury exit remain open. See [public evidence](../../executor/verification/2026-10-31-funded-pair-executor-v1/README.md).
+
 Latest formal Executor continuation (31 October): [funded native route, durable
 lifecycle and reachable ordinary-wallet claims](FORMAL_FUNDED_EXECUTOR_20261031.md).
 The distinct v14 AMM/Curve route now uses the existing formal factory/journal,

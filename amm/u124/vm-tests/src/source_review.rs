@@ -41,17 +41,16 @@ pub fn review(path: &Path) -> Result<(Review, Config, Vec<u8>)> {
     let unit = c.unit.parse::<u128>()?;
     ensure!(unit.to_string() == c.unit, "canonical reviewed unit");
     let mut assets = vec![];
-    for a in &c.assets {
+    for (index,a) in c.assets.iter().enumerate() {
         let bytes = bounded(&base.join(&a.artifact), 128 * 1024 * 1024)?;
         ensure!(
             digest(&bytes) == a.artifact_sha256,
             "reviewed funding artifact digest"
         );
-        assets.push(AssetBinding::from_artifact(
-            a.id,
-            &serde_json::from_slice(&bytes)?,
-            a.function_root,
-        )?);
+        let artifact=serde_json::from_slice(&bytes)?;
+        assets.push(if c.kind==4&&index==2 {
+            AssetBinding::collection(a.id,&artifact,a.function_root)?
+        }else{AssetBinding::from_artifact(a.id,&artifact,a.function_root)?});
     }
     let r = Review::from_artifact(
         c.market,

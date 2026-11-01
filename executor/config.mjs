@@ -1,3 +1,4 @@
+import {isFundedProfile} from './fundedProfiles.mjs';
 import {readFile} from 'node:fs/promises';
 import {dirname,resolve} from 'node:path';
 import {validateFundedOptions} from './fundedOptions.mjs';
@@ -12,7 +13,7 @@ export function validateUsers(users,vaultId){
 }
 export function validateOptions(input,base=process.cwd()){
   if(!input||typeof input!=='object'||Array.isArray(input))throw Error('executor config must be an object');
-  if(input.profile==='source-funded-v14')return validateFundedOptions(input,base);
+  if(isFundedProfile(input.profile))return validateFundedOptions(input,base);
   for(const key of Object.keys(input))if(!allowed.has(key))throw Error(`unknown executor config field: ${key}`);
   const o={...input};
   if(o.performanceMetrics!==undefined&&typeof o.performanceMetrics!=='boolean')throw Error('boolean performanceMetrics required');

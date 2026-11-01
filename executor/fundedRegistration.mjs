@@ -1,6 +1,7 @@
 // Registration is not a financial UPS. Its exact public identity has its own
 // durable send intent, and unknown sends are reconciled without another send.
 import assert from 'node:assert/strict';
+import {fundedProfile} from './fundedProfiles.mjs';
 import {readFile,mkdir} from 'node:fs/promises';
 import {join} from 'node:path';
 import {randomUUID} from 'node:crypto';
@@ -16,15 +17,16 @@ import {sha256} from './requestBinding.mjs';
 import {assertDurableRuntimeDirectory} from './runtimeStorage.mjs';
 import {parseLosslessJson} from '../amm/u124/client.mjs';
 export async function continueFundedRegistration(o,{readState=publicState,runDriver=promisify(execFile),submitDriver=runDurableSubmission}={}){
- assert.equal(o.profile,'source-funded-v14');assertDurableRuntimeDirectory(o.runtimeDirectory);
- const policy=JSON.parse(await readFile(o.policy,'utf8'));assert.equal(policy.version,14);assert.equal(policy.qualified_randomness,false);
+ const model=fundedProfile(o.profile,o.kind);assertDurableRuntimeDirectory(o.runtimeDirectory);
+ const policy=JSON.parse(await readFile(o.policy,'utf8'));assert.equal(BigInt(policy.version),model.version);assert.equal(policy.qualified_randomness,false);
+ assert.equal(policy.profile,model.policy);assert.equal(policy.market,o.kind,'reviewed registration market kind');
  assert.equal(policy.executor_binding.sdk_commit,'c92880c8b6e2c8d392f19368bc8801a2584fd427');
  const unchanged=await captureInputs([o.policy,o.rpcConfig]),driver=await sealDriver(o);
  const root=join(o.runtimeDirectory,'funded-registration',o.network,o.publicKeyHash);await mkdir(root,{recursive:true,mode:0o700});
  const lock=new ExecutionJournal({directory:root,network:o.network,vaultId:o.vaultId,fingerprint:o.fingerprint});
  const env={...process.env,PSY_NETWORK:'testnet',PSY_MARKET_TESTNET_PROFILE:o.testnetProfile,RAYON_NUM_THREADS:String(o.proverThreads??2)};
  return lock.locked(async()=>{
-  await unchanged();await driver.check();const identity=driverRecords((await runDriver(driver.file,['identity',o.policy],{env,timeout:180000,maxBuffer:2000000})).stdout).find(r=>r.profile==='source-funded-v14');
+  await unchanged();await driver.check();const identity=driverRecords((await runDriver(driver.file,['identity',o.policy],{env,timeout:180000,maxBuffer:2000000})).stdout).find(r=>r.profile===o.profile);
   assert.equal(identity?.publicKeyHash,o.publicKeyHash);assert.equal(identity?.fingerprint,o.fingerprint);
   const state=await readState(o.rpcConfig);assert.equal(state.networkName,o.network);
   assert.equal((await state.rpc(state.network.realm_configs[0].rpc_url[0],'psy_get_checkpoint_leaf_data',{checkpoint_id:1},{exactIntegers:true})).global_chain_root,policy.executor_binding.chain_root);

@@ -8,8 +8,8 @@ import {continueFundedRegistration} from './fundedRegistration.mjs';
 import {sha256} from './requestBinding.mjs';
 const h='a'.repeat(64),other='b'.repeat(64);
 async function fixture(fn){const root=await mkdtemp(join(process.cwd(),'.funded-registration-test-'));try{
- const o={profile:'source-funded-v14',network:'testnet',testnetProfile:'mainnet-beta-20261027-v1',runtimeDirectory:root,wallet:join(root,'driver'),walletSha256:sha256('native double'),fingerprint:h,publicKeyHash:h,vaultId:100,policy:join(root,'policy'),rpcConfig:join(root,'rpc')};
- await writeFile(o.wallet,'native double');await writeFile(o.rpcConfig,'{}');await writeFile(o.policy,JSON.stringify({version:14,qualified_randomness:false,executor_binding:{allow_broadcast:true,sdk_commit:'c92880c8b6e2c8d392f19368bc8801a2584fd427',chain_root:h}}));
+ const o={profile:'source-funded-v14',kind:'amm',network:'testnet',testnetProfile:'mainnet-beta-20261027-v1',runtimeDirectory:root,wallet:join(root,'driver'),walletSha256:sha256('native double'),fingerprint:h,publicKeyHash:h,vaultId:100,policy:join(root,'policy'),rpcConfig:join(root,'rpc')};
+ await writeFile(o.wallet,'native double');await writeFile(o.rpcConfig,'{}');await writeFile(o.policy,JSON.stringify({market:'amm',profile:'source-covered-deterministic-funded-bootstrap-v1',version:14,qualified_randomness:false,executor_binding:{allow_broadcast:true,sdk_commit:'c92880c8b6e2c8d392f19368bc8801a2584fd427',chain_root:h}}));
  let ids=[],chain=h,sends=0,checks=0;
  const readState=async()=>({networkName:'testnet',network:{realm_configs:[{rpc_url:['https://realm.invalid']}]},rpc:async()=>({global_chain_root:chain}),userIds:async()=>ids});
  const runDriver=async(_file,args)=>{if(args[0]==='identity')return{stdout:JSON.stringify({profile:o.profile,publicKeyHash:h,fingerprint:h})};assert.equal(args[0],'check-registration');checks++;await mkdir(args[4]);await writeFile(join(args[4],'verification.json'),JSON.stringify({registered:true,broadcast:false,userId:100,publicKeyHash:h,fingerprint:h,chainRoot:h}));return{};};

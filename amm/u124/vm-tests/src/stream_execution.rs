@@ -35,7 +35,7 @@ fn f(n: u64) -> F {
 pub fn validate_action(action:&str)->Result<()> {
     ensure!(["identity","register","check-registration","preflight","quote",
         "serve-preflight","broadcast-prepared","verify-prepared"].contains(&action),
-        "v14 supports only reviewed prepared transport; direct submit is disabled");
+        "funded streams support only reviewed prepared transport; direct submit is disabled");
     Ok(())
 }
 
@@ -50,6 +50,9 @@ pub fn validate_request(review: &Review, source: &Snapshot, request: &Request) -
             serde_json::to_value(&page)? == serde_json::to_value(&request.source)?,
             "canonical inactive maintenance tape"
         );
+    }
+    if [stream_policy::OPEN,4,13,14].contains(&request.fields[0]) {
+        ensure!(request.settled==0,"new or inactive frontier requires a zero settlement cursor");
     }
     Ok(())
 }
@@ -173,7 +176,7 @@ pub fn bind_session(
 ) -> Result<SDKeyCircuitWitnessInput> {
     stream_policy::validate(spec, review)?;
     ensure!(source.fields.len() == 41, "complete source header");
-    if spec["version"] == 14 {
+    if spec["version"] == 14 || spec["version"] == 15 {
         validate_request(review, source, request)?;
     }
     ensure!(

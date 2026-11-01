@@ -6,9 +6,11 @@ import {method,remote,slot} from '../v2/controller.mjs';
 
 export function generateFundedStream(market,c) {
   assert.ok(['amm','bondingcurve'].includes(market),'review AMM/Curve bootstrap first');
+  return attachFeeFunding(generateStream(market,c),c);
+}
+export function attachFeeFunding(source,c,market) {
   assert.ok(Number.isSafeInteger(c.feeOwner)&&c.feeOwner>0&&c.feeOwner<2**24,'ordinary fee owner');
   assert.ok(![c.issuer,c.target].includes(c.feeOwner),'separate fees-only principal');
-  let source=generateStream(market,c);
   const fields='pub fee_cap: Felt, pub fee_used: Felt, pub fee_grant_seen: Felt, pub fee_grant_nonce: ContractStateArray<16777216,Felt>, pub fee_grant_limit: ContractStateArray<16777216,Felt>, pub fee_authorization_key: ContractStateArray<4,Felt>, '+Array.from({length:4},(_,i)=>`pub fee_grant_key_${i}: ContractStateArray<16777216,Felt>,`).join(' ');
   assert.equal(source.split('pub stream_phase: Felt,').length,2);
   source=source.replace('pub stream_phase: Felt,',fields+' pub stream_phase: Felt,');
@@ -18,6 +20,7 @@ export function generateFundedStream(market,c) {
     for(let i=0;i<4;i++)d.emit(`self.fee_grant_key_${i}[vault]=key[${i}];`);
   });
   const apply=method('apply_fee_grant','nonce: Felt, cap: Felt, key: Hash, funding_owner: Felt, funding: Felt',d=>{
+    d.batchMarket=market;
     d.range('funding_owner',24);d.range('funding',1);d.emit(`require(funding_owner==${c.feeOwner},"exact compiled funding owner");`);
     for(const name of ['nonce','cap','self.fee_grant_seen','self.fee_cap','self.fee_used'])d.range(name,62);
     const nonce=remote(d,String(c.feeOwner),'fee_grant_nonce[ctx.user_id]'),cap=remote(d,String(c.feeOwner),'fee_grant_limit[ctx.user_id]');d.range(nonce,62);d.range(cap,62);

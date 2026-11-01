@@ -222,7 +222,7 @@ fn role<'a>(spec: &'a Value, name: &str) -> &'a Value {
 pub fn validate(spec: &Value, r: &Review) -> Result<()> {
     ensure!(
         (if r.kind >= 3 {
-            spec["version"] == 7 || spec["version"] == 8 || spec["version"] == 9
+            spec["version"] == 7 || spec["version"] == 8 || spec["version"] == 9 || spec["version"] == 15
         } else {
             spec["version"] == 5
                 || spec["version"] == 10
@@ -301,8 +301,9 @@ pub fn validate(spec: &Value, r: &Review) -> Result<()> {
             );
         }
     }
-    if spec["version"] == 14 {
-        ensure!(r.kind <= 2 && spec["profile"] == "source-covered-deterministic-funded-bootstrap-v1"
+    if spec["version"] == 14 || spec["version"] == 15 {
+        let paired=spec["version"]==15;
+        ensure!((if paired{r.kind>=3 && spec["profile"]=="source-covered-pair-funded-bootstrap-v1"}else{r.kind<=2 && spec["profile"]=="source-covered-deterministic-funded-bootstrap-v1"})
             && spec["source_window_checkpoints"] == 32 && spec["qualified_randomness"] == false,
             "distinct deterministic funded profile");
         let owner = spec["fee_owner"].as_u64().context("ordinary fee owner")?;
@@ -370,7 +371,10 @@ pub fn validate(spec: &Value, r: &Review) -> Result<()> {
                 || (spec["version"] == 9
                     && spec["profile"] == "source-covered-pair-triangular-recovery-v1"
                     && spec["trading_enabled"] == true
-                    && spec["scan_capacity"] == 4))
+                    && spec["scan_capacity"] == 4)
+                || (spec["version"] == 15
+                    && spec["profile"] == "source-covered-pair-funded-bootstrap-v1"
+                    && spec["trading_enabled"] == true && spec["scan_capacity"] == 4))
                 && spec["page_capacity"] == 2,
             "paired refunds only"
         );
@@ -423,11 +427,11 @@ impl StreamKey {
     pub fn build(spec: &Value, r: &Review, chain: [u64; 4]) -> Result<Self> {
         validate(spec, r)?;
         let minimum_mode = spec["version"] == 11 || spec["version"] == 12 || spec["version"] == 13;
-        let funded_mode = minimum_mode || spec["version"] == 14;
-        let bootstrap_mode = spec["version"] == 12 || spec["version"] == 13 || spec["version"] == 14;
+        let funded_mode = minimum_mode || spec["version"] == 14 || spec["version"] == 15;
+        let bootstrap_mode = spec["version"] == 12 || spec["version"] == 13 || spec["version"] == 14 || spec["version"] == 15;
         let random_mode = spec["version"] == 10 || minimum_mode;
         let paired = r.kind >= 3;
-        let optimized = spec["version"] == 9;
+        let optimized = spec["version"] == 9 || spec["version"] == 15;
         let global = spec["version"] == 8 || optimized;
         let capacity = if paired { 2 } else { 4 };
         let mut b = CircuitBuilder::<F, 2>::new(CircuitConfig::standard_recursion_config());
@@ -474,7 +478,7 @@ impl StreamKey {
         } else {
             None
         };
-        let deterministic_grant = if spec["version"] == 14 {
+        let deterministic_grant = if spec["version"] == 14 || spec["version"] == 15 {
             let grant=chosen(&mut b,fields[0],crate::random_minimum::GRANT_MODE);
             valid=b.or(valid,grant); Some(grant)
         } else {None};
@@ -1073,7 +1077,7 @@ impl StreamKey {
                 .as_array()
                 .context("operations")?
                 .iter()
-                .find(|o| o["name"] == "activate_batch_vault" && o["maintenance"] == true)
+                .find(|o| o["name"] == if r.kind==4{"activate"}else{"activate_batch_vault"} && o["maintenance"] == true)
                 .context("reviewed activation")?;
             let mut values = vec![z; 13];
             values[1] = fields[24];
@@ -1558,14 +1562,14 @@ impl StreamKey {
                 role(spec, "advance_pair_frontier"),
                 &args,
             )?;
-            for i in 1..39 {
+            for i in 1..(if funded_mode {38} else {39}) {
                 invoke(&mut b, scan, &g, i, &spec["noop"], &[])?;
             }
             let count = b.sub(sc[8], settled);
             let mut args = before.elements.to_vec();
             args.push(count);
             invoke(&mut b, carry, &g, 0, role(spec, "finish_pair_carry"), &args)?;
-            for i in 1..39 {
+            for i in 1..(if funded_mode {38} else {39}) {
                 invoke(&mut b, carry, &g, i, &spec["noop"], &[])?;
             }
             eq(&mut b, carry, t.before.complete.target, one);
@@ -1847,7 +1851,7 @@ pub fn calls(spec: &Value, req: &Request, compact: bool) -> Result<Vec<Value>> {
     let sc = &req.source.scope;
     let facts = &req.source.facts;
     let minimum_mode = spec["version"] == 11 || spec["version"] == 12 || spec["version"] == 13;
-    let funded_mode = minimum_mode || spec["version"] == 14;
+    let funded_mode = minimum_mode || spec["version"] == 14 || spec["version"] == 15;
     let random_mode = spec["version"] == 10;
     let draw_delay = if spec["version"] == 13 {
         crate::stream_seal::DRAW_DELAY
@@ -1931,7 +1935,7 @@ pub fn calls(spec: &Value, req: &Request, compact: bool) -> Result<Vec<Value>> {
                 .concat(),
             );
         }
-        14 if spec["version"] == 12 || spec["version"] == 13 || spec["version"] == 14 => {
+        14 if spec["version"] == 12 || spec["version"] == 13 || spec["version"] == 14 || spec["version"] == 15 => {
             let key = req.registered_key.context("registered key")?;
             ensure!(
                 f[23] == 1
@@ -1944,7 +1948,7 @@ pub fn calls(spec: &Value, req: &Request, compact: bool) -> Result<Vec<Value>> {
                 .as_array()
                 .context("operations")?
                 .iter()
-                .find(|o| o["name"] == "activate_batch_vault" && o["maintenance"] == true)
+                .find(|o| o["name"] == if spec["market"]=="nftmarket"{"activate"}else{"activate_batch_vault"} && o["maintenance"] == true)
                 .context("activation")?;
             let mut values = vec![0; 13];
             values[1] = f[24];
@@ -2057,7 +2061,7 @@ pub fn calls(spec: &Value, req: &Request, compact: bool) -> Result<Vec<Value>> {
         }
         crate::pair_frontier::SCAN | crate::pair_frontier::CARRY => {
             ensure!(
-                spec["version"] == 8 || spec["version"] == 9,
+                spec["version"] == 8 || spec["version"] == 9 || spec["version"] == 15,
                 "global frontier profile"
             );
             let page = req.frontier.as_ref().context("frontier witness")?;
@@ -2136,8 +2140,8 @@ pub fn calls(spec: &Value, req: &Request, compact: bool) -> Result<Vec<Value>> {
             args.extend((0..4).map(|i| f[31 + 13 * i]));
             args.push(f[2]);
             out[0] = method("begin_stream_settlement", args);
-            let paired = spec["version"] == 7 || spec["version"] == 8 || spec["version"] == 9;
-            let optimized = spec["version"] == 9;
+            let paired = spec["version"] == 7 || spec["version"] == 8 || spec["version"] == 9 || spec["version"] == 15;
+            let optimized = spec["version"] == 9 || spec["version"] == 15;
             let global = spec["version"] == 8 || optimized;
             let trade = global
                 && spec["base"]["operations"]

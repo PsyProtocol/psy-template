@@ -78,8 +78,10 @@ impl Circuit {
     }
 }
 
+pub fn is_stream(spec:&Value)->bool{spec["version"]==14||spec["version"]==15}
+pub fn profile(spec:&Value)->&'static str{if spec["version"]==15{"source-funded-pair-v15"}else{"source-funded-v14"}}
 pub fn load(path: &Path, spec: &Value) -> Result<Runtime> {
-    ensure!(spec["version"] == 14, "reviewed deterministic v14 only");
+    ensure!(is_stream(spec), "reviewed deterministic funded stream only");
     let binding = &spec["executor_binding"];
     ensure!(
         binding["sdk_commit"] == "c92880c8b6e2c8d392f19368bc8801a2584fd427",
@@ -112,7 +114,7 @@ pub fn load(path: &Path, spec: &Value) -> Result<Runtime> {
     Ok(Runtime { review, key })
 }
 pub fn calls(spec: &Value, fields: &[u64], guard: &Guard) -> Result<Vec<Value>> {
-    if spec["version"] != 14 {
+    if !is_stream(spec) {
         return psy_template_u124_markets::batch_compact::calls(spec, fields);
     }
     let context = guard
@@ -261,7 +263,7 @@ pub async fn execute(
     if quote {
         return save(
             &out.join("quote.json"),
-            &json!({"profile":"source-funded-v14","fee":fee,"checkpoint":c.execution_checkpoint,"nonce":c.expected_nonce,"proofVerified":false,"broadcast":false,"scope":"Disposable exact-state trace proposal; complete UPS independently checks fee"}),
+            &json!({"profile":profile(spec),"fee":fee,"checkpoint":c.execution_checkpoint,"nonce":c.expected_nonce,"proofVerified":false,"broadcast":false,"scope":"Disposable exact-state trace proposal; complete UPS independently checks fee"}),
         );
     }
     ensure!(
@@ -314,42 +316,8 @@ impl Runtime {
             "registered chain instance changed"
         );
         let cp = provider.get_latest_block_state().await?.checkpoint_id;
-        let mut identities = self
-            .review
-            .assets
-            .iter()
-            .map(|a| {
-                (
-                    a.id,
-                    a.code_root,
-                    a.layout_root,
-                    a.function_root,
-                    a.height as u64,
-                    a.fields,
-                    a.slots,
-                )
-            })
-            .collect::<Vec<_>>();
-        identities.push((
-            self.review.market,
-            self.review.code_root,
-            self.review.layout_root,
-            self.review.function_root,
-            30,
-            self.review.layout_fields,
-            self.review.layout_slots,
-        ));
-        for (id, code, layout, functions, height, fields, slots) in identities {
-            let leaf = provider.get_contract_leaf_data(id).await?;
-            ensure!(
-                leaf.code_root == code
-                    && leaf.state_layout_root == layout
-                    && leaf.function_tree_root == functions
-                    && leaf.state_tree_height.to_canonical_u64() == height
-                    && leaf.state_layout_field_count.to_canonical_u64() == fields
-                    && leaf.state_layout_slot_count.to_canonical_u64() == slots,
-                "registered dependency identity changed"
-            );
+        for binding in self.review.assets.iter().cloned().chain([self.review.market_binding()]) {
+            binding.check_leaf(&provider.get_contract_leaf_data(binding.id).await?)?;
         }
         ensure!(
             provider.get_latest_block_state().await?.checkpoint_id >= cp,

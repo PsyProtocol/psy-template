@@ -122,7 +122,7 @@ async fn run(phase: &mut &'static str, composition:bool, stream:bool) -> Result<
         ensure!(!composition, "separate stream driver required");
         stream_runtime::Circuit::Stream(stream_runtime::load(Path::new(&a[2]), &spec)?)
     } else {
-        ensure!(spec["version"]!=14,"v14 requires its dedicated native driver");
+        ensure!(!stream_runtime::is_stream(&spec),"funded stream requires its dedicated native driver");
         stream_runtime::Circuit::Batch(if composition {
             psy_template_u124_markets::composition_policy::build(&spec)?
         } else {
@@ -143,7 +143,7 @@ async fn run(phase: &mut &'static str, composition:bool, stream:bool) -> Result<
     let hash = public.qfhash::<PsyHasher>();
     if a[1] == "identity" {
         ensure!(a.len() == 3, "identity args");
-        let mut identity=json!({"profile":if stream{"source-funded-v14"}else if composition{"composition-v1"}else{"compact-v1"},"fingerprint":fp.to_string(),"publicKeyHash":hash.to_string(),"publicKeyParam":param.to_string()});
+        let mut identity=json!({"profile":if stream{stream_runtime::profile(&spec)}else if composition{"composition-v1"}else{"compact-v1"},"fingerprint":fp.to_string(),"publicKeyHash":hash.to_string(),"publicKeyParam":param.to_string()});
         if producer{identity["orderingModel"]=json!("previous-checkpoint-seeded-v1");identity["producerInfluence"]=json!(true);identity["qualifiedRandomness"]=json!(false);}println!("{identity}");
         return Ok(());
     }
@@ -199,7 +199,7 @@ async fn run(phase: &mut &'static str, composition:bool, stream:bool) -> Result<
         ensure!(proof.index==index&&proof.value==hash&&proof.root==roots.user_registration_tree_root
             &&proof.verify::<PsyHasher>()&&roots.qfhash::<PsyHasher>()==checkpoint.global_chain_root,"registration Merkle/checkpoint identity");
         let out=Path::new(&a[5]);fs::create_dir(out)?;
-        save(&out.join("verification.json"),&json!({"profile":"source-funded-v14","registered":true,"userId":user,"publicKeyHash":hash.to_string(),"fingerprint":fp.to_string(),"checkpoint":cp,"chainRoot":spec["executor_binding"]["chain_root"],"proof":proof,"roots":roots,"checkpointLeaf":checkpoint,"broadcast":false,"scope":"Authenticated registration membership relative to the pinned current chain; not consensus finality or a financial UPS"}))?;
+        save(&out.join("verification.json"),&json!({"profile":stream_runtime::profile(&spec),"registered":true,"userId":user,"publicKeyHash":hash.to_string(),"fingerprint":fp.to_string(),"checkpoint":cp,"chainRoot":spec["executor_binding"]["chain_root"],"proof":proof,"roots":roots,"checkpointLeaf":checkpoint,"broadcast":false,"scope":"Authenticated registration membership relative to the pinned current chain; not consensus finality or a financial UPS"}))?;
         return Ok(());
     }
     if a[1] == "register" {
@@ -226,7 +226,7 @@ async fn run(phase: &mut &'static str, composition:bool, stream:bool) -> Result<
         save(&out.join("request.json"), &request)?;
         save(
             &out.join("intent.json"),
-            &json!({"profile":if stream{"source-funded-v14"}else{"compact-v1"},"publicKey":public,"publicKeyHash":hash.to_string()}),
+            &json!({"profile":if stream{stream_runtime::profile(&spec)}else{"compact-v1"},"publicKey":public,"publicKeyHash":hash.to_string()}),
         )?;
         *phase="broadcast-compact-ups";
         let receipt = if stream{psy_template_u124_markets::live_rpc::register(&net,request,out).await?}else{serde_json::to_value(session.st_provider.register_user(request).await?)?};
@@ -266,7 +266,7 @@ fn preflight_action()->String{"preflight".into()}
 #[allow(clippy::too_many_arguments)]
 async fn process_action(a:&[String],spec:&Value,fp:QHashOut<F>,hash:QHashOut<F>,param:QHashOut<F>,private:QHashOut<F>,net:&psy_config::NetworkConfigGoldilocks,session:&mut WalletSession,circuit:&stream_runtime::Circuit,key_ms:u128,session_ms:u128,started:std::time::Instant,phase:&mut &'static str)->Result<()> {
     ensure!(
-        a.len() == 7 && (["preflight", "submit"].contains(&a[1].as_str())||((spec["composition_profile"]=="two-amm-owner-funded-v1"||processor_runtime::previous(spec)||spec["version"]==14)&&a[1]=="quote")),
+        a.len() == 7 && (["preflight", "submit"].contains(&a[1].as_str())||((spec["composition_profile"]=="two-amm-owner-funded-v1"||processor_runtime::previous(spec)||stream_runtime::is_stream(&spec))&&a[1]=="quote")),
         "explicit compact action args"
     );
     *phase = "verify-compact-request";
@@ -309,7 +309,7 @@ async fn process_action(a:&[String],spec:&Value,fp:QHashOut<F>,hash:QHashOut<F>,
     }
     if let Some(runtime)=circuit.stream(){let c=guard.stream.as_ref().context("stream context")?;psy_template_u124_markets::stream_execution::validate_request(&runtime.review,&c.source,&c.request)?;}
     guard.identity.validate(
-        if spec["version"]==14{&spec["base"]}else{&spec},
+        if stream_runtime::is_stream(&spec){&spec["base"]}else{&spec},
         "testnet",
         &fp.to_string(),
         &hash.to_string(),
@@ -370,8 +370,8 @@ async fn process_action(a:&[String],spec:&Value,fp:QHashOut<F>,hash:QHashOut<F>,
     );
     data.software_defined_call.inputs[73] = burn;
     fields[73] = burn;
-    let logical = if spec["version"]==14{vec![]}else{batch_policy::expected_calls(&spec, &fields)?};
-    let mut all = if spec["version"]==14{vec![]}else{spec["branches"]
+    let logical = if stream_runtime::is_stream(&spec){vec![]}else{batch_policy::expected_calls(&spec, &fields)?};
+    let mut all = if stream_runtime::is_stream(&spec){vec![]}else{spec["branches"]
         .as_array()
         .unwrap()
         .iter()
@@ -379,7 +379,7 @@ async fn process_action(a:&[String],spec:&Value,fp:QHashOut<F>,hash:QHashOut<F>,
         .chain([&spec["noop"], &spec["expire"]])
         .collect::<Vec<_>>()};
     if producer{all.extend([&spec["begin"],&spec["gather"],&spec["claim_a"],&spec["claim_b"],&spec["fee"],&spec["finish"],&spec["reward"]]);}
-    let infos = if spec["version"]==14{psy_template_u124_markets::stream_execution::logical_infos(spec,&guard.stream.as_ref().unwrap().request)?}else{logical
+    let infos = if stream_runtime::is_stream(&spec){psy_template_u124_markets::stream_execution::logical_infos(spec,&guard.stream.as_ref().unwrap().request)?}else{logical
         .iter()
         .map(|c| {
             let d = all
@@ -510,7 +510,7 @@ async fn process_action(a:&[String],spec:&Value,fp:QHashOut<F>,hash:QHashOut<F>,
         proof: bincode::serialize(&proof)?,
     };
     if producer{preflight["orderingModel"]=json!("previous-checkpoint-seeded-v1");preflight["producerInfluence"]=json!(true);preflight["qualifiedRandomness"]=json!(false);if fields[0]==2{preflight["producerSourceCheckpoint"]=json!(fields[3]);}}
-    if circuit.stream().is_some(){preflight["streamContextSha256"]=json!(compact_prepared::sha(&fs::read(out.join("stream-context.json"))?));preflight["profile"]=json!("source-funded-v14");}
+    if circuit.stream().is_some(){preflight["streamContextSha256"]=json!(compact_prepared::sha(&fs::read(out.join("stream-context.json"))?));preflight["profile"]=json!(stream_runtime::profile(&spec));}
     save(&out.join("preflight.json"), &preflight)?;
     save(&out.join("request.json"), &request)?;
     let prepared = compact_prepared::manifest(&a[2], &bytes, &guard_bytes, out)?;

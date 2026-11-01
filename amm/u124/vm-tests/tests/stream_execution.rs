@@ -28,6 +28,9 @@ fn maintenance_page_tracks_original_frozen_header_and_rejects_stale_planning() -
     request.fields[0] = 13;
     request.source = page;
     validate_request(&review, &source, &request)?;
+    request.settled=1;
+    assert!(validate_request(&review,&source,&request).is_err());
+    request.settled=0;
     let original = serde_json::to_vec(&source)?;
     let mut stale = source.clone();
     stale.fields[6] -= 1;
@@ -45,4 +48,30 @@ fn maintenance_page_tracks_original_frozen_header_and_rejects_stale_planning() -
     assert!(source_vault_path(&short).is_err());
     source_vault_path(&source)?;
     Ok(())
+}
+
+#[test]
+#[ignore="explicit immutable review/source fixture paths required"]
+fn native_identity_uses_market_height_31_and_all_reviewed_metadata()->Result<()>{
+    use plonky2::field::{goldilocks_field::GoldilocksField as F,types::Field};
+    let review=source_review::review(std::path::Path::new(&std::env::var("STREAM_REVIEW")?))?.0;
+    let source:Snapshot=serde_json::from_slice(&std::fs::read(std::env::var("STREAM_SOURCE")?)?)?;
+    assert_eq!(review.market_binding().height,31);
+    for binding in review.assets.iter().cloned().chain([review.market_binding()]){
+        let leaf=source.contracts.iter().find(|p|p.id==binding.id).unwrap().leaf;
+        binding.check_leaf(&leaf)?;
+        for field in 0..6 {
+            let mut wrong=leaf;
+            match field {
+                0=>wrong.code_root.0.elements[0]+=F::ONE,
+                1=>wrong.state_layout_root.0.elements[0]+=F::ONE,
+                2=>wrong.function_tree_root.0.elements[0]+=F::ONE,
+                3=>wrong.state_tree_height+=F::ONE,
+                4=>wrong.state_layout_field_count+=F::ONE,
+                _=>wrong.state_layout_slot_count+=F::ONE,
+            }
+            assert!(binding.check_leaf(&wrong).is_err(),"metadata substitution {field}");
+        }
+        binding.check_leaf(&leaf)?;
+    }Ok(())
 }

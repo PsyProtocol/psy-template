@@ -656,3 +656,19 @@ Unknown broadcasts still reconcile by their original identity first.
 Proof resources are acquired only when a new proof is actually needed. Cache-only
 restart recovery therefore avoids constructing another proof session. This is
 local persistent recovery; it does not establish coordination across machines.
+
+## Funded source-stream integration
+
+The formal factory also accepts `source-funded-v14` for AMM/Curve and the
+distinct `source-funded-pair-v15` for Orderbook/NFT. Use the dedicated frozen
+`funded_stream_wallet`; legacy compact drivers cannot select these spending
+keys. Asset A/B roles must match the reviewed policy. For NFT, A is payment FT
+and B is its collection. SCAN/CARRY require the pair profile and retain the
+original lifecycle batch identity, source scope and dependency facts.
+
+`fundedLifecycleRun.mjs` processes exact approved stage inputs with the existing
+account journal/locks. Registration uses a separate once-only durable identity.
+Ordinary actions require a privileged wallet-owned adapter; its absence returns
+`awaiting-wallet`. Candidate broadcast stays disabled until an instance-specific
+release is reviewed. Unknown sends do not produce another proof or payment.
+See [evidence and remaining gates](../docs/security/FUNDED_PAIR_CANDIDATE_20261031.md).

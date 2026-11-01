@@ -1,6 +1,6 @@
 # Checkpoint stream profiles
 
-Six profiles intentionally coexist. Their commitments and keys are not
+Several profiles intentionally coexist. Their commitments and keys are not
 interchangeable.
 
 | Profile | Entry points | Financial authority |
@@ -11,6 +11,15 @@ interchangeable.
 | paired triangular frontier and early recovery (policy version 9) | `pair-optimized-generate.mjs`, `pair-optimized-build-policy.mjs`, conditional triangular builder in `pair_frontier.rs` | Distinct offline candidate: exact unordered-pair coverage and current-invalid winner refunds; live authorization remains disabled |
 | v3 source-covered deterministic priority stream | `generate.mjs`, `build-policy.mjs`, `stream_{source,context,current,order,policy}.rs` | Distinct undeployed candidates; complete synthetic-checkpoint UPS validation is tracked in the report below; live driver remains disabled |
 | source-covered producer random stream (policy version 10) | `random-generate.mjs`, `random-build.mjs`, `random_stream.rs`, `random_stream_plan.rs`, `executor/randomSourceStream.mjs` | Separate AMM/Curve candidate: complete source, one future native producer seed, full-hash ordering across pages and refund-only recovery; live spending remains disabled |
+| deterministic funded bootstrap (policy version 14) | `funded-generate.mjs`, `funded-policy.mjs`, `funded_stream_wallet`, formal funded Executor | Distinct AMM/Curve key; explicit fee-owner grant, empty-vault bootstrap and exact prepared transport; instance release and ordinary-wallet gates remain mandatory |
+| paired funded bootstrap (policy version 15) | `funded-pair.mjs`, `funded-pair-build.mjs`, `funded_stream_wallet`, formal funded Executor | Distinct Book/NFT candidate; preserves v9 priority and frontier, adds empty-vault activation and owner-authorized fees; no live release from offline tests |
+
+See [the funded pair continuation](../../docs/security/FUNDED_PAIR_CANDIDATE_20261031.md).
+The funded profiles are deterministic. A new OPEN or inactive maintenance tape
+uses a zero frontier settlement cursor, rather than the prior batch's terminal
+cursor. Recovery retains the original sealed source, deadline and cumulative
+fee use. NFT `ack_delivery` acknowledges an outgoing delivery **after** the
+ordinary recipient claims; it must not acknowledge an active incoming order.
 
 For v3, use `prepare-fixtures.mjs REVIEWED_INPUT FRESH_OUTPUT`, the frozen
 application-owned `compile_stream_market` compiler wrapper, and
