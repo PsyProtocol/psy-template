@@ -5,6 +5,18 @@ Orderbook/NFT candidates. There is no new
 network settlement, extension approval or ordinary-wallet network claim in this
 continuation. Historical v16/v17 artifacts are quarantined, never promoted.
 
+## Subsequent actual browser installation
+
+The user requested direct operation of the native directory picker. The reviewed
+29-file Psy 0.4.25 extension is now enabled in the explicitly authorized empty
+QA profile, ID `imcjjhpbnipknjjefempbjejbcjepagi`. Its bytes are unchanged and the
+actual DApp exposes the provider. The popup stops at active-chain discovery:
+coordinator and Realm 0 return HTTP 503 maintenance responses. No account is
+created/imported, no registration or financial request is started, and no
+existing history is reset. Market resource installation and writes remain
+closed. The prior "installation awaits user" archive is preserved as historical
+evidence. See [the separate actual-installation record](../../executor/verification/2026-11-01-wallet-profile-install-v1/README.md).
+
 ## Authority correction and immutable version boundary
 
 Review of the first candidate found that unrestricted public return of the
@@ -199,7 +211,7 @@ its missing public configuration/ABI and pinned tool references. It reused
 installed dependency/tool caches and is not a clean SDK/application compile
 benchmark. Both exact SDK checks pass after building; 29 release files are
 hashed and copied byte-for-byte to the fresh QA installation directory. No
-shared wallet/SDK source changed. Installation was handed to the user in the
+shared wallet/SDK source changed. At that offline-build boundary, installation was handed to the user in the
 empty authorized profile; no account creation, registration or payment was
 started. `installedMarketRelease` is still null.
 
@@ -211,7 +223,7 @@ single synthetic histories; routine file reads and lightweight host checks also
 occurred. They are not matched old/new throughput measurements, p95,
 chain TPS, extension latency or evidence of general acceleration.
 
-Real extension installation, ordinary user-controlled setup/approval,
+Ordinary user-controlled setup/approval,
 instance-specific verified resources, fresh live preflight, bounded deployment,
 network fills, ordinary claims and real receipt/restart recovery remain open.
 No production-readiness or full owner-independent liveness conclusion follows

@@ -1,5 +1,18 @@
 # Market correctness and reset-chain validation — 27 October 2026
 
+Latest browser installation continuation (1 November): the user-authorized
+`Psy Fee Exit QA 20261101` profile now has the reviewed Psy 0.4.25 unpacked
+extension enabled. Its 29 public files retain their original hashes, and the
+actual DApp reload exposes `window.psy` while still requiring account connection
+and keeping trading disabled. The actual popup blocks on live chain identity.
+Three bounded explicit readonly coordinator/Realm 0 diagnostics return HTTP 503,
+`Testnet maintenance. Fresh deployment in progress.` This is an availability
+failure, not evidence of an SDK API mismatch. No new account, import,
+registration, proof, faucet request or financial action occurs. Other-task
+wallets/history and original evidence remain untouched. Recovery requires a full
+fresh preflight after maintenance; earlier chain IDs/roots cannot be presumed
+current. See [actual installation and maintenance evidence](../../executor/verification/2026-11-01-wallet-profile-install-v1/README.md).
+
 Latest authorized fee-exit continuation (1 November): [v18/v19 authority,
 exact native verification, wallet build and remaining gates](INDEPENDENT_FEE_EXIT_20261101.md).
 Unrestricted public return was found to permit live-service disruption; the
@@ -17,8 +30,8 @@ acceptance. Funding/authorizations and some claims remain VM prerequisites.
 The frozen 472-file wallet SDK distribution was recovered byte-for-byte in a
 separate workspace after shared-package drift was rejected. An isolated wallet
 build passes without source/dependency changes; the empty user-authorized QA
-profile does not share the other task's wallet registration/history. Native
-installation awaits user action, no account is created, and the market release
+profile does not share the other task's wallet registration/history. At that offline archive boundary, native
+installation awaited user action; no account was created, and the market release
 remains uninstalled. No network fill/claim or new test-PSY expense occurs. The
 three corrected proving processes take 1900.823 / 574.220 / 249.644 seconds with
 sampled family RSS peaks 7,082,336 / 6,247,488 / 5,866,016 KiB. These are synthetic
