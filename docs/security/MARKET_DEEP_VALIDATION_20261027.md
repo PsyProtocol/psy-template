@@ -1,5 +1,19 @@
 # Market correctness and reset-chain validation — 27 October 2026
 
+Latest reset-chain deployment continuation (2 November): [fresh chain, actual
+Native bytecode compatibility, first-registration guard and remaining blocker](RESET_CHAIN_DEPLOYMENT_20261102.md).
+Eight bounded reads observe the same reset-chain anchors and three heads 9025.
+An exact frozen-SDK native build recomputes the current Native code root and
+verifies its schema/required method/burn compatibility; 2,756 source pins match.
+The runtime Endcap still differs. Read-only latest-mainnet-beta source inspection
+does not establish a compatible replacement; dependencies are unchanged.
+The formal first-registration path now rejects that incompatibility before
+persisting a new send intent while retaining unknown-registration reconciliation
+and refusing old-request rebinding on a reset chain. Final host cohort: 66 pass,
+no failures/skips. No new instance, registration, deployment, full UPS, faucet,
+fill, claim or expense is added; actual financial deployment remains pending.
+[Public source and evidence](../../executor/verification/2026-11-02-reset-chain-deployment-v1/README.md).
+
 Latest continuation (2 November): [recovered new-chain observation, incompatible
 runtime Endcap, wallet live-identity fix and formal funded-route gate](PRODUCTION_RESUME_20261102.md).
 All three staging RPCs are reachable and report the new checkpoint-1 global root

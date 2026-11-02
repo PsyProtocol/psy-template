@@ -16,12 +16,14 @@ import {publishFile} from './durableFile.mjs';
 import {sha256} from './requestBinding.mjs';
 import {assertDurableRuntimeDirectory} from './runtimeStorage.mjs';
 import {parseLosslessJson} from '../amm/u124/client.mjs';
+import {assertFrozenRuntimeEndcap,runtimeEndcapIdentityPath} from './runtimeEndcap.mjs';
+import {fileURLToPath} from 'node:url';
 export async function continueFundedRegistration(o,{readState=publicState,runDriver=promisify(execFile),submitDriver=runDurableSubmission}={}){
  const model=fundedProfile(o.profile,o.kind);assertDurableRuntimeDirectory(o.runtimeDirectory);
  const policy=JSON.parse(await readFile(o.policy,'utf8'));assert.equal(BigInt(policy.version),model.version);assert.equal(policy.qualified_randomness,false);
  assert.equal(policy.profile,model.policy);assert.equal(policy.market,o.kind,'reviewed registration market kind');
  assert.equal(policy.executor_binding.sdk_commit,'c92880c8b6e2c8d392f19368bc8801a2584fd427');
- const unchanged=await captureInputs([o.policy,o.rpcConfig]),driver=await sealDriver(o);
+ const unchanged=await captureInputs([o.policy,o.rpcConfig,fileURLToPath(runtimeEndcapIdentityPath)]),driver=await sealDriver(o);
  const root=join(o.runtimeDirectory,'funded-registration',o.network,o.publicKeyHash);await mkdir(root,{recursive:true,mode:0o700});
  const lock=new ExecutionJournal({directory:root,network:o.network,vaultId:o.vaultId,fingerprint:o.fingerprint});
  const env={...process.env,PSY_NETWORK:'testnet',PSY_MARKET_TESTNET_PROFILE:o.testnetProfile,RAYON_NUM_THREADS:String(o.proverThreads??2)};
@@ -41,6 +43,11 @@ export async function continueFundedRegistration(o,{readState=publicState,runDri
   }
   if(original)return{status:'unresolved-registration',original,submitted:false,retryAllowed:false};
   assert.equal(policy.executor_binding.allow_broadcast,true,'instance-specific release is not enabled for registration');
+  // A fresh vault must not be registered into a runtime known to reject this
+  // frozen SDK's financial UPSs. Existing unknown/membership reconciliation
+  // above remains available; incompatibility never authorizes a second send.
+  await assertFrozenRuntimeEndcap(state);
+  await unchanged();await driver.check();
   const out=join(root,'send-'+randomUUID()),intent={driverSha256:driver.sha256,policySha256:sha256(await readFile(o.policy)),publicKeyHash:o.publicKeyHash,expectedUserId:o.vaultId,chainRoot:policy.executor_binding.chain_root,directory:out,retryAllowed:false};
   await publishFile(marker,JSON.stringify(intent)+'\n');
   // Native validates the reviewed dependencies and chain again before saving
