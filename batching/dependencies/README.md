@@ -1,9 +1,25 @@
 # SDK dependency snapshots
 
-The active application targets the user-selected `psy-sdk/mainnet-beta` source
-freeze in [mainnet-beta-20261027](mainnet-beta-20261027/README.md). Use its fresh
-source materializer and application snapshot builder. Do not build the current
-application against an arbitrary sibling Node checkout.
+The active selection is [selected.json](selected.json): `psy-sdk/mainnet-beta`
+at exact commit `01b8f2b0a077367a7b9879baba1a72aea8ab5510`. On 2026-11-02 the
+remote `mainnet-beta` and `audit` refs both resolved to this already reviewed
+commit. No SDK/client source bytes, Cargo dependencies, verifier keys, network
+domains or installed wallet distribution changed when switching branch provenance.
+
+Use `prepare_selected_application.py --source /frozen/source --out /fresh/app`
+to verify the 2,759 original source members and prepare a new application tree.
+Compile that tree with the recorded `sdk-audit-v1` feature and locked dependencies.
+The existing [audit source freeze](audit-20261102/manifest.json), profile IDs,
+manifest digest and verification resources retain their historical names and
+bytes. These names identify a reviewed release, not a moving Git branch. A branch
+name alone never authorizes another commit or an older release.
+
+For an empty workspace, `materialize_audit.py` still reconstructs exactly that
+same commit from explicit object stores; it does not follow `audit` or fetch a
+branch. The [2026-10-27 mainnet-beta freeze](mainnet-beta-20261027/README.md) at
+`c92880c8...` is historical and must not be selected as a fallback. Do not build
+against an arbitrary sibling Node checkout. This metadata alignment does not
+close the [private-token compiler gap](../../docs/security/TOKEN_COMPILER_INTERFACE_REVIEW_20261102.md).
 
 The instructions below describe **historical reproduction only**. Use the
 application commit recorded by the historical evidence; current migrated source

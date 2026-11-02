@@ -1,5 +1,11 @@
 # Audit SDK migration — 2 November 2026
 
+Current branch provenance is `mainnet-beta`, after both upstream refs reached
+the same frozen `01b8f2b0...` commit. The existing audit cohort names and hashes
+are immutable, and no SDK source or verification resource was replaced. See the
+[selection and consumer validation](SDK_MAINNET_SELECTION_20261102.md), including
+the ordinary-checkout SDK mismatch and separately verified isolated build.
+
 Token-source coverage correction: the preserved legacy `.psy` entry and the
 U124-private source are not covered by the public U124 market fixture's compile
 or UPS success. Fresh audit compiler probes reject the former language and the

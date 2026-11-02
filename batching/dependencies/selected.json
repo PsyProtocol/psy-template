@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "sdkRepository": "https://github.com/PsyProtocol/psy-sdk.git",
+  "sdkBranch": "mainnet-beta",
+  "sdkCommit": "01b8f2b0a077367a7b9879baba1a72aea8ab5510",
+  "clientCommit": "7058070057c3242b5d8b29e1a31d498aaa4202c0",
+  "sourceManifest": "batching/dependencies/audit-20261102/manifest.json",
+  "sourceManifestSha256": "246cfcb12788fe0d0eb79594556acdfcc7781d01641890e47836db1fbc93c467",
+  "sdkProfile": "sdk-audit-20261102-v1",
+  "compilerFeatures": ["sdk-audit-v1"],
+  "selectionReason": "User selected mainnet-beta after it reached the exact already reviewed audit commit. Historical manifest, profile and verification identities remain unchanged."
+}

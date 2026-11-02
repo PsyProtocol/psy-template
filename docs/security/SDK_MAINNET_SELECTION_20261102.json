@@ -1,0 +1,60 @@
+{
+  "schema": 1,
+  "selectedBranch": "mainnet-beta",
+  "observedRemoteHeads": {
+    "refs/heads/audit": "01b8f2b0a077367a7b9879baba1a72aea8ab5510",
+    "refs/heads/mainnet-beta": "01b8f2b0a077367a7b9879baba1a72aea8ab5510"
+  },
+  "sdkCommit": "01b8f2b0a077367a7b9879baba1a72aea8ab5510",
+  "clientCommit": "7058070057c3242b5d8b29e1a31d498aaa4202c0",
+  "verifiedSourceMembers": 2759,
+  "sourceManifestSha256": "246cfcb12788fe0d0eb79594556acdfcc7781d01641890e47836db1fbc93c467",
+  "selectedJsonSha256": "fa26b6424b4b69e9f8fe7471bfdcbd977d2be80cfdd12c76ac185f5df65e61f6",
+  "freshApplicationPrepared": true,
+  "freshApplicationFeatures": [
+    "sdk-audit-v1"
+  ],
+  "sourceBytesChanged": false,
+  "newProofs": 0,
+  "financialOperations": 0,
+  "nodeOrSdkPatches": 0,
+  "hostTests": [
+    {
+      "command": "node --test executor/sdkProfiles.test.mjs market-client/nativeProtocol.test.mjs batching/dependencies/audit-native-layout.test.mjs",
+      "passed": 9
+    },
+    {
+      "repository": "psy-wallet",
+      "command": "node --test scripts/verify-sdk.test.mjs",
+      "passed": 1
+    }
+  ],
+  "ordinaryWalletCheckout": {
+    "command": "node scripts/verify-sdk.mjs",
+    "exitCode": 1,
+    "error": "SDK package metadata/exports differ from reviewed input",
+    "failurePreserved": true,
+    "oldMutableSiblingChanged": false,
+    "outputProvenance": "Observed tool output; not a newly exported raw log"
+  },
+  "reviewedIsolatedWallet": {
+    "sdkCommit": "01b8f2b0a077367a7b9879baba1a72aea8ab5510",
+    "clientCommit": "7058070057c3242b5d8b29e1a31d498aaa4202c0",
+    "distributionFiles": 472,
+    "installedPackageVerified": true,
+    "financialAuthorization": false,
+    "sdkBranch": "mainnet-beta",
+    "scope": "Read-only check of the existing isolated wallet build; ordinary checkout remains rejected and untouched"
+  },
+  "rawRecordHashes": {
+    "remote-sdk-refs.txt": "6e97d75b49d525ae991ca1c463ea7e52576529c837832005f4f6d31826d39d41",
+    "prepare.log": "6b2ed0d812d941cc6c79662a2a0a5aa91945116c96c72fd71aa471d15200be17",
+    "isolated-wallet-verify.log": "9a1a226e67ae454affd54bd22a4e9b2abe81fe97eda72416f02aa15b1f59b454"
+  },
+  "storage": "External local sdk-mainnet-selection-20261102-v1 case; no source/build/proof trees committed",
+  "openGaps": [
+    "Ordinary wallet checkout remains blocked on stale mutable sibling SDK; use reviewed isolated build workflow.",
+    "Private FT intrinsic and legacy source migration gaps remain unchanged.",
+    "No new full UPS, network settlement or browser acceptance claim."
+  ]
+}
