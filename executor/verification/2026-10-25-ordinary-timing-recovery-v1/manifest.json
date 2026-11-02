@@ -1,0 +1,51 @@
+{
+  "schema": 1,
+  "sourceDirectory": "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-market-recovery-20261023",
+  "machine": "gewenbo.local",
+  "host": "macOS-15.7.3-arm64-arm-64bit",
+  "scope": "public formal Executor run including failures; success requires exact included receipt",
+  "walletFilesIncluded": false,
+  "sealedBinariesIncluded": false,
+  "records": [
+    {
+      "source": "rpc-ordinary-build-v3/regressions-v8.log",
+      "file": "files/rpc-ordinary-build-v3/regressions-v8.log.gz",
+      "bytes": 2935,
+      "sha256": "4de9b13bac24e7412f9adbb9ac2e5a45d73dd529557576e1247759951cb0b011",
+      "gzipBytes": 1405,
+      "gzipSha256": "ca9ccdefc69ea97b10147b016b3620784ce6dd0245d2149b4cfd2bac21acf969"
+    },
+    {
+      "source": "rpc-ordinary-build-v3/regressions-v9.log",
+      "file": "files/rpc-ordinary-build-v3/regressions-v9.log.gz",
+      "bytes": 3048,
+      "sha256": "a867d29ba7a20b79e51a0658e9dd30fd385f6e35654ab508b8ac3282eead5854",
+      "gzipBytes": 1452,
+      "gzipSha256": "5f7ffc3f54437863dd49ad81cce716b8545b9139bc1cfa7bad559efd97488473"
+    },
+    {
+      "source": "rpc-ordinary-performance-live-v1/candidate-run-v1.log",
+      "file": "files/rpc-ordinary-performance-live-v1/candidate-run-v1.log.gz",
+      "bytes": 1634,
+      "sha256": "e0865917b66f912819bff0f243eb16a42b5ae940b4a0b6296d2984d835f3c679",
+      "gzipBytes": 462,
+      "gzipSha256": "63faa003e393c4579959f4a36f5938cbb03992649d85588f4ede3db168b1211f"
+    },
+    {
+      "source": "rpc-ordinary-performance-live-v1/public/CANDIDATE-ORIGINAL-ORDERS-RECOVERED-v1.json",
+      "file": "files/rpc-ordinary-performance-live-v1/public/CANDIDATE-ORIGINAL-ORDERS-RECOVERED-v1.json.gz",
+      "bytes": 1086,
+      "sha256": "7c752c957c17e4bf23c6f5657aa9f5285d1172072772c774e857e872109a1ffa",
+      "gzipBytes": 627,
+      "gzipSha256": "5226a49c451f3395abba0c00eea5ff5d3ad5caed25c2679e0ec73b788fd93f4d"
+    },
+    {
+      "source": "rpc-ordinary-performance-live-v1/public/RESOURCE-SELECTION-v1.json",
+      "file": "files/rpc-ordinary-performance-live-v1/public/RESOURCE-SELECTION-v1.json.gz",
+      "bytes": 626,
+      "sha256": "6c6bd014cf76e9a5a80a5868baa57aeef985a803726432ada0d0d144b80f91f6",
+      "gzipBytes": 409,
+      "gzipSha256": "c7e51d265545f3bc2e67b9b32bae4cbb7201581a8e15ac3eb2e5afe2d38d8efe"
+    }
+  ]
+}

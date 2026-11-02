@@ -1,0 +1,251 @@
+{
+  "schema": 1,
+  "sourceDirectory": "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-market-recovery-20261023/market-mainnet-migration-20261027-v1",
+  "machine": "gewenbo.local",
+  "host": "macOS-15.7.3-arm64-arm-64bit",
+  "scope": "public formal Executor run including failures; success requires exact included receipt",
+  "walletFilesIncluded": false,
+  "sealedBinariesIncluded": false,
+  "records": [
+    {
+      "source": "application-wallet-v26/APPLICATION.json",
+      "file": "files/application-wallet-v26/APPLICATION.json.gz",
+      "bytes": 8851,
+      "sha256": "0216fbde955a8a8e134d87bc25a4b8ff017dc1ccb7efae74e59a403790676b9c",
+      "gzipBytes": 4338,
+      "gzipSha256": "9b17dc519d4ffe8aa91ac7eab9f71ca23673b5cd51cbb7db4939372d8c10694a"
+    },
+    {
+      "source": "application-wallet-v26/tests/batch_lifecycle.rs",
+      "file": "files/application-wallet-v26/tests/batch_lifecycle.rs.gz",
+      "bytes": 32233,
+      "sha256": "09d04ca632664abfa0b778d57874d8c4f9c848fa98323471e0f62ef421f28ea2",
+      "gzipBytes": 9294,
+      "gzipSha256": "634274a1f053d57d26908812cd81cd78d3c20bf89017c4505aa3bca281b1e653"
+    },
+    {
+      "source": "application-wallet-v26/tests/support/batch_full_ups.rs",
+      "file": "files/application-wallet-v26/tests/support/batch_full_ups.rs.gz",
+      "bytes": 53752,
+      "sha256": "919701c9caa9ffbfd47c03df5e057855f3ca61ccac81ec970b70bd3b6b6d07c4",
+      "gzipBytes": 15713,
+      "gzipSha256": "ba6469b2684cd879ee402646354e5b33e62d27b23c4c07ec2f3a99f36c5b3438"
+    },
+    {
+      "source": "curve-exact-full-ups-v1/bondingcurve-1-1-request.json",
+      "file": "files/curve-exact-full-ups-v1/bondingcurve-1-1-request.json.gz",
+      "bytes": 551295,
+      "sha256": "f3d0189bd70257a52f338fde2dab990746c53ee7fd507209af14bcb3c0d3bb14",
+      "gzipBytes": 172855,
+      "gzipSha256": "4879a68767a453133e5c4bf6c0deee500d79ce5a49c9e891f3300010fc777edb"
+    },
+    {
+      "source": "curve-exact-full-ups-v1/bondingcurve-2-2-request.json",
+      "file": "files/curve-exact-full-ups-v1/bondingcurve-2-2-request.json.gz",
+      "bytes": 531484,
+      "sha256": "db40e1fd9927d201182d805b7d0296f8c231f869a56d26862a910ff02895d650",
+      "gzipBytes": 173357,
+      "gzipSha256": "4ba4f07dfe9ba4051cbfb407d49c011c4ab5429e75a8255741275073955862a4"
+    },
+    {
+      "source": "curve-exact-full-ups-v1/bondingcurve.json",
+      "file": "files/curve-exact-full-ups-v1/bondingcurve.json.gz",
+      "bytes": 4912,
+      "sha256": "c38ec13a22803e018ddff9aec037627be98523a22b7520a8ca35b019b5940f97",
+      "gzipBytes": 1390,
+      "gzipSha256": "7a6ec7bb4b3fb0d5a16c674ef21ad17ac72aa4a5ee68469483713756323ea7e9"
+    },
+    {
+      "source": "curve-graduation-full-ups-v4/REPORT.json",
+      "file": "files/curve-graduation-full-ups-v4/REPORT.json.gz",
+      "bytes": 2489,
+      "sha256": "053c25c6f9788c04a339f0466d08640988439b2dadb9ba2f797e9826ab140ba8",
+      "gzipBytes": 1133,
+      "gzipSha256": "5b4917c46a9d41fa113783dc988bc2e59293f58b9376d40729675698876b3f99"
+    },
+    {
+      "source": "curve-graduation-full-ups-v5/REPORT.json",
+      "file": "files/curve-graduation-full-ups-v5/REPORT.json.gz",
+      "bytes": 2496,
+      "sha256": "9e9df16e4caaa09f85d563c6dea108fa5c1422f2c0892c0d3145eec9e4793b63",
+      "gzipBytes": 1138,
+      "gzipSha256": "06882dd23a85ed87d11c6740f4b87d692c44cbfdb565f6b1e90a3c9a46dc7e47"
+    },
+    {
+      "source": "curve-graduation-full-ups-v5/bondingcurve-4-1-request.json",
+      "file": "files/curve-graduation-full-ups-v5/bondingcurve-4-1-request.json.gz",
+      "bytes": 503949,
+      "sha256": "65f6ab1f03465ed9999f43935a988fc0b77f85789ac7dd3baca22dd0ccd858fc",
+      "gzipBytes": 170143,
+      "gzipSha256": "d626d3865210ab69afda7bfbd00f5adbd12228232316a5161c73eeace569d84a"
+    },
+    {
+      "source": "isolated-live-v1/curve-replacement-candidate-v1/BUILD.json",
+      "file": "files/isolated-live-v1/curve-replacement-candidate-v1/BUILD.json.gz",
+      "bytes": 1056,
+      "sha256": "4dfc3d17a3bb19099a2426ea568aed705838fee81b9044e15206e9482a88e4f9",
+      "gzipBytes": 630,
+      "gzipSha256": "51e91d12d4eb649fdf5d38beaeedf8cf48c088658c98e4d3b2f076b7bbd645e9"
+    },
+    {
+      "source": "isolated-live-v1/curve-replacement-candidate-v1/RECIPIENT.json",
+      "file": "files/isolated-live-v1/curve-replacement-candidate-v1/RECIPIENT.json.gz",
+      "bytes": 511,
+      "sha256": "fe680b0545888f8f147844b2f871a96ac8e1dcbc176cb23c6c14f84c38637814",
+      "gzipBytes": 326,
+      "gzipSha256": "6feed5e430f171f98abde12ef47e3a01bdb57082960ec32e768f1e1c44de99d1"
+    },
+    {
+      "source": "isolated-live-v1/curve-replacement-candidate-v1/compile.log",
+      "file": "files/isolated-live-v1/curve-replacement-candidate-v1/compile.log.gz",
+      "bytes": 26,
+      "sha256": "d9fa0db25712af671f7feae8d5e087ac550fd521e93a94bf18eec24c3b0627c4",
+      "gzipBytes": 46,
+      "gzipSha256": "de7609fd22f4b81adb030971e88928f3b33cceaaa4c91b69cbe68db154ac556d"
+    },
+    {
+      "source": "isolated-live-v1/curve-replacement-candidate-v1/compiled/compilation_artifact.json",
+      "file": "files/isolated-live-v1/curve-replacement-candidate-v1/compiled/compilation_artifact.json.gz",
+      "bytes": 13682854,
+      "sha256": "c380ebd8566be46b4919819de47304a0d424618b1c741ecea6c9d2d61ad3c2ec",
+      "gzipBytes": 1506809,
+      "gzipSha256": "18ae3464fb1190d4305c2bbd43b22c29d4139bb5b673b821571926deeeea6e9e"
+    },
+    {
+      "source": "isolated-live-v1/curve-replacement-candidate-v1/config.json",
+      "file": "files/isolated-live-v1/curve-replacement-candidate-v1/config.json.gz",
+      "bytes": 307,
+      "sha256": "e75a2e42113dbf0d73b87baec577d9b9f6784ca7273753abd8fc3813523bc987",
+      "gzipBytes": 178,
+      "gzipSha256": "b01590cac7d57b7b2b0598830aef7ac3e21bfba3ed9db06afd4a194949492e01"
+    },
+    {
+      "source": "isolated-live-v1/curve-replacement-candidate-v1/main.psy.rs",
+      "file": "files/isolated-live-v1/curve-replacement-candidate-v1/main.psy.rs.gz",
+      "bytes": 3483358,
+      "sha256": "97c020e3d807f8b54b9239d03b69456df187044d4c1d45270e8120d22d8e8af6",
+      "gzipBytes": 298734,
+      "gzipSha256": "5ed6598a6c9c86440eb963c77c10ad9c8330a1ddba04120f1beb69afa080748b"
+    },
+    {
+      "source": "isolated-live-v1/curve-replacement-candidate-v1/native.json",
+      "file": "files/isolated-live-v1/curve-replacement-candidate-v1/native.json.gz",
+      "bytes": 429498,
+      "sha256": "b68fd259b5e26b72cee9f877f90a129cfab05b9b6203c481d49c26fdb0559b45",
+      "gzipBytes": 23186,
+      "gzipSha256": "ddf23bd2c87523d0a2ae9ab7020ceb4b367c6d43309cd25481322a8a57de8082"
+    },
+    {
+      "source": "isolated-live-v1/curve-replacement-candidate-v1/nft.json",
+      "file": "files/isolated-live-v1/curve-replacement-candidate-v1/nft.json.gz",
+      "bytes": 61249,
+      "sha256": "9861404dc6b3dac0d0f55bc31f6d89f6dfce347cce461495d4083e2ef42e4aae",
+      "gzipBytes": 6879,
+      "gzipSha256": "bcb6fcb19e319d3726d248968fa5a4176a93b0c4dd9c91db0d2c9e6cb8510987"
+    },
+    {
+      "source": "isolated-live-v1/curve-replacement-candidate-v1/token-a.json",
+      "file": "files/isolated-live-v1/curve-replacement-candidate-v1/token-a.json.gz",
+      "bytes": 4066436,
+      "sha256": "a3718e5ecc49e6360d02c325fb4bff676237fa8b4c1cc64724a092f74fc98d22",
+      "gzipBytes": 458380,
+      "gzipSha256": "84c3b7ecac91ebec131ecbb1b55142c3d56a62f066205d0428e90171c3285c52"
+    },
+    {
+      "source": "isolated-live-v1/curve-replacement-candidate-v1/token-b.json",
+      "file": "files/isolated-live-v1/curve-replacement-candidate-v1/token-b.json.gz",
+      "bytes": 4066436,
+      "sha256": "b67ce3ad4c5e54a7019fb0808069d3e05918a97fceb90c589c72e646b1c75d12",
+      "gzipBytes": 458378,
+      "gzipSha256": "30efbf9f58ccf69d0df5548f25b53c76143be9512d54119c882befe8f08f0ad4"
+    },
+    {
+      "source": "isolated-live-v1/curve-replacement-layout-v1/preflight.json",
+      "file": "files/isolated-live-v1/curve-replacement-layout-v1/preflight.json.gz",
+      "bytes": 879,
+      "sha256": "c0edc57b90a7a8b69327c409f4b9a9c57d18d664f8723830b6f24e3777e6b681",
+      "gzipBytes": 529,
+      "gzipSha256": "6623e2492e41817e22068c3b5145c5e21de4f8892fe15ee70118b2012139fc7e"
+    },
+    {
+      "source": "isolated-live-v1/curve-replacement-layout-v1/request.json",
+      "file": "files/isolated-live-v1/curve-replacement-layout-v1/request.json.gz",
+      "bytes": 182940913,
+      "sha256": "98eec81bb01a352352519b35dd22497e2aeb6ea62dc3592d099f22c9101b17f0",
+      "gzipBytes": 2741189,
+      "gzipSha256": "bbd500a304e2037eec3659a5179d16f789df81c8b083da02dec14ef6e6ab660e"
+    },
+    {
+      "source": "public/CURVE-EXACT-UPS-CLOSED-v1.json",
+      "file": "files/public/CURVE-EXACT-UPS-CLOSED-v1.json.gz",
+      "bytes": 978,
+      "sha256": "bf98475033eb96b4c9d2a25e38d365b0a4a8c504f916ff001461ea9f0b7d569d",
+      "gzipBytes": 591,
+      "gzipSha256": "fc56af20a813e997b0e08981941f2ac1349fb3e8c3549f96da08f47402d62b16"
+    },
+    {
+      "source": "public/curve-exact-full-ups-v1.log",
+      "file": "files/public/curve-exact-full-ups-v1.log.gz",
+      "bytes": 52011,
+      "sha256": "140c6d93ba39aee6703b6cc075e430594ad7276ca3d32cd916aa1cf276b7afcf",
+      "gzipBytes": 8489,
+      "gzipSha256": "490d4cb2182cf546369b6148e35aa5d76e2e50963a71cb6d5cf42c8138393ff8"
+    },
+    {
+      "source": "public/curve-graduation-full-ups-v1.log",
+      "file": "files/public/curve-graduation-full-ups-v1.log.gz",
+      "bytes": 47005,
+      "sha256": "5146d3261f1753e84a72239c760c6c2d8bf923ac0e5a5d2a2ab8b954fb40163f",
+      "gzipBytes": 7796,
+      "gzipSha256": "55d4170a55d39ec743b81d4624a7a02a51d5079ff6659993784c89609ff02bde"
+    },
+    {
+      "source": "public/curve-graduation-full-ups-v2.log",
+      "file": "files/public/curve-graduation-full-ups-v2.log.gz",
+      "bytes": 47637,
+      "sha256": "f792a89b2f351e09b320b67fe757113de622b8aeba0d105c44c00da452c555cd",
+      "gzipBytes": 7913,
+      "gzipSha256": "aec4593791c194536df31f72b8bf61d115e0e7b6d133b245f4da9837a26e3f8e"
+    },
+    {
+      "source": "public/curve-graduation-full-ups-v3.log",
+      "file": "files/public/curve-graduation-full-ups-v3.log.gz",
+      "bytes": 47195,
+      "sha256": "4b8f04e34749c4d49169f2a9ab493bbb76f67e6125dab08e7fc7164441dd062a",
+      "gzipBytes": 7885,
+      "gzipSha256": "ae487be7965f949ce10b7a4a8f192d9d52852b6dd4c6f68e571ac81a5032e60d"
+    },
+    {
+      "source": "public/curve-graduation-full-ups-v4.log",
+      "file": "files/public/curve-graduation-full-ups-v4.log.gz",
+      "bytes": 48914,
+      "sha256": "7bc2434f5ddac5e620f13275bab4b017a313936a012d39a173a9e8658e389a9d",
+      "gzipBytes": 8228,
+      "gzipSha256": "0e40abd9ce7c0ed14da553d240c24ce53553873d12303a217a8ab1b64541333e"
+    },
+    {
+      "source": "public/curve-graduation-full-ups-v5-exit.json",
+      "file": "files/public/curve-graduation-full-ups-v5-exit.json.gz",
+      "bytes": 578,
+      "sha256": "5ffcc0d189bec100cb64ea2bc89cfd3889fe33ffac318999d61491620678022d",
+      "gzipBytes": 362,
+      "gzipSha256": "728dc4bae4931850f4020bad84467e271f8534a42604dacef3ba39fe8bc5f8db"
+    },
+    {
+      "source": "public/curve-graduation-full-ups-v5.log",
+      "file": "files/public/curve-graduation-full-ups-v5.log.gz",
+      "bytes": 53949,
+      "sha256": "836f536589f5b1264421e249c2597a2395d8c1b51472869c8712815ffbaf4fa1",
+      "gzipBytes": 8826,
+      "gzipSha256": "120ddb46d77adf91435aa0b3af684e0b2f5fe4182419f1de148d9f3769e8602c"
+    },
+    {
+      "source": "run-curve-graduation-v5.py",
+      "file": "files/run-curve-graduation-v5.py.gz",
+      "bytes": 1767,
+      "sha256": "2a04861ceddfb5ed262f59d166c535b40cb8839685d96b7abe8d9331b2b89e25",
+      "gzipBytes": 968,
+      "gzipSha256": "815aea303bcf0de4b00222ccccc131f4bca8cd4ec7cadbf2cd076eb6fa95d0eb"
+    }
+  ]
+}

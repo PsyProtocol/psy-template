@@ -1,0 +1,464 @@
+{
+  "schema": 1,
+  "baseApplicationCommit": "47a38e5cd3588a9f245cbc6fff95fdec6a80cb56",
+  "baseWalletCommit": "5c15a9df9d5c47c4df449988ab7cb89b5d397b32",
+  "sdkCommit": "c92880c8b6e2c8d392f19368bc8801a2584fd427",
+  "archive": {
+    "name": "evidence.tar.gz",
+    "bytes": 129038,
+    "sha256": "b5051c32aff8bebbc2cea7af4b46f9a3ac0372e982fa4710aea810f4d0de0277"
+  },
+  "members": {
+    "application/PRODUCTION_READINESS.md": {
+      "bytes": 27861,
+      "sha256": "762745afbebf3ab87a59daa68af7279176c4cbaf75293bc200acca4c63bcba09"
+    },
+    "application/docs/security/MARKET_DEEP_VALIDATION_20261027.md": {
+      "bytes": 63674,
+      "sha256": "2a31db5c75a44281801a5b024d9f5b30832c0ce3626425ad8c9f3d453c2aaee8"
+    },
+    "application/docs/security/PRODUCTION_TRANSPORT_CANDIDATE_20261031.md": {
+      "bytes": 11374,
+      "sha256": "39abb12401f7f33f2252ed3996c8821bbbee04a6914f12405b6784c38dc45b63"
+    },
+    "application/executor/gateway/boundedFetch.mjs": {
+      "bytes": 1211,
+      "sha256": "852885e9f82ccc89a4733496f41de0f192700f39b447e4d070c79a0f4963fd51"
+    },
+    "application/executor/publicRpcWire.test.mjs": {
+      "bytes": 5140,
+      "sha256": "c4421b1b234b627700c89d4a3e867811beca1d436ffaf6b462f8bbbc06910909"
+    },
+    "application/executor/publicState.mjs": {
+      "bytes": 6825,
+      "sha256": "c0f86009f38606851c659d87b96434d3e1e467b56ba58847edbc7f79c422f254"
+    },
+    "application/executor/publicState.test.mjs": {
+      "bytes": 11529,
+      "sha256": "f7df24616450dc31171dd44a8999c8ae64dbfeaf650b84a6e9e1aac73d44f547"
+    },
+    "application/executor/readSingleFlight.mjs": {
+      "bytes": 1141,
+      "sha256": "392253f46e57878441d406fa087336793064512c6b9593322fbcf429f93c1c26"
+    },
+    "application/market-client/rpcWire.d.mts": {
+      "bytes": 364,
+      "sha256": "4e4f6e6ea169319054147380134cbda36e30894f0f5e79be2fa912951bc60c70"
+    },
+    "application/market-client/rpcWire.mjs": {
+      "bytes": 2802,
+      "sha256": "32d196024d9d25be5bb29b7478527d51bdcc1f37ec9a1d52a8949733aad64f45"
+    },
+    "application/market-client/rpcWire.test.mjs": {
+      "bytes": 1875,
+      "sha256": "a2b07d338ddc59282a07eb133fd5a13238a7fd5729240d579f864136806b4bba"
+    },
+    "application/market-client/stagedWallet.test.mjs": {
+      "bytes": 16617,
+      "sha256": "2a2803478dddec158e6ecab8b665de3261c9ecefbcf0d6b482a4b89706988c96"
+    },
+    "application/market-client/wallet/chainGuard.mjs": {
+      "bytes": 1767,
+      "sha256": "aa0d0f96853375507f6f83a97586ca7ae2957d17478f2a9ad63d90a2cd9ea814"
+    },
+    "application/market-client/wallet/chainGuard.test.mjs": {
+      "bytes": 3647,
+      "sha256": "d264050d8559a2e8671c6c1160f98be011cfb79997d8daa34b10dd0fa0e3ed28"
+    },
+    "application/market-client/wallet/exactTransport.mjs": {
+      "bytes": 11707,
+      "sha256": "758eb0f15aa34e0e9b2006d97e4dd278a165cdc94f48482ec6cbaf9a0fe743a5"
+    },
+    "application/market-client/wallet/exactTransport.test.mjs": {
+      "bytes": 7613,
+      "sha256": "44487eb78841cd3969b9d457de9e0dfe214a71bd0a2fec1753a8a69bd047615c"
+    },
+    "application/market-client/wallet/vendor.mjs": {
+      "bytes": 4518,
+      "sha256": "9b73ece482a3613caf1c62878f81302b94f12b3640094253ddcd9799e831e64a"
+    },
+    "case/current-v1/1-request.json": {
+      "bytes": 149,
+      "sha256": "57345ff329da6ae8c22d452aa319dac270b3e66d9268a00c4161719091bb382e"
+    },
+    "case/current-v1/2-request.json": {
+      "bytes": 149,
+      "sha256": "db59382b42518f5a9060e2ee57f7247658cd30fb2783fea088eef47457b47505"
+    },
+    "case/current-v1/2-response.json": {
+      "bytes": 225,
+      "sha256": "20cd45d62a5833a2617e7676494879ce317a1a71ba760074aaa3e45fb1287dfc"
+    },
+    "case/current-v2/1-request.json": {
+      "bytes": 149,
+      "sha256": "57345ff329da6ae8c22d452aa319dac270b3e66d9268a00c4161719091bb382e"
+    },
+    "case/current-v2/1-response.json": {
+      "bytes": 225,
+      "sha256": "56c92da3b16d29c61c773531a07f8c364c339818598c453a2bc928bd0c510ff5"
+    },
+    "case/current-v2/10-request.json": {
+      "bytes": 184,
+      "sha256": "ac7de8c20736c3faa348f50d3d63dde266ca6fc405f092f1ccce1d72a2189f09"
+    },
+    "case/current-v2/10-response.json": {
+      "bytes": 287,
+      "sha256": "47c33dbb3233247ff06e5916042f19349824f2c514d2d31ce6ee91eb4345fc02"
+    },
+    "case/current-v2/11-request.json": {
+      "bytes": 236,
+      "sha256": "b8f317c2c35c3dab9e70f96c93b941939c9655faeb3347de06423ee8f721a6ec"
+    },
+    "case/current-v2/11-response.json": {
+      "bytes": 100,
+      "sha256": "1373fcc8a900a40906236640fb0f2aca699001ce998f05fd136fc535d18e3e60"
+    },
+    "case/current-v2/2-request.json": {
+      "bytes": 149,
+      "sha256": "db59382b42518f5a9060e2ee57f7247658cd30fb2783fea088eef47457b47505"
+    },
+    "case/current-v2/2-response.json": {
+      "bytes": 225,
+      "sha256": "56c92da3b16d29c61c773531a07f8c364c339818598c453a2bc928bd0c510ff5"
+    },
+    "case/current-v2/3-request.json": {
+      "bytes": 172,
+      "sha256": "b0cc62cbf7c1462b31cbe407b3d5e3262a6fc79a3a6542147fbe81e14cbbc576"
+    },
+    "case/current-v2/3-response.json": {
+      "bytes": 790,
+      "sha256": "0dc1329cb8229f9bccd034c8812e60558326da2c17cc8907b089e694f301d8be"
+    },
+    "case/current-v2/4-request.json": {
+      "bytes": 168,
+      "sha256": "f101ef7d389f71ccad4101eaf8add79a8f217687b7a72705cd143e61b89a923f"
+    },
+    "case/current-v2/4-response.json": {
+      "bytes": 397,
+      "sha256": "c27f3303ac9594499bda849d206e1ba0013751b18cc965b78020782fc0846ce3"
+    },
+    "case/current-v2/5-request.json": {
+      "bytes": 199,
+      "sha256": "0a0e621d3a21f1277897fab7ceeb246aa2068612eb28e1e8b8d1d1545f7c0576"
+    },
+    "case/current-v2/5-response.json": {
+      "bytes": 37,
+      "sha256": "718dab487cc0987a52ad6886425f15676118b870e55970e52c4bb30b00733874"
+    },
+    "case/current-v2/6-request.json": {
+      "bytes": 213,
+      "sha256": "79f312c4bbf0047736c38f0d19e6bb3151ed73f7711bf6105ced73d24d50826e"
+    },
+    "case/current-v2/6-response.json": {
+      "bytes": 38,
+      "sha256": "9b0e9f4c7f49db7ef813a82d997b2bb514a3354bbd3c3a13e505f27407c58404"
+    },
+    "case/current-v2/7-request.json": {
+      "bytes": 213,
+      "sha256": "e6c656589f648d3ab161b3a538cdc130139a4ca958d7bb731a1f1c3939f9dbcd"
+    },
+    "case/current-v2/7-response.json": {
+      "bytes": 38,
+      "sha256": "9b0e9f4c7f49db7ef813a82d997b2bb514a3354bbd3c3a13e505f27407c58404"
+    },
+    "case/current-v2/8-request.json": {
+      "bytes": 218,
+      "sha256": "08579b9f3e2557628b25cbfd87ae1893c92e3f6a6906d9531ca4867bb340c6de"
+    },
+    "case/current-v2/8-response.json": {
+      "bytes": 38,
+      "sha256": "9b0e9f4c7f49db7ef813a82d997b2bb514a3354bbd3c3a13e505f27407c58404"
+    },
+    "case/current-v2/9-request.json": {
+      "bytes": 236,
+      "sha256": "f8d45781229a5ffff022de3614d37dd780333ec1128b1bbdd74e2b0a2e170290"
+    },
+    "case/current-v2/9-response.json": {
+      "bytes": 100,
+      "sha256": "70b0aa152b5b3be7a3b60f7def8ae734c8898fc6c933f43a5aef196deffe4e87"
+    },
+    "case/current-v2/SUMMARY.json": {
+      "bytes": 1607,
+      "sha256": "9a7a342ade16015941bf146ff9b42195d12bc71245837051e6c970005784e1de"
+    },
+    "case/current-v3/1-request.json": {
+      "bytes": 149,
+      "sha256": "57345ff329da6ae8c22d452aa319dac270b3e66d9268a00c4161719091bb382e"
+    },
+    "case/current-v3/1-response.json": {
+      "bytes": 225,
+      "sha256": "5cdf2940599551242e2b2e670a8d9c8c6f9584a1c21f1f796750cbaaf0cfe815"
+    },
+    "case/current-v3/2-request.json": {
+      "bytes": 149,
+      "sha256": "db59382b42518f5a9060e2ee57f7247658cd30fb2783fea088eef47457b47505"
+    },
+    "case/current-v3/2-response.json": {
+      "bytes": 225,
+      "sha256": "5cdf2940599551242e2b2e670a8d9c8c6f9584a1c21f1f796750cbaaf0cfe815"
+    },
+    "case/current-v3/3-request.json": {
+      "bytes": 172,
+      "sha256": "b0cc62cbf7c1462b31cbe407b3d5e3262a6fc79a3a6542147fbe81e14cbbc576"
+    },
+    "case/current-v3/3-response.json": {
+      "bytes": 790,
+      "sha256": "0dc1329cb8229f9bccd034c8812e60558326da2c17cc8907b089e694f301d8be"
+    },
+    "case/current-v3/4-request.json": {
+      "bytes": 199,
+      "sha256": "36d73a975be905b4643079b64f681f588cd872edfaa0b3a3c2222594d9ece6a9"
+    },
+    "case/current-v3/4-response.json": {
+      "bytes": 37,
+      "sha256": "718dab487cc0987a52ad6886425f15676118b870e55970e52c4bb30b00733874"
+    },
+    "case/current-v3/5-request.json": {
+      "bytes": 213,
+      "sha256": "79f312c4bbf0047736c38f0d19e6bb3151ed73f7711bf6105ced73d24d50826e"
+    },
+    "case/current-v3/5-response.json": {
+      "bytes": 37,
+      "sha256": "718dab487cc0987a52ad6886425f15676118b870e55970e52c4bb30b00733874"
+    },
+    "case/current-v3/SUMMARY.json": {
+      "bytes": 587,
+      "sha256": "a81ab5b3f73b11bd637b3a4eedf7d3f5baffdec64fe0d4d8020fd1e900447595"
+    },
+    "case/observe-current-v1.mjs": {
+      "bytes": 3631,
+      "sha256": "3fea7bbf7c95bdbb855afa94af9733ebf8cca625c967035f8cd99ab7f63d6d3e"
+    },
+    "case/observe-current-v2.mjs": {
+      "bytes": 3645,
+      "sha256": "8ce0d1f5ec1eb615fe16f245fcfbfdc7a770cd5a6af1069e65fa22fb44a4025b"
+    },
+    "case/observe-current-v3.mjs": {
+      "bytes": 2612,
+      "sha256": "3691dffee5ba852ceea26eb5a64fe81fba087391233556ca737270dcde5cb3d7"
+    },
+    "case/public/COHORT-v1.json": {
+      "bytes": 708,
+      "sha256": "140f0803fb37b8b57bc47e3293522fce6b8673f705b3911ebb61f23cb9aacf85"
+    },
+    "case/public/DIAGNOSTIC-HARNESS-CORRECTION.json": {
+      "bytes": 380,
+      "sha256": "778344491188fd3da54e4157a90a67b70cf560abc1eaa2ea3e987f3be09c9fbb"
+    },
+    "case/public/PLAN.json": {
+      "bytes": 889,
+      "sha256": "f74f86b9dea5217e046f8a4ea339ed328a0803b62c1538780fcb9313af933300"
+    },
+    "case/public/RESULTS-v3.json": {
+      "bytes": 14765,
+      "sha256": "50cf2606403f391a380b5e64d0c088a7d553f341f235ce937de1cdf4d121b4e8"
+    },
+    "case/public/SDK-COHORT-NOTES.json": {
+      "bytes": 746,
+      "sha256": "a727003e22fc2fe98397e2615cf4edc053cf78fdc8a8e45edc06d68821cb7675"
+    },
+    "case/public/TEST-SCOPE-v2.json": {
+      "bytes": 3714,
+      "sha256": "8ff15753927a350f538d194c0c3e836972ca44a9a62a32f7e6141624ec4af2e4"
+    },
+    "case/public/WALLET-VENDOR-v1.json": {
+      "bytes": 4058,
+      "sha256": "ee2b1436b622ec85140077c494de2f43d0fee558dc74cb62e1bbdd04acc6498a"
+    },
+    "case/public/WALLET-VENDOR-v2.json": {
+      "bytes": 4102,
+      "sha256": "0c198c6d54a311e4b9986976046ad0b41cfde53c69df7e30ca71b040d67b7700"
+    },
+    "case/public/red-wire-v1.log": {
+      "bytes": 3968,
+      "sha256": "d6363799b0665d26121b6ea4793ad61adae045d38b6ef84e504c42f503d0fecf"
+    },
+    "case/public/vendor-v1.log": {
+      "bytes": 122,
+      "sha256": "3300d15d74f9fedcace7acd1589a725833adf6af1704ee4200adbcb323ebd94a"
+    },
+    "case/public/vendor-v2.log": {
+      "bytes": 122,
+      "sha256": "9d3b2d004e0a996aca03eabb3ec3e7681238b1494ede2d33a9bb47b3dd78b33d"
+    },
+    "case/public/wallet-build-v1.log": {
+      "bytes": 3264,
+      "sha256": "6d83a6076ceeee9f5c7e09d2c87776da9a1356f821056528a494d36551dd67e1"
+    },
+    "case/public/wallet-typecheck-v1.log": {
+      "bytes": 580,
+      "sha256": "1c79474174c12e153fb7c14a734697c23d5fe0aece8a069602cd4cb7aca888fd"
+    },
+    "case/public/wallet-typecheck-v2.log": {
+      "bytes": 328,
+      "sha256": "f4591dfd5a7f118952583bbb30d1266ad84e667d8d591dc4c8d24eebb914b761"
+    },
+    "case/source-before-v1/executor/gateway/boundedFetch.mjs": {
+      "bytes": 1965,
+      "sha256": "8753721eb450b7e3d9e2dee3731cdd741a8649581d6f5b7895c67c1e206cb3b4"
+    },
+    "case/source-before-v1/executor/publicState.mjs": {
+      "bytes": 6224,
+      "sha256": "c2a8450eca89b7c4b552b4d5f5a245cef7270e3547031fb742c71dd4516889c3"
+    },
+    "case/source-before-v1/executor/readSingleFlight.mjs": {
+      "bytes": 1090,
+      "sha256": "5a8febcf46f63db4095290d7fbbe7256d69a9f1ddc0f80b8e8c0db6204fcbb79"
+    },
+    "case/source-before-v1/market-client/wallet/chainGuard.mjs": {
+      "bytes": 1676,
+      "sha256": "238ec8b026d751dd02a3c5c75ceff88ed9ae4c78c8eb72f9e7664a1f931a0fe4"
+    },
+    "case/source-before-v1/market-client/wallet/exactTransport.mjs": {
+      "bytes": 11612,
+      "sha256": "82074ab7d0729d12526f84e2f763c6680e20aadd8a12b9c090cc09b4f2bc990b"
+    },
+    "case/wallet-source-before-v1/SOURCE.json": {
+      "bytes": 3865,
+      "sha256": "d3062dd90c84a3ca02ec2a2004a42a47a0316d3ab8b1b262532cbc2b4f237545"
+    },
+    "case/wallet-source-before-v1/market-client/wallet/chainGuard.mjs": {
+      "bytes": 1676,
+      "sha256": "238ec8b026d751dd02a3c5c75ceff88ed9ae4c78c8eb72f9e7664a1f931a0fe4"
+    },
+    "case/wallet-source-before-v1/market-client/wallet/exactTransport.mjs": {
+      "bytes": 11612,
+      "sha256": "82074ab7d0729d12526f84e2f763c6680e20aadd8a12b9c090cc09b4f2bc990b"
+    },
+    "case/wallet-source-before-v1/src/background/market-preparation.test.ts": {
+      "bytes": 4876,
+      "sha256": "9e8dcd110fa56f2eb2f3f2082244553a29e8daf4f88e0a43a5cbff5adcf9f0e2"
+    },
+    "wallet/docs/security/TRANSPORT_CANDIDATE_20261031.md": {
+      "bytes": 4551,
+      "sha256": "3f3399f959e8c137d6c06724af21a4550a8a6b325b429bb7d7ad48cdb818d027"
+    },
+    "wallet/docs/security/WALLET_FORMAL_INTEGRATION_20261027.md": {
+      "bytes": 8561,
+      "sha256": "0f6893bd73df40c04999b832d606218faf3f068b1518ccda0c5f2e057c8cb427"
+    },
+    "wallet/src/background/market-preparation.test.ts": {
+      "bytes": 4848,
+      "sha256": "bb1e630cbb4d51e4a1ae58c303326c03f48b73c92b0237cb5f916a86061a6b44"
+    },
+    "wallet/src/market-native/transport-wire.test.ts": {
+      "bytes": 1168,
+      "sha256": "bcd69568752b497a482e4676361a11d5d8663bd35fa84aa871d30370fea65d0e"
+    },
+    "wallet/src/market-preparation/SOURCE.json": {
+      "bytes": 4145,
+      "sha256": "a3e8dd4125c634a2c7f6a0ace2eea653c42423d0405d13b317f7a59fc3c10d32"
+    },
+    "wallet/src/market-preparation/amm/u124/client.mjs": {
+      "bytes": 6822,
+      "sha256": "65e29a5a3c429113aeea737b35bce8bd5675946d17456ebe063b5e9738f899ec"
+    },
+    "wallet/src/market-preparation/market-client/ammPlan.mjs": {
+      "bytes": 20559,
+      "sha256": "40e0dbea770d0a8d38e2e96bab3358e9e61f44aca21c16b7718d4cd46294ec56"
+    },
+    "wallet/src/market-preparation/market-client/marketActionClient.mjs": {
+      "bytes": 3305,
+      "sha256": "87a5a197a6d3c0fa8124792dac9294540f8da156a774f99a96d9dc9238d9c955"
+    },
+    "wallet/src/market-preparation/market-client/marketPlan.mjs": {
+      "bytes": 19925,
+      "sha256": "6eb5c2fd87943947773d108e18a00caec2b8cdf06ca707cf6ca46f8cce9df967"
+    },
+    "wallet/src/market-preparation/market-client/nativeProtocol.mjs": {
+      "bytes": 3221,
+      "sha256": "f6621ef8d554cabfbdd6e8a14d8d714626523c28b60fcf23ef35913cd368ac46"
+    },
+    "wallet/src/market-preparation/market-client/positionSnapshot.mjs": {
+      "bytes": 7333,
+      "sha256": "05df85cdaee828669ac07489ce0d9849db1369de4c51eca4ee0944fc43e85d37"
+    },
+    "wallet/src/market-preparation/market-client/protocol.d.mts": {
+      "bytes": 108,
+      "sha256": "1925cb14a1e395b10a424c15e05b855b6a59627c61ccf029f7eb8f6e70a0aefb"
+    },
+    "wallet/src/market-preparation/market-client/protocol.mjs": {
+      "bytes": 1822,
+      "sha256": "90e7b9c260f1d372c1cbf1d89562f82ab74ec7d6fc3a45a0cabdbdd89ec18f20"
+    },
+    "wallet/src/market-preparation/market-client/rpcWire.d.mts": {
+      "bytes": 364,
+      "sha256": "4e4f6e6ea169319054147380134cbda36e30894f0f5e79be2fa912951bc60c70"
+    },
+    "wallet/src/market-preparation/market-client/rpcWire.mjs": {
+      "bytes": 2802,
+      "sha256": "32d196024d9d25be5bb29b7478527d51bdcc1f37ec9a1d52a8949733aad64f45"
+    },
+    "wallet/src/market-preparation/market-client/wallet/approvalPolicy.d.mts": {
+      "bytes": 710,
+      "sha256": "a83767b9ee6f672aa38f072f7258a125e8498a25202c0ce54d392810bcbd6567"
+    },
+    "wallet/src/market-preparation/market-client/wallet/approvalPolicy.mjs": {
+      "bytes": 5933,
+      "sha256": "a68155cf12668025fe9c739cf823a55bd15d26cd6e79564c7c9efd343015161a"
+    },
+    "wallet/src/market-preparation/market-client/wallet/capsule.mjs": {
+      "bytes": 8904,
+      "sha256": "c451b6273d27a33b72ce27672e91c48b87c9caa67aa80667a9dcb5f06d0f5818"
+    },
+    "wallet/src/market-preparation/market-client/wallet/chainGuard.mjs": {
+      "bytes": 1767,
+      "sha256": "aa0d0f96853375507f6f83a97586ca7ae2957d17478f2a9ad63d90a2cd9ea814"
+    },
+    "wallet/src/market-preparation/market-client/wallet/exactTransport.mjs": {
+      "bytes": 11707,
+      "sha256": "758eb0f15aa34e0e9b2006d97e4dd278a165cdc94f48482ec6cbaf9a0fe743a5"
+    },
+    "wallet/src/market-preparation/market-client/wallet/lockCoordinator.mjs": {
+      "bytes": 503,
+      "sha256": "6c2f1fe23d393f976b3952efa71143e26902023e66099fd4323fa0d88dde0618"
+    },
+    "wallet/src/market-preparation/market-client/wallet/native/ownedLoader.d.mts": {
+      "bytes": 869,
+      "sha256": "56e16a3186edeb1c05ba670ed389274e90cde3ca199f4ddb85243187f34267e7"
+    },
+    "wallet/src/market-preparation/market-client/wallet/native/ownedLoader.mjs": {
+      "bytes": 3495,
+      "sha256": "41cf1be196dcf0ad5b9de3f9992b1809869958c488bb6965918e3b97006da877"
+    },
+    "wallet/src/market-preparation/market-client/wallet/nativeBackend.mjs": {
+      "bytes": 4102,
+      "sha256": "0e6a26dd2c7cf89a7d94b453058e428f09d1fa296afb1eca75ced012548df7d1"
+    },
+    "wallet/src/market-preparation/market-client/wallet/prepareOnly.mjs": {
+      "bytes": 3128,
+      "sha256": "0d3f3820e8de989777ce43031f71af45af381f5bdf6710161a48f7b1b5b7134d"
+    },
+    "wallet/src/market-preparation/market-client/wallet/prepareService.d.mts": {
+      "bytes": 2347,
+      "sha256": "0746d6a42aaf99f979a14799496839aaf50568b47420ce072b0a6c81f764e7e5"
+    },
+    "wallet/src/market-preparation/market-client/wallet/prepareService.mjs": {
+      "bytes": 8151,
+      "sha256": "edea48cb4371b5a122d3c49e9925d042457183f49c6c6287715826296eadeea8"
+    },
+    "wallet/src/market-preparation/market-client/wallet/publicBundle.mjs": {
+      "bytes": 2167,
+      "sha256": "1ffde2356698732501b85f7abf92374b13ae1fd821685337f6f1ce300fce9299"
+    },
+    "wallet/src/market-preparation/market-client/wallet/staged.mjs": {
+      "bytes": 17654,
+      "sha256": "4f834891426bbfd576439bc3e5fa1d8c6d1c9a3ea5bdd9ec45abcc0646e90819"
+    },
+    "wallet/src/market-preparation/token/wide/arithmetic.d.mts": {
+      "bytes": 98,
+      "sha256": "e788c7d11a629d3c2f9acd6d505046e8a18710700583db99f9a235fa09e4aa80"
+    },
+    "wallet/src/market-preparation/token/wide/arithmetic.mjs": {
+      "bytes": 2826,
+      "sha256": "60a85bafc6619dffbd9fe70a56d269d8356f55068434e8e83e2d51d28fdccc94"
+    }
+  },
+  "readBackVerified": true,
+  "secretPatternScanPassed": true,
+  "omissions": "Full test payload logs retained locally with exact digests and public result projections. No node_modules, SDK binary/distribution, extension build payload, private key, recovery material, witness, financial request or newly generated proof.",
+  "newProofs": 0,
+  "financialOperations": 0,
+  "actualFills": 0,
+  "productionReady": false
+}

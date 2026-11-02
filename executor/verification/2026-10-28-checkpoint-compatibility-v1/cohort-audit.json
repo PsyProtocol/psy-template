@@ -1,0 +1,100 @@
+{
+  "schema": 1,
+  "freezeManifestSha256": "06d86a86775bef1f217e61a2192b525d657bc8de2d3687e5c28d93e7abfaec8f",
+  "sourcePinsVerifiedAfterBuild": true,
+  "sdkCommit": "c92880c8b6e2c8d392f19368bc8801a2584fd427",
+  "clientCommit": "b280d714a8f0930c61962c885374ea63ea63d274",
+  "backendCommit": "736572e9dd3ca93566471cf5a2a1cb67a13fe01d",
+  "toolchain": "nightly-2025-09-20",
+  "cargoMode": [
+    "release",
+    "locked",
+    "offline"
+  ],
+  "runtime": {
+    "PSY_NETWORK": "testnet",
+    "PSY_MARKET_TESTNET_PROFILE": "mainnet-beta-20261027-v1",
+    "PSY_CONFIG_PATH": "<frozen-sdk>/source/psy-sdk/psy-genesis/config.json",
+    "RAYON_NUM_THREADS": "2",
+    "CARGO_BUILD_JOBS": "2"
+  },
+  "locks": [
+    {
+      "cohort": "application",
+      "lockSha256": "d12d86f486408d3b88f496dde27e6494839511489a1202e778f09f0eca3c1183",
+      "resolvedBackendPackages": [
+        {
+          "name": "plonky2",
+          "source": "git+https://www.github.com/PsyProtocol/plonky2-hwa?rev=736572e9dd3ca93566471cf5a2a1cb67a13fe01d#736572e9dd3ca93566471cf5a2a1cb67a13fe01d"
+        },
+        {
+          "name": "plonky2_field",
+          "source": "git+https://www.github.com/PsyProtocol/plonky2-hwa?rev=736572e9dd3ca93566471cf5a2a1cb67a13fe01d#736572e9dd3ca93566471cf5a2a1cb67a13fe01d"
+        },
+        {
+          "name": "plonky2_maybe_rayon",
+          "source": "git+https://www.github.com/PsyProtocol/plonky2-hwa?rev=736572e9dd3ca93566471cf5a2a1cb67a13fe01d#736572e9dd3ca93566471cf5a2a1cb67a13fe01d"
+        },
+        {
+          "name": "plonky2_util",
+          "source": "git+https://www.github.com/PsyProtocol/plonky2-hwa?rev=736572e9dd3ca93566471cf5a2a1cb67a13fe01d#736572e9dd3ca93566471cf5a2a1cb67a13fe01d"
+        }
+      ]
+    },
+    {
+      "cohort": "sdk",
+      "lockSha256": "65720c23f462239a9b3fbd6cc1d522d6db9816970e3585931c7013577c828bd9",
+      "resolvedBackendPackages": [
+        {
+          "name": "plonky2",
+          "source": "git+https://www.github.com/PsyProtocol/plonky2-hwa?rev=736572e9dd3ca93566471cf5a2a1cb67a13fe01d#736572e9dd3ca93566471cf5a2a1cb67a13fe01d"
+        },
+        {
+          "name": "plonky2_field",
+          "source": "git+https://www.github.com/PsyProtocol/plonky2-hwa?rev=736572e9dd3ca93566471cf5a2a1cb67a13fe01d#736572e9dd3ca93566471cf5a2a1cb67a13fe01d"
+        },
+        {
+          "name": "plonky2_maybe_rayon",
+          "source": "git+https://www.github.com/PsyProtocol/plonky2-hwa?rev=736572e9dd3ca93566471cf5a2a1cb67a13fe01d#736572e9dd3ca93566471cf5a2a1cb67a13fe01d"
+        },
+        {
+          "name": "plonky2_util",
+          "source": "git+https://www.github.com/PsyProtocol/plonky2-hwa?rev=736572e9dd3ca93566471cf5a2a1cb67a13fe01d#736572e9dd3ca93566471cf5a2a1cb67a13fe01d"
+        }
+      ]
+    },
+    {
+      "cohort": "node",
+      "lockSha256": "65879947e5baa9da1aed0c7f0a0f45adb1524224ab6cfb1fc8721b6ee62eda99",
+      "resolvedBackendPackages": [
+        {
+          "name": "plonky2",
+          "source": "git+https://www.github.com/PsyProtocol/plonky2-hwa?rev=736572e9dd3ca93566471cf5a2a1cb67a13fe01d#736572e9dd3ca93566471cf5a2a1cb67a13fe01d"
+        },
+        {
+          "name": "plonky2_field",
+          "source": "git+https://www.github.com/PsyProtocol/plonky2-hwa?rev=736572e9dd3ca93566471cf5a2a1cb67a13fe01d#736572e9dd3ca93566471cf5a2a1cb67a13fe01d"
+        },
+        {
+          "name": "plonky2_maybe_rayon",
+          "source": "git+https://www.github.com/PsyProtocol/plonky2-hwa?rev=736572e9dd3ca93566471cf5a2a1cb67a13fe01d#736572e9dd3ca93566471cf5a2a1cb67a13fe01d"
+        },
+        {
+          "name": "plonky2_util",
+          "source": "git+https://www.github.com/PsyProtocol/plonky2-hwa?rev=736572e9dd3ca93566471cf5a2a1cb67a13fe01d#736572e9dd3ca93566471cf5a2a1cb67a13fe01d"
+        }
+      ]
+    }
+  ],
+  "sourceFiles": {
+    "psy_plonky2_circuits/src/generated/cached_circuit_library.rs": "81a4a3a3e1211e27ebbce5e86fffbb66b4a9e965197a63828b8392ddd18211d9",
+    "psy_plonky2_circuits/src/generated/cached_common_data.rs": "0a33b47a5a7235260d759ed2e34c29a33198b4e20794054fe452f17a0c03a8ac",
+    "psy_data/src/config/network_config.rs": "0a55fc2c1263a2aea83092c30ab4cc1ed87da6d90cf43fe21ec60f11618b54ce",
+    "psy_core/src/constants/chain_id.rs": "3dbaa2fe1720f7b1aff55498eb3b9c06532d01c5ba3c6f89669e63a5d9627e3b",
+    "psy_plonky2_circuits/src/circuit_library/core.rs": "51429490661120a90cabed4cbb70c8ea4eb5e0cb497d1fd1be129b8b582a86f6",
+    "psy_plonky2_circuits/src/zk_verifier.rs": "77e2b36abcaad6d2be542aaf612b0b1c37e59418039aa43b23b680a8d93138f4"
+  },
+  "binarySha256": "0ccc4d14f977aef04f2989dc1bb13e9a1f7227efd22d32b20f81ebd318059bfc",
+  "applicationSourceSha256": "7c4e569a163ddd50b6847f14c971aa22ac605e5b52b57b32379c20a8fc4ea696",
+  "noDependencyOrNodeChanges": true
+}

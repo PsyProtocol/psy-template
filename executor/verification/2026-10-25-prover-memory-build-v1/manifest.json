@@ -1,0 +1,667 @@
+{
+  "schema": 1,
+  "sourceDirectory": "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-market-recovery-20261023",
+  "machine": "gewenbo.local",
+  "host": "macOS-15.7.3-arm64-arm-64bit",
+  "scope": "public formal Executor run including failures; success requires exact included receipt",
+  "walletFilesIncluded": false,
+  "sealedBinariesIncluded": false,
+  "records": [
+    {
+      "source": "prover-memory-build-v1/BOUNDARIES-v1.json",
+      "file": "files/prover-memory-build-v1/BOUNDARIES-v1.json.gz",
+      "bytes": 478,
+      "sha256": "61c5fe0df6bd3b088d14a8c22c37f16ce6b809afa204ea1ff6ccbee60b89777d",
+      "gzipBytes": 358,
+      "gzipSha256": "feb177ae69eddc279f4d91b85a8f5e22020624eaf9f9b705dd573c14a3dacd1e"
+    },
+    {
+      "source": "prover-memory-build-v1/RELEASE.json",
+      "file": "files/prover-memory-build-v1/RELEASE.json.gz",
+      "bytes": 1172,
+      "sha256": "f9687cba1796185a712b9a325456b9ca673f470dfd8e599d306331002e088897",
+      "gzipBytes": 644,
+      "gzipSha256": "011e54f385e65270ea766b3f119a293bebb136e4bb923facf7379cdb6e35fb24"
+    },
+    {
+      "source": "prover-memory-build-v1/RESOLVED-BUILD-v1.json",
+      "file": "files/prover-memory-build-v1/RESOLVED-BUILD-v1.json.gz",
+      "bytes": 8503,
+      "sha256": "7fe6db525b8ac9c0311338c00a468141580eb424f6e51a3690723d009fe1059b",
+      "gzipBytes": 4083,
+      "gzipSha256": "b79b8ebed4405e91b79a74b094da269186883d05c144a7555cc7ea918ec3efbb"
+    },
+    {
+      "source": "prover-memory-build-v1/SOURCE.json",
+      "file": "files/prover-memory-build-v1/SOURCE.json.gz",
+      "bytes": 8484,
+      "sha256": "5f1386c78e4635280435ab2322c0fb6f78f7787a9f5709d631d490994aa5acbf",
+      "gzipBytes": 3575,
+      "gzipSha256": "5c3700fe0d75d36e44a86342a20f0aa272240a42d508e16cc1bb7fde8ebbb453"
+    },
+    {
+      "source": "prover-memory-build-v1/archive-lifecycle-tests-v1.log",
+      "file": "files/prover-memory-build-v1/archive-lifecycle-tests-v1.log.gz",
+      "bytes": 1103,
+      "sha256": "4d4bb728b85a1eb10d9b244a8d6c467bb52c1044f5392d44c9b776d549755463",
+      "gzipBytes": 482,
+      "gzipSha256": "af6eb0b9de4dd0c481bcdcc0bcc07b756a6379be08ffcf67802e2ec4d7e9f051"
+    },
+    {
+      "source": "prover-memory-build-v1/archive-lifecycle-tests-v2.log",
+      "file": "files/prover-memory-build-v1/archive-lifecycle-tests-v2.log.gz",
+      "bytes": 98,
+      "sha256": "40d4b09cb29a31c3453c5b3200de67e77c949254a5f480e8c3925d5436a49e54",
+      "gzipBytes": 51,
+      "gzipSha256": "3145321dd6fb0a0840a535d62dcc9f95d9179c2196e243ac6d9c129d5d997682"
+    },
+    {
+      "source": "prover-memory-build-v1/build-v1.log",
+      "file": "files/prover-memory-build-v1/build-v1.log.gz",
+      "bytes": 23857,
+      "sha256": "5246b21e280f524056414734d381759da540f87af6ba759e7457e647c047c9e3",
+      "gzipBytes": 4638,
+      "gzipSha256": "d6f54350c1e0535248b97a9fc7841a3fcf30a3f5d6f103b56fea8f3f28fd740e"
+    },
+    {
+      "source": "prover-memory-build-v1/native-resource-tests-v1.log",
+      "file": "files/prover-memory-build-v1/native-resource-tests-v1.log.gz",
+      "bytes": 23909,
+      "sha256": "f1aec85c95f314dd052654e70e2cad56f0701cabd7d5f6fa6390354afef91939",
+      "gzipBytes": 4753,
+      "gzipSha256": "ae3e0d25cc5ce4f61260c3d56f0e0c5e066d74c21a5d3012fb4747a978816681"
+    },
+    {
+      "source": "prover-memory-build-v1/psy-template/amm/u124/vm-tests/Cargo.lock",
+      "file": "files/prover-memory-build-v1/psy-template/amm/u124/vm-tests/Cargo.lock.gz",
+      "bytes": 211841,
+      "sha256": "4e895a309801d56e785f17eee5af04e50aee7785a3488e4aea1ae36fb2adb10c",
+      "gzipBytes": 49511,
+      "gzipSha256": "8cb0c94e2f2457d2f5adbd1a461343232247a84a377ab534f5281c674c431e4e"
+    },
+    {
+      "source": "prover-memory-build-v1/psy-template/amm/u124/vm-tests/Cargo.toml",
+      "file": "files/prover-memory-build-v1/psy-template/amm/u124/vm-tests/Cargo.toml.gz",
+      "bytes": 3459,
+      "sha256": "42cc779196a08d249d1a4ef4eb3a4d65ab94bbd4366b951193372a14bc729747",
+      "gzipBytes": 775,
+      "gzipSha256": "fd28df7a5b066226538803ac95628476f97a32d172a60ad73b7b98fa6e3f3719"
+    },
+    {
+      "source": "prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/batch_compact.rs",
+      "file": "files/prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/batch_compact.rs.gz",
+      "bytes": 5612,
+      "sha256": "c2755dc2285e225f522889075e8174937874aa65d96c7b2aaf13dcdcd49d5d6a",
+      "gzipBytes": 2029,
+      "gzipSha256": "dfd9bd0e32cc6189bc8b2453b20842204aded181312b47e9b861e8a6ecbe5ce1"
+    },
+    {
+      "source": "prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/batch_compile.rs",
+      "file": "files/prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/batch_compile.rs.gz",
+      "bytes": 2376,
+      "sha256": "4b9f1e23fb485d431cf25734e53b8da9a0326b011e251b9c03f63b4c27e35590",
+      "gzipBytes": 994,
+      "gzipSha256": "9fed1afbf0cea939bd8fe3ff39dc2061dd2229e21e068baaae9cac87c6dcdcc1"
+    },
+    {
+      "source": "prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/batch_policy.rs",
+      "file": "files/prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/batch_policy.rs.gz",
+      "bytes": 12224,
+      "sha256": "f5c56d7b93d4e615395395ec03467dc76443bff5f2bdb0850fe99dd820b79ec3",
+      "gzipBytes": 4249,
+      "gzipSha256": "cdea1b2a3d1b98701a964a1f438361b2b32e1c70aca8f0b9389a2d6cc631a4ec"
+    },
+    {
+      "source": "prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/bin/artifact_identity.rs",
+      "file": "files/prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/bin/artifact_identity.rs.gz",
+      "bytes": 1997,
+      "sha256": "3f61a6abd2aeaea3159bb455bae71a6fc147a7a3e7c62eb312da191fac99da29",
+      "gzipBytes": 992,
+      "gzipSha256": "ab67210411e6663c71b044c1f8d1422495e33c9e69d825367c2a3fef1bef1b9d"
+    },
+    {
+      "source": "prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/bin/artifact_roots.rs",
+      "file": "files/prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/bin/artifact_roots.rs.gz",
+      "bytes": 2810,
+      "sha256": "51727c43e7c53737126674eab33a0fd1740280d0326c4a79101a6f1b48cd8c4e",
+      "gzipBytes": 1290,
+      "gzipSha256": "538633143c56e14ac533c0d21ed5ddf91e2b282682e898fde59b5192598acda4"
+    },
+    {
+      "source": "prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/bin/compact_market_wallet.rs",
+      "file": "files/prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/bin/compact_market_wallet.rs.gz",
+      "bytes": 24841,
+      "sha256": "47b369e4df13d4c6d84a8245570276059685385eb8d30b5ee19cd90777f5bd95",
+      "gzipBytes": 7478,
+      "gzipSha256": "79590b4923672306cf1ec4ce515394da17b7da6358ef5d805d6c4e8c1369e12c"
+    },
+    {
+      "source": "prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/bin/compile_batch.rs",
+      "file": "files/prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/bin/compile_batch.rs.gz",
+      "bytes": 660,
+      "sha256": "8dd186aa3cdf427df4717341315bdd969c705a7a89e0bcb09292dc4daf2b359e",
+      "gzipBytes": 450,
+      "gzipSha256": "42c33d9d87552fc303bfe585b58dc63d30b1275ec1a16bcebb6b8273eb96a109"
+    },
+    {
+      "source": "prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/bin/compile_composition_token.rs",
+      "file": "files/prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/bin/compile_composition_token.rs.gz",
+      "bytes": 993,
+      "sha256": "a1b7178fbfcd9617dbc41e254a5e13b86609bb8e1990d0805f1a65162b7b5d8e",
+      "gzipBytes": 593,
+      "gzipSha256": "25823a558447e47f3f2d30d2fb533b4c9d21cfb259155e98457fd6ba127b0dc4"
+    },
+    {
+      "source": "prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/bin/compile_market.rs",
+      "file": "files/prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/bin/compile_market.rs.gz",
+      "bytes": 784,
+      "sha256": "06ee94ca89339f481cef68dd5543e9bd72cafbb3ab81123a902b521173b7b14a",
+      "gzipBytes": 459,
+      "gzipSha256": "4139ed6781d69421779c541a34d230dd4eb00c84fd8ee80cb2ae1e72840fca03"
+    },
+    {
+      "source": "prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/bin/compile_nft_market.rs",
+      "file": "files/prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/bin/compile_nft_market.rs.gz",
+      "bytes": 657,
+      "sha256": "68f1e5d47b8b9601fc1396a52c29700ed2dab867797b5798daeae55ebc7cca5c",
+      "gzipBytes": 410,
+      "gzipSha256": "6fde60270c6d199d052cb72b01290865aa666999fce017d863672af67d2a4498"
+    },
+    {
+      "source": "prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/bin/compile_qa_nft.rs",
+      "file": "files/prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/bin/compile_qa_nft.rs.gz",
+      "bytes": 750,
+      "sha256": "eaac6466178373d7bf2c3ea054668b74a49818b262900d3de6a30532b8904418",
+      "gzipBytes": 469,
+      "gzipSha256": "afd7b62a9e33b08cbeaa59be8d2732b196980498d9056c2c19bf82bfdda9f089"
+    },
+    {
+      "source": "prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/bin/composition_wallet.rs",
+      "file": "files/prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/bin/composition_wallet.rs.gz",
+      "bytes": 296,
+      "sha256": "49ba04aec2d2c643b28165a24693ab203c9807ea5a70cadbdbe75338ce44efe9",
+      "gzipBytes": 235,
+      "gzipSha256": "dee744ea7441125d8ea4ffe66985f279058995b0b30e05eec44b1a21402df766"
+    },
+    {
+      "source": "prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/bin/initial_request_identity.rs",
+      "file": "files/prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/bin/initial_request_identity.rs.gz",
+      "bytes": 1524,
+      "sha256": "f693ad032b33618c1a4e13bef2d3d81f652e3b495547f80edcaefc5e347a0665",
+      "gzipBytes": 824,
+      "gzipSha256": "bb6eb1939ec4500628742120acc3253d1ffd9fe021f7c1cfa062a449d61a3157"
+    },
+    {
+      "source": "prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/bin/isolated_wallet.rs",
+      "file": "files/prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/bin/isolated_wallet.rs.gz",
+      "bytes": 28405,
+      "sha256": "49b2b7056047d94ea0148c02bee1f090b85eb6ff128488e56cccd4662a2d8d75",
+      "gzipBytes": 8651,
+      "gzipSha256": "f2f907db9c42084a868aa0dcb3cf81cbd0c72e7940bbde2ad46d00be8ccac320"
+    },
+    {
+      "source": "prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/bin/market_wallet.rs",
+      "file": "files/prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/bin/market_wallet.rs.gz",
+      "bytes": 211,
+      "sha256": "b15300bd8f904cd84940567bd01caf7e330b4b31f326a471c01fca72d30c7c33",
+      "gzipBytes": 191,
+      "gzipSha256": "a4c6707f170184e67190feca2b75652a2c27984f621d9b5b311f92a0f7e25f29"
+    },
+    {
+      "source": "prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/bin/market_wallet_verified.rs",
+      "file": "files/prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/bin/market_wallet_verified.rs.gz",
+      "bytes": 211,
+      "sha256": "b15300bd8f904cd84940567bd01caf7e330b4b31f326a471c01fca72d30c7c33",
+      "gzipBytes": 191,
+      "gzipSha256": "a4c6707f170184e67190feca2b75652a2c27984f621d9b5b311f92a0f7e25f29"
+    },
+    {
+      "source": "prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/bin/nft_cfc_probe.rs",
+      "file": "files/prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/bin/nft_cfc_probe.rs.gz",
+      "bytes": 5130,
+      "sha256": "9846ee25032692bc7773ba28744dd073dbe971d70dce4a08afc2eb993542bfc1",
+      "gzipBytes": 2087,
+      "gzipSha256": "bb44a164de1f499f117efcf3bcd7f21dd27a94193336d71e1453d1879dedd710"
+    },
+    {
+      "source": "prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/bin/ordinary_call_probe.rs",
+      "file": "files/prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/bin/ordinary_call_probe.rs.gz",
+      "bytes": 3596,
+      "sha256": "e1e4a78f6fb1cf5e0e0f1ebbb446a48a6fddb8ad264d1b8e48b3dd5cbf7b7e46",
+      "gzipBytes": 1758,
+      "gzipSha256": "3cf86d4658205714d36b8db90dd5ab0013ba8b8e61846fa1d651766926ee0abd"
+    },
+    {
+      "source": "prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/bin/policy_identity.rs",
+      "file": "files/prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/bin/policy_identity.rs.gz",
+      "bytes": 1075,
+      "sha256": "075047dfee74ed10ffa374d634be864edf3fb7b7c676719b9d4c2c49463d081d",
+      "gzipBytes": 590,
+      "gzipSha256": "3822c8656f2860ce7250642bcb31ff39f4d5b7e99591a3768fe9c06a2d256257"
+    },
+    {
+      "source": "prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/bin/preflight_code_update.rs",
+      "file": "files/prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/bin/preflight_code_update.rs.gz",
+      "bytes": 5044,
+      "sha256": "8e2ccae6dfda44e44600610bbae398f6dcee6ccc63c3ce0f22ae5b12d2f65c82",
+      "gzipBytes": 1969,
+      "gzipSha256": "296744acb47341e4dac5110657a308bcc557423db09deb594714c691f305a809"
+    },
+    {
+      "source": "prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/bin/preflight_initial.rs",
+      "file": "files/prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/bin/preflight_initial.rs.gz",
+      "bytes": 5660,
+      "sha256": "b71b13d0c5facf4c6322c134957236f4f6320554dfd1ff9c509e184ffb6cd187",
+      "gzipBytes": 2074,
+      "gzipSha256": "47ccb80eb34209470aeeaf5767c5275a3c2dae4e87c36efcc22246aa823f7435"
+    },
+    {
+      "source": "prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/bin/preflight_nft_initial.rs",
+      "file": "files/prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/bin/preflight_nft_initial.rs.gz",
+      "bytes": 1305,
+      "sha256": "baa0ce0d8f92dbf141dc2af8eb4d4ab59e1e7c39d26979bc3563013d33fdb074",
+      "gzipBytes": 667,
+      "gzipSha256": "ce666d323a1f9ea0606c6146d53d938f590a23e64a11c2d247385cfd742b5769"
+    },
+    {
+      "source": "prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/bin/prepare_initial_request.rs",
+      "file": "files/prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/bin/prepare_initial_request.rs.gz",
+      "bytes": 1928,
+      "sha256": "ecd787b2396fd50e24743f30a7b794f4b963c5d638b04c2a83039347b03133c6",
+      "gzipBytes": 955,
+      "gzipSha256": "83ded365121f66f3d4758738379d08c5c6df76634153ee46c11e9759312c3919"
+    },
+    {
+      "source": "prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/bin/probe_endcap_profile.rs",
+      "file": "files/prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/bin/probe_endcap_profile.rs.gz",
+      "bytes": 2938,
+      "sha256": "6bc80eb7534c3f09ca85dafcfe36f2414088fdfc43ad95375b43bd63dde5e0f2",
+      "gzipBytes": 1310,
+      "gzipSha256": "5e3cfe9b7ddc31a803540ec0045aeb4a9b4e7d56517d6fb9b978f7d93982a276"
+    },
+    {
+      "source": "prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/bin/verify_deployment_checkpoint.rs",
+      "file": "files/prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/bin/verify_deployment_checkpoint.rs.gz",
+      "bytes": 5309,
+      "sha256": "2ce0cb499f86aee3226a0be1346359fdc66bf7633ae504ebd8be301688876ffe",
+      "gzipBytes": 1906,
+      "gzipSha256": "2b28279fc3103608d592e1ddd5d3cc078044c356bf211cf29c5f86d7bc9382d5"
+    },
+    {
+      "source": "prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/bin/verify_initial_request.rs",
+      "file": "files/prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/bin/verify_initial_request.rs.gz",
+      "bytes": 1363,
+      "sha256": "932078fcb2282c020d45797c2f1707d74c40863e777bb42d4eec7cf67067bb6d",
+      "gzipBytes": 712,
+      "gzipSha256": "07752203ec4c3a912a0afd633f5c23a797c4c13b102999499def9889423f0e0c"
+    },
+    {
+      "source": "prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/bin/verify_saved_ups.rs",
+      "file": "files/prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/bin/verify_saved_ups.rs.gz",
+      "bytes": 2214,
+      "sha256": "ceb5e5bfed3a04f1dc5eb701670189c2877137b3a219b5d6afe4ac7b6e4e2c5a",
+      "gzipBytes": 1066,
+      "gzipSha256": "c0a90c41050736dfee3d4c833143838b8bf973f795ebeae3c5abef9e54496b63"
+    },
+    {
+      "source": "prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/compact_benchmark.rs",
+      "file": "files/prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/compact_benchmark.rs.gz",
+      "bytes": 4356,
+      "sha256": "2f886f9b4f91810acbee5b567ecde5891f8dda1098e65a1c17e6037cb3c2689a",
+      "gzipBytes": 1906,
+      "gzipSha256": "49feeac686820d7e7bbb85eff47f9b4a79094b6af969c0f219dc0de6db5517b1"
+    },
+    {
+      "source": "prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/compact_prepared.rs",
+      "file": "files/prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/compact_prepared.rs.gz",
+      "bytes": 10427,
+      "sha256": "5768b87477e7806761cabc363086ab01301a355bb54eb9b72f56e024f2359b0e",
+      "gzipBytes": 3807,
+      "gzipSha256": "f528e3c13bfbab7e118a6f87586110a1becb2d2e51e098171289008e3bba8f56"
+    },
+    {
+      "source": "prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/composition_policy.rs",
+      "file": "files/prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/composition_policy.rs.gz",
+      "bytes": 1451,
+      "sha256": "04163e713b962ce7e4f679005e5b5b48a6aae7293e8b6f379790fb6b072ae202",
+      "gzipBytes": 721,
+      "gzipSha256": "e74932090f65344240805a15062e3f5edcbe4125f9db46c8cd865d60103e28a1"
+    },
+    {
+      "source": "prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/composition_quote.rs",
+      "file": "files/prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/composition_quote.rs.gz",
+      "bytes": 2101,
+      "sha256": "6ef071fef2d1bc4764c637e7d4cb9e0abc627409d4e5835425c108bb3773aa0e",
+      "gzipBytes": 1068,
+      "gzipSha256": "89f64b22c974d16606da4b7e0619bfe0ede8a8667fcf72e5c65fc4d64f01f9c9"
+    },
+    {
+      "source": "prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/guard_reads.rs",
+      "file": "files/prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/guard_reads.rs.gz",
+      "bytes": 3359,
+      "sha256": "9109a650da1fd352ef032890fcfc35662d8bc67e803e2d7c064ee781fb170b6b",
+      "gzipBytes": 1421,
+      "gzipSha256": "e43afc7e33bdc60fd1275a800c7a92f72c6f610ef1d76caecc3885507e0c294e"
+    },
+    {
+      "source": "prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/layout_preflight.rs",
+      "file": "files/prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/layout_preflight.rs.gz",
+      "bytes": 5515,
+      "sha256": "d338322657c060d022348f39e286ea2e2f35a3eaed264c5adbbe85f3df355468",
+      "gzipBytes": 1891,
+      "gzipSha256": "7948c2b64db35efc1fda1eb09bab82fbb83a536b518d636b02be681a0e493362"
+    },
+    {
+      "source": "prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/lib.rs",
+      "file": "files/prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/lib.rs.gz",
+      "bytes": 8837,
+      "sha256": "4e665b49ef350649bc1ec47dc34b301eaa848dd4734426a394c625933d92db1b",
+      "gzipBytes": 3307,
+      "gzipSha256": "6fdfb8e553cb49af06d4def43d2e96fc8c96cc10b8bb24be49d45fb8187e46a0"
+    },
+    {
+      "source": "prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/live_guard.rs",
+      "file": "files/prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/live_guard.rs.gz",
+      "bytes": 11012,
+      "sha256": "91251945e60960ce78d8719efe3f3770a1b05bcd54415501eae7e46a45d4a2f7",
+      "gzipBytes": 3174,
+      "gzipSha256": "33924c39ba50ecf430364c7986926a2cf4af5afd1a3135b613fa5fc617a43fa5"
+    },
+    {
+      "source": "prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/live_rpc.rs",
+      "file": "files/prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/live_rpc.rs.gz",
+      "bytes": 4665,
+      "sha256": "1ec46d780793d256516de26144594529f8aa13d75ad81cebe9ab7f2c3023b934",
+      "gzipBytes": 1863,
+      "gzipSha256": "c5adce6f753a953079dac4637989bf82f019e94467e71f572290f41662d92712"
+    },
+    {
+      "source": "prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/nft_market.rs",
+      "file": "files/prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/nft_market.rs.gz",
+      "bytes": 3003,
+      "sha256": "bdab2954ac2541798471cce9cd1c8bbabb71416b895d2c66a0f608611e2b2d02",
+      "gzipBytes": 1281,
+      "gzipSha256": "e455aa94e28ae1e8ed196c6ef97bbd158af06045900adf5e6d527cdfedbae14b"
+    },
+    {
+      "source": "prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/policy.rs",
+      "file": "files/prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/policy.rs.gz",
+      "bytes": 6998,
+      "sha256": "addc6046aa34b92b8fa2c9feda0ad287279094e37f8dcb26b1b70edb296fc850",
+      "gzipBytes": 2611,
+      "gzipSha256": "e618ba42019908439d66f5c3ec56d6ca950f7103b81d72b53751c5ac1a101b10"
+    },
+    {
+      "source": "prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/proof_binding.rs",
+      "file": "files/prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/proof_binding.rs.gz",
+      "bytes": 2999,
+      "sha256": "00bee74f137d4290cf8e55e82242ed18b669182237fbdd80e6ea95183d337ea0",
+      "gzipBytes": 986,
+      "gzipSha256": "b4b9e29271e349aa734b2b46c6be40cdd098b677e76a094f82ccf90564c3efa0"
+    },
+    {
+      "source": "prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/prover_resources.rs",
+      "file": "files/prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/prover_resources.rs.gz",
+      "bytes": 3276,
+      "sha256": "1732eca533c36b5f1019d05a8eefe8b47118634f1891003447507d60d805c343",
+      "gzipBytes": 1532,
+      "gzipSha256": "cc76a28255e8f6c957145eada43690e0d3c762a8ab13957f29b12790c4f00dd2"
+    },
+    {
+      "source": "prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/ranges.rs",
+      "file": "files/prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/ranges.rs.gz",
+      "bytes": 7497,
+      "sha256": "81f624f5600137eaff52716b78a268e6467c4dc34727b31fcc8c3e13c53b93c2",
+      "gzipBytes": 2421,
+      "gzipSha256": "5ece75412124f80942dec73f3d09f81b457d6802ec9aca8dd665281cbdee7541"
+    },
+    {
+      "source": "prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/runtime.rs",
+      "file": "files/prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/runtime.rs.gz",
+      "bytes": 2016,
+      "sha256": "88fa3ebd7703954dab154697af021957b5b060682cb68d8842088b4cd47d38c2",
+      "gzipBytes": 904,
+      "gzipSha256": "c8504cb9c4cd4d6e5dda565fbd1098d4076681e3f2efce26663c96fc79aa6c67"
+    },
+    {
+      "source": "prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/submission_guard.rs",
+      "file": "files/prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/submission_guard.rs.gz",
+      "bytes": 13302,
+      "sha256": "8a5715ae831a1c836129979afd9ec5c5670643cfe21d204a938729ac34c81984",
+      "gzipBytes": 3704,
+      "gzipSha256": "0c5010fc51dabd3d92b6d1ca4a6b5c2afeb10631076eed41aafc6b76a8059c49"
+    },
+    {
+      "source": "prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/wallet_driver.rs",
+      "file": "files/prover-memory-build-v1/psy-template/amm/u124/vm-tests/src/wallet_driver.rs.gz",
+      "bytes": 16931,
+      "sha256": "21877056485b6ba106a017433484bd4084831836ec78be4aaa03243442178f58",
+      "gzipBytes": 4940,
+      "gzipSha256": "409a8c8250496014d240745f17ba0ff9fa34721a7ef977ca015fa0fc79068304"
+    },
+    {
+      "source": "prover-memory-build-v1/psy-template/amm/u124/vm-tests/tests/arithmetic_proof.rs",
+      "file": "files/prover-memory-build-v1/psy-template/amm/u124/vm-tests/tests/arithmetic_proof.rs.gz",
+      "bytes": 2115,
+      "sha256": "36764188c4435480b1335f48260acee5315d2752bcd9996caaf93da39a7b2154",
+      "gzipBytes": 1093,
+      "gzipSha256": "0e319748d5a18914799744e6fbac2faa24a495c9ef6ac44b16935ee6a3648403"
+    },
+    {
+      "source": "prover-memory-build-v1/psy-template/amm/u124/vm-tests/tests/batch_compact.rs",
+      "file": "files/prover-memory-build-v1/psy-template/amm/u124/vm-tests/tests/batch_compact.rs.gz",
+      "bytes": 5296,
+      "sha256": "5cc3c3b61850d2fa21eda65066888e1bfa7902e281f4d1acb61b1c6dd6c5b689",
+      "gzipBytes": 2143,
+      "gzipSha256": "466a2d316e5948a9d9dd54b9025bb8e4c175f2a50d28cdf5e094587c4856afc7"
+    },
+    {
+      "source": "prover-memory-build-v1/psy-template/amm/u124/vm-tests/tests/batch_lifecycle.rs",
+      "file": "files/prover-memory-build-v1/psy-template/amm/u124/vm-tests/tests/batch_lifecycle.rs.gz",
+      "bytes": 30970,
+      "sha256": "91313dc35617a3c54e3b6330efdcb0db0c9887847a7da2b2e730c44b587a0747",
+      "gzipBytes": 8837,
+      "gzipSha256": "1bf7cf2566fba4ca303aeb6bacf83c182a89df81d36e709e3e8cf5083570b374"
+    },
+    {
+      "source": "prover-memory-build-v1/psy-template/amm/u124/vm-tests/tests/batch_preflight.rs",
+      "file": "files/prover-memory-build-v1/psy-template/amm/u124/vm-tests/tests/batch_preflight.rs.gz",
+      "bytes": 8852,
+      "sha256": "b7340a7bf6af409445177411c1dd0d11358cc85c1fc8985992f9eec211476867",
+      "gzipBytes": 2986,
+      "gzipSha256": "82f73ef96f9aaa14083673034693b3753fe8992384451b04f4c9a7c7934c7895"
+    },
+    {
+      "source": "prover-memory-build-v1/psy-template/amm/u124/vm-tests/tests/batch_sdkey.rs",
+      "file": "files/prover-memory-build-v1/psy-template/amm/u124/vm-tests/tests/batch_sdkey.rs.gz",
+      "bytes": 11254,
+      "sha256": "d347287d557bff1c73ab2663cf44dff274f69c095c7aeab4a4dc84adfe47db9a",
+      "gzipBytes": 3363,
+      "gzipSha256": "55d0b2e472e4f13be16009cfd76c29941c6136f0ef800ba037f293b40934bd0d"
+    },
+    {
+      "source": "prover-memory-build-v1/psy-template/amm/u124/vm-tests/tests/composition_funds.rs",
+      "file": "files/prover-memory-build-v1/psy-template/amm/u124/vm-tests/tests/composition_funds.rs.gz",
+      "bytes": 6414,
+      "sha256": "649f876d2fd3a487107f4260b17ad2f69f45ea62209c145097dd64875ac3a997",
+      "gzipBytes": 1835,
+      "gzipSha256": "3ef4b1cfad472eceeacb2d736d4cfa400182685092c11a3eb49e8eca8bdfc6be"
+    },
+    {
+      "source": "prover-memory-build-v1/psy-template/amm/u124/vm-tests/tests/composition_key.rs",
+      "file": "files/prover-memory-build-v1/psy-template/amm/u124/vm-tests/tests/composition_key.rs.gz",
+      "bytes": 5594,
+      "sha256": "bb006f85d1770339a0b8501fd2ea3e3a6e70ae4c4ad55db51bb53b33f7e9e1cf",
+      "gzipBytes": 2194,
+      "gzipSha256": "b9d4256814ef056bdd3b89f1cebdbb011312fd304f5bddf98019c5db6c16351a"
+    },
+    {
+      "source": "prover-memory-build-v1/psy-template/amm/u124/vm-tests/tests/composition_owner.rs",
+      "file": "files/prover-memory-build-v1/psy-template/amm/u124/vm-tests/tests/composition_owner.rs.gz",
+      "bytes": 1222,
+      "sha256": "b6f32053fcdb5ba100562fd1353c14e6bb0768b11173c015300bcf51a741873f",
+      "gzipBytes": 692,
+      "gzipSha256": "d646551b9253e28859291b2c1412231aebd3370334e707687940b2e33c25d0e6"
+    },
+    {
+      "source": "prover-memory-build-v1/psy-template/amm/u124/vm-tests/tests/composition_reservation.rs",
+      "file": "files/prover-memory-build-v1/psy-template/amm/u124/vm-tests/tests/composition_reservation.rs.gz",
+      "bytes": 4649,
+      "sha256": "25137b398d8fbed942d33b02145ca715510f5f97b726bbd1682fb7a9a49ee702",
+      "gzipBytes": 1788,
+      "gzipSha256": "07bb1f41d0138510d3407c8fc29cc5b7f357b2331b08e3fed26161919f19d7e0"
+    },
+    {
+      "source": "prover-memory-build-v1/psy-template/amm/u124/vm-tests/tests/full_close_circuits.rs",
+      "file": "files/prover-memory-build-v1/psy-template/amm/u124/vm-tests/tests/full_close_circuits.rs.gz",
+      "bytes": 1373,
+      "sha256": "52a5aa8e26c3aa683bbb3c4e382b979c75ffd04bc3516c4eaddbada5b42e59b8",
+      "gzipBytes": 739,
+      "gzipSha256": "bb7cad7dd6c8e5dc41b0e3cc2651c3c2fe718a16a0fdb9681cad7385ffed8c9b"
+    },
+    {
+      "source": "prover-memory-build-v1/psy-template/amm/u124/vm-tests/tests/live_verifier.rs",
+      "file": "files/prover-memory-build-v1/psy-template/amm/u124/vm-tests/tests/live_verifier.rs.gz",
+      "bytes": 3481,
+      "sha256": "56baa0cce348a43766b42a3f176bae4b3009932805e666d6e4eb667796a7e351",
+      "gzipBytes": 1515,
+      "gzipSha256": "51685e065913272b906cea1b5723ecc306f47508e69cc0b3ba534af4a6513450"
+    },
+    {
+      "source": "prover-memory-build-v1/psy-template/amm/u124/vm-tests/tests/markets.rs",
+      "file": "files/prover-memory-build-v1/psy-template/amm/u124/vm-tests/tests/markets.rs.gz",
+      "bytes": 19377,
+      "sha256": "24c910d8750cfb1700bcbb1c18fea5d9d7e4ac42273fb81b7efe8b19e016f685",
+      "gzipBytes": 5369,
+      "gzipSha256": "56dbea3d646e5b08537eee9ee0057169778971a3a9922d6d2e418a903aa68ec1"
+    },
+    {
+      "source": "prover-memory-build-v1/psy-template/amm/u124/vm-tests/tests/nft_layout.rs",
+      "file": "files/prover-memory-build-v1/psy-template/amm/u124/vm-tests/tests/nft_layout.rs.gz",
+      "bytes": 2251,
+      "sha256": "aa71f7fb5912f4256cc4efcfdc0a97e59b6b73350a2e3915c2305f9269c6479c",
+      "gzipBytes": 835,
+      "gzipSha256": "190f8a338789292ba60683702641c422e56430e2aead4c7bc302714d142521e2"
+    },
+    {
+      "source": "prover-memory-build-v1/psy-template/amm/u124/vm-tests/tests/nft_market.rs",
+      "file": "files/prover-memory-build-v1/psy-template/amm/u124/vm-tests/tests/nft_market.rs.gz",
+      "bytes": 16734,
+      "sha256": "af01045b3c7c1bc2fb0917ef8eb7a4346e03112d4858701a9d2ede174d7ae376",
+      "gzipBytes": 4878,
+      "gzipSha256": "a526311b0727e1719320c143d4e8fa5a006666c742391c50f52658eef9f606b5"
+    },
+    {
+      "source": "prover-memory-build-v1/psy-template/amm/u124/vm-tests/tests/nft_sdkey.rs",
+      "file": "files/prover-memory-build-v1/psy-template/amm/u124/vm-tests/tests/nft_sdkey.rs.gz",
+      "bytes": 7653,
+      "sha256": "7cfdb4394ae7a94a71b1b6a6f3d58b1eeffa20ada389098abd2722860dc9ad6b",
+      "gzipBytes": 2227,
+      "gzipSha256": "761cb7c3dff79e0ca58995f9059570a91dc9f87e40149b6000c2abc89063e946"
+    },
+    {
+      "source": "prover-memory-build-v1/psy-template/amm/u124/vm-tests/tests/production_dense.rs",
+      "file": "files/prover-memory-build-v1/psy-template/amm/u124/vm-tests/tests/production_dense.rs.gz",
+      "bytes": 11341,
+      "sha256": "817b576171572e0e7ce870451ae473f04a208079897ab9b3c912513048fe2c02",
+      "gzipBytes": 2681,
+      "gzipSha256": "74cdb04382cf65257c1d6b9910c8dd0dc0166546c10f89afff71ea32dd9750f8"
+    },
+    {
+      "source": "prover-memory-build-v1/psy-template/amm/u124/vm-tests/tests/runtime.rs",
+      "file": "files/prover-memory-build-v1/psy-template/amm/u124/vm-tests/tests/runtime.rs.gz",
+      "bytes": 2486,
+      "sha256": "2a342b63101b2f37813079e9ac6723fc62895600fa46e848eb6ee941492bb9b6",
+      "gzipBytes": 933,
+      "gzipSha256": "6874373edd8753cca1c356a51b7972440a5f085b312e54b09e18d17e30e693bf"
+    },
+    {
+      "source": "prover-memory-build-v1/psy-template/amm/u124/vm-tests/tests/sdkey_proof.rs",
+      "file": "files/prover-memory-build-v1/psy-template/amm/u124/vm-tests/tests/sdkey_proof.rs.gz",
+      "bytes": 10027,
+      "sha256": "456c5e073d22ada3a27f50bc024c246440ee85bb089222fdab39b0ccce533f45",
+      "gzipBytes": 2756,
+      "gzipSha256": "0be1452cd6e586dad9f8297ebe0a5b826a1d841792e059a0a0e0e319a4b2437b"
+    },
+    {
+      "source": "prover-memory-build-v1/psy-template/amm/u124/vm-tests/tests/support/batch_admission.rs",
+      "file": "files/prover-memory-build-v1/psy-template/amm/u124/vm-tests/tests/support/batch_admission.rs.gz",
+      "bytes": 11616,
+      "sha256": "325da445859f8da455b7d3ccfeb3e12bd921741603847fb398babcfca98d515e",
+      "gzipBytes": 3335,
+      "gzipSha256": "ab4f8430cc337035e7bb93dd95da6e2810b145eda69c52a553c2b7bb6604bee7"
+    },
+    {
+      "source": "prover-memory-build-v1/psy-template/amm/u124/vm-tests/tests/support/batch_full_ups.rs",
+      "file": "files/prover-memory-build-v1/psy-template/amm/u124/vm-tests/tests/support/batch_full_ups.rs.gz",
+      "bytes": 49853,
+      "sha256": "ffb60cf616a3a36a259e21a5c7bf1c2e92902a68d447b2cec0ee696036dafad1",
+      "gzipBytes": 14520,
+      "gzipSha256": "b2a45adc0bf3dc7035b1bccb4b84d2733ec32079d39f7b54d5835e32d0b06a9c"
+    },
+    {
+      "source": "prover-memory-build-v1/psy-template/amm/u124/vm-tests/tests/support/composition_full_ups.rs",
+      "file": "files/prover-memory-build-v1/psy-template/amm/u124/vm-tests/tests/support/composition_full_ups.rs.gz",
+      "bytes": 28589,
+      "sha256": "e091f3a1e54a7ecce532dedfe80b7bdd13c9faff998f84a4bd03415846941745",
+      "gzipBytes": 8953,
+      "gzipSha256": "9d403692b593f2bf99666286d2b38f6bf23ab3c7a29356a0f47045a0434546f9"
+    },
+    {
+      "source": "prover-memory-build-v1/psy-template/amm/u124/vm-tests/tests/support/composition_funds_world.rs",
+      "file": "files/prover-memory-build-v1/psy-template/amm/u124/vm-tests/tests/support/composition_funds_world.rs.gz",
+      "bytes": 5933,
+      "sha256": "2344b0462242df779c6641ab10b94dd2b7e7f5aa6fa621f7e80027d5cd6e70d0",
+      "gzipBytes": 2401,
+      "gzipSha256": "d9331c9b5c6c400dbb7bc25b56c2b3e6a07b9f0cd1aa66cc70cbef4cafe20396"
+    },
+    {
+      "source": "prover-memory-build-v1/psy-template/amm/u124/vm-tests/tests/support/composition_market_vm.rs",
+      "file": "files/prover-memory-build-v1/psy-template/amm/u124/vm-tests/tests/support/composition_market_vm.rs.gz",
+      "bytes": 5881,
+      "sha256": "f87a40f81a375b5665cfc23ebf93111c861028c26fbecd694033456a295cd687",
+      "gzipBytes": 2259,
+      "gzipSha256": "f0e6c348d3a4400254dffcce93048da049c4b96f1eaa1f67032c84cd9dcb6ace"
+    },
+    {
+      "source": "prover-memory-build-v1/psy-template/amm/u124/vm-tests/tests/support/composition_vm.rs",
+      "file": "files/prover-memory-build-v1/psy-template/amm/u124/vm-tests/tests/support/composition_vm.rs.gz",
+      "bytes": 5441,
+      "sha256": "79403f04aeed1b705d1c195a4ed5762f11f3d0e647b8be36f533a9424da9667a",
+      "gzipBytes": 1989,
+      "gzipSha256": "cd001a583dcbcdc035e186dab928275161b8a8d1ada4dcf59610b488b725704a"
+    },
+    {
+      "source": "prover-memory-build-v1/recovery-regressions-v1.log",
+      "file": "files/prover-memory-build-v1/recovery-regressions-v1.log.gz",
+      "bytes": 2147,
+      "sha256": "4ceedf3ab4bc2433104fe77b633980f7ba1bb296cfa0eb2eecfa84a2a3f1eb97",
+      "gzipBytes": 1067,
+      "gzipSha256": "28203e8ffd484e4f04036d0967b5b380cf2d444e83f226b2541cb88bf45d36c6"
+    },
+    {
+      "source": "prover-memory-build-v1/regressions-v1.log",
+      "file": "files/prover-memory-build-v1/regressions-v1.log.gz",
+      "bytes": 4874,
+      "sha256": "eceafac3e5c273bd2965a39f51fe421988ad43e40bbb5d9d611589b86bbdda98",
+      "gzipBytes": 2155,
+      "gzipSha256": "b34e399d29497369c8e531e1152bd43517c06bc6f15dbd802863818c17d31a59"
+    },
+    {
+      "source": "prover-memory-build-v1/regressions-v2.log",
+      "file": "files/prover-memory-build-v1/regressions-v2.log.gz",
+      "bytes": 5266,
+      "sha256": "8b8195e0bc3745cf9f488bdeabb8cafd365ce7ee88f5930ffb751a3e2489db28",
+      "gzipBytes": 2332,
+      "gzipSha256": "68f90690d75f7800a4092b4c85bba91b26810f640b97e6aa19cc6fe079dc5084"
+    },
+    {
+      "source": "prover-memory-build-v1/regressions-v3.log",
+      "file": "files/prover-memory-build-v1/regressions-v3.log.gz",
+      "bytes": 5378,
+      "sha256": "26dc0d022c9254712154ba32f1198a1d1a190f76fffaed8cde4536c05fe52887",
+      "gzipBytes": 2365,
+      "gzipSha256": "58481d6f5d8e75353921327aa8771f8287b62f5aa363c3301464ede80a9a6879"
+    }
+  ]
+}

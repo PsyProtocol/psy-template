@@ -1,6 +1,6 @@
 import test from'node:test';import assert from'node:assert/strict';import{validateNonceRetirement,validatePriorOversizedRetirement}from'./nonceRetirement.mjs';import{sha256}from'./requestBinding.mjs';
 import{parseLosslessJson,losslessJson}from'../amm/u124/client.mjs';
-import{readFileSync}from'node:fs';import{gunzipSync}from'node:zlib';
+import{readFileSync}from'node:fs';
 function fixture(){const start='1'.repeat(64),end='2'.repeat(64),key='3'.repeat(64),core={new_user_leaf:{user_id:1717440n,public_key:key,nonce:44n},state_transition:{start_user_leaf_hash:start},stats:{guta_fees_collected:1000000000n,da_fees_collected:1000n,user_ops_processed:1n,total_transactions:2n,slots_modified:1n},checkpoint_id:10n};const leaf=n=>n.toString(16).padStart(64,'0');return{input:{calls:{contract_calls:[{contract_id:2497n,method_name:'noop',inputs:[]}],software_defined_call:{inputs:[]}}},preflight:{core,fullUpsVerified:true,endUserLeafHash:end},request:{user_ec_input:{core,events:[],contract_state_updates:[{user_contract_tree_update_proof:{index:0n},updates:[{Positional:{delta_proof:{index:0n,old_value:leaf(3000000000n),new_value:leaf(1999999000n)}}}]}]}},review:{userId:1717440,publicKeyHash:key,originalNonce:44,start,candidateEnd:end,originalEnd:'4'.repeat(64)}};}
 test('retirement guard permits exactly one fee leaf and no market business mutation',()=>{const f=fixture();assert.equal(validateNonceRetirement(f).fee,1000001000n);});
 test('actual lossless JSON representation preserves prototype-independent financial validation',()=>{assert.equal(validateNonceRetirement(parseLosslessJson(losslessJson(fixture()))).fee,1000001000n);});
@@ -14,7 +14,8 @@ test('additional-delivery evidence accepts actual lossless status representation
  for(const change of [x=>x.priorResponseMeta.httpStatus=500n,x=>x.priorResponseMeta.automaticRetry=true,x=>x.priorResponseBody='timeout',x=>x.priorFence.nonce=45n,x=>x.priorFence.userId=17n,x=>x.priorRequestBytes=Buffer.from('different')]){const x={...actual,priorFence:{...actual.priorFence},priorResponseMeta:{...actual.priorResponseMeta}};change(x);assert.throws(()=>validatePriorOversizedRetirement(x));}
 });
 test('actual archived 413 status and newline response pass the lossless transport evidence gate',()=>{
- const prefix='./verification/2026-10-25-nonce-retirement-413-v1/files/fixed-verifier-performance-live-v2/nonce-retirement-candidate-v2/authorized-send-v1/';
- const read=name=>gunzipSync(readFileSync(new URL(prefix+name+'.gz',import.meta.url)));
+ const prefix='../tests/fixtures/oversized-transport/';
+ const expected={"rpc-response-meta.json":"a9af82088cbbd3ee770d7156d2d5aae16647f33afa0359309f43e73c23a8ec05","rpc-response.body":"44da9232aed68278d782bf7d7a2b2ae7bf9cfad6b7401cc83b01211f306cfa80"};
+ const read=name=>{const bytes=readFileSync(new URL(prefix+name,import.meta.url));assert.equal(sha256(bytes),expected[name]);return bytes;};
  const raw=Buffer.from('non-executable test request');assert.equal(validatePriorOversizedRetirement({priorFence:{userId:1717440n,nonce:44n,requestSha256:sha256(raw)},priorRequestBytes:raw,priorResponseMeta:parseLosslessJson(read('rpc-response-meta.json').toString()),priorResponseBody:read('rpc-response.body'),userId:1717440n,nonce:44n}).priorOutcomeRetired,false);
 });

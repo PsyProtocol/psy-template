@@ -17,6 +17,10 @@ jobs:
         run: python3 scripts/check_language.py
       - name: Test language gate failure cases
         run: python3 scripts/check_language.test.py
+      - name: Check tracked payload and archive budgets
+        run: python3 scripts/check_repository_size.py
+      - name: Test repository budget failure cases
+        run: python3 scripts/check_repository_size.test.py
 
   applications:
     name: Exchange, NFT market and executor regressions

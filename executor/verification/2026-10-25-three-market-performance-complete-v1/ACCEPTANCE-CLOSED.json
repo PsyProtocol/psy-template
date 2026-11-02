@@ -1,0 +1,61 @@
+{
+  "schema": 1,
+  "at": "2026-10-24T18:15:47.490344+00:00",
+  "financialCompleteSha256": "0cb0cbc99f4fe26b384da52acc8a0f9ccbec9363bab275721e0092349b0b2cd7",
+  "independentAudit": {
+    "path": "/Users/geir/Downloads/QED资料/litepaper/psy-market-recovery-20261023/three-markets-performance-live-v1/independent-verification-v2/SUMMARY.json",
+    "sha256": "d2f75eb28c6fb7d168ca19722e2a705267d6a646a3c288d3c86df2407fb31993",
+    "sourceManifestSha256": "995076dbef65a6c1c6a89d8cb0c773a07d73f6fdb78658c99181b8c377170b38"
+  },
+  "performance": {
+    "path": "/Users/geir/Downloads/QED资料/litepaper/psy-market-recovery-20261023/three-markets-performance-live-v1/public/PERFORMANCE-v3.json",
+    "sha256": "0579218a8e997c9762b607b1b7bb0a5917203814949ed6d70e70e26d8b3526aa",
+    "sourceManifestSha256": "64f7fa36178c422dc46b2fa083261153b1d52ebd069c59fd7001eb3742cb707b",
+    "numericallyReproducedFromV2": true
+  },
+  "readAbbaSha256": "4612cd0cb98583ae64829df6b1fb72ce404ff9a55087b7b3b703faaa8918979c",
+  "dependenciesSha256": "ebadf2d553c59e9b73a5e56427206db6f930a605901ed90a23f42d9cd7d13693",
+  "fills": 3,
+  "acceptedMembers": 5,
+  "ordinaryWalletClaimsIncluded": true,
+  "claimCheckpoint": 376332,
+  "actualUpsReceipts": 48,
+  "distinctFullUpsVerified": 51,
+  "ftTotalsAtomic": {
+    "2483": "1000000000000000000000",
+    "2484": "1000000000000000000000"
+  },
+  "allKnownOwnerAndVaultDeltasVerified": true,
+  "newMarketTraderFtOutboxesClaimed": true,
+  "nftUniqueBuyer": 406720,
+  "nftIdentityAndMetadataVerified": true,
+  "measuredFeeAtomicUnits": "38000412000",
+  "allCaseFeeAtomicUnits": "48000489000",
+  "nativeCohortFeeConserved": true,
+  "durableRestart": {
+    "source": "/Users/geir/Downloads/QED资料/litepaper/psy-market-recovery-20261023/three-markets-performance-live-v1/public/NFT-DURABLE-RESTART-ADOPTED-v1.json",
+    "requestSha256": "d4b4b9eaa17dcd175c6b990233015cbc9bd2cb2133a17d52bbdfc1779695cf5a",
+    "contentHash": "3b466c1ece65a1370e285648d7aa29411ee58765187bec94637167f294496e58",
+    "onePersistedProof": true,
+    "oneJournalProved": true,
+    "oneBroadcastIntent": true,
+    "oneActualReceipt": true,
+    "freshNativeRecheck": true,
+    "scope": "actual local process restart fault injection before proved journal/broadcast, exact native proof reused; not cross-machine coordination"
+  },
+  "consumedProofRejection": {
+    "source": "/Users/geir/Downloads/QED资料/litepaper/psy-market-recovery-20261023/three-markets-performance-live-v1/stale-nft-commit-live-v1/REJECTED.json",
+    "requestSha256": "d4b4b9eaa17dcd175c6b990233015cbc9bd2cb2133a17d52bbdfc1779695cf5a",
+    "consumedNonce": 8,
+    "nativeRejectedBeforeExpiry": true,
+    "broadcast": false
+  },
+  "fullProofAccountingPending": false,
+  "nodeChanged": false,
+  "sdkMigration": false,
+  "deterministic": true,
+  "chainTps": null,
+  "matchedNetworkSpeedup": null,
+  "productionReady": false,
+  "scope": "additive closure after independent proof/receipt/asset/fee audit; original COMPLETE pending-accounting flag is retained as historical execution evidence, superseded by this closure, never overwritten"
+}

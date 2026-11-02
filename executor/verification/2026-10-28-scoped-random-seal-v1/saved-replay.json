@@ -1,0 +1,405 @@
+{
+  "schema": 2,
+  "scope": "saved conditional component verification and rejections; not source/finality/market acceptance",
+  "acceptedSavedComponents": 2,
+  "rejectedCases": 64,
+  "runs": [
+    {
+      "name": "amm",
+      "exitCode": 0,
+      "acceptedComponent": true
+    },
+    {
+      "name": "curve",
+      "exitCode": 0,
+      "acceptedComponent": true
+    },
+    {
+      "name": "scope-0",
+      "exitCode": 1,
+      "acceptedComponent": false,
+      "stage": "input"
+    },
+    {
+      "name": "scope-1",
+      "exitCode": 1,
+      "acceptedComponent": false,
+      "stage": "public-inputs"
+    },
+    {
+      "name": "scope-2",
+      "exitCode": 1,
+      "acceptedComponent": false,
+      "stage": "public-inputs"
+    },
+    {
+      "name": "scope-3",
+      "exitCode": 1,
+      "acceptedComponent": false,
+      "stage": "public-inputs"
+    },
+    {
+      "name": "scope-4",
+      "exitCode": 1,
+      "acceptedComponent": false,
+      "stage": "public-inputs"
+    },
+    {
+      "name": "scope-5",
+      "exitCode": 1,
+      "acceptedComponent": false,
+      "stage": "public-inputs"
+    },
+    {
+      "name": "scope-6",
+      "exitCode": 1,
+      "acceptedComponent": false,
+      "stage": "public-inputs"
+    },
+    {
+      "name": "scope-7",
+      "exitCode": 1,
+      "acceptedComponent": false,
+      "stage": "public-inputs"
+    },
+    {
+      "name": "scope-8",
+      "exitCode": 1,
+      "acceptedComponent": false,
+      "stage": "public-inputs"
+    },
+    {
+      "name": "scope-9",
+      "exitCode": 1,
+      "acceptedComponent": false,
+      "stage": "public-inputs"
+    },
+    {
+      "name": "scope-10",
+      "exitCode": 1,
+      "acceptedComponent": false,
+      "stage": "public-inputs"
+    },
+    {
+      "name": "scope-11",
+      "exitCode": 1,
+      "acceptedComponent": false,
+      "stage": "public-inputs"
+    },
+    {
+      "name": "scope-12",
+      "exitCode": 1,
+      "acceptedComponent": false,
+      "stage": "public-inputs"
+    },
+    {
+      "name": "scope-13",
+      "exitCode": 1,
+      "acceptedComponent": false,
+      "stage": "public-inputs"
+    },
+    {
+      "name": "scope-14",
+      "exitCode": 1,
+      "acceptedComponent": false,
+      "stage": "public-inputs"
+    },
+    {
+      "name": "scope-15",
+      "exitCode": 1,
+      "acceptedComponent": false,
+      "stage": "public-inputs"
+    },
+    {
+      "name": "scope-16",
+      "exitCode": 1,
+      "acceptedComponent": false,
+      "stage": "public-inputs"
+    },
+    {
+      "name": "scope-17",
+      "exitCode": 1,
+      "acceptedComponent": false,
+      "stage": "public-inputs"
+    },
+    {
+      "name": "scope-18",
+      "exitCode": 1,
+      "acceptedComponent": false,
+      "stage": "public-inputs"
+    },
+    {
+      "name": "scope-19",
+      "exitCode": 1,
+      "acceptedComponent": false,
+      "stage": "public-inputs"
+    },
+    {
+      "name": "scope-20",
+      "exitCode": 1,
+      "acceptedComponent": false,
+      "stage": "public-inputs"
+    },
+    {
+      "name": "scope-21",
+      "exitCode": 1,
+      "acceptedComponent": false,
+      "stage": "public-inputs"
+    },
+    {
+      "name": "scope-22",
+      "exitCode": 1,
+      "acceptedComponent": false,
+      "stage": "public-inputs"
+    },
+    {
+      "name": "scope-23",
+      "exitCode": 1,
+      "acceptedComponent": false,
+      "stage": "public-inputs"
+    },
+    {
+      "name": "scope-24",
+      "exitCode": 1,
+      "acceptedComponent": false,
+      "stage": "public-inputs"
+    },
+    {
+      "name": "scope-25",
+      "exitCode": 1,
+      "acceptedComponent": false,
+      "stage": "public-inputs"
+    },
+    {
+      "name": "scope-26",
+      "exitCode": 1,
+      "acceptedComponent": false,
+      "stage": "public-inputs"
+    },
+    {
+      "name": "scope-27",
+      "exitCode": 1,
+      "acceptedComponent": false,
+      "stage": "public-inputs"
+    },
+    {
+      "name": "scope-28",
+      "exitCode": 1,
+      "acceptedComponent": false,
+      "stage": "public-inputs"
+    },
+    {
+      "name": "scope-29",
+      "exitCode": 1,
+      "acceptedComponent": false,
+      "stage": "public-inputs"
+    },
+    {
+      "name": "scope-30",
+      "exitCode": 1,
+      "acceptedComponent": false,
+      "stage": "public-inputs"
+    },
+    {
+      "name": "scope-31",
+      "exitCode": 1,
+      "acceptedComponent": false,
+      "stage": "public-inputs"
+    },
+    {
+      "name": "scope-32",
+      "exitCode": 1,
+      "acceptedComponent": false,
+      "stage": "public-inputs"
+    },
+    {
+      "name": "scope-33",
+      "exitCode": 1,
+      "acceptedComponent": false,
+      "stage": "public-inputs"
+    },
+    {
+      "name": "scope-34",
+      "exitCode": 1,
+      "acceptedComponent": false,
+      "stage": "public-inputs"
+    },
+    {
+      "name": "scope-35",
+      "exitCode": 1,
+      "acceptedComponent": false,
+      "stage": "public-inputs"
+    },
+    {
+      "name": "base-1",
+      "exitCode": 1,
+      "acceptedComponent": false,
+      "stage": "input"
+    },
+    {
+      "name": "base-3",
+      "exitCode": 1,
+      "acceptedComponent": false,
+      "stage": "public-inputs"
+    },
+    {
+      "name": "base-4",
+      "exitCode": 1,
+      "acceptedComponent": false,
+      "stage": "public-inputs"
+    },
+    {
+      "name": "base-5",
+      "exitCode": 1,
+      "acceptedComponent": false,
+      "stage": "public-inputs"
+    },
+    {
+      "name": "base-6",
+      "exitCode": 1,
+      "acceptedComponent": false,
+      "stage": "public-inputs"
+    },
+    {
+      "name": "base-7",
+      "exitCode": 1,
+      "acceptedComponent": false,
+      "stage": "public-inputs"
+    },
+    {
+      "name": "base-8",
+      "exitCode": 1,
+      "acceptedComponent": false,
+      "stage": "public-inputs"
+    },
+    {
+      "name": "base-9",
+      "exitCode": 1,
+      "acceptedComponent": false,
+      "stage": "public-inputs"
+    },
+    {
+      "name": "base-10",
+      "exitCode": 1,
+      "acceptedComponent": false,
+      "stage": "public-inputs"
+    },
+    {
+      "name": "base-11",
+      "exitCode": 1,
+      "acceptedComponent": false,
+      "stage": "public-inputs"
+    },
+    {
+      "name": "base-12",
+      "exitCode": 1,
+      "acceptedComponent": false,
+      "stage": "public-inputs"
+    },
+    {
+      "name": "base-14",
+      "exitCode": 1,
+      "acceptedComponent": false,
+      "stage": "public-inputs"
+    },
+    {
+      "name": "base-18",
+      "exitCode": 1,
+      "acceptedComponent": false,
+      "stage": "public-inputs"
+    },
+    {
+      "name": "base-22",
+      "exitCode": 1,
+      "acceptedComponent": false,
+      "stage": "public-inputs"
+    },
+    {
+      "name": "base-26",
+      "exitCode": 1,
+      "acceptedComponent": false,
+      "stage": "public-inputs"
+    },
+    {
+      "name": "base-30",
+      "exitCode": 1,
+      "acceptedComponent": false,
+      "stage": "public-inputs"
+    },
+    {
+      "name": "base-34",
+      "exitCode": 1,
+      "acceptedComponent": false,
+      "stage": "public-inputs"
+    },
+    {
+      "name": "base-38",
+      "exitCode": 1,
+      "acceptedComponent": false,
+      "stage": "public-inputs"
+    },
+    {
+      "name": "base-42",
+      "exitCode": 1,
+      "acceptedComponent": false,
+      "stage": "public-inputs"
+    },
+    {
+      "name": "base-46",
+      "exitCode": 1,
+      "acceptedComponent": false,
+      "stage": "public-inputs"
+    },
+    {
+      "name": "base-50",
+      "exitCode": 1,
+      "acceptedComponent": false,
+      "stage": "input"
+    },
+    {
+      "name": "base-51",
+      "exitCode": 1,
+      "acceptedComponent": false,
+      "stage": "public-inputs"
+    },
+    {
+      "name": "base-52",
+      "exitCode": 1,
+      "acceptedComponent": false,
+      "stage": "public-inputs"
+    },
+    {
+      "name": "seed",
+      "exitCode": 1,
+      "acceptedComponent": false,
+      "stage": "public-inputs"
+    },
+    {
+      "name": "checkpoint",
+      "exitCode": 1,
+      "acceptedComponent": false,
+      "stage": "public-inputs"
+    },
+    {
+      "name": "layout",
+      "exitCode": 1,
+      "acceptedComponent": false,
+      "stage": "proof"
+    },
+    {
+      "name": "trailing-proof",
+      "exitCode": 1,
+      "acceptedComponent": false,
+      "stage": "input"
+    },
+    {
+      "name": "corrupt-proof",
+      "exitCode": 1,
+      "acceptedComponent": false,
+      "stage": "proof"
+    }
+  ],
+  "financialOperations": 0,
+  "proofsGenerated": 0,
+  "randomAuthorization": false
+}

@@ -1,0 +1,275 @@
+{
+  "schema": 1,
+  "sourceDirectory": "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-market-recovery-20261023/market-mainnet-migration-20261027-v1/isolated-live-v1",
+  "machine": "gewenbo.local",
+  "host": "macOS-15.7.3-arm64-arm-64bit",
+  "scope": "public formal Executor run including failures; success requires exact included receipt",
+  "walletFilesIncluded": false,
+  "sealedBinariesIncluded": false,
+  "records": [
+    {
+      "source": "attempts/deploy-amm-v1/before.json",
+      "file": "files/attempts/deploy-amm-v1/before.json.gz",
+      "bytes": 224,
+      "sha256": "92cfd200034f2d58e380d60472fb159e1778ac605cde99fd1755ada6fc8896a2",
+      "gzipBytes": 144,
+      "gzipSha256": "35686478d601b39ed764516b710d8c568ea2fdd11302c3f89330aa08fc6f4527"
+    },
+    {
+      "source": "attempts/deploy-amm-v1/included.json",
+      "file": "files/attempts/deploy-amm-v1/included.json.gz",
+      "bytes": 1646,
+      "sha256": "8ba97dd3a96e314abb27b5540e74ebf27144f0a7c46cf122ec9fc21d95f67519",
+      "gzipBytes": 784,
+      "gzipSha256": "60b1637e62b7f4aba9d6fbb3e624376baed5bab4a5198dfcc93ca2d300d5eefb"
+    },
+    {
+      "source": "attempts/deploy-amm-v1/intent.json",
+      "file": "files/attempts/deploy-amm-v1/intent.json.gz",
+      "bytes": 208,
+      "sha256": "77c403315222136668e9a2928b601ce5bf372b8c555a6e7351a0b4c0976bdd6a",
+      "gzipBytes": 175,
+      "gzipSha256": "3501823ee67ab23d41ea04e9cee13c8c674402d742817e1182a16f923ec1a62b"
+    },
+    {
+      "source": "attempts/deploy-amm-v1/metrics.json",
+      "file": "files/attempts/deploy-amm-v1/metrics.json.gz",
+      "bytes": 732,
+      "sha256": "319a7f611d14ddd012a3231e62984b8fd55f77bb42b06818a5aa19b402a086dd",
+      "gzipBytes": 380,
+      "gzipSha256": "c72f3c65119ac4c366e8c18c4606c94725eb9e7ccd36ad08cefb31cf143e8642"
+    },
+    {
+      "source": "attempts/deploy-amm-v1/preflight.json",
+      "file": "files/attempts/deploy-amm-v1/preflight.json.gz",
+      "bytes": 645,
+      "sha256": "80229aae4592336cc2871a2e57df1d01d25f3a4acb441687f028d01f2b173b9c",
+      "gzipBytes": 403,
+      "gzipSha256": "befa7657a8c895a8d3c052353ece265651cf72d34a119e20fa9cdd935e26758a"
+    },
+    {
+      "source": "attempts/deploy-amm-v1/receipt.json",
+      "file": "files/attempts/deploy-amm-v1/receipt.json.gz",
+      "bytes": 84,
+      "sha256": "2f4870233a108cd8040bc6c678f49b253beed15f7b482f3788be8bd798351626",
+      "gzipBytes": 94,
+      "gzipSha256": "46de809fe929308bf029e790b4e3ace9bc4e54527291cc85dbcac3ebeaf10a60"
+    },
+    {
+      "source": "attempts/deploy-amm-v1/request.json",
+      "file": "files/attempts/deploy-amm-v1/request.json.gz",
+      "bytes": 357890512,
+      "sha256": "7a61d943dadc7b54157a2a8f4eb3ee984902203eb735cf82e68ce1380f45003a",
+      "gzipBytes": 5159513,
+      "gzipSha256": "edb8dce1fd94dab012ba02f41422eb7db00d46bfcbcc594b8673117b3526d956"
+    },
+    {
+      "source": "attempts/register-amm-vault-v1/included.json",
+      "file": "files/attempts/register-amm-vault-v1/included.json.gz",
+      "bytes": 2957,
+      "sha256": "429f4a566380a5482a07922b243d7cc674dd3359332df3ec2fe429f2c3c56a5f",
+      "gzipBytes": 1129,
+      "gzipSha256": "176401e66c956e02b01194be1dfe74a98a6fc3c931592b12a08f0d0050a3d2f8"
+    },
+    {
+      "source": "attempts/register-amm-vault-v1/intent.json",
+      "file": "files/attempts/register-amm-vault-v1/intent.json.gz",
+      "bytes": 317,
+      "sha256": "f8a2f93dedc659b112a83e10fc8522b9c6273386800922f2269c7d2009d9a9a9",
+      "gzipBytes": 241,
+      "gzipSha256": "218adc05043aa35905259718253a09d316984d84721fe3fd5339a9506885cccd"
+    },
+    {
+      "source": "attempts/register-amm-vault-v1/receipt.json",
+      "file": "files/attempts/register-amm-vault-v1/receipt.json.gz",
+      "bytes": 151,
+      "sha256": "30212830083da30098e21073f09f28fd0b4297681e54e3ee2252944905b010ac",
+      "gzipBytes": 143,
+      "gzipSha256": "e49f59cf27c8df2466814804c08b8b01e2d1390b8630896635ac4beb63911bec"
+    },
+    {
+      "source": "attempts/register-amm-vault-v1/request.json",
+      "file": "files/attempts/register-amm-vault-v1/request.json.gz",
+      "bytes": 204,
+      "sha256": "c3c3184408853200de75eb7d5d46a0410dac658b00475e4ef861eb5a1fe2076f",
+      "gzipBytes": 172,
+      "gzipSha256": "fa6af89f651b12b193069873a1f6103e9edc976bc5b72facf5e79df97484891a"
+    },
+    {
+      "source": "markets-v1/amm/BUILD.json",
+      "file": "files/markets-v1/amm/BUILD.json.gz",
+      "bytes": 1047,
+      "sha256": "d8498292a08246371f74ac3e5b78cc77033caf6d5dba9ca8f0a101ab3c9319bf",
+      "gzipBytes": 623,
+      "gzipSha256": "4bfad0d018d739aa66802d928f0313bea9abd914b2d88ab7cd9a62c6ce1a598f"
+    },
+    {
+      "source": "markets-v1/amm/bound/BOUND.json",
+      "file": "files/markets-v1/amm/bound/BOUND.json.gz",
+      "bytes": 321,
+      "sha256": "3b182b9caeaa3149f87d16822e3cb8874c1f914cc8f7112ccb05e30ff1bb2b71",
+      "gzipBytes": 232,
+      "gzipSha256": "e24663980815a7c48f1de3c3d5d6bae5b654cf3a8e8c0751f8a2fa801f64e2b3"
+    },
+    {
+      "source": "markets-v1/amm/bound/policy.json",
+      "file": "files/markets-v1/amm/bound/policy.json.gz",
+      "bytes": 122111,
+      "sha256": "a8c2a63d69fd60d3350793876ac6f8e70e4b88dd72f42457e3e33c26af7e2636",
+      "gzipBytes": 2815,
+      "gzipSha256": "ad8436ce99d293b2b1b77825d8883d694a9843021e7abe4a1e83e2ddbd2bb83e"
+    },
+    {
+      "source": "markets-v1/amm/compile.log",
+      "file": "files/markets-v1/amm/compile.log.gz",
+      "bytes": 26,
+      "sha256": "3901f8e4044668d8035c5d62671fcedee683e5bbb73659937ee77d6419f285cf",
+      "gzipBytes": 46,
+      "gzipSha256": "7f4173c6f365eab01170c9c405a2eab7747e57531879eeb73d560efd0bbf33e2"
+    },
+    {
+      "source": "markets-v1/amm/compiled/compilation_artifact.json",
+      "file": "files/markets-v1/amm/compiled/compilation_artifact.json.gz",
+      "bytes": 27050611,
+      "sha256": "2827a1cd83a748e8ddd526135b41f64caf67e2e62c35d2310932ea5741f82af0",
+      "gzipBytes": 2962961,
+      "gzipSha256": "086334ce974416e69650099b6acc747347b67cd79a2782d1e4cf1f248922938d"
+    },
+    {
+      "source": "markets-v1/amm/config.json",
+      "file": "files/markets-v1/amm/config.json.gz",
+      "bytes": 303,
+      "sha256": "a8753510551291ef5e556960e9ec6bb91112cdb0c2d1ea19052bb9af67124623",
+      "gzipBytes": 176,
+      "gzipSha256": "60bcfadbb928ea25998a446be8e400042c5d49ba65e7756319c9aa1f88cbd0d2"
+    },
+    {
+      "source": "markets-v1/amm/live-registration.json",
+      "file": "files/markets-v1/amm/live-registration.json.gz",
+      "bytes": 2957,
+      "sha256": "429f4a566380a5482a07922b243d7cc674dd3359332df3ec2fe429f2c3c56a5f",
+      "gzipBytes": 1129,
+      "gzipSha256": "176401e66c956e02b01194be1dfe74a98a6fc3c931592b12a08f0d0050a3d2f8"
+    },
+    {
+      "source": "markets-v1/amm/main.psy.rs",
+      "file": "files/markets-v1/amm/main.psy.rs.gz",
+      "bytes": 6399747,
+      "sha256": "3ec427c7fd9e9e7334e05d9087d6e6fca201e0452e83a84a3f126afb6320a823",
+      "gzipBytes": 539553,
+      "gzipSha256": "e1b411dc6564581831d335e5f3af7743a241c89a3e6e2e1d8d792294e4d17c50"
+    },
+    {
+      "source": "markets-v1/amm/native.json",
+      "file": "files/markets-v1/amm/native.json.gz",
+      "bytes": 429498,
+      "sha256": "b68fd259b5e26b72cee9f877f90a129cfab05b9b6203c481d49c26fdb0559b45",
+      "gzipBytes": 23186,
+      "gzipSha256": "ddf23bd2c87523d0a2ae9ab7020ceb4b367c6d43309cd25481322a8a57de8082"
+    },
+    {
+      "source": "markets-v1/amm/nft.json",
+      "file": "files/markets-v1/amm/nft.json.gz",
+      "bytes": 61249,
+      "sha256": "9861404dc6b3dac0d0f55bc31f6d89f6dfce347cce461495d4083e2ef42e4aae",
+      "gzipBytes": 6879,
+      "gzipSha256": "bcb6fcb19e319d3726d248968fa5a4176a93b0c4dd9c91db0d2c9e6cb8510987"
+    },
+    {
+      "source": "markets-v1/amm/token-a.json",
+      "file": "files/markets-v1/amm/token-a.json.gz",
+      "bytes": 4066436,
+      "sha256": "a3718e5ecc49e6360d02c325fb4bff676237fa8b4c1cc64724a092f74fc98d22",
+      "gzipBytes": 458380,
+      "gzipSha256": "84c3b7ecac91ebec131ecbb1b55142c3d56a62f066205d0428e90171c3285c52"
+    },
+    {
+      "source": "markets-v1/amm/token-b.json",
+      "file": "files/markets-v1/amm/token-b.json.gz",
+      "bytes": 4066436,
+      "sha256": "b67ce3ad4c5e54a7019fb0808069d3e05918a97fceb90c589c72e646b1c75d12",
+      "gzipBytes": 458378,
+      "gzipSha256": "30efbf9f58ccf69d0df5548f25b53c76143be9512d54119c882befe8f08f0ad4"
+    },
+    {
+      "source": "public/amm-checkpoint-v1/observation.json",
+      "file": "files/public/amm-checkpoint-v1/observation.json.gz",
+      "bytes": 12017,
+      "sha256": "4f0ab4ebe7e2f817e80bbfa16391b53f1eb01415531d6afc025fc697469298c7",
+      "gzipBytes": 3049,
+      "gzipSha256": "4555c9d070d6210b2374a096da1bb674a679d12e2059325f68219c3e8670778f"
+    },
+    {
+      "source": "public/amm-checkpoint-v1/provenance.json",
+      "file": "files/public/amm-checkpoint-v1/provenance.json.gz",
+      "bytes": 1516,
+      "sha256": "f96bf835084c8a33440778bfa70c2e4c786456c59fe35c83b39ae0d10f0c3ebe",
+      "gzipBytes": 469,
+      "gzipSha256": "082ce335b58c53712b40b0b7a89e3d4f998ade6d26b665ddf67e34a396b26a84"
+    },
+    {
+      "source": "public/amm-checkpoint-v1/verified.json",
+      "file": "files/public/amm-checkpoint-v1/verified.json.gz",
+      "bytes": 1715,
+      "sha256": "f7cb9f3099361a46e629c6621dc371217128c06998348c31f215517205966d79",
+      "gzipBytes": 812,
+      "gzipSha256": "ac567317b0613370f069e3a8b50c26c09da717297c871ebdf605801f9185b62b"
+    },
+    {
+      "source": "public/amm-checkpoint-v1/verify.log",
+      "file": "files/public/amm-checkpoint-v1/verify.log.gz",
+      "bytes": 615,
+      "sha256": "08214d89b282d0bf1c31b3c8d58be44cd940601df2392ffd61694be1d1c8282b",
+      "gzipBytes": 279,
+      "gzipSha256": "8cd78155894de835270b99992c577713bca3877c67fb8294bb5d5b3b47bf9dfb"
+    },
+    {
+      "source": "public/amm-checkpoint-v1/verify.log.timing.json",
+      "file": "files/public/amm-checkpoint-v1/verify.log.timing.json.gz",
+      "bytes": 300,
+      "sha256": "17d27caa6cd61f291711266bb0f5cf256313c98771bf113cddbacaf994b77f9c",
+      "gzipBytes": 231,
+      "gzipSha256": "7efff847e111720fcfa7bc6ef9e7ec9df02295bc51911765812d5f4325124bab"
+    },
+    {
+      "source": "public/amm-deployed-registered-v1.json",
+      "file": "files/public/amm-deployed-registered-v1.json.gz",
+      "bytes": 181,
+      "sha256": "3d79bf8b622899c1dbe41493a0e84da29987cd70ce8f94bb09decda708e21e8b",
+      "gzipBytes": 163,
+      "gzipSha256": "a849ddffc719162326f7b9546008f028f433a2a966b3595ef5bd3f3343b9eea9"
+    },
+    {
+      "source": "public/deploy-amm-v1.log",
+      "file": "files/public/deploy-amm-v1.log.gz",
+      "bytes": 8854,
+      "sha256": "c78a6bcb13449f931e95c67059eb6ed95a4fad6c5f270d4b2b34e9e5502eb635",
+      "gzipBytes": 1706,
+      "gzipSha256": "1429a89273152f0f14bc20c570cfc0370a0fe37b11b3062a0626804e80d3665b"
+    },
+    {
+      "source": "public/four-markets-deployment-plan-v1.json",
+      "file": "files/public/four-markets-deployment-plan-v1.json.gz",
+      "bytes": 529,
+      "sha256": "17f99174bed12772d3e7b7c84a22b237bc316e7987777d668c6ea31398334d1e",
+      "gzipBytes": 339,
+      "gzipSha256": "0b0f6b9ed4f4e0b71be43aa2dbd64045ff5aa7723000664d588200de5b0da28b"
+    },
+    {
+      "source": "public/market-config-v1.json",
+      "file": "files/public/market-config-v1.json.gz",
+      "bytes": 303,
+      "sha256": "a8753510551291ef5e556960e9ec6bb91112cdb0c2d1ea19052bb9af67124623",
+      "gzipBytes": 176,
+      "gzipSha256": "60bcfadbb928ea25998a446be8e400042c5d49ba65e7756319c9aa1f88cbd0d2"
+    },
+    {
+      "source": "register-amm-vault-v1.log",
+      "file": "files/register-amm-vault-v1.log.gz",
+      "bytes": 726,
+      "sha256": "4a84b79d6b29d53e5d62a93ff3245dfb06071d5f2ff6360d9847f07502eee287",
+      "gzipBytes": 372,
+      "gzipSha256": "9227d56d6aae81c65bd02660ed8f5daf118c7e4c22fd8888e2cd4a43a114b5e9"
+    }
+  ]
+}

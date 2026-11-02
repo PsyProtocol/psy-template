@@ -1,0 +1,24 @@
+{
+  "at": "2026-10-25T16:47:49.969350+00:00",
+  "originalFailureDirectory": "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-market-recovery-20261023/fixed-verifier-performance-live-v4/baseline/runtime-comparison/compact/sepolia/662720/fc2ec7c31a804b0e5cfe884fc11e7e5c2f8e56991bf72cd1bd5b558b6fbb88e7/proof-d9a152d8-e3e2-4b6c-a483-aeed3c038e82",
+  "failureSha256": "1dda6837e60e4d2b0d1ec336bf2e4ab5bb62b36da66a060835f95dca9a0aa026",
+  "originalFailureHadNoRequestProofOrBroadcast": true,
+  "originalAdmissionRecoveredCheckpoint": 383503,
+  "secondAdmissionCheckpoint": 383524,
+  "originalEpoch": 9,
+  "originalCutoff": 383577,
+  "originalMembers": [
+    406720,
+    1717440
+  ],
+  "originalOrderNonce": 11,
+  "newOwnerFunding": false,
+  "newConsents": false,
+  "emptyEpochAbortSubmitted": false,
+  "waitingForOriginalCutoff": true,
+  "actualFills": 0,
+  "settlementAndClaimAuditPending": true,
+  "cleanPerformancePairEligible": false,
+  "regressionsPassed": 109,
+  "scope": "unsigned session failure diagnosed and original fixed-epoch admissions confirmed; not a completed fill or clean performance comparison; native sample is one second and does not classify all elapsed time or establish a network root cause"
+}

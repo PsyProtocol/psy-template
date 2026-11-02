@@ -1,0 +1,137 @@
+{
+  "broadcast": false,
+  "chainTps": null,
+  "configuredIntrospectionConstant": 16,
+  "fullUpsVerified": false,
+  "marketBatchImplemented": false,
+  "measurements": [
+    {
+      "buildMs": 584.409542,
+      "calls": 9,
+      "degreeBits": 12,
+      "dynamicInputFelts": 18,
+      "minifiedProofBytes": 130568,
+      "mutationsRejected": 5,
+      "samples": [
+        {
+          "baseProveMs": 240.828958,
+          "minifyMs": 535.788042,
+          "verifyMs": 3.699667
+        },
+        {
+          "baseProveMs": 223.558166,
+          "minifyMs": 531.6526670000001,
+          "verifyMs": 3.527542
+        },
+        {
+          "baseProveMs": 220.0705,
+          "minifyMs": 485.93837499999995,
+          "verifyMs": 3.459542
+        }
+      ]
+    },
+    {
+      "buildMs": 573.932584,
+      "calls": 10,
+      "degreeBits": 12,
+      "dynamicInputFelts": 20,
+      "minifiedProofBytes": 130568,
+      "mutationsRejected": 5,
+      "samples": [
+        {
+          "baseProveMs": 259.893292,
+          "minifyMs": 532.734041,
+          "verifyMs": 3.458708
+        },
+        {
+          "baseProveMs": 259.843,
+          "minifyMs": 504.60400000000004,
+          "verifyMs": 3.430208
+        },
+        {
+          "baseProveMs": 199.197167,
+          "minifyMs": 524.891708,
+          "verifyMs": 3.46175
+        }
+      ]
+    },
+    {
+      "buildMs": 620.608292,
+      "calls": 16,
+      "degreeBits": 12,
+      "dynamicInputFelts": 32,
+      "minifiedProofBytes": 130568,
+      "mutationsRejected": 5,
+      "samples": [
+        {
+          "baseProveMs": 249.349667,
+          "minifyMs": 513.815209,
+          "verifyMs": 3.562125
+        },
+        {
+          "baseProveMs": 222.3765,
+          "minifyMs": 501.180917,
+          "verifyMs": 3.486875
+        },
+        {
+          "baseProveMs": 233.77100000000002,
+          "minifyMs": 524.0611250000001,
+          "verifyMs": 3.528
+        }
+      ]
+    },
+    {
+      "buildMs": 566.1,
+      "calls": 17,
+      "degreeBits": 12,
+      "dynamicInputFelts": 34,
+      "minifiedProofBytes": 130568,
+      "mutationsRejected": 5,
+      "samples": [
+        {
+          "baseProveMs": 207.80325,
+          "minifyMs": 555.165,
+          "verifyMs": 3.469666
+        },
+        {
+          "baseProveMs": 225.50475,
+          "minifyMs": 491.116125,
+          "verifyMs": 3.462958
+        },
+        {
+          "baseProveMs": 254.044125,
+          "minifyMs": 513.053292,
+          "verifyMs": 3.497834
+        }
+      ]
+    },
+    {
+      "buildMs": 607.238916,
+      "calls": 32,
+      "degreeBits": 12,
+      "dynamicInputFelts": 64,
+      "minifiedProofBytes": 130568,
+      "mutationsRejected": 5,
+      "samples": [
+        {
+          "baseProveMs": 207.493208,
+          "minifyMs": 495.018791,
+          "verifyMs": 3.587875
+        },
+        {
+          "baseProveMs": 226.23537499999998,
+          "minifyMs": 530.5510409999999,
+          "verifyMs": 3.495667
+        },
+        {
+          "baseProveMs": 256.392792,
+          "minifyMs": 583.083209,
+          "verifyMs": 3.802708
+        }
+      ]
+    }
+  ],
+  "nodeAdmissionTested": false,
+  "schema": 1,
+  "scope": "synthetic exact-stack SD-key with two dynamic 62-bit inputs per call plus two recursive minifiers"
+}

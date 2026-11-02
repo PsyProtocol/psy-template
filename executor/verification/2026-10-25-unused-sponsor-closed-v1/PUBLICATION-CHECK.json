@@ -1,0 +1,283 @@
+{
+  "originalFiles": 1679,
+  "actualPrivateKeyStringsScanned": 3,
+  "privateMatches": 0,
+  "signedRequestCopies": [
+    {
+      "file": "fixed-verifier-performance-live-v3/baseline/attempts/buyer-order/request.json",
+      "userId": 406720,
+      "nonce": 67,
+      "confirmedNonceAtLeast": 70
+    },
+    {
+      "file": "fixed-verifier-performance-live-v3/baseline/attempts/buyer-order/rpc-request.json",
+      "userId": 406720,
+      "nonce": 67,
+      "confirmedNonceAtLeast": 70
+    },
+    {
+      "file": "fixed-verifier-performance-live-v3/baseline/attempts/owner-order/request.json",
+      "userId": 1717440,
+      "nonce": 49,
+      "confirmedNonceAtLeast": 53
+    },
+    {
+      "file": "fixed-verifier-performance-live-v3/baseline/attempts/owner-order/rpc-request.json",
+      "userId": 1717440,
+      "nonce": 49,
+      "confirmedNonceAtLeast": 53
+    },
+    {
+      "file": "fixed-verifier-performance-live-v3/baseline/attempts/start-fund/request.json",
+      "userId": 519360,
+      "nonce": 43,
+      "confirmedNonceAtLeast": 45
+    },
+    {
+      "file": "fixed-verifier-performance-live-v3/baseline/attempts/start-fund/rpc-request.json",
+      "userId": 519360,
+      "nonce": 43,
+      "confirmedNonceAtLeast": 45
+    },
+    {
+      "file": "fixed-verifier-performance-live-v3/funding-v1/attempts/simple-claim-v1/request.json",
+      "userId": 519360,
+      "nonce": 42,
+      "confirmedNonceAtLeast": 45
+    },
+    {
+      "file": "fixed-verifier-performance-live-v3/funding-v1/attempts/simple-claim-v1/rpc-request.json",
+      "userId": 519360,
+      "nonce": 42,
+      "confirmedNonceAtLeast": 45
+    },
+    {
+      "file": "fixed-verifier-performance-live-v3/funding-v1/attempts/topup/request.json",
+      "userId": 1717440,
+      "nonce": 48,
+      "confirmedNonceAtLeast": 53
+    },
+    {
+      "file": "fixed-verifier-performance-live-v3/funding-v1/attempts/topup/rpc-request.json",
+      "userId": 1717440,
+      "nonce": 48,
+      "confirmedNonceAtLeast": 53
+    },
+    {
+      "file": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/bob-claim-original-funding/request.json",
+      "userId": 1717440,
+      "nonce": 52,
+      "confirmedNonceAtLeast": 53
+    },
+    {
+      "file": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/bob-claim-original-funding/rpc-request.json",
+      "userId": 1717440,
+      "nonce": 52,
+      "confirmedNonceAtLeast": 53
+    },
+    {
+      "file": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/buyer-claim-original-funding-read-recovery-v1/request.json",
+      "userId": 406720,
+      "nonce": 69,
+      "confirmedNonceAtLeast": 70
+    },
+    {
+      "file": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/buyer-claim-original-funding-read-recovery-v1/rpc-request.json",
+      "userId": 406720,
+      "nonce": 69,
+      "confirmedNonceAtLeast": 70
+    },
+    {
+      "file": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/cancel-and-enroll/exact-delivery-v1/request.json",
+      "userId": 406720,
+      "nonce": 68,
+      "confirmedNonceAtLeast": 70
+    },
+    {
+      "file": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/cancel-and-enroll/exact-delivery-v1/rpc-request.json",
+      "userId": 406720,
+      "nonce": 68,
+      "confirmedNonceAtLeast": 70
+    },
+    {
+      "file": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/cancel-and-enroll/request.json",
+      "userId": 406720,
+      "nonce": 68,
+      "confirmedNonceAtLeast": 70
+    },
+    {
+      "file": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/cancel-and-enroll/rpc-request.json",
+      "userId": 406720,
+      "nonce": 68,
+      "confirmedNonceAtLeast": 70
+    },
+    {
+      "file": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/claim-native-and-return-seeds/request.json",
+      "userId": 519360,
+      "nonce": 45,
+      "confirmedNonceAtLeast": 45
+    },
+    {
+      "file": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/claim-native-and-return-seeds/rpc-request.json",
+      "userId": 519360,
+      "nonce": 45,
+      "confirmedNonceAtLeast": 45
+    },
+    {
+      "file": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/claim-seeds-and-enroll/request.json",
+      "userId": 519360,
+      "nonce": 44,
+      "confirmedNonceAtLeast": 45
+    },
+    {
+      "file": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/claim-seeds-and-enroll/rpc-request.json",
+      "userId": 519360,
+      "nonce": 44,
+      "confirmedNonceAtLeast": 45
+    },
+    {
+      "file": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/claim-seeds-cancel-and-qa-setup/request.json",
+      "userId": 1717440,
+      "nonce": 51,
+      "confirmedNonceAtLeast": 53
+    },
+    {
+      "file": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/claim-seeds-cancel-and-qa-setup/rpc-request.json",
+      "userId": 1717440,
+      "nonce": 51,
+      "confirmedNonceAtLeast": 53
+    },
+    {
+      "file": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/normalize-unfunded-bob/original-wire-v1/request.json",
+      "userId": 1717440,
+      "nonce": 53,
+      "confirmedNonceAtLeast": 53
+    },
+    {
+      "file": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/normalize-unfunded-bob/original-wire-v1/rpc-request.json",
+      "userId": 1717440,
+      "nonce": 53,
+      "confirmedNonceAtLeast": 53
+    },
+    {
+      "file": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/normalize-unfunded-bob/original-wire-v2/request.json",
+      "userId": 1717440,
+      "nonce": 53,
+      "confirmedNonceAtLeast": 53
+    },
+    {
+      "file": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/normalize-unfunded-bob/original-wire-v2/rpc-request.json",
+      "userId": 1717440,
+      "nonce": 53,
+      "confirmedNonceAtLeast": 53
+    },
+    {
+      "file": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/normalize-unfunded-bob/request.json",
+      "userId": 1717440,
+      "nonce": 53,
+      "confirmedNonceAtLeast": 53
+    },
+    {
+      "file": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/normalize-unfunded-bob/rpc-request.json",
+      "userId": 1717440,
+      "nonce": 53,
+      "confirmedNonceAtLeast": 53
+    },
+    {
+      "file": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/normalize-unfunded-buyer/request.json",
+      "userId": 406720,
+      "nonce": 70,
+      "confirmedNonceAtLeast": 70
+    },
+    {
+      "file": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/normalize-unfunded-buyer/rpc-request.json",
+      "userId": 406720,
+      "nonce": 70,
+      "confirmedNonceAtLeast": 70
+    },
+    {
+      "file": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/seed-sponsor-asset-accounts/request.json",
+      "userId": 1717440,
+      "nonce": 50,
+      "confirmedNonceAtLeast": 53
+    },
+    {
+      "file": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/attempts/seed-sponsor-asset-accounts/rpc-request.json",
+      "userId": 1717440,
+      "nonce": 50,
+      "confirmedNonceAtLeast": 53
+    },
+    {
+      "file": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/0eb84c31ab0159e6bce65923f9ec803658963b046a867c4c676070524bf5e265/proof-cd227923-1af1-4169-b268-5020312f4f42/request.json",
+      "userId": 662720,
+      "nonce": 47,
+      "confirmedNonceAtLeast": 49
+    },
+    {
+      "file": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/0eb84c31ab0159e6bce65923f9ec803658963b046a867c4c676070524bf5e265/reviewed-original-delivery-v1/request.json",
+      "userId": 662720,
+      "nonce": 47,
+      "confirmedNonceAtLeast": 49
+    },
+    {
+      "file": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/0eb84c31ab0159e6bce65923f9ec803658963b046a867c4c676070524bf5e265/reviewed-original-delivery-v1/rpc-request.json",
+      "userId": 662720,
+      "nonce": 47,
+      "confirmedNonceAtLeast": 49
+    },
+    {
+      "file": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/0eb84c31ab0159e6bce65923f9ec803658963b046a867c4c676070524bf5e265/send-521ad819-4453-45f4-8385-f1cf125a0421/request.json",
+      "userId": 662720,
+      "nonce": 47,
+      "confirmedNonceAtLeast": 49
+    },
+    {
+      "file": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/0eb84c31ab0159e6bce65923f9ec803658963b046a867c4c676070524bf5e265/send-521ad819-4453-45f4-8385-f1cf125a0421/rpc-request.json",
+      "userId": 662720,
+      "nonce": 47,
+      "confirmedNonceAtLeast": 49
+    },
+    {
+      "file": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/6197844b0d3bea97015d5e0a09c7c20643e7dda93dd3d57ade55017aea884f0d/proof-6f4a945c-86a0-454b-b854-28fc4ece0073/request.json",
+      "userId": 662720,
+      "nonce": 49,
+      "confirmedNonceAtLeast": 49
+    },
+    {
+      "file": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/6197844b0d3bea97015d5e0a09c7c20643e7dda93dd3d57ade55017aea884f0d/send-16916cc0-db77-4108-a0e6-8d303bfce686/request.json",
+      "userId": 662720,
+      "nonce": 49,
+      "confirmedNonceAtLeast": 49
+    },
+    {
+      "file": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/6197844b0d3bea97015d5e0a09c7c20643e7dda93dd3d57ade55017aea884f0d/send-16916cc0-db77-4108-a0e6-8d303bfce686/rpc-request.json",
+      "userId": 662720,
+      "nonce": 49,
+      "confirmedNonceAtLeast": 49
+    },
+    {
+      "file": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/8ca6ac0fe725bd7ef48224430b8bb2e5477e230aa44b202e3d38add82db1a4f3/proof-89d9c442-0230-41fc-b7f4-0279a3813af0/request.json",
+      "userId": 662720,
+      "nonce": 48,
+      "confirmedNonceAtLeast": 49
+    },
+    {
+      "file": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/8ca6ac0fe725bd7ef48224430b8bb2e5477e230aa44b202e3d38add82db1a4f3/send-54e17ddc-8bbd-4128-8eb8-16954d4c7296/request.json",
+      "userId": 662720,
+      "nonce": 48,
+      "confirmedNonceAtLeast": 49
+    },
+    {
+      "file": "fixed-verifier-performance-live-v3/unused-sponsorship-exit-v1/runtime-unused-sponsor-exit/compact/sepolia/662720/8ca6ac0fe725bd7ef48224430b8bb2e5477e230aa44b202e3d38add82db1a4f3/send-54e17ddc-8bbd-4128-8eb8-16954d4c7296/rpc-request.json",
+      "userId": 662720,
+      "nonce": 48,
+      "confirmedNonceAtLeast": 49
+    }
+  ],
+  "allPublishedSignedRequestNoncesConsumed": true,
+  "regressionsPassed": 83,
+  "actualUps": 15,
+  "actualFills": 0,
+  "fullProofAccountingPending": false,
+  "successfulPerformancePairPending": true
+}

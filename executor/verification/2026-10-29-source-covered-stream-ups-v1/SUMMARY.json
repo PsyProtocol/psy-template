@@ -1,0 +1,801 @@
+{
+  "schema": 1,
+  "baseCommit": "48d1e5b696b47700cf6772508d94f49e7cdd8a7a",
+  "branch": "markets-batch-capacity-recovery-20261020",
+  "scope": "source-covered deterministic AMM/Curve candidate authorization and continuous synthetic UPSs; no live route installed",
+  "dependencyVerification": {
+    "sdk": "c92880c8b6e2c8d392f19368bc8801a2584fd427",
+    "client": "b280d714a8f0930c61962c885374ea63ea63d274",
+    "backend": "736572e9dd3ca93566471cf5a2a1cb67a13fe01d",
+    "verifiedSourceFiles": 2756,
+    "upstreamSourcePatches": [],
+    "networkRequests": 0
+  },
+  "finalApplicationSnapshot": "application-v20",
+  "finalFixtures": "fixtures-v9",
+  "finalFullUps": 14,
+  "preBoundaryFixFullUpsNotFinalKeyEvidence": 14,
+  "finalSourceComponentProofs": 10,
+  "full32BoundaryComponentProofs": 12,
+  "financialOrdersPerMarket": 5,
+  "settlementPages": [
+    4,
+    1
+  ],
+  "sourceAccountPagesPerFinancialFixture": [
+    4,
+    4
+  ],
+  "sourceSets": {
+    "normalComponent": {
+      "accounts": 18,
+      "eligible": 9,
+      "recovery": 3
+    },
+    "boundaryComponent": {
+      "accounts": 21,
+      "eligible": 9,
+      "recovery": 3,
+      "excludedOwners": [
+        2139095033,
+        2139095034,
+        4294967295
+      ]
+    }
+  },
+  "identities": {
+    "amm": {
+      "scope": "separate synthetic world; numeric IDs are not live chain identities",
+      "vault": 100,
+      "market": 1000,
+      "keyFingerprint": "a444b313c74de178f65ffef36bc6a330b360debabf4b615abe076d7e6910bf65",
+      "dependencies": [
+        {
+          "code_root": "f54490d8ed6ccd5bb06f3c42193a5b11ce7bd252c9eae2c3697f9f3e483e26ee",
+          "state_layout_root": "0000000000000000000000000000000000000000000000000000000000000000",
+          "function_tree_root": "9c64e00be65354f10b2453ceac2d94a790209ae7f8caefe86563a3a199185e8b",
+          "state_tree_height": 32,
+          "state_layout_field_count": 0,
+          "state_layout_slot_count": 0,
+          "id": 0
+        },
+        {
+          "code_root": "bae832ba36e9ce25f22b2604eaee9a08a89600924443b727d71e5afcd31d1f75",
+          "state_layout_root": "62224d708fde9cd6df9a304c2fc5eab0a376a30c13766a39407fcd8587a56724",
+          "function_tree_root": "4b7fafea320797fb9c167e1263d38ac85f3003e4a728b0ce35b420960abb1c7f",
+          "state_tree_height": 31,
+          "state_layout_field_count": 15,
+          "state_layout_slot_count": 1174405221,
+          "id": 42
+        },
+        {
+          "code_root": "bae832ba36e9ce25f22b2604eaee9a08a89600924443b727d71e5afcd31d1f75",
+          "state_layout_root": "62224d708fde9cd6df9a304c2fc5eab0a376a30c13766a39407fcd8587a56724",
+          "function_tree_root": "4b7fafea320797fb9c167e1263d38ac85f3003e4a728b0ce35b420960abb1c7f",
+          "state_tree_height": 31,
+          "state_layout_field_count": 15,
+          "state_layout_slot_count": 1174405221,
+          "id": 43
+        },
+        {
+          "code_root": "ecb57edf13ed674b3ae89816d0bf5b88db770cc28e6fed6fbdd8b1125078ecee",
+          "state_layout_root": "1f1e5d61c0d24e13b616a880bcb7908319be1109099ce9bed71a051aee598252",
+          "function_tree_root": "bbcceb16bddc7b30fb771d8aa8a9043e752aee717093c5a59e443eca8a2c876d",
+          "state_tree_height": 31,
+          "state_layout_field_count": 85,
+          "state_layout_slot_count": 1325400364,
+          "id": 1000
+        }
+      ]
+    },
+    "bondingcurve": {
+      "scope": "separate synthetic world; numeric IDs are not live chain identities",
+      "vault": 100,
+      "market": 1000,
+      "keyFingerprint": "24a941149b74033f948c0d32eebf65aed95d8660c7a8252e2cd7aedb0d604180",
+      "dependencies": [
+        {
+          "code_root": "f54490d8ed6ccd5bb06f3c42193a5b11ce7bd252c9eae2c3697f9f3e483e26ee",
+          "state_layout_root": "0000000000000000000000000000000000000000000000000000000000000000",
+          "function_tree_root": "9c64e00be65354f10b2453ceac2d94a790209ae7f8caefe86563a3a199185e8b",
+          "state_tree_height": 32,
+          "state_layout_field_count": 0,
+          "state_layout_slot_count": 0,
+          "id": 0
+        },
+        {
+          "code_root": "bae832ba36e9ce25f22b2604eaee9a08a89600924443b727d71e5afcd31d1f75",
+          "state_layout_root": "62224d708fde9cd6df9a304c2fc5eab0a376a30c13766a39407fcd8587a56724",
+          "function_tree_root": "4b7fafea320797fb9c167e1263d38ac85f3003e4a728b0ce35b420960abb1c7f",
+          "state_tree_height": 31,
+          "state_layout_field_count": 15,
+          "state_layout_slot_count": 1174405221,
+          "id": 42
+        },
+        {
+          "code_root": "bae832ba36e9ce25f22b2604eaee9a08a89600924443b727d71e5afcd31d1f75",
+          "state_layout_root": "62224d708fde9cd6df9a304c2fc5eab0a376a30c13766a39407fcd8587a56724",
+          "function_tree_root": "4b7fafea320797fb9c167e1263d38ac85f3003e4a728b0ce35b420960abb1c7f",
+          "state_tree_height": 31,
+          "state_layout_field_count": 15,
+          "state_layout_slot_count": 1174405221,
+          "id": 43
+        },
+        {
+          "code_root": "32f11e4ed2f3a85c2a7d942352df9880568873ddc097ba5f51fd4b72322c494a",
+          "state_layout_root": "d1bc60be854c3ee440ac27f05810a7814622a018e2c46b2d74c99071ef537f8f",
+          "function_tree_root": "49aa0098023b3ba72e69569558c32d19ffb4180ca7d8ea737c52f691a7e4eef2",
+          "state_tree_height": 31,
+          "state_layout_field_count": 90,
+          "state_layout_slot_count": 1291845945,
+          "id": 1000
+        }
+      ]
+    }
+  },
+  "normalPhases": [
+    "open",
+    "source-0",
+    "source-1",
+    "settle-0",
+    "settle-tail"
+  ],
+  "recoveryForks": {
+    "timeout-tail": "same state as after settle-0; original remaining tail refunded",
+    "abort-source": "same state as after OPEN; unaccepted collection timeout only"
+  },
+  "finalRun": {
+    "exitCode": 0,
+    "elapsedSeconds": 1210.8320770419668,
+    "sampledFamilyRssPeakKiB": 3839776,
+    "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak",
+    "stopReason": null
+  },
+  "markets": {
+    "amm": {
+      "keyFingerprint": "a444b313c74de178f65ffef36bc6a330b360debabf4b615abe076d7e6910bf65",
+      "sourceAccounts": 8,
+      "selectedMembers": [
+        "200",
+        "201",
+        "202",
+        "203",
+        "204"
+      ],
+      "normalPhases": [
+        "open",
+        "source-0",
+        "source-1",
+        "settle-0",
+        "settle-tail"
+      ],
+      "normalPhaseSeconds": 390.36013616700006,
+      "normalSyntheticNativeFee": "5000097000",
+      "coldResources": [
+        {
+          "seconds": 100.631550458
+        }
+      ],
+      "rows": {
+        "open": {
+          "phase": "open",
+          "seconds": 34.754573667,
+          "keySeconds": 5.458478417,
+          "endcapAndAuditSeconds": 19.088740667,
+          "actualCalls": 3,
+          "logicalSlots": 40,
+          "modifiedWords": 13,
+          "syntheticNativeFee": "1000013000",
+          "startLeaf": "930351bcd30d8c9f7b227f72f06e14ec4cd32724cee11faf6b146559558b0712",
+          "endLeaf": "998b5d1522fc21c9cde2e2a5a5830e8b71688b40e263e8cb1ff4c1947096e081",
+          "keyAttackRejections": [
+            "current-code-root",
+            "current-layout-root",
+            "current-function-root",
+            "current-checkpoint",
+            "chain-instance",
+            "network-domain",
+            "session-nonce",
+            "ordered-call-stack",
+            "unapproved-fee"
+          ]
+        },
+        "source-0": {
+          "phase": "source-0",
+          "seconds": 43.794112042,
+          "keySeconds": 5.377994416,
+          "endcapAndAuditSeconds": 22.243329875,
+          "actualCalls": 5,
+          "logicalSlots": 40,
+          "modifiedWords": 5,
+          "syntheticNativeFee": "1000005000",
+          "startLeaf": "998b5d1522fc21c9cde2e2a5a5830e8b71688b40e263e8cb1ff4c1947096e081",
+          "endLeaf": "7cb1862c43004781b4082e976c55dbc73bc2b3345dc09c22b2751156f8773315",
+          "keyAttackRejections": []
+        },
+        "source-1": {
+          "phase": "source-1",
+          "seconds": 43.935527875,
+          "keySeconds": 5.474767833,
+          "endcapAndAuditSeconds": 22.369631875,
+          "actualCalls": 5,
+          "logicalSlots": 40,
+          "modifiedWords": 11,
+          "syntheticNativeFee": "1000011000",
+          "startLeaf": "7cb1862c43004781b4082e976c55dbc73bc2b3345dc09c22b2751156f8773315",
+          "endLeaf": "266d3aa5962035c6db26c2aac1cb59c21a84fc7107579c0dfa0c0aeaa70d5d88",
+          "keyAttackRejections": []
+        },
+        "settle-0": {
+          "phase": "settle-0",
+          "seconds": 192.5409035,
+          "keySeconds": 5.521512667,
+          "endcapAndAuditSeconds": 90.484523083,
+          "actualCalls": 28,
+          "logicalSlots": 40,
+          "modifiedWords": 46,
+          "syntheticNativeFee": "1000046000",
+          "startLeaf": "266d3aa5962035c6db26c2aac1cb59c21a84fc7107579c0dfa0c0aeaa70d5d88",
+          "endLeaf": "81bc4a4decd1162b33c5d6b15014ccbea82532b01d1407272074f56b43c55903",
+          "keyAttackRejections": [
+            "current-code-root",
+            "current-layout-root",
+            "current-function-root",
+            "current-checkpoint",
+            "chain-instance",
+            "network-domain",
+            "session-nonce",
+            "ordered-call-stack",
+            "unapproved-fee",
+            "cursor",
+            "omitted-member",
+            "payer-substitution",
+            "amount",
+            "u124-overflow"
+          ]
+        },
+        "settle-tail": {
+          "phase": "settle-tail",
+          "seconds": 75.335019083,
+          "keySeconds": 5.427270166,
+          "endcapAndAuditSeconds": 34.19471775,
+          "actualCalls": 9,
+          "logicalSlots": 40,
+          "modifiedWords": 22,
+          "syntheticNativeFee": "1000022000",
+          "startLeaf": "81bc4a4decd1162b33c5d6b15014ccbea82532b01d1407272074f56b43c55903",
+          "endLeaf": "5957546e1461c2d419f8c0376b84441aa846cc5ff3bf7f92112ea0a3e9616054",
+          "keyAttackRejections": []
+        },
+        "timeout-tail": {
+          "phase": "timeout-tail",
+          "seconds": 79.980406459,
+          "keySeconds": 5.399444917,
+          "endcapAndAuditSeconds": 37.351000709,
+          "actualCalls": 10,
+          "logicalSlots": 40,
+          "modifiedWords": 23,
+          "syntheticNativeFee": "1000023000",
+          "startLeaf": "81bc4a4decd1162b33c5d6b15014ccbea82532b01d1407272074f56b43c55903",
+          "endLeaf": "23c85fecf227cbf1b46139e9815de7ed28df2ffc7b2c5cc7f9296f2026b519a6",
+          "keyAttackRejections": []
+        },
+        "abort-source": {
+          "phase": "abort-source",
+          "seconds": 25.834815209,
+          "keySeconds": 5.728073833,
+          "endcapAndAuditSeconds": 13.104402834,
+          "actualCalls": 2,
+          "logicalSlots": 40,
+          "modifiedWords": 2,
+          "syntheticNativeFee": "1000002000",
+          "startLeaf": "998b5d1522fc21c9cde2e2a5a5830e8b71688b40e263e8cb1ff4c1947096e081",
+          "endLeaf": "d20a225ca3baf3728f54f38191948c30dfff01504809a5584f89759ff53e796d",
+          "keyAttackRejections": []
+        }
+      },
+      "ordinaryClaims": [
+        {
+          "asset": 42,
+          "balanceDelta": "0",
+          "claimed": "0",
+          "owner": 200,
+          "scope": "ordinary claim bytecode only; no ordinary-wallet signature or network receipt"
+        },
+        {
+          "asset": 43,
+          "balanceDelta": "4597829820235851158",
+          "claimed": "4597829820235851158",
+          "owner": 200,
+          "scope": "ordinary claim bytecode only; no ordinary-wallet signature or network receipt"
+        },
+        {
+          "asset": 0,
+          "claimed": "0",
+          "owner": 200,
+          "scope": "native refund claim bytecode only"
+        },
+        {
+          "asset": 42,
+          "balanceDelta": "0",
+          "claimed": "0",
+          "owner": 201,
+          "scope": "ordinary claim bytecode only; no ordinary-wallet signature or network receipt"
+        },
+        {
+          "asset": 43,
+          "balanceDelta": "4597787476742063441",
+          "claimed": "4597787476742063441",
+          "owner": 201,
+          "scope": "ordinary claim bytecode only; no ordinary-wallet signature or network receipt"
+        },
+        {
+          "asset": 0,
+          "claimed": "0",
+          "owner": 201,
+          "scope": "native refund claim bytecode only"
+        },
+        {
+          "asset": 42,
+          "balanceDelta": "0",
+          "claimed": "0",
+          "owner": 202,
+          "scope": "ordinary claim bytecode only; no ordinary-wallet signature or network receipt"
+        },
+        {
+          "asset": 43,
+          "balanceDelta": "4597745133833506505",
+          "claimed": "4597745133833506505",
+          "owner": 202,
+          "scope": "ordinary claim bytecode only; no ordinary-wallet signature or network receipt"
+        },
+        {
+          "asset": 0,
+          "claimed": "0",
+          "owner": 202,
+          "scope": "native refund claim bytecode only"
+        },
+        {
+          "asset": 42,
+          "balanceDelta": "4611686018427387921",
+          "claimed": "4611686018427387921",
+          "owner": 203,
+          "scope": "ordinary claim bytecode only; no ordinary-wallet signature or network receipt"
+        },
+        {
+          "asset": 43,
+          "balanceDelta": "0",
+          "claimed": "0",
+          "owner": 203,
+          "scope": "ordinary claim bytecode only; no ordinary-wallet signature or network receipt"
+        },
+        {
+          "asset": 0,
+          "claimed": "1000100000",
+          "owner": 203,
+          "scope": "native refund claim bytecode only"
+        },
+        {
+          "asset": 42,
+          "balanceDelta": "4611686018427387921",
+          "claimed": "4611686018427387921",
+          "owner": 204,
+          "scope": "ordinary claim bytecode only; no ordinary-wallet signature or network receipt"
+        },
+        {
+          "asset": 43,
+          "balanceDelta": "0",
+          "claimed": "0",
+          "owner": 204,
+          "scope": "ordinary claim bytecode only; no ordinary-wallet signature or network receipt"
+        },
+        {
+          "asset": 0,
+          "claimed": "0",
+          "owner": 204,
+          "scope": "native refund claim bytecode only"
+        }
+      ],
+      "assetConservationRecorded": true,
+      "fileSha256": {
+        "amm-open/verification.json": "a5d9089f969f28a7a17e280cabffa2fde3e22989d6b81fea10f1c701104125c7",
+        "amm-open/request.json": "f7f7a467acf243287cfff7fb61d7015487ded899405423e4372270ecccf19599",
+        "amm-open/plan.json": "d3ef9e9925e002c4f718441e1275301419f318338decc227ca838cdda2debaae",
+        "amm-open/source.json": "979ce267a996f25c00ce1c8d5cebfec3b58c87e5f202c66425686879e726d572",
+        "amm-open/current.json": "9282430b0571bee896e956685d62c092fa59fd28bc44d3c02d8fcc95cf8da9ce",
+        "amm-open/public-session.json": "2925a3fe71685b658c89f3765e8b7537a00f0f79a97d525c09f5cb72f1d1a095",
+        "amm-open/key-proof.bin": "bdb015dacf466b1ecbe85772996cd362a4d1d9131a73aa3162cd4382d6034bf5",
+        "amm-source-0/verification.json": "e795203c175326f1613726c0f26774eaef002023488a702d4c5f5ede67605a17",
+        "amm-source-0/request.json": "0cc9916b2a544c59ab9aa755daedfaecffa7e20d1f476e19b9ff3f5f57f00d4f",
+        "amm-source-0/plan.json": "fb1917f93740f8bb39f90d3995212c4a595e4625e7c7687ba760a90c7711bca9",
+        "amm-source-0/source.json": "da6fd452eb7ebe52ac8c46f68501a7b9c4d1852eafbaa13bbba553ce4725eec6",
+        "amm-source-0/current.json": "8b7db4617b4dc8503ab362056db33da6f7f6aead0e98c3b5f2f3f0a090e58443",
+        "amm-source-0/public-session.json": "ac5e35c42356e5bfac667870647dbbfe65e7cb38130e83e6c561ee036e040cc3",
+        "amm-source-0/key-proof.bin": "7be288f163aa2e95e7b6df9a3314d3e95fd12af0231934edda8d0bfb4f60104e",
+        "amm-source-1/verification.json": "da8ef741f6f124653b21bb6d279e33c8f3c1509ccc1d7b5f84bf3bfc133cf0bc",
+        "amm-source-1/request.json": "146ebb223de108b9c969cd086d68378137c9d69ee4278833cdcc5a6f41b24714",
+        "amm-source-1/plan.json": "9fc8e54fc3874b2b52666cc6125c3cf3aaf2e97ad9da62e13fa0eccb0d82f939",
+        "amm-source-1/source.json": "78d322f14fb205da0616a34c4bcfb4523001b0b24ab9c407cd05994bb331e30d",
+        "amm-source-1/current.json": "0af19a9c3915272c17dc6109cc02ab38da6b2ad8ad8ed0a70d0587d445f472c8",
+        "amm-source-1/public-session.json": "f4ac702e5cfae38b9cb3ac74f00c7e8a7667894c41c4e2b524eabd832a7eafe2",
+        "amm-source-1/key-proof.bin": "43ecd6bb19d810ace7d780993238d5af1c6e9ff7626a16bc19e653d338bb984b",
+        "amm-settle-0/verification.json": "58482862d551ab6ed5918646c0121f57aad0e48e6370ee5dbc4089d648f874d5",
+        "amm-settle-0/request.json": "d8d473804d264f0dd54365e97416dbada44f6d53d7fead1d2070d4424b57ebfd",
+        "amm-settle-0/plan.json": "4b00fc07fac1ec54f290bb0008c8e01cb3bf0be9cdc6bb975010896d70c1fb81",
+        "amm-settle-0/source.json": "fc3159ef8fbe75dd2a20590bc05a01b4984ada154d16f41ec309c7dfee83ab21",
+        "amm-settle-0/current.json": "60bdd4d26283b72222b80735a0b35b1ea54bbdd864ad3cad5a222f0e963b87f0",
+        "amm-settle-0/public-session.json": "b17770c5a501185ca1031aa757e5a4283dd7b106cb9c4b474398f7731aab17a0",
+        "amm-settle-0/key-proof.bin": "c35edc86a4f428cab1166811abff80318a992f700f52174b5267368812bb3ca5",
+        "amm-settle-tail/verification.json": "399a12d15cfb52572d8311348aeece880db793cf6d9b59e6392e4879e715c112",
+        "amm-settle-tail/request.json": "c078da2299e7f3042b31135740b10f67e40b5af9d69d8c7bcbade55b946f040c",
+        "amm-settle-tail/plan.json": "67b6cb78814c445ddbf8d54c2ab226d7e6661c5677220d7a3313ee5e64953e24",
+        "amm-settle-tail/source.json": "3f204b33a95bac9d3d79973493db8baeaed7a47e41a6c656141c3d42b9c7c1a3",
+        "amm-settle-tail/current.json": "7dd16a9b1a405c2524f8e8940612d057a4d538db3f4d5d7cb8cd4466c98e7a7c",
+        "amm-settle-tail/public-session.json": "7306b3f925b66d61e23f1e389ac47afb29ee0d01132e18c76e71b2a38098cf13",
+        "amm-settle-tail/key-proof.bin": "6d30563c584cc527372c493408d285fc9b68a0a5b64a4748d1feaf2a38cb1e61",
+        "amm-timeout-tail/verification.json": "11eb65cb1a5ea4da7d7feb43792e73e2ec8ad3186453636c0972635b1724b1b1",
+        "amm-timeout-tail/request.json": "9d0c60bf2739d6cf05f1b7209e75abc8c0f92f8627a6a94a9942fa4126c9059c",
+        "amm-timeout-tail/plan.json": "cfbabd7702e4a33b0b2219abe8161639238cc6fe5903ee1106cd66cd40e436db",
+        "amm-timeout-tail/source.json": "386cefc32f4de920253f9285abcce3d2cd8836872230264a02142eb3a4b87d9a",
+        "amm-timeout-tail/current.json": "661e554f3202906dcd31bf9dca7aca48a3c851b13c85144a55818155b1ae05c3",
+        "amm-timeout-tail/public-session.json": "c6f329fbbd053e3180c80e028f5c600b6cdcf1294f46ddf99513f5d48477a06d",
+        "amm-timeout-tail/key-proof.bin": "ed88f1a077b9b6bd856a202871c842737e427dfed411e11114591ee0391aa3eb",
+        "amm-abort-source/verification.json": "5c91b001af6b64b137efa2cb49ec2eb48621bbfbec3e6f681d40d243e3c2082d",
+        "amm-abort-source/request.json": "c4186ffa334dcd2e981f37102fe57311aee1d869e3e1f878605ccd5f3aada5d9",
+        "amm-abort-source/plan.json": "6ba849752d598a795bfeb8c3bcbcbc1e00289fb82c7ee6ce2889f728e3a1f851",
+        "amm-abort-source/source.json": "958c528ddb77297b4140e5de78086548cf9df8b54484918703a7d85f02f12d9f",
+        "amm-abort-source/current.json": "6ddb54424da82329ed9ab8f336534a18a7a4e85c52bc815fcd6ea56e9093ddd6",
+        "amm-abort-source/public-session.json": "5ffc6bae693fb5e28f1d10c25be48a36adb54c1fd306e737fe5ba54a52ebc6e9",
+        "amm-abort-source/key-proof.bin": "05734ef55f529a6664b6454d7d929f3bbb2ef2cf3bdb902f7801d3843741ee75"
+      }
+    },
+    "bondingcurve": {
+      "keyFingerprint": "24a941149b74033f948c0d32eebf65aed95d8660c7a8252e2cd7aedb0d604180",
+      "sourceAccounts": 8,
+      "selectedMembers": [
+        "200",
+        "201",
+        "202",
+        "203",
+        "204"
+      ],
+      "normalPhases": [
+        "open",
+        "source-0",
+        "source-1",
+        "settle-0",
+        "settle-tail"
+      ],
+      "normalPhaseSeconds": 405.494205833,
+      "normalSyntheticNativeFee": "5000107000",
+      "coldResources": [
+        {
+          "seconds": 95.830467708
+        }
+      ],
+      "rows": {
+        "open": {
+          "phase": "open",
+          "seconds": 32.047002917,
+          "keySeconds": 5.48502875,
+          "endcapAndAuditSeconds": 16.537503209,
+          "actualCalls": 3,
+          "logicalSlots": 40,
+          "modifiedWords": 13,
+          "syntheticNativeFee": "1000013000",
+          "startLeaf": "613b210998064aa4b2ae7f8b7fda24e4dd5a6a6ab68fd48fb5f359214af594b8",
+          "endLeaf": "97b960ffaab95884e55418a67b9af7124c169335faa15b91d4ec4dfd263faad9",
+          "keyAttackRejections": [
+            "current-code-root",
+            "current-layout-root",
+            "current-function-root",
+            "current-checkpoint",
+            "chain-instance",
+            "network-domain",
+            "session-nonce",
+            "ordered-call-stack",
+            "unapproved-fee"
+          ]
+        },
+        "source-0": {
+          "phase": "source-0",
+          "seconds": 43.944077208,
+          "keySeconds": 5.403959667,
+          "endcapAndAuditSeconds": 22.519830541,
+          "actualCalls": 5,
+          "logicalSlots": 40,
+          "modifiedWords": 5,
+          "syntheticNativeFee": "1000005000",
+          "startLeaf": "97b960ffaab95884e55418a67b9af7124c169335faa15b91d4ec4dfd263faad9",
+          "endLeaf": "e40ef1197e661d832846ec37dbe4d53810fce3782540fe43b07ceb90c109b426",
+          "keyAttackRejections": []
+        },
+        "source-1": {
+          "phase": "source-1",
+          "seconds": 44.018098458,
+          "keySeconds": 5.4634237500000005,
+          "endcapAndAuditSeconds": 22.60332025,
+          "actualCalls": 5,
+          "logicalSlots": 40,
+          "modifiedWords": 11,
+          "syntheticNativeFee": "1000011000",
+          "startLeaf": "e40ef1197e661d832846ec37dbe4d53810fce3782540fe43b07ceb90c109b426",
+          "endLeaf": "d020a18005441415f0c58db824e153f2857d2b73a66bd591beebe958b7107a32",
+          "keyAttackRejections": []
+        },
+        "settle-0": {
+          "phase": "settle-0",
+          "seconds": 210.936269417,
+          "keySeconds": 5.509175666,
+          "endcapAndAuditSeconds": 99.78856225,
+          "actualCalls": 31,
+          "logicalSlots": 40,
+          "modifiedWords": 52,
+          "syntheticNativeFee": "1000052000",
+          "startLeaf": "d020a18005441415f0c58db824e153f2857d2b73a66bd591beebe958b7107a32",
+          "endLeaf": "15f80d78618c09904724c5e69e4c6ecdf41e3719f353b8f0241cf2baa174041f",
+          "keyAttackRejections": [
+            "current-code-root",
+            "current-layout-root",
+            "current-function-root",
+            "current-checkpoint",
+            "chain-instance",
+            "network-domain",
+            "session-nonce",
+            "ordered-call-stack",
+            "unapproved-fee",
+            "cursor",
+            "omitted-member",
+            "payer-substitution",
+            "amount",
+            "u124-overflow"
+          ]
+        },
+        "settle-tail": {
+          "phase": "settle-tail",
+          "seconds": 74.548757833,
+          "keySeconds": 5.4867015,
+          "endcapAndAuditSeconds": 34.097794625,
+          "actualCalls": 9,
+          "logicalSlots": 40,
+          "modifiedWords": 26,
+          "syntheticNativeFee": "1000026000",
+          "startLeaf": "15f80d78618c09904724c5e69e4c6ecdf41e3719f353b8f0241cf2baa174041f",
+          "endLeaf": "c577a3b93a825c11c8091cfb1ab601128a98483cb8a0dc0b094f69ba20d2690e",
+          "keyAttackRejections": []
+        },
+        "timeout-tail": {
+          "phase": "timeout-tail",
+          "seconds": 79.754292917,
+          "keySeconds": 5.433558917,
+          "endcapAndAuditSeconds": 37.32139725,
+          "actualCalls": 10,
+          "logicalSlots": 40,
+          "modifiedWords": 28,
+          "syntheticNativeFee": "1000028000",
+          "startLeaf": "15f80d78618c09904724c5e69e4c6ecdf41e3719f353b8f0241cf2baa174041f",
+          "endLeaf": "abf2ea1e2dcae89608e17c5474492086aa4459a1d6300c64447c51777412c044",
+          "keyAttackRejections": []
+        },
+        "abort-source": {
+          "phase": "abort-source",
+          "seconds": 25.878550125,
+          "keySeconds": 5.56470475,
+          "endcapAndAuditSeconds": 13.598213333,
+          "actualCalls": 2,
+          "logicalSlots": 40,
+          "modifiedWords": 2,
+          "syntheticNativeFee": "1000002000",
+          "startLeaf": "97b960ffaab95884e55418a67b9af7124c169335faa15b91d4ec4dfd263faad9",
+          "endLeaf": "2c2e960cd2693ef4c370a021f046eff04ce90fe3aa16660cc78fb0c5b5c0e002",
+          "keyAttackRejections": []
+        }
+      },
+      "ordinaryClaims": [
+        {
+          "asset": 42,
+          "balanceDelta": "1000000000000000000",
+          "claimed": "1000000000000000000",
+          "owner": 200,
+          "scope": "ordinary claim bytecode only; no ordinary-wallet signature or network receipt"
+        },
+        {
+          "asset": 43,
+          "balanceDelta": "1000000000000000000",
+          "claimed": "1000000000000000000",
+          "owner": 200,
+          "scope": "ordinary claim bytecode only; no ordinary-wallet signature or network receipt"
+        },
+        {
+          "asset": 0,
+          "claimed": "0",
+          "owner": 200,
+          "scope": "native refund claim bytecode only"
+        },
+        {
+          "asset": 42,
+          "balanceDelta": "1000000000000000000",
+          "claimed": "1000000000000000000",
+          "owner": 201,
+          "scope": "ordinary claim bytecode only; no ordinary-wallet signature or network receipt"
+        },
+        {
+          "asset": 43,
+          "balanceDelta": "999900000000000000",
+          "claimed": "999900000000000000",
+          "owner": 201,
+          "scope": "ordinary claim bytecode only; no ordinary-wallet signature or network receipt"
+        },
+        {
+          "asset": 0,
+          "claimed": "0",
+          "owner": 201,
+          "scope": "native refund claim bytecode only"
+        },
+        {
+          "asset": 42,
+          "balanceDelta": "1000000000000000000",
+          "claimed": "1000000000000000000",
+          "owner": 202,
+          "scope": "ordinary claim bytecode only; no ordinary-wallet signature or network receipt"
+        },
+        {
+          "asset": 43,
+          "balanceDelta": "999800000000000000",
+          "claimed": "999800000000000000",
+          "owner": 202,
+          "scope": "ordinary claim bytecode only; no ordinary-wallet signature or network receipt"
+        },
+        {
+          "asset": 0,
+          "claimed": "0",
+          "owner": 202,
+          "scope": "native refund claim bytecode only"
+        },
+        {
+          "asset": 42,
+          "balanceDelta": "0",
+          "claimed": "0",
+          "owner": 203,
+          "scope": "ordinary claim bytecode only; no ordinary-wallet signature or network receipt"
+        },
+        {
+          "asset": 43,
+          "balanceDelta": "2000000000000000000",
+          "claimed": "2000000000000000000",
+          "owner": 203,
+          "scope": "ordinary claim bytecode only; no ordinary-wallet signature or network receipt"
+        },
+        {
+          "asset": 0,
+          "claimed": "1000100000",
+          "owner": 203,
+          "scope": "native refund claim bytecode only"
+        },
+        {
+          "asset": 42,
+          "balanceDelta": "0",
+          "claimed": "0",
+          "owner": 204,
+          "scope": "ordinary claim bytecode only; no ordinary-wallet signature or network receipt"
+        },
+        {
+          "asset": 43,
+          "balanceDelta": "999999999999999999",
+          "claimed": "999999999999999999",
+          "owner": 204,
+          "scope": "ordinary claim bytecode only; no ordinary-wallet signature or network receipt"
+        },
+        {
+          "asset": 0,
+          "claimed": "0",
+          "owner": 204,
+          "scope": "native refund claim bytecode only"
+        }
+      ],
+      "assetConservationRecorded": true,
+      "fileSha256": {
+        "bondingcurve-open/verification.json": "bc88f579b6a4f4260ba7c343cae3d4f082fb7f74470326e91509971d9f4038b4",
+        "bondingcurve-open/request.json": "a0761e469968b3da8c59635acbd6b732fe085596044fc5e889a820fcbcf05696",
+        "bondingcurve-open/plan.json": "528d910694fecfd21e66001e1665a2d79b8726261069b0e228916b0f176f1131",
+        "bondingcurve-open/source.json": "5f2798d1f21ee6bfc2442cbe61a663baec1badc3f8cb6ec0cebcaa3ad8c20e63",
+        "bondingcurve-open/current.json": "d11204eea16001879bf92de625143cd7227fcdf80d1e30189b5d3668698b9520",
+        "bondingcurve-open/public-session.json": "7f7f359b1b80570d4f0dbfb7809a272e6c1083b82f255173f3ec8950987cf340",
+        "bondingcurve-open/key-proof.bin": "02caad4a3b049f6fc9da0f7dc1d63fcf9204fce550142cd3150703bb1d85c752",
+        "bondingcurve-source-0/verification.json": "3885cb56c745b12105042370502565d4912007a4d8a1c4afc8c65b34d359da77",
+        "bondingcurve-source-0/request.json": "b02fe875a8e50818608e0a73af3f2b5832d9df17fad537f264d7f2d782c9bfb8",
+        "bondingcurve-source-0/plan.json": "f2cc1461933774ad9fb1776e5cae837534cdf438fb05a52fd9caeefc2d54eaa9",
+        "bondingcurve-source-0/source.json": "c0726006cd5835e07b0f216613cb1971cbc6147760581cac6a467276ad353dd7",
+        "bondingcurve-source-0/current.json": "7f8d38f968719491cfbfb80a2ac84165b1506e11736def64523817b50f9bd923",
+        "bondingcurve-source-0/public-session.json": "7172b4eadcf0f5376d68775ce08f070bb725ff7588669e60a95feee745c0e066",
+        "bondingcurve-source-0/key-proof.bin": "fb114ce2c9914d85dc93349ba088781648f96e3d1b2486337fe8cd18a1e34a7e",
+        "bondingcurve-source-1/verification.json": "b8c115c6b47f854c45428bc6fb2a10e4759ed6558b4671aca7f2797e73d815ef",
+        "bondingcurve-source-1/request.json": "eb1d8b1f39d32d115d0921ea4d8732c663ab9dcc6745bdf7a272a56b6b2e9ebc",
+        "bondingcurve-source-1/plan.json": "475b591a6384f4f1cbf94fc968dc20abfa5bb2997fabbed90d82ff19fcfc61df",
+        "bondingcurve-source-1/source.json": "d349e26235d6db1288559102623b1408dbd9c7f1f9c8fa1dbacacdd827513211",
+        "bondingcurve-source-1/current.json": "2d4df73af55a1cfad45aab71e24bc4215aa23d592307f25c19da0533d4f95c34",
+        "bondingcurve-source-1/public-session.json": "66c4f06acb7cbe742a1270089e10a8d99688809186503507949fe22e8b7fa667",
+        "bondingcurve-source-1/key-proof.bin": "b73765b7d6be5603c0e57cc123c1566ac630794a3bef1cdabd04ce413c7dca8c",
+        "bondingcurve-settle-0/verification.json": "b14ca1274ee3aed617dc426d015b4a41bb5141e0a7ff52c31ccd39308042d7de",
+        "bondingcurve-settle-0/request.json": "338240eb3dd4b2f7485e9f2367ce2b3fb4d0a505a9ebe5f18b819ba96d56b0db",
+        "bondingcurve-settle-0/plan.json": "7b29ca564b4510f6fbfbbdd413818b96fb275bbf02034cfdf5645391e952543f",
+        "bondingcurve-settle-0/source.json": "5eff27729151b8867e67dde72604aebc29afbaea83ee03a4656b2518d29c7389",
+        "bondingcurve-settle-0/current.json": "cfd9c48722f66a81a0836c4704a8be128c46e4974edb7be15763220a9ff1015f",
+        "bondingcurve-settle-0/public-session.json": "f2c7f09dc85f3c484e3ec6f5d6cc6c5da504a392c9022fe464379fb7d98a14df",
+        "bondingcurve-settle-0/key-proof.bin": "81cf7ddcf77a227b11b78440a091c11dc811214fc16d66d44eb2a2b34e8a6bff",
+        "bondingcurve-settle-tail/verification.json": "fc5b7851106b52fb64fd0247e9993c883060e39c4fd59be73c862c276712340e",
+        "bondingcurve-settle-tail/request.json": "98c4d0361de900d079b37e2ee704a8fe2c129e2cb84be5dc59062138b5a0dcb1",
+        "bondingcurve-settle-tail/plan.json": "fd6e2e1f02c934d40a01aed21090a588176393b220089ef3b527eafbcd3e0eba",
+        "bondingcurve-settle-tail/source.json": "4e7cc995c7d0967160b758f8c1d93bda480d7dc68eefb4c9d7d74cc6ee964443",
+        "bondingcurve-settle-tail/current.json": "cdad144c5ace1659b722116db70cf83d7d5b71f56d5e2f8b9d7f183a87bc5961",
+        "bondingcurve-settle-tail/public-session.json": "d753c745a279b72e91da0621598420bd2d81408c3f9eb81b37a2489a52e618e8",
+        "bondingcurve-settle-tail/key-proof.bin": "59a95ddbdfddd6af704bc566b89dc6b158589107c4ed92d294b10f90c5e2d77f",
+        "bondingcurve-timeout-tail/verification.json": "b602d8c7953f0c2c08a301c22fe590a2f449900f4672b18ba09659b119706a78",
+        "bondingcurve-timeout-tail/request.json": "08bd45aca8881b48a3868a3f15de3287427a969a0cea7563eb392dc766e58bc2",
+        "bondingcurve-timeout-tail/plan.json": "15c6c83fcec51ede3a7b72a261ae1a5da69b433f4e9ed7b06b243f0555044959",
+        "bondingcurve-timeout-tail/source.json": "8e771952a083752da622542c5519ff47a2ebf060964625ea4afbcbb2034f2bb0",
+        "bondingcurve-timeout-tail/current.json": "a98516ccb3fb869f2a3643bc7913c40cdd8ecdd4a99f1b1febea2a30f0428876",
+        "bondingcurve-timeout-tail/public-session.json": "d2f2025ff7fc6e3eddc708a5ddee77ee04fe2702998841e4574a3ff1dcbbbe7b",
+        "bondingcurve-timeout-tail/key-proof.bin": "df3bd75454a1dabdc11e1f1c1a13ef84ffad8d7a26dfaa92a66a06846c0191ff",
+        "bondingcurve-abort-source/verification.json": "152f0438ffca05b7af3ad70a57f367b31a49d97544883f6ba54e39bbcc9269b4",
+        "bondingcurve-abort-source/request.json": "a423f6804bae89e0c3ce95a8d26f213c50940144855829c0399318e5c4ae48fb",
+        "bondingcurve-abort-source/plan.json": "041e82b90dc09e0ec5e2df34e91e0848e232de1840c36304fa100d076d33ce3b",
+        "bondingcurve-abort-source/source.json": "c41b0d16b4bce30873060d2499fa72e6dfba1dcb5466627a07eea7996aaa9527",
+        "bondingcurve-abort-source/current.json": "ddf78ae39e5fc9deacc3366fad084d6153692e894162efbc686766bb83dc5423",
+        "bondingcurve-abort-source/public-session.json": "f27123944c8e15f2f3ece4e5bba56d6064735540d3bffedac43808317809d798",
+        "bondingcurve-abort-source/key-proof.bin": "cb891610b89eaefd30ee6049ff2d31ee386eb039d8e49d8f8cc76c515a1152ef"
+      }
+    }
+  },
+  "keyReplay": {
+    "amm": {
+      "broadcast": false,
+      "coherentAttackRejections": [
+        "later-member-first",
+        "omitted-minimum",
+        "duplicate-member"
+      ],
+      "exactProofReused": true,
+      "keyFingerprint": "a444b313c74de178f65ffef36bc6a330b360debabf4b615abe076d7e6910bf65",
+      "scope": "verify exact existing key proof; reject coherent forged alternative stack/signature preimages, not new CFC/UPS proofs"
+    },
+    "bondingcurve": {
+      "broadcast": false,
+      "coherentAttackRejections": [
+        "later-member-first",
+        "omitted-minimum",
+        "duplicate-member"
+      ],
+      "exactProofReused": true,
+      "keyFingerprint": "24a941149b74033f948c0d32eebf65aed95d8660c7a8252e2cd7aedb0d604180",
+      "scope": "verify exact existing key proof; reject coherent forged alternative stack/signature preimages, not new CFC/UPS proofs"
+    }
+  },
+  "actualNativeFees": "0",
+  "networkRequests": 0,
+  "deployments": 0,
+  "broadcasts": 0,
+  "ordinaryClaims": "actual FT/native VM bytecode only; no ordinary-wallet signature, browser approval, receipt or network confirmation",
+  "liveAuthorization": false,
+  "qualifiedRandomness": false,
+  "inclusionTipFreshness": false,
+  "notEstablished": [
+    "production readiness",
+    "live snapshot-age enforcement or foreign cancellation/upgrade freshness",
+    "current-chain registration, liquidity or real PSY/pUSDT settlement",
+    "ordinary wallet or browser payment/claim acceptance",
+    "live Executor v3 driver",
+    "Orderbook/NFT stream integration",
+    "cross-machine or v3 financial double-Executor acceptance",
+    "unbounded single UPS capacity",
+    "p95, chain TPS or general speedup"
+  ],
+  "measurementCaveats": [
+    "single offline sample per version",
+    "negative attacks included in phase times",
+    "pre-fix run overlapped some builds",
+    "different key fingerprints across boundary correction",
+    "sampled RSS includes shared pages; not physical peak",
+    "normal-phase sum excludes setup, cold resources and final VM claims; full process includes them"
+  ]
+}

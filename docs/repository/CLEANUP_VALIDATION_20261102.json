@@ -1,0 +1,85 @@
+{
+  "schema": 1,
+  "originalCommit": "6e3648b406afd1da590e0a837797481fbbfe9434",
+  "scope": "Repository cleanup only; no financial actions or new full UPS proof claim",
+  "preservedOriginalNonArchivePaths": 2225,
+  "lostOriginalNonArchivePaths": 0,
+  "reviewedSourceChanges": [
+    ".github/workflows/ci.yml",
+    ".gitignore",
+    "composition/acceptance/verifyPreparationRun.mjs",
+    "composition/executionFixtures.mjs",
+    "docs/language/FROZEN_EXCEPTIONS_20261026.json",
+    "executor/acceptance/ordinaryWalletOffline.py",
+    "executor/acceptance/verify.mjs",
+    "executor/compactAdmission.test.mjs",
+    "executor/nonceRetirement.test.mjs",
+    "package.json"
+  ],
+  "restoredOriginalReportBlobs": 488,
+  "restoredReportHashesExact": true,
+  "archivePathsAbsentFromFilteredParentHistory": true,
+  "preExistingUncommittedDiffAndIndexPreserved": true,
+  "rawLogsStorage": "External local repository-hygiene-20261102-v1 case; not public artifact hosting",
+  "hostRegressionLogs": [
+    {
+      "file": "baseline-tests.tap",
+      "sha256": "d61f99c354cf714e4d557a13849f7543e8997d2c7909d4568c32951150943168",
+      "bytes": 12933,
+      "tests": 126,
+      "pass": 126,
+      "fail": 0,
+      "skipped": 0
+    },
+    {
+      "file": "candidate-focused-tests.tap",
+      "sha256": "ac664f6b31a4776453f1cbb9e93d8e74c43ec41b9120eacde96e8af9538589c6",
+      "bytes": 12916,
+      "tests": 126,
+      "pass": 126,
+      "fail": 0,
+      "skipped": 0
+    },
+    {
+      "file": "baseline-application-tests.tap",
+      "sha256": "da8ea653aced2bf57d1ee9c6413c427c19db7b39deb801c25952a8f18e9afbb6",
+      "bytes": 49014,
+      "tests": 451,
+      "pass": 443,
+      "fail": 6,
+      "skipped": 2
+    },
+    {
+      "file": "candidate-application-tests.tap",
+      "sha256": "5d8563f3572ab9f9b0eb50e1fa9af3e280da02e9e1db7e1f3ac951257ef818cb",
+      "bytes": 50936,
+      "tests": 451,
+      "pass": 442,
+      "fail": 7,
+      "skipped": 2
+    },
+    {
+      "file": "candidate-application-tests-final.tap",
+      "sha256": "1b883784e5c62e6bbc3cb98577a8af50b3241ecb2311b132cfc18372168005e3",
+      "bytes": 49233,
+      "tests": 451,
+      "pass": 443,
+      "fail": 6,
+      "skipped": 2
+    }
+  ],
+  "unchangedExternalFixtureGates": [
+    "checkpointStream",
+    "finalStatePairReadiness",
+    "finalStateStream",
+    "previousCheckpoint",
+    "previousCheckpointRoute",
+    "producerBatchBinding"
+  ],
+  "newRepositoryBudgetTests": {
+    "passed": 4
+  },
+  "languageGateTests": {
+    "passed": 3
+  }
+}

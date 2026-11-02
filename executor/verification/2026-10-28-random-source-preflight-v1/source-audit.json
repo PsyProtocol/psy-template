@@ -1,0 +1,31 @@
+{
+  "schema": 1,
+  "scope": "frozen source inspection only; no running service or beacon guarantee",
+  "sourceCommit": "b280d714a8f0930c61962c885374ea63ea63d274",
+  "sdkCommit": "c92880c8b6e2c8d392f19368bc8801a2584fd427",
+  "sources": [
+    {
+      "path": "psy_node_common/src/coordinator/processor/gatherers/coordinator_guta_update_gatherer.rs",
+      "sha256": "792fd39a2763b9255f35960a554ef962a4f8a115db322417a562512174a2a6f8"
+    },
+    {
+      "path": "psy_node_common/src/backup/output/coordinator_output_builder.rs",
+      "sha256": "ca0ebd67e2d39e34d73807a9eaeb84ba527d147d42dcef832170fca6473d3446"
+    },
+    {
+      "path": "psy_plonky2_circuits/src/coordinator/gadgets/checkpoint_state_transition_proofs.rs",
+      "sha256": "2c3de1e7e6cf1606bd95a7dacb73473d80e7852a5b7a5d5c6b2a17227d9b35c0"
+    },
+    {
+      "path": "client_prover/psy_circuit/psy_dpn_circuit/src/vm/gadgets/state_readers.rs",
+      "sha256": "df83963a4e0b58dc2839278fb23aee146580ba9e3f539ff8484e50e569235b0a"
+    },
+    {
+      "path": "client_prover/psy_core/psy_data/src/protocol/circuit_inputs/checkpoint_transition.rs",
+      "sha256": "40e46f9a3938e7e20b4679c104a948ddbb36ab803ae2e8687372f059468d0869"
+    }
+  ],
+  "qualifiedRandomSource": false,
+  "financialOperations": 0,
+  "activeFinancialOrProofProcesses": []
+}

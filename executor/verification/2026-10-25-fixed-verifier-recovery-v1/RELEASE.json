@@ -1,0 +1,33 @@
+{
+  "schema": 1,
+  "sdkManifestSha256": "0afb4c65116cddcaca450b406a06503d65b63d38a004d8e773c6e5fa363bd425",
+  "binaries": {
+    "ordinary": {
+      "file": "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-market-recovery-20261023/fixed-verifier-build-v1/target/release/isolated_wallet",
+      "sha256": "e8d7828861483d7fa6fb593fa0dcf43b1cbbf439d4ca8844b32c07dc0b8f54dc"
+    },
+    "compact": {
+      "file": "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-market-recovery-20261023/fixed-verifier-build-v1/target/release/compact_market_wallet",
+      "sha256": "ca52ef7562db52fdb944a1dd0f311880d8b91907affe44a300603c46d817569b"
+    }
+  },
+  "compiler": "nightly-2025-09-20",
+  "sdkMigration": false,
+  "nodeChanged": false,
+  "applicationSourceManifestSha256": "cc98a068011504cc4b6c627a04c19eb158437ce2d650b1a81b03b2a9fa63a2c8",
+  "inputDigestBoundBeforeProof": true,
+  "readyIdentityBeforeJob": true,
+  "resourceComparison": true,
+  "sameBinaryBothVariants": true,
+  "experiment": "fixed-verifier-resources-v1",
+  "variants": {
+    "baseline": {
+      "memoryMode": "retain-v1",
+      "fixedVerifierMode": "fresh-v1"
+    },
+    "candidate": {
+      "memoryMode": "retain-v1",
+      "fixedVerifierMode": "cached-v1"
+    }
+  }
+}

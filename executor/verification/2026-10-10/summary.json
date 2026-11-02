@@ -1,0 +1,291 @@
+{
+  "date": "2026-10-10",
+  "timezone": "Asia/Taipei",
+  "tests": 119,
+  "passed": 119,
+  "failed": 0,
+  "skipped": 0,
+  "newTests": 9,
+  "submissions": 0,
+  "chainMode": "historical receipts (read-only)",
+  "receiptChecks": [
+    {
+      "userId": 499200,
+      "expectedCheckpoint": 208351,
+      "expectedContentHash": "23c3ec4598f67d69caf910118ba4ed4a1c484b1aaeab6e91c9eb24c05853adb6",
+      "requests": 6,
+      "offsets": [
+        0
+      ],
+      "result": {
+        "status": "included",
+        "userId": 499200,
+        "endUserLeafHash": "16853e473f15430125bdb5f914f266fc0d86571ab729d6e7d4b915b2ea408858",
+        "checkpoint": 208351,
+        "contentHash": "23c3ec4598f67d69caf910118ba4ed4a1c484b1aaeab6e91c9eb24c05853adb6",
+        "receipt": {
+          "success": true,
+          "data": {
+            "tx_id": "0f827cf1-96e7-4d9d-aca5-d315180ebbf8",
+            "content_hash": "23c3ec4598f67d69caf910118ba4ed4a1c484b1aaeab6e91c9eb24c05853adb6",
+            "tx_type": "UserEndcap",
+            "status": "included",
+            "role_type": "Realm",
+            "role_id": 0,
+            "pending_checkpoint_id": null,
+            "included_checkpoint_id": 208351,
+            "result": {
+              "fees_collected": 1000010000,
+              "slots_modified": 10,
+              "total_transactions": 6,
+              "user_id": 499200,
+              "user_ops_processed": 1
+            },
+            "received_at": "2026-10-09T06:59:12Z",
+            "included_at": "2026-10-09T06:59:12Z",
+            "latency_ms": 0,
+            "owner_user_id": 499200,
+            "created_at": "2026-10-09T06:59:12+00:00",
+            "slot_updates": [
+              {
+                "contract_id": 0,
+                "slot_index": 0,
+                "old_value": "1019001",
+                "new_value": "2110001",
+                "field_name": null
+              },
+              {
+                "contract_id": 0,
+                "slot_index": 2566148,
+                "old_value": "4001400000",
+                "new_value": "5002501000",
+                "field_name": null
+              },
+              {
+                "contract_id": 4,
+                "slot_index": 0,
+                "old_value": "1000",
+                "new_value": "1001000",
+                "field_name": null
+              },
+              {
+                "contract_id": 4,
+                "slot_index": 2566148,
+                "old_value": "1009871",
+                "new_value": "2009871",
+                "field_name": null
+              },
+              {
+                "contract_id": 1758,
+                "slot_index": 2147483651,
+                "old_value": "1001",
+                "new_value": "1002001",
+                "field_name": null
+              },
+              {
+                "contract_id": 1758,
+                "slot_index": 2147483652,
+                "old_value": "1000",
+                "new_value": "1001000",
+                "field_name": null
+              },
+              {
+                "contract_id": 1758,
+                "slot_index": 2147483653,
+                "old_value": "1000",
+                "new_value": "1001000",
+                "field_name": null
+              },
+              {
+                "contract_id": 1758,
+                "slot_index": 2148766726,
+                "old_value": "0",
+                "new_value": "1000000",
+                "field_name": null
+              },
+              {
+                "contract_id": 1758,
+                "slot_index": 2165543942,
+                "old_value": "4",
+                "new_value": "5",
+                "field_name": null
+              },
+              {
+                "contract_id": 1758,
+                "slot_index": 2182321169,
+                "old_value": "4001400000",
+                "new_value": "5002501000",
+                "field_name": null
+              },
+              {
+                "contract_id": 1758,
+                "slot_index": 2199098385,
+                "old_value": "1009871",
+                "new_value": "2009871",
+                "field_name": null
+              }
+            ],
+            "kind": "execute_contract"
+          },
+          "timestamp": "2026-10-10T01:48:10.678406925Z"
+        }
+      }
+    },
+    {
+      "userId": 591872,
+      "expectedCheckpoint": 208685,
+      "expectedContentHash": "b00ce32e1e4456d2a311187fbdb9121844accd30f5888b1263968a1b296ca0c9",
+      "requests": 4,
+      "offsets": [
+        0
+      ],
+      "result": {
+        "status": "included",
+        "userId": 591872,
+        "endUserLeafHash": "e61b37e698381afed195f19b4b6fa97a23890fbc5a54d7d0dbe660efbf620866",
+        "checkpoint": 208685,
+        "contentHash": "b00ce32e1e4456d2a311187fbdb9121844accd30f5888b1263968a1b296ca0c9",
+        "receipt": {
+          "success": true,
+          "data": {
+            "tx_id": "ced9f04b-8e0c-4b60-87bd-a42a81ae2975",
+            "content_hash": "b00ce32e1e4456d2a311187fbdb9121844accd30f5888b1263968a1b296ca0c9",
+            "tx_type": "UserEndcap",
+            "status": "included",
+            "role_type": "Realm",
+            "role_id": 0,
+            "pending_checkpoint_id": null,
+            "included_checkpoint_id": 208685,
+            "result": {
+              "fees_collected": 1000011000,
+              "slots_modified": 11,
+              "total_transactions": 7,
+              "user_id": 591872,
+              "user_ops_processed": 1
+            },
+            "received_at": "2026-10-09T07:34:42Z",
+            "included_at": "2026-10-09T07:34:42Z",
+            "latency_ms": 0,
+            "owner_user_id": 591872,
+            "created_at": "2026-10-09T07:34:42+00:00",
+            "slot_updates": [
+              {
+                "contract_id": 0,
+                "slot_index": 0,
+                "old_value": "825000",
+                "new_value": "914000",
+                "field_name": null
+              },
+              {
+                "contract_id": 0,
+                "slot_index": 2566147,
+                "old_value": "1000600000",
+                "new_value": "2000701000",
+                "field_name": null
+              },
+              {
+                "contract_id": 0,
+                "slot_index": 2566148,
+                "old_value": "2000600000",
+                "new_value": "3000700000",
+                "field_name": null
+              },
+              {
+                "contract_id": 0,
+                "slot_index": 3764228,
+                "old_value": "3000801000",
+                "new_value": "4000902000",
+                "field_name": null
+              },
+              {
+                "contract_id": 4,
+                "slot_index": 2566148,
+                "old_value": "200000",
+                "new_value": "201000",
+                "field_name": null
+              },
+              {
+                "contract_id": 4,
+                "slot_index": 3764227,
+                "old_value": "200000",
+                "new_value": "201000",
+                "field_name": null
+              },
+              {
+                "contract_id": 64,
+                "slot_index": 2199098378,
+                "old_value": "2",
+                "new_value": "3",
+                "field_name": null
+              },
+              {
+                "contract_id": 64,
+                "slot_index": 2199697418,
+                "old_value": "3",
+                "new_value": "4",
+                "field_name": null
+              },
+              {
+                "contract_id": 64,
+                "slot_index": 2215875594,
+                "old_value": "2000600000",
+                "new_value": "3000700000",
+                "field_name": null
+              },
+              {
+                "contract_id": 64,
+                "slot_index": 2216474634,
+                "old_value": "3000801000",
+                "new_value": "4000902000",
+                "field_name": null
+              },
+              {
+                "contract_id": 64,
+                "slot_index": 2232652810,
+                "old_value": "200000",
+                "new_value": "201000",
+                "field_name": null
+              }
+            ],
+            "kind": "execute_contract"
+          },
+          "timestamp": "2026-10-10T01:48:12.027545037Z"
+        }
+      }
+    }
+  ],
+  "sourceHashes": {
+    "executor/chainReceipts.mjs": "0ccf02f6bf5cf25127ebb21d55401123bfdea77dc640e309888f8ff453f20a26",
+    "executor/chainReceipts.test.mjs": "e41b8a165248066de174a3aec55bbc925a0eff998c27bdc125d3129ec0198c94",
+    "executor/config.mjs": "69771f4c4ec60623fa23a87d1029b24d1db192e44f02208be9448c6768e8f2db",
+    "executor/config.test.mjs": "b3d917704d0786438ad70008df0bf10260ad341daa7a7f59c646f67e6db3e9d9",
+    "executor/driverProcess.mjs": "fa2fcf376f21e790f68e3d1a9afe69689f428a1084131d632dc584ef07df0140",
+    "executor/driverProcess.test.mjs": "5e53838214e1aae24d63cc4bdc913bab1d03b5165f89ec5eb8fd231886f9f5af",
+    "executor/durableFile.mjs": "099f2698e2b5878c100d52c4dc37ad115ec5f1c09d790f12a9b4380c437e5ec0",
+    "executor/durableFile.test.mjs": "d266af4a4084c43d478396b729736a42b0c7df226a25ca6059d601a00ba64898",
+    "executor/journal.mjs": "754b9b33a4089a465ce6524c1c62e764de71267d04485c21f39e75c32375cb0b",
+    "executor/journal.test.mjs": "220cca9f9b221b34d482a9e56250c8bb517ff1d50bd60bf658e1c58b8033d12e",
+    "executor/preflight.mjs": "0205e1e27450742753068a52b9e5e11e569ec6383f006d843acf42a8776fbd56",
+    "executor/preflight.test.mjs": "cac505d445345baf1dabbe0d4e4790838e28e83b1472b396ef7d009d2d0b8093",
+    "executor/publicState.mjs": "c46e279f458e3ef8cbdcf75c4fc8e18ea540bb0e1d7d2ef7085a24ff3d32a961",
+    "executor/publicWalletAdapter.mjs": "56946a90e1628250cb2f1728a9b90ec68d35baf5870925102280070fb78b088e",
+    "executor/publicWalletAdapter.test.mjs": "7f0ebd6a1974a7048cd98ccd01f6ff99584956a286b48207031972a6c5c512c1",
+    "executor/readRetry.mjs": "ca1aa5c98496a240acc2fafdb9eca401f28420b526fcf9840fcf57b293a4d346",
+    "executor/readRetry.test.mjs": "49da4c71af2addb6d684b6af1f06a445ab948459b4770b7ca6fc6abf858d2b9c",
+    "executor/run.mjs": "07c38d36b21bdb09682296a2d92f8b186369449fb8a5eb96dbc004036f59cc3d",
+    "executor/service.mjs": "b25bb4086b7188dff0729c2b09ef7e39d7ce927141d7d4f62f1d42160fd53de5",
+    "executor/worker.mjs": "a5f2fe3066321603d4480c240e53b36731f8c204492d6c6116c0dd26fbdf1ac6",
+    "executor/worker.test.mjs": "76e20010017fa8d1b9ea5b7d1f7abd6f0b55db5081ef29e7be7fde1e5b7c5cbc",
+    "executor/README.md": "6e99ef9ad7027e33b5bb1bd1f74908e456c7ed517bc074a63eb2e0c8c0c3fff7"
+  },
+  "previousEvidenceVerified": {
+    "three-contracts-2026-10-09": 280,
+    "executor-2026-10-09": 5
+  },
+  "limitations": [
+    "Single-machine configured-user scanner",
+    "Actual receipts tested on page 1; further pages covered locally",
+    "No new settlement or permanent service deployment",
+    "Process interruption tested, not host power loss"
+  ]
+}

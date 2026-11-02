@@ -1,0 +1,615 @@
+{
+  "schema": 1,
+  "applicationBase": "7a558ede4a5b761c67958014085421ee77b4a530",
+  "sdkCommit": "c92880c8b6e2c8d392f19368bc8801a2584fd427",
+  "nodeClientCommit": "b280d714a8f0930c61962c885374ea63ea63d274",
+  "backendCommit": "736572e9dd3ca93566471cf5a2a1cb67a13fe01d",
+  "profile": "previous-checkpoint-seeded-v1",
+  "scope": "new v4 synthetic bytecode/key/full UPS acceptance plus formal Executor coordination doubles; not a network receipt",
+  "host": {
+    "model": "MacBookPro18,2",
+    "cpu": "Apple M1 Max",
+    "physicalMemoryGiB": 32,
+    "os": "Darwin arm64",
+    "rayonThreads": 2,
+    "cargoJobs": 2
+  },
+  "completeUps": 4,
+  "syntheticFills": 8,
+  "networkFills": 0,
+  "financialOperations": 0,
+  "deployments": 0,
+  "registrations": 0,
+  "rpcCalls": 0,
+  "realFees": "0",
+  "processLifecycleWallSeconds": 610.7632518750033,
+  "sampledFamilyRssPeakKiB": 1977888,
+  "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak",
+  "performanceScope": "one process, sequential market resource builds; Curve follows AMM and can inherit process/static-resource warmth; no matched cold/warm or deterministic/random A/B",
+  "qualification": {
+    "nativeSeedAuthenticatedRelativeToUpsCheckpointTree": true,
+    "distinctKeyDomain": true,
+    "signedSettlementCheckpointEqualsDraw": true,
+    "runtimeFixedSourceGuards": "compiled; actual RPC start/quote/preflight path not exercised",
+    "producerMayBias": true,
+    "unpredictability": false,
+    "lowBias": false,
+    "actualPreReleaseSeal": false,
+    "externalChainInstanceFinality": false,
+    "globalMarketCompleteness": false,
+    "crossMachineAcceptance": false,
+    "liveAcceptance": false
+  },
+  "tests": {
+    "javascript": 60,
+    "bytecode": 4,
+    "isolatedKeyPositiveAndNegativeProof": true,
+    "independentSavedProofsVerified": 4,
+    "nativeIdentityAndRank": "AMM/Curve, complete UPS match and 2/3-member canonical padding",
+    "recipientClaims": "bytecode only; no ordinary-wallet UPS",
+    "expiryAndRefund": "bytecode only; no recovery UPS",
+    "executorRestartReconciliation": "coordination doubles, not native/network acceptance"
+  },
+  "failuresRetained": [
+    {
+      "run": "native-build-v2",
+      "reason": "incorrect snapshot manifest path; no source/build attempt executed"
+    },
+    {
+      "run": "default-build-before-fix",
+      "reason": "default v3 unexpectedly selected v4 because loop variable shadowed profile flag"
+    },
+    {
+      "run": "js-route-v1",
+      "reason": "coordination receipt double omitted required receipt identity fields"
+    },
+    {
+      "run": "js-final-v1",
+      "reason": "receipt double still omitted user ID; guard correctly rejected it"
+    }
+  ],
+  "markets": [
+    {
+      "market": "amm",
+      "members": 4,
+      "syntheticFills": 4,
+      "identity": {
+        "fingerprint": "82a2c7ee67a75f4b05ebccd79f3e4ee2bf4fedd7d0e3a91f4506c27db8f90411",
+        "orderingModel": "previous-checkpoint-seeded-v1",
+        "producerInfluence": true,
+        "profile": "compact-v1",
+        "publicKeyHash": "a8f507ad49828d5f4ded0798aecae12311ba97c0857fd3e0a50df2ea7943bb2d",
+        "publicKeyParam": "a92d5f86c90af2dd925d97251b4c356266e35dd07b7de574ca89fd8057462b49",
+        "qualifiedRandomness": false
+      },
+      "measurements": [
+        {
+          "elapsedMs": 90523.16374999999,
+          "phase": "cold-circuit-build"
+        },
+        {
+          "broadcast": false,
+          "burn": 1000031000,
+          "calls": 3,
+          "elapsedMs": 39680.933208,
+          "endLeaf": "4ddc2c4020b10a5eddf208a817c83bf86c1ed2f60afade08d0a1a8caf861023b",
+          "endStateRoot": "87a05f324c859c92a3b2f87d2aa0035c4391a72406c694a1b3ceedd4210d595d",
+          "exportedDeltasVerified": true,
+          "firstUpsRegistration": false,
+          "fixedNodeVerifier": {
+            "bundledNodeVerifierFingerprint": "78b73eceb32a446a7cc04ca3ad36e0d856293f366593de8f6132c9240f91c6a3",
+            "commonDataMatches": true,
+            "networkMagic": "1384803358401154921",
+            "profile": "mainnet-beta-20261027-v1",
+            "runtimeImageAttested": false,
+            "verifierOnlyMatches": true
+          },
+          "fullUpsVerified": true,
+          "logicalSlots": 40,
+          "overheadStagesMs": {
+            "burn": 3005.8473750000003,
+            "endcapProveAndVerify": 20709.521292,
+            "sdKeySign": 2359.1626250000004,
+            "seedState": 33.7055,
+            "sessionStart": 769.0719580000001,
+            "stateDeltaChecks": 20.572542
+          },
+          "phase": "commit",
+          "profile": "compact-v1",
+          "proofBytes": 130328,
+          "publicEndpointsBound": true,
+          "slotsModified": 31,
+          "startLeaf": "2d2cb5c5c4aa872371df41d8aed6acbaae2febfe453c0c5ba9b21a456bd619a5",
+          "steps": [
+            {
+              "contract": 1000,
+              "index": 0,
+              "method": "commit_batch",
+              "ms": 9632.082166
+            },
+            {
+              "contract": 0,
+              "index": 1,
+              "method": "claim",
+              "ms": 3146.4845
+            }
+          ]
+        },
+        {
+          "broadcast": false,
+          "burn": 1000030000,
+          "calls": 24,
+          "elapsedMs": 165376.348375,
+          "endLeaf": "45c43b198f2ba1a061055c4ec363d0b7561003122030ef17857143ed569d3c18",
+          "endStateRoot": "8da72f7df8abec1a54511e3f6a0b22d9c63aea8b8fbbb06bb60e8b58ac97e3d2",
+          "exportedDeltasVerified": true,
+          "firstUpsRegistration": false,
+          "fixedNodeVerifier": {
+            "bundledNodeVerifierFingerprint": "78b73eceb32a446a7cc04ca3ad36e0d856293f366593de8f6132c9240f91c6a3",
+            "commonDataMatches": true,
+            "networkMagic": "1384803358401154921",
+            "profile": "mainnet-beta-20261027-v1",
+            "runtimeImageAttested": false,
+            "verifierOnlyMatches": true
+          },
+          "fullUpsVerified": true,
+          "logicalSlots": 40,
+          "overheadStagesMs": {
+            "burn": 3340.545583,
+            "endcapProveAndVerify": 80297.759208,
+            "sdKeySign": 2487.672458,
+            "seedState": 27.126208,
+            "sessionStart": 883.1675,
+            "stateDeltaChecks": 34.708041
+          },
+          "phase": "settle",
+          "profile": "compact-v1",
+          "proofBytes": 130328,
+          "publicEndpointsBound": true,
+          "slotsModified": 30,
+          "startLeaf": "4ddc2c4020b10a5eddf208a817c83bf86c1ed2f60afade08d0a1a8caf861023b",
+          "steps": [
+            {
+              "contract": 1000,
+              "index": 0,
+              "method": "begin_checkpoint_batch",
+              "ms": 3374.387708
+            },
+            {
+              "contract": 1000,
+              "index": 1,
+              "method": "claim_batch_member",
+              "ms": 3163.137459
+            },
+            {
+              "contract": 42,
+              "index": 2,
+              "method": "claim",
+              "ms": 3156.845459
+            },
+            {
+              "contract": 1000,
+              "index": 3,
+              "method": "claim_batch_member",
+              "ms": 3242.0177909999998
+            },
+            {
+              "contract": 42,
+              "index": 4,
+              "method": "claim",
+              "ms": 3003.722209
+            },
+            {
+              "contract": 1000,
+              "index": 5,
+              "method": "claim_batch_member",
+              "ms": 3162.529417
+            },
+            {
+              "contract": 42,
+              "index": 6,
+              "method": "claim",
+              "ms": 3041.75475
+            },
+            {
+              "contract": 1000,
+              "index": 7,
+              "method": "claim_batch_member",
+              "ms": 3141.06925
+            },
+            {
+              "contract": 42,
+              "index": 8,
+              "method": "claim",
+              "ms": 2950.732625
+            },
+            {
+              "contract": 1000,
+              "index": 9,
+              "method": "swap_0",
+              "ms": 4564.150041999999
+            },
+            {
+              "contract": 43,
+              "index": 10,
+              "method": "transfer",
+              "ms": 3075.801083
+            },
+            {
+              "contract": 1000,
+              "index": 11,
+              "method": "swap_0",
+              "ms": 4557.861457999999
+            },
+            {
+              "contract": 43,
+              "index": 12,
+              "method": "transfer",
+              "ms": 3164.704291
+            },
+            {
+              "contract": 1000,
+              "index": 13,
+              "method": "swap_0",
+              "ms": 4655.137417
+            },
+            {
+              "contract": 43,
+              "index": 14,
+              "method": "transfer",
+              "ms": 3420.861542
+            },
+            {
+              "contract": 1000,
+              "index": 15,
+              "method": "swap_0",
+              "ms": 5040.372875
+            },
+            {
+              "contract": 43,
+              "index": 16,
+              "method": "transfer",
+              "ms": 2979.421875
+            },
+            {
+              "contract": 0,
+              "index": 17,
+              "method": "claim",
+              "ms": 3010.4963749999997
+            },
+            {
+              "contract": 0,
+              "index": 18,
+              "method": "claim",
+              "ms": 3042.7092079999998
+            },
+            {
+              "contract": 0,
+              "index": 19,
+              "method": "claim",
+              "ms": 3179.0719169999998
+            },
+            {
+              "contract": 0,
+              "index": 20,
+              "method": "claim",
+              "ms": 3166.7938329999997
+            },
+            {
+              "contract": 1000,
+              "index": 21,
+              "method": "finish_checkpoint_batch",
+              "ms": 3073.602917
+            },
+            {
+              "contract": 0,
+              "index": 22,
+              "method": "transfer",
+              "ms": 3125.833583
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "market": "bondingcurve",
+      "members": 4,
+      "syntheticFills": 4,
+      "identity": {
+        "fingerprint": "5ea535c58f2691f04dfc1f93c8efa8a12ce6c370896d0e167630093203edd03a",
+        "orderingModel": "previous-checkpoint-seeded-v1",
+        "producerInfluence": true,
+        "profile": "compact-v1",
+        "publicKeyHash": "b2c94d7a72376df1893a7d3832673b9659efdd6ae3996127a2dbe0e877a1ce06",
+        "publicKeyParam": "a92d5f86c90af2dd925d97251b4c356266e35dd07b7de574ca89fd8057462b49",
+        "qualifiedRandomness": false
+      },
+      "measurements": [
+        {
+          "elapsedMs": 85523.42433299999,
+          "phase": "cold-circuit-build"
+        },
+        {
+          "broadcast": false,
+          "burn": 1000032000,
+          "calls": 3,
+          "elapsedMs": 35531.43075,
+          "endLeaf": "41f3dad9e9c91574a2d0ced19ee53eb7ebce02b9f666f04a04345d7eac9b3820",
+          "endStateRoot": "e65e4d7efdc76e26b5fb2d2143d130798919705d50a1f4f67ec4a65c1b65e0d7",
+          "exportedDeltasVerified": true,
+          "firstUpsRegistration": false,
+          "fixedNodeVerifier": {
+            "bundledNodeVerifierFingerprint": "78b73eceb32a446a7cc04ca3ad36e0d856293f366593de8f6132c9240f91c6a3",
+            "commonDataMatches": true,
+            "networkMagic": "1384803358401154921",
+            "profile": "mainnet-beta-20261027-v1",
+            "runtimeImageAttested": false,
+            "verifierOnlyMatches": true
+          },
+          "fullUpsVerified": true,
+          "logicalSlots": 40,
+          "overheadStagesMs": {
+            "burn": 3014.142625,
+            "endcapProveAndVerify": 17108.671042,
+            "sdKeySign": 2330.5444159999997,
+            "seedState": 21.904458,
+            "sessionStart": 754.36875,
+            "stateDeltaChecks": 19.942375
+          },
+          "phase": "commit",
+          "profile": "compact-v1",
+          "proofBytes": 130328,
+          "publicEndpointsBound": true,
+          "slotsModified": 32,
+          "startLeaf": "0d88874e6feafd3d564106791495e78d077bde6e64005d9c2d63d31b72ccbaf4",
+          "steps": [
+            {
+              "contract": 1000,
+              "index": 0,
+              "method": "commit_batch",
+              "ms": 9304.660791
+            },
+            {
+              "contract": 0,
+              "index": 1,
+              "method": "claim",
+              "ms": 2975.2619999999997
+            }
+          ]
+        },
+        {
+          "broadcast": false,
+          "burn": 1000029000,
+          "calls": 28,
+          "elapsedMs": 189081.44483300002,
+          "endLeaf": "f54239cbac263b402d10d136f5624fe16801ec5cc223ca3ccdc7517e32137b25",
+          "endStateRoot": "aeda3206b9687d188124065f95fdebe3ca3c63e8944460e233ac5a8706577ae6",
+          "exportedDeltasVerified": true,
+          "firstUpsRegistration": false,
+          "fixedNodeVerifier": {
+            "bundledNodeVerifierFingerprint": "78b73eceb32a446a7cc04ca3ad36e0d856293f366593de8f6132c9240f91c6a3",
+            "commonDataMatches": true,
+            "networkMagic": "1384803358401154921",
+            "profile": "mainnet-beta-20261027-v1",
+            "runtimeImageAttested": false,
+            "verifierOnlyMatches": true
+          },
+          "fullUpsVerified": true,
+          "logicalSlots": 40,
+          "overheadStagesMs": {
+            "burn": 3007.193542,
+            "endcapProveAndVerify": 93407.172916,
+            "sdKeySign": 2254.489542,
+            "seedState": 23.093415999999998,
+            "sessionStart": 772.529667,
+            "stateDeltaChecks": 40.064625
+          },
+          "phase": "settle",
+          "profile": "compact-v1",
+          "proofBytes": 130328,
+          "publicEndpointsBound": true,
+          "slotsModified": 29,
+          "startLeaf": "41f3dad9e9c91574a2d0ced19ee53eb7ebce02b9f666f04a04345d7eac9b3820",
+          "steps": [
+            {
+              "contract": 1000,
+              "index": 0,
+              "method": "begin_checkpoint_batch",
+              "ms": 3105.853416
+            },
+            {
+              "contract": 1000,
+              "index": 1,
+              "method": "claim_batch_member",
+              "ms": 3055.987708
+            },
+            {
+              "contract": 43,
+              "index": 2,
+              "method": "claim",
+              "ms": 3167.807167
+            },
+            {
+              "contract": 1000,
+              "index": 3,
+              "method": "claim_batch_member",
+              "ms": 3263.9179999999997
+            },
+            {
+              "contract": 43,
+              "index": 4,
+              "method": "claim",
+              "ms": 3139.910208
+            },
+            {
+              "contract": 1000,
+              "index": 5,
+              "method": "claim_batch_member",
+              "ms": 3699.473416
+            },
+            {
+              "contract": 43,
+              "index": 6,
+              "method": "claim",
+              "ms": 2988.35725
+            },
+            {
+              "contract": 1000,
+              "index": 7,
+              "method": "claim_batch_member",
+              "ms": 3078.222125
+            },
+            {
+              "contract": 43,
+              "index": 8,
+              "method": "claim",
+              "ms": 3010.967459
+            },
+            {
+              "contract": 1000,
+              "index": 9,
+              "method": "settle_limit_buy",
+              "ms": 4485.366291
+            },
+            {
+              "contract": 42,
+              "index": 10,
+              "method": "transfer",
+              "ms": 2943.746458
+            },
+            {
+              "contract": 43,
+              "index": 11,
+              "method": "transfer",
+              "ms": 2952.533667
+            },
+            {
+              "contract": 1000,
+              "index": 12,
+              "method": "settle_limit_buy",
+              "ms": 4628.958791
+            },
+            {
+              "contract": 42,
+              "index": 13,
+              "method": "transfer",
+              "ms": 3039.704375
+            },
+            {
+              "contract": 43,
+              "index": 14,
+              "method": "transfer",
+              "ms": 3077.957875
+            },
+            {
+              "contract": 1000,
+              "index": 15,
+              "method": "settle_limit_buy",
+              "ms": 4645.90925
+            },
+            {
+              "contract": 42,
+              "index": 16,
+              "method": "transfer",
+              "ms": 3070.888917
+            },
+            {
+              "contract": 43,
+              "index": 17,
+              "method": "transfer",
+              "ms": 3151.6975
+            },
+            {
+              "contract": 1000,
+              "index": 18,
+              "method": "settle_limit_buy",
+              "ms": 4801.216167
+            },
+            {
+              "contract": 42,
+              "index": 19,
+              "method": "transfer",
+              "ms": 2946.073291
+            },
+            {
+              "contract": 43,
+              "index": 20,
+              "method": "transfer",
+              "ms": 2996.044875
+            },
+            {
+              "contract": 0,
+              "index": 21,
+              "method": "claim",
+              "ms": 3123.050708
+            },
+            {
+              "contract": 0,
+              "index": 22,
+              "method": "claim",
+              "ms": 3063.326
+            },
+            {
+              "contract": 0,
+              "index": 23,
+              "method": "claim",
+              "ms": 2948.416875
+            },
+            {
+              "contract": 0,
+              "index": 24,
+              "method": "claim",
+              "ms": 3106.708208
+            },
+            {
+              "contract": 1000,
+              "index": 25,
+              "method": "finish_checkpoint_batch",
+              "ms": 2990.9554169999997
+            },
+            {
+              "contract": 0,
+              "index": 26,
+              "method": "transfer",
+              "ms": 3085.6452499999996
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "requests": [
+    {
+      "file": "run/full-ups-v1/amm-1-1-request.json",
+      "requestSha256": "b32af80fc4001604f0b4ca8bc948f71a30e35c5ffd967362583d490d64c1c541",
+      "nonce": 2,
+      "sourceCheckpoint": 100,
+      "startLeaf": "2d2cb5c5c4aa872371df41d8aed6acbaae2febfe453c0c5ba9b21a456bd619a5",
+      "endLeaf": "4ddc2c4020b10a5eddf208a817c83bf86c1ed2f60afade08d0a1a8caf861023b"
+    },
+    {
+      "file": "run/full-ups-v1/amm-2-2-request.json",
+      "requestSha256": "d865d7f06c6b813c5fa737095a1653aae8b87bed173ce352fdcc5ec7678f29e5",
+      "nonce": 3,
+      "sourceCheckpoint": 101,
+      "startLeaf": "4ddc2c4020b10a5eddf208a817c83bf86c1ed2f60afade08d0a1a8caf861023b",
+      "endLeaf": "45c43b198f2ba1a061055c4ec363d0b7561003122030ef17857143ed569d3c18"
+    },
+    {
+      "file": "run/full-ups-v1/bondingcurve-1-1-request.json",
+      "requestSha256": "ace01f9ae4e2a00613bce7e698f79186496f5f767c57ad6a247d115fa32f8454",
+      "nonce": 3,
+      "sourceCheckpoint": 100,
+      "startLeaf": "0d88874e6feafd3d564106791495e78d077bde6e64005d9c2d63d31b72ccbaf4",
+      "endLeaf": "41f3dad9e9c91574a2d0ced19ee53eb7ebce02b9f666f04a04345d7eac9b3820"
+    },
+    {
+      "file": "run/full-ups-v1/bondingcurve-2-2-request.json",
+      "requestSha256": "e1d778b1ac36f4133e437b5363de3913289f0edc278206b583c62f3396fcc4b2",
+      "nonce": 4,
+      "sourceCheckpoint": 101,
+      "startLeaf": "41f3dad9e9c91574a2d0ced19ee53eb7ebce02b9f666f04a04345d7eac9b3820",
+      "endLeaf": "f54239cbac263b402d10d136f5624fe16801ec5cc223ca3ccdc7517e32137b25"
+    }
+  ]
+}

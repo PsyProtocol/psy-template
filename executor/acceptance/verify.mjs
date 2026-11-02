@@ -87,8 +87,9 @@ for(const [kind,user,asset,amount] of [['orderbook',861696,4,1000n],['amm',18821
  for(const other of [1882112,1283072,861696].filter(x=>x!==user))assert.equal(outgoing(result,other,asset),0n);
 }
 const sealed=[];
+const historicalRoot=resolve(process.env.PSY_HISTORICAL_EVIDENCE_ROOT??'.');
 for(const path of ['tests/live/three-contracts-2026-10-09','executor/verification/2026-10-09','executor/verification/2026-10-10','executor/verification/2026-10-11']){
- const directory=resolve(path),lines=(await readFile(join(directory,'SHA256SUMS'),'utf8')).trim().split('\n');
+ const directory=resolve(historicalRoot,path),lines=(await readFile(join(directory,'SHA256SUMS'),'utf8')).trim().split('\n');
  for(const line of lines){const match=line.match(/^([0-9a-f]{64})\s+\*?(.+)$/);assert.ok(match);assert.equal(hash(await readFile(join(directory,match[2]))),match[1],'sealed evidence changed: '+path+'/'+match[2]);}
  sealed.push({directory:path,verified:lines.length});
 }

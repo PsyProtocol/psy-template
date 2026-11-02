@@ -1,0 +1,264 @@
+{
+  "schema": 1,
+  "scope": "exact checkpoint 6085/6086 frozen-SDK proof/resource diagnosis; expected cryptographic rejections are not proof acceptance",
+  "baseCommit": "1b0188ac5ab1e899f67d516359b91188cf490a15",
+  "branch": "markets-batch-capacity-recovery-20261020",
+  "sdkCommit": "c92880c8b6e2c8d392f19368bc8801a2584fd427",
+  "nodeClientCommit": "b280d714a8f0930c61962c885374ea63ea63d274",
+  "backendCommit": "736572e9dd3ca93566471cf5a2a1cb67a13fe01d",
+  "results": {
+    "schema": 1,
+    "closed": [
+      "exact original inputs reproduced from saved and fresh RPC bytes",
+      "strict/official decoding and byte roundtrips match",
+      "official cached borrowed and application owned paths reject both at same polynomial identity",
+      "all frozen lock backend sources aligned",
+      "official source-construction selector failure reproduced",
+      "diagnostic failure stages and same-byte identity reporting",
+      "real native rejection and report-preservation regressions"
+    ],
+    "unclosed": [
+      "proof/resource tuple validity and runtime mismatch attribution",
+      "source-built transition resources with actual public runtime parameters",
+      "authenticated instance/history/finality",
+      "qualified beacon and causal seal release",
+      "random market/key/full UPS and financial acceptance"
+    ],
+    "acceptedCheckpointProofs": 0,
+    "financialOperations": 0,
+    "proofsGenerated": 0,
+    "deployments": 0,
+    "testPsyFees": "0",
+    "httpRequests": 2,
+    "rpcMethodsCalled": [
+      "psy_get_checkpoint_state_transition_proof"
+    ],
+    "nodeOrSdkPatches": [],
+    "randomAuthorization": false,
+    "originalArtifactsOverwritten": false
+  },
+  "currentReports": [
+    "regression-cached.json",
+    "regression-constructed.json",
+    "regression-REGRESSION.json",
+    "cohort-audit.json",
+    "proof-recheck-v2.json",
+    "runtime-config-observation.json"
+  ],
+  "preservedSuperseded": [
+    "cached-v1.json",
+    "constructed-v1.json",
+    "proof-recheck.json",
+    "audit-v1-failure.json"
+  ],
+  "files": [
+    {
+      "path": "PLAN.json",
+      "bytes": 1174,
+      "sha256": "d8d24219c9c4d374fe841e3111c3ddec03c760c7be489fd1b693451a25ccf76e"
+    },
+    {
+      "path": "RESULT.json",
+      "bytes": 1154,
+      "sha256": "805599b663668644464c9d745ed6f79ffae9eda20d081a55c5cf188f478ac5c8"
+    },
+    {
+      "path": "application-source.json",
+      "bytes": 10777,
+      "sha256": "bc38fd1beb8d009fc1900f054b71c24e84b8a153581f2b16dcc64eff0e5235af"
+    },
+    {
+      "path": "audit-v1-failure.json",
+      "bytes": 179,
+      "sha256": "540f22bc1083fd4d4f2061942d8a117a2c90f956559949a01241297b106407d7"
+    },
+    {
+      "path": "build-v1-result.json",
+      "bytes": 4112,
+      "sha256": "aacf4114df75167010a61bb630bbb82f1c693762f709d79b99a7a814e188fd17"
+    },
+    {
+      "path": "build-v1.log",
+      "bytes": 41884,
+      "sha256": "63f122a4f024a428958a9d064e227f44baa5c1df96c47d04f23e9fc3c9477fe2"
+    },
+    {
+      "path": "build-v2-result.json",
+      "bytes": 4118,
+      "sha256": "d235b18cd319163c4402e5af66e8586cbe369d2f2cd16291d079fcd819182170"
+    },
+    {
+      "path": "build-v2.log",
+      "bytes": 41325,
+      "sha256": "f57a824aff59e2c2bcd03b520ce4bec3112b50e3c7e2f074040ff4d4be822627"
+    },
+    {
+      "path": "cached-v1-result.json",
+      "bytes": 874,
+      "sha256": "888fe4335636b5eeb040bf7c1e877e6da638c72795f9313e131df1d77b0ce8ed"
+    },
+    {
+      "path": "cached-v1.json",
+      "bytes": 3942,
+      "sha256": "d400cea8208af866af9858b932adcbda0efca0be1853d44b78eece7400baa0c3"
+    },
+    {
+      "path": "cached-v1.log",
+      "bytes": 88,
+      "sha256": "5f42261f82c808ee8a9867286fc167618dc4e49e253c789e6a05d639c4befc21"
+    },
+    {
+      "path": "cohort-audit.json",
+      "bytes": 4760,
+      "sha256": "d25b6f19a19d66d933eb7fe2d2567a1b7923d1406c9e3aefb5a0f00d528c85bc"
+    },
+    {
+      "path": "constructed-v1-result.json",
+      "bytes": 619,
+      "sha256": "67eb39a1d2b34b63e282804c94b0d8f07076ea6d46e6b7df717e0e6e866c5e2c"
+    },
+    {
+      "path": "constructed-v1.json",
+      "bytes": 1564,
+      "sha256": "1ece3428128f3d270ab3893ba2e0035d99ceb15793c034c14a8569564d5e8f82"
+    },
+    {
+      "path": "constructed-v1.log",
+      "bytes": 88,
+      "sha256": "5f42261f82c808ee8a9867286fc167618dc4e49e253c789e6a05d639c4befc21"
+    },
+    {
+      "path": "current-proof.bin",
+      "bytes": 130328,
+      "sha256": "bb7a12da2e29fc8a34b6abdfb61956a1d9f36f032c3b2a8952385a9ea71be3c3"
+    },
+    {
+      "path": "previous-proof.bin",
+      "bytes": 130328,
+      "sha256": "7f59e1b7028c9e36b06606a9009cee200ecf2b13913e9a82cc83bf34862925db"
+    },
+    {
+      "path": "proof-recheck-request.json",
+      "bytes": 239,
+      "sha256": "b2cbaa52f245b88e304065c2a2db8b302f6ef964bb3463317dd9b58a26a2ce97"
+    },
+    {
+      "path": "proof-recheck-response.json",
+      "bytes": 921035,
+      "sha256": "da2dae0aebd269371c586fb27b9905ba6c8b66f9d39df02cd43ae8c41fd40324"
+    },
+    {
+      "path": "proof-recheck-v2.json",
+      "bytes": 1244,
+      "sha256": "6671b56f24fca3f6f6f747e202d18ec20057f258bf4a0cbc045015acad132385"
+    },
+    {
+      "path": "proof-recheck.json",
+      "bytes": 780,
+      "sha256": "29461dcaf3421e0ab0a82bf080bd5562d9af3fa84783c7bd09699c8324a1d84a"
+    },
+    {
+      "path": "regression-REGRESSION.json",
+      "bytes": 686,
+      "sha256": "52930fdfcec060c5db5abf8d2dff795ac297a85eebca9759875ab9b4edfb494e"
+    },
+    {
+      "path": "regression-cached.json",
+      "bytes": 5233,
+      "sha256": "589e8946e0de9e9b47a85d762f6c0f5f882a81f4408c89718b697839997abd51"
+    },
+    {
+      "path": "regression-cached.log",
+      "bytes": 88,
+      "sha256": "5f42261f82c808ee8a9867286fc167618dc4e49e253c789e6a05d639c4befc21"
+    },
+    {
+      "path": "regression-constructed.json",
+      "bytes": 2854,
+      "sha256": "14b18ad776bc9f1fb133405ca9b8332f6096a8045ea03b3ef7c7aaa4eeb99843"
+    },
+    {
+      "path": "regression-constructed.log",
+      "bytes": 88,
+      "sha256": "5f42261f82c808ee8a9867286fc167618dc4e49e253c789e6a05d639c4befc21"
+    },
+    {
+      "path": "regression-malformed.json",
+      "bytes": 2813,
+      "sha256": "434e2d70ce1cfd83daaadba9dbd392326f24470dc33a1b4e76cbeab5bcab21f2"
+    },
+    {
+      "path": "regression-malformed.log",
+      "bytes": 88,
+      "sha256": "5f42261f82c808ee8a9867286fc167618dc4e49e253c789e6a05d639c4befc21"
+    },
+    {
+      "path": "regression-substituted.json",
+      "bytes": 5235,
+      "sha256": "b70741a367378b16436cc04a05370b24dc23e945f4ba3b86891e010e57b9cc1a"
+    },
+    {
+      "path": "regression-substituted.log",
+      "bytes": 88,
+      "sha256": "5f42261f82c808ee8a9867286fc167618dc4e49e253c789e6a05d639c4befc21"
+    },
+    {
+      "path": "regression-trailing.json",
+      "bytes": 2832,
+      "sha256": "eecc9d514816cf1ca222b9aa8966adc368c104cd489c2f6aad23b7eb99025d6d"
+    },
+    {
+      "path": "regression-trailing.log",
+      "bytes": 88,
+      "sha256": "5f42261f82c808ee8a9867286fc167618dc4e49e253c789e6a05d639c4befc21"
+    },
+    {
+      "path": "regression-v2-result.json",
+      "bytes": 2847,
+      "sha256": "b525464e364d3ae9c165aa77d6c121486b184682b360ca85f54fa18ee97a0209"
+    },
+    {
+      "path": "regression-v2.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "run.py",
+      "bytes": 2154,
+      "sha256": "cb8c1c324ea14c0270a463a4803aac2833890be74f6330401ce689cb3bf09e6c"
+    },
+    {
+      "path": "runtime-config-observation.json",
+      "bytes": 866,
+      "sha256": "e4f39133b19c63ed2f43117d0fd7f7d727ab6c3f090534d43ccb390563a9b474"
+    },
+    {
+      "path": "source/amm/u124/vm-tests/src/bin/diagnose_checkpoint_resources.rs",
+      "bytes": 8608,
+      "sha256": "7c4e569a163ddd50b6847f14c971aa22ac605e5b52b57b32379c20a8fc4ea696"
+    },
+    {
+      "path": "source/batching/dependencies/prepare_mainnet_beta_application.py",
+      "bytes": 2950,
+      "sha256": "f607d59b765f3cef08beeca11f7c83b451ed6459512a737105d1a6adc022d376"
+    },
+    {
+      "path": "source/batching/random-order/checkpoint_diagnostic_regression.py",
+      "bytes": 4894,
+      "sha256": "a01b25ad7f3b926f8f1d48dd9c0635fe6fca4f30ee07ad31cb4fff7ae7690adc"
+    }
+  ],
+  "archive": {
+    "path": "public-evidence.tar.gz",
+    "bytes": 619855,
+    "sha256": "7585bd40d6e2011ec49dc7e5ef5030ac777060d4390a286579afb1c3b7d85351"
+  },
+  "reproduction": {
+    "nativeBinary": "diagnose_checkpoint_resources",
+    "regression": "batching/random-order/checkpoint_diagnostic_regression.py",
+    "frozenApplicationHelper": "batching/dependencies/prepare_mainnet_beta_application.py",
+    "note": "Use exact frozen source helper and recorded domain; native diagnostics exit nonzero on original tuples. Regression passing means expected rejection/classification, not accepted proofs."
+  },
+  "privateMaterialPublished": false,
+  "originalArtifactsOverwritten": false
+}

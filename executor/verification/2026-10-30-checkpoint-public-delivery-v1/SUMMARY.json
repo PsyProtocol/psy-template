@@ -1,0 +1,115 @@
+{
+  "schema": 1,
+  "scope": "Application checkpoint handoff and owned Executor verification; not runtime attestation or live market acceptance",
+  "baseCommit": "57cabb5df7fc474868bd04b391f06c75553a6890",
+  "sdkCommit": "c92880c8b6e2c8d392f19368bc8801a2584fd427",
+  "binary": {
+    "binarySha256": "9d03946df0a621fab3ed8bd80b36e7759f7facb4d208d1daf687181218f6cb79",
+    "bytes": 18437696,
+    "snapshot": "application-v3",
+    "sdkCommit": "c92880c8b6e2c8d392f19368bc8801a2584fd427",
+    "productionImplementationIdenticalToV2": true,
+    "changesSinceV2": "additional cfg(test) record/proof binding negatives only"
+  },
+  "frozenSourceFilesVerifiedPerSnapshot": 2756,
+  "applicationSnapshotMatchesWorkingNativeSources": true,
+  "nativeUnitTests": 7,
+  "nativeUnitTestsFailed": 0,
+  "nativeRejectionCases": 11,
+  "nativeReferenceExportAndCollisionVerified": true,
+  "executorTestsWithActualOwnedNative": 3,
+  "executorTestsFailed": 0,
+  "nativeCliInvocations": 16,
+  "acceptedRuntimeBundles": 0,
+  "acceptedCheckpointTransitionProofs": 0,
+  "coherentClaimsCannotReplaceCryptographicVerification": true,
+  "fixedResourceHashesMatchPriorAudit": true,
+  "upstreamRunningResourcesReceived": false,
+  "upstreamAtomicRecordsReceived": false,
+  "financialOperations": 0,
+  "proofsGenerated": 0,
+  "rpcRequests": 0,
+  "fees": 0,
+  "realFills": 0,
+  "ordinaryWalletClaims": 0,
+  "runtimeIdentityAuthenticated": false,
+  "snapshotProvenanceAuthenticated": false,
+  "chainDomainAuthenticated": false,
+  "historyPrefixAnchored": false,
+  "finalityVerified": false,
+  "causalSealVerified": false,
+  "qualifiedSource": false,
+  "randomAuthorization": false,
+  "broadcast": false,
+  "measurementScope": "diagnostic builds and rejection verification only; sampled process-family RSS includes shared pages, not physical peak; no market speedup or confirmation benchmark",
+  "commands": [
+    {
+      "label": "build-v1",
+      "exitCode": 0,
+      "elapsedSeconds": 46.983043499989435,
+      "sampledFamilyRssPeakKiB": 1166448,
+      "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak"
+    },
+    {
+      "label": "build-v2",
+      "exitCode": 0,
+      "elapsedSeconds": 51.44133183406666,
+      "sampledFamilyRssPeakKiB": 1154592,
+      "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak"
+    },
+    {
+      "label": "build-v3",
+      "exitCode": 0,
+      "elapsedSeconds": 50.04092399997171,
+      "sampledFamilyRssPeakKiB": 1165200,
+      "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak"
+    },
+    {
+      "label": "unit-v2",
+      "exitCode": 0,
+      "elapsedSeconds": 49.19586637499742,
+      "sampledFamilyRssPeakKiB": 1189216,
+      "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak"
+    },
+    {
+      "label": "unit-v3",
+      "exitCode": 0,
+      "elapsedSeconds": 52.21686270798091,
+      "sampledFamilyRssPeakKiB": 1184944,
+      "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak"
+    },
+    {
+      "label": "native-regression-v2",
+      "exitCode": 0,
+      "elapsedSeconds": 34.437178124906495,
+      "sampledFamilyRssPeakKiB": 456960,
+      "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak"
+    },
+    {
+      "label": "executor-unit-v1",
+      "exitCode": 0,
+      "elapsedSeconds": 1.0534661669516936,
+      "sampledFamilyRssPeakKiB": 32,
+      "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak"
+    },
+    {
+      "label": "executor-unit-v3",
+      "exitCode": 0,
+      "elapsedSeconds": 5.215658125001937,
+      "sampledFamilyRssPeakKiB": 548560,
+      "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak"
+    },
+    {
+      "label": "executor-native-v3",
+      "exitCode": 1,
+      "elapsedSeconds": 5.216899958089925,
+      "sampledFamilyRssPeakKiB": 537024,
+      "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak"
+    }
+  ],
+  "upstreamRequirements": [
+    "Compatible raw runtime records/proofs and actual release verification resources, with public acceptance logs",
+    "Authenticated canonical instance/history/finality and accepted seal before fixed future seed public release",
+    "Original faucet identity reconciliation before any budgeted live funding"
+  ]
+}

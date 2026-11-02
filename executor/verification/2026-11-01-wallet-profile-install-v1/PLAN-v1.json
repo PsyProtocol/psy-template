@@ -1,0 +1,16 @@
+{
+  "scope": "Dedicated QA extension installation and bounded readonly startup diagnosis",
+  "profile": "Psy Fee Exit QA 20261101",
+  "profileId": "Profile 30",
+  "taskSpaceId": 22,
+  "extensionId": "imcjjhpbnipknjjefempbjejbcjepagi",
+  "extensionVersion": "0.4.25",
+  "maxAccountCreations": 0,
+  "maxFinancialOperations": 0,
+  "maxNewUpsProofs": 0,
+  "maximumExplicitReadonlyRpcCalls": 6,
+  "perRpcTimeoutSeconds": 15,
+  "initialObservations": "Extension loaded and provider injected; popup cannot establish active testnet checkpoint-1 identity",
+  "stopOn": "Root disagreement, expired budget or need to create/unlock a wallet; do not change credentials, reset history, weaken TLS or alter other profiles",
+  "sdkCommit": "c92880c8b6e2c8d392f19368bc8801a2584fd427"
+}

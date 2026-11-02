@@ -1,0 +1,154 @@
+{
+  "schema": 1,
+  "parentCommit": "9100b179bffe072839ee20b953f75254becf7f45",
+  "branch": "markets-batch-capacity-recovery-20261020",
+  "sdkCommit": "c92880c8b6e2c8d392f19368bc8801a2584fd427",
+  "frozenSourcePinsVerified": 2756,
+  "finalKeyApplication": "application-v9",
+  "finalRegressionApplication": "application-v10",
+  "candidateProfile": "source-covered-producer-minimum-bootstrap-v1",
+  "candidateContractArtifacts": "unchanged v11 bytecode; distinct new v12 keys; no deployment",
+  "acceptedCompleteSyntheticUps": 3,
+  "failedFullUpsTrialsRetained": 2,
+  "declaredFullUpsAttemptLimit": 8,
+  "actualFullUpsAttempts": 5,
+  "rows": {
+    "amm-fresh-bootstrap": {
+      "keyFingerprint": "40346b77d78ad259315800561e83fb9a6ec1ffd3ebe24d7405832ccd95e1d961",
+      "calls": 10,
+      "logicalSlots": 40,
+      "fee": 1000014000,
+      "slots": 14,
+      "firstUse": true,
+      "storedStartLeaf": "0000000000000000000000000000000000000000000000000000000000000000",
+      "signatureStartLeaf": "ec7f90639bb51fd9977fea6d704a1fd7aee621f6327dd191885bb20d278b5244",
+      "endLeaf": "77aeed57c1fde0de4554af596064916f6f5b20de2973b2d0a3f3b3c29b7bb483",
+      "seconds": 98.0797685,
+      "keySeconds": 6.682316834,
+      "endcapAndAuditSeconds": 52.601972792,
+      "keyAttackRejections": [
+        "first-use-grant-only-preemption",
+        "signature-network-domain",
+        "current-code-root",
+        "current-layout-root",
+        "current-function-root",
+        "current-checkpoint",
+        "current-chain-anchor",
+        "session-nonce",
+        "ordered-call-stack",
+        "unapproved-fee"
+      ],
+      "finalNonce": 1,
+      "publicFiles": {
+        "request.json": "04d06365f1a2969d8d6487b577dd25869b1332a291248989cde44c3254f9999b",
+        "plan.json": "e981821d897fc173709e217f0c805dd25524389e81d8222c92bc2c3dea49d49f",
+        "verification.json": "3a022fd134445eb4840dcf4b9f7ed164fa6c8b147ffa7d8a3d17573cedcac0f1",
+        "public-session.json": "278bb0e8dd4caf5bd51a512b1f73a846ce58b79e4b33146b63a73b933d4a0424",
+        "key-proof.bin": "fe6e95f50b319ba472dba672f9991720773a786346cb2ae07e2824e3c93ab24e"
+      }
+    },
+    "bondingcurve-fresh-bootstrap": {
+      "keyFingerprint": "fda9962ddce88f609a9ea27d4156791aca03f4f55dd5dda9c1ed4e33a514431f",
+      "calls": 10,
+      "logicalSlots": 40,
+      "fee": 1000014000,
+      "slots": 14,
+      "firstUse": true,
+      "storedStartLeaf": "0000000000000000000000000000000000000000000000000000000000000000",
+      "signatureStartLeaf": "9dd4e2918d650913a2d74bcf00ba98669216f62fda594252d62759455a02a01a",
+      "endLeaf": "83203979cfeecdc0439a1ba40561d59fd39c325f22800c3ae6eaf87b59cc4315",
+      "seconds": 83.090183375,
+      "keySeconds": 6.634378792,
+      "endcapAndAuditSeconds": 41.975031916,
+      "keyAttackRejections": [
+        "first-use-grant-only-preemption",
+        "signature-network-domain",
+        "current-code-root",
+        "current-layout-root",
+        "current-function-root",
+        "current-checkpoint",
+        "current-chain-anchor",
+        "session-nonce",
+        "ordered-call-stack",
+        "unapproved-fee"
+      ],
+      "finalNonce": 1,
+      "publicFiles": {
+        "request.json": "0705dbf74135a8079a075381e115f9a6053bce0cbddfd90b12bbeb57d6f52d22",
+        "plan.json": "30116ca17e7f041e080f06f62dbaa1131a30c0780a9561e9fc605180ce07e106",
+        "verification.json": "d29c5fac0a1703f2172d55133d32b3775360bff62aaf5389d9ab651ca1020935",
+        "public-session.json": "f55c1dfbda823fde68a314f3309d2a6d579d303fbc02d277f1c1257eaacfaa41",
+        "key-proof.bin": "659a0949f8c61a032a82dc9f9264009e5b318cad968a31a678b3ef50c6c82333"
+      }
+    },
+    "bondingcurve-curve-initialize": {
+      "keyFingerprint": "fda9962ddce88f609a9ea27d4156791aca03f4f55dd5dda9c1ed4e33a514431f",
+      "calls": 5,
+      "logicalSlots": 40,
+      "fee": 1000010000,
+      "slots": 10,
+      "firstUse": false,
+      "storedStartLeaf": "83203979cfeecdc0439a1ba40561d59fd39c325f22800c3ae6eaf87b59cc4315",
+      "signatureStartLeaf": "83203979cfeecdc0439a1ba40561d59fd39c325f22800c3ae6eaf87b59cc4315",
+      "endLeaf": "9a14b7110b929456eb93ae3c7a4839f9ec0ddcca8dd8b4a1b839dcd6bb37168d",
+      "seconds": 50.48226825,
+      "keySeconds": 6.086096417,
+      "endcapAndAuditSeconds": 26.141152958,
+      "keyAttackRejections": [],
+      "finalNonce": 2,
+      "publicFiles": {
+        "request.json": "a4b04be61fc141a4e3670681b9f1c912f241b989daf693ea4e3ec6928a7205c7",
+        "plan.json": "aaee1de17d4b1a843fb94f5c05f23589e9376c7154920d72e816b62af159ce91",
+        "verification.json": "6391d5dd9e4df283b73f9ae2e779de750467ba0b78493a0df406d4d8d88809cc",
+        "public-session.json": "6f8af9b0f8d8690c6106023bf92ad991b4896c5364c57242c5590f435e21f230",
+        "key-proof.bin": "e794d24dd294abef5e6c155ff3e8bf269bf6764a370960650e445a17d8801a7a"
+      }
+    }
+  },
+  "fullRunElapsedSeconds": 498.3837276250124,
+  "sampledFamilyRssPeakKiB": 2215744,
+  "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak",
+  "measuringCaveats": [
+    "Offline acceptance intervals include attack probes",
+    "Concurrent independent builds/read-only replay were present; no controlled speedup comparison",
+    "Curve is second in the same process, not an independent cold start"
+  ],
+  "vmRollbackRegressionPassed": true,
+  "vmScope": "nonce/cap/key post-activation rollback, Native/FT excess-seed rejection and replay; not a preactivation refund implementation",
+  "javascriptRegressions": {
+    "passed": 7,
+    "failed": 0,
+    "skipped": 0
+  },
+  "legacyKeySavedProofsReverified": 2,
+  "legacyCoherentAttacksRejected": 6,
+  "newCheckpointProofIds": [
+    17737,
+    17738
+  ],
+  "newCheckpointProofsCompatible": false,
+  "originalFaucetRequestRebroadcast": false,
+  "faucetOperatorsScanned": 100,
+  "observedSentToOriginalRecipient": 0,
+  "originalFaucetDispositionKnown": false,
+  "ordinaryActorPrerequisitesSigned": false,
+  "liveFinancialOperations": 0,
+  "liveDeployments": 0,
+  "liveMarketFills": 0,
+  "ordinaryWalletClaims": 0,
+  "realNetworkFeesBaseUnits": "0",
+  "qualifiedRandomness": false,
+  "causalSealBeforeReleaseAuthenticated": false,
+  "liveAuthorization": false,
+  "applicationGates": [
+    "Owned instance-bound live signing/broadcast/reconciliation and signed ordinary prerequisites",
+    "AMM LP admission and final-key normal settlement/ordinary claims",
+    "Incorrect/excess preactivation deposit recovery",
+    "Versioned delayed draw plus actual accepted-seal adapter, rather than relabeling S+1 evidence"
+  ],
+  "externalGates": [
+    "Current checkpoint proof/resource compatibility or independently reproducible runtime cohort evidence",
+    "Original faucet transaction/receipt or definitive rejection/disposal",
+    "Canonical finalized history and qualified future entropy/release evidence"
+  ]
+}

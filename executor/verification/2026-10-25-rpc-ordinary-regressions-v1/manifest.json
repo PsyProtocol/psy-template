@@ -1,0 +1,51 @@
+{
+  "schema": 1,
+  "sourceDirectory": "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-market-recovery-20261023",
+  "machine": "gewenbo.local",
+  "host": "macOS-15.7.3-arm64-arm-64bit",
+  "scope": "public formal Executor run including failures; success requires exact included receipt",
+  "walletFilesIncluded": false,
+  "sealedBinariesIncluded": false,
+  "records": [
+    {
+      "source": "rpc-ordinary-build-v1/RELEASE.json",
+      "file": "files/rpc-ordinary-build-v1/RELEASE.json.gz",
+      "bytes": 469,
+      "sha256": "f30c34aa60cb38ba8d10eeae6f0c8c4b1485ec31d80b4c7a600b6da9e2e1a050",
+      "gzipBytes": 339,
+      "gzipSha256": "1222e39ffa5aa4681687988cb91d9ad5ef3753b2c027bae5f952681f8a9200b2"
+    },
+    {
+      "source": "rpc-ordinary-build-v1/SOURCE.json",
+      "file": "files/rpc-ordinary-build-v1/SOURCE.json.gz",
+      "bytes": 5363,
+      "sha256": "c47d3a5798f211752ad9ce96de5b8055aef6a5299c1ddd616ceaa3843ae3dd5b",
+      "gzipBytes": 2314,
+      "gzipSha256": "db2928c1e042ca5ac7fe6029789750d5a5c214d0aa8fd4258f5101c0d2449cb2"
+    },
+    {
+      "source": "rpc-ordinary-build-v1/build-v1.log",
+      "file": "files/rpc-ordinary-build-v1/build-v1.log.gz",
+      "bytes": 23856,
+      "sha256": "636f12b0e5497b58a18ed67ab73dba0af2f4b354a72de3fc2ed0cb19b7d64628",
+      "gzipBytes": 4639,
+      "gzipSha256": "7776794582754d81d8b00168920ca286837e829902c1f8bcbdb5b13b82168a01"
+    },
+    {
+      "source": "rpc-ordinary-build-v1/regressions-v1.log",
+      "file": "files/rpc-ordinary-build-v1/regressions-v1.log.gz",
+      "bytes": 1729,
+      "sha256": "94035c3441a1108b5ed4425db949d38ac1fba7dcfa8c3500e654118792cf4030",
+      "gzipBytes": 917,
+      "gzipSha256": "e37b553ada321eb6fc2de1367092f0d089e812177aa0de6fd6fc58805549b834"
+    },
+    {
+      "source": "rpc-ordinary-build-v1/regressions-v2.log",
+      "file": "files/rpc-ordinary-build-v1/regressions-v2.log.gz",
+      "bytes": 2521,
+      "sha256": "8a41037f1279edb01fb1db0c9c9f8d6dca7274e101fa76f58c9cda31f9c25653",
+      "gzipBytes": 1254,
+      "gzipSha256": "abf889e9d1abe85844e35d8d3d767ff99c45100cd1b7a8c2bc8c1396139e060a"
+    }
+  ]
+}

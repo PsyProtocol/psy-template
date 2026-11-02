@@ -1,0 +1,1301 @@
+{
+  "schema": 1,
+  "originalCommit": "6e3648b406afd1da590e0a837797481fbbfe9434",
+  "originalBranch": "markets-batch-capacity-recovery-20261020",
+  "originalTreeFiles": 86673,
+  "originalTreeBytes": 1501805808,
+  "backup": {
+    "file": "original-branch.bundle",
+    "bytes": 735038664,
+    "sha256": "6127ada56717210f6b8168a27bb1e001c31bf9ca094d42ac3c37bd2b77758359",
+    "scope": "Complete original branch history, verified locally; not published as a Git ref or release asset"
+  },
+  "removedHistoryPrefixes": [
+    "executor/verification/",
+    "batching/evidence/"
+  ],
+  "retention": "Original Markdown plus direct JSON review/summary/checksum indexes <=64 KiB, restored byte-for-byte at the cleaned tip",
+  "cases": [
+    {
+      "path": "batching/evidence/20261020",
+      "files": 2421,
+      "bytes": 87444109,
+      "retainedFiles": 3,
+      "retainedBytes": 20718
+    },
+    {
+      "path": "executor/verification/2026-10-09",
+      "files": 2,
+      "bytes": 6660,
+      "retainedFiles": 2,
+      "retainedBytes": 6660
+    },
+    {
+      "path": "executor/verification/2026-10-10",
+      "files": 2,
+      "bytes": 13766,
+      "retainedFiles": 2,
+      "retainedBytes": 13766
+    },
+    {
+      "path": "executor/verification/2026-10-11",
+      "files": 2,
+      "bytes": 7932,
+      "retainedFiles": 2,
+      "retainedBytes": 7932
+    },
+    {
+      "path": "executor/verification/2026-10-14-hardening-02",
+      "files": 2,
+      "bytes": 2278,
+      "retainedFiles": 1,
+      "retainedBytes": 2253
+    },
+    {
+      "path": "executor/verification/2026-10-14-resume-01",
+      "files": 3,
+      "bytes": 11741,
+      "retainedFiles": 2,
+      "retainedBytes": 11697
+    },
+    {
+      "path": "executor/verification/2026-10-21-compact-candidate-v1",
+      "files": 5497,
+      "bytes": 172618608,
+      "retainedFiles": 38,
+      "retainedBytes": 662269
+    },
+    {
+      "path": "executor/verification/2026-10-23-composition-cancel-ups-v1",
+      "files": 11,
+      "bytes": 346035,
+      "retainedFiles": 2,
+      "retainedBytes": 4363
+    },
+    {
+      "path": "executor/verification/2026-10-23-composition-constituent-live-v1",
+      "files": 175,
+      "bytes": 13188850,
+      "retainedFiles": 1,
+      "retainedBytes": 5711
+    },
+    {
+      "path": "executor/verification/2026-10-23-composition-final-checks-v1",
+      "files": 16,
+      "bytes": 29391,
+      "retainedFiles": 2,
+      "retainedBytes": 7374
+    },
+    {
+      "path": "executor/verification/2026-10-23-composition-final-validation-v1",
+      "files": 4,
+      "bytes": 6392,
+      "retainedFiles": 1,
+      "retainedBytes": 1591
+    },
+    {
+      "path": "executor/verification/2026-10-23-composition-financial-executor-v1",
+      "files": 53,
+      "bytes": 5137881,
+      "retainedFiles": 2,
+      "retainedBytes": 23311
+    },
+    {
+      "path": "executor/verification/2026-10-23-composition-journal-source-v1",
+      "files": 52,
+      "bytes": 103553,
+      "retainedFiles": 1,
+      "retainedBytes": 21253
+    },
+    {
+      "path": "executor/verification/2026-10-23-composition-new-pair-v1",
+      "files": 84,
+      "bytes": 20845237,
+      "retainedFiles": 2,
+      "retainedBytes": 36529
+    },
+    {
+      "path": "executor/verification/2026-10-23-composition-qa-pair-claimed-v1",
+      "files": 43,
+      "bytes": 1299972,
+      "retainedFiles": 2,
+      "retainedBytes": 19155
+    },
+    {
+      "path": "executor/verification/2026-10-23-composition-refund-ups-v1",
+      "files": 25,
+      "bytes": 1033706,
+      "retainedFiles": 2,
+      "retainedBytes": 10267
+    },
+    {
+      "path": "executor/verification/2026-10-23-composition-source-closure-v1",
+      "files": 467,
+      "bytes": 8965025,
+      "retainedFiles": 1,
+      "retainedBytes": 3951
+    },
+    {
+      "path": "executor/verification/2026-10-23-executor-recovery-v1",
+      "files": 5,
+      "bytes": 75253,
+      "retainedFiles": 3,
+      "retainedBytes": 57666
+    },
+    {
+      "path": "executor/verification/2026-10-23-funded-composition-v1",
+      "files": 59,
+      "bytes": 5291130,
+      "retainedFiles": 2,
+      "retainedBytes": 23679
+    },
+    {
+      "path": "executor/verification/2026-10-23-funded-composition-v2",
+      "files": 16,
+      "bytes": 359984,
+      "retainedFiles": 2,
+      "retainedBytes": 6190
+    },
+    {
+      "path": "executor/verification/2026-10-23-funded-composition-v3",
+      "files": 32,
+      "bytes": 2417584,
+      "retainedFiles": 2,
+      "retainedBytes": 13033
+    },
+    {
+      "path": "executor/verification/2026-10-23-identity-reuse-v1",
+      "files": 25,
+      "bytes": 59941,
+      "retainedFiles": 4,
+      "retainedBytes": 13366
+    },
+    {
+      "path": "executor/verification/2026-10-23-performance-native-bootstrap-v1",
+      "files": 53,
+      "bytes": 393902,
+      "retainedFiles": 1,
+      "retainedBytes": 19786
+    },
+    {
+      "path": "executor/verification/2026-10-23-performance-support-regressions-v1",
+      "files": 6,
+      "bytes": 25639,
+      "retainedFiles": 4,
+      "retainedBytes": 2896
+    },
+    {
+      "path": "executor/verification/2026-10-23-resident-exit-v1",
+      "files": 4,
+      "bytes": 19618,
+      "retainedFiles": 2,
+      "retainedBytes": 910
+    },
+    {
+      "path": "executor/verification/2026-10-23-review-v1",
+      "files": 440,
+      "bytes": 16307136,
+      "retainedFiles": 0,
+      "retainedBytes": 0
+    },
+    {
+      "path": "executor/verification/2026-10-24-composition-build-reuse-v1",
+      "files": 85,
+      "bytes": 12480528,
+      "retainedFiles": 3,
+      "retainedBytes": 47841
+    },
+    {
+      "path": "executor/verification/2026-10-24-composition-claim-observation-v1",
+      "files": 4,
+      "bytes": 2740,
+      "retainedFiles": 2,
+      "retainedBytes": 2041
+    },
+    {
+      "path": "executor/verification/2026-10-24-composition-cross-realm-warm-v1",
+      "files": 88,
+      "bytes": 1862434,
+      "retainedFiles": 2,
+      "retainedBytes": 51159
+    },
+    {
+      "path": "executor/verification/2026-10-24-composition-final-live-v1",
+      "files": 12800,
+      "bytes": 122836240,
+      "retainedFiles": 2,
+      "retainedBytes": 3140
+    },
+    {
+      "path": "executor/verification/2026-10-24-composition-first-hop-live-v1",
+      "files": 2332,
+      "bytes": 26054145,
+      "retainedFiles": 1,
+      "retainedBytes": 2409
+    },
+    {
+      "path": "executor/verification/2026-10-24-composition-initialization-v1",
+      "files": 53,
+      "bytes": 5306090,
+      "retainedFiles": 2,
+      "retainedBytes": 25662
+    },
+    {
+      "path": "executor/verification/2026-10-24-composition-initialization-v2",
+      "files": 60,
+      "bytes": 3866546,
+      "retainedFiles": 2,
+      "retainedBytes": 28158
+    },
+    {
+      "path": "executor/verification/2026-10-24-composition-intake-expiry-v1",
+      "files": 30,
+      "bytes": 932427,
+      "retainedFiles": 2,
+      "retainedBytes": 13902
+    },
+    {
+      "path": "executor/verification/2026-10-24-composition-live-funding-v1",
+      "files": 1713,
+      "bytes": 16315971,
+      "retainedFiles": 1,
+      "retainedBytes": 2467
+    },
+    {
+      "path": "executor/verification/2026-10-24-composition-partial-first-fill-v1",
+      "files": 190,
+      "bytes": 4991089,
+      "retainedFiles": 1,
+      "retainedBytes": 1396
+    },
+    {
+      "path": "executor/verification/2026-10-24-composition-process-restart-preflight-v1",
+      "files": 4,
+      "bytes": 5457,
+      "retainedFiles": 2,
+      "retainedBytes": 2540
+    },
+    {
+      "path": "executor/verification/2026-10-24-composition-service-live-v1",
+      "files": 840,
+      "bytes": 25357608,
+      "retainedFiles": 2,
+      "retainedBytes": 5041
+    },
+    {
+      "path": "executor/verification/2026-10-24-composition-static-validation-v1",
+      "files": 57,
+      "bytes": 9208201,
+      "retainedFiles": 2,
+      "retainedBytes": 32422
+    },
+    {
+      "path": "executor/verification/2026-10-24-composition-success-complete-v1",
+      "files": 5205,
+      "bytes": 38053883,
+      "retainedFiles": 1,
+      "retainedBytes": 3547
+    },
+    {
+      "path": "executor/verification/2026-10-24-composition-timeout-claimed-v1",
+      "files": 2220,
+      "bytes": 24838078,
+      "retainedFiles": 1,
+      "retainedBytes": 1373
+    },
+    {
+      "path": "executor/verification/2026-10-24-composition-warm-preflight-v1",
+      "files": 6,
+      "bytes": 7057,
+      "retainedFiles": 2,
+      "retainedBytes": 3409
+    },
+    {
+      "path": "executor/verification/2026-10-24-composition-worker-resumed-live-v1",
+      "files": 110,
+      "bytes": 9859589,
+      "retainedFiles": 1,
+      "retainedBytes": 1938
+    },
+    {
+      "path": "executor/verification/2026-10-24-exact-initialize-recovery-v1",
+      "files": 42,
+      "bytes": 792667,
+      "retainedFiles": 1,
+      "retainedBytes": 22636
+    },
+    {
+      "path": "executor/verification/2026-10-24-exact-proof-recovery-v1",
+      "files": 18,
+      "bytes": 380170,
+      "retainedFiles": 1,
+      "retainedBytes": 7828
+    },
+    {
+      "path": "executor/verification/2026-10-24-expired-admission-conflict-live-v1",
+      "files": 2129,
+      "bytes": 8446048,
+      "retainedFiles": 0,
+      "retainedBytes": 0
+    },
+    {
+      "path": "executor/verification/2026-10-24-inflight-reads-regressions-v1",
+      "files": 25,
+      "bytes": 51026,
+      "retainedFiles": 1,
+      "retainedBytes": 10829
+    },
+    {
+      "path": "executor/verification/2026-10-24-ordinary-exact-recovery-v1",
+      "files": 32,
+      "bytes": 756160,
+      "retainedFiles": 1,
+      "retainedBytes": 13465
+    },
+    {
+      "path": "executor/verification/2026-10-24-preparation-rejected-calibration-v1",
+      "files": 107,
+      "bytes": 1298616,
+      "retainedFiles": 1,
+      "retainedBytes": 62128
+    },
+    {
+      "path": "executor/verification/2026-10-24-presession-fund-recovery-v1",
+      "files": 110,
+      "bytes": 587918,
+      "retainedFiles": 1,
+      "retainedBytes": 52091
+    },
+    {
+      "path": "executor/verification/2026-10-24-proof-stage-regressions-v1",
+      "files": 6,
+      "bytes": 14760,
+      "retainedFiles": 1,
+      "retainedBytes": 2255
+    },
+    {
+      "path": "executor/verification/2026-10-24-proof-stage-seed-recovery-v1",
+      "files": 43,
+      "bytes": 444593,
+      "retainedFiles": 1,
+      "retainedBytes": 18786
+    },
+    {
+      "path": "executor/verification/2026-10-24-settlement-preparation-final-regressions-v1",
+      "files": 3,
+      "bytes": 7436,
+      "retainedFiles": 1,
+      "retainedBytes": 1189
+    },
+    {
+      "path": "executor/verification/2026-10-24-settlement-preparation-live-v1",
+      "files": 2388,
+      "bytes": 36603247,
+      "retainedFiles": 3,
+      "retainedBytes": 95637
+    },
+    {
+      "path": "executor/verification/2026-10-24-settlement-preparation-regressions-v1",
+      "files": 5,
+      "bytes": 70097,
+      "retainedFiles": 1,
+      "retainedBytes": 867
+    },
+    {
+      "path": "executor/verification/2026-10-24-settlement-preparation-renewal-v1",
+      "files": 4,
+      "bytes": 8490,
+      "retainedFiles": 1,
+      "retainedBytes": 1141
+    },
+    {
+      "path": "executor/verification/2026-10-24-unsigned-seal-window-expiry-v1",
+      "files": 111,
+      "bytes": 417621,
+      "retainedFiles": 1,
+      "retainedBytes": 51675
+    },
+    {
+      "path": "executor/verification/2026-10-25-durable-crypto-proof-v1",
+      "files": 11,
+      "bytes": 209201,
+      "retainedFiles": 1,
+      "retainedBytes": 6793
+    },
+    {
+      "path": "executor/verification/2026-10-25-durable-crypto-recovery-v1",
+      "files": 281,
+      "bytes": 711210,
+      "retainedFiles": 0,
+      "retainedBytes": 0
+    },
+    {
+      "path": "executor/verification/2026-10-25-fixed-verifier-build-v4",
+      "files": 100,
+      "bytes": 320978,
+      "retainedFiles": 10,
+      "retainedBytes": 63503
+    },
+    {
+      "path": "executor/verification/2026-10-25-fixed-verifier-recovery-v1",
+      "files": 1523,
+      "bytes": 10211188,
+      "retainedFiles": 10,
+      "retainedBytes": 29227
+    },
+    {
+      "path": "executor/verification/2026-10-25-nonce-retirement-413-v1",
+      "files": 21,
+      "bytes": 17463,
+      "retainedFiles": 8,
+      "retainedBytes": 10903
+    },
+    {
+      "path": "executor/verification/2026-10-25-nonce-retirement-confirmed-v1",
+      "files": 35,
+      "bytes": 755079,
+      "retainedFiles": 5,
+      "retainedBytes": 20413
+    },
+    {
+      "path": "executor/verification/2026-10-25-ordinary-exact-recovery-v1",
+      "files": 69,
+      "bytes": 1171277,
+      "retainedFiles": 8,
+      "retainedBytes": 34989
+    },
+    {
+      "path": "executor/verification/2026-10-25-ordinary-timing-recovery-v1",
+      "files": 6,
+      "bytes": 6678,
+      "retainedFiles": 1,
+      "retainedBytes": 2323
+    },
+    {
+      "path": "executor/verification/2026-10-25-prover-memory-build-v1",
+      "files": 85,
+      "bytes": 274912,
+      "retainedFiles": 3,
+      "retainedBytes": 35666
+    },
+    {
+      "path": "executor/verification/2026-10-25-prover-memory-complete-v1",
+      "files": 2620,
+      "bytes": 19047265,
+      "retainedFiles": 15,
+      "retainedBytes": 50387
+    },
+    {
+      "path": "executor/verification/2026-10-25-retired-refunds-closed-v1",
+      "files": 2489,
+      "bytes": 16211272,
+      "retainedFiles": 4,
+      "retainedBytes": 39641
+    },
+    {
+      "path": "executor/verification/2026-10-25-rpc-ordinary-baseline-live-v1",
+      "files": 1543,
+      "bytes": 12187293,
+      "retainedFiles": 0,
+      "retainedBytes": 0
+    },
+    {
+      "path": "executor/verification/2026-10-25-rpc-ordinary-candidate-v3",
+      "files": 12,
+      "bytes": 28404,
+      "retainedFiles": 1,
+      "retainedBytes": 4422
+    },
+    {
+      "path": "executor/verification/2026-10-25-rpc-ordinary-complete-v1",
+      "files": 2880,
+      "bytes": 21503656,
+      "retainedFiles": 12,
+      "retainedBytes": 150249
+    },
+    {
+      "path": "executor/verification/2026-10-25-rpc-ordinary-receipt-regressions-v7",
+      "files": 9,
+      "bytes": 59479,
+      "retainedFiles": 1,
+      "retainedBytes": 3410
+    },
+    {
+      "path": "executor/verification/2026-10-25-rpc-ordinary-regressions-v1",
+      "files": 6,
+      "bytes": 11586,
+      "retainedFiles": 1,
+      "retainedBytes": 2123
+    },
+    {
+      "path": "executor/verification/2026-10-25-rpc-ordinary-regressions-v4",
+      "files": 4,
+      "bytes": 4497,
+      "retainedFiles": 1,
+      "retainedBytes": 1507
+    },
+    {
+      "path": "executor/verification/2026-10-25-scoped-original-recovery-v1",
+      "files": 173,
+      "bytes": 4294935,
+      "retainedFiles": 3,
+      "retainedBytes": 3010
+    },
+    {
+      "path": "executor/verification/2026-10-25-three-market-performance-complete-v1",
+      "files": 6606,
+      "bytes": 48321234,
+      "retainedFiles": 8,
+      "retainedBytes": 91900
+    },
+    {
+      "path": "executor/verification/2026-10-25-unused-sponsor-closed-v1",
+      "files": 1684,
+      "bytes": 10935182,
+      "retainedFiles": 4,
+      "retainedBytes": 36038
+    },
+    {
+      "path": "executor/verification/2026-10-25-unused-sponsor-guard-v1",
+      "files": 40,
+      "bytes": 70390,
+      "retainedFiles": 4,
+      "retainedBytes": 17770
+    },
+    {
+      "path": "executor/verification/2026-10-26-amm-account-ui-v1",
+      "files": 17,
+      "bytes": 206687,
+      "retainedFiles": 1,
+      "retainedBytes": 5206
+    },
+    {
+      "path": "executor/verification/2026-10-26-baseline-inventory-v1",
+      "files": 5,
+      "bytes": 12550,
+      "retainedFiles": 4,
+      "retainedBytes": 7909
+    },
+    {
+      "path": "executor/verification/2026-10-26-checkpoint-read-recovery-v1",
+      "files": 270,
+      "bytes": 1624163,
+      "retainedFiles": 4,
+      "retainedBytes": 10662
+    },
+    {
+      "path": "executor/verification/2026-10-26-compile-cost-v1",
+      "files": 32,
+      "bytes": 271174,
+      "retainedFiles": 4,
+      "retainedBytes": 19668
+    },
+    {
+      "path": "executor/verification/2026-10-26-complete-cold-warm-pair-v1",
+      "files": 2697,
+      "bytes": 18715641,
+      "retainedFiles": 11,
+      "retainedBytes": 82186
+    },
+    {
+      "path": "executor/verification/2026-10-26-complete-measurement-preflight-v1",
+      "files": 63,
+      "bytes": 131302,
+      "retainedFiles": 2,
+      "retainedBytes": 29978
+    },
+    {
+      "path": "executor/verification/2026-10-26-fixed-verifier-recovery-closed-v1",
+      "files": 2410,
+      "bytes": 11216585,
+      "retainedFiles": 6,
+      "retainedBytes": 90025
+    },
+    {
+      "path": "executor/verification/2026-10-26-market-activity-ui-v1",
+      "files": 15,
+      "bytes": 165030,
+      "retainedFiles": 1,
+      "retainedBytes": 5278
+    },
+    {
+      "path": "executor/verification/2026-10-26-market-gateway-v1",
+      "files": 33,
+      "bytes": 476728,
+      "retainedFiles": 4,
+      "retainedBytes": 18852
+    },
+    {
+      "path": "executor/verification/2026-10-26-market-ui-liquidity-v1",
+      "files": 13,
+      "bytes": 536921,
+      "retainedFiles": 4,
+      "retainedBytes": 7496
+    },
+    {
+      "path": "executor/verification/2026-10-26-market-ui-v1",
+      "files": 54,
+      "bytes": 478247,
+      "retainedFiles": 4,
+      "retainedBytes": 19628
+    },
+    {
+      "path": "executor/verification/2026-10-26-market-ui-v2",
+      "files": 15,
+      "bytes": 398393,
+      "retainedFiles": 4,
+      "retainedBytes": 9159
+    },
+    {
+      "path": "executor/verification/2026-10-26-route-resource-preflight-v1",
+      "files": 424,
+      "bytes": 856996,
+      "retainedFiles": 3,
+      "retainedBytes": 6288
+    },
+    {
+      "path": "executor/verification/2026-10-26-rpc-recovery-followup-v1",
+      "files": 169,
+      "bytes": 296372,
+      "retainedFiles": 3,
+      "retainedBytes": 4566
+    },
+    {
+      "path": "executor/verification/2026-10-26-scan-scheduling-review-v1",
+      "files": 52,
+      "bytes": 102853,
+      "retainedFiles": 3,
+      "retainedBytes": 26420
+    },
+    {
+      "path": "executor/verification/2026-10-26-three-market-ui-v1",
+      "files": 24,
+      "bytes": 1149735,
+      "retainedFiles": 2,
+      "retainedBytes": 9697
+    },
+    {
+      "path": "executor/verification/2026-10-26-unsigned-session-recovery-v1",
+      "files": 209,
+      "bytes": 483056,
+      "retainedFiles": 4,
+      "retainedBytes": 4563
+    },
+    {
+      "path": "executor/verification/2026-10-27-composition-layout-capacity-v1",
+      "files": 2,
+      "bytes": 9736,
+      "retainedFiles": 1,
+      "retainedBytes": 1102
+    },
+    {
+      "path": "executor/verification/2026-10-27-composition-native-layout-v1",
+      "files": 2,
+      "bytes": 278164,
+      "retainedFiles": 1,
+      "retainedBytes": 18769
+    },
+    {
+      "path": "executor/verification/2026-10-27-curve-recovery-native-layout-v1",
+      "files": 2,
+      "bytes": 3412809,
+      "retainedFiles": 1,
+      "retainedBytes": 20803
+    },
+    {
+      "path": "executor/verification/2026-10-27-initial-layout-cache-v1",
+      "files": 331,
+      "bytes": 5536027,
+      "retainedFiles": 1,
+      "retainedBytes": 7421
+    },
+    {
+      "path": "executor/verification/2026-10-27-mainnet-beta-amm-deployment-v1",
+      "files": 35,
+      "bytes": 9637407,
+      "retainedFiles": 2,
+      "retainedBytes": 12275
+    },
+    {
+      "path": "executor/verification/2026-10-27-mainnet-beta-curve-source-v1",
+      "files": 83,
+      "bytes": 280643,
+      "retainedFiles": 1,
+      "retainedBytes": 31019
+    },
+    {
+      "path": "executor/verification/2026-10-27-mainnet-beta-curve-ups-v1",
+      "files": 31,
+      "bytes": 6107431,
+      "retainedFiles": 1,
+      "retainedBytes": 11748
+    },
+    {
+      "path": "executor/verification/2026-10-27-mainnet-beta-isolated-assets-v1",
+      "files": 79,
+      "bytes": 3891057,
+      "retainedFiles": 2,
+      "retainedBytes": 27538
+    },
+    {
+      "path": "executor/verification/2026-10-27-mainnet-beta-market-ups-v1",
+      "files": 165,
+      "bytes": 13324034,
+      "retainedFiles": 2,
+      "retainedBytes": 59805
+    },
+    {
+      "path": "executor/verification/2026-10-27-mainnet-beta-three-deployments-v1",
+      "files": 109,
+      "bytes": 12708499,
+      "retainedFiles": 2,
+      "retainedBytes": 39139
+    },
+    {
+      "path": "executor/verification/2026-10-27-mainnet-beta-ui-quarantine-v1",
+      "files": 53,
+      "bytes": 5677587,
+      "retainedFiles": 2,
+      "retainedBytes": 21092
+    },
+    {
+      "path": "executor/verification/2026-10-27-mainnet-beta-wallet-safety-v1",
+      "files": 26,
+      "bytes": 73249,
+      "retainedFiles": 1,
+      "retainedBytes": 9023
+    },
+    {
+      "path": "executor/verification/2026-10-27-mainnet-beta-wallet-ups-v1",
+      "files": 40,
+      "bytes": 1455407,
+      "retainedFiles": 2,
+      "retainedBytes": 14348
+    },
+    {
+      "path": "executor/verification/2026-10-27-market-actions-v1",
+      "files": 37,
+      "bytes": 423319,
+      "retainedFiles": 1,
+      "retainedBytes": 10382
+    },
+    {
+      "path": "executor/verification/2026-10-27-market-readers-live-v1",
+      "files": 39,
+      "bytes": 270682,
+      "retainedFiles": 1,
+      "retainedBytes": 7816
+    },
+    {
+      "path": "executor/verification/2026-10-27-market-usability-ui-v1",
+      "files": 27,
+      "bytes": 438815,
+      "retainedFiles": 1,
+      "retainedBytes": 5292
+    },
+    {
+      "path": "executor/verification/2026-10-27-new-chain-preflight-ui-v1",
+      "files": 183,
+      "bytes": 598806,
+      "retainedFiles": 1,
+      "retainedBytes": 8776
+    },
+    {
+      "path": "executor/verification/2026-10-27-reset-native-preflight-v1",
+      "files": 2,
+      "bytes": 418221,
+      "retainedFiles": 1,
+      "retainedBytes": 29691
+    },
+    {
+      "path": "executor/verification/2026-10-27-rpc-recovery-v1",
+      "files": 4,
+      "bytes": 9167,
+      "retainedFiles": 4,
+      "retainedBytes": 9167
+    },
+    {
+      "path": "executor/verification/2026-10-27-safe-wallet-native-v1",
+      "files": 153,
+      "bytes": 2304123,
+      "retainedFiles": 2,
+      "retainedBytes": 47811
+    },
+    {
+      "path": "executor/verification/2026-10-27-sdk-mainnet-beta-v1",
+      "files": 46,
+      "bytes": 495944,
+      "retainedFiles": 2,
+      "retainedBytes": 26915
+    },
+    {
+      "path": "executor/verification/2026-10-27-wallet-browser-lock-v1",
+      "files": 9,
+      "bytes": 12637,
+      "retainedFiles": 1,
+      "retainedBytes": 3297
+    },
+    {
+      "path": "executor/verification/2026-10-27-wallet-chain-guard-v1",
+      "files": 2,
+      "bytes": 74298,
+      "retainedFiles": 1,
+      "retainedBytes": 6313
+    },
+    {
+      "path": "executor/verification/2026-10-27-wallet-final-preconditions-v1",
+      "files": 7,
+      "bytes": 3114,
+      "retainedFiles": 1,
+      "retainedBytes": 2439
+    },
+    {
+      "path": "executor/verification/2026-10-27-wallet-formal-integration-v1",
+      "files": 2,
+      "bytes": 245932,
+      "retainedFiles": 1,
+      "retainedBytes": 22291
+    },
+    {
+      "path": "executor/verification/2026-10-27-wallet-loader-instance-v1",
+      "files": 22,
+      "bytes": 29352,
+      "retainedFiles": 1,
+      "retainedBytes": 8221
+    },
+    {
+      "path": "executor/verification/2026-10-27-wallet-loader-release-pins-v1",
+      "files": 4,
+      "bytes": 5971,
+      "retainedFiles": 1,
+      "retainedBytes": 1506
+    },
+    {
+      "path": "executor/verification/2026-10-27-wallet-native-verifier-v1",
+      "files": 139,
+      "bytes": 1892684,
+      "retainedFiles": 1,
+      "retainedBytes": 50759
+    },
+    {
+      "path": "executor/verification/2026-10-27-wallet-policy-boundary-v1",
+      "files": 2,
+      "bytes": 142201,
+      "retainedFiles": 1,
+      "retainedBytes": 8131
+    },
+    {
+      "path": "executor/verification/2026-10-27-wallet-reviewed-resources-v1",
+      "files": 211,
+      "bytes": 7814091,
+      "retainedFiles": 0,
+      "retainedBytes": 0
+    },
+    {
+      "path": "executor/verification/2026-10-28-checkpoint-compatibility-v1",
+      "files": 8,
+      "bytes": 644705,
+      "retainedFiles": 7,
+      "retainedBytes": 24850
+    },
+    {
+      "path": "executor/verification/2026-10-28-checkpoint-processor-v1",
+      "files": 163,
+      "bytes": 17974128,
+      "retainedFiles": 2,
+      "retainedBytes": 25117
+    },
+    {
+      "path": "executor/verification/2026-10-28-checkpoint-stream-v1",
+      "files": 87,
+      "bytes": 2271938,
+      "retainedFiles": 4,
+      "retainedBytes": 52794
+    },
+    {
+      "path": "executor/verification/2026-10-28-first-session-wallet-v1",
+      "files": 2,
+      "bytes": 7778858,
+      "retainedFiles": 1,
+      "retainedBytes": 17166
+    },
+    {
+      "path": "executor/verification/2026-10-28-previous-checkpoint-v1",
+      "files": 91,
+      "bytes": 7254641,
+      "retainedFiles": 4,
+      "retainedBytes": 67312
+    },
+    {
+      "path": "executor/verification/2026-10-28-random-order-components-v1",
+      "files": 3,
+      "bytes": 671872,
+      "retainedFiles": 2,
+      "retainedBytes": 21976
+    },
+    {
+      "path": "executor/verification/2026-10-28-random-request-recovery-v1",
+      "files": 3,
+      "bytes": 199551,
+      "retainedFiles": 2,
+      "retainedBytes": 13365
+    },
+    {
+      "path": "executor/verification/2026-10-28-random-source-boundary-v1",
+      "files": 9,
+      "bytes": 4305306,
+      "retainedFiles": 6,
+      "retainedBytes": 82243
+    },
+    {
+      "path": "executor/verification/2026-10-28-random-source-preflight-v1",
+      "files": 1,
+      "bytes": 1304,
+      "retainedFiles": 1,
+      "retainedBytes": 1304
+    },
+    {
+      "path": "executor/verification/2026-10-28-reset-amm-bootstrap-v1",
+      "files": 2,
+      "bytes": 199234,
+      "retainedFiles": 1,
+      "retainedBytes": 54972
+    },
+    {
+      "path": "executor/verification/2026-10-28-scoped-random-seal-v1",
+      "files": 7,
+      "bytes": 611482,
+      "retainedFiles": 6,
+      "retainedBytes": 57146
+    },
+    {
+      "path": "executor/verification/2026-10-28-seal-inclusion-v1",
+      "files": 3,
+      "bytes": 654025,
+      "retainedFiles": 2,
+      "retainedBytes": 29851
+    },
+    {
+      "path": "executor/verification/2026-10-28-seal-order-v1",
+      "files": 3,
+      "bytes": 1148347,
+      "retainedFiles": 2,
+      "retainedBytes": 19936
+    },
+    {
+      "path": "executor/verification/2026-10-29-diagram-producer-recovery-v1",
+      "files": 99,
+      "bytes": 382712,
+      "retainedFiles": 4,
+      "retainedBytes": 55769
+    },
+    {
+      "path": "executor/verification/2026-10-29-final-state-coverage-v1",
+      "files": 92,
+      "bytes": 6038734,
+      "retainedFiles": 4,
+      "retainedBytes": 7688
+    },
+    {
+      "path": "executor/verification/2026-10-29-global-pair-frontier-v1",
+      "files": 521,
+      "bytes": 22172246,
+      "retainedFiles": 3,
+      "retainedBytes": 12408
+    },
+    {
+      "path": "executor/verification/2026-10-29-pair-dependency-source-readiness-v1",
+      "files": 1482,
+      "bytes": 5526821,
+      "retainedFiles": 5,
+      "retainedBytes": 6744
+    },
+    {
+      "path": "executor/verification/2026-10-29-pair-triangular-recovery-v1",
+      "files": 856,
+      "bytes": 34770677,
+      "retainedFiles": 3,
+      "retainedBytes": 16975
+    },
+    {
+      "path": "executor/verification/2026-10-29-paired-source-refunds-v1",
+      "files": 605,
+      "bytes": 21559252,
+      "retainedFiles": 3,
+      "retainedBytes": 27002
+    },
+    {
+      "path": "executor/verification/2026-10-29-random-minimum-promotion-v1",
+      "files": 104,
+      "bytes": 2811953,
+      "retainedFiles": 4,
+      "retainedBytes": 49348
+    },
+    {
+      "path": "executor/verification/2026-10-29-source-covered-stream-ups-v1",
+      "files": 456,
+      "bytes": 28399577,
+      "retainedFiles": 4,
+      "retainedBytes": 40638
+    },
+    {
+      "path": "executor/verification/2026-10-29-source-random-stream-v1",
+      "files": 527,
+      "bytes": 36733297,
+      "retainedFiles": 3,
+      "retainedBytes": 11721
+    },
+    {
+      "path": "executor/verification/2026-10-30-accepted-seal-delayed-draw-v1",
+      "files": 540,
+      "bytes": 38767771,
+      "retainedFiles": 3,
+      "retainedBytes": 3517
+    },
+    {
+      "path": "executor/verification/2026-10-30-checkpoint-pair-resource-audit-v1",
+      "files": 141,
+      "bytes": 2302676,
+      "retainedFiles": 3,
+      "retainedBytes": 62773
+    },
+    {
+      "path": "executor/verification/2026-10-30-checkpoint-protocol-cause-review-v1",
+      "files": 97,
+      "bytes": 1054480,
+      "retainedFiles": 3,
+      "retainedBytes": 53944
+    },
+    {
+      "path": "executor/verification/2026-10-30-checkpoint-public-delivery-v1",
+      "files": 117,
+      "bytes": 375277,
+      "retainedFiles": 4,
+      "retainedBytes": 56652
+    },
+    {
+      "path": "executor/verification/2026-10-30-current-chain-native-ups-v1",
+      "files": 3,
+      "bytes": 448086,
+      "retainedFiles": 1,
+      "retainedBytes": 2438
+    },
+    {
+      "path": "executor/verification/2026-10-30-gloas-certificate-v1",
+      "files": 183,
+      "bytes": 853044,
+      "retainedFiles": 2,
+      "retainedBytes": 5038
+    },
+    {
+      "path": "executor/verification/2026-10-30-l1-proof-window-v1",
+      "files": 290,
+      "bytes": 678716,
+      "retainedFiles": 2,
+      "retainedBytes": 5623
+    },
+    {
+      "path": "executor/verification/2026-10-30-minimum-stream-integration-v1",
+      "files": 772,
+      "bytes": 46542279,
+      "retainedFiles": 3,
+      "retainedBytes": 8666
+    },
+    {
+      "path": "executor/verification/2026-10-30-minimum-vault-bootstrap-v1",
+      "files": 230,
+      "bytes": 8506235,
+      "retainedFiles": 3,
+      "retainedBytes": 12556
+    },
+    {
+      "path": "executor/verification/2026-10-30-runtime-public-resources-summary-v1",
+      "files": 6,
+      "bytes": 6763,
+      "retainedFiles": 2,
+      "retainedBytes": 2031
+    },
+    {
+      "path": "executor/verification/2026-10-30-runtime-public-resources-v1",
+      "files": 57,
+      "bytes": 146039,
+      "retainedFiles": 3,
+      "retainedBytes": 24169
+    },
+    {
+      "path": "executor/verification/2026-10-30-source-stream-native-receipt-v1",
+      "files": 177,
+      "bytes": 8563293,
+      "retainedFiles": 2,
+      "retainedBytes": 4428
+    },
+    {
+      "path": "executor/verification/2026-10-31-deterministic-funded-bootstrap-v1",
+      "files": 146,
+      "bytes": 8287758,
+      "retainedFiles": 3,
+      "retainedBytes": 7703
+    },
+    {
+      "path": "executor/verification/2026-10-31-deterministic-funded-continuation-v1",
+      "files": 251,
+      "bytes": 7234689,
+      "retainedFiles": 3,
+      "retainedBytes": 9475
+    },
+    {
+      "path": "executor/verification/2026-10-31-faucet-funding-v1",
+      "files": 3,
+      "bytes": 198404,
+      "retainedFiles": 1,
+      "retainedBytes": 1735
+    },
+    {
+      "path": "executor/verification/2026-10-31-faucet-start-root-v1",
+      "files": 4,
+      "bytes": 241602,
+      "retainedFiles": 2,
+      "retainedBytes": 3539
+    },
+    {
+      "path": "executor/verification/2026-10-31-formal-funded-executor-v3",
+      "files": 902,
+      "bytes": 15806739,
+      "retainedFiles": 1,
+      "retainedBytes": 4847
+    },
+    {
+      "path": "executor/verification/2026-10-31-four-market-adversarial-v1",
+      "files": 3,
+      "bytes": 116817,
+      "retainedFiles": 2,
+      "retainedBytes": 18622
+    },
+    {
+      "path": "executor/verification/2026-10-31-four-market-suite-v1",
+      "files": 3,
+      "bytes": 9803318,
+      "retainedFiles": 2,
+      "retainedBytes": 46990
+    },
+    {
+      "path": "executor/verification/2026-10-31-four-market-suite-v2",
+      "files": 4,
+      "bytes": 9806058,
+      "retainedFiles": 3,
+      "retainedBytes": 49052
+    },
+    {
+      "path": "executor/verification/2026-10-31-funded-native-claim-v1",
+      "files": 3,
+      "bytes": 873049,
+      "retainedFiles": 1,
+      "retainedBytes": 1850
+    },
+    {
+      "path": "executor/verification/2026-10-31-funded-pair-executor-v1",
+      "files": 1734,
+      "bytes": 28247269,
+      "retainedFiles": 1,
+      "retainedBytes": 6718
+    },
+    {
+      "path": "executor/verification/2026-10-31-funded-qa-deployment-v1",
+      "files": 3,
+      "bytes": 8937532,
+      "retainedFiles": 2,
+      "retainedBytes": 38002
+    },
+    {
+      "path": "executor/verification/2026-10-31-production-transport-v1",
+      "files": 3,
+      "bytes": 151159,
+      "retainedFiles": 2,
+      "retainedBytes": 22121
+    },
+    {
+      "path": "executor/verification/2026-10-31-production-transport-v2",
+      "files": 3,
+      "bytes": 158811,
+      "retainedFiles": 2,
+      "retainedBytes": 23484
+    },
+    {
+      "path": "executor/verification/2026-11-01-authorized-fee-exit-v1",
+      "files": 4349,
+      "bytes": 78040020,
+      "retainedFiles": 2,
+      "retainedBytes": 12706
+    },
+    {
+      "path": "executor/verification/2026-11-01-wallet-profile-install-v1",
+      "files": 5,
+      "bytes": 6611,
+      "retainedFiles": 5,
+      "retainedBytes": 6611
+    },
+    {
+      "path": "executor/verification/2026-11-02-audit-amm-ups-v1",
+      "files": 97,
+      "bytes": 2860493,
+      "retainedFiles": 2,
+      "retainedBytes": 27101
+    },
+    {
+      "path": "executor/verification/2026-11-02-audit-curve-ups-v1",
+      "files": 68,
+      "bytes": 3034014,
+      "retainedFiles": 2,
+      "retainedBytes": 20189
+    },
+    {
+      "path": "executor/verification/2026-11-02-audit-migration-v1",
+      "files": 129,
+      "bytes": 15951168,
+      "retainedFiles": 2,
+      "retainedBytes": 42679
+    },
+    {
+      "path": "executor/verification/2026-11-02-audit-native-binding-v1",
+      "files": 20,
+      "bytes": 44887,
+      "retainedFiles": 2,
+      "retainedBytes": 6848
+    },
+    {
+      "path": "executor/verification/2026-11-02-audit-sdk-compatibility-v1",
+      "files": 14,
+      "bytes": 54204,
+      "retainedFiles": 2,
+      "retainedBytes": 4219
+    },
+    {
+      "path": "executor/verification/2026-11-02-audit-wallet-proof-v1",
+      "files": 33,
+      "bytes": 2491810,
+      "retainedFiles": 2,
+      "retainedBytes": 10752
+    },
+    {
+      "path": "executor/verification/2026-11-02-production-resume-v1",
+      "files": 39,
+      "bytes": 154131,
+      "retainedFiles": 3,
+      "retainedBytes": 16131
+    },
+    {
+      "path": "executor/verification/2026-11-02-reset-chain-deployment-v1",
+      "files": 29,
+      "bytes": 401263,
+      "retainedFiles": 2,
+      "retainedBytes": 7449
+    },
+    {
+      "path": "executor/verification/2026-11-02-reset-chain-source-check-v1.json",
+      "files": 1,
+      "bytes": 10009,
+      "retainedFiles": 1,
+      "retainedBytes": 10009
+    }
+  ]
+}

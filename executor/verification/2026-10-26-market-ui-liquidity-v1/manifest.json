@@ -1,0 +1,43 @@
+{
+  "schema": 1,
+  "sourceDirectory": "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-market-recovery-20261023",
+  "machine": "gewenbo.local",
+  "host": "macOS-15.7.3-arm64-arm-64bit",
+  "scope": "public formal Executor run including failures; success requires exact included receipt",
+  "walletFilesIncluded": false,
+  "sealedBinariesIncluded": false,
+  "records": [
+    {
+      "source": "market-ui-liquidity-20261026-v1/build-v1.log",
+      "file": "files/market-ui-liquidity-20261026-v1/build-v1.log.gz",
+      "bytes": 404,
+      "sha256": "ccd8b22e4d0371dfb285271c601c71a688e5d92ba8b5fa93d124e35ed2daf2ad",
+      "gzipBytes": 272,
+      "gzipSha256": "05121c50cc66a85159315873b216796f2e6d8ec32c0fb9f58e258bfbfb0f7195"
+    },
+    {
+      "source": "market-ui-liquidity-20261026-v1/public/BROWSER-QA-v1.json",
+      "file": "files/market-ui-liquidity-20261026-v1/public/BROWSER-QA-v1.json.gz",
+      "bytes": 1459,
+      "sha256": "fb78dba70c520e8bc209b3f0a36a7a6416e73312a24f6dc222604744f9a6bc57",
+      "gzipBytes": 595,
+      "gzipSha256": "be9d6b309ea08cab1f59c8f112cbfdb769015a5384f6137610ea7333563cf8c4"
+    },
+    {
+      "source": "market-ui-liquidity-20261026-v1/public/BUILD-RESULT-v1.json",
+      "file": "files/market-ui-liquidity-20261026-v1/public/BUILD-RESULT-v1.json.gz",
+      "bytes": 4846,
+      "sha256": "f77fbca643822c72767e37a402fdd41284c369e381a3669f5ed2c7a563654d33",
+      "gzipBytes": 2362,
+      "gzipSha256": "9b420209ffc28486e271341063f7e8235618ccf98f63ecbe47751c67e8c54076"
+    },
+    {
+      "source": "market-ui-liquidity-20261026-v1/regressions-v1.log",
+      "file": "files/market-ui-liquidity-20261026-v1/regressions-v1.log.gz",
+      "bytes": 2232,
+      "sha256": "6c824f6699f8151fdabb352d708ab29e2ebf71c8baf54dfe637d4a040cee8f33",
+      "gzipBytes": 1178,
+      "gzipSha256": "c654ae103ccb275b9c553e469409611343e87ba87b5d4478a3ccfd86bd16c7e6"
+    }
+  ]
+}

@@ -1,0 +1,427 @@
+{
+  "schema": 1,
+  "sourceDirectory": "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-market-recovery-20261023/performance-live-v1",
+  "machine": "gewenbo.local",
+  "host": "macOS-15.7.3-arm64-arm-64bit",
+  "scope": "public formal Executor run including failures; success requires exact included receipt",
+  "walletFilesIncluded": false,
+  "sealedBinariesIncluded": false,
+  "records": [
+    {
+      "source": "attempts/performance-owner-faucet-v1/intent.json",
+      "file": "files/attempts/performance-owner-faucet-v1/intent.json.gz",
+      "bytes": 218,
+      "sha256": "90aeb0e40eb2db6a0f9290a16153a95ae327f4ae7275a9b3303e7f23f43f452f",
+      "gzipBytes": 203,
+      "gzipSha256": "7ab5d91a2119bb24193f8cae4a2881add5c31a287d8a106fdb719a71edf449ef"
+    },
+    {
+      "source": "attempts/performance-owner-faucet-v1/observation.json",
+      "file": "files/attempts/performance-owner-faucet-v1/observation.json.gz",
+      "bytes": 170,
+      "sha256": "d65e15c36f6421c498876d57bbfa20ab495b84dcc33639717fae7885940f5a32",
+      "gzipBytes": 168,
+      "gzipSha256": "d451a302f53bd47f9a7ddbfd255801ed5b0b791949331861ae4377bf7d724dbe"
+    },
+    {
+      "source": "attempts/performance-owner-faucet-v1/request.json",
+      "file": "files/attempts/performance-owner-faucet-v1/request.json.gz",
+      "bytes": 94,
+      "sha256": "6d0543e7d533e8332a30f87a3ca662d650151b16d2dbf19009dae78619456eb2",
+      "gzipBytes": 108,
+      "gzipSha256": "b6bf4e95245d99916364d98ee2bba1c089aa1562b2df6afa3901b58481ce9643"
+    },
+    {
+      "source": "attempts/performance-owner-faucet-v1/response.json",
+      "file": "files/attempts/performance-owner-faucet-v1/response.json.gz",
+      "bytes": 230,
+      "sha256": "6a868627978962d3f823af534c3614b93b9e1a5522593a77ef1d9bb48146f0e9",
+      "gzipBytes": 189,
+      "gzipSha256": "93b824134b0384ba233a1d0f08c1e1666961f04bd1ab34faae9a788d0646d7ae"
+    },
+    {
+      "source": "attempts/performance-owner-native-claim-v1/failure.json",
+      "file": "files/attempts/performance-owner-native-claim-v1/failure.json.gz",
+      "bytes": 286,
+      "sha256": "660c9e536475e09f805cb0db22c37c1c6b51f8ccf7887a6422a4cdfb3d6cd413",
+      "gzipBytes": 225,
+      "gzipSha256": "3f882cacbe1d2d1b88be365574674fd5228f7517eb1b82a487a4759db96800be"
+    },
+    {
+      "source": "attempts/performance-owner-native-claim-v1-reviewed-v1/included.json",
+      "file": "files/attempts/performance-owner-native-claim-v1-reviewed-v1/included.json.gz",
+      "bytes": 2522,
+      "sha256": "a56e7be950c4966b3d11fbb86d94536384967ad49110d5833cb0c878a92d9fe4",
+      "gzipBytes": 1126,
+      "gzipSha256": "d4826da56f453f4dd4808dbf8dc248a1f49a9d05cc3e14fb6c88eb447a66742b"
+    },
+    {
+      "source": "attempts/performance-owner-native-claim-v1-reviewed-v1/intent.json",
+      "file": "files/attempts/performance-owner-native-claim-v1-reviewed-v1/intent.json.gz",
+      "bytes": 184,
+      "sha256": "67ac642eb0a49891d6bb69120686cf867ca20015c8a6bfb491c3d041ccac4230",
+      "gzipBytes": 167,
+      "gzipSha256": "2d7a508d53e6a432af399c0a0961af5eeab3794989aafe49656371bf33897694"
+    },
+    {
+      "source": "attempts/performance-owner-native-claim-v1-reviewed-v1/preflight.json",
+      "file": "files/attempts/performance-owner-native-claim-v1-reviewed-v1/preflight.json.gz",
+      "bytes": 1614,
+      "sha256": "4f4bf70e6faa59a2420ef5cbc7adf004967b3660c4b6dbc071d87c49241c6dc0",
+      "gzipBytes": 782,
+      "gzipSha256": "bd3525206241fe7aae99ab6caac1aa95a8b793ca25934b88be4a98a0536018b8"
+    },
+    {
+      "source": "attempts/performance-owner-native-claim-v1-reviewed-v1/receipt.json",
+      "file": "files/attempts/performance-owner-native-claim-v1-reviewed-v1/receipt.json.gz",
+      "bytes": 258,
+      "sha256": "cd7cffb119b313614048972e56f981b074b48247c14c30662aef92c83a4bcf58",
+      "gzipBytes": 183,
+      "gzipSha256": "7835b7533bf026a11a0dd03b0889b4cf3a9f8f183c712bcdda26db6f68cd92ff"
+    },
+    {
+      "source": "attempts/performance-owner-native-claim-v1-reviewed-v1/request.json",
+      "file": "files/attempts/performance-owner-native-claim-v1-reviewed-v1/request.json.gz",
+      "bytes": 1122261,
+      "sha256": "20649677c9a646c39bc4e5bc92fbfad65c25d030eff0d78f556467dcdd26dda9",
+      "gzipBytes": 191766,
+      "gzipSha256": "ce85a8cec414bb645bc51a40f2a6c7da1d2317593f924e495fc3457ceb746b1a"
+    },
+    {
+      "source": "attempts/performance-owner-native-claim-v1-reviewed-v1/rpc-request.json",
+      "file": "files/attempts/performance-owner-native-claim-v1-reviewed-v1/rpc-request.json.gz",
+      "bytes": 468239,
+      "sha256": "04e5a95818f69fca3d2d5f71d776e89990f551cf9c26391caa498f5f1929bae3",
+      "gzipBytes": 166367,
+      "gzipSha256": "ef79fac53782f2c64e9825b6f7e29ad2acf29584e5bd9d283cc14ff5b1ea9e11"
+    },
+    {
+      "source": "attempts/performance-owner-native-claim-v1-reviewed-v1/rpc-response-meta.json",
+      "file": "files/attempts/performance-owner-native-claim-v1-reviewed-v1/rpc-response-meta.json.gz",
+      "bytes": 120,
+      "sha256": "eae25f2bfcaa6f20707ae957d3a4c79897b62f68f10ffca3a7a40358eb2dccc6",
+      "gzipBytes": 118,
+      "gzipSha256": "c34bcfdf82407e005e84054a0b1d526e7d5f8c18d463464ad94d05c0109a189b"
+    },
+    {
+      "source": "attempts/performance-owner-native-claim-v1-reviewed-v1/rpc-response.body",
+      "file": "files/attempts/performance-owner-native-claim-v1-reviewed-v1/rpc-response.body.gz",
+      "bytes": 38,
+      "sha256": "0d838a349418eb2e4db232f5454ddf684afea2d53c155da1fca3952dd564bab5",
+      "gzipBytes": 57,
+      "gzipSha256": "dcd098dc4a0e86eaf34f9806fa594225f4131d05ad260f60b72acf16432af8bf"
+    },
+    {
+      "source": "attempts/performance-owner-native-claim-v1-reviewed-v1/timing.json",
+      "file": "files/attempts/performance-owner-native-claim-v1-reviewed-v1/timing.json.gz",
+      "bytes": 107,
+      "sha256": "441ccfd102da87f35a0e7a8fc8529c97a004435c679cbf6f77bcc39952366dd1",
+      "gzipBytes": 103,
+      "gzipSha256": "7e212237a3345149798243cda84b0337749a7d37dcbda7aeb7e7c976cd50829f"
+    },
+    {
+      "source": "attempts/register-performance-owner-v1/intent.json",
+      "file": "files/attempts/register-performance-owner-v1/intent.json.gz",
+      "bytes": 268,
+      "sha256": "4ddfd701a7636664ce2c524be90625c679fbe0a3c52f9f887a5799d250bdaa8c",
+      "gzipBytes": 216,
+      "gzipSha256": "bcc91c190f5218d912fe77ce0fccb2a58a7f15e8f47e4a595d1affd5f4d5c523"
+    },
+    {
+      "source": "attempts/register-performance-owner-v1/receipt.json",
+      "file": "files/attempts/register-performance-owner-v1/receipt.json.gz",
+      "bytes": 151,
+      "sha256": "f033a184a483662a42b48e3d47d5598380525209315ffa6c016ecd149674da7d",
+      "gzipBytes": 142,
+      "gzipSha256": "765c319105e0649923f7991c365678a9d170b4ac948351fa524c968db5e13ade"
+    },
+    {
+      "source": "attempts/register-performance-owner-v1/request.json",
+      "file": "files/attempts/register-performance-owner-v1/request.json.gz",
+      "bytes": 204,
+      "sha256": "a44a50cf2295d97e840cb3f0737f13846599ec75f2530b7055f58491b7ecc96c",
+      "gzipBytes": 170,
+      "gzipSha256": "6a24021dcb6c7fe4ac803a7991cf3b399a6d724e92e1a311b662316e1a80e9cb"
+    },
+    {
+      "source": "attempts/register-performance-owner-v1/timing.json",
+      "file": "files/attempts/register-performance-owner-v1/timing.json.gz",
+      "bytes": 106,
+      "sha256": "41704e58e13506c8aaf2437095b843b3121194ee532f9b52180ccd42cd5efdf1",
+      "gzipBytes": 103,
+      "gzipSha256": "cfea684a09be7ddff7b5f55d01e0222c056fb669f9194986f034ee8479d6c5c8"
+    },
+    {
+      "source": "attempts/register-performance-recipient-v1/intent.json",
+      "file": "files/attempts/register-performance-recipient-v1/intent.json.gz",
+      "bytes": 268,
+      "sha256": "5592b510cc2d1e51a29bca752c2059cf2579052abe22ea46fcdf1178ebd7ece7",
+      "gzipBytes": 215,
+      "gzipSha256": "49cee15eaf49ea365e439a2e5228eea9086e1c9889cb8ed9d24a9ed075c6c111"
+    },
+    {
+      "source": "attempts/register-performance-recipient-v1/receipt.json",
+      "file": "files/attempts/register-performance-recipient-v1/receipt.json.gz",
+      "bytes": 151,
+      "sha256": "26597223ff888b245cd0b01e9c74c11787808b58e8c9bf78803fdf8bbdd90898",
+      "gzipBytes": 144,
+      "gzipSha256": "39039609607ea75c15da6bb5bd8b0d42e8151d0462735e3ec7081ef43e053f28"
+    },
+    {
+      "source": "attempts/register-performance-recipient-v1/request.json",
+      "file": "files/attempts/register-performance-recipient-v1/request.json.gz",
+      "bytes": 204,
+      "sha256": "c48d5de1f42079374e02c94adb5f9965d41f256cf990b5b22e40d7c44bd23d72",
+      "gzipBytes": 172,
+      "gzipSha256": "dac9e3cc0dd64ec01d18cc66fbbbd983f4869de21ed6f5177b5378aab7134917"
+    },
+    {
+      "source": "attempts/register-performance-recipient-v1/timing.json",
+      "file": "files/attempts/register-performance-recipient-v1/timing.json.gz",
+      "bytes": 106,
+      "sha256": "a9077ad92708079ca28f3fd31c4c399ce5871454fb68b9b45275a83c832a26f8",
+      "gzipBytes": 104,
+      "gzipSha256": "ccc78bac344039e5010f793a9c0058d49fae341537078b58c2f6393a2310b754"
+    },
+    {
+      "source": "create-performance-owner-v1.log",
+      "file": "files/create-performance-owner-v1.log.gz",
+      "bytes": 719,
+      "sha256": "9dfde0b903388d58ee4487cd4b5389358e9ed849ee31fe35ad523cf3ee142f9e",
+      "gzipBytes": 360,
+      "gzipSha256": "602df8f253b1673cac3d577d44062123e5a9144c6113f095caab668259e3d199"
+    },
+    {
+      "source": "create-performance-recipient-v1.log",
+      "file": "files/create-performance-recipient-v1.log.gz",
+      "bytes": 719,
+      "sha256": "0d3d97c9b855d139427565088a494b60e34d94c0b76bd3d3cd870cc9344a542c",
+      "gzipBytes": 363,
+      "gzipSha256": "26bd39411ecd846fb5ba9e941bcc0d08a5f8cf254f304099e6c572b32bbc9371"
+    },
+    {
+      "source": "performance-actors-v1.log",
+      "file": "files/performance-actors-v1.log.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "performance-native-claim-owner-v1.log",
+      "file": "files/performance-native-claim-owner-v1.log.gz",
+      "bytes": 603,
+      "sha256": "28f79ffa75ed4b05b40316959df1a1c213aa89e26be336252a7df0a7d149a0d5",
+      "gzipBytes": 425,
+      "gzipSha256": "c0ef3f84589ea6f44ca95a6e226c8843860d3994b8c3b8b9fafe826a5cdb1add"
+    },
+    {
+      "source": "performance-native-claim-owner-v2.log",
+      "file": "files/performance-native-claim-owner-v2.log.gz",
+      "bytes": 1094,
+      "sha256": "1a2ef70f27cd45a29e32ab327c197a8bfb1ebdde23ae6d81db497c0e4aa86839",
+      "gzipBytes": 508,
+      "gzipSha256": "f8b8a35310fa852a385e62055b55829744b36e4c618bf2f24456fd42d5327d71"
+    },
+    {
+      "source": "performance-native-claim-repair-v1.log",
+      "file": "files/performance-native-claim-repair-v1.log.gz",
+      "bytes": 1321,
+      "sha256": "d71e574c9fdbc95f661c695c7578bf722ef030ffd6413b2bad8f18c293c044e8",
+      "gzipBytes": 564,
+      "gzipSha256": "34751ebf6690ea2f2405ba87bedd08a240d913dd096b322a4d23cb348faf2bfa"
+    },
+    {
+      "source": "performance-native-claim-repair-v2.log",
+      "file": "files/performance-native-claim-repair-v2.log.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "performance-owner-faucet-v1.log",
+      "file": "files/performance-owner-faucet-v1.log.gz",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipBytes": 20,
+      "gzipSha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    {
+      "source": "performance-owner-native-claim-v1-reviewed-v1.log",
+      "file": "files/performance-owner-native-claim-v1-reviewed-v1.log.gz",
+      "bytes": 2384,
+      "sha256": "64bd2f87b8ffe885d7d6f39d53c4d33f7310b07c245e3d1d8ef8932bc3b4424e",
+      "gzipBytes": 750,
+      "gzipSha256": "7b79328259d08fb66ca0b4ffa8a13a897fca5a42453fdbbaedaa1fd2a5e8c5fc"
+    },
+    {
+      "source": "performance-owner-native-claim-v1.log",
+      "file": "files/performance-owner-native-claim-v1.log.gz",
+      "bytes": 898,
+      "sha256": "bdc48356571b8dd03d65b5d23736138224a9cab6823bf405187f23c5b80ababd",
+      "gzipBytes": 476,
+      "gzipSha256": "c4832850a8f15d4ee5d910522ba81d555d45fb37e59af7f057497c4e015367e8"
+    },
+    {
+      "source": "public/BASELINE-NATIVE-CLAIM-v1.json",
+      "file": "files/public/BASELINE-NATIVE-CLAIM-v1.json.gz",
+      "bytes": 3043,
+      "sha256": "358f94b288fb7dc0561fda8b0544b2cfdd3ee3aab81cbfcd54093057161d0441",
+      "gzipBytes": 1499,
+      "gzipSha256": "8697307a71794cd05ca08d13e88cdec828cf72e58c2fd3971cde8c03f9e4b705"
+    },
+    {
+      "source": "public/BOOTSTRAP-SOURCE-v1.json",
+      "file": "files/public/BOOTSTRAP-SOURCE-v1.json.gz",
+      "bytes": 942,
+      "sha256": "5c09a94ecc322cea0cfe595bc44efd97d6ac3345256565c75eea4c937650ddd2",
+      "gzipBytes": 570,
+      "gzipSha256": "4f43abacac76346d63891cc3999077528a70df4b99971b0fdd6f0025ea0fbe08"
+    },
+    {
+      "source": "public/BOOTSTRAP-SOURCE-v2.json",
+      "file": "files/public/BOOTSTRAP-SOURCE-v2.json.gz",
+      "bytes": 1060,
+      "sha256": "f4df95011d1668bc5f2a82d56e54dcf39caba9624ecedca2974df9fcb6db97a7",
+      "gzipBytes": 616,
+      "gzipSha256": "591c4ebe7c6d2070c946d2b5c3319a129b06997fdc894090e7d0cbdbae681f08"
+    },
+    {
+      "source": "public/owner-faucet-status-observation-v1.json",
+      "file": "files/public/owner-faucet-status-observation-v1.json.gz",
+      "bytes": 727,
+      "sha256": "eec55d4c81e11f1ccf1ac5da6b4694bc73cb5e207dc2020ecdf57649f4216662",
+      "gzipBytes": 350,
+      "gzipSha256": "a878811cfd963619c20e70272882d1e56bf557721a38b5f5a3c6ceaeecb969bf"
+    },
+    {
+      "source": "public/owner-native-claim-independent-proof-v1.json",
+      "file": "files/public/owner-native-claim-independent-proof-v1.json.gz",
+      "bytes": 546,
+      "sha256": "14d29a9655a94904ae0e398fae0ebd245fe165ce020674a5ae2f90d0eeebf6f1",
+      "gzipBytes": 339,
+      "gzipSha256": "1c1c42b19fa026411c413cf00b6a2eda77ab250ca0948a3dc84799fa4ec322ac"
+    },
+    {
+      "source": "public/performance-owner-create-timing-v1.json",
+      "file": "files/public/performance-owner-create-timing-v1.json.gz",
+      "bytes": 106,
+      "sha256": "3547d5f3e7df773abb85d12ae3fc84eb26c9a5d3d09e549eaacd2ef7bc85caf6",
+      "gzipBytes": 104,
+      "gzipSha256": "f7205bf15d82449d51655001fc6932cefd86c8d3ac9cdb3219e84c75f03d74d4"
+    },
+    {
+      "source": "public/performance-owner-identity.json",
+      "file": "files/public/performance-owner-identity.json.gz",
+      "bytes": 369,
+      "sha256": "688bc7345b6c2f17a80520cc66597329e139714d6c81d84d6a957e4ded026e0c",
+      "gzipBytes": 266,
+      "gzipSha256": "55b4670c90c9a12b134de3de68955cbec0405e2190d48b5aba935b2fb46f56e4"
+    },
+    {
+      "source": "public/performance-owner-native-claim-v1-before.json",
+      "file": "files/public/performance-owner-native-claim-v1-before.json.gz",
+      "bytes": 210,
+      "sha256": "3e5c198eef6eee7d94b99ac0d8e28a5db780546c2533bddaa2037bec0fd5acf1",
+      "gzipBytes": 167,
+      "gzipSha256": "efc9baf2ba98cb50616488be070f5db78ad4718063fec7f5fac70bb467b43571"
+    },
+    {
+      "source": "public/performance-owner-native-claim-v1-reviewed-v1-complete.json",
+      "file": "files/public/performance-owner-native-claim-v1-reviewed-v1-complete.json.gz",
+      "bytes": 541,
+      "sha256": "14f05098a1485080494e4c58cafc33b7c6a663515b3948d3d3ad350e1eb45f64",
+      "gzipBytes": 343,
+      "gzipSha256": "90d54fe8aa516607c542faae6ceb9cd39ce2389935b54b4848b3522abfbde55b"
+    },
+    {
+      "source": "public/performance-owner-native-claim-v1-reviewed-v1-review.json",
+      "file": "files/public/performance-owner-native-claim-v1-reviewed-v1-review.json.gz",
+      "bytes": 642,
+      "sha256": "c295d6323166e7480433b4aea3adc5ec7b9cf530d019ff0f969f81d830f143de",
+      "gzipBytes": 454,
+      "gzipSha256": "24c2456a36bc1aad5640db48b2a284a0c60a49be7d8631977dacbb614c0e5ffb"
+    },
+    {
+      "source": "public/performance-owner-native-claim-v1-reviewed-v1.json",
+      "file": "files/public/performance-owner-native-claim-v1-reviewed-v1.json.gz",
+      "bytes": 515,
+      "sha256": "648dbabd365bc3364942ae10551a4dfaf06e84dd12141f270985dfb70ec85eec",
+      "gzipBytes": 309,
+      "gzipSha256": "fc8ef16ab5d538838094d883a935d8f2ec1e77c5d0616271b4c7d8a52e94b6c7"
+    },
+    {
+      "source": "public/performance-owner-native-claim-v1.json",
+      "file": "files/public/performance-owner-native-claim-v1.json.gz",
+      "bytes": 515,
+      "sha256": "648dbabd365bc3364942ae10551a4dfaf06e84dd12141f270985dfb70ec85eec",
+      "gzipBytes": 309,
+      "gzipSha256": "fc8ef16ab5d538838094d883a935d8f2ec1e77c5d0616271b4c7d8a52e94b6c7"
+    },
+    {
+      "source": "public/performance-owner-registration-observation-v1.json",
+      "file": "files/public/performance-owner-registration-observation-v1.json.gz",
+      "bytes": 344,
+      "sha256": "b327abe1b5b52a6a32648c41dcdf6456636447be4935adc3025ae3cb410dcc67",
+      "gzipBytes": 272,
+      "gzipSha256": "46ae317aa6011ff42fc0056b67ebd314a7904f6d6eafdf455cd5768ac9597472"
+    },
+    {
+      "source": "public/performance-recipient-create-timing-v1.json",
+      "file": "files/public/performance-recipient-create-timing-v1.json.gz",
+      "bytes": 106,
+      "sha256": "7f83d7c9cbea6543ba3d19dd00fd835a8f72e28008da7718b3c7a5363b6d32ca",
+      "gzipBytes": 104,
+      "gzipSha256": "2126324559b58736d13629ae17e76ff8c11833db159271c82fe64b2bd78ba103"
+    },
+    {
+      "source": "public/performance-recipient-identity.json",
+      "file": "files/public/performance-recipient-identity.json.gz",
+      "bytes": 369,
+      "sha256": "211ebbba7ca147563806162c93ef1697a90c0d18129bfb197f3dc02b2d7d0019",
+      "gzipBytes": 270,
+      "gzipSha256": "f04dc71ff5e791b9853baf4814ad36e1a235ade21ceaf3ab4b6b9f5971f0e27a"
+    },
+    {
+      "source": "public/performance-recipient-registration-observation-v1.json",
+      "file": "files/public/performance-recipient-registration-observation-v1.json.gz",
+      "bytes": 342,
+      "sha256": "abecd3d859d06324b8da931b6071e54badb2acce7a2e23e7c99e15c60166b743",
+      "gzipBytes": 270,
+      "gzipSha256": "fedafd85e5e8de4a5d265c362ef3d29d5a81f0268304b44727fdfcead7a0b7cf"
+    },
+    {
+      "source": "public/rpc.json",
+      "file": "files/public/rpc.json.gz",
+      "bytes": 1738,
+      "sha256": "93f0c6a80f0c34b596b4b1a862d0c2d51ee248ac8ddd5e88caf8157a59a398bc",
+      "gzipBytes": 577,
+      "gzipSha256": "ace57b52c39bfbc5d517ac55f07edd9063a43d627710e15cdef203cfc629c33a"
+    },
+    {
+      "source": "public/toolchain-v1.json",
+      "file": "files/public/toolchain-v1.json.gz",
+      "bytes": 1237,
+      "sha256": "0a743f70c530033e8114e6a0a0f5e6ddb82d91140a29fb1d16f3bccb0496b26f",
+      "gzipBytes": 536,
+      "gzipSha256": "a25e2a464c06ce7a75a0a903d67dd2b3b207c7d92c6e54d0916e9f00b97c503b"
+    },
+    {
+      "source": "register-performance-owner-v1.log",
+      "file": "files/register-performance-owner-v1.log.gz",
+      "bytes": 487,
+      "sha256": "6bf68946ae587585a183988c0144a6b893e51fdf2a394ee14bd2f4cf605d09ea",
+      "gzipBytes": 213,
+      "gzipSha256": "4e21348084ee8eef4fd93ef1c8564876de5c19dfae1a11e224948e43529bc4ab"
+    },
+    {
+      "source": "register-performance-recipient-v1.log",
+      "file": "files/register-performance-recipient-v1.log.gz",
+      "bytes": 487,
+      "sha256": "9e73426bcba1a1673aec1e57d379af021d9574b4925b004b326f4a10b89f676f",
+      "gzipBytes": 214,
+      "gzipSha256": "32ce05fc4c3ef06c2c413fb2d89d2b5817028de5563eeedbd9631513fe5da009"
+    }
+  ]
+}

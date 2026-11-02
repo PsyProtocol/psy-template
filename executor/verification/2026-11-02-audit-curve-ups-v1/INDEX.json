@@ -1,0 +1,404 @@
+{
+  "schema": 1,
+  "sdkCommit": "01b8f2b0a077367a7b9879baba1a72aea8ab5510",
+  "scope": "Twelve reachable complete synthetic Curve UPSs, including ordinary signed user/owner/issuer actions; no RPC submission",
+  "financialOperations": 0,
+  "rows": [
+    {
+      "path": "curve-full-v1/REPORT.json",
+      "bytes": 10903,
+      "sha256": "8dd43b71f03b0e538205746509a77eac6ad70764117bf0708c529fff86c4f152",
+      "gzipSha256": "12af08a6af7ab8ecd47ac2edd7fb87bd4343ea93b33aac6fc4ca0a459d0e308c"
+    },
+    {
+      "path": "curve-full-v1/bondingcurve-reachable-bootstrap/current.json",
+      "bytes": 15724,
+      "sha256": "dea47a87d15da1387c572633e85cca32fb4180ed0bdcf5ba2d9268ad3dd926c7",
+      "gzipSha256": "42cbb6cc407830f8e3f8d483e5487785e07682749d4b4cdf10ccd3d05f05ad7b"
+    },
+    {
+      "path": "curve-full-v1/bondingcurve-reachable-bootstrap/intent.json",
+      "bytes": 28718,
+      "sha256": "d8f5c858ccc2faf128ea01865c01b551ef5bbd959639ce40c131d5db226dc673",
+      "gzipSha256": "a4a87229746f5b4c1dba31e5076750973002602d9273bbb3e6d1215882f83cd5"
+    },
+    {
+      "path": "curve-full-v1/bondingcurve-reachable-bootstrap/key-proof.bin",
+      "bytes": 130568,
+      "sha256": "b65b0ed802af87645eb3716652ff6fbcf27a5702726a2da47405cae6b75609bf",
+      "gzipSha256": "7c1cd5a2c8abd8d9a2576fd36d7c348e3ac13d17339a1e4e320eaee85a0921bf"
+    },
+    {
+      "path": "curve-full-v1/bondingcurve-reachable-bootstrap/plan.json",
+      "bytes": 28718,
+      "sha256": "d8f5c858ccc2faf128ea01865c01b551ef5bbd959639ce40c131d5db226dc673",
+      "gzipSha256": "a4a87229746f5b4c1dba31e5076750973002602d9273bbb3e6d1215882f83cd5"
+    },
+    {
+      "path": "curve-full-v1/bondingcurve-reachable-bootstrap/public-session.json",
+      "bytes": 11824,
+      "sha256": "c89b034df85ac22d2f1a75b52d3ecd79081b07248536bd5e8ceae17ce157dd7b",
+      "gzipSha256": "4964936d25a850417b1b0674f37f9b812e6aa8f6a2119cde1ab7ec44f39f12fb"
+    },
+    {
+      "path": "curve-full-v1/bondingcurve-reachable-bootstrap/request.json",
+      "bytes": 501839,
+      "sha256": "260f9af1479d72b43853b220d972650eb9a0510cb1a4a2c2f5a5c52ad406179a",
+      "gzipSha256": "59183e771ad4d9c4fa9845aac48395b9fe27dd4f1e385bd072065e05b73a87f9"
+    },
+    {
+      "path": "curve-full-v1/bondingcurve-reachable-bootstrap/source.json",
+      "bytes": 28777,
+      "sha256": "144b388cc06941197d3a6f8b37d120e86a4d8948a3d6adeee02327f747580ed0",
+      "gzipSha256": "8479aa12b25a7751bdcaa981af2252a61590d0d1290b802b0b60e5cadaa1f114"
+    },
+    {
+      "path": "curve-full-v1/bondingcurve-reachable-bootstrap/verification.json",
+      "bytes": 1789,
+      "sha256": "a0c86ca594b11d5a9a7750f74465d825ee433e3b789b96b85d96b855580f94dc",
+      "gzipSha256": "61d0ee2ba58672817e5104118eba0a02e432e37561545022c32e25abf35b5e02"
+    },
+    {
+      "path": "curve-full-v1/bondingcurve-reachable-cover/current.json",
+      "bytes": 15724,
+      "sha256": "591c30253c002881c53a728607e8d19ae4dcb614b6daf78eb084b0dc44c46f2c",
+      "gzipSha256": "7dd8d7c1e5973400d16414b99b31bcce02a985a8a9881d286481b091e2850ccf"
+    },
+    {
+      "path": "curve-full-v1/bondingcurve-reachable-cover/intent.json",
+      "bytes": 253492,
+      "sha256": "d19db503e62db3544c12b228567bb41eb54c1eb7be3c4c917a2575741f2b2fb1",
+      "gzipSha256": "3f8b21385b7c8ab2d19aae0dcd081a9e41b268531407cf1116e3e24a0794f827"
+    },
+    {
+      "path": "curve-full-v1/bondingcurve-reachable-cover/key-proof.bin",
+      "bytes": 130568,
+      "sha256": "ff25bf5623f33ada0c743d9a830f1f24c0e90790d17551f64051d5a78c1d2da2",
+      "gzipSha256": "a65d11480f289eeabf9e20f175667431318ad4c1a3cac09adab9fb73160670eb"
+    },
+    {
+      "path": "curve-full-v1/bondingcurve-reachable-cover/plan.json",
+      "bytes": 253492,
+      "sha256": "d19db503e62db3544c12b228567bb41eb54c1eb7be3c4c917a2575741f2b2fb1",
+      "gzipSha256": "3f8b21385b7c8ab2d19aae0dcd081a9e41b268531407cf1116e3e24a0794f827"
+    },
+    {
+      "path": "curve-full-v1/bondingcurve-reachable-cover/public-session.json",
+      "bytes": 11835,
+      "sha256": "cad647478d9f79dfb07e915165e2092435eec6794a626340c4d0a7178a037390",
+      "gzipSha256": "5ee1664e9583920337853d04f2a8274901a9afe78dc776610859f6918dd35be8"
+    },
+    {
+      "path": "curve-full-v1/bondingcurve-reachable-cover/request.json",
+      "bytes": 497504,
+      "sha256": "9ccc55ed8145b03ba67a52bac5682682373bd1625daa9bbcf9826beca582ea87",
+      "gzipSha256": "b61fd9e4476d2ce41f2746a7738294ee8722ac04f55601dbf11c702e5a1133c7"
+    },
+    {
+      "path": "curve-full-v1/bondingcurve-reachable-cover/source.json",
+      "bytes": 197949,
+      "sha256": "8e910333f5c1ed1a0412168591ed743b5f24b4dcc921cc0d516c451ed3e4f166",
+      "gzipSha256": "9b0839fad0a9d20240da7ac34e2268555f9008d7ae79baebb7c53032c848a040"
+    },
+    {
+      "path": "curve-full-v1/bondingcurve-reachable-cover/verification.json",
+      "bytes": 1402,
+      "sha256": "bc5fe9cffc70ed0e8cbc41a6a502ec371a64e801ec556e1bb5fc51e05888e051",
+      "gzipSha256": "4b9f021fb57312315301f619462952333537c26c7fa25618eb4caba989ccc3b2"
+    },
+    {
+      "path": "curve-full-v1/bondingcurve-reachable-fee-recovery/current.json",
+      "bytes": 15724,
+      "sha256": "77b0ff7eff37cb728ac0d3b24a07e2c4d32f10d64d623c5d6faf9860a7c3e044",
+      "gzipSha256": "c473894f2e5325e40f03a482568bc01ec24a0b3639cdc3ae79a0c01fb2f0a029"
+    },
+    {
+      "path": "curve-full-v1/bondingcurve-reachable-fee-recovery/intent.json",
+      "bytes": 29097,
+      "sha256": "f7b17cec675135a995d48d91efa9e264775557f1878050a318d029eec2bac5c2",
+      "gzipSha256": "18f72942d3ade3f78afe7285d4757ef7d3a4359866072355e396a729f243442b"
+    },
+    {
+      "path": "curve-full-v1/bondingcurve-reachable-fee-recovery/key-proof.bin",
+      "bytes": 130568,
+      "sha256": "19d8183d2a0b6bc920baeadc42c20963208a1a183e4aac0a55dfb14751a0a5d0",
+      "gzipSha256": "1d885b7cb3052263cea233cf666d6e4eb3adccaebcdbd49734fa2e0133a89154"
+    },
+    {
+      "path": "curve-full-v1/bondingcurve-reachable-fee-recovery/plan.json",
+      "bytes": 29097,
+      "sha256": "f7b17cec675135a995d48d91efa9e264775557f1878050a318d029eec2bac5c2",
+      "gzipSha256": "18f72942d3ade3f78afe7285d4757ef7d3a4359866072355e396a729f243442b"
+    },
+    {
+      "path": "curve-full-v1/bondingcurve-reachable-fee-recovery/public-session.json",
+      "bytes": 11149,
+      "sha256": "1912159573a12b7d171c282e0278edf605fe632feed0349c990d8cf43197d7ee",
+      "gzipSha256": "ba40c9c58977e4c611c6aeffc252c15298b24211484be16772f997fc72879f61"
+    },
+    {
+      "path": "curve-full-v1/bondingcurve-reachable-fee-recovery/request.json",
+      "bytes": 477926,
+      "sha256": "87b4f0a666cc1f2280ae2676b796f66bf4d4c321fb6a1925ce4e2e6590578014",
+      "gzipSha256": "6dc1deb1dad2a2af6568ce2f8baf92db3b1b86d7020d0ae6466df7bf826922ca"
+    },
+    {
+      "path": "curve-full-v1/bondingcurve-reachable-fee-recovery/source.json",
+      "bytes": 197949,
+      "sha256": "a9c6740341031118b36fd9e9f0dff3ea75899e49895f53489a9f49bb9cae1b42",
+      "gzipSha256": "3ab4647a41b3189c20b57de4f311f3731bfd4f61b6cac95caa529c69e9004981"
+    },
+    {
+      "path": "curve-full-v1/bondingcurve-reachable-fee-recovery/verification.json",
+      "bytes": 1186,
+      "sha256": "f5b3fea4363274af82fdfff1fdf655ccfab0dd94f750862490583669b5113c72",
+      "gzipSha256": "3dc10ab9b82e9dcfd3c9893d80c83defa436e40e3f4f27a4f5c84c4a0fe1c2f3"
+    },
+    {
+      "path": "curve-full-v1/bondingcurve-reachable-fill/current.json",
+      "bytes": 15724,
+      "sha256": "af6663d9f0ca82e9edd946e71b986ba31a8c481eadf73ad5293568886f733208",
+      "gzipSha256": "1af902915384110d1de5957bc2be26d97b279e3da39e2914792dbc83759d7ec7"
+    },
+    {
+      "path": "curve-full-v1/bondingcurve-reachable-fill/intent.json",
+      "bytes": 262874,
+      "sha256": "1e43b1da97c9921c8f8210a384ae910c87dbb48a98dd10e4833b6023c8da3f11",
+      "gzipSha256": "fd38455d5eb57591b1902033541558c92685be1edbd555cd35079a04c8112ad4"
+    },
+    {
+      "path": "curve-full-v1/bondingcurve-reachable-fill/key-proof.bin",
+      "bytes": 130568,
+      "sha256": "7791fcadb721aa07e8426dc6feac4cfc12b37483a11208628d95b25e61b402f2",
+      "gzipSha256": "3ceae17a18e43d1545248c13e722f04899b2950348abf300150946d90e3ef0c9"
+    },
+    {
+      "path": "curve-full-v1/bondingcurve-reachable-fill/plan.json",
+      "bytes": 262874,
+      "sha256": "1e43b1da97c9921c8f8210a384ae910c87dbb48a98dd10e4833b6023c8da3f11",
+      "gzipSha256": "fd38455d5eb57591b1902033541558c92685be1edbd555cd35079a04c8112ad4"
+    },
+    {
+      "path": "curve-full-v1/bondingcurve-reachable-fill/public-session.json",
+      "bytes": 12590,
+      "sha256": "5bdb3d22f96fbecd75696ed2c47bbdd713940cb8d7e1992754151aa8553d8b02",
+      "gzipSha256": "5f48c27f36795903158851f1b176a6295667bdf3517dc5e5573843469d52eafa"
+    },
+    {
+      "path": "curve-full-v1/bondingcurve-reachable-fill/request.json",
+      "bytes": 582659,
+      "sha256": "dc8f913f442e4d37e98d70f80582eee1cffd4cf7d0ce81ceb0a59ab258a91ebb",
+      "gzipSha256": "db82b6538fc86c27801d5c401ef595010133ae672c3bb74a4de07d1cc90726ca"
+    },
+    {
+      "path": "curve-full-v1/bondingcurve-reachable-fill/source.json",
+      "bytes": 197949,
+      "sha256": "ca0d809a1f482aba1d4507bbfd541e1ff84557857a8667d0543d131503a48eae",
+      "gzipSha256": "bf6c02f8c6486aa5227a3b1f23c39b4066e8a38619d86e468dd418e013b162f1"
+    },
+    {
+      "path": "curve-full-v1/bondingcurve-reachable-fill/verification.json",
+      "bytes": 1879,
+      "sha256": "abe08f0f5d8b37f47e2ec18bd4e6b318e544b2bd4c88b114d772a1265f0053e9",
+      "gzipSha256": "4e2af01d45d0acbc76725b4994422054bad3898baf4000a9afe0f23a55bd299e"
+    },
+    {
+      "path": "curve-full-v1/bondingcurve-reachable-initialize/current.json",
+      "bytes": 15724,
+      "sha256": "1d83d05924f1b404a7bbc6cb0ee397bf9ac4f98eab983ddf70710933ea0bf8e7",
+      "gzipSha256": "ef06e4ff91925fc677b4371f6a12ccb7e2e11dbff5cddf0bd05c399672a09800"
+    },
+    {
+      "path": "curve-full-v1/bondingcurve-reachable-initialize/intent.json",
+      "bytes": 28708,
+      "sha256": "31fb435cc30e8516acd9aa68556660300d12168f582a6be456020e5d8e8af495",
+      "gzipSha256": "7beb72a9a1175d0fe169c9fe4cdf555f23b02f338621e6ea201afd8012cb5546"
+    },
+    {
+      "path": "curve-full-v1/bondingcurve-reachable-initialize/key-proof.bin",
+      "bytes": 130568,
+      "sha256": "97eaf1b68d8e3a3b4fce33c4c6819eae9cc5a46aad0ee280c9006e9787150a78",
+      "gzipSha256": "d7bd84f027bb757b148940f73c77590b16b9fe20e7f5544406027ccc9c8e9be2"
+    },
+    {
+      "path": "curve-full-v1/bondingcurve-reachable-initialize/plan.json",
+      "bytes": 28708,
+      "sha256": "31fb435cc30e8516acd9aa68556660300d12168f582a6be456020e5d8e8af495",
+      "gzipSha256": "7beb72a9a1175d0fe169c9fe4cdf555f23b02f338621e6ea201afd8012cb5546"
+    },
+    {
+      "path": "curve-full-v1/bondingcurve-reachable-initialize/public-session.json",
+      "bytes": 11065,
+      "sha256": "7075d625f23b73cee77f04840c43edebeb2e3c245e6a487e2d7b3c9c4b89da8d",
+      "gzipSha256": "5727c80ff3db114f913d93af29e1aa82891cfde9ec92c4173d8c8c3fc340d764"
+    },
+    {
+      "path": "curve-full-v1/bondingcurve-reachable-initialize/request.json",
+      "bytes": 494626,
+      "sha256": "6b2b63f205091081b232b2b4c29558f2b7e9ae1ec76093a425247edbe78c473f",
+      "gzipSha256": "35c799f9a63c42a0f42c79766b254f08df100336493f64909f6d3d2ba47a02df"
+    },
+    {
+      "path": "curve-full-v1/bondingcurve-reachable-initialize/source.json",
+      "bytes": 28777,
+      "sha256": "f95df8937ce06f9f4121a98953e3309d0b07946bc03e29501c07964e580b5416",
+      "gzipSha256": "dfb67e597682e5fdb643e4d74fae3c72337ecf778b2cbb89ca8cbd9ba32ecb29"
+    },
+    {
+      "path": "curve-full-v1/bondingcurve-reachable-initialize/verification.json",
+      "bytes": 1267,
+      "sha256": "cf54ff8eee8de1442d7361c75ed7a0e2a12f08edb678fd6e67a0d9258b9d1ed3",
+      "gzipSha256": "5ef1ad9907a0942f1b8d1f64ea89163700213ca345f788aed4552849d1c99886"
+    },
+    {
+      "path": "curve-full-v1/bondingcurve-reachable-open/current.json",
+      "bytes": 15724,
+      "sha256": "ba5ca6302e5af36e3dd0bf74ec0f7c5862f255e672f92dccb3653778d28dfab5",
+      "gzipSha256": "648c7e23b770e81522011ce350b0716a2dcfaa19cc8901bae62361e5cfef6347"
+    },
+    {
+      "path": "curve-full-v1/bondingcurve-reachable-open/intent.json",
+      "bytes": 253492,
+      "sha256": "23a95321222fa95beab0447f91293583d8c780a342a66479653cae4906daafbc",
+      "gzipSha256": "d5642cf928d267160566a51f3ec1eaced55682177ec7b3a4eafbe60ae6a150b0"
+    },
+    {
+      "path": "curve-full-v1/bondingcurve-reachable-open/key-proof.bin",
+      "bytes": 130568,
+      "sha256": "09740033a54a9528efe76177ed417930549a2916f0b1f1683130abd5e5f20572",
+      "gzipSha256": "c14a036f25989a8d6a5771e6129485247996a6feca6824f6379ceeda6094d9d1"
+    },
+    {
+      "path": "curve-full-v1/bondingcurve-reachable-open/plan.json",
+      "bytes": 253492,
+      "sha256": "23a95321222fa95beab0447f91293583d8c780a342a66479653cae4906daafbc",
+      "gzipSha256": "d5642cf928d267160566a51f3ec1eaced55682177ec7b3a4eafbe60ae6a150b0"
+    },
+    {
+      "path": "curve-full-v1/bondingcurve-reachable-open/public-session.json",
+      "bytes": 11676,
+      "sha256": "bb4adc1ed39c6865b0f8aa83c9bd2840b12782280ac3e945719447cd55dd38c1",
+      "gzipSha256": "04520ff0bf74f8285781f59e41f5d5016758cff12d2f08877ab1179b5d3f578b"
+    },
+    {
+      "path": "curve-full-v1/bondingcurve-reachable-open/request.json",
+      "bytes": 502230,
+      "sha256": "b479ff6831f3bc80bbc44e0dff43c7d250f03f7f9d30cab42ed13aae21b0f306",
+      "gzipSha256": "a1e053d19407f31e1c68caca489c8a868d4d1a80416873458a863b5d2301e181"
+    },
+    {
+      "path": "curve-full-v1/bondingcurve-reachable-open/source.json",
+      "bytes": 197949,
+      "sha256": "52a48986e3419b1cb940fdfd187b5d2ab42ccc75404a3be5f9618201ca09e8f9",
+      "gzipSha256": "995bd12c63d3e47f355f35eda2958a1b27b06904aecc0508907806cd7c2699e1"
+    },
+    {
+      "path": "curve-full-v1/bondingcurve-reachable-open/verification.json",
+      "bytes": 1204,
+      "sha256": "417df60220e51bfd2c6414984ef866bd74eecb60b8e9a23341868dc6d5002723",
+      "gzipSha256": "ec6f30cf71aa33eb27849ecc0d14a82e404d0311a18f20bb4c9e1e818290dcc1"
+    },
+    {
+      "path": "curve-full-v1/issuer-activation-seeds/request.json",
+      "bytes": 482792,
+      "sha256": "638023d7a75569299ff76b25d9391405f6927f741e3b50a04517587856988fad",
+      "gzipSha256": "df5699f868d33491fccc08b348f57451cdba6391d4ec13f89ced699e1b5e2434"
+    },
+    {
+      "path": "curve-full-v1/issuer-activation-seeds/verification.json",
+      "bytes": 916,
+      "sha256": "6d56e99c8fd75c873824f86c34c035f1c9c6352d6649af3915269efc4d7394e7",
+      "gzipSha256": "d2ab5f71e4da0099f01294d9e844853100b65d7d855cdd8be7484cf94bec31c8"
+    },
+    {
+      "path": "curve-full-v1/issuer-initialization-funding/request.json",
+      "bytes": 475846,
+      "sha256": "84f3ab7e8b862e5ed0b1442ba2be89f66666f72089d7517696154cf1bfac3954",
+      "gzipSha256": "31fb51491290a5426a743a7abef0d25a73fe7850bf7614d47932ec1bb5ee7165"
+    },
+    {
+      "path": "curve-full-v1/issuer-initialization-funding/verification.json",
+      "bytes": 808,
+      "sha256": "72e6dd90638216144fc245e2a843e9c1567ae8d21476398486c6d0791e2e03c9",
+      "gzipSha256": "b4de9f3a2a280bd0219e3b44adc244b84a10b68cb1b422db6d618ecbb54678d3"
+    },
+    {
+      "path": "curve-full-v1/ordinary-final-claim/request.json",
+      "bytes": 480265,
+      "sha256": "19ffb690fa7e76c562f7d94bf439790ddf77f9dd6bcab677dc97292d3bed8b13",
+      "gzipSha256": "f888127595ccb816fd441e4cfa3bb24f86944420d98ed18e3900bef55414f2b0"
+    },
+    {
+      "path": "curve-full-v1/ordinary-final-claim/verification.json",
+      "bytes": 740,
+      "sha256": "f3ffbc0d4a42951ac01696391d995d448a1f3ef37598f09ef507526c2c8bba32",
+      "gzipSha256": "3581a102c8f596be4b7f94a9e3bbbcd0c811680efeaaa877f71bf1e82ddff668"
+    },
+    {
+      "path": "curve-full-v1/owner-explicit-recovery-grant/request.json",
+      "bytes": 475347,
+      "sha256": "1768cb562afb6d9431802c11cbac1c029fa749c7618d78856c13383dc144a265",
+      "gzipSha256": "a5f4508b9041ea3ccbd1f19e8b8a7ee838e571dcbce2f36be5a8b779d6ced9bc"
+    },
+    {
+      "path": "curve-full-v1/owner-explicit-recovery-grant/verification.json",
+      "bytes": 928,
+      "sha256": "0ae8850e64f487308576879daa8fd7ee8cf3079bbb66ac351a60f616a5ec7636",
+      "gzipSha256": "cc4c441ab95f75b52dedebee8e3d60b1f3cbfe259ac051d3c7826fa98cb58486"
+    },
+    {
+      "path": "curve-full-v1/owner-initial-grant/request.json",
+      "bytes": 485609,
+      "sha256": "e8d2c1353efe69447c43ba58f3fd2fb990ac44399f08775c25c131e59a5d2a7f",
+      "gzipSha256": "26734c3c1749ec38680c06499f50c8f646a7273ad8aeb01a21e8a79edece09a3"
+    },
+    {
+      "path": "curve-full-v1/owner-initial-grant/verification.json",
+      "bytes": 927,
+      "sha256": "6f3073b5a46b8df6808871551a371856677610f8ee2c9fda89fa8b82b070a2fd",
+      "gzipSha256": "a682dcb554ce6a9145d418292d9582bb95bdf0da75717e4cb033bf7f9be2f543"
+    },
+    {
+      "path": "curve-full-v1/user-approved-order/request.json",
+      "bytes": 489990,
+      "sha256": "6a9b90979442fe2ab5851eb55b8ddf23e8cc1aced509228d0bae7c646dc59c16",
+      "gzipSha256": "4594f42a73d6910cfed810bca37e469ef686444814e2329393126703130f9e42"
+    },
+    {
+      "path": "curve-full-v1/user-approved-order/verification.json",
+      "bytes": 974,
+      "sha256": "88be782dc75e95baaca3bcef0fe1ef2d34205e4971323dff06354a087ab6e7ab",
+      "gzipSha256": "542618cade5e4674484a4f04803d6e224fc08aebdfcb4732683a751076acc4eb"
+    },
+    {
+      "path": "public/curve-PLAN-v1.json",
+      "bytes": 421,
+      "sha256": "28a5caf7f94922d09e0b8961fd8c9f4e11bf01e8445235984ccaf3d8306b28d1",
+      "gzipSha256": "d47e8342de2143d99cc9e73f3032685e1f37e57805456cd22c57820b5d01aa21"
+    },
+    {
+      "path": "public/curve-OWNER-v1.json",
+      "bytes": 94,
+      "sha256": "ec8363063a93168801932bc534c5da1d4d0f904312831fafb833ea4a6f0459f7",
+      "gzipSha256": "7f9ebf703a629bc23f6fd2bf1004a4f2a723aa8018b2066d96a59c71b1125e62"
+    },
+    {
+      "path": "public/curve-COHORT-v1.json",
+      "bytes": 599,
+      "sha256": "63f8aa9ea1435fc9ea030f7f8876ab27f5831d814186bbb9d42ada04bfdb7aa1",
+      "gzipSha256": "755d1f0af298f6c3e992d56bcfbfa636fee33d9f3a0074ff1f71cf0c47e386f1"
+    },
+    {
+      "path": "public/curve-full-v1.log",
+      "bytes": 22543,
+      "sha256": "38dd01d7a25aac71f32a6360d723fb2248830dedf415a08a9cbde62f032e0a15",
+      "gzipSha256": "a118ea1e3d762b0f50e37b63283999335b90044e9bf9988241bbbafb4a529a7c"
+    },
+    {
+      "path": "public/curve-rss-v1.jsonl",
+      "bytes": 49278,
+      "sha256": "5e30befbaa104d0e5a8742e680ecfcf602fde5386d9e1f0e0dda8076d487ed66",
+      "gzipSha256": "807e5e291354add7c47faaf92d1cb389054f618ee4634589278d3c4338b4744b"
+    }
+  ]
+}

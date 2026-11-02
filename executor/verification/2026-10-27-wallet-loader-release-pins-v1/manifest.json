@@ -1,0 +1,35 @@
+{
+  "schema": 1,
+  "sourceDirectory": "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-market-recovery-20261023/market-mainnet-migration-20261027-v1",
+  "machine": "gewenbo.local",
+  "host": "macOS-15.7.3-arm64-arm-64bit",
+  "scope": "public formal Executor run including failures; success requires exact included receipt",
+  "walletFilesIncluded": false,
+  "sealedBinariesIncluded": false,
+  "records": [
+    {
+      "source": "public/wallet-native-client-regressions-v10.log",
+      "file": "files/public/wallet-native-client-regressions-v10.log.gz",
+      "bytes": 4284,
+      "sha256": "3becc91581ff10aecc558b3fa41e24249a2e7487da6ebb25d64de1be706fb438",
+      "gzipBytes": 1985,
+      "gzipSha256": "b7b24edaa630906fc7dfca1a0534a7eecfddce4b2c30efd5848db3dcc2a0eb46"
+    },
+    {
+      "source": "wallet-loader-source-v1/ownedLoader.mjs",
+      "file": "files/wallet-loader-source-v1/ownedLoader.mjs.gz",
+      "bytes": 2787,
+      "sha256": "3f133f99e724cb9073b3b034382f3f621f98a97f09bbd2b86edec68455869678",
+      "gzipBytes": 1378,
+      "gzipSha256": "246298fc336a3040f9904ea095660f553382ca168321f839ecc6e28984359115"
+    },
+    {
+      "source": "wallet-loader-source-v1/ownedLoader.test.mjs",
+      "file": "files/wallet-loader-source-v1/ownedLoader.test.mjs.gz",
+      "bytes": 2707,
+      "sha256": "40211f4a61902da3dc9a2943084a3248c4f43a301b3e56a62a73683b23affa47",
+      "gzipBytes": 1102,
+      "gzipSha256": "5175848359ed6069e17fa1423123244faf3557784fefdc9319101ff735ce4897"
+    }
+  ]
+}

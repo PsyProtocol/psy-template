@@ -1,0 +1,31 @@
+{
+  "schema": 2,
+  "scope": "conditional v2 stored-seal/permutation binding, not actual random settlement",
+  "newSyntheticComponentProofs": 2,
+  "invalidCircuitWitnessAttemptsRejected": 8,
+  "savedProofRejections": 64,
+  "javascriptTestsPassed": 22,
+  "nativeHostTestsPassed": 3,
+  "clientNativeRoundtrips": 2,
+  "legacySavedComponentsVerified": 2,
+  "financialOperations": 0,
+  "deployments": 0,
+  "rpcCalls": 0,
+  "ordinaryClaims": 0,
+  "feesTestPsy": "0",
+  "randomAuthorization": false,
+  "qualifiedSource": false,
+  "finalityVerified": false,
+  "causalSealVerified": false,
+  "fullUpsVerified": false,
+  "unclosed": [
+    "proof/resource running-cohort mismatch",
+    "approved authenticated instance/finality",
+    "qualified unique unpredictable source",
+    "causal seal-before-release authentication",
+    "new random market/key state machine and full UPS",
+    "live settlement ordinary claim refund and failure recovery"
+  ],
+  "sourceGateUnchanged": true,
+  "originalArtifactsOverwritten": false
+}

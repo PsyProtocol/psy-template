@@ -1,0 +1,53 @@
+{
+  "schema": 1,
+  "actualFills": 2,
+  "actualMeasuredUps": 34,
+  "actualSetupUps": 2,
+  "measuredFullProofs": 34,
+  "allMeasuredRequestsAndSetupFullProofsIndependentlyVerified": true,
+  "ordinaryWalletClaimsIncluded": true,
+  "ftAndNativeConservation": true,
+  "crossRoundAssetNonceAndStateContinuity": true,
+  "allNewColdTimingsPresent": true,
+  "allNativeResourceCheckpoints": 76,
+  "allProverProcessesClosed": true,
+  "baselineFees": 17000115000,
+  "candidateFees": 17000119000,
+  "setupFees": 2000004000,
+  "allActualFeesNativeAtoms": 36000238000,
+  "network": "staging-bundled-regtest-20261020-v1",
+  "assets": {
+    "nativeTestPsy": {
+      "id": 0,
+      "decimals": 9
+    },
+    "qaFts": [
+      {
+        "id": 2483,
+        "decimals": 18
+      },
+      {
+        "id": 2484,
+        "decimals": 18
+      }
+    ],
+    "qaNftUnchanged": 2496,
+    "existingPusdtUsed": false
+  },
+  "sameBinariesAndSdk": true,
+  "fullProofAccountingPending": false,
+  "oldContractCodeOrLayoutUpdated": false,
+  "nodeChanged": false,
+  "sdkMigrated": false,
+  "reports": {
+    "public/PERFORMANCE-v1.json": "234cb3a89a93967a2ea3a6121e91a9660315bf93a7804ef38f9577aeb8e45761",
+    "public/MEMORY-PERFORMANCE-v1.json": "1a85bdbb0c03e1255a09fb3e17661456e8a1c951f3fbddd67f16ab565b66ba02",
+    "baseline-audit-v1/SUMMARY.json": "b999c7a56fe0f8f38173dfa0ffd556acbec2653c4fe9208453f5aaa4c716fb95",
+    "candidate-audit-v1/SUMMARY.json": "a2d6b312b2244479288074192e517c52017b894237edc444d09fbfffee0905c2",
+    "funding-audit-v1/SUMMARY.json": "c45e126f0e5bcb391114a42df8a060914342f53ac95cfe416cf3e4f323e738eb",
+    "resources-v1-SUMMARY.json": "a0dfb2489f2ed538299670f0c4d3a7352e03bad58f211093fafd0763278c8100",
+    "public/FINAL-BOUNDARIES-v1.json": "f8b3beb58c871b0e9fcad7b18d84998c841bceff9a31702512b814c16f5e9c5d",
+    "public/U124-FEE-EXPLANATION-v1.json": "58e93382facfca9f9d4ebe919445c0a21078facab93af080bee62e3eacee284f"
+  },
+  "scope": "two actual new Book epochs on the same explicitly owned isolated QA market/key/vault; no contract upgrades. Full proof/fee/conservation evidence; not a four-market re-acceptance, cross-machine test, true physical-memory peak or production attestation. Allocation relief remains explicit opt-in; no overall latency improvement established."
+}

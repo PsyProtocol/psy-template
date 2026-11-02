@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "scope": "Exact application composition count bound and model regression only; not mainnet-beta composition migration, proof generation or financial acceptance",
+  "archive": "public-evidence.tar.gz",
+  "archiveSha256": "874e685bc5ed87943fcbefa719a7164dd433aa47326cac71170e388c750fc839",
+  "files": [
+    {
+      "path": "public/regression-v1.log",
+      "bytes": 8918,
+      "sha256": "19ba19c290a9bd4ef41f383b270f8ed0e2144e41c6190cac286c93840278cf0c"
+    },
+    {
+      "path": "public/sdk-layout-capacity-v1.json",
+      "bytes": 571,
+      "sha256": "d6da94be58cc742f427a332eb8322d2dbb20154c46879f67a3ea4ec5ea86981a"
+    },
+    {
+      "path": "source/composition/intent.mjs",
+      "bytes": 8778,
+      "sha256": "b776b166ed1d665d99774f6af8c4486fb0d432dfd5cd7f409629cabd662fd96e"
+    },
+    {
+      "path": "source/composition/intent.test.mjs",
+      "bytes": 5899,
+      "sha256": "87a5bbd1d6a8d784a8292422c026890c3a0b89c5986c3829a5b4cf0549dee743"
+    }
+  ],
+  "proofsGenerated": 0,
+  "financialOperations": 0,
+  "secretsIncluded": false,
+  "originalEvidenceModified": false
+}

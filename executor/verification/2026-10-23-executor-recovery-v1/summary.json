@@ -1,0 +1,47 @@
+{
+  "schema": 1,
+  "workBranch": "markets-batch-capacity-recovery-20261020",
+  "parentCommit": "564abc73c562638192ebbb2347b15d30cdb4b9b2",
+  "sdkManifestSha256": "0afb4c65116cddcaca450b406a06503d65b63d38a004d8e773c6e5fa363bd425",
+  "sdkFilesVerified": 1466,
+  "nodeSourceModifiedByThisWork": false,
+  "existingNodeDiffSha256": "002e35e0b13cb6c422fe3abf500ce6aa5241229264d85a3314f22b5e14b59a64",
+  "javascriptRuntime": "v24.19.0",
+  "regressions": {
+    "passed": 168,
+    "skipped": 2,
+    "failed": 0,
+    "scope": "formal Executor and acceptance JS regressions; not new financial network acceptance"
+  },
+  "readOnlyInventory": {
+    "checkpoint": 370200,
+    "wallMilliseconds": 73227.38395799999,
+    "physicalRpcAttempts": 87,
+    "failedAttempts": 3,
+    "financialWrites": 0,
+    "scope": "current RPC observation; not historical receipts or authenticated state proof"
+  },
+  "lostEvidence": {
+    "cause": "OS restart cleared /tmp",
+    "backupAvailable": false,
+    "originalThreeMarketThinAcceptance": "incomplete/unreplayable; no reconstructed requests or replacement payments",
+    "ordinaryQaWalletKeys": "not available"
+  },
+  "optimizationsMeasured": [],
+  "chainTps": null,
+  "productionReady": false,
+  "sourceHashes": {
+    "executor/runtimeStorage.mjs": "a7a5a4e6f733936df15bc44f884203efdde479d38997390f7b080738b02f9dbe",
+    "executor/runtimeStorage.test.mjs": "b3b0283bd5fa0cae91510c1731a15d591e9f07edd0251afc393914f518f42c72",
+    "executor/publicState.mjs": "f2faea8ae3d68c4e5236328aea498b92f01b221bef3f360324c7ea460cf04465",
+    "executor/publicState.test.mjs": "a43c3f00d61d819ca5bc7ad1d30e9003bcfd43f5c81ea245b8463616a80069b0",
+    "executor/phaseMetrics.mjs": "adf780e524cf475881706d1b4dcae359a5183bead37d6cad453bb864dedb28f3",
+    "executor/publicWalletAdapter.mjs": "d5c584ef8a1d5f2e5cfcdab93e41e3a3e4cd2dc1546be94d524c46f3aba38ba3",
+    "executor/compactAdmission.test.mjs": "75b9e73759e928661e0437bb676f226c6e9e11946c302ff15c8ae32d872e0128",
+    "executor/run.mjs": "897cdc44ecd095770141d60762008211e435a55d27f3a9b57e648a33ff817b55",
+    "executor/service.mjs": "99713fc680254fde9881e5f9112db88dcd209234900b505ec3a30ee13e1d2806",
+    "executor/acceptance/livePerformance.mjs": "d7c5e686123fdfc92d3e9dfd646b98cc9c7973dd72533f5fa68b62d90b7e99ed",
+    "executor/acceptance/livePerformance.test.mjs": "47d7b43e8eb7dc65454bf63c20627ac4d87d3397b753de9b84a12ccd034ff153",
+    "executor/acceptance/inspectArchivedMarkets.mjs": "a4a7d579726e1b9bbab2f11c8340d50446d359d23c13fa1a6fe9d7822a4432de"
+  }
+}

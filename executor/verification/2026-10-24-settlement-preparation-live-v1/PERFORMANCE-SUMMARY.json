@@ -1,0 +1,63 @@
+{
+  "schema": 1,
+  "at": "2026-10-24T09:33:22.326696+00:00",
+  "scope": "two actual thin AMM batches, matched warm advisory preparation; four-market shared adapter regressions, not four new live performance runs",
+  "marketFills": 2,
+  "actualIncludedUps": 28,
+  "actualFullUpsVerified": 28,
+  "distinctFullUpsVerified": 32,
+  "mutatedFeeRejected": true,
+  "ordinaryWalletClaimIncluded": true,
+  "controllerResidualAssets": [
+    {
+      "asset": 2483,
+      "balance": 0
+    },
+    {
+      "asset": 2484,
+      "balance": 0
+    }
+  ],
+  "controllerResidualNative": 0,
+  "feeAtomicUnits": 28000228000,
+  "feeDecimals": 9,
+  "feeAsset": "test PSY",
+  "existingPusdtUsed": false,
+  "qaFt": [
+    {
+      "id": 2483,
+      "decimals": 18,
+      "before": 1000000000000000000000,
+      "after": 1000000000000000000000
+    },
+    {
+      "id": 2484,
+      "decimals": 18,
+      "before": 1000000000000000000000,
+      "after": 1000000000000000000000
+    }
+  ],
+  "warmQuote": {
+    "operations": 6,
+    "baselineQuoteMilliseconds": 672749.4938340003,
+    "optimizedQuoteMilliseconds": 376212.44103899994,
+    "decreasePercent": 44.07837620286197,
+    "baselineTraces": 12,
+    "optimizedTraces": 6,
+    "warmProvingSpeedupEstablished": false,
+    "networkConfirmationSpeedupEstablished": false
+  },
+  "rejectedCalibrationGenerations": 1,
+  "replacementFinancialBroadcasts": 0,
+  "selectedSdkUnchanged": true,
+  "nodeChanged": false,
+  "originalArtifactsPreserved": true,
+  "productionReadyConclusion": false,
+  "reports": {
+    "public/PREPARATION-PERFORMANCE-v1.json": "a42aeb8e6fb489aca1277a0928a04d1adc3da3e81d4bb45e28f34967396afe98",
+    "public/PREPARATION-MEMORY-v1.json": "344e68c372cfcbc3db9e4e157c386acd65029a21094e089bcb05a29d33aa69f1",
+    "public/PREPARATION-READS-v1.json": "74202be04f640a1b6267a4d7221b8ccf963769a369eb4eeab3e4eebc136bf01a",
+    "public/PREPARATION-CONSERVATION-COMPLETE-v1.json": "b409ab6c78f657ac410eef464066c2fb965592adacc5523dd607333ba1fb8ffc",
+    "independent-verification-v1/SUMMARY.json": "f0113f80ca71de1c32f56a2c6b7f631ac01ebc101f7b0150a9661eb90ed76568"
+  }
+}

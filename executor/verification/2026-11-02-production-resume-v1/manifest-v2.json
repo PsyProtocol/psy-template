@@ -1,0 +1,198 @@
+{
+  "schema": 1,
+  "status": "current",
+  "supersedes": "manifest.json",
+  "scope": "Public read-only recovery and application hardening only; no financial or full-UPS acceptance",
+  "files": [
+    {
+      "file": "README.md",
+      "bytes": 3529,
+      "sha256": "8d1250d9e9dfbe230b373589742655d97d700a6eeb710ef75b20a8fae4551090"
+    },
+    {
+      "file": "manifest.json",
+      "bytes": 6119,
+      "sha256": "c57e24e7ad956040831333f707c913ae6985c2d0b727bea966a4208810c9490b"
+    },
+    {
+      "file": "public/PACKAGING-CORRECTION-v1.json",
+      "bytes": 479,
+      "sha256": "94eedbecb08f1a412697a768688352b33b11f92e3315458588e36b5c200a292e"
+    },
+    {
+      "file": "public/PLAN-v1.json",
+      "bytes": 458,
+      "sha256": "c672e8a670f961538ca2e3444b88aa797609d1a7e6624a5147d9b96c626faa80"
+    },
+    {
+      "file": "public/READONLY-METADATA-v1.json",
+      "bytes": 3323,
+      "sha256": "898ece0d0c4a0169949774ee6fce5f626f80a1e4c5f88a21266f8fbff676e03b"
+    },
+    {
+      "file": "public/READONLY-RPC-v1.json",
+      "bytes": 4919,
+      "sha256": "0d5c841e7b8ae9e4bfad2ef3eca765f6908a69c994d40bdff0a00956aaecc8a8"
+    },
+    {
+      "file": "public/RESOURCE-FAILURE-v1.json",
+      "bytes": 713,
+      "sha256": "4160ea1d52ddc780e409bf6c54b5896c18760aaa5dce04957928d8589bd9e8de"
+    },
+    {
+      "file": "public/RESOURCE-PLAN-v1.json",
+      "bytes": 389,
+      "sha256": "858a76f466597b545e49a3252a8dd22caadb8efdda23a8c4d5a87fe17299a9d0"
+    },
+    {
+      "file": "public/RESOURCE-TRANSPORT-v1.json",
+      "bytes": 345,
+      "sha256": "aae048cdab49782ecd14964856c666c5afb721c98bdd29f4e228c8d1db7321c0"
+    },
+    {
+      "file": "public/SETUP-FAILURE-v1.json",
+      "bytes": 232,
+      "sha256": "6f76fb53a2ebdc8ac3afe7dd5399e710fcd6a0ba009edc5b22fe2515078b975d"
+    },
+    {
+      "file": "public/SUMMARY-v1.json",
+      "bytes": 3589,
+      "sha256": "f2b4841c7c6b461d2559a7634683121dc30a8241c5d626f7c117f43a5d1ccab6"
+    },
+    {
+      "file": "public/UPSTREAM-v1.json",
+      "bytes": 4341,
+      "sha256": "2657752394612ac3ceddf0cf319f775dae72738382d727e2f7615241c175713b"
+    },
+    {
+      "file": "public/WALLET-DISTRIBUTION-v1.json",
+      "bytes": 4674,
+      "sha256": "fdcbba4b2f3cb11ee959fc457a3051f9c99fc6eef735f6af5529eb27b7b3b1e2"
+    },
+    {
+      "file": "public/WALLET-VALIDATION-v1.json",
+      "bytes": 955,
+      "sha256": "5650050c893922bfde9cb0661d7262cf24c27906e1416704f40b97e7aee1ccab"
+    },
+    {
+      "file": "public/executor-green-v1.log",
+      "bytes": 2043,
+      "sha256": "2da17986fd466d1a11b8b738284bb7737fd8cb4c908a40d77a9e1b3d2ebb80f1"
+    },
+    {
+      "file": "public/executor-regression-v2.log",
+      "bytes": 9219,
+      "sha256": "762c960fc5b8a2b436cf8392a631de20778d9f88ebdc2f7487a1ca78b5c78988"
+    },
+    {
+      "file": "public/resource-inspection-v1.log",
+      "bytes": 52,
+      "sha256": "cce039bcb124d72436995e272da67a7b1089d14d00e027ccfd12fb91e6317fde"
+    },
+    {
+      "file": "public/resource-inspection-v2.log",
+      "bytes": 354,
+      "sha256": "944213923f88bcd0771ff5fa3da63d4d336be68cf3e8854f9b60a726d636a100"
+    },
+    {
+      "file": "public/runtime-endcap-projection-v1.json",
+      "bytes": 1394,
+      "sha256": "d23f491906095f9a1b9ee071c91f452159190b8ab559b1ee3d383ebf537e5dad"
+    },
+    {
+      "file": "public/sdk-after-v1.log",
+      "bytes": 202,
+      "sha256": "2af3590195bc6d692a0984c23a6d4a67085531f8d13514d2a7e1e3729c9c29e7"
+    },
+    {
+      "file": "public/sdk-before-v1.log",
+      "bytes": 202,
+      "sha256": "2af3590195bc6d692a0984c23a6d4a67085531f8d13514d2a7e1e3729c9c29e7"
+    },
+    {
+      "file": "public/wallet-all-tests-v1.log",
+      "bytes": 339,
+      "sha256": "b0081a7cc850d8881cadead4b65b43b841867a19096b144b9f8f66ca66a2cb02"
+    },
+    {
+      "file": "public/wallet-green-v1.log",
+      "bytes": 318,
+      "sha256": "ace95578cec428ac6df1e5b43f168490c33b99b777784e8ea32a5b9bcfcd5286"
+    },
+    {
+      "file": "public/wallet-red-v1.log",
+      "bytes": 877,
+      "sha256": "ece3acc912d4a10034e428dfcb0f14423a1f1938fa9ffb6e8c3d4ffb1a1d24dc"
+    },
+    {
+      "file": "public/wallet-red-v2.log",
+      "bytes": 8111,
+      "sha256": "3600a31059a26e6e497e693b651a19929c368c18a08d733a8b49e31d5829b3ee"
+    },
+    {
+      "file": "public/wallet-staging-build-v1.log",
+      "bytes": 3264,
+      "sha256": "292f76d1cba5aab8236c4d03d2c51b6aa32b0296cd1aa57d99fdb634a77efb85"
+    },
+    {
+      "file": "public/wallet-wire-red-v1.log",
+      "bytes": 3980,
+      "sha256": "01096e6d4d8779211553fc6709769db1d68b82f6a372c3086567ceb38a860f6a"
+    },
+    {
+      "file": "source/close_evidence_v1.py",
+      "bytes": 8530,
+      "sha256": "4a5ba1a9d130d692c82be4349b11b5b1c7ee8ce11e0352de14b03eff5ee5b10e"
+    },
+    {
+      "file": "source/executor/fundedStreamAdapter.mjs",
+      "bytes": 15384,
+      "sha256": "9a46e5b1e783b2ebf4d416ba92b2f0bf82d3faff321bf4ba2de80f67221815c8"
+    },
+    {
+      "file": "source/executor/fundedStreamAdapter.test.mjs",
+      "bytes": 13413,
+      "sha256": "d95c53f3ab3e9a01cbe562473d1ac5c5ee276bab4976be84b6087ef2ea8f82c9"
+    },
+    {
+      "file": "source/executor/publicState.mjs",
+      "bytes": 6957,
+      "sha256": "eff3e2c9de9bd198a1b4c28b75218188b4aa0e4e06d4cb9bb74d7f2bc3a8ef75"
+    },
+    {
+      "file": "source/executor/publicState.test.mjs",
+      "bytes": 12546,
+      "sha256": "24990cf84e3916c15819629dc6e8e582bc80a3dc42acbb0f0b56b892bde6c44e"
+    },
+    {
+      "file": "source/executor/resources/mainnet-beta-endcap-c92880c8.json",
+      "bytes": 2049,
+      "sha256": "23e105c5d41acda5d78b6bdb36b0adc4d8e693f142e5c7b59ef48e7aa1697d9b"
+    },
+    {
+      "file": "source/executor/runtimeEndcap.mjs",
+      "bytes": 1729,
+      "sha256": "6254eaad9992d891f24f2bd1a3c15a7ca166726dc0986158cef9c4f05bbae68f"
+    },
+    {
+      "file": "source/executor/runtimeEndcap.test.mjs",
+      "bytes": 2351,
+      "sha256": "261df648a6dcf42c720d0bb89260e84a164898545a8bb1f408f0fe4b18fd1706"
+    },
+    {
+      "file": "source/executor/test-fixtures/observed-endcap-reset-20261102.json",
+      "bytes": 1670,
+      "sha256": "fb711ccf9f740f44cd905dd074636837668bcdcc3b6e4f85c2e0bbe52bd5349b"
+    },
+    {
+      "file": "source/validate_wallet_v1.py",
+      "bytes": 1529,
+      "sha256": "89be3e87a5ad8310350a6260ba5326e05e3858bde7c4ab3780d2f5352581c71f"
+    },
+    {
+      "file": "source/wallet.patch",
+      "bytes": 17070,
+      "sha256": "0af1b96dcd44d99d8678478119bb1a9675ecbe1b93a1305a6ffa29785a21f001"
+    }
+  ]
+}

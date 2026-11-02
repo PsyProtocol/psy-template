@@ -1,0 +1,9 @@
+{
+  "at": "2026-10-25T07:16:29.023692+00:00",
+  "excludedFromCleanPerformancePair": true,
+  "reason": "Original batch commit was acknowledged; bounded indexed receipt list reads returned HTTP 500, causing the original parent and resident resources to stop. Read-only exact original reconciliation confirmed inclusion. Finishing the one original fill is recovery acceptance, not a clean cache-mode performance sample.",
+  "originalParentLog": "baseline-parent-v1.log",
+  "recoveryResult": "original-commit-recovery-v1/COMPLETE.json",
+  "financialResubmissions": 0,
+  "originalCommitReproved": false
+}

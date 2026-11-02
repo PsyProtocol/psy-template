@@ -1,0 +1,80 @@
+{
+  "broadcast": false,
+  "rows": [
+    {
+      "broadcast": false,
+      "changedMetadataRejected": true,
+      "changedProofRejected": true,
+      "file": "/Users/geir/Downloads/QED资料/litepaper/psy-market-recovery-20261023/prover-memory-performance-live-v1/baseline/attempts/owner-order/request.json",
+      "fullProofVerified": true,
+      "fullVerificationMilliseconds": 3103.082542,
+      "mode": "fresh-v1"
+    },
+    {
+      "broadcast": false,
+      "changedMetadataRejected": true,
+      "changedProofRejected": true,
+      "file": "/Users/geir/Downloads/QED资料/litepaper/psy-market-recovery-20261023/prover-memory-performance-live-v1/baseline/runtime-comparison/compact/sepolia/662720/4002e04ea048df1041f1a979b545dfda36d1c665c6831dd6ae0344593b60be91/send-6a15be4f-12a3-4c5e-8332-4e8bf47441f8/request.json",
+      "fullProofVerified": true,
+      "fullVerificationMilliseconds": 3142.712125,
+      "mode": "fresh-v1"
+    },
+    {
+      "broadcast": false,
+      "changedMetadataRejected": true,
+      "changedProofRejected": true,
+      "file": "/Users/geir/Downloads/QED资料/litepaper/psy-market-recovery-20261023/prover-memory-performance-live-v1/baseline/attempts/owner-order/request.json",
+      "fullProofVerified": true,
+      "fullVerificationMilliseconds": 3120.051958,
+      "mode": "cached-v1"
+    },
+    {
+      "broadcast": false,
+      "changedMetadataRejected": true,
+      "changedProofRejected": true,
+      "file": "/Users/geir/Downloads/QED资料/litepaper/psy-market-recovery-20261023/prover-memory-performance-live-v1/baseline/runtime-comparison/compact/sepolia/662720/4002e04ea048df1041f1a979b545dfda36d1c665c6831dd6ae0344593b60be91/send-6a15be4f-12a3-4c5e-8332-4e8bf47441f8/request.json",
+      "fullProofVerified": true,
+      "fullVerificationMilliseconds": 3.7279999999999998,
+      "mode": "cached-v1"
+    },
+    {
+      "broadcast": false,
+      "changedMetadataRejected": true,
+      "changedProofRejected": true,
+      "file": "/Users/geir/Downloads/QED资料/litepaper/psy-market-recovery-20261023/prover-memory-performance-live-v1/baseline/attempts/owner-order/request.json",
+      "fullProofVerified": true,
+      "fullVerificationMilliseconds": 3.509708,
+      "mode": "cached-v1"
+    },
+    {
+      "broadcast": false,
+      "changedMetadataRejected": true,
+      "changedProofRejected": true,
+      "file": "/Users/geir/Downloads/QED资料/litepaper/psy-market-recovery-20261023/prover-memory-performance-live-v1/baseline/runtime-comparison/compact/sepolia/662720/4002e04ea048df1041f1a979b545dfda36d1c665c6831dd6ae0344593b60be91/send-6a15be4f-12a3-4c5e-8332-4e8bf47441f8/request.json",
+      "fullProofVerified": true,
+      "fullVerificationMilliseconds": 3.6515419999999996,
+      "mode": "cached-v1"
+    },
+    {
+      "broadcast": false,
+      "changedMetadataRejected": true,
+      "changedProofRejected": true,
+      "file": "/Users/geir/Downloads/QED资料/litepaper/psy-market-recovery-20261023/prover-memory-performance-live-v1/baseline/attempts/owner-order/request.json",
+      "fullProofVerified": true,
+      "fullVerificationMilliseconds": 3080.1704999999997,
+      "mode": "fresh-v1"
+    },
+    {
+      "broadcast": false,
+      "changedMetadataRejected": true,
+      "changedProofRejected": true,
+      "file": "/Users/geir/Downloads/QED资料/litepaper/psy-market-recovery-20261023/prover-memory-performance-live-v1/baseline/runtime-comparison/compact/sepolia/662720/4002e04ea048df1041f1a979b545dfda36d1c665c6831dd6ae0344593b60be91/send-6a15be4f-12a3-4c5e-8332-4e8bf47441f8/request.json",
+      "fullProofVerified": true,
+      "fullVerificationMilliseconds": 3094.48225,
+      "mode": "fresh-v1"
+    }
+  ],
+  "scope": "same actual saved ordinary and market UPSs in fresh/cached/cached/fresh order, including negative proof and metadata checks; not network confirmation timing",
+  "unknownModeRejected": true,
+  "wrongNetworkRejectedAfterCacheWarm": true
+}

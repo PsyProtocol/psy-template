@@ -1,0 +1,177 @@
+{
+  "schema": 1,
+  "scope": "wallet-owned pre-proof RPC anchor gate and application regression/build evidence; not extension/browser or financial acceptance",
+  "archive": "public-evidence.tar.gz",
+  "archiveSha256": "16d0947b0d0098ad75a636101d942855a2b80c849d2d1f691399a887421450f2",
+  "archiveBytes": 67985,
+  "files": [
+    {
+      "path": "public/wallet-baseline-typecheck-v1.log",
+      "sha256": "f4591dfd5a7f118952583bbb30d1266ad84e667d8d591dc4c8d24eebb914b761",
+      "bytes": 328
+    },
+    {
+      "path": "public/wallet-build-v1.log",
+      "sha256": "f305697639ebc28b1c2e3bbd9dfc8515e00395e14d8c77a68570333bf6b5446d",
+      "bytes": 3264
+    },
+    {
+      "path": "public/wallet-guard-regression-v1.log",
+      "sha256": "ed6bee0d0e6e65ff1dd7e5c46097bb19416f1332c2e7177c50bd1733e6b901f1",
+      "bytes": 2278
+    },
+    {
+      "path": "public/wallet-guard-regression-v2.log",
+      "sha256": "bac1bccae27b79f413bdca01e349806508efa2e51d14e8efd397bcb0be675b6c",
+      "bytes": 1077
+    },
+    {
+      "path": "public/wallet-integration-v2.log",
+      "sha256": "d6ba7ad2dc36adc829c5945b8bcd546e737ac1ada88091fb0e24aaf44df63096",
+      "bytes": 406
+    },
+    {
+      "path": "public/wallet-integration-v3.log",
+      "sha256": "0ccf681e892dc0b6887bb1831ee607fa7dd082173df78c0e6e96aeb36c69ae75",
+      "bytes": 407
+    },
+    {
+      "path": "public/wallet-modules-v1.json",
+      "sha256": "e32d17233914c7c7ba084e82c864ad43b43f3724e8fce424f413a3606239a538",
+      "bytes": 122
+    },
+    {
+      "path": "public/wallet-old-chain-rejection-v1.json",
+      "sha256": "a891f2127141c25109d12f089216fb68da4ada9ac164f026c6c15bcb490fc5d3",
+      "bytes": 276
+    },
+    {
+      "path": "public/wallet-old-chain-rejection-v1.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "public/wallet-typecheck-v2.log",
+      "sha256": "f4591dfd5a7f118952583bbb30d1266ad84e667d8d591dc4c8d24eebb914b761",
+      "bytes": 328
+    },
+    {
+      "path": "public/wallet-typecheck-v3.log",
+      "sha256": "f4591dfd5a7f118952583bbb30d1266ad84e667d8d591dc4c8d24eebb914b761",
+      "bytes": 328
+    },
+    {
+      "path": "recipes/check-wallet-chain-v1.mjs",
+      "sha256": "b4452609bca2a2e9a59db8349464c5c29c66afb78fd66699424d2dbb2828af7e",
+      "bytes": 1087
+    },
+    {
+      "path": "wallet-modules-v1/SOURCE.json",
+      "sha256": "54218e865f093668ab8816f08ebff4829347a4888130256af32559d8fae53ad4",
+      "bytes": 3115
+    },
+    {
+      "path": "wallet-modules-v1/amm/u124/client.mjs",
+      "sha256": "65e29a5a3c429113aeea737b35bce8bd5675946d17456ebe063b5e9738f899ec",
+      "bytes": 6822
+    },
+    {
+      "path": "wallet-modules-v1/bundle.json",
+      "sha256": "1a34045356776fab1fbd4915b47bf03af1e3874773b80ac5bf16eb62707292d2",
+      "bytes": 539733
+    },
+    {
+      "path": "wallet-modules-v1/market-client/ammPlan.mjs",
+      "sha256": "40e0dbea770d0a8d38e2e96bab3358e9e61f44aca21c16b7718d4cd46294ec56",
+      "bytes": 20559
+    },
+    {
+      "path": "wallet-modules-v1/market-client/marketActionClient.mjs",
+      "sha256": "87a5a197a6d3c0fa8124792dac9294540f8da156a774f99a96d9dc9238d9c955",
+      "bytes": 3305
+    },
+    {
+      "path": "wallet-modules-v1/market-client/marketPlan.mjs",
+      "sha256": "6eb5c2fd87943947773d108e18a00caec2b8cdf06ca707cf6ca46f8cce9df967",
+      "bytes": 19925
+    },
+    {
+      "path": "wallet-modules-v1/market-client/nativeProtocol.mjs",
+      "sha256": "4f26913d34e9df054f03f21db438bb254b56e3e3385ab41464e4f745aab6856e",
+      "bytes": 2093
+    },
+    {
+      "path": "wallet-modules-v1/market-client/positionSnapshot.mjs",
+      "sha256": "05df85cdaee828669ac07489ce0d9849db1369de4c51eca4ee0944fc43e85d37",
+      "bytes": 7333
+    },
+    {
+      "path": "wallet-modules-v1/market-client/protocol.mjs",
+      "sha256": "90e7b9c260f1d372c1cbf1d89562f82ab74ec7d6fc3a45a0cabdbdd89ec18f20",
+      "bytes": 1822
+    },
+    {
+      "path": "wallet-modules-v1/market-client/wallet/capsule.mjs",
+      "sha256": "c451b6273d27a33b72ce27672e91c48b87c9caa67aa80667a9dcb5f06d0f5818",
+      "bytes": 8904
+    },
+    {
+      "path": "wallet-modules-v1/market-client/wallet/chainGuard.mjs",
+      "sha256": "238ec8b026d751dd02a3c5c75ceff88ed9ae4c78c8eb72f9e7664a1f931a0fe4",
+      "bytes": 1676
+    },
+    {
+      "path": "wallet-modules-v1/market-client/wallet/exactTransport.mjs",
+      "sha256": "f47b1ee49876df88361b109b78bdf7a438d63fbdb7d4a248b2d9b984cb99d276",
+      "bytes": 11225
+    },
+    {
+      "path": "wallet-modules-v1/market-client/wallet/lockCoordinator.mjs",
+      "sha256": "6c2f1fe23d393f976b3952efa71143e26902023e66099fd4323fa0d88dde0618",
+      "bytes": 503
+    },
+    {
+      "path": "wallet-modules-v1/market-client/wallet/native/ownedLoader.mjs",
+      "sha256": "41cf1be196dcf0ad5b9de3f9992b1809869958c488bb6965918e3b97006da877",
+      "bytes": 3495
+    },
+    {
+      "path": "wallet-modules-v1/market-client/wallet/nativeBackend.mjs",
+      "sha256": "0e6a26dd2c7cf89a7d94b453058e428f09d1fa296afb1eca75ced012548df7d1",
+      "bytes": 4102
+    },
+    {
+      "path": "wallet-modules-v1/market-client/wallet/prepareOnly.mjs",
+      "sha256": "0d3f3820e8de989777ce43031f71af45af381f5bdf6710161a48f7b1b5b7134d",
+      "bytes": 3128
+    },
+    {
+      "path": "wallet-modules-v1/market-client/wallet/prepareService.d.mts",
+      "sha256": "8ee77beceff972b4767794b15c6ec6aee5e640f74e18e3ccbc4fa4e9803a0b75",
+      "bytes": 2161
+    },
+    {
+      "path": "wallet-modules-v1/market-client/wallet/prepareService.mjs",
+      "sha256": "edea48cb4371b5a122d3c49e9925d042457183f49c6c6287715826296eadeea8",
+      "bytes": 8151
+    },
+    {
+      "path": "wallet-modules-v1/market-client/wallet/publicBundle.mjs",
+      "sha256": "1ffde2356698732501b85f7abf92374b13ae1fd821685337f6f1ce300fce9299",
+      "bytes": 2167
+    },
+    {
+      "path": "wallet-modules-v1/market-client/wallet/staged.mjs",
+      "sha256": "74bfed18eb1e1646620656a18107928b4f28ea1124d27816214f8a6cd275187b",
+      "bytes": 17388
+    },
+    {
+      "path": "wallet-modules-v1/token/wide/arithmetic.mjs",
+      "sha256": "60a85bafc6619dffbd9fe70a56d269d8356f55068434e8e83e2d51d28fdccc94",
+      "bytes": 2826
+    }
+  ],
+  "financialOperations": 0,
+  "secretsIncluded": false,
+  "originalEvidenceModified": false
+}

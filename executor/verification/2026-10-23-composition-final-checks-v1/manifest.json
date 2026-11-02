@@ -1,0 +1,123 @@
+{
+  "schema": 1,
+  "sourceDirectory": "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-market-recovery-20261023",
+  "machine": "gewenbo.local",
+  "host": "macOS-15.7.3-arm64-arm-64bit",
+  "scope": "public formal Executor run including failures; success requires exact included receipt",
+  "walletFilesIncluded": false,
+  "sealedBinariesIncluded": false,
+  "records": [
+    {
+      "source": "composition-constituent-report-v2.log",
+      "file": "files/composition-constituent-report-v2.log.gz",
+      "bytes": 80,
+      "sha256": "7207c2f264ec0f651d25c0398471838fc436fe99584bf75f48459703ba61d835",
+      "gzipBytes": 93,
+      "gzipSha256": "3512a7ad81bf2be6611a19795b98750231615964422ebce4d8cc99ae90b248ba"
+    },
+    {
+      "source": "composition-final-regression-v1.log",
+      "file": "files/composition-final-regression-v1.log.gz",
+      "bytes": 5943,
+      "sha256": "f9a57056d3f7ab4487cf6615912a922adb5241428fc4b3ef09c5d59ea9256d78",
+      "gzipBytes": 2685,
+      "gzipSha256": "cfcfcc90aef62833d86161b69aebf0f0f37742bf03f20a61e45fcf63c4007173"
+    },
+    {
+      "source": "composition-final-source-v3/SOURCE.json",
+      "file": "files/composition-final-source-v3/SOURCE.json.gz",
+      "bytes": 1398,
+      "sha256": "9816eb33c6076fda5cd9ad8519631b75c58ccd27b4e605ae3d405cc1f416630e",
+      "gzipBytes": 722,
+      "gzipSha256": "f6e94c80e4cb5a02906af46128e6b4a6f24cb2f47823e076589e4d64a40176a1"
+    },
+    {
+      "source": "composition-final-source-v3/composition/acceptance/assetInitialization.mjs",
+      "file": "files/composition-final-source-v3/composition/acceptance/assetInitialization.mjs.gz",
+      "bytes": 1162,
+      "sha256": "079655a7ea0e4ce7913cc6cbae402b81fcf32479ff4f462f6dab5f70500adb73",
+      "gzipBytes": 561,
+      "gzipSha256": "631c8685ba457fd6ebddcf67f06de11f16978b62e81c7e30d66c610b1529fac2"
+    },
+    {
+      "source": "composition-final-source-v3/composition/acceptance/assetInitialization.test.mjs",
+      "file": "files/composition-final-source-v3/composition/acceptance/assetInitialization.test.mjs.gz",
+      "bytes": 970,
+      "sha256": "73caa1a2971d433ec4d086ceb31ab80240777b0e385eec423372c3fa64e8b595",
+      "gzipBytes": 462,
+      "gzipSha256": "367fcfaf8a963483e90126de1bb63a931c5dc795bb093cd96e74e99af9ed450e"
+    },
+    {
+      "source": "composition-final-source-v3/composition/acceptance/freshCase.mjs",
+      "file": "files/composition-final-source-v3/composition/acceptance/freshCase.mjs.gz",
+      "bytes": 4290,
+      "sha256": "bb3f11400a7cae2de45b9ed7ea4efe9bbf90baf31ecbe687461348d72302dcb0",
+      "gzipBytes": 1656,
+      "gzipSha256": "5c570b3109158ccd10c3ab0907af2d070ad3b5685bbb7ee3c36021f8f3f65b48"
+    },
+    {
+      "source": "composition-final-source-v3/composition/acceptance/initializeAssets.mjs",
+      "file": "files/composition-final-source-v3/composition/acceptance/initializeAssets.mjs.gz",
+      "bytes": 6815,
+      "sha256": "4339f3b9cd765e1787141fe0b1e080bbb060e2d4e5b4132c8f61c6fadb2e9d69",
+      "gzipBytes": 2238,
+      "gzipSha256": "39919d2215ef71099cb0641bc310a0612db6e259f7f2f9e2512b09418097fc30"
+    },
+    {
+      "source": "composition-final-source-v3/composition/acceptance/initializeQAAsset.mjs",
+      "file": "files/composition-final-source-v3/composition/acceptance/initializeQAAsset.mjs.gz",
+      "bytes": 3937,
+      "sha256": "9f8f3860b00713f212886eca07c3be0e1acde7423c22eacb562a18b6661182ef",
+      "gzipBytes": 1587,
+      "gzipSha256": "5fd6a5b76fcf64afc141225c7304f0c125e60f6f84d04ea8ceabf685e9f28ece"
+    },
+    {
+      "source": "composition-final-source-v3/composition/acceptance/observeInitial.mjs",
+      "file": "files/composition-final-source-v3/composition/acceptance/observeInitial.mjs.gz",
+      "bytes": 3349,
+      "sha256": "895b0d1db53f5252af46174d54e88fe0fc4aad4aa73ada7284474447a169c0f8",
+      "gzipBytes": 1376,
+      "gzipSha256": "5cf12548129b1dcfa49b000f200ae44874c10f2db250f85a081064290e72bb27"
+    },
+    {
+      "source": "composition-final-source-v3/composition/acceptance/pools.mjs",
+      "file": "files/composition-final-source-v3/composition/acceptance/pools.mjs.gz",
+      "bytes": 6289,
+      "sha256": "00a40d2f8b5bd1488ce3c49e0cfb437f1d5bf1aab3e8853debbc31458f2afc99",
+      "gzipBytes": 2248,
+      "gzipSha256": "0f694908e36965984ab3ffab9b516c8dd4bc6d9028b61d04254e06b32c057aff"
+    },
+    {
+      "source": "composition-final-source-v3/composition/acceptance/reportConstituents.mjs",
+      "file": "files/composition-final-source-v3/composition/acceptance/reportConstituents.mjs.gz",
+      "bytes": 5371,
+      "sha256": "a84ec571bd018a775a8abbc69ba7e44028a25b13e72438b98557cc264ba51247",
+      "gzipBytes": 2168,
+      "gzipSha256": "eb0a2b40f2356bc01a678fb67f621fa303ae4ceb7c637a843b81848f9fa33b89"
+    },
+    {
+      "source": "composition-final-source-v3/composition/acceptance/transferQA.mjs",
+      "file": "files/composition-final-source-v3/composition/acceptance/transferQA.mjs.gz",
+      "bytes": 4656,
+      "sha256": "f8f82c65da1c2ce8f0086023ac805f7d7e12d9cf389e514352e67638da3922ec",
+      "gzipBytes": 1781,
+      "gzipSha256": "960d4dcf9f1fc5b4add1187b2902e36876d8516cbc5b5e5a5e7993dc3a5a5b51"
+    },
+    {
+      "source": "composition-final-source-v3/composition/acceptance/verifyComponentsOffline.mjs",
+      "file": "files/composition-final-source-v3/composition/acceptance/verifyComponentsOffline.mjs.gz",
+      "bytes": 5689,
+      "sha256": "4b1c62d17639c2aac77c735ea7ce62b9690e86dbe8ce370147e9d1470ee1def9",
+      "gzipBytes": 2250,
+      "gzipSha256": "65fb24fd5f4ee34a76bf879f1a50f37c73b6c8ea706887a43ae9506b2e3b0329"
+    },
+    {
+      "source": "composition-live-v2/public/CONSTITUENT-ACCEPTANCE-v2.json",
+      "file": "files/composition-live-v2/public/CONSTITUENT-ACCEPTANCE-v2.json.gz",
+      "bytes": 4985,
+      "sha256": "00f30e2fd6e56d95479d0124c9b37ac12db65b92508dd22c52f71bcd8afcec4b",
+      "gzipBytes": 2190,
+      "gzipSha256": "f8a1c71d4c3ce28a76552963f988314ff7cc7dca248e26fd376a7d592190405b"
+    }
+  ]
+}

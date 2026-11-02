@@ -37,3 +37,8 @@ __pycache__/
 /amm/wide/deployments/*/build/
 /amm/wide/deployments/*/bin/
 **/vm-tests/target/
+
+# Full proof requests, source snapshots and raw acceptance runs stay outside Git.
+# Existing tracked review summaries remain reviewable; forced additions face CI.
+/executor/verification/
+/batching/evidence/

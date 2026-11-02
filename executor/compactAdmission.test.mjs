@@ -5,17 +5,15 @@ import{scanExecutorAdmission,validateAdmissionPlan}from'./admissionReader.mjs';i
 import{losslessJson,parseLosslessJson,FEE_ESCROW as F}from'../amm/u124/client.mjs';
 import{compactRequest}from'../batching/admission/reader.mjs';
 import{withBulkAdmission,bulkAdmissionRequest,BULK_ADMISSION}from'../batching/admission/bulk.mjs';
-import{makeAdmissionPolicy}from'../batching/admission/prepare.mjs';import{gunzipSync}from'node:zlib';
+import{makeAdmissionPolicy}from'../batching/admission/prepare.mjs';import{readReviewedAbis}from'../tests/fixtures/reviewedAbis.mjs';
 import{latestBroadcastOutcome}from'./acceptance/attemptOutcome.mjs';
 let root=process.env.ADMISSION_BUILD;
 const j=async p=>JSON.parse(await readFile(p,'utf8')),put=(p,x)=>writeFile(p,losslessJson(x)+'\n',{flag:'wx'});
 if(!root){
  root=await mkdtemp(join(tmpdir(),'psy-reviewed-admission-fixture-'));after(()=>rm(root,{recursive:true,force:true}));
- const prefix=new URL('../batching/evidence/20261020/staged-release-v1/',import.meta.url),cache=new Map();
- const archived=async(archive,source)=>{const dir=new URL(archive+'/',prefix);let m=cache.get(archive);if(!m){m=await j(new URL('manifest.json',dir));cache.set(archive,m);}const r=m.records.find(r=>r.source===source);assert.ok(r);const bytes=await readFile(new URL(r.file,dir));assert.equal(sha256(bytes),r.gzipSha256);const raw=gunzipSync(bytes);assert.equal(sha256(raw),r.sha256);return JSON.parse(raw);};
- const a='live-four-market-closed-loops-v1',b='live-nft-replacement-closed-loop-v1',token=await archived(a,'markets-v1/amm/token-a.json'),nft=await archived(a,'markets-v1/amm/nft.json');
+ const archived=readReviewedAbis().admission,token=archived.token,nft=archived.nft;
  for(const[n,v]of [['token',token],['nft',nft]]){await mkdir(join(root,n));await put(join(root,n,'compilation_artifact.json'),{abi:v.abi});}
- for(const kind of ['amm','orderbook','bondingcurve','nftmarket']){const archive=kind==='nftmarket'?b:a,artifact=await archived(archive,`markets-v1/${kind}/compiled/compilation_artifact.json`),config=await archived(archive,`markets-v1/${kind}/config.json`);await mkdir(join(root,kind,'compiled'),{recursive:true});await put(join(root,kind,'compiled/compilation_artifact.json'),{abi:artifact.abi});await put(join(root,kind,'config.json'),config);await put(join(root,kind,'policy.json'),makeAdmissionPolicy(kind,1000,config,artifact.abi,token.abi,nft.abi));}
+ for(const kind of ['amm','orderbook','bondingcurve','nftmarket']){const {artifact,config}=archived.markets[kind];await mkdir(join(root,kind,'compiled'),{recursive:true});await put(join(root,kind,'compiled/compilation_artifact.json'),{abi:artifact.abi});await put(join(root,kind,'config.json'),config);await put(join(root,kind,'policy.json'),makeAdmissionPolicy(kind,1000,config,artifact.abi,token.abi,nft.abi));}
 }
 async function fixture(kind,fn){const d=await mkdtemp(join(tmpdir(),'psy-compact-executor-'));try{
  const artifact=await j(`${root}/${kind}/compiled/compilation_artifact.json`),policy=await j(`${root}/${kind}/policy.json`),config=await j(`${root}/${kind}/config.json`),token=(await j(root+'/token/compilation_artifact.json')).abi,nft=(await j(root+'/nft/compilation_artifact.json')).abi;

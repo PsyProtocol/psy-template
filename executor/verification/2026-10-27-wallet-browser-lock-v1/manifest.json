@@ -1,0 +1,75 @@
+{
+  "schema": 1,
+  "sourceDirectory": "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-market-recovery-20261023/market-mainnet-migration-20261027-v1",
+  "machine": "gewenbo.local",
+  "host": "macOS-15.7.3-arm64-arm-64bit",
+  "scope": "public formal Executor run including failures; success requires exact included receipt",
+  "walletFilesIncluded": false,
+  "sealedBinariesIncluded": false,
+  "records": [
+    {
+      "source": "public/WALLET-LOCK-CLOSED-v1.json",
+      "file": "files/public/WALLET-LOCK-CLOSED-v1.json.gz",
+      "bytes": 582,
+      "sha256": "42951c2c6065f759d24d35263b1151f5d5b58b12d1ebac9b97e75f6034f3750c",
+      "gzipBytes": 369,
+      "gzipSha256": "b1c6f59fa80424cebd4b86588be2641ed63debb4d54a123ce9701c957c7e6448"
+    },
+    {
+      "source": "public/wallet-browser-lock-acceptance-v1.json",
+      "file": "files/public/wallet-browser-lock-acceptance-v1.json.gz",
+      "bytes": 922,
+      "sha256": "e7b157df5a1cc4fecb19cd5063359cc2775d2189226d64da18c93263e9cb1580",
+      "gzipBytes": 426,
+      "gzipSha256": "f46b35bc53dfc6a84835fbb5c72e08d133261251acea5cdf9a91656947094343"
+    },
+    {
+      "source": "public/wallet-lock-integration-build-v3.log",
+      "file": "files/public/wallet-lock-integration-build-v3.log.gz",
+      "bytes": 3264,
+      "sha256": "d00be67649b8fd9eb4c776f4fc916a8d856e91adfc77c75e4d730d8e7d064ebc",
+      "gzipBytes": 1348,
+      "gzipSha256": "fe09dd26e4029248022342f7888f1305019873c00217272513bb7a5e17ea4339"
+    },
+    {
+      "source": "public/wallet-lock-integration-regressions-v3.log",
+      "file": "files/public/wallet-lock-integration-regressions-v3.log.gz",
+      "bytes": 318,
+      "sha256": "54805d6c3b05847520fc66fb2186b97e7c9461644f4a8c3a97422dc0405d18f0",
+      "gzipBytes": 252,
+      "gzipSha256": "f1c0366f01f7ad2755a9f4c09f56dfbc325311def560d558cf0e99d220026bcd"
+    },
+    {
+      "source": "public/wallet-native-client-regressions-v5.log",
+      "file": "files/public/wallet-native-client-regressions-v5.log.gz",
+      "bytes": 4190,
+      "sha256": "b7807e9ffdbdfc0c361ed5009f7f87161638e246706659feafe937e2b0373ba4",
+      "gzipBytes": 1930,
+      "gzipSha256": "d3f42ae157dfd6a7575efa904cf45e6e7d83aa820370810408adce994bc16370"
+    },
+    {
+      "source": "public/wallet-native-client-regressions-v6.log",
+      "file": "files/public/wallet-native-client-regressions-v6.log.gz",
+      "bytes": 4186,
+      "sha256": "d8a076a2e8b20f77baa36fb24c586b51e7697352500317d9f82ebe3849a33c00",
+      "gzipBytes": 1928,
+      "gzipSha256": "2b15e2b61407898d4719b73c866c38051168fc14863ba3499f76499077ca31f6"
+    },
+    {
+      "source": "public/wallet-native-client-regressions-v7.log",
+      "file": "files/public/wallet-native-client-regressions-v7.log.gz",
+      "bytes": 4185,
+      "sha256": "281444c60344e76a580940649ad514481892f69f0ec268ece389dd82fc59198c",
+      "gzipBytes": 1934,
+      "gzipSha256": "b6c35af75f70e6d9ad188ffad588b7f8e567f0424f63ec141cdfd4f03384047b"
+    },
+    {
+      "source": "wallet-vendor-v6/SOURCE.json",
+      "file": "files/wallet-vendor-v6/SOURCE.json.gz",
+      "bytes": 2809,
+      "sha256": "617e650a83eefe03d072ece741432677d44fe2b46428eb45301c10ac944fd61f",
+      "gzipBytes": 1153,
+      "gzipSha256": "03ff0cd21e3751c5c83c988895c22d395e44fe453932f60ab9fc7b19852ca76b"
+    }
+  ]
+}

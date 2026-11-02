@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "scope": "offline full-proof verification of the same two saved real ordinary/market UPSs in fresh/cached/cached/fresh order; no proof generation, RPC, fees, inclusion or chain TPS measurement",
+  "sourceLogSha256": "44004eb7dc5d82ef064dbbdda495fed7f30626bdec0468d9eed4bdd1490d7eb1",
+  "groups": {
+    "fresh": {
+      "samples": 4,
+      "medianResourceMilliseconds": 3095.0251665,
+      "medianCompleteProofVerificationMilliseconds": 3.5275835,
+      "medianCombinedMilliseconds": 3098.5378124999997
+    },
+    "cachedCold": {
+      "samples": 1,
+      "medianResourceMilliseconds": 3116.375041,
+      "medianCompleteProofVerificationMilliseconds": 3.5525,
+      "medianCombinedMilliseconds": 3119.9275409999996
+    },
+    "cachedWarm": {
+      "samples": 3,
+      "medianResourceMilliseconds": 4.1e-05,
+      "medianCompleteProofVerificationMilliseconds": 3.5448749999999998,
+      "medianCombinedMilliseconds": 3.5449159999999997
+    }
+  },
+  "wrongProofRejectedEachMode": true,
+  "wrongNetworkRejectedAfterWarm": true,
+  "sdkUnchanged": true,
+  "networkComparisonComplete": false
+}

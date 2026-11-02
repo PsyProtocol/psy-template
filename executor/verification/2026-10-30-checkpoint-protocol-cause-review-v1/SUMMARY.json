@@ -1,0 +1,244 @@
+{
+  "schema": 1,
+  "scope": "bounded source-cohort exclusions and source-level randomness capability tracing; root cause not attributed",
+  "sdkCommit": "c92880c8b6e2c8d392f19368bc8801a2584fd427",
+  "baseApplication": "740f4d622c9004b6b8274ed239c39598b8121101",
+  "currentObservedHead": 20172,
+  "currentProofIdentities": [
+    {
+      "checkpointId": 20171,
+      "proofSha256": "0f398a506e05c33971a1f672086ce7f1f2bde14e7b9bca02ff66b4715bbf630f",
+      "proofBytes": 130328
+    },
+    {
+      "checkpointId": 20172,
+      "proofSha256": "dc3261bb236cb4e0646766978456f00955fef72685ed94f4038a863de7415841",
+      "proofBytes": 130328
+    }
+  ],
+  "comparisons": [
+    {
+      "run": "original-comparison-v1",
+      "approvedFingerprint": "5e4c467c5e5984b52b2ce8a8dc1401ef3d6046ef3b529935e4cc840112e63f06",
+      "unapprovedComparisonFingerprint": "11922fd1eee2a075a45e9b1a82637df5f9ee529f92320f229312a70f8ea87f85",
+      "proofs": [
+        {
+          "approvedResourceError": "Condition failed: `vanishing_polys_zeta[i] == z_h_zeta * reduce_with_powers(chunk, zeta_pow_deg)`",
+          "approvedResourceProofVerified": false,
+          "bytes": 130328,
+          "proofSha256": "caf28f81044ec8a7ae1bb842f4225ca2e0c9fe2dc55cf9707f08940292712f9e",
+          "publicInputs": "4418359949a8d7718ddab7b06e90b292dc9636b759319c1099b3b0b46cd56672",
+          "unapprovedNamedComparisonError": "Condition failed: `vanishing_polys_zeta[i] == z_h_zeta * reduce_with_powers(chunk, zeta_pow_deg)`",
+          "unapprovedNamedComparisonProofVerified": false
+        },
+        {
+          "approvedResourceError": "Condition failed: `vanishing_polys_zeta[i] == z_h_zeta * reduce_with_powers(chunk, zeta_pow_deg)`",
+          "approvedResourceProofVerified": false,
+          "bytes": 130328,
+          "proofSha256": "19b69db6ffe0d2d09c1e60e14a692cbda90d8e8afa2a8080f4f85c4fe2ad5b0c",
+          "publicInputs": "a0705ad82ecb06bdd202249204dda6d0baf625a459e1147900763f890c7ac4ec",
+          "unapprovedNamedComparisonError": "Condition failed: `vanishing_polys_zeta[i] == z_h_zeta * reduce_with_powers(chunk, zeta_pow_deg)`",
+          "unapprovedNamedComparisonProofVerified": false
+        }
+      ],
+      "observedRelation": {
+        "actualPublicInputs": "a0705ad82ecb06bdd202249204dda6d0baf625a459e1147900763f890c7ac4ec",
+        "approvedExpectedPublicInputs": "2fa7c7d53fe92da4d4463a75a6813040db35127d18fa003c882100076b196235",
+        "approvedRelationMatches": false,
+        "checkpointId": 18505,
+        "observedMembershipInternallyConsistent": true,
+        "openingSha256": "6fd7d56fb5556db8c961a130da16a78b2999b2e7b3fd5945b69fa9c5130118b1",
+        "scope": "conditional observed pair correspondence, not authenticated instance/history/finality",
+        "unapprovedNamedExpectedPublicInputs": "023fa44e4d4ace2aa4f5e5868da20d2b29bac33cb5fef9063a205aefa4671232",
+        "unapprovedNamedRelationMatches": false
+      }
+    },
+    {
+      "run": "current-comparison-v1",
+      "approvedFingerprint": "5e4c467c5e5984b52b2ce8a8dc1401ef3d6046ef3b529935e4cc840112e63f06",
+      "unapprovedComparisonFingerprint": "11922fd1eee2a075a45e9b1a82637df5f9ee529f92320f229312a70f8ea87f85",
+      "proofs": [
+        {
+          "approvedResourceError": "Condition failed: `vanishing_polys_zeta[i] == z_h_zeta * reduce_with_powers(chunk, zeta_pow_deg)`",
+          "approvedResourceProofVerified": false,
+          "bytes": 130328,
+          "proofSha256": "0f398a506e05c33971a1f672086ce7f1f2bde14e7b9bca02ff66b4715bbf630f",
+          "publicInputs": "b7f46dba3ebd38690289599974fef8a00df9a925ea619985e068b92d0b90118e",
+          "unapprovedNamedComparisonError": "Condition failed: `vanishing_polys_zeta[i] == z_h_zeta * reduce_with_powers(chunk, zeta_pow_deg)`",
+          "unapprovedNamedComparisonProofVerified": false
+        },
+        {
+          "approvedResourceError": "Condition failed: `vanishing_polys_zeta[i] == z_h_zeta * reduce_with_powers(chunk, zeta_pow_deg)`",
+          "approvedResourceProofVerified": false,
+          "bytes": 130328,
+          "proofSha256": "dc3261bb236cb4e0646766978456f00955fef72685ed94f4038a863de7415841",
+          "publicInputs": "110f6050a56dc51c5488afe1cc7b6df76b9c0d5bbdd647018ec54f15bce6f453",
+          "unapprovedNamedComparisonError": "Condition failed: `vanishing_polys_zeta[i] == z_h_zeta * reduce_with_powers(chunk, zeta_pow_deg)`",
+          "unapprovedNamedComparisonProofVerified": false
+        }
+      ],
+      "observedRelation": {
+        "actualPublicInputs": "110f6050a56dc51c5488afe1cc7b6df76b9c0d5bbdd647018ec54f15bce6f453",
+        "approvedExpectedPublicInputs": "2e68200bad412d86f409b37ce278aad6afbd3a20659e56ffd6773e8986f6fc2b",
+        "approvedRelationMatches": false,
+        "checkpointId": 20172,
+        "observedMembershipInternallyConsistent": true,
+        "openingSha256": "93e5d4e88174e01d80d4f89c42bf1634cd17621a9c09fb017e1dcf20478e1770",
+        "scope": "conditional observed pair correspondence, not authenticated instance/history/finality",
+        "unapprovedNamedExpectedPublicInputs": "69edde60be0465c5dc22272d3c7b33e9eec2561d2d01cb6e99d37bb0e44771f8",
+        "unapprovedNamedRelationMatches": false
+      }
+    },
+    {
+      "run": "original-comparison-v2",
+      "approvedFingerprint": "5e4c467c5e5984b52b2ce8a8dc1401ef3d6046ef3b529935e4cc840112e63f06",
+      "unapprovedComparisonFingerprint": "eaa0df030310fd5b374b852e512307aa63ea41474e1938501c429650c473fddd",
+      "proofs": [
+        {
+          "approvedResourceError": "Condition failed: `vanishing_polys_zeta[i] == z_h_zeta * reduce_with_powers(chunk, zeta_pow_deg)`",
+          "approvedResourceProofVerified": false,
+          "bytes": 130328,
+          "proofSha256": "caf28f81044ec8a7ae1bb842f4225ca2e0c9fe2dc55cf9707f08940292712f9e",
+          "publicInputs": "4418359949a8d7718ddab7b06e90b292dc9636b759319c1099b3b0b46cd56672",
+          "unapprovedNamedComparisonError": "Condition failed: `vanishing_polys_zeta[i] == z_h_zeta * reduce_with_powers(chunk, zeta_pow_deg)`",
+          "unapprovedNamedComparisonProofVerified": false
+        },
+        {
+          "approvedResourceError": "Condition failed: `vanishing_polys_zeta[i] == z_h_zeta * reduce_with_powers(chunk, zeta_pow_deg)`",
+          "approvedResourceProofVerified": false,
+          "bytes": 130328,
+          "proofSha256": "19b69db6ffe0d2d09c1e60e14a692cbda90d8e8afa2a8080f4f85c4fe2ad5b0c",
+          "publicInputs": "a0705ad82ecb06bdd202249204dda6d0baf625a459e1147900763f890c7ac4ec",
+          "unapprovedNamedComparisonError": "Condition failed: `vanishing_polys_zeta[i] == z_h_zeta * reduce_with_powers(chunk, zeta_pow_deg)`",
+          "unapprovedNamedComparisonProofVerified": false
+        }
+      ],
+      "observedRelation": {
+        "actualPublicInputs": "a0705ad82ecb06bdd202249204dda6d0baf625a459e1147900763f890c7ac4ec",
+        "approvedExpectedPublicInputs": "2fa7c7d53fe92da4d4463a75a6813040db35127d18fa003c882100076b196235",
+        "approvedRelationMatches": false,
+        "checkpointId": 18505,
+        "observedMembershipInternallyConsistent": true,
+        "openingSha256": "6fd7d56fb5556db8c961a130da16a78b2999b2e7b3fd5945b69fa9c5130118b1",
+        "scope": "conditional observed pair correspondence, not authenticated instance/history/finality",
+        "unapprovedNamedExpectedPublicInputs": "9ea31a15431a3717f208e38771366100376195321716936e09b6de435cfad217",
+        "unapprovedNamedRelationMatches": false
+      }
+    },
+    {
+      "run": "current-comparison-v2",
+      "approvedFingerprint": "5e4c467c5e5984b52b2ce8a8dc1401ef3d6046ef3b529935e4cc840112e63f06",
+      "unapprovedComparisonFingerprint": "eaa0df030310fd5b374b852e512307aa63ea41474e1938501c429650c473fddd",
+      "proofs": [
+        {
+          "approvedResourceError": "Condition failed: `vanishing_polys_zeta[i] == z_h_zeta * reduce_with_powers(chunk, zeta_pow_deg)`",
+          "approvedResourceProofVerified": false,
+          "bytes": 130328,
+          "proofSha256": "0f398a506e05c33971a1f672086ce7f1f2bde14e7b9bca02ff66b4715bbf630f",
+          "publicInputs": "b7f46dba3ebd38690289599974fef8a00df9a925ea619985e068b92d0b90118e",
+          "unapprovedNamedComparisonError": "Condition failed: `vanishing_polys_zeta[i] == z_h_zeta * reduce_with_powers(chunk, zeta_pow_deg)`",
+          "unapprovedNamedComparisonProofVerified": false
+        },
+        {
+          "approvedResourceError": "Condition failed: `vanishing_polys_zeta[i] == z_h_zeta * reduce_with_powers(chunk, zeta_pow_deg)`",
+          "approvedResourceProofVerified": false,
+          "bytes": 130328,
+          "proofSha256": "dc3261bb236cb4e0646766978456f00955fef72685ed94f4038a863de7415841",
+          "publicInputs": "110f6050a56dc51c5488afe1cc7b6df76b9c0d5bbdd647018ec54f15bce6f453",
+          "unapprovedNamedComparisonError": "Condition failed: `vanishing_polys_zeta[i] == z_h_zeta * reduce_with_powers(chunk, zeta_pow_deg)`",
+          "unapprovedNamedComparisonProofVerified": false
+        }
+      ],
+      "observedRelation": {
+        "actualPublicInputs": "110f6050a56dc51c5488afe1cc7b6df76b9c0d5bbdd647018ec54f15bce6f453",
+        "approvedExpectedPublicInputs": "2e68200bad412d86f409b37ce278aad6afbd3a20659e56ffd6773e8986f6fc2b",
+        "approvedRelationMatches": false,
+        "checkpointId": 20172,
+        "observedMembershipInternallyConsistent": true,
+        "openingSha256": "93e5d4e88174e01d80d4f89c42bf1634cd17621a9c09fb017e1dcf20478e1770",
+        "scope": "conditional observed pair correspondence, not authenticated instance/history/finality",
+        "unapprovedNamedExpectedPublicInputs": "d087d37997c1b2db89e34d2caac53fcd24ab84f84ab4f2676c81c2cd2771dfd4",
+        "unapprovedNamedRelationMatches": false
+      }
+    }
+  ],
+  "nativeCliInvocations": 8,
+  "releaseCliBuildAttempts": 2,
+  "additionalKnownAnswerUnitHarnessBuilds": 1,
+  "knownAnswerUnitTestsPassed": 3,
+  "newProofsGenerated": 0,
+  "readonlyRpcRequests": 5,
+  "maximumReadonlyRpcRequests": 7,
+  "financialOperations": 0,
+  "feesBaseUnits": "0",
+  "realFills": 0,
+  "ordinaryWalletClaims": 0,
+  "resourcesInstalled": false,
+  "frozenSdkChanged": false,
+  "nodeChanged": false,
+  "approvedReleaseCompatible": false,
+  "runtimeIdentityAuthenticated": false,
+  "chainDomainAuthenticated": false,
+  "finalityVerified": false,
+  "historyPrefixAnchored": false,
+  "causalSealVerified": false,
+  "qualifiedSource": false,
+  "randomAuthorization": false,
+  "broadcast": false,
+  "rootCauseResolved": false,
+  "rootCauseStillRequires": "Actual running kind-32 verifier/common resources and exact stored record correspondence; a moving branch or known cache is insufficient",
+  "sourceEntropyFinding": "Frozen coordinator generates seed with local thread_rng; checkpoint circuit commits witness seed without proving generation timing, uniqueness or resistance to producer bias",
+  "productionBinaryV2MatchesFinalProductionSources": true,
+  "sourceOnlyTestAdditionInV3": true,
+  "budgetNote": "Two bounded release CLI builds, eight CLI invocations and five RPC reads. A separate 120-second unit harness compilation tested known answers without proving or extra RPC; no financial budget increase.",
+  "measurements": [
+    {
+      "label": "build-v1",
+      "elapsedSeconds": 57.156765582971275,
+      "sampledFamilyRssPeakKiB": 1200496,
+      "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak"
+    },
+    {
+      "label": "build-v2",
+      "elapsedSeconds": 55.1442600840237,
+      "sampledFamilyRssPeakKiB": 1197872,
+      "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak"
+    },
+    {
+      "label": "original-comparison-v1",
+      "elapsedSeconds": 4.16084754106123,
+      "sampledFamilyRssPeakKiB": 446496,
+      "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak"
+    },
+    {
+      "label": "current-comparison-v1",
+      "elapsedSeconds": 3.1026569579262286,
+      "sampledFamilyRssPeakKiB": 308880,
+      "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak"
+    },
+    {
+      "label": "original-comparison-v2",
+      "elapsedSeconds": 4.156187165994197,
+      "sampledFamilyRssPeakKiB": 424896,
+      "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak"
+    },
+    {
+      "label": "current-comparison-v2",
+      "elapsedSeconds": 4.160846291924827,
+      "sampledFamilyRssPeakKiB": 443664,
+      "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak"
+    },
+    {
+      "label": "native-regression-v2",
+      "elapsedSeconds": 7.276735834078863,
+      "sampledFamilyRssPeakKiB": 453488,
+      "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak"
+    },
+    {
+      "label": "known-answer-unit-v3",
+      "elapsedSeconds": 50.99814470799174,
+      "sampledFamilyRssPeakKiB": 1178384,
+      "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak"
+    }
+  ]
+}

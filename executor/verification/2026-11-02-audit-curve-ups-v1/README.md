@@ -1,0 +1,7 @@
+# Audit Curve reachable lifecycle UPS evidence
+
+Twelve new complete synthetic UPSs pass on the fixed audit SDK. The vault starts without preloaded slots. The ordinary owner signs its actual fee grant/funding, issuer signs activation and initialization funding, and the user signs its dual-Felt order/funding. Vault bootstrap, initialization, frozen-source coverage and fill use the actual v18 candidate bytecode/key. An exhausted fee cap rejects, an explicit ordinary owner recovery preserves the original source/deadline and consumed fee total, and the ordinary user's actual signature proof claims the resulting assets. The actual state roots, nonces and exact fee burns conserve across this reachable state chain.
+
+The full process takes 642.930 seconds, including a cold stream resource build of 111.317 seconds. Sampled process-family RSS peaks at 4,446,112 KiB, not physical footprint. Concurrent non-proof build activity is not controlled; there is no matched baseline, performance claim, finality, RPC confirmation, browser approval or network receipt.
+
+The chain and assets are synthetic and include the preserved prior QA Native fixture. Separate current Native membership/resource binding is recorded in the native-binding archive; current-instance issuer/asset/target identities and a new financial preflight are still required before deployment. Zero live financial operations occur. Public request/proof verification files and original logs are retained, with raw and compressed SHA256 digests. No private signing key or secret witness is persisted.

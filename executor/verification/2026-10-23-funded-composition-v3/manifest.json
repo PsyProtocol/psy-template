@@ -1,0 +1,251 @@
+{
+  "schema": 1,
+  "sourceDirectory": "/private/tmp/psy-composition-funded-evidence-20261023-v3",
+  "machine": "gewenbo.local",
+  "host": "macOS-15.7.3-arm64-arm-64bit",
+  "scope": "public formal Executor run including failures; success requires exact included receipt",
+  "walletFilesIncluded": false,
+  "sealedBinariesIncluded": false,
+  "records": [
+    {
+      "source": "CHECKPOINT.json",
+      "file": "files/CHECKPOINT.json.gz",
+      "bytes": 896,
+      "sha256": "5dc24a5c1157ec99cf7ad5f37fc2dd462ee4249d68391d48784cf943908eea57",
+      "gzipBytes": 564,
+      "gzipSha256": "dcadc809270c3d8aee6fd282bb5902ab7ff1e747df4528fd675729508c992bd3"
+    },
+    {
+      "source": "accepted-refund-controller-ups/REPORT.json",
+      "file": "files/accepted-refund-controller-ups/REPORT.json.gz",
+      "bytes": 9899,
+      "sha256": "60944a32eb5a02bf50d072a7e9e23436cd4aff0c2c94892ce3afef96b33c2ce7",
+      "gzipBytes": 2164,
+      "gzipSha256": "67676e111ca5c16d3e7568c37325a46861ffd41765a5767052148d7d610da0e9"
+    },
+    {
+      "source": "accepted-refund-controller-ups/request-nonce-1.json",
+      "file": "files/accepted-refund-controller-ups/request-nonce-1.json.gz",
+      "bytes": 502111,
+      "sha256": "7534afec1ac51d946ee95c292868b8705864e48aa2405d63dcf87afe78a9b8be",
+      "gzipBytes": 167530,
+      "gzipSha256": "76fbf5778e0b3f33954732147448ff1e01d935be0f1b0be4fc41bf5c3ec22986"
+    },
+    {
+      "source": "accepted-refund-controller-ups/request-nonce-2.json",
+      "file": "files/accepted-refund-controller-ups/request-nonce-2.json.gz",
+      "bytes": 514150,
+      "sha256": "084f6dc8c9cc141566e8957c843601ca5b971ccf4b04b824d308047dde87e7ef",
+      "gzipBytes": 171478,
+      "gzipSha256": "c7aa4758715f2ab835fc53e7ffa01e5fe714b6b343313bcd592a42c4fc2914c2"
+    },
+    {
+      "source": "accepted-refund-controller-ups/request-nonce-3.json",
+      "file": "files/accepted-refund-controller-ups/request-nonce-3.json.gz",
+      "bytes": 479339,
+      "sha256": "df8a5789800b70092d42ad50a31c29d6406af011fadf7e766f79d38b1f8f167d",
+      "gzipBytes": 169226,
+      "gzipSha256": "11dbfe832e70aa2ba213489dfb3e919bde13d7610ae9f8ffc1c395b4b464b5a7"
+    },
+    {
+      "source": "accepted-refund-controller-ups/request-nonce-4.json",
+      "file": "files/accepted-refund-controller-ups/request-nonce-4.json.gz",
+      "bytes": 479811,
+      "sha256": "4187ce0661ec8598c5838fa727fb5df0d939c721686aede606f13fd37b98f95a",
+      "gzipBytes": 168130,
+      "gzipSha256": "2429300a558141bb9eef91d8203616d96ab49cdbf786805c18bfb5998572f388"
+    },
+    {
+      "source": "accepted-refund-controller-ups/request-nonce-5.json",
+      "file": "files/accepted-refund-controller-ups/request-nonce-5.json.gz",
+      "bytes": 501654,
+      "sha256": "c98066f798a1e9b3c20fd2625a897e4a9c187bf7eae52e1670c371e6cf449dcf",
+      "gzipBytes": 170015,
+      "gzipSha256": "466af4b79ac6b97f415f5dd096697bdf3d9811c0a8a45575e26849565aa4364d"
+    },
+    {
+      "source": "accepted-refund-controller-ups/request-nonce-6.json",
+      "file": "files/accepted-refund-controller-ups/request-nonce-6.json.gz",
+      "bytes": 495006,
+      "sha256": "d48dda50980e6d326cc72790089e899b81e107a2f9ca8ec4385411da9b928657",
+      "gzipBytes": 170258,
+      "gzipSha256": "2fa321ec09ef37ef2011746ed3361377a6818ebe3b48b18528c4eb622d171e71"
+    },
+    {
+      "source": "accepted-refund-controller-ups/verification-nonce-1.json",
+      "file": "files/accepted-refund-controller-ups/verification-nonce-1.json.gz",
+      "bytes": 539,
+      "sha256": "7f3a9b3ab017e9b2335cda2b5d04df2bf69c9e2c8b2348872eb8aeeb933d37d2",
+      "gzipBytes": 335,
+      "gzipSha256": "f9dec6c811ca6e63baffbf4bbe9d048ee98e7f4c83d83be295ef9236f9b347f8"
+    },
+    {
+      "source": "accepted-refund-controller-ups/verification-nonce-2.json",
+      "file": "files/accepted-refund-controller-ups/verification-nonce-2.json.gz",
+      "bytes": 539,
+      "sha256": "ca0214c6e114348b319c9fa811e4f43784ac7025c300eb1bf1f43f121a6709ef",
+      "gzipBytes": 369,
+      "gzipSha256": "0a4953a1a347f00d5e2756cceb60e80907393ce2d9743396982ef74fd0e496aa"
+    },
+    {
+      "source": "accepted-refund-controller-ups/verification-nonce-3.json",
+      "file": "files/accepted-refund-controller-ups/verification-nonce-3.json.gz",
+      "bytes": 539,
+      "sha256": "628f655c1df8543926b1e53fe477c3e1c9db7a8884a8f7b4cf676d1fa96f6a7a",
+      "gzipBytes": 370,
+      "gzipSha256": "cad02649e9436e2f2fc7c97a8429300963fd4aef31791b2a35eaacdb317682d3"
+    },
+    {
+      "source": "accepted-refund-controller-ups/verification-nonce-4.json",
+      "file": "files/accepted-refund-controller-ups/verification-nonce-4.json.gz",
+      "bytes": 539,
+      "sha256": "bc2a9fccddaef2954118f46e50dfe7b692db29411a2c417915c8811c68f6c530",
+      "gzipBytes": 369,
+      "gzipSha256": "5ca9ed33e68b0a7b9520071cb06e568abf858fd2565b223c9f5c4c56584eba17"
+    },
+    {
+      "source": "accepted-refund-controller-ups/verification-nonce-5.json",
+      "file": "files/accepted-refund-controller-ups/verification-nonce-5.json.gz",
+      "bytes": 539,
+      "sha256": "1812acaafdf7e56ffc1424f316b7a047caec7f8e36d78b118059bb0503f1844f",
+      "gzipBytes": 370,
+      "gzipSha256": "6c7374cbaf38f51ed1f2aff3d5dc0058fb7f57b468d23de983e0135b9c3891a1"
+    },
+    {
+      "source": "accepted-refund-controller-ups/verification-nonce-6.json",
+      "file": "files/accepted-refund-controller-ups/verification-nonce-6.json.gz",
+      "bytes": 539,
+      "sha256": "b391463f85eeeab7039909c99eb48a08704867851a95c2bc23e7f57961b85235",
+      "gzipBytes": 373,
+      "gzipSha256": "2e493753794e7a21d454a31d15e38fdcedc327278d2e196446034d19093ece8e"
+    },
+    {
+      "source": "failed-fixture-attempt-v1/request-nonce-1.json",
+      "file": "files/failed-fixture-attempt-v1/request-nonce-1.json.gz",
+      "bytes": 501780,
+      "sha256": "732782f98b1c9c4cd2735c62857254ddf325a46f72459fdaef628ab73f674e33",
+      "gzipBytes": 168979,
+      "gzipSha256": "0205e027dc775226f7096dfa7786304a98e42f552517118da843e6b36152d760"
+    },
+    {
+      "source": "failed-fixture-attempt-v1/request-nonce-2.json",
+      "file": "files/failed-fixture-attempt-v1/request-nonce-2.json.gz",
+      "bytes": 514050,
+      "sha256": "3557fd6782dab924896faa89282165603d613cced7cb4428e356aecae7490fd6",
+      "gzipBytes": 168395,
+      "gzipSha256": "95d8f026fbf93abc27e8b17a3316ae00461f43d093e4e27f484b4c71c775ae1d"
+    },
+    {
+      "source": "failed-fixture-attempt-v1/request-nonce-3.json",
+      "file": "files/failed-fixture-attempt-v1/request-nonce-3.json.gz",
+      "bytes": 479259,
+      "sha256": "eee61a6ccab6414a834077a85577a75583df5d96fdd767c3ada9cc5983910cd3",
+      "gzipBytes": 169821,
+      "gzipSha256": "81b8df9c3c1fd7955c0a8e30016346d3badb991eac3d940631125fdc6a2a824e"
+    },
+    {
+      "source": "failed-fixture-attempt-v1/request-nonce-4.json",
+      "file": "files/failed-fixture-attempt-v1/request-nonce-4.json.gz",
+      "bytes": 479482,
+      "sha256": "fa2c054d236cd3faf93e5492f53e291a95f4395519a22da5c0048b771ac60f5b",
+      "gzipBytes": 169570,
+      "gzipSha256": "1d6313267cb5c0c0c363a43038577c60321111fe240ed1b49792e505c0eabf72"
+    },
+    {
+      "source": "failed-fixture-attempt-v2/request-nonce-1.json",
+      "file": "files/failed-fixture-attempt-v2/request-nonce-1.json.gz",
+      "bytes": 502091,
+      "sha256": "dbd02fe61a6859937bdbe681c6ae3ad8b13e80c347f2697db47c64e266b14044",
+      "gzipBytes": 167934,
+      "gzipSha256": "9bf8eb549d93ab05594bfbe57dc64a9457b509d44a07b70004d457535d8b33b0"
+    },
+    {
+      "source": "failed-fixture-attempt-v2/request-nonce-2.json",
+      "file": "files/failed-fixture-attempt-v2/request-nonce-2.json.gz",
+      "bytes": 514154,
+      "sha256": "1cbce50a4f40f6e8a75021634878a519c3856ef1cc89a4b43c98e7ebfb1f244e",
+      "gzipBytes": 170803,
+      "gzipSha256": "8a9cb376be951aec8c088055ef2a5872b7b6a5b9e117378e1674cc0fb718ec29"
+    },
+    {
+      "source": "failed-fixture-attempt-v2/request-nonce-3.json",
+      "file": "files/failed-fixture-attempt-v2/request-nonce-3.json.gz",
+      "bytes": 479582,
+      "sha256": "c2975a6b9d63a18d19261025263bffef28dae1186148898f56584d8c6c89ccb8",
+      "gzipBytes": 169397,
+      "gzipSha256": "0c14006d8f8cbb9b9cc5dacd8394da83c0e2fc310c7d973a1008c5be1fada400"
+    },
+    {
+      "source": "failed-fixture-attempt-v2/request-nonce-4.json",
+      "file": "files/failed-fixture-attempt-v2/request-nonce-4.json.gz",
+      "bytes": 479482,
+      "sha256": "d3e613788d645c0fc825a4a0ec427a5882ffff877d8b1e0493bbd86c7954a315",
+      "gzipBytes": 169684,
+      "gzipSha256": "6faa6f6ffd45f93ff3057ebc156116cb05babb0b4787f853dca37744f0875c1d"
+    },
+    {
+      "source": "logs/composition-refund-ups-v1.log",
+      "file": "files/logs/composition-refund-ups-v1.log.gz",
+      "bytes": 7035,
+      "sha256": "b91a7993917f550ba4668e6545925eeb73bca7d51e97d56d150da2161c1f0456",
+      "gzipBytes": 870,
+      "gzipSha256": "9db7f35f2b6c8f20785df340e952d2eb90bc6b2634f7c64e7e6cd6dc1b24ecda"
+    },
+    {
+      "source": "logs/composition-refund-ups-v2.log",
+      "file": "files/logs/composition-refund-ups-v2.log.gz",
+      "bytes": 7057,
+      "sha256": "45dc7a21cfcb7ffe6b6fd35e1ac211b278fefad147a08d94f69d5f8de10aaee2",
+      "gzipBytes": 875,
+      "gzipSha256": "f2331d16ea9d7db7b3ac942ce2230dab99c416d1933f945459f4836b57d1f198"
+    },
+    {
+      "source": "logs/composition-refund-ups-v3.log",
+      "file": "files/logs/composition-refund-ups-v3.log.gz",
+      "bytes": 10430,
+      "sha256": "b3a95a3829442c264c5a563e4cb232e0af1b2a736f1b494ef89c85a521659830",
+      "gzipBytes": 1081,
+      "gzipSha256": "196f83efac326cd1498faa8cb8e080a5c616f0dce6b2d51839799ca1df886fde"
+    },
+    {
+      "source": "logs/funds-refund-ups-build-v1.log",
+      "file": "files/logs/funds-refund-ups-build-v1.log.gz",
+      "bytes": 23402,
+      "sha256": "b0cc18b52470e18909ca20711854e1fbd402c7f3119069893c234cf84004f6c5",
+      "gzipBytes": 4791,
+      "gzipSha256": "70e83a948af77e1d7ab7fe66cf4a93c21688d49fbb9703fd6ab154da2dda6939"
+    },
+    {
+      "source": "logs/funds-refund-ups-build-v2.log",
+      "file": "files/logs/funds-refund-ups-build-v2.log.gz",
+      "bytes": 23402,
+      "sha256": "3a84cf5e1b6b654cbc1c0524d90340c23237e64e6fa1885c2fc1190aa292b156",
+      "gzipBytes": 4794,
+      "gzipSha256": "c456e778cb151276aef3eda07a6d805a3a5858ab1e87a32267b5a1804c0e292b"
+    },
+    {
+      "source": "logs/funds-refund-ups-build-v3.log",
+      "file": "files/logs/funds-refund-ups-build-v3.log.gz",
+      "bytes": 23402,
+      "sha256": "46037ea4c92723ea77cf70a35075236be55d298a39ecd5365aea40c619f1a677",
+      "gzipBytes": 4794,
+      "gzipSha256": "8081589a49d995206bbab87b7805a58fb728afddc4deeef451ae9765548c0d00"
+    },
+    {
+      "source": "sources/amm/u124/vm-tests/tests/support/composition_full_ups.rs",
+      "file": "files/sources/amm/u124/vm-tests/tests/support/composition_full_ups.rs.gz",
+      "bytes": 28589,
+      "sha256": "e091f3a1e54a7ecce532dedfe80b7bdd13c9faff998f84a4bd03415846941745",
+      "gzipBytes": 8953,
+      "gzipSha256": "9d403692b593f2bf99666286d2b38f6bf23ab3c7a29356a0f47045a0434546f9"
+    },
+    {
+      "source": "sources/amm/u124/vm-tests/tests/support/composition_market_vm.rs",
+      "file": "files/sources/amm/u124/vm-tests/tests/support/composition_market_vm.rs.gz",
+      "bytes": 5881,
+      "sha256": "f87a40f81a375b5665cfc23ebf93111c861028c26fbecd694033456a295cd687",
+      "gzipBytes": 2259,
+      "gzipSha256": "f0e6c348d3a4400254dffcce93048da049c4b96f1eaa1f67032c84cd9dcb6ace"
+    }
+  ]
+}

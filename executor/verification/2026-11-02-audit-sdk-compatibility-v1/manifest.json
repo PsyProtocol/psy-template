@@ -1,0 +1,71 @@
+{
+  "schema": 1,
+  "scope": "Read-only source/Endcap compatibility; no full UPS or financial authority",
+  "files": [
+    {
+      "file": "README.md",
+      "bytes": 2020,
+      "sha256": "6fb2669e71b2afdaf26e3b60c6cc9fa4a4c4e90e10ba68485a37f5cb56309b1e"
+    },
+    {
+      "file": "public/COMPARISON-v2.json",
+      "bytes": 8480,
+      "sha256": "c89c65a1e20a816c94fe3cf01f3af594f5630acbd8204e85644ce481352aa08c"
+    },
+    {
+      "file": "public/PLAN-v1.json",
+      "bytes": 464,
+      "sha256": "6849531ec6d448bd4f936e7317f9ac4761406874669e7987eb2750fc62260b93"
+    },
+    {
+      "file": "public/TRANSPORT-v1.json",
+      "bytes": 839,
+      "sha256": "ea98d2d7d023b6443ccd8b4ee38161f53f3f101d00b40d6913146ec92ce00dcc"
+    },
+    {
+      "file": "public/comparison-v1.log",
+      "bytes": 951,
+      "sha256": "c73755ad4a474117f6c600932e4aae7697f780cd5cbe5c27c1042f352e6c82d4"
+    },
+    {
+      "file": "public/comparison-v2.log",
+      "bytes": 663,
+      "sha256": "aecebe129cd063554dae01ab2b682dfc1f01f9e1ca4f655c1e0a216e70a40532"
+    },
+    {
+      "file": "public/coordinator-response-v1.json",
+      "bytes": 790,
+      "sha256": "1664497f1f0e51c6d8cb529225c7a3ec56f5cd329193bd23b0e30abf7c2d3f77"
+    },
+    {
+      "file": "public/runtime-endcap-projection-v2.json",
+      "bytes": 1395,
+      "sha256": "2cffd7cde74f6bb52734a3b879eae8620dd802de6eda26ce8e71f3470156d8a3"
+    },
+    {
+      "file": "source/INPUTS-ARCHIVE-v1.json",
+      "bytes": 350,
+      "sha256": "2d6e262d5c8fec5c6fe97e40884ec0ea99987f636a2a4bab17e8c0e2399acc49"
+    },
+    {
+      "file": "source/INPUTS-v1.json.gz",
+      "bytes": 24759,
+      "sha256": "427fbb42718e7b6b6d9ba356241dbe32210a1d0ffed6d0ede726a0d8f91b141e"
+    },
+    {
+      "file": "source/archive-v1.py",
+      "bytes": 1016,
+      "sha256": "c0ff7280a9b6898b070431ec45619e2c4900b0e418aaf9da36d98dd94a772b03"
+    },
+    {
+      "file": "source/compare-audit-v1.mjs",
+      "bytes": 5130,
+      "sha256": "d686f670aafa6556cab16e8b213b898238d8517a4516e094f696aacd90f7b865"
+    },
+    {
+      "file": "source/compare-audit-v2.mjs",
+      "bytes": 5148,
+      "sha256": "11f9e44d6a979cc17c51bf54c8508f73c010b33879471748c5d62b61cee7adda"
+    }
+  ]
+}

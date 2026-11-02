@@ -1,0 +1,51 @@
+{
+  "base": "4611686018427387904",
+  "baselineFeesNativeAtoms": 17000115000,
+  "candidateFeesNativeAtoms": 17000119000,
+  "deltaNativeAtoms": 4000,
+  "extraHighClaimCursorWrites": [
+    {
+      "userId": 406720,
+      "contractId": 2483,
+      "slot": 36205336,
+      "leafIndex": 9051334,
+      "old": "0",
+      "new": "1",
+      "requestSha256": "21c6dcade4a80147a81ac0ae2a702b4c252ab63aa29645de59607766d904a117",
+      "contentHash": "ab110e8bf15b7724f3e4854f8f01edef2ee89d000ca163b120cb4a1f38d130ac"
+    },
+    {
+      "userId": 1717440,
+      "contractId": 2484,
+      "slot": 36205336,
+      "leafIndex": 9051334,
+      "old": "0",
+      "new": "1",
+      "requestSha256": "f56f29a3b341b5d433462f37727edffa4e744080e8bffaf92a7a453bdb0b0ef8",
+      "contentHash": "b52599674224525d34d40f0996878d20df38f33f2466542ff15810f24ac7f9e3"
+    },
+    {
+      "userId": 662720,
+      "contractId": 2483,
+      "slot": 40424216,
+      "leafIndex": 10106054,
+      "old": "0",
+      "new": "1",
+      "requestSha256": "129a141df990fe1c6ccab5991ed1fa1b8b1724ebd3e8f630f5303f0b928e3818",
+      "contentHash": "9754e76a7f734e513553917d46ba1a31eadb4ed27360b530b6fdc11e0d6dd28b"
+    },
+    {
+      "userId": 662720,
+      "contractId": 2484,
+      "slot": 35181336,
+      "leafIndex": 8795334,
+      "old": "0",
+      "new": "1",
+      "requestSha256": "129a141df990fe1c6ccab5991ed1fa1b8b1724ebd3e8f630f5303f0b928e3818",
+      "contentHash": "9754e76a7f734e513553917d46ba1a31eadb4ed27360b530b6fdc11e0d6dd28b"
+    }
+  ],
+  "feePerAdditionalDaLeaf": 1000,
+  "fieldsPerStateLeaf": 4,
+  "scope": "equal-volume sequential fills cross cumulative double-Felt claim-cursor high limbs. Claim low field is at offset 3 and high at offset 0 of the next 4-Felt leaf; four extra DA leaves. Send low/high and balance low/high share their leaves, so their extra high scalar writes alone do not add DA leaves. Exact included receipt slot updates and core DA stats explain fees; not allocator charging."
+}

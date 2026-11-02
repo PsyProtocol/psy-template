@@ -1,0 +1,868 @@
+{
+  "schema": 1,
+  "at": "2026-10-27T00:41:30.410874+00:00",
+  "scope": "Public offline ordinary-wallet native proof requests, reports and failed attempts. No financial broadcasts, installed-wallet/native integration acceptance or performance comparison.",
+  "walletFilesIncluded": false,
+  "privateSigningWitnessesIncluded": false,
+  "binariesIncluded": false,
+  "publicRequests": 12,
+  "finalNativeRequests": 8,
+  "records": [
+    {
+      "source": "application-regression-v3.log",
+      "file": "files/application-regression-v3.log.gz",
+      "bytes": 6890,
+      "sha256": "f1fe8347800d52f06bb7f3b03a4fce16b013bbe8c97645a0347a220fb0089a03",
+      "gzipBytes": 3019,
+      "gzipSha256": "9983135430bcc8fba058ce25c819c08a476c10438f1303c419c01fee611108cc"
+    },
+    {
+      "source": "application-regression-v4.log",
+      "file": "files/application-regression-v4.log.gz",
+      "bytes": 6885,
+      "sha256": "391ceb61cc295aa82f57fe834a196aa3475ca33feffd3c8d747663eff311f4b5",
+      "gzipBytes": 3023,
+      "gzipSha256": "220a1814e89b4afdc46f19790b341e070a8df8c27b2b218517a2de3e8d2a377e"
+    },
+    {
+      "source": "application-regression-v5.log",
+      "file": "files/application-regression-v5.log.gz",
+      "bytes": 10218,
+      "sha256": "58478bc07503d6d3c03f4a684473860da799489c441498487e0fa84c722c5768",
+      "gzipBytes": 3643,
+      "gzipSha256": "90b31606d196a98ace071d1e09965698f818933ff505a22d1fa6db2d078d084b"
+    },
+    {
+      "source": "application-regression-v6.log",
+      "file": "files/application-regression-v6.log.gz",
+      "bytes": 6902,
+      "sha256": "969254c60e77d6a9c6439541abd09b26c24abe9fa8af75bb5859f3a426457d21",
+      "gzipBytes": 3026,
+      "gzipSha256": "ae2fd78b5b19ba3ec2ee721b31bd627f1826a2273827413d0d28971bee630dcf"
+    },
+    {
+      "source": "application-regression-v7.log",
+      "file": "files/application-regression-v7.log.gz",
+      "bytes": 7015,
+      "sha256": "638161fb274225726bfbf64ca7a7ac97f35ac45b8298e8b3edc9deffd273556e",
+      "gzipBytes": 3070,
+      "gzipSha256": "b01e2d7b2c0bb75704ac72c65cbff3f49abe8a032c28fe5f4e5093dd01353298"
+    },
+    {
+      "source": "capsule-tests-v1.log",
+      "file": "files/capsule-tests-v1.log.gz",
+      "bytes": 1145,
+      "sha256": "9db30543c28ca4031eb4bd79580c284ca53ee813953029d99044fb1b3fe6e1ee",
+      "gzipBytes": 639,
+      "gzipSha256": "b23b7b08daa579f6e0d411a4702610640dcf84ef0da5a1b71939bcbb5d7ceab2"
+    },
+    {
+      "source": "capsule-tests-v2.log",
+      "file": "files/capsule-tests-v2.log.gz",
+      "bytes": 418,
+      "sha256": "55efb4c2d570f4889c4143d7f8d0642b3dd0561f58bac826f1f6b8fb6f0899c0",
+      "gzipBytes": 300,
+      "gzipSha256": "a4f206734786fcfa2cfb0782aa812fc34d97945e4823369332dbfd29f5a1d0e8"
+    },
+    {
+      "source": "fixture-build-v1.log",
+      "file": "files/fixture-build-v1.log.gz",
+      "bytes": 1318,
+      "sha256": "b6e37accbf006e7d22e324112be1ebfee9cd48a77d94aa78c57a7e3f9d724190",
+      "gzipBytes": 750,
+      "gzipSha256": "8b539cd66397706607098021f0c686c2e02c0dad6bafbfc7a26a5233cf7f7b1f"
+    },
+    {
+      "source": "native-build-v1.log",
+      "file": "files/native-build-v1.log.gz",
+      "bytes": 7119,
+      "sha256": "7a8a51771952ac7d8769ae2b3776ed94b7e1ca2d955ece5dd180115ef4d21157",
+      "gzipBytes": 1785,
+      "gzipSha256": "6ccf1fa8e253fd22d4417f045e9fe76cd447d505b39b281825985b5f8b31f26d"
+    },
+    {
+      "source": "native-build-v2.log",
+      "file": "files/native-build-v2.log.gz",
+      "bytes": 25677,
+      "sha256": "94c140463d9c36997d2e7aed0514599c4f7a08eaba069a03e06cbc0c0ee164fc",
+      "gzipBytes": 4717,
+      "gzipSha256": "e0f567a06044220db6fe38769df47560b9498018b1044963824f375faef5a68b"
+    },
+    {
+      "source": "native-build-v3.log",
+      "file": "files/native-build-v3.log.gz",
+      "bytes": 23633,
+      "sha256": "fec0f90ca2614e3d71b740093325c1c364df2f37b0d10f3980e9603aca9af2a4",
+      "gzipBytes": 4605,
+      "gzipSha256": "b34cfae6c6a2cfc8abe8a8fb6e20d69b811996b1d3d83440226ef2a375ecee52"
+    },
+    {
+      "source": "native-build-v6.log",
+      "file": "files/native-build-v6.log.gz",
+      "bytes": 23634,
+      "sha256": "a71c1905dbecd2d3cf1eea858eaa23f6eb73f86628f8068b46ca13df8f596780",
+      "gzipBytes": 4603,
+      "gzipSha256": "b16ca08d215ecb95d16806eda7a4a1db98cc78a18f92683da071661dd49cf586"
+    },
+    {
+      "source": "native-source-v1/Cargo.lock",
+      "file": "files/native-source-v1/Cargo.lock.gz",
+      "bytes": 211841,
+      "sha256": "4e895a309801d56e785f17eee5af04e50aee7785a3488e4aea1ae36fb2adb10c",
+      "gzipBytes": 49511,
+      "gzipSha256": "8cb0c94e2f2457d2f5adbd1a461343232247a84a377ab534f5281c674c431e4e"
+    },
+    {
+      "source": "native-source-v1/Cargo.toml",
+      "file": "files/native-source-v1/Cargo.toml.gz",
+      "bytes": 3476,
+      "sha256": "44726d9f093bea279f8cf3ed1d7498ce7ccc34646e2697a86bff3a5e01a1c065",
+      "gzipBytes": 782,
+      "gzipSha256": "1b5f062ecacf81ae0a878b1b7e5dfb82d4fc7267b37cfc3a87f64eda19cd6aa2"
+    },
+    {
+      "source": "native-source-v1/tests/batch_lifecycle.rs",
+      "file": "files/native-source-v1/tests/batch_lifecycle.rs.gz",
+      "bytes": 30970,
+      "sha256": "91313dc35617a3c54e3b6330efdcb0db0c9887847a7da2b2e730c44b587a0747",
+      "gzipBytes": 8837,
+      "gzipSha256": "1bf7cf2566fba4ca303aeb6bacf83c182a89df81d36e709e3e8cf5083570b374"
+    },
+    {
+      "source": "native-source-v1/tests/support/batch_full_ups.rs",
+      "file": "files/native-source-v1/tests/support/batch_full_ups.rs.gz",
+      "bytes": 49912,
+      "sha256": "3842874cc37e1da05fcc95e6f6a186d9a90910df60c604e41dc812477111a374",
+      "gzipBytes": 14545,
+      "gzipSha256": "94687add712d391c3b5a9dc62b9b44be582503eff59f645c32c42428c14ffcf0"
+    },
+    {
+      "source": "native-source-v1/tests/support/ordinary_wallet_full_ups.rs",
+      "file": "files/native-source-v1/tests/support/ordinary_wallet_full_ups.rs.gz",
+      "bytes": 9019,
+      "sha256": "0c27b9249b49c8a30b8d3a52aa7e876c449bc4ddbaeaec993e55c034c4172742",
+      "gzipBytes": 3490,
+      "gzipSha256": "c056ec98262516a8e1fbeda1c64590ab022c3f1665626204481d3ec21ed82006"
+    },
+    {
+      "source": "ordinary-full-ups-v1.log",
+      "file": "files/ordinary-full-ups-v1.log.gz",
+      "bytes": 1119,
+      "sha256": "65b98b5eb5663140fef9205da557c9a784b73c13ea7f9bda6884abc905ab2902",
+      "gzipBytes": 465,
+      "gzipSha256": "9d8e2113cdf6170907ec1e6be0c357cd7a2e66d4fc88e8b77dc41480bb7e8f7b"
+    },
+    {
+      "source": "ordinary-full-ups-v2/amm-request.json",
+      "file": "files/ordinary-full-ups-v2/amm-request.json.gz",
+      "bytes": 499602,
+      "sha256": "60b353b151e3e7f004197f5824443fe121009ed21ca4b9e226ded1c226e9b9fe",
+      "gzipBytes": 170542,
+      "gzipSha256": "0f6c3bab20ac20908c2f3925d74e6df23206a3e29021e5fe875119000a4f08eb"
+    },
+    {
+      "source": "ordinary-full-ups-v2/bondingcurve-request.json",
+      "file": "files/ordinary-full-ups-v2/bondingcurve-request.json.gz",
+      "bytes": 502069,
+      "sha256": "d3dd49b23ca2cbd99bbcc0e3993e7a176ff828b8501737fbdf6cc500be4ebc49",
+      "gzipBytes": 168701,
+      "gzipSha256": "c2823d30ed6324845e16d4ece73aae199aba2a0ae9c57772073f1b4d7484411f"
+    },
+    {
+      "source": "ordinary-full-ups-v2/orderbook-request.json",
+      "file": "files/ordinary-full-ups-v2/orderbook-request.json.gz",
+      "bytes": 497440,
+      "sha256": "58d043e6bd72bcff3a294e0558253d5b0c01c82907279e02de20210a76062375",
+      "gzipBytes": 169151,
+      "gzipSha256": "3e6a18c07ca277f9a031d61158e7bb7fe185cc1148449c94721d03c6364d2d3e"
+    },
+    {
+      "source": "ordinary-full-ups-v2.log",
+      "file": "files/ordinary-full-ups-v2.log.gz",
+      "bytes": 10456,
+      "sha256": "e2665cf195a355f8e2aebf314921ad5ff6a887e38e07a06576b3eac7b4907b59",
+      "gzipBytes": 1968,
+      "gzipSha256": "c26ddf3c55725ee1001a5c61cdf9cabe60fe7e07e87121c0acc3de8c948a0335"
+    },
+    {
+      "source": "ordinary-full-ups-v3/REPORT.json",
+      "file": "files/ordinary-full-ups-v3/REPORT.json.gz",
+      "bytes": 1260,
+      "sha256": "34d37a42e89ef9e6db4c84c6ae2184963a6d176c6bec0fd7e4740cf3b779c2e0",
+      "gzipBytes": 700,
+      "gzipSha256": "b5ed1b81bc5d99deee0df12fcf0b5fb0ccb3191450db5829da23e10c7a4ea7c8"
+    },
+    {
+      "source": "ordinary-full-ups-v3/nftmarket-request.json",
+      "file": "files/ordinary-full-ups-v3/nftmarket-request.json.gz",
+      "bytes": 502065,
+      "sha256": "4090b805ab2264742c2ba49a79c6c7556d66fbffb92e73b7dab37c03cf632700",
+      "gzipBytes": 170295,
+      "gzipSha256": "b55f41e41b7577920e4334a6116697e2b153adb18bc809df3f887bcbac1e916a"
+    },
+    {
+      "source": "ordinary-full-ups-v3.log",
+      "file": "files/ordinary-full-ups-v3.log.gz",
+      "bytes": 3622,
+      "sha256": "aa82bbfc1d4bf6ba5cd2075a24f9f506dc228e2d6eca7ae5a458a74625e518e6",
+      "gzipBytes": 1219,
+      "gzipSha256": "729ddd2e60d4a6b3e4ca8f599980e2b16d2ebd3821ba2310a74f41ba92e6b757"
+    },
+    {
+      "source": "ordinary-full-ups-v4/REPORT.json",
+      "file": "files/ordinary-full-ups-v4/REPORT.json.gz",
+      "bytes": 4429,
+      "sha256": "2a2052d2918d2774273156b63004df2893b1fa703e3ee0a36b5866b454fcdefe",
+      "gzipBytes": 1420,
+      "gzipSha256": "bf9acf522267d678f02979269d7e490c41d251f18b30a94f64be4876d69e5df5"
+    },
+    {
+      "source": "ordinary-full-ups-v4/amm-request.json",
+      "file": "files/ordinary-full-ups-v4/amm-request.json.gz",
+      "bytes": 477567,
+      "sha256": "10e98d3ebf01c0f90879b88ad76bcf2de805258e5f73cbdfbe4a3e987d61bd16",
+      "gzipBytes": 169291,
+      "gzipSha256": "208ea9267b97296bcc16eeacc80f965c39a8d6cd5541c994f5b57678b3d322a5"
+    },
+    {
+      "source": "ordinary-full-ups-v4/bondingcurve-request.json",
+      "file": "files/ordinary-full-ups-v4/bondingcurve-request.json.gz",
+      "bytes": 477694,
+      "sha256": "a1b31d66f8272c3daaa72c4b4502fa3604e11a4cd09c62c1bf6aa3ba3ec8108c",
+      "gzipBytes": 168896,
+      "gzipSha256": "f57060b0f4ee19b8c4847db659865417281a12640d49962996e1e362f67f46d8"
+    },
+    {
+      "source": "ordinary-full-ups-v4/nftmarket-request.json",
+      "file": "files/ordinary-full-ups-v4/nftmarket-request.json.gz",
+      "bytes": 480059,
+      "sha256": "1a5c9793026be8d6c90bbea7d1c84c9583e87057c9a3a6965d90ecc57d5d0af8",
+      "gzipBytes": 168128,
+      "gzipSha256": "511c09c918b6737542baafde52159a8670ff96ddbc2bd7b15f3bf0d14e25631d"
+    },
+    {
+      "source": "ordinary-full-ups-v4/orderbook-request.json",
+      "file": "files/ordinary-full-ups-v4/orderbook-request.json.gz",
+      "bytes": 477450,
+      "sha256": "ab1678fc5e2ec0bbc7c013d2bfba6d2e9704700574b4bcb91d6826daf62e0168",
+      "gzipBytes": 169261,
+      "gzipSha256": "fb3bf8f25d8282673be2b229b36de7c8c9ffa89733be4c11ab459ea349a74b24"
+    },
+    {
+      "source": "ordinary-full-ups-v4.log",
+      "file": "files/ordinary-full-ups-v4.log.gz",
+      "bytes": 9978,
+      "sha256": "e91856e99001d5d1978c5e3f39e7f551493d70a832b2b280681114423d171776",
+      "gzipBytes": 2096,
+      "gzipSha256": "4346056029c65b9b6fb00b4138bffd00b9575bd7d603891719c5a048a4864035"
+    },
+    {
+      "source": "ordinary-full-ups-v5/REPORT.json",
+      "file": "files/ordinary-full-ups-v5/REPORT.json.gz",
+      "bytes": 4426,
+      "sha256": "1693224831d9ff0c575ff1f6653191a6deb84ac4f58f8570e5b74a9912cbc9d0",
+      "gzipBytes": 1430,
+      "gzipSha256": "6a04118e6402419e1fba3a754842249b0b86e9409071c8cc3a6386b05c3418a8"
+    },
+    {
+      "source": "ordinary-full-ups-v5/amm-request.json",
+      "file": "files/ordinary-full-ups-v5/amm-request.json.gz",
+      "bytes": 499671,
+      "sha256": "8594816f978a349ad440c72c19215e8c95779bdf563576870f1cf4cf6edc7f6b",
+      "gzipBytes": 170474,
+      "gzipSha256": "6ffbfeb03baefc2017b89958a71ba973d5bf44f7745f4067d07ac184962d7b65"
+    },
+    {
+      "source": "ordinary-full-ups-v5/bondingcurve-request.json",
+      "file": "files/ordinary-full-ups-v5/bondingcurve-request.json.gz",
+      "bytes": 501965,
+      "sha256": "858bcb7dae6057af298142a41a0f5a9a8b7b443900b4e254f77d5f0c02062a39",
+      "gzipBytes": 168969,
+      "gzipSha256": "ffa08561dab07d6366409f4817faf5f2a0021c309422351f2d484f07713eb03b"
+    },
+    {
+      "source": "ordinary-full-ups-v5/nftmarket-request.json",
+      "file": "files/ordinary-full-ups-v5/nftmarket-request.json.gz",
+      "bytes": 502214,
+      "sha256": "af3084f933086f247571b0cdfbd4e21b7cb12d219817e36f1beae541a199447c",
+      "gzipBytes": 169141,
+      "gzipSha256": "cca744152d8cca82fa2beb34a10b97db39906d486b77d4622b7748984f8e1e31"
+    },
+    {
+      "source": "ordinary-full-ups-v5/orderbook-request.json",
+      "file": "files/ordinary-full-ups-v5/orderbook-request.json.gz",
+      "bytes": 497740,
+      "sha256": "605cd467a17d0fa7be721cee961e6dc4f6265acb2840991d087ec82e79d851b9",
+      "gzipBytes": 170437,
+      "gzipSha256": "150ff14ba0a9bd655d698913a2b858fac32676f16f440b1f631e04dffd7f0559"
+    },
+    {
+      "source": "ordinary-full-ups-v5.log",
+      "file": "files/ordinary-full-ups-v5.log.gz",
+      "bytes": 11212,
+      "sha256": "7fcf73000cb8fb93f80e736562d3e9510972a9b412687d1c7a4d7adc942e5daf",
+      "gzipBytes": 2172,
+      "gzipSha256": "21fa02c95b4a4fd73c8c3c929ee0b6ba691487d9d905271aba8832d6c8d13643"
+    },
+    {
+      "source": "public/BUILD-ADJUSTMENT-v1.json",
+      "file": "files/public/BUILD-ADJUSTMENT-v1.json.gz",
+      "bytes": 409,
+      "sha256": "be11819219535ae19d425caa1f2088704c6ad5d95ff2f9dee1fa9bfb5e86a7c8",
+      "gzipBytes": 293,
+      "gzipSha256": "6fe95884ad32afba46b66ab1258a3007d21cea3abcf6e7271ff9a2327824be5d"
+    },
+    {
+      "source": "public/CLAIM-INDEPENDENT-VERIFICATION-v1.json",
+      "file": "files/public/CLAIM-INDEPENDENT-VERIFICATION-v1.json.gz",
+      "bytes": 988,
+      "sha256": "0340661157ceb3a4b156ff4e9125371e12f99538912f0609492c198808b226da",
+      "gzipBytes": 435,
+      "gzipSha256": "7c1a9135fc382a246e67798bab7ed21f2d46289a29869f5b9c869e373a6ab0cc"
+    },
+    {
+      "source": "public/CLAIM-PLAN-v4.json",
+      "file": "files/public/CLAIM-PLAN-v4.json.gz",
+      "bytes": 456,
+      "sha256": "3b54ad2ce7063aea986ee1c15982f09e5cc956258da1679fd665de465226b247",
+      "gzipBytes": 324,
+      "gzipSha256": "dcd6088e142c1d0b8d41fcd0a98629521dd1801e0db9a4a021711d61cbed22d5"
+    },
+    {
+      "source": "public/FINAL-FUND-INDEPENDENT-VERIFICATION-v1.json",
+      "file": "files/public/FINAL-FUND-INDEPENDENT-VERIFICATION-v1.json.gz",
+      "bytes": 987,
+      "sha256": "044c1b3108015cac840fd17c51f5f437ab7d319e8e6140a5a2591102ee965d2a",
+      "gzipBytes": 439,
+      "gzipSha256": "cc4eb15e08428feec04f5eaae1708647dded7d3c50f70bdf596916abec3cd7b7"
+    },
+    {
+      "source": "public/FIXTURE-INPUTS-v1.json",
+      "file": "files/public/FIXTURE-INPUTS-v1.json.gz",
+      "bytes": 985,
+      "sha256": "7daada653bc60644ba7a0dbb36405f7e9084c49713fd0df327e0a5f995898b41",
+      "gzipBytes": 523,
+      "gzipSha256": "b0e049c3bb86160457fa7c4dc6ed3834ab4103383daa0b4c3156ad1b757b4c26"
+    },
+    {
+      "source": "public/FIXTURE-RESTORE-v2.json",
+      "file": "files/public/FIXTURE-RESTORE-v2.json.gz",
+      "bytes": 5917,
+      "sha256": "90a965498b97612455ab29db15e53881ced79d14dd690a7ce4ac0d00325113ec",
+      "gzipBytes": 1389,
+      "gzipSha256": "3c885c582b77b645d7e1ccdc1faab51af901c7eae1392e4507f6c10bd728ef96"
+    },
+    {
+      "source": "public/FORMAT-HOOK-v1.json",
+      "file": "files/public/FORMAT-HOOK-v1.json.gz",
+      "bytes": 1628,
+      "sha256": "08947a6bb645301cccd3b8c5527e882d8f834da70e1f49616324087d2ded4ec6",
+      "gzipBytes": 527,
+      "gzipSha256": "bb67bdc27d7226c37c1b98273a1de3c45aecd492e039340d4ab753fb15eb97e4"
+    },
+    {
+      "source": "public/FUND-CLOSURE-PLAN-v5.json",
+      "file": "files/public/FUND-CLOSURE-PLAN-v5.json.gz",
+      "bytes": 414,
+      "sha256": "7165fdb68f300e256d903f8d170e6060a812c7f346bce935861c82dc1ec8d1b7",
+      "gzipBytes": 288,
+      "gzipSha256": "8834cb322153f5aefebd9e9c83be1dcabe845744033dd7588b053c50712d0fbe"
+    },
+    {
+      "source": "public/INDEPENDENT-VERIFICATION-v1.json",
+      "file": "files/public/INDEPENDENT-VERIFICATION-v1.json.gz",
+      "bytes": 947,
+      "sha256": "173e524fd887283d27c6f97012d83c6a20e35902b785808f1ca3b8db26aa040b",
+      "gzipBytes": 467,
+      "gzipSha256": "2255f1ee7226fe569b17c3fd2912f77076d5da9f75cd6cf85cb20bdc857bdb78"
+    },
+    {
+      "source": "public/NATIVE-EXIT-v1.json",
+      "file": "files/public/NATIVE-EXIT-v1.json.gz",
+      "bytes": 215,
+      "sha256": "1e699fd57ddd1f214f74fe87d720888bbb3172e59696e9399dae7a7104143389",
+      "gzipBytes": 172,
+      "gzipSha256": "1491aeadbdf783ceff8f28ba716d03c362be85ebb98fca094c4c884c68b5ce9b"
+    },
+    {
+      "source": "public/NATIVE-EXIT-v2.json",
+      "file": "files/public/NATIVE-EXIT-v2.json.gz",
+      "bytes": 215,
+      "sha256": "ab57ef8e5d94c142e0a6d5325c6a3c6fbd4da78d1b1729d175c9203ccf98ba03",
+      "gzipBytes": 174,
+      "gzipSha256": "855fb62e9ca0e503febfb79f6755ac1b77af8b4804dcf64dac21dd87507bd33b"
+    },
+    {
+      "source": "public/NATIVE-EXIT-v3.json",
+      "file": "files/public/NATIVE-EXIT-v3.json.gz",
+      "bytes": 111,
+      "sha256": "8f01fb772050669010f562edc136694b1b2655a572448774f9a9307ce0a9c951",
+      "gzipBytes": 116,
+      "gzipSha256": "2be6745dc103b4f05ebede9b3f08244c033920763556ac8878a978532b6d2905"
+    },
+    {
+      "source": "public/NATIVE-EXIT-v4.json",
+      "file": "files/public/NATIVE-EXIT-v4.json.gz",
+      "bytes": 111,
+      "sha256": "b0863dcd69fb788672733c6bc2c2aeeb7f832c4763ac93f37e1b8787ae18a4ed",
+      "gzipBytes": 116,
+      "gzipSha256": "b4adaefbc17e47fa97b0608bceca0a4e18dfe25a109c746cd67de38c9bfd2674"
+    },
+    {
+      "source": "public/NATIVE-EXIT-v5.json",
+      "file": "files/public/NATIVE-EXIT-v5.json.gz",
+      "bytes": 110,
+      "sha256": "6358d842c23555995da6b6ff1ab0af8278ba361ff18b21159a00f7955348d09d",
+      "gzipBytes": 116,
+      "gzipSha256": "ee38065d5dfe30869e53bad91536d7d66a2a64d2cbe6ef20fa84a06ce0ceb708"
+    },
+    {
+      "source": "public/NATIVE-PROCESS-v1.json",
+      "file": "files/public/NATIVE-PROCESS-v1.json.gz",
+      "bytes": 364,
+      "sha256": "2e7f248165f527107593c933ccee837da2770b287cb60c16edad51ee76133953",
+      "gzipBytes": 276,
+      "gzipSha256": "b863ed0074c5f6c9234bcf81792e4c283e81fed398e3cc8cc2f2684092057e8b"
+    },
+    {
+      "source": "public/NATIVE-PROCESS-v2.json",
+      "file": "files/public/NATIVE-PROCESS-v2.json.gz",
+      "bytes": 283,
+      "sha256": "9ce4ae504f89ce0bae50d598b17581277e120121e090f297d95c20810a16eea7",
+      "gzipBytes": 239,
+      "gzipSha256": "f2d76f49ba19509c60357c95e3821012c69bf8397d265001e2d3537b73c3a9fa"
+    },
+    {
+      "source": "public/NATIVE-PROCESS-v3.json",
+      "file": "files/public/NATIVE-PROCESS-v3.json.gz",
+      "bytes": 268,
+      "sha256": "562607fdcc5bf6c459abcf63bb64e4ce5e2deb0d2938ea832d3df01c8a810695",
+      "gzipBytes": 228,
+      "gzipSha256": "b51fd9cefa9a1b04749a44b6a3d37bc977066b75782b264879addabd6390ecf0"
+    },
+    {
+      "source": "public/NATIVE-PROCESS-v4.json",
+      "file": "files/public/NATIVE-PROCESS-v4.json.gz",
+      "bytes": 268,
+      "sha256": "ea2b1dc131a27d329ec72015152f09e03daea6b6c16466d7ff422050d796b754",
+      "gzipBytes": 228,
+      "gzipSha256": "56a0d37679e14da0ce91240f96a1bd6b0122d0908452228a3d7420cb488c2133"
+    },
+    {
+      "source": "public/NATIVE-PROCESS-v5.json",
+      "file": "files/public/NATIVE-PROCESS-v5.json.gz",
+      "bytes": 178,
+      "sha256": "78d3a8d8ee3ce87515cc3c4b1b5a75239c85f40ca1b85af572f1c3035ceec10c",
+      "gzipBytes": 159,
+      "gzipSha256": "faff0f3037afa67813368b11d241e00d37a20599528983799876bf2b198201a0"
+    },
+    {
+      "source": "public/NATIVE-SOURCE-v1.json",
+      "file": "files/public/NATIVE-SOURCE-v1.json.gz",
+      "bytes": 10579,
+      "sha256": "a2816a7bea4aa94fcfbe40bbe447c252d82c78875846446488710e4da3c53e7c",
+      "gzipBytes": 3882,
+      "gzipSha256": "0ea8197f469053610be316e5719dbc0c6f39271a5f0546e9afb058185401a1f5"
+    },
+    {
+      "source": "public/NATIVE-SUMMARY-v1.json",
+      "file": "files/public/NATIVE-SUMMARY-v1.json.gz",
+      "bytes": 14341,
+      "sha256": "e2895216d9f6f75369680e958162e83d41d7fa3ba91403e37321e1c7ecc8c8db",
+      "gzipBytes": 3656,
+      "gzipSha256": "6695651976fd66220a20c9629be0fd17aedee4fad56bbb9bae17310ece92cc7d"
+    },
+    {
+      "source": "public/NFT-RETRY-PLAN-v3.json",
+      "file": "files/public/NFT-RETRY-PLAN-v3.json.gz",
+      "bytes": 415,
+      "sha256": "7dbc22844ad3b2a792cd3d4e1718b1f91ec6f6186b9c8280b61b9790de9186f5",
+      "gzipBytes": 299,
+      "gzipSha256": "cb116a18e864f9b1fdf1578bd2643cc001c4770860eb132f56028fdeaf0d2e8b"
+    },
+    {
+      "source": "public/PIN-RECHECK-v1.json",
+      "file": "files/public/PIN-RECHECK-v1.json.gz",
+      "bytes": 444,
+      "sha256": "c081071b4369ecfbd40b2a3222b0f11529c32843d935fd026fa6bbe444dae030",
+      "gzipBytes": 315,
+      "gzipSha256": "930a64a5e430d6db2b2110750553cd15cec281c2cde510e0d21bafe6c00e3bbb"
+    },
+    {
+      "source": "public/PLAN-v1.json",
+      "file": "files/public/PLAN-v1.json.gz",
+      "bytes": 761,
+      "sha256": "c797ea526a7a11276e83501459e14e089c742611cffd883b53ad69268b67639f",
+      "gzipBytes": 497,
+      "gzipSha256": "b26e0fcb54caf5c60cda390bc2ffe9bc768c2b1afc25eb461581dff82d27e4f3"
+    },
+    {
+      "source": "public/RPC-v1.json",
+      "file": "files/public/RPC-v1.json.gz",
+      "bytes": 621,
+      "sha256": "8ebeb88e4746e5aa4065375605148df3abad9ffdc443fa570494e4abfd3a8a50",
+      "gzipBytes": 269,
+      "gzipSha256": "0d7947ed10361f5e9f321e167a8f89766f05ec3c904c9d91912073d16efa73af"
+    },
+    {
+      "source": "public/WALLET-BASELINE-v1.json",
+      "file": "files/public/WALLET-BASELINE-v1.json.gz",
+      "bytes": 1763,
+      "sha256": "9e88972991c464f860311424ec221a1922903255bc9ae8fac345577809cf09c8",
+      "gzipBytes": 508,
+      "gzipSha256": "07d50750901df61ff5c3b628e2c117e9905b0a5270b292cd599b6e819b9f8ea8"
+    },
+    {
+      "source": "public/WALLET-BASELINE-v2.json",
+      "file": "files/public/WALLET-BASELINE-v2.json.gz",
+      "bytes": 1751,
+      "sha256": "12ecace75a03b143bddb41ac6abdb60892b9f4abf5847e0ec60a97e6748767c7",
+      "gzipBytes": 499,
+      "gzipSha256": "0fc51afcc13a167eeee5e3caa6314d5d2a8029268049c22fdee3f4724a4e762c"
+    },
+    {
+      "source": "public/WALLET-DEPENDENCY-v1.json",
+      "file": "files/public/WALLET-DEPENDENCY-v1.json.gz",
+      "bytes": 831,
+      "sha256": "88aae5ce3486a39e674427ad855636ff25c3c1aad6e50e6241c749fb4518b159",
+      "gzipBytes": 497,
+      "gzipSha256": "85e03ec2060e8b6fb1638f30de7ddf500817df7e2cac72c40e529cd1911c06c6"
+    },
+    {
+      "source": "public/amm-claim-independent-verification-v1.json",
+      "file": "files/public/amm-claim-independent-verification-v1.json.gz",
+      "bytes": 539,
+      "sha256": "a73994f20d32d0f29b0cf54f6185b8c9b37f6cc893c061e267280e9088712ef9",
+      "gzipBytes": 373,
+      "gzipSha256": "444059a6796a7272c5023eb0d259af6c578c3c27fa249848a723ea261e60be15"
+    },
+    {
+      "source": "public/amm-fund-final-independent-verification-v1.json",
+      "file": "files/public/amm-fund-final-independent-verification-v1.json.gz",
+      "bytes": 539,
+      "sha256": "07ff05638117d3233ba69ed71c1014dc1fd23164d75da2c85c24ad7153e157e0",
+      "gzipBytes": 372,
+      "gzipSha256": "e77d288e3dab989d39d5c23e2a6bf3b7c5e127535991bd72776aeb29d572c454"
+    },
+    {
+      "source": "public/amm-independent-verification-v1.json",
+      "file": "files/public/amm-independent-verification-v1.json.gz",
+      "bytes": 539,
+      "sha256": "6fefdce5a7a45b4f08810ed30aaaca4247b95e7c923434e7b970b1c130bc188d",
+      "gzipBytes": 373,
+      "gzipSha256": "dfedc53c1db8309983dcf55e019d40c91c16f5f901838ca3dd3f76919a09a562"
+    },
+    {
+      "source": "public/bondingcurve-claim-independent-verification-v1.json",
+      "file": "files/public/bondingcurve-claim-independent-verification-v1.json.gz",
+      "bytes": 539,
+      "sha256": "80be541490932cfd34510e7431e655cc125d02726f2ef024282287725105e804",
+      "gzipBytes": 371,
+      "gzipSha256": "27ef47a506286ebe5c2c8ce12f65a94a20d1da5dd2f47df2f755ade4f7f4dcc6"
+    },
+    {
+      "source": "public/bondingcurve-fund-final-independent-verification-v1.json",
+      "file": "files/public/bondingcurve-fund-final-independent-verification-v1.json.gz",
+      "bytes": 539,
+      "sha256": "5e7c48c8b339007a26a3a8f6908474914c7a4b7365fa45abd44af235fbefaf95",
+      "gzipBytes": 372,
+      "gzipSha256": "2d11920c9b399591d40ef18713a319ff3fd672fa723dcd5084f2bf2524494887"
+    },
+    {
+      "source": "public/bondingcurve-independent-verification-v1.json",
+      "file": "files/public/bondingcurve-independent-verification-v1.json.gz",
+      "bytes": 539,
+      "sha256": "45a877da2fdc8c2fee2b2bfa33c6dac933233ba271d4117a986977def2cb3509",
+      "gzipBytes": 369,
+      "gzipSha256": "3e7b15b3012a3e144899a44ce23e2ff3c027a96931b8d405ae236b04acf404d8"
+    },
+    {
+      "source": "public/nftmarket-claim-independent-verification-v1.json",
+      "file": "files/public/nftmarket-claim-independent-verification-v1.json.gz",
+      "bytes": 539,
+      "sha256": "f311f265747fa00201f32302b35f476e56ee8b504f0f25f83f17c69e7da45b8f",
+      "gzipBytes": 371,
+      "gzipSha256": "0428a289609add7aebbcb78988c763951c6c3055d47765f9d801e43c43e7628c"
+    },
+    {
+      "source": "public/nftmarket-fund-final-independent-verification-v1.json",
+      "file": "files/public/nftmarket-fund-final-independent-verification-v1.json.gz",
+      "bytes": 539,
+      "sha256": "b41dc50d8c7051712ba0aae34f507725da07a7f272439ac5a4986375f02cb7f0",
+      "gzipBytes": 372,
+      "gzipSha256": "493128cf6b48d8893f0b4ec1bb9451ae58809caf40b786ed40d3c5779b4d1665"
+    },
+    {
+      "source": "public/nftmarket-independent-verification-v1.json",
+      "file": "files/public/nftmarket-independent-verification-v1.json.gz",
+      "bytes": 539,
+      "sha256": "7fc4e1d5f0818971c59955586a02c5c76427b9948cd4d2c9496f9a5d10bf7856",
+      "gzipBytes": 370,
+      "gzipSha256": "95f64295656bebed16323c69827731403a793989a944aeba95d20348f3ea8303"
+    },
+    {
+      "source": "public/orderbook-claim-independent-verification-v1.json",
+      "file": "files/public/orderbook-claim-independent-verification-v1.json.gz",
+      "bytes": 539,
+      "sha256": "fbc021d91eef77794b5e1f922e60cf8c4391a7826f9b67a825b2c76dfea78f60",
+      "gzipBytes": 372,
+      "gzipSha256": "496a40a65c133836d17c086eca0d0a39ff05e4c683f2f22cfd868c8866ea8881"
+    },
+    {
+      "source": "public/orderbook-fund-final-independent-verification-v1.json",
+      "file": "files/public/orderbook-fund-final-independent-verification-v1.json.gz",
+      "bytes": 539,
+      "sha256": "d2b794e6ed4575feac7517355eebd79f0787d846f3626754046632bf12010f96",
+      "gzipBytes": 370,
+      "gzipSha256": "abba7f5913d2f2c29cb73035a9c4e3e7ccf0e7099ff07787e128cdc5aee999e8"
+    },
+    {
+      "source": "public/orderbook-independent-verification-v1.json",
+      "file": "files/public/orderbook-independent-verification-v1.json.gz",
+      "bytes": 539,
+      "sha256": "bb62fd61a2a195b971978773fcd5b69ac3eebdc65eeb62218a8fa848440e01d0",
+      "gzipBytes": 371,
+      "gzipSha256": "9fdb8f4327ee6dfb67879366dd6f8f79ca7ab8475502591e0d6e5afdf4e2cc34"
+    },
+    {
+      "source": "reproduce-prepare-v1/COMMANDS.json",
+      "file": "files/reproduce-prepare-v1/COMMANDS.json.gz",
+      "bytes": 479,
+      "sha256": "3f168b4eb5883e3fc60f27489bea1ab385a500aaf265c371e4af4e1a8f80350b",
+      "gzipBytes": 338,
+      "gzipSha256": "62f36cd4c493bf8b5e4e18cedf3986eaf8f5edd7842dd5bf9ff2c3e20130471c"
+    },
+    {
+      "source": "reproduce-prepare-v1/FIXTURES.json",
+      "file": "files/reproduce-prepare-v1/FIXTURES.json.gz",
+      "bytes": 2808,
+      "sha256": "c98bd3f780a8a7a1eadcbf9cbeca144df52fa2007df20aa20e59e14cb79e793a",
+      "gzipBytes": 965,
+      "gzipSha256": "8235ef920270b78d4a8f1857b4dd7e1ca61ab21a1952742937c867fb8424d3cc"
+    },
+    {
+      "source": "reproduce-prepare-v1/PLAN.json",
+      "file": "files/reproduce-prepare-v1/PLAN.json.gz",
+      "bytes": 503,
+      "sha256": "251bcbed32c81e41cb8ee38adf0a67f38fafb95e8fe1316168ed54dd8203d286",
+      "gzipBytes": 337,
+      "gzipSha256": "74492f28d210e814fbacf9cd6a1548dcd78d931b66a27c5052e17d748a24215d"
+    },
+    {
+      "source": "reproduce-prepare-v1/SOURCE.json",
+      "file": "files/reproduce-prepare-v1/SOURCE.json.gz",
+      "bytes": 9690,
+      "sha256": "65fd3aec65bf8e29a665be8e8c8feba5b6afb377bd0e72b178fc81e8e2785e43",
+      "gzipBytes": 3665,
+      "gzipSha256": "b805e4e4158b3a51149b8358ee60e51e89ee375bac1afd3c0776f6ddbb3be001"
+    },
+    {
+      "source": "reproduce-prepare-v1.log",
+      "file": "files/reproduce-prepare-v1.log.gz",
+      "bytes": 73,
+      "sha256": "968284682d16b230961d36543ea7c9de3f36cd000b4c69690df29d405b4f1450",
+      "gzipBytes": 91,
+      "gzipSha256": "f0d64e456939ffc5ce65233b24c48770a0db06b67f05ee334d17177967ddefa6"
+    },
+    {
+      "source": "reproduce-prepare-v2/COMMANDS.json",
+      "file": "files/reproduce-prepare-v2/COMMANDS.json.gz",
+      "bytes": 479,
+      "sha256": "3f168b4eb5883e3fc60f27489bea1ab385a500aaf265c371e4af4e1a8f80350b",
+      "gzipBytes": 338,
+      "gzipSha256": "62f36cd4c493bf8b5e4e18cedf3986eaf8f5edd7842dd5bf9ff2c3e20130471c"
+    },
+    {
+      "source": "reproduce-prepare-v2/FIXTURES.json",
+      "file": "files/reproduce-prepare-v2/FIXTURES.json.gz",
+      "bytes": 2808,
+      "sha256": "c98bd3f780a8a7a1eadcbf9cbeca144df52fa2007df20aa20e59e14cb79e793a",
+      "gzipBytes": 965,
+      "gzipSha256": "8235ef920270b78d4a8f1857b4dd7e1ca61ab21a1952742937c867fb8424d3cc"
+    },
+    {
+      "source": "reproduce-prepare-v2/PLAN.json",
+      "file": "files/reproduce-prepare-v2/PLAN.json.gz",
+      "bytes": 524,
+      "sha256": "946f3f848710520b0a86aed47425686ecf6f727b6c0c6c3cb9dd398d463394ff",
+      "gzipBytes": 347,
+      "gzipSha256": "ff2569b70675c4ecf698310f9bf517c75b3d908bb0e242a5eb6531b0ef87d2b7"
+    },
+    {
+      "source": "reproduce-prepare-v2/SOURCE.json",
+      "file": "files/reproduce-prepare-v2/SOURCE.json.gz",
+      "bytes": 9690,
+      "sha256": "0410828a46ea8fb58bb5612c03770f1a8207bc3ce226d34e9955a4b543c24233",
+      "gzipBytes": 3670,
+      "gzipSha256": "02f1128922eb2c3d6202fc333d2c52b979c11a81f449b8fd8cbcc7faa92e6928"
+    },
+    {
+      "source": "reproduce-prepare-v2.log",
+      "file": "files/reproduce-prepare-v2.log.gz",
+      "bytes": 73,
+      "sha256": "968284682d16b230961d36543ea7c9de3f36cd000b4c69690df29d405b4f1450",
+      "gzipBytes": 91,
+      "gzipSha256": "f0d64e456939ffc5ce65233b24c48770a0db06b67f05ee334d17177967ddefa6"
+    },
+    {
+      "source": "wallet-baseline-queue-tests-v1.log",
+      "file": "files/wallet-baseline-queue-tests-v1.log.gz",
+      "bytes": 1249,
+      "sha256": "c3f8bebd25ffe8f5e31f295b7b7cbd9321a552e36aa95aa742f87936dcad82b5",
+      "gzipBytes": 492,
+      "gzipSha256": "dec0a9ec73602e39ae8684da03f84d40fdc143414f2f7db6874d1fa2c84c553c"
+    },
+    {
+      "source": "wallet-baseline-typecheck-v1.log",
+      "file": "files/wallet-baseline-typecheck-v1.log.gz",
+      "bytes": 1376,
+      "sha256": "f4e28b14278a59451e35b1b856c5d19fc06000455fc87f3836234cace0167761",
+      "gzipBytes": 332,
+      "gzipSha256": "f6d24b517f4ae70bfe760e719592138441d638bd63805d28ae8b28f4990a91c8"
+    },
+    {
+      "source": "wallet-dependencies-v1.log",
+      "file": "files/wallet-dependencies-v1.log.gz",
+      "bytes": 1253,
+      "sha256": "2fc686ca076625e68a67bf92b679974ada58ff21147b71a2eb6209763a29cdb5",
+      "gzipBytes": 578,
+      "gzipSha256": "7c8180e3a12e5f932c2a60cbb457015622d1b69fb84594b57df307788313b712"
+    },
+    {
+      "source": "wallet-dependencies-v2.log",
+      "file": "files/wallet-dependencies-v2.log.gz",
+      "bytes": 260,
+      "sha256": "a7926a715367b58785eee3a26659fb9287f360b5b53c5b437acd218f337dbe15",
+      "gzipBytes": 242,
+      "gzipSha256": "07ab4b6cf3b054d76a29548eba2fe7662161ffa5268ade40f50086b5fe926005"
+    },
+    {
+      "source": "wallet-dependencies-v3.log",
+      "file": "files/wallet-dependencies-v3.log.gz",
+      "bytes": 1705,
+      "sha256": "1746a7aa8631086ae102912c5e2d174e0c97df8915fb63cb93a83f9a62b48a59",
+      "gzipBytes": 684,
+      "gzipSha256": "215f520eb33ff00d7d8e4b330251207a6a533bd6a02f835e38c255f1931d2b8a"
+    },
+    {
+      "source": "wallet-push-v1.log",
+      "file": "files/wallet-push-v1.log.gz",
+      "bytes": 95,
+      "sha256": "595f95b5e2c3a995ffd2153fda10833331b5ec31996b8335b95b42745a4d27c4",
+      "gzipBytes": 110,
+      "gzipSha256": "157a4021e81441dc83ae66c142c188b3cb8da22df6b6e5c64d0ac1cd8dcc5960"
+    },
+    {
+      "source": "wallet-regression-v1.log",
+      "file": "files/wallet-regression-v1.log.gz",
+      "bytes": 1859,
+      "sha256": "3dc6f9c5a78f20c4c5484804a72fdcdc47868306d9a664a34e0b69fa4bef1c64",
+      "gzipBytes": 995,
+      "gzipSha256": "5048483aa407a86df9291e125e292ec271b2f0d099941ce5fb91efad98d73bdf"
+    },
+    {
+      "source": "wallet-regression-v2.log",
+      "file": "files/wallet-regression-v2.log.gz",
+      "bytes": 1852,
+      "sha256": "9f3918353e4307423f97fa69d5f6adb38f3b8b61597a3328e8d0636879b29d40",
+      "gzipBytes": 992,
+      "gzipSha256": "015e9526bd6167d21453b99c7e5ef5ebcbf03ae253bc96bfa368808847fe1ff4"
+    },
+    {
+      "source": "wallet-tests-v1.log",
+      "file": "files/wallet-tests-v1.log.gz",
+      "bytes": 1222,
+      "sha256": "c68c80a274e7ec459f739ff2f2a36c2416e738e9ab950f6d220a3a3159e747e9",
+      "gzipBytes": 471,
+      "gzipSha256": "aca15290e1aa9a98217a9d9f3d3ca1cdae7e48d70f866923cc4a1cf23fae733f"
+    },
+    {
+      "source": "wallet-tests-v2.log",
+      "file": "files/wallet-tests-v2.log.gz",
+      "bytes": 255,
+      "sha256": "3b64eb0bab4aef8b43e949cfb03c7590267633ebe7d232bb51cec5841c8f826f",
+      "gzipBytes": 220,
+      "gzipSha256": "64f7f8adb2455ac6be034b098501a5a5f30564e8a0e22ba55dd7bdced65ff7e6"
+    },
+    {
+      "source": "wallet-tests-v3.log",
+      "file": "files/wallet-tests-v3.log.gz",
+      "bytes": 255,
+      "sha256": "f198b471e19f1534513cd8511804107bf65a84e41599d868db1ea3da15255460",
+      "gzipBytes": 219,
+      "gzipSha256": "a5bffc7a29885abd26c4cf2fec0614f964d343ee222a950a7424b7dd45317286"
+    },
+    {
+      "source": "wallet-tests-v4.log",
+      "file": "files/wallet-tests-v4.log.gz",
+      "bytes": 256,
+      "sha256": "bc3c6326ed8916751512db81970a6573a2a867f17e215a8297addbff8e59d700",
+      "gzipBytes": 220,
+      "gzipSha256": "34ea19a7197207ada42c0aae4228558d7afd67e673e84e72a7dc0cda6b0f06ef"
+    },
+    {
+      "source": "wallet-tests-v5.log",
+      "file": "files/wallet-tests-v5.log.gz",
+      "bytes": 256,
+      "sha256": "0f546c96c4666d8578163b347d7e0e9b5c326a41fd52d1d68a1db9347b87d2e8",
+      "gzipBytes": 221,
+      "gzipSha256": "ce71dfdc6addf57498b803d94f1c19dee8cdb4f3b39eab96d06bff4d1882e175"
+    },
+    {
+      "source": "wallet-tests-v6.log",
+      "file": "files/wallet-tests-v6.log.gz",
+      "bytes": 255,
+      "sha256": "f943053be3683f7b506e8393544348fdd569ecad0183d54f761fd61a60316d9c",
+      "gzipBytes": 220,
+      "gzipSha256": "443367486c12d2646fde4fd9e2130a2814571254a7cdb188a97a9bc2ca156406"
+    },
+    {
+      "source": "wallet-typecheck-v1.log",
+      "file": "files/wallet-typecheck-v1.log.gz",
+      "bytes": 2537,
+      "sha256": "62e60792210a15dc99c5f08d98df06a7a5d1dca0fa0b0129984e362dd8904cbd",
+      "gzipBytes": 784,
+      "gzipSha256": "87955eb1a694d2fdc01f18482ddb5694b91eb6e88d90c045758a38214c8294bf"
+    },
+    {
+      "source": "wallet-typecheck-v2.log",
+      "file": "files/wallet-typecheck-v2.log.gz",
+      "bytes": 1376,
+      "sha256": "4f66f8d63cb3025d3830dfcc7038760809a1577d8b6300ade0300aa894ece280",
+      "gzipBytes": 331,
+      "gzipSha256": "2428eb6bb8ffc87e359890500db3b43fa95633447e0d45c0a660121c73c102c9"
+    },
+    {
+      "source": "wallet-typecheck-v3.log",
+      "file": "files/wallet-typecheck-v3.log.gz",
+      "bytes": 1376,
+      "sha256": "1083492a4829fdd8222fb76f3a7073806fa38b031a16e591191efef7b43ba0df",
+      "gzipBytes": 331,
+      "gzipSha256": "1402a89e2be0ce42eb94ed42fd3d146b01428116de489d86de821f395424cd19"
+    },
+    {
+      "source": "wallet-typecheck-v4.log",
+      "file": "files/wallet-typecheck-v4.log.gz",
+      "bytes": 1376,
+      "sha256": "63f3bf58502517e0839ca1e10fdbee46362c02884a503b62718bfba9c98c515a",
+      "gzipBytes": 331,
+      "gzipSha256": "e4ee1b7996ab53396f335e42f75101f70ed533957a7043ba9e5b49ba7dec3265"
+    },
+    {
+      "source": "wallet-typecheck-v5.log",
+      "file": "files/wallet-typecheck-v5.log.gz",
+      "bytes": 1376,
+      "sha256": "84906224c1c034a96ad490e9ec8562d36ee1a16b5fea71cac4ed2360d0573632",
+      "gzipBytes": 331,
+      "gzipSha256": "aa277a6dff35d8c47e880ee17a408e56a38f7cd8108d9273098c82f91c231659"
+    },
+    {
+      "source": "wallet-typecheck-v6.log",
+      "file": "files/wallet-typecheck-v6.log.gz",
+      "bytes": 1376,
+      "sha256": "dd581a7bb32e2054c0166b907e3a0ac122967ff73522b9ca807a120cc82c13db",
+      "gzipBytes": 331,
+      "gzipSha256": "c704b4f172563c0f389ef95f31f90a2475f056b0689840ce132b52d769559ee4"
+    }
+  ]
+}

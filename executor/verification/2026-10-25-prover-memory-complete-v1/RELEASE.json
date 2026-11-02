@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "sdkManifestSha256": "0afb4c65116cddcaca450b406a06503d65b63d38a004d8e773c6e5fa363bd425",
+  "binaries": {
+    "ordinary": {
+      "file": "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-market-recovery-20261023/prover-memory-build-v1/target/release/isolated_wallet",
+      "sha256": "8d7d4100d903210f8c6aba5e69efa06b4f1d8efec2295a0c3ec1b08084d0f44d"
+    },
+    "compact": {
+      "file": "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-market-recovery-20261023/prover-memory-build-v1/target/release/compact_market_wallet",
+      "sha256": "c94c5bf5672358dc1e466f4dc65f7a154c31d81849c499802e0ac97e855cdc7c"
+    }
+  },
+  "compiler": "nightly-2025-09-20",
+  "sdkMigration": false,
+  "nodeChanged": false,
+  "applicationSourceManifestSha256": "5f1386c78e4635280435ab2322c0fb6f78f7787a9f5709d631d490994aa5acbf",
+  "inputDigestBoundBeforeProof": true,
+  "readyIdentityBeforeJob": true,
+  "resourceComparison": true,
+  "sameBinaryBothVariants": true,
+  "variants": {
+    "baseline": "retain-v1",
+    "candidate": "release-unused-v1"
+  },
+  "allocatorScope": "macOS malloc_zone_pressure_relief of unused pages only; no shared witness or proof cache"
+}

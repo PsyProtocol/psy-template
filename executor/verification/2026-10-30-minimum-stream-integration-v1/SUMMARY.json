@@ -1,0 +1,105 @@
+{
+  "schema": 1,
+  "sourceBranch": "markets-batch-capacity-recovery-20261020",
+  "parentCommit": "a0781428",
+  "sdkCommit": "c92880c8b6e2c8d392f19368bc8801a2584fd427",
+  "sdkSourcePinsVerified": 2756,
+  "candidateProfile": "source-covered-producer-minimum-stream-v1",
+  "completeUpsAttempts": 40,
+  "acceptedCompleteSyntheticUps": 38,
+  "failedAttemptsRetained": 2,
+  "fullRunElapsedSeconds": 3336.860375875025,
+  "sampledFamilyRssPeakKiB": 1977552,
+  "memoryScope": "sampled process-family RSS; includes shared pages; not physical peak",
+  "markets": {
+    "amm": {
+      "completeSyntheticUps": 19,
+      "syntheticFills": 3,
+      "normalUps": 10,
+      "normalUpsIntervalSeconds": 661.46580371,
+      "allBranchIntervalSeconds": 1540.005948877,
+      "resourceBuildSeconds": 126.399211042,
+      "normalVaultFeeBaseUnits": "10000137000",
+      "ordinaryClaimUps": false,
+      "fundingOwnerSetupSigned": false,
+      "fundingOwner": 600,
+      "minimumBuildPages": [
+        4,
+        1
+      ],
+      "minimumPopPages": [
+        4,
+        1
+      ],
+      "settlementPages": [
+        4,
+        1
+      ],
+      "permutation": [
+        201,
+        200,
+        203,
+        202,
+        204
+      ],
+      "assetAndNativeFeeConservation": true
+    },
+    "bondingcurve": {
+      "completeSyntheticUps": 19,
+      "syntheticFills": 3,
+      "normalUps": 10,
+      "normalUpsIntervalSeconds": 661.065960875,
+      "allBranchIntervalSeconds": 1545.4820629150001,
+      "resourceBuildSeconds": 107.668684208,
+      "normalVaultFeeBaseUnits": "10000142000",
+      "ordinaryClaimUps": false,
+      "fundingOwnerSetupSigned": false,
+      "fundingOwner": 600,
+      "minimumBuildPages": [
+        4,
+        1
+      ],
+      "minimumPopPages": [
+        4,
+        1
+      ],
+      "settlementPages": [
+        4,
+        1
+      ],
+      "permutation": [
+        200,
+        202,
+        201,
+        204,
+        203
+      ],
+      "assetAndNativeFeeConservation": true
+    }
+  },
+  "jsTests": {
+    "passed": 16,
+    "failed": 0,
+    "skipped": 0
+  },
+  "savedKeyProofsReverifiedWithoutRegeneration": 4,
+  "nativePlannerMatchesAcceptedFullUps": true,
+  "nativePlannerNegativeCases": 10,
+  "legacyCoherentKeyNegativeCases": 6,
+  "financialOperations": 0,
+  "networkDeployments": 0,
+  "ordinaryWalletClaims": 0,
+  "liveConfirmationTiming": null,
+  "matchedSpeedupMeasured": false,
+  "qualifiedRandomness": false,
+  "causalSealBeforeReleaseAuthenticated": false,
+  "finalityAuthenticated": false,
+  "liveAuthorization": false,
+  "remainingGates": [
+    "Fresh empty-vault registration, fee grant, activation and bootstrap complete UPS acceptance",
+    "Owned instance-bound signing, exact-once broadcasting and original-request reconciliation",
+    "Whole-source live deadline, lifetime-cap remainder and actual Native funding fit",
+    "Current-network resource and identity matrix plus real ordinary-wallet claims",
+    "Producer-controlled entropy, causal seal-before-release, foreign-state admission freshness and finality remain trust boundaries"
+  ]
+}

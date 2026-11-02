@@ -1,0 +1,21 @@
+{
+  "checkedAt": "2026-10-21T03:38:11.482368+00:00",
+  "archives": {
+    "four-fresh-activations-v1": {
+      "files": 138,
+      "bytes": 28879098,
+      "gzipBytes": 4187111,
+      "originalsCompared": true,
+      "scope": "artifact integrity only; no cryptographic UPS, runtime or production attestation"
+    },
+    "bootstrap-orphan-return-v1": {
+      "files": 75,
+      "bytes": 10533205,
+      "gzipBytes": 2225984,
+      "originalsCompared": true,
+      "scope": "artifact integrity only; no cryptographic UPS, runtime or production attestation"
+    }
+  },
+  "scope": "artifact integrity; not a proof, runtime identity or production safety certificate",
+  "tamperRegressionTranscript": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.016s\n\nOK\n"
+}

@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "regressions": {
+    "pass": 174,
+    "skip": 2,
+    "fail": 0
+  },
+  "sources": {
+    "executor/residentProver.mjs": "d59af3e7e7d2adfb7412c6c0854f863f02a3057bbb55893d0bb9e0408b459acf",
+    "executor/residentProver.test.mjs": "ee632ffa286d8d5f4f5fb5c88ce6239f26de73b97ec11bd8b822e411d31344b3"
+  },
+  "scope": "proof-only resident teardown waits for confirmed OS child exit before adapter may replace it. Bounded graceful/TERM/KILL; failure halts. Fault-injected protocol/exit regression only, not real SDK resource peak or settlement performance.",
+  "financialWrites": 0,
+  "chainTps": null,
+  "productionReady": false
+}

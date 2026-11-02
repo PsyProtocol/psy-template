@@ -1,0 +1,508 @@
+{
+  "schema": 1,
+  "scope": "Pinned native registration-start and initialized-session signature preimage; exact native replays and actual WASM acceptance over synthetic authenticated state. No extension, broadcast or network acceptance.",
+  "applicationBase": "4da9cd9b6d50ee6ce3a9329aec00507deb692549",
+  "walletCommit": "5c15a9df9d5c47c4df449988ab7cb89b5d397b32",
+  "sdkCommit": "c92880c8b6e2c8d392f19368bc8801a2584fd427",
+  "archive": "public-evidence-v2.tar.gz",
+  "archiveBytes": 7761692,
+  "archiveSha256": "465da4b77d0f3bdc54bcf11ee999970e243dfe668ea64ff49a3b382ef7203b0f",
+  "files": [
+    {
+      "path": "application-replay-v4/APPLICATION.json",
+      "bytes": 9385,
+      "sha256": "b66b4e12f3226e384c1aa920c3f6aabbc1c677d37abcbe6edabd5867f66b59c7"
+    },
+    {
+      "path": "application-replay-v4/Cargo.lock",
+      "bytes": 217301,
+      "sha256": "d12d86f486408d3b88f496dde27e6494839511489a1202e778f09f0eca3c1183"
+    },
+    {
+      "path": "application-replay-v4/Cargo.toml",
+      "bytes": 4697,
+      "sha256": "ae9ecbddc47d81af798371401906172826bb2f68ef88d6dfb01ea8664af006b2"
+    },
+    {
+      "path": "application-replay-v4/src/wallet_verification.rs",
+      "bytes": 25198,
+      "sha256": "80cb717e182b1fd7826149372e495c24d13a36cc1d441890a081acf6f5bb2a63"
+    },
+    {
+      "path": "application-replay-v4/src/wallet_verifier_export.rs",
+      "bytes": 2447,
+      "sha256": "6c1e341a2d5e21cf2b140fc2ff8aa65f839b0828368481fe54f2a7f48e324aea"
+    },
+    {
+      "path": "application-replay-v4/tests/support/market_wallet_verification.rs",
+      "bytes": 14376,
+      "sha256": "ed2cb8336fc17a6566778a38d8c00674a6266346f2cb5fe6574cc34e1201c525"
+    },
+    {
+      "path": "application-v1/APPLICATION.json",
+      "bytes": 9412,
+      "sha256": "e96f84dececd87e128320eafc6ff151c6d6fa9227cd8d7a39044e2aab54043b3"
+    },
+    {
+      "path": "application-v1/Cargo.lock",
+      "bytes": 217301,
+      "sha256": "d12d86f486408d3b88f496dde27e6494839511489a1202e778f09f0eca3c1183"
+    },
+    {
+      "path": "application-v1/Cargo.toml",
+      "bytes": 4697,
+      "sha256": "ae9ecbddc47d81af798371401906172826bb2f68ef88d6dfb01ea8664af006b2"
+    },
+    {
+      "path": "application-v1/src/wallet_verification.rs",
+      "bytes": 25017,
+      "sha256": "f8edbb5ad91b5defc09182690e4731fb4436b41d6e61b4a6c1c5ae29ea1f72dc"
+    },
+    {
+      "path": "application-v1/src/wallet_verifier_export.rs",
+      "bytes": 2447,
+      "sha256": "6c1e341a2d5e21cf2b140fc2ff8aa65f839b0828368481fe54f2a7f48e324aea"
+    },
+    {
+      "path": "application-v1/tests/support/market_wallet_verification.rs",
+      "bytes": 12272,
+      "sha256": "3bdad4faac85b008af7abba9ebd1b77ce4f77d0fc323b7881c536b0d7af02385"
+    },
+    {
+      "path": "application-v3/APPLICATION.json",
+      "bytes": 9378,
+      "sha256": "f589b125da2e1fb9793136e868effa8f9bf7798370414db743f821badb977441"
+    },
+    {
+      "path": "application-v3/Cargo.lock",
+      "bytes": 217301,
+      "sha256": "d12d86f486408d3b88f496dde27e6494839511489a1202e778f09f0eca3c1183"
+    },
+    {
+      "path": "application-v3/Cargo.toml",
+      "bytes": 4697,
+      "sha256": "ae9ecbddc47d81af798371401906172826bb2f68ef88d6dfb01ea8664af006b2"
+    },
+    {
+      "path": "application-v3/src/wallet_verification.rs",
+      "bytes": 25017,
+      "sha256": "f8edbb5ad91b5defc09182690e4731fb4436b41d6e61b4a6c1c5ae29ea1f72dc"
+    },
+    {
+      "path": "application-v3/src/wallet_verifier_export.rs",
+      "bytes": 2447,
+      "sha256": "6c1e341a2d5e21cf2b140fc2ff8aa65f839b0828368481fe54f2a7f48e324aea"
+    },
+    {
+      "path": "application-v3/tests/support/market_wallet_verification.rs",
+      "bytes": 12558,
+      "sha256": "d14170db4006989e100b91300d56ca48589f555d5f7a3b612a535438dca38008"
+    },
+    {
+      "path": "complete-ups-v3/approval.json",
+      "bytes": 698,
+      "sha256": "eb22909eaf35dc980eb43502019d713bdfd6221036796bc43fd4c55bb4455428"
+    },
+    {
+      "path": "complete-ups-v3/bundle.json",
+      "bytes": 1080237,
+      "sha256": "20ea345c9af5fcb17cad2e8a2a0bcbd9f34872d8275ea598882d2f88068ca1a6"
+    },
+    {
+      "path": "complete-ups-v3/request.json",
+      "bytes": 468370,
+      "sha256": "3ae2a1a47747c63dba2ff4bdb41827104bed1b6b05c77bdd004da470638058f3"
+    },
+    {
+      "path": "complete-ups-v3/verifiers.json",
+      "bytes": 19757,
+      "sha256": "2f51f14521654268f498d834c715db02b04b112dd4e60a34c0a0275ed4127ad4"
+    },
+    {
+      "path": "fixtures-v2/amm/compiled/compilation_artifact.json",
+      "bytes": 27050611,
+      "sha256": "2827a1cd83a748e8ddd526135b41f64caf67e2e62c35d2310932ea5741f82af0"
+    },
+    {
+      "path": "fixtures-v2/amm/policy.json",
+      "bytes": 122111,
+      "sha256": "a8c2a63d69fd60d3350793876ac6f8e70e4b88dd72f42457e3e33c26af7e2636"
+    },
+    {
+      "path": "fixtures-v2/native.json",
+      "bytes": 451424,
+      "sha256": "5c2b176e5a6e6dae75b7a39cf5ae7a2cd186aa12bf9e63c85a0f33a2620902da"
+    },
+    {
+      "path": "fixtures-v2/nft/compilation_artifact.json",
+      "bytes": 61249,
+      "sha256": "9861404dc6b3dac0d0f55bc31f6d89f6dfce347cce461495d4083e2ef42e4aae"
+    },
+    {
+      "path": "fixtures-v2/token-b/abi.json",
+      "bytes": 29851,
+      "sha256": "e8b0d060f2ba22bc64ea0d6c11ababc47f6aa6779642c18c5942aac0802c97cf"
+    },
+    {
+      "path": "fixtures-v2/token-b/compilation_artifact.json",
+      "bytes": 4066436,
+      "sha256": "b67ce3ad4c5e54a7019fb0808069d3e05918a97fceb90c589c72e646b1c75d12"
+    },
+    {
+      "path": "fixtures-v2/token-b/source-sha256.txt",
+      "bytes": 65,
+      "sha256": "8f322f354d7bdce50dfdf1a0e1cc11d18560c1af86e0a6db54bb545a71c250c8"
+    },
+    {
+      "path": "fixtures-v2/token/abi.json",
+      "bytes": 29851,
+      "sha256": "e8b0d060f2ba22bc64ea0d6c11ababc47f6aa6779642c18c5942aac0802c97cf"
+    },
+    {
+      "path": "fixtures-v2/token/compilation_artifact.json",
+      "bytes": 4066436,
+      "sha256": "a3718e5ecc49e6360d02c325fb4bff676237fa8b4c1cc64724a092f74fc98d22"
+    },
+    {
+      "path": "fixtures-v2/token/source-sha256.txt",
+      "bytes": 65,
+      "sha256": "8743637355892a7fe93656d2b760c61aa431bee98899ffb83c75773b49aa9a22"
+    },
+    {
+      "path": "native-replay-v4/REPLAY.json",
+      "bytes": 414,
+      "sha256": "0fca4e3ecac0c0dd1a61c2eafc10f82334ed17a3a4e1b5d2c2c9a5b80f8d3777"
+    },
+    {
+      "path": "native-replay-v4/REPORT.json",
+      "bytes": 728,
+      "sha256": "58a41f2234ec09f5e56f7600e5b1f4165e017e032db330ef7438db1ea8a85ed7"
+    },
+    {
+      "path": "native-replay-v4/verification.json",
+      "bytes": 1017,
+      "sha256": "ff8ddc4f44d46711991a4316bd33cf8ab480746ff91b2435215df9210ed6d5a3"
+    },
+    {
+      "path": "preserved-initialized/approval.json",
+      "bytes": 1152,
+      "sha256": "b4bdcfe71d24a790ef784a3154f61924894c6d24576dbbe44ee45bd22add0593"
+    },
+    {
+      "path": "preserved-initialized/bundle.json",
+      "bytes": 1808658,
+      "sha256": "0665e1134413b0df3fe3fd3d1223052e24fceb47b0037acb17d2f6087b4dda05"
+    },
+    {
+      "path": "preserved-initialized/request.json",
+      "bytes": 499604,
+      "sha256": "bf692055fa3fca0250e9e3120c47352cbd6cdbcd6c82e4e860e9a937b7ca43b1"
+    },
+    {
+      "path": "preserved-initialized/verifiers.json",
+      "bytes": 23562,
+      "sha256": "8faf374769731d2e16844033fa1f19eb8919f9a27c4999f15fce280c5f6c6e03"
+    },
+    {
+      "path": "public/PLAN-v1.json",
+      "bytes": 890,
+      "sha256": "c7e13c99bb3d03a8863c600dd78f174440e2592ccb57e7bf7a4ba21d2bba5005"
+    },
+    {
+      "path": "public/RECOVERY-PLAN-v3.json",
+      "bytes": 455,
+      "sha256": "a0ecae8dbc66348ea280e14de64665140edacb8f315c4ec122c766b781951e04"
+    },
+    {
+      "path": "public/VERIFY-PLAN-v1.json",
+      "bytes": 696,
+      "sha256": "9582fa93bdb08afe5baa3351df5e2a9a536d236cca3ffc96bddb8c40e9a183c3"
+    },
+    {
+      "path": "public/application-replay-v4.json",
+      "bytes": 9007,
+      "sha256": "67e1584651d8d303e57a5a3b669babff80b55f2fb59df539e4d8e2f88d8c5a3f"
+    },
+    {
+      "path": "public/application-v3.json",
+      "bytes": 9000,
+      "sha256": "0938e3dadf7225817703a2a08ab3f13a6d0ad742bbf3c7007478cff9e1722634"
+    },
+    {
+      "path": "public/conservation-extracted-v2.json",
+      "bytes": 662,
+      "sha256": "6457744f8f64316e8e65594b7a51bc3c248e6812090e25f291ea785682f2485d"
+    },
+    {
+      "path": "public/conservation-v1.json",
+      "bytes": 662,
+      "sha256": "6457744f8f64316e8e65594b7a51bc3c248e6812090e25f291ea785682f2485d"
+    },
+    {
+      "path": "public/launcher-regular-replay-v5.log",
+      "bytes": 20,
+      "sha256": "76dc5ded84d162e83352af2489e5e3114b3049c3a45c1ab42f6f3a9c3fd54686"
+    },
+    {
+      "path": "public/launcher-replay-v4.log",
+      "bytes": 18,
+      "sha256": "806dab3095681941d991c37e775ae7c5aef77790891d9e0e52719afa806d7265"
+    },
+    {
+      "path": "public/launcher-v1.log",
+      "bytes": 285,
+      "sha256": "5f8badd7af0b36073a68a1f141cc429f6a8251bf922320729b4f712265fece59"
+    },
+    {
+      "path": "public/launcher-v2.log",
+      "bytes": 22,
+      "sha256": "e5fb1a42c36fe8373ecadde6c64455a82dfe22a0b88f834b9f63cef19ae03561"
+    },
+    {
+      "path": "public/launcher-v3.log",
+      "bytes": 23,
+      "sha256": "ba15a7fe7616a8e25ebe20adfa984e6429b0f4bb4060cff95b98369b3c29c81e"
+    },
+    {
+      "path": "public/native-replay-v4-result.json",
+      "bytes": 5963,
+      "sha256": "f5b344052cf3fbfde9c74dfb3f6ec6f95345f4613bebaa6857b1d9db940a653d"
+    },
+    {
+      "path": "public/native-replay-v4.log",
+      "bytes": 47261,
+      "sha256": "11f08654078c7a70742383c08bba791fcf75285679e567815e24a4d945a13409"
+    },
+    {
+      "path": "public/proof-run-result-v2.json",
+      "bytes": 15648,
+      "sha256": "01ddf196f0cd4cfaf8701ae6def36abc723895b3f73b8bf78ec7e6bbe0100e44"
+    },
+    {
+      "path": "public/proof-run-result-v3.json",
+      "bytes": 17718,
+      "sha256": "ac80764e4c1d86fb3bad293621f74fca5603a3a541638a7ca781bb54a6012dcd"
+    },
+    {
+      "path": "public/proof-run-v2.log",
+      "bytes": 48158,
+      "sha256": "5025a3bd96d390c4bb54eef4f342a5df94693b5bfede6ee6df07c476a9462c40"
+    },
+    {
+      "path": "public/proof-run-v3.log",
+      "bytes": 49490,
+      "sha256": "eeb2e155a0267597c6eedc7da160b4d14d747e4a77104384e85bf6b9bf1e9c5d"
+    },
+    {
+      "path": "public/regular-replay-v5-result.json",
+      "bytes": 400,
+      "sha256": "2b9142be48eab1498f3ee90bcfe6ce29ed6a4946f262fb573fd7c7c2522497a5"
+    },
+    {
+      "path": "public/regular-replay-v5.log",
+      "bytes": 47086,
+      "sha256": "485d63b5d387d0e3781e3259c3b2ce0b6c52dd329faf93985d3b6daaf69c3c23"
+    },
+    {
+      "path": "public/source-v1.json",
+      "bytes": 9034,
+      "sha256": "1ca22154cb63fa2e447d162dbf4e6cd95e644f94807c04a4474d9ed026fe69aa"
+    },
+    {
+      "path": "public/wasm-acceptance-v1.log",
+      "bytes": 691,
+      "sha256": "7f2829ef6b66571f363217667657825665472b3c5c5f8af255933b7a47f0bc75"
+    },
+    {
+      "path": "public/wasm-acceptance-v2.json",
+      "bytes": 1007,
+      "sha256": "c280265ea8709fd8c516f7d0f8f1c55a5c7d1bbb7bc90df8941164aa2929d4b2"
+    },
+    {
+      "path": "public/wasm-acceptance-v2.log",
+      "bytes": 102,
+      "sha256": "a4a4ccd433013fd0fd76af836b40dff8bf7a34b43133797338f675923ffd1155"
+    },
+    {
+      "path": "public/wasm-bindgen-v1.log",
+      "bytes": 39,
+      "sha256": "57c33732aa17b4e057095e80b64cde81b8473ce3bd9cf8f6214065d722993a8f"
+    },
+    {
+      "path": "public/wasm-bindgen-v2.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "public/wasm-bindgen-version-v1.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "public/wasm-bindgen-version-v2.txt",
+      "bytes": 21,
+      "sha256": "9665b51d243c180bb4c9c723552ddca2ee5a212f1dd5f4d27424266754321d91"
+    },
+    {
+      "path": "public/wasm-build-launcher-v1.log",
+      "bytes": 20,
+      "sha256": "1252445543a096972672a80d952f0395e54f15f53a7d912912b6a79ec2a6160d"
+    },
+    {
+      "path": "public/wasm-build-result-v1.json",
+      "bytes": 1081,
+      "sha256": "b21eb49eaf724a1fa3e9c06771ccc70ab566f7fb2e4c6b24939f79877e37f8c7"
+    },
+    {
+      "path": "public/wasm-build-v1.log",
+      "bytes": 29294,
+      "sha256": "eb64c91e10ab26261485a4ab148787356b0b4d21050197f2a7caa2c2b5f96225"
+    },
+    {
+      "path": "public/wasm-prepare-v1.log",
+      "bytes": 112,
+      "sha256": "52d36266dd29fbe45625426e061d3668218e740cbbc327f3ff548333b6d444ba"
+    },
+    {
+      "path": "recipes/audit-conservation-v1.py",
+      "bytes": 3455,
+      "sha256": "fa09ab4a89143858ca12dde8c82f74e9023dd84dc644d757e60e9e5e3e34617a"
+    },
+    {
+      "path": "recipes/audit-conservation-v2.py",
+      "bytes": 3497,
+      "sha256": "a8e0e3bbe563ee94a0ee1d32bb0088299cba3c265a8f953147e5e6f7ddba840d"
+    },
+    {
+      "path": "recipes/run-regular-replay-v5.py",
+      "bytes": 2634,
+      "sha256": "f97bd358975bc8e462a958afec95df4408869e880581b3c7b5ae11d1a7f85a30"
+    },
+    {
+      "path": "recipes/run-replay-v4.py",
+      "bytes": 2569,
+      "sha256": "2dd5ac67c8aa8ca8c41d5c617fe0f9a3c5f924ce2b99ba98ede98e6fc791020b"
+    },
+    {
+      "path": "recipes/run-v1.py",
+      "bytes": 2511,
+      "sha256": "8047ed683d21f073d40c5582fe7bc18b92e7a7e1786289b301efa8a4c6efea16"
+    },
+    {
+      "path": "recipes/run-v2.py",
+      "bytes": 2498,
+      "sha256": "03562378a3480c872ffe484917108547bb076cb91f04757075ea42013645fd30"
+    },
+    {
+      "path": "recipes/run-v3.py",
+      "bytes": 2498,
+      "sha256": "d8725f2ad7d636715d8e9703ca8bc234dc33bb3e4ba2f8e3b2494640516b5128"
+    },
+    {
+      "path": "recipes/run-wasm-build-v1.py",
+      "bytes": 2832,
+      "sha256": "16f56eb3d94fbfd85d213a2f85bc5d8fe43fc200d1749c1d7904321c5c5ff61a"
+    },
+    {
+      "path": "regular-replay-v5/REPLAY.json",
+      "bytes": 414,
+      "sha256": "a55cfa234f9ee74b56e29002eb1082c06f0e19b12989fca9c4163f5ae9f6392f"
+    },
+    {
+      "path": "regular-replay-v5/REPORT.json",
+      "bytes": 622,
+      "sha256": "0146b178cc6da79cecc0be8de9fad5083c175a0bfb6e7e5e22333e8055f22c39"
+    },
+    {
+      "path": "regular-replay-v5/verification.json",
+      "bytes": 1014,
+      "sha256": "dc4ffd91087fe5f26e2533b55d79007b36ea7ec4fc32612c23cb6440abd7f332"
+    },
+    {
+      "path": "source/batching/dependencies/mainnet-beta-20261027/manifest.json",
+      "bytes": 370142,
+      "sha256": "06d86a86775bef1f217e61a2192b525d657bc8de2d3687e5c28d93e7abfaec8f"
+    },
+    {
+      "path": "source/market-client/wallet/native/firstSessionAcceptance.mjs",
+      "bytes": 3400,
+      "sha256": "5470f04d4475dac44a3cfcfebf77401af29b1f9c419045175c6fabbb1c907295"
+    },
+    {
+      "path": "source/market-client/wallet/native/prepare.py",
+      "bytes": 3316,
+      "sha256": "7f87e6fa599473de94dd13f41f9d9f96edc5e2b6c70adcd78d7b0629e282f4cf"
+    },
+    {
+      "path": "wasm-v1/BUILD-INPUTS.json",
+      "bytes": 589,
+      "sha256": "5c619fd5b11ed0bac70fc03f66b4ef5f1b0439262a3728d5ce332bbc23fccfd7"
+    },
+    {
+      "path": "wasm-v1/Cargo.lock",
+      "bytes": 81355,
+      "sha256": "d14f8d646c143f51e08c56be01ce62d0bcddf2ceed10368745c2c9fe7e9e0982"
+    },
+    {
+      "path": "wasm-v1/Cargo.toml",
+      "bytes": 1975,
+      "sha256": "9d8e571e087b74ce6bc5097bfec3160f7b0a04bdb6b44f34dee1d7c191ca228e"
+    },
+    {
+      "path": "wasm-v1/DEPENDENCY-CHECK.json",
+      "bytes": 225,
+      "sha256": "57f277dfac098b2adda22f22c2a5db3e84934477a8c64d5c14b9a337c834d475"
+    },
+    {
+      "path": "wasm-v1/first_session_verifier.wasm",
+      "bytes": 1994327,
+      "sha256": "c1cbceae69d94c7a36f789123ef776640b9ab2569ab37b0eb6ce38209c912d9c"
+    },
+    {
+      "path": "wasm-v1/node/market_verifier.js",
+      "bytes": 5798,
+      "sha256": "4b8361023b471e89b9c9423bbc1e8ea6f7dc08df11fd7926c7c44985a3b20b1d"
+    },
+    {
+      "path": "wasm-v1/node/market_verifier_bg.wasm",
+      "bytes": 1445217,
+      "sha256": "dc2ae63daf76d5fca8fdb2ce39fffe5e1c2c71ddf04052c0e8285d23ba81eef7"
+    },
+    {
+      "path": "wasm-v1/resolve.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "wasm-v1/src/lib.rs",
+      "bytes": 2806,
+      "sha256": "04893cf18af9e3a8f2b29ceda637ca200bd44f5006f6d105e63459c3a66fc29e"
+    },
+    {
+      "path": "wasm-v1/src/verification.rs",
+      "bytes": 25198,
+      "sha256": "80cb717e182b1fd7826149372e495c24d13a36cc1d441890a081acf6f5bb2a63"
+    },
+    {
+      "path": "wasm-v1/src/verifiers.json",
+      "bytes": 19757,
+      "sha256": "2f51f14521654268f498d834c715db02b04b112dd4e60a34c0a0275ed4127ad4"
+    }
+  ],
+  "results": {
+    "firstSessionNativeMutationsRejected": 18,
+    "initializedNativeMutationsRejected": 15,
+    "wasmMutationsRejected": 8,
+    "newCompleteProofsGenerated": 1,
+    "exactProofReplaysGenerateNewProofs": false,
+    "newFinancialOperations": 0,
+    "walletReleaseInstalled": false,
+    "extensionAcceptance": false,
+    "liveFills": 0,
+    "originalFaucetUnresolved": true
+  },
+  "failedInvocationsPreserved": true,
+  "privateMaterialPublished": false,
+  "originalArtifactsModified": false,
+  "nodeOrSdkPatches": []
+}

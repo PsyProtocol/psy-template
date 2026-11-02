@@ -1,0 +1,105 @@
+{
+  "date": "2026-10-11",
+  "timezone": "Asia/Taipei",
+  "tests": 124,
+  "passed": 124,
+  "failed": 0,
+  "skipped": 0,
+  "newTests": 5,
+  "submissions": 0,
+  "networkRequests": 0,
+  "stress": {
+    "vaults": 3,
+    "records": 3000,
+    "processDescriptorLimit": 64,
+    "journalReadConcurrencyLimit": 32,
+    "status": "passed"
+  },
+  "historicalJournals": {
+    "mode": "local read-only sealed evidence",
+    "submissions": 0,
+    "results": [
+      {
+        "scope": {
+          "network": "sepolia",
+          "vaultId": 591872,
+          "fingerprint": "46e467428361d649f9113914fc5faa989af97d3c3a3de9e8bbd50b7e05d85dcf"
+        },
+        "records": 10,
+        "pending": 0,
+        "included": [
+          {
+            "taskId": "453a25ff89420073f34b74bf944d29d911ef8d8758cdfc82c55bf033e04df7b8",
+            "checkpoint": 208685,
+            "contentHash": "b00ce32e1e4456d2a311187fbdb9121844accd30f5888b1263968a1b296ca0c9"
+          },
+          {
+            "taskId": "ad9ef14faec1756017a6aca807f69ef43e1fe0ca974293445ef877778a4be7ae",
+            "checkpoint": 208792,
+            "contentHash": "7da837a127cd0a2e5c17d63187b2e9d7d0e67553709dabd3a9b3e8b6807481ee"
+          }
+        ]
+      },
+      {
+        "scope": {
+          "network": "sepolia",
+          "vaultId": 499200,
+          "fingerprint": "53db0578675fa610ba84ce3ec98755f897be70e1ac92ce36f8c0bb2ba10823ac"
+        },
+        "records": 20,
+        "pending": 0,
+        "included": [
+          {
+            "taskId": "5fe079590b32605726e0385441f9f577a097e7bd6f18cd4c65bbe003536efd50",
+            "checkpoint": 208351,
+            "contentHash": "23c3ec4598f67d69caf910118ba4ed4a1c484b1aaeab6e91c9eb24c05853adb6"
+          },
+          {
+            "taskId": "7d7239cb7a82ff93545837c4a697db3df05b6d769c0dbaa1108b1737bd95973d",
+            "checkpoint": 208428,
+            "contentHash": "0888fa8b73740de7598b401cc26cdba2a4aa4e81e660416bf8416ac9764aebd2"
+          },
+          {
+            "taskId": "39e0117741fea500d2ec961d095d221f04608491ddd096846ef169f23e259d35",
+            "checkpoint": 208511,
+            "contentHash": "f8460da92e01c31e7f0b3801619516a12190cf7bee65df62197160ae05c2e4ce"
+          },
+          {
+            "taskId": "427d75ac79273a97789a78238b3efd5a3ea939f3e79d266a307641a53f1bfe6e",
+            "checkpoint": 208585,
+            "contentHash": "c36b488a9c59b2bf9812d67675c87e0c0100d640a0d90b9bb08e1dae0dabb437"
+          }
+        ]
+      }
+    ]
+  },
+  "priorEvidenceVerified": {
+    "tests/live/three-contracts-2026-10-09": 280,
+    "executor/verification/2026-10-09": 5,
+    "executor/verification/2026-10-10": 5
+  },
+  "sourceHashes": {
+    "executor/chainReceipts.mjs": "0ccf02f6bf5cf25127ebb21d55401123bfdea77dc640e309888f8ff453f20a26",
+    "executor/chainReceipts.test.mjs": "e41b8a165248066de174a3aec55bbc925a0eff998c27bdc125d3129ec0198c94",
+    "executor/config.mjs": "69771f4c4ec60623fa23a87d1029b24d1db192e44f02208be9448c6768e8f2db",
+    "executor/config.test.mjs": "b3d917704d0786438ad70008df0bf10260ad341daa7a7f59c646f67e6db3e9d9",
+    "executor/driverProcess.mjs": "fa2fcf376f21e790f68e3d1a9afe69689f428a1084131d632dc584ef07df0140",
+    "executor/driverProcess.test.mjs": "5e53838214e1aae24d63cc4bdc913bab1d03b5165f89ec5eb8fd231886f9f5af",
+    "executor/durableFile.mjs": "099f2698e2b5878c100d52c4dc37ad115ec5f1c09d790f12a9b4380c437e5ec0",
+    "executor/durableFile.test.mjs": "d266af4a4084c43d478396b729736a42b0c7df226a25ca6059d601a00ba64898",
+    "executor/journal.mjs": "12bf1e9ebad39e8decf0f417ade78a315ba4936b5436cbf5af92ddbb0f6bc89d",
+    "executor/journal.test.mjs": "6a2e44a0b6d9e4b59f71a84bc0a525f9bd1bd32df70d7b674b28e1d200633c3e",
+    "executor/preflight.mjs": "0205e1e27450742753068a52b9e5e11e569ec6383f006d843acf42a8776fbd56",
+    "executor/preflight.test.mjs": "cac505d445345baf1dabbe0d4e4790838e28e83b1472b396ef7d009d2d0b8093",
+    "executor/publicState.mjs": "c46e279f458e3ef8cbdcf75c4fc8e18ea540bb0e1d7d2ef7085a24ff3d32a961",
+    "executor/publicWalletAdapter.mjs": "56946a90e1628250cb2f1728a9b90ec68d35baf5870925102280070fb78b088e",
+    "executor/publicWalletAdapter.test.mjs": "7f0ebd6a1974a7048cd98ccd01f6ff99584956a286b48207031972a6c5c512c1",
+    "executor/readRetry.mjs": "ca1aa5c98496a240acc2fafdb9eca401f28420b526fcf9840fcf57b293a4d346",
+    "executor/readRetry.test.mjs": "49da4c71af2addb6d684b6af1f06a445ab948459b4770b7ca6fc6abf858d2b9c",
+    "executor/run.mjs": "07c38d36b21bdb09682296a2d92f8b186369449fb8a5eb96dbc004036f59cc3d",
+    "executor/service.mjs": "d049931ba3a5de45b43a5c168aba19c3bf15481c396ba6c4c59762903834071a",
+    "executor/worker.mjs": "e35943da6430351bcff8654c366b48825c2a2147762e9cbcebee7717619e47e5",
+    "executor/worker.test.mjs": "0df5a7dfa1827cc2acd086603865ee31ee9df62f8f8ba2d65b494e133b659b5c",
+    "executor/README.md": "8bc44b9be5c15cebe9f7b4c39449f78eaee89ef058f29751f8f264fef844c34d"
+  }
+}

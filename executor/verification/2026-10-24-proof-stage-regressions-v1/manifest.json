@@ -1,0 +1,51 @@
+{
+  "schema": 1,
+  "sourceDirectory": "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-market-recovery-20261023",
+  "machine": "gewenbo.local",
+  "host": "macOS-15.7.3-arm64-arm-64bit",
+  "scope": "public formal Executor run including failures; success requires exact included receipt",
+  "walletFilesIncluded": false,
+  "sealedBinariesIncluded": false,
+  "records": [
+    {
+      "source": "three-markets-proof-build-v2/DEPENDENCY-UNCHANGED-v1.json",
+      "file": "files/three-markets-proof-build-v2/DEPENDENCY-UNCHANGED-v1.json.gz",
+      "bytes": 402,
+      "sha256": "b61db1212eb75920806a763c846a2e97c12f654c18d1195b0d1d6f28f7be4b9f",
+      "gzipBytes": 283,
+      "gzipSha256": "b30a50e73b788417bcf7a2626f6c9eb8d5b1a5b28e2ee11e4d3352431eaf61c4"
+    },
+    {
+      "source": "three-markets-proof-build-v2/RELEASE.json",
+      "file": "files/three-markets-proof-build-v2/RELEASE.json.gz",
+      "bytes": 1568,
+      "sha256": "0ae4d23e1a99b63aff7d31898d7bb0f2cdbcffae755f9193541f82a89f6ca766",
+      "gzipBytes": 672,
+      "gzipSha256": "7e4f982f07648655391aa34578ded9f046ff0dbca30c1bb8c2263f5bfb292d1f"
+    },
+    {
+      "source": "three-markets-proof-build-v2/SOURCE-v2.json",
+      "file": "files/three-markets-proof-build-v2/SOURCE-v2.json.gz",
+      "bytes": 7196,
+      "sha256": "f2f6c5647b4af83a76f7c16a8931146b3a48148292c460f5d8c255aa1e755662",
+      "gzipBytes": 3530,
+      "gzipSha256": "e7bc372524e80e20231043e289a0f46c07130cd5a9b5524bc37673220f6268d6"
+    },
+    {
+      "source": "three-markets-proof-build-v2/application-regressions-v4.log",
+      "file": "files/three-markets-proof-build-v2/application-regressions-v4.log.gz",
+      "bytes": 7911,
+      "sha256": "e6a6edaf0bb7868e60bd578fec376da8f81897ec73f66bb8649cdd95a73f799d",
+      "gzipBytes": 3295,
+      "gzipSha256": "d5425fd16b80eb374882623224a0c7f9f07de5603c9fb926fc5aaa9aee54f21a"
+    },
+    {
+      "source": "three-markets-proof-build-v2/guard-tests-v1.log",
+      "file": "files/three-markets-proof-build-v2/guard-tests-v1.log.gz",
+      "bytes": 23850,
+      "sha256": "c6578232f0775d03975cdf7faf73cceffd7c503074253665c5f7af9fb9703b09",
+      "gzipBytes": 4725,
+      "gzipSha256": "84f7ff6a74cfca33568d5c32ae828a8556fbed0d48b8348672eda4bfcf0960a6"
+    }
+  ]
+}

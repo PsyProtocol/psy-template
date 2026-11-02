@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "sourceDirectory": "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-market-recovery-20261023",
+  "machine": "gewenbo.local",
+  "host": "macOS-15.7.3-arm64-arm-64bit",
+  "scope": "public formal Executor run including failures; success requires exact included receipt",
+  "walletFilesIncluded": false,
+  "sealedBinariesIncluded": false,
+  "records": [
+    {
+      "source": "composition-preparation-live-v1/public/DEPENDENCY-UNCHANGED-v2.json",
+      "file": "files/composition-preparation-live-v1/public/DEPENDENCY-UNCHANGED-v2.json.gz",
+      "bytes": 837,
+      "sha256": "5fd02ac310f2531d25efba9d4d469cedaebb69edb6bf3f368fe7ca8a633bbcd0",
+      "gzipBytes": 520,
+      "gzipSha256": "82719766305d45f3f80379d83c87f7e52f7d87bbc57749c57baab7bb0db92de9"
+    },
+    {
+      "source": "settlement-preparation-performance-v1/regressions-final-v1.log",
+      "file": "files/settlement-preparation-performance-v1/regressions-final-v1.log.gz",
+      "bytes": 14319,
+      "sha256": "8af3001ae1c394288d37cdfcc23b06177b08d9ad70f6a1747422078533ad17ac",
+      "gzipBytes": 5727,
+      "gzipSha256": "c47f3a96dcfd11de9162458ea5f823a3f3fc6b88059b75aa7e1723e235bc7543"
+    }
+  ]
+}

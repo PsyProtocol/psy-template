@@ -1,0 +1,33 @@
+{
+  "at": "2026-10-27T01:24:43.983Z",
+  "scope": "single readonly probe per configured endpoint; no retries or financial operations",
+  "rows": [
+    {
+      "role": "realm0",
+      "host": "realm0-stg.psy-protocol.xyz",
+      "httpStatus": 200,
+      "checkpoint": 2746,
+      "rpcError": null,
+      "bodyPreview": "{\"jsonrpc\":\"2.0\",\"id\":1,\"result\":{\"checkpoint_id\":2746,\"next_add_withdrawal_id\":0,\"next_process_withdrawal_id\":0,\"next_deposit_id\":0,\"total_deposits_claimed_epoch\":0,\"next_user_id\":217,\"end_balance\":0,\"next_contract_id\":6}}",
+      "elapsedMs": 935.393875
+    },
+    {
+      "role": "realm1",
+      "host": "realm1-stg.psy-protocol.xyz",
+      "httpStatus": 200,
+      "checkpoint": 2746,
+      "rpcError": null,
+      "bodyPreview": "{\"jsonrpc\":\"2.0\",\"id\":1,\"result\":{\"checkpoint_id\":2746,\"next_add_withdrawal_id\":0,\"next_process_withdrawal_id\":0,\"next_deposit_id\":0,\"total_deposits_claimed_epoch\":0,\"next_user_id\":217,\"end_balance\":0,\"next_contract_id\":6}}",
+      "elapsedMs": 1113.206125
+    },
+    {
+      "role": "coordinator0",
+      "host": "coordinator-stg.psy-protocol.xyz",
+      "httpStatus": 200,
+      "checkpoint": 2746,
+      "rpcError": null,
+      "bodyPreview": "{\"jsonrpc\":\"2.0\",\"id\":1,\"result\":{\"checkpoint_id\":2746,\"next_add_withdrawal_id\":0,\"next_process_withdrawal_id\":0,\"next_deposit_id\":0,\"total_deposits_claimed_epoch\":0,\"next_user_id\":217,\"end_balance\":0,\"next_contract_id\":6}}",
+      "elapsedMs": 916.768292
+    }
+  ]
+}

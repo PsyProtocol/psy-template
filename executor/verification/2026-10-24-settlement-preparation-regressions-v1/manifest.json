@@ -1,0 +1,31 @@
+{
+  "schema": 1,
+  "baselineCommit": "efe3c9fad1605f23a8177ec3d0ea71826badb9cd",
+  "candidateCommit": "fd22b7bd",
+  "sourceFilesVerified": 1466,
+  "nodeChangedByTask": false,
+  "sdkChanged": false,
+  "tests": 131,
+  "records": [
+    {
+      "file": "DEPENDENCY-UNCHANGED-v1.json.gz",
+      "sha256": "fd2b2be9fa66c43d7a91cb6b3abde909676ef79b0d33eda430a39255e7faa733",
+      "bytes": 218
+    },
+    {
+      "file": "SOURCE-BASELINE.json.gz",
+      "sha256": "ae8cf0ae0f997be87b77637f167e7d682cafbcbe100f6cdd4f82596295ba3370",
+      "bytes": 55181
+    },
+    {
+      "file": "regressions-v1.log",
+      "sha256": "84573ee043988f6d8420ef1994fb79d6ced79e5a719c14ae386e47a9ca9101b0",
+      "bytes": 8473
+    },
+    {
+      "file": "regressions-v2.log.gz",
+      "sha256": "fe27b8d320214abaa459684995b718c447795c43d0ddd7f62c5d923acfcf42b4",
+      "bytes": 5358
+    }
+  ]
+}

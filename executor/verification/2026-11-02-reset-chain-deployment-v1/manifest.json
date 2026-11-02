@@ -1,0 +1,146 @@
+{
+  "schema": 1,
+  "scope": "Readonly observations, necessary Native compatibility and application regression only; no financial authority",
+  "files": [
+    {
+      "file": "README.md",
+      "bytes": 2704,
+      "sha256": "1850b4d3b131f9ad6d3d75a1c83564524b75e8e0d13599f382b74a7c2a8af621"
+    },
+    {
+      "file": "public/FRESH-PUBLIC-READS-v1.json",
+      "bytes": 6025,
+      "sha256": "b87335f69330b476cf8a01f558b91618a76b27e5b09d55b7d22d917464473d10"
+    },
+    {
+      "file": "public/FROZEN-SOURCE-POSTCHECK-v1.json",
+      "bytes": 270,
+      "sha256": "0f4145f6c0fd12d6a1ed5538946440cb8c8272075df3baee7e94b183d8225107"
+    },
+    {
+      "file": "public/NATIVE-BUILD-v1.json",
+      "bytes": 138,
+      "sha256": "f89d564bb75af7849f032e9ff0f434d9d1eaa9136f96e9bb9eced474b83cdf14"
+    },
+    {
+      "file": "public/NATIVE-CODE-ARCHIVE-v1.json",
+      "bytes": 251,
+      "sha256": "2da0403768b608d88e78a1896ffdeff02cbc772f5470142b89229f9c09267564"
+    },
+    {
+      "file": "public/NATIVE-CODE-TRANSPORT-v1.json",
+      "bytes": 424,
+      "sha256": "1c796f259d8f5111875c983e869ae940084b167beb402ed674c06bff2f01b644"
+    },
+    {
+      "file": "public/NATIVE-COMPATIBILITY-v1.json",
+      "bytes": 2206,
+      "sha256": "9531c8bc3890d8c7ed09cee2402710463c958c1546dd917223329c9c49b24487"
+    },
+    {
+      "file": "public/NATIVE-INSPECTION-PLAN-v1.json",
+      "bytes": 401,
+      "sha256": "53460686f5198376892e4091630271a7eec30add9da0c07a409dd99d6c333509"
+    },
+    {
+      "file": "public/NATIVE-INSPECTION-v1.json",
+      "bytes": 370,
+      "sha256": "d5584c1dac2a666b2590855049475bfeb2ddffbe736c9b856c92be46e316564f"
+    },
+    {
+      "file": "public/PLAN-v1.json",
+      "bytes": 613,
+      "sha256": "38c9fceeacca959b36d67deb4c31f6efb844f2452677a92b70da421b4985c999"
+    },
+    {
+      "file": "public/SUMMARY-v1.json",
+      "bytes": 1740,
+      "sha256": "306fb21ed1de646ae44b326358337a161be3dd628720d0c9752c7d04f9871ed0"
+    },
+    {
+      "file": "public/UPSTREAM-SOURCE-v1.json",
+      "bytes": 14077,
+      "sha256": "1143360c5d3445901e131bb0391d51a14d954fcb35e2631e06db9822194bfb67"
+    },
+    {
+      "file": "public/native-build-v1.log",
+      "bytes": 51498,
+      "sha256": "db2ffcea17d2fed5bc76d8470f84cac7eb157e88f12d4ce3cd335ec257e37c53"
+    },
+    {
+      "file": "public/native-code-response-v1.json.gz",
+      "bytes": 22679,
+      "sha256": "fba3dcd1166181db2f216fc3430aee5a8e62ddea57c47fb32a13637ea9c7b587"
+    },
+    {
+      "file": "public/native-inspection-v1.log",
+      "bytes": 67,
+      "sha256": "5c8aac328d53cbe0a87b2332747999289411c0ab5c1d534563df91f36d6fa8b9"
+    },
+    {
+      "file": "public/native-leaf-envelope-v1.json",
+      "bytes": 391,
+      "sha256": "04986237155437e1aba3564ed2c001de22fbad298e96389a649bc76b14c14063"
+    },
+    {
+      "file": "public/prepare-native-v1.log",
+      "bytes": 17747,
+      "sha256": "0e63fbeff0d909d65657fddcb6dddcb4b86e53ac7bfc22cd6364e4d15804c11c"
+    },
+    {
+      "file": "public/registration-green-v1.log",
+      "bytes": 4398,
+      "sha256": "077bcc5c95c944aba6f74f29569729935953e18fefa484ce8fd25be7750f9fc2"
+    },
+    {
+      "file": "public/registration-red-v1.log",
+      "bytes": 1482,
+      "sha256": "f9f4dab5b527dbd0d14e6b0b5d0ca18c3c90cc14c6f6050796c61868fb36c02f"
+    },
+    {
+      "file": "public/registration-regression-v2.log",
+      "bytes": 6796,
+      "sha256": "5bc408c72fb2569c7f3862a1ae0f47a83e34bc83f30a0fbf0d9de8b58083740d"
+    },
+    {
+      "file": "source/APPLICATION.json",
+      "bytes": 18469,
+      "sha256": "26149cda6b7bc86dd9f378841ee4031f71ebb78dd4ebdad9c7fd9ed824e3e63a"
+    },
+    {
+      "file": "source/Cargo.lock",
+      "bytes": 217301,
+      "sha256": "d12d86f486408d3b88f496dde27e6494839511489a1202e778f09f0eca3c1183"
+    },
+    {
+      "file": "source/Cargo.toml",
+      "bytes": 4680,
+      "sha256": "c85cdfdc3912a609f857f073b555969a000870e6579d755d433f45e91997b4ab"
+    },
+    {
+      "file": "source/archive_v1.py",
+      "bytes": 3787,
+      "sha256": "43570aafdd8c90bf0346ae855d7f1a2d86b0d623e4d584557593aaf9e1454a86"
+    },
+    {
+      "file": "source/chain_protocol_preflight.rs",
+      "bytes": 5092,
+      "sha256": "65d4948cdcfcdb619214189b44e4d8585d45640a3c1ef87dec1545d70d0af8f5"
+    },
+    {
+      "file": "source/fundedRegistration.mjs",
+      "bytes": 5298,
+      "sha256": "ede274499c8d9ff822fc8ebf31cb0c06d5eb3b18c3f8761289d931486c944429"
+    },
+    {
+      "file": "source/fundedRegistration.test.mjs",
+      "bytes": 4675,
+      "sha256": "3f34faf74c924a474e38628d5dd944713709a37479a4d98457a45fdcf98353bc"
+    },
+    {
+      "file": "source/inspect_native_v1.py",
+      "bytes": 2939,
+      "sha256": "fe49cec2a9b6bc9055743906cd7a0441cd3d65f170d79df98a910058d7617548"
+    }
+  ]
+}

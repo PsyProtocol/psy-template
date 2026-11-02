@@ -1,13 +1,12 @@
 // Unit-only RPC stand-in with real archived ABI shapes, NOT deployed identities
 // or authenticated state. Full bytecode/UPS and network gates stay separate.
-import assert from 'node:assert/strict';import {readFileSync} from 'node:fs';import {gunzipSync} from 'node:zlib';
-import {sha256} from '../executor/requestBinding.mjs';
+import assert from 'node:assert/strict';
+import {readReviewedAbis} from '../tests/fixtures/reviewedAbis.mjs';
 import {compositionDomain} from './domain.mjs';
 import {createRegistry,createIntent,planIntent} from './intent.mjs';import {fundsPolicy} from './contract/policy.mjs';import {runtimePolicy,COMPOSITION_SDK,COMPOSITION_MAGIC} from './contract/runtimePolicy.mjs';import {executionModel} from './execution.mjs';import {publicKeyFelts} from './funding.mjs';import {encodeAmount} from '../amm/u124/client.mjs';
-const archive=new URL('../executor/verification/2026-10-23-funded-composition-v1/',import.meta.url),manifest=JSON.parse(readFileSync(new URL('manifest.json',archive),'utf8'));
-function abi(source){const r=manifest.records.find(r=>r.source===source);assert.ok(r);const gzip=readFileSync(new URL(r.file,archive));assert.equal(sha256(gzip),r.gzipSha256);const raw=gunzipSync(gzip);assert.equal(sha256(raw),r.sha256);return JSON.parse(raw).abi;}
+const archivedAbis=readReviewedAbis().composition;
 export function executionFixture(){
- const controllerAbi=abi('fixture/compiled/compilation_artifact.json'),tokenAbi=abi('fixture/token.json'),nativeAbi=abi('fixture/native.json'),ammAbi=abi('fixture/amm.json'),root='a'.repeat(64),F=1000100000n;
+ const controllerAbi=archivedAbis.controller.abi,tokenAbi=archivedAbis.token.abi,nativeAbi=archivedAbis.native.abi,ammAbi=archivedAbis.amm.abi,root='a'.repeat(64),F=1000100000n;
  const dep=contractId=>({contractId,codeRoot:root,layoutRoot:root,functionTreeRoot:root,stateTreeHeight:contractId===0n?32n:31n,layoutFieldCount:1n,layoutSlotCount:100n});
  const market=(marketId,vaultId,key)=>({kind:'amm',marketId,vaultId,fingerprint:root,publicKeyHash:key.repeat(64),assets:[{id:42n,decimals:18},{id:43n,decimals:18}],dependencies:[0n,marketId,42n,43n].map(dep)});
  const network={magic:String(COMPOSITION_MAGIC),users_per_realm:1048576,realm_configs:[{id:0,rpc_url:['https://test.invalid']}],coordinator_configs:[{id:0,rpc_url:['https://coordinator.invalid']}]},domainHash=compositionDomain('sepolia',network);

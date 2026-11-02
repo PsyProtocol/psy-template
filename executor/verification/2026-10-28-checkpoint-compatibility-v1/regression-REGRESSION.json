@@ -1,0 +1,33 @@
+{
+  "schema": 1,
+  "scope": "real offline diagnostic and evidence-classification regressions; zero accepted checkpoint proofs",
+  "runs": [
+    {
+      "label": "cached",
+      "exitCode": 1
+    },
+    {
+      "label": "constructed",
+      "exitCode": 1
+    },
+    {
+      "label": "malformed",
+      "exitCode": 1
+    },
+    {
+      "label": "trailing",
+      "exitCode": 1
+    },
+    {
+      "label": "substituted",
+      "exitCode": 1
+    }
+  ],
+  "outputCollisionPreserved": true,
+  "decodeFailuresNotCryptoFailures": true,
+  "substituteNotOriginalFailure": true,
+  "acceptedCheckpointProofs": 0,
+  "financialOperations": 0,
+  "proofsGenerated": 0,
+  "randomAuthorization": false
+}

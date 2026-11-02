@@ -1,0 +1,47 @@
+{
+  "financialOperations": 0,
+  "records": [
+    {
+      "url": "https://coordinator-stg.psy-protocol.xyz",
+      "request": {
+        "jsonrpc": "2.0",
+        "id": 1,
+        "method": "psy_get_checkpoint_tree_root",
+        "params": {
+          "checkpoint_id": 1
+        }
+      },
+      "status": 503,
+      "body": "Testnet maintenance. Fresh deployment in progress.",
+      "milliseconds": 1080.843666
+    },
+    {
+      "url": "https://coordinator-stg.psy-protocol.xyz",
+      "request": {
+        "jsonrpc": "2.0",
+        "id": 2,
+        "method": "psy_get_checkpoint_leaf_data",
+        "params": {
+          "checkpoint_id": 1
+        }
+      },
+      "status": 503,
+      "body": "Testnet maintenance. Fresh deployment in progress.",
+      "milliseconds": 1046.6775839999998
+    },
+    {
+      "url": "https://realm0-stg.psy-protocol.xyz",
+      "request": {
+        "jsonrpc": "2.0",
+        "id": 3,
+        "method": "psy_get_checkpoint_leaf_data",
+        "params": {
+          "checkpoint_id": 1
+        }
+      },
+      "status": 503,
+      "body": "Testnet maintenance. Fresh deployment in progress.",
+      "milliseconds": 1045.941209
+    }
+  ]
+}

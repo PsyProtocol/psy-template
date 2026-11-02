@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "at": "2026-10-27T01:28:16.861244+00:00",
+  "baseCommit": "14b610ac79b3156b61c4bcae8a740039036536dd",
+  "scope": "10 readonly RPC calls, no retries, deployment, proof generation or financial operation; latest-state observations, not a common-checkpoint cryptographic preflight",
+  "records": [
+    {
+      "file": "IDENTITY-v1.json",
+      "sha256": "3d6e595504adaa202773a046dce9cc512b9fa0eeb0488d8c982aa8aee63c94d2"
+    },
+    {
+      "file": "RPC-v1.json",
+      "sha256": "7a698ac87ab9901c1e5b637b17dc3b77c7da47c3b86701acfcdbfaa6fcc4bd55"
+    }
+  ]
+}

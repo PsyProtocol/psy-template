@@ -1,0 +1,280 @@
+{
+  "sdkManifestSha256": "0afb4c65116cddcaca450b406a06503d65b63d38a004d8e773c6e5fa363bd425",
+  "sdkSourceFilesUnchanged": 1466,
+  "nodeDiffSha256": "002e35e0b13cb6c422fe3abf500ce6aa5241229264d85a3314f22b5e14b59a64",
+  "nodeDiffUnchanged": true,
+  "sdkMigrated": false,
+  "allCompleteSignedRequestNoncesConsumed": true,
+  "requests": [
+    {
+      "file": "baseline/runtime-comparison/compact/sepolia/662720/a9eacb4db7163d0d3b5feb424b5b1ad302c153a8eaf810bc92cff55d3c8c9250/send-e9f4c49e-1b31-4e85-8611-95f6d34b0e6a/request.json",
+      "sha256": "b4005ba48421304a0741a568807f625894698245ceb50c7d7f772e9c2289788c",
+      "userId": 662720,
+      "nonce": 41,
+      "confirmedUserNonceAtLeast": 46
+    },
+    {
+      "file": "baseline/runtime-comparison/compact/sepolia/662720/a9eacb4db7163d0d3b5feb424b5b1ad302c153a8eaf810bc92cff55d3c8c9250/proof-8b09e09b-9455-4238-9694-b5787827125d/request.json",
+      "sha256": "b4005ba48421304a0741a568807f625894698245ceb50c7d7f772e9c2289788c",
+      "userId": 662720,
+      "nonce": 41,
+      "confirmedUserNonceAtLeast": 46
+    },
+    {
+      "file": "baseline/runtime-comparison/compact/sepolia/662720/299cb3e43bcadefc1d62027aaf4f8cc39def1e4904c6f1476ac680139bd55571/proof-9effbf92-b5ae-4ccc-8993-f0365e64feb5/request.json",
+      "sha256": "5d5d0d8d72658a84b9585739a3225b1789bd7ad3173ef97a066a03b4125b53c7",
+      "userId": 662720,
+      "nonce": 42,
+      "confirmedUserNonceAtLeast": 46
+    },
+    {
+      "file": "baseline/runtime-comparison/compact/sepolia/662720/abf4a64dcdbf23e3c240fbf35a71c993b8e00227008b29921aa1843af2e8f8c8/send-1d44e960-be97-4512-8b18-10b8415860fe/request.json",
+      "sha256": "5b4fa7a87ecec5b4b8a7e2279a296a64e879ce9d5684fcd1e8352a95e2dff8e1",
+      "userId": 662720,
+      "nonce": 44,
+      "confirmedUserNonceAtLeast": 46
+    },
+    {
+      "file": "baseline/runtime-comparison/compact/sepolia/662720/abf4a64dcdbf23e3c240fbf35a71c993b8e00227008b29921aa1843af2e8f8c8/proof-5709167f-ee47-4c69-95da-158df11c3fca/request.json",
+      "sha256": "5b4fa7a87ecec5b4b8a7e2279a296a64e879ce9d5684fcd1e8352a95e2dff8e1",
+      "userId": 662720,
+      "nonce": 44,
+      "confirmedUserNonceAtLeast": 46
+    },
+    {
+      "file": "baseline/runtime-comparison/compact/sepolia/662720/9ffb5afd5e516cc782c5726157a84d3f9506885469e97b486dcb88caca9a21fb/send-5a23a248-eb79-4d08-9b5a-537fb95be2ca/request.json",
+      "sha256": "4d2fe1d0f552dbfe73baf7afb59ec83389e2edf46667a718ad4dd050ede546a5",
+      "userId": 662720,
+      "nonce": 43,
+      "confirmedUserNonceAtLeast": 46
+    },
+    {
+      "file": "baseline/runtime-comparison/compact/sepolia/662720/9ffb5afd5e516cc782c5726157a84d3f9506885469e97b486dcb88caca9a21fb/proof-71a78ac1-f8b1-46e0-9b1e-8b1d818e23da/request.json",
+      "sha256": "4d2fe1d0f552dbfe73baf7afb59ec83389e2edf46667a718ad4dd050ede546a5",
+      "userId": 662720,
+      "nonce": 43,
+      "confirmedUserNonceAtLeast": 46
+    },
+    {
+      "file": "baseline/runtime-comparison/compact/sepolia/662720/a6262d6841a204eeeae93de33e9f1215438260feb2c7a474b397551540a66309/send-7e274294-4d9d-4dc1-9875-ff6aa84b55ad/request.json",
+      "sha256": "e090d50b1692b9e1175fdc0e81685bcdbfa6f493a98bcde4152063ae0157ff63",
+      "userId": 662720,
+      "nonce": 42,
+      "confirmedUserNonceAtLeast": 46
+    },
+    {
+      "file": "baseline/runtime-comparison/compact/sepolia/662720/a6262d6841a204eeeae93de33e9f1215438260feb2c7a474b397551540a66309/proof-0c5b618e-d40c-4cc3-9b8a-4cc30e83f3ad/request.json",
+      "sha256": "e090d50b1692b9e1175fdc0e81685bcdbfa6f493a98bcde4152063ae0157ff63",
+      "userId": 662720,
+      "nonce": 42,
+      "confirmedUserNonceAtLeast": 46
+    },
+    {
+      "file": "baseline/runtime-comparison/compact/sepolia/662720/31e13e0a732a8cbd6269b6e884c64b756abb88ecaa8449d26cb12105c88910d8/send-8685c02e-43d0-4c9f-ae4d-61c92b5b6e36/request.json",
+      "sha256": "e2416caef19f8bfebadc8c02e7caf4411d206e27fb365273949514448059f181",
+      "userId": 662720,
+      "nonce": 40,
+      "confirmedUserNonceAtLeast": 46
+    },
+    {
+      "file": "baseline/runtime-comparison/compact/sepolia/662720/31e13e0a732a8cbd6269b6e884c64b756abb88ecaa8449d26cb12105c88910d8/proof-e5cf9399-743b-41a8-923f-2a4d1046e3f0/request.json",
+      "sha256": "e2416caef19f8bfebadc8c02e7caf4411d206e27fb365273949514448059f181",
+      "userId": 662720,
+      "nonce": 40,
+      "confirmedUserNonceAtLeast": 46
+    },
+    {
+      "file": "baseline/attempts/buyer-order/request.json",
+      "sha256": "353bf8f47f9154404ac1fe2af0c175fde013ace999b6dc653c36b2c16582115b",
+      "userId": 406720,
+      "nonce": 62,
+      "confirmedUserNonceAtLeast": 66
+    },
+    {
+      "file": "baseline/attempts/admit-0-fund/request.json",
+      "sha256": "a2f71c7e4348e54e6855f24e3ba4341f390d7d0043b9e5dbbd031daf4231c352",
+      "userId": 519360,
+      "nonce": 37,
+      "confirmedUserNonceAtLeast": 41
+    },
+    {
+      "file": "baseline/attempts/admit-1-fund/request.json",
+      "sha256": "cdfc4f6a5ed2172d915605139e8aae447c8e8fe7d4117d47a7beff46fd647c7b",
+      "userId": 519360,
+      "nonce": 38,
+      "confirmedUserNonceAtLeast": 41
+    },
+    {
+      "file": "baseline/attempts/owner-order/request.json",
+      "sha256": "d3e44b464867cfd7d604d087e653fded886e5565014c451783a59100ad5511dd",
+      "userId": 1717440,
+      "nonce": 42,
+      "confirmedUserNonceAtLeast": 47
+    },
+    {
+      "file": "baseline/attempts/owner-consent/request.json",
+      "sha256": "fbe93b801e7323466bcb7e5a959c5e28a6c26cdd9679cd1d1f0bb8d96620bca7",
+      "userId": 1717440,
+      "nonce": 43,
+      "confirmedUserNonceAtLeast": 47
+    },
+    {
+      "file": "baseline/attempts/buyer-consent/request.json",
+      "sha256": "77c8257903871b24b261405657444511b5225854206a9fbf98c8fc4bb337aee3",
+      "userId": 406720,
+      "nonce": 63,
+      "confirmedUserNonceAtLeast": 66
+    },
+    {
+      "file": "baseline/attempts/start-fund/request.json",
+      "sha256": "5f1af3cd9a4223e6fbd0d8fa4b1eeb0948e42444cddd3c1cef9453f5f8e71bb9",
+      "userId": 519360,
+      "nonce": 36,
+      "confirmedUserNonceAtLeast": 41
+    },
+    {
+      "file": "baseline/runtime-retired-recovery/compact/sepolia/662720/bc16da27ff8a7e230449fe977693b8ce4b0c5793e964aebe147e89d945e283f3/send-fcd82697-9039-4842-afb4-16da878ae1e5/request.json",
+      "sha256": "0354e7e0b04cdab863bcd7c407158d9e93d661c67ee84a7b7d267698e9698bf6",
+      "userId": 662720,
+      "nonce": 45,
+      "confirmedUserNonceAtLeast": 46
+    },
+    {
+      "file": "baseline/runtime-retired-recovery/compact/sepolia/662720/bc16da27ff8a7e230449fe977693b8ce4b0c5793e964aebe147e89d945e283f3/proof-407e1814-5dc6-41f3-a5ec-8641832f1c11/request.json",
+      "sha256": "0354e7e0b04cdab863bcd7c407158d9e93d661c67ee84a7b7d267698e9698bf6",
+      "userId": 662720,
+      "nonce": 45,
+      "confirmedUserNonceAtLeast": 46
+    },
+    {
+      "file": "baseline/runtime-retired-recovery/compact/sepolia/662720/0acedc6f2e0ccf8ce786e3b7923c056efed1894d01ed246471b2631bea7364d2/send-f3aa4bfe-df3b-4c67-a43e-c09c6a12ad0b/request.json",
+      "sha256": "7db5f12969a2789d6bb779f1a5bc8b5b8f34f369a303ad6c276cdd2eec4e91b8",
+      "userId": 662720,
+      "nonce": 46,
+      "confirmedUserNonceAtLeast": 46
+    },
+    {
+      "file": "baseline/runtime-retired-recovery/compact/sepolia/662720/0acedc6f2e0ccf8ce786e3b7923c056efed1894d01ed246471b2631bea7364d2/proof-770f3769-a08e-4060-a631-ef98bead1608/request.json",
+      "sha256": "7db5f12969a2789d6bb779f1a5bc8b5b8f34f369a303ad6c276cdd2eec4e91b8",
+      "userId": 662720,
+      "nonce": 46,
+      "confirmedUserNonceAtLeast": 46
+    },
+    {
+      "file": "nonce-retirement-candidate-v2/authorized-compact-send-v1/request.json",
+      "sha256": "37321025d3ed5eed6d75245ade87beb731767366eaeda2b864ea7e140d9dd67d",
+      "userId": 1717440,
+      "nonce": 44,
+      "confirmedUserNonceAtLeast": 47
+    },
+    {
+      "file": "nonce-retirement-candidate-v2/prepared/request.json",
+      "sha256": "37321025d3ed5eed6d75245ade87beb731767366eaeda2b864ea7e140d9dd67d",
+      "userId": 1717440,
+      "nonce": 44,
+      "confirmedUserNonceAtLeast": 47
+    },
+    {
+      "file": "nonce-retirement-candidate-v2/authorized-send-v1/request.json",
+      "sha256": "37321025d3ed5eed6d75245ade87beb731767366eaeda2b864ea7e140d9dd67d",
+      "userId": 1717440,
+      "nonce": 44,
+      "confirmedUserNonceAtLeast": 47
+    },
+    {
+      "file": "nonce-retirement-candidate-v2/authorized-send-v1/compact-request-prepared-only.json",
+      "sha256": "5c5c398021d93d30d2acabc86b25092f6ca85ab9cbdf7d72c61b2d8c77310b95",
+      "userId": 1717440,
+      "nonce": 44,
+      "confirmedUserNonceAtLeast": 47
+    },
+    {
+      "file": "unaccepted-recovery-v1/attempts/bob-cancel-release-and-enroll-read-recovery-v2/request.json",
+      "sha256": "6f8feab44e9c19fa5be799038b407c45c23375782cbfc0bd2b7b7a90f5fccf18",
+      "userId": 1717440,
+      "nonce": 44,
+      "confirmedUserNonceAtLeast": 47
+    },
+    {
+      "file": "retired-recovery-v1/attempts/normalize-unfunded-bob/request.json",
+      "sha256": "1cc30f36b790112aa2c015c32263f4084a71cf5752556681f251e99513eb6454",
+      "userId": 1717440,
+      "nonce": 47,
+      "confirmedUserNonceAtLeast": 47
+    },
+    {
+      "file": "retired-recovery-v1/attempts/buyer-cancel-release-and-enroll/request.json",
+      "sha256": "ee17dec6c33a49d9504ea287960062ef683f1c6d7c807fc365fbf733e93e5abb",
+      "userId": 406720,
+      "nonce": 64,
+      "confirmedUserNonceAtLeast": 66
+    },
+    {
+      "file": "retired-recovery-v1/attempts/normalize-unfunded-buyer/request.json",
+      "sha256": "2e3365edcb4c25223d4eb31a612f29b63b3c3d1c997ce75c45cef1f44953172a",
+      "userId": 406720,
+      "nonce": 66,
+      "confirmedUserNonceAtLeast": 66
+    },
+    {
+      "file": "retired-recovery-v1/attempts/bob-original-recovery-fund/request.json",
+      "sha256": "0110dae2a6fbcf0e0433e8056e9fba97643369c086b333f1d7ef8011c4969df0",
+      "userId": 519360,
+      "nonce": 40,
+      "confirmedUserNonceAtLeast": 41
+    },
+    {
+      "file": "retired-recovery-v1/attempts/buyer-original-funding-claim/request.json",
+      "sha256": "5141d62af4696d756db4e89365ff06b58a9026acd7dd29f91ac1798b016df4bd",
+      "userId": 406720,
+      "nonce": 65,
+      "confirmedUserNonceAtLeast": 66
+    },
+    {
+      "file": "retired-recovery-v1/attempts/buyer-original-recovery-fund/request.json",
+      "sha256": "bf03327db74316d17557f75b6457096eb992136220274d793fc088fda0987e75",
+      "userId": 519360,
+      "nonce": 41,
+      "confirmedUserNonceAtLeast": 41
+    },
+    {
+      "file": "retired-recovery-v1/attempts/bob-cancel-release-and-enroll/request.json",
+      "sha256": "c8b45b94a4d50236174d2132f9e1a3cac21dd7586ecb319ae4a367057aa361db",
+      "userId": 1717440,
+      "nonce": 45,
+      "confirmedUserNonceAtLeast": 47
+    },
+    {
+      "file": "retired-recovery-v1/attempts/bob-cancel-release-and-enroll/exact-delivery-v1/request.json",
+      "sha256": "c8b45b94a4d50236174d2132f9e1a3cac21dd7586ecb319ae4a367057aa361db",
+      "userId": 1717440,
+      "nonce": 45,
+      "confirmedUserNonceAtLeast": 47
+    },
+    {
+      "file": "retired-recovery-v1/attempts/bob-original-funding-claim/request.json",
+      "sha256": "7337175c304d7fb424c19053c280ab3f1e8d09bc5f4fd130c17db15db2d84d7c",
+      "userId": 1717440,
+      "nonce": 46,
+      "confirmedUserNonceAtLeast": 47
+    },
+    {
+      "file": "expiry-recovery-v1/attempts/refund-commit-fund/request.json",
+      "sha256": "94fa6be7b2b6d95f8e14d4f40d378209186495f781a30b100eebf6e52ca98305",
+      "userId": 519360,
+      "nonce": 39,
+      "confirmedUserNonceAtLeast": 41
+    },
+    {
+      "file": "nonce-retirement-candidate-v1/prepared/request.json",
+      "sha256": "9155037da5348b43c4361c2597c41ff1a25556ff1c318a98c98f47c5a29a7231",
+      "userId": 1717440,
+      "nonce": 44,
+      "confirmedUserNonceAtLeast": 47
+    }
+  ],
+  "actualUps": 24,
+  "actualFills": 0,
+  "totalFeesNativeAtoms": 24000133000,
+  "scope": "finite QA cohort and exact audited request nonce chains; no running service attestation or whole-market claim"
+}

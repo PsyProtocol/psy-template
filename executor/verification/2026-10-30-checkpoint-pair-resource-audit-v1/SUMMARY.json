@@ -1,0 +1,45 @@
+{
+  "schema": 1,
+  "parentCommit": "361c37690b6600c9d5b63039b4772e82bfdd1f1e",
+  "branch": "markets-batch-capacity-recovery-20261020",
+  "sdkCommit": "c92880c8b6e2c8d392f19368bc8801a2584fd427",
+  "originalCheckpoints": [
+    18504,
+    18505
+  ],
+  "originalProofsRefetchedIdentically": true,
+  "strictAndSdkDecodeAndRoundtripMatch": true,
+  "fixedVerifierProofAcceptance": false,
+  "rootCauseAttribution": "not yet established; running release/resource and stored record correspondence must be reconciled",
+  "cachedFingerprintsChecked": 25,
+  "sourceFinalWrapperEqualsCache": true,
+  "completeNetworkResourcesReconstructed": false,
+  "syntheticGenesisControlAccepted": true,
+  "syntheticGenesisProofsGenerated": 1,
+  "savedControlReverifiedByFinalBinary": true,
+  "observed18505PiFormulaMatches": false,
+  "observedOpeningAuthenticatedAsCanonical": false,
+  "currentCheckpoints": [
+    19321,
+    19322
+  ],
+  "currentProofsAccepted": false,
+  "readOnlyRpcRequests": 13,
+  "financialOperations": 0,
+  "liveFeeBudgetBaseUnits": "0",
+  "ordinaryWalletClaims": 0,
+  "nodeOrSdkSourceModified": false,
+  "liveSettlementEnabled": false,
+  "binarySha256": {
+    "bin-v2/diagnose_checkpoint_resources": "7af999c5f079710276b03128be50f1bdae2738fe9966d6f6611ad9c530fcb428",
+    "bin-v4/diagnose_checkpoint_resources": "9d14b3af297b372d8d5bee14533316010ee8cde23349ee970fd0c23a5b4fb98c",
+    "bin-v5/diagnose_checkpoint_resources": "7108381a3f58a7f7956844b8adb1d8234a0884357e5c3349f21228ad38be2696"
+  },
+  "retainedFailures": [
+    "application-v1 wrong hash-wrapper import; fixed using actual parth API",
+    "application-v3 ambiguous extension degree; fixed with explicit degree 2",
+    "original and fresh transition proofs remain cryptographically rejected",
+    "full network resource constructor still rejects runtime selector mapping"
+  ],
+  "scope": "offline diagnostics, one synthetic nonfinancial control proof and bounded public reads; no real trade, finality or randomness qualification"
+}

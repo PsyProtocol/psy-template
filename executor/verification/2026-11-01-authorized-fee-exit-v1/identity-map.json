@@ -1,0 +1,73 @@
+{
+  "scope": "Synthetic offline candidate identities only; not current-chain destinations or deployment authorization",
+  "sdkCommit": "c92880c8b6e2c8d392f19368bc8801a2584fd427",
+  "compilerSha256": "8b87faaa67368ca7eea812037874a77eda695d403d5d7a6992206937d2815691",
+  "nativeCliBinarySha256": "daff5562f3618149622fe9a6dbee636f079410afc131c8ed29af1abfb7cb43dc",
+  "markets": {
+    "amm": {
+      "version": 18,
+      "sourceSha256": "92faff61aef3d590b407f0a223cf125752802cb5b6d89c195262b87fb1fa82d9",
+      "artifactSha256": "67a9e96d188654237a02bd766054822864a58c9d7663a3cd219209dc39b400c2",
+      "syntheticMarketId": 1000,
+      "syntheticVaultId": 100,
+      "keyFingerprint": "2dc51eb4e2508b68305c09f4bc1d105abdc57716d225a7a4fa0fc24947e0d8dc",
+      "publicKeyHash": "e5fae670942af9da345476062b3cd55b4f23a24321a514a130a77623ad81ebea",
+      "codeRoot": "c8df914c48b6c88cfd490b7e9e032cc1510334be330907f1dcc67fdcc42b9141",
+      "layoutRoot": "c1da0ae3939afd25e1c6b4842f489ff67b5b701f5a3b2d25f17e3b28f60906c9",
+      "functionRoot": "2faaf1ae6d1d253e33e5dfc1253c57ec81bc308a2c56130ada08ea9bc15ce780",
+      "stateTreeHeight": 31,
+      "stateFieldCount": 111,
+      "stateSlotCount": 1610613048,
+      "chainRoot": "00000000000000000000000000000000000000000000000000000000000004d2"
+    },
+    "bondingcurve": {
+      "version": 18,
+      "sourceSha256": "da91dbae614062b459994f5fd24573ed1fd047331aae1229a71619ba3b2e9b2e",
+      "artifactSha256": "29c4765ae74a6260597cb60c2533085fb6a0f6f6fe2724ca4fff1986c820ab1a",
+      "syntheticMarketId": 1000,
+      "syntheticVaultId": 100,
+      "keyFingerprint": "64b4499e67634f0e54b815e242d564e5ef8afdb8107387232abdf9722da9fdbc",
+      "publicKeyHash": "63947bcbae161ba0a8edfdb73e32f1a432ed76084d2dd7990a526c01343306db",
+      "codeRoot": "14a4d9e505d6a33daf2daf8251f5c1734dcd65264a6b8edbec1b7c42f114cc08",
+      "layoutRoot": "d1714db55cad02c1d9d2d20139b4be5d25745dba4a0eccb56d4a901ca0657ac5",
+      "functionRoot": "9cdb7997505845d0273daac258dfd1d903e8dd68c97b87c5f9a9153d34b622cd",
+      "stateTreeHeight": 31,
+      "stateFieldCount": 116,
+      "stateSlotCount": 1577058629,
+      "chainRoot": "00000000000000000000000000000000000000000000000000000000000004d2"
+    },
+    "orderbook": {
+      "version": 19,
+      "sourceSha256": "c2a8874796fbb23813ec906eddacfdeff7be1b451a32eba3fa845afa902fb09e",
+      "artifactSha256": "41c7d53efa8b07c519a2208a35d2764f18f2e7fb7909592e52b8e2a69e68857d",
+      "syntheticMarketId": 1000,
+      "syntheticVaultId": 100,
+      "keyFingerprint": "e3fcda8d5751c776bd1415fb007a8a8265785d85ecc9056a74a6d9503c6525b7",
+      "publicKeyHash": "eb8eee42239723d72a6995edce4b1a0e174f219b9e86d32efc53ca1d06e5bb4a",
+      "codeRoot": "aa60b349b99cfde793e4dfe07a77dffcded8764ff996d80e1a7bf2ab42b0aced",
+      "layoutRoot": "f3d38fcf61383bcf3ac61a8743ffa6db585b990f18d9d483ffac31cb7b1030cf",
+      "functionRoot": "5ab07d9d8c602461e6b4a5f9f3acca16f148de71a7e40ed9df7f0c0f540aa74c",
+      "stateTreeHeight": 31,
+      "stateFieldCount": 111,
+      "stateSlotCount": 1577058617,
+      "chainRoot": "00000000000000000000000000000000000000000000000000000000000004d2"
+    },
+    "nftmarket": {
+      "version": 19,
+      "sourceSha256": "12dfdcb1d9867ad2ddb085b63e575492905af5509c0626f5c4cf22cb9fe275a6",
+      "artifactSha256": "12932a830594b87f8ba05b68a168f304823a3f3a76a8c11aa429d1f6245c167c",
+      "syntheticMarketId": 1000,
+      "syntheticVaultId": 100,
+      "keyFingerprint": "50750c528a493252f71bb130ad75fc8b4dc80c52131a7bdb1169bea07596bc08",
+      "publicKeyHash": "6ec2b342871d9b4fa8e51556e16cf29c8bb9460183b4365acc492d21dd5c2f1a",
+      "codeRoot": "c04caa21f7d1f5547f9b75d52db4bd5305205e413533e96f45b7ed2e0837f10e",
+      "layoutRoot": "727ae974f381a3205ddec28385bfe953f8aa9f8ce9b5fc3e10a24f92a6380cc3",
+      "functionRoot": "18a7dffa56665972e20e053b11ee3f02fbe7f6b4be185c1228ec1f306e43adc1",
+      "stateTreeHeight": 31,
+      "stateFieldCount": 126,
+      "stateSlotCount": 1728053502,
+      "chainRoot": "00000000000000000000000000000000000000000000000000000000000004d2"
+    }
+  },
+  "actualNetworkDeployment": false
+}

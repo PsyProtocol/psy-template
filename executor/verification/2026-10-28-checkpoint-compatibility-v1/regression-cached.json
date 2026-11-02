@@ -1,0 +1,156 @@
+{
+  "allProofsMatched": false,
+  "broadcast": false,
+  "cachedResources": {
+    "cacheMatchesConstructedGenesis": true,
+    "constructedGenesisDegreeBits": 12,
+    "constructedGenesisFingerprint": "ef362aad8a2686a173a67d7aedc881d203754a105fe8134d82786111a8554208",
+    "finalityVerified": false,
+    "genesisDegreeBits": 12,
+    "genesisFingerprint": "ef362aad8a2686a173a67d7aedc881d203754a105fe8134d82786111a8554208",
+    "publicInputCount": 4,
+    "randomAuthorization": false,
+    "source": "frozen cached key/common libraries compared with frozen genesis constructor; no replacement keys adopted",
+    "transitionDegreeBits": 12,
+    "transitionFingerprint": "5e4c467c5e5984b52b2ce8a8dc1401ef3d6046ef3b529935e4cc840112e63f06",
+    "transitionSourceConstructionChecked": false
+  },
+  "canonicalGenesisVerified": false,
+  "chainDomainAuthenticated": false,
+  "elapsedSeconds": 3.161744084,
+  "finalityVerified": false,
+  "financialOperations": 0,
+  "inputIdentities": [
+    {
+      "bytes": 130328,
+      "sha256": "7f59e1b7028c9e36b06606a9009cee200ecf2b13913e9a82cc83bf34862925db"
+    },
+    {
+      "bytes": 130328,
+      "sha256": "bb7a12da2e29fc8a34b6abdfb61956a1d9f36f032c3b2a8952385a9ea71be3c3"
+    }
+  ],
+  "mode": "cached",
+  "networkMagic": "1384803358401154921",
+  "proofs": [
+    {
+      "applicationOwnedError": "Condition failed: `vanishing_polys_zeta[i] == z_h_zeta * reduce_with_powers(chunk, zeta_pow_deg)`",
+      "applicationOwnedVerified": false,
+      "bytes": 130328,
+      "commonDegreeBits": 12,
+      "commonSha256": "bd7b8b4c937b134acf2bf69547776201a6a5115b63679e57b6944a804070377d",
+      "fingerprint": "5e4c467c5e5984b52b2ce8a8dc1401ef3d6046ef3b529935e4cc840112e63f06",
+      "proofSha256": "7f59e1b7028c9e36b06606a9009cee200ecf2b13913e9a82cc83bf34862925db",
+      "publicInputs": [
+        10251492330911035315,
+        3199785788343359554,
+        4312800977683925581,
+        8170786456525928245
+      ],
+      "sdkBorrowedError": "Condition failed: `vanishing_polys_zeta[i] == z_h_zeta * reduce_with_powers(chunk, zeta_pow_deg)`",
+      "sdkBorrowedSeconds": 0.000313708,
+      "sdkBorrowedVerified": false,
+      "sdkRoundtripExact": true,
+      "shape": {
+        "constants": 5,
+        "friQueryRounds": 28,
+        "publicInputs": 4,
+        "quotients": 16,
+        "sigmas": 80,
+        "wires": 135
+      },
+      "strictAndSdkDecodeEqual": true,
+      "strictRoundtripExact": true,
+      "verifierOnlySha256": "8816e9054d99382ce4d2d530505b436bb7109bee26102e4eb6afde57cdad51dd"
+    },
+    {
+      "applicationOwnedError": "Condition failed: `vanishing_polys_zeta[i] == z_h_zeta * reduce_with_powers(chunk, zeta_pow_deg)`",
+      "applicationOwnedVerified": false,
+      "bytes": 130328,
+      "commonDegreeBits": 12,
+      "commonSha256": "bd7b8b4c937b134acf2bf69547776201a6a5115b63679e57b6944a804070377d",
+      "fingerprint": "5e4c467c5e5984b52b2ce8a8dc1401ef3d6046ef3b529935e4cc840112e63f06",
+      "proofSha256": "bb7a12da2e29fc8a34b6abdfb61956a1d9f36f032c3b2a8952385a9ea71be3c3",
+      "publicInputs": [
+        13001384206791431484,
+        17721274495979417496,
+        16439451652247775192,
+        7387143812120806990
+      ],
+      "sdkBorrowedError": "Condition failed: `vanishing_polys_zeta[i] == z_h_zeta * reduce_with_powers(chunk, zeta_pow_deg)`",
+      "sdkBorrowedSeconds": 0.000156292,
+      "sdkBorrowedVerified": false,
+      "sdkRoundtripExact": true,
+      "shape": {
+        "constants": 5,
+        "friQueryRounds": 28,
+        "publicInputs": 4,
+        "quotients": 16,
+        "sigmas": 80,
+        "wires": 135
+      },
+      "strictAndSdkDecodeEqual": true,
+      "strictRoundtripExact": true,
+      "verifierOnlySha256": "8816e9054d99382ce4d2d530505b436bb7109bee26102e4eb6afde57cdad51dd"
+    }
+  ],
+  "proofsGenerated": 0,
+  "randomAuthorization": false,
+  "resourcesConstructed": true,
+  "schema": 1,
+  "sourceNetworkType": "LocalDevnet",
+  "sourceParameters": {
+    "configSha256": "7c1e1bca885b846460b1895109d647508b1daa5a7497a59dfe70c23d0973014a",
+    "officialRotationParameters": {
+      "available": false,
+      "error": "PSY_NETWORK testnet does not match localhost"
+    },
+    "runtimeNetwork": "testnet",
+    "scope": "source-selected public parameter observation; no configuration rewritten or network identity authenticated",
+    "sections": [
+      {
+        "magic": "0x1337CF514544CF69",
+        "name": "localhost",
+        "validatorCounts": [
+          {
+            "realmId": 0,
+            "validatorCount": 0
+          },
+          {
+            "realmId": 1,
+            "validatorCount": 0
+          }
+        ]
+      },
+      {
+        "magic": "0x1337CF514544CF69",
+        "name": "testnet",
+        "validatorCounts": [
+          {
+            "realmId": 0,
+            "validatorCount": 0
+          },
+          {
+            "realmId": 1,
+            "validatorCount": 0
+          }
+        ]
+      },
+      {
+        "magic": "0x1337CF514544C069",
+        "name": "mainnet",
+        "validatorCounts": [
+          {
+            "realmId": 0,
+            "validatorCount": 0
+          },
+          {
+            "realmId": 1,
+            "validatorCount": 0
+          }
+        ]
+      }
+    ]
+  },
+  "stage": "proofComparison"
+}

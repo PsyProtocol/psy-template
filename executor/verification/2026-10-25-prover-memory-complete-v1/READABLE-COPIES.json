@@ -1,0 +1,83 @@
+{
+  "files": [
+    {
+      "file": "ACCEPTANCE-CLOSED.json",
+      "source": "prover-memory-performance-live-v1/public/ACCEPTANCE-CLOSED-v1.json",
+      "sha256": "f63e61525aa85cf24a8384e906d9066bfa1ac1b87945ee65ad1e5237a57516fd",
+      "bytes": 2270
+    },
+    {
+      "file": "MEMORY-PERFORMANCE.json",
+      "source": "prover-memory-performance-live-v1/public/MEMORY-PERFORMANCE-v1.json",
+      "sha256": "1a85bdbb0c03e1255a09fb3e17661456e8a1c951f3fbddd67f16ab565b66ba02",
+      "bytes": 122640
+    },
+    {
+      "file": "PERFORMANCE.json",
+      "source": "prover-memory-performance-live-v1/public/PERFORMANCE-v1.json",
+      "sha256": "234cb3a89a93967a2ea3a6121e91a9660315bf93a7804ef38f9577aeb8e45761",
+      "bytes": 73657
+    },
+    {
+      "file": "BASELINE-AUDIT.json",
+      "source": "prover-memory-performance-live-v1/baseline-audit-v1/SUMMARY.json",
+      "sha256": "b999c7a56fe0f8f38173dfa0ffd556acbec2653c4fe9208453f5aaa4c716fb95",
+      "bytes": 17615
+    },
+    {
+      "file": "CANDIDATE-AUDIT.json",
+      "source": "prover-memory-performance-live-v1/candidate-audit-v1/SUMMARY.json",
+      "sha256": "a2d6b312b2244479288074192e517c52017b894237edc444d09fbfffee0905c2",
+      "bytes": 17668
+    },
+    {
+      "file": "FUNDING-AUDIT.json",
+      "source": "prover-memory-performance-live-v1/funding-audit-v1/SUMMARY.json",
+      "sha256": "c45e126f0e5bcb391114a42df8a060914342f53ac95cfe416cf3e4f323e738eb",
+      "bytes": 966
+    },
+    {
+      "file": "U124-FEE-EXPLANATION.json",
+      "source": "prover-memory-performance-live-v1/public/U124-FEE-EXPLANATION-v1.json",
+      "sha256": "58e93382facfca9f9d4ebe919445c0a21078facab93af080bee62e3eacee284f",
+      "bytes": 1976
+    },
+    {
+      "file": "RESOURCE-SELECTION.json",
+      "source": "prover-memory-performance-live-v1/public/RESOURCE-SELECTION-v1.json",
+      "sha256": "d86e74bed9eb43adc782887a4b38c954cabccd12b4a6e80fbfc188ab79ff651b",
+      "bytes": 794
+    },
+    {
+      "file": "RESOURCE-SUMMARY.json",
+      "source": "prover-memory-performance-live-v1/resources-v1-SUMMARY.json",
+      "sha256": "a0dfb2489f2ed538299670f0c4d3a7352e03bad58f211093fafd0763278c8100",
+      "bytes": 381
+    },
+    {
+      "file": "FINAL-BOUNDARIES.json",
+      "source": "prover-memory-performance-live-v1/public/FINAL-BOUNDARIES-v1.json",
+      "sha256": "f8b3beb58c871b0e9fcad7b18d84998c841bceff9a31702512b814c16f5e9c5d",
+      "bytes": 444
+    },
+    {
+      "file": "RELEASE.json",
+      "source": "prover-memory-performance-live-v1/public/RELEASE.json",
+      "sha256": "f9687cba1796185a712b9a325456b9ca673f470dfd8e599d306331002e088897",
+      "bytes": 1172
+    },
+    {
+      "file": "SETUP-RECOVERY-NOTES.json",
+      "source": "prover-memory-performance-live-v1/public/SETUP-RECOVERY-NOTES-v1.json",
+      "sha256": "340116787989316d448a98a4a927bb1b983cc12ed4adb389c9a5d678cd3b2e5b",
+      "bytes": 623
+    },
+    {
+      "file": "PUBLIC-REDACTION-CHECK.json",
+      "source": "prover-memory-performance-live-v1/public/PUBLIC-REDACTION-CHECK-v1.json",
+      "sha256": "e46adc122e9b472f2226bb21a3b8d586b7b8567d4aef5122a18bb951305e99aa",
+      "bytes": 230
+    }
+  ],
+  "scope": "byte-identical convenient copies of archived originals, including exact amount strings; archive integrity is separate from the 36 native complete-proof audits"
+}

@@ -17,9 +17,14 @@ def main():
     parser.add_argument('--sdk', type=Path, required=True)
     parser.add_argument('--config', type=Path, required=True)
     parser.add_argument('--output', type=Path, required=True)
+    parser.add_argument('--archive', type=Path,
+                        help='External original bulk-four-full-ups-v1 archive (raw artifacts are not stored in source Git)')
     parser.add_argument('--run', action='store_true')
     parser.add_argument('--mode', choices=['fund','claim'], default='fund')
     args = parser.parse_args()
+    archive = (args.archive or ROOT / 'executor/verification/2026-10-21-compact-candidate-v1/bulk-four-full-ups-v1').resolve()
+    if not (archive / 'manifest.json').is_file():
+        parser.error('Historical raw fixtures are external: supply --archive pointing to the original bulk-four-full-ups-v1 archive; see docs/repository/ARTIFACT_POLICY.md')
     sdk, config, output = args.sdk.resolve(), args.config.resolve(), args.output.resolve()
     raw = MANIFEST.read_bytes()
     assert sha(raw) == EXPECTED_MANIFEST, 'Selected SDK manifest changed'
@@ -38,7 +43,6 @@ def main():
         'sdkSourcesVerified': len(selected['sourceFiles']), 'markets': ['amm','orderbook','bondingcurve','nftmarket'],
         'financialBroadcasts': 0, 'rpcCalls': 0, 'rayonThreads': 2, 'proofProcesses': 1,
         'buildLimitSeconds': 5400, 'proofLimitSeconds': 2700, 'secretPolicy': 'ephemeral in-memory synthetic signer only'})
-    archive = ROOT / 'executor/verification/2026-10-21-compact-candidate-v1/bulk-four-full-ups-v1'
     index = json.loads((archive / 'manifest.json').read_bytes())
     restored = []
     for entry in index['records']:

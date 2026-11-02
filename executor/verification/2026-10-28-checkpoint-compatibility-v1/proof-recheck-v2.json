@@ -1,0 +1,44 @@
+{
+  "scope": "bounded readonly observation; no authenticated chain continuity, finality or proof acceptance",
+  "tlsVerificationDisabled": false,
+  "httpStatus": "200",
+  "exitCode": 0,
+  "error": "",
+  "seconds": 4.089595582976472,
+  "rpcRequests": [
+    {
+      "jsonrpc": "2.0",
+      "id": 1,
+      "method": "psy_get_checkpoint_state_transition_proof",
+      "params": {
+        "checkpoint_id": 6085
+      }
+    },
+    {
+      "jsonrpc": "2.0",
+      "id": 2,
+      "method": "psy_get_checkpoint_state_transition_proof",
+      "params": {
+        "checkpoint_id": 6086
+      }
+    }
+  ],
+  "financialOperations": 0,
+  "proofsGenerated": 0,
+  "rows": [
+    {
+      "requestedCheckpoint": 6085,
+      "bytes": 130328,
+      "sha256": "7f59e1b7028c9e36b06606a9009cee200ecf2b13913e9a82cc83bf34862925db",
+      "exactOriginalBytes": true
+    },
+    {
+      "requestedCheckpoint": 6086,
+      "bytes": 130328,
+      "sha256": "bb7a12da2e29fc8a34b6abdfb61956a1d9f36f032c3b2a8952385a9ea71be3c3",
+      "exactOriginalBytes": true
+    }
+  ],
+  "responseSha256": "da2dae0aebd269371c586fb27b9905ba6c8b66f9d39df02cd43ae8c41fd40324",
+  "supersedes": "proof-recheck.json local params projection error; same saved HTTP response, no additional request"
+}
