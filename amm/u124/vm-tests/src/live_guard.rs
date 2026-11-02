@@ -80,16 +80,18 @@ pub const BUNDLED_PROFILE: &str = "staging-bundled-regtest-20261020-v1";
 fn profile_magic(name: &str) -> Result<u64> {
     match name {
         "sepolia-config-v1" => Ok(STAGING_MAGIC),
-        BUNDLED_PROFILE | MAINNET_BETA_PROFILE => Ok(0x1337CF514544CF69),
+        BUNDLED_PROFILE | MAINNET_BETA_PROFILE | "sdk-audit-20261102-v1" => Ok(0x1337CF514544CF69),
         _ => anyhow::bail!("unknown explicit staging compatibility profile"),
     }
 }
 fn selected_magic() -> Result<u64> {
     let profile = std::env::var("PSY_MARKET_TESTNET_PROFILE")
         .map_err(|_| anyhow::anyhow!("explicit PSY_MARKET_TESTNET_PROFILE required"))?;
+    crate::sdk_release::require_profile(&profile)?;
     profile_magic(&profile)
 }
 pub fn require_compiled_verifier_domain() -> Result<()> {
+    crate::sdk_release::require_linked_endcap()?;
     ensure!(selected_magic()? == psy_config::PSY_NETWORK_MAGIC, "fixed verifier compiled network domain mismatch");
     Ok(())
 }
@@ -142,6 +144,7 @@ fn staging_config(net: &psy_config::NetworkConfigGoldilocks, expected_magic: u64
     Ok(())
 }
 pub fn require_staging(net: &psy_config::NetworkConfigGoldilocks) -> Result<()> {
+    crate::sdk_release::require_linked_endcap()?;
     let magic = selected_magic()?;
     staging_config(net, magic)?;
     ensure!(

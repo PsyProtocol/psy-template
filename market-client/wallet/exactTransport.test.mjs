@@ -10,7 +10,8 @@ async function fixture(reset=false){
  const dep={contract:{contractId:0,codeRoot:H("code"),layoutRoot:H("layout"),stateTreeHeight:32},functionTreeRoot:H("functions"),layoutFieldCount:0,layoutSlotCount:0};
  const network={magic:"1384803358401154921",users_per_realm:1048576,realm_configs:[{id:0,rpc_url:["https://realm.invalid"]}],coordinator_configs:[{id:0,rpc_url:["https://coordinator.invalid"]}],api_services_url:["https://services.invalid"]};
  const registry={nativeProtocol:"mainnet-beta-20261027",sdkManifestSha256:"06d86a86775bef1f217e61a2192b525d657bc8de2d3687e5c28d93e7abfaec8f",network:{name:"testnet",magic:network.magic,usersPerRealm:1048576,chainRootAt1:H("genesis")},markets:[{marketId:1000,vaultId:100,publicKeyHash:H("vault"),dependencies:[dep]}]};
- if(reset){const {RESET_BETA_PROFILE,RESET_CHAIN_ROOT,RESET_NATIVE_BINDING}=await import('../nativeProtocol.mjs');registry.nativeProtocol=RESET_BETA_PROFILE;registry.network.chainRootAt1=RESET_CHAIN_ROOT;Object.assign(dep,structuredClone(RESET_NATIVE_BINDING));}
+ if(reset===true){const {RESET_BETA_PROFILE,RESET_CHAIN_ROOT,RESET_NATIVE_BINDING}=await import('../nativeProtocol.mjs');registry.nativeProtocol=RESET_BETA_PROFILE;registry.network.chainRootAt1=RESET_CHAIN_ROOT;Object.assign(dep,structuredClone(RESET_NATIVE_BINDING));}
+ if(reset==='audit'){const {AUDIT_PROFILE,AUDIT_MANIFEST,AUDIT_CHAIN_ROOT,AUDIT_NATIVE_BINDING}=await import('../nativeProtocol.mjs');registry.nativeProtocol=AUDIT_PROFILE;registry.sdkManifestSha256=AUDIT_MANIFEST;registry.network.chainRootAt1=AUDIT_CHAIN_ROOT;Object.assign(dep,structuredClone(AUDIT_NATIVE_BINDING));}
  const bundle={registry,registryHash:await digest(registry),networkConfig:network};
  const requestJson=losslessJson({user_ec_input:{core:{checkpoint_id:100,state_transition:{user_id:201,end_user_leaf_hash:H("end")}}},proof:[1,2,3]});
  const p={schema:2,userId:201,publicKeyHash:H("user"),startUserLeafHash:H("start"),walletNonce:"1",validUntilCheckpoint:164,actualFee:"1000000",requestJson,requestSha256:H(requestJson),contentHash:H("content"),registryHash:bundle.registryHash,networkHash:await digest(registry.network),sdkManifestSha256:registry.sdkManifestSha256,endUserLeafHash:H("end")};
@@ -72,4 +73,11 @@ test("wrong RPC identities and contradictory replies cannot satisfy wallet prefl
   await assert.rejects(f.transport.broadcastExact(f.p.requestJson,f.p.requestSha256));
   assert.equal(f.state.sent.length,1,"a malformed ACK must never trigger another send");
  }
+});
+
+test('audit transport retains every fresh state check and exact unknown identity',async()=>{
+ const f=await fixture('audit');assert.equal((await f.transport.recheck(f.record,f.p)).fullStateAndNonceVerified,true);
+ f.state.drop=true;await assert.rejects(f.transport.broadcastExact(f.p.requestJson,f.p.requestSha256));assert.equal(f.state.sent.length,1);
+ assert.equal((await f.transport.reconcile(f.p)).status,'unresolved');f.state.included=true;assert.equal((await f.transport.reconcile(f.p)).status,'included');assert.equal(f.state.sent.length,1);
+ for(const mutation of ['network','layout','state','nonce','fees']){f.state.mutation=mutation;await assert.rejects(f.transport.recheck(f.record,f.p));assert.equal(f.state.sent.length,1);}
 });

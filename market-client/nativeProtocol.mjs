@@ -13,36 +13,46 @@ export const RESET_NATIVE_BINDING = Object.freeze({
  functionTreeRoot:'1ad1a069434cf058a419f4d874615c6fc47170471069f5d232874099ef13c5b1',layoutFieldCount:8,layoutSlotCount:8594128984,
 });
 export const isMainnetBetaProfile = profile => [MAINNET_BETA_PROFILE, RESET_BETA_PROFILE].includes(profile);
+// Explicit audit release and reset-chain identity. Historical profiles remain immutable.
+export const AUDIT_PROFILE = 'audit-reset-20261102';
+export const AUDIT_MANIFEST = '246cfcb12788fe0d0eb79594556acdfcc7781d01641890e47836db1fbc93c467';
+export const AUDIT_CHAIN_ROOT = '81bac9934a1c18579519b5297c94c7e7d25cb53973ac67befefe8b7a86f96b5c';
+export const AUDIT_NATIVE_BINDING = Object.freeze({
+ contract:Object.freeze({contractId:0,codeRoot:'30f06e6c5c897af41c08f0f86677c66096e533ce490c9817b5ddf7b5812a3ea6',layoutRoot:'cd6931e5422fb07be012e3d0642bbffd0880bf499ecc87bcb822276d7426771c',stateTreeHeight:32}),
+ functionTreeRoot:'03c697aa1180e94b046ffcbf0272cd12ce0fee948b216afceb8e1ef524cdcd7e',layoutFieldCount:8,layoutSlotCount:8594128984,
+});
+export const isReviewedNativeProfile = profile => isMainnetBetaProfile(profile) || profile===AUDIT_PROFILE;
+export const reviewedSdkManifest = value => [MAINNET_BETA_MANIFEST,AUDIT_MANIFEST].includes(value);
 const methods = Object.freeze({ transfer: 'transfer', claim: 'claim', burn: 'burn' });
 export function nativeProfile(context) {
   const profile = context.nativeProtocol ?? 'legacy-v1';
-  ok(['legacy-v1', MAINNET_BETA_PROFILE, RESET_BETA_PROFILE].includes(profile), 'Unreviewed native protocol');
-  if (isMainnetBetaProfile(profile)) {
-    ok(context.sdkManifestSha256 === MAINNET_BETA_MANIFEST, 'Native SDK identity mismatch');
+  ok(['legacy-v1', MAINNET_BETA_PROFILE, RESET_BETA_PROFILE, AUDIT_PROFILE].includes(profile), 'Unreviewed native protocol');
+  if (isReviewedNativeProfile(profile)) {
+    ok(context.sdkManifestSha256 === (profile===AUDIT_PROFILE?AUDIT_MANIFEST:MAINNET_BETA_MANIFEST), 'Native SDK identity mismatch');
     ok(context.network?.name === 'testnet' && BigInt(context.network.magic) === 1384803358401154921n,
       'Native network mismatch');
-    if(profile===RESET_BETA_PROFILE)ok(context.network.chainRootAt1===RESET_CHAIN_ROOT,'Reset chain instance mismatch');
+    if(profile===RESET_BETA_PROFILE||profile===AUDIT_PROFILE)ok(context.network.chainRootAt1===(profile===AUDIT_PROFILE?AUDIT_CHAIN_ROOT:RESET_CHAIN_ROOT),'Reset chain instance mismatch');
   } else {
-    ok(context.sdkManifestSha256 !== MAINNET_BETA_MANIFEST, 'Selected SDK requires explicit native protocol');
+    ok(!reviewedSdkManifest(context.sdkManifestSha256), 'Selected SDK requires explicit native protocol');
   }
   return profile;
 }
 export function nativeMethod(context, operation) {
   ok(Object.hasOwn(methods, operation), 'Unknown native operation');
-  return isMainnetBetaProfile(nativeProfile(context)) ? operation : 'simple_' + operation;
+  return isReviewedNativeProfile(nativeProfile(context)) ? operation : 'simple_' + operation;
 }
 export function nativeManifestPath(registry) {
   const profile = nativeProfile(registry);
-  if (isMainnetBetaProfile(profile)) {
+  if (isReviewedNativeProfile(profile)) {
     ok(Array.isArray(registry.markets) && registry.markets.length > 0, 'Reviewed markets required');
     for (const market of registry.markets) {
       const binding = market.dependencies?.find(d => d.contract?.contractId === 0);
-      if(profile===RESET_BETA_PROFILE)ok(canonical(binding)===canonical(RESET_NATIVE_BINDING),'Reviewed reset native endpoints required');
+      if(profile===RESET_BETA_PROFILE||profile===AUDIT_PROFILE)ok(canonical(binding)===canonical(profile===AUDIT_PROFILE?AUDIT_NATIVE_BINDING:RESET_NATIVE_BINDING),'Reviewed reset native endpoints required');
       else ok(binding?.contract.codeRoot === MAINNET_BETA_NATIVE_ROOT && binding.contract.stateTreeHeight === 32,
         'Reviewed native bytecode identity required');
     }
   }
-  return isMainnetBetaProfile(profile)
+  return profile===AUDIT_PROFILE ? 'batching/dependencies/audit-20261102/manifest.json' : isMainnetBetaProfile(profile)
     ? 'batching/dependencies/mainnet-beta-20261027/manifest.json'
     : 'batching/dependencies/session-bound-sdk-20261020/manifest.json';
 }

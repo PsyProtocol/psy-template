@@ -1,6 +1,6 @@
 // Extension-owned fixed-network transport. No signer, prover, replacement,
 // reserialization of a prepared request, automatic send retry or ACK-as-finality.
-import {nativeProfile,nativeManifestPath,isMainnetBetaProfile,RESET_BETA_PROFILE} from "../nativeProtocol.mjs";
+import {nativeProfile,nativeManifestPath,isReviewedNativeProfile,RESET_BETA_PROFILE,AUDIT_PROFILE} from "../nativeProtocol.mjs";
 import { digest, canonical, hashPattern } from "../protocol.mjs";
 import {readBoundedUtf8,rpcEnvelope,discardResponse} from '../rpcWire.mjs';
 const ok = (v, text) => { if (!v) throw Error(text); };
@@ -14,8 +14,8 @@ export function createExactMarketTransport({ bundle, fetcher = fetch, parse, max
   ok(typeof parse === "function" && Number.isSafeInteger(maxPages) && maxPages >= 1 && maxPages <= 100, "Lossless codec and bounded history required");
   const { registry, networkConfig: network } = bundle;
   const profile=nativeProfile(registry);
-  if(profile===RESET_BETA_PROFILE)nativeManifestPath(registry);
-  ok(isMainnetBetaProfile(profile) && registry.sdkManifestSha256 === "06d86a86775bef1f217e61a2192b525d657bc8de2d3687e5c28d93e7abfaec8f", "Pinned SDK profile required");
+  if(profile===RESET_BETA_PROFILE||profile===AUDIT_PROFILE)nativeManifestPath(registry);
+  ok(isReviewedNativeProfile(profile), "Pinned SDK profile required");
   ok(registry.network.name === "testnet" && BigInt(network.magic) === 1384803358401154921n && BigInt(registry.network.magic) === BigInt(network.magic), "Pinned testnet required");
   ok(network.users_per_realm === registry.network.usersPerRealm && network.realm_configs.length > 0, "Realm domain changed");
   const coordinator = network.coordinator_configs[0].rpc_url[0];

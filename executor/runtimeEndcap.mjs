@@ -2,11 +2,12 @@
 // Remote verifier bytes are compared, never installed or used for verification.
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
+import {sdkRelease} from './sdkProfiles.mjs';
 export const runtimeEndcapIdentityPath = new URL('./resources/mainnet-beta-endcap-c92880c8.json',import.meta.url);
-const reviewed = JSON.parse(readFileSync(runtimeEndcapIdentityPath,'utf8'));
-assert.equal(reviewed.schema,1);
-assert.equal(reviewed.sdkCommit,'c92880c8b6e2c8d392f19368bc8801a2584fd427');
-export async function assertFrozenRuntimeEndcap(state){
+export function runtimeEndcapPath(profile){return new URL('./resources/'+sdkRelease(profile).resource,import.meta.url);}
+export async function assertFrozenRuntimeEndcap(state,{profile='mainnet-beta-20261027-v1'}={}){
+ const release=sdkRelease(profile),reviewed=JSON.parse(readFileSync(runtimeEndcapPath(profile),'utf8'));
+ assert.equal(reviewed.schema,1);assert.equal(reviewed.sdkCommit,release.sdkCommit);
  assert.equal(BigInt(state.network.magic),BigInt(reviewed.networkMagic),'runtime Endcap network domain differs');
  const urls=state.network.prove_proxy_url;
  assert.ok(Array.isArray(urls)&&urls.length>0&&urls.every(u=>typeof u==='string'&&u.length>0),'Configured proof-resource endpoint required');

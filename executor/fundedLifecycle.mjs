@@ -13,9 +13,10 @@ import {createPublicWalletAdapter} from './publicWalletAdapter.mjs';
 import {assertDurableRuntimeDirectory} from './runtimeStorage.mjs';
 import {fundedProfile} from './fundedProfiles.mjs';
 import {continueFundedRegistration} from './fundedRegistration.mjs';
+import {sdkRelease,sdkReleaseForCommit} from './sdkProfiles.mjs';
 const allowed=new Set(['register','bootstrap','initialize','order','open','cover','settle','claim','refund','fee-grant','scan','carry','ack-delivery','recover','exit-grant','treasury-return','exit-credit-return']);
 export function validateFundedLifecycle(plan){
- assert.equal(plan.schema,1);assert.equal(plan.network,'testnet');assert.equal(plan.sdkCommit,'c92880c8b6e2c8d392f19368bc8801a2584fd427');
+ assert.equal(plan.schema,1);assert.equal(plan.network,'testnet');sdkReleaseForCommit(plan.sdkCommit);
  assert.match(plan.chainRoot,/^[a-f0-9]{64}$/);assert.match(plan.policySha256,/^[a-f0-9]{64}$/);
  assert.ok(Number.isSafeInteger(plan.vaultId)&&plan.vaultId>0&&plan.vaultId<2**24);assert.match(plan.fingerprint,/^[a-f0-9]{64}$/);
  assert.ok(Array.isArray(plan.stages)&&plan.stages.length>0&&plan.stages.length<=128);const ids=new Set();let fee=0n;
@@ -54,6 +55,7 @@ export async function continueFundedLifecycle({planFile,runtimeDirectory,createN
    assert.equal(options.network,plan.network);assert.equal(options.vaultId,stage.userId);
    assertDurableRuntimeDirectory(options.runtimeDirectory);
    if(stage.actor==='native'){
+    assert.equal(sdkRelease(options.testnetProfile).sdkCommit,plan.sdkCommit,'lifecycle and stage SDK releases differ');
     fundedProfile(options.profile,options.kind);assert.equal(options.fingerprint,plan.fingerprint);
     assert.equal(sha256(await readFile(options.policy)),plan.policySha256);const policy=parseLosslessJson(await readFile(options.policy,'utf8'));assert.equal(policy.executor_binding.chain_root,plan.chainRoot);
     if(stage.operation==='register'){

@@ -84,7 +84,7 @@ pub fn load(path: &Path, spec: &Value) -> Result<Runtime> {
     ensure!(is_stream(spec), "reviewed deterministic funded stream only");
     let binding = &spec["executor_binding"];
     ensure!(
-        binding["sdk_commit"] == "c92880c8b6e2c8d392f19368bc8801a2584fd427",
+        binding["sdk_commit"] == psy_template_u124_markets::sdk_release::SDK_COMMIT,
         "frozen Executor SDK"
     );
     let name = binding["review"]

@@ -34,7 +34,10 @@ use psy_crypto::hash::traits::{
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 use std::collections::BTreeMap;
-const SDK: &str = "06d86a86775bef1f217e61a2192b525d657bc8de2d3687e5c28d93e7abfaec8f";
+#[cfg(not(feature = "sdk-audit-v1"))]
+pub(crate) const SDK: &str = "06d86a86775bef1f217e61a2192b525d657bc8de2d3687e5c28d93e7abfaec8f";
+#[cfg(feature = "sdk-audit-v1")]
+pub(crate) const SDK: &str = "246cfcb12788fe0d0eb79594556acdfcc7781d01641890e47836db1fbc93c467";
 const MAGIC: u64 = 1384803358401154921;
 type Header = UserProvingSessionHeader<F>;
 type Proof = ProofWithPublicInputs<F, C, 2>;

@@ -1,9 +1,11 @@
 import assert from 'node:assert/strict';
 import {makeFundedPolicy} from './funded-policy.mjs';
 import {makeFundedPairPolicy} from './funded-pair.mjs';
-export function makeExitPolicy(market,id,c,artifact,token,nft){
+import {sdkRelease} from '../../executor/sdkProfiles.mjs';
+export function makeExitPolicy(market,id,c,artifact,token,nft,sdkProfile='mainnet-beta-20261027-v1'){
  const paired=['orderbook','nftmarket'].includes(market),s=paired?makeFundedPairPolicy(market,id,c,artifact,token,nft):makeFundedPolicy(market,id,c,artifact,token,nft);
  const stream={...s.stream};
+ const release=sdkRelease(sdkProfile);s.base={...s.base,sdk_commit:release.sdkCommit,client_commit:release.clientCommit};
  for(const[name,count]of [['authorize_treasury_exit',6],['authorize_exit_fees',8],['apply_exit_grant',8],['account_exit_fee',7],['return_treasury',7],['account_return_fee',5],['return_exit_credit',8]]){
   const m=artifact.abi.contract.methods.find(m=>m.name===name);assert.equal(m?.input_felt_count,count,name);assert.equal(m.output_felt_count,0);assert.equal(m.state_mutability,'external');
   stream[name]={contract_id:id,method_name:name,method_id:m.method_id,input_count:count};

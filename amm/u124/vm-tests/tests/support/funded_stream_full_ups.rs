@@ -124,9 +124,14 @@ async fn deterministic_saved_grant_reuse_rejects_changed_context()->Result<()> {
 
 #[tokio::test]
 #[ignore="bounded v14 complete UPS continuation; no financial or RPC authority"]
-async fn deterministic_funded_stream_complete_ups_continuation()->Result<()> {
+async fn deterministic_funded_stream_complete_ups_continuation()->Result<()> { funded_stream_flow(14).await }
+#[tokio::test]
+#[ignore="bounded current v18 key full trading/refund UPSs; no network authority"]
+async fn latest_exit_key_stream_trades_and_refunds()->Result<()> { funded_stream_flow(18).await }
+async fn funded_stream_flow(expected_version:u64)->Result<()> {
     let out=std::env::var("FUNDED_STREAM_OUT")?;fs::create_dir(&out)?;
-    for kind in ["amm","bondingcurve"] {
+    for kind in std::env::var("FUNDED_STREAM_MARKETS").unwrap_or_else(|_|"amm,bondingcurve".into()).split(',') {
+        ensure!(["amm","bondingcurve"].contains(&kind),"reviewed funded stream market");
         // No legacy sponsor or pre-populated fee cap is used. Pool setup is
         // intentionally independent of the separately accepted first-use UPS.
         let mut w=setup_with_sponsor(kind,false)?;
@@ -134,7 +139,7 @@ async fn deterministic_funded_stream_complete_ups_continuation()->Result<()> {
         w.set(OWNER,0,0,CAP+ESCROW);
         let totals=[asset_total(&w,A)?,asset_total(&w,B)?];let native=native_total(&w)?;
         let mut chain=StreamChain::new(&w).await?;
-        ensure!(chain.spec["version"]==14&&chain.spec["fee_owner"]==OWNER,"exact deterministic owner/profile");
+        ensure!(chain.spec["version"]==expected_version&&chain.spec["fee_owner"]==OWNER,"exact deterministic owner/profile");
         let key=registered(&chain);
         w.run(OWNER,M,"authorize_fee_budget",&[vec![V,1,CAP],key.to_vec()].concat())?;
         w.run(OWNER,0,"transfer",&[V,CAP])?;
@@ -195,7 +200,7 @@ async fn deterministic_funded_stream_complete_ups_continuation()->Result<()> {
         conservation(&abandoned,totals,native)?;
         fs::write(format!("{out}/{kind}-REPORT.json"),serde_json::to_vec_pretty(&json!({
             "scope":"New v14 continuous deterministic complete UPSs on synthetic checkpoints; VM pool/setup/ordinary claims are not signed ordinary UPSs or network acceptance",
-            "profile":chain.spec["profile"],"completeUps":8,"members":5,"sourcePages":2,"settlementPages":[4,1],
+            "keyVersion":expected_version,"profile":chain.spec["profile"],"completeUps":8,"members":5,"sourcePages":2,"settlementPages":[4,1],
             "actualSyntheticFills":3,"cancelledRefund":true,"slippageRefund":true,"timeoutTailRefund":true,
             "unacceptedSourceAbort":true,"assetConservation":true,"nativeConservationIncludingFees":true,
             "normalFeeUsed":normal_fee,"lifetimeCap":CAP,"legacySponsor":false,"randomMode":false,

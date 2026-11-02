@@ -7,15 +7,16 @@ import {join} from 'node:path';
 import {tmpdir} from 'node:os';
 import {createPublicWalletAdapter} from './publicWalletAdapter.mjs';
 import {fundedProfile} from './fundedProfiles.mjs';
+import {sdkRelease} from './sdkProfiles.mjs';
 import {validateOptions} from './config.mjs';
 import {ExecutionJournal} from './journal.mjs';
 import {executeCycle} from './worker.mjs';
 import {sha256} from './requestBinding.mjs';
 import {losslessJson,parseLosslessJson} from '../amm/u124/client.mjs';
 const h='a'.repeat(64),e='b'.repeat(64),z='0'.repeat(64),sdk='c92880c8b6e2c8d392f19368bc8801a2584fd427';
-async function fixture(fn,{kind='bondingcurve',profile='source-funded-v14',mode=14,payer=0}={}){const d=await mkdtemp(join(tmpdir(),'funded-adapter-'));try{
- const model=fundedProfile(profile,kind),exit=[18n,19n].includes(model.version),otherAsset=kind==='nftmarket'?41:43;
- const put=(file,value)=>writeFile(join(d,file),losslessJson(value),{flag:'wx'}),policy={market:kind,version:model.version,profile:model.policy,qualified_randomness:false,market_id:1000,fee_owner:600,base:{config:{...(kind==='nftmarket'?{tokenId:42,nftId:41}:{assetA:42,assetB:43}),feeOwner:600,networkMagic:'1384803358401154921'}},executor_binding:{allow_broadcast:true,sdk_commit:sdk,review:'review.json',review_sha256:null,chain_root:h}};
+async function fixture(fn,{kind='bondingcurve',profile='source-funded-v14',mode=14,payer=0,sdkProfile='mainnet-beta-20261027-v1'}={}){const d=await mkdtemp(join(tmpdir(),'funded-adapter-'));try{
+ const release=sdkRelease(sdkProfile);const model=fundedProfile(profile,kind),exit=[18n,19n].includes(model.version),otherAsset=kind==='nftmarket'?41:43;
+ const put=(file,value)=>writeFile(join(d,file),losslessJson(value),{flag:'wx'}),policy={market:kind,version:model.version,profile:model.policy,qualified_randomness:false,market_id:1000,fee_owner:600,base:{config:{...(kind==='nftmarket'?{tokenId:42,nftId:41}:{assetA:42,assetB:43}),feeOwner:600,networkMagic:'1384803358401154921'}},executor_binding:{allow_broadcast:true,sdk_commit:release.sdkCommit,review:'review.json',review_sha256:null,chain_root:h}};
  if(exit)policy.exit_policy={auxiliary_fee_field:74n,only_original_credit_returns:true,owner_return_fee_separate_from_service_cap:true,owner_return_authority:'exhausted-or-explicit-owner-v1'};
  await writeFile(join(d,'artifact'),'public artifact double');const review={artifact:'artifact',artifact_sha256:sha256('public artifact double'),assets:[{artifact:'artifact',artifact_sha256:sha256('public artifact double')},{artifact:'artifact',artifact_sha256:sha256('public artifact double')},{artifact:'artifact',artifact_sha256:sha256('public artifact double')}]};await put('review.json',review);policy.executor_binding.review_sha256=sha256(await readFile(join(d,'review.json')));await put('policy.json',policy);
  const fields=Array(80).fill(0);fields[0]=mode;fields[74]=payer;if(mode===15)fields[21]=payer;fields[73]=1_000_010_000;const source=Array(41).fill(0);source[1]=1384803358401154921n;source[3]=1000;source[4]=100;
@@ -23,11 +24,11 @@ async function fixture(fn,{kind='bondingcurve',profile='source-funded-v14',mode=
  const deps=[0,42,otherAsset,1000].map(id=>({contract:{contractId:id,codeRoot:h,layoutRoot:h,stateTreeHeight:id===0?32:id===41?30:31},functionTreeRoot:h,layoutFieldCount:20,layoutSlotCount:40}));await put('deps.json',deps);
  for(const f of ['rpc.json','abi.json','driver.json','a.json','b.json'])await put(f,{});await writeFile(join(d,'driver'),'native release double');
  const asset=contractId=>({contractId,codeRoot:h,layoutRoot:h,abi:join(d,'a.json')});
- const o=validateOptions({profile,kind,network:'testnet',testnetProfile:'mainnet-beta-20261027-v1',contractId:1000,vaultId:100,publicKeyHash:h,fingerprint:h,codeRoot:h,layoutRoot:h,walletSha256:sha256('native release double'),rpcConfig:join(d,'rpc.json'),wallet:join(d,'driver'),abi:join(d,'abi.json'),driverConfig:join(d,'driver.json'),runtimeDirectory:join(d,'runtime'),policy:join(d,'policy.json'),dependencyBindings:join(d,'deps.json'),streamTask:join(d,'stage.json'),assetA:asset(42),assetB:asset(otherAsset)});
- const resource=JSON.parse(await readFile(new URL('./resources/mainnet-beta-endcap-c92880c8.json',import.meta.url),'utf8')).resource;let head=100,root=h,leaf=z,network='testnet',code=h,proofs=0,sends=0,checks=0,included=false,finalReadFailure=false;
+ const o=validateOptions({profile,kind,network:'testnet',testnetProfile:sdkProfile,contractId:1000,vaultId:100,publicKeyHash:h,fingerprint:h,codeRoot:h,layoutRoot:h,walletSha256:sha256('native release double'),rpcConfig:join(d,'rpc.json'),wallet:join(d,'driver'),abi:join(d,'abi.json'),driverConfig:join(d,'driver.json'),runtimeDirectory:join(d,'runtime'),policy:join(d,'policy.json'),dependencyBindings:join(d,'deps.json'),streamTask:join(d,'stage.json'),assetA:asset(42),assetB:asset(otherAsset)});
+ const resource=JSON.parse(await readFile(new URL('./resources/'+release.resource,import.meta.url),'utf8')).resource;let head=100,root=h,leaf=z,network='testnet',code=h,proofs=0,sends=0,checks=0,included=false,finalReadFailure=false;
  const state=async()=>({networkName:network,checkpoint:head,network:{magic:'1384803358401154921',users_per_realm:2**24,prove_proxy_url:['https://prove.invalid'],realm_configs:[{id:0,rpc_url:['https://realm.invalid']}]},userIds:async()=>[100],contractLeaf:async id=>({code_root:code,state_layout_root:h,function_tree_root:h,state_tree_height:id===0?32:id===41?30:31,state_layout_field_count:20,state_layout_slot_count:40}),rpc:async(_url,name)=>name==='psy_get_checkpoint_leaf_data'?{global_chain_root:root}:name==='psy_get_circuits_data'?JSON.stringify({ups_end_cap:resource}):leaf});
  const run=async(_file,args)=>{
-  if(args[0]==='identity')return{stdout:JSON.stringify({profile,fingerprint:h,publicKeyHash:h})};
+  if(args[0]==='identity')return{stdout:JSON.stringify({profile,fingerprint:h,publicKeyHash:h,sdkCommit:release.sdkCommit,clientCommit:release.clientCommit,sdkProfile})};
   if(args[0]==='verify-prepared'){
    checks++;const out=args[7],m=JSON.parse(await readFile(join(args[5],'prepared.json'),'utf8'));await mkdir(out);await writeFile(join(out,'verification.json'),JSON.stringify({fullUpsVerified:true,exactStackAndSessionVerified:true,broadcast:false,reproved:false,requestSha256:m.requestSha256,preparedManifestSha256:args[6]}));return{stdout:'',stderr:''};
   }
@@ -105,3 +106,13 @@ test('resource change between preparation and send cannot broadcast the prepared
  x.resource.fingerprint=e;
  await assert.rejects(a.submit(task,prepared),/runtime Endcap differs/);assert.equal(x.counts().proofs,1);assert.equal(x.counts().sends,0);
 }));
+
+for(const[kind,profile]of [['amm','source-authorized-exit-v18'],['bondingcurve','source-authorized-exit-v18'],['orderbook','source-pair-authorized-exit-v19'],['nftmarket','source-pair-authorized-exit-v19']])test(kind+': exact audit route preserves a single unknown broadcast across restart',()=>fixture(async x=>{
+ const a=await x.create();assert.equal((await executeCycle({adapter:a,journal:x.journal()})).status,'unresolved');
+ assert.equal((await executeCycle({adapter:await x.create(),journal:x.journal()})).status,'unresolved');assert.deepEqual(x.counts(),{proofs:1,sends:1,checks:0});
+},{kind,profile,mode:16,sdkProfile:'sdk-audit-20261102-v1'}));
+
+for(const kind of ['orderbook','nftmarket'])for(const mode of [10,11])test(kind+': audit v19 frontier '+mode+' accepts primary fees and rejects auxiliary reordering',async()=>{
+ await fixture(async x=>{const a=await x.create();assert.equal((await a.scan()).action.kind,mode===10?'stream_scan':'stream_carry');assert.deepEqual(x.counts(),{proofs:0,sends:0,checks:0});},{kind,profile:'source-pair-authorized-exit-v19',mode,sdkProfile:'sdk-audit-20261102-v1'});
+ await fixture(async x=>{await assert.rejects(x.create(),/exit credit cannot open, trade or reorder/);assert.deepEqual(x.counts(),{proofs:0,sends:0,checks:0});},{kind,profile:'source-pair-authorized-exit-v19',mode,payer:601,sdkProfile:'sdk-audit-20261102-v1'});
+});

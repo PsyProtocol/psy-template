@@ -1,3 +1,4 @@
+pub mod sdk_release;
 pub mod registration_checkpoint;
 pub mod public_runtime_resources;
 pub mod source_inventory;

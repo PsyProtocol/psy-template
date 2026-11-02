@@ -6,13 +6,14 @@ import {mkdtemp,writeFile,mkdir,rm,readFile} from 'node:fs/promises';
 import {join} from 'node:path';
 import {continueFundedRegistration} from './fundedRegistration.mjs';
 import {sha256} from './requestBinding.mjs';
+import {sdkRelease} from './sdkProfiles.mjs';
 const h='a'.repeat(64),other='b'.repeat(64);
-async function fixture(fn){const root=await mkdtemp(join(process.cwd(),'.funded-registration-test-'));try{
- const o={profile:'source-funded-v14',kind:'amm',network:'testnet',testnetProfile:'mainnet-beta-20261027-v1',runtimeDirectory:root,wallet:join(root,'driver'),walletSha256:sha256('native double'),fingerprint:h,publicKeyHash:h,vaultId:100,policy:join(root,'policy'),rpcConfig:join(root,'rpc')};
- await writeFile(o.wallet,'native double');await writeFile(o.rpcConfig,'{}');await writeFile(o.policy,JSON.stringify({market:'amm',profile:'source-covered-deterministic-funded-bootstrap-v1',version:14,qualified_randomness:false,executor_binding:{allow_broadcast:true,sdk_commit:'c92880c8b6e2c8d392f19368bc8801a2584fd427',chain_root:h}}));
- const resource=JSON.parse(await readFile(new URL('./resources/mainnet-beta-endcap-c92880c8.json',import.meta.url),'utf8')).resource;let ids=[],chain=h,sends=0,checks=0;
+async function fixture(fn,{sdkProfile='mainnet-beta-20261027-v1'}={}){const release=sdkRelease(sdkProfile);const root=await mkdtemp(join(process.cwd(),'.funded-registration-test-'));try{
+ const o={profile:'source-funded-v14',kind:'amm',network:'testnet',testnetProfile:sdkProfile,runtimeDirectory:root,wallet:join(root,'driver'),walletSha256:sha256('native double'),fingerprint:h,publicKeyHash:h,vaultId:100,policy:join(root,'policy'),rpcConfig:join(root,'rpc')};
+ await writeFile(o.wallet,'native double');await writeFile(o.rpcConfig,'{}');await writeFile(o.policy,JSON.stringify({market:'amm',profile:'source-covered-deterministic-funded-bootstrap-v1',version:14,qualified_randomness:false,executor_binding:{allow_broadcast:true,sdk_commit:release.sdkCommit,chain_root:h}}));
+ const resource=JSON.parse(await readFile(new URL('./resources/'+release.resource,import.meta.url),'utf8')).resource;let ids=[],chain=h,sends=0,checks=0;
  const readState=async()=>({networkName:'testnet',network:{magic:'1384803358401154921',prove_proxy_url:['https://prove.invalid'],realm_configs:[{rpc_url:['https://realm.invalid']}]},rpc:async(_url,method)=>method==='psy_get_circuits_data'?JSON.stringify({ups_end_cap:resource}):({global_chain_root:chain}),userIds:async()=>ids});
- const runDriver=async(_file,args)=>{if(args[0]==='identity')return{stdout:JSON.stringify({profile:o.profile,publicKeyHash:h,fingerprint:h})};assert.equal(args[0],'check-registration');checks++;await mkdir(args[4]);await writeFile(join(args[4],'verification.json'),JSON.stringify({registered:true,broadcast:false,userId:100,publicKeyHash:h,fingerprint:h,chainRoot:h}));return{};};
+ const runDriver=async(_file,args)=>{if(args[0]==='identity')return{stdout:JSON.stringify({profile:o.profile,publicKeyHash:h,fingerprint:h,sdkCommit:release.sdkCommit,clientCommit:release.clientCommit,sdkProfile})};assert.equal(args[0],'check-registration');checks++;await mkdir(args[4]);await writeFile(join(args[4],'verification.json'),JSON.stringify({registered:true,broadcast:false,userId:100,publicKeyHash:h,fingerprint:h,chainRoot:h}));return{};};
  const submitDriver=async()=>{sends++;throw Error('registration ACK lost');};
  await fn({resource,root,o,call:()=>continueFundedRegistration(o,{readState,runDriver,submitDriver}),ids:x=>ids=x,chain:x=>chain=x,counts:()=>({sends,checks})});
  }finally{await rm(root,{recursive:true,force:true});}}
@@ -45,3 +46,8 @@ test('a reset chain cannot rebind and replay an original registration with a cha
  await writeFile(x.o.policy,JSON.stringify(policy));x.chain(other);
  await assert.rejects(x.call());assert.equal(x.counts().sends,1);
 }));
+
+test('the audit registration route still reconciles its original exact identity without resend',()=>fixture(async x=>{
+ assert.equal((await x.call()).status,'registration-pending');assert.equal((await x.call()).status,'unresolved-registration');assert.equal(x.counts().sends,1);
+ x.ids([100]);assert.equal((await x.call()).status,'registered');assert.equal(x.counts().sends,1);
+},{sdkProfile:'sdk-audit-20261102-v1'}));

@@ -42,3 +42,14 @@ test('reset-chain profile binds the same SDK to every current native endpoint wi
  }
  assert.equal((await registry()).nativeProtocol,MAINNET_BETA_PROFILE);
 });
+
+test('audit is a separate frozen release and reset-chain identity, never a historical relabel',async()=>{
+ const {AUDIT_PROFILE,AUDIT_MANIFEST,AUDIT_CHAIN_ROOT,AUDIT_NATIVE_BINDING}=await import('./nativeProtocol.mjs');
+ const r=await registry();r.nativeProtocol=AUDIT_PROFILE;r.sdkManifestSha256=AUDIT_MANIFEST;r.network.chainRootAt1=AUDIT_CHAIN_ROOT;
+ for(const m of r.markets)m.dependencies[m.dependencies.findIndex(d=>d.contract.contractId===0)]=structuredClone(AUDIT_NATIVE_BINDING);
+ assert.equal(nativeMethod(r,'transfer'),'transfer');assert.match(nativeManifestPath(r),/audit-20261102/);
+ for(const change of [x=>x.sdkManifestSha256=MAINNET_BETA_MANIFEST,x=>x.nativeProtocol=MAINNET_BETA_PROFILE,x=>x.network.chainRootAt1='0'.repeat(64),x=>x.markets[0].dependencies.find(d=>d.contract.contractId===0).functionTreeRoot='0'.repeat(64),x=>delete x.nativeProtocol]){
+  const wrong=structuredClone(r);change(wrong);assert.throws(()=>nativeManifestPath(wrong));
+ }
+ const {readFileSync}=await import('node:fs'),{createHash}=await import('node:crypto');assert.equal(createHash('sha256').update(readFileSync(new URL('../batching/dependencies/audit-20261102/manifest.json',import.meta.url))).digest('hex'),AUDIT_MANIFEST);
+});

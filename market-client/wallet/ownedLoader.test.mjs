@@ -19,3 +19,14 @@ test('owned verifier pins binary, resource identity and extension domain before 
  await assert.rejects(loadOwnedMarketVerifier({...options,module:{...module,get_owned_wasm_module:()=>undefined,default:async()=>{changedStarts++;}},release:mutable,fetcher:async()=>{mutable.wasmSha256=hash(changed);return{ok:true,arrayBuffer:async()=>changed.buffer};}}),/binary changed/);assert.equal(changedStarts,0);
  }finally{if(saved)Object.defineProperty(globalThis,'location',saved);else delete globalThis.location;}
 });
+
+test('audit loader binds its exact manifest and rejects a legacy binary identity',async()=>{
+ const saved=Object.getOwnPropertyDescriptor(globalThis,'location');Object.defineProperty(globalThis,'location',{value:{href:'chrome-extension://qa-audit/background.html'},configurable:true});
+ try{
+  const {AUDIT_MANIFEST,MAINNET_BETA_MANIFEST}=await import('../nativeProtocol.mjs');const bytes=Uint8Array.from([0,97,115,109,1,0,0,0]),release={sdkManifestSha256:AUDIT_MANIFEST,networkMagic:'1384803358401154921',wasmSha256:hash(bytes),verifierPackSha256:hash('audit-pack')};
+  const options=(manifest)=>{let loaded;return{module:{default:async o=>{loaded=o.module_or_path;},get_owned_wasm_module:()=>loaded,verifier_identity:()=>JSON.stringify({schema:1,...release,sdkManifestSha256:manifest}),project_market_identity:()=>'{"verified":false}',verify_market_prepared:()=>'{"synthetic":true}'},wasmUrl:'chrome-extension://qa-audit/verifier.wasm',release,fetcher:async()=>({ok:true,arrayBuffer:async()=>bytes.buffer})};};
+  const a=await loadOwnedMarketVerifier(options(AUDIT_MANIFEST));assert.equal(JSON.parse(await a.identity()).sdkManifestSha256,AUDIT_MANIFEST);
+  await assert.rejects(loadOwnedMarketVerifier(options(MAINNET_BETA_MANIFEST)),/identity differs/);
+  const unknown=options(AUDIT_MANIFEST);unknown.release={...release,sdkManifestSha256:hash('moving-head')};await assert.rejects(loadOwnedMarketVerifier(unknown),/release identity/);
+ }finally{if(saved)Object.defineProperty(globalThis,'location',saved);else delete globalThis.location;}
+});

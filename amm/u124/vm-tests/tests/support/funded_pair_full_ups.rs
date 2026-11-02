@@ -1,4 +1,4 @@
-//! Distinct v15 actual bytecode/key cohort. Funding/orders/claims are explicit
+//! Distinct reviewed paired-key bytecode cohort. Funding/orders/claims are explicit
 //! VM actor prerequisites, not ordinary signatures, receipts or browser QA.
 use super::*;
 use psy_template_u124_markets::pair_frontier::{self as frontier,State as FrontierState,Record};
@@ -99,7 +99,11 @@ fn claims(w:&mut World)->Result<Vec<Value>>{
 }
 #[tokio::test]
 #[ignore="bounded new v15 spending cohort; explicit output/VM mode required"]
-async fn paired_funded_bootstrap_priority_and_refunds()->Result<()> {
+async fn paired_funded_bootstrap_priority_and_refunds()->Result<()> { paired_funded_flow(15).await }
+#[tokio::test]
+#[ignore="bounded current v19 key trading/refund cohort; no financial authority"]
+async fn paired_latest_exit_key_trades_and_refunds()->Result<()> { paired_funded_flow(19).await }
+async fn paired_funded_flow(expected_version:u64)->Result<()> {
     let out=std::env::var("FUNDED_PAIR_OUT")?;fs::create_dir(&out)?;
     let vm=std::env::var("FUNDED_PAIR_VM_ONLY").as_deref()==Ok("1");
     let selected=std::env::var("FUNDED_PAIR_MARKETS").unwrap_or_else(|_|"orderbook,nftmarket".into());
@@ -107,7 +111,7 @@ async fn paired_funded_bootstrap_priority_and_refunds()->Result<()> {
         let mut w=World::new_fixture(kind,false,false)?;w.set(OWNER,0,0,1000*ESCROW);
         ensure!(!w.slots.keys().any(|(u,_,_)|*u==V),"no preloaded vault");
         let mut chain=StreamChain::new_with_maintenance(&w,true).await?;chain.base.keep_history=true;
-        ensure!(chain.spec["version"]==15,"distinct v15 only");
+        ensure!(chain.spec["version"]==expected_version,"exact reviewed pair key version");
         let key=super::funded_bootstrap_full_ups::registered(&chain);
         let totals=[asset_total(&w,A)?,asset_total(&w,B)?];let native=super::minimum_stream_full_ups::native_total(&w)?;
         let initial=3*ESCROW;
@@ -195,6 +199,6 @@ async fn paired_funded_bootstrap_priority_and_refunds()->Result<()> {
             step(&mut chain,&mut w,ack,&out,"ack-refunded-seller",vm).await?;
         }
         ensure!(totals==[asset_total(&w,A)?,asset_total(&w,B)?]&&super::minimum_stream_full_ups::native_total(&w)?+w.val(V,"fee_used",0)as u128==native,"FT/Native conservation including fees");
-        fs::write(format!("{out}/{kind}-REPORT.json"),serde_json::to_vec_pretty(&json!({"scope":"Conditional VM actor funding/order prerequisites; actual v15 vault UPSs when vmOnly=false. No RPC, ordinary signatures or network acceptance.","vmOnly":vm,"fullUpsVerified":!vm,"emptyVaultBootstrap":true,"feeExhaustionRecovery":recovered,"sourcePreserved":true,"globalPriority":true,"settled":2,"timeoutRefunds":1,"cancelAfterSeal":true,"scanPages":scans,"claims":claims,"assetConservation":true,"nativeConservation":true,"financialOperations":0,"measurements":chain.measurements}))?)?;
+        fs::write(format!("{out}/{kind}-REPORT.json"),serde_json::to_vec_pretty(&json!({"scope":"Conditional VM actor funding/order prerequisites; actual reviewed vault UPSs when vmOnly=false. No RPC, ordinary signatures or network acceptance.","vmOnly":vm,"fullUpsVerified":!vm,"emptyVaultBootstrap":true,"feeExhaustionRecovery":recovered,"sourcePreserved":true,"globalPriority":true,"settled":2,"timeoutRefunds":1,"cancelAfterSeal":true,"scanPages":scans,"keyVersion":expected_version,"claims":claims,"assetConservation":true,"nativeConservation":true,"financialOperations":0,"measurements":chain.measurements}))?)?;
     }Ok(())
 }

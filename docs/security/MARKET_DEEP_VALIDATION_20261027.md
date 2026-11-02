@@ -1,5 +1,7 @@
 # Market correctness and reset-chain validation — 27 October 2026
 
+Latest authorized migration (2 November): [fixed audit release, native/bytecode builds and explicit Executor/client identity](AUDIT_SDK_MIGRATION_20261102.md). The user has now authorized audit SDK `01b8f2b0…`; the earlier read-only source-comparison entry below predates that authorization. The new 2,759-member freeze and explicit application profile retain the old SDK and evidence. Eleven ordinary verifier roles match the captured runtime, all four v18/v19 bytecodes compile, and scoped Executor/client/build-time checks pass. Full current-key UPS generation, final browser distribution, instance-specific resources and real reset-chain UI settlement/ordinary claims remain pending. No financial operation is added. [Immutable prerequisite evidence](../../executor/verification/2026-11-02-audit-migration-v1/README.md).
+
 Latest SDK source identification (2 November): [audit SDK exact Endcap match](AUDIT_SDK_COMPATIBILITY_20261102.md).
 At the user's direction, SDK `audit` commit `01b8f2b0…` and its referenced client
 `70580700…` were inspected read-only. Their entire static/cached Endcap verifier

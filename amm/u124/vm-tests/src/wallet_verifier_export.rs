@@ -37,7 +37,7 @@ pub fn export_fixed_verifiers(
     })?;
     Ok(VerifierPack {
         schema: 1,
-        sdk_manifest: "06d86a86775bef1f217e61a2192b525d657bc8de2d3687e5c28d93e7abfaec8f".into(),
+        sdk_manifest: crate::wallet_verification::SDK.into(),
         network_magic: psy_config::PSY_NETWORK_MAGIC,
         ups_whitelist: cm.ups_circuit_whitelist_root,
         start_fingerprint: cm.ups_start.get_fingerprint(),

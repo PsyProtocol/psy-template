@@ -6,8 +6,8 @@ use sha2::{Digest,Sha256};
 use std::{fs,io::{Read,Write},path::Path};
 use crate::checkpoint_evidence::{self as evidence,CheckpointOpening,PublicCheckpointRecord};
 
-pub const SDK:&str="c92880c8b6e2c8d392f19368bc8801a2584fd427";
-pub const CLIENT:&str="b280d714a8f0930c61962c885374ea63ea63d274";
+pub const SDK:&str=crate::sdk_release::SDK_COMMIT;
+pub const CLIENT:&str=crate::sdk_release::CLIENT_COMMIT;
 pub const BACKEND:&str="736572e9dd3ca93566471cf5a2a1cb67a13fe01d";
 pub fn digest(b:&[u8])->String{format!("{:x}",Sha256::digest(b))}
 fn hex(s:&str,n:usize)->bool{s.len()==n&&s.bytes().all(|c|c.is_ascii_digit()||(b'a'..=b'f').contains(&c))}

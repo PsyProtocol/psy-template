@@ -13,9 +13,9 @@ from materialize_mainnet_beta import FREEZE, verify
 APP = Path(__file__).resolve().parents[2]
 
 
-def prepare(source, output, test_only=False):
+def prepare(source, output, test_only=False, freeze=FREEZE):
     source, output = source.resolve(), output.absolute()
-    manifest = json.loads((FREEZE / 'manifest.json').read_text())
+    manifest = json.loads((freeze / 'manifest.json').read_text())
     if output.exists() or output.is_symlink():
         raise ValueError('fresh application output required')
     for pin in manifest['sourcePins']:
@@ -44,6 +44,7 @@ def prepare(source, output, test_only=False):
         dest.write_bytes(data)
     record = {'schema': 1, 'sdkCommit': manifest['sdkCommit'], 'clientCommit': manifest['clientCommit'],
               'backendCommit': manifest['backendCommit'], 'toolchain': manifest['toolchain'],
+              'features': ['sdk-audit-v1'] if manifest['sdkBranch'] == 'audit' else [],
               'network': 'testnet', 'networkMagic': '1384803358401154921',
               'sourceFiles': hashes, 'cargoManifest': str(output / 'Cargo.toml'),
               'automaticBinaryTargets': not test_only,

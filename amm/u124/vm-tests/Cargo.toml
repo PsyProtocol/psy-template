@@ -4,6 +4,10 @@ version = "0.1.0"
 edition = "2021"
 publish = false
 
+[features]
+# Explicit release selection; historic builds retain their original identity.
+sdk-audit-v1 = []
+
 [dependencies]
 anyhow = "1"
 serde_json = "1"

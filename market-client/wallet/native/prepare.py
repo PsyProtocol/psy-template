@@ -1,4 +1,4 @@
-"""Materialize a verifier against frozen mainnet-beta sources and public keys.
+"""Materialize a verifier against an explicitly selected frozen SDK source and public keys.
 
 No SDK/Node checkout or source patch; no wallet, network, signing or broadcast.
 The runtime verifier pack is compiled in, never accepted from an RPC or page.
@@ -9,11 +9,14 @@ APP=Path(__file__).resolve().parents[3]
 sys.path.insert(0,str(APP/'batching/dependencies'))
 from materialize_mainnet_beta import FREEZE,verify
 p=argparse.ArgumentParser(description=__doc__)
+p.add_argument('--sdk-profile',choices=['mainnet-beta-20261027-v1','sdk-audit-20261102-v1'],default='mainnet-beta-20261027-v1')
 p.add_argument('--source',type=Path,required=True)
 p.add_argument('--pack',type=Path,required=True)
 p.add_argument('--out',type=Path,required=True)
 a=p.parse_args();source=a.source.resolve();out=a.out.resolve()
 assert not out.exists(),'fresh verifier build required'
+if a.sdk_profile=='sdk-audit-20261102-v1':
+ from materialize_audit import FREEZE
 manifest=json.loads((FREEZE/'manifest.json').read_text())
 for pin in manifest['sourcePins']:verify(source/pin['path'],pin)
 pack=a.pack.read_bytes();keys=json.loads(pack)
@@ -44,5 +47,5 @@ def packages(path):
 added=packages(out/'Cargo.lock')-packages(APP/'amm/u124/vm-tests/Cargo.lock')
 assert added=={('psy-market-wallet-verifier','0.1.0','')},'selected SDK dependency graph changed'
 (out/'DEPENDENCY-CHECK.json').write_text(json.dumps({'sourceDependencyVersionsUnchanged':True,'rootOnly':sorted(added),'lockSha256':hashlib.sha256((out/'Cargo.lock').read_bytes()).hexdigest()},indent=2)+'\n')
-(out/'BUILD-INPUTS.json').write_text(json.dumps({'schema':1,'sdkCommit':manifest['sdkCommit'],'sourceSha256':hashes,'verifierPackSha256':hashlib.sha256(pack).hexdigest(),'nodeOrSdkPatches':[],'broadcast':False},indent=2)+'\n')
+(out/'BUILD-INPUTS.json').write_text(json.dumps({'schema':1,'sdkCommit':manifest['sdkCommit'],'sourceSha256':hashes,'verifierPackSha256':hashlib.sha256(pack).hexdigest(),'sdkProfile':a.sdk_profile,'features':['sdk-audit-v1'] if a.sdk_profile=='sdk-audit-20261102-v1' else [],'nodeOrSdkPatches':[],'broadcast':False},indent=2)+'\n')
 print(out)

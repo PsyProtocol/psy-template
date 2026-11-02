@@ -1,12 +1,13 @@
 import assert from 'node:assert/strict';
 import {resolve} from 'node:path';
 import {fundedProfile} from './fundedProfiles.mjs';
+import {sdkRelease} from './sdkProfiles.mjs';
 const paths=['rpcConfig','wallet','abi','driverConfig','runtimeDirectory','policy','dependencyBindings','streamTask'];
 const hashes=['publicKeyHash','fingerprint','codeRoot','layoutRoot','walletSha256'];
 export function validateFundedOptions(input,base){
  const allowed=new Set(['profile','kind','name','network','contractId','vaultId',...paths,...hashes,'assetA','assetB','testnetProfile','proverThreads','intervalMs','receiptMaxPages']);
  for(const key of Object.keys(input))assert.ok(allowed.has(key),'unsupported funded stream option: '+key);
- const o={...input};fundedProfile(o.profile,o.kind);assert.equal(o.network,'testnet');assert.equal(o.testnetProfile,'mainnet-beta-20261027-v1');
+ const o={...input};fundedProfile(o.profile,o.kind);assert.equal(o.network,'testnet');sdkRelease(o.testnetProfile);
  for(const key of ['contractId','vaultId'])assert.ok(Number.isSafeInteger(o[key])&&o[key]>= (key==='contractId'?5:1)&&o[key]<2**24,key);
  for(const key of hashes)assert.match(o[key]??'',/^[a-f0-9]{64}$/);
  for(const key of paths){assert.ok(typeof o[key]==='string'&&o[key]);o[key]=resolve(base,o[key]);}

@@ -144,6 +144,9 @@ async fn run(phase: &mut &'static str, composition:bool, stream:bool) -> Result<
     if a[1] == "identity" {
         ensure!(a.len() == 3, "identity args");
         let mut identity=json!({"profile":if stream{stream_runtime::profile(&spec)}else if composition{"composition-v1"}else{"compact-v1"},"fingerprint":fp.to_string(),"publicKeyHash":hash.to_string(),"publicKeyParam":param.to_string()});
+        identity["sdkCommit"]=json!(psy_template_u124_markets::sdk_release::SDK_COMMIT);
+        identity["clientCommit"]=json!(psy_template_u124_markets::sdk_release::CLIENT_COMMIT);
+        identity["sdkProfile"]=json!(psy_template_u124_markets::sdk_release::PROFILE);
         if producer{identity["orderingModel"]=json!("previous-checkpoint-seeded-v1");identity["producerInfluence"]=json!(true);identity["qualifiedRandomness"]=json!(false);}println!("{identity}");
         return Ok(());
     }

@@ -18,7 +18,8 @@ import {publicState} from './publicState.mjs';
 import {receiptReader} from './chainReceipts.mjs';
 import {pendingPreflight,recheckSavedPreflight,savedPreflightCandidate} from './preflightRecovery.mjs';
 import {driverRecords} from './driverProcess.mjs';
-import {assertFrozenRuntimeEndcap,runtimeEndcapIdentityPath} from './runtimeEndcap.mjs';
+import {assertFrozenRuntimeEndcap,runtimeEndcapPath} from './runtimeEndcap.mjs';
+import {sdkRelease,assertDriverSdkIdentity} from './sdkProfiles.mjs';
 import {fileURLToPath} from 'node:url';
 const read = async path => parseLosslessJson(await readFile(path,'utf8'));
 const fresh = async(path,value)=>{await mkdir(dirname(path),{recursive:true,mode:0o700});const bytes=typeof value==='string'?value:losslessJson(value);try{await publishFile(path,bytes);}catch(e){if(e.code!=='EEXIST')throw e;assert.equal(await readFile(path,'utf8'),bytes,'immutable stream task changed');}};
@@ -27,9 +28,9 @@ export function validateFundedStage(stage,policy,o){
  const model=fundedProfile(o.profile,o.kind);assert.equal(stage.schema,1n);assert.equal(stage.profile,o.profile);assert.equal(policy.version,model.version);
  assert.equal(policy.profile,model.policy);assert.equal(policy.qualified_randomness,false);
  assert.equal(policy.market,o.kind,'reviewed market kind must match the route');
- assert.equal(policy.market_id,BigInt(o.contractId));assert.equal(policy.executor_binding.sdk_commit,'c92880c8b6e2c8d392f19368bc8801a2584fd427');
+ assert.equal(policy.market_id,BigInt(o.contractId));assert.equal(policy.executor_binding.sdk_commit,sdkRelease(o.testnetProfile).sdkCommit);
  assert.match(stage.stageId,/^[a-zA-Z0-9_-]{1,100}$/);assert.equal(stage.actor,BigInt(o.vaultId));
- const c=stage.context,f=c.request.fields;validateExitStage(policy,c.request);assert.equal(f.length,80);assert.ok(stageNames.has(f[0]),'reviewed deterministic stage');if([10n,11n].includes(f[0]))assert.ok([15n,17n].includes(model.version),'pair frontier requires its distinct funded key');
+ const c=stage.context,f=c.request.fields;validateExitStage(policy,c.request);assert.equal(f.length,80);assert.ok(stageNames.has(f[0]),'reviewed deterministic stage');if([10n,11n].includes(f[0]))assert.ok([15n,19n].includes(model.version),'pair frontier requires its distinct funded key');
  assert.equal(c.source.fields.length,41);assert.equal(c.source.fields[3],BigInt(o.contractId));assert.equal(c.source.fields[4],BigInt(o.vaultId));
  assert.equal(c.expected_nonce,stage.expectedNonce);assert.ok(c.expected_nonce>0n&&c.expected_nonce<2n**62n);assert.match(c.expected_start_leaf,/^[a-f0-9]{64}$/);
  assert.ok(c.execution_checkpoint>0n&&c.execution_checkpoint<=stage.validUntilCheckpoint&&stage.validUntilCheckpoint<2n**32n);
@@ -53,7 +54,7 @@ export async function createFundedStreamAdapter(o,{readState=publicState,readRec
   assert.ok(!isAbsolute(row.artifact)&&row.artifact.split(/[\\/]/).every(p=>p&&p!=='.'&&p!=='..'));return {path:resolve(dirname(reviewPath),row.artifact),sha:row.artifact_sha256};
  });
  for(const item of artifacts)assert.equal(sha256(await readFile(item.path)),item.sha);
- const inputs=await captureInputs([o.policy,o.streamTask,o.rpcConfig,o.dependencyBindings,o.abi,o.driverConfig,o.assetA.abi,o.assetB.abi,reviewPath,fileURLToPath(runtimeEndcapIdentityPath),...artifacts.map(a=>a.path)]);
+ const inputs=await captureInputs([o.policy,o.streamTask,o.rpcConfig,o.dependencyBindings,o.abi,o.driverConfig,o.assetA.abi,o.assetB.abi,reviewPath,fileURLToPath(runtimeEndcapPath(o.testnetProfile)),...artifacts.map(a=>a.path)]);
  const dependencies=JSON.parse(await readFile(o.dependencyBindings,'utf8'));
  assert.deepEqual(dependencies.map(d=>d.contract.contractId).sort((a,b)=>a-b),[0,Number(policy.base.config[o.kind==='nftmarket'?'tokenId':'assetA']),Number(policy.base.config[o.kind==='nftmarket'?'nftId':'assetB']),o.contractId].sort((a,b)=>a-b));
  for(const expected of [{contractId:o.contractId,codeRoot:o.codeRoot,layoutRoot:o.layoutRoot},o.assetA,o.assetB]){const actual=dependencies.find(d=>d.contract.contractId===expected.contractId);assert.equal(actual.contract.codeRoot,expected.codeRoot);assert.equal(actual.contract.layoutRoot,expected.layoutRoot);}
@@ -62,11 +63,12 @@ export async function createFundedStreamAdapter(o,{readState=publicState,readRec
  for(const key of Object.keys(env))if(key.endsWith('_WITNESS_WALLET')||key.endsWith('_LOCAL_DEFS')||key==='PSY_MARKET_BENCH_SOURCE_CHECKPOINT')delete env[key];
  const declared=driverRecords((await runDriver(driver.file,['identity',o.policy],{env,timeout:180000,maxBuffer:2000000})).stdout).find(r=>r.profile===o.profile);
  assert.ok(declared);assert.equal(declared.fingerprint,o.fingerprint);assert.equal(declared.publicKeyHash,o.publicKeyHash);
+ assertDriverSdkIdentity(declared,o.testnetProfile);
  const chainCurrent=async()=>{await inputs();await driver.check();const s=await readState(o.rpcConfig);assert.equal(s.networkName,o.network);
   assert.equal(BigInt(s.network.magic),policy.base.config.networkMagic?BigInt(policy.base.config.networkMagic):stage.context.source.fields[1]);
   assert.equal((await s.rpc(s.network.realm_configs[0].rpc_url[0],'psy_get_checkpoint_leaf_data',{checkpoint_id:1},{exactIntegers:true})).global_chain_root,policy.executor_binding.chain_root,'chain instance changed');return s;};
  const current=async()=>{const s=await chainCurrent();
-  await assertFrozenRuntimeEndcap(s);
+  await assertFrozenRuntimeEndcap(s,{profile:o.testnetProfile});
   assert.deepEqual(await s.userIds(o.publicKeyHash),[o.vaultId]);
   for(const b of dependencies){const l=await s.contractLeaf(b.contract.contractId);assert.deepEqual({contract:{contractId:b.contract.contractId,codeRoot:l.code_root,layoutRoot:l.state_layout_root,stateTreeHeight:l.state_tree_height},functionTreeRoot:l.function_tree_root,layoutFieldCount:l.state_layout_field_count,layoutSlotCount:l.state_layout_slot_count},b);}
   return s;};

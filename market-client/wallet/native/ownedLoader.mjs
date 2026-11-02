@@ -1,13 +1,14 @@
+import {reviewedSdkManifest} from '../../nativeProtocol.mjs';
 // Extension bootstrap only: statically imported bindgen 0.2.126 glue and a
 // compiled release pin. No argument is accepted through a page RPC.
 const instances=new WeakMap(),HEX=/^[0-9a-f]{64}$/;
-const SDK='06d86a86775bef1f217e61a2192b525d657bc8de2d3687e5c28d93e7abfaec8f',MAGIC='1384803358401154921';
+const MAGIC='1384803358401154921';
 const ok=(v,m)=>{if(!v)throw Error(m);};
 async function digest(bytes){return[...new Uint8Array(await crypto.subtle.digest('SHA-256',bytes))].map(n=>n.toString(16).padStart(2,'0')).join('');}
 export async function loadOwnedMarketVerifier({module,wasmUrl,release,fetcher=fetch}){
  ok(module&&typeof module.default==='function'&&['verifier_identity','project_market_identity','verify_market_prepared','get_owned_wasm_module'].every(k=>typeof module[k]==='function'),'Statically imported extension verifier module required');
- ok(release?.sdkManifestSha256===SDK&&release.networkMagic===MAGIC&&HEX.test(release.wasmSha256??'')&&HEX.test(release.verifierPackSha256??''),'Reviewed verifier release identity required');
- const pin=Object.freeze({...release}),initialize=module.default,loadedModule=module.get_owned_wasm_module;
+ ok(reviewedSdkManifest(release?.sdkManifestSha256)&&release.networkMagic===MAGIC&&HEX.test(release.wasmSha256??'')&&HEX.test(release.verifierPackSha256??''),'Reviewed verifier release identity required');
+ const pin=Object.freeze({...release}),SDK=pin.sdkManifestSha256,initialize=module.default,loadedModule=module.get_owned_wasm_module;
  const identity=module.verifier_identity.bind(module),identify=module.project_market_identity.bind(module),verify=module.verify_market_prepared.bind(module);
  const here=new URL(globalThis.location?.href??'about:blank'),url=new URL(wasmUrl);
  ok(['chrome-extension:','moz-extension:'].includes(here.protocol)&&url.protocol===here.protocol&&url.hostname===here.hostname&&!url.username&&!url.password&&!url.search&&!url.hash,'Verifier must be an extension-owned immutable resource');

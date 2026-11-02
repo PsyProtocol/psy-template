@@ -5,6 +5,8 @@ edition = "2021"
 publish = false
 [lib]
 crate-type = ["cdylib", "rlib"]
+[features]
+sdk-audit-v1 = []
 [dependencies]
 anyhow = "=1.0.104"
 serde = { version = "=1.0.229", features = ["derive"] }

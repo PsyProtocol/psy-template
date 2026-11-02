@@ -1,0 +1,35 @@
+{
+  "schema": 1,
+  "sdkCommit": "01b8f2b0a077367a7b9879baba1a72aea8ab5510",
+  "clientCommit": "7058070057c3242b5d8b29e1a31d498aaa4202c0",
+  "networkMagic": "1384803358401154921",
+  "resource": {
+    "fingerprint": "043e026dc674c310d8a9c529268a02619cab6f3779a74396a330c5ff0d0a5893",
+    "verifier_config": {
+      "constants_sigmas_cap": [
+        "93a4ee80bb07dd157eb0c40ec0463edbe04c8ff052fda12f676c418127148dc5",
+        "c9d1ab527b7964358adf41cfa617034bfab1e2ca510f7b46e5f1e8b54ecf9125",
+        "b62340c1eeab63b290bd3799ab6228e0c2c4683e354db4111795bfcf36f3a490",
+        "81996aecf51f9422118d4d4fe20b79c573fdee54bb206be4081711b47bd020ad",
+        "72d779c361b1621eca5f59432806868f8a72c007f195b5d9838bc067c2dac85a",
+        "39a9f1cc9a14a303992377bf660ec6faaae5e6000b9ddadab8374e0afd21b28a",
+        "87df53e8a7b9e7c7be9a995ec2256e971ef247ea3948582be6139cd4eeaec773",
+        "5a6e2dbedf62c635bace657f221b339c5071daa6364afdcbc8df68e792d9d542",
+        "bfed8fc4ad06ba6cfa71aeebbf925be02c6d6a0dd93d14db015948aeb693b9cf",
+        "119595cb2a7db86e5573b7313541d09484693774006a973ca414cfe6f4bc47a3",
+        "d84db7c585ff92139c6c8a149f97fa44617d4077122ef424241363e8d0ae5dba",
+        "ac56ce81eaec4a59b2237209d05dfab7a0e434069ebdb3e29e92e5b4a1944e7b",
+        "54bd016dc5833801b958fe89d39916b48c0bcce7c72b10e64c0d593cd0f7d579",
+        "a80197763776618f521aac9c0b237c2d5595784cfc0b79b1f767189a9b01a2d6",
+        "1c9890b859faeaf10792c07139c3fa9b0dcd01c3402b8bcd699c5c4140f3267f",
+        "8acc522eb517dc296e04b8772444eea9dfbb30aaa3bfd2730d98ba7ad1dc98a9"
+      ],
+      "circuit_digest": "6934680402ad9d0521feb981c72e3990f98e8082c4dd9d758ed27d7142cbb57b"
+    }
+  },
+  "provenance": {
+    "source": "psy_plonky2_circuits/src/circuit_library/end_cap_verifier_data.rs",
+    "sourceCommit": "7058070057c3242b5d8b29e1a31d498aaa4202c0"
+  },
+  "scope": "User-selected audit profile compatibility gate; compiled verifier/common data and approved-stack/session checks remain mandatory"
+}
