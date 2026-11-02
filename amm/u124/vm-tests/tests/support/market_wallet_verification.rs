@@ -15,6 +15,14 @@ async fn session_for(chain:&Chain,db:Store,cp:u64,user:u64,start:psy_client_data
  let mut info=SessionCircuitInfoStore::new();chain.cm.register_info(&mut info).await;
  let mut s=Manager::new(lps,info,chain.cm.ups_circuit_whitelist_root).await?;s.prove_ups_start(&chain.cm).await?;Ok(s)
 }
+// Fully backed synthetic AMM prestate, with actual token transfer/claim bytecode.
+// Ordinary intent verification must not call retired legacy batch settlement.
+fn wallet_pool(w:&mut World,n:u128)->Result<()> {
+ for asset in [A,B]{w.pay(I,asset,n)?;w.run(V,asset,"claim",&[I])?;}
+ for name in ["reserve_a","reserve_b","total_shares"]{for(i,value)in crate::pair(n).into_iter().enumerate(){w.set(V,M,w.fields[name]+i as u64,value);}}
+ for name in ["settled_a","settled_b"]{for(i,value)in crate::pair(n+1).into_iter().enumerate(){w.set(V,M,w.fields[name]+2*I+i as u64,value);}}
+ Ok(())
+}
 #[tokio::test]
 #[ignore="real ordinary proof bundle; exact source bytecode and fresh output required"]
 async fn full_stack_wallet_verifier_and_mutations()->Result<()>{
@@ -23,7 +31,7 @@ async fn full_stack_wallet_verifier_and_mutations()->Result<()>{
  ensure!(["amm","bondingcurve"].contains(&kind.as_str()),"reviewed wallet proof fixture market");
  let first=std::env::var("MARKET_WALLET_FIRST_SESSION").as_deref()==Ok("1");
  let mut w=World::new(&kind)?;let user=if first{204}else{201};let amount=(1u128<<110)+17;
- let (open,asset)=if first{ensure!(kind=="amm","native first-session fixture uses AMM world only");w.run(I,0,"transfer",&[user,10*ESCROW])?;(json!({"contract_id":0,"method_name":"claim","inputs":[I]}),0)}else if kind=="amm"{w.pool(10u128.pow(24))?;(json!({"contract_id":M,"method_name":"open_swap","inputs":args(&[V,0],&[amount,1],&[w.checkpoint+64,1])}),A)}else{w.fee(I)?;w.pay(I,A,2_000_000*10u128.pow(18))?;w.operation_maintenance("initialize",0,0,0,0,0,0)?;(json!({"contract_id":M,"method_name":"open_limit_buy","inputs":args(&[V,1,0],&[amount],&[w.checkpoint+64,1])}),B)};
+ let (open,asset)=if first{ensure!(kind=="amm","native first-session fixture uses AMM world only");w.run(I,0,"transfer",&[user,10*ESCROW])?;(json!({"contract_id":0,"method_name":"claim","inputs":[I]}),0)}else if kind=="amm"{wallet_pool(&mut w,10u128.pow(24))?;(json!({"contract_id":M,"method_name":"open_swap","inputs":args(&[V,0],&[amount,1],&[w.checkpoint+64,1])}),A)}else{w.fee(I)?;w.pay(I,A,2_000_000*10u128.pow(18))?;w.operation_maintenance("initialize",0,0,0,0,0,0)?;(json!({"contract_id":M,"method_name":"open_limit_buy","inputs":args(&[V,1,0],&[amount],&[w.checkpoint+64,1])}),B)};
  let mut calls=if first{vec![open]}else{vec![open,json!({"contract_id":0,"method_name":"transfer","inputs":[V,ESCROW]}),json!({"contract_id":asset,"method_name":"transfer","inputs":args(&[V],&[amount],&[])})]};
  let chain=Chain::new(&w,&calls)?;let signature=PsyBasicZKSignatureCircuit::<C,2>::new();let private=QHashOut::<GF>::rand();let key=SimplePsyPrivateKey::new(private);let pk=key.get_public_key_for_fingerprint::<PoseidonHash>(signature.get_fingerprint());
  let db=chain.seed(&w).await?;
