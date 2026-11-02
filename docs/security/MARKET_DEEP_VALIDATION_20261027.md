@@ -1,5 +1,18 @@
 # Market correctness and reset-chain validation — 27 October 2026
 
+Latest SDK source identification (2 November): [audit SDK exact Endcap match](AUDIT_SDK_COMPATIBILITY_20261102.md).
+At the user's direction, SDK `audit` commit `01b8f2b0…` and its referenced client
+`70580700…` were inspected read-only. Their entire static/cached Endcap verifier
+matches the current reset-chain runtime, including all 16 cap entries, digest
+and independently recomputed fingerprint `043e026d…0a5893`. This supersedes the
+previous published-Endcap-source identification gap. Dependencies are not
+switched. Complete audit-SDK native/WASM builds, all role/common-data comparisons,
+four-market/wallet API migration, full UPS and new-chain financial acceptance
+remain unverified. No proof, deployment, registration, faucet or financial action
+is added. Earlier mainnet-beta/alternate-branch findings below remain historical
+source comparisons, not a claim that the audit source was absent.
+[Immutable captures and comparison evidence](../../executor/verification/2026-11-02-audit-sdk-compatibility-v1/README.md).
+
 Latest reset-chain deployment continuation (2 November): [fresh chain, actual
 Native bytecode compatibility, first-registration guard and remaining blocker](RESET_CHAIN_DEPLOYMENT_20261102.md).
 Eight bounded reads observe the same reset-chain anchors and three heads 9025.
