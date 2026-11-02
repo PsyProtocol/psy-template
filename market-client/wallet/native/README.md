@@ -124,3 +124,7 @@ simulate an extension origin or prove live registration, broadcast, receipt or
 ordinary-wallet acceptance. See
 [the first-session report](../../../docs/security/FIRST_SESSION_WALLET_VERIFICATION_20261028.md)
 for failures, exact proof reuse, fee-slot conservation and unclosed activation gates.
+
+## Explicit audit migration
+
+The user-selected audit release uses `batching/dependencies/audit-20261102/manifest.json`, SDK `01b8f2b0a077367a7b9879baba1a72aea8ab5510` and client `7058070057c3242b5d8b29e1a31d498aaa4202c0`. Historical instructions above remain tied to their original source cohort. For an audit pack, pass `--sdk-profile sdk-audit-20261102-v1` to `prepare.py`, and compile the generated crate with `--features sdk-audit-v1`. The source hash, embedded pack and approval SDK identity must agree; omitting the feature rejects an audit pack rather than relabeling a legacy verifier. Never install the synthetic test pack as a live market release.
