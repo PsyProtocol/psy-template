@@ -30,26 +30,18 @@ if value[${limb}] != 0 {
  psystd::emit_event(15, ctx.user_id, ${limb}, commitment, idx);
 }
 `;
-const verifyLimb=(limb,name)=>`
+const noteLeaf=(limb,name)=>`
+let ${name}_pi: Hash = psystd::poseidon_hash(receiver[0], receiver[1], receiver[2], receiver[3], amount[${limb}], user_tree_root[0], user_tree_root[1], user_tree_root[2], user_tree_root[3], checkpoint_id, ${NOTE_ROOT_SLOTS[limb]}, ctx.contract_id, ${name}_nullifier[0], ${name}_nullifier[1], ${name}_nullifier[2], ${name}_nullifier[3]);
+let ${name}_leaf: Hash = psystd::poseidon_two_to_one(private_note_inclusion_fingerprint, ${name}_pi);
+if amount[${limb}] == 0 {
+ require(${zeroHash(name+'_nullifier')}, "zero limb must use an empty nullifier");
+}
+`;
+const consume=(limb,name)=>`
 if amount[${limb}] != 0 {
- ${range(`${name}_proof.index`,16).code}
- let public_inputs_hash: Hash = psystd::poseidon_hash(receiver[0], receiver[1], receiver[2], receiver[3], amount[${limb}], user_tree_root[0], user_tree_root[1], user_tree_root[2], user_tree_root[3], checkpoint_id, ${NOTE_ROOT_SLOTS[limb]}, ctx.contract_id, ${name}_nullifier[0], ${name}_nullifier[1], ${name}_nullifier[2], ${name}_nullifier[3]);
- let current: Hash = psystd::poseidon_two_to_one(private_note_inclusion_fingerprint, public_inputs_hash);
- for i in 0..16 {
-  let sibling: Hash = ${name}_proof.siblings[i];
-  let index_bit: Felt = (${name}_proof.index >> i) & 1;
-  let other_bit: Felt = 1 - index_bit;
-  let left: Hash = [current[0]*other_bit + sibling[0]*index_bit, current[1]*other_bit + sibling[1]*index_bit, current[2]*other_bit + sibling[2]*index_bit, current[3]*other_bit + sibling[3]*index_bit];
-  let right: Hash = [sibling[0]*other_bit + current[0]*index_bit, sibling[1]*other_bit + current[1]*index_bit, sibling[2]*other_bit + current[2]*index_bit, sibling[3]*other_bit + current[3]*index_bit];
-  current = psystd::poseidon_two_to_one(left, right);
- }
- require(${same('current','expected_root')}, "private ${name} proof tree root mismatch");
- let nullifier_key: Hash = psystd::poseidon_hash(1, ${name}_nullifier[0], ${name}_nullifier[1], ${name}_nullifier[2], ${name}_nullifier[3]);
- require(!self.private_nullifiers.contains(nullifier_key), "nullifier already claimed");
- self.private_nullifiers.insert(nullifier_key, [1, 0, 0, 0]);
-} else {
- require(${zeroHash(name+'_nullifier')} && ${name}_proof.index == 0, "zero limb must use an empty proof");
- for i in 0..16 { let sibling: Hash = ${name}_proof.siblings[i]; require(${zeroHash('sibling')}, "zero limb must use empty siblings"); }
+ let key: Hash = psystd::poseidon_hash(1, ${name}_nullifier[0], ${name}_nullifier[1], ${name}_nullifier[2], ${name}_nullifier[3]);
+ require(!self.private_nullifiers.contains(key), "nullifier already claimed");
+ self.private_nullifiers.insert(key, [1, 0, 0, 0]);
 }
 `;
 let source=readFileSync(new URL('../src/main.psy.rs',import.meta.url),'utf8');
@@ -86,7 +78,7 @@ let methods=`
   self.balance = next_private_balance;
  }
  #[contract_method]
- pub fn private_claim(&mut self, ctx: &mut ChainContext, receiver: Hash, amount: [Felt; 2], user_tree_root: Hash, checkpoint_id: Felt, random0: Felt, random1: Felt, low_nullifier: Hash, high_nullifier: Hash, low_proof: PrivateClaimProof, high_proof: PrivateClaimProof) {
+ pub fn private_claim(&mut self, ctx: &mut ChainContext, receiver: Hash, amount: [Felt; 2], user_tree_root: Hash, checkpoint_id: Felt, random0: Felt, random1: Felt, low_nullifier: Hash, high_nullifier: Hash, proof: PrivateClaimProof) {
   ${canonical('amount')}
   require(!${zero('amount')}, "claim amount must be positive");
   let expected_receiver: Hash = psystd::poseidon_hash(ctx.user_id, 1337, random0, random1);
@@ -98,8 +90,31 @@ let methods=`
   ${add('next_private_balance','stored_balance','amount')}
   let private_note_inclusion_fingerprint: Hash = [${PRIVATE_FINGERPRINT.join(', ')}];
   let expected_root: Hash = psystd::session_proof_tree_root();
-  ${verifyLimb(0,'low')}
-  ${verifyLimb(1,'high')}
+  ${range('proof.index',16).code}
+  ${noteLeaf(0,'low')}
+  ${noteLeaf(1,'high')}
+  // Two nonzero denominations occupy an aligned sibling pair. The high leaf
+  // is authenticated as the low leaf's level-zero sibling, not by a second path.
+  if amount[0] != 0 && amount[1] != 0 {
+   require((proof.index & 1) == 0, "dual proof pair must start at an even index");
+   let sibling: Hash = proof.siblings[0];
+   require(${same('sibling','high_leaf')}, "high proof must be the authenticated adjacent sibling");
+  }
+  // Explicit Felt selection avoids unsupported conditional Hash assignment.
+  let use_low: Felt = (amount[0] != 0).to_felt();
+  let use_high: Felt = 1 - use_low;
+  let current: Hash = [low_leaf[0]*use_low + high_leaf[0]*use_high, low_leaf[1]*use_low + high_leaf[1]*use_high, low_leaf[2]*use_low + high_leaf[2]*use_high, low_leaf[3]*use_low + high_leaf[3]*use_high];
+  for i in 0..16 {
+   let sibling: Hash = proof.siblings[i];
+   let bit: Felt = (proof.index >> i) & 1;
+   let other: Felt = 1 - bit;
+   let left: Hash = [current[0]*other + sibling[0]*bit, current[1]*other + sibling[1]*bit, current[2]*other + sibling[2]*bit, current[3]*other + sibling[3]*bit];
+   let right: Hash = [sibling[0]*other + current[0]*bit, sibling[1]*other + current[1]*bit, sibling[2]*other + current[2]*bit, sibling[3]*other + current[3]*bit];
+   current = psystd::poseidon_two_to_one(left, right);
+  }
+  require(${same('current','expected_root')}, "private proof tree root mismatch");
+  ${consume(0,'low')}
+  ${consume(1,'high')}
   self.balance = next_private_balance;
   psystd::emit_event(16, ctx.user_id, low_nullifier, high_nullifier, amount);
  }

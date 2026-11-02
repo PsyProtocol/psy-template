@@ -1,7 +1,8 @@
 import assert from 'node:assert/strict';
 import {METHOD_INPUTS,checkWideTokenArtifact} from '../artifactGate.mjs';
 import {NOTE_ROOT_SLOTS,STATE_TREE_HEIGHT,PRIVATE_FINGERPRINT} from './constants.mjs';
-export const PRIVATE_METHOD_INPUTS=Object.freeze({...METHOD_INPUTS,private_transfer:14,private_claim:151});
+import {checkPrivateContext} from './privateContextGate.mjs';
+export const PRIVATE_METHOD_INPUTS=Object.freeze({...METHOD_INPUTS,private_transfer:14,private_claim:86});
 export function checkPrivateTokenArtifact(artifact,{fingerprint}={}){
  const abi=artifact.abi.contract,definitions=artifact.circuit_definitions;
  assert.deepEqual(abi.methods.map(m=>m.name).sort(),Object.keys(PRIVATE_METHOD_INPUTS).sort());
@@ -20,5 +21,6 @@ export function checkPrivateTokenArtifact(artifact,{fingerprint}={}){
  const claim=definitions.find(d=>d.name==='private_claim');
  assert.ok(claim.definitions.some(d=>d.op_type===80), 'claim must read the authenticated session root');
  assert.ok(claim.state_commands.some(c=>c.type==='GetGlobalStateRoots'), 'claim must read the checkpoint root');
- return {valid:true,methods:22,amountBits:124,stateTreeHeight:32,noteRootSlots:[...NOTE_ROOT_SLOTS],verifierFingerprintMatched:Boolean(fingerprint),newDeploymentRequired:true,deploymentReady:false};
+ const privateContext=checkPrivateContext(claim);
+ return {valid:true,methods:22,amountBits:124,stateTreeHeight:32,noteRootSlots:[...NOTE_ROOT_SLOTS],privateContext,verifierFingerprintMatched:Boolean(fingerprint),newDeploymentRequired:true,deploymentReady:false};
 }

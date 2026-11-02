@@ -1,5 +1,11 @@
 # Mainnet-beta selection after audit merge — 2 November 2026
 
+Later application-only continuation: [private root lowering and complete compact
+claim UPS](PRIVATE_FT_CONTEXT_COMPATIBILITY_20261102.md). The selected commit and
+all frozen SDK sources remain unchanged. The historical missing-intrinsic
+observation below is superseded for the explicit application compiler, not for
+the raw upstream frontend or live browser acceptance.
+
 ## Exact identity
 
 The user authorized returning the selected SDK branch to `mainnet-beta`. Fresh

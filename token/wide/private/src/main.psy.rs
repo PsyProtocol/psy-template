@@ -1507,7 +1507,7 @@ require(u124_range_17[0].to_felt() * 1 + u124_range_17[1].to_felt() * 2 + u124_r
   self.balance = next_private_balance;
  }
  #[contract_method]
- pub fn private_claim(&mut self, ctx: &mut ChainContext, receiver: Hash, amount: [Felt; 2], user_tree_root: Hash, checkpoint_id: Felt, random0: Felt, random1: Felt, low_nullifier: Hash, high_nullifier: Hash, low_proof: PrivateClaimProof, high_proof: PrivateClaimProof) {
+ pub fn private_claim(&mut self, ctx: &mut ChainContext, receiver: Hash, amount: [Felt; 2], user_tree_root: Hash, checkpoint_id: Felt, random0: Felt, random1: Felt, low_nullifier: Hash, high_nullifier: Hash, proof: PrivateClaimProof) {
   let u124_range_18 = psystd::split_bits(amount[0], 62);
 require(u124_range_18[0].to_felt() * 1 + u124_range_18[1].to_felt() * 2 + u124_range_18[2].to_felt() * 4 + u124_range_18[3].to_felt() * 8 + u124_range_18[4].to_felt() * 16 + u124_range_18[5].to_felt() * 32 + u124_range_18[6].to_felt() * 64 + u124_range_18[7].to_felt() * 128 + u124_range_18[8].to_felt() * 256 + u124_range_18[9].to_felt() * 512 + u124_range_18[10].to_felt() * 1024 + u124_range_18[11].to_felt() * 2048 + u124_range_18[12].to_felt() * 4096 + u124_range_18[13].to_felt() * 8192 + u124_range_18[14].to_felt() * 16384 + u124_range_18[15].to_felt() * 32768 + u124_range_18[16].to_felt() * 65536 + u124_range_18[17].to_felt() * 131072 + u124_range_18[18].to_felt() * 262144 + u124_range_18[19].to_felt() * 524288 + u124_range_18[20].to_felt() * 1048576 + u124_range_18[21].to_felt() * 2097152 + u124_range_18[22].to_felt() * 4194304 + u124_range_18[23].to_felt() * 8388608 + u124_range_18[24].to_felt() * 16777216 + u124_range_18[25].to_felt() * 33554432 + u124_range_18[26].to_felt() * 67108864 + u124_range_18[27].to_felt() * 134217728 + u124_range_18[28].to_felt() * 268435456 + u124_range_18[29].to_felt() * 536870912 + u124_range_18[30].to_felt() * 1073741824 + u124_range_18[31].to_felt() * 2147483648 + u124_range_18[32].to_felt() * 4294967296 + u124_range_18[33].to_felt() * 8589934592 + u124_range_18[34].to_felt() * 17179869184 + u124_range_18[35].to_felt() * 34359738368 + u124_range_18[36].to_felt() * 68719476736 + u124_range_18[37].to_felt() * 137438953472 + u124_range_18[38].to_felt() * 274877906944 + u124_range_18[39].to_felt() * 549755813888 + u124_range_18[40].to_felt() * 1099511627776 + u124_range_18[41].to_felt() * 2199023255552 + u124_range_18[42].to_felt() * 4398046511104 + u124_range_18[43].to_felt() * 8796093022208 + u124_range_18[44].to_felt() * 17592186044416 + u124_range_18[45].to_felt() * 35184372088832 + u124_range_18[46].to_felt() * 70368744177664 + u124_range_18[47].to_felt() * 140737488355328 + u124_range_18[48].to_felt() * 281474976710656 + u124_range_18[49].to_felt() * 562949953421312 + u124_range_18[50].to_felt() * 1125899906842624 + u124_range_18[51].to_felt() * 2251799813685248 + u124_range_18[52].to_felt() * 4503599627370496 + u124_range_18[53].to_felt() * 9007199254740992 + u124_range_18[54].to_felt() * 18014398509481984 + u124_range_18[55].to_felt() * 36028797018963968 + u124_range_18[56].to_felt() * 72057594037927936 + u124_range_18[57].to_felt() * 144115188075855872 + u124_range_18[58].to_felt() * 288230376151711744 + u124_range_18[59].to_felt() * 576460752303423488 + u124_range_18[60].to_felt() * 1152921504606846976 + u124_range_18[61].to_felt() * 2305843009213693952 == amount[0], "noncanonical integer range");
 let u124_range_19 = psystd::split_bits(amount[1], 62);
@@ -1539,50 +1539,54 @@ let u124_range_26 = psystd::split_bits(next_private_balance[1], 62);
 require(u124_range_26[0].to_felt() * 1 + u124_range_26[1].to_felt() * 2 + u124_range_26[2].to_felt() * 4 + u124_range_26[3].to_felt() * 8 + u124_range_26[4].to_felt() * 16 + u124_range_26[5].to_felt() * 32 + u124_range_26[6].to_felt() * 64 + u124_range_26[7].to_felt() * 128 + u124_range_26[8].to_felt() * 256 + u124_range_26[9].to_felt() * 512 + u124_range_26[10].to_felt() * 1024 + u124_range_26[11].to_felt() * 2048 + u124_range_26[12].to_felt() * 4096 + u124_range_26[13].to_felt() * 8192 + u124_range_26[14].to_felt() * 16384 + u124_range_26[15].to_felt() * 32768 + u124_range_26[16].to_felt() * 65536 + u124_range_26[17].to_felt() * 131072 + u124_range_26[18].to_felt() * 262144 + u124_range_26[19].to_felt() * 524288 + u124_range_26[20].to_felt() * 1048576 + u124_range_26[21].to_felt() * 2097152 + u124_range_26[22].to_felt() * 4194304 + u124_range_26[23].to_felt() * 8388608 + u124_range_26[24].to_felt() * 16777216 + u124_range_26[25].to_felt() * 33554432 + u124_range_26[26].to_felt() * 67108864 + u124_range_26[27].to_felt() * 134217728 + u124_range_26[28].to_felt() * 268435456 + u124_range_26[29].to_felt() * 536870912 + u124_range_26[30].to_felt() * 1073741824 + u124_range_26[31].to_felt() * 2147483648 + u124_range_26[32].to_felt() * 4294967296 + u124_range_26[33].to_felt() * 8589934592 + u124_range_26[34].to_felt() * 17179869184 + u124_range_26[35].to_felt() * 34359738368 + u124_range_26[36].to_felt() * 68719476736 + u124_range_26[37].to_felt() * 137438953472 + u124_range_26[38].to_felt() * 274877906944 + u124_range_26[39].to_felt() * 549755813888 + u124_range_26[40].to_felt() * 1099511627776 + u124_range_26[41].to_felt() * 2199023255552 + u124_range_26[42].to_felt() * 4398046511104 + u124_range_26[43].to_felt() * 8796093022208 + u124_range_26[44].to_felt() * 17592186044416 + u124_range_26[45].to_felt() * 35184372088832 + u124_range_26[46].to_felt() * 70368744177664 + u124_range_26[47].to_felt() * 140737488355328 + u124_range_26[48].to_felt() * 281474976710656 + u124_range_26[49].to_felt() * 562949953421312 + u124_range_26[50].to_felt() * 1125899906842624 + u124_range_26[51].to_felt() * 2251799813685248 + u124_range_26[52].to_felt() * 4503599627370496 + u124_range_26[53].to_felt() * 9007199254740992 + u124_range_26[54].to_felt() * 18014398509481984 + u124_range_26[55].to_felt() * 36028797018963968 + u124_range_26[56].to_felt() * 72057594037927936 + u124_range_26[57].to_felt() * 144115188075855872 + u124_range_26[58].to_felt() * 288230376151711744 + u124_range_26[59].to_felt() * 576460752303423488 + u124_range_26[60].to_felt() * 1152921504606846976 + u124_range_26[61].to_felt() * 2305843009213693952 == next_private_balance[1], "noncanonical integer range");
   let private_note_inclusion_fingerprint: Hash = [2482434993266711942, 6028864160300535936, 2827549014984201026, 3018365102481798071];
   let expected_root: Hash = psystd::session_proof_tree_root();
+  let u124_range_27 = psystd::split_bits(proof.index, 16);
+require(u124_range_27[0].to_felt() * 1 + u124_range_27[1].to_felt() * 2 + u124_range_27[2].to_felt() * 4 + u124_range_27[3].to_felt() * 8 + u124_range_27[4].to_felt() * 16 + u124_range_27[5].to_felt() * 32 + u124_range_27[6].to_felt() * 64 + u124_range_27[7].to_felt() * 128 + u124_range_27[8].to_felt() * 256 + u124_range_27[9].to_felt() * 512 + u124_range_27[10].to_felt() * 1024 + u124_range_27[11].to_felt() * 2048 + u124_range_27[12].to_felt() * 4096 + u124_range_27[13].to_felt() * 8192 + u124_range_27[14].to_felt() * 16384 + u124_range_27[15].to_felt() * 32768 == proof.index, "noncanonical integer range");
+
+let low_pi: Hash = psystd::poseidon_hash(receiver[0], receiver[1], receiver[2], receiver[3], amount[0], user_tree_root[0], user_tree_root[1], user_tree_root[2], user_tree_root[3], checkpoint_id, 293601306, ctx.contract_id, low_nullifier[0], low_nullifier[1], low_nullifier[2], low_nullifier[3]);
+let low_leaf: Hash = psystd::poseidon_two_to_one(private_note_inclusion_fingerprint, low_pi);
+if amount[0] == 0 {
+ require(low_nullifier[0] == 0 && low_nullifier[1] == 0 && low_nullifier[2] == 0 && low_nullifier[3] == 0, "zero limb must use an empty nullifier");
+}
+
+
+let high_pi: Hash = psystd::poseidon_hash(receiver[0], receiver[1], receiver[2], receiver[3], amount[1], user_tree_root[0], user_tree_root[1], user_tree_root[2], user_tree_root[3], checkpoint_id, 293601307, ctx.contract_id, high_nullifier[0], high_nullifier[1], high_nullifier[2], high_nullifier[3]);
+let high_leaf: Hash = psystd::poseidon_two_to_one(private_note_inclusion_fingerprint, high_pi);
+if amount[1] == 0 {
+ require(high_nullifier[0] == 0 && high_nullifier[1] == 0 && high_nullifier[2] == 0 && high_nullifier[3] == 0, "zero limb must use an empty nullifier");
+}
+
+  // Two nonzero denominations occupy an aligned sibling pair. The high leaf
+  // is authenticated as the low leaf's level-zero sibling, not by a second path.
+  if amount[0] != 0 && amount[1] != 0 {
+   require((proof.index & 1) == 0, "dual proof pair must start at an even index");
+   let sibling: Hash = proof.siblings[0];
+   require(sibling[0] == high_leaf[0] && sibling[1] == high_leaf[1] && sibling[2] == high_leaf[2] && sibling[3] == high_leaf[3], "high proof must be the authenticated adjacent sibling");
+  }
+  // Explicit Felt selection avoids unsupported conditional Hash assignment.
+  let use_low: Felt = (amount[0] != 0).to_felt();
+  let use_high: Felt = 1 - use_low;
+  let current: Hash = [low_leaf[0]*use_low + high_leaf[0]*use_high, low_leaf[1]*use_low + high_leaf[1]*use_high, low_leaf[2]*use_low + high_leaf[2]*use_high, low_leaf[3]*use_low + high_leaf[3]*use_high];
+  for i in 0..16 {
+   let sibling: Hash = proof.siblings[i];
+   let bit: Felt = (proof.index >> i) & 1;
+   let other: Felt = 1 - bit;
+   let left: Hash = [current[0]*other + sibling[0]*bit, current[1]*other + sibling[1]*bit, current[2]*other + sibling[2]*bit, current[3]*other + sibling[3]*bit];
+   let right: Hash = [sibling[0]*other + current[0]*bit, sibling[1]*other + current[1]*bit, sibling[2]*other + current[2]*bit, sibling[3]*other + current[3]*bit];
+   current = psystd::poseidon_two_to_one(left, right);
+  }
+  require(current[0] == expected_root[0] && current[1] == expected_root[1] && current[2] == expected_root[2] && current[3] == expected_root[3], "private proof tree root mismatch");
 
 if amount[0] != 0 {
- let u124_range_27 = psystd::split_bits(low_proof.index, 16);
-require(u124_range_27[0].to_felt() * 1 + u124_range_27[1].to_felt() * 2 + u124_range_27[2].to_felt() * 4 + u124_range_27[3].to_felt() * 8 + u124_range_27[4].to_felt() * 16 + u124_range_27[5].to_felt() * 32 + u124_range_27[6].to_felt() * 64 + u124_range_27[7].to_felt() * 128 + u124_range_27[8].to_felt() * 256 + u124_range_27[9].to_felt() * 512 + u124_range_27[10].to_felt() * 1024 + u124_range_27[11].to_felt() * 2048 + u124_range_27[12].to_felt() * 4096 + u124_range_27[13].to_felt() * 8192 + u124_range_27[14].to_felt() * 16384 + u124_range_27[15].to_felt() * 32768 == low_proof.index, "noncanonical integer range");
- let public_inputs_hash: Hash = psystd::poseidon_hash(receiver[0], receiver[1], receiver[2], receiver[3], amount[0], user_tree_root[0], user_tree_root[1], user_tree_root[2], user_tree_root[3], checkpoint_id, 293601306, ctx.contract_id, low_nullifier[0], low_nullifier[1], low_nullifier[2], low_nullifier[3]);
- let current: Hash = psystd::poseidon_two_to_one(private_note_inclusion_fingerprint, public_inputs_hash);
- for i in 0..16 {
-  let sibling: Hash = low_proof.siblings[i];
-  let index_bit: Felt = (low_proof.index >> i) & 1;
-  let other_bit: Felt = 1 - index_bit;
-  let left: Hash = [current[0]*other_bit + sibling[0]*index_bit, current[1]*other_bit + sibling[1]*index_bit, current[2]*other_bit + sibling[2]*index_bit, current[3]*other_bit + sibling[3]*index_bit];
-  let right: Hash = [sibling[0]*other_bit + current[0]*index_bit, sibling[1]*other_bit + current[1]*index_bit, sibling[2]*other_bit + current[2]*index_bit, sibling[3]*other_bit + current[3]*index_bit];
-  current = psystd::poseidon_two_to_one(left, right);
- }
- require(current[0] == expected_root[0] && current[1] == expected_root[1] && current[2] == expected_root[2] && current[3] == expected_root[3], "private low proof tree root mismatch");
- let nullifier_key: Hash = psystd::poseidon_hash(1, low_nullifier[0], low_nullifier[1], low_nullifier[2], low_nullifier[3]);
- require(!self.private_nullifiers.contains(nullifier_key), "nullifier already claimed");
- self.private_nullifiers.insert(nullifier_key, [1, 0, 0, 0]);
-} else {
- require(low_nullifier[0] == 0 && low_nullifier[1] == 0 && low_nullifier[2] == 0 && low_nullifier[3] == 0 && low_proof.index == 0, "zero limb must use an empty proof");
- for i in 0..16 { let sibling: Hash = low_proof.siblings[i]; require(sibling[0] == 0 && sibling[1] == 0 && sibling[2] == 0 && sibling[3] == 0, "zero limb must use empty siblings"); }
+ let key: Hash = psystd::poseidon_hash(1, low_nullifier[0], low_nullifier[1], low_nullifier[2], low_nullifier[3]);
+ require(!self.private_nullifiers.contains(key), "nullifier already claimed");
+ self.private_nullifiers.insert(key, [1, 0, 0, 0]);
 }
 
 
 if amount[1] != 0 {
- let u124_range_28 = psystd::split_bits(high_proof.index, 16);
-require(u124_range_28[0].to_felt() * 1 + u124_range_28[1].to_felt() * 2 + u124_range_28[2].to_felt() * 4 + u124_range_28[3].to_felt() * 8 + u124_range_28[4].to_felt() * 16 + u124_range_28[5].to_felt() * 32 + u124_range_28[6].to_felt() * 64 + u124_range_28[7].to_felt() * 128 + u124_range_28[8].to_felt() * 256 + u124_range_28[9].to_felt() * 512 + u124_range_28[10].to_felt() * 1024 + u124_range_28[11].to_felt() * 2048 + u124_range_28[12].to_felt() * 4096 + u124_range_28[13].to_felt() * 8192 + u124_range_28[14].to_felt() * 16384 + u124_range_28[15].to_felt() * 32768 == high_proof.index, "noncanonical integer range");
- let public_inputs_hash: Hash = psystd::poseidon_hash(receiver[0], receiver[1], receiver[2], receiver[3], amount[1], user_tree_root[0], user_tree_root[1], user_tree_root[2], user_tree_root[3], checkpoint_id, 293601307, ctx.contract_id, high_nullifier[0], high_nullifier[1], high_nullifier[2], high_nullifier[3]);
- let current: Hash = psystd::poseidon_two_to_one(private_note_inclusion_fingerprint, public_inputs_hash);
- for i in 0..16 {
-  let sibling: Hash = high_proof.siblings[i];
-  let index_bit: Felt = (high_proof.index >> i) & 1;
-  let other_bit: Felt = 1 - index_bit;
-  let left: Hash = [current[0]*other_bit + sibling[0]*index_bit, current[1]*other_bit + sibling[1]*index_bit, current[2]*other_bit + sibling[2]*index_bit, current[3]*other_bit + sibling[3]*index_bit];
-  let right: Hash = [sibling[0]*other_bit + current[0]*index_bit, sibling[1]*other_bit + current[1]*index_bit, sibling[2]*other_bit + current[2]*index_bit, sibling[3]*other_bit + current[3]*index_bit];
-  current = psystd::poseidon_two_to_one(left, right);
- }
- require(current[0] == expected_root[0] && current[1] == expected_root[1] && current[2] == expected_root[2] && current[3] == expected_root[3], "private high proof tree root mismatch");
- let nullifier_key: Hash = psystd::poseidon_hash(1, high_nullifier[0], high_nullifier[1], high_nullifier[2], high_nullifier[3]);
- require(!self.private_nullifiers.contains(nullifier_key), "nullifier already claimed");
- self.private_nullifiers.insert(nullifier_key, [1, 0, 0, 0]);
-} else {
- require(high_nullifier[0] == 0 && high_nullifier[1] == 0 && high_nullifier[2] == 0 && high_nullifier[3] == 0 && high_proof.index == 0, "zero limb must use an empty proof");
- for i in 0..16 { let sibling: Hash = high_proof.siblings[i]; require(sibling[0] == 0 && sibling[1] == 0 && sibling[2] == 0 && sibling[3] == 0, "zero limb must use empty siblings"); }
+ let key: Hash = psystd::poseidon_hash(1, high_nullifier[0], high_nullifier[1], high_nullifier[2], high_nullifier[3]);
+ require(!self.private_nullifiers.contains(key), "nullifier already claimed");
+ self.private_nullifiers.insert(key, [1, 0, 0, 0]);
 }
 
   self.balance = next_private_balance;

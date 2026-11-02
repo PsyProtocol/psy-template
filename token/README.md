@@ -124,6 +124,15 @@ It uses separately denomination-bound low/high note trees and existing native no
 The initial local compile, native proof, VM and assertion-circuit checks passed; deployment and full CFC/UPS acceptance were still pending at that historical milestone.
 It requires a new contract ID; do not update the default public token or old private contract 53 in place.
 
+Current selected-SDK continuation (2 November UTC): the
+[application compiler and compact-claim report](../docs/security/PRIVATE_FT_CONTEXT_COMPATIBILITY_20261102.md)
+closes the missing authenticated-root frontend gap without patching SDK/Node.
+The 86-word claim fits the selected SDK's 128-word limit and passes a complete
+ordinary synthetic claim UPS with fixed independent verification. A current
+transfer UPS, new deployment/key/resources, live wallet/MCP compact-ABI support
+and browser acceptance remain pending. Earlier single-Felt/private-v3 and
+October deployment evidence is historical, not current-chain acceptance.
+
 ## Additional preserved source references
 
 - [PSY20_DELEGATION_REPORT_2026-09-23.md](../tests/live/PSY20_DELEGATION_REPORT_2026-09-23.md)

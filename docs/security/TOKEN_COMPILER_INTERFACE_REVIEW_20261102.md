@@ -1,5 +1,12 @@
 # Token compiler interfaces — 2 November 2026
 
+Later continuation: the [private context compatibility report](PRIVATE_FT_CONTEXT_COMPATIBILITY_20261102.md)
+closes the application-side intrinsic gap with an explicit adapter, without
+patching the frozen SDK. Complete UPS testing also required a new 86-word claim
+ABI. The corrected artifact passes one complete ordinary synthetic claim UPS;
+raw frontend support and live acceptance are not implied. The observations
+below preserve the original pre-adapter failures and legacy-language boundary.
+
 ## Finding
 
 The screenshot shows the legacy `.psy` language used by `token/src/main.psy`

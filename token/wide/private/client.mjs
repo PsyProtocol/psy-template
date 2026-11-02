@@ -11,7 +11,8 @@ const isZero=a=>a.every(x=>x===0n);
 const positive=value=>{const limbs=encodeAmount(value);if(value===0n)throw new RangeError('positive amount required');return limbs;};
 export const emptyProof=()=>({siblings:Array.from({length:16},EMPTY),index:0});
 function proof(value){if(!value||!Array.isArray(value.siblings)||value.siblings.length!==16||!Number.isSafeInteger(value.index)||value.index<0||value.index>=65536)throw new RangeError('16 siblings and a 16-bit proof index required');return [...value.siblings.flatMap(hash),value.index];}
-export function createPrivateTokenCallBuilder(contractId){
+export function createPrivateTokenCallBuilder(contractId,{profile='compact-v2'}={}){
+ if(!['compact-v2','legacy-v1'].includes(profile))throw new TypeError('explicit private claim profile required');
  const pub=createTokenCallBuilder(contractId);
  if(contractId>=16777216)throw new RangeError('contract ID exceeds proof tree capacity');
  return {...pub,
@@ -21,7 +22,13 @@ export function createPrivateTokenCallBuilder(contractId){
    const ns=nullifiers.map(hash),ps=proofs.map(proof);
    for(let i=0;i<2;i++)if(limbs[i]===0n&&(!isZero(ns[i])||ps[i].some(x=>x!==0n&&x!==0)))throw new RangeError('zero limb must use an empty proof');
    if(limbs.every(x=>x!==0n)&&same(ns[0],ns[1]))throw new RangeError('distinct nullifiers required');
-   return tokenCall(contractId,'private_claim',[...hash(receiver),...limbs,...hash(userTreeRoot),felt(checkpointId),felt(random0),felt(random1),...ns.flat(),...ps.flat()]);
+   const prefix=[...hash(receiver),...limbs,...hash(userTreeRoot),felt(checkpointId),felt(random0),felt(random1),...ns.flat()];
+   if(profile==='legacy-v1')return tokenCall(contractId,'private_claim',[...prefix,...ps.flat()]);
+   if(limbs.every(x=>x!==0n)){
+    if(proofs[0].index%2!==0||proofs[1].index!==proofs[0].index+1)throw new RangeError('dual proof leaves must form an aligned sibling pair');
+    if(!proofs[0].siblings.slice(1).every((s,i)=>same(hash(s),hash(proofs[1].siblings[i+1]))))throw new Error('paired proof upper paths differ');
+   }
+   return tokenCall(contractId,'private_claim',[...prefix,...ps[limbs[0]!==0n?0:1]]);
   }
  };
 }
@@ -47,14 +54,14 @@ export async function preparePrivateTransfer({contractId,recipient,amount,hashPr
 }
 // proveNote binds the requested commitment to a coherent confirmed checkpoint.
 // Append ALL proofs first, then fetch BOTH paths against the final session root.
-export async function preparePrivateClaim({bundle,userTreeRoot,checkpointId,hashProvider,proveNote,addSessionProof,getSessionPath}){
+export async function preparePrivateClaim({bundle,userTreeRoot,checkpointId,hashProvider,proveNote,addSessionProof,getSessionPath,profile='compact-v2'}){
  const {contractId,recipient,amount,receiver,random0,random1}=bundle;
- createPrivateTokenCallBuilder(contractId);
+ createPrivateTokenCallBuilder(contractId,{profile});
  const limbs=positive(amount),root=hash(userTreeRoot),cp=felt(checkpointId);
  const expectedReceiver=hash(await hashProvider.hashNoPad([felt(recipient),1337n,felt(random0),felt(random1)]));
  if(!same(hash(receiver),expectedReceiver))throw new Error('bundle receiver mismatch');
  const seen=new Set(),indices=[],ns=[EMPTY(),EMPTY()],proofs=[emptyProof(),emptyProof()];
- for(const note of bundle.notes){
+ for(const note of [...bundle.notes].sort((a,b)=>a.limb-b.limb)){
   const limb=note.limb;if(![0,1].includes(limb)||seen.has(limb)||limbs[limb]===0n||felt(note.amount)!==limbs[limb]||note.noteRootSlot!==NOTE_ROOT_SLOTS[limb])throw new Error('invalid denomination note');seen.add(limb);
   const nullifier=hash(await hashProvider.hashNoPad(hash(note.nullifierSecret)));
   if(!same(nullifier,hash(note.nullifier)))throw new Error('bundle nullifier mismatch');
@@ -64,7 +71,20 @@ export async function preparePrivateClaim({bundle,userTreeRoot,checkpointId,hash
   const pi=hash(await hashProvider.hashNoPad([...receiver,limbs[limb],...root,cp,BigInt(NOTE_ROOT_SLOTS[limb]),BigInt(contractId),...nullifier]));
   const inclusion=await proveNote({...note,contractId,receiver,userTreeRoot:root,checkpointId:cp});
   if(!same(hash(inclusion.publicInputs),pi)||!same(hash(inclusion.fingerprint),PRIVATE_FINGERPRINT.map(BigInt)))throw new Error('native note proof binding mismatch');
-  indices.push({limb,index:await addSessionProof(inclusion),pi});ns[limb]=nullifier;
+  let index=await addSessionProof(inclusion);
+  if(!Number.isSafeInteger(index)||index<0||index>=65536)throw new RangeError('invalid session proof index');
+  if(profile==='compact-v2'&&limbs.every(x=>x!==0n)){
+   if(limb===0&&index%2===1){
+    if(index===65535)throw new RangeError('session lacks space for an aligned proof pair');
+    // Reinsert the exact already verified proof, never generate another proof
+    // or fabricate a padding leaf. Both real claims then share one Merkle path.
+    const aligned=await addSessionProof(inclusion);
+    if(aligned!==index+1)throw new Error('session changed while aligning the proof pair');
+    index=aligned;
+   }
+   if(limb===1&&index!==indices[0]?.index+1)throw new Error('session changed while appending paired proofs');
+  }
+  indices.push({limb,index,pi});ns[limb]=nullifier;
  }
  for(let i=0;i<2;i++)if((limbs[i]!==0n)!==seen.has(i))throw new Error('missing denomination note');
  let sessionRoot;
@@ -74,5 +94,5 @@ export async function preparePrivateClaim({bundle,userTreeRoot,checkpointId,hash
   for(let level=0;level<16;level++){const sibling=hash(path.siblings[level]);current=hash(await hashProvider.twoToOne((index>>level)&1?sibling:current,(index>>level)&1?current:sibling));}
   if(!same(current,hash(path.root))||(sessionRoot&&!same(sessionRoot,current)))throw new Error('session paths must share the final authenticated root');sessionRoot=current;proofs[limb]=path;
  }
- return {call:createPrivateTokenCallBuilder(contractId).privateClaim({receiver,amount,userTreeRoot:root,checkpointId:cp,random0,random1,nullifiers:ns,proofs}),sessionRoot};
+ return {call:createPrivateTokenCallBuilder(contractId,{profile}).privateClaim({receiver,amount,userTreeRoot:root,checkpointId:cp,random0,random1,nullifiers:ns,proofs}),sessionRoot,profile};
 }

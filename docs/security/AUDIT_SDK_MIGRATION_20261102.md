@@ -1,5 +1,15 @@
 # Audit SDK migration — 2 November 2026
 
+## Later private-FT application adaptation
+
+The [private context compatibility continuation](PRIVATE_FT_CONTEXT_COMPATIBILITY_20261102.md)
+adds explicit application-owned lowering for the frozen frontend's two missing
+root intrinsics. The current compact claim ABI passes a complete ordinary
+synthetic UPS, fixed independent verification and state/fee conservation. It
+requires a new instance/key/resource pack; the raw compiler, legacy templates
+and live UI remain separate boundaries. Original pre-adapter observations below
+are retained. SDK/Node sources and selected commit are unchanged.
+
 Current branch provenance is `mainnet-beta`, after both upstream refs reached
 the same frozen `01b8f2b0...` commit. The existing audit cohort names and hashes
 are immutable, and no SDK source or verification resource was replaced. See the

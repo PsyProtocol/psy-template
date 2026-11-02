@@ -1,5 +1,19 @@
 # Market correctness and reset-chain validation — 27 October 2026
 
+Latest private-FT continuation (2 November UTC): [application context lowering,
+86-word compact claim and complete ordinary claim UPS](PRIVATE_FT_CONTEXT_COMPATIBILITY_20261102.md).
+The frozen mainnet-beta source is unchanged. The application compiler now lowers
+the two missing authenticated-root intrinsics; actual complete proving exposed
+and fixed a separate 151-word ABI versus 128-word SDK limit. The corrected
+86-word artifact passes native-note/bytecode/gadget checks and one complete
+ordinary signed claim UPS with independent fixed verification, exact fees and
+U124 final-state conservation. Twenty-one other compiled methods and the layout
+are unchanged. Original failures and large artifacts stay outside Git; compact
+hash evidence is linked from the report. This is synthetic checkpoint acceptance,
+not a reset-chain deployment, full transfer UPS or browser payment. New live
+instance/key/resources and ordinary wallet/MCP compact-ABI integration remain
+separate gates. Earlier missing-intrinsic observations below are retained history.
+
 Latest authorized migration (2 November): [fixed audit release, native/bytecode builds and explicit Executor/client identity](AUDIT_SDK_MIGRATION_20261102.md). The user has now authorized audit SDK `01b8f2b0…`; the earlier read-only source-comparison entry below predates that authorization. The new 2,759-member freeze and explicit application profile retain the old SDK and evidence. Eleven ordinary verifier roles match the captured runtime, all four v18/v19 bytecodes compile, and scoped Executor/client/build-time checks pass. Eight fresh AMM v18 UPSs now pass; exact current Native dependency binding and the 472-file browser SDK/wallet build are complete. Curve adds twelve reachable UPSs and two ordinary-wallet full-stack proofs pass, including first-session claim; Book/NFT and actual WASM cohorts are continuing. Instance-specific resources and real reset-chain UI settlement/ordinary claims remain pending. No financial operation is added. [Immutable prerequisite evidence](../../executor/verification/2026-11-02-audit-migration-v1/README.md).
 
 Latest SDK source identification (2 November): [audit SDK exact Endcap match](AUDIT_SDK_COMPATIBILITY_20261102.md).

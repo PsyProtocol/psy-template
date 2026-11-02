@@ -1,0 +1,654 @@
+{
+  "schema": 1,
+  "scope": "Application-owned private U124 compiler lowering and compact claim, synthetic offline acceptance only",
+  "sdkBranch": "mainnet-beta",
+  "sdkCommit": "01b8f2b0a077367a7b9879baba1a72aea8ab5510",
+  "clientCommit": "7058070057c3242b5d8b29e1a31d498aaa4202c0",
+  "sourceManifestSha256": "246cfcb12788fe0d0eb79594556acdfcc7781d01641890e47836db1fbc93c467",
+  "sourceMembersVerified": 2759,
+  "sdkSourcePatches": 0,
+  "nodeSourcePatches": 0,
+  "profile": "private-context-dpn-v2",
+  "claimAbiWords": 86,
+  "sdkMaxCallDataWords": 128,
+  "financialOperations": 0,
+  "deployments": 0,
+  "browserAcceptance": false,
+  "fullTransferUpsAcceptance": false,
+  "fullClaimUpsAcceptance": "synthetic checkpoint only",
+  "nativeFingerprint": [
+    "2482434993266711942",
+    "6028864160300535936",
+    "2827549014984201026",
+    "3018365102481798071"
+  ],
+  "fixedEndcapFingerprint": "043e026dc674c310d8a9c529268a02619cab6f3779a74396a330c5ff0d0a5893",
+  "completeClaim": {
+    "amount": "1000000000000000000000000123",
+    "broadcast": false,
+    "callsIncludingBurn": 2,
+    "elapsedSeconds": 86.237353125,
+    "endUserLeaf": "2138ad17139ecf3a9aaf9278522c61d1853d11fdfc477729421ef7904a3d3af8",
+    "fixedVerifierVerified": true,
+    "fullUpsVerified": true,
+    "nativeArtifactSha256": "591336999bd2798d9545c3b545dbf33d6816e0c966fb8124f2f880bef6f47593",
+    "nativeConserved": true,
+    "nativeFee": 1000005000,
+    "noteSessionRoot": "8871ac5402ab59db26d147bdf30d34174dd1be22e184afae10dbf80daa54d263",
+    "ordinarySignature": true,
+    "privateArtifactSha256": "b7f4a9f49bc09bde262a9b41e8ec11763a17204ee41fdd24f5ff3b0f6e22fa91",
+    "requestSha256": "c1b6cd942af8e9647044cb1d0f686a57249288c431e60770f5f13fec6609625e",
+    "schema": 1,
+    "scope": "One complete ordinary private-claim UPS on synthetic authenticated checkpoints; source transfer setup VM-only; not live settlement or browser acceptance",
+    "sdkCommit": "01b8f2b0a077367a7b9879baba1a72aea8ab5510",
+    "sourceCheckpoint": 100,
+    "sourceUserTreeRoot": "38eac354e68a9b8bde2b743551912a7de62b4415814bb09495e60f35462c35e0",
+    "startUserLeaf": "71b9e36702b78757201e012ed4467a8b3515058b0a31c14128dcb52e90f86869",
+    "tokenConservedWithVmSetup": true,
+    "userId": 300
+  },
+  "observations": [
+    {
+      "command": [
+        "/Users/geir/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-template-security-20261016/token/wide/private/build.mjs",
+        "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-market-recovery-20261023/private-context-compact-20261102-v2/compiled-v2",
+        "--issuer",
+        "5"
+      ],
+      "exitCode": 0,
+      "seconds": 1.691755000007106,
+      "sdkPatches": 0,
+      "financialOperations": 0
+    },
+    {
+      "name": "javascript-v2",
+      "command": [
+        "/Users/geir/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "--test",
+        "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-template-security-20261016/token/wide/private/client.test.mjs",
+        "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-template-security-20261016/token/wide/private/privateContextGate.test.mjs"
+      ],
+      "exitCode": 0,
+      "seconds": 1.04842920799274,
+      "sampledFamilyPeakKiB": 32,
+      "samples": 1,
+      "stop": null,
+      "memoryScope": "1s samples of sum of own family RSS, includes shared pages; short peaks may be missed",
+      "financialOperations": 0,
+      "broadcast": false,
+      "artifact": "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-market-recovery-20261023/private-context-compact-20261102-v2/compiled-v2/compilation_artifact.json"
+    },
+    {
+      "name": "privacy-v2",
+      "command": [
+        "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-market-recovery-20261023/sdk-audit-migration-20261102-v1/target/release/deps/private_context_privacy-92a97e6e797e1eab",
+        "--nocapture",
+        "--test-threads=1"
+      ],
+      "exitCode": 0,
+      "seconds": 12.638319916994078,
+      "sampledFamilyPeakKiB": 485376,
+      "samples": 12,
+      "stop": null,
+      "memoryScope": "1s samples of sum of own family RSS, includes shared pages; short peaks may be missed",
+      "financialOperations": 0,
+      "broadcast": false,
+      "artifact": "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-market-recovery-20261023/private-context-compact-20261102-v2/compiled-v2/compilation_artifact.json"
+    },
+    {
+      "name": "adapter-units-v2",
+      "command": [
+        "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-market-recovery-20261023/sdk-audit-migration-20261102-v1/target/release/deps/compile_private-80c9bd50fc9c9b3c",
+        "--nocapture",
+        "--test-threads=1"
+      ],
+      "exitCode": 0,
+      "seconds": 1.0587260420143139,
+      "sampledFamilyPeakKiB": 32,
+      "samples": 1,
+      "stop": null,
+      "memoryScope": "1s samples of sum of own family RSS, includes shared pages; short peaks may be missed",
+      "financialOperations": 0,
+      "broadcast": false,
+      "artifact": "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-market-recovery-20261023/private-context-compact-20261102-v2/compiled-v2/compilation_artifact.json",
+      "profile": "sdk-audit-20261102-v1"
+    },
+    {
+      "name": "complete-claim-v2",
+      "command": [
+        "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-market-recovery-20261023/sdk-audit-migration-20261102-v1/target/release/deps/private_context_privacy-92a97e6e797e1eab",
+        "full_ups::private_claim_complete_ordinary_ups",
+        "--ignored",
+        "--exact",
+        "--nocapture",
+        "--test-threads=1"
+      ],
+      "exitCode": 101,
+      "seconds": 85.31415695798933,
+      "sampledFamilyPeakKiB": 1159472,
+      "samples": 82,
+      "stop": null,
+      "memoryScope": "1s samples of sum of own family RSS, includes shared pages; short peaks may be missed",
+      "financialOperations": 0,
+      "broadcast": false,
+      "artifact": "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-market-recovery-20261023/private-context-compact-20261102-v2/compiled-v2/compilation_artifact.json"
+    },
+    {
+      "name": "complete-claim-v3",
+      "command": [
+        "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-market-recovery-20261023/sdk-audit-migration-20261102-v1/target/release/deps/private_context_privacy-92a97e6e797e1eab",
+        "full_ups::private_claim_complete_ordinary_ups",
+        "--ignored",
+        "--exact",
+        "--nocapture",
+        "--test-threads=1"
+      ],
+      "exitCode": 0,
+      "seconds": 87.33936962499865,
+      "sampledFamilyPeakKiB": 1355120,
+      "samples": 84,
+      "stop": null,
+      "memoryScope": "1s samples of sum of own family RSS, includes shared pages; short peaks may be missed",
+      "financialOperations": 0,
+      "broadcast": false,
+      "artifact": "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-market-recovery-20261023/private-context-compact-20261102-v2/compiled-v2/compilation_artifact.json",
+      "profile": "sdk-audit-20261102-v1"
+    },
+    {
+      "unchangedCompiledMethods": [
+        "set_metadata",
+        "set_extended_metadata",
+        "set_max_supply",
+        "mint",
+        "mint_to",
+        "burn",
+        "settle_burn",
+        "set_mint_authority",
+        "renounce_mint_authority",
+        "transfer",
+        "claim",
+        "cancel_unclaimed_payment",
+        "refund_claimed_payment",
+        "batch_transfer_2",
+        "batch_transfer_5",
+        "open_delegation_channel",
+        "spend_delegation",
+        "request_revoke_delegation",
+        "close_delegation_channel",
+        "finalize_revoke_delegation",
+        "private_transfer"
+      ],
+      "unchangedMethodCount": 21,
+      "stateFieldsAndLayoutUnchanged": true,
+      "stateHeight": 32,
+      "changedMethod": "private_claim",
+      "financialOperations": 0,
+      "priorHostInspection": "Initial comparison used nonexistent ABI fields key and raised KeyError before layout comparison; corrected to actual state/state_layout schema; not a contract/proof result."
+    },
+    {
+      "command": [
+        "npm",
+        "run",
+        "test:token-wide-private:vm",
+        "--",
+        "--list"
+      ],
+      "exitCode": 0,
+      "seconds": 1.8453925829962827,
+      "scope": "Actual selected npm/Cargo entry lists compiler and privacy tests without generating new proofs",
+      "financialOperations": 0,
+      "nativeNoteProofs": 0
+    }
+  ],
+  "correctedSourceHashes": {
+    "token/compiler/private_context.rs": "4071cb38529056c6480479fb36e40222255b8fd773518e6737c0df39c2bd2f12",
+    "token/wide/private/prepare_selected_toolchain.py": "dfe6d71fbc34da1d29483825548300f05d494eb8ea9aaf570b1f0986b58d34cd",
+    "token/wide/private/prepare-toolchain.mjs": "fe53f4e9d0495b9060f836e74aa803b9a9c73c2d3c0b495ecd3829f013d7d8d4",
+    "token/wide/private/build.mjs": "c9292aad62f67b686f006c7b3dff3e92a8cf885bfcf379f04496bc8bb3fe6a76",
+    "token/wide/private/generate.mjs": "2a1e7c165fc734f9ba9511107b402b8d77fbfccc62d9b18942a6b28faa864249",
+    "token/wide/private/src/main.psy.rs": "d168ec311728d423a25256930eca4e598057a14c4bdc4d96ed44c026c2222298",
+    "token/wide/private/artifactGate.mjs": "6cd048dabd10807c0b85ad4d9d1f422cbe7a3427d0bb7c21cfcb245bee68bbce",
+    "token/wide/private/privateContextGate.mjs": "1f5ce69abe4169d000bbb26587b537962a2a2e3ec12ab6c8591ec14e2ad9116b",
+    "token/wide/private/privateContextGate.test.mjs": "1e7c7fc14ffcc1bbfea794a7f99a221769bef4896485b6608dc715a60ba43cfd",
+    "token/wide/private/client.mjs": "01ec4fb26bcf856c7acc4d53390f95de825a700d2ad9eec650c6de15b8a2be24",
+    "token/wide/private/client.test.mjs": "6cc83e099fd7c3a3a44b69a1a30107fe7e2f4a3033e381433117214b0ef90981",
+    "token/wide/private/vm-tests/src/bin/compile_private.rs": "c613f0e9cf93d8bd8b4be16b90dea22bcde5e22ceb01be7a4a23cf54f40d0355",
+    "token/wide/private/vm-tests/tests/privacy.rs": "90ae30d6b498e5d9ce3f59af418ea251cf0548b586adce4b9956cddddbb2823f",
+    "token/wide/private/vm-tests/tests/support/private_full_ups.rs": "8d7f01a4f9454f3533553fbf9187f62338de371ddffa4f22dd10e8ead2227666",
+    "package.json": "89f0640b5a401aef746ac94044fccf51cef1e28dd88c24ae343feddc89dcd6c7"
+  },
+  "testBinaries": {
+    "compile_private-80c9bd50fc9c9b3c": {
+      "sha256": "8ed166791e9c9287a8587c0970379c089b74c2c087d7b392b86223d024c1f3d1",
+      "bytes": 19010928
+    },
+    "private_context_privacy-92a97e6e797e1eab": {
+      "sha256": "1584d9ac36f74e0d9104b53e54e71105820ad2e2b8917df1b71bf70370a9d4f0",
+      "bytes": 24073920
+    }
+  },
+  "rawRecords": [
+    {
+      "localRecoveryPath": "private-context-compact-20261102-v2/adapter-units-v1.log",
+      "sha256": "a743b9036be7771ccf4427c40cf68ff5d33db29cd747d90b873e2c4900e94bde",
+      "bytes": 323
+    },
+    {
+      "localRecoveryPath": "private-context-compact-20261102-v2/adapter-units-v2.log",
+      "sha256": "1847b6ad1f0362b9c95f73351ffa8c4f0e1e313508db83cd931d4ee43046a74b",
+      "bytes": 323
+    },
+    {
+      "localRecoveryPath": "private-context-compact-20261102-v2/compile-v1.log",
+      "sha256": "03cee401ea412365354cbbafcd90624046306e9f6b365dd0dd2c2fb01080bae7",
+      "bytes": 1929
+    },
+    {
+      "localRecoveryPath": "private-context-compact-20261102-v2/compile-v2.log",
+      "sha256": "61dc13eff966c6532b72a403ba88ea0bb90b2d98d2f0a51fb862f3497a0fdf99",
+      "bytes": 1929
+    },
+    {
+      "localRecoveryPath": "private-context-compact-20261102-v2/compiled-v2/abi.json",
+      "sha256": "467747e8f6d17f442a974ed2a923b6aca33eca43875c089c42998ad6da3b9386",
+      "bytes": 41236
+    },
+    {
+      "localRecoveryPath": "private-context-compact-20261102-v2/compiled-v2/circuit_defs.json",
+      "sha256": "8143986dab67e83d8112a275256b4eef95991660c378accb428713ceff44a103",
+      "bytes": 4462078
+    },
+    {
+      "localRecoveryPath": "private-context-compact-20261102-v2/compiled-v2/compilation_artifact.json",
+      "sha256": "b7f4a9f49bc09bde262a9b41e8ec11763a17204ee41fdd24f5ff3b0f6e22fa91",
+      "bytes": 4483199
+    },
+    {
+      "localRecoveryPath": "private-context-compact-20261102-v2/compiled-v2/compiler-profile.json",
+      "sha256": "f26adfeff0c609db935a03f4dc61dbc9fda98c9719ed56e8f0ce32e525e9b0b5",
+      "bytes": 310
+    },
+    {
+      "localRecoveryPath": "private-context-compact-20261102-v2/compiled-v2/contract_code.bin",
+      "sha256": "1da3559c470950f6c0d8c3226ce604ca983d008b649c17070ce87cb383a474cb",
+      "bytes": 3238249
+    },
+    {
+      "localRecoveryPath": "private-context-compact-20261102-v2/compiled-v2/review.json",
+      "sha256": "4d2b0fd33bc20d14332f825cd03925e6e773ba30124999b7f969dd2a98e84554",
+      "bytes": 2083
+    },
+    {
+      "localRecoveryPath": "private-context-compact-20261102-v2/compiled-v2/source.psy.rs",
+      "sha256": "d168ec311728d423a25256930eca4e598057a14c4bdc4d96ed44c026c2222298",
+      "bytes": 1072820
+    },
+    {
+      "localRecoveryPath": "private-context-compact-20261102-v2/complete-claim-v2.log",
+      "sha256": "61250ff858789ebb8514de0e29967145dcd4670f55558ddff91d9eadda5eb364",
+      "bytes": 1919
+    },
+    {
+      "localRecoveryPath": "private-context-compact-20261102-v2/complete-claim-v3/REPORT.json",
+      "sha256": "565741e624edd5d79fce9beb5f35742e7b527fc0c99d397183b3aec33d33be2f",
+      "bytes": 1223
+    },
+    {
+      "localRecoveryPath": "private-context-compact-20261102-v2/complete-claim-v3/request.json",
+      "sha256": "c1b6cd942af8e9647044cb1d0f686a57249288c431e60770f5f13fec6609625e",
+      "bytes": 482421
+    },
+    {
+      "localRecoveryPath": "private-context-compact-20261102-v2/complete-claim-v3.log",
+      "sha256": "ef1936ccab61c2e21c55c9dbd1f07bd79216ac2834f10e86367bd8b7b7bdd142",
+      "bytes": 3238
+    },
+    {
+      "localRecoveryPath": "private-context-compact-20261102-v2/failed-conditional-hash-source-v1.psy.rs",
+      "sha256": "e339c6d1455af34aaeacfa05618d9c6c09326ce9ea64311719d7ff84e47b3ef3",
+      "bytes": 1072585
+    },
+    {
+      "localRecoveryPath": "private-context-compact-20261102-v2/failed-late-profile-guard-test-v1.rs",
+      "sha256": "38d6a5743f3d687d07d0a403ff0f6edbaf4246fc80c8bc7255bb0ba9e61fd606",
+      "bytes": 14727
+    },
+    {
+      "localRecoveryPath": "private-context-compact-20261102-v2/javascript-v2.log",
+      "sha256": "c541532f39a401e2332a60a5ccaed9708b396867740b1998c42d1dfed1112053",
+      "bytes": 1170
+    },
+    {
+      "localRecoveryPath": "private-context-compact-20261102-v2/privacy-v1.log",
+      "sha256": "2e09589bf2dc667e120876edcd53e10e0694f17d4fd3cc91978c28ac29cbcbe9",
+      "bytes": 1421
+    },
+    {
+      "localRecoveryPath": "private-context-compact-20261102-v2/privacy-v2.log",
+      "sha256": "97dd2b3be205ce9e165c8cf3fa517b660bb2def6e5048e59ffbaf36d937d0eab",
+      "bytes": 1006
+    },
+    {
+      "localRecoveryPath": "private-context-compact-20261102-v2/public/COHORT-v1.json",
+      "sha256": "a23f702d336d3b94264bfb2757bca92b0af2331307eac3fb6f54e3be86f8d3bc",
+      "bytes": 761
+    },
+    {
+      "localRecoveryPath": "private-context-compact-20261102-v2/public/COHORT-v2.json",
+      "sha256": "e79f5ab305a8a7f2b276a7c5a19c31c796b69d2e816573604eda6fa4c0d5fff9",
+      "bytes": 2465
+    },
+    {
+      "localRecoveryPath": "private-context-compact-20261102-v2/public/COHORT-v3.json",
+      "sha256": "9b9366b862344bfc74bb8c0220bac9cefa70daa045b57010a62c201ce4b810bd",
+      "bytes": 1658
+    },
+    {
+      "localRecoveryPath": "private-context-compact-20261102-v2/public/COMPILE-v1.json",
+      "sha256": "f59e25235c3de91568d88037fd1ffb84452aab6140f09cba87088fb39e8fbc6b",
+      "bytes": 478
+    },
+    {
+      "localRecoveryPath": "private-context-compact-20261102-v2/public/COMPILE-v2.json",
+      "sha256": "74222ec4f2d9054a3b120aef52c08530b9f55b70b2677f3257d6bed6a0efff9b",
+      "bytes": 480
+    },
+    {
+      "localRecoveryPath": "private-context-compact-20261102-v2/public/HASH-SELECTION-CORRECTION-v1.json",
+      "sha256": "4e735058063edce23b1a49b42751ac803c203df092bca20b98a562c0537bc991",
+      "bytes": 615
+    },
+    {
+      "localRecoveryPath": "private-context-compact-20261102-v2/public/PLAN.json",
+      "sha256": "b694f0107514878bb76699a8cb19f16417675db8c23347159238e82f46c0a91b",
+      "bytes": 1644
+    },
+    {
+      "localRecoveryPath": "private-context-compact-20261102-v2/public/PROFILE-CORRECTION-v1.json",
+      "sha256": "6b83800ef29664598d6d508b7a72755b5c3005a402c37cdd7726a67ad54ac534",
+      "bytes": 671
+    },
+    {
+      "localRecoveryPath": "private-context-compact-20261102-v2/public/TEST-BUILD-v1.json",
+      "sha256": "b938aa88ea41ba9875f5d80430a721a66cd8ce81012843983231377b372ae245",
+      "bytes": 351
+    },
+    {
+      "localRecoveryPath": "private-context-compact-20261102-v2/public/TEST-BUILD-v2.json",
+      "sha256": "694ba62d5884caab53dc3a7128c354faafbd7119f9db3ae227b6acf4a5c9628e",
+      "bytes": 423
+    },
+    {
+      "localRecoveryPath": "private-context-compact-20261102-v2/public/TOOLCHAIN-v1.json",
+      "sha256": "947687d8ff3163856e1c3842475e0006c10fc78e07f83d59e98e42159c7d6f9e",
+      "bytes": 625
+    },
+    {
+      "localRecoveryPath": "private-context-compact-20261102-v2/public/UNCHANGED-METHODS-v1.json",
+      "sha256": "c6228766096f5a262c4df159e60f8b57be0591283d47bed0afcc60897541cf9f",
+      "bytes": 899
+    },
+    {
+      "localRecoveryPath": "private-context-compact-20261102-v2/public/adapter-units-v1.json",
+      "sha256": "e15dd78969a9c67bf6f0642e2b218434907755c1729ad3c0f85c3db779741b7b",
+      "bytes": 419
+    },
+    {
+      "localRecoveryPath": "private-context-compact-20261102-v2/public/adapter-units-v2.json",
+      "sha256": "90d01b026dfecf00b98517d60d2d58f135deb20ac7182bbf9209755e543c1ff6",
+      "bytes": 738
+    },
+    {
+      "localRecoveryPath": "private-context-compact-20261102-v2/public/complete-claim-v2.json",
+      "sha256": "c86ccbe16d71a426891567de8dc157085cdf77ddd04c395c2d09d5acdb3d8310",
+      "bytes": 801
+    },
+    {
+      "localRecoveryPath": "private-context-compact-20261102-v2/public/complete-claim-v3.json",
+      "sha256": "d977f7780ba1c1eb9468a3fff11c8c38186cb1d2ce081eb686e6b7a5e8cd7bec",
+      "bytes": 837
+    },
+    {
+      "localRecoveryPath": "private-context-compact-20261102-v2/public/javascript-v2.json",
+      "sha256": "c33f787c283070c1186d6b9ec3fd6e7835f97fc14a354bafb2260e7770b7934b",
+      "bytes": 841
+    },
+    {
+      "localRecoveryPath": "private-context-compact-20261102-v2/public/privacy-v1.json",
+      "sha256": "a69b789fbc23538ef48ed1578aa8987c442b2947c003f2f2c679c218bab60b9a",
+      "bytes": 1078
+    },
+    {
+      "localRecoveryPath": "private-context-compact-20261102-v2/public/privacy-v2.json",
+      "sha256": "ee1e19dac16fa7bdf1d186eb234e782caf029573f3bbbe9a2208e9f105fb8ca5",
+      "bytes": 707
+    },
+    {
+      "localRecoveryPath": "private-context-compact-20261102-v2/test-build-v1.log",
+      "sha256": "9ee5c2172bd1bf4ac31c7840841b299724db92540adec3fc902ce24ae605a934",
+      "bytes": 51784
+    },
+    {
+      "localRecoveryPath": "private-context-compact-20261102-v2/test-build-v2.log",
+      "sha256": "7f13080edb1a15d63a98cf2c936fb2774b37c030ce89f176bc4450ebe8aae4f1",
+      "bytes": 51784
+    },
+    {
+      "localRecoveryPath": "private-context-compact-20261102-v2/toolchain/application/Cargo.lock",
+      "sha256": "d12d86f486408d3b88f496dde27e6494839511489a1202e778f09f0eca3c1183",
+      "bytes": 217301
+    },
+    {
+      "localRecoveryPath": "private-context-compact-20261102-v2/toolchain/application/Cargo.toml",
+      "sha256": "d8979f49e881cd302b468a7deb690db52f423eae5e044b71ea74b3442c9f6735",
+      "bytes": 5007
+    },
+    {
+      "localRecoveryPath": "private-context-compact-20261102-v2/toolchain/application/PRIVATE-COMPILER-SOURCE.json",
+      "sha256": "16fcca30073c3c0b02d82f414db21681959e2709511c9547f98cf72e56607c43",
+      "bytes": 21727
+    },
+    {
+      "localRecoveryPath": "private-context-compact-20261102-v2/toolchain/application/src/private_source_fixture.psy.rs",
+      "sha256": "e339c6d1455af34aaeacfa05618d9c6c09326ce9ea64311719d7ff84e47b3ef3",
+      "bytes": 1072585
+    },
+    {
+      "localRecoveryPath": "private-context-compact-20261102-v2/toolchain/application/tests/private_context_privacy.rs",
+      "sha256": "90ae30d6b498e5d9ce3f59af418ea251cf0548b586adce4b9956cddddbb2823f",
+      "bytes": 25173
+    },
+    {
+      "localRecoveryPath": "private-context-compact-20261102-v2/toolchain/application/tests/support/private_full_ups.rs",
+      "sha256": "8d7f01a4f9454f3533553fbf9187f62338de371ddffa4f22dd10e8ead2227666",
+      "bytes": 14887
+    },
+    {
+      "localRecoveryPath": "private-context-compact-20261102-v2/toolchain/toolchain.json",
+      "sha256": "aa5412249f7e928e441a7d8e71c06a61330630771e1374d253b93075cbe2be66",
+      "bytes": 1412
+    },
+    {
+      "localRecoveryPath": "private-context-compact-20261102-v2/toolchain-v1.log",
+      "sha256": "6f9e1afc0aa06ba4da1da49e992456ed7c78793951b9cbc4b9cd48729965850e",
+      "bytes": 21694
+    },
+    {
+      "localRecoveryPath": "private-context-compat-20261102-v1/adapter-units-v1.log",
+      "sha256": "ef538b7ba3a0c44b136ff1e5bf617e09dc8e3691803a0d5374df02355a933733",
+      "bytes": 323
+    },
+    {
+      "localRecoveryPath": "private-context-compat-20261102-v1/assertion-gadgets-v1.log",
+      "sha256": "7de322b93c54c9e28db3cd5cf7b1d89c1f8744aac57373af8ae9155f46bdcea8",
+      "bytes": 246
+    },
+    {
+      "localRecoveryPath": "private-context-compat-20261102-v1/build-v1.log",
+      "sha256": "7ff890f64a527bcd8ddf3617708baac791f639debea6e6b97102718896ffeb3f",
+      "bytes": 51253
+    },
+    {
+      "localRecoveryPath": "private-context-compat-20261102-v1/compile-v1.log",
+      "sha256": "5e55e187a8e770b316d698bfcfa81bfcdfd71c46bc340cbe16f97d4de1f04be6",
+      "bytes": 48
+    },
+    {
+      "localRecoveryPath": "private-context-compat-20261102-v1/complete-claim-v1.log",
+      "sha256": "d69c16d47133df6e2be572b4e821701002d740cd378ab9ff65aca52a6367ed58",
+      "bytes": 1867
+    },
+    {
+      "localRecoveryPath": "private-context-compat-20261102-v1/fingerprint-v1.log",
+      "sha256": "536468e6ab287d5e2cc2335e04de4b969f108538612818280de9bae6e9160363",
+      "bytes": 90
+    },
+    {
+      "localRecoveryPath": "private-context-compat-20261102-v1/prepare-v2.log",
+      "sha256": "563a0c5a79710c3b89be16a3f4a83f9d40e7920f24807bf32f1041ee4d5ef185",
+      "bytes": 20351
+    },
+    {
+      "localRecoveryPath": "private-context-compat-20261102-v1/prepare.log",
+      "sha256": "4ae1116bcc795d08e17a60853604d9d06d094cf928da387300999de203bacc4e",
+      "bytes": 20066
+    },
+    {
+      "localRecoveryPath": "private-context-compat-20261102-v1/privacy-v1.log",
+      "sha256": "6bc733d19552db726d9c7dc547cacf4cc3ef5007440f528d17003ead46317a85",
+      "bytes": 963
+    },
+    {
+      "localRecoveryPath": "private-context-compat-20261102-v1/public/BUILD-v1.json",
+      "sha256": "3ba230fa10a534f7b121acb8b3560e9f0276570d373ce378d67818970df7cb09",
+      "bytes": 349
+    },
+    {
+      "localRecoveryPath": "private-context-compat-20261102-v1/public/COMPILE-v1.json",
+      "sha256": "2ec93cf778d5da356e2c6644b1f7a1631eaf0c2de3b9094b63f6b27d02428fca",
+      "bytes": 441
+    },
+    {
+      "localRecoveryPath": "private-context-compat-20261102-v1/public/COMPLETE-COHORT-v1.json",
+      "sha256": "ad614469b0dcbd9bcf6962ea332be011cb3ba2b14cbbe72b4f011743f6bf264c",
+      "bytes": 717
+    },
+    {
+      "localRecoveryPath": "private-context-compat-20261102-v1/public/FIXTURE-CORRECTION-v1.json",
+      "sha256": "5f2c8036ee816aa544641e15afabc04b6df10a6dc74b41bada711a957bb79776",
+      "bytes": 660
+    },
+    {
+      "localRecoveryPath": "private-context-compat-20261102-v1/public/LOCAL-PROOFS-v1.json",
+      "sha256": "5ee2bf4ac638620b41a3a8d41dec183dcf43b4a5bcc5cde65cdaeb69a71dc385",
+      "bytes": 729
+    },
+    {
+      "localRecoveryPath": "private-context-compat-20261102-v1/public/PLAN.json",
+      "sha256": "ca44c0f22b18dfc819e7f61ae1d9a66073d4c6d09ac74272ea143c85cd43cfca",
+      "bytes": 741
+    },
+    {
+      "localRecoveryPath": "private-context-compat-20261102-v1/public/SCOPE-v2.json",
+      "sha256": "0dde094f4f48ae096f6fa1d16e43d3d78684dc607b88ac988e82fbb1d147e542",
+      "bytes": 666
+    },
+    {
+      "localRecoveryPath": "private-context-compat-20261102-v1/public/TEST-BUILD-v1.json",
+      "sha256": "a47e189354cce96770d0acde47f9d5283d56d01f1df2400d1a556d846e885ccc",
+      "bytes": 353
+    },
+    {
+      "localRecoveryPath": "private-context-compat-20261102-v1/public/TEST-BUILD-v2.json",
+      "sha256": "ed17ad7d9eef4e4002f06874c0db7fff964508aa705e35249712f1653dbd69a5",
+      "bytes": 351
+    },
+    {
+      "localRecoveryPath": "private-context-compat-20261102-v1/public/TEST-BUILD-v3.json",
+      "sha256": "24915bed439fe9153fc218201673274c33120ebe8ca7e8ddafbb7c07d55d8dd2",
+      "bytes": 354
+    },
+    {
+      "localRecoveryPath": "private-context-compat-20261102-v1/public/TEST-BUILD-v4.json",
+      "sha256": "7157ed7838bcd7ad3bb034afce6ccef21041c9e8d049bab094f471e055fc5ae8",
+      "bytes": 559
+    },
+    {
+      "localRecoveryPath": "private-context-compat-20261102-v1/public/adapter-units-v1.json",
+      "sha256": "a8d71085781c5dd7bc63c8c252aeb878ef000c940594f518254d3574490bf03a",
+      "bytes": 400
+    },
+    {
+      "localRecoveryPath": "private-context-compat-20261102-v1/public/assertion-gadgets-v1.json",
+      "sha256": "0cdb966a7f07fcc61530cbce37670b2b7aacd7c59a45d10103ad76911ba68bce",
+      "bytes": 395
+    },
+    {
+      "localRecoveryPath": "private-context-compat-20261102-v1/public/complete-claim-v1.json",
+      "sha256": "360fe1c08ec7507a3237623fd71d501ae1fcbd9c9a92780d5764767980edc177",
+      "bytes": 4150
+    },
+    {
+      "localRecoveryPath": "private-context-compat-20261102-v1/public/privacy-v1.json",
+      "sha256": "32ee7644905dbbb947544b269791e2d70484adafcef0d24621dd71a9fbf362b0",
+      "bytes": 1059
+    },
+    {
+      "localRecoveryPath": "private-context-compat-20261102-v1/test-build-v1.log",
+      "sha256": "04f8f3ccdfb785c4bddc364762702da1e7d1010235f004ce657d2aeefb649605",
+      "bytes": 51790
+    },
+    {
+      "localRecoveryPath": "private-context-compat-20261102-v1/test-build-v2.log",
+      "sha256": "5c0d2353a00c1e2a9a38223de9ffd2b0871bf60de3ab0ca245368a4253a0340c",
+      "bytes": 51781
+    },
+    {
+      "localRecoveryPath": "private-context-compat-20261102-v1/test-build-v3.log",
+      "sha256": "5aec3cdd160d27e6e09830ef97eefc6a855a8b2f23f265d4decdfc028d5515da",
+      "bytes": 53385
+    },
+    {
+      "localRecoveryPath": "private-context-compat-20261102-v1/test-build-v4.log",
+      "sha256": "9f3cfecf6c3116d44c05f04f9102ebe59f1907640b8a437bbcb52fbbdcd08f77",
+      "bytes": 51784
+    },
+    {
+      "localRecoveryPath": "private-context-compact-20261102-v2/public/NPM-SELECTED-ENTRY-v1.json",
+      "sha256": "f34a0ae83eb9a1540fe46f5479a362161abb02b82b9c332a1dd9f7050d849a81",
+      "bytes": 314
+    },
+    {
+      "localRecoveryPath": "private-context-compact-20261102-v2/npm-selected-test-entry-v1.log",
+      "sha256": "164600b38e6839319da129785b7d628ff81fbb1592521656610890885e11b939",
+      "bytes": 52591
+    }
+  ],
+  "rawRecordsLocation": "External sibling psy-market-recovery-20261023; paths and hashes only, no archives/proof trees in Git",
+  "compactCaseBudgetObserved": {
+    "nativeBuildCommands": 3,
+    "maximumNativeBuildCommands": 4,
+    "nativeNoteProofApiAttempts": 12,
+    "maximumNativeNoteProofApiAttemptsAfterExplicitCorrection": 12,
+    "completeUpsAttempts": 2,
+    "maximumCompleteUpsAttempts": 2,
+    "financialOperations": 0,
+    "additionalCargoEntryListCommands": 1
+  },
+  "knownFailures": [
+    "Historical ExecutionContext omitted current fields",
+    "Missing get_leaf_sfc trait import in first complete harness build",
+    "Historical assertion oracle assumed numeric state-command indices",
+    "151-word ABI exceeds selected SDK 128-word limit",
+    "First compact conditional Hash selection rejected by VM/gadget checks",
+    "Missing explicit testnet profile rejected independent verifier after first compact Endcap; guard now runs before proving"
+  ],
+  "remaining": [
+    "Raw upstream frontend lacks both intrinsics; application adapter required",
+    "New actual-chain issuer/contract/key/resource deployment needed",
+    "Current private-transfer complete UPS and live transfer/claim acceptance pending",
+    "Ordinary wallet/MCP compact ABI adaptation and actual browser acceptance pending"
+  ],
+  "performanceScope": "One successful synthetic process, not a matched baseline, live confirmation, TPS, p95 or physical memory peak"
+}

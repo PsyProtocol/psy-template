@@ -8,6 +8,15 @@ const issuer=Number(args[2]);if(!Number.isSafeInteger(issuer)||issuer<1||issuer>
 const out=resolve(args[0]);if(existsSync(out))throw Error('Refusing to overwrite '+out);
 const compiler=process.env.TOKEN_WIDE_PRIVATE_COMPILER,fingerprintTool=process.env.TOKEN_WIDE_PRIVATE_FINGERPRINT;
 if(!compiler||!fingerprintTool)throw Error('Set TOKEN_WIDE_PRIVATE_COMPILER and TOKEN_WIDE_PRIVATE_FINGERPRINT from prepare-toolchain.mjs');
+const sha=b=>createHash('sha256').update(b).digest('hex');
+const selected=JSON.parse(readFileSync(join(here,'../../../batching/dependencies/selected.json')));
+const toolchainPath=process.env.TOKEN_WIDE_PRIVATE_TOOLCHAIN??join(dirname(resolve(compiler)),'../toolchain.json');
+const toolchain=JSON.parse(readFileSync(toolchainPath));
+if(toolchain.schema!==1||toolchain.profile!=='private-context-dpn-v2'||toolchain.sdkCommit!==selected.sdkCommit||
+ toolchain.clientCommit!==selected.clientCommit||toolchain.sourceManifestSha256!==selected.sourceManifestSha256||
+ toolchain.sourceCheckoutEdited!==false||toolchain.sdkSourcePatches?.length!==0||
+ toolchain.compilerSha256!==sha(readFileSync(compiler))||toolchain.fingerprintToolSha256!==sha(readFileSync(fingerprintTool)))
+ throw Error('Explicit selected SDK application compiler and fingerprint tool required');
 execFileSync(process.execPath,[join(here,'../generate.mjs'),'--check'],{stdio:'inherit'});
 execFileSync(process.execPath,[join(here,'generate.mjs'),'--check'],{stdio:'inherit'});
 const fingerprint=JSON.parse(execFileSync(fingerprintTool,[],{encoding:'utf8',maxBuffer:1024*1024}));
@@ -15,8 +24,11 @@ const original=readFileSync(join(here,'src/main.psy.rs'),'utf8');if(!original.in
 const source=original.replace('const ISSUER_USER_ID: usize = 5;',`const ISSUER_USER_ID: usize = ${issuer};`);
 const stage=mkdtempSync(join(tmpdir(),'psy-private-u124-')),path=join(stage,'main.psy.rs');writeFileSync(path,source,{flag:'wx'});
 execFileSync(compiler,[path,out],{stdio:'inherit'});
-const sha=b=>createHash('sha256').update(b).digest('hex');if(sha(readFileSync(path))!==sha(source))throw Error('Compiler input changed');
+if(sha(readFileSync(path))!==sha(source))throw Error('Compiler input changed');
+const profile=JSON.parse(readFileSync(join(out,'compiler-profile.json')));
+if(profile.profile!==toolchain.profile||profile.sdkCommit!==selected.sdkCommit||profile.clientCommit!==selected.clientCommit||profile.sdkSourcePatched!==false)
+ throw Error('Compiled private context profile differs from the selected release');
 const artifact=JSON.parse(readFileSync(join(out,'compilation_artifact.json'))),gate=checkPrivateTokenArtifact(artifact,{fingerprint});
 copyFileSync(path,join(out,'source.psy.rs'),constants.COPYFILE_EXCL);
-const report={...gate,issuerUserId:issuer,sourceSha256:sha(source),compilerSha256:sha(readFileSync(compiler)),fingerprintToolSha256:sha(readFileSync(fingerprintTool)),privateFingerprint:fingerprint,files:Object.fromEntries(['compilation_artifact.json','abi.json','circuit_defs.json','contract_code.bin','source.psy.rs'].map(n=>[n,sha(readFileSync(join(out,n)))])),fullStateCfcVerified:false,fullUpsVerified:false,submitted:false,createdAt:new Date().toISOString()};
+const report={...gate,issuerUserId:issuer,sourceSha256:sha(source),compilerProfile:profile,toolchainSha256:sha(readFileSync(toolchainPath)),compilerSha256:sha(readFileSync(compiler)),fingerprintToolSha256:sha(readFileSync(fingerprintTool)),privateFingerprint:fingerprint,files:Object.fromEntries(['compilation_artifact.json','abi.json','circuit_defs.json','contract_code.bin','compiler-profile.json','source.psy.rs'].map(n=>[n,sha(readFileSync(join(out,n)))])),fullStateCfcVerified:false,fullUpsVerified:false,submitted:false,createdAt:new Date().toISOString()};
 writeFileSync(join(out,'review.json'),JSON.stringify(report,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify(report));

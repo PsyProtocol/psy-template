@@ -84,6 +84,7 @@ fn zeros(height: usize) -> Vec<HashOut<F>> {
 #[derive(Clone)]
 struct World {
     state: InMemoryStateBackend,
+    captured_slots: HashMap<(u64, u64, u64), u64>,
     fields: HashMap<String, u64>,
     methods: HashMap<String, DPNFunctionCircuitDefinition>,
 }
@@ -96,6 +97,7 @@ impl World {
             serde_json::from_value(a["circuit_definitions"].clone())?;
         Ok(Self {
             state: InMemoryStateBackend::new(),
+            captured_slots: HashMap::new(),
             fields: a["abi"]["contract"]["state"]
                 .as_array()
                 .unwrap()
@@ -117,6 +119,8 @@ impl World {
     fn set_balance(&mut self, u: u64, n: u128) {
         self.state.set_slot(u, T, 0, (n % RADIX) as u64);
         self.state.set_slot(u, T, 1, (n / RADIX) as u64);
+        self.captured_slots.insert((u, T, 0), (n % RADIX) as u64);
+        self.captured_slots.insert((u, T, 1), (n / RADIX) as u64);
     }
     fn transfer(&mut self, value: u128, owner: HashOut<F>, secrets: [HashOut<F>; 2]) -> Result<()> {
         let mut inputs = words(owner);
@@ -134,11 +138,15 @@ impl World {
                 checkpoint_id: CP,
                 nonce: 1,
                 user_public_key_hash: [0; 4],
+                session_proof_tree_root: [0; 4],
+                transaction_log: Vec::new(),
+                transaction_stack_hash: [0; 4],
             },
             &inputs,
         )?;
         ensure!(r.success, "{:?}", r.failure);
         self.state.apply_overlay(vm.write_overlay());
+        self.captured_slots.extend(vm.write_overlay().iter().map(|(k,v)| (*k,*v)));
         Ok(())
     }
     fn note_root(&self, limb: usize) -> HashOut<F> {
@@ -346,24 +354,13 @@ fn prepare(w: &World, amount: u128, fp: HashOut<F>) -> Notes {
     inputs.extend([CP, 7, 8]);
     inputs.extend(words(nullifiers[0]));
     inputs.extend(words(nullifiers[1]));
-    let mut session = zero();
-    for l in 0..2 {
-        if amounts[l] == 0 {
-            inputs.extend(vec![0; 65]);
-            continue;
-        }
-        let mut sib = zeros(16);
-        sib[0] = leaves[1 - l];
-        let p = merkle(leaves[l], l as u64, sib);
-        if session != zero() {
-            assert_eq!(session, p.root.0);
-        }
-        session = p.root.0;
-        for s in p.siblings {
-            inputs.extend(words(s.0));
-        }
-        inputs.push(l as u64);
-    }
+    let active = if amounts[0] != 0 { 0 } else { 1 };
+    let mut sib = zeros(16);
+    sib[0] = leaves[1-active];
+    let path = merkle(leaves[active], active as u64, sib);
+    let session = path.root.0;
+    for sibling in path.siblings { inputs.extend(words(sibling.0)); }
+    inputs.push(active as u64);
     Notes {
         inputs,
         session,
@@ -446,7 +443,7 @@ fn real_native_note_proofs_and_u124_roundtrip_with_atomic_rejections() -> Result
     assert!(circuit.prove(&forged).is_err());
     // Every mutation uses unchanged trusted roots; none may consume a nullifier.
     let mut mutations = vec![];
-    for i in [0, 4, 5, 6, 10, 11, 13, 17, 21, 85, 86, 150] {
+    for i in [0, 4, 5, 6, 10, 11, 13, 17, 21, 85] {
         let mut a = n.inputs.clone();
         a[i] = (a[i] + 1) % 18_446_744_069_414_584_321;
         mutations.push(a);
@@ -481,9 +478,6 @@ fn real_native_note_proofs_and_u124_roundtrip_with_atomic_rejections() -> Result
     swapped.swap(4, 5);
     for i in 0..4 {
         swapped.swap(13 + i, 17 + i);
-    }
-    for i in 0..65 {
-        swapped.swap(21 + i, 86 + i);
     }
     let mut clean = World::new()?;
     assert!(clean.claim(BOB, &swapped, n.session, n.checkpoint).is_err());
@@ -548,7 +542,7 @@ fn exact_claim_op_gadgets_verify_and_reject_changed_amount_or_denominations() ->
     let n = prepare(&w, amount, fp());
     let d = &w.methods["private_claim"];
     let mut builder = CircuitBuilder::<F, 2>::new(CircuitConfig::standard_recursion_config());
-    let inputs = builder.add_virtual_targets(151);
+    let inputs = builder.add_virtual_targets(86);
     builder.register_public_inputs(&inputs);
     let user = builder.constant(f(BOB));
     let contract = builder.constant(f(T));
@@ -576,19 +570,19 @@ fn exact_claim_op_gadgets_verify_and_reject_changed_amount_or_denominations() ->
         match op.op_type {
             DPNOpType::GetStateCommandResultSingle => {
                 ensure!(
-                    [2, 4].contains(&op.inputs[0]),
+                    matches!(&d.state_commands[op.inputs[0] as usize], DPNStateCmd::ContainsSelfUserCurrentIMTContractStateValue(_)),
                     "unexpected fixture single result"
                 );
                 ops.push_external_target(op.index, z);
             }
             DPNOpType::GetStateCommandResultArray => {
-                let values = match op.inputs[0] {
-                    0 => {
+                let values = match &d.state_commands[op.inputs[0] as usize] {
+                    DPNStateCmd::GetGlobalStateRoots(_) => {
                         let mut v = vec![F::ZERO; 20];
                         v[8..12].copy_from_slice(&n.checkpoint.elements);
                         v
                     }
-                    1 => vec![F::ZERO; 2],
+                    DPNStateCmd::GetSelfUserCurrentContractStateSlotRange(c) if c.length == 2 => vec![F::ZERO; 2],
                     _ => bail!("unexpected fixture array result"),
                 };
                 ops.push_external_target_array(
@@ -616,7 +610,7 @@ fn exact_claim_op_gadgets_verify_and_reject_changed_amount_or_denominations() ->
         Some(13),
         Some(17),
         Some(21),
-        Some(86),
+        Some(85),
     ] {
         let mut values = n.inputs.clone();
         if let Some(i) = mutation {
@@ -635,6 +629,12 @@ fn exact_claim_op_gadgets_verify_and_reject_changed_amount_or_denominations() ->
     }
     Ok(())
 }
+
+// Selected-SDK complete UPS acceptance is explicit, ignored by the ordinary VM
+// suite, and uses a fresh output directory plus fixed current Native bytecode.
+#[cfg(feature = "sdk-audit-v1")]
+#[path = "support/private_full_ups.rs"]
+mod full_ups;
 #[test]
 fn denomination_trees_append_independently_and_full_high_tree_rolls_back_low_append() -> Result<()>
 {
