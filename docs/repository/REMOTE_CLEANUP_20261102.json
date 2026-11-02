@@ -1,0 +1,51 @@
+{
+  "schema": 1,
+  "operation": "Authorized bounded cleanup of one remote branch",
+  "measuredCloneCommit": "0435b0ae3bb69ebc528c57de02a1827c605ddeea",
+  "branch": "markets-batch-capacity-recovery-20261020",
+  "cloneScope": "Fresh ordinary HTTPS clone, all advertised remote branches, full reachable history; --no-checkout changes only worktree materialization, not fetched history",
+  "cloneObjectStatistics": [
+    "count: 0",
+    "size: 0 bytes",
+    "in-pack: 7498",
+    "packs: 1",
+    "size-pack: 11.86 MiB",
+    "prune-packable: 0",
+    "garbage: 0",
+    "size-garbage: 0 bytes"
+  ],
+  "clonePackFiles": [
+    {
+      "name": "pack-3f9088adf1f3da43cfbee3cba3c88461e2c45405.idx",
+      "bytes": 211016,
+      "sha256": "4934ea8998e64c300054d41577449691ab4b321abe10734ae9efabde1eaa2758"
+    },
+    {
+      "name": "pack-3f9088adf1f3da43cfbee3cba3c88461e2c45405.pack",
+      "bytes": 12226519,
+      "sha256": "6db1f1477b656b2f1d125e766ebfdc2951d60ea9215e91a2942ed3fdf49ab936"
+    },
+    {
+      "name": "pack-3f9088adf1f3da43cfbee3cba3c88461e2c45405.rev",
+      "bytes": 30044,
+      "sha256": "18b15210f2442b918412a04279fab4ff2464c64a259740e6fd7a96e33524f313"
+    }
+  ],
+  "originalTrackedFiles": 86673,
+  "originalTrackedBytes": 1501805808,
+  "cleanedTrackedFilesAtMeasuredCommit": 2725,
+  "cleanedTrackedBytesAtMeasuredCommit": 54816281,
+  "otherRemoteBranchHeadsVerifiedUnchanged": 7,
+  "leaseProtectedPush": {
+    "originalCommit": "6e3648b406afd1da590e0a837797481fbbfe9434",
+    "newCommit": "0435b0ae3bb69ebc528c57de02a1827c605ddeea",
+    "pushedRef": "refs/heads/markets-batch-capacity-recovery-20261020"
+  },
+  "backupBundleSha256": "6127ada56717210f6b8168a27bb1e001c31bf9ca094d42ac3c37bd2b77758359",
+  "scopeLimits": [
+    "Pack storage measured in a fresh clone is not wire bytes or GitHub server disk usage.",
+    "This small delivery manifest and report update are committed after the measured source cleanup commit.",
+    "Existing local clones/reflogs retain their own originals; no shared original object store was pruned.",
+    "Historical raw-artifact downloads require the externally preserved bundle; no new artifact hosting was created."
+  ]
+}

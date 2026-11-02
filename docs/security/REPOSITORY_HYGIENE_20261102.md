@@ -94,3 +94,14 @@ clone. Merging or republishing old-history refs would reintroduce the payloads.
 GitHub's eventual storage reclamation is independent of new clone reachability.
 No claim is made that existing local clones instantly shrink or that raw
 historical replay works without obtaining the external archive.
+
+## Remote clone verification
+
+The lease-protected push completed at `0435b0ae3bb69ebc528c57de02a1827c605ddeea`.
+A fresh ordinary GitHub clone fetching all advertised branches and full reachable
+history produced one **11.86 MiB** Git object pack (including its index). At that
+commit the cleaned tree contains **2,725 files / 54,816,281 bytes (52.28 MiB)**.
+All seven other branch heads match the pre-cleanup inventory. See the
+[delivery manifest](../repository/REMOTE_CLEANUP_20261102.json) for exact pack
+bytes, hashes, measurement scope and limitations. This report update and its
+small delivery manifest are newer than the measured cleanup commit.
