@@ -1,5 +1,21 @@
 # Market correctness and reset-chain validation — 27 October 2026
 
+Latest continuation (2 November): [recovered new-chain observation, incompatible
+runtime Endcap, wallet live-identity fix and formal funded-route gate](PRODUCTION_RESUME_20261102.md).
+All three staging RPCs are reachable and report the new checkpoint-1 global root
+`81bac993…f96b5c`, but the runtime Endcap fingerprint `043e026d…0a5893`
+differs from frozen SDK `78b73ece…91c6a3`; the unchanged native inspector rejects.
+No dependency switch or remote verifier installation occurs. New live financial
+work remains closed; original-request reconciliation on the same chain remains
+available. Wallet boot no longer falls back to stored roots and rejects live
+root disagreement or invalid/unbounded framing. The dedicated extension reaches
+onboarding without creating/importing a wallet. Scoped Executor regressions pass
+87 tests; wallet regression passes 742 with one existing skip, exact SDK checks,
+TypeScript and an isolated build. These are not new full UPSs or live settlement.
+Zero new instances, trades, claims, faucet requests or test-PSY expense.
+[Public evidence and concrete runtime handoff](../../executor/verification/2026-11-02-production-resume-v1/README.md).
+Earlier evidence below remains chronological history, not current-chain identity.
+
 Latest browser installation continuation (1 November): the user-authorized
 `Psy Fee Exit QA 20261101` profile now has the reviewed Psy 0.4.25 unpacked
 extension enabled. Its 29 public files retain their original hashes, and the

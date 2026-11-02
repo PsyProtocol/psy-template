@@ -120,3 +120,14 @@ test('new contract metadata propagation retries only the same fixed-checkpoint r
  assert.deepEqual(observations.map(r=>r.failed),[false,false,true,false]);
  await assert.rejects(s.rpc('https://r0.test','psy_submit_user_end_cap',{}),/read RPC/);assert.equal(requests.length,2);
 }));
+
+test('runtime resources use only configured proof endpoints; state reads keep their endpoint boundary',()=>fixture(async config=>{
+ const {readFile}=await import('node:fs/promises');
+ const c=JSON.parse(await readFile(config,'utf8'));c.networks.test.prove_proxy_url=['https://proof.test'];await writeFile(config,JSON.stringify(c));
+ let calls=0;globalThis.fetch=async(_url,options)=>{calls++;const q=JSON.parse(options.body);return new Response(JSON.stringify({jsonrpc:'2.0',id:1,result:q.method==='psy_get_latest_l2_block_state'?{checkpoint_id:100}:'{"ups_end_cap":{}}'}));};
+ const s=await publicState(config),before=calls;
+ assert.equal(await s.rpc('https://proof.test','psy_get_circuits_data',[]),'{"ups_end_cap":{}}');
+ assert.equal(calls,before+1);
+ for(const [url,method]of [['https://r0.test','psy_get_circuits_data'],['https://evil.test','psy_get_circuits_data'],['https://proof.test','psy_get_user_leaf_data']])await assert.rejects(s.rpc(url,method,{}),/Unconfigured/);
+ assert.equal(calls,before+1);
+}));

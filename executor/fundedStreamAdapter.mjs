@@ -18,6 +18,8 @@ import {publicState} from './publicState.mjs';
 import {receiptReader} from './chainReceipts.mjs';
 import {pendingPreflight,recheckSavedPreflight,savedPreflightCandidate} from './preflightRecovery.mjs';
 import {driverRecords} from './driverProcess.mjs';
+import {assertFrozenRuntimeEndcap,runtimeEndcapIdentityPath} from './runtimeEndcap.mjs';
+import {fileURLToPath} from 'node:url';
 const read = async path => parseLosslessJson(await readFile(path,'utf8'));
 const fresh = async(path,value)=>{await mkdir(dirname(path),{recursive:true,mode:0o700});const bytes=typeof value==='string'?value:losslessJson(value);try{await publishFile(path,bytes);}catch(e){if(e.code!=='EEXIST')throw e;assert.equal(await readFile(path,'utf8'),bytes,'immutable stream task changed');}};
 const stageNames=new Map([[4n,'maintenance'],[5n,'open'],[6n,'cover'],[8n,'settle'],[9n,'abort'],[10n,'scan'],[11n,'carry'],[13n,'fee-grant'],[14n,'bootstrap'],[15n,'exit-grant'],[16n,'treasury-return'],[17n,'exit-credit-return']]);
@@ -51,7 +53,7 @@ export async function createFundedStreamAdapter(o,{readState=publicState,readRec
   assert.ok(!isAbsolute(row.artifact)&&row.artifact.split(/[\\/]/).every(p=>p&&p!=='.'&&p!=='..'));return {path:resolve(dirname(reviewPath),row.artifact),sha:row.artifact_sha256};
  });
  for(const item of artifacts)assert.equal(sha256(await readFile(item.path)),item.sha);
- const inputs=await captureInputs([o.policy,o.streamTask,o.rpcConfig,o.dependencyBindings,o.abi,o.driverConfig,o.assetA.abi,o.assetB.abi,reviewPath,...artifacts.map(a=>a.path)]);
+ const inputs=await captureInputs([o.policy,o.streamTask,o.rpcConfig,o.dependencyBindings,o.abi,o.driverConfig,o.assetA.abi,o.assetB.abi,reviewPath,fileURLToPath(runtimeEndcapIdentityPath),...artifacts.map(a=>a.path)]);
  const dependencies=JSON.parse(await readFile(o.dependencyBindings,'utf8'));
  assert.deepEqual(dependencies.map(d=>d.contract.contractId).sort((a,b)=>a-b),[0,Number(policy.base.config[o.kind==='nftmarket'?'tokenId':'assetA']),Number(policy.base.config[o.kind==='nftmarket'?'nftId':'assetB']),o.contractId].sort((a,b)=>a-b));
  for(const expected of [{contractId:o.contractId,codeRoot:o.codeRoot,layoutRoot:o.layoutRoot},o.assetA,o.assetB]){const actual=dependencies.find(d=>d.contract.contractId===expected.contractId);assert.equal(actual.contract.codeRoot,expected.codeRoot);assert.equal(actual.contract.layoutRoot,expected.layoutRoot);}
@@ -64,6 +66,7 @@ export async function createFundedStreamAdapter(o,{readState=publicState,readRec
   assert.equal(BigInt(s.network.magic),policy.base.config.networkMagic?BigInt(policy.base.config.networkMagic):stage.context.source.fields[1]);
   assert.equal((await s.rpc(s.network.realm_configs[0].rpc_url[0],'psy_get_checkpoint_leaf_data',{checkpoint_id:1},{exactIntegers:true})).global_chain_root,policy.executor_binding.chain_root,'chain instance changed');return s;};
  const current=async()=>{const s=await chainCurrent();
+  await assertFrozenRuntimeEndcap(s);
   assert.deepEqual(await s.userIds(o.publicKeyHash),[o.vaultId]);
   for(const b of dependencies){const l=await s.contractLeaf(b.contract.contractId);assert.deepEqual({contract:{contractId:b.contract.contractId,codeRoot:l.code_root,layoutRoot:l.state_layout_root,stateTreeHeight:l.state_tree_height},functionTreeRoot:l.function_tree_root,layoutFieldCount:l.state_layout_field_count,layoutSlotCount:l.state_layout_slot_count},b);}
   return s;};

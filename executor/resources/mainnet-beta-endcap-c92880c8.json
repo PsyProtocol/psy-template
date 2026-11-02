@@ -1,0 +1,35 @@
+{
+  "schema": 1,
+  "sdkCommit": "c92880c8b6e2c8d392f19368bc8801a2584fd427",
+  "networkMagic": "1384803358401154921",
+  "resource": {
+    "fingerprint": "78b73eceb32a446a7cc04ca3ad36e0d856293f366593de8f6132c9240f91c6a3",
+    "verifier_config": {
+      "constants_sigmas_cap": [
+        "51401ebb4bd26e6880f6314841c13365660e6e0ae67e368d5e710a3e8a053664",
+        "666abd3bb4929fc2b68c64f4551ad40530b0e6e6c5e55c0ae92d1577b96f16da",
+        "a16d7e0690db6eea2bab9c8d36b6e71432e3d45fddec3e6ebc1dcdf90d3c5727",
+        "70b544ed2d847f11d7a85a3e8a7f72b5e6f16ea70658da55e38140480db0bf79",
+        "a526d238bdbe64fa5251cb6a438153964abab74237ec1bc010ad2a49ecb38576",
+        "3d8c4b14e0915e31a72b6720eed20db35d1063241d84b7a0b16d9e6f9c6ab344",
+        "4e1cff3ebc53ee7acac2452947144d251326f9ae346a40b55788e98c52770f2f",
+        "364e70c5db1acfb7f16e32a6067ebce0e1f4183ec7980a3003a1efbf48e67f23",
+        "9db724f85ee6e63cb733d9c210bbafc7555736a419828fb818d5bb153c3e8769",
+        "8b7ffe318a7d9b513dc39db4913dfeeaeaa8acd1e805d41135126a2543a8b3eb",
+        "7752cc3c28e5f5ffc529492a164e72e18efa0ba8a70981887ab9a4942a4a5a2b",
+        "54c0760072c64fab1465f394521fab80c56108b6a5bf7ddca4cd901aba332523",
+        "67ab80e6a67930cfcd26021ca604e3eb68e4559d777b6904537a2871602a1e7f",
+        "e1a518d2814195977e1206e8a3310939ddb0ea1ba5e516a91d5ab546ab7204db",
+        "46d97a2f530e0b585e7a3fa8b907aa574597b184d4c03f4d04d6e3e34890daf6",
+        "d47564e84108895530e02c285928881cd02996816775129387f91895312f2681"
+      ],
+      "circuit_digest": "6743ce7e2664987d7d2b7d16a6538c137b9e894334aa9370788b1003abece164"
+    }
+  },
+  "provenance": {
+    "compiledComparison": "2026-10-30-runtime-public-resources-v1",
+    "verifierBincodeSha256": "17324fd6b8370138844b79ef65932692a8708edbacfbff4e2e358dae04bde41a",
+    "commonBincodeSha256": "bd7b8b4c937b134acf2bf69547776201a6a5115b63679e57b6944a804070377d"
+  },
+  "scope": "Exact compatibility gate only. Never install remote resources; complete native proof, approved stack/session and fresh state checks remain mandatory."
+}

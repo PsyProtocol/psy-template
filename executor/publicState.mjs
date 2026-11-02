@@ -16,11 +16,12 @@ export async function publicState(rpcConfig,{observeRead,coalesceRead=true,fetch
  if(!network||!Number.isSafeInteger(network.users_per_realm)||network.users_per_realm<1||!Array.isArray(network.realm_configs)||!network.realm_configs.length||!Array.isArray(network.coordinator_configs)||!network.coordinator_configs.length)throw Error('invalid public state network configuration');
  const realmIds=network.realm_configs.map(x=>x.id);if(realmIds.some(x=>!Number.isSafeInteger(x)||x<0)||new Set(realmIds).size!==realmIds.length)throw Error('invalid or duplicate realm ID');
  const endpoints=new Set([...network.realm_configs,...network.coordinator_configs].flatMap(x=>x.rpc_url));
+ const resourceEndpoints=new Set(network.prove_proxy_url??[]);
  const bounded=(n,label,min=0)=>{if(!Number.isSafeInteger(n)||n<min||n>4294967295)throw Error('invalid '+label);return n;};
  let readMetricFailures=0;
  const rpc=async(url,method,params,{exactIntegers=false}={})=>{
   if(!method.startsWith('psy_get_'))throw Error('read RPC methods only');
-  if(!endpoints.has(url))throw new RpcProtocolError('Unconfigured public RPC endpoint');
+  if(!(method==='psy_get_circuits_data'?resourceEndpoints:endpoints).has(url))throw new RpcProtocolError('Unconfigured public RPC endpoint for this method');
   const wireParams=structuredClone(params),body=losslessJson({jsonrpc:'2.0',id:1,method,params:wireParams});
   return retryRead(async()=>{
    const started=observeRead?performance.now():null,queuedAt=observeRead?new Date().toISOString():null;let failed=false,flight;

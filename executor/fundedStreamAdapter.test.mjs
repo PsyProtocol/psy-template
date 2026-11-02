@@ -24,8 +24,8 @@ async function fixture(fn,{kind='bondingcurve',profile='source-funded-v14',mode=
  for(const f of ['rpc.json','abi.json','driver.json','a.json','b.json'])await put(f,{});await writeFile(join(d,'driver'),'native release double');
  const asset=contractId=>({contractId,codeRoot:h,layoutRoot:h,abi:join(d,'a.json')});
  const o=validateOptions({profile,kind,network:'testnet',testnetProfile:'mainnet-beta-20261027-v1',contractId:1000,vaultId:100,publicKeyHash:h,fingerprint:h,codeRoot:h,layoutRoot:h,walletSha256:sha256('native release double'),rpcConfig:join(d,'rpc.json'),wallet:join(d,'driver'),abi:join(d,'abi.json'),driverConfig:join(d,'driver.json'),runtimeDirectory:join(d,'runtime'),policy:join(d,'policy.json'),dependencyBindings:join(d,'deps.json'),streamTask:join(d,'stage.json'),assetA:asset(42),assetB:asset(otherAsset)});
- let head=100,root=h,leaf=z,network='testnet',code=h,proofs=0,sends=0,checks=0,included=false,finalReadFailure=false;
- const state=async()=>({networkName:network,checkpoint:head,network:{magic:'1384803358401154921',users_per_realm:2**24,realm_configs:[{id:0,rpc_url:['https://realm.invalid']}]},userIds:async()=>[100],contractLeaf:async id=>({code_root:code,state_layout_root:h,function_tree_root:h,state_tree_height:id===0?32:id===41?30:31,state_layout_field_count:20,state_layout_slot_count:40}),rpc:async(_url,name)=>name==='psy_get_checkpoint_leaf_data'?{global_chain_root:root}:leaf});
+ const resource=JSON.parse(await readFile(new URL('./resources/mainnet-beta-endcap-c92880c8.json',import.meta.url),'utf8')).resource;let head=100,root=h,leaf=z,network='testnet',code=h,proofs=0,sends=0,checks=0,included=false,finalReadFailure=false;
+ const state=async()=>({networkName:network,checkpoint:head,network:{magic:'1384803358401154921',users_per_realm:2**24,prove_proxy_url:['https://prove.invalid'],realm_configs:[{id:0,rpc_url:['https://realm.invalid']}]},userIds:async()=>[100],contractLeaf:async id=>({code_root:code,state_layout_root:h,function_tree_root:h,state_tree_height:id===0?32:id===41?30:31,state_layout_field_count:20,state_layout_slot_count:40}),rpc:async(_url,name)=>name==='psy_get_checkpoint_leaf_data'?{global_chain_root:root}:name==='psy_get_circuits_data'?JSON.stringify({ups_end_cap:resource}):leaf});
  const run=async(_file,args)=>{
   if(args[0]==='identity')return{stdout:JSON.stringify({profile,fingerprint:h,publicKeyHash:h})};
   if(args[0]==='verify-prepared'){
@@ -43,7 +43,7 @@ async function fixture(fn,{kind='bondingcurve',profile='source-funded-v14',mode=
  const submit=async(_file,args)=>{sends++;const out=args[7],m=JSON.parse(await readFile(join(args[5],'prepared.json'),'utf8'));await mkdir(out);await writeFile(join(out,'intent.json'),JSON.stringify({requestSha256:m.requestSha256,userId:100,nonce:1,endUserLeafHash:e}));throw Error('connection lost after durable send');};
  const create=()=>createPublicWalletAdapter(o,{readState:state,readReceipts:async()=>async()=>included?{status:'included',userId:100,contentHash:e,checkpoint:101}:{status:'unresolved'},runDriver:run,submitDriver:submit});
  const journal=()=>new ExecutionJournal({directory:o.runtimeDirectory,network:o.network,vaultId:o.vaultId,fingerprint:o.fingerprint});
- await fn({d,o,create,journal,counts:()=>({proofs,sends,checks}),root:v=>root=v,leaf:v=>leaf=v,head:v=>head=v,network:v=>network=v,code:v=>code=v,confirm:()=>included=true,finalReadFailure:()=>finalReadFailure=true});
+ await fn({d,o,create,journal,counts:()=>({proofs,sends,checks}),resource,root:v=>root=v,leaf:v=>leaf=v,head:v=>head=v,network:v=>network=v,code:v=>code=v,confirm:()=>included=true,finalReadFailure:()=>finalReadFailure=true});
  }finally{await rm(d,{recursive:true,force:true});}}
 test('formal factory sends exact prepared request once; unknown survives restart and common-head wait',()=>fixture(async x=>{
  let a=await x.create();assert.equal((await executeCycle({adapter:a,journal:x.journal()})).status,'unresolved');
@@ -85,3 +85,23 @@ for(const [kind,profile] of [['amm','source-authorized-exit-v18'],['bondingcurve
  assert.equal((await executeCycle({adapter:await x.create(),journal:x.journal()})).status,'unresolved');assert.deepEqual(x.counts(),{proofs:1,sends:1,checks:0});
  x.confirm();x.head(101);assert.equal((await x.journal().reconcile(a.reconcile))[0].result.status,'included');assert.equal(x.counts().sends,1);
 },{kind,profile,mode:16}));
+
+test('runtime resource mismatch stops formal proof and send while preserving unknown reconciliation',()=>fixture(async x=>{
+ const a=await x.create();
+ const original=x.resource.fingerprint;x.resource.fingerprint=e;
+ await assert.rejects(a.scan(),/runtime Endcap differs/);assert.equal(x.counts().proofs,0);assert.equal(x.counts().sends,0);
+ x.resource.fingerprint=original;
+ assert.equal((await executeCycle({adapter:a,journal:x.journal()})).status,'unresolved');
+ x.resource.fingerprint=e;x.confirm();x.head(101);
+ assert.equal((await x.journal().reconcile(a.reconcile))[0].result.status,'included');
+ assert.deepEqual(x.counts(),{proofs:1,sends:1,checks:0});
+}));
+test('runtime verifier substitution rejects even if the advertised fingerprint is unchanged',()=>fixture(async x=>{
+ const a=await x.create();x.resource.verifier_config.circuit_digest=e;
+ await assert.rejects(a.scan(),/runtime Endcap verifier bytes differ/);assert.equal(x.counts().proofs,0);assert.equal(x.counts().sends,0);
+}));
+test('resource change between preparation and send cannot broadcast the prepared proof',()=>fixture(async x=>{
+ const a=await x.create(),task=(await a.scan()).action,p=await a.prove(task),prepared=await a.prepareSubmission(task,p);
+ x.resource.fingerprint=e;
+ await assert.rejects(a.submit(task,prepared),/runtime Endcap differs/);assert.equal(x.counts().proofs,1);assert.equal(x.counts().sends,0);
+}));
