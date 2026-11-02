@@ -2,6 +2,16 @@
 
 PSY-20 is a partitioned fungible-token reference contract. It uses an Outbox/claim flow for transfers, private notes for private payments in the complete source, and escrowed delegation channels for approved spending. It is experimental and is not a mainnet-ready ERC-20 equivalent.
 
+**Current audit SDK boundary (2026-11-02):** the `.psy` sources below are legacy
+language inputs, not current audit SDK contracts. The old event literal
+`new SetMetadataEvent { ... }` and contract-reference `::new(...)` are valid
+together in that legacy toolchain; changing the event to `::new(...)` is not an
+SDK migration. Fresh frozen-audit compilation passed the 20-method public
+`wide/src/main.psy.rs` profile, while `wide/private/src/main.psy.rs` rejected
+`psystd::checkpoint_user_tree_root`. Do not treat legacy build/test results or
+four-market UPS results as private-token audit acceptance. See the
+[compiler-interface evidence and coverage correction](../docs/security/TOKEN_COMPILER_INTERFACE_REVIEW_20261102.md).
+
 An independent [two-Felt U124 public profile](wide/README.md) supports large amounts at 18 decimals. All 20 public methods use the new amount encoding. New staging assets 2431/2432 have completed real settlement tests with the three [U124 markets](../amm/u124/README.md). Existing tokens and the PSY/pUSDT precompiles keep their original encoding.
 
 ## Sources and supported methods

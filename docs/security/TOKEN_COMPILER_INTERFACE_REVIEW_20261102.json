@@ -1,0 +1,72 @@
+{
+  "schema": 1,
+  "sdkCommit": "01b8f2b0a077367a7b9879baba1a72aea8ab5510",
+  "clientCommit": "7058070057c3242b5d8b29e1a31d498aaa4202c0",
+  "sourceManifestSha256": "246cfcb12788fe0d0eb79594556acdfcc7781d01641890e47836db1fbc93c467",
+  "verifiedFrozenSourceMembers": 2759,
+  "auditCompilerSha256": "6dd82ed801780208590d02b415c5d9c378cd03757929605629c56d8edf788cf4",
+  "compilerFeatures": "[\"sdk-audit-v1\"]",
+  "compileProbes": [
+    {
+      "tag": "legacy-source",
+      "source": "token/src/main.psy",
+      "sourceSha256": "52675185f023824322e96ccaa5742fa3ae65a2958d7a03750ec02b3081e1da37",
+      "exitCode": 1,
+      "seconds": 0.3455457919917535,
+      "logSha256": "d272ef27528a6dc18a5fe80774e2e45a35de7b6be8631d715495b39981521306"
+    },
+    {
+      "tag": "public-v3",
+      "source": "token/src/main.psy.rs",
+      "sourceSha256": "fd0669238a091266dd9d0f51ed159e1b6677d25189c32877be1788ef6683d078",
+      "exitCode": 1,
+      "seconds": 0.011319124983856454,
+      "logSha256": "caac131fb7e568c3633e2408eb6c7a487b817231c4f9b10af586d3b475351dc0"
+    },
+    {
+      "tag": "u124-public",
+      "source": "token/wide/src/main.psy.rs",
+      "sourceSha256": "43d49adf606936c6844c91502ab5512b87013dccedef827b2fb2a89fd093ded1",
+      "exitCode": 0,
+      "seconds": 0.18434633300057612,
+      "logSha256": "f6c26d99e6a31a05116af830fc84714a9afee82ba74d3a97a53d46e457165047"
+    },
+    {
+      "tag": "u124-private",
+      "source": "token/wide/private/src/main.psy.rs",
+      "sourceSha256": "ce3921982d18ee44acb3664404924f3d756a9e3ca2f94129a441c2873d05a780",
+      "exitCode": 1,
+      "seconds": 0.18793174999882467,
+      "logSha256": "664aa80b9e9d78c063ee76b997f9e62c8e875005ace3ee81914ab957784de921"
+    }
+  ],
+  "legacyControls": {
+    "legacyDargoSha256": "04f24baec81e0ad7cf83aa482c6b92bc491c08807ea8c90a9d0fe48956afac63",
+    "scope": "Legacy VM smoke tests only; not audit SDK or complete production token verification",
+    "results": [
+      {
+        "tag": "legacy-exact-forms",
+        "exitCode": 0,
+        "seconds": 2.472179167001741,
+        "sourceSha256": "3198bc5f4618de33ec457a3d8cbbb54cbad7410b5cc902be0b08d738d1d11617",
+        "logSha256": "bcfff28cf68831e0e89af22bb8ec78614790696b68976a4d618bca8b891536ef"
+      },
+      {
+        "tag": "legacy-event-static-constructor",
+        "exitCode": 1,
+        "seconds": 0.018970916979014874,
+        "sourceSha256": "620de70cb4d61d614ec7d0fd6220092799e1ae2d054c2b51c5df23abb1da21f8",
+        "logSha256": "b2b8d627d386562292b0e514bb78bc2230f20de4f53198e2d0e148b06aa57362"
+      }
+    ]
+  },
+  "observationStorage": "External local token-interface-review-20261102-v1 case; raw artifacts not committed",
+  "scope": "Actual compiler probes and small legacy synthetic smoke tests, not complete audit UPS, private profile acceptance or live deployment",
+  "internalLegacyProofObservation": "dargo test constructs and proves internal compression circuits; initial zero-proof planning assumption was incorrect. No audit UPS or live transaction generated; no further proof work started.",
+  "publicV3DiagnosticClassification": "Compilation reached wrapper-specific U124 height assertion; not a parser/API rejection",
+  "privateDiagnostic": "Unknown function: psystd::checkpoint_user_tree_root",
+  "legacyAuditDiagnostic": "Unexpected token LBracket at offset 1",
+  "nodeChanges": 0,
+  "sdkSourceChanges": 0,
+  "financialOperations": 0
+}

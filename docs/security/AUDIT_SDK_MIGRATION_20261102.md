@@ -1,5 +1,12 @@
 # Audit SDK migration — 2 November 2026
 
+Token-source coverage correction: the preserved legacy `.psy` entry and the
+U124-private source are not covered by the public U124 market fixture's compile
+or UPS success. Fresh audit compiler probes reject the former language and the
+latter's missing `checkpoint_user_tree_root` intrinsic. Public U124 compiled all
+20 methods. See the [exact compiler-interface review](TOKEN_COMPILER_INTERFACE_REVIEW_20261102.md)
+before interpreting the historical milestones below.
+
 ## Selected release and preserved history
 
 The user authorized exact SDK audit commit `01b8f2b0a077367a7b9879baba1a72aea8ab5510`. Its client is `7058070057c3242b5d8b29e1a31d498aaa4202c0`; backend remains `736572e9dd3ca93566471cf5a2a1cb67a13fe01d`. The source freeze contains 2,759 members. Source-manifest SHA256 is `246cfcb12788fe0d0eb79594556acdfcc7781d01641890e47836db1fbc93c467`.
