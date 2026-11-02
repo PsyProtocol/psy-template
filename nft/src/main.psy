@@ -72,16 +72,8 @@ pub struct NFTBurnSettledEvent {
 pub const ISSUER_USER_ID: Felt = 5;
 
 fn assert_caller_is_deployer() {
-    let contract_id = get_contract_id();
-    let deployer = get_contract_deployer(contract_id);
-    let user_pk = get_user_public_key_hash();
-    assert(
-        user_pk[0] == deployer[0]
-        && user_pk[1] == deployer[1]
-        && user_pk[2] == deployer[2]
-        && user_pk[3] == deployer[3],
-        "only contract deployer is authorized"
-    );
+    let deployer = get_contract_deployer(get_contract_id());
+    assert(get_user_id() == deployer, "only contract deployer is authorized");
 }
 
 #[contract]
@@ -119,7 +111,7 @@ impl PsyNFTContractRef {
         };
         c.symbol = symbol;
         c.base_uri_hash = base_uri_hash;
-        let ev = new SetCollectionMetadataEvent {
+        let ev = SetCollectionMetadataEvent {
             symbol: symbol,
             base_uri_hash: base_uri_hash,
         };
@@ -148,7 +140,7 @@ impl PsyNFTContractRef {
             "max supply can only be set once before minting");
         assert(cap > 0 && cap <= 18446744069414584320, "invalid max supply");
         c.max_supply = cap;
-        let ev = new NFTMaxSupplyEvent { cap: cap };
+        let ev = NFTMaxSupplyEvent { cap: cap };
         ev.emit();
     }
 
@@ -188,14 +180,14 @@ impl PsyNFTContractRef {
             "derived token_id must be non-zero");
 
         assert(c.balance.get() < 18446744069414584320, "balance overflow");
-        c.owned_tokens[slot_idx] = new NFTSlot {
+        c.owned_tokens[slot_idx] = NFTSlot {
             token_id: token_id,
             is_active: 1,
             metadata_hash: metadata_hash,
         };
         c.balance += 1;
 
-        let ev = new NFTMintEvent {
+        let ev = NFTMintEvent {
             to: caller,
             token_id: token_id,
             metadata_hash: metadata_hash,
@@ -215,14 +207,14 @@ impl PsyNFTContractRef {
         let requested = c.burn_requested.get();
         assert(requested < 18446744069414584320, "burn request overflow");
         let zero_hash: Hash = [0, 0, 0, 0];
-        c.owned_tokens[slot_idx] = new NFTSlot {
+        c.owned_tokens[slot_idx] = NFTSlot {
             token_id: zero_hash,
             is_active: 0,
             metadata_hash: zero_hash,
         };
         c.balance = balance - 1;
         c.burn_requested = requested + 1;
-        let ev = new NFTBurnEvent { token_id: slot.token_id };
+        let ev = NFTBurnEvent { token_id: slot.token_id };
         ev.emit();
     }
 
@@ -241,7 +233,7 @@ impl PsyNFTContractRef {
         assert(supply >= amount, "burn exceeds total supply");
         c.burn_settled[sender] = requested;
         c.total_supply = supply - amount;
-        let ev = new NFTBurnSettledEvent { sender: sender, amount: amount };
+        let ev = NFTBurnSettledEvent { sender: sender, amount: amount };
         ev.emit();
     }
 
@@ -254,7 +246,7 @@ impl PsyNFTContractRef {
         assert(auth != 0, "mint authority not initialized");
         c.is_mint_renounced = 1;
         c.mint_authority = 0;
-        let ev = new AuthorityChangeEvent {
+        let ev = AuthorityChangeEvent {
             new_authority: 0,
         };
         ev.emit();
@@ -289,7 +281,7 @@ impl PsyNFTContractRef {
         // Clear local slot with underflow check
         assert(c.balance.get() >= 1, "balance underflow");
         let zero_hash: Hash = [0, 0, 0, 0];
-        c.owned_tokens[slot_idx] = new NFTSlot {
+        c.owned_tokens[slot_idx] = NFTSlot {
             token_id: zero_hash,
             is_active: 0,
             metadata_hash: zero_hash,
@@ -322,7 +314,7 @@ impl PsyNFTContractRef {
         };
 
         assert(prev_outbox.nonce_sent < 18446744069414584320, "nonce_sent overflow");
-        c.outbox[recipient] = new NFTOutbox {
+        c.outbox[recipient] = NFTOutbox {
             token_id_0: t0,
             metadata_hash_0: m0,
             token_id_1: t1,
@@ -335,7 +327,7 @@ impl PsyNFTContractRef {
             nonce_claimed: acknowledged_claimed,
         };
 
-        let ev = new NFTTransferEvent {
+        let ev = NFTTransferEvent {
             from: caller,
             to: recipient,
             token_id: token_id,
@@ -384,7 +376,7 @@ impl PsyNFTContractRef {
             "claimed token_id cannot be zero");
 
         assert(c.balance.get() < 18446744069414584320, "balance overflow");
-        c.owned_tokens[slot_idx] = new NFTSlot {
+        c.owned_tokens[slot_idx] = NFTSlot {
             token_id: claim_token_id,
             is_active: 1,
             metadata_hash: claim_metadata_hash,
@@ -392,7 +384,7 @@ impl PsyNFTContractRef {
         c.balance += 1;
 
         assert(my_outbox.nonce_claimed < 18446744069414584320, "nonce_claimed overflow");
-        c.outbox[sender] = new NFTOutbox {
+        c.outbox[sender] = NFTOutbox {
             token_id_0: my_outbox.token_id_0,
             metadata_hash_0: my_outbox.metadata_hash_0,
             token_id_1: my_outbox.token_id_1,
@@ -405,7 +397,7 @@ impl PsyNFTContractRef {
             nonce_claimed: my_outbox.nonce_claimed + 1,
         };
 
-        let ev = new NFTClaimEvent {
+        let ev = NFTClaimEvent {
             to: caller,
             from: sender,
             token_id: claim_token_id,

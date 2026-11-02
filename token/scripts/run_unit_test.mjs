@@ -106,7 +106,7 @@ try {
     {
       name: 'reject refund to a nonpayer',
       expected: 'refund exceeds claimed payment',
-      body: 'let c = PsyTokenContractRef::new(ContractMetadata::current()); c.balance = 100; c.other_user_info[6] = new OtherUserInfo { amount_sent: 0, amount_claimed: 100 }; PsyTokenContractRef::refund_claimed_payment(7, 1);',
+      body: 'let c = PsyTokenContractRef::new(ContractMetadata::current()); c.balance = 100; c.other_user_info[6] = OtherUserInfo { amount_sent: 0, amount_claimed: 100 }; PsyTokenContractRef::refund_claimed_payment(7, 1);',
     },
     {
       name: 'reject cancellation without a sender payment',
@@ -116,7 +116,7 @@ try {
     {
       name: 'reject refund larger than remaining claimed payment',
       expected: 'refund exceeds claimed payment',
-      body: 'let c = PsyTokenContractRef::new(ContractMetadata::current()); c.balance = 100; c.other_user_info[6] = new OtherUserInfo { amount_sent: 40, amount_claimed: 100 }; PsyTokenContractRef::refund_claimed_payment(6, 61);',
+      body: 'let c = PsyTokenContractRef::new(ContractMetadata::current()); c.balance = 100; c.other_user_info[6] = OtherUserInfo { amount_sent: 40, amount_claimed: 100 }; PsyTokenContractRef::refund_claimed_payment(6, 61);',
     },
     {
       name: 'reject revocation without active channel',
@@ -126,7 +126,7 @@ try {
     {
       name: 'reject noncanonical private claim proof index',
       expected: 'proof index out of bounds',
-      body: `let proof = new PrivateClaimProof { siblings: [${Array(16).fill('[0, 0, 0, 0]').join(', ')}], index: 65536 }; PsyTokenContractRef::private_claim([0, 0, 0, 0], [0, 0, 0, 0], 1, [0, 0, 0, 0], 0, 8388609, 0, 0, proof);`,
+      body: `let proof = PrivateClaimProof { siblings: [${Array(16).fill('[0, 0, 0, 0]').join(', ')}], index: 65536 }; PsyTokenContractRef::private_claim([0, 0, 0, 0], [0, 0, 0, 0], 1, [0, 0, 0, 0], 0, 8388609, 0, 0, proof);`,
     },
     ...[2, 5].map((size) => ({
       name: `reject out-of-range caller in batch_transfer_${size}`,

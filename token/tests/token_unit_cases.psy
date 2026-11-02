@@ -68,7 +68,7 @@ fn test_refund_claimed_payment_returns_only_to_original_sender() {
     let c = PsyTokenContractRef::new(ContractMetadata::current());
     let unrelated_before = c.other_user_info[7].get().amount_sent;
     c.balance = 100;
-    c.other_user_info[6] = new OtherUserInfo { amount_sent: 0, amount_claimed: 100 };
+    c.other_user_info[6] = OtherUserInfo { amount_sent: 0, amount_claimed: 100 };
     PsyTokenContractRef::refund_claimed_payment(6, 40);
     assert_eq(c.balance.get(), 60, "first refund debits local balance");
     assert_eq(c.other_user_info[6].get().amount_sent, 40, "refund outbox belongs to payer");
