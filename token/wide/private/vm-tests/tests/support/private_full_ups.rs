@@ -18,6 +18,8 @@ use psy_client_data::qblock::cmds::deploy_contract::get_code_root_by_code_hashes
 use psy_client_data::models::kvq_merkle::model::KVQSemiFixedConfigMerkleTreeModelReaderCore;
 use std::{collections::BTreeMap,sync::Arc,time::Instant};
 use sha2::{Digest,Sha256};
+#[path = "private_stack.rs"]
+mod approved_stack;
 
 /// Minimal dependency API regression for the NFT bootstrap failure. No CFC,
 /// signature, recursion, account registration or financial request is created.
@@ -113,6 +115,11 @@ async fn private_claim_from_transfer_complete_ordinary_ups() -> Result<()> {
 
 async fn run_private_ups(transfer: bool, source: Option<std::path::PathBuf>) -> Result<()> {
     let started = Instant::now();
+    // Reject the accidentally selected debug acceptance profile before any
+    // resource construction, key generation or output directory creation.
+    if std::env::var("PRIVATE_VERIFY_APPROVED_STACK").as_deref()==Ok("1") {
+        ensure!(!cfg!(debug_assertions), "compact approved-stack acceptance requires cargo test --release");
+    }
     // Refuse an absent/wrong explicit profile before expensive proving begins.
     psy_template_u124_markets::live_guard::require_compiled_verifier_domain()?;
     let output = std::path::PathBuf::from(std::env::var("PRIVATE_COMPLETE_UPS_OUT")?);
@@ -253,6 +260,11 @@ async fn run_private_ups(transfer: bool, source: Option<std::path::PathBuf>) -> 
         cache.cache.merkle_cmd_cache.insert(QSRMerkleCmd::GetContractFunctionTreeMerkleProof(QSRMerkleCmdGetContractFunctionTreeMerkleProof{
             checkpoint_id:cp,contract_id:*cid as u32,function_id:index}),path);
     }}
+    if std::env::var("PRIVATE_VERIFY_APPROVED_STACK").as_deref()==Ok("1") {
+        ensure!(!transfer && source.is_some(),"approved claim requires preserved source transfer");
+        return approved_stack::run(cache,&cm,&codes,&signature,secret,&key,native_proofs,
+            circuit.as_ref().unwrap(),cp,start,source_root,amount,&output,source_identity).await;
+    }
     let lps = PsyLocalProvingSessionStore::new_at_with_cmd_store(cache,f(cp),f(signer),F::ONE,start.event_index,16);
     let mut info = SessionCircuitInfoStore::new();cm.register_info(&mut info).await;
     let mut session = UserProvingSessionManager::new(lps,info,cm.ups_circuit_whitelist_root).await?;

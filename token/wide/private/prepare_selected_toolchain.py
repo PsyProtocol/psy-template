@@ -30,6 +30,7 @@ def stage(source, output):
         'src/bin/private_fingerprint.rs': APP / 'token/wide/private/vm-tests/src/bin/fingerprint.rs',
         'tests/private_context_privacy.rs': APP / 'token/wide/private/vm-tests/tests/privacy.rs',
         'tests/support/private_full_ups.rs': APP / 'token/wide/private/vm-tests/tests/support/private_full_ups.rs',
+        'tests/support/private_stack.rs': APP / 'token/wide/private/vm-tests/tests/support/private_stack.rs',
         'tests/support/private_notes.rs': APP / 'market-client/wallet/native/src/private_notes.rs',
         'tests/support/private_packet.rs': APP / 'token/wide/private/vm-tests/tests/support/private_packet.rs',
     }

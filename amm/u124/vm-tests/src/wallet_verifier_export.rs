@@ -52,5 +52,6 @@ pub fn export_fixed_verifiers(
         sign_b64: encode_verifier(signature)?,
         sign_fingerprint: signature.get_fingerprint(),
         contracts: vec![],
+        private_note_b64: None,
     })
 }

@@ -8,7 +8,8 @@ use plonky2::{
     },
     hash::poseidon::PoseidonHash as H,
     plonk::{
-        circuit_data::VerifierCircuitData, config::PoseidonGoldilocksConfig as C,
+        circuit_data::VerifierCircuitData,
+        config::{Hasher, PoseidonGoldilocksConfig as C},
         proof::ProofWithPublicInputs,
     },
 };
@@ -111,6 +112,18 @@ pub struct VerifierPack {
     pub sign_b64: String,
     pub sign_fingerprint: Q<F>,
     pub contracts: Vec<ContractVerifier>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub private_note_b64: Option<String>,
+}
+#[derive(Clone, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct PublicExternalStep {
+    pub before_call: usize,
+    pub fingerprint: Q<F>,
+    pub leaf_index: u64,
+    pub start_root: Q<F>,
+    pub end_root: Q<F>,
+    pub proof_b64: String,
 }
 #[derive(Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
@@ -137,6 +150,8 @@ pub struct PublicBundle {
     pub sign_proof_b64: String,
     pub public_key_param: Q<F>,
     pub sig_hash: Q<F>,
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub external_steps: Vec<PublicExternalStep>,
 }
 #[derive(Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
@@ -194,6 +209,110 @@ fn verify_hash(v: &VerifierCircuitData<F, C, 2>, p: Proof, want: Q<F>) -> Result
     v.verify(p)?;
     Ok(())
 }
+
+// Only the reviewed compact private-claim prefix is admitted. These public
+// insertion statements are independently verified, never trusted trace flags.
+fn append_private_notes(
+    pack: &VerifierPack,
+    approval: &WalletApproval,
+    bundle: &PublicBundle,
+    leaves: &mut Vec<Q<F>>,
+) -> Result<()> {
+    if bundle.external_steps.is_empty() {
+        return Ok(());
+    }
+    ensure!(
+        bundle.schema == 2 && approval.calls.len() == 2,
+        "private external stack version/scope"
+    );
+    let call = &approval.calls[0];
+    ensure!(
+        call.method_name == "private_claim" && call.inputs.len() == 86,
+        "compact private claim only"
+    );
+    let cid = integer(&call.contract_id)?;
+    ensure!((5..1 << 24).contains(&cid), "private token identity");
+    let inputs = call
+        .inputs
+        .iter()
+        .map(|s| integer(s))
+        .collect::<Result<Vec<_>>>()?;
+    ensure!(
+        inputs[4] < 1 << 62 && inputs[5] < 1 << 62 && (inputs[4] != 0 || inputs[5] != 0),
+        "private U124 amount"
+    );
+    let fp = Q::from_values(
+        2482434993266711942,
+        6028864160300535936,
+        2827549014984201026,
+        3018365102481798071,
+    );
+    let key = verifier(
+        pack.private_note_b64
+            .as_ref()
+            .context("fixed private note resources absent")?,
+    )?;
+    let actual = psy_common_circuit::proof_minifier::pm_core::get_circuit_fingerprint_generic(
+        &key.verifier_only,
+    );
+    ensure!(
+        Q(actual) == fp && key.common.num_public_inputs == 4,
+        "fixed private note circuit"
+    );
+    let dual = inputs[4] != 0 && inputs[5] != 0;
+    let aligned = leaves.len() + usize::from(dual && leaves.len() % 2 == 1);
+    ensure!(
+        inputs[85] == aligned as u64,
+        "approved compact proof position"
+    );
+    let mut denominations = Vec::new();
+    if inputs[4] != 0 {
+        denominations.push(0usize);
+        if dual && leaves.len() % 2 == 1 {
+            denominations.push(0);
+        }
+    }
+    if inputs[5] != 0 {
+        denominations.push(1usize);
+    }
+    ensure!(
+        bundle.external_steps.len() == denominations.len() && denominations.len() <= 3,
+        "complete external prefix"
+    );
+    for (position, (step, limb)) in bundle.external_steps.iter().zip(denominations).enumerate() {
+        ensure!(
+            step.before_call == 0
+                && step.fingerprint == fp
+                && step.leaf_index == leaves.len() as u64
+                && step.start_root == session_root(leaves),
+            "ordered external insertion"
+        );
+        if position == 1 && limb == 0 {
+            ensure!(
+                step.proof_b64 == bundle.external_steps[0].proof_b64,
+                "alignment must reuse exact verified proof"
+            );
+        }
+        let mut public = inputs[0..4].to_vec();
+        public.push(inputs[4 + limb]);
+        public.extend_from_slice(&inputs[6..10]);
+        public.extend([inputs[10], 293601306 + limb as u64, cid]);
+        public.extend_from_slice(&inputs[13 + 4 * limb..17 + 4 * limb]);
+        let want = Q(H::hash_no_pad(
+            &public
+                .into_iter()
+                .map(F::from_canonical_u64)
+                .collect::<Vec<_>>(),
+        ));
+        verify_hash(&key, proof(&step.proof_b64)?, want)?;
+        leaves.push(H::q_two_to_one(fp, want));
+        ensure!(
+            step.end_root == session_root(leaves),
+            "external insertion endpoint"
+        );
+    }
+    Ok(())
+}
 fn integer(text: &str) -> Result<u64> {
     ensure!(
         !text.is_empty()
@@ -228,7 +347,7 @@ pub fn verify_market_request(
     bundle: &PublicBundle,
 ) -> Result<serde_json::Value> {
     ensure!(
-        request_bytes.len() <= 6_000_000 && pack.schema == 1 && bundle.schema == 1,
+        request_bytes.len() <= 6_000_000 && pack.schema == 1 && [1, 2].contains(&bundle.schema),
         "request/bundle version or size"
     );
     ensure!(
@@ -313,7 +432,9 @@ pub fn verify_market_request(
     let registration_start = approval.start_leaf == Q::ZERO;
     let (start_key, start_fingerprint) = if registration_start {
         ensure!(approval.nonce == 1, "first-session nonce must be one");
-        let fixed = pack.registration_start.as_ref()
+        let fixed = pack
+            .registration_start
+            .as_ref()
             .context("pinned registration-start verifier is absent")?;
         (verifier(&fixed.verifier_b64)?, fixed.fingerprint)
     } else {
@@ -373,6 +494,12 @@ pub fn verify_market_request(
         pi(H::get_zero_hash(16), previous.qfhash::<H>()),
     )];
     let mut event_cursor = 0usize;
+    ensure!(
+        (bundle.schema == 1 && bundle.external_steps.is_empty())
+            || (bundle.schema == 2 && !bundle.external_steps.is_empty()),
+        "public proof bundle version"
+    );
+    append_private_notes(pack, approval, bundle, &mut proof_leaves)?;
     let mut methods = BTreeMap::new();
     for c in &pack.contracts {
         for m in &c.methods {

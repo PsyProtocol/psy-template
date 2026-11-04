@@ -69,7 +69,7 @@ async fn full_stack_wallet_verifier_and_mutations()->Result<()>{
  let approved=calls.iter().map(|c|ApprovedCall{contract_id:c["contract_id"].as_u64().unwrap().to_string(),method_id:None,method_name:c["method_name"].as_str().unwrap().into(),inputs:c["inputs"].as_array().unwrap().iter().map(|v|v.as_u64().unwrap().to_string()).collect()}).collect();
  let approval=WalletApproval{user_id:user,public_key:pk,nonce:1,checkpoint_min:w.checkpoint,checkpoint_max:w.checkpoint+64,start_leaf:if first{QHashOut::ZERO}else{start.qfhash::<PoseidonHash>()},max_fee:ESCROW,network_magic:PSY_NETWORK_MAGIC,sdk_manifest:pack.sdk_manifest.clone(),calls:approved};
  let checkpoint_state=trace.get_checkpoint_state();
- let bundle=PublicBundle{schema:1,anchor:PublicAnchor{start_checkpoint_id:w.checkpoint,checkpoint_leaf:checkpoint,global_state_roots:roots,ups_step_circuit_whitelist_root:chain.cm.ups_circuit_whitelist_root},start_header,start_proof_b64,steps:public_steps,sign_proof_b64,public_key_param:key.get_public_key_param::<PoseidonHash>(),sig_hash:sighash};
+ let bundle=PublicBundle{external_steps:vec![],schema:1,anchor:PublicAnchor{start_checkpoint_id:w.checkpoint,checkpoint_leaf:checkpoint,global_state_roots:roots,ups_step_circuit_whitelist_root:chain.cm.ups_circuit_whitelist_root},start_header,start_proof_b64,steps:public_steps,sign_proof_b64,public_key_param:key.get_public_key_param::<PoseidonHash>(),sig_hash:sighash};
 
  for(name,v)in[("verifiers",serde_json::to_value(&pack)?),("approval",serde_json::to_value(&approval)?),("bundle",serde_json::to_value(&bundle)?)]{fs::write(format!("{out}/{name}.json"),serde_json::to_vec_pretty(&v)?)?;}
  fs::write(format!("{out}/request.json"),&bytes)?;

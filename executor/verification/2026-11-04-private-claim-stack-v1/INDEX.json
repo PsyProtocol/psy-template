@@ -1,0 +1,493 @@
+{
+  "schema": 1,
+  "case": "private-claim-stack-20261104-v1",
+  "sdkCommit": "01b8f2b0a077367a7b9879baba1a72aea8ab5510",
+  "clientCommit": "7058070057c3242b5d8b29e1a31d498aaa4202c0",
+  "sourceManifestSha256": "246cfcb12788fe0d0eb79594556acdfcc7781d01641890e47836db1fbc93c467",
+  "scope": "Synthetic compact private-claim full proof/session/approval verification; no browser or network acceptance",
+  "plan": {
+    "schema": 1,
+    "createdAt": "2026-11-04T06:55:17.319763+00:00",
+    "owner": "root",
+    "scope": "Complete compact private claim and public external-proof stack verification; synthetic checkpoints only",
+    "sdkCommit": "01b8f2b0a077367a7b9879baba1a72aea8ab5510",
+    "limits": {
+      "newCompleteUps": 2,
+      "newNoteProofs": 4,
+      "nativeBuildCommands": 6,
+      "proofWallSeconds": 1800,
+      "totalWallSeconds": 7200,
+      "familyRssKiB": 12582912,
+      "liveInstances": 0,
+      "financialOperations": 0
+    },
+    "stopConditions": [
+      "Dependency mismatch",
+      "Another proving/financial owner active",
+      "Budget exhausted",
+      "Network broadcast needed"
+    ],
+    "recovery": "Preserve exact failures; never retry unknown financial requests. No Node, SDK or old-contract changes."
+  },
+  "budgetCorrection": {
+    "reason": "Correct accidental debug profile to the prior verified release configuration",
+    "originalPlan": "PLAN.json",
+    "proofWallBudgetSeconds": 1800,
+    "consumedDebugProcessSeconds": 900.6285260409932,
+    "remainingProofProcessSeconds": 899.3714739590068,
+    "budgetExpansion": false,
+    "originalEvidenceRetained": true,
+    "financialOperations": 0
+  },
+  "successfulCohort": {
+    "amount": "1000000000000000000000000123",
+    "approvedCalls": 2,
+    "conserved": true,
+    "elapsedSeconds": 28.426977666,
+    "ephemeralSigningWitnessPersisted": false,
+    "externalInsertions": 3,
+    "fee": 1000005000,
+    "financialOperations": 0,
+    "mutationsRefused": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17
+    ],
+    "newCompleteUps": 1,
+    "newNoteProofs": 2,
+    "receiveRandomsArePublicSyntheticConstants": true,
+    "schema": 1,
+    "scope": "One synthetic compact claim UPS with complete ordered public proof verification; no extension or network acceptance",
+    "sourceTransferRequestSha256": "e1f53affa538591848bc398382de8e40be0fd3d9348547bef27d3f579916c5d5",
+    "uniqueNoteProofs": 2
+  },
+  "wasm": {
+    "schema": 1,
+    "scope": "Actual WASM complete compact claim and external-proof stack; preserved synthetic source, not extension or live acceptance",
+    "fullProofAndCallsVerified": true,
+    "externalInsertions": 3,
+    "uniqueNoteProofs": 2,
+    "exactPublicProjectionVerified": true,
+    "mutationsRefused": 14,
+    "newProofs": 0,
+    "financialOperations": 0,
+    "requestSha256": "be69e143789d44765d808d799f2b658e8d5636fb5e3f4f4d1d8ed9e95b33e9b5"
+  },
+  "runs": {
+    "full-v1.json": {
+      "label": "full-v1",
+      "command": [
+        "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-market-recovery-20261023/private-claim-stack-20261104-v1/bin/approved-private-stack-v1",
+        "--ignored",
+        "--exact",
+        "full_ups::private_claim_from_transfer_complete_ordinary_ups",
+        "--nocapture"
+      ],
+      "exitCode": -15,
+      "seconds": 900.6285260409932,
+      "sampledFamilyRssKiB": 597104,
+      "financialOperations": 0
+    },
+    "full-release-v2.json": {
+      "label": "full-release-v2",
+      "command": [
+        "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-market-recovery-20261023/private-claim-stack-20261104-v1/bin/approved-private-stack-release-v2",
+        "--ignored",
+        "--exact",
+        "full_ups::private_claim_from_transfer_complete_ordinary_ups",
+        "--nocapture"
+      ],
+      "exitCode": 0,
+      "seconds": 86.92928570799995,
+      "sampledFamilyRssKiB": 1633264,
+      "financialOperations": 0
+    },
+    "wallet-suite-v3.json": {
+      "label": "wallet-suite-v3",
+      "command": [
+        "/Users/geir/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "node_modules/vitest/vitest.mjs",
+        "run",
+        "--maxWorkers",
+        "2"
+      ],
+      "exitCode": 0,
+      "seconds": 20.66202833299758,
+      "sampledFamilyRssKiB": 1698592,
+      "financialOperations": 0
+    },
+    "wallet-build-v1.json": {
+      "label": "wallet-build-v1",
+      "command": [
+        "npm",
+        "run",
+        "build:staging"
+      ],
+      "exitCode": 0,
+      "seconds": 36.66068679100135,
+      "sampledFamilyRssKiB": 3447712,
+      "financialOperations": 0
+    }
+  },
+  "proofProcessSecondsIncludingAbortedDebug": 987.5578117489931,
+  "nativeCompileCommands": 6,
+  "walletTests": {
+    "passed": 793,
+    "skipped": 1,
+    "files": 70
+  },
+  "appWalletTests": 26,
+  "oldProofReplays": {
+    "market": true,
+    "firstSession": true,
+    "replacementProofs": 0
+  },
+  "sourceTransferRequestSha256": "e1f53affa538591848bc398382de8e40be0fd3d9348547bef27d3f579916c5d5",
+  "newAcceptedCompleteUps": 1,
+  "acceptedUniqueNoteProofs": 2,
+  "abortedDebug": "No saved request or proof; sample shows CFC/minifier resource construction. Any unexported work is retained in the budget rather than claimed as acceptance.",
+  "financialOperations": 0,
+  "liveInstances": 0,
+  "testPsySpent": "0",
+  "installedReleases": null,
+  "compactFinancialRouteEnabled": false,
+  "performanceComparison": null,
+  "pending": [
+    "Application-owned compact private trace bridge to frozen SDK Rust API",
+    "Wallet-owned ephemeral approval, privacy-safe journal and exact single broadcast/recovery",
+    "Reviewed current-chain resources and real extension/network settlement/ordinary claim/refund",
+    "Existing authenticated randomness/finality/publication-order dependencies"
+  ],
+  "files": [
+    {
+      "file": "public/BINARY-release-v2.json",
+      "bytes": 135,
+      "sha256": "0ab67edf46d0dcd9db102cdcab5c2dca898b08fba66ce7d1b662758e26f4aa86"
+    },
+    {
+      "file": "public/BINARY-v1.json",
+      "bytes": 205,
+      "sha256": "0408f60b467fad2a4ac706075e9e359920fa22a369e948ce06a49febcb07bbc1"
+    },
+    {
+      "file": "public/OLD-FIRST-SESSION-v1.json",
+      "bytes": 1007,
+      "sha256": "655ae5480cea818c2e677c849209fb25e0ac4ef966b7a7ac39f93d31a1c9d3f7"
+    },
+    {
+      "file": "public/PLAN-v2.json",
+      "bytes": 357,
+      "sha256": "5e874dab485be41a921c2bf9b42a273eb5fc9002df43a95f8f808b8f2e8727e2"
+    },
+    {
+      "file": "public/PLAN.json",
+      "bytes": 781,
+      "sha256": "e51ce966d92e3d699c9dd7278f25af1191f39fe3f29692bbd33166f35fe0c842"
+    },
+    {
+      "file": "public/PREPARE-GUARD-v3.json",
+      "bytes": 21403,
+      "sha256": "269a156a35921ecf8833fb7f60bda8cf6f6f73f25fa1e768be0faec2b414d26b"
+    },
+    {
+      "file": "public/PREPARE-v1.json",
+      "bytes": 21394,
+      "sha256": "869ba0c9e64389e54d76abb59bf5f508bc7fdf477365c13cf1237ab08bc22cc6"
+    },
+    {
+      "file": "public/PROFILE-CORRECTION-v1.json",
+      "bytes": 602,
+      "sha256": "b2ab7f57be022513fc8775cbf730cb5185ac6e17833625227287e5802a9ffcaa"
+    },
+    {
+      "file": "public/WALLET-SOURCE-ALIGNMENT-v1.json",
+      "bytes": 1135,
+      "sha256": "cc141ecc2cb17679b02c6349407c7d06fffa1a88fab011caf995a9d546005052"
+    },
+    {
+      "file": "public/WASM-BINARY-v1.json",
+      "bytes": 111,
+      "sha256": "caf2bb9a86cdeb8ed3bb71330bc5838a0734ba911fd5bb36e196b59680b0ea20"
+    },
+    {
+      "file": "public/WASM-PRIVATE-STACK-v1.json",
+      "bytes": 443,
+      "sha256": "1746cd2ee8092526be872622b17eaedd0b76452ad139d66c999df974fa73c90b"
+    },
+    {
+      "file": "public/app-wallet-regression-v1.log",
+      "bytes": 2442,
+      "sha256": "6b096b7b67b91d78d5268774765bff3b94919b8d85b753a78a5601ad14030d7c"
+    },
+    {
+      "file": "public/build-guard-release-v4.json",
+      "bytes": 370,
+      "sha256": "cdf5e3a5cd2088cf8801f9c5b35c101ab108c1c8f148fd9f06e4135e63bfade5"
+    },
+    {
+      "file": "public/build-guard-release-v4.log",
+      "bytes": 51471,
+      "sha256": "dd371661deb50f7006fd144928144d46ea94dc388c30a42ae8edad251db44071"
+    },
+    {
+      "file": "public/build-release-v3.json",
+      "bytes": 365,
+      "sha256": "8ef25f01415781fce128eb67230e5b1ed567059957ccfa3bbe965e611c0ce90a"
+    },
+    {
+      "file": "public/build-release-v3.log",
+      "bytes": 51462,
+      "sha256": "fc104570420d672cff2fdfc22809d3ec3718fa21af678d5188aa5206fd478eb8"
+    },
+    {
+      "file": "public/build-v1.json",
+      "bytes": 341,
+      "sha256": "3e4c53efcc6603d6fac302da572c119856693257500745bda831be656f9a71f8"
+    },
+    {
+      "file": "public/build-v1.log",
+      "bytes": 54824,
+      "sha256": "790d5a826c17780fdfc58d07a8e8e6c4f919c51eb6d04bb4f84c6615b11b41e9"
+    },
+    {
+      "file": "public/build-v2.json",
+      "bytes": 341,
+      "sha256": "c3c9004ee0aeb358a74b1a241547d1c55267a6f1edff07ae794f3f5de06ee193"
+    },
+    {
+      "file": "public/build-v2.log",
+      "bytes": 51470,
+      "sha256": "679ebbb5f2dfa0b83e1985f76e3628dd0b93d7842850a863d700a7db5572122f"
+    },
+    {
+      "file": "public/full-release-v2.json",
+      "bytes": 435,
+      "sha256": "d55e41ac886dfdd30cdefc8eb7ae0589c929ccba298326f36d43966f6eb86b27"
+    },
+    {
+      "file": "public/full-release-v2.log",
+      "bytes": 2564,
+      "sha256": "8a8b0211a4a987390c63b03881d8e763d2b72871d8b8452e0efbd147338dc553"
+    },
+    {
+      "file": "public/full-v1.json",
+      "bytes": 420,
+      "sha256": "187af2415a8741dc8a436d438ba90c33557beeedc768b6694fc537dce79a7c3c"
+    },
+    {
+      "file": "public/full-v1.log",
+      "bytes": 497,
+      "sha256": "3952c3c186353da094b8e886412d72aba799ba18d7a4394c803e7a783e29ff9b"
+    },
+    {
+      "file": "public/old-first-session-v1.log",
+      "bytes": 102,
+      "sha256": "a4a4ccd433013fd0fd76af836b40dff8bf7a34b43133797338f675923ffd1155"
+    },
+    {
+      "file": "public/old-market-replay-v1.log",
+      "bytes": 112,
+      "sha256": "0ce5b4812cf83d33510f6d419182f7e1c168242a1fa7a5c428861a8ce7ab8720"
+    },
+    {
+      "file": "public/proof-sample-v1.log",
+      "bytes": 201,
+      "sha256": "8ba3a25b9e77bd6edbe367cd5454e547f05f4bcf407e8678b158ef5cf39b3e25"
+    },
+    {
+      "file": "public/proof-sample-v1.txt",
+      "bytes": 13507296,
+      "sha256": "1cb9d5b2d2141e21a83ae9ae7135fc5c611c138a3a2f7647b20ee9acdb68ab34"
+    },
+    {
+      "file": "public/wallet-build-v1.json",
+      "bytes": 206,
+      "sha256": "64a9cd222810bfe33dd0df39cce922f8dfa95741a0e121e299cee629e8abb204"
+    },
+    {
+      "file": "public/wallet-build-v1.log",
+      "bytes": 3381,
+      "sha256": "16ebdc736c87f5a3e36585eec84a3ec79e5d644c36ad87b2ddabd4a24fab305c"
+    },
+    {
+      "file": "public/wallet-sdk-final-v1.log",
+      "bytes": 319,
+      "sha256": "1e4e8307b418d37a4599fa679399279b88a1f29db6896bd122757ffb907ce76f"
+    },
+    {
+      "file": "public/wallet-suite-v3.json",
+      "bytes": 331,
+      "sha256": "e328580d833af945ff54e114541c3f8f94a4d303f93e33618e99d182f9a31f0f"
+    },
+    {
+      "file": "public/wallet-suite-v3.log",
+      "bytes": 336,
+      "sha256": "f24f74f39356dff7d0234cd89e695253306a611381dac9397160bc6f0ae47f50"
+    },
+    {
+      "file": "public/wallet-targeted-v1.log",
+      "bytes": 331,
+      "sha256": "311c653a2f3a7807c16793562cec79ca1db1032a5695a886c96d063a3397c8ec"
+    },
+    {
+      "file": "public/wallet-targeted-v2.log",
+      "bytes": 331,
+      "sha256": "535f57f691a0651e958f78f0ac477c617e577ec967ad4425cf7e419c4b556526"
+    },
+    {
+      "file": "public/wallet-typecheck-v1.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "public/wallet-typecheck-v2.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "public/wallet-typecheck-v3.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "public/wasm-build-v1.json",
+      "bytes": 347,
+      "sha256": "b66958ef39dd7d18b87879e92260db56fa5b4c40d061650baab0229c2095e4c9"
+    },
+    {
+      "file": "public/wasm-build-v1.log",
+      "bytes": 29494,
+      "sha256": "e55cec8c697f0fba86aece27543452fe79c6ebe589e4ff19aec0832790895647"
+    },
+    {
+      "file": "public/wasm-legacy-build-v1.json",
+      "bytes": 355,
+      "sha256": "b3e6bfb1a408f0f08543f45c8cf0c2ad513d0cf7bef325f264f53657c12e47e3"
+    },
+    {
+      "file": "public/wasm-legacy-build-v1.log",
+      "bytes": 29501,
+      "sha256": "9c6b0a02639d2cef5d6bb22eb07d0b3844c823b26c80ae5b321b5640384bb67e"
+    },
+    {
+      "file": "public/wasm-legacy-prepare-v1.log",
+      "bytes": 115,
+      "sha256": "737b1be15494bf1e12469a0ec020c5fb79cc3260dab9729f10e6159c50d98fe4"
+    },
+    {
+      "file": "public/wasm-prepare-v1.log",
+      "bytes": 108,
+      "sha256": "f73f2284b13f92ed50d4486a7428dddd0733ed92735dda805fd6fd62a91730be"
+    },
+    {
+      "file": "public/wasm-private-stack-v1.log",
+      "bytes": 125,
+      "sha256": "2180f24047d033b4dd4f5a277b03920dcc23c9c171fcd3387419d07dc3e55a45"
+    },
+    {
+      "file": "full-release-v2/REPORT.json",
+      "bytes": 775,
+      "sha256": "a10f08d44ccf40cacab78e222477551e3f1c78f138685dd74ec2f1a4c950bcba"
+    },
+    {
+      "file": "full-release-v2/approval.json",
+      "bytes": 3313,
+      "sha256": "6d53e21867b24421d4ba7d04b742d059adafb2d50831f964514ead26537e8c95"
+    },
+    {
+      "file": "full-release-v2/bundle.json",
+      "bytes": 1603599,
+      "sha256": "ae77eefe5cc32e362243a9346a192756a56abd36fa4c091873595eb24f9fb464"
+    },
+    {
+      "file": "full-release-v2/request.json",
+      "bytes": 482622,
+      "sha256": "be69e143789d44765d808d799f2b658e8d5636fb5e3f4f4d1d8ed9e95b33e9b5"
+    },
+    {
+      "file": "full-release-v2/verification.json",
+      "bytes": 1014,
+      "sha256": "77a1aee72439e6ce28df2dab2fbb225f76e5efdb39c0f951698ec12297f585df"
+    },
+    {
+      "file": "full-release-v2/verifiers.json",
+      "bytes": 22779,
+      "sha256": "de881456e141f8cc796940a3b1a27c7df954856bf2e8c66dc968a2721adfad88"
+    },
+    {
+      "file": "application/PRIVATE-COMPILER-SOURCE.json",
+      "bytes": 22860,
+      "sha256": "d5ec3c5e35105d0f4d5e3770585bc6249e3a9e6eca3e9c6c33c0bd4369c78ed4"
+    },
+    {
+      "file": "application-guard-v3/PRIVATE-COMPILER-SOURCE.json",
+      "bytes": 22869,
+      "sha256": "1da6bb12355e858c3b697470e43cb5c7cc0169348cca97bd106f68c4025d8579"
+    },
+    {
+      "file": "wasm/BUILD-INPUTS.json",
+      "bytes": 889,
+      "sha256": "605f7e4eeb391fc93ace4fb4e7796803c90909eb7e9e9890bcea6b5962089b48"
+    },
+    {
+      "file": "wasm/DEPENDENCY-CHECK.json",
+      "bytes": 225,
+      "sha256": "57f277dfac098b2adda22f22c2a5db3e84934477a8c64d5c14b9a337c834d475"
+    },
+    {
+      "file": "wasm-legacy/BUILD-INPUTS.json",
+      "bytes": 889,
+      "sha256": "a65399657324c87bb774a1f1706200005eb3b104d99bc11468b56b62fba424d2"
+    },
+    {
+      "file": "old-market-replay-v1/REPORT.json",
+      "bytes": 534,
+      "sha256": "f19c133f78039c4301777d9587c4fbf571adcc3229629295e88eba3896cde889"
+    },
+    {
+      "file": "run.py",
+      "bytes": 1344,
+      "sha256": "9e60dc5a3d80539267963c79d6cc6dde6d071067c39bdc5227f824158762728e"
+    },
+    {
+      "file": "run-release-proof.py",
+      "bytes": 1357,
+      "sha256": "bed6da98ba9d6194e2f0c478cef4c43289732019b8e51b907e59d2bbf5379d73"
+    },
+    {
+      "file": "wasm-run.py",
+      "bytes": 1598,
+      "sha256": "05912bf7bfa49b4efee296b8e4b6b0169ff4658feeb60441d7bb2294692d4542"
+    },
+    {
+      "file": "wallet-run.py",
+      "bytes": 1360,
+      "sha256": "d99d20369e8db5ce77169d6f0c63f3bb55b90aeea740b9e0d54135de5cb02543"
+    },
+    {
+      "file": "wasm-legacy-run.py",
+      "bytes": 1605,
+      "sha256": "2609267c7722fa34628acf164339e98673f5ec740e2e3a213bfe4b67289fc1f7"
+    },
+    {
+      "file": "run-guard.py",
+      "bytes": 1353,
+      "sha256": "e013fd78a814a5a20a5562c934bb3fdbf94d1fb0551542d009db672c0282b6ae"
+    }
+  ]
+}

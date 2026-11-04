@@ -1,5 +1,20 @@
 # Market correctness and reset-chain validation — 27 October 2026
 
+Latest continuation (4 November): [complete compact-claim approval, external
+proof/session binding and wallet parameter isolation](PRIVATE_FT_APPROVED_STACK_20261104.md).
+One fresh source-linked synthetic ordinary claim UPS passes fixed complete
+Native verification and 18 refusals. Its exact saved proof passes actual WASM,
+public projection and 14 refusals; schema-1 ordinary/first-session replays still
+pass. The wallet pins the actual compact code/layout/function identity, matches
+all 86 inputs and the SDK input commitment, and keeps receive randoms in a
+one-use erased callback. All 793 wallet tests pass with one existing skip; the
+exact frozen SDK, typecheck and isolated build pass. An accidental debug run
+is retained and stopped; corrected release proving passes in 86.929 seconds
+within the original budget, not a matched speedup. Full verification is now
+complete for this synthetic compact scope. Formal private trace production,
+privacy-safe durable approval/broadcast/recovery, installed current-chain
+resources and actual browser/network settlement remain closed and unverified.
+
 Latest continuation (4 November): [owned U124 packet verification, wallet
 SDK-interface correction and selected-build provenance](PRIVATE_FT_OWNED_VERIFICATION_20261104.md).
 Two new synthetic note proofs pass the fixed Native verifier and actual WASM,
