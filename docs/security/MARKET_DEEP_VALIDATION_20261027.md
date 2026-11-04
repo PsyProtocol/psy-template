@@ -1,5 +1,17 @@
 # Market correctness and reset-chain validation — 27 October 2026
 
+Latest continuation (4 November): [owned U124 packet verification, wallet
+SDK-interface correction and selected-build provenance](PRIVATE_FT_OWNED_VERIFICATION_20261104.md).
+Two new synthetic note proofs pass the fixed Native verifier and actual WASM,
+including one-active-limb cases and mutation refusals. Preserved ordinary market
+and first-session complete proofs still verify; no replacement complete UPS is
+generated. Wallet mailbox/delivery recovery uses owned resources rather than an
+invented SDK method; strict Base64/byte bridging fixes the actual frozen API.
+Fresh Cargo provenance matches the selected freeze. A byte-exact isolated SDK
+build preserves shared-package drift refusal. Compact claim/external-step full
+approval remains closed, resources are not installed, and no deployment,
+financial send, browser approval, live fill or ordinary claim occurs.
+
 Latest continuation (4 November): [new NFT collection account protocol and
 v21 bootstrap/trading/recovery proofs](NFT_ACCOUNT_BOOTSTRAP_20261104.md).
 The rejected omission-only v20 candidate exposes an actual foreign empty-state

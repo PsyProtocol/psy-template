@@ -8,12 +8,31 @@ import hashlib
 import json
 from pathlib import Path
 import shutil
+import re
 from materialize_mainnet_beta import FREEZE, verify
 
 APP = Path(__file__).resolve().parents[2]
 
 
-def prepare(source, output, test_only=False, freeze=FREEZE):
+def stamp_sdk_metadata(text, manifest, branch):
+    """Stamp provenance only; never alter Cargo dependency declarations."""
+    pattern = r'(\[package\.metadata\.psy-sdk\]\n)([^\[]*)'
+    matches = list(re.finditer(pattern, text))
+    if len(matches) != 1:
+        raise ValueError('one application SDK metadata table required')
+    match = matches[0]
+    old = match.group(2)
+    for key, value in [('branch', branch), ('commit', manifest['sdkCommit']),
+                       ('client-commit', manifest['clientCommit'])]:
+        if not re.fullmatch(r'[A-Za-z0-9_./-]+', value):
+            raise ValueError('invalid SDK provenance value')
+        old, count = re.subn(r'^' + key + r' = "[^"\n]*"$', key + ' = "' + value + '"', old, flags=re.M)
+        if count != 1:
+            raise ValueError('one SDK provenance field required: ' + key)
+    return text[:match.start(2)] + old + text[match.end(2):]
+
+
+def prepare(source, output, test_only=False, freeze=FREEZE, selected_branch=None):
     source, output = source.resolve(), output.absolute()
     manifest = json.loads((freeze / 'manifest.json').read_text())
     if output.exists() or output.is_symlink():
@@ -38,6 +57,7 @@ def prepare(source, output, test_only=False, freeze=FREEZE):
         dest.parent.mkdir(parents=True, exist_ok=True)
         if name == Path('Cargo.toml'):
             text = data.decode().replace('../../../../psy-node/', str(source / 'psy-node') + '/')
+            text = stamp_sdk_metadata(text, manifest, selected_branch or manifest['sdkBranch'])
             if test_only:
                 text = text.replace('[package]\n', '[package]\nautobins = false\n', 1)
             data = text.encode()
@@ -47,6 +67,8 @@ def prepare(source, output, test_only=False, freeze=FREEZE):
               'features': ['sdk-audit-v1'] if manifest['sdkBranch'] == 'audit' else [],
               'network': 'testnet', 'networkMagic': '1384803358401154921',
               'sourceFiles': hashes, 'cargoManifest': str(output / 'Cargo.toml'),
+              'stagedCargoManifestSha256': hashlib.sha256((output / 'Cargo.toml').read_bytes()).hexdigest(),
+              'sdkBranch': selected_branch or manifest['sdkBranch'],
               'automaticBinaryTargets': not test_only,
               'upstreamPatches': [], 'financialOperations': 0,
               'fullUpsVerified': False, 'liveAcceptanceComplete': False}

@@ -21,7 +21,7 @@ def sha(data):
 
 def stage(source, output):
     selected, freeze, selected_hash = selection()
-    record = prepare(source, output, test_only=True, freeze=freeze)
+    record = prepare(source, output, test_only=True, freeze=freeze, selected_branch=selected['sdkBranch'])
     output = output.resolve()
     files = {
         'src/private_context.rs': APP / 'token/compiler/private_context.rs',
@@ -30,6 +30,8 @@ def stage(source, output):
         'src/bin/private_fingerprint.rs': APP / 'token/wide/private/vm-tests/src/bin/fingerprint.rs',
         'tests/private_context_privacy.rs': APP / 'token/wide/private/vm-tests/tests/privacy.rs',
         'tests/support/private_full_ups.rs': APP / 'token/wide/private/vm-tests/tests/support/private_full_ups.rs',
+        'tests/support/private_notes.rs': APP / 'market-client/wallet/native/src/private_notes.rs',
+        'tests/support/private_packet.rs': APP / 'token/wide/private/vm-tests/tests/support/private_packet.rs',
     }
     additions = {}
     for name, original in files.items():
@@ -40,6 +42,8 @@ def stage(source, output):
                                 b'include_str!("private_source_fixture.psy.rs")')
         if name == 'src/bin/compile_private.rs':
             data = data.replace(b'../../../../../compiler/private_context.rs', b'../private_context.rs')
+        if name == 'tests/support/private_packet.rs':
+            data = data.replace(b'../../../../../../market-client/wallet/native/src/private_notes.rs', b'private_notes.rs')
         target = output / name
         target.parent.mkdir(parents=True, exist_ok=True)
         with target.open('xb') as f:

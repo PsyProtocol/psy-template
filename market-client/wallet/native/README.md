@@ -1,5 +1,40 @@
 # Public market proof verifier
 
+## Private denomination-note capability
+
+`private_notes.rs` adds an independent, public-only U124 note verifier using
+the frozen SDK's exact note circuit and common data. `prepare.py` accepts an
+optional build-time `--private-note-pack`; omission embeds no capability. The
+pack binds the frozen source manifest, network domain and checkpoint-1 chain
+identity. Its circuit fingerprint is recomputed, not accepted from a packet.
+`verify_private_ft_notes` checks both denominations, canonical fields, exact
+public-input hashes, owner, asset, checkpoint, root, nullifiers and bounded
+bincode proofs. It accepts only an explicit public decimal-string projection.
+No witness or signing secret is consumed or returned.
+
+`private_note_identity` identifies the embedded resource digest. The extension
+must also verify the binary and its own statically installed asset/function
+identities, then supply wallet-observed checkpoint context. A page may not
+install this resource or supply a verification result. The web target requires
+the same sealed bindgen glue and module ownership rules described below; use a
+dedicated module namespace if another loader already owns the market module.
+
+This capability verifies **denomination notes only**. Matching RPC observations
+are not cryptographic finality, and note validity is not user approval or a
+complete claim UPS. The result explicitly reports `claimAuthorized: false` and
+`finalityVerified: false`. The current wallet keeps compact private-claim and
+new private-send execution closed pending the 86-word claim/external-step
+approval adapter and actual instance-specific release acceptance.
+
+The ignored `private_packet::fixed_note_packet_verifier_binds_every_denomination`
+test, staged through `token/wide/private/prepare_selected_toolchain.py`, creates
+two public synthetic note proofs with the actual token bytecode. Set
+`TOKEN_WIDE_PRIVATE_ARTIFACT` and a fresh `PRIVATE_PACKET_OUT`. It never writes
+its private note witnesses. After building the verifier with that public pack,
+`privateNoteAcceptance.mjs NODE_WASM_MODULE PUBLIC_NOTE_FIXTURES FRESH_REPORT`
+reuses those exact proofs through actual WASM; it is not an extension payment
+or a live-chain claim. Preserve synthetic packs outside release installations.
+
 This application verifier consumes the selected, unchanged `mainnet-beta` SDK
 primitives. It verifies the complete EndCap, each CFC/UPS step, ordinary
 signature, ordered calls, session roots, code/layout/function membership,

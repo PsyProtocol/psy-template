@@ -12,6 +12,7 @@ p=argparse.ArgumentParser(description=__doc__)
 p.add_argument('--sdk-profile',choices=['mainnet-beta-20261027-v1','sdk-audit-20261102-v1'],default='mainnet-beta-20261027-v1')
 p.add_argument('--source',type=Path,required=True)
 p.add_argument('--pack',type=Path,required=True)
+p.add_argument('--private-note-pack',type=Path)
 p.add_argument('--out',type=Path,required=True)
 a=p.parse_args();source=a.source.resolve();out=a.out.resolve()
 assert not out.exists(),'fresh verifier build required'
@@ -23,13 +24,21 @@ pack=a.pack.read_bytes();keys=json.loads(pack)
 assert keys['schema']==1 and keys['network_magic']==1384803358401154921
 assert keys['sdk_manifest']==hashlib.sha256((FREEZE/'manifest.json').read_bytes()).hexdigest()
 assert keys['contracts'],'empty method resources forbidden'
-files={'Cargo.toml':Path(__file__).with_name('Cargo.toml'),'src/lib.rs':Path(__file__).with_name('src')/'lib.rs','src/verification.rs':APP/'amm/u124/vm-tests/src/wallet_verification.rs'}
+files={'Cargo.toml':Path(__file__).with_name('Cargo.toml'),'src/lib.rs':Path(__file__).with_name('src')/'lib.rs','src/private_notes.rs':Path(__file__).with_name('src')/'private_notes.rs','src/verification.rs':APP/'amm/u124/vm-tests/src/wallet_verification.rs'}
 out.mkdir();hashes={}
 for name,path in files.items():
  raw=path.read_bytes();hashes[str(path.relative_to(APP))]=hashlib.sha256(raw).hexdigest()
  if name=='Cargo.toml':raw=raw.replace(b'../../../../psy-node/',(str(source/'psy-node')+'/').encode())
  target=out/name;target.parent.mkdir(exist_ok=True);target.write_bytes(raw)
 (out/'src/verifiers.json').write_bytes(pack)
+note_pack=a.private_note_pack.read_bytes() if a.private_note_pack else b'null\n'
+if a.private_note_pack:
+ note_keys=json.loads(note_pack)
+ assert note_keys['schema']==1 and note_keys['sdk_manifest']==keys['sdk_manifest']
+ assert note_keys['network_magic']=='1384803358401154921'
+ assert re.fullmatch('[0-9a-f]{64}',note_keys['chain_root_at_1'])
+ assert len(note_pack)<=3_100_000
+(out/'src/private-note-verifiers.json').write_bytes(note_pack)
 # Use the selected dependency graph as the resolver seed; record any root-only
 # lockfile changes and reject dependency-version drift before acceptance.
 shutil.copyfile(APP/'amm/u124/vm-tests/Cargo.lock',out/'Cargo.lock')
@@ -47,5 +56,5 @@ def packages(path):
 added=packages(out/'Cargo.lock')-packages(APP/'amm/u124/vm-tests/Cargo.lock')
 assert added=={('psy-market-wallet-verifier','0.1.0','')},'selected SDK dependency graph changed'
 (out/'DEPENDENCY-CHECK.json').write_text(json.dumps({'sourceDependencyVersionsUnchanged':True,'rootOnly':sorted(added),'lockSha256':hashlib.sha256((out/'Cargo.lock').read_bytes()).hexdigest()},indent=2)+'\n')
-(out/'BUILD-INPUTS.json').write_text(json.dumps({'schema':1,'sdkCommit':manifest['sdkCommit'],'sourceSha256':hashes,'verifierPackSha256':hashlib.sha256(pack).hexdigest(),'sdkProfile':a.sdk_profile,'features':['sdk-audit-v1'] if a.sdk_profile=='sdk-audit-20261102-v1' else [],'nodeOrSdkPatches':[],'broadcast':False},indent=2)+'\n')
+(out/'BUILD-INPUTS.json').write_text(json.dumps({'schema':1,'sdkCommit':manifest['sdkCommit'],'sourceSha256':hashes,'verifierPackSha256':hashlib.sha256(pack).hexdigest(),'privateNotePackSha256':hashlib.sha256(note_pack).hexdigest(),'sdkProfile':a.sdk_profile,'features':['sdk-audit-v1'] if a.sdk_profile=='sdk-audit-20261102-v1' else [],'nodeOrSdkPatches':[],'broadcast':False},indent=2)+'\n')
 print(out)

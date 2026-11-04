@@ -36,7 +36,7 @@ if __name__ == '__main__':
     parser.add_argument('--test-only', action='store_true')
     args = parser.parse_args()
     selected, freeze, digest = selection()
-    record = prepare(args.source, args.out, args.test_only, freeze=freeze)
+    record = prepare(args.source, args.out, args.test_only, freeze=freeze, selected_branch=selected['sdkBranch'])
     assert record['features'] == selected['compilerFeatures']
     with (args.out / 'SOURCE-SELECTION.json').open('x') as f:
         json.dump({'selection': selected, 'selectionSha256': digest,

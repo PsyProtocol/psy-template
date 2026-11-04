@@ -3,10 +3,40 @@
 use sha2::{Digest, Sha256};
 use std::sync::OnceLock;
 use wasm_bindgen::prelude::*;
+mod private_notes;
 mod verification;
 use verification::{PublicBundle, VerifierPack, WalletApproval};
 static PACK: OnceLock<Result<VerifierPack, String>> = OnceLock::new();
 const BYTES: &[u8] = include_bytes!("verifiers.json");
+const NOTE_BYTES: &[u8] = include_bytes!("private-note-verifiers.json");
+static NOTES: OnceLock<Result<private_notes::NoteVerifier, String>> = OnceLock::new();
+// Resources are embedded by the extension build, never installed by a page.
+#[wasm_bindgen]
+pub fn private_note_identity() -> String {
+    serde_json::json!({"schema":1,"available":NOTE_BYTES != b"null\n","packSha256":format!("{:x}",Sha256::digest(NOTE_BYTES)),"scope":"denomination-notes-only","claimAuthorized":false}).to_string()
+}
+#[wasm_bindgen]
+pub fn verify_private_ft_notes(packet: &str, context: &str) -> Result<String, JsError> {
+    if packet.len() > 6_100_000 || context.len() > 4096 {
+        return Err(JsError::new("Private note public resource limit"));
+    }
+    let run = || -> anyhow::Result<String> {
+        let verifier = NOTES
+            .get_or_init(|| {
+                serde_json::from_slice(NOTE_BYTES)
+                    .map_err(|e| e.to_string())
+                    .and_then(|p| private_notes::NoteVerifier::new(p).map_err(|e| e.to_string()))
+            })
+            .as_ref()
+            .map_err(|_| anyhow::anyhow!("Reviewed private note resources unavailable"))?;
+        let p = serde_json::from_str(packet)?;
+        let c = serde_json::from_str(context)?;
+        Ok(verifier.verify(&p, &c)?.to_string())
+    };
+    run().map_err(|_| {
+        JsError::new("Private denomination proof, resources or wallet context rejected")
+    })
+}
 fn pack() -> Result<&'static VerifierPack, JsError> {
     PACK.get_or_init(|| serde_json::from_slice(BYTES).map_err(|e| e.to_string()))
         .as_ref()

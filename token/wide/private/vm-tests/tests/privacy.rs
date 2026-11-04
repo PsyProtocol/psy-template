@@ -35,6 +35,8 @@ const CP: u64 = 100;
 const RADIX: u128 = 1 << 62;
 const MAX: u128 = RADIX * RADIX - 1;
 const SLOTS: [u64; 2] = [293601306, 293601307];
+#[path = "support/private_packet.rs"]
+mod private_packet;
 fn f(n: u64) -> F {
     F::from_canonical_u64(n)
 }
