@@ -95,6 +95,18 @@ pub fn require_compiled_verifier_domain() -> Result<()> {
     ensure!(selected_magic()? == psy_config::PSY_NETWORK_MAGIC, "fixed verifier compiled network domain mismatch");
     Ok(())
 }
+
+/// Frozen audit SDK cannot export first-use contract-root materialization when
+/// every final slot value is zero. NFT bootstrap's acknowledgement is such a
+/// call. Refuse that path before UPS start/proving; never fabricate a prior
+/// collection balance/root or suppress the SDK's state-delta validation.
+pub fn require_bootstrap_state_export(kind: u64, mode: u64, collection_root: QHashOut<F>) -> Result<()> {
+    if cfg!(feature = "sdk-audit-v1") && kind == 4 && mode == 14 {
+        ensure!(collection_root != QHashOut::ZERO,
+            "SDK_FRESH_ZERO_ONLY_CONTRACT_EXPORT: NFT bootstrap requires an exportable collection initialization; current zero-only acknowledge cannot initialize an absent state root under the frozen SDK");
+    }
+    Ok(())
+}
 fn staging_config(net: &psy_config::NetworkConfigGoldilocks, expected_magic: u64) -> Result<()> {
     let text = net.magic.strip_prefix("0x").unwrap_or(&net.magic);
     let magic = if net.magic.starts_with("0x") {
@@ -223,6 +235,16 @@ pub async fn verify_ups_with_session_manager(
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn audit_nft_zero_only_bootstrap_rejects_without_blocking_existing_state_or_refunds() -> Result<()> {
+        if !cfg!(feature="sdk-audit-v1") { return Ok(()); }
+        let error=require_bootstrap_state_export(4,14,QHashOut::ZERO).unwrap_err();
+        assert!(error.to_string().contains("SDK_FRESH_ZERO_ONLY_CONTRACT_EXPORT"));
+        require_bootstrap_state_export(4,14,QHashOut::from_values(1,0,0,0))?;
+        for kind in [1,2,3] {require_bootstrap_state_export(kind,14,QHashOut::ZERO)?;}
+        for mode in [4,8,13,15,16,17] {require_bootstrap_state_export(4,mode,QHashOut::ZERO)?;}
+        Ok(())
+    }
     #[test]
     fn pinned_dependency_membership_covers_owner_and_all_roots() -> Result<()> {
         use plonky2::{field::types::Field,hash::poseidon::PoseidonHash as H};

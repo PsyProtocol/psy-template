@@ -1,5 +1,21 @@
 # Market correctness and reset-chain validation — 27 October 2026
 
+Latest continuation (4 November): [linked ordinary private transfer/claim UPSs,
+NFT first-use export diagnosis, formal Executor gate and WASM adapter completion](PRODUCTION_CONTINUATION_20261104.md).
+Two new synthetic private UPSs pass with exact source-end-state binding and
+Native/token conservation; saved-proof and endpoint substitutions reject without
+replacement proofs. The earlier paired cohort completed 13 Orderbook UPSs then
+failed NFT bootstrap export; it was not 28 passes or a still-running task. A
+minimal unchanged-SDK API regression isolates zero-only first-use state export.
+The formal Executor now blocks that unsupported NFT startup before UPS proving,
+with authenticated collection-state membership for existing users. Its actual
+build and guard regression pass. Actual public WASM reuse closes the two pending
+acceptance-adapter edits; it does not establish private-FT/browser acceptance.
+Nine fresh read-only endpoints succeed, with unchanged anchor/Native/resources.
+No faucet claim, live instance, financial send or wallet session change occurs.
+The report lists concrete SDK/application alternatives and remaining wallet,
+new-chain, NFT, composition, randomness and performance gates.
+
 Latest private-FT continuation (2 November UTC): [application context lowering,
 86-word compact claim and complete ordinary claim UPS](PRIVATE_FT_CONTEXT_COMPATIBILITY_20261102.md).
 The frozen mainnet-beta source is unchanged. The application compiler now lowers

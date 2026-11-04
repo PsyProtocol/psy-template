@@ -9,6 +9,7 @@ import {createNativeMarketBackend} from '../nativeBackend.mjs';
 import {publicMarketProofBundle} from '../publicBundle.mjs';
 import {shaPublic,stablePublic,publicManifest} from '../capsule.mjs';
 import {digest} from '../../protocol.mjs';
+import {AUDIT_PROFILE,AUDIT_MANIFEST,AUDIT_CHAIN_ROOT,MAINNET_BETA_PROFILE,MAINNET_BETA_MANIFEST} from '../../nativeProtocol.mjs';
 const [wasm,fixtures,out]=process.argv.slice(2);assert.ok(out,'NODE_WASM_MODULE PUBLIC_FIXTURES FRESH_OUT');mkdirSync(out);
 const read=name=>readFileSync(join(fixtures,name+'.json'),'utf8');
 const pack=parseLosslessJson(read('verifiers')),approval=parseLosslessJson(read('approval')),b=parseLosslessJson(read('bundle')),requestJson=read('request');
@@ -19,7 +20,9 @@ const approvedCalls=approval.calls.map(c=>({...c,...(c.method_id===null?{method_
 const fullCalls=approvedCalls.map(({method_id,...c})=>method_id===undefined?c:{...c,method_id});
 const contracts=pack.contracts.map(c=>({contract:{contractId:Number(c.contract_id),codeRoot:c.code_root,layoutRoot:c.layout_root,stateTreeHeight:Number(c.height)},functionTreeRoot:c.function_root,layoutFieldCount:Number(c.fields),layoutSlotCount:Number(c.slots)}));
 const marketId=Number(fullCalls[0].contract_id),kind=JSON.parse(read('REPORT')).market??'bondingcurve';
-const registry={nativeProtocol:'mainnet-beta-20261027',sdkManifestSha256:pack.sdk_manifest,network:{name:'testnet',magic:String(pack.network_magic),usersPerRealm:1048576,chainRootAt1:'0'.repeat(64)},markets:[{kind,marketId,vaultId:100,publicKeyHash:'0'.repeat(64),dependencies:contracts}]};
+assert.ok([AUDIT_MANIFEST,MAINNET_BETA_MANIFEST].includes(pack.sdk_manifest),'Explicit frozen verifier SDK required');
+const audit=pack.sdk_manifest===AUDIT_MANIFEST;
+const registry={nativeProtocol:audit?AUDIT_PROFILE:MAINNET_BETA_PROFILE,sdkManifestSha256:pack.sdk_manifest,network:{name:'testnet',magic:String(pack.network_magic),usersPerRealm:1048576,chainRootAt1:audit?AUDIT_CHAIN_ROOT:'0'.repeat(64)},markets:[{kind,marketId,vaultId:100,publicKeyHash:'0'.repeat(64),dependencies:contracts}]};
 const bundle={registry,registryHash:await digest(registry),networkConfig:{magic:String(pack.network_magic),users_per_realm:1048576,coordinator_configs:[{id:0,rpc_url:['https://coordinator.invalid']}],realm_configs:[{id:0,rpc_url:['https://realm.invalid']}],api_services_url:['https://services.invalid']}};
 const report=JSON.parse(nativeModule.verify_market_prepared(requestJson,read('approval'),read('bundle')));
 const record={registryHash:bundle.registryHash,request:{userId:Number(approval.user_id)},plan:{marketId,walletNonce:String(approval.nonce),startCheckpoint:Number(approval.checkpoint_min),validUntilCheckpoint:Number(approval.checkpoint_max),startUserLeafHash:approval.start_leaf,maxNetworkFee:String(approval.max_fee)}};

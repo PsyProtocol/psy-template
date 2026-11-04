@@ -127,7 +127,7 @@ pub fn calls(spec: &Value, fields: &[u64], guard: &Guard) -> Result<Vec<Value>> 
     );
     stream_policy::calls(spec, &context.request, true)
 }
-pub async fn start(session: &WalletSession, key: Q<F>, guard: &Guard) -> Result<()> {
+pub async fn start(session: &WalletSession, key: Q<F>, guard: &Guard, runtime: &Runtime) -> Result<()> {
     let c = guard.stream.as_ref().context("stream context")?;
     let cp = c.execution_checkpoint;
     let user = guard.identity.vault_id;
@@ -148,6 +148,17 @@ pub async fn start(session: &WalletSession, key: Q<F>, guard: &Guard) -> Result<
         fresh || (leaf.public_key == key && leaf.qfhash::<H>() == proof.value),
         "stream fixed starting leaf/key"
     );
+    if runtime.review.kind == 4 && c.request.fields[0] == 14 {
+        let collection_root = if fresh { Q::ZERO } else {
+            let id=runtime.review.assets[2].id;
+            let path=provider.get_user_contract_tree_merkle_proof(cp,user,id.try_into()?).await?;
+            ensure!(path.index==id && path.siblings.len()==psy_config::network_constants::GLOBAL_CONTRACT_TREE_HEIGHT as usize
+                && path.root==leaf.user_state_tree_root && path.verify::<H>(),
+                "NFT bootstrap collection-root membership differs from the approved start leaf");
+            path.value
+        };
+        psy_template_u124_markets::live_guard::require_bootstrap_state_export(runtime.review.kind,c.request.fields[0],collection_root)?;
+    }
     let nonce = if fresh {
         1
     } else {

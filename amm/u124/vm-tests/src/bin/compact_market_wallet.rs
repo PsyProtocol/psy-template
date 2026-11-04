@@ -341,7 +341,7 @@ async fn process_action(a:&[String],spec:&Value,fp:QHashOut<F>,hash:QHashOut<F>,
     let source_pin=compact_benchmark::requested(&a[1])?;
     if producer{ensure!(source_pin.is_none(),"producer source cannot be selected by benchmark environment");}
     let pin_started=std::time::Instant::now();
-    if circuit.stream().is_some(){stream_runtime::start(session,key,&guard).await?;}else if producer&&fields[0]==2{processor_runtime::start(session,key,&guard,fields[3]).await?;}else if let Some(cp)=source_pin{compact_benchmark::start_at(&session,key,guard.identity.vault_id,cp).await?;}else{session.start_session(key).await?;}
+    if let Some(runtime)=circuit.stream(){stream_runtime::start(session,key,&guard,runtime).await?;}else if producer&&fields[0]==2{processor_runtime::start(session,key,&guard,fields[3]).await?;}else if let Some(cp)=source_pin{compact_benchmark::start_at(&session,key,guard.identity.vault_id,cp).await?;}else{session.start_session(key).await?;}
     let source_pin_ms=if source_pin.is_some(){pin_started.elapsed().as_millis()}else{0};
     if a[1]=="quote" {
         *phase="composition-fee-quote";

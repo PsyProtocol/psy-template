@@ -162,6 +162,18 @@ is VM-only synthetic setup; it does not establish network or browser acceptance.
 same required manifest and acceptance environment. Plan proof/time budgets and
 use a new output directory for every attempt; this command does not broadcast.
 
+The later linked-source cohort adds two exact ignored tests in the same crate:
+`full_ups::private_transfer_complete_ordinary_ups`, then
+`full_ups::private_claim_from_transfer_complete_ordinary_ups`. Use a new
+`PRIVATE_COMPLETE_UPS_OUT` for each. The latter requires
+`PRIVATE_SOURCE_TRANSFER_OUT` pointing to the verified transfer output: its
+request is independently verified and the exact source end leaf must match the
+next synthetic checkpoint's note/Native state. This is not a real receipt.
+For no-new-proof negative checks, set `PRIVATE_LINKED_CLAIM_OUT` and select
+`full_ups::saved_private_roundtrip_rejects_request_and_proof_substitution`.
+See the [4 November continuation](../../../docs/security/PRODUCTION_CONTINUATION_20261104.md)
+for exact measured costs, failures and remaining live/wallet gates.
+
 Compilation rejects incorrect ABI/root positions, non-height-32 layouts and native
 fingerprint mismatch. Output must be new. Issuer 5 is a fixture; deploy with a real
 registered issuer. Independent initial-deployment proof tooling must verify empty

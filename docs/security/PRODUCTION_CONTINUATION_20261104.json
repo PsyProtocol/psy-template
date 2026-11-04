@@ -1,0 +1,813 @@
+{
+  "schema": 1,
+  "dateAsiaTaipei": "2026-11-04",
+  "baseline": "35a6f635",
+  "sdkBranch": "mainnet-beta",
+  "sdkCommit": "01b8f2b0a077367a7b9879baba1a72aea8ab5510",
+  "clientCommit": "7058070057c3242b5d8b29e1a31d498aaa4202c0",
+  "sdkSourceManifestSha256": "246cfcb12788fe0d0eb79594556acdfcc7781d01641890e47836db1fbc93c467",
+  "sourceMembersVerified": 2759,
+  "sdkPatches": 0,
+  "nodePatches": 0,
+  "financialOperations": 0,
+  "liveDeployments": 0,
+  "privateWalletOrBrowserAcceptance": false,
+  "newCompleteUps": 2,
+  "transfer": {
+    "amount": "1000000000000000000000000123",
+    "broadcast": false,
+    "callsIncludingBurn": 2,
+    "elapsedSeconds": 72.516364584,
+    "endUserLeaf": "64b1f6bc6e79589aa0108ec11334c09e0629a3814f37f46f7de62b3ea483c608",
+    "fixedVerifierVerified": true,
+    "fullUpsVerified": true,
+    "kind": "private_transfer",
+    "nativeArtifactSha256": "591336999bd2798d9545c3b545dbf33d6816e0c966fb8124f2f880bef6f47593",
+    "nativeConserved": true,
+    "nativeFee": 1000045000,
+    "noteSessionRoot": "6fa11a113a6104de2dabb8bc1a0cee0f91c0de077eb849344943a9379c29b38c",
+    "ordinarySignature": true,
+    "privateArtifactSha256": "b7f4a9f49bc09bde262a9b41e8ec11763a17204ee41fdd24f5ff3b0f6e22fa91",
+    "requestSha256": "e1f53affa538591848bc398382de8e40be0fd3d9348547bef27d3f579916c5d5",
+    "schema": 1,
+    "scope": "Complete ordinary transfer UPS on synthetic authenticated state; no live settlement or browser acceptance",
+    "sdkCommit": "01b8f2b0a077367a7b9879baba1a72aea8ab5510",
+    "sourceCheckpoint": 100,
+    "sourceTransferRequestSha256": null,
+    "sourceUserTreeRoot": "6d9ab55026c49b08ce1eb28e6154c06df37e2046231e8b64d5ab7c97d5769e9f",
+    "startUserLeaf": "aa93316670675982b371929ef3f881b7ee77d6cbb11458bcf3bc6eaaa66ffb25",
+    "tokenConservedWithVmSetup": true,
+    "userId": 200
+  },
+  "linkedClaim": {
+    "amount": "1000000000000000000000000123",
+    "broadcast": false,
+    "callsIncludingBurn": 2,
+    "elapsedSeconds": 80.1000815,
+    "endUserLeaf": "cc3552771ad6fbbf065e69c45cca60b9c4408a9b5c23879c5ffbd6801bd36eea",
+    "fixedVerifierVerified": true,
+    "fullUpsVerified": true,
+    "kind": "private_claim",
+    "nativeArtifactSha256": "591336999bd2798d9545c3b545dbf33d6816e0c966fb8124f2f880bef6f47593",
+    "nativeConserved": true,
+    "nativeFee": 1000005000,
+    "noteSessionRoot": "3867487cc9c59aa7183edcd83036a6ac5e105ab4670594a02b689b4cbb71de59",
+    "ordinarySignature": true,
+    "privateArtifactSha256": "b7f4a9f49bc09bde262a9b41e8ec11763a17204ee41fdd24f5ff3b0f6e22fa91",
+    "requestSha256": "7de25865f300885fc892b6f373889ff2036b8da486a019e4f3eee62ff53c0d8a",
+    "schema": 1,
+    "scope": "Complete ordinary claim UPS bound to the exact independently verified source transfer end leaf at the next synthetic checkpoint; no network receipt or browser acceptance",
+    "sdkCommit": "01b8f2b0a077367a7b9879baba1a72aea8ab5510",
+    "sourceCheckpoint": 101,
+    "sourceTransferRequestSha256": "e1f53affa538591848bc398382de8e40be0fd3d9348547bef27d3f579916c5d5",
+    "sourceUserTreeRoot": "c9e360998d7f23238e2f800b7867528492c383cda893ba608923ed5dbca44426",
+    "startUserLeaf": "860acdc7bbd15d0373c71e179f53818b639cf0230c332351f656508df25f2236",
+    "tokenConservedWithVmSetup": true,
+    "userId": 300
+  },
+  "exactSourceRequestLink": true,
+  "applicationSourceHashes": {
+    "amm/u124/vm-tests/src/live_guard.rs": "8fc4ff76dc03aea963e0334e69e64ec15e9df8e7c117fc7876e27952a935b8e1",
+    "amm/u124/vm-tests/src/stream_runtime.rs": "cd5e73d7a0e8b23d081455fb570f1d009878fade1c3e2cca99598e2d0d2a7d27",
+    "amm/u124/vm-tests/src/bin/compact_market_wallet.rs": "716424605ce7c016c8eda7af81877753b4baf095be4b359f21189510e45a7cdb",
+    "token/wide/private/vm-tests/tests/support/private_full_ups.rs": "a721b2c53b8d0020763d658341c2271a6223383ad123ddbf1f49c5ecfefba96c",
+    "market-client/wallet/native/acceptance.mjs": "e964b915a585d0418e94e864f2125ba9f4e7dc3028da7fc3f96d4c7d773c9d81",
+    "market-client/wallet/native/firstSessionAcceptance.mjs": "d43c30961941b61759bec3920bed3a77d1387db1f934c76384d17df95055c930"
+  },
+  "formalDriver": {
+    "sha256": "1e70175ea6b158c33a460ceae84d29bd1ff9367c254dc648b80b6f1264845abb",
+    "bytes": 65086560,
+    "liveReleaseIdentityUpdated": false,
+    "installed": false
+  },
+  "retainedCompleteProofBinary": {
+    "sha256": "f35c734965ae004237345e457f15bc01ab1451d06d255fe1be5ceda1cb302934",
+    "bytes": 24217200
+  },
+  "observations": {
+    "transfer-v1": {
+      "command": [
+        "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-market-recovery-20261023/sdk-audit-migration-20261102-v1/target/release/deps/private_context_privacy-92a97e6e797e1eab",
+        "full_ups::private_transfer_complete_ordinary_ups",
+        "--ignored",
+        "--exact",
+        "--nocapture",
+        "--test-threads=1"
+      ],
+      "exitCode": 0,
+      "seconds": 73.58723599999212,
+      "sampledFamilyPeakKiB": 1826480,
+      "samples": 71,
+      "stop": null,
+      "binarySha256": "f35c734965ae004237345e457f15bc01ab1451d06d255fe1be5ceda1cb302934",
+      "sourceSha256": "051fc1ebaa3592fb566868e9a5c07f95301d4de8294e643a2501fc20675d4181",
+      "financialOperations": 0,
+      "rssScope": "1s sampled family RSS includes shared pages and misses short peaks; not physical footprint"
+    },
+    "wasm-capsule-v1": {
+      "command": [
+        "/Users/geir/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-template-security-20261016/market-client/wallet/native/acceptance.mjs",
+        "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-market-recovery-20261023/sdk-audit-migration-20261102-v1/wallet-verifier-v2/nodejs/market_verifier.js",
+        "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-market-recovery-20261023/sdk-audit-migration-20261102-v1/ordinaryfixed-full-v1",
+        "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-market-recovery-20261023/production-private-market-20261104-v1/wasm-capsule-v1"
+      ],
+      "exitCode": 0,
+      "seconds": 1.9312584589933977,
+      "scriptSha256": "e964b915a585d0418e94e864f2125ba9f4e7dc3028da7fc3f96d4c7d773c9d81",
+      "moduleSha256": "4b8361023b471e89b9c9423bbc1e8ea6f7dc08df11fd7926c7c44985a3b20b1d",
+      "wasmSha256": "e3c45aa28c1d2a875d530a54157e5a014131335e13abba366cb2ec776b1312d1",
+      "newProofs": 0,
+      "financialOperations": 0,
+      "scope": "Actual WASM cryptographic reuse of preserved synthetic market/first-session proofs to close uncommitted audit-SDK acceptance entry provenance; not browser installation or private-FT full-stack acceptance"
+    },
+    "READONLY-CHAIN-v1": {
+      "atUtc": "2026-11-04T04:17:38.208473+00:00",
+      "rows": [
+        {
+          "label": "realm0-head",
+          "url": "https://realm0-stg.psy-protocol.xyz",
+          "method": "psy_get_latest_l2_block_state",
+          "status": "200",
+          "exitCode": 0,
+          "error": "",
+          "seconds": 1.138808500021696,
+          "responseSha256": "9e4fa00faabe12e21380954ebd8dc5f74055cc078b80184e9ad486e11861ce87",
+          "responseBytes": 226,
+          "rpcError": null,
+          "ok": true
+        },
+        {
+          "label": "realm0-anchor",
+          "url": "https://realm0-stg.psy-protocol.xyz",
+          "method": "psy_get_checkpoint_leaf_data",
+          "status": "200",
+          "exitCode": 0,
+          "error": "",
+          "seconds": 1.1635897500091232,
+          "responseSha256": "1664497f1f0e51c6d8cb529225c7a3ec56f5cd329193bd23b0e30abf7c2d3f77",
+          "responseBytes": 790,
+          "rpcError": null,
+          "ok": true
+        },
+        {
+          "label": "realm1-head",
+          "url": "https://realm1-stg.psy-protocol.xyz",
+          "method": "psy_get_latest_l2_block_state",
+          "status": "200",
+          "exitCode": 0,
+          "error": "",
+          "seconds": 1.1390060419798829,
+          "responseSha256": "9e4fa00faabe12e21380954ebd8dc5f74055cc078b80184e9ad486e11861ce87",
+          "responseBytes": 226,
+          "rpcError": null,
+          "ok": true
+        },
+        {
+          "label": "realm1-anchor",
+          "url": "https://realm1-stg.psy-protocol.xyz",
+          "method": "psy_get_checkpoint_leaf_data",
+          "status": "200",
+          "exitCode": 0,
+          "error": "",
+          "seconds": 1.028495832986664,
+          "responseSha256": "1664497f1f0e51c6d8cb529225c7a3ec56f5cd329193bd23b0e30abf7c2d3f77",
+          "responseBytes": 790,
+          "rpcError": null,
+          "ok": true
+        },
+        {
+          "label": "coordinator-head",
+          "url": "https://coordinator-stg.psy-protocol.xyz",
+          "method": "psy_get_latest_l2_block_state",
+          "status": "200",
+          "exitCode": 0,
+          "error": "",
+          "seconds": 1.0280208750045858,
+          "responseSha256": "9e4fa00faabe12e21380954ebd8dc5f74055cc078b80184e9ad486e11861ce87",
+          "responseBytes": 226,
+          "rpcError": null,
+          "ok": true
+        },
+        {
+          "label": "coordinator-anchor",
+          "url": "https://coordinator-stg.psy-protocol.xyz",
+          "method": "psy_get_checkpoint_leaf_data",
+          "status": "200",
+          "exitCode": 0,
+          "error": "",
+          "seconds": 1.1701403339975514,
+          "responseSha256": "1664497f1f0e51c6d8cb529225c7a3ec56f5cd329193bd23b0e30abf7c2d3f77",
+          "responseBytes": 790,
+          "rpcError": null,
+          "ok": true
+        },
+        {
+          "label": "native-leaf",
+          "url": "https://coordinator-stg.psy-protocol.xyz",
+          "method": "psy_get_contract_leaf_data",
+          "status": "200",
+          "exitCode": 0,
+          "error": "",
+          "seconds": 0.9846828749869019,
+          "responseSha256": "04986237155437e1aba3564ed2c001de22fbad298e96389a649bc76b14c14063",
+          "responseBytes": 391,
+          "rpcError": null,
+          "ok": true
+        },
+        {
+          "label": "runtime-resources",
+          "url": "https://prove-stg.psy-protocol.xyz",
+          "method": "psy_get_circuits_data",
+          "status": "200",
+          "exitCode": 0,
+          "error": "",
+          "seconds": 1.6951109169749543,
+          "responseSha256": "d8c45c2b5337f7a70486d75352916f93b5c9a974cb0ced6822ca32dd17ce58c4",
+          "responseBytes": 25921,
+          "rpcError": null,
+          "ok": true
+        },
+        {
+          "label": "faucet-config",
+          "url": "https://faucet-stg.psy-protocol.xyz",
+          "method": "psy_get_psy_faucet_config",
+          "status": "200",
+          "exitCode": 0,
+          "error": "",
+          "seconds": 1.0356107499683276,
+          "responseSha256": "b12e2673ca962597d2fd40f518047de25e5d50cc5861ba246c94a9ab09cbf4af",
+          "responseBytes": 947,
+          "rpcError": null,
+          "ok": true
+        }
+      ],
+      "financialOperations": 0,
+      "noRetries": true,
+      "tlsVerificationDisabled": false
+    },
+    "PLAN": {
+      "schema": 1,
+      "atUtc": "2026-11-04T04:02:09.557599+00:00",
+      "owner": "root",
+      "branch": "markets-batch-capacity-recovery-20261020",
+      "baseline": "35a6f6357b5b32263fb80492c8a4793d580c269e",
+      "sdkCommit": "01b8f2b0a077367a7b9879baba1a72aea8ab5510",
+      "clientCommit": "7058070057c3242b5d8b29e1a31d498aaa4202c0",
+      "maxNativeBuildCommands": 3,
+      "maxNewCompleteUpsAttempts": 4,
+      "maxNativeNoteProofApiAttempts": 8,
+      "maxProofProcessSeconds": 2400,
+      "maxSampledFamilyRssGiB": 12,
+      "threads": 2,
+      "financialOperations": 0,
+      "newLiveInstances": 0,
+      "testPsySpend": 0,
+      "sourceProof": "Existing complete claim is retained; add an actual transfer UPS and bind a new claim to its exact verified source end leaf. Reuse all suitable original proofs; NFT export failure gets a minimal API reproduction before further expensive NFT proving.",
+      "stopConditions": [
+        "frozen source/resource mismatch",
+        "proof/time/memory budget exhaustion",
+        "unsafe state substitution",
+        "unowned browser session or financial process",
+        "any attempted financial send"
+      ],
+      "unownedEdits": [
+        "market-client/wallet/native/acceptance.mjs",
+        "market-client/wallet/native/firstSessionAcceptance.mjs"
+      ],
+      "financialPhase": "Closed for this offline cohort; new reset-chain identities/resources and fresh live preflight are separate gates."
+    },
+    "saved-roundtrip-v1": {
+      "command": [
+        "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-market-recovery-20261023/sdk-audit-migration-20261102-v1/target/release/deps/private_context_privacy-92a97e6e797e1eab",
+        "full_ups::saved_private_roundtrip_rejects_request_and_proof_substitution",
+        "--ignored",
+        "--exact",
+        "--nocapture",
+        "--test-threads=1"
+      ],
+      "exitCode": 0,
+      "seconds": 3.2955015839543194,
+      "binarySha256": "696fce1a691d2970f0d6e216936ff9887a6b4b87a59ad814431633df759ab315",
+      "newProofs": 0,
+      "financialOperations": 0
+    },
+    "formal-build-v1": {
+      "command": [
+        "cargo",
+        "+nightly-2025-09-20",
+        "build",
+        "--offline",
+        "--locked",
+        "--release",
+        "--features",
+        "sdk-audit-v1",
+        "--bin",
+        "funded_stream_wallet"
+      ],
+      "exitCode": 0,
+      "seconds": 94.6995157499914,
+      "proofs": 0,
+      "financialOperations": 0
+    },
+    "WASM-FIRST-SESSION-v1": {
+      "command": [
+        "/Users/geir/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+        "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-template-security-20261016/market-client/wallet/native/firstSessionAcceptance.mjs",
+        "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-market-recovery-20261023/sdk-audit-migration-20261102-v1/wallet-verifier-v2/nodejs/market_verifier.js",
+        "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-market-recovery-20261023/sdk-audit-migration-20261102-v1/first-full-v1",
+        "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-market-recovery-20261023/production-private-market-20261104-v1/public/WASM-FIRST-SESSION-v1.json",
+        "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-market-recovery-20261023/sdk-audit-migration-20261102-v1/wallet-verifier-v2/src/verifiers.json"
+      ],
+      "exitCode": 0,
+      "seconds": 0.5229543330497108,
+      "scriptSha256": "d43c30961941b61759bec3920bed3a77d1387db1f934c76384d17df95055c930",
+      "moduleSha256": "4b8361023b471e89b9c9423bbc1e8ea6f7dc08df11fd7926c7c44985a3b20b1d",
+      "wasmSha256": "e3c45aa28c1d2a875d530a54157e5a014131335e13abba366cb2ec776b1312d1",
+      "newProofs": 0,
+      "financialOperations": 0,
+      "scope": "Actual WASM cryptographic reuse of preserved synthetic market/first-session proofs to close uncommitted audit-SDK acceptance entry provenance; not browser installation or private-FT full-stack acceptance"
+    },
+    "guard-unit-v1": {
+      "command": [
+        "cargo",
+        "+nightly-2025-09-20",
+        "test",
+        "--offline",
+        "--locked",
+        "--release",
+        "--features",
+        "sdk-audit-v1",
+        "--lib",
+        "live_guard::tests::audit_nft_zero_only_bootstrap_rejects_without_blocking_existing_state_or_refunds",
+        "--",
+        "--exact",
+        "--nocapture",
+        "--test-threads=1"
+      ],
+      "exitCode": 0,
+      "seconds": 47.35753154201666,
+      "proofs": 0,
+      "financialOperations": 0
+    },
+    "TEST-BUILD-v3": {
+      "command": [
+        "cargo",
+        "+nightly-2025-09-20",
+        "test",
+        "--offline",
+        "--locked",
+        "--release",
+        "--features",
+        "sdk-audit-v1",
+        "--test",
+        "private_context_privacy",
+        "--no-run"
+      ],
+      "exitCode": 0,
+      "seconds": 33.01222512498498,
+      "sourceSha256": "a721b2c53b8d0020763d658341c2271a6223383ad123ddbf1f49c5ecfefba96c",
+      "financialOperations": 0
+    },
+    "linked-claim-v1": {
+      "command": [
+        "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-market-recovery-20261023/sdk-audit-migration-20261102-v1/target/release/deps/private_context_privacy-92a97e6e797e1eab",
+        "full_ups::private_claim_from_transfer_complete_ordinary_ups",
+        "--ignored",
+        "--exact",
+        "--nocapture",
+        "--test-threads=1"
+      ],
+      "exitCode": 0,
+      "seconds": 80.87381929100957,
+      "sampledFamilyPeakKiB": 1602576,
+      "samples": 78,
+      "stop": null,
+      "binarySha256": "f35c734965ae004237345e457f15bc01ab1451d06d255fe1be5ceda1cb302934",
+      "sourceSha256": "051fc1ebaa3592fb566868e9a5c07f95301d4de8294e643a2501fc20675d4181",
+      "financialOperations": 0,
+      "rssScope": "1s sampled family RSS includes shared pages and misses short peaks; not physical footprint"
+    },
+    "zero-export-v1": {
+      "command": [
+        "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-market-recovery-20261023/sdk-audit-migration-20261102-v1/target/release/deps/private_context_privacy-92a97e6e797e1eab",
+        "full_ups::fresh_zero_only_contract_export_is_not_silently_accepted",
+        "--exact",
+        "--nocapture",
+        "--test-threads=1"
+      ],
+      "exitCode": 101,
+      "seconds": 1.0396655829972588,
+      "sampledFamilyPeakKiB": 32,
+      "samples": 1,
+      "stop": null,
+      "binarySha256": "f35c734965ae004237345e457f15bc01ab1451d06d255fe1be5ceda1cb302934",
+      "sourceSha256": "051fc1ebaa3592fb566868e9a5c07f95301d4de8294e643a2501fc20675d4181",
+      "financialOperations": 0,
+      "newProofs": false,
+      "rssScope": "1s sampled family RSS includes shared pages and misses short peaks; not physical footprint"
+    },
+    "EXECUTOR-GUARD-PLAN-v1": {
+      "atUtc": "2026-11-04T04:16:22.142730+00:00",
+      "reason": "Minimal unchanged-SDK API regression now confirms zero-only first-use export failure. Wire an application guard into the formal funded Executor before UPS start, with authenticated existing collection-root membership. This does not relax SDK validation or enable NFT writes.",
+      "maxAdditionalNativeBuildCommands": 2,
+      "maxAdditionalProofs": 0,
+      "maxAdditionalFinancialOperations": 0,
+      "maxTestSeconds": 600,
+      "scope": "One fresh application build/check plus guard/API unit regression; preserve all prior sources and proofs."
+    },
+    "TEST-BUILD-v2": {
+      "command": [
+        "cargo",
+        "+nightly-2025-09-20",
+        "test",
+        "--offline",
+        "--locked",
+        "--release",
+        "--features",
+        "sdk-audit-v1",
+        "--test",
+        "private_context_privacy",
+        "--no-run"
+      ],
+      "exitCode": 0,
+      "seconds": 33.929956915962975,
+      "sourceSha256": "051fc1ebaa3592fb566868e9a5c07f95301d4de8294e643a2501fc20675d4181",
+      "financialOperations": 0
+    },
+    "HARNESS-REVISION-v2": {
+      "reason": "Add a no-proof minimal fresh zero-only state-export regression after the first transfer/claim harness compiled. Previous staged source retained separately. No SDK patches.",
+      "oldSha256": "b2e42c11f20c632c5889592c41c5a04727017f648f0bf4e402c335e2e2b7830c",
+      "newSha256": "051fc1ebaa3592fb566868e9a5c07f95301d4de8294e643a2501fc20675d4181",
+      "proofs": 0,
+      "financialOperations": 0
+    },
+    "TEST-BUILD-v1": {
+      "command": [
+        "cargo",
+        "+nightly-2025-09-20",
+        "test",
+        "--offline",
+        "--locked",
+        "--release",
+        "--features",
+        "sdk-audit-v1",
+        "--test",
+        "private_context_privacy",
+        "--no-run"
+      ],
+      "exitCode": 0,
+      "seconds": 95.24159558303654,
+      "financialOperations": 0
+    },
+    "HARNESS-REVISION-v3": {
+      "reason": "Retain complete transfer/claim proof binary/source. Add saved-proof and endpoint-substitution checks without generating replacement proofs. Correct the minimal state-export fixture missing checkpoint/user/block metadata; production checks unchanged.",
+      "oldSha256": "051fc1ebaa3592fb566868e9a5c07f95301d4de8294e643a2501fc20675d4181",
+      "newSha256": "a721b2c53b8d0020763d658341c2271a6223383ad123ddbf1f49c5ecfefba96c",
+      "financialOperations": 0
+    },
+    "zero-export-v2": {
+      "command": [
+        "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-market-recovery-20261023/sdk-audit-migration-20261102-v1/target/release/deps/private_context_privacy-92a97e6e797e1eab",
+        "full_ups::fresh_zero_only_contract_export_is_not_silently_accepted",
+        "--exact",
+        "--nocapture",
+        "--test-threads=1"
+      ],
+      "exitCode": 0,
+      "seconds": 0.4063674159697257,
+      "binarySha256": "696fce1a691d2970f0d6e216936ff9887a6b4b87a59ad814431633df759ab315",
+      "newProofs": 0,
+      "financialOperations": 0
+    }
+  },
+  "rawRecords": [
+    {
+      "recoveryPath": "production-private-market-20261104-v1/application/PRIVATE-COMPILER-SOURCE.json",
+      "sha256": "16bbdeb63b785086be332318159b44d4da5d7f5a94fb88ff1fabbff5c0cd946e",
+      "bytes": 21719
+    },
+    {
+      "recoveryPath": "production-private-market-20261104-v1/application/tests/support/private_full_ups.rs",
+      "sha256": "a721b2c53b8d0020763d658341c2271a6223383ad123ddbf1f49c5ecfefba96c",
+      "bytes": 24650
+    },
+    {
+      "recoveryPath": "production-private-market-20261104-v1/formal-application/PRIVATE-COMPILER-SOURCE.json",
+      "sha256": "52f3ba305bb85dde108124b30f3dfc235db4f0558fd8054c32a78d930f7017c3",
+      "bytes": 21726
+    },
+    {
+      "recoveryPath": "production-private-market-20261104-v1/formal-application/src/bin/compact_market_wallet.rs",
+      "sha256": "716424605ce7c016c8eda7af81877753b4baf095be4b359f21189510e45a7cdb",
+      "bytes": 32397
+    },
+    {
+      "recoveryPath": "production-private-market-20261104-v1/formal-application/src/live_guard.rs",
+      "sha256": "8fc4ff76dc03aea963e0334e69e64ec15e9df8e7c117fc7876e27952a935b8e1",
+      "bytes": 16146
+    },
+    {
+      "recoveryPath": "production-private-market-20261104-v1/formal-application/src/stream_runtime.rs",
+      "sha256": "cd5e73d7a0e8b23d081455fb570f1d009878fade1c3e2cca99598e2d0d2a7d27",
+      "bytes": 27840
+    },
+    {
+      "recoveryPath": "production-private-market-20261104-v1/formal-build-v1.log",
+      "sha256": "6ef6badf0e367c208fe4db126b02480b0b5f5460e7efb645667f10659a9033f2",
+      "bytes": 51313
+    },
+    {
+      "recoveryPath": "production-private-market-20261104-v1/guard-unit-v1.log",
+      "sha256": "452108b9ed0ce0cea5b05719f394d3c4b0f1170ebded3c8478359e37dc2feaab",
+      "bytes": 51175
+    },
+    {
+      "recoveryPath": "production-private-market-20261104-v1/linked-claim-v1/REPORT.json",
+      "sha256": "be9f6b7002673a20e0ef5ff74281903e1f7044a6d5e3aad9128bc97eb3ad06ba",
+      "bytes": 1366
+    },
+    {
+      "recoveryPath": "production-private-market-20261104-v1/linked-claim-v1/request.json",
+      "sha256": "7de25865f300885fc892b6f373889ff2036b8da486a019e4f3eee62ff53c0d8a",
+      "bytes": 482325
+    },
+    {
+      "recoveryPath": "production-private-market-20261104-v1/linked-claim-v1.log",
+      "sha256": "9e4980809de731efe89a76e2edcbca968857b75f6f654d9108c6ec6c80b9adff",
+      "bytes": 3680
+    },
+    {
+      "recoveryPath": "production-private-market-20261104-v1/prepare-formal-v1.log",
+      "sha256": "71bf1e7d916e468faa00bc993995452bdbdcdab237de82f50ae75911bedec86a",
+      "bytes": 20358
+    },
+    {
+      "recoveryPath": "production-private-market-20261104-v1/public/EXECUTOR-GUARD-PLAN-v1.json",
+      "sha256": "3cfad736ea1c62b8da0e92a7a44b38af0a92be2c5e77b98a00d8d2343223e41b",
+      "bytes": 594
+    },
+    {
+      "recoveryPath": "production-private-market-20261104-v1/public/HARNESS-REVISION-v2.json",
+      "sha256": "604b51c12b5d0e024a51e745336d36826b0d653763699c1b40854cb19b57041e",
+      "bytes": 399
+    },
+    {
+      "recoveryPath": "production-private-market-20261104-v1/public/HARNESS-REVISION-v3.json",
+      "sha256": "6ea3464e57fbe2c174a5e9190a040b8d18479a54e1fd9b9931b79392d95f55d7",
+      "bytes": 462
+    },
+    {
+      "recoveryPath": "production-private-market-20261104-v1/public/PLAN.json",
+      "sha256": "b6a7d7ce7492263671ea1fd5281d54233268075b481042682505109ead765cd2",
+      "bytes": 1349
+    },
+    {
+      "recoveryPath": "production-private-market-20261104-v1/public/READONLY-CHAIN-v1.json",
+      "sha256": "5aa0b33dc57a1b8a565c17874a608f0c6a9970831f2dcfc1bb19d6235e3e4297",
+      "bytes": 3816
+    },
+    {
+      "recoveryPath": "production-private-market-20261104-v1/public/TEST-BUILD-v1.json",
+      "sha256": "e4c711689cef1d8f88d45e8e049b43b33589ca00fa1fbe4d992ece9a80dd9207",
+      "bytes": 300
+    },
+    {
+      "recoveryPath": "production-private-market-20261104-v1/public/TEST-BUILD-v2.json",
+      "sha256": "82a0163b4a7c3f64fcc43cc555b994dcda0a15020d7ab82349af6628d097f620",
+      "bytes": 387
+    },
+    {
+      "recoveryPath": "production-private-market-20261104-v1/public/TEST-BUILD-v3.json",
+      "sha256": "07fd8b7ed29a04178ac813c46f21648023a7523b4b7c25e8ddcc83757589c282",
+      "bytes": 386
+    },
+    {
+      "recoveryPath": "production-private-market-20261104-v1/public/WASM-FIRST-SESSION-v1.json",
+      "sha256": "bbbcab79ea0454fe2b064a3d51f784114e0f1ce9c8e997380e1032749f52f4a6",
+      "bytes": 1424
+    },
+    {
+      "recoveryPath": "production-private-market-20261104-v1/public/formal-build-v1.json",
+      "sha256": "ac046b9725a8a62c36e853b550d61033dba2f5ddaa22b2bb455e7cf50247943c",
+      "bytes": 295
+    },
+    {
+      "recoveryPath": "production-private-market-20261104-v1/public/guard-unit-v1.json",
+      "sha256": "54e0523ac4d27907d9e1416d91a23170bea7511d9f45ebeba84b1fa6ddc729d0",
+      "bytes": 442
+    },
+    {
+      "recoveryPath": "production-private-market-20261104-v1/public/linked-claim-v1.json",
+      "sha256": "268e6e1baa4f9caae82e7c1af567030b53796a23169449edef794b276604653b",
+      "bytes": 766
+    },
+    {
+      "recoveryPath": "production-private-market-20261104-v1/public/saved-roundtrip-v1.json",
+      "sha256": "43128accabb19cf900af2e53d054ea045aa78960fa4a157c35337f79f7b44b68",
+      "bytes": 536
+    },
+    {
+      "recoveryPath": "production-private-market-20261104-v1/public/transfer-v1.json",
+      "sha256": "d8aac66c347a30e10a0c5c5f6794644fc8424085f0bceb62bf891d77280048a4",
+      "bytes": 755
+    },
+    {
+      "recoveryPath": "production-private-market-20261104-v1/public/wasm-capsule-v1.json",
+      "sha256": "75ec0635ef731d3732dbcb188728c4d313f5723517083549b32b26a5519400b3",
+      "bytes": 1248
+    },
+    {
+      "recoveryPath": "production-private-market-20261104-v1/public/zero-export-v1.json",
+      "sha256": "3b47835b16af2531c53b108c1a774add2c21050343d1000dfe0441e413c4a455",
+      "bytes": 775
+    },
+    {
+      "recoveryPath": "production-private-market-20261104-v1/public/zero-export-v2.json",
+      "sha256": "9ff604b3c16093f89cac0f3f0c121a943abacdf691972952181d379b9c0530ef",
+      "bytes": 513
+    },
+    {
+      "recoveryPath": "production-private-market-20261104-v1/readonly-chain-v1/PLAN.json",
+      "sha256": "a84fe48e59eaa6d6392dc78a2d451ed0d6b9d5d2cbbe86e4c8b56d688f813018",
+      "bytes": 119
+    },
+    {
+      "recoveryPath": "production-private-market-20261104-v1/readonly-chain-v1/coordinator-anchor-request.json",
+      "sha256": "4badf85cf01fb36fac05331822ca6f1bf30301fa162b284855f858ec273afffb",
+      "bytes": 101
+    },
+    {
+      "recoveryPath": "production-private-market-20261104-v1/readonly-chain-v1/coordinator-anchor-response.json",
+      "sha256": "1664497f1f0e51c6d8cb529225c7a3ec56f5cd329193bd23b0e30abf7c2d3f77",
+      "bytes": 790
+    },
+    {
+      "recoveryPath": "production-private-market-20261104-v1/readonly-chain-v1/coordinator-head-request.json",
+      "sha256": "15a93bbf153a6794e9bcceec124531a9865633466df88833d2cd8b52db2a2396",
+      "bytes": 84
+    },
+    {
+      "recoveryPath": "production-private-market-20261104-v1/readonly-chain-v1/coordinator-head-response.json",
+      "sha256": "9e4fa00faabe12e21380954ebd8dc5f74055cc078b80184e9ad486e11861ce87",
+      "bytes": 226
+    },
+    {
+      "recoveryPath": "production-private-market-20261104-v1/readonly-chain-v1/faucet-config-request.json",
+      "sha256": "faac066f80d16530d2cbf77e1ddc41c75b0c9a3d72db0473aef20137cb359754",
+      "bytes": 80
+    },
+    {
+      "recoveryPath": "production-private-market-20261104-v1/readonly-chain-v1/faucet-config-response.json",
+      "sha256": "b12e2673ca962597d2fd40f518047de25e5d50cc5861ba246c94a9ab09cbf4af",
+      "bytes": 947
+    },
+    {
+      "recoveryPath": "production-private-market-20261104-v1/readonly-chain-v1/native-leaf-request.json",
+      "sha256": "81cb948dc3542c52a6e8766e4359d66a31fb3ed2776da234708242a3284f34ad",
+      "bytes": 97
+    },
+    {
+      "recoveryPath": "production-private-market-20261104-v1/readonly-chain-v1/native-leaf-response.json",
+      "sha256": "04986237155437e1aba3564ed2c001de22fbad298e96389a649bc76b14c14063",
+      "bytes": 391
+    },
+    {
+      "recoveryPath": "production-private-market-20261104-v1/readonly-chain-v1/realm0-anchor-request.json",
+      "sha256": "4badf85cf01fb36fac05331822ca6f1bf30301fa162b284855f858ec273afffb",
+      "bytes": 101
+    },
+    {
+      "recoveryPath": "production-private-market-20261104-v1/readonly-chain-v1/realm0-anchor-response.json",
+      "sha256": "1664497f1f0e51c6d8cb529225c7a3ec56f5cd329193bd23b0e30abf7c2d3f77",
+      "bytes": 790
+    },
+    {
+      "recoveryPath": "production-private-market-20261104-v1/readonly-chain-v1/realm0-head-request.json",
+      "sha256": "15a93bbf153a6794e9bcceec124531a9865633466df88833d2cd8b52db2a2396",
+      "bytes": 84
+    },
+    {
+      "recoveryPath": "production-private-market-20261104-v1/readonly-chain-v1/realm0-head-response.json",
+      "sha256": "9e4fa00faabe12e21380954ebd8dc5f74055cc078b80184e9ad486e11861ce87",
+      "bytes": 226
+    },
+    {
+      "recoveryPath": "production-private-market-20261104-v1/readonly-chain-v1/realm1-anchor-request.json",
+      "sha256": "4badf85cf01fb36fac05331822ca6f1bf30301fa162b284855f858ec273afffb",
+      "bytes": 101
+    },
+    {
+      "recoveryPath": "production-private-market-20261104-v1/readonly-chain-v1/realm1-anchor-response.json",
+      "sha256": "1664497f1f0e51c6d8cb529225c7a3ec56f5cd329193bd23b0e30abf7c2d3f77",
+      "bytes": 790
+    },
+    {
+      "recoveryPath": "production-private-market-20261104-v1/readonly-chain-v1/realm1-head-request.json",
+      "sha256": "15a93bbf153a6794e9bcceec124531a9865633466df88833d2cd8b52db2a2396",
+      "bytes": 84
+    },
+    {
+      "recoveryPath": "production-private-market-20261104-v1/readonly-chain-v1/realm1-head-response.json",
+      "sha256": "9e4fa00faabe12e21380954ebd8dc5f74055cc078b80184e9ad486e11861ce87",
+      "bytes": 226
+    },
+    {
+      "recoveryPath": "production-private-market-20261104-v1/readonly-chain-v1/runtime-resources-request.json",
+      "sha256": "458225dff7bd2456fcb402dfdb9b02cb5e3a44248f803eb9e311401b85676131",
+      "bytes": 76
+    },
+    {
+      "recoveryPath": "production-private-market-20261104-v1/readonly-chain-v1/runtime-resources-response.json",
+      "sha256": "d8c45c2b5337f7a70486d75352916f93b5c9a974cb0ced6822ca32dd17ce58c4",
+      "bytes": 25921
+    },
+    {
+      "recoveryPath": "production-private-market-20261104-v1/retained-harness-before-sdk-regression-v1.rs",
+      "sha256": "b2e42c11f20c632c5889592c41c5a04727017f648f0bf4e402c335e2e2b7830c",
+      "bytes": 19385
+    },
+    {
+      "recoveryPath": "production-private-market-20261104-v1/retained-harness-complete-transfer-claim-v2.rs",
+      "sha256": "051fc1ebaa3592fb566868e9a5c07f95301d4de8294e643a2501fc20675d4181",
+      "bytes": 21378
+    },
+    {
+      "recoveryPath": "production-private-market-20261104-v1/saved-roundtrip-v1.log",
+      "sha256": "893a051f243b33c3ae96389e8c07585dc3a2ff5418a7b98798508596026227a8",
+      "bytes": 1490
+    },
+    {
+      "recoveryPath": "production-private-market-20261104-v1/test-build-v1.log",
+      "sha256": "6ec9c8bc4ddf74bee1c89ec9bbcb5e6d81a1f6f754f91a6de96280c78880ba84",
+      "bytes": 52208
+    },
+    {
+      "recoveryPath": "production-private-market-20261104-v1/test-build-v2.log",
+      "sha256": "be0f3a862fbe873f4eb41f020b3b35691c06ceac5d7559a2ff8783d9f109c373",
+      "bytes": 52208
+    },
+    {
+      "recoveryPath": "production-private-market-20261104-v1/test-build-v3.log",
+      "sha256": "e1dc2cecc62a12da5131eeb23bf88b1373df279683f706772c08a3940560b8ae",
+      "bytes": 51468
+    },
+    {
+      "recoveryPath": "production-private-market-20261104-v1/transfer-v1/REPORT.json",
+      "sha256": "41cd2b8d30c9fafb2d8c7912d8b421b2aa1491573de58e832cb6640788101f47",
+      "bytes": 1245
+    },
+    {
+      "recoveryPath": "production-private-market-20261104-v1/transfer-v1/request.json",
+      "sha256": "e1f53affa538591848bc398382de8e40be0fd3d9348547bef27d3f579916c5d5",
+      "bytes": 579068
+    },
+    {
+      "recoveryPath": "production-private-market-20261104-v1/transfer-v1.log",
+      "sha256": "01f051aee645a69c1687f2a97c30af34987ad1ec6982e12a4d66a13b840e3a74",
+      "bytes": 2986
+    },
+    {
+      "recoveryPath": "production-private-market-20261104-v1/wasm-capsule-v1/REPORT.json",
+      "sha256": "f19c133f78039c4301777d9587c4fbf571adcc3229629295e88eba3896cde889",
+      "bytes": 534
+    },
+    {
+      "recoveryPath": "production-private-market-20261104-v1/wasm-capsule-v1.log",
+      "sha256": "0ce5b4812cf83d33510f6d419182f7e1c168242a1fa7a5c428861a8ce7ab8720",
+      "bytes": 112
+    },
+    {
+      "recoveryPath": "production-private-market-20261104-v1/wasm-first-session-v1.log",
+      "sha256": "a4a4ccd433013fd0fd76af836b40dff8bf7a34b43133797338f675923ffd1155",
+      "bytes": 102
+    },
+    {
+      "recoveryPath": "production-private-market-20261104-v1/zero-export-v1.log",
+      "sha256": "52f0780de7b2ba3260afe17524812add2233ce12f9cfe0c4c56eeb6bcd560014",
+      "bytes": 334
+    },
+    {
+      "recoveryPath": "production-private-market-20261104-v1/zero-export-v2.log",
+      "sha256": "5f0ceb65cff3b751f1f1c86fe3857db0f4e8b1b77134a2c6ab0b76516274cbaf",
+      "bytes": 317
+    }
+  ],
+  "previousPairCohort": {
+    "record": "sdk-audit-migration-20261102-v1/public/pair-COHORT-v1.json",
+    "sha256": "83171036f526a730f3ecc5dbaa9e49e40ef80a083b448ab433cc422b4f47f9df",
+    "completeExportedOrderbookRequests": 13,
+    "nftCompleteRequestExported": false,
+    "nftFailure": "contract state changed without a recorded update for contract_id=41",
+    "newPairProofs": 0
+  },
+  "memoryDefinition": "1s sampled sum of process-family RSS, includes shared pages, short peaks may be missed; not physical memory footprint",
+  "performanceConclusion": "Two sequential synthetic proof processes; not a matched speedup, warm state, live finality, claim arrival, p95 or TPS",
+  "remaining": [
+    "Frozen SDK first-use zero-only contract export or a separately versioned NFT no-ack bootstrap/key remedy",
+    "Application-owned private packet/trace verifier and compact-v2 wallet preparation integration",
+    "New actual-chain identities, assets, vaults, keys and approved verifier packs",
+    "Actual browser approval, exact broadcast, network fill, claim/refund and failure recovery",
+    "Current-chain double pool and Book-to-AMM, qualified randomness, sustained and matched performance acceptance"
+  ]
+}
