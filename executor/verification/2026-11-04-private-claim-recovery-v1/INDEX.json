@@ -374,5 +374,17 @@
       "bytes": 3381,
       "sha256": "b9fc474c0d8b9840fd42771b439ce715a2b6c62ea46e6c579d4bd54817bff3d7"
     }
-  ]
+  ],
+  "delivery": {
+    "applicationSourceCommit": "3b0e8d78ce2a5720db061a676c7ba1e90d600fdf",
+    "walletSourceCommit": "118a0fb720401b7c91e599f36b3b60eefba87463",
+    "pushed": false,
+    "failures": [
+      "SSH public-key authentication rejected for both repositories",
+      "Connected GitHub integration application blob creation: HTTP 403 Resource not accessible by integration",
+      "Connected GitHub integration wallet repository: not accessible"
+    ],
+    "forcePushAttempted": false,
+    "globalCredentialOrSshChanges": false
+  }
 }

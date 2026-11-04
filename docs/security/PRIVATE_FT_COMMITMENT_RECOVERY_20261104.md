@@ -140,3 +140,14 @@ are not established by this journal work.
 [Small evidence inventory](../../executor/verification/2026-11-04-private-claim-recovery-v1/INDEX.json)
 records hashes and measurements. Raw proofs, binaries, SDK copies, logs and
 wallet build outputs remain external and are not uploaded to Git.
+
+## Delivery status
+
+Application source commit: `3b0e8d78ce2a5720db061a676c7ba1e90d600fdf`.
+Wallet source commit: `118a0fb` on `wallet-security-20261016`. Both current branches
+contain the verified changes. Pushes fail at SSH public-key authentication; the
+connected GitHub integration also rejects application blob creation with HTTP
+403 and cannot access the wallet repository. No remote branch is updated, no
+force push is attempted, and no global SSH/credential setting is changed.
+Local commits and external evidence are preserved. Restoring an authorized
+repository transport is an external delivery dependency, not an acceptance pass.
