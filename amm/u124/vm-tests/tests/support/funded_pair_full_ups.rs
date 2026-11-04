@@ -103,11 +103,15 @@ async fn paired_funded_bootstrap_priority_and_refunds()->Result<()> { paired_fun
 #[tokio::test]
 #[ignore="bounded current v19 key trading/refund cohort; no financial authority"]
 async fn paired_latest_exit_key_trades_and_refunds()->Result<()> { paired_funded_flow(19).await }
+#[tokio::test]
+#[ignore="new NFT v21 identity; bounded complete bootstrap/trade/refund cohort"]
+async fn nft_account_bootstrap_trades_and_refunds()->Result<()> { paired_funded_flow(21).await }
 async fn paired_funded_flow(expected_version:u64)->Result<()> {
     let out=std::env::var("FUNDED_PAIR_OUT")?;fs::create_dir(&out)?;
     let vm=std::env::var("FUNDED_PAIR_VM_ONLY").as_deref()==Ok("1");
-    let selected=std::env::var("FUNDED_PAIR_MARKETS").unwrap_or_else(|_|"orderbook,nftmarket".into());
+    let selected=std::env::var("FUNDED_PAIR_MARKETS").unwrap_or_else(|_|if expected_version==21 {"nftmarket".into()}else{"orderbook,nftmarket".into()});
     for kind in selected.split(','){
+        ensure!(expected_version!=21||kind=="nftmarket","v21 is NFT-only");
         let mut w=World::new_fixture(kind,false,false)?;w.set(OWNER,0,0,1000*ESCROW);
         ensure!(!w.slots.keys().any(|(u,_,_)|*u==V),"no preloaded vault");
         let mut chain=StreamChain::new_with_maintenance(&w,true).await?;chain.base.keep_history=true;
@@ -131,7 +135,8 @@ async fn paired_funded_flow(expected_version:u64)->Result<()> {
         }else{
             payload=Some(super::pair_stream::nft_payload(&w,200)?);
             w.run(200,NFT,"acknowledge",&[V])?;w.run(200,M,"open_listing",&args(&[V,0],&[n],&[200,1]))?;w.fee(200)?;w.run(200,NFT,"transfer",&[0,V])?;
-            w.run(201,NFT,"acknowledge",&[V])?;w.run(201,M,"open_buy",&args(&[V,200,1],&[n],&[200,1]))?;w.fee(201)?;w.pay(201,A,n)?;
+            if expected_version==21 {w.run(201,NFT,"prepare_account",&[])?;}else{w.run(201,NFT,"acknowledge",&[V])?;}
+            w.run(201,M,"open_buy",&args(&[V,200,1],&[n],&[200,1]))?;w.fee(201)?;w.pay(201,A,n)?;
         }
         source(&mut chain,&w).await?;let original=chain.source.clone();let pages=stream_source::prepare(&chain.review,&original,original.history.checkpoint_path.root)?;
         let q=stream_source::priority(&chain.review,&original,original.history.checkpoint_path.root)?;ensure!(q.members.len()==2,"complete two-member source");

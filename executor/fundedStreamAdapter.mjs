@@ -29,8 +29,25 @@ export function validateFundedStage(stage,policy,o){
  assert.equal(policy.profile,model.policy);assert.equal(policy.qualified_randomness,false);
  assert.equal(policy.market,o.kind,'reviewed market kind must match the route');
  assert.equal(policy.market_id,BigInt(o.contractId));assert.equal(policy.executor_binding.sdk_commit,sdkRelease(o.testnetProfile).sdkCommit);
+ if(model.version===21n){
+  const release=sdkRelease(o.testnetProfile);assert.equal(o.testnetProfile,'sdk-audit-20261102-v1','reviewed deferred NFT release');
+  assert.equal(policy.collection_initialization,'explicit-account-version-v1');
+  assert.equal(policy.base.sdk_commit,release.sdkCommit);assert.equal(policy.base.client_commit,release.clientCommit);
+  const index=policy.base.operations.findIndex(x=>x.name==='activate');assert.ok(index>=0);
+  const call=(contract_id,method_id,method_name,inputs)=>({contract_id,method_id,method_name,inputs});
+  const expected=[policy.noop,call(0n,3824212239n,'claim',[{witness:1n}]),
+   call(policy.base.config.nftId,1475740684n,'prepare_account',[]),
+   call(policy.base.config.tokenId,2792756730n,'claim',[{witness:1n}]),
+   call(policy.market_id,3068320913n,'activate',[{witness:1n}]),
+   call(policy.base.config.tokenId,188091294n,'transfer',[{witness:1n},{constant:'1'},{constant:'0'}])];
+  while(expected.length<9)expected.push(policy.noop);
+  assert.equal(policy.base.operations[index].maintenance,true);
+  const exact=parseLosslessJson(losslessJson(expected));
+  assert.deepEqual(policy.base.operations[index].calls,exact,'exact deferred NFT activation');
+  assert.deepEqual(policy.base.branches[2+index].calls,exact,'exact deferred NFT activation coverage');
+ }
  assert.match(stage.stageId,/^[a-zA-Z0-9_-]{1,100}$/);assert.equal(stage.actor,BigInt(o.vaultId));
- const c=stage.context,f=c.request.fields;validateExitStage(policy,c.request);assert.equal(f.length,80);assert.ok(stageNames.has(f[0]),'reviewed deterministic stage');if([10n,11n].includes(f[0]))assert.ok([15n,19n].includes(model.version),'pair frontier requires its distinct funded key');
+ const c=stage.context,f=c.request.fields;validateExitStage(policy,c.request);assert.equal(f.length,80);assert.ok(stageNames.has(f[0]),'reviewed deterministic stage');if([10n,11n].includes(f[0]))assert.ok([15n,19n,21n].includes(model.version),'pair frontier requires its distinct funded key');
  assert.equal(c.source.fields.length,41);assert.equal(c.source.fields[3],BigInt(o.contractId));assert.equal(c.source.fields[4],BigInt(o.vaultId));
  assert.equal(c.expected_nonce,stage.expectedNonce);assert.ok(c.expected_nonce>0n&&c.expected_nonce<2n**62n);assert.match(c.expected_start_leaf,/^[a-f0-9]{64}$/);
  assert.ok(c.execution_checkpoint>0n&&c.execution_checkpoint<=stage.validUntilCheckpoint&&stage.validUntilCheckpoint<2n**32n);

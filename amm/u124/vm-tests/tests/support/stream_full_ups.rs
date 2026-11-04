@@ -162,11 +162,11 @@ fn setup_with_sponsor(kind: &str, legacy_sponsor: bool) -> Result<World> {
     for u in 200..205 {
         if kind == "amm" {
             let amount = (1u128 << 62) + 17;
-            let min = if u == 204 { super::super::MAX } else { 1 };
+            let min = if u == 214 { super::super::MAX } else { 1 };
             w.run(u, M, "open_swap", &args(&[V, 0], &[amount, min], &[200, 1]))?;
             w.pay(u, A, amount)?;
         } else {
-            let amount = if u == 204 {
+            let amount = if u == 214 {
                 10u128.pow(18) - 1
             } else {
                 2 * 10u128.pow(18)
@@ -621,11 +621,11 @@ fn needed(spec: &Value) -> Vec<Value> {
                 "refund_buy",
             ]
             .contains(&o["name"].as_str().unwrap())
-                || ((spec["version"] == 12 || spec["version"] == 14 || spec["version"] == 18 || spec["version"] == 15 || spec["version"] == 19) && o["maintenance"] == true)
-                || ((spec["version"] == 8 || spec["version"] == 9 || spec["version"] == 15 || spec["version"] == 19)
+                || ((spec["version"] == 12 || spec["version"] == 14 || spec["version"] == 18 || spec["version"] == 15 || psy_template_u124_markets::stream_exit::paired_exit(spec)) && o["maintenance"] == true)
+                || ((spec["version"] == 8 || spec["version"] == 9 || spec["version"] == 15 || psy_template_u124_markets::stream_exit::paired_exit(spec))
                     && ["match_orders", "settle_sale"].contains(&o["name"].as_str().unwrap_or("")))
                 || o["name"].as_str().unwrap().starts_with("refund_funding_")
-                || ((spec["version"] == 7 || spec["version"] == 8 || spec["version"] == 9 || spec["version"] == 15 || spec["version"] == 19)
+                || ((spec["version"] == 7 || spec["version"] == 8 || spec["version"] == 9 || spec["version"] == 15 || psy_template_u124_markets::stream_exit::paired_exit(spec))
                     && (o["name"].as_str().unwrap().starts_with("recover_funding_")
                         || o["name"] == "recover_nft"))
         })
@@ -814,7 +814,7 @@ impl StreamChain {
             .seed_identity_with_history(w, key.g.get_fingerprint(), &[(1, anchor_leaf())])
             .await?;
         let source = if maintenance {
-            ensure!(spec["version"] == 12 || spec["version"] == 14 || spec["version"] == 18 || spec["version"] == 15 || spec["version"] == 19, "distinct bootstrap profile");
+            ensure!(spec["version"] == 12 || spec["version"] == 14 || spec["version"] == 18 || spec["version"] == 15 || psy_template_u124_markets::stream_exit::paired_exit(&spec), "distinct bootstrap profile");
             let header = snapshot_header(db, w, &review, key.g.get_fingerprint()).await?;
             stream_source::SourcePage::inactive_maintenance(&review, &header)?.0
         } else { snapshot(db, w, &review, key.g.get_fingerprint()).await? };
@@ -864,7 +864,7 @@ impl StreamChain {
         // Reconstruct original source metadata in an independent temporary database
         // for its exact user membership path; never substitute current state.
         let proof = if inactive_maintenance {
-            ensure!(self.spec["version"] == 12 || self.spec["version"] == 14 || self.spec["version"] == 18 || self.spec["version"] == 15 || self.spec["version"] == 19, "maintenance tape requires distinct key");
+            ensure!(self.spec["version"] == 12 || self.spec["version"] == 14 || self.spec["version"] == 18 || self.spec["version"] == 15 || psy_template_u124_markets::stream_exit::paired_exit(&self.spec), "maintenance tape requires distinct key");
             // Not a historical membership claim. SourceContext is disabled by
             // this mode's circuit; CurrentTargets remains fully authenticated.
             stream_source::SourcePage::inactive_maintenance(&self.review, &source)?.1.rows[0].original.clone()
@@ -879,10 +879,10 @@ impl StreamChain {
         label: &str,
     ) -> Result<()> {
         let start = Instant::now();
-        if self.spec["version"] == 11 || self.spec["version"] == 12 || self.spec["version"] == 13 || self.spec["version"] == 14 || self.spec["version"] == 18 || self.spec["version"] == 15 || self.spec["version"] == 19 {
+        if self.spec["version"] == 11 || self.spec["version"] == 12 || self.spec["version"] == 13 || self.spec["version"] == 14 || self.spec["version"] == 18 || self.spec["version"] == 15 || psy_template_u124_markets::stream_exit::paired_exit(&self.spec) {
             req = minimum_exact_fee(w, &self.spec, req)?;
         }
-        let inactive_maintenance = (self.spec["version"] == 12 || self.spec["version"] == 13 || self.spec["version"] == 14 || self.spec["version"] == 18 || self.spec["version"] == 15 || self.spec["version"] == 19) && [4,13,14,15,16,17].contains(&req.fields[0]);
+        let inactive_maintenance = (self.spec["version"] == 12 || self.spec["version"] == 13 || self.spec["version"] == 14 || self.spec["version"] == 18 || self.spec["version"] == 15 || psy_template_u124_markets::stream_exit::paired_exit(&self.spec)) && [4,13,14,15,16,17].contains(&req.fields[0]);
         let (db, source, vault_path) = self.seed_for_request(w, inactive_maintenance).await?;
         if self.spec["version"]==14||self.spec["version"]==15||psy_template_u124_markets::stream_exit::enabled(&self.spec){psy_template_u124_markets::stream_execution::validate_request(&self.review,&source,&req)?;}
         if let Some(p)=&mut req.accepted_seal {
@@ -1070,7 +1070,7 @@ impl StreamChain {
         // session and stack. Rejection must come from the compiled key.
         let mut rejections = vec![];
         if self.spec["version"]==13 && label=="sealed-minimum-0" {rejections.extend(self.reject_seal_attacks(w,seal_attack_db,&source,&vault_path,&current,&req,&input).await?);}
-        if fresh && (self.spec["version"] == 12 || self.spec["version"] == 14 || self.spec["version"] == 18 || self.spec["version"] == 15 || self.spec["version"] == 19) {
+        if fresh && (self.spec["version"] == 12 || self.spec["version"] == 14 || self.spec["version"] == 18 || self.spec["version"] == 15 || psy_template_u124_markets::stream_exit::paired_exit(&self.spec)) {
             use psy_client_data::qdata::{ups_signature::PsyUserProvingSessionSignatureDataCompact, user_contract_state::SignContext};
             use psy_template_u124_markets::market_key::compute_tx_stack_hash;
             let mut alternative = req.clone(); alternative.fields[0]=13; alternative.fields[24]=0;

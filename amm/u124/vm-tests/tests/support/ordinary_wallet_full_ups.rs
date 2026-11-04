@@ -152,3 +152,24 @@ async fn exact_qa_token_initialization_complete_ups() -> Result<()> {
  fs::write(format!("{output}/REPORT.json"),serde_json::to_vec_pretty(&report)?)?;
  Ok(())
 }
+
+
+#[tokio::test]
+#[ignore="explicit v21 collection fixtures and fresh output; one complete ordinary UPS"]
+async fn initialized_collection_first_buyer_complete_ups()->Result<()> {
+ let output=std::env::var("ORDINARY_NFT_ACCOUNT_OUT")?;fs::create_dir(&output)?;
+ let started=Instant::now();let mut w=World::new_fixture("nftmarket",true,false)?;
+ // Omit zero-only setup words from the authenticated user tree. No owned NFT,
+ // account marker or collection root exists for the buyer at the start.
+ w.slots.retain(|(u,c,_),n|!(*u==201&&*c==NFT&&*n==0));
+ ensure!(!w.slots.keys().any(|(u,c,_)|*u==201&&*c==NFT),"absent buyer collection state");
+ let n=(1u128<<62)+17;
+ w.run(200,M,"open_listing",&args(&[V,0],&[n],&[200,1]))?;w.fee(200)?;w.run(200,NFT,"transfer",&[0,V])?;
+ let calls=vec![json!({"contract_id":NFT,"method_name":"prepare_account","inputs":[]}),
+  json!({"contract_id":M,"method_name":"open_buy","inputs":args(&[V,200,1],&[n],&[200,1])}),
+  json!({"contract_id":0,"method_name":"transfer","inputs":[V,ESCROW]}),
+  json!({"contract_id":A,"method_name":"transfer","inputs":args(&[V],&[n],&[])})];
+ let row=prove_ordinary_calls(&w,201,&calls,&output,"nft-account-buyer","prepare-and-fund",started).await?;
+ fs::write(format!("{output}/REPORT.json"),serde_json::to_vec_pretty(&json!({"fullUpsVerified":true,"ordinarySignature":true,"absentBuyerCollectionRoot":true,"amount":n.to_string(),"marketBytecodeUnchanged":true,"newCollectionRequired":true,"row":row,"broadcast":false,"scope":"Synthetic ordinary buyer preparation/funding. Listing and vault setup VM-only. Not browser approval, network sale or final claim."}))?)?;
+ Ok(())
+}

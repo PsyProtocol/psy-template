@@ -3,7 +3,7 @@
 import assert from 'node:assert/strict';
 const integer=(x,b,label)=>{assert.ok(typeof x==='bigint'||Number.isSafeInteger(x),label);const n=BigInt(x);assert.ok(n>=0n&&n<2n**BigInt(b),label);return n;};
 const fee=x=>{const n=integer(x,62,'fee');assert.ok(n>=1_000_000_000n&&n<=1_000_100_000n);return n;};
-export const hasIndependentExit=policy=>[18n,19n].includes(BigInt(policy.version));
+export const hasIndependentExit=policy=>[18n,19n,21n].includes(BigInt(policy.version));
 export function validateExitStage(policy,request){
  const f=request.fields;assert.equal(f.length,80);const enabled=hasIndependentExit(policy),mode=BigInt(f[0]),payer=integer(f[74],24,'fee payer');
  if(!enabled){assert.ok(mode<15n&&payer===0n,'new exit modes require their new key and layout');return;}
@@ -13,7 +13,7 @@ export function validateExitStage(policy,request){
  if(payer!==0n){
   assert.ok([4n,6n,8n,9n,15n,16n,17n].includes(mode),'exit credit cannot open, trade or reorder');
   if(mode===4n)assert.ok(ops.some(o=>o.branch===f[21]&&o.maintenance===true&&safe(o.name)),'exit-only maintenance');
-  if(mode===8n){const count=integer(f[2],3,'refund rows');assert.ok(count>0n&&count<=(BigInt(policy.version)===19n?2n:4n));for(let i=0;i<Number(count);i++)assert.ok(ops.some(o=>o.branch===f[21+13*i]&&o.maintenance===false&&(o.name.startsWith('refund_funding')||o.name.startsWith('batch_refund_'))),'exit credit cannot settle trades');}
+  if(mode===8n){const count=integer(f[2],3,'refund rows');assert.ok(count>0n&&count<=([19n,21n].includes(BigInt(policy.version))?2n:4n));for(let i=0;i<Number(count);i++)assert.ok(ops.some(o=>o.branch===f[21+13*i]&&o.maintenance===false&&(o.name.startsWith('refund_funding')||o.name.startsWith('batch_refund_'))),'exit credit cannot settle trades');}
  }
  if(mode===15n)assert.ok(payer!==0n&&payer===f[21],'grant pays only its original sponsor');
  if(mode===17n)assert.ok(payer!==0n,'explicit return fee payer');

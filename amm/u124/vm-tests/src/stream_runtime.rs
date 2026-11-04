@@ -58,6 +58,7 @@ pub struct ContextInput {
 pub struct Runtime {
     pub review: Review,
     pub key: StreamKey,
+    pub account_collection_initialization: bool,
 }
 pub enum Circuit {
     Batch(MarketKeyCircuit),
@@ -79,7 +80,7 @@ impl Circuit {
 }
 
 pub fn is_stream(spec:&Value)->bool{spec["version"]==14||spec["version"]==15||psy_template_u124_markets::stream_exit::enabled(spec)}
-pub fn profile(spec:&Value)->&'static str{match spec["version"].as_u64(){Some(19)=>"source-pair-authorized-exit-v19",Some(18)=>"source-authorized-exit-v18",Some(15)=>"source-funded-pair-v15",_=>"source-funded-v14"}}
+pub fn profile(spec:&Value)->&'static str{match spec["version"].as_u64(){Some(21)=>"source-nft-account-bootstrap-v21",Some(19)=>"source-pair-authorized-exit-v19",Some(18)=>"source-authorized-exit-v18",Some(15)=>"source-funded-pair-v15",_=>"source-funded-v14"}}
 pub fn load(path: &Path, spec: &Value) -> Result<Runtime> {
     ensure!(is_stream(spec), "reviewed deterministic funded stream only");
     let binding = &spec["executor_binding"];
@@ -111,7 +112,7 @@ pub fn load(path: &Path, spec: &Value) -> Result<Runtime> {
         .context("chain-instance root")?
         .parse()?;
     let key = StreamKey::build(spec, &review, root.0.elements.map(|n| n.to_canonical_u64()))?;
-    Ok(Runtime { review, key })
+    Ok(Runtime { review, key, account_collection_initialization: psy_template_u124_markets::stream_exit::nft_account_bootstrap(spec) })
 }
 pub fn calls(spec: &Value, fields: &[u64], guard: &Guard) -> Result<Vec<Value>> {
     if !is_stream(spec) {
@@ -148,7 +149,7 @@ pub async fn start(session: &WalletSession, key: Q<F>, guard: &Guard, runtime: &
         fresh || (leaf.public_key == key && leaf.qfhash::<H>() == proof.value),
         "stream fixed starting leaf/key"
     );
-    if runtime.review.kind == 4 && c.request.fields[0] == 14 {
+    if runtime.review.kind == 4 && c.request.fields[0] == 14 && !runtime.account_collection_initialization {
         let collection_root = if fresh { Q::ZERO } else {
             let id=runtime.review.assets[2].id;
             let path=provider.get_user_contract_tree_merkle_proof(cp,user,id.try_into()?).await?;

@@ -1,5 +1,20 @@
 # Market correctness and reset-chain validation — 27 October 2026
 
+Latest continuation (4 November): [new NFT collection account protocol and
+v21 bootstrap/trading/recovery proofs](NFT_ACCOUNT_BOOTSTRAP_20261104.md).
+The rejected omission-only v20 candidate exposes an actual foreign empty-state
+read failure. Its replacement adds explicit account preparation to a new NFT
+collection while preserving all old method bytecode/layout entries and every
+market activation/priority/FIFO check. Fifteen conditional vault UPSs cover
+bootstrap, one sale, fee recovery, legal retention and timeout refund; a separate
+ordinary-signature UPS proves an absent-collection buyer's preparation/order/
+funding. All 16 saved Endcaps/metadata independently verify and changed fees
+reject. Formal v21 identity matches; old v19 identity is unchanged. Current
+host/native gates pass. No Node/SDK/old-contract change, deployment, broadcast,
+browser approval or real claim occurs. New-chain/UI acceptance, ordinary final
+claims, new-key exits/capacity/soak and private-FT wallet wiring remain open.
+Only small summaries and hashes enter Git; raw originals remain external.
+
 Latest continuation (4 November): [linked ordinary private transfer/claim UPSs,
 NFT first-use export diagnosis, formal Executor gate and WASM adapter completion](PRODUCTION_CONTINUATION_20261104.md).
 Two new synthetic private UPSs pass with exact source-end-state binding and

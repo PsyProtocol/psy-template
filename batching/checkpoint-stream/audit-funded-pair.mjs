@@ -9,6 +9,19 @@ import {sha256} from '../../executor/requestBinding.mjs';
 import {auditUpsRow} from './audit-evidence.mjs';
 import {auditMinimumRow} from './audit-minimum-evidence.mjs';
 
+export function auditNftAccountBootstrap(request,collectionId=41n){
+ const rows=request.user_ec_input.contract_state_updates.filter(x=>x.user_contract_tree_update_proof.index===BigInt(collectionId));
+ assert.equal(rows.length,1,'one collection initialization delta');
+ const {user_contract_tree_update_proof:parent,updates}=rows[0];
+ assert.equal(parent.old_value,'0'.repeat(64),'actual absent collection root');
+ assert.equal(updates.length,1,'no NFT balance, ownership or FIFO padding');
+ const word=updates[0].Positional.delta_proof;
+ assert.equal(word.index,150995239n);assert.equal(word.old_value,'0'.repeat(64));
+ assert.equal(BigInt('0x'+word.new_value),1n<<128n,'only account_version at limb 2');
+ assert.equal(parent.new_value,word.new_root);assert.notEqual(parent.new_value,parent.old_value);
+ return {collectionId:String(collectionId),markerSlot:'603980958',modifiedWords:1,assetOrFifoPadding:false};
+}
+
 export function auditFundedPairRow(v,request,plan,session){
  assert.equal(v.firstUse,plan.fields[0]===14n);
  // The stored first-use endpoint is empty; the signature authenticates the
@@ -25,10 +38,11 @@ export function auditFundedPairRow(v,request,plan,session){
  return {...row,startLeaf:v.storedStartLeaf,nonce:String(request.user_ec_input.core.new_user_leaf.nonce)};
 }
 
-export async function auditFundedPair(root){
+export async function auditFundedPair(root,{onlyNftAccount=false}={}){
  const markets={};let count=0;
- for(const market of ['orderbook','nftmarket']){
+ for(const market of onlyNftAccount?['nftmarket']:['orderbook','nftmarket']){
   const report=JSON.parse(await readFile(join(root,market+'-REPORT.json'),'utf8'));
+  if(onlyNftAccount)assert.equal(report.keyVersion,21,'distinct initialized NFT key');
   for(const[k,v]of Object.entries({vmOnly:false,fullUpsVerified:true,emptyVaultBootstrap:true,feeExhaustionRecovery:true,sourcePreserved:true,globalPriority:true,settled:2,timeoutRefunds:1,cancelAfterSeal:true,assetConservation:true,nativeConservation:true,financialOperations:0}))assert.equal(report[k],v,k);
   const main=['bootstrap','open','cover-0','fee-recovery','cover-1','scan-0','fill',...(market==='nftmarket'?['ack-delivered-buyer']:[]),'refund-open','refund-cover-0','refund-cover-1','timeout-refund',...(market==='nftmarket'?['ack-refunded-seller']:[])];
   const fork=['retention-scan-fork','retention-carry-fork'],rows={},plans={},sessions={},digests={};let key;
@@ -40,6 +54,7 @@ export async function auditFundedPair(root){
    }
    const v=files['verification.json'],p=files['plan.json'],s=files['public-session.json'];
    rows[name]=auditFundedPairRow(v,files['request.json'],p,s);plans[name]=p;sessions[name]=s;
+   if(onlyNftAccount&&name==='bootstrap')auditNftAccountBootstrap(files['request.json']);
    key??=v.keyFingerprint;assert.equal(v.keyFingerprint,key,'one distinct funded key');
    assert.equal(files['source.json'].fields[3],1000n);assert.equal(files['source.json'].fields[4],100n);
    assert.equal(p.source.scope[7]-p.source.scope[6],32n);
@@ -65,7 +80,10 @@ export async function auditFundedPair(root){
   const fee=main.reduce((n,k)=>n+BigInt(rows[k].syntheticNativeFee),0n),forkFee=fork.reduce((n,k)=>n+BigInt(rows[k].syntheticNativeFee),0n);
   markets[market]={keyFingerprint:key,mainUps:main.length,alternativeUps:fork.length,mainSyntheticFee:String(fee),alternativeSyntheticFee:String(forkFee),mainPhases:main,alternativePhases:fork,rows,fileSha256:digests,ordinarySignedClaims:false};
  }
- assert.equal(count,28);
+ assert.equal(count,onlyNftAccount?15:28);
  return{schema:1,scope:'Conditional synthetic vault UPS consistency; actor funding/orders/claims are VM prerequisites. No independent ZK, ordinary signature, finality, receipt or UI acceptance.',completeUps:count,cryptographicVerificationPerformed:false,financialOperations:0,canBroadcast:false,markets};
 }
-if(process.argv[1]===fileURLToPath(import.meta.url))console.log(JSON.stringify(await auditFundedPair(process.argv[2]),null,2));
+if(process.argv[1]===fileURLToPath(import.meta.url)){
+ assert.ok(process.argv.length===3||(process.argv.length===4&&process.argv[3]==='--nft-account-v21'),'ROOT [--nft-account-v21]');
+ console.log(JSON.stringify(await auditFundedPair(process.argv[2],{onlyNftAccount:process.argv[3]==='--nft-account-v21'}),null,2));
+}

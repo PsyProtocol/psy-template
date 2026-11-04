@@ -1,0 +1,792 @@
+{
+  "schema": 1,
+  "scope": "Hashes and selected public results only; no raw proof or binary payload in source Git. Immutable raw evidence is local and not automatically available to a remote clone.",
+  "baseline": "5d70564c9a518390a54d4f62c02b94c453d1251c",
+  "sdkCommit": "01b8f2b0a077367a7b9879baba1a72aea8ab5510",
+  "clientCommit": "7058070057c3242b5d8b29e1a31d498aaa4202c0",
+  "rawDirectoryVariable": "$RECOVERY_ROOT/nft-deferred-bootstrap-20261104-v1",
+  "completeSyntheticUps": 16,
+  "financialOperations": 0,
+  "files": {
+    "SUPERVISE-ordinary-buyer-v21-v1.py": {
+      "sha256": "93242c918a7a9821d0c628cbfe3738cc0c8018c582b96886eb2ffa08530d8af8",
+      "bytes": 3197
+    },
+    "SUPERVISE-v1.py": {
+      "sha256": "bc6bd3aa655b05c04742542dce9b1a0f9f4f6d020899dfcd2edf4cef22dcd47a",
+      "bytes": 3004
+    },
+    "SUPERVISE-v2.py": {
+      "sha256": "18d3b4d1560b1ee8647bb3b8dc2953d70543d2f031a28d4b97c8123d61b21e1e",
+      "bytes": 3004
+    },
+    "SUPERVISE-v21-v1.py": {
+      "sha256": "29433e6a21a0aa799cd2bb86b38644f9ec3867312b715c6bdfef2ac73f880d6f",
+      "bytes": 3027
+    },
+    "SUPERVISE-v3.py": {
+      "sha256": "ab443bae926ee989dbf70da026874528a7bef605453e21538a7a3433d5b32e68",
+      "bytes": 3004
+    },
+    "build-v1.log": {
+      "sha256": "9b25c9086d75f70a29489e78b7593553fb349eb52d59b405556f8e009e7f1e88",
+      "bytes": 56304
+    },
+    "build-v2.log": {
+      "sha256": "1ace899c33caadeb8d160e2a76ee061001a00545118d2d2f67cc30113ba5372e",
+      "bytes": 57097
+    },
+    "build-v3.log": {
+      "sha256": "968a7d68de5320fa91f04605ecca5562fbe621d9d71c15a751bf97cb86e1ef58",
+      "bytes": 56514
+    },
+    "build-v4.log": {
+      "sha256": "62c005b92683cc5d9688692acabed404049e08db0c9ffac96aa3b02c7412c861",
+      "bytes": 57092
+    },
+    "fixture-v21-reproduced-v2.log": {
+      "sha256": "69a8ed0d80d881c7f9254724a10039fffdf41c09076297a291eb93eae39cb43c",
+      "bytes": 253
+    },
+    "fixture-v21-v1.log": {
+      "sha256": "cceea096fb101390e5783fb7b24e3645ab2af63fc57e0f4d26b9c4213453d87a",
+      "bytes": 242
+    },
+    "formal-identity-v19-v1.log": {
+      "sha256": "0170ef4a001ed240d60f2b4bf46b84a39d4bd3f54be0b2709b9468a63d0b4dd0",
+      "bytes": 445
+    },
+    "formal-identity-v21-v1.log": {
+      "sha256": "a3a361fd90673b171ab6c5fc4f33035b013fa8602a101a32364d4f5ade417c1c",
+      "bytes": 446
+    },
+    "formal-v19-v1/collection.json": {
+      "sha256": "f2e07bdfc72503485c3c681a51b5a9722891b0cb6acae6922b88b08f9800541d",
+      "bytes": 61056
+    },
+    "formal-v19-v1/market.json": {
+      "sha256": "12932a830594b87f8ba05b68a168f304823a3f3a76a8c11aa429d1f6245c167c",
+      "bytes": 6222375
+    },
+    "formal-v19-v1/native.json": {
+      "sha256": "591336999bd2798d9545c3b545dbf33d6816e0c966fb8124f2f880bef6f47593",
+      "bytes": 451408
+    },
+    "formal-v19-v1/policy.json": {
+      "sha256": "31b5beb83bb3c9969034591c10332b08ff6af432a6959c9099b1c8ff74a15f00",
+      "bytes": 83355
+    },
+    "formal-v19-v1/review.json": {
+      "sha256": "f5bcd75b823095628cb226fe1c00a3ee8c322992290bb7411926ef36c7352ba6",
+      "bytes": 1042
+    },
+    "formal-v19-v1/token.json": {
+      "sha256": "476bc76fcd4b512f585cb1093de41611455cd58df323b8ea4bcc4f71a4163b0f",
+      "bytes": 4065923
+    },
+    "formal-v21-v1/collection.json": {
+      "sha256": "16f6c03c2117be28c369169b33a951d58b51ba0acc37a844d646c75acca2d866",
+      "bytes": 62385
+    },
+    "formal-v21-v1/market.json": {
+      "sha256": "12932a830594b87f8ba05b68a168f304823a3f3a76a8c11aa429d1f6245c167c",
+      "bytes": 6222375
+    },
+    "formal-v21-v1/native.json": {
+      "sha256": "591336999bd2798d9545c3b545dbf33d6816e0c966fb8124f2f880bef6f47593",
+      "bytes": 451408
+    },
+    "formal-v21-v1/policy.json": {
+      "sha256": "01bfec751d00498acb0de7a802c31c3ad4fce57d3e0404cce11008a29ad90f8c",
+      "bytes": 83283
+    },
+    "formal-v21-v1/review.json": {
+      "sha256": "d3a2c313ce2831961313ecd8b490cce725ec6061e6e777618d7850bc34aeb5ed",
+      "bytes": 1042
+    },
+    "formal-v21-v1/token.json": {
+      "sha256": "476bc76fcd4b512f585cb1093de41611455cd58df323b8ea4bcc4f71a4163b0f",
+      "bytes": 4065923
+    },
+    "full-v21-v1/nftmarket-REPORT.json": {
+      "sha256": "552d08651c68a1f1380b50d680c2c8ba3abf1e6ce250092e6a7b31f23b54fd5a",
+      "bytes": 25492
+    },
+    "full-v21-v1/nftmarket-ack-delivered-buyer/current.json": {
+      "sha256": "7815152a0bbb7296f32e9b678be14ac7ad6e848f8dd798f034c1f5caf378af1b",
+      "bytes": 15732
+    },
+    "full-v21-v1/nftmarket-ack-delivered-buyer/intent.json": {
+      "sha256": "46854cc27d6c32b76eb7b4f548d2d7efe9ac14740f1621de1f33434600aad70a",
+      "bytes": 29089
+    },
+    "full-v21-v1/nftmarket-ack-delivered-buyer/key-proof.bin": {
+      "sha256": "dd6fdad33d2a2821be3656eb6ca14f8573a938a5f139fd2a5c835dc92d93e5e1",
+      "bytes": 130568
+    },
+    "full-v21-v1/nftmarket-ack-delivered-buyer/plan.json": {
+      "sha256": "46854cc27d6c32b76eb7b4f548d2d7efe9ac14740f1621de1f33434600aad70a",
+      "bytes": 29089
+    },
+    "full-v21-v1/nftmarket-ack-delivered-buyer/public-session.json": {
+      "sha256": "c8de28bd7ed6652da49b509cde62438233d158ccd2773f73c26d671ce4c3e40d",
+      "bytes": 11098
+    },
+    "full-v21-v1/nftmarket-ack-delivered-buyer/request.json": {
+      "sha256": "2b2e665392c6ae055e0b9defbaca0a7d718cfbdce3379ef4618a66c2debee19c",
+      "bytes": 482363
+    },
+    "full-v21-v1/nftmarket-ack-delivered-buyer/source.json": {
+      "sha256": "b611e67cf3ec7488392233d58694782d281c31fd006ac07146905e85b0e64a1f",
+      "bytes": 349243
+    },
+    "full-v21-v1/nftmarket-ack-delivered-buyer/verification.json": {
+      "sha256": "169a1bd86c5866266e68bd3a8623cc75fba10cf2eb111069e87e288f81928d06",
+      "bytes": 1275
+    },
+    "full-v21-v1/nftmarket-ack-refunded-seller/current.json": {
+      "sha256": "eb883eb1baa26b0774a8c5dd65d646ea83aaf150db2d162e1c2268056f648a9e",
+      "bytes": 15732
+    },
+    "full-v21-v1/nftmarket-ack-refunded-seller/intent.json": {
+      "sha256": "87ba2ab8e6fdfd9c5466577f33b85ac03382186ae8d27ae75c03f826edd90c39",
+      "bytes": 29084
+    },
+    "full-v21-v1/nftmarket-ack-refunded-seller/key-proof.bin": {
+      "sha256": "86607c2012d5a3cbbf66501cc176bc0e7086a5571eafe26a78bbd833cf572dc5",
+      "bytes": 130568
+    },
+    "full-v21-v1/nftmarket-ack-refunded-seller/plan.json": {
+      "sha256": "87ba2ab8e6fdfd9c5466577f33b85ac03382186ae8d27ae75c03f826edd90c39",
+      "bytes": 29084
+    },
+    "full-v21-v1/nftmarket-ack-refunded-seller/public-session.json": {
+      "sha256": "d757bff71a3d41112e1f6482098da0c90b14bc9009462461bbda6d51eec55c63",
+      "bytes": 11101
+    },
+    "full-v21-v1/nftmarket-ack-refunded-seller/request.json": {
+      "sha256": "33a2cc515918511492c0d4ba500a2f4975bbfe9427339d68ad84b7cd32b3956e",
+      "bytes": 482424
+    },
+    "full-v21-v1/nftmarket-ack-refunded-seller/source.json": {
+      "sha256": "3dcab7ce8d3f1212d74f02ce55f73658015359e53347a4f612c0ce3dda0c0e7c",
+      "bytes": 366140
+    },
+    "full-v21-v1/nftmarket-ack-refunded-seller/verification.json": {
+      "sha256": "541e3e3bf95166c7f55129b527d2ea07305d90cffcb2dd8d28f6e82f861af081",
+      "bytes": 1273
+    },
+    "full-v21-v1/nftmarket-bootstrap/current.json": {
+      "sha256": "0e276a20c1531510971f39f6eb5eda4f29b855f4383c12b22d4aff2c8cfc6289",
+      "bytes": 15732
+    },
+    "full-v21-v1/nftmarket-bootstrap/intent.json": {
+      "sha256": "dd661a73caa3ae60ddef4c8cba4e90001aa218e4e1833da8f3c55225325ced2c",
+      "bytes": 28716
+    },
+    "full-v21-v1/nftmarket-bootstrap/key-proof.bin": {
+      "sha256": "568c7a5ff4bdb54ac43c8c1732cb4f06e9a0aa0b415b6709ced11133514d0a88",
+      "bytes": 130568
+    },
+    "full-v21-v1/nftmarket-bootstrap/plan.json": {
+      "sha256": "dd661a73caa3ae60ddef4c8cba4e90001aa218e4e1833da8f3c55225325ced2c",
+      "bytes": 28716
+    },
+    "full-v21-v1/nftmarket-bootstrap/public-session.json": {
+      "sha256": "fbc5f4e4e63b88080a2d75c29d0b17b8a14fb723d9c0337ba8f663ded509a26c",
+      "bytes": 11679
+    },
+    "full-v21-v1/nftmarket-bootstrap/request.json": {
+      "sha256": "042ea99920173e02cf53b564c6e9434baf5da0630afa17649083a07c4a8caf4a",
+      "bytes": 506572
+    },
+    "full-v21-v1/nftmarket-bootstrap/source.json": {
+      "sha256": "4589b29f5d6edf9c586fd7e728736257bc86ca71e3547d30645e9f0c3bf66cb1",
+      "bytes": 28782
+    },
+    "full-v21-v1/nftmarket-bootstrap/verification.json": {
+      "sha256": "2e5e5707b0e19c9aa0b119fbb40a0e18d83f120060e97859a7aaa65be8e17d2c",
+      "bytes": 1673
+    },
+    "full-v21-v1/nftmarket-cover-0/current.json": {
+      "sha256": "b5b27f4d84299a5f3104bbb39f4f79b0b3de352e8f895a5dcad90410401aa56c",
+      "bytes": 15732
+    },
+    "full-v21-v1/nftmarket-cover-0/intent.json": {
+      "sha256": "6ff82d8fb034d775b0e8b6182e72610f0c58d9e86259d1c051eee8f114e88176",
+      "bytes": 324779
+    },
+    "full-v21-v1/nftmarket-cover-0/key-proof.bin": {
+      "sha256": "f3d087afe73b807acc9fe3c74fdb85c122846bff8166f786c08597d89b5d5d93",
+      "bytes": 130568
+    },
+    "full-v21-v1/nftmarket-cover-0/plan.json": {
+      "sha256": "6ff82d8fb034d775b0e8b6182e72610f0c58d9e86259d1c051eee8f114e88176",
+      "bytes": 324779
+    },
+    "full-v21-v1/nftmarket-cover-0/public-session.json": {
+      "sha256": "c2e7074c1d00afe48fa517577853207457ae6ff0aea1bd5b43d39d91d4f88962",
+      "bytes": 11837
+    },
+    "full-v21-v1/nftmarket-cover-0/request.json": {
+      "sha256": "2ae1aca79de8f64433b864b5fe4e4c9c82f210be95c2365d0698cbafbe29f275",
+      "bytes": 482504
+    },
+    "full-v21-v1/nftmarket-cover-0/source.json": {
+      "sha256": "006cfa17750bb0358461fb0f17aa484f5d576890b1bd32b2922ea3c382dc9135",
+      "bytes": 349243
+    },
+    "full-v21-v1/nftmarket-cover-0/verification.json": {
+      "sha256": "369151cd36666b2c3560edb279d7a3da0f89e2860253c2253906f30bdca2aeb6",
+      "bytes": 1395
+    },
+    "full-v21-v1/nftmarket-cover-1/current.json": {
+      "sha256": "f04a9beb8e36eddf7b84de22df7eb92462ba052390ad0d64e90e049153562a89",
+      "bytes": 15732
+    },
+    "full-v21-v1/nftmarket-cover-1/intent.json": {
+      "sha256": "f1cac26f1338c3d4c66a84c20ce226557bc7e246f13175b49df81d4c8e3d3ae7",
+      "bytes": 138310
+    },
+    "full-v21-v1/nftmarket-cover-1/key-proof.bin": {
+      "sha256": "ae1b0cfa89e078ce7bfa1d772935def14fab2fa1b13e8da5dcc39e03c344b83f",
+      "bytes": 130568
+    },
+    "full-v21-v1/nftmarket-cover-1/plan.json": {
+      "sha256": "f1cac26f1338c3d4c66a84c20ce226557bc7e246f13175b49df81d4c8e3d3ae7",
+      "bytes": 138310
+    },
+    "full-v21-v1/nftmarket-cover-1/public-session.json": {
+      "sha256": "29c7232b003846406fbba7f42cde93de60572b0fc6feac7a3e8308a578e716b7",
+      "bytes": 11840
+    },
+    "full-v21-v1/nftmarket-cover-1/request.json": {
+      "sha256": "c626afbce54d3db11fe921209a755abb00ca73df18bbdf99bca131e9c128b0d4",
+      "bytes": 499801
+    },
+    "full-v21-v1/nftmarket-cover-1/source.json": {
+      "sha256": "fb9f08d1eb1d0cf27e6edd2297c066327389602c25041acb084c7fa1970455c3",
+      "bytes": 349243
+    },
+    "full-v21-v1/nftmarket-cover-1/verification.json": {
+      "sha256": "b18be1c75affdd66e41417d94c1b85317a1d970763e1808538a454356e3209f4",
+      "bytes": 1405
+    },
+    "full-v21-v1/nftmarket-fee-recovery/current.json": {
+      "sha256": "7de85414435c8eec595901a0a188109ce661016ff637ddc8b23b1c48c7c365f1",
+      "bytes": 15732
+    },
+    "full-v21-v1/nftmarket-fee-recovery/intent.json": {
+      "sha256": "832aa89ffd3406486ff356276952aa5bf275512ee12fb4674c86cf692d3ff9af",
+      "bytes": 29098
+    },
+    "full-v21-v1/nftmarket-fee-recovery/key-proof.bin": {
+      "sha256": "68ca4832e0b944721a48ac11b15b31b08828bbeb3f7b44b0f265801ccbb2d335",
+      "bytes": 130568
+    },
+    "full-v21-v1/nftmarket-fee-recovery/plan.json": {
+      "sha256": "832aa89ffd3406486ff356276952aa5bf275512ee12fb4674c86cf692d3ff9af",
+      "bytes": 29098
+    },
+    "full-v21-v1/nftmarket-fee-recovery/public-session.json": {
+      "sha256": "eba06c278239387e9f0d48512f674a64a1cc8b87e975af27ff5da71a8945cbbf",
+      "bytes": 11151
+    },
+    "full-v21-v1/nftmarket-fee-recovery/request.json": {
+      "sha256": "13116bd5bf3bde3b35fd82b4c5ae80dede65d9c24f0ae41307049b5a14494978",
+      "bytes": 480806
+    },
+    "full-v21-v1/nftmarket-fee-recovery/source.json": {
+      "sha256": "d295880544a10d782d0be9d319ef63c4a7ae55996dda5a2b22d9605bd9097646",
+      "bytes": 349243
+    },
+    "full-v21-v1/nftmarket-fee-recovery/verification.json": {
+      "sha256": "676c888975e00b656c709cbb455b589ceddb9e9f6b5f9b14fd77601ad669a09f",
+      "bytes": 1175
+    },
+    "full-v21-v1/nftmarket-fill/current.json": {
+      "sha256": "9010d2c2856420298386b43e28fe446543e253e851d31e0ee06fb84a647a2a3c",
+      "bytes": 15732
+    },
+    "full-v21-v1/nftmarket-fill/intent.json": {
+      "sha256": "a4929d8ed873458ba6da9012bc67c0c7a44b0d92dc947d9e0ca1ac664d872cb4",
+      "bytes": 346803
+    },
+    "full-v21-v1/nftmarket-fill/key-proof.bin": {
+      "sha256": "b0b630f6f5f3a4fa6a3635d35f2b06b1a9a675fc105cb590df7c64d6548b7b32",
+      "bytes": 130568
+    },
+    "full-v21-v1/nftmarket-fill/plan.json": {
+      "sha256": "a4929d8ed873458ba6da9012bc67c0c7a44b0d92dc947d9e0ca1ac664d872cb4",
+      "bytes": 346803
+    },
+    "full-v21-v1/nftmarket-fill/public-session.json": {
+      "sha256": "a65843e6011a0adf9d7029a9ba93445344b5474dfb78614932cde22f04dee56e",
+      "bytes": 13446
+    },
+    "full-v21-v1/nftmarket-fill/request.json": {
+      "sha256": "5b12add863803bc5a73f4a0d525a6bb1c876b2354716142a47f1bf5c86058c51",
+      "bytes": 627509
+    },
+    "full-v21-v1/nftmarket-fill/source.json": {
+      "sha256": "47869ab92b756dfeb7015142d4420e080da5617d665ae21b39d6597d6d72d306",
+      "bytes": 349243
+    },
+    "full-v21-v1/nftmarket-fill/verification.json": {
+      "sha256": "22886deeb06343619fdcc4181e768e8206ae07df7cd7b31f4cee70d53e436b6d",
+      "bytes": 2328
+    },
+    "full-v21-v1/nftmarket-open/current.json": {
+      "sha256": "e62d65cb2978ec2025f6fed872fa53e80d759e4b4049b00f8bfb122cda34ec51",
+      "bytes": 15732
+    },
+    "full-v21-v1/nftmarket-open/intent.json": {
+      "sha256": "1e5cc740dfe718a6ac461bc2ae5004ef97f3db42470c1961f5acb55d3851c747",
+      "bytes": 324779
+    },
+    "full-v21-v1/nftmarket-open/key-proof.bin": {
+      "sha256": "687212dbbf12f2cd7e6af61b051b06c4773409e4ce6f2b34abd50b62910660cd",
+      "bytes": 130568
+    },
+    "full-v21-v1/nftmarket-open/plan.json": {
+      "sha256": "1e5cc740dfe718a6ac461bc2ae5004ef97f3db42470c1961f5acb55d3851c747",
+      "bytes": 324779
+    },
+    "full-v21-v1/nftmarket-open/public-session.json": {
+      "sha256": "a3232272df7991343ee04a60294f306d08ecbc6126fd719714c31a6b0c46f117",
+      "bytes": 11676
+    },
+    "full-v21-v1/nftmarket-open/request.json": {
+      "sha256": "4cdfb101f7f1540169bcbec45561af08717b4145c15b36db1419bb17ed82dc1d",
+      "bytes": 502273
+    },
+    "full-v21-v1/nftmarket-open/source.json": {
+      "sha256": "94b10b64dedd61e844fda7c6287cb47228b7b33047f3ddbc57c6be007183a0cb",
+      "bytes": 349243
+    },
+    "full-v21-v1/nftmarket-open/verification.json": {
+      "sha256": "b45f0fd9631cba4945e05af2d0fbd6d49357cb4251e2966f7f0c94d4930ebe94",
+      "bytes": 1443
+    },
+    "full-v21-v1/nftmarket-refund-cover-0/current.json": {
+      "sha256": "80fda2e04d702351d012110bfbd9977f889366d65e6f34d07b434c370752d6d6",
+      "bytes": 15732
+    },
+    "full-v21-v1/nftmarket-refund-cover-0/intent.json": {
+      "sha256": "772b2d134855322e61995a79d6c8cc21e1f05ecdf2e59c2b64b3d83d8a123ecc",
+      "bytes": 324770
+    },
+    "full-v21-v1/nftmarket-refund-cover-0/key-proof.bin": {
+      "sha256": "1568b6781cf46f711f99e7eeb785894ed2f126b904d8325541cf92a15fa06f92",
+      "bytes": 130568
+    },
+    "full-v21-v1/nftmarket-refund-cover-0/plan.json": {
+      "sha256": "772b2d134855322e61995a79d6c8cc21e1f05ecdf2e59c2b64b3d83d8a123ecc",
+      "bytes": 324770
+    },
+    "full-v21-v1/nftmarket-refund-cover-0/public-session.json": {
+      "sha256": "004e2b96baf57299973d90ceab6f70d40e5122becf966b8c94972f4cb668185f",
+      "bytes": 11836
+    },
+    "full-v21-v1/nftmarket-refund-cover-0/request.json": {
+      "sha256": "bca3e072deef6b0197cf2a85ec13ddb2b22bd835aadf4b772946fcbb7a09e6bc",
+      "bytes": 480104
+    },
+    "full-v21-v1/nftmarket-refund-cover-0/source.json": {
+      "sha256": "af49abe9b82009521d6d6e9ac4c03cf7d49e68bf81085a4ebbfb7576b5fc0a9f",
+      "bytes": 366140
+    },
+    "full-v21-v1/nftmarket-refund-cover-0/verification.json": {
+      "sha256": "f9ba5841ca63443ca1bd60477bb384db3c6f490c35888dbc227e6564ac79f6c5",
+      "bytes": 1403
+    },
+    "full-v21-v1/nftmarket-refund-cover-1/current.json": {
+      "sha256": "eead4b5092863abc73e1c91804c95ae6d4f2e6b4ee245c7a6e997424caf6d619",
+      "bytes": 15732
+    },
+    "full-v21-v1/nftmarket-refund-cover-1/intent.json": {
+      "sha256": "7a38db212c7ac37e3ce02675da315ff8dbb75358fe92520ab0177950e213fb58",
+      "bytes": 156128
+    },
+    "full-v21-v1/nftmarket-refund-cover-1/key-proof.bin": {
+      "sha256": "0c0ef8eaf5a33c63964d862a76c20f15776edab4170e1dc37bfd755c5f4d97f5",
+      "bytes": 130568
+    },
+    "full-v21-v1/nftmarket-refund-cover-1/plan.json": {
+      "sha256": "7a38db212c7ac37e3ce02675da315ff8dbb75358fe92520ab0177950e213fb58",
+      "bytes": 156128
+    },
+    "full-v21-v1/nftmarket-refund-cover-1/public-session.json": {
+      "sha256": "714773fe0eff41ec0f140a8572316dda02c8d5774fe023b2bfa86a73fc3a93e0",
+      "bytes": 11838
+    },
+    "full-v21-v1/nftmarket-refund-cover-1/request.json": {
+      "sha256": "980663db5e3d4607ea1bbd8d64d8ee71ca06e493eb45f63a4aead8388bb7a2e9",
+      "bytes": 502388
+    },
+    "full-v21-v1/nftmarket-refund-cover-1/source.json": {
+      "sha256": "fb0bd4b07793796a6761510ee5eb761c167cc294da636d4c09f873abb8c996e5",
+      "bytes": 366140
+    },
+    "full-v21-v1/nftmarket-refund-cover-1/verification.json": {
+      "sha256": "9ed4c5387cceaeaab3245bf275a06b341c0765748b018ec9587258ca956b3db0",
+      "bytes": 1403
+    },
+    "full-v21-v1/nftmarket-refund-open/current.json": {
+      "sha256": "09e92f8151e6292106b7e6e4c5857208dbc3f02c8581bcf9eb809a5640cc0e63",
+      "bytes": 15732
+    },
+    "full-v21-v1/nftmarket-refund-open/intent.json": {
+      "sha256": "9e4b6159f6496389a21c6277256424e46f080d88ef7656431bde8768cbacc714",
+      "bytes": 324770
+    },
+    "full-v21-v1/nftmarket-refund-open/key-proof.bin": {
+      "sha256": "a7b84e4c2c63475f98405be747fa36acbdeecd8a171414b96d2481605b278759",
+      "bytes": 130568
+    },
+    "full-v21-v1/nftmarket-refund-open/plan.json": {
+      "sha256": "9e4b6159f6496389a21c6277256424e46f080d88ef7656431bde8768cbacc714",
+      "bytes": 324770
+    },
+    "full-v21-v1/nftmarket-refund-open/public-session.json": {
+      "sha256": "cad27508ed002b0de23260927938622996c828c10d594631cfbe9665cc9f5142",
+      "bytes": 11678
+    },
+    "full-v21-v1/nftmarket-refund-open/request.json": {
+      "sha256": "6202086a4b74db2addbe52d62fd03d040b62bb61478db7d89b954b105c14a588",
+      "bytes": 497034
+    },
+    "full-v21-v1/nftmarket-refund-open/source.json": {
+      "sha256": "4d0f711097bf14104597f3459ba91132a579af212b6b6eca8d80cce3733df608",
+      "bytes": 366140
+    },
+    "full-v21-v1/nftmarket-refund-open/verification.json": {
+      "sha256": "9105a7444d40770abd93a5d987a5a40f813ff0e482763947c949102b860a45c7",
+      "bytes": 1201
+    },
+    "full-v21-v1/nftmarket-retention-carry-fork/current.json": {
+      "sha256": "c08d6cb01084e12fc037bb038d770632f2329c12a5f77620da102f352418628b",
+      "bytes": 15732
+    },
+    "full-v21-v1/nftmarket-retention-carry-fork/intent.json": {
+      "sha256": "5b695f9bffd479dcdf2a0acdd4f42a06c0c7fcd22b1522faba8eeb6dbb4c9c20",
+      "bytes": 325548
+    },
+    "full-v21-v1/nftmarket-retention-carry-fork/key-proof.bin": {
+      "sha256": "a9bb96736f96102422481d7ef0a167626e3f7ce6bbcee80354e82e6cbca4aeb5",
+      "bytes": 130568
+    },
+    "full-v21-v1/nftmarket-retention-carry-fork/plan.json": {
+      "sha256": "5b695f9bffd479dcdf2a0acdd4f42a06c0c7fcd22b1522faba8eeb6dbb4c9c20",
+      "bytes": 325548
+    },
+    "full-v21-v1/nftmarket-retention-carry-fork/public-session.json": {
+      "sha256": "91e72cf4e2fc7878b92594bb27c0b324a7a15df838a1bdb921ac32c275641b69",
+      "bytes": 11011
+    },
+    "full-v21-v1/nftmarket-retention-carry-fork/request.json": {
+      "sha256": "abf5537d052fc492651ff3c220fdbeaddf1f631a4ebeadfcdb93ddcfb5b7a7ca",
+      "bytes": 474934
+    },
+    "full-v21-v1/nftmarket-retention-carry-fork/source.json": {
+      "sha256": "af286e38b5e40bfccc0c048f7ddeaf74e57882f4cf42caff32937e27905560b7",
+      "bytes": 366140
+    },
+    "full-v21-v1/nftmarket-retention-carry-fork/verification.json": {
+      "sha256": "ccc0a4d8ab9fc69d6f525785e5f0875aca3dad2545507aaded165c686710bac0",
+      "bytes": 1098
+    },
+    "full-v21-v1/nftmarket-retention-scan-fork/current.json": {
+      "sha256": "525fbb085f4091b6f197e8467110f188ab35704419b7f45f8851a564da55f31b",
+      "bytes": 15732
+    },
+    "full-v21-v1/nftmarket-retention-scan-fork/intent.json": {
+      "sha256": "320a2391f3104ec21953d58a18f2918d48ffa71e93950d27503f597d09f77525",
+      "bytes": 333843
+    },
+    "full-v21-v1/nftmarket-retention-scan-fork/key-proof.bin": {
+      "sha256": "db9e106e3b67f8f4506889fe0686f15503eed91b5a1eca288c88196f723db948",
+      "bytes": 130568
+    },
+    "full-v21-v1/nftmarket-retention-scan-fork/plan.json": {
+      "sha256": "320a2391f3104ec21953d58a18f2918d48ffa71e93950d27503f597d09f77525",
+      "bytes": 333843
+    },
+    "full-v21-v1/nftmarket-retention-scan-fork/public-session.json": {
+      "sha256": "a618ad340338ef36c49857db7af16d073e2348bd37f23f7092531d786d98ac74",
+      "bytes": 11310
+    },
+    "full-v21-v1/nftmarket-retention-scan-fork/request.json": {
+      "sha256": "cbb358c4bd6c4a4815bd0fa2c388ddd61b5fe93e5c9a561b9da05ce1093a403b",
+      "bytes": 480247
+    },
+    "full-v21-v1/nftmarket-retention-scan-fork/source.json": {
+      "sha256": "5e746b66f9ac3e276938a9be36bec9fd8d968716e908478e6f4094e8983d5caf",
+      "bytes": 366140
+    },
+    "full-v21-v1/nftmarket-retention-scan-fork/verification.json": {
+      "sha256": "10b69afadd5183d2c59e8132a0ae46ddaa3a5ac34fc1c262ad9249a27ccfed18",
+      "bytes": 1100
+    },
+    "full-v21-v1/nftmarket-scan-0/current.json": {
+      "sha256": "b1a6fdad411dc4dd2054f66bf44983c8747829efb978a00b5f360174663f7bcb",
+      "bytes": 15732
+    },
+    "full-v21-v1/nftmarket-scan-0/intent.json": {
+      "sha256": "df0425c891bd0efc21a963838ee76194c3e2f3e05c43e613787f0f4e318eebc0",
+      "bytes": 365613
+    },
+    "full-v21-v1/nftmarket-scan-0/key-proof.bin": {
+      "sha256": "050ee644e6edb6391025aa490d6c515050417eb6f7a18ebd9bb9b4564bf4cf9e",
+      "bytes": 130568
+    },
+    "full-v21-v1/nftmarket-scan-0/plan.json": {
+      "sha256": "df0425c891bd0efc21a963838ee76194c3e2f3e05c43e613787f0f4e318eebc0",
+      "bytes": 365613
+    },
+    "full-v21-v1/nftmarket-scan-0/public-session.json": {
+      "sha256": "9faea22fad358674aa78556931de20433b5dee2300c369518c6acd788ca6cbda",
+      "bytes": 11380
+    },
+    "full-v21-v1/nftmarket-scan-0/request.json": {
+      "sha256": "4e6c892cb2f4f8662f9c6b961f6967e6fbfc20b265fff15378c49d79f8c51a2c",
+      "bytes": 482576
+    },
+    "full-v21-v1/nftmarket-scan-0/source.json": {
+      "sha256": "6c3f834cdad17aa81f943950ab2de1028712334daec2c3332610b2a81a3330a2",
+      "bytes": 349243
+    },
+    "full-v21-v1/nftmarket-scan-0/verification.json": {
+      "sha256": "65cb3d6459695cd32da479de4ad0e84b1f4803780c675443fafe3d30ff7bc088",
+      "bytes": 1083
+    },
+    "full-v21-v1/nftmarket-timeout-refund/current.json": {
+      "sha256": "0c4624876b73530c320136354744f9d958aad66b903cce9998316c63a069df84",
+      "bytes": 15732
+    },
+    "full-v21-v1/nftmarket-timeout-refund/intent.json": {
+      "sha256": "72ae6cc38d81ac9264f5fe2f14506cdcaaa53ab6380a68a7f7afd4ec9c9d9ecf",
+      "bytes": 334095
+    },
+    "full-v21-v1/nftmarket-timeout-refund/key-proof.bin": {
+      "sha256": "638b1669e4d3052c83a62e1cb7dca5b0395069bc0978cf2e6c6fdebed7743499",
+      "bytes": 130568
+    },
+    "full-v21-v1/nftmarket-timeout-refund/plan.json": {
+      "sha256": "72ae6cc38d81ac9264f5fe2f14506cdcaaa53ab6380a68a7f7afd4ec9c9d9ecf",
+      "bytes": 334095
+    },
+    "full-v21-v1/nftmarket-timeout-refund/public-session.json": {
+      "sha256": "88249a9786268fab08dcba5f7a91ec75926427eeb9c793e9912a296285a58f0d",
+      "bytes": 12475
+    },
+    "full-v21-v1/nftmarket-timeout-refund/request.json": {
+      "sha256": "2fd028a12e8f8a42ded567a47ad5bb8e3d3b729da8b9b85ecd476ad3c7d18f0c",
+      "bytes": 583525
+    },
+    "full-v21-v1/nftmarket-timeout-refund/source.json": {
+      "sha256": "e25d1a0b2a7718fdea93dfa29665d791786b388191e91b7d7542984b1cc0739e",
+      "bytes": 366140
+    },
+    "full-v21-v1/nftmarket-timeout-refund/verification.json": {
+      "sha256": "c014f1f11f52ee91edf1088dfa5683d35b810c0b43de67eeaa35b2598d568b53",
+      "bytes": 1871
+    },
+    "host-v2.log": {
+      "sha256": "c9e717403857a11144da2f53653933e4d5cd91bd56165975f26b5cdea4b7d964",
+      "bytes": 4400
+    },
+    "host-v21-v1.log": {
+      "sha256": "a2e0a61d8e0c5fa4c29a6567fcb455b07601834f095cb314e6f3bce3f4d972ee",
+      "bytes": 4970
+    },
+    "host-v21-v2.log": {
+      "sha256": "873e876a042ed32e28a3c7e21aa7e4e9440ee5245b643d7a898de5d4b1e0aa5e",
+      "bytes": 5151
+    },
+    "host-v21-v3.log": {
+      "sha256": "c053086eb5a9f1c603f50630c1fb674f1c391df6ae6825f2cc038300e7aece6e",
+      "bytes": 6766
+    },
+    "host-v3.log": {
+      "sha256": "aea7a9e9196a5c6ade90da52ccf0118dd9693ea71ec23625452f96d9a97e6e07",
+      "bytes": 16758
+    },
+    "host-v4.log": {
+      "sha256": "e8897b65d4766f4336ca1d6797a4654782d4d36c729d6a55c64ff1df108662ac",
+      "bytes": 4757
+    },
+    "host-v5.log": {
+      "sha256": "6fdda0cbfef97313031c0ee791deaaaa9ba5bb8028f0512e9490c674d796499b",
+      "bytes": 4768
+    },
+    "host-v6.log": {
+      "sha256": "2aad78e8508ec807dd39b1cb419d6d617052b9ad1123239e2ff18c1bbb742488",
+      "bytes": 4763
+    },
+    "native-policy-v1.log": {
+      "sha256": "835171845a0addaa18a90d73749c57ac647106df8ab7b1260c0666c2d39665e8",
+      "bytes": 182
+    },
+    "native-policy-v21-v1.log": {
+      "sha256": "c69703896b1ac12dbad7f21696e8124a29bc18d8059c59759cd9fa210284c5c7",
+      "bytes": 257
+    },
+    "ordinary-buyer-v21-v1/REPORT.json": {
+      "sha256": "de779b5207733dd4a4d266e9566a03b467e8f781a4f3db7ebd428f34deec03c2",
+      "bytes": 1721
+    },
+    "ordinary-buyer-v21-v1/nft-account-buyer-request.json": {
+      "sha256": "d93216b275aeb70d533622b443743ec33aba892c373d487b425d321903c761fe",
+      "bytes": 491926
+    },
+    "proof-ordinary-buyer-v21-v1.log": {
+      "sha256": "280fcb3d797e86e6c70062d76b61d3d75ccf0e8bc1a3ccd9b91369359e242278",
+      "bytes": 3461
+    },
+    "proof-v1.log": {
+      "sha256": "c6fe511f3cd3924c7300ddd5350a5b196cad4ce59fbc7c0170a71ddc198cd0f3",
+      "bytes": 453
+    },
+    "proof-v2.log": {
+      "sha256": "22de50450358bb2649bc5d8ab1bd845e541f4bde4d6652e52f2cb59aada987c4",
+      "bytes": 1260
+    },
+    "proof-v21-v1.log": {
+      "sha256": "d0dd2633ff4ab4372ede9183df5dede9fabf74ad8f341e59c5d56f82cf42bea1",
+      "bytes": 31145
+    },
+    "public/ACTIVE-PROOF-ordinary-buyer-v21-v1.json": {
+      "sha256": "a66310e78a9125ddded628c258dc944904358b8d8d7342e689b71b9ff1ae3833",
+      "bytes": 506
+    },
+    "public/ACTIVE-PROOF-v1.json": {
+      "sha256": "131e24bcbf272bc19fb88d85b0ee9d716b079240829589ffc515a5f958562a02",
+      "bytes": 545
+    },
+    "public/ACTIVE-PROOF-v2.json": {
+      "sha256": "dd17f62911e6b1d9d72bdde4ef5a9e285e5debf6ee38d53db0b50a7a28be7a66",
+      "bytes": 545
+    },
+    "public/ACTIVE-PROOF-v21-v1.json": {
+      "sha256": "20c5af917c18187083b7083451acc00821c5cdb18de6bbb61197ef616addcb29",
+      "bytes": 544
+    },
+    "public/AUDIT-v21-v1.json": {
+      "sha256": "a4f4e5e7783582e0e75dc6341cef5a7a00f85757b9273760335aa96314907991",
+      "bytes": 19594
+    },
+    "public/BUILD-v1.json": {
+      "sha256": "72dc62c9711560656303c173ded2af62668f8f5332c1f32efb40dceb488a022b",
+      "bytes": 332
+    },
+    "public/BUILD-v2.json": {
+      "sha256": "d93d4e0f74b03d3e7719fc47b98b77c20332dda3617f6f82e25dbf160b452fdf",
+      "bytes": 377
+    },
+    "public/BUILD-v3.json": {
+      "sha256": "745cf2911a0447c1182378f6156cdbb09d66bedebd269b83639f8d7261b59395",
+      "bytes": 376
+    },
+    "public/BUILD-v4.json": {
+      "sha256": "55b0cb49acc7e4ac9fecb2d6f980b0fb0e13ca5e09b49dd841e4fd7a07d80a05",
+      "bytes": 376
+    },
+    "public/FINAL-SOURCE-v21-v1.json": {
+      "sha256": "332859b0e637d396b78cb4328ead2715e6d63e4cfa5870daa103713383e66afe",
+      "bytes": 339
+    },
+    "public/FIXTURE-REPRODUCTION-v1.json": {
+      "sha256": "a1a24059141cf815826474c656f9af5e87dc96071cba6c30c3257f2506ff7df5",
+      "bytes": 1065
+    },
+    "public/FIXTURE-REPRODUCTION-v21-v2.json": {
+      "sha256": "b7df809aac5dc5d04b8bcfe742a0ea69b3b4600ec131b5053c44ebe448575146",
+      "bytes": 1685
+    },
+    "public/FORMAL-IDENTITIES-v21-v1.json": {
+      "sha256": "e4c08a03f048000116dbf27a024d7b9015f297bb5823de27ecb055e86868b771",
+      "bytes": 1491
+    },
+    "public/HOST-v2.json": {
+      "sha256": "d6c594fdc1220bb8e23212af9b07224fbc60f335e6f076fc94017bd275d44c99",
+      "bytes": 651
+    },
+    "public/HOST-v21-v1.json": {
+      "sha256": "24e86c4daf58d0f6bf213d1bacdcc591a53109c9d971cd0b5c113a342edc7f2d",
+      "bytes": 444
+    },
+    "public/HOST-v21-v2.json": {
+      "sha256": "fc51ae9fefdcfe421168b0bf81d3f13395e512a7257d419ef8c03bd7ddfa3f17",
+      "bytes": 568
+    },
+    "public/HOST-v21-v3.json": {
+      "sha256": "706a103affda744011a8ce4c1d339d8c6c5ab38e45ee6d63f9ebd19d2065052b",
+      "bytes": 600
+    },
+    "public/HOST-v3.json": {
+      "sha256": "ab452928d215bf292acced45f96e4a6b935305fdb3c303305aa82368aefe6fc6",
+      "bytes": 401
+    },
+    "public/HOST-v4.json": {
+      "sha256": "b748c33f41baa17a291bae6e2cddbb5deb161b6d1b66f3e98a43ac14a0891026",
+      "bytes": 401
+    },
+    "public/HOST-v5.json": {
+      "sha256": "78dc0f55a420ec56e9c8e920b859454e0f4cd7be3f1d32fcf826639690a3fa34",
+      "bytes": 402
+    },
+    "public/HOST-v6.json": {
+      "sha256": "49787d41607bbc6e1baed70320c961b8db9ffd85e52d24af15d0d8f21140c48e",
+      "bytes": 401
+    },
+    "public/INDEPENDENT-ORDINARY-VERIFICATION-v21-v1.json": {
+      "sha256": "cd3e0fe68d2f631e3d94fe3bc6587016421a5427d0507b62c279ff2a5cddf722",
+      "bytes": 414
+    },
+    "public/INDEPENDENT-VERIFICATION-v21-v1.json": {
+      "sha256": "738c863834ff4dfa38178075ac1cb442403d593bdd9c914133802218e7727186",
+      "bytes": 3710
+    },
+    "public/NATIVE-POLICY-v1.json": {
+      "sha256": "77545e3d42a61fe35849cca572c1a60b45005cb5fc6394a195080ec5419b5bf9",
+      "bytes": 449
+    },
+    "public/NATIVE-POLICY-v21-v1.json": {
+      "sha256": "865f6bbbd2d2ca165cb4556497e29dfa655783d81dedcce821434bf08c210de4",
+      "bytes": 449
+    },
+    "public/PLAN-REVISION-v2.json": {
+      "sha256": "ad75c0524d865b7ce53562d073e711eaf6908ffa61be9cc9fe7fd849e10a5271",
+      "bytes": 1072
+    },
+    "public/PLAN.json": {
+      "sha256": "5eb0f09db6e0577a8e60e56143fd9e8a303a8b6269c11278285dcdd3a8f79f64",
+      "bytes": 1420
+    },
+    "public/PROCESS-ordinary-buyer-v21-v1.json": {
+      "sha256": "10ad6a78648f5fbb8e12e90d18c09add6635b7c1ccbcfd2c4a24652bc7c0b7db",
+      "bytes": 636
+    },
+    "public/PROCESS-v1.json": {
+      "sha256": "afdd01764479fa4805265c3cee1763b22546f1f434968ff14ec3247523f1726a",
+      "bytes": 678
+    },
+    "public/PROCESS-v2.json": {
+      "sha256": "872602ff04285c7a2862f2b3678b6bb95c6c305e0319d793cbc9ebefa0d7270e",
+      "bytes": 678
+    },
+    "public/PROCESS-v21-v1.json": {
+      "sha256": "f736eeace181e3d7d6e352580e172c3bea37c7aae261fcfde88c71c2ab380b57",
+      "bytes": 674
+    },
+    "public/RETAINED-BINARIES-v21-v1.json": {
+      "sha256": "1b7772e5b513ffa77e6d96a2cc8d8441d2fa7036490f36a30024f4bb0289db2e",
+      "bytes": 411
+    },
+    "v20-source-v1/INDEX.json": {
+      "sha256": "1e6e6897da3e223d7830b1c81bd3551be5f9f4923ca215c550268413ec286127",
+      "bytes": 1870
+    }
+  }
+}

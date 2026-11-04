@@ -15,9 +15,16 @@ import {sha256} from './requestBinding.mjs';
 import {losslessJson,parseLosslessJson} from '../amm/u124/client.mjs';
 const h='a'.repeat(64),e='b'.repeat(64),z='0'.repeat(64),sdk='c92880c8b6e2c8d392f19368bc8801a2584fd427';
 async function fixture(fn,{kind='bondingcurve',profile='source-funded-v14',mode=14,payer=0,sdkProfile='mainnet-beta-20261027-v1'}={}){const d=await mkdtemp(join(tmpdir(),'funded-adapter-'));try{
- const release=sdkRelease(sdkProfile);const model=fundedProfile(profile,kind),exit=[18n,19n].includes(model.version),otherAsset=kind==='nftmarket'?41:43;
+ const release=sdkRelease(sdkProfile);const model=fundedProfile(profile,kind),exit=[18n,19n,21n].includes(model.version),otherAsset=kind==='nftmarket'?41:43;
  const put=(file,value)=>writeFile(join(d,file),losslessJson(value),{flag:'wx'}),policy={market:kind,version:model.version,profile:model.policy,qualified_randomness:false,market_id:1000,fee_owner:600,base:{config:{...(kind==='nftmarket'?{tokenId:42,nftId:41}:{assetA:42,assetB:43}),feeOwner:600,networkMagic:'1384803358401154921'}},executor_binding:{allow_broadcast:true,sdk_commit:release.sdkCommit,review:'review.json',review_sha256:null,chain_root:h}};
  if(exit)policy.exit_policy={auxiliary_fee_field:74n,only_original_credit_returns:true,owner_return_fee_separate_from_service_cap:true,owner_return_authority:'exhausted-or-explicit-owner-v1'};
+ if(model.version===21n){
+  policy.collection_initialization='explicit-account-version-v1';policy.base.sdk_commit=release.sdkCommit;policy.base.client_commit=release.clientCommit;
+  policy.noop={contract_id:0,method_id:1,method_name:'noop',inputs:[]};
+  const call=(contract_id,method_id,method_name,inputs)=>({contract_id,method_id,method_name,inputs});
+  const calls=[policy.noop,call(0,3824212239,'claim',[{witness:1}]),call(41,1475740684,'prepare_account',[]),call(42,2792756730,'claim',[{witness:1}]),call(1000,3068320913,'activate',[{witness:1}]),call(42,188091294,'transfer',[{witness:1},{constant:'1'},{constant:'0'}])];
+  while(calls.length<9)calls.push(policy.noop);policy.base.operations=[{name:'activate',maintenance:true,calls}];policy.base.branches=[{},{},{calls}];
+ }
  await writeFile(join(d,'artifact'),'public artifact double');const review={artifact:'artifact',artifact_sha256:sha256('public artifact double'),assets:[{artifact:'artifact',artifact_sha256:sha256('public artifact double')},{artifact:'artifact',artifact_sha256:sha256('public artifact double')},{artifact:'artifact',artifact_sha256:sha256('public artifact double')}]};await put('review.json',review);policy.executor_binding.review_sha256=sha256(await readFile(join(d,'review.json')));await put('policy.json',policy);
  const fields=Array(80).fill(0);fields[0]=mode;fields[74]=payer;if(mode===15)fields[21]=payer;fields[73]=1_000_010_000;const source=Array(41).fill(0);source[1]=1384803358401154921n;source[3]=1000;source[4]=100;
  const stage={schema:1,profile,stageId:'boot',actor:100,expectedNonce:1,maximumFee:1_000_100_000,validUntilCheckpoint:150,context:{source:{fields:source},request:{fields,settled:0},execution_checkpoint:100,expected_nonce:1,expected_start_leaf:z},calls:{software_defined_call:{inputs:fields},contract_calls:[]}};await put('stage.json',stage);
@@ -115,4 +122,20 @@ for(const[kind,profile]of [['amm','source-authorized-exit-v18'],['bondingcurve',
 for(const kind of ['orderbook','nftmarket'])for(const mode of [10,11])test(kind+': audit v19 frontier '+mode+' accepts primary fees and rejects auxiliary reordering',async()=>{
  await fixture(async x=>{const a=await x.create();assert.equal((await a.scan()).action.kind,mode===10?'stream_scan':'stream_carry');assert.deepEqual(x.counts(),{proofs:0,sends:0,checks:0});},{kind,profile:'source-pair-authorized-exit-v19',mode,sdkProfile:'sdk-audit-20261102-v1'});
  await fixture(async x=>{await assert.rejects(x.create(),/exit credit cannot open, trade or reorder/);assert.deepEqual(x.counts(),{proofs:0,sends:0,checks:0});},{kind,profile:'source-pair-authorized-exit-v19',mode,payer:601,sdkProfile:'sdk-audit-20261102-v1'});
+});
+
+test('NFT v21 bootstrap persists one exact unknown request across restart',()=>fixture(async x=>{
+ const a=await x.create();assert.equal((await executeCycle({adapter:a,journal:x.journal()})).status,'unresolved');
+ assert.equal((await executeCycle({adapter:await x.create(),journal:x.journal()})).status,'unresolved');assert.deepEqual(x.counts(),{proofs:1,sends:1,checks:0});
+ x.confirm();x.head(101);assert.equal((await x.journal().reconcile(a.reconcile))[0].result.status,'included');
+},{kind:'nftmarket',profile:'source-nft-account-bootstrap-v21',sdkProfile:'sdk-audit-20261102-v1'}));
+for(const mode of [10,11])test('NFT v21 frontier '+mode+' retains priority and primary-fee restrictions',async()=>{
+ const options={kind:'nftmarket',profile:'source-nft-account-bootstrap-v21',mode,sdkProfile:'sdk-audit-20261102-v1'};
+ await fixture(async x=>{assert.equal((await(await x.create()).scan()).action.kind,mode===10?'stream_scan':'stream_carry');},options);
+ await fixture(async x=>{await assert.rejects(x.create(),/exit credit cannot open, trade or reorder/);assert.equal(x.counts().proofs,0);},{...options,payer:601});
+});
+test('NFT v21 rejects initialization, dependency and call-template substitutions before native work',async()=>{
+ for(const mutate of [p=>delete p.collection_initialization,p=>p.base.client_commit=e,p=>p.base.operations[0].calls[2].contract_id=42n,p=>p.base.operations[0].calls[5].inputs[1].constant='2',p=>p.base.branches[2].calls=[]]){
+  await fixture(async x=>{const p=parseLosslessJson(await readFile(x.o.policy,'utf8'));mutate(p);await writeFile(x.o.policy,losslessJson(p));await assert.rejects(x.create());assert.deepEqual(x.counts(),{proofs:0,sends:0,checks:0});},{kind:'nftmarket',profile:'source-nft-account-bootstrap-v21',sdkProfile:'sdk-audit-20261102-v1'});
+ }
 });

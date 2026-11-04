@@ -6,8 +6,34 @@ use crate::{batch_policy::{chosen,eq},market_key::SDKeyCircuitGadget,stream_poli
 pub const GRANT:u64=15;
 pub const OWNER_RETURN:u64=16;
 pub const SPONSOR_RETURN:u64=17;
-pub fn enabled(s:&Value)->bool{s["version"]==18||s["version"]==19}
+pub const NFT_BOOTSTRAP_PROFILE:&str="source-covered-nft-account-bootstrap-exit-v1";
+pub fn nft_account_bootstrap(s:&Value)->bool{s["version"]==21}
+pub fn paired_exit(s:&Value)->bool{s["version"]==19||nft_account_bootstrap(s)}
+pub fn paired(s:&Value)->bool{s["version"]==15||paired_exit(s)}
+pub fn paired_profile(s:&Value)->&'static str{
+ if nft_account_bootstrap(s){NFT_BOOTSTRAP_PROFILE}else if s["version"]==19{"source-covered-pair-authorized-exit-v1"}else{"source-covered-pair-funded-bootstrap-v1"}
+}
+pub fn enabled(s:&Value)->bool{s["version"]==18||paired_exit(s)}
 pub fn validate(s:&Value)->Result<()>{
+ if nft_account_bootstrap(s){
+  ensure!(cfg!(feature="sdk-audit-v1") && s["profile"]==NFT_BOOTSTRAP_PROFILE && s["market"]=="nftmarket"
+   && s["collection_initialization"]=="explicit-account-version-v1"
+   && s["base"]["sdk_commit"]==crate::sdk_release::SDK_COMMIT
+   && s["base"]["client_commit"]==crate::sdk_release::CLIENT_COMMIT,"exact reviewed deferred NFT profile");
+  let market=s["market_id"].as_u64().context("NFT market")?;
+  let token=s["base"]["config"]["tokenId"].as_u64().context("NFT payment asset")?;
+  let collection=s["base"]["config"]["nftId"].as_u64().context("NFT collection")?;
+  let mut expected=vec![s["noop"].clone(),json!({"contract_id":0,"method_id":3824212239u32,"method_name":"claim","inputs":[{"witness":1}]}),
+   json!({"contract_id":collection,"method_id":1475740684u32,"method_name":"prepare_account","inputs":[]}),
+   json!({"contract_id":token,"method_id":2792756730u32,"method_name":"claim","inputs":[{"witness":1}]}),
+   json!({"contract_id":market,"method_id":3068320913u32,"method_name":"activate","inputs":[{"witness":1}]}),
+   json!({"contract_id":token,"method_id":188091294u32,"method_name":"transfer","inputs":[{"witness":1},{"constant":"1"},{"constant":"0"}]})];
+  while expected.len()<9{expected.push(s["noop"].clone());}
+  let operations=s["base"]["operations"].as_array().context("NFT operations")?;
+  let index=operations.iter().position(|v|v["name"]=="activate").context("NFT activation")?;
+  ensure!(operations[index]["maintenance"]==true && operations[index]["calls"]==json!(expected)
+   && s["base"]["branches"][2+index]["calls"]==json!(expected),"exact NFT activation with account preparation");
+ }
  ensure!(s["exit_policy"]==json!({"native_transfer":{"contract_id":0,"method_name":"transfer","method_id":2789897329u32,"input_count":2},"auxiliary_fee_field":74,"only_original_credit_returns":true,"owner_return_fee_separate_from_service_cap":true,"owner_return_authority":"exhausted-or-explicit-owner-v1","maximum_grant_window":4096}),"exact exit policy");
  for(name,count)in[("authorize_treasury_exit",6),("authorize_exit_fees",8),("apply_exit_grant",8),("account_exit_fee",7),("return_treasury",7),("account_return_fee",5),("return_exit_credit",8)]{
   let m=&s["stream"][name];ensure!(m["contract_id"]==s["market_id"]&&m["method_name"]==name&&m["input_count"]==count&&m["method_id"].as_u64().is_some_and(|x|x<=u32::MAX as u64),"reviewed exit method");
@@ -21,7 +47,7 @@ pub fn check(s:&Value,r:&Request)->Result<()>{
  if f[74]!=0 {
   ensure!([4,6,8,9,GRANT,OWNER_RETURN,SPONSOR_RETURN].contains(&f[0]),"exit credit cannot open, trade or reorder");
   if f[0]==4{ensure!(s["base"]["operations"].as_array().unwrap().iter().any(|o|o["branch"]==f[21]&&o["maintenance"]==true&&safe_maintenance(o["name"].as_str().unwrap())),"exit-only maintenance");}
-  if f[0]==8{ensure!(f[2]>0&&f[2]<=if s["version"]==19{2}else{4},"bounded exit refund page");for i in 0..f[2]as usize{ensure!(s["base"]["operations"].as_array().unwrap().iter().any(|o|o["branch"]==f[21+13*i]&&o["maintenance"]==false&&refund(o["name"].as_str().unwrap())),"exit credit cannot settle trades");}}
+  if f[0]==8{ensure!(f[2]>0&&f[2]<=if paired_exit(s){2}else{4},"bounded exit refund page");for i in 0..f[2]as usize{ensure!(s["base"]["operations"].as_array().unwrap().iter().any(|o|o["branch"]==f[21+13*i]&&o["maintenance"]==false&&refund(o["name"].as_str().unwrap())),"exit credit cannot settle trades");}}
  }
  if f[0]==GRANT{ensure!(f[74]==f[21]&&f[74]!=0,"grant pays only its original sponsor");}
  if f[0]==SPONSOR_RETURN{ensure!(f[74]!=0,"explicit return fee payer");}

@@ -7,6 +7,7 @@ import {planFundedFeeRecovery} from './fundedFeeRecovery.mjs';
 import {continueFundedLifecycle,validateFundedLifecycle} from './fundedLifecycle.mjs';
 import {validateFundedStage} from './fundedStreamAdapter.mjs';
 import {fundedProfile} from './fundedProfiles.mjs';
+import {sdkRelease} from './sdkProfiles.mjs';
 import {sha256} from './requestBinding.mjs';
 const h='a'.repeat(64),sdk='c92880c8b6e2c8d392f19368bc8801a2584fd427',F=1_000_100_000n;
 function options(){return{profile:'source-funded-v14',kind:'bondingcurve',network:'testnet',testnetProfile:'mainnet-beta-20261027-v1',contractId:1000,vaultId:100,publicKeyHash:h,fingerprint:h,codeRoot:h,layoutRoot:h,walletSha256:h,...Object.fromEntries(['rpcConfig','wallet','abi','driverConfig','runtimeDirectory','policy','dependencyBindings','streamTask'].map(k=>[k,k])),assetA:{contractId:42,codeRoot:h,layoutRoot:h,abi:'a'},assetB:{contractId:43,codeRoot:h,layoutRoot:h,abi:'b'}};}
@@ -42,11 +43,11 @@ test('stage boundary rejects seed, source, checkpoint, nonce, fee and bootstrap 
  assert.equal(validateFundedStage(s,policy,options()).kind,'stream_bootstrap');
  for(const mutate of [x=>x.context.request.random={},x=>x.context.request.settled=2n,x=>x.context.expected_nonce=2n,x=>x.context.execution_checkpoint=151n,x=>x.maximumFee=F-1n,x=>x.context.source.fields[4]=101n,x=>x.context.expected_start_leaf=h,x=>x.context.source.fields.pop()]){const x=structuredClone(s);mutate(x);assert.throws(()=>validateFundedStage(x,policy,options()));}
 });
-async function fixture(fn,{kind='bondingcurve'}={}){const root=await mkdtemp(join(process.cwd(),'.funded-runtime-test-'));try{
+async function fixture(fn,{kind='bondingcurve',profile=null,sdkProfile='mainnet-beta-20261027-v1'}={}){const root=await mkdtemp(join(process.cwd(),'.funded-runtime-test-'));try{
  const policy={executor_binding:{chain_root:h},base:{operations:[]}},policyText=JSON.stringify(policy);await writeFile(join(root,'policy'),policyText);
- const task={kind:'wallet_claim',submission:'exact wallet-approved claim'},plan={schema:1,network:'testnet',sdkCommit:sdk,chainRoot:h,policySha256:sha256(policyText),vaultId:100,fingerprint:h,maximumTotalFee:(2n*F).toString(),stages:[{id:'boot',operation:'bootstrap',actor:'native',userId:100,predecessor:null,config:'boot.json',maximumFee:F.toString()},{id:'claim',operation:'claim',actor:'wallet',userId:200,predecessor:'boot',config:'claim.json',maximumFee:F.toString(),approvedTaskSha256:sha256(JSON.stringify(task))}]};
+ const task={kind:'wallet_claim',submission:'exact wallet-approved claim'},plan={schema:1,network:'testnet',sdkCommit:sdkRelease(sdkProfile).sdkCommit,chainRoot:h,policySha256:sha256(policyText),vaultId:100,fingerprint:h,maximumTotalFee:(2n*F).toString(),stages:[{id:'boot',operation:'bootstrap',actor:'native',userId:100,predecessor:null,config:'boot.json',maximumFee:F.toString()},{id:'claim',operation:'claim',actor:'wallet',userId:200,predecessor:'boot',config:'claim.json',maximumFee:F.toString(),approvedTaskSha256:sha256(JSON.stringify(task))}]};
  const stage={stageId:'boot',maximumFee:F.toString(),context:{request:{fields:[14]}}};await writeFile(join(root,'streamTask'),JSON.stringify(stage));
- const o={...options(),kind,profile:['orderbook','nftmarket'].includes(kind)?'source-funded-pair-v15':'source-funded-v14',runtimeDirectory:join(root,'accounts'),policy:'policy',streamTask:'streamTask'};await writeFile(join(root,'boot.json'),JSON.stringify(o));
+ const o={...options(),kind,testnetProfile:sdkProfile,profile:profile??(['orderbook','nftmarket'].includes(kind)?'source-funded-pair-v15':'source-funded-v14'),runtimeDirectory:join(root,'accounts'),policy:'policy',streamTask:'streamTask'};await writeFile(join(root,'boot.json'),JSON.stringify(o));
  await writeFile(join(root,'claim.json'),JSON.stringify({network:'testnet',vaultId:200,fingerprint:h,runtimeDirectory:join(root,'accounts')}));
  const planFile=join(root,'PLAN.json');await writeFile(planFile,JSON.stringify(plan));
  await fn({root,plan,planFile,task,args:{planFile,runtimeDirectory:join(root,'lifecycle')}});
@@ -120,7 +121,25 @@ test('pair carry cannot replace a sealed source set even before proving',()=>fix
 },{kind:'orderbook'}));
 
 test('tagged fee recovery cannot use unrelated Native or request a duplicate pending payment',()=>{
- for(const version of [18,19]){const x=fee({feeCap:5n*F,nativeBalance:100n*F,ownerPending:0n});x.policy.version=version;x.state.treasuryCredit=0n;assert.equal(planFundedFeeRecovery(x).status,'needs-owner-funding');}
+ for(const version of [18,19,21]){const x=fee({feeCap:5n*F,nativeBalance:100n*F,ownerPending:0n});x.policy.version=version;x.state.treasuryCredit=0n;assert.equal(planFundedFeeRecovery(x).status,'needs-owner-funding');}
  const old=fee({ownerGrantNonce:1n});assert.equal(planFundedFeeRecovery(old).nativeFundingRequired,'0');
  const x=fee({nativeBalance:2n**62n-1n});x.policy.version=18;x.state.treasuryCredit=0n;assert.throws(()=>planFundedFeeRecovery(x),/overflow/);
 });
+
+test('v21 recovery retains original-credit, exact grant and total-budget requirements',()=>{
+ const x=fee();x.policy.version=21;x.state.treasuryCredit=0n;
+ const r=planFundedFeeRecovery(x);assert.equal(r.status,'apply-authenticated-grant');assert.equal(r.frozenSetSha256,h);assert.equal(r.canBroadcast,false);
+ assert.equal(planFundedFeeRecovery({...x,approvedLifetimeCap:4n*F}).status,'needs-budget-authorization');
+ assert.equal(planFundedFeeRecovery({...x,state:{...x.state,ownerGrantKey:[4n,3n,2n,1n]}}).status,'needs-owner-grant');
+ assert.throws(()=>planFundedFeeRecovery({...x,policy:{...x.policy,version:20}}));
+});
+test('v21 formal lifecycle preserves an unknown bootstrap and waits for original inclusion before wallet work',()=>fixture(async({args,task})=>{
+ const state={proofs:0,sends:0,included:false};let walletStarts=0;
+ const createNative=async()=>backend(100,{kind:'stream_bootstrap',submission:'exact v21 boot'},state);
+ const walletAdapter=async()=>{walletStarts++;return backend(200,task,{proofs:0,sends:0,included:true});};
+ assert.equal((await continueFundedLifecycle({...args,createNative,walletAdapter})).status,'unresolved');
+ assert.equal((await continueFundedLifecycle({...args,createNative,walletAdapter})).status,'unresolved');
+ assert.equal(state.proofs,1);assert.equal(state.sends,1);assert.equal(walletStarts,0);
+ state.included=true;assert.equal((await continueFundedLifecycle({...args,createNative,walletAdapter})).status,'complete');
+ assert.equal(walletStarts,1);assert.equal(state.sends,1);
+},{kind:'nftmarket',profile:'source-nft-account-bootstrap-v21',sdkProfile:'sdk-audit-20261102-v1'}));
