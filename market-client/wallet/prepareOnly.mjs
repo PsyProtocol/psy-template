@@ -10,6 +10,7 @@ export async function prepareOnlyMarketJobs({
   parse,
   expectedStepCount,
   collectPublicProofs = false,
+  externalPrefixLength = 0,
 }) {
   ok(typeof collectPublicProofs === "boolean", "Public proof projection mode");
   ok(typeof parse === "function", "Lossless SDK parser required");
@@ -23,6 +24,9 @@ export async function prepareOnlyMarketJobs({
     provider.prepareTraceProofSchedule(envelope),
     provider.getTraceProofJobStepIndices(envelope),
   ]);
+  ok(Number.isSafeInteger(externalPrefixLength) && externalPrefixLength >= 0 &&
+    externalPrefixLength <= 3 && (externalPrefixLength === 0 || expectedStepCount === 2),
+    "Only the reviewed compact external prefix is supported");
   ok(
     Array.isArray(indices.cfc_step_indices) &&
       indices.cfc_step_indices.length === expectedStepCount &&
@@ -34,7 +38,9 @@ export async function prepareOnlyMarketJobs({
       (x) => Number.isSafeInteger(x) && x >= 0 && x < 64,
     ) &&
       Array.isArray(indices.external_step_indices) &&
-      indices.external_step_indices.length === 0,
+      indices.external_step_indices.length === externalPrefixLength &&
+      indices.external_step_indices.every((v,i) => v === i) &&
+      (externalPrefixLength === 0 || indices.cfc_step_indices.every((v,i)=>v===externalPrefixLength+i)),
     "Unexpected external proof or step",
   );
   const outputs = [];
@@ -57,6 +63,8 @@ export async function prepareOnlyMarketJobs({
   outputs.push(
     check(await provider.proveZkSignJob(account, envelope), "zk_sign"),
   );
+  for (const index of indices.external_step_indices)
+    outputs.push(check(await provider.proveExternalProofJob(envelope,index), "external_proof", index));
   // Bounded serial resource use; later independent scheduling needs its own
   // memory/nonce acceptance. Every witness/session is for this exact envelope.
   for (const index of indices.cfc_step_indices)

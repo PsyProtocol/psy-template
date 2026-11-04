@@ -255,6 +255,6 @@ export async function prepareMarketCapsule({
 
 export { stable as stablePublic, sha as shaPublic };
 export function publicManifest(p){
- const names=["userId","publicKeyHash","networkHash","registryHash","sdkManifestSha256","startUserLeafHash","walletNonce","validUntilCheckpoint","actualFee","fullCalls","endUserLeafHash","sigHash","sessionHash","fingerprint",...(p.schema===2?["contentHash","verificationBundleSha256","verifierPackSha256"]:[])];
+ const names=["userId","publicKeyHash","networkHash","registryHash","sdkManifestSha256","startUserLeafHash","walletNonce","validUntilCheckpoint","actualFee",p.schema===3?"callCommitments":"fullCalls","endUserLeafHash","sigHash","sessionHash","fingerprint",...(p.schema>=2?["contentHash","verificationBundleSha256","verifierPackSha256"]:[])];
  return Object.fromEntries(names.map(k=>[k,p[k]]));
 }

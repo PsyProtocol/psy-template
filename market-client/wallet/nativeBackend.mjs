@@ -3,7 +3,34 @@
 import {canonical,hashPattern} from "../protocol.mjs";
 import {createExactMarketTransport} from "./exactTransport.mjs";
 import {publicManifest,stablePublic,shaPublic} from "./capsule.mjs";
+import {validateCommitmentRecord} from "./commitments.mjs";
 const ok=(v,m)=>{if(!v)throw Error(m);};
+// Wallet-background configuration only. A page cannot provide this callback or
+// verifier. Rehydration uses the wallet's existing receive material in memory;
+// the durable capsule and this adapter's return value contain commitments only.
+export function createNativeCommitmentVerifier({native,expectedVerifierPackSha256,useEphemeralApproval,stringify}) {
+ ok(hashPattern.test(expectedVerifierPackSha256??"")&&typeof native?.identity==="function"&&typeof native?.verify==="function"&&typeof useEphemeralApproval==="function"&&typeof stringify==="function","Wallet-owned commitment verifier required");
+ return async(record,p)=>{
+  validateCommitmentRecord(record);
+  ok(p.schema===3&&record.plan.verifierPackSha256===expectedVerifierPackSha256&&p.verifierPackSha256===expectedVerifierPackSha256,"Fixed commitment verifier changed");
+  const id=JSON.parse(await native.identity());
+  ok(id.sdkManifestSha256===record.plan.sdkManifestSha256&&id.verifierPackSha256===expectedVerifierPackSha256&&BigInt(id.networkMagic)===BigInt(record.plan.network.magic),"Commitment verifier identity changed");
+  ok(await shaPublic(p.requestJson)===p.requestSha256&&await shaPublic(p.verificationBundleJson)===p.verificationBundleSha256&&await shaPublic(stablePublic(publicManifest(p)))===p.manifestSha256,"Exact commitment artifacts changed");
+  let verified=null,invocations=0;
+  await useEphemeralApproval(structuredClone(record),structuredClone(p),async approval=>{
+   ok(++invocations===1,"One ephemeral approval required");
+   for(const [key,value] of Object.entries({user_id:record.plan.userId,public_key:p.publicKeyHash,nonce:record.plan.walletNonce,checkpoint_min:record.plan.startCheckpoint,checkpoint_max:record.plan.validUntilCheckpoint,start_leaf:record.plan.startUserLeafHash,max_fee:record.plan.maxNetworkFee,network_magic:record.plan.network.magic,sdk_manifest:record.plan.sdkManifestSha256}))
+    ok(String(approval[key])===String(value),"Ephemeral approval identity mismatch "+key);
+   const report=JSON.parse(await native.verify(p.requestJson,stringify(approval),p.verificationBundleJson));
+   for(const field of ["fullProofVerified","fullCallsBound","sessionBound","sigHashBound","endpointsAndFeesBound","publicProjectionBound"])ok(report[field]===true,"Complete commitment verification rejected "+field);
+   for(const field of ["requestSha256","sdkManifestSha256","contentHash","endUserLeafHash","sigHash","sessionHash","fingerprint","actualFee","verifierPackSha256"])ok(report[field]===p[field],"Native commitment mismatch "+field);
+   ok(report.userId===p.userId&&report.nonce===p.walletNonce&&canonical(report.callCommitments)===canonical(p.callCommitments),"Actual ordered commitments changed");
+   verified={...report,manifestSha256:p.manifestSha256};
+  });
+  ok(invocations===1&&verified!==null,"Ephemeral verification callback did not complete");
+  return verified;
+ };
+}
 export function createNativeMarketBackend({bundle,native,expectedVerifierPackSha256,parse,stringify,fetcher}){
  ok(hashPattern.test(expectedVerifierPackSha256??"")&&typeof native?.identity==="function"&&typeof native?.verify==="function"&&typeof native?.identify==="function","Extension-owned fixed native verifier required");
  const transport=createExactMarketTransport({bundle,parse,fetcher});

@@ -7,6 +7,7 @@ import {createHash} from 'node:crypto';
 import {join,resolve} from 'node:path';
 import {parseLosslessJson,losslessJson} from '../../../amm/u124/client.mjs';
 import {publicMarketProofBundle} from '../publicBundle.mjs';
+import {prepareOnlyMarketJobs} from '../prepareOnly.mjs';
 const [wasm,fixture,out]=process.argv.slice(2);assert.ok(out,'WASM MODULE PUBLIC SYNTHETIC FIXTURE FRESH REPORT');
 const read=name=>readFileSync(join(fixture,name+'.json'),'utf8');
 const request=read('request'),approval=read('approval'),bundle=read('bundle'),pack=read('verifiers');
@@ -23,7 +24,21 @@ const outputs=[{type:'ups_start',data:{current_header:b.start_header,proof:bytes
 b.external_steps.forEach((e,i)=>outputs.push({type:'external_proof',data:{step_index:i,proof:bytes(e.proof_b64)}}));
 b.steps.forEach((s,i)=>{outputs.push({type:'cfc_step',data:{step_index:steps.length,proof_bytes:[bytes(s.cfc_proof_b64),bytes(s.ups_proof_b64)],baton:{known_proof_tree_root:s.ups_known_root}}});steps.push({kind:i?'burn_fee':'standard',contract_id:s.contract_id,method_id:s.method_id,method_name:s.method_name,cfc_witness:{session_proof_tree_root:s.cfc_session_root,receive_secrets:'MUST_NOT_SURVIVE'},state_delta:s.state_delta,cfc_inclusion_proof:s.inclusion,end_header:s.end_header});});
 steps.push({kind:'zk_sign',sign_circuit_source:{kind:'zk_builtin'},public_key_param:b.public_key_param,sign_witness:'MUST_NOT_SURVIVE'});
-const projected=publicMarketProofBundle({anchor:b.anchor,steps,finalization:{sig_hash:b.sig_hash}},outputs.map(losslessJson),parseLosslessJson);
+const output=(type,index)=>losslessJson(outputs.find(o=>o.type===type&&(index===undefined||Number(o.data.step_index)===index)));
+const prefix=b.external_steps.length;
+const provider={
+ prepareTraceProofSchedule:async()=>({}),
+ getTraceProofJobStepIndices:async()=>({external_step_indices:Array.from({length:prefix},(_,i)=>i),cfc_step_indices:b.steps.map((_,i)=>prefix+i)}),
+ proveUpsStartJob:async()=>output('ups_start'),proveZkSignJob:async()=>output('zk_sign'),
+ proveExternalProofJob:async(envelope,index)=>output('external_proof',index),
+ proveCfcJobWithScheduleStep:async(account,envelope,schedule,index)=>output('cfc_step',index),
+ proveEndcapJobFromOutputJsons:async()=>losslessJson({type:'end_cap',data:{tx_hash:actual.endUserLeafHash,proof:parseLosslessJson(request).proof}}),
+};
+// Replay saved jobs through the proof-only route; these adapters generate no
+// replacement proofs and have no network transport or signing capability.
+const replay=await prepareOnlyMarketJobs({provider,account:a.public_key,envelope:{tx_hash:actual.endUserLeafHash},parse:parseLosslessJson,expectedStepCount:2,externalPrefixLength:prefix,collectPublicProofs:true});
+assert.deepEqual(replay.proof,parseLosslessJson(request).proof.map(Number));
+const projected=publicMarketProofBundle({anchor:b.anchor,steps,finalization:{sig_hash:b.sig_hash}},replay.publicProofOutputs,parseLosslessJson);
 assert.ok(!losslessJson(projected).includes('MUST_NOT_SURVIVE'));
 assert.deepEqual(parseLosslessJson(losslessJson(projected)),b);
 verify(approval,losslessJson(projected));
@@ -45,5 +60,5 @@ for(const mode of ['missing','swap','index','start','end','fingerprint','after-c
  else aa.max_fee=1;
  assert.throws(()=>verify(losslessJson(aa),losslessJson(bb)),mode);refused++;
 }
-writeFileSync(out,JSON.stringify({schema:1,scope:'Actual WASM complete compact claim and external-proof stack; preserved synthetic source, not extension or live acceptance',fullProofAndCallsVerified:true,externalInsertions:b.external_steps.length,uniqueNoteProofs:new Set(b.external_steps.map(e=>e.proof_b64)).size,exactPublicProjectionVerified:true,mutationsRefused:refused,newProofs:0,financialOperations:0,requestSha256:createHash('sha256').update(request).digest('hex')},null,2)+'\n',{flag:'wx'});
+writeFileSync(out,JSON.stringify({schema:1,scope:'Actual WASM complete compact claim and external-proof stack; preserved synthetic source, not extension or live acceptance',fullProofAndCallsVerified:true,externalInsertions:b.external_steps.length,uniqueNoteProofs:new Set(b.external_steps.map(e=>e.proof_b64)).size,exactPublicProjectionVerified:true,proofOnlyRunnerReplayVerified:true,mutationsRefused:refused,newProofs:0,financialOperations:0,requestSha256:createHash('sha256').update(request).digest('hex')},null,2)+'\n',{flag:'wx'});
 console.log('Complete compact claim, all external notes, calls and public projection verified in actual WASM; no new proofs or broadcast.');

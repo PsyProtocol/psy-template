@@ -1,0 +1,378 @@
+{
+  "schema": 1,
+  "case": "private-claim-recovery-20261104-v1",
+  "scope": "Actual saved synthetic UPS through fixed WASM and commitment journal; host recovery only, not browser/network acceptance",
+  "sdkCommit": "01b8f2b0a077367a7b9879baba1a72aea8ab5510",
+  "clientCommit": "7058070057c3242b5d8b29e1a31d498aaa4202c0",
+  "sourceManifestSha256": "246cfcb12788fe0d0eb79594556acdfcc7781d01641890e47836db1fbc93c467",
+  "baseline": {
+    "application": "93e61dc8765eb48c39dd737f34b0b6e2e375f21e",
+    "wallet": "d6b795d1feac4313801c521278ec23f02b2e6eb1"
+  },
+  "plan": {
+    "schema": 1,
+    "createdAt": "2026-11-04T09:16:28.108896+00:00",
+    "owner": "root",
+    "scope": "Privacy-safe commitment capsules in the existing wallet state machine; saved proof replay and host recovery tests only",
+    "sdkCommit": "01b8f2b0a077367a7b9879baba1a72aea8ab5510",
+    "clientCommit": "7058070057c3242b5d8b29e1a31d498aaa4202c0",
+    "limits": {
+      "newCompleteUps": 0,
+      "newNoteProofs": 0,
+      "nativeBuildCommands": 4,
+      "totalWallSeconds": 7200,
+      "familyRssKiB": 12582912,
+      "financialOperations": 0,
+      "liveInstances": 0
+    },
+    "stopConditions": [
+      "Dependency or resource mismatch",
+      "Another proving/financial owner",
+      "Budget exhausted",
+      "Any financial broadcast required"
+    ],
+    "recovery": "Preserve exact originals and unknown-request identities; no financial retry"
+  },
+  "newProofs": 0,
+  "financialOperations": 0,
+  "liveInstances": 0,
+  "nativeBuildsUsed": 2,
+  "sourceRequestSha256": "be69e143789d44765d808d799f2b658e8d5636fb5e3f4f4d1d8ed9e95b33e9b5",
+  "applicationRegression": {
+    "passed": 49,
+    "failed": 0,
+    "skipped": 0
+  },
+  "walletRegression": {
+    "passed": 793,
+    "existingSkipped": 1
+  },
+  "claimReplay": {
+    "schema": 1,
+    "scope": "Actual WASM complete compact claim and external-proof stack; preserved synthetic source, not extension or live acceptance",
+    "fullProofAndCallsVerified": true,
+    "externalInsertions": 3,
+    "uniqueNoteProofs": 2,
+    "exactPublicProjectionVerified": true,
+    "proofOnlyRunnerReplayVerified": true,
+    "mutationsRefused": 14,
+    "newProofs": 0,
+    "financialOperations": 0,
+    "requestSha256": "be69e143789d44765d808d799f2b658e8d5636fb5e3f4f4d1d8ed9e95b33e9b5"
+  },
+  "ordinaryReplay": {
+    "fullUpsVerifiedInWasm": true,
+    "allCallAndSessionProofsVerified": true,
+    "exactCapsuleAndPublicProjectionVerified": true,
+    "mutationsRejected": [
+      "amount-high-limb",
+      "nonce",
+      "signature",
+      "proof-bundle",
+      "request-bytes",
+      "verifier-build"
+    ],
+    "verifierPackSha256": "912acc1e616b13c7c15639df916452b3ca575885fac7929a3ce5dcf24c0df5c6",
+    "financialOperations": 0,
+    "scope": "actual WASM verifier; synthetic authenticated state; HTTP, wallet integration, live inclusion and NFT identity not accepted"
+  },
+  "firstSessionReplay": {
+    "schema": 1,
+    "approvalSha256": "806eae3924b50d89bee716186929d20220ec856474f59840e01a3277890e6918",
+    "bundleSha256": "4e16bea90dd5da1a891920bfdf616caa0bb3a262eee56b1a782785a0c97c2033",
+    "moduleFileSha256": "c321a5d001f9ffa230db0d9b1e4475a93e59bbc92abcaed938eb00c05128aa3a",
+    "wasmFileSha256": "c24e65cd06aebfd2d4748095c028bdb202c39f31e035e39dcc38efd41cfda207",
+    "scope": "actual WASM on preserved synthetic authenticated state; no extension, RPC, broadcast, inclusion or ordinary-wallet acceptance",
+    "requestSha256": "8b4ff5d940040e9bb8f5a011c639a1fc47eb0af9303c99ca37d10c9c3e6428c2",
+    "verifierPackSha256": "912acc1e616b13c7c15639df916452b3ca575885fac7929a3ce5dcf24c0df5c6",
+    "registrationStartVerified": true,
+    "completeCallSessionSignatureAndEndpointsVerified": true,
+    "mutationsRejected": [
+      "user",
+      "claim-source",
+      "nonce",
+      "public-key",
+      "stored-start",
+      "call-order",
+      "session-key",
+      "signature"
+    ],
+    "newProofsGenerated": 0,
+    "financialOperations": 0
+  },
+  "measurements": [
+    {
+      "label": "wasm-build-v1",
+      "command": [
+        "cargo",
+        "+nightly-2025-09-20",
+        "build",
+        "--release",
+        "--offline",
+        "--locked",
+        "--features",
+        "sdk-audit-v1",
+        "--target",
+        "wasm32-unknown-unknown"
+      ],
+      "exitCode": 0,
+      "seconds": 11.353620166017208,
+      "sampledFamilyRssKiB": 439408,
+      "financialOperations": 0
+    },
+    {
+      "label": "wasm-legacy-build-v1",
+      "command": [
+        "cargo",
+        "+nightly-2025-09-20",
+        "build",
+        "--release",
+        "--offline",
+        "--locked",
+        "--features",
+        "sdk-audit-v1",
+        "--target",
+        "wasm32-unknown-unknown"
+      ],
+      "exitCode": 0,
+      "seconds": 11.380926207988523,
+      "sampledFamilyRssKiB": 403136,
+      "financialOperations": 0
+    },
+    {
+      "label": "wallet-tests-v1",
+      "command": [
+        "node",
+        "node_modules/vitest/vitest.mjs",
+        "run",
+        "--maxWorkers=2"
+      ],
+      "exitCode": 0,
+      "seconds": 20.7253745420021,
+      "sampledFamilyRssKiB": 1467216,
+      "financialOperations": 0
+    },
+    {
+      "label": "wallet-build-v1",
+      "command": [
+        "npm",
+        "run",
+        "build:staging"
+      ],
+      "exitCode": 0,
+      "seconds": 32.21992483403301,
+      "sampledFamilyRssKiB": 3333152,
+      "financialOperations": 0
+    },
+    {
+      "label": "wallet-hex-v2",
+      "command": [
+        "node",
+        "node_modules/vitest/vitest.mjs",
+        "run",
+        "src/lib/privateFtCompactClaim.test.ts",
+        "--maxWorkers=2"
+      ],
+      "exitCode": 1,
+      "seconds": 2.080366625043098,
+      "sampledFamilyRssKiB": 627232,
+      "financialOperations": 0
+    },
+    {
+      "label": "wallet-tests-v3",
+      "command": [
+        "node",
+        "node_modules/vitest/vitest.mjs",
+        "run",
+        "--maxWorkers=2"
+      ],
+      "exitCode": 0,
+      "seconds": 37.74216591700679,
+      "sampledFamilyRssKiB": 1398064,
+      "financialOperations": 0
+    },
+    {
+      "label": "wallet-build-v3",
+      "command": [
+        "npm",
+        "run",
+        "build:staging"
+      ],
+      "exitCode": 0,
+      "seconds": 78.51196899998467,
+      "sampledFamilyRssKiB": 2977584,
+      "financialOperations": 0
+    }
+  ],
+  "retainedFailures": [
+    "recovery-wasm-v1.log: test expected false projection flag; typed bundle correctly rejected unknown field outright. Corrected test preserves rejection.",
+    "wallet-hex-v2.log: direct CFC comparison caught real 0x-prefix mismatch. Wallet now emits canonical unprefixed hash; final full suite/build rerun."
+  ],
+  "remaining": [
+    "Application compact trace and ephemeral signing bridge",
+    "Owned final asset/amount confirmation",
+    "Reviewed current-chain resource installation",
+    "Actual extension approval, exact live broadcast, ordinary claim/refund and recovery",
+    "Finality/randomness and matched end-to-end performance acceptance"
+  ],
+  "sourceSha256": {
+    "amm/u124/vm-tests/src/wallet_verification.rs": "9e3851cb54fd628e029dce27f123c9faff4282fe621f5e109cc9a56235361793",
+    "market-client/wallet/native/src/lib.rs": "b2ec604d268fd5b18aa9398298408197cbc1064ddbb76fbaf407ed425e02b7eb",
+    "market-client/wallet/staged.mjs": "b1a1c8496ea95f04ac60e73293e586532298d4e0f4b6c2e305352e9ff581ae98",
+    "market-client/wallet/commitments.mjs": "2e36ac5a04ed839cbe53b9d1edf0d100a35a6d274f08dee0d0373b760faf9377",
+    "market-client/wallet/commitmentCapsule.mjs": "8552b18c66f125717e5a40dae0afd678a144cd5cb79ac60a3ab126e95154f6f7",
+    "market-client/wallet/nativeBackend.mjs": "20d4fc3dbf0dbb2b2a8ae60a9b5a61676a13329a31fa33672252930984e6f5ab",
+    "market-client/wallet/prepareOnly.mjs": "2bc8aba3e02de166ba6deb7f33c9a80923a039c5bfe3072b2652eaaaf3b7fe59",
+    "market-client/wallet/capsule.mjs": "37f601b92603a7321dcf54342f4abde57b0d29a1e989dfe4b797a151bbc33a35",
+    "market-client/wallet/commitmentRecovery.test.mjs": "c8cb6d6fa8e2e7c4779374385c2c3eeb70aa0e5dd13985e851d19d4227a15bce",
+    "market-client/wallet/prepareOnlyPrivate.test.mjs": "950ea4bf0681d3bdcb29dd97ca17b21f628a99b0c59a5c87e8ac988d3e2a35ce",
+    "market-client/wallet/native/privateClaimAcceptance.mjs": "6e9c63c6beb9b8fb872cc2ee474c63c0cdd433adc8352628fbc6d1bc029c56c6"
+  },
+  "walletAuthoredSha256": {
+    "src/lib/privateFtCompactClaim.ts": "f3cee97ac4f19991d2faa932788ed54c5f2ef428a855cbb5e03ac603d477da53",
+    "src/lib/privateFtCompactClaim.test.ts": "b065c696532deeb216db6fb68ac157505f8bdc344b87ec2fb5368c6d8cf3e03c",
+    "src/market-preparation/SOURCE.json": "4c5fd6118c197262d9f97f80c62cf5b62ee540c023ab9a69facd3fc2f7658e2e"
+  },
+  "artifacts": [
+    {
+      "file": "public/PLAN.json",
+      "bytes": 814,
+      "sha256": "ec27b3e970cb98b470393cc1e1563be8c021d81b486d93d8f775b357cb8c1a4e"
+    },
+    {
+      "file": "wasm/BUILD-INPUTS.json",
+      "bytes": 889,
+      "sha256": "5111100a3da78a0657a8a29be4403f402d499190430c011cade7b0d115624573"
+    },
+    {
+      "file": "wasm/DEPENDENCY-CHECK.json",
+      "bytes": 225,
+      "sha256": "57f277dfac098b2adda22f22c2a5db3e84934477a8c64d5c14b9a337c834d475"
+    },
+    {
+      "file": "wasm/verifier-v1.wasm",
+      "bytes": 2112133,
+      "sha256": "a16e79b7b6964913c42bba6e0644e2c42721822c01f2ffdf5a6a623b00ee7513"
+    },
+    {
+      "file": "wasm/nodejs/market_verifier.js",
+      "bytes": 7160,
+      "sha256": "c321a5d001f9ffa230db0d9b1e4475a93e59bbc92abcaed938eb00c05128aa3a"
+    },
+    {
+      "file": "wasm/nodejs/market_verifier_bg.wasm",
+      "bytes": 1552022,
+      "sha256": "e66c41de08487fb32df052dedd05bb24577c706cd377e4108100f3d173fc9744"
+    },
+    {
+      "file": "wasm-legacy/BUILD-INPUTS.json",
+      "bytes": 889,
+      "sha256": "38dcf96e244a892010b15af0217ea0a2a15e08029b190ee4a0f144b63ff3e446"
+    },
+    {
+      "file": "wasm-legacy/verifier-v1.wasm",
+      "bytes": 2118469,
+      "sha256": "0a4910f0b213726c77cf6a527743c6cb498f0bfcc60087e47b77060fb31aaf60"
+    },
+    {
+      "file": "public/wasm-build-v1.json",
+      "bytes": 348,
+      "sha256": "7835c71dfb084e6df8909faf07796f8c08525732952becb4199dcc1b0d87a6b6"
+    },
+    {
+      "file": "public/wasm-legacy-build-v1.json",
+      "bytes": 355,
+      "sha256": "30673e72c223b29486fcfb952baed48dc8088570385ff7a60e375f27499d89dd"
+    },
+    {
+      "file": "public/recovery-wasm-v1.log",
+      "bytes": 3455,
+      "sha256": "43f71606435bf80e8ae88b54e5cd1cf85357fc6a98e26407a34f34321add4eae"
+    },
+    {
+      "file": "public/recovery-wasm-v2.log",
+      "bytes": 1577,
+      "sha256": "69a967bef8d9bab5a630e4e18f5d85ea3946d502416e1a9fc7cc18b0a3feeeca"
+    },
+    {
+      "file": "public/regression-v3.log",
+      "bytes": 4259,
+      "sha256": "4531bc91628013c14b239661cc1249a4330d99b8477d61afc93e9d47a9651be2"
+    },
+    {
+      "file": "public/regression-v4.log",
+      "bytes": 4257,
+      "sha256": "9e99b2ae3f30f68e706cacb142cc55f107d4ec898b934c0820c0a97c94040bf0"
+    },
+    {
+      "file": "public/claim-compatibility-v1.json",
+      "bytes": 443,
+      "sha256": "1746cd2ee8092526be872622b17eaedd0b76452ad139d66c999df974fa73c90b"
+    },
+    {
+      "file": "public/claim-compatibility-v2.json",
+      "bytes": 484,
+      "sha256": "5471f68664a49883d7c69f3f4f32d3f932d84cfa3e7cabb5cc6e388b4d24c9b0"
+    },
+    {
+      "file": "public/ordinary-v1/REPORT.json",
+      "bytes": 534,
+      "sha256": "f19c133f78039c4301777d9587c4fbf571adcc3229629295e88eba3896cde889"
+    },
+    {
+      "file": "public/first-session-v1.json",
+      "bytes": 1007,
+      "sha256": "5e9d1f5b675d7063e0ec31a1bfc5ceb796be1509160a1674025dbe507b03159e"
+    },
+    {
+      "file": "public/wallet-tests-v1.json",
+      "bytes": 245,
+      "sha256": "07c5048069a13d09725456b82e320879a87cb206dbde3b4b37454fddef3ae359"
+    },
+    {
+      "file": "public/wallet-tests-v1.log",
+      "bytes": 338,
+      "sha256": "9550c5a75ca77875d5fcf7dd8225abb6c92a45266e756f0b005ebf599be808e6"
+    },
+    {
+      "file": "public/wallet-build-v1.json",
+      "bytes": 206,
+      "sha256": "be1ee053fa2c4adeaf458fbbf414cf261f4ec9a5ca52b2af46f4166efd4479e0"
+    },
+    {
+      "file": "public/wallet-build-v1.log",
+      "bytes": 3381,
+      "sha256": "bfc41b40210bed69c5a36b5c3335c08a5a0ba2d3ed6293d7f33e2f958ef49c03"
+    },
+    {
+      "file": "public/wallet-hex-v2.json",
+      "bytes": 288,
+      "sha256": "155b050f1c5c7103c319fd407a9299764b6a9115597f0a9ee183966d92103d3d"
+    },
+    {
+      "file": "public/wallet-hex-v2.log",
+      "bytes": 1432,
+      "sha256": "346ada586a71d87ce0534bbb6016789c4c5848c01e803cfeceb4693b275a4124"
+    },
+    {
+      "file": "public/wallet-tests-v3.json",
+      "bytes": 246,
+      "sha256": "571535cdcec2046d08ee8337e463cb1a333e3f618b73fd715728a23e60fcfb61"
+    },
+    {
+      "file": "public/wallet-tests-v3.log",
+      "bytes": 339,
+      "sha256": "4965caf6ee6d9b6241d1fda21e27784dfcbcc5ca6a010b081b8fc4b79356274a"
+    },
+    {
+      "file": "public/wallet-build-v3.json",
+      "bytes": 206,
+      "sha256": "17e7e5d8ab2d4c75d6385a6d472fac669610a6dc5df2c4ca073b427a7ff5eb3a"
+    },
+    {
+      "file": "public/wallet-build-v3.log",
+      "bytes": 3381,
+      "sha256": "b9fc474c0d8b9840fd42771b439ce715a2b6c62ea46e6c579d4bd54817bff3d7"
+    }
+  ]
+}

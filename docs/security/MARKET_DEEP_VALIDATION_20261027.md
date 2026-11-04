@@ -1,5 +1,18 @@
 # Market correctness and reset-chain validation — 27 October 2026
 
+Latest continuation (4 November): [privacy-safe commitment journal and exact
+recovery](PRIVATE_FT_COMMITMENT_RECOVERY_20261104.md). The existing wallet state
+machine now accepts schema-3 public commitments after complete verification and
+strict typed projection, before retaining private artifacts. Actual WASM replays
+the preserved compact claim and exports its verified call commitments; appended
+proof bytes and secret-bearing unknown fields reject. Explicit proof-only
+external jobs, ordinary/first-session compatibility, 49 application regressions,
+793 wallet tests (one existing skip), frozen SDK/typecheck and isolated build
+pass. No new proof or financial operation occurs. The compact trace/signing
+bridge, owned final amount confirmation, installed current-chain resources and
+actual extension/network journey remain closed and unverified. Older entries
+below describe their own historical scope; they are not live reset-chain IDs.
+
 Latest continuation (4 November): [complete compact-claim approval, external
 proof/session binding and wallet parameter isolation](PRIVATE_FT_APPROVED_STACK_20261104.md).
 One fresh source-linked synthetic ordinary claim UPS passes fixed complete

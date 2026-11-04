@@ -1,3 +1,5 @@
+import { validateCallCommitments, validateCommitmentRecord, validateCommitmentContext } from "./commitments.mjs";
+import { publicManifest, stablePublic, shaPublic } from "./capsule.mjs";
 import { nativeMethod } from "../nativeProtocol.mjs";
 // Background-only wallet service. Storage and native/prover adapters are owned
 // by the extension, never supplied through a page request. No automatic retry.
@@ -185,6 +187,7 @@ export function createStagedWallet({
   });
   const validatePrepared = async (e, p) => {
     identity(e.context, e.record);
+    if (e.record.schema === 3) { validateCommitmentRecord(e.record); validateCommitmentContext(e.context); }
     await verifyRecord(clone(e.record));
     ok(
       (await hash(
@@ -202,7 +205,8 @@ export function createStagedWallet({
     );
     ok(
       p &&
-        [1, 2].includes(p.schema) &&
+        [1, 2, 3].includes(p.schema) &&
+        ((p.schema === 3) === (e.record.schema === 3)) &&
         typeof p.requestJson === "string" &&
         p.requestJson.length > 0 &&
         p.requestJson.length <= 6000000,
@@ -238,6 +242,19 @@ export function createStagedWallet({
         BigInt(p.actualFee) <= BigInt(e.record.plan.maxNetworkFee),
       "Prepared actual fee exceeds approval",
     );
+    if (p.schema === 3) {
+      validateCallCommitments(p.callCommitments);
+      const approved = e.record.plan.callCommitments;
+      const fee = p.callCommitments.at(-1);
+      ok(p.callCommitments.length === approved.length + 1 &&
+        canon(p.callCommitments.slice(0,-1)) === canon(approved) &&
+        fee.callerContractId === "4294967296" && fee.contractId === "0" &&
+        fee.methodName === nativeMethod(e.record.plan,"burn") && fee.inputCount === 1,
+        "Prepared ordered commitments or fee call changed");
+      ok(p.verifierPackSha256 === e.record.plan.verifierPackSha256 &&
+        await shaPublic(stablePublic(publicManifest(p))) === p.manifestSha256,
+        "Commitment capsule resource/manifest changed");
+    } else {
     ok(
       canon(p.fullCalls) ===
         canon([
@@ -250,7 +267,8 @@ export function createStagedWallet({
         ]),
       "Prepared full stack changed",
     );
-    if(p.schema===2){
+    }
+    if(p.schema>=2){
       ok(HASH.test(p.contentHash??"")&&HASH.test(p.verifierPackSha256??"")&&HASH.test(p.verificationBundleSha256??"")&&typeof p.verificationBundleJson==="string"&&p.verificationBundleJson.length<=10000000,"Public verification capsule required");
       ok(await hash(p.verificationBundleJson)===p.verificationBundleSha256,"Public proof bundle changed");
     }
@@ -269,7 +287,15 @@ export function createStagedWallet({
         native.sdkManifestSha256 === p.sdkManifestSha256,
       "Native verification belongs to another artifact/dependency",
     );
-    if(p.schema===2)ok(native.contentHash===p.contentHash,"Native original content hash mismatch");
+    if(p.schema>=2)ok(native.contentHash===p.contentHash,"Native original content hash mismatch");
+    if (p.schema === 3) {
+      ok(native.publicProjectionBound === true &&
+        canon(native.callCommitments) === canon(p.callCommitments),
+        "Native public projection or actual call commitments differ");
+      for (const field of ["verifierPackSha256","actualFee","endUserLeafHash","sigHash","sessionHash","fingerprint"])
+        ok(native[field] === p[field], "Native commitment artifact mismatch " + field);
+      ok(native.userId === p.userId && native.nonce === p.walletNonce, "Native commitment user/nonce mismatch");
+    }
   };
   return {
     list: async (context) =>
@@ -289,6 +315,7 @@ export function createStagedWallet({
       const c = clone(context),
         record = clone(input);
       identity(c, record);
+      if (record.schema === 3) { validateCommitmentRecord(record); validateCommitmentContext(c); }
       await verifyRecord(clone(record));
       ok(
         (await hash(canon(record.plan.network))) === c.networkHash,
@@ -334,18 +361,22 @@ export function createStagedWallet({
             "walletNonce",
             "validUntilCheckpoint",
             "actualFee",
-            "fullCalls",
-            ...(p?.schema===2?["contentHash","verificationBundleJson","verificationBundleSha256","verifierPackSha256"]:[]),
+            p?.schema===3 ? "callCommitments" : "fullCalls",
+            ...(p?.schema>=2?["contentHash","verificationBundleJson","verificationBundleSha256","verifierPackSha256"]:[]),
           ];
           ok(
             p && Object.keys(p).sort().join(",") === allowed.sort().join(","),
             "Only a public prepared capsule may be retained",
           );
+          // Private artifacts are verified before the first durable write:
+          // unknown JSON fields or malformed/trailing proof bytes must not
+          // smuggle a receive/signing witness into the public journal.
+          if (record.schema === 3 || p.schema === 3) await validatePrepared(e,p);
           e.prepared = p;
           e.preparedHash = await hash(canon(p));
           e.phase = "unverified";
           await save();
-          await validatePrepared(e, p);
+          if (p.schema !== 3) await validatePrepared(e, p);
           e.phase = "prepared";
           await save();
           return summary(e);
@@ -395,7 +426,9 @@ export function createStagedWallet({
           schema: 1, context: c, intentId: e.intentId,
           recordId: e.record.recordId, preparedHash: e.preparedHash,
           requestSha256: e.prepared.requestSha256,
-          fullCalls: e.prepared.fullCalls, actualFee: e.prepared.actualFee,
+          ...(e.prepared.schema === 3
+            ? {callCommitments: e.prepared.callCommitments}
+            : {fullCalls: e.prepared.fullCalls}), actualFee: e.prepared.actualFee,
           maxNetworkFee: e.record.plan.maxNetworkFee,
           review: {request: clone(e.record.request), plan: clone(e.record.plan)},
           validUntilCheckpoint: e.prepared.validUntilCheckpoint,
@@ -452,7 +485,7 @@ export function createStagedWallet({
             r.userId === e.context.userId &&
             r.endUserLeafHash === e.prepared.endUserLeafHash &&
             HASH.test(r.contentHash ?? "") &&
-            (e.prepared.schema!==2 || r.contentHash===e.prepared.contentHash) &&
+            (e.prepared.schema<2 || r.contentHash===e.prepared.contentHash) &&
             r.networkHash === e.context.networkHash,
           "Original exact receipt identity mismatch",
         );

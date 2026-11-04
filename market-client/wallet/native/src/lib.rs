@@ -65,6 +65,13 @@ pub fn verify_market_prepared(
             &a,
             &b,
         )?;
+        // Exact typed projections exclude unknown witness/secret fields. Schema-3
+        // journals require this flag before retaining either public artifact.
+        report["publicProjectionBound"] = serde_json::json!(
+            serde_json::from_str::<serde_json::Value>(request)?
+                == serde_json::to_value(serde_json::from_str::<verification::PublicRequest>(request)?)?
+            && serde_json::from_str::<serde_json::Value>(bundle)? == serde_json::to_value(&b)?
+        );
         report["verifierPackSha256"] = serde_json::json!(format!("{:x}", Sha256::digest(BYTES)));
         Ok(report.to_string())
     };

@@ -1,6 +1,7 @@
 //! Public proof verification only. No wallet, witness, RPC, signing or broadcast.
 use anyhow::{ensure, Context, Result};
 use base64::{engine::general_purpose::STANDARD as B64, Engine};
+use bincode::Options;
 use plonky2::{
     field::{
         goldilocks_field::GoldilocksField as F,
@@ -199,7 +200,7 @@ fn verifier(text: &str) -> Result<VerifierCircuitData<F, C, 2>> {
 fn proof(text: &str) -> Result<Proof> {
     let bytes = B64.decode(text)?;
     ensure!(bytes.len() <= 2_000_000, "proof resource size");
-    Ok(bincode::deserialize(&bytes)?)
+    Ok(bincode::DefaultOptions::new().with_fixint_encoding().reject_trailing_bytes().deserialize(&bytes)?)
 }
 fn verify_hash(v: &VerifierCircuitData<F, C, 2>, p: Proof, want: Q<F>) -> Result<()> {
     ensure!(
@@ -372,7 +373,7 @@ pub fn verify_market_request(
     );
     let request: PublicRequest = serde_json::from_slice(request_bytes)?;
     let core = &request.user_ec_input.core;
-    let full: Proof = bincode::deserialize(&request.proof)?;
+    let full: Proof = bincode::DefaultOptions::new().with_fixint_encoding().reject_trailing_bytes().deserialize(&request.proof)?;
     let fixed = verifier(&pack.endcap_b64)?;
     verify_hash(&fixed, full, core.get_proof_public_inputs_hash::<H>())?;
     ensure!(
@@ -494,6 +495,7 @@ pub fn verify_market_request(
         pi(H::get_zero_hash(16), previous.qfhash::<H>()),
     )];
     let mut event_cursor = 0usize;
+    let mut call_commitments = Vec::new();
     ensure!(
         (bundle.schema == 1 && bundle.external_steps.is_empty())
             || (bundle.schema == 2 && !bundle.external_steps.is_empty()),
@@ -541,6 +543,16 @@ pub fn verify_market_request(
         let begin = context.transaction_call_start_ctx;
         let end = context.transaction_end_ctx;
         ensure!(call == begin.call_data, "approved parameters/caller");
+        // Export only commitments from the actual independently verified call.
+        // Receive randoms and other raw parameters never enter this report.
+        call_commitments.push(serde_json::json!({
+            "callerContractId":call.caller_contract_id.to_canonical_u64().to_string(),
+            "contractId":call.contract_id.to_canonical_u64().to_string(),
+            "methodId":call.method_id.to_canonical_u64().to_string(),
+            "methodName":step.method_name,
+            "inputCount":inputs.len(),
+            "inputsHash":call.inputs_hash.to_string(),
+        }));
         ensure!(
             context.proving_session_start_ctx.qfhash::<H>() == session.qfhash::<H>(),
             "call session binding"
@@ -759,6 +771,6 @@ pub fn verify_market_request(
         H::q_two_to_one(sig_hash, bundle.public_key_param),
     )?;
     Ok(
-        serde_json::json!({"fullProofVerified":true,"fullCallsBound":true,"sessionBound":true,"sigHashBound":true,"endpointsAndFeesBound":true,"requestSha256":format!("{:x}",Sha256::digest(request_bytes)),"sdkManifestSha256":SDK,"contentHash":request.user_ec_input.get_tx_hash()?.to_string(),"userId":approval.user_id,"nonce":approval.nonce.to_string(),"checkpoint":cp,"endUserLeafHash":core.state_transition.end_user_leaf_hash.to_string(),"sigHash":sig_hash.to_string(),"sessionHash":session_hash,"fingerprint":pack.sign_fingerprint.to_string(),"actualFee":fee.to_string(),"registrationStartVerified":registration_start,"registrationIndex":if registration_start {Some(psy_crypto::common::user_id::get_registration_id_from_user_id(approval.user_id).to_string())} else {None},"eventAssurance":"advisory data; count and identity envelope checked, never authoritative state","broadcast":false}),
+        serde_json::json!({"callCommitments":call_commitments,"fullProofVerified":true,"fullCallsBound":true,"sessionBound":true,"sigHashBound":true,"endpointsAndFeesBound":true,"requestSha256":format!("{:x}",Sha256::digest(request_bytes)),"sdkManifestSha256":SDK,"contentHash":request.user_ec_input.get_tx_hash()?.to_string(),"userId":approval.user_id,"nonce":approval.nonce.to_string(),"checkpoint":cp,"endUserLeafHash":core.state_transition.end_user_leaf_hash.to_string(),"sigHash":sig_hash.to_string(),"sessionHash":session_hash,"fingerprint":pack.sign_fingerprint.to_string(),"actualFee":fee.to_string(),"registrationStartVerified":registration_start,"registrationIndex":if registration_start {Some(psy_crypto::common::user_id::get_registration_id_from_user_id(approval.user_id).to_string())} else {None},"eventAssurance":"advisory data; count and identity envelope checked, never authoritative state","broadcast":false}),
     )
 }
