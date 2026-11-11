@@ -7,16 +7,25 @@ pub const GRANT:u64=15;
 pub const OWNER_RETURN:u64=16;
 pub const SPONSOR_RETURN:u64=17;
 pub const NFT_BOOTSTRAP_PROFILE:&str="source-covered-nft-account-bootstrap-exit-v1";
-pub fn nft_account_bootstrap(s:&Value)->bool{s["version"]==21}
-pub fn paired_exit(s:&Value)->bool{s["version"]==19||nft_account_bootstrap(s)}
+pub fn windowed(s:&Value)->bool{matches!(s["version"].as_u64(),Some(22|23|24))}
+pub fn single_exit(s:&Value)->bool{s["version"]==18||s["version"]==22}
+pub fn nft_account_bootstrap(s:&Value)->bool{s["version"]==21||s["version"]==24}
+pub fn paired_exit(s:&Value)->bool{s["version"]==19||s["version"]==23||nft_account_bootstrap(s)}
 pub fn paired(s:&Value)->bool{s["version"]==15||paired_exit(s)}
 pub fn paired_profile(s:&Value)->&'static str{
- if nft_account_bootstrap(s){NFT_BOOTSTRAP_PROFILE}else if s["version"]==19{"source-covered-pair-authorized-exit-v1"}else{"source-covered-pair-funded-bootstrap-v1"}
+ if s["version"]==24{"source-covered-window-nft-account-bootstrap-exit-v1"}
+ else if s["version"]==23{"source-covered-window-pair-authorized-exit-v1"}
+ else if nft_account_bootstrap(s){NFT_BOOTSTRAP_PROFILE}else if s["version"]==19{"source-covered-pair-authorized-exit-v1"}else{"source-covered-pair-funded-bootstrap-v1"}
 }
-pub fn enabled(s:&Value)->bool{s["version"]==18||paired_exit(s)}
+pub fn single_profile(s:&Value)->&'static str{
+ if s["version"]==22{"source-covered-window-authorized-exit-v1"}
+ else if s["version"]==18{"source-covered-authorized-exit-v1"}
+ else{"source-covered-deterministic-funded-bootstrap-v1"}
+}
+pub fn enabled(s:&Value)->bool{single_exit(s)||paired_exit(s)}
 pub fn validate(s:&Value)->Result<()>{
  if nft_account_bootstrap(s){
-  ensure!(cfg!(feature="sdk-audit-v1") && s["profile"]==NFT_BOOTSTRAP_PROFILE && s["market"]=="nftmarket"
+  ensure!(cfg!(feature="sdk-audit-v1") && s["profile"]==paired_profile(s) && s["market"]=="nftmarket"
    && s["collection_initialization"]=="explicit-account-version-v1"
    && s["base"]["sdk_commit"]==crate::sdk_release::SDK_COMMIT
    && s["base"]["client_commit"]==crate::sdk_release::CLIENT_COMMIT,"exact reviewed deferred NFT profile");

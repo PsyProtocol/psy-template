@@ -80,7 +80,7 @@ impl Circuit {
 }
 
 pub fn is_stream(spec:&Value)->bool{spec["version"]==14||spec["version"]==15||psy_template_u124_markets::stream_exit::enabled(spec)}
-pub fn profile(spec:&Value)->&'static str{match spec["version"].as_u64(){Some(21)=>"source-nft-account-bootstrap-v21",Some(19)=>"source-pair-authorized-exit-v19",Some(18)=>"source-authorized-exit-v18",Some(15)=>"source-funded-pair-v15",_=>"source-funded-v14"}}
+pub fn profile(spec:&Value)->&'static str{match spec["version"].as_u64(){Some(24)=>"source-window-nft-account-bootstrap-v24",Some(23)=>"source-window-pair-authorized-exit-v23",Some(22)=>"source-window-authorized-exit-v22",Some(21)=>"source-nft-account-bootstrap-v21",Some(19)=>"source-pair-authorized-exit-v19",Some(18)=>"source-authorized-exit-v18",Some(15)=>"source-funded-pair-v15",_=>"source-funded-v14"}}
 pub fn load(path: &Path, spec: &Value) -> Result<Runtime> {
     ensure!(is_stream(spec), "reviewed deterministic funded stream only");
     let binding = &spec["executor_binding"];

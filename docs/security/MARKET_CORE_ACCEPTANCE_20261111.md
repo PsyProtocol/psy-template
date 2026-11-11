@@ -19,6 +19,14 @@ This is not production acceptance. The latest wallet regression is not evidence
 of market settlement. Synthetic UPS verification, RPC observations, actual
 network receipts and ordinary final claims remain separate evidence classes.
 
+The subsequent [real-network gate](MARKET_NETWORK_ACCEPTANCE_20261111.md)
+registers two fresh ordinary QA actors, reconciles one faucet grant and three
+actual Native UPSs, and fixes a duplicated ordinary business-burn instruction.
+It does **not** complete four-market trade/claim acceptance. A fresh source and
+feasible complete lifecycle are still required; the captured 614-account lower
+bound alone exceeds the declared four-market fee budget. This section is a
+later case, not a revision of the synthetic cohort or original zero-spend record.
+
 ## Reconciled baseline and concrete gaps
 
 | Market | Accepted current-release evidence | Remaining core acceptance |

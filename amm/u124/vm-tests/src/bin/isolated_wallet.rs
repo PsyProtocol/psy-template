@@ -42,10 +42,46 @@ fn save(path: &Path, value: &impl serde::Serialize) -> Result<()> {
 fn hash(bytes: &[u8]) -> String {
     format!("{:x}", Sha256::digest(bytes))
 }
+fn parse_chain_anchor(text: &str) -> Result<QHashOut<F>> {
+    ensure!(text.len() == 64 && text.bytes().all(|c| c.is_ascii_digit() || (b'a'..=b'f').contains(&c)),
+        "canonical current-chain anchor required");
+    let root: QHashOut<F> = text.parse()?;
+    ensure!(root != QHashOut::ZERO && root.to_string() == text, "canonical nonzero current-chain anchor required");
+    Ok(root)
+}
+fn expected_chain() -> Result<QHashOut<F>> {
+    parse_chain_anchor(&env::var("PSY_EXPECTED_CHAIN_ROOT")
+        .context("explicit current-chain anchor required for isolated execution")?)
+}
+fn match_chain_anchor(expected: QHashOut<F>, observed: QHashOut<F>) -> Result<()> {
+    ensure!(expected != QHashOut::ZERO && observed == expected, "isolated chain instance changed");
+    Ok(())
+}
+async fn check_chain(session: &WalletSession) -> Result<QHashOut<F>> {
+    let expected = expected_chain()?;
+    let anchor = public_read(|| session.st_provider.get_checkpoint_leaf_data(1)).await?;
+    match_chain_anchor(expected, anchor.global_chain_root)?;
+    Ok(expected)
+}
+fn check_ordinary_calls(data: &ContractCallData) -> Result<()> {
+    ensure!(data.software_defined_call.inputs.is_empty()
+        && !data.contract_calls.is_empty() && data.contract_calls.len() <= 16,
+        "ordinary test wallet exact call bounds");
+    ensure!(data.contract_calls.iter().all(|c|c.contract_id<16777216
+        && c.inputs.iter().all(|n|*n<18446744069414584321)), "canonical ordinary call fields");
+    // WalletSession::sign finalizes with prove_burn_fee itself. The acceptance
+    // wallet does not authorize a second, independent Native asset burn.
+    // Low-level SD-key sessions have their own explicit completion protocol.
+    ensure!(!data.contract_calls.iter().any(|c|c.contract_id==0 && c.method_name=="burn"),
+        "explicit Native burn is not a fee: ordinary SDK signing pays fees automatically");
+    Ok(())
+}
 // Return only reviewed static codes. Never print an arbitrary SDK error chain:
 // witness/key values can appear in lower-level diagnostics.
 fn error_code(reason: &str) -> &'static str {
-    if reason == "Failed to parse JSON response: EOF while parsing a value at line 1 column 0" {"RPC_EMPTY_JSON"}
+    if reason == "isolated chain instance changed" {"CHAIN_INSTANCE_CHANGED"}
+    else if reason.starts_with("explicit current-chain anchor required") || reason.starts_with("canonical current-chain anchor required") || reason.starts_with("canonical nonzero current-chain anchor required") {"CHAIN_ANCHOR_REQUIRED"}
+    else if reason == "Failed to parse JSON response: EOF while parsing a value at line 1 column 0" {"RPC_EMPTY_JSON"}
     else if reason.starts_with("error sending request for url (") && reason.ends_with(": operation timed out") {"RPC_SEND_TIMEOUT_UNKNOWN"}
     else if reason.contains("Connection error to https://") && reason.contains("error sending request") {"RPC_CONNECTION"}
     else if reason.contains("ahead of coordinator checkpoint") {"REALM_AHEAD_COORDINATOR"}
@@ -172,6 +208,7 @@ async fn run(phase: &mut &'static str) -> Result<()> {
         a.len() >= 5,
         "create|register|preflight|call|deploy CONFIG SECRET INPUT_OR_PUBLIC [FRESH_OUT]"
     );
+    if a[1] != "create" { expected_chain()?; }
     // Freeze identity bytes before loading the config and constructing public
     // circuits; changes during cold construction must fail before readiness.
     let pinned=if a[1]=="serve-ordinary" {Some(PinnedOrdinary::load(&a)?)} else {None};
@@ -226,6 +263,9 @@ async fn operation(a: &[String], net: &psy_config::NetworkConfigGoldilocks, sess
         println!("{}", public);
         return Ok(());
     }
+    // The network magic survives a chain reset. Independently pin the reviewed
+    // checkpoint-one anchor; matching Native code alone cannot identify it.
+    let chain_root = check_chain(session).await?;
     let secret: Value = serde_json::from_slice(&fs::read(&a[3])?)?;
     ensure!(
         secret["schema"] == "isolated-market-wallet-v1"
@@ -266,12 +306,13 @@ async fn operation(a: &[String], net: &psy_config::NetworkConfigGoldilocks, sess
         );
         let request = QRegisterUserRPCRequest { public_key: pk };
         save(&out.join("request.json"), &request)?;
+        check_chain(session).await?;
         save(
             &out.join("intent.json"),
-            &json!({"action":"register","publicKey":pk,"networkMagic":PSY_NETWORK_MAGIC.to_string()}),
+            &json!({"action":"register","publicKey":pk,"networkMagic":PSY_NETWORK_MAGIC.to_string(),"chainRootAt1":chain_root.to_string()}),
         )?;
         metrics.enter(phase, "register-testnet-user");
-        let receipt = session.st_provider.register_user(request).await?;
+        let receipt = psy_template_u124_markets::live_rpc::register(net, request, out).await?;
         save(
             &out.join("receipt.json"),
             &json!({"publicKeyHash":public.to_string(),"receipt":receipt,"submitted":true,"included":false}),
@@ -327,9 +368,10 @@ async fn operation(a: &[String], net: &psy_config::NetworkConfigGoldilocks, sess
             }
         };
         save(&out.join("before.json"), &before)?;
+        check_chain(session).await?;
         save(
             &out.join("intent.json"),
-            &json!({"action":"initial-deploy-only","deployer":public.to_string(),"artifactSha256":hash(&fs::read(&a[4])?)}),
+            &json!({"action":"initial-deploy-only","deployer":public.to_string(),"artifactSha256":hash(&fs::read(&a[4])?),"chainRootAt1":chain_root.to_string()}),
         )?;
         metrics.enter(phase, "broadcast-new-contract");
         let receipt = session.st_provider.deploy_contract::<F>(request).await?;
@@ -350,13 +392,7 @@ async fn operation(a: &[String], net: &psy_config::NetworkConfigGoldilocks, sess
         .context("explicit ordinary broadcast checkpoint bound required")?;
     ensure!(valid_until < (1u64 << 32), "ordinary checkpoint bound");
     let data: ContractCallData = serde_json::from_value(input["calls"].clone())?;
-    ensure!(
-        data.software_defined_call.inputs.is_empty()
-            && !data.contract_calls.is_empty()
-            && data.contract_calls.len() <= 16,
-        "ordinary test wallet exact call bounds"
-    );
-    ensure!(data.contract_calls.iter().all(|c|c.contract_id<16777216&&c.inputs.iter().all(|n|*n<18446744069414584321)),"canonical ordinary call fields");
+    check_ordinary_calls(&data)?;
     let bindings: Vec<LiveBinding> = serde_json::from_value(input["contracts"].clone())?;
     let mut needed = std::collections::BTreeSet::from([0]);
     needed.extend(data.contract_calls.iter().map(|c| c.contract_id));
@@ -435,9 +471,10 @@ async fn operation(a: &[String], net: &psy_config::NetworkConfigGoldilocks, sess
     }).await?;
     ensure!(hash(&fs::read(&a[4])?) == hash(&bytes), "ordinary input changed while proving");
     if let Some(pin) = pinned { pin.check_files()?; }
+    check_chain(session).await?;
     save(
         &out.join("preflight.json"),
-        &json!({"inputSha256":hash(&bytes),"fullUpsVerified":true,"proofProfile":proof_profile,"userId":user,"nonce":nonce,"endUserLeafHash":end.to_string(),"core":endcap.core,"broadcast":false}),
+        &json!({"inputSha256":hash(&bytes),"chainRootAt1":chain_root.to_string(),"fullUpsVerified":true,"proofProfile":proof_profile,"userId":user,"nonce":nonce,"endUserLeafHash":end.to_string(),"core":endcap.core,"broadcast":false}),
     )?;
     let request = QSubmitEndCapRPCRequest {
         user_ec_input: endcap,
@@ -488,6 +525,34 @@ async fn main() -> std::process::ExitCode {
 
 #[cfg(test)]
 mod tests {
+    #[test]
+    fn ordinary_sdk_fee_is_not_a_second_explicit_native_burn() -> anyhow::Result<()> {
+        use super::*;
+        let calls = |contract, name: &str, inputs: Vec<u64>| serde_json::from_value::<ContractCallData>(
+            json!({"contract_calls":[{"contract_id":contract,"method_name":name,"inputs":inputs}],
+                "software_defined_call":{"inputs":[]}}));
+        check_ordinary_calls(&calls(0,"claim",vec![589824])?)?;
+        assert!(check_ordinary_calls(&calls(0,"burn",vec![1000002000])?).is_err());
+        // A reviewed FT burn is a distinct business operation; it is not the
+        // forbidden duplicate Native fee instruction.
+        check_ordinary_calls(&calls(42,"burn",vec![1,0])?)?;
+        assert!(check_ordinary_calls(&calls(0,"claim",vec![18446744069414584321])?).is_err());
+        assert!(check_ordinary_calls(&calls(16777216,"claim",vec![])?) .is_err());
+        Ok(())
+    }
+    #[test]
+    fn chain_reset_and_noncanonical_anchor_fail_closed() -> anyhow::Result<()> {
+        let text = "81bac9934a1c18579519b5297c94c7e7d25cb53973ac67befefe8b7a86f96b5c";
+        let root = super::parse_chain_anchor(text)?;
+        super::match_chain_anchor(root, root)?;
+        let other = super::parse_chain_anchor("919896e18690246e20307f68cf2e5725aee496755366bbafff88eccaea975f12")?;
+        assert!(super::match_chain_anchor(root, other).is_err());
+        for invalid in ["", "0", &"0".repeat(64), &text.to_uppercase(), &format!(" {text}"),
+            &format!("{text}\n"), &"f".repeat(64)] {
+            assert!(super::parse_chain_anchor(invalid).is_err());
+        }
+        Ok(())
+    }
     use super::*;
     #[test]
     fn resident_identity_files_and_every_dependency_endpoint_are_bound() -> Result<()> {

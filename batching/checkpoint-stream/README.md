@@ -3,6 +3,22 @@
 Several profiles intentionally coexist. Their commitments and keys are not
 interchangeable.
 
+Current network status and preserved failures are in the
+[11 November gate review](../../docs/security/MARKET_NETWORK_ACCEPTANCE_20261111.md).
+`window-build.mjs CURRENT_FIXTURES NFT_V21_FIXTURES PINNED_COMPILER SHA256 FRESH_OUTPUT`
+only builds new deterministic v22/v23/v24 candidates with an exact 4096-checkpoint
+window. It does not expand per-UPS capacity or reduce source-coverage fees.
+Full UPSs are unverified, and the formal Executor rejects these candidate profile
+names. Longer expiry can delay unaccepted-source recovery. Do not register,
+fund, deploy or relabel an old key from this compilation result.
+
+The read-only collector supports opt-in `--pooled-tls-ca FIXED_CA_FILE` and
+`--compact-transcript`. Raw captures/proof rows and prefix digests remain immutable;
+only explicitly derivative verifier scratch is discarded. Terminal snapshots
+allow exact native replay and same-root resume. A complete inventory still does
+not establish source eligibility, finality, viable fees or financial authority.
+Curl remains the default transport, and incomplete captures remain incomplete.
+
 | Profile | Entry points | Financial authority |
 | --- | --- | --- |
 | v1 component preparation | `executor/checkpointStream.mjs`, `executor/finalStateStream.mjs`, original `checkpoint_stream.rs` | Disabled; standalone source/ordering evidence is not a spending authorization |

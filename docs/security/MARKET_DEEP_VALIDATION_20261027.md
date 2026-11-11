@@ -1,5 +1,19 @@
 # Market correctness and reset-chain validation — 27 October 2026
 
+Latest real-network gate (11 November): [ordinary QA funding, preserved fee
+failure and corrected live claim; four-market acceptance still blocked](MARKET_NETWORK_ACCEPTANCE_20261111.md).
+Two new ordinary identities, one official faucet grant and three actual UPSs
+are reconciled. An explicit Native burn incorrectly added to an ordinary claim
+is retained as a failed fee expectation; the client refusal and a corrected
+transfer/claim pass. Total owned-cohort expense is 4.000008 test PSY, including
+that 1.000002 burn. No market fills, market-output claims, vaults or new market
+deployments are claimed. The incomplete 614-account source already requires at
+least 616 coverage UPSs across four markets, beyond the 240 PSY ceiling. Compact
+capture preserves raw evidence and exactly replays its frozen native report.
+New fixed-window candidates remain outside formal live routing; full UPSs and
+instance/network acceptance are open. SDK, Node, wallet and old contracts stay
+unchanged. This Native funding result is not browser/UI or production acceptance.
+
 Latest market-core continuation (11 November): [four-market gaps and reachable
 Book ordinary/SD-key state chain](MARKET_CORE_ACCEPTANCE_20261111.md).
 Twenty-four linked complete UPSs pass: thirteen ordinary and eleven v19 vault

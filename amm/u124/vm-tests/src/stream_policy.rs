@@ -220,6 +220,17 @@ fn role<'a>(spec: &'a Value, name: &str) -> &'a Value {
     &spec["stream"][name]
 }
 pub fn validate(spec: &Value, r: &Review) -> Result<()> {
+    if crate::stream_exit::windowed(spec) {
+        ensure!(cfg!(feature="sdk-audit-v1")
+            && spec["base"]["sdk_commit"]==crate::sdk_release::SDK_COMMIT
+            && spec["base"]["client_commit"]==crate::sdk_release::CLIENT_COMMIT
+            && match spec["version"].as_u64() {
+                Some(22)=>r.kind==1||r.kind==2,
+                Some(23)=>r.kind==3,
+                Some(24)=>r.kind==4,
+                _=>false,
+            }, "fixed-window market and frozen SDK identity");
+    }
     ensure!(
         (if r.kind >= 3 {
             spec["version"] == 7 || spec["version"] == 8 || spec["version"] == 9 || spec["version"] == 15 || crate::stream_exit::paired_exit(spec)
@@ -229,7 +240,7 @@ pub fn validate(spec: &Value, r: &Review) -> Result<()> {
                 || spec["version"] == 11
                 || spec["version"] == 12
                 || spec["version"] == 13
-                || spec["version"] == 14 || spec["version"] == 18
+                || spec["version"] == 14 || crate::stream_exit::single_exit(spec)
         }) && spec["tx_count"] == 40
             && spec["witness_length"] == 80
             && spec["live_authorization"] == false,
@@ -301,10 +312,10 @@ pub fn validate(spec: &Value, r: &Review) -> Result<()> {
             );
         }
     }
-    if spec["version"] == 14 || spec["version"] == 18 || spec["version"] == 15 || crate::stream_exit::paired_exit(spec) {
+    if spec["version"] == 14 || crate::stream_exit::single_exit(spec) || spec["version"] == 15 || crate::stream_exit::paired_exit(spec) {
         let paired=spec["version"]==15||crate::stream_exit::paired_exit(spec);
-        ensure!((if paired{r.kind>=3 && (!crate::stream_exit::nft_account_bootstrap(spec)||r.kind==4) && spec["profile"]==(crate::stream_exit::paired_profile(spec))}else{r.kind<=2 && spec["profile"]==(if spec["version"]==18{"source-covered-authorized-exit-v1"}else{"source-covered-deterministic-funded-bootstrap-v1"})})
-            && spec["source_window_checkpoints"] == 32 && spec["qualified_randomness"] == false,
+        ensure!((if paired{r.kind>=3 && (!crate::stream_exit::nft_account_bootstrap(spec)||r.kind==4) && spec["profile"]==(crate::stream_exit::paired_profile(spec))}else{r.kind<=2 && spec["profile"]==crate::stream_exit::single_profile(spec)})
+            && spec["source_window_checkpoints"] == (if crate::stream_exit::windowed(spec) {4096} else {32}) && spec["qualified_randomness"] == false,
             "distinct deterministic funded profile");
         let owner = spec["fee_owner"].as_u64().context("ordinary fee owner")?;
         ensure!(owner > 0 && owner < 1 << 24 && spec["base"]["config"]["feeOwner"] == owner,
@@ -430,8 +441,8 @@ impl StreamKey {
         validate(spec, r)?;
         let exit_mode=crate::stream_exit::enabled(spec);
         let minimum_mode = spec["version"] == 11 || spec["version"] == 12 || spec["version"] == 13;
-        let funded_mode = minimum_mode || spec["version"] == 14 || spec["version"] == 18 || spec["version"] == 15 || crate::stream_exit::paired_exit(spec);
-        let bootstrap_mode = spec["version"] == 12 || spec["version"] == 13 || spec["version"] == 14 || spec["version"] == 18 || spec["version"] == 15 || crate::stream_exit::paired_exit(spec);
+        let funded_mode = minimum_mode || spec["version"] == 14 || crate::stream_exit::single_exit(spec) || spec["version"] == 15 || crate::stream_exit::paired_exit(spec);
+        let bootstrap_mode = spec["version"] == 12 || spec["version"] == 13 || spec["version"] == 14 || crate::stream_exit::single_exit(spec) || spec["version"] == 15 || crate::stream_exit::paired_exit(spec);
         let random_mode = spec["version"] == 10 || minimum_mode;
         let paired = r.kind >= 3;
         let optimized = spec["version"] == 9 || spec["version"] == 15 || crate::stream_exit::paired_exit(spec);
@@ -483,7 +494,7 @@ impl StreamKey {
         } else {
             None
         };
-        let deterministic_grant = if spec["version"] == 14 || spec["version"] == 18 || spec["version"] == 15 || crate::stream_exit::paired_exit(spec) {
+        let deterministic_grant = if spec["version"] == 14 || crate::stream_exit::single_exit(spec) || spec["version"] == 15 || crate::stream_exit::paired_exit(spec) {
             let grant=chosen(&mut b,fields[0],crate::random_minimum::GRANT_MODE);
             valid=b.or(valid,grant); Some(grant)
         } else {None};
@@ -678,7 +689,7 @@ impl StreamKey {
         }
         let expiry = b.add_const(
             sc[6],
-            f(if random_mode {
+            f(if random_mode || crate::stream_exit::windowed(spec) {
                 spec["source_window_checkpoints"].as_u64().unwrap()
             } else {
                 32
@@ -1859,7 +1870,7 @@ pub fn calls(spec: &Value, req: &Request, compact: bool) -> Result<Vec<Value>> {
     let sc = &req.source.scope;
     let facts = &req.source.facts;
     let minimum_mode = spec["version"] == 11 || spec["version"] == 12 || spec["version"] == 13;
-    let funded_mode = minimum_mode || spec["version"] == 14 || spec["version"] == 18 || spec["version"] == 15 || crate::stream_exit::paired_exit(spec);
+    let funded_mode = minimum_mode || spec["version"] == 14 || crate::stream_exit::single_exit(spec) || spec["version"] == 15 || crate::stream_exit::paired_exit(spec);
     let random_mode = spec["version"] == 10;
     let draw_delay = if spec["version"] == 13 {
         crate::stream_seal::DRAW_DELAY
@@ -1944,7 +1955,7 @@ pub fn calls(spec: &Value, req: &Request, compact: bool) -> Result<Vec<Value>> {
                 .concat(),
             );
         }
-        14 if spec["version"] == 12 || spec["version"] == 13 || spec["version"] == 14 || spec["version"] == 18 || spec["version"] == 15 || crate::stream_exit::paired_exit(spec) => {
+        14 if spec["version"] == 12 || spec["version"] == 13 || spec["version"] == 14 || crate::stream_exit::single_exit(spec) || spec["version"] == 15 || crate::stream_exit::paired_exit(spec) => {
             let key = req.registered_key.context("registered key")?;
             ensure!(
                 f[23] == 1

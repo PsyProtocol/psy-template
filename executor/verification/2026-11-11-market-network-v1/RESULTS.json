@@ -1,0 +1,487 @@
+{
+  "schema": 1,
+  "generatedAt": "2026-11-11T15:52:15.190273+00:00",
+  "applicationBase": "e4703e79",
+  "branch": "markets-batch-capacity-recovery-20261020",
+  "sdkCommit": "01b8f2b0a077367a7b9879baba1a72aea8ab5510",
+  "clientCommit": "7058070057c3242b5d8b29e1a31d498aaa4202c0",
+  "walletChanged": false,
+  "nodeChanged": false,
+  "dependencyChanged": false,
+  "verdict": "FOUR_MARKET_NETWORK_ACCEPTANCE_NOT_COMPLETED",
+  "currentChainAnchor": "81bac9934a1c18579519b5297c94c7e7d25cb53973ac67befefe8b7a86f96b5c",
+  "qaFundingAndFeeFix": {
+    "schema": 1,
+    "at": "2026-11-11T15:43:10.086Z",
+    "scope": "Current-chain Native ordinary QA transfer and first claim, after duplicate-business-burn refusal. Not market trade or browser acceptance.",
+    "issuer": 971904,
+    "owner": 668800,
+    "chainRootAt1": "81bac9934a1c18579519b5297c94c7e7d25cb53973ac67befefe8b7a86f96b5c",
+    "claimContentHash": "18548f9d01125f3d302f51e0d0bed08ab5ac5fb12bdfe0ac5072035331f59255",
+    "claimEndUserLeafHash": "e921fd45d7df245459f03d423e8aed484638d8e7e07edecf450c139c1e885e4d",
+    "claimCheckpoint": 102692,
+    "claimNonce": 1,
+    "claimTotalTransactions": 2,
+    "claimFeeBaseUnits": 1000002000,
+    "feeOnlyClaimAcceptance": true,
+    "grantBaseUnits": "1000000000000",
+    "internalQaTransferBaseUnits": 50000000000,
+    "issuerBalanceBaseUnits": 946999994000,
+    "ownerBalanceBaseUnits": 48999998000,
+    "knownPendingBaseUnits": 0,
+    "totalOwnNetworkFeesBaseUnits": 3000006000,
+    "originalUnexpectedNativeBurnBaseUnits": 1000002000,
+    "totalOwnExpenseBaseUnits": 4000008000,
+    "cohortConservation": true,
+    "observedCheckpoint": 102700,
+    "requestSha256": "5f526dce519f569287f69a612d83d0ae7667495d6d0ff9d62e54605f77c10073",
+    "preflightSha256": "5098c422bb905e92115f6d36f38fbce32c0e97b6df254cf92d801b1e15af570e",
+    "intentSha256": "d781a7c4cbc94f04a6106b5cb6ac9963b34f0a83525fcd7942b7abbb5dfa9b22",
+    "marketFills": 0,
+    "marketFinalClaims": 0,
+    "marketEscrowBaseUnits": 0,
+    "browserAcceptance": false
+  },
+  "independentProofVerification": {
+    "verifierSha256": "17b296cc113c8d31175bd42a10d1f5ae953dfcfbd01a40d31e984a1cf122ee20",
+    "results": [
+      {
+        "stage": "owner-fund-v1",
+        "requestSha256": "9749a24da2f3402f63be93e6c90076c100f8c96c215a305264cc251afda5d11e",
+        "reportSha256": "1c30d031d301e58133f491a0005e9a2c127ea7b108b6e21ba43cb92ee2d73c97",
+        "verified": true
+      },
+      {
+        "stage": "owner-claim-v1",
+        "requestSha256": "5f526dce519f569287f69a612d83d0ae7667495d6d0ff9d62e54605f77c10073",
+        "reportSha256": "ea8095b618251cec549839e05d4138a6cc384a780cd3060cf8c789b5ad785860",
+        "verified": true
+      }
+    ],
+    "newProofs": 0,
+    "newBroadcasts": 0,
+    "approvedStackIndependentlyProved": false
+  },
+  "markets": {
+    "amm": {
+      "newLiveContracts": 0,
+      "newLiveVaults": 0,
+      "realFills": 0,
+      "marketOutputClaims": 0,
+      "accepted": false
+    },
+    "bondingcurve": {
+      "newLiveContracts": 0,
+      "newLiveVaults": 0,
+      "realFills": 0,
+      "marketOutputClaims": 0,
+      "accepted": false
+    },
+    "orderbook": {
+      "newLiveContracts": 0,
+      "newLiveVaults": 0,
+      "realFills": 0,
+      "marketOutputClaims": 0,
+      "accepted": false
+    },
+    "nftmarket": {
+      "newLiveContracts": 0,
+      "newLiveVaults": 0,
+      "realFills": 0,
+      "marketOutputClaims": 0,
+      "accepted": false
+    }
+  },
+  "sourceFeasibility": {
+    "checkpoint": 102165,
+    "userTreeRoot": "d8df71dd8ec22b5f855f4b01105d83304416d0d6559eb350fb83ec4b9fade979",
+    "verifiedPaths": 862,
+    "accountLowerBound": 614,
+    "complete": false,
+    "minimumCoverageUpsPerMarket": 154,
+    "minimumCoverageUpsFourMarkets": 616,
+    "minimumCoverageFeesFourMarketsBaseUnits": "616000000000",
+    "declaredFeeCeilingBaseUnits": "240000000000",
+    "fit": false,
+    "existingLifecycleStageLimit": 128,
+    "aFreshPostFundingSourceIsRequired": true,
+    "financialAuthorization": false
+  },
+  "compactCapture": {
+    "compactPrefixInputHashesReconstructed": 354,
+    "finalNativeReportExactlyReplayed": true,
+    "occupiedAccountsLowerBound": 614,
+    "verifiedPaths": 862,
+    "complete": false,
+    "capturedBytes": 4326388,
+    "originalPreCompactBytes": 267286627,
+    "financialOperations": 0,
+    "scope": "Different continuation segments on the same immutable source; storage comparison, not matched network performance or TPS"
+  },
+  "candidateWindow": {
+    "versions": {
+      "amm": 22,
+      "bondingcurve": 22,
+      "orderbook": 23,
+      "nftmarket": 24
+    },
+    "windowCheckpoints": 4096,
+    "compiledFourArtifacts": true,
+    "sourceAndPolicyReplayVerified": true,
+    "fullUpsVerified": false,
+    "formalExecutorSelectionRejected": true,
+    "liveDeployments": 0,
+    "perUpsCoverageAccounts": 4,
+    "reducesCoverageFeeCount": false,
+    "warning": "Longer expiry can lengthen unaccepted-source recovery. It is not a fee/capacity or production fix."
+  },
+  "performance": {
+    "schema": 1,
+    "samples": [
+      {
+        "stage": "claim-v1",
+        "processSeconds": 184.103067249991,
+        "sampledFamilyRssKiB": 1611040,
+        "startupMilliseconds": 81693.28874999999,
+        "phases": [
+          {
+            "milliseconds": 2982.327166,
+            "phase": "load-job"
+          },
+          {
+            "milliseconds": 12.412833,
+            "phase": "load-own-isolated-identity"
+          },
+          {
+            "milliseconds": 549.301542,
+            "phase": "verify-ordinary-input-and-dependencies"
+          },
+          {
+            "milliseconds": 18902.153040999998,
+            "phase": "start-ordinary-session"
+          },
+          {
+            "milliseconds": 37222.300583,
+            "phase": "prove-ordinary-calls"
+          },
+          {
+            "milliseconds": 24273.67975,
+            "phase": "prove-ordinary-signature-endcap"
+          },
+          {
+            "milliseconds": 3672.385625,
+            "phase": "verify-ordinary-full-proof"
+          },
+          {
+            "milliseconds": 3837.530292,
+            "phase": "verify-current-ordinary-state"
+          },
+          {
+            "milliseconds": 5192.879,
+            "phase": "broadcast-ordinary-ups"
+          }
+        ],
+        "sourceCheckpoint": 102385,
+        "nonce": 1,
+        "sdkTransactionCount": 3,
+        "expectedFeeOnlyAcceptance": false,
+        "coldNewProcess": true
+      },
+      {
+        "stage": "owner-fund-v1",
+        "processSeconds": 153.70674741605762,
+        "sampledFamilyRssKiB": 1827216,
+        "startupMilliseconds": 65263.919458000004,
+        "phases": [
+          {
+            "milliseconds": 4151.145917,
+            "phase": "load-job"
+          },
+          {
+            "milliseconds": 6.121708,
+            "phase": "load-own-isolated-identity"
+          },
+          {
+            "milliseconds": 534.859333,
+            "phase": "verify-ordinary-input-and-dependencies"
+          },
+          {
+            "milliseconds": 22015.492833,
+            "phase": "start-ordinary-session"
+          },
+          {
+            "milliseconds": 21841.086499999998,
+            "phase": "prove-ordinary-calls"
+          },
+          {
+            "milliseconds": 23752.358834,
+            "phase": "prove-ordinary-signature-endcap"
+          },
+          {
+            "milliseconds": 3876.50775,
+            "phase": "verify-ordinary-full-proof"
+          },
+          {
+            "milliseconds": 3773.514791,
+            "phase": "verify-current-ordinary-state"
+          },
+          {
+            "milliseconds": 4127.305584,
+            "phase": "broadcast-ordinary-ups"
+          }
+        ],
+        "sourceCheckpoint": 102597,
+        "nonce": 2,
+        "sdkTransactionCount": 2,
+        "expectedFeeOnlyAcceptance": true,
+        "coldNewProcess": true
+      },
+      {
+        "stage": "owner-claim-v1",
+        "processSeconds": 149.14119154191576,
+        "sampledFamilyRssKiB": 1937680,
+        "startupMilliseconds": 58571.492042000005,
+        "phases": [
+          {
+            "milliseconds": 3698.892792,
+            "phase": "load-job"
+          },
+          {
+            "milliseconds": 6.77475,
+            "phase": "load-own-isolated-identity"
+          },
+          {
+            "milliseconds": 555.485292,
+            "phase": "verify-ordinary-input-and-dependencies"
+          },
+          {
+            "milliseconds": 22280.081333,
+            "phase": "start-ordinary-session"
+          },
+          {
+            "milliseconds": 24371.434167,
+            "phase": "prove-ordinary-calls"
+          },
+          {
+            "milliseconds": 18430.860084,
+            "phase": "prove-ordinary-signature-endcap"
+          },
+          {
+            "milliseconds": 6956.677959000001,
+            "phase": "verify-ordinary-full-proof"
+          },
+          {
+            "milliseconds": 3859.87675,
+            "phase": "verify-current-ordinary-state"
+          },
+          {
+            "milliseconds": 5433.387875,
+            "phase": "broadcast-ordinary-ups"
+          }
+        ],
+        "sourceCheckpoint": 102682,
+        "nonce": 1,
+        "sdkTransactionCount": 2,
+        "expectedFeeOnlyAcceptance": true,
+        "coldNewProcess": true
+      }
+    ],
+    "warmSamples": 0,
+    "matchedBeforeAfter": false,
+    "physicalPeakMeasured": false,
+    "scope": "Actual Native ordinary QA operations, not market fills, UI acceptance or TPS. Different binaries/actors/input amounts; do not claim speedup. Phases include bundled SDK RPC, recursion and end-cap work; do not add overlapping measurements.",
+    "machine": {
+      "os": "macOS 15.7.3",
+      "cpu": "Apple M1 Max",
+      "physicalMemoryBytes": 34359738368,
+      "logicalCpuCount": 10,
+      "rayonThreads": 2,
+      "cargoJobs": 2
+    }
+  },
+  "actualMutationAttempts": {
+    "ordinaryRegistrations": 2,
+    "faucet": 1,
+    "ordinaryUps": 3,
+    "contractDeployments": 0,
+    "vaultRegistrations": 0
+  },
+  "originals": {
+    "directory": "/Users/geir/Downloads/QED\u8d44\u6599/litepaper/psy-market-recovery-20261023/markets-network-acceptance-20261111-v1",
+    "publicFiles": {
+      "PLAN-v1.json": {
+        "sha256": "b96f4b97fd701cac07c4af1ff74926a2a841632a03428d9dcb7cdd22081359cb",
+        "bytes": 1296
+      },
+      "FEE-FIX-SUBPHASE-v1.json": {
+        "sha256": "21c9798b6e5b02dba5b219641581558e783b1d85b000dc48db82af594855fa32",
+        "bytes": 867
+      },
+      "ACCOUNTING-CORRECTION-v1.json": {
+        "sha256": "2885ce34788de05726c683bbbc4699a91e0994ed2d1d9cfc75a72bd2c0e34407",
+        "bytes": 545
+      },
+      "FRESH-PREFLIGHT-v1.json": {
+        "sha256": "9e5ec6697cd9fe12dc56ded14694a17c68a2f22bf65491f8a26c0b2bfb859965",
+        "bytes": 2031
+      },
+      "ISSUER-REGISTERED-v1.json": {
+        "sha256": "a188a6356666a3002a18dd580def5472ef42c44023b5d8c1b9d778f300c976e1",
+        "bytes": 692
+      },
+      "FEE-OWNER-REGISTERED-v1.json": {
+        "sha256": "f5691e3c35fb7755a3278913c5242d5dbb9042fa97106ea7ca88e040cfaac23e",
+        "bytes": 692
+      },
+      "FAUCET-v1.json": {
+        "sha256": "3f492d534e0978f16cadd447ddb8796d0dde7afafffde998f4177b867ef02e17",
+        "bytes": 734
+      },
+      "FUNDING-RECONCILED-v2.json": {
+        "sha256": "4b6f491a82827212e8e9a2bb6b63470c015c68be2bea2193876f8baf743fd626",
+        "bytes": 1286
+      },
+      "ORDINARY-FEE-FIX-LIVE-v1.json": {
+        "sha256": "34de5706576a04969d4005b10c940e4ac99d7654e5d7a45b6f079e97c9171dee",
+        "bytes": 1310
+      },
+      "CORRECTED-INDEPENDENT-v1.json": {
+        "sha256": "178bbdfaf95650f8d807df466e5ab010df2d50526580078db7891c636f22fd29",
+        "bytes": 694
+      },
+      "COMPACT-REPLAY-v1.json": {
+        "sha256": "07394ff3d57cc338a83e90f4ff80db771d499d4aa8c418861c5b9ad139715b47",
+        "bytes": 408
+      },
+      "PERFORMANCE-v1.json": {
+        "sha256": "d9ef72c275cadeadb5ae26c6b929c978000660b2d0173f56c7f730d09b1b9b74",
+        "bytes": 4324
+      },
+      "BINARIES-v4.json": {
+        "sha256": "1aab264f45209f6eb5e19347ba69bd0cfd5817467ae4b5cff83227f10705bd10",
+        "bytes": 448
+      },
+      "unit-v2.json": {
+        "sha256": "6bcc88c525c545fae86449efb3859e135e136257dc5cceb97fef41808e3a3689",
+        "bytes": 376
+      },
+      "build-v4.json": {
+        "sha256": "eb907469079ec377c0170becfe19f320b2f5f28b6667c235ee84b304e3f982a4",
+        "bytes": 523
+      },
+      "window-artifact-replay-v1.json": {
+        "sha256": "0d5aeaefdabddc4cf918374da30c35ce652aace23cf40bfa1b4fef3db9d7a977",
+        "bytes": 958
+      }
+    },
+    "rawProofsAndRequestsUploaded": false,
+    "secretsUploaded": false
+  },
+  "remaining": [
+    "Complete fresh source and bounded full lifecycle fee/deadline/continuation plan",
+    "Instance-specific QA asset/market/key bytecode, initial-layout and full UPS gates",
+    "All four real fills, ordinary market claims, refunds and recovery",
+    "NFT approved collection/token/metadata/listing nonce and price binding",
+    "Formal Executor, real browser approval and UI acceptance",
+    "Independent runtime/upgrade/finality and qualified-randomness dependencies"
+  ],
+  "sourceAndExactProofs": {
+    "currentNativeSourceFilesMatchRetainedSnapshot": 176,
+    "applicationManifestSha256": "c8a91cfc8adb25e7a0a9a110765a14b590624fbb3ee09164fdfda9ada14f32c0",
+    "requests": [
+      {
+        "stage": "claim-v1",
+        "requestSha256": "5f6f29d159c8aed2d41a63fd7f99f20237154fcf0137a164db6e2d56d997ce5f",
+        "proofSha256": "2ec1f02a669e30117225c4de848ce26866aac121577998d03129e7585d2f7785",
+        "proofBytes": 130328,
+        "sourceCheckpoint": 102385,
+        "userId": 971904,
+        "nonce": 1,
+        "startUserLeafHash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "endUserLeafHash": "71d18c5cf581cc2637860f917feeeb395c6b4de2f644fefbbccdeaffe751aac0",
+        "wireRequestSha256": "505531586b4b0473c6107d409222502c68ea389640165313c7a0f1f342238eca"
+      },
+      {
+        "stage": "owner-fund-v1",
+        "requestSha256": "9749a24da2f3402f63be93e6c90076c100f8c96c215a305264cc251afda5d11e",
+        "proofSha256": "48b191ec8a208170cf9e9a706f1c856e85f31f24be41bcb13633e6d3888c4dfb",
+        "proofBytes": 130328,
+        "sourceCheckpoint": 102597,
+        "userId": 971904,
+        "nonce": 2,
+        "startUserLeafHash": "71d18c5cf581cc2637860f917feeeb395c6b4de2f644fefbbccdeaffe751aac0",
+        "endUserLeafHash": "967aca5043b2fa8ed16a68040708e92fd18a8eb043798475217b4421574f4018",
+        "wireRequestSha256": "b8c3a47dd84c181e7e4322d72df605f9059e73df812944deb59bf2a31febf8cc"
+      },
+      {
+        "stage": "owner-claim-v1",
+        "requestSha256": "5f526dce519f569287f69a612d83d0ae7667495d6d0ff9d62e54605f77c10073",
+        "proofSha256": "d29e12ff6610a3827e56c4251e047c55bfdf90fa2a0701422a99865018761c0a",
+        "proofBytes": 130328,
+        "sourceCheckpoint": 102682,
+        "userId": 668800,
+        "nonce": 1,
+        "startUserLeafHash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "endUserLeafHash": "e921fd45d7df245459f03d423e8aed484638d8e7e07edecf450c139c1e885e4d",
+        "wireRequestSha256": "810a91e0d2424d0abe340f3d6b2854fbfa3c33dcf788816b77193bb73d24c6eb"
+      }
+    ],
+    "newProofs": 0,
+    "newBroadcasts": 0
+  },
+  "testSummary": {
+    "nativeOrdinaryUnit": {
+      "passed": 5
+    },
+    "publicReadTransport": {
+      "passed": 7
+    },
+    "windowAndExistingFormalExitHost": {
+      "passed": 14
+    },
+    "compiledCandidatesReproduced": 4,
+    "newWindowFullUps": 0,
+    "currentCaseMarketFills": 0
+  },
+  "boundedCaseClosure": {
+    "schema": 1,
+    "at": "2026-11-11T16:20:01.235330+00:00",
+    "owner": "root",
+    "scope": "Bounded current-chain QA funding and ordinary Native fee-regression subphase only",
+    "status": "closed-with-market-release-blockers",
+    "fourMarketAcceptanceComplete": false,
+    "newRegistrations": 2,
+    "faucetRequests": 1,
+    "newOrdinaryUps": 3,
+    "marketFills": 0,
+    "marketFinalClaims": 0,
+    "marketContractsDeployed": 0,
+    "marketVaultsRegistered": 0,
+    "marketEscrowBaseUnits": "0",
+    "observedCheckpoint": 102700,
+    "knownCohortPendingBaseUnits": "0",
+    "grantBaseUnits": "1000000000000",
+    "issuerBalanceBaseUnits": "946999994000",
+    "ownerBalanceBaseUnits": "48999998000",
+    "networkFeesBaseUnits": "3000006000",
+    "unexpectedBusinessBurnBaseUnits": "1000002000",
+    "totalExpenseBaseUnits": "4000008000",
+    "conservation": true,
+    "allCurrentCaseMutationOutcomesReconciled": true,
+    "historicalUnknownOutcomesDisposed": false,
+    "nextFinancialExecutionAllowedByThisCase": false,
+    "stopReasons": [
+      "Incomplete complete-source inventory",
+      "614 authenticated accounts are a lower bound, not eligible orders",
+      "At least 616 coverage UPSs across four markets exceed the 240-PSY expense and 120-UPS limits",
+      "Formal 128-stage plans do not fit even one market lower bound plus setup",
+      "Experimental window candidates have no complete-UPS or live acceptance"
+    ],
+    "noNodeChange": true,
+    "noDependencyChange": true,
+    "noWalletRepositoryChange": true,
+    "ordinaryFeeEvidenceSha256": "34de5706576a04969d4005b10c940e4ac99d7654e5d7a45b6f079e97c9171dee",
+    "exactProofManifestSha256": "db02dbe44352254cf94ed6033c3989f372471587b70c613c1760fdac31a350f3",
+    "rawArtifactsPublished": false
+  }
+}
