@@ -1,5 +1,38 @@
 # NFT Marketplace v3
 
+## Current batch candidate and acceptance status
+
+NFT Market is part of the four-market core acceptance scope alongside AMM,
+Orderbook and Bonding Curve. The current deterministic source-stream candidate
+uses `source-nft-account-bootstrap-v21`, the frozen mainnet-beta SDK
+`01b8f2b0a077367a7b9879baba1a72aea8ab5510`, a **new** explicitly prepared
+collection, a new SD-key and a new vault. It does not update an older collection
+or market. See [account initialization](../nft/ACCOUNT_INITIALIZATION.md) and
+[four-market acceptance](../docs/security/MARKET_CORE_ACCEPTANCE_20261111.md).
+
+The v21 cohort has fifteen verified vault UPSs and a separate ordinary buyer
+UPS on synthetic checkpoints. Seller authorizations, linked ordinary final
+claims and current-chain deployment/trade/refund/claim acceptance remain open.
+The separate buyer proof is not spliced into the vault's state chain. These
+proofs are not real network receipts or browser payment acceptance.
+
+Current batch entry points:
+
+| Component | Source |
+| --- | --- |
+| Market contract and generator | `contract/src/main.psy.rs`, `generate.mjs` |
+| New collection preparation | `../nft/account-initialization.mjs` |
+| v21 key policy and ordinary buyer calls | `../batching/checkpoint-stream/nft-bootstrap-policy.mjs` |
+| Complete SD-key circuit and stack/session binding | `../amm/u124/vm-tests/src/stream_policy.rs`, `stream_runtime.rs` |
+| Formal Executor, exact broadcast and receipt recovery | `../executor/fundedStreamAdapter.mjs`, `fundedLifecycle.mjs` |
+
+The sections below describe the original fixed-call v3 route. Its activation,
+fee sponsorship, Native ABI names and legacy purchase builder are **not** the
+v21 bootstrap procedure. Do not use those examples as current-instance release
+configuration; matching method names or ABI alone do not establish identity.
+
+## Original fixed-call route
+
 Fixed-price market comprising a contract, public SD-key and existing Executor.
 It binds one NFT v3 collection and one U124 payment FT, using `[low62, high62]`.
 Native PSY pays fees only. NFT assets, original markets and psy-node are unchanged.

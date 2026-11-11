@@ -659,6 +659,23 @@ local persistent recovery; it does not establish coordination across machines.
 
 ## Funded source-stream integration
 
+The current authorized-exit candidates are separate from the original v14/v15
+routes below:
+
+| Market | Current profile | Key version |
+| --- | --- | --- |
+| AMM / Bonding Curve | `source-authorized-exit-v18` | 18 |
+| Orderbook | `source-pair-authorized-exit-v19` | 19 |
+| NFT Market with new explicit collection preparation | `source-nft-account-bootstrap-v21` | 21 |
+
+Use the exact reviewed policy, frozen dependency and instance-specific identity
+for each route; changing a configuration number does not upgrade an old key.
+NFT v21 does not admit the rejected omission-only v20 startup. The current
+[four-market review](../docs/security/MARKET_CORE_ACCEPTANCE_20261111.md)
+separates complete synthetic proofs, ordinary signatures, formal orchestration
+tests and actual network/claim evidence. No synthetic cohort by itself enables
+financial broadcasting or proves current-chain/browser acceptance.
+
 The formal factory also accepts `source-funded-v14` for AMM/Curve and the
 distinct `source-funded-pair-v15` for Orderbook/NFT. Use the dedicated frozen
 `funded_stream_wallet`; legacy compact drivers cannot select these spending

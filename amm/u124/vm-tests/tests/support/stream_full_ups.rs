@@ -1677,6 +1677,9 @@ mod funded_stream_full_ups;
 #[path="funded_lifecycle_full_ups.rs"]
 mod funded_lifecycle_full_ups;
 
+#[path="book_reachable_full_ups.rs"]
+mod book_reachable_full_ups;
+
 #[path="funded_pair_full_ups.rs"]
 mod funded_pair_full_ups;
 #[path="fee_exit_full_ups.rs"]

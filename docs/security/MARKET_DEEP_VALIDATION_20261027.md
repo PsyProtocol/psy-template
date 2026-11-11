@@ -1,5 +1,17 @@
 # Market correctness and reset-chain validation — 27 October 2026
 
+Latest market-core continuation (11 November): [four-market gaps and reachable
+Book ordinary/SD-key state chain](MARKET_CORE_ACCEPTANCE_20261111.md).
+Twenty-four linked complete UPSs pass: thirteen ordinary and eleven v19 vault
+proofs cover empty startup, authenticated receive-state preparation, complete
+source pages, original price/time fill, both ordinary final claims, original-set
+cancellation/timeout refund and fee recovery. Three startup proofs are reused;
+four other earlier suffix proofs remain on their failed setup branch. All 24
+Endcaps/metadata independently verify; changed fees, endpoints and proof bytes
+reject. No Node/SDK/wallet change or financial operation occurs. Heavy-host
+memory telemetry, all failed runs and incomplete TLS source capture remain
+separate from real network/Executor/UI acceptance, which is still open.
+
 Latest market-core continuation (11 November): [NFT v21 ordinary seller client,
 current Native ABI and preserved scoped host failure](NFT_SELLER_CLIENT_20261111.md).
 The new helper preserves original listing/FIFO/unique-sale semantics and rejects

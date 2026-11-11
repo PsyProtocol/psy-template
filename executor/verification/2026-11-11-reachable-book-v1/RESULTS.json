@@ -1,0 +1,379 @@
+{
+  "schema": 1,
+  "scope": "Complete ordinary and v19 SD-key UPSs on a reachable synthetic QA checkpoint chain; not network, deployment or browser acceptance",
+  "sdkCommit": "01b8f2b0a077367a7b9879baba1a72aea8ab5510",
+  "clientCommit": "7058070057c3242b5d8b29e1a31d498aaa4202c0",
+  "profile": "source-pair-authorized-exit-v19",
+  "result": {
+    "assetConservation": true,
+    "bothAmountLimbsNonzero": true,
+    "broadcast": false,
+    "cancelAfterSeal": true,
+    "completeUps": 24,
+    "duplicateFillAndRefundRejected": true,
+    "emptyVaultAtStart": true,
+    "explicitFeeRecovery": true,
+    "feeExhaustionRejected": true,
+    "financialOperations": 0,
+    "fullUpsVerified": true,
+    "fundingClaimedBeforeSpend": true,
+    "globalPriceTimePriority": true,
+    "nativeConservationIncludingAllFees": true,
+    "newlyGeneratedCompleteUps": 21,
+    "noPostGenesisVmActorMutation": true,
+    "ordinaryFee": "13000074000",
+    "ordinaryFinalClaims": 2,
+    "ordinaryOrdersFundingAndClaims": true,
+    "ordinaryRefundClaims": 1,
+    "ordinaryUps": 13,
+    "originalSetAndExpiryPreserved": true,
+    "prefixProofsReused": 3,
+    "randomMode": false,
+    "scope": "Complete ordinary and v19 SD-key UPSs on a reachable synthetic QA checkpoint chain; not network, deployment or browser acceptance",
+    "sdKeyFee": 11000184000,
+    "sdKeyUps": 11,
+    "sourcePages": 2,
+    "timeoutRefunds": 1,
+    "wholeOrderFills": 1
+  },
+  "sourceFiles": {
+    "amm/u124/vm-tests/tests/support/book_reachable_full_ups.rs": "729746172d155385fcc9acb21009132163fbec89e8a007917598e275d7d51ba6",
+    "amm/u124/vm-tests/tests/support/book_reachable_prefix.rs": "71e14b3798f0236b7d31a9383ac668cdb75b542ab9931723f86d4bff768e5f34",
+    "amm/u124/vm-tests/tests/support/stream_full_ups.rs": "0f2a286b8a885969e13bbae62e819ed8ead90bba2b06ab23f8c37171b861ab81",
+    "batching/checkpoint-stream/audit-reachable-book.mjs": "4826d9c74136fc6aa4ab3045b96e088ef7c96f43a032a5db259ad1132d2b3e53",
+    "batching/checkpoint-stream/audit-reachable-book.test.mjs": "cef2b61c972f5eda4f564fcadcfe232e971be8eac33975f27230aa509ecb5f56",
+    "batching/checkpoint-stream/verify-reachable-ups.py": "b1758105b223edf58f2234aef6b295198a6d3bede8896c246fe19b76bfeed3cb"
+  },
+  "producer": {
+    "mode": "book",
+    "exitCode": 0,
+    "seconds": 2073.6380284159677,
+    "sampledFamilyRssKiB": 1240496,
+    "financialOperations": 0,
+    "stop": null,
+    "completeRequestFiles": 24
+  },
+  "graph": {
+    "scope": "Saved public account/nonce/fee graph; independent fixed-resource verification and live receipts remain separate",
+    "completeUps": 24,
+    "ordinaryUps": 13,
+    "sdKeyUps": 11,
+    "actors": 5,
+    "ordinaryFee": "13000074000",
+    "sdKeyFee": "11000184000",
+    "financialOperations": 0,
+    "requests": [
+      {
+        "stage": "owner-initial-authorization",
+        "requestSha256": "86bc64773dc5e07612127febdd2ce1d098f7fe7e6e2843c8d6633eb3c1523769",
+        "checkpoint": "100"
+      },
+      {
+        "stage": "issuer-exact-activation-seeds",
+        "requestSha256": "291d21fed185f4192c4ad38ced380e07c7f29455c9dbe231abd189ac8db436fa",
+        "checkpoint": "101"
+      },
+      {
+        "stage": "orderbook-reachable-book-bootstrap",
+        "requestSha256": "bb8e04980fc681656a2b3a7aceaf6b5445746f34ad2b3faa4f07f45cbee2f767",
+        "checkpoint": "102"
+      },
+      {
+        "stage": "issuer-funds-counterparty-outbox",
+        "requestSha256": "304560f8fc3ec6a7ad0f232a35f4f6db9e7bca7db37761f9f8ba930c4d00fa23",
+        "checkpoint": "103"
+      },
+      {
+        "stage": "counterparty-ordinary-funding-claim",
+        "requestSha256": "02879edcd693e1e92eb19063de7fc3f374c9e964900562c790160e0bce524d83",
+        "checkpoint": "104"
+      },
+      {
+        "stage": "maker-ordinary-receive-state-claim",
+        "requestSha256": "9795f4439d37c18241eeb1f6f02fadb19ccd8eaf6b3d81ae202076c29b8ad421",
+        "checkpoint": "105"
+      },
+      {
+        "stage": "maker-approved-order",
+        "requestSha256": "c882bce077ce7a180c20032f8c650201eae0cb54ed75ed8ad5a8f7d606b7ca36",
+        "checkpoint": "106"
+      },
+      {
+        "stage": "taker-approved-order",
+        "requestSha256": "09b9e8d22a3fc174856fb46f02809247d7b8be10ea28178733be8e9573308f45",
+        "checkpoint": "107"
+      },
+      {
+        "stage": "orderbook-reachable-book-open",
+        "requestSha256": "099cb2b7b4baaeab20ea191455e86a8bcb189b6281eee74af2962e8dde9a2509",
+        "checkpoint": "108"
+      },
+      {
+        "stage": "orderbook-reachable-book-cover-0",
+        "requestSha256": "27625e0bcdaebaceff3bd08e5603db761bbf52eddb59fb526ab0503df1d87ecf",
+        "checkpoint": "109"
+      },
+      {
+        "stage": "owner-explicit-recovery-grant",
+        "requestSha256": "10470464384acbaf49a14a8853197f617dff0677058f177cc396b5af024b7a37",
+        "checkpoint": "110"
+      },
+      {
+        "stage": "orderbook-reachable-book-fee-recovery",
+        "requestSha256": "8ab36af9e0e4a5229480ddec3c1205201707ae5f8406b86a17f36730427ca55c",
+        "checkpoint": "111"
+      },
+      {
+        "stage": "orderbook-reachable-book-cover-1",
+        "requestSha256": "076e6c3569220d718c59de6c9193fc93bcf25b72b5d51e74eeee357a87216a02",
+        "checkpoint": "112"
+      },
+      {
+        "stage": "orderbook-reachable-book-priority-0",
+        "requestSha256": "eba58600e851b0e351ba82ebc65281c28afdc5f504ad922ea5afa12be1d69edc",
+        "checkpoint": "113"
+      },
+      {
+        "stage": "orderbook-reachable-book-fill",
+        "requestSha256": "0c30b0d0ff9d7b132521895824d58ff37b7e9297561df8433690aa8ae8c663e4",
+        "checkpoint": "114"
+      },
+      {
+        "stage": "maker-ordinary-final-claim",
+        "requestSha256": "cbe7ddd7559208e034c8e050c047b8d0f85664165e52cfac109ecc8660acd111",
+        "checkpoint": "115"
+      },
+      {
+        "stage": "taker-ordinary-final-claim",
+        "requestSha256": "5997507f8ffb4d550eb1190346807642e2798fcbf975b09390aada5ed2ff4205",
+        "checkpoint": "116"
+      },
+      {
+        "stage": "maker-unmatched-order",
+        "requestSha256": "2c66ab3c53ec3d2cdbc56fa26996942f01fda1c15309af86431eaf2868cb7d29",
+        "checkpoint": "117"
+      },
+      {
+        "stage": "orderbook-reachable-book-refund-open",
+        "requestSha256": "08c7341731eab734ec70166ac297ca3a56ab681b6421651bd8bc69ba1f7716cc",
+        "checkpoint": "118"
+      },
+      {
+        "stage": "maker-cancels-after-seal",
+        "requestSha256": "60be19f08223c99efdac5236e0e90ae5da9e2aba1b22acdbb4a1ad75bd078d0f",
+        "checkpoint": "119"
+      },
+      {
+        "stage": "orderbook-reachable-book-refund-cover-0",
+        "requestSha256": "0f2346002094435b0b5eeaa9d3ba775652731f68e9be39d64692e198bfa54004",
+        "checkpoint": "120"
+      },
+      {
+        "stage": "orderbook-reachable-book-refund-cover-1",
+        "requestSha256": "f90dbd681270b426fa98ebc7290ac41fa82a3b75310e92e1d7a985ca85d54b84",
+        "checkpoint": "121"
+      },
+      {
+        "stage": "orderbook-reachable-book-timeout-refund",
+        "requestSha256": "4cfad39073a331ca5a7461330d4f168778286e8c91978d683512680e776a7b6a",
+        "checkpoint": "151"
+      },
+      {
+        "stage": "maker-ordinary-refund-claim",
+        "requestSha256": "5a2fc68db15e754d96eddbe1e595b9e5ebe7bb46f5098fe0859cec9f72dbea22",
+        "checkpoint": "152"
+      }
+    ]
+  },
+  "independent": {
+    "schema": 1,
+    "sdkCommit": "01b8f2b0a077367a7b9879baba1a72aea8ab5510",
+    "verifierSha256": "17b296cc113c8d31175bd42a10d1f5ae953dfcfbd01a40d31e984a1cf122ee20",
+    "completeRequestsReverified": 24,
+    "changedFeeRejections": 24,
+    "changedEndStateRejections": 24,
+    "changedProofRejections": 24,
+    "newProofs": 0,
+    "financialOperations": 0,
+    "approvalStackVerifiedHere": false,
+    "stateDeltaCryptographyVerifiedHere": false,
+    "networkInclusionVerifiedHere": false,
+    "seconds": 195.7812725000549
+  },
+  "originalPrefixManifestSha256": "a2d696963eaf35d86d209d114c0511a52ddd1119ad33ada299842fb4f9d10106",
+  "acceptedApplicationManifestSha256": "9baf8d54e6f7a7e7003bea22db1171ea58feb0c0da4045ceab8bb1705f0a590e",
+  "rawReportSha256": "0f010c1cd368cc3fd554f8bd4e437b2e75d1e7ec267da2748d018a348536c0c6",
+  "sourceEligibility": {
+    "accounts": 5,
+    "auditRoot": [
+      1082114776013372782,
+      2471977461183555116,
+      5060362201774810848,
+      16811625374692714531
+    ],
+    "sourceUserRoot": "72cd3b9e96c38c67444fa8201adf4639511b77fd8d3f9d864a6a30714872489c",
+    "sourceHistoryRoot": "14161d3129726e67b37f53a8409df0b727011c556b641b5b4f7f09d2b81d5da1",
+    "dispositions": [
+      {
+        "owner": 5,
+        "disposition": "no-market-state"
+      },
+      {
+        "owner": 100,
+        "disposition": "vault"
+      },
+      {
+        "owner": 200,
+        "disposition": "eligible"
+      },
+      {
+        "owner": 201,
+        "disposition": "eligible"
+      },
+      {
+        "owner": 600,
+        "disposition": "closed"
+      }
+    ],
+    "fileSha256": "11e65b92fc2d21a5815379cbb488852260cbe84573360997380c0b64a78ee7c8"
+  },
+  "preservedRuns": {
+    "build-v1": {
+      "record": {
+        "mode": "build",
+        "exitCode": 0,
+        "seconds": 1513.2382379160263,
+        "sampledFamilyRssKiB": 729504,
+        "financialOperations": 0,
+        "stop": null,
+        "completeRequestFiles": 0,
+        "binarySha256": "dcf8c1ef248454f38a70a705affd8f7ddad5673cdae3ac0ec0f2bde4346f6650"
+      },
+      "recordSha256": "7a3721d541cb253469ea7166788f64580d78d3424b87173b47a64070afd591a9",
+      "logSha256": "7d2f85fdfe01d7ece96a76abbc804eb7844f33c050aa1ffe846af50eaee72016"
+    },
+    "build-v2": {
+      "record": {
+        "mode": "build",
+        "exitCode": -15,
+        "seconds": 191.22718454198912,
+        "sampledFamilyRssKiB": 908800,
+        "financialOperations": 0,
+        "stop": null,
+        "completeRequestFiles": 0
+      },
+      "recordSha256": "3e8e662d2cba2b8a11609eaf657c98ff9ee26ba9d62501a927e58562f946852f",
+      "logSha256": "4c6831613a70669cae55503db008fc8eed78e8130d86b3667dd478794d18a9d1"
+    },
+    "build-v3": {
+      "record": {
+        "mode": "build",
+        "exitCode": 0,
+        "seconds": 169.39415937499143,
+        "sampledFamilyRssKiB": 1073568,
+        "financialOperations": 0,
+        "stop": null,
+        "completeRequestFiles": 0,
+        "binarySha256": "afa1b93abbb64a9b3786c47913cebaed25a0087c2d14961fd1aab6d44574fb13"
+      },
+      "recordSha256": "2c03d641da5a10227aa73e0ba5d3133e6d50fe624b12d4dbbc26bc70cd078e19",
+      "logSha256": "b0a32cd5310f925467d8d5ec1e20ac8f0e56c64175423633fe76b78835f74ad1"
+    },
+    "build-v4": {
+      "record": {
+        "mode": "build",
+        "exitCode": 0,
+        "seconds": 179.4553161659278,
+        "sampledFamilyRssKiB": 944368,
+        "financialOperations": 0,
+        "stop": null,
+        "completeRequestFiles": 0,
+        "binarySha256": "bbb29269576d43e0dbc333295af2927c9bff31ec801bdbbdca75d81a3d16e1f0"
+      },
+      "recordSha256": "0dc80c11074f65ec8ff72cac90030ea29b460c2217e41505e92da93730dbda46",
+      "logSha256": "15011e944c386772fd538a471b0951b8937ad87c220ad4b2949fe923af17f94b"
+    },
+    "book-v1": {
+      "record": {
+        "mode": "book",
+        "exitCode": 101,
+        "seconds": 1387.0495966249146,
+        "sampledFamilyRssKiB": 796560,
+        "financialOperations": 0,
+        "stop": null,
+        "completeRequestFiles": 7
+      },
+      "recordSha256": "03acc27bc6bf8bd173a9f496e3aa31b942ae879708ce417526b127ef0411b0fa",
+      "logSha256": "2fc7d951ce4a18fbbf010a2160b68da2e75f1a65f95a36780973d16a4540af37"
+    },
+    "book-v3": {
+      "record": {
+        "mode": "book",
+        "exitCode": 101,
+        "seconds": 163.10044854099397,
+        "sampledFamilyRssKiB": 1387616,
+        "financialOperations": 0,
+        "stop": null,
+        "completeRequestFiles": 2
+      },
+      "recordSha256": "f6e44ca4fb2d27afc8e81f40bee1fc990673224513ae60dfdf7d33b14b527157",
+      "logSha256": "146da4aea0905fa1d31f666eb296588a56c6bb1d8632cff677e068f9d9556b52"
+    },
+    "book-v4": {
+      "record": {
+        "mode": "book",
+        "exitCode": 0,
+        "seconds": 2073.6380284159677,
+        "sampledFamilyRssKiB": 1240496,
+        "financialOperations": 0,
+        "stop": null,
+        "completeRequestFiles": 24
+      },
+      "recordSha256": "4c3792b0df799765d8eb5baa93dd96e316d54902482734ec045fd8309847c7f0",
+      "logSha256": "5cdc560f2ff0b9c4ddd53d6f3cb74c589838664365e3212b64a8322ca9a45d64"
+    }
+  },
+  "metrics": {
+    "successfulProcessSeconds": 2073.6380284159677,
+    "coldStreamResourcesSeconds": 675.571758291,
+    "sampledProcessFamilyRssPeakKiB": 1240496,
+    "osReportedFootprintPeakSnapshot": "7.3 GiB while live; includes compressed/swapped charged pages, not exclusive physical RAM or a final lifecycle peak",
+    "systemSwapUsedAtIncidentMiB": 68949.12,
+    "burnedSyntheticFeesBaseUnits": "24000258000",
+    "actualNetworkFeesBaseUnits": "0",
+    "matchedBeforeAfterComparison": false,
+    "networkConfirmationSeconds": null,
+    "browserClaimSeconds": null,
+    "scope": "Correctness telemetry on a shared host; raw reused-prefix timings retain their original run and must not be charged again to this producer; no TPS/p95/speedup conclusion"
+  },
+  "remainingFunds": {
+    "marketUserTradeAndRefundOutputsClaimed": true,
+    "issuerActivationFtSeedClaimsIncluded": false,
+    "unusedTreasuryReturnCertifiedByThisCohort": false,
+    "feeOwnerOfflineExitCertifiedByThisCohort": false,
+    "note": "FT activation seed Outboxes, Native activation contribution and tagged owner treasury are separate from claimed user trade/refund outputs; conservation does not mean every vault contribution was returned."
+  },
+  "currentNetwork": {
+    "mutations": 0,
+    "deployments": 0,
+    "fills": 0,
+    "ordinaryClaims": 0,
+    "initialReadonlyRequests": 12,
+    "sourceInventoryReads": 35,
+    "sourceInventoryComplete": false,
+    "sourceOccupiedAccountLowerBound": 22,
+    "sourceInventoryStop": "curl 35 SSL_ERROR_SYSCALL; no transport retry",
+    "releaseAuthorizationFromInventory": false
+  },
+  "distinctNewCompleteUpsThisCase": 28,
+  "caseNewCompleteUpsLimit": 40,
+  "rawEvidenceDirectory": "psy-market-recovery-20261023/markets-core-acceptance-20261111-v1",
+  "secretsOrLargeProofsPublished": false,
+  "host": {
+    "unchangedFundedRegistrationExitChecksRetained": 31,
+    "latestGraphChecksPassed": 16,
+    "graphLogSha256": "123b4a8c0ac12bfb60989c01c6a1879b3306165bc20483bc83776154ebd0ed2e",
+    "originalHostLogSha256": "948997b067f6534d487983153fb36bc2fd921f7f4d1956c7fda8debf72253f15"
+  },
+  "independentReportSha256": "3c82c41150d87753446073eaac2a088b1a341d7fa9861fdb5c856d8f72a8a9f6"
+}
