@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {join} from 'node:path';
-import {makeNftBootstrapPolicy,nftAccountBuyCalls,NFT_INITIALIZATION} from './nft-bootstrap-policy.mjs';
+import {makeNftBootstrapPolicy,nftAccountBuyCalls,nftAccountListingCalls,NFT_INITIALIZATION} from './nft-bootstrap-policy.mjs';
 import {fundedProfile} from '../../executor/fundedProfiles.mjs';
 import {makeExitPolicy} from './exit-policy.mjs';
 import {parseLosslessJson,losslessJson} from '../../amm/u124/client.mjs';
@@ -38,4 +38,17 @@ test('exact reviewed artifacts retain every old financial call except the unused
  assert.throws(()=>nftAccountBuyCalls(next,{...args,nativeProtocol:'legacy-v1'}));
  assert.throws(()=>nftAccountBuyCalls(next,{...args,nativeProtocol:undefined}));
  assert.throws(()=>nftAccountBuyCalls(next,{...args,nftAbi:nft.abi}));
+ const sell={...args,slot:0n},listing=nftAccountListingCalls(next,sell);
+ assert.deepEqual(nftAccountListingCalls(parseLosslessJson(losslessJson(next)),sell),listing);
+ assert.deepEqual(listing.map(c=>c.method_name),['acknowledge','open_listing','transfer','transfer']);
+ assert.deepEqual(listing[0].inputs,[100n]);
+ assert.equal(listing[1].contract_id,1000n);
+ assert.deepEqual(listing[1].inputs,[100n,0n,17n,1n<<18n,200n,1n]);
+ assert.deepEqual(listing[2],{contract_id:0n,method_name:'transfer',inputs:[100n,1000100000n]});
+ assert.deepEqual(listing[3].inputs,[0n,100n]);
+ for(const change of [{slot:128n},{slot:-1n},{nonce:0n},{nonce:1n<<62n},
+  {price:0n},{price:1n<<124n},{deadline:1n<<32n},
+  {marketId:1001n},{nativeProtocol:'legacy-v1'},{nativeProtocol:undefined},
+  {config:{...c,nftId:99}},{config:{...c,tokenId:99}}])assert.throws(()=>nftAccountListingCalls(next,{...sell,...change}));
+ assert.throws(()=>nftAccountListingCalls(old,sell));
 });

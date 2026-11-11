@@ -1,0 +1,63 @@
+{
+  "schema": 1,
+  "scope": "NFT v21 ordinary seller call construction and host refusal/orchestration tests only; not complete seller UPS or network acceptance",
+  "sdkCommit": "01b8f2b0a077367a7b9879baba1a72aea8ab5510",
+  "clientCommit": "7058070057c3242b5d8b29e1a31d498aaa4202c0",
+  "profile": "source-nft-account-bootstrap-v21",
+  "sourceFiles": {
+    "batching/v2/client.mjs": "93c5f58baad26ba1746976ac533e289668e62ad1b20e7b3a39c56e07414220ba",
+    "batching/checkpoint-stream/nft-bootstrap-policy.mjs": "0b0815407572cc33d00fb318f230f828e1495baa45b90816f866fe5999b0ade5",
+    "batching/checkpoint-stream/nft-bootstrap-policy.test.mjs": "4ad2df9e3ed7a29e0354c190a25db13cc32537be7be92d084147b98baa1f6000",
+    "nft/ACCOUNT_INITIALIZATION.md": "4be2ccbebbdcd4f9eea2ebe800bdfe90a7e0dd4d1a1564d87a8c21b96478f2f1"
+  },
+  "artifacts": {
+    "nftmarket/compiled/compilation_artifact.json": "12932a830594b87f8ba05b68a168f304823a3f3a76a8c11aa429d1f6245c167c",
+    "token/compilation_artifact.json": "476bc76fcd4b512f585cb1093de41611455cd58df323b8ea4bcc4f71a4163b0f",
+    "nft/compilation_artifact.json": "f2e07bdfc72503485c3c681a51b5a9722891b0cb6acae6922b88b08f9800541d"
+  },
+  "newPreparedCollectionArtifactSha256": "16f6c03c2117be28c369169b33a951d58b51ba0acc37a844d646c75acca2d866",
+  "runs": [
+    {
+      "name": "NFT policy and formal adapter",
+      "exitCode": 1,
+      "passed": 34,
+      "failedModules": 1,
+      "reason": "Separate legacy-client module omitted BATCH_BUILD; successful modules retained",
+      "logSha256": "48e0f49e0cdccf46ed9e6fe3868d8bf6045896be95aba3a94f0655b392d5e145"
+    },
+    {
+      "name": "Only the missing-fixture legacy-client module",
+      "exitCode": 0,
+      "passed": 5,
+      "failed": 0,
+      "logSha256": "ac105fbe98cf917608b7bf8768cf8b90d599586f0516d1baf8efb9812d9425f4"
+    }
+  ],
+  "reconciledHostResult": {
+    "passed": 39,
+    "unresolvedFailures": 0,
+    "skipped": 0,
+    "formalTestsUseExplicitTransportDoubles": true
+  },
+  "newNftCompleteProofs": 0,
+  "financialOperations": 0,
+  "walletChanges": false,
+  "nodeChanges": false,
+  "dependencyChanges": false,
+  "acceptance": {
+    "sellerCompleteUps": false,
+    "currentChainDeployment": false,
+    "realSale": false,
+    "ordinaryFinalClaim": false,
+    "browserPayment": false
+  },
+  "priorNftEvidence": {
+    "scope": "Existing separate synthetic v21 cohorts, unchanged; not a connected seller-to-claim chain",
+    "vaultRequests": 15,
+    "ordinaryBuyerRequests": 1,
+    "independentReportSha256": "738c863834ff4dfa38178075ac1cb442403d593bdd9c914133802218e7727186",
+    "ordinaryReportSha256": "cd3e0fe68d2f631e3d94fe3bc6587016421a5427d0507b62c279ff2a5cddf722"
+  },
+  "rawEvidenceDirectory": "psy-market-recovery-20261023/markets-core-acceptance-20261111-v1",
+  "largeProofsOrSecretsPublished": false
+}

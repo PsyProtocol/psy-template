@@ -1,5 +1,14 @@
 # Market correctness and reset-chain validation — 27 October 2026
 
+Latest market-core continuation (11 November): [NFT v21 ordinary seller client,
+current Native ABI and preserved scoped host failure](NFT_SELLER_CLIENT_20261111.md).
+The new helper preserves original listing/FIFO/unique-sale semantics and rejects
+configuration/amount/slot/nonce/deadline substitutions. The reconciled host cohort
+has 39 passes after correcting one missing-fixture invocation. No wallet/Node/SDK
+change, new NFT proof or financial action occurs. Ordinary seller/final-claim
+UPSs and current-chain settlement/claim acceptance remain open. Existing synthetic
+v21 proof cohorts are retained rather than regenerated or counted as live fills.
+
 Latest continuation (11 November): [owned claim review, mutable-event hardening,
 actual extension startup and bounded cold RPC identity reads](PRODUCT_RELEASE_REVIEW_20261111.md).
 81 application checks pass; the latest full wallet cohort passes 810 tests with

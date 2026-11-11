@@ -10,6 +10,15 @@ export function nftBuyCalls({marketId,marketAbi,config,nftAbi,tokenAbi,vaultId,s
  if(!['legacy-acknowledgement-v1','explicit-account-version-v1'].includes(collectionInitialization))throw Error('explicit reviewed collection initialization required');
  return [...(collectionInitialization==='legacy-acknowledgement-v1'?[call(BigInt(config.nftId),nftAbi,'acknowledge',[vaultId])]:[call(BigInt(config.nftId),nftAbi,'prepare_account',[])]),call(marketId,marketAbi,'open_buy',[vaultId,seller,listingNonce,encodeAmount(price),deadline,nonce]),native(vaultId,FEE_ESCROW,nativeProtocol),call(BigInt(config.tokenId),tokenAbi,'transfer',[vaultId,encodeAmount(price)])];
 }
+// The seller already owns the NFT slot. Preserve acknowledgement of older
+// claimed deliveries; account preparation must not replace that housekeeping.
+export function nftListingCalls({marketId,marketAbi,config,nftAbi,vaultId,slot,price,deadline,nonce,nativeProtocol='legacy-v1'}){
+ for(const n of [marketId,vaultId])user(n);integer(slot,127n);integer(deadline,4294967295n);integer(nonce,(1n<<62n)-1n);
+ if(!nonce||price<=0n)throw Error('positive NFT nonce/price required');
+ return [call(BigInt(config.nftId),nftAbi,'acknowledge',[vaultId]),
+  call(marketId,marketAbi,'open_listing',[vaultId,slot,encodeAmount(price),deadline,nonce]),
+  native(vaultId,FEE_ESCROW,nativeProtocol),call(BigInt(config.nftId),nftAbi,'transfer',[slot,vaultId])];
+}
 export function recoveryEnrollment({marketId,abi,vaultId}){user(marketId);user(vaultId);return call(marketId,abi,'request_recovery',[vaultId]);}
 
 // A consenting funder sends one smallest unit of each missing FT to the user;

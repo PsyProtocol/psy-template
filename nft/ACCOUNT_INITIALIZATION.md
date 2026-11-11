@@ -39,6 +39,15 @@ Preparation does not acknowledge older claimed outgoing NFT queues; ordinary
 collection acknowledgement remains available for that housekeeping. The legacy
 buyer helper keeps its previous acknowledgement behavior by default.
 
+The v21 seller helper `nftAccountListingCalls` requires the same explicit
+reviewed profile/market/asset configuration and current Native ABI. It preserves
+acknowledgement of the seller's older claimed deliveries, opens the listing,
+funds the exact Native escrow and transfers the owned NFT slot in order. It does
+not replace acknowledgement with preparation or add a token loan. Full U124
+prices and slot/nonce/deadline bounds are checked before constructing calls.
+These helpers construct calls only; matching ABI is not identity authentication,
+wallet approval, a complete proof or a network receipt.
+
 Synthetic full UPSs, network confirmation, ordinary signatures, approved wallet
 call-stack verification and browser acceptance are separate evidence gates.
 See the dated team review entry for the acceptance status of this candidate.
