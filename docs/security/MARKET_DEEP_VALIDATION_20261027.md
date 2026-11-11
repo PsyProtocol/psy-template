@@ -1,13 +1,19 @@
 # Market correctness and reset-chain validation — 27 October 2026
 
-Current AMM-first continuation (12 November): [explicit-order core Executor,
-two confirmed QA assets and exact pending AMM deployment](AMM_CORE_LIVE_20261112.md).
+Latest parallel continuation (12 November): [four market code lanes, independent
+reviews, bounded checkpoint-proof readiness and current acceptance gaps](FOUR_MARKET_PARALLEL_20261112.md).
+The root remains the only financial/proof executor. Candidate builders and
+unsigned plans do not authorize market funding or substitute for full UPSs.
+
+Current AMM-first continuation (12 November): [explicit-order core Executor](AMM_CORE_LIVE_20261112.md)
+and [confirmed AMM/key registration, exact recovery and bounded real journey](AMM_CORE_REGISTRATION_20261112.md).
 Global account/source traversal is no longer a prerequisite for the normal AMM.
 The core route preserves shared reserves, deterministic ordering, complete
 selected-member refunds and full stack/session/state/fee checks. Current-chain
-swap, ordinary final claim and browser/UI acceptance remain open: the original
-new AMM deployment has no acknowledgement or confirmed receipt, so no key is
-registered and no market is funded. Random ordering is a subsequent, separately
+swap, ordinary final claim and browser/UI acceptance remain open. AMM 51 and
+vault 1182848 are now confirmed after the user-authorized exact-byte replay;
+QA issuance and initial ordinary claims are confirmed. Only one owned financial
+journey runs. Random ordering is a subsequent, separately
 versioned increment. Historical coverage cost below is not the current AMM plan.
 
 Latest real-network gate (11 November): [ordinary QA funding, preserved fee

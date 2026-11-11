@@ -10,7 +10,7 @@ import {randomUUID} from 'node:crypto';
 import {residentProver} from './residentProver.mjs';
 import {processCompactIdentity} from './identityCache.mjs';
 import{withBulkAdmission}from'../batching/admission/bulk.mjs';
-import{preSessionTransportFailure}from'./preSessionRetry.mjs';
+import{preSessionTransportFailure,preSessionMissingCheckpointProof}from'./preSessionRetry.mjs';
 import{ReadUnavailable}from'./readRetry.mjs';
 import {publicState} from './publicState.mjs';
 import {readTogether} from './readConcurrency.mjs';
@@ -107,10 +107,19 @@ export async function createCompactAdmissionAdapter(o,{readState=publicState,rea
     catch(error){
      await publish(out+'.preflight-failure.log',(error.stdout??'')+'\n'+(error.stderr??''));
      const candidate=await savedPreflightCandidate(out,await recoveryOptions(task));if(candidate){await resident?.close();resident=null;liveRecovery=await recoverCandidate(task,candidate);result={stdout:'reused exact persisted crypto candidate after native live verification',stderr:''};break;}
-     if(!await preSessionTransportFailure(out,retryUrls,o.publicKeyHash))throw error;
+     const missingCheckpoint=core?await preSessionMissingCheckpointProof(out):null;
+     if(missingCheckpoint===null&&!await preSessionTransportFailure(out,retryUrls,o.publicKeyHash))throw error;
+     if(missingCheckpoint!==null){
+      assert.ok(missingCheckpoint>=task.minimumSourceCheckpoint&&missingCheckpoint<=Number(task.validUntilCheckpoint),'missing proof outside approved source window');
+      const s=await bindingCurrent();assert.ok(s.checkpoint>=missingCheckpoint&&s.checkpoint<=Number(task.validUntilCheckpoint),'checkpoint readiness outside original window');
+      const realm=s.network.realm_configs.find(r=>r.id===Math.floor(o.vaultId/s.network.users_per_realm))?.rpc_url[0];assert.ok(realm,'configured vault realm required');
+      // Availability only. Never install this RPC result as a proof or trust
+      // anchor; normal SDK startup must authenticate its own fresh witnesses.
+      await s.rpc(realm,'psy_get_user_tree_merkle_proof',{checkpoint_id:missingCheckpoint,user_id:o.vaultId});
+     }
      if(!await isCurrent(task))throw Error('pre-session transport failure: original task no longer current; no retry');
      if(attempt!==0){await resident?.close();resident=null;throw new ReadUnavailable('verified pre-session RPC failure after bounded retries; no UPS or broadcast exists',{cause:error});}
-     await publish(out+'.read-retry.json',{version:1,attempt:1,reason:'verified pre-call transport failure',failedDirectory:out,financialBroadcastRetry:false,newSession:true,originalWindowUnchanged:true,scope:'one bounded read-only preflight restart; no request/preflight/prepared/intent exists in failed directory'});
+     await publish(out+'.read-retry.json',{version:1,attempt:1,reason:missingCheckpoint===null?'verified pre-call transport failure':'exact pre-call checkpoint proof became available',...(missingCheckpoint===null?{}:{missingCheckpoint}),failedDirectory:out,financialBroadcastRetry:false,newSession:true,originalWindowUnchanged:true,scope:'one bounded read-only preflight restart; no request/preflight/prepared/intent exists in failed directory'});
      await resident?.close();resident=null;continue;
     }
     await publish(out+'.preflight.log',(result.stdout??'')+'\n'+(result.stderr??''));break;

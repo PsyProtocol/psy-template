@@ -12,6 +12,17 @@ test('new NFT profile is explicitly separate and never admitted for another mark
  for(const kind of ['amm','bondingcurve','orderbook'])assert.throws(()=>fundedProfile('source-nft-account-bootstrap-v21',kind));
  assert.equal(fundedProfile('source-pair-authorized-exit-v19','nftmarket').version,19n);
 });
+test('ordinary NFT buyer rejects impossible nonce/deadline terms before call construction',()=>{
+ const config={nftId:41,tokenId:42},policy={version:21,profile:'source-covered-nft-account-bootstrap-exit-v1',collection_initialization:NFT_INITIALIZATION,market_id:1000,base:{config}};
+ const abi=(name,input_felt_count)=>({contract:{methods:[{name,input_felt_count,method_id:1}]}});
+ const args={marketId:1000n,marketAbi:abi('open_buy',7),config,nftAbi:abi('prepare_account',0),tokenAbi:abi('transfer',3),vaultId:100n,seller:200n,listingNonce:1n,price:(1n<<80n)+17n,deadline:4294967295n,nonce:1n,nativeProtocol:'mainnet-beta-20261027'};
+ const calls=nftAccountBuyCalls(policy,args);
+ assert.deepEqual(calls[1].inputs,[100n,200n,1n,17n,1n<<18n,4294967295n,1n]);
+ for(const change of [{nonce:0n},{listingNonce:0n},{nonce:1n<<62n},{listingNonce:1n<<62n},{deadline:1n<<32n},{deadline:-1n},{deadline:4294967295}])
+  assert.throws(()=>nftAccountBuyCalls(policy,{...args,...change}));
+ const last=(1n<<62n)-1n;
+ assert.equal(nftAccountBuyCalls(policy,{...args,nonce:last,listingNonce:last})[1].inputs[2],last);
+});
 test('exact reviewed artifacts retain every old financial call except the unused collection acknowledgement',{skip:!root||!candidate},()=>{
  const read=p=>JSON.parse(readFileSync(join(root,p)));
  const c=read('nftmarket/config.json'),a=read('nftmarket/compiled/compilation_artifact.json'),token=read('token/compilation_artifact.json'),nft=read('nft/compilation_artifact.json');

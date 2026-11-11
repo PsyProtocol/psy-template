@@ -16,6 +16,46 @@ claims and current-chain deployment/trade/refund/claim acceptance remain open.
 The separate buyer proof is not spliced into the vault's state chain. These
 proofs are not real network receipts or browser payment acceptance.
 
+### Selected-order client preparation
+
+`coreClient.mjs` provides unsigned listing, purchase, cancellation-request, NFT
+claim and FT/Native payout plans for an explicitly selected v2 NFT policy. It
+requires the frozen SDK/client, current Native ABI, chain anchor and a new
+collection with `prepare_account`. It rejects the existing v21 stream policy;
+that key cannot be converted into a selected-order key by changing a label.
+The accompanying nine host tests use explicit ABI/observation doubles, with
+no proof, registration, network transaction or browser approval.
+
+The helper checks all four token-ID/metadata limbs, collection/payment asset,
+seller/listing nonce, full U124 price, bounded nonzero nonce/deadline, exact
+observed listing escrow, FIFO position and delivery capacity. Seller calls
+retain acknowledgement before listing/fee/NFT transfer. Buyer calls prepare
+the collection account before opening/funding the purchase. Claims retain the
+original vault sender and an empty destination slot; payout calls claim actual
+cumulative deltas. Cancellation only requests a change to the owner's flag.
+Its zero-argument ABI applies to the owner's active order at execution; it
+cannot encode an expected order nonce. The wallet/native gate must check that
+current source order before approving a standalone cancellation request.
+
+Observations are unverified inputs. The existing listing/claim ABIs do not take
+the expected token-ID or metadata as explicit arguments: a wallet/native gate
+must compare `expectedNft` with the **same UPS source state's** owned slot or next
+FIFO item, and compare observed payout deltas with its actual source cursors.
+Matching helper metadata or ABI does not establish those facts. Settlement
+must retain the existing exact sale stack, unique consumed nonce, earliest
+eligible buyer within the frozen selected set, and original-recipient refund
+rules. The helper never chooses a settlement winner or scans global accounts.
+
+Formal integration remains open: an exact new selected-order NFT
+contract/policy/key and fresh vault must be built and authenticated; its
+activation must use the reviewed prepared-collection bootstrap rather than
+silently reusing the legacy zero acknowledgement. The current AMM-only core
+factory cannot accept an NFT policy. Exact native stack/session/source guards,
+ordinary seller and final-claim UPSs, competing-buyer refunds, backlog recovery
+and current-chain receipts still need acceptance. Existing v21 synthetic UPSs
+remain separate historical evidence. Run the isolated host checks with
+`node --test nft-marketplace/coreClient.test.mjs`.
+
 Current batch entry points:
 
 | Component | Source |

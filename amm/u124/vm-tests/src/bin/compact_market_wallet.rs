@@ -88,6 +88,9 @@ async fn check_spec_chain(spec: &Value, provider: &psy_provider::provider::RpcPr
     }
     Ok(())
 }
+fn once_registration(spec: &Value, stream: bool) -> Result<bool> {
+    Ok(stream || core_anchor(spec)?.is_some())
+}
 #[cfg(test)]
 mod core_scope_tests {
     use super::*;
@@ -98,6 +101,9 @@ mod core_scope_tests {
             "client_commit":psy_template_u124_markets::sdk_release::CLIENT_COMMIT,
             "chain_root_at1":"81bac9934a1c18579519b5297c94c7e7d25cb53973ac67befefe8b7a86f96b5c"});
         ensure!(core_anchor(&base)?.is_some(),"exact release");
+        ensure!(once_registration(&base,false)?,"core uses the explicit one-send transport");
+        ensure!(!once_registration(&json!({"version":2}),false)?,"legacy transport is unchanged");
+        ensure!(once_registration(&json!({"version":2}),true)?,"stream retains its one-send transport");
         for (field,value) in [("sdk_commit",json!("old")),("client_commit",json!("old")),
             ("market",json!("orderbook")),("chain_root_at1",json!("0".repeat(64))),
             ("chain_root_at1",Value::Null)] {
@@ -270,7 +276,7 @@ async fn run(phase: &mut &'static str, composition:bool, stream:bool) -> Result<
             &json!({"profile":if stream{stream_runtime::profile(&spec)}else{"compact-v1"},"publicKey":public,"publicKeyHash":hash.to_string()}),
         )?;
         *phase="broadcast-compact-ups";
-        let receipt = if stream{psy_template_u124_markets::live_rpc::register(&net,request,out).await?}else{serde_json::to_value(session.st_provider.register_user(request).await?)?};
+        let receipt = if once_registration(&spec,stream)?{psy_template_u124_markets::live_rpc::register(&net,request,out).await?}else{serde_json::to_value(session.st_provider.register_user(request).await?)?};
         save(
             &out.join("receipt.json"),
             &json!({"publicKeyHash":hash.to_string(),"receipt":receipt,"submitted":true,"included":false}),

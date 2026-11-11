@@ -1,0 +1,116 @@
+{
+  "schema": 1,
+  "recordedAt": "2026-11-11T19:56:09.957998+00:00",
+  "scope": "Stopped pre-call journey, transient proof availability observation and reviewed application continuation; not a successful market fill.",
+  "failure": {
+    "automaticRetry": false,
+    "broadcastMayHaveBeenAttempted": false,
+    "ok": false,
+    "phase": "start-compact-session",
+    "reason": "User tree proof not found for checkpoint_id 104259"
+  },
+  "process": {
+    "exitCode": 1,
+    "seconds": 487.13322566694114,
+    "sampledFamilyRssKiB": 2327760,
+    "stop": null,
+    "automaticFinancialRetry": false
+  },
+  "checkpointProofReadiness": {
+    "at": "2026-11-11T19:51:07.498Z",
+    "readOnly": true,
+    "userId": 1182848,
+    "chainRootAt1": "81bac9934a1c18579519b5297c94c7e7d25cb53973ac67befefe8b7a86f96b5c",
+    "heads": [
+      {
+        "checkpoint_id": 104275,
+        "next_add_withdrawal_id": 0,
+        "next_process_withdrawal_id": 0,
+        "next_deposit_id": 0,
+        "total_deposits_claimed_epoch": 0,
+        "next_user_id": 9780,
+        "end_balance": 0,
+        "next_contract_id": 52
+      },
+      {
+        "checkpoint_id": 104277,
+        "next_add_withdrawal_id": 0,
+        "next_process_withdrawal_id": 0,
+        "next_deposit_id": 0,
+        "total_deposits_claimed_epoch": 0,
+        "next_user_id": 9780,
+        "end_balance": 0,
+        "next_contract_id": 52
+      }
+    ],
+    "commonCheckpoint": 104275
+  },
+  "readinessRows": [
+    {
+      "checkpoint": 104259,
+      "available": true,
+      "proofSha256": "9153fc18a70fc51ded6469e6924100aa6dc426b9a082d509626fa3c7d1bd59c5"
+    },
+    {
+      "checkpoint": 104275,
+      "available": true,
+      "proofSha256": "a29279f346c76978e7310a85714b99e3a90a0c1e3db750d745852c0975978652"
+    }
+  ],
+  "recovery": {
+    "schema": 1,
+    "recordedAt": "2026-11-11T19:56:09.957998+00:00",
+    "priorSourceSha256": "abd3d86220d777edfe94d86d1ed6840e0f97db4d372827993965a0196654218e",
+    "failedPhase": "start-compact-session",
+    "broadcastMayHaveBeenAttempted": false,
+    "failureDirectory": "runtime-core-v1/compact/testnet/1182848/e4ffe1eb73e5dc5c8a137c1607c5f0baa6718be42e123d8435240edbd4e6cd18/proof-56eb1b6f-2e2e-4a90-9321-894815602b74",
+    "files": {
+      "public/core-journey-v2-SOURCE.json": "abd3d86220d777edfe94d86d1ed6840e0f97db4d372827993965a0196654218e",
+      "public/core-journey-live-v2.json": "58726fe994712ae7f1e7cdb0baf225715c89826f4ebedbc18451ac04c0d856bf",
+      "public/core-activate-v1-task.json": "7c1a89107cfdfa3969203a6a8c80e49eef54d0ecf5dd02d3c1a2d6c074a3e2b4",
+      "public/core-activation-proof-readiness-v2.json": "60849b5eab8949048a890e3d1cf3059da096f48b9cd6ab9140c4ede1af82e360",
+      "runtime-core-v1/compact/testnet/1182848/e4ffe1eb73e5dc5c8a137c1607c5f0baa6718be42e123d8435240edbd4e6cd18/proof-56eb1b6f-2e2e-4a90-9321-894815602b74/failure.json": "4a5241246f8458a42a884ec66affc93cea338138843e20098d8bb249aab46bf1"
+    },
+    "scope": "One reviewed continuation after a known pre-call failure. Prior exact requests and confirmed transfers are adopted, never re-sent. Previous activation task stays immutable; a newly observed equivalent activation gets its own versioned task/window. Only one additional preflight recovery inside each task, never a broadcast retry.",
+    "sdkOrNodeChanged": false,
+    "newVaults": 0,
+    "newContracts": 0,
+    "additionalFeeBudget": "0",
+    "maximumFeePsyUnchanged": "60",
+    "maximumNewFullUpsUnchanged": 40
+  },
+  "browserUiAccepted": false,
+  "financialActionsByReadinessQuery": 0,
+  "finalityAttested": false,
+  "rawArchive": {
+    "directoryName": "amm-core-live-20261112-v1",
+    "outsideGit": true,
+    "files": [
+      {
+        "path": "public/core-journey-v2-SOURCE.json",
+        "sha256": "abd3d86220d777edfe94d86d1ed6840e0f97db4d372827993965a0196654218e",
+        "bytes": 9489
+      },
+      {
+        "path": "public/core-journey-live-v2.json",
+        "sha256": "58726fe994712ae7f1e7cdb0baf225715c89826f4ebedbc18451ac04c0d856bf",
+        "bytes": 138
+      },
+      {
+        "path": "public/core-activate-v1-task.json",
+        "sha256": "7c1a89107cfdfa3969203a6a8c80e49eef54d0ecf5dd02d3c1a2d6c074a3e2b4",
+        "bytes": 836
+      },
+      {
+        "path": "public/core-activation-proof-readiness-v2.json",
+        "sha256": "60849b5eab8949048a890e3d1cf3059da096f48b9cd6ab9140c4ede1af82e360",
+        "bytes": 6569
+      },
+      {
+        "path": "runtime-core-v1/compact/testnet/1182848/e4ffe1eb73e5dc5c8a137c1607c5f0baa6718be42e123d8435240edbd4e6cd18/proof-56eb1b6f-2e2e-4a90-9321-894815602b74/failure.json",
+        "sha256": "4a5241246f8458a42a884ec66affc93cea338138843e20098d8bb249aab46bf1",
+        "bytes": 189
+      }
+    ]
+  }
+}

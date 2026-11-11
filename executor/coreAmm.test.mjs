@@ -5,10 +5,10 @@ import {join} from 'node:path';
 import {validateOptions} from './config.mjs';
 import {scanCoreAmm, checkCoreSourceCheckpoint} from './coreAmmReader.mjs';
 import {compactIdentityCache} from './identityCache.mjs';
-import {mkdtemp, writeFile, rm} from 'node:fs/promises';
+import {mkdtemp, writeFile, readFile, readdir, mkdir, rm} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {sha256} from './requestBinding.mjs';
-import {encodeAmount, parseLosslessJson} from '../amm/u124/client.mjs';
+import {encodeAmount, parseLosslessJson, losslessJson, FEE_ESCROW} from '../amm/u124/client.mjs';
 import {createPublicWalletAdapter} from './publicWalletAdapter.mjs';
 const h='a'.repeat(64), root=process.env.CORE_AMM_BUILD;
 assert.ok(root, 'fresh compiled AMM candidate required');
@@ -95,3 +95,119 @@ test('formal core factory reuses exact broadcasting backend and checks chain bef
     } finally {await a.close();}
   } finally {await rm(dir,{recursive:true,force:true});}
 });
+
+// Application coordination doubles only. The fake driver writes fixture proof
+// metadata; no SDK, native child, cryptographic proof, RPC or broadcast runs.
+async function withMissingProofFixture(options, exercise) {
+  const directory = await mkdtemp(join(tmpdir(), 'psy-core-missing-proof-'));
+  let adapter;
+  try {
+    const write = async (path, value) => {await writeFile(path, typeof value === 'string' ? value : losslessJson(value)); return path;};
+    const chain = read('BUILD.json').chainRootAt1, abi = read('amm/compiled/compilation_artifact.json').abi;
+    const token = read('token/compilation_artifact.json').abi, policy = read('amm/policy.json');
+    const V = 1182848, payer = 201, stateValues = new Map();
+    const dependencies = [0,42,43,1000].map(contractId => ({contract: {contractId, codeRoot:h, layoutRoot:h,
+      stateTreeHeight:contractId === 0 ? 32 : 31}, functionTreeRoot:h, layoutFieldCount:1, layoutSlotCount:1}));
+    const driverBytes = 'mock missing-proof core driver ' + directory;
+    const o = validateOptions({...config, chainRootAt1:chain, vaultId:V, users:[], automaticInitialize:true,
+      activationPayerId:payer, wallet:await write(join(directory,'driver'),driverBytes), walletSha256:sha256(driverBytes),
+      abi:await write(join(directory,'abi.json'),abi), driverConfig:await write(join(directory,'config.json'),read('amm/config.json')),
+      policy:await write(join(directory,'policy.json'),policy), rpcConfig:await write(join(directory,'rpc.json'),{}),
+      dependencyBindings:await write(join(directory,'dependencies.json'),dependencies), runtimeDirectory:join(directory,'runtime'),
+      assetA:{...config.assetA,abi:await write(join(directory,'a.json'),token)},
+      assetB:{...config.assetB,abi:await write(join(directory,'b.json'),token)}});
+    const set = (user, contract, offset, value) => stateValues.set(`${user}:${contract}:${offset}`, value);
+    const nativeOffset = 3 + 2 * V, tokenOffset = 33554453 + 4 * V;
+    set(payer,0,nativeOffset,FEE_ESCROW); set(payer,42,tokenOffset,1n); set(payer,43,tokenOffset,1n);
+    let head = 100, nativeAttempts = 0, sends = 0, normalStarts = 0, failedOnce = false;
+    const readiness = [], attemptedCalls = [], guards = [], attempts = [];
+    const state = {networkName:'testnet', coordinator:'https://c.test', get checkpoint(){return head;},
+      network:{magic:'1384803358401154921',users_per_realm:1048576,
+        realm_configs:[{id:0,rpc_url:['https://r0.test']},{id:1,rpc_url:['https://r1.test']}],
+        coordinator_configs:[{rpc_url:['https://c.test']}]},
+      slot:async(user,contract,offset)=>stateValues.get(`${user}:${contract}:${offset}`)??0n,
+      contractLeaf:async id=>{const b=dependencies.find(d=>d.contract.contractId===id);return{code_root:failedOnce&&options.identityDrift==='asset'&&id===42?'b'.repeat(64):h,
+        state_layout_root:h,state_tree_height:b.contract.stateTreeHeight,function_tree_root:h,state_layout_field_count:1,state_layout_slot_count:1};},
+      userIds:async()=>failedOnce&&options.identityDrift==='registration'?[V+1]:[V],
+      rpc:async(url,method,args)=>{
+        if(method==='psy_get_checkpoint_leaf_data'){assert.equal(url,'https://c.test');assert.deepEqual(args,{checkpoint_id:1});return{global_chain_root:failedOnce&&options.identityDrift==='chain'?'b'.repeat(64):chain};}
+        assert.equal(method,'psy_get_user_tree_merkle_proof'); assert.equal(url,'https://r1.test');
+        assert.deepEqual(args,{checkpoint_id:options.missingCheckpoint??105,user_id:V}); readiness.push(args);
+        if(options.readinessFails)throw Error('mock checkpoint proof remains unavailable');
+        // Availability is deliberately NOT a valid proof. The adapter must not
+        // install it as authentication; the normal driver path runs again.
+        return {availabilityOnly:true};
+      }};
+    const services = {readState:async()=>state,readReceipts:async()=>async()=>({status:'unknown'}),
+      submitDriver:async()=>{sends++;throw Error('host retry test must never send');},
+      runDriver:async(_binary,args,runOptions)=>{
+        if(args[0]==='identity')return{stdout:JSON.stringify({profile:'compact-v1',fingerprint:h,publicKeyHash:h,
+          sdkCommit:'01b8f2b0a077367a7b9879baba1a72aea8ab5510',clientCommit:'7058070057c3242b5d8b29e1a31d498aaa4202c0',sdkProfile:'sdk-audit-20261102-v1'})};
+        assert.equal(args[0],'preflight'); normalStarts++; nativeAttempts++;
+        assert.equal(runOptions.env.PSY_MARKET_BENCH_SOURCE_CHECKPOINT,undefined);
+        attemptedCalls.push(await readFile(args[3],'utf8')); guards.push(JSON.parse(await readFile(args[4],'utf8')));
+        const out=args[5]; attempts.push(out); await mkdir(out);
+        if(nativeAttempts===1||options.exhaust){
+          await write(join(out,'failure.json'),{ok:false,automaticRetry:false,broadcastMayHaveBeenAttempted:false,
+            phase:options.failurePhase??'start-compact-session',reason:options.reason??
+              `User tree proof not found for checkpoint_id ${options.missingCheckpoint??105}`});
+          if(options.material)await write(join(out,options.material),{fixtureOnly:true});
+          head=options.afterFailureHead??110;
+          if(options.changedTask)set(payer,42,tokenOffset,2n);
+          if(options.identityDrift==='input')await writeFile(o.policy,'\n',{flag:'a'});
+          failedOnce=true;
+          throw Error('mock native preflight failure');
+        }
+        assert.equal(readiness.length,1,'fresh startup requires a successful readiness probe first');
+        const pre={fullUpsVerified:true,exactStackAndSessionVerified:true,broadcast:false,
+          callsSha256:sha256(await readFile(args[3])),guardSha256:sha256(await readFile(args[4])),
+          core:{checkpoint_id:BigInt(head),new_user_leaf:{user_id:BigInt(V),public_key:h,nonce:1n},
+            state_transition:{start_user_leaf_hash:'0'.repeat(64),end_user_leaf_hash:'2'.repeat(64)}}};
+        await write(join(out,'preflight.json'),pre); await write(join(out,'request.json'),{mockProofMetadata:true});
+        await write(join(out,'prepared.json'),{version:1,policySha256:sha256(await readFile(args[1])),
+          callsSha256:pre.callsSha256,guardSha256:pre.guardSha256,preflightSha256:sha256(await readFile(join(out,'preflight.json'))),
+          requestSha256:sha256(await readFile(join(out,'request.json')))});
+        return{stdout:'mock native startup and preparation complete',stderr:''};
+      }};
+    adapter=await createPublicWalletAdapter(o,services);
+    const task=(await adapter.scan()).action; assert.equal(task.kind,'batch_maintenance');
+    await exercise({adapter,task,readiness,attemptedCalls,guards,attempts,
+      get nativeAttempts(){return nativeAttempts;},get normalStarts(){return normalStarts;},get sends(){return sends;}});
+    assert.equal(sends,0);
+  } finally {await adapter?.close();await rm(directory,{recursive:true,force:true});}
+}
+
+test('exact missing checkpoint readiness reattempts normal startup once with original calls and window (mock I/O)',()=>
+  withMissingProofFixture({},async x=>{
+    const original=structuredClone(x.task), prepared=await x.adapter.prove(x.task);
+    assert.equal(x.nativeAttempts,2);assert.equal(x.normalStarts,2);assert.equal(x.readiness.length,1);
+    assert.deepEqual(x.task,original);assert.deepEqual(x.attemptedCalls,[original.submission,original.submission]);
+    assert.deepEqual(x.guards[0],x.guards[1]);assert.equal(x.guards[1].validUntilCheckpoint,Number(original.validUntilCheckpoint));
+    assert.equal(prepared.preparedDirectory,x.attempts[1]);
+    assert.deepEqual(await readdir(x.attempts[0]),['failure.json']);
+    const record=JSON.parse(await readFile(x.attempts[0]+'.read-retry.json','utf8'));
+    assert.equal(record.missingCheckpoint,105);assert.equal(record.originalWindowUnchanged,true);
+    assert.equal(record.financialBroadcastRetry,false);assert.equal(record.newSession,true);
+  }));
+
+test('missing proof recovery refuses generic/post-call failures, wrong windows, changed tasks and saved transaction material (mock I/O)',async()=>{
+  for(const options of [
+    {reason:'REJECTED_REVIEW_REQUIRED'}, {failurePhase:'prove-compact-calls'},
+    {missingCheckpoint:99}, {missingCheckpoint:165}, {afterFailureHead:165},
+    {changedTask:true}, {readinessFails:true},
+    ...['chain','registration','asset','input'].map(identityDrift=>({identityDrift})),
+    ...['request.json','preflight.json','prepared.json','intent.json'].map(material=>({material})),
+  ])await withMissingProofFixture(options,async x=>{
+    await assert.rejects(()=>x.adapter.prove(x.task));assert.equal(x.nativeAttempts,1);assert.equal(x.normalStarts,1);
+    assert.equal(x.readiness.length,options.changedTask||options.readinessFails?1:0);
+  });
+});
+
+test('a second exact startup failure exhausts the two-attempt bound without a send (mock I/O)',()=>
+  withMissingProofFixture({exhaust:true},async x=>{
+    await assert.rejects(()=>x.adapter.prove(x.task),e=>e.name==='ReadUnavailable');
+    assert.equal(x.nativeAttempts,2);assert.equal(x.normalStarts,2);
+    assert.ok(x.readiness.length>=1&&x.readiness.length<=2);
+    assert.deepEqual(x.attemptedCalls,[x.task.submission,x.task.submission]);
+    for(const out of x.attempts)assert.deepEqual(await readdir(out),['failure.json']);
+  }));

@@ -1,0 +1,150 @@
+{
+  "schema": 1,
+  "recordedAt": "2026-11-11T19:59:22.235820+00:00",
+  "sdkCommit": "01b8f2b0a077367a7b9879baba1a72aea8ab5510",
+  "clientCommit": "7058070057c3242b5d8b29e1a31d498aaa4202c0",
+  "scope": "Host and mocked application checks only; no native compiler, proofs, RPC or financial actions in these test cohorts. Actual live preparation is indexed separately.",
+  "parallelSlots": 4,
+  "financialAndProofOwner": "root only",
+  "cohorts": [
+    {
+      "files": [
+        "bondingcurve/u124/core-build.test.mjs",
+        "bondingcurve/u124/coreClient.test.mjs",
+        "orderbook/u124/core-build.test.mjs",
+        "orderbook/u124/coreClient.test.mjs",
+        "nft-marketplace/coreClient.test.mjs",
+        "executor/preSessionRetry.test.mjs",
+        "executor/acceptance/coreAmmJourney.test.mjs",
+        "executor/compactAdmission.test.mjs"
+      ],
+      "passed": 80,
+      "failed": 0,
+      "skipped": 0,
+      "testRunnerMilliseconds": 15360.825541
+    },
+    {
+      "files": [
+        "executor/coreAmm.test.mjs",
+        "amm/u124/core-build.test.mjs"
+      ],
+      "fixture": "amm-core-live-20261112-v1/fixtures-v3",
+      "passed": 12,
+      "failed": 0,
+      "skipped": 0,
+      "testRunnerMilliseconds": 8593.435083
+    }
+  ],
+  "source": [
+    {
+      "path": "amm/u124/vm-tests/src/bin/compact_market_wallet.rs",
+      "sha256": "5a88b4ce430359734245af52d4a074f77c954e094e1f594534adf5f349ea5a7d",
+      "bytes": 35025
+    },
+    {
+      "path": "amm/u124/vm-tests/src/bin/isolated_wallet.rs",
+      "sha256": "9b50ee066bc8c845f9db0c1804a078a700411c50e472d29bfc4c4394b25c5b7d",
+      "bytes": 36279
+    },
+    {
+      "path": "amm/u124/vm-tests/src/ordinary_diagnostics.rs",
+      "sha256": "08f57e9da8e01cc346271bf560971e5add0520c01a9b4b822207e8a982db715b",
+      "bytes": 9466
+    },
+    {
+      "path": "bondingcurve/u124/core-build.mjs",
+      "sha256": "276d3db33b804c850c9e62b5bfaf300c4c96299d5be57977b63c7d8dfcb5c80e",
+      "bytes": 10073
+    },
+    {
+      "path": "bondingcurve/u124/core-build.test.mjs",
+      "sha256": "d2c98c478abb1e3bc7d774be89c1b193477ee16916750a96de6b562071a277e8",
+      "bytes": 13472
+    },
+    {
+      "path": "bondingcurve/u124/coreClient.mjs",
+      "sha256": "2dc1a7bad46dc01bedcf221213270c916e853f16d4be0cac81ff40df7c49ff4d",
+      "bytes": 4501
+    },
+    {
+      "path": "bondingcurve/u124/coreClient.test.mjs",
+      "sha256": "8127418fad975ef2b7b1f44cba0fa7cc130e6bfec0a797a00f4e9b49d10b839e",
+      "bytes": 5925
+    },
+    {
+      "path": "orderbook/u124/core-build.mjs",
+      "sha256": "07c096ef4906a58e4fd1ca58870bfacb2737fdc8dc3b1ed8dabd2bf5a2bc0bf0",
+      "bytes": 9450
+    },
+    {
+      "path": "orderbook/u124/core-build.test.mjs",
+      "sha256": "76bbeaa830e9e74c006ec0cfb7d8c0c867895e07a96b0d018e5d5d1ab8d7f9c9",
+      "bytes": 10497
+    },
+    {
+      "path": "orderbook/u124/coreClient.mjs",
+      "sha256": "f69cee742313742888269aa4ef94b047c46efc41987a40138103a1308531f6da",
+      "bytes": 3662
+    },
+    {
+      "path": "orderbook/u124/coreClient.test.mjs",
+      "sha256": "cf3831957e64c5f0b2edc6d16d6e976ab48d8353643381c9bcc09c97b63598a5",
+      "bytes": 4704
+    },
+    {
+      "path": "nft-marketplace/coreClient.mjs",
+      "sha256": "a4995134d2f12c422cee135890baf1becc20f73494270273af83bf6d19eb93e2",
+      "bytes": 9208
+    },
+    {
+      "path": "nft-marketplace/coreClient.test.mjs",
+      "sha256": "d44d9b347f53f1c05e2ee3177610f2def922b2aa4d96afd84639b5e2b08673fe",
+      "bytes": 10843
+    },
+    {
+      "path": "executor/coreAmm.test.mjs",
+      "sha256": "4f1d47ca5f39ffccca00f34b296fd5df13ea1da390a3104c81db998e019dddf9",
+      "bytes": 18097
+    },
+    {
+      "path": "executor/preSessionRetry.mjs",
+      "sha256": "24035b0453d2b5780d9c6e6b4c0aef31b1408257186982d87ad1751c4565a20e",
+      "bytes": 2413
+    },
+    {
+      "path": "executor/preSessionRetry.test.mjs",
+      "sha256": "5a49fb74fcfdba778425da6d07965762bf5b908f15da0be94dc813b95e3d3087",
+      "bytes": 4045
+    },
+    {
+      "path": "executor/compactAdmissionAdapter.mjs",
+      "sha256": "d320922af93724d5fbf3053321b5e314cae4f4ae155ba2e010885033767496c8",
+      "bytes": 22282
+    },
+    {
+      "path": "executor/acceptance/coreAmmJourney.mjs",
+      "sha256": "bd1d747c8c9ab8d375ad8b623e351d50750b420f5ee88c0eedace2b1549e56e8",
+      "bytes": 7578
+    },
+    {
+      "path": "executor/acceptance/coreAmmJourney.test.mjs",
+      "sha256": "eca47c65874ad3e98d20d2c10955e3ead372b04b08bc360d99d26f87ecbb0d00",
+      "bytes": 6850
+    },
+    {
+      "path": "executor/acceptance/coreAmmLive.mjs",
+      "sha256": "67e28a34c523e3d996672aa38082b70bcf7cc2e3220d06e499336c6849c5b3b5",
+      "bytes": 21719
+    }
+  ],
+  "boundaries": {
+    "liveJourneyComplete": false,
+    "browserUiAccepted": false,
+    "curveBookNftFormalDispatchAccepted": false,
+    "qualifiedRandomness": false,
+    "globalOrderCompleteness": false,
+    "crossMachineCoordination": false,
+    "performanceComparison": false,
+    "nodeOrSdkModified": false
+  }
+}

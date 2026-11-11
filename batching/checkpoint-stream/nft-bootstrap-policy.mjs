@@ -2,6 +2,7 @@
 import assert from 'node:assert/strict';
 import {makeExitPolicy} from './exit-policy.mjs';
 import {nftBuyCalls,nftListingCalls} from '../v2/client.mjs';
+import {integer} from '../../amm/u124/client.mjs';
 export const NFT_BOOTSTRAP_VERSION=21;
 export const NFT_BOOTSTRAP_PROFILE='source-covered-nft-account-bootstrap-exit-v1';
 export const NFT_INITIALIZATION='explicit-account-version-v1';
@@ -16,6 +17,10 @@ function reviewedOrder(policy,args){
 // formal driver/wallet still verifies actual code/layout, stack and state.
 export function nftAccountBuyCalls(policy,args){
  reviewedOrder(policy,args);
+ integer(args.deadline,4294967295n);
+ for(const nonce of [args.nonce,args.listingNonce]){
+  integer(nonce,(1n<<62n)-1n);assert.ok(nonce>0n,'positive NFT nonce required');
+ }
  return nftBuyCalls({...args,collectionInitialization:NFT_INITIALIZATION});
 }
 export function nftAccountListingCalls(policy,args){

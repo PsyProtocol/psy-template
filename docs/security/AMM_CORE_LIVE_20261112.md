@@ -8,9 +8,12 @@ after commitment, the on-chain frozen members control settlement and refunds.
 This does not prove inclusion of every order in the market.
 
 **The current-chain swap and ordinary final claim are not complete.** New QA
-FT contracts **49 and 50** are confirmed. The new AMM initial deployment has an
-unknown submission outcome. It is not safe to assume failure from a missing
-receipt, register a provisional market key, or fund a guessed vault.
+FT contracts **49 and 50**, AMM **51**, and vault **1182848** are confirmed.
+The [registration continuation](AMM_CORE_REGISTRATION_20261112.md) records the
+expressly authorized, exact-byte deployment replay and independent registration
+membership check. Only this selected AMM/vault may be funded. The current owned
+journey has confirmed QA issuance and the ordinary recipient's initial claims;
+these are preparation, not a completed market fill or browser/UI acceptance.
 
 Branch: `markets-batch-capacity-recovery-20261020`, starting at `d23a9ce7`.
 SDK `01b8f2b0a077367a7b9879baba1a72aea8ab5510`, client
@@ -64,8 +67,9 @@ SDK trees, binaries, signer files and RSS logs remain outside source Git.
   This does not attest the running image, upgrade authorization or finality.
 - QA FT **49**: included at checkpoint **103306**; QA FT **50**: **103367**.
   Both have actual issuer `971904` and distinct fixed QA symbols. Their new
-  request/layout endpoints and deployment owner are checked. No FT is minted
-  yet. These are QA assets, not pUSDT or Native PSY.
+  request/layout endpoints and deployment owner are checked. Issuance and the
+  recipient's initial claims are recorded in the continuation, separately from
+  this earlier deployment snapshot. These are QA assets, not pUSDT or Native PSY.
 - AMM bytecode is compiled with actual assets **49/50**. Its **58-field initial
   layout proof verifies**, including the empty old endpoint. The wire body is
   **66,880,029 bytes**. One send produces no HTTP acknowledgement/response file.

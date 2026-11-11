@@ -5,7 +5,7 @@ use plonky2::field::{goldilocks_field::GoldilocksField as F, types::PrimeField64
 use psy_client_common::{args::ContractCallData, data::qhashout::QHashOut};
 use psy_client_data::{
     config::store_config::{PsyHasher, C, D},
-    traits::qdatastore::qmetadata::QMetaDataStoreReaderSync,
+    traits::qdatastore::{qmetadata::QMetaDataStoreReaderSync,qtreedata::QTreeDataStoreReaderSync},
 };
 use psy_config::{PsyConfigGoldilocks, PSY_NETWORK_MAGIC};
 use psy_crypto::hash::traits::qhashable::QFieldHashable;
@@ -21,6 +21,8 @@ use psy_template_u124_markets::{
 use serde_json::{json, Value};
 use sha2::{Digest, Sha256};
 use std::{env, fs, io::{Write, BufRead}, os::unix::fs::OpenOptionsExt, path::Path, time::Instant};
+#[path = "../ordinary_diagnostics.rs"]
+mod ordinary_diagnostics;
 fn save(path: &Path, value: &impl serde::Serialize) -> Result<()> {
     let bytes = serde_json::to_vec_pretty(value)?;
     let mut f = fs::OpenOptions::new()
@@ -206,7 +208,7 @@ async fn run(phase: &mut &'static str) -> Result<()> {
     let a = env::args().collect::<Vec<_>>();
     ensure!(
         a.len() >= 5,
-        "create|register|preflight|call|deploy CONFIG SECRET INPUT_OR_PUBLIC [FRESH_OUT]"
+        "create|register|preflight|diagnose|call|deploy CONFIG SECRET INPUT_OR_PUBLIC [FRESH_OUT]"
     );
     if a[1] != "create" { expected_chain()?; }
     // Freeze identity bytes before loading the config and constructing public
@@ -322,7 +324,7 @@ async fn operation(a: &[String], net: &psy_config::NetworkConfigGoldilocks, sess
     }
     ensure!(
         a.len() == 6,
-        "preflight|call|deploy CONFIG SECRET INPUT FRESH_OUT"
+        "preflight|diagnose|call|deploy CONFIG SECRET INPUT FRESH_OUT"
     );
     let out = Path::new(&a[5]);
     fs::create_dir(out)?;
@@ -380,7 +382,7 @@ async fn operation(a: &[String], net: &psy_config::NetworkConfigGoldilocks, sess
         return Ok(());
     }
     ensure!(
-        ["call", "preflight"].contains(&a[1].as_str()),
+        ["call", "preflight", "diagnose"].contains(&a[1].as_str()),
         "known isolated wallet action"
     );
     metrics.enter(phase, "verify-ordinary-input-and-dependencies");
@@ -408,13 +410,55 @@ async fn operation(a: &[String], net: &psy_config::NetworkConfigGoldilocks, sess
     psy_template_u124_markets::guard_reads::checked(&bindings, ordinary_concurrency()?, |c| async {
         public_read(|| c.check(&session.st_provider)).await
     }).await?;
+    let public_calls=data.contract_calls.iter().map(|c|ordinary_diagnostics::PublicCall {
+        contract_id:c.contract_id, method_name:c.method_name.clone(), input_count:c.inputs.len(),
+    }).collect::<Vec<_>>();
+    if a[1]=="diagnose" {
+        // A pinned VM-only build mirrors startup leaf values without calling
+        // prove_ups_start. Never finalize, sign, serialize a trace or broadcast.
+        metrics.enter(phase,"diagnostic-pinned-vm-start");
+        let cp=input["diagnosticCheckpoint"].as_u64().context("explicit public diagnostic checkpoint required")?;
+        ensure!(cp>0&&cp<(1u64<<32),"diagnostic checkpoint bound");
+        let ids=session.st_provider.get_user_ids_for_public_key(public).await?;
+        ensure!(ids.len()==1,"one registered diagnostic identity");let user=ids[0];
+        let provider=session.st_provider.with_user_id_owned(user);
+        let leaf=provider.get_user_leaf_data(cp,user).await?;
+        ensure!(leaf.public_key==public&&leaf.user_id.to_canonical_u64()==user,"diagnostic public account identity");
+        let nonce=leaf.nonce.to_canonical_u64().checked_add(1).context("diagnostic nonce overflow")?;
+        let tree_root=session.st_provider.get_checkpoint_tree_root(cp).await?;
+        let key=session.add_user(private,pk.fingerprint).await?;
+        let mut preview=session.begin_trace_build_at_checkpoint(key,user,cp,nonce,tree_root).await?;
+        metrics.enter(phase,"diagnostic-business-vm-only");
+        for (index,args) in data.contract_calls.into_iter().enumerate() {
+            if let Err(error)=preview.trace_call(args).await {
+                let category=ordinary_diagnostics::classify(&error,&public_calls);
+                let call=&public_calls[index];
+                save(&out.join("diagnostic.json"),&json!({"mode":"pinned-business-vm-only-v1","checkpoint":cp,"userId":user,
+                    "expectedNonce":nonce,"completedBusinessCalls":index,"failedCallIndex":index,
+                    "failedCall":{"contractId":call.contract_id,"methodName":call.method_name,"inputCount":call.input_count},
+                    "category":category,"fullUpsVerified":false,"transactionProofsGenerated":false,"feeCompletionChecked":false,
+                    "signed":false,"broadcast":false,"privateDataSuppressed":true}))?;
+                return Err(error);
+            }
+        }
+        drop(preview);check_chain(session).await?;
+        save(&out.join("diagnostic.json"),&json!({"mode":"pinned-business-vm-only-v1","checkpoint":cp,"userId":user,
+            "expectedNonce":nonce,"completedBusinessCalls":public_calls.len(),"businessVmSucceeded":true,
+            "fullUpsVerified":false,"transactionProofsGenerated":false,"feeCompletionChecked":false,
+            "signed":false,"broadcast":false,"privateDataSuppressed":true,
+            "scope":"Business VM calls only, relative to a separately read configured RPC checkpoint-tree root; no finality attestation, fee completion, CFC/UPS proving, signature or broadcast. Trace witnesses remain in memory and are discarded."}))?;
+        return Ok(());
+    }
     metrics.enter(phase, "start-ordinary-session");
     let key = session.add_user(private, pk.fingerprint).await?;
     session.start_session(key).await?;
     metrics.enter(phase, "prove-ordinary-calls");
-    session
-        .prove_contract_call(key, data.contract_calls)
-        .await?;
+    if let Err(error)=session.prove_contract_call(key, data.contract_calls).await {
+        save(&out.join("diagnostic.json"),&json!({"mode":"public-sdk-error-projection-v1",
+            "category":ordinary_diagnostics::classify(&error,&public_calls),"privateDataSuppressed":true,
+            "broadcast":false,"automaticRetry":false}))?;
+        return Err(error);
+    }
     metrics.enter(phase, "prove-ordinary-signature-endcap");
     let (endcap, proof) = session.sign(key, data.software_defined_call).await?;
     // sign returns owned final inputs/proof. Release transaction-only managers
@@ -510,7 +554,7 @@ async fn main() -> std::process::ExitCode {
                 psy_template_u124_markets::runtime::Failure::Panic(_)=>("PANIC_REVIEW_REQUIRED",hash(b"suppressed panic")),
             };
             let args=env::args().collect::<Vec<_>>();
-            if args.len()==6 && ["preflight","call","deploy"].contains(&args[1].as_str()) {
+            if args.len()==6 && ["preflight","call","deploy","diagnose"].contains(&args[1].as_str()) {
                 let out=Path::new(&args[5]);
                 if out.is_dir() {
                     let _=save(&out.join("failure.json"),&json!({"ok":false,"phase":phase,"reasonCode":code,"suppressedErrorSha256":digest,"privateDataSuppressed":true,"broadcastMayHaveBeenAttempted":phase=="broadcast-ordinary-ups"||phase=="broadcast-new-contract","automaticRetry":false}));

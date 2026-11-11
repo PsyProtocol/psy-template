@@ -1,0 +1,348 @@
+{
+  "schema": 1,
+  "recordedAt": "2026-11-11T19:48:54.020214+00:00",
+  "scope": "Preparation snapshot only; active journey is not complete. Original pre-broadcast failure remains unexplained.",
+  "sdkCommit": "01b8f2b0a077367a7b9879baba1a72aea8ab5510",
+  "marketId": 51,
+  "vaultId": 1182848,
+  "browserUiAccepted": false,
+  "randomOrderingEnabled": false,
+  "wholeMarketCompleteness": false,
+  "nodeOrSdkChanged": false,
+  "financialOwner": "root only",
+  "confirmed": [
+    {
+      "stage": "core-issuer-setup-reviewed-v2",
+      "status": "included",
+      "userId": 971904,
+      "checkpoint": 104186,
+      "commonCheckpoint": 104193,
+      "endUserLeafHash": "9d9626dc37c2cde25ee9c9d15284a0eb4e1b754c5d55d747a5e5cae7cd1b794b",
+      "contentHash": "8801ea34caa676d7acac5c439ecb3f40fec8b708ebbd10c96c1c39f7ed6e3e1a",
+      "nonce": 3,
+      "fullUpsVerified": true,
+      "actualFeeBaseUnits": "1000011000",
+      "metrics": {
+        "guardConcurrency": 4,
+        "jobMilliseconds": 133593.39825,
+        "lastPhase": "broadcast-ordinary-ups",
+        "ok": true,
+        "phases": [
+          {
+            "milliseconds": 2307.5147500000003,
+            "phase": "load-job"
+          },
+          {
+            "milliseconds": 4.775625000000001,
+            "phase": "load-own-isolated-identity"
+          },
+          {
+            "milliseconds": 1277.829583,
+            "phase": "verify-ordinary-input-and-dependencies"
+          },
+          {
+            "milliseconds": 12532.415708,
+            "phase": "start-ordinary-session"
+          },
+          {
+            "milliseconds": 69977.413958,
+            "phase": "prove-ordinary-calls"
+          },
+          {
+            "milliseconds": 37542.890542,
+            "phase": "prove-ordinary-signature-endcap"
+          },
+          {
+            "milliseconds": 3322.817917,
+            "phase": "verify-ordinary-full-proof"
+          },
+          {
+            "milliseconds": 3309.92425,
+            "phase": "verify-current-ordinary-state"
+          },
+          {
+            "milliseconds": 3317.642583,
+            "phase": "broadcast-ordinary-ups"
+          }
+        ],
+        "resident": false,
+        "schema": "ordinary-phases-v1",
+        "scope": "one actual ordinary job, separate process circuit construction; proof phase includes SDK RPC and recursion; no TPS claim",
+        "startupMilliseconds": 53930.643167
+      }
+    },
+    {
+      "stage": "core-trader-assets-v1",
+      "status": "included",
+      "userId": 668800,
+      "checkpoint": 104232,
+      "commonCheckpoint": 104237,
+      "endUserLeafHash": "edb4fb8624fdf2a71f4573fd22941b96c32e8b5aa1438d2cb8ec9c9025b8cadd",
+      "contentHash": "2222252b4c252b4eb0cfe11bc3b6840619261eb16f0dc8b1894b57b4bf04424d",
+      "nonce": 2,
+      "fullUpsVerified": true,
+      "actualFeeBaseUnits": "1000007000",
+      "metrics": {
+        "guardConcurrency": 4,
+        "jobMilliseconds": 79986.49095800001,
+        "lastPhase": "broadcast-ordinary-ups",
+        "ok": true,
+        "phases": [
+          {
+            "milliseconds": 2180.579541,
+            "phase": "load-job"
+          },
+          {
+            "milliseconds": 5.028875,
+            "phase": "load-own-isolated-identity"
+          },
+          {
+            "milliseconds": 1223.1947089999999,
+            "phase": "verify-ordinary-input-and-dependencies"
+          },
+          {
+            "milliseconds": 14784.012417,
+            "phase": "start-ordinary-session"
+          },
+          {
+            "milliseconds": 33865.514333,
+            "phase": "prove-ordinary-calls"
+          },
+          {
+            "milliseconds": 17739.238541,
+            "phase": "prove-ordinary-signature-endcap"
+          },
+          {
+            "milliseconds": 3555.313583,
+            "phase": "verify-ordinary-full-proof"
+          },
+          {
+            "milliseconds": 3382.84575,
+            "phase": "verify-current-ordinary-state"
+          },
+          {
+            "milliseconds": 3250.397708,
+            "phase": "broadcast-ordinary-ups"
+          }
+        ],
+        "resident": true,
+        "schema": "ordinary-phases-v1",
+        "scope": "one actual ordinary job, separate process circuit construction; proof phase includes SDK RPC and recursion; no TPS claim",
+        "startupMilliseconds": 0.0
+      }
+    },
+    {
+      "stage": "core-activation-fund-v1",
+      "status": "included",
+      "userId": 668800,
+      "checkpoint": 104250,
+      "commonCheckpoint": 104255,
+      "endUserLeafHash": "85c930d43773a779876743e700a36188f430bd7cc584c6ce41dac4ab7e4cc6aa",
+      "contentHash": "066539c9ecdf3d23178e3699ae4516f3c67246791e85f0ce37171a85f5a355fb",
+      "nonce": 3,
+      "fullUpsVerified": true,
+      "actualFeeBaseUnits": "1000006000",
+      "metrics": {
+        "guardConcurrency": 4,
+        "jobMilliseconds": 79578.325917,
+        "lastPhase": "broadcast-ordinary-ups",
+        "ok": true,
+        "phases": [
+          {
+            "milliseconds": 403.012792,
+            "phase": "load-job"
+          },
+          {
+            "milliseconds": 6.173375,
+            "phase": "load-own-isolated-identity"
+          },
+          {
+            "milliseconds": 1205.0453750000001,
+            "phase": "verify-ordinary-input-and-dependencies"
+          },
+          {
+            "milliseconds": 14979.225792,
+            "phase": "start-ordinary-session"
+          },
+          {
+            "milliseconds": 35335.518208,
+            "phase": "prove-ordinary-calls"
+          },
+          {
+            "milliseconds": 20409.710959,
+            "phase": "prove-ordinary-signature-endcap"
+          },
+          {
+            "milliseconds": 6.044042,
+            "phase": "verify-ordinary-full-proof"
+          },
+          {
+            "milliseconds": 3398.900958,
+            "phase": "verify-current-ordinary-state"
+          },
+          {
+            "milliseconds": 3834.126791,
+            "phase": "broadcast-ordinary-ups"
+          }
+        ],
+        "resident": true,
+        "schema": "ordinary-phases-v1",
+        "scope": "one actual ordinary job, separate process circuit construction; proof phase includes SDK RPC and recursion; no TPS claim",
+        "startupMilliseconds": 0.0
+      }
+    }
+  ],
+  "failure": {
+    "automaticRetry": false,
+    "broadcastMayHaveBeenAttempted": false,
+    "ok": false,
+    "phase": "prove-ordinary-calls",
+    "privateDataSuppressed": true,
+    "reasonCode": "REJECTED_REVIEW_REQUIRED"
+  },
+  "vmDiagnostic": {
+    "broadcast": false,
+    "businessVmSucceeded": true,
+    "checkpoint": 104102,
+    "completedBusinessCalls": 8,
+    "expectedNonce": 3,
+    "feeCompletionChecked": false,
+    "fullUpsVerified": false,
+    "mode": "pinned-business-vm-only-v1",
+    "privateDataSuppressed": true,
+    "scope": "Business VM calls only, relative to a separately read configured RPC checkpoint-tree root; no finality attestation, fee completion, CFC/UPS proving, signature or broadcast. Trace witnesses remain in memory and are discarded.",
+    "signed": false,
+    "transactionProofsGenerated": false,
+    "userId": 971904
+  },
+  "supervisorCorrection": {
+    "schema": 1,
+    "recordedAt": "2026-11-11T19:48:54.019610+00:00",
+    "nativeOperationSucceeded": true,
+    "supervisorExitCode": 1,
+    "reason": "Exclusive output filename collided with the preserved diagnostic input after the native VM operation completed; neither input nor native result was overwritten.",
+    "nativeExitCodeRecordedBySupervisor": false,
+    "lastSampleSeconds": 121.60108212498017,
+    "sampledFamilyRssKiB": 1876784,
+    "proofGenerated": false,
+    "signed": false,
+    "broadcast": false,
+    "automaticRetry": false
+  },
+  "rawArchive": {
+    "directoryName": "amm-core-live-20261112-v1",
+    "outsideGit": true,
+    "files": [
+      {
+        "path": "public/build-tools-v4.json",
+        "sha256": "a86514e75a8f9409b92a4ba8585ee1690962c1934f9bafa5685bb51cfe71e238",
+        "bytes": 401
+      },
+      {
+        "path": "public/BINARIES-v4.json",
+        "sha256": "d87fcb1add2d8e424cb0fee1939464bfd4eda39d1180a04cb773bbfae90509e9",
+        "bytes": 186
+      },
+      {
+        "path": "public/diagnostic-native-unit-v1.json",
+        "sha256": "1dab166d7436896755463d216322c9cc633faa0eecf62447a32c02a7e4b50669",
+        "bytes": 360
+      },
+      {
+        "path": "public/issuer-vm-diagnostic-supervisor-correction-v1.json",
+        "sha256": "4c8e05761580a25c1ed4083e349c7923b46fcddf885b354746ec9c4637ae6882",
+        "bytes": 528
+      },
+      {
+        "path": "public/ISSUER-REVIEWED-RETRY-v2.json",
+        "sha256": "a66dd8ad5675d5ed660fb078c7f7f07e603f54ccb329ce6e498d4add76c538f0",
+        "bytes": 686
+      },
+      {
+        "path": "public/ISSUER-SETUP-ADOPTED-v2.json",
+        "sha256": "cd992a7baea7306fd66cc869ce3c4c837a68379017d42bbad025036839dd2fa4",
+        "bytes": 1130
+      },
+      {
+        "path": "public/JOURNEY-RELEASE-v2.json",
+        "sha256": "b685cb0976370a034a49155a797f76b8dc5e1c70c77029195f5ce4ed3ab3ea51",
+        "bytes": 663
+      },
+      {
+        "path": "public/core-journey-v2-SOURCE.json",
+        "sha256": "abd3d86220d777edfe94d86d1ed6840e0f97db4d372827993965a0196654218e",
+        "bytes": 9489
+      },
+      {
+        "path": "attempts/core-issuer-setup-v1/failure.json",
+        "sha256": "ee89e87df8bf8077510c0f4444417886ff8d99b2e66828596f041fb49e11a77b",
+        "bytes": 199
+      },
+      {
+        "path": "attempts/core-issuer-setup-v1/metrics.json",
+        "sha256": "3ac39eedf75ff77d476e334af9e68aadc9b2e68a0a02760d05431b478908e40a",
+        "bytes": 805
+      },
+      {
+        "path": "attempts/issuer-vm-diagnostic-v1/diagnostic.json",
+        "sha256": "eda33aca84a19c3cfc1d066159add0a5c0e9f9fc7611d5b45c83b34ed08a6e91",
+        "bytes": 584
+      },
+      {
+        "path": "attempts/core-issuer-setup-reviewed-v2/request.json",
+        "sha256": "c729c3660540fa256f1607d16b80a368a8cc6185d6e045d44a54839c2cb8c542",
+        "bytes": 1158352
+      },
+      {
+        "path": "attempts/core-issuer-setup-reviewed-v2/preflight.json",
+        "sha256": "a2afaf4411fec1b0ec1555edca257ada2d99125c4af41078a13a305f4e572dd6",
+        "bytes": 1686
+      },
+      {
+        "path": "attempts/core-issuer-setup-reviewed-v2/intent.json",
+        "sha256": "059f2918f7fc290293971c052021cce30abf831131b10d6c8ffb3f867b114b54",
+        "bytes": 183
+      },
+      {
+        "path": "attempts/core-issuer-setup-reviewed-v2/included.json",
+        "sha256": "5f2ef406712d679f6e6787ed497f599e5f897f1cf350659e6a0770ba404bd09b",
+        "bytes": 4952
+      },
+      {
+        "path": "attempts/core-issuer-setup-reviewed-v2/metrics.json",
+        "sha256": "882758c3bf1eb2eec6a37fc5cccda0c009939231e3a2209178d1f90bd3fc287f",
+        "bytes": 1196
+      },
+      {
+        "path": "attempts/core-trader-assets-v1/request.json",
+        "sha256": "e81a53efa3c62686c80a414820d7ca7fc9095ff095f2e9403b3249d753396910",
+        "bytes": 1143779
+      },
+      {
+        "path": "attempts/core-trader-assets-v1/preflight.json",
+        "sha256": "18868710311f3c79760eb2ba8ed4e6ca3b23d0ffa557dde81792ce5cb08048b1",
+        "bytes": 1683
+      },
+      {
+        "path": "attempts/core-trader-assets-v1/included.json",
+        "sha256": "2ad80d925a554e563e03d3cd4db2705161c5e7bbcbb2cf5e10f6688dbb800a36",
+        "bytes": 3268
+      },
+      {
+        "path": "attempts/core-activation-fund-v1/request.json",
+        "sha256": "199b10daed6792214aaef46e2304a216797093abbf865248abdb1305895ffab9",
+        "bytes": 1141225
+      },
+      {
+        "path": "attempts/core-activation-fund-v1/preflight.json",
+        "sha256": "d5cdc52f0b1c9bfe718a0087e72437e25776ba8e49408feb467ba0411fb3c3a2",
+        "bytes": 1683
+      },
+      {
+        "path": "attempts/core-activation-fund-v1/intent.json",
+        "sha256": "90de4a8476a9d3795350cfc1389c8b3a5e8e76c8eaae60c6affbc53b312758cc",
+        "bytes": 183
+      }
+    ]
+  }
+}

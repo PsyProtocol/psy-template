@@ -1,0 +1,365 @@
+{
+  "schema": 1,
+  "recordedAt": "2026-11-11T18:56:24.766071+00:00",
+  "reviewDate": "2026-11-12",
+  "scope": "Deployment/registration milestone only. The real selected-order AMM journey is running; no completed fill, refund or final market claim is claimed by this snapshot.",
+  "sdkCommit": "01b8f2b0a077367a7b9879baba1a72aea8ab5510",
+  "clientCommit": "7058070057c3242b5d8b29e1a31d498aaa4202c0",
+  "replay": {
+    "authorization": {
+      "schema": 1,
+      "recordedAt": "2026-11-11T18:16:05.209951+00:00",
+      "userDecision": "Explicit user authorization: may redeploy; reply to the one-exact-byte replay question",
+      "scope": "One extra HTTP POST of the original AMM deployment bytes only; no new proof, signature, transfer or payment. If original is found included before replay, skip it. No further retry after this exception.",
+      "originalContentHash": "46a5f136ee14ffa4785754c1982810cd39b2f6939cf5cd055eac5e682fa33fc0",
+      "maximumExtraPostCount": 1,
+      "maximumNewContractsAmended": 4,
+      "maximumNewVaults": 1,
+      "maximumFeePsyUnchanged": "60",
+      "maximumNewFullUpsUnchanged": 40,
+      "onlyOneAmmMayBeInitializedOrFunded": true,
+      "duplicateAmmRemainsEmpty": true,
+      "preserveBothRecords": true,
+      "nodeChanged": false,
+      "sdkChanged": false
+    },
+    "tlsFailureBeforeAnyPost": {
+      "at": "2026-11-11T18:17:42.246250+00:00",
+      "exceptionType": "SSLCertVerificationError",
+      "errno": 1,
+      "reasonPublic": "[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1007)",
+      "broadcastMayHaveBeenAttempted": false,
+      "automaticRetry": false,
+      "seconds": 1.4127739580580965
+    },
+    "configuredTrustBundle": {
+      "source": "Public CA root bundle from the existing Node runtime used by the successful fresh read-only checks",
+      "nodeVersion": "v24.22.1",
+      "nodeExecutableSha256": "8a7dd4c5cb35e6171dfbea7303650bc311f46971b06dd7e1c62e3f291cfd746c",
+      "rootCount": 118,
+      "bundleSha256": "15783a17671365196e5e4ba6ddea3132df72538fef70be91bbd91f45c85c170f",
+      "certificateVerification": true,
+      "hostnameVerification": true,
+      "sdkChanged": false
+    },
+    "actualExtraPostCount": 1,
+    "response": {
+      "httpStatus": 200,
+      "truncated": false,
+      "automaticRetry": false,
+      "seconds": 28.222502999939024
+    },
+    "ack": {
+      "receipt": "46a5f136ee14ffa4785754c1982810cd39b2f6939cf5cd055eac5e682fa33fc0",
+      "submitted": true,
+      "included": false,
+      "sameExactOriginalRequest": true
+    },
+    "identicalWireBytes": true,
+    "sameBusinessIdentityNotSubmissionAttribution": true
+  },
+  "confirmedAmm": {
+    "marketId": 51,
+    "receipt": {
+      "success": true,
+      "data": {
+        "tx_id": "798149a2-32a5-4a4f-8758-6a25a270bc02",
+        "content_hash": "46a5f136ee14ffa4785754c1982810cd39b2f6939cf5cd055eac5e682fa33fc0",
+        "tx_type": "DeployContract",
+        "status": "included",
+        "role_type": "Coordinator",
+        "role_id": 0,
+        "pending_checkpoint_id": null,
+        "included_checkpoint_id": 103688,
+        "result": {
+          "contract_id": 51
+        },
+        "received_at": "2026-11-11T18:19:05Z",
+        "included_at": "2026-11-11T18:19:05Z",
+        "latency_ms": 0,
+        "owner_user_id": 971904,
+        "created_at": "2026-11-11T18:19:05+00:00",
+        "kind": "deploy_contract"
+      },
+      "timestamp": "2026-11-11T18:20:01.543487820Z"
+    },
+    "binding": {
+      "contract": {
+        "contractId": 51,
+        "codeRoot": "dee7912564e18c865fd2ee5d5915532a8b9c82cc5a97478a4a364bc31b4dfe26",
+        "layoutRoot": "a9008194809103c26715a39b20d2df6fc470d5ef74ae511dcd5a2fe69bb7cf79",
+        "stateTreeHeight": 31
+      },
+      "functionTreeRoot": "fdb027132faaa5b3e33b71dce8546d1d0035ac0c36d1a3dcb02d88a2e8b7ece9",
+      "layoutFieldCount": 58,
+      "layoutSlotCount": 1325400292
+    },
+    "chainRootAt1": "81bac9934a1c18579519b5297c94c7e7d25cb53973ac67befefe8b7a86f96b5c",
+    "onlyThisMarketMayRegisterOneVault": true,
+    "duplicateDeploymentsMayNotBeFunded": true,
+    "scope": "One observed confirmed occurrence after the expressly authorized replay; does not distinguish which identical HTTP submission was admitted."
+  },
+  "registeredVault": {
+    "marketId": 51,
+    "vaultId": 1182848,
+    "fingerprint": "2e6c8bec44fe777674f69f61107c9331638b37cf7c2b6b35959ddb2793cd2768",
+    "publicKeyHash": "b8c0cdb11b3b63bf5a41c9773459ea1d4535b1ba80237b554f3f26827ab0ae0d",
+    "publicKeyParam": "a92d5f86c90af2dd925d97251b4c356266e35dd07b7de574ca89fd8057462b49",
+    "chainRootAt1": "81bac9934a1c18579519b5297c94c7e7d25cb53973ac67befefe8b7a86f96b5c",
+    "coordinatorMappingVerified": true,
+    "indexedReceiptVerified": true
+  },
+  "registrationMembership": {
+    "observedAt": "2026-11-11T18:36:43.317719+00:00",
+    "userId": 1182848,
+    "publicKeyHash": "b8c0cdb11b3b63bf5a41c9773459ea1d4535b1ba80237b554f3f26827ab0ae0d",
+    "chainRootAt1": "81bac9934a1c18579519b5297c94c7e7d25cb53973ac67befefe8b7a86f96b5c",
+    "checkpoint": 103796,
+    "registrationMembershipVerified": true,
+    "verificationBinarySha256": "d1693fc2937bcc1a428603057abdd6253af030792dccf5fbb8b7f5be9adf82e8",
+    "statementSha256": "b8c05343e4bdaaa180b043c4d83e527477f76676f03d12b4f731c810f874b447",
+    "reportSha256": "8a94b567764b0d4e4701ceade753ceb80b2d62d6e82dcc9f9ca9917190f8f9f0",
+    "ordinaryUpsIncluded": false,
+    "financialFeesPaidBaseUnits": "0",
+    "networkFinalityAttested": false
+  },
+  "binaries": {
+    "compact_market_wallet": "17bfa2068a1ecc62b88154c9967b2305d99c6420d678abf80fa5bcf0f5fa77fd",
+    "isolated_wallet": "6295889e436aa24580b56536464f90568eaf1931f63a6aad115875759689b785"
+  },
+  "build": {
+    "command": [
+      "cargo",
+      "+nightly-2025-09-20",
+      "build",
+      "--offline",
+      "--locked",
+      "--release",
+      "--features",
+      "sdk-audit-v1",
+      "--bin",
+      "compact_market_wallet",
+      "--bin",
+      "isolated_wallet"
+    ],
+    "exitCode": 0,
+    "seconds": 70.61468962498475,
+    "sampledFamilyRssKiB": 763856,
+    "stop": null,
+    "financialOperations": 0,
+    "application": "application-v4"
+  },
+  "nativeUnit": {
+    "exitCode": 0,
+    "seconds": 51.70842699997593,
+    "financialOperations": 0,
+    "proofsGenerated": 0,
+    "command": [
+      "cargo",
+      "+nightly-2025-09-20",
+      "test",
+      "--offline",
+      "--locked",
+      "--release",
+      "--features",
+      "sdk-audit-v1",
+      "--bin",
+      "compact_market_wallet",
+      "core_scope_tests",
+      "--",
+      "--test-threads=1"
+    ]
+  },
+  "journeyPlan": {
+    "at": "2026-11-11T18:49:12.287280+00:00",
+    "owner": "root",
+    "marketId": 51,
+    "vaultId": 1182848,
+    "assets": [
+      49,
+      50
+    ],
+    "ordinaryAccounts": [
+      971904,
+      668800
+    ],
+    "stages": [
+      "core-issuer-setup-v1",
+      "core-trader-assets-v1",
+      "core-activation-fund-v1",
+      "core-activate-v1",
+      "core-lp-open-v1",
+      "core-lp-sponsor-v1",
+      "core-lp-commit-v1",
+      "core-lp-settle-v1",
+      "core-swap-open-v1",
+      "core-swap-sponsor-v1",
+      "core-swap-commit-v1",
+      "core-swap-settle-v1",
+      "core-swap-claim-v1",
+      "core-cancel-open-v1",
+      "core-cancel-sponsor-v1",
+      "core-cancel-commit-v1",
+      "core-cancel-settle-v1",
+      "core-refund-claim-v1"
+    ],
+    "stageCount": 18,
+    "ordinaryUpsCount": 11,
+    "vaultUpsCount": 7,
+    "maximumFeeReservePerStageBaseUnits": "3000000000",
+    "maximumAggregateReservationBaseUnits": "54000000000",
+    "originalFeeCeilingPsyUnchanged": "60",
+    "maximumFullUpsUnchanged": 40,
+    "noFaucet": true,
+    "maximumQaSupplyPerAsset": "200",
+    "maximumLiquidityPerAsset": "20",
+    "swapInput": "1",
+    "cancelledInputRefund": "1",
+    "privateFilesNeverArchived": true,
+    "unknownBroadcastStopsNewFinancialOperations": true,
+    "oneFinancialExecutor": true,
+    "nodeOrSdkChanged": false,
+    "browserUiAcceptanceClaimed": false
+  },
+  "concurrency": {
+    "maximumAgentSlots": 4,
+    "financialAndProofOwner": "root only",
+    "agents": "Curve, Book and NFT isolated source/host checks and read-only peer review; no mutations or native builds/proofs",
+    "crossMachineAccepted": false
+  },
+  "rawArchive": {
+    "directoryName": "amm-core-live-20261112-v1",
+    "outsideGit": true,
+    "files": [
+      {
+        "path": "public/EXACT-REPLAY-AUTHORIZATION-v1.json",
+        "sha256": "7e4103c7d588f2e7963a30efa4a83c4a3cb007a44235ebe684916e7cde0ed280",
+        "bytes": 807
+      },
+      {
+        "path": "public/TLS-CA-v1.json",
+        "sha256": "fa3f197f51be73f07935b4d8a6aebb52e8b6097dc63d7fc2c688d27f1c7eec1e",
+        "bytes": 436
+      },
+      {
+        "path": "attempts/replay-amm-original-v1/failure.json",
+        "sha256": "81204456a5211dca9161f59d3510cf1ee91f08642e612bd8b69da58e7932bfd6",
+        "bytes": 344
+      },
+      {
+        "path": "attempts/replay-amm-original-v2/fresh-preflight.json",
+        "sha256": "cc8e470e46dbb997e4e9b5ac3d92e482430b1ad5087b58fa055339cb83a86ba8",
+        "bytes": 1298
+      },
+      {
+        "path": "attempts/replay-amm-original-v2/intent.json",
+        "sha256": "14d564f83a8cf387a31836edf63a10042e5e61f7df1eb93610e678e6f1c3258e",
+        "bytes": 649
+      },
+      {
+        "path": "attempts/replay-amm-original-v2/rpc-request.json",
+        "sha256": "241d3a0b042ddf84416d21e5f40eefa8d9385a63faa127bbec60c42e6448b714",
+        "bytes": 66880029
+      },
+      {
+        "path": "attempts/replay-amm-original-v2/transport.json",
+        "sha256": "a6cf7a4c129e5fdaf7c20ccd8a77c759ee3a4bc21f7ebdc2cb4d4b643a6956f8",
+        "bytes": 258
+      },
+      {
+        "path": "attempts/replay-amm-original-v2/send-started.json",
+        "sha256": "883ae1df313347ed8fc7112c79f3b708d07a3c85a8e5a0fb686cd0cc802b7229",
+        "bytes": 91
+      },
+      {
+        "path": "attempts/replay-amm-original-v2/rpc-response.body",
+        "sha256": "f3d861037ede8b7e599b648987dad88a61e483554b39b3709afb04a5acc92275",
+        "bytes": 100
+      },
+      {
+        "path": "attempts/replay-amm-original-v2/rpc-response-meta.json",
+        "sha256": "6100d4ff95735dd4ecab583523df816710ff661eec7d8593eb1b24d9f19a46d6",
+        "bytes": 106
+      },
+      {
+        "path": "attempts/replay-amm-original-v2/receipt.json",
+        "sha256": "f9472b2307d68edb4858502126bedae16be1f53a7caad6e64fa78069c2b57f6c",
+        "bytes": 162
+      },
+      {
+        "path": "public/deploy-amm-v1-recovery-v5.json",
+        "sha256": "f1b26e7c4282435daef49a5ddc734051af137734e18317b085ce183652251c16",
+        "bytes": 2410
+      },
+      {
+        "path": "public/AMM-SELECTED-v1.json",
+        "sha256": "08f0d897acb18f91641a704243e0f2672e80ce01877bc4baee9ef1ac19b93677",
+        "bytes": 1506
+      },
+      {
+        "path": "public/CORE-REGISTRATION-BUILD-AMENDMENT-v1.json",
+        "sha256": "ccd7d032fc5621aae6aae4db677f701a89142b2a5639ac194e4e480db677e6aa",
+        "bytes": 398
+      },
+      {
+        "path": "public/PREPARE-v4.json",
+        "sha256": "7809912e919d80145878e2cebf4a45ee1e87172c3ba01d09e509aade72692454",
+        "bytes": 520
+      },
+      {
+        "path": "public/build-tools-v3.json",
+        "sha256": "b79a3ff5344b40d848dde616467cd8351b261795650ca811ebec29a589db0579",
+        "bytes": 401
+      },
+      {
+        "path": "public/BINARIES-v3.json",
+        "sha256": "f7d7256a806ab3a684bf0ffe98d1d000451fe44b440b945aa578226f3f6ca61f",
+        "bytes": 186
+      },
+      {
+        "path": "public/core-native-unit-v2.json",
+        "sha256": "42039c0e701412fd1baeaf3950a693ecafc78a31f85c61aeef5f11415ddfea9b",
+        "bytes": 362
+      },
+      {
+        "path": "public/amm-core-identity-v1.json",
+        "sha256": "59091f4fadbaf584e480946026dc2ea3eed0b896e573f53de8b153a6a3ba5c93",
+        "bytes": 451
+      },
+      {
+        "path": "public/AMM-VAULT-v1.json",
+        "sha256": "65e47838938a2624f1bb1082463879a6f6a837dc4130f12c2bc0f578caa0efff",
+        "bytes": 3989
+      },
+      {
+        "path": "public/AMM-VAULT-REGISTERED-v1.json",
+        "sha256": "56729dead65a6fc7da696d9dbe01197ac104e78f1f731541163aea81af8ddbdf",
+        "bytes": 693
+      },
+      {
+        "path": "public/CORE-JOURNEY-PLAN-v1.json",
+        "sha256": "572de74da136660288f2cbfae23787fd02a2cbb19b71a4aa309c3ca791600591",
+        "bytes": 1286
+      },
+      {
+        "path": "bound-core-v1/BOUND.json",
+        "sha256": "38b86a6b6860f9c513b732c3e5510494283cc7ec5cc23f0663bdf91be1fedab3",
+        "bytes": 2291
+      },
+      {
+        "path": "public/core-journey-v1-SOURCE.json",
+        "sha256": "c05c9685137e464e308462f8af595819c4638fb0fd1b26375e2027f18e3a596f",
+        "bytes": 9489
+      }
+    ]
+  },
+  "boundary": {
+    "newKeyRegistrationIsNotFirstUps": true,
+    "merkleRegistrationRelativeToRpcRootNotFinality": true,
+    "ordinarySdkClaimsNotBrowserUi": true,
+    "randomOrderingEnabled": false,
+    "globalOrderCompleteness": false,
+    "nodeOrSdkModified": false,
+    "privateFilesProjected": false
+  }
+}
