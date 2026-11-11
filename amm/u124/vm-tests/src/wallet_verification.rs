@@ -770,7 +770,27 @@ pub fn verify_market_request(
         proof(&bundle.sign_proof_b64)?,
         H::q_two_to_one(sig_hash, bundle.public_key_param),
     )?;
+    // Public review effects are derived only after full call/session/signature
+    // verification. The wallet must still match the executable identity to its
+    // own reviewed token catalogue; method names or RPC labels are not authority.
+    let mut claim_outputs = Vec::new();
+    if bundle.schema == 2 {
+        let approved = &approval.calls[0];
+        let low = integer(&approved.inputs[4])?;
+        let high = integer(&approved.inputs[5])?;
+        ensure!(low < (1u64 << 62) && high < (1u64 << 62), "claim U124 limbs");
+        let amount = (low as u128) + ((high as u128) << 62);
+        ensure!(amount > 0, "positive claim amount");
+        let contract = pack.contracts.iter().find(|c| c.contract_id.to_string() == approved.contract_id)
+            .context("claim effect executable")?;
+        claim_outputs.push(serde_json::json!({
+            "kind":"ft-credit", "assetId":approved.contract_id,
+            "recipientId":approval.user_id.to_string(), "amountBaseUnits":amount.to_string(),
+            "codeRoot":contract.code_root.to_string(), "layoutRoot":contract.layout_root.to_string(),
+            "functionRoot":contract.function_root.to_string(),
+        }));
+    }
     Ok(
-        serde_json::json!({"callCommitments":call_commitments,"fullProofVerified":true,"fullCallsBound":true,"sessionBound":true,"sigHashBound":true,"endpointsAndFeesBound":true,"requestSha256":format!("{:x}",Sha256::digest(request_bytes)),"sdkManifestSha256":SDK,"contentHash":request.user_ec_input.get_tx_hash()?.to_string(),"userId":approval.user_id,"nonce":approval.nonce.to_string(),"checkpoint":cp,"endUserLeafHash":core.state_transition.end_user_leaf_hash.to_string(),"sigHash":sig_hash.to_string(),"sessionHash":session_hash,"fingerprint":pack.sign_fingerprint.to_string(),"actualFee":fee.to_string(),"registrationStartVerified":registration_start,"registrationIndex":if registration_start {Some(psy_crypto::common::user_id::get_registration_id_from_user_id(approval.user_id).to_string())} else {None},"eventAssurance":"advisory data; count and identity envelope checked, never authoritative state","broadcast":false}),
+        serde_json::json!({"claimOutputs":claim_outputs,"callCommitments":call_commitments,"fullProofVerified":true,"fullCallsBound":true,"sessionBound":true,"sigHashBound":true,"endpointsAndFeesBound":true,"requestSha256":format!("{:x}",Sha256::digest(request_bytes)),"sdkManifestSha256":SDK,"contentHash":request.user_ec_input.get_tx_hash()?.to_string(),"userId":approval.user_id,"nonce":approval.nonce.to_string(),"checkpoint":cp,"endUserLeafHash":core.state_transition.end_user_leaf_hash.to_string(),"sigHash":sig_hash.to_string(),"sessionHash":session_hash,"fingerprint":pack.sign_fingerprint.to_string(),"actualFee":fee.to_string(),"registrationStartVerified":registration_start,"registrationIndex":if registration_start {Some(psy_crypto::common::user_id::get_registration_id_from_user_id(approval.user_id).to_string())} else {None},"eventAssurance":"advisory data; count and identity envelope checked, never authoritative state","broadcast":false}),
     )
 }

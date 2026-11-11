@@ -1,5 +1,6 @@
 import { validateCallCommitments, validateCommitmentRecord, validateCommitmentContext } from "./commitments.mjs";
 import { publicManifest, stablePublic, shaPublic } from "./capsule.mjs";
+import { validateClaimOutputs } from "./commitmentReview.mjs";
 import { nativeMethod } from "../nativeProtocol.mjs";
 // Background-only wallet service. Storage and native/prover adapters are owned
 // by the extension, never supplied through a page request. No automatic retry.
@@ -296,6 +297,7 @@ export function createStagedWallet({
         ok(native[field] === p[field], "Native commitment artifact mismatch " + field);
       ok(native.userId === p.userId && native.nonce === p.walletNonce, "Native commitment user/nonce mismatch");
     }
+    return native;
   };
   return {
     list: async (context) =>
@@ -421,13 +423,15 @@ export function createStagedWallet({
         );
         ok(typeof exclusive === "function", "Authoritative wallet lock is not connected");
         identity(c, e.record);
-        await validatePrepared(e, e.prepared);
+        const verified = await validatePrepared(e, e.prepared);
+        if (e.prepared.schema === 3)
+          validateClaimOutputs(verified.claimOutputs, e.prepared.callCommitments, c.userId);
         const approvalTerms = {
           schema: 1, context: c, intentId: e.intentId,
           recordId: e.record.recordId, preparedHash: e.preparedHash,
           requestSha256: e.prepared.requestSha256,
           ...(e.prepared.schema === 3
-            ? {callCommitments: e.prepared.callCommitments}
+            ? {callCommitments: e.prepared.callCommitments, claimOutputs: clone(verified.claimOutputs)}
             : {fullCalls: e.prepared.fullCalls}), actualFee: e.prepared.actualFee,
           maxNetworkFee: e.record.plan.maxNetworkFee,
           review: {request: clone(e.record.request), plan: clone(e.record.plan)},

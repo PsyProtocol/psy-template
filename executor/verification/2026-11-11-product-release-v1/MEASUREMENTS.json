@@ -1,0 +1,463 @@
+{
+  "FRAMING-MICRO-v1": {
+    "scope": "Same-process host-only framing check; not delivery, proof, RPC or settlement throughput",
+    "node": "v24.22.1",
+    "samples": [
+      {
+        "length": 99,
+        "iterations": 10000,
+        "round": 0,
+        "mode": "baseline",
+        "milliseconds": 294.49483299999974
+      },
+      {
+        "length": 99,
+        "iterations": 10000,
+        "round": 0,
+        "mode": "candidate",
+        "milliseconds": 12.276332999999795
+      },
+      {
+        "length": 99,
+        "iterations": 10000,
+        "round": 1,
+        "mode": "candidate",
+        "milliseconds": 8.671957999999904
+      },
+      {
+        "length": 99,
+        "iterations": 10000,
+        "round": 1,
+        "mode": "baseline",
+        "milliseconds": 115.41287499999999
+      },
+      {
+        "length": 99,
+        "iterations": 10000,
+        "round": 2,
+        "mode": "baseline",
+        "milliseconds": 184.66920899999968
+      },
+      {
+        "length": 99,
+        "iterations": 10000,
+        "round": 2,
+        "mode": "candidate",
+        "milliseconds": 27.772541999999703
+      },
+      {
+        "length": 99,
+        "iterations": 10000,
+        "round": 3,
+        "mode": "candidate",
+        "milliseconds": 13.38537500000075
+      },
+      {
+        "length": 99,
+        "iterations": 10000,
+        "round": 3,
+        "mode": "baseline",
+        "milliseconds": 650.3989589999992
+      },
+      {
+        "length": 99,
+        "iterations": 10000,
+        "round": 4,
+        "mode": "baseline",
+        "milliseconds": 1086.4932909999998
+      },
+      {
+        "length": 99,
+        "iterations": 10000,
+        "round": 4,
+        "mode": "candidate",
+        "milliseconds": 9.587333000000399
+      },
+      {
+        "length": 99,
+        "iterations": 10000,
+        "round": 5,
+        "mode": "candidate",
+        "milliseconds": 138.67483300000004
+      },
+      {
+        "length": 99,
+        "iterations": 10000,
+        "round": 5,
+        "mode": "baseline",
+        "milliseconds": 1176.4014160000006
+      },
+      {
+        "length": 32099,
+        "iterations": 200,
+        "round": 0,
+        "mode": "baseline",
+        "milliseconds": 2372.261125
+      },
+      {
+        "length": 32099,
+        "iterations": 200,
+        "round": 0,
+        "mode": "candidate",
+        "milliseconds": 115.03458300000057
+      },
+      {
+        "length": 32099,
+        "iterations": 200,
+        "round": 1,
+        "mode": "candidate",
+        "milliseconds": 50.51179100000081
+      },
+      {
+        "length": 32099,
+        "iterations": 200,
+        "round": 1,
+        "mode": "baseline",
+        "milliseconds": 1016.3930409999994
+      },
+      {
+        "length": 32099,
+        "iterations": 200,
+        "round": 2,
+        "mode": "baseline",
+        "milliseconds": 984.9773750000004
+      },
+      {
+        "length": 32099,
+        "iterations": 200,
+        "round": 2,
+        "mode": "candidate",
+        "milliseconds": 74.63583400000061
+      },
+      {
+        "length": 32099,
+        "iterations": 200,
+        "round": 3,
+        "mode": "candidate",
+        "milliseconds": 42.3341249999994
+      },
+      {
+        "length": 32099,
+        "iterations": 200,
+        "round": 3,
+        "mode": "baseline",
+        "milliseconds": 5390.838833
+      },
+      {
+        "length": 32099,
+        "iterations": 200,
+        "round": 4,
+        "mode": "baseline",
+        "milliseconds": 8373.460583
+      },
+      {
+        "length": 32099,
+        "iterations": 200,
+        "round": 4,
+        "mode": "candidate",
+        "milliseconds": 43.61633299999812
+      },
+      {
+        "length": 32099,
+        "iterations": 200,
+        "round": 5,
+        "mode": "candidate",
+        "milliseconds": 42.702124999999796
+      },
+      {
+        "length": 32099,
+        "iterations": 200,
+        "round": 5,
+        "mode": "baseline",
+        "milliseconds": 6943.567916
+      },
+      {
+        "length": 67500,
+        "iterations": 200,
+        "round": 0,
+        "mode": "baseline",
+        "milliseconds": 14744.758374999998
+      },
+      {
+        "length": 67500,
+        "iterations": 200,
+        "round": 0,
+        "mode": "candidate",
+        "milliseconds": 122.15616600000067
+      },
+      {
+        "length": 67500,
+        "iterations": 200,
+        "round": 1,
+        "mode": "candidate",
+        "milliseconds": 266.5255829999951
+      },
+      {
+        "length": 67500,
+        "iterations": 200,
+        "round": 1,
+        "mode": "baseline",
+        "milliseconds": 8949.677166999994
+      },
+      {
+        "length": 67500,
+        "iterations": 200,
+        "round": 2,
+        "mode": "baseline",
+        "milliseconds": 15416.237874999999
+      },
+      {
+        "length": 67500,
+        "iterations": 200,
+        "round": 2,
+        "mode": "candidate",
+        "milliseconds": 191.58320800001093
+      },
+      {
+        "length": 67500,
+        "iterations": 200,
+        "round": 3,
+        "mode": "candidate",
+        "milliseconds": 239.10770800001046
+      },
+      {
+        "length": 67500,
+        "iterations": 200,
+        "round": 3,
+        "mode": "baseline",
+        "milliseconds": 13126.580709000002
+      },
+      {
+        "length": 67500,
+        "iterations": 200,
+        "round": 4,
+        "mode": "baseline",
+        "milliseconds": 27610.243208999993
+      },
+      {
+        "length": 67500,
+        "iterations": 200,
+        "round": 4,
+        "mode": "candidate",
+        "milliseconds": 901.0720419999998
+      },
+      {
+        "length": 67500,
+        "iterations": 200,
+        "round": 5,
+        "mode": "candidate",
+        "milliseconds": 909.478375000006
+      },
+      {
+        "length": 67500,
+        "iterations": 200,
+        "round": 5,
+        "mode": "baseline",
+        "milliseconds": 4790.511958999996
+      }
+    ],
+    "sink": 124800
+  },
+  "HOST-PRESSURE-v1": {
+    "observedAt": 1794393993.257313,
+    "swap": "vm.swapusage: total = 61440.00M  used = 60112.00M  free = 1328.00M  (encrypted)\n",
+    "scope": "Host observation; shared workload not controlled. Timing is not a matched end-to-end performance claim."
+  },
+  "event-cache-green-v1": {
+    "label": "event-cache-green-v1",
+    "command": [
+      "node",
+      "node_modules/vitest/vitest.mjs",
+      "run",
+      "src/lib/privateFtEventCache.test.ts",
+      "--maxWorkers=1"
+    ],
+    "exitCode": 1,
+    "seconds": 8.042813124950044,
+    "sampledFamilyRssKiB": 658960,
+    "financialOperations": 0
+  },
+  "event-cache-green-v2": {
+    "label": "event-cache-green-v2",
+    "command": [
+      "node",
+      "node_modules/vitest/vitest.mjs",
+      "run",
+      "src/lib/privateFtEventCache.test.ts",
+      "--maxWorkers=1"
+    ],
+    "exitCode": 0,
+    "seconds": 8.020058041904122,
+    "sampledFamilyRssKiB": 441392,
+    "financialOperations": 0
+  },
+  "event-cache-red-v1": {
+    "label": "event-cache-red-v1",
+    "command": [
+      "node",
+      "node_modules/vitest/vitest.mjs",
+      "run",
+      "src/lib/privateFtEventCache.test.ts",
+      "--maxWorkers=1"
+    ],
+    "exitCode": 1,
+    "seconds": 4.82863679190632,
+    "sampledFamilyRssKiB": 535536,
+    "financialOperations": 0
+  },
+  "frame-and-signature-v3": {
+    "label": "frame-and-signature-v3",
+    "command": [
+      "node",
+      "node_modules/vitest/vitest.mjs",
+      "run",
+      "src/lib/privateFtEventCache.test.ts",
+      "src/lib/ftCiphertextFrame.test.ts",
+      "--maxWorkers=1"
+    ],
+    "exitCode": 0,
+    "seconds": 11.49096899991855,
+    "sampledFamilyRssKiB": 594368,
+    "financialOperations": 0
+  },
+  "wallet-backlog-framing-v5": {
+    "label": "wallet-backlog-framing-v5",
+    "command": [
+      "node",
+      "node_modules/vitest/vitest.mjs",
+      "run",
+      "src/lib/privateFtDelivery.test.ts",
+      "-t",
+      "advances past two waves",
+      "--maxWorkers=1"
+    ],
+    "exitCode": 1,
+    "seconds": 309.3057740420336,
+    "sampledFamilyRssKiB": 366480,
+    "financialOperations": 0
+  },
+  "wallet-backlog-green-v4": {
+    "label": "wallet-backlog-green-v4",
+    "command": [
+      "node",
+      "node_modules/vitest/vitest.mjs",
+      "run",
+      "src/lib/privateFtDelivery.test.ts",
+      "--maxWorkers=1",
+      "-t",
+      "advances past two waves of partial spam"
+    ],
+    "exitCode": 1,
+    "seconds": 100.13841383298859,
+    "sampledFamilyRssKiB": 638608,
+    "financialOperations": 0
+  },
+  "wallet-backlog-profile-v3": {
+    "label": "wallet-backlog-profile-v3",
+    "command": [
+      "node",
+      "node_modules/vitest/vitest.mjs",
+      "run",
+      "src/lib/privateFtDelivery.profile.test.ts",
+      "--maxWorkers=1",
+      "-t",
+      "advances past two waves of partial spam"
+    ],
+    "exitCode": 1,
+    "seconds": 98.0249163749395,
+    "sampledFamilyRssKiB": 585968,
+    "financialOperations": 0
+  },
+  "wallet-backlog-v2": {
+    "label": "wallet-backlog-v2",
+    "command": [
+      "node",
+      "node_modules/vitest/vitest.mjs",
+      "run",
+      "src/lib/privateFtDelivery.test.ts",
+      "--maxWorkers=1",
+      "-t",
+      "advances past two waves of partial spam"
+    ],
+    "exitCode": 1,
+    "seconds": 249.04374487500172,
+    "sampledFamilyRssKiB": 447072,
+    "financialOperations": 0
+  },
+  "wallet-build-v1": {
+    "label": "wallet-build-v1",
+    "command": [
+      "npm",
+      "run",
+      "build:staging"
+    ],
+    "exitCode": 0,
+    "seconds": 434.14504016691353,
+    "sampledFamilyRssKiB": 1959536,
+    "financialOperations": 0
+  },
+  "wallet-tests-v1": {
+    "label": "wallet-tests-v1",
+    "command": [
+      "node",
+      "node_modules/vitest/vitest.mjs",
+      "run",
+      "--maxWorkers=2"
+    ],
+    "exitCode": 1,
+    "seconds": 195.92492295894772,
+    "sampledFamilyRssKiB": 861120,
+    "financialOperations": 0
+  },
+  "wallet-tests-v2": {
+    "label": "wallet-tests-v2",
+    "command": [
+      "node",
+      "node_modules/vitest/vitest.mjs",
+      "run",
+      "--maxWorkers=2"
+    ],
+    "exitCode": 1,
+    "seconds": 305.71816774993204,
+    "sampledFamilyRssKiB": 803504,
+    "financialOperations": 0
+  },
+  "wasm-build-v1": {
+    "label": "wasm-build-v1",
+    "command": [
+      "cargo",
+      "+nightly-2025-09-20",
+      "build",
+      "--release",
+      "--offline",
+      "--locked",
+      "--features",
+      "sdk-audit-v1",
+      "--target",
+      "wasm32-unknown-unknown"
+    ],
+    "exitCode": 0,
+    "seconds": 63.77301087498199,
+    "sampledFamilyRssKiB": 357408,
+    "financialOperations": 0
+  },
+  "wasm-legacy-build-v1": {
+    "label": "wasm-legacy-build-v1",
+    "command": [
+      "cargo",
+      "+nightly-2025-09-20",
+      "build",
+      "--release",
+      "--offline",
+      "--locked",
+      "--features",
+      "sdk-audit-v1",
+      "--target",
+      "wasm32-unknown-unknown"
+    ],
+    "exitCode": 0,
+    "seconds": 117.57748783403076,
+    "sampledFamilyRssKiB": 347664,
+    "financialOperations": 0
+  }
+}

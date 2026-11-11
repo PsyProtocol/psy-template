@@ -1,5 +1,14 @@
 # Market correctness and reset-chain validation — 27 October 2026
 
+Latest continuation (11 November): [public claim review, bounded verifier loading,
+transport signature hardening and isolated browser setup](PRODUCT_RELEASE_REVIEW_20261111.md).
+Current read-only chain/Native/runtime-resource captures match the accepted
+freeze. Complete saved synthetic private/ordinary/first-session proofs replay;
+81 application checks pass. A mutable Nostr event verification-marker gap is
+fixed; full backlog performance acceptance remains open. Current-chain resources,
+compact final UI wiring and real extension/network settlement remain closed.
+Earlier entries retain their historical scope; this is not production acceptance.
+
 Latest continuation (4 November): [privacy-safe commitment journal and exact
 recovery](PRIVATE_FT_COMMITMENT_RECOVERY_20261104.md). The existing wallet state
 machine now accepts schema-3 public commitments after complete verification and

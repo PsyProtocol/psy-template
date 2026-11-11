@@ -6,7 +6,7 @@ const [webModule,wasmFile,packFile,fixtures,out]=process.argv.slice(2);assert.ok
 const bytes=readFileSync(wasmFile),pack=parseLosslessJson(readFileSync(packFile,'utf8')),hash=b=>createHash('sha256').update(b).digest('hex');
 const moduleUrl=pathToFileURL(resolve(webModule)).href,module=await import(moduleUrl);Object.defineProperty(globalThis,'location',{value:{href:'chrome-extension://qa-owned/background.html'},configurable:true});
 const release={sdkManifestSha256:pack.sdk_manifest,networkMagic:String(pack.network_magic),wasmSha256:hash(bytes),verifierPackSha256:hash(readFileSync(packFile))};let reads=0;
-const options={module,wasmUrl:'chrome-extension://qa-owned/assets/market_verifier_bg.wasm',release,fetcher:async url=>{reads++;assert.equal(url,'chrome-extension://qa-owned/assets/market_verifier_bg.wasm');return{ok:true,arrayBuffer:async()=>bytes.buffer.slice(bytes.byteOffset,bytes.byteOffset+bytes.byteLength)};}};
+const options={module,wasmUrl:'chrome-extension://qa-owned/assets/market_verifier_bg.wasm',release,fetcher:async url=>{reads++;assert.equal(url,'chrome-extension://qa-owned/assets/market_verifier_bg.wasm');return new Response(bytes);}};
 const [a,b]=await Promise.all([loadOwnedMarketVerifier(options),loadOwnedMarketVerifier(options)]);assert.equal(a,b);assert.equal(reads,1);
 const raw=n=>readFileSync(join(fixtures,n+'.json'),'utf8');const report=JSON.parse(await a.verify(raw('request'),raw('approval'),raw('bundle')));assert.equal(report.fullProofVerified,true);
 const approval=JSON.parse(raw('approval'));approval.nonce++;
@@ -18,12 +18,12 @@ const preinitialized=await import(moduleUrl+'?preinitialized=1');
 await preinitialized.default({module_or_path:bytes});
 await assert.rejects(loadOwnedMarketVerifier({...options,module:preinitialized,release:otherRelease}),/already initialized/);
 const racing=await import(moduleUrl+'?racing=1');
-await assert.rejects(loadOwnedMarketVerifier({...options,module:racing,release:otherRelease,fetcher:async()=>{await racing.default({module_or_path:bytes});return{ok:true,arrayBuffer:async()=>other.buffer.slice(other.byteOffset,other.byteOffset+other.byteLength)};}}),/initialized during/);
+await assert.rejects(loadOwnedMarketVerifier({...options,module:racing,release:otherRelease,fetcher:async()=>{await racing.default({module_or_path:bytes});return new Response(other);}}),/initialized during/);
 // An outside initializer can begin before ownership and finalize after us.
 // Recheck the module on every use, not only immediately after initialization.
 const late=await import(moduleUrl+'?late=1');let finishOutside;
 const outside=late.default({module_or_path:new Promise(resolve=>{finishOutside=resolve;})});
-const active=await loadOwnedMarketVerifier({...options,module:late,release:otherRelease,fetcher:async()=>({ok:true,arrayBuffer:async()=>other.buffer.slice(other.byteOffset,other.byteOffset+other.byteLength)})});
+const active=await loadOwnedMarketVerifier({...options,module:late,release:otherRelease,fetcher:async()=>new Response(other)});
 assert.equal(JSON.parse(await active.identity()).verifierPackSha256,release.verifierPackSha256);
 finishOutside(bytes);await outside;
 await assert.rejects(active.verify(raw('request'),raw('approval'),raw('bundle')),/instance changed/);

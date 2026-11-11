@@ -24,7 +24,12 @@ function collect(p) {
 collect(resolve(root, "market-client/wallet/prepareService.mjs"));
 collect(resolve(root, "market-client/wallet/native/ownedLoader.mjs"));
 collect(resolve(root, "market-client/wallet/approvalPolicy.mjs"));
+// Explicit public entry points are not reachable through the ordinary factory.
+// They must remain in a reproducible bundle for future reviewed private routes.
+collect(resolve(root, "market-client/wallet/commitmentCapsule.mjs"));
+collect(resolve(root, "market-client/wallet/commitmentReview.mjs"));
 paths.add(resolve(root, "market-client/wallet/approvalPolicy.d.mts"));
+paths.add(resolve(root, "market-client/wallet/commitmentReview.d.mts"));
 paths.add(resolve(root, "market-client/wallet/prepareService.d.mts"));
 paths.add(resolve(root, "market-client/wallet/native/ownedLoader.d.mts"));
 paths.add(resolve(root, "market-client/protocol.d.mts"));

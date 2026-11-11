@@ -19,16 +19,19 @@ export function validateCommitmentRecord(r) {
   keys(r, ["schema","recordId","registryHash","request","snapshot","plan"]);
   ok(r.schema === 3 && HASH.test(r.recordId) && HASH.test(r.registryHash), "Commitment record identity");
   keys(r.request, ["userId"]); keys(r.snapshot,["user"]); keys(r.snapshot.user,["publicKeyHash"]);
-  const p = r.plan;
+  ok(HASH.test(r.snapshot.user.publicKeyHash), "Public account hash required");
+  validateCommitmentPlan(r.plan,r.request.userId);
+}
+export function validateCommitmentPlan(p,userId) {
   keys(p, ["financialAuthorization","userId","recipientId","network","nativeProtocol",
     "sdkManifestSha256","verifierPackSha256","startUserLeafHash","walletNonce",
     "startCheckpoint","validUntilCheckpoint","maxNetworkFee","callCommitments"]);
   keys(p.network,["name","magic","chainRootAt1"]);
   ok(p.network.name === "testnet" && integer(p.network.magic) && HASH.test(p.network.chainRootAt1), "Explicit chain instance required");
-  ok([r.request.userId,p.userId,p.recipientId,p.startCheckpoint,p.validUntilCheckpoint].every(v => Number.isSafeInteger(v) && v >= 0) &&
-    p.startCheckpoint <= p.validUntilCheckpoint && p.userId === p.recipientId && p.userId === r.request.userId &&
+  ok([userId,p.userId,p.recipientId,p.startCheckpoint,p.validUntilCheckpoint].every(v => Number.isSafeInteger(v) && v >= 0) &&
+    p.startCheckpoint <= p.validUntilCheckpoint && p.userId === p.recipientId && p.userId === userId &&
     p.financialAuthorization === false && typeof p.nativeProtocol === "string" &&
-    [r.snapshot.user.publicKeyHash,p.sdkManifestSha256,p.verifierPackSha256,p.startUserLeafHash].every(v=>HASH.test(v)) &&
+    [p.sdkManifestSha256,p.verifierPackSha256,p.startUserLeafHash].every(v=>HASH.test(v)) &&
     integer(p.walletNonce) && integer(p.maxNetworkFee) && BigInt(p.maxNetworkFee)>0n, "Public commitment identity/budget required");
   validateCallCommitments(p.callCommitments);
   // The final fee call is added separately and checked against full verification.

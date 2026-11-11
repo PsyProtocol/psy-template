@@ -7,6 +7,7 @@ import {readFileSync} from 'node:fs';
 import {join,resolve} from 'node:path';
 import {createStagedWallet} from './staged.mjs';
 import {createNativeCommitmentVerifier} from './nativeBackend.mjs';
+import {reviewCommitmentConfirmation} from './commitmentReview.mjs';
 import {commitmentCapsule} from './commitmentCapsule.mjs';
 import {publicManifest,stablePublic,shaPublic} from './capsule.mjs';
 import {validateCommitmentRecord} from './commitments.mjs';
@@ -20,6 +21,7 @@ function fixture(){
  const context={origin:'https://wallet-test.example',account:H('account'),fingerprint:H('key'),chainKey:H('chain'),userId:300,networkHash:H(canonical(network))};
  const record={schema:3,recordId:H('record'),registryHash:H('registry'),request:{userId:300},snapshot:{user:{publicKeyHash:context.account}},plan:{financialAuthorization:false,userId:300,recipientId:300,network,nativeProtocol:AUDIT_PROFILE,sdkManifestSha256:AUDIT_MANIFEST,verifierPackSha256:H('pack'),startUserLeafHash:H('start'),walletNonce:'8',startCheckpoint:100,validUntilCheckpoint:164,maxNetworkFee:'5000000000',callCommitments:[structuredClone(call)]}};
  const report={fullProofVerified:true,fullCallsBound:true,sessionBound:true,sigHashBound:true,endpointsAndFeesBound:true,publicProjectionBound:true,callCommitments:[structuredClone(call),{...call,contractId:'0',methodId:'3',methodName:'burn',inputCount:1,inputsHash:H('fee')}],actualFee:'1000005000',endUserLeafHash:H('end'),sigHash:H('sig'),sessionHash:H('session'),fingerprint:context.fingerprint,contentHash:H('content'),userId:300,nonce:'8',sdkManifestSha256:AUDIT_MANIFEST,verifierPackSha256:H('pack')};
+ report.claimOutputs=[{kind:'ft-credit',assetId:'42',recipientId:'300',amountBaseUnits:'1000000000000000000000000123',codeRoot:H('code'),layoutRoot:H('layout'),functionRoot:H('functions')}];
  const memory=new Map();let sends=0,prepares=0,known=false,saveFailure=null;
  const store={get:async k=>structuredClone(memory.get(k)),set:async(k,v)=>{if(saveFailure?.(v))throw Error('Storage fault');memory.set(k,structuredClone(v));}};
  const tails=new Map();
@@ -128,7 +130,12 @@ test('actual preserved complete UPS yields public commitments and rejects secret
   expectedVerifierPackSha256:actual.verifierPackSha256,stringify:losslessJson,
   useEphemeralApproval:async(r,p,consume)=>{const a=parseLosslessJson(approval);try{await consume(a);}finally{a.calls.forEach(c=>c.inputs.fill('0'));}},
  });
- const p=await f.make().prepare(f.context,f.record);assert.equal(p.phase,'prepared');
+ assert.equal(actual.claimOutputs[0].amountBaseUnits,String(BigInt(a.calls[0].inputs[4])+(BigInt(a.calls[0].inputs[5])<<62n)));
+ const output=actual.claimOutputs[0],catalogue=Object.freeze([Object.freeze({contractId:output.assetId,profile:'u124_private_compact_v2',codeRoot:output.codeRoot,layoutRoot:output.layoutRoot,functionRoot:output.functionRoot,decimals:18,symbol:'QAFT'})]);
+ const service=f.make({confirmBroadcast:async terms=>{const reviewed=await reviewCommitmentConfirmation(terms,catalogue);assert.equal(reviewed.rows.find(r=>r.label==='Base units').value,output.amountBaseUnits);return{approved:true,approvalSha256:reviewed.approvalSha256};}});
+ const p=await service.prepare(f.context,f.record);assert.equal(p.phase,'prepared');
+ await service.broadcast(f.context,p.intentId,p.preparedHash);
+ assert.equal(f.sends,1);await assert.rejects(service.assertNoPending(f.context));
  assert.ok(!JSON.stringify([...f.memory.values()]).includes('"inputs":'));
  for(const target of ['request','bundle']){
   const g=fixture();Object.assign(g.context,f.context);Object.assign(g.record,structuredClone(f.record));

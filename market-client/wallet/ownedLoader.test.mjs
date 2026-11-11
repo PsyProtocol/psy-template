@@ -7,7 +7,7 @@ test('owned verifier pins binary, resource identity and extension domain before 
  const bytes=Uint8Array.from([0,97,115,109,1,0,0,0,0,2,1,120]),release={sdkManifestSha256:'06d86a86775bef1f217e61a2192b525d657bc8de2d3687e5c28d93e7abfaec8f',networkMagic:'1384803358401154921',wasmSha256:hash(bytes),verifierPackSha256:hash('pack')};let reads=0,initializations=0;
  const identity={schema:1,...release};let loaded;const module={default:async options=>{assert.ok(options.module_or_path instanceof WebAssembly.Module);loaded=options.module_or_path;initializations++;},get_owned_wasm_module:()=>loaded,verifier_identity:()=>JSON.stringify(identity),project_market_identity:()=>'{"verified":false}',verify_market_prepared:()=>'{"synthetic":true}'};
  const freshModule=(overrides={})=>{let instance;const m={...module,...overrides,get_owned_wasm_module:()=>instance};m.default=async options=>{instance=options.module_or_path;initializations++;};return m;};
- const options={module,wasmUrl:'chrome-extension://qa-owned/assets/verifier.wasm',release,fetcher:async()=>{reads++;return{ok:true,arrayBuffer:async()=>bytes.buffer};}};
+ const options={module,wasmUrl:'chrome-extension://qa-owned/assets/verifier.wasm',release,fetcher:async()=>{reads++;return new Response(bytes);}};
  const [a,b]=await Promise.all([loadOwnedMarketVerifier(options),loadOwnedMarketVerifier(options)]);assert.equal(a,b);assert.equal(reads,1);assert.equal(initializations,1);
  await assert.rejects(loadOwnedMarketVerifier({...options,release:{...release,wasmSha256:hash('another same-pack binary')}}),/another release/);assert.equal(reads,1);
  for(const wasmUrl of ['https://other.invalid/verifier.wasm','chrome-extension://other/assets/verifier.wasm','chrome-extension://qa-owned/assets/verifier.wasm?replace=1'])await assert.rejects(loadOwnedMarketVerifier({...options,wasmUrl}));
@@ -16,7 +16,7 @@ test('owned verifier pins binary, resource identity and extension domain before 
  await assert.rejects(loadOwnedMarketVerifier({...options,module:freshModule({verifier_identity:()=>JSON.stringify({...identity,verifierPackSha256:hash('changed')})})}));
  await assert.rejects(loadOwnedMarketVerifier({...options,module:{...module,get_owned_wasm_module:()=>undefined,default:async()=>{}}}),/did not initialize/);
  const mutable={...release},changed=new TextEncoder().encode('replaced binary after await');let changedStarts=0;
- await assert.rejects(loadOwnedMarketVerifier({...options,module:{...module,get_owned_wasm_module:()=>undefined,default:async()=>{changedStarts++;}},release:mutable,fetcher:async()=>{mutable.wasmSha256=hash(changed);return{ok:true,arrayBuffer:async()=>changed.buffer};}}),/binary changed/);assert.equal(changedStarts,0);
+ await assert.rejects(loadOwnedMarketVerifier({...options,module:{...module,get_owned_wasm_module:()=>undefined,default:async()=>{changedStarts++;}},release:mutable,fetcher:async()=>{mutable.wasmSha256=hash(changed);return new Response(changed);}}),/binary changed/);assert.equal(changedStarts,0);
  }finally{if(saved)Object.defineProperty(globalThis,'location',saved);else delete globalThis.location;}
 });
 
@@ -24,7 +24,7 @@ test('audit loader binds its exact manifest and rejects a legacy binary identity
  const saved=Object.getOwnPropertyDescriptor(globalThis,'location');Object.defineProperty(globalThis,'location',{value:{href:'chrome-extension://qa-audit/background.html'},configurable:true});
  try{
   const {AUDIT_MANIFEST,MAINNET_BETA_MANIFEST}=await import('../nativeProtocol.mjs');const bytes=Uint8Array.from([0,97,115,109,1,0,0,0]),release={sdkManifestSha256:AUDIT_MANIFEST,networkMagic:'1384803358401154921',wasmSha256:hash(bytes),verifierPackSha256:hash('audit-pack')};
-  const options=(manifest)=>{let loaded;return{module:{default:async o=>{loaded=o.module_or_path;},get_owned_wasm_module:()=>loaded,verifier_identity:()=>JSON.stringify({schema:1,...release,sdkManifestSha256:manifest}),project_market_identity:()=>'{"verified":false}',verify_market_prepared:()=>'{"synthetic":true}'},wasmUrl:'chrome-extension://qa-audit/verifier.wasm',release,fetcher:async()=>({ok:true,arrayBuffer:async()=>bytes.buffer})};};
+  const options=(manifest)=>{let loaded;return{module:{default:async o=>{loaded=o.module_or_path;},get_owned_wasm_module:()=>loaded,verifier_identity:()=>JSON.stringify({schema:1,...release,sdkManifestSha256:manifest}),project_market_identity:()=>'{"verified":false}',verify_market_prepared:()=>'{"synthetic":true}'},wasmUrl:'chrome-extension://qa-audit/verifier.wasm',release,fetcher:async()=>new Response(bytes)};};
   const a=await loadOwnedMarketVerifier(options(AUDIT_MANIFEST));assert.equal(JSON.parse(await a.identity()).sdkManifestSha256,AUDIT_MANIFEST);
   await assert.rejects(loadOwnedMarketVerifier(options(MAINNET_BETA_MANIFEST)),/identity differs/);
   const unknown=options(AUDIT_MANIFEST);unknown.release={...release,sdkManifestSha256:hash('moving-head')};await assert.rejects(loadOwnedMarketVerifier(unknown),/release identity/);

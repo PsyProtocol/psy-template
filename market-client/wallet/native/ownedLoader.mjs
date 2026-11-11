@@ -1,3 +1,4 @@
+import {readBoundedBinary} from './readBinary.mjs';
 import {reviewedSdkManifest} from '../../nativeProtocol.mjs';
 // Extension bootstrap only: statically imported bindgen 0.2.126 glue and a
 // compiled release pin. No argument is accepted through a page RPC.
@@ -20,7 +21,7 @@ export async function loadOwnedMarketVerifier({module,wasmUrl,release,fetcher=fe
  ok(loadedModule()===undefined,'Verifier module already initialized outside its owner');
  const promise=(async()=>{
   const r=await fetcher(url.href,{redirect:'error',cache:'no-store',signal:AbortSignal.timeout(20000)});ok(r.ok,'Extension verifier resource unavailable');
-  const bytes=await r.arrayBuffer();ok(bytes.byteLength>=8&&bytes.byteLength<=20_000_000&&await digest(bytes)===pin.wasmSha256,'Verifier binary changed');
+  const bytes=await readBoundedBinary(r);ok(bytes.byteLength>=8&&bytes.byteLength<=20_000_000&&await digest(bytes)===pin.wasmSha256,'Verifier binary changed');
   const compiled=await WebAssembly.compile(bytes);
   ok(loadedModule()===undefined,'Verifier module initialized during resource loading');
   await initialize({module_or_path:compiled});
