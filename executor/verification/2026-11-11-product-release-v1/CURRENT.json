@@ -1,0 +1,448 @@
+{
+  "schema": 1,
+  "recordedAt": "2026-11-11T11:24:22.026943+00:00",
+  "scope": "Latest acceptance continuation; earlier INDEX, MEASUREMENTS and FINAL remain unchanged historical records",
+  "applicationSourceCommit": "4c072a0c",
+  "walletSourceCommit": "d1238315b9a993bd6b0fc27167e9ae578f53cf3d",
+  "sdkCommit": "01b8f2b0a077367a7b9879baba1a72aea8ab5510",
+  "applicationTests": {
+    "passed": 81,
+    "failed": 0,
+    "skipped": 0
+  },
+  "latestWalletTests": {
+    "passed": 810,
+    "failed": 0,
+    "skipped": 1,
+    "filesPassed": 73,
+    "originalDeadlinesUnchanged": true,
+    "priorTimeoutSamplesPreserved": true
+  },
+  "gates": {
+    "candidateV1ActualExtensionWelcome": "Passed after one original-budget boot retry; no account created",
+    "coldNetworkDeadlineFix": "30 identity/boot tests and latest complete suite/build pass; not installed in browser",
+    "currentInstanceReviewedExecutionResources": "Not installed, writes closed",
+    "browserFinalApprovalFullNativeVerificationAndExactBroadcast": "Not accepted",
+    "liveMarketFillAndOrdinaryClaim": "Not accepted",
+    "soakUnderMemoryPressureAndMatchedPerformance": "Not accepted"
+  },
+  "financialOperations": 0,
+  "accountsCreated": 0,
+  "newLiveInstances": 0,
+  "newTransactionUpsProofs": 0,
+  "records": {
+    "BROWSER-ACCEPTANCE-v1.json": {
+      "observedAt": "2026-11-11T11:21:02.441698+00:00",
+      "profileName": "Psy Market QA 20261111",
+      "profileId": "Profile 31",
+      "taskSpaceId": 105,
+      "extensionId": "bojecgdaobonliaafdekliffgeidpdgh",
+      "version": "0.4.25",
+      "installedCandidate": "psy-wallet-market-qa-20261111-v1",
+      "walletSourceCommit": "166bd8f3f1255e1322131cfbb870a8477453ff9d",
+      "manifestAndEnablementObserved": true,
+      "actualExtensionOriginObserved": true,
+      "welcomeObserved": true,
+      "initialAttempt": "Chain identity observation unavailable; generic UI mentioned prove proxy although startup was checking chain identity",
+      "boundedReadonlyDiagnostics": "Four explicitly declared manual requests. Coordinator/realm0/realm1 checkpoint-tree roots at checkpoint 1 all match. Scheduled deadlines are not hard wall time under a paused/busy event loop.",
+      "checkpointTreeRootAt1": "e4f0f2cf2a563c11f67131f5b9b0e032c6b4016a59503b42cdc5aeb86af2fe30",
+      "rootNamespace": "Checkpoint-tree Merkle root, distinct from checkpoint-leaf.global_chain_root 81bac993...; never substitute these commitment types",
+      "bootRetries": 1,
+      "networkConfigEdited": false,
+      "accountsCreated": 0,
+      "accountsImported": 0,
+      "registrations": 0,
+      "financialOperations": 0,
+      "transactionProofsRequested": 0,
+      "sdkInitialization": "Wallet startup may initialize immutable SDK proving resources; no transaction prepare/prove call was made. No startup RSS/performance conclusion is available.",
+      "otherProfilesUntouched": true,
+      "browserUpgradePerformed": false,
+      "taskFinishedKeeping": "p2 actual extension welcome",
+      "scope": "Actual extension installation and welcome startup only. No approved payment, current-instance release, full verification inside extension, network fill or ordinary claim."
+    },
+    "EXTENSION-RPC-v1.json": {
+      "origin": "chrome-extension://bojecgdaobonliaafdekliffgeidpdgh",
+      "runtimeId": "bojecgdaobonliaafdekliffgeidpdgh",
+      "scope": "Readonly root identity diagnostics; no registration, signing or payment",
+      "samples": [
+        {
+          "deadlineMs": 3000,
+          "status": 200,
+          "milliseconds": 5536.400000095367,
+          "response": {
+            "jsonrpc": "2.0",
+            "id": 1,
+            "result": "e4f0f2cf2a563c11f67131f5b9b0e032c6b4016a59503b42cdc5aeb86af2fe30"
+          }
+        },
+        {
+          "deadlineMs": 15000,
+          "status": 200,
+          "milliseconds": 831.2000000476837,
+          "response": {
+            "jsonrpc": "2.0",
+            "id": 1,
+            "result": "e4f0f2cf2a563c11f67131f5b9b0e032c6b4016a59503b42cdc5aeb86af2fe30"
+          }
+        }
+      ]
+    },
+    "EXTENSION-REALM-ROOTS-v1.json": {
+      "origin": "chrome-extension://bojecgdaobonliaafdekliffgeidpdgh",
+      "runtimeId": "bojecgdaobonliaafdekliffgeidpdgh",
+      "samples": [
+        {
+          "url": "https://realm0-stg.psy-protocol.xyz",
+          "status": 200,
+          "milliseconds": 3175.6999999284744,
+          "response": {
+            "jsonrpc": "2.0",
+            "id": 1,
+            "result": "e4f0f2cf2a563c11f67131f5b9b0e032c6b4016a59503b42cdc5aeb86af2fe30"
+          }
+        },
+        {
+          "url": "https://realm1-stg.psy-protocol.xyz",
+          "status": 200,
+          "milliseconds": 4900.899999976158,
+          "response": {
+            "jsonrpc": "2.0",
+            "id": 1,
+            "result": "e4f0f2cf2a563c11f67131f5b9b0e032c6b4016a59503b42cdc5aeb86af2fe30"
+          }
+        }
+      ],
+      "financialOperations": 0
+    },
+    "wallet-chain-deadline-v1.json": {
+      "label": "wallet-chain-deadline-v1",
+      "command": [
+        "node",
+        "node_modules/vitest/vitest.mjs",
+        "run",
+        "src/lib/__tests__/observeChainIdentity.test.ts",
+        "src/lib/__tests__/chainIdentity.test.ts",
+        "src/background/__tests__/chain-identity-boot.test.ts",
+        "--maxWorkers=1"
+      ],
+      "exitCode": 0,
+      "seconds": 4.55602708295919,
+      "sampledFamilyRssKiB": 202576,
+      "financialOperations": 0
+    },
+    "wallet-network-build-v3.json": {
+      "label": "wallet-network-build-v3",
+      "command": [
+        "npm",
+        "run",
+        "build:staging"
+      ],
+      "exitCode": 0,
+      "seconds": 87.34494308300782,
+      "sampledFamilyRssKiB": 2362240,
+      "financialOperations": 0
+    },
+    "wallet-tests-v3.json": {
+      "label": "wallet-tests-v3",
+      "command": [
+        "node",
+        "node_modules/vitest/vitest.mjs",
+        "run",
+        "--maxWorkers=2"
+      ],
+      "exitCode": 0,
+      "seconds": 36.181173000019044,
+      "sampledFamilyRssKiB": 1054256,
+      "financialOperations": 0
+    },
+    "wallet-sdk-post-network-build-v2.json": {
+      "label": "wallet-sdk-post-network-build-v2",
+      "command": [
+        "node",
+        "scripts/verify-sdk.mjs"
+      ],
+      "exitCode": 0,
+      "seconds": 9.830368916969746,
+      "sampledFamilyRssKiB": 182672,
+      "financialOperations": 0
+    },
+    "CANDIDATE-v2.json": {
+      "createdAt": "2026-11-11T11:22:52.824520+00:00",
+      "walletSourceCommit": "d1238315b9a993bd6b0fc27167e9ae578f53cf3d",
+      "candidateDirectory": "/Users/geir/Downloads/psy-wallet-market-qa-20261111-v2",
+      "files": [
+        {
+          "file": "assets/index-BU36QXXy.css",
+          "bytes": 765280,
+          "sha256": "b6eabf98445bc0ed1d23d6570923e05b114b2cbbdac25698109262d1510a9412"
+        },
+        {
+          "file": "assets/index-CfkPR4oj.js",
+          "bytes": 35117,
+          "sha256": "f524a3b3672f874a1cc48477dd9d0bba13ce34276e77d99676e1a971e6ee2ca0"
+        },
+        {
+          "file": "assets/index.html-BV7odW08.js",
+          "bytes": 1533772,
+          "sha256": "0cd448561942216553415dfee7ddf0e9c1c15bf1b6fe5f592b6acf724881f7c7"
+        },
+        {
+          "file": "assets/index.js-DSxNqtvh.js",
+          "bytes": 313735,
+          "sha256": "51b7cc90a6f1ec4d9edd918abc91be22a0c2e65661811a200dc60123423151c5"
+        },
+        {
+          "file": "assets/keyGen-ZFznVNbR.js",
+          "bytes": 362135,
+          "sha256": "3488bb9f7e0ee1a4c12971ba0b938d495407120595a61c5a772916b39823334f"
+        },
+        {
+          "file": "assets/main.js-DEpNdHCO.js",
+          "bytes": 2421,
+          "sha256": "5a721d3c207630b2c6f06b92a218acbfb2fe5110d0bdbfb2d09a8c93b4220d39"
+        },
+        {
+          "file": "assets/modulepreload-polyfill-B5Qt9EMX.js",
+          "bytes": 711,
+          "sha256": "d2a32840421496e872ade591618d2fa5c33797605d1aec04301717e5a90757d0"
+        },
+        {
+          "file": "assets/offscreen-BlckJr5M.js",
+          "bytes": 1098,
+          "sha256": "cd9ad87a3b77cc028fa7d2dc3e7e211654b1207dbbb8dc876241aa73668dce93"
+        },
+        {
+          "file": "assets/psy-sdk-BbOJ6zmE.js",
+          "bytes": 56277,
+          "sha256": "d13a0a2a071640a21e816d98b2afd8f16593859bfc322c7287b25edeb66b35cf"
+        },
+        {
+          "file": "assets/psy-wasm-kmAHH87a.js",
+          "bytes": 58368413,
+          "sha256": "b4aaa60029311771a2a4b041cfb22f1c79d94adb72cde162f0bbfcd823e8359a"
+        },
+        {
+          "file": "assets/servicesTx-CqXhoIcU.js",
+          "bytes": 6813,
+          "sha256": "0d5d1f22b1f01ff99af764ce7e22be4c0686cf08cdbda15dc79b3a86d0be38e6"
+        },
+        {
+          "file": "assets/vendor-BiBmeP4Z.js",
+          "bytes": 889606,
+          "sha256": "8d987c675cde132602412f4289c134edd77b2251f68f18155e8dfe3ed551e05f"
+        },
+        {
+          "file": "assets/wasm-worker-oJ0AKfaN.js",
+          "bytes": 62929174,
+          "sha256": "9afb3aaa83ff5ecc8bcdda3dba64041f7aaf96b29e9ad3321d4db941f1aec2a7"
+        },
+        {
+          "file": "assets/webHook.js-D4ieFUuL.js",
+          "bytes": 14339,
+          "sha256": "8cb222ac7b2332660a5234279df8e1c0b702c597ae174bc1c8526954b3f69581"
+        },
+        {
+          "file": "icon-128.png",
+          "bytes": 7299,
+          "sha256": "7a4f79eaed3d7d47696a2e40eebd0b32d3db002d853e348559ab37a7e1a26758"
+        },
+        {
+          "file": "icon-16.png",
+          "bytes": 1185,
+          "sha256": "409b30d5e26e49337a2d7ffef1de21b07d101f11b3876bb560a9ea40e1c502c3"
+        },
+        {
+          "file": "icon-48.png",
+          "bytes": 2397,
+          "sha256": "217ec375f7fa4500a8dfda93e85a5a00949c1bd05634c9f69d30103b205fea16"
+        },
+        {
+          "file": "icon.png",
+          "bytes": 97474,
+          "sha256": "9be1373ac6eca2b900e4e38d6b6d4c04817fa0e868c5c622ebd2e063abc9bbea"
+        },
+        {
+          "file": "icon.webm",
+          "bytes": 1684343,
+          "sha256": "587b9f8da50680c4520a9a2de52e75a8fa204c4b0d431b7d9469f1ccdef63729"
+        },
+        {
+          "file": "manifest.json",
+          "bytes": 1653,
+          "sha256": "626f93a782cd14393f99e5df2c20fdfaa812d7c532b63b0fbfaf47c2c9990a6c"
+        },
+        {
+          "file": "psy-favicon.ico",
+          "bytes": 15406,
+          "sha256": "f297769974882c1e9b3ae7367e21a4a808dfb4899c76245f8a46341da38a1ec4"
+        },
+        {
+          "file": "public/icon-128.png",
+          "bytes": 7299,
+          "sha256": "7a4f79eaed3d7d47696a2e40eebd0b32d3db002d853e348559ab37a7e1a26758"
+        },
+        {
+          "file": "public/icon-16.png",
+          "bytes": 1185,
+          "sha256": "409b30d5e26e49337a2d7ffef1de21b07d101f11b3876bb560a9ea40e1c502c3"
+        },
+        {
+          "file": "public/icon-48.png",
+          "bytes": 2397,
+          "sha256": "217ec375f7fa4500a8dfda93e85a5a00949c1bd05634c9f69d30103b205fea16"
+        },
+        {
+          "file": "service-worker-loader.js",
+          "bytes": 40,
+          "sha256": "2e546e82831b2236f55589587f1be52b3eef7129b99cdaf7d48bcc3ad9f93f3d"
+        },
+        {
+          "file": "src/content/webHook.js",
+          "bytes": 29169,
+          "sha256": "d89c6c627a7c2975e78da1f21fa69989e0c54b4640f82325eb380ad6e0de9095"
+        },
+        {
+          "file": "src/offscreen/index.html",
+          "bytes": 325,
+          "sha256": "65233ea4786df9562d591b744a3010b5d9c35ff88ce19076bf458cee62634670"
+        },
+        {
+          "file": "src/popup/index.html",
+          "bytes": 933,
+          "sha256": "99f272735b0e8c5d37774187ee6520ff1ad7d637ca62d2bdeba52c84a46548cc"
+        },
+        {
+          "file": "workers/scrypt.js",
+          "bytes": 15989,
+          "sha256": "84d921d184887f4d9f55b2749caf6cfcf080a3ce8a277ff4adcdc1b4dcfbe96d"
+        }
+      ],
+      "scope": "Latest application cold-identity timeout correction; exact frozen SDK/typecheck/build and 810-test cohort pass; not browser-installed or payment accepted",
+      "extensionInstalled": false,
+      "financialAuthorization": false,
+      "originalCandidateUntouched": true
+    }
+  },
+  "originals": [
+    {
+      "file": "public/BROWSER-ACCEPTANCE-v1.json",
+      "bytes": 1759,
+      "sha256": "df273795653858e3a7f06b81ba62b21703d3bdbf33807a6d3dfde3c50d6c46ae"
+    },
+    {
+      "file": "public/BROWSER-DIAGNOSTICS-PLAN-v1.json",
+      "bytes": 562,
+      "sha256": "ce87bdfecb748eb063582e37bd6bdb6fec5d99b507588afe63baafcac61f0cb8"
+    },
+    {
+      "file": "public/BROWSER-DIAGNOSTICS-PLAN-v2.json",
+      "bytes": 495,
+      "sha256": "1b43a1dd6244d34e737cedd31e6d69c63dd850f2f2a325c0d1cdd92853343fa7"
+    },
+    {
+      "file": "public/BROWSER-DIAGNOSTICS-PLAN-v3.json",
+      "bytes": 302,
+      "sha256": "aefb3dbc783736eb87f7cab746e4fdc578cc62390777759564abe95170469941"
+    },
+    {
+      "file": "public/BROWSER-ENVIRONMENT-v1.json",
+      "bytes": 516,
+      "sha256": "9feae2f908ce9be2c98d23c31411f9c06f0d8074134d40067225260f9dc268b4"
+    },
+    {
+      "file": "public/BROWSER-ENVIRONMENT-v2.json",
+      "bytes": 619,
+      "sha256": "bfa9da247809cacb2488ffc6c23adb7aa4ed79952ddf17ef48117ad19f6f33ce"
+    },
+    {
+      "file": "public/BROWSER-ENVIRONMENT-v3.json",
+      "bytes": 667,
+      "sha256": "a50c34b8676055a9604b30f3d6659657fbbf379734c0f39d507b7d3c07e58cf2"
+    },
+    {
+      "file": "public/CANDIDATE-v2.json",
+      "bytes": 5064,
+      "sha256": "7ccb8bad08dfc9d921b8513509152dcb7d7633b2cdbede3499f1bde047ef7363"
+    },
+    {
+      "file": "public/EXTENSION-INSTALL-v1.txt",
+      "bytes": 2690,
+      "sha256": "e328c488489bd9e5b2c3dc5b0e58ec6cd8c10a0a5f5ab89c1117f31dd4778190"
+    },
+    {
+      "file": "public/EXTENSION-REALM-ROOTS-v1.json",
+      "bytes": 735,
+      "sha256": "d76787c5dc6872a33cb32b7f8b98313da6fdd7d8eb8fac0b9add8cc5ec86b3fa"
+    },
+    {
+      "file": "public/EXTENSION-RPC-v1.json",
+      "bytes": 741,
+      "sha256": "6ff25f59280cf6288dbc3abe83bf6aa7fa57aff3625e2e830f7bed9b2de58945"
+    },
+    {
+      "file": "public/EXTENSION-START-v1.txt",
+      "bytes": 696,
+      "sha256": "9043f8fd66011eff84598d74df4a1ab7f9bc58f39022937f82575a0fb3a0e832"
+    },
+    {
+      "file": "public/EXTENSION-WELCOME-v1.json",
+      "bytes": 349,
+      "sha256": "262902dbf76184b5c4ec072356cae84c58173ebd9632c3a50bbc4df5eac2b122"
+    },
+    {
+      "file": "public/EXTENSION-WELCOME-v1.txt",
+      "bytes": 695,
+      "sha256": "02cd0009e8ce2ac0026b36efb6f04f70e49a361d27ca6711839a51235f0c0245"
+    },
+    {
+      "file": "public/FINAL-SUITE-PLAN-v1.json",
+      "bytes": 368,
+      "sha256": "45fd1fe00470cadd8e7dff66fb88fba85f3c32fabb3a4279b7c1306e82499d67"
+    },
+    {
+      "file": "public/NETWORK-FIX-PLAN-v1.json",
+      "bytes": 614,
+      "sha256": "641b586323e40e76533b8c9df330541a7d6f8652ea766c062d7c4f2782384b78"
+    },
+    {
+      "file": "public/wallet-chain-deadline-v1.json",
+      "bytes": 414,
+      "sha256": "2fef5cb97c52fd9507530e5c93cc9f2fb6837eeeb1be4a9cfbd808175aafe538"
+    },
+    {
+      "file": "public/wallet-chain-deadline-v1.log",
+      "bytes": 316,
+      "sha256": "a77040b8c458e030d7b44ecedd5ded2c2b88a241ab5090bc3773b2f5397c2d93"
+    },
+    {
+      "file": "public/wallet-network-build-v3.json",
+      "bytes": 214,
+      "sha256": "a7c6cbf5cb056efb7dc909af8362a02c26251e39b9a85546eefb9ef666190dfb"
+    },
+    {
+      "file": "public/wallet-network-build-v3.log",
+      "bytes": 3381,
+      "sha256": "2ab454daeebf2fce9b062c10cd53459fe24d5d0f329655f68c9619b8b27533a8"
+    },
+    {
+      "file": "public/wallet-sdk-post-network-build-v2.json",
+      "bytes": 221,
+      "sha256": "2aa989df09107806d3006f188badeeac604082c7291ace2af270d95b74fedf00"
+    },
+    {
+      "file": "public/wallet-sdk-post-network-build-v2.log",
+      "bytes": 319,
+      "sha256": "1e4e8307b418d37a4599fa679399279b88a1f29db6896bd122757ffb907ce76f"
+    },
+    {
+      "file": "public/wallet-tests-v3.json",
+      "bytes": 247,
+      "sha256": "dbe82e7ef976b47daf57d0a51f2a75eb0dbd0f5b1ddb7168199af6ca40f329f9"
+    },
+    {
+      "file": "public/wallet-tests-v3.log",
+      "bytes": 335,
+      "sha256": "e2fecac0c6138d9b9f147d4c7e6c428b8df7070bcbf2cc06daf8253b2bd46e64"
+    }
+  ]
+}

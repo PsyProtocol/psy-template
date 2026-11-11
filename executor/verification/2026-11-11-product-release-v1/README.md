@@ -27,3 +27,17 @@ production claim follows from these results.
 Raw logs, full proofs, verifier binaries and SDK copies remain in the named
 external case. Git receives only this small summary and SHA256 inventory, never
 keys, mnemonic phrases, receive randoms or signing witnesses.
+
+[Final immutable build/delivery result](FINAL.json): latest typecheck, build and
+post-build frozen SDK verification pass. This records the exact candidate file
+inventory and preserved browser outcome without replacing the initial index or
+measurement records. The five suite timeouts and all release gates remain open.
+
+Latest: [actual extension welcome and cold-network correction](CURRENT.json).
+The explicit user-authorized v1 installation reaches the actual extension welcome
+page after one retry. No account or payment is created. The subsequent 10-second
+readonly deadline correction passes 30 scoped checks, the complete 810-pass wallet
+cohort (one existing skip), and a frozen SDK build. Earlier timeout samples remain
+untouched. The v2 candidate is preserved separately and is not browser-installed;
+real approval/verification/broadcast, current-instance resources and live claim
+acceptance remain open. No controlled performance conclusion is asserted.

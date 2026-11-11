@@ -1,5 +1,12 @@
 # Product release continuation — 11 November 2026
 
+Latest status: the complete wallet rerun passes **810 tests with one existing
+skip**, and the frozen SDK/typecheck/build passes. The user-authorized original
+candidate reaches the actual extension welcome page; no account or payment is
+created. The later cold-read correction is built but not installed in the browser.
+[Latest evidence and explicit gates](../../executor/verification/2026-11-11-product-release-v1/CURRENT.json).
+Earlier measurements below remain chronological history, not the latest verdict.
+
 ## Status and scope
 
 This continuation closes a public approval-projection gap and a mutable-event
@@ -129,3 +136,76 @@ not cross-vault atomicity. Deterministic ordering remains the accepted mode.
 Random-source finality and proof that sealing preceded seed disclosure remain
 external protocol gates; no local random seed is substituted. Fixed-queue
 completeness is not global market inclusion or censorship resistance.
+
+## Final build and delivery result
+
+The exact changed runtime sources remain byte-identical after commit hooks to
+the tested isolated inputs. Application source `4c072a0c` and wallet source
+`166bd8f` were pushed to their existing branches. The final frozen-SDK staging
+build passes: **695.254 seconds**, sampled family RSS **1,338,080 KiB**.
+Post-build verification again matches all 472 frozen SDK distribution members.
+The final wallet suite still has five original-deadline timeouts; build success
+does not waive them. No matched end-to-end performance conclusion follows.
+
+A fresh local candidate at `/Users/geir/Downloads/psy-wallet-market-qa-20261111-v1`
+contains 29 byte-hashed files (127,145,979 bytes), copied once and independently
+compared to the final build. It contains no local faucet-operator file and has
+not been installed. Its existing manifest permissions include storage, scripting,
+tabs and `<all_urls>` access; this is QA software, not an approved production
+release. The user has been asked to load it only into the explicitly named new
+profile, without creating/importing an account or initiating registration/funds.
+The finished setup task keeps that profile's Extensions page for the user.
+[Final build, candidate hashes and remaining gates](https://github.com/PsyProtocol/psy-template/blob/markets-batch-capacity-recovery-20261020/executor/verification/2026-11-11-product-release-v1/FINAL.json).
+
+
+## Actual extension startup and cold RPC correction
+
+The user explicitly requested agent installation after the candidate and its
+permissions were presented. Candidate v1 was installed only in the named new
+profile. Chrome's actual Extensions page shows Psy 0.4.25 enabled, ID
+`bojecgdaobonliaafdekliffgeidpdgh`; the actual extension origin reaches
+`#welcome`. No account was created/imported, no registration was invoked, and no
+transaction prepare/prove, broadcast or claim was requested. Automatic SDK
+startup may initialize proving resources; its memory/performance was not measured.
+The welcome result page is kept for the user; other profiles remain untouched.
+
+The first cold startup refused to establish a chain identity. Four bounded,
+explicitly declared extension-origin diagnostic requests returned HTTP 200 and
+matching checkpoint-tree roots from coordinator, realm 0 and realm 1. Cold
+samples exceeded the old three-second read budget. One original-budget boot retry
+reached welcome after those diagnostics. This supports a cold-budget deficiency,
+not a claim that timeout was proven to be the only possible failure cause. The
+generic existing failure screen mentions the prove proxy even though this error
+was from chain-identity observation.
+
+The application read deadline is now a scheduled 10-second bound, preserving
+all wire, valid-root disagreement, reset confirmation, no-stale-history and
+explicit-invalid-params-only fallback rules. No transaction deadline or proof
+check changed. A stalled/paused event loop can delay a scheduled timer; it is
+not a hard wall-time guarantee. Two new fake-clock tests exercise a 4.5-second
+cold reply and the fixed abort boundary. All 30 identity/boot checks pass.
+
+The checkpoint **tree** root at 1 is
+`e4f0f2cf2a563c11f67131f5b9b0e032c6b4016a59503b42cdc5aeb86af2fe30`.
+It is not the checkpoint-leaf `global_chain_root` captured earlier as
+`81bac993…`; these are different commitments. Frozen client source
+`7058070/psy_node_common/src/coordinator/edge/api.rs` and
+`psy_node_core/src/psy_core_db/core_implementation/base.rs` identify the former as
+the global checkpoint Merkle tree root. They must never be substituted or called
+a chain reset merely because the hashes differ. Neither observation proves finality.
+
+After this application correction, the complete unfiltered wallet suite passes
+**810 tests with one existing skip**, all 73 files, in **36.181 seconds**,
+sampled family RSS **1,054,256 KiB**. No original test deadline was increased,
+no test was removed, and the prior five timeouts remain archived. This rerun
+closes the current regression cohort; it does not close under-pressure sustained
+service acceptance. The latest frozen SDK/typecheck/staging build also passes:
+**87.345 seconds**, sampled family RSS **2,362,240 KiB**. Host load/cache state
+differs from the 695.254-second build; this is not a controlled acceleration or
+cold/warm proof comparison. Complete browser payment, live fills and ordinary
+claims are still pending.
+
+The loaded browser candidate is v1 (`166bd8f`) with the original read deadline.
+The new network-read source passes host regression/build but has not yet been
+installed/retested in the browser. The v1 directory and all original records
+remain unchanged; installing any later candidate is a separate explicit action.
