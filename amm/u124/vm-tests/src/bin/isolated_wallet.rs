@@ -374,7 +374,7 @@ async fn operation(a: &[String], net: &psy_config::NetworkConfigGoldilocks, sess
             &json!({"action":"initial-deploy-only","deployer":public.to_string(),"artifactSha256":hash(&fs::read(&a[4])?),"chainRootAt1":chain_root.to_string()}),
         )?;
         metrics.enter(phase, "broadcast-new-contract");
-        let receipt = session.st_provider.deploy_contract::<F>(request).await?;
+        let receipt = psy_template_u124_markets::live_rpc::deploy(net, request, out).await?;
         save(&out.join("receipt.json"), &json!({"receipt":receipt}))?;
         println!("initial deployment submitted; reconcile saved receipt");
         return Ok(());

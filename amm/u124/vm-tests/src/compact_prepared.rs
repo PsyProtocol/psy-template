@@ -58,7 +58,7 @@ pub async fn broadcast(a:&[String],spec:&Value,fp:QHashOut<F>,key:QHashOut<F>,ne
   ensure!(p["streamContextSha256"]==m.stream_context_sha256.clone().unwrap(),"stream producer binding changed");
   runtime.verify_saved(spec,&g,core,source)?;
  }else{ensure!(g.stream.is_none()&&m.stream_context_sha256.is_none()&&m.stream_key_proof_sha256.is_none(),"stream material requires dedicated driver");}
- *phase="check-prepared-live-state";let provider=RpcProvider::new_with_config(net)?;if let Some(runtime)=stream{runtime.check_instance(spec,&provider).await?;}g.identity.check_current(&provider).await?;
+ *phase="check-prepared-live-state";let provider=RpcProvider::new_with_config(net)?;super::check_spec_chain(spec,&provider).await?;if let Some(runtime)=stream{runtime.check_instance(spec,&provider).await?;}g.identity.check_current(&provider).await?;
  psy_template_u124_markets::guard_reads::checked(&g.dependencies,psy_template_u124_markets::guard_reads::concurrency()?,|b|b.check(&provider)).await?;
  let provider=provider.with_user_id_owned(user);let cp=provider.get_latest_block_state().await?.checkpoint_id;
  ensure!(source_cp<=cp&&cp<=g.valid_until_checkpoint,"prepared broadcast window expired");
@@ -75,7 +75,7 @@ pub async fn broadcast(a:&[String],spec:&Value,fp:QHashOut<F>,key:QHashOut<F>,ne
  }else{ensure!(leaf.qfhash::<PsyHasher>()==actual,"prepared current leaf metadata mismatch");None};
  validate_anchor(actual,leaf.public_key,leaf.nonce.to_canonical_u64(),core.state_transition.start_user_leaf_hash,nonce,key,registration.is_some())?;
  ensure!(matches!(provider.get_tx_status(user,nonce).await?,TxStatus::Submittable),"prepared nonce not submittable");
- g.identity.check_current(&provider).await?;for b in &g.dependencies{b.check(&provider).await?;}
+ g.identity.check_current(&provider).await?;for b in &g.dependencies{b.check(&provider).await?;}super::check_spec_chain(spec,&provider).await?;
  let end=core.state_transition.end_user_leaf_hash;
  save(&out.join("verification.json"),&json!({"fullUpsVerified":true,"exactStackAndSessionVerified":true,"preparedManifestSha256":a[7],"requestSha256":m.request_sha256,"callsSha256":m.calls_sha256,"guardSha256":m.guard_sha256,"endUserLeafHash":end.to_string(),"userId":user,"nonce":nonce,"sourceCheckpoint":source_cp,"actualCalls":expected.len(),"freshRegistration":registration,"fee":fee,"reproved":false,"broadcast":false}))?;
  if a[1] == "verify-prepared" {println!("{}",json!({"preparedVerified":true,"submitted":false,"broadcast":false}));return Ok(());}

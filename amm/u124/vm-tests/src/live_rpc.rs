@@ -133,6 +133,28 @@ pub async fn submit(
 fn registration_body(request:&psy_provider::request::QRegisterUserRPCRequest<F>)->Result<Vec<u8>>{
     Ok(serde_json::to_vec(&json!({"jsonrpc":"2.0","id":1,"method":"psy_register_user","params":request}))?)
 }
+fn deployment_body(request:psy_provider::request::QDeployContractRPCRequest<F>)->Result<Vec<u8>>{
+    let params=serde_json::to_value(psy_provider::request::RequestParams::DeployContract(request))?;
+    Ok(serde_json::to_vec(&json!({"jsonrpc":"2.0","id":1,"method":params["method"],"params":params["params"]}))?)
+}
+/// Initial deployment only. Preserve exact wire bytes and make one POST under
+/// the same no-redirect/no-retry transport used for registration and UPSs.
+pub async fn deploy(net:&psy_config::NetworkConfigGoldilocks,request:psy_provider::request::QDeployContractRPCRequest<F>,out:&Path)->Result<String>{
+    crate::live_guard::require_staging(net)?;
+    let url=net.coordinator_configs.first().and_then(|c|c.rpc_url.first()).ok_or_else(||anyhow::anyhow!("deployment coordinator missing"))?;
+    let body=deployment_body(request)?;save(&out.join("rpc-request.json"),&body)?;
+    let(t,reused)=transport()?;
+    save(&out.join("rpc-transport.json"),&serde_json::to_vec(&json!({"url":url,"automaticRetry":false,"redirectsAllowed":false,"ackTimeoutSeconds":t.timeout_seconds,"clientInitializedBeforeCall":reused}))?)?;
+    let mut response=t.client.post(url).header("content-type","application/json").body(body).send().await?;
+    let status=response.status().as_u16();let mut bytes=vec![];let mut truncated=false;
+    while let Some(chunk)=response.chunk().await?{let left=65536usize.saturating_sub(bytes.len());if chunk.len()>left{bytes.extend_from_slice(&chunk[..left]);truncated=true;break;}bytes.extend_from_slice(&chunk);}
+    save(&out.join("rpc-response.body"),&bytes)?;save(&out.join("rpc-response-meta.json"),&serde_json::to_vec(&json!({"httpStatus":status,"truncated":truncated,"automaticRetry":false,"redirectsAllowed":false}))?)?;
+    ensure!(!truncated,"deployment response truncated; reconcile original request");
+    let value=acknowledgement(status,&bytes)?;
+    let hash=value["rpcResult"].as_str().ok_or_else(||anyhow::anyhow!("deployment acknowledgement missing"))?;
+    ensure!(hash.len()==64&&hash.bytes().all(|c|c.is_ascii_hexdigit()),"deployment outcome unknown; exact hash reconciliation required");
+    Ok(hash.to_owned())
+}
 /// A separate once-only registration transport. The frozen SDK's default HTTP
 /// client allows redirects; an unknown registration must never be redirected
 /// or automatically transmitted again by that client.

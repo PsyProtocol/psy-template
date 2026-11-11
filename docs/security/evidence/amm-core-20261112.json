@@ -1,0 +1,384 @@
+{
+  "schema": 1,
+  "case": "amm-core-live-20261112-v1",
+  "reviewDate": "2026-11-12",
+  "branch": "markets-batch-capacity-recovery-20261020",
+  "baseCommit": "d23a9ce79280c3ca1d54fee5829289eadfce7e85",
+  "sdkCommit": "01b8f2b0a077367a7b9879baba1a72aea8ab5510",
+  "clientCommit": "7058070057c3242b5d8b29e1a31d498aaa4202c0",
+  "chainRootAt1": "81bac9934a1c18579519b5297c94c7e7d25cb53973ac67befefe8b7a86f96b5c",
+  "scope": "Explicit selected-order basic AMM. No global account traversal, random ordering, wallet/browser acceptance or current-chain market fills are claimed.",
+  "limits": {
+    "schema": 1,
+    "createdAt": "2026-11-11T16:45:59.458124+00:00",
+    "owner": "root",
+    "branch": "markets-batch-capacity-recovery-20261020",
+    "base": "d23a9ce7",
+    "sdk": "01b8f2b0a077367a7b9879baba1a72aea8ab5510",
+    "client": "7058070057c3242b5d8b29e1a31d498aaa4202c0",
+    "scope": "Current-chain basic AMM only; explicit selected orders, not global order completeness. Random mode is a later separate acceptance.",
+    "maximumNewContracts": 3,
+    "maximumNewVaults": 1,
+    "newOrdinaryIdentities": 0,
+    "ordinaryQaUsers": [
+      971904,
+      668800
+    ],
+    "maximumFeePsy": "60",
+    "maximumQaAssetSupplyPerToken": "200",
+    "decimals": 18,
+    "maximumLiquidityPerAsset": "20",
+    "maximumSwapInput": "1",
+    "maximumRefundInput": "1",
+    "maximumFaucetRequests": 0,
+    "maximumNewFullUps": 40,
+    "maximumNativeBuildCommands": 3,
+    "maximumWallSeconds": 21600,
+    "threads": 2,
+    "maximumSampledFamilyRssKiB": 12582912,
+    "stopConditions": [
+      "chain or dependency/resource mismatch",
+      "unknown broadcast outcome",
+      "fee ceiling would be exceeded",
+      "first-UPS or full-stack verification failure",
+      "asset conservation failure"
+    ],
+    "scopeGuarantees": [
+      "only actual approved orders may spend their own funding",
+      "shared reserves update in verified order",
+      "all selected members need terminal disposition",
+      "no claim of global completeness or unbiased randomness"
+    ],
+    "oldContractsUpdated": false,
+    "nodeChanged": false,
+    "dependencyChanged": false
+  },
+  "ordinaryActors": [
+    {
+      "userId": 971904,
+      "publicKeyHash": "c1b45410f17801c0cca14a62d874a0f8714f04e6fd787a81d17b84a1749167d9",
+      "balanceBaseUnits": "946999994000"
+    },
+    {
+      "userId": 668800,
+      "publicKeyHash": "3ec992e2aaa695e0a8b319a858e9000715b24dcb42ee7196d71f121a03102249",
+      "balanceBaseUnits": "48999998000"
+    }
+  ],
+  "binaries": {
+    "compact_market_wallet": "09ce24a11fce7eef8fd93502997eae9d18baf9f77146226036f9c2bfe7762163",
+    "isolated_wallet": "6295889e436aa24580b56536464f90568eaf1931f63a6aad115875759689b785"
+  },
+  "syntheticIndependentVerification": {
+    "schema": 1,
+    "verifierSha256": "17b296cc113c8d31175bd42a10d1f5ae953dfcfbd01a40d31e984a1cf122ee20",
+    "rows": [
+      {
+        "stage": "activation",
+        "requestSha256": "68fe34757be95e9437a38ed656133fe14cf41893954fea3e49c944c323cf31a5",
+        "reportSha256": "32b41e232a646a9ab7e5e70563cfb44dee6ebe3a9f0d3c0a6e01d17319c0d2fa",
+        "verified": true
+      },
+      {
+        "stage": "commit",
+        "requestSha256": "98ab5a4435a0c1e743a1b92235e2b035a91251ef1b56bca54523f773ea892f4f",
+        "reportSha256": "bee179b01b9e7daa946c928c75548049b7a5353c4e81d5481701052e1d267780",
+        "verified": true
+      },
+      {
+        "stage": "settle",
+        "requestSha256": "d1e911c331cc67a66092fc4a16b1a3ef08fe3fe0d5720aab380433ea30d50db6",
+        "reportSha256": "c92490e47bbff907ecc6f4d01595849f0ffe002099df152bbdb4f476e499644a",
+        "verified": true
+      }
+    ],
+    "newProofs": 0,
+    "broadcasts": 0,
+    "networkAcceptance": false,
+    "approvedStackIndependentlyProved": false
+  },
+  "confirmedDeployments": [
+    {
+      "at": "2026-11-11T17:19:55.188Z",
+      "contractId": 49,
+      "checkpoint": 103306,
+      "chainRootAt1": "81bac9934a1c18579519b5297c94c7e7d25cb53973ac67befefe8b7a86f96b5c",
+      "codeRoot": "f32a62d415c132478d18d71d6736322d044071e9bb293da3eda1218a50aed57b",
+      "layoutRoot": "62224d708fde9cd6df9a304c2fc5eab0a376a30c13766a39407fcd8587a56724",
+      "functionTreeRoot": "095fae162db2b01e36760c688add81d90611284e4fe99f73bc92f51c0abe78c2",
+      "beforeObservation": 103317,
+      "afterObservation": 103317,
+      "initialLayoutVerified": true,
+      "networkIncluded": true
+    },
+    {
+      "at": "2026-11-11T17:32:15.001Z",
+      "contractId": 50,
+      "checkpoint": 103367,
+      "chainRootAt1": "81bac9934a1c18579519b5297c94c7e7d25cb53973ac67befefe8b7a86f96b5c",
+      "codeRoot": "8dd827b074168de9f40f435efc376527480892d40122137484b212e02085c106",
+      "layoutRoot": "62224d708fde9cd6df9a304c2fc5eab0a376a30c13766a39407fcd8587a56724",
+      "functionTreeRoot": "6aa6ce7b61db043daf4e0b9f6d19db762d44b1bea023993ced75218bb5e7b162",
+      "beforeObservation": 103394,
+      "afterObservation": 103396,
+      "initialLayoutVerified": true,
+      "networkIncluded": true
+    }
+  ],
+  "pendingAmm": {
+    "expectedContentHash": "46a5f136ee14ffa4785754c1982810cd39b2f6939cf5cd055eac5e682fa33fc0",
+    "artifactSha256": "a68b2f55c5e9c202d2bfa0902c486b8d373419f173393ab067be865f040a0549",
+    "preflight": {
+      "codeRoot": "dee7912564e18c865fd2ee5d5915532a8b9c82cc5a97478a4a364bc31b4dfe26",
+      "expectedDeployer": "971904",
+      "fullUpsVerified": false,
+      "functionTreeRoot": "fdb027132faaa5b3e33b71dce8546d1d0035ac0c36d1a3dcb02d88a2e8b7ece9",
+      "initialLayoutVerified": true,
+      "layoutRoot": "a9008194809103c26715a39b20d2df6fc470d5ef74ae511dcd5a2fe69bb7cf79",
+      "newFieldCount": 58,
+      "newSlotCount": 1325400292,
+      "oldFieldCount": 0,
+      "oldSlotCount": 0,
+      "proofBytes": 136080,
+      "publicEndpointsBound": true,
+      "stateTreeHeight": 31,
+      "submitted": false,
+      "verifierFingerprint": "38529e5fe3ba4cc8989a14def56fe1490e0b494262c3ef4d9aaa3840b62d49a5"
+    },
+    "requestSha256": "4118ebc3017a74cb7a75b43d505da6fdff130dd02fb78ee496d90b600af35f8d",
+    "wireSha256": "241d3a0b042ddf84416d21e5f40eefa8d9385a63faa127bbec60c42e6448b714",
+    "wireBytes": 66880029,
+    "process": {
+      "action": "deploy-amm",
+      "exitCode": 1,
+      "seconds": 501.6782271669945,
+      "sampledFamilyRssKiB": 2068768,
+      "stop": null,
+      "broadcastAttempted": true,
+      "automaticRetry": false
+    },
+    "lastReadOnlyRecovery": {
+      "at": "2026-11-11T17:57:01.539Z",
+      "contentHash": "46a5f136ee14ffa4785754c1982810cd39b2f6939cf5cd055eac5e682fa33fc0",
+      "checkpoint": 103551,
+      "chainRootAt1": "81bac9934a1c18579519b5297c94c7e7d25cb53973ac67befefe8b7a86f96b5c",
+      "httpStatus": 404,
+      "receipt": {
+        "success": false,
+        "error": "Transaction not found",
+        "timestamp": "2026-11-11T17:57:02.098750994Z"
+      },
+      "broadcasts": 0,
+      "newProofs": 0,
+      "status": "unknown",
+      "mayRetry": false,
+      "reason": "absence or pending status does not prove final rejection"
+    },
+    "resends": 0,
+    "replacementRequests": 0
+  },
+  "networkTotals": {
+    "confirmedQaTokenDeployments": 2,
+    "confirmedAmmDeployments": 0,
+    "vaultRegistrations": 0,
+    "marketFills": 0,
+    "marketClaims": 0,
+    "marketEscrowTransfers": 0,
+    "testPsyExecutionFeeBaseUnits": "0",
+    "faucetRequests": 0,
+    "qaMinted": "0"
+  },
+  "offlineRuns": [
+    {
+      "exitCode": 101,
+      "seconds": 2.100010541966185,
+      "sampledFamilyRssKiB": 32,
+      "stop": null,
+      "financialOperations": 0,
+      "syntheticOnly": true,
+      "sdkCommit": "01b8f2b0a077367a7b9879baba1a72aea8ab5510"
+    },
+    {
+      "exitCode": 0,
+      "seconds": 192.1079197920626,
+      "sampledFamilyRssKiB": 1245216,
+      "stop": null,
+      "financialOperations": 0,
+      "syntheticOnly": true,
+      "sdkCommit": "01b8f2b0a077367a7b9879baba1a72aea8ab5510"
+    },
+    {
+      "exitCode": 0,
+      "seconds": 247.59572912496515,
+      "sampledFamilyRssKiB": 1386800,
+      "stop": null,
+      "financialOperations": 0,
+      "syntheticOnly": true,
+      "sdkCommit": "01b8f2b0a077367a7b9879baba1a72aea8ab5510"
+    }
+  ],
+  "testScopes": {
+    "coreHostV4": {
+      "tests": 51,
+      "passed": 51,
+      "scope": "Host and mock I/O regression before the final default/committed-refund additions"
+    },
+    "coreHostV5Targeted": {
+      "tests": 6,
+      "passed": 6,
+      "scope": "Final core host/mock tests; includes selected-release/default, committed refund and funding-drift/expiry"
+    },
+    "deploymentRecoveryHostV2": {
+      "tests": 3,
+      "passed": 3,
+      "scope": "Pure/mocked recovery; no broadcast, proof or network acceptance"
+    },
+    "nativeCoreScope": {
+      "tests": 1,
+      "passed": 1,
+      "scope": "Selected native SDK, market and canonical nonzero chain-anchor guard"
+    },
+    "finalCombinedHost": {
+      "tests": 55,
+      "passed": 55,
+      "scope": "Final host/mock suite; no new proofs, broadcasts or live market fills"
+    }
+  },
+  "rawArchive": {
+    "directoryName": "amm-core-live-20261112-v1",
+    "outsideGit": true,
+    "files": [
+      {
+        "path": "public/PLAN-v1.json",
+        "sha256": "38ce3f3a1ec884a504d9a583f01a3b16a050dd915e81fefff448450ff2129e3a",
+        "bytes": 1478
+      },
+      {
+        "path": "public/FRESH-PREFLIGHT-v1.json",
+        "sha256": "90a719d19da44aece3d0ac1c4f0a610c675da48e75456e565e0d0d1202ed803c",
+        "bytes": 2031
+      },
+      {
+        "path": "public/ACTORS-v1.json",
+        "sha256": "2194dcdb631ba56a363a965087a913345f372cc1aaf877c5afd6c32c366a114f",
+        "bytes": 563
+      },
+      {
+        "path": "public/BINARIES-v2.json",
+        "sha256": "9804858fbd239fa716199da7685cbbb5f72dff14f82d56fbe01985bc72fc684e",
+        "bytes": 186
+      },
+      {
+        "path": "public/core-native-unit-v1.json",
+        "sha256": "458ee6be62291c814005e6f0b09f454a77f79ba6e69702e1e42dac78ee3ff493",
+        "bytes": 362
+      },
+      {
+        "path": "public/core-host-v4.log",
+        "sha256": "7596f97019b639d3d0a3c2f460b130b4ffd9632e019b11555068752c2a415794",
+        "bytes": 5566
+      },
+      {
+        "path": "public/core-host-v5-targeted.log",
+        "sha256": "376923189fae41ef9bca033b4169e68dd2d775fae0f943f47428166b83afbf59",
+        "bytes": 763
+      },
+      {
+        "path": "public/deployment-recovery-host-v2.log",
+        "sha256": "e391f131a8379c491ec83a0c9a20ec827df4cca3b7ada44ed53af241be8de394",
+        "bytes": 426
+      },
+      {
+        "path": "public/activation-v1.json",
+        "sha256": "b1c4ba363553762da20881cdd4111599d130257369c026d9bf603134426878b9",
+        "bytes": 475
+      },
+      {
+        "path": "public/activation-v2.json",
+        "sha256": "4f04bb63d6ee659d5bbfecbdb878ddd9f872ccd9d1cac08666d1ed54a3146646",
+        "bytes": 478
+      },
+      {
+        "path": "activation-v2/amm-activation.json",
+        "sha256": "88c5e825e2fcd71fa30e9ad028318492da9ac60d768b4aa69f8fbaaf9af954a2",
+        "bytes": 2361
+      },
+      {
+        "path": "public/trade-v2.json",
+        "sha256": "bc47e5ef2d4e20be675536f3dce66c368922886a3af1b6650f9395219e542683",
+        "bytes": 493
+      },
+      {
+        "path": "trade-v2/amm.json",
+        "sha256": "7d1633fda3eb9e204932540cf5a443697a869dd31773346ab9e9cd35b19b0c10",
+        "bytes": 4127
+      },
+      {
+        "path": "public/INDEPENDENT-v1.json",
+        "sha256": "3dd7fb196fcf1bb2570019d8c292c325822cae276286e8c97b3e051edc286cad",
+        "bytes": 963
+      },
+      {
+        "path": "public/deploy-A-v1-CONFIRMED.json",
+        "sha256": "468a68971cb67800ad8a7a40eabe703174791eff08e578258acc3953e1fcebab",
+        "bytes": 546
+      },
+      {
+        "path": "public/deploy-B-v1-CONFIRMED.json",
+        "sha256": "e06f4bc2912036638bd911b8c303bbd338a4ce3a9fd3efa902ac55ee9396302c",
+        "bytes": 546
+      },
+      {
+        "path": "public/deploy-amm-v1.json",
+        "sha256": "b4309c395f51ad7a7166b418146beb549ffeea97f39d0b32f7c868ffc65d87a2",
+        "bytes": 184
+      },
+      {
+        "path": "attempts/deploy-amm-v1/preflight.json",
+        "sha256": "d6e2e7d87c9a92a299bdcb6558421b4315fca177f3263045963adcaed78ecb39",
+        "bytes": 644
+      },
+      {
+        "path": "attempts/deploy-amm-v1/request.json",
+        "sha256": "4118ebc3017a74cb7a75b43d505da6fdff130dd02fb78ee496d90b600af35f8d",
+        "bytes": 349106336
+      },
+      {
+        "path": "attempts/deploy-amm-v1/rpc-request.json",
+        "sha256": "241d3a0b042ddf84416d21e5f40eefa8d9385a63faa127bbec60c42e6448b714",
+        "bytes": 66880029
+      },
+      {
+        "path": "attempts/deploy-amm-v1/intent.json",
+        "sha256": "d9de169213dc3ada0e06a765c9212d855191f272ff1331c739edcdceca5dc9f7",
+        "bytes": 294
+      },
+      {
+        "path": "public/deploy-amm-v1-recovery-v2.json",
+        "sha256": "bba99611cfbbf944165a98a17be49d4c3f10397b0418803aa2bd1998e585dca0",
+        "bytes": 472
+      },
+      {
+        "path": "public/REQUEST-IDENTITIES-v1.json",
+        "sha256": "6d4c67779cc3a7163a29ea831eebb366d7c0eb1241e1da8769f1303d82969d12",
+        "bytes": 2054
+      },
+      {
+        "path": "public/core-host-final-v1.log",
+        "sha256": "afb2cd5d8cfe070e68f94eb7741c94357ed30056c0f74a709330acef678b3b31",
+        "bytes": 6007
+      },
+      {
+        "path": "public/deploy-amm-v1-recovery-v3.json",
+        "sha256": "cc1ac1948214c70e6f021ed6998de52b847ef4e0691e21910c5a6311a7c8c48d",
+        "bytes": 472
+      }
+    ]
+  },
+  "randomness": {
+    "enabled": false,
+    "globalCompleteness": false,
+    "qualifiedRandomness": false,
+    "next": "Only after the deterministic real AMM/ordinary-claim/refund loop: a separately versioned fixed-batch checkpoint-seeded experiment. Producer bias, seed publication timing and independent finality remain unqualified."
+  }
+}

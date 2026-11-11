@@ -71,18 +71,55 @@ fn save(path: &Path, value: &impl serde::Serialize) -> Result<()> {
     .sync_all()?;
     Ok(())
 }
-async fn check_once(guard: &Guard, s: &WalletSession) -> Result<()> {
+fn core_anchor(spec: &Value) -> Result<Option<QHashOut<F>>> {
+    if spec["execution_scope"] != "explicit-selected-orders-v1" { return Ok(None); }
+    ensure!(spec["market"]=="amm" && spec["sdk_commit"]==psy_template_u124_markets::sdk_release::SDK_COMMIT
+        && spec["client_commit"]==psy_template_u124_markets::sdk_release::CLIENT_COMMIT,
+        "exact core AMM SDK release required");
+    let text=spec["chain_root_at1"].as_str().context("core AMM chain anchor required")?;
+    let root:QHashOut<F>=text.parse()?;
+    ensure!(text.len()==64 && root!=QHashOut::ZERO && root.to_string()==text,"canonical nonzero core AMM chain anchor");
+    Ok(Some(root))
+}
+async fn check_spec_chain(spec: &Value, provider: &psy_provider::provider::RpcProvider) -> Result<()> {
+    if let Some(expected)=core_anchor(spec)? {
+        let anchor=provider.get_checkpoint_leaf_data(1).await?;
+        ensure!(anchor.global_chain_root==expected,"core AMM chain instance changed");
+    }
+    Ok(())
+}
+#[cfg(test)]
+mod core_scope_tests {
+    use super::*;
+    #[test]
+    fn selected_core_release_requires_exact_nonzero_chain_identity() -> Result<()> {
+        let base=json!({"execution_scope":"explicit-selected-orders-v1","market":"amm",
+            "sdk_commit":psy_template_u124_markets::sdk_release::SDK_COMMIT,
+            "client_commit":psy_template_u124_markets::sdk_release::CLIENT_COMMIT,
+            "chain_root_at1":"81bac9934a1c18579519b5297c94c7e7d25cb53973ac67befefe8b7a86f96b5c"});
+        ensure!(core_anchor(&base)?.is_some(),"exact release");
+        for (field,value) in [("sdk_commit",json!("old")),("client_commit",json!("old")),
+            ("market",json!("orderbook")),("chain_root_at1",json!("0".repeat(64))),
+            ("chain_root_at1",Value::Null)] {
+            let mut bad=base.clone();bad[field]=value;ensure!(core_anchor(&bad).is_err(),"substitution refused");
+        }
+        ensure!(core_anchor(&json!({"version":2}))?.is_none(),"historic profiles keep their original boundary");
+        Ok(())
+    }
+}
+async fn check_once(spec: &Value, guard: &Guard, s: &WalletSession) -> Result<()> {
+    check_spec_chain(spec,&s.st_provider).await?;
     guard.identity.check_current(&s.st_provider).await.context("live vault registration/code/layout guard")?;
     psy_template_u124_markets::guard_reads::checked(&guard.dependencies, psy_template_u124_markets::guard_reads::concurrency()?, |b| async move {
         b.check(&s.st_provider).await.with_context(||format!("live dependency {}",b.contract.contract_id))
     }).await?;
     Ok(())
 }
-async fn check(guard: &Guard, s: &WalletSession) -> Result<()> {
+async fn check(spec: &Value, guard: &Guard, s: &WalletSession) -> Result<()> {
     // Only these GET-style public identity/dependency reads may repeat. A
     // changed binding fails immediately; proving and submit are never retried.
     for attempt in 0..3 {
-        match check_once(guard,s).await {
+        match check_once(spec,guard,s).await {
             Ok(()) => return Ok(()),
             Err(error) => {
                 let reason=format!("{error:#}");
@@ -206,6 +243,7 @@ async fn run(phase: &mut &'static str, composition:bool, stream:bool) -> Result<
         return Ok(());
     }
     if a[1] == "register" {
+        check_spec_chain(&spec,&session.st_provider).await?;
         ensure!(a.len() == 5, "register POLICY CONFIG FRESH_OUT");
         if stream{ensure!(spec["executor_binding"]["allow_broadcast"]==true,"instance-specific release is not enabled for registration");}
         let out = Path::new(&a[4]);
@@ -333,7 +371,7 @@ async fn process_action(a:&[String],spec:&Value,fp:QHashOut<F>,hash:QHashOut<F>,
         "complete live whitelist dependencies"
     );
     *phase = "verify-live-identity-and-dependencies";
-    check(&guard, &session).await?;
+    check(spec, &guard, &session).await?;
     *phase = "start-compact-session";
     let key = hash;
     ensure!(key == hash, "compact public identity");
@@ -520,7 +558,7 @@ async fn process_action(a:&[String],spec:&Value,fp:QHashOut<F>,hash:QHashOut<F>,
     save(&out.join("prepared.json"), &prepared)?;
     *phase = "verify-final-compact-state";
     let final_guard_started = std::time::Instant::now();
-    check(&guard, &session).await?;
+    check(spec, &guard, &session).await?;
     let provider = session.st_provider.with_user_id_owned(user);
     let cp = provider.get_latest_block_state().await?.checkpoint_id;
     ensure!(
@@ -540,7 +578,7 @@ async fn process_action(a:&[String],spec:&Value,fp:QHashOut<F>,hash:QHashOut<F>,
         ),
         "compact nonce not submittable"
     );
-    check(&guard, &session).await?;
+    check(spec, &guard, &session).await?;
     save(&out.join("final-live-state.json"), &json!({"liveGuardsPassed":true,"broadcast":false,
         "requestSha256":compact_prepared::sha(&fs::read(out.join("request.json"))?),
         "preparedManifestSha256":format!("{:x}",Sha256::digest(fs::read(out.join("prepared.json"))?)),

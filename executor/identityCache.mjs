@@ -2,6 +2,7 @@
 // No state, witness, nonce, authorization decision or proof enters this cache.
 import assert from 'node:assert/strict';
 import {sha256} from './requestBinding.mjs';
+import {assertDriverSdkIdentity} from './sdkProfiles.mjs';
 export function compactIdentityCache({capacity=32}={}){
  assert.ok(Number.isSafeInteger(capacity)&&capacity>0);
  const entries=new Map();
@@ -14,6 +15,7 @@ export function compactIdentityCache({capacity=32}={}){
   const entry={settled:false};
   entry.promise=(async()=>{
    const value=await load();
+   if(binding.sdkProfile)assertDriverSdkIdentity(value,binding.sdkProfile);
    assert.equal(value?.profile,'compact-v1');
    assert.equal(value.fingerprint,expected.fingerprint,'wallet fingerprint');
    assert.equal(value.publicKeyHash,expected.publicKeyHash,'wallet public key');
