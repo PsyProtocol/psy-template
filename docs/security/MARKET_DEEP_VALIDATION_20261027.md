@@ -11,6 +11,11 @@ Endcaps/metadata independently verify; changed fees, endpoints and proof bytes
 reject. No Node/SDK/wallet change or financial operation occurs. Heavy-host
 memory telemetry, all failed runs and incomplete TLS source capture remain
 separate from real network/Executor/UI acceptance, which is still open.
+The same-root read continuation stops within its original budget at a 58-account
+lower bound. A freshly rebuilt frozen-source utility reproduces all 72 paths and
+rejects wrong roots, duplicates and changed siblings; a zero-test-harness
+misinvocation is preserved separately. Source completeness, eligibility,
+deadline/fee feasibility and chain finality remain unverified; no funds move.
 
 Latest market-core continuation (11 November): [NFT v21 ordinary seller client,
 current Native ABI and preserved scoped host failure](NFT_SELLER_CLIENT_20261111.md).

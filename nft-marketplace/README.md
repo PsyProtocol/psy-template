@@ -21,10 +21,17 @@ Current batch entry points:
 | Component | Source |
 | --- | --- |
 | Market contract and generator | `contract/src/main.psy.rs`, `generate.mjs` |
+| Current batch contract composition | `../batching/checkpoint-stream/exit-generate.mjs`, `funded-pair.mjs`, `pair-generate.mjs` |
 | New collection preparation | `../nft/account-initialization.mjs` |
 | v21 key policy and ordinary buyer calls | `../batching/checkpoint-stream/nft-bootstrap-policy.mjs` |
 | Complete SD-key circuit and stack/session binding | `../amm/u124/vm-tests/src/stream_policy.rs`, `stream_runtime.rs` |
 | Formal Executor, exact broadcast and receipt recovery | `../executor/fundedStreamAdapter.mjs`, `fundedLifecycle.mjs` |
+
+The v21 build preserves the reviewed v19 market bytecode and changes the new
+collection/key identities. `../batching/checkpoint-stream/nft-bootstrap-build.mjs`
+reproduces the old collection before preparing the new one; it does not patch a
+live market. The generated instance's `main.psy.rs` and compilation artifact,
+rather than local fixture IDs, define its deployed contract identity.
 
 The sections below describe the original fixed-call v3 route. Its activation,
 fee sponsorship, Native ABI names and legacy purchase builder are **not** the

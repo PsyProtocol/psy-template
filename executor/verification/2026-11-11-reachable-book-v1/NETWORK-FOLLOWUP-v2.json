@@ -1,0 +1,93 @@
+{
+  "schema": 1,
+  "scope": "Fresh frozen-source CLI replays the exact partial public traversal; root/chain/checkpoint finality remains unauthenticated",
+  "sdkCommit": "01b8f2b0a077367a7b9879baba1a72aea8ab5510",
+  "binarySha256": "3fef25454f742d5d1930424d7424083e989ee79017a11da7bc347d19481632c4",
+  "applicationManifestSha256": "355444edb51ddf34ef9d27c2f708f7f69d202f868c4db379c87f5d81e622aff6",
+  "transcriptSha256": "b8e540aba080a5871b9ea84c35fbb3d5ebce2acf8749cb39dc97afb72c9a2307",
+  "originalCachedReportSha256": "9a8ac64ecabfd5a138f3e26fc2771cc71f991e22a531e49ac19b10a1771d6368",
+  "freshReportSha256": "9a8ac64ecabfd5a138f3e26fc2771cc71f991e22a531e49ac19b10a1771d6368",
+  "freshEqualsCached": true,
+  "checkpoint": 101643,
+  "userTreeRoot": "896ac767a830c9928b8554024d6aa1a9d4cb575d64e2594eca5b25c2a43ed6df",
+  "verifiedPaths": 72,
+  "occupiedAccountLowerBound": 58,
+  "complete": false,
+  "rejected": [
+    "wrong-root",
+    "duplicate-proof",
+    "changed-sibling"
+  ],
+  "seconds": 2.0497427500085905,
+  "newProofs": 0,
+  "financialOperations": 0,
+  "releaseAuthorization": false,
+  "totalCaptureReads": 83,
+  "totalCaptureSeconds": 298.8900158330798,
+  "captureBudgetReads": 128,
+  "captureBudgetSeconds": 300,
+  "nextCaptureAutomaticRetry": false,
+  "minimumCoverageUpsLowerBound": 15,
+  "coverageRowCapacity": 4,
+  "warning": "A lower bound is not a complete source, market eligibility, authenticated checkpoint/finality, a viable deadline/budget or authorization to fund.",
+  "captureRuns": [
+    {
+      "directory": "source-inventory-v1",
+      "stop": {
+        "error": "RPC transport failed at 00035; bounded read recovery stopped",
+        "readOnlyRpcRequests": 35,
+        "elapsedSeconds": 153.23909829102922,
+        "complete": false,
+        "readTransportRetries": 0,
+        "financialOperations": 0
+      },
+      "stopSha256": "5ec521161cf9802edee64a73a316f22deabd268952bc6634b81a6c699f67681d",
+      "planSha256": "6f39b8f81d45b2177155febf79fb849d92bb288ef1aa78e39b02fb3a08bdfa0b",
+      "scopeSha256": "627dcdd239201cfec6648926dba96d7209a3203a63b5e78ead3f52ff51e1485c"
+    },
+    {
+      "directory": "source-inventory-v2",
+      "stop": {
+        "error": "RPC transport failed at 00048; bounded read recovery stopped",
+        "readOnlyRpcRequests": 48,
+        "elapsedSeconds": 145.6509175420506,
+        "complete": false,
+        "readTransportRetries": 0,
+        "financialOperations": 0
+      },
+      "stopSha256": "25185a58193a66eb6c65f3c0b665f10251c789d2b297ed8b1c5351adec3efe2a",
+      "planSha256": "bc4b93c83d14394507379aa0545979382c6020aaad83d1ece98f940e0190ae90",
+      "scopeSha256": "627dcdd239201cfec6648926dba96d7209a3203a63b5e78ead3f52ff51e1485c"
+    }
+  ],
+  "nativeBuilds": {
+    "inventory-build-v1": {
+      "record": {
+        "mode": "build",
+        "exitCode": 0,
+        "seconds": 63.76318241690751,
+        "sampledFamilyRssKiB": 944400,
+        "financialOperations": 0,
+        "stop": null,
+        "binarySha256": "ba107e1e78a2134b03f99892ae7953d1a9802deaeea20a883777da3dd6195a2e"
+      },
+      "logSha256": "650b60b80d1b49c5dc5cd6fe6a1d07bfd25a0a70ec69145780bd6f27b4d0aa8d"
+    },
+    "inventory-build-v2": {
+      "record": {
+        "mode": "build",
+        "exitCode": 0,
+        "seconds": 5.324028208036907,
+        "sampledFamilyRssKiB": 324432,
+        "financialOperations": 0,
+        "stop": null,
+        "binarySha256": "3fef25454f742d5d1930424d7424083e989ee79017a11da7bc347d19481632c4"
+      },
+      "logSha256": "82225c1500430953ef6f92135b50d30158d1acce154d27bffc4b4cb76892c49c"
+    }
+  },
+  "harnessMisInvocationPreserved": true,
+  "diagnosisSha256": "226475310f7552428be4df973c42ff148855cdf6ed9b70d60db30fe64b0f3eeb",
+  "nativeBuildCommandsUsed": 6,
+  "nativeBuildCommandLimit": 6
+}

@@ -169,6 +169,24 @@ the capture is incomplete. Registration serial 9,330 is not an occupied-account
 count, and neither count can replace authenticated market eligibility. This
 advisory read capture cannot authorize funding or establish global inclusion.
 
+One explicit continuation keeps that original checkpoint/root and stays within
+the original 128-read/300-second capture budget. It stops after another 48 reads,
+at 298.890 aggregate seconds and 83 total reads. The result has 72 paths and a
+**58-account lower bound**, still incomplete. At four accounts per coverage UPS,
+even this lower bound requires at least 15 source-coverage UPSs; market setup,
+eligibility, matching/refunds, claims and viable deadlines require separate
+planning. No funding is authorized from this lower bound.
+
+The source utility is independently rebuilt against the frozen SDK and exactly
+reproduces the retained partial report. Wrong-root, duplicate-proof and changed-
+sibling transcripts reject. An earlier `cargo test --bin` invocation compiled a
+zero-test harness and copied the old cache executable; that invocation is
+preserved and is **not** treated as a freshly built verifier. The corrected
+`cargo build --bin` invocation produces the reviewed CLI. The original six native
+build-command cap is now reached. Neither this utility nor Merkle membership
+authenticates chain/checkpoint finality. See the immutable
+[network follow-up](../../executor/verification/2026-11-11-reachable-book-v1/NETWORK-FOLLOWUP-v2.json).
+
 ## Bounded execution and financial gate
 
 Root is the sole proof/financial owner for this case. Existing process ownership
