@@ -2,6 +2,7 @@
 // Host checks and source generation are not VM, SD-key or full-UPS acceptance.
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
+import {types} from 'node:util';
 import {generateBatch, methodSpans} from '../../batching/v2/generate.mjs';
 
 export const NFT_IDENTITY_BUY_PROFILE = 'selected-nft-identity-buy-v1';
@@ -28,7 +29,7 @@ const LEGACY_SIGNATURE = '#[contract_method]\npub fn open_buy(&mut self, ctx: &m
 const sha = text => createHash('sha256').update(text).digest('hex');
 
 function configuration(config) {
-  assert.ok(config && typeof config === 'object' && !Array.isArray(config));
+  assert.ok(config && typeof config === 'object' && !types.isProxy(config) && !Array.isArray(config));
   assert.deepEqual(Object.keys(config).sort(), ['networkMagic', 'nftId', 'tokenId', ...(Object.hasOwn(config, 'ordering') ? ['ordering'] : [])].sort(), 'explicit selected NFT configuration');
   assert.equal(config.networkMagic, DOMAIN, 'frozen network domain');
   if (Object.hasOwn(config, 'ordering')) assert.equal(config.ordering, 'deterministic');
@@ -97,7 +98,7 @@ function integer(value, max, name, positive = false) {
   assert.ok(typeof value === 'bigint' && value >= (positive ? 1n : 0n) && value <= max, 'canonical ' + name);
 }
 function hash(value, name, nonzero = false) {
-  assert.ok(Array.isArray(value) && value.length === 4, name + ' requires four words');
+  assert.ok(!types.isProxy(value) && Array.isArray(value) && value.length === 4, name + ' requires four non-Proxy words');
   let hasNonzero = false; const snapshot = [];
   for (let i = 0; i < 4; i++) {
     const descriptor = Object.getOwnPropertyDescriptor(value, String(i));
@@ -115,7 +116,16 @@ function hash(value, name, nonzero = false) {
 // The wallet must approve these exact 17 words in its actual signed call stack.
 export function identityBuyInputs(config, approved) {
   configuration(config);
-  assert.deepEqual(Object.keys(approved).sort(), ['actor', 'pool', 'seller', 'listingNonce', 'price', 'deadline', 'nonce', 'collectionId', 'recipient', 'tokenId', 'metadataHash'].sort(), 'exact approved buy fields');
+  assert.ok(approved && typeof approved === 'object' && !types.isProxy(approved) && !Array.isArray(approved), 'non-Proxy approved record required');
+  const fields = ['actor', 'pool', 'seller', 'listingNonce', 'price', 'deadline', 'nonce', 'collectionId', 'recipient', 'tokenId', 'metadataHash'];
+  assert.deepEqual(Object.keys(approved).sort(), [...fields].sort(), 'exact approved buy fields');
+  const snapshot = {};
+  for (const field of fields) {
+    const descriptor = Object.getOwnPropertyDescriptor(approved, field);
+    assert.ok(descriptor && Object.hasOwn(descriptor, 'value'), 'approved fields require own data properties');
+    snapshot[field] = descriptor.value;
+  }
+  approved = snapshot;
   for (const role of ['actor', 'pool', 'seller', 'recipient']) integer(approved[role], USER_MAX, role, true);
   assert.equal(new Set([approved.actor, approved.pool, approved.seller]).size, 3, 'distinct ordinary buyer, seller and vault');
   assert.equal(approved.recipient, approved.actor, 'recipient must be signing buyer');

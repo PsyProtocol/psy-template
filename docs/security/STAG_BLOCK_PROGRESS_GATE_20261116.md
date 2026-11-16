@@ -40,3 +40,5 @@ No keys, mnemonics, recovery files or private signing witnesses are needed. This
 [Compact public evidence](evidence/STAG_BLOCK_PROGRESS_20261116_v1.json) contains digests, typed observations and the proofless inspection projection. Raw originals remain protected locally. The SDK remains `01b8f2b0a077367a7b9879baba1a72aea8ab5510`; chain anchor is `81bac9934a1c18579519b5297c94c7e7d25cb53973ac67befefe8b7a86f96b5c`.
 
 Post-AMM work is isolated source preparation only: [Book, finite Curve and NFT candidate status](POST_AMM_MARKET_CANDIDATES_20261116.md). Forty-five scoped host regressions pass; Curve Rust fixtures and Native diagnostic unit tests have not been executed. The diagnostics binary compiled and its single proofless live inspection passed.
+
+Final read-only check at14:32 UTC still observed both realms at150066. Final source hardening suite:47host tests pass, no failures/skips; this does not change the seven confirmed network operations or pending sponsor status.

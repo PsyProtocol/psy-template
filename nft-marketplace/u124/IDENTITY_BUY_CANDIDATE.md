@@ -59,6 +59,11 @@ not establish successful compilation, SDK session binding or proof acceptance.
   indexes, accessor words and every noncanonical word before approval and
   persistence. The candidate helper snapshots own data descriptors once and
   assembles calldata from validated copies, without invoking supplied iterators.
+  Approval record fields must likewise be own data properties; changing getters
+  cannot replace scalar amounts, nonces or identities after validation. This
+  Node-only candidate rejects Proxy records and identity arrays before invoking
+  their traps; future browser integration needs its own reviewed plain-data
+  approval boundary rather than exposing executable objects to the encoder.
 - Prove actual bytecode plus full UPSs for buy, sale and ordinary claim. Reject
   every token/metadata word mutation, wrong collection/recipient, listing nonce
   replacement, changed seller/price, expired listing and stale state. Verify

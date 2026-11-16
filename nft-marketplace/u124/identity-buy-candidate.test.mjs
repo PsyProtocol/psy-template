@@ -112,3 +112,26 @@ test('HOST ONLY: identity snapshots ignore custom iterators and reject accessor 
     }
   }
 });
+
+test('HOST ONLY: approval fields are own data snapshots, not changing getters', () => {
+  for (const field of Object.keys(approved())) {
+    const a = approved(); let reads = 0;
+    Object.defineProperty(a, field, {enumerable: true, get() {reads++; return approved()[field];}});
+    assert.throws(() => identityBuyInputs(config, a), /own data properties/);
+    assert.equal(reads, 0);
+  }
+});
+
+test('HOST ONLY: Proxy config, approval and identity arrays are rejected without invoking traps', () => {
+  let traps = 0;
+  const handler = {get() {traps++; throw Error('must not read Proxy');},
+    ownKeys() {traps++; throw Error('must not enumerate Proxy');},
+    getOwnPropertyDescriptor() {traps++; throw Error('must not inspect Proxy');}};
+  assert.throws(() => identityBuyInputs(new Proxy(config, handler), approved()));
+  assert.throws(() => identityBuyInputs(config, new Proxy(approved(), handler)));
+  for (const field of ['tokenId', 'metadataHash']) {
+    const a = approved(); a[field] = new Proxy(a[field], handler);
+    assert.throws(() => identityBuyInputs(config, a));
+  }
+  assert.equal(traps, 0);
+});
