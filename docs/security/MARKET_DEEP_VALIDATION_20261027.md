@@ -1,5 +1,8 @@
 # Market correctness and reset-chain validation — 27 October 2026
 
+Latest formal-route continuation (16 November): [four selected-order Executor profiles,
+prepared NFT bootstrap, refund-first AMM run and explicit unverified gates](MARKET_CORE_EXECUTOR_20261116.md).
+
 Latest reviewed continuation (16 November): [existing gateway/subagent method,
 rejected cross-namespace changes, reviewed NFT ABI checks and preserved AMM
 proof/state evidence](MARKET_PARALLEL_GATEWAY_20261116.md). Three external workers

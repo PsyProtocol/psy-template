@@ -25,6 +25,7 @@ use sha2::{Digest,Sha256};
 fn f(n:u64)->GF{GF::from_canonical_u64(n)}
 type Manager=UserProvingSessionManager<GF,PoseidonHash,Store,C,2>;
 #[path="ordinary_wallet_full_ups.rs"] mod ordinary_wallet;
+#[path="nft_core_full_ups.rs"] mod nft_core;
 #[path="checkpoint_processor.rs"] mod checkpoint_processor;
 #[tokio::test]
 async fn authenticated_commit_cfc_probe()->Result<()>{

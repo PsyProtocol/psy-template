@@ -75,6 +75,18 @@ test('cancelled swap and refund claim preserve actual owner and explicit Native 
   assert.equal(refund.actorId, context.traderId);
 });
 
+test('a renewed bounded swap uses nonce three after refund, with no old close or cancellation', () => {
+  const p = planCoreAmmStage(context, 'renewed_swap_open', {...terms, nonce: 3n});
+  assert.deepEqual(methods(p), [[1000n, 'open_swap'], [0n, 'transfer'], [41n, 'transfer']]);
+  assert.equal(p.contract_calls[0].inputs.at(-1), 3n);
+  assert.equal(decodeAmount(p.contract_calls[0].inputs.slice(2, 4)), U);
+  assert.equal(p.actorId, context.traderId);
+  assert.equal(p.unsigned, true); assert.equal(p.proofVerified, false); assert.equal(p.liveAccepted, false);
+  for (const nonce of [2n, 4n])
+    assert.throws(() => planCoreAmmStage(context, 'renewed_swap_open', {...terms, nonce}));
+  assert.throws(() => planCoreAmmStage(context, 'renewed_swap_open', {...terms, quote: quote + 1n}));
+});
+
 test('plans reject wrong release/scope/domain/assets/actors and unsupported ordinary ABI', () => {
   for (const patch of [{market: 'orderbook'}, {version: 19}, {execution_scope: 'source-covered'},
     {sdk_commit: '0'.repeat(40)}, {client_commit: '0'.repeat(40)}, {native_protocol: 'legacy-v1'},

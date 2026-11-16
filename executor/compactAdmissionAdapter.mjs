@@ -21,8 +21,8 @@ import {publishFile} from './durableFile.mjs';
 import {sha256} from './requestBinding.mjs';
 import {driverRecords,runDurableSubmission} from './driverProcess.mjs';
 import {loadBatchFiles} from '../batching/v2/reader.mjs';
-import {makeCorePolicy} from '../amm/u124/core-build.mjs';
-import {scanCoreAmm, checkCoreSourceCheckpoint} from './coreAmmReader.mjs';
+import {isCoreProfile,assertCoreRoute,canonicalCorePolicy} from './coreMarketProfiles.mjs';
+import {scanCoreMarket, checkCoreSourceCheckpoint} from './coreAmmReader.mjs';
 import {makeAdmissionPolicy} from '../batching/admission/prepare.mjs';
 import {compactRequest} from '../batching/admission/reader.mjs';
 import {scanExecutorAdmission,validateAdmissionPlan} from './admissionReader.mjs';
@@ -42,14 +42,14 @@ export function bindCompactRequest(task,policy){
  return r;
 }
 export async function createCompactAdmissionAdapter(o,{readState=publicState,readReceipts=receiptReader,runDriver,submitDriver=runDurableSubmission,residentScope}={}){
- const producer=o.profile==='previous-checkpoint-seeded-v1',core=o.profile==='amm-core-compact-v1';assert.ok(core||producer||o.profile==='batch-admission-compact-v1');
- if(core){assert.equal(o.kind,'amm');assert.equal(o.testnetProfile,'sdk-audit-20261102-v1');assert.match(o.chainRootAt1,/^[a-f0-9]{64}$/);assert.notEqual(o.chainRootAt1,'0'.repeat(64));}
+ const producer=o.profile==='previous-checkpoint-seeded-v1',core=isCoreProfile(o.profile);assert.ok(core||producer||o.profile==='batch-admission-compact-v1');
+ if(core)assertCoreRoute(o);
  const assets=o.kind==='nftmarket'?[o.paymentToken,o.collection]:[o.assetA,o.assetB];
  const inputsCurrent=await captureInputs([o.abi,o.driverConfig,o.policy,o.rpcConfig,o.dependencyBindings,...(core?[]:[o.admissionPlan]),...assets.map(a=>a.abi)]);
  const files=await(producer?loadPreviousFiles:loadBatchFiles)(o);
  if(!core){files.admissionPlan=(producer?validatePreviousPlan:validateAdmissionPlan)(await json(o.admissionPlan));assert.ok(files.admissionPlan.members.every(m=>m.owner!==o.vaultId&&m.owner!==o.batchSponsorId),'plan members must differ from vault and batch sponsor');}
  const [token,other]=await Promise.all(assets.map(a=>json(a.abi)));validateU124TokenAbi(token);if(o.kind==='nftmarket')validateNftAbi(other);else validateU124TokenAbi(other);
- const canonical=core?makeCorePolicy(o.contractId,files.config,{state_tree_height:31,abi:files.abi},{abi:token},o.chainRootAt1):(producer?makePreviousCheckpointPolicy:makeAdmissionPolicy)(o.kind,o.contractId,files.config,files.abi,token,o.kind==='nftmarket'?other:undefined);
+ const canonical=core?await canonicalCorePolicy(o,files,token,other):(producer?makePreviousCheckpointPolicy:makeAdmissionPolicy)(o.kind,o.contractId,files.config,files.abi,token,o.kind==='nftmarket'?other:undefined);
  assert.deepEqual(files.policy,core||producer?canonical:bindNativePolicy(o.admissionMode==='all-four-v1'?withBulkAdmission(canonical):canonical,o.testnetProfile==='mainnet-beta-20261027-v1'?MAINNET_BETA_PROFILE:'legacy-v1'),'exact policy differs from ABI/config/mode');
  for(const [a,id]of assets.map((a,i)=>[a,o.kind==='nftmarket'?(i===0?files.config.tokenId:files.config.nftId):(i===0?files.config.assetA:files.config.assetB)]))assert.equal(a.contractId,id);
  const dependencies=await json(o.dependencyBindings),required=[...new Set(files.policy.branches.flatMap(b=>b.calls.map(c=>c.contract_id)))].sort((a,b)=>a-b);
@@ -77,7 +77,7 @@ export async function createCompactAdmissionAdapter(o,{readState=publicState,rea
  // Reuse this call's fixed-checkpoint leaf cache, never a prior check/session.
  const deriveOrder=async input=>{const id=sha256(JSON.stringify({identity,policySha256:sha256(await readFile(o.policy)),input})),path=join(o.runtimeDirectory,'producer-order',id+'.json'),report=join(o.runtimeDirectory,'producer-order',id+'.result.json');await publish(path,input);try{await readFile(report);}catch(e){if(e.code!=='ENOENT')throw e;await runDriver(driver.file,['producer-order',o.policy,path,report],{env,timeout:120000,maxBuffer:2000000});}const result=await json(report);assert.equal(result.profile,'previous-checkpoint-seeded-v1');assert.equal(result.qualifiedRandomness,false);return result.rank;};
  const quote=async task=>{await producerPins?.check(task);const q=paths(task);await publish(q.calls,task.submission);await publish(q.guard,{identity,dependencies,validUntilCheckpoint:Number(task.validUntilCheckpoint)});const out=join(root(task),'quote-'+randomUUID()),args=['quote',o.policy,o.rpcConfig,q.calls,q.guard,out];const active=await requireResident();if(active)await active.quote(args);else await runDriver(driver.file,args,{env,timeout:900000,maxBuffer:2000000});const result=await exactJson(join(out,'quote.json'));assert.equal(result.broadcast,false);assert.equal(result.endcapSigned,false);return result.fee;};
- const scanRoute=async state=>{const result=await(core?scanCoreAmm(o,state,files):producer?scanPrevious(o,async()=>state,files,{deriveOrder,quote}):scanExecutorAdmission(o,async()=>state,files));if(result.action)await producerPins?.check(result.action);return result;};
+ const scanRoute=async state=>{const result=await(core?scanCoreMarket(o,state,files):producer?scanPrevious(o,async()=>state,files,{deriveOrder,quote}):scanExecutorAdmission(o,async()=>state,files));if(result.action)await producerPins?.check(result.action);return result;};
  const scan=async()=>scanRoute(await bindingCurrent());
  const proofFiles=async(task,p)=>{assert.equal(p.version,1);assert.equal(p.driverSha256,driver.sha256);safePath(task,'proof',p.preparedDirectory);const m=await readFile(join(p.preparedDirectory,'prepared.json'));assert.equal(sha256(m),p.manifestSha256);const v=JSON.parse(m);
   const q=paths(task);for(const[file,hash]of [[o.policy,v.policySha256],[q.calls,v.callsSha256],[q.guard,v.guardSha256],[join(p.preparedDirectory,'preflight.json'),v.preflightSha256],[join(p.preparedDirectory,'request.json'),v.requestSha256]])assert.equal(sha256(await readFile(file)),hash,'prepared artifact changed');

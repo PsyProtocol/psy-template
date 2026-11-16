@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {scanBatch} from '../batching/v2/reader.mjs';
 import {compactRequest} from '../batching/admission/reader.mjs';
 import {losslessJson, parseLosslessJson} from '../amm/u124/client.mjs';
+import {assertCoreRoute} from './coreMarketProfiles.mjs';
 
 export function checkCoreSourceCheckpoint(task, core) {
   assert.ok(Number.isSafeInteger(task.minimumSourceCheckpoint) && task.minimumSourceCheckpoint > 0);
@@ -13,6 +14,13 @@ export function checkCoreSourceCheckpoint(task, core) {
 
 export async function scanCoreAmm(options, state, files) {
   assert.equal(options.kind, 'amm');
+  return scanCoreMarket(options, state, files);
+}
+
+export async function scanCoreMarket(options, state, files) {
+  assertCoreRoute(options);
+  assert.equal(files.policy.version, 2);
+  assert.equal(files.policy.market, options.kind);
   assert.equal(files.policy.execution_scope, 'explicit-selected-orders-v1');
   assert.equal(files.policy.whole_market_completeness, false);
   assert.equal(files.policy.qualified_randomness, false);

@@ -43,6 +43,7 @@ mod compact_benchmark;
 mod composition_quote;
 #[path = "../processor_runtime.rs"] mod processor_runtime;
 #[path = "../stream_runtime.rs"] mod stream_runtime;
+#[path = "../core_scope.rs"] mod core_scope;
 #[derive(Deserialize)]
 #[serde(rename_all = "camelCase", deny_unknown_fields)]
 struct Guard {
@@ -72,19 +73,12 @@ fn save(path: &Path, value: &impl serde::Serialize) -> Result<()> {
     Ok(())
 }
 fn core_anchor(spec: &Value) -> Result<Option<QHashOut<F>>> {
-    if spec["execution_scope"] != "explicit-selected-orders-v1" { return Ok(None); }
-    ensure!(spec["market"]=="amm" && spec["sdk_commit"]==psy_template_u124_markets::sdk_release::SDK_COMMIT
-        && spec["client_commit"]==psy_template_u124_markets::sdk_release::CLIENT_COMMIT,
-        "exact core AMM SDK release required");
-    let text=spec["chain_root_at1"].as_str().context("core AMM chain anchor required")?;
-    let root:QHashOut<F>=text.parse()?;
-    ensure!(text.len()==64 && root!=QHashOut::ZERO && root.to_string()==text,"canonical nonzero core AMM chain anchor");
-    Ok(Some(root))
+    core_scope::anchor(spec)
 }
 async fn check_spec_chain(spec: &Value, provider: &psy_provider::provider::RpcProvider) -> Result<()> {
     if let Some(expected)=core_anchor(spec)? {
         let anchor=provider.get_checkpoint_leaf_data(1).await?;
-        ensure!(anchor.global_chain_root==expected,"core AMM chain instance changed");
+        ensure!(anchor.global_chain_root==expected,"selected core chain instance changed");
     }
     Ok(())
 }
@@ -95,20 +89,9 @@ fn once_registration(spec: &Value, stream: bool) -> Result<bool> {
 mod core_scope_tests {
     use super::*;
     #[test]
-    fn selected_core_release_requires_exact_nonzero_chain_identity() -> Result<()> {
-        let base=json!({"execution_scope":"explicit-selected-orders-v1","market":"amm",
-            "sdk_commit":psy_template_u124_markets::sdk_release::SDK_COMMIT,
-            "client_commit":psy_template_u124_markets::sdk_release::CLIENT_COMMIT,
-            "chain_root_at1":"81bac9934a1c18579519b5297c94c7e7d25cb53973ac67befefe8b7a86f96b5c"});
-        ensure!(core_anchor(&base)?.is_some(),"exact release");
-        ensure!(once_registration(&base,false)?,"core uses the explicit one-send transport");
+    fn legacy_and_stream_registration_transport_is_unchanged() -> Result<()> {
         ensure!(!once_registration(&json!({"version":2}),false)?,"legacy transport is unchanged");
         ensure!(once_registration(&json!({"version":2}),true)?,"stream retains its one-send transport");
-        for (field,value) in [("sdk_commit",json!("old")),("client_commit",json!("old")),
-            ("market",json!("orderbook")),("chain_root_at1",json!("0".repeat(64))),
-            ("chain_root_at1",Value::Null)] {
-            let mut bad=base.clone();bad[field]=value;ensure!(core_anchor(&bad).is_err(),"substitution refused");
-        }
         ensure!(core_anchor(&json!({"version":2}))?.is_none(),"historic profiles keep their original boundary");
         Ok(())
     }
@@ -147,6 +130,9 @@ async fn run(phase: &mut &'static str, composition:bool, stream:bool) -> Result<
     if stream{psy_template_u124_markets::stream_execution::validate_action(&a[1])?;}
     compact_benchmark::requested(&a[1])?;
     let spec: Value = serde_json::from_slice(&fs::read(&a[2])?)?;
+    // Validate fresh core scope before identity/circuit generation as well as
+    // at preflight and exact prepared broadcast guards.
+    core_anchor(&spec)?;
     ensure!(spec["version"]!=3,"checkpoint processor candidates are offline-only; source qualification and release authorization are unavailable");
     let producer=processor_runtime::previous(&spec);
     if producer{ensure!(compact_benchmark::requested(&a[1])?.is_none(),"producer business source cannot use benchmark override");}

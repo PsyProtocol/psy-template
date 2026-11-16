@@ -40,7 +40,7 @@ async fn four_market_ordinary_wallet_complete_ups() -> Result<()> {
 
 // Reuse the existing ordinary proof/verification path for reviewed candidate
 // token bytecode. This is a synthetic checkpoint, never a live issuer signature.
-async fn prove_ordinary_calls(w:&World,user:u64,calls:&[Value],output:&str,kind:&str,mode:&str,started:Instant)->Result<Value> {
+pub(super) async fn prove_ordinary_calls(w:&World,user:u64,calls:&[Value],output:&str,kind:&str,mode:&str,started:Instant)->Result<Value> {
   let chain=Chain::new(w,calls)?;
   let signature=PsyBasicZKSignatureCircuit::<C,2>::new();
   // Fresh ephemeral fixture key, never read from a wallet, logged or saved.

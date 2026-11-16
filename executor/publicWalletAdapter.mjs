@@ -1,4 +1,5 @@
 import {isFundedProfile} from './fundedProfiles.mjs';
+import {isCoreProfile} from './coreMarketProfiles.mjs';
 import {execFile as execFileCallback} from 'node:child_process';
 import {promisify} from 'node:util';
 import {readFile,mkdir} from 'node:fs/promises';import {join} from 'node:path';
@@ -21,7 +22,7 @@ const execFile=promisify(execFileCallback);
 const padded=x=>x.toLowerCase().padStart(64,'0');
 export async function createPublicWalletAdapter(options,{readState=publicState,readReceipts=receiptReader,runDriver=execFile,submitDriver=runDurableSubmission,residentScope}={}){
  if(isFundedProfile(options.profile))return createFundedStreamAdapter(options,{readState,readReceipts,runDriver,submitDriver});
- if(['amm-core-compact-v1','batch-admission-compact-v1','previous-checkpoint-seeded-v1'].includes(options.profile)){
+ if(isCoreProfile(options.profile)||['batch-admission-compact-v1','previous-checkpoint-seeded-v1'].includes(options.profile)){
   const observeRead=readMetricObserver(options),measuredRead=observeRead?path=>readState(path,{observeRead}):readState;
   const factory=withPhaseMetrics(options,{initialize:()=>createCompactAdmissionAdapter(options,{readState:measuredRead,readReceipts,runDriver,submitDriver,residentScope})});
   return withPhaseMetrics(options,await factory.initialize());

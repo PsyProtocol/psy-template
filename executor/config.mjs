@@ -1,9 +1,10 @@
 import {isFundedProfile} from './fundedProfiles.mjs';
+import {CORE_PROFILE_KINDS,isCoreProfile} from './coreMarketProfiles.mjs';
 import {readFile} from 'node:fs/promises';
 import {dirname,resolve} from 'node:path';
 import {validateFundedOptions} from './fundedOptions.mjs';
 
-const compactProfiles=['amm-core-compact-v1','batch-admission-compact-v1','previous-checkpoint-seeded-v1'];
+const compactProfiles=[...Object.keys(CORE_PROFILE_KINDS),'batch-admission-compact-v1','previous-checkpoint-seeded-v1'];
 const kinds=['amm','orderbook','bondingcurve','launchamm','nftmarket'];
 const paths=['rpcConfig','wallet','abi','driverConfig','runtimeDirectory','usersFile','policy','dependencyBindings','admissionPlan'];
 const allowed=new Set(['kind','name','network','contractId','vaultId','publicKeyHash','fingerprint','codeRoot','layoutRoot','walletSha256',
@@ -22,7 +23,7 @@ export function validateOptions(input,base=process.cwd()){
   if(!kinds.includes(o.kind))throw Error('unsupported executor kind');
   if(o.profile!==undefined&&!['legacy','u124','nft-v3-u124','batch-v2',...compactProfiles].includes(o.profile))throw Error('unsupported amount profile');
   if(o.kind==='nftmarket'){
-    if(!['nft-v3-u124','batch-v2','batch-admission-compact-v1','previous-checkpoint-seeded-v1'].includes(o.profile)||o.assetA||o.assetB)throw Error('NFT marketplace requires nft-v3-u124 profile');
+    if(!['nft-v3-u124','batch-v2','nft-core-compact-v1','batch-admission-compact-v1','previous-checkpoint-seeded-v1'].includes(o.profile)||o.assetA||o.assetB)throw Error('NFT marketplace requires nft-v3-u124 profile');
     for(const key of ['policy','driverConfig'])if(typeof o[key]!=='string'||!o[key])throw Error(`path required: ${key}`);
     for(const key of ['collection','paymentToken']){
       const a=o[key];if(!a||Object.keys(a).some(k=>!['contractId','codeRoot','layoutRoot','abi'].includes(k)))throw Error(`invalid ${key} binding`);
@@ -53,13 +54,13 @@ export function validateOptions(input,base=process.cwd()){
     if(!Number.isSafeInteger(o.batchSponsorId)||o.batchSponsorId<1||o.batchSponsorId>=16777216||o.batchSponsorId===o.vaultId)throw Error('distinct batchSponsorId required');
     if(o.activationPayerId!==undefined&&(!Number.isSafeInteger(o.activationPayerId)||o.activationPayerId<1||o.activationPayerId>=16777216||o.activationPayerId===o.vaultId))throw Error('invalid activationPayerId');
     o.batchExpiryCheckpoints??=256;if(!Number.isSafeInteger(o.batchExpiryCheckpoints)||o.batchExpiryCheckpoints<1||o.batchExpiryCheckpoints>1024)throw Error('batchExpiryCheckpoints must be 1..1024');
-    const paired=['orderbook','nftmarket'].includes(o.kind);o.batchMemberLimit??=o.profile==='amm-core-compact-v1'?1:['batch-admission-compact-v1','previous-checkpoint-seeded-v1'].includes(o.profile)?4:paired?4:2;if(!Number.isSafeInteger(o.batchMemberLimit)||o.batchMemberLimit<(paired?2:1)||o.batchMemberLimit>4)throw Error('invalid batchMemberLimit for market');
+    const paired=['orderbook','nftmarket'].includes(o.kind);o.batchMemberLimit??=isCoreProfile(o.profile)?(paired?4:1):['batch-admission-compact-v1','previous-checkpoint-seeded-v1'].includes(o.profile)?4:paired?4:2;if(!Number.isSafeInteger(o.batchMemberLimit)||o.batchMemberLimit<(paired?2:1)||o.batchMemberLimit>4)throw Error('invalid batchMemberLimit for market');
   }else if(o.batchSponsorId!==undefined||o.batchExpiryCheckpoints!==undefined||o.activationPayerId!==undefined||o.batchMemberLimit!==undefined)throw Error('batch fields require batch-v2');
   if(o.bulkFallbackRemainingCheckpoints!==undefined&&(!Number.isSafeInteger(o.bulkFallbackRemainingCheckpoints)||o.bulkFallbackRemainingCheckpoints<1||o.bulkFallbackRemainingCheckpoints>64||o.profile!=='batch-admission-compact-v1'||o.admissionMode!=='all-four-v1'))throw Error('bulk fallback requires all-four-v1 and 1..64 remaining checkpoints');
   if(o.admissionMode!==undefined&&(o.profile!=='batch-admission-compact-v1'||!['single-v1','all-four-v1'].includes(o.admissionMode)))throw Error('explicit supported compact admissionMode required');
   if(compactProfiles.includes(o.profile)){
-    const core=o.profile==='amm-core-compact-v1';
-    if(core){if(o.kind!=='amm'||o.network!=='testnet'||o.testnetProfile!=='sdk-audit-20261102-v1'||o.admissionPlan!==undefined||o.usersFile!==undefined||!/^([a-f0-9]{64})$/.test(o.chainRootAt1??'')||o.chainRootAt1==='0'.repeat(64))throw Error('explicit selected-release AMM core chain and scope required');}
+    const core=isCoreProfile(o.profile);
+    if(core){if(o.kind!==CORE_PROFILE_KINDS[o.profile]||o.network!=='testnet'||o.testnetProfile!=='sdk-audit-20261102-v1'||o.admissionPlan!==undefined||o.usersFile!==undefined||!/^([a-f0-9]{64})$/.test(o.chainRootAt1??'')||o.chainRootAt1==='0'.repeat(64))throw Error('explicit selected-release core market, chain and scope required');}
     for(const key of core?['dependencyBindings']:['dependencyBindings','admissionPlan'])if(typeof o[key]!=='string'||!o[key])throw Error(`path required: ${key}`);
     if(!core&&!(o.network==='testnet'&&o.testnetProfile==='mainnet-beta-20261027-v1')&&(o.network!=='sepolia'||!['sepolia-config-v1','staging-bundled-regtest-20261020-v1'].includes(o.testnetProfile)))throw Error('explicit supported compact testnet profile required');
     if(!core&&o.batchMemberLimit!==4)throw Error('compact admission processes the complete four-member capacity');
@@ -68,7 +69,7 @@ export function validateOptions(input,base=process.cwd()){
     if(o.proverMemoryMode!==undefined&&!['retain-v1','release-unused-v1'].includes(o.proverMemoryMode))throw Error('unsupported explicit proverMemoryMode');
     o.proverThreads??=2;if(!Number.isSafeInteger(o.proverThreads)||o.proverThreads<1||o.proverThreads>32)throw Error('proverThreads must be 1..32');
   }else if(o.dependencyBindings!==undefined||o.admissionPlan!==undefined||o.testnetProfile!==undefined||o.proverThreads!==undefined||o.proverMode!==undefined||o.proverMemoryMode!==undefined||o.fixedVerifierMode!==undefined)throw Error('compact admission fields require batch-admission-compact-v1');
-  if(o.chainRootAt1!==undefined&&o.profile!=='amm-core-compact-v1')throw Error('chainRootAt1 belongs to explicit AMM core profile');
+  if(o.chainRootAt1!==undefined&&!isCoreProfile(o.profile))throw Error('chainRootAt1 belongs to explicit core profile');
   if(o.profile==='previous-checkpoint-seeded-v1'){if(!['amm','bondingcurve'].includes(o.kind)||o.producerSeedAcknowledgement!=='producer-may-bias-v1'||o.network!=='testnet'||o.testnetProfile!=='mainnet-beta-20261027-v1'||o.batchExpiryCheckpoints<2)throw Error('explicit testnet producer-seeded trust and timing profile required');}else if(o.producerSeedAcknowledgement!==undefined)throw Error('producer acknowledgement requires previous checkpoint profile');
   if(typeof o.network!=='string'||!/^[a-zA-Z0-9_-]+$/.test(o.network))throw Error('explicit network required');
   if(!Number.isSafeInteger(o.contractId)||o.contractId<5||o.contractId>=16777216)throw Error('invalid contract ID');
@@ -78,7 +79,7 @@ export function validateOptions(input,base=process.cwd()){
     if(typeof o[key]!=='string'||!o[key])throw Error(`path required: ${key}`);
   for(const key of paths)if(o[key]!==undefined){if(typeof o[key]!=='string'||!o[key])throw Error(`invalid path: ${key}`);o[key]=resolve(base,o[key]);}
   o.users=validateUsers(o.users??[],o.vaultId);
-  if(o.profile==='amm-core-compact-v1'&&o.users.length>4)throw Error('AMM core accepts at most four explicit order hints per scan');
+  if(isCoreProfile(o.profile)&&o.users.length>4)throw Error('core accepts at most four explicit order hints per scan');
   o.intervalMs=o.intervalMs??10000;
   if(!Number.isSafeInteger(o.intervalMs)||o.intervalMs<1000||o.intervalMs>3600000)throw Error('intervalMs must be 1000..3600000');
   o.receiptMaxPages=o.receiptMaxPages??20;

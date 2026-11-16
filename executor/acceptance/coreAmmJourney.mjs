@@ -59,9 +59,10 @@ export function coreAmmLpOpen(context, {deadline: end}) {
     ...funding(c, LP, LP)]);
 }
 
-function swap(context, terms, cancelled) {
+function swap(context, terms, cancelled, renewed = false) {
   const c = checked(context), {deadline: end, minOut, reserveA, reserveB, quote} = terms;
-  const nonce = cancelled ? 3n : 2n;
+  assert.ok(!(cancelled && renewed), 'renewed order must not be cancelled');
+  const nonce = cancelled || renewed ? 3n : 2n;
   if (terms.nonce !== undefined) assert.equal(terms.nonce, nonce, 'fixed journey order nonce');
   deadline(end);
   for (const n of [minOut, reserveA, reserveB, quote]) {integer(n); assert.ok(n > 0n, 'positive observed quote/reserves/minimum');}
@@ -70,14 +71,17 @@ function swap(context, terms, cancelled) {
   assert.ok(reserveA <= LP + UNIT && reserveB <= LP, 'journey reserve cap');
   assert.equal(quote, swapQuote(UNIT, reserveA, reserveB), 'inconsistent observed quote');
   assert.ok(minOut <= quote, 'minimum exceeds observed quote');
-  return planned(c, cancelled ? 'cancelled_swap_open' : 'swap_open', c.traderId, [
-    ...(!cancelled ? [market(c, 'close_add')] : []),
+  return planned(c, renewed ? 'renewed_swap_open' : cancelled ? 'cancelled_swap_open' : 'swap_open', c.traderId, [
+    ...(!cancelled && !renewed ? [market(c, 'close_add')] : []),
     market(c, 'open_swap', [c.vaultId, 0n, encodeAmount(UNIT), encodeAmount(minOut), end, nonce]),
     ...funding(c, UNIT), ...(cancelled ? [market(c, 'request_cancel')] : []),
   ], {reserveA, reserveB, quote, minOut, trusted: false});
 }
 export const coreAmmSwapOpen = (context, terms) => swap(context, terms, false);
 export const coreAmmCancelledSwapOpen = (context, terms) => swap(context, terms, true);
+// Only after the old nonce-2 order has reached refund/claim/close. The caller
+// must verify that terminal state; this unsigned plan does not authenticate it.
+export const coreAmmRenewedSwapOpen = (context, terms) => swap(context, terms, false, true);
 export function coreAmmSwapClaimClose(context) {
   const c = checked(context);
   return planned(c, 'swap_claim_close', c.traderId,
@@ -94,6 +98,7 @@ export function planCoreAmmStage(context, stage, terms = {}) {
   if (stage === 'lp_open') return coreAmmLpOpen(context, terms);
   if (stage === 'swap_open') return coreAmmSwapOpen(context, terms);
   if (stage === 'cancelled_swap_open') return coreAmmCancelledSwapOpen(context, terms);
+  if (stage === 'renewed_swap_open') return coreAmmRenewedSwapOpen(context, terms);
   if (stage === 'swap_claim_close') return coreAmmSwapClaimClose(context);
   if (stage === 'refund_claim_close') return coreAmmRefundClaimClose(context, terms);
   const c = checked(context);
