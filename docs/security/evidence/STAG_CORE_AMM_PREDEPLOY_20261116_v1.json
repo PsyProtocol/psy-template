@@ -1,0 +1,315 @@
+{
+  "schema": 1,
+  "at": "2026-11-16T11:34:34.230397+00:00",
+  "sdkCommit": "01b8f2b0a077367a7b9879baba1a72aea8ab5510",
+  "clientCommit": "7058070057c3242b5d8b29e1a31d498aaa4202c0",
+  "qaDeployments": {
+    "at": "2026-11-16T11:08:57.180Z",
+    "ownerUserId": 1975680,
+    "ownerPublicKeyHash": "e06e6bf131dac176d0075dc1f6ee58803f56de4aad2b081cb8fe6a8a27bb72af",
+    "rows": [
+      {
+        "role": "asset-a",
+        "contractId": 56,
+        "receiptCheckpoint": 149029,
+        "contentHash": "114ab6cf1be789c2c7ceb5f6b36aa2b66c6fa876833fc23ec1722d7499ed6fc9",
+        "leaf": {
+          "deployer": 1975680,
+          "function_tree_root": "619799a83578b62b2a59d7674cf62fa492634ff9a9c8ba92e5775ff5afedd0ad",
+          "code_root": "f6bc6926cdceb256c892635174a5d8c1fa7a4b0cfcfc88b14ce254d19ef971e4",
+          "state_tree_height": 31,
+          "state_layout_root": "62224d708fde9cd6df9a304c2fc5eab0a376a30c13766a39407fcd8587a56724",
+          "state_layout_field_count": 15,
+          "state_layout_slot_count": 1174405221
+        },
+        "artifactSha256": "98ed7e8eabf46270aa54896965c2aa7413779fde799b514c98d6587cd9d16500",
+        "initialLayoutOldFields": 0,
+        "initialLayoutVerified": true
+      },
+      {
+        "role": "asset-b",
+        "contractId": 57,
+        "receiptCheckpoint": 149074,
+        "contentHash": "8f6c13b5ab59e9bfe06ede2cfc5c497326d413f721b7938aa5dbc746bc87fa58",
+        "leaf": {
+          "deployer": 1975680,
+          "function_tree_root": "911b7e24d37950b26b8f3720c8ac158c1c58ab692f9ee861bc034e223894910d",
+          "code_root": "6d13533747ba54a1d97044c020062b897fcba38c8ca1f95e1d2403cfd0f3e600",
+          "state_tree_height": 31,
+          "state_layout_root": "62224d708fde9cd6df9a304c2fc5eab0a376a30c13766a39407fcd8587a56724",
+          "state_layout_field_count": 15,
+          "state_layout_slot_count": 1174405221
+        },
+        "artifactSha256": "29dbf0e2cb6b9eb2b613ea1f8c590a60a0cebda005f0cd19cba06293099aa9cb",
+        "initialLayoutOldFields": 0,
+        "initialLayoutVerified": true
+      }
+    ],
+    "qaMetadataInitialized": false,
+    "qaMinted": false,
+    "marketDeployed": false,
+    "sourceAndRawArtifactsPreserved": true
+  },
+  "traderRegistration": {
+    "userId": 1136000,
+    "publicKeyHash": "56e64c663f35299837cd8d8df7fc14241159cae2d998403c145c7edbc3fb6114",
+    "checkpoint": 149193,
+    "registrationMembershipVerified": true,
+    "verificationDirectory": "registration-trader-membership-v1",
+    "networkFinalityAttested": false
+  },
+  "provisionalNamespace": {
+    "market": 1000,
+    "assetA": 42,
+    "assetB": 43,
+    "vault": 100,
+    "issuer": 1975680,
+    "realNetwork": false
+  },
+  "completeSyntheticUps": 4,
+  "qaInitializationReportSha256": "ad5ee641aa22c9f589414ebe7bd207022531481e09091bed8626de2825e3ffa7",
+  "activation": {
+    "broadcast": false,
+    "fullUpsVerified": true,
+    "market": "amm",
+    "measurements": [
+      {
+        "elapsedMs": 223474.270292,
+        "phase": "cold-circuit-build"
+      },
+      {
+        "broadcast": false,
+        "burn": 1000008000,
+        "calls": 7,
+        "elapsedMs": 103781.725958,
+        "endLeaf": "25be504fe0849bc244bf0daa1f65e6b18c1db363e16ac17aa636be56a15421c5",
+        "endStateRoot": "c6030ede0dd76ede9171a133194064d102ed003565c8b7193970244528ddf481",
+        "exportedDeltasVerified": true,
+        "firstUpsRegistration": true,
+        "fixedNodeVerifier": {
+          "bundledNodeVerifierFingerprint": "043e026dc674c310d8a9c529268a02619cab6f3779a74396a330c5ff0d0a5893",
+          "commonDataMatches": true,
+          "networkMagic": "1384803358401154921",
+          "profile": "sdk-audit-20261102-v1",
+          "runtimeImageAttested": false,
+          "verifierOnlyMatches": true
+        },
+        "fullUpsVerified": true,
+        "logicalSlots": 40,
+        "overheadStagesMs": {
+          "burn": 3823.6949999999997,
+          "endcapProveAndVerify": 58608.34912499999,
+          "sdKeySign": 3314.803042,
+          "seedState": 445.12425,
+          "sessionStart": 1364.355083,
+          "stateDeltaChecks": 23.350459
+        },
+        "phase": "maintenance",
+        "profile": "compact-v1",
+        "proofBytes": 130328,
+        "publicEndpointsBound": true,
+        "slotsModified": 8,
+        "startLeaf": "0000000000000000000000000000000000000000000000000000000000000000",
+        "steps": [
+          {
+            "contract": 0,
+            "index": 0,
+            "method": "claim",
+            "ms": 6880.36975
+          },
+          {
+            "contract": 42,
+            "index": 1,
+            "method": "claim",
+            "ms": 3922.45175
+          },
+          {
+            "contract": 43,
+            "index": 2,
+            "method": "claim",
+            "ms": 8074.914458
+          },
+          {
+            "contract": 1000,
+            "index": 3,
+            "method": "activate_batch_vault",
+            "ms": 5120.869542
+          },
+          {
+            "contract": 42,
+            "index": 4,
+            "method": "transfer",
+            "ms": 5814.534167
+          },
+          {
+            "contract": 43,
+            "index": 5,
+            "method": "transfer",
+            "ms": 6369.733667
+          }
+        ]
+      }
+    ],
+    "scope": "fresh synthetic user, complete 40-call activation UPS and exported deltas"
+  },
+  "commitAndSettle": {
+    "broadcast": false,
+    "chainTps": null,
+    "fills": 1,
+    "fixtureIdentities": {
+      "assetA": 42,
+      "assetB": 43,
+      "issuer": 1975680,
+      "market": 1000,
+      "nft": 41,
+      "vault": 100
+    },
+    "market": "amm",
+    "marketCodeRoot": "15dd90d89ded75989b2b1a1622ed0d051e3cdb84e47ffb2b12dbfab7bfe5d99b",
+    "measurements": [
+      {
+        "elapsedMs": 160552.61679099998,
+        "phase": "cold-circuit-build"
+      },
+      {
+        "broadcast": false,
+        "burn": 1000019000,
+        "calls": 3,
+        "elapsedMs": 134943.10016700003,
+        "endLeaf": "2749737b6c111d5194dc8809cce6259965482746eb238323093fc68a9558b82c",
+        "endStateRoot": "237972bcd71813f487d11d5103e888d038b2b99766d6df2fac0a9a7f76f677dc",
+        "exportedDeltasVerified": true,
+        "firstUpsRegistration": false,
+        "fixedNodeVerifier": {
+          "bundledNodeVerifierFingerprint": "043e026dc674c310d8a9c529268a02619cab6f3779a74396a330c5ff0d0a5893",
+          "commonDataMatches": true,
+          "networkMagic": "1384803358401154921",
+          "profile": "sdk-audit-20261102-v1",
+          "runtimeImageAttested": false,
+          "verifierOnlyMatches": true
+        },
+        "fullUpsVerified": true,
+        "logicalSlots": 40,
+        "overheadStagesMs": {
+          "burn": 4199.806625,
+          "endcapProveAndVerify": 28083.608333,
+          "sdKeySign": 3463.2775420000003,
+          "seedState": 78.83533299999999,
+          "sessionStart": 28846.369916,
+          "stateDeltaChecks": 51.283833
+        },
+        "phase": "commit",
+        "profile": "compact-v1",
+        "proofBytes": 130328,
+        "publicEndpointsBound": true,
+        "slotsModified": 19,
+        "startLeaf": "c9a2918e181ea364ad96d5e26169937c5ae0902d90f553549cbdbe219f585e49",
+        "steps": [
+          {
+            "contract": 1000,
+            "index": 0,
+            "method": "commit_batch",
+            "ms": 66322.997
+          },
+          {
+            "contract": 0,
+            "index": 1,
+            "method": "claim",
+            "ms": 3808.882041
+          }
+        ]
+      },
+      {
+        "broadcast": false,
+        "burn": 1000013000,
+        "calls": 7,
+        "elapsedMs": 72189.43820799999,
+        "endLeaf": "b6c81255c2e42d73993bdf2bd12f10ed81041c5ceb68205bf7ae2479fe745c46",
+        "endStateRoot": "789d3e17c362a2de9d5b6d969b56934f8c08cd3daf05827e4f42eb889a4a350b",
+        "exportedDeltasVerified": true,
+        "firstUpsRegistration": false,
+        "fixedNodeVerifier": {
+          "bundledNodeVerifierFingerprint": "043e026dc674c310d8a9c529268a02619cab6f3779a74396a330c5ff0d0a5893",
+          "commonDataMatches": true,
+          "networkMagic": "1384803358401154921",
+          "profile": "sdk-audit-20261102-v1",
+          "runtimeImageAttested": false,
+          "verifierOnlyMatches": true
+        },
+        "fullUpsVerified": true,
+        "logicalSlots": 40,
+        "overheadStagesMs": {
+          "burn": 3694.60975,
+          "endcapProveAndVerify": 36145.066875,
+          "sdKeySign": 3881.37175,
+          "seedState": 186.282166,
+          "sessionStart": 979.222167,
+          "stateDeltaChecks": 69.55045799999999
+        },
+        "phase": "settle",
+        "profile": "compact-v1",
+        "proofBytes": 130328,
+        "publicEndpointsBound": true,
+        "slotsModified": 13,
+        "startLeaf": "2749737b6c111d5194dc8809cce6259965482746eb238323093fc68a9558b82c",
+        "steps": [
+          {
+            "contract": 1000,
+            "index": 0,
+            "method": "begin_batch",
+            "ms": 5383.859125
+          },
+          {
+            "contract": 1000,
+            "index": 1,
+            "method": "swap_0",
+            "ms": 6140.185625
+          },
+          {
+            "contract": 0,
+            "index": 2,
+            "method": "claim",
+            "ms": 3282.067042
+          },
+          {
+            "contract": 42,
+            "index": 3,
+            "method": "claim",
+            "ms": 4613.0433330000005
+          },
+          {
+            "contract": 43,
+            "index": 4,
+            "method": "transfer",
+            "ms": 3710.438917
+          },
+          {
+            "contract": 1000,
+            "index": 5,
+            "method": "finish_batch",
+            "ms": 4094.335417
+          }
+        ]
+      }
+    ],
+    "members": 1,
+    "scope": "authenticated synthetic checkpoints, full UPS; no coordinator"
+  },
+  "actualAssetsAmmArtifactSha256": "445d7be9b81643c1bb30c28ba698837c6a57a915d99d9d7da46fd6f01006aac1",
+  "ammDeploymentPending": true,
+  "qaTokensMintedOnNetwork": false,
+  "vaultRegistered": false,
+  "vaultFunded": false,
+  "securityFinding": {
+    "legacyKey": "Stack/session predicates authenticate executed calls but do not themselves pin reviewed code/function/layout roots. Existing client/current-state guards remain; these do not constrain an external prover using a public SD-key.",
+    "applicationFixInProgress": "Explicit selected-dependency-bound-v1 key opens checkpoint-one membership and actual session checkpoint roots, then pins four complete contract leaves. Reuses existing authenticated opening pattern; no account/source scan and no Node/SDK change.",
+    "newFingerprintAndCompleteActualUpsRequired": true,
+    "legacyKeyAndOriginalEvidenceUnchanged": true,
+    "newVaultFundingBlockedUntilAcceptance": true
+  },
+  "realSwaps": 0,
+  "ordinaryFinalMarketClaims": 0,
+  "browserUiAccepted": false,
+  "performanceComparison": false,
+  "scope": "Confirmed fresh QA deployments are real; four proof gates use synthetic provisional namespace and legacy key logic. They do not accept the new dependency-bound key or establish actual AMM settlement."
+}

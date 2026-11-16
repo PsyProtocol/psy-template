@@ -32,6 +32,31 @@ separate, fresh live proof before broadcasting. Wrong issuer, symbol, precision,
 cap overflow/reset and failed-write cases reject. Provisional AMM proofs are
 running before deployment. These offline proofs are not live issuance.
 
+## Allocated assets and dependency-bound key gate
+
+[Compact deployment and provisional proof evidence](evidence/STAG_CORE_AMM_PREDEPLOY_20261116_v1.json)
+records new QA assets **56** and **57**, both confirmed with the expected numeric
+deployer **1975680** and exact code/function/layout endpoints. Their initial
+layout proofs are **0 to 15 fields**, not old-contract updates. Trader **1136000**
+has a separately backed-up new identity and verified registration membership.
+No QA tokens have been minted on the network and no vault has been funded.
+
+Four provisional complete UPSs passed: QA initialization, fresh vault activation,
+and AMM commit/settle. These use actual candidate bytecode at explicitly synthetic
+contract IDs/checkpoints; they do not accept actual allocated-identity execution.
+Both original proof requests and failed observations remain outside Git.
+
+A parallel source review found that the legacy SD-key pins call structure but
+relies on application guards for reviewed dependency code/function/layout roots.
+A valid full proof of a changed registered contract would not itself prove that
+its bytecode is the reviewed version. A new explicit dependency-bound key is being
+implemented using the existing checkpoint-opening circuit pattern. It must pin
+all four complete dependency leaves and their deployers under the actual signed
+checkpoint, including the checkpoint-one chain anchor. Old key behavior and
+registered recovery remain unchanged. New funding stays disabled until the new
+key passes actual compilation, circuit attacks and full UPS acceptance. No Node,
+SDK, account scan or market mechanism change is involved.
+
 ## Reproducible tools and application fixes
 
 The selected mainnet-beta SDK remains `01b8f2b0a077367a7b9879baba1a72aea8ab5510`,
