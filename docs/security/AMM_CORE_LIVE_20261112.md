@@ -2,6 +2,11 @@
 
 ## Current verdict
 
+16 November update: [independent saved-proof audit and current identity check](MARKET_PARALLEL_GATEWAY_20261116.md)
+confirm that the subsequent run reached vault activation and LP settlement,
+then stopped before swap sponsorship. The old order/case expired. Historical
+proofs are retained; no swap or final market-output claim is accepted yet.
+
 The normal AMM no longer requires account-universe/source-coverage traversal.
 The new `amm-core-compact-v1` formal Executor route uses explicit order hints;
 after commitment, the on-chain frozen members control settlement and refunds.

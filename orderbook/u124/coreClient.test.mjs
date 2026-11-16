@@ -66,3 +66,15 @@ test('Book client binds the builder domain and exact deterministic configuration
   assert.deepEqual(orderbookSellCalls(deterministic.policy, {...args, config: deterministic.config}), orderbookSellCalls(policy, args));
   assert.deepEqual(orderbookSellCalls(parseLosslessJson(losslessJson(deterministic.policy)), {...args, config: deterministic.config}), orderbookSellCalls(policy, args));
 });
+
+test('Book funding preserves account IDs even when their numbers equal contract IDs', () => {
+  for (const vaultId of [args.marketId, BigInt(config.assetA), BigInt(config.assetB)]) {
+    const calls = orderbookSellCalls(policy, {...args, vaultId});
+    assert.equal(calls[0].inputs[0], vaultId);
+    assert.equal(calls[1].inputs[0], vaultId);
+    assert.equal(calls[2].inputs[0], vaultId);
+    assert.deepEqual(calls.map(c => c.contract_id), [args.marketId, 0n, BigInt(config.assetA)]);
+    const cancelAbi = {contract: {methods: [{name: 'request_cancel', method_id: 1, input_felt_count: 0}]}};
+    assert.equal(orderbookCancelCall(policy, {...args, marketAbi: cancelAbi, vaultId}).method_name, 'request_cancel');
+  }
+});

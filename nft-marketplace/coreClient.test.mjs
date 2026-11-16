@@ -5,8 +5,14 @@ import assert from 'node:assert/strict';
 import {nftCoreListingPlan, nftCoreBuyPlan, nftCoreCancelPlan, nftCoreClaimPlan, nftCorePayoutPlan} from './coreClient.mjs';
 import {FEE_ESCROW, losslessJson, parseLosslessJson, decodeAmount} from '../amm/u124/client.mjs';
 import {sdkRelease} from '../executor/sdkProfiles.mjs';
-const abi = methods => ({contract: {methods: Object.entries(methods).map(([name, input_felt_count], i) =>
-  ({name, input_felt_count, output_felt_count: 0, state_mutability: 'external', method_id: name === 'prepare_account' ? 1475740684 : i + 1}))}});
+const METHOD_IDS = {
+  prepare_account: 1475740684, acknowledge: 1344479563, transfer_nft: 1129988224, claim_nft: 4064462786,
+  open_listing: 1184667783, open_buy: 2946376578, request_cancel: 1992417538,
+  transfer_token: 188091294, claim_token: 2792756730,
+};
+const abi = (methods, ids = {}) => ({contract: {methods: Object.entries(methods).map(([name, input_felt_count], i) =>
+  ({name, input_felt_count, output_felt_count: 0, state_mutability: 'external',
+    method_id: ids[name] ?? (name === 'prepare_account' ? METHOD_IDS.prepare_account : i + 1)}))}});
 const release = sdkRelease('sdk-audit-20261102-v1'), price = (1n << 100n) + 17n;
 function fixture() {
   const config = {nftId: 41, tokenId: 42, networkMagic: '1384803358401154921'};
@@ -15,8 +21,12 @@ function fixture() {
     native_protocol: 'mainnet-beta-20261027', collection_initialization: 'explicit-account-version-v1',
     sdk_commit: release.sdkCommit, client_commit: release.clientCommit, chain_root_at1: 'ab'.repeat(32)};
   const context = {policy, config, marketId: 1000n, vaultId: 100n, actorId: 201n,
-    marketAbi: abi({open_listing: 6, open_buy: 7, request_cancel: 0}),
-    nftAbi: abi({prepare_account: 0, acknowledge: 1, transfer: 2, claim: 2}), tokenAbi: abi({transfer: 3, claim: 1})};
+    marketAbi: abi({open_listing: 6, open_buy: 7, request_cancel: 0}, {
+      open_listing: METHOD_IDS.open_listing, open_buy: METHOD_IDS.open_buy, request_cancel: METHOD_IDS.request_cancel}),
+    nftAbi: abi({prepare_account: 0, acknowledge: 1, transfer: 2, claim: 2}, {
+      prepare_account: METHOD_IDS.prepare_account, acknowledge: METHOD_IDS.acknowledge,
+      transfer: METHOD_IDS.transfer_nft, claim: METHOD_IDS.claim_nft}),
+    tokenAbi: abi({transfer: 3, claim: 1}, {transfer: METHOD_IDS.transfer_token, claim: METHOD_IDS.claim_token})};
   const expectedNft = {collectionId: 41n, tokenId: [18446744069414584320n, 2n, 3n, 4n], metadataHash: [0n, 6n, 7n, 8n]};
   const owned = {...expectedNft, ownerId: 201n, checkpoint: 100n, slot: 7n, active: 1n, sentToVault: 5n, claimedByVault: 5n};
   const listing = {...expectedNft, ownerId: 200n, checkpoint: 100n, marketId: 1000n, vaultId: 100n,
@@ -93,7 +103,9 @@ test('claim binds next FIFO identity, original vault and empty destination; canc
 test('actual cumulative payout claims retain high-limb observations and never authorize a transfer', () => {
   const f = fixture(), p = nftCorePayoutPlan(f.context, {checkpoint: 100n, paymentClaimable: price, nativeClaimable: FEE_ESCROW});
   assert.equal(p.observedPaymentDelta, price);
-  assert.deepEqual(p.contract_calls.map(c => [c.contract_id, c.method_name, c.inputs]), [[42n, 'claim', [100n]], [0n, 'claim', [100n]]]);
+  assert.deepEqual(p.contract_calls.map(c => [c.contract_id, c.method_name, c.inputs, c.method_id]),
+    [[42n, 'claim', [100n], BigInt(METHOD_IDS.claim_token)],
+     [0n, 'claim', [100n], undefined]]);
   assert.equal(p.sourceClaimDeltaCheckRequired, true);
   for (const change of [{paymentClaimable: -1n}, {paymentClaimable: 1n << 124n}, {nativeClaimable: 1n << 62n}, {checkpoint: 0n}])
     assert.throws(() => nftCorePayoutPlan(f.context, {checkpoint: 100n, ...change}));
@@ -105,9 +117,92 @@ test('legacy and v21 keys cannot be relabelled as an accepted selected-order ins
     {qualified_randomness: true}, {sdk_commit: 'old'}, {client_commit: 'old'}, {native_protocol: 'legacy-v1'},
     {collection_initialization: 'legacy-acknowledgement-v1'}, {chain_root_at1: '0'.repeat(64)}])
     assert.throws(() => nftCoreBuyPlan({...f.context, policy: {...f.context.policy, ...patch}}, f.buy));
-  for (const patch of [{marketId: 1001n}, {actorId: 100n}, {config: {...f.context.config, nftId: 42}},
+  for (const patch of [{marketId: 1001n}, {actorId: 100n},
+    {config: {...f.context.config, nftId: 42}},
     {nftAbi: abi({acknowledge: 1})}])
     assert.throws(() => nftCoreBuyPlan({...f.context, ...patch}, f.buy));
+});
+test('ABI method identities cannot be substituted by matching names alone', () => {
+  const f = fixture();
+  const renamed = (base, from, to) => ({contract: {methods: base.contract.methods.map(m =>
+    m.name === from ? {...m, name: to} : m)}});
+  const retargeted = (base, name, method_id) => ({contract: {methods: base.contract.methods.map(m =>
+    m.name === name ? {...m, method_id} : m)}});
+  const arity = (base, name, input_felt_count) => ({contract: {methods: base.contract.methods.map(m =>
+    m.name === name ? {...m, input_felt_count} : m)}});
+  for (const patch of [
+    {nftAbi: retargeted(f.context.nftAbi, 'prepare_account', METHOD_IDS.acknowledge)},
+    {nftAbi: retargeted(f.context.nftAbi, 'acknowledge', METHOD_IDS.transfer_nft)},
+    {nftAbi: retargeted(f.context.nftAbi, 'claim', METHOD_IDS.transfer_nft)},
+    {nftAbi: arity(f.context.nftAbi, 'transfer', 3)},
+    {marketAbi: retargeted(f.context.marketAbi, 'open_buy', METHOD_IDS.open_listing)},
+    {marketAbi: retargeted(f.context.marketAbi, 'request_cancel', METHOD_IDS.open_buy)},
+    {marketAbi: renamed(f.context.marketAbi, 'open_listing', 'open_buy')},
+    {tokenAbi: retargeted(f.context.tokenAbi, 'transfer', METHOD_IDS.claim_token)},
+    {tokenAbi: retargeted(f.context.tokenAbi, 'claim', METHOD_IDS.transfer_token)},
+    {tokenAbi: arity(f.context.tokenAbi, 'transfer', 2)},
+    {nftAbi: abi({acknowledge: 1, transfer: 2, claim: 2}, {
+      acknowledge: METHOD_IDS.acknowledge, transfer: METHOD_IDS.transfer_nft, claim: METHOD_IDS.claim_nft})},
+  ]) {
+    assert.throws(() => nftCoreBuyPlan({...f.context, ...patch}, f.buy));
+    assert.throws(() => nftCoreListingPlan({...f.context, ...patch},
+      {owned: f.owned, expectedNft: f.expectedNft, price, deadline: 200n, nonce: 1n}));
+    assert.throws(() => nftCoreCancelPlan({...f.context, ...patch}));
+  }
+  const nameOnlyMarket = abi({open_listing: 6, open_buy: 7, request_cancel: 0});
+  assert.throws(() => nftCoreBuyPlan({...f.context, marketAbi: nameOnlyMarket}, f.buy));
+  const pending = {...f.expectedNft, ownerId: 201n, checkpoint: 100n, senderId: 100n, sent: 5n, claimed: 3n, sequence: 4n};
+  const destination = {collectionId: 41n, ownerId: 201n, checkpoint: 100n, slot: 12n, active: 0n};
+  assert.throws(() => nftCoreClaimPlan({...f.context,
+    nftAbi: retargeted(f.context.nftAbi, 'claim', METHOD_IDS.acknowledge)},
+    {pending, destination, expectedNft: f.expectedNft}));
+  const payout = nftCorePayoutPlan(f.context, {checkpoint: 100n, paymentClaimable: price, nativeClaimable: FEE_ESCROW});
+  assert.equal(payout.sourceClaimDeltaCheckRequired, true);
+  assert.equal(payout.liveAccepted, false);
+  assert.equal(payout.fullUpsVerified, false);
+  assert.equal(payout.unsigned, true);
+  const listed = nftCoreListingPlan(f.context, {owned: f.owned, expectedNft: f.expectedNft, price, deadline: 200n, nonce: 1n});
+  const bought = nftCoreBuyPlan(f.context, f.buy);
+  const claimed = nftCoreClaimPlan(f.context, {pending, destination, expectedNft: f.expectedNft});
+  for (const plan of [listed, bought, claimed]) {
+    assert.equal(plan.sourceIdentityCheckRequired, true);
+    assert.equal(plan.liveAccepted, false);
+    assert.equal(plan.fullUpsVerified, false);
+    assert.equal(plan.unsigned, true);
+  }
+  assert.equal(bought.contract_calls[0].method_id, BigInt(METHOD_IDS.prepare_account));
+  assert.equal(listed.contract_calls[0].method_id, BigInt(METHOD_IDS.acknowledge));
+  assert.equal(claimed.contract_calls[0].method_id, BigInt(METHOD_IDS.claim_nft));
+});
+
+test('duplicate ABI names or selector aliases reject without changing wallet Native shorthand', () => {
+  const f = fixture();
+  for (const role of ['marketAbi', 'nftAbi', 'tokenAbi']) {
+    const original = f.context[role];
+    for (const addition of [original.contract.methods[0],
+      {...original.contract.methods[0], name: 'unexpected_alias'}]) {
+      const substituted = {contract: {methods: [...original.contract.methods, addition]}};
+      assert.throws(() => nftCoreBuyPlan({...f.context, [role]: substituted}, f.buy));
+    }
+  }
+  const payout = nftCorePayoutPlan(f.context, {checkpoint: 100n, nativeClaimable: FEE_ESCROW});
+  assert.deepEqual(payout.contract_calls, [{contract_id: 0n, method_name: 'claim', inputs: [100n]}]);
+});
+
+test('NFT vault account IDs may numerically match contract IDs while caller separation remains', () => {
+  const f = fixture();
+  for (const vaultId of [f.context.marketId, BigInt(f.context.config.nftId), BigInt(f.context.config.tokenId)]) {
+    const context = {...f.context, vaultId};
+    const plan = nftCoreListingPlan(context, {owned: f.owned, expectedNft: f.expectedNft,
+      price, deadline: 200n, nonce: 1n});
+    assert.equal(plan.contract_calls[1].inputs[0], vaultId);
+    assert.equal(plan.contract_calls[2].inputs[0], vaultId);
+    assert.equal(plan.contract_calls[3].inputs[1], vaultId);
+    assert.equal(plan.sourceIdentityCheckRequired, true);
+    assert.equal(plan.liveAccepted, false);
+  }
+  assert.throws(() => nftCoreListingPlan({...f.context, vaultId: f.context.actorId},
+    {owned: f.owned, expectedNft: f.expectedNft, price, deadline: 200n, nonce: 1n}));
 });
 test('NFT plans bind exact deterministic config and canonical domain in both inputs', () => {
   const f = fixture(), withConfigs = (actual, declared) => ({...f.context, config: actual,

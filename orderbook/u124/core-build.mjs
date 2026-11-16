@@ -60,7 +60,8 @@ export function buildCoreBook(spec, freshOutput, {runCompiler = spawnSync} = {})
   // This is reviewed deployment intent only. It is not a vault binding in the
   // existing v2 contract/SD-key, and is deliberately excluded from the policy.
   assert.ok(Number.isSafeInteger(spec.intendedVaultId) && spec.intendedVaultId > 0 && spec.intendedVaultId < 2 ** 24, 'explicit intended vault');
-  assert.ok(![spec.marketId, spec.config.assetA, spec.config.assetB].includes(spec.intendedVaultId), 'distinct intended identity numbers');
+  // Account IDs and contract IDs occupy different namespaces. Numeric equality
+  // is valid; actual owner/vault account separation is checked at execution.
   assert.equal(spec.compiler.api, BOOK_COMPILER_API, 'unsupported compiler interface');
   assert.deepEqual(Object.keys(spec.compiler).sort(), ['api', 'path', 'sha256'], 'no arbitrary compiler arguments');
   const out = resolve(freshOutput);

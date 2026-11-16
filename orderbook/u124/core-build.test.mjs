@@ -122,7 +122,7 @@ test('failed compiler artifacts remain immutable and unsupported flag result is 
 test('wrong identities, chain/release, random mechanisms and altered ABI fail closed', t => {
   const f = fixture(t);
   for (const change of [{sdkCommit: '0'.repeat(40)}, {clientCommit: '0'.repeat(40)}, {chainRootAt1: '0'.repeat(64)},
-    {marketId: 41}, {intendedVaultId: 42}, {config: {...config, assetB: 41}}, {config: {...config, networkMagic: '1'}},
+    {marketId: 41}, {intendedVaultId: 0}, {config: {...config, assetB: 41}}, {config: {...config, networkMagic: '1'}},
     {config: {...config, ordering: 'random'}}, {config: {...config, seed: '1'}}, {config: {...config, bootstrap: {}}}])
     assert.throws(() => buildCoreBook({...f.spec, ...change}, f.out, {runCompiler: f.runCompiler}));
   assert.equal(f.calls.length, 0);
@@ -144,4 +144,15 @@ test('wrong compiler foreign-read audit cannot publish a policy or successful ma
   assert.ok(existsSync(join(f.out, 'orderbook/compiled/compilation_artifact.json')));
   assert.equal(existsSync(join(f.out, 'orderbook/policy.json')), false);
   assert.equal(existsSync(join(f.out, 'BUILD.json')), false);
+});
+
+test('intended vault accounts may share a number with a contract in a separate namespace', t => {
+  const f = fixture(t);
+  for (const intendedVaultId of [f.spec.marketId, config.assetA, config.assetB]) {
+    const result = buildCoreBook({...f.spec, intendedVaultId}, f.out + '-' + intendedVaultId,
+      {runCompiler: f.runCompiler});
+    assert.equal(result.intendedVaultId, intendedVaultId);
+    assert.equal(result.liveAuthorization, false);
+    assert.equal(result.fullUpsVerified, false);
+  }
 });

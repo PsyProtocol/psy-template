@@ -95,3 +95,15 @@ test('activation, issuer inventory and graduation funding remain distinct exact 
   assert.equal(curveCancelCall(policy, args).method_name, 'request_cancel');
   assert.deepEqual(curveRecoveryEnrollmentCall(policy, args).inputs, [100n]);
 });
+
+test('Curve separates account identity from contract numeric identity', () => {
+  for (const vaultId of [args.marketId, BigInt(config.assetA), BigInt(config.assetB)]) {
+    const calls = curveLimitOrderCalls(policy, {...args, buy: true, vaultId});
+    assert.equal(calls[0].inputs[0], vaultId);
+    assert.equal(calls[1].inputs[0], vaultId);
+    assert.equal(calls[2].inputs[0], vaultId);
+    assert.equal(curveCancelCall(policy, {...args, vaultId}).method_name, 'request_cancel');
+  }
+  for (const vaultId of [BigInt(config.issuer), BigInt(config.target)])
+    assert.throws(() => curveLimitOrderCalls(policy, {...args, buy: true, vaultId}));
+});

@@ -451,7 +451,14 @@ async fn operation(a: &[String], net: &psy_config::NetworkConfigGoldilocks, sess
     }
     metrics.enter(phase, "start-ordinary-session");
     let key = session.add_user(private, pk.fingerprint).await?;
-    session.start_session(key).await?;
+    if let Err(error)=session.start_session(key).await {
+        // Startup happens before any approved business call. Preserve a public
+        // diagnostic without treating missing readiness as permission to retry.
+        save(&out.join("diagnostic.json"),&json!({"mode":"public-sdk-startup-error-projection-v1",
+            "category":ordinary_diagnostics::classify(&error,&public_calls),"privateDataSuppressed":true,
+            "broadcast":false,"automaticRetry":false}))?;
+        return Err(error);
+    }
     metrics.enter(phase, "prove-ordinary-calls");
     if let Err(error)=session.prove_contract_call(key, data.contract_calls).await {
         save(&out.join("diagnostic.json"),&json!({"mode":"public-sdk-error-projection-v1",

@@ -1,0 +1,450 @@
+{
+  "schema": 1,
+  "recordedAt": "2026-11-16T05:52:02.521478+00:00",
+  "review": {
+    "schema": 1,
+    "date": "2026-11-16",
+    "methodReadFromConversation": "oh-my-pi -> Magpie -> Cursor auto; CLIProxyAPI is not installed or inserted by this task",
+    "maximumOmpTaskAgents": 3,
+    "nativeReadOnlyPeerReview": true,
+    "originalBranch": "markets-batch-capacity-recovery-20261020",
+    "baseCommit": "a1a15dc3ca44aa88a2b3608b62d1f3082cb218ea",
+    "sdkCommit": "01b8f2b0a077367a7b9879baba1a72aea8ab5510",
+    "decisions": [
+      {
+        "agent": "CurveCore",
+        "decision": "Reject proposed cross-namespace numeric vault restrictions. Keep distinct real user-account roles; add positive cross-namespace regression only."
+      },
+      {
+        "agent": "BookCore",
+        "decision": "Reject proposed cross-namespace restrictions. Root removes the pre-existing equivalent builder restriction and adds positive builder/client regressions."
+      },
+      {
+        "agent": "NftCore",
+        "decision": "Accept exact method selector/arity/mutability/uniqueness validation after source/ABI review. Reject cross-namespace numeric restrictions and unnecessary Native method_id metadata; SDK authenticates actual contract/function resolution separately."
+      }
+    ],
+    "coordinatorFailure": {
+      "firstTaskCallHadEmptyArguments": true,
+      "requestNotAFunctionProof": true,
+      "repairedBeforeThreeTasksSpawned": true,
+      "collectionHadUnavailableHubToolChurn": true,
+      "futurePerRunToolList": "read,grep,glob,edit,write,task,hub",
+      "globalOrProfileDefaultsChanged": false
+    },
+    "evaluation": {
+      "qualifiedSpeedupClaim": false,
+      "qualifiedCostSavingClaim": false,
+      "allAgentPatchesAutomaticallyAccepted": false,
+      "noActualUnderlyingModelIdentityBeyondAuto": true
+    },
+    "financialOperations": 0,
+    "newProofsGenerated": 0,
+    "oldRequestsReplayed": 0,
+    "oldEvidenceOverwritten": false
+  },
+  "execution": {
+    "exitCode": 0,
+    "seconds": 534.8261651669163,
+    "sampledFamilyRssKiB": 461584,
+    "stop": null,
+    "gatewayRequestDelta": 121,
+    "usageIncludesPossibleOtherAccountActivity": true,
+    "financialOperations": 0,
+    "nativeBuilds": 0,
+    "proofGeneration": 0,
+    "automaticRerun": false
+  },
+  "gatewayUsageWindow": {
+    "requests": 122,
+    "statuses": {
+      "200": 121,
+      "499": 1
+    },
+    "tokens": {
+      "input_tokens": 901350,
+      "output_tokens": 17097,
+      "cache_read_tokens": 2247296,
+      "cache_write_tokens": 0,
+      "reasoning_tokens": 1276
+    },
+    "requestedModels": [
+      "cursor/auto"
+    ],
+    "servedModels": [
+      "auto"
+    ],
+    "priceAvailable": false,
+    "possibleOtherAccountActivity": true,
+    "cacheMetricOverlapNotSummed": true
+  },
+  "hostChecks": {
+    "exitCode": 0,
+    "seconds": 6.709811709122732,
+    "files": [
+      "bondingcurve/u124/core-build.test.mjs",
+      "bondingcurve/u124/coreClient.test.mjs",
+      "orderbook/u124/core-build.test.mjs",
+      "orderbook/u124/coreClient.test.mjs",
+      "nft-marketplace/coreClient.test.mjs",
+      "executor/preSessionRetry.test.mjs",
+      "executor/acceptance/coreAmmJourney.test.mjs",
+      "executor/compactAdmission.test.mjs",
+      "executor/coreAmm.test.mjs",
+      "amm/u124/core-build.test.mjs"
+    ],
+    "counts": {
+      "tests": 98,
+      "pass": 98,
+      "fail": 0,
+      "skipped": 0
+    },
+    "logSha256": "65564f1735d3035f868521e3f77470739709fabd5f0d98368f37edeb29f839fb",
+    "scope": "Host and mocked application regression only; no native proof or network/financial actions."
+  },
+  "nativeUnit": {
+    "exitCode": 0,
+    "seconds": 8.567213207948953,
+    "sampledFamilyRssKiB": 389632,
+    "stop": null,
+    "financialOperations": 0,
+    "proofGeneration": 0,
+    "dependencyChanged": false,
+    "walletBinaryInstalled": false
+  },
+  "savedProofAudit": {
+    "schema": 1,
+    "rows": [
+      {
+        "stage": "core-issuer-setup-reviewed-v2",
+        "exitCode": 0,
+        "seconds": 2.2634278750047088,
+        "reportExists": true,
+        "reportSha256": "01b23133b7e0fccdaea49177cfd471c8b0e320123e8bbb003f590dba172af26a"
+      },
+      {
+        "stage": "core-trader-assets-v1",
+        "exitCode": 0,
+        "seconds": 2.562881958903745,
+        "reportExists": true,
+        "reportSha256": "2396b0adddf0efaa6e2699d7bbf99eb168bc73c6d6fa0c0b1e0bc5c9534a46ed"
+      },
+      {
+        "stage": "core-activation-fund-v1",
+        "exitCode": 0,
+        "seconds": 2.2049885410815477,
+        "reportExists": true,
+        "reportSha256": "fc3560724f99654ab263bf66b7d0c19c0401bed8c9b8c227ddf89e22d13cfe2b"
+      },
+      {
+        "stage": "core-activate-v1",
+        "exitCode": 0,
+        "seconds": 2.2540689590387046,
+        "reportExists": true,
+        "reportSha256": "473f3f5ebeb128bc2ea61f6da75d9ad47dd4c7c1044177e4d422a6b8870ef5ab"
+      },
+      {
+        "stage": "core-lp-open-v1",
+        "exitCode": 0,
+        "seconds": 2.297568666981533,
+        "reportExists": true,
+        "reportSha256": "8e1d154ba2f1075c428bb46d90c077cfe651b4ccfb08dcc82b82978d7f092009"
+      },
+      {
+        "stage": "core-lp-sponsor-v1",
+        "exitCode": 0,
+        "seconds": 2.445296083111316,
+        "reportExists": true,
+        "reportSha256": "06e79d343c1c4f519c5fe7e89c0640ffa8d09770f8fd7cd8b4a9e54df1f1536b"
+      },
+      {
+        "stage": "core-lp-commit-v1",
+        "exitCode": 0,
+        "seconds": 2.2203173330053687,
+        "reportExists": true,
+        "reportSha256": "26dc62a3b8dcb1642179f944b4c19579edd16004390035fc2c346a1dcbbaa090"
+      },
+      {
+        "stage": "core-lp-settle-v1",
+        "exitCode": 0,
+        "seconds": 2.4366460838355124,
+        "reportExists": true,
+        "reportSha256": "0ba4e1c23125b8be2033d940fac557ea47e71cc8ff1d4e82c492f2b9debfb6d6"
+      },
+      {
+        "stage": "core-swap-open-v1",
+        "exitCode": 0,
+        "seconds": 2.248321291990578,
+        "reportExists": true,
+        "reportSha256": "13029a942c0da685f569a7079ea1a72bc094599b4c920281c820ffb1abe5d311"
+      }
+    ],
+    "seconds": 20.972350750118494,
+    "sampledFamilyRssKiB": 436976,
+    "stop": null,
+    "allNineVerified": true,
+    "financialOperations": 0,
+    "proofGeneration": 0,
+    "sourceOrSdkChanged": false,
+    "fullStackIndependentlyAttested": false,
+    "scope": "Pinned binary complete Endcap/core revalidation only; approved stack/session rely separately on original exact native/key policy checks; no finality or new network confirmation."
+  },
+  "historicalConfirmedUpsCount": 9,
+  "historicalFeesBaseUnits": "9000097000",
+  "currentChain": {
+    "at": "2026-11-16T05:38:48.358Z",
+    "readOnly": true,
+    "financialOperations": 0,
+    "proofsGenerated": 0,
+    "maximumPhysicalReads": 40,
+    "maximumSeconds": 120,
+    "oldCaseExpired": true,
+    "oldRequestReplay": false,
+    "heads": [
+      {
+        "checkpoint_id": 146907,
+        "next_add_withdrawal_id": 0,
+        "next_process_withdrawal_id": 0,
+        "next_deposit_id": 0,
+        "total_deposits_claimed_epoch": 0,
+        "next_user_id": 13326,
+        "end_balance": 0,
+        "next_contract_id": 55
+      },
+      {
+        "checkpoint_id": 146907,
+        "next_add_withdrawal_id": 0,
+        "next_process_withdrawal_id": 0,
+        "next_deposit_id": 0,
+        "total_deposits_claimed_epoch": 0,
+        "next_user_id": 13326,
+        "end_balance": 0,
+        "next_contract_id": 55
+      }
+    ],
+    "checkpoint": 146907,
+    "chainRootAt1": "81bac9934a1c18579519b5297c94c7e7d25cb53973ac67befefe8b7a86f96b5c",
+    "sameChainInstance": true,
+    "dependencies": [
+      {
+        "contractId": 0,
+        "matches": true,
+        "actual": {
+          "contract": {
+            "contractId": 0,
+            "codeRoot": "30f06e6c5c897af41c08f0f86677c66096e533ce490c9817b5ddf7b5812a3ea6",
+            "layoutRoot": "cd6931e5422fb07be012e3d0642bbffd0880bf499ecc87bcb822276d7426771c",
+            "stateTreeHeight": 32
+          },
+          "functionTreeRoot": "03c697aa1180e94b046ffcbf0272cd12ce0fee948b216afceb8e1ef524cdcd7e",
+          "layoutFieldCount": 8,
+          "layoutSlotCount": 8594128984
+        }
+      },
+      {
+        "contractId": 49,
+        "matches": true,
+        "actual": {
+          "contract": {
+            "contractId": 49,
+            "codeRoot": "f32a62d415c132478d18d71d6736322d044071e9bb293da3eda1218a50aed57b",
+            "layoutRoot": "62224d708fde9cd6df9a304c2fc5eab0a376a30c13766a39407fcd8587a56724",
+            "stateTreeHeight": 31
+          },
+          "functionTreeRoot": "095fae162db2b01e36760c688add81d90611284e4fe99f73bc92f51c0abe78c2",
+          "layoutFieldCount": 15,
+          "layoutSlotCount": 1174405221
+        }
+      },
+      {
+        "contractId": 50,
+        "matches": true,
+        "actual": {
+          "contract": {
+            "contractId": 50,
+            "codeRoot": "8dd827b074168de9f40f435efc376527480892d40122137484b212e02085c106",
+            "layoutRoot": "62224d708fde9cd6df9a304c2fc5eab0a376a30c13766a39407fcd8587a56724",
+            "stateTreeHeight": 31
+          },
+          "functionTreeRoot": "6aa6ce7b61db043daf4e0b9f6d19db762d44b1bea023993ced75218bb5e7b162",
+          "layoutFieldCount": 15,
+          "layoutSlotCount": 1174405221
+        }
+      },
+      {
+        "contractId": 51,
+        "matches": true,
+        "actual": {
+          "contract": {
+            "contractId": 51,
+            "codeRoot": "dee7912564e18c865fd2ee5d5915532a8b9c82cc5a97478a4a364bc31b4dfe26",
+            "layoutRoot": "a9008194809103c26715a39b20d2df6fc470d5ef74ae511dcd5a2fe69bb7cf79",
+            "stateTreeHeight": 31
+          },
+          "functionTreeRoot": "fdb027132faaa5b3e33b71dce8546d1d0035ac0c36d1a3dcb02d88a2e8b7ece9",
+          "layoutFieldCount": 58,
+          "layoutSlotCount": 1325400292
+        }
+      }
+    ],
+    "actors": [
+      {
+        "userId": 971904,
+        "identityMatches": true,
+        "nonce": "4",
+        "leafHash": "55e8a353d0044973200957a2892ab274db9cbb39b4078cd1139e588e3f67871b",
+        "nativeBalance": "942999780000"
+      },
+      {
+        "userId": 668800,
+        "identityMatches": true,
+        "nonce": "5",
+        "leafHash": "c8c8cea024e2899ae2d21a61648800a311ec0b8b9861173c531d3d21c6fee78e",
+        "nativeBalance": "41999667000"
+      },
+      {
+        "userId": 1182848,
+        "identityMatches": true,
+        "nonce": "3",
+        "leafHash": "ce93e4e5f3b7fbd4aea23d1543cf16f366ec366d01a736805f2437b0030c083d",
+        "nativeBalance": "1000348000"
+      }
+    ],
+    "market": {
+      "batch_ready": "1",
+      "batch_phase": "3",
+      "batch_id": "1"
+    },
+    "ok": true,
+    "physicalReads": 17,
+    "seconds": 8.026
+  },
+  "preChangeRegressions": {
+    "schema": 1,
+    "rows": [
+      {
+        "case": "nft-abi",
+        "expectedRegressionDetected": true,
+        "exitCode": 1,
+        "logSha256": "984ed5cf1cca5d5468aece9056a569c46d4512f17899f74207a9ad3f81da52cc"
+      },
+      {
+        "case": "book-namespace",
+        "expectedRegressionDetected": true,
+        "exitCode": 1,
+        "logSha256": "4cab9aa6e6dacd24291e517220a63481426b26c1dd827b5897b6bc6357964584"
+      }
+    ],
+    "financialOperations": 0,
+    "scope": "Expected failures against preserved pre-change production helpers, using the final targeted tests. Filtered tests are not counted as passes."
+  },
+  "preservedAdditionalFailure": {
+    "rootInitialHostRunPassed": 16,
+    "rootInitialHostRunFailed": 2,
+    "reason": "New root regression fixtures omitted a buy flag and cancellation ABI. Fixtures corrected; no production constraint relaxed."
+  },
+  "rawArchive": {
+    "directoryName": "market-parallel-omp-20261116-v1",
+    "outsideGit": true,
+    "files": [
+      {
+        "path": "public/PLAN-v1.json",
+        "sha256": "ccecbcfdbfdc82b815c6da2c1767fdf1423324e1f03481318abd2c66bf8caff0",
+        "bytes": 939
+      },
+      {
+        "path": "public/RESULT-v1.json",
+        "sha256": "5a7db4682e629056a71d603450865ffb422bc3d23371eebc383e7e96c4543d1c",
+        "bytes": 284
+      },
+      {
+        "path": "public/ROOT-REVIEW-v1.json",
+        "sha256": "33e6d6bccfd8eb61196ceae0bdfc6b477a74f469847e809aab0b4831d84b93f2",
+        "bytes": 1798
+      },
+      {
+        "path": "public/CURRENT-CHAIN-READ-v1.json",
+        "sha256": "ec7c9e047ed8376e6c2e4a8583c843daf73df3d30c9d4b8ddeb056962eb438ae",
+        "bytes": 3840
+      },
+      {
+        "path": "public/SAVED-UPS-AUDIT-PLAN-v1.json",
+        "sha256": "44cf5ad5bab4f8f78d0f77b4d7bffdd8e2b34d2b78ac3f8e3a83a93d73249758",
+        "bytes": 11290
+      },
+      {
+        "path": "public/SAVED-UPS-AUDIT-v1.json",
+        "sha256": "71659e69df3c4ab8917c2c6e316affbd175cbde2ce187002fdde90edd18d4778",
+        "bytes": 2493
+      },
+      {
+        "path": "public/NATIVE-UNIT-PLAN-v1.json",
+        "sha256": "d4a19679067b5aaabd99c8c220c64995bd84e4ed6ba47b193aaf1f9a64d7139a",
+        "bytes": 846
+      },
+      {
+        "path": "public/NATIVE-UNIT-v1.json",
+        "sha256": "b924c59da4cde42be0539df1c819ef203a37d7cd194d4968f04121c6562ca393",
+        "bytes": 474
+      },
+      {
+        "path": "public/PRE-CHANGE-REGRESSIONS-v1.json",
+        "sha256": "267b78c5a06bc91698ef197900bf2221493f910fb519d47178c3c6a90da9cf00",
+        "bytes": 1119
+      },
+      {
+        "path": "public/HOST-FINAL-v1.json",
+        "sha256": "c2ec141ee6e3fa2aa5de0f1c2227e353d037279cdb162f847fa94bad58a68b33",
+        "bytes": 761
+      },
+      {
+        "path": "source/BOOK-RESULT.md",
+        "sha256": "117d4335bde39342b9f913c1d6f6d7782fc092991c2e4a74f6137aea8be3c4f5",
+        "bytes": 2223
+      },
+      {
+        "path": "source/CURVE-RESULT.md",
+        "sha256": "d3c5780ab92e04407d2e1c29d31ec13672fde504bcccd9271b2a379f80d22a67",
+        "bytes": 2047
+      },
+      {
+        "path": "source/NFT-RESULT.md",
+        "sha256": "bcadb79f5e325c79169b67b5f6d6e23c9abd4c6f9130a4dfb3c7fcc7e6a00e3c",
+        "bytes": 3408
+      },
+      {
+        "path": "omp-v1.jsonl",
+        "sha256": "e42a27a3b4fd73eaaeeb1acaaa4194a3a569264c18361872b13bd9a121717ab8",
+        "bytes": 18741838
+      },
+      {
+        "path": "public/PENDING-ORDER-CAPTURE-FAILURE-v1.json",
+        "sha256": "5a9f9c4e990f2718abae89cf214fe6261fa172a139e9dfe626a7ef64cc6e4a8a",
+        "bytes": 633
+      }
+    ]
+  },
+  "boundaries": {
+    "currentNetworkSwapCompleted": false,
+    "ordinaryMarketOutputClaimAccepted": false,
+    "browserUiAccepted": false,
+    "curveBookNftFormalDispatchAccepted": false,
+    "unbiasedRandomness": false,
+    "globalOrderInclusion": false,
+    "productionAccepted": false
+  },
+  "preservedReadCollectorFailure": {
+    "schema": 1,
+    "at": "2026-11-16T05:54:40.205948+00:00",
+    "exitCode": 1,
+    "phase": "serialize-read-only-observation",
+    "reason": "lossless amount serializer rejected fractional duration seconds; no pending-order observation was durably saved",
+    "maximumPhysicalReads": 23,
+    "newFinancialOperations": 0,
+    "proofGeneration": 0,
+    "trustedPendingObservationSaved": false,
+    "automaticRetry": false,
+    "originalCollectorRetained": true,
+    "nextFix": "Use integer duration milliseconds or an explicit public projection with BigInt amount strings before serialization; do not re-read inside the exhausted 40-request envelope."
+  }
+}

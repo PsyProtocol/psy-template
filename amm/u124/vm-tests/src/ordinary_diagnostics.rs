@@ -14,6 +14,14 @@ pub struct PublicCall {
 const UNKNOWN: &str = "SDK_UNKNOWN_REVIEW_REQUIRED";
 const WRAPPER: &str = "prove contract call failed at call_index=";
 
+fn missing_checkpoint(reason: &str) -> Option<u64> {
+    let text = reason.strip_prefix("User tree proof not found for checkpoint_id ")?;
+    if text.is_empty() || !text.bytes().all(|c| c.is_ascii_digit()) { return None; }
+    let checkpoint = text.parse::<u64>().ok()?;
+    if checkpoint == 0 || checkpoint >= (1u64 << 32) || checkpoint.to_string() != text { return None; }
+    Some(checkpoint)
+}
+
 fn approved(call: &PublicCall) -> bool {
     call.contract_id < (1 << 24)
         && call.input_count <= 128
@@ -87,6 +95,9 @@ pub fn classify(error: &Error, calls: &[PublicCall]) -> Value {
             // A malformed or substituted SDK wrapper cannot contribute public
             // call context or have its arbitrary suffix reinterpreted.
             return json!({"reasonCode": UNKNOWN});
+        }
+        if let Some(checkpoint) = missing_checkpoint(&reason) {
+            return json!({"reasonCode":"SDK_CHECKPOINT_PROOF_NOT_READY","checkpointId":checkpoint});
         }
         let code = category(&reason);
         if code != UNKNOWN {
@@ -173,5 +184,15 @@ mod tests {
         let mut bad = calls();bad[0].method_name = "mint\nSECRET".into();
         assert_eq!(classify(&wrapped(0, "insufficient staked balance"), &bad), json!({"reasonCode":UNKNOWN}));
         assert_eq!(classify(&wrapped(0, "insufficient staked balance"), &[]), json!({"reasonCode":UNKNOWN}));
+    }
+    #[test]
+    fn checkpoint_readiness_projects_only_an_exact_bounded_public_checkpoint() {
+        let error = Error::msg("User tree proof not found for checkpoint_id 104259")
+            .context("SYNTHETIC_PRIVATE_STARTUP_CONTEXT");
+        assert_eq!(classify(&error, &[]), json!({"reasonCode":"SDK_CHECKPOINT_PROOF_NOT_READY","checkpointId":104259}));
+        for checkpoint in ["0", "01", "-1", "4294967296", "104259\n", "104259 PRIVATE_WITNESS", "999999999999999999999999"] {
+            let value = classify(&Error::msg(format!("User tree proof not found for checkpoint_id {}", checkpoint)), &[]);
+            assert_eq!(value, json!({"reasonCode":UNKNOWN}));
+        }
     }
 }

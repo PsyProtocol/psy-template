@@ -10,11 +10,38 @@ import {assertDeterministicOrdering} from '../batching/random-order/sourceGate.m
 
 const LIMB = (1n << 62n) - 1n, CHECKPOINT = (1n << 32n) - 1n;
 const FELT = 18446744069414584320n, release = sdkRelease('sdk-audit-20261102-v1');
+// Reviewed collection/market/payment method identities. Name match alone is not identity.
+const COLLECTION_METHODS = Object.freeze({
+  prepare_account: {method_id: 1475740684, input_felt_count: 0},
+  acknowledge: {method_id: 1344479563, input_felt_count: 1},
+  transfer: {method_id: 1129988224, input_felt_count: 2},
+  claim: {method_id: 4064462786, input_felt_count: 2},
+});
+const MARKET_METHODS = Object.freeze({
+  open_listing: {method_id: 1184667783, input_felt_count: 6},
+  open_buy: {method_id: 2946376578, input_felt_count: 7},
+  request_cancel: {method_id: 1992417538, input_felt_count: 0},
+});
+const PAYMENT_METHODS = Object.freeze({
+  transfer: {method_id: 188091294, input_felt_count: 3},
+  claim: {method_id: 2792756730, input_felt_count: 1},
+});
 function positive(n, max) { integer(n, max); assert.ok(n > 0n, 'positive bounded BigInt required'); }
 function words(value, token = false) {
   assert.ok(Array.isArray(value) && value.length === 4, 'four canonical NFT words required');
   value.forEach(n => integer(n, FELT));
   if (token) assert.ok(value.some(n => n > 0n), 'nonzero NFT identifier required');
+}
+function requireMethod(abi, name, expected, label) {
+  const matches = abi.contract.methods.filter(m => m.name === name);
+  assert.equal(matches.length, 1, `${label} method ${name} required once`);
+  const method = matches[0];
+  assert.equal(method.method_id, expected.method_id, `${label} ${name} method identity`);
+  assert.equal(method.input_felt_count, expected.input_felt_count, `${label} ${name} arity`);
+  assert.equal(method.output_felt_count, 0, `${label} ${name} outputs`);
+  assert.equal(method.state_mutability, 'external', `${label} ${name} mutability`);
+  assert.equal(abi.contract.methods.filter(m => m.method_id === expected.method_id).length, 1,
+    `${label} ${name} method identity must be unique`);
 }
 function checked(c) {
   const p = c.policy;
@@ -37,12 +64,16 @@ function checked(c) {
   assert.equal(c.config.ordering, p.config.ordering, 'exact deterministic ordering configuration');
   for (const name of ['nftId', 'tokenId']) {
     const id = BigInt(c.config[name]); user(id); assert.ok(id >= 5n);
-    assert.notEqual(id, c.marketId); assert.equal(id, BigInt(p.config[name]));
+    assert.notEqual(id, c.marketId);
+    assert.equal(id, BigInt(p.config[name]));
   }
   assert.notEqual(BigInt(c.config.nftId), BigInt(c.config.tokenId));
-  const prepare = c.nftAbi.contract.methods.find(m => m.name === 'prepare_account');
-  assert.equal(prepare?.method_id, 1475740684); assert.equal(prepare.input_felt_count, 0);
-  assert.equal(prepare.output_felt_count, 0); assert.equal(prepare.state_mutability, 'external');
+  for (const [name, expected] of Object.entries(COLLECTION_METHODS))
+    requireMethod(c.nftAbi, name, expected, 'collection');
+  for (const [name, expected] of Object.entries(MARKET_METHODS))
+    requireMethod(c.marketAbi, name, expected, 'market');
+  for (const [name, expected] of Object.entries(PAYMENT_METHODS))
+    requireMethod(c.tokenAbi, name, expected, 'payment');
   return c;
 }
 function observation(c, o, owner) {

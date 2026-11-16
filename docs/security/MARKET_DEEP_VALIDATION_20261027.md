@@ -1,5 +1,13 @@
 # Market correctness and reset-chain validation — 27 October 2026
 
+Latest reviewed continuation (16 November): [existing gateway/subagent method,
+rejected cross-namespace changes, reviewed NFT ABI checks and preserved AMM
+proof/state evidence](MARKET_PARALLEL_GATEWAY_20261116.md). Three external workers
+returned; only independently reviewed patches were integrated. Nine historical
+confirmed UPSs reverify, including vault activation and LP settlement. Swap
+settlement/final ordinary market claims remain open; the original order and
+case have expired, so the old success-only script must not be resumed blindly.
+
 Latest parallel continuation (12 November): [four market code lanes, independent
 reviews, bounded checkpoint-proof readiness and current acceptance gaps](FOUR_MARKET_PARALLEL_20261112.md).
 The root remains the only financial/proof executor. Candidate builders and
