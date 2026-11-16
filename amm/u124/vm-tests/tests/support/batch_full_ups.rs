@@ -70,8 +70,11 @@ impl Chain{
   // represented in the code root and whitelist, including unused functions.
   let needed_names=needed.iter().map(|c|c["method_name"].as_str().unwrap().to_owned()).collect::<BTreeSet<_>>();
   let mut built:HashMap<String,(Vec<QHashOut<GF>>,QHashOut<GF>,HashMap<usize,Arc<DapenContractFunctionCircuit<C,2>>>)>=HashMap::new();
-  for(cid,height,path)in[(M,31,format!("{}/compiled/compilation_artifact.json",w.kind)),(A,31,"token/compilation_artifact.json".into()),(B,31,super::token_artifact(B)),(NFT,30,"nft/compilation_artifact.json".into()),(0,32,"native.json".into())]{
-   if cid==NFT&&w.kind!="nftmarket"{continue;}if cid==B&&w.kind=="nftmarket"{continue;}
+  // Choose required artifacts by market role, not equality with an unused
+  // numeric NFT fixture ID which may equal a real non-NFT asset or market.
+  let mut artifacts=vec![(M,31,format!("{}/compiled/compilation_artifact.json",w.kind)),(A,31,"token/compilation_artifact.json".into()),(0,32,"native.json".into())];
+  if w.kind=="nftmarket"{artifacts.push((NFT,30,"nft/compilation_artifact.json".into()));}else{artifacts.push((B,31,super::token_artifact(B)));}
+  for(cid,height,path)in artifacts{
    let bytes=fs::read(format!("{root}/{path}"))?;let artifact:Value=serde_json::from_slice(&bytes)?;let defs:Vec<DPNFunctionCircuitDefinition>=serde_json::from_value(artifact["circuit_definitions"].clone())?;let hash=format!("{:x}",Sha256::digest(&bytes));
    if !built.contains_key(&hash){let mut wl=vec![];let mut keep=HashMap::new();let mut hashes=vec![];
     for(i,d)in defs.iter().enumerate(){let c=Arc::new(DapenContractFunctionCircuit::<C,2>::new(d,height,16,false));wl.push(c.get_fingerprint());wl.push(QHashOut::from_values(d.method_id as u64,((d.circuit_outputs.len()as u64)<<32)|d.circuit_inputs.len()as u64,0,0));hashes.push(hash_dpn_function::<GF>(d));

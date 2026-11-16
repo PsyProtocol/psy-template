@@ -42,10 +42,18 @@ export async function confirmUps(config,attempt,{polls=120,intervalMs=10000,find
  }await new Promise(r=>setTimeout(r,intervalMs));}
  throw Error('inclusion unresolved; saved intent must be reconciled, never blindly retried');
 }
-export async function ordinary({base,config,binary,secret,name,calls,bindings,env,worker,historyConcurrency=4}){
+export async function ordinary({base,config,binary,secret,name,calls,bindings,env,worker,historyConcurrency=4,expectedActor}){
+ if(env?.PSY_REQUIRE_ORDINARY_APPROVAL==='1')assert.ok(expectedActor,'explicit approved actor required before ordinary work');
+ let approvedActor;if(expectedActor!==undefined){
+  assert.deepEqual(Object.keys(expectedActor).sort(),['nextNonce','publicKeyHash','startUserLeafHash','userId']);
+  assert.ok(Number.isSafeInteger(expectedActor.userId)&&expectedActor.userId>0&&expectedActor.userId<2**24);
+  for(const k of ['publicKeyHash','startUserLeafHash'])assert.match(expectedActor[k],/^[a-f0-9]{64}$/);
+  assert.match(expectedActor.nextNonce,/^[1-9][0-9]*$/);assert.ok(BigInt(expectedActor.nextNonce)<18446744069414584321n);
+  approvedActor={...expectedActor};
+ }
  const s=await publicState(config),ids=[...new Set([0,...calls.map(c=>Number(c.contract_id))])];
  const contracts=await Promise.all(ids.map(async id=>{const expected=bindings?.get(id);assert.ok(expected,'frozen dependency binding required '+id);assert.deepEqual(await binding(s,id),expected,'dependency changed');return expected;}));
- const input=join(base,'public',name+'.json'),out=join(base,'attempts',name);save(input,{calls:{contract_calls:calls,software_defined_call:{inputs:[]}},contracts,validUntilCheckpoint:s.checkpoint+128});
+ const input=join(base,'public',name+'.json'),out=join(base,'attempts',name);save(input,{calls:{contract_calls:calls,software_defined_call:{inputs:[]}},contracts,validUntilCheckpoint:s.checkpoint+128,...(approvedActor?{approvedActor}: {})});
  const timing=worker?await worker.run({action:'call',input,out,log:join(base,name+'.log')}):await run(binary,['call',config,secret,input,out],join(base,name+'.log'),env);saveObservation(join(out,'timing.json'),timing);
  await confirmUps(config,out,{historyConcurrency,...(worker?{findReceipt:()=>worker.reconcile()}: {})});return out;
 }

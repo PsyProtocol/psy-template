@@ -1,5 +1,9 @@
 # Market correctness and reset-chain validation — 27 October 2026
 
+Latest fresh stag gates (16 November): [new isolated AMM plan, actual Native
+approval/session and raw-membership freshness checks, retained build failures
+and explicit pending live acceptance](STAG_CORE_AMM_ACCEPTANCE_20261116.md).
+
 Latest formal-route continuation (16 November): [four selected-order Executor profiles,
 prepared NFT bootstrap, refund-first AMM run and explicit unverified gates](MARKET_CORE_EXECUTOR_20261116.md).
 

@@ -5,6 +5,7 @@ use plonky2::field::{goldilocks_field::GoldilocksField as F, types::PrimeField64
 use psy_client_common::{args::ContractCallData, data::qhashout::QHashOut};
 use psy_client_data::{
     config::store_config::{PsyHasher, C, D},
+    qstore::controllers::proving_session::PsyReadLocalProvingSessionStore,
     traits::qdatastore::{qmetadata::QMetaDataStoreReaderSync,qtreedata::QTreeDataStoreReaderSync},
 };
 use psy_config::{PsyConfigGoldilocks, PSY_NETWORK_MAGIC};
@@ -23,6 +24,15 @@ use sha2::{Digest, Sha256};
 use std::{env, fs, io::{Write, BufRead}, os::unix::fs::OpenOptionsExt, path::Path, time::Instant};
 #[path = "../ordinary_diagnostics.rs"]
 mod ordinary_diagnostics;
+#[path = "../ordinary_approval.rs"]
+mod ordinary_approval;
+fn approved_session(session: &WalletSession, key: QHashOut<F>, actor: &ordinary_approval::ApprovedActor)
+    -> Result<ordinary_approval::SessionBinding> {
+    let manager = session.user_session_mgrs.get(&key).context("ordinary approval actual SDK manager missing")?;
+    let lps = manager.require_lps()?;
+    actor.bind_session(&manager.get_current_ups_header().session_start_context.start_session_user_leaf,
+        lps.get_current_user_id_64(), lps.get_nonce_u64(), lps.is_new_user())
+}
 fn save(path: &Path, value: &impl serde::Serialize) -> Result<()> {
     let bytes = serde_json::to_vec_pretty(value)?;
     let mut f = fs::OpenOptions::new()
@@ -389,6 +399,12 @@ async fn operation(a: &[String], net: &psy_config::NetworkConfigGoldilocks, sess
     let bytes = fs::read(&a[4])?;
     if let Some(pin)=pinned { ensure!(pin.input_sha256.as_deref()==Some(hash(&bytes).as_str()),"ordinary job input does not match frozen request"); }
     let input: Value = serde_json::from_slice(&bytes)?;
+    let approval_flag = match env::var("PSY_REQUIRE_ORDINARY_APPROVAL") {
+        Ok(value) => Some(value), Err(env::VarError::NotPresent) => None,
+        Err(_) => anyhow::bail!("ordinary approval flag must be UTF-8 0 or 1"),
+    };
+    let required_approval = ordinary_approval::required_flag(approval_flag.as_deref())?;
+    let approved_actor = ordinary_approval::parse(&input, required_approval)?;
     let valid_until = input["validUntilCheckpoint"]
         .as_u64()
         .context("explicit ordinary broadcast checkpoint bound required")?;
@@ -459,6 +475,9 @@ async fn operation(a: &[String], net: &psy_config::NetworkConfigGoldilocks, sess
             "broadcast":false,"automaticRetry":false}))?;
         return Err(error);
     }
+    // Bind the reviewed actor to the ACTUAL SDK UPS-start context before any
+    // business proving; a prior Node/RPC preview cannot substitute this check.
+    let approval_binding = approved_actor.as_ref().map(|actor| approved_session(session, key, actor)).transpose()?;
     metrics.enter(phase, "prove-ordinary-calls");
     if let Err(error)=session.prove_contract_call(key, data.contract_calls).await {
         save(&out.join("diagnostic.json"),&json!({"mode":"public-sdk-error-projection-v1",
@@ -466,8 +485,15 @@ async fn operation(a: &[String], net: &psy_config::NetworkConfigGoldilocks, sess
             "broadcast":false,"automaticRetry":false}))?;
         return Err(error);
     }
+    if let (Some(actor), Some(binding)) = (&approved_actor, &approval_binding) {
+        ensure!(approved_session(session, key, actor)? == *binding,
+            "ordinary approval SDK session changed before signing");
+    }
     metrics.enter(phase, "prove-ordinary-signature-endcap");
     let (endcap, proof) = session.sign(key, data.software_defined_call).await?;
+    if let (Some(actor), Some(binding)) = (&approved_actor, &approval_binding) {
+        actor.check_endpoints(&endcap.core, binding)?;
+    }
     // sign returns owned final inputs/proof. Release transaction-only managers
     // before verification/RPC; immutable wallet circuits remain live. Every
     // request still verifies the complete proof and its exact end-cap binding.
@@ -517,15 +543,34 @@ async fn operation(a: &[String], net: &psy_config::NetworkConfigGoldilocks, sess
         ),
         "ordinary nonce not submittable"
     );
+    let approved_fresh_state = if let (Some(actor), Some(binding)) = (&approved_actor, &approval_binding) {
+        // Use actual frozen SDK read APIs and the SAME explicit checkpoint as
+        // the successful current leaf read above. Never inherit get_tx_status's
+        // nonce-one fallback after a failed read, nor infer raw ZERO membership
+        // from the missing-user synthetic get_user_leaf_data preimage.
+        let raw = public_read(|| provider.get_user_tree_merkle_proof(cp, user)).await?;
+        let roots = public_read(|| provider.get_checkpoint_global_state_roots(cp)).await?;
+        let checkpoint = public_read(|| provider.get_checkpoint_leaf_data(cp)).await?;
+        ensure!(roots.qfhash::<PsyHasher>() == checkpoint.global_chain_root,
+            "ordinary approval current checkpoint roots differ");
+        actor.check_fresh_state(&current, &raw, roots.user_tree_root, binding)?;
+        Some(json!({"checkpointId":cp,"userId":user,"observedNonce":current.nonce.to_canonical_u64().to_string(),
+            "rawUserLeafHash":raw.value.to_string(),"userTreeRoot":roots.user_tree_root.to_string(),
+            "checkpointGlobalChainRoot":checkpoint.global_chain_root.to_string(),"rawMembershipVerified":true,
+            "assurance":"freshness relative to observed checkpoint roots; not independent finality authentication"}))
+    } else { None };
     psy_template_u124_markets::guard_reads::checked(&bindings, ordinary_concurrency()?, |c| async {
         public_read(|| c.check(&provider)).await
     }).await?;
     ensure!(hash(&fs::read(&a[4])?) == hash(&bytes), "ordinary input changed while proving");
     if let Some(pin) = pinned { pin.check_files()?; }
     check_chain(session).await?;
+    if let (Some(actor), Some(binding)) = (&approved_actor, &approval_binding) {
+        actor.check_endpoints(&endcap.core, binding)?;
+    }
     save(
         &out.join("preflight.json"),
-        &json!({"inputSha256":hash(&bytes),"chainRootAt1":chain_root.to_string(),"fullUpsVerified":true,"proofProfile":proof_profile,"userId":user,"nonce":nonce,"endUserLeafHash":end.to_string(),"core":endcap.core,"broadcast":false}),
+        &json!({"inputSha256":hash(&bytes),"chainRootAt1":chain_root.to_string(),"fullUpsVerified":true,"proofProfile":proof_profile,"userId":user,"nonce":nonce,"endUserLeafHash":end.to_string(),"core":endcap.core,"approvalBound":approval_binding.is_some(),"approvedActorSession":approval_binding.as_ref().map(|binding|binding.report()),"approvedActorFreshState":approved_fresh_state,"broadcast":false}),
     )?;
     let request = QSubmitEndCapRPCRequest {
         user_ec_input: endcap,

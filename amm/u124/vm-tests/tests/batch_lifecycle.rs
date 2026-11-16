@@ -34,7 +34,11 @@ impl World{
  fn new(kind:&str)->Result<Self>{Self::new_with_bootstrap(kind,true)}
  fn new_with_bootstrap(kind:&str,bootstrap:bool)->Result<Self>{Self::new_fixture(kind,bootstrap,true)}
  fn new_fixture(kind:&str,bootstrap:bool,legacy_sponsor:bool)->Result<Self>{let root=std::env::var("BATCH_BUILD")?;let read=|p:&str|->Result<Value>{Ok(serde_json::from_slice(&fs::read(format!("{root}/{p}"))?)?)};let market=read(&format!("{kind}/compiled/compilation_artifact.json"))?;let policy=read(&format!("{kind}/policy.json"))?;
-  let mut methods=HashMap::new();for(cid,a)in[(M,market.clone()),(A,read("token/compilation_artifact.json")?),(B,read(&token_artifact(B))?),(NFT,read("nft/compilation_artifact.json")?),(0,read("native.json")?)]{let defs:Vec<DPNFunctionCircuitDefinition>=serde_json::from_value(a["circuit_definitions"].clone())?;for d in defs{methods.insert((cid,d.name.clone()),d);}}
+  // Non-NFT worlds require actual market, both FT and Native bytecode only.
+  // Never fabricate a collection artifact to satisfy an unused fixture role.
+  let mut artifacts=vec![(M,market.clone()),(A,read("token/compilation_artifact.json")?),(B,read(&token_artifact(B))?),(0,read("native.json")?)];
+  if kind=="nftmarket"{artifacts.push((NFT,read("nft/compilation_artifact.json")?));}
+  let mut methods=HashMap::new();for(cid,a)in artifacts{let defs:Vec<DPNFunctionCircuitDefinition>=serde_json::from_value(a["circuit_definitions"].clone())?;for d in defs{methods.insert((cid,d.name.clone()),d);}}
   let fields=market["abi"]["contract"]["state"].as_array().unwrap().iter().map(|f|(f["name"].as_str().unwrap().to_owned(),f["offset"].as_u64().unwrap())).collect();
   let mut w=Self{state:InMemoryStateBackend::new(),methods:Arc::new(methods),fields:Arc::new(fields),policy,checkpoint:100,slots:BTreeMap::new(),revision:0,kind:kind.into(),vault:V};
   let minimal=std::env::var("BATCH_MINIMAL_GENESIS").as_deref()==Ok("1");
