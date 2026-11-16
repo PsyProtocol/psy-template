@@ -2,8 +2,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readReviewedAbis} from '../../tests/fixtures/reviewedAbis.mjs';
-import {FRESH_CORE_AMM_STAGES,caseFile,validateFreshCoreManifest,planFreshCoreAmmStage,assertFreshEnvironment,assertFreshActorAnchor,freshApprovedActor,assertFreshStagePlan,assertFreshFormalTask,assertFreshNativeApproval} from './freshCoreAmmLive.mjs';
-import {swapQuote,FEE_ESCROW} from '../../amm/u124/client.mjs';
+import {FRESH_CORE_AMM_STAGES,caseFile,validateFreshCoreManifest,planFreshCoreAmmStage,assertFreshEnvironment,assertFreshActorAnchor,assertFreshInitialAnchor,assertFreshRefundAssets,freshApprovedActor,assertFreshStagePlan,assertFreshFormalTask,assertFreshNativeApproval} from './freshCoreAmmLive.mjs';
+import {swapQuote,FEE_ESCROW,parseLosslessJson} from '../../amm/u124/client.mjs';
 import {PROFILE} from '../../batching/mainnet-beta/native.mjs';
 import {CORE_DEPENDENCY_KEY_PROFILE} from '../coreDependencyPolicy.mjs';
 
@@ -79,6 +79,16 @@ test('an unexpected actor leaf, nonce, key or identity stops before a proof/sign
  const args={userId:401,publicKeyHash:hash,expected:{hash,nonce:4n},leaf:{user_id:401n,public_key:hash,nonce:4n},leafHash:hash};let callbacks=0;
  const beforeProof=x=>{assertFreshActorAnchor(x);callbacks++;};beforeProof(args);assert.equal(callbacks,1);
  for(const edit of [v=>v.leafHash='b'.repeat(64),v=>v.leaf.nonce=5n,v=>v.leaf.public_key='b'.repeat(64),v=>v.leaf.user_id=402n,v=>v.leaf.nonce=4,v=>v.expected=undefined]){const x=structuredClone(args);edit(x);assert.throws(()=>beforeProof(x));assert.equal(callbacks,1);}
+});
+test('initial restart anchors compare exact values across actual lossless and plain objects',()=>{
+ const expected={hash,nonce:9007199254740993n},parsed=parseLosslessJson('{"hash":"'+hash+'","nonce":9007199254740993}');assert.equal(Object.getPrototypeOf(parsed),null);
+ assert.doesNotThrow(()=>assertFreshInitialAnchor(parsed,expected));assert.doesNotThrow(()=>assertFreshInitialAnchor({...expected},expected));
+ for(const changed of [{...expected,extra:true},{...expected,hash:'b'.repeat(64)},{...expected,nonce:9007199254740994n},{hash},{...expected,nonce:9007199254740993},{...expected,nonce:'9007199254740993'}])assert.throws(()=>assertFreshInitialAnchor(changed,expected));
+});
+test('parsed restart refund snapshots retain exact asset, type and key checks without prototype dependence',()=>{
+ const previous=parseLosslessJson('{"native":50,"a":9007199254740993,"b":17}'),after=parseLosslessJson('{"native":49,"a":9007199254740993,"b":17}');
+ assert.doesNotThrow(()=>assertFreshRefundAssets(after,previous));assert.doesNotThrow(()=>assertFreshRefundAssets({...after},{...previous}));
+ for(const changed of [{...after,a:after.a+1n},{...after,b:0n},{...after,native:-1n},{...after,extra:0n},{...after,a:Number(after.a)}])assert.throws(()=>assertFreshRefundAssets(changed,previous));
 });
 test('signer approval carries the exact reviewed state, signer and lossless next nonce',()=>{
  assert.deepEqual(freshApprovedActor(401,hash,{hash,nonce:9007199254740993n}),{userId:401,publicKeyHash:hash,startUserLeafHash:hash,nextNonce:'9007199254740994'});

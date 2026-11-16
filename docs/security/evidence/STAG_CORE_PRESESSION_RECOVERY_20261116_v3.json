@@ -1,0 +1,125 @@
+{
+  "schema": 1,
+  "at": "2026-11-16T13:32:32.444Z",
+  "identities": {
+    "market": 58,
+    "assetA": 56,
+    "assetB": 57,
+    "issuer": 1975680,
+    "trader": 1136000,
+    "vault": 570752
+  },
+  "sdkCommit": "01b8f2b0a077367a7b9879baba1a72aea8ab5510",
+  "confirmedStages": [
+    {
+      "stage": "fresh-native-send-v1",
+      "checkpoint": 149614,
+      "contentHash": "2524fa668ee23bae1b0ee219dcc389ed551a3bc9161a2820e60c7ac9f8303a02",
+      "endUserLeafHash": "fc283127767a2c9d6497cb76a9f4e93e1517c7b04a0e52819d0d059bd17591ba",
+      "userId": "1975680",
+      "nextNonce": "2",
+      "feeBaseUnits": "1000002000",
+      "requestSha256": "45ebfdfaf9633b65d53cb7c8447302ee38a4e69673911a9d17b5cc96622e13dc",
+      "fullUpsVerified": true
+    },
+    {
+      "stage": "fresh-native-claim-v1",
+      "checkpoint": 149637,
+      "contentHash": "0c53000693f184e92a71a1ba38edee8906a50452c87fc219fa6c536555b3b146",
+      "endUserLeafHash": "acccfb6fb6c8e155df65a2e365454694afb4c6b46476d9bcffb16dac68b888ad",
+      "userId": "1136000",
+      "nextNonce": "1",
+      "feeBaseUnits": "1000002000",
+      "requestSha256": "57c40d7ffebb3956253eeb4ee18c5828af4c4ddf1de15fa219555d4be5908577",
+      "fullUpsVerified": true
+    },
+    {
+      "stage": "core-issuer-setup-v1",
+      "checkpoint": 149661,
+      "contentHash": "5c4466ffcb7cc029aec3f4152c04a47213001c9b151d9f1c9f85143e8ec5a980",
+      "endUserLeafHash": "011ac2d9669937f69e1c1e357b0a282a4e19d56e346c1c78020403cb4217d7eb",
+      "userId": "1975680",
+      "nextNonce": "3",
+      "feeBaseUnits": "1000011000",
+      "requestSha256": "8eb21b7074a6287348873a75832484bcfc88bcf122b593c9a704e4a475b2c736",
+      "fullUpsVerified": true
+    },
+    {
+      "stage": "core-trader-assets-v1",
+      "checkpoint": 149683,
+      "contentHash": "12be4758cf5bc67a753e8d96bc6b3f985c105a69eac2ee30694fb0526c74bd0d",
+      "endUserLeafHash": "91549cd1dceaf77feec963264dc2e55165dde6e3827f165613074c81d7c46260",
+      "userId": "1136000",
+      "nextNonce": "2",
+      "feeBaseUnits": "1000007000",
+      "requestSha256": "14a076b9942c02c3e8397a2cc2060e8f9f431f4c274cc3f9d483eec419708f54",
+      "fullUpsVerified": true
+    },
+    {
+      "stage": "core-activation-fund-recovery-v1",
+      "checkpoint": 149890,
+      "contentHash": "c17a384c38d3d5dad0b611af472b27b5a53944ace2b4082030448c0faa89f39c",
+      "endUserLeafHash": "50eb1e28b7a8a5acb74d9f6c6f7e725fd174384fe71979f3fdbd6085c488e202",
+      "userId": "1136000",
+      "nextNonce": "3",
+      "feeBaseUnits": "1000006000",
+      "requestSha256": "20e768c9d6b994601b09601aa5c4899b5255fd39481fee98c8cec953fd181560",
+      "fullUpsVerified": true
+    }
+  ],
+  "marketSwapConfirmed": false,
+  "marketOutputClaimConfirmed": false,
+  "browserUiAccepted": false,
+  "failedStartup": {
+    "checkpoint": 149690,
+    "reason": "SDK_CHECKPOINT_PROOF_NOT_READY / User tree proof not found",
+    "phase": "start-ordinary-session",
+    "businessProofSignatureRequestOrSendCreated": false,
+    "originalEvidencePreserved": true
+  },
+  "preparationFailures": [
+    {
+      "kind": "lossless ID BigInt/Number projection",
+      "nativeStarted": false
+    },
+    {
+      "kind": "24-bit account range incorrectly used as proof height; actual global32/realm20/coordinator12",
+      "nativeStarted": false,
+      "originalHelperSourceSnapshotAvailable": false
+    },
+    {
+      "kind": "null-prototype parsed snapshot compared to plain object",
+      "newStageOrWarmStarted": false
+    }
+  ],
+  "windowReview": {
+    "originalExpiry": 149816,
+    "reviewCheckpoint": 149856,
+    "reviewedExpiry": 149984,
+    "changedFields": [
+      "validUntilCheckpoint"
+    ],
+    "originalEconomicCallsActorNonceUnchanged": true,
+    "originalNativeAttempts": 0,
+    "reviewedNativeAttempts": 1,
+    "confirmedCheckpoint": 149890,
+    "releaseSha256": "9d7177f080fd5a2cdc12892cb2251ed75b1221216cbea9ffb099d64e6da02c05",
+    "acceptedAliasSha256": "033b01d62112d402884c18a924415965039c2c0d8a4a7353be38b2b2f25308c0"
+  },
+  "hostTests": {
+    "passed": 26,
+    "failed": 0,
+    "skipped": 0,
+    "tapSha256": "4539a7e857478f247aad6269de67f1c7693aa3c06d73bc714eec498411eb9172"
+  },
+  "remainingBoundary": "RPC read readiness does not certify finality or atomically pin the subsequent SDK-selected checkpoint. All Native proof/session/freshness/exactsend checks remain. Generic automatic recovery of unknown broadcasts remains forbidden.",
+  "budgets": {
+    "journeyStages": 20,
+    "journeyFeePsy": "60",
+    "aggregateUps": 24,
+    "aggregateFeePsy": "75",
+    "masterDeadline": "2026-11-16T15:13:12.042713Z",
+    "unchanged": true
+  },
+  "rawArchiveScope": "Protected local originals and closed raw files; Git contains compact projections and digests only"
+}

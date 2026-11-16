@@ -13,6 +13,7 @@ import {ExecutionJournal} from '../journal.mjs'; import {sha256} from '../reques
 import {latestBroadcastOutcome} from './attemptOutcome.mjs'; import {freezeAppModules} from './sourceClosure.mjs';
 import {planCoreAmmStage} from './coreAmmJourney.mjs';
 import {requireCoreDependencyPolicy,assertCoreDependencyEvidence} from '../coreDependencyPolicy.mjs';
+import {validateActivationContinuation,ACTIVATION_ORIGINAL} from './activationContinuation.mjs';
 
 const SDK='01b8f2b0a077367a7b9879baba1a72aea8ab5510',CLIENT='7058070057c3242b5d8b29e1a31d498aaa4202c0';
 export const FRESH_CORE_AMM_STAGES=Object.freeze([
@@ -102,6 +103,19 @@ export function assertFreshActorAnchor({userId,publicKeyHash,expected,leaf,leafH
   if(expected.emptyStateTreeRoot!==undefined)assert.equal(leaf.user_state_tree_root,expected.emptyStateTreeRoot);
  }else assert.equal(leaf.public_key,publicKeyHash,'actor key changed before proof/sign/send');
 }
+export function assertFreshInitialAnchor(observed,expected){
+ assert.ok(observed&&typeof observed==='object'&&!Array.isArray(observed),'initial actor anchor object required');
+ assert.deepEqual(Object.keys(observed).sort(),['hash','nonce'],'exact initial anchor fields required');
+ assert.match(observed.hash??'',/^[a-f0-9]{64}$/);assert.match(expected?.hash??'',/^[a-f0-9]{64}$/);
+ assert.equal(typeof observed.nonce,'bigint','lossless initial actor nonce required');assert.equal(typeof expected.nonce,'bigint');
+ assert.ok(observed.nonce>=0n);assert.equal(observed.hash,expected.hash,'initial actor leaf mismatch');assert.equal(observed.nonce,expected.nonce,'initial actor nonce mismatch');
+}
+export function assertFreshRefundAssets(observed,previous){
+ for(const balance of [observed,previous]){assert.ok(balance&&typeof balance==='object'&&!Array.isArray(balance));assert.deepEqual(Object.keys(balance).sort(),['a','b','native'],'exact cohort balance fields required');for(const field of ['native','a','b']){assert.equal(typeof balance[field],'bigint','lossless cohort balance required');assert.ok(balance[field]>=0n);}}
+ // Native fees can change between the snapshots. QA assets must be restored
+ // exactly, while the final cohort-wide Native conservation check binds fees.
+ assert.equal(observed.a,previous.a,'refund changed asset A');assert.equal(observed.b,previous.b,'refund changed asset B');
+}
 export function freshApprovedActor(userId,publicKeyHash,anchor){
  assert.ok(Number.isSafeInteger(userId)&&userId>0&&userId<2**24);assert.match(publicKeyHash,/^[a-f0-9]{64}$/);assert.notEqual(publicKeyHash,'0'.repeat(64));
  assert.match(anchor?.hash??'',/^[a-f0-9]{64}$/);assert.ok(typeof anchor.nonce==='bigint'&&anchor.nonce>=0n&&anchor.nonce<2n**62n-1n);
@@ -145,9 +159,12 @@ export function assertFreshNativeApproval(pre,approvedActor,{validUntilCheckpoin
  assert.equal(pre.core.new_user_leaf.public_key,approvedActor.publicKeyHash);assert.equal(pre.core.state_transition.start_user_leaf_hash,approvedActor.startUserLeafHash);
 }
 
-export async function runFreshCoreAmmJourney(base) {
+export async function runFreshCoreAmmJourney(base,{continuationRelease}={}) {
   base=resolve(base);assert.equal(process.env.PSY_QA_OWNED_CASE,base,'external exclusive supervisor required');
   assert.equal(Number(process.env.PSY_QA_OWNER_PID),process.ppid,'one owned supervisor');
+  // Adoption is checked before creating the adapter, warming a circuit or
+  // starting a signer. The retry itself is deliberately outside this runner.
+  const continuation=continuationRelease===undefined?null:validateActivationContinuation(base,continuationRelease);
   const exact=p=>parseLosslessJson(readFileSync(p,'utf8')),root=join(base,'bound-core-v1');
   const manifestFile=join(base,'public/FRESH-JOURNEY-v1.json'),manifestHash=sha256(readFileSync(manifestFile)),manifest=read(manifestFile),
     config=caseFile(base,manifest.rpcConfig),plan=read(caseFile(base,manifest.journeyPlan??'public/PLAN-v1.json')),
@@ -162,8 +179,8 @@ export async function runFreshCoreAmmJourney(base) {
   const abi=read(join(root,'abi.json')),tokenAbi=read(join(root,'asset-a-abi.json'));
   assert.deepEqual(tokenAbi.contract.methods,read(join(root,'asset-b-abi.json')).contract.methods);
   const context={policy,config:c,marketId:BigInt(reg.marketId),vaultId:BigInt(reg.vaultId),issuerId:BigInt(issuerId),traderId:BigInt(traderId),marketAbi:abi,tokenAbi};
-  const sourceLabel='fresh-core-journey-v1',entry=fileURLToPath(import.meta.url);
-  const sourceCurrent=()=>{checkInputs();return freezeAppModules(entry,base,sourceLabel);};sourceCurrent();
+  const sourceLabel=continuation?.sourceLabel??'fresh-core-journey-v1',entry=continuation?fileURLToPath(new URL('./freshCoreAmmActivationContinuation.mjs',import.meta.url)):fileURLToPath(import.meta.url);
+  const sourceCurrent=()=>{checkInputs();if(continuation){assert.equal(sha256(readFileSync(caseFile(base,continuation.releasePath))),continuation.releaseSha256,'continuation release changed');assert.equal(sha256(readFileSync(caseFile(base,continuation.aliasPath))),continuation.aliasSha256,'accepted alias changed');for(const[p,h]of Object.entries({...continuation.release.pins,...continuation.alias.files}))assert.equal(sha256(readFileSync(caseFile(base,p))),h,'continuation artifact changed '+p);}return freezeAppModules(entry,base,sourceLabel);};sourceCurrent();
   const completed=join(base,'public/FRESH-CORE-JOURNEY-CONFIRMED-v1.json');
   if(existsSync(completed)){
     const report=exact(completed);assert.equal(report.marketId,BigInt(reg.marketId));assert.equal(report.vaultId,BigInt(reg.vaultId));
@@ -222,7 +239,7 @@ export async function runFreshCoreAmmJourney(base) {
     // Check complete saved semantics before reconciliation RPC, signer startup,
     // proof or transmission. Changed restart terms require explicit review.
     if(existsSync(planFile))assertFreshStagePlan(context,stage,terms,stagePins,exact(planFile));
-    await unresolved();reserve(name,'ordinary');let actualName=name;
+    await unresolved();reserve(name,'ordinary');const actualName=continuation&&name===ACTIVATION_ORIGINAL?continuation.replacementLabel:name;
     const out=join(base,'attempts',actualName);
     if(!existsSync(planFile))save(planFile,expected);
     const unsigned=exact(planFile),id=Number(unsigned.actorId);assert.equal(unsigned.stage,stage);assert.ok(actors.has(id));
@@ -301,7 +318,7 @@ export async function runFreshCoreAmmJourney(base) {
     save(p,result);save(link,{snapshotSha256:sha256(readFileSync(p)),precedingFormalSha256:reportSha256,scope:'Pinned RPC observation after exact preceding included UPS, while its vault end leaf is unchanged (initial snapshot has no predecessor); not independently verified slot Merkle proofs'});return result;
   };
   try {
-    await fresh();await unresolved();const before=await snapshot('fresh-initial-v1');assert.equal(totalNative(before),BigInt(manifest.initialNativeCohortBaseUnits));assert.ok(Object.values(before.pending).every(p=>Object.values(p).every(n=>n===0n)),'fresh cohort has unexpected pending funds');assert.equal(before.reserveA,0n);assert.equal(before.reserveB,0n);for(const row of Object.values(before.balances)){assert.equal(row.a,0n);assert.equal(row.b,0n);}for(const row of manifest.initialActors){assert.deepEqual(before.userLeaves[row.userId],{hash:row.endUserLeafHash,nonce:BigInt(row.nonce)},'initial actor anchor mismatch');anchors.set(row.userId,{...before.userLeaves[row.userId],unmaterialized:row.unmaterialized,emptyStateTreeRoot:row.emptyStateTreeRoot});}await adapter.warm();
+    await fresh();await unresolved();const before=await snapshot('fresh-initial-v1');assert.equal(totalNative(before),BigInt(manifest.initialNativeCohortBaseUnits));assert.ok(Object.values(before.pending).every(p=>Object.values(p).every(n=>n===0n)),'fresh cohort has unexpected pending funds');assert.equal(before.reserveA,0n);assert.equal(before.reserveB,0n);for(const row of Object.values(before.balances)){assert.equal(row.a,0n);assert.equal(row.b,0n);}for(const row of manifest.initialActors){assertFreshInitialAnchor(before.userLeaves[row.userId],{hash:row.endUserLeafHash,nonce:BigInt(row.nonce)});anchors.set(row.userId,{...before.userLeaves[row.userId],unmaterialized:row.unmaterialized,emptyStateTreeRoot:row.emptyStateTreeRoot});}await adapter.warm();
     await ordinaryStep('fresh-native-send-v1','native_fund_trader');await ordinaryStep('fresh-native-claim-v1','native_claim_trader');
     await ordinaryStep('core-issuer-setup-v1','issuer_setup',{symbolA:BigInt(manifest.symbolA),symbolB:BigInt(manifest.symbolB)});
     await ordinaryStep('core-trader-assets-v1','trader_claim_assets');
@@ -325,7 +342,7 @@ export async function runFreshCoreAmmJourney(base) {
     s=await fresh();const nativePending=await s.slot(reg.vaultId,0,3+2*traderId)-await s.slot(traderId,0,4+2*reg.vaultId);
     await ordinaryStep('core-refund-claim-v1','refund_claim_close',{observedNativePending:nativePending});
     const after=await snapshot('fresh-final-v1','core-cancel-settle-v1');assert.equal(after.reserveA,swapped.reserveA);assert.equal(after.reserveB,swapped.reserveB);
-    assert.deepEqual(after.balances[traderId],{...after.balances[traderId],a:swapped.balances[traderId].a,b:swapped.balances[traderId].b});
+    assertFreshRefundAssets(after.balances[traderId],swapped.balances[traderId]);
     assert.ok(Object.values(after.pending).every(p=>Object.values(p).every(n=>n===0n)),'owned cohort pending asset remains');
     for(const a of ['a','b'])assert.equal(Object.values(after.balances).reduce((n,b)=>n+b[a],0n),200n*10n**18n,'QA supply conservation');
     const fees=outputs.reduce((n,v)=>n+v.fee,0n);assert.equal(outputs.length,20);assert.ok(fees<=60000000000n,'declared fee ceiling');assert.equal(totalNative(after)+fees,BigInt(manifest.initialNativeCohortBaseUnits),'Native fee conservation');

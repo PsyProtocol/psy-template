@@ -48,6 +48,28 @@ This fresh case permits two ordinary identities, two QA FTs, one AMM and one vau
 
 The Native ordinary approval guard requires actual SDK registration/session identity, exact starting raw leaf and next nonce, successful fresh nonce read, same-checkpoint raw membership, complete proof and final endpoints. First use additionally requires the actual SDK new-user context and authenticated raw zero leaf. Formal restart terms remain strict: changed saved deadlines/quotes/source inputs or missing historical snapshots require review; they are not silently recreated.
 
+## Confirmed live prefix and bounded recovery
+
+[Compact recovery evidence](evidence/STAG_CORE_PRESESSION_RECOVERY_20261116_v3.json) records five actual confirmed UPSs:
+
+| Stage | Checkpoint | Fee (test PSY) |
+| --- | ---: | ---: |
+| Internal Native transfer | 149614 | 1.000002 |
+| Ordinary Native claim | 149637 | 1.000002 |
+| QA metadata/caps, 200-unit issuance and 100-unit transfers | 149661 | 1.000011 |
+| Ordinary claims of both 100-unit QA transfers | 149683 | 1.000007 |
+| Vault activation funding: 1.0001 PSY and one base unit of each QA FT | 149890 | 1.000006 |
+
+Total journey fees so far are **5.000028 test PSY**. Funding/issuance is not an AMM fill. The activation seed was pending for the vault before its first UPS; the running continuation must confirm activation, liquidity, swap, final claim and cancellation/refund separately.
+
+The original activation-funding startup stopped at checkpoint 149690 because the exact user-tree proof spine was unavailable. No business proof, signature, request or send intent was created. A later read observed that exact proof and the current common-head proof as available. The SDK's latest metadata can precede proof availability; this is distinct from verifier/key mismatch. Readiness observations do not atomically pin the subsequent SDK-selected checkpoint. A dedicated proof-ready head or an application implementation of the existing pinned SDK manager APIs remains a follow-up; unknown broadcasts never retry through this path.
+
+A preparation-only retry controller exposed a lossless-ID projection error; a new read-only helper initially confused the 24-bit account range with the 32-level proof tree. Both failed before Native signing/execution. The helper now follows the frozen SDK's exact **32 global / 20 realm / 12 coordinator** dimensions and its always-stitch branch. It does not validate cryptography or authorize payment. The original failed helper source was not separately snapshotted; the observed error and dimensions are recorded without inventing a source archive.
+
+The original unsigned input's operator transport window expired during review. An explicit V2 release pinned 42 public files and proof of zero Native attempts, and reviewed only the validity window from 149816 to **149984** (review checkpoint 149856 + 128). Calls, amounts, contracts, signer, nonce 3 and approval fields were identical. This was the first business proof/signature/send for that operation, not a replacement of an unknown transaction. One reviewed attempt confirmed at 149890; the old input, failed directory, source freeze and release remain intact.
+
+The continuation also exposed prototype-sensitive comparison of a saved null-prototype lossless snapshot with a plain object. Exact field/key/hash/BigInt checks now preserve the same value constraints. A new V3 source closure retains the old closure; no already confirmed operation is sent again. The independently executed scoped suite passes **26 tests, zero failures/skips**. This case-specific acceptance continuation does not establish generic production recovery or browser UI acceptance.
+
 ## Measurements and remaining boundaries
 
 These are gate timings on a shared workstation, not a matched performance experiment: activation process **345.820 s** (cold resource build **218.775 s**, measured proof portion **110.285 s**); commit/settle process **409.769 s**; four-step recovery **570.331 s**; ordinary claim **158.854 s**. The largest sampled family RSS among these runs was **1,025,504 KiB**. Sampling may miss peaks and sums shared pages; it is not true physical peak memory. Phase overlap must not be added. No chain TPS, p95, stable throughput or general speedup is claimed.
