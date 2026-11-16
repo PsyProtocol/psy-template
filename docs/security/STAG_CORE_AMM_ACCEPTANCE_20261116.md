@@ -5,6 +5,33 @@ approval regressions. Real market settlement, final ordinary claims and browser
 acceptance remain open. This report does not replace the preserved unresolved
 sponsor request from the preceding case.
 
+## Confirmed fresh funding
+
+[Compact funding evidence](evidence/STAG_CORE_AMM_FUNDING_20261116_v1.json)
+records the fresh ordinary issuer **1975680**. Its registration membership was
+verified. Exactly one faucet request granted **1,000 test PSY**, confirmed at
+checkpoint **148670**. The faucet returns an operator end-user leaf hash, not a
+services content hash; the existing exact historical-leaf receipt reader linked
+it to the indexed content hash.
+
+A timing-only write failed after the response was durable. The original empty
+telemetry file, error and single-send lock remain intact. Reconciliation recovered
+the original grant without re-applying. One actual ordinary Native claim then
+confirmed at checkpoint **148714**, with fee **1.000002 test PSY** and spendable
+balance **998.999998 test PSY**. An independent frozen Node verifier/common-data
+check passed for its exact saved UPS. This establishes a current-chain ordinary
+SDK funding/claim path; it does not establish an AMM swap or browser approval.
+
+Fresh QA token bytecode also now fixes 18 decimals, matching the planned journey
+and existing bytecode rejection test. The production FT source still permits
+configurable precision. Unfixed QA v1 source/artifacts remain preserved and are
+not deployment inputs. Fresh v2 bytecode passed the existing complete ordinary initialization UPS at
+synthetic checkpoint 100 and provisional asset IDs 42/43. It initializes and
+mints 100 QA units per asset; real journey issuance of 200 units remains a
+separate, fresh live proof before broadcasting. Wrong issuer, symbol, precision,
+cap overflow/reset and failed-write cases reject. Provisional AMM proofs are
+running before deployment. These offline proofs are not live issuance.
+
 ## Reproducible tools and application fixes
 
 The selected mainnet-beta SDK remains `01b8f2b0a077367a7b9879baba1a72aea8ab5510`,
@@ -43,9 +70,8 @@ ceiling is 24 new UPSs and 75 test PSY in fees; the formal journey reserves exac
 20 UPSs and 60 test PSY. QA FT/NFT, test PSY and existing pUSDT are separate assets;
 this AMM case uses newly issued QA FT and test PSY, not existing pUSDT.
 
-Next: create and separately back up new QA identities; register once and verify
-membership; make the single bounded faucet request and claim its exact grant;
-compile/deploy the actual new assets and AMM; bind the allocated market and key;
+Next: complete candidate bytecode/UPS gates; create, back up and register the
+second fresh ordinary QA identity; deploy the new assets and AMM; bind the allocated market and key;
 verify full UPSs with actual artifact identities before funding; run activation,
 LP, one swap/ordinary claim and cancellation/refund through the formal Executor.
 Unknown sends stop and reconcile their original identity. No old contract,

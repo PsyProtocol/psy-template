@@ -1,0 +1,163 @@
+{
+  "schema": 1,
+  "at": "2026-11-16T10:30:12.996811+00:00",
+  "sdkCommit": "01b8f2b0a077367a7b9879baba1a72aea8ab5510",
+  "clientCommit": "7058070057c3242b5d8b29e1a31d498aaa4202c0",
+  "milestone": "One fresh stag registration, one faucet grant and one confirmed ordinary SDK claim",
+  "issuerRegistration": {
+    "userId": 1975680,
+    "publicKeyHash": "e06e6bf131dac176d0075dc1f6ee58803f56de4aad2b081cb8fe6a8a27bb72af",
+    "checkpoint": 148656,
+    "registrationMembershipVerified": true,
+    "verificationDirectory": "registration-issuer-membership-v1",
+    "networkFinalityAttested": false
+  },
+  "faucet": {
+    "requests": 1,
+    "additionalRequests": 0,
+    "amountBaseUnits": "1000000000000",
+    "operatorUserId": 753664,
+    "endUserLeafHash": "9bc1f16ac2b170735d7aa006eaf807a55df7947252768c2f2996c694d914c127",
+    "contentHash": "fc1c1a6489d52f38fa64e6fa459a372e56c7085694f4e09b6afb31a5c6ea02bf",
+    "includedCheckpoint": 148670,
+    "hashKindCheckedAgainstFrozenFaucetSource": true,
+    "telemetryFailureAfterDurableResponse": "Fractional timing was rejected by the lossless financial-number serializer after the response was durably saved; empty original transport file retained.",
+    "originalHttpStatusUnknown": true,
+    "initialWrongHashKind404Retained": true,
+    "resolvedBy": "Existing exact leaf/history/content-hash receipt reader, then actual authenticated Native claim; never re-applied."
+  },
+  "claim": {
+    "at": "2026-11-16T10:11:13.781Z",
+    "userId": 1975680,
+    "publicKeyHash": "e06e6bf131dac176d0075dc1f6ee58803f56de4aad2b081cb8fe6a8a27bb72af",
+    "checkpoint": 148719,
+    "receiptCheckpoint": 148714,
+    "contentHash": "5ed4eeaf95a812ccf3454c2ad49a4ee3946efb0e07e0fc715e0be25f427920f7",
+    "endUserLeafHash": "4bc7cd65031614cc02d5ea662ffa779373d990e2833feb31619b4aa61173f5c6",
+    "nonce": 1,
+    "amount": 1000000000000,
+    "fee": 1000002000,
+    "balance": 998999998000,
+    "claimed": 1000000000000,
+    "sent": 1000000000000,
+    "fullUpsVerified": true,
+    "approvalAndFreshMembershipVerified": true,
+    "ordinaryClaimIncluded": true,
+    "marketSwapAccepted": false,
+    "browserUiAccepted": false,
+    "scope": "One original faucet grant; one actual ordinary SDK claim and exact indexed receipt. No market or browser acceptance claim."
+  },
+  "independentFullUpsVerification": {
+    "broadcast": false,
+    "endUserLeafHash": "4bc7cd65031614cc02d5ea662ffa779373d990e2833feb31619b4aa61173f5c6",
+    "fullProofVerifiedAgainstPinnedNodeKeyAndCommon": true,
+    "metadataEndpointsAndFeesVerified": true,
+    "nonce": 1,
+    "publicKeyHash": "e06e6bf131dac176d0075dc1f6ee58803f56de4aad2b081cb8fe6a8a27bb72af",
+    "requestSha256": "677c5600fbfcb905bc866abdc4a31537c3fc9b4c0615a550e11c5feb4cb726fd",
+    "sourceCheckpoint": 148705,
+    "startUserLeafHash": "0000000000000000000000000000000000000000000000000000000000000000",
+    "userId": 1975680
+  },
+  "nativeBinding": {
+    "contract": {
+      "contractId": 0,
+      "codeRoot": "30f06e6c5c897af41c08f0f86677c66096e533ce490c9817b5ddf7b5812a3ea6",
+      "layoutRoot": "cd6931e5422fb07be012e3d0642bbffd0880bf499ecc87bcb822276d7426771c",
+      "stateTreeHeight": 32
+    },
+    "functionTreeRoot": "03c697aa1180e94b046ffcbf0272cd12ce0fee948b216afceb8e1ef524cdcd7e",
+    "layoutFieldCount": 8,
+    "layoutSlotCount": 8594128984
+  },
+  "ordinarySdkClaimNotBrowserAcceptance": true,
+  "financialUpsCount": 1,
+  "aggregateFeeBaseUnits": "1000002000",
+  "maximumAggregateFeeBaseUnits": "75000000000",
+  "marketDeployments": 0,
+  "actualMarketSwaps": 0,
+  "qaSourceRevision": "v2; issuer, distinct symbol and exactly 18 decimals fixed only for QA bytecode",
+  "qaArtifacts": [
+    {
+      "role": "asset-a",
+      "sha256": "98ed7e8eabf46270aa54896965c2aa7413779fde799b514c98d6587cd9d16500"
+    },
+    {
+      "role": "asset-b",
+      "sha256": "29dbf0e2cb6b9eb2b613ea1f8c590a60a0cebda005f0cd19cba06293099aa9cb"
+    }
+  ],
+  "rawRequestAndSecretsNotUploaded": true,
+  "oldUnknownSponsorUnresolved": true,
+  "browserUiAccepted": false,
+  "productionAccepted": false,
+  "preDeploymentQaInitialization": {
+    "amountPerToken": "100000000000000000000",
+    "broadcast": false,
+    "candidateArtifacts": [
+      {
+        "artifactSha256": "591336999bd2798d9545c3b545dbf33d6816e0c966fb8124f2f880bef6f47593",
+        "contractId": 0
+      },
+      {
+        "artifactSha256": "98ed7e8eabf46270aa54896965c2aa7413779fde799b514c98d6587cd9d16500",
+        "contractId": 42
+      },
+      {
+        "artifactSha256": "29dbf0e2cb6b9eb2b613ea1f8c590a60a0cebda005f0cd19cba06293099aa9cb",
+        "contractId": 43
+      }
+    ],
+    "decimals": 18,
+    "fullUpsVerified": true,
+    "initialTokenStateEmpty": true,
+    "issuerUserId": 1975680,
+    "negativeBytecodeCases": [
+      "wrong-issuer",
+      "wrong-symbol",
+      "wrong-precision",
+      "cap-overflow",
+      "cap-reset",
+      "failure-state-unchanged"
+    ],
+    "proof": {
+      "action": "metadata-cap-mint",
+      "actualFee": 1000009000,
+      "broadcast": false,
+      "callsIncludingBurn": 7,
+      "corruptProofRejected": true,
+      "elapsedMilliseconds": 240751.908042,
+      "endUserLeafHash": "c13f9fcafec1c7a3807d6e63181502d25fccd45b43570b80c417873c7a328614",
+      "fixedNodeVerifier": {
+        "bundledNodeVerifierFingerprint": "043e026dc674c310d8a9c529268a02619cab6f3779a74396a330c5ff0d0a5893",
+        "commonDataMatches": true,
+        "networkMagic": "1384803358401154921",
+        "profile": "sdk-audit-20261102-v1",
+        "runtimeImageAttested": false,
+        "verifierOnlyMatches": true
+      },
+      "fullUpsVerified": true,
+      "market": "qa-token-setup",
+      "ordinarySignature": true,
+      "proofBytes": 130328,
+      "publicKeyHash": "d1620c99fe6a75644c1a9a23e8da5beaaaaec2183b9b0cf4651a638db2931b83",
+      "referenceBytecodeStateMatched": true,
+      "rejectedMetadata": [
+        "nonce",
+        "signer",
+        "checkpoint",
+        "start-root",
+        "end-root",
+        "fees",
+        "call-count"
+      ],
+      "requestSha256": "87cbab87472fedc3c48ac771e2fe674b949ddf69221c18b953c786220916cb42",
+      "sigHash": "8c9d0662414bab6023fedd59d7724b5209e139acded65f5c3fc6ee641afa5d2f",
+      "sourceCheckpoint": 100,
+      "startUserLeafHash": "f694035103aa312052e7232128952af23353b764b145b917d9bf533c6b936432",
+      "userId": 1975680
+    },
+    "schema": 1,
+    "scope": "Actual QA v2 bytecode, synthetic checkpoint 100 and provisional asset IDs 42/43. One full ordinary UPS with synthetic signer; no live QA mint or market settlement. Real journey amount200e18 remains a separate current-state proof before one send."
+  }
+}

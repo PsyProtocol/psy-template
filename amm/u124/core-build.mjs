@@ -19,6 +19,8 @@ const save = (p, value) => writeFileSync(p, JSON.stringify(value, null, 2) + '\n
 
 // Distinct QA assets avoid identical deployment requests/content hashes. This
 // does not edit the production FT source or authorize a mint/deployment.
+// The isolated QA journey is fixed at 18 decimals; production FT precision
+// remains configurable. Bind that assumption in the QA bytecode as well.
 export function qaTokenSource(source, issuer, symbol) {
   assert.ok(Number.isSafeInteger(issuer) && issuer > 0 && issuer < 2 ** 24);
   assert.ok(Number.isSafeInteger(symbol) && symbol > 0 && symbol < 2 ** 32);
@@ -27,7 +29,7 @@ export function qaTokenSource(source, issuer, symbol) {
   assert.equal(source.split(authority).length, 2, 'exact issuer template');
   assert.equal(source.split(metadata).length, 2, 'exact QA metadata method');
   return source.replace(authority, `const ISSUER_USER_ID: usize = ${issuer};`)
-    .replace(metadata, metadata + `\nrequire(symbol == ${symbol}, "fixed QA asset symbol");`);
+    .replace(metadata, metadata + `\nrequire(symbol == ${symbol}, "fixed QA asset symbol");\nrequire(decimals == 18, "fixed QA asset precision");`);
 }
 
 export function makeCorePolicy(marketId, config, artifact, token, chainRootAt1) {
