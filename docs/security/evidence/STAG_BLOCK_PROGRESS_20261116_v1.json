@@ -1,0 +1,254 @@
+{
+  "schema": 1,
+  "status": "unknown-broadcast-account-held",
+  "at": "2026-11-16T14:16:52.395Z",
+  "network": "testnet",
+  "chainRootAt1": "81bac9934a1c18579519b5297c94c7e7d25cb53973ac67befefe8b7a86f96b5c",
+  "userId": 1975680,
+  "publicKeyHash": "e06e6bf131dac176d0075dc1f6ee58803f56de4aad2b081cb8fe6a8a27bb72af",
+  "nonce": 4,
+  "endUserLeafHash": "40307bcc6b663ed77f5117b01c25980217d392f33b1af4318b8ea3d30536c352",
+  "requestSha256": "8a4513153c855cb3fecdbfec43a6022d41833f69c6b4272823d4716762c5676b",
+  "sourceCheckpoint": "150066",
+  "validUntilCheckpoint": 150136,
+  "knownLatestCheckpoint": 150066,
+  "knownIssuerNonce": 3,
+  "rpcAcknowledgement": "ok",
+  "included": false,
+  "confirmedDiscard": false,
+  "retryAllowed": false,
+  "resignAllowed": false,
+  "replacementPaymentAllowed": false,
+  "holdScope": "Root-owned QA issuer; pending request may still execute when stag advances. Do not fund other market instances from this signer until exact resolution.",
+  "resume": "Exact original receipt/leaf identity only; validate unchanged chain instance, dependencies, nonce/state, fees and all existing gates before subsequent operations.",
+  "confirmedOperations": 7,
+  "actualMarketSwaps": 0,
+  "ordinaryMarketOutputClaims": 0,
+  "browserUiAccepted": false,
+  "confirmedVaultActivation": 149976,
+  "confirmedLiquiditySubmission": 150002,
+  "sponsorCompleteProofVerified": true,
+  "feesProjectedNotConfirmed": "1000003000",
+  "rpcMeta": {
+    "ackTimeoutSeconds": 120,
+    "automaticRetry": false,
+    "httpStatus": 200,
+    "truncated": false,
+    "url": "https://realm1-stg.psy-protocol.xyz"
+  },
+  "health": {
+    "at": "2026-11-16T14:12:14.247Z",
+    "commonCheckpoint": 150066,
+    "realmHeads": [
+      {
+        "checkpoint_id": 150066,
+        "next_add_withdrawal_id": 0,
+        "next_process_withdrawal_id": 0,
+        "next_deposit_id": 0,
+        "total_deposits_claimed_epoch": 0,
+        "next_user_id": 14001,
+        "end_balance": 0,
+        "next_contract_id": 59
+      },
+      {
+        "checkpoint_id": 150066,
+        "next_add_withdrawal_id": 0,
+        "next_process_withdrawal_id": 0,
+        "next_deposit_id": 0,
+        "total_deposits_claimed_epoch": 0,
+        "next_user_id": 14001,
+        "end_balance": 0,
+        "next_contract_id": 59
+      }
+    ],
+    "coordinator": {
+      "checkpoint_id": 150066,
+      "next_add_withdrawal_id": 0,
+      "next_process_withdrawal_id": 0,
+      "next_deposit_id": 0,
+      "total_deposits_claimed_epoch": 0,
+      "next_user_id": 14001,
+      "end_balance": 0,
+      "next_contract_id": 59
+    },
+    "issuerCurrentLeafHash": "011ac2d9669937f69e1c1e357b0a282a4e19d56e346c1c78020403cb4217d7eb",
+    "expectedPendingLeafHash": "40307bcc6b663ed77f5117b01c25980217d392f33b1af4318b8ea3d30536c352",
+    "financialOperations": 0,
+    "scope": "Read-only original broadcast reconciliation; no resubmission"
+  },
+  "holdings": {
+    "at": "2026-11-16T14:15:15.912Z",
+    "checkpoint": "150066",
+    "leaves": {
+      "570752": {
+        "nonce": "1",
+        "leafHash": "306f66d145090369acbfd7e5f447108ed38e879a93151cafb4898d1f5acd1497"
+      },
+      "1136000": {
+        "nonce": "4",
+        "leafHash": "f555f08a99807134cae975601c89210e63b6a3c57bcffe99e595a08899470876"
+      },
+      "1975680": {
+        "nonce": "3",
+        "leafHash": "011ac2d9669937f69e1c1e357b0a282a4e19d56e346c1c78020403cb4217d7eb"
+      }
+    },
+    "balances": {
+      "570752": {
+        "native": "92000",
+        "a": "0",
+        "b": "0"
+      },
+      "1136000": {
+        "native": "43999775000",
+        "a": "80000000000000000000",
+        "b": "80000000000000000000"
+      },
+      "1975680": {
+        "native": "946999985000",
+        "a": "100000000000000000000",
+        "b": "100000000000000000000"
+      }
+    },
+    "pending": {
+      "1975680:1136000": {
+        "native": "0",
+        "a": "0",
+        "b": "0"
+      },
+      "1975680:570752": {
+        "native": "0",
+        "a": "0",
+        "b": "0"
+      },
+      "1136000:1975680": {
+        "native": "0",
+        "a": "0",
+        "b": "0"
+      },
+      "1136000:570752": {
+        "native": "1000100000",
+        "a": "20000000000000000000",
+        "b": "20000000000000000000"
+      },
+      "570752:1975680": {
+        "native": "0",
+        "a": "0",
+        "b": "0"
+      },
+      "570752:1136000": {
+        "native": "0",
+        "a": "0",
+        "b": "0"
+      }
+    },
+    "market": {
+      "reserveA": "0",
+      "reserveB": "0",
+      "totalShares": "0",
+      "batchReady": "1",
+      "batchId": "0",
+      "traderKind": "2",
+      "traderOrderNonce": "1"
+    },
+    "scope": "One common-checkpoint public RPC observation after seven known included UPSs. Sponsor nonce4 is pending/unknown, not included in balances. Slot observations are not independent Merkle proof verification.",
+    "financialOperations": "0"
+  },
+  "readonlyInspection": {
+    "actualSdkSession": {
+      "checkpointId": 150066,
+      "isNewUser": false,
+      "nextNonce": "4",
+      "publicKeyHash": "e06e6bf131dac176d0075dc1f6ee58803f56de4aad2b081cb8fe6a8a27bb72af",
+      "startContextLeafHash": "011ac2d9669937f69e1c1e357b0a282a4e19d56e346c1c78020403cb4217d7eb",
+      "startUserNonce": "3",
+      "userId": 1975680
+    },
+    "approvalBound": true,
+    "approvedActorSession": {
+      "isNewUser": false,
+      "nextNonce": "4",
+      "publicKeyHash": "e06e6bf131dac176d0075dc1f6ee58803f56de4aad2b081cb8fe6a8a27bb72af",
+      "startContextLeafHash": "011ac2d9669937f69e1c1e357b0a282a4e19d56e346c1c78020403cb4217d7eb",
+      "startUserLeafHash": "011ac2d9669937f69e1c1e357b0a282a4e19d56e346c1c78020403cb4217d7eb",
+      "userId": 1975680
+    },
+    "automaticRetry": false,
+    "beforeBusinessCalls": true,
+    "broadcast": false,
+    "currentRawMembershipVerified": true,
+    "currentRawUserLeafHash": "011ac2d9669937f69e1c1e357b0a282a4e19d56e346c1c78020403cb4217d7eb",
+    "freshCheckpointId": 150066,
+    "inputSha256": "ca0d62882d712d6e0e250482906ee1dff4472b2c139b462341ad6bf029dc76d5",
+    "mode": "public-sdk-session-inspection-v1",
+    "readOnly": true,
+    "scope": "Fresh SDK manager/LPS setup, approved actor binding and observed-checkpoint raw membership only. No start_session/prove_ups_start, business call, fee proof, signature, request or send. Not finality or full UPS acceptance.",
+    "signed": false,
+    "transactionProofsGenerated": false,
+    "upsStartProved": false
+  },
+  "diagnosticBuild": {
+    "exitCode": 0,
+    "milliseconds": 105808,
+    "sampledFamilyRssKiB": 1110640,
+    "stop": null,
+    "sdkSourceFilesVerified": 2759,
+    "financialOperations": 0,
+    "command": [
+      "cargo",
+      "+nightly-2025-09-20",
+      "build",
+      "--offline",
+      "--locked",
+      "--release",
+      "--features",
+      "sdk-audit-v1",
+      "--bin",
+      "isolated_wallet"
+    ]
+  },
+  "boundaries": "Seven confirmed UPSs are real network evidence. SDK inspection is proofless; holdings are RPC observations. Pending ACK is not inclusion. No market settlement/output claim or production/TPS claim.",
+  "lastReconciliation": {
+    "at": "2026-11-16T14:20:59.784Z",
+    "checkpoint": 150066,
+    "heads": [
+      {
+        "checkpoint_id": 150066,
+        "next_add_withdrawal_id": 0,
+        "next_process_withdrawal_id": 0,
+        "next_deposit_id": 0,
+        "total_deposits_claimed_epoch": 0,
+        "next_user_id": 14001,
+        "end_balance": 0,
+        "next_contract_id": 59
+      },
+      {
+        "checkpoint_id": 150066,
+        "next_add_withdrawal_id": 0,
+        "next_process_withdrawal_id": 0,
+        "next_deposit_id": 0,
+        "total_deposits_claimed_epoch": 0,
+        "next_user_id": 14001,
+        "end_balance": 0,
+        "next_contract_id": 59
+      }
+    ],
+    "root": "81bac9934a1c18579519b5297c94c7e7d25cb53973ac67befefe8b7a86f96b5c",
+    "result": {
+      "status": "unresolved",
+      "userId": 1975680,
+      "endUserLeafHash": "40307bcc6b663ed77f5117b01c25980217d392f33b1af4318b8ea3d30536c352",
+      "errors": []
+    },
+    "financialOperations": 0,
+    "resubmitted": false
+  },
+  "sourceRegressions": {
+    "passed": 45,
+    "failed": 0,
+    "skipped": 0,
+    "tapSha256": "11d5c1a5b15f0b5928cd1dcb0ad5494dede89502425447600f6fb38fac013711",
+    "scope": "Host continuation/readiness/Book-plan/NFT-source tests; not extra network acceptance"
+  },
+  "nativeDiagnosticUnitTestsExecuted": false
+}

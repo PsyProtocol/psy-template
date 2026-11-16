@@ -2,7 +2,7 @@
 
 Latest fresh stag gates (16 November): [allocated AMM 58, QA 56/57 and vault 570752,
 eight dependency-bound/ordinary complete UPS gates, circuit rejection evidence,
-five confirmed setup/funding UPSs and the running bounded real journey](STAG_CORE_AMM_ACCEPTANCE_20261116.md).
+seven confirmed UPSs and the held pending sponsor at stalled checkpoint150066](STAG_CORE_AMM_ACCEPTANCE_20261116.md).
 [Compact proof evidence](evidence/STAG_CORE_BOUND_UPS_20261116_v1.json) distinguishes
 synthetic proof acceptance from network settlement and browser/UI acceptance.
 Older case identities and outcomes below remain historical evidence.

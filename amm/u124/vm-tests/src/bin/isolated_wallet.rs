@@ -26,6 +26,8 @@ use std::{env, fs, io::{Write, BufRead}, os::unix::fs::OpenOptionsExt, path::Pat
 mod ordinary_diagnostics;
 #[path = "../ordinary_approval.rs"]
 mod ordinary_approval;
+#[path = "../ordinary_startup_diagnostics.rs"]
+mod ordinary_startup_diagnostics;
 fn approved_session(session: &WalletSession, key: QHashOut<F>, actor: &ordinary_approval::ApprovedActor)
     -> Result<ordinary_approval::SessionBinding> {
     let manager = session.user_session_mgrs.get(&key).context("ordinary approval actual SDK manager missing")?;
@@ -33,6 +35,18 @@ fn approved_session(session: &WalletSession, key: QHashOut<F>, actor: &ordinary_
     actor.bind_session(&manager.get_current_ups_header().session_start_context.start_session_user_leaf,
         lps.get_current_user_id_64(), lps.get_nonce_u64(), lps.is_new_user())
 }
+fn public_session(session:&WalletSession,key:QHashOut<F>)->Option<ordinary_startup_diagnostics::PublicSession> {
+    let manager=session.user_session_mgrs.get(&key)?;let lps=manager.require_lps().ok()?;
+    let context=&manager.get_current_ups_header().session_start_context;let start=&context.start_session_user_leaf;
+    Some(ordinary_startup_diagnostics::PublicSession { checkpoint_id:context.checkpoint_id.to_canonical_u64(),
+        user_id:lps.get_current_user_id_64(),next_nonce:lps.get_nonce_u64().to_string(),is_new_user:lps.is_new_user(),
+        start_context_leaf_hash:start.qfhash::<PsyHasher>().to_string(),public_key_hash:start.public_key.to_string(),
+        start_user_nonce:start.nonce.to_canonical_u64().to_string() })
+}
+fn startup_failure(out:&Path,error:&anyhow::Error,subphase:ordinary_startup_diagnostics::Subphase,session:&WalletSession,key:QHashOut<F>)->Result<()> {
+    save(&out.join("diagnostic.json"),&ordinary_startup_diagnostics::project(error,subphase,public_session(session,key)))
+}
+fn ordinary_job_action(action:&str)->bool { ["call","preflight","inspect-ordinary-session"].contains(&action) }
 fn save(path: &Path, value: &impl serde::Serialize) -> Result<()> {
     let bytes = serde_json::to_vec_pretty(value)?;
     let mut f = fs::OpenOptions::new()
@@ -188,7 +202,7 @@ async fn serve(a:&[String], net:&psy_config::NetworkConfigGoldilocks, session:&m
     for line in std::io::stdin().lock().lines() {
         let line=line?; ensure!(line.len()<=32768,"ordinary job protocol bound");
         let job:OrdinaryJob=serde_json::from_str(&line)?;
-        ensure!(["call","preflight"].contains(&job.action.as_str()) && !job.id.is_empty(),"ordinary resident actions only");
+        ensure!(ordinary_job_action(&job.action) && !job.id.is_empty(),"ordinary resident actions only");
         ensure!(job.input_sha256.len()==64 && job.input_sha256.bytes().all(|c|c.is_ascii_hexdigit()),"ordinary job input digest");
         pin.input_sha256=Some(job.input_sha256);
         session.user_session_mgrs.clear();
@@ -218,7 +232,7 @@ async fn run(phase: &mut &'static str) -> Result<()> {
     let a = env::args().collect::<Vec<_>>();
     ensure!(
         a.len() >= 5,
-        "create|register|preflight|diagnose|call|deploy CONFIG SECRET INPUT_OR_PUBLIC [FRESH_OUT]"
+        "create|register|preflight|diagnose|inspect-ordinary-session|call|deploy CONFIG SECRET INPUT_OR_PUBLIC [FRESH_OUT]"
     );
     if a[1] != "create" { expected_chain()?; }
     // Freeze identity bytes before loading the config and constructing public
@@ -334,7 +348,7 @@ async fn operation(a: &[String], net: &psy_config::NetworkConfigGoldilocks, sess
     }
     ensure!(
         a.len() == 6,
-        "preflight|diagnose|call|deploy CONFIG SECRET INPUT FRESH_OUT"
+        "preflight|diagnose|inspect-ordinary-session|call|deploy CONFIG SECRET INPUT FRESH_OUT"
     );
     let out = Path::new(&a[5]);
     fs::create_dir(out)?;
@@ -392,7 +406,7 @@ async fn operation(a: &[String], net: &psy_config::NetworkConfigGoldilocks, sess
         return Ok(());
     }
     ensure!(
-        ["call", "preflight", "diagnose"].contains(&a[1].as_str()),
+        ["call", "preflight", "diagnose", "inspect-ordinary-session"].contains(&a[1].as_str()),
         "known isolated wallet action"
     );
     metrics.enter(phase, "verify-ordinary-input-and-dependencies");
@@ -465,19 +479,58 @@ async fn operation(a: &[String], net: &psy_config::NetworkConfigGoldilocks, sess
             "scope":"Business VM calls only, relative to a separately read configured RPC checkpoint-tree root; no finality attestation, fee completion, CFC/UPS proving, signature or broadcast. Trace witnesses remain in memory and are discarded."}))?;
         return Ok(());
     }
-    metrics.enter(phase, "start-ordinary-session");
-    let key = session.add_user(private, pk.fingerprint).await?;
-    if let Err(error)=session.start_session(key).await {
-        // Startup happens before any approved business call. Preserve a public
-        // diagnostic without treating missing readiness as permission to retry.
-        save(&out.join("diagnostic.json"),&json!({"mode":"public-sdk-startup-error-projection-v1",
-            "category":ordinary_diagnostics::classify(&error,&public_calls),"privateDataSuppressed":true,
-            "broadcast":false,"automaticRetry":false}))?;
-        return Err(error);
+    use ordinary_startup_diagnostics::Subphase;
+    let inspecting=a[1]=="inspect-ordinary-session";
+    if inspecting { ensure!(approved_actor.is_some(),"session inspection requires reviewed approvedActor"); }
+    metrics.enter(phase, Subphase::AddUser.name());
+    let key=match session.add_user(private,pk.fingerprint).await {
+        Ok(key)=>key,Err(error)=>{startup_failure(out,&error,Subphase::AddUser,session,public)?;return Err(error);}
+    };
+    if inspecting {
+        // Mirror start_session's manager reset only. Calling start_session
+        // itself would prove UPS-start and is deliberately excluded here.
+        metrics.enter(phase, Subphase::InspectReset.name());
+        if let Err(error)=session.update_circuit_mgr(key).await {
+            startup_failure(out,&error,Subphase::InspectReset,session,key)?;return Err(error);
+        }
+    } else {
+        metrics.enter(phase, Subphase::StartSession.name());
+        if let Err(error)=session.start_session(key).await {
+            startup_failure(out,&error,Subphase::StartSession,session,key)?;return Err(error);
+        }
     }
     // Bind the reviewed actor to the ACTUAL SDK UPS-start context before any
     // business proving; a prior Node/RPC preview cannot substitute this check.
-    let approval_binding = approved_actor.as_ref().map(|actor| approved_session(session, key, actor)).transpose()?;
+    metrics.enter(phase, Subphase::BindApproval.name());
+    let approval_binding=match approved_actor.as_ref().map(|actor| approved_session(session,key,actor)).transpose(){
+        Ok(binding)=>binding,Err(error)=>{startup_failure(out,&error,Subphase::BindApproval,session,key)?;return Err(error);}
+    };
+    if inspecting {
+        metrics.enter(phase,Subphase::InspectFreshState.name());
+        let inspect=async {
+            let binding=approval_binding.as_ref().context("session inspection requires actual approved binding")?;
+            let actor=approved_actor.as_ref().context("session inspection approved actor missing")?;
+            let actual=public_session(session,key).context("session inspection actual SDK public header missing")?;
+            let provider=session.st_provider.with_user_id_owned(actual.user_id);
+            let cp=provider.get_latest_block_state().await?.checkpoint_id;
+            ensure!(actual.checkpoint_id<=cp&&cp<=valid_until,"session inspection original transport window expired");
+            let (current,proof,roots,checkpoint)=tokio::join!(provider.get_user_leaf_data(cp,actual.user_id),provider.get_user_tree_merkle_proof(cp,actual.user_id),
+                provider.get_checkpoint_global_state_roots(cp),provider.get_checkpoint_leaf_data(cp));
+            let current=current?;let proof=proof?;let roots=roots?;let checkpoint=checkpoint?;
+            ensure!(roots.qfhash::<PsyHasher>()==checkpoint.global_chain_root,"ordinary approval current checkpoint roots differ");
+            actor.check_fresh_state(&current,&proof,roots.user_tree_root,binding)?;
+            check_chain(session).await?;
+            psy_template_u124_markets::guard_reads::checked(&bindings,ordinary_concurrency()?,|b|b.check(&session.st_provider)).await?;
+            save(&out.join("inspection.json"),&json!({"mode":"public-sdk-session-inspection-v1","readOnly":true,"inputSha256":hash(&bytes),
+                "actualSdkSession":actual,"approvalBound":true,"approvedActorSession":binding.report(),"freshCheckpointId":cp,
+                "currentRawUserLeafHash":proof.value.to_string(),"currentRawMembershipVerified":true,
+                "beforeBusinessCalls":true,"upsStartProved":false,"transactionProofsGenerated":false,"signed":false,"broadcast":false,"automaticRetry":false,
+                "scope":"Fresh SDK manager/LPS setup, approved actor binding and observed-checkpoint raw membership only. No start_session/prove_ups_start, business call, fee proof, signature, request or send. Not finality or full UPS acceptance."}))?;
+            Ok::<(),anyhow::Error>(())
+        }.await;
+        if let Err(error)=inspect {startup_failure(out,&error,Subphase::InspectFreshState,session,key)?;return Err(error);}
+        println!("ordinary session inspected; no proofs, signature or broadcast");return Ok(());
+    }
     metrics.enter(phase, "prove-ordinary-calls");
     if let Err(error)=session.prove_contract_call(key, data.contract_calls).await {
         save(&out.join("diagnostic.json"),&json!({"mode":"public-sdk-error-projection-v1",
@@ -606,7 +659,7 @@ async fn main() -> std::process::ExitCode {
                 psy_template_u124_markets::runtime::Failure::Panic(_)=>("PANIC_REVIEW_REQUIRED",hash(b"suppressed panic")),
             };
             let args=env::args().collect::<Vec<_>>();
-            if args.len()==6 && ["preflight","call","deploy","diagnose"].contains(&args[1].as_str()) {
+            if args.len()==6 && ["preflight","call","deploy","diagnose","inspect-ordinary-session"].contains(&args[1].as_str()) {
                 let out=Path::new(&args[5]);
                 if out.is_dir() {
                     let _=save(&out.join("failure.json"),&json!({"ok":false,"phase":phase,"reasonCode":code,"suppressedErrorSha256":digest,"privateDataSuppressed":true,"broadcastMayHaveBeenAttempted":phase=="broadcast-ordinary-ups"||phase=="broadcast-new-contract","automaticRetry":false}));
@@ -621,6 +674,12 @@ async fn main() -> std::process::ExitCode {
 
 #[cfg(test)]
 mod tests {
+    #[test]
+    fn inspection_is_an_explicit_readonly_job_action() {
+        assert!(super::ordinary_job_action("inspect-ordinary-session"));
+        assert!(super::ordinary_job_action("call"));assert!(super::ordinary_job_action("preflight"));
+        for action in ["diagnose","deploy","register","inspect","broadcast","inspect-ordinary-session-call"] {assert!(!super::ordinary_job_action(action));}
+    }
     #[test]
     fn ordinary_sdk_fee_is_not_a_second_explicit_native_burn() -> anyhow::Result<()> {
         use super::*;

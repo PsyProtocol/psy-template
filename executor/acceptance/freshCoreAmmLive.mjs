@@ -14,6 +14,7 @@ import {latestBroadcastOutcome} from './attemptOutcome.mjs'; import {freezeAppMo
 import {planCoreAmmStage} from './coreAmmJourney.mjs';
 import {requireCoreDependencyPolicy,assertCoreDependencyEvidence} from '../coreDependencyPolicy.mjs';
 import {validateActivationContinuation,ACTIVATION_ORIGINAL} from './activationContinuation.mjs';
+import {validateSponsorContinuation,SPONSOR_ORIGINAL} from './sponsorContinuation.mjs';
 
 const SDK='01b8f2b0a077367a7b9879baba1a72aea8ab5510',CLIENT='7058070057c3242b5d8b29e1a31d498aaa4202c0';
 export const FRESH_CORE_AMM_STAGES=Object.freeze([
@@ -159,12 +160,14 @@ export function assertFreshNativeApproval(pre,approvedActor,{validUntilCheckpoin
  assert.equal(pre.core.new_user_leaf.public_key,approvedActor.publicKeyHash);assert.equal(pre.core.state_transition.start_user_leaf_hash,approvedActor.startUserLeafHash);
 }
 
-export async function runFreshCoreAmmJourney(base,{continuationRelease}={}) {
+export async function runFreshCoreAmmJourney(base,{continuationRelease,sponsorContinuationRelease}={}) {
   base=resolve(base);assert.equal(process.env.PSY_QA_OWNED_CASE,base,'external exclusive supervisor required');
   assert.equal(Number(process.env.PSY_QA_OWNER_PID),process.ppid,'one owned supervisor');
   // Adoption is checked before creating the adapter, warming a circuit or
   // starting a signer. The retry itself is deliberately outside this runner.
   const continuation=continuationRelease===undefined?null:validateActivationContinuation(base,continuationRelease);
+  const secondary=sponsorContinuationRelease===undefined?null:validateSponsorContinuation(base,sponsorContinuationRelease);
+  if(secondary){assert.ok(continuation,'original activation alias must remain validated');assert.equal(secondary.activation.releaseSha256,continuation.releaseSha256,'same original activation release required');}
   const exact=p=>parseLosslessJson(readFileSync(p,'utf8')),root=join(base,'bound-core-v1');
   const manifestFile=join(base,'public/FRESH-JOURNEY-v1.json'),manifestHash=sha256(readFileSync(manifestFile)),manifest=read(manifestFile),
     config=caseFile(base,manifest.rpcConfig),plan=read(caseFile(base,manifest.journeyPlan??'public/PLAN-v1.json')),
@@ -179,8 +182,8 @@ export async function runFreshCoreAmmJourney(base,{continuationRelease}={}) {
   const abi=read(join(root,'abi.json')),tokenAbi=read(join(root,'asset-a-abi.json'));
   assert.deepEqual(tokenAbi.contract.methods,read(join(root,'asset-b-abi.json')).contract.methods);
   const context={policy,config:c,marketId:BigInt(reg.marketId),vaultId:BigInt(reg.vaultId),issuerId:BigInt(issuerId),traderId:BigInt(traderId),marketAbi:abi,tokenAbi};
-  const sourceLabel=continuation?.sourceLabel??'fresh-core-journey-v1',entry=continuation?fileURLToPath(new URL('./freshCoreAmmActivationContinuation.mjs',import.meta.url)):fileURLToPath(import.meta.url);
-  const sourceCurrent=()=>{checkInputs();if(continuation){assert.equal(sha256(readFileSync(caseFile(base,continuation.releasePath))),continuation.releaseSha256,'continuation release changed');assert.equal(sha256(readFileSync(caseFile(base,continuation.aliasPath))),continuation.aliasSha256,'accepted alias changed');for(const[p,h]of Object.entries({...continuation.release.pins,...continuation.alias.files}))assert.equal(sha256(readFileSync(caseFile(base,p))),h,'continuation artifact changed '+p);}return freezeAppModules(entry,base,sourceLabel);};sourceCurrent();
+  const sourceLabel=secondary?.sourceLabel??continuation?.sourceLabel??'fresh-core-journey-v1',entry=secondary?fileURLToPath(new URL('./freshCoreAmmSponsorContinuation.mjs',import.meta.url)):continuation?fileURLToPath(new URL('./freshCoreAmmActivationContinuation.mjs',import.meta.url)):fileURLToPath(import.meta.url);
+  const sourceCurrent=()=>{checkInputs();if(continuation){assert.equal(sha256(readFileSync(caseFile(base,continuation.releasePath))),continuation.releaseSha256,'continuation release changed');assert.equal(sha256(readFileSync(caseFile(base,continuation.aliasPath))),continuation.aliasSha256,'accepted alias changed');for(const[p,h]of Object.entries({...continuation.release.pins,...continuation.alias.files}))assert.equal(sha256(readFileSync(caseFile(base,p))),h,'continuation artifact changed '+p);}if(secondary){assert.equal(sha256(readFileSync(caseFile(base,secondary.releasePath))),secondary.releaseSha256,'secondary release changed');assert.equal(sha256(readFileSync(caseFile(base,secondary.aliasPath))),secondary.aliasSha256,'secondary alias changed');for(const[p,h]of Object.entries({...secondary.release.pins,...secondary.alias.files}))assert.equal(sha256(readFileSync(caseFile(base,p))),h,'secondary artifact changed '+p);}return freezeAppModules(entry,base,sourceLabel);};sourceCurrent();
   const completed=join(base,'public/FRESH-CORE-JOURNEY-CONFIRMED-v1.json');
   if(existsSync(completed)){
     const report=exact(completed);assert.equal(report.marketId,BigInt(reg.marketId));assert.equal(report.vaultId,BigInt(reg.vaultId));
@@ -239,7 +242,7 @@ export async function runFreshCoreAmmJourney(base,{continuationRelease}={}) {
     // Check complete saved semantics before reconciliation RPC, signer startup,
     // proof or transmission. Changed restart terms require explicit review.
     if(existsSync(planFile))assertFreshStagePlan(context,stage,terms,stagePins,exact(planFile));
-    await unresolved();reserve(name,'ordinary');const actualName=continuation&&name===ACTIVATION_ORIGINAL?continuation.replacementLabel:name;
+    await unresolved();reserve(name,'ordinary');const actualName=secondary&&name===SPONSOR_ORIGINAL?secondary.replacementLabel:continuation&&name===ACTIVATION_ORIGINAL?continuation.replacementLabel:name;
     const out=join(base,'attempts',actualName);
     if(!existsSync(planFile))save(planFile,expected);
     const unsigned=exact(planFile),id=Number(unsigned.actorId);assert.equal(unsigned.stage,stage);assert.ok(actors.has(id));
@@ -324,7 +327,7 @@ export async function runFreshCoreAmmJourney(base,{continuationRelease}={}) {
     await ordinaryStep('core-trader-assets-v1','trader_claim_assets');
     await ordinaryStep('core-activation-fund-v1','activation_funding');
     await formalStep('core-activate-v1','batch_maintenance');
-    let s=await fresh();await ordinaryStep('core-lp-open-v1','lp_open',{deadline:BigInt(s.checkpoint+4096)});
+    let s=await fresh();await ordinaryStep('core-lp-open-v1','lp_open',{deadline:secondary?.lpDeadline??BigInt(s.checkpoint+4096)});
     await ordinaryStep('core-lp-sponsor-v1','sponsor_batch',{nonce:1n});
     await formalStep('core-lp-commit-v1','batch_commit',1);await formalStep('core-lp-settle-v1','batch_settle',1);
     const lp=await snapshot('core-after-lp-v1','core-lp-settle-v1');assert.equal(lp.reserveA,20n*10n**18n);assert.equal(lp.reserveB,lp.reserveA);assert.equal(lp.totalShares,lp.reserveA);

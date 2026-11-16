@@ -1,6 +1,6 @@
 # Fresh stag AMM acceptance — 16 November 2026
 
-New QA assets **56/57**, AMM **58**, and dependency-bound SD-key vault **570752** are registered/deployed on the current stag chain. The eight allocated-bytecode complete UPS gates passed. The bounded real journey is running; real AMM settlement, its final ordinary claims and browser acceptance are not yet reported as complete.
+New QA assets **56/57**, AMM **58**, and dependency-bound SD-key vault **570752** are registered/deployed on the current stag chain. The eight allocated-bytecode complete UPS gates passed. Seven real UPSs are confirmed. The next sponsorship has one acknowledged but unresolved broadcast while stag remains at checkpoint150066; issuer nonce4 is held. Real AMM settlement, final market-output claims and browser acceptance remain incomplete. See [network progress gate and exact pending identity](STAG_BLOCK_PROGRESS_GATE_20261116.md).
 
 ## Confirmed fresh funding and deployment
 
