@@ -4,14 +4,20 @@ import assert from 'node:assert/strict';
 import {makeCorePolicy} from '../amm/u124/core-build.mjs';
 import {makeCurveCorePolicy} from '../bondingcurve/u124/core-build.mjs';
 import {makeCoreBookPolicy} from '../orderbook/u124/core-build.mjs';
+import {bindCoreDependencies} from './coreDependencyPolicy.mjs';
 
 export const CORE_PROFILE_KINDS = Object.freeze({
   'amm-core-compact-v1': 'amm',
   'curve-core-compact-v1': 'bondingcurve',
   'book-core-compact-v1': 'orderbook',
   'nft-core-compact-v1': 'nftmarket',
+  'amm-core-dependency-bound-v1': 'amm',
+  'curve-core-dependency-bound-v1': 'bondingcurve',
+  'book-core-dependency-bound-v1': 'orderbook',
+  'nft-core-dependency-bound-v1': 'nftmarket',
 });
 export const isCoreProfile = profile => Object.hasOwn(CORE_PROFILE_KINDS, profile);
+export const isDependencyBoundCoreProfile = profile => isCoreProfile(profile)&&profile.endsWith('-dependency-bound-v1');
 
 export function assertCoreRoute(options) {
   assert.ok(isCoreProfile(options.profile), 'explicit selected-order core profile required');
@@ -31,12 +37,13 @@ export async function canonicalCorePolicy(options, files, tokenAbi, otherAbi) {
   assertCoreRoute(options);
   const artifact = {state_tree_height: 31, abi: files.abi}, token = {abi: tokenAbi};
   const args = [options.contractId, files.config, artifact, token];
-  if (options.kind === 'amm') return makeCorePolicy(...args, options.chainRootAt1);
-  if (options.kind === 'bondingcurve') return makeCurveCorePolicy(...args, options.chainRootAt1);
-  if (options.kind === 'orderbook') return makeCoreBookPolicy(...args, options.chainRootAt1);
+  let base;
+  if (options.kind === 'amm') base=makeCorePolicy(...args, options.chainRootAt1);
+  else if (options.kind === 'bondingcurve') base=makeCurveCorePolicy(...args, options.chainRootAt1);
+  else if (options.kind === 'orderbook') base=makeCoreBookPolicy(...args, options.chainRootAt1);
   // The dedicated prepared-collection factory validates this exact ABI.
   // Legacy/v21 keys are never converted by this route or admitted through
   // ABI-name equivalence; a fresh key and separate acceptance are required.
-  const {makeCoreNftPolicy} = await import('../nft-marketplace/core-build.mjs');
-  return makeCoreNftPolicy(...args, {abi: otherAbi}, options.chainRootAt1);
+  else {const {makeCoreNftPolicy} = await import('../nft-marketplace/core-build.mjs');base=makeCoreNftPolicy(...args, {abi: otherAbi}, options.chainRootAt1);}
+  return isDependencyBoundCoreProfile(options.profile)?bindCoreDependencies(base,files.policy?.dependency_bindings):base;
 }

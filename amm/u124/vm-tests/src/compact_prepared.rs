@@ -36,6 +36,11 @@ pub async fn broadcast(a:&[String],spec:&Value,fp:QHashOut<F>,key:QHashOut<F>,ne
  let p:Value=serde_json::from_slice(&pb)?;let data:ContractCallData=serde_json::from_slice(&calls)?;
  ensure!(p["benchmarkSourceCheckpoint"].is_null(),"historical source calibration proofs must never be broadcast");
  ensure!(p["fullUpsVerified"]==true&&p["exactStackAndSessionVerified"]==true&&p["broadcast"]==false&&p["callsSha256"]==m.calls_sha256&&p["guardSha256"]==m.guard_sha256,"prepared full stack/session report binding");
+ if psy_template_u124_markets::dependency_scope::enabled(spec){
+  ensure!(p["keyProfile"]==psy_template_u124_markets::dependency_scope::PROFILE&&p["dependencyBindingsInCircuit"]==true&&p["chainAnchorInCircuit"]==true,
+   "prepared selected dependency key assurance missing");
+  ensure!(p["dependencyOpeningSha256"]==sha(&fs::read(source.join("dependency-opening.json"))?),"prepared public dependency opening substitution");
+ }
  let request:QSubmitEndCapRPCRequest<F>=serde_json::from_slice(&rb)?;
  let proof:ProofWithPublicInputs<F,C,D>=bincode::deserialize(&request.proof)?;
  *phase="verify-prepared-full-proof";
@@ -77,7 +82,11 @@ pub async fn broadcast(a:&[String],spec:&Value,fp:QHashOut<F>,key:QHashOut<F>,ne
  ensure!(matches!(provider.get_tx_status(user,nonce).await?,TxStatus::Submittable),"prepared nonce not submittable");
  g.identity.check_current(&provider).await?;for b in &g.dependencies{b.check(&provider).await?;}super::check_spec_chain(spec,&provider).await?;
  let end=core.state_transition.end_user_leaf_hash;
- save(&out.join("verification.json"),&json!({"fullUpsVerified":true,"exactStackAndSessionVerified":true,"preparedManifestSha256":a[7],"requestSha256":m.request_sha256,"callsSha256":m.calls_sha256,"guardSha256":m.guard_sha256,"endUserLeafHash":end.to_string(),"userId":user,"nonce":nonce,"sourceCheckpoint":source_cp,"actualCalls":expected.len(),"freshRegistration":registration,"fee":fee,"reproved":false,"broadcast":false}))?;
+ let mut verification=json!({"fullUpsVerified":true,"exactStackAndSessionVerified":true,"preparedManifestSha256":a[7],"requestSha256":m.request_sha256,"callsSha256":m.calls_sha256,"guardSha256":m.guard_sha256,"endUserLeafHash":end.to_string(),"userId":user,"nonce":nonce,"sourceCheckpoint":source_cp,"actualCalls":expected.len(),"freshRegistration":registration,"fee":fee,"reproved":false,"broadcast":false});
+ if psy_template_u124_markets::dependency_scope::enabled(spec){
+  for field in ["keyProfile","dependencyBindingsInCircuit","chainAnchorInCircuit","dependencyOpeningSha256"]{verification[field]=p[field].clone();}
+ }
+ save(&out.join("verification.json"),&verification)?;
  if a[1] == "verify-prepared" {println!("{}",json!({"preparedVerified":true,"submitted":false,"broadcast":false}));return Ok(());}
  if stream.is_some(){ensure!(spec["executor_binding"]["allow_broadcast"]==true,"instance-specific release is not enabled for financial broadcast");}
  // No signing, new nonce or new business operation. One transmission only.

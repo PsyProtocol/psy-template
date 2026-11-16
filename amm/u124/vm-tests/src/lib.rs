@@ -161,6 +161,7 @@ impl LowerKeyProbe {
 }
 
 pub mod fixed_verifier;
+pub mod dependency_scope;
 
 pub mod wallet_verification;
 pub mod wallet_verifier_export;

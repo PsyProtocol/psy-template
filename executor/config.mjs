@@ -23,7 +23,7 @@ export function validateOptions(input,base=process.cwd()){
   if(!kinds.includes(o.kind))throw Error('unsupported executor kind');
   if(o.profile!==undefined&&!['legacy','u124','nft-v3-u124','batch-v2',...compactProfiles].includes(o.profile))throw Error('unsupported amount profile');
   if(o.kind==='nftmarket'){
-    if(!['nft-v3-u124','batch-v2','nft-core-compact-v1','batch-admission-compact-v1','previous-checkpoint-seeded-v1'].includes(o.profile)||o.assetA||o.assetB)throw Error('NFT marketplace requires nft-v3-u124 profile');
+    if(!['nft-v3-u124','batch-v2','nft-core-compact-v1','nft-core-dependency-bound-v1','batch-admission-compact-v1','previous-checkpoint-seeded-v1'].includes(o.profile)||o.assetA||o.assetB)throw Error('NFT marketplace requires nft-v3-u124 profile');
     for(const key of ['policy','driverConfig'])if(typeof o[key]!=='string'||!o[key])throw Error(`path required: ${key}`);
     for(const key of ['collection','paymentToken']){
       const a=o[key];if(!a||Object.keys(a).some(k=>!['contractId','codeRoot','layoutRoot','abi'].includes(k)))throw Error(`invalid ${key} binding`);

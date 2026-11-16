@@ -5,12 +5,14 @@ import {readReviewedAbis} from '../../tests/fixtures/reviewedAbis.mjs';
 import {FRESH_CORE_AMM_STAGES,caseFile,validateFreshCoreManifest,planFreshCoreAmmStage,assertFreshEnvironment,assertFreshActorAnchor,freshApprovedActor,assertFreshStagePlan,assertFreshFormalTask,assertFreshNativeApproval} from './freshCoreAmmLive.mjs';
 import {swapQuote,FEE_ESCROW} from '../../amm/u124/client.mjs';
 import {PROFILE} from '../../batching/mainnet-beta/native.mjs';
+import {CORE_DEPENDENCY_KEY_PROFILE} from '../coreDependencyPolicy.mjs';
 
 const hash='a'.repeat(64),SDK='01b8f2b0a077367a7b9879baba1a72aea8ab5510',CLIENT='7058070057c3242b5d8b29e1a31d498aaa4202c0';
 function fixture(){
  const abi=readReviewedAbis().admission.markets.amm.artifact.abi,token=readReviewedAbis().admission.token.abi,
   config={assetA:301,assetB:302,networkMagic:'1384803358401154921'},
-  policy={version:2,market:'amm',market_id:303,chain_root_at1:hash,config,sdk_commit:SDK,client_commit:CLIENT,native_protocol:PROFILE,execution_scope:'explicit-selected-orders-v1',qualified_randomness:false,whole_market_completeness:false},
+  policy={version:2,market:'amm',market_id:303,chain_root_at1:hash,config,sdk_commit:SDK,client_commit:CLIENT,native_protocol:PROFILE,execution_scope:'explicit-selected-orders-v1',qualified_randomness:false,whole_market_completeness:false,
+   key_profile:CORE_DEPENDENCY_KEY_PROFILE,dependency_bindings:[0,301,302,303].map(contractId=>({contractId,deployer:contractId?401:0,codeRoot:hash,layoutRoot:hash,functionTreeRoot:hash,stateTreeHeight:contractId?31:32,layoutFieldCount:8,layoutSlotCount:99}))},
   reg={marketId:303,vaultId:403,chainRootAt1:hash,publicKeyHash:hash,fingerprint:hash},selected={marketId:303,chainRootAt1:hash},
   member={userId:403,registrationMembershipVerified:true},actorsFile={rows:[{userId:401,publicKeyHash:hash},{userId:402,publicKeyHash:hash}]},
   plan={createdAt:'2026-11-16T12:00:00Z',maximumWallSeconds:10800,maximumFeePsy:'60',maximumNewFullUps:20,ordinaryQaUsers:[401,402]},
@@ -39,6 +41,7 @@ test('frozen release, old identities, wider budget, missing resources and secret
   x=>x.plan.maximumNewFullUps=21,x=>x.plan.maximumFeePsy='61',x=>x.reg.vaultId=1182848,x=>x.reg.marketId=51,
   x=>x.config.assetA=49,x=>x.manifest.issuerId=971904,x=>x.manifest.traderId=668800,x=>x.member.registrationMembershipVerified=false,
   x=>x.selected.chainRootAt1='b'.repeat(64),x=>x.policy.sdk_commit='b'.repeat(40),x=>x.policy.qualified_randomness=true,
+  x=>delete x.policy.key_profile,x=>delete x.policy.dependency_bindings,x=>x.policy.key_profile='legacy',x=>x.policy.dependency_bindings[1].deployer=402,
   x=>x.actorsFile.rows.pop(),x=>x.manifest.initialActors.pop(),x=>x.manifest.initialActors[0].nonce='-1',
   x=>delete x.manifest.files[x.manifest.runtimeResources],x=>x.manifest.files['.secrets/issuer.json']=hash,
   x=>x.manifest.files['../another-case/input.json']=hash,x=>x.manifest.compactBinary='/tmp/unpinned-driver',x=>x.manifest.symbolB=x.manifest.symbolA];

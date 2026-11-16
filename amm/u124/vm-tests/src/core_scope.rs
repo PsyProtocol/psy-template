@@ -88,6 +88,7 @@ pub fn anchor(spec: &Value) -> Result<Option<QHashOut<F>>> {
     ensure!(spec["whole_market_completeness"] == false && spec["qualified_randomness"] == false,
         "explicit selected-order and unqualified-randomness boundary required");
     deterministic(spec)?; deterministic(&spec["config"])?;
+    psy_template_u124_markets::dependency_scope::validate_optional(spec)?;
     ensure!(spec["config"]["networkMagic"] == "1384803358401154921", "fixed selected core network domain");
     let market = contract(&spec["market_id"])?;
     let kind = spec["market"].as_str().context("selected core market kind")?;

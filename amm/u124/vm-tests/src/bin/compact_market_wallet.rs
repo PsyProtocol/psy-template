@@ -75,10 +75,38 @@ fn save(path: &Path, value: &impl serde::Serialize) -> Result<()> {
 fn core_anchor(spec: &Value) -> Result<Option<QHashOut<F>>> {
     core_scope::anchor(spec)
 }
+fn check_current_dependency_leaf(
+    pin: &psy_template_u124_markets::dependency_scope::DependencyPin,
+    leaf: &psy_client_data::qdata::contract::PsyContractLeaf<F>,
+) -> Result<()> {
+    ensure!(*leaf == pin.leaf()?, "current full dependency leaf changed for {}", pin.contract_id);
+    Ok(())
+}
 async fn check_spec_chain(spec: &Value, provider: &psy_provider::provider::RpcProvider) -> Result<()> {
     if let Some(expected)=core_anchor(spec)? {
         let anchor=provider.get_checkpoint_leaf_data(1).await?;
         ensure!(anchor.global_chain_root==expected,"selected core chain instance changed");
+    }
+    if psy_template_u124_markets::dependency_scope::enabled(spec) {
+        let pins=psy_template_u124_markets::dependency_scope::validate_optional(spec)?.context("current dependency-bound pins")?;
+        // A saved proof retains its original signed source checkpoint. Before
+        // every new send/reuse, independently require the full reviewed leaf
+        // at ONE currently observed checkpoint, including deployer. A latest
+        // metadata response cannot replace its same-checkpoint membership.
+        let cp=provider.get_latest_block_state().await?.checkpoint_id;
+        let (roots,checkpoint)=tokio::join!(provider.get_checkpoint_global_state_roots(cp),provider.get_checkpoint_leaf_data(cp));
+        let roots=roots?;let checkpoint=checkpoint?;
+        ensure!(roots.qfhash::<PsyHasher>()==checkpoint.global_chain_root,"current dependency checkpoint roots differ");
+        for pin in pins {
+            let (leaf,path)=tokio::join!(provider.get_contract_leaf_data(pin.contract_id),provider.get_contract_tree_merkle_proof(cp,pin.contract_id as u32));
+            let leaf=leaf?;let path=path?;
+            check_current_dependency_leaf(&pin,&leaf)?;
+            ensure!(path.index==pin.contract_id
+                && path.siblings.len()==psy_config::network_constants::GLOBAL_CONTRACT_TREE_HEIGHT as usize
+                && path.value==leaf.qfhash::<PsyHasher>()
+                && path.root==roots.contract_tree_root && path.verify::<PsyHasher>(),
+                "current full dependency membership changed for {} at checkpoint {}",pin.contract_id,cp);
+        }
     }
     Ok(())
 }
@@ -88,6 +116,23 @@ fn once_registration(spec: &Value, stream: bool) -> Result<bool> {
 #[cfg(test)]
 mod core_scope_tests {
     use super::*;
+    #[test]
+    fn current_full_leaf_rejects_deployer_only_drift() -> Result<()> {
+        // Pure leaf-comparison regression; not authenticated checkpoint or
+        // network evidence. The live guard additionally verifies membership.
+        let pin=psy_template_u124_markets::dependency_scope::DependencyPin {
+            contract_id:56,deployer:123,code_root:"1".repeat(64),layout_root:"2".repeat(64),
+            function_tree_root:"3".repeat(64),state_tree_height:31,layout_field_count:4,layout_slot_count:8,
+        };
+        let leaf=pin.leaf()?;check_current_dependency_leaf(&pin,&leaf)?;
+        let mut changed=leaf;changed.deployer=f(124);
+        ensure!(check_current_dependency_leaf(&pin,&changed).is_err(),"deployer-only drift must stop exact prepared reuse");
+        let mut changed=leaf;changed.state_layout_field_count=f(5);
+        ensure!(check_current_dependency_leaf(&pin,&changed).is_err(),"layout-count drift must stop exact prepared reuse");
+        let mut changed=leaf;changed.function_tree_root.0.elements[0]+=F::ONE;
+        ensure!(check_current_dependency_leaf(&pin,&changed).is_err(),"function-root drift must stop exact prepared reuse");
+        Ok(())
+    }
     #[test]
     fn legacy_and_stream_registration_transport_is_unchanged() -> Result<()> {
         ensure!(!once_registration(&json!({"version":2}),false)?,"legacy transport is unchanged");
@@ -176,6 +221,7 @@ async fn run(phase: &mut &'static str, composition:bool, stream:bool) -> Result<
         identity["sdkCommit"]=json!(psy_template_u124_markets::sdk_release::SDK_COMMIT);
         identity["clientCommit"]=json!(psy_template_u124_markets::sdk_release::CLIENT_COMMIT);
         identity["sdkProfile"]=json!(psy_template_u124_markets::sdk_release::PROFILE);
+        if psy_template_u124_markets::dependency_scope::enabled(&spec){identity["keyProfile"]=spec["key_profile"].clone();identity["dependencyBindingsInCircuit"]=json!(true);identity["chainAnchorInCircuit"]=json!(true);}
         if producer{identity["orderingModel"]=json!("previous-checkpoint-seeded-v1");identity["producerInfluence"]=json!(true);identity["qualifiedRandomness"]=json!(false);}println!("{identity}");
         return Ok(());
     }
@@ -479,6 +525,33 @@ async fn process_action(a:&[String],spec:&Value,fp:QHashOut<F>,hash:QHashOut<F>,
         input=runtime.bind(session,key,spec,&guard,input.session_context.clone(),&actual,
             input.tx_stack_hash,input.tx_count,input.checkpoint_id,out).await?;
     }
+    if psy_template_u124_markets::dependency_scope::enabled(spec) {
+        use psy_template_u124_markets::dependency_scope::{ContractOpening, DependencyOpening, validate_optional, witness_values};
+        // Read exactly the actual manager checkpoint. Metadata RPCs can return
+        // newer leaves; their checkpoint-scoped Merkle paths must still match
+        // every reviewed full leaf or this request stops before signing.
+        let cp = h.session_start_context.checkpoint_id.to_canonical_u64();
+        let provider = session.st_provider.with_user_id_owned(guard.identity.vault_id);
+        let mut contracts = vec![];
+        for pin in validate_optional(spec)?.context("dependency-bound policy pins")? {
+            contracts.push(ContractOpening {
+                id: pin.contract_id,
+                leaf: provider.get_contract_leaf_data(pin.contract_id).await?,
+                path: provider.get_contract_tree_merkle_proof(cp, pin.contract_id as u32).await?,
+            });
+        }
+        let opening = DependencyOpening {
+            anchor: provider.get_checkpoint_leaf_data(1).await?,
+            anchor_path: provider.get_checkpoint_tree_merkle_proof(cp, 1).await?,
+            checkpoint: provider.get_checkpoint_leaf_data(cp).await?,
+            roots: provider.get_checkpoint_global_state_roots(cp).await?, contracts,
+        };
+        input.circuit_inputs.extend(witness_values(spec, &opening,
+            h.session_start_context.checkpoint_tree_root, h.session_start_context.checkpoint_leaf_hash)?);
+        // Explicit public projection: no signature witness, private key or
+        // transaction secret is contained in this typed opening.
+        save(&out.join("dependency-opening.json"), &opening)?;
+    }
     let key_circuit = circuit.g();
     *phase = "prove-compact-session-signature";
     let signature_started = std::time::Instant::now();
@@ -544,6 +617,12 @@ async fn process_action(a:&[String],spec:&Value,fp:QHashOut<F>,hash:QHashOut<F>,
     };
     if producer{preflight["orderingModel"]=json!("previous-checkpoint-seeded-v1");preflight["producerInfluence"]=json!(true);preflight["qualifiedRandomness"]=json!(false);if fields[0]==2{preflight["producerSourceCheckpoint"]=json!(fields[3]);}}
     if circuit.stream().is_some(){preflight["streamContextSha256"]=json!(compact_prepared::sha(&fs::read(out.join("stream-context.json"))?));preflight["profile"]=json!(stream_runtime::profile(&spec));}
+    if psy_template_u124_markets::dependency_scope::enabled(spec) {
+        preflight["keyProfile"] = spec["key_profile"].clone();
+        preflight["dependencyBindingsInCircuit"] = json!(true);
+        preflight["chainAnchorInCircuit"] = json!(true);
+        preflight["dependencyOpeningSha256"] = json!(compact_prepared::sha(&fs::read(out.join("dependency-opening.json"))?));
+    }
     save(&out.join("preflight.json"), &preflight)?;
     save(&out.join("request.json"), &request)?;
     let prepared = compact_prepared::manifest(&a[2], &bytes, &guard_bytes, out)?;

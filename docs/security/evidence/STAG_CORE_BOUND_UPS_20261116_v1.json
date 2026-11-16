@@ -1,0 +1,573 @@
+{
+  "schema": 1,
+  "at": "2026-11-16T12:30:44.742Z",
+  "network": "testnet",
+  "chainRootAt1": "81bac9934a1c18579519b5297c94c7e7d25cb53973ac67befefe8b7a86f96b5c",
+  "sdkCommit": "01b8f2b0a077367a7b9879baba1a72aea8ab5510",
+  "clientCommit": "7058070057c3242b5d8b29e1a31d498aaa4202c0",
+  "identities": {
+    "market": 58,
+    "assetA": 56,
+    "assetB": 57,
+    "issuer": 1975680,
+    "trader": 1136000,
+    "vault": 570752
+  },
+  "key": {
+    "chainAnchorInCircuit": true,
+    "clientCommit": "7058070057c3242b5d8b29e1a31d498aaa4202c0",
+    "dependencyBindingsInCircuit": true,
+    "fingerprint": "44b19042b8640b5b0e97c59b7da49e0de155e79c06181a55a1b32ec64fdf7e4b",
+    "keyProfile": "selected-dependency-bound-v1",
+    "profile": "compact-v1",
+    "publicKeyHash": "be05afbe0bf56933c16cb275d26f1ed27e36f48770c1f1b9b70a2a12dff1c14c",
+    "publicKeyParam": "a92d5f86c90af2dd925d97251b4c356266e35dd07b7de574ca89fd8057462b49",
+    "sdkCommit": "01b8f2b0a077367a7b9879baba1a72aea8ab5510",
+    "sdkProfile": "sdk-audit-20261102-v1"
+  },
+  "registration": {
+    "userId": 570752,
+    "publicKeyHash": "be05afbe0bf56933c16cb275d26f1ed27e36f48770c1f1b9b70a2a12dff1c14c",
+    "checkpoint": 149361,
+    "registrationMembershipVerified": true,
+    "verificationDirectory": "registration-vault-membership-v1",
+    "networkFinalityAttested": false
+  },
+  "provisionalFullUpsPreviouslyPassed": 4,
+  "allocatedFullUps": 8,
+  "sourceSnapshot": "application-v6",
+  "broadcast": false,
+  "networkMarketSettlement": false,
+  "browserUiAccepted": false,
+  "tests": [
+    {
+      "label": "activation",
+      "fullUps": 1,
+      "outcome": {
+        "kind": "proof",
+        "label": "allocated-activation-v1",
+        "exitCode": 0,
+        "milliseconds": 345820,
+        "sampledFamilyRssKiB": 820336,
+        "stop": null,
+        "automaticRetry": false
+      },
+      "reportFile": "amm-activation.json",
+      "reportSha256": "7a85b13f2d5e5577c96c247176c3d494fd274bedf884351f3817221d310275ed",
+      "requests": [
+        {
+          "file": "amm-4-1-request.json",
+          "sha256": "f9f25fd1f6106f20bd69adab1436e9b1b8ecb9676f8a7491183050ae6fb95bd7",
+          "userId": "570752",
+          "publicKey": "be05afbe0bf56933c16cb275d26f1ed27e36f48770c1f1b9b70a2a12dff1c14c",
+          "nextNonce": "1",
+          "startLeaf": "0000000000000000000000000000000000000000000000000000000000000000",
+          "endLeaf": "fd5a36673e6d37d1a14dbf21805f3dfa139899908fbac4f1a633f7892cc6a3e3"
+        }
+      ],
+      "summary": {
+        "fullUpsVerified": true
+      },
+      "measurements": [
+        {
+          "phase": "cold-circuit-build",
+          "elapsedMs": 218775.383875
+        },
+        {
+          "phase": "maintenance",
+          "elapsedMs": 110285.38591699999,
+          "calls": 7,
+          "logicalSlots": 40,
+          "fullUpsVerified": true,
+          "publicEndpointsBound": true,
+          "exportedDeltasVerified": true,
+          "burn": 1000008000,
+          "proofBytes": 130328,
+          "firstUpsRegistration": true,
+          "startLeaf": "0000000000000000000000000000000000000000000000000000000000000000",
+          "endLeaf": "fd5a36673e6d37d1a14dbf21805f3dfa139899908fbac4f1a633f7892cc6a3e3",
+          "dependencyBinding": {
+            "actualSignedCheckpointBinding": true,
+            "dependencyCount": 4,
+            "dependencyOpeningFile": "amm-4-1-dependency-opening.json",
+            "dependencyOpeningSha256": "d7cf3fb06e0c6b58c04406928578b3cc59edbef194621fd6d10136e5ef93e635",
+            "fullLeafPinsBound": true,
+            "keyProfile": "selected-dependency-bound-v1",
+            "scope": "synthetic authenticated checkpoint proof; no live finality claim"
+          },
+          "fixedNodeVerifier": {
+            "bundledNodeVerifierFingerprint": "043e026dc674c310d8a9c529268a02619cab6f3779a74396a330c5ff0d0a5893",
+            "commonDataMatches": true,
+            "networkMagic": "1384803358401154921",
+            "profile": "sdk-audit-20261102-v1",
+            "runtimeImageAttested": false,
+            "verifierOnlyMatches": true
+          }
+        }
+      ]
+    },
+    {
+      "label": "commit-settle",
+      "fullUps": 2,
+      "outcome": {
+        "kind": "proof",
+        "label": "allocated-commit-settle-v1",
+        "exitCode": 0,
+        "milliseconds": 409769,
+        "sampledFamilyRssKiB": 821088,
+        "stop": null,
+        "automaticRetry": false
+      },
+      "reportFile": "amm.json",
+      "reportSha256": "c00e5e1ce2f67d05e3db5a22d85c8d55e3d0c8973516e0ef5d5dc69fb6d186f0",
+      "requests": [
+        {
+          "file": "amm-1-1-request.json",
+          "sha256": "5416a0b1fabdc9e3bd1654cb4cd8a6d6a9fa476162a9e7d231791361376369b1",
+          "userId": "570752",
+          "publicKey": "be05afbe0bf56933c16cb275d26f1ed27e36f48770c1f1b9b70a2a12dff1c14c",
+          "nextNonce": "4",
+          "startLeaf": "fd49634d726d0911f9bce6cd5f4d87154154c86af7471ec59e7215c1dbaed1e6",
+          "endLeaf": "4d00261a6f27e13d062df04d278066c2c168d6a60c9f3fd3ba49a3178631e12b"
+        },
+        {
+          "file": "amm-2-2-request.json",
+          "sha256": "1c8f29d55c0e7ad8a9802c44f05404a8e58934d7a71a2d317b1dac3fbd355a21",
+          "userId": "570752",
+          "publicKey": "be05afbe0bf56933c16cb275d26f1ed27e36f48770c1f1b9b70a2a12dff1c14c",
+          "nextNonce": "5",
+          "startLeaf": "4d00261a6f27e13d062df04d278066c2c168d6a60c9f3fd3ba49a3178631e12b",
+          "endLeaf": "e9941e5fc5d7634f6dc1399d216b9124c64c358fbb7ede10f0731762616e0fa8"
+        }
+      ],
+      "summary": {
+        "fills": 1,
+        "members": 1,
+        "marketCodeRoot": "b7493cacdb148ec8edb39495444024213142388f2b3a0fff0618650d1903724c"
+      },
+      "measurements": [
+        {
+          "phase": "cold-circuit-build",
+          "elapsedMs": 185257.63383399998
+        },
+        {
+          "phase": "commit",
+          "elapsedMs": 69310.2105,
+          "calls": 3,
+          "logicalSlots": 40,
+          "fullUpsVerified": true,
+          "publicEndpointsBound": true,
+          "exportedDeltasVerified": true,
+          "burn": 1000019000,
+          "proofBytes": 130328,
+          "firstUpsRegistration": false,
+          "startLeaf": "fd49634d726d0911f9bce6cd5f4d87154154c86af7471ec59e7215c1dbaed1e6",
+          "endLeaf": "4d00261a6f27e13d062df04d278066c2c168d6a60c9f3fd3ba49a3178631e12b",
+          "dependencyBinding": {
+            "actualSignedCheckpointBinding": true,
+            "dependencyCount": 4,
+            "dependencyOpeningFile": "amm-1-1-dependency-opening.json",
+            "dependencyOpeningSha256": "d0cdd89971a37ae82d47bd34c0506916444af1c5c74cdba7c23b701838f6b8bf",
+            "fullLeafPinsBound": true,
+            "keyProfile": "selected-dependency-bound-v1",
+            "scope": "synthetic authenticated checkpoint proof; no live finality claim"
+          },
+          "fixedNodeVerifier": {
+            "bundledNodeVerifierFingerprint": "043e026dc674c310d8a9c529268a02619cab6f3779a74396a330c5ff0d0a5893",
+            "commonDataMatches": true,
+            "networkMagic": "1384803358401154921",
+            "profile": "sdk-audit-20261102-v1",
+            "runtimeImageAttested": false,
+            "verifierOnlyMatches": true
+          }
+        },
+        {
+          "phase": "settle",
+          "elapsedMs": 135581.356,
+          "calls": 7,
+          "logicalSlots": 40,
+          "fullUpsVerified": true,
+          "publicEndpointsBound": true,
+          "exportedDeltasVerified": true,
+          "burn": 1000013000,
+          "proofBytes": 130328,
+          "firstUpsRegistration": false,
+          "startLeaf": "4d00261a6f27e13d062df04d278066c2c168d6a60c9f3fd3ba49a3178631e12b",
+          "endLeaf": "e9941e5fc5d7634f6dc1399d216b9124c64c358fbb7ede10f0731762616e0fa8",
+          "dependencyBinding": {
+            "actualSignedCheckpointBinding": true,
+            "dependencyCount": 4,
+            "dependencyOpeningFile": "amm-2-2-dependency-opening.json",
+            "dependencyOpeningSha256": "e8217e8b4a7199f5446694fe78d46ccbe4a9488e6369b4a00b2eebe574d6862a",
+            "fullLeafPinsBound": true,
+            "keyProfile": "selected-dependency-bound-v1",
+            "scope": "synthetic authenticated checkpoint proof; no live finality claim"
+          },
+          "fixedNodeVerifier": {
+            "bundledNodeVerifierFingerprint": "043e026dc674c310d8a9c529268a02619cab6f3779a74396a330c5ff0d0a5893",
+            "commonDataMatches": true,
+            "networkMagic": "1384803358401154921",
+            "profile": "sdk-audit-20261102-v1",
+            "runtimeImageAttested": false,
+            "verifierOnlyMatches": true
+          }
+        }
+      ]
+    },
+    {
+      "label": "recovery",
+      "fullUps": 4,
+      "outcome": {
+        "kind": "proof",
+        "label": "allocated-recovery-v1",
+        "exitCode": 0,
+        "milliseconds": 570331,
+        "sampledFamilyRssKiB": 1000640,
+        "stop": null,
+        "automaticRetry": false
+      },
+      "reportFile": "amm-recovery.json",
+      "reportSha256": "6b3b0e620e01c135d088b7eed04313a7817e918ebcd7f24317c5414f0544752b",
+      "requests": [
+        {
+          "file": "amm-1-1-request.json",
+          "sha256": "48fc19524cafdadc47b4ba17ae0694b24070c7f369a5090509092ac474d8dfea",
+          "userId": "570752",
+          "publicKey": "be05afbe0bf56933c16cb275d26f1ed27e36f48770c1f1b9b70a2a12dff1c14c",
+          "nextNonce": "4",
+          "startLeaf": "fd49634d726d0911f9bce6cd5f4d87154154c86af7471ec59e7215c1dbaed1e6",
+          "endLeaf": "29ef690a1afcc909208e3c8f09e6e3457e65e4a73cf1036ef26fc8d11b13e026"
+        },
+        {
+          "file": "amm-1-3-request.json",
+          "sha256": "11a96960f51aaa8c7704cb985d2ed053af4244d8d9eba6f5f96dd33e26ec3d2c",
+          "userId": "570752",
+          "publicKey": "be05afbe0bf56933c16cb275d26f1ed27e36f48770c1f1b9b70a2a12dff1c14c",
+          "nextNonce": "6",
+          "startLeaf": "c02b9a5f2ba8c7049c7a2292d7d0fe9243050e0d085723980660cc7f76084afc",
+          "endLeaf": "714534ac55de1c3a0da3e3a9ae76fd3a148bbe8f0d2a352dffd29cc821f9731c"
+        },
+        {
+          "file": "amm-2-4-request.json",
+          "sha256": "22e6b746dba4db55f2a237ba4e015306c97c707ab2a79145a65b143350efa2f7",
+          "userId": "570752",
+          "publicKey": "be05afbe0bf56933c16cb275d26f1ed27e36f48770c1f1b9b70a2a12dff1c14c",
+          "nextNonce": "7",
+          "startLeaf": "714534ac55de1c3a0da3e3a9ae76fd3a148bbe8f0d2a352dffd29cc821f9731c",
+          "endLeaf": "f6f122d9dc3d45890251322f254dd6fd71dc964162c6a1f1721cca86e5c2548f"
+        },
+        {
+          "file": "amm-3-2-request.json",
+          "sha256": "6dd7190120e69e0b2c5c05ebc36f83f93851f855812ad06570cef5d31aa991d8",
+          "userId": "570752",
+          "publicKey": "be05afbe0bf56933c16cb275d26f1ed27e36f48770c1f1b9b70a2a12dff1c14c",
+          "nextNonce": "5",
+          "startLeaf": "29ef690a1afcc909208e3c8f09e6e3457e65e4a73cf1036ef26fc8d11b13e026",
+          "endLeaf": "c02b9a5f2ba8c7049c7a2292d7d0fe9243050e0d085723980660cc7f76084afc"
+        }
+      ],
+      "summary": {
+        "members": 4,
+        "prematureExpiryRejected": true,
+        "failedSettlementPreservedCommit": true,
+        "terminalReplayRejected": true,
+        "allAssetsReturnedToPayers": true
+      },
+      "measurements": [
+        {
+          "phase": "cold-circuit-build",
+          "elapsedMs": 167621.693583
+        },
+        {
+          "phase": "commit",
+          "elapsedMs": 73853.38412500001,
+          "calls": 3,
+          "logicalSlots": 40,
+          "fullUpsVerified": true,
+          "publicEndpointsBound": true,
+          "exportedDeltasVerified": true,
+          "burn": 1000023000,
+          "proofBytes": 130328,
+          "firstUpsRegistration": false,
+          "startLeaf": "fd49634d726d0911f9bce6cd5f4d87154154c86af7471ec59e7215c1dbaed1e6",
+          "endLeaf": "29ef690a1afcc909208e3c8f09e6e3457e65e4a73cf1036ef26fc8d11b13e026",
+          "dependencyBinding": {
+            "actualSignedCheckpointBinding": true,
+            "dependencyCount": 4,
+            "dependencyOpeningFile": "amm-1-1-dependency-opening.json",
+            "dependencyOpeningSha256": "4b60f1d12b644e2d2da9b853cd0049fc768a5540a1964d13b970708775fb2737",
+            "fullLeafPinsBound": true,
+            "keyProfile": "selected-dependency-bound-v1",
+            "scope": "synthetic authenticated checkpoint proof; no live finality claim"
+          },
+          "fixedNodeVerifier": {
+            "bundledNodeVerifierFingerprint": "043e026dc674c310d8a9c529268a02619cab6f3779a74396a330c5ff0d0a5893",
+            "commonDataMatches": true,
+            "networkMagic": "1384803358401154921",
+            "profile": "sdk-audit-20261102-v1",
+            "runtimeImageAttested": false,
+            "verifierOnlyMatches": true
+          }
+        },
+        {
+          "phase": "expire",
+          "elapsedMs": 46541.055374999996,
+          "calls": 2,
+          "logicalSlots": 40,
+          "fullUpsVerified": true,
+          "publicEndpointsBound": true,
+          "exportedDeltasVerified": true,
+          "burn": 1000002000,
+          "proofBytes": 130328,
+          "firstUpsRegistration": false,
+          "startLeaf": "29ef690a1afcc909208e3c8f09e6e3457e65e4a73cf1036ef26fc8d11b13e026",
+          "endLeaf": "c02b9a5f2ba8c7049c7a2292d7d0fe9243050e0d085723980660cc7f76084afc",
+          "dependencyBinding": {
+            "actualSignedCheckpointBinding": true,
+            "dependencyCount": 4,
+            "dependencyOpeningFile": "amm-3-2-dependency-opening.json",
+            "dependencyOpeningSha256": "620bedcc9be70f91b8f9c3f399b5c89918f8ae9d4911127e10a460523f0dc644",
+            "fullLeafPinsBound": true,
+            "keyProfile": "selected-dependency-bound-v1",
+            "scope": "synthetic authenticated checkpoint proof; no live finality claim"
+          },
+          "fixedNodeVerifier": {
+            "bundledNodeVerifierFingerprint": "043e026dc674c310d8a9c529268a02619cab6f3779a74396a330c5ff0d0a5893",
+            "commonDataMatches": true,
+            "networkMagic": "1384803358401154921",
+            "profile": "sdk-audit-20261102-v1",
+            "runtimeImageAttested": false,
+            "verifierOnlyMatches": true
+          }
+        },
+        {
+          "phase": "commit",
+          "elapsedMs": 57253.322708,
+          "calls": 3,
+          "logicalSlots": 40,
+          "fullUpsVerified": true,
+          "publicEndpointsBound": true,
+          "exportedDeltasVerified": true,
+          "burn": 1000008000,
+          "proofBytes": 130328,
+          "firstUpsRegistration": false,
+          "startLeaf": "c02b9a5f2ba8c7049c7a2292d7d0fe9243050e0d085723980660cc7f76084afc",
+          "endLeaf": "714534ac55de1c3a0da3e3a9ae76fd3a148bbe8f0d2a352dffd29cc821f9731c",
+          "dependencyBinding": {
+            "actualSignedCheckpointBinding": true,
+            "dependencyCount": 4,
+            "dependencyOpeningFile": "amm-1-3-dependency-opening.json",
+            "dependencyOpeningSha256": "6367ca3099304e8fbb1a43fee8b2208101ae0fd51efe62776c539dafa3e1213b",
+            "fullLeafPinsBound": true,
+            "keyProfile": "selected-dependency-bound-v1",
+            "scope": "synthetic authenticated checkpoint proof; no live finality claim"
+          },
+          "fixedNodeVerifier": {
+            "bundledNodeVerifierFingerprint": "043e026dc674c310d8a9c529268a02619cab6f3779a74396a330c5ff0d0a5893",
+            "commonDataMatches": true,
+            "networkMagic": "1384803358401154921",
+            "profile": "sdk-audit-20261102-v1",
+            "runtimeImageAttested": false,
+            "verifierOnlyMatches": true
+          }
+        },
+        {
+          "phase": "settle",
+          "elapsedMs": 210256.709,
+          "calls": 23,
+          "logicalSlots": 40,
+          "fullUpsVerified": true,
+          "publicEndpointsBound": true,
+          "exportedDeltasVerified": true,
+          "burn": 1000018000,
+          "proofBytes": 130328,
+          "firstUpsRegistration": false,
+          "startLeaf": "714534ac55de1c3a0da3e3a9ae76fd3a148bbe8f0d2a352dffd29cc821f9731c",
+          "endLeaf": "f6f122d9dc3d45890251322f254dd6fd71dc964162c6a1f1721cca86e5c2548f",
+          "dependencyBinding": {
+            "actualSignedCheckpointBinding": true,
+            "dependencyCount": 4,
+            "dependencyOpeningFile": "amm-2-4-dependency-opening.json",
+            "dependencyOpeningSha256": "e5715068eb65d1896f059014d4ef6fb148ff47177eb3cff397b1f336a7a78469",
+            "fullLeafPinsBound": true,
+            "keyProfile": "selected-dependency-bound-v1",
+            "scope": "synthetic authenticated checkpoint proof; no live finality claim"
+          },
+          "fixedNodeVerifier": {
+            "bundledNodeVerifierFingerprint": "043e026dc674c310d8a9c529268a02619cab6f3779a74396a330c5ff0d0a5893",
+            "commonDataMatches": true,
+            "networkMagic": "1384803358401154921",
+            "profile": "sdk-audit-20261102-v1",
+            "runtimeImageAttested": false,
+            "verifierOnlyMatches": true
+          }
+        }
+      ]
+    },
+    {
+      "label": "ordinary-claim",
+      "fullUps": 1,
+      "outcome": {
+        "kind": "proof",
+        "label": "allocated-ordinary-claim-v1",
+        "exitCode": 0,
+        "milliseconds": 158854,
+        "sampledFamilyRssKiB": 1025504,
+        "stop": null,
+        "automaticRetry": false
+      },
+      "reportFile": "REPORT.json",
+      "reportSha256": "6317eee8cd8de01412a57191157763260e6a87f9f0c7e2f034dd62915babaf02",
+      "requests": [
+        {
+          "file": "amm-request.json",
+          "sha256": "4ec1aa83f37900fc5a32f9bb21c5527289bcfe9fecbcb7fdde96c1c343432335",
+          "userId": "201",
+          "publicKey": "140712d3db41ecf58f69645e44afcefd84be8da95079033b3bf71c0c03013e93",
+          "nextNonce": "1",
+          "startLeaf": "b4b4aafaf49e32e928cd8e7d235260eb35bfd911527a12ccbe8824094a463573",
+          "endLeaf": "ba940096b588012ef47ec065fa77553ad9f6c316a7fd1a0576fb0fd6be41d45e"
+        }
+      ],
+      "summary": {},
+      "measurements": [],
+      "ordinaryClaim": [
+        {
+          "userId": 201,
+          "action": "claim",
+          "fullUpsVerified": true,
+          "ordinarySignature": true,
+          "corruptProofRejected": true,
+          "referenceBytecodeStateMatched": true,
+          "actualFee": 1000004000,
+          "elapsedMilliseconds": 154961.285416,
+          "rejectedMetadata": [
+            "nonce",
+            "signer",
+            "checkpoint",
+            "start-root",
+            "end-root",
+            "fees",
+            "call-count"
+          ],
+          "requestSha256": "4ec1aa83f37900fc5a32f9bb21c5527289bcfe9fecbcb7fdde96c1c343432335",
+          "startUserLeafHash": "b4b4aafaf49e32e928cd8e7d235260eb35bfd911527a12ccbe8824094a463573",
+          "endUserLeafHash": "ba940096b588012ef47ec065fa77553ad9f6c316a7fd1a0576fb0fd6be41d45e"
+        }
+      ]
+    }
+  ],
+  "attacks": [
+    {
+      "case": "wrong-root",
+      "level": "host opening validation; not a circuit rejection proof",
+      "rejected": true
+    },
+    {
+      "case": "wrong-code",
+      "level": "host opening validation; not a circuit rejection proof",
+      "rejected": true
+    },
+    {
+      "case": "wrong-layout",
+      "level": "host opening validation; not a circuit rejection proof",
+      "rejected": true
+    },
+    {
+      "case": "wrong-function",
+      "level": "host opening validation; not a circuit rejection proof",
+      "rejected": true
+    },
+    {
+      "case": "wrong-checkpoint",
+      "level": "host opening validation; not a circuit rejection proof",
+      "rejected": true
+    },
+    {
+      "case": "wrong-domain",
+      "level": "host opening validation; not a circuit rejection proof",
+      "rejected": true
+    },
+    {
+      "case": "missing-dependency",
+      "level": "host opening validation; not a circuit rejection proof",
+      "rejected": true
+    },
+    {
+      "case": "anchor-leaf-commitment",
+      "level": "SD-key circuit constraint rejection; no invalid UPS broadcast",
+      "rejected": true
+    },
+    {
+      "case": "current-global-roots",
+      "level": "SD-key circuit constraint rejection; no invalid UPS broadcast",
+      "rejected": true
+    },
+    {
+      "case": "current-checkpoint-stats",
+      "level": "SD-key circuit constraint rejection; no invalid UPS broadcast",
+      "rejected": true
+    },
+    {
+      "case": "pinned-full-contract-leaf",
+      "level": "SD-key circuit constraint rejection; no invalid UPS broadcast",
+      "rejected": true
+    },
+    {
+      "case": "signature-domain",
+      "level": "exact SDK signature-preimage guard rejection",
+      "rejected": true
+    },
+    {
+      "case": "missing-metadata-field",
+      "level": "exact witness-shape guard rejection",
+      "rejected": true
+    }
+  ],
+  "boundary": "Seven SD-key UPSs use actual allocated contract/vault/deployer pins in synthetic authenticated checkpoints. The ordinary claim uses synthetic signer 201 and a seeded outbox. Real network settlement and actual trader claims remain separate gates. Observed checkpoint roots are not independently certified finality.",
+  "originalReportLabelNote": "Activation executed report says 40-call; authoritative fields are 40 logical policy slots and seven actual calls. Future label clarified without overwriting original.",
+  "applicationV7": {
+    "build": {
+      "exitCode": 0,
+      "milliseconds": 77618,
+      "sampledFamilyRssKiB": 755488,
+      "stop": null,
+      "sdkSourceFilesVerified": 2759,
+      "financialOperations": 0,
+      "command": [
+        "cargo",
+        "+nightly-2025-09-20",
+        "build",
+        "--offline",
+        "--locked",
+        "--release",
+        "--features",
+        "sdk-audit-v1",
+        "--bin",
+        "compact_market_wallet"
+      ]
+    },
+    "identity": {
+      "at": "2026-11-16T12:31:28.950Z",
+      "identity": {
+        "chainAnchorInCircuit": true,
+        "clientCommit": "7058070057c3242b5d8b29e1a31d498aaa4202c0",
+        "dependencyBindingsInCircuit": true,
+        "fingerprint": "44b19042b8640b5b0e97c59b7da49e0de155e79c06181a55a1b32ec64fdf7e4b",
+        "keyProfile": "selected-dependency-bound-v1",
+        "profile": "compact-v1",
+        "publicKeyHash": "be05afbe0bf56933c16cb275d26f1ed27e36f48770c1f1b9b70a2a12dff1c14c",
+        "publicKeyParam": "a92d5f86c90af2dd925d97251b4c356266e35dd07b7de574ca89fd8057462b49",
+        "sdkCommit": "01b8f2b0a077367a7b9879baba1a72aea8ab5510",
+        "sdkProfile": "sdk-audit-20261102-v1"
+      },
+      "exactIdentityUnchanged": true,
+      "circuitSourceUnchanged": true,
+      "currentMetadataFreshnessGuardBuilt": true,
+      "negativeFreshLeafUnitExecuted": false
+    },
+    "binarySha256": "8076b447d4a45d762cb264bc59cf00d61672ae76f59d98cee5219ca551adda26"
+  },
+  "performanceScope": "Gate timings on a shared workstation, including cold resources and interference; no matched comparison, chain TPS, p95 or physical-memory claim",
+  "rawArchives": "Original requests/proofs/openings are retained in the protected local case, not duplicated into Git"
+}

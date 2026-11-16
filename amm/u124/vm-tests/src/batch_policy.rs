@@ -38,6 +38,7 @@ pub(crate) fn build_with_profile(spec:&Value,compact:bool)->Result<SDKeyCircuitG
 // Separate application key; never changes the fingerprint of base market keys.
 pub(crate) fn build_composition_profile(spec:&Value)->Result<SDKeyCircuitGadget>{build_profile(spec,true,true)}
 fn build_profile(spec:&Value,compact:bool,composition:bool)->Result<SDKeyCircuitGadget>{validate(spec)?;
+ ensure!(!crate::dependency_scope::enabled(spec)||(compact&&!composition),"dependency-bound selected key requires compact non-composition profile");
  let mut b=CircuitBuilder::<F,2>::new(CircuitConfig::standard_recursion_config());let cfg=SDKeyConfig{num_introspectable_transactions:COUNT as u32,can_read_state:false,contract_state_tree_height:MAX_CONTRACT_STATE_TREE_HEIGHT,requires_secp256k1:false,num_secp256k1_slots:0};
  let mut g=if compact {crate::batch_compact::add_virtual_to(&mut b,&cfg,spec)?}else{SDKeyCircuitGadget::add_virtual_to(&mut b,&cfg,WIDTH)};
  // Fail to compile against older SDKs whose generic key does not expose the
@@ -97,6 +98,7 @@ fn build_profile(spec:&Value,compact:bool,composition:bool)->Result<SDKeyCircuit
  }
  let always=b._true();bind(&mut b,always,&slots[COUNT-1],&spec["burn"],&f)?;
  let mut valid_fee=b._false();for n in 0..=100{let v=chosen(&mut b,f[73],1_000_000_000+1000*n);valid_fee=b.or(valid_fee,v);}b.assert_one(valid_fee.target);
+ crate::dependency_scope::append_constraints(&mut b,&mut g,spec)?;
  g.build_circuit(b)?;Ok(g)
 }
 

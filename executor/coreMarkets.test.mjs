@@ -21,7 +21,7 @@ const h='a'.repeat(64),anchor='ab'.repeat(32),SDK='01b8f2b0a077367a7b9879baba1a7
 const profileFor=kind=>Object.keys(CORE_PROFILE_KINDS).find(p=>CORE_PROFILE_KINDS[p]===kind);
 const fixtureAbis=readReviewedAbis().admission;
 const write=async(p,v)=>{await writeFile(p,typeof v==='string'?v:losslessJson(v)+'\n');return p;};
-async function fixture(kind,exercise){
+async function fixture(kind,exercise,{bound=false}={}){
  const directory=await mkdtemp(join(tmpdir(),'psy-core-market-route-'));let adapter;
  try{
   const historical=structuredClone(fixtureAbis.markets[kind]);
@@ -36,7 +36,7 @@ async function fixture(kind,exercise){
    nft.contract.methods.push({name:'prepare_account',method_id:1475740684,input_felt_count:0,output_felt_count:0,state_mutability:'external',inputs:[],outputs:[]});
   }
   const driverBytes='reviewed core driver double '+directory;
-  const profile=profileFor(kind),assetIds=kind==='nftmarket'?[config.tokenId,config.nftId]:[config.assetA,config.assetB];
+  const profile=bound?Object.keys(CORE_PROFILE_KINDS).find(p=>CORE_PROFILE_KINDS[p]===kind&&p.endsWith('-dependency-bound-v1')):profileFor(kind),assetIds=kind==='nftmarket'?[config.tokenId,config.nftId]:[config.assetA,config.assetB];
   const asset=id=>({contractId:id,codeRoot:h,layoutRoot:h,abi:join(directory,id===config.nftId?'nft.json':'token.json')});
   const raw={kind,profile,network:'testnet',testnetProfile:'sdk-audit-20261102-v1',chainRootAt1:anchor,
    contractId:1000,vaultId:100,publicKeyHash:h,fingerprint:h,codeRoot:h,layoutRoot:h,
@@ -48,6 +48,7 @@ async function fixture(kind,exercise){
    ...(kind==='nftmarket'?{paymentToken:asset(assetIds[0]),collection:asset(assetIds[1])}:{assetA:asset(assetIds[0]),assetB:asset(assetIds[1])})};
   await write(join(directory,'token.json'),token);await write(join(directory,'nft.json'),nft);
   const options=validateOptions(raw),files={abi,config};
+  if(bound)files.policy={dependency_bindings:[0,...assetIds,1000].sort((a,b)=>a-b).map(contractId=>({contractId,deployer:contractId?2:0,codeRoot:h,layoutRoot:h,functionTreeRoot:h,stateTreeHeight:contractId===0?32:contractId===config.nftId?30:31,layoutFieldCount:1,layoutSlotCount:1}))};
   files.policy=await canonicalCorePolicy(options,files,token,nft);await write(options.policy,files.policy);
   const dependencies=[0,...assetIds,1000].map(contractId=>({contract:{contractId,codeRoot:h,layoutRoot:h,stateTreeHeight:contractId===0?32:contractId===config.nftId?30:31},functionTreeRoot:h,layoutFieldCount:1,layoutSlotCount:1}));
   await write(options.dependencyBindings,dependencies);
@@ -57,12 +58,12 @@ async function fixture(kind,exercise){
   let chain=anchor,head=100,nonce=0,proofs=0,sends=0,included=false,driverCalls=0;
   const state={networkName:'testnet',get checkpoint(){return head;},network:{magic:config.networkMagic,users_per_realm:1048576,realm_configs:[{id:0,rpc_url:['https://r0.test']}],coordinator_configs:[{rpc_url:['https://c.test']}]},coordinator:'https://c.test',
    slot:async(u,c,o)=>{seen.push(u);return values.get(`${u}:${c}:${o}`)??0n;},
-   contractLeaf:async id=>{const d=dependencies.find(x=>x.contract.contractId===id);return{code_root:d.contract.codeRoot,state_layout_root:d.contract.layoutRoot,state_tree_height:d.contract.stateTreeHeight,function_tree_root:d.functionTreeRoot,state_layout_field_count:d.layoutFieldCount,state_layout_slot_count:d.layoutSlotCount};},
+   contractLeaf:async id=>{const d=dependencies.find(x=>x.contract.contractId===id);return{deployer:id?2:0,code_root:d.contract.codeRoot,state_layout_root:d.contract.layoutRoot,state_tree_height:d.contract.stateTreeHeight,function_tree_root:d.functionTreeRoot,state_layout_field_count:d.layoutFieldCount,state_layout_slot_count:d.layoutSlotCount};},
    userIds:async()=>[100],contractStateRoot:async()=>'1'.repeat(64),
    rpc:async(_url,method,args)=>{if(method==='psy_get_checkpoint_leaf_data'){assert.deepEqual(args,{checkpoint_id:1});return{global_chain_root:chain};}if(method==='psy_get_user_leaf_data')return{nonce,public_key:h};if(method==='psy_get_user_tree_leaf_hash')return'0'.repeat(64);throw Error('unexpected mock RPC '+method);}};
   const runDriver=async(_binary,args)=>{
    driverCalls++;
-   if(args[0]==='identity')return{stdout:JSON.stringify({profile:'compact-v1',fingerprint:h,publicKeyHash:h,sdkProfile:'sdk-audit-20261102-v1',sdkCommit:SDK,clientCommit:CLIENT})};
+   if(args[0]==='identity')return{stdout:JSON.stringify({profile:'compact-v1',fingerprint:h,publicKeyHash:h,sdkProfile:'sdk-audit-20261102-v1',sdkCommit:SDK,clientCommit:CLIENT,...(bound?{keyProfile:'selected-dependency-bound-v1',dependencyBindingsInCircuit:true,chainAnchorInCircuit:true}:{})})};
    assert.equal(args[0],'preflight');proofs++;const out=args[5];await mkdir(out);
    const pre={fullUpsVerified:true,exactStackAndSessionVerified:true,broadcast:false,callsSha256:sha256(await readFile(args[3])),guardSha256:sha256(await readFile(args[4])),core:{checkpoint_id:BigInt(head),new_user_leaf:{user_id:100n,public_key:h,nonce:BigInt(nonce)+1n},state_transition:{start_user_leaf_hash:'0'.repeat(64),end_user_leaf_hash:'2'.repeat(64)}}};
    await write(join(out,'preflight.json'),pre);await write(join(out,'request.json'),{user_ec_input:{core:pre.core}});
@@ -153,6 +154,12 @@ for(const earlierExpired of [false,true])test('nftmarket: one listing has one bu
 }));
 
 for(const kind of ['bondingcurve','orderbook','nftmarket']){
+ test(kind+': new dependency-bound formal route refuses current deployer drift before any proof (mock I/O)',()=>fixture(kind,async x=>{
+  assert.equal(x.files.policy.key_profile,'selected-dependency-bound-v1');assert.ok(x.options.profile.endsWith('-dependency-bound-v1'));
+  assert.equal((await x.adapter.scan()).action,null);const leaf=x.state.contractLeaf,before=x.driverCalls;
+  x.state.contractLeaf=async id=>({...await leaf(id),deployer:id===1000?3:id?2:0});
+  await assert.rejects(x.adapter.scan(),/full dependency leaf changed/);assert.equal(x.driverCalls,before);assert.equal(x.proofs,0);assert.equal(x.sends,0);
+ },{bound:true}));
  test(kind+': exact selected core config refuses wrong kind/release/scope before work',()=>fixture(kind,async x=>{
   assert.equal(x.options.profile,profileFor(kind));assert.equal(x.options.admissionPlan,undefined);
   for(const change of [{kind:'amm'},{network:'sepolia'},{testnetProfile:'mainnet-beta-20261027-v1'},{chainRootAt1:'0'.repeat(64)},{admissionPlan:'global.json'},{usersFile:'universe.json'},{users:[1,2,3,4,5]},{producerSeedAcknowledgement:'producer-may-bias-v1'}])assert.throws(()=>validateOptions({...x.raw,...change}));

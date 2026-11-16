@@ -12,6 +12,7 @@ import {createPublicWalletAdapter} from '../publicWalletAdapter.mjs'; import {va
 import {ExecutionJournal} from '../journal.mjs'; import {sha256} from '../requestBinding.mjs';
 import {latestBroadcastOutcome} from './attemptOutcome.mjs'; import {freezeAppModules} from './sourceClosure.mjs';
 import {planCoreAmmStage} from './coreAmmJourney.mjs';
+import {requireCoreDependencyPolicy,assertCoreDependencyEvidence} from '../coreDependencyPolicy.mjs';
 
 const SDK='01b8f2b0a077367a7b9879baba1a72aea8ab5510',CLIENT='7058070057c3242b5d8b29e1a31d498aaa4202c0';
 export const FRESH_CORE_AMM_STAGES=Object.freeze([
@@ -47,6 +48,8 @@ export function validateFreshCoreManifest({manifest:m,plan,reg,selected,member,a
  assert.equal(policy.market,'amm');assert.equal(policy.version,2);assert.equal(policy.execution_scope,'explicit-selected-orders-v1');
  assert.equal(policy.qualified_randomness,false);assert.equal(policy.whole_market_completeness,false);
  assert.equal(policy.sdk_commit,SDK);assert.equal(policy.client_commit,CLIENT);assert.deepEqual(policy.config,config);
+ requireCoreDependencyPolicy(policy);
+ for(const row of policy.dependency_bindings.filter(row=>[config.assetA,config.assetB,reg.marketId].includes(row.contractId)))assert.equal(row.deployer,issuerId,'fresh issuer must own all QA/market dependencies');
  assert.equal(config.networkMagic,'1384803358401154921');
  assert.ok(Array.isArray(actorsFile.rows)&&actorsFile.rows.length===2);
  assert.deepEqual(actorsFile.rows.map(v=>v.userId).sort((a,b)=>a-b),[issuerId,traderId].sort((a,b)=>a-b));
@@ -188,7 +191,7 @@ export async function runFreshCoreAmmJourney(base) {
   };
   const asset=id=>{const b=bindings.get(id).contract;return {contractId:id,codeRoot:b.codeRoot,layoutRoot:b.layoutRoot,abi:join(root,id===c.assetA?'asset-a-abi.json':'asset-b-abi.json')};};
   const marketBinding=bindings.get(reg.marketId).contract;
-  const options=validateOptions({kind:'amm',profile:'amm-core-compact-v1',network:'testnet',testnetProfile:env.PSY_MARKET_TESTNET_PROFILE,
+  const options=validateOptions({kind:'amm',profile:'amm-core-dependency-bound-v1',network:'testnet',testnetProfile:env.PSY_MARKET_TESTNET_PROFILE,
     chainRootAt1:reg.chainRootAt1,contractId:reg.marketId,vaultId:reg.vaultId,publicKeyHash:reg.publicKeyHash,fingerprint:reg.fingerprint,
     codeRoot:marketBinding.codeRoot,layoutRoot:marketBinding.layoutRoot,wallet:binary,walletSha256:pins.compact_market_wallet,rpcConfig:config,
     abi:join(root,'abi.json'),driverConfig:join(root,'config.json'),policy:join(root,'policy.json'),dependencyBindings:join(root,'dependencies.json'),
@@ -272,6 +275,7 @@ export async function runFreshCoreAmmJourney(base) {
     assert.equal(sha256(readFileSync(join(out,'request.json'))),manifest.requestSha256);assert.equal(sha256(readFileSync(join(out,'preflight.json'))),manifest.preflightSha256);
     assert.deepEqual(exact(join(out,'request.json')).user_ec_input.core,pre.core);
     assert.equal(pre.fullUpsVerified,true);assert.equal(pre.exactStackAndSessionVerified,true);
+    assertCoreDependencyEvidence(pre,{openingBytes:readFileSync(join(out,'dependency-opening.json'))});
     const row={stage:name,type:'formal-core',request:join(out,'request.json'),preflight:join(out,'preflight.json'),included:reportFile,fee:auditReceipt(report.result,pre)};
     for(const role of ['request','preflight','included'])row[role+'Sha256']=sha256(readFileSync(row[role]));outputs.push(row);
     console.log('CORE_INCLUDED',name,String(report.result.checkpoint));
