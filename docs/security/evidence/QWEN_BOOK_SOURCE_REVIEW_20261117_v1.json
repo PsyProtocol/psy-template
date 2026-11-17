@@ -1,0 +1,32 @@
+{
+  "model": "qwen4-max",
+  "baseCommit": "9a38a40838e368f736badf01f4a7dd6262b1bc8d",
+  "qwenElapsedSeconds": 419.289,
+  "qwenReportedFindings": 3,
+  "acceptedSourceCorrections": 2,
+  "rejectedFinding": "Market ID already reaches user()/integer(), which rejects non-BigInt inputs. Removed redundant guard. Retained regression.",
+  "originalCandidateHostTests": {
+    "passed": 9,
+    "failed": 0
+  },
+  "reviewedHostTests": {
+    "passed": 9,
+    "failed": 0
+  },
+  "baselineNewRegressions": {
+    "passed": 1,
+    "failed": 2
+  },
+  "scope": "Unsigned host acceptance plan only; no bytecode/full UPS/network/UI acceptance",
+  "automaticMerge": false,
+  "financialOperations": false,
+  "files": [
+    "executor/acceptance/coreBookJourneyPlan.mjs",
+    "executor/acceptance/coreBookJourneyPlan.test.mjs"
+  ],
+  "reviewedSha256": {
+    "executor/acceptance/coreBookJourneyPlan.mjs": "49444d0aa5d2815568c8904b2e9c2a670c693a9dc20ef092e7013825c37b8669",
+    "executor/acceptance/coreBookJourneyPlan.test.mjs": "d72eda18037d07996f41230ff0efb9c86b14dc05f3041bb78f62fe46d35976d8"
+  },
+  "mainRepositoryIntegration": "Not merged, committed, pushed, deployed or financially accepted."
+}

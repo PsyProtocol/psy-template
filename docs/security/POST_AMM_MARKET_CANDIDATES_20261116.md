@@ -23,3 +23,19 @@ Seventeen calldata words fit the frozen SDK's source-level128-word limit. That i
 Existing factory/client rejects the new ABI, so NFT purchase writes remain closed. Required follow-up: actual compiler/selector/foreign-read audit, new versioned factory/client/key/resources, adversarial full-field bytecode tests, complete UPS suite and separately budgeted real sale/refund/claim acceptance.
 
 No UI expansion, dependency switch, Node edit, production market mechanism change, old-contract update or financial execution is included in these candidates. Source/host results are reported separately from actual network acceptance.
+
+## Qwen source-only continuation — 17 November 2026
+
+An external `qwen4-max` task via the existing Qwen API and Aider completed in419.289seconds against an isolated public-source copy of9a38a40. Its allowlist contained only `executor/acceptance/coreBookJourneyPlan.mjs` and its test. There were no unexpected edits or financial operations. The harness ran the original candidate's nine host tests successfully.
+
+Root review accepted two candidate corrections: detach selected/retained owner arrays across stages, and use BigInt cancel directions consistently with amount/call fields. Qwen's third finding was inaccurate: the existing `user()`/`integer()` path already rejects non-BigInt market IDs. The reviewed copy removes that redundant guard while retaining rejection coverage. Against the original source, the two new defect regressions fail and the existing type-rejection regression passes; the reviewed copy passes all nine host tests.
+
+Status: **reviewed isolated candidate only; not merged, committed, pushed, deployed or network-accepted**. Main source remains unchanged. Full bytecode, SD-key, complete UPS, network trade, refunds and ordinary-wallet claims remain unverified for this candidate. The issuer's unknown nonce4 broadcast remains held; no replay, replacement, signing, faucet, proving or financial execution occurred. Aider emitted a shutdown summarizer warning after applying edits; its main task and the independent host test command exited0. This warning is retained in the raw external-task log, not treated as proof of continued autonomous operation.
+
+[Compact reviewed evidence](evidence/QWEN_BOOK_SOURCE_REVIEW_20261117_v1.json) records the accepted/rejected findings, test results and reviewed file hashes. Raw Qwen chat/logs and reviewed source remain outside Git in the uniquely named `psy-qwen-market-continuation-20261117-v1` task directory. This was one completed bounded task, not an ongoing four-market execution loop.
+
+## Root-reviewed Book integration — 17 November 2026
+
+Following the isolated-candidate review recorded above, root manually integrated the two accepted changes into the current source branch. The inaccurate market-ID finding was excluded; existing rejection remains covered. No Qwen artifact was overwritten. The focused journey, client and builder host suites pass21/21 (0failed), including both new regressions that fail on the original source. Owner-array independence prevents one stage's review metadata from mutating another stage; BigInt side metadata now matches ordinary call amounts and direction comparisons. This does not make returned plan objects globally immutable or replace submission-time reconstruction.
+
+[Integration evidence](evidence/QWEN_BOOK_SOURCE_INTEGRATION_20261117_v1.json) records the exact test command, counts and source digests. These are source/host corrections only: no Book bytecode, SD-key, full UPS, deployment, network trade, refund or ordinary-wallet claim is accepted here. Financial execution remains held; no broadcast, replay, replacement or funding action occurred. The earlier “isolated candidate only” paragraph records the preceding review state and is retained as history.

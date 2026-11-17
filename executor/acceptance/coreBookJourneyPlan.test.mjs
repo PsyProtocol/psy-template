@@ -140,3 +140,41 @@ test('reused whole-order constructor preserves nonzero U124 high limbs and rejec
   for (const change of [{amount: 1n << 124n}, {minimum: 1n << 124n}, {amount: Number(amount)}, {minimum: 0n}])
     assert.throws(() => orderbookSellCalls(c.policy, {...args, ...change}));
 });
+
+test('formal stages own their selected-owner and retained-owner arrays', () => {
+  const p = build(fixture());
+  const commit = p.stages.find(stage => stage.label === 'book-match-commit-v1');
+  const settle = p.stages.find(stage => stage.label === 'book-match-settle-v1');
+  const carry = p.stages.find(stage => stage.label === 'book-mismatch-carry-v1');
+  const refund = p.stages.find(stage => stage.label === 'book-refund-settle-v1');
+  assert.deepEqual(commit.selectedOwners, [201n, 202n]);
+  commit.selectedOwners.push(999n);
+  assert.deepEqual(settle.selectedOwners, [201n, 202n], 'stages must not share one mutable owner array');
+  assert.deepEqual(refund.selectedOwners, [201n, 202n]);
+  assert.deepEqual(carry.expectedOutcome.legallyRetained, [201n, 202n]);
+  carry.expectedOutcome.legallyRetained.length = 0;
+  assert.deepEqual(carry.selectedOwners, [201n, 202n]);
+  assert.deepEqual(settle.selectedOwners, [201n, 202n]);
+});
+
+test('cancel stages carry bigint sides consistent with their refund claim and close', () => {
+  const p = build(fixture());
+  for (const [role, side] of [['seller', 0n], ['buyer', 1n]]) {
+    const cancel = p.stages.find(stage => stage.label === `book-${role}-cancel-v1`);
+    assert.equal(cancel.side, side, 'plan numeric fields stay bigint');
+    assert.equal(cancel.orderNonce, 2n);
+    const claim = p.stages.find(stage => stage.label === `book-${role}-refund-claim-close-v1`);
+    assert.equal(claim.contract_calls.at(-1).method_name, `close_${side}`);
+    assert.equal(claim.contract_calls[0].contract_id, BigInt(p.assets[side ? 1 : 0].contractId));
+    assert.deepEqual(claim.expectedQaDeltas, side ? [0n, U] : [U, 0n]);
+  }
+});
+
+test('market id must be an explicit bigint, not a coercible number or string', () => {
+  for (const marketId of [1000, '1000']) {
+    const c = fixture(); c.marketId = marketId;
+    assert.throws(() => build(c), /bounded BigInt required/);
+  }
+  const reserved = fixture(); reserved.marketId = 4n;
+  assert.throws(() => build(reserved));
+});

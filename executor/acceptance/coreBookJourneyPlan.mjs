@@ -70,7 +70,7 @@ function sponsor(c, label, nonce) {
 }
 function formal(c, label, action, selectedOwners, outcome) {
   return {label, kind: 'formal-core', actorId: c.vault.userId, publicKeyHash: c.vault.publicKeyHash,
-    fingerprint: c.vault.fingerprint, expectedAction: action, selectedOwners,
+    fingerprint: c.vault.fingerprint, expectedAction: action, selectedOwners: [...selectedOwners],
     expectedOutcome: outcome, reconstructFromAuthenticatedCurrentState: true,
     // Calls/witnesses must come from the existing formal reader/driver, not this plan.
     requireFullUps: true, requireExactStackAndSession: true, requireDependencyOpening: true};
@@ -107,8 +107,8 @@ export function buildCoreBookAcceptancePlan(context, {deadline}) {
   add(open(c, c.buyer, 1n, CORE_BOOK_UNIT, 2n, deadline, 'book-mismatch-buyer-open-v1'));
   add(sponsor(c, 'book-mismatch-sponsor-v1', 2n));
   add(formal(c, 'book-mismatch-commit-v1', 'batch_commit', owners, {orderNonces: [2n, 2n]}));
-  add(formal(c, 'book-mismatch-carry-v1', 'batch_settle', owners, {matches: [], refunds: [], legallyRetained: owners}));
-  for (const [role, side] of [['seller', 0], ['buyer', 1]]) add(ordinary(c, `book-${role}-cancel-v1`, c[role],
+  add(formal(c, 'book-mismatch-carry-v1', 'batch_settle', owners, {matches: [], refunds: [], legallyRetained: [...owners]}));
+  for (const [role, side] of [['seller', 0n], ['buyer', 1n]]) add(ordinary(c, `book-${role}-cancel-v1`, c[role],
     [orderbookCancelCall(c.policy, {marketId: c.marketId, marketAbi: c.marketAbi,
       vaultId: c.vault.userId, config: c.config})], {orderNonce: 2n, side}));
   add(sponsor(c, 'book-refund-sponsor-v1', 3n));
@@ -116,7 +116,7 @@ export function buildCoreBookAcceptancePlan(context, {deadline}) {
   add(formal(c, 'book-refund-settle-v1', 'batch_settle', owners,
     {matches: [], refunds: [{owner: c.seller.userId, a: CORE_BOOK_UNIT, b: 0n, native: FEE_ESCROW, nonce: 2n},
       {owner: c.buyer.userId, a: 0n, b: CORE_BOOK_UNIT, native: FEE_ESCROW, nonce: 2n}]}));
-  for (const [role, side] of [['seller', 0], ['buyer', 1]]) add(ordinary(c, `book-${role}-refund-claim-close-v1`, c[role],
+  for (const [role, side] of [['seller', 0n], ['buyer', 1n]]) add(ordinary(c, `book-${role}-refund-claim-close-v1`, c[role],
     [assetCall(c, side, 'claim', [c.vault.userId]), nativeClaim(c), bookCall(c, `close_${side}`)],
     {expectedQaDeltas: side ? [0n, CORE_BOOK_UNIT] : [CORE_BOOK_UNIT, 0n], expectedNativeOutboxDelta: FEE_ESCROW}));
   assert.equal(stages.length, 22);
