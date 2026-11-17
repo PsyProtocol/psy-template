@@ -1,0 +1,38 @@
+{
+  "scope": "Historical AMM host recovery runners only",
+  "corrections": [
+    "Canonical full unsigned plan comparison before ordinary wallet use in both runners",
+    "Missing original plan plus existing attempt/input stops without reconstruction",
+    "Original attempt reconciliation retained; changed deadlines/observations stop for review",
+    "Removed eager formal warm; prove() retains lazy resident acquisition and resource checks"
+  ],
+  "hostFocusedTests": {
+    "passed": 18,
+    "failed": 0
+  },
+  "unverified": [
+    "Current stag trade/refund/ordinary-wallet claim",
+    "Native/full UPS validation of these runner changes",
+    "Fee-exhaustion recovery liveness",
+    "Performance impact of lazy warming"
+  ],
+  "unknownBroadcast": "Current issuer 1975680 nonce4 remains held and unresolved; not inspected or replayed in this source round",
+  "filesSha256": {
+    "executor/acceptance/coreAmmJourney.mjs": "de0b6b3c3f27ee0f906e6844c3d84163a056766521dd37483c1a2fce6687f5c1",
+    "executor/acceptance/coreAmmJourney.test.mjs": "3ef2678e01c4e6566c750d09cbf18ab4421e83ca30750d4afcacdf477a06a90d",
+    "executor/acceptance/coreAmmLive.mjs": "e85f6e8ca1b001935a3c356ec2162784a803ba3614c5c59b93b2a67020cc3370",
+    "executor/acceptance/coreAmmRecoveryLive.mjs": "8a2885ae6f805fd36b6540371fe8b387f0d46ea51b7f6c4cf68ba81c890f4666",
+    "executor/acceptance/coreAmmRecoveryAnchor.test.mjs": "162e6e9ed2cf8d1cde9794dc5215c8274b59e23b60be15b6d1bb1dd3327c2fb9"
+  },
+  "rootCombinedHostValidation": {
+    "command": "node --test executor/acceptance/coreAmmJourney.test.mjs executor/acceptance/coreAmmRecoveryAnchor.test.mjs nft-marketplace/u124/identity-buy-candidate.test.mjs nft-marketplace/u124/identityClientV1.test.mjs",
+    "passed": 45,
+    "failed": 0,
+    "durationMs": 13537.643625
+  },
+  "financialOperations": 0,
+  "nodeChanges": false,
+  "sdkChanges": false,
+  "pushed": false,
+  "deployed": false
+}

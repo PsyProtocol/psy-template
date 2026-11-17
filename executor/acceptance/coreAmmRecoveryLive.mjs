@@ -13,7 +13,7 @@ import {publicState} from '../publicState.mjs'; import {ordinaryResident} from '
 import {createPublicWalletAdapter} from '../publicWalletAdapter.mjs'; import {validateOptions} from '../config.mjs';
 import {ExecutionJournal} from '../journal.mjs'; import {sha256} from '../requestBinding.mjs';
 import {latestBroadcastOutcome} from './attemptOutcome.mjs'; import {freezeAppModules} from './sourceClosure.mjs';
-import {planCoreAmmStage} from './coreAmmJourney.mjs';
+import {planCoreAmmStage,assertCoreAmmStagePlan} from './coreAmmJourney.mjs';
 import {verifyFirstSponsorRecoveryAnchor} from './coreAmmRecoveryAnchor.mjs';
 
 export async function runCoreAmmRecovery(base) {
@@ -92,9 +92,13 @@ export async function runCoreAmmRecovery(base) {
   const ordinaryStep=async(name,stage,terms={})=>{
     await unresolved();reserve(name,'ordinary');let actualName=name;
     const out=join(base,'attempts',actualName),planFile=join(base,'public',name+'-plan.json');
-    if(!existsSync(planFile))save(planFile,{...planCoreAmmStage(context,stage,terms),policySha256:sha256(readFileSync(options.policy)),dependenciesSha256:sha256(readFileSync(options.dependencyBindings))});
+    if(!existsSync(planFile)){
+      assert.ok(!existsSync(out)&&!existsSync(join(base,'public',actualName+'.json')),'existing ordinary evidence requires its original saved plan; review rather than reconstruct');
+      save(planFile,{...planCoreAmmStage(context,stage,terms),policySha256:sha256(readFileSync(options.policy)),dependenciesSha256:sha256(readFileSync(options.dependencyBindings))});
+    }
     const unsigned=exact(planFile),id=Number(unsigned.actorId);assert.equal(unsigned.stage,stage);assert.ok(actors.has(id));
     assert.equal(unsigned.policySha256,sha256(readFileSync(options.policy)));assert.equal(unsigned.dependenciesSha256,sha256(readFileSync(options.dependencyBindings)));
+    assertCoreAmmStagePlan(context,stage,terms,unsigned);
     if(existsSync(out)){if(!existsSync(join(out,'included.json')))await confirmUps(config,out,{polls:24,intervalMs:5000});}
     else {assert.ok(!existsSync(join(base,'public',name+'.json')),'partial ordinary input; review rather than re-sign');await fresh();await ordinary({base,config,binary:ordinaryBinary,secret:join(old,'.secrets',id===971904?'issuer.json':'fee-owner.json'),name,calls:unsigned.contract_calls,bindings,env,worker:await worker(id)});}
     const included=exact(join(out,'included.json')),pre=exact(join(out,'preflight.json')),inputPath=join(base,'public',actualName+'.json'),inputBytes=readFileSync(inputPath),input=parseLosslessJson(inputBytes.toString()),request=exact(join(out,'request.json')),intent=exact(join(out,'intent.json'));

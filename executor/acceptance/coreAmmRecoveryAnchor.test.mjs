@@ -75,3 +75,24 @@ test('wrong, unconfirmed, stale or fee-inconsistent receipts cannot move the act
  for(const edit of edits){const {x,included}=fixture();edit(included);assert.throws(()=>verify({...x,included}));}
  const {x}=fixture();assert.throws(()=>verify({...x,laterStageFiles:['expired-commit-v1-task.json']}),/separate manual/);
 });
+test('the reserved fee ceiling still applies to coherent independently reported unknown broadcasts',()=>{
+ // Update every synthetic public digest together so rejection exercises the
+ // reserved fee invariant, rather than a stale request/preflight comparison.
+ const feeCase=(guta,da)=>{
+  const f=fixture(),{x,preflight,request,independentReport}=f;
+  preflight.core.stats.guta_fees_collected=guta;preflight.core.stats.da_fees_collected=da;
+  x.requestBytes=bytes(request);independentReport.requestSha256=sha256(x.requestBytes);
+  x.preflightBytes=bytes(preflight);x.expected.preflightSha256=sha256(x.preflightBytes);
+  x.independentReportBytes=bytes(independentReport);x.expected.independentReportSha256=sha256(x.independentReportBytes);
+  return f;
+ };
+ const {x,included}=feeCase(3000000000n,0n),unknown=verify(x);
+ assert.equal(unknown.status,'unresolved');assert.equal(unknown.feeBaseUnits,3000000000n);
+ assert.equal(unknown.expectedActorLeafHash,x.historical.endUserLeafHash);assert.equal(unknown.maySubmit,false);
+ // Even a valid proof at the ceiling cannot adopt a receipt for a different fee.
+ assert.throws(()=>verify({...x,included}));
+ included.receipt.data.result.fees_collected=3000000000n;
+ assert.equal(verify({...x,included}).status,'included');
+ for(const [guta,da]of [[3000000000n,1n],[999999999n,0n],[1000000000n,-1n]])
+  assert.throws(()=>verify(feeCase(guta,da).x),/one reserved fee ceiling/);
+});

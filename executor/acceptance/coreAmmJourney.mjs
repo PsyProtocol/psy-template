@@ -2,7 +2,7 @@
 // and local arithmetic are not authenticated state, wallet approval, complete
 // UPS verification or live acceptance. The contract and SD-key enforce execution.
 import assert from 'node:assert/strict';
-import {call, encodeAmount, integer, user, FEE_ESCROW, swapQuote} from '../../amm/u124/client.mjs';
+import {call, encodeAmount, integer, user, FEE_ESCROW, swapQuote, losslessJson, parseLosslessJson} from '../../amm/u124/client.mjs';
 import {sponsorCalls, activationFunding} from '../../batching/v2/client.mjs';
 import {PROFILE} from '../../batching/mainnet-beta/native.mjs';
 import {sdkRelease} from '../sdkProfiles.mjs';
@@ -120,4 +120,13 @@ export function planCoreAmmStage(context, stage, terms = {}) {
     return planned(c, stage, c.issuerId, calls);
   }
   throw Error('unknown bounded core AMM journey stage');
+}
+
+// A saved unsigned plan is evidence to compare, not authority to choose new
+// wallet calls. The caller separately checks both resource digests before use.
+export function assertCoreAmmStagePlan(context, stage, terms, savedPlan) {
+  const {policySha256, dependenciesSha256, ...saved} = savedPlan;
+  assert.deepEqual(parseLosslessJson(losslessJson(saved)),
+    parseLosslessJson(losslessJson(planCoreAmmStage(context, stage, terms))),
+    'saved ordinary plan differs from the bounded AMM stage; review rather than re-sign');
 }

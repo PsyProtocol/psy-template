@@ -1,7 +1,11 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {join} from 'node:path';
+import {runInNewContext} from 'node:vm';
+import {sha256} from '../requestBinding.mjs';
 import {coreAmmLpOpen, coreAmmSwapOpen, coreAmmCancelledSwapOpen, coreAmmSwapClaimClose,
-  coreAmmRefundClaimClose, planCoreAmmStage} from './coreAmmJourney.mjs';
+  coreAmmRefundClaimClose, planCoreAmmStage, assertCoreAmmStagePlan} from './coreAmmJourney.mjs';
 import {decodeAmount, FEE_ESCROW, swapQuote, losslessJson, parseLosslessJson} from '../../amm/u124/client.mjs';
 import {sdkRelease} from '../sdkProfiles.mjs';
 
@@ -85,6 +89,105 @@ test('a renewed bounded swap uses nonce three after refund, with no old close or
   for (const nonce of [2n, 4n])
     assert.throws(() => planCoreAmmStage(context, 'renewed_swap_open', {...terms, nonce}));
   assert.throws(() => planCoreAmmStage(context, 'renewed_swap_open', {...terms, quote: quote + 1n}));
+});
+
+test('saved recovery plans must match canonical calls, actors, observations and unsigned markers', () => {
+  const cases = [
+    ['sponsor_batch', {nonce: 2n}],
+    ['refund_claim_close', {observedNativePending: FEE_ESCROW}],
+    ['renewed_swap_open', {...terms, nonce: 3n}],
+  ];
+  const metadata = {policySha256: 'a'.repeat(64), dependenciesSha256: 'b'.repeat(64)};
+  const edits = [
+    p => p.actorId = p.actorId === context.issuerId ? context.traderId : context.issuerId,
+    p => p.contract_calls[0].inputs[0] = context.issuerId,
+    p => p.contract_calls.push({contract_id: 0n, method_name: 'transfer', inputs: [context.issuerId, 1n]}),
+    p => p.contract_calls.reverse(),
+    p => p.unsigned = false,
+    p => p.proofVerified = true,
+    p => p.liveAccepted = true,
+    p => p.unreviewedAuthorization = true,
+  ];
+  for (const [stage, stageTerms] of cases) {
+    const plan = {...planCoreAmmStage(context, stage, stageTerms), ...metadata};
+    assert.doesNotThrow(() => assertCoreAmmStagePlan(context, stage, stageTerms,
+      parseLosslessJson(losslessJson(plan))));
+    for (const edit of edits) {
+      const changed = structuredClone(plan); edit(changed);
+      assert.throws(() => assertCoreAmmStagePlan(context, stage, stageTerms, changed), /saved ordinary plan differs/);
+    }
+  }
+});
+
+test('a stale Native refund observation or sponsor nonce cannot silently replace an interrupted plan', () => {
+  const refund = planCoreAmmStage(context, 'refund_claim_close', {observedNativePending: 0n});
+  assert.throws(() => assertCoreAmmStagePlan(context, 'refund_claim_close',
+    {observedNativePending: FEE_ESCROW}, refund), /review rather than re-sign/);
+  const changed = planCoreAmmStage(context, 'refund_claim_close', {observedNativePending: FEE_ESCROW});
+  changed.observations.nativePending = 0n;
+  assert.throws(() => assertCoreAmmStagePlan(context, 'refund_claim_close',
+    {observedNativePending: FEE_ESCROW}, changed), /saved ordinary plan differs/);
+  const sponsor = planCoreAmmStage(context, 'sponsor_batch', {nonce: 2n});
+  assert.throws(() => assertCoreAmmStagePlan(context, 'sponsor_batch', {nonce: 3n}, sponsor), /review rather than re-sign/);
+});
+
+for (const runner of ['coreAmmLive.mjs', 'coreAmmRecoveryLive.mjs'])
+test(`${runner} rejects incompatible saved plans before wallet use and only reconciles existing attempts`, async () => {
+  // Execute the production stage closure in isolation. No live module or its
+  // financial dependencies are imported; every filesystem/RPC/wallet boundary
+  // below is a fake that records calls or stops execution.
+  const source = readFileSync(new URL(runner, import.meta.url), 'utf8');
+  const start = source.indexOf('  const ordinaryStep=async(');
+  const end = source.indexOf('  const formalStep=async(', start);
+  assert.ok(start >= 0 && end > start, 'production ordinary stage closure required');
+  const closure = source.slice(start, end);
+  const base = '/synthetic-amm-case', name = 'core-swap-open-v1', stage = 'swap_open';
+  const policyBytes = Buffer.from('synthetic policy'), dependencyBytes = Buffer.from('synthetic dependencies');
+  const planPath = join(base, 'public', name + '-plan.json'), out = join(base, 'attempts', name);
+  const canonical = {...planCoreAmmStage(context, stage, terms),
+    policySha256: sha256(policyBytes), dependenciesSha256: sha256(dependencyBytes)};
+  async function exercise(saved, existingAttempt, existingInput = false) {
+    const events = [], files = new Map(saved === undefined ? [] : [[planPath, saved]]), stop = Error('synthetic boundary');
+    const ordinaryStep = runInNewContext(`(function(){${closure}\nreturn ordinaryStep;})()`, {
+      assert, join, base, revision: 'v1', context, planCoreAmmStage, assertCoreAmmStagePlan, sha256,
+      options: {policy: 'policy', dependencyBindings: 'dependencies'}, actors: new Map([[200, {}], [201, {}]]),
+      exact: path => { assert.ok(files.has(path)); return parseLosslessJson(losslessJson(files.get(path))); },
+      readFileSync: path => { assert.ok(['policy', 'dependencies'].includes(path)); return path === 'policy' ? policyBytes : dependencyBytes; },
+      existsSync: path => files.has(path) || existingAttempt && path === out || existingInput && path === join(base, 'public', name + '.json'),
+      save: path => { events.push('save'); throw Error('existing plan must not be overwritten: ' + path); },
+      unresolved: async () => events.push('reconcile-vault'), reserve: () => events.push('reserve'),
+      fresh: async () => events.push('fresh'),
+      worker: async id => { events.push(['worker', id]); return {}; },
+      ordinary: async args => { events.push(['ordinary', args.calls]); throw stop; },
+      confirmUps: async (_config, path) => { events.push(['confirm', path]); throw stop; },
+      config: 'synthetic config', ordinaryBinary: 'synthetic wallet', old: '/synthetic-old', bindings: new Map(), env: {},
+    });
+    let error;
+    try { await ordinaryStep(name, stage, terms); } catch (caught) { error = caught; }
+    return {events, error, stop};
+  }
+  for (const change of [p => p.contract_calls[2].inputs[0] = context.issuerId,
+    p => p.contract_calls[1].inputs[6] += 1n, p => p.actorId = context.issuerId,
+    p => p.policySha256 = 'c'.repeat(64), p => p.liveAccepted = true]) {
+    const changed = structuredClone(canonical); change(changed);
+    for (const existing of [false, true]) {
+      const {events, error} = await exercise(changed, existing);
+      assert.ok(error, 'incompatible plan must stop');
+      assert.deepEqual(events, ['reconcile-vault', 'reserve']);
+    }
+  }
+  const resumed = await exercise(canonical, true);
+  assert.equal(resumed.error, resumed.stop);
+  assert.deepEqual(resumed.events, ['reconcile-vault', 'reserve', ['confirm', out]]);
+  for (const [attempt, input] of [[true, false], [false, true]]) {
+    const missing = await exercise(undefined, attempt, input);
+    assert.match(missing.error.message, /original saved plan; review rather than reconstruct/);
+    assert.deepEqual(missing.events, ['reconcile-vault', 'reserve']);
+  }
+  const fresh = await exercise(canonical, false);
+  assert.equal(fresh.error, fresh.stop);
+  assert.deepEqual(fresh.events, ['reconcile-vault', 'reserve', 'fresh', ['worker', 201],
+    ['ordinary', parseLosslessJson(losslessJson(canonical.contract_calls))]]);
 });
 
 test('plans reject wrong release/scope/domain/assets/actors and unsupported ordinary ABI', () => {
