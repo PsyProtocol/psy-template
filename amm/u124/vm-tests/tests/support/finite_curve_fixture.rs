@@ -120,16 +120,25 @@ impl FiniteCurveFixture {
         amount(Some(budget.quote_atoms), "quote budget")?;
         // Reserve one transient activation atom separately from inventory. A
         // seed returned to an Outbox is not spendable until its ordinary claim.
-        let initialization = result.initial_inventory()?;
-        ensure!(amount(initialization.checked_add(1), "inventory plus activation seed")? <= budget.inventory_atoms,
+        ensure!(result.genesis_inventory()? <= budget.inventory_atoms,
             "finite inventory budget exceeded");
-        ensure!(result.cumulative(result.cap)? <= budget.quote_atoms, "finite full-curve quote budget exceeded");
+        ensure!(result.genesis_quote()? <= budget.quote_atoms, "finite full-curve quote plus activation budget exceeded");
         Ok(result)
     }
 
     pub fn identity(&self) -> CurveFixtureIdentity { self.identity }
     pub fn cap(&self) -> u64 { self.cap }
     pub fn threshold(&self) -> u64 { self.threshold }
+
+    /// Exact synthetic mint, including a separate, unclaimed activation atom.
+    pub fn genesis_inventory(&self) -> Result<u128> {
+        amount(self.initial_inventory()?.checked_add(1), "inventory plus activation seed")
+    }
+
+    /// One buyer's full-cap backing and the issuer's distinct activation atom.
+    pub fn genesis_quote(&self) -> Result<u128> {
+        amount(self.cumulative(self.cap)?.checked_add(1), "quote plus activation seed")
+    }
 
     pub fn initial_inventory(&self) -> Result<u128> {
         amount(u128::from(self.cap + self.liquidity).checked_mul(self.unit), "fixed inventory")

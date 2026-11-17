@@ -30,11 +30,17 @@ fn ten_sale_and_ten_liquidity_lots_fit_finite_inventory_without_claiming_seed_re
     assert_eq!(c.identity(), identity()); assert_eq!(c.cap(), 10); assert_eq!(c.threshold(), 10);
     assert_eq!(c.initial_inventory()?, 20 * UNIT);
     assert_eq!(c.cumulative(10)?, 10 * UNIT + 4_500_000_000_000_000);
+    assert_eq!(c.genesis_inventory()?, 20 * UNIT + 1);
+    assert_eq!(c.genesis_quote()?, c.cumulative(10)? + 1);
     assert!(c.initial_inventory()? + 1 <= budget().inventory_atoms);
     assert!(FiniteCurveFixture::from_config(&config(), identity(), CurveFixtureBudget {
         inventory_atoms: 20 * UNIT, ..budget()}).is_err());
     assert!(FiniteCurveFixture::from_config(&config(), identity(), CurveFixtureBudget {
         quote_atoms: c.cumulative(10)? - 1, ..budget()}).is_err());
+    assert!(FiniteCurveFixture::from_config(&config(), identity(), CurveFixtureBudget {
+        quote_atoms: c.cumulative(10)?, ..budget()}).is_err());
+    assert!(FiniteCurveFixture::from_config(&config(), identity(), CurveFixtureBudget {
+        inventory_atoms: c.genesis_inventory()?, quote_atoms: c.genesis_quote()?}).is_ok());
     let mut old = config(); old["cap"] = json!(1_000_000); old["liquidity"] = json!(1_000_000);
     assert!(FiniteCurveFixture::from_config(&old, identity(), budget()).is_err());
     Ok(())
@@ -103,4 +109,13 @@ fn selected_policy_pins_frozen_release_scope_and_reviewed_identity() -> Result<(
         assert!(FiniteCurveFixture::from_selected_policy(&changed, identity(), budget()).is_err(), "accepted {field}");
     }
     Ok(())
+}
+
+#[test]
+fn activation_quote_atom_is_checked_at_the_u124_boundary() {
+    let mut changed = config();
+    changed["cap"] = json!(1); changed["liquidity"] = json!(1); changed["threshold"] = json!(1);
+    changed["base"] = json!(U124_MAX.to_string()); changed["step"] = json!("1");
+    assert!(FiniteCurveFixture::from_config(&changed, identity(), CurveFixtureBudget {
+        quote_atoms: U124_MAX, ..budget()}).is_err());
 }

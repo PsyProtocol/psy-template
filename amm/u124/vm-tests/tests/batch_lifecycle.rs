@@ -26,6 +26,8 @@ fn token_artifact(cid:u64)->String{if cid==B&&std::env::var("BATCH_DISTINCT_TOKE
 const R:u128=1u128<<62;const MAX:u128=(1u128<<124)-1;
 #[path="support/batch_full_ups.rs"] mod full_ups;
 #[path="support/batch_admission.rs"] mod admission;
+#[path="support/finite_curve_fixture.rs"] mod finite_curve_fixture;
+#[path="support/finite_curve_world.rs"] mod finite_curve_world;
 fn pair(n:u128)->[u64;2]{[(n%R)as u64,(n/R)as u64]}
 fn args(prefix:&[u64],amounts:&[u128],suffix:&[u64])->Vec<u64>{let mut v=prefix.to_vec();for n in amounts{v.extend(pair(*n));}v.extend(suffix);v}
 fn quote(n:u128,ri:u128,ro:u128)->u128{((BigUint::from(n)*9970u64*BigUint::from(ro))/(BigUint::from(ri)*10000u64+BigUint::from(n)*9970u64)).to_u128().unwrap()}
@@ -33,7 +35,18 @@ fn quote(n:u128,ri:u128,ro:u128)->u128{((BigUint::from(n)*9970u64*BigUint::from(
 impl World{
  fn new(kind:&str)->Result<Self>{Self::new_with_bootstrap(kind,true)}
  fn new_with_bootstrap(kind:&str,bootstrap:bool)->Result<Self>{Self::new_fixture(kind,bootstrap,true)}
- fn new_fixture(kind:&str,bootstrap:bool,legacy_sponsor:bool)->Result<Self>{let root=std::env::var("BATCH_BUILD")?;let read=|p:&str|->Result<Value>{Ok(serde_json::from_slice(&fs::read(format!("{root}/{p}"))?)?)};let market=read(&format!("{kind}/compiled/compilation_artifact.json"))?;let policy=read(&format!("{kind}/policy.json"))?;
+ fn new_fixture(kind:&str,bootstrap:bool,legacy_sponsor:bool)->Result<Self>{Self::new_fixture_with_finite_curve(kind,bootstrap,legacy_sponsor,None)}
+ // Explicit opt-in only: old constructors retain their historic allocations.
+ fn new_finite_curve(expected:finite_curve_fixture::CurveFixtureIdentity,budget:finite_curve_fixture::CurveFixtureBudget)->Result<Self>{Self::new_fixture_with_finite_curve("bondingcurve",true,true,Some((expected,budget)))}
+ fn new_fixture_with_finite_curve(kind:&str,bootstrap:bool,legacy_sponsor:bool,finite:Option<(finite_curve_fixture::CurveFixtureIdentity,finite_curve_fixture::CurveFixtureBudget)>)->Result<Self>{let root=std::env::var("BATCH_BUILD")?;let read=|p:&str|->Result<Value>{Ok(serde_json::from_slice(&fs::read(format!("{root}/{p}"))?)?)};let market=read(&format!("{kind}/compiled/compilation_artifact.json"))?;let policy=read(&format!("{kind}/policy.json"))?;
+  // Validate all reviewed terms before the first synthetic mint or transfer.
+  let finite=finite.map(|(expected,budget)|->Result<finite_curve_fixture::FiniteCurveFixture>{
+   ensure!(kind=="bondingcurve"&&bootstrap&&legacy_sponsor,"finite Curve constructor only");
+   ensure!((expected.market,expected.vault,expected.inventory_asset,expected.quote_asset,expected.issuer)==(M,V,A,B,I),"finite Curve identities differ from compiled fixture roles");
+   let roles=[I,S,200,V,expected.graduation_target];
+   ensure!(roles.iter().all(|u|*u>0&&*u<(1<<24))&&roles.iter().collect::<std::collections::BTreeSet<_>>().len()==roles.len(),"finite Curve requires distinct valid fixture users");
+   finite_curve_fixture::FiniteCurveFixture::from_selected_policy(&policy,expected,budget)
+  }).transpose()?;
   // Non-NFT worlds require actual market, both FT and Native bytecode only.
   // Never fabricate a collection artifact to satisfy an unused fixture role.
   let mut artifacts=vec![(M,market.clone()),(A,read("token/compilation_artifact.json")?),(B,read(&token_artifact(B))?),(0,read("native.json")?)];
@@ -42,8 +55,16 @@ impl World{
   let fields=market["abi"]["contract"]["state"].as_array().unwrap().iter().map(|f|(f["name"].as_str().unwrap().to_owned(),f["offset"].as_u64().unwrap())).collect();
   let mut w=Self{state:InMemoryStateBackend::new(),methods:Arc::new(methods),fields:Arc::new(fields),policy,checkpoint:100,slots:BTreeMap::new(),revision:0,kind:kind.into(),vault:V};
   let minimal=std::env::var("BATCH_MINIMAL_GENESIS").as_deref()==Ok("1");
-  for u in[I,S,200,201,202,203]{if (u!=S||legacy_sponsor)&&(!minimal||u==I||u==200){w.set(u,0,0,1000*F);}}
-  for c in[A,B]{w.run(I,c,"set_metadata",&[if c==A{SYMBOL_A}else{SYMBOL_B},18])?;w.run(I,c,"mint",&pair(MAX/2))?;for u in if minimal{vec![200]}else{vec![200,201,202,203]}{w.run(I,c,"transfer",&args(&[u],&[MAX/16],&[]))?;w.run(u,c,"claim",&[I])?;}}
+  if let Some(terms)=&finite{
+   // Synthetic Native fee balance is separate from the two reviewed FT budgets.
+   for u in[I,S,200]{w.set(u,0,0,4*F);}
+   for(c,supply)in[(A,terms.genesis_inventory()?),(B,terms.genesis_quote()?)]{w.run(I,c,"set_metadata",&[if c==A{SYMBOL_A}else{SYMBOL_B},18])?;w.run(I,c,"mint",&pair(supply))?;}
+   let backing=terms.cumulative(terms.cap())?;
+   w.run(I,B,"transfer",&args(&[200],&[backing],&[]))?;w.run(200,B,"claim",&[I])?;
+  }else{
+   for u in[I,S,200,201,202,203]{if (u!=S||legacy_sponsor)&&(!minimal||u==I||u==200){w.set(u,0,0,1000*F);}}
+   for c in[A,B]{w.run(I,c,"set_metadata",&[if c==A{SYMBOL_A}else{SYMBOL_B},18])?;w.run(I,c,"mint",&pair(MAX/2))?;for u in if minimal{vec![200]}else{vec![200,201,202,203]}{w.run(I,c,"transfer",&args(&[u],&[MAX/16],&[]))?;w.run(u,c,"claim",&[I])?;}}
+  }
   if kind!="nftmarket"&&bootstrap{w.fee(I)?;w.pay(I,A,1)?;w.pay(I,B,1)?;w.operation_maintenance("activate_batch_vault",I,0,0,0,0,0)?;}
   if kind=="nftmarket"{w.run(I,NFT,"set_collection_metadata",&[123,0,0,0,0])?;w.give_nft(200,0,1)?;w.give_nft(202,0,2)?;w.run(I,NFT,"mint",&[0,3,0,0,0,0])?;if bootstrap{w.fee(I)?;w.pay(I,A,1)?;w.operation_maintenance("activate",I,0,0,0,0,0)?;for u in[200,201,202,203]{w.run(u,NFT,"acknowledge",&[V])?;}}}
   Ok(w)

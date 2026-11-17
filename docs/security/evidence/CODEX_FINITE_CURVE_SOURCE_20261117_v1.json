@@ -1,0 +1,32 @@
+{
+  "kind": "source-and-offline-host-validation-only",
+  "baseCommit": "8e3be3e",
+  "financialOperations": 0,
+  "sdkChanged": false,
+  "nodeChanged": false,
+  "hostTest": {
+    "manifest": "isolated anyhow=1.0.104 + serde_json=1.0.154; no SDK/native circuit dependencies",
+    "command": "cargo test --offline --locked --manifest-path <isolated-host-harness>/Cargo.toml --test finite_curve_fixture",
+    "exitCode": 0,
+    "passed": 6,
+    "failed": 0,
+    "rootReran": true
+  },
+  "sourceCorrections": [
+    "Finite opt-in VM World constructor derives limited inventory and buyer quote backing from reviewed policy",
+    "Both asset activation atoms included in genesis budgets with U124 overflow checks"
+  ],
+  "unverified": [
+    "New VM constructor/support test type-check and execution",
+    "Actual bytecode/state/SD-key session and complete UPS",
+    "Network deployment/trade/refund/ordinary-wallet claims"
+  ],
+  "vmIntegrationTest": "Explicitly ignored pending reviewed finite artifacts and native build; parser checks are not type checking",
+  "legacyFixtureDefaults": "Preserved; default Worlds retain original allocations",
+  "filesSha256": {
+    "amm/u124/vm-tests/tests/batch_lifecycle.rs": "d0d2ed029bce3b10d17f4b47f2fd4668b1c6833190b4df3edabc05a1887f3348",
+    "amm/u124/vm-tests/tests/finite_curve_fixture.rs": "e8b01d7d2d9b97419892663b78f592c72cdb7e003141c9c8debdc6b74a631358",
+    "amm/u124/vm-tests/tests/support/finite_curve_fixture.rs": "456a3aec2ffc0189706748967bdff1f7831306802610e188ee8b5caa6da3a748",
+    "amm/u124/vm-tests/tests/support/finite_curve_world.rs": "0933523f9cf761acf6849aae4c28bc4c7e6563c91361c8098c070ebd43c44e6b"
+  }
+}
