@@ -1,0 +1,46 @@
+{
+  "scope": "New opt-in Node-only unsigned preparation module; no production import",
+  "capabilities": [
+    "Six independently supplied policy/component/ABI comparison pins with source and frozen release binding",
+    "Exact 17-word identity purchase and ordered prepare/open/fee/payment stack with full Goldilocks words",
+    "Immutable detached snapshots and persisted-plan equality checks",
+    "Reject proxies/accessors/cycles/sparse arrays before executable input use",
+    "Explicit structural depth/array/key/aggregate budgets"
+  ],
+  "focusedHostTests": {
+    "existingCandidatePassed": 9,
+    "newClientPassed": 18,
+    "failed": 0
+  },
+  "structuralLimits": {
+    "maxArrayLength": 4096,
+    "maxOwnKeys": 8192,
+    "maxDepth": 64,
+    "maxVisitedValuesAndProperties": 100000
+  },
+  "purchaseWritesEnabled": false,
+  "unverified": [
+    "Actual generated selector and bytecode/foreign-read audit",
+    "New dedicated SD-key and authenticated dependency trust",
+    "Wallet session/sig_hash/exact ordered stack/deadline/fee proof",
+    "Complete buy/sale/refund/ordinary-claim UPSs",
+    "Browser-safe equivalent boundary",
+    "New isolated deployment and network acceptance"
+  ],
+  "testIdentityEvidence": "Selectors/dependency fixtures are synthetic; comparison pins are not review provenance or network trust",
+  "filesSha256": {
+    "nft-marketplace/u124/identityClientV1.mjs": "fc28dd93e7b51b1cc4b5188e86248ef66104539768dc37e64159d6e130a0313c",
+    "nft-marketplace/u124/identityClientV1.test.mjs": "92228d2c35fe6302ad3ca804d0dbf182e18e2c88784bbc7500b31a87cd202913"
+  },
+  "rootCombinedHostValidation": {
+    "command": "node --test executor/acceptance/coreAmmJourney.test.mjs executor/acceptance/coreAmmRecoveryAnchor.test.mjs nft-marketplace/u124/identity-buy-candidate.test.mjs nft-marketplace/u124/identityClientV1.test.mjs",
+    "passed": 45,
+    "failed": 0,
+    "durationMs": 13537.643625
+  },
+  "financialOperations": 0,
+  "nodeChanges": false,
+  "sdkChanges": false,
+  "pushed": false,
+  "deployed": false
+}
