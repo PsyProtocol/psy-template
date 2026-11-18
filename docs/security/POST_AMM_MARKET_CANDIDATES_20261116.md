@@ -71,3 +71,46 @@ AMM fixes cover the actual lossless save/read report contract, exact receipt/out
 **Grok review remains pending:** the configured Cursor Agent entry reports authentication required; the user is restoring local login. No Grok model was selected or claimed to have reviewed these files. Frozen source, diffs and raw root/Qwen logs are prepared outside Git in `psy-qwen-grok-review-20261118-v1`; [compact status and candidate digests](evidence/QWEN_GROK_REVIEW_GATE_20261118_v1.json) preserve the review boundary. Passing local tests do not replace independent review, bytecode/SD-key/full UPS or real-network acceptance. Only independently reviewed passing source patches may be integrated next.
 
 No Node or SDK changes, proof generation, signing, replay, replacement, deployment, funding or financial execution occurred. Issuer1975680 nonce4 remains held. Previous failed attempts and original raw evidence remain unchanged; no secrets or raw proof/chat archives are committed.
+
+
+## Qwen continuation corrections and combined host validation — 18 November 2026
+
+Qwen completed the selected-order reader, planner regressions and opt-in NFT
+identity-policy adapter in isolated copies. Root returned concrete failures for
+bounded repairs: artifact-dependent AMM tests were separated from self-contained
+checkpoint tests without removing their fresh-artifact guard; NFT planner rank
+expectations were corrected to the existing unused sentinel; NFT policy fixtures
+were corrected for three-word U124 transfer inputs, explicit state-tree height
+and detached component-only substitutions. Earlier failure logs remain intact.
+
+The reader candidate binds the approval window to the scan's captured checkpoint,
+requires the witness mode to agree with the task kind, rejects noncanonical or
+out-of-domain windows and validates lossless uint32 expiry before conversion and
+clamping. The planner production module is unchanged: price/time and unique-sale
+semantics remain intact. NFT preparation retains explicit false trust, proof and
+write flags; comparison pins establish equality only. Re-pinning two consistently
+changed inputs is not authentication and is now explicitly tested as such.
+
+Root assembled all twelve pending source/test files with the preceding AMM,
+Curve and ABI candidates and independently ran fifteen host test files together:
+**183 passed, zero failed/cancelled/skipped**. The tested sources remained unchanged
+during the run, and the frozen SDK manifest digest is unchanged. This is source,
+client and mocked-I/O coverage, not bytecode, SD-key, complete UPS, deployment,
+real trade, ordinary-wallet claim, browser-payment or performance acceptance.
+`executor/coreAmm.test.mjs` still requires actual fresh compiled artifacts through
+`CORE_AMM_BUILD`; that test remains unverified, not silently skipped or reported
+as passing.
+
+**No candidate source is integrated.** Both the user-local Cursor Agent and the
+Cursor bundled worker entry still report authentication required. No Grok model
+was selected and no independent Grok review is claimed. The combined frozen
+candidate, hashes, exact host command, full diff and read-only review task are
+prepared outside Git in `psy-qwen-grok-review-20261118-v2`. Only this compact status
+and [public evidence](evidence/QWEN_MARKET_CONTINUATION_REVIEW_20261118_v2.json) enter
+the current branch. Actual independent review and any requested Qwen corrections
+must complete before source integration.
+
+No Node or SDK change, proof generation, signing, RPC/faucet, broadcast, replacement,
+deployment or financial operation occurred. Issuer1975680 nonce4 remains held;
+original evidence, other processes and wallet histories remain untouched. Raw
+model chats, detailed logs and source snapshots remain outside Git.

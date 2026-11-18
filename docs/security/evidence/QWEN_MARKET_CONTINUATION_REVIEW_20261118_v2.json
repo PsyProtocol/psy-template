@@ -1,0 +1,96 @@
+{
+  "createdAt": "2026-11-18T07:00:16.948135+00:00",
+  "state": "host_tests_passed_awaiting_grok_login",
+  "baseCommit": "0e73cf674495592f529d1752451ee5a7d7130b1a",
+  "grokReviewPerformed": false,
+  "grokChecks": [
+    {
+      "entry": "user-local Cursor Agent",
+      "result": "Authentication required"
+    },
+    {
+      "entry": "Cursor bundled worker CLI",
+      "result": "Authentication required"
+    }
+  ],
+  "grokModelSelected": null,
+  "sourceIntegrated": false,
+  "candidateCodeCommitted": false,
+  "pushed": false,
+  "financialOperations": 0,
+  "nativeProofsRun": false,
+  "fullUpsAccepted": false,
+  "nodeChanged": false,
+  "sdkChanged": false,
+  "branch": "markets-batch-capacity-recovery-20261020",
+  "testedCodeBaseCommit": "aac8a4a8b5c9e63a28ca56970368ad9603a91cd7",
+  "modelRequested": "qwen4-max",
+  "sdkCommit": "01b8f2b0a077367a7b9879baba1a72aea8ab5510",
+  "clientCommit": "7058070057c3242b5d8b29e1a31d498aaa4202c0",
+  "sdkManifestSha256": "246cfcb12788fe0d0eb79594556acdfcc7781d01641890e47836db1fbc93c467",
+  "hostValidation": {
+    "command": [
+      "node",
+      "--test",
+      "executor/acceptance/freshCoreAmmLive.test.mjs",
+      "executor/acceptance/freshCoreAmmBinding.test.mjs",
+      "executor/acceptance/coreAmmJourney.test.mjs",
+      "executor/acceptance/coreAmmRecoveryAnchor.test.mjs",
+      "bondingcurve/u124/coreClient.test.mjs",
+      "bondingcurve/u124/core-build.test.mjs",
+      "nft-marketplace/u124/identityAbiGateV1.test.mjs",
+      "nft-marketplace/u124/identity-buy-candidate.test.mjs",
+      "nft-marketplace/u124/identityClientV1.test.mjs",
+      "executor/coreMarkets.test.mjs",
+      "executor/coreDependencyPolicy.test.mjs",
+      "executor/coreCheckpointWindow.test.mjs",
+      "batching/v2/planner.host.test.mjs",
+      "executor/acceptance/coreBookJourneyPlan.test.mjs",
+      "nft-marketplace/u124/identityPolicyV1.test.mjs"
+    ],
+    "counts": {
+      "tests": 183,
+      "pass": 183,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "wallSeconds": 8.873,
+    "rawLogSha256": "3751bd309b5b0fb14c4271e5aaf2da404048206af63592d7e6fff30829478777",
+    "rawLogLocation": "outside Git: psy-qwen-grok-review-20261118-v2/ROOT-HOST-TESTS.log",
+    "scope": "Source/host and mocked I/O only; no bytecode, native proof, full UPS, browser payment or live claim acceptance."
+  },
+  "candidateSourceSha256": {
+    "executor/acceptance/freshCoreAmmLive.mjs": "a51f5e0d063ccbc455ff638e1e3eb303a5ee456c94dc472a76ed90e233d63d60",
+    "executor/acceptance/freshCoreAmmLive.test.mjs": "ad609cbf9100bc41076d1c9efa7eca76929c9a481c41061baab54cfdf9c0280a",
+    "bondingcurve/u124/coreClient.mjs": "e35303b276ea8a6dc87a66da4918e514e25ffb94cd7ad81ad6d01212ac84231c",
+    "bondingcurve/u124/coreClient.test.mjs": "cc4c28a3dfcc64ef7a54968d97e2f722296f46131fea5787806d35eccdef5fcc",
+    "nft-marketplace/u124/identityAbiGateV1.mjs": "8b92a279d2e3a63b3b2c149f379a96857852c6b06c43c137cfc9955166aa9619",
+    "nft-marketplace/u124/identityAbiGateV1.test.mjs": "fc7c7d6c7349c598622f16c44d60a9d05b676b74bbab1c30cb4e9b8da1ddcf50",
+    "executor/coreAmmReader.mjs": "7f2f92441169e1302653ced8b6dea39715b1c18da38f82a3d3f327cd1c0c990d",
+    "executor/coreMarkets.test.mjs": "392214494b01417cca6e1da3e6e48d80f905a13799e378b09780671a09ccd113",
+    "executor/coreCheckpointWindow.test.mjs": "6eb41147f1c89eb82bafdcc2b7cf3296334a701cf708902e2b522622b728fde5",
+    "batching/v2/planner.host.test.mjs": "a46330c7cd7fdc43e0412be9b97f3eefb47e0075a98a4a28bc982ca3a361f654",
+    "nft-marketplace/u124/identityPolicyV1.mjs": "29c6d9a952f4c3cb1404852af1772791816f9c0719a4f498a4e690ae60b5eb93",
+    "nft-marketplace/u124/identityPolicyV1.test.mjs": "bb02a1cc39f46efbda5b05e0e3e3088451cde211783cc840a9118656b9a48a92"
+  },
+  "frozenManifestSha256": "91d0d96c40bbaa00a05538da57dacf4935bf129732d1bf03c9493b8847e264bb",
+  "combinedDiffSha256": "c6a67656b62d2d8b3f5cc433cfe8d77446d9ffeec9745b4d2c26267d4e32701a",
+  "unverified": [
+    {
+      "path": "executor/coreAmm.test.mjs",
+      "reason": "Requires actual fresh compiled AMM artifacts via CORE_AMM_BUILD; guard retained and no artifacts fabricated."
+    },
+    "Actual NFT compiler/selector/foreign reads and compiled dependency authentication",
+    "Dedicated SD-key, full UPS and approved-call/session binding",
+    "Real network settlement/refund/ordinary-wallet claim"
+  ],
+  "preservedFailures": [
+    "v9 executor: artifact-required test unavailable",
+    "v9 planner: 2 NFT rank fixture failures",
+    "v9 NFT: 3 fixture failures",
+    "v10 NFT: 1 component-alias fixture failure"
+  ],
+  "integrationGate": "Actual independent Grok source review is still pending. No candidate source is copied into the current branch."
+}
