@@ -248,3 +248,40 @@ Curve/build and selected planner guards `01cd9b9`; this section records the fina
 AMM/reader milestone. Earlier pending-Grok and non-integration statements are
 retained as chronological history, superseded only by these explicit source-only
 integration records under the user's revised review instruction.
+
+
+## Actual offline NFT identity compilation — 18 November 2026
+
+The reviewed identity-buy source was compiled once with the previously recorded,
+hash-pinned `compile_pair_stream_market` binary (SHA256 `ded04e3f80c666a15a914d8c51d29531615064abec1998e1f1f7c6f9a8f0b385`).
+The frozen SDK/client manifest still selects `01b8f2b0`/`70580700`; its bytes match
+the original recorded build manifest. Compiler/NFT lowering/release source pins
+and Cargo.lock also match that build. Initial preflight stopped because current
+Cargo.toml differs from the staged build snapshot. It was **not rebuilt or edited**;
+this experiment runs the original verified binary only, so portable cold-build
+reproducibility remains open. The failure is retained outside Git.
+
+Offline addresses collection41/payment42 are synthetic compilation terms, **not**
+current-chain deployment identities. The compiler domain probe matches the frozen
+network magic. The one actual invocation exits0 and produces a4,538,046-byte CFC
+artifact (SHA256 `06f64d1a463098982e763446e3dc373a9d2de10bd6ee54d3c7c71cffc3e8edf5`).
+Actual `open_buy_identity_v1` selector is2467690618 with17 inputs; no legacy
+`open_buy` remains. The existing ABI gate accepts this actual ABI, replacing
+synthetic-selector-only shape evidence for this experiment. Its public preparation
+bundle still deliberately reports no compiled/proof/write authority; a separate
+compiler observation does not promote those flags.
+
+The compiler's structural foreign-read audit checks289 commands at Native32,
+payment31 and collection30 heights. Root's lossless artifact inspection traces
+eight seller/current-market state reads through explicit equality assertions to
+approved token/metadata input positions9–16. Read commands13–20 precede the first
+local write at21. This confirms the observed compiled CFC graph structure, **not**
+VM execution, independent code-root authentication, a full UPS, finality or live
+settlement. [Compact compilation evidence](evidence/NFT_IDENTITY_ACTUAL_COMPILE_20261118_v1.json)
+records method/slot mappings, hashes, limits and the original artifact location.
+
+Raw artifacts and logs remain outside Git in the unique
+`psy-nft-identity-offline-compile-20261118-v1` directory. No registration, key,
+proof, RPC, signing, funding, deployment, broadcast, Node or SDK change occurred.
+NFT purchase writes stay closed until actual VM/adversarial tests, dedicated
+SD-key/full UPS/session bindings and separately authorized new-instance acceptance.

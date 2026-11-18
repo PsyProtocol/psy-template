@@ -1,0 +1,127 @@
+{
+  "sourceBaseCommit": "7d4fc321e248ef7436aaaf17949e424ba5181b7c",
+  "sdkCommit": "01b8f2b0a077367a7b9879baba1a72aea8ab5510",
+  "clientCommit": "7058070057c3242b5d8b29e1a31d498aaa4202c0",
+  "sdkManifestSha256": "246cfcb12788fe0d0eb79594556acdfcc7781d01641890e47836db1fbc93c467",
+  "compilerSha256": "ded04e3f80c666a15a914d8c51d29531615064abec1998e1f1f7c6f9a8f0b385",
+  "sourceSha256": "9cfeece8472b8245850c016b1a010433a5e7ad252a4bd195f3c23d18a1e575bb",
+  "artifact": {
+    "sha256": "06f64d1a463098982e763446e3dc373a9d2de10bd6ee54d3c7c71cffc3e8edf5",
+    "bytes": 4538046
+  },
+  "foreignReadAudit": {
+    "sha256": "afabad80d79ead16ca8201b6323054baaeaea19b074def7d0af676730cb19935",
+    "bytes": 190
+  },
+  "config": {
+    "nftId": 41,
+    "tokenId": 42,
+    "networkMagic": "1384803358401154921"
+  },
+  "identityScope": "synthetic offline contract addresses only; not current-chain deployment identities",
+  "compilerRan": true,
+  "compileExitCode": 0,
+  "compileWallSeconds": 0.19,
+  "performanceScope": "Single offline compiler invocation only, not VM/proof/network/throughput performance",
+  "actualMethodId": 2467690618,
+  "inputCount": 17,
+  "legacyBuyPresent": false,
+  "foreignReadCommandsChecked": 289,
+  "allEightSellerReadsBeforeWrites": true,
+  "identityBindings": [
+    {
+      "field": "token_id_0",
+      "commandIndex": 13,
+      "slot": 1140850698,
+      "approvedInputIndex": 9,
+      "sellerInputIndex": 1,
+      "ownContractTarget": 39,
+      "height": 31
+    },
+    {
+      "field": "token_id_1",
+      "commandIndex": 15,
+      "slot": 1140850699,
+      "approvedInputIndex": 10,
+      "sellerInputIndex": 1,
+      "ownContractTarget": 39,
+      "height": 31
+    },
+    {
+      "field": "token_id_2",
+      "commandIndex": 17,
+      "slot": 1140850700,
+      "approvedInputIndex": 11,
+      "sellerInputIndex": 1,
+      "ownContractTarget": 39,
+      "height": 31
+    },
+    {
+      "field": "token_id_3",
+      "commandIndex": 19,
+      "slot": 1140850701,
+      "approvedInputIndex": 12,
+      "sellerInputIndex": 1,
+      "ownContractTarget": 39,
+      "height": 31
+    },
+    {
+      "field": "metadata_hash_0",
+      "commandIndex": 14,
+      "slot": 1140850702,
+      "approvedInputIndex": 13,
+      "sellerInputIndex": 1,
+      "ownContractTarget": 39,
+      "height": 31
+    },
+    {
+      "field": "metadata_hash_1",
+      "commandIndex": 16,
+      "slot": 1140850703,
+      "approvedInputIndex": 14,
+      "sellerInputIndex": 1,
+      "ownContractTarget": 39,
+      "height": 31
+    },
+    {
+      "field": "metadata_hash_2",
+      "commandIndex": 18,
+      "slot": 1140850704,
+      "approvedInputIndex": 15,
+      "sellerInputIndex": 1,
+      "ownContractTarget": 39,
+      "height": 31
+    },
+    {
+      "field": "metadata_hash_3",
+      "commandIndex": 20,
+      "slot": 1140850705,
+      "approvedInputIndex": 16,
+      "sellerInputIndex": 1,
+      "ownContractTarget": 39,
+      "height": 31
+    }
+  ],
+  "firstLocalWriteCommand": 21,
+  "actualAbiGateAccepted": true,
+  "actualAbiSha256": "1af72780221fd7a6332f6f3af034075a0275d297fddfff0d18e22965f0ffaa12",
+  "structuralAuditSha256": "d9266b7f011d65e2acebde757090a7ed58a9b991d912bc64457f11d6a629c008",
+  "reproducibilityLimit": "Run recorded hash-pinned compiler only. Current Cargo.toml differs from its original staged build snapshot; no rebuild, dependency resolution or inference of current Cargo reproducibility.",
+  "preservedFailure": "Initial preflight stopped on current Cargo.toml vs recorded staged manifest mismatch; compilation did not start then. Original failure record preserved. Recorded compiler and source pins/lockfile verified before the one actual compile.",
+  "rawArtifactsLocation": "outside Git: psy-nft-identity-offline-compile-20261118-v1",
+  "nodeChanged": false,
+  "sdkChanged": false,
+  "vmVerified": false,
+  "nativeProofsRun": false,
+  "fullUpsVerified": false,
+  "sdKeyProofVerified": false,
+  "liveAccepted": false,
+  "nftPurchaseWritesEnabled": false,
+  "financialOperations": 0,
+  "unverified": [
+    "Current manifest cold-build reproducibility and portable compiler release distribution",
+    "Actual VM execution and adversarial state/nonce/identity mutation tests",
+    "Dedicated SD-key, complete UPS ordered-call/session/fee/state binding",
+    "Actual deployed identities/code/layout/key resources and network settlement/ordinary claims"
+  ]
+}

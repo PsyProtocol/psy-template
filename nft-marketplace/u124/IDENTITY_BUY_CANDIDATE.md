@@ -81,3 +81,16 @@ Run the host regressions with:
 ```sh
 node --test nft-marketplace/u124/identity-buy-candidate.test.mjs
 ```
+
+
+## Actual offline compilation observation (18 November 2026)
+
+The frozen recorded compiler produced the identity variant at synthetic collection41/
+payment42: selector2467690618,17 inputs, no legacy buy entry. The actual raw ABI passes
+`inspectIdentityBuyAbiV1`; compiled CFC inspection traces all eight approved identity
+words to seller listing reads before local writes. See the [public evidence](../../docs/security/evidence/NFT_IDENTITY_ACTUAL_COMPILE_20261118_v1.json).
+This is an observed offline compilation and structural inspection only. It is not
+VM/SD-key/full UPS, deployed code/key, wallet or real settlement acceptance. The
+current Cargo manifest differs from the original staged build; no rebuild or SDK
+switch was performed, and cold-build reproducibility remains unverified. Raw4.5MB
+artifact bytes remain outside Git; all purchase-write and proof gates stay closed.
