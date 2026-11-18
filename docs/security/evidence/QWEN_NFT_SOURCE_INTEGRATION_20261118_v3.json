@@ -1,0 +1,65 @@
+{
+  "baseCommit": "f90dee3e93b09ab4e9e66d81c9537c8aae4f2d9e",
+  "sourceSha256": {
+    "nft-marketplace/u124/identityAbiGateV1.mjs": "d79aa25d77168732738fe473457f0cebad95aa7b019bad24135e15376c4fff6c",
+    "nft-marketplace/u124/identityAbiGateV1.test.mjs": "e570b8a95a24b42986328efd2a0a10db6048c114faecd61273698d7d46226c8d",
+    "nft-marketplace/u124/identityPolicyV1.mjs": "6e2b2993f54459bee823a52d1ceaceb0c1421f89625aa2c144ee601d5bb07843",
+    "nft-marketplace/u124/identityPolicyV1.test.mjs": "45221bcd12cbe1da2dd4e27bfd3b118474dd278e29cc8a237f81e723eb33a4b6"
+  },
+  "financialOperations": 0,
+  "scope": "Opt-in source-only Node preparation modules; purchase writes remain unconditionally closed",
+  "reviewPolicy": "User replaced unavailable Grok with Qwen corrections and root source review",
+  "qwenReview": {
+    "model": "qwen4-max",
+    "finishReason": "stop",
+    "verdict": "PASS for the targeted source corrections only",
+    "reportSha256": "b639d567278242b76cd81d06ee7aec0efb9953db9968143597d6eb9e5b75a4e4",
+    "thinkingEnabled": false,
+    "rawLocation": "outside Git: psy-qwen-final-source-review-20261118-v3/nft-identity.json"
+  },
+  "rootValidation": {
+    "command": [
+      "node",
+      "--test",
+      "nft-marketplace/u124/identityPolicyV1.test.mjs",
+      "nft-marketplace/u124/identityAbiGateV1.test.mjs",
+      "nft-marketplace/u124/identityClientV1.test.mjs",
+      "nft-marketplace/u124/identity-buy-candidate.test.mjs"
+    ],
+    "exitCode": 0,
+    "counts": {
+      "tests": 58,
+      "pass": 58,
+      "fail": 0,
+      "skipped": 0
+    },
+    "logSha256": "a0f1f59492e599fbed0f4e472f749250b28a30c986814d57259ecbbb69d02da7",
+    "financialOperations": 0
+  },
+  "regressionsAgainstPreviousSource": {
+    "selectedTests": 2,
+    "failedAsExpected": 2,
+    "rawLocation": "outside Git: psy-qwen-review-corrections-v12/ROOT-NFT-BEFORE-FIX.log"
+  },
+  "fixed": [
+    "Known-width struct fields remain checked after an opaque map; declared field widths must be safe positive integers",
+    "Adapter and unsigned client use the same frozen six-entry acceptance-gate list"
+  ],
+  "earlierFailuresPreserved": [
+    "Wide high-effort review: AMM/Curve timeouts; NFT empty final response",
+    "Previous fixture failures retained outside Git"
+  ],
+  "sdkCommit": "01b8f2b0a077367a7b9879baba1a72aea8ab5510",
+  "sdkManifestSha256": "246cfcb12788fe0d0eb79594556acdfcc7781d01641890e47836db1fbc93c467",
+  "nodeChanged": false,
+  "sdkChanged": false,
+  "nativeProofsRun": false,
+  "fullUpsAccepted": false,
+  "nftPurchaseWritesEnabled": false,
+  "unverified": [
+    "Actual compiler/ABI-selector/foreign-read correspondence",
+    "Dedicated SD-key, authenticated dependencies, full UPS and wallet-session binding",
+    "Browser write boundary, chain settlement, refunds and ordinary claims"
+  ],
+  "otherCandidatesIntegrated": false
+}

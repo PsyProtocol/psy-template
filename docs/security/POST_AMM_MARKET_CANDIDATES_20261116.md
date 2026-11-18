@@ -114,3 +114,40 @@ No Node or SDK change, proof generation, signing, RPC/faucet, broadcast, replace
 deployment or financial operation occurred. Issuer1975680 nonce4 remains held;
 original evidence, other processes and wallet histories remain untouched. Raw
 model chats, detailed logs and source snapshots remain outside Git.
+
+
+## Root-reviewed Qwen NFT source integration — 18 November 2026
+
+The user explicitly replaced the unavailable Grok gate with Qwen corrections
+and root review. This supersedes the earlier pending-Grok requirement for these
+source candidates; it does not establish independent Grok or production approval.
+Wide Qwen reviews first timed out (AMM/Curve) or returned no final text (NFT).
+Those failures were retained, not counted as reviews. A bounded, focused Qwen
+static review then identified concrete issues; root triaged its claims before
+requesting repairs.
+
+The opt-in [ABI gate](../../nft-marketplace/u124/identityAbiGateV1.mjs) now checks
+each known-width struct field even after an opaque map makes the overall width
+unknown. Safe positive declared field widths are required. Physical map layout
+remains deliberately opaque; the inaccurate claim that null was cached as an
+arbitrary numeric width was rejected. The [policy adapter](../../nft-marketplace/u124/identityPolicyV1.mjs)
+reuses the unsigned client's exact frozen pending-gate list, including the browser
+boundary. Digest equality is not authentication. No production import or purchase
+write authority is added.
+
+Qwen implemented the bounded corrections. A new focused Qwen static review
+(thinking disabled, exact `qwen4-max`, no tools) reports PASS for the supplied
+source corrections; root also inspected source and relevant dependencies.
+In the actual work branch, the four focused host files pass58/58, zero failures
+or skips. The two new targeted regressions both fail against the previous
+production modules, confirming they detect the reported defects. All older
+failure logs, reviewed snapshots and model outputs remain outside Git.
+
+Only the four reviewed NFT source/test files are integrated at this milestone.
+AMM, Curve and planner corrections remain isolated while their checks run.
+[Compact integration evidence](evidence/QWEN_NFT_SOURCE_INTEGRATION_20261118_v3.json)
+records source/report/log hashes and the exact host command. No actual compiler,
+VM, SD-key, full UPS, browser payment, deployment, network trade/refund or ordinary
+claim is accepted. Every trust/proof/write flag remains false; no Node/SDK edit,
+RPC, signing, proof generation or financial operation occurred. The unknown
+issuer1975680 nonce4 hold remains intact. This is source/host integration only.
