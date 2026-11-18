@@ -1,11 +1,17 @@
 // Pure manifest and unsigned-call-plan regression. No RPC, keys, proofs or sends.
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import {mkdtempSync,mkdirSync,writeFileSync,symlinkSync,rmSync,realpathSync,readFileSync} from 'node:fs';
+import {tmpdir} from 'node:os';
+import {join} from 'node:path';
 import {readReviewedAbis} from '../../tests/fixtures/reviewedAbis.mjs';
-import {FRESH_CORE_AMM_STAGES,caseFile,validateFreshCoreManifest,planFreshCoreAmmStage,assertFreshEnvironment,assertFreshActorAnchor,assertFreshInitialAnchor,assertFreshRefundAssets,freshApprovedActor,assertFreshStagePlan,assertFreshFormalTask,assertFreshNativeApproval} from './freshCoreAmmLive.mjs';
-import {swapQuote,FEE_ESCROW,parseLosslessJson} from '../../amm/u124/client.mjs';
+import {FRESH_CORE_AMM_STAGES,caseFile,freshCaseArtifact,validateFreshCoreManifest,planFreshCoreAmmStage,assertFreshEnvironment,assertFreshActorAnchor,assertFreshInitialAnchor,assertFreshRefundAssets,freshApprovedActor,assertFreshStagePlan,assertFreshFormalTask,assertFreshNativeApproval,assertFreshIncludedReceipt,assertFreshJourneyOutputs,assertFreshSnapshotVault} from './freshCoreAmmLive.mjs';
+import {assertFreshJourneyReport,assertFreshSavedCohortAudit,assertFreshCohortPhase,FRESH_CORE_AMM_SNAPSHOTS} from './freshCoreAmmLive.mjs';
+import {swapQuote,FEE_ESCROW,losslessJson,parseLosslessJson} from '../../amm/u124/client.mjs';
 import {PROFILE} from '../../batching/mainnet-beta/native.mjs';
 import {CORE_DEPENDENCY_KEY_PROFILE} from '../coreDependencyPolicy.mjs';
+import {runInNewContext} from 'node:vm';
+import {sha256} from '../requestBinding.mjs';
 
 const hash='a'.repeat(64),SDK='01b8f2b0a077367a7b9879baba1a72aea8ab5510',CLIENT='7058070057c3242b5d8b29e1a31d498aaa4202c0';
 function fixture(){
@@ -112,6 +118,87 @@ test('persisted ordinary plans must equal complete canonical calls, actor, terms
  for(const changedTerms of [{...swapTerms,deadline:201n},{...swapTerms,minOut:1n}])assert.throws(()=>assertFreshStagePlan(context,'swap_open',changedTerms,pins,plan),/exact canonical stage/);
  const changed=structuredClone(plan);changed.observations.minOut=1n;assert.throws(()=>assertFreshStagePlan(context,'swap_open',swapTerms,pins,changed));
 });
+test('fresh ordinary stage never reconstructs a missing plan and rechecks the original resource pins',async()=>{
+ // Execute only the production ordinary stage closure in isolation. The live
+ // financial runner is never invoked and no real case, secret or evidence file
+ // is read: every filesystem/RPC/wallet boundary below is a fake that records
+ // calls or stops execution.
+ const source=readFileSync(new URL('./freshCoreAmmLive.mjs',import.meta.url),'utf8');
+ const start=source.indexOf('  const ordinaryStep=async('),end=source.indexOf('  const formalStep=async(',start);
+ assert.ok(start>=0&&end>start,'production ordinary stage closure required');
+ const closure=source.slice(start,end),{context}=fixture(),base='/synthetic-fresh-case';
+ const name='core-lp-sponsor-v1',aliasLabel='core-lp-sponsor-alias-v1',stage='sponsor_batch',terms={nonce:1n};
+ const policyBytes=Buffer.from('synthetic policy'),dependencyBytes=Buffer.from('synthetic dependencies');
+ const planPath=join(base,'public',name+'-plan.json');
+ const canonical={...planFreshCoreAmmStage(context,stage,terms),policySha256:sha256(policyBytes),dependenciesSha256:sha256(dependencyBytes)};
+ const exercise=async({saved,attempt=false,inputs=[],alias=false,changed=null,confirmReturns=false}={})=>{
+  const events=[],stop=Error('synthetic boundary'),label=alias?aliasLabel:name,out=join(base,'attempts',label);
+  const files=new Map(saved===undefined?[]:[[planPath,saved]]),dirs=new Set(attempt?[out]:[]),reads={};
+  for(const l of inputs)files.set(join(base,'public',l+'.json'),{});
+  const ordinaryStep=runInNewContext(`(function(){${closure}\nreturn ordinaryStep;})()`,{
+   assert,join,base,context,planFreshCoreAmmStage,assertFreshStagePlan,freshApprovedActor,sha256,parseLosslessJson,losslessJson,
+   // Production keeps the outer issuerId as a Number; context.issuerId is the same actor as BigInt.
+   issuerId:Number(context.issuerId),
+   options:{policy:'policy',dependencyBindings:'dependencies'},secondary:alias?{replacementLabel:aliasLabel}:null,continuation:null,
+   SPONSOR_ORIGINAL:name,ACTIVATION_ORIGINAL:'core-activate-v1',
+   actors:new Map([[401,{publicKeyHash:hash}],[402,{publicKeyHash:hash}]]),anchors:new Map([[401,{hash,nonce:1n}]]),
+   sourceCurrent:()=>{},
+   exact:path=>{assert.ok(files.has(path),'unexpected evidence read '+path);return parseLosslessJson(losslessJson(files.get(path)));},
+   readFileSync:path=>{assert.ok(['policy','dependencies'].includes(path),'unexpected resource read '+path);reads[path]=(reads[path]??0)+1;
+    return changed&&changed.field===path&&reads[path]>changed.after?Buffer.from('changed '+path):path==='policy'?policyBytes:dependencyBytes;},
+   existsSync:path=>files.has(path)||dirs.has(path),
+   // Production save persists bytes within its own realm. Normalize the VM-realm
+   // plan object to host structured data at this fake storage boundary so exact
+   // still exercises the real lossless codec unchanged.
+   save:(path,value)=>{events.push('save');files.set(path,structuredClone(value));},
+   unresolved:async()=>events.push('reconcile-vault'),reserve:()=>events.push('reserve'),
+   fresh:async()=>{events.push('fresh');return {};},checkActorAnchor:async()=>events.push('anchor'),
+   worker:async id=>{events.push(['worker',id]);return {};},
+   ordinary:async args=>{events.push(['ordinary',args.calls]);throw stop;},
+   // Reconciliation stops at the synthetic boundary by default. Only an explicit
+   // opt-in returns normally, so the production post-confirm pin recheck runs.
+   confirmUps:async(_config,path)=>{events.push(['confirm',path]);if(!confirmReturns)throw stop;},
+   config:'synthetic config',ordinaryBinary:'synthetic wallet',bindings:new Map(),env:{},outputs:[],auditReceipt:()=>0n,console:{log:()=>{}},
+  });
+  let error;try{await ordinaryStep(name,stage,terms);}catch(caught){error=caught;}
+  return {events,error,stop,out};
+ };
+ for(const missing of [{attempt:true},{inputs:[name]},{alias:true,attempt:true},{alias:true,inputs:[name]},{alias:true,inputs:[aliasLabel]},{alias:true,inputs:[name,aliasLabel]}]){
+  const {events,error}=await exercise(missing);
+  assert.match(error.message,/missing original saved plan; review rather than reconstruct/);
+  assert.deepEqual(events,['reconcile-vault','reserve']);
+ }
+ for(const edit of [p=>p.actorId=402n,p=>p.contract_calls[0].inputs[0]=999n,p=>p.contract_calls.push({...p.contract_calls[0]}),
+  p=>p.policySha256='b'.repeat(64),p=>p.liveAccepted=true]){
+  const changed=structuredClone(canonical);edit(changed);
+  for(const attempt of [false,true]){
+   const {events,error}=await exercise({saved:changed,attempt});
+   assert.match(error.message,/persisted ordinary plan differs/);assert.deepEqual(events,[]);
+  }
+ }
+ for(const alias of [false,true]){
+  const resumed=await exercise({saved:canonical,attempt:true,alias});
+  assert.equal(resumed.error,resumed.stop);
+  assert.deepEqual(resumed.events,['reconcile-vault','reserve',['confirm',resumed.out]]);
+ }
+ const calls=parseLosslessJson(losslessJson(canonical.contract_calls));
+ const reused=await exercise({saved:canonical});
+ assert.equal(reused.error,reused.stop);
+ assert.deepEqual(reused.events,['reconcile-vault','reserve','fresh','anchor',['worker',401],['ordinary',calls]]);
+ const created=await exercise({});
+ assert.equal(created.error,created.stop);
+ assert.deepEqual(created.events,['reconcile-vault','reserve','save','fresh','anchor',['worker',401],['ordinary',calls]]);
+ const early=await exercise({saved:canonical,changed:{field:'policy',after:1}});
+ assert.match(early.error.message,/pinned policy changed during the stage/);assert.deepEqual(early.events,['reconcile-vault']);
+ const earlyDeps=await exercise({saved:canonical,attempt:true,changed:{field:'dependencies',after:1}});
+ assert.match(earlyDeps.error.message,/pinned dependencies changed during the stage/);assert.deepEqual(earlyDeps.events,['reconcile-vault']);
+ const beforeWallet=await exercise({saved:canonical,changed:{field:'policy',after:2}});
+ assert.match(beforeWallet.error.message,/pinned policy changed during the stage/);
+ assert.deepEqual(beforeWallet.events,['reconcile-vault','reserve','fresh','anchor']);
+ const afterConfirm=await exercise({saved:canonical,attempt:true,confirmReturns:true,changed:{field:'policy',after:2}});
+ assert.match(afterConfirm.error.message,/pinned policy changed during the stage/);
+ assert.deepEqual(afterConfirm.events,['reconcile-vault','reserve',['confirm',afterConfirm.out]]);
+});
 test('saved formal tasks must match the original journal plan or the exact new scan',()=>{
  const task={kind:'batch_settle',batchId:'2',minimumSourceCheckpoint:100,validUntilCheckpoint:'120',submission:'exact frozen calls',snapshot:{vault:'a'}},expected={kind:'batch_settle',batchId:2,plannedTask:structuredClone(task)};
  assert.doesNotThrow(()=>assertFreshFormalTask(task,expected));assert.doesNotThrow(()=>assertFreshFormalTask(task,{kind:'batch_settle',batchId:2,currentTask:structuredClone(task)}));
@@ -135,4 +222,331 @@ test('Native approval adoption requires successful raw membership and nonce fres
    v=>v.approvedActorSession.isNewUser=!first,v=>v.core.new_user_leaf.nonce=9n]){const changed=structuredClone(pre);edit(changed);assert.throws(()=>assertFreshNativeApproval(changed,approved,window));}
   assert.throws(()=>assertFreshNativeApproval(pre,approved,{...window,receiptCheckpoint:101n}));
  }
+});
+function receiptFixture(){
+ const end='b'.repeat(64),content='c'.repeat(64);
+ return {core:{checkpoint_id:100n,new_user_leaf:{user_id:403n,nonce:2n,public_key:hash},state_transition:{user_id:403n,start_user_leaf_hash:hash,end_user_leaf_hash:end},
+   stats:{guta_fees_collected:1000000000n,da_fees_collected:500000000n,slots_modified:3n,total_transactions:3n,user_ops_processed:1n}},
+  included:{status:'included',userId:403n,endUserLeafHash:end,contentHash:content,checkpoint:104n,commonCheckpoint:105n,
+   receipt:{success:true,data:{status:'included',tx_type:'UserEndcap',owner_user_id:403n,content_hash:content,included_checkpoint_id:104n,
+    result:{user_id:403n,fees_collected:1500000000n,slots_modified:3n,total_transactions:3n,user_ops_processed:1n}}}}};
+}
+test('inclusion evidence must settle the exact verified core, checkpoint order, stats and reserved fee',()=>{
+ const {core,included}=receiptFixture();assert.equal(assertFreshIncludedReceipt(included,core),1500000000n);
+ for(const edit of [v=>v.included.status='broadcast_intent',v=>v.included.receipt.success=false,v=>v.included.receipt.data.status='pending',
+  v=>v.included.receipt.data.tx_type='UserStartcap',v=>v.included.userId=401n,v=>v.included.receipt.data.owner_user_id=401n,
+  v=>v.included.receipt.data.result.user_id=401n,v=>v.core.state_transition.user_id=401n,v=>v.included.endUserLeafHash='d'.repeat(64),
+  v=>v.included.contentHash='not-a-hash',v=>v.included.receipt.data.content_hash='d'.repeat(64),
+  v=>{v.included.checkpoint=99n;v.included.receipt.data.included_checkpoint_id=99n;},v=>v.included.commonCheckpoint=103n,
+  v=>v.included.receipt.data.result.slots_modified=4n,v=>v.included.receipt.data.result.total_transactions=2n,
+  v=>v.included.receipt.data.result.user_ops_processed=2n,v=>delete v.included.receipt.data.result.slots_modified,
+  v=>v.included.receipt.data.result.fees_collected=1500000001n,
+  v=>{v.core.stats.da_fees_collected=2500000000n;v.included.receipt.data.result.fees_collected=3500000000n;}]){
+  const x=receiptFixture();edit(x);assert.throws(()=>assertFreshIncludedReceipt(x.included,x.core));}
+ for(const edit of [v=>v.included.userId='403',v=>v.included.checkpoint=104,v=>v.included.commonCheckpoint='105',
+  v=>v.core.checkpoint_id=100,v=>v.core.stats.slots_modified=3,v=>v.included.receipt.data.owner_user_id='403',
+  v=>v.included.receipt.data.result.fees_collected='1500000000',v=>v.included.receipt.data.included_checkpoint_id=104,
+  v=>delete v.included.receipt.data.result,v=>delete v.core.stats,v=>delete v.included.receipt,
+  v=>{v.core.state_transition.end_user_leaf_hash='0'.repeat(64);v.included.endUserLeafHash='0'.repeat(64);}]){
+  const x=receiptFixture();edit(x);assert.throws(()=>assertFreshIncludedReceipt(x.included,x.core));}
+ for(const bad of [null,[],'included'])assert.throws(()=>assertFreshIncludedReceipt(bad,receiptFixture().core));
+ for(const bad of [null,[],{}])assert.throws(()=>assertFreshIncludedReceipt(receiptFixture().included,bad));
+});
+function journeyOutputs(){
+ return FRESH_CORE_AMM_STAGES.map(([stage,type])=>({stage,type,fee:1500000000n,
+  request:'/case/attempts/'+stage+'/request.json',preflight:'/case/attempts/'+stage+'/preflight.json',included:'/case/attempts/'+stage+'/included.json',
+  requestSha256:hash,preflightSha256:hash,includedSha256:hash}));
+}
+test('a saved confirmation must describe the complete declared journey and stay inside the owned case',()=>{
+ const outputs=journeyOutputs();assert.equal(assertFreshJourneyOutputs(outputs,{maximumFeePsy:'60'}),30000000000n);
+ const short=journeyOutputs();short.pop();
+ const reordered=journeyOutputs();[reordered[0],reordered[1]]=[reordered[1],reordered[0]];
+ const duplicated=journeyOutputs();duplicated[1]={...duplicated[0]};
+ const retyped=journeyOutputs();retyped[5].type='ordinary';
+ for(const changed of [short,reordered,duplicated,retyped,[],null])assert.throws(()=>assertFreshJourneyOutputs(changed,{maximumFeePsy:'60'}));
+ for(const edit of [v=>v[0].fee=1500000000,v=>v[0].fee='1500000000',v=>v[0].fee=-1n,v=>v[0].fee=3000000001n,
+  v=>v[0].includedSha256='b',v=>delete v[0].requestSha256,v=>v[0].preflight='']){
+  const changed=journeyOutputs();edit(changed);assert.throws(()=>assertFreshJourneyOutputs(changed,{maximumFeePsy:'60'}));}
+ assert.throws(()=>assertFreshJourneyOutputs(outputs,{maximumFeePsy:'29'}));
+ const shared=journeyOutputs();for(const row of shared)for(const role of ['request','preflight','included'])row[role]=shared[0][role];
+ assert.throws(()=>assertFreshJourneyOutputs(shared,{maximumFeePsy:'60'}),'one reused recording is not twenty stages');
+ const reused=journeyOutputs();reused[1].included=reused[0].included;
+ assert.throws(()=>assertFreshJourneyOutputs(reused,{maximumFeePsy:'60'}));
+ for(const edit of [v=>v[0].extra=true,v=>v[0]=null,v=>delete v[0].stage]){const changed=journeyOutputs();edit(changed);assert.throws(()=>assertFreshJourneyOutputs(changed,{maximumFeePsy:'60'}));}
+});
+test('journey output uniqueness rejects noncanonical path aliases without reading any case file',()=>{
+ const [first,second]=FRESH_CORE_AMM_STAGES.map(([stage])=>stage);
+ assert.equal(assertFreshJourneyOutputs(journeyOutputs(),{maximumFeePsy:'60'}),30000000000n);
+ for(const role of ['request','preflight','included'])
+  for(const path of ['/case/attempts/'+first+'/../'+second+'/'+role+'.json',
+   '/case/attempts/'+second+'/./'+role+'.json','/case/attempts//'+second+'/'+role+'.json',
+   '/case/attempts/'+second+'/sub/../'+role+'.json','/case/attempts/'+second+'/'+role+'.json/',
+   'attempts/'+second+'/'+role+'.json']){
+   const changed=journeyOutputs();changed[1][role]=path;
+   assert.throws(()=>assertFreshJourneyOutputs(changed,{maximumFeePsy:'60'}));}
+});
+function confirmedReport(){
+ return {marketId:303n,vaultId:403n,outputs:journeyOutputs(),totalFees:30000000000n,actualSwaps:1n,cancelledOrdersRefunded:1n,
+  allKnownOutboxesClaimed:true,ordinarySdkClaimsVerified:true,browserUiAccepted:false,qualifiedRandomness:false,globalOrderCompleteness:false};
+}
+test('a truncated or relabelled completion report is not a finished journey',()=>{
+ const identity={marketId:303,vaultId:403,maximumFeePsy:'60'};
+ assert.equal(assertFreshJourneyReport(confirmedReport(),identity),30000000000n);
+ for(const edit of [v=>delete v.outputs,v=>v.outputs.pop(),v=>delete v.totalFees,v=>v.totalFees=30000000000,
+  v=>v.totalFees='30000000000',v=>v.totalFees=29999999999n,v=>v.marketId=303,v=>v.marketId=304n,v=>v.vaultId=404n,
+  v=>delete v.actualSwaps,v=>v.actualSwaps=2,v=>v.cancelledOrdersRefunded=0,v=>v.allKnownOutboxesClaimed=false,
+  v=>v.actualSwaps=1,v=>v.cancelledOrdersRefunded=1,v=>v.actualSwaps='1',v=>v.cancelledOrdersRefunded='1',
+  v=>v.actualSwaps=2n,v=>v.cancelledOrdersRefunded=2n,v=>v.actualSwaps=0n,v=>v.cancelledOrdersRefunded=0n,v=>delete v.cancelledOrdersRefunded,
+  v=>v.ordinarySdkClaimsVerified=false,v=>v.browserUiAccepted=true,v=>v.qualifiedRandomness=true,v=>v.globalOrderCompleteness=true]){
+  const changed=confirmedReport();edit(changed);assert.throws(()=>assertFreshJourneyReport(changed,identity));}
+ for(const bad of [null,[],{},'confirmed'])assert.throws(()=>assertFreshJourneyReport(bad,identity));
+});
+test('a restart confirmation survives the actual lossless round trip of the writer report shape',()=>{
+ const identity={marketId:303,vaultId:403,maximumFeePsy:'60'},unit=10n**18n;
+ // The writer saves plain Numbers for identities/counters and BigInt amounts;
+ // the lossless codec returns every saved integer as a BigInt on restart.
+ const writerReport=()=>{
+  const snapshot={checkpoint:110n,balances:{403:{native:0n,a:20n*unit,b:20n*unit}},userLeaves:{403:{hash:'b'.repeat(64),nonce:3n}}};
+  return {at:'2026-11-16T12:00:00Z',marketId:303,vaultId:403,outputs:journeyOutputs(),totalFees:30000000000n,initial:snapshot,
+   actualSwaps:1,cancelledOrdersRefunded:1,allKnownOutboxesClaimed:true,ordinarySdkClaimsVerified:true,browserUiAccepted:false,
+   qualifiedRandomness:false,globalOrderCompleteness:false,after:snapshot,
+   boundary:'Current-chain selected-order deterministic AMM and ordinary SDK wallets only; no browser/UI, global inclusion, randomized ordering, performance comparison or production claim.'};
+ };
+ const saved=parseLosslessJson(losslessJson(writerReport()));
+ assert.equal(Object.getPrototypeOf(saved),null);
+ for(const field of ['marketId','vaultId','totalFees','actualSwaps','cancelledOrdersRefunded'])assert.equal(typeof saved[field],'bigint','persisted '+field+' must stay lossless');
+ assert.equal(saved.actualSwaps,1n);assert.equal(saved.cancelledOrdersRefunded,1n);
+ assert.equal(assertFreshJourneyReport(saved,identity),30000000000n);
+ for(const edit of [v=>v.actualSwaps=2,v=>v.cancelledOrdersRefunded=0,v=>v.actualSwaps=0,v=>v.totalFees=29999999999,
+  v=>v.marketId=304,v=>v.vaultId=404,v=>v.outputs.pop(),v=>v.outputs[0].fee=3000000001,v=>v.allKnownOutboxesClaimed=false,
+  v=>v.ordinarySdkClaimsVerified=false,v=>v.browserUiAccepted=true,v=>v.qualifiedRandomness=true,v=>v.globalOrderCompleteness=true]){
+  const changed=writerReport();edit(changed);
+  assert.throws(()=>assertFreshJourneyReport(parseLosslessJson(losslessJson(changed)),identity));}
+});
+// Recorded cohort observations for the four saved snapshots. Amounts are the
+// exact journey arithmetic; identities and manifest anchors come from fixture().
+function cohortFixture(){
+ const {manifest,plan,reg,config}=fixture(),unit=10n**18n,quote=swapQuote(unit,20n*unit,20n*unit),ids=[401,402,403];
+ const pending=()=>Object.fromEntries(ids.flatMap(u=>ids.filter(v=>v!==u).map(v=>[u+':'+v,{native:0n,[config.assetA]:0n,[config.assetB]:0n}])));
+ // Activation sets batch_ready = 1 permanently and finish_batch leaves phase 3.
+ // Only the pre-activation observation is ready 0 / phase 0 / id 0; the LP(1),
+ // swap(2) and cancelled(3) observations are ready 1 / phase 3 with their id.
+ const snapshot=(checkpoint,vault,balances,reserveA,reserveB,totalShares,batchId)=>({checkpoint,balances,pending:pending(),fields:{batch_ready:batchId===0n?0n:1n,batch_phase:batchId===0n?0n:3n,batch_id:batchId},
+  userLeaves:{401:{hash,nonce:1n},402:{hash,nonce:1n},403:vault},reserveA,reserveB,totalShares});
+ const initial=snapshot(100n,{hash,nonce:1n},{401:{native:1000000000000n,a:0n,b:0n},402:{native:0n,a:0n,b:0n},403:{native:0n,a:0n,b:0n}},0n,0n,0n,0n);
+ const lp=snapshot(110n,{hash:'b'.repeat(64),nonce:2n},{401:{native:990000000000n,a:100n*unit,b:100n*unit},402:{native:0n,a:80n*unit,b:80n*unit},403:{native:0n,a:20n*unit,b:20n*unit}},20n*unit,20n*unit,20n*unit,1n);
+ const swapped=snapshot(120n,{hash:'c'.repeat(64),nonce:3n},{401:{native:980000000000n,a:100n*unit,b:100n*unit},402:{native:0n,a:79n*unit,b:80n*unit+quote},403:{native:0n,a:21n*unit,b:20n*unit-quote}},21n*unit,20n*unit-quote,20n*unit,2n);
+ const after=snapshot(130n,{hash:'d'.repeat(64),nonce:4n},{401:{native:970000000000n,a:100n*unit,b:100n*unit},402:{native:0n,a:79n*unit,b:80n*unit+quote},403:{native:0n,a:21n*unit,b:20n*unit-quote}},21n*unit,20n*unit-quote,20n*unit,3n);
+ const results={'core-lp-settle-v1':{checkpoint:104n,endUserLeafHash:'b'.repeat(64)},'core-swap-settle-v1':{checkpoint:106n,endUserLeafHash:'c'.repeat(64)},
+  'core-cancel-settle-v1':{checkpoint:108n,endUserLeafHash:'d'.repeat(64)}};
+ return {manifest,plan,reg,config,initial,lp,swapped,after,quote,results,unit,fees:30000000000n};
+}
+test('the shared saved-cohort audit rejects impossible balances even with correct rows and counters',()=>{
+ const x=cohortFixture(),args=()=>({manifest:x.manifest,config:x.config,issuerId:401,traderId:402,vaultId:403,initial:x.initial,lp:x.lp,swapped:x.swapped,after:x.after,fees:x.fees});
+ assert.doesNotThrow(()=>assertFreshSavedCohortAudit(args()));
+ assert.doesNotThrow(()=>assertFreshSavedCohortAudit(parseLosslessJson(losslessJson(args()))),'the audit must survive the writer lossless round trip');
+ for(const edit of [v=>v.after.balances[402].native=1n,v=>v.after.balances[401].native=1000000000000n,v=>v.after.balances[403].a=0n,
+  v=>v.after.balances[402].b+=1n,v=>v.after.reserveA+=1n,v=>v.after.pending['401:402'].native=1n,
+  v=>v.after.balances[402].a=Number(v.after.balances[402].a),v=>v.after.balances[404]={native:0n,a:0n,b:0n},v=>delete v.after.userLeaves[402],
+  v=>v.initial.balances[401].native=1n,v=>v.initial.userLeaves[402].nonce=2n,v=>v.initial.pending['401:402'].a=1n,
+  v=>v.lp.reserveA=19n*x.unit,v=>v.lp.totalShares=1n,v=>v.swapped.balances[402].b=1n,v=>v.swapped.reserveB=1n,
+  v=>v.fees=29999999999n,v=>v.fees=30000000000,v=>v.after=null]){
+  const changed=structuredClone(args());edit(changed);assert.throws(()=>assertFreshSavedCohortAudit(changed));}
+});
+test('saved cohort pending assets, recorded batch markers, checkpoint order and shares stay bound to the frozen config',()=>{
+ const x=cohortFixture(),args=()=>({manifest:x.manifest,config:x.config,issuerId:401,traderId:402,vaultId:403,initial:x.initial,lp:x.lp,swapped:x.swapped,after:x.after,fees:x.fees});
+ assert.doesNotThrow(()=>assertFreshSavedCohortAudit(args()));
+ // The complete writer shape must survive the actual lossless round trip.
+ const round=parseLosslessJson(losslessJson(args()));
+ assert.doesNotThrow(()=>assertFreshSavedCohortAudit(round),'the full saved-cohort round trip must stay auditable');
+ for(const snapshot of [round.initial,round.lp,round.swapped,round.after]){
+  assert.equal(typeof snapshot.checkpoint,'bigint');
+  for(const name of ['batch_ready','batch_phase','batch_id'])assert.equal(typeof snapshot.fields[name],'bigint');
+  for(const row of Object.values(snapshot.pending))for(const value of Object.values(row))assert.equal(typeof value,'bigint');
+  for(const leaf of Object.values(snapshot.userLeaves))assert.equal(typeof leaf.nonce,'bigint');
+ }
+ for(const [label,edit] of [
+  ['missing FT outbox column',v=>{delete v.after.pending['401:402'][302];}],
+  ['extra FT outbox column',v=>{v.after.pending['401:402'][303]=0n;}],
+  ['relabelled FT outbox column',v=>{const p=v.lp.pending['402:403'];p[399]=p[301];delete p[301];}],
+  ['missing Native outbox column',v=>{delete v.after.pending['402:401'].native;}],
+  ['coerced pending amount',v=>{v.swapped.pending['403:401'].native=0;}],
+  ['negative pending amount',v=>{v.initial.pending['401:403'][301]=-1n;}],
+  ['missing frozen config',v=>{delete v.config;}],
+  ['substituted frozen asset',v=>{v.config.assetA=399;}],
+  ['duplicate frozen assets',v=>{v.config.assetB=v.config.assetA;}],
+  ['mixed representation of one asset',v=>{v.config.assetB=BigInt(v.config.assetA);}],
+  ['coerced frozen asset',v=>{v.config.assetA='301';}],
+  ['fractional frozen asset',v=>{v.config.assetA=301.5;}],
+  ['unsafe frozen asset number',v=>{v.config.assetA=Number.MAX_SAFE_INTEGER+2;}],
+  ['genesis-range frozen asset',v=>{v.config.assetA=4;}],
+  ['out-of-range frozen asset',v=>{v.config.assetB=2**24;}],
+  ['object frozen asset',v=>{v.config.assetA={toString:()=> '301'};}],
+  ['initial batch already used',v=>{v.initial.fields.batch_id=1n;}],
+  ['LP batch id missing',v=>{v.lp.fields.batch_id=0n;}],
+  ['swap batch id repeated',v=>{v.swapped.fields.batch_id=1n;}],
+  ['final batch id short',v=>{v.after.fields.batch_id=2n;}],
+  ['committed but unexecuted recorded phase',v=>{v.lp.fields.batch_phase=1n;}],
+  ['executing recorded phase',v=>{v.swapped.fields.batch_phase=2n;}],
+  ['expired recorded phase',v=>{v.after.fields.batch_phase=4n;}],
+  ['idle phase invented after finish',v=>{v.after.fields.batch_phase=0n;}],
+  ['unactivated marker after activation',v=>{v.lp.fields.batch_ready=0n;}],
+  ['activated marker before activation',v=>{v.initial.fields.batch_ready=1n;}],
+  ['pre-activation phase already finished',v=>{v.initial.fields.batch_phase=3n;}],
+  ['coerced activation marker',v=>{v.after.fields.batch_ready=1;}],
+  ['removed batch marker',v=>{delete v.swapped.fields.batch_id;}],
+  ['coerced batch marker',v=>{v.after.fields.batch_id=3;}],
+  ['extra batch marker',v=>{v.lp.fields.extra=0n;}],
+  ['LP snapshot not after initial',v=>{v.lp.checkpoint=100n;}],
+  ['swap snapshot not after LP',v=>{v.swapped.checkpoint=110n;}],
+  ['final snapshot not after swap',v=>{v.after.checkpoint=119n;}],
+  ['zero snapshot checkpoint',v=>{v.initial.checkpoint=0n;}],
+  ['coerced snapshot checkpoint',v=>{v.lp.checkpoint=110;}],
+  ['coerced actor nonce',v=>{v.after.userLeaves[402].nonce=1;}],
+  ['negative actor nonce',v=>{v.after.userLeaves[402].nonce=-1n;}],
+  ['malformed actor leaf hash',v=>{v.lp.userLeaves[401].hash='b';}],
+  ['removed actor leaf hash',v=>{delete v.swapped.userLeaves[403].hash;}],
+  ['extra actor leaf field',v=>{v.after.userLeaves[401].extra=0n;}],
+  ['swap changed shares',v=>{v.swapped.totalShares=21n*x.unit;}],
+  ['refund changed shares',v=>{v.after.totalShares=19n*x.unit;}]]){
+  const changed=structuredClone(args());edit(changed);
+  assert.throws(()=>assertFreshSavedCohortAudit(changed),label);
+ }
+});
+test('canonical asset identities accept both exact integer representations and reject contradictory batch markers',()=>{
+ const x=cohortFixture(),args=()=>({manifest:x.manifest,config:x.config,issuerId:401,traderId:402,vaultId:403,initial:x.initial,lp:x.lp,swapped:x.swapped,after:x.after,fees:x.fees});
+ // Plain Numbers and lossless BigInts name the same frozen contracts; the audit
+ // canonicalizes them rather than trusting a second configuration format.
+ for(const edit of [v=>{v.config.assetA=BigInt(v.config.assetA);},v=>{v.config.assetB=BigInt(v.config.assetB);},
+  v=>{v.config.assetA=BigInt(v.config.assetA);v.config.assetB=BigInt(v.config.assetB);}]){
+  const changed=structuredClone(args());edit(changed);assert.doesNotThrow(()=>assertFreshSavedCohortAudit(changed));}
+ const settled={fields:{batch_ready:1n,batch_phase:3n,batch_id:2n}};
+ assert.doesNotThrow(()=>assertFreshCohortPhase(settled,{ready:1,phase:3,batchId:2}));
+ assert.doesNotThrow(()=>assertFreshCohortPhase({fields:{batch_ready:0n,batch_phase:0n,batch_id:0n}},{ready:0,phase:0,batchId:0}));
+ for(const [label,edit] of [['unactivated',v=>{v.fields.batch_ready=0n;}],['idle after finish',v=>{v.fields.batch_phase=0n;}],
+  ['committed',v=>{v.fields.batch_phase=1n;}],['executing',v=>{v.fields.batch_phase=2n;}],['expired',v=>{v.fields.batch_phase=4n;}],
+  ['wrong batch id',v=>{v.fields.batch_id=3n;}],['coerced marker',v=>{v.fields.batch_phase=3;}]]){
+  const changed=structuredClone(settled);edit(changed);
+  assert.throws(()=>assertFreshCohortPhase(changed,{ready:1,phase:3,batchId:2}),label);}
+});
+test('the cached completion branch re-audits saved snapshots and bindings without new financial work',()=>{
+ // Only the production cached-completion closure runs here, against a fake case
+ // filesystem. No adapter, journal, signer, prover, RPC or reserve is reachable,
+ // and any write attempt is a hard failure rather than a reconstruction.
+ const source=readFileSync(new URL('./freshCoreAmmLive.mjs',import.meta.url),'utf8');
+ const start=source.indexOf('  const confirmSavedCompletion=()=>{'),end=source.indexOf("  const budget=join(base,'budget-v1');",start);
+ assert.ok(start>=0&&end>start,'production cached completion closure required');
+ const extracted=source.slice(start,end),guardStart=extracted.indexOf('  if(existsSync(completed)){confirmSavedCompletion();return;}');
+ assert.ok(guardStart>0,'production cached completion guard required');
+ // The extracted text ends with the production guard, whose `return` would skip
+ // any trailing wrapper return. Capture the closure before the guard, then let
+ // the real guard run once against the fake case filesystem.
+ const declaration=extracted.slice(0,guardStart),guard=extracted.slice(guardStart);
+ for(const forbidden of ['ordinary(','confirmUps(','adapter.','journal.','reserve(','await fresh('])assert.ok(!extracted.includes(forbidden),'cached completion must not reach financial work: '+forbidden);
+ const x=cohortFixture(),base='/synthetic-fresh-case',completed=join(base,'public/FRESH-CORE-JOURNEY-CONFIRMED-v1.json');
+ const statePath=label=>join(base,'public',label+'-state.json'),resultPath=label=>join(base,'public',label+'-result.json');
+ const build=()=>{
+  const files=new Map(),put=(path,value)=>files.set(path,Buffer.from(losslessJson(value)));
+  // The shared output fixture is rooted at /case; this fake case owns a
+  // different root. Remap every role path into the owned case before storing
+  // and pinning its bytes, so the real containment check stays satisfied.
+  const outputs=journeyOutputs().map(row=>{const r={...row};for(const role of ['request','preflight','included']){
+   assert.ok(row[role].startsWith('/case/'),'shared output fixture root required');
+   r[role]=join(base,row[role].slice('/case/'.length));
+   const bytes=Buffer.from(JSON.stringify({stage:row.stage,role}));files.set(r[role],bytes);r[role+'Sha256']=sha256(bytes);}return r;});
+  const saved={'fresh-initial-v1':x.initial,'core-after-lp-v1':x.lp,'core-after-swap-v1':x.swapped,'fresh-final-v1':x.after};
+  for(const [label,preceding] of FRESH_CORE_AMM_SNAPSHOTS){
+   put(statePath(label),saved[label]);
+   if(preceding)put(resultPath(preceding),{taskId:preceding,result:x.results[preceding]});
+   put(statePath(label)+'.binding.json',{snapshotSha256:sha256(files.get(statePath(label))),precedingFormalSha256:preceding?sha256(files.get(resultPath(preceding))):null,
+    scope:'Pinned RPC observation after exact preceding included UPS, while its vault end leaf is unchanged (initial snapshot has no predecessor); not independently verified slot Merkle proofs'});
+  }
+  put(completed,{at:'2026-11-16T12:00:00Z',marketId:303,vaultId:403,outputs,totalFees:x.fees,initial:x.initial,actualSwaps:1,cancelledOrdersRefunded:1,
+   allKnownOutboxesClaimed:true,ordinarySdkClaimsVerified:true,browserUiAccepted:false,qualifiedRandomness:false,globalOrderCompleteness:false,after:x.after,
+   boundary:'Current-chain selected-order deterministic AMM and ordinary SDK wallets only; no browser/UI, global inclusion, randomized ordering, performance comparison or production claim.'});
+  return files;
+ };
+ const rewrite=(files,path,edit)=>{const value=parseLosslessJson(files.get(path).toString());edit(value);files.set(path,Buffer.from(losslessJson(value)));};
+ const exercise=files=>{
+  const events=[],reads=[],probes=[],capture={};
+  const read=path=>{reads.push(path);if(!files.has(path))throw Error('missing cached audit file '+path);return files.get(path);};
+  let error;
+  try{
+   runInNewContext(`(function(){${declaration}\ncapture.fn=confirmSavedCompletion;\n${guard}})()`,{
+    assert,join,base,completed,reg:x.reg,plan:x.plan,manifest:x.manifest,issuerId:401,traderId:402,c:x.config,capture,
+    sha256,parseLosslessJson,assertFreshJourneyReport,assertFreshSnapshotVault,assertFreshSavedCohortAudit,FRESH_CORE_AMM_SNAPSHOTS,
+    readFileSync:read,exact:path=>parseLosslessJson(read(path).toString()),
+    // Only the confirmation file may be probed; nothing else can fall through
+    // into a reserve, adapter, signer, prover or RPC boundary.
+    existsSync:path=>{probes.push(path);assert.equal(path,completed,'the cached branch may only probe its own confirmation file');return files.has(path);},
+    freshCaseArtifact:(root,path)=>{assert.ok(path.startsWith(root+'/'),'cached artifact escapes the owned case');return read(path)&&path;},
+    save:()=>{throw Error('cached completion must never write or reconstruct evidence');},
+    console:{log:(...args)=>events.push(args)},
+   });
+  }catch(caught){error=caught;}
+  assert.equal(typeof capture.fn,'function','cached completion closure must be declared before the guard');
+  assert.deepEqual(probes,[completed],'the production cached guard must run exactly once');
+  assert.equal(reads.filter(p=>p===completed).length,1,'the saved confirmation must be read exactly once');
+  return {error,events};
+ };
+ const ok=exercise(build());
+ assert.equal(ok.error,undefined);assert.deepEqual(ok.events,[['FRESH_CORE_JOURNEY_ALREADY_CONFIRMED']]);
+ for(const [label,edit,message] of [
+  ['report final snapshot substituted',files=>rewrite(files,completed,v=>{v.after.balances[402].native=1n;}),/final snapshot differs/],
+  ['report initial snapshot substituted',files=>rewrite(files,completed,v=>{v.initial.balances[401].native=1n;}),/initial snapshot differs/],
+  ['report final snapshot removed',files=>rewrite(files,completed,v=>{delete v.after;}),/final snapshot differs/],
+  ['saved final snapshot changed',files=>rewrite(files,statePath('fresh-final-v1'),v=>{v.balances[402].native=1n;}),/saved cohort snapshot changed/],
+  ['snapshot binding digest tampered',files=>rewrite(files,statePath('fresh-final-v1')+'.binding.json',v=>{v.snapshotSha256='b'.repeat(64);}),/saved cohort snapshot changed/],
+  ['snapshot binding field removed',files=>rewrite(files,statePath('core-after-lp-v1')+'.binding.json',v=>{delete v.scope;}),/exact saved snapshot binding fields/],
+  ['predecessor binding tampered',files=>rewrite(files,statePath('core-after-lp-v1')+'.binding.json',v=>{v.precedingFormalSha256='b'.repeat(64);}),/predecessor binding changed/],
+  ['initial predecessor invented',files=>rewrite(files,statePath('fresh-initial-v1')+'.binding.json',v=>{v.precedingFormalSha256=hash;}),/predecessor binding changed/],
+  ['saved predecessor result changed',files=>rewrite(files,resultPath('core-swap-settle-v1'),v=>{v.result.endUserLeafHash='e'.repeat(64);}),/predecessor binding changed/],
+  ['missing snapshot binding',files=>files.delete(statePath('core-after-swap-v1')+'.binding.json'),/missing cached audit file/],
+  ['missing saved snapshot',files=>files.delete(statePath('fresh-initial-v1')),/missing cached audit file/],
+  ['missing predecessor result',files=>files.delete(resultPath('core-cancel-settle-v1')),/missing cached audit file/],
+  ['journey rows truncated',files=>rewrite(files,completed,v=>{v.outputs.pop();}),/declared stage sequence/]]){
+  const files=build();edit(files);const {error,events}=exercise(files);
+  assert.ok(error,label);assert.match(error.message,message,label);assert.deepEqual(events,[],label);
+ }
+ // A self-consistent forgery (snapshot, binding and report all rewritten) still
+ // fails the pure conservation audit; correct stage rows are not enough.
+ for(const [edit,message] of [[v=>{v.balances[402].native=1n;},/Native fee conservation/],
+  [v=>{v.balances[401].native=1000000000000n;},/Native fee conservation/],
+  [v=>{v.balances[403].a=0n;},/QA supply conservation/],
+  [v=>{v.pending['401:402'].native=1n;},/pending asset remains/]]){
+  const files=build();rewrite(files,statePath('fresh-final-v1'),edit);
+  rewrite(files,statePath('fresh-final-v1')+'.binding.json',v=>{v.snapshotSha256=sha256(files.get(statePath('fresh-final-v1')));});
+  rewrite(files,completed,v=>{v.after=parseLosslessJson(files.get(statePath('fresh-final-v1')).toString());});
+  const {error,events}=exercise(files);assert.ok(error);assert.match(error.message,message);assert.deepEqual(events,[]);
+ }
+ const rebound=build();rewrite(rebound,resultPath('core-lp-settle-v1'),v=>{v.result.endUserLeafHash='e'.repeat(64);});
+ rewrite(rebound,statePath('core-after-lp-v1')+'.binding.json',v=>{v.precedingFormalSha256=sha256(rebound.get(resultPath('core-lp-settle-v1')));});
+ const mismatch=exercise(rebound);assert.match(mismatch.error.message,/saved snapshot vault leaf differs/);assert.deepEqual(mismatch.events,[]);
+});
+test('owned-case evidence reads reject symlink escapes, missing files and secret paths',()=>{
+ const root=realpathSync(mkdtempSync(join(tmpdir(),'psy-fresh-case-'))),outside=realpathSync(mkdtempSync(join(tmpdir(),'psy-fresh-outside-')));
+ try{
+  mkdirSync(join(root,'public'));mkdirSync(join(root,'.secrets'));
+  const file=join(root,'public/core-lp-open-v1.json');writeFileSync(file,'{}');
+  const secret=join(root,'.secrets/issuer.json');writeFileSync(secret,'{}');
+  const foreign=join(outside,'foreign.json');writeFileSync(foreign,'{}');
+  assert.equal(freshCaseArtifact(root,file),file);
+  symlinkSync(foreign,join(root,'public/link.json'));
+  symlinkSync(outside,join(root,'public/link-dir'));
+  symlinkSync(join(root,'public/absent-target.json'),join(root,'public/dangling.json'));
+  for(const p of [join(root,'public/link.json'),join(root,'public/link-dir/foreign.json'),join(root,'public/dangling.json'),
+   join(root,'public/absent.json'),join(root,'public'),secret,join(root,'.secrets'),root,foreign,
+   join(root,'..',outside.split('/').at(-1),'foreign.json'),'public/core-lp-open-v1.json','',null])
+   assert.throws(()=>freshCaseArtifact(root,p));
+ } finally {rmSync(root,{recursive:true,force:true});rmSync(outside,{recursive:true,force:true});}
+});
+test('a reused cohort snapshot stays bound to the exact preceding formal vault receipt',()=>{
+ const report={result:{checkpoint:104n,endUserLeafHash:'b'.repeat(64)}},snapshot={checkpoint:110n,userLeaves:{403:{hash:'b'.repeat(64),nonce:3n}}};
+ assert.doesNotThrow(()=>assertFreshSnapshotVault(snapshot,403,report));
+ for(const changed of [{...snapshot,userLeaves:{403:{hash,nonce:3n}}},{...snapshot,checkpoint:103n},{...snapshot,userLeaves:{}},[],null])assert.throws(()=>assertFreshSnapshotVault(changed,403,report));
+ for(const changed of [{...snapshot,checkpoint:110},{...snapshot,userLeaves:{403:{hash:'b'.repeat(64),nonce:3}}},
+  {...snapshot,userLeaves:{403:{hash:'b'.repeat(64),nonce:0n}}},{...snapshot,userLeaves:{403:{hash:'0'.repeat(64),nonce:3n}}}])
+  assert.throws(()=>assertFreshSnapshotVault(changed,403,report));
+ for(const bad of [null,{},{result:null},{result:{checkpoint:104,endUserLeafHash:'b'.repeat(64)}},
+  {result:{checkpoint:104n,endUserLeafHash:'0'.repeat(64)}}])assert.throws(()=>assertFreshSnapshotVault(snapshot,403,bad));
 });

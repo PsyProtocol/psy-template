@@ -1,0 +1,92 @@
+{
+  "baseCommit": "01cd9b97df03f5c8ace4309d59724d99228d50de",
+  "sourceSha256": {
+    "executor/acceptance/freshCoreAmmLive.mjs": "d007042d500eed7512afd435b8746c4bb909eaf4e4279581e1315da707fa82c8",
+    "executor/acceptance/freshCoreAmmLive.test.mjs": "5dfd112f796fa47dd3dc3254300b38c30e41cd429ec1c48a87aaeccac5fd4ae1",
+    "executor/coreAmmReader.mjs": "7f2f92441169e1302653ced8b6dea39715b1c18da38f82a3d3f327cd1c0c990d",
+    "executor/coreMarkets.test.mjs": "392214494b01417cca6e1da3e6e48d80f905a13799e378b09780671a09ccd113",
+    "executor/coreCheckpointWindow.test.mjs": "6eb41147f1c89eb82bafdcc2b7cf3296334a701cf708902e2b522622b728fde5"
+  },
+  "financialOperations": 0,
+  "scope": "AMM saved-case audit and deterministic selected-core reader source/host integration only",
+  "reviewPolicy": "User replaced unavailable Grok with Qwen repairs and root review",
+  "qwenFinalReview": {
+    "model": "qwen4-max",
+    "finishReason": "stop",
+    "verdict": "PASS, supplied SOURCE/HOST scope only",
+    "thinkingEnabled": false,
+    "sha256": "bcecbd3d68756c4f6cd9874dde7c289c7e3217a21edebb9cb0615e7aab1b0449"
+  },
+  "rootFinalValidation": {
+    "command": [
+      "node",
+      "--test",
+      "executor/acceptance/freshCoreAmmLive.test.mjs",
+      "executor/acceptance/freshCoreAmmBinding.test.mjs",
+      "executor/acceptance/coreAmmJourney.test.mjs",
+      "executor/acceptance/coreAmmRecoveryAnchor.test.mjs",
+      "bondingcurve/u124/coreClient.test.mjs",
+      "bondingcurve/u124/core-build.test.mjs",
+      "nft-marketplace/u124/identityAbiGateV1.test.mjs",
+      "nft-marketplace/u124/identity-buy-candidate.test.mjs",
+      "nft-marketplace/u124/identityClientV1.test.mjs",
+      "executor/coreMarkets.test.mjs",
+      "executor/coreDependencyPolicy.test.mjs",
+      "executor/coreCheckpointWindow.test.mjs",
+      "batching/v2/planner.host.test.mjs",
+      "executor/acceptance/coreBookJourneyPlan.test.mjs",
+      "nft-marketplace/u124/identityPolicyV1.test.mjs"
+    ],
+    "exitCode": 0,
+    "counts": {
+      "tests": 200,
+      "pass": 200,
+      "fail": 0,
+      "skipped": 0,
+      "cancelled": 0
+    },
+    "wallSeconds": 8.41,
+    "logSha256": "c6dfd7eb60584bed8ba15c9b5e4f19183e51ba2afef2796966e47508eb3b50e6",
+    "financialOperations": 0,
+    "nativeProofsRun": false,
+    "fullUpsAccepted": false
+  },
+  "fixed": [
+    "Completed-cache path requires original snapshot/predecessor bindings and report/snapshot equality",
+    "Shared pure initial/LP/swap/refund conservation audit; exact frozen outbox asset columns and immutable config identities",
+    "Lossless Number/BigInt saved asset IDs normalize without accepting strings, objects or unsafe numbers",
+    "Recorded stage markers match actual generator: initial ready0/phase0/id0, then ready1/phase3/id1,2,3",
+    "Core source window uses captured scan checkpoint and strict mode/kind, canonical uint32 and lossless expiry bounds",
+    "Original missing-plan, call-stack/resource pin, receipt/core/state-chain and evidence path checks preserved"
+  ],
+  "rootReviewPrevented": [
+    "Incorrect alias-only missing-plan report was rejected",
+    "Wrong newly added ready0/phase0 post-settlement assumption was corrected from actual generator/controller before integration",
+    "VM fixture missing existsSync/guard flow and artifact paths corrected without weakening runtime gates"
+  ],
+  "failuresPreserved": [
+    "AMM v12 43/44 (fixture existsSync missing)",
+    "AMM v14 42/45 (lossless config and fake owned paths); root also caught wrong recorded-phase assumption",
+    "Initial wide Qwen reviews timed out or returned empty text; not counted as PASS"
+  ],
+  "windowBeforeAfterProbe": "Five noncanonical/out-of-domain windows accepted before and refused by the candidate; canonical window still accepted",
+  "rawEvidenceLocation": "outside Git: psy-qwen-final-source-review-20261118-v3 and immutable v12/v14/v15 correction directories",
+  "sdkCommit": "01b8f2b0a077367a7b9879baba1a72aea8ab5510",
+  "clientCommit": "7058070057c3242b5d8b29e1a31d498aaa4202c0",
+  "sdkManifestSha256": "246cfcb12788fe0d0eb79594556acdfcc7781d01641890e47836db1fbc93c467",
+  "nodeChanged": false,
+  "sdkChanged": false,
+  "nativeProofsRun": false,
+  "fullUpsAccepted": false,
+  "liveAccepted": false,
+  "qualifiedRandomness": false,
+  "globalOrderCompleteness": false,
+  "browserUiAccepted": false,
+  "unverified": [
+    "executor/coreAmm.test.mjs still requires actual fresh CORE_AMM_BUILD artifacts; guard retained, not claimed passing",
+    "Saved cohort observations/hashes are not independently authenticated slot Merkle proofs or finality",
+    "Unsaved terminal consumed/order-kind slots are not reverified by the cached path",
+    "New actual bytecode/key/complete UPS, real chain trades/refunds/ordinary-wallet claims and browser-payment acceptance remain separate gates"
+  ],
+  "financialHold": "Issuer1975680 nonce4 remains held; no replay, replacement, re-signing, faucet, funding or financial task"
+}

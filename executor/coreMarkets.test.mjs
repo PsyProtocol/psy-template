@@ -11,7 +11,7 @@ import {members} from '../batching/v2/controller.mjs';
 import {operationCalls} from '../batching/v2/policy.mjs';
 import {CORE_PROFILE_KINDS,canonicalCorePolicy} from './coreMarketProfiles.mjs';
 import {validateOptions} from './config.mjs';
-import {scanCoreMarket} from './coreAmmReader.mjs';
+import {scanCoreMarket,checkCoreSourceCheckpoint} from './coreAmmReader.mjs';
 import {createPublicWalletAdapter} from './publicWalletAdapter.mjs';
 import {ExecutionJournal} from './journal.mjs';
 import {sha256} from './requestBinding.mjs';
@@ -111,6 +111,23 @@ async function executeFrozen(x){
  assert.equal(x.proofs,1);assert.equal(x.sends,1);return calls;
 }
 
+// Idle-route helpers. Every value below is a committed public snapshot double;
+// no RPC, driver, proof, signature or broadcast participates in these choices.
+function setOrderFields(x,kind,owner,row){
+ const offsets=new Map(x.files.abi.contract.state.map(f=>[f.name,f.offset]));
+ for(const[name,width]of Object.entries(members(kind))){const value=BigInt(row[name]??0);
+  if(width===2)encodeAmount(value).forEach((v,j)=>x.put(owner,1000,offsets.get(name)+j,v));else x.put(owner,1000,offsets.get(name),value);}
+}
+function fundSponsor(x,{amount=2n*FEE_ESCROW,purpose=1n}={}){
+ x.set('sponsor_pool',100,0,300);x.set('sponsor_amount',amount,0,300);x.set('sponsor_nonce',1,0,300);x.set('sponsor_purpose',purpose,0,300);
+ x.set('used_sponsorship',0,300);x.set('settled_fee',0,300);x.put(300,0,3+2*100,amount);
+}
+function freezeSingleCurveBuy(x){
+ const base=BigInt(x.files.config.base);
+ freezeRows(x,'bondingcurve',[{owner:201n,order_checkpoint:91n,lots:1n,expected_sold:0n,x:base,paid_b:base}]);
+ return x.files.abi.contract.state.find(f=>f.name==='batch_expiry').offset;
+}
+
 test('bondingcurve: committed chronological buys update the quote for each following trade (mock I/O)',()=>fixture('bondingcurve',async x=>{
  const unit=BigInt(x.files.config.unit),base=BigInt(x.files.config.base),step=BigInt(x.files.config.step);
  // Canonical owner order differs from execution time order. The second buy is
@@ -198,3 +215,108 @@ for(const kind of ['bondingcurve','orderbook','nftmarket']){
   x.setHead(121);assert.equal((await scanCoreMarket(x.options,x.state,x.files)).action.kind,'batch_expire');assert.equal(x.proofs,0);assert.equal(x.sends,0);
  }));
 }
+
+test('core window accepts only a canonical bounded decimal window and lossless proof metadata (host only)',()=>{
+ const task={minimumSourceCheckpoint:100,validUntilCheckpoint:'164'};
+ checkCoreSourceCheckpoint(task,{checkpoint_id:100n});checkCoreSourceCheckpoint(task,{checkpoint_id:164n});
+ for(const checkpoint_id of [99n,165n,164,'164',undefined])assert.throws(()=>checkCoreSourceCheckpoint(task,{checkpoint_id}));
+ for(const core of [undefined,null,{}])assert.throws(()=>checkCoreSourceCheckpoint(task,core));
+ // A re-encoded, widened or reversed window is not the window the reader emitted.
+ for(const validUntilCheckpoint of [164,'0xa4',' 164','164 ','+164','0164','1e2','164.0','','4294967296','99',undefined,null])
+  assert.throws(()=>checkCoreSourceCheckpoint({...task,validUntilCheckpoint},{checkpoint_id:164n}));
+});
+
+test('bondingcurve: the settle window stays bound to the observed checkpoint after the head moves (mock state)',()=>fixture('bondingcurve',async x=>{
+ const expiryOffset=freezeSingleCurveBuy(x),observed=x.state.checkpoint;
+ const slot=x.state.slot;let expiryReads=0;
+ // The head rewinds only after the committed rows were already read.
+ x.state.slot=async(u,c,o)=>{const value=await slot(u,c,o);if(u===100&&c===1000&&o===expiryOffset&&++expiryReads===2)x.setHead(observed-11);return value;};
+ const a=await scanCoreMarket(x.options,x.state,x.files);
+ assert.equal(a.action.kind,'batch_settle');assert.equal(a.checkpoint,observed);
+ assert.equal(a.action.minimumSourceCheckpoint,observed,'the approved observation is the scan checkpoint, not a later head');
+ assert.equal(a.action.validUntilCheckpoint,'120');assert.equal(x.state.checkpoint,observed-11);
+ checkCoreSourceCheckpoint(a.action,{checkpoint_id:BigInt(observed)});
+ assert.throws(()=>checkCoreSourceCheckpoint(a.action,{checkpoint_id:BigInt(observed-11)}),/predates approved state observation/);
+ assert.equal(x.proofs,0);assert.equal(x.sends,0);
+}));
+
+test('bondingcurve: a non-lossless frozen expiry read cannot define the settle window (mock state)',()=>fixture('bondingcurve',async x=>{
+ const expiryOffset=freezeSingleCurveBuy(x),slot=x.state.slot;let expiryReads=0;
+ x.state.slot=async(u,c,o)=>{const value=await slot(u,c,o);if(u===100&&c===1000&&o===expiryOffset&&++expiryReads===2)return '120';return value;};
+ await assert.rejects(scanCoreMarket(x.options,x.state,x.files),/lossless frozen batch expiry/);
+ assert.equal(x.proofs,0);assert.equal(x.sends,0);
+}));
+
+// Corrupted-state doubles only: no on-chain out-of-domain expiry was observed.
+// The read value must be bounded before it is converted and clamped, so a
+// negative or oversized expiry cannot disappear into a plausible window.
+test('bondingcurve: an out-of-domain frozen expiry read cannot be clamped into the settle window (mock state)',()=>fixture('bondingcurve',async x=>{
+ const expiryOffset=freezeSingleCurveBuy(x),slot=x.state.slot;
+ for(const corrupted of [-1n,4294967296n,4294967297n,18446744073709551616n]){
+  let expiryReads=0;
+  x.state.slot=async(u,c,o)=>{const value=await slot(u,c,o);if(u===100&&c===1000&&o===expiryOffset&&++expiryReads===2)return corrupted;return value;};
+  await assert.rejects(scanCoreMarket(x.options,x.state,x.files),/frozen batch expiry outside the checkpoint domain/);
+  assert.equal(expiryReads,2,'the window uses the same frozen expiry slot read again');
+ }
+ x.state.slot=slot;
+ const a=await scanCoreMarket(x.options,x.state,x.files);
+ assert.equal(a.action.kind,'batch_settle');assert.equal(a.action.minimumSourceCheckpoint,a.checkpoint);
+ assert.equal(a.action.validUntilCheckpoint,'120');
+ checkCoreSourceCheckpoint(a.action,{checkpoint_id:BigInt(a.checkpoint)});
+ assert.equal(x.proofs,0);assert.equal(x.sends,0);
+}));
+
+test('bondingcurve: an underfunded sponsor refuses the commit and a funded one binds the commit expiry (mock state)',()=>fixture('bondingcurve',async x=>{
+ setOrderFields(x,'bondingcurve',201,{kind:1n,pool:100n,nonce:1n,deadline:120n,lots:1n,x:BigInt(x.files.config.base),order_checkpoint:90n});
+ fundSponsor(x,{amount:2n*FEE_ESCROW-1n});
+ const options={...x.options,users:[201],batchExpiryCheckpoints:40};
+ const short=await scanCoreMarket(options,x.state,x.files);
+ assert.equal(short.action,null);assert.equal(short.reason,'sponsor-funding-required');assert.equal(short.sponsor,300);
+ assert.equal(short.pending,String(2n*FEE_ESCROW-1n));assert.equal(short.required,String(2n*FEE_ESCROW));
+ fundSponsor(x);
+ const a=await scanCoreMarket(options,x.state,x.files);
+ assert.equal(a.action.kind,'batch_commit');assert.deepEqual(a.rows.map(r=>r.owner),[201n]);
+ assert.equal(a.action.minimumSourceCheckpoint,a.checkpoint);
+ const until=Number(a.action.validUntilCheckpoint);
+ assert.ok(until>a.checkpoint&&until<=a.checkpoint+40,'commit window comes from the frozen commit expiry');
+ checkCoreSourceCheckpoint(a.action,{checkpoint_id:BigInt(until)});
+ assert.throws(()=>checkCoreSourceCheckpoint(a.action,{checkpoint_id:BigInt(until+1)}),/exceeds approved window/);
+ assert.ok(x.seen.every(u=>[100,201,300].includes(u)),'explicit hints only');
+ assert.equal(x.proofs,0);assert.equal(x.sends,0);
+}));
+
+test('orderbook: expired and cancelled hints are committed for refund without a live counterpart (mock state)',()=>fixture('orderbook',async x=>{
+ fundSponsor(x);
+ for(const patch of [{deadline:99n},{deadline:120n,cancelled:1n}]){
+  setOrderFields(x,'orderbook',201,{kind:1n,pool:100n,nonce:1n,side:0n,x:100n,y:100n,order_checkpoint:90n,...patch});
+  const a=await scanCoreMarket({...x.options,users:[201]},x.state,x.files);
+  assert.equal(a.action.kind,'batch_commit');assert.deepEqual(a.rows.map(r=>r.owner),[201n]);
+  assert.equal(a.rows[0].paid_a,0n);assert.equal(a.rows[0].fee_delta,0n);
+  assert.equal(a.action.minimumSourceCheckpoint,a.checkpoint);
+ }
+ assert.ok(x.seen.every(u=>[100,201,300].includes(u)));assert.equal(x.proofs,0);assert.equal(x.sends,0);
+}));
+
+test('bondingcurve: orphan recovery waits for gas and only then selects a bounded maintenance task (mock state)',()=>fixture('bondingcurve',async x=>{
+ x.set('recovery_pool',100,0,201);x.put(201,x.files.config.assetA,33554453+4*100,5n);
+ fundSponsor(x,{purpose:1n});
+ const options={...x.options,users:[201]};
+ const blocked=await scanCoreMarket(options,x.state,x.files);
+ assert.equal(blocked.action,null);assert.equal(blocked.reason,'recovery-gas-sponsorship-required');
+ assert.equal(blocked.requiredTotal,String(2n*FEE_ESCROW));
+ x.put(100,0,0,FEE_ESCROW);
+ const a=await scanCoreMarket(options,x.state,x.files);
+ assert.equal(a.action.kind,'batch_maintenance');assert.equal(a.action.minimumSourceCheckpoint,a.checkpoint);
+ assert.equal(a.action.validUntilCheckpoint,String(a.checkpoint+64));
+ checkCoreSourceCheckpoint(a.action,{checkpoint_id:BigInt(a.checkpoint+64)});
+ assert.throws(()=>checkCoreSourceCheckpoint(a.action,{checkpoint_id:BigInt(a.checkpoint+65)}),/exceeds approved window/);
+ assert.equal(x.proofs,0);assert.equal(x.sends,0);
+}));
+
+test('bondingcurve: mixed phase or an invalid readiness marker refuses every core task (mock state)',()=>fixture('bondingcurve',async x=>{
+ for(const[phase,message]of [[2n,/atomic batch protocol/],[5n,/unknown batch phase/]]){
+  x.set('batch_phase',phase);await assert.rejects(scanCoreMarket(x.options,x.state,x.files),message);}
+ x.set('batch_phase',0);x.set('batch_ready',2);
+ await assert.rejects(scanCoreMarket(x.options,x.state,x.files),/batch readiness marker/);
+ assert.equal(x.proofs,0);assert.equal(x.sends,0);
+}));

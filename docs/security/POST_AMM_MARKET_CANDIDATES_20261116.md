@@ -192,3 +192,59 @@ No native proof, actual compiler, full UPS, live settlement, refund, ordinary
 wallet claim or performance acceptance is asserted. SDK/Node and financial state
 are unchanged; issuer1975680 nonce4 remains held. The separate AMM cached-completion
 audit candidate is not integrated at this milestone.
+
+
+## Root-reviewed AMM audit and reader integration — 18 November 2026
+
+The remaining [fresh AMM journey runner](../../executor/acceptance/freshCoreAmmLive.mjs)
+and [selected-core reader](../../executor/coreAmmReader.mjs) candidates are now
+integrated. Before accepting a cached completion, the runner re-reads all four
+saved cohort snapshots and their original binding digests, links post-batch
+snapshots to their exact preceding formal result, and compares report initial/
+final data with the saved observations. The same pure initial/LP/swap/final audit
+runs on live observations and saved replay data: exact cohort and frozen outbox
+asset columns, reserve/share/refund/supply/Native-fee conservation, chronological
+checkpoints and recorded stage markers. Missing or changed audit data throws
+before budget, adapter, signer, prover or financial work; nothing is reconstructed.
+
+Root review prevented a newly introduced marker error from reaching the branch.
+Actual generator/controller code keeps activation `batch_ready=1` and leaves
+`batch_phase=3` after finish. The audit now requires initial ready0/phase0/id0,
+then ready1/phase3/id1,2,3; tests no longer mirror an invented phase0 after finish.
+Frozen asset IDs accept safe Numbers or primitive BigInts after the real lossless
+round trip, normalize to one identity before distinctness/key checks, and reject
+strings, objects, unsafe values and mixed representations of one asset. VM guard,
+owned-path and serialization fixture failures were fixed without relaxing runtime
+gates. Original failed runs remain outside Git.
+
+The reader pins its approved window to the scan-captured checkpoint, checks
+kind/witness-mode agreement, canonical bounded uint32 windows and lossless frozen
+expiry before conversion/clamping. Root's direct before/after probe demonstrates
+five malformed/out-of-domain windows previously accepted now refuse, while the
+canonical window remains accepted. No global-account scan, qualified randomness,
+new capacity, pricing/matching change or transaction authority was introduced.
+
+Qwen's new focused static review reports PASS for this source/host scope, and root
+inspected the source, relevant callers and actual generator/controller. After the
+five source/test files were copied into the actual branch, the final15-file host
+suite passes **200/200**, zero failures/cancellations/skips. This is the combined
+AMM/Curve/Book/NFT/client/planner/reader source and mocked-I/O result, **not** a
+complete UPS, actual compiler, browser payment, network trade, refund, ordinary
+claim, throughput or production conclusion. [Compact final evidence](evidence/QWEN_AMM_SOURCE_INTEGRATION_20261118_v3.json)
+records exact command, source/report/log hashes, failed attempts and explicit limits.
+
+Cached observations and local digests are not independent slot-Merkle/finality
+authentication. Unsaved terminal consumed/order-kind slots are not reverified by
+the cache. `executor/coreAmm.test.mjs` still requires real fresh `CORE_AMM_BUILD`
+artifacts; its guard was retained and it is not counted as passed. New actual
+bytecode, dedicated keys, full UPS/session proofs and separately authorized live
+acceptance remain required. NFT writes remain closed. No Node/SDK edit, proof,
+RPC/faucet, signing, deployment, replay, replacement or financial operation ran;
+issuer1975680 nonce4 remains held. Original raw evidence is preserved outside Git,
+and no secret, chat archive or raw proof artifact is committed.
+
+Current source integration milestones: NFT opt-in shape/policy gate `e21dada`;
+Curve/build and selected planner guards `01cd9b9`; this section records the final
+AMM/reader milestone. Earlier pending-Grok and non-integration statements are
+retained as chronological history, superseded only by these explicit source-only
+integration records under the user's revised review instruction.
