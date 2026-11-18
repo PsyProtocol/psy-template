@@ -1,5 +1,6 @@
 import {assertDeterministicOrdering} from '../random-order/sourceGate.mjs';
 import assert from 'node:assert/strict';
+import {types} from 'node:util';
 export const TX_COUNT=40, WITNESS_LENGTH=74, OP_START=21, OP_WIDTH=13, BURN_INDEX=73;
 const w=witness=>({witness}),k=constant=>({constant:String(constant)});
 const nativeIds={simple_claim:2293029357,simple_transfer:354447671,simple_burn:2923993647};
@@ -62,9 +63,55 @@ export function makeBatchPolicy(market,marketId,c,abi,tokenAbi,nftAbi){assertDet
   branches:[{calls:commit},{calls:[begin,guard('finish_batch',[w(1)])]},...operations.map(o=>({calls:o.calls})),{calls:[native('simple_burn',[w(BURN_INDEX)])]}]};
 }
 const P=18446744069414584321n;
-export function validateFields(policy,fields){
- assert.equal(policy.version,2);assert.equal(policy.tx_count,TX_COUNT);assert.equal(fields.length,WITNESS_LENGTH);
- fields.forEach((n,i)=>assert.ok(typeof n==='bigint'&&n>=0n&&n<(i>=13&&i<17?P:1n<<62n),'canonical batch witness'));
+function denseArray(value,max,label,{exact=false}={}){
+ // This is the Node-only batch array boundary. It snapshots bounded own data
+ // descriptors into fresh plain arrays before validation or call construction;
+ // it does not claim to defend hostile policy objects, global prototype
+ // pollution, or a browser wallet boundary.
+ assert.ok(Array.isArray(value)&&!types.isProxy(value),`${label} must be a non-Proxy array`);
+ const lengthDescriptor=Object.getOwnPropertyDescriptor(value,'length');
+ assert.ok(lengthDescriptor&&Object.hasOwn(lengthDescriptor,'value'),`${label} length descriptor required`);
+ const length=lengthDescriptor.value;
+ assert.ok(Number.isSafeInteger(length)&&length>=0,`${label} length required`);
+ if(exact)assert.equal(length,max,`${label} capacity`);
+ else assert.ok(length<=max,`${label} capacity`);
+ // Capture the bounded own index descriptors first so a hole or an accessor
+ // reports the density failure it actually is; only then refuse any extra own
+ // key (including symbols such as a substituted Symbol.iterator).
+ const result=[];
+ for(let i=0;i<length;i++){
+  const key=String(i),d=Object.getOwnPropertyDescriptor(value,key);
+  assert.ok(d&&Object.hasOwn(d,'value')&&d.enumerable,`${label} must be dense`);
+  result.push(d.value);
+ }
+ const keys=Reflect.ownKeys(value);
+ assert.equal(keys.length,length+1,`${label} extra own properties are unsupported`);
+ return result;
+}
+function canonicalWord(n,index){
+ assert.ok(typeof n==='bigint'&&n>=0n&&n<(index>=13&&index<17?P:1n<<62n),'canonical batch witness');
+}
+// Existing readers/planners supply the mode as a small integer Number while
+// every other witness word stays a canonical BigInt. Accept exactly a safe
+// integer Number or a primitive BigInt in 1..4 and convert it once; strings,
+// fractions, boxed values and any other scalar stay refused.
+function canonicalMode(value){
+ const ok=typeof value==='bigint'||(typeof value==='number'&&Number.isSafeInteger(value));
+ assert.ok(ok,'canonical batch mode');
+ const mode=BigInt(value);
+ assert.ok(mode>=1n&&mode<=4n,'batch mode');
+ return mode;
+}
+function validateFrameShape(fields){
+ for(let i=0;i<WITNESS_LENGTH;i++)canonicalWord(fields[i],i);
+}
+function frameSnapshot(fields){
+ const snapshot=denseArray(fields,WITNESS_LENGTH,'batch witness',{exact:true});
+ validateFrameShape(snapshot);
+ return snapshot;
+}
+function validateFieldsSnapshot(policy,fields){
+ assert.equal(policy.version,2);assert.equal(policy.tx_count,TX_COUNT);
  const mode=Number(fields[0]);assert.ok(mode>=1&&mode<=4,'batch mode');
  assert.ok(fields[BURN_INDEX]>=1000000000n&&fields[BURN_INDEX]<=1000100000n&&fields[BURN_INDEX]%1000n===0n,'burn fee');
  const headerUsed=new Set(mode===1?[0,1,2,3,4,5,6,7,8,9,10,11,12]:mode===2?[0,1,13,14,15,16,...(policy.market==='orderbook'?[17,18,19,20]:[])]:mode===3?[0,1]:[0]);
@@ -78,7 +125,11 @@ export function validateFields(policy,fields){
   for(let i=0;i<OP_WIDTH;i++)if(!used.has(i))assert.equal(fields[start+i],0n,'unused operation field');
  }
 }
-export function operationCalls(policy,fields){validateFields(policy,fields);const convert=(c,start=0)=>({contract_id:BigInt(c.contract_id),method_id:BigInt(c.method_id),method_name:c.method_name,inputs:c.inputs.map(x=>x.witness===undefined?BigInt(x.constant):fields[start+x.witness])});
+export function validateFields(policy,fields){
+ validateFieldsSnapshot(policy,frameSnapshot(fields));
+}
+function operationCallsFromSnapshot(policy,fields){
+ const convert=(c,start=0)=>({contract_id:BigInt(c.contract_id),method_id:BigInt(c.method_id),method_name:c.method_name,inputs:c.inputs.map(x=>x.witness===undefined?BigInt(x.constant):fields[start+x.witness])});
  const noop=()=>convert(policy.noop),calls=[],mode=Number(fields[0]);
  if(mode===1)calls.push(...policy.commit.map(c=>convert(c)));
  if(mode===2){calls.push(convert(policy.begin));for(let op=0;op<4;op++){const start=OP_START+op*OP_WIDTH,branch=policy.operations.find(x=>BigInt(x.branch)===fields[start]);calls.push(...(branch?branch.calls.map(c=>convert(c,start)):Array.from({length:9},noop)));}calls.push(convert(policy.finish));}
@@ -86,5 +137,39 @@ export function operationCalls(policy,fields){validateFields(policy,fields);cons
  if(mode===4){const start=OP_START,branch=policy.operations.find(x=>BigInt(x.branch)===fields[start]);assert.ok(branch,'maintenance operation required');calls.push(...branch.calls.map(c=>convert(c,start)));}
  assert.ok(calls.length<TX_COUNT);while(calls.length<TX_COUNT-1)calls.push(noop());calls.push(convert(policy.burn));return calls;
 }
-export function signingRequest(policy,fields){const supplied=[...fields];if(supplied[BURN_INDEX]===0n)supplied[BURN_INDEX]=1000000000n;const calls=operationCalls(policy,supplied);return {contract_calls:calls.slice(0,-1).map(({contract_id,method_name,inputs})=>({contract_id,method_name,inputs})),software_defined_call:{inputs:[...fields]}};}
-export function witness({mode,batch=0n,users=[],nonces=[],expiry=0n,sponsor=0n,root=[0n,0n,0n,0n],rank=[0n,0n,0n,0n],operations=[],burn=1000000000n}){const f=Array(WITNESS_LENGTH).fill(0n);f[0]=BigInt(mode);f[1]=batch;f[2]=BigInt(users.length);f[3]=expiry;f[4]=sponsor;users.forEach((u,i)=>f[5+i]=u);nonces.forEach((n,i)=>f[9+i]=n);root.forEach((n,i)=>f[13+i]=n);rank.forEach((n,i)=>f[17+i]=n);operations.forEach((v,i)=>{assert.equal(v.length,13);assert.ok(i<4);v.forEach((n,j)=>f[21+13*i+j]=n);});f[73]=burn;return f;}
+export function operationCalls(policy,fields){
+ const snapshot=frameSnapshot(fields);
+ validateFieldsSnapshot(policy,snapshot);
+ return operationCallsFromSnapshot(policy,snapshot);
+}
+export function signingRequest(policy,fields){
+ const snapshot=frameSnapshot(fields);
+ const supplied=snapshot.slice();
+ if(supplied[BURN_INDEX]===0n)supplied[BURN_INDEX]=1000000000n;
+ validateFieldsSnapshot(policy,supplied);
+ const calls=operationCallsFromSnapshot(policy,supplied);
+ return {contract_calls:calls.slice(0,-1).map(({contract_id,method_name,inputs})=>({contract_id,method_name,inputs})),software_defined_call:{inputs:snapshot}};
+}
+export function witness({mode,batch=0n,users=[],nonces=[],expiry=0n,sponsor=0n,root=[0n,0n,0n,0n],rank=[0n,0n,0n,0n],operations=[],burn=1000000000n}={}){
+ const userSnapshot=denseArray(users,4,'commit users'),nonceSnapshot=denseArray(nonces,4,'commit nonces');
+ const rootSnapshot=denseArray(root,4,'batch root',{exact:true}),rankSnapshot=denseArray(rank,4,'batch rank',{exact:true});
+ const operationSnapshot=denseArray(operations,4,'batch operations').map(operation=>denseArray(operation,OP_WIDTH,'batch operation vector',{exact:true}));
+ for(let i=0;i<operationSnapshot.length;i++){
+  for(let j=0;j<OP_WIDTH;j++)canonicalWord(operationSnapshot[i][j],OP_START+13*i+j);
+ }
+ const normalizedMode=canonicalMode(mode);
+ const scalars=[[batch,1],[expiry,3],[sponsor,4],[burn,BURN_INDEX]];
+ for(const [value,index] of scalars)canonicalWord(value,index);
+ for(let i=0;i<userSnapshot.length;i++)canonicalWord(userSnapshot[i],5+i);
+ for(let i=0;i<nonceSnapshot.length;i++)canonicalWord(nonceSnapshot[i],9+i);
+ for(let i=0;i<rootSnapshot.length;i++)canonicalWord(rootSnapshot[i],13+i);
+ for(let i=0;i<rankSnapshot.length;i++)canonicalWord(rankSnapshot[i],17+i);
+ if(normalizedMode===1n)assert.equal(userSnapshot.length,nonceSnapshot.length,'commit member nonce cardinality');
+ const f=Array(WITNESS_LENGTH).fill(0n);f[0]=normalizedMode;f[1]=batch;f[2]=BigInt(userSnapshot.length);f[3]=expiry;f[4]=sponsor;
+ for(let i=0;i<userSnapshot.length;i++)f[5+i]=userSnapshot[i];
+ for(let i=0;i<nonceSnapshot.length;i++)f[9+i]=nonceSnapshot[i];
+ for(let i=0;i<rootSnapshot.length;i++)f[13+i]=rootSnapshot[i];
+ for(let i=0;i<rankSnapshot.length;i++)f[17+i]=rankSnapshot[i];
+ for(let i=0;i<operationSnapshot.length;i++)for(let j=0;j<OP_WIDTH;j++)f[OP_START+OP_WIDTH*i+j]=operationSnapshot[i][j];
+ f[BURN_INDEX]=burn;return f;
+}

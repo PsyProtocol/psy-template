@@ -21,6 +21,18 @@ const sha = bytes => createHash('sha256').update(bytes).digest('hex');
 const id = n => Number.isSafeInteger(n) && n >= 5 && n < 2 ** 24;
 const save = (p, value) => writeFileSync(p, JSON.stringify(value, null, 2) + '\n', {flag: 'wx'});
 
+// The ordinary client resolves circuits by name. Reject duplicate names or
+// non-canonical selectors before a host build can publish an ambiguous policy.
+function reviewedSelectors(methods, label) {
+  assert.ok(Array.isArray(methods) && methods.length > 0, label + ' ABI methods required');
+  assert.equal(new Set(methods.map(m => m.name)).size, methods.length, 'unique ' + label + ' methods');
+  const ids = methods.map(m => m.method_id);
+  for (const id of ids)
+    assert.ok(Number.isSafeInteger(id) && id > 0 && id <= 0xffffffff,
+      'canonical nonzero uint32 method id required: ' + label);
+  assert.equal(new Set(ids).size, ids.length, 'unique ' + label + ' method ids');
+}
+
 function configuration(marketId, config, chainRootAt1) {
   assertDeterministicOrdering(config);
   for (const name of Object.keys(config)) assert.ok(['assetA', 'assetB', 'networkMagic', 'ordering'].includes(name), 'unsupported Book configuration ' + name);
@@ -36,8 +48,9 @@ export function makeCoreBookPolicy(marketId, config, artifact, token, chainRootA
   assert.equal(artifact.state_tree_height, 31);
   assert.equal(artifact.abi.contract.state_tree_height, 31);
   validateU124TokenAbi(token.abi);
+  reviewedSelectors(token.abi.contract.methods, 'U124 token');
   const methods = artifact.abi.contract.methods;
-  assert.equal(new Set(methods.map(m => m.name)).size, methods.length, 'unique Book methods');
+  reviewedSelectors(methods, 'Book market');
   assert.ok(!methods.some(m => /stream|admission|source|scan/.test(m.name)), 'selected Book has no global coverage methods');
   for (const [name, arity] of [['open_sell', 8], ['close_0', 0], ['close_1', 0], ['request_cancel', 0]]) {
     const m = methods.find(m => m.name === name);
@@ -75,7 +88,11 @@ export function buildCoreBook(spec, freshOutput, {runCompiler = spawnSync} = {})
     original[role] = bytes; inputs[role] = role === 'compiler' ? bytes : JSON.parse(bytes);
   }
   validateNativeArtifact(inputs.native, PROFILE);
-  for (const token of [inputs.tokenA, inputs.tokenB]) {tokenGate(token); validateU124TokenAbi(token.abi);}
+  for (const token of [inputs.tokenA, inputs.tokenB]) {
+    tokenGate(token);
+    validateU124TokenAbi(token.abi);
+    reviewedSelectors(token.abi.contract.methods, 'U124 token');
+  }
   for (const name of ['claim', 'transfer']) assert.equal(
     inputs.tokenA.abi.contract.methods.find(m => m.name === name).method_id,
     inputs.tokenB.abi.contract.methods.find(m => m.name === name).method_id, 'same U124 token interface');

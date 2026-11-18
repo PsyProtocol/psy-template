@@ -35,7 +35,7 @@ function tokenFixture() {
 const source = generateBatch('orderbook', config);
 const marketFixture = () => ({state_tree_height: 31, abi: {contract: {state_tree_height: 31,
   methods: methodSpans(source).map((m, i) => ({name: m.name, method_id: 100 + i, output_felt_count: 0,
-    state_mutability: 'external', input_felt_count: [...m.signature.matchAll(/\b\w+:\s*(Felt|Hash|\[Felt;\s*(\d+)\])/g)]
+    state_mutability: 'external', outputs: [], input_felt_count: [...m.signature.matchAll(/\b\w+:\s*(Felt|Hash|\[Felt;\s*(\d+)\])/g)]
       .reduce((n, match) => n + (match[1] === 'Hash' ? 4 : match[2] ? Number(match[2]) : 1), 0)}))}}});
 const nativeFixture = {state_tree_height: 32, circuit_definitions: [
   ['claim', 3824212239, 1], ['transfer', 2789897329, 2], ['burn', 3998182541, 1],
@@ -130,6 +130,80 @@ test('wrong identities, chain/release, random mechanisms and altered ABI fail cl
   assert.throws(() => makeCoreBookPolicy(1000, config, a, tokenFixture(), anchor));
   a.abi.contract.methods.push({name: 'stream_seal'});
   assert.throws(() => makeCoreBookPolicy(1000, config, a, tokenFixture(), anchor));
+});
+
+test('Book policy accepts valid nonzero token selectors after semantic validation', () => {
+  const p = makeCoreBookPolicy(1000, config, marketFixture(), tokenFixture(), anchor);
+  assert.equal(p.market, 'orderbook');
+  assert.equal(p.execution_scope, 'explicit-selected-orders-v1');
+  assert.equal(p.whole_market_completeness, false);
+  assert.equal(p.qualified_randomness, false);
+});
+
+test('Book policy rejects malformed token selectors while preserving FT shape validation', () => {
+  const reject = mutate => {
+    const token = tokenFixture();
+    mutate(token.abi.contract.methods);
+    assert.throws(() => makeCoreBookPolicy(1000, config, marketFixture(), token, anchor));
+  };
+  reject(methods => { methods.find(m => m.name === 'transfer').method_id = 0; });
+  reject(methods => { methods.find(m => m.name === 'claim').method_id = methods.find(m => m.name === 'transfer').method_id; });
+  // Distinct selectors do not legalize a duplicated token method name.
+  for (const name of ['transfer', 'claim'])
+    reject(methods => methods.push({...methods.find(m => m.name === name), method_id: 0xfffffff1}));
+  for (const method_id of [-1, 1.5, '1', 1n, 0x100000000])
+    reject(methods => { methods.find(m => m.name === 'transfer').method_id = method_id; });
+  reject(methods => { methods.find(m => m.name === 'transfer').input_felt_count = 2; });
+});
+
+test('Book policy rejects malformed market selectors and ordinary metadata', () => {
+  const reject = mutate => {
+    const artifact = marketFixture();
+    mutate(artifact.abi.contract.methods);
+    assert.throws(() => makeCoreBookPolicy(1000, config, artifact, tokenFixture(), anchor));
+  };
+  reject(methods => methods.push({...methods[0]}));
+  reject(methods => { methods[1].method_id = methods[0].method_id; });
+  // Host policy construction must refuse a repeated market name even when the
+  // appended clone carries a new unique valid nonzero uint32 selector.
+  for (const name of ['open_sell', 'request_cancel'])
+    reject(methods => methods.push({...methods.find(m => m.name === name), method_id: 0xfffffff0}));
+  for (const method_id of [0, -1, 1.5, '100', 1n, 0x100000000])
+    reject(methods => { methods[0].method_id = method_id; });
+  for (const [field, value] of [['output_felt_count', 1], ['state_mutability', 'view'], ['input_felt_count', 7]])
+    reject(methods => Object.assign(methods.find(m => m.name === 'open_sell'), {[field]: value}));
+  reject(methods => { methods.find(m => m.name === 'request_cancel').input_felt_count = 1; });
+  reject(methods => { methods.find(m => m.name === 'close_0').output_felt_count = 1; });
+  reject(methods => { methods.find(m => m.name === 'close_1').state_mutability = 'view'; });
+});
+
+test('host fake build accepts valid token selectors without claiming real compilation', t => {
+  const f = fixture(t), report = buildCoreBook(f.spec, f.out, {runCompiler: f.runCompiler});
+  assert.equal(report.market, 'orderbook');
+  assert.equal(report.executionScope, 'explicit-selected-orders-v1');
+  assert.equal(report.fullUpsVerified, false);
+  assert.equal(report.sdKeyProofVerified, false);
+  assert.equal(report.liveAuthorization, false);
+  assert.equal(f.calls.length, 2);
+});
+
+test('host fake build rejects token selector zero, duplicates and out-of-domain IDs before compiling', t => {
+  for (const role of ['tokenA', 'tokenB']) {
+    for (const mutate of [
+      methods => { methods.find(m => m.name === 'transfer').method_id = 0; },
+      methods => { methods.find(m => m.name === 'claim').method_id = methods.find(m => m.name === 'transfer').method_id; },
+      methods => { methods.find(m => m.name === 'transfer').method_id = 0x100000000; },
+    ]) {
+      const f = fixture(t), token = tokenFixture();
+      mutate(token.abi.contract.methods);
+      const bytes = bytesWithU64(token), path = join(f.root, role + '-bad-selector');
+      writeFileSync(path, bytes);
+      const spec = {...f.spec, [role]: {path, sha256: digest(bytes)}};
+      assert.throws(() => buildCoreBook(spec, f.out + '-' + role + '-' + digest(bytes).slice(0, 8), {runCompiler: f.runCompiler}));
+      assert.equal(f.calls.length, 0);
+      assert.equal(existsSync(f.out + '-' + role + '-' + digest(bytes).slice(0, 8)), false);
+    }
+  }
 });
 
 test('wrong compiler foreign-read audit cannot publish a policy or successful manifest', t => {

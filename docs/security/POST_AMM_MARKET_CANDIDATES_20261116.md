@@ -285,3 +285,48 @@ Raw artifacts and logs remain outside Git in the unique
 proof, RPC, signing, funding, deployment, broadcast, Node or SDK change occurred.
 NFT purchase writes stay closed until actual VM/adversarial tests, dedicated
 SD-key/full UPS/session bindings and separately authorized new-instance acceptance.
+
+
+## Root-reviewed Book and witness-frame integration — 18 November 2026
+
+The remaining Qwen corrections are integrated into the existing branch after root
+source review and an actual combined host regression. The [batch witness boundary](../../batching/v2/policy.mjs)
+now checks bounded dense own data before copying, rejects oversized/sparse/accessor/
+Proxy arrays and extra own fields, and uses one stable snapshot for validation and
+call construction. Root reproduced the previous own-iterator substitution of
+approved batch1 into emitted batch2; the corrected path refuses it without invoking
+the supplied iterator. Safe Number/BigInt mode normalization, full Goldilocks root
+words, U124 limbs, burn-zero preparation placeholders and final fee constraints
+remain compatible. The 40-call/74-word frame and four-operation capacity are unchanged.
+This is a Node-only array boundary, not a hostile-policy/global-prototype or browser
+wallet isolation claim.
+
+The [Book client](../../orderbook/u124/coreClient.mjs) requires the complete ordinary
+market ABI and unique canonical nonzero uint32 method selectors. Its actual returned
+three-call order/Native-fee/token-payment stack is checked against approved vault,
+side, both U124 amounts, deadline, nonce, recipient and reserve asset. Cancellation
+remains one request with no payout or token ABI requirement. The [build acceptance](../../orderbook/u124/core-build.mjs)
+applies the same selector rule to both token inputs before invoking the compiler.
+The pure exported checker authenticates equality/bounds only; code/layout, registered
+key, funds and wallet approval remain separate gates. The public client barrel,
+whole-order matching, price/time priority, shared vault and deterministic ordering
+are unchanged.
+
+Qwen's final read-only review reports PASS for the supplied Book and frame source.
+Root independently disproved two preliminary findings (duplicate method names and
+non-Book rank fields already reject); the final reviewer explicitly retracted them.
+Earlier failing fixture runs and reports are retained outside Git. Mutation tests
+now invoke the actual checker rather than merely compare changed arrays.
+
+After integration, the combined 18-file host command passes **233/233**, zero failures,
+skips or cancellations. [Compact evidence](evidence/QWEN_BOOK_WITNESS_INTEGRATION_20261118_v4.json)
+records the exact command, counts, hashes, failed attempts and review limits. This
+is source/host acceptance with mocked I/O/compiler cases, not actual Book bytecode,
+VM, dedicated SD-key, full UPS, browser payment, network settlement/refund/claim or
+performance acceptance. Artifact-dependent test guards remain intact and are not
+counted as passed. The separate actual NFT compilation milestone is recorded in
+commit `6259af9`; NFT writes remain closed pending VM, key and complete UPS evidence.
+No Node/SDK change, RPC, signing, proof generation, financial operation, replay or
+replacement occurred. Issuer1975680 nonce4 remains held. Raw chats, logs and compiler
+artifacts remain outside Git; only the six source/test files and compact review
+evidence are included at this milestone.

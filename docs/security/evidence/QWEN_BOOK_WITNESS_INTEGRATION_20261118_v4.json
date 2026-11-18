@@ -1,0 +1,104 @@
+{
+  "schema": "source-host-integration-v1",
+  "date": "2026-11-18",
+  "baseCommit": "6259af988e4fc6f55fb11fb1d44769bce678c576",
+  "scope": "Qwen source corrections, root source inspection and host regression only",
+  "dependencyFreeze": {
+    "sdkCommit": "01b8f2b0a077367a7b9879baba1a72aea8ab5510",
+    "clientCommit": "7058070057c3242b5d8b29e1a31d498aaa4202c0",
+    "backendCommit": "736572e9dd3ca93566471cf5a2a1cb67a13fe01d",
+    "manifestSha256": "246cfcb12788fe0d0eb79594556acdfcc7781d01641890e47836db1fbc93c467",
+    "changed": false
+  },
+  "sourceSha256": {
+    "batching/v2/policy.mjs": "950dbde7b8de15bec7ff088b26c4d64db1b4430ee1d451344475ca38867f4242",
+    "batching/v2/witnessShape.test.mjs": "c383f66a4d2bbe50994df3cc4e097a2ca0978182eda05884f3fdd666f4bb31d8",
+    "orderbook/u124/coreClient.mjs": "c2981f2f1087e43cce44a19f5c8e92f9fbb67c85897738655eca6a96ad3628bf",
+    "orderbook/u124/coreClient.test.mjs": "4f2a52e6286bc25b2ec7eea55309eec38976506a0e4d8acbb4cd8e46e4436f8a",
+    "orderbook/u124/core-build.mjs": "8b2ba3987854dcee5892c9a6ca031e139b2ad3ab58d13624601499513288bb9b",
+    "orderbook/u124/core-build.test.mjs": "4801a4f9017f2e4851d2fe2fa21ad6ef849866675d7cad7df35755c805d7e077"
+  },
+  "repairs": [
+    "Bound witness segments before copying; reject holes, accessor indices, Proxy arrays and extra own fields without evaluating supplied getters or iterators.",
+    "Snapshot full witness frames once for validation and call construction; prevent own-iterator substitution between approved and emitted inputs.",
+    "Keep existing mode normalization, full Goldilocks roots, U124 limbs, zero-burn preparation placeholder and final burn constraints.",
+    "Require complete ordinary Book market ABI and unique canonical nonzero uint32 selectors; check both build token inputs before compiler invocation.",
+    "Check actual returned Book order, Native fee and reserve-token payment stack against approved parameters; preserve single-call cancellation without payout."
+  ],
+  "unchangedBoundaries": {
+    "calls": 40,
+    "witnessWords": 74,
+    "operationWidth": 13,
+    "operationCapacity": 4,
+    "deterministicOrdering": true,
+    "marketSemanticsUnchanged": true,
+    "clientBarrelUnchanged": true
+  },
+  "review": {
+    "model": "qwen4-max",
+    "finishReason": "stop",
+    "bookVerdict": "PASS (supplied local source only)",
+    "frameVerdict": "PASS (supplied local source only)",
+    "reportSha256": "98cb675b06eb9f1f1e9297ae406fbb412175a67a34b4f8574e56757430d0a25a",
+    "rootCounterexampleSha256": "785d636f476b8b376a4823dddd11175b729f7c09639a80212c46a1fa50742be5",
+    "disposition": "Two preliminary findings were independently disproved by executed predicates and retracted by the final reviewer. No finding accepted solely from model output."
+  },
+  "rootRegression": {
+    "command": [
+      "node",
+      "--test",
+      "executor/acceptance/freshCoreAmmLive.test.mjs",
+      "executor/acceptance/freshCoreAmmBinding.test.mjs",
+      "executor/acceptance/coreAmmJourney.test.mjs",
+      "executor/acceptance/coreAmmRecoveryAnchor.test.mjs",
+      "bondingcurve/u124/coreClient.test.mjs",
+      "bondingcurve/u124/core-build.test.mjs",
+      "nft-marketplace/u124/identityAbiGateV1.test.mjs",
+      "nft-marketplace/u124/identity-buy-candidate.test.mjs",
+      "nft-marketplace/u124/identityClientV1.test.mjs",
+      "executor/coreMarkets.test.mjs",
+      "executor/coreDependencyPolicy.test.mjs",
+      "executor/coreCheckpointWindow.test.mjs",
+      "batching/v2/planner.host.test.mjs",
+      "executor/acceptance/coreBookJourneyPlan.test.mjs",
+      "nft-marketplace/u124/identityPolicyV1.test.mjs",
+      "batching/v2/witnessShape.test.mjs",
+      "orderbook/u124/coreClient.test.mjs",
+      "orderbook/u124/core-build.test.mjs"
+    ],
+    "exitCode": 0,
+    "counts": {
+      "tests": 233,
+      "pass": 233,
+      "fail": 0,
+      "skipped": 0,
+      "cancelled": 0
+    },
+    "wallSeconds": 9.372,
+    "logSha256": "eac4aed39de3ebd82043e4bc298a68610f0b9908e2414d6cd7833477c44579bd",
+    "financialOperations": 0,
+    "nativeProofsRun": false,
+    "fullUpsAccepted": false
+  },
+  "preservedFailureHistory": [
+    "Initial witness correction rejected legitimate Number modes; corrected to explicit safe-integer Number or BigInt mode normalization.",
+    "Witness fixture failures exposed incorrect assumptions about hash-word bounds, burn placeholders, unused fields and getter/iterator test setup; fixed tests with real reviewed planner operations.",
+    "Book fixture paths and legacy minimal ABI fixtures corrected to reviewed inputs; tautological mutation tests replaced with actual stack-checker rejection tests.",
+    "Root found zero-selector build/client asymmetry; both token build inputs now reject it. Later test-only equality and duplicate-name fixtures corrected."
+  ],
+  "limits": [
+    "Node-only array boundary; hostile policy objects, global prototype pollution and browser-wallet sandboxing are not established by this patch.",
+    "Host tests include mocked compiler/I/O cases; no actual Book compilation, VM, native proof, full UPS, registered key or runtime code/layout acceptance is established.",
+    "Existing artifact-dependent coreAmm.test.mjs and batch.test.mjs gates remain intact and are not counted as passed here.",
+    "No browser payment, real network fill, refund, ordinary wallet claim, throughput or production acceptance.",
+    "Actual NFT offline compilation is a separate milestone in NFT_IDENTITY_ACTUAL_COMPILE_20261118_v1.json; NFT writes remain closed."
+  ],
+  "financialOperations": 0,
+  "rpcOperations": 0,
+  "nativeProofsRun": false,
+  "nodeChanged": false,
+  "sdkChanged": false,
+  "heldRequest": "Issuer 1975680 nonce 4 remains held; no replay, replacement, signing, faucet, deployment or broadcast.",
+  "rawEvidenceLocation": "Outside Git: psy-qwen-market-source-review-20261118-v4, psy-qwen-frame-fixtures-20261118-v8 and psy-qwen-book-fixture-final-20261118-v9; originals retained.",
+  "rawEvidenceCommitted": false
+}
