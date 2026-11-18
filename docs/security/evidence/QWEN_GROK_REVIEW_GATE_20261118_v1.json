@@ -1,0 +1,49 @@
+{
+  "status": "awaiting_grok_authentication",
+  "testedCodeBaseCommit": "aac8a4a8b5c9e63a28ca56970368ad9603a91cd7",
+  "branch": "markets-batch-capacity-recovery-20261020",
+  "qwenRequestedModel": "qwen4-max",
+  "rootCombinedHostTests": {
+    "tests": 107,
+    "pass": 107,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "rootTestLogSha256": "984dd32ddb78aa1b4836bce3fdeee4f891c1f2edc57ce986cfc24bf88d9875a9",
+  "candidateSourceSha256": {
+    "bondingcurve/u124/coreClient.mjs": "e35303b276ea8a6dc87a66da4918e514e25ffb94cd7ad81ad6d01212ac84231c",
+    "bondingcurve/u124/coreClient.test.mjs": "cc4c28a3dfcc64ef7a54968d97e2f722296f46131fea5787806d35eccdef5fcc",
+    "executor/acceptance/freshCoreAmmLive.mjs": "a51f5e0d063ccbc455ff638e1e3eb303a5ee456c94dc472a76ed90e233d63d60",
+    "executor/acceptance/freshCoreAmmLive.test.mjs": "ad609cbf9100bc41076d1c9efa7eca76929c9a481c41061baab54cfdf9c0280a",
+    "nft-marketplace/u124/identityAbiGateV1.mjs": "8b92a279d2e3a63b3b2c149f379a96857852c6b06c43c137cfc9955166aa9619",
+    "nft-marketplace/u124/identityAbiGateV1.test.mjs": "fc7c7d6c7349c598622f16c44d60a9d05b676b74bbab1c30cb4e9b8da1ddcf50"
+  },
+  "sdkCommit": "01b8f2b0a077367a7b9879baba1a72aea8ab5510",
+  "clientCommit": "7058070057c3242b5d8b29e1a31d498aaa4202c0",
+  "sdkManifestSha256": "246cfcb12788fe0d0eb79594556acdfcc7781d01641890e47836db1fbc93c467",
+  "grok": {
+    "reviewPerformed": false,
+    "entry": "Cursor Agent CLI",
+    "modelSelected": false,
+    "blocker": "Authentication required; user will restore local login",
+    "rootDidNotExtractCredentials": true
+  },
+  "sourceIntegrated": false,
+  "candidateCodeCommitted": false,
+  "pushed": false,
+  "nativeProofsRun": false,
+  "fullUpsAccepted": false,
+  "financialOperations": 0,
+  "nodeChanges": false,
+  "sdkChanges": false,
+  "originalEvidenceOverwritten": false,
+  "unknownBroadcast": "Issuer1975680 nonce4 stays held; not replayed/replaced/re-signed",
+  "remaining": [
+    "Actual independent Grok review of frozen candidate files and test meaning",
+    "Resolve any review findings and rerun relevant host tests",
+    "Only passed patches may enter the current source branch",
+    "Bytecode/SD-key/full UPS/network trade/refund/ordinary claims are outside this source round and remain unverified"
+  ]
+}
