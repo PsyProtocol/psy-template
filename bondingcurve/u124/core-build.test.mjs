@@ -189,3 +189,47 @@ test('Curve ordinary client methods must exist with the emitted v2 arities befor
   for (const name of ['open_limit_buy', 'open_limit_sell', 'request_cancel', 'request_recovery'])
     assert.ok(generated.includes('pub fn ' + name + '('), 'existing generator method ' + name);
 });
+
+// Synthetic selector shapes only. These are the same canonical-selector pins
+// the reviewed ordinary client applies, not evidence about compiled bytecode.
+test('Curve acceptance pins unique canonical nonzero uint32 selectors on market and token ABIs', () => {
+  const patch = (base, name, change) => ({...base, abi: {...base.abi, contract: {...base.abi.contract,
+    methods: base.abi.contract.methods.map(m => m.name === name ? {...m, ...change} : m)}}});
+  const tokenPolicy = t => makeCurveCorePolicy(1000, config, artifact, t, anchor);
+  for (const method_id of [0, -1, 2 ** 32, 1.5, '1', undefined]) {
+    assert.throws(() => policy(config, patch(artifact, 'settle_buy', {method_id})), /canonical nonzero uint32 method id/);
+    assert.throws(() => tokenPolicy(patch(token, 'transfer', {method_id})), /canonical nonzero uint32 method id/);
+  }
+  const reusedMarket = structuredClone(artifact);
+  reusedMarket.abi.contract.methods[1].method_id = reusedMarket.abi.contract.methods[0].method_id;
+  assert.throws(() => policy(config, reusedMarket), /unique Curve market method ids/);
+  const reusedToken = structuredClone(token);
+  reusedToken.abi.contract.methods[1].method_id = reusedToken.abi.contract.methods[0].method_id;
+  assert.throws(() => tokenPolicy(reusedToken), /unique U124 token method ids/);
+  const renamed = structuredClone(artifact);
+  renamed.abi.contract.methods[1].name = renamed.abi.contract.methods[0].name;
+  assert.throws(() => policy(config, renamed), /unique Curve market methods/);
+  assert.throws(() => tokenPolicy({abi: {contract: {methods: []}}}), /U124 token ABI methods required/);
+  assert.throws(() => tokenPolicy(undefined), /U124 token ABI methods required/);
+  assert.doesNotThrow(() => policy());
+});
+
+// Host compiler double only: this fixture shows rejection behaviour and claims
+// nothing about real compiler output, proofs, deployment or live authorization.
+test('host fake compiler output with a non-canonical selector cannot publish policy or build evidence', () => fixture(({directory, spec}) => {
+  const output = join(directory, 'bad-selector-artifact'), base = fakeCompiler(spec, []);
+  const runCompiler = (path, args) => {
+    const result = base(path, args);
+    if (args.length === 5) {
+      const artifactPath = join(args[1], 'compilation_artifact.json');
+      const bad = JSON.parse(readFileSync(artifactPath, 'utf8'));
+      bad.abi.contract.methods.find(m => m.name === 'settle_buy').method_id = 0;
+      writeFileSync(artifactPath, JSON.stringify(bad));
+    }
+    return result;
+  };
+  assert.throws(() => buildCurveCore(spec, output, {runCompiler}), /canonical nonzero uint32 method id/);
+  assert.ok(existsSync(join(output, 'bondingcurve/compiled/compilation_artifact.json')));
+  assert.equal(existsSync(join(output, 'bondingcurve/policy.json')), false);
+  assert.equal(existsSync(join(output, 'BUILD.json')), false);
+}));

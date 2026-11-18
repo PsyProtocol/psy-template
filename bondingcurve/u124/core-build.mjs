@@ -18,6 +18,18 @@ export const CURVE_COMPILER_API = 'compile-pair-stream-market-v1';
 const hash = bytes => createHash('sha256').update(bytes).digest('hex');
 const id = n => Number.isSafeInteger(n) && n >= 5 && n < 2 ** 24;
 const save = (path, value) => writeFileSync(path, JSON.stringify(value, null, 2) + '\n', {flag: 'wx'});
+// The reviewed ordinary client resolves circuits by name and refuses duplicated
+// names or non-canonical selectors. Acceptance applies the same rule to both ABI
+// sides so a successful host build cannot emit a policy the client would reject.
+function reviewedSelectors(methods, label) {
+  assert.ok(Array.isArray(methods) && methods.length > 0, label + ' ABI methods required');
+  assert.equal(new Set(methods.map(m => m.name)).size, methods.length, 'unique ' + label + ' methods');
+  const ids = methods.map(m => m.method_id);
+  for (const id of ids)
+    assert.ok(Number.isSafeInteger(id) && id > 0 && id <= 0xffffffff,
+      'canonical nonzero uint32 method id required: ' + label);
+  assert.equal(new Set(ids).size, ids.length, 'unique ' + label + ' method ids');
+}
 function curveConfig(marketId, config, chainRootAt1) {
   assertDeterministicOrdering(config);
   validateConfig(config);
@@ -50,7 +62,8 @@ export function makeCurveCorePolicy(marketId, config, artifact, token, chainRoot
   assert.equal(artifact.abi.contract.state_tree_height, 31);
   assert.ok(!artifact.abi.contract.methods.some(m => /stream|admission|source|scan/.test(m.name)), 'selected-order Curve ABI only');
   const methods = artifact.abi.contract.methods;
-  assert.equal(new Set(methods.map(m => m.name)).size, methods.length, 'unique Curve methods');
+  reviewedSelectors(methods, 'Curve market');
+  reviewedSelectors(token?.abi?.contract?.methods, 'U124 token');
   // These are emitted by the existing v2 generator and used by the ordinary
   // client. Policy construction alone validates only vault-side operations.
   for (const [name, arity] of [['open_limit_buy', 7], ['open_limit_sell', 7], ['request_cancel', 0], ['request_recovery', 1]]) {

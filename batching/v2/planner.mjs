@@ -4,21 +4,34 @@ import assert from 'node:assert/strict';
 import {encodeAmount,swapQuote,sqrt,initialShares,addShares,withdraw,curveQuote,FEE_ESCROW as F} from '../../amm/u124/client.mjs';
 import {signingRequest,witness} from './policy.mjs';
 const cmp=(a,b)=>a<b?-1:a>b?1:0;
+const MARKETS=new Set(['amm','bondingcurve','orderbook','nftmarket']);
 export const timeCompare=(a,b)=>cmp(a.order_checkpoint,b.order_checkpoint)||cmp(a.owner,b.owner)||cmp(a.nonce,b.nonce);
 export const bookCompare=(a,b)=>cmp(a.side,b.side)||cmp(a.y*b.x,b.y*a.x)||timeCompare(a,b);
 export const isLive=(o,cutoff)=>o.cancelled===0n&&o.deadline>=cutoff;
-export function validFunding(market,o,c){if(o.fee_delta!==F)return false;const a=o.paid_a,b=o.paid_b;
+export function validFunding(market,o,c){assert.ok(MARKETS.has(market),'unsupported batch market');
+ if(o.fee_delta!==F)return false;const a=o.paid_a,b=o.paid_b;
  if(market==='nftmarket')return o.kind===1n?a===0n&&o.nft_sent===o.nft_claimed+1n&&o.nft_matches===1n:o.kind===2n&&a===o.price&&o.nft_sent===o.nft_claimed;
  if(market==='amm'){if(o.kind===2n)return a===o.x&&b===o.y;if(o.kind===3n)return a===0n&&b===0n;}
  if(market==='bondingcurve')return o.kind===1n?a===0n&&b===o.x:o.kind===2n&&b===0n&&a===o.lots*BigInt(c.unit);
- return (market==='orderbook'?o.kind===1n:o.kind===1n)&&(o.side===0n?a===o.x&&b===0n:o.side===1n&&b===o.x&&a===0n);
+ return o.kind===1n&&(o.side===0n?a===o.x&&b===0n:o.side===1n&&b===o.x&&a===0n);
 }
 export function operation(policy,name,{payer=0n,peer=0n,x=0n,y=0n,z=0n,lots=0n,nonce=0n,peerNonce=0n}={}){
  const op=policy.operations.find(o=>o.name===name);assert.ok(op,`unknown operation ${name}`);const f=[BigInt(op.branch),payer,peer,...encodeAmount(x),...encodeAmount(y),...encodeAmount(z),lots,nonce,peerNonce,0n];
  const used=new Set([0,...op.calls.flatMap(c=>c.inputs.filter(v=>v.witness!==undefined).map(v=>v.witness))]);return f.map((n,i)=>used.has(i)?BigInt(n):0n);
 }
 export function planSettlement({market,policy,config,rows,pool,cutoff}){
- const active=rows.filter(o=>o.owner>0n&&o.done===0n),state={...pool},ops=[],done=new Set();
+ assert.ok(MARKETS.has(market),'unsupported batch market');
+ const active=rows.filter(o=>o.owner>0n&&o.done===0n);
+ // Active owners must already be lossless BigInt account ids in the positive
+ // 24-bit range. A Number owner would pass Set uniqueness (201 !== 201n) and
+ // then be coerced by operation(), so refuse the malformed row here instead of
+ // coercing it. This is a planner input check, not transaction authorization.
+ for(const o of active)assert.ok(typeof o.owner==='bigint'&&o.owner>0n&&o.owner<(1n<<24n),'malformed active batch owner');
+ // The on-chain market holds one order slot per account, so a repeated active
+ // owner is malformed input (self-match or duplicate listing), never two
+ // settleable orders. Zero padding and already-done rows stay inert.
+ assert.equal(new Set(active.map(o=>o.owner)).size,active.length,'duplicate active batch owner');
+ const state={...pool},ops=[],done=new Set();
  const add=(name,o,more={})=>{ops.push(operation(policy,name,{payer:o.owner,nonce:o.nonce,...more}));done.add(o.owner);};
  const refund=o=>{const mask=(o.paid_a?1:0)+(o.paid_b?2:0)+(o.fee_delta?4:0)+(market==='nftmarket'&&o.nft_sent>o.nft_claimed?8:0);add(`refund_funding_${mask}`,o,{x:o.paid_a,y:o.paid_b,lots:o.fee_delta});};
  if(market==='amm'||market==='bondingcurve')for(const o of [...active].sort(timeCompare)){

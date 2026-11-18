@@ -1,0 +1,96 @@
+{
+  "baseCommit": "e21dada66a40dff0e280e071e0a98212eaf88b45",
+  "sourceSha256": {
+    "bondingcurve/u124/coreClient.mjs": "aa9b2e9333e40702be2c625b9f36c71ce41e093b6780fdc455797ed00c5b282d",
+    "bondingcurve/u124/coreClient.test.mjs": "7fe5120204ced0b015ca330eaa7db7473f506ceaddaed98b29396163b3982d2f",
+    "bondingcurve/u124/core-build.mjs": "010bfab789f2423a1652b2daf28415bff1358bedacd5be8d1702792cf169baa3",
+    "bondingcurve/u124/core-build.test.mjs": "0e678c4a191c67c0190cfd3480283f8a754192218e02dd32442c5710d3e3ba77",
+    "batching/v2/planner.mjs": "405c8dfd1064546e0c9bfa02a7b7c38ba1298141787c61e392d18dae7da0f737",
+    "batching/v2/planner.host.test.mjs": "9269f20bc1700cc78ece8ed03642aeb54c601a4553568337f70d8150296dd6a1"
+  },
+  "financialOperations": 0,
+  "scope": "Curve client/build and pure selected-set planner source/host guards; no transaction authorization or new capacity",
+  "reviewPolicy": "User opted for Qwen corrections plus root review; no Grok review performed",
+  "reviews": {
+    "curve-client-build.json": {
+      "model": "qwen4-max",
+      "finishReason": "stop",
+      "sha256": "9ce4919da39849758991c310694fcd7016b73636fc0dff6f7e51e007b3815c36"
+    },
+    "curve-planner-final.json": {
+      "model": "qwen4-max",
+      "finishReason": "stop",
+      "sha256": "d3ac6e8b537307807863192efb7cd9e5767ea03c5df0e633f93773407b27f763"
+    },
+    "curve-planner-verdict-correction.json": {
+      "model": "qwen4-max",
+      "finishReason": "stop",
+      "sha256": "8bab5b1a03b6c240297f7613daaa3194b28c52deeaf999244d039318c67f4752"
+    }
+  },
+  "reviewDisposition": [
+    "Initial Curve review confirmed the changed guards but was INCONCLUSIVE on imported context",
+    "Local encoding/config/release/policy context was supplied; Curve guard consistency confirmed",
+    "Qwen boxed-BigInt bypass finding was rejected by root execution and explicitly retracted by Qwen; final local guard verdict PASS"
+  ],
+  "rootValidation": {
+    "command": [
+      "node",
+      "--test",
+      "bondingcurve/u124/coreClient.test.mjs",
+      "bondingcurve/u124/core-build.test.mjs",
+      "batching/v2/planner.host.test.mjs",
+      "executor/acceptance/coreBookJourneyPlan.test.mjs",
+      "executor/coreMarkets.test.mjs",
+      "executor/coreDependencyPolicy.test.mjs",
+      "nft-marketplace/u124/identityPolicyV1.test.mjs",
+      "nft-marketplace/u124/identityAbiGateV1.test.mjs",
+      "nft-marketplace/u124/identityClientV1.test.mjs",
+      "nft-marketplace/u124/identity-buy-candidate.test.mjs",
+      "executor/acceptance/coreAmmJourney.test.mjs",
+      "executor/acceptance/coreAmmRecoveryAnchor.test.mjs"
+    ],
+    "exitCode": 0,
+    "counts": {
+      "tests": 155,
+      "pass": 155,
+      "fail": 0,
+      "skipped": 0
+    },
+    "logSha256": "6f8c0ddfcee9779b543820f13eba0900b67879bb7674695f20f0fcca25423816",
+    "financialOperations": 0
+  },
+  "beforeFixRegressions": {
+    "selected": 9,
+    "failedAsExpected": 8,
+    "alreadyPassing": 1,
+    "note": "Existing sell-overflow guard already passed; not counted as a new fix"
+  },
+  "rootBoxedOwnerProbeSha256": "4864c399b7c1ba1b679b4e3ae8031547644f522dd6d9198e6d0c642aa0a831dc",
+  "fixed": [
+    "Build/client selector rules match for market and token ABIs",
+    "Exported exact-stack checker validates scalar/U124 bounds on direct invocation",
+    "Planner rejects unsupported markets and duplicate active owners",
+    "Active owners require primitive BigInt positive 24-bit identity; no coercion"
+  ],
+  "unchanged": [
+    "Whole-order Book price/time priority",
+    "NFT unique-sale and buyer priority; unused rank sentinel",
+    "Chronological AMM/Curve shared-state pricing",
+    "Zero padding and inert consumed rows; shared vaults and frozen capacity"
+  ],
+  "sdkCommit": "01b8f2b0a077367a7b9879baba1a72aea8ab5510",
+  "sdkManifestSha256": "246cfcb12788fe0d0eb79594556acdfcc7781d01641890e47836db1fbc93c467",
+  "nodeChanged": false,
+  "sdkChanged": false,
+  "nativeProofsRun": false,
+  "fullUpsAccepted": false,
+  "liveAccepted": false,
+  "unverified": [
+    "Actual current bytecode/full UPS/native key/session proof acceptance",
+    "Real chain trades/refunds/ordinary-wallet claims",
+    "Broader noncanonical raw frame validation remains separate from this quote/selection aid"
+  ],
+  "rawReportsAndLogs": "outside Git: psy-qwen-final-source-review-20261118-v3; original failed/incorrect reviews retained",
+  "ammCacheAuditIntegrated": false
+}

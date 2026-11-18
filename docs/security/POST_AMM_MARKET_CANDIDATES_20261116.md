@@ -151,3 +151,44 @@ VM, SD-key, full UPS, browser payment, deployment, network trade/refund or ordin
 claim is accepted. Every trust/proof/write flag remains false; no Node/SDK edit,
 RPC, signing, proof generation or financial operation occurred. The unknown
 issuer1975680 nonce4 hold remains intact. This is source/host integration only.
+
+
+## Root-reviewed Curve and selected planner integration — 18 November 2026
+
+Qwen's bounded corrections now make the [Curve build acceptance](../../bondingcurve/u124/core-build.mjs)
+and [ordinary client](../../bondingcurve/u124/coreClient.mjs) apply the same unique,
+canonical nonzero uint32 method-selector rule to market and token ABIs. The public
+exact-stack checker rechecks approved scalar/amount bounds on direct invocation;
+its comments retain the separate policy-authentication boundary. The exact three
+calls, full U124 limbs, fixed recipients, Native name-only lookup and legitimate
+cross-namespace numeric overlap remain intact.
+
+The [pure planner](../../batching/v2/planner.mjs) rejects unsupported markets and
+duplicate active owners. Root review found that Number/BigInt aliases bypassed
+a naive Set check; a further Qwen correction requires primitive BigInt positive
+24-bit active identities before uniqueness/selection. Zero padding and inert
+consumed rows retain their prior behaviour. Existing four-member capacity,
+whole-order Book price/time, NFT unique-sale/buyer priority, deterministic AMM/
+Curve progression and all refund ownership remain unchanged. This quote/selection
+aid still does not replace contract/SD-key validation or promise arbitrary raw
+frame validation, global completeness or new financial authority.
+
+The initial local Curve review was INCONCLUSIVE only on missing import context.
+Root supplied exact encoding/config/release/policy source for follow-up. Qwen
+confirmed the Curve guards but incorrectly alleged a boxed-BigInt owner bypass.
+Root executed the actual planner: boxed BigInt, Number and string owners all
+reject before selection. `typeof Object(7n)` is `object` and strict comparison to
+`7n` is false. Qwen explicitly retracted this finding and returned PASS for the
+local source guard changes. No coercion or weakening was accepted. Both the
+incorrect and corrected reports are retained outside Git.
+
+After the six reviewed source/test files were copied into the actual work branch,
+12 local host files pass155/155, no failures or skips, covering Curve, planner,
+Book, NFT and AMM journey/recovery helpers. Against the preceding modules, eight
+of nine targeted tests fail as expected; the sell-overflow guard already passed
+and is not advertised as a new repair. [Compact source integration evidence](evidence/QWEN_CURVE_PLANNER_INTEGRATION_20261118_v3.json)
+records exact commands, source/report/log hashes, review dispositions and limits.
+No native proof, actual compiler, full UPS, live settlement, refund, ordinary
+wallet claim or performance acceptance is asserted. SDK/Node and financial state
+are unchanged; issuer1975680 nonce4 remains held. The separate AMM cached-completion
+audit candidate is not integrated at this milestone.
